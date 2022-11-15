@@ -2,46 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ED79C4167B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 711DCC433FE
 	for <webhook@archiver.kernel.org>; Tue, 15 Nov 2022 13:05:45 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web08.5163.1668517536013814126
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web09.5194.1668517535893207063
  for <openembedded-core@lists.openembedded.org>;
  Tue, 15 Nov 2022 05:05:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=ny4v7e5t;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101847b6522cd-e909f9b2-e35c-4297-83b2-c3d860bbe619-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=M/HTELQB;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101847b652454-fdbf61e7-bc97-40c2-bf70-0bee6c89701e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1668517536;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=ICyH3xKVK4edgazMZnPXcz819gg1j9N1Asef5MbA164=;
-	b=ny4v7e5tK79qMSmsb0BKBTPd9WlG5ya88RgfcCk5Asb9jDboHtsCaoPkwfos17qi
-	sh8cvDCVZBLiD2oXnRbsh0EpS4dsqlYNR4Kl8CNf7uoK1/2vBU0qWKXE4r0Z/ZRs9I+
-	lojCzOkPLxiuqWZU228aCMnNaZP8dvnwfnWw4g7o=
+	t=1668517537;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=AOhiVxUA5RnBMnaWB4P1NXTIQFbJjFr5bqMzSi+mjmU=;
+	b=M/HTELQBFNzesVJP8rHNr8kfFNbQ4tj//BXVmK8q/kqZ5C5acjKMtxsuV3lSFFos
+	lLuOK4QIKhy4SdgFQ6whPXrGuVr6moLCt59bNoOKrNQU4HXbRgSVbiq99Sv+LFuTCNv
+	7ktuim7A40sYC6bmVKA5jxJbMEQGcC/18z4HUxYc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1668517536;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=ICyH3xKVK4edgazMZnPXcz819gg1j9N1Asef5MbA164=;
-	b=eOtyd9UW8rd/xKKGCbixhGaPKag50+T5WrTjDfA/sDfPwHXhy29BA+EiWbrY/Xzw
-	BRRldGZWKvxkX8TRAZrM8SwksrQ31ZoiDzWK7ARcqiYXor5k8wZ8VAlmK69YnHqu8x5
-	rbqEZo+L0bzqUK2n2LFsR2Kl0ZAApav+2ycZUUsU=
-Content-Type: multipart/mixed; boundary="===============8373326306428926462=="
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1668517537;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=AOhiVxUA5RnBMnaWB4P1NXTIQFbJjFr5bqMzSi+mjmU=;
+	b=YBgWPfjDYouaHWJr3Nd9AjyTfGkal0Qe90NIMTlK4VZhXr/Z0nR+HkWqP9PDtxPm
+	xXwyw1rZJxfUbfZ4BHWsFkaRrfHxZDAIuj0HThmJE1niwtrCX8yMl7dfVc9S6dNQj7Y
+	gYPd8LF/3VCRajl5IKFnJUYohrgTPJgcglhDGUoU=
+Content-Type: multipart/mixed; boundary="===============5263930103007402139=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] libx11: upgrading to 1.8.2 SUCCEEDED
-Message-ID: <010101847b6522cd-e909f9b2-e35c-4297-83b2-c3d860bbe619-000000@us-west-2.amazonses.com>
+To: Joshua Watt <JPEWhacker@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] diffoscope: upgrading to 226 SUCCEEDED
+Message-ID: <010101847b652454-fdbf61e7-bc97-40c2-bf70-0bee6c89701e-000000@us-west-2.amazonses.com>
 Date: Tue, 15 Nov 2022 13:05:36 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.11.15-54.240.27.31
+X-SES-Outgoing: 2022.11.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Nov 2022 13:05:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173321
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173329
 
---===============8373326306428926462==
+--===============5263930103007402139==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -49,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libx11* to *1.8.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *diffoscope* to *226* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libx11-upgrade-1.8.1-1.8.2.patch
+    - apply the patch: git am 0001-diffoscope-upgrade-224-226.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -68,186 +69,101 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============8373326306428926462==
+--===============5263930103007402139==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libx11-upgrade-1.8.1-1.8.2.patch"
+ filename="0001-diffoscope-upgrade-224-226.patch"
 
-RnJvbSAyZThhMTk1MjlkOGY5YzNlYjcwMjk4NGE5YzRmZjM0NGJlYjFlMzczIE1vbiBTZXAgMTcg
+RnJvbSAxZTc5NzdiMTFkZjgzY2Y3NTRiMDQ5YTllY2FkMDRjMTNmMWM3NGEwIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgTm92IDIwMjIgMTE6MDI6MzEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJ4MTE6IHVwZ3JhZGUgMS44LjEgLT4gMS44LjIKCi0tLQogLi4uYWstaW4tWFJlZ2lzdGVySU1J
-bnN0YW50aWF0ZUNhbGxiYWNrLnBhdGNoIHwgNTcgLS0tLS0tLS0tLS0tCiAuLi4ve2xpYngxMV8x
-LjguMS5iYiA9PiBsaWJ4MTFfMS44LjIuYmJ9ICAgICAgfCA5MCArKysrKysrKysrKysrKysrKy0t
-CiAyIGZpbGVzIGNoYW5nZWQsIDg0IGluc2VydGlvbnMoKyksIDYzIGRlbGV0aW9ucygtKQogZGVs
-ZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4MTEvMDAw
-MS1maXgtYS1tZW1vcnktbGVhay1pbi1YUmVnaXN0ZXJJTUluc3RhbnRpYXRlQ2FsbGJhY2sucGF0
-Y2gKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIve2xpYngxMV8xLjguMS5i
-YiA9PiBsaWJ4MTFfMS44LjIuYmJ9ICgyNSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdy
-YXBoaWNzL3hvcmctbGliL2xpYngxMS8wMDAxLWZpeC1hLW1lbW9yeS1sZWFrLWluLVhSZWdpc3Rl
-cklNSW5zdGFudGlhdGVDYWxsYmFjay5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3Jn
-LWxpYi9saWJ4MTEvMDAwMS1maXgtYS1tZW1vcnktbGVhay1pbi1YUmVnaXN0ZXJJTUluc3RhbnRp
-YXRlQ2FsbGJhY2sucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDcyMjExNmMw
-N2UuLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYngx
-MS8wMDAxLWZpeC1hLW1lbW9yeS1sZWFrLWluLVhSZWdpc3RlcklNSW5zdGFudGlhdGVDYWxsYmFj
-ay5wYXRjaAorKysgL2Rldi9udWxsCkBAIC0xLDU3ICswLDAgQEAKLUNWRTogQ1ZFLTIwMjItMzU1
-NAotVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydAotU2lnbmVkLW9mZi1ieTogUm9zcyBCdXJ0b24g
-PHJvc3MuYnVydG9uQGFybS5jb20+Ci0KLUZyb20gMWQxMTgyMjYwMWZkMjRhMzk2YjM1NGZhNjE2
-YjA0ZWQzZGY4YjRlZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206ICJUaG9tYXMgRS4g
-RGlja2V5IiA8ZGlja2V5QGludmlzaWJsZS1pc2xhbmQubmV0PgotRGF0ZTogVHVlLCA0IE9jdCAy
-MDIyIDE4OjI2OjE3IC0wNDAwCi1TdWJqZWN0OiBbUEFUQ0hdIGZpeCBhIG1lbW9yeSBsZWFrIGlu
-IFhSZWdpc3RlcklNSW5zdGFudGlhdGVDYWxsYmFjawotCi1BbmFseXNpczoKLQotICAgIF9YaW1S
-ZWdpc3RlcklNSW5zdGFudGlhdGVDYWxsYmFjaygpIG9wZW5zIGFuIFhJTSBhbmQgY2xvc2VzIGl0
-IHVzaW5nCi0gICAgdGhlIGludGVybmFsIGZ1bmN0aW9uIHBvaW50ZXJzLCBidXQgdGhlIGludGVy
-bmFsIGNsb3NlIGZ1bmN0aW9uIGRvZXMKLSAgICBub3QgZnJlZSB0aGUgcG9pbnRlciB0byB0aGUg
-WElNICh0aGlzIHdvdWxkIGJlIGRvbmUgaW4gWENsb3NlSU0oKSkuCi0KLVJlcG9ydC9wYXRjaDoK
-LQotICAgIERhdGU6IE1vbiwgMDMgT2N0IDIwMjIgMTg6NDc6MzIgKzA4MDAKLSAgICBGcm9tOiBQ
-byBMdSA8bHVhbmdydW9AeWFob28uY29tPgotICAgIFRvOiB4b3JnLWRldmVsQGxpc3RzLngub3Jn
-Ci0gICAgU3ViamVjdDogUmU6IFlldCBhbm90aGVyIGxlYWsgaW4gWGxpYgotCi0gICAgRm9yIHJl
-ZmVyZW5jZSwgaGVyZSdzIGhvdyBJJ20gY2FsbGluZyBYUmVnaXN0ZXJJTUluc3RhbnRpYXRlQ2Fs
-bGJhY2s6Ci0KLSAgICBYU2V0TG9jYWxlTW9kaWZpZXJzICgiIik7Ci0gICAgWFJlZ2lzdGVySU1J
-bnN0YW50aWF0ZUNhbGxiYWNrIChjb21wb3NpdG9yLmRpc3BsYXksCi0gICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICBYcm1HZXREYXRhYmFzZSAoY29tcG9zaXRvci5kaXNwbGF5KSwK
-LSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIChjaGFyICopIGNvbXBvc2l0b3Iu
-cmVzb3VyY2VfbmFtZSwKLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIChjaGFy
-ICopIGNvbXBvc2l0b3IuYXBwX25hbWUsCi0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICBJTUluc3RhbnRpYXRlQ2FsbGJhY2ssIE5VTEwpOwotCi0gICAgYW5kIFhNT0RJRklFUlMg
-aXM6Ci0KLSAgICAgICAgQGltPWlidXMKLQotU2lnbmVkLW9mZi1ieTogVGhvbWFzIEUuIERpY2tl
-eSA8ZGlja2V5QGludmlzaWJsZS1pc2xhbmQubmV0PgotLS0tCi0gbW9kdWxlcy9pbS94aW1jcC9p
-bUluc0NsYmsuYyB8IDMgKysrCi0gMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQotCi1k
-aWZmIC0tZ2l0IGEvbW9kdWxlcy9pbS94aW1jcC9pbUluc0NsYmsuYyBiL21vZHVsZXMvaW0veGlt
-Y3AvaW1JbnNDbGJrLmMKLWluZGV4IDk1YjM3OWNiLi5jMTBlMzQ3ZiAxMDA2NDQKLS0tLSBhL21v
-ZHVsZXMvaW0veGltY3AvaW1JbnNDbGJrLmMKLSsrKyBiL21vZHVsZXMvaW0veGltY3AvaW1JbnND
-bGJrLmMKLUBAIC0yMTIsNiArMjEyLDkgQEAgX1hpbVJlZ2lzdGVySU1JbnN0YW50aWF0ZUNhbGxi
-YWNrKAotICAgICBpZiggeGltICkgewotIAlsb2NrID0gVHJ1ZTsKLSAJeGltLT5tZXRob2RzLT5j
-bG9zZSggKFhJTSl4aW0gKTsKLSsJLyogWElNcyBtdXN0IGJlIGZyZWVkIG1hbnVhbGx5IGFmdGVy
-IGJlaW5nIG9wZW5lZDsgY2xvc2UganVzdAotKwkgICBkb2VzIHRoZSBwcm90b2NvbCB0byBkZWlu
-aXRpYWxpemUgdGhlIElNLiAgKi8KLSsJWEZyZWUoIHhpbSApOwotIAlsb2NrID0gRmFsc2U7Ci0g
-CWljYi0+Y2FsbCA9IFRydWU7Ci0gCWNhbGxiYWNrKCBkaXNwbGF5LCBjbGllbnRfZGF0YSwgTlVM
-TCApOwotLS0gCi0yLjM0LjEKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hv
-cmctbGliL2xpYngxMV8xLjguMS5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9s
-aWJ4MTFfMS44LjIuYmIKc2ltaWxhcml0eSBpbmRleCAyNSUKcmVuYW1lIGZyb20gbWV0YS9yZWNp
-cGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYngxMV8xLjguMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
-cGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYngxMV8xLjguMi5iYgppbmRleCA5ZmYxOTZjODk3Li43
-NDNiN2ExMTRiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGli
-eDExXzEuOC4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4MTFf
-MS44LjIuYmIKQEAgLTEsMyArMSw4MiBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0g
-dmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9s
-bG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNl
-bnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBh
-bmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xp
-Y2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmln
-aHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIENPUFlJTkcK
-KyMgKysrIENPUFlJTkcKKyMgQEAgLTEzLDggKzEzLDcgQEAKKyMgIAorIyAgQ29weXJpZ2h0IChD
-KSAyMDAzLTIwMDYsMjAwOCBKYW1leSBTaGFycCwgSm9zaCBUcmlwbGV0dAorIyAgQ29weXJpZ2h0
-IMKpIDIwMDkgUmVkIEhhdCwgSW5jLgorIyAtQ29weXJpZ2h0IDE5OTAtMTk5MiwxOTk5LDIwMDAs
-MjAwNCwyMDA5LDIwMTAgT3JhY2xlIGFuZC9vciBpdHMgYWZmaWxpYXRlcy4KKyMgLUFsbCByaWdo
-dHMgcmVzZXJ2ZWQuCisjICtDb3B5cmlnaHQgKGMpIDE5OTAtMTk5MiwgMTk5OSwgMjAwMCwgMjAw
-NCwgMjAwOSwgMjAxMCwgMjAxNSwgMjAxNywgT3JhY2xlIGFuZC9vciBpdHMgYWZmaWxpYXRlcy4K
-KyMgIAorIyAgUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3JhbnRlZCwgZnJlZSBvZiBjaGFyZ2UsIHRv
-IGFueSBwZXJzb24gb2J0YWluaW5nIGEKKyMgIGNvcHkgb2YgdGhpcyBzb2Z0d2FyZSBhbmQgYXNz
-b2NpYXRlZCBkb2N1bWVudGF0aW9uIGZpbGVzICh0aGUgIlNvZnR3YXJlIiksCisjIEBAIC0yMjgs
-MzUgKzIyNyw2IEBACisjICAKKyMgIAkJLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLQorIyAgCisjIC0KKyMgLUNvcHlyaWdodCAoYykgMTk5NSBEYXZpZCBFLiBXZXhlbGJs
-YXQuICBBbGwgcmlnaHRzIHJlc2VydmVkCisjIC0KKyMgLVBlcm1pc3Npb24gaXMgaGVyZWJ5IGdy
-YW50ZWQsIGZyZWUgb2YgY2hhcmdlLCB0byBhbnkgcGVyc29uIG9idGFpbmluZworIyAtYSBjb3B5
-IG9mIHRoaXMgc29mdHdhcmUgYW5kIGFzc29jaWF0ZWQgZG9jdW1lbnRhdGlvbiBmaWxlcyAodGhl
-CisjIC0iU29mdHdhcmUiKSwgdG8gZGVhbCBpbiB0aGUgU29mdHdhcmUgd2l0aG91dCByZXN0cmlj
-dGlvbiwgaW5jbHVkaW5nCisjIC13aXRob3V0IGxpbWl0YXRpb24gdGhlIHJpZ2h0cyB0byB1c2Us
-IGNvcHksIG1vZGlmeSwgbWVyZ2UsIHB1Ymxpc2gsCisjIC1kaXN0cmlidXRlLCBzdWJsaWNlbnNl
-LCBhbmQvb3Igc2VsbCBjb3BpZXMgb2YgdGhlIFNvZnR3YXJlLCBhbmQgdG8KKyMgLXBlcm1pdCBw
-ZXJzb25zIHRvIHdob20gdGhlIFNvZnR3YXJlIGlzIGZ1cm5pc2hlZCB0byBkbyBzbywgc3ViamVj
-dCB0bworIyAtdGhlIGZvbGxvd2luZyBjb25kaXRpb25zOgorIyAtCisjIC1UaGUgYWJvdmUgY29w
-eXJpZ2h0IG5vdGljZSBhbmQgdGhpcyBwZXJtaXNzaW9uIG5vdGljZSBzaGFsbCBiZSBpbmNsdWRl
-ZAorIyAtaW4gYWxsIGNvcGllcyBvciBzdWJzdGFudGlhbCBwb3J0aW9ucyBvZiB0aGUgU29mdHdh
-cmUuCisjIC0KKyMgLVRIRSBTT0ZUV0FSRSBJUyBQUk9WSURFRCAiQVMgSVMiLCBXSVRIT1VUIFdB
-UlJBTlRZIE9GIEFOWSBLSU5ELCBFWFBSRVNTCisjIC1PUiBJTVBMSUVELCBJTkNMVURJTkcgQlVU
-IE5PVCBMSU1JVEVEIFRPIFRIRSBXQVJSQU5USUVTIE9GCisjIC1NRVJDSEFOVEFCSUxJVFksIEZJ
-VE5FU1MgRk9SIEEgUEFSVElDVUxBUiBQVVJQT1NFIEFORCBOT05JTkZSSU5HRU1FTlQuCisjIC1J
-TiBOTyBFVkVOVCBTSEFMTCBEQVZJRCBFLiBXRVhFTEJMQVQgQkUgTElBQkxFIEZPUiBBTlkgQ0xB
-SU0sIERBTUFHRVMgT1IKKyMgLU9USEVSIExJQUJJTElUWSwgV0hFVEhFUiBJTiBBTiBBQ1RJT04g
-T0YgQ09OVFJBQ1QsIFRPUlQgT1IgT1RIRVJXSVNFLAorIyAtQVJJU0lORyBGUk9NLCBPVVQgT0Yg
-T1IgSU4gQ09OTkVDVElPTiBXSVRIIFRIRSBTT0ZUV0FSRSBPUiBUSEUgVVNFIE9SCisjIC1PVEhF
-UiBERUFMSU5HUyBJTiBUSEUgU09GVFdBUkUuCisjIC0KKyMgLUV4Y2VwdCBhcyBjb250YWluZWQg
-aW4gdGhpcyBub3RpY2UsIHRoZSBuYW1lIG9mIERhdmlkIEUuIFdleGVsYmxhdCBzaGFsbAorIyAt
-bm90IGJlIHVzZWQgaW4gYWR2ZXJ0aXNpbmcgb3Igb3RoZXJ3aXNlIHRvIHByb21vdGUgdGhlIHNh
-bGUsIHVzZSBvcgorIyAtb3RoZXIgZGVhbGluZ3MgaW4gdGhpcyBTb2Z0d2FyZSB3aXRob3V0IHBy
-aW9yIHdyaXR0ZW4gYXV0aG9yaXphdGlvbgorIyAtZnJvbSBEYXZpZCBFLiBXZXhlbGJsYXQuCisj
-IC0KKyMgLQkJLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQorIyAtCisj
-ICBDb3B5cmlnaHQgMTk5MCwgMTk5MSBieSBPTVJPTiBDb3Jwb3JhdGlvbgorIyAgCisjICBQZXJt
-aXNzaW9uIHRvIHVzZSwgY29weSwgbW9kaWZ5LCBkaXN0cmlidXRlLCBhbmQgc2VsbCB0aGlzIHNv
-ZnR3YXJlIGFuZCBpdHMKKyMgQEAgLTk0MCwzICs5MTAsMTkgQEAKKyMgIEFDVElPTiBPRiBDT05U
-UkFDVCwgTkVHTElHRU5DRSBPUiBPVEhFUiBUT1JUSU9VUyBBQ1RJT04sIEFSSVNJTkcgT1VUIE9G
-CisjICBPUiBJTiBDT05ORUNUSU9OIFdJVEggVEhFIFVTRSBPUiBQRVJGT1JNQU5DRSBPRiBUSElT
-IFNPRlRXQVJFLgorIyAgCisjICsJCS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0KKyMgKworIyArQ29weXJpZ2h0IChjKSAyMDA4IE90dG8gTW9lcmJlZWsgPG90dG9AZHJp
-amYubmV0PgorIyArCisjICtQZXJtaXNzaW9uIHRvIHVzZSwgY29weSwgbW9kaWZ5LCBhbmQgZGlz
-dHJpYnV0ZSB0aGlzIHNvZnR3YXJlIGZvciBhbnkKKyMgK3B1cnBvc2Ugd2l0aCBvciB3aXRob3V0
-IGZlZSBpcyBoZXJlYnkgZ3JhbnRlZCwgcHJvdmlkZWQgdGhhdCB0aGUgYWJvdmUKKyMgK2NvcHly
-aWdodCBub3RpY2UgYW5kIHRoaXMgcGVybWlzc2lvbiBub3RpY2UgYXBwZWFyIGluIGFsbCBjb3Bp
-ZXMuCisjICsKKyMgK1RIRSBTT0ZUV0FSRSBJUyBQUk9WSURFRCAiQVMgSVMiIEFORCBUSEUgQVVU
-SE9SIERJU0NMQUlNUyBBTEwgV0FSUkFOVElFUworIyArV0lUSCBSRUdBUkQgVE8gVEhJUyBTT0ZU
-V0FSRSBJTkNMVURJTkcgQUxMIElNUExJRUQgV0FSUkFOVElFUyBPRgorIyArTUVSQ0hBTlRBQklM
-SVRZIEFORCBGSVRORVNTLiBJTiBOTyBFVkVOVCBTSEFMTCBUSEUgQVVUSE9SIEJFIExJQUJMRSBG
-T1IKKyMgK0FOWSBTUEVDSUFMLCBESVJFQ1QsIElORElSRUNULCBPUiBDT05TRVFVRU5USUFMIERB
-TUFHRVMgT1IgQU5ZIERBTUFHRVMKKyMgK1dIQVRTT0VWRVIgUkVTVUxUSU5HIEZST00gTE9TUyBP
-RiBVU0UsIERBVEEgT1IgUFJPRklUUywgV0hFVEhFUiBJTiBBTgorIyArQUNUSU9OIE9GIENPTlRS
-QUNULCBORUdMSUdFTkNFIE9SIE9USEVSIFRPUlRJT1VTIEFDVElPTiwgQVJJU0lORyBPVVQgT0YK
-KyMgK09SIElOIENPTk5FQ1RJT04gV0lUSCBUSEUgVVNFIE9SIFBFUkZPUk1BTkNFIE9GIFRISVMg
-U09GVFdBUkUuCisjICsKKyMgCisjCisKIFNVTU1BUlkgPSAiWGxpYjogQyBMYW5ndWFnZSBYIElu
-dGVyZmFjZSBsaWJyYXJ5IgogCiBERVNDUklQVElPTiA9ICJUaGlzIHBhY2thZ2UgcHJvdmlkZXMg
-YSBjbGllbnQgaW50ZXJmYWNlIHRvIHRoZSBYIFdpbmRvdyBcCkBAIC0xMiwxOCArOTEsMTcgQEAg
-UEUgPSAiMSIKIAogIyB0ZW1wb3JhcmlseSBvdmVycmlkZSBTUkNfVVJJIHdoaWNoIGlzIGhhcmQt
-Y29kZWQgaW4geG9yZy1saWItY29tbW9uLmluYwogIyBzaW5jZSBuZXcgdmVyc2lvbnMgb2YgcGFj
-a2FnZXMgdXNlIGEgbmV3IGNvbXByZXNzaW9uIGZvcm1hdCAtIC50YXIuZ3oKLVNSQ19VUkkgPSAi
-JHtYT1JHX01JUlJPUn0vaW5kaXZpZHVhbC9saWIvJHtYT1JHX1BOfS0ke1BWfS50YXIueHoiCi0K
-LVNSQ19VUkkgKz0gImZpbGU6Ly9kaXNhYmxlX3Rlc3RzLnBhdGNoIFwKLSAgICAgICAgICAgIGZp
-bGU6Ly8wMDAxLWZpeC1hLW1lbW9yeS1sZWFrLWluLVhSZWdpc3RlcklNSW5zdGFudGlhdGVDYWxs
-YmFjay5wYXRjaCBcCitTUkNfVVJJID0gIiR7WE9SR19NSVJST1J9L2luZGl2aWR1YWwvbGliLyR7
-WE9SR19QTn0tJHtQVn0udGFyLnh6IFwKKyAgICAgICAgICAgZmlsZTovL2Rpc2FibGVfdGVzdHMu
-cGF0Y2ggXAogICAgICAgICAgICAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMWJjNDFhYTFiYmUw
-MTQwMWYzMzBkNzZkZmExOWYzODZiNzljNTE4ODFjN2JiZmVlOWViNGUyN2YyMmYyZDlmNyIKKwor
-U1JDX1VSSVtzaGEyNTZzdW1dID0gImVkOTFkNTczZDU3MGRiODNiOGFlNTQ2ZjQ4OTBkY2NmY2Qw
-YjlkZmUxZTUwYTFiNDAxYjYzYTc0YzE1MmVkMDQiCiAKIFBST1ZJREVTID0gInZpcnR1YWwvbGli
-eDExIgogCiBYT1JHX1BOID0gImxpYlgxMSIKIExJQ0VOU0UgPSAiTUlUICYgTUlUICYgQlNELTEt
-Q2xhdXNlICYgSFBORCAmIEhQTkQtc2VsbC12YXJpYW50IgotTElDX0ZJTEVTX0NIS1NVTSA9ICJm
-aWxlOi8vQ09QWUlORzttZDU9MTcyMjU1ZGVlNjZiYjAxNTE0MzViMmQ1ZDcwOWZjZjciCitMSUNf
-RklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT0xZDQ5Y2RkMmIzODZjNWRiMTFlYzYz
-NmQ2ODBiNzExNiIKIAogREVQRU5EUyArPSAieG9yZ3Byb3RvIFwKICAgICAgICAgICAgIHh0cmFu
-cyBcCi0tIAoyLjMxLjEKCg==
+CkRhdGU6IFR1ZSwgMTUgTm92IDIwMjIgMTI6NDE6NDQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBk
+aWZmb3Njb3BlOiB1cGdyYWRlIDIyNCAtPiAyMjYKCi0tLQogLi4uL2RpZmZvc2NvcGUve2RpZmZv
+c2NvcGVfMjI0LmJiID0+IGRpZmZvc2NvcGVfMjI2LmJifSAgICAgICAgIHwgMiArLQogMSBmaWxl
+IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNp
+cGVzLXN1cHBvcnQvZGlmZm9zY29wZS97ZGlmZm9zY29wZV8yMjQuYmIgPT4gZGlmZm9zY29wZV8y
+MjYuYmJ9ICg5MiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZGlmZm9zY29w
+ZS9kaWZmb3Njb3BlXzIyNC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2RpZmZvc2NvcGUvZGlm
+Zm9zY29wZV8yMjYuYmIKc2ltaWxhcml0eSBpbmRleCA5MiUKcmVuYW1lIGZyb20gbWV0YS9yZWNp
+cGVzLXN1cHBvcnQvZGlmZm9zY29wZS9kaWZmb3Njb3BlXzIyNC5iYgpyZW5hbWUgdG8gbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvZGlmZm9zY29wZS9kaWZmb3Njb3BlXzIyNi5iYgppbmRleCA1ZDYzNGI4
+MDczLi42ZTlkNWY0NTA1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9kaWZmb3Nj
+b3BlL2RpZmZvc2NvcGVfMjI0LmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2RpZmZvc2Nv
+cGUvZGlmZm9zY29wZV8yMjYuYmIKQEAgLTEyLDcgKzEyLDcgQEAgUFlQSV9QQUNLQUdFID0gImRp
+ZmZvc2NvcGUiCiAKIGluaGVyaXQgcHlwaSBzZXR1cHRvb2xzMwogCi1TUkNfVVJJW3NoYTI1NnN1
+bV0gPSAiMTkyMGViZGNhNDBlODVmMDE5YTg0ZTAyMjBlNGE3OWYwMGZmZGFmYzBmNzhlMWYxZTIy
+MTkxMjNkNWMwOGRmYiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIzZGJkYzVkY2NkYzExMGI2N2Nk
+NTc0MThlNGQ3MTAzOTc3MTdjMjY1MmM4MzNiYTA0Mzc4N2Q4M2E4ZjYwZTFlIgogCiBSREVQRU5E
+Uzoke1BOfSArPSAiYmludXRpbHMgdmltIHNxdWFzaGZzLXRvb2xzIHB5dGhvbjMtbGliYXJjaGl2
+ZS1jIHB5dGhvbjMtbWFnaWMgcHl0aG9uMy1ycG0iCiAKLS0gCjIuMzEuMQoK
 
---===============8373326306428926462==
+--===============5263930103007402139==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/diffoscope/diffoscope: FILELIST: directory renamed /usr/lib/python3.11/site-packages/diffoscope-224.dist-info -> /usr/lib/python3.11/site-packages/diffoscope-226.dist-info, added "/usr/lib/python3.11/site-packages/diffoscope/comparators/html.py /usr/lib/python3.11/site-packages/diffoscope/comparators/__pycache__/lzip.cpython-311.pyc /usr/lib/python3.11/site-packages/diffoscope/comparators/__pycache__/html.cpython-311.pyc /usr/lib/python3.11/site-packages/diffoscope/comparators/lzip.py"
+Changes to packages/core2-32-poky-linux/diffoscope (sysroot):
+  /usr/lib/python3.11/site-packages/diffoscope-224.dist-info moved to /usr/lib/python3.11/site-packages/diffoscope-226.dist-info
+  /usr/lib/python3.11/site-packages/diffoscope/comparators/html.py was added
+  /usr/lib/python3.11/site-packages/diffoscope/comparators/lzip.py was added
+  /usr/lib/python3.11/site-packages/diffoscope/comparators/__pycache__/html.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/diffoscope/comparators/__pycache__/lzip.cpython-311.pyc was added
+
+--===============5263930103007402139==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
+
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 887 .bb files complete (0 cached, 887 parsed). 1666 targets, 49 skipped, 0 masked, 0 errors.
+Removing 139 recipes from the core2-32 sysroot...done.
+Removing 145 recipes from the qemux86 sysroot...done.
+
+Summary: There was 1 WARNING message.
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: Nothing PROVIDES 'diffoscope'
+diffoscope was skipped: incompatible with host i686-poky-linux-musl (not in COMPATIBLE_HOST)
+
+--===============5263930103007402139==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libx11: SRC_URI changed from "https://www.x.org/releases//individual/lib/libX11-1.8.1.tar.xz file://disable_tests.patch file://0001-fix-a-memory-leak-in-XRegisterIMInstantiateCallback.patch" to "https://www.x.org/releases//individual/lib/libX11-1.8.2.tar.xz file://disable_tests.patch"
-packages/core2-32-poky-linux/libx11: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libx11: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libx11/libx11-dbg: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libx11/libx11-dbg: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libx11/libx11-dbg: PKGSIZE changed from 10906652 to 10912016 (+0%)
-packages/core2-32-poky-linux/libx11/libx11-dev: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libx11/libx11-dev: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libx11/libx11-dev: PKGSIZE changed from 251573 to 251755 (+0%)
-packages/core2-32-poky-linux/libx11/libx11-doc: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libx11/libx11-doc: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libx11/libx11-doc: PKGSIZE changed from 1996741 to 1992393 (-0%)
-packages/core2-32-poky-linux/libx11/libx11-locale: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libx11/libx11-locale: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libx11/libx11-locale: PKGSIZE changed from 1182441 to 1172688 (-1%)
-packages/core2-32-poky-linux/libx11/libx11-src: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libx11/libx11-src: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libx11/libx11-src: PKGSIZE changed from 5435435 to 5436154 (+0%)
-packages/core2-32-poky-linux/libx11/libx11-staticdev: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libx11/libx11-staticdev: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libx11/libx11-xcb: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libx11/libx11-xcb: PV changed from "1.8.1" to "1.8.2"
-packages/core2-32-poky-linux/libx11/libx11: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-32-poky-linux/libx11/libx11: PV changed from "1.8.1" to "1.8.2"
+packages/core2-32-poky-linux/diffoscope/diffoscope-dbg: PKGV changed from 224 [default] to 226 [default]
+packages/core2-32-poky-linux/diffoscope/diffoscope-dbg: PV changed from "224" to "226"
+packages/core2-32-poky-linux/diffoscope/diffoscope-dev: PKGV changed from 224 [default] to 226 [default]
+packages/core2-32-poky-linux/diffoscope/diffoscope-dev: PV changed from "224" to "226"
+packages/core2-32-poky-linux/diffoscope/diffoscope-doc: PKGV changed from 224 [default] to 226 [default]
+packages/core2-32-poky-linux/diffoscope/diffoscope-doc: PV changed from "224" to "226"
+packages/core2-32-poky-linux/diffoscope/diffoscope-locale: PKGV changed from 224 [default] to 226 [default]
+packages/core2-32-poky-linux/diffoscope/diffoscope-locale: PV changed from "224" to "226"
+packages/core2-32-poky-linux/diffoscope/diffoscope-src: PKGV changed from 224 [default] to 226 [default]
+packages/core2-32-poky-linux/diffoscope/diffoscope-src: PV changed from "224" to "226"
+packages/core2-32-poky-linux/diffoscope/diffoscope-staticdev: PKGV changed from 224 [default] to 226 [default]
+packages/core2-32-poky-linux/diffoscope/diffoscope-staticdev: PV changed from "224" to "226"
+packages/core2-32-poky-linux/diffoscope/diffoscope: PKGSIZE changed from 1376339 to 1386582 (+1%)
+packages/core2-32-poky-linux/diffoscope/diffoscope: FILELIST: directory renamed /usr/lib/python3.11/site-packages/diffoscope-224.dist-info -> /usr/lib/python3.11/site-packages/diffoscope-226.dist-info, added "/usr/lib/python3.11/site-packages/diffoscope/comparators/__pycache__/html.cpython-311.pyc /usr/lib/python3.11/site-packages/diffoscope/comparators/__pycache__/lzip.cpython-311.pyc /usr/lib/python3.11/site-packages/diffoscope/comparators/lzip.py /usr/lib/python3.11/site-packages/diffoscope/comparators/html.py"
+packages/core2-32-poky-linux/diffoscope/diffoscope: PKGV changed from 224 [default] to 226 [default]
+packages/core2-32-poky-linux/diffoscope/diffoscope: PV changed from "224" to "226"
+packages/core2-32-poky-linux/diffoscope: SRC_URI changed from "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-224.tar.gz" to "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-226.tar.gz"
+packages/core2-32-poky-linux/diffoscope: PKGV changed from 224 [default] to 226 [default]
+packages/core2-32-poky-linux/diffoscope: PV changed from "224" to "226"
+Changes to packages/core2-32-poky-linux/diffoscope (sysroot):
+  /usr/lib/python3.11/site-packages/diffoscope-224.dist-info moved to /usr/lib/python3.11/site-packages/diffoscope-226.dist-info
+  /usr/lib/python3.11/site-packages/diffoscope/comparators/html.py was added
+  /usr/lib/python3.11/site-packages/diffoscope/comparators/lzip.py was added
+  /usr/lib/python3.11/site-packages/diffoscope/comparators/__pycache__/html.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/diffoscope/comparators/__pycache__/lzip.cpython-311.pyc was added
 
---===============8373326306428926462==--
+--===============5263930103007402139==--
 
