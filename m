@@ -1,137 +1,119 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C4CEC4332F
-	for <webhook@archiver.kernel.org>; Wed, 16 Nov 2022 04:22:11 +0000 (UTC)
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
- by mx.groups.io with SMTP id smtpd.web09.3043.1668572524816194511
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1CEAC433FE
+	for <webhook@archiver.kernel.org>; Wed, 16 Nov 2022 05:13:41 +0000 (UTC)
+Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com [195.245.231.4])
+ by mx.groups.io with SMTP id smtpd.web08.3261.1668575611083686498
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Nov 2022 20:22:05 -0800
+ Tue, 15 Nov 2022 21:13:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=FtVVhTSN;
- spf=pass (domain: mvista.com, ip: 209.85.215.176, mailfrom: hprajapati@mvista.com)
-Received: by mail-pg1-f176.google.com with SMTP id o13so15549463pgu.7
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Nov 2022 20:22:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rbVYpJv3OI3tnMC43Vr283A+VNpVfgZJp3OaAoHDH0c=;
-        b=FtVVhTSNY8gReLos8nutyClVV2X0I/8Wn+Ex4KGdrRb1I7OxNfTEYn47qHWAn/KoO3
-         630eWGarAnXBROvo/GOS/Kqz+hJeLhhHSk7FOBt/6/ffN3VLfqF9ziCCMCHIMgSPgmTs
-         doRWGZxov6+HaimiPI2Pae3Uca2CZadwgzkpw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rbVYpJv3OI3tnMC43Vr283A+VNpVfgZJp3OaAoHDH0c=;
-        b=7NCyBtUbNBFdcNux1iLnwZnDTDs4TEGW1OXZy+nl6ds+vSBVNnzS84OB8CZFWliM/N
-         Ybgwe+4ey0vNZINASvYGHwQL557hNNoJuaRmX8gycP2IMPJAZb00PJTrqGecWpiX9FtN
-         AK8hZo4Z8/+asisqt2bcWZsWnr1/RjIMKQD1LBIYyFF8FDB17ZpxP6hF695K2GjGrpid
-         n5zHZu2LDfPczBvm6XJPeqkCujmlRB+A8yIg4A+2/0txMAqqmFYATnSau3fvHe3Hx3a3
-         ZLjH3HkjIOAyen41fYEOr5nfEXPqK7yOZ325u+XMB939Uw6d63y++xhc/VfvKAb1BlSf
-         hPlg==
-X-Gm-Message-State: ANoB5pl9Q798ZE2QevWuY8/AXAplgiciZ/b77s+PXmDFZtxgAGsNZFOQ
-	CnHy+xJWyw33yVaPqwQMq9JMWYoUagFCPw==
-X-Google-Smtp-Source: AA0mqf7WSUgFzBKH8K/BwhCQh3/+Zu4+0Y1o9Pw6Qt5AcQlaQE1ggazN+Pf/qHoOl+xXsXK5/Vf/ZA==
-X-Received: by 2002:a62:e710:0:b0:563:9203:cc53 with SMTP id s16-20020a62e710000000b005639203cc53mr21241447pfh.20.1668572523434;
-        Tue, 15 Nov 2022 20:22:03 -0800 (PST)
-Received: from MVIN00024 ([150.129.170.236])
-        by smtp.gmail.com with ESMTPSA id c129-20020a621c87000000b00561b3ee73f6sm9993909pfc.144.2022.11.15.20.22.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Nov 2022 20:22:02 -0800 (PST)
-Received: by MVIN00024 (sSMTP sendmail emulation); Wed, 16 Nov 2022 09:51:57 +0530
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [kirkstone][PATCH] systemd: CVE-2022-3821 Fix buffer overrun
-Date: Wed, 16 Nov 2022 09:51:56 +0530
-Message-Id: <20221116042156.5507-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=x4k2fHEl;
+ spf=pass (domain: fujitsu.com, ip: 195.245.231.4, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1668575609; i=@fujitsu.com;
+	bh=0j0zmpFTki9SJwQOZ63qlITRVM5c5HwI8zzRRBEN4pY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=x4k2fHElSbh29mSTEAvBqo5OASU4d2s912w/oHe30PhhGNLO7xinNvOAdUfqlzsAM
+	 cDzeHYMr2zHw+ZDoiQRkUc1/2r5bk3WoBPj0aDjWvIC61JXC1AGgM/EmQxRBmEU1sO
+	 abS+umCyu/LXnT66lEpm8lmqshtuZiOtvn2HSzxryIw91GRoakvS65j97Fyf9AAxb7
+	 42UD7heaj2c++AWnsrjQkshpW6N1eJAvSmVRa4sjrWo4yBrQE4gspEyUwgOSXhKdGJ
+	 M75w3hoyVEZfBzLKrP2jENKubLXD97OzI+VYU1gSgeivHjl10Kz2eBuI8Ny51t9dnv
+	 8K0K50PS+ln0A==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrOIsWRWlGSWpSXmKPExsViZ8ORqFtRWJJ
+  sMO+6uMWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmrFr4VK2gk7eikVv/rA3MG7m7mLk4hASeMwo
+  0THzK3MXIyeQc41J4vJiHwh7D6PEw8uCIDabgJTEjfv/2boYOThEBPQkrv4TBQkzC6hIvPjdw
+  w5iCwvYSHy5fAtsDIuAqsTHi2dYQGxeAUeJoxfugcUlBBQkpjx8zwwRF5Q4OfMJC8QcCYmDL1
+  5A1ShKzL7czAJhV0jMmtXGBGGrSVw9t4l5AiP/LCTts5C0L2BkWsVoWpxaVJZapGuol1SUmZ5
+  RkpuYmaOXWKWbqJdaqlueWlyia6SXWF6sl1pcrFdcmZuck6KXl1qyiREYhinFqod2ML5a8kfv
+  EKMkB5OSKC+HW3GyEF9SfkplRmJxRnxRaU5q8SFGGQ4OJQne3LlAOcGi1PTUirTMHGBMwKQlO
+  HiURHjlGoDSvMUFibnFmekQqVOMuhwzv7YdYBZiycvPS5US5+UDmSEAUpRRmgc3AhaflxhlpY
+  R5GRkYGIR4ClKLcjNLUOVfMYpzMCoJ816eATSFJzOvBG7TK6AjmICOOOBXBHJESSJCSqqBqXE
+  q94xn4VNPt+Y+iNwXWvC1So5z1Yl5R5ds0GGYN+ndlD//78YIrMgp3X1u75atyxQqG/oy5O+I
+  6cueWRQjlhi1p9pz0gO9JfK6nS+Wzj3xcPk/x/kH7oQunCxZfNB9TszWV9+u6E6YsfpZ5YHp/
+  9e+msP8ec0zTiZGIU1+7vN3JF6aWPxLuBmreEvFTu/m1Ic7+/QS39/jCtrJnBd8KfLcmdMqBx
+  Ri25deip7WuIh/UQFP8TZjR38/pzSTm789ZDtnsKz+1T5TvzGeb1sO55Xzl3zKjnxKMn/2ffJ
+  Hn57eRNc7Yd8FH6x/EMDMyfL7vcIKk4l5cpEtOxgVQ7Y3L/b+fv3a7nefyjakMmztEVqixFKc
+  kWioxVxUnAgAwggoIEoDAAA=
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-7.tower-571.messagelabs.com!1668575608!31129!1
+X-Originating-IP: [62.60.8.97]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.101.1; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 21871 invoked from network); 16 Nov 2022 05:13:28 -0000
+Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
+  by server-7.tower-571.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 16 Nov 2022 05:13:28 -0000
+Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id 1F7F110019A
+	for <openembedded-core@lists.openembedded.org>; Wed, 16 Nov 2022 05:13:28 +0000 (GMT)
+Received: from R01UKEXCASM126.r01.fujitsu.local (R01UKEXCASM126 [10.183.43.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id 13EB7100188
+	for <openembedded-core@lists.openembedded.org>; Wed, 16 Nov 2022 05:13:28 +0000 (GMT)
+Received: from localhost.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.32; Wed, 16 Nov 2022 05:13:26 +0000
+From: <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] btrfs-tools: upgrade 6.0 -> 6.0.1
+Date: Wed, 16 Nov 2022 13:13:08 +0800
+Message-ID: <1668575588-9102-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Nov 2022 04:22:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173374
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Nov 2022 05:13:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173375
 
-Upstream-Status: Backport from https://github.com/systemd/systemd-stable/commit/72d4c15a946d20143cd4c6783c802124bc894dc7
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Affects "systemd <= 251"
+Changelog:
+==========
+* send: minor speed up for v2 due to increased buffer size
+* resize: invalid command line options fail with error code
+* quota rescan:
+   * add long options --status and --wait
+   * new option to wait but don't start rescan
+* qgroup show: print path by default, updated format
+* qgroup: new subcommand clear-stale, remove qgroups without their subvolumes
+* experimental:
+   * add warnings to commands that have it enabled (mkfs, image, btrfstune)
+* other:
+   * documentation, help text, error message updates
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../systemd/systemd/CVE-2022-3821.patch       | 45 +++++++++++++++++++
- meta/recipes-core/systemd/systemd_250.5.bb    |  1 +
- 2 files changed, 46 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/CVE-2022-3821.patch
+ .../btrfs-tools/{btrfs-tools_6.0.bb => btrfs-tools_6.0.1.bb}    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_6.0.bb => btrfs-tools_6.0.1.bb} (98%)
 
-diff --git a/meta/recipes-core/systemd/systemd/CVE-2022-3821.patch b/meta/recipes-core/systemd/systemd/CVE-2022-3821.patch
-new file mode 100644
-index 0000000000..eb8b0cba12
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/CVE-2022-3821.patch
-@@ -0,0 +1,45 @@
-+From bff52d96598956163d73b7c7bdec7b0ad5b3c2d4 Mon Sep 17 00:00:00 2001
-+From: Hitendra Prajapati <hprajapati@mvista.com>
-+Date: Tue, 15 Nov 2022 16:52:03 +0530
-+Subject: [PATCH] CVE-2022-3821
-+
-+Upstream-Status: Backport [https://github.com/systemd/systemd-stable/commit/72d4c15a946d20143cd4c6783c802124bc894dc7]
-+CVE: CVE-2022-3821
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ src/basic/time-util.c     | 2 +-
-+ src/test/test-time-util.c | 5 +++++
-+ 2 files changed, 6 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/basic/time-util.c b/src/basic/time-util.c
-+index b659d6905d..89dc593d44 100644
-+--- a/src/basic/time-util.c
-++++ b/src/basic/time-util.c
-+@@ -588,7 +588,7 @@ char *format_timespan(char *buf, size_t l, usec_t t, usec_t accuracy) {
-+                         t = b;
-+                 }
-+ 
-+-                n = MIN((size_t) k, l);
-++                n = MIN((size_t) k, l-1);
-+ 
-+                 l -= n;
-+                 p += n;
-+diff --git a/src/test/test-time-util.c b/src/test/test-time-util.c
-+index 4d0131827e..8db6b25279 100644
-+--- a/src/test/test-time-util.c
-++++ b/src/test/test-time-util.c
-+@@ -238,6 +238,11 @@ TEST(format_timespan) {
-+         test_format_timespan_accuracy(1);
-+         test_format_timespan_accuracy(USEC_PER_MSEC);
-+         test_format_timespan_accuracy(USEC_PER_SEC);
-++
-++        /* See issue #23928. */
-++        _cleanup_free_ char *buf;
-++        assert_se(buf = new(char, 5));
-++        assert_se(buf == format_timespan(buf, 5, 100005, 1000));
-+ }
-+ 
-+ TEST(verify_timezone) {
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-core/systemd/systemd_250.5.bb b/meta/recipes-core/systemd/systemd_250.5.bb
-index 5d568f639e..8b6d0e8580 100644
---- a/meta/recipes-core/systemd/systemd_250.5.bb
-+++ b/meta/recipes-core/systemd/systemd_250.5.bb
-@@ -25,6 +25,7 @@ SRC_URI += "file://touchscreen.rules \
-            file://0003-implment-systemd-sysv-install-for-OE.patch \
-            file://0001-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch \
-            file://0001-resolve-Use-sockaddr-pointer-type-for-bind.patch \
-+           file://CVE-2022-3821.patch \
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.1.bb
+similarity index 98%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.1.bb
+index 887a530a52..7144087a11 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.1.bb
+@@ -18,7 +18,7 @@ DEPENDS = "util-linux zlib"
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git;branch=master \
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
             "
+-SRCREV = "3db756352685f38c1de0aa886d380c733e0f53e7"
++SRCREV = "441d01556873385d55fd4940f50ee7ae1fcfb13d"
+ S = "${WORKDIR}/git"
  
- # patches needed by musl
+ PACKAGECONFIG ??= " \
 -- 
 2.25.1
 
