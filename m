@@ -1,116 +1,125 @@
-Return-Path: <ejo@pengutronix.de>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4261C433FE
-	for <webhook@archiver.kernel.org>; Wed, 16 Nov 2022 13:53:44 +0000 (UTC)
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
- by mx.groups.io with SMTP id smtpd.web10.7279.1668606814844457972
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E658AC433FE
+	for <webhook@archiver.kernel.org>; Wed, 16 Nov 2022 14:08:54 +0000 (UTC)
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.web12.7609.1668607726550608861
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Nov 2022 05:53:35 -0800
+ Wed, 16 Nov 2022 06:08:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: ejo@pengutronix.de)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1ovIr7-0003V6-2h; Wed, 16 Nov 2022 14:53:33 +0100
-Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1ovIr4-004fIb-T1; Wed, 16 Nov 2022 14:53:31 +0100
-Received: from ejo by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1ovIr4-00EFJR-RB; Wed, 16 Nov 2022 14:53:30 +0100
-From: Enrico Jorns <ejo@pengutronix.de>
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=5Doq91Nf;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.53, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f53.google.com with SMTP id d59-20020a17090a6f4100b00213202d77e1so2404732pjk.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Nov 2022 06:08:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q/7r41NzDQ594Y8pt6MVvc8KFKWlcHXvbAGJzUDVuHk=;
+        b=5Doq91Nf3YZaMbK44FSH+A+PPdwbiZqUTAVNyXcWiQoyTMyARgx/UGcWgxyB1Evqbr
+         TYGKexgFMNImueIOUsy7BZ/Nw1pss4mRxGSDGPPFISlu3NNFkIZOd06GGqZhb4Zv6fHA
+         9oGrLb5R9BV0LyQ/MaxYkHTLdI+FNc9+c6fmXX+blGWRQgCEI8z+/GdZ5IEDrT8ZEAxe
+         nOKfGdwZmALA5MhUiM57mskL7ODLRjUZvpuZZqj/GDU/1sueB1+mEfK192RPtYuNtG3Q
+         6nz0tkjdCm2MBFRIQI31xoduRLuR/mhOM7PGrcVRQnAxLJE46DcwgU9a5UYzlsGTSajv
+         ltww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q/7r41NzDQ594Y8pt6MVvc8KFKWlcHXvbAGJzUDVuHk=;
+        b=OCh6IfcfMm3mjh5BFpKFJhNdpb71UQUe/9tEt83itACqeWfTBsKm0zsC316q+ZTD8Z
+         U6Qed+xqItxYGA20udvjyA49nOaeFtfgvE2m7ReGzuUxe0e1QKhOwVemOGek4TYKFVaq
+         T22yOYFLUTB2VBhbxuoE5dQycqrgjZfb/LWo073CKn2JQwGTHVtiYJpvxlMUw6fdnaMt
+         EetBalL/UPpKCONQ7PCcROxondwK72fHOYR7oVM2uhg2JVBVXE1io01pQ1RuxjcInhQK
+         HJ10WQ0O7p17IoMLaslEmI9zS/Kd1rDNZe3zdQjSVXETOWf2W+LDOFB4fCtn43mfc89T
+         QINA==
+X-Gm-Message-State: ANoB5plP1JbTLmabTQVIq0dtTLDIlaiUGNzX/nrlrPPaNqpM0gkchHPe
+	wkkOEQxgtzK8HoOpnK8+LUlM1IptaEZvf/JnMYs=
+X-Google-Smtp-Source: AA0mqf7sFGO1H6o3UI2yLCxCLwBVo95ayYeEoQUZyJBfxarR0WnpRN5HaDe913TvjqD4N9nvfOvJ7g==
+X-Received: by 2002:a17:90b:524f:b0:20d:5587:805b with SMTP id sh15-20020a17090b524f00b0020d5587805bmr3894874pjb.190.1668607725363;
+        Wed, 16 Nov 2022 06:08:45 -0800 (PST)
+Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
+        by smtp.gmail.com with ESMTPSA id 6-20020a17090a194600b0020b7de675a4sm1601133pjh.41.2022.11.16.06.08.44
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Nov 2022 06:08:44 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Enrico Jorns <ejo@pengutronix.de>
-Subject: [PATCH] sstatesig: emit more helpful error message when not finding sstate manifest
-Date: Wed, 16 Nov 2022 14:53:23 +0100
-Message-Id: <20221116135323.3395407-1-ejo@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
+Subject: [OE-core][kirkstone 0/9] Pull request (cover letter only)
+Date: Wed, 16 Nov 2022 04:08:38 -1000
+Message-Id: <cover.1668607673.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ejo@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Nov 2022 13:53:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173385
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Nov 2022 14:08:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173386
 
-Since oe-core commit 64b89f3c8fc31842256c482a3039d90d3f12c1cc
-("sstatesig.py: make it fatal error when sstate manifest isn't found")
-errors like:
+The following changes since commit 0c0723757fbba9a4b88c0f98477a18d1e220da2e:
 
-| Manifest [..]/tmp/sstate-control/manifest-x86_64_x86_64-nativesdk-dbus.populate_sysroot not found in imx8mm_dummy cortexa53-mx8mm cortexa53 armv8a-crc armv8a aarch64 allarch x86_64_x86_64-nativesdk (variant '')?
+  mirrors.bbclass: use shallow tarball for binutils-native (2022-11-06 06:00:05 -1000)
 
-are fatal now and cannot be ignored but must be debugged.
+are available in the Git repository at:
 
-Unfortunately, the currently emitted error message is a bit imprecise
-with telling the reader what has actually gone wrong.
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-next
 
-This commit:
+Alexander Kanavin (2):
+  lttng-modules: upgrade 2.13.4 -> 2.13.5
+  quilt: backport a patch to address grep 3.8 failures
 
-* adds the word 'sstate' to the error message to clarify the scope we
-  are dealing with ('sstate manifests', since there are other manifests,
-  too)
-* does not randomly print the last manifest file searched for as THE
-  manifest file that could not be found
-  Instead, we print the name of the task the sstate was searched for
-* adds the word 'multilib' to variant to make clear which variant we are
-  talking about
-* adds a separate line noting the searched pkgarchs and adds explicitly
-  mentions this word ('pkgarchs')
-* prints a list of ALL manifest file locations attempted
-* removes the '?' at the end of the message since such errors indeed
-  leave the question of what is the cause but the error message itself
-  is more like a statement.
+Hitendra Prajapati (1):
+  QEMU: CVE-2022-3165 VNC: integer underflow in vnc_client_cut_text_ext
+    leads to CPU exhaustion
 
-The result for the exact same issue as noted above then looks as
-follows:
+Michael Opdenacker (1):
+  create-spdx.bbclass: remove unused SPDX_INCLUDE_PACKAGED
 
-| The sstate manifest for task 'dbus:populate_sysroot' (multilib variant '') could not be found.
-| The pkgarchs considered were: imx8mm_dummy, cortexa53-mx8mm, cortexa53, armv8a-crc, armv8a, aarch64, allarch, x86_64_x86_64-nativesdk.
-| But none of these manifests exists:
-|     [..]/tmp/sstate-control/manifest-imx8mm_dummy-dbus.populate_sysroot
-|     [..]/tmp/sstate-control/manifest-cortexa53-mx8mm-dbus.populate_sysroot
-|     [..]/tmp/sstate-control/manifest-cortexa53-dbus.populate_sysroot
-|     [..]/tmp/sstate-control/manifest-armv8a-crc-dbus.populate_sysroot
-|     [..]/tmp/sstate-control/manifest-armv8a-dbus.populate_sysroot
-|     [..]/tmp/sstate-control/manifest-aarch64-dbus.populate_sysroot
-|     [..]/tmp/sstate-control/manifest-allarch-dbus.populate_sysroot
-|     [..]/tmp/sstate-control/manifest-x86_64_x86_64-nativesdk-dbus.populate_sysroot
+Narpat Mali (1):
+  python3-mako: backport fix for CVE-2022-40023
 
-Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
----
- meta/lib/oe/sstatesig.py | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Ross Burton (3):
+  pixman: backport fix for CVE-2022-44638
+  sanity: check for GNU tar specifically
+  qemu: add io_uring PACKAGECONFIG
 
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index aa273df970..bf48aed7e1 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -469,11 +469,15 @@ def find_sstate_manifest(taskdata, taskdata2, taskname, d, multilibcache):
-         pkgarchs.append('allarch')
-         pkgarchs.append('${SDK_ARCH}_${SDK_ARCH}-${SDKPKGSUFFIX}')
- 
-+    searched_manifests = []
-+
-     for pkgarch in pkgarchs:
-         manifest = d2.expand("${SSTATE_MANIFESTS}/manifest-%s-%s.%s" % (pkgarch, taskdata, taskname))
-         if os.path.exists(manifest):
-             return manifest, d2
--    bb.fatal("Manifest %s not found in %s (variant '%s')?" % (manifest, d2.expand(" ".join(pkgarchs)), variant))
-+        searched_manifests.append(manifest)
-+    bb.fatal("The sstate manifest for task '%s:%s' (multilib variant '%s') could not be found.\nThe pkgarchs considered were: %s.\nBut none of these manifests exists:\n    %s"
-+            % (taskdata, taskname, variant, d2.expand(", ".join(pkgarchs)),"\n    ".join(searched_manifests)))
-     return None, d2
- 
- def OEOuthashBasic(path, sigfile, task, d):
+ciarancourtney (1):
+  wic: swap partitions are not added to fstab
+
+ meta/classes/create-spdx.bbclass              |   2 -
+ meta/classes/sanity.bbclass                   |   8 +
+ .../python/python3-mako/CVE-2022-40023.patch  | 119 +++++++++++++++
+ .../python/python3-mako_1.1.6.bb              |   2 +
+ meta/recipes-devtools/qemu/qemu.inc           |   3 +-
+ .../qemu/qemu/CVE-2022-3165.patch             |  61 ++++++++
+ meta/recipes-devtools/quilt/quilt.inc         |   1 +
+ .../quilt/quilt/fix-grep-3.8.patch            | 144 ++++++++++++++++++
+ .../xorg-lib/pixman/CVE-2022-44638.patch      |  33 ++++
+ .../xorg-lib/pixman_0.40.0.bb                 |   1 +
+ .../lttng-modules/0001-fix-compaction.patch   |  68 ---------
+ ...c-fix-tracepoint-mm_page_alloc_zone_.patch | 106 -------------
+ ...oduce-kfree_skb_reason-v5.15.58.v5.1.patch |  53 -------
+ ...ags-parameter-from-aops-write_begin-.patch |  76 ---------
+ ...Fix-type-of-cpu-in-trace-event-v5.19.patch | 124 ---------------
+ ...ules_2.13.4.bb => lttng-modules_2.13.5.bb} |   7 +-
+ scripts/lib/wic/plugins/imager/direct.py      |   2 +-
+ 17 files changed, 373 insertions(+), 437 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python3-mako/CVE-2022-40023.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2022-3165.patch
+ create mode 100644 meta/recipes-devtools/quilt/quilt/fix-grep-3.8.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-compaction.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-page_alloc-fix-tracepoint-mm_page_alloc_zone_.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-net-skb-introduce-kfree_skb_reason-v5.15.58.v5.1.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0002-fix-fs-Remove-flags-parameter-from-aops-write_begin-.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0003-fix-workqueue-Fix-type-of-cpu-in-trace-event-v5.19.patch
+ rename meta/recipes-kernel/lttng/{lttng-modules_2.13.4.bb => lttng-modules_2.13.5.bb} (78%)
+
 -- 
-2.30.2
+2.25.1
 
 
