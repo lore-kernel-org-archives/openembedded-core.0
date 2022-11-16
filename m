@@ -1,111 +1,197 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7197C4332F
-	for <webhook@archiver.kernel.org>; Wed, 16 Nov 2022 11:24:53 +0000 (UTC)
-Received: from smtpout.cvg.de (smtpout.cvg.de [87.128.211.67])
- by mx.groups.io with SMTP id smtpd.web10.6015.1668597883377732430
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D6B8C433FE
+	for <webhook@archiver.kernel.org>; Wed, 16 Nov 2022 13:26:34 +0000 (UTC)
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+ by mx.groups.io with SMTP id smtpd.web12.7158.1668605192369852632
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Nov 2022 03:24:47 -0800
+ Wed, 16 Nov 2022 05:26:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sigma-chemnitz.de header.s=v2022040800 header.b=D/cyQbE0;
- spf=pass (domain: sigma-chemnitz.de, ip: 87.128.211.67, mailfrom: enrico.scholz@sigma-chemnitz.de)
-Received: from mail-mta-2.intern.sigma-chemnitz.de (mail-mta-2.intern.sigma-chemnitz.de [192.168.12.70])
-	by mail-out-2.intern.sigma-chemnitz.de (8.16.1/8.16.1) with ESMTPS id 2AGBOeuF055360
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Nov 2022 12:24:40 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2022040800; t=1668597880;
-	bh=qW44IdrHX+c36vwddyCZ26Sri72of0d8sE8IAc2nsU8=; l=1830;
-	h=From:To:Cc:Subject:Date;
-	b=D/cyQbE0WJ7/1hrwlhzvY3HjaQtynEc5Kql/1tIlbzqSjrP6uCsDSqCvutZ9fb0D/
-	 VwxyZGOJlgIsGn0fiNyzJ3B3CUsj7oZ412mbbFEaD6KwKB7Lo1+GkXGhRnI8DHHFPm
-	 1uLiB3DBMvsh5DYrN1Qh++3JFk9opUG7yKO0zkGcqV8y7ZrmVGEGTT4gLrnfGHPx5p
-	 SQISBmFxujn4Yb1iF2ZGte5sNg7IAvtznEyaGKpmI2ogp3jcn/yeklyyqyiZTJITdR
-	 9RnO3Vsg0fSMKhdJUx7lqVDGiTkk+bA2N1Qw6OcP+MhhrjAQKi5ibeY0lf0v9UN2FH
-	 ocQjGEjf5+SmA==
-Received: from reddoxx.intern.sigma-chemnitz.de (reddoxx.sigma.local [192.168.16.32])
-	by mail-mta-2.intern.sigma-chemnitz.de (8.16.1/8.16.1) with ESMTP id 2AGBOYjY062047
-	for <openembedded-core@lists.openembedded.org> from enrico.scholz@sigma-chemnitz.de; Wed, 16 Nov 2022 12:24:34 +0100
-Received: from mail-msa-2.intern.sigma-chemnitz.de ([192.168.12.72])
-	by reddoxx.intern.sigma-chemnitz.de with ESMTP
-	id UBCSFPYTKT; Wed, 16 Nov 2022 12:24:33 +0100
-Received: from ensc-pc.intern.sigma-chemnitz.de (ensc-pc.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail-msa-2.intern.sigma-chemnitz.de (8.16.1/8.16.1) with ESMTPS id 2AGBOX0H054458
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Wed, 16 Nov 2022 12:24:33 +0100
-Received: from ensc by ensc-pc.intern.sigma-chemnitz.de with local (Exim 4.96)
-	(envelope-from <ensc@sigma-chemnitz.de>)
-	id 1ovGWv-0097K6-0m;
-	Wed, 16 Nov 2022 12:24:33 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Subject: [PATCH] sstate: show progress bar again
-Date: Wed, 16 Nov 2022 12:24:25 +0100
-Message-Id: <20221116112425.2173010-1-enrico.scholz@sigma-chemnitz.de>
-X-Mailer: git-send-email 2.38.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=UyRr3eqJ;
+ spf=pass (domain: gmail.com, ip: 209.85.166.175, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-il1-f175.google.com with SMTP id r2so9097116ilg.8
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Nov 2022 05:26:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=qBl5H+/CP/oE/zfc33I1VR9ZdEVCo1WVP2Yj8SQO4qI=;
+        b=UyRr3eqJOeP7ZI27aRr7F50YAWO9+LmJ/63H4NKY9EAL0GIQdjuX8jdOP24Qe8lILY
+         CUMJGRsk3piQ64KsjeTePodGGmF3K+BvCwakuTd1kiCFdRISHfsgsm3zRlZR15Qke7CL
+         HcILUlQkIsv+iDcHqXnv4rfkKxWSBg+lKaK8NABRUXnAhdfoSj84VHBBgLjgKT0Y/s81
+         L9PsZU4Rx/hBO6QWSmcg9iMLWrDEjWcwzRyt6+bRVpD1Lw6bUki4d24wvAf4JFFlc44B
+         pyNtIejRvcSnFpflQSr8O1tjrtgV1b3vH2AYad48bMG1+KFMsJKE7bWfoKtpkf3Rishq
+         ah0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qBl5H+/CP/oE/zfc33I1VR9ZdEVCo1WVP2Yj8SQO4qI=;
+        b=6KdovlnICCo9QiT5VJxwh63TXEy+VcDGJ3CW0qIc7KbUsf+ilmwBdMdZ8DNQxEMF8o
+         5TB6iXI9ufxHzg1NvhvvBwDPGCzTjlvcb2UL9dfW9Rxv32XEnR7e+iLq1PNOsvxHU5+U
+         mu81wtpPL7Aa8wXHr/KUOPkEimbo+/fb0X2zlc/NeKopIVlHcljlUULlQDaNWauYlqgW
+         CWzwAJFxyGOgdnvKNb7fFXqMM75V2kY7XBgbl+zcjXZj83lsRFzm2/wX6bwUEgv/PN8Y
+         fDoZMzQwOx5PWMRAa/ZVvzZ3uw4h3ldfyD7fXJsD1P9Vt5ZxVRCnn5cdhmupyVhhV9lj
+         cRXg==
+X-Gm-Message-State: ANoB5plzrN6FQtBxkVqRf4Sb2X5pgMdxNBgCXCKrfKW0d+dIE0RlXkJ4
+	nHpNYsmyXbRntv1peNYf9gm1FlkH/0HuQ68ldSA=
+X-Google-Smtp-Source: AA0mqf5Kiv2NhC4lBIEXCwmc6HHeLkHEjqHVzf5xzcEIIn1SeOJ1MXICb09z9SRwInUVhnzwHLffI1DQzo1OYZ1lVMs=
+X-Received: by 2002:a05:6e02:505:b0:300:cb73:b9d0 with SMTP id
+ d5-20020a056e02050500b00300cb73b9d0mr10639691ils.276.1668605191461; Wed, 16
+ Nov 2022 05:26:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-REDDOXX-Id: 6374c871c12256ade0c4adb0
+References: <cover.1668558954.git.bruce.ashfield@gmail.com>
+ <71cfe4b75e2078194882ea32325683dd88050536.1668558954.git.bruce.ashfield@gmail.com>
+ <CANNYZj-TRN0-wWKVz3FWCebyh+m-d+OhYaUqRNZumoGPoZ2ZfA@mail.gmail.com>
+In-Reply-To: <CANNYZj-TRN0-wWKVz3FWCebyh+m-d+OhYaUqRNZumoGPoZ2ZfA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 16 Nov 2022 08:26:20 -0500
+Message-ID: <CADkTA4O3h2HDZnNse883VYHDE0e94+Jq4gboC9E17sDKc7zi4g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 09/10] kernel-devsrc: fix for v6.1+
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: richard.purdie@linuxfoundation.org, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Nov 2022 11:24:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173383
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Nov 2022 13:26:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173384
 
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+On Wed, Nov 16, 2022 at 3:24 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> I guess many people have seen already seen this, but 6.1 has initial
+> rust support:
+> https://lwn.net/Articles/910762/
 
-Transition to ThreadPoolExecutor (eb6a6820928472ef194b963b606454e731f9486f)
-broke the
+Indeed. I was just happy that it is optional now, so I could get through the 6.1
+introduction cycle without needing to figure out how to get the rust
+dependencies included (I think I'd still be waiting for rust to build
+now, if that
+had been the case).
 
-| Checking sstate mirror object availability: ...
+>
+> So if anyone wants a project that will make them look hip and sexy and
+> cool (software development-wise): draft an RFC patch for how we could
+> do this in Yocto.
 
-progress bar because the removed 'thread_worker' was still referenced
-in an asynchronous function.  As the result of the future is never
-read, the resulting backtrace is silently discarded.
++1
 
-Replace the information given to 'ProcessProgress' by a counter.
+I'll eventually look at it, but I'd be happy to be beaten to the work by an
+interested party!
 
-Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
----
- meta/classes-global/sstate.bbclass | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Bruce
 
-diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
-index 2c8e7b8cc232..3fabca4a3160 100644
---- a/meta/classes-global/sstate.bbclass
-+++ b/meta/classes-global/sstate.bbclass
-@@ -925,6 +925,8 @@ sstate_unpack_package () {
- BB_HASHCHECK_FUNCTION = "sstate_checkhashes"
- 
- def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True, **kwargs):
-+    import itertools
-+
-     found = set()
-     missed = set()
- 
-@@ -1019,7 +1021,7 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-             connection_cache_pool.put(connection_cache)
- 
-             if progress:
--                bb.event.fire(bb.event.ProcessProgress(msg, len(tasklist) - thread_worker.tasks.qsize()), d)
-+                bb.event.fire(bb.event.ProcessProgress(msg, next(num_tasks_done) + 1), d)
- 
-         tasklist = []
-         for tid in missed:
-@@ -1029,6 +1031,8 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-         if tasklist:
-             nproc = min(int(d.getVar("BB_NUMBER_THREADS")), len(tasklist))
- 
-+            ## thread-safe counter
-+            num_tasks_done = itertools.count()
-             progress = len(tasklist) >= 100
-             if progress:
-                 msg = "Checking sstate mirror object availability"
+>
+> Alex
+>
+>
+> On Wed, 16 Nov 2022 at 01:38, Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+> >
+> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >
+> > The 6.1 kernel has a number of Kbuild and architecture changes
+> > that required us to update our devsrc recipe. With these changes
+> > we are once again able to build on target modules for all
+> > supported archectures.
+> >
+> > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > ---
+> >  meta/recipes-kernel/linux/kernel-devsrc.bb | 25 ++++++++++++++++++++--
+> >  1 file changed, 23 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+> > index 46d706b955..253b8d307d 100644
+> > --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
+> > +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+> > @@ -145,6 +145,9 @@ do_install() {
+> >
+> >         cp -a scripts $kerneldir/build
+> >
+> > +       # for v6.1+ (otherwise we are missing multiple default targets)
+> > +       cp -a --parents Kbuild $kerneldir/build 2>/dev/null || :
+> > +
+> >         # if our build dir had objtool, it will also be rebuilt on target, so
+> >         # we copy what is required for that build
+> >         if [ -f ${B}/tools/objtool/objtool ]; then
+> > @@ -171,6 +174,9 @@ do_install() {
+> >             # arch/arm64/include/asm/opcodes.h references arch/arm
+> >             cp -a --parents arch/arm/include/asm/opcodes.h $kerneldir/build/
+> >
+> > +           # v6.1+
+> > +           cp -a --parents arch/arm64/kernel/asm-offsets.c $kerneldir/build/
+> > +
+> >              cp -a --parents arch/arm64/kernel/vdso/*gettimeofday.* $kerneldir/build/
+> >              cp -a --parents arch/arm64/kernel/vdso/sigreturn.S $kerneldir/build/
+> >              cp -a --parents arch/arm64/kernel/vdso/note.S $kerneldir/build/
+> > @@ -206,6 +212,9 @@ do_install() {
+> >             cp -a --parents arch/powerpc/kernel/vdso/*.S $kerneldir/build 2>/dev/null || :
+> >             cp -a --parents arch/powerpc/kernel/vdso/*gettimeofday.* $kerneldir/build 2>/dev/null || :
+> >             cp -a --parents arch/powerpc/kernel/vdso/gen_vdso*_offsets.sh $kerneldir/build/ 2>/dev/null || :
+> > +
+> > +           # v6,1+
+> > +           cp -a --parents arch/powerpc/kernel/asm-offsets.c $kerneldir/build/ 2>/dev/null || :
+> >         fi
+> >         if [ "${ARCH}" = "riscv" ]; then
+> >              cp -a --parents arch/riscv/kernel/vdso/*gettimeofday.* $kerneldir/build/
+> > @@ -234,6 +243,9 @@ do_install() {
+> >              fi
+> >
+> >              cp -a --parents arch/arm/kernel/module.lds $kerneldir/build/ 2>/dev/null || :
+> > +            # v6.1+
+> > +            cp -a --parents arch/arm/kernel/asm-offsets.c $kerneldir/build/ 2>/dev/null || :
+> > +            cp -a --parents arch/arm/kernel/signal.h $kerneldir/build/ 2>/dev/null || :
+> >         fi
+> >
+> >         if [ -d arch/${ARCH}/include ]; then
+> > @@ -282,15 +294,24 @@ do_install() {
+> >             # objtool requires these files
+> >             cp -a --parents arch/x86/lib/inat.c $kerneldir/build/ 2>/dev/null || :
+> >             cp -a --parents arch/x86/lib/insn.c $kerneldir/build/ 2>/dev/null || :
+> > +
+> > +           # v6.1+
+> > +           cp -a --parents arch/x86/kernel/asm-offsets* $kerneldir/build || :
+> > +           # for capabilities.h, vmx.h
+> > +           cp -a --parents arch/x86/kvm/vmx/*.h $kerneldir/build || :
+> > +           # for lapic.h, hyperv.h ....
+> > +           cp -a --parents arch/x86/kvm/*.h $kerneldir/build || :
+> >         fi
+> >
+> > +       # moved from arch/mips to all arches for v6.1+
+> > +       cp -a --parents kernel/time/timeconst.bc $kerneldir/build 2>/dev/null || :
+> > +       cp -a --parents kernel/bounds.c $kerneldir/build 2>/dev/null || :
+> > +
+> >         if [ "${ARCH}" = "mips" ]; then
+> >             cp -a --parents arch/mips/Kbuild.platforms $kerneldir/build/
+> >             cp --parents $(find  -type f -name "Platform") $kerneldir/build
+> >             cp --parents arch/mips/boot/tools/relocs* $kerneldir/build
+> >             cp -a --parents arch/mips/kernel/asm-offsets.c $kerneldir/build
+> > -           cp -a --parents kernel/time/timeconst.bc $kerneldir/build
+> > -           cp -a --parents kernel/bounds.c $kerneldir/build
+> >             cp -a --parents Kbuild $kerneldir/build
+> >             cp -a --parents arch/mips/kernel/syscalls/*.sh $kerneldir/build 2>/dev/null || :
+> >             cp -a --parents arch/mips/kernel/syscalls/*.tbl $kerneldir/build 2>/dev/null || :
+> > --
+> > 2.19.1
+> >
+> >
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#173372): https://lists.openembedded.org/g/openembedded-core/message/173372
+> > Mute This Topic: https://lists.openembedded.org/mt/95057295/1686489
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> >
+
+
+
 -- 
-2.38.1
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
