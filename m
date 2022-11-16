@@ -2,194 +2,122 @@ Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A16CC433FE
-	for <webhook@archiver.kernel.org>; Wed, 16 Nov 2022 20:47:50 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
- by mx.groups.io with SMTP id smtpd.web11.243.1668631665114194930
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC7D7C4332F
+	for <webhook@archiver.kernel.org>; Wed, 16 Nov 2022 21:32:10 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web10.1499.1668634322217422842
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Nov 2022 12:47:45 -0800
+ Wed, 16 Nov 2022 13:32:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=oCYe6PVr;
- spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: alexandre.belloni@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Gc37sU5F;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: alexandre.belloni@bootlin.com)
 Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id BCE1220002;
-	Wed, 16 Nov 2022 20:47:42 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id F015B60003;
+	Wed, 16 Nov 2022 21:31:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1668631663;
+	t=1668634320;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=jKR9GK7nhnHjnmDh+BUQe6qd5KdwvEQjI9wgrKXU2vw=;
-	b=oCYe6PVr28rGssrk8QKfAF6nBKcusAlvTupP3cLoCe7YCJeZ2Yx6BcRMXmFQjNQlV0EA2p
-	fToiU9wG4400+fz0Y/EN+w/jWdyxG82zpItL9aZdWI2VOXliiVwmEIfwwKFDG4FSWjLjXJ
-	wfIRx0RYjK2bDBpcItIbLHJHwPYfXqtKth03PQfMWokXgfBz8C3U93Kjvm7AJWtpcVW/c6
-	vNNEpfHYWFVjxU/4sM7FDq4JbZTbeL6uIZRjcXZ2O5MxbriYIpn26+tP/iPcwLNvoRxgwp
-	nodQBVDNw3LMu4OZPHxYe8a182QXw1KNMVaEBFAph9bym3/sA2UT37XE2bHuBw==
-Date: Wed, 16 Nov 2022 21:47:42 +0100
+	bh=NzN6BZwTlggMzO9yF/DZXhBYQHU5jRcmA5450O9VEhk=;
+	b=Gc37sU5FAi8W8YwaTxUYz1eRbxnb4R7JhEXUUNGrBeW9mWX3+ukFnGpEb5URRXyJ26q7k2
+	0gyfsVHYTMdRJhj3DB6GeTyKBsNdIEr7zqsE5XQaQXAWRMbkDDoiQskI+Ag4dgPyeEzjca
+	YSGb+F9Y6djclPJpEj6ftxy9UtUFA6xE+nOYS5In3ua5fwcxleBaWR3STCV4h0Qc8c4BbO
+	6FeDzZsoKEnkNbF4+K6n3ppEyleu6HdKjNlRENB3IePT/eF0ooXyx3BzucC6hIFY6nfUXU
+	2BLX9tnFNHJI6GOmjje+84sEvLFaGAk2OllT5UITxJ+ge36K7WVaUfOY9JiP7g==
+Date: Wed, 16 Nov 2022 22:31:59 +0100
 From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: omkar <omkarpatil10.93@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, omkar.patil@kpit.com,
-	ranjitsinh.rathod@kpit.com
-Subject: Re: [OE-core][master][PATCH] python3: Fix CVE-2022-45061
-Message-ID: <Y3VMbpoV63QeAKzs@mail.local>
-References: <20221116052523.14324-1-omkarpatil10.93@gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: richard.purdie@linuxfoundation.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 00/10] kernel: consolidated pull request
+Message-ID: <Y3VWz2WA0jyn7T1Q@mail.local>
+References: <cover.1668558954.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221116052523.14324-1-omkarpatil10.93@gmail.com>
+In-Reply-To: <cover.1668558954.git.bruce.ashfield@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Nov 2022 20:47:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173391
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Nov 2022 21:32:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173392
 
-Hello,
+Hello Bruce,
 
-On 16/11/2022 10:55:23+0530, omkar wrote:
-> From: Omkar <omkar.patil@kpit.com>
+It seems this series makes an efutils ptest fail:
+
+backtrace: No modules recognized in core file
+backtrace-child-core.18977: no main
+rmdir: failed to remove 'test-18969': Directory not empty
+FAIL: run-backtrace-native-core.sh
+
+I guess something changed in the core generation.
+
+On 15/11/2022 19:38:18-0500, Bruce Ashfield wrote:
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
 > 
-> Fix CVE-2022-45061, referenced as
-> https://github.com/python/cpython/issues/98433
-> patch taken from
-> https://github.com/python/cpython/pull/99231/commits/064ec20bf7a181ba5fa961aaa12973812aa6ca5d
+> Richard,
 > 
-> Signed-off-by: Omkar <omkarpatil10.93@gmail.com>
-> ---
->  .../python/files/CVE-2022-45061.patch         | 100 ++++++++++++++++++
->  .../recipes-devtools/python/python3_3.8.14.bb |   1 +
-
-master has python 3.11.0, can you rebase?
-
->  2 files changed, 101 insertions(+)
->  create mode 100644 meta/recipes-devtools/python/files/CVE-2022-45061.patch
+> Here's the batched up -stable and -dev updates that I've been testing
+> for a while.
 > 
-> diff --git a/meta/recipes-devtools/python/files/CVE-2022-45061.patch b/meta/recipes-devtools/python/files/CVE-2022-45061.patch
-> new file mode 100644
-> index 0000000000..647bf59908
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/files/CVE-2022-45061.patch
-> @@ -0,0 +1,100 @@
-> +From 064ec20bf7a181ba5fa961aaa12973812aa6ca5d Mon Sep 17 00:00:00 2001
-> +From: "Miss Islington (bot)"
-> + <31488909+miss-islington@users.noreply.github.com>
-> +Date: Mon, 7 Nov 2022 18:57:10 -0800
-> +Subject: [PATCH] [3.11] gh-98433: Fix quadratic time idna decoding. (GH-99092)
-> + (GH-99222)
-> +
-> +There was an unnecessary quadratic loop in idna decoding. This restores
-> +the behavior to linear.
-> +
-> +(cherry picked from commit d315722564927c7202dd6e111dc79eaf14240b0d)
-> +
-> +(cherry picked from commit a6f6c3a3d6f2b580f2d87885c9b8a9350ad7bf15)
-> +
-> +Co-authored-by: Miss Islington (bot) <31488909+miss-islington@users.noreply.github.com>
-> +Co-authored-by: Gregory P. Smith <greg@krypto.org>
-> +
-> +CVE: CVE-2022-45061
-> +Upstream-Status: Backport [https://github.com/python/cpython/pull/99231/commits/064ec20bf7a181ba5fa961aaa12973812aa6ca5d]
-> +Signed-off-by: Omkar Patil <Omkar.Patil@kpit.com>
-> +
-> +---
-> + Lib/encodings/idna.py                         | 32 +++++++++----------
-> + Lib/test/test_codecs.py                       |  6 ++++
-> + ...2-11-04-09-29-36.gh-issue-98433.l76c5G.rst |  6 ++++
-> + 3 files changed, 27 insertions(+), 17 deletions(-)
-> + create mode 100644 Misc/NEWS.d/next/Security/2022-11-04-09-29-36.gh-issue-98433.l76c5G.rst
-> +
-> +diff --git a/Lib/encodings/idna.py b/Lib/encodings/idna.py
-> +index ea4058512fe3..bf98f513366b 100644
-> +--- a/Lib/encodings/idna.py
-> ++++ b/Lib/encodings/idna.py
-> +@@ -39,23 +39,21 @@ def nameprep(label):
-> + 
-> +     # Check bidi
-> +     RandAL = [stringprep.in_table_d1(x) for x in label]
-> +-    for c in RandAL:
-> +-        if c:
-> +-            # There is a RandAL char in the string. Must perform further
-> +-            # tests:
-> +-            # 1) The characters in section 5.8 MUST be prohibited.
-> +-            # This is table C.8, which was already checked
-> +-            # 2) If a string contains any RandALCat character, the string
-> +-            # MUST NOT contain any LCat character.
-> +-            if any(stringprep.in_table_d2(x) for x in label):
-> +-                raise UnicodeError("Violation of BIDI requirement 2")
-> +-
-> +-            # 3) If a string contains any RandALCat character, a
-> +-            # RandALCat character MUST be the first character of the
-> +-            # string, and a RandALCat character MUST be the last
-> +-            # character of the string.
-> +-            if not RandAL[0] or not RandAL[-1]:
-> +-                raise UnicodeError("Violation of BIDI requirement 3")
-> ++    if any(RandAL):
-> ++        # There is a RandAL char in the string. Must perform further
-> ++        # tests:
-> ++        # 1) The characters in section 5.8 MUST be prohibited.
-> ++        # This is table C.8, which was already checked
-> ++        # 2) If a string contains any RandALCat character, the string
-> ++        # MUST NOT contain any LCat character.
-> ++        if any(stringprep.in_table_d2(x) for x in label):
-> ++            raise UnicodeError("Violation of BIDI requirement 2")
-> ++        # 3) If a string contains any RandALCat character, a
-> ++        # RandALCat character MUST be the first character of the
-> ++        # string, and a RandALCat character MUST be the last
-> ++        # character of the string.
-> ++        if not RandAL[0] or not RandAL[-1]:
-> ++            raise UnicodeError("Violation of BIDI requirement 3")
-> + 
-> +     return label
-> + 
-> +diff --git a/Lib/test/test_codecs.py b/Lib/test/test_codecs.py
-> +index d1faf0126c1e..37ade7d80d02 100644
-> +--- a/Lib/test/test_codecs.py
-> ++++ b/Lib/test/test_codecs.py
-> +@@ -1532,6 +1532,12 @@ def test_builtin_encode(self):
-> +         self.assertEqual("pyth\xf6n.org".encode("idna"), b"xn--pythn-mua.org")
-> +         self.assertEqual("pyth\xf6n.org.".encode("idna"), b"xn--pythn-mua.org.")
-> + 
-> ++    def test_builtin_decode_length_limit(self):
-> ++        with self.assertRaisesRegex(UnicodeError, "too long"):
-> ++            (b"xn--016c"+b"a"*1100).decode("idna")
-> ++        with self.assertRaisesRegex(UnicodeError, "too long"):
-> ++            (b"xn--016c"+b"a"*70).decode("idna")
-> ++
-> +     def test_stream(self):
-> +         r = codecs.getreader("idna")(io.BytesIO(b"abc"))
-> +         r.read(3)
-> +diff --git a/Misc/NEWS.d/next/Security/2022-11-04-09-29-36.gh-issue-98433.l76c5G.rst b/Misc/NEWS.d/next/Security/2022-11-04-09-29-36.gh-issue-98433.l76c5G.rst
-> +new file mode 100644
-> +index 000000000000..5185fac2e29d
-> +--- /dev/null
-> ++++ b/Misc/NEWS.d/next/Security/2022-11-04-09-29-36.gh-issue-98433.l76c5G.rst
-> +@@ -0,0 +1,6 @@
-> ++The IDNA codec decoder used on DNS hostnames by :mod:`socket` or :mod:`asyncio`
-> ++related name resolution functions no longer involves a quadratic algorithm.
-> ++This prevents a potential CPU denial of service if an out-of-spec excessive
-> ++length hostname involving bidirectional characters were decoded. Some protocols
-> ++such as :mod:`urllib` http ``3xx`` redirects potentially allow for an attacker
-> ++to supply such a name.
-> diff --git a/meta/recipes-devtools/python/python3_3.8.14.bb b/meta/recipes-devtools/python/python3_3.8.14.bb
-> index 035eda9ecd..cbf57684ca 100644
-> --- a/meta/recipes-devtools/python/python3_3.8.14.bb
-> +++ b/meta/recipes-devtools/python/python3_3.8.14.bb
-> @@ -34,6 +34,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
->             file://0001-python3-Do-not-hardcode-lib-for-distutils.patch \
->             file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch \
->             file://makerace.patch \
-> +           file://CVE-2022-45061.patch \
->             "
->  
->  SRC_URI_append_class-native = " \
+> I've included both the 6.0 and 6.1 dev kernel updates, as both were
+> tested, and someone might want to use v6.0 as a development kernel,
+> and could use that commit as a baseline.
+> 
+> I ran into issues with devsrc and lttng-modules with 6.1, but have
+> all architectures working now. mips64 is throwing a trace on boot, but
+> I was able to complete testing. I'll revisit that later for 6.1+.
+> 
+> Cheers,
+> 
+> Bruce
+> 
+> The following changes since commit 44bb88cc869f3b42440d6f7aad000e706b739a2b:
+> 
+>   mesa: do not rely on native llvm-config in target sysroot (2022-11-15 09:38:38 +0000)
+> 
+> are available in the Git repository at:
+> 
+>   https://git.yoctoproject.org/poky-contrib zedd/kernel
+>   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+> 
+> Bruce Ashfield (10):
+>   linux-yocto-dev: bump to v6.0+
+>   linux-yocto/5.19: update to v5.19.16
+>   linux-yocto/5.15: update to v5.15.74
+>   linux-yocto/5.19: update to v5.19.17
+>   linux-yocto/5.15: update to v5.15.76
+>   linux-yocto/5.19: cfg: intel and vesa updates
+>   kern-tools: integrate ZFS speedup patch
+>   linux-yocto-dev: bump to v6.1
+>   kernel-devsrc: fix for v6.1+
+>   lttng-modules: fix build for v6.1+
+> 
+>  .../kern-tools/kern-tools-native_git.bb       |   2 +-
+>  meta/recipes-kernel/linux/kernel-devsrc.bb    |  25 +-
+>  meta/recipes-kernel/linux/linux-yocto-dev.bb  |   4 +-
+>  .../linux/linux-yocto-rt_5.15.bb              |   6 +-
+>  .../linux/linux-yocto-rt_5.19.bb              |   6 +-
+>  .../linux/linux-yocto-tiny_5.15.bb            |   6 +-
+>  .../linux/linux-yocto-tiny_5.19.bb            |   6 +-
+>  meta/recipes-kernel/linux/linux-yocto_5.15.bb |  26 +-
+>  meta/recipes-kernel/linux/linux-yocto_5.19.bb |  26 +-
+>  ...on-drop-kmem_alloc-avoid-dereferenci.patch | 278 ++++++++++++++++++
+>  .../lttng/lttng-modules_2.13.7.bb             |   1 +
+>  11 files changed, 343 insertions(+), 43 deletions(-)
+>  create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-slab_common-drop-kmem_alloc-avoid-dereferenci.patch
+> 
 > -- 
-> 2.17.1
+> 2.19.1
 > 
 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#173379): https://lists.openembedded.org/g/openembedded-core/message/173379
-> Mute This Topic: https://lists.openembedded.org/mt/95061179/3617179
+> View/Reply Online (#173363): https://lists.openembedded.org/g/openembedded-core/message/173363
+> Mute This Topic: https://lists.openembedded.org/mt/95057283/3617179
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
