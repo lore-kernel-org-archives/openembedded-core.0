@@ -1,128 +1,170 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BA1DC433FE
-	for <webhook@archiver.kernel.org>; Wed, 16 Nov 2022 06:36:02 +0000 (UTC)
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
- by mx.groups.io with SMTP id smtpd.web11.3890.1668580560976185946
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E577FC4332F
+	for <webhook@archiver.kernel.org>; Wed, 16 Nov 2022 08:24:32 +0000 (UTC)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+ by mx.groups.io with SMTP id smtpd.web11.4460.1668587063344065087
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Nov 2022 22:36:01 -0800
+ Wed, 16 Nov 2022 00:24:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=lCKKKgIw;
- spf=pass (domain: gmail.com, ip: 209.85.167.179, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f179.google.com with SMTP id t62so17446471oib.12
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Nov 2022 22:36:00 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=fYWlq5mU;
+ spf=pass (domain: gmail.com, ip: 209.85.208.182, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f182.google.com with SMTP id a15so20830569ljb.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Nov 2022 00:24:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=uXrsSJfSJ6JCduAAZe86tQkeIcIxfTv3DQfxzUBan4I=;
-        b=lCKKKgIwb/YsV2CivOW6OXU4ENaKVk/s8HQRMdW9B4HR6+qbXRq00pt866EWVQM2id
-         6qsLhcjCOlCDEM1d1HOS7d8IUnfRH3NqnVMl4UHsGI/3YxL7KAy6yaSAL00CDTv1B8S0
-         v/Pl8TfV7D3jg0Vdg6AM+7HZ5xRsdFlcPDNKd2NfjmROsx2h0EpLn7oGbJ/s2MKEqOk9
-         cuL+Hz+53zzpAEWNreEk9jcEte3cYbOkkNISiMmsZd6ovh+LXE9ptwxLIg5MCQlKCSBG
-         gcAMY8TUmFqByXxmDSa24/qowQwOP+947//dQ/YQrJKpKB+jl8sGkNWKaJ30rmBlQXn/
-         MzxA==
+        bh=IeThOk5trviReUjBTuFmikQCPtlcRF8n1lTqm2DeIr0=;
+        b=fYWlq5mUxwJt8O1rf6euUPtxxoWyLsoHEj64izSwe5F7TSQKtU3eavmMZbt2L9NxR5
+         NnSXDegI9vy9N5h6OwVNbtcZCj3ze1WvM24TC3Wcc1HEpt6YKU8kOzXgYPKfY2Agnj+l
+         JgS/y+F/KDDF+wwspWpm41jYFInEp3V8P96BtUOcdJczclwNJHvvhObzWhz8WpQ7DHlM
+         S9l18lXvOIMbkZ4rUq0H+Bdec4jmdkaTHCOmpBl34df8i2iOQwZ46m6Du832qVU40Coq
+         JR6uNleHTi4BhwcjQhGylckuTp2yzLsyXrPZ31Riz16xDUwtJeIzZyO24vmq0rxV7KpS
+         k6gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=uXrsSJfSJ6JCduAAZe86tQkeIcIxfTv3DQfxzUBan4I=;
-        b=PkhJr4WJYvqKMt83UtB1R4/HzOCy9dBi9qhTYRIc3oPvZxCC3HJnTusp0IPhJ+q6kr
-         Ud4wgrCguH6zhvp2XyHu3aXz3fGc6nIxdcQJF/lFkSSafHb87QMkYuSVkfFpNTS7aTmF
-         egiaGUhm68fHJvR2RNIB6Bi0DJiLZpOGB2o11iH8UzFBmRnuq9HZJfqz0vahFvfOK3/o
-         pC3cWRuFuKhqDBEBwT+fiVzzD1LK2GxBN1PLbBbJ1889nWjUJLQ/yBjAgOz1UMdrM9bj
-         XRaqKKP2CCb2vJaE7Hg5ekYaJA0dQ0LBeJ8DEdnL/8cHJJj5bxbGW1BpwFpQXgcjrFHy
-         SVXA==
-X-Gm-Message-State: ANoB5pkMq7L+Ww6JlmREaBYkmZoN3X8AmgKOoEUwoO45JyAcKfgwsUH7
-	4rX2SEmFw/cKZpJOTUKtlw2TYtzng5VfinTyJOnDugsB
-X-Google-Smtp-Source: AA0mqf4ZS0oc6lCrFLyg/w8L36gX0WrDWHL9YO8NEkI8S6itpaoHhSv+H0y6lfyXFSio/azpncY0gWi3iXnVe/8t02s=
-X-Received: by 2002:a05:6808:1c1:b0:34f:d32d:cad5 with SMTP id
- x1-20020a05680801c100b0034fd32dcad5mr829244oic.262.1668580559987; Tue, 15 Nov
- 2022 22:35:59 -0800 (PST)
+        bh=IeThOk5trviReUjBTuFmikQCPtlcRF8n1lTqm2DeIr0=;
+        b=jvvcZj/tn5bxrccb+HvjM4XP0TnPy+aZRHDAs0MC0Rsep9iurBHdHX63Crdm+JTKIG
+         D5ClnKTU7eUyQuYWSJiWKxMSmqpeJUF211la/+Sm3l/hFdbUFFv4nLtL6xktwiqSM2ay
+         J3lEVz1vhtiqqIOfYU//HC43TIo/uB0c23JYEjmNSmSxt6v4JGfKOVSgbBwmPsixGU8i
+         FVwZgF4TT5FuKTd53pghB371qwZHhMG0Hex+Ki1H3DbWuHYT8znGW+BLZcw9LSjhSumF
+         8ez3WRcrKmPuF5GLbdv/IM7+nCiO+6QwgoSvjdN6KaJ0GXZZ/PMhv7uPBghtH9Snov8s
+         +wFg==
+X-Gm-Message-State: ANoB5pmUhaDnAeD1oHhARdIMP1jTtQpL9avfJzR6lVLKG8UJeCfhX7rL
+	mdzmKPjMux0NcOVpzqhcjX/KO3YdsohF6dxNUvw=
+X-Google-Smtp-Source: AA0mqf4JL/ypePW0daqBcXX1wcGz2SNiSXrH+xmXD9dSX+EYHCOubhey70QkxqqLGtTXiXuvZEkEs2zuLntne4OzjME=
+X-Received: by 2002:a2e:6d11:0:b0:26f:c081:9aed with SMTP id
+ i17-20020a2e6d11000000b0026fc0819aedmr7181053ljc.222.1668587061170; Wed, 16
+ Nov 2022 00:24:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20221115134531.34920-1-Qi.Chen@windriver.com>
-In-Reply-To: <20221115134531.34920-1-Qi.Chen@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 15 Nov 2022 22:35:33 -0800
-Message-ID: <CAMKF1sqVM636L3GnsxUxVx_UkWq5MHceBBYYAnM9Q4BN-fGOog@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] resolvconf: make it work
-To: Chen Qi <Qi.Chen@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
+References: <cover.1668558954.git.bruce.ashfield@gmail.com> <71cfe4b75e2078194882ea32325683dd88050536.1668558954.git.bruce.ashfield@gmail.com>
+In-Reply-To: <71cfe4b75e2078194882ea32325683dd88050536.1668558954.git.bruce.ashfield@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 16 Nov 2022 09:24:09 +0100
+Message-ID: <CANNYZj-TRN0-wWKVz3FWCebyh+m-d+OhYaUqRNZumoGPoZ2ZfA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 09/10] kernel-devsrc: fix for v6.1+
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: richard.purdie@linuxfoundation.org, 
+	openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Nov 2022 06:36:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173380
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Nov 2022 08:24:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173381
 
-On Tue, Nov 15, 2022 at 5:45 AM Chen Qi <Qi.Chen@windriver.com> wrote:
+I guess many people have seen already seen this, but 6.1 has initial
+rust support:
+https://lwn.net/Articles/910762/
+
+So if anyone wants a project that will make them look hip and sexy and
+cool (software development-wise): draft an RFC patch for how we could
+do this in Yocto.
+
+Alex
+
+
+On Wed, 16 Nov 2022 at 01:38, Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
 >
-> The current resolvconf does not work. Make it work with the
-> following changes.
-> 1. Install normalize-resolvconf, which is used by resolvconf.
-> 2. Add dependencies sed, coreutils, util-linux-flock.
->    util-linux-flock is needed by our busybox does not support '-w'
->    by default. coreutils is needed by the busybox's readlink does
->    not support '-m'. sed is needed because we want to avoid package
->    QA issue complaining sed is needed by no one provides it.
-
-Can we avoid dependency on coreutils ? maybe check why -m is needed
-and perhaps just use
-absolute link.
-
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
 >
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> The 6.1 kernel has a number of Kbuild and architecture changes
+> that required us to update our devsrc recipe. With these changes
+> we are once again able to build on target modules for all
+> supported archectures.
+>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 > ---
->  meta/recipes-connectivity/resolvconf/resolvconf_1.91.bb | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>  meta/recipes-kernel/linux/kernel-devsrc.bb | 25 ++++++++++++++++++++--
+>  1 file changed, 23 insertions(+), 2 deletions(-)
 >
-> diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.91.bb b/meta/recipes-connectivity/resolvconf/resolvconf_1.91.bb
-> index 94fd2c1a70..3bf5ec6c32 100644
-> --- a/meta/recipes-connectivity/resolvconf/resolvconf_1.91.bb
-> +++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.91.bb
-> @@ -9,7 +9,7 @@ LICENSE = "GPL-2.0-or-later"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=c93c0550bd3173f4504b2cbd8991e50b"
->  AUTHOR = "Thomas Hood"
->  HOMEPAGE = "http://packages.debian.org/resolvconf"
-> -RDEPENDS:${PN} = "bash"
-> +RDEPENDS:${PN} = "bash sed coreutils util-linux-flock"
+> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+> index 46d706b955..253b8d307d 100644
+> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
+> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+> @@ -145,6 +145,9 @@ do_install() {
 >
->  SRC_URI = "git://salsa.debian.org/debian/resolvconf.git;protocol=https;branch=unstable \
->             file://99_resolvconf \
-> @@ -39,12 +39,14 @@ do_install () {
+>         cp -a scripts $kerneldir/build
+>
+> +       # for v6.1+ (otherwise we are missing multiple default targets)
+> +       cp -a --parents Kbuild $kerneldir/build 2>/dev/null || :
+> +
+>         # if our build dir had objtool, it will also be rebuilt on target, so
+>         # we copy what is required for that build
+>         if [ -f ${B}/tools/objtool/objtool ]; then
+> @@ -171,6 +174,9 @@ do_install() {
+>             # arch/arm64/include/asm/opcodes.h references arch/arm
+>             cp -a --parents arch/arm/include/asm/opcodes.h $kerneldir/build/
+>
+> +           # v6.1+
+> +           cp -a --parents arch/arm64/kernel/asm-offsets.c $kerneldir/build/
+> +
+>              cp -a --parents arch/arm64/kernel/vdso/*gettimeofday.* $kerneldir/build/
+>              cp -a --parents arch/arm64/kernel/vdso/sigreturn.S $kerneldir/build/
+>              cp -a --parents arch/arm64/kernel/vdso/note.S $kerneldir/build/
+> @@ -206,6 +212,9 @@ do_install() {
+>             cp -a --parents arch/powerpc/kernel/vdso/*.S $kerneldir/build 2>/dev/null || :
+>             cp -a --parents arch/powerpc/kernel/vdso/*gettimeofday.* $kerneldir/build 2>/dev/null || :
+>             cp -a --parents arch/powerpc/kernel/vdso/gen_vdso*_offsets.sh $kerneldir/build/ 2>/dev/null || :
+> +
+> +           # v6,1+
+> +           cp -a --parents arch/powerpc/kernel/asm-offsets.c $kerneldir/build/ 2>/dev/null || :
 >         fi
->         install -d ${D}${base_libdir}/${BPN}
->         install -d ${D}${sysconfdir}/${BPN}
-> +       install -d ${D}${nonarch_base_libdir}/${BPN}
->         ln -snf ${localstatedir}/run/${BPN} ${D}${sysconfdir}/${BPN}/run
->         install -d ${D}${sysconfdir} ${D}${base_sbindir}
->         install -d ${D}${mandir}/man8 ${D}${docdir}/${P}
->         cp -pPR etc/resolvconf ${D}${sysconfdir}/
->         chown -R root:root ${D}${sysconfdir}/
->         install -m 0755 bin/resolvconf ${D}${base_sbindir}/
-> +       install -m 0755 bin/normalize-resolvconf ${D}${nonarch_base_libdir}/${BPN}
->         install -m 0755 bin/list-records ${D}${base_libdir}/${BPN}
->         install -d ${D}/${sysconfdir}/network/if-up.d
->         install -m 0755 debian/resolvconf.000resolvconf.if-up ${D}/${sysconfdir}/network/if-up.d/000resolvconf
-> @@ -64,4 +66,4 @@ pkg_postinst:${PN} () {
->         fi
->  }
+>         if [ "${ARCH}" = "riscv" ]; then
+>              cp -a --parents arch/riscv/kernel/vdso/*gettimeofday.* $kerneldir/build/
+> @@ -234,6 +243,9 @@ do_install() {
+>              fi
 >
-> -FILES:${PN} += "${base_libdir}/${BPN}"
-> +FILES:${PN} += "${base_libdir}/${BPN} ${nonarch_base_libdir}/${BPN}"
+>              cp -a --parents arch/arm/kernel/module.lds $kerneldir/build/ 2>/dev/null || :
+> +            # v6.1+
+> +            cp -a --parents arch/arm/kernel/asm-offsets.c $kerneldir/build/ 2>/dev/null || :
+> +            cp -a --parents arch/arm/kernel/signal.h $kerneldir/build/ 2>/dev/null || :
+>         fi
+>
+>         if [ -d arch/${ARCH}/include ]; then
+> @@ -282,15 +294,24 @@ do_install() {
+>             # objtool requires these files
+>             cp -a --parents arch/x86/lib/inat.c $kerneldir/build/ 2>/dev/null || :
+>             cp -a --parents arch/x86/lib/insn.c $kerneldir/build/ 2>/dev/null || :
+> +
+> +           # v6.1+
+> +           cp -a --parents arch/x86/kernel/asm-offsets* $kerneldir/build || :
+> +           # for capabilities.h, vmx.h
+> +           cp -a --parents arch/x86/kvm/vmx/*.h $kerneldir/build || :
+> +           # for lapic.h, hyperv.h ....
+> +           cp -a --parents arch/x86/kvm/*.h $kerneldir/build || :
+>         fi
+>
+> +       # moved from arch/mips to all arches for v6.1+
+> +       cp -a --parents kernel/time/timeconst.bc $kerneldir/build 2>/dev/null || :
+> +       cp -a --parents kernel/bounds.c $kerneldir/build 2>/dev/null || :
+> +
+>         if [ "${ARCH}" = "mips" ]; then
+>             cp -a --parents arch/mips/Kbuild.platforms $kerneldir/build/
+>             cp --parents $(find  -type f -name "Platform") $kerneldir/build
+>             cp --parents arch/mips/boot/tools/relocs* $kerneldir/build
+>             cp -a --parents arch/mips/kernel/asm-offsets.c $kerneldir/build
+> -           cp -a --parents kernel/time/timeconst.bc $kerneldir/build
+> -           cp -a --parents kernel/bounds.c $kerneldir/build
+>             cp -a --parents Kbuild $kerneldir/build
+>             cp -a --parents arch/mips/kernel/syscalls/*.sh $kerneldir/build 2>/dev/null || :
+>             cp -a --parents arch/mips/kernel/syscalls/*.tbl $kerneldir/build 2>/dev/null || :
 > --
-> 2.17.1
+> 2.19.1
 >
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#173345): https://lists.openembedded.org/g/openembedded-core/message/173345
-> Mute This Topic: https://lists.openembedded.org/mt/95042786/1997914
+> View/Reply Online (#173372): https://lists.openembedded.org/g/openembedded-core/message/173372
+> Mute This Topic: https://lists.openembedded.org/mt/95057295/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
 >
 
