@@ -2,67 +2,67 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1CEAC433FE
-	for <webhook@archiver.kernel.org>; Wed, 16 Nov 2022 05:13:41 +0000 (UTC)
-Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com [195.245.231.4])
- by mx.groups.io with SMTP id smtpd.web08.3261.1668575611083686498
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F39F3C4332F
+	for <webhook@archiver.kernel.org>; Wed, 16 Nov 2022 05:20:21 +0000 (UTC)
+Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com [195.245.230.65])
+ by mx.groups.io with SMTP id smtpd.web11.3432.1668576017392383163
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Nov 2022 21:13:32 -0800
+ Tue, 15 Nov 2022 21:20:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=x4k2fHEl;
- spf=pass (domain: fujitsu.com, ip: 195.245.231.4, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=AN3ipobx;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.65, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1668575609; i=@fujitsu.com;
-	bh=0j0zmpFTki9SJwQOZ63qlITRVM5c5HwI8zzRRBEN4pY=;
+	s=170520fj; t=1668576015; i=@fujitsu.com;
+	bh=TXifLYRuemh9cCgf/sV/TqoQeypVujoL2aKTz1dJ644=;
 	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=x4k2fHElSbh29mSTEAvBqo5OASU4d2s912w/oHe30PhhGNLO7xinNvOAdUfqlzsAM
-	 cDzeHYMr2zHw+ZDoiQRkUc1/2r5bk3WoBPj0aDjWvIC61JXC1AGgM/EmQxRBmEU1sO
-	 abS+umCyu/LXnT66lEpm8lmqshtuZiOtvn2HSzxryIw91GRoakvS65j97Fyf9AAxb7
-	 42UD7heaj2c++AWnsrjQkshpW6N1eJAvSmVRa4sjrWo4yBrQE4gspEyUwgOSXhKdGJ
-	 M75w3hoyVEZfBzLKrP2jENKubLXD97OzI+VYU1gSgeivHjl10Kz2eBuI8Ny51t9dnv
-	 8K0K50PS+ln0A==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrOIsWRWlGSWpSXmKPExsViZ8ORqFtRWJJ
-  sMO+6uMWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmrFr4VK2gk7eikVv/rA3MG7m7mLk4hASeMwo
-  0THzK3MXIyeQc41J4vJiHwh7D6PEw8uCIDabgJTEjfv/2boYOThEBPQkrv4TBQkzC6hIvPjdw
-  w5iCwvYSHy5fAtsDIuAqsTHi2dYQGxeAUeJoxfugcUlBBQkpjx8zwwRF5Q4OfMJC8QcCYmDL1
-  5A1ShKzL7czAJhV0jMmtXGBGGrSVw9t4l5AiP/LCTts5C0L2BkWsVoWpxaVJZapGuol1SUmZ5
-  RkpuYmaOXWKWbqJdaqlueWlyia6SXWF6sl1pcrFdcmZuck6KXl1qyiREYhinFqod2ML5a8kfv
-  EKMkB5OSKC+HW3GyEF9SfkplRmJxRnxRaU5q8SFGGQ4OJQne3LlAOcGi1PTUirTMHGBMwKQlO
-  HiURHjlGoDSvMUFibnFmekQqVOMuhwzv7YdYBZiycvPS5US5+UDmSEAUpRRmgc3AhaflxhlpY
-  R5GRkYGIR4ClKLcjNLUOVfMYpzMCoJ816eATSFJzOvBG7TK6AjmICOOOBXBHJESSJCSqqBqXE
-  q94xn4VNPt+Y+iNwXWvC1So5z1Yl5R5ds0GGYN+ndlD//78YIrMgp3X1u75atyxQqG/oy5O+I
-  6cueWRQjlhi1p9pz0gO9JfK6nS+Wzj3xcPk/x/kH7oQunCxZfNB9TszWV9+u6E6YsfpZ5YHp/
-  9e+msP8ec0zTiZGIU1+7vN3JF6aWPxLuBmreEvFTu/m1Ic7+/QS39/jCtrJnBd8KfLcmdMqBx
-  Ri25deip7WuIh/UQFP8TZjR38/pzSTm789ZDtnsKz+1T5TvzGeb1sO55Xzl3zKjnxKMn/2ffJ
-  Hn57eRNc7Yd8FH6x/EMDMyfL7vcIKk4l5cpEtOxgVQ7Y3L/b+fv3a7nefyjakMmztEVqixFKc
-  kWioxVxUnAgAwggoIEoDAAA=
+	b=AN3ipobx3Bn4bUbYg30hWGOT3bKS0eiJdX7D3KlJjUFdt5kFdA1xcDAVqRKV+ZcGa
+	 ScMUFzYBUXAuHbU21bl4IcnnFS3P5kA2MMZI/bAkRw/PeVV2zoGHWeZ3sg5qtcw7g8
+	 Q8SLpZx7uBRGZ95KcUrT5gk7rPwJqjop5c2xDWXh0WWFJCL8qV8dtONN4spGWCFwsN
+	 QI1gUv+HB2WuBUQijyUevBTatNUUZNRWcJKCwP89gtVdGXbXsvmWn3QAsNyPtlO1X0
+	 a8WubE5Yv+oHVuRjuOBh5LwvwzPpBZJhGTNLkSi7b4tCFOL069sUsWjlZMZodG3tuq
+	 9COuHn0PiYyIA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrBIsWRWlGSWpSXmKPExsViZ8OxWZe/uCT
+  Z4OAUbos7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePQ7sCCTu6KpX2FDYy9XF2MXBxCAg8YJX7/
+  fcMK4Vxikpj4dR4ThLOHUWL+hTbGLkZODjYBKYkb9/+zdTFycIgI6Elc/ScKEmYWUJF48buHH
+  cQWFrCT2Db/LyuIzSKgKtFy5QdYnFfAUWL/lV9MILaEgILElIfvmSHighInZz5hgZgjIXHwxQ
+  tmiBpFidmXm1kg7AqJWbPaoHrVJK6e28Q8gZF/FpL2WUjaFzAyrWI0K04tKkst0jU00Esqykz
+  PKMlNzMzRS6zSTdRLLdUtTy0u0TXUSywv1kstLtYrrsxNzknRy0st2cQIDMSUYpb4HYwPl/3R
+  O8QoycGkJMrL4VacLMSXlJ9SmZFYnBFfVJqTWnyIUYaDQ0mCN3cuUE6wKDU9tSItMwcYFTBpC
+  Q4eJRFeuQagNG9xQWJucWY6ROoUoy7HzK9tB5iFWPLy81KlxHn5QGYIgBRllObBjYBF6CVGWS
+  lhXkYGBgYhnoLUotzMElT5V4ziHIxKwryXZwBN4cnMK4Hb9AroCCagIw74FYEcUZKIkJJqYFI
+  8o7Z29RuhjsID7llBIb9WP4s/Ejr77IqQR99ZC5dt3LqCN4Bxk5Cn33U2nxM7lZcsmnXoi1+/
+  ngRrWcDyuXs4BJes1dnDv7F04ovddUZVhr1Oh9sVzsx6Zp/yWO+dV1hurstGy38epwumzLpme
+  8Lj/hJ1F/t16av1p8kKTbsuxSXc5rend9Pn5ndvbLferpAt8y75ktF7sXfmlxUeufEW1tnMoe
+  dfTj7Gk76+do2DSabA26KdFlO9O30szJ4IL67Nfsfwu/l6BZv+TGdvd/nVvxNu6oWcdg/6VXJ
+  SilPykuLNCCPmMw7n2v9e2Gz+3fWtt+zTbNnNN3c/cd4b0HN++u7X8aE8x6QeMBYeWqHEUpyR
+  aKjFXFScCAC1BvGPSwMAAA==
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-7.tower-571.messagelabs.com!1668575608!31129!1
-X-Originating-IP: [62.60.8.97]
+X-Msg-Ref: server-5.tower-591.messagelabs.com!1668576014!1064291!1
+X-Originating-IP: [62.60.8.179]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
-X-StarScan-Version: 9.101.1; banners=-,-,-
+X-StarScan-Version: 9.100.1; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 21871 invoked from network); 16 Nov 2022 05:13:28 -0000
-Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
-  by server-7.tower-571.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 16 Nov 2022 05:13:28 -0000
-Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id 1F7F110019A
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Nov 2022 05:13:28 +0000 (GMT)
+Received: (qmail 23381 invoked from network); 16 Nov 2022 05:20:15 -0000
+Received: from unknown (HELO n03ukasimr04.n03.fujitsu.local) (62.60.8.179)
+  by server-5.tower-591.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 16 Nov 2022 05:20:15 -0000
+Received: from n03ukasimr04.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTP id CDF3A150
+	for <openembedded-core@lists.openembedded.org>; Wed, 16 Nov 2022 05:20:14 +0000 (GMT)
 Received: from R01UKEXCASM126.r01.fujitsu.local (R01UKEXCASM126 [10.183.43.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id 13EB7100188
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Nov 2022 05:13:28 +0000 (GMT)
+	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTPS id C198373
+	for <openembedded-core@lists.openembedded.org>; Wed, 16 Nov 2022 05:20:14 +0000 (GMT)
 Received: from localhost.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Wed, 16 Nov 2022 05:13:26 +0000
+ (TLS) id 15.0.1497.32; Wed, 16 Nov 2022 05:20:13 +0000
 From: <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] btrfs-tools: upgrade 6.0 -> 6.0.1
-Date: Wed, 16 Nov 2022 13:13:08 +0800
-Message-ID: <1668575588-9102-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] libpipeline: upgrade 1.5.6 -> 1.5.7
+Date: Wed, 16 Nov 2022 13:19:56 +0800
+Message-ID: <1668575996-9192-1-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -73,47 +73,40 @@ X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Nov 2022 05:13:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173375
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Nov 2022 05:20:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173376
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
 Changelog:
-==========
-* send: minor speed up for v2 due to increased buffer size
-* resize: invalid command line options fail with error code
-* quota rescan:
-   * add long options --status and --wait
-   * new option to wait but don't start rescan
-* qgroup show: print path by default, updated format
-* qgroup: new subcommand clear-stale, remove qgroups without their subvolumes
-* experimental:
-   * add warnings to commands that have it enabled (mkfs, image, btrfstune)
-* other:
-   * documentation, help text, error message updates
+============
+ * Add notes to libpipeline(3) of when functions were added.
+ * Transferred Git repository to https://gitlab.com/libpipeline/libpipeline.
+ * Make `socketpair` tests used by `./configure --enable-socketpair-pipe`
+   compatible with C23.
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../btrfs-tools/{btrfs-tools_6.0.bb => btrfs-tools_6.0.1.bb}    | 2 +-
+ .../libpipeline/{libpipeline_1.5.6.bb => libpipeline_1.5.7.bb}  | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_6.0.bb => btrfs-tools_6.0.1.bb} (98%)
+ rename meta/recipes-extended/libpipeline/{libpipeline_1.5.6.bb => libpipeline_1.5.7.bb} (85%)
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.1.bb
-similarity index 98%
-rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.bb
-rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.1.bb
-index 887a530a52..7144087a11 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.1.bb
-@@ -18,7 +18,7 @@ DEPENDS = "util-linux zlib"
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git;branch=master \
-            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
-            "
--SRCREV = "3db756352685f38c1de0aa886d380c733e0f53e7"
-+SRCREV = "441d01556873385d55fd4940f50ee7ae1fcfb13d"
- S = "${WORKDIR}/git"
+diff --git a/meta/recipes-extended/libpipeline/libpipeline_1.5.6.bb b/meta/recipes-extended/libpipeline/libpipeline_1.5.7.bb
+similarity index 85%
+rename from meta/recipes-extended/libpipeline/libpipeline_1.5.6.bb
+rename to meta/recipes-extended/libpipeline/libpipeline_1.5.7.bb
+index 7007608a39..73c7aaaa91 100644
+--- a/meta/recipes-extended/libpipeline/libpipeline_1.5.6.bb
++++ b/meta/recipes-extended/libpipeline/libpipeline_1.5.7.bb
+@@ -7,7 +7,7 @@ LICENSE = "GPL-3.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464"
  
- PACKAGECONFIG ??= " \
+ SRC_URI = "${SAVANNAH_GNU_MIRROR}/libpipeline/libpipeline-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "60fbb9e7dc398528e5f3a776af57bb28ca3fe5d9f0cd8a961ac6cebfe6e9b797"
++SRC_URI[sha256sum] = "b8b45194989022a79ec1317f64a2a75b1551b2a55bea06f67704cb2a2e4690b0"
+ 
+ inherit pkgconfig autotools
+ 
 -- 
 2.25.1
 
