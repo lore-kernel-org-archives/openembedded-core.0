@@ -1,94 +1,170 @@
-Return-Path: <ralph.siemsen@linaro.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30D3CC4332F
-	for <webhook@archiver.kernel.org>; Thu, 17 Nov 2022 16:55:23 +0000 (UTC)
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
- by mx.groups.io with SMTP id smtpd.web11.1165.1668704113610444743
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4362DC4332F
+	for <webhook@archiver.kernel.org>; Thu, 17 Nov 2022 16:57:43 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web11.1248.1668704260800351207
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Nov 2022 08:55:13 -0800
+ Thu, 17 Nov 2022 08:57:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=WgSHb2UO;
- spf=pass (domain: linaro.org, ip: 209.85.160.177, mailfrom: ralph.siemsen@linaro.org)
-Received: by mail-qt1-f177.google.com with SMTP id w9so1434452qtv.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Nov 2022 08:55:13 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=g+v0/MyG;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id 5so1835008wmo.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Nov 2022 08:57:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0x4Rx4XTOynb1Ks0i3xkSzPG+VwLJZRVVHQhJk+MRZc=;
-        b=WgSHb2UOrs4koT1eJpr4wG1QwIDNMEKycfWywyZu1AqQXwYa4Bao+GXC9WdZLy3Lrw
-         NqNNLDeuw6MU050GS6Gkpx1g0VR3abR+aBH8m2OLt6lCD6XCHEBzjI/1BcNKV1CPVDBL
-         CKg7PJ0u3mlDLv2ZH2dNq6GBEbYnQ4K444q+3wionzYK8XzIFyLsu8TsDo90Sbxw6B3j
-         Q5zXhRb6cH4IQRJbg32vNRzauy4Y3IQyWAaoprXp9PyEaZIASjEM2Is++/Qhx4NGdbFE
-         7zbZIyaqBFIG6ZcLOnBtmba55Tot320+dmaPql+lfbBUz/9H6fzDkenPTyYM2SUllw6h
-         8sFg==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=bD0bfsgMBEFEe3vIDGvVcym3odGwnzF8Oa6dbkVTWvc=;
+        b=g+v0/MyGgT24tTAddIQe7ySRayKvoWZxul4qUno/ei6DtBSnaiCGVO3duOQ1w5rXzu
+         dHR0BdIoTKqiWMFgCd7jz3Z9wzfLl70Vc9Ww91pWKKOcb212YPti3S8lgdNfZVmxSPA2
+         MtVk+snee/96Xf9TwTVo2V6fTmgV2UXMFh9cg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0x4Rx4XTOynb1Ks0i3xkSzPG+VwLJZRVVHQhJk+MRZc=;
-        b=CilagbUUSlp4jsPhKiLrLlEmbXCATXR3AFzwRYEHGS3Ig+42s0+tLa33nD19nYhaeV
-         arot1+ern+EwfYU+ZGLE3nLC2ZPpOyy9TAjfdQfOt0IyyLl08tm/38yMOdKjKvPG9fvM
-         o4iTKZ+5taZqVxnQQLLMdjnr+lgtnvXuQjPi2GWDPO+X3BFc0gkDWRlLGNL3WmaIfzCk
-         I1yW5hW9AffhmVsFCTN8uCWiZDfjX+iqg7zIj3fgwqtxoiOo9HkMCCkKE/hTxVFxo0ou
-         OoAPXFSmUBJx+9HgcALJHr3R6twM9yvRB4avmM4iBt2/Vhay3OWYcM9N01G30Ob535Ib
-         I4pQ==
-X-Gm-Message-State: ANoB5plIK0T1++mJnAPoEVSROQwvb59F7Qfl3sx/HCaxV79Mfz2w9y66
-	B/3hpj3TzZijUowBpOZnYZK/rfUwl15zYg==
-X-Google-Smtp-Source: AA0mqf4mpEJmiGQ2p0KjFQbpY/GIsKBGsyDSiQYZoohaRbtPLYY/wVR2Ai9vHTY5z+Kuf/Lpmda63Q==
-X-Received: by 2002:a05:622a:6002:b0:3a5:8c9a:638f with SMTP id he2-20020a05622a600200b003a58c9a638fmr3046802qtb.350.1668704112730;
-        Thu, 17 Nov 2022 08:55:12 -0800 (PST)
-Received: from maple.netwinder.org (rfs.netwinder.org. [206.248.184.2])
-        by smtp.gmail.com with ESMTPSA id c7-20020a05620a268700b006fb112f512csm785081qkp.74.2022.11.17.08.55.11
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bD0bfsgMBEFEe3vIDGvVcym3odGwnzF8Oa6dbkVTWvc=;
+        b=CNWSqnRrnwOlhO8lRptT3L8DRwcCnATN6cKjarn/8bE3mpEqM2lj7jBmsu06KKZcG9
+         Go1ckQR4rJdhHOvJ7kWvOWl3PpqfLLPU0qFEymdr7EjVP+SMXxoU9kyxWXF9VxTrvY/+
+         5u2ehh8JvfVATPuMj/gRc3JtbwGmc69kli4TMz5SxcPbauIQELbfxZ6qD9ewW0MGDj83
+         tFzj5VtQOXGKkHBD3c14udnMIp7JAw6OHGzH2zp4cLtoIZRHfxgWW+gVjQGsnLvZ31yz
+         QoW5yRhKdwPh2+Fs46XEq6sWhmun82FH6MG2mDZhM5U6zEeVYhy35zOE7AdiezlYIt1f
+         BFsA==
+X-Gm-Message-State: ANoB5pnAdZh5jmht9DMex1Fwj97XpzTWW1HtgypFsqdx29irnmLPAjnZ
+	cGDUiyAtSEX7AKgGk6S4kDKIug==
+X-Google-Smtp-Source: AA0mqf7rTzR3Pal6WZpddl6e4rv4X23Od7t3dwKEPnQv/zjDXj2srvNqU2ykb5PBxFJ1td9bo4jasQ==
+X-Received: by 2002:a1c:2b81:0:b0:3b4:88ba:a74c with SMTP id r123-20020a1c2b81000000b003b488baa74cmr6012426wmr.77.1668704259162;
+        Thu, 17 Nov 2022 08:57:39 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:76d7:bdc9:5165:906c? ([2001:8b0:aba:5f3c:76d7:bdc9:5165:906c])
+        by smtp.gmail.com with ESMTPSA id r7-20020a05600c458700b003a3170a7af9sm2000010wmo.4.2022.11.17.08.57.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Nov 2022 08:55:12 -0800 (PST)
-From: Ralph Siemsen <ralph.siemsen@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Ralph Siemsen <ralph.siemsen@linaro.org>
-Subject: [dunfell][PATCH 09/11] golang: ignore CVE-2021-41772
-Date: Thu, 17 Nov 2022 11:54:54 -0500
-Message-Id: <20221117165456.1029099-9-ralph.siemsen@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221117165456.1029099-1-ralph.siemsen@linaro.org>
-References: <20221117165456.1029099-1-ralph.siemsen@linaro.org>
+        Thu, 17 Nov 2022 08:57:38 -0800 (PST)
+Message-ID: <4f16ed270c2b979839830929c703494d221b2228.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 0/2] image specific configuration with oeqa
+ runtime tests
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mikko Rapeli <mikko.rapeli@linaro.org>
+Cc: openembedded-core@lists.openembedded.org
+Date: Thu, 17 Nov 2022 16:57:36 +0000
+In-Reply-To: <Y3ZVup8YKv6LQzuF@nuoska>
+References: <20221117071223.107064-1-mikko.rapeli@linaro.org>
+	 <5b79cba0817750882a0ef1f1dd9b9581abc9db28.camel@linuxfoundation.org>
+	 <Y3ZVup8YKv6LQzuF@nuoska>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Nov 2022 16:55:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173442
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Nov 2022 16:57:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173445
 
-Dunfell uses golang 1.14 which does not contain the affected code (it
-was introduced in golang 1.16). From the golang announcement [1]
+On Thu, 2022-11-17 at 17:39 +0200, Mikko Rapeli wrote:
+> Hi,
+>=20
+> On Thu, Nov 17, 2022 at 03:17:43PM +0000, Richard Purdie wrote:
+> > On Thu, 2022-11-17 at 09:12 +0200, Mikko Rapeli wrote:
+> > > Many runtime tests would need customization for different
+> > > machines and images. Currently some tests like parselogs.py are hard
+> > > coding machine specific exceptions into the test itself. I think thes=
+e
+> > > machine specific exceptions fit better as image specific ones, since =
+a
+> > > single machine config can generate multiple images which behave
+> > > differently. Thus create a "testimage_data.json" file format which im=
+age
+> > > recipes can deploy. This is then used by tests like parselogs.py to f=
+ind
+> > > the image specific exception list.
+> > >=20
+> > > Same approach would fit other runtime tests too. For example systemd
+> > > tests could include a test case which checks that an image specific l=
+ist of
+> > > services are running.
+> > >=20
+> > > I don't know how this data storage would be used with SDK or selftest=
+s,
+> > > but maybe it could work there too with some small tweaks.
+> > >=20
+> > > Mikko Rapeli (2):
+> > >   oeqa: add utils/data.py with get_data() function
+> > >   oeqa parselogs.py: use get_data() to fetch image specific error lis=
+t
+> > >=20
+> > >  meta/lib/oeqa/runtime/cases/parselogs.py | 17 +++++++---
+> > >  meta/lib/oeqa/utils/data.py              | 41 ++++++++++++++++++++++=
+++
+> > >  2 files changed, 54 insertions(+), 4 deletions(-)
+> > >  create mode 100644 meta/lib/oeqa/utils/data.py
+> >=20
+> > This patch looks like it is one side of the equation, i.e. importing
+> > the data into the tests. How does the data get into the deploy
+> > directory in the first place? I assume there are other patches which do
+> > that?
+>=20
+> Patches in other layers do that, yes.
+>=20
+> > We have a bit of contention with two approaches to data management in
+> > OEQA. One is where the runtime tests are directly run against an image,
+> > in which case the datastore is available. You could therefore have
+> > markup in the recipe as normal variables and access them directly in
+> > the tests.
+>=20
+> My use case is running tests right after build, but I would like to expor=
+t
+> them to execute later as well.
 
-"Reader.Open (the API implementing io/fs.FS introduced in Go 1.16) can
-be made to panic by an attacker providing either a crafted ZIP archive
-containing completely invalid names or an empty filename argument.
+When you execute later, are you going to use testexport or will the
+metadata still be available? As I mentioned, removing testexport would
+be desirable for a number of reasons but I suspect there are people who
+might want it.
+>=20
 
-[1] https://groups.google.com/g/golang-announce/c/0fM21h43arc
+> > The second is the "testexport" approach where the tests are run without
+> > the main metadata. I know Ross and I would like to see testexport
+> > dropped as it complicates things and is a pain.
+> >=20
+> > This new file "feels" a lot like more extensions in the testexport
+> > direction and I'm not sure we need to do that. Could we handle this
+> > with more markup in the image recipe?
+>=20
+> For simple variables this would do but how about a long list of strings
+> like poky/meta/lib/oeqa/runtime/cases/parselogs.py:
+>=20
+> common_errors =3D [
+>     "(WW) warning, (EE) error, (NI) not implemented, (??) unknown.",
+>     "dma timeout",
+>     "can\'t add hid device:",
+>     "usbhid: probe of ",
+>     "_OSC failed (AE_ERROR)",
+>     "_OSC failed (AE_SUPPORT)",
+>     "AE_ALREADY_EXISTS",
+>     "ACPI _OSC request failed (AE_SUPPORT)",
+>     "can\'t disable ASPM",
+>     "Failed to load module \"vesa\"",
+>     "Failed to load module vesa",
+>     "Failed to load module \"modesetting\"",
+>     "Failed to load module modesetting",
+>     "Failed to load module \"glx\"",
+>     "Failed to load module \"fbdev\"",
+>     "Failed to load module fbdev",
+>     "Failed to load module glx"
+> ]
+>=20
+> Embed json into a bitbake variable? Or embed directly as python code?
 
-Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
----
- meta/recipes-devtools/go/go-1.14.inc | 3 +++
- 1 file changed, 3 insertions(+)
+I've wondered if we could add some new syntax to bitbake to support
+this somehow, does anyone have any ideas to propose?
 
-diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
-index 9fd46356e9..ef33bf5afb 100644
---- a/meta/recipes-devtools/go/go-1.14.inc
-+++ b/meta/recipes-devtools/go/go-1.14.inc
-@@ -68,3 +68,6 @@ CVE_CHECK_WHITELIST += "CVE-2022-30634"
- 
- # Issue is in golang.org/x/net/html/parse.go, not used in go compiler
- CVE_CHECK_WHITELIST += "CVE-2021-33194"
-+
-+# Issue introduced in go1.16, does not exist in 1.14
-+CVE_CHECK_WHITELIST += "CVE-2021-41772"
--- 
-2.25.1
+I'd wondered about both python data and/or json format (at which point
+someone will want yaml :/).
 
+Cheers,
+
+Richard
 
