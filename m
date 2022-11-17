@@ -1,118 +1,98 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B1AAC433FE
-	for <webhook@archiver.kernel.org>; Thu, 17 Nov 2022 15:17:54 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web10.18438.1668698268487876290
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33B0FC433FE
+	for <webhook@archiver.kernel.org>; Thu, 17 Nov 2022 15:23:34 +0000 (UTC)
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+ by mx.groups.io with SMTP id smtpd.web10.18667.1668698608222499825
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Nov 2022 07:17:48 -0800
+ Thu, 17 Nov 2022 07:23:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bSR05COB;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id w14so4385140wru.8
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Nov 2022 07:17:48 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Zid0Y0A1;
+ spf=pass (domain: gmail.com, ip: 209.85.160.175, mailfrom: twoerner@gmail.com)
+Received: by mail-qt1-f175.google.com with SMTP id z6so1255250qtv.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Nov 2022 07:23:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FReh/Bu1T+xQkE0DW9yFBayyO8PAAMhEr0L2vSxYjTY=;
-        b=bSR05COB5htrZjq+ZIrrfzSuGwcCS2V3jqNlKcCs+F9ODCjnqZnswub7xkfl8YuEJK
-         6ZfmTaj021HfDQjXroTV1SrtVxAbYGGHePEnI/O0ZnYRtEDd2kTNEkScb+swnrgEYqJn
-         jJHZPPNw2pc8TGxdEjIXVZ4hCMs4AjV7xKDzM=
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=t8QZxjDEugkeTWfCAVvCVJapNTl5VuuppStAphS/aGM=;
+        b=Zid0Y0A1Gxd2v6q8v/NYOZN3gcEtJ3ZVUALKF4AGNywLxzUXIkFLd2XmIfhf7JITZY
+         o7RVU7blcdtekm7DPPwHpWnWCXfBH217bitGc058Q9aWrO1gjufKocPldw/Y6osWQUEg
+         RJ+n7tGVs7qHyc0WB+eLoGyoz7XMp5Wi+aAEdi050ei0BhiDg5UBRAClnKCTgEQ6ElLv
+         EJNrrFULuRo+LLCC86PQT7gY3kqUGB5ODIvm8gHy1parybtLro2ta75w4jHI1E+MAaY3
+         lbsZK6lrf/QiZHku+Ahco0Y5MiMFLYbsEz8y96hTOglIVFiPhOd8a2KoBWQfxpsFb3cM
+         F2JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FReh/Bu1T+xQkE0DW9yFBayyO8PAAMhEr0L2vSxYjTY=;
-        b=cBC1UcIm9SMjrYImsDAJpAXwPcMhYY9A0Ga+mikWJqFcHKFaVVtJWmUpov+9RhYtFO
-         PZBPefyWl0lRi8KRJdDtUyGUaOYnTQoFH7kqsWCcU0IROwjE8f5wuSlQsBIwZ3ZwdkTL
-         l6wZ/QvemSUosc2+KpxNnL2B26q2ObNKN0UmlLJ/Ut8XduQ/F8TRSPTCQwPNEuy5lU2z
-         Ui0gjmKRQv+afgU8W9JGLD7su6FewDZRhqdgF5xsLEP3hIg21+Sk4Faa21IZWsxsMYXX
-         D2v7TfeCUuTV0Cc+AQi1RGoFNJt5ArnWbW6cJLt/gHMpdqp4xbK6hX6Ty2hjUlPcVXjB
-         W6bw==
-X-Gm-Message-State: ANoB5pmUrNr+AeSb2yUY5IwkPVSHXeWnH8mLKoSmikDE3qgCYhE532cs
-	0dDlf8fnhD/udpGw81Cyd810SQ==
-X-Google-Smtp-Source: AA0mqf7BAHWVHubp9aTfjTik0EHCEIVXTlWtAy+K9bUpUhrjrx/ZTOWb1DmyFsSKdxjCzqCM2MQPNQ==
-X-Received: by 2002:a05:6000:8f:b0:22e:35e3:4427 with SMTP id m15-20020a056000008f00b0022e35e34427mr1756100wrx.44.1668698266819;
-        Thu, 17 Nov 2022 07:17:46 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:76d7:bdc9:5165:906c? ([2001:8b0:aba:5f3c:76d7:bdc9:5165:906c])
-        by smtp.gmail.com with ESMTPSA id l8-20020a5d5608000000b002345cb2723esm1216376wrv.17.2022.11.17.07.17.45
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=t8QZxjDEugkeTWfCAVvCVJapNTl5VuuppStAphS/aGM=;
+        b=eegvZcPL1k8+GrUCOLvxE3eqcl+Ot26bx765jRdKeTriIGWgNkqgpT70xmE32ior0D
+         B5jgJEp6/oVVPFwqbZcjlBKclp5IqkY/NhbvbXrNBxWXE6pSbnydJaRjotI5QNUrBQ3D
+         kMaPT2bAEu6jhiOexgQHHwESphF5gTvN1aEQlgZB3rJWL6evvRr/ndX/njawbWXxOofz
+         gbvz6myrQsQafGn4jpl0fxVUIisD9X3k0FsKzUVsOUa4SEFJ8NYms9U1D90WGUvHK8ML
+         1DuPWELsxFhhG5N0SN468DVrN9QARYBlvNF3xRbF9NZlBZRd3hz/Uz4HAXzYML9TD8so
+         0HhQ==
+X-Gm-Message-State: ANoB5pnWD2c8fvrZ9FSb7sk0haETPf2WcHyut/7sbjJ2LZAEZ2ZFW8IQ
+	P+cz0UElocBDB9NnIAEUO13keWta8AI=
+X-Google-Smtp-Source: AA0mqf5XSTNRopqE0ARjOxdiqANxGQM6rGSLvxhD+SRDwfFsbohIoOvTClpl2NA3og2LlCFo4rvt4g==
+X-Received: by 2002:ac8:728e:0:b0:397:67d6:3425 with SMTP id v14-20020ac8728e000000b0039767d63425mr2613128qto.203.1668698606967;
+        Thu, 17 Nov 2022 07:23:26 -0800 (PST)
+Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
+        by smtp.gmail.com with ESMTPSA id i23-20020ac87657000000b0038d9555b580sm502254qtr.44.2022.11.17.07.23.26
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Nov 2022 07:17:45 -0800 (PST)
-Message-ID: <5b79cba0817750882a0ef1f1dd9b9581abc9db28.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 0/2] image specific configuration with oeqa
- runtime tests
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mikko Rapeli <mikko.rapeli@linaro.org>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 17 Nov 2022 15:17:43 +0000
-In-Reply-To: <20221117071223.107064-1-mikko.rapeli@linaro.org>
-References: <20221117071223.107064-1-mikko.rapeli@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu1 
+        Thu, 17 Nov 2022 07:23:26 -0800 (PST)
+From: Trevor Woerner <twoerner@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] local.conf.sample: update bbclass locations
+Date: Thu, 17 Nov 2022 10:23:24 -0500
+Message-Id: <20221117152324.14271-1-twoerner@gmail.com>
+X-Mailer: git-send-email 2.36.0.rc2.17.g4027e30c53
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Nov 2022 15:17:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173429
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Nov 2022 15:23:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173430
 
-On Thu, 2022-11-17 at 09:12 +0200, Mikko Rapeli wrote:
-> Many runtime tests would need customization for different
-> machines and images. Currently some tests like parselogs.py are hard
-> coding machine specific exceptions into the test itself. I think these
-> machine specific exceptions fit better as image specific ones, since a
-> single machine config can generate multiple images which behave
-> differently. Thus create a "testimage_data.json" file format which image
-> recipes can deploy. This is then used by tests like parselogs.py to find
-> the image specific exception list.
->=20
-> Same approach would fit other runtime tests too. For example systemd
-> tests could include a test case which checks that an image specific list =
-of
-> services are running.
->=20
-> I don't know how this data storage would be used with SDK or selftests,
-> but maybe it could work there too with some small tweaks.
->=20
-> Mikko Rapeli (2):
->   oeqa: add utils/data.py with get_data() function
->   oeqa parselogs.py: use get_data() to fetch image specific error list
->=20
->  meta/lib/oeqa/runtime/cases/parselogs.py | 17 +++++++---
->  meta/lib/oeqa/utils/data.py              | 41 ++++++++++++++++++++++++
->  2 files changed, 54 insertions(+), 4 deletions(-)
->  create mode 100644 meta/lib/oeqa/utils/data.py
+Update comments indicating where to find various bbclass files.
 
-This patch looks like it is one side of the equation, i.e. importing
-the data into the tests. How does the data get into the deploy
-directory in the first place? I assume there are other patches which do
-that?
+fixes: f5c1280083 (classes: Update classes to match new bitbake class scope
+functionality, 2022-08-10)
 
-We have a bit of contention with two approaches to data management in
-OEQA. One is where the runtime tests are directly run against an image,
-in which case the datastore is available. You could therefore have
-markup in the recipe as normal variables and access them directly in
-the tests.
+Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+---
+ meta/conf/templates/default/local.conf.sample | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-The second is the "testexport" approach where the tests are run without
-the main metadata. I know Ross and I would like to see testexport
-dropped as it complicates things and is a pain.
-
-This new file "feels" a lot like more extensions in the testexport
-direction and I'm not sure we need to do that. Could we handle this
-with more markup in the image recipe?
-
-Cheers,
-
-Richard
-
-
-
+diff --git a/meta/conf/templates/default/local.conf.sample b/meta/conf/templates/default/local.conf.sample
+index f6be0a59d1..be43d1aafd 100644
+--- a/meta/conf/templates/default/local.conf.sample
++++ b/meta/conf/templates/default/local.conf.sample
+@@ -121,7 +121,8 @@ PACKAGE_CLASSES ?= "package_ipk"
+ #  "debug-tweaks"   - make an image suitable for development
+ #                     e.g. ssh root access has a blank password
+ # There are other application targets that can be used here too, see
+-# meta/classes/image.bbclass and meta/classes/core-image.bbclass for more details.
++# meta/classes-recipe/image.bbclass and
++# meta/classes-recipe/core-image.bbclass for more details.
+ # We default to enabling the debugging tweaks.
+ EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
+ 
+@@ -141,7 +142,7 @@ USER_CLASSES ?= "buildstats"
+ # The build system can test booting virtual machine images under qemu (an emulator)
+ # after any root filesystems are created and run tests against those images. It can also
+ # run tests against any SDK that are built. To enable this uncomment these lines.
+-# See classes/test{image,sdk}.bbclass for further details.
++# See meta/classes-recipe/test{image,sdk}.bbclass for further details.
+ #IMAGE_CLASSES += "testimage testsdk"
+ #TESTIMAGE_AUTO:qemuall = "1"
+ 
+-- 
+2.36.0.rc2.17.g4027e30c53
 
 
