@@ -2,28 +2,28 @@ Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0C6EC4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1669C43219
 	for <webhook@archiver.kernel.org>; Thu, 17 Nov 2022 07:12:31 +0000 (UTC)
 Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
- by mx.groups.io with SMTP id smtpd.web11.10095.1668669150801153466
+ by mx.groups.io with SMTP id smtpd.web11.10094.1668669150524070202
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Nov 2022 23:12:31 -0800
+ Wed, 16 Nov 2022 23:12:30 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
 Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
 	by mail.kapsi.fi with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1ovZ4W-007VEM-Ji; Thu, 17 Nov 2022 09:12:29 +0200
+	id 1ovZ4V-007VE8-JU; Thu, 17 Nov 2022 09:12:27 +0200
 Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.94.2)
 	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1ovZ4W-000S69-Ax; Thu, 17 Nov 2022 09:12:28 +0200
+	id 1ovZ4V-000S3T-AX; Thu, 17 Nov 2022 09:12:27 +0200
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH 2/2] oeqa parselogs.py: use get_data() to fetch image specific error list
-Date: Thu, 17 Nov 2022 09:12:23 +0200
-Message-Id: <20221117071223.107064-3-mikko.rapeli@linaro.org>
+Subject: [PATCH 1/2] oeqa: add utils/data.py with get_data() function
+Date: Thu, 17 Nov 2022 09:12:22 +0200
+Message-Id: <20221117071223.107064-2-mikko.rapeli@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221117071223.107064-1-mikko.rapeli@linaro.org>
 References: <20221117071223.107064-1-mikko.rapeli@linaro.org>
@@ -50,7 +50,7 @@ X-Rspam-Report: Action: no action
  Symbol: FROM_NEQ_ENVFROM(0.00)
  Symbol: BAYES_HAM(-3.00)
  Symbol: RCVD_COUNT_TWO(0.00)
- Message-ID: 20221117071223.107064-3-mikko.rapeli@linaro.org
+ Message-ID: 20221117071223.107064-2-mikko.rapeli@linaro.org
 X-SA-Exim-Connect-IP: 2001:67c:1be8::11
 X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
@@ -58,64 +58,75 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 17 Nov 2022 07:12:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173406
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173405
 
-Runtime oeqa test parselogs.py checks dmesg output for errors. It has
-hard coded machine specific exceptions for errors which can be ignored.
-To re-use of this test on other machine targets and images, use
-get_data() function to get the list of error strings to ignore
-"ignore_errors" from image specific "testimage_data.json" file.
-The json file stores this data as list under test method name and key
-"ignore_errors. For example:
+get_data() uses oeqa test method name and an optional
+key to get data from image specific "testimage_data.json"
+file located in image deploy directory. Image recipes can
+provide custom versions of this file which configures
+generic tests for a specific image when testing with
+testimage.bbclass
 
-{"test_parselogs":{"ignore_errors":[
-    "error strings which will be ignored",
-    "another error strings which will be ignored"
-]}}
+For example, the parselogs.py runtime test needs image
+specific configuration when the image has new errors from
+the kernel which acceptable and can be ignored.
 
-If the json file does not exist, parselogs.py still falls back to using
-the hardcoded defaults.
+Same machine can be used to generate multiple images with different
+runtime behavior so using image as the key and not machine.
 
 Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 ---
- meta/lib/oeqa/runtime/cases/parselogs.py | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ meta/lib/oeqa/utils/data.py | 41 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
+ create mode 100644 meta/lib/oeqa/utils/data.py
 
-diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
-index e67d3750da..c1d92db5d6 100644
---- a/meta/lib/oeqa/runtime/cases/parselogs.py
-+++ b/meta/lib/oeqa/runtime/cases/parselogs.py
-@@ -12,6 +12,7 @@ from oeqa.runtime.case import OERuntimeTestCase
- from oeqa.core.decorator.depends import OETestDepends
- from oeqa.core.decorator.data import skipIfDataVar
- from oeqa.runtime.decorator.package import OEHasPackage
-+from oeqa.utils.data import get_data
- 
- #in the future these lists could be moved outside of module
- errors = ["error", "cannot", "can\'t", "failed"]
-@@ -316,10 +317,18 @@ class ParseLogsTest(OERuntimeTestCase):
-         grepcmd += '" ' + str(log) + " | grep -Eiv \'"
- 
-         try:
--            errorlist = ignore_errors[self.getMachine()]
--        except KeyError:
--            self.msg += 'No ignore list found for this machine, using default\n'
--            errorlist = ignore_errors['default']
-+            # get list of strings to ignore from image specific testimage_data.json with format:
-+            # {"test_parselogs": {"ignore_errors":["string to ignore", "second string to ignore"]}}
-+            errorlist = get_data(self, key = "ignore_errors")
-+        except Exception as e:
-+            self.logger.debug("%s: Exception e = %s" % (__file__, e))
-+            try:
-+                errorlist = ignore_errors[self.getMachine()]
-+            except KeyError:
-+                warning_string = 'No ignore list found for this machine and no valid testimage_data.json, using defaults'
-+                self.msg += '%s\n' % (warning_string)
-+                self.logger.warn("%s" % (warning_string))
-+                errorlist = ignore_errors['default']
- 
-         for ignore_error in errorlist:
-             ignore_error = ignore_error.replace('(', r'\(')
+diff --git a/meta/lib/oeqa/utils/data.py b/meta/lib/oeqa/utils/data.py
+new file mode 100644
+index 0000000000..4b8c10c1d0
+--- /dev/null
++++ b/meta/lib/oeqa/utils/data.py
+@@ -0,0 +1,41 @@
++# Copyright (C) 2022 Linaro Limited
++#
++# SPDX-License-Identifier: MIT
++
++import os
++import json
++
++from oeqa.core.utils.test import getCaseID, getCaseFile, getCaseMethod
++
++
++def get_data(self, key = None):
++    """get_data() returns test case specific data to the test case implementation.
++    Data is stored in image specific json file called "testimage_data.json" in
++    image deploy directory. Image recipes can provide custom versions of this file.
++    Data matching test method name and an optional key is returned to the test case.
++    This data can then be used by generic test cases to match image specific functionality
++    and expected behavior. For example list of expected kernel error strings, list
++    of active systemd services etc. can be image specific while the test case
++    implementation to check them is generic. Example json file for runtime
++    test parselogs.py to ignore image specific kernel error strings in dmesg:
++
++    {"test_parselogs":{"ignore_errors":[
++        "Error to be ignored in dmesg"
++    ]}}
++    """
++    test_method = getCaseMethod(self)
++    self.logger.info("%s: get_data() called by test_method =  %s, key = %s" % (__file__, test_method, key))
++
++    json_file_name = os.path.join(self.td['DEPLOY_DIR_IMAGE'], "testimage_data.json")
++    self.logger.debug("%s: json_file_name = %s" % (__file__, json_file_name))
++
++    with open(json_file_name) as json_file:
++        self.logger.debug("%s: json_file = %s" % (__file__, json_file))
++        json_data = json.load(json_file)
++        self.logger.debug("%s: json_data = %s" % (__file__, json_data))
++        if key:
++            data = json_data[test_method][key]
++        else:
++            data = json_data[test_method]
++        self.logger.debug("%s: data = %s" % (__file__, data))
++        return data
 -- 
 2.34.1
 
