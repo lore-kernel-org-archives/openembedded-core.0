@@ -1,137 +1,89 @@
-Return-Path: <vkumbhar@mvista.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D06DEC4332F
-	for <webhook@archiver.kernel.org>; Thu, 17 Nov 2022 06:46:01 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web11.9778.1668667555355245491
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0128C433FE
+	for <webhook@archiver.kernel.org>; Thu, 17 Nov 2022 07:12:31 +0000 (UTC)
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+ by mx.groups.io with SMTP id smtpd.web11.10093.1668669150063221005
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Nov 2022 22:45:55 -0800
+ Wed, 16 Nov 2022 23:12:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=E9MjQWw2;
- spf=pass (domain: mvista.com, ip: 209.85.214.178, mailfrom: vkumbhar@mvista.com)
-Received: by mail-pl1-f178.google.com with SMTP id p12so762012plq.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Nov 2022 22:45:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fZyxLG1pHYsktl5Uo3DORQgEg3CwgJ5zGMZ8fjmVgm4=;
-        b=E9MjQWw2mUNNfnkBuQ4FN/XmEbw1gqPTAPMPK9Bp/ePj+ovnui92hz/0IJrSCXELiM
-         OrbRLbmrseGZw/tSveQ9u5UEiMd+hJMQL4pqutDnv8vu5BP9GkBQdGOOShmAhaobfwTM
-         Zz5j8JuVaEtqItoLar9mAZ5j2OCKv7JNc0ezI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fZyxLG1pHYsktl5Uo3DORQgEg3CwgJ5zGMZ8fjmVgm4=;
-        b=LeF2z7lmtV7jpoQy5DK3ihcuGvxczsDseSQYPhODXwFhULT4ZoBiEtj0BPjM3M6pz8
-         Pz2s0bR4+wrT0E8VkkOkx2599Y3JNvep8YaF2AtsgPrCN/wl2Lrb8ydOlugq+HyiUgt1
-         1xhnvlnoPrf24r2OXA2pWQeT6eXRDr6r3i49QgUHXH9PWWnwR1tYmnTMfswl7hwsMjZI
-         a+FwCDjb+bSL6J4iJs/XHuY5ZCtBA5gPqIDzVLa7TvPOT1rER7g7fDBTtFacEauIBHTv
-         SYDbX97N/VbZsf9fasgybd94uJeUCSNxX9oryH/qD2xMFPjdJ8MXOqZZdd7Uq1oq0WgS
-         fgcw==
-X-Gm-Message-State: ANoB5pnMJ8VB+oWd/Sj0dn7vGmONQLDoejYE8OhIad3GxL3Zk207w6bn
-	mM4uOrZsPGDqgjCLniUNUo7ntIBqFgctXw==
-X-Google-Smtp-Source: AA0mqf6cYOBla3fuZCR0NuMUpU7S5T1ynYbkqRy0hPYnjyrdwyN370DRdsMUiKxCPMoyBNzMnExaYQ==
-X-Received: by 2002:a17:90b:1958:b0:213:880:e931 with SMTP id nk24-20020a17090b195800b002130880e931mr1332560pjb.217.1668667554577;
-        Wed, 16 Nov 2022 22:45:54 -0800 (PST)
-Received: from vivek-Latitude-3400.mvista.com ([116.73.95.148])
-        by smtp.gmail.com with ESMTPSA id y4-20020a17090322c400b0016f196209c9sm367026plg.123.2022.11.16.22.45.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Nov 2022 22:45:54 -0800 (PST)
-From: vkumbhar@mvista.com
+ dkim=missing; spf=none, err=permanent DNS error (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
+Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
+	by mail.kapsi.fi with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1ovZ4U-007VDv-KU; Thu, 17 Nov 2022 09:12:27 +0200
+Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.94.2)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1ovZ4U-000S1T-Bl; Thu, 17 Nov 2022 09:12:26 +0200
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Vivek Kumbhar <vkumbhar@mvista.com>
-Subject: [OE-core][dunfell][PATCH] libtasn1: fix CVE-2021-46848 off-by-one in asn1_encode_simple_der
-Date: Thu, 17 Nov 2022 12:15:38 +0530
-Message-Id: <20221117064538.187445-1-vkumbhar@mvista.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [PATCH 0/2] image specific configuration with oeqa runtime tests
+Date: Thu, 17 Nov 2022 09:12:21 +0200
+Message-Id: <20221117071223.107064-1-mikko.rapeli@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Rspam-Score: -1.2 (-)
+X-Rspam-Report: Action: no action
+ Symbol: RCVD_TLS_LAST(0.00)
+ Symbol: ARC_NA(0.00)
+ Symbol: DMARC_POLICY_SOFTFAIL(0.10)
+ Symbol: FROM_HAS_DN(0.00)
+ Symbol: TO_DN_SOME(0.00)
+ Symbol: R_MISSING_CHARSET(0.50)
+ Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
+ Symbol: MIME_GOOD(-0.10)
+ Symbol: RCPT_COUNT_TWO(0.00)
+ Symbol: MID_CONTAINS_FROM(1.00)
+ Symbol: NEURAL_HAM(-0.00)
+ Symbol: R_SPF_NA(0.00)
+ Symbol: FORGED_SENDER(0.30)
+ Symbol: R_DKIM_NA(0.00)
+ Symbol: MIME_TRACE(0.00)
+ Symbol: ASN(0.00)
+ Symbol: FROM_NEQ_ENVFROM(0.00)
+ Symbol: BAYES_HAM(-3.00)
+ Symbol: RCVD_COUNT_TWO(0.00)
+ Message-ID: 20221117071223.107064-1-mikko.rapeli@linaro.org
+X-SA-Exim-Connect-IP: 2001:67c:1be8::11
+X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Nov 2022 06:46:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173403
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Nov 2022 07:12:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173404
 
-From: Vivek Kumbhar <vkumbhar@mvista.com>
+Many runtime tests would need customization for different
+machines and images. Currently some tests like parselogs.py are hard
+coding machine specific exceptions into the test itself. I think these
+machine specific exceptions fit better as image specific ones, since a
+single machine config can generate multiple images which behave
+differently. Thus create a "testimage_data.json" file format which image
+recipes can deploy. This is then used by tests like parselogs.py to find
+the image specific exception list.
 
-Upstream-Status: Backport [https://gitlab.com/gnutls/libtasn1/-/commit/44a700d2051a666235748970c2df047ff207aeb5]
+Same approach would fit other runtime tests too. For example systemd
+tests could include a test case which checks that an image specific list of
+services are running.
 
-Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
----
- .../gnutls/libtasn1/CVE-2021-46848.patch      | 45 +++++++++++++++++++
- .../recipes-support/gnutls/libtasn1_4.16.0.bb |  1 +
- 2 files changed, 46 insertions(+)
- create mode 100644 meta/recipes-support/gnutls/libtasn1/CVE-2021-46848.patch
+I don't know how this data storage would be used with SDK or selftests,
+but maybe it could work there too with some small tweaks.
 
-diff --git a/meta/recipes-support/gnutls/libtasn1/CVE-2021-46848.patch b/meta/recipes-support/gnutls/libtasn1/CVE-2021-46848.patch
-new file mode 100644
-index 0000000000..9a8ceecbe7
---- /dev/null
-+++ b/meta/recipes-support/gnutls/libtasn1/CVE-2021-46848.patch
-@@ -0,0 +1,45 @@
-+From 22fd12b290adea788122044cb58dc9e77754644f Mon Sep 17 00:00:00 2001
-+From: Vivek Kumbhar <vkumbhar@mvista.com>
-+Date: Thu, 17 Nov 2022 12:07:50 +0530
-+Subject: [PATCH] CVE-2021-46848
-+
-+Upstream-Status: Backport [https://gitlab.com/gnutls/libtasn1/-/commit/44a700d2051a666235748970c2df047ff207aeb5]
-+CVE: CVE-2021-46848
-+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
-+
-+Fix ETYPE_OK off by one array size check.
-+---
-+ NEWS      | 4 ++++
-+ lib/int.h | 2 +-
-+ 2 files changed, 5 insertions(+), 1 deletion(-)
-+
-+diff --git a/NEWS b/NEWS
-+index f042481..d8f684e 100644
-+--- a/NEWS
-++++ b/NEWS
-+@@ -1,5 +1,9 @@
-+ GNU Libtasn1 NEWS                                     -*- outline -*-
-+ 
-++* Noteworthy changes in release ?.? (????-??-??) [?]
-++- Fix ETYPE_OK out of bounds read.  Closes: #32.
-++- Update gnulib files and various maintenance fixes.
-++
-+ * Noteworthy changes in release 4.16.0 (released 2020-02-01) [stable]
-+ - asn1_decode_simple_ber: added support for constructed definite
-+   octet strings. This allows this function decode the whole set of
-+diff --git a/lib/int.h b/lib/int.h
-+index ea16257..c877282 100644
-+--- a/lib/int.h
-++++ b/lib/int.h
-+@@ -97,7 +97,7 @@ typedef struct tag_and_class_st
-+ #define ETYPE_TAG(etype) (_asn1_tags[etype].tag)
-+ #define ETYPE_CLASS(etype) (_asn1_tags[etype].class)
-+ #define ETYPE_OK(etype) (((etype) != ASN1_ETYPE_INVALID && \
-+-                          (etype) <= _asn1_tags_size && \
-++			   (etype) < _asn1_tags_size && \
-+                           _asn1_tags[(etype)].desc != NULL)?1:0)
-+ 
-+ #define ETYPE_IS_STRING(etype) ((etype == ASN1_ETYPE_GENERALSTRING || \
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-support/gnutls/libtasn1_4.16.0.bb b/meta/recipes-support/gnutls/libtasn1_4.16.0.bb
-index 8d3a14506a..d2b3c492ec 100644
---- a/meta/recipes-support/gnutls/libtasn1_4.16.0.bb
-+++ b/meta/recipes-support/gnutls/libtasn1_4.16.0.bb
-@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM = "file://doc/COPYING;md5=d32239bcb673463ab874e80d47fae504 \
- 
- SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
-            file://dont-depend-on-help2man.patch \
-+           file://CVE-2021-46848.patch \
-            "
- 
- DEPENDS = "bison-native"
+Mikko Rapeli (2):
+  oeqa: add utils/data.py with get_data() function
+  oeqa parselogs.py: use get_data() to fetch image specific error list
+
+ meta/lib/oeqa/runtime/cases/parselogs.py | 17 +++++++---
+ meta/lib/oeqa/utils/data.py              | 41 ++++++++++++++++++++++++
+ 2 files changed, 54 insertions(+), 4 deletions(-)
+ create mode 100644 meta/lib/oeqa/utils/data.py
+
 -- 
-2.25.1
+2.34.1
 
 
