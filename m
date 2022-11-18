@@ -2,56 +2,56 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4429EC43219
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51B13C4167B
 	for <webhook@archiver.kernel.org>; Fri, 18 Nov 2022 22:29:22 +0000 (UTC)
 Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
  by mx.groups.io with SMTP id smtpd.web10.7449.1668810553006060974
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Nov 2022 14:29:13 -0800
+ Fri, 18 Nov 2022 14:29:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=NNaw/rz8;
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=cQEcoOUG;
  spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f54.google.com with SMTP id mi9so4298809qvb.8
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 14:29:12 -0800 (PST)
+Received: by mail-qv1-f54.google.com with SMTP id mi9so4298847qvb.8
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 14:29:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=O0vAK0tyVC36KlH1cTs3PVysCFHmGCELX4jqEczJg8E=;
-        b=NNaw/rz8Tm3YKwSCFOvvwmWtGhuXtFzrAig28KR0xm1jGY3LBHHpE9cD59htgplrIe
-         cJcp3Dv69BjRjz4SAobKCtWEKRYS/Ka/d2l8HS/dphN4fw4/+aB6xb/gMpJ86ezPWCm4
-         3gjZDiryinUssxztgSpSYgNSkza65Lz38lwRe8oU/dYlMpieoUDRXFpAl6F+QYqymvwf
-         f/5h4YS0p9+HzT1KgRjR9ehYl+zTDwldHTyT8LPXcNKNwyaKYpJe7NqCnm9S5YEHiQZd
-         VyY4EZop73H7/HyhCbxfdjcuRhSXHdQz2QqgEz6J4QXuxQ+KxhR2Ptukqh7bnkn7a5T9
-         irNQ==
+        bh=W9rDfSBaIL6m4UcW5PRQFPPXvDkevVFXrEcdT3z+Bys=;
+        b=cQEcoOUGyv5s4CsDTAjF3ieqBvlqMzsvgc9dUGJis8dtPZjqGU3oBAr7XfQSYyPwzn
+         wneINPTHvuce5a/bBOOUfw+YLD8VSqhYp4KhZG4aiyIJF8ddZz/AshzvIvdG07fPv0Pl
+         aDtTQ6lRgjh8R816AgeMZ7Hm+pSCbqkL5ViEvMJ2841JCU24y71zk1WBOLFdLoc9VB9n
+         pjY5zUsuPgpzixmF//Xh23g3ZdREC93vgpK7SbSGO8wsFmnZbFOfnyOPM4KSZHUrDlwv
+         RMyjxS8pzs0yKSmto5WgtJrI+2r2GA7DGmGEAYOQI7mA5E2UQu8QcMf3dzZpJWeX1tLs
+         69sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=O0vAK0tyVC36KlH1cTs3PVysCFHmGCELX4jqEczJg8E=;
-        b=mzpiLAUSjqheg5jNRj0stfrcE8aXqLZsoyu8ajTzlaPmA64POezKB2egI2RwafrvOI
-         K18Tmb+LMcJyp4/EJBDuD/JqELSRspsDyZcAkY59kxuC2pV+vaT//sKt5pr5NTYWvNLz
-         GLcSxG9OuGR0HS+z+egxCo9NgN7JIHufq/nsgXkjUh+JM8yQl6lC5ZnEkSY33saN9Zkw
-         /oRFwTdTrSFpwibbMTiOg8rR+PUwi+UOo2H4qTEcy1BeYmVKDVJoA1EAduB8cehT+5mo
-         42N5PxDYgbAqkxjjh0t10YS9guWJdukwKguTHaU19/ZaeeDMICB4UAoFl6jYEgMA4WMX
-         L5Ug==
-X-Gm-Message-State: ANoB5pleoGD7rjw08zKmkgddky5TYiRq9vGOiAo71SACew3mFNDU3QPR
-	QIhklvv3Ks2NLBKIU48q2YYPOTZkN/fkwA==
-X-Google-Smtp-Source: AA0mqf7hRJ2/JKrLdVJvJBSEVN5qjEVsV9FzZiNz9HP+IadZ4+2eca7W0mPDvJhizy/Rp+fMmdqHtA==
-X-Received: by 2002:a05:6214:221:b0:4bb:6aac:5b5d with SMTP id j1-20020a056214022100b004bb6aac5b5dmr8543130qvt.57.1668810551945;
-        Fri, 18 Nov 2022 14:29:11 -0800 (PST)
+        bh=W9rDfSBaIL6m4UcW5PRQFPPXvDkevVFXrEcdT3z+Bys=;
+        b=kTlMjx77O2bquFsuuw3VmdUIGPiQUBsuVpQvXYiF4eiVzWg3cYvRLGJdV8+7g1Z/yY
+         D2/4H/o+8rJmXlne4COs6yWM1RJNYLKfKJWLHMMp527XAuJdPWYa/kGdkATb+NiX1jsL
+         Xe3xHuVdRdtaZvSScwJMq3Zw3BwGX+ONAvIzCNa+w6xs9xzVpM4XbLLcJmP1K/whVnui
+         /NmHaLwXmceKx6jyrmvlK9Hx6ph8Xpu+dlf4JzWrtFxmAS3gLcGKWvPhV5CoEWesTOzd
+         6GBsNdYfzlOJ30RTbCfnYRNjBJnDbGrbsEUSeFaYhYt4hycrVRD/79og7ExiqahvRUDM
+         Pytg==
+X-Gm-Message-State: ANoB5pl0D6ygswZf6nZXOt+5gzXiarkGruOOoDIZN+pKnr6pMPk2Rad+
+	s6jDKdpO3morj65nL/pSGSl2JWtKXUgL3Q==
+X-Google-Smtp-Source: AA0mqf4dZi5JBZNZT4H3tDVDNCn1nTSowkYPrKZr8AiXYkJsLRtswEneR8xYCmhw6+dlSdPqwii1xQ==
+X-Received: by 2002:a05:6214:207:b0:4c6:4ac0:12c1 with SMTP id i7-20020a056214020700b004c64ac012c1mr8420622qvt.111.1668810553322;
+        Fri, 18 Nov 2022 14:29:13 -0800 (PST)
 Received: from build.lan (cpe7c9a54441c1f-cm7c9a54441c1d.cpe.net.cable.rogers.com. [173.34.238.88])
-        by smtp.gmail.com with ESMTPSA id h9-20020a05620a284900b006f9ddaaf01esm3304068qkp.102.2022.11.18.14.29.10
+        by smtp.gmail.com with ESMTPSA id h9-20020a05620a284900b006f9ddaaf01esm3304068qkp.102.2022.11.18.14.29.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Nov 2022 14:29:11 -0800 (PST)
+        Fri, 18 Nov 2022 14:29:12 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 10/15] lttng-modules: fix build for v6.1+
-Date: Fri, 18 Nov 2022 17:28:54 -0500
-Message-Id: <f6cbf9be9c2661c2654264b7fa67e12c0bc4083a.1668810409.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 11/15] linux-yocto/5.19: security.cfg: remove configs which have been dropped
+Date: Fri, 18 Nov 2022 17:28:55 -0500
+Message-Id: <2a6cbf45ba2f797d4aee7a89f889d03a81ea45f0.1668810409.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1668810409.git.bruce.ashfield@gmail.com>
 References: <cover.1668810409.git.bruce.ashfield@gmail.com>
@@ -61,316 +61,84 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 22:29:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173504
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173505
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Backporting a patch from the lttng git repository to address
-a build failure when the 6.1-dev kernel is used.
+Integrating the following commit(s) to linux-yocto/.:
+
+    5e122351f62 security.cfg: remove configs which have been dropped
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- ...on-drop-kmem_alloc-avoid-dereferenci.patch | 278 ++++++++++++++++++
- .../lttng/lttng-modules_2.13.7.bb             |   1 +
- 2 files changed, 279 insertions(+)
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-slab_common-drop-kmem_alloc-avoid-dereferenci.patch
+ .../linux/linux-yocto-rt_5.19.bb              |  4 ++--
+ .../linux/linux-yocto-tiny_5.19.bb            |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto_5.19.bb | 22 +++++++++----------
+ 3 files changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-slab_common-drop-kmem_alloc-avoid-dereferenci.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-slab_common-drop-kmem_alloc-avoid-dereferenci.patch
-new file mode 100644
-index 0000000000..99402ea5e9
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-slab_common-drop-kmem_alloc-avoid-dereferenci.patch
-@@ -0,0 +1,278 @@
-+From b977f96d0a414e76d4c544f65791919dde1bc57e Mon Sep 17 00:00:00 2001
-+From: Michael Jeanson <mjeanson@efficios.com>
-+Date: Mon, 17 Oct 2022 13:49:51 -0400
-+Subject: [PATCH] fix: mm/slab_common: drop kmem_alloc & avoid dereferencing
-+ fields when not using (v6.1)
-+
-+See uptream commit:
-+
-+  commit 2c1d697fb8ba6d2d44f914d4268ae1ccdf025f1b
-+  Author: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-+  Date:   Wed Aug 17 19:18:24 2022 +0900
-+
-+    mm/slab_common: drop kmem_alloc & avoid dereferencing fields when not using
-+
-+    Drop kmem_alloc event class, and define kmalloc and kmem_cache_alloc
-+    using TRACE_EVENT() macro.
-+
-+    And then this patch does:
-+       - Do not pass pointer to struct kmem_cache to trace_kmalloc.
-+         gfp flag is enough to know if it's accounted or not.
-+       - Avoid dereferencing s->object_size and s->size when not using kmem_cache_alloc event.
-+       - Avoid dereferencing s->name in when not using kmem_cache_free event.
-+       - Adjust s->size to SLOB_UNITS(s->size) * SLOB_UNIT in SLOB
-+
-+Upstream-Status: Backport [commit b977f96d0a414e76d4c544f]
-+
-+Change-Id: Icd7925731ed4a737699c3746cb7bb7760a4e8009
-+Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
-+Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-+---
-+ include/instrumentation/events/kmem.h | 156 ++++++++++++++++++--------
-+ 1 file changed, 111 insertions(+), 45 deletions(-)
-+
-+diff --git a/include/instrumentation/events/kmem.h b/include/instrumentation/events/kmem.h
-+index 219533a1..0f5bd8e6 100644
-+--- a/include/instrumentation/events/kmem.h
-++++ b/include/instrumentation/events/kmem.h
-+@@ -10,9 +10,58 @@
-+ #include <lttng/kernel-version.h>
-+ 
-+ #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,0,0))
-+-
-+ #include <../../mm/slab.h>
-++#endif
-++
-++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,1,0))
-++LTTNG_TRACEPOINT_EVENT_MAP(kmalloc,
-++
-++	kmem_kmalloc,
-++
-++	TP_PROTO(unsigned long call_site,
-++		 const void *ptr,
-++		 size_t bytes_req,
-++		 size_t bytes_alloc,
-++		 gfp_t gfp_flags,
-++		 int node),
-++
-++	TP_ARGS(call_site, ptr, bytes_req, bytes_alloc, gfp_flags, node),
-++
-++	TP_FIELDS(
-++		ctf_integer_hex(unsigned long, call_site, call_site)
-++		ctf_integer_hex(const void *, ptr, ptr)
-++		ctf_integer(size_t, bytes_req, bytes_req)
-++		ctf_integer(size_t, bytes_alloc, bytes_alloc)
-++		ctf_integer(gfp_t, gfp_flags, gfp_flags)
-++		ctf_integer(int, node, node)
-++		ctf_integer(bool, accounted, (IS_ENABLED(CONFIG_MEMCG_KMEM) &&
-++			(gfp_flags & __GFP_ACCOUNT) ? true : false))
-++	)
-++)
-++
-++LTTNG_TRACEPOINT_EVENT(kmem_cache_alloc,
-++
-++	TP_PROTO(unsigned long call_site,
-++		 const void *ptr,
-++		 struct kmem_cache *s,
-++		 gfp_t gfp_flags,
-++		 int node),
-++
-++	TP_ARGS(call_site, ptr, s, gfp_flags, node),
-+ 
-++	TP_FIELDS(
-++		ctf_integer_hex(unsigned long, call_site, call_site)
-++		ctf_integer_hex(const void *, ptr, ptr)
-++		ctf_integer(size_t, bytes_req, s->object_size)
-++		ctf_integer(size_t, bytes_alloc, s->size)
-++		ctf_integer(gfp_t, gfp_flags, gfp_flags)
-++		ctf_integer(int, node, node)
-++		ctf_integer(bool, accounted, IS_ENABLED(CONFIG_MEMCG_KMEM) ?
-++			((gfp_flags & __GFP_ACCOUNT) ||
-++			(s->flags & SLAB_ACCOUNT)) : false)
-++	)
-++)
-++#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,0,0))
-+ LTTNG_TRACEPOINT_EVENT_CLASS(kmem_alloc,
-+ 
-+ 	TP_PROTO(unsigned long call_site,
-+@@ -53,18 +102,16 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(kmem_alloc, kmem_cache_alloc,
-+ 
-+ 	TP_ARGS(call_site, ptr, s, bytes_req, bytes_alloc, gfp_flags)
-+ )
-+-
-+-LTTNG_TRACEPOINT_EVENT_CLASS(kmem_alloc_node,
-++#else
-++LTTNG_TRACEPOINT_EVENT_CLASS(kmem_alloc,
-+ 
-+ 	TP_PROTO(unsigned long call_site,
-+ 		 const void *ptr,
-+-		 struct kmem_cache *s,
-+ 		 size_t bytes_req,
-+ 		 size_t bytes_alloc,
-+-		 gfp_t gfp_flags,
-+-		 int node),
-++		 gfp_t gfp_flags),
-+ 
-+-	TP_ARGS(call_site, ptr, s, bytes_req, bytes_alloc, gfp_flags, node),
-++	TP_ARGS(call_site, ptr, bytes_req, bytes_alloc, gfp_flags),
-+ 
-+ 	TP_FIELDS(
-+ 		ctf_integer_hex(unsigned long, call_site, call_site)
-+@@ -72,42 +119,40 @@ LTTNG_TRACEPOINT_EVENT_CLASS(kmem_alloc_node,
-+ 		ctf_integer(size_t, bytes_req, bytes_req)
-+ 		ctf_integer(size_t, bytes_alloc, bytes_alloc)
-+ 		ctf_integer(gfp_t, gfp_flags, gfp_flags)
-+-		ctf_integer(int, node, node)
-+-		ctf_integer(bool, accounted, IS_ENABLED(CONFIG_MEMCG_KMEM) ?
-+-			((gfp_flags & __GFP_ACCOUNT) ||
-+-			(s && s->flags & SLAB_ACCOUNT)) : false)
-+ 	)
-+ )
-+ 
-+-LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP(kmem_alloc_node, kmalloc_node,
-++LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP(kmem_alloc, kmalloc,
-+ 
-+-	kmem_kmalloc_node,
-++	kmem_kmalloc,
-+ 
-+ 	TP_PROTO(unsigned long call_site, const void *ptr,
-+-		 struct kmem_cache *s, size_t bytes_req, size_t bytes_alloc,
-+-		 gfp_t gfp_flags, int node),
-++		 size_t bytes_req, size_t bytes_alloc, gfp_t gfp_flags),
-+ 
-+-	TP_ARGS(call_site, ptr, s, bytes_req, bytes_alloc, gfp_flags, node)
-++	TP_ARGS(call_site, ptr, bytes_req, bytes_alloc, gfp_flags)
-+ )
-+ 
-+-LTTNG_TRACEPOINT_EVENT_INSTANCE(kmem_alloc_node, kmem_cache_alloc_node,
-++LTTNG_TRACEPOINT_EVENT_INSTANCE(kmem_alloc, kmem_cache_alloc,
-+ 
-+ 	TP_PROTO(unsigned long call_site, const void *ptr,
-+-		 struct kmem_cache *s, size_t bytes_req, size_t bytes_alloc,
-+-		 gfp_t gfp_flags, int node),
-++		 size_t bytes_req, size_t bytes_alloc, gfp_t gfp_flags),
-+ 
-+-	TP_ARGS(call_site, ptr, s, bytes_req, bytes_alloc, gfp_flags, node)
-++	TP_ARGS(call_site, ptr, bytes_req, bytes_alloc, gfp_flags)
-+ )
-+-#else
-+-LTTNG_TRACEPOINT_EVENT_CLASS(kmem_alloc,
-++#endif
-++
-++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,0,0))
-++LTTNG_TRACEPOINT_EVENT_CLASS(kmem_alloc_node,
-+ 
-+ 	TP_PROTO(unsigned long call_site,
-+ 		 const void *ptr,
-++		 struct kmem_cache *s,
-+ 		 size_t bytes_req,
-+ 		 size_t bytes_alloc,
-+-		 gfp_t gfp_flags),
-++		 gfp_t gfp_flags,
-++		 int node),
-+ 
-+-	TP_ARGS(call_site, ptr, bytes_req, bytes_alloc, gfp_flags),
-++	TP_ARGS(call_site, ptr, s, bytes_req, bytes_alloc, gfp_flags, node),
-+ 
-+ 	TP_FIELDS(
-+ 		ctf_integer_hex(unsigned long, call_site, call_site)
-+@@ -115,27 +160,33 @@ LTTNG_TRACEPOINT_EVENT_CLASS(kmem_alloc,
-+ 		ctf_integer(size_t, bytes_req, bytes_req)
-+ 		ctf_integer(size_t, bytes_alloc, bytes_alloc)
-+ 		ctf_integer(gfp_t, gfp_flags, gfp_flags)
-++		ctf_integer(int, node, node)
-++		ctf_integer(bool, accounted, IS_ENABLED(CONFIG_MEMCG_KMEM) ?
-++			((gfp_flags & __GFP_ACCOUNT) ||
-++			(s && s->flags & SLAB_ACCOUNT)) : false)
-+ 	)
-+ )
-+ 
-+-LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP(kmem_alloc, kmalloc,
-++LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP(kmem_alloc_node, kmalloc_node,
-+ 
-+-	kmem_kmalloc,
-++	kmem_kmalloc_node,
-+ 
-+ 	TP_PROTO(unsigned long call_site, const void *ptr,
-+-		 size_t bytes_req, size_t bytes_alloc, gfp_t gfp_flags),
-++		 struct kmem_cache *s, size_t bytes_req, size_t bytes_alloc,
-++		 gfp_t gfp_flags, int node),
-+ 
-+-	TP_ARGS(call_site, ptr, bytes_req, bytes_alloc, gfp_flags)
-++	TP_ARGS(call_site, ptr, s, bytes_req, bytes_alloc, gfp_flags, node)
-+ )
-+ 
-+-LTTNG_TRACEPOINT_EVENT_INSTANCE(kmem_alloc, kmem_cache_alloc,
-++LTTNG_TRACEPOINT_EVENT_INSTANCE(kmem_alloc_node, kmem_cache_alloc_node,
-+ 
-+ 	TP_PROTO(unsigned long call_site, const void *ptr,
-+-		 size_t bytes_req, size_t bytes_alloc, gfp_t gfp_flags),
-++		 struct kmem_cache *s, size_t bytes_req, size_t bytes_alloc,
-++		 gfp_t gfp_flags, int node),
-+ 
-+-	TP_ARGS(call_site, ptr, bytes_req, bytes_alloc, gfp_flags)
-++	TP_ARGS(call_site, ptr, s, bytes_req, bytes_alloc, gfp_flags, node)
-+ )
-+-
-++#else
-+ LTTNG_TRACEPOINT_EVENT_CLASS(kmem_alloc_node,
-+ 
-+ 	TP_PROTO(unsigned long call_site,
-+@@ -192,19 +243,6 @@ LTTNG_TRACEPOINT_EVENT_MAP(kfree,
-+ 		ctf_integer_hex(const void *, ptr, ptr)
-+ 	)
-+ )
-+-
-+-LTTNG_TRACEPOINT_EVENT(kmem_cache_free,
-+-
-+-	TP_PROTO(unsigned long call_site, const void *ptr, const char *name),
-+-
-+-	TP_ARGS(call_site, ptr, name),
-+-
-+-	TP_FIELDS(
-+-		ctf_integer_hex(unsigned long, call_site, call_site)
-+-		ctf_integer_hex(const void *, ptr, ptr)
-+-		ctf_string(name, name)
-+-	)
-+-)
-+ #else
-+ LTTNG_TRACEPOINT_EVENT_CLASS(kmem_free,
-+ 
-+@@ -235,6 +273,34 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(kmem_free, kmem_cache_free,
-+ )
-+ #endif
-+ 
-++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,1,0))
-++LTTNG_TRACEPOINT_EVENT(kmem_cache_free,
-++
-++	TP_PROTO(unsigned long call_site, const void *ptr, const struct kmem_cache *s),
-++
-++	TP_ARGS(call_site, ptr, s),
-++
-++	TP_FIELDS(
-++		ctf_integer_hex(unsigned long, call_site, call_site)
-++		ctf_integer_hex(const void *, ptr, ptr)
-++		ctf_string(name, s->name)
-++	)
-++)
-++#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,12,0))
-++LTTNG_TRACEPOINT_EVENT(kmem_cache_free,
-++
-++	TP_PROTO(unsigned long call_site, const void *ptr, const char *name),
-++
-++	TP_ARGS(call_site, ptr, name),
-++
-++	TP_FIELDS(
-++		ctf_integer_hex(unsigned long, call_site, call_site)
-++		ctf_integer_hex(const void *, ptr, ptr)
-++		ctf_string(name, name)
-++	)
-++)
-++#endif
-++
-+ #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(3,3,0))
-+ LTTNG_TRACEPOINT_EVENT_MAP(mm_page_free, kmem_mm_page_free,
-+ #else
-+-- 
-+2.19.1
-+
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.13.7.bb b/meta/recipes-kernel/lttng/lttng-modules_2.13.7.bb
-index 49c584dff4..d444f9ab0c 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.13.7.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.13.7.bb
-@@ -11,6 +11,7 @@ include lttng-platforms.inc
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.19.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.19.bb
+index f78ade3e10..2b12b8b8df 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.19.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.19.bb
+@@ -11,8 +11,8 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
  
- SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0009-Rename-genhd-wrapper-to-blkdev.patch \
-+           file://0001-fix-mm-slab_common-drop-kmem_alloc-avoid-dereferenci.patch \ 
-            "
+-SRCREV_machine ?= "59a2ffca6673305b3b9e3186294feb5437698d18"
+-SRCREV_meta ?= "399055aee2fe59fbde5f7f9aadcc953bf49222f4"
++SRCREV_machine ?= "2bd6711a4dcc49e51ae68152ed0b40384e291554"
++SRCREV_meta ?= "7381acde368f24529d8c9face1826fb54bf7feee"
  
- # Use :append here so that the patch is applied also when using devupstream
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.19;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.19.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.19.bb
+index f34ec707ae..0dd3816dc5 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.19.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.19.bb
+@@ -14,8 +14,8 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "82689c62701573edb28ef1df2bd83adafd3ca701"
+-SRCREV_meta ?= "399055aee2fe59fbde5f7f9aadcc953bf49222f4"
++SRCREV_machine ?= "ccb5f0a475b228c995800cb1b0f714426c2f1ec8"
++SRCREV_meta ?= "7381acde368f24529d8c9face1826fb54bf7feee"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.19.bb b/meta/recipes-kernel/linux/linux-yocto_5.19.bb
+index 0447d500d2..b242dfa27a 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.19.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.19.bb
+@@ -13,17 +13,17 @@ KBRANCH:qemux86  ?= "v5.19/standard/base"
+ KBRANCH:qemux86-64 ?= "v5.19/standard/base"
+ KBRANCH:qemumips64 ?= "v5.19/standard/mti-malta64"
+ 
+-SRCREV_machine:qemuarm ?= "d789efca1869e21f1c275fd2e46f2eada1698f8d"
+-SRCREV_machine:qemuarm64 ?= "82689c62701573edb28ef1df2bd83adafd3ca701"
+-SRCREV_machine:qemumips ?= "7216e7029faf5685256b3ce57d3be1c371c56267"
+-SRCREV_machine:qemuppc ?= "82689c62701573edb28ef1df2bd83adafd3ca701"
+-SRCREV_machine:qemuriscv64 ?= "82689c62701573edb28ef1df2bd83adafd3ca701"
+-SRCREV_machine:qemuriscv32 ?= "82689c62701573edb28ef1df2bd83adafd3ca701"
+-SRCREV_machine:qemux86 ?= "82689c62701573edb28ef1df2bd83adafd3ca701"
+-SRCREV_machine:qemux86-64 ?= "82689c62701573edb28ef1df2bd83adafd3ca701"
+-SRCREV_machine:qemumips64 ?= "4e9603752156d3a0b9fe53309f4bc78d3f4f7df5"
+-SRCREV_machine ?= "82689c62701573edb28ef1df2bd83adafd3ca701"
+-SRCREV_meta ?= "399055aee2fe59fbde5f7f9aadcc953bf49222f4"
++SRCREV_machine:qemuarm ?= "dfb2a8b83c0e37732dd930330132b692409f7321"
++SRCREV_machine:qemuarm64 ?= "ccb5f0a475b228c995800cb1b0f714426c2f1ec8"
++SRCREV_machine:qemumips ?= "b0e7e098c3fc9f2309e74137de4b8a5fcbaa2779"
++SRCREV_machine:qemuppc ?= "ccb5f0a475b228c995800cb1b0f714426c2f1ec8"
++SRCREV_machine:qemuriscv64 ?= "ccb5f0a475b228c995800cb1b0f714426c2f1ec8"
++SRCREV_machine:qemuriscv32 ?= "ccb5f0a475b228c995800cb1b0f714426c2f1ec8"
++SRCREV_machine:qemux86 ?= "ccb5f0a475b228c995800cb1b0f714426c2f1ec8"
++SRCREV_machine:qemux86-64 ?= "ccb5f0a475b228c995800cb1b0f714426c2f1ec8"
++SRCREV_machine:qemumips64 ?= "20d5adcd760ffdc90b4e5babb85a07b9d6ff3113"
++SRCREV_machine ?= "ccb5f0a475b228c995800cb1b0f714426c2f1ec8"
++SRCREV_meta ?= "7381acde368f24529d8c9face1826fb54bf7feee"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
 -- 
 2.19.1
 
