@@ -1,70 +1,98 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <s.zhmylev@yadro.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF9A0C433FE
-	for <webhook@archiver.kernel.org>; Fri, 18 Nov 2022 13:22:00 +0000 (UTC)
-Received: from mailout08.t-online.de (mailout08.t-online.de [194.25.134.20])
- by mx.groups.io with SMTP id smtpd.web11.11338.1668777718464509870
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00F1EC433FE
+	for <webhook@archiver.kernel.org>; Fri, 18 Nov 2022 13:30:51 +0000 (UTC)
+Received: from mta-01.yadro.com (mta-01.yadro.com [89.207.88.252])
+ by mx.groups.io with SMTP id smtpd.web11.11536.1668778239414964930
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Nov 2022 05:21:58 -0800
+ Fri, 18 Nov 2022 05:30:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.20, mailfrom: f_l_k@t-online.de)
-Received: from fwd87.dcpf.telekom.de (fwd87.aul.t-online.de [10.223.144.113])
-	by mailout08.t-online.de (Postfix) with SMTP id 7232C1E29;
-	Fri, 18 Nov 2022 14:20:35 +0100 (CET)
-Received: from [192.168.178.83] ([79.219.225.179]) by fwd87.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1ow1IJ-1xSfNQ0; Fri, 18 Nov 2022 14:20:35 +0100
-Date: Fri, 18 Nov 2022 14:20:29 +0100
-From: Markus Volk <f_l_k@t-online.de>
-Subject: Re: [OE-core] [PATCH] blktrace: ask for python3 specifically
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: "Sajal, Sakib" <Sakib.Sajal@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Message-Id: <52PJLR.JPC24H6Y7EH91@t-online.de>
-In-Reply-To: 
-	<CANNYZj_KxF2o1TdsKRN3ESqN1T=tkbb3wBB4UZ8-5SPDY2or+g@mail.gmail.com>
-References: <20221103183356.40685-1-sakib.sajal@windriver.com>
-	<CANNYZj9R5=X_=yK8hsq_RJJ0ieSrGbCqd4jpzBN5Uv_U59n2ZQ@mail.gmail.com>
-	<DM6PR11MB25388B935A115A1398CD8EAAF2079@DM6PR11MB2538.namprd11.prod.outlook.com>
-	<CANNYZj-mNkCgk=XHWBvqpqr=x4R9AMyktBTj49p-QK=Ui2whxg@mail.gmail.com>
-	<4JYHLR.TSDICAGWLD7L@t-online.de>
-	<CANNYZj_akT9iove+LmqnrY4zA1ghct93t4P7hc5UtuSf8s5eHQ@mail.gmail.com>
-	<XAMJLR.696EYFVTYA7M3@t-online.de>
-	<CANNYZj_KxF2o1TdsKRN3ESqN1T=tkbb3wBB4UZ8-5SPDY2or+g@mail.gmail.com>
-X-Mailer: geary/40.0
+ dkim=fail reason="signature has expired" header.i=@yadro.com header.s=mta-01 header.b=mgbk0fBO;
+ spf=pass (domain: yadro.com, ip: 89.207.88.252, mailfrom: s.zhmylev@yadro.com)
+Received: from localhost (unknown [127.0.0.1])
+	by mta-01.yadro.com (Postfix) with ESMTP id D6C6D404AC
+	for <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 13:30:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+	content-type:content-type:content-transfer-encoding:mime-version
+	:x-mailer:message-id:date:date:subject:subject:from:from
+	:received:received:received:received; s=mta-01; t=1668778235; x=
+	1670592636; bh=B7mQCswsSjZ+LjEMfTHsmTbTLxZe2x/PqG7ZMYdL4M4=; b=m
+	gbk0fBO19pe+y68Q1QbZXHFxmEYwt1CN2NMGHsWelQia0hUP0x5wA0+AvgPLCd9K
+	rCKhNo+6XwoC5l5NzTQEfOBTEpei5fRSvYkItYgpVNhzUt4c6tnRRHhhYYfTUSIu
+	G7m6i8is5vfD7V8WINeY06nJq3zgIJ44PBJm5ubunk=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+	by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id lNZxKXQrhlcm
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Nov 2022 16:30:35 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (T-EXCH-02.corp.yadro.com [172.17.10.102])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mta-01.yadro.com (Postfix) with ESMTPS id A749041237
+	for <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 16:30:31 +0300 (MSK)
+Received: from T-EXCH-08.corp.yadro.com (172.17.11.58) by
+ T-EXCH-02.corp.yadro.com (172.17.10.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.669.32; Fri, 18 Nov 2022 16:30:31 +0300
+Received: from localhost.localdomain (172.22.3.175) by
+ T-EXCH-08.corp.yadro.com (172.17.11.58) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.1118.9; Fri, 18 Nov 2022 16:30:31 +0300
+From: <s.zhmylev@yadro.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Sergei Zhmylev <s.zhmylev@yadro.com>
+Subject: [PATCH] oeqa/qemurunner: implement vmdk images support
+Date: Fri, 18 Nov 2022 16:30:20 +0300
+Message-ID: <20221118133020.20735-1-s.zhmylev@yadro.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-EDf8PSMQDBSYYNpTpHhE"
-X-TOI-EXPURGATEID: 150726::1668777635-3B7ED81E-2938D1FD/0/0 CLEAN NORMAL
-X-TOI-MSGID: 669d85f8-d0d9-4e53-8f1f-5ace874349b0
+Content-Type: text/plain
+X-Originating-IP: [172.22.3.175]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-08.corp.yadro.com (172.17.11.58)
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 13:22:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173458
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 13:30:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173459
 
---=-EDf8PSMQDBSYYNpTpHhE
-Content-Type: text/plain; charset=us-ascii; format=flowed
+From: Sergei Zhmylev <s.zhmylev@yadro.com>
 
-Am Fr, 18. Nov 2022 um 13:36:17 +0100 schrieb Alexander Kanavin 
-<alex.kanavin@gmail.com>:
-> I'd rather force everyone to patch their 2.x scripts to ask for
-> python2.
+Qemurunner should not pass rootfs to runqemu in case
+rootfs is not a filesystem itself.  Some images could
+be built into some disk format like vmdk and this
+commit makes qemurunner handle such images properly.
 
-Should anybody still promise Python2 support?
-I know, reality is still different, but since it is meanwhile 
-unsupported, my idea would rather be to put the pressure on the 
-possibly still failing scripts to get them fixed for python3.
+Signed-off-by: Sergei Zhmylev <s.zhmylev@yadro.com>
+---
+ meta/lib/oeqa/utils/qemurunner.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-
-
-
---=-EDf8PSMQDBSYYNpTpHhE
-Content-Type: text/html; charset=us-ascii
-
-<div id="geary-body" dir="auto">Am Fr, 18. Nov 2022 um 13:36:17 +0100 schrieb Alexander Kanavin &lt;alex.kanavin@gmail.com&gt;:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">I'd rather force everyone to patch their 2.x scripts to ask for
-python2.</div></blockquote><div><br></div><div>Should anybody still promise Python2 support?</div><div>I know, reality is still different, but since it is meanwhile unsupported, my idea would rather be to put the pressure on the possibly still failing scripts to get them fixed for python3.</div><div><br></div><div><br></div></div>
---=-EDf8PSMQDBSYYNpTpHhE--
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemu=
+runner.py
+index e602399232..f982ea91da 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -177,7 +177,11 @@ class QemuRunner:
+                 launch_cmd +=3D ' slirp'
+             if self.use_ovmf:
+                 launch_cmd +=3D ' ovmf'
+-            launch_cmd +=3D ' %s %s %s' % (runqemuparams, self.machine, =
+self.rootfs)
++            launch_cmd +=3D ' %s %s' % (runqemuparams, self.machine)
++            if self.rootfs.endswith('.vmdk'):
++                self.logger.debug('Bypassing VMDK rootfs for runqemu')
++            else:
++                launch_cmd +=3D ' %s' % (self.rootfs)
+=20
+         return self.launch(launch_cmd, qemuparams=3Dqemuparams, get_ip=3D=
+get_ip, extra_bootparams=3Dextra_bootparams, env=3Denv)
+=20
+--=20
+2.37.2
 
 
