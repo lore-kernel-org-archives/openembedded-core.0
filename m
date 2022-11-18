@@ -2,126 +2,100 @@ Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 731E1C4332F
-	for <webhook@archiver.kernel.org>; Fri, 18 Nov 2022 16:09:06 +0000 (UTC)
-Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
- by mx.groups.io with SMTP id smtpd.web11.77.1668787737566023318
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DC9CC4332F
+	for <webhook@archiver.kernel.org>; Fri, 18 Nov 2022 16:09:56 +0000 (UTC)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+ by mx.groups.io with SMTP id smtpd.web10.110.1668787795598730827
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Nov 2022 08:08:57 -0800
+ Fri, 18 Nov 2022 08:09:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
-Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
-	by mail.kapsi.fi with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1ow3vC-00EcWf-Od; Fri, 18 Nov 2022 18:08:55 +0200
-Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.94.2)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1ow3vC-00GePQ-EI; Fri, 18 Nov 2022 18:08:54 +0200
+ dkim=pass header.i=@linaro.org header.s=google header.b=D0KCVOwk;
+ spf=pass (domain: linaro.org, ip: 209.85.167.41, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f41.google.com with SMTP id j16so8898507lfe.12
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 08:09:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=HUCG13/cGBK6niTUDSjDfAd0jb8dj9JB/s/N+cpPMbI=;
+        b=D0KCVOwkJORQhEJnzbli4DF8g3ejbF3q+uvOHrGJxH2ciq5vzIqooynY/AG1AHHjb3
+         +5q3NpZrJjkSaaynE85qcsiTcSsEgykdm41tTRWQKgD0qhJ6C2B8BbLsOeaKhUSIm3Je
+         gQKsM3EXFpiAXaRMIYFyRss+7vvdmdLDBnPxJypxin1yr225ukMSaAwVcHws2/GIeYr5
+         2OKE7q8Z9s6XgK6dk6owlzsEeOKw40kyH2XNjyh0h5Zr4t3Qv+aS0MXS4bNZkIV2fp2S
+         2sybdXwnEfRMSfEhwxJmpODVhejyGo41xPFIy3miUIP4ulN/7KpCoRcMDIN/MHSlr00z
+         ZFCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HUCG13/cGBK6niTUDSjDfAd0jb8dj9JB/s/N+cpPMbI=;
+        b=MUvWsMnEv6F7aGCu02rmPLzFieab/87pQ9XOgIm+rf43Ch3p72lVsf9yCgyQUKUMLW
+         BPOL3oHIYsViKOcmjqcc6rdlyqmzpgZZhDHPr30UemDYbUYgZxu/4o+Z78VfEdgoqnOr
+         GrY0BSNF+KurWYA3kvBU90P4c7/zgHHxXPCF2fZ39EmVR1Dp2VNCVtr940rrnoWwWSQn
+         MyIYS9CldArYOwgH069S4AGqfrRADworZaEhNZDMVWStQrFFBWFT/s8Ax1XkRvjW8V0I
+         MGtbPvwzKWQwrRM1BoES/PIFOfUxHTl8OJKIa/blMGxHfLfRLIdqIOKwwEVwJNYhVI81
+         2+XA==
+X-Gm-Message-State: ANoB5plqTzz9DUtMcyyUHB9qxcuQDGCs8JRCGoiMGk2mGzrRXuofSLsi
+	g9GZRpA8V+WLcqsAiCb6nawyYw==
+X-Google-Smtp-Source: AA0mqf6esBRvdRiZlXeKAJ/KanDk+sjSvQXelm91CVPPWtlxle0waUlGNyLQVTOwK8nKnmkilIUnXA==
+X-Received: by 2002:a05:6512:23aa:b0:4a4:65f0:cdc8 with SMTP id c42-20020a05651223aa00b004a465f0cdc8mr2503710lfv.609.1668787793492;
+        Fri, 18 Nov 2022 08:09:53 -0800 (PST)
+Received: from nuoska (dsl-olubng12-54fa1d-36.dhcp.inet.fi. [84.250.29.36])
+        by smtp.gmail.com with ESMTPSA id be34-20020a05651c172200b0026bf43a4d72sm700971ljb.115.2022.11.18.08.09.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Nov 2022 08:09:53 -0800 (PST)
+Date: Fri, 18 Nov 2022 18:09:51 +0200
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH v2 2/2] oeqa parselogs.py: use get_data() to fetch image specific error list
-Date: Fri, 18 Nov 2022 18:08:50 +0200
-Message-Id: <20221118160850.3964225-2-mikko.rapeli@linaro.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221118160850.3964225-1-mikko.rapeli@linaro.org>
-References: <20221118160850.3964225-1-mikko.rapeli@linaro.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 0/2] image specific configuration with oeqa
+ runtime tests
+Message-ID: <Y3euT9EKWqACmd8q@nuoska>
+References: <20221117071223.107064-1-mikko.rapeli@linaro.org>
+ <5b79cba0817750882a0ef1f1dd9b9581abc9db28.camel@linuxfoundation.org>
+ <Y3ZVup8YKv6LQzuF@nuoska>
+ <4f16ed270c2b979839830929c703494d221b2228.camel@linuxfoundation.org>
+ <Y3eXdWibCGQBV6Wt@nuoska>
+ <6b088587f876fd2cf76ad8b1b13fac6a7c92cfc6.camel@linuxfoundation.org>
+ <Y3erTB2Qulh8Wfn+@nuoska>
+ <e7158cb97e3f8112e94296ad64df8ebf7792b995.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspam-Score: -1.2 (-)
-X-Rspam-Report: Action: no action
- Symbol: RCVD_TLS_LAST(0.00)
- Symbol: ARC_NA(0.00)
- Symbol: DMARC_POLICY_SOFTFAIL(0.10)
- Symbol: FROM_HAS_DN(0.00)
- Symbol: TO_DN_SOME(0.00)
- Symbol: R_MISSING_CHARSET(0.50)
- Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
- Symbol: MIME_GOOD(-0.10)
- Symbol: RCPT_COUNT_TWO(0.00)
- Symbol: MID_CONTAINS_FROM(1.00)
- Symbol: NEURAL_HAM(-0.00)
- Symbol: R_SPF_NA(0.00)
- Symbol: FORGED_SENDER(0.30)
- Symbol: R_DKIM_NA(0.00)
- Symbol: MIME_TRACE(0.00)
- Symbol: ASN(0.00)
- Symbol: FROM_NEQ_ENVFROM(0.00)
- Symbol: BAYES_HAM(-3.00)
- Symbol: RCVD_COUNT_TWO(0.00)
- Message-ID: 20221118160850.3964225-2-mikko.rapeli@linaro.org
-X-SA-Exim-Connect-IP: 2001:67c:1be8::11
-X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e7158cb97e3f8112e94296ad64df8ebf7792b995.camel@linuxfoundation.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 16:09:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173473
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 16:09:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173474
 
-Runtime oeqa test parselogs.py checks dmesg output for errors. It has
-hard coded machine specific exceptions for errors which can be ignored.
-To re-use of this test on other machine targets and images, use
-get_data() function to get the list of error strings to ignore
-"ignore_errors" from image specific "testimage_data.json" file.
-The json file stores this data as list under test method name and key
-"ignore_errors. For example:
+Hi,
 
-{"test_parselogs":{"ignore_errors":[
-    "error strings which will be ignored",
-    "another error strings which will be ignored"
-]}}
+On Fri, Nov 18, 2022 at 04:04:01PM +0000, Richard Purdie wrote:
+> On Fri, 2022-11-18 at 17:57 +0200, Mikko Rapeli wrote:
+> > Additionally I'm currently interested in kirkstone LTS branch so would like
+> > any changes to be there too...
+> 
+> The idea is that we develop things in master, then they become
+> available in the next LTS release, not the previous one.
+> 
+> People somehow seem to think that we add development patches to master
+> and immediately backport them to the last LTS. This is not how
+> development or the LTS is meant to work :(.
+> 
+> We've not going to be forced into poor interface/API choices just
+> because people want things backported to the current LTS.
+> 
+> This is why I'm so worried about the lack of planning and development
+> happening on master, people need to be thinking and planning ahead. To
+> be clear, this isn't just about this issue but a pattern we're seeing
+> far more widely.
 
-If the json file does not exist, parselogs.py still falls back to using
-the hardcoded defaults.
+Agreed, I'm trying to get into working closer to master but not there
+yet...
 
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
----
- meta/lib/oeqa/runtime/cases/parselogs.py | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+Cheers,
 
-v2: switch from logger.warn() to logger.info() to avoid extra warnings
-in logs
-
-v1: https://lists.openembedded.org/g/openembedded-core/message/173406
-
-diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
-index e67d3750da..2b89909cd7 100644
---- a/meta/lib/oeqa/runtime/cases/parselogs.py
-+++ b/meta/lib/oeqa/runtime/cases/parselogs.py
-@@ -12,6 +12,7 @@ from oeqa.runtime.case import OERuntimeTestCase
- from oeqa.core.decorator.depends import OETestDepends
- from oeqa.core.decorator.data import skipIfDataVar
- from oeqa.runtime.decorator.package import OEHasPackage
-+from oeqa.utils.data import get_data
- 
- #in the future these lists could be moved outside of module
- errors = ["error", "cannot", "can\'t", "failed"]
-@@ -316,10 +317,18 @@ class ParseLogsTest(OERuntimeTestCase):
-         grepcmd += '" ' + str(log) + " | grep -Eiv \'"
- 
-         try:
--            errorlist = ignore_errors[self.getMachine()]
--        except KeyError:
--            self.msg += 'No ignore list found for this machine, using default\n'
--            errorlist = ignore_errors['default']
-+            # get list of strings to ignore from image specific testimage_data.json with format:
-+            # {"test_parselogs": {"ignore_errors":["string to ignore", "second string to ignore"]}}
-+            errorlist = get_data(self, key = "ignore_errors")
-+        except Exception as e:
-+            self.logger.debug("%s: Exception e = %s" % (__file__, e))
-+            try:
-+                errorlist = ignore_errors[self.getMachine()]
-+            except KeyError:
-+                warning_string = 'No ignore list found for this machine and no valid testimage_data.json, using defaults\n'
-+                self.msg += '%s\n' % (warning_string)
-+                self.logger.info("%s" % (warning_string))
-+                errorlist = ignore_errors['default']
- 
-         for ignore_error in errorlist:
-             ignore_error = ignore_error.replace('(', r'\(')
--- 
-2.34.1
-
+-Mikko
 
