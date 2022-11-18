@@ -1,110 +1,238 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EC1BC4332F
-	for <webhook@archiver.kernel.org>; Fri, 18 Nov 2022 14:51:01 +0000 (UTC)
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
- by mx.groups.io with SMTP id smtpd.web10.13675.1668783051747579398
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6366FC4332F
+	for <webhook@archiver.kernel.org>; Fri, 18 Nov 2022 15:04:41 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web11.13937.1668783873679600505
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Nov 2022 06:50:52 -0800
+ Fri, 18 Nov 2022 07:04:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=7nnjXaSy;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.41, mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f41.google.com with SMTP id s12so7468696edd.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 06:50:51 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZmIjvQhw;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id v7so3827089wmn.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 07:04:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=OcRO+hHCSbUss8HKAdDV0R0GqFoqMubue3rYKCppQXY=;
-        b=7nnjXaSyEHCS/HclPE2YgcRHqs4d8JTVEaVOJxRAgHyYUKR2d+zREnVVcJjuAHJR5H
-         vE1IVtDmCc2pToEupe+AYdNWwy4foexjXOKpOxJG4TyYuOp58OOPm0TbjZu77UnArffp
-         pNOHhhZWo4VnjawVPESg3BsZEWQmDSltT+3yj46+Rzt21hBGcuQfAYRl4VCzkHK5xQ/b
-         zavqujzjLupzCpbf/q1JEoSSN7ALM30LHKfl6il5eJg4i6JmQmkuZLqT1ZOimtCDmP1X
-         DeN1Hkg9WJjXidvxaZsuaC0BOpFuy5zytxlx+pbTMc9JCVKgr7DeZGjz4I1w1YamVa/P
-         Ic1w==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Ap+NDRge2BNzmSblzvfnjwY4qZbqj2sRHOxgG3XIlNo=;
+        b=ZmIjvQhw4xBPmi6x6bMHx1bud1rOX0V/E9ssNvcLZBYRNCo6o33G6GccvLQlM+Xq5p
+         PNUMoP0JTvcOHxAj6TNL1xTsGejbhwd/WnccE1Yqck9/eSHZtVVjIvQnoputqgLJpzD2
+         9fc/9xUdTIc3jxGKt5ApfizgzSUQFs8JQGC/k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OcRO+hHCSbUss8HKAdDV0R0GqFoqMubue3rYKCppQXY=;
-        b=3rhWF6bNvV8Gi5T9OjtyXBFHLbd1bNR2uKnwabVykWMvKTSgklEHzxoaVfF1mG1dft
-         +vi5CVG2kpP/JglEB1qnIOeKDXD/42d2zr/NxBPDzo/PtjsC+0vvwFFte3FcZeXC+M0l
-         xZPHY/OwdqHXfAGM3DBBfpdkhlbFwDJ8QgXdAuVxlOIwhPZ8wJ21QWAdrQhkF7p4aIac
-         93yU3TMxhnisGHZALTlYFVTKImL2ANlqKj5XDNO4tzVjXvrkF6SdtkSo9RLuSGlcX+FR
-         CF1xcaSxjZ2v2ZVrALsqSz7R60ysJlwkHOUrhGaRGIbympI5xJqxYz3fK/g2n+H5Cuj3
-         +2bQ==
-X-Gm-Message-State: ANoB5pm1Dyjjy8/OiRxkTmGrEJ8c6t67hrqUcrRBbAsEsTzExF4cv1X2
-	31LI9DD33aIZxd4Z1pvRLHDHuXm+u/hBDd9LHR09Qw==
-X-Google-Smtp-Source: AA0mqf5UgDx20mLY7MKFJwPUEX+R5lyamCBsFLOXh4FCbVYNK8mJ5lrZh4+yy+U7eFCeox2n05rCBQEFyyGdnfFd+50=
-X-Received: by 2002:a05:6402:388e:b0:468:fb0d:2d8b with SMTP id
- fd14-20020a056402388e00b00468fb0d2d8bmr4592805edb.124.1668783049699; Fri, 18
- Nov 2022 06:50:49 -0800 (PST)
-MIME-Version: 1.0
-References: <20221118124017.5382-1-asharma@mvista.com>
-In-Reply-To: <20221118124017.5382-1-asharma@mvista.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Fri, 18 Nov 2022 04:50:38 -1000
-Message-ID: <CAOSpxdaivS1vyt1NX7VqF8NrJ3B9t5_iLjUp1EUfPWspLdCVOA@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone][PATCH V2] local.conf.sample: correct the
- location of public hashserv
-To: Ashish Sharma <asharma@mvista.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex.kanavin@gmail.com>, Alexander Kanavin <alex@linutronix.de>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	"Jeremy A . Puhlman" <jpuhlman@mvista.com>
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ap+NDRge2BNzmSblzvfnjwY4qZbqj2sRHOxgG3XIlNo=;
+        b=d54OGPBU2AISWpPx4N2p73jFW2i3fiidScUiTF7t09V/BjQ1SYam12ogxKRXXImccc
+         L4eikSR6ncvwVA0PZlRXiCVH2ZwRZO/Hybi1w/zHZxa6mUhdsxWjPROST+hdkPNSEZiD
+         s4Ivs0J4dCQKBJxi1JAFpz6Y7k35vJIBUBJDZgf3BLahm5IDmiO4sNedFVjEMVn+cIdI
+         8EqOlUIWlTLidaimpmlt4dqRE8MLDaf3V1hyorthBkY5mLh+hUKVuSRVQc7JYhP27D+a
+         AGabVz2HL7CIvLfd4OoErv8HTrOymihDmLrdpUbdEXapx6m6CAruC9HVYEGKdT4EOV0z
+         USsA==
+X-Gm-Message-State: ANoB5pmWmqyzl9GGhNZm4djbP4Sewj2E1vsTu5S64FHsWPOjVIhQF04O
+	Vzs6LBA716KxXp1W2Bdcgw5GUA==
+X-Google-Smtp-Source: AA0mqf7us9+tT+vgxw6RGx6FxhUS/KyJP5Hazk5rQ+Xi4R/PMaO0wxeVl56hNvR3HvrbV1McFJVQGA==
+X-Received: by 2002:a05:600c:3acd:b0:3cf:550e:d7a2 with SMTP id d13-20020a05600c3acd00b003cf550ed7a2mr5129574wms.97.1668783871919;
+        Fri, 18 Nov 2022 07:04:31 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:a603:eef1:6736:def4? ([2001:8b0:aba:5f3c:a603:eef1:6736:def4])
+        by smtp.gmail.com with ESMTPSA id z2-20020a1c4c02000000b003cfe1376f68sm4708606wmf.9.2022.11.18.07.04.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Nov 2022 07:04:31 -0800 (PST)
+Message-ID: <6b088587f876fd2cf76ad8b1b13fac6a7c92cfc6.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 0/2] image specific configuration with oeqa
+ runtime tests
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mikko Rapeli <mikko.rapeli@linaro.org>
+Cc: openembedded-core@lists.openembedded.org
+Date: Fri, 18 Nov 2022 15:04:29 +0000
+In-Reply-To: <Y3eXdWibCGQBV6Wt@nuoska>
+References: <20221117071223.107064-1-mikko.rapeli@linaro.org>
+	 <5b79cba0817750882a0ef1f1dd9b9581abc9db28.camel@linuxfoundation.org>
+	 <Y3ZVup8YKv6LQzuF@nuoska>
+	 <4f16ed270c2b979839830929c703494d221b2228.camel@linuxfoundation.org>
+	 <Y3eXdWibCGQBV6Wt@nuoska>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 14:51:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173464
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 15:04:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173465
 
-This commit is already in kirkstone:
+On Fri, 2022-11-18 at 16:32 +0200, Mikko Rapeli wrote:
+> Hi,
+>=20
+> On Thu, Nov 17, 2022 at 04:57:36PM +0000, Richard Purdie wrote:
+> > On Thu, 2022-11-17 at 17:39 +0200, Mikko Rapeli wrote:
+> > > Hi,
+> > >=20
+> > > On Thu, Nov 17, 2022 at 03:17:43PM +0000, Richard Purdie wrote:
+> > > > On Thu, 2022-11-17 at 09:12 +0200, Mikko Rapeli wrote:
+> > > > > Many runtime tests would need customization for different
+> > > > > machines and images. Currently some tests like parselogs.py are h=
+ard
+> > > > > coding machine specific exceptions into the test itself. I think =
+these
+> > > > > machine specific exceptions fit better as image specific ones, si=
+nce a
+> > > > > single machine config can generate multiple images which behave
+> > > > > differently. Thus create a "testimage_data.json" file format whic=
+h image
+> > > > > recipes can deploy. This is then used by tests like parselogs.py =
+to find
+> > > > > the image specific exception list.
+> > > > >=20
+> > > > > Same approach would fit other runtime tests too. For example syst=
+emd
+> > > > > tests could include a test case which checks that an image specif=
+ic list of
+> > > > > services are running.
+> > > > >=20
+> > > > > I don't know how this data storage would be used with SDK or self=
+tests,
+> > > > > but maybe it could work there too with some small tweaks.
+> > > > >=20
+> > > > > Mikko Rapeli (2):
+> > > > >   oeqa: add utils/data.py with get_data() function
+> > > > >   oeqa parselogs.py: use get_data() to fetch image specific error=
+ list
+> > > > >=20
+> > > > >  meta/lib/oeqa/runtime/cases/parselogs.py | 17 +++++++---
+> > > > >  meta/lib/oeqa/utils/data.py              | 41 ++++++++++++++++++=
+++++++
+> > > > >  2 files changed, 54 insertions(+), 4 deletions(-)
+> > > > >  create mode 100644 meta/lib/oeqa/utils/data.py
+> > > >=20
+> > > > This patch looks like it is one side of the equation, i.e. importin=
+g
+> > > > the data into the tests. How does the data get into the deploy
+> > > > directory in the first place? I assume there are other patches whic=
+h do
+> > > > that?
+> > >=20
+> > > Patches in other layers do that, yes.
+>=20
+> Note to self and anyone else interested in this, it is rather
+> tricky to get SRC_URI and do_deploy() working in image recipes.
+> Something like this will do it though:
+>=20
+> SUMMARY =3D "Test image"
+> LICENSE =3D "MIT"
+>=20
+> SRC_URI =3D "file://testimage_data.json"
+>=20
+> inherit deploy
+>=20
+> # re-enable SRC_URI handling, it's disabled in image.bbclass
+> python __anonymous() {
+>     d.delVarFlag("do_fetch", "noexec")
+>     d.delVarFlag("do_unpack", "noexec")
+> }
+> ...
+> do_deploy() {
+>     # to customise oeqa tests
+>     mkdir -p "${DEPLOYDIR}"
+>     install "${WORKDIR}/testimage_data.json" "${DEPLOYDIR}"
+> }
+> # do_unpack needed to run do_fetch and do_unpack which are disabled by im=
+age.bbclass.
+> addtask deploy before do_build after do_rootfs do_unpack
 
-https://git.yoctoproject.org/poky/commit/?h=kirkstone&id=24a3f7b3648185e33133f5d96b184a6cb6524f3d
+Since the image code doesn't need SRC_URI and has it's own handling of
+deployment, we didn't really anyone should be needing to do that :/.
 
-Steve
+> > >=20
+> > When you execute later, are you going to use testexport or will the
+> > metadata still be available? As I mentioned, removing testexport would
+> > be desirable for a number of reasons but I suspect there are people who
+> > might want it.
+>=20
+> I was planning to use testexport and also make sure all images and other
+> things needed for running tests are in the output of a build.
 
-On Fri, Nov 18, 2022 at 2:40 AM Ashish Sharma <asharma@mvista.com> wrote:
->
-> From: Alexander Kanavin <alex.kanavin@gmail.com>
->
-> Source: poky
-> MR: 121051
-> Type: Integration
-> Disposition: Merged from poky
-> ChangeID: 24a3f7b3648185e33133f5d96b184a6cb6524f3d
-> Description:
->
-> (From meta-yocto rev: b5cf7a6501d954ac76b18d7ef91376b5a046a522)
->
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit d1840499ff5b9551b3178cd2777ec9fe8666c96b)
-> Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
-> ---
->  meta-poky/conf/local.conf.sample | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta-poky/conf/local.conf.sample b/meta-poky/conf/local.conf.sample
-> index ae9c87f4b2..ef491d43bf 100644
-> --- a/meta-poky/conf/local.conf.sample
-> +++ b/meta-poky/conf/local.conf.sample
-> @@ -229,7 +229,7 @@ BB_DISKMON_DIRS ??= "\
->  # which will depend on your network.
->  # Note: For this to work you also need hash-equivalence passthrough to the matching server
->  #
-> -#BB_HASHSERVE_UPSTREAM = "typhoon.yocto.io:8687"
-> +#BB_HASHSERVE_UPSTREAM = "hashserv.yocto.io:8687"
->  #SSTATE_MIRRORS ?= "file://.* http://sstate.yoctoproject.org/all/PATH;downloadfilename=PATH"
->
->  #
-> --
-> 2.17.1
->
+I guess that means if we were to propose patches removing testexport
+functionality you'd be very much opposed then? :(
+
+
+>=20
+> > > > The second is the "testexport" approach where the tests are run wit=
+hout
+> > > > the main metadata. I know Ross and I would like to see testexport
+> > > > dropped as it complicates things and is a pain.
+> > > >=20
+> > > > This new file "feels" a lot like more extensions in the testexport
+> > > > direction and I'm not sure we need to do that. Could we handle this
+> > > > with more markup in the image recipe?
+> > >=20
+> > > For simple variables this would do but how about a long list of strin=
+gs
+> > > like poky/meta/lib/oeqa/runtime/cases/parselogs.py:
+> > >=20
+> > > common_errors =3D [
+> > >     "(WW) warning, (EE) error, (NI) not implemented, (??) unknown.",
+> > >     "dma timeout",
+> > >     "can\'t add hid device:",
+> > >     "usbhid: probe of ",
+> > >     "_OSC failed (AE_ERROR)",
+> > >     "_OSC failed (AE_SUPPORT)",
+> > >     "AE_ALREADY_EXISTS",
+> > >     "ACPI _OSC request failed (AE_SUPPORT)",
+> > >     "can\'t disable ASPM",
+> > >     "Failed to load module \"vesa\"",
+> > >     "Failed to load module vesa",
+> > >     "Failed to load module \"modesetting\"",
+> > >     "Failed to load module modesetting",
+> > >     "Failed to load module \"glx\"",
+> > >     "Failed to load module \"fbdev\"",
+> > >     "Failed to load module fbdev",
+> > >     "Failed to load module glx"
+> > > ]
+> > >=20
+> > > Embed json into a bitbake variable? Or embed directly as python code?
+> >=20
+> > I've wondered if we could add some new syntax to bitbake to support
+> > this somehow, does anyone have any ideas to propose?
+> >=20
+> > I'd wondered about both python data and/or json format (at which point
+> > someone will want yaml :/).
+>=20
+> This sounds pretty far fetched currently.
+
+Not really. If we can find a syntax that works, the rest of the code in
+bitbake can support that fairly easily. The datastore already handles
+objects of different types.
+
+> json files are quite simple to work with in python so I'd just stick to=
+=C2=A0
+> this. If this approach is ok I could update the testimage.bbclass=C2=A0
+> documentation with these details.
+> I really want to re-use tests and infratructure for running them but I ne=
+ed
+> to customize various details.
+
+My concern is having multiple different file formats and data streams.
+It means we no longer have one definitive data mechanism but two, then
+the argument for people also shipping yaml and other files with recipes
+also becomes difficult. We'd also have people wanting to query from one
+to the other eventually.
+
+The real issue here seems to be that our data format (.bb) is
+struggling with some forms of data. I've therefore a preference for
+fixing that rather than encouraging working around it.
+
+Cheers,
+
+Richard
+
+
+
+
+
 
