@@ -2,186 +2,213 @@ Return-Path: <joe.slater@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5085C4332F
-	for <webhook@archiver.kernel.org>; Fri, 18 Nov 2022 17:35:34 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.1264.1668792929021986083
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0B76C4332F
+	for <webhook@archiver.kernel.org>; Fri, 18 Nov 2022 17:42:14 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.71.1668793332370358861
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Nov 2022 09:35:29 -0800
+ Fri, 18 Nov 2022 09:42:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=RUIgi/3j;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=832133cac8=joe.slater@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2AIHHgde008097
-	for <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 17:35:28 GMT
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=N635Aqva;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=832133cac8=joe.slater@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2AIDKXMn016196
+	for <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 09:42:12 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
  subject : date : message-id : mime-version : content-transfer-encoding :
  content-type; s=PPS06212021;
- bh=w7priCH94iQyL9jRgxD/YCXsA3Kyib4IYflkvpGLR3o=;
- b=RUIgi/3jBEPUnMQ/X+5INrKfUja+R95mpqm/1X9BJtz787ZpJfazkLghyfdtSHl3gtNx
- qkixPeaLmpbSEnD9zQ3SyFa9PUc9yh3bNhTPh6g723+GikzciCkygjACVHUrxAXoXQiH
- Y4PO8hTSsvxQ17PTasKixcXMQ5ag3xC3SaurkxezwRx4Oy83BXJ5OyWhmoG7v37q3MGl
- 34rT+HF82wQ+oDng1ODogV4iRQhNtDEIo30+PSSm2qR5Fls43Z6VeBwnTCdJu06IYrRO
- M48Pbczx2zwc1lSGp5gyDgXE9NGoY0yoLBPITKSlzJjPaO7KgtUN4lTBQ/vRGyuPVmLS XQ== 
-Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kx0nw8kry-1
+ bh=dHR5wqmRhy4IG+ScIkCYFbTfai1ZZPkNDkcrnB/ChV0=;
+ b=N635AqvaEF3U7pomQvfk697JYzoVtcIGLF+4pp0G+XG5gsw1bXacfXyGGwBpdiHKYKCY
+ Gu72hJQu0/Zl1ErVCsPCerwHKFd0s2V6cQPgR+JejFgaC05/DGWc2jbcukyvMqhO7EKJ
+ c8iJyWwFymiTnXj3tiA+G8ppJKDbr4BVuUtKw79olgFuAVNeW5oyJ/2MgGXkDisu4007
+ +nQEo/rLGM8vULv+mBVfSafgRBCJG9yqRv+K0gsGqwqcHqmlt1U61Fm2Pi/SPq6Hjj+V
+ YLlqeprgONG+JI7KV4Xj5H0OGq+YRks40pJvGBJQADsJrZvurN51J4fcU9f7oD/KahR3 tg== 
+Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kx0qxrmmp-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 17:35:27 +0000
+	for <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 09:42:11 -0800
 Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Fri, 18 Nov 2022 09:35:26 -0800
+ 15.1.2308.27; Fri, 18 Nov 2022 09:42:07 -0800
 Received: from ala-lpggp5.wrs.com (147.11.136.210) by
  ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2308.27 via Frontend Transport; Fri, 18 Nov 2022 09:35:26 -0800
+ 15.1.2308.27 via Frontend Transport; Fri, 18 Nov 2022 09:42:07 -0800
 From: Joe Slater <joe.slater@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <joe.slater@windriver.com>, <randy.macleod@windriver.com>
-Subject: [oe-core][PATCH 1/1] python3: Fix CVE-2022-37460
-Date: Fri, 18 Nov 2022 09:35:26 -0800
-Message-ID: <20221118173526.40333-1-joe.slater@windriver.com>
+Subject: [v2][oe-core][kirkstone][PATCH 1/1] python3: advance to version 3.10.8
+Date: Fri, 18 Nov 2022 09:42:07 -0800
+Message-ID: <20221118174207.17668-1-joe.slater@windriver.com>
 X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: XPYJfqQkufHUI88hWyDSeraBJH5jzSLZ
-X-Proofpoint-ORIG-GUID: XPYJfqQkufHUI88hWyDSeraBJH5jzSLZ
+X-Proofpoint-ORIG-GUID: svXvZyiNBSFJJJ4-E3qmG6To_dKErsXV
+X-Proofpoint-GUID: svXvZyiNBSFJJJ4-E3qmG6To_dKErsXV
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-11-18_05,2022-11-18_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- phishscore=0 impostorscore=0 mlxlogscore=999 mlxscore=0 adultscore=0
- suspectscore=0 spamscore=0 malwarescore=0 priorityscore=1501 clxscore=1015
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211180103
+ clxscore=1015 bulkscore=0 adultscore=0 mlxscore=0 priorityscore=1501
+ impostorscore=0 mlxlogscore=999 phishscore=0 spamscore=0 malwarescore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211180104
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 17:35:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173480
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 17:42:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173481
 
-Apply patch created after the release of 3.11.0.
+Fixes CVE-2022-37460.  Also add patch to fix CVE-2022-37454.
 
 Signed-off-by: Joe Slater <joe.slater@windriver.com>
 ---
- .../python/python3/cve-2022-37460.patch       | 95 +++++++++++++++++++
- .../recipes-devtools/python/python3_3.11.0.bb |  1 +
- 2 files changed, 96 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/cve-2022-37460.patch
+ .../python/python3/cve-2022-37454.patch       | 108 ++++++++++++++++++
+ .../{python3_3.10.7.bb => python3_3.10.8.bb}  |   4 +-
+ 2 files changed, 110 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python3/cve-2022-37454.patch
+ rename meta/recipes-devtools/python/{python3_3.10.7.bb => python3_3.10.8.bb} (99%)
 
-diff --git a/meta/recipes-devtools/python/python3/cve-2022-37460.patch b/meta/recipes-devtools/python/python3/cve-2022-37460.patch
+diff --git a/meta/recipes-devtools/python/python3/cve-2022-37454.patch b/meta/recipes-devtools/python/python3/cve-2022-37454.patch
 new file mode 100644
-index 0000000000..12177684fd
+index 0000000000..c019151a64
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3/cve-2022-37460.patch
-@@ -0,0 +1,95 @@
-+From 94582bb643f98bc58b1ff206d1d2a56f97c3a7e5 Mon Sep 17 00:00:00 2001
-+From: "Miss Islington (bot)"
-+ <31488909+miss-islington@users.noreply.github.com>
-+Date: Wed, 28 Sep 2022 16:46:11 -0700
-+Subject: [PATCH] gh-97612: Fix shell injection in get-remote-certificate.py
-+ (GH-97613)
++++ b/meta/recipes-devtools/python/python3/cve-2022-37454.patch
+@@ -0,0 +1,108 @@
++From 1f66b714c5f2fef80ec5389456ac31756dbfff0e Mon Sep 17 00:00:00 2001
++From: Theo Buehler <botovq@users.noreply.github.com>
++Date: Fri, 21 Oct 2022 21:26:01 +0200
++Subject: [PATCH] gh-98517: Fix buffer overflows in _sha3 module (#98519)
 +
-+Fix a shell code injection vulnerability in the
-+get-remote-certificate.py example script. The script no longer uses a
-+shell to run "openssl" commands. Issue reported and initial fix by
-+Caleb Shortt.
++This is a port of the applicable part of XKCP's fix [1] for
++CVE-2022-37454 and avoids the segmentation fault and the infinite
++loop in the test cases published in [2].
 +
-+Remove the Windows code path to send "quit" on stdin to the "openssl
-+s_client" command: use DEVNULL on all platforms instead.
++[1]: https://github.com/XKCP/XKCP/commit/fdc6fef075f4e81d6b1bc38364248975e08e340a
++[2]: https://mouha.be/sha-3-buffer-overflow/
 +
-+Co-authored-by: Caleb Shortt <caleb@rgauge.com>
-+(cherry picked from commit 83a0f44ffd8b398673ae56c310cf5768d359c341)
-+
-+Co-authored-by: Victor Stinner <vstinner@python.org>
++Regression test added by: Gregory P. Smith [Google LLC] <greg@krypto.org>
 +---
-+CVE: CVE-2022-37460
 +
-+Upstream-Status: Backport [https://github.com/python/cpython.git]
-+                          [commit 94582bb643... unmodified]
++Patch applied without modification.
++
++CVE: CVE-2022-37454
++
++Upstream-Status: Backport [github.com/cpython/cpython.git 0e4e058602d...]
 +
 +Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
 +---
-+ ...2-09-28-12-10-57.gh-issue-97612.y6NvOQ.rst |  3 +++
-+ Tools/scripts/get-remote-certificate.py       | 25 ++++++-------------
-+ 2 files changed, 10 insertions(+), 18 deletions(-)
-+ create mode 100644 Misc/NEWS.d/next/Security/2022-09-28-12-10-57.gh-issue-97612.y6NvOQ.rst
++ Lib/test/test_hashlib.py                          |  9 +++++++++
++ .../2022-10-21-13-31-47.gh-issue-98517.SXXGfV.rst |  1 +
++ Modules/_sha3/kcp/KeccakSponge.inc                | 15 ++++++++-------
++ 3 files changed, 18 insertions(+), 7 deletions(-)
++ create mode 100644 Misc/NEWS.d/next/Security/2022-10-21-13-31-47.gh-issue-98517.SXXGfV.rst
 +
-+diff --git a/Misc/NEWS.d/next/Security/2022-09-28-12-10-57.gh-issue-97612.y6NvOQ.rst b/Misc/NEWS.d/next/Security/2022-09-28-12-10-57.gh-issue-97612.y6NvOQ.rst
-+new file mode 100644
-+index 0000000000..2f113492d4
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2022-09-28-12-10-57.gh-issue-97612.y6NvOQ.rst
-+@@ -0,0 +1,3 @@
-++Fix a shell code injection vulnerability in the ``get-remote-certificate.py``
-++example script. The script no longer uses a shell to run ``openssl`` commands.
-++Issue reported and initial fix by Caleb Shortt. Patch by Victor Stinner.
-+diff --git a/Tools/scripts/get-remote-certificate.py b/Tools/scripts/get-remote-certificate.py
-+index 38901286e1..68272fca83 100755
-+--- a/Tools/scripts/get-remote-certificate.py
-++++ b/Tools/scripts/get-remote-certificate.py
-+@@ -15,8 +15,8 @@
-+ def fetch_server_certificate (host, port):
++diff --git a/Lib/test/test_hashlib.py b/Lib/test/test_hashlib.py
++index ea31f8b..65330e1 100644
++--- a/Lib/test/test_hashlib.py
+++++ b/Lib/test/test_hashlib.py
++@@ -491,6 +491,15 @@ class HashLibTestCase(unittest.TestCase):
++     def test_case_md5_uintmax(self, size):
++         self.check('md5', b'A'*size, '28138d306ff1b8281f1a9067e1a1a2b3')
 + 
-+     def subproc(cmd):
-+-        from subprocess import Popen, PIPE, STDOUT
-+-        proc = Popen(cmd, stdout=PIPE, stderr=STDOUT, shell=True)
-++        from subprocess import Popen, PIPE, STDOUT, DEVNULL
-++        proc = Popen(cmd, stdout=PIPE, stderr=STDOUT, stdin=DEVNULL)
-+         status = proc.wait()
-+         output = proc.stdout.read()
-+         return status, output
-+@@ -33,8 +33,8 @@ def strip_to_x509_cert(certfile_contents, outfile=None):
-+                 fp.write(m.group(1) + b"\n")
-+             try:
-+                 tn2 = (outfile or tempfile.mktemp())
-+-                status, output = subproc(r'openssl x509 -in "%s" -out "%s"' %
-+-                                         (tn, tn2))
-++                cmd = ['openssl', 'x509', '-in', tn, '-out', tn2]
-++                status, output = subproc(cmd)
-+                 if status != 0:
-+                     raise RuntimeError('OpenSSL x509 failed with status %s and '
-+                                        'output: %r' % (status, output))
-+@@ -45,20 +45,9 @@ def strip_to_x509_cert(certfile_contents, outfile=None):
-+             finally:
-+                 os.unlink(tn)
-+ 
-+-    if sys.platform.startswith("win"):
-+-        tfile = tempfile.mktemp()
-+-        with open(tfile, "w") as fp:
-+-            fp.write("quit\n")
-+-        try:
-+-            status, output = subproc(
-+-                'openssl s_client -connect "%s:%s" -showcerts < "%s"' %
-+-                (host, port, tfile))
-+-        finally:
-+-            os.unlink(tfile)
-+-    else:
-+-        status, output = subproc(
-+-            'openssl s_client -connect "%s:%s" -showcerts < /dev/null' %
-+-            (host, port))
-++    cmd = ['openssl', 's_client', '-connect', '%s:%s' % (host, port), '-showcerts']
-++    status, output = subproc(cmd)
+++    @unittest.skipIf(sys.maxsize < _4G - 1, 'test cannot run on 32-bit systems')
+++    @bigmemtest(size=_4G - 1, memuse=1, dry_run=False)
+++    def test_sha3_update_overflow(self, size):
+++        """Regression test for gh-98517 CVE-2022-37454."""
+++        h = hashlib.sha3_224()
+++        h.update(b'\x01')
+++        h.update(b'\x01'*0xffff_ffff)
+++        self.assertEqual(h.hexdigest(), '80762e8ce6700f114fec0f621fd97c4b9c00147fa052215294cceeed')
 ++
-+     if status != 0:
-+         raise RuntimeError('OpenSSL connect failed with status %s and '
-+                            'output: %r' % (status, output))
++     # use the three examples from Federal Information Processing Standards
++     # Publication 180-1, Secure Hash Standard,  1995 April 17
++     # http://www.itl.nist.gov/div897/pubs/fip180-1.htm
++diff --git a/Misc/NEWS.d/next/Security/2022-10-21-13-31-47.gh-issue-98517.SXXGfV.rst b/Misc/NEWS.d/next/Security/2022-10-21-13-31-47.gh-issue-98517.SXXGfV.rst
++new file mode 100644
++index 0000000..2d23a6a
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Security/2022-10-21-13-31-47.gh-issue-98517.SXXGfV.rst
++@@ -0,0 +1 @@
+++Port XKCP's fix for the buffer overflows in SHA-3 (CVE-2022-37454).
++diff --git a/Modules/_sha3/kcp/KeccakSponge.inc b/Modules/_sha3/kcp/KeccakSponge.inc
++index e10739d..cf92e4d 100644
++--- a/Modules/_sha3/kcp/KeccakSponge.inc
+++++ b/Modules/_sha3/kcp/KeccakSponge.inc
++@@ -171,7 +171,7 @@ int SpongeAbsorb(SpongeInstance *instance, const unsigned char *data, size_t dat
++     i = 0;
++     curData = data;
++     while(i < dataByteLen) {
++-        if ((instance->byteIOIndex == 0) && (dataByteLen >= (i + rateInBytes))) {
+++        if ((instance->byteIOIndex == 0) && (dataByteLen-i >= rateInBytes)) {
++ #ifdef SnP_FastLoop_Absorb
++             /* processing full blocks first */
++ 
++@@ -199,10 +199,10 @@ int SpongeAbsorb(SpongeInstance *instance, const unsigned char *data, size_t dat
++         }
++         else {
++             /* normal lane: using the message queue */
++-
++-            partialBlock = (unsigned int)(dataByteLen - i);
++-            if (partialBlock+instance->byteIOIndex > rateInBytes)
+++            if (dataByteLen-i > rateInBytes-instance->byteIOIndex)
++                 partialBlock = rateInBytes-instance->byteIOIndex;
+++            else
+++                partialBlock = (unsigned int)(dataByteLen - i);
++             #ifdef KeccakReference
++             displayBytes(1, "Block to be absorbed (part)", curData, partialBlock);
++             #endif
++@@ -281,7 +281,7 @@ int SpongeSqueeze(SpongeInstance *instance, unsigned char *data, size_t dataByte
++     i = 0;
++     curData = data;
++     while(i < dataByteLen) {
++-        if ((instance->byteIOIndex == rateInBytes) && (dataByteLen >= (i + rateInBytes))) {
+++        if ((instance->byteIOIndex == rateInBytes) && (dataByteLen-i >= rateInBytes)) {
++             for(j=dataByteLen-i; j>=rateInBytes; j-=rateInBytes) {
++                 SnP_Permute(instance->state);
++                 SnP_ExtractBytes(instance->state, curData, 0, rateInBytes);
++@@ -299,9 +299,10 @@ int SpongeSqueeze(SpongeInstance *instance, unsigned char *data, size_t dataByte
++                 SnP_Permute(instance->state);
++                 instance->byteIOIndex = 0;
++             }
++-            partialBlock = (unsigned int)(dataByteLen - i);
++-            if (partialBlock+instance->byteIOIndex > rateInBytes)
+++            if (dataByteLen-i > rateInBytes-instance->byteIOIndex)
++                 partialBlock = rateInBytes-instance->byteIOIndex;
+++            else
+++                partialBlock = (unsigned int)(dataByteLen - i);
++             i += partialBlock;
++ 
++             SnP_ExtractBytes(instance->state, curData, instance->byteIOIndex, partialBlock);
 +-- 
-+2.38.1
++2.32.0
 +
-diff --git a/meta/recipes-devtools/python/python3_3.11.0.bb b/meta/recipes-devtools/python/python3_3.11.0.bb
-index 92a1f69320..93628c76ff 100644
---- a/meta/recipes-devtools/python/python3_3.11.0.bb
-+++ b/meta/recipes-devtools/python/python3_3.11.0.bb
-@@ -34,6 +34,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-setup.py-Do-not-detect-multiarch-paths-when-cross-co.patch \
-            file://deterministic_imports.patch \
-            file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
-+           file://cve-2022-37460.patch \
-            "
+diff --git a/meta/recipes-devtools/python/python3_3.10.7.bb b/meta/recipes-devtools/python/python3_3.10.8.bb
+similarity index 99%
+rename from meta/recipes-devtools/python/python3_3.10.7.bb
+rename to meta/recipes-devtools/python/python3_3.10.8.bb
+index 404a582135..7cc1ce53ca 100644
+--- a/meta/recipes-devtools/python/python3_3.10.7.bb
++++ b/meta/recipes-devtools/python/python3_3.10.8.bb
+@@ -4,7 +4,7 @@ DESCRIPTION = "Python is a programming language that lets you work more quickly
+ LICENSE = "PSF-2.0"
+ SECTION = "devel/python"
  
- SRC_URI:append:class-native = " \
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=4b8801e752a2c70ac41a5f9aa243f766"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=a1822df8d0f068628ca6090aedc5bfc8"
+ 
+ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://run-ptest \
+@@ -43,7 +43,7 @@ SRC_URI:append:class-native = " \
+            file://12-distutils-prefix-is-inside-staging-area.patch \
+            file://0001-Don-t-search-system-for-headers-libraries.patch \
+            "
+-SRC_URI[sha256sum] = "6eed8415b7516fb2f260906db5d48dd4c06acc0cb24a7d6cc15296a604dcdc48"
++SRC_URI[sha256sum] = "6a30ecde59c47048013eb5a658c9b5dec277203d2793667f578df7671f7f03f3"
+ 
+ # exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
 -- 
 2.38.1
 
