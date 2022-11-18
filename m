@@ -2,57 +2,57 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79A0EC4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B36CC433FE
 	for <webhook@archiver.kernel.org>; Fri, 18 Nov 2022 17:52:30 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.49.1668793945037893943
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web11.60.1668793950140637232
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Nov 2022 09:52:25 -0800
+ Fri, 18 Nov 2022 09:52:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ikMQodXb;
- spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: ticotimo@gmail.com)
-Received: by mail-pl1-f175.google.com with SMTP id jn7so3344412plb.13
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 09:52:24 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=qCdZ71mN;
+ spf=pass (domain: gmail.com, ip: 209.85.210.176, mailfrom: ticotimo@gmail.com)
+Received: by mail-pf1-f176.google.com with SMTP id y13so5560968pfp.7
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 09:52:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WApGqkHI/Cj5t6Ujg/nlXc2pDxZXNMDnadCVbALvgSg=;
-        b=ikMQodXbMoeV8xzDNC2qyz/cCEKTsqCVMCeTsFgpzM9lOYtxaSmTJUwnH22OW5NRFu
-         yuba5O9NXeUGEsqAy12KBaIRdGWiLtTA1x/Tac07JODk8UIbdZueoUCVMb6x4rCVEJIe
-         gegKhN8dK9E8pT+Zw4uRNQ13PL5CnXfsbvKH/PjeApoPs91hGP79l16AzMaL67BXwioq
-         hhzxswX7Vq9GS5W4XLNKK7+e+PrD2GwrA96Q9CJ7k+rFxQk4ZZ58i0sgnyMqwSAQo8Wq
-         QeQmzij88HXnRHWYaxgDMmO/776wkL5nVWhr8Rh+ZvvL8VFIZWqdN+My5zhKpN7wYvMy
-         obXQ==
+        bh=f3/wS6+j5QTgyNRc7rqq3i9c+AbJ9idXHhz3Q9Jl2uE=;
+        b=qCdZ71mNGQ6uhO+jYjZsveVlY7Z4lvgilF4/5U6Yx4/bSvgQ0hAgwel8joJjQiXeSz
+         GcQbhK/mbq9ccaTwuFxAehADO90Qis8qv7VCUN401m4ZuOooqkzoVQtA2AHRtdTidM6m
+         /iEklxi+s/KNPeMLcEnAe4X9wwHbPiHM8Ye9r7qg5eBS/oHeZHwHlxDBkl+0TxJ3hobA
+         DiUBAcseu/C2ukEW/7pMuwpQ4jMjTqVBiOwUGCm8JLCWs84RX50v46lJw7FcYsP/coLp
+         yK9HaWZBZI9VIBpOjFvEbNPn9M4a1dSXOFTEUA9OiSg4Q2W2yIOHuSca5yk5O6h/lies
+         z2SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WApGqkHI/Cj5t6Ujg/nlXc2pDxZXNMDnadCVbALvgSg=;
-        b=1eyyhdcLqMvI7dls4R1UpkL9wXC37eFULu3xj2/tmJyfTv7SOOA7gQctIs20RE9dOM
-         ra9XR2Kvr9qjv0GtI6XFUf6S/2dhUs2xENAfjR4G+GGySrGot4bJggZS/8TwKMko+M6i
-         1g+py9aShjLqbG8eHBdq7n+xanBWhTJzVe7npCgStYeyNgBEIS1XpUruL8QGc2OljXlG
-         v8wO7H3Hvpc1nbr1ewMD1n6yS8WZfQe5yCgqo8XshLeSlJ6N2jWG1NelMieoSQxvZ0m+
-         D9xi/v5ZwqMG18oftWrGCzkkoGswL8SeIPg32FDLZlIwShCRka7X/kqfpUXKRWrWcsqT
-         OiRQ==
-X-Gm-Message-State: ANoB5pkXAo7O9tia4q7JyAraNmswzbtJXJFz90ECwb8GnojwHO0D2Iuj
-	W1BxujohFzwrr5Fj152Xu3y9MJrgEjqfTQ==
-X-Google-Smtp-Source: AA0mqf7xGIqmeVi7z4PrTn/RtHCbjnC3MpwZ53tEVYIAinjFCj9B4JXxLOTuhTRu5RLTLjzi6YFh0g==
-X-Received: by 2002:a17:90a:71c5:b0:213:b0e:ede8 with SMTP id m5-20020a17090a71c500b002130b0eede8mr14776725pjs.89.1668793943945;
-        Fri, 18 Nov 2022 09:52:23 -0800 (PST)
+        bh=f3/wS6+j5QTgyNRc7rqq3i9c+AbJ9idXHhz3Q9Jl2uE=;
+        b=CgTHHP7O+YyqnbHfRg5bJ3rXGexqJmj4/IoTJsh/ymL48fsF6b5xFuTysindX0gQyS
+         Q8uVA2V/VDUkQFuLM6Z66llu+1ZbZ3tEN1b1Atrg9xXtt8N+vucicKhHk5TBqAj4SLjQ
+         JJYo/y8ryqH/q7EUE7FDyUpY7E/YENyFVFac+g4ANaJSTG3afAqK0PZ9yW5NEld71a/7
+         gLiopNkGiqrM/B6zxI/IAiiTZh7qJ9nz7B3lSH0lEPUsypDLU5hfGv8PbWxg810JdPl5
+         5/oNkH3kkDcpGDyyXSgix0GFsUeD0zR2ttWpfVJgzzcbwTS1+t0V9SBCfvV6M12lewy5
+         GAYg==
+X-Gm-Message-State: ANoB5plTst8BA4+yfBPG7EXMOaK4902cwXq3tUnNzADV4eOVl9UvkAQw
+	0bH8VoooCenFR+xYYv1o2evQwYMvEGTwvg==
+X-Google-Smtp-Source: AA0mqf6f9Zd4PyVnLhZZBqz4Dqu1cf1Mrdq6wZ1QAsKX7aCskxrPEEJhTQRbEdKMD017CfTmhbG64w==
+X-Received: by 2002:a62:ea18:0:b0:56c:2d:1e56 with SMTP id t24-20020a62ea18000000b0056c002d1e56mr9093956pfh.41.1668793949131;
+        Fri, 18 Nov 2022 09:52:29 -0800 (PST)
 Received: from nereus.hsd1.or.comcast.net ([2601:1c0:ca00:cea0:6693:e191:c3fe:39ff])
-        by smtp.gmail.com with ESMTPSA id k28-20020aa79d1c000000b0056c702a370dsm3443173pfp.117.2022.11.18.09.52.23
+        by smtp.gmail.com with ESMTPSA id k28-20020aa79d1c000000b0056c702a370dsm3443173pfp.117.2022.11.18.09.52.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Nov 2022 09:52:23 -0800 (PST)
+        Fri, 18 Nov 2022 09:52:28 -0800 (PST)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/5] mirrors.bbclass: update CPAN_MIRROR
-Date: Fri, 18 Nov 2022 09:52:03 -0800
-Message-Id: <c74b3d25c9dfc060f031c6a6feee754675131f8b.1668793524.git.tim.orling@konsulko.com>
+Subject: [PATCH 2/5] libtry-tiny-perl: add recipe for 0.31
+Date: Fri, 18 Nov 2022 09:52:04 -0800
+Message-Id: <6e0d78434526a2e1d54dcf57cadb3a87bf65c22a.1668793524.git.tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1668793524.git.tim.orling@konsulko.com>
 References: <cover.1668793524.git.tim.orling@konsulko.com>
@@ -62,31 +62,90 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 17:52:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173483
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173484
 
-Both of these redirect to https://cpan.metacpan.org/:
-http://cpan.metacpan.org/
-http://search.cpan.org/CPAN/
+Try::Tiny - Minimal try/catch with proper preservation of $@
+
+https://metacpan.org/release/ETHER/Try-Tiny-0.31
+
+* Dependency for libtest-fatal-perl
+* Add self as maintainer
+* Add to ptest-packagelists.inc (fast)
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- meta/classes-global/mirrors.bbclass | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ meta/conf/distro/include/maintainers.inc      |  1 +
+ .../distro/include/ptest-packagelists.inc     |  1 +
+ .../perl/libtry-tiny-perl_0.31.bb             | 36 +++++++++++++++++++
+ 3 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl/libtry-tiny-perl_0.31.bb
 
-diff --git a/meta/classes-global/mirrors.bbclass b/meta/classes-global/mirrors.bbclass
-index 8b984de3bfe..cda431ce891 100644
---- a/meta/classes-global/mirrors.bbclass
-+++ b/meta/classes-global/mirrors.bbclass
-@@ -67,8 +67,7 @@ osc://.*/.*     http://sources.openembedded.org/ \
- https?://.*/.*  http://sources.openembedded.org/ \
- ftp://.*/.*     http://sources.openembedded.org/ \
- npm://.*/?.*    http://sources.openembedded.org/ \
--${CPAN_MIRROR}  http://cpan.metacpan.org/ \
--${CPAN_MIRROR}  http://search.cpan.org/CPAN/ \
-+${CPAN_MIRROR}  https://cpan.metacpan.org/ \
- https?://downloads.yoctoproject.org/releases/uninative/ https://mirrors.kernel.org/yocto/uninative/ \
- https?://downloads.yoctoproject.org/mirror/sources/ https://mirrors.kernel.org/yocto-sources/ \
- "
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 5b7ce77c3cc..141578a7a99 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -396,6 +396,7 @@ RECIPE_MAINTAINER:pn-libtirpc = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-libtool = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER:pn-libtool-cross = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER:pn-libtool-native = "Robert Yang <liezhi.yang@windriver.com>"
++RECIPE_MAINTAINER:pn-libtry-tiny-perl = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-libucontext = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-libunistring = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-libunwind = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index 3c9ff43bd9b..b0925e13dd0 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -34,6 +34,7 @@ PTESTS_FAST = "\
+     libssh2-ptest \
+     libtimedate-perl-ptest \
+     libtest-needs-perl-ptest \
++    libtry-tiny-perl-ptest \
+     liburi-perl-ptest \
+     libusb1-ptest \
+     libxml-namespacesupport-perl-ptest \
+diff --git a/meta/recipes-devtools/perl/libtry-tiny-perl_0.31.bb b/meta/recipes-devtools/perl/libtry-tiny-perl_0.31.bb
+new file mode 100644
+index 00000000000..a3728d84356
+--- /dev/null
++++ b/meta/recipes-devtools/perl/libtry-tiny-perl_0.31.bb
+@@ -0,0 +1,36 @@
++SUMMARY = "Try::Tiny - Minimal try/catch with proper preservation of $@"
++DESCRIPTION = "This module provides bare bones try/catch/finally statements \
++that are designed to minimize common mistakes with eval blocks, and NOTHING \
++else."
++HOMEPAGE = "https://github.com/p5sagit/Try-Tiny"
++BUGTRACKER = "https://rt.cpan.org/Public/Dist/Display.html?Name=Try-Tiny"
++SECTION = "libs"
++LICENSE = "MIT"
++
++LIC_FILES_CHKSUM = "file://LICENCE;md5=5dc332c2d4aade55f5db244681000091"
++
++SRC_URI = "${CPAN_MIRROR}/authors/id/E/ET/ETHER/Try-Tiny-${PV}.tar.gz"
++
++SRC_URI[sha256sum] = "3300d31d8a4075b26d8f46ce864a1d913e0e8467ceeba6655d5d2b2e206c11be"
++
++S = "${WORKDIR}/Try-Tiny-${PV}"
++
++inherit cpan ptest-perl
++
++RDEPENDS:${PN} += "\
++    perl-module-carp \
++    perl-module-constant \
++    perl-module-exporter \
++"
++RRECOMMENDS:${PN} += "\
++    perl-module-sub-util \
++"
++RDEPENDS:${PN}-ptest += "\
++    perl-module-extutils-makemaker \
++    perl-module-extutils-mm-unix \
++    perl-module-file-spec \
++    perl-module-if \
++    perl-module-test-more \
++"
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.30.2
 
