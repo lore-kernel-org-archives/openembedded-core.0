@@ -1,215 +1,104 @@
-Return-Path: <joe.slater@windriver.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0B76C4332F
-	for <webhook@archiver.kernel.org>; Fri, 18 Nov 2022 17:42:14 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.71.1668793332370358861
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83734C4332F
+	for <webhook@archiver.kernel.org>; Fri, 18 Nov 2022 17:52:20 +0000 (UTC)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web11.55.1668793939158796659
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Nov 2022 09:42:12 -0800
+ Fri, 18 Nov 2022 09:52:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=N635Aqva;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=832133cac8=joe.slater@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2AIDKXMn016196
-	for <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 09:42:12 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=PPS06212021;
- bh=dHR5wqmRhy4IG+ScIkCYFbTfai1ZZPkNDkcrnB/ChV0=;
- b=N635AqvaEF3U7pomQvfk697JYzoVtcIGLF+4pp0G+XG5gsw1bXacfXyGGwBpdiHKYKCY
- Gu72hJQu0/Zl1ErVCsPCerwHKFd0s2V6cQPgR+JejFgaC05/DGWc2jbcukyvMqhO7EKJ
- c8iJyWwFymiTnXj3tiA+G8ppJKDbr4BVuUtKw79olgFuAVNeW5oyJ/2MgGXkDisu4007
- +nQEo/rLGM8vULv+mBVfSafgRBCJG9yqRv+K0gsGqwqcHqmlt1U61Fm2Pi/SPq6Hjj+V
- YLlqeprgONG+JI7KV4Xj5H0OGq+YRks40pJvGBJQADsJrZvurN51J4fcU9f7oD/KahR3 tg== 
-Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kx0qxrmmp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 09:42:11 -0800
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Fri, 18 Nov 2022 09:42:07 -0800
-Received: from ala-lpggp5.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2308.27 via Frontend Transport; Fri, 18 Nov 2022 09:42:07 -0800
-From: Joe Slater <joe.slater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <joe.slater@windriver.com>, <randy.macleod@windriver.com>
-Subject: [v2][oe-core][kirkstone][PATCH 1/1] python3: advance to version 3.10.8
-Date: Fri, 18 Nov 2022 09:42:07 -0800
-Message-ID: <20221118174207.17668-1-joe.slater@windriver.com>
-X-Mailer: git-send-email 2.38.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=W6NsovrJ;
+ spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: ticotimo@gmail.com)
+Received: by mail-pj1-f46.google.com with SMTP id b11so5146614pjp.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 09:52:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+zjAi8TyqB98y+UKPiS6Cy944Ajs2/Til0JOErHopCQ=;
+        b=W6NsovrJrUwX5f6q52faaomqBT5hkwBDHdr8TZ+3PxDWY2iN0Bqnn0NTlpfg+ld2X7
+         27MPJhdA10uRFGBqBh1FOTn3NVOPRk2KIRj79LK8rBa4aXha9F6VlmCMRIKE9T/euPFG
+         FRoYuhPQXqSssbyVyTWQCAWSLSf+QgkRYfexsN7fJ5Ks2dY3NXVV1ADX0WiFDFC9XiIO
+         DtBnA7QP5e8j255MxWyxak7oHcGQe52nMR7VJRBW3ItQANiZv5RxHFPTd1jf3qiZ3tYc
+         x4MVhVyqZAlVW14LyxFTW/IokuEtNKJOwUAhXAtQxNWDy/Xwv5jDRkIrdP7Ply0spNas
+         qpRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+zjAi8TyqB98y+UKPiS6Cy944Ajs2/Til0JOErHopCQ=;
+        b=hge/V8GJzbKqia2JJa5Bq1N8h5CDQxFP06o3oIEtfE7XxLLIZ9599COui1QyCF4FOm
+         rGtuAMBbZ/cnrqzO63x4Tmf6MgCDhKx3po6L/Otnqw+ljn/+4sM+fgtIIuE22opYRUoW
+         qyMXB04cjdQXLtAnAQncTF87LPNPXowwPUbcJqBMFCS9P6Fm/s9qjlS5NSb+n/TTMekb
+         aIb1Xh67n/EGNYXg7kFD3uZFv/DjqN3q8wdgUQ+5WNmGffI18sOuOWCibtdxhP5/2y8v
+         JAgwUz4xdnxrCv6OsbkAuhpI7AmCuKQ65RAXt2ifAT56VhkZ/Hgm8c/hCwN0C2HE3ALV
+         YsqA==
+X-Gm-Message-State: ANoB5pl76pfAclHqqIMzdovA9YAsvX2L43+P5Qdfl0K/SG2CWp2FmwfF
+	eLkcu7xUuT6Kgp03OPkHo9NjacSdNKmtqQ==
+X-Google-Smtp-Source: AA0mqf56uE7oNAAVj4uVMeraiZHyRFFFnzO6vLFT547CanPrwjCPMSPUOIJO6jThHcd9eI+PEPI/cQ==
+X-Received: by 2002:a17:90a:fa8d:b0:218:8666:e780 with SMTP id cu13-20020a17090afa8d00b002188666e780mr4218475pjb.3.1668793937830;
+        Fri, 18 Nov 2022 09:52:17 -0800 (PST)
+Received: from nereus.hsd1.or.comcast.net ([2601:1c0:ca00:cea0:6693:e191:c3fe:39ff])
+        by smtp.gmail.com with ESMTPSA id k28-20020aa79d1c000000b0056c702a370dsm3443173pfp.117.2022.11.18.09.52.17
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Nov 2022 09:52:17 -0800 (PST)
+From: Tim Orling <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/5] liburi-perl upgrade
+Date: Fri, 18 Nov 2022 09:52:02 -0800
+Message-Id: <cover.1668793524.git.tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: svXvZyiNBSFJJJ4-E3qmG6To_dKErsXV
-X-Proofpoint-GUID: svXvZyiNBSFJJJ4-E3qmG6To_dKErsXV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-18_05,2022-11-18_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- clxscore=1015 bulkscore=0 adultscore=0 mlxscore=0 priorityscore=1501
- impostorscore=0 mlxlogscore=999 phishscore=0 spamscore=0 malwarescore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211180104
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 17:42:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173481
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 17:52:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173482
 
-Fixes CVE-2022-37460.  Also add patch to fix CVE-2022-37454.
+AUH has been missing upgrades to liburi-perl because the author changed
+back from ETHER to OALDERS, which changes the SRC_URI. In the mean time,
+the dependencies for -ptest have grown a little bit, so we add two new
+recipes and import one from meta-perl.
 
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
----
- .../python/python3/cve-2022-37454.patch       | 108 ++++++++++++++++++
- .../{python3_3.10.7.bb => python3_3.10.8.bb}  |   4 +-
- 2 files changed, 110 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python3/cve-2022-37454.patch
- rename meta/recipes-devtools/python/{python3_3.10.7.bb => python3_3.10.8.bb} (99%)
+While we are at it, correct the redirects in CPAN_MIRROR.
 
-diff --git a/meta/recipes-devtools/python/python3/cve-2022-37454.patch b/meta/recipes-devtools/python/python3/cve-2022-37454.patch
-new file mode 100644
-index 0000000000..c019151a64
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/cve-2022-37454.patch
-@@ -0,0 +1,108 @@
-+From 1f66b714c5f2fef80ec5389456ac31756dbfff0e Mon Sep 17 00:00:00 2001
-+From: Theo Buehler <botovq@users.noreply.github.com>
-+Date: Fri, 21 Oct 2022 21:26:01 +0200
-+Subject: [PATCH] gh-98517: Fix buffer overflows in _sha3 module (#98519)
-+
-+This is a port of the applicable part of XKCP's fix [1] for
-+CVE-2022-37454 and avoids the segmentation fault and the infinite
-+loop in the test cases published in [2].
-+
-+[1]: https://github.com/XKCP/XKCP/commit/fdc6fef075f4e81d6b1bc38364248975e08e340a
-+[2]: https://mouha.be/sha-3-buffer-overflow/
-+
-+Regression test added by: Gregory P. Smith [Google LLC] <greg@krypto.org>
-+---
-+
-+Patch applied without modification.
-+
-+CVE: CVE-2022-37454
-+
-+Upstream-Status: Backport [github.com/cpython/cpython.git 0e4e058602d...]
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+---
-+ Lib/test/test_hashlib.py                          |  9 +++++++++
-+ .../2022-10-21-13-31-47.gh-issue-98517.SXXGfV.rst |  1 +
-+ Modules/_sha3/kcp/KeccakSponge.inc                | 15 ++++++++-------
-+ 3 files changed, 18 insertions(+), 7 deletions(-)
-+ create mode 100644 Misc/NEWS.d/next/Security/2022-10-21-13-31-47.gh-issue-98517.SXXGfV.rst
-+
-+diff --git a/Lib/test/test_hashlib.py b/Lib/test/test_hashlib.py
-+index ea31f8b..65330e1 100644
-+--- a/Lib/test/test_hashlib.py
-++++ b/Lib/test/test_hashlib.py
-+@@ -491,6 +491,15 @@ class HashLibTestCase(unittest.TestCase):
-+     def test_case_md5_uintmax(self, size):
-+         self.check('md5', b'A'*size, '28138d306ff1b8281f1a9067e1a1a2b3')
-+ 
-++    @unittest.skipIf(sys.maxsize < _4G - 1, 'test cannot run on 32-bit systems')
-++    @bigmemtest(size=_4G - 1, memuse=1, dry_run=False)
-++    def test_sha3_update_overflow(self, size):
-++        """Regression test for gh-98517 CVE-2022-37454."""
-++        h = hashlib.sha3_224()
-++        h.update(b'\x01')
-++        h.update(b'\x01'*0xffff_ffff)
-++        self.assertEqual(h.hexdigest(), '80762e8ce6700f114fec0f621fd97c4b9c00147fa052215294cceeed')
-++
-+     # use the three examples from Federal Information Processing Standards
-+     # Publication 180-1, Secure Hash Standard,  1995 April 17
-+     # http://www.itl.nist.gov/div897/pubs/fip180-1.htm
-+diff --git a/Misc/NEWS.d/next/Security/2022-10-21-13-31-47.gh-issue-98517.SXXGfV.rst b/Misc/NEWS.d/next/Security/2022-10-21-13-31-47.gh-issue-98517.SXXGfV.rst
-+new file mode 100644
-+index 0000000..2d23a6a
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2022-10-21-13-31-47.gh-issue-98517.SXXGfV.rst
-+@@ -0,0 +1 @@
-++Port XKCP's fix for the buffer overflows in SHA-3 (CVE-2022-37454).
-+diff --git a/Modules/_sha3/kcp/KeccakSponge.inc b/Modules/_sha3/kcp/KeccakSponge.inc
-+index e10739d..cf92e4d 100644
-+--- a/Modules/_sha3/kcp/KeccakSponge.inc
-++++ b/Modules/_sha3/kcp/KeccakSponge.inc
-+@@ -171,7 +171,7 @@ int SpongeAbsorb(SpongeInstance *instance, const unsigned char *data, size_t dat
-+     i = 0;
-+     curData = data;
-+     while(i < dataByteLen) {
-+-        if ((instance->byteIOIndex == 0) && (dataByteLen >= (i + rateInBytes))) {
-++        if ((instance->byteIOIndex == 0) && (dataByteLen-i >= rateInBytes)) {
-+ #ifdef SnP_FastLoop_Absorb
-+             /* processing full blocks first */
-+ 
-+@@ -199,10 +199,10 @@ int SpongeAbsorb(SpongeInstance *instance, const unsigned char *data, size_t dat
-+         }
-+         else {
-+             /* normal lane: using the message queue */
-+-
-+-            partialBlock = (unsigned int)(dataByteLen - i);
-+-            if (partialBlock+instance->byteIOIndex > rateInBytes)
-++            if (dataByteLen-i > rateInBytes-instance->byteIOIndex)
-+                 partialBlock = rateInBytes-instance->byteIOIndex;
-++            else
-++                partialBlock = (unsigned int)(dataByteLen - i);
-+             #ifdef KeccakReference
-+             displayBytes(1, "Block to be absorbed (part)", curData, partialBlock);
-+             #endif
-+@@ -281,7 +281,7 @@ int SpongeSqueeze(SpongeInstance *instance, unsigned char *data, size_t dataByte
-+     i = 0;
-+     curData = data;
-+     while(i < dataByteLen) {
-+-        if ((instance->byteIOIndex == rateInBytes) && (dataByteLen >= (i + rateInBytes))) {
-++        if ((instance->byteIOIndex == rateInBytes) && (dataByteLen-i >= rateInBytes)) {
-+             for(j=dataByteLen-i; j>=rateInBytes; j-=rateInBytes) {
-+                 SnP_Permute(instance->state);
-+                 SnP_ExtractBytes(instance->state, curData, 0, rateInBytes);
-+@@ -299,9 +299,10 @@ int SpongeSqueeze(SpongeInstance *instance, unsigned char *data, size_t dataByte
-+                 SnP_Permute(instance->state);
-+                 instance->byteIOIndex = 0;
-+             }
-+-            partialBlock = (unsigned int)(dataByteLen - i);
-+-            if (partialBlock+instance->byteIOIndex > rateInBytes)
-++            if (dataByteLen-i > rateInBytes-instance->byteIOIndex)
-+                 partialBlock = rateInBytes-instance->byteIOIndex;
-++            else
-++                partialBlock = (unsigned int)(dataByteLen - i);
-+             i += partialBlock;
-+ 
-+             SnP_ExtractBytes(instance->state, curData, instance->byteIOIndex, partialBlock);
-+-- 
-+2.32.0
-+
-diff --git a/meta/recipes-devtools/python/python3_3.10.7.bb b/meta/recipes-devtools/python/python3_3.10.8.bb
-similarity index 99%
-rename from meta/recipes-devtools/python/python3_3.10.7.bb
-rename to meta/recipes-devtools/python/python3_3.10.8.bb
-index 404a582135..7cc1ce53ca 100644
---- a/meta/recipes-devtools/python/python3_3.10.7.bb
-+++ b/meta/recipes-devtools/python/python3_3.10.8.bb
-@@ -4,7 +4,7 @@ DESCRIPTION = "Python is a programming language that lets you work more quickly
- LICENSE = "PSF-2.0"
- SECTION = "devel/python"
- 
--LIC_FILES_CHKSUM = "file://LICENSE;md5=4b8801e752a2c70ac41a5f9aa243f766"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=a1822df8d0f068628ca6090aedc5bfc8"
- 
- SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://run-ptest \
-@@ -43,7 +43,7 @@ SRC_URI:append:class-native = " \
-            file://12-distutils-prefix-is-inside-staging-area.patch \
-            file://0001-Don-t-search-system-for-headers-libraries.patch \
-            "
--SRC_URI[sha256sum] = "6eed8415b7516fb2f260906db5d48dd4c06acc0cb24a7d6cc15296a604dcdc48"
-+SRC_URI[sha256sum] = "6a30ecde59c47048013eb5a658c9b5dec277203d2793667f578df7671f7f03f3"
- 
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+The following changes since commit 44bb88cc869f3b42440d6f7aad000e706b739a2b:
+
+  mesa: do not rely on native llvm-config in target sysroot (2022-11-15 09:38:38 +0000)
+
+are available in the Git repository at:
+
+  https://git.yoctoproject.org/git/poky-contrib timo/recipe-upgrades
+  http://git.yoctoproject.org/cgit.cgi/git/poky-contrib/log/?h=timo/recipe-upgrades
+
+Tim Orling (5):
+  mirrors.bbclass: update CPAN_MIRROR
+  libtry-tiny-perl: add recipe for 0.31
+  libtest-fatal-perl: add recipe for 0.016
+  libtest-warnings-perl: move from meta-perl
+  liburi-perl: upgrade 5.08 -> 5.17
+
+ meta/classes-global/mirrors.bbclass           |   3 +-
+ meta/conf/distro/include/maintainers.inc      |   3 +
+ .../distro/include/ptest-packagelists.inc     |   3 +
+ .../perl/libtest-fatal-perl_0.016.bb          |  36 ++++++
+ .../perl/libtest-warnings-perl_0.031.bb       |  39 +++++++
+ .../perl/libtry-tiny-perl_0.31.bb             |  36 ++++++
+ .../0001-Skip-TODO-test-cases-that-fail.patch | 110 ++++++++++++++++++
+ ...iburi-perl_5.08.bb => liburi-perl_5.17.bb} |  34 +++---
+ 8 files changed, 248 insertions(+), 16 deletions(-)
+ create mode 100644 meta/recipes-devtools/perl/libtest-fatal-perl_0.016.bb
+ create mode 100644 meta/recipes-devtools/perl/libtest-warnings-perl_0.031.bb
+ create mode 100644 meta/recipes-devtools/perl/libtry-tiny-perl_0.31.bb
+ create mode 100644 meta/recipes-devtools/perl/liburi-perl/0001-Skip-TODO-test-cases-that-fail.patch
+ rename meta/recipes-devtools/perl/{liburi-perl_5.08.bb => liburi-perl_5.17.bb} (65%)
+
 -- 
-2.38.1
+2.30.2
 
 
