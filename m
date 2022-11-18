@@ -2,56 +2,56 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16899C4167D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 295F5C41535
 	for <webhook@archiver.kernel.org>; Fri, 18 Nov 2022 22:29:12 +0000 (UTC)
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
- by mx.groups.io with SMTP id smtpd.web10.7447.1668810547777339489
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+ by mx.groups.io with SMTP id smtpd.web11.7251.1668810546877469417
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Nov 2022 14:29:11 -0800
+ Fri, 18 Nov 2022 14:29:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=LFj/BRQr;
- spf=pass (domain: gmail.com, ip: 209.85.222.171, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f171.google.com with SMTP id x21so4492637qkj.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 14:29:10 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ExqM+m9y;
+ spf=pass (domain: gmail.com, ip: 209.85.222.175, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f175.google.com with SMTP id v8so4442802qkg.12
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 14:29:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eowY4yPdq/c00hj1IPTCES/wRE1kma8M8AYdLzY9xtE=;
-        b=LFj/BRQr6topzvf8BzlPh4HFvR53blMABoS81piTJXWFOogUlVADO1Y2LAOjasfhFR
-         SDlcUVVgYqlMHLA6q+Y4NSWc0u05JXzsf2aKwMBW5Rydlq9OGTEfPHOV1KI/V1egmme2
-         BvnN2eIGoFYrfArophEjKxOXDuZAH/VvaElbIYjIMCQAcWtRZjjdu9OQhPHmStWDUPFs
-         v3NvpNY9+xBwxfzE8RyB7eRWrBgB9/kqtEja3VBJR8shOCKaMXSWMbw0RWfQhfY4P28s
-         jly2D75UgYij5mHaAB7iMlj24CsiLkVA3sdPB+X1xcF9LiCG6dD5lvqW0wSbKYQtudyC
-         AE6w==
+        bh=WhP8nEEoSZ59hKqgA1ByxU+Lj8+B6HBVShyl+S+Lfv0=;
+        b=ExqM+m9yCMPYuZrbataV+hZoO3Sm5jtWbrmZP3bWzlpakGPahvYU1gsH2mOU3zfqtp
+         LrtJDmnkVmFdJcb98pdV+kbESBhI3B2iQSREKF1DMrujIzA/cKe0xVPSYDGeZVoxeFoB
+         du7TtYrA5KorwxSJGzQWqSpmjr38IIMxcT+8/OkuNXehWeSUWky/+zncjesC7HJ1PdDN
+         m3mEOjucpclpbNqph+8tF6+9KWBIIrVdLBvYsSBGpSM67pf3PcdXZyYSiEpBSJ7FxODO
+         jMoPzK+87lcGSJ5KuAqeJ9LrFtFzfRN0PlDZrjViJ1k0YdJWdHw8WGM2ndKNoewpQZYq
+         UdLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eowY4yPdq/c00hj1IPTCES/wRE1kma8M8AYdLzY9xtE=;
-        b=IVKRNPtC+FFXgg5toyCzFYNrHYD+ppxdoquafLVRsBUstPEaXo3xx3PJcHsU+5Aes8
-         IU0AZFm7d5SYaOA0qrsdlnJt3r2ym+PSuqD6/c4/Mt4iijiw0yUFFuZFDkOO9uxBwJ2D
-         2w5Hvk/gzAYZUojkh3a80EpDkbU6O7gH0DBHys7RATXqgfoDCMPiA2rUu3qXW4LPAqHy
-         NtsaUk3TMlQ2ak6AzbsoMyhp+yPFuGB1HrIZGZq2tSlKIlavF4RUjpVr+Dd4rDso7Est
-         ax+fXd2/ninctBk933hK75YL8s+Iprz1CzKonDSMEcwKu0SmBHiIoRKIW1sRXRSJdw8Z
-         3Gxg==
-X-Gm-Message-State: ANoB5pm5xXnBHU+DTCYNY4DcC+kZ1RnYa4ZBPVn9tKbmIe3GHmDD+iaz
-	7aLLRryTg8spQ2mHo6UgjbRP6ulzenXphQ==
-X-Google-Smtp-Source: AA0mqf5AlpVe0XOUJW+iQAjNtJX9/hORw9Y+/iq+THawBhHPRGQ603bp2bqecqufRBRPtPh0nlkfXw==
-X-Received: by 2002:a37:e314:0:b0:6fa:55e4:c574 with SMTP id y20-20020a37e314000000b006fa55e4c574mr7780264qki.421.1668810550348;
-        Fri, 18 Nov 2022 14:29:10 -0800 (PST)
+        bh=WhP8nEEoSZ59hKqgA1ByxU+Lj8+B6HBVShyl+S+Lfv0=;
+        b=RjoLfJ6ipQtdP9kESktbiTNKlio3ZJ5yKVFlmBAKj2b3OsNqDrBoTlC0HGeUtP9SLc
+         o6RE0fq30k99smOltS1R1f7z6LQYFgcMmDHOeL5sTfvgJ2CX0QQ6pEN47SYAfnaGIA8S
+         r/FP/PQsPT/Px84CqiuUOZweVKA5uOjQqeGDVBYm+2Has7T/Ez9kI3FjEdvbGoF4aLI4
+         88cjPA4kGvYpbNVoi95Dj+HO/HfbAS5cr97f9yH6ZTPjDeLfgsfidJc0v92uCtdrE1u6
+         BCjwV/tcqpE5xp2VayafOzdqa9BcIl/34HP9dOaqX9O2ouLJfwglwrrLXzZDqXu0c+JX
+         Zo9g==
+X-Gm-Message-State: ANoB5pmKpbz2AD4lWEGEkldncIKWUYVIh035RjmJ+KkAZp/2XkQjxJ3P
+	yrP62IhKb6BjkrxnH1emzj4NqgE5a55ViA==
+X-Google-Smtp-Source: AA0mqf4EeW+k4sOsERnPJI3eHMaY8+VtFTTId5it4dJGDwt1JzAF01a1Bohx1M70u3cJ4sk7JJlSDQ==
+X-Received: by 2002:ae9:e605:0:b0:6fa:2522:9c56 with SMTP id z5-20020ae9e605000000b006fa25229c56mr7842722qkf.22.1668810547037;
+        Fri, 18 Nov 2022 14:29:07 -0800 (PST)
 Received: from build.lan (cpe7c9a54441c1f-cm7c9a54441c1d.cpe.net.cable.rogers.com. [173.34.238.88])
-        by smtp.gmail.com with ESMTPSA id h9-20020a05620a284900b006f9ddaaf01esm3304068qkp.102.2022.11.18.14.29.09
+        by smtp.gmail.com with ESMTPSA id h9-20020a05620a284900b006f9ddaaf01esm3304068qkp.102.2022.11.18.14.29.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Nov 2022 14:29:09 -0800 (PST)
+        Fri, 18 Nov 2022 14:29:06 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 09/15] kernel-devsrc: fix for v6.1+
-Date: Fri, 18 Nov 2022 17:28:53 -0500
-Message-Id: <71cfe4b75e2078194882ea32325683dd88050536.1668810409.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 06/15] linux-yocto/5.19: cfg: intel and vesa updates
+Date: Fri, 18 Nov 2022 17:28:50 -0500
+Message-Id: <01cc7cae53fd1eeb58d2615b20ede18f5f893b5a.1668810409.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1668810409.git.bruce.ashfield@gmail.com>
 References: <cover.1668810409.git.bruce.ashfield@gmail.com>
@@ -61,91 +61,63 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 18 Nov 2022 22:29:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173503
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173499
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-The 6.1 kernel has a number of Kbuild and architecture changes
-that required us to update our devsrc recipe. With these changes
-we are once again able to build on target modules for all
-supported archectures.
+Integrating the following commit(s) to linux-yocto/.:
+
+    399055aee2f vesafb.cfg: rename FB_BOOT_VESA_SUPPORT -> BOOT_VESA_SUPPORT
+    fe0fe0945fb media-radio.cfg: switch RADIO_ADAPTERS from y to m
+    9724cfa270c bsp/common-pc-64 : add igc driver
+    39431755e59 bsp/intel-common: add igc driver for meta-intel bsp machines
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/recipes-kernel/linux/kernel-devsrc.bb | 25 ++++++++++++++++++++--
- 1 file changed, 23 insertions(+), 2 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_5.19.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_5.19.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_5.19.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index 46d706b955..253b8d307d 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -145,6 +145,9 @@ do_install() {
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.19.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.19.bb
+index f55be51b64..f78ade3e10 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.19.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.19.bb
+@@ -12,7 +12,7 @@ python () {
+ }
  
- 	cp -a scripts $kerneldir/build
+ SRCREV_machine ?= "59a2ffca6673305b3b9e3186294feb5437698d18"
+-SRCREV_meta ?= "200c6fddf19c4a54c86dbfbe3d0f64597f5bc0c2"
++SRCREV_meta ?= "399055aee2fe59fbde5f7f9aadcc953bf49222f4"
  
-+	# for v6.1+ (otherwise we are missing multiple default targets)
-+	cp -a --parents Kbuild $kerneldir/build 2>/dev/null || :
-+
- 	# if our build dir had objtool, it will also be rebuilt on target, so
- 	# we copy what is required for that build
- 	if [ -f ${B}/tools/objtool/objtool ]; then
-@@ -171,6 +174,9 @@ do_install() {
- 	    # arch/arm64/include/asm/opcodes.h references arch/arm
- 	    cp -a --parents arch/arm/include/asm/opcodes.h $kerneldir/build/
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.19;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.19.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.19.bb
+index 41e37dbab1..f34ec707ae 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.19.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.19.bb
+@@ -15,7 +15,7 @@ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
  
-+	    # v6.1+
-+	    cp -a --parents arch/arm64/kernel/asm-offsets.c $kerneldir/build/
-+
-             cp -a --parents arch/arm64/kernel/vdso/*gettimeofday.* $kerneldir/build/
-             cp -a --parents arch/arm64/kernel/vdso/sigreturn.S $kerneldir/build/
-             cp -a --parents arch/arm64/kernel/vdso/note.S $kerneldir/build/
-@@ -206,6 +212,9 @@ do_install() {
- 	    cp -a --parents arch/powerpc/kernel/vdso/*.S $kerneldir/build 2>/dev/null || :
- 	    cp -a --parents arch/powerpc/kernel/vdso/*gettimeofday.* $kerneldir/build 2>/dev/null || :
- 	    cp -a --parents arch/powerpc/kernel/vdso/gen_vdso*_offsets.sh $kerneldir/build/ 2>/dev/null || :
-+
-+	    # v6,1+
-+	    cp -a --parents arch/powerpc/kernel/asm-offsets.c $kerneldir/build/ 2>/dev/null || :
- 	fi
- 	if [ "${ARCH}" = "riscv" ]; then
-             cp -a --parents arch/riscv/kernel/vdso/*gettimeofday.* $kerneldir/build/
-@@ -234,6 +243,9 @@ do_install() {
-             fi
+ SRCREV_machine ?= "82689c62701573edb28ef1df2bd83adafd3ca701"
+-SRCREV_meta ?= "200c6fddf19c4a54c86dbfbe3d0f64597f5bc0c2"
++SRCREV_meta ?= "399055aee2fe59fbde5f7f9aadcc953bf49222f4"
  
-             cp -a --parents arch/arm/kernel/module.lds $kerneldir/build/ 2>/dev/null || :
-+            # v6.1+
-+            cp -a --parents arch/arm/kernel/asm-offsets.c $kerneldir/build/ 2>/dev/null || :
-+            cp -a --parents arch/arm/kernel/signal.h $kerneldir/build/ 2>/dev/null || :
- 	fi
+ PV = "${LINUX_VERSION}+git${SRCPV}"
  
- 	if [ -d arch/${ARCH}/include ]; then
-@@ -282,15 +294,24 @@ do_install() {
- 	    # objtool requires these files
- 	    cp -a --parents arch/x86/lib/inat.c $kerneldir/build/ 2>/dev/null || :
- 	    cp -a --parents arch/x86/lib/insn.c $kerneldir/build/ 2>/dev/null || :
-+
-+	    # v6.1+
-+	    cp -a --parents arch/x86/kernel/asm-offsets* $kerneldir/build || :
-+	    # for capabilities.h, vmx.h
-+	    cp -a --parents arch/x86/kvm/vmx/*.h $kerneldir/build || :
-+	    # for lapic.h, hyperv.h ....
-+	    cp -a --parents arch/x86/kvm/*.h $kerneldir/build || :
- 	fi
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.19.bb b/meta/recipes-kernel/linux/linux-yocto_5.19.bb
+index 76d9d4b4ad..0447d500d2 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.19.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.19.bb
+@@ -23,7 +23,7 @@ SRCREV_machine:qemux86 ?= "82689c62701573edb28ef1df2bd83adafd3ca701"
+ SRCREV_machine:qemux86-64 ?= "82689c62701573edb28ef1df2bd83adafd3ca701"
+ SRCREV_machine:qemumips64 ?= "4e9603752156d3a0b9fe53309f4bc78d3f4f7df5"
+ SRCREV_machine ?= "82689c62701573edb28ef1df2bd83adafd3ca701"
+-SRCREV_meta ?= "200c6fddf19c4a54c86dbfbe3d0f64597f5bc0c2"
++SRCREV_meta ?= "399055aee2fe59fbde5f7f9aadcc953bf49222f4"
  
-+	# moved from arch/mips to all arches for v6.1+
-+	cp -a --parents kernel/time/timeconst.bc $kerneldir/build 2>/dev/null || :
-+	cp -a --parents kernel/bounds.c $kerneldir/build 2>/dev/null || :
-+
- 	if [ "${ARCH}" = "mips" ]; then
- 	    cp -a --parents arch/mips/Kbuild.platforms $kerneldir/build/
- 	    cp --parents $(find	 -type f -name "Platform") $kerneldir/build
- 	    cp --parents arch/mips/boot/tools/relocs* $kerneldir/build
- 	    cp -a --parents arch/mips/kernel/asm-offsets.c $kerneldir/build
--	    cp -a --parents kernel/time/timeconst.bc $kerneldir/build
--	    cp -a --parents kernel/bounds.c $kerneldir/build
- 	    cp -a --parents Kbuild $kerneldir/build
- 	    cp -a --parents arch/mips/kernel/syscalls/*.sh $kerneldir/build 2>/dev/null || :
- 	    cp -a --parents arch/mips/kernel/syscalls/*.tbl $kerneldir/build 2>/dev/null || :
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
 -- 
 2.19.1
 
