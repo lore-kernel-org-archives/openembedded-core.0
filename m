@@ -1,104 +1,113 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 037B3C433FE
-	for <webhook@archiver.kernel.org>; Sat, 19 Nov 2022 10:22:06 +0000 (UTC)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web11.17428.1668853324201278442
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A5F6C433FE
+	for <webhook@archiver.kernel.org>; Sat, 19 Nov 2022 10:39:56 +0000 (UTC)
+Received: from smtpout.cvg.de (smtpout.cvg.de [87.128.211.67])
+ by mx.groups.io with SMTP id smtpd.web11.17623.1668854389204527472
  for <openembedded-core@lists.openembedded.org>;
- Sat, 19 Nov 2022 02:22:04 -0800
+ Sat, 19 Nov 2022 02:39:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=FbiKF9Lu;
- spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id p8so11989051lfu.11
-        for <openembedded-core@lists.openembedded.org>; Sat, 19 Nov 2022 02:22:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=SNy2JHkY/O795s24DuTMypbxYzgLt76jGlwBuR63FnY=;
-        b=FbiKF9LuaJg4+nYAkLeeoiYIOIM5TTTV2Jx93TmPA5mwtfwl7X+vhnqV4LERT0oOJJ
-         9+PCdpqNLMh/JyhjYnF6EPlBQLVROH0VCEOImO1RSmZsnAsUa5CABux6rZwECQNuQhSI
-         AbGGbdLcuLMije7CVcz7JWi5d9PEvBv561eTIyYqh3L7urS9vmyHjQzSf/Jt3E+mjJoz
-         hvS3C1xlp8z+PWB59oQkemazdpP9wg2pu1crd8KGs3hdMGRsSaF7vHz0xmq5ZrNa2Idr
-         U29H1iCVvAmT6sSSBp574KYKBaLoGIMDgK/9NJBVYqgZ+umSwkvxW3jSNFvpMhX6KB+o
-         FkZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SNy2JHkY/O795s24DuTMypbxYzgLt76jGlwBuR63FnY=;
-        b=xTo8IIFOSZ1f4ATRywTkfrsDWRlKFEj0F/HI5AIcTxsaM6ix5dVbE84g3Gxv/jfhLd
-         sStSIna8pB78SjVwRFU5scJNDgcOYuAu0jdY0YFm1OizppB18zGtGpjjEfSq5aeS7UrR
-         qhjA8e3U9OUN+pEyoy8zACWBScDYEzXzluVZicFReIdKTsI7se/Qb0FBtORcTNtArp2A
-         QcXStrioIlHX5CWVZoGXV81ZOiOjFTQCULuUB3/7OnzarnGLKSKiaSEIm3iw7wvhzptl
-         olDxXLrQPP+942SHkc62BRhwrCLhwyT3exd09oHRv0+ED+XvNcb7U10/jGvf/JQoQ2EJ
-         IQpw==
-X-Gm-Message-State: ANoB5pmWPv2HYP2QP6Yk6XHtW7MPR9N+lliOSn+4jg53spEcP5waG6df
-	2M3/vEfciNSPn5x1XUL3NsVsKiP5PNDYPd40VPE=
-X-Google-Smtp-Source: AA0mqf78l38b1twnjCF+g6Eicl6V+C1R2TIGLY4isJsoAyzHwUFYtFwfmNZAIcBL2+6nrFSol1IY/lrk65y6Dke/HaQ=
-X-Received: by 2002:a19:5f1e:0:b0:4aa:81bc:dcf with SMTP id
- t30-20020a195f1e000000b004aa81bc0dcfmr3829847lfb.393.1668853322191; Sat, 19
- Nov 2022 02:22:02 -0800 (PST)
+ dkim=pass header.i=@sigma-chemnitz.de header.s=v2022040800 header.b=bqo8gR3b;
+ spf=pass (domain: sigma-chemnitz.de, ip: 87.128.211.67, mailfrom: enrico.scholz@sigma-chemnitz.de)
+Received: from mail-mta-3.intern.sigma-chemnitz.de (mail-mta-3.intern.sigma-chemnitz.de [192.168.12.71])
+	by mail-out-3.intern.sigma-chemnitz.de (8.16.1/8.16.1) with ESMTPS id 2AJAdit8075446
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>; Sat, 19 Nov 2022 11:39:45 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2022040800; t=1668854385;
+	bh=dE8pa+Vb7+taTATht4Z/+FTYCWFQ/CDfYztqTCy5eV4=; l=1835;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=bqo8gR3b4pxyRJENe1Q/9pQaakkSLAm1gQnPpBrIH7ZQrszaLpVlLwYYFc4Dgq/5a
+	 mYTIvTpBVOZjC/ijtyvz+fxJU3/9jiGxhaC1T03DlPX0ubzFHEL0UXj5eXxN33RJwd
+	 Qo3sTgFjULyAqZFApWI3Qo1nvh1BrZ0do4W/uKH8xCW5d4gpODWVYsEdQEDDpBZXzo
+	 y3G232XgotIABD4SMnkf3sp/6YSqug6bq/w+Gpcs9pv3zap7Vi+84FikDI2/pvViW1
+	 WY+bCBpRbrGTMR8i6wPhJ5ZV3V2XtZxMBQkAeM2FX2rjZV2fmYv9QUNY6zSLxJOefF
+	 SSfBYNKwEoI5A==
+Received: from reddoxx.intern.sigma-chemnitz.de (reddoxx.sigma.local [192.168.16.32])
+	by mail-mta-3.intern.sigma-chemnitz.de (8.16.1/8.16.1) with ESMTP id 2AJAdgdv280179
+	for <openembedded-core@lists.openembedded.org> from enrico.scholz@sigma-chemnitz.de; Sat, 19 Nov 2022 11:39:43 +0100
+Received: from mail-msa-2.intern.sigma-chemnitz.de ([192.168.12.72])
+	by reddoxx.intern.sigma-chemnitz.de with ESMTP
+	id R23RQGFWCO; Sat, 19 Nov 2022 11:39:39 +0100
+Received: from ensc-pc.intern.sigma-chemnitz.de (ensc-pc.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail-msa-2.intern.sigma-chemnitz.de (8.16.1/8.16.1) with ESMTPS id 2AJAdd8I082376
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+	Sat, 19 Nov 2022 11:39:39 +0100
+Received: from ensc by ensc-pc.intern.sigma-chemnitz.de with local (Exim 4.96)
+	(envelope-from <ensc@sigma-chemnitz.de>)
+	id 1owLG7-003DjF-0h;
+	Sat, 19 Nov 2022 11:39:39 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+Cc: quaresma.jose@gmail.com, Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Subject: [PATCH v2] sstate: show progress bar again
+Date: Sat, 19 Nov 2022 11:39:25 +0100
+Message-Id: <20221119103925.767617-1-enrico.scholz@sigma-chemnitz.de>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221116112425.2173010-1-enrico.scholz@sigma-chemnitz.de>
+References: <20221116112425.2173010-1-enrico.scholz@sigma-chemnitz.de>
 MIME-Version: 1.0
-References: <20221119101115.319-1-cp0613@linux.alibaba.com>
-In-Reply-To: <20221119101115.319-1-cp0613@linux.alibaba.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 19 Nov 2022 11:21:50 +0100
-Message-ID: <CANNYZj_UJUJ0QAsbtB7nMEdJ+WD2NPd-soRmbiNp-0gDB2aH=w@mail.gmail.com>
-Subject: Re: [OE-core] [meta-oe] [PATCH] rust-snapshot:add riscv64 toolchains
-To: cp0613 <cp0613@linux.alibaba.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-REDDOXX-Id: 6378b26cc12256ade0c4b912
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 19 Nov 2022 10:22:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173514
+ <openembedded-core@lists.openembedded.org>; Sat, 19 Nov 2022 10:39:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173515
 
-I do have to ask, what kind of hardware are you using? Riscv64 systems
-tend to be seen as something akin to raspberry pi, but if building
-rust (which takes at least ten minutes on a 2x64 core x86 server) is
-now feasible, I'd like to know how :)
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 
-Alex
+Transition to ThreadPoolExecutor (eb6a6820928472ef194b963b606454e731f9486f)
+broke the
 
-On Sat, 19 Nov 2022 at 11:11, cp0613 <cp0613@linux.alibaba.com> wrote:
->
-> From: Chen Pei <cp0613@linux.alibaba.com>
->
-> Signed-off-by: Chen Pei <cp0613@linux.alibaba.com>
-> ---
->  meta/recipes-devtools/rust/rust-snapshot.inc | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/meta/recipes-devtools/rust/rust-snapshot.inc b/meta/recipes-devtools/rust/rust-snapshot.inc
-> index 2f9cdb9566..491c022a36 100644
-> --- a/meta/recipes-devtools/rust/rust-snapshot.inc
-> +++ b/meta/recipes-devtools/rust/rust-snapshot.inc
-> @@ -21,6 +21,10 @@ SRC_URI[rust-std-snapshot-powerpc64le.sha256sum] = "ef697469b2a3ea8897f49b70e3be
->  SRC_URI[rustc-snapshot-powerpc64le.sha256sum] = "11630fc51fffe722e52f649357b5948c24b5305cfb61a8114527234e054451c4"
->  SRC_URI[cargo-snapshot-powerpc64le.sha256sum] = "ba7188b2c7890e61bf58d3aa9e94c323fec375f67cf03841bbcc0f6c800fe6ad"
->
-> +SRC_URI[rust-std-snapshot-riscv64gc.sha256sum] = "284b09a96d4cdbb96827914a318f9c41e2b207c0afeae76b9f0e3830d2ef2d4d"
-> +SRC_URI[rustc-snapshot-riscv64gc.sha256sum] = "5f3e69a185c7246773948ac97c053cf135d81ffdbf926d10a3339de93424f26b"
-> +SRC_URI[cargo-snapshot-riscv64gc.sha256sum] = "b94e262dec82b7cacf3baa77f35601c82d389ad338d118b42da4d23e26240760"
-> +
->  SRC_URI += " \
->      https://static.rust-lang.org/dist/${RUST_STD_SNAPSHOT}.tar.xz;name=rust-std-snapshot-${RUST_BUILD_ARCH};subdir=rust-snapshot-components \
->      https://static.rust-lang.org/dist/${RUSTC_SNAPSHOT}.tar.xz;name=rustc-snapshot-${RUST_BUILD_ARCH};subdir=rust-snapshot-components \
-> --
-> 2.25.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#173513): https://lists.openembedded.org/g/openembedded-core/message/173513
-> Mute This Topic: https://lists.openembedded.org/mt/95130600/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+| Checking sstate mirror object availability: ...
+
+progress bar because the removed 'thread_worker' was still referenced
+in an asynchronous function.  As the result of the future is never
+read, the resulting backtrace is silently discarded.
+
+Replace the information given to 'ProcessProgress' by a counter.
+
+Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+---
+ meta/classes-global/sstate.bbclass | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
+index 2c8e7b8cc232..f5e0e623e28d 100644
+--- a/meta/classes-global/sstate.bbclass
++++ b/meta/classes-global/sstate.bbclass
+@@ -925,6 +925,8 @@ sstate_unpack_package () {
+ BB_HASHCHECK_FUNCTION = "sstate_checkhashes"
+ 
+ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True, **kwargs):
++    import itertools
++
+     found = set()
+     missed = set()
+ 
+@@ -1019,7 +1021,7 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
+             connection_cache_pool.put(connection_cache)
+ 
+             if progress:
+-                bb.event.fire(bb.event.ProcessProgress(msg, len(tasklist) - thread_worker.tasks.qsize()), d)
++                bb.event.fire(bb.event.ProcessProgress(msg, next(cnt_tasks_done)), d)
+ 
+         tasklist = []
+         for tid in missed:
+@@ -1029,6 +1031,8 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
+         if tasklist:
+             nproc = min(int(d.getVar("BB_NUMBER_THREADS")), len(tasklist))
+ 
++            ## thread-safe counter
++            cnt_tasks_done = itertools.count(start = 1)
+             progress = len(tasklist) >= 100
+             if progress:
+                 msg = "Checking sstate mirror object availability"
+-- 
+2.38.1
+
 
