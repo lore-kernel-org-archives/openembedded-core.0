@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D6ECC433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EF96C43219
 	for <webhook@archiver.kernel.org>; Sat, 19 Nov 2022 21:15:49 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web11.30649.1668892539262578883
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web10.30937.1668892546349056567
  for <openembedded-core@lists.openembedded.org>;
- Sat, 19 Nov 2022 13:15:39 -0800
+ Sat, 19 Nov 2022 13:15:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=HrF5uwJx;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f49.google.com with SMTP id ci10so1171262pjb.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 19 Nov 2022 13:15:39 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=L4X9QdcR;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f175.google.com with SMTP id b185so8030783pfb.9
+        for <openembedded-core@lists.openembedded.org>; Sat, 19 Nov 2022 13:15:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jZjKx3taedihzQLq4LOXOcRsta2yW+Bn46Au885JIqc=;
-        b=HrF5uwJxoXOV11YMhBbGRJ/9ndPGgu/4uT7zzBMfCg+/8bfnDgdBxwFaleAQTLmb4E
-         RMIXJCVnGlHcFulZtmFB3YJsLwxDYEUJDlqH9/7PKkVKK/xwVdltZ85JbF4Xbxf6qZzB
-         PLUN/uQfmwotYhwWFzY861k/fS0jBV1+59bfnkFEeY8Er2VnuIzaZhx8awra7uR0DG0v
-         FqVA4+Dy4zvnkGLOzLtGLbMPNB7JW0Lw1SlfzB+EfOfLTiWnUUHVQyvthGWqCvZxBfFa
-         OIkpGuziuBTBD63pNvcjLE1SVRGCFVTGP21mLWR44UxGVtrp9+AnD+cPL5p6mEfHhZll
-         RFWg==
+        bh=jI1ByqEvF8Q0mDVdLT78iBhNMM0/1bKr0/ok6HsNZmI=;
+        b=L4X9QdcRfJWQyzJbgL+n3zUyjx2vpO0N2YSNDPcGcMfaXSYl3/A9RDJ6eMMxY6fDP3
+         LC0M+oLT/7IUVIu9eDn7PTRTZ9RTQRHwR1t0GaXhSyRxUyKTHLwB0VHlhGSfSyu5GFbe
+         hdLi8y+O3VJQyfvsq1LM5HJrtcVCE/dYIxrJM1yWhSiVnkGNIapPQykoX2ElNkx5WizX
+         50GNNXtlqhkpF4v2Oszz9MdK3/QC8O5opd0YxjVVlbm7K5I54B8XgrDqke0rhoDtZP9E
+         6S9mKuDf8sUr0f1NTZqwjRL0wnZnjH5VWyB48wz4KE5QMltyonX0gH7yOoy4gkqVzi/q
+         6z0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jZjKx3taedihzQLq4LOXOcRsta2yW+Bn46Au885JIqc=;
-        b=I0E/WcOh5y/aKEKpYCFCTAFC6CmVNOK0cVIs1kyOJ3ATPR6OFERY1RHbPb2xFIkAFj
-         6gkz+pCEAet26ellIVp0k+GFgxYkNZDu7TFUNXjoukD2BAKbYr3uuSS0oKzWUaGKosMO
-         YapHEhiIOAc0wCX0QG33s0MIrdlHKnpPMe+xNy1SmPhzDAHk2erP/Pu2riatDFbGl6AL
-         h7M3wdWikqGkvU+C3Q7Sun3HImQH5MiuocyC4zHok3e8iXlNEXM5GJRXuVv0+cYszJt+
-         yRvZe+KogZOrl5reJCbjY3m8TzjHJOoKcnhJEBYcAG2qJvCu6FD2gNbWPue9ZHdvZUku
-         b4SA==
-X-Gm-Message-State: ANoB5pl7oLYurr73X78JoBi0fmTAcmkC/NCGLAu75mk9o6j1uP4xStYz
-	ca5kadhkcKGq2xv0EwPVLT02b3DdH1mvxDNMwts=
-X-Google-Smtp-Source: AA0mqf7rCuE5w6+wUxXXMHxMOqb4jfUxeJWaay6yViZHwfGHKaucxl3mRiQDZBSEjayS3pe0TDnuFA==
-X-Received: by 2002:a17:902:ab8b:b0:176:7852:dae3 with SMTP id f11-20020a170902ab8b00b001767852dae3mr5416543plr.25.1668892537934;
-        Sat, 19 Nov 2022 13:15:37 -0800 (PST)
+        bh=jI1ByqEvF8Q0mDVdLT78iBhNMM0/1bKr0/ok6HsNZmI=;
+        b=LDH7S1lI3wrnrCV8mOblH4XH6eu6OIcXgpMTc2+AGzPGC6Ey++ksFPvMEHIXMqTg3Y
+         ldZ+q+/8v6NYor3rMk5o5ikDdPBxKYBozUQqIrZtkRDXL4cHbo1LDc1cRo/j/MNasdEK
+         zPMyhiLIGquwVUm44/6tW5fcRA9WnbInnogNQcNWswh89DSEKDsrBkSiZGj+s/tkd7OV
+         0d07yvk8J5DQNn1yHFgZIrt3lOotgcPOEDmLDGrZrbNrZGX4XXBxFUJ6vVEYuAeh/E8P
+         QOtxGdN0JvrHSn/DKg4B8pQ+iNCSDjCpG7J+Yy0qedjT/yNwPYsrNRX98LiS7r7o2OL5
+         WhLQ==
+X-Gm-Message-State: ANoB5pmV1mXfvJ0uyy8Pj9h4ZBAzTsF1tqUb1sP1cvEx8Hgn6eLZiYYq
+	cz6UWTs3aDnupcPYMCl0V3gUGsB3ACp6xV3PYgk=
+X-Google-Smtp-Source: AA0mqf6UxuRDqaTa/xjl/Z3xNIBp0HXbb8+0vlF0o4G/5PcnbLO1/T/nPsroNLdu5my+RYrUEqFWEA==
+X-Received: by 2002:a63:6645:0:b0:476:cdb8:28fd with SMTP id a66-20020a636645000000b00476cdb828fdmr12104050pgc.358.1668892545390;
+        Sat, 19 Nov 2022 13:15:45 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id s16-20020a170902a51000b001869f2120a5sm6197735plq.34.2022.11.19.13.15.36
+        by smtp.gmail.com with ESMTPSA id s16-20020a170902a51000b001869f2120a5sm6197735plq.34.2022.11.19.13.15.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Nov 2022 13:15:37 -0800 (PST)
+        Sat, 19 Nov 2022 13:15:44 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 08/35] inetutils: upgrade 2.3 -> 2.4
-Date: Sat, 19 Nov 2022 11:14:47 -1000
-Message-Id: <b8d39056f58ac6a2264b432c95fd7012babe5164.1668892398.git.steve@sakoman.com>
+Subject: [OE-core][langdale 12/35] sudo: upgrade 1.9.11p3 -> 1.9.12p1
+Date: Sat, 19 Nov 2022 11:14:51 -1000
+Message-Id: <2ee8bfb667edf2ff3785bc52afb289374709de4c.1668892398.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1668892398.git.steve@sakoman.com>
 References: <cover.1668892398.git.steve@sakoman.com>
@@ -61,135 +61,47 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 19 Nov 2022 21:15:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173548
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173552
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
 
-CVE-2022-39028.patch
-removed since it's included in 2.4
-
-Changelog:
-==========
-ifconfig
-------------
-Support specifying prefix netmask lengths in -A.
-Hurd: tell pfinet translator interfaces to configure
-
-ftp
-----------
-Avoid crash caused by signed integer overflow resulting in out-of-bounds buffer access.
-Avoid crash caused by heap buffer overflow.
-Avoid crash caused by NULL pointer dereference.
-Avoid crash caused by infinite macro recursion.
-
-telnetd
------------
-Avoid crash on 0xff 0xf7 (IAC EC) or 0xff 0xf8 (IAC EL).  CVE-2022-39028
-
-telnet
------------
-Fix a buffer overflow problem.  CVE-2019-0053
-
-tftp
------------
-Avoid crashing when given unexpected or invalid commands from tty.
-Various bugs fixes, internal improvements and clean ups.
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit fec6ec179b97b768d32fbd782338450edc1a5344)
+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../inetutils/inetutils/CVE-2022-39028.patch  | 54 -------------------
- .../{inetutils_2.3.bb => inetutils_2.4.bb}    |  3 +-
- 2 files changed, 1 insertion(+), 56 deletions(-)
- delete mode 100644 meta/recipes-connectivity/inetutils/inetutils/CVE-2022-39028.patch
- rename meta/recipes-connectivity/inetutils/{inetutils_2.3.bb => inetutils_2.4.bb} (98%)
+ meta/recipes-extended/sudo/sudo.inc                             | 2 +-
+ .../sudo/{sudo_1.9.11p3.bb => sudo_1.9.12p1.bb}                 | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/sudo/{sudo_1.9.11p3.bb => sudo_1.9.12p1.bb} (96%)
 
-diff --git a/meta/recipes-connectivity/inetutils/inetutils/CVE-2022-39028.patch b/meta/recipes-connectivity/inetutils/inetutils/CVE-2022-39028.patch
-deleted file mode 100644
-index 3b07515c7b..0000000000
---- a/meta/recipes-connectivity/inetutils/inetutils/CVE-2022-39028.patch
-+++ /dev/null
-@@ -1,54 +0,0 @@
--From d52349fa1b6baac77ffa2c74769636aa2ece2ec5 Mon Sep 17 00:00:00 2001
--From: Erik Auerswald <auerswal@unix-ag.uni-kl.de>
--Date: Sat, 3 Sep 2022 16:58:16 +0200
--Subject: [PATCH] telnetd: Handle early IAC EC or IAC EL receipt
--
--Fix telnetd crash if the first two bytes of a new connection
--are 0xff 0xf7 (IAC EC) or 0xff 0xf8 (IAC EL).
--
--The problem was reported in:
--<https://pierrekim.github.io/blog/2022-08-24-2-byte-dos-freebsd-netbsd-telnetd-netkit-telnetd-inetutils-telnetd-kerberos-telnetd.html>.
--
--* NEWS: Mention fix.
--* telnetd/state.c (telrcv): Handle zero slctab[SLC_EC].sptr and
--zero slctab[SLC_EL].sptr.
--
--CVE: CVE-2022-39028
--Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/inetutils.git/commit/?id=fae8263e467380483c28513c0e5fac143e46f94f]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- telnetd/state.c | 12 +++++++++---
-- 1 file changed, 9 insertions(+), 3 deletions(-)
--
--diff --git a/telnetd/state.c b/telnetd/state.c
--index ffc6cba..c2d760f 100644
----- a/telnetd/state.c
--+++ b/telnetd/state.c
--@@ -312,15 +312,21 @@ telrcv (void)
-- 	    case EC:
-- 	    case EL:
-- 	      {
---		cc_t ch;
--+		cc_t ch = (cc_t) (_POSIX_VDISABLE);
-- 
-- 		DEBUG (debug_options, 1, printoption ("td: recv IAC", c));
-- 		ptyflush ();	/* half-hearted */
-- 		init_termbuf ();
-- 		if (c == EC)
---		  ch = *slctab[SLC_EC].sptr;
--+		  {
--+		    if (slctab[SLC_EC].sptr)
--+		      ch = *slctab[SLC_EC].sptr;
--+		  }
-- 		else
---		  ch = *slctab[SLC_EL].sptr;
--+		  {
--+		    if (slctab[SLC_EL].sptr)
--+		      ch = *slctab[SLC_EL].sptr;
--+		  }
-- 		if (ch != (cc_t) (_POSIX_VDISABLE))
-- 		  pty_output_byte ((unsigned char) ch);
-- 		break;
---- 
--2.37.3
--
-diff --git a/meta/recipes-connectivity/inetutils/inetutils_2.3.bb b/meta/recipes-connectivity/inetutils/inetutils_2.4.bb
-similarity index 98%
-rename from meta/recipes-connectivity/inetutils/inetutils_2.3.bb
-rename to meta/recipes-connectivity/inetutils/inetutils_2.4.bb
-index 2fce84374d..6519331141 100644
---- a/meta/recipes-connectivity/inetutils/inetutils_2.3.bb
-+++ b/meta/recipes-connectivity/inetutils/inetutils_2.4.bb
-@@ -10,7 +10,7 @@ LICENSE = "GPL-3.0-only"
+diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
+index 8947c46129..fd5bbf103d 100644
+--- a/meta/recipes-extended/sudo/sudo.inc
++++ b/meta/recipes-extended/sudo/sudo.inc
+@@ -4,7 +4,7 @@ HOMEPAGE = "http://www.sudo.ws"
+ BUGTRACKER = "http://www.sudo.ws/bugs/"
+ SECTION = "admin"
+ LICENSE = "ISC & BSD-3-Clause & BSD-2-Clause & Zlib"
+-LIC_FILES_CHKSUM = "file://LICENSE.md;md5=16cf60b466f3a0606427a7b624a3a670 \
++LIC_FILES_CHKSUM = "file://LICENSE.md;md5=7aacba499777b719416b293d16f29c8c \
+                     file://plugins/sudoers/redblack.c;beginline=1;endline=46;md5=03e35317699ba00b496251e0dfe9f109 \
+                     file://lib/util/reallocarray.c;beginline=3;endline=15;md5=397dd45c7683e90b9f8bf24638cf03bf \
+                     file://lib/util/fnmatch.c;beginline=3;endline=27;md5=004d7d2866ba1f5b41174906849d2e0f \
+diff --git a/meta/recipes-extended/sudo/sudo_1.9.11p3.bb b/meta/recipes-extended/sudo/sudo_1.9.12p1.bb
+similarity index 96%
+rename from meta/recipes-extended/sudo/sudo_1.9.11p3.bb
+rename to meta/recipes-extended/sudo/sudo_1.9.12p1.bb
+index ba610ee2e7..1495b67b8b 100644
+--- a/meta/recipes-extended/sudo/sudo_1.9.11p3.bb
++++ b/meta/recipes-extended/sudo/sudo_1.9.12p1.bb
+@@ -8,7 +8,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=0c7051aef9219dc7237f206c5c4179a7"
+ PAM_SRC_URI = "file://sudo.pam"
  
--SRC_URI[sha256sum] = "0b01bb08e29623c4e3b940f233c961451d9af8c5066301add76a52a95d51772c"
-+SRC_URI[sha256sum] = "1789d6b1b1a57dfe2a7ab7b533ee9f5dfd9cbf5b59bb1bb3c2612ed08d0f68b2"
- SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.xz \
-            file://inetutils-1.8-0001-printf-parse-pull-in-features.h-for-__GLIBC__.patch \
-            file://inetutils-1.8-0003-wchar.patch \
-@@ -21,7 +21,6 @@ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.xz \
-            file://tftpd.xinetd.inetutils \
-            file://inetutils-1.9-PATH_PROCNET_DEV.patch \
-            file://inetutils-only-check-pam_appl.h-when-pam-enabled.patch \
--           file://CVE-2022-39028.patch \
- "
+-SRC_URI[sha256sum] = "4687e7d2f56721708f59cca2e1352c056cb23de526c22725615a42bb094f1f70"
++SRC_URI[sha256sum] = "475a18a8eb3da8b2917ceab063a6baf51ea09128c3c47e3e0e33ab7497bab7d8"
  
- inherit autotools gettext update-alternatives texinfo
+ DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ RDEPENDS:${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
 -- 
 2.25.1
 
