@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A8A6C43217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A256C4332F
 	for <webhook@archiver.kernel.org>; Sat, 19 Nov 2022 17:48:38 +0000 (UTC)
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
- by mx.groups.io with SMTP id smtpd.web10.26328.1668880114777591319
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.26057.1668880108766705885
  for <openembedded-core@lists.openembedded.org>;
- Sat, 19 Nov 2022 09:48:34 -0800
+ Sat, 19 Nov 2022 09:48:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=MKj/ZGGI;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.181, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f181.google.com with SMTP id b62so7718343pgc.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 19 Nov 2022 09:48:34 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=ggDpTzA6;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f180.google.com with SMTP id w23so7168434ply.12
+        for <openembedded-core@lists.openembedded.org>; Sat, 19 Nov 2022 09:48:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3p4YW9N3KqmSmGc9S42q1BI/3NF3CjsH8e9MIKD5KmQ=;
-        b=MKj/ZGGIi9dtpHKT+brAD910/1Axc87Z61wRSeaND2jyfYWTMMkmlI6wrZWfKwEXx9
-         AU789WIi91JTyJFIJ+7hIkvBtALYaoaR6FeYM6wJAteD7n/fQtGq1DGPnXRJkj2HQuHM
-         1DB3O5f8Do+IG8H6400BZT8Jvf+FJPpxJY0rCpBLhBRCncLECN3ReDOpJjJPOdx6GmAw
-         i1s1/X7LYEqlMUQ6apCvJYpIAskk2Tl3pVEB5zQHWvTPCH1KOFiGU1/oeUgpppliSG2v
-         8w9dZIZBlqdjDcwCmw2rQu/fwhkPuqrnaiZAKWWHYQTRtf5/O8AaVUGpu2qLdvpwcLqF
-         IHnQ==
+        bh=f3PklPrJ3KOg4FL23rZztsylQVvrGlXvnYmCLDQHrmc=;
+        b=ggDpTzA6emTiUOD2XNduFX+A+8ZXDwI0GJM8p3JVG3yWmUSZ2clxjNKMthEHqltCnW
+         xEkdEz5AUSc2Yhtx09OCf7PrRRJFdqV1atr+h+vqt7pjXx/8RgG7Hd/0w1d9A62UB3kL
+         HoMyePoPJmXCt+0bv4nYG2Yn0i30CHVxxILFPW6TnsUjPnbEGr+zhQWA7hdR3WqWuWQt
+         W3x67BOMFkQF3Z23hmipNzP+kLEaohj4zjqk+23958+UWvv9v9ggRgnCGd1y14OCXv/M
+         Vx7uEqt/zUTX9QQSoM/QpXtFI7TjDE6Bma6GOgG/XHPGKdvtRMAC5cJLMvexTrh95/iV
+         6b9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3p4YW9N3KqmSmGc9S42q1BI/3NF3CjsH8e9MIKD5KmQ=;
-        b=fXXh/CP3Ua/UQZVQl6yxbhqVbBTvnjb+2ruG6gy7zGK3IViuiPSLpyTktM8+WVBwu/
-         Y6dOV/SghIVrQ5Lqj0Ru4zKrdH1+bPMWcmulMNqu61/ZGsKVrDggrVNmsKHoMJqMZUPX
-         mgDfWUFlH0U6nP6zYQ2eCwqOPKj1xxw+WEpBIYdE2ypXwWEp1zvX5HJZMfgPTnCevgX8
-         YiUUMTdt96O5EdHq642Rl83j/RbzIhjO6X/am9bkxL3HeoSiA3c9rjWWM7AVNrP84bA9
-         26FFA5sn8YRmeyQgvw1Dv+Mn4kTSGLzLvHjiXyMPzaYdLF37wSg9M41+W9ULFHn88ghm
-         LSng==
-X-Gm-Message-State: ANoB5pmjgyQnvSZjHltPIygYZqLxicelYbX9tjHUxdcEEE77UsUupho/
-	P2LP3noVXc45rudkQruuSacoBC290nfmQmhDqHw=
-X-Google-Smtp-Source: AA0mqf7QbCS71MxvNmqpSeNWW4gwN21Dj+spiXZVdl9l+2kls6qLLZw9xMN4+TNy3SFmE1eD7xZsag==
-X-Received: by 2002:a05:6a00:2396:b0:572:698b:5fa9 with SMTP id f22-20020a056a00239600b00572698b5fa9mr13018528pfc.28.1668880113843;
-        Sat, 19 Nov 2022 09:48:33 -0800 (PST)
+        bh=f3PklPrJ3KOg4FL23rZztsylQVvrGlXvnYmCLDQHrmc=;
+        b=qFMFFJC0k7/QonJ8Ikd0BtWJ8U7Cqz3pgPRD/3heyBbakWa3KcPgUNjuG6ZL/3GIkd
+         59tdAyrpX0V93hRrqtutTzftoQrfmWEqmhU4rxcSrUAWbogIt67ZRsOUolK/fxWu0W21
+         DmKMlyYXid6ad1q3H8fd1eKckOCmgCBmWCpDl6j+aW/uN9t2+6bqlBNUBCnsIL2fzuK9
+         YBpBf9u9dBeSYstsP/pOA80uw7CL4UCA4K7gFSSZAZALWPspIa/vXfIiW70ajeMtnzNx
+         44CF1M1i0FAqTVmEjsFVWFd+6aG36bDZ2aGy5SN7LZv3BCCWswdFGf1oj428hz34LOOa
+         MsWg==
+X-Gm-Message-State: ANoB5pnr5G2mdA4CyMd5FfGmc2rzhdTxuxDTUa7CyvojVcjxJTen1CXQ
+	ULicAk9NPVK16FFLuIp1m7JpRVp4+Yf0i1k5/4M=
+X-Google-Smtp-Source: AA0mqf67WbSBMCvRoY5MjpOQTVCNeKG7VE4/BF/QVkepQe4H/k3uXQfXCs5g500DOpTDV6MCc31BcQ==
+X-Received: by 2002:a17:902:6b89:b0:179:eaa8:9113 with SMTP id p9-20020a1709026b8900b00179eaa89113mr4763645plk.55.1668880107872;
+        Sat, 19 Nov 2022 09:48:27 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id m6-20020a17090a668600b0020d3662cc77sm7384151pjj.48.2022.11.19.09.48.32
+        by smtp.gmail.com with ESMTPSA id m6-20020a17090a668600b0020d3662cc77sm7384151pjj.48.2022.11.19.09.48.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Nov 2022 09:48:33 -0800 (PST)
+        Sat, 19 Nov 2022 09:48:27 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 20/21] vim: upgrade 9.0.0614 -> 9.0.0820
-Date: Sat, 19 Nov 2022 07:47:48 -1000
-Message-Id: <f7447f23b23cbffa57b84b5084203cd40ae0bf62.1668879817.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 17/21] golang: ignore CVE-2022-30630
+Date: Sat, 19 Nov 2022 07:47:45 -1000
+Message-Id: <283de0feeea4c0780e90e56edb3b15134f71638b.1668879817.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1668879817.git.steve@sakoman.com>
 References: <cover.1668879817.git.steve@sakoman.com>
@@ -61,40 +61,33 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 19 Nov 2022 17:48:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173538
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173535
 
-From: Tim Orling <ticotimo@gmail.com>
+From: Ralph Siemsen <ralph.siemsen@linaro.org>
 
-Includes fixes for CVE-2022-3705
-https://nvd.nist.gov/vuln/detail/CVE-2022-3705
+The CVE is in the io/fs package, which first appeared in go1.16.
+Since dunfell is using go1.14, this issue does not apply.
 
-For a short list of important changes, see:
-https://www.arp242.net/vimlog/
+CVE was fixed in fa2d41d0ca736f3ad6b200b2a4e134364e9acc59
+Original code in b64202bc29b9c1cf0118878d1c0acc9cdb2308f6
 
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f6d917bd0f8810b5ed8d403ad25d59cda2fc9574)
+Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-support/vim/vim.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/go/go-1.14.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index e9fd7a3eec..262c97bf0f 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -20,8 +20,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://no-path-adjust.patch \
-            "
+diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
+index a0eaa80ed4..cec37c1b09 100644
+--- a/meta/recipes-devtools/go/go-1.14.inc
++++ b/meta/recipes-devtools/go/go-1.14.inc
+@@ -73,3 +73,6 @@ CVE_CHECK_WHITELIST += "CVE-2021-33194"
  
--PV .= ".0614"
--SRCREV = "ef976323e770315b5fca544efb6b2faa25674d15"
-+PV .= ".0820"
-+SRCREV = "03d6e6f42b0deeb02d52c8a48c14abe431370c1c"
- 
- # Remove when 8.3 is out
- UPSTREAM_VERSION_UNKNOWN = "1"
+ # Issue introduced in go1.16, does not exist in 1.14
+ CVE_CHECK_WHITELIST += "CVE-2021-41772"
++
++# Fixes code that was added in go1.16, does not exist in 1.14
++CVE_CHECK_WHITELIST += "CVE-2022-30630"
 -- 
 2.25.1
 
