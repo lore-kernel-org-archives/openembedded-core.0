@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B3BCC433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B3CAC4332F
 	for <webhook@archiver.kernel.org>; Sat, 19 Nov 2022 17:48:08 +0000 (UTC)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web11.26039.1668880082241181972
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.26038.1668880078112827127
  for <openembedded-core@lists.openembedded.org>;
- Sat, 19 Nov 2022 09:48:02 -0800
+ Sat, 19 Nov 2022 09:47:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=GBEJJyiV;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f182.google.com with SMTP id f3so7683615pgc.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 19 Nov 2022 09:48:02 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=I1+45Yvh;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f180.google.com with SMTP id j12so7200666plj.5
+        for <openembedded-core@lists.openembedded.org>; Sat, 19 Nov 2022 09:47:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LfQgRLUijI/VHAAqENJBkHD48BaaU9IDiUBit2ygm/w=;
-        b=GBEJJyiVyb7qQitdsp5LZXpQlrcIdn0iyWM5jhI46jjQqJ9r7QTQofQ8Hdh/1czuXM
-         ZASseLBMfFMHgcffHC3OByqWvrCmFR5Ut36lPgxcJGV1mP63fdDiy0Gwp820n2VLQ6Zp
-         E536rGnteu/iLOlQ4jd1FjMbfwpVAJ4tkBdNh5vonDrs6b7LJ0+vuGegT0K8b8uG9lCY
-         0A9MC0v+TKf3TQDKM2n0FQHiAbjIkGnmJB3d/BvhEUbOyhRuYfc3jUpkmrcb1vH3ET8w
-         qj0OsWfQLyXo9jHPe6bHFjvs1l2CBOT4svMC6E9puSRP1/Yfwc9XadUusWnGDt0Bfs5C
-         vqvA==
+        bh=ciUKVu1vAmiJHvYNTKTXNLF5pwVQJCAkhblRAsjOjQo=;
+        b=I1+45Yvh1yaTluuZL6aUfX7Q/MMhrZO8fDpfjjFD2yhQ1ZzjHijCzUuC6wJBjj65kl
+         lkIOoLY7zjhNFjvp5/oEPoaRGjBUfEP7KXAed9I9T88dIRxDhcowuzqT59lPb2TN5BwM
+         ZxM9h9kXrEnYBglKnlLk+piNXgR5KSeHZD7jztedodNNb+5gqelS8zx8BoEZAbuRj9OI
+         11ZQo1Gmzj4lh26bAiRPqNd3Wrd9nGT9+gb6PJUZ086wxPSIzrmGgHrzgSASfNaKHsoP
+         fdGzbqlb03AMahpEs0SBeR96nWhcH0fp8L6p9LCJ5GaVOAEwNF0tz3gs1DGyncC/9IwT
+         X/GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LfQgRLUijI/VHAAqENJBkHD48BaaU9IDiUBit2ygm/w=;
-        b=3zyx8LwrzRo6LqAKyML3oBex+Xhseuu+WKVeZQ5XzqFaI5NpF9u2r/4cqyK6SAR3HF
-         Ckig79ZfNiAxTSJ7ErKquBHixe+UPD7yeCGsENxnVt0zCzZNZZ90JxNUSnPTuhTWnXxU
-         +BqdI0LO5MH3xFqorCDddr1mkpDMSKYy9RraeqbOkQCPfaNxVFP7j4nf/hEJfDFX5q9+
-         RRgIOkOnD/qmx/L55HRahGUKhmM5LWeGoWAUQM3UKrzHrVA8v1Y749U0TUnx7B0i2TCC
-         MugAtKm3dxtyTwKML0NR9wWaGITI/Dxi5fGBWjIlx+O82jmevPRm4qWgu9VJnC/dDeSg
-         WxvQ==
-X-Gm-Message-State: ANoB5pm9mD47RBBJuhnAcji4GAp9BHo0SO+M3s/ZoBDJRYdkwjCfvfKy
-	xcKb4tvlWSql24egMdTVa/hKVXnw5glNt8gZy3g=
-X-Google-Smtp-Source: AA0mqf6uanJqr/eYmqVXynN2nOgG3Zg2IzNbV33rZ33SqaNnFgXFpzFkkFSZQOBYaGP04Tk3a+C+/w==
-X-Received: by 2002:a63:134a:0:b0:476:bfca:112d with SMTP id 10-20020a63134a000000b00476bfca112dmr11611562pgt.574.1668880081146;
-        Sat, 19 Nov 2022 09:48:01 -0800 (PST)
+        bh=ciUKVu1vAmiJHvYNTKTXNLF5pwVQJCAkhblRAsjOjQo=;
+        b=h7RKNUVMDDCWaa+21OB5YrN02oGWGQTAAn2zzDuGSuIR0YclZS3garNY1IEyN4mQab
+         r0f5mSIPw5HR/ea5YQ+ohmsp5Qfa+iGydbsJWe0Mgg4/IDF1OGV7tCow396aYOUguCHJ
+         RUsTzyWdDPBmPznoH84W0nd+8T6sLWd9gaIS1meQMuhz+2xgJLcQEzEQYCDkKI24LpVX
+         zFbfdjiApRfRhPPO31OE5DZc8r2K3DJ3jRcpy59n1AMzjzW8B4hmkZ7IiKMFU0fuTB1c
+         E+3gvKeAXIGRRzpQ2t8AtEPf8j+L8Luwi2r6hE5ERZiIslBhkqx6e7fkJLagrHA54Ou4
+         YOJQ==
+X-Gm-Message-State: ANoB5pkNhlSHky9jMEpzIWK6Y/e9gZ45TuSp82xyP3+C0d/Fbv6MTuIx
+	qGQ71EV86kPwaRh81JslM6dOrsyQ/dnIb6o0T8c=
+X-Google-Smtp-Source: AA0mqf5N+7iMTn9UU10ON0Ap9nRLEgjLfoqXf3MZWThs7PAM0QX8DSimVHGAZ+ZR8nFfl0aoP6/Fkg==
+X-Received: by 2002:a17:903:1342:b0:186:90a7:6b75 with SMTP id jl2-20020a170903134200b0018690a76b75mr4674847plb.23.1668880077071;
+        Sat, 19 Nov 2022 09:47:57 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id m6-20020a17090a668600b0020d3662cc77sm7384151pjj.48.2022.11.19.09.48.00
+        by smtp.gmail.com with ESMTPSA id m6-20020a17090a668600b0020d3662cc77sm7384151pjj.48.2022.11.19.09.47.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Nov 2022 09:48:00 -0800 (PST)
+        Sat, 19 Nov 2022 09:47:56 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 03/21] python3: Fix CVE-2022-45061
-Date: Sat, 19 Nov 2022 07:47:31 -1000
-Message-Id: <a9167a588b3579c37412359a3e13a68b809b0c2d.1668879817.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 01/21] sudo: CVE-2022-43995 heap-based overflow with very small passwords
+Date: Sat, 19 Nov 2022 07:47:29 -1000
+Message-Id: <acb78be935d1447184daea6fb037f224872eba67.1668879817.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1668879817.git.steve@sakoman.com>
 References: <cover.1668879817.git.steve@sakoman.com>
@@ -61,141 +61,97 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 19 Nov 2022 17:48:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173521
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173519
 
-From: Omkar <omkar.patil@kpit.com>
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-Fix CVE-2022-45061, referenced as
-https://github.com/python/cpython/issues/98433
-patch taken from
-https://github.com/python/cpython/pull/99231/commits/064ec20bf7a181ba5fa961aaa12973812aa6ca5d
+Upstream-Status: Backport from https://github.com/sudo-project/sudo/commit/bd209b9f16fcd1270c13db27ae3329c677d48050
 
-Signed-off-by: Omkar <omkarpatil10.93@gmail.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../python/files/CVE-2022-45061.patch         | 100 ++++++++++++++++++
- .../recipes-devtools/python/python3_3.8.14.bb |   1 +
- 2 files changed, 101 insertions(+)
- create mode 100644 meta/recipes-devtools/python/files/CVE-2022-45061.patch
+ .../sudo/sudo/CVE-2022-43995.patch            | 59 +++++++++++++++++++
+ meta/recipes-extended/sudo/sudo_1.8.32.bb     |  1 +
+ 2 files changed, 60 insertions(+)
+ create mode 100644 meta/recipes-extended/sudo/sudo/CVE-2022-43995.patch
 
-diff --git a/meta/recipes-devtools/python/files/CVE-2022-45061.patch b/meta/recipes-devtools/python/files/CVE-2022-45061.patch
+diff --git a/meta/recipes-extended/sudo/sudo/CVE-2022-43995.patch b/meta/recipes-extended/sudo/sudo/CVE-2022-43995.patch
 new file mode 100644
-index 0000000000..647bf59908
+index 0000000000..1336c7701d
 --- /dev/null
-+++ b/meta/recipes-devtools/python/files/CVE-2022-45061.patch
-@@ -0,0 +1,100 @@
-+From 064ec20bf7a181ba5fa961aaa12973812aa6ca5d Mon Sep 17 00:00:00 2001
-+From: "Miss Islington (bot)"
-+ <31488909+miss-islington@users.noreply.github.com>
-+Date: Mon, 7 Nov 2022 18:57:10 -0800
-+Subject: [PATCH] [3.11] gh-98433: Fix quadratic time idna decoding. (GH-99092)
-+ (GH-99222)
++++ b/meta/recipes-extended/sudo/sudo/CVE-2022-43995.patch
+@@ -0,0 +1,59 @@
++From e1554d7996a59bf69544f3d8dd4ae683027948f9 Mon Sep 17 00:00:00 2001
++From: Hitendra Prajapati <hprajapati@mvista.com>
++Date: Tue, 15 Nov 2022 09:17:18 +0530
++Subject: [PATCH] CVE-2022-43995
 +
-+There was an unnecessary quadratic loop in idna decoding. This restores
-+the behavior to linear.
++Upstream-Status: Backport [https://github.com/sudo-project/sudo/commit/bd209b9f16fcd1270c13db27ae3329c677d48050]
++CVE: CVE-2022-43995
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +
-+(cherry picked from commit d315722564927c7202dd6e111dc79eaf14240b0d)
-+
-+(cherry picked from commit a6f6c3a3d6f2b580f2d87885c9b8a9350ad7bf15)
-+
-+Co-authored-by: Miss Islington (bot) <31488909+miss-islington@users.noreply.github.com>
-+Co-authored-by: Gregory P. Smith <greg@krypto.org>
-+
-+CVE: CVE-2022-45061
-+Upstream-Status: Backport [https://github.com/python/cpython/pull/99231/commits/064ec20bf7a181ba5fa961aaa12973812aa6ca5d]
-+Signed-off-by: Omkar Patil <Omkar.Patil@kpit.com>
-+
++Potential heap overflow for passwords < 8
++characters. Starting with sudo 1.8.0 the plaintext password buffer is
++dynamically sized so it is not safe to assume that it is at least 9 bytes in
++size.
++Found by Hugo Lefeuvre (University of Manchester) with ConfFuzz.
 +---
-+ Lib/encodings/idna.py                         | 32 +++++++++----------
-+ Lib/test/test_codecs.py                       |  6 ++++
-+ ...2-11-04-09-29-36.gh-issue-98433.l76c5G.rst |  6 ++++
-+ 3 files changed, 27 insertions(+), 17 deletions(-)
-+ create mode 100644 Misc/NEWS.d/next/Security/2022-11-04-09-29-36.gh-issue-98433.l76c5G.rst
++ plugins/sudoers/auth/passwd.c | 11 +++++------
++ 1 file changed, 5 insertions(+), 6 deletions(-)
 +
-+diff --git a/Lib/encodings/idna.py b/Lib/encodings/idna.py
-+index ea4058512fe3..bf98f513366b 100644
-+--- a/Lib/encodings/idna.py
-++++ b/Lib/encodings/idna.py
-+@@ -39,23 +39,21 @@ def nameprep(label):
++diff --git a/plugins/sudoers/auth/passwd.c b/plugins/sudoers/auth/passwd.c
++index 03c7a16..76a7824 100644
++--- a/plugins/sudoers/auth/passwd.c
+++++ b/plugins/sudoers/auth/passwd.c
++@@ -63,7 +63,7 @@ sudo_passwd_init(struct passwd *pw, sudo_auth *auth)
++ int
++ sudo_passwd_verify(struct passwd *pw, char *pass, sudo_auth *auth, struct sudo_conv_callback *callback)
++ {
++-    char sav, *epass;
+++    char des_pass[9], *epass;
++     char *pw_epasswd = auth->data;
++     size_t pw_len;
++     int matched = 0;
++@@ -75,12 +75,12 @@ sudo_passwd_verify(struct passwd *pw, char *pass, sudo_auth *auth, struct sudo_c
 + 
-+     # Check bidi
-+     RandAL = [stringprep.in_table_d1(x) for x in label]
-+-    for c in RandAL:
-+-        if c:
-+-            # There is a RandAL char in the string. Must perform further
-+-            # tests:
-+-            # 1) The characters in section 5.8 MUST be prohibited.
-+-            # This is table C.8, which was already checked
-+-            # 2) If a string contains any RandALCat character, the string
-+-            # MUST NOT contain any LCat character.
-+-            if any(stringprep.in_table_d2(x) for x in label):
-+-                raise UnicodeError("Violation of BIDI requirement 2")
-+-
-+-            # 3) If a string contains any RandALCat character, a
-+-            # RandALCat character MUST be the first character of the
-+-            # string, and a RandALCat character MUST be the last
-+-            # character of the string.
-+-            if not RandAL[0] or not RandAL[-1]:
-+-                raise UnicodeError("Violation of BIDI requirement 3")
-++    if any(RandAL):
-++        # There is a RandAL char in the string. Must perform further
-++        # tests:
-++        # 1) The characters in section 5.8 MUST be prohibited.
-++        # This is table C.8, which was already checked
-++        # 2) If a string contains any RandALCat character, the string
-++        # MUST NOT contain any LCat character.
-++        if any(stringprep.in_table_d2(x) for x in label):
-++            raise UnicodeError("Violation of BIDI requirement 2")
-++        # 3) If a string contains any RandALCat character, a
-++        # RandALCat character MUST be the first character of the
-++        # string, and a RandALCat character MUST be the last
-++        # character of the string.
-++        if not RandAL[0] or not RandAL[-1]:
-++            raise UnicodeError("Violation of BIDI requirement 3")
++     /*
++      * Truncate to 8 chars if standard DES since not all crypt()'s do this.
++-     * If this turns out not to be safe we will have to use OS #ifdef's (sigh).
++      */
++-    sav = pass[8];
++     pw_len = strlen(pw_epasswd);
++-    if (pw_len == DESLEN || HAS_AGEINFO(pw_epasswd, pw_len))
++-	pass[8] = '\0';
+++    if (pw_len == DESLEN || HAS_AGEINFO(pw_epasswd, pw_len)) {
+++	strlcpy(des_pass, pass, sizeof(des_pass));
+++	pass = des_pass;
+++    }
 + 
-+     return label
-+ 
-+diff --git a/Lib/test/test_codecs.py b/Lib/test/test_codecs.py
-+index d1faf0126c1e..37ade7d80d02 100644
-+--- a/Lib/test/test_codecs.py
-++++ b/Lib/test/test_codecs.py
-+@@ -1532,6 +1532,12 @@ def test_builtin_encode(self):
-+         self.assertEqual("pyth\xf6n.org".encode("idna"), b"xn--pythn-mua.org")
-+         self.assertEqual("pyth\xf6n.org.".encode("idna"), b"xn--pythn-mua.org.")
-+ 
-++    def test_builtin_decode_length_limit(self):
-++        with self.assertRaisesRegex(UnicodeError, "too long"):
-++            (b"xn--016c"+b"a"*1100).decode("idna")
-++        with self.assertRaisesRegex(UnicodeError, "too long"):
-++            (b"xn--016c"+b"a"*70).decode("idna")
-++
-+     def test_stream(self):
-+         r = codecs.getreader("idna")(io.BytesIO(b"abc"))
-+         r.read(3)
-+diff --git a/Misc/NEWS.d/next/Security/2022-11-04-09-29-36.gh-issue-98433.l76c5G.rst b/Misc/NEWS.d/next/Security/2022-11-04-09-29-36.gh-issue-98433.l76c5G.rst
-+new file mode 100644
-+index 000000000000..5185fac2e29d
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2022-11-04-09-29-36.gh-issue-98433.l76c5G.rst
-+@@ -0,0 +1,6 @@
-++The IDNA codec decoder used on DNS hostnames by :mod:`socket` or :mod:`asyncio`
-++related name resolution functions no longer involves a quadratic algorithm.
-++This prevents a potential CPU denial of service if an out-of-spec excessive
-++length hostname involving bidirectional characters were decoded. Some protocols
-++such as :mod:`urllib` http ``3xx`` redirects potentially allow for an attacker
-++to supply such a name.
-diff --git a/meta/recipes-devtools/python/python3_3.8.14.bb b/meta/recipes-devtools/python/python3_3.8.14.bb
-index 035eda9ecd..cbf57684ca 100644
---- a/meta/recipes-devtools/python/python3_3.8.14.bb
-+++ b/meta/recipes-devtools/python/python3_3.8.14.bb
-@@ -34,6 +34,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-python3-Do-not-hardcode-lib-for-distutils.patch \
-            file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch \
-            file://makerace.patch \
-+           file://CVE-2022-45061.patch \
++     /*
++      * Normal UN*X password check.
++@@ -88,7 +88,6 @@ sudo_passwd_verify(struct passwd *pw, char *pass, sudo_auth *auth, struct sudo_c
++      * only compare the first DESLEN characters in that case.
++      */
++     epass = (char *) crypt(pass, pw_epasswd);
++-    pass[8] = sav;
++     if (epass != NULL) {
++ 	if (HAS_AGEINFO(pw_epasswd, pw_len) && strlen(epass) == DESLEN)
++ 	    matched = !strncmp(pw_epasswd, epass, DESLEN);
++-- 
++2.25.1
++
+diff --git a/meta/recipes-extended/sudo/sudo_1.8.32.bb b/meta/recipes-extended/sudo/sudo_1.8.32.bb
+index 8d16ec2538..10785beedf 100644
+--- a/meta/recipes-extended/sudo/sudo_1.8.32.bb
++++ b/meta/recipes-extended/sudo/sudo_1.8.32.bb
+@@ -4,6 +4,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
+            file://0001-Include-sys-types.h-for-id_t-definition.patch \
+            file://0001-Fix-includes-when-building-with-musl.patch \
++           file://CVE-2022-43995.patch \
             "
  
- SRC_URI_append_class-native = " \
+ PAM_SRC_URI = "file://sudo.pam"
 -- 
 2.25.1
 
