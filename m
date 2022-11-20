@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AD8FC4167B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E6EBC433FE
 	for <webhook@archiver.kernel.org>; Sun, 20 Nov 2022 14:16:40 +0000 (UTC)
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.web10.13300.1668953796617699692
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web10.13296.1668953792553304384
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Nov 2022 06:16:36 -0800
+ Sun, 20 Nov 2022 06:16:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=It2yIK9A;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.177, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f177.google.com with SMTP id 6so8987595pgm.6
-        for <openembedded-core@lists.openembedded.org>; Sun, 20 Nov 2022 06:16:36 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=ZanV7A17;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.50, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f50.google.com with SMTP id u6-20020a17090a5e4600b0021881a8d264so6765677pji.4
+        for <openembedded-core@lists.openembedded.org>; Sun, 20 Nov 2022 06:16:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/HiQy1GKfxtky/g/xoT1NAKewvG4qKjBYP7fAvx1pAM=;
-        b=It2yIK9A0oW1CAyKG6irAh1TgKMg9c2ywufN+qdrDU18fVQQMyinl/RHtbO8kaoRqN
-         nBrX9r33fly2Z4lTcvKPIvinPPKpjvSuugNk6MDDDSggLO27tjvqqe9ZOUj0L8wYgUWH
-         7LZQWbrEUP7l1E2Gqct/znMovwu9JIeq+bM1h9guIP4lAc6yToc0ulikzrXrYWafHys0
-         LQlb4x4gWuSDPI0Cjx6M1YQd7W6I+5kRSZRTA9HNCWcIR42azGhuwnAZAYhuAjjnNiyd
-         cCReAaJs8932tQDq2lK/nlYRdA+w68FbcYakxwhxW1j+bbThlW4nm6P5BVThecAjcnXN
-         ZzTw==
+        bh=C0TnRUTT124PE9ANzqgLh2JSsLVqZmsRlYPZxkb17JI=;
+        b=ZanV7A17tomlAuS2MwAV8477WARMCPQxxajQETGdS/jqXcA8DH3iIdjofSwoOYifsi
+         TRFdr2j48YNxV7H5/A8RhjWa98TbACBxbxEaKgpreXzs/R3unhOrFVsja2uihItc4eq6
+         I79ai53IBW3pwyMTtRlUUgLWMKBsFrh0h2g52N99GrJpoWcMVWrKhAhkD8EPyTlNqOi6
+         OUBpfIL36asYWDoERVwfbRhQrYGRGZI9/sZTTfgS00NxMZ5qoX/FkOuHcxBC4pRlrf8y
+         8d7qQbFNZIAArq4P3Z6AOP1xQc3+1SiND5A5l3AWBLkHEG1bBjr2Jb+bSb1gKiB+beTV
+         +OGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/HiQy1GKfxtky/g/xoT1NAKewvG4qKjBYP7fAvx1pAM=;
-        b=PfKwhOPq2MHKwt2FnHeYlwJU1F1MmuHdJvqKOdlSA+UWW9grrm+q9kwT2Wy3L2TZWy
-         oiPpGPIZeZwWXI9YT61bjZ5hx4jEVbQqhQHBM6hScKFgHi4k/vnPg11tQQtwDIlfzbJX
-         XKDT/1hrfi9wV3gaK4eCieZP/Zlw7pPOd4uzUsHa9muRsbucj0HtdAxZd/W6t7hOBNx/
-         aaKCVzhWUkq5NUR5WvOB6H+qJ2A8PzqG86iazRMqdIcrwVF3eHW23TVcr9/x0rpceBjB
-         gVUAedEAhKM0OZnNBy3cXbu3FTG08EyUmwnjFlealoNtMQcYiew0nDvG76+SLs2yeHUd
-         zDXQ==
-X-Gm-Message-State: ANoB5pk1+Py59tENdViJG3cDpKuA9i6bz/5NxIE00KbD6jr7jS55VGee
-	sACgmycgPTXrXmH9SKHoZlZx1Khtj4olR5UPuS8=
-X-Google-Smtp-Source: AA0mqf7k0PvCEZ+PtxiZTHq8GziH5JmoFhb47J2hxJjnNSssgwrwi1SADpXD+enF2XsMBwHH2NvdqQ==
-X-Received: by 2002:a63:747:0:b0:46f:2780:93b7 with SMTP id 68-20020a630747000000b0046f278093b7mr4455184pgh.166.1668953795562;
-        Sun, 20 Nov 2022 06:16:35 -0800 (PST)
+        bh=C0TnRUTT124PE9ANzqgLh2JSsLVqZmsRlYPZxkb17JI=;
+        b=PKyl6kY7909JLfbWsI0hmFZz/dPsmmoQj7jj29z7KtJQknvlJap4gMOT0iRINjSOOZ
+         OELQJQhWjN+min3keEzcuSDU1kB1gO08/apBlqprpCVebCR412/K2r5J/8QRLlK71stG
+         COT3jwMi+peJ1KiFjg6+qOiozrtJJkG6TIjlUfq6wa/azQ5VcEmmy3Sg53V63/PGka4X
+         LPeAmPFQjxd3JZXvMleu9MkXS83p2xFbwXEzYKJ79yP4071XQx7RSETq2rREEz9VjQq9
+         EDK6suY+jltQ20S/Jmglx2awv8SD5TX/cLLzTMGUIW0Lt5ogqSLJpQhvNqbizo+/5f4+
+         xcKw==
+X-Gm-Message-State: ANoB5pn7lhEWsRia3RSx/btm9DvtOIu/xrtX2NUDAbmrtx4Jx+cNFlkL
+	op3l7bVQzO6CwEARZX74N8cnYp0unHDK/l5Ba3I=
+X-Google-Smtp-Source: AA0mqf5S27pPQEeu4RKIPYUPZPzYgSDE3odA5B234wsuK8muGKpMT8tbsoTro2gZ/C8ycKfv+eyr/w==
+X-Received: by 2002:a17:902:7b96:b0:186:9890:97cd with SMTP id w22-20020a1709027b9600b00186989097cdmr2964150pll.104.1668953791600;
+        Sun, 20 Nov 2022 06:16:31 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id x15-20020aa78f0f000000b0056be4dbd4besm6721379pfr.111.2022.11.20.06.16.34
+        by smtp.gmail.com with ESMTPSA id x15-20020aa78f0f000000b0056be4dbd4besm6721379pfr.111.2022.11.20.06.16.30
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Nov 2022 06:16:35 -0800 (PST)
+        Sun, 20 Nov 2022 06:16:31 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 31/35] gcc-shared-source: Fix source date epoch handling
-Date: Sun, 20 Nov 2022 04:15:20 -1000
-Message-Id: <0511f24264bcc27d6b61edd2e16f899c985eb8ad.1668952942.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 29/35] systemd: Consider PACKAGECONFIG in RRECOMMENDS
+Date: Sun, 20 Nov 2022 04:15:18 -1000
+Message-Id: <41ecfff7a413fff178364d67c1bf96c8e6d31c30.1668952942.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1668952942.git.steve@sakoman.com>
 References: <cover.1668952942.git.steve@sakoman.com>
@@ -61,49 +61,39 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 20 Nov 2022 14:16:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173631
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173629
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Niko Mauno <niko.mauno@vaisala.com>
 
-The source date epoch for gcc isn't being transferred from the shared
-workdir to the current WORKDIR for the specific recipe. This results in
-the clamping code within sstate.bbclass using a value from 2011 which
-changes the timestamps of many files. Since this happens part way
-through the build, if pieces of gcc haven't built, or build/rebuild
-later, we see things rebuilding when they should not and for generated
-files, races are possible.
+Since RRECOMMENDS declaration implictly induces building the recipes
+that provide the runtime recommended packages, conditionalize adding
+such values according to associated PACKAGECONFIG settings in order
+to avoid redundant building.
 
-Fix this by copying the SDE from the shared workdir into the recipe
-workdir.
-
-[YOCTO #14953]
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit b996293b4c8ab7ff3ed852045d17290df29205df)
+(cherry picked from commit a1989add927f7805378fe4d5afbde780b747ba77)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/gcc/gcc-shared-source.inc | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ meta/recipes-core/systemd/systemd_250.5.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-shared-source.inc b/meta/recipes-devtools/gcc/gcc-shared-source.inc
-index aac4b49313..cd2e341099 100644
---- a/meta/recipes-devtools/gcc/gcc-shared-source.inc
-+++ b/meta/recipes-devtools/gcc/gcc-shared-source.inc
-@@ -9,3 +9,13 @@ SRC_URI = ""
+diff --git a/meta/recipes-core/systemd/systemd_250.5.bb b/meta/recipes-core/systemd/systemd_250.5.bb
+index 8b6d0e8580..93cdd6fa16 100644
+--- a/meta/recipes-core/systemd/systemd_250.5.bb
++++ b/meta/recipes-core/systemd/systemd_250.5.bb
+@@ -431,9 +431,9 @@ FILES:${PN}-binfmt = "${sysconfdir}/binfmt.d/ \
+                       ${rootlibexecdir}/systemd/systemd-binfmt \
+                       ${systemd_system_unitdir}/proc-sys-fs-binfmt_misc.* \
+                       ${systemd_system_unitdir}/systemd-binfmt.service"
+-RRECOMMENDS:${PN}-binfmt = "kernel-module-binfmt-misc"
++RRECOMMENDS:${PN}-binfmt = "${@bb.utils.contains('PACKAGECONFIG', 'binfmt', 'kernel-module-binfmt-misc', '', d)}"
  
- do_configure[depends] += "gcc-source-${PV}:do_preconfigure"
- do_populate_lic[depends] += "gcc-source-${PV}:do_unpack"
-+do_deploy_source_date_epoch[depends] += "gcc-source-${PV}:do_deploy_source_date_epoch"
-+
-+# Copy the SDE from the shared workdir to the recipe workdir
-+do_deploy_source_date_epoch () {
-+	sde_file=${SDE_FILE}
-+	sde_file=${sde_file#${WORKDIR}/}
-+	mkdir -p ${SDE_DEPLOYDIR} $(dirname ${SDE_FILE})
-+	cp -p ${S}/../$sde_file ${SDE_DEPLOYDIR}
-+	cp -p ${S}/../$sde_file ${SDE_FILE}
-+}
+-RRECOMMENDS:${PN}-vconsole-setup = "kbd kbd-consolefonts kbd-keymaps"
++RRECOMMENDS:${PN}-vconsole-setup = "${@bb.utils.contains('PACKAGECONFIG', 'vconsole', 'kbd kbd-consolefonts kbd-keymaps', '', d)}"
+ 
+ 
+ FILES:${PN}-journal-gatewayd = "${rootlibexecdir}/systemd/systemd-journal-gatewayd \
 -- 
 2.25.1
 
