@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3448AC4167D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52321C352AA
 	for <webhook@archiver.kernel.org>; Sun, 20 Nov 2022 13:31:40 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web11.12307.1668951094635916985
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web10.12401.1668951091773380048
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Nov 2022 05:31:35 -0800
+ Sun, 20 Nov 2022 05:31:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pS1/Rt+w;
- spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f42.google.com with SMTP id g12so16197835wrs.10
-        for <openembedded-core@lists.openembedded.org>; Sun, 20 Nov 2022 05:31:34 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=G9cjpnzh;
+ spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f48.google.com with SMTP id bs21so16231531wrb.4
+        for <openembedded-core@lists.openembedded.org>; Sun, 20 Nov 2022 05:31:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LY8J1CpSTcoeCjeQeh3tWkykFrZisW96BB1SrDPBElU=;
-        b=pS1/Rt+wtO4h+ZUC82eMbsWYszz8HN2A+wuRtqc8ADSeLCB58aigQ0yhoJoeApcPP0
-         WnshFkmTA5dz0rOQUA5q3m2KMdDxLCkj2e3dTsXOmhHiDNkfj3Ppwon2YC82SCX3DvhJ
-         Q2yYrPIkNaichDBobB1+5ykEcsxX5ECpnUsishzXpdVfxfHG0x5XZ96Dj5LjWsL9RI6l
-         3lPZHDMFj++MX8gm4jojnAuMGhOvA2DIifzE7UqEjzOLB2YFE5Q3iBRvwtM7+F166iyR
-         RVF6+X7N995zGzX+gOHt6y+CkOLzYPo55r69paC4VNNY+9Mr1ERILmC0vS0uqtErZwOt
-         Kg6A==
+        bh=cyXC7jk3z0120XEBCaxzd+kVNxi4PBSZ3FEjJ/7mcso=;
+        b=G9cjpnzhYzsz1tUh9oHtTqoKpbV5cEGFURk4lZecl1ZAuqXrGpeZwC8jfWz37nDPM9
+         NHWZbeFq2+PK5QTutyIjK+ToIUAhc4qp00ttmTN5zvaeNLQ85THPHvJtYNfbQb9lAQpE
+         J/lY90RHEO6juaIXCUZNM7K3Ka48RRO6CHvy+I9pJ306v+6a70w+lrYkmS5uEPRZI+hf
+         ig7yrcyfAQHUtQm1L7o0aQYBg+bLSWnsZI+bBPrDKNDcUCn1by50fSgXmWRhjc5n6d/X
+         asAyaYhjfDGb2bEx9/eB72zdgztLYXJ4lHMqcZ0oFYthX2W+p9jwmBsZ97Nm5+79/XPz
+         0phA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LY8J1CpSTcoeCjeQeh3tWkykFrZisW96BB1SrDPBElU=;
-        b=2hpoyq7EO94D98xyxzlbCJJqStkpoz1jnV6eqQz7NLVzBtwoTOeKxm0hJ0LBWGfREd
-         wXQZiOnV4fZOJKXJwrYQB8bbX0rYCdwHX8LRxVdiR2WeqkLUrWgxuKRMXMc3m6nOt/Ly
-         jOscd/MD7jhsp3gwjJR4R/H/3UsZA0wZZtYwHJwzeVsXL/RcRUBO1+dKKhZcvoi9wERm
-         CuXx+3YzPSKIq73oZq6OczA2SaInCwPGxHn06G8YbEOXyppnt+gDQSNTgMuvRVcc3P4l
-         GbPGIC8lHIRgcCGYdQIJXJr7t1ZVk+L5X9yNbHgcOCSQbTNJiZB9BVmxzYipqcNboU4T
-         8AsQ==
-X-Gm-Message-State: ANoB5pmEwbPrR+hXt5miB4ULfdDlKwYKmjIJLueEn8ZXQRJTZhmPdquR
-	1uqgLJLFQe2QWF0xbMNV2oMHaAQ9R+g=
-X-Google-Smtp-Source: AA0mqf7SFbbi6cSJasi0m/gJN8zV9cE/OWtsNq7zaukuc/ksZ/EYieZ6IIN4Yi7pK9xy9RqLlt7NDQ==
-X-Received: by 2002:a5d:6749:0:b0:235:58b7:b4aa with SMTP id l9-20020a5d6749000000b0023558b7b4aamr1758451wrw.517.1668951093049;
-        Sun, 20 Nov 2022 05:31:33 -0800 (PST)
+        bh=cyXC7jk3z0120XEBCaxzd+kVNxi4PBSZ3FEjJ/7mcso=;
+        b=e3qvzVourw7cs9Z1yrNTjRtTvkq0/B1iDAgOSV/zLmlWNCjEL7zNJE9UiXxkmGnnW3
+         6MG0IS4kasVRw7QXWqwUpEtFs7JPPllR7i3TmK2lgw1sBJXWwbtgaC0F81dN6UE2cPam
+         Hsb7Tmr1oxI+UupAddwPU8VYyJDcHSl1dvXNweXg21pdXEXd8jouONPCuiJcuQjOQ06r
+         A3H5DUWRaN2w1/Qkysbi2oo71uhoLCz9DhrhpVn3k3Q8OvtjcGeHPEmfL5kaBOaYq9yY
+         5EWwKviYwC1Lgx5KGsFvIp+6Vb96cIxR8byS8hTGOZQOY/i/QdASDJ/AZRps2NFplZNb
+         kmHQ==
+X-Gm-Message-State: ANoB5pmzukMrKSV2fSjp17WSkdhqkkYIBOLinyzQbAvir1Y51ZePjEq3
+	Pw9Q5yw93ml3bT14vi/kMtgLO0sZjb0=
+X-Google-Smtp-Source: AA0mqf6LbfSg7A/DoUrmn+XZ3KgSlPBBJ3qUYTIxQhqux7oDXadDzRMrZWEN7hQbTXmVXpy7kS+zDQ==
+X-Received: by 2002:a5d:458c:0:b0:241:d40a:bb50 with SMTP id p12-20020a5d458c000000b00241d40abb50mr16830wrq.39.1668951089983;
+        Sun, 20 Nov 2022 05:31:29 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id k18-20020a05600c1c9200b003b47b80cec3sm16295551wms.42.2022.11.20.05.31.32
+        by smtp.gmail.com with ESMTPSA id k18-20020a05600c1c9200b003b47b80cec3sm16295551wms.42.2022.11.20.05.31.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Nov 2022 05:31:32 -0800 (PST)
+        Sun, 20 Nov 2022 05:31:29 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 08/17] shadow: update 4.12.3 -> 4.13
-Date: Sun, 20 Nov 2022 14:31:13 +0100
-Message-Id: <20221120133122.2464634-8-alex@linutronix.de>
+Subject: [PATCH 04/17] tcl: update 8.6.11 -> 8.6.12
+Date: Sun, 20 Nov 2022 14:31:09 +0100
+Message-Id: <20221120133122.2464634-4-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221120133122.2464634-1-alex@linutronix.de>
 References: <20221120133122.2464634-1-alex@linutronix.de>
@@ -62,246 +62,147 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 20 Nov 2022 13:31:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173589
-
-Drop
-0001-Drop-nsswitch.conf-message-when-not-in-place-eg.-musl.patch
-(issue fixed upstream)
-0001-shadow-use-relaxed-usernames.patch
-(merged upstream)
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173585
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...01-Disable-use-of-syslog-for-sysroot.patch |   6 +-
- ...f-message-when-not-in-place-eg.-musl.patch |  27 -----
- .../0001-shadow-use-relaxed-usernames.patch   | 104 ------------------
- ...nexpected-open-failure-in-chroot-env.patch |   6 +-
- meta/recipes-extended/shadow/shadow.inc       |   4 +-
- .../{shadow_4.12.3.bb => shadow_4.13.bb}      |   0
- 6 files changed, 7 insertions(+), 140 deletions(-)
- delete mode 100644 meta/recipes-extended/shadow/files/0001-Drop-nsswitch.conf-message-when-not-in-place-eg.-musl.patch
- delete mode 100644 meta/recipes-extended/shadow/files/0001-shadow-use-relaxed-usernames.patch
- rename meta/recipes-extended/shadow/{shadow_4.12.3.bb => shadow_4.13.bb} (100%)
+ .../tcl/fix_non_native_build_issue.patch      | 27 +++++++---
+ .../tcltk/tcl/tcl-add-soname.patch            | 50 +++++++++++--------
+ .../tcltk/{tcl_8.6.11.bb => tcl_8.6.12.bb}    |  2 +-
+ 3 files changed, 50 insertions(+), 29 deletions(-)
+ rename meta/recipes-devtools/tcltk/{tcl_8.6.11.bb => tcl_8.6.12.bb} (97%)
 
-diff --git a/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-sysroot.patch b/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-sysroot.patch
-index 628db42136..fa1532c831 100644
---- a/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-sysroot.patch
-+++ b/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-sysroot.patch
-@@ -1,4 +1,4 @@
--From 8b845fff891798a03bdf21354b52e4487c2c0200 Mon Sep 17 00:00:00 2001
-+From 85d0444229ee3d14fefcf10d093f49c862826f82 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Thu, 14 Apr 2022 23:11:53 +0000
- Subject: [PATCH] Disable use of syslog for shadow-native tools
-@@ -17,10 +17,10 @@ Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-  2 files changed, 3 insertions(+), 2 deletions(-)
+diff --git a/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch b/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch
+index 5a10c93a31..41aefd1deb 100644
+--- a/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch
++++ b/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch
+@@ -1,10 +1,19 @@
++From 34c3a1adc1bfd13fb877179c37ef74a108f2a749 Mon Sep 17 00:00:00 2001
++From: Nitin A Kamble <nitin.a.kamble@intel.com>
++Date: Fri, 13 Aug 2010 12:24:00 -0700
++Subject: [PATCH] tcl: fix a build issue
++
+ Upstream-Status: Inappropriate [upstream does not support installed tests]
  
- diff --git a/configure.ac b/configure.ac
--index 5dcae19..b2c58f5 100644
-+index 924254a..603af81 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -204,7 +204,7 @@ AC_DEFINE_UNQUOTED(PASSWD_PROGRAM, "$shadow_cv_passwd_dir/passwd",
-+@@ -191,7 +191,7 @@ AC_DEFINE_UNQUOTED(PASSWD_PROGRAM, "$shadow_cv_passwd_dir/passwd",
-  	[Path to passwd program.])
+-Index: unix/Makefile.in
+-===================================================================
+---- a/unix.orig/Makefile.in	2013-11-10 23:37:34.243424934 -0800
+-+++ b/unix/Makefile.in	2013-11-10 23:37:34.243424934 -0800
+-@@ -709,23 +709,23 @@
++---
++ unix/Makefile.in | 20 ++++++++++----------
++ 1 file changed, 10 insertions(+), 10 deletions(-)
++
++diff --git a/unix/Makefile.in b/unix/Makefile.in
++index 804532e..a9cb339 100644
++--- a/unix/Makefile.in
+++++ b/unix/Makefile.in
++@@ -810,23 +810,23 @@ tcltest-real:
+  test: test-tcl test-packages
   
-  dnl XXX - quick hack, should disappear before anyone notices :).
-diff --git a/meta/recipes-extended/shadow/files/0001-Drop-nsswitch.conf-message-when-not-in-place-eg.-musl.patch b/meta/recipes-extended/shadow/files/0001-Drop-nsswitch.conf-message-when-not-in-place-eg.-musl.patch
-deleted file mode 100644
-index 21c9a1415c..0000000000
---- a/meta/recipes-extended/shadow/files/0001-Drop-nsswitch.conf-message-when-not-in-place-eg.-musl.patch
-+++ /dev/null
-@@ -1,27 +0,0 @@
--From 11290e897a49adddee215833944a518443d9b0d6 Mon Sep 17 00:00:00 2001
--From: Andrei Gherzan <andrei.gherzan@huawei.com>
--Date: Wed, 24 Aug 2022 00:54:47 +0200
--Subject: [PATCH] Drop nsswitch.conf message when not in place - eg. musl
--
--Upstream-Status: Inappropriate [issue reported at https://github.com/shadow-maint/shadow/issues/557]
--Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
-----
-- lib/nss.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/lib/nss.c b/lib/nss.c
--index 06fa48e..44245da 100644
----- a/lib/nss.c
--+++ b/lib/nss.c
--@@ -59,7 +59,7 @@ void nss_init(const char *nsswitch_path) {
-- 	//   subid:	files
-- 	nssfp = fopen(nsswitch_path, "r");
-- 	if (!nssfp) {
---		fprintf(shadow_logfd, "Failed opening %s: %m\n", nsswitch_path);
--+		//fprintf(shadow_logfd, "Failed opening %s: %m\n", nsswitch_path);
-- 		atomic_store(&nss_init_completed, true);
-- 		return;
-- 	}
---- 
--2.25.1
--
-diff --git a/meta/recipes-extended/shadow/files/0001-shadow-use-relaxed-usernames.patch b/meta/recipes-extended/shadow/files/0001-shadow-use-relaxed-usernames.patch
-deleted file mode 100644
-index 6c7abcef1d..0000000000
---- a/meta/recipes-extended/shadow/files/0001-shadow-use-relaxed-usernames.patch
-+++ /dev/null
-@@ -1,104 +0,0 @@
--From b182c52d63bea0f08e1befcec5c3797dd97cdef5 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex@linutronix.de>
--Date: Tue, 16 Aug 2022 13:46:22 +0200
--Subject: [PATCH] shadow: use relaxed usernames
--
--The groupadd from shadow does not allow upper case group names, the
--same is true for the upstream shadow. But distributions like
--Debian/Ubuntu/CentOS has their own way to cope with this problem,
--this patch is picked up from CentOS release 7.0 to relax the usernames
--restrictions to allow the upper case group names, and the relaxation is
--POSIX compliant because POSIX indicate that usernames are composed of
--characters from the portable filename character set [A-Za-z0-9._-].
--
--Upstream-Status: Submitted [https://github.com/shadow-maint/shadow/pull/551]
--
--Signed-off-by: Shan Hai <shan.hai@windriver.com>
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- libmisc/chkname.c  | 29 ++++++++++++++++++-----------
-- man/groupadd.8.xml |  6 ------
-- man/useradd.8.xml  |  6 ------
-- 3 files changed, 18 insertions(+), 23 deletions(-)
--
--diff --git a/libmisc/chkname.c b/libmisc/chkname.c
--index cb002a14..c0306c5a 100644
----- a/libmisc/chkname.c
--+++ b/libmisc/chkname.c
--@@ -32,21 +32,28 @@ static bool is_valid_name (const char *name)
-- 	}
-- 
-- 	/*
---	 * User/group names must match [a-z_][a-z0-9_-]*[$]
---	 */
---
---	if (('\0' == *name) ||
---	    !((('a' <= *name) && ('z' >= *name)) || ('_' == *name))) {
--+         * User/group names must match gnu e-regex:
--+         *    [a-zA-Z0-9_.][a-zA-Z0-9_.-]{0,30}[a-zA-Z0-9_.$-]?
--+         *
--+         * as a non-POSIX, extension, allow "$" as the last char for
--+         * sake of Samba 3.x "add machine script"
--+         */
--+	if ( ('\0' == *name) ||
--+             !((*name >= 'a' && *name <= 'z') ||
--+               (*name >= 'A' && *name <= 'Z') ||
--+               (*name >= '0' && *name <= '9') ||
--+               (*name == '_') || (*name == '.') 
--+	      )) {
-- 		return false;
-- 	}
-- 
-- 	while ('\0' != *++name) {
---		if (!(( ('a' <= *name) && ('z' >= *name) ) ||
---		      ( ('0' <= *name) && ('9' >= *name) ) ||
---		      ('_' == *name) ||
---		      ('-' == *name) ||
---		      ( ('$' == *name) && ('\0' == *(name + 1)) )
---		     )) {
--+                if (!(  (*name >= 'a' && *name <= 'z') ||
--+                        (*name >= 'A' && *name <= 'Z') ||
--+                        (*name >= '0' && *name <= '9') ||
--+                        (*name == '_') || (*name == '.') || (*name == '-') ||
--+                        (*name == '$' && *(name + 1) == '\0') 
--+                     )) {
-- 			return false;
-- 		}
-- 	}
--diff --git a/man/groupadd.8.xml b/man/groupadd.8.xml
--index 26671f92..3eacaa09 100644
----- a/man/groupadd.8.xml
--+++ b/man/groupadd.8.xml
--@@ -63,12 +63,6 @@
--       values from the system. The new group will be entered into the system
--       files as needed.
--     </para>
---     <para>
---       Groupnames must start with a lower case letter or an underscore,
---       followed by lower case letters, digits, underscores, or dashes.
---       They can end with a dollar sign.
---       In regular expression terms: [a-z_][a-z0-9_-]*[$]?
---     </para>
--      <para>
--        Groupnames may only be up to &GROUP_NAME_MAX_LENGTH; characters long.
--      </para>
--diff --git a/man/useradd.8.xml b/man/useradd.8.xml
--index c7f95b47..e056d141 100644
----- a/man/useradd.8.xml
--+++ b/man/useradd.8.xml
--@@ -691,12 +691,6 @@
--       the user account creation request.
--     </para>
-- 
---    <para>
---      Usernames must start with a lower case letter or an underscore,
---      followed by lower case letters, digits, underscores, or dashes.
---      They can end with a dollar sign.
---      In regular expression terms: [a-z_][a-z0-9_-]*[$]?
---    </para>
--     <para>
--       Usernames may only be up to 32 characters long.
--     </para>
---- 
--2.30.2
--
-diff --git a/meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open-failure-in-chroot-env.patch b/meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open-failure-in-chroot-env.patch
-index 173e8a937d..85d9175105 100644
---- a/meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open-failure-in-chroot-env.patch
-+++ b/meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open-failure-in-chroot-env.patch
-@@ -1,4 +1,4 @@
--From d767f776e631f1493fd7b266f2026d630ecf70fe Mon Sep 17 00:00:00 2001
-+From 21583da072aa66901d859ac00ce209bac87ddecc Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Thu, 17 Jul 2014 15:53:34 +0800
- Subject: [PATCH] commonio.c-fix-unexpected-open-failure-in-chroot-env
-@@ -21,10 +21,10 @@ Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-  1 file changed, 12 insertions(+), 4 deletions(-)
- 
- diff --git a/lib/commonio.c b/lib/commonio.c
--index 9e0fde6..7c3a1da 100644
-+index 9a02ce1..61384ec 100644
- --- a/lib/commonio.c
- +++ b/lib/commonio.c
--@@ -624,10 +624,18 @@ int commonio_open (struct commonio_db *db, int mode)
-+@@ -616,10 +616,18 @@ int commonio_open (struct commonio_db *db, int mode)
-  	db->cursor = NULL;
-  	db->changed = false;
+  test-tcl: ${TCLTEST_EXE}
+@@ -32,7 +41,7 @@ Index: unix/Makefile.in
   
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index 5656a375b7..2c70a2d00e 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -12,7 +12,6 @@ DEPENDS = "virtual/crypt"
+  # The following target generates the shared libraries in dltest/ that are used
+  # for testing; they are included as part of the "tcltest" target (via the
+-@@ -743,23 +743,23 @@
++@@ -844,25 +844,25 @@ dltest.marker: ${STUB_LIB_FILE}
+  # This target can be used to run tclsh from the build directory
+  # via `make shell SCRIPT=/tmp/foo.tcl`
+  shell: ${TCL_EXE}
+@@ -45,8 +54,10 @@ Index: unix/Makefile.in
+ +	$(SHELL_ENV) $(GDB) ${TCL_EXE}
+  
+  valgrind: ${TCL_EXE} ${TCLTEST_EXE}
+--	$(SHELL_ENV) $(VALGRIND) $(VALGRINDARGS) ./${TCLTEST_EXE} $(TOP_DIR)/tests/all.tcl -singleproc 1 -constraints valgrind $(TESTFLAGS)
+-+	$(SHELL_ENV) $(VALGRIND) $(VALGRINDARGS) ${TCLTEST_EXE} $(TOP_DIR)/tests/all.tcl -singleproc 1 -constraints valgrind $(TESTFLAGS)
++-	$(SHELL_ENV) $(VALGRIND) $(VALGRINDARGS) ./${TCLTEST_EXE} \
+++	$(SHELL_ENV) $(VALGRIND) $(VALGRINDARGS) ${TCLTEST_EXE} \
++ 		$(TOP_DIR)/tests/all.tcl -singleproc 1 -constraints valgrind \
++ 		$(TESTFLAGS)
+  
+  valgrindshell: ${TCL_EXE}
+ -	$(SHELL_ENV) $(VALGRIND) $(VALGRINDARGS) ./${TCL_EXE} $(SCRIPT)
+diff --git a/meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch b/meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch
+index c4283c4f34..3123d289a1 100644
+--- a/meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch
++++ b/meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch
+@@ -1,25 +1,21 @@
++From d6155ec08b355d64f1a7db407254d159037bb72a Mon Sep 17 00:00:00 2001
++From: Richard Purdie <rpurdie@linux.intel.com>
++Date: Wed, 9 Dec 2009 23:59:44 +0000
++Subject: [PATCH] tcl: Add tcltk from OE.dev but with legacy staging function
++
+ Upstream-Status: Pending
  
- GITHUB_BASE_URI = "https://github.com/shadow-maint/shadow/releases"
- SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.gz \
--           file://0001-shadow-use-relaxed-usernames.patch \
-            ${@bb.utils.contains('PACKAGECONFIG', 'pam', '${PAM_SRC_URI}', '', d)} \
-            file://useradd \
-            "
-@@ -25,12 +24,11 @@ SRC_URI:append:class-target = " \
- SRC_URI:append:class-native = " \
-            file://0001-Disable-use-of-syslog-for-sysroot.patch \
-            file://commonio.c-fix-unexpected-open-failure-in-chroot-env.patch \
--           file://0001-Drop-nsswitch.conf-message-when-not-in-place-eg.-musl.patch \
-            "
- SRC_URI:append:class-nativesdk = " \
-            file://0001-Disable-use-of-syslog-for-sysroot.patch \
-            "
--SRC_URI[sha256sum] = "f525154adc5605e4ebf03d3e7ee8be4d7f3c7cf9df2c2244043406b6eefca2da"
-+SRC_URI[sha256sum] = "813057047499c7fe81108adcf0cffa3ad4ec75e19a80151f9cbaa458ff2e86cd"
+-Index: unix/tcl.m4
+-===================================================================
+---- a/unix.orig/tcl.m4	2013-09-19 13:17:13.000000000 -0700
+-+++ b/unix/tcl.m4	2013-11-11 00:17:24.263485123 -0800
+-@@ -1415,6 +1415,9 @@
+- 	    # get rid of the warnings.
+- 	    #CFLAGS_OPTIMIZE="${CFLAGS_OPTIMIZE} -D__NO_STRING_INLINES -D__NO_MATH_INLINES"
+- 
+-+	    # following line added by CW for Debian GNU/Linux
+-+	    TCL_SHLIB_LD_EXTRAS="-Wl,-soname,\${TCL_LIB_FILE}.0"
+-+
+- 	    SHLIB_LD='${CC} ${CFLAGS} ${LDFLAGS} -shared'
+- 	    DL_OBJS="tclLoadDl.o"
+- 	    DL_LIBS="-ldl"
+-Index: unix/Makefile.in
+-===================================================================
+---- a/unix.orig/Makefile.in	2013-09-19 13:17:13.000000000 -0700
+-+++ b/unix/Makefile.in	2013-11-11 00:20:32.423489861 -0800
+-@@ -796,7 +796,10 @@
+- 	    done;
++---
++ unix/Makefile.in | 5 ++++-
++ unix/tcl.m4      | 3 +++
++ 2 files changed, 7 insertions(+), 1 deletion(-)
++
++diff --git a/unix/Makefile.in b/unix/Makefile.in
++index 398afd0..804532e 100644
++--- a/unix/Makefile.in
+++++ b/unix/Makefile.in
++@@ -893,7 +893,10 @@ install-binaries: binaries
++ 	done
+  	@echo "Installing $(LIB_FILE) to $(DLL_INSTALL_DIR)/"
+  	@@INSTALL_LIB@
+ -	@chmod 555 "$(DLL_INSTALL_DIR)/$(LIB_FILE)"
+@@ -30,3 +26,17 @@ Index: unix/Makefile.in
+  	@echo "Installing ${TCL_EXE} as $(BIN_INSTALL_DIR)/tclsh$(VERSION)${EXE_SUFFIX}"
+  	@$(INSTALL_PROGRAM) ${TCL_EXE} "$(BIN_INSTALL_DIR)/tclsh$(VERSION)${EXE_SUFFIX}"
+  	@echo "Installing tclConfig.sh to $(CONFIG_INSTALL_DIR)/"
++diff --git a/unix/tcl.m4 b/unix/tcl.m4
++index f3d08ec..797c93f 100644
++--- a/unix/tcl.m4
+++++ b/unix/tcl.m4
++@@ -1382,6 +1382,9 @@ AC_DEFUN([SC_CONFIG_CFLAGS], [
++ 	    # get rid of the warnings.
++ 	    #CFLAGS_OPTIMIZE="${CFLAGS_OPTIMIZE} -D__NO_STRING_INLINES -D__NO_MATH_INLINES"
++ 
+++	    # following line added by CW for Debian GNU/Linux
+++	    TCL_SHLIB_LD_EXTRAS="-Wl,-soname,\${TCL_LIB_FILE}.0"
+++
++ 	    SHLIB_LD='${CC} ${CFLAGS} ${LDFLAGS} -shared'
++ 	    DL_OBJS="tclLoadDl.o"
++ 	    DL_LIBS="-ldl"
+diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.11.bb b/meta/recipes-devtools/tcltk/tcl_8.6.12.bb
+similarity index 97%
+rename from meta/recipes-devtools/tcltk/tcl_8.6.11.bb
+rename to meta/recipes-devtools/tcltk/tcl_8.6.12.bb
+index f8b2a69b9f..824c0286c6 100644
+--- a/meta/recipes-devtools/tcltk/tcl_8.6.11.bb
++++ b/meta/recipes-devtools/tcltk/tcl_8.6.12.bb
+@@ -25,7 +25,7 @@ SRC_URI = "${BASE_SRC_URI} \
+            file://interp.patch \
+            file://run-ptest \
+ "
+-SRC_URI[sha256sum] = "cfb49aab82bd179651e23eeeb69606f51b0ddc575ca55c3d35e2457469024cfa"
++SRC_URI[sha256sum] = "186748f1131cef3d637421a18d70892f808e526a29c694bebfeb1c540f98727c"
  
+ SRC_URI:class-native = "${BASE_SRC_URI}"
  
- # Additional Policy files for PAM
-diff --git a/meta/recipes-extended/shadow/shadow_4.12.3.bb b/meta/recipes-extended/shadow/shadow_4.13.bb
-similarity index 100%
-rename from meta/recipes-extended/shadow/shadow_4.12.3.bb
-rename to meta/recipes-extended/shadow/shadow_4.13.bb
 -- 
 2.30.2
 
