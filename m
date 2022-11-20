@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 841AEC433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FCF3C4167D
 	for <webhook@archiver.kernel.org>; Sun, 20 Nov 2022 14:15:50 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web10.13266.1668953740641967628
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web10.13267.1668953742754071399
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Nov 2022 06:15:40 -0800
+ Sun, 20 Nov 2022 06:15:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=31J6OAXu;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.50, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f50.google.com with SMTP id k5so8350879pjo.5
-        for <openembedded-core@lists.openembedded.org>; Sun, 20 Nov 2022 06:15:40 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=CXL6VNwz;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f182.google.com with SMTP id g10so8405720plo.11
+        for <openembedded-core@lists.openembedded.org>; Sun, 20 Nov 2022 06:15:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zy8qbGtxFYFJ03AlrnZRDgraob1cAUm+uU+DzCJau3Y=;
-        b=31J6OAXuP6sv9A8D9XyCIFe/uscr/IqmzuJZGAIDJqd35KNYZOcD5YPaB1SEienKEc
-         sMsLmwV+n2J/qfHXpCzsQbDtyOzBFVQ1owMPGBQr4Rl6S6YW8iloE87ZT/wqE2b2A9Zx
-         NW8Mjys3CiYc6BUvFWO+ebNJ5TWShGHUYmQ6VWQjLYk+2FQx6Y41Garw0gSCcJ/g5twN
-         QypfudyommOANaUdZQrF0I6USOtHHg7pAy1PyHfDsRFh8sZHHisVq+HHRhebnv5ItEKF
-         Lg7McbHK1WBOkHmRiEfc0B5gvVMinFnOchH0UmsLXPLPpT6glbOjAwleQ+rB++vb1WPr
-         bt5Q==
+        bh=CUpmWpWbGv9Fpg6JKxcleBdP8nlg1s+C7jsyM+BD6PE=;
+        b=CXL6VNwzJePogM4gUywA2TgArF5zAmkPIEZTL3GNb8sLRxg0HajvbjINBAXhiX/coc
+         uhj1wZTNuUVkh/X6+wwRfGKdxjjstYJ9NREEnegE0HSv2vxYMoZba4O6B5ysClNA9op6
+         S97sUw3LUbw/n1dtQHwEy6Dpi3c56ZUe3Kkrz/xc9F1xfM9i51io0ZkS44nALCSnzU/P
+         m63Lxgs5f6yKhRf70hqyUve8BOTw3E17ymcgN88WGstHHJ8b8+Z3yS2Hze6b64CasNGO
+         HD6FIYd7ZJdQa2nusOPDex0lYkZSFhiNRM+eW3akQ7HwHxEVI/VU0rI+ImNEcRkH5y7s
+         tzKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zy8qbGtxFYFJ03AlrnZRDgraob1cAUm+uU+DzCJau3Y=;
-        b=M2AAnOQbAtDyOIYIsAOYSeagxHmIQwquIq9cSduqWFYBXcu7NEeHHSSBXyxdgMt4lp
-         tFQaDLNjyheuJasZ2qmKp3LC2Lho8dnCn7Rkwco2hET68MvTrDWAR575frXL3QLsCeC7
-         vTczV3LzOyNzsepqsNO7YGnSEUKmq4rWYGAUBi64LKitE7O9/22DqcMJEnto2QlwE6jo
-         jNn7VTEm+uduxiQPqcqXHQ+8747VDmO3k6IR/JTHfcKveErcdvRsY5KDeJ56XNOzqZyl
-         suwA2TEe9E7+Qy38pLkrpSEwn/aWybcfiES8dc8n55KlWM/9xsJrthvo1GtPO9zzqR+J
-         ugCg==
-X-Gm-Message-State: ANoB5pnUiHQlUnDY4fW7AGSMFMejF3b4o68qda3AwMXdct+sq3asvTbn
-	SbmY0Ny6O1++ZT3TaHkQEMymgoZH/5TD93Ly0YE=
-X-Google-Smtp-Source: AA0mqf54js8fJgG2dR/gDtqIkZPVDQlMZNZezI9uxGTOoU9mAXyt+K8g0vUt3SPXJ1lSY6wfkZdVuw==
-X-Received: by 2002:a17:90a:f3d3:b0:213:241f:1939 with SMTP id ha19-20020a17090af3d300b00213241f1939mr22941972pjb.70.1668953739583;
-        Sun, 20 Nov 2022 06:15:39 -0800 (PST)
+        bh=CUpmWpWbGv9Fpg6JKxcleBdP8nlg1s+C7jsyM+BD6PE=;
+        b=Rk+lzaEhpVkQEelpxcM55RDvN403K+6OXcgco4icD7vxGayo7hFM7F2MM8ko8Udwac
+         WO43qOp03X2nwuuipkr1eOqPZbPqtxG02lliubqVA7/UqLEJcUEN6HjCzAyxPqJ6Znif
+         DPvWaOtZDg1xIJQwbEtPMEUYggMaOvZEt8+8E2nXmqrRYw5dioPjj+giticsjjdP/3G6
+         B97uCgxyl3JMAJSkHOnjKn/noQor8lobvA6cmeCEWG2KDR0DQD2oKf+fzsqfoygWDVQU
+         hd69QyZo9YRZL+ykmxrSXTqdzWZZglIZqa9y3ExxLX5FVeoHkUwrT/3na+FlfACVHSdW
+         GrPw==
+X-Gm-Message-State: ANoB5pmuplGunR+ID9p2iftTyaPED67i6fzVNOtLPTQ8dukYpbaY8g68
+	bhujN3GNnPiVtXHtqIbIqUxNmlqJD9L36c1b1v8=
+X-Google-Smtp-Source: AA0mqf7bVeiLPNxCiVoFBhdgISw2qg2QvhTAujyXC9IXgnRAfv5/NvZRHWy/f6r8FDGIH6o6ltmDdw==
+X-Received: by 2002:a17:903:44e:b0:188:6fca:22b with SMTP id iw14-20020a170903044e00b001886fca022bmr7727148plb.4.1668953741631;
+        Sun, 20 Nov 2022 06:15:41 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id x15-20020aa78f0f000000b0056be4dbd4besm6721379pfr.111.2022.11.20.06.15.38
+        by smtp.gmail.com with ESMTPSA id x15-20020aa78f0f000000b0056be4dbd4besm6721379pfr.111.2022.11.20.06.15.40
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Nov 2022 06:15:39 -0800 (PST)
+        Sun, 20 Nov 2022 06:15:41 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 02/35] dbus: fix CVE-2022-42011 dbus-daemon can be crashed by messages with array length inconsistent with element type
-Date: Sun, 20 Nov 2022 04:14:51 -1000
-Message-Id: <5d96a3c244388623d87a2999dafaa25d0bd216b6.1668952942.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 03/35] dbus: fix CVE-2022-42012 dbus-marshal-byteswap: Byte-swap Unix fd indexes if needed
+Date: Sun, 20 Nov 2022 04:14:52 -1000
+Message-Id: <ad5c72d7f4c5ac2ad84eff8235d87f6c097af386.1668952942.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1668952942.git.steve@sakoman.com>
 References: <cover.1668952942.git.steve@sakoman.com>
@@ -61,97 +61,114 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 20 Nov 2022 14:15:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173602
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173603
 
 From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
 
-Backport a patch from upstream[1] to fix CVE-2022-42011 dbus-daemon can be crashed by messages with array length inconsistent with element type
-[1] https://gitlab.freedesktop.org/dbus/dbus/-/commit/b9e6a7523085a2cfceaffca7ba1ab4251f12a984
+Backport a patch from upstream [1] to fix CVE-2022-42012
+dbus-marshal-byteswap: Byte-swap Unix fd indexes if needed
+
+[1] https://gitlab.freedesktop.org/dbus/dbus/-/commit/3fb065b0752db1e298e4ada52cf4adc414f5e946
 
 Signed-off-by: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...idate-Validate-length-of-arrays-of-f.patch | 61 +++++++++++++++++++
+ ...eswap-Byte-swap-Unix-fd-indexes-if-n.patch | 76 +++++++++++++++++++
  meta/recipes-core/dbus/dbus_1.14.0.bb         |  1 +
- 2 files changed, 62 insertions(+)
- create mode 100644 meta/recipes-core/dbus/dbus/0001-dbus-marshal-validate-Validate-length-of-arrays-of-f.patch
+ 2 files changed, 77 insertions(+)
+ create mode 100644 meta/recipes-core/dbus/dbus/0001-dbus-marshal-byteswap-Byte-swap-Unix-fd-indexes-if-n.patch
 
-diff --git a/meta/recipes-core/dbus/dbus/0001-dbus-marshal-validate-Validate-length-of-arrays-of-f.patch b/meta/recipes-core/dbus/dbus/0001-dbus-marshal-validate-Validate-length-of-arrays-of-f.patch
+diff --git a/meta/recipes-core/dbus/dbus/0001-dbus-marshal-byteswap-Byte-swap-Unix-fd-indexes-if-n.patch b/meta/recipes-core/dbus/dbus/0001-dbus-marshal-byteswap-Byte-swap-Unix-fd-indexes-if-n.patch
 new file mode 100644
-index 0000000000..f953326f78
+index 0000000000..47f4f1e0d3
 --- /dev/null
-+++ b/meta/recipes-core/dbus/dbus/0001-dbus-marshal-validate-Validate-length-of-arrays-of-f.patch
-@@ -0,0 +1,61 @@
-+From b9e6a7523085a2cfceaffca7ba1ab4251f12a984 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/dbus/dbus/0001-dbus-marshal-byteswap-Byte-swap-Unix-fd-indexes-if-n.patch
+@@ -0,0 +1,76 @@
++From 3fb065b0752db1e298e4ada52cf4adc414f5e946 Mon Sep 17 00:00:00 2001
 +From: Simon McVittie <smcv@collabora.com>
-+Date: Mon, 12 Sep 2022 13:14:18 +0100
-+Subject: [PATCH] dbus-marshal-validate: Validate length of arrays of
-+ fixed-length items
++Date: Fri, 30 Sep 2022 13:46:31 +0100
++Subject: [PATCH] dbus-marshal-byteswap: Byte-swap Unix fd indexes if needed
 +
-+This fast-path previously did not check that the array was made up
-+of an integer number of items. This could lead to assertion failures
-+and out-of-bounds accesses during subsequent message processing (which
-+assumes that the message has already been validated), particularly after
-+the addition of _dbus_header_remove_unknown_fields(), which makes it
-+more likely that dbus-daemon will apply non-trivial edits to messages.
++When a D-Bus message includes attached file descriptors, the body of the
++message contains unsigned 32-bit indexes pointing into an out-of-band
++array of file descriptors. Some D-Bus APIs like GLib's GDBus refer to
++these indexes as "handles" for the associated fds (not to be confused
++with a Windows HANDLE, which is a kernel object).
++
++The assertion message removed by this commit is arguably correct up to
++a point: fd-passing is only reasonable on a local machine, and no known
++operating system allows processes of differing endianness even on a
++multi-endian ARM or PowerPC CPU, so it makes little sense for the sender
++to specify a byte-order that differs from the byte-order of the recipient.
++
++However, this doesn't account for the fact that a malicious sender
++doesn't have to restrict itself to only doing things that make sense.
++On a system with untrusted local users, a message sender could crash
++the system dbus-daemon (a denial of service) by sending a message in
++the opposite endianness that contains handles to file descriptors.
++
++Before this commit, if assertions are enabled, attempting to byteswap
++a fd index would cleanly crash the message recipient with an assertion
++failure. If assertions are disabled, attempting to byteswap a fd index
++would silently do nothing without advancing the pointer p, causing the
++message's type and the pointer into its contents to go out of sync, which
++can result in a subsequent crash (the crash demonstrated by fuzzing was
++a use-after-free, but other failure modes might be possible).
++
++In principle we could resolve this by rejecting wrong-endianness messages
++from a local sender, but it's actually simpler and less code to treat
++wrong-endianness messages as valid and byteswap them.
 +
 +Thanks: Evgeny Vereshchagin
-+Fixes: e61f13cf "Bug 18064 - more efficient validation for fixed-size type arrays"
-+Resolves: https://gitlab.freedesktop.org/dbus/dbus/-/issues/413
-+Resolves: CVE-2022-42011
++Fixes: ba7daa60 "unix-fd: add basic marshalling code for unix fds"
++Resolves: https://gitlab.freedesktop.org/dbus/dbus/-/issues/417
++Resolves: CVE-2022-42012
 +
-+Upstream-Status: Backport from
-+[https://gitlab.freedesktop.org/dbus/dbus/-/commit/b9e6a7523085a2cfceaffca7ba1ab4251f12a984]
++Upstream-Status: Backport from [https://gitlab.freedesktop.org/dbus/dbus/-/commit/3fb065b0752db1e298e4ada52cf4adc414f5e946]
 +
 +Signed-off-by: Simon McVittie <smcv@collabora.com>
-+(cherry picked from commit 079bbf16186e87fb0157adf8951f19864bc2ed69)
++(cherry picked from commit 236f16e444e88a984cf12b09225e0f8efa6c5b44)
 +Signed-off-by: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
 +---
-+ dbus/dbus-marshal-validate.c | 13 ++++++++++++-
-+ 1 file changed, 12 insertions(+), 1 deletion(-)
++ dbus/dbus-marshal-byteswap.c | 6 +-----
++ 1 file changed, 1 insertion(+), 5 deletions(-)
 +
-+diff --git a/dbus/dbus-marshal-validate.c b/dbus/dbus-marshal-validate.c
-+index ae68414d..7d0d6cf7 100644
-+--- a/dbus/dbus-marshal-validate.c
-++++ b/dbus/dbus-marshal-validate.c
-+@@ -503,13 +503,24 @@ validate_body_helper (DBusTypeReader       *reader,
-+                  */ 
-+                 if (dbus_type_is_fixed (array_elem_type))
-+                   {
-++                    /* Note that fixed-size types all have sizes equal to
-++                     * their alignments, so this is really the item size. */
-++                    alignment = _dbus_type_get_alignment (array_elem_type);
-++                    _dbus_assert (alignment == 1 || alignment == 2 ||
-++                                  alignment == 4 || alignment == 8);
-++
-++                    /* Because the alignment is a power of 2, this is
-++                     * equivalent to: (claimed_len % alignment) != 0,
-++                     * but avoids slower integer division */
-++                    if ((claimed_len & (alignment - 1)) != 0)
-++                      return DBUS_INVALID_ARRAY_LENGTH_INCORRECT;
-++
-+                     /* bools need to be handled differently, because they can
-+                      * have an invalid value
-+                      */
-+                     if (array_elem_type == DBUS_TYPE_BOOLEAN)
-+                       {
-+                         dbus_uint32_t v;
-+-                        alignment = _dbus_type_get_alignment (array_elem_type);
++diff --git a/dbus/dbus-marshal-byteswap.c b/dbus/dbus-marshal-byteswap.c
++index 27695aaf..7104e9c6 100644
++--- a/dbus/dbus-marshal-byteswap.c
+++++ b/dbus/dbus-marshal-byteswap.c
++@@ -61,6 +61,7 @@ byteswap_body_helper (DBusTypeReader       *reader,
++         case DBUS_TYPE_BOOLEAN:
++         case DBUS_TYPE_INT32:
++         case DBUS_TYPE_UINT32:
+++        case DBUS_TYPE_UNIX_FD:
++           {
++             p = _DBUS_ALIGN_ADDRESS (p, 4);
++             *((dbus_uint32_t*)p) = DBUS_UINT32_SWAP_LE_BE (*((dbus_uint32_t*)p));
++@@ -188,11 +189,6 @@ byteswap_body_helper (DBusTypeReader       *reader,
++           }
++           break;
 + 
-+                         while (p < array_end)
-+                           {
++-        case DBUS_TYPE_UNIX_FD:
++-          /* fds can only be passed on a local machine, so byte order must always match */
++-          _dbus_assert_not_reached("attempted to byteswap unix fds which makes no sense");
++-          break;
++-
++         default:
++           _dbus_assert_not_reached ("invalid typecode in supposedly-validated signature");
++           break;
 +-- 
 +2.34.1
 +
 diff --git a/meta/recipes-core/dbus/dbus_1.14.0.bb b/meta/recipes-core/dbus/dbus_1.14.0.bb
-index 4577da782c..e1efa9e058 100644
+index e1efa9e058..484629e987 100644
 --- a/meta/recipes-core/dbus/dbus_1.14.0.bb
 +++ b/meta/recipes-core/dbus/dbus_1.14.0.bb
-@@ -14,6 +14,7 @@ SRC_URI = "https://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.xz \
-            file://tmpdir.patch \
+@@ -15,6 +15,7 @@ SRC_URI = "https://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.xz \
             file://dbus-1.init \
             file://0001-dbus-marshal-validate-Check-brackets-in-signature-ne.patch \
-+           file://0001-dbus-marshal-validate-Validate-length-of-arrays-of-f.patch \
+            file://0001-dbus-marshal-validate-Validate-length-of-arrays-of-f.patch \
++           file://0001-dbus-marshal-byteswap-Byte-swap-Unix-fd-indexes-if-n.patch \
  "
  
  SRC_URI[sha256sum] = "ccd7cce37596e0a19558fd6648d1272ab43f011d80c8635aea8fd0bad58aebd4"
