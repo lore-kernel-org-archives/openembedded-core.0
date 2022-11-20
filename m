@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53E96C433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55580C43219
 	for <webhook@archiver.kernel.org>; Sun, 20 Nov 2022 13:31:50 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web10.12404.1668951093813364598
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web11.12312.1668951100174541724
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Nov 2022 05:31:42 -0800
+ Sun, 20 Nov 2022 05:31:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=TAK/7S+2;
- spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id k8so16308349wrh.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=AXJxnkia;
+ spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f52.google.com with SMTP id b12so2423103wrn.2
         for <openembedded-core@lists.openembedded.org>; Sun, 20 Nov 2022 05:31:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OWCwVXiylMSQONlObCfvZRp9+p+FpEgDi8UHp47u12o=;
-        b=TAK/7S+2wLhErZvJ3dTR2w1IfU4/BAk4wTgSu75PJIoqLdKbl7Jz2l+Z5ohiOgcsUZ
-         fbQEhEqbgAHEq4nLNVkxPUHY3xvmjDhlstneBgZQWGHakPwjouhCFfKHJBcefT/DJCww
-         tNtKya1Vycjrna39pGONDsJ9iOPxRy5uePnjOKDb+MGvj7dRabWBYU6R/WUDxBD+HohX
-         zGmhEAOC1Ps0zr3GzpWAWbzBLQhJTswni2iuslE/KxGaSZmyDJm5ZQe13PiZXGbE5rsQ
-         PO0NkAA9lbaAkl29Paq14UoORc5hE2yUcM9QFv/wBoP8vsAj36jpEQeqSTmVYriiQa6y
-         OXJw==
+        bh=wbc5EgRhoEOFPeluWYncnUodtfg5htTlhV5WsNpt6Wc=;
+        b=AXJxnkiadp7XUxMyYrBQPeoUOV1q54i0CLxR69iTcWk2rTu2amhB7qZ940d7yz2K/h
+         rvgB5ud8DMIuvUSvHH3/ZF+NA675Dk7nsz74laThWPS9NwydeBtJiQOFl005NGmWOer+
+         tOFqV1Yh+5b9p+LlqjTj8f5t8tCtSdnJPq5qnH4xZWUfcqVJImvw3E6yOK150zdLO4hY
+         DHd61mErYcQmjCC8n882k8ylXImwwKp2bpqx0yK3yxDRelsa0p7LHjDRFG4eyPkZOjBJ
+         W905eWQdGlbRynMTsAzu2ztQvK4fAyz74Aycgi760EHerYgPj/g1ZSg8Iyasm+iJNaFs
+         lEaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OWCwVXiylMSQONlObCfvZRp9+p+FpEgDi8UHp47u12o=;
-        b=DUtXXmN+rGhxgULL/e/hW/pC86T8brK8jNiva79Gf3cyYRtSYzQRkP4tgx3SVAmidu
-         vwuEp1k68dzGxmqo5DO2oZQu580rsavJhe0cq6qY+bjdfOrLX3+v72q0j1Np+B99nk2W
-         Y9Ytr1LpnPq6JuyCFQ58fIU+HnBKfr/9RibOjTQYbKsGeJ/mLO2NEfNur6fvzWif8eFp
-         eRawdB7/QPXdSFOXU/H799RTn1gETLwU7sVgvT3xZw/vcN2RKbVQ9hkKZSUEq+XNMqnd
-         gEIneLSuuZ0Uc+g5yQipVCebelnT/UVgM186WclTAGNtJe1lA1CdZzLJjOeph2ec9wlP
-         SaYQ==
-X-Gm-Message-State: ANoB5pkJHUV1wG16fsM79BrAt/6y49UPjsCmGDQh+Avr6bFlBJYQaz/G
-	MvULtof7yUpLL85dU+YLI7n/EDFa8+M=
-X-Google-Smtp-Source: AA0mqf6rUWs9k4rRomy7pYuVYu8wksyuANoHARRRzb5sfXgv8KMy75PH81irUVykBx7ktkUQgKXNnA==
-X-Received: by 2002:adf:ead1:0:b0:238:55af:b5db with SMTP id o17-20020adfead1000000b0023855afb5dbmr8720759wrn.97.1668951101387;
-        Sun, 20 Nov 2022 05:31:41 -0800 (PST)
+        bh=wbc5EgRhoEOFPeluWYncnUodtfg5htTlhV5WsNpt6Wc=;
+        b=5J1rI/6KX2ulr0f1vdSFSWhBxk0EzXWdRQi/xJ3D/AHuE4tQ062vSpiHGCTgm2sVwr
+         YgXzWXaAmCdOsSt/uvPxfSF6HNphXNGP7AIe1UvWGhIBiZZRjkDJOCXRJHRCqwNdeOSC
+         A5t68FUGNoDSZe6gCWUB0cyDLibl4QziORmr6cFNeY+KgBBIIMTPRaeJBHHUOfc/dhCZ
+         YI7IHmM80hvEitIBbqto0loPhXloQXE3xA/NvGX0yc+JIDtHDA/snsQLTX47Xh6nNiPn
+         YPCswyt6X8Ppd6WuRgN8tU24nqu24zxSyAhfgrk0pqQYySpDN8PGCMlOROHLtcEnfg45
+         qmXQ==
+X-Gm-Message-State: ANoB5pmmBCkNCwESia+j8xLjUaxw6ZWu31W/mAJGB9I6wLTrtDCLOYEI
+	CofA0GLnpFRbIrI3FngGLOJgqgYygX8=
+X-Google-Smtp-Source: AA0mqf5uG7g824YnWDf764cnSzXRjQd1TMSD+3/B1mvCQYOIll0t5tR7PVy73rhE6tP+GR3+Wd1MfQ==
+X-Received: by 2002:a5d:65ca:0:b0:236:8322:4be9 with SMTP id e10-20020a5d65ca000000b0023683224be9mr8584365wrw.171.1668951100759;
+        Sun, 20 Nov 2022 05:31:40 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id k18-20020a05600c1c9200b003b47b80cec3sm16295551wms.42.2022.11.20.05.31.40
+        by smtp.gmail.com with ESMTPSA id k18-20020a05600c1c9200b003b47b80cec3sm16295551wms.42.2022.11.20.05.31.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Nov 2022 05:31:41 -0800 (PST)
+        Sun, 20 Nov 2022 05:31:40 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 17/17] vte: update 0.68.0 -> 0.70.1
-Date: Sun, 20 Nov 2022 14:31:22 +0100
-Message-Id: <20221120133122.2464634-17-alex@linutronix.de>
+Subject: [PATCH 16/17] popt: update 1.18 -> 1.19
+Date: Sun, 20 Nov 2022 14:31:21 +0100
+Message-Id: <20221120133122.2464634-16-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221120133122.2464634-1-alex@linutronix.de>
 References: <20221120133122.2464634-1-alex@linutronix.de>
@@ -62,87 +62,206 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 20 Nov 2022 13:31:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173598
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173597
 
-Transition to gi-docgen from gtk-doc.
+Patch is merged upstream.
 
-Drop vala tweaks: gobject-introspection already does
-it correctly (with STAGING_LIBDIR included).
+License-update: clarification
+https://github.com/rpm-software-management/popt/commit/dcec86df3cfc96d3dd3a3e9f7f1086b768d2d88f
+
+Backport a regression fix for gptfdisk.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...rrectly-substitute-gtkdoc-qemu-wrapp.patch | 24 -------------------
- .../vte/{vte_0.68.0.bb => vte_0.70.1.bb}      | 16 ++++---------
- 2 files changed, 4 insertions(+), 36 deletions(-)
- delete mode 100644 meta/recipes-support/vte/vte/0001-Makefile.docs-correctly-substitute-gtkdoc-qemu-wrapp.patch
- rename meta/recipes-support/vte/{vte_0.68.0.bb => vte_0.70.1.bb} (73%)
+ ...h-of-sgdisk-when-compiled-with-lates.patch | 59 ++++++++++++++++
+ meta/recipes-devtools/fdisk/gptfdisk_1.0.9.bb |  1 +
+ ...01-popt-test-output-format-for-ptest.patch | 68 -------------------
+ .../popt/{popt_1.18.bb => popt_1.19.bb}       | 12 ++--
+ 4 files changed, 65 insertions(+), 75 deletions(-)
+ create mode 100644 meta/recipes-devtools/fdisk/gptfdisk/0001-Fix-failure-crash-of-sgdisk-when-compiled-with-lates.patch
+ delete mode 100644 meta/recipes-support/popt/popt/0001-popt-test-output-format-for-ptest.patch
+ rename meta/recipes-support/popt/{popt_1.18.bb => popt_1.19.bb} (74%)
 
-diff --git a/meta/recipes-support/vte/vte/0001-Makefile.docs-correctly-substitute-gtkdoc-qemu-wrapp.patch b/meta/recipes-support/vte/vte/0001-Makefile.docs-correctly-substitute-gtkdoc-qemu-wrapp.patch
+diff --git a/meta/recipes-devtools/fdisk/gptfdisk/0001-Fix-failure-crash-of-sgdisk-when-compiled-with-lates.patch b/meta/recipes-devtools/fdisk/gptfdisk/0001-Fix-failure-crash-of-sgdisk-when-compiled-with-lates.patch
+new file mode 100644
+index 0000000000..218d9d6713
+--- /dev/null
++++ b/meta/recipes-devtools/fdisk/gptfdisk/0001-Fix-failure-crash-of-sgdisk-when-compiled-with-lates.patch
+@@ -0,0 +1,59 @@
++From 5d5e76d369a412bfb3d2cebb5fc0a7509cef878d Mon Sep 17 00:00:00 2001
++From: Rod Smith <rodsmith@rodsbooks.com>
++Date: Fri, 15 Apr 2022 18:10:14 -0400
++Subject: [PATCH] Fix failure & crash of sgdisk when compiled with latest popt
++ (commit 740; presumably eventually release 1.19)
++
++Upstream-Status: Backport [https://sourceforge.net/p/gptfdisk/code/ci/5d5e76d369a412bfb3d2cebb5fc0a7509cef878d/]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ NEWS      | 8 ++++++++
++ gptcl.cc  | 2 +-
++ support.h | 2 +-
++ 3 files changed, 10 insertions(+), 2 deletions(-)
++
++diff --git a/NEWS b/NEWS
++index c7add56..9e153fd 100644
++--- a/NEWS
+++++ b/NEWS
++@@ -1,3 +1,11 @@
+++1.0.10 (?/??/2022):
+++-------------------
+++
+++- Fixed problem that caused sgdisk to crash with errors about being unable
+++  to read the disk's partition table when compiled with the latest popt
+++  (commit 740, which is pre-release as I type; presumably version 1.19 and
+++  later once released).
+++
++ 1.0.9 (4/14/2022):
++ ------------------
++ 
++diff --git a/gptcl.cc b/gptcl.cc
++index 34c9421..0d578eb 100644
++--- a/gptcl.cc
+++++ b/gptcl.cc
++@@ -155,7 +155,7 @@ int GPTDataCL::DoOptions(int argc, char* argv[]) {
++    } // while
++ 
++    // Assume first non-option argument is the device filename....
++-   device = (char*) poptGetArg(poptCon);
+++   device = strdup((char*) poptGetArg(poptCon));
++    poptResetContext(poptCon);
++ 
++    if (device != NULL) {
++diff --git a/support.h b/support.h
++index 8ba9ad1..f91f1bc 100644
++--- a/support.h
+++++ b/support.h
++@@ -8,7 +8,7 @@
++ #include <stdlib.h>
++ #include <string>
++ 
++-#define GPTFDISK_VERSION "1.0.9"
+++#define GPTFDISK_VERSION "1.0.9.1"
++ 
++ #if defined (__FreeBSD__) || defined (__FreeBSD_kernel__) || defined (__APPLE__)
++ // Darwin (Mac OS) & FreeBSD: disk IOCTLs are different, and there is no lseek64
++-- 
++2.30.2
++
+diff --git a/meta/recipes-devtools/fdisk/gptfdisk_1.0.9.bb b/meta/recipes-devtools/fdisk/gptfdisk_1.0.9.bb
+index 2c093c20ae..4a25945363 100644
+--- a/meta/recipes-devtools/fdisk/gptfdisk_1.0.9.bb
++++ b/meta/recipes-devtools/fdisk/gptfdisk_1.0.9.bb
+@@ -10,6 +10,7 @@ DEPENDS = "util-linux"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${PV}/${BP}.tar.gz \
+            file://0001-gptcurses-correctly-include-curses.h.patch \
+            file://0001-Updated-guid.cc-to-deal-with-minor-change-in-libuuid.patch \
++           file://0001-Fix-failure-crash-of-sgdisk-when-compiled-with-lates.patch \
+            "
+ SRC_URI[sha256sum] = "dafead2693faeb8e8b97832b23407f6ed5b3219bc1784f482dd855774e2d50c2"
+ 
+diff --git a/meta/recipes-support/popt/popt/0001-popt-test-output-format-for-ptest.patch b/meta/recipes-support/popt/popt/0001-popt-test-output-format-for-ptest.patch
 deleted file mode 100644
-index c69a52e5d0..0000000000
---- a/meta/recipes-support/vte/vte/0001-Makefile.docs-correctly-substitute-gtkdoc-qemu-wrapp.patch
+index 020949cc34..0000000000
+--- a/meta/recipes-support/popt/popt/0001-popt-test-output-format-for-ptest.patch
 +++ /dev/null
-@@ -1,24 +0,0 @@
--From daa30d0039397a735d49ea535305ed0bc5f9d73b Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex@linutronix.de>
--Date: Tue, 26 Oct 2021 09:38:42 +0200
--Subject: [PATCH] Makefile.docs: correctly substitute gtkdoc qemu wrapper
+@@ -1,68 +0,0 @@
+-From 330b77081c3a4c7ae76cb08602db385b40fa7ff7 Mon Sep 17 00:00:00 2001
+-From: Simone Weiss <simone.weiss@elektrobit.com>
+-Date: Mon, 13 Dec 2021 09:29:53 +0000
+-Subject: [PATCH] popt test output format for ptest
 -
--Upstream-Status: Inappropriate [oe-core specific]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+-patch test output format to match simple-test as it is used in ptests.
+-
+-Upstream-Status: Pending
+-    
+-Signed-off-by: Simone Weiss <simone.weiss@elektrobit.com>
+-Signed-off-by: David Niederpruem <david.niederpruem@elektrobit.com>
 ----
-- doc/reference/Makefile.docs | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
+- tests/testit.sh | 20 ++++++++------------
+- 1 file changed, 8 insertions(+), 12 deletions(-)
 -
--diff --git a/doc/reference/Makefile.docs b/doc/reference/Makefile.docs
--index b18f0a4..da18440 100644
----- a/doc/reference/Makefile.docs
--+++ b/doc/reference/Makefile.docs
--@@ -233,7 +233,7 @@ INSTALL_DATA = $(INSTALL) -m 644
+-diff --git a/tests/testit.sh b/tests/testit.sh
+-index 2a7b4aa..50b42e2 100755
+---- a/tests/testit.sh
+-+++ b/tests/testit.sh
+-@@ -5,12 +5,11 @@ run() {
+-     name=$1; shift
+-     answer=$1; shift
 - 
-- GTKDOC_CC = $(CC) $(INCLUDES) $(GTKDOC_DEPS_CFLAGS) $(CPPFLAGS) $(CFLAGS)
-- GTKDOC_LD = $(CC) $(GTKDOC_DEPS_LIBS) $(CFLAGS) $(LDFLAGS)
---GTKDOC_RUN =
--+GTKDOC_RUN = $(top_builddir)/gtkdoc-qemuwrapper
+--    echo Running test $name.
+--
+-     result=`HOME=$builddir $builddir/$prog $*`
+-     if [ "$answer" != "$result" ]; then
+--	echo "Test \"$prog $*\" failed with: \"$result\" != \"$answer\" "
+--	exit 2
+-+        echo "FAIL: $name"
+-+    else
+-+        echo "PASS: $name"
+-     fi
+- }
 - 
-- GTKDOC_CHECK_PATH = gtkdoc-check
-- GTKDOC_REBASE = gtkdoc-rebase
-diff --git a/meta/recipes-support/vte/vte_0.68.0.bb b/meta/recipes-support/vte/vte_0.70.1.bb
-similarity index 73%
-rename from meta/recipes-support/vte/vte_0.68.0.bb
-rename to meta/recipes-support/vte/vte_0.70.1.bb
-index fc4324872d..ee53fcd799 100644
---- a/meta/recipes-support/vte/vte_0.68.0.bb
-+++ b/meta/recipes-support/vte/vte_0.70.1.bb
-@@ -15,24 +15,16 @@ DEPENDS = "glib-2.0 gtk+3 libpcre2 libxml2-native gperf-native icu"
- 
- GNOMEBASEBUILDCLASS = "meson"
- GIR_MESON_OPTION = 'gir'
-+GIDOCGEN_MESON_OPTION = "docs"
- 
--inherit gnomebase gtk-doc features_check upstream-version-is-even gobject-introspection
-+inherit gnomebase gi-docgen features_check upstream-version-is-even gobject-introspection
- 
- # vapigen.m4 is required when vala is not present (but the one from vala should be used normally)
--SRC_URI += "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch \
--            file://0001-Makefile.docs-correctly-substitute-gtkdoc-qemu-wrapp.patch"
--SRC_URI[archive.sha256sum] = "13e7d4789ca216a33780030d246c9b13ddbfd04094c6316eea7ff92284dd1749"
-+SRC_URI += "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch"
-+SRC_URI[archive.sha256sum] = "1f4601cbfea5302b96902208c8f185e5b18b259b5358bc93cf392bf59871c5b6"
- 
- ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
- 
--# Instead of "inherit vala" we do the relevant settings here so we can
--# set DEPENDS based on PACKAGECONFIG.
+-@@ -23,17 +22,17 @@ run_diff() {
+-     out=$builddir/tmp.out
+-     diff_file=$builddir/tmp.diff
+- 
+--    echo Running test $name.
+--
+-     $builddir/$prog $in_file > $out
+-     ret=$?
+-     diff $out $answer_file > $diff_file
+-     diff_ret=$?
+- 
+-     if [ "$diff_ret" != "0" ]; then
+--       echo "Test \"$name\" failed output is in $out, diff is:"
+--       cat $diff_file
+--       exit 2
+-+        echo "FAIL: $name"
+-+        echo "diff is:"
+-+        cat $diff_file
+-+    else
+-+        echo "PASS: $name"
+-     fi
+-     rm $out $diff_file
+- }
+-@@ -174,6 +173,3 @@ Help options:
+- #run_diff test3 "test3 - 51" test3-data/01.input test3-data/01.answer
+- #run_diff test3 "test3 - 52" test3-data/02.input test3-data/02.answer
+- #run_diff test3 "test3 - 53" test3-data/03.input test3-data/03.answer
+--
+--echo ""
+--echo "Passed."
+--- 
+-2.17.1
 -
--# Our patched version of Vala looks in STAGING_DATADIR for .vapi files
--export STAGING_DATADIR
--# Upstream Vala >= 0.11 looks in XDG_DATA_DIRS for .vapi files
--export XDG_DATA_DIRS = "${STAGING_DATADIR}"
--
- # Help g-ir-scanner find the .so for linking
- do_compile:prepend() {
-     export GIR_EXTRA_LIBS_PATH="${B}/src/.libs"
+diff --git a/meta/recipes-support/popt/popt_1.18.bb b/meta/recipes-support/popt/popt_1.19.bb
+similarity index 74%
+rename from meta/recipes-support/popt/popt_1.18.bb
+rename to meta/recipes-support/popt/popt_1.19.bb
+index b465f8817d..b1d8bea790 100644
+--- a/meta/recipes-support/popt/popt_1.18.bb
++++ b/meta/recipes-support/popt/popt_1.19.bb
+@@ -4,16 +4,14 @@ HOMEPAGE = "https://www.rpm.org/"
+ SECTION = "libs"
+ 
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=cb0613c30af2a8249b8dcc67d3edb06d"
++LIC_FILES_CHKSUM = "file://COPYING;md5=e0206ac9471d06667e076212db20c5f4"
+ 
+ DEPENDS = "virtual/libiconv"
+ 
+-SRC_URI = "\
+-    http://ftp.rpm.org/popt/releases/popt-1.x/${BP}.tar.gz \
+-    file://0001-popt-test-output-format-for-ptest.patch \
+-    file://run-ptest \
+-"
+-SRC_URI[sha256sum] = "5159bc03a20b28ce363aa96765f37df99ea4d8850b1ece17d1e6ad5c24fdc5d1"
++SRC_URI = "http://ftp.rpm.org/popt/releases/popt-1.x/${BP}.tar.gz \
++           file://run-ptest \
++           "
++SRC_URI[sha256sum] = "c25a4838fc8e4c1c8aacb8bd620edb3084a3d63bf8987fdad3ca2758c63240f9"
+ 
+ inherit autotools gettext ptest
+ 
 -- 
 2.30.2
 
