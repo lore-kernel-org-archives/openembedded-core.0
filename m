@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84ADEC43217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91183C4321E
 	for <webhook@archiver.kernel.org>; Sun, 20 Nov 2022 14:16:10 +0000 (UTC)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web11.13216.1668953761960017562
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.web11.13197.1668953736410795498
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Nov 2022 06:16:02 -0800
+ Sun, 20 Nov 2022 06:16:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=1o7f+c+W;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f172.google.com with SMTP id y4so8442096plb.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 20 Nov 2022 06:16:01 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=v1AnQGQC;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.53, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f53.google.com with SMTP id w4-20020a17090ac98400b002186f5d7a4cso8685764pjt.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 20 Nov 2022 06:16:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=PPj1cQGKjp5C9P9oIePpTWLWahjGBi5vuIYBEi9oRLM=;
-        b=1o7f+c+WN5kGukXrWC4kME44Xsu+6bihLC9nVR6tnV+W69nbzuYpr0zFg4xJwMpsdY
-         baysNWj7yaKG7K4L1kiZRj5UmHQQwZ9HU4hbpNwnQN3khj1XTWIbmFt6orzgnu5ZazUW
-         u/0MiTFAz4PIDoViUTAjWTrtQz9by96USuV86HtdgccAJuKqxVS34Q3RHpZI7LmLsapG
-         hV6M6/s8cTyA48mmELl5R5hU8Aa/+1mczxC72tRkGH8HMqapw56TC+Z5eUVJdEwBRWWh
-         f43HVPYwYq2gy9MwSHb+rL5bW6Dcq1AnO155uP9XQOnVyHS1o2DZPvENzV3fGQ7c1Avr
-         DJPg==
+        bh=zJTcDp+ea0WJY+cTVNiOw5Rnp/XpLwHhX+SIhX9o54I=;
+        b=v1AnQGQCjgqUr0/V9G0BiD/pmllCo5AEEmM+uF+E8OTTwSABI1u0dzSkzQ9psVXFny
+         377TSnC17kZVmSrzh8qc4addT4r9EI6bvpVFYh3zU4aaZf54mAZ5pXfzr12DlP5xKrRl
+         SLvZlbUaRfpKFQrj+L1Qab5I9zUI2zgN3uGQLAB9P1hLuF7Hv6wvwwi2D6gduxVNpkOU
+         Lfk9Uwd/L3aMU/2DXmC1VQZAzAoT8aiPV+/tD5prGcP3Cqd6l429zvElHN5uJpOT2OR8
+         aEC7Vv/cEKPQ4rworE2mj/TLH8tL9PHq6tvL6O7YiVaRUHHfDgzOcGNR52CKk/LxPhxd
+         +Fsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PPj1cQGKjp5C9P9oIePpTWLWahjGBi5vuIYBEi9oRLM=;
-        b=S1d+5F2nUpJTYk+bi4XzkLCtsFmmB18NBfOQ2s0OkBvUNk9CdZIEs3EKfRzjdso0WI
-         P5cFd1c7PhzMINURB45PhnLxR1BFbb8fKboOpVVI3Nmr1DLXI3smsqLX0eiNSXBFRCpT
-         acxLOzjq4+eranwhmLWyn+kWqc+RzzOMzMT4tCwXkFzOamOxkDI+VFQtfppgYCJ8wVZ6
-         vJ/23VU4i8ILnAm5PkGH966uc79fHwAWzaqlL+/Jh0lwqIoYKFWK4UxGz8pLwyN2cd6Y
-         ZJJJuQO8SXVddSf8+y2pqajRxLRnjTo6WSVSEj7LP4AVs1acle8/j/2iw9gyuXWYSZTY
-         Ph3g==
-X-Gm-Message-State: ANoB5pnREgIRb1ACq7zk/gZe5CYbG2jrWIUJHfr9ECYh++9aP4LFpKpg
-	o1lY9iIBXiw1jqvHh2MmChOM7FQsLCfHk++4WmU=
-X-Google-Smtp-Source: AA0mqf4gLaHD9fYUu1ERAf+gRzAlmSjucWZrUTDhSmm+W2lpmYE5ePl9FEWbGLCOgg5tyyaKvNifJQ==
-X-Received: by 2002:a17:903:40cb:b0:188:7dca:6f4a with SMTP id t11-20020a17090340cb00b001887dca6f4amr2872856pld.60.1668953760981;
-        Sun, 20 Nov 2022 06:16:00 -0800 (PST)
+        bh=zJTcDp+ea0WJY+cTVNiOw5Rnp/XpLwHhX+SIhX9o54I=;
+        b=Jm+gc4/xWTqat+RMV0UTcbw/cJSHczht4l1sw+FWfYIwYyEnF6QvahFw3729jq4A2f
+         ihXmN8XChKJrZTHbk0n1ZNig0rNEruVj4/rt1h4OKCw8fknWn6ERWa77FLKy3Sma+k60
+         QWUKtjPF4bu42qXI8wo5KBbBJ171vA5qbhsa6jcl3S0cb/lYZ0IgVZ+GhrESdSXEe8zs
+         U8HspvjXHh4aAQXi7pbPLi/PWVqkRc++zJGL8DAnlN+CNnDOTyCX+dXss7ZkWEO5+D8a
+         HKFyWHmK8StCsiYRKA3PZfii7WEQUbgRPHJyjz5BfPLCLD2dI9SCRaL5tyzyq9TvwLQf
+         jlLA==
+X-Gm-Message-State: ANoB5pk/C2+/JIBshQ8ZsfC/3O6Owujvx21rJePnvZmxc3MryovIqG4E
+	1EVdoASFheXFYGdyaAfITHYtBWzkHoESJ9kBZuE=
+X-Google-Smtp-Source: AA0mqf5/ikSNqEG4hCaeKNXBdDuLSL0iqnRGoSK3jnFZCw6iyR2VeV5J1gC7ox2a3vF1maklsM1kGg==
+X-Received: by 2002:a17:902:e74d:b0:186:887b:baa2 with SMTP id p13-20020a170902e74d00b00186887bbaa2mr7854107plf.27.1668953764666;
+        Sun, 20 Nov 2022 06:16:04 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id x15-20020aa78f0f000000b0056be4dbd4besm6721379pfr.111.2022.11.20.06.16.00
+        by smtp.gmail.com with ESMTPSA id x15-20020aa78f0f000000b0056be4dbd4besm6721379pfr.111.2022.11.20.06.16.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Nov 2022 06:16:00 -0800 (PST)
+        Sun, 20 Nov 2022 06:16:04 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 13/35] sudo: upgrade 1.9.10 -> sudo 1.9.12p1
-Date: Sun, 20 Nov 2022 04:15:02 -1000
-Message-Id: <192735486932d64e949d3764629b3706efd1bbc6.1668952942.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 15/35] oeqa/selftest/minidebuginfo: Create selftest for minidebuginfo
+Date: Sun, 20 Nov 2022 04:15:04 -1000
+Message-Id: <e7b0b23fd8357456ba41fe8d222f10313536d2d3.1668952942.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1668952942.git.steve@sakoman.com>
 References: <cover.1668952942.git.steve@sakoman.com>
@@ -61,47 +61,81 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 20 Nov 2022 14:16:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173613
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173615
 
-From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
+From: Nathan Rossi <nathan.rossi@digi.com>
 
-Signed-off-by: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
+Add a new selftest to validate minidebuginfo support. This selftest
+builds a complete target image with PACKAGE_MINIDEBUGINFO enabled. ELFs
+included in the image are expected to have minidebuginfo included in the
+resulting executables and shared libraries, the self test validates this
+by unpacking the image and checking for the associated ".gnu_debugdata"
+section on busybox and libc ELFs.
+
+Signed-off-by: Nathan Rossi <nathan.rossi@digi.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit 5063a31ad05b75ec6ac12158fe759e81fcdb1585)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/sudo/sudo.inc                             | 2 +-
- meta/recipes-extended/sudo/{sudo_1.9.10.bb => sudo_1.9.12p1.bb} | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/sudo/{sudo_1.9.10.bb => sudo_1.9.12p1.bb} (96%)
+ meta/lib/oeqa/selftest/cases/minidebuginfo.py | 49 +++++++++++++++++++
+ 1 file changed, 49 insertions(+)
+ create mode 100644 meta/lib/oeqa/selftest/cases/minidebuginfo.py
 
-diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
-index 8947c46129..fd5bbf103d 100644
---- a/meta/recipes-extended/sudo/sudo.inc
-+++ b/meta/recipes-extended/sudo/sudo.inc
-@@ -4,7 +4,7 @@ HOMEPAGE = "http://www.sudo.ws"
- BUGTRACKER = "http://www.sudo.ws/bugs/"
- SECTION = "admin"
- LICENSE = "ISC & BSD-3-Clause & BSD-2-Clause & Zlib"
--LIC_FILES_CHKSUM = "file://LICENSE.md;md5=16cf60b466f3a0606427a7b624a3a670 \
-+LIC_FILES_CHKSUM = "file://LICENSE.md;md5=7aacba499777b719416b293d16f29c8c \
-                     file://plugins/sudoers/redblack.c;beginline=1;endline=46;md5=03e35317699ba00b496251e0dfe9f109 \
-                     file://lib/util/reallocarray.c;beginline=3;endline=15;md5=397dd45c7683e90b9f8bf24638cf03bf \
-                     file://lib/util/fnmatch.c;beginline=3;endline=27;md5=004d7d2866ba1f5b41174906849d2e0f \
-diff --git a/meta/recipes-extended/sudo/sudo_1.9.10.bb b/meta/recipes-extended/sudo/sudo_1.9.12p1.bb
-similarity index 96%
-rename from meta/recipes-extended/sudo/sudo_1.9.10.bb
-rename to meta/recipes-extended/sudo/sudo_1.9.12p1.bb
-index aa0d814ed7..1495b67b8b 100644
---- a/meta/recipes-extended/sudo/sudo_1.9.10.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.9.12p1.bb
-@@ -8,7 +8,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
- 
- PAM_SRC_URI = "file://sudo.pam"
- 
--SRC_URI[sha256sum] = "44a1461098e7c7b8e6ac597499c24fb2e43748c0c139a8b4944e57d1349a64f4"
-+SRC_URI[sha256sum] = "475a18a8eb3da8b2917ceab063a6baf51ea09128c3c47e3e0e33ab7497bab7d8"
- 
- DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS:${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
+diff --git a/meta/lib/oeqa/selftest/cases/minidebuginfo.py b/meta/lib/oeqa/selftest/cases/minidebuginfo.py
+new file mode 100644
+index 0000000000..414dad64a3
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/minidebuginfo.py
+@@ -0,0 +1,49 @@
++#
++# Copyright OpenEmbedded Contributors
++#
++# SPDX-License-Identifier: MIT
++#
++import os
++import subprocess
++import tempfile
++import shutil
++
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import bitbake, get_bb_var, runCmd
++
++
++class Minidebuginfo(OESelftestTestCase):
++    def test_minidebuginfo(self):
++        target_sys = get_bb_var("TARGET_SYS")
++        binutils = "binutils-cross-{}".format(get_bb_var("TARGET_ARCH"))
++
++        self.write_config("""
++PACKAGE_MINIDEBUGINFO = "1"
++IMAGE_FSTYPES = "tar.bz2"
++""")
++        bitbake("core-image-minimal {}:do_addto_recipe_sysroot".format(binutils))
++
++        deploy_dir = get_bb_var("DEPLOY_DIR_IMAGE")
++        native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", binutils)
++        readelf = get_bb_var("READELF", "core-image-minimal")
++
++        # add usr/bin/${TARGET_SYS} to PATH
++        env = os.environ.copy()
++        paths = [os.path.join(native_sysroot, "usr", "bin", target_sys)]
++        paths += env["PATH"].split(":")
++        env["PATH"] = ":".join(paths)
++
++        # confirm that executables and shared libraries contain an ELF section
++        # ".gnu_debugdata" which stores minidebuginfo.
++        with tempfile.TemporaryDirectory(prefix = "unpackfs-") as unpackedfs:
++            filename = os.path.join(deploy_dir, "core-image-minimal-{}.tar.bz2".format(self.td["MACHINE"]))
++            shutil.unpack_archive(filename, unpackedfs)
++
++            r = runCmd([readelf, "-W", "-S", os.path.join(unpackedfs, "bin", "busybox")],
++                    native_sysroot = native_sysroot, env = env)
++            self.assertIn(".gnu_debugdata", r.output)
++
++            r = runCmd([readelf, "-W", "-S", os.path.join(unpackedfs, "lib", "libc.so.6")],
++                    native_sysroot = native_sysroot, env = env)
++            self.assertIn(".gnu_debugdata", r.output)
++
 -- 
 2.25.1
 
