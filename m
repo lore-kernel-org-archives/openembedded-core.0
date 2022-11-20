@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 846BEC43219
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89776C43217
 	for <webhook@archiver.kernel.org>; Sun, 20 Nov 2022 14:15:50 +0000 (UTC)
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
- by mx.groups.io with SMTP id smtpd.web11.13205.1668953746438080236
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+ by mx.groups.io with SMTP id smtpd.web10.13269.1668953748471738768
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Nov 2022 06:15:46 -0800
+ Sun, 20 Nov 2022 06:15:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=5A3QIrv3;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.54, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f54.google.com with SMTP id t17so7676728pjo.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 20 Nov 2022 06:15:46 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=3IxL9D/v;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.180, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f180.google.com with SMTP id f9so4787555pgf.7
+        for <openembedded-core@lists.openembedded.org>; Sun, 20 Nov 2022 06:15:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=bHEhuFCL56rDv7RhlSG0Qc4NkAl/5/CwuS0TRynQxg4=;
-        b=5A3QIrv3h716AkxMrgS2eAHxRTmuwpK5CPE/sWT2ZNEC2YewFIk/8dweHPzlFy0j5g
-         0QdgtDylKnlxywynD30Jfr9MULYSTQSd/u1bvmqatnPrhYJBdGCUlEzuaO11uO1ee3Cx
-         Q8n1waBkor6bZZUt4zGzO2+48gsCPzptad5fGh+Aj7F0TntIHvL+V5QN3Uiw6oGWRTxg
-         tpBQ4sK+M5r/FJOFZ2pTlQF9z8SNmSrLqHLn9tCewAyYb+4ONc5lYf4ZOgnWg0sfbDkk
-         NhBwprmIz+7915c20HkTgqdaDBlFPoCKUfJTevIyLZKcKTrH27de4kgR693mE2XMH1rk
-         5zTQ==
+        bh=frWKzJ0P7TYcenc2MBZbRYkFwYzDNQcYsrwrKmdLzu4=;
+        b=3IxL9D/vRfJs4+l4q92zhxwJw1gsozHrHD9vSa7dwhtOEwlH3KwqwJgi8bea5yEc7w
+         2lyZTTQHrSSiYw4ob/xdRRcaB7mTjgDlDTDPhkvU7BboPD0aWQVlHw3F9+oJzEFDwT45
+         c/cUEHjcSXQ/eyKhjjUdEHYSDTnaTuvvAe4/cLFHDKDS8ejm/NcP1nxIJRP+Hrfpj2GO
+         laTWIbAEZm+iJuREmGGKp7m2UE0kTOO9KMqpCsPXadQT9LdP95hhqhp9e/880BTzq2Ft
+         iPlugnsvr+CknFzKmjvLJYGvndUchVG6oK760jCrotUAF8He1TNL3rdxoxBlDKA6vO9K
+         gGcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bHEhuFCL56rDv7RhlSG0Qc4NkAl/5/CwuS0TRynQxg4=;
-        b=2puzHFvlX9N2g+oEb6zsp1iPXBZPRvVt7ScyucoIb4PkfnvZBCK/mcj/FKRMm0r8gr
-         xQjIvNSh44XXgSdBP9RsIrX7V3aIODS9pzNlxTBn1NIv6zrmlkbAhDPp1dTqa58ptUQZ
-         ZGI7WLZrk6gcKOqtVcyYftkQasDd2MDfNXXEu2J/MjKNQfKVlJMdWs6oBMy+LHce7Zll
-         WwlB8UIwXJBKwgQUe78l3/rkPJXpHF/GA9SomoLSGVp9iy48r2fg1tDcuODKDMLh48vZ
-         jaw+y77u4007nodHwnvkwttBde+leaMB7ZvNv5af1N0yKMCVqNjxcev/QGx0qXass696
-         e9zg==
-X-Gm-Message-State: ANoB5pmA5uFXNqpq7DsjN+9Su1MGG2WLjtkerWxaD6ouLCMAabNAqaA6
-	nznqLNkMxfTrgFn7mEKin5qO8MXyje7IJyzmbxo=
-X-Google-Smtp-Source: AA0mqf4hWahdjqrrO8fR1mox8vcQx4s6yUPO7SANMK9xbHM9+uOFPuSPNYINRTAXajD2NnXpCBPc2g==
-X-Received: by 2002:a17:902:c103:b0:186:7006:9a5f with SMTP id 3-20020a170902c10300b0018670069a5fmr219695pli.117.1668953745436;
-        Sun, 20 Nov 2022 06:15:45 -0800 (PST)
+        bh=frWKzJ0P7TYcenc2MBZbRYkFwYzDNQcYsrwrKmdLzu4=;
+        b=WUNuYtZzpLeTdw09Y0vGwoAhmtNcrFB/flBEXrbrvi7ePN4QojDVvOyqso+HSY/g3B
+         7qfraUZ2t4VPDwKfUUUXtVvgOpSmMrzIKgt7Lx/0Vs2GWMX1uqeKg7rvtFv9KLXhewDt
+         Jl8pYiovp6/ydMJtVSNXLe9IpE9TL10onsD8zXYlhwpRxFVJ44pAfQNCEs0qOvtifVQ1
+         MlH3TwBmdgWH++GOMbdPin8PafwU0XIgTpOQugfozPTLZukRVOu7zM9ib+rxpdZ7naYq
+         LO/6UMeJXckVGAO5XXLHTXQhJcS8mOl0X3+E1WBcBoCLbWDzWDO7FVGTFd7bVE7obNwy
+         v01w==
+X-Gm-Message-State: ANoB5pkPQ7Q4173zmnlV9yTKpwTD4GN6lKqB2VHuZX/da1M+2+WI4gz4
+	Ja6UYKISqaE8EstBpZvtyPqkZR5JfH+Kq1EXXzA=
+X-Google-Smtp-Source: AA0mqf6u8wfiEC1Fpza85VK+rNFz5omdlixHNzTja59zdFKmy4ERMdOLiypQkVLLnR7uwxFkiAlRlg==
+X-Received: by 2002:a63:4046:0:b0:460:fa0c:ab73 with SMTP id n67-20020a634046000000b00460fa0cab73mr2394864pga.315.1668953747321;
+        Sun, 20 Nov 2022 06:15:47 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id x15-20020aa78f0f000000b0056be4dbd4besm6721379pfr.111.2022.11.20.06.15.44
+        by smtp.gmail.com with ESMTPSA id x15-20020aa78f0f000000b0056be4dbd4besm6721379pfr.111.2022.11.20.06.15.46
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Nov 2022 06:15:45 -0800 (PST)
+        Sun, 20 Nov 2022 06:15:46 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 05/35] Revert "expat: backport the fix for CVE-2022-43680"
-Date: Sun, 20 Nov 2022 04:14:54 -1000
-Message-Id: <b633c648da57079c8a3b64127e5ed11643fb5438.1668952942.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 06/35] expat: upgrade to 2.5.0
+Date: Sun, 20 Nov 2022 04:14:55 -1000
+Message-Id: <8dda30a9c64a4ad1f8eee11deb2e5143ba5fd719.1668952942.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1668952942.git.steve@sakoman.com>
 References: <cover.1668952942.git.steve@sakoman.com>
@@ -61,67 +61,63 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 20 Nov 2022 14:15:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173605
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173606
 
-Prepare for version bump which includes this fix
+From: Ross Burton <ross.burton@arm.com>
 
-This reverts commit 791fe354e5887af3fa3d3f772fafacc5eaedca21.
+Release 2.5.0 Tue October 25 2022
+        Security fixes:
+  #616 #649 #650  CVE-2022-43680 -- Fix heap use-after-free after overeager
+                    destruction of a shared DTD in function
+                    XML_ExternalEntityParserCreate in out-of-memory situations.
+                    Expected impact is denial of service or potentially
+                    arbitrary code execution.
+
+        Bug fixes:
+       #612 #645  Fix curruption from undefined entities
+       #613 #654  Fix case when parsing was suspended while processing nested
+                    entities
+  #616 #652 #653  Stop leaking opening tag bindings after a closing tag
+                    mismatch error where a parser is reset through
+                    XML_ParserReset and then reused to parse
+            #656  CMake: Fix generation of pkg-config file
+            #658  MinGW|CMake: Fix static library name
+
+        Other changes:
+            #663  Protect header expat_config.h from multiple inclusion
+            #666  examples: Make use of XML_GetBuffer and be more
+                    consistent across examples
+            #648  Address compiler warnings
+       #667 #668  Version info bumped from 9:9:8 to 9:10:8;
+                    see https://verbump.de/ for what these numbers do
+
+Includes a fix for CVE-2022-43680.
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit a257a674272dc638f09167e9b9202adfb477ef1e)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../expat/expat/CVE-2022-43680.patch          | 33 -------------------
- meta/recipes-core/expat/expat_2.4.9.bb        |  1 -
- 2 files changed, 34 deletions(-)
- delete mode 100644 meta/recipes-core/expat/expat/CVE-2022-43680.patch
+ meta/recipes-core/expat/{expat_2.4.9.bb => expat_2.5.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/expat/{expat_2.4.9.bb => expat_2.5.0.bb} (91%)
 
-diff --git a/meta/recipes-core/expat/expat/CVE-2022-43680.patch b/meta/recipes-core/expat/expat/CVE-2022-43680.patch
-deleted file mode 100644
-index 76c55edc76..0000000000
---- a/meta/recipes-core/expat/expat/CVE-2022-43680.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--CVE: CVE-2022-43680
--Upstream-Status: Backport [5290462a7ea1278a8d5c0d5b2860d4e244f997e4]
--Signed-off-by: Ross Burton <ross.burton@arm.com>
--
--From 5290462a7ea1278a8d5c0d5b2860d4e244f997e4 Mon Sep 17 00:00:00 2001
--From: Sebastian Pipping <sebastian@pipping.org>
--Date: Tue, 20 Sep 2022 02:44:34 +0200
--Subject: [PATCH] lib: Fix overeager DTD destruction in
-- XML_ExternalEntityParserCreate
--
-----
-- expat/lib/xmlparse.c | 8 ++++++++
-- 1 file changed, 8 insertions(+)
--
--diff --git a/lib/xmlparse.c b/lib/xmlparse.c
--index aacd6e7fc..57bf103cc 100644
----- a/lib/xmlparse.c
--+++ b/lib/xmlparse.c
--@@ -1068,6 +1068,14 @@ parserCreate(const XML_Char *encodingName,
--   parserInit(parser, encodingName);
-- 
--   if (encodingName && ! parser->m_protocolEncodingName) {
--+    if (dtd) {
--+      // We need to stop the upcoming call to XML_ParserFree from happily
--+      // destroying parser->m_dtd because the DTD is shared with the parent
--+      // parser and the only guard that keeps XML_ParserFree from destroying
--+      // parser->m_dtd is parser->m_isParamEntity but it will be set to
--+      // XML_TRUE only later in XML_ExternalEntityParserCreate (or not at all).
--+      parser->m_dtd = NULL;
--+    }
--     XML_ParserFree(parser);
--     return NULL;
--   }
-diff --git a/meta/recipes-core/expat/expat_2.4.9.bb b/meta/recipes-core/expat/expat_2.4.9.bb
-index 22f9845a99..cb007708c7 100644
+diff --git a/meta/recipes-core/expat/expat_2.4.9.bb b/meta/recipes-core/expat/expat_2.5.0.bb
+similarity index 91%
+rename from meta/recipes-core/expat/expat_2.4.9.bb
+rename to meta/recipes-core/expat/expat_2.5.0.bb
+index cb007708c7..7080f934d1 100644
 --- a/meta/recipes-core/expat/expat_2.4.9.bb
-+++ b/meta/recipes-core/expat/expat_2.4.9.bb
-@@ -9,7 +9,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7b3b078238d0901d3b339289117cb7fb"
- VERSION_TAG = "${@d.getVar('PV').replace('.', '_')}"
++++ b/meta/recipes-core/expat/expat_2.5.0.bb
+@@ -14,7 +14,7 @@ SRC_URI = "https://github.com/libexpat/libexpat/releases/download/R_${VERSION_TA
  
- SRC_URI = "https://github.com/libexpat/libexpat/releases/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
--           file://CVE-2022-43680.patch \
-            file://run-ptest \
-            "
+ UPSTREAM_CHECK_URI = "https://github.com/libexpat/libexpat/releases/"
+ 
+-SRC_URI[sha256sum] = "7f44d1469b110773a94b0d5abeeeffaef79f8bd6406b07e52394bcf48126437a"
++SRC_URI[sha256sum] = "6f0e6e01f7b30025fa05c85fdad1e5d0ec7fd35d9f61b22f34998de11969ff67"
+ 
+ EXTRA_OECMAKE:class-native += "-DEXPAT_BUILD_DOCS=OFF"
  
 -- 
 2.25.1
