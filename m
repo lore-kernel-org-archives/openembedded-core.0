@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CEB4C43217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25708C43219
 	for <webhook@archiver.kernel.org>; Sun, 20 Nov 2022 13:31:40 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web10.12406.1668951098015355681
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web11.12308.1668951097009428216
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Nov 2022 05:31:38 -0800
+ Sun, 20 Nov 2022 05:31:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=qGhL268p;
- spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f52.google.com with SMTP id 84-20020a1c0257000000b003cfe48519a6so4741009wmc.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 20 Nov 2022 05:31:37 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=hVO1MFyZ;
+ spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f44.google.com with SMTP id d1so4111050wrs.12
+        for <openembedded-core@lists.openembedded.org>; Sun, 20 Nov 2022 05:31:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=i8fbsyggfH68LVHsGsMJfQy76+tQDNmlSgyB4SSHoY8=;
-        b=qGhL268p6QuCnbM6m/faT3y2qz4uRIy7EXuM0UKteau1+bdcbxjqpzDRw8RCFFMxn8
-         JhkTUNG3wbGlOcj7kBTFtA9apqysDPqSHoJBh6sxOyy3FVDM4Tezy5ih4pMUHg+UgmFl
-         bZdh7xoyid1P2dlvvgzKoqWNgoHK0RS45fRs3XmCmKtUw4l1uV3UmGhGacbzhJ6AFc6Q
-         N3eE+E966UcA0hZ80pYlMC3AzKxggEdAZZbs3vYT4Wfpwd5AAY+Yi5UrD1xT22gVl/EH
-         WGy/d65HYSo2OJvam6czGOKfuVhLN123FkhjrljKZ0S8p14xtUA4Q9s/9VeUw76i0DiN
-         ePZw==
+        bh=lmEh9yE0uJXLtB24stAWt6LC+Ryy/V6E1GiWdFpx2Ko=;
+        b=hVO1MFyZHpgnaAYA8f/fVJYbXZ5xSR7BJIRzW3KgQ3gdkO2Wt87V/Lah+UTYiGFttX
+         RCWRjzlgk4WhoDD8YwHf/RJeUfRRHkueCGqMyBRqyUo3w1SeqN8sC1KBk3BmLxim5Ybb
+         UXFdgTRjDjX8bsiq07NzeL18xjTVMbRUdbsowlaAZxoPKQpJ3b0FxsU2W4PP7MbsvIYY
+         Hx1uNdMK4DwZl46X/38rdaP8RsRA9i+dt64hMouEmybbQHeNTbCxSgqZ8pDkAF377Tnz
+         5XcGwLBzPkt99muhbTyH3mXn7ckCQMCTvT00tOvgpkGAkQMhoKecRnCVfmlB4OLZmvDv
+         Cpzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=i8fbsyggfH68LVHsGsMJfQy76+tQDNmlSgyB4SSHoY8=;
-        b=HB2k36bDqBe0Q2eWLpxI8VBzKuqjRqgca6HGPOJXu4AjDnos6oCLW8AnyJogSmkwXY
-         SST3IYFDGTYES67NuP6Ne9Qg+9XGTsRexC6ZAF9mN0Hat8UhkbbBvAW1JnHUVWx02v7M
-         VJVmtKq9xJR+Ki85VKTTtpE14jYO9aWzxUlEfbPaLkvsLMB//MQ0fIbXLhmlNU+6wGqY
-         q6scqRPmRupn2a6h7Um71tVCzi4DyMomBOfIhwUdWrz1PnBnbVARtFe7JVGek4M7UEaL
-         Jt+Nc86H+83GbDSE08bUEwTsd+XojtK3H1Wv3p4+XBDiIrXi7ag5WcrT0CMrhJyjsxnG
-         YO5g==
-X-Gm-Message-State: ANoB5pmvrSlKvYVBh0vZpotN6l6c8ALZ2j7lcEKLIfQXXZobqgYqKYRl
-	kNdcpUmca9smPlqeW7FAnttmGXFrMKQ=
-X-Google-Smtp-Source: AA0mqf5jzEEyEtqCjiXn5hNUFQerPpJN3hoNES3iX/jvvBh43VNUU6ckKVVKlVVxBvUBupi4WmwRJw==
-X-Received: by 2002:a7b:ce9a:0:b0:3cf:4aa7:7576 with SMTP id q26-20020a7bce9a000000b003cf4aa77576mr13598466wmj.39.1668951096295;
-        Sun, 20 Nov 2022 05:31:36 -0800 (PST)
+        bh=lmEh9yE0uJXLtB24stAWt6LC+Ryy/V6E1GiWdFpx2Ko=;
+        b=Z0PkdC691q3kmXqkKDivMc/QmJDhF+87noN2TPcrheCNvx7YZtjk3IfqM3OQLc1KM0
+         qXPqX8nlV+VL4pdv+Wkf8prUEfXOTfF+alzeV3N9YEEIW+OQYJCA6p99JvWtNW7mvb4P
+         bWOszdiPRBBvtEwrTs60dZCs/iZZQTRKqQaCA3lDsB92MGHAz0mVP1hFj+32K6e1g0ev
+         MieiI2jOxPvHEIeB8sWa6ujX4HhGvtERhANST0xrnfsO2jsK+HXNDZjVT0FcOrQKEEVJ
+         1QpQFvzP8SgSeKZeyARuYXlIXS3QC2LC1rbnKRr2WAL86/CXhYtW4GfoN0GmC7Kpn/K+
+         bdxQ==
+X-Gm-Message-State: ANoB5pmJWhBCPwAxi2BfOcx4pdKIxpE7OLPAyLpirbtC+Lyf+1vNTBEB
+	relWGXWUx0Fc47rmLp3ZGDkTRNvwxGo=
+X-Google-Smtp-Source: AA0mqf7OjWi+7MqCQHEjKNKUWMCCKs6Y+J6mIqmuvvOoNJFzBgKHg91xcm8D+058TerGKGeDX4/Q1A==
+X-Received: by 2002:adf:d219:0:b0:236:599b:d09c with SMTP id j25-20020adfd219000000b00236599bd09cmr8747206wrh.433.1668951095523;
+        Sun, 20 Nov 2022 05:31:35 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id k18-20020a05600c1c9200b003b47b80cec3sm16295551wms.42.2022.11.20.05.31.35
+        by smtp.gmail.com with ESMTPSA id k18-20020a05600c1c9200b003b47b80cec3sm16295551wms.42.2022.11.20.05.31.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 20 Nov 2022 05:31:35 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 11/17] xf86-input-mouse: update 1.9.3 -> 1.9.4
-Date: Sun, 20 Nov 2022 14:31:16 +0100
-Message-Id: <20221120133122.2464634-11-alex@linutronix.de>
+Subject: [PATCH 10/17] libhandy: update 1.6.3 -> 1.8.0
+Date: Sun, 20 Nov 2022 14:31:15 +0100
+Message-Id: <20221120133122.2464634-10-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221120133122.2464634-1-alex@linutronix.de>
 References: <20221120133122.2464634-1-alex@linutronix.de>
@@ -62,29 +62,32 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 20 Nov 2022 13:31:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173592
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173590
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../{xf86-input-mouse_1.9.3.bb => xf86-input-mouse_1.9.4.bb}  | 4 ++--
+ .../libhandy/{libhandy_1.6.3.bb => libhandy_1.8.0.bb}         | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-driver/{xf86-input-mouse_1.9.3.bb => xf86-input-mouse_1.9.4.bb} (76%)
+ rename meta/recipes-gnome/libhandy/{libhandy_1.6.3.bb => libhandy_1.8.0.bb} (93%)
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-mouse_1.9.3.bb b/meta/recipes-graphics/xorg-driver/xf86-input-mouse_1.9.4.bb
-similarity index 76%
-rename from meta/recipes-graphics/xorg-driver/xf86-input-mouse_1.9.3.bb
-rename to meta/recipes-graphics/xorg-driver/xf86-input-mouse_1.9.4.bb
-index c38dab505b..191987494e 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-input-mouse_1.9.3.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-input-mouse_1.9.4.bb
-@@ -10,5 +10,5 @@ driver."
+diff --git a/meta/recipes-gnome/libhandy/libhandy_1.6.3.bb b/meta/recipes-gnome/libhandy/libhandy_1.8.0.bb
+similarity index 93%
+rename from meta/recipes-gnome/libhandy/libhandy_1.6.3.bb
+rename to meta/recipes-gnome/libhandy/libhandy_1.8.0.bb
+index 01ca699d04..2f7d47290c 100644
+--- a/meta/recipes-gnome/libhandy/libhandy_1.6.3.bb
++++ b/meta/recipes-gnome/libhandy/libhandy_1.8.0.bb
+@@ -9,8 +9,8 @@ BUGTRACKER = "https://gitlab.gnome.org/GNOME/libhandy/-/issues"
+ LICENSE = "LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=90ea9f90d72b6d9327dede5ffdb2a510"
+-SRC_URI = "git://gitlab.gnome.org/GNOME/libhandy.git;protocol=https;branch=libhandy-1-6"
+-SRCREV = "2885c314c9c84037b6fe55ead6a232e60ebfc9c5"
++SRC_URI = "git://gitlab.gnome.org/GNOME/libhandy.git;protocol=https;branch=main"
++SRCREV = "fce63fcc85621c33dab85e32b349d707bf6d1552"
+ S = "${WORKDIR}/git"
  
--SRC_URI[md5sum] = "a2104693bbcfe1413397f7905eecd3dc"
--SRC_URI[sha256sum] = "93ecb350604d05be98b7d4e5db3b8155a44890069a7d8d6b800c0bea79c85cc5"
-+SRC_URI[sha256sum] = "7f6f8551fc238abdddcf9f38906564c1f8c7dacb0ad947cfc110487aefbd8d4c"
-+XORG_DRIVER_COMPRESSOR = ".tar.xz"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.(\d*[02468])+(\.\d+))"
 -- 
 2.30.2
 
