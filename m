@@ -1,171 +1,383 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99EB8C4332F
-	for <webhook@archiver.kernel.org>; Mon, 21 Nov 2022 13:36:07 +0000 (UTC)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web10.38291.1669037765704642331
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ECFEC4332F
+	for <webhook@archiver.kernel.org>; Mon, 21 Nov 2022 15:17:08 +0000 (UTC)
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+ by mx.groups.io with SMTP id smtpd.web11.41152.1669043822630334471
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Nov 2022 05:36:06 -0800
+ Mon, 21 Nov 2022 07:17:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=gyLKt5N7;
- spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f49.google.com with SMTP id r12so18890444lfp.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Nov 2022 05:36:05 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=okxYd4ms;
+ spf=pass (domain: gmail.com, ip: 209.85.210.49, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f49.google.com with SMTP id t19-20020a9d7753000000b0066d77a3d474so7493456otl.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Nov 2022 07:17:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1bcEigxV2yT/PiLKRieeN0tsLN6bxzubttAvZys+3so=;
-        b=gyLKt5N7rHDd9vlySvne3NKTMOyhcXjMXCPTz9C1euoxSugKcy6gyRpVc3LtOUBT6u
-         IwbqvVUAoUgnIuc8+7V1uFAQj3ACdIxMGH2Vh1l98bqf5d5vQrxCLVhIeErsdx7jpz1P
-         ftXLKc4v50IuTU3hLnOxXxFuxFhh2jDt9Sg4OBlfhknVvjNm5MZ3StKMM4h+cF1gJGNK
-         bRlpF0X447JnnJIVJ78fBHfg6icUfkPIJAnprAh90t60K3kLyfdafzLI1wwtWa5eihpW
-         pNBrwxdaKkZRXbvkZdgvM9NdwYwkBDGj7hgQfqq/ppLc+xlZh/lkXeCxoORjLehCMMTl
-         kTOA==
+        bh=kPeqbIp8FpnaUvzGq/3umDJIfzgdirvWYACXYFNF2kI=;
+        b=okxYd4msf+kom2TYTDnq27MGTYcK7iYTBWK/mqVNeh1gB2icoRPZSNWHThiP7qmBuy
+         Q+9HFw+Xg4nzuVXE9MmCCuMUcdJVecRNT9BCGSoF3D96YZF9N44pPVmAjWziqr6lcqyE
+         LzAUmJuy8bKsdacwf7QuUxvu5N68KGhS1g5WD379/3Yemsl9zeH+C4x2rp5n//wfv67t
+         hfRKj0AzoqXbu0eCKQh3RxKNVivDtQfL4ewbgW4Hh1ukDuMNoTqrratTJrZEa9UrFZnU
+         pm4miAnGjtBE6/dWVhphBtEPCrIC/PBV9YNo1SbmpMP8rtGYbxczpGkQF0aYtr85vbT0
+         DlcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=1bcEigxV2yT/PiLKRieeN0tsLN6bxzubttAvZys+3so=;
-        b=0RBFRABWTJHGhX16bun6jBDNzV+W/OOrnWtPTAMsgS5LPYtr96mWakwX7awTi11ua/
-         JSefMNTvaJZ2q99HrOTkg7vs4J9EfPaq+TkO5RKVHtPfDtAG4xvh2x1X6rsb7wMe6UoU
-         iYPtI4YUDTwFUEDI+ACKg0W5utYUKq0Em5aSwMh5lk1iDWYoy2kJHlrbFLZnUYiEdIoz
-         pxhHEi2sEHcnyU0+m45Guk8ZmH4NnOKZXy96UFYe40q1zEXAs+0Rudh8JbxGbkBdxVAX
-         xOrddPw2WjqaV5Nw/bWpqKImMbJ9xywfsHie0DBNJZAUEXAd1Ajcfjo0pSLM6Gxz4yVr
-         zcig==
-X-Gm-Message-State: ANoB5plrm7xoOhgBFlWvsSQDtPkHBBtzG6nGHDe7KdAc0orLZFbfN4Kl
-	6disLXYoTmSamfa2GJgwkqvR82/0EP5auqJ7sqU=
-X-Google-Smtp-Source: AA0mqf43R/XCTHJvQGx+ddejYTm1ibOmL2mPCyZnxsh5spemFIJovvyTulSX2o5QVp1ELWuvVgnJ6Vy6NFaryEXnTGI=
-X-Received: by 2002:a05:6512:746:b0:4a2:4f74:f47c with SMTP id
- c6-20020a056512074600b004a24f74f47cmr5753640lfs.367.1669037763218; Mon, 21
- Nov 2022 05:36:03 -0800 (PST)
+        bh=kPeqbIp8FpnaUvzGq/3umDJIfzgdirvWYACXYFNF2kI=;
+        b=5ZXf9gqteCNOHSTMF0W0UkkiKmyCqiXZBBhnIauaYSlSkMdtqRyFnffV7dXe7+Sd3j
+         /jCHdD0JXAoziPjtZzYxFzzKvWr4qLUpI2NLIJLmvN5brbJ51HvW7iquEHSWkAQomr5C
+         wpAvXYMhHfpkga6HyvrdcXdeNFyvrOttTYV+Hw5NEdCNgOZAKxuA0hfosFxwtsz3Krxg
+         5pLjzMtB5n351r1+e80QcK1qHfF32lLu4U08butTWTExYYUPfCQ33Wq18cC+JvrQBnSg
+         TjSIbZpNB37PNwJqpXQv6cRZk/FvoDIog/N4uG/SoRsViSVXJSpLgY+7KHfDc43pepnv
+         18ag==
+X-Gm-Message-State: ANoB5pk/wOlIuYZaFZ8Ve3dJYx+DkvllDQqfYVKIoLBmvfpiRMMO7UUc
+	dC5eIL/hfISzvh/H84ZnE07DkCsHswxlKMo8Btg=
+X-Google-Smtp-Source: AA0mqf7kKlRV91TUcFsRV5pQkAjU7DJT0yp3Zx3BZ6Ke/3wmDqcDfqOfDfppwL3hT5EsSiyqCL+nkeSBQWMS/S2tIF4=
+X-Received: by 2002:a9d:6486:0:b0:66d:ca7a:8b1a with SMTP id
+ g6-20020a9d6486000000b0066dca7a8b1amr1508835otl.55.1669043820916; Mon, 21 Nov
+ 2022 07:17:00 -0800 (PST)
 MIME-Version: 1.0
-References: <20221121132515.2028-1-cp0613@linux.alibaba.com>
-In-Reply-To: <20221121132515.2028-1-cp0613@linux.alibaba.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 21 Nov 2022 14:35:51 +0100
-Message-ID: <CANNYZj_ZovLkLzQttXo5EyO8V86dkrQ28__mOAjEWE4qm7uUfQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] flac: upgrade 1.4.0 -> 1.4.2
-To: cp0613 <cp0613@linux.alibaba.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+References: <20221120175237.194899-1-f_l_k@t-online.de> <CAMKF1spErHg3JX+DFRLcW4EthTGBMm4A24XsyAVOO3RNr6Wgfw@mail.gmail.com>
+ <CANNYZj-UTuxW0-Rr7FhgjwE007Gr28Pc5ZCo=cnrDcaNsuZStw@mail.gmail.com>
+In-Reply-To: <CANNYZj-UTuxW0-Rr7FhgjwE007Gr28Pc5ZCo=cnrDcaNsuZStw@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 21 Nov 2022 07:16:49 -0800
+Message-ID: <CAMKF1srs_tmRRNqWQAmBKOkJkfysJt=OZjefq_mPd4htPGi6VA@mail.gmail.com>
+Subject: Re: [oe-core][PATCH] python3: add ${bindir}/python symlink
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Markus Volk <f_l_k@t-online.de>, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000000f87b805edfc8c16"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Nov 2022 13:36:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173654
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Nov 2022 15:17:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173655
 
-Changes in licensing need to be explained. We checksum them for a
-reason, and the reason is precisely being able to catch and update the
-value of LICENSE, so that license compliance for your product is based
-on correct input data.
+--0000000000000f87b805edfc8c16
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Most of the time they're harmless, but you need to explicitly check
-and state something like this:
+On Sun, Nov 20, 2022 at 3:56 PM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
 
-License-Update: copyright years
-License-Update: formatting
-License-Update: additional contributors
+> Python community has no plans for python4 whatsoever. Anything but gentle
+> and steady evolution won=E2=80=99t be well received.
+>
+>
+> https://www.techrepublic.com/article/programming-languages-why-python-4-0=
+-will-probably-never-arrive-according-to-its-creator/
+>
 
-or similar. Look at the git log.
+Good news article although it does not say that python3 and python are
+analogous and python package does not explicitly install python binary or
+symlink either so it=E2=80=99s left up to how distros want to presume it. I=
+f we
+want to do that then it would be prudent to see what other distributions
+are doing in this regard. So we are not alone in case trouble arises
 
-Alex
+>
+>
+> Alex
+>
+> On Mon 21. Nov 2022 at 0.17, Khem Raj <raj.khem@gmail.com> wrote:
+>
+>>
+>>
+>> On Sun, Nov 20, 2022 at 9:52 AM Markus Volk <f_l_k@t-online.de> wrote:
+>>
+>>> Currently /usr/bin/python is provided by the python2 package. If python=
+2
+>>> is not installed, the built image lacks a provider for it.
+>>> This results in failed scripts when using '/usr/bin/python' shebang.
+>>>
+>>> This patch adds a /usr/bin/python symlink for python3 to fix this issue=
+.
+>>> For images containing python2 and python3, the do_rootfs task will fail
+>>> because now both of them provide the same file.
+>>> To allow this corner case, a DISTRO_FEATURE 'python2' has been
+>>> introduced which,
+>>> if set, will prevent python3 from creating the symlink.
+>>>
+>>> The link is created with relative path because using an absolute path
+>>> would fail
+>>> for native and nativesdk.
+>>
+>>
+>> What happens if and when python4 comes ?
+>> This might get us into same mess we had migrating python2 to 3
+>>
+>>
+>>>
+>>> Signed-off-by: Markus Volk <f_l_k@t-online.de>
+>>> ---
+>>>  meta/recipes-devtools/python/python3/python3-manifest.json | 1 +
+>>>  meta/recipes-devtools/python/python3_3.11.0.bb             | 4 ++++
+>>>  2 files changed, 5 insertions(+)
+>>>
+>>> diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json
+>>> b/meta/recipes-devtools/python/python3/python3-manifest.json
+>>> index 64203cf0fc..7b6f509a45 100644
+>>> --- a/meta/recipes-devtools/python/python3/python3-manifest.json
+>>> +++ b/meta/recipes-devtools/python/python3/python3-manifest.json
+>>> @@ -203,6 +203,7 @@
+>>>          "files": [
+>>>              "${bindir}/python${PYTHON_MAJMIN}",
+>>>              "${bindir}/python${PYTHON_MAJMIN}.real",
+>>> +            "${bindir}/python",
+>>>              "${bindir}/python3",
+>>>              "${includedir}/python${PYTHON_MAJMIN}/pyconfig*.h",
+>>>              "${libdir}/python${PYTHON_MAJMIN}/UserDict.py",
+>>> diff --git a/meta/recipes-devtools/python/python3_3.11.0.bb
+>>> b/meta/recipes-devtools/python/python3_3.11.0.bb
+>>> index 92a1f69320..18b631f79d 100644
+>>> --- a/meta/recipes-devtools/python/python3_3.11.0.bb
+>>> +++ b/meta/recipes-devtools/python/python3_3.11.0.bb
+>>> @@ -144,6 +144,7 @@ do_install:prepend() {
+>>>
+>>>  do_install:append:class-target() {
+>>>          oe_multilib_header python${PYTHON_MAJMIN}/pyconfig.h
+>>> +        ${@bb.utils.contains('DISTRO_FEATURES', 'python2', '', 'ln -sf
+>>> ./python3 ${D}${bindir}/python', d)}
+>>>  }
+>>>
+>>>  do_install:append:class-native() {
+>>> @@ -156,6 +157,7 @@ do_install:append:class-native() {
+>>>          # (these often end up too long for the #! parser in the kernel
+>>> as the
+>>>          # buffer is 128 bytes long).
+>>>          ln -s python3-native/python3 ${D}${bindir}/nativepython3
+>>> +        ${@bb.utils.contains('DISTRO_FEATURES', 'python2', '', 'ln -sf
+>>> ./python3-native/python3 ${D}${bindir}/nativepython', d)}
+>>>
+>>>          # Remove the opt-1.pyc and opt-2.pyc files. There are over
+>>> 3,000 of them
+>>>          # and the overhead in each recipe-sysroot-native isn't worth
+>>> it, particularly
+>>> @@ -213,6 +215,7 @@ do_install:append() {
+>>>  }
+>>>
+>>>  do_install:append:class-nativesdk () {
+>>> +    ${@bb.utils.contains('DISTRO_FEATURES', 'python2', '', 'ln -sf
+>>> ./python3 ${D}${bindir}/python', d)}
+>>>      # Make sure we use /usr/bin/env python
+>>>      for PYTHSCRIPT in `grep -rIl ${bindir}/python ${D}${bindir}`; do
+>>>           sed -i -e '1s|^#!.*|#!/usr/bin/env python3|' $PYTHSCRIPT
+>>> @@ -376,6 +379,7 @@ RRECOMMENDS:${PN}-crypt:append:class-nativesdk =3D =
+"
+>>> ${MLPREFIX}openssl ${MLPREFIX
+>>>
+>>>  # For historical reasons PN is empty and provided by python3-modules
+>>>  FILES:${PN} =3D ""
+>>> +RPROVIDES:${PN} =3D "${@bb.utils.contains('DISTRO_FEATURES', 'python2'=
+,
+>>> '', '${bindir}/python', d)}"
+>>>  RPROVIDES:${PN}-modules =3D "${PN}"
+>>>
+>>>  FILES:${PN}-pydoc +=3D "${bindir}/pydoc${PYTHON_MAJMIN} ${bindir}/pydo=
+c3"
+>>> --
+>>> 2.34.1
+>>>
+>>>
+>>>
+>>>
+>>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>>
+> View/Reply Online (#173642):
+>> https://lists.openembedded.org/g/openembedded-core/message/173642
+>> Mute This Topic: https://lists.openembedded.org/mt/95156228/1686489
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+>> alex.kanavin@gmail.com]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
+>>
 
-On Mon, 21 Nov 2022 at 14:27, cp0613 <cp0613@linux.alibaba.com> wrote:
+--0000000000000f87b805edfc8c16
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Sun, Nov 20, 2022 at 3:56 PM Alexander Kanavin &lt;<a hr=
+ef=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex"><div dir=3D"auto">Python community =
+has no plans for python4 whatsoever. Anything but gentle and steady evoluti=
+on won=E2=80=99t be well received.</div><div dir=3D"auto"><br></div><div di=
+r=3D"auto"><div><a href=3D"https://www.techrepublic.com/article/programming=
+-languages-why-python-4-0-will-probably-never-arrive-according-to-its-creat=
+or/" target=3D"_blank">https://www.techrepublic.com/article/programming-lan=
+guages-why-python-4-0-will-probably-never-arrive-according-to-its-creator/<=
+/a></div></div></blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">G=
+ood news article although it does not say that python3 and python are analo=
+gous and python package does not explicitly install python binary or symlin=
+k either so it=E2=80=99s left up to how distros want to presume it. If we w=
+ant to do that then it would be prudent to see what other distributions are=
+ doing in this regard. So we are not alone in case trouble arises=C2=A0</di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
+1px #ccc solid;padding-left:1ex"><div dir=3D"auto"><br></div><div dir=3D"au=
+to"><br></div><div dir=3D"auto">Alex</div><div><br><div class=3D"gmail_quot=
+e"></div></div><div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gm=
+ail_attr">On Mon 21. Nov 2022 at 0.17, Khem Raj &lt;<a href=3D"mailto:raj.k=
+hem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br></div=
+></div></div><div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-sty=
+le:solid;padding-left:1ex;border-left-color:rgb(204,204,204)"></blockquote>=
+</div></div><div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-styl=
+e:solid;padding-left:1ex;border-left-color:rgb(204,204,204)"><div><br></div=
+><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">=
+On Sun, Nov 20, 2022 at 9:52 AM Markus Volk &lt;<a href=3D"mailto:f_l_k@t-o=
+nline.de" target=3D"_blank">f_l_k@t-online.de</a>&gt; wrote:<br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-=
+width:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(20=
+4,204,204)">Currently /usr/bin/python is provided by the python2 package. I=
+f python2<br>
+is not installed, the built image lacks a provider for it.<br>
+This results in failed scripts when using &#39;/usr/bin/python&#39; shebang=
+.<br>
+<br>
+This patch adds a /usr/bin/python symlink for python3 to fix this issue.<br=
 >
-> From: Chen Pei <cp0613@linux.alibaba.com>
+For images containing python2 and python3, the do_rootfs task will fail<br>
+because now both of them provide the same file.<br>
+To allow this corner case, a DISTRO_FEATURE &#39;python2&#39; has been intr=
+oduced which,<br>
+if set, will prevent python3 from creating the symlink.<br>
+<br>
+The link is created with relative path because using an absolute path would=
+ fail<br>
+for native and nativesdk.</blockquote><div dir=3D"auto"><br></div><div dir=
+=3D"auto">What happens if and when python4 comes ?</div><div dir=3D"auto">T=
+his might get us into same mess we had migrating python2 to 3</div></div></=
+div><div><div class=3D"gmail_quote"><div dir=3D"auto"><br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:=
+1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,=
+204)" dir=3D"auto"><br>
+<br>
+Signed-off-by: Markus Volk &lt;<a href=3D"mailto:f_l_k@t-online.de" target=
+=3D"_blank">f_l_k@t-online.de</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-devtools/python/python3/python3-manifest.json | 1 +<br>
+=C2=A0meta/recipes-devtools/python/<a href=3D"http://python3_3.11.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">python3_3.11.0.bb</a>=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0| 4 ++++<br>
+=C2=A02 files changed, 5 insertions(+)<br>
+<br>
+diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/m=
+eta/recipes-devtools/python/python3/python3-manifest.json<br>
+index 64203cf0fc..7b6f509a45 100644<br>
+--- a/meta/recipes-devtools/python/python3/python3-manifest.json<br>
++++ b/meta/recipes-devtools/python/python3/python3-manifest.json<br>
+@@ -203,6 +203,7 @@<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;files&quot;: [<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;${bindir}/python${PYT=
+HON_MAJMIN}&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;${bindir}/python${PYT=
+HON_MAJMIN}.real&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;${bindir}/python&quot;,<br=
 >
-> This small version release only has a few changes, but fixes several bugs.
->
-> FLAC 1.4.2 released 2022-10-22
-> Like the last release, this release only has a few changes. A problem with FLAC playback in GStreamer (and possibly other libFLAC users) was the reason for the short time since the last release.
-> Changes:
->         Remove xmms plugin
->         Remove all pure assembler, removing build dependency on nasm
->         Made console output more uniform across different platforms and CPUs
->         Improve ability to tune compile for a certain system (for example with -march=native) when combining with --disable-asm-optimizations: plain C functions can now be better optimized
->         Default CFLAGS are now prepended instead of dropped when user CFLAGS are set
->         -msse2 is no longer added by default (was only applicable to x86)
->         Fix cross-compiling and out-of-tree building when pandoc and doxygen are not available
->         Fix issue with Clang not compiling functions with intrinsics
->         Fix detection of bswap intrinsics
->         Improve search for libssp on MinGW
->         Fix issue when the libFLAC user seeks in a file instead of libFLAC itself
->
-> FLAC 1.4.1 released 2022-09-22
-> This release fixes the release tarball (which was missing man pages and api documentation in FLAC 1.4.0) and some build problems that were found with FLAC 1.4.0.
-> Changes:
->         CMake fixes
->         Add checks that man pages and api docs end up in tarball
->         Enable installation of prebuilt man pages and api docs
->         Fix compiler warnings
->         Fix format specifier
->         Enable building on Universal Windows Platform
->         Fix versioning from git
->
-> Signed-off-by: Chen Pei <cp0613@linux.alibaba.com>
-> ---
->  .../flac/{flac_1.4.0.bb => flac_1.4.2.bb}                | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
->  rename meta/recipes-multimedia/flac/{flac_1.4.0.bb => flac_1.4.2.bb} (80%)
->
-> diff --git a/meta/recipes-multimedia/flac/flac_1.4.0.bb b/meta/recipes-multimedia/flac/flac_1.4.2.bb
-> similarity index 80%
-> rename from meta/recipes-multimedia/flac/flac_1.4.0.bb
-> rename to meta/recipes-multimedia/flac/flac_1.4.2.bb
-> index 360396380d..32383927a2 100644
-> --- a/meta/recipes-multimedia/flac/flac_1.4.0.bb
-> +++ b/meta/recipes-multimedia/flac/flac_1.4.2.bb
-> @@ -9,29 +9,25 @@ LIC_FILES_CHKSUM = "file://COPYING.FDL;md5=ad1419ecc56e060eccf8184a87c4285f \
->                      file://COPYING.GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
->                      file://src/flac/main.c;beginline=1;endline=18;md5=893456854ce6bf14a1a7ea77266eebab \
->                      file://COPYING.LGPL;md5=fbc093901857fcd118f065f900982c24 \
-> -                    file://src/plugin_common/all.h;beginline=1;endline=18;md5=73c74192ce89ee6238d15a171e00c971 \
->                      file://COPYING.Xiph;md5=3d6da238b5b57a0965d6730291119f65 \
-> -                    file://include/FLAC/all.h;beginline=65;endline=70;md5=64474f2b22e9e77b28d8b8b25c983a48"
-> +                    file://include/FLAC/all.h;beginline=65;endline=70;md5=39aaf5e03c7364363884c8b8ddda8eea"
->
->  SRC_URI = "http://downloads.xiph.org/releases/flac/${BP}.tar.xz"
-> -SRC_URI[sha256sum] = "af41c0733c93c237c3e52f64dd87e3b0d9af38259f1c7d11e8cbf583c48c2506"
-> +SRC_URI[sha256sum] = "e322d58a1f48d23d9dd38f432672865f6f79e73a6f9cc5a5f57fcaa83eb5a8e4"
->
->  CVE_PRODUCT = "libflac flac"
->
->  inherit autotools gettext
->
->  EXTRA_OECONF = "--disable-oggtest \
-> -                --disable-xmms-plugin \
->                  --without-libiconv-prefix \
->                  ac_cv_prog_NASM="" \
->                  "
->
->  PACKAGECONFIG ??= " \
->      ${@bb.utils.filter("TUNE_FEATURES", "altivec vsx", d)} \
-> -    ${@bb.utils.contains_any("TUNE_FEATURES", "core2 corei7", "sse", "", d)} \
->      ogg \
->  "
-> -PACKAGECONFIG[sse] = "--enable-sse,--disable-sse"
->  PACKAGECONFIG[altivec] = "--enable-altivec,--disable-altivec"
->  PACKAGECONFIG[vsx] = "--enable-vsx,--disable-vsx"
->  PACKAGECONFIG[avx] = "--enable-avx,--disable-avx"
-> @@ -41,3 +37,4 @@ PACKAGES += "libflac libflac++"
->  FILES:${PN} = "${bindir}/*"
->  FILES:libflac = "${libdir}/libFLAC.so.*"
->  FILES:libflac++ = "${libdir}/libFLAC++.so.*"
-> +
-> --
-> 2.25.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#173652): https://lists.openembedded.org/g/openembedded-core/message/173652
-> Mute This Topic: https://lists.openembedded.org/mt/95171486/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;${bindir}/python3&quo=
+t;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;${includedir}/python$=
+{PYTHON_MAJMIN}/pyconfig*.h&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;${libdir}/python${PYT=
+HON_MAJMIN}/UserDict.py&quot;,<br>
+diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3_3.11.0.=
+bb" rel=3D"noreferrer" target=3D"_blank">python3_3.11.0.bb</a> b/meta/recip=
+es-devtools/python/<a href=3D"http://python3_3.11.0.bb" rel=3D"noreferrer" =
+target=3D"_blank">python3_3.11.0.bb</a><br>
+index 92a1f69320..18b631f79d 100644<br>
+--- a/meta/recipes-devtools/python/<a href=3D"http://python3_3.11.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">python3_3.11.0.bb</a><br>
++++ b/meta/recipes-devtools/python/<a href=3D"http://python3_3.11.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">python3_3.11.0.bb</a><br>
+@@ -144,6 +144,7 @@ do_install:prepend() {<br>
+<br>
+=C2=A0do_install:append:class-target() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0oe_multilib_header python${PYTHON_MAJMIN}=
+/pyconfig.h<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;=
+, &#39;python2&#39;, &#39;&#39;, &#39;ln -sf ./python3 ${D}${bindir}/python=
+&#39;, d)}<br>
+=C2=A0}<br>
+<br>
+=C2=A0do_install:append:class-native() {<br>
+@@ -156,6 +157,7 @@ do_install:append:class-native() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# (these often end up too long for the #!=
+ parser in the kernel as the<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# buffer is 128 bytes long).<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ln -s python3-native/python3 ${D}${bindir=
+}/nativepython3<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;=
+, &#39;python2&#39;, &#39;&#39;, &#39;ln -sf ./python3-native/python3 ${D}$=
+{bindir}/nativepython&#39;, d)}<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Remove the opt-1.pyc and opt-2.pyc file=
+s. There are over 3,000 of them<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# and the overhead in each recipe-sysroot=
+-native isn&#39;t worth it, particularly<br>
+@@ -213,6 +215,7 @@ do_install:append() {<br>
+=C2=A0}<br>
+<br>
+=C2=A0do_install:append:class-nativesdk () {<br>
++=C2=A0 =C2=A0 ${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;python2=
+&#39;, &#39;&#39;, &#39;ln -sf ./python3 ${D}${bindir}/python&#39;, d)}<br>
+=C2=A0 =C2=A0 =C2=A0# Make sure we use /usr/bin/env python<br>
+=C2=A0 =C2=A0 =C2=A0for PYTHSCRIPT in `grep -rIl ${bindir}/python ${D}${bin=
+dir}`; do<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sed -i -e &#39;1s|^#!.*|#!/usr/bin/env p=
+ython3|&#39; $PYTHSCRIPT<br>
+@@ -376,6 +379,7 @@ RRECOMMENDS:${PN}-crypt:append:class-nativesdk =3D &quo=
+t; ${MLPREFIX}openssl ${MLPREFIX<br>
+<br>
+=C2=A0# For historical reasons PN is empty and provided by python3-modules<=
+br>
+=C2=A0FILES:${PN} =3D &quot;&quot;<br>
++RPROVIDES:${PN} =3D &quot;${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, =
+&#39;python2&#39;, &#39;&#39;, &#39;${bindir}/python&#39;, d)}&quot;<br>
+=C2=A0RPROVIDES:${PN}-modules =3D &quot;${PN}&quot;<br>
+<br>
+=C2=A0FILES:${PN}-pydoc +=3D &quot;${bindir}/pydoc${PYTHON_MAJMIN} ${bindir=
+}/pydoc3&quot;<br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div></div><div><div class=3D"gmail_quote"></div></div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br></blockquote></div><=
+/div><div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid=
+;padding-left:1ex;border-left-color:rgb(204,204,204)">
+View/Reply Online (#173642): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/173642" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/173642</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/95156228/1686=
+489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/95156228/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+</blockquote></div></div>
+
+--0000000000000f87b805edfc8c16--
 
