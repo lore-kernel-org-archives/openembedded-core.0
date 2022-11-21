@@ -1,120 +1,81 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 730A3C43219
-	for <webhook@archiver.kernel.org>; Mon, 21 Nov 2022 16:28:08 +0000 (UTC)
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
- by mx.groups.io with SMTP id smtpd.web11.43479.1669048079095576869
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D037DC433FE
+	for <webhook@archiver.kernel.org>; Mon, 21 Nov 2022 17:18:38 +0000 (UTC)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+ by mx.groups.io with SMTP id smtpd.web11.45109.1669051115962672200
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Nov 2022 08:27:59 -0800
+ Mon, 21 Nov 2022 09:18:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ADVQfBgS;
- spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: jpewhacker@gmail.com)
-Received: by mail-ej1-f53.google.com with SMTP id m22so29706833eji.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Nov 2022 08:27:58 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=qqmtRBpZ;
+ spf=pass (domain: gmail.com, ip: 209.85.208.178, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f178.google.com with SMTP id k19so15257637lji.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Nov 2022 09:18:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=C8voEoK6Fy+znWAlRP2TcutpXDiZFLVjbDLVIkaH1j0=;
-        b=ADVQfBgSD4hQ1ejpNoo7I/Iz7Tp846Z/GVlNd1ClC2tq6nbXYQbO+nSKGizWWbmRnt
-         EMplsxyydAIU2Hvj1GfvKvffrTyNHaaZjQ2Fh3Mk17zxkCnpL9NbltVfAoFUpdfY6D5U
-         EGpgruITBsoRSP88ndc3L+xXYWRQAu45qwF2VI66rONNluLXIqztZ1X8Wx1XgdslTM66
-         knHjPxed/gf9ptfE27WEv2PvV5p+V06F87Ituj2B4khViD57u008c18PatGz4SCxIDof
-         I4dGLjb+Fq43ZI1JSTsPAUt5kBS3QTsB1iK0yo1gR8Rck/nKw5mHNvHUpMSwDoUaeopm
-         o8SA==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hFnZR4CL9Y/3b4XZk/VxuMmJlSDFOeGH42K28xmkq3k=;
+        b=qqmtRBpZWX40wn2eJapDPydZ0mxLFi0xg2VqjfvV3R0NeLWSbsJd1Q636KuM30RY+Y
+         yOt/aD5L4i68oatmbfx6gYlGDTBbmOXlmUUXKQYBDoN2NoW7Rnj65w/DMcGJbmq+U83v
+         4scGY1nLq/0USlJhOz4/jcyzJf4l2TgEq6S9bE0/bBSsvH7nQ+kjhcX9Dq5xdAXUyQOe
+         AqwLACd4M3x2pdeTtv6Q+9uILB1DfWRU5ERGS0sGOkulOAzwNWTpKnabywvakpwz6KKt
+         /AzB+TwaW26Xk7i8aqb8n1Uy3pY69zbXJp5O825DhF+LlZbMb8F+4LvMquiVG1DoIRrV
+         LUaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=C8voEoK6Fy+znWAlRP2TcutpXDiZFLVjbDLVIkaH1j0=;
-        b=VlUzOGCaila1NKh8YBrjfDmL3wWiYS01buEVxVkU9b9VWof3W/ls1jqtHLTOaqK90D
-         a1Jn2QGfEumQy45OOT3ZQT/ocNTS1kF+jPpQEmmLvergrvyhHZQ/DHuc7RSJByxSDKVe
-         7QNxSgkeaxYuo5G/jew/O2RUji+W3xBzpX8/PUSa5178U5dHX3VFGlkRe/W7Qb8Tj2B4
-         yt+4dVlwhPVqvXxNceV/M2Yqq02uEM5WS6Wx0RzGlYalG6rYlXu24cPA2T5Ds1l06dXw
-         aYQch38p4J3lj1tfjXD7g9cpUnqhRIrv8vIBvvHK4WNF+p5SQSEUM4rw5IdpjshKUFmv
-         TYsA==
-X-Gm-Message-State: ANoB5pkDjK0XLU1MdM7wdaFUsDxhZ01CZNhnhbnBek/4oHKYUjeMJFb0
-	nmgGuRicYPOzClLL7cJjzPKjysgLV0wfIcWPCY575AiD74M=
-X-Google-Smtp-Source: AA0mqf6rSBW5NnOzBXNqTlSbBJF68Jy68PPJJYGfknSToDJSHt6/vCvUG2cc6p+OP6aWbjCpgBrWGn7vnkq/f25d3GM=
-X-Received: by 2002:a17:906:4351:b0:78d:513d:f447 with SMTP id
- z17-20020a170906435100b0078d513df447mr2266749ejm.708.1669048077210; Mon, 21
- Nov 2022 08:27:57 -0800 (PST)
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hFnZR4CL9Y/3b4XZk/VxuMmJlSDFOeGH42K28xmkq3k=;
+        b=QiQx6YkXApn01mLh60lDGaAoMDSOMCWlgjHtD6Kq9xa9z58h2D0+HEHnZWmA39ePvu
+         hysfVGSrLgY79mP/4JsQZfcftP9r/H40wsdtY14B+yS/6lqEE5OnsrORkihJUVI+LXdX
+         th+x160gR/MaJmsV4Jl6M/zavHPbAUZSoTv3p6teX0kOyKBaFAmFZ1xuKfrOsZHGPkma
+         pYUrz++V/Rhd6jb9GHvcP75vLc/DMSz/d9qqJVvwQzixJ/CI+othYtDSiVuMa78Ai3FO
+         BfEFXOqKKf8BW+7b8suQkxwtHEA+DRC89hAft6fHnFqrallvOWiLmonO3Y9P+7gqOi+f
+         Gdnw==
+X-Gm-Message-State: ANoB5pmv0o1L6NE4GQeEVAjLQ4SIAtbFXppeQhu6MS9wHBRDGJfq+lL6
+	Lcd+X0P4bV0gyQwkEFpZ20wRZrslaGvOLo2vzXw=
+X-Google-Smtp-Source: AA0mqf7Az4sBWdb/zA3Qv3GRLw1hEs9LYjwWT/X5NgWY7igAKws2b+iAYAzR3SVYFPdfQPuW2l1ImqeB50LNm2Adeog=
+X-Received: by 2002:a2e:b812:0:b0:277:eba:852 with SMTP id u18-20020a2eb812000000b002770eba0852mr6453001ljo.31.1669051113846;
+ Mon, 21 Nov 2022 09:18:33 -0800 (PST)
 MIME-Version: 1.0
-References: <20221116184919.2085915-1-JPEWhacker@gmail.com>
-In-Reply-To: <20221116184919.2085915-1-JPEWhacker@gmail.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Mon, 21 Nov 2022 10:27:46 -0600
-Message-ID: <CAJdd5GaVPiQOZNxvmCsyiVQCyCV3sz9+4Q9s4k8yh+WO-_1m1g@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] qemu-helper-native: Correctly pass program name
- as argv[0]
-To: openembedded-core@lists.openembedded.org
+References: <20221120175237.194899-1-f_l_k@t-online.de> <CAMKF1spErHg3JX+DFRLcW4EthTGBMm4A24XsyAVOO3RNr6Wgfw@mail.gmail.com>
+ <CANNYZj-UTuxW0-Rr7FhgjwE007Gr28Pc5ZCo=cnrDcaNsuZStw@mail.gmail.com> <CAMKF1srs_tmRRNqWQAmBKOkJkfysJt=OZjefq_mPd4htPGi6VA@mail.gmail.com>
+In-Reply-To: <CAMKF1srs_tmRRNqWQAmBKOkJkfysJt=OZjefq_mPd4htPGi6VA@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 21 Nov 2022 18:18:21 +0100
+Message-ID: <CANNYZj8UmhtH-rZKBaVHh0dmkB7fnR3wMemZy_XmF3DA70Rv2Q@mail.gmail.com>
+Subject: Re: [oe-core][PATCH] python3: add ${bindir}/python symlink
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Markus Volk <f_l_k@t-online.de>, openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Nov 2022 16:28:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173657
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Nov 2022 17:18:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173658
 
-Steve,
+On Mon, 21 Nov 2022 at 16:17, Khem Raj <raj.khem@gmail.com> wrote:
+>> Python community has no plans for python4 whatsoever. Anything but gentl=
+e and steady evolution won=E2=80=99t be well received.
+>>
+>> https://www.techrepublic.com/article/programming-languages-why-python-4-=
+0-will-probably-never-arrive-according-to-its-creator/
+>
+>
+> Good news article although it does not say that python3 and python are an=
+alogous and python package does not explicitly install python binary or sym=
+link either so it=E2=80=99s left up to how distros want to presume it. If w=
+e want to do that then it would be prudent to see what other distributions =
+are doing in this regard. So we are not alone in case trouble arises
 
-Please backport this to Langdale (note you'll need the other
-qemu-helper-native patch first)
+Fedora has done it 3 years ago:
+https://pagure.io/fedora-docs/release-notes/pull-request/410#request_diff
 
-Thanks
-
-On Wed, Nov 16, 2022 at 12:49 PM Joshua Watt <jpewhacker@gmail.com> wrote:
->
-> The previous version of this wasn't correctly passing the program name
-> as argv[0], and was also over-complicated anyway because argv[] is
-> guaranteed to be terminated with a NULL pointer, so it can be passed
-> directly to the execv'd process without needing to be copied.
->
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->  .../qemu/qemu-helper/qemu-oe-bridge-helper.c      | 15 ++++-----------
->  1 file changed, 4 insertions(+), 11 deletions(-)
->
-> diff --git a/meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper.c b/meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper.c
-> index cadf2a012ac..9434e1d2699 100644
-> --- a/meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper.c
-> +++ b/meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper.c
-> @@ -8,6 +8,7 @@
->
->  #include <stdio.h>
->  #include <unistd.h>
-> +#include <stdlib.h>
->
->  void try_program(char const* path, char** args) {
->      if (access(path, X_OK) == 0) {
-> @@ -18,22 +19,14 @@ void try_program(char const* path, char** args) {
->  int main(int argc, char** argv) {
->      char* var;
->
-> -    /* Copy arguments so that they are a NULL terminated list, skipping argv[0]
-> -     * since it is this program name */
-> -    char** args = malloc(argc * sizeof(char*));
-> -    for (int i = 0; i < argc - 1; i++) {
-> -        args[i] = argv[i + 1];
-> -    }
-> -    args[argc - 1] = NULL;
-> -
->      var = getenv("QEMU_BRIDGE_HELPER");
->      if (var && var[0] != '\0') {
-> -        execvp(var, args);
-> +        execvp(var, argv);
->          return 1;
->      }
->
-> -    try_program("/usr/libexec/qemu-bridge-helper", args);
-> -    try_program("/usr/lib/qemu/qemu-bridge-helper", args);
-> +    try_program("/usr/libexec/qemu-bridge-helper", argv);
-> +    try_program("/usr/lib/qemu/qemu-bridge-helper", argv);
->
->      fprintf(stderr, "No bridge helper found\n");
->      return 1;
-> --
-> 2.33.0
->
+Alex
 
