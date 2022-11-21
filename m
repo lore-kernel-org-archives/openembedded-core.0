@@ -1,204 +1,393 @@
-Return-Path: <jing.hui.tham@intel.com>
+Return-Path: <anton.antonov@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA510C4332F
-	for <webhook@archiver.kernel.org>; Mon, 21 Nov 2022 06:40:45 +0000 (UTC)
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by mx.groups.io with SMTP id smtpd.web10.32515.1669012837199399164
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79C49C433FE
+	for <webhook@archiver.kernel.org>; Mon, 21 Nov 2022 09:40:16 +0000 (UTC)
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.70])
+ by mx.groups.io with SMTP id smtpd.web10.34496.1669023614060690443
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Nov 2022 22:40:37 -0800
+ Mon, 21 Nov 2022 01:40:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=DdU7hg2U;
- spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: jing.hui.tham@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669012837; x=1700548837;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=oYqK1MjybONVOz6oZ8973Izuv3cuwM04Xz8nqHxodDg=;
-  b=DdU7hg2UIKLo3jaYmioZ8SLNYwcI5SWKPy/YUQ8e3Z0qSNATxi2MOWsZ
-   Vc14mPJHnDSTx/bbJn9ViqFgSXkr9Iws+jGNts2iNCxejnwcXBp0mnOkm
-   E2ka9cKNGNfwfoPBaGp7dbCGVO4XRJtQSkmq2q92jH99oysR5ISYvfYVX
-   +wt51EMPEOlso4hYcYsdCClpdPj2XKEus7Ydo1T8CsJ36GRH59/yLad97
-   7aysCVY+f6NDbq8BjN+iB3179yaHs521rzfEgpw6XA/Q52v6tUROc4JJR
-   XPtLYEfshrmnOW5xTp4NoZHrNFoYxxHwtik7Sm3E+VNPDmxy4smH4QJQ3
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10537"; a="377744834"
-X-IronPort-AV: E=Sophos;i="5.96,180,1665471600"; 
-   d="scan'208";a="377744834"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2022 22:40:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10537"; a="640909249"
-X-IronPort-AV: E=Sophos;i="5.96,180,1665471600"; 
-   d="scan'208";a="640909249"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orsmga002.jf.intel.com with ESMTP; 20 Nov 2022 22:40:36 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Sun, 20 Nov 2022 22:40:36 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Sun, 20 Nov 2022 22:40:36 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Sun, 20 Nov 2022 22:40:36 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.168)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Sun, 20 Nov 2022 22:40:35 -0800
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=IIV3PvBm;
+ spf=pass (domain: arm.com, ip: 40.107.7.70, mailfrom: anton.antonov@arm.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lyAFwSxKkzYOyGzDWzSYSdJaIj/udJoIQClTy7MVyYQ=;
+ b=IIV3PvBmLQwg8O9ISglCb/CWkIzzbzQd93Lru9u+8s+mh91j9EMvGT8g1Hf5J7zOSCeewZnxJyDAwVtwiHEx2WkxUX0j14bLaAJ7Of+sSGBeDUBrz75l6D3W+Edb7k+KHIppYS4WMFZeeG3lX0vYOfSsHIAlDju348uje2DwnXc=
+Received: from DUZPR01CA0082.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:46a::10) by AS8PR08MB6263.eurprd08.prod.outlook.com
+ (2603:10a6:20b:290::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.15; Mon, 21 Nov
+ 2022 09:40:07 +0000
+Received: from DBAEUR03FT010.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:10:46a:cafe::e1) by DUZPR01CA0082.outlook.office365.com
+ (2603:10a6:10:46a::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.15 via Frontend
+ Transport; Mon, 21 Nov 2022 09:40:07 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DBAEUR03FT010.mail.protection.outlook.com (100.127.142.78) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5834.8 via Frontend Transport; Mon, 21 Nov 2022 09:40:07 +0000
+Received: ("Tessian outbound 0800d254cb3b:v130"); Mon, 21 Nov 2022 09:40:07 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: e8d34f25e0b60468
+X-CR-MTA-TID: 64aa7808
+Received: from f5abc4749281.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 8901E5C7-A2DF-476E-A91B-973A61FC3FA2.1;
+	Mon, 21 Nov 2022 09:40:00 +0000
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id f5abc4749281.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Mon, 21 Nov 2022 09:40:00 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BuynmlxcnjQOyV4b8mJ5wA4mO3tt1R6+4us2jYS4lo/Cx16/4VwGHElZMhZqyygsV28UTVGMpyeEtWRuy5LuX+lNPoqjf3bcHPVY2OnfqwBz5KIniaijzSJfo78/QC3OvAGAGB2BqGTe9AQ4ad/iVJtXH/lIiPeVnPlBIdyiwX/hZv6476Xu8mnaQLh83wwe/7z6gtqPTzN+h6CrfQS2xs9zdYGRlWO002j8y0wusy3p6L5ucj3xvO1vJZWwlmWBBE1vUjnVyP4bUpUqI6SJqVvrywnkMUjNI42b6ACjincMVJmq+4Keb6ZxyJFi3iWk5xZR2ST6zEhC3hLuPGeS9Q==
+ b=eBku+US1k8bWHHIC/sucEQXfCFM1JihUrFEgJU7danc1nsedmQTRTg/zlLZ9RvZ9Z2IQWaf7d6fTazhA3O7hxlIM6dY8dpCnOAbsb6OkXowJTAtizgYfPAyUMRFmepaGRSH9HrQWVWl7o61o/t1E5DXM8wnj58iaydIHM7f27cH/fIwZSsl0wVsLUbniTf72OOWGOBewnhCnT+zrOXbaTu+hlqaVXHjiHM+JbALzt4shZlFgxoSFfCe8DRNKvELclWxut1ibWr92bTwYEiU/EOhZ4JKuWo3yGhd5baDD/pklPLAajhGBX2W1zeAm76ypM+gcuA9x/sG7rXEu1iBLzA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bCzY9UASe3zLBc2joER1AorHlAJBAksxZu88aMwzJlo=;
- b=U8zpRL9qsCQ4RfPySp0bCjdNcj0Z5xbIMGFI0OAt4qJ4J/mkjNFFMbAmcN8J/wIdBdfeHORSfazpJcMFqZfz5nb51Zf2RO1fqoBLOYSArwaSr/ZUZdu47sL4XFZWWl7cfdv+wCgwGJhvGcHeG6O+zqgIfAIsiyPRAPbDPTq1jvHCBlzi5rHVLgzayRv0o7mNNAE2LLhUd0Mg2MOAshr65/vkorejPAO9svsxjxrM0s/ZSA32gscfHD7GOyAMCWzV4fg6Jud8urjrlmyfxuhWWQtO5/+zPLRSpgYCLX1fV+4AYKYdDDRXkPpJnOHf/gYGNc8IeCwy0Vh81BrQ+v/Lpw==
+ bh=lyAFwSxKkzYOyGzDWzSYSdJaIj/udJoIQClTy7MVyYQ=;
+ b=kPW3fd5wM+3ibq/jN37GGm7EGtSscqIxexUvCjZOPLMb/f5uk1Uhk41YHaqbsiDAzogb9tOp/zfaxoRkX68hPbmmLhhcoJVVgdj/Sml/yjBSP87EBHM3OJSXLaMf0W07dm5RhlGKmvEWyqUeS/JG3ScjYQyGlevyARrbXG5Delbjio38vZWJ7rRFm6KOkItHqSqJZJoklQ+JszhCxu0Vm04faZVPs6iRAmQkkNNB9gTmS4WkfVrNSvUGIM+N++UZJrz/30qkc22kTlEP+Ktf4UYVwpg/vTkMnuEMTQ13SkcRiRknNTw50unLgdxFDt0LG2hxGfzpMLcZeQeNGzJ0Aw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BY5PR11MB4152.namprd11.prod.outlook.com (2603:10b6:a03:191::11)
- by PH7PR11MB5885.namprd11.prod.outlook.com (2603:10b6:510:134::22) with
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lyAFwSxKkzYOyGzDWzSYSdJaIj/udJoIQClTy7MVyYQ=;
+ b=IIV3PvBmLQwg8O9ISglCb/CWkIzzbzQd93Lru9u+8s+mh91j9EMvGT8g1Hf5J7zOSCeewZnxJyDAwVtwiHEx2WkxUX0j14bLaAJ7Of+sSGBeDUBrz75l6D3W+Edb7k+KHIppYS4WMFZeeG3lX0vYOfSsHIAlDju348uje2DwnXc=
+Received: from AM7PR08MB5320.eurprd08.prod.outlook.com (2603:10a6:20b:103::24)
+ by AS8PR08MB6182.eurprd08.prod.outlook.com (2603:10a6:20b:291::24) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.18; Mon, 21 Nov
- 2022 06:40:34 +0000
-Received: from BY5PR11MB4152.namprd11.prod.outlook.com
- ([fe80::87c2:e4b3:7962:f4f4]) by BY5PR11MB4152.namprd11.prod.outlook.com
- ([fe80::87c2:e4b3:7962:f4f4%7]) with mapi id 15.20.5834.015; Mon, 21 Nov 2022
- 06:40:33 +0000
-From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
-To: "yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
-	"qa-build-notification@lists.yoctoproject.org"
-	<qa-build-notification@lists.yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.17; Mon, 21 Nov
+ 2022 09:39:58 +0000
+Received: from AM7PR08MB5320.eurprd08.prod.outlook.com
+ ([fe80::ba79:f42e:a934:d12b]) by AM7PR08MB5320.eurprd08.prod.outlook.com
+ ([fe80::ba79:f42e:a934:d12b%4]) with mapi id 15.20.5834.009; Mon, 21 Nov 2022
+ 09:39:58 +0000
+From: Anton Antonov <Anton.Antonov@arm.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Peter Kjellerstedt
+	<peter.kjellerstedt@axis.com>, "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: RE: [yocto] QA notification for completed autobuilder build
- (yocto-4.1.1.rc1)
-Thread-Topic: [yocto] QA notification for completed autobuilder build
- (yocto-4.1.1.rc1)
-Thread-Index: AQHY+Hz2Ui4PD/Kh+0ucQNqDmVuKua5I9u0A
-Date: Mon, 21 Nov 2022 06:40:33 +0000
-Message-ID: <BY5PR11MB4152DEF85C313BE1A4B23329A10A9@BY5PR11MB4152.namprd11.prod.outlook.com>
-References: <01010184785f4742-33e68fde-a27c-4430-8b2f-3c0899f0ac52-000000@us-west-2.amazonses.com>
-In-Reply-To: <01010184785f4742-33e68fde-a27c-4430-8b2f-3c0899f0ac52-000000@us-west-2.amazonses.com>
-Accept-Language: en-US
-Content-Language: en-US
+Subject: Re: [OE-core] [langdale][master][PATCH] rust: Do not use default
+ compiler flags defined in CC crate
+Thread-Topic: [OE-core] [langdale][master][PATCH] rust: Do not use default
+ compiler flags defined in CC crate
+Thread-Index: AQHY+1/drvhiEUgbakGXLpqCRSQQZK5E1dnIgAAK/ICAAJzzgIACNoUAgAFt+ZU=
+Date: Mon, 21 Nov 2022 09:39:58 +0000
+Message-ID: 
+ <AM7PR08MB53201ACDF26AD8F277AF6E15FC0A9@AM7PR08MB5320.eurprd08.prod.outlook.com>
+References: <20221118144253.1156045-1-Anton.Antonov@arm.com>
+	 <7dc90b995d7a9688188b8756871181e46b2e296a.camel@linuxfoundation.org>
+	 <AM7PR08MB53201A46A1080F4AAFA7E318FC099@AM7PR08MB5320.eurprd08.prod.outlook.com>
+	 <8b2ecf15502e08644ffbc1c7cbea6d3862da68a1.camel@linuxfoundation.org>
+	 <4c2db9a4441a470fb1555b68b6bffb62@axis.com>
+ <1d1bbb3fb18bb7b81da38bcafd479ec74dde06e5.camel@linuxfoundation.org>
+In-Reply-To: 
+ <1d1bbb3fb18bb7b81da38bcafd479ec74dde06e5.camel@linuxfoundation.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-GB
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BY5PR11MB4152:EE_|PH7PR11MB5885:EE_
-x-ms-office365-filtering-correlation-id: 2b9c4201-b611-4562-48b7-08dacb8b4a87
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: zAbNMRQGrpLhscM8shGOsC4eAKqCuZXbbSyjoNHEA5sUrKZ501qa1n2/8qj2AhhwTeEpZ6zrj6iVqBNL/BNM/4zcFpH3jV82VK9gTj24d3VRVQ9+PFLbPrLBYO0nSSJE5KSiOb/ZxoR5HbMuO9DXyH3OXZaSWDN9NbOmC1x18zbIrTajVdYiw+D1SRw7oacXY9c1ShiLwykEmmonKabuap1ccDDprcvRiCmX4og+TRmgMwnL65EesbFhJ8H9Q2rNBDZVo2ETUc1dV6UM5IEHbWWxLUAIGViyaEPZxiVGPkGy7K0ZpOxob+QxaxWPjrMUri6mWFbJ/S7DdTPFyHn0+CcCnAhfjIE8gO6K/FRKIwQwXcYSj5R9HCIfC7MvS1cwivqVKtNVGLemdCQBZw4boQd3eISuFCIloeCHXFomAJbEXYJ/0a9yKexrxTOsWjX5EKecYRCRLfdDXZZLfglWWwOweC0je5bKNAucOmpI9BiQzCA0iWVO13R/Qm48GhpziGzKPvcTQE0LjHfcSgaNqMh1Ef5sCuaAJNA9TnJcV5TBVqasIDWcy/8on4kiMkmJcRhpSnArScS7P9Gqt9TVdHEwf2xsNgRwY78KvU8zxVIYC+46l/koDUHJ1UQJDumq2xcQD5Qot+/Ohq8NqvPIyzHrSBl0X/CO1yiCo+yrlqr16sCnh+K98gH5MINOiCw5CBn/8/DtmPeK76SyWq+7UH63RV6kzOZVg7mOZ4InSeAEFztKEzzH9notJinc6x0BLUBIhGqNZLznv9mWpaEnfA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4152.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(136003)(396003)(376002)(346002)(39860400002)(366004)(451199015)(66946007)(66446008)(66476007)(8676002)(76116006)(82960400001)(55016003)(64756008)(38100700002)(15650500001)(66556008)(83380400001)(2906002)(5660300002)(41300700001)(186003)(966005)(122000001)(478600001)(52536014)(8936002)(26005)(86362001)(71200400001)(316002)(38070700005)(110136005)(33656002)(53546011)(9686003)(7696005)(6506007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?2TNoOR2pdgk+rh9YIGufkVkYfO/ukVF4KbcZJ73Jj36drPzGLnGB7VX+yb/u?=
- =?us-ascii?Q?k5FjdClFbq79pn6MTJV/xCbhZCKuAFP1g4Dmz5wtt+HQOuiPgklwhyk4/Jol?=
- =?us-ascii?Q?GeP4ztTGIokZoZv0ignfSiVfXSCL4nV7i2j+7Mr3z2fW+80H9/Ozj2rf8D8u?=
- =?us-ascii?Q?pU5YPclnHqpdNdki82veqipBHucJKF7m4UehZt4hUk1ttjM39CSYbe8n2DDb?=
- =?us-ascii?Q?WuvZbuBpIDALQdxMfwo+3C0Rle4ISTNXQt86aemUYlinXZehqRwybJq6LqQc?=
- =?us-ascii?Q?7GTrnXq+yp45cJC6vuGAkvL/UbsNKeHQx87xiP/6VSRttm7655l/JNXvyVj5?=
- =?us-ascii?Q?/Pq96MjHCVEe8kQbEYICNfejNBF/5qMv+2KqFgryQ6aDBUJeuKiY/kk3CAZt?=
- =?us-ascii?Q?it4JFTeCWRKizK7O6uQk1/G5VVr2btkRFHM+4YoI9aZjOxeBnjPca7dJPjZZ?=
- =?us-ascii?Q?t0XzuoYpjaGBJnaYFKYdmghLDUBCL+Qfzhs2Zgr7h8ALJPzU8zTzL54r3j9c?=
- =?us-ascii?Q?ouwCcS+P3T0pGNOCD0TcJEgPDkxDtp592IMj0SME24JhJQZ0JpWSNDU5K18N?=
- =?us-ascii?Q?ELySPIW2mNTzF6QLbLU/XVoRKLBzj2f4uEIPPZn3X2II984LcK8X9xp3mVrN?=
- =?us-ascii?Q?ik5bSjU0uokKTC7YhYI60clLwWPEjy9ALymzY+V0Hwrc1/2RB5yBjTYDIv7L?=
- =?us-ascii?Q?wnB/yRyr8gadrAte8XZi+s8pTPKnnIiJtr3fvdiHlCaXVyoG7MUqSVbbsFrL?=
- =?us-ascii?Q?+ln9URlJvuj0B9B5slsJIpoeQ7Uw1SK3CMxJ+hcD7DhVqoTGuoIhL+e45XcT?=
- =?us-ascii?Q?hkzfaThA27XOgFGck/7Q5bVPXLPqxP2YOOPoQaPggr9dhmTxxOYjmB+17ySs?=
- =?us-ascii?Q?dWDM+BaAFl9aryFlDbpXgbBFXggJkygSL2o9WdLLBGvxye9+k0nGzPhweKN9?=
- =?us-ascii?Q?cGJCD4ndfh9iNUcyBr/VgYDEpcE3lcFcCAlSIbSkTNYE6IpXvd+H+Er7KBge?=
- =?us-ascii?Q?ZcKo+oT9+DMhwQguRkfo4gugYNtsiB5r6kt8VRFOr4jVsSGUGFfeORjRH45L?=
- =?us-ascii?Q?u7LnD4UQuGm0r+qEkpd5fdJ3gncHiDdc4PF00ZYgiuPrBYWst9CKfxG99AJD?=
- =?us-ascii?Q?v1UmWqijJlRVNfuizmvF1MIIWf+7I98N9ffmUKaDGTsqiawMb5Rg9ATlz+y/?=
- =?us-ascii?Q?YgXJb3PAVKPiIgRvsC0V0QPLnK68uYagRYlFX8p6qmL7rD25yEqefx/tOOTe?=
- =?us-ascii?Q?gkX7R5emZvgGgkLZDG0gWc3aZRex8/JdFqNVQRhHqotgHEfvh/FN47rnXuWE?=
- =?us-ascii?Q?WojQgsm8XkbnQZl1YzIDrtpqC61r1fogGXuqThzVm9HJk9RBm6hRQviTl8wQ?=
- =?us-ascii?Q?IwSwzzYZSbQxPGoGR6RzlhmtUJ7sLbsI7vd7olBUVKx9hAWSGUeWTmskpRL2?=
- =?us-ascii?Q?t0TlXA5vdU3jlenKt7KfmoYr2SE8vtAfICCw/ZYF4SFCLUib/HkxojyDjYVU?=
- =?us-ascii?Q?RR6gRr3p/ly+nLX5z7lu7N7exNCtKzpu8fn1Lxs2T3Qnc+3ysJiEZ6oO6sT9?=
- =?us-ascii?Q?6rcAJ1tW116Re+aDdhR9VMg6Wc6zJj4d9Ah6GORh?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	AM7PR08MB5320:EE_|AS8PR08MB6182:EE_|DBAEUR03FT010:EE_|AS8PR08MB6263:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3edac49c-1797-40cb-3362-08dacba46003
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ X3zuXjPnVh6LVmjv4TEXS9v1CTAEFPFSbJwgkyJ3TlAXazZt45n3y+HOCot+/Q1yUVesx06bYieZamV41EaXMJ1TdgpXAmFMav3zwtpdC/dZvGmw/7BtmzcE50g5SAUdfavP8c3OHGv7MBoX82/ZxdKGQBs1d4yxFv9pMSPqGV01vb+sOcOcY2XdpSbLSJG59nH0tnrOfJmp+J03wQQpNStPrsS+UVvcftfgGmLcjGAQSJdOK8m4XOGtuSuEqeFm1ik5B0CCYt7yM7vjFwt/nuAIs1xtLu7YLeHV9ny5UJ7IoWdOV66/tGtm7GUnDj85bLoC1iKfQtVSNNK5NVyK4NTWgMpdFcSTSRUJbJoBs3UoVNAjkXa+C8S3enrp3M/gnbWagMGm3PamBI4gsKfNSnvy6OAm+76QkcZ/SMK88t/6iVfwbff15MB9IOLLN7HGvIiUnubLBWO2BLKGW9kc7HERSIkvXafJne6D2F9zo/PEPzXnsyn/ouh5Bh/T0CormNzpW9O4vK6/Ej1VlWHxiNOm5vqlfky0c8eNi4Ov77FFndjyTJn7ut9lPWMyj480K3eqYvQUtA2/kSYeM61ZdtD1gZPw3rfxlt0F1mGktk91c7S6izwREQJPVnQ1c9tA90hFZfYViYEvNhAvgz9qSQ5pdMr9ejhrBKmJhCGsEQT51gHQlmFNgGp9o506gvrL7M6DpHlETx8PxWwmc3JMk6Bw3ht1SrCjnAf6tlGg69Q=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR08MB5320.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(376002)(136003)(396003)(39860400002)(366004)(451199015)(41300700001)(9326002)(8936002)(5660300002)(316002)(66446008)(66946007)(64756008)(66476007)(66556008)(76116006)(8676002)(52536014)(91956017)(71200400001)(478600001)(2906002)(122000001)(53546011)(55236004)(9686003)(6506007)(7696005)(966005)(186003)(110136005)(4001150100001)(26005)(33656002)(38100700002)(38070700005)(166002)(83380400001)(55016003)(86362001);DIR:OUT;SFP:1101;
+Content-Type: multipart/alternative;
+	boundary="_000_AM7PR08MB53201ACDF26AD8F277AF6E15FC0A9AM7PR08MB5320eurp_"
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4152.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2b9c4201-b611-4562-48b7-08dacb8b4a87
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Nov 2022 06:40:33.6994
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6182
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DBAEUR03FT010.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	a4478341-8d37-44d8-65a6-08dacba45a96
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	PQ43BNyykxm3CQo0era9qa/p0ymsg1odY8raY39yfeBeGxdb6Xo9D1rN6PHLgHkfyN2OoZjB7brI+L2nm87gl1Ov2PDNQ4D13guNOvcnS2nb//6WSvvj8N3ndxK91jZDx4pw0u7gOs+e8gHMDs78GBtSZ7S6mvsXlQxw21TKlei8aGHyEPm3uAuOadpYzMo9GYcLP0T4147idh8dbRKpIXvyLYfJXjQaKCNkGNQdfXLLGuwDFLQjVAOxjvkyr8VXPHI+w07HNgNiLq+Ras4hjrqT2jzNM9Kj+ZQu/RCOHfijBAz6i2lAknRHgJfB4ABWj4LZDEHQj7j9bJH6y4k+m+H6BTFkyWuVDCb2qTBvI+NQlTTMttcBHCvZHOY//Z84WTJPfe01sB1chSiXEnQwLHflOby5TX1rMuESiUWo148JbINvv/Giro0fvDEgKJmBlGsM6FZB5de0dr2Ifzs4ght7d+jk3pHa3aARKQaBqfAZ8e5oWgVecyLFBFpCu+Tt7VMoopkC29Vex4lhdv7De0M8z9CFez5DvPgAMcWmJEQPM3UjJklA6GVG4ew/yrGBXgmEDZZYejYkusmUFF0lHxv/82NzzqX1YGUJECsw6HtRcrii9Gm25FVtNcOlvAoa6yKo61KtJk07tMVqQuiPBEt0n8jKfCiON/gXwVJc5BTd1hhwt+jwHtt+fCRbNqRrhiT19Gb1dW5ywv8REpJMLWLt2Y6RwcD1RZXwFx/Y2Gc=
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230022)(4636009)(376002)(396003)(39860400002)(346002)(136003)(451199015)(40470700004)(46966006)(36840700001)(186003)(336012)(6506007)(47076005)(7696005)(26005)(9686003)(110136005)(53546011)(966005)(2906002)(478600001)(40480700001)(40460700003)(86362001)(166002)(356005)(55016003)(82740400003)(83380400001)(81166007)(33656002)(82310400005)(36860700001)(8936002)(9326002)(4001150100001)(41300700001)(70206006)(52536014)(8676002)(70586007)(5660300002)(316002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2022 09:40:07.2244
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: c/DB7eYpdzVdW6p2VcJVZ/NYGGCUo7T1Y+xuan3k8Z/KXI9pkMK/SZi4Y5KvekUFLCK/uhH1wnqexfDz+g+RvA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB5885
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3edac49c-1797-40cb-3362-08dacba46003
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DBAEUR03FT010.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6263
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Nov 2022 06:40:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173646
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Nov 2022 09:40:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173647
 
-Hi All,
-=20
-QA for yocto-4.11.rc1 is completed. This is the full report for this releas=
-e: =20
-https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?=
-h=3Dintel-yocto-testresults
-=20
-=3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D
-No high milestone defects.
-=20
-No new issue found.=20
-=20
-Thanks,
-Jing Hui
+--_000_AM7PR08MB53201ACDF26AD8F277AF6E15FC0A9AM7PR08MB5320eurp_
+Content-Type: text/plain; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Richard,
 
-> -----Original Message-----
-> From: yocto@lists.yoctoproject.org <yocto@lists.yoctoproject.org> On
-> Behalf Of Pokybuild User
-> Sent: Tuesday, 15 November, 2022 7:00 AM
-> To: yocto@lists.yoctoproject.org
-> Cc: qa-build-notification@lists.yoctoproject.org
-> Subject: [yocto] QA notification for completed autobuilder build (yocto-
-> 4.1.1.rc1)
->=20
->=20
-> A build flagged for QA (yocto-4.1.1.rc1) was completed on the autobuilder
-> and is available at:
->=20
->=20
->     https://autobuilder.yocto.io/pub/releases/yocto-4.1.1.rc1
->=20
->=20
-> Build hash information:
->=20
-> bitbake: 138dd7883ee2c521900b29985b6d24a23d96563c
-> meta-agl: e5dd276442a8c9268a8818a638b07ee96383b657
-> meta-arm: ff9b6f29bf4a6e3fcead5c1025a413cffee7bc53
-> meta-aws: 8537180c8645455ee2b57c696389df21fc17f63a
-> meta-intel: f70cf173dc40131e5ed3955a4a459fff3aa010ed
-> meta-mingw: b0067202db8573df3d23d199f82987cebe1bee2c
-> meta-openembedded: c5668905a6d8a78fb72c2cbf8b20e91e686ceb86
-> meta-virtualization: 8857b36ebfec3d548755755b009adc491ef320ab
-> oecore: 9237ffc4feee2dd6ff5bdd672072509ef9e82f6d
-> poky: d3cda9a3e0837eb2ac5482f5f2bd8e55e874feff
->=20
->=20
->=20
-> This is an automated message from the Yocto Project Autobuilder
-> Git: git://git.yoctoproject.org/yocto-autobuilder2
-> Email: richard.purdie@linuxfoundation.org
->=20
->=20
->=20
+   Are you happy to accept my initial patch as it?
+
+Cheers,
+Anton
+
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Sunday, 20 November 2022 at 11:45
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Anton Antonov <Anton.=
+Antonov@arm.com>, openembedded-core@lists.openembedded.org <openembedded-co=
+re@lists.openembedded.org>
+Subject: Re: [OE-core] [langdale][master][PATCH] rust: Do not use default c=
+ompiler flags defined in CC crate
+On Sat, 2022-11-19 at 01:57 +0000, Peter Kjellerstedt wrote:
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org
+> > <openembedded-core@lists.openembedded.org> On Behalf Of Richard
+> > Purdie
+> > Sent: den 18 november 2022 17:36
+> > To: Anton Antonov <Anton.Antonov@arm.com>;
+> > openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core] [langdale][master][PATCH] rust: Do not use
+> > default compiler flags defined in CC crate
+> >
+> > On Fri, 2022-11-18 at 16:21 +0000, Anton Antonov wrote:
+> > >   I=92ve tested your approach. It doesn=92t work for whatever reason.
+> > > CRATE_CC_NO_DEFAULTS is empty exported for native recipes:
+> > >
+> > > $ MACHINE=3Dqemuarm bitbake rust-native -e |grep
+> > > CRATE_CC_NO_DEFAULTS
+> > > # $CRATE_CC_NO_DEFAULTS [3 operations]
+> > > #     [export] "${'1' if d.getVar('CRATE_CC_NO_DEFAULTS') =3D=3D
+> > > 'true' else '0'}"
+> > > export CRATE_CC_NO_DEFAULTS=3D""
+> > > # $CRATE_CC_NO_DEFAULTS:class-native
+> > > CRATE_CC_NO_DEFAULTS:class-native=3D""
+> > >
+> > >
+> > >   I also tried:
+> > > CRATE_CC_NO_DEFAULTS[export] =3D
+> > > "${@oe.utils.conditional('CRATE_CC_NO_DEFAULTS', '', '0', '1',
+> > > d)}"
+> > > with the same result =96 empty export.
+> >
+> > I think it might need to be 0 or "" instead of '0'. It would be
+> > nice if
+> > we could make False work too but I worry that might not.
+> >
+> > Cheers,
+> >
+> > Richard
+>
+> None of this will work unless you change the code in
+> bitbake/lib/bb/data.py
+> to use d.getVarFlag(var, "export") instead of d.getVarFlag(var,
+> "export", False).
+> However, I assume that is not wanted given that support for
+> foo[unexport] =3D "1"
+> was introduced to counteract a foo[export] =3D "1".
+
+Good point, which reminds me why the code does this. Expanding the
+value for all export variables would have a significant effect on some
+performance sensitive code :(.
+
+From memory I think there was a bit more to unexport than that. Looking
+at the history:
+
+https://git.yoctoproject.org/poky/commit/?id=3D0da3c82a66e02bf2d3780e23427d=
+476766a0bcfc
+
+I think it wasn't enough just to not export some things, we wanted to
+actually unset them in the shell environment.
+
+We may have later done more environment cleaning which made this
+unnecessary, less sure about that. I did remove a lot of the unexports
+(e.g. MACHINE and DISTRO) but SHELL[unexport] =3D "1" remains.
+
+Cheers,
+
+Richard
+
+--_000_AM7PR08MB53201ACDF26AD8F277AF6E15FC0A9AM7PR08MB5320eurp_
+Content-Type: text/html; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:o=3D"urn:schemas-microsoft-com:office:office" xmlns:w=3D"urn:sc=
+hemas-microsoft-com:office:word" xmlns:m=3D"http://schemas.microsoft.com/of=
+fice/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
+252">
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Times New Roman \(Body CS\)";
+	panose-1:2 11 6 4 2 2 2 2 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+span.EmailStyle19
+	{mso-style-type:personal-reply;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style>
+</head>
+<body lang=3D"EN-GB" link=3D"blue" vlink=3D"purple" style=3D"word-wrap:brea=
+k-word">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US">Hi Richar=
+d,<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US"><o:p>&nbs=
+p;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US">&nbsp;&nb=
+sp; Are you happy to accept my initial patch as it?<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US"><o:p>&nbs=
+p;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US">Cheers,<o=
+:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US">Anton<o:p=
+></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US"><o:p>&nbs=
+p;</o:p></span></p>
+<div style=3D"border:none;border-top:solid #B5C4DF 1.0pt;padding:3.0pt 0cm =
+0cm 0cm">
+<p class=3D"MsoNormal" style=3D"margin-bottom:12.0pt"><b><span style=3D"fon=
+t-size:12.0pt;color:black">From:
+</span></b><span style=3D"font-size:12.0pt;color:black">Richard Purdie &lt;=
+richard.purdie@linuxfoundation.org&gt;<br>
+<b>Date: </b>Sunday, 20 November 2022 at 11:45<br>
+<b>To: </b>Peter Kjellerstedt &lt;peter.kjellerstedt@axis.com&gt;, Anton An=
+tonov &lt;Anton.Antonov@arm.com&gt;, openembedded-core@lists.openembedded.o=
+rg &lt;openembedded-core@lists.openembedded.org&gt;<br>
+<b>Subject: </b>Re: [OE-core] [langdale][master][PATCH] rust: Do not use de=
+fault compiler flags defined in CC crate<o:p></o:p></span></p>
+</div>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-bottom:12.0pt">On Sat, 2022-11-19 at=
+ 01:57 +0000, Peter Kjellerstedt wrote:<br>
+&gt; &gt; -----Original Message-----<br>
+&gt; &gt; From: openembedded-core@lists.openembedded.org<br>
+&gt; &gt; &lt;openembedded-core@lists.openembedded.org&gt; On Behalf Of Ric=
+hard<br>
+&gt; &gt; Purdie<br>
+&gt; &gt; Sent: den 18 november 2022 17:36<br>
+&gt; &gt; To: Anton Antonov &lt;Anton.Antonov@arm.com&gt;;<br>
+&gt; &gt; openembedded-core@lists.openembedded.org<br>
+&gt; &gt; Subject: Re: [OE-core] [langdale][master][PATCH] rust: Do not use=
+<br>
+&gt; &gt; default compiler flags defined in CC crate<br>
+&gt; &gt; <br>
+&gt; &gt; On Fri, 2022-11-18 at 16:21 +0000, Anton Antonov wrote:<br>
+&gt; &gt; &gt; &nbsp; I=92ve tested your approach. It doesn=92t work for wh=
+atever reason.<br>
+&gt; &gt; &gt; CRATE_CC_NO_DEFAULTS is empty exported for native recipes:<b=
+r>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; $ MACHINE=3Dqemuarm bitbake rust-native -e |grep<br>
+&gt; &gt; &gt; CRATE_CC_NO_DEFAULTS<br>
+&gt; &gt; &gt; # $CRATE_CC_NO_DEFAULTS [3 operations]<br>
+&gt; &gt; &gt; #&nbsp;&nbsp;&nbsp;&nbsp; [export] &quot;${'1' if d.getVar('=
+CRATE_CC_NO_DEFAULTS') =3D=3D<br>
+&gt; &gt; &gt; 'true' else '0'}&quot;<br>
+&gt; &gt; &gt; export CRATE_CC_NO_DEFAULTS=3D&quot;&quot;<br>
+&gt; &gt; &gt; # $CRATE_CC_NO_DEFAULTS:class-native<br>
+&gt; &gt; &gt; CRATE_CC_NO_DEFAULTS:class-native=3D&quot;&quot;<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; &nbsp; I also tried:<br>
+&gt; &gt; &gt; CRATE_CC_NO_DEFAULTS[export] =3D<br>
+&gt; &gt; &gt; &quot;${@oe.utils.conditional('CRATE_CC_NO_DEFAULTS', '', '0=
+', '1',<br>
+&gt; &gt; &gt; d)}&quot;<br>
+&gt; &gt; &gt; with the same result =96 empty export.<br>
+&gt; &gt; <br>
+&gt; &gt; I think it might need to be 0 or &quot;&quot; instead of '0'. It =
+would be<br>
+&gt; &gt; nice if<br>
+&gt; &gt; we could make False work too but I worry that might not.<br>
+&gt; &gt; <br>
+&gt; &gt; Cheers,<br>
+&gt; &gt; <br>
+&gt; &gt; Richard<br>
+&gt; <br>
+&gt; None of this will work unless you change the code in<br>
+&gt; bitbake/lib/bb/data.py <br>
+&gt; to use d.getVarFlag(var, &quot;export&quot;) instead of d.getVarFlag(v=
+ar,<br>
+&gt; &quot;export&quot;, False).<br>
+&gt; However, I assume that is not wanted given that support for<br>
+&gt; foo[unexport] =3D &quot;1&quot; <br>
+&gt; was introduced to counteract a foo[export] =3D &quot;1&quot;.<br>
+<br>
+Good point, which reminds me why the code does this. Expanding the<br>
+value for all export variables would have a significant effect on some<br>
+performance sensitive code :(.<br>
+<br>
+From memory I think there was a bit more to unexport than that. Looking<br>
+at the history:<br>
+<br>
+<a href=3D"https://git.yoctoproject.org/poky/commit/?id=3D0da3c82a66e02bf2d=
+3780e23427d476766a0bcfc">https://git.yoctoproject.org/poky/commit/?id=3D0da=
+3c82a66e02bf2d3780e23427d476766a0bcfc</a><br>
+<br>
+I think it wasn't enough just to not export some things, we wanted to<br>
+actually unset them in the shell environment.<br>
+<br>
+We may have later done more environment cleaning which made this<br>
+unnecessary, less sure about that. I did remove a lot of the unexports<br>
+(e.g. MACHINE and DISTRO) but SHELL[unexport] =3D &quot;1&quot; remains.<br=
+>
+<br>
+Cheers,<br>
+<br>
+Richard<o:p></o:p></p>
+</div>
+</div>
+</body>
+</html>
+
+--_000_AM7PR08MB53201ACDF26AD8F277AF6E15FC0A9AM7PR08MB5320eurp_--
 
