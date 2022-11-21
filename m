@@ -1,383 +1,198 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ECFEC4332F
-	for <webhook@archiver.kernel.org>; Mon, 21 Nov 2022 15:17:08 +0000 (UTC)
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
- by mx.groups.io with SMTP id smtpd.web11.41152.1669043822630334471
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96C4FC4332F
+	for <webhook@archiver.kernel.org>; Mon, 21 Nov 2022 16:27:18 +0000 (UTC)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web10.43348.1669048034260124724
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Nov 2022 07:17:02 -0800
+ Mon, 21 Nov 2022 08:27:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=okxYd4ms;
- spf=pass (domain: gmail.com, ip: 209.85.210.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f49.google.com with SMTP id t19-20020a9d7753000000b0066d77a3d474so7493456otl.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Nov 2022 07:17:02 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=T6Kl8p4q;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: jpewhacker@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id bj12so29680849ejb.13
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Nov 2022 08:27:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=kPeqbIp8FpnaUvzGq/3umDJIfzgdirvWYACXYFNF2kI=;
-        b=okxYd4msf+kom2TYTDnq27MGTYcK7iYTBWK/mqVNeh1gB2icoRPZSNWHThiP7qmBuy
-         Q+9HFw+Xg4nzuVXE9MmCCuMUcdJVecRNT9BCGSoF3D96YZF9N44pPVmAjWziqr6lcqyE
-         LzAUmJuy8bKsdacwf7QuUxvu5N68KGhS1g5WD379/3Yemsl9zeH+C4x2rp5n//wfv67t
-         hfRKj0AzoqXbu0eCKQh3RxKNVivDtQfL4ewbgW4Hh1ukDuMNoTqrratTJrZEa9UrFZnU
-         pm4miAnGjtBE6/dWVhphBtEPCrIC/PBV9YNo1SbmpMP8rtGYbxczpGkQF0aYtr85vbT0
-         DlcA==
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tS6ARHeBUGKnpV1zGE1kXfKX5Sr8SP2mPPs6vuEje+E=;
+        b=T6Kl8p4qiEOXrNuOnR3fgWegvo0SwmQKrB8Gn/HZS6wyu5mbLM0mmWld8o+EblYOmE
+         hcXzPR2AvK6oyS3znjQRTdeRkedL/GUkZeRQ1TS8fLZ7M1e7IgpGFu4hawPpumGP5VzH
+         8vfQziKazy+Ov0Zvo6yaOTspKmx6EvM/rL1Wk+/bExVgHqphDfSBlfmEPTqqqpAPp3fU
+         Ri4VzhwSUVvnWKUcW1RSpQqcEedJOUyW4oGgAtn2iJxKuj7/IJasHDmky7qyVSxUw3RG
+         LcCszIHkUzDwDpW/862pZcpPNPwSR939HZAT3S2hO6V/Hfnkf8Zf/NNa41wHREXVC/aU
+         2Erg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kPeqbIp8FpnaUvzGq/3umDJIfzgdirvWYACXYFNF2kI=;
-        b=5ZXf9gqteCNOHSTMF0W0UkkiKmyCqiXZBBhnIauaYSlSkMdtqRyFnffV7dXe7+Sd3j
-         /jCHdD0JXAoziPjtZzYxFzzKvWr4qLUpI2NLIJLmvN5brbJ51HvW7iquEHSWkAQomr5C
-         wpAvXYMhHfpkga6HyvrdcXdeNFyvrOttTYV+Hw5NEdCNgOZAKxuA0hfosFxwtsz3Krxg
-         5pLjzMtB5n351r1+e80QcK1qHfF32lLu4U08butTWTExYYUPfCQ33Wq18cC+JvrQBnSg
-         TjSIbZpNB37PNwJqpXQv6cRZk/FvoDIog/N4uG/SoRsViSVXJSpLgY+7KHfDc43pepnv
-         18ag==
-X-Gm-Message-State: ANoB5pk/wOlIuYZaFZ8Ve3dJYx+DkvllDQqfYVKIoLBmvfpiRMMO7UUc
-	dC5eIL/hfISzvh/H84ZnE07DkCsHswxlKMo8Btg=
-X-Google-Smtp-Source: AA0mqf7kKlRV91TUcFsRV5pQkAjU7DJT0yp3Zx3BZ6Ke/3wmDqcDfqOfDfppwL3hT5EsSiyqCL+nkeSBQWMS/S2tIF4=
-X-Received: by 2002:a9d:6486:0:b0:66d:ca7a:8b1a with SMTP id
- g6-20020a9d6486000000b0066dca7a8b1amr1508835otl.55.1669043820916; Mon, 21 Nov
- 2022 07:17:00 -0800 (PST)
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tS6ARHeBUGKnpV1zGE1kXfKX5Sr8SP2mPPs6vuEje+E=;
+        b=UPoIlT3rAX9BYf09/SNWIfh+t7XMxugOMlAhyjVlilYYOJUtU2LysVsy80frHTDtv7
+         /9z85JIaqozOKT4PIzeynF/S2KN7PJ0YfcLY5jVQqiYcFraOPyJlpTh+Skk/W+yiUwrb
+         iCHXHdz5fhlSb5tYs/k9YcyP9N1WFv+oWfD8vKQTJLPBRCTj5rhqdwDHw7cAq9h/dqKz
+         wNGk39sVj65nUhRQ/+U4JXfmInetP9egZbwWEbHsZ4tp0gCrJtHUQA7ZRKh7HBpvNJls
+         yquKyRNdRMjhlKyFQZ+T6Ov/VgRKvyJpq5EdA5KbSk9wF7QH55YBE2LF4NBFr2lS+PPf
+         8dGg==
+X-Gm-Message-State: ANoB5pnjtO+KvrudUkCjhn4Gm6juLbGwGtTd4j6/jdaYtSns72G5M4Rl
+	JHq4PGhJZ5C74r5w7ViJQ6GIAvAUHX1t1NNn8STGZ48plxo=
+X-Google-Smtp-Source: AA0mqf76/sdzgH8G2LwlXA32I3FdygE7uvDGDsIjEydwODk0zEDeWthvEHPM7asumFlPST2ksEo+YNuqobyja6Ja09g=
+X-Received: by 2002:a17:906:590e:b0:78d:5176:c4d2 with SMTP id
+ h14-20020a170906590e00b0078d5176c4d2mr15955125ejq.532.1669048032194; Mon, 21
+ Nov 2022 08:27:12 -0800 (PST)
 MIME-Version: 1.0
-References: <20221120175237.194899-1-f_l_k@t-online.de> <CAMKF1spErHg3JX+DFRLcW4EthTGBMm4A24XsyAVOO3RNr6Wgfw@mail.gmail.com>
- <CANNYZj-UTuxW0-Rr7FhgjwE007Gr28Pc5ZCo=cnrDcaNsuZStw@mail.gmail.com>
-In-Reply-To: <CANNYZj-UTuxW0-Rr7FhgjwE007Gr28Pc5ZCo=cnrDcaNsuZStw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 21 Nov 2022 07:16:49 -0800
-Message-ID: <CAMKF1srs_tmRRNqWQAmBKOkJkfysJt=OZjefq_mPd4htPGi6VA@mail.gmail.com>
-Subject: Re: [oe-core][PATCH] python3: add ${bindir}/python symlink
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Markus Volk <f_l_k@t-online.de>, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000000f87b805edfc8c16"
+References: <20221021181451.120630-1-JPEWhacker@gmail.com>
+In-Reply-To: <20221021181451.120630-1-JPEWhacker@gmail.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Mon, 21 Nov 2022 10:27:00 -0600
+Message-ID: <CAJdd5GbvTbdR_cLJm9oj1zAJdhYR_k3Jfk-yyfw4TPv29_uj6g@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] qemu-helper-native: Re-write bridge helper as C program
+To: openembedded-core@lists.openembedded.org, 
+	Steve Sakoman <steve@sakoman.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Nov 2022 15:17:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173655
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Nov 2022 16:27:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173656
 
---0000000000000f87b805edfc8c16
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Steve,
 
-On Sun, Nov 20, 2022 at 3:56 PM Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
+Please backport this to Langdale
 
-> Python community has no plans for python4 whatsoever. Anything but gentle
-> and steady evolution won=E2=80=99t be well received.
+On Fri, Oct 21, 2022 at 1:14 PM Joshua Watt <jpewhacker@gmail.com> wrote:
 >
+> The bridge helper program is invoked directly from QEMU when it needs to
+> attach to a network bridge. As such, it is subject to the environment of
+> QEMU itself. Specifically, if bridging is enabled with direct rendering
+> acceleration, QEMU is run with an LD_PRELOAD that attempts to preload
+> several uninative libraries; however /bin/sh doesn't use the uninative
+> loader which means it can fail to start with an error like:
 >
-> https://www.techrepublic.com/article/programming-languages-why-python-4-0=
--will-probably-never-arrive-according-to-its-creator/
+>  /bin/sh: symbol lookup error: sysroots-uninative/x86_64-linux/lib/librt.so.1: undefined symbol: __libc_unwind_link_get, version GLIBC_PRIVATE
 >
-
-Good news article although it does not say that python3 and python are
-analogous and python package does not explicitly install python binary or
-symlink either so it=E2=80=99s left up to how distros want to presume it. I=
-f we
-want to do that then it would be prudent to see what other distributions
-are doing in this regard. So we are not alone in case trouble arises
-
+> Converting the helper program to a C program resolves this problem
+> because it will now use the uninative loader so the preload doesn't
+> cause errors.
 >
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> ---
+>  .../qemu/qemu-helper-native_1.0.bb            |  6 +--
+>  .../qemu/qemu-helper/qemu-oe-bridge-helper    | 25 -----------
+>  .../qemu/qemu-helper/qemu-oe-bridge-helper.c  | 41 +++++++++++++++++++
+>  3 files changed, 44 insertions(+), 28 deletions(-)
+>  delete mode 100755 meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper
+>  create mode 100644 meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper.c
 >
-> Alex
+> diff --git a/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb b/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
+> index aa9e499c77..e297586bbb 100644
+> --- a/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
+> +++ b/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
+> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/tunctl.c;endline=4;md5=ff3a09996bc5fff6bc5
 >
-> On Mon 21. Nov 2022 at 0.17, Khem Raj <raj.khem@gmail.com> wrote:
+>  SRC_URI = "\
+>      file://tunctl.c \
+> -    file://qemu-oe-bridge-helper \
+> +    file://qemu-oe-bridge-helper.c \
+>      "
 >
->>
->>
->> On Sun, Nov 20, 2022 at 9:52 AM Markus Volk <f_l_k@t-online.de> wrote:
->>
->>> Currently /usr/bin/python is provided by the python2 package. If python=
-2
->>> is not installed, the built image lacks a provider for it.
->>> This results in failed scripts when using '/usr/bin/python' shebang.
->>>
->>> This patch adds a /usr/bin/python symlink for python3 to fix this issue=
-.
->>> For images containing python2 and python3, the do_rootfs task will fail
->>> because now both of them provide the same file.
->>> To allow this corner case, a DISTRO_FEATURE 'python2' has been
->>> introduced which,
->>> if set, will prevent python3 from creating the symlink.
->>>
->>> The link is created with relative path because using an absolute path
->>> would fail
->>> for native and nativesdk.
->>
->>
->> What happens if and when python4 comes ?
->> This might get us into same mess we had migrating python2 to 3
->>
->>
->>>
->>> Signed-off-by: Markus Volk <f_l_k@t-online.de>
->>> ---
->>>  meta/recipes-devtools/python/python3/python3-manifest.json | 1 +
->>>  meta/recipes-devtools/python/python3_3.11.0.bb             | 4 ++++
->>>  2 files changed, 5 insertions(+)
->>>
->>> diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json
->>> b/meta/recipes-devtools/python/python3/python3-manifest.json
->>> index 64203cf0fc..7b6f509a45 100644
->>> --- a/meta/recipes-devtools/python/python3/python3-manifest.json
->>> +++ b/meta/recipes-devtools/python/python3/python3-manifest.json
->>> @@ -203,6 +203,7 @@
->>>          "files": [
->>>              "${bindir}/python${PYTHON_MAJMIN}",
->>>              "${bindir}/python${PYTHON_MAJMIN}.real",
->>> +            "${bindir}/python",
->>>              "${bindir}/python3",
->>>              "${includedir}/python${PYTHON_MAJMIN}/pyconfig*.h",
->>>              "${libdir}/python${PYTHON_MAJMIN}/UserDict.py",
->>> diff --git a/meta/recipes-devtools/python/python3_3.11.0.bb
->>> b/meta/recipes-devtools/python/python3_3.11.0.bb
->>> index 92a1f69320..18b631f79d 100644
->>> --- a/meta/recipes-devtools/python/python3_3.11.0.bb
->>> +++ b/meta/recipes-devtools/python/python3_3.11.0.bb
->>> @@ -144,6 +144,7 @@ do_install:prepend() {
->>>
->>>  do_install:append:class-target() {
->>>          oe_multilib_header python${PYTHON_MAJMIN}/pyconfig.h
->>> +        ${@bb.utils.contains('DISTRO_FEATURES', 'python2', '', 'ln -sf
->>> ./python3 ${D}${bindir}/python', d)}
->>>  }
->>>
->>>  do_install:append:class-native() {
->>> @@ -156,6 +157,7 @@ do_install:append:class-native() {
->>>          # (these often end up too long for the #! parser in the kernel
->>> as the
->>>          # buffer is 128 bytes long).
->>>          ln -s python3-native/python3 ${D}${bindir}/nativepython3
->>> +        ${@bb.utils.contains('DISTRO_FEATURES', 'python2', '', 'ln -sf
->>> ./python3-native/python3 ${D}${bindir}/nativepython', d)}
->>>
->>>          # Remove the opt-1.pyc and opt-2.pyc files. There are over
->>> 3,000 of them
->>>          # and the overhead in each recipe-sysroot-native isn't worth
->>> it, particularly
->>> @@ -213,6 +215,7 @@ do_install:append() {
->>>  }
->>>
->>>  do_install:append:class-nativesdk () {
->>> +    ${@bb.utils.contains('DISTRO_FEATURES', 'python2', '', 'ln -sf
->>> ./python3 ${D}${bindir}/python', d)}
->>>      # Make sure we use /usr/bin/env python
->>>      for PYTHSCRIPT in `grep -rIl ${bindir}/python ${D}${bindir}`; do
->>>           sed -i -e '1s|^#!.*|#!/usr/bin/env python3|' $PYTHSCRIPT
->>> @@ -376,6 +379,7 @@ RRECOMMENDS:${PN}-crypt:append:class-nativesdk =3D =
-"
->>> ${MLPREFIX}openssl ${MLPREFIX
->>>
->>>  # For historical reasons PN is empty and provided by python3-modules
->>>  FILES:${PN} =3D ""
->>> +RPROVIDES:${PN} =3D "${@bb.utils.contains('DISTRO_FEATURES', 'python2'=
-,
->>> '', '${bindir}/python', d)}"
->>>  RPROVIDES:${PN}-modules =3D "${PN}"
->>>
->>>  FILES:${PN}-pydoc +=3D "${bindir}/pydoc${PYTHON_MAJMIN} ${bindir}/pydo=
-c3"
->>> --
->>> 2.34.1
->>>
->>>
->>>
->>>
->>>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->>
-> View/Reply Online (#173642):
->> https://lists.openembedded.org/g/openembedded-core/message/173642
->> Mute This Topic: https://lists.openembedded.org/mt/95156228/1686489
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
->> alex.kanavin@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
->>
-
---0000000000000f87b805edfc8c16
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Sun, Nov 20, 2022 at 3:56 PM Alexander Kanavin &lt;<a hr=
-ef=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex"><div dir=3D"auto">Python community =
-has no plans for python4 whatsoever. Anything but gentle and steady evoluti=
-on won=E2=80=99t be well received.</div><div dir=3D"auto"><br></div><div di=
-r=3D"auto"><div><a href=3D"https://www.techrepublic.com/article/programming=
--languages-why-python-4-0-will-probably-never-arrive-according-to-its-creat=
-or/" target=3D"_blank">https://www.techrepublic.com/article/programming-lan=
-guages-why-python-4-0-will-probably-never-arrive-according-to-its-creator/<=
-/a></div></div></blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">G=
-ood news article although it does not say that python3 and python are analo=
-gous and python package does not explicitly install python binary or symlin=
-k either so it=E2=80=99s left up to how distros want to presume it. If we w=
-ant to do that then it would be prudent to see what other distributions are=
- doing in this regard. So we are not alone in case trouble arises=C2=A0</di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex"><div dir=3D"auto"><br></div><div dir=3D"au=
-to"><br></div><div dir=3D"auto">Alex</div><div><br><div class=3D"gmail_quot=
-e"></div></div><div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gm=
-ail_attr">On Mon 21. Nov 2022 at 0.17, Khem Raj &lt;<a href=3D"mailto:raj.k=
-hem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br></div=
-></div></div><div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-sty=
-le:solid;padding-left:1ex;border-left-color:rgb(204,204,204)"></blockquote>=
-</div></div><div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-styl=
-e:solid;padding-left:1ex;border-left-color:rgb(204,204,204)"><div><br></div=
-><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">=
-On Sun, Nov 20, 2022 at 9:52 AM Markus Volk &lt;<a href=3D"mailto:f_l_k@t-o=
-nline.de" target=3D"_blank">f_l_k@t-online.de</a>&gt; wrote:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-=
-width:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(20=
-4,204,204)">Currently /usr/bin/python is provided by the python2 package. I=
-f python2<br>
-is not installed, the built image lacks a provider for it.<br>
-This results in failed scripts when using &#39;/usr/bin/python&#39; shebang=
-.<br>
-<br>
-This patch adds a /usr/bin/python symlink for python3 to fix this issue.<br=
+>  S = "${WORKDIR}"
+> @@ -16,13 +16,13 @@ inherit native
 >
-For images containing python2 and python3, the do_rootfs task will fail<br>
-because now both of them provide the same file.<br>
-To allow this corner case, a DISTRO_FEATURE &#39;python2&#39; has been intr=
-oduced which,<br>
-if set, will prevent python3 from creating the symlink.<br>
-<br>
-The link is created with relative path because using an absolute path would=
- fail<br>
-for native and nativesdk.</blockquote><div dir=3D"auto"><br></div><div dir=
-=3D"auto">What happens if and when python4 comes ?</div><div dir=3D"auto">T=
-his might get us into same mess we had migrating python2 to 3</div></div></=
-div><div><div class=3D"gmail_quote"><div dir=3D"auto"><br></div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:=
-1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,=
-204)" dir=3D"auto"><br>
-<br>
-Signed-off-by: Markus Volk &lt;<a href=3D"mailto:f_l_k@t-online.de" target=
-=3D"_blank">f_l_k@t-online.de</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/python/python3/python3-manifest.json | 1 +<br>
-=C2=A0meta/recipes-devtools/python/<a href=3D"http://python3_3.11.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">python3_3.11.0.bb</a>=C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0| 4 ++++<br>
-=C2=A02 files changed, 5 insertions(+)<br>
-<br>
-diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/m=
-eta/recipes-devtools/python/python3/python3-manifest.json<br>
-index 64203cf0fc..7b6f509a45 100644<br>
---- a/meta/recipes-devtools/python/python3/python3-manifest.json<br>
-+++ b/meta/recipes-devtools/python/python3/python3-manifest.json<br>
-@@ -203,6 +203,7 @@<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;files&quot;: [<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;${bindir}/python${PYT=
-HON_MAJMIN}&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;${bindir}/python${PYT=
-HON_MAJMIN}.real&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;${bindir}/python&quot;,<br=
+>  do_compile() {
+>         ${CC} ${CFLAGS} ${LDFLAGS} -Wall tunctl.c -o tunctl
+> +       ${CC} ${CFLAGS} ${LDFLAGS} -Wall qemu-oe-bridge-helper.c -o qemu-oe-bridge-helper
+>  }
 >
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;${bindir}/python3&quo=
-t;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;${includedir}/python$=
-{PYTHON_MAJMIN}/pyconfig*.h&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;${libdir}/python${PYT=
-HON_MAJMIN}/UserDict.py&quot;,<br>
-diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3_3.11.0.=
-bb" rel=3D"noreferrer" target=3D"_blank">python3_3.11.0.bb</a> b/meta/recip=
-es-devtools/python/<a href=3D"http://python3_3.11.0.bb" rel=3D"noreferrer" =
-target=3D"_blank">python3_3.11.0.bb</a><br>
-index 92a1f69320..18b631f79d 100644<br>
---- a/meta/recipes-devtools/python/<a href=3D"http://python3_3.11.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">python3_3.11.0.bb</a><br>
-+++ b/meta/recipes-devtools/python/<a href=3D"http://python3_3.11.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">python3_3.11.0.bb</a><br>
-@@ -144,6 +144,7 @@ do_install:prepend() {<br>
-<br>
-=C2=A0do_install:append:class-target() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0oe_multilib_header python${PYTHON_MAJMIN}=
-/pyconfig.h<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;=
-, &#39;python2&#39;, &#39;&#39;, &#39;ln -sf ./python3 ${D}${bindir}/python=
-&#39;, d)}<br>
-=C2=A0}<br>
-<br>
-=C2=A0do_install:append:class-native() {<br>
-@@ -156,6 +157,7 @@ do_install:append:class-native() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# (these often end up too long for the #!=
- parser in the kernel as the<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# buffer is 128 bytes long).<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ln -s python3-native/python3 ${D}${bindir=
-}/nativepython3<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;=
-, &#39;python2&#39;, &#39;&#39;, &#39;ln -sf ./python3-native/python3 ${D}$=
-{bindir}/nativepython&#39;, d)}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Remove the opt-1.pyc and opt-2.pyc file=
-s. There are over 3,000 of them<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# and the overhead in each recipe-sysroot=
--native isn&#39;t worth it, particularly<br>
-@@ -213,6 +215,7 @@ do_install:append() {<br>
-=C2=A0}<br>
-<br>
-=C2=A0do_install:append:class-nativesdk () {<br>
-+=C2=A0 =C2=A0 ${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;python2=
-&#39;, &#39;&#39;, &#39;ln -sf ./python3 ${D}${bindir}/python&#39;, d)}<br>
-=C2=A0 =C2=A0 =C2=A0# Make sure we use /usr/bin/env python<br>
-=C2=A0 =C2=A0 =C2=A0for PYTHSCRIPT in `grep -rIl ${bindir}/python ${D}${bin=
-dir}`; do<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sed -i -e &#39;1s|^#!.*|#!/usr/bin/env p=
-ython3|&#39; $PYTHSCRIPT<br>
-@@ -376,6 +379,7 @@ RRECOMMENDS:${PN}-crypt:append:class-nativesdk =3D &quo=
-t; ${MLPREFIX}openssl ${MLPREFIX<br>
-<br>
-=C2=A0# For historical reasons PN is empty and provided by python3-modules<=
-br>
-=C2=A0FILES:${PN} =3D &quot;&quot;<br>
-+RPROVIDES:${PN} =3D &quot;${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, =
-&#39;python2&#39;, &#39;&#39;, &#39;${bindir}/python&#39;, d)}&quot;<br>
-=C2=A0RPROVIDES:${PN}-modules =3D &quot;${PN}&quot;<br>
-<br>
-=C2=A0FILES:${PN}-pydoc +=3D &quot;${bindir}/pydoc${PYTHON_MAJMIN} ${bindir=
-}/pydoc3&quot;<br>
--- <br>
-2.34.1<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div></div><div><div class=3D"gmail_quote"></div></div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br></blockquote></div><=
-/div><div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid=
-;padding-left:1ex;border-left-color:rgb(204,204,204)">
-View/Reply Online (#173642): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/173642" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/173642</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/95156228/1686=
-489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/95156228/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-</blockquote></div></div>
-
---0000000000000f87b805edfc8c16--
+>  do_install() {
+>         install -d ${D}${bindir}
+>         install tunctl ${D}${bindir}/
+> -
+> -    install -m 755 ${WORKDIR}/qemu-oe-bridge-helper ${D}${bindir}/
+> +       install qemu-oe-bridge-helper ${D}${bindir}/
+>  }
+>
+>  DEPENDS += "qemu-system-native"
+> diff --git a/meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper b/meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper
+> deleted file mode 100755
+> index f057d4eef0..0000000000
+> --- a/meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper
+> +++ /dev/null
+> @@ -1,25 +0,0 @@
+> -#! /bin/sh
+> -# Copyright 2020 Garmin Ltd. or its subsidiaries
+> -#
+> -# SPDX-License-Identifier: GPL-2.0
+> -#
+> -# Attempts to find and exec the host qemu-bridge-helper program
+> -
+> -# If the QEMU_BRIDGE_HELPER variable is set by the user, exec it.
+> -if [ -n "$QEMU_BRIDGE_HELPER" ]; then
+> -    exec "$QEMU_BRIDGE_HELPER" "$@"
+> -fi
+> -
+> -# Search common paths for the helper program
+> -BN="qemu-bridge-helper"
+> -PATHS="/usr/libexec/ /usr/lib/qemu/"
+> -
+> -for p in $PATHS; do
+> -    if [ -e "$p/$BN" ]; then
+> -        exec "$p/$BN" "$@"
+> -    fi
+> -done
+> -
+> -echo "$BN not found!" > /dev/stderr
+> -exit 1
+> -
+> diff --git a/meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper.c b/meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper.c
+> new file mode 100644
+> index 0000000000..cadf2a012a
+> --- /dev/null
+> +++ b/meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper.c
+> @@ -0,0 +1,41 @@
+> +/*
+> + * Copyright 2022 Garmin Ltd. or its subsidiaries
+> + *
+> + * SPDX-License-Identifier: GPL-2.0
+> + *
+> + * Attempts to find and exec the host qemu-bridge-helper program
+> + */
+> +
+> +#include <stdio.h>
+> +#include <unistd.h>
+> +
+> +void try_program(char const* path, char** args) {
+> +    if (access(path, X_OK) == 0) {
+> +        execv(path, args);
+> +    }
+> +}
+> +
+> +int main(int argc, char** argv) {
+> +    char* var;
+> +
+> +    /* Copy arguments so that they are a NULL terminated list, skipping argv[0]
+> +     * since it is this program name */
+> +    char** args = malloc(argc * sizeof(char*));
+> +    for (int i = 0; i < argc - 1; i++) {
+> +        args[i] = argv[i + 1];
+> +    }
+> +    args[argc - 1] = NULL;
+> +
+> +    var = getenv("QEMU_BRIDGE_HELPER");
+> +    if (var && var[0] != '\0') {
+> +        execvp(var, args);
+> +        return 1;
+> +    }
+> +
+> +    try_program("/usr/libexec/qemu-bridge-helper", args);
+> +    try_program("/usr/lib/qemu/qemu-bridge-helper", args);
+> +
+> +    fprintf(stderr, "No bridge helper found\n");
+> +    return 1;
+> +}
+> +
+> --
+> 2.33.0
+>
 
