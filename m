@@ -1,121 +1,61 @@
-Return-Path: <cp0613@linux.alibaba.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A315CC433FE
-	for <webhook@archiver.kernel.org>; Tue, 22 Nov 2022 01:58:06 +0000 (UTC)
-Received: from out30-43.freemail.mail.aliyun.com (out30-43.freemail.mail.aliyun.com [115.124.30.43])
- by mx.groups.io with SMTP id smtpd.web10.8675.1669082284237760331
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EB33C4332F
+	for <webhook@archiver.kernel.org>; Tue, 22 Nov 2022 04:43:17 +0000 (UTC)
+Received: from mailout09.t-online.de (mailout09.t-online.de [194.25.134.84])
+ by mx.groups.io with SMTP id smtpd.web10.11397.1669092187957716317
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Nov 2022 17:58:04 -0800
+ Mon, 21 Nov 2022 20:43:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: linux.alibaba.com, ip: 115.124.30.43, mailfrom: cp0613@linux.alibaba.com)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R951e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046049;MF=cp0613@linux.alibaba.com;NM=1;PH=DS;RN=2;SR=0;TI=SMTPD_---0VVPjt2G_1669082272;
-Received: from DESKTOP-AMMB16H.localdomain(mailfrom:cp0613@linux.alibaba.com fp:SMTPD_---0VVPjt2G_1669082272)
-          by smtp.aliyun-inc.com;
-          Tue, 22 Nov 2022 09:57:59 +0800
-From: cp0613@linux.alibaba.com
-To: openembedded-core@lists.openembedded.org
-Cc: Chen Pei <cp0613@linux.alibaba.com>
-Subject: [OE-core] [PATCH V2] flac: upgrade 1.4.0 -> 1.4.2
-Date: Tue, 22 Nov 2022 09:54:08 +0800
-Message-Id: <20221122015407.838-1-cp0613@linux.alibaba.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221121132515.2028-1-cp0613@linux.alibaba.com>
-References: <20221121132515.2028-1-cp0613@linux.alibaba.com>
+ dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.84, mailfrom: f_l_k@t-online.de)
+Received: from fwd71.dcpf.telekom.de (fwd71.aul.t-online.de [10.223.144.97])
+	by mailout09.t-online.de (Postfix) with SMTP id E16F3F937;
+	Tue, 22 Nov 2022 05:43:05 +0100 (CET)
+Received: from [192.168.0.74] ([24.134.105.89]) by fwd71.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1oxL7b-0yDz720; Tue, 22 Nov 2022 05:42:59 +0100
+Date: Tue, 22 Nov 2022 05:42:53 +0100
+From: f_l_k@t-online.de
+Subject: Re: [oe-core][PATCH] python3: add ${bindir}/python symlink
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Message-Id: <HRFQLR.NFABK2KMZ9XR2@t-online.de>
+In-Reply-To: 
+	<CANNYZj-mhM6FzQY4Lv2BckodcLtPSUV29GG4TCUb_Tp003SAbw@mail.gmail.com>
+References: <20221120175237.194899-1-f_l_k@t-online.de>
+	<CAMKF1spErHg3JX+DFRLcW4EthTGBMm4A24XsyAVOO3RNr6Wgfw@mail.gmail.com>
+	<CANNYZj-UTuxW0-Rr7FhgjwE007Gr28Pc5ZCo=cnrDcaNsuZStw@mail.gmail.com>
+	<CAMKF1srs_tmRRNqWQAmBKOkJkfysJt=OZjefq_mPd4htPGi6VA@mail.gmail.com>
+	<1729A925BA1D06C8.25787@lists.openembedded.org>
+	<CANNYZj-mhM6FzQY4Lv2BckodcLtPSUV29GG4TCUb_Tp003SAbw@mail.gmail.com>
+X-Mailer: geary/43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/alternative; boundary="=-oRcPjLR3R1FM53QjxYtY"
+X-TOI-EXPURGATEID: 150726::1669092179-F27F4ECF-3D7870BA/0/0 CLEAN NORMAL
+X-TOI-MSGID: fe571a37-4560-4cbe-acfc-9ec2a39d0f83
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Nov 2022 01:58:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173667
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Nov 2022 04:43:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173668
 
-From: Chen Pei <cp0613@linux.alibaba.com>
+--=-oRcPjLR3R1FM53QjxYtY
+Content-Type: text/plain; charset=us-ascii; format=flowed
 
-This small version release only has a few changes, but fixes several bugs.
+On Mon, Nov 21 2022 at 06:48:07 PM +0100, Alexander Kanavin 
+<alex.kanavin@gmail.com> wrote:
+> On my Debian systems, indeed, /usr/bin/python is absent.
 
-License-Update:
-	File removed
-	License URL updated
+Debian has a package for this
+<https://packages.debian.org/bookworm/python-is-python3>
 
-FLAC 1.4.2 released 2022-10-22
-Like the last release, this release only has a few changes. A problem with FLAC playback in GStreamer (and possibly other libFLAC users) was the reason for the short time since the last release.
-Changes:
-	Remove xmms plugin
-	Remove all pure assembler, removing build dependency on nasm
-	Made console output more uniform across different platforms and CPUs
-	Improve ability to tune compile for a certain system (for example with -march=native) when combining with --disable-asm-optimizations: plain C functions can now be better optimized
-	Default CFLAGS are now prepended instead of dropped when user CFLAGS are set
-	-msse2 is no longer added by default (was only applicable to x86)
-	Fix cross-compiling and out-of-tree building when pandoc and doxygen are not available
-	Fix issue with Clang not compiling functions with intrinsics
-	Fix detection of bswap intrinsics
-	Improve search for libssp on MinGW
-	Fix issue when the libFLAC user seeks in a file instead of libFLAC itself
 
-FLAC 1.4.1 released 2022-09-22
-This release fixes the release tarball (which was missing man pages and api documentation in FLAC 1.4.0) and some build problems that were found with FLAC 1.4.0.
-Changes:
-	CMake fixes
-	Add checks that man pages and api docs end up in tarball
-	Enable installation of prebuilt man pages and api docs
-	Fix compiler warnings
-	Fix format specifier
-	Enable building on Universal Windows Platform
-	Fix versioning from git
+--=-oRcPjLR3R1FM53QjxYtY
+Content-Type: text/html; charset=us-ascii
 
-Signed-off-by: Chen Pei <cp0613@linux.alibaba.com>
----
- .../flac/{flac_1.4.0.bb => flac_1.4.2.bb}                | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
- rename meta/recipes-multimedia/flac/{flac_1.4.0.bb => flac_1.4.2.bb} (80%)
-
-diff --git a/meta/recipes-multimedia/flac/flac_1.4.0.bb b/meta/recipes-multimedia/flac/flac_1.4.2.bb
-similarity index 80%
-rename from meta/recipes-multimedia/flac/flac_1.4.0.bb
-rename to meta/recipes-multimedia/flac/flac_1.4.2.bb
-index 360396380d..32383927a2 100644
---- a/meta/recipes-multimedia/flac/flac_1.4.0.bb
-+++ b/meta/recipes-multimedia/flac/flac_1.4.2.bb
-@@ -9,29 +9,25 @@ LIC_FILES_CHKSUM = "file://COPYING.FDL;md5=ad1419ecc56e060eccf8184a87c4285f \
-                     file://COPYING.GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://src/flac/main.c;beginline=1;endline=18;md5=893456854ce6bf14a1a7ea77266eebab \
-                     file://COPYING.LGPL;md5=fbc093901857fcd118f065f900982c24 \
--                    file://src/plugin_common/all.h;beginline=1;endline=18;md5=73c74192ce89ee6238d15a171e00c971 \
-                     file://COPYING.Xiph;md5=3d6da238b5b57a0965d6730291119f65 \
--                    file://include/FLAC/all.h;beginline=65;endline=70;md5=64474f2b22e9e77b28d8b8b25c983a48"
-+                    file://include/FLAC/all.h;beginline=65;endline=70;md5=39aaf5e03c7364363884c8b8ddda8eea"
- 
- SRC_URI = "http://downloads.xiph.org/releases/flac/${BP}.tar.xz"
--SRC_URI[sha256sum] = "af41c0733c93c237c3e52f64dd87e3b0d9af38259f1c7d11e8cbf583c48c2506"
-+SRC_URI[sha256sum] = "e322d58a1f48d23d9dd38f432672865f6f79e73a6f9cc5a5f57fcaa83eb5a8e4"
- 
- CVE_PRODUCT = "libflac flac"
- 
- inherit autotools gettext
- 
- EXTRA_OECONF = "--disable-oggtest \
--                --disable-xmms-plugin \
-                 --without-libiconv-prefix \
-                 ac_cv_prog_NASM="" \
-                 "
- 
- PACKAGECONFIG ??= " \
-     ${@bb.utils.filter("TUNE_FEATURES", "altivec vsx", d)} \
--    ${@bb.utils.contains_any("TUNE_FEATURES", "core2 corei7", "sse", "", d)} \
-     ogg \
- "
--PACKAGECONFIG[sse] = "--enable-sse,--disable-sse"
- PACKAGECONFIG[altivec] = "--enable-altivec,--disable-altivec"
- PACKAGECONFIG[vsx] = "--enable-vsx,--disable-vsx"
- PACKAGECONFIG[avx] = "--enable-avx,--disable-avx"
-@@ -41,3 +37,4 @@ PACKAGES += "libflac libflac++"
- FILES:${PN} = "${bindir}/*"
- FILES:libflac = "${libdir}/libFLAC.so.*"
- FILES:libflac++ = "${libdir}/libFLAC++.so.*"
-+
--- 
-2.25.1
+<div id="geary-body" dir="auto">On Mon, Nov 21 2022 at 06:48:07 PM +0100, Alexander Kanavin &lt;alex.kanavin@gmail.com&gt; wrote:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">On my Debian systems, indeed, /usr/bin/python is absent.</div></blockquote><div><br></div><div>Debian has a package for this</div><div><a href="https://packages.debian.org/bookworm/python-is-python3">https://packages.debian.org/bookworm/python-is-python3</a></div></div>
+--=-oRcPjLR3R1FM53QjxYtY--
 
 
