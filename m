@@ -1,250 +1,95 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88E36C433FE
-	for <webhook@archiver.kernel.org>; Tue, 22 Nov 2022 10:52:09 +0000 (UTC)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
- by mx.groups.io with SMTP id smtpd.web11.15990.1669114319159465223
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 112A0C4332F
+	for <webhook@archiver.kernel.org>; Tue, 22 Nov 2022 12:29:40 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web11.17597.1669120177639026929
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Nov 2022 02:51:59 -0800
+ Tue, 22 Nov 2022 04:29:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=J/lwsj5t;
- spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-lf1-f42.google.com with SMTP id s8so22977105lfc.8
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Nov 2022 02:51:58 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DCUgVn9J;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id o30so10613286wms.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Nov 2022 04:29:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=n8fMPL2/e8EfT94wp9AqNIslDXGZyX8fEoVe5AoBkyQ=;
-        b=J/lwsj5tZQSooErWk4Oq4ZVK4hR+A4UmEHwhmqOlqcYADR1tcEkM7UkcWtx2tP2bg9
-         b5AZyvQp0+1nRlVphm6JWuHZIUc6eR3Oz+rX82TlkT3wXVWp4pXP91QWn5leatgLkfzH
-         SS5bzDV1uVTZF5Xe5Vzdfusv48KoBwNER3Lz9UFCtWp9t2Kc2zy6sG/WAJ7RlNb3TpnE
-         cF7Sh+xsaa6Yh/yNBYbdRsTlxbczyhzGU5lA0nX8TdG18iuiyIDBeWbaZNN1l2bmGkQo
-         rwpYBea0+rz6YjeM5ZNutbJyidPR4ajj2vqhr8WcwHTHvnx6s/oN3/tdNWZAlRmxo7X3
-         EO9A==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Vm5XGhpVgYla8C1qnZD7c4QzFvI8+vblhAiZKx9sTzE=;
+        b=DCUgVn9JDz7y6D/UDWPUPLv3lQzDSPmOFcwTOQ02DuB1DzsDN/+rbJPZKhFXR/iGfv
+         UnZWY/bQKZxb6pdIneNvRzKTsqZ3cwRvRe5Rc9uxAnfmSurhNn5L89z9hoA9wABUKeUE
+         DTRO+bY7Lrm/IS9+oPgLcgArYpLzO2wAgZeQc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=n8fMPL2/e8EfT94wp9AqNIslDXGZyX8fEoVe5AoBkyQ=;
-        b=F67xXtorjNsXlG1IPEhy5LJzt4NAw+KTj2zp3zZFUmM73wj3sWYNgmXs6ZSe86gx8I
-         9h5wxq4QKxXCidoFCv55rGtF79vF+4zRUCYTl2RnfTDnrAp7lPrwmUPblR5ysS/fNvW6
-         FGTeXqrQNlLG0ctYrQvDaXpcHOwdsUJILrX2ecuf7nhzSjkB/55ut1BcMF1xAT6c48zo
-         xz8ORtMYHgWzw0E1ng9Dnbt0eAcgbadKpi+yj/GEjxm28MP8OiGLcEeGSK+5RcsbsYsx
-         xMKR1jfzDewdMNZH8+rcmPKB409dpvpbRJM90wwP6KxnxXA3vLmAKO5Vc4xqiPPbDFZq
-         XJWw==
-X-Gm-Message-State: ANoB5pnLeY5uM9okFmltQR/7//Li4mvZh1I3ZxQPQ9E5gTTkQE/Lk71c
-	fEg8hS1+kjCiZl0c3xaUt1UHbSyHC6iikEYnTTo=
-X-Google-Smtp-Source: AA0mqf5V90Ige/ryMH+y/ivxyD9YAQXkLW1TSxfdAQrbKTrVEJ9ofpkNd95BCnQ9mY9fAUwPIQRfNeA5vveKI+HhZss=
-X-Received: by 2002:a19:6458:0:b0:4b1:d925:da5b with SMTP id
- b24-20020a196458000000b004b1d925da5bmr7364023lfj.149.1669114317243; Tue, 22
- Nov 2022 02:51:57 -0800 (PST)
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Vm5XGhpVgYla8C1qnZD7c4QzFvI8+vblhAiZKx9sTzE=;
+        b=A4KOh1e8MxpfdSosNqD0ptt6jgK6sB3wMPANQP9yxRmZh9R2xmEZEe/rZmRyLT96RL
+         G+NOwY2VS9BidfmT+as86CSDmXH633kaFSmWnxp29zzenMNhv2RMI4wXW+qNXjWVPXOZ
+         IO+a+djCCGSo+SDn6E5YxceRGPumOROW4qffSxo88/2h/MDN/ZKpK6JUusmyTuucNp2C
+         4zXbXKMskOy4SUNwPNNNblsLGRKvhHTyklWgKitxakOkffkCDaEdqiPN4pkEZTbF+duC
+         rw9pgzp45PWHLCY0AMuu5KtKoqRn7USPTDPR7E/uy7FH8SeLNKIQmdKEG5yEKX8ZVaao
+         Cl1w==
+X-Gm-Message-State: ANoB5pmjFv4vwG+i1YoTaoLaO82BpZyA2ANaa+B/d0wpLaVTvBgk5vsG
+	BVaOx1EUsE9MaUYCK9FPLoK4vw==
+X-Google-Smtp-Source: AA0mqf5nvJV0c1nNPreIcNOTtPFIkSVc3lZ2IKaSv6TkkjvaRCrF2TUk8aB54dYWrPGEJHbRjaxNsA==
+X-Received: by 2002:a05:600c:a10:b0:3cf:75f4:794a with SMTP id z16-20020a05600c0a1000b003cf75f4794amr19639492wmp.16.1669120176094;
+        Tue, 22 Nov 2022 04:29:36 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:2b3e:5e6:6ca6:2445? ([2001:8b0:aba:5f3c:2b3e:5e6:6ca6:2445])
+        by smtp.gmail.com with ESMTPSA id y15-20020a1c4b0f000000b003cf7292c553sm16877349wma.13.2022.11.22.04.29.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Nov 2022 04:29:35 -0800 (PST)
+Message-ID: <fb9b0440c73d2d287b6dce447e652d7b0986c33e.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 05/17] unfs: update 0.9.22 -> 0.10.0
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Date: Tue, 22 Nov 2022 12:29:33 +0000
+In-Reply-To: <20221120133122.2464634-5-alex@linutronix.de>
+References: <20221120133122.2464634-1-alex@linutronix.de>
+	 <20221120133122.2464634-5-alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-References: <20221116112425.2173010-1-enrico.scholz@sigma-chemnitz.de> <20221119103925.767617-1-enrico.scholz@sigma-chemnitz.de>
-In-Reply-To: <20221119103925.767617-1-enrico.scholz@sigma-chemnitz.de>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Tue, 22 Nov 2022 10:51:37 +0000
-Message-ID: <CANPvuRkV_jmEgBq+3eDUFMXCvpe-xyL1vMb8p8sGspCXU-4+EA@mail.gmail.com>
-Subject: Re: [PATCH v2] sstate: show progress bar again
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000f80c6005ee0cf525"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Nov 2022 10:52:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173675
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Nov 2022 12:29:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173676
 
---000000000000f80c6005ee0cf525
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Sun, 2022-11-20 at 14:31 +0100, Alexander Kanavin wrote:
+> This is the first release in 13 years;
+> accordingly I took the liberty of dropping all the patches
+> (none of which were ever reviewed or merged, and all of which
+> are difficult to impossible to rebase), and removed all
+> non-standard hacks from the recipe.
+>=20
+> Drop -N from oeqa nfs helper; the option was provided by tcp_no_delay.pat=
+ch
+> and is not needed for the tests.
+>=20
+> Please otherwise test and fix as needed, with upstream-first approach.
 
-Hi Enrico,
+I understand why you want to do that but this will totally break the
+nfs export support, I could see at least one issue having looked at the
+first few patches this was dropping.
 
-My last suggestion on this patch is that we can use the existing progress
-variable to store the counter,
-when the progress is 0 nothing is changed when not 0 they have the counter
-on it.
+Whilst I understand the desire to upgrade and keep pace with upstream,
+making the support we have unusable isn't going to work here :(.
 
-Enrico Scholz <enrico.scholz@sigma-chemnitz.de> escreveu no dia s=C3=A1bado=
-,
-19/11/2022 =C3=A0(s) 10:39:
+I think we'll need to look into this one in more detail. If the
+upstream is active again, it is a good opportunity to get some of this
+merged.
 
-> From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
->
-> Transition to ThreadPoolExecutor (eb6a6820928472ef194b963b606454e731f9486=
-f)
-> broke the
->
-> | Checking sstate mirror object availability: ...
->
-> progress bar because the removed 'thread_worker' was still referenced
-> in an asynchronous function.  As the result of the future is never
-> read, the resulting backtrace is silently discarded.
->
-> Replace the information given to 'ProcessProgress' by a counter.
->
-> Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-> ---
->  meta/classes-global/sstate.bbclass | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/classes-global/sstate.bbclass
-> b/meta/classes-global/sstate.bbclass
-> index 2c8e7b8cc232..f5e0e623e28d 100644
-> --- a/meta/classes-global/sstate.bbclass
-> +++ b/meta/classes-global/sstate.bbclass
-> @@ -925,6 +925,8 @@ sstate_unpack_package () {
->  BB_HASHCHECK_FUNCTION =3D "sstate_checkhashes"
->
->  def sstate_checkhashes(sq_data, d, siginfo=3DFalse, currentcount=3D0,
-> summary=3DTrue, **kwargs):
-> +    import itertools
-> +
->      found =3D set()
->      missed =3D set()
->
-> @@ -1019,7 +1021,7 @@ def sstate_checkhashes(sq_data, d, siginfo=3DFalse,
-> currentcount=3D0, summary=3DTrue,
->              connection_cache_pool.put(connection_cache)
->
->              if progress:
-> -                bb.event.fire(bb.event.ProcessProgress(msg, len(tasklist=
-)
-> - thread_worker.tasks.qsize()), d)
-> +                bb.event.fire(bb.event.ProcessProgress(msg,
-> next(cnt_tasks_done)), d)
->
+Cheers,
 
-+ bb.event.fire(bb.event.ProcessProgress(msg, next(progress)), d)
+Richard
 
 
->
->          tasklist =3D []
->          for tid in missed:
-> @@ -1029,6 +1031,8 @@ def sstate_checkhashes(sq_data, d, siginfo=3DFalse,
-> currentcount=3D0, summary=3DTrue,
->          if tasklist:
->              nproc =3D min(int(d.getVar("BB_NUMBER_THREADS")), len(taskli=
-st))
->
-> +            ## thread-safe counter
-> +            cnt_tasks_done =3D itertools.count(start =3D 1)
->              progress =3D len(tasklist) >=3D 100
->              if progress:
->
-
-+ ## thread-safe counter
-+ progress =3D itertools.count(start =3D 1)
-
-Jose
-
-                 msg =3D "Checking sstate mirror object availability"
-> --
-> 2.38.1
->
->
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---000000000000f80c6005ee0cf525
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi=C2=A0Enrico,<div><br></div><div>My las=
-t suggestion=C2=A0on this patch is that we can use the existing progress va=
-riable to store the counter,</div><div>when the progress is 0 nothing is ch=
-anged when not 0 they have the counter on it.</div></div><br><div class=3D"=
-gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Enrico Scholz &lt;<a hre=
-f=3D"mailto:enrico.scholz@sigma-chemnitz.de">enrico.scholz@sigma-chemnitz.d=
-e</a>&gt; escreveu no dia s=C3=A1bado, 19/11/2022 =C3=A0(s) 10:39:<br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left:1px solid rgb(204,204,204);padding-left:1ex">From: Enrico Scholz &lt;=
-<a href=3D"mailto:enrico.scholz@sigma-chemnitz.de" target=3D"_blank">enrico=
-.scholz@sigma-chemnitz.de</a>&gt;<br>
-<br>
-Transition to ThreadPoolExecutor (eb6a6820928472ef194b963b606454e731f9486f)=
-<br>
-broke the<br>
-<br>
-| Checking sstate mirror object availability: ...<br>
-<br>
-progress bar because the removed &#39;thread_worker&#39; was still referenc=
-ed<br>
-in an asynchronous function.=C2=A0 As the result of the future is never<br>
-read, the resulting backtrace is silently discarded.<br>
-<br>
-Replace the information given to &#39;ProcessProgress&#39; by a counter.<br=
->
-<br>
-Signed-off-by: Enrico Scholz &lt;<a href=3D"mailto:enrico.scholz@sigma-chem=
-nitz.de" target=3D"_blank">enrico.scholz@sigma-chemnitz.de</a>&gt;<br>
----<br>
-=C2=A0meta/classes-global/sstate.bbclass | 6 +++++-<br>
-=C2=A01 file changed, 5 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstat=
-e.bbclass<br>
-index 2c8e7b8cc232..f5e0e623e28d 100644<br>
---- a/meta/classes-global/sstate.bbclass<br>
-+++ b/meta/classes-global/sstate.bbclass<br>
-@@ -925,6 +925,8 @@ sstate_unpack_package () {<br>
-=C2=A0BB_HASHCHECK_FUNCTION =3D &quot;sstate_checkhashes&quot;<br>
-<br>
-=C2=A0def sstate_checkhashes(sq_data, d, siginfo=3DFalse, currentcount=3D0,=
- summary=3DTrue, **kwargs):<br>
-+=C2=A0 =C2=A0 import itertools<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0found =3D set()<br>
-=C2=A0 =C2=A0 =C2=A0missed =3D set()<br>
-<br>
-@@ -1019,7 +1021,7 @@ def sstate_checkhashes(sq_data, d, siginfo=3DFalse, c=
-urrentcount=3D0, summary=3DTrue,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0connection_cache_pool.put(c=
-onnection_cache)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if progress:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.event.fire(bb.e=
-vent.ProcessProgress(msg, len(tasklist) - thread_worker.tasks.qsize()), d)<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.event.fire(bb.e=
-vent.ProcessProgress(msg, next(cnt_tasks_done)), d)<br></blockquote><div><b=
-r>+ bb.event.fire(bb.event.ProcessProgress(msg, next(progress)), d)</div><d=
-iv>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tasklist =3D []<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for tid in missed:<br>
-@@ -1029,6 +1031,8 @@ def sstate_checkhashes(sq_data, d, siginfo=3DFalse, c=
-urrentcount=3D0, summary=3DTrue,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if tasklist:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nproc =3D min(int(d.getVar(=
-&quot;BB_NUMBER_THREADS&quot;)), len(tasklist))<br>
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ## thread-safe counter<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cnt_tasks_done =3D itertools.cou=
-nt(start =3D 1)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0progress =3D len(tasklist) =
-&gt;=3D 100<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if progress:<br></blockquot=
-e><div><br>+ ## thread-safe counter<br></div><div>+ progress =3D itertools.=
-count(start =3D 1)<br></div><div><br>Jose</div><div><br></div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0msg =3D &quot=
-;Checking sstate mirror object availability&quot;<br>
--- <br>
-2.38.1<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
- Quaresma</div></div></div></div>
-
---000000000000f80c6005ee0cf525--
 
