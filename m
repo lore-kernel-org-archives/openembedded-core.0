@@ -1,210 +1,107 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19634C433FE
-	for <webhook@archiver.kernel.org>; Tue, 22 Nov 2022 18:14:06 +0000 (UTC)
-Received: from mailout10.t-online.de (mailout10.t-online.de [194.25.134.21])
- by mx.groups.io with SMTP id smtpd.web11.2425.1669140837699814970
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0905C433FE
+	for <webhook@archiver.kernel.org>; Tue, 22 Nov 2022 18:14:15 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web10.2517.1669140848695905412
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Nov 2022 10:13:58 -0800
+ Tue, 22 Nov 2022 10:14:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.21, mailfrom: f_l_k@t-online.de)
-Received: from fwd75.dcpf.telekom.de (fwd75.aul.t-online.de [10.223.144.101])
-	by mailout10.t-online.de (Postfix) with SMTP id 5CE57B966;
-	Tue, 22 Nov 2022 19:13:55 +0100 (CET)
-Received: from [192.168.178.83] ([79.219.227.106]) by fwd75.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1oxXmM-1bjnpQ0; Tue, 22 Nov 2022 19:13:54 +0100
-Date: Tue, 22 Nov 2022 19:13:48 +0100
-From: Markus Volk <f_l_k@t-online.de>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eHunkGS7;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id t4so11312829wmj.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Nov 2022 10:14:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=QKlVzpa3Nb1tvZ2k64cu9xdbqi9exGnusZKonO7jY3w=;
+        b=eHunkGS7dPbK+pFVpEoxQDT29KqoAO8F+b8l977/iNM6PJxtK6tssJ/Z4EIhesQ8Q8
+         H/PdXYXsMBV4IAPLsT9NoAeBbQTIuNqzYT1w33aHIBz2WezlN4MpVEdTOledirESZODf
+         iGUElyMLxu9NBb9CP3d4Hm8jtPwQGMCZLrd5Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QKlVzpa3Nb1tvZ2k64cu9xdbqi9exGnusZKonO7jY3w=;
+        b=FOzVWIplQ1ygknlHSfR1+bvPzziPrywhYSDt9g+LRGtnovsMSEi7FlnezHeW71pfM0
+         xtsUkQbTXRu1elgGnnGbvh45DBM1RN8cmxOpQb9q/ZCpHekUwaKkVLrrkOLt3fHhigeT
+         oQTt2iCjX4KCmq7YtUFtgxERE4sXQiPe0rM3D0Aamcau4O1iDM9QEhvQvQzGP1hpyozb
+         tzVaakwGR1fV+2C6CU/x9PNiidh6AOnA65ARQSRPrrMwIzW6aCXHJdhA82lCgQyju3lZ
+         h3CZyD5nBu7Fe3Mv3NzepSM6R7IcM1+Y4Gn6UJsiIRNkltAygHZSYn2O+7TXsYD2kiHu
+         z5oQ==
+X-Gm-Message-State: ANoB5plQu9af4C3tzlaB+WNBuq0PA70NXTxytyHILwaWgAlCuaU5YTqB
+	zscbmxmix7E6HSHsgjmWh5/Idw==
+X-Google-Smtp-Source: AA0mqf4ZYgpzOTOgQHlBIfF6lvVPsk4CPCp9T5pLEhyHS19wdBBxJTbHZihG1y0QtV0QJhko5vLCEQ==
+X-Received: by 2002:a05:600c:20b:b0:3cf:f2aa:4f24 with SMTP id 11-20020a05600c020b00b003cff2aa4f24mr16879804wmi.48.1669140846994;
+        Tue, 22 Nov 2022 10:14:06 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:2b3e:5e6:6ca6:2445? ([2001:8b0:aba:5f3c:2b3e:5e6:6ca6:2445])
+        by smtp.gmail.com with ESMTPSA id h10-20020a05600c314a00b003cf71b1f66csm19628001wmo.0.2022.11.22.10.14.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Nov 2022 10:14:06 -0800 (PST)
+Message-ID: <d945c2d89848932cd437ab8ae0a4f41a6f76ef19.camel@linuxfoundation.org>
 Subject: Re: [oe-core][PATCH] python3: add ${bindir}/python symlink
-To: Ross Burton <ross.burton@arm.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, Khem Raj <raj.khem@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Message-Id: <0BHRLR.X1RENR0XRLNC2@t-online.de>
-In-Reply-To: <4BF25A91-3F02-49A2-A546-A9CF7881E0ED@arm.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Ross Burton
+	 <Ross.Burton@arm.com>
+Cc: Khem Raj <raj.khem@gmail.com>, Markus Volk <f_l_k@t-online.de>, 
+	"openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Tue, 22 Nov 2022 18:14:05 +0000
+In-Reply-To: <CANNYZj9uxKov0vrox7N3kv-HdQJ9VDbLu7Jsn_SuVUTz_Nbrzw@mail.gmail.com>
 References: <20221120175237.194899-1-f_l_k@t-online.de>
-	<CAMKF1spErHg3JX+DFRLcW4EthTGBMm4A24XsyAVOO3RNr6Wgfw@mail.gmail.com>
-	<CANNYZj-UTuxW0-Rr7FhgjwE007Gr28Pc5ZCo=cnrDcaNsuZStw@mail.gmail.com>
-	<CAMKF1srs_tmRRNqWQAmBKOkJkfysJt=OZjefq_mPd4htPGi6VA@mail.gmail.com>
-	<1729A925BA1D06C8.25787@lists.openembedded.org>
-	<CANNYZj-mhM6FzQY4Lv2BckodcLtPSUV29GG4TCUb_Tp003SAbw@mail.gmail.com>
-	<HRFQLR.NFABK2KMZ9XR2@t-online.de>
-	<4BF25A91-3F02-49A2-A546-A9CF7881E0ED@arm.com>
-X-Mailer: geary/40.0
+	 <CAMKF1spErHg3JX+DFRLcW4EthTGBMm4A24XsyAVOO3RNr6Wgfw@mail.gmail.com>
+	 <CANNYZj-UTuxW0-Rr7FhgjwE007Gr28Pc5ZCo=cnrDcaNsuZStw@mail.gmail.com>
+	 <CAMKF1srs_tmRRNqWQAmBKOkJkfysJt=OZjefq_mPd4htPGi6VA@mail.gmail.com>
+	 <1729A925BA1D06C8.25787@lists.openembedded.org>
+	 <CANNYZj-mhM6FzQY4Lv2BckodcLtPSUV29GG4TCUb_Tp003SAbw@mail.gmail.com>
+	 <HRFQLR.NFABK2KMZ9XR2@t-online.de>
+	 <4BF25A91-3F02-49A2-A546-A9CF7881E0ED@arm.com>
+	 <CANNYZj9uxKov0vrox7N3kv-HdQJ9VDbLu7Jsn_SuVUTz_Nbrzw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-RtTL1Ie0BltNPhojqMo5"
-X-TOI-EXPURGATEID: 150726::1669140834-2E7F9535-E305D042/0/0 CLEAN NORMAL
-X-TOI-MSGID: 672800c7-5a82-49dc-b42b-3b7606273ead
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Nov 2022 18:14:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173696
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Nov 2022 18:14:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173697
 
---=-RtTL1Ie0BltNPhojqMo5
-Content-Type: text/plain; charset=windows-1251; format=flowed
-Content-Transfer-Encoding: quoted-printable
+On Tue, 2022-11-22 at 19:03 +0100, Alexander Kanavin wrote:
+> The serious need is that we need to patch all the scripts that ask
+> for python to add a 3 to it. And there will be more of these going
+> forward, not less. I=E2=80=99d rather just always have python available. =
+Not
+> a problem worth deliberating over to be honest.
 
-I use a bbappend for python3 in meta-wayland for almost a year now=20
-because i had issues installing python scripts with /usr/bin/python=20
-shebang e.g. here in sway:
-<https://github.com/swaywm/sway/blob/master/contrib/inactive-windows-transp=
-arency.py>
+I don't think it is that simple.=C2=A0
 
-Issue has been that, if adding this script to do_install(), package_qa=20
-failed because of the missing /usr/bin/python provider.
+a) If we take the change, we're no longer explicit in what we're using
+which means users can be taken by surprise when a python2 script finds
+python3 and could sometimes break.
 
-Ran into this quite a few times in the past and then created the=20
-symlink instead of patching shebangs
+b) Our current approach means that people have at least looked at and
+decided something is python3 safe.
 
-I just wanted to mention, that having a symlink would be an alternative=20
-to patching shebangs and as i was asked to send a patch, i did. But I'm=20
-fine with whatever is done in oe-core.
+c) It means that anyone still using python2 components is left with no
+way to make things work. Whilst nobody should be using python2 anymore,
+I suspect some still are and this will be a huge problem to them.
 
-Basically I also think the best solution would be, upstream would=20
-deprecate /usr/bin/python usage. Unfortunaltey it's not, and so there=20
-will always be people using it.
-
-Am Di, 22. Nov 2022 um 17:41:22 +0000 schrieb Ross Burton=20
-<ross.burton@arm.com>:
-> On 22 Nov 2022, at 04:42, Markus Volk via lists.openembedded.org=20
-> <f_l_k=3Dt-online.de@lists.openembedded.org=20
-> <mailto:f_l_k=3Dt-online.de@lists.openembedded.org>> wrote:
->>  On Mon, Nov 21 2022 at 06:48:07 PM +0100, Alexander Kanavin=20
->> <alex.kanavin@gmail.com <mailto:alex.kanavin@gmail.com>> wrote:
->>>  On my Debian systems, indeed, /usr/bin/python is absent.
->>=20
->>  Debian has a package for this
->>  <https://packages.debian.org/bookworm/python-is-python3>
->=20
-> And that=92s a perfectly good solution that I like.
->=20
-> Personally, I think people should forget that /usr/bin/python exists:=20
-> the recommendation from Python is to call python2 or python3.  I can=20
-> quote from PEP-0394:
->=20
-> =93=94=94
-> Depending on a distribution or system configuration, python may or=20
-> may not be installed. If python is installed its target interpreter=20
-> may refer to python2 or python3.=94
->=20
-> =85
->=20
->     =95 Distributors may choose to set the behavior of the python=20
-> command as follows:
->         =95 python2,
->         =95 python3,
->         =95 not provide python command,
->         =95 allow python to be configurable by an end user or a=20
-> system administrator.
-> =93=94=94
->=20
-> We=92ve picked option 3.  As per Python upstream, that=92s absolutely=20
-> fine.
->=20
-> If you have a serious need that /usr/bin/python exists, and is a=20
-> symlink to python3, then could you not make a simple recipe that=20
-> RDEPENDS on python3 and ships just a /usr/bin/python -> python3=20
-> symlink?  You can even put this in your layer to avoid having to=20
-> debate it with the oe-core maintainers.
->=20
-> Ross
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#173694):=20
-> <https://lists.openembedded.org/g/openembedded-core/message/173694>
-> Mute This Topic: <https://lists.openembedded.org/mt/95156228/3618223>
-> Group Owner: openembedded-core+owner@lists.openembedded.org=20
-> <mailto:openembedded-core+owner@lists.openembedded.org>
-> Unsubscribe:=20
-> <https://lists.openembedded.org/g/openembedded-core/unsub>=20
-> [f_l_k@t-online.de <mailto:f_l_k@t-online.de>]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+d) If there ever is a python4, we'll have to redo a lot of the work
+we're done to reach this point where things are fairly clean.
 
 
---=-RtTL1Ie0BltNPhojqMo5
-Content-Type: text/html; charset=windows-1251
-Content-Transfer-Encoding: quoted-printable
+Rightly or wrongly, this patch will cause large amounts of pain for
+some portion of our userbase and I'm not sure we have enough
+justification to do that. That pain wouldn't likely be realised for
+some time either :/.
 
-<div id=3D"geary-body" dir=3D"auto"><div>I use a bbappend for python3 in me=
-ta-wayland for almost a year now because i had issues installing python scr=
-ipts with /usr/bin/python shebang e.g. here in sway:</div><div><a href=3D"h=
-ttps://github.com/swaywm/sway/blob/master/contrib/inactive-windows-transpar=
-ency.py">https://github.com/swaywm/sway/blob/master/contrib/inactive-window=
-s-transparency.py</a></div><div><br></div><div>Issue has been that, if addi=
-ng this script to do_install(), package_qa failed because of the missing /u=
-sr/bin/python provider.</div><div><br></div><div>Ran into this quite a few =
-times in the past and then created the symlink instead of patching shebangs=
-</div><div><br></div><div>I just wanted to mention, that having a symlink w=
-ould be an alternative to patching shebangs and as i was asked to send a pa=
-tch, i did. But I'm fine with whatever is done in oe-core.</div><div><br></=
-div><div>Basically I also think the best solution would be, upstream would =
-deprecate /usr/bin/python usage. Unfortunaltey it's not, and so there will =
-always be people using it.</div></div><div id=3D"geary-quote" dir=3D"auto">=
-<br>Am Di, 22. Nov 2022 um 17:41:22 +0000 schrieb Ross Burton &lt;ross.burt=
-on@arm.com&gt;:<br><blockquote type=3D"cite"><div class=3D"plaintext" style=
-=3D"white-space: break-spaces;">On 22 Nov 2022, at 04:42, Markus Volk via l=
-ists.openembedded.org &lt;<a href=3D"mailto:f_l_k=3Dt-online.de@lists.opene=
-mbedded.org">f_l_k=3Dt-online.de@lists.openembedded.org</a>&gt; wrote:
-<blockquote> On Mon, Nov 21 2022 at 06:48:07 PM +0100, Alexander Kanavin &l=
-t;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; =
-wrote:
-<blockquote> On my Debian systems, indeed, /usr/bin/python is absent.
-</blockquote>=20
- Debian has a package for this
- <a href=3D"https://packages.debian.org/bookworm/python-is-python3">https:/=
-/packages.debian.org/bookworm/python-is-python3</a>
-</blockquote>
-And that=92s a perfectly good solution that I like.
+Cheers,
 
-Personally, I think people should forget that /usr/bin/python exists: the r=
-ecommendation from Python is to call python2 or python3.  I can quote from =
-PEP-0394:
-
-=93=94=94
-Depending on a distribution or system configuration, python may or may not =
-be installed. If python is installed its target interpreter may refer to py=
-thon2 or python3.=94
-
-=85
-
-    =95 Distributors may choose to set the behavior of the python command a=
-s follows:
-        =95 python2,
-        =95 python3,
-        =95 not provide python command,
-        =95 allow python to be configurable by an end user or a system admi=
-nistrator.
-=93=94=94
-
-We=92ve picked option 3.  As per Python upstream, that=92s absolutely fine.
-
-If you have a serious need that /usr/bin/python exists, and is a symlink to=
- python3, then could you not make a simple recipe that RDEPENDS on python3 =
-and ships just a /usr/bin/python -&gt; python3 symlink?  You can even put t=
-his in your layer to avoid having to debate it with the oe-core maintainers=
-.
-
-Ross</div><div class=3D"plaintext" style=3D"white-space: break-spaces;">
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-Links: You receive all messages sent to this group.
-View/Reply Online (#173694): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/173694">https://lists.openembedded.org/g/openembedd=
-ed-core/message/173694</a>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/95156228/3618=
-223">https://lists.openembedded.org/mt/95156228/3618223</a>
-Group Owner: <a href=3D"mailto:openembedded-core+owner@lists.openembedded.o=
-rg">openembedded-core+owner@lists.openembedded.org</a>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a hre=
-f=3D"mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>]
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-
-</div></blockquote></div>
---=-RtTL1Ie0BltNPhojqMo5--
-
+Richard
 
