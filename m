@@ -1,359 +1,263 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D55BC4332F
-	for <webhook@archiver.kernel.org>; Tue, 22 Nov 2022 22:43:20 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.6319.1669156999623748613
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBFE2C4332F
+	for <webhook@archiver.kernel.org>; Tue, 22 Nov 2022 23:11:20 +0000 (UTC)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web11.6985.1669158678119645120
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Nov 2022 14:43:19 -0800
+ Tue, 22 Nov 2022 15:11:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=ihhymRpx;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=83251fd825=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2AMKYGdY008181
-	for <openembedded-core@lists.openembedded.org>; Tue, 22 Nov 2022 14:43:19 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=content-type :
- message-id : date : subject : to : references : from : in-reply-to :
- mime-version; s=PPS06212021;
- bh=AeKrgZspVYSwzOjThKaTVwWPfilRvhqgc/3KYDjpYY4=;
- b=ihhymRpxdbZ01PNNqnOq7l6+M5PKUdeeuOCzru/NPXQ3FB30wRlJhx8FAmSnt+CFamy/
- pG817ZrAVQsaX9AM8g3SXC5WNnHncAJQlX30K1BAhwB37Zngd327e8CjhM2zLRNF5Cd6
- a6/t6vtt+WX905xLSXCLxWMhtYsyXWWl+y6ys9D6FVpeHTLJwfLVOJ4SohL8ihGy9KJM
- 6oJx/V5Dpl7NgeixKVjQ/sbgqHB7KKRTEwY2cN6JjFQM9dz1JdMRg92aSAxYvS4M77a6
- fTXAgHge3/pIgnFrPiA/KwgPYmrMKBaYvnhFjPDyTGUjVroDJbxkxikHdt7JAaQuAOnZ 2Q== 
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2171.outbound.protection.outlook.com [104.47.55.171])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kxua6aurn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 22 Nov 2022 14:43:18 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fZ4qEmA5VTRDODexZLtJAnracjEqrL+/rEBxJ4MgqO+pfiaPAsYxZOuPY7LFP4UpZpnFrrUYgMzcz0mcL8Ujj5Utqz8LvDZkySpCFi9TDP1m6mhZUvjjqJ1ZIUUK/7T0yklq8NJeo1pb3Nw4w5Gxtl+VqtOXqt2WKp7Dk3/udpb/rGGjTPg/KuhJ8qB2eitXtjmIzv4k2XBPfimzZGogTuHwo9y8xnTSWlA2LWdT0V2dB+uk/DivjJn7Mym15CQKKn9+Vx0Yi7ptTvM8zXxHE5w4et6VrH6lA959MoQ3d1vYw8iNDtbWzKomvZAXIHB+CD6noXLv751KiJXh3L4VWw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AeKrgZspVYSwzOjThKaTVwWPfilRvhqgc/3KYDjpYY4=;
- b=Wegr6c8rnTG5qoYFl343HuUpmwalrNT0WxDvdQt8KMfS0XP7IoWz/SNQYHWmXM85q09izALEu2fbCiklOWsKeiX9CLOQGMRMaXQc86EAxyaQ154OQrMpvOOaCutL+FmbRpZA1zcTpA990XRIp4U0tKiIWqLWBNqMdkIg0yhTwY7ImpN4gW7axfQDkr5e1mHycsPlzLtSVY08YrGWc7E+/ZrnKc8kXY/WYwAx40YUxU3I136zSQvY7m58Ai87gIS/gU6IMp5VUPIkCO7B7/6FbskmCfSulgUl22IMkn3TK/Nw+T/WhbOmBfaNGNIWIPz1Zwx53b9UcSzTjf0jhyMXgA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
- by DM6PR11MB4612.namprd11.prod.outlook.com (2603:10b6:5:2a8::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.15; Tue, 22 Nov
- 2022 22:43:16 +0000
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::e794:335f:5e0f:8d36]) by DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::e794:335f:5e0f:8d36%6]) with mapi id 15.20.5834.015; Tue, 22 Nov 2022
- 22:43:15 +0000
-Content-Type: multipart/alternative;
- boundary="------------0r0RAez1MwVN0NLjKZF6ab32"
-Message-ID: <5eb7291a-2152-b5ba-1217-900d10ebe070@windriver.com>
-Date: Tue, 22 Nov 2022 17:43:12 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [master][PATCH v2] libtiff: Fix CVE-2022-3970
-Content-Language: en-CA
-To: Zheng Qiu <zheng.qiu@windriver.com>,
-        openembedded-core@lists.openembedded.org
-References: <20221122154901.2290930-1-zheng.qiu@windriver.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-In-Reply-To: <20221122154901.2290930-1-zheng.qiu@windriver.com>
-X-ClientProxiedBy: SJ0PR05CA0102.namprd05.prod.outlook.com
- (2603:10b6:a03:334::17) To DM6PR11MB3994.namprd11.prod.outlook.com
- (2603:10b6:5:193::19)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=e/2odlF+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f176.google.com with SMTP id v28so15734334pfi.12
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Nov 2022 15:11:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zSrW9EsMqvDZlLYvRdVPhSnAoNBN3efpW5bSGUFhyhg=;
+        b=e/2odlF+Tlsdjfr//4jbxJv08gBHxxc2EYwZ0Q7B9PeFQsKuuTzkqv7mMXJfw1/ONQ
+         zkm4ytIa3imHcL9UaesQOdlU/opKvq72MVWOnPf4FtR0WI5zQJtiP72AhWHbERnTzrzY
+         mR/NfK5T2mq6kReMUqppDi24qw9rr2qn+02OUxsip59ZAE3xxdCoZfvss4tQp/hmgQvQ
+         RR8vupAisilKDGFZVKUkjy/y8kcsgsPBcGKtuwl6MazMdHpEbiz2KVuDkG/ItdoddJ34
+         3TTvAot037r/w7iCpcZhow2yUtBhi7Ym1TD8dtzJ6UdBP6h4cFqgINd2+hm/9g02QFGg
+         vZag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zSrW9EsMqvDZlLYvRdVPhSnAoNBN3efpW5bSGUFhyhg=;
+        b=nnTK+Yt7eu/NTuE/Rkd+90HS32P66TmUk6z5DIXzLMUeVmHBOyr5spkT5pPmBmbmgd
+         ooRZlTzc3nZpbZ2U5WWb4xmEw5zZq9x7In2R1Ip9AzR+tmOVnC0jYZQTqj2ImSaQYGZY
+         bq9VtRPPB0IhlC46WsAQ894N5tmehpDTzXwxpPL2cFKtvG4N7jR6xnsLCABgxq9RCds6
+         7awTWjp71s1MZjzDi4okqC6h9Nh4ML4UsMruMXpTWnnCQp2Ud9o4TXW8twfGg6VxgD/h
+         8h5rqaQ8azbJwgUunBd82W2ZmadFJ326NaD3smq4MBCeAybf1rsQjbR4ropvtuFpy5ww
+         n4cw==
+X-Gm-Message-State: ANoB5pl+1wqZVEaaodyUewwgHcYXDgl8ghryLfGZBYqEhQL0hz4pou4/
+	o4ERxdUxWaCBPoGpfC8kkNS++2cn36c19bp7M9c=
+X-Google-Smtp-Source: AA0mqf4TDPdLKk/4n+Je/fbn4dKhfmoFUGO7sFHhePhfCtqryqs2DtL43Fr8fvI+4GnpEA/diqpHUg==
+X-Received: by 2002:a65:6c0d:0:b0:470:7886:e200 with SMTP id y13-20020a656c0d000000b004707886e200mr11730822pgu.111.1669158676633;
+        Tue, 22 Nov 2022 15:11:16 -0800 (PST)
+Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
+        by smtp.gmail.com with ESMTPSA id s2-20020a170902a50200b00187022627d7sm12521849plq.36.2022.11.22.15.11.15
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Nov 2022 15:11:15 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/21] Pull request (cover letter only)
+Date: Tue, 22 Nov 2022 13:11:06 -1000
+Message-Id: <cover.1669158605.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR11MB3994:EE_|DM6PR11MB4612:EE_
-X-MS-Office365-Filtering-Correlation-Id: a72c9a9b-9998-4b7a-cd96-08daccdaf1c3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	Kc3RRdWyZbDE0vS43pD745vU7fnfXdDkiJAELZtoW8i0V2uuymZguh+40avRB39hUba6xYkHTSZnMqn27s7d2ou/ARvIUHcAkZSldw/Ok1uv9Ro25/EmiE5kU+xCyWXnoNOzKExlxXr/72imIZ8h262gst/wKq9X72H/6iY1zbG3tL5qcj/WY5XT020G1r88kQ5QQp3pe9SBAc9TpkpchDje3a5WIYOvzbyY2UogYqI1HKAXvBSY2BXpDRmiYMfFs/pWVBSNVk77MtbvWgNJ5TBuv+XV8PK4UhCTz2fCFKte0r+r6OZCouYcFk99y7hI2CiUuqe7VKl5gWh9qfqsPKVHJBJkPR2dnMXsRPg9rAcB7zxIpy2ppME0vBugQt/Z+qwfoEulru0dX23zZLGuEb7jClzmHh1CCt9GXY2JHzdMX0xbny2yDrrY/TyGiGQwBpA7QijnB4e4fxQMxV5Onjn3suZueVroROjo/ss/XgAG9BbDvNKR+oW9cNgGBp/P1zz+b1ezcTlrjuD3fBWZQ1SomEkTt0Wp4x+eYkDkK6/N2r2DVeFzT+X/tm3STiMlKKd0vn3hEUUL8lra6yhYLbhqwxK1yi279kNQOUbSMFBeMLL7/kbKvArRJe3m8vgCS4IXN1hRYCe2L9jXHQHcVA/QJ3Zn5O/EBUqBk0L6533Ms1yvp/BMSGfKdRycG+MLyfYcdfpCDEgtR7wYapmQlqY4A/n1GKhTien2uQWxFzfFjQ7XWPmZmJvBtb2aaUeBPovNFUra0y1ELsf6SCvbBPoxi6ngHyXGUewLrn/u9mnYruGcNafRoOGOS4saFNwq
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(39850400004)(396003)(136003)(346002)(366004)(451199015)(86362001)(66556008)(36756003)(31696002)(2616005)(53546011)(41300700001)(66946007)(5660300002)(33964004)(186003)(66476007)(6486002)(8936002)(8676002)(6666004)(966005)(26005)(6512007)(478600001)(316002)(6506007)(166002)(83380400001)(38100700002)(4001150100001)(2906002)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?cC9KY3U0Y2M4blc4QnVOL3Y3akhVZVFYNHRaTWVyekxzblM5QnRhN0xuOTNV?=
- =?utf-8?B?MC8yTkJERjNFajhkOEUyODRjNytMRHltaEltVDVXaDgrczlyYU5XSFBFWUQy?=
- =?utf-8?B?aFZWektBYm5QbWFKTjd6SVluK1h2QTdONSsvWldCcHB5YlJYMEZLOHBXT2Jv?=
- =?utf-8?B?bFI0WmluaG5lWEs1UTlBM05ycG54cnp1OE00OUd5L0pPN21wRHlrU2ZvQVlw?=
- =?utf-8?B?S0QzWmlKVC8rRWRXZWc0SlhFNzNrSXNEY0E1dk9rakpkUnBGejFXNTZaQmx0?=
- =?utf-8?B?OXZRd0dxQUd1K1J0RlljU00vV0x5NmxnM3JYZThpVUtyTmkwVGU2NWVkdzZH?=
- =?utf-8?B?WExmdG84azhjbm5zaVg1YnVRaVBqN0J4b1JXQVVackp3NkJIVVd1b2hzL1Qz?=
- =?utf-8?B?SlN3SEFzYXorZjlsVVlGYm5ibEl0aWNMcHJ1TXY4U2FNM3FUZHpYTkRqdTFK?=
- =?utf-8?B?YWQ1QUxxL2x5MmN5SVo3c0w4aEd5RmUrQVlaU2RkbUFlYWJnS0lQeHlJeDRj?=
- =?utf-8?B?WG41bzdxMmRac241d0VhQ241WnFVaVlaQk5GcENMblpSV0FJdmRERnF4R0RY?=
- =?utf-8?B?bWp5eis5ZHNiblYzQUd5bklYbWhWaURKYktwTHNGYjVXZkt3UXExTm5oYVRj?=
- =?utf-8?B?MUp0RSt1NXpITlBnS3hVWVIyTVVqS2tWZVhoMzdzejkzSldYaFhMdXZjem5J?=
- =?utf-8?B?Tkl6TlZVM3g1Sk4wYjhUSzIrSkd6am9pc1RWdVpaQ2tUN28yVFJiRDFicDF6?=
- =?utf-8?B?YUZtcURpTlROL3VTdHNxcWxSanBXSFhHd29pWTJlcWIzQkVraFRhYUVSYld0?=
- =?utf-8?B?VWV3azdWc2dMMjBDb0VjS3h6Q2srTDBYS0J2UzBoQVhIRFFEdFJLYnkyRnRp?=
- =?utf-8?B?T0wrajJMc0U5aFJnSzdZZGhjQStTNnJWblovT2Jud0V4UlpwNzRjbWxoUGg4?=
- =?utf-8?B?MGZndDZ6SExadkZaZ2RodE5kL012aW92cGI4WWNybEJsK0FmdlVld2R0L1M0?=
- =?utf-8?B?MTVkei9ldkxZQXJPbmlneldQTmwrTXZNR3hYT0dkajduNW1wcjIranNMZlBW?=
- =?utf-8?B?TlVZaVlzS3hweXR6Y0FxOWpaWVdEazFBNWpMR3JDNFNBWlJiYmpKVjh1YjFL?=
- =?utf-8?B?S25wWG1KUUFRdGFMRVBYY2xjbmtoeVpzVUNseGw4SUVnaXhhWWRDeStBVGgv?=
- =?utf-8?B?MHEwSUhYY1U1dmJUSjB0TFM3QUV6YW9QMGwrMkplU3Q4UGEzaTU3K21ReFEw?=
- =?utf-8?B?YjJFbGVFc2h4NWpiTWEwZXlLbE5CU0w2OTQ0NVUzdmVwdXhpUnJKZWpXMjRs?=
- =?utf-8?B?MEhCd0V6b2h0dERMa3NGVjRWOTN5MWpIV21KbGZXWHdRVFVxSTdObXM1REpk?=
- =?utf-8?B?VjlRUTZsVWRaeVF6MVpYQklKZ1BGODVhVU85cjRsNW1idzlMUmVmWi9rY3hL?=
- =?utf-8?B?S3FyRmcwaVRYbmI1UXFqNmhZbTdncllYcnpwdlZsQ21NdkYzZTRmb212Z3Y5?=
- =?utf-8?B?TnRoWkFTQmpGY3Y2L2IzWGJvN0s2ZVNQd2MvcDdFUE9PWDRNNzlCcDh0VFBV?=
- =?utf-8?B?YlA0ODY1RlRiTkIyeWFYMDhhQ29nWGI5MjFwR01FMHFkSlJ4MWt4NDJ3REFE?=
- =?utf-8?B?SWJsbXRiVFVJRHJZRkg3czJ0aVhkMG5EQ0IvcVB5RGQ5YmlaMjBGZ0c0TTNB?=
- =?utf-8?B?L3BLRHdaWmhldEs3OXM3UkxFNE5XNXBFQjFQaXppUGwycVNybndZa1lwQW5S?=
- =?utf-8?B?TzRLeTViWGk4VEpvc0FVYWU2YUJwR1NNWnpHbndPOGN5dmZvR3hxaHhPNnVt?=
- =?utf-8?B?Vk9CTTRNUWR6dXJmRktRdytSc1lZUWhvYkFVelJzTFVxQ3VSRGtkcUF0K3Za?=
- =?utf-8?B?MGQ4ODVjMVpiQ3RzWDFhV1lhZGVwK3E0cFh6eFd1VjRvWTZVRkxVdFRTTTlR?=
- =?utf-8?B?TXlTZitLdFgzR1BOdzF3ZHo1Rko4QmZkMFZuREtKMVh6VFRSRUNGaXdnN0xH?=
- =?utf-8?B?YnFnRU5PQUZ2Y05WbkZ1Q01FT0pNRTYzT2lFZ05QZW9VbnNUS3ZGQnJXUmM0?=
- =?utf-8?B?Rk1Dd0ZPd3BuNHlHaFVNQ3RuNTRFdE9RMmgxT21vdi9sVnJoSmEzVEhYODVH?=
- =?utf-8?B?RVpmY0tZZzZuWDRYVHUveFRFR0hERStseEFRNGc2RTltQ1JwOVRRTHE0VzF4?=
- =?utf-8?B?Y0E9PQ==?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a72c9a9b-9998-4b7a-cd96-08daccdaf1c3
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2022 22:43:15.8986
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qWfOMq+FlhRu+YatgJZ5W/0RbfCnSlleB+fW7/1+0Blzq3mxfJ+1cuAoeF40UxHedA4lUILgDg54CMxaUqoPuY8sMCzlVu7EeC5Nt5vzsRo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4612
-X-Proofpoint-ORIG-GUID: J3uiaWsIeOemhssTxuu2wUw2jYPSuzHV
-X-Proofpoint-GUID: J3uiaWsIeOemhssTxuu2wUw2jYPSuzHV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-22_13,2022-11-18_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
- spamscore=0 suspectscore=0 lowpriorityscore=0 bulkscore=0 phishscore=0
- clxscore=1015 impostorscore=0 priorityscore=1501 mlxlogscore=999
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211220171
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Nov 2022 22:43:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173703
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Nov 2022 23:11:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173704
 
---------------0r0RAez1MwVN0NLjKZF6ab32
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+This should be the final pull request for the 3.1.21 release.
 
-On 2022-11-22 10:49, Zheng Qiu wrote:
-> This patch contains a fix for CVE-2022-3970
->
-> Reference:
-> https://nvd.nist.gov/vuln/detail/CVE-2022-3970
-> https://security-tracker.debian.org/tracker/CVE-2022-3970
->
-> Patch generated from :
-> https://gitlab.com/libtiff/libtiff/-/commit/227500897dfb07fb7d27f7aa570050e62617e3be
->
-> Upstream-Status: Accepted
->
-> Signed-off-by: Zheng Qiu<zheng.qiu@windriver.com>
-> ---
->   .../libtiff/files/CVE-2022-3970.patch         | 38 +++++++++++++++++++
->   meta/recipes-multimedia/libtiff/tiff_4.4.0.bb |  1 +
->   2 files changed, 39 insertions(+)
->   create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2022-3970.patch
->
-> diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2022-3970.patch b/meta/recipes-multimedia/libtiff/files/CVE-2022-3970.patch
-> new file mode 100644
-> index 0000000000..e8f143933a
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/libtiff/files/CVE-2022-3970.patch
-> @@ -0,0 +1,38 @@
-> +From 227500897dfb07fb7d27f7aa570050e62617e3be Mon Sep 17 00:00:00 2001
-> +From: Even Rouault<even.rouault@spatialys.com>
-> +Date: Tue, 8 Nov 2022 15:16:58 +0100
-> +Subject: [PATCH] TIFFReadRGBATileExt(): fix (unsigned) integer overflow on
-> + strips/tiles > 2 GB
+The following changes since commit ce99d451a54b8ce46b7f9030deaba86355009b1a:
 
-The Upstream-Status should be here in the headre of the patch.
+  wic: swap partitions are not added to fstab (2022-11-11 04:24:18 -1000)
 
-v3, please or update the patch if this gets merged.
+are available in the Git repository at:
 
-"While adding this tracking information to*the patch headers* is 
-currently optional, it is highly recommended and some maintainers may 
-require it. It is optional at this time so that it can be evaluated as 
-to its usefulness over time. Existing patches will be updated with the 
-tag as they are modified."
+  https://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
 
-https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Header_Recommendations:_Upstream-Status
+Bhabu Bindu (2):
+  libxml2: Fix CVE-2022-40303
+  libxml2: Fix CVE-2022-40304
 
+Hitendra Prajapati (1):
+  sudo: CVE-2022-43995 heap-based overflow with very small passwords
 
-../Randy
+Manuel Leonhardt (1):
+  sstate: Account for reserved characters when shortening sstate
+    filenames
 
-> +
-> +Fixeshttps://bugs.chromium.org/p/oss-fuzz/issues/detail?id=53137
-> +---
-> + libtiff/tif_getimage.c | 8 ++++----
-> + 1 file changed, 4 insertions(+), 4 deletions(-)
-> +
-> +diff --git a/libtiff/tif_getimage.c b/libtiff/tif_getimage.c
-> +index a4d0c1d6..60b94d8e 100644
-> +--- a/libtiff/tif_getimage.c
-> ++++ b/libtiff/tif_getimage.c
-> +@@ -3016,15 +3016,15 @@ TIFFReadRGBATileExt(TIFF* tif, uint32_t col, uint32_t row, uint32_t * raster, in
-> +         return( ok );
-> +
-> +     for( i_row = 0; i_row < read_ysize; i_row++ ) {
-> +-        memmove( raster + (tile_ysize - i_row - 1) * tile_xsize,
-> +-                 raster + (read_ysize - i_row - 1) * read_xsize,
-> ++        memmove( raster + (size_t)(tile_ysize - i_row - 1) * tile_xsize,
-> ++                 raster + (size_t)(read_ysize - i_row - 1) * read_xsize,
-> +                  read_xsize * sizeof(uint32_t) );
-> +-        _TIFFmemset( raster + (tile_ysize - i_row - 1) * tile_xsize+read_xsize,
-> ++        _TIFFmemset( raster + (size_t)(tile_ysize - i_row - 1) * tile_xsize+read_xsize,
-> +                      0, sizeof(uint32_t) * (tile_xsize - read_xsize) );
-> +     }
-> +
-> +     for( i_row = read_ysize; i_row < tile_ysize; i_row++ ) {
-> +-        _TIFFmemset( raster + (tile_ysize - i_row - 1) * tile_xsize,
-> ++        _TIFFmemset( raster + (size_t)(tile_ysize - i_row - 1) * tile_xsize,
-> +                      0, sizeof(uint32_t) * tile_xsize );
-> +     }
-> +
-> +--
-> +2.33.0
-> +
-> diff --git a/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
-> index 29cb4111d6..f92b034c4c 100644
-> --- a/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
-> +++ b/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
-> @@ -12,6 +12,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
->              file://0001-fix-the-FPE-in-tiffcrop-415-427-and-428.patch  \
->              file://CVE-2022-34526.patch  \
->              file://CVE-2022-2953.patch  \
-> +	file://CVE-2022-3970.patch  \
->              file://0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch  \
->              file://0001-tiffcrop-S-option-Make-decision-simpler.patch  \
->              file://0001-tiffcrop-disable-incompatibility-of-Z-X-Y-z-options-.patch  \
+Omkar (1):
+  python3: Fix CVE-2022-45061
 
+Ralph Siemsen (11):
+  golang: fix CVE-2021-33195
+  golang: fix CVE-2021-33198
+  golang: fix CVE-2021-44716
+  golang: fix CVE-2022-24291
+  golang: fix CVE-2022-28131
+  golang: fix CVE-2022-28327
+  golang: ignore CVE-2022-29804
+  golang: ignore CVE-2021-33194
+  golang: ignore CVE-2021-41772
+  golang: ignore CVE-2022-30580
+  golang: ignore CVE-2022-30630
+
+Ranjitsinh Rathod (1):
+  systemd: Fix CVE-2022-3821 issue
+
+Steve Sakoman (1):
+  maintainers: update gcc version to 9.5
+
+Sundeep KOKKONDA (1):
+  gcc: upgrade to v9.5
+
+Tim Orling (1):
+  vim: upgrade 9.0.0614 -> 9.0.0820
+
+Vivek Kumbhar (1):
+  libtasn1: fix CVE-2021-46848 off-by-one in asn1_encode_simple_der
+
+ meta/classes/sstate.bbclass                   |   2 +-
+ meta/conf/distro/include/maintainers.inc      |   2 +-
+ .../libxml/libxml2/CVE-2022-40303.patch       | 623 +++++++++++++++++
+ .../libxml/libxml2/CVE-2022-40304.patch       | 104 +++
+ meta/recipes-core/libxml/libxml2_2.9.10.bb    |   2 +
+ .../systemd/systemd/CVE-2022-3821.patch       |  47 ++
+ meta/recipes-core/systemd/systemd_244.5.bb    |   1 +
+ ...-PR-tree-optimization-97236-fix-bad-.patch | 119 ----
+ ...ight-Line-Speculation-SLS-mitigation.patch | 204 ------
+ ...e-SLS-mitigation-for-RET-and-BR-inst.patch | 600 ----------------
+ ...h64-Mitigate-SLS-for-BLR-instruction.patch | 659 ------------------
+ ...x-missing-dependencies-for-selftests.patch |  45 --
+ .../gcc/{gcc-9.3.inc => gcc-9.5.inc}          |  13 +-
+ ...0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch |   0
+ .../0002-gcc-poison-system-directories.patch  |   0
+ ...-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch |   0
+ .../0004-64-bit-multilib-hack.patch           |   0
+ .../0005-optional-libstdc.patch               |   0
+ .../0006-COLLECT_GCC_OPTIONS.patch            |   0
+ ...ts.h-in-B-instead-of-S-and-t-oe-in-B.patch |   0
+ .../0008-fortran-cross-compile-hack.patch     |   0
+ .../0009-cpp-honor-sysroot.patch              |   0
+ .../0010-MIPS64-Default-to-N64-ABI.patch      |   0
+ ...AMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch |   0
+ ...gcc-Fix-argument-list-too-long-error.patch |   0
+ .../0013-Disable-sdt.patch                    |   0
+ .../{gcc-9.3 => gcc-9.5}/0014-libtool.patch   |   0
+ ...s-fix-v4bx-to-linker-to-support-EABI.patch |   0
+ ...-config-files-from-B-instead-of-usin.patch |   0
+ ...ir-from-.la-which-usually-points-to-.patch |   0
+ .../0018-export-CPP.patch                     |   0
+ ...e-target-gcc-headers-can-be-included.patch |   0
+ ...ild-with-disable-dependency-tracking.patch |   0
+ ...t-directory-during-relink-if-inst_pr.patch |   0
+ ...IR-replacement-instead-of-hardcoding.patch |   0
+ ...23-aarch64-Add-support-for-musl-ldso.patch |   0
+ ...-fix-libcc1-s-install-path-and-rpath.patch |   0
+ ...le-sysroot-support-for-nativesdk-gcc.patch |   0
+ ...sroot-gcc-version-specific-dirs-with.patch |   0
+ ...ous-_FOR_BUILD-and-related-variables.patch |   0
+ ...028-nios2-Define-MUSL_DYNAMIC_LINKER.patch |   0
+ ...d-to-link-commandline-for-musl-targe.patch |   0
+ .../0030-ldbl128-config.patch                 |   0
+ ...using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch |   0
+ ...as-for-__cpu_indicator_init-instead-.patch |   0
+ .../0033-sync-gcc-stddef.h-with-musl.patch    |   0
+ ...-fault-in-precompiled-header-generat.patch |   0
+ .../0035-Fix-for-testsuite-failure.patch      |   0
+ ...Re-introduce-spe-commandline-options.patch |   0
+ ...heck-zero-value-in-simple_object_elf.patch |   0
+ ...s-Do-not-use-__LINE__-for-maintainin.patch |   0
+ ...ands-Don-t-match-user-defined-regs-o.patch |   0
+ ...adian_9.3.bb => gcc-cross-canadian_9.5.bb} |   0
+ .../{gcc-cross_9.3.bb => gcc-cross_9.5.bb}    |   0
+ ...cc-crosssdk_9.3.bb => gcc-crosssdk_9.5.bb} |   0
+ ...{gcc-runtime_9.3.bb => gcc-runtime_9.5.bb} |   0
+ ...anitizers_9.3.bb => gcc-sanitizers_9.5.bb} |   0
+ .../{gcc-source_9.3.bb => gcc-source_9.5.bb}  |   0
+ .../gcc/{gcc_9.3.bb => gcc_9.5.bb}            |   0
+ ...c-initial_9.3.bb => libgcc-initial_9.5.bb} |   0
+ .../gcc/{libgcc_9.3.bb => libgcc_9.5.bb}      |   0
+ ...{libgfortran_9.3.bb => libgfortran_9.5.bb} |   0
+ meta/recipes-devtools/go/go-1.14.inc          |  17 +
+ .../go/go-1.14/CVE-2021-33195.patch           | 373 ++++++++++
+ .../go/go-1.14/CVE-2021-33198.patch           | 113 +++
+ .../go/go-1.14/CVE-2021-44716.patch           |  93 +++
+ .../go/go-1.14/CVE-2022-24921.patch           | 198 ++++++
+ .../go/go-1.14/CVE-2022-28131.patch           | 104 +++
+ .../go/go-1.14/CVE-2022-28327.patch           |  36 +
+ .../python/files/CVE-2022-45061.patch         | 100 +++
+ .../recipes-devtools/python/python3_3.8.14.bb |   1 +
+ .../sudo/sudo/CVE-2022-43995.patch            |  59 ++
+ meta/recipes-extended/sudo/sudo_1.8.32.bb     |   1 +
+ .../gnutls/libtasn1/CVE-2021-46848.patch      |  45 ++
+ .../recipes-support/gnutls/libtasn1_4.16.0.bb |   1 +
+ meta/recipes-support/vim/vim.inc              |   4 +-
+ 76 files changed, 1926 insertions(+), 1640 deletions(-)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2022-40303.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2022-40304.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/CVE-2022-3821.patch
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-9.3/0001-Backport-fix-for-PR-tree-optimization-97236-fix-bad-.patch
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-9.3/0001-aarch64-New-Straight-Line-Speculation-SLS-mitigation.patch
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-9.3/0002-aarch64-Introduce-SLS-mitigation-for-RET-and-BR-inst.patch
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-9.3/0003-aarch64-Mitigate-SLS-for-BLR-instruction.patch
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-9.3/0040-fix-missing-dependencies-for-selftests.patch
+ rename meta/recipes-devtools/gcc/{gcc-9.3.inc => gcc-9.5.inc} (89%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0002-gcc-poison-system-directories.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0003-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0004-64-bit-multilib-hack.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0005-optional-libstdc.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0006-COLLECT_GCC_OPTIONS.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0007-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0008-fortran-cross-compile-hack.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0009-cpp-honor-sysroot.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0010-MIPS64-Default-to-N64-ABI.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0011-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0012-gcc-Fix-argument-list-too-long-error.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0013-Disable-sdt.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0014-libtool.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0015-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0016-Use-the-multilib-config-files-from-B-instead-of-usin.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0017-Avoid-using-libdir-from-.la-which-usually-points-to-.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0018-export-CPP.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0019-Ensure-target-gcc-headers-can-be-included.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0020-gcc-4.8-won-t-build-with-disable-dependency-tracking.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0021-Don-t-search-host-directory-during-relink-if-inst_pr.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0022-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0023-aarch64-Add-support-for-musl-ldso.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0024-libcc1-fix-libcc1-s-install-path-and-rpath.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0025-handle-sysroot-support-for-nativesdk-gcc.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0026-Search-target-sysroot-gcc-version-specific-dirs-with.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0027-Fix-various-_FOR_BUILD-and-related-variables.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0028-nios2-Define-MUSL_DYNAMIC_LINKER.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0029-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0030-ldbl128-config.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0031-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0032-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0033-sync-gcc-stddef.h-with-musl.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0034-fix-segmentation-fault-in-precompiled-header-generat.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0035-Fix-for-testsuite-failure.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0036-Re-introduce-spe-commandline-options.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0037-CVE-2019-14250-Check-zero-value-in-simple_object_elf.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0038-gentypes-genmodes-Do-not-use-__LINE__-for-maintainin.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-9.5}/0039-process_alt_operands-Don-t-match-user-defined-regs-o.patch (100%)
+ rename meta/recipes-devtools/gcc/{gcc-cross-canadian_9.3.bb => gcc-cross-canadian_9.5.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-cross_9.3.bb => gcc-cross_9.5.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-crosssdk_9.3.bb => gcc-crosssdk_9.5.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-runtime_9.3.bb => gcc-runtime_9.5.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-sanitizers_9.3.bb => gcc-sanitizers_9.5.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc-source_9.3.bb => gcc-source_9.5.bb} (100%)
+ rename meta/recipes-devtools/gcc/{gcc_9.3.bb => gcc_9.5.bb} (100%)
+ rename meta/recipes-devtools/gcc/{libgcc-initial_9.3.bb => libgcc-initial_9.5.bb} (100%)
+ rename meta/recipes-devtools/gcc/{libgcc_9.3.bb => libgcc_9.5.bb} (100%)
+ rename meta/recipes-devtools/gcc/{libgfortran_9.3.bb => libgfortran_9.5.bb} (100%)
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2021-33195.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2021-33198.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2021-44716.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2022-24921.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2022-28131.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2022-28327.patch
+ create mode 100644 meta/recipes-devtools/python/files/CVE-2022-45061.patch
+ create mode 100644 meta/recipes-extended/sudo/sudo/CVE-2022-43995.patch
+ create mode 100644 meta/recipes-support/gnutls/libtasn1/CVE-2021-46848.patch
 
 -- 
-# Randy MacLeod
-# Wind River Linux
+2.25.1
 
---------------0r0RAez1MwVN0NLjKZF6ab32
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 2022-11-22 10:49, Zheng Qiu wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:20221122154901.2290930-1-zheng.qiu@windriver.com">
-      <pre class="moz-quote-pre" wrap="">This patch contains a fix for CVE-2022-3970
-
-Reference:
-<a class="moz-txt-link-freetext" href="https://nvd.nist.gov/vuln/detail/CVE-2022-3970">https://nvd.nist.gov/vuln/detail/CVE-2022-3970</a>
-<a class="moz-txt-link-freetext" href="https://security-tracker.debian.org/tracker/CVE-2022-3970">https://security-tracker.debian.org/tracker/CVE-2022-3970</a>
-
-Patch generated from :
-<a class="moz-txt-link-freetext" href="https://gitlab.com/libtiff/libtiff/-/commit/227500897dfb07fb7d27f7aa570050e62617e3be">https://gitlab.com/libtiff/libtiff/-/commit/227500897dfb07fb7d27f7aa570050e62617e3be</a>
-
-Upstream-Status: Accepted
-
-Signed-off-by: Zheng Qiu <a class="moz-txt-link-rfc2396E" href="mailto:zheng.qiu@windriver.com">&lt;zheng.qiu@windriver.com&gt;</a>
----
- .../libtiff/files/CVE-2022-3970.patch         | 38 +++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.4.0.bb |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2022-3970.patch
-
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2022-3970.patch b/meta/recipes-multimedia/libtiff/files/CVE-2022-3970.patch
-new file mode 100644
-index 0000000000..e8f143933a
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2022-3970.patch
-@@ -0,0 +1,38 @@
-+From 227500897dfb07fb7d27f7aa570050e62617e3be Mon Sep 17 00:00:00 2001
-+From: Even Rouault <a class="moz-txt-link-rfc2396E" href="mailto:even.rouault@spatialys.com">&lt;even.rouault@spatialys.com&gt;</a>
-+Date: Tue, 8 Nov 2022 15:16:58 +0100
-+Subject: [PATCH] TIFFReadRGBATileExt(): fix (unsigned) integer overflow on
-+ strips/tiles &gt; 2 GB</pre>
-    </blockquote>
-    <p>The Upstream-Status should be here in the headre of the patch.</p>
-    <p>v3, please or update the patch if this gets merged.</p>
-    <p>&quot;While adding this tracking information to<b> the patch headers</b>
-      is currently
-      optional, it is highly recommended and some maintainers may
-      require it. It is
-      optional at this time so that it can be evaluated as to its
-      usefulness over
-      time. Existing patches will be updated with the tag as they are
-      modified.&quot;</p>
-    <p><a class="moz-txt-link-freetext" href="https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Header_Recommendations:_Upstream-Status">https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Header_Recommendations:_Upstream-Status</a><br>
-    </p>
-    <p><br>
-    </p>
-    <p></p>
-    <p>../Randy<br>
-    </p>
-    <blockquote type="cite" cite="mid:20221122154901.2290930-1-zheng.qiu@windriver.com">
-      <pre class="moz-quote-pre" wrap="">
-+
-+Fixes <a class="moz-txt-link-freetext" href="https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=53137">https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=53137</a>
-+---
-+ libtiff/tif_getimage.c | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/libtiff/tif_getimage.c b/libtiff/tif_getimage.c
-+index a4d0c1d6..60b94d8e 100644
-+--- a/libtiff/tif_getimage.c
-++++ b/libtiff/tif_getimage.c
-+@@ -3016,15 +3016,15 @@ TIFFReadRGBATileExt(TIFF* tif, uint32_t col, uint32_t row, uint32_t * raster, in
-+         return( ok );
-+ 
-+     for( i_row = 0; i_row &lt; read_ysize; i_row++ ) {
-+-        memmove( raster + (tile_ysize - i_row - 1) * tile_xsize,
-+-                 raster + (read_ysize - i_row - 1) * read_xsize,
-++        memmove( raster + (size_t)(tile_ysize - i_row - 1) * tile_xsize,
-++                 raster + (size_t)(read_ysize - i_row - 1) * read_xsize,
-+                  read_xsize * sizeof(uint32_t) );
-+-        _TIFFmemset( raster + (tile_ysize - i_row - 1) * tile_xsize+read_xsize,
-++        _TIFFmemset( raster + (size_t)(tile_ysize - i_row - 1) * tile_xsize+read_xsize,
-+                      0, sizeof(uint32_t) * (tile_xsize - read_xsize) );
-+     }
-+ 
-+     for( i_row = read_ysize; i_row &lt; tile_ysize; i_row++ ) {
-+-        _TIFFmemset( raster + (tile_ysize - i_row - 1) * tile_xsize,
-++        _TIFFmemset( raster + (size_t)(tile_ysize - i_row - 1) * tile_xsize,
-+                      0, sizeof(uint32_t) * tile_xsize );
-+     }
-+ 
-+-- 
-+2.33.0
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
-index 29cb4111d6..f92b034c4c 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
-@@ -12,6 +12,7 @@ SRC_URI = &quot;<a class="moz-txt-link-freetext" href="http://download.osgeo.org/libtiff/tiff-$">http://download.osgeo.org/libtiff/tiff-$</a>{PV}.tar.gz \
-            <a class="moz-txt-link-freetext" href="file://0001-fix-the-FPE-in-tiffcrop-415-427-and-428.patch">file://0001-fix-the-FPE-in-tiffcrop-415-427-and-428.patch</a> \
-            <a class="moz-txt-link-freetext" href="file://CVE-2022-34526.patch">file://CVE-2022-34526.patch</a> \
-            <a class="moz-txt-link-freetext" href="file://CVE-2022-2953.patch">file://CVE-2022-2953.patch</a> \
-+	   <a class="moz-txt-link-freetext" href="file://CVE-2022-3970.patch">file://CVE-2022-3970.patch</a> \
-            <a class="moz-txt-link-freetext" href="file://0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch">file://0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch</a> \
-            <a class="moz-txt-link-freetext" href="file://0001-tiffcrop-S-option-Make-decision-simpler.patch">file://0001-tiffcrop-S-option-Make-decision-simpler.patch</a> \
-            <a class="moz-txt-link-freetext" href="file://0001-tiffcrop-disable-incompatibility-of-Z-X-Y-z-options-.patch">file://0001-tiffcrop-disable-incompatibility-of-Z-X-Y-z-options-.patch</a> \
-</pre>
-    </blockquote>
-    <p><br>
-    </p>
-    <pre class="moz-signature" cols="72">-- 
-# Randy MacLeod
-# Wind River Linux</pre>
-  </body>
-</html>
-
---------------0r0RAez1MwVN0NLjKZF6ab32--
 
