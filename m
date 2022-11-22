@@ -1,86 +1,124 @@
-Return-Path: <diego.sueiro@arm.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48D09C4332F
-	for <webhook@archiver.kernel.org>; Tue, 22 Nov 2022 07:04:58 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.13162.1669100692083755442
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60CDCC4332F
+	for <webhook@archiver.kernel.org>; Tue, 22 Nov 2022 10:21:19 +0000 (UTC)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web10.15294.1669112472143136278
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Nov 2022 23:04:52 -0800
+ Tue, 22 Nov 2022 02:21:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: diego.sueiro@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9B07C1FB;
-	Mon, 21 Nov 2022 23:04:57 -0800 (PST)
-Received: from e120809.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5E9BB3F73D;
-	Mon, 21 Nov 2022 23:04:50 -0800 (PST)
-From: Diego Sueiro <diego.sueiro@arm.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=KOl//9qz;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f51.google.com with SMTP id ft34so34606862ejc.12
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Nov 2022 02:21:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pcVaIYgmYBPia6ET7y0gAZKlKu99qLNYlyFp26q/HiA=;
+        b=KOl//9qzkifUoq3qi7qMnpV2X8UpdliMYXFwicgsWH/RcLXJjsOgZa/MgVjf+Q1FL8
+         +W/5dTL62oUtmQMkGJKjtCKJAwmW+KT+ulS9Chzs295/wVMt75Da8w1540gxP00aeVEy
+         054poyOugrcJBj1po/HdMQOtrG/arT0nVgzZPM36mBUbvIZdDrMmZ5dKZ91timijiyqP
+         aNhuU9bcuPdaS9BOu0GbmltyKspYMv07oGfMTswcitsbnDvUq8Mw/29eUCDrKLdN9Kj3
+         lDZ5CnDb67JdPqa/RinBiumDu2Rui3tcY4xfznno78ssC2E8QlcOTKr2r84nQGoG88yb
+         2bzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pcVaIYgmYBPia6ET7y0gAZKlKu99qLNYlyFp26q/HiA=;
+        b=Y0N3OCysnJXGvBllPSDaEqXwGtG2vjMDAil20D7HAl2BY3Aza+JG0Ry18a7IRuNvbU
+         1NV5B29gTF8D+x8q3TLEwOjLxvWx5fxL4Qu15hJsWpgLcqXYM2uD1BOQBpNpNa+f0+Eo
+         BGZ+CVs8hvcqWPlIWgCnmjY/bmXlfBTlrQkzHhhozWf0Ew25b8f7N4NoBGvz2FparYr4
+         ztK5n8G9aO0eL1F04WUp4OpB12fegyDuR3MfH2NttOX8ACGVaTsj/whHxtsUYSdy5iX5
+         Woe7JXz2ruwJg/NkqHOAKSujdnes4r1Ee/5ssZg6OCtbFYduOOfbNgsYBx0RDNt89kyP
+         dZSQ==
+X-Gm-Message-State: ANoB5pm7pKnIPzM1pdhWWjop53JMcwUixLSaVmPNCh+qjWynnE2wkp+j
+	4pGLX5FPeLUbzpbXZaOZ+HI9kIANEng=
+X-Google-Smtp-Source: AA0mqf4nZBq/1rk/8/uUSTxiW9cuSjI1jFcxBt8TJHjk9khfSlb3AlHnxoxohfdqrIpEhVtF9fTJpQ==
+X-Received: by 2002:a17:906:cf85:b0:78d:b66d:749f with SMTP id um5-20020a170906cf8500b0078db66d749fmr18340618ejb.566.1669112470372;
+        Tue, 22 Nov 2022 02:21:10 -0800 (PST)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id eg51-20020a05640228b300b0045b4b67156fsm6232458edb.45.2022.11.22.02.21.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Nov 2022 02:21:09 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: nd@arm.com,
-	Diego Sueiro <diego.sueiro@arm.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [langdale][PATCH] kernel.bbclass: Include randstruct seed assets in STAGING_KERNEL_BUILDDIR
-Date: Tue, 22 Nov 2022 07:04:43 +0000
-Message-Id: <86508b235df8fd9da34ab1f420c6a98f3edf2ba5.1669100497.git.diego.sueiro@arm.com>
-X-Mailer: git-send-email 2.35.1
+Cc: steve@sakoman.com,
+	Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [PATCH][kirkstone] libsndfile1: Backport fix for CVE-2021-4156
+Date: Tue, 22 Nov 2022 11:21:03 +0100
+Message-Id: <20221122102103.141658-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Nov 2022 07:04:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173670
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Nov 2022 10:21:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173671
 
-When building with CONFIG_MODVERSIONS=3Dy and CONFIG_RANDSTRUCT=3Dy we ne=
-ed
-to copy the build assets generated for the randstrutc seed to
-STAGING_KERNEL_BUILDDIR, otherwise the out-of-tree modules build will
-generate those assets which will result in a different
-RANDSTRUCT_HASHED_SEED.
+CVE: CVE-2021-4156
 
-(From OE-Core rev: b36303158b2e0273ff415bdedefb379f680b30fc)
-
-Signed-off-by: Diego Sueiro <diego.sueiro@arm.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/classes-recipe/kernel.bbclass | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ ...flac-Fix-improper-buffer-reusing-732.patch | 29 +++++++++++++++++++
+ .../libsndfile/libsndfile1_1.0.31.bb          |  1 +
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/0001-flac-Fix-improper-buffer-reusing-732.patch
 
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/ker=
-nel.bbclass
-index 7bb3449223..3834a42fb9 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -591,6 +591,22 @@ do_shared_workdir () {
- 			cp tools/objtool/objtool ${kerneldir}/tools/objtool/
- 		fi
- 	fi
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/0001-flac-Fix-improper-buffer-reusing-732.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/0001-flac-Fix-improper-buffer-reusing-732.patch
+new file mode 100644
+index 0000000000..ede696180a
+--- /dev/null
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1/0001-flac-Fix-improper-buffer-reusing-732.patch
+@@ -0,0 +1,29 @@
++From 9e4e9224c39195bde8ec14d1295944f713adb79a Mon Sep 17 00:00:00 2001
++From: yuan <ssspeed00@gmail.com>
++Date: Tue, 20 Apr 2021 16:16:32 +0800
++Subject: [PATCH] flac: Fix improper buffer reusing (#732)
 +
-+	# When building with CONFIG_MODVERSIONS=3Dy and CONFIG_RANDSTRUCT=3Dy w=
-e need
-+	# to copy the build assets generated for the randstruct seed to
-+	# STAGING_KERNEL_BUILDDIR, otherwise the out-of-tree modules build will
-+	# generate those assets which will result in a different
-+	# RANDSTRUCT_HASHED_SEED
-+	if [ -d scripts/basic ]; then
-+		mkdir -p ${kerneldir}/scripts
-+		cp -r scripts/basic ${kerneldir}/scripts
-+	fi
++Upstream-Status: Backport [https://github.com/libsndfile/libsndfile/commit/ced91d7b971be6173b604154c39279ce90ad87cc]
++CVE: CVE-2021-4156
 +
-+	if [ -d scripts/gcc-plugins ]; then
-+		mkdir -p ${kerneldir}/scripts
-+		cp -r scripts/gcc-plugins ${kerneldir}/scripts
-+	fi
++Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++---
++ src/flac.c | 4 ++++
++ 1 file changed, 4 insertions(+)
 +
- }
-=20
- # We don't need to stage anything, not the modules/firmware since those =
-would clash with linux-firmware
---=20
-2.35.1
++diff --git a/src/flac.c b/src/flac.c
++index 64d0172e..e3320450 100644
++--- a/src/flac.c
+++++ b/src/flac.c
++@@ -948,7 +948,11 @@ flac_read_loop (SF_PRIVATE *psf, unsigned len)
++ 	/* Decode some more. */
++ 	while (pflac->pos < pflac->len)
++ 	{	if (FLAC__stream_decoder_process_single (pflac->fsd) == 0)
+++		{	psf_log_printf (psf, "FLAC__stream_decoder_process_single returned false\n") ;
+++			/* Current frame is busted, so NULL the pointer. */
+++			pflac->frame = NULL ;
++ 			break ;
+++			} ;
++ 		state = FLAC__stream_decoder_get_state (pflac->fsd) ;
++ 		if (state >= FLAC__STREAM_DECODER_END_OF_STREAM)
++ 		{	psf_log_printf (psf, "FLAC__stream_decoder_get_state returned %s\n", FLAC__StreamDecoderStateString [state]) ;
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.31.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.31.bb
+index ea14fe29cb..f6ea585e34 100644
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.31.bb
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.31.bb
+@@ -10,6 +10,7 @@ LICENSE = "LGPL-2.1-only"
+ 
+ SRC_URI = "https://github.com/libsndfile/libsndfile/releases/download/${PV}/libsndfile-${PV}.tar.bz2 \
+            file://noopus.patch \
++           file://0001-flac-Fix-improper-buffer-reusing-732.patch \
+           "
+ UPSTREAM_CHECK_URI = "https://github.com/libsndfile/libsndfile/releases/"
+ 
+-- 
+2.38.1
 
 
