@@ -1,108 +1,103 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 829EFC433FE
-	for <webhook@archiver.kernel.org>; Tue, 22 Nov 2022 22:16:40 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web10.5535.1669155395320064558
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA2F8C4332F
+	for <webhook@archiver.kernel.org>; Tue, 22 Nov 2022 22:29:00 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+ by mx.groups.io with SMTP id smtpd.web11.5932.1669156130865511447
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Nov 2022 14:16:35 -0800
+ Tue, 22 Nov 2022 14:28:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SRSYICAo;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id t4so11847371wmj.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Nov 2022 14:16:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=wyeQBJ2FwGPrmpXUYrrwxgRuwwbQllguoLjmjGT2A78=;
-        b=SRSYICAoNj94CTIZG3+5jeNU1yCeXtid5XfRm8SPjIGapZibeLmhYLZj7G164qB+oN
-         jIbqIRYiIiqT2FrutyXVoWQ8X/MyytkUsWVpFIBlY3mBDmHPiZtmvIgKm5YB2e+hHHOT
-         DbOpvpp0GhopHFpQvmow84km028JnpMAcwxiw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wyeQBJ2FwGPrmpXUYrrwxgRuwwbQllguoLjmjGT2A78=;
-        b=yTPvtP4/6yUeUnTVDlCsoPilhnGrZFOXbTJIZXN79lzgmwpSqFRTLJp+Ep2g2SjOsO
-         GrFCrUG2SQ4zHxE1E9DlU09rCQPDARHeBmldgl1m+k+0CjiaEmlssq6VuINSQS6mFLR/
-         amOKyeHRl2yqxHOyiqAOU+VqxoDvmIGuOQke/DeON3aAqGPphMV84PaVILZUPQjVVSo+
-         wD4KCNI0wYFoCyBBPScvGmo/OjkGm3Ap5oEYH+sQJbq9AEXHMXbYralWJwSo63KbuIfL
-         Rw7NaAAGkfhNIShEWNMgOnGeCSDj89EbYUVbqW5BULMBf/yCe7fT1pIFNce3/9Ib4Cqp
-         arnw==
-X-Gm-Message-State: ANoB5pl5HFQc2pxqh6iWhQHQgygHMsv1AB6zl8I8uRmaEDocKRMJCTDn
-	i/Hwd6QhItcuWNBUUbyH2+aJqQ==
-X-Google-Smtp-Source: AA0mqf7ZTD8DrM6aExTeAfprsPql9sDbUnHARw/b5JOPpgV3dAFg2m0Gx1I8TCS84m2TGwW4QmHFmA==
-X-Received: by 2002:a7b:ca45:0:b0:3c4:bda1:7c57 with SMTP id m5-20020a7bca45000000b003c4bda17c57mr21740930wml.6.1669155393745;
-        Tue, 22 Nov 2022 14:16:33 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:978b:ac21:2786:e95b? ([2001:8b0:aba:5f3c:978b:ac21:2786:e95b])
-        by smtp.gmail.com with ESMTPSA id k33-20020a05600c1ca100b003cffd3c3d6csm140046wms.12.2022.11.22.14.16.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Nov 2022 14:16:33 -0800 (PST)
-Message-ID: <6be037fc3360aee5c7f55687a2ed384fd9d7d7bb.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 06/17] man-db: update 2.10.2 -> 2.11.1
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=U6QlYUV8;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id AD81DE0004;
+	Tue, 22 Nov 2022 22:28:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1669156128;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=B/UFbt06WCS/QctLo/+MAsj6Lrf/Vl/hWa/dZ2CfpCc=;
+	b=U6QlYUV8nmxytGuRb71bA2cTVziVzvzEQEcl7rLCSwCIBTSQLkHS3/exLjMQTrhR+70o6C
+	nLfOkPUvMgh4RprPmXnXP9whaGF9EfN0gniK/t82lkbRU15tJ5krB7bxD6Px1mNPjBqWI7
+	KfLk7h6LQs2uw5BhrE0TwbNoqnwUowRhrjMEprzJcfh27+/gfeKEBnUPu1ASHI2p+xMNGB
+	l4scG3gXQWtOV7mEFEQ2PXxdedQYNPdI2I3idtSYBLJ0H5syY2ZFqirCiKJ1u22dkObSGn
+	eDFEVObkbtprbnUF/vH/edB+zF/6DbXDLLWL0a23JbkuWSN+GwIdnZrPI70LHA==
+Date: Tue, 22 Nov 2022 23:28:47 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
 To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, Alexander Kanavin
-	 <alex@linutronix.de>
-Date: Tue, 22 Nov 2022 22:16:32 +0000
-In-Reply-To: <CANNYZj8c5HPpMqTAdbOd8swzF-A0ef7cXfSHaTpVpekT87uF6g@mail.gmail.com>
-References: <20221120133122.2464634-1-alex@linutronix.de>
-	 <20221120133122.2464634-6-alex@linutronix.de>
-	 <66344aa4e79a890e2c9d90af9b712bf432f450dc.camel@linuxfoundation.org>
-	 <CANNYZj8c5HPpMqTAdbOd8swzF-A0ef7cXfSHaTpVpekT87uF6g@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu1 
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Ross Burton <Ross.Burton@arm.com>, Khem Raj <raj.khem@gmail.com>,
+	Markus Volk <f_l_k@t-online.de>,
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe-core][PATCH] python3: add ${bindir}/python symlink
+Message-ID: <Y31NH+sqmDNMVZPl@mail.local>
+References: <CAMKF1spErHg3JX+DFRLcW4EthTGBMm4A24XsyAVOO3RNr6Wgfw@mail.gmail.com>
+ <CANNYZj-UTuxW0-Rr7FhgjwE007Gr28Pc5ZCo=cnrDcaNsuZStw@mail.gmail.com>
+ <CAMKF1srs_tmRRNqWQAmBKOkJkfysJt=OZjefq_mPd4htPGi6VA@mail.gmail.com>
+ <1729A925BA1D06C8.25787@lists.openembedded.org>
+ <CANNYZj-mhM6FzQY4Lv2BckodcLtPSUV29GG4TCUb_Tp003SAbw@mail.gmail.com>
+ <HRFQLR.NFABK2KMZ9XR2@t-online.de>
+ <4BF25A91-3F02-49A2-A546-A9CF7881E0ED@arm.com>
+ <CANNYZj9uxKov0vrox7N3kv-HdQJ9VDbLu7Jsn_SuVUTz_Nbrzw@mail.gmail.com>
+ <d945c2d89848932cd437ab8ae0a4f41a6f76ef19.camel@linuxfoundation.org>
+ <CANNYZj9ukvo3YE5Aj+cCPUR-ut6ZCKyNK77TRk_bytsV2ArgwA@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANNYZj9ukvo3YE5Aj+cCPUR-ut6ZCKyNK77TRk_bytsV2ArgwA@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Nov 2022 22:16:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173701
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Nov 2022 22:29:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173702
 
-On Tue, 2022-11-22 at 21:53 +0100, Alexander Kanavin wrote:
-> On Tue, 22 Nov 2022 at 13:31, Richard Purdie
+On 22/11/2022 19:32:17+0100, Alexander Kanavin wrote:
+> On Tue, 22 Nov 2022 at 19:14, Richard Purdie
 > <richard.purdie@linuxfoundation.org> wrote:
-> > From a quick look at the changes, I'm not sure this is correct. At
-> > least some pieces of the codebase are still under GPL-2.0* so at the
-> > very least that should still be here even if the output result is 3.0.
-> > It may be some of our output packages are also still under the 2.0
-> > licenses.
->=20
-> README has this to say:
-> In addition, man-db incorporates Gnulib, copyrighted by the Free Software
-> Foundation and others. Note that much of Gnulib is distributed under the =
-GNU
-> General Public License version 3 or later. This means that, although
-> man-db's own source code is licensed under GPL v2 or later, the work as a
-> whole falls under the terms of the GPL v3 or later. Unless you take speci=
-al
-> pains to remove the GPL v3 portions, you must therefore follow the terms =
-and
-> conditions of the GPL v3 or later when distributing man-db.
->=20
-> I took a look at the log.do_compile. Gnulib is statically linked into
-> libman.so, then every executable binary is dynamically linked with
-> that. So there does not seem to be any reasonable independent target
-> piece that is under gplv2.
->=20
-> We can list the license as "gpl2+ & gpl3" with extra clarifications I gue=
-ss.
+> > Rightly or wrongly, this patch will cause large amounts of pain for
+> > some portion of our userbase and I'm not sure we have enough
+> > justification to do that. That pain wouldn't likely be realised for
+> > some time either :/.
+> 
+> I have to point out that meta-python2 hasn't even received a
+> compatibility update for langsdale:
+> https://git.openembedded.org/meta-python2
+> 
+> While this might be 'too soon' to conclude that python2 is truly dead,
+> maybe a year (or two, or three) from now it won't be. Fedora has
+> already made the switch, Debian will follow, and honestly, I just
+> can't muster any sympathy for python2 users anymore. You can't push
+> back paying off technical debt forever and expect others to
+> accommodate you.
+> 
+> Let me propose this: a PACKAGECONFIG for the python recipe that adds
+> and installs the symlink in a dedicated package. We can keep it off
+> for now, but somewhere down the line we could revisit that against
+> established practice and what PEPs say then.
+> 
 
-Yes. We don't interpret the overall license, we list the licenses
-present and then it is for others to decide the license they use it
-under (even if it is fairly clear for this combination).
+I actually like the idea of having a python-is-python3 package so that
+affected recipes could simply add it to their dependencies. That would
+make it explicit that python is not python2.
 
-If it is all under that license that is fair enough, I just wondered
-about any sub components.
+> Alex
 
-Cheers,
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#173698): https://lists.openembedded.org/g/openembedded-core/message/173698
+> Mute This Topic: https://lists.openembedded.org/mt/95156228/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
-Richard
 
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
