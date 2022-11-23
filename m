@@ -2,104 +2,137 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 287A2C433FE
-	for <webhook@archiver.kernel.org>; Wed, 23 Nov 2022 16:34:44 +0000 (UTC)
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
- by mx.groups.io with SMTP id smtpd.web10.1153.1669221274227799489
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B584C433FE
+	for <webhook@archiver.kernel.org>; Wed, 23 Nov 2022 19:42:25 +0000 (UTC)
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.web11.6144.1669232537634389321
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Nov 2022 08:34:34 -0800
+ Wed, 23 Nov 2022 11:42:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=M06obSo1;
- spf=pass (domain: gmail.com, ip: 209.85.160.41, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-141ca09c2fbso21393223fac.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Nov 2022 08:34:34 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=flvtBd7q;
+ spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f53.google.com with SMTP id y14-20020a17090a2b4e00b002189a1b84d4so2747561pjc.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Nov 2022 11:42:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9BYFOfWP3oa2oSjD1KIOqGqIaOAyzNJpxL5F8JtvaWY=;
-        b=M06obSo1iTnvtqSKfSIBc/pa3VmxX61qMyXWhD/hNvlokglMNWDiuG9MH70vd40mO4
-         Sl8gKzMTrLtF7jjUdaxHRL9hA5tBECOgmFMpuok3X5nOwy7frrb6rAf+DIpTIoaJJuwi
-         5JSBqmnz7Ob1ADYXUKXK/pronu3xAuaYOTAIZvTdd86flIHL9xt451CTnuxhg5tnuiO9
-         +iMqpEB10vrttpnWryjKa9Ndyvp0brmNgCAVcHezef0ub7TiD6R9dw9mXu0wvgv0X2Ce
-         L4vEoxLSlXfXf4pwBrnM9BNNIrZk7f/Ot+LFa5J/Kfo5Vdw1HeS/9OW4MoZCqkX3/eeH
-         WcMw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7+ZwXCcvXd+AwW2rRCkTotqP6KzoIZVF/kscQd/Znlw=;
+        b=flvtBd7qASlqkG2fota7i7q9ga56Gf2INUzlfgRJ+/Vv8wS5GvqBUK1mEoWZG3Xc8/
+         66tlUx+llKp/YSYR7ofvx4t1Ww3tYeJBgM1YUc+sucDQwhoFBjj9YXXZc/0el1/GyC9Y
+         tMMT3WMrzubIh67ZeY7tyZPcIuGABEmwIBKsHEsoi5VtjbOg3/PJaqgmIP2RKmJT5oaJ
+         OR8ylCW+Ti6LwzyvuA5GUp1ViqW5AEoeLZ/fYuXKXtwZ7L0C/D74aQCozwlIM0E4C01w
+         U3jOAQtfpOISoAlmwHBmvYbSYtt7bpGBMU9Ti2JNw+ZEuB5TuX5F6FvF3GqQ/Ir77Y5X
+         gTCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9BYFOfWP3oa2oSjD1KIOqGqIaOAyzNJpxL5F8JtvaWY=;
-        b=ffVeg5k5rrShONdx+fh+Sz3KjKox2EL2pVb4PtPviBYRY7oUL2/6QSqSuoDT2Xz57v
-         uOxqkR3uu9bpxBcTUL3FPdN4qDh7aPsl3Jn5z6LOKJ4Qb0RlPtwirQdn4XWbaZSKlbPo
-         drsHmQsdx2X46vb6b99F0A/HZjbs8zwnckzUyTv6XP+8Wlm1ZfOfR/7sYLyy1OpXDu/g
-         lkuSUv2W5l3sP2zn2OcPxUFzJ/jQjH6pOhYlKvmUkWHZN/kFpiKIIOcTles8ppgf0uvk
-         KvABXfsxb/xl2E0HQdXkm9mGo6qXXV+rcnIfs4PbF7wQ3iHqMJAtyq9zS0apowzoos0m
-         zz1w==
-X-Gm-Message-State: ANoB5pkV1uUcbEgwmpkwDEwz9+kyutFAnDIWTJ+cFImCgEd3rKt5GK/k
-	W4TT1/jsxQi9I0PA0GrLKLVednnMSFjAXqPrvx0=
-X-Google-Smtp-Source: AA0mqf6Ql7fKUFptwl+HcPZtQG1sz8uao9/2+O6BTSZ5nWmX0yqHqORJESUoLHMcfcZPkvFVEW42Omwz+7s25xcgvjc=
-X-Received: by 2002:a05:6871:4199:b0:142:d126:dc55 with SMTP id
- lc25-20020a056871419900b00142d126dc55mr6646428oab.262.1669221273419; Wed, 23
- Nov 2022 08:34:33 -0800 (PST)
-MIME-Version: 1.0
-References: <20221120175237.194899-1-f_l_k@t-online.de> <CAMKF1spErHg3JX+DFRLcW4EthTGBMm4A24XsyAVOO3RNr6Wgfw@mail.gmail.com>
- <CANNYZj-UTuxW0-Rr7FhgjwE007Gr28Pc5ZCo=cnrDcaNsuZStw@mail.gmail.com>
- <CAMKF1srs_tmRRNqWQAmBKOkJkfysJt=OZjefq_mPd4htPGi6VA@mail.gmail.com>
- <1729A925BA1D06C8.25787@lists.openembedded.org> <CANNYZj-mhM6FzQY4Lv2BckodcLtPSUV29GG4TCUb_Tp003SAbw@mail.gmail.com>
- <HRFQLR.NFABK2KMZ9XR2@t-online.de> <4BF25A91-3F02-49A2-A546-A9CF7881E0ED@arm.com>
- <CANNYZj9uxKov0vrox7N3kv-HdQJ9VDbLu7Jsn_SuVUTz_Nbrzw@mail.gmail.com>
- <534355DF-2B59-4B88-84F1-18251DF2FCC9@arm.com> <CANNYZj--M74EQyWbLeYa6L=iH01QSqUcKnn2WpxMvyz_zpXS5w@mail.gmail.com>
-In-Reply-To: <CANNYZj--M74EQyWbLeYa6L=iH01QSqUcKnn2WpxMvyz_zpXS5w@mail.gmail.com>
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7+ZwXCcvXd+AwW2rRCkTotqP6KzoIZVF/kscQd/Znlw=;
+        b=Q+Zx3qpx4zogURekemWaPdx5iAq8C+w3EpMI+4Ra3xi5/Mv5lggBSaJf+thwNj7I2c
+         nQNbNe7BBcQl9VjIwa6UBhVilZd+Ashh3sIJoLHEVe/ChXfPtiMVMID1dge/tQ+/UJ7U
+         Et1qVWPGBpDnNLeCdZaSc7LSZyCotP5uyMwypTsenNVkYDcfNei2FAiuiU/YEl1DVYZl
+         jD0KV6RabQ4EPOI2z/Bzwc1BAZBiKW1y/rRLiNqr4GYzGPR5zDx5GNvj2FT90A2bbFfT
+         0NQxYxpDhuJHLqd8yjtO893WAP01Ipt1DjTqjST7yIWB1GSBSTvQs8TmydzdUgtg82BX
+         jocQ==
+X-Gm-Message-State: ANoB5pl00+CmwLE2HyU/FzpkonPg6TUwHuox+83RMjX1+Y2gNuqUbE01
+	BwDDUVunj4eSIfWTSz3D1qeAVbQlKSc=
+X-Google-Smtp-Source: AA0mqf413horJt40+QZj+pWJzRMf1J7uEgD9nYJaDrbLhbcSVzmfCifNUH0TkF7fBnjR4Sble+950w==
+X-Received: by 2002:a17:902:7006:b0:181:b55a:f987 with SMTP id y6-20020a170902700600b00181b55af987mr10144436plk.67.1669232536729;
+        Wed, 23 Nov 2022 11:42:16 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::a42c])
+        by smtp.gmail.com with ESMTPSA id b12-20020aa78ecc000000b0056b2e70c2f5sm11796416pfr.25.2022.11.23.11.42.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Nov 2022 11:42:16 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 23 Nov 2022 08:34:07 -0800
-Message-ID: <CAMKF1sr7ZxbQPkAydEq6psBZSS=oumi0yogEWXLt23+YyhobCA@mail.gmail.com>
-Subject: Re: [oe-core][PATCH] python3: add ${bindir}/python symlink
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Ross Burton <Ross.Burton@arm.com>, Markus Volk <f_l_k@t-online.de>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] rsync: Delete upstreamed patch
+Date: Wed, 23 Nov 2022 11:42:14 -0800
+Message-Id: <20221123194214.2317638-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.38.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Nov 2022 16:34:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173724
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Nov 2022 19:42:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173725
 
-On Wed, Nov 23, 2022 at 2:55 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> On Wed, 23 Nov 2022 at 10:59, Ross Burton <Ross.Burton@arm.com> wrote:
-> > > The serious need is that we need to patch all the scripts that ask fo=
-r python to add a 3 to it. And there will be more of these going forward, n=
-ot less. I=E2=80=99d rather just always have python available. Not a proble=
-m worth deliberating over to be honest.
-> >
-> > But as per PEP 0384, /usr/bin/python could be python2, or not there at =
-all.  Software should use python3.
->
-> But would anyone pay attention to the PEP when writing new scripts?
+It has been applied upstream see
+https://github.com/WayneD/rsync/commit/9a3449a3980421f84ac55498ba565bc112b20d6c
 
-they should be pointed to PEP and I hope python tutors teach it from day 1.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...antic-errors-at-the-end-of-configure.patch | 44 -------------------
+ meta/recipes-devtools/rsync/rsync_3.2.7.bb    |  1 -
+ 2 files changed, 45 deletions(-)
+ delete mode 100644 meta/recipes-devtools/rsync/files/0001-Turn-on-pedantic-errors-at-the-end-of-configure.patch
 
-If
-> /usr/bin/python is available by default, as it is already on Fedora,
+diff --git a/meta/recipes-devtools/rsync/files/0001-Turn-on-pedantic-errors-at-the-end-of-configure.patch b/meta/recipes-devtools/rsync/files/0001-Turn-on-pedantic-errors-at-the-end-of-configure.patch
+deleted file mode 100644
+index f11f13dd48..0000000000
+--- a/meta/recipes-devtools/rsync/files/0001-Turn-on-pedantic-errors-at-the-end-of-configure.patch
++++ /dev/null
+@@ -1,44 +0,0 @@
+-From e6321b0b456fca987b48d5ec7aba7e2826128e5f Mon Sep 17 00:00:00 2001
+-From: Paul Eggert <eggert@cs.ucla.edu>
+-Date: Thu, 18 Aug 2022 07:46:28 -0700
+-Subject: [PATCH] Turn on -pedantic-errors at the end of 'configure'
+-
+-Problem reported by Khem Raj in:
+-https://lists.gnu.org/r/autoconf-patches/2022-08/msg00009.html
+-Upstream-Status: Submitted [https://lists.samba.org/archive/rsync/2022-August/032862.html]
+-
+----
+- configure.ac | 20 ++++++++++++++++++++
+- 1 file changed, 20 insertions(+)
+-
+-diff --git a/configure.ac b/configure.ac
+-index a2c9955..afabef0 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -1437,6 +1437,26 @@ case "$CC" in
+-     ;;
+- esac
+- 
+-+# Enable -pedantic-errors last, so that it doesn't mess up other
+-+# 'configure' tests.  For example, Autoconf uses empty function
+-+# prototypes like 'int main () {}' which Clang 15's -pedantic-errors
+-+# would reject.  Generally it's not a good idea to try to run
+-+# 'configure' itself with strict compiler checking.
+-+if test x"$GCC" = x"yes"; then
+-+    if test x"$with_included_popt" != x"yes"; then
+-+	# Turn pedantic warnings into errors to ensure an array-init overflow is an error.
+-+	CFLAGS="$CFLAGS -pedantic-errors"
+-+    else
+-+	# Our internal popt code cannot be compiled with pedantic warnings as errors, so try to
+-+	# turn off pedantic warnings (which will not lose the error for array-init overflow).
+-+	# Older gcc versions don't understand -Wno-pedantic, so check if --help=warnings lists
+-+	# -Wpedantic and use that as a flag.
+-+	case `$CC --help=warnings 2>/dev/null | grep Wpedantic` in
+-+	    *-Wpedantic*) CFLAGS="$CFLAGS -pedantic-errors -Wno-pedantic" ;;
+-+	esac
+-+    fi
+-+fi
+-+
+- AC_CONFIG_FILES([Makefile lib/dummy zlib/dummy popt/dummy shconfig])
+- AC_OUTPUT
+- 
+diff --git a/meta/recipes-devtools/rsync/rsync_3.2.7.bb b/meta/recipes-devtools/rsync/rsync_3.2.7.bb
+index e52699d24f..19574bcb1c 100644
+--- a/meta/recipes-devtools/rsync/rsync_3.2.7.bb
++++ b/meta/recipes-devtools/rsync/rsync_3.2.7.bb
+@@ -15,7 +15,6 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
+            file://makefile-no-rebuild.patch \
+            file://determism.patch \
+            file://0001-Add-missing-prototypes-to-function-declarations.patch \
+-           file://0001-Turn-on-pedantic-errors-at-the-end-of-configure.patch \
+            "
+ SRC_URI[sha256sum] = "4e7d9d3f6ed10878c58c5fb724a67dacf4b6aac7340b13e488fb2dc41346f2bb"
+ 
+-- 
+2.38.1
 
-There perhaps is a reason for that in Fedora, but it is in conflict
-with what PEP0384 is saying
-
-> and probably will be on Debian (in testing/sid there is no choice
-> between 2 and 3 anymore - 2 is gone, and that clears the road to have
-> python->python3 installed by default), then it's not unreasonable to
-> have the script use that. I wouldn't want to know or care about
-> python's historical baggage. That's why I'm saying we're going to see
-> more upstreams that are just having #!/usr/bin/python and don't give a
-> damn, even when you point it out to them.
->
-
-If you want to ignore the baggage then know that there is no
-/usr/bin/python anymore.
-
-> Alex
 
