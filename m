@@ -1,431 +1,335 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94D31C4332F
-	for <webhook@archiver.kernel.org>; Wed, 23 Nov 2022 15:44:15 +0000 (UTC)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web11.23638.1669218250345037494
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CDB3C433FE
+	for <webhook@archiver.kernel.org>; Wed, 23 Nov 2022 16:06:54 +0000 (UTC)
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web10.270.1669219608225172459
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Nov 2022 07:44:10 -0800
+ Wed, 23 Nov 2022 08:06:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=nSvoiivx;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.54, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f54.google.com with SMTP id ud5so43654298ejc.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Nov 2022 07:44:10 -0800 (PST)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=dTDETDGQ;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jQsFRounKGkEyRYqVB3zhZZI6NSuZdYQqI6XZ04/l+8=;
-        b=nSvoiivxHZiwiBhIPnIadLiTZK3464QmgiiOiwyF+2NqS0nM7v4CnPHZK/Ks3ZmJ5k
-         Fucwze5vyD2N0+nMNeJUEgWT7Ig196DGgws3/9llY2cSqBgygQoBG9WZaQcP5XJxSW6e
-         ijomH8ZwGoe1u3H+BdHLf+k+EeLl3oVu3fmpWXNdRSgsovqL9tFFpV0Ng7NL3MHiD1CL
-         1NTphU9wP0J4CRht7M62OWKHl17WHNDxsnh0clE4cI2bYERr0JvcVkx7S5fq2ZUmpJCr
-         UMJjw4dT+dSKS6ukVyk7wFoqSCAYtfStp2n2dUQ1I76R1LKT0v1WTbcptWIIqqR0qKyp
-         a8fQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jQsFRounKGkEyRYqVB3zhZZI6NSuZdYQqI6XZ04/l+8=;
-        b=kc6tcXAEHjS8EUnDeUFJe8iKoRpp7MQEJW0zx9UtcxuKIhTGCda01EtkA2R1zBNL1P
-         OStRgxMa76eG6cBJ1wa6uA1O2nDkidwbpVr75HqBCcrYIV1u9PzQsaNBoTe5XJLisfU6
-         mwkRNTOCunNx5d3Z1XyKl6e4teW2i//KU3gr9O1GfUyRxovRC7fbxOz4zukajE2POcp2
-         VKjTRFyWn9m+gRP/DKjDnpFCvqnT0F5gPUjZFdKX3KbFfDD2xm2auRusVC+jcm22feb9
-         yiSynhtzbPe1dWUjmFloInLwQgeDTKgeUNTyD/HwkuQKXIe5TxZ/y9DTDVS+icdwPPgu
-         mw9w==
-X-Gm-Message-State: ANoB5pnhlj8unawNRF5nEU3Uk4jrKGRTU13CalbYNmYt8NeHLI0PWLSa
-	1ryP18XfBotXYDCvRB3J1pV3LgRG4VUQJOvANkHWfw==
-X-Google-Smtp-Source: AA0mqf5ubbX9n7kl5AKIuEQhR86pvUXwQXJiWsEaOGL5K5NyHzP0rzahojz3ibFhR5PqoiGFbHbOxbHjeAkquiqA4eA=
-X-Received: by 2002:a17:906:3604:b0:78d:99a0:7cf6 with SMTP id
- q4-20020a170906360400b0078d99a07cf6mr23733519ejb.56.1669218248423; Wed, 23
- Nov 2022 07:44:08 -0800 (PST)
-MIME-Version: 1.0
-References: <20221123152303.244018-1-manojsingh.saun@windriver.com>
-In-Reply-To: <20221123152303.244018-1-manojsingh.saun@windriver.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Wed, 23 Nov 2022 05:43:57 -1000
-Message-ID: <CAOSpxdYRTwRyRNrKYuAAbuexxZVCepFtNWOtW=vd2JvKzbSg1A@mail.gmail.com>
-Subject: Re: [OE-core] [meta-secure-core][kirkstone][PATCH 1/1] Signed-off-by:
+  d=axis.com; q=dns/txt; s=axis-central1; t=1669219609;
+  x=1700755609;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=iuRG2tg5+cRO0E9Xy0/gIHrbYvI/n/u2yCl8c2Ilnio=;
+  b=dTDETDGQiovFSGDEt6U9y7X/qF4HLDK3PZsk6GS8nowJRzv9pJX6iUkf
+   m08WJ8Pv3znrUtraZR7Pgz77kxiEbSqLe5zcdGGAU27WGa8InG0O8Umrm
+   pE5duQHlI2Pb6TInPCnmSBCWlMVuM+cP0hSro5U6TlUWfH60xRjrPfniy
+   TKsh5ZhnnVNsBr+o+2OAzOYZL8q7lxJDbQikQw0KDMFpGQTGqIRNUS9Pv
+   SohyGPI72WeY7/yll4Jb50b8cP2pwGSAZmN2AGxt8SldVAg7rPKCqzp3E
+   WEkgoZ1kXAlJOIkNkrNo8+5izSjMhONID1+t3+kSMnr6R4ydX7vpJC1p/
+   g==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Steve Sakoman <steve@sakoman.com>, Manoj Saun
+	<manojsingh.saun@windriver.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "narpat.mali@windriver.com"
+	<narpat.mali@windriver.com>
+Subject: RE: [OE-core] [meta-secure-core][kirkstone][PATCH 1/1] Signed-off-by:
  Manoj Saun <manojsingh.saun@windriver.com>
-To: Manoj Saun <manojsingh.saun@windriver.com>
-Cc: openembedded-core@lists.openembedded.org, narpat.mali@windriver.com
-Content-Type: text/plain; charset="UTF-8"
+Thread-Topic: [OE-core] [meta-secure-core][kirkstone][PATCH 1/1]
+ Signed-off-by: Manoj Saun <manojsingh.saun@windriver.com>
+Thread-Index: AQHY/0+CExxXwH6k70uBHvB0RNcP265MlWmAgAAWj0A=
+Date: Wed, 23 Nov 2022 16:06:45 +0000
+Message-ID: <d5c46372a26e4fa0836d301383d3d86d@axis.com>
+References: <20221123152303.244018-1-manojsingh.saun@windriver.com>
+ <CAOSpxdYRTwRyRNrKYuAAbuexxZVCepFtNWOtW=vd2JvKzbSg1A@mail.gmail.com>
+In-Reply-To: <CAOSpxdYRTwRyRNrKYuAAbuexxZVCepFtNWOtW=vd2JvKzbSg1A@mail.gmail.com>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Nov 2022 15:44:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173721
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Nov 2022 16:06:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173722
 
-This is the wrong mailing list for your patch since it is for
-meta-openembedded, not oe-core.  You should send it to:
-openembedded-devel@lists.openembedded.org
-
-Steve
-
-On Wed, Nov 23, 2022 at 5:23 AM Manoj Saun
-<manojsingh.saun@windriver.com> wrote:
->
-> -> nginx: fix CVE-2022-41741
->
-> -> nginx: disabled duplicate atoms.
->
-> -> Reference:
-> -> https://nvd.nist.gov/vuln/detail/CVE-2022-41742
->
-> -> Upstream fixes:
-> -> https://github.com/nginx/nginx/commit/0d23105373e6d8a720b9826079c077b9b4be919d
->
-> -> (LOCAL REV: NOT UPSTREAM) -- Not applicable, upstream out of maintenance
-> ---
->  .../0001-Mp4-disabled-duplicate-atoms.patch   | 313 ++++++++++++++++++
->  meta-webserver/recipes-httpd/nginx/nginx.inc  |   1 +
->  2 files changed, 314 insertions(+)
->  create mode 100644 meta-webserver/recipes-httpd/nginx/files/0001-Mp4-disabled-duplicate-atoms.patch
->
-> diff --git a/meta-webserver/recipes-httpd/nginx/files/0001-Mp4-disabled-duplicate-atoms.patch b/meta-webserver/recipes-httpd/nginx/files/0001-Mp4-disabled-duplicate-atoms.patch
-> new file mode 100644
-> index 000000000..0b0753c4c
-> --- /dev/null
-> +++ b/meta-webserver/recipes-httpd/nginx/files/0001-Mp4-disabled-duplicate-atoms.patch
-> @@ -0,0 +1,313 @@
-> +From 0d23105373e6d8a720b9826079c077b9b4be919d Mon Sep 17 00:00:00 2001
-> +From: Roman Arutyunyan <arut@nginx.com>
-> +Date: Wed, 19 Oct 2022 10:53:17 +0300
-> +Subject: [PATCH] Mp4: disabled duplicate atoms.
-> +
-> +Most atoms should not appear more than once in a container.  Previously,
-> +this was not enforced by the module, which could result in worker process
-> +crash, memory corruption and disclosure.
-> +---
-> + src/http/modules/ngx_http_mp4_module.c | 147 +++++++++++++++++++++++++
-> + 1 file changed, 147 insertions(+)
-> +
-> +diff --git a/src/http/modules/ngx_http_mp4_module.c b/src/http/modules/ngx_http_mp4_module.c
-> +index 5721efbe..75a7315f 100644
-> +--- a/src/http/modules/ngx_http_mp4_module.c
-> ++++ b/src/http/modules/ngx_http_mp4_module.c
-> +@@ -1121,6 +1121,12 @@ ngx_http_mp4_read_ftyp_atom(ngx_http_mp4_file_t *mp4, uint64_t atom_data_size)
-> +         return NGX_ERROR;
-> +     }
-> +
-> ++    if (mp4->ftyp_atom.buf) {
-> ++        ngx_log_error(NGX_LOG_ERR, mp4->file.log, 0,
-> ++                      "duplicate mp4 ftyp atom in \"%s\"", mp4->file.name.data);
-> ++        return NGX_ERROR;
-> ++    }
-> ++
-> +     atom_size = sizeof(ngx_mp4_atom_header_t) + (size_t) atom_data_size;
-> +
-> +     ftyp_atom = ngx_palloc(mp4->request->pool, atom_size);
-> +@@ -1179,6 +1185,12 @@ ngx_http_mp4_read_moov_atom(ngx_http_mp4_file_t *mp4, uint64_t atom_data_size)
-> +         return NGX_DECLINED;
-> +     }
-> +
-> ++    if (mp4->moov_atom.buf) {
-> ++        ngx_log_error(NGX_LOG_ERR, mp4->file.log, 0,
-> ++                      "duplicate mp4 moov atom in \"%s\"", mp4->file.name.data);
-> ++        return NGX_ERROR;
-> ++    }
-> ++
-> +     conf = ngx_http_get_module_loc_conf(mp4->request, ngx_http_mp4_module);
-> +
-> +     if (atom_data_size > mp4->buffer_size) {
-> +@@ -1246,6 +1258,12 @@ ngx_http_mp4_read_mdat_atom(ngx_http_mp4_file_t *mp4, uint64_t atom_data_size)
-> +
-> +     ngx_log_debug0(NGX_LOG_DEBUG_HTTP, mp4->file.log, 0, "mp4 mdat atom");
-> +
-> ++    if (mp4->mdat_atom.buf) {
-> ++        ngx_log_error(NGX_LOG_ERR, mp4->file.log, 0,
-> ++                      "duplicate mp4 mdat atom in \"%s\"", mp4->file.name.data);
-> ++        return NGX_ERROR;
-> ++    }
-> ++
-> +     data = &mp4->mdat_data_buf;
-> +     data->file = &mp4->file;
-> +     data->in_file = 1;
-> +@@ -1372,6 +1390,12 @@ ngx_http_mp4_read_mvhd_atom(ngx_http_mp4_file_t *mp4, uint64_t atom_data_size)
-> +
-> +     ngx_log_debug0(NGX_LOG_DEBUG_HTTP, mp4->file.log, 0, "mp4 mvhd atom");
-> +
-> ++    if (mp4->mvhd_atom.buf) {
-> ++        ngx_log_error(NGX_LOG_ERR, mp4->file.log, 0,
-> ++                      "duplicate mp4 mvhd atom in \"%s\"", mp4->file.name.data);
-> ++        return NGX_ERROR;
-> ++    }
-> ++
-> +     atom_header = ngx_mp4_atom_header(mp4);
-> +     mvhd_atom = (ngx_mp4_mvhd_atom_t *) atom_header;
-> +     mvhd64_atom = (ngx_mp4_mvhd64_atom_t *) atom_header;
-> +@@ -1637,6 +1661,13 @@ ngx_http_mp4_read_tkhd_atom(ngx_http_mp4_file_t *mp4, uint64_t atom_data_size)
-> +     atom_size = sizeof(ngx_mp4_atom_header_t) + (size_t) atom_data_size;
-> +
-> +     trak = ngx_mp4_last_trak(mp4);
-> ++
-> ++    if (trak->out[NGX_HTTP_MP4_TKHD_ATOM].buf) {
-> ++        ngx_log_error(NGX_LOG_ERR, mp4->file.log, 0,
-> ++                      "duplicate mp4 tkhd atom in \"%s\"", mp4->file.name.data);
-> ++        return NGX_ERROR;
-> ++    }
-> ++
-> +     trak->tkhd_size = atom_size;
-> +     trak->movie_duration = duration;
-> +
-> +@@ -1676,6 +1707,12 @@ ngx_http_mp4_read_mdia_atom(ngx_http_mp4_file_t *mp4, uint64_t atom_data_size)
-> +
-> +     trak = ngx_mp4_last_trak(mp4);
-> +
-> ++    if (trak->out[NGX_HTTP_MP4_MDIA_ATOM].buf) {
-> ++        ngx_log_error(NGX_LOG_ERR, mp4->file.log, 0,
-> ++                      "duplicate mp4 mdia atom in \"%s\"", mp4->file.name.data);
-> ++        return NGX_ERROR;
-> ++    }
-> ++
-> +     atom = &trak->mdia_atom_buf;
-> +     atom->temporary = 1;
-> +     atom->pos = atom_header;
-> +@@ -1799,6 +1836,13 @@ ngx_http_mp4_read_mdhd_atom(ngx_http_mp4_file_t *mp4, uint64_t atom_data_size)
-> +     atom_size = sizeof(ngx_mp4_atom_header_t) + (size_t) atom_data_size;
-> +
-> +     trak = ngx_mp4_last_trak(mp4);
-> ++
-> ++    if (trak->out[NGX_HTTP_MP4_MDHD_ATOM].buf) {
-> ++        ngx_log_error(NGX_LOG_ERR, mp4->file.log, 0,
-> ++                      "duplicate mp4 mdhd atom in \"%s\"", mp4->file.name.data);
-> ++        return NGX_ERROR;
-> ++    }
-> ++
-> +     trak->mdhd_size = atom_size;
-> +     trak->timescale = timescale;
-> +     trak->duration = duration;
-> +@@ -1862,6 +1906,12 @@ ngx_http_mp4_read_hdlr_atom(ngx_http_mp4_file_t *mp4, uint64_t atom_data_size)
-> +
-> +     trak = ngx_mp4_last_trak(mp4);
-> +
-> ++    if (trak->out[NGX_HTTP_MP4_HDLR_ATOM].buf) {
-> ++        ngx_log_error(NGX_LOG_ERR, mp4->file.log, 0,
-> ++                      "duplicate mp4 hdlr atom in \"%s\"", mp4->file.name.data);
-> ++        return NGX_ERROR;
-> ++    }
-> ++
-> +     atom = &trak->hdlr_atom_buf;
-> +     atom->temporary = 1;
-> +     atom->pos = atom_header;
-> +@@ -1890,6 +1940,12 @@ ngx_http_mp4_read_minf_atom(ngx_http_mp4_file_t *mp4, uint64_t atom_data_size)
-> +
-> +     trak = ngx_mp4_last_trak(mp4);
-> +
-> ++    if (trak->out[NGX_HTTP_MP4_MINF_ATOM].buf) {
-> ++        ngx_log_error(NGX_LOG_ERR, mp4->file.log, 0,
-> ++                      "duplicate mp4 minf atom in \"%s\"", mp4->file.name.data);
-> ++        return NGX_ERROR;
-> ++    }
-> ++
-> +     atom = &trak->minf_atom_buf;
-> +     atom->temporary = 1;
-> +     atom->pos = atom_header;
-> +@@ -1933,6 +1989,15 @@ ngx_http_mp4_read_vmhd_atom(ngx_http_mp4_file_t *mp4, uint64_t atom_data_size)
-> +
-> +     trak = ngx_mp4_last_trak(mp4);
-> +
-> ++    if (trak->out[NGX_HTTP_MP4_VMHD_ATOM].buf
-> ++        || trak->out[NGX_HTTP_MP4_SMHD_ATOM].buf)
-> ++    {
-> ++        ngx_log_error(NGX_LOG_ERR, mp4->file.log, 0,
-> ++                      "duplicate mp4 vmhd/smhd atom in \"%s\"",
-> ++                      mp4->file.name.data);
-> ++        return NGX_ERROR;
-> ++    }
-> ++
-> +     atom = &trak->vmhd_atom_buf;
-> +     atom->temporary = 1;
-> +     atom->pos = atom_header;
-> +@@ -1964,6 +2029,15 @@ ngx_http_mp4_read_smhd_atom(ngx_http_mp4_file_t *mp4, uint64_t atom_data_size)
-> +
-> +     trak = ngx_mp4_last_trak(mp4);
-> +
-> ++    if (trak->out[NGX_HTTP_MP4_VMHD_ATOM].buf
-> ++        || trak->out[NGX_HTTP_MP4_SMHD_ATOM].buf)
-> ++    {
-> ++        ngx_log_error(NGX_LOG_ERR, mp4->file.log, 0,
-> ++                      "duplicate mp4 vmhd/smhd atom in \"%s\"",
-> ++                      mp4->file.name.data);
-> ++        return NGX_ERROR;
-> ++    }
-> ++
-> +     atom = &trak->smhd_atom_buf;
-> +     atom->temporary = 1;
-> +     atom->pos = atom_header;
-> +@@ -1995,6 +2069,12 @@ ngx_http_mp4_read_dinf_atom(ngx_http_mp4_file_t *mp4, uint64_t atom_data_size)
-> +
-> +     trak = ngx_mp4_last_trak(mp4);
-> +
-> ++    if (trak->out[NGX_HTTP_MP4_DINF_ATOM].buf) {
-> ++        ngx_log_error(NGX_LOG_ERR, mp4->file.log, 0,
-> ++                      "duplicate mp4 dinf atom in \"%s\"", mp4->file.name.data);
-> ++        return NGX_ERROR;
-> ++    }
-> ++
-> +     atom = &trak->dinf_atom_buf;
-> +     atom->temporary = 1;
-> +     atom->pos = atom_header;
-> +@@ -2023,6 +2103,12 @@ ngx_http_mp4_read_stbl_atom(ngx_http_mp4_file_t *mp4, uint64_t atom_data_size)
-> +
-> +     trak = ngx_mp4_last_trak(mp4);
-> +
-> ++    if (trak->out[NGX_HTTP_MP4_STBL_ATOM].buf) {
-> ++        ngx_log_error(NGX_LOG_ERR, mp4->file.log, 0,
-> ++                      "duplicate mp4 stbl atom in \"%s\"", mp4->file.name.data);
-> ++        return NGX_ERROR;
-> ++    }
-> ++
-> +     atom = &trak->stbl_atom_buf;
-> +     atom->temporary = 1;
-> +     atom->pos = atom_header;
-> +@@ -2144,6 +2230,12 @@ ngx_http_mp4_read_stsd_atom(ngx_http_mp4_file_t *mp4, uint64_t atom_data_size)
-> +
-> +     trak = ngx_mp4_last_trak(mp4);
-> +
-> ++    if (trak->out[NGX_HTTP_MP4_STSD_ATOM].buf) {
-> ++        ngx_log_error(NGX_LOG_ERR, mp4->file.log, 0,
-> ++                      "duplicate mp4 stsd atom in \"%s\"", mp4->file.name.data);
-> ++        return NGX_ERROR;
-> ++    }
-> ++
-> +     atom = &trak->stsd_atom_buf;
-> +     atom->temporary = 1;
-> +     atom->pos = atom_header;
-> +@@ -2212,6 +2304,13 @@ ngx_http_mp4_read_stts_atom(ngx_http_mp4_file_t *mp4, uint64_t atom_data_size)
-> +     atom_end = atom_table + entries * sizeof(ngx_mp4_stts_entry_t);
-> +
-> +     trak = ngx_mp4_last_trak(mp4);
-> ++
-> ++    if (trak->out[NGX_HTTP_MP4_STTS_ATOM].buf) {
-> ++        ngx_log_error(NGX_LOG_ERR, mp4->file.log, 0,
-> ++                      "duplicate mp4 stts atom in \"%s\"", mp4->file.name.data);
-> ++        return NGX_ERROR;
-> ++    }
-> ++
-> +     trak->time_to_sample_entries = entries;
-> +
-> +     atom = &trak->stts_atom_buf;
-> +@@ -2480,6 +2579,13 @@ ngx_http_mp4_read_stss_atom(ngx_http_mp4_file_t *mp4, uint64_t atom_data_size)
-> +                    "sync sample entries:%uD", entries);
-> +
-> +     trak = ngx_mp4_last_trak(mp4);
-> ++
-> ++    if (trak->out[NGX_HTTP_MP4_STSS_ATOM].buf) {
-> ++        ngx_log_error(NGX_LOG_ERR, mp4->file.log, 0,
-> ++                      "duplicate mp4 stss atom in \"%s\"", mp4->file.name.data);
-> ++        return NGX_ERROR;
-> ++    }
-> ++
-> +     trak->sync_samples_entries = entries;
-> +
-> +     atom_table = atom_header + sizeof(ngx_http_mp4_stss_atom_t);
-> +@@ -2678,6 +2784,13 @@ ngx_http_mp4_read_ctts_atom(ngx_http_mp4_file_t *mp4, uint64_t atom_data_size)
-> +                    "composition offset entries:%uD", entries);
-> +
-> +     trak = ngx_mp4_last_trak(mp4);
-> ++
-> ++    if (trak->out[NGX_HTTP_MP4_CTTS_ATOM].buf) {
-> ++        ngx_log_error(NGX_LOG_ERR, mp4->file.log, 0,
-> ++                      "duplicate mp4 ctts atom in \"%s\"", mp4->file.name.data);
-> ++        return NGX_ERROR;
-> ++    }
-> ++
-> +     trak->composition_offset_entries = entries;
-> +
-> +     atom_table = atom_header + sizeof(ngx_mp4_ctts_atom_t);
-> +@@ -2881,6 +2994,13 @@ ngx_http_mp4_read_stsc_atom(ngx_http_mp4_file_t *mp4, uint64_t atom_data_size)
-> +     atom_end = atom_table + entries * sizeof(ngx_mp4_stsc_entry_t);
-> +
-> +     trak = ngx_mp4_last_trak(mp4);
-> ++
-> ++    if (trak->out[NGX_HTTP_MP4_STSC_ATOM].buf) {
-> ++        ngx_log_error(NGX_LOG_ERR, mp4->file.log, 0,
-> ++                      "duplicate mp4 stsc atom in \"%s\"", mp4->file.name.data);
-> ++        return NGX_ERROR;
-> ++    }
-> ++
-> +     trak->sample_to_chunk_entries = entries;
-> +
-> +     atom = &trak->stsc_atom_buf;
-> +@@ -3213,6 +3333,13 @@ ngx_http_mp4_read_stsz_atom(ngx_http_mp4_file_t *mp4, uint64_t atom_data_size)
-> +                    "sample uniform size:%uD, entries:%uD", size, entries);
-> +
-> +     trak = ngx_mp4_last_trak(mp4);
-> ++
-> ++    if (trak->out[NGX_HTTP_MP4_STSZ_ATOM].buf) {
-> ++        ngx_log_error(NGX_LOG_ERR, mp4->file.log, 0,
-> ++                      "duplicate mp4 stsz atom in \"%s\"", mp4->file.name.data);
-> ++        return NGX_ERROR;
-> ++    }
-> ++
-> +     trak->sample_sizes_entries = entries;
-> +
-> +     atom_table = atom_header + sizeof(ngx_mp4_stsz_atom_t);
-> +@@ -3396,6 +3523,16 @@ ngx_http_mp4_read_stco_atom(ngx_http_mp4_file_t *mp4, uint64_t atom_data_size)
-> +     atom_end = atom_table + entries * sizeof(uint32_t);
-> +
-> +     trak = ngx_mp4_last_trak(mp4);
-> ++
-> ++    if (trak->out[NGX_HTTP_MP4_STCO_ATOM].buf
-> ++        || trak->out[NGX_HTTP_MP4_CO64_ATOM].buf)
-> ++    {
-> ++        ngx_log_error(NGX_LOG_ERR, mp4->file.log, 0,
-> ++                      "duplicate mp4 stco/co64 atom in \"%s\"",
-> ++                      mp4->file.name.data);
-> ++        return NGX_ERROR;
-> ++    }
-> ++
-> +     trak->chunks = entries;
-> +
-> +     atom = &trak->stco_atom_buf;
-> +@@ -3602,6 +3739,16 @@ ngx_http_mp4_read_co64_atom(ngx_http_mp4_file_t *mp4, uint64_t atom_data_size)
-> +     atom_end = atom_table + entries * sizeof(uint64_t);
-> +
-> +     trak = ngx_mp4_last_trak(mp4);
-> ++
-> ++    if (trak->out[NGX_HTTP_MP4_STCO_ATOM].buf
-> ++        || trak->out[NGX_HTTP_MP4_CO64_ATOM].buf)
-> ++    {
-> ++        ngx_log_error(NGX_LOG_ERR, mp4->file.log, 0,
-> ++                      "duplicate mp4 stco/co64 atom in \"%s\"",
-> ++                      mp4->file.name.data);
-> ++        return NGX_ERROR;
-> ++    }
-> ++
-> +     trak->chunks = entries;
-> +
-> +     atom = &trak->co64_atom_buf;
-> +--
-> +2.34.1
-> +
-> diff --git a/meta-webserver/recipes-httpd/nginx/nginx.inc b/meta-webserver/recipes-httpd/nginx/nginx.inc
-> index dfced3330..754290d3a 100644
-> --- a/meta-webserver/recipes-httpd/nginx/nginx.inc
-> +++ b/meta-webserver/recipes-httpd/nginx/nginx.inc
-> @@ -22,6 +22,7 @@ SRC_URI = " \
->      file://nginx-volatile.conf \
->      file://nginx.service \
->      file://nginx-fix-pidfile.patch \
-> +    file://0001-Mp4-disabled-duplicate-atoms.patch \
->  "
->
->  inherit siteinfo update-rc.d useradd systemd
-> --
-> 2.34.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#173720): https://lists.openembedded.org/g/openembedded-core/message/173720
-> Mute This Topic: https://lists.openembedded.org/mt/95219628/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+VGhlIGNvbW1pdCBtZXNzYWdlIGFsc28gbmVlZHMgdG8gYmUgcmV3cml0dGVuIHRvIGZvbGxvdyB0
+aGUgDQpjb21tb24gcHJheGlzIGZvciB0aGUgcmVwb3NpdG9yaWVzLg0KDQovL1BldGVyDQoNCj4g
+LS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogb3BlbmVtYmVkZGVkLWNvcmVAbGlz
+dHMub3BlbmVtYmVkZGVkLm9yZyA8b3BlbmVtYmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJl
+ZGRlZC5vcmc+IE9uIEJlaGFsZiBPZiBTdGV2ZSBTYWtvbWFuDQo+IFNlbnQ6IGRlbiAyMyBub3Zl
+bWJlciAyMDIyIDE2OjQ0DQo+IFRvOiBNYW5vaiBTYXVuIDxtYW5vanNpbmdoLnNhdW5Ad2luZHJp
+dmVyLmNvbT4NCj4gQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc7
+IG5hcnBhdC5tYWxpQHdpbmRyaXZlci5jb20NCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbbWV0
+YS1zZWN1cmUtY29yZV1ba2lya3N0b25lXVtQQVRDSCAxLzFdIFNpZ25lZC0NCj4gb2ZmLWJ5OiBN
+YW5vaiBTYXVuIDxtYW5vanNpbmdoLnNhdW5Ad2luZHJpdmVyLmNvbT4NCj4gDQo+IFRoaXMgaXMg
+dGhlIHdyb25nIG1haWxpbmcgbGlzdCBmb3IgeW91ciBwYXRjaCBzaW5jZSBpdCBpcyBmb3INCj4g
+bWV0YS1vcGVuZW1iZWRkZWQsIG5vdCBvZS1jb3JlLiAgWW91IHNob3VsZCBzZW5kIGl0IHRvOg0K
+PiBvcGVuZW1iZWRkZWQtZGV2ZWxAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiANCj4gU3RldmUN
+Cj4gDQo+IE9uIFdlZCwgTm92IDIzLCAyMDIyIGF0IDU6MjMgQU0gTWFub2ogU2F1bg0KPiA8bWFu
+b2pzaW5naC5zYXVuQHdpbmRyaXZlci5jb20+IHdyb3RlOg0KPiA+DQo+ID4gLT4gbmdpbng6IGZp
+eCBDVkUtMjAyMi00MTc0MQ0KPiA+DQo+ID4gLT4gbmdpbng6IGRpc2FibGVkIGR1cGxpY2F0ZSBh
+dG9tcy4NCj4gPg0KPiA+IC0+IFJlZmVyZW5jZToNCj4gPiAtPiBodHRwczovL252ZC5uaXN0Lmdv
+di92dWxuL2RldGFpbC9DVkUtMjAyMi00MTc0Mg0KPiA+DQo+ID4gLT4gVXBzdHJlYW0gZml4ZXM6
+DQo+ID4gLT4NCj4gaHR0cHM6Ly9naXRodWIuY29tL25naW54L25naW54L2NvbW1pdC8wZDIzMTA1
+MzczZTZkOGE3MjBiOTgyNjA3OWMwNzdiOWI0YmUNCj4gOTE5ZA0KPiA+DQo+ID4gLT4gKExPQ0FM
+IFJFVjogTk9UIFVQU1RSRUFNKSAtLSBOb3QgYXBwbGljYWJsZSwgdXBzdHJlYW0gb3V0IG9mDQo+
+IG1haW50ZW5hbmNlDQo+ID4gLS0tDQo+ID4gIC4uLi8wMDAxLU1wNC1kaXNhYmxlZC1kdXBsaWNh
+dGUtYXRvbXMucGF0Y2ggICB8IDMxMyArKysrKysrKysrKysrKysrKysNCj4gPiAgbWV0YS13ZWJz
+ZXJ2ZXIvcmVjaXBlcy1odHRwZC9uZ2lueC9uZ2lueC5pbmMgIHwgICAxICsNCj4gPiAgMiBmaWxl
+cyBjaGFuZ2VkLCAzMTQgaW5zZXJ0aW9ucygrKQ0KPiA+ICBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0
+YS13ZWJzZXJ2ZXIvcmVjaXBlcy1odHRwZC9uZ2lueC9maWxlcy8wMDAxLU1wNC0NCj4gZGlzYWJs
+ZWQtZHVwbGljYXRlLWF0b21zLnBhdGNoDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS13ZWJz
+ZXJ2ZXIvcmVjaXBlcy1odHRwZC9uZ2lueC9maWxlcy8wMDAxLU1wNC1kaXNhYmxlZC0NCj4gZHVw
+bGljYXRlLWF0b21zLnBhdGNoIGIvbWV0YS13ZWJzZXJ2ZXIvcmVjaXBlcy1odHRwZC9uZ2lueC9m
+aWxlcy8wMDAxLU1wNC0NCj4gZGlzYWJsZWQtZHVwbGljYXRlLWF0b21zLnBhdGNoDQo+ID4gbmV3
+IGZpbGUgbW9kZSAxMDA2NDQNCj4gPiBpbmRleCAwMDAwMDAwMDAuLjBiMDc1M2M0Yw0KPiA+IC0t
+LSAvZGV2L251bGwNCj4gPiArKysgYi9tZXRhLXdlYnNlcnZlci9yZWNpcGVzLWh0dHBkL25naW54
+L2ZpbGVzLzAwMDEtTXA0LWRpc2FibGVkLQ0KPiBkdXBsaWNhdGUtYXRvbXMucGF0Y2gNCj4gPiBA
+QCAtMCwwICsxLDMxMyBAQA0KPiA+ICtGcm9tIDBkMjMxMDUzNzNlNmQ4YTcyMGI5ODI2MDc5YzA3
+N2I5YjRiZTkxOWQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxDQo+ID4gK0Zyb206IFJvbWFuIEFy
+dXR5dW55YW4gPGFydXRAbmdpbnguY29tPg0KPiA+ICtEYXRlOiBXZWQsIDE5IE9jdCAyMDIyIDEw
+OjUzOjE3ICswMzAwDQo+ID4gK1N1YmplY3Q6IFtQQVRDSF0gTXA0OiBkaXNhYmxlZCBkdXBsaWNh
+dGUgYXRvbXMuDQo+ID4gKw0KPiA+ICtNb3N0IGF0b21zIHNob3VsZCBub3QgYXBwZWFyIG1vcmUg
+dGhhbiBvbmNlIGluIGEgY29udGFpbmVyLg0KPiBQcmV2aW91c2x5LA0KPiA+ICt0aGlzIHdhcyBu
+b3QgZW5mb3JjZWQgYnkgdGhlIG1vZHVsZSwgd2hpY2ggY291bGQgcmVzdWx0IGluIHdvcmtlcg0K
+PiBwcm9jZXNzDQo+ID4gK2NyYXNoLCBtZW1vcnkgY29ycnVwdGlvbiBhbmQgZGlzY2xvc3VyZS4N
+Cj4gPiArLS0tDQo+ID4gKyBzcmMvaHR0cC9tb2R1bGVzL25neF9odHRwX21wNF9tb2R1bGUuYyB8
+IDE0NyArKysrKysrKysrKysrKysrKysrKysrKysrDQo+ID4gKyAxIGZpbGUgY2hhbmdlZCwgMTQ3
+IGluc2VydGlvbnMoKykNCj4gPiArDQo+ID4gK2RpZmYgLS1naXQgYS9zcmMvaHR0cC9tb2R1bGVz
+L25neF9odHRwX21wNF9tb2R1bGUuYw0KPiBiL3NyYy9odHRwL21vZHVsZXMvbmd4X2h0dHBfbXA0
+X21vZHVsZS5jDQo+ID4gK2luZGV4IDU3MjFlZmJlLi43NWE3MzE1ZiAxMDA2NDQNCj4gPiArLS0t
+IGEvc3JjL2h0dHAvbW9kdWxlcy9uZ3hfaHR0cF9tcDRfbW9kdWxlLmMNCj4gPiArKysrIGIvc3Jj
+L2h0dHAvbW9kdWxlcy9uZ3hfaHR0cF9tcDRfbW9kdWxlLmMNCj4gPiArQEAgLTExMjEsNiArMTEy
+MSwxMiBAQCBuZ3hfaHR0cF9tcDRfcmVhZF9mdHlwX2F0b20obmd4X2h0dHBfbXA0X2ZpbGVfdA0K
+PiAqbXA0LCB1aW50NjRfdCBhdG9tX2RhdGFfc2l6ZSkNCj4gPiArICAgICAgICAgcmV0dXJuIE5H
+WF9FUlJPUjsNCj4gPiArICAgICB9DQo+ID4gKw0KPiA+ICsrICAgIGlmIChtcDQtPmZ0eXBfYXRv
+bS5idWYpIHsNCj4gPiArKyAgICAgICAgbmd4X2xvZ19lcnJvcihOR1hfTE9HX0VSUiwgbXA0LT5m
+aWxlLmxvZywgMCwNCj4gPiArKyAgICAgICAgICAgICAgICAgICAgICAiZHVwbGljYXRlIG1wNCBm
+dHlwIGF0b20gaW4gXCIlc1wiIiwgbXA0LQ0KPiA+ZmlsZS5uYW1lLmRhdGEpOw0KPiA+ICsrICAg
+ICAgICByZXR1cm4gTkdYX0VSUk9SOw0KPiA+ICsrICAgIH0NCj4gPiArKw0KPiA+ICsgICAgIGF0
+b21fc2l6ZSA9IHNpemVvZihuZ3hfbXA0X2F0b21faGVhZGVyX3QpICsgKHNpemVfdCkNCj4gYXRv
+bV9kYXRhX3NpemU7DQo+ID4gKw0KPiA+ICsgICAgIGZ0eXBfYXRvbSA9IG5neF9wYWxsb2MobXA0
+LT5yZXF1ZXN0LT5wb29sLCBhdG9tX3NpemUpOw0KPiA+ICtAQCAtMTE3OSw2ICsxMTg1LDEyIEBA
+IG5neF9odHRwX21wNF9yZWFkX21vb3ZfYXRvbShuZ3hfaHR0cF9tcDRfZmlsZV90DQo+ICptcDQs
+IHVpbnQ2NF90IGF0b21fZGF0YV9zaXplKQ0KPiA+ICsgICAgICAgICByZXR1cm4gTkdYX0RFQ0xJ
+TkVEOw0KPiA+ICsgICAgIH0NCj4gPiArDQo+ID4gKysgICAgaWYgKG1wNC0+bW9vdl9hdG9tLmJ1
+Zikgew0KPiA+ICsrICAgICAgICBuZ3hfbG9nX2Vycm9yKE5HWF9MT0dfRVJSLCBtcDQtPmZpbGUu
+bG9nLCAwLA0KPiA+ICsrICAgICAgICAgICAgICAgICAgICAgICJkdXBsaWNhdGUgbXA0IG1vb3Yg
+YXRvbSBpbiBcIiVzXCIiLCBtcDQtDQo+ID5maWxlLm5hbWUuZGF0YSk7DQo+ID4gKysgICAgICAg
+IHJldHVybiBOR1hfRVJST1I7DQo+ID4gKysgICAgfQ0KPiA+ICsrDQo+ID4gKyAgICAgY29uZiA9
+IG5neF9odHRwX2dldF9tb2R1bGVfbG9jX2NvbmYobXA0LT5yZXF1ZXN0LA0KPiBuZ3hfaHR0cF9t
+cDRfbW9kdWxlKTsNCj4gPiArDQo+ID4gKyAgICAgaWYgKGF0b21fZGF0YV9zaXplID4gbXA0LT5i
+dWZmZXJfc2l6ZSkgew0KPiA+ICtAQCAtMTI0Niw2ICsxMjU4LDEyIEBAIG5neF9odHRwX21wNF9y
+ZWFkX21kYXRfYXRvbShuZ3hfaHR0cF9tcDRfZmlsZV90DQo+ICptcDQsIHVpbnQ2NF90IGF0b21f
+ZGF0YV9zaXplKQ0KPiA+ICsNCj4gPiArICAgICBuZ3hfbG9nX2RlYnVnMChOR1hfTE9HX0RFQlVH
+X0hUVFAsIG1wNC0+ZmlsZS5sb2csIDAsICJtcDQgbWRhdA0KPiBhdG9tIik7DQo+ID4gKw0KPiA+
+ICsrICAgIGlmIChtcDQtPm1kYXRfYXRvbS5idWYpIHsNCj4gPiArKyAgICAgICAgbmd4X2xvZ19l
+cnJvcihOR1hfTE9HX0VSUiwgbXA0LT5maWxlLmxvZywgMCwNCj4gPiArKyAgICAgICAgICAgICAg
+ICAgICAgICAiZHVwbGljYXRlIG1wNCBtZGF0IGF0b20gaW4gXCIlc1wiIiwgbXA0LQ0KPiA+Zmls
+ZS5uYW1lLmRhdGEpOw0KPiA+ICsrICAgICAgICByZXR1cm4gTkdYX0VSUk9SOw0KPiA+ICsrICAg
+IH0NCj4gPiArKw0KPiA+ICsgICAgIGRhdGEgPSAmbXA0LT5tZGF0X2RhdGFfYnVmOw0KPiA+ICsg
+ICAgIGRhdGEtPmZpbGUgPSAmbXA0LT5maWxlOw0KPiA+ICsgICAgIGRhdGEtPmluX2ZpbGUgPSAx
+Ow0KPiA+ICtAQCAtMTM3Miw2ICsxMzkwLDEyIEBAIG5neF9odHRwX21wNF9yZWFkX212aGRfYXRv
+bShuZ3hfaHR0cF9tcDRfZmlsZV90DQo+ICptcDQsIHVpbnQ2NF90IGF0b21fZGF0YV9zaXplKQ0K
+PiA+ICsNCj4gPiArICAgICBuZ3hfbG9nX2RlYnVnMChOR1hfTE9HX0RFQlVHX0hUVFAsIG1wNC0+
+ZmlsZS5sb2csIDAsICJtcDQgbXZoZA0KPiBhdG9tIik7DQo+ID4gKw0KPiA+ICsrICAgIGlmICht
+cDQtPm12aGRfYXRvbS5idWYpIHsNCj4gPiArKyAgICAgICAgbmd4X2xvZ19lcnJvcihOR1hfTE9H
+X0VSUiwgbXA0LT5maWxlLmxvZywgMCwNCj4gPiArKyAgICAgICAgICAgICAgICAgICAgICAiZHVw
+bGljYXRlIG1wNCBtdmhkIGF0b20gaW4gXCIlc1wiIiwgbXA0LQ0KPiA+ZmlsZS5uYW1lLmRhdGEp
+Ow0KPiA+ICsrICAgICAgICByZXR1cm4gTkdYX0VSUk9SOw0KPiA+ICsrICAgIH0NCj4gPiArKw0K
+PiA+ICsgICAgIGF0b21faGVhZGVyID0gbmd4X21wNF9hdG9tX2hlYWRlcihtcDQpOw0KPiA+ICsg
+ICAgIG12aGRfYXRvbSA9IChuZ3hfbXA0X212aGRfYXRvbV90ICopIGF0b21faGVhZGVyOw0KPiA+
+ICsgICAgIG12aGQ2NF9hdG9tID0gKG5neF9tcDRfbXZoZDY0X2F0b21fdCAqKSBhdG9tX2hlYWRl
+cjsNCj4gPiArQEAgLTE2MzcsNiArMTY2MSwxMyBAQCBuZ3hfaHR0cF9tcDRfcmVhZF90a2hkX2F0
+b20obmd4X2h0dHBfbXA0X2ZpbGVfdA0KPiAqbXA0LCB1aW50NjRfdCBhdG9tX2RhdGFfc2l6ZSkN
+Cj4gPiArICAgICBhdG9tX3NpemUgPSBzaXplb2Yobmd4X21wNF9hdG9tX2hlYWRlcl90KSArIChz
+aXplX3QpDQo+IGF0b21fZGF0YV9zaXplOw0KPiA+ICsNCj4gPiArICAgICB0cmFrID0gbmd4X21w
+NF9sYXN0X3RyYWsobXA0KTsNCj4gPiArKw0KPiA+ICsrICAgIGlmICh0cmFrLT5vdXRbTkdYX0hU
+VFBfTVA0X1RLSERfQVRPTV0uYnVmKSB7DQo+ID4gKysgICAgICAgIG5neF9sb2dfZXJyb3IoTkdY
+X0xPR19FUlIsIG1wNC0+ZmlsZS5sb2csIDAsDQo+ID4gKysgICAgICAgICAgICAgICAgICAgICAg
+ImR1cGxpY2F0ZSBtcDQgdGtoZCBhdG9tIGluIFwiJXNcIiIsIG1wNC0NCj4gPmZpbGUubmFtZS5k
+YXRhKTsNCj4gPiArKyAgICAgICAgcmV0dXJuIE5HWF9FUlJPUjsNCj4gPiArKyAgICB9DQo+ID4g
+KysNCj4gPiArICAgICB0cmFrLT50a2hkX3NpemUgPSBhdG9tX3NpemU7DQo+ID4gKyAgICAgdHJh
+ay0+bW92aWVfZHVyYXRpb24gPSBkdXJhdGlvbjsNCj4gPiArDQo+ID4gK0BAIC0xNjc2LDYgKzE3
+MDcsMTIgQEAgbmd4X2h0dHBfbXA0X3JlYWRfbWRpYV9hdG9tKG5neF9odHRwX21wNF9maWxlX3QN
+Cj4gKm1wNCwgdWludDY0X3QgYXRvbV9kYXRhX3NpemUpDQo+ID4gKw0KPiA+ICsgICAgIHRyYWsg
+PSBuZ3hfbXA0X2xhc3RfdHJhayhtcDQpOw0KPiA+ICsNCj4gPiArKyAgICBpZiAodHJhay0+b3V0
+W05HWF9IVFRQX01QNF9NRElBX0FUT01dLmJ1Zikgew0KPiA+ICsrICAgICAgICBuZ3hfbG9nX2Vy
+cm9yKE5HWF9MT0dfRVJSLCBtcDQtPmZpbGUubG9nLCAwLA0KPiA+ICsrICAgICAgICAgICAgICAg
+ICAgICAgICJkdXBsaWNhdGUgbXA0IG1kaWEgYXRvbSBpbiBcIiVzXCIiLCBtcDQtDQo+ID5maWxl
+Lm5hbWUuZGF0YSk7DQo+ID4gKysgICAgICAgIHJldHVybiBOR1hfRVJST1I7DQo+ID4gKysgICAg
+fQ0KPiA+ICsrDQo+ID4gKyAgICAgYXRvbSA9ICZ0cmFrLT5tZGlhX2F0b21fYnVmOw0KPiA+ICsg
+ICAgIGF0b20tPnRlbXBvcmFyeSA9IDE7DQo+ID4gKyAgICAgYXRvbS0+cG9zID0gYXRvbV9oZWFk
+ZXI7DQo+ID4gK0BAIC0xNzk5LDYgKzE4MzYsMTMgQEAgbmd4X2h0dHBfbXA0X3JlYWRfbWRoZF9h
+dG9tKG5neF9odHRwX21wNF9maWxlX3QNCj4gKm1wNCwgdWludDY0X3QgYXRvbV9kYXRhX3NpemUp
+DQo+ID4gKyAgICAgYXRvbV9zaXplID0gc2l6ZW9mKG5neF9tcDRfYXRvbV9oZWFkZXJfdCkgKyAo
+c2l6ZV90KQ0KPiBhdG9tX2RhdGFfc2l6ZTsNCj4gPiArDQo+ID4gKyAgICAgdHJhayA9IG5neF9t
+cDRfbGFzdF90cmFrKG1wNCk7DQo+ID4gKysNCj4gPiArKyAgICBpZiAodHJhay0+b3V0W05HWF9I
+VFRQX01QNF9NREhEX0FUT01dLmJ1Zikgew0KPiA+ICsrICAgICAgICBuZ3hfbG9nX2Vycm9yKE5H
+WF9MT0dfRVJSLCBtcDQtPmZpbGUubG9nLCAwLA0KPiA+ICsrICAgICAgICAgICAgICAgICAgICAg
+ICJkdXBsaWNhdGUgbXA0IG1kaGQgYXRvbSBpbiBcIiVzXCIiLCBtcDQtDQo+ID5maWxlLm5hbWUu
+ZGF0YSk7DQo+ID4gKysgICAgICAgIHJldHVybiBOR1hfRVJST1I7DQo+ID4gKysgICAgfQ0KPiA+
+ICsrDQo+ID4gKyAgICAgdHJhay0+bWRoZF9zaXplID0gYXRvbV9zaXplOw0KPiA+ICsgICAgIHRy
+YWstPnRpbWVzY2FsZSA9IHRpbWVzY2FsZTsNCj4gPiArICAgICB0cmFrLT5kdXJhdGlvbiA9IGR1
+cmF0aW9uOw0KPiA+ICtAQCAtMTg2Miw2ICsxOTA2LDEyIEBAIG5neF9odHRwX21wNF9yZWFkX2hk
+bHJfYXRvbShuZ3hfaHR0cF9tcDRfZmlsZV90DQo+ICptcDQsIHVpbnQ2NF90IGF0b21fZGF0YV9z
+aXplKQ0KPiA+ICsNCj4gPiArICAgICB0cmFrID0gbmd4X21wNF9sYXN0X3RyYWsobXA0KTsNCj4g
+PiArDQo+ID4gKysgICAgaWYgKHRyYWstPm91dFtOR1hfSFRUUF9NUDRfSERMUl9BVE9NXS5idWYp
+IHsNCj4gPiArKyAgICAgICAgbmd4X2xvZ19lcnJvcihOR1hfTE9HX0VSUiwgbXA0LT5maWxlLmxv
+ZywgMCwNCj4gPiArKyAgICAgICAgICAgICAgICAgICAgICAiZHVwbGljYXRlIG1wNCBoZGxyIGF0
+b20gaW4gXCIlc1wiIiwgbXA0LQ0KPiA+ZmlsZS5uYW1lLmRhdGEpOw0KPiA+ICsrICAgICAgICBy
+ZXR1cm4gTkdYX0VSUk9SOw0KPiA+ICsrICAgIH0NCj4gPiArKw0KPiA+ICsgICAgIGF0b20gPSAm
+dHJhay0+aGRscl9hdG9tX2J1ZjsNCj4gPiArICAgICBhdG9tLT50ZW1wb3JhcnkgPSAxOw0KPiA+
+ICsgICAgIGF0b20tPnBvcyA9IGF0b21faGVhZGVyOw0KPiA+ICtAQCAtMTg5MCw2ICsxOTQwLDEy
+IEBAIG5neF9odHRwX21wNF9yZWFkX21pbmZfYXRvbShuZ3hfaHR0cF9tcDRfZmlsZV90DQo+ICpt
+cDQsIHVpbnQ2NF90IGF0b21fZGF0YV9zaXplKQ0KPiA+ICsNCj4gPiArICAgICB0cmFrID0gbmd4
+X21wNF9sYXN0X3RyYWsobXA0KTsNCj4gPiArDQo+ID4gKysgICAgaWYgKHRyYWstPm91dFtOR1hf
+SFRUUF9NUDRfTUlORl9BVE9NXS5idWYpIHsNCj4gPiArKyAgICAgICAgbmd4X2xvZ19lcnJvcihO
+R1hfTE9HX0VSUiwgbXA0LT5maWxlLmxvZywgMCwNCj4gPiArKyAgICAgICAgICAgICAgICAgICAg
+ICAiZHVwbGljYXRlIG1wNCBtaW5mIGF0b20gaW4gXCIlc1wiIiwgbXA0LQ0KPiA+ZmlsZS5uYW1l
+LmRhdGEpOw0KPiA+ICsrICAgICAgICByZXR1cm4gTkdYX0VSUk9SOw0KPiA+ICsrICAgIH0NCj4g
+PiArKw0KPiA+ICsgICAgIGF0b20gPSAmdHJhay0+bWluZl9hdG9tX2J1ZjsNCj4gPiArICAgICBh
+dG9tLT50ZW1wb3JhcnkgPSAxOw0KPiA+ICsgICAgIGF0b20tPnBvcyA9IGF0b21faGVhZGVyOw0K
+PiA+ICtAQCAtMTkzMyw2ICsxOTg5LDE1IEBAIG5neF9odHRwX21wNF9yZWFkX3ZtaGRfYXRvbShu
+Z3hfaHR0cF9tcDRfZmlsZV90DQo+ICptcDQsIHVpbnQ2NF90IGF0b21fZGF0YV9zaXplKQ0KPiA+
+ICsNCj4gPiArICAgICB0cmFrID0gbmd4X21wNF9sYXN0X3RyYWsobXA0KTsNCj4gPiArDQo+ID4g
+KysgICAgaWYgKHRyYWstPm91dFtOR1hfSFRUUF9NUDRfVk1IRF9BVE9NXS5idWYNCj4gPiArKyAg
+ICAgICAgfHwgdHJhay0+b3V0W05HWF9IVFRQX01QNF9TTUhEX0FUT01dLmJ1ZikNCj4gPiArKyAg
+ICB7DQo+ID4gKysgICAgICAgIG5neF9sb2dfZXJyb3IoTkdYX0xPR19FUlIsIG1wNC0+ZmlsZS5s
+b2csIDAsDQo+ID4gKysgICAgICAgICAgICAgICAgICAgICAgImR1cGxpY2F0ZSBtcDQgdm1oZC9z
+bWhkIGF0b20gaW4gXCIlc1wiIiwNCj4gPiArKyAgICAgICAgICAgICAgICAgICAgICBtcDQtPmZp
+bGUubmFtZS5kYXRhKTsNCj4gPiArKyAgICAgICAgcmV0dXJuIE5HWF9FUlJPUjsNCj4gPiArKyAg
+ICB9DQo+ID4gKysNCj4gPiArICAgICBhdG9tID0gJnRyYWstPnZtaGRfYXRvbV9idWY7DQo+ID4g
+KyAgICAgYXRvbS0+dGVtcG9yYXJ5ID0gMTsNCj4gPiArICAgICBhdG9tLT5wb3MgPSBhdG9tX2hl
+YWRlcjsNCj4gPiArQEAgLTE5NjQsNiArMjAyOSwxNSBAQCBuZ3hfaHR0cF9tcDRfcmVhZF9zbWhk
+X2F0b20obmd4X2h0dHBfbXA0X2ZpbGVfdA0KPiAqbXA0LCB1aW50NjRfdCBhdG9tX2RhdGFfc2l6
+ZSkNCj4gPiArDQo+ID4gKyAgICAgdHJhayA9IG5neF9tcDRfbGFzdF90cmFrKG1wNCk7DQo+ID4g
+Kw0KPiA+ICsrICAgIGlmICh0cmFrLT5vdXRbTkdYX0hUVFBfTVA0X1ZNSERfQVRPTV0uYnVmDQo+
+ID4gKysgICAgICAgIHx8IHRyYWstPm91dFtOR1hfSFRUUF9NUDRfU01IRF9BVE9NXS5idWYpDQo+
+ID4gKysgICAgew0KPiA+ICsrICAgICAgICBuZ3hfbG9nX2Vycm9yKE5HWF9MT0dfRVJSLCBtcDQt
+PmZpbGUubG9nLCAwLA0KPiA+ICsrICAgICAgICAgICAgICAgICAgICAgICJkdXBsaWNhdGUgbXA0
+IHZtaGQvc21oZCBhdG9tIGluIFwiJXNcIiIsDQo+ID4gKysgICAgICAgICAgICAgICAgICAgICAg
+bXA0LT5maWxlLm5hbWUuZGF0YSk7DQo+ID4gKysgICAgICAgIHJldHVybiBOR1hfRVJST1I7DQo+
+ID4gKysgICAgfQ0KPiA+ICsrDQo+ID4gKyAgICAgYXRvbSA9ICZ0cmFrLT5zbWhkX2F0b21fYnVm
+Ow0KPiA+ICsgICAgIGF0b20tPnRlbXBvcmFyeSA9IDE7DQo+ID4gKyAgICAgYXRvbS0+cG9zID0g
+YXRvbV9oZWFkZXI7DQo+ID4gK0BAIC0xOTk1LDYgKzIwNjksMTIgQEAgbmd4X2h0dHBfbXA0X3Jl
+YWRfZGluZl9hdG9tKG5neF9odHRwX21wNF9maWxlX3QNCj4gKm1wNCwgdWludDY0X3QgYXRvbV9k
+YXRhX3NpemUpDQo+ID4gKw0KPiA+ICsgICAgIHRyYWsgPSBuZ3hfbXA0X2xhc3RfdHJhayhtcDQp
+Ow0KPiA+ICsNCj4gPiArKyAgICBpZiAodHJhay0+b3V0W05HWF9IVFRQX01QNF9ESU5GX0FUT01d
+LmJ1Zikgew0KPiA+ICsrICAgICAgICBuZ3hfbG9nX2Vycm9yKE5HWF9MT0dfRVJSLCBtcDQtPmZp
+bGUubG9nLCAwLA0KPiA+ICsrICAgICAgICAgICAgICAgICAgICAgICJkdXBsaWNhdGUgbXA0IGRp
+bmYgYXRvbSBpbiBcIiVzXCIiLCBtcDQtDQo+ID5maWxlLm5hbWUuZGF0YSk7DQo+ID4gKysgICAg
+ICAgIHJldHVybiBOR1hfRVJST1I7DQo+ID4gKysgICAgfQ0KPiA+ICsrDQo+ID4gKyAgICAgYXRv
+bSA9ICZ0cmFrLT5kaW5mX2F0b21fYnVmOw0KPiA+ICsgICAgIGF0b20tPnRlbXBvcmFyeSA9IDE7
+DQo+ID4gKyAgICAgYXRvbS0+cG9zID0gYXRvbV9oZWFkZXI7DQo+ID4gK0BAIC0yMDIzLDYgKzIx
+MDMsMTIgQEAgbmd4X2h0dHBfbXA0X3JlYWRfc3RibF9hdG9tKG5neF9odHRwX21wNF9maWxlX3QN
+Cj4gKm1wNCwgdWludDY0X3QgYXRvbV9kYXRhX3NpemUpDQo+ID4gKw0KPiA+ICsgICAgIHRyYWsg
+PSBuZ3hfbXA0X2xhc3RfdHJhayhtcDQpOw0KPiA+ICsNCj4gPiArKyAgICBpZiAodHJhay0+b3V0
+W05HWF9IVFRQX01QNF9TVEJMX0FUT01dLmJ1Zikgew0KPiA+ICsrICAgICAgICBuZ3hfbG9nX2Vy
+cm9yKE5HWF9MT0dfRVJSLCBtcDQtPmZpbGUubG9nLCAwLA0KPiA+ICsrICAgICAgICAgICAgICAg
+ICAgICAgICJkdXBsaWNhdGUgbXA0IHN0YmwgYXRvbSBpbiBcIiVzXCIiLCBtcDQtDQo+ID5maWxl
+Lm5hbWUuZGF0YSk7DQo+ID4gKysgICAgICAgIHJldHVybiBOR1hfRVJST1I7DQo+ID4gKysgICAg
+fQ0KPiA+ICsrDQo+ID4gKyAgICAgYXRvbSA9ICZ0cmFrLT5zdGJsX2F0b21fYnVmOw0KPiA+ICsg
+ICAgIGF0b20tPnRlbXBvcmFyeSA9IDE7DQo+ID4gKyAgICAgYXRvbS0+cG9zID0gYXRvbV9oZWFk
+ZXI7DQo+ID4gK0BAIC0yMTQ0LDYgKzIyMzAsMTIgQEAgbmd4X2h0dHBfbXA0X3JlYWRfc3RzZF9h
+dG9tKG5neF9odHRwX21wNF9maWxlX3QNCj4gKm1wNCwgdWludDY0X3QgYXRvbV9kYXRhX3NpemUp
+DQo+ID4gKw0KPiA+ICsgICAgIHRyYWsgPSBuZ3hfbXA0X2xhc3RfdHJhayhtcDQpOw0KPiA+ICsN
+Cj4gPiArKyAgICBpZiAodHJhay0+b3V0W05HWF9IVFRQX01QNF9TVFNEX0FUT01dLmJ1Zikgew0K
+PiA+ICsrICAgICAgICBuZ3hfbG9nX2Vycm9yKE5HWF9MT0dfRVJSLCBtcDQtPmZpbGUubG9nLCAw
+LA0KPiA+ICsrICAgICAgICAgICAgICAgICAgICAgICJkdXBsaWNhdGUgbXA0IHN0c2QgYXRvbSBp
+biBcIiVzXCIiLCBtcDQtDQo+ID5maWxlLm5hbWUuZGF0YSk7DQo+ID4gKysgICAgICAgIHJldHVy
+biBOR1hfRVJST1I7DQo+ID4gKysgICAgfQ0KPiA+ICsrDQo+ID4gKyAgICAgYXRvbSA9ICZ0cmFr
+LT5zdHNkX2F0b21fYnVmOw0KPiA+ICsgICAgIGF0b20tPnRlbXBvcmFyeSA9IDE7DQo+ID4gKyAg
+ICAgYXRvbS0+cG9zID0gYXRvbV9oZWFkZXI7DQo+ID4gK0BAIC0yMjEyLDYgKzIzMDQsMTMgQEAg
+bmd4X2h0dHBfbXA0X3JlYWRfc3R0c19hdG9tKG5neF9odHRwX21wNF9maWxlX3QNCj4gKm1wNCwg
+dWludDY0X3QgYXRvbV9kYXRhX3NpemUpDQo+ID4gKyAgICAgYXRvbV9lbmQgPSBhdG9tX3RhYmxl
+ICsgZW50cmllcyAqIHNpemVvZihuZ3hfbXA0X3N0dHNfZW50cnlfdCk7DQo+ID4gKw0KPiA+ICsg
+ICAgIHRyYWsgPSBuZ3hfbXA0X2xhc3RfdHJhayhtcDQpOw0KPiA+ICsrDQo+ID4gKysgICAgaWYg
+KHRyYWstPm91dFtOR1hfSFRUUF9NUDRfU1RUU19BVE9NXS5idWYpIHsNCj4gPiArKyAgICAgICAg
+bmd4X2xvZ19lcnJvcihOR1hfTE9HX0VSUiwgbXA0LT5maWxlLmxvZywgMCwNCj4gPiArKyAgICAg
+ICAgICAgICAgICAgICAgICAiZHVwbGljYXRlIG1wNCBzdHRzIGF0b20gaW4gXCIlc1wiIiwgbXA0
+LQ0KPiA+ZmlsZS5uYW1lLmRhdGEpOw0KPiA+ICsrICAgICAgICByZXR1cm4gTkdYX0VSUk9SOw0K
+PiA+ICsrICAgIH0NCj4gPiArKw0KPiA+ICsgICAgIHRyYWstPnRpbWVfdG9fc2FtcGxlX2VudHJp
+ZXMgPSBlbnRyaWVzOw0KPiA+ICsNCj4gPiArICAgICBhdG9tID0gJnRyYWstPnN0dHNfYXRvbV9i
+dWY7DQo+ID4gK0BAIC0yNDgwLDYgKzI1NzksMTMgQEAgbmd4X2h0dHBfbXA0X3JlYWRfc3Rzc19h
+dG9tKG5neF9odHRwX21wNF9maWxlX3QNCj4gKm1wNCwgdWludDY0X3QgYXRvbV9kYXRhX3NpemUp
+DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgInN5bmMgc2FtcGxlIGVudHJpZXM6JXVEIiwgZW50
+cmllcyk7DQo+ID4gKw0KPiA+ICsgICAgIHRyYWsgPSBuZ3hfbXA0X2xhc3RfdHJhayhtcDQpOw0K
+PiA+ICsrDQo+ID4gKysgICAgaWYgKHRyYWstPm91dFtOR1hfSFRUUF9NUDRfU1RTU19BVE9NXS5i
+dWYpIHsNCj4gPiArKyAgICAgICAgbmd4X2xvZ19lcnJvcihOR1hfTE9HX0VSUiwgbXA0LT5maWxl
+LmxvZywgMCwNCj4gPiArKyAgICAgICAgICAgICAgICAgICAgICAiZHVwbGljYXRlIG1wNCBzdHNz
+IGF0b20gaW4gXCIlc1wiIiwgbXA0LQ0KPiA+ZmlsZS5uYW1lLmRhdGEpOw0KPiA+ICsrICAgICAg
+ICByZXR1cm4gTkdYX0VSUk9SOw0KPiA+ICsrICAgIH0NCj4gPiArKw0KPiA+ICsgICAgIHRyYWst
+PnN5bmNfc2FtcGxlc19lbnRyaWVzID0gZW50cmllczsNCj4gPiArDQo+ID4gKyAgICAgYXRvbV90
+YWJsZSA9IGF0b21faGVhZGVyICsgc2l6ZW9mKG5neF9odHRwX21wNF9zdHNzX2F0b21fdCk7DQo+
+ID4gK0BAIC0yNjc4LDYgKzI3ODQsMTMgQEAgbmd4X2h0dHBfbXA0X3JlYWRfY3R0c19hdG9tKG5n
+eF9odHRwX21wNF9maWxlX3QNCj4gKm1wNCwgdWludDY0X3QgYXRvbV9kYXRhX3NpemUpDQo+ID4g
+KyAgICAgICAgICAgICAgICAgICAgImNvbXBvc2l0aW9uIG9mZnNldCBlbnRyaWVzOiV1RCIsIGVu
+dHJpZXMpOw0KPiA+ICsNCj4gPiArICAgICB0cmFrID0gbmd4X21wNF9sYXN0X3RyYWsobXA0KTsN
+Cj4gPiArKw0KPiA+ICsrICAgIGlmICh0cmFrLT5vdXRbTkdYX0hUVFBfTVA0X0NUVFNfQVRPTV0u
+YnVmKSB7DQo+ID4gKysgICAgICAgIG5neF9sb2dfZXJyb3IoTkdYX0xPR19FUlIsIG1wNC0+Zmls
+ZS5sb2csIDAsDQo+ID4gKysgICAgICAgICAgICAgICAgICAgICAgImR1cGxpY2F0ZSBtcDQgY3R0
+cyBhdG9tIGluIFwiJXNcIiIsIG1wNC0NCj4gPmZpbGUubmFtZS5kYXRhKTsNCj4gPiArKyAgICAg
+ICAgcmV0dXJuIE5HWF9FUlJPUjsNCj4gPiArKyAgICB9DQo+ID4gKysNCj4gPiArICAgICB0cmFr
+LT5jb21wb3NpdGlvbl9vZmZzZXRfZW50cmllcyA9IGVudHJpZXM7DQo+ID4gKw0KPiA+ICsgICAg
+IGF0b21fdGFibGUgPSBhdG9tX2hlYWRlciArIHNpemVvZihuZ3hfbXA0X2N0dHNfYXRvbV90KTsN
+Cj4gPiArQEAgLTI4ODEsNiArMjk5NCwxMyBAQCBuZ3hfaHR0cF9tcDRfcmVhZF9zdHNjX2F0b20o
+bmd4X2h0dHBfbXA0X2ZpbGVfdA0KPiAqbXA0LCB1aW50NjRfdCBhdG9tX2RhdGFfc2l6ZSkNCj4g
+PiArICAgICBhdG9tX2VuZCA9IGF0b21fdGFibGUgKyBlbnRyaWVzICogc2l6ZW9mKG5neF9tcDRf
+c3RzY19lbnRyeV90KTsNCj4gPiArDQo+ID4gKyAgICAgdHJhayA9IG5neF9tcDRfbGFzdF90cmFr
+KG1wNCk7DQo+ID4gKysNCj4gPiArKyAgICBpZiAodHJhay0+b3V0W05HWF9IVFRQX01QNF9TVFND
+X0FUT01dLmJ1Zikgew0KPiA+ICsrICAgICAgICBuZ3hfbG9nX2Vycm9yKE5HWF9MT0dfRVJSLCBt
+cDQtPmZpbGUubG9nLCAwLA0KPiA+ICsrICAgICAgICAgICAgICAgICAgICAgICJkdXBsaWNhdGUg
+bXA0IHN0c2MgYXRvbSBpbiBcIiVzXCIiLCBtcDQtDQo+ID5maWxlLm5hbWUuZGF0YSk7DQo+ID4g
+KysgICAgICAgIHJldHVybiBOR1hfRVJST1I7DQo+ID4gKysgICAgfQ0KPiA+ICsrDQo+ID4gKyAg
+ICAgdHJhay0+c2FtcGxlX3RvX2NodW5rX2VudHJpZXMgPSBlbnRyaWVzOw0KPiA+ICsNCj4gPiAr
+ICAgICBhdG9tID0gJnRyYWstPnN0c2NfYXRvbV9idWY7DQo+ID4gK0BAIC0zMjEzLDYgKzMzMzMs
+MTMgQEAgbmd4X2h0dHBfbXA0X3JlYWRfc3Rzel9hdG9tKG5neF9odHRwX21wNF9maWxlX3QNCj4g
+Km1wNCwgdWludDY0X3QgYXRvbV9kYXRhX3NpemUpDQo+ID4gKyAgICAgICAgICAgICAgICAgICAg
+InNhbXBsZSB1bmlmb3JtIHNpemU6JXVELCBlbnRyaWVzOiV1RCIsIHNpemUsDQo+IGVudHJpZXMp
+Ow0KPiA+ICsNCj4gPiArICAgICB0cmFrID0gbmd4X21wNF9sYXN0X3RyYWsobXA0KTsNCj4gPiAr
+Kw0KPiA+ICsrICAgIGlmICh0cmFrLT5vdXRbTkdYX0hUVFBfTVA0X1NUU1pfQVRPTV0uYnVmKSB7
+DQo+ID4gKysgICAgICAgIG5neF9sb2dfZXJyb3IoTkdYX0xPR19FUlIsIG1wNC0+ZmlsZS5sb2cs
+IDAsDQo+ID4gKysgICAgICAgICAgICAgICAgICAgICAgImR1cGxpY2F0ZSBtcDQgc3RzeiBhdG9t
+IGluIFwiJXNcIiIsIG1wNC0NCj4gPmZpbGUubmFtZS5kYXRhKTsNCj4gPiArKyAgICAgICAgcmV0
+dXJuIE5HWF9FUlJPUjsNCj4gPiArKyAgICB9DQo+ID4gKysNCj4gPiArICAgICB0cmFrLT5zYW1w
+bGVfc2l6ZXNfZW50cmllcyA9IGVudHJpZXM7DQo+ID4gKw0KPiA+ICsgICAgIGF0b21fdGFibGUg
+PSBhdG9tX2hlYWRlciArIHNpemVvZihuZ3hfbXA0X3N0c3pfYXRvbV90KTsNCj4gPiArQEAgLTMz
+OTYsNiArMzUyMywxNiBAQCBuZ3hfaHR0cF9tcDRfcmVhZF9zdGNvX2F0b20obmd4X2h0dHBfbXA0
+X2ZpbGVfdA0KPiAqbXA0LCB1aW50NjRfdCBhdG9tX2RhdGFfc2l6ZSkNCj4gPiArICAgICBhdG9t
+X2VuZCA9IGF0b21fdGFibGUgKyBlbnRyaWVzICogc2l6ZW9mKHVpbnQzMl90KTsNCj4gPiArDQo+
+ID4gKyAgICAgdHJhayA9IG5neF9tcDRfbGFzdF90cmFrKG1wNCk7DQo+ID4gKysNCj4gPiArKyAg
+ICBpZiAodHJhay0+b3V0W05HWF9IVFRQX01QNF9TVENPX0FUT01dLmJ1Zg0KPiA+ICsrICAgICAg
+ICB8fCB0cmFrLT5vdXRbTkdYX0hUVFBfTVA0X0NPNjRfQVRPTV0uYnVmKQ0KPiA+ICsrICAgIHsN
+Cj4gPiArKyAgICAgICAgbmd4X2xvZ19lcnJvcihOR1hfTE9HX0VSUiwgbXA0LT5maWxlLmxvZywg
+MCwNCj4gPiArKyAgICAgICAgICAgICAgICAgICAgICAiZHVwbGljYXRlIG1wNCBzdGNvL2NvNjQg
+YXRvbSBpbiBcIiVzXCIiLA0KPiA+ICsrICAgICAgICAgICAgICAgICAgICAgIG1wNC0+ZmlsZS5u
+YW1lLmRhdGEpOw0KPiA+ICsrICAgICAgICByZXR1cm4gTkdYX0VSUk9SOw0KPiA+ICsrICAgIH0N
+Cj4gPiArKw0KPiA+ICsgICAgIHRyYWstPmNodW5rcyA9IGVudHJpZXM7DQo+ID4gKw0KPiA+ICsg
+ICAgIGF0b20gPSAmdHJhay0+c3Rjb19hdG9tX2J1ZjsNCj4gPiArQEAgLTM2MDIsNiArMzczOSwx
+NiBAQCBuZ3hfaHR0cF9tcDRfcmVhZF9jbzY0X2F0b20obmd4X2h0dHBfbXA0X2ZpbGVfdA0KPiAq
+bXA0LCB1aW50NjRfdCBhdG9tX2RhdGFfc2l6ZSkNCj4gPiArICAgICBhdG9tX2VuZCA9IGF0b21f
+dGFibGUgKyBlbnRyaWVzICogc2l6ZW9mKHVpbnQ2NF90KTsNCj4gPiArDQo+ID4gKyAgICAgdHJh
+ayA9IG5neF9tcDRfbGFzdF90cmFrKG1wNCk7DQo+ID4gKysNCj4gPiArKyAgICBpZiAodHJhay0+
+b3V0W05HWF9IVFRQX01QNF9TVENPX0FUT01dLmJ1Zg0KPiA+ICsrICAgICAgICB8fCB0cmFrLT5v
+dXRbTkdYX0hUVFBfTVA0X0NPNjRfQVRPTV0uYnVmKQ0KPiA+ICsrICAgIHsNCj4gPiArKyAgICAg
+ICAgbmd4X2xvZ19lcnJvcihOR1hfTE9HX0VSUiwgbXA0LT5maWxlLmxvZywgMCwNCj4gPiArKyAg
+ICAgICAgICAgICAgICAgICAgICAiZHVwbGljYXRlIG1wNCBzdGNvL2NvNjQgYXRvbSBpbiBcIiVz
+XCIiLA0KPiA+ICsrICAgICAgICAgICAgICAgICAgICAgIG1wNC0+ZmlsZS5uYW1lLmRhdGEpOw0K
+PiA+ICsrICAgICAgICByZXR1cm4gTkdYX0VSUk9SOw0KPiA+ICsrICAgIH0NCj4gPiArKw0KPiA+
+ICsgICAgIHRyYWstPmNodW5rcyA9IGVudHJpZXM7DQo+ID4gKw0KPiA+ICsgICAgIGF0b20gPSAm
+dHJhay0+Y282NF9hdG9tX2J1ZjsNCj4gPiArLS0NCj4gPiArMi4zNC4xDQo+ID4gKw0KPiA+IGRp
+ZmYgLS1naXQgYS9tZXRhLXdlYnNlcnZlci9yZWNpcGVzLWh0dHBkL25naW54L25naW54LmluYyBi
+L21ldGEtDQo+IHdlYnNlcnZlci9yZWNpcGVzLWh0dHBkL25naW54L25naW54LmluYw0KPiA+IGlu
+ZGV4IGRmY2VkMzMzMC4uNzU0MjkwZDNhIDEwMDY0NA0KPiA+IC0tLSBhL21ldGEtd2Vic2VydmVy
+L3JlY2lwZXMtaHR0cGQvbmdpbngvbmdpbnguaW5jDQo+ID4gKysrIGIvbWV0YS13ZWJzZXJ2ZXIv
+cmVjaXBlcy1odHRwZC9uZ2lueC9uZ2lueC5pbmMNCj4gPiBAQCAtMjIsNiArMjIsNyBAQCBTUkNf
+VVJJID0gIiBcDQo+ID4gICAgICBmaWxlOi8vbmdpbngtdm9sYXRpbGUuY29uZiBcDQo+ID4gICAg
+ICBmaWxlOi8vbmdpbnguc2VydmljZSBcDQo+ID4gICAgICBmaWxlOi8vbmdpbngtZml4LXBpZGZp
+bGUucGF0Y2ggXA0KPiA+ICsgICAgZmlsZTovLzAwMDEtTXA0LWRpc2FibGVkLWR1cGxpY2F0ZS1h
+dG9tcy5wYXRjaCBcDQo+ID4gICINCj4gPg0KPiA+ICBpbmhlcml0IHNpdGVpbmZvIHVwZGF0ZS1y
+Yy5kIHVzZXJhZGQgc3lzdGVtZA0KPiA+IC0tDQo+ID4gMi4zNC4xDQo+ID4NCj4gPg0KPiA+DQo+
+ID4NCg==
 
