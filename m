@@ -1,80 +1,84 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <olani@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0CE2C433FE
-	for <webhook@archiver.kernel.org>; Thu, 24 Nov 2022 14:08:40 +0000 (UTC)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
- by mx.groups.io with SMTP id smtpd.web11.24569.1669298917100631855
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C524C433FE
+	for <webhook@archiver.kernel.org>; Thu, 24 Nov 2022 16:52:11 +0000 (UTC)
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web10.28713.1669308729047688193
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Nov 2022 06:08:37 -0800
+ Thu, 24 Nov 2022 08:52:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=LiYQWZTV;
- spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f174.google.com with SMTP id u2so2120660ljl.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Nov 2022 06:08:36 -0800 (PST)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=FKUG95FX;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: ola.x.nilsson@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vI06AAiO1CS2oah1UT3OyTt6MYFiKobHExCPYYHdy/E=;
-        b=LiYQWZTV4NDHqUENI5f4IGyUTsYL4oHNbdkC1ody6LkSdElGxooUXLtKKyfqRHVhq6
-         Z+v9tyCIB5XTHpqyDRy2a75HFu9KXgs/xfZBqHmoJoYZfLG6eh//fdeSWLm2lg9aAuIG
-         mC+d16QiUfuozw5J5vE/BsOq7hlk8pecgWTwKhWq043ppjs6c9xlRka+yrpMEVixXQCt
-         lr5VO7dF4IcjsnDjH4eo2B6mKGkMrDG5HKUq3Za0lHkInBDxhuRqxZ40gMN5ZwmiGALd
-         nBcBfj5gUpCqwKM2uBua8u4Hnc8e56DgArr8q+ZIdjWsYNNn6luqO7dx7B3dEaXHdCjZ
-         R9xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vI06AAiO1CS2oah1UT3OyTt6MYFiKobHExCPYYHdy/E=;
-        b=DisxdL/eJ5XJygSzfwRJmbJ50LjG3M0vrJvh88i1sy6x/T8uKz6DDiwgVVl/JOvPcE
-         BiGDdiuaOgyAwUpLknsQgGvo2L21dlOZyGbVGa4y59boemgnarDeEWYbMWHt9iviqrho
-         jquY1oFA+hl23uSUsLJQ0de9QhS9oJCRrjAAUb9q/6JkSYFNVxG42q2xwQPEipLeojN6
-         Ry8kNN2YqmDN9ORsOxOtRA9JzckZsghNPtFYIdXI5C30e7thqDpxWxuxyHvL58IvaaDz
-         3q6VIhZ8Mg7G35xP/Iye+SfnMtHJNIFQiO2qDMr9OJlk0BxVYo4bXDmPoFWJF3xAdy0A
-         Tfsg==
-X-Gm-Message-State: ANoB5plsJZi7jS50/CBcs+McS/FuloZisf9qCVMpGxLhIcYfDbvcbrRN
-	Nmiu9EF967XqFBonZpkE6HBswYf05DGTP7uQE18=
-X-Google-Smtp-Source: AA0mqf5mcoJfAazlxMiq2OBQYa14vv36MCAE2o2apv84dvkCHC1TQbSVsoaTGJsfR9KSD6eTyZWKnMpLHP7RVtXlUhA=
-X-Received: by 2002:a05:651c:c8f:b0:26d:d196:d04 with SMTP id
- bz15-20020a05651c0c8f00b0026dd1960d04mr11084451ljb.403.1669298914602; Thu, 24
- Nov 2022 06:08:34 -0800 (PST)
+  d=axis.com; q=dns/txt; s=axis-central1; t=1669308729;
+  x=1700844729;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=jaDV2bCxiE3o29Khmma/ZmsiEDNr4a6Zl0iApm0MOVA=;
+  b=FKUG95FXOX6gg95yyKuPzX7SEZLAGZhm1ix4VREGLcq6+2o8aEzV0PZE
+   tt9sf6xqx6q8iA0760PgZRV6xKFQ8o+rV3MXOiQFNCLW2lnQtMnDOTS33
+   pMMyA2uK0yjTNWKu6aWPwSzHjUbDr0z1VoBOWzaqYqYEOMqIqZq8rgym2
+   hApNgSwwcNnNxoVoeUsGIAAoImFQeo5lpaodt6xWdRbn565yIx11y6uf9
+   hfYobSh3ct0tvsFAeTaSK/pOsjWxthj/Y1HUxhNb6HtO167EiA49bpShO
+   WifwOOSdxtplt8zzmv+6VZnHlvq+ot2b0621WFAg7qgGkk7Ct4Uf5Fant
+   A==;
+From: Ola x Nilsson <olani@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] kbd: DEPEND on bison-native and don't build tests
+Date: Thu, 24 Nov 2022 17:52:06 +0100
+Message-ID: <20221124165206.1020295-1-olani@axis.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20221120133122.2464634-1-alex@linutronix.de> <20221120133122.2464634-5-alex@linutronix.de>
- <fb9b0440c73d2d287b6dce447e652d7b0986c33e.camel@linuxfoundation.org>
- <CANNYZj-HbuCeOiK2yd_01ruShEg17J6yAKH2F4QTEp6hi9O+Pg@mail.gmail.com>
- <ab2f02ff2654669a3c0b26bf741514698966b292.camel@linuxfoundation.org>
- <CANNYZj8DcqqBFjBeLNsvhS-KbpzM1=hCeR=XL=FNwQV7=bBEUQ@mail.gmail.com> <860e71c1edb0e530899aa25c00722e7dc04acac6.camel@linuxfoundation.org>
-In-Reply-To: <860e71c1edb0e530899aa25c00722e7dc04acac6.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 24 Nov 2022 15:08:23 +0100
-Message-ID: <CANNYZj8s762rRv=noRyH3h-dU6a7nM04H2zFWRqpHkTsK-rDSQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 05/17] unfs: update 0.9.22 -> 0.10.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Nov 2022 14:08:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173753
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Nov 2022 16:52:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173754
 
-On Thu, 24 Nov 2022 at 14:44, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> Do we need special privileges to be able to run that?
+bison-native is required if any .y-file is changed, by patch or in
+devtool.  Otherwise the build will fail with
 
-No, you only need to build meta-ide-support as the scripts take nfsd
-executable from sysroot of that (could be improved and available
-directly from qemu's own sysroot).
+/bin/bash ..../config/ylwrap ..../src/libkeymap/parser.y y.tab.c parser.c y.tab.h `echo parser.c | sed -e s/cc$/hh/ -e s/cpp$/hpp/ -e s/cxx$/hxx/ -e s/c++$/h++/ -e s/c$/h/` y.output parser.output -- yacc
+..../kbd/config/ylwrap: line 175: yacc: command not found
 
-Then it should simply work if you give the rootfs tarball as parameter
-to runqemu:
-$ runqemu tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.tar.bz2
-nographic kvm
+All c-files generated from y-files are included in the distribution
+tarball, which is why bison has not been needed so far.
 
-Alex
+Add --disable-tests to EXTRA_OECONF as the tests are not usable in
+ptest - they can only run in-situ - and fails when building with
+-D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64.
+
+Signed-off-by: Ola x Nilsson <olani@axis.com>
+---
+ meta/recipes-core/kbd/kbd_2.5.1.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/kbd/kbd_2.5.1.bb b/meta/recipes-core/kbd/kbd_2.5.1.bb
+index aa3ab6e121..75b3c2765a 100644
+--- a/meta/recipes-core/kbd/kbd_2.5.1.bb
++++ b/meta/recipes-core/kbd/kbd_2.5.1.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ 
+ inherit autotools gettext pkgconfig
+ 
+-DEPENDS += "flex-native"
++DEPENDS += "bison-native flex-native"
+ 
+ RREPLACES:${PN} = "console-tools"
+ RPROVIDES:${PN} = "console-tools"
+@@ -18,6 +18,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/${BP}.tar.xz \
+ 
+ SRC_URI[sha256sum] = "ccdf452387a6380973d2927363e9cbb939fa2068915a6f937ff9d24522024683"
+ 
++EXTRA_OECONF = "--disable-tests"
+ PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)} \
+                   "
+ 
+-- 
+2.30.2
+
 
