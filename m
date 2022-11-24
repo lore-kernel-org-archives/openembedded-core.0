@@ -1,92 +1,80 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D58AC433FE
-	for <webhook@archiver.kernel.org>; Thu, 24 Nov 2022 13:47:40 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web10.23976.1669297653432815727
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0CE2C433FE
+	for <webhook@archiver.kernel.org>; Thu, 24 Nov 2022 14:08:40 +0000 (UTC)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+ by mx.groups.io with SMTP id smtpd.web11.24569.1669298917100631855
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Nov 2022 05:47:33 -0800
+ Thu, 24 Nov 2022 06:08:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fg3gPNnv;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id q7so1670814wrr.8
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Nov 2022 05:47:33 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=LiYQWZTV;
+ spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f174.google.com with SMTP id u2so2120660ljl.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Nov 2022 06:08:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=nadSV7Jy5xvyLFOrYgvGcCaboRQaAHVwueTPj6+0erw=;
-        b=fg3gPNnvxUJ9jJ7Hjn9Nc0D0sdcIMQRjevQtEpkIkj8wNmZCpCyxEw6gwbIbGp7VTZ
-         KH32nQVZxT6ylTOBs00cy3ko30LjGxbFxbZESUowTnvBw+tRlqSrP6vLR4faAkcDT06N
-         OKyCfCJkidHRCyta0vK0lC9slX2JrOKpJW6dI=
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=vI06AAiO1CS2oah1UT3OyTt6MYFiKobHExCPYYHdy/E=;
+        b=LiYQWZTV4NDHqUENI5f4IGyUTsYL4oHNbdkC1ody6LkSdElGxooUXLtKKyfqRHVhq6
+         Z+v9tyCIB5XTHpqyDRy2a75HFu9KXgs/xfZBqHmoJoYZfLG6eh//fdeSWLm2lg9aAuIG
+         mC+d16QiUfuozw5J5vE/BsOq7hlk8pecgWTwKhWq043ppjs6c9xlRka+yrpMEVixXQCt
+         lr5VO7dF4IcjsnDjH4eo2B6mKGkMrDG5HKUq3Za0lHkInBDxhuRqxZ40gMN5ZwmiGALd
+         nBcBfj5gUpCqwKM2uBua8u4Hnc8e56DgArr8q+ZIdjWsYNNn6luqO7dx7B3dEaXHdCjZ
+         R9xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nadSV7Jy5xvyLFOrYgvGcCaboRQaAHVwueTPj6+0erw=;
-        b=sjV6LQirQnXvnJsUARUcFNzuj53Tk89A/OF7T1OmpKCEqDyUPFhyz1bpKWsZwlh/LX
-         K/FRFJGJIRio75z66HEEs9bzJbGffmE4nDFqvWqNoXjs0uqLqQhem6enfP/vuBr9dkrN
-         lnmtar2VuQCasVj1pO6SFVY37vvT8owUrgpc9tU0vflts/KIyA6pDzi8gQSXI05NFl+p
-         yu0xqAUA2gQE8UXWUxZwbR/nJxDJ/AAcJtWoI5rHi9RACdYrYh04+BSoi4vj92X37dEH
-         kitRcfKcilZFmLKCCUfSdvnpDuyTstgasJ9US0tIj08nskm0NahwxyRZJ3GYopSRKX6K
-         7STQ==
-X-Gm-Message-State: ANoB5pn7dYmAIHRODi2DXhbVSmtrIdpkkPxfcpITk/FUUJxxmLAHnBNh
-	G5WrCwneuGE05k8GRXf/e2xNaA==
-X-Google-Smtp-Source: AA0mqf4JbRm/wTOeF2bZaReDavfMkEBbyHSn/w3PX0JRR1wDzM1kGCXsmB5dwJGlHeINGrc5PUnqFA==
-X-Received: by 2002:adf:f406:0:b0:235:e6a9:b492 with SMTP id g6-20020adff406000000b00235e6a9b492mr8392451wro.212.1669297651796;
-        Thu, 24 Nov 2022 05:47:31 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:4038:3d32:5f00:5957? ([2001:8b0:aba:5f3c:4038:3d32:5f00:5957])
-        by smtp.gmail.com with ESMTPSA id k2-20020a5d66c2000000b002362f6fcaf5sm1352939wrw.48.2022.11.24.05.47.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Nov 2022 05:47:29 -0800 (PST)
-Message-ID: <e9cc745903744a94f830e1e897c9cbabb66cd373.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] selftest: allow '-R' and '-r' be used together
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: alexandre.belloni@bootlin.com, Chen Qi <Qi.Chen@windriver.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Thu, 24 Nov 2022 13:47:27 +0000
-In-Reply-To: <Y39zIuEp2//QoOxc@mail.local>
-References: <20221124025528.114101-1-Qi.Chen@windriver.com>
-	 <Y39W7D6ps5v1cCyn@mail.local>
-	 <CO6PR11MB5602B903C8B0BB9EB6C94214ED0F9@CO6PR11MB5602.namprd11.prod.outlook.com>
-	 <Y39rTVzD41m41oyP@mail.local>
-	 <CO6PR11MB56029B5C9F7EA25EB2CE1F6AED0F9@CO6PR11MB5602.namprd11.prod.outlook.com>
-	 <Y39zIuEp2//QoOxc@mail.local>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu1 
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vI06AAiO1CS2oah1UT3OyTt6MYFiKobHExCPYYHdy/E=;
+        b=DisxdL/eJ5XJygSzfwRJmbJ50LjG3M0vrJvh88i1sy6x/T8uKz6DDiwgVVl/JOvPcE
+         BiGDdiuaOgyAwUpLknsQgGvo2L21dlOZyGbVGa4y59boemgnarDeEWYbMWHt9iviqrho
+         jquY1oFA+hl23uSUsLJQ0de9QhS9oJCRrjAAUb9q/6JkSYFNVxG42q2xwQPEipLeojN6
+         Ry8kNN2YqmDN9ORsOxOtRA9JzckZsghNPtFYIdXI5C30e7thqDpxWxuxyHvL58IvaaDz
+         3q6VIhZ8Mg7G35xP/Iye+SfnMtHJNIFQiO2qDMr9OJlk0BxVYo4bXDmPoFWJF3xAdy0A
+         Tfsg==
+X-Gm-Message-State: ANoB5plsJZi7jS50/CBcs+McS/FuloZisf9qCVMpGxLhIcYfDbvcbrRN
+	Nmiu9EF967XqFBonZpkE6HBswYf05DGTP7uQE18=
+X-Google-Smtp-Source: AA0mqf5mcoJfAazlxMiq2OBQYa14vv36MCAE2o2apv84dvkCHC1TQbSVsoaTGJsfR9KSD6eTyZWKnMpLHP7RVtXlUhA=
+X-Received: by 2002:a05:651c:c8f:b0:26d:d196:d04 with SMTP id
+ bz15-20020a05651c0c8f00b0026dd1960d04mr11084451ljb.403.1669298914602; Thu, 24
+ Nov 2022 06:08:34 -0800 (PST)
 MIME-Version: 1.0
+References: <20221120133122.2464634-1-alex@linutronix.de> <20221120133122.2464634-5-alex@linutronix.de>
+ <fb9b0440c73d2d287b6dce447e652d7b0986c33e.camel@linuxfoundation.org>
+ <CANNYZj-HbuCeOiK2yd_01ruShEg17J6yAKH2F4QTEp6hi9O+Pg@mail.gmail.com>
+ <ab2f02ff2654669a3c0b26bf741514698966b292.camel@linuxfoundation.org>
+ <CANNYZj8DcqqBFjBeLNsvhS-KbpzM1=hCeR=XL=FNwQV7=bBEUQ@mail.gmail.com> <860e71c1edb0e530899aa25c00722e7dc04acac6.camel@linuxfoundation.org>
+In-Reply-To: <860e71c1edb0e530899aa25c00722e7dc04acac6.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 24 Nov 2022 15:08:23 +0100
+Message-ID: <CANNYZj8s762rRv=noRyH3h-dU6a7nM04H2zFWRqpHkTsK-rDSQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 05/17] unfs: update 0.9.22 -> 0.10.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Nov 2022 13:47:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173752
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Nov 2022 14:08:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173753
 
-On Thu, 2022-11-24 at 14:35 +0100, Alexandre Belloni via
-lists.openembedded.org wrote:
-> On 24/11/2022 13:10:51+0000, Chen Qi wrote:
-> > Hi Alexandre,
-> >=20
-> > The command line is: oe-selftest --skip-tests distrodata.Distrodata.tes=
-t_checkpkg buildoptions.SourceMirroring.test_yocto_source_mirror reproducib=
-le -T machine -T toolchain-user -T toolchain-system -j 15
-> >=20
-> > The '--skip-tests' option is the long format of '-R'.
-> >=20
->=20
-> Right, sorry about that :) I actually checked we didn't have any -R
-> before sending the patch to the AB... I'll discuss that with RP.
+On Thu, 24 Nov 2022 at 14:44, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Do we need special privileges to be able to run that?
 
-The autobuilder is not running "all" tests though, it is running two
-groups of tests, -T machine and -T toolchain-user. Adding -a here
-doesn't really make sense.
+No, you only need to build meta-ide-support as the scripts take nfsd
+executable from sysroot of that (could be improved and available
+directly from qemu's own sysroot).
 
-Cheers,
+Then it should simply work if you give the rootfs tarball as parameter
+to runqemu:
+$ runqemu tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.tar.bz2
+nographic kvm
 
-Richard
+Alex
 
