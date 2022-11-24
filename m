@@ -2,60 +2,60 @@ Return-Path: <vkumbhar@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EFA2C433FE
-	for <webhook@archiver.kernel.org>; Thu, 24 Nov 2022 12:25:50 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.22267.1669292746292228386
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20982C43217
+	for <webhook@archiver.kernel.org>; Thu, 24 Nov 2022 12:28:40 +0000 (UTC)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web10.22317.1669292910535243291
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Nov 2022 04:25:46 -0800
+ Thu, 24 Nov 2022 04:28:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=CZuH139M;
- spf=pass (domain: mvista.com, ip: 209.85.214.175, mailfrom: vkumbhar@mvista.com)
-Received: by mail-pl1-f175.google.com with SMTP id j12so1348157plj.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Nov 2022 04:25:46 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=NCx8J0R0;
+ spf=pass (domain: mvista.com, ip: 209.85.214.171, mailfrom: vkumbhar@mvista.com)
+Received: by mail-pl1-f171.google.com with SMTP id b21so1344227plc.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Nov 2022 04:28:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=mvista.com; s=google;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=K12JvBxBZsqF7YaXNWmINwY92m0H74osMbHKf0qPXhc=;
-        b=CZuH139M/Yha3ak6rhudaiVzu0BgA4aOTj7mi0BRKO6Qji2h69rlfnL9IU4rKlFqZx
-         hzKEnqVN/sjXNJr/ESHdw9t49y4H0kIkl0Hbj48rEOD/JozCXg2h+Z+8hTZmASBNepKI
-         PZ+GCzVsFx5+IZFtLVGgG37Acw7A1LTllhEII=
+        b=NCx8J0R00r1IsQ4FNDZNlo0FQTsmj1iP4wq03KwfaztVKEWDRZcBpHZ8/nzhpFxHlz
+         h+jIiuKr8xZQ9quz1TTxfuOQkvEimuE42/JiZ7u1npSeinP+CdZqi8zt3VnNbvfUK6dL
+         j6fP1CXUltiOACm0d1syOufbNctV4YzVwFVUM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
         bh=K12JvBxBZsqF7YaXNWmINwY92m0H74osMbHKf0qPXhc=;
-        b=gpxbiCPCgbMAtJ+fGDO/jBEKntglWWuS74LVKSWKmEuK5YmzljWN2/XQ5bLWxzOB2w
-         fzbnTYNh8D1BWwQ/9mfQ/4GEklw99aqQUqYGr0L60nHqpJs2yqA+uiKWYmfF+z35i1NM
-         af+aDPY4dhb4Cdz1v2o1Z2MD5BvaEU6Agd+W0hsOtDy9vm2AO/R3czRTzjv+QwdqU37t
-         hyuPs4Et6BhHJQZN1ITOuyJ9ygQEY77Ua96ywzkpW7dM4/L1JtIhs9qL1vrfwa9R4iEt
-         Dsk4bG1BAhj8iZEgW2gkgGuVY0nlfU/n/R5vWxCsoP67LOGPzisc3kDupA7aWhrSQ2g4
-         /aDQ==
-X-Gm-Message-State: ANoB5pnGRy/jM0KIyj9rPXBo+irxoc9Hqq1OO6Tv/XgQpJrqN/LoqUKH
-	vwPVHpxi7JffWV3kP30kR1/vY65tDUpz5A==
-X-Google-Smtp-Source: AA0mqf7R7tHdwYe3VeQzcnlgxpW7DhuswrHxQopGzyZvaqaTIuzcg/tD4O9ancaJfk1M5X32eVi0lA==
-X-Received: by 2002:a17:902:f792:b0:186:6d69:6e01 with SMTP id q18-20020a170902f79200b001866d696e01mr16321599pln.160.1669292745296;
-        Thu, 24 Nov 2022 04:25:45 -0800 (PST)
+        b=nzLqT6oSvJOPO87o1/72fECpI+iQBpVApn1JfLsYFwsPiWpWtr7WtsK6NSIBK/7Qzz
+         rPgKNRhmdVIQU2PDsPzfQtVhbHl2Yo03aafa5wPlwZPKmkFOEH5jWEOu4RjDichuN9rR
+         +fh47WO7MFkLE3MKGtSXApGDHzPxehmOUciziVNBw7p/Z+5dXb88+Gbjnh4b9BQr9k4M
+         Si3drvjpweEmcHfc7ORWPB7eN3HcB/MztwDV/MXUsekiyOpvjGcoKfQzO1vzLl0xgGkY
+         wvt/cM72YnWsv2HK/gUekexezgZd6NayeTC3sEnDFUoS/rSP5h6lJW84xkMdWvOw1sJ6
+         Vnag==
+X-Gm-Message-State: ANoB5pkgxIwNX/ci/lbAkQU5XB2jy/Tib6z5zq076ejaI71BCJzCXZV9
+	RRp3JoxOhMZyOuJBOZzycJsfst41gDTcjQ==
+X-Google-Smtp-Source: AA0mqf6tKdcNnO8osnxXN0Jn/d5ZnTjPmWuR0E2bcjwKdIwCn4HhNEUFl+kWWTDQ2DIg/6NQlssimA==
+X-Received: by 2002:a17:903:1054:b0:189:574d:e84f with SMTP id f20-20020a170903105400b00189574de84fmr3965780plc.9.1669292909772;
+        Thu, 24 Nov 2022 04:28:29 -0800 (PST)
 Received: from vivek-Latitude-3400.mvista.com ([116.74.131.85])
-        by smtp.gmail.com with ESMTPSA id a7-20020aa79707000000b005748eade0afsm1114290pfg.175.2022.11.24.04.25.43
+        by smtp.gmail.com with ESMTPSA id c194-20020a621ccb000000b0056a93838606sm1112038pfc.58.2022.11.24.04.28.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Nov 2022 04:25:45 -0800 (PST)
+        Thu, 24 Nov 2022 04:28:29 -0800 (PST)
 From: vkumbhar@mvista.com
 To: openembedded-core@lists.openembedded.org
 Cc: Vivek Kumbhar <vkumbhar@mvista.com>
-Subject: [OE-core][dunfell][PATCH v2] python3: fix CVE-2022-42919 local privilege escalation via the multiprocessing forkserver start method
-Date: Thu, 24 Nov 2022 17:55:22 +0530
-Message-Id: <20221124122522.38829-1-vkumbhar@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] python3: fix CVE-2022-42919 local privilege escalation via the multiprocessing forkserver start method
+Date: Thu, 24 Nov 2022 17:58:13 +0530
+Message-Id: <20221124122813.81104-1-vkumbhar@mvista.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Nov 2022 12:25:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173744
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Nov 2022 12:28:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173745
 
 From: Vivek Kumbhar <vkumbhar@mvista.com>
 
