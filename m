@@ -1,188 +1,110 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D038C43217
-	for <webhook@archiver.kernel.org>; Thu, 24 Nov 2022 13:35:40 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
- by mx.groups.io with SMTP id smtpd.web11.23731.1669296933769312198
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B164C352A1
+	for <webhook@archiver.kernel.org>; Thu, 24 Nov 2022 13:44:30 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web10.23906.1669297466274770838
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Nov 2022 05:35:34 -0800
+ Thu, 24 Nov 2022 05:44:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=bGFzco4S;
- spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 6E77B2000B;
-	Thu, 24 Nov 2022 13:35:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1669296931;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2ezgW2vKNamO/hrv2UxeHc3RBRRMm/XsI/GWwYDGAQQ=;
-	b=bGFzco4Skb6sZ5GdkqeJi2QNookdS1Enlt8QAJW/jpmePkMR/juIwx3zyX8Pn2aO22qv2X
-	yFV/JBFdhyrbBX4FQj42J7as1o6aGs6gW/e/Cs7OqfPItLzapqEh0t8qvLXVHSJIBp4C5v
-	hXXFPCdBUoisputvG1APUkJEl81d/75stbYEUZulHaT47ThKSFqypIlRNJuALCgra1nc26
-	4k6kv7XJBIeub/zDFT16rMO13VIgchjf8kEKY1QmTKVX1Vc/K7LgptaFLbnSHg6gmWMRqw
-	JnZlUPJfFDeOkjRC4oZ9w+FKOprtkRkrLeA1ssBEPIlJ6iuo5pnGnBCQRZgFvA==
-Date: Thu, 24 Nov 2022 14:35:30 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][PATCH] selftest: allow '-R' and '-r' be used together
-Message-ID: <Y39zIuEp2//QoOxc@mail.local>
-References: <20221124025528.114101-1-Qi.Chen@windriver.com>
- <Y39W7D6ps5v1cCyn@mail.local>
- <CO6PR11MB5602B903C8B0BB9EB6C94214ED0F9@CO6PR11MB5602.namprd11.prod.outlook.com>
- <Y39rTVzD41m41oyP@mail.local>
- <CO6PR11MB56029B5C9F7EA25EB2CE1F6AED0F9@CO6PR11MB5602.namprd11.prod.outlook.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IssYpe4D;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id z4so2560763wrr.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Nov 2022 05:44:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=82M+SkMxK5LB+i57fUoTErwhki0WGaiBzkUMF+Q9N6Y=;
+        b=IssYpe4DzFcJ+aaQex3+36qtg7C/TOzhgBX8Zu8UfMf34kZoixjDo5jEkhr3pI6Hwc
+         pp4/XqUAYNbIzsWyUHae1J6rV1om6gPwPn/FotF3uDJx9Oygqx2gIHhx2+N8mNhzgC0m
+         Sg7wkRpWKDng8ZDbGa4ohQNc75nPn1fxpGa2w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=82M+SkMxK5LB+i57fUoTErwhki0WGaiBzkUMF+Q9N6Y=;
+        b=ChP9dp0cnMKSoxQlXAw30cmKrgV3qUNv4sJgc0FI/6+0Bjd5gJNb5l092+GkpzLKXf
+         wVj02wIeMET1lv40yEiCdOz1vTC+Uj7cKVkWtySVaF3Y+O2OwStr9Xd4VlhhiqsxaPEr
+         lon3w0/C5G8NsCdfFB+x5kTIrStGJwNVsxw68owv3ZIFgprUTnfcc1CZfRcjxuVwqJQn
+         uHBeoFRv/mGFnBCL5ww9UBR0GZSRMguqCrSByaLcsvrPuo+DhV1p6sb4oeNMIKuWT//S
+         61C2NBXHBPkSOnVADpPKsZYgMfklBSUq9PXb1XRTbUkE/Dznc+pLICmc9CUfH927tebi
+         4FGw==
+X-Gm-Message-State: ANoB5pmz/EZmlgRci+rxTR9PqNZuzy0HbAyju78+Y1xxv0cdb4Sn67Xq
+	OckDLpLrl6pcIEY8STTK9zjkOA==
+X-Google-Smtp-Source: AA0mqf7aSB4ApzeyVBvRxwbhYYvjoS8c25fWYGLh9LKMAptoPdWKqCuwQolX/5LQWOu7H+Gww3mqEg==
+X-Received: by 2002:a5d:6089:0:b0:241:e85c:f769 with SMTP id w9-20020a5d6089000000b00241e85cf769mr6250218wrt.69.1669297464442;
+        Thu, 24 Nov 2022 05:44:24 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:4038:3d32:5f00:5957? ([2001:8b0:aba:5f3c:4038:3d32:5f00:5957])
+        by smtp.gmail.com with ESMTPSA id fc12-20020a05600c524c00b003b4fdbb6319sm6140201wmb.21.2022.11.24.05.44.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Nov 2022 05:44:20 -0800 (PST)
+Message-ID: <860e71c1edb0e530899aa25c00722e7dc04acac6.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 05/17] unfs: update 0.9.22 -> 0.10.0
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, Alexander Kanavin
+	 <alex@linutronix.de>
+Date: Thu, 24 Nov 2022 13:44:18 +0000
+In-Reply-To: <CANNYZj8DcqqBFjBeLNsvhS-KbpzM1=hCeR=XL=FNwQV7=bBEUQ@mail.gmail.com>
+References: <20221120133122.2464634-1-alex@linutronix.de>
+	 <20221120133122.2464634-5-alex@linutronix.de>
+	 <fb9b0440c73d2d287b6dce447e652d7b0986c33e.camel@linuxfoundation.org>
+	 <CANNYZj-HbuCeOiK2yd_01ruShEg17J6yAKH2F4QTEp6hi9O+Pg@mail.gmail.com>
+	 <ab2f02ff2654669a3c0b26bf741514698966b292.camel@linuxfoundation.org>
+	 <CANNYZj8DcqqBFjBeLNsvhS-KbpzM1=hCeR=XL=FNwQV7=bBEUQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CO6PR11MB56029B5C9F7EA25EB2CE1F6AED0F9@CO6PR11MB5602.namprd11.prod.outlook.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Nov 2022 13:35:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173750
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Nov 2022 13:44:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173751
 
-On 24/11/2022 13:10:51+0000, Chen Qi wrote:
-> Hi Alexandre,
-> 
-> The command line is: oe-selftest --skip-tests distrodata.Distrodata.test_checkpkg buildoptions.SourceMirroring.test_yocto_source_mirror reproducible -T machine -T toolchain-user -T toolchain-system -j 15
-> 
-> The '--skip-tests' option is the long format of '-R'.
-> 
+On Thu, 2022-11-24 at 14:07 +0100, Alexander Kanavin wrote:
+> On Tue, 22 Nov 2022 at 16:09, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > It would help, yes. If you do that it could be good to understand and
+> > document which areas we do/don't have test coverage of some kind for as
+> > we could then look at either adding it or dropping that support if it
+> > isn't used.
+>=20
+> I sent a second version where each patch is separately reviewed for
+> necessity, and also the runqemu use of unfsd is manually tested and
+> fixed (there's no test or usage of it on the AB).
 
-Right, sorry about that :) I actually checked we didn't have any -R
-before sending the patch to the AB... I'll discuss that with RP.
+Thanks, the details in the review there are really helpful and the
+patch is clearly a good improvement to the situation. I'm happy the
+situation is well documented now. I'd forgotten the NFS ports situation
+was clearly resolved in 2017!
 
-> Regards,
-> Qi
-> 
-> -----Original Message-----
-> From: Alexandre Belloni <alexandre.belloni@bootlin.com> 
-> Sent: Thursday, November 24, 2022 9:02 PM
-> To: Chen, Qi <Qi.Chen@windriver.com>
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core][PATCH] selftest: allow '-R' and '-r' be used together
-> 
-> On 24/11/2022 12:24:38+0000, Chen Qi wrote:
-> > Hi Alexandre,
-> > 
-> > Yes, I'm aware of this behavior regression.
-> > With this patch, 'oe-selftest -R xxx' needs to be changed to 'oe-selftest -a -R xxx'.
-> > 
-> 
-> Yes, my point is that there is no -R in the command line used by the AB
-> 
-> > I'm not sure if this is useful for other people. Because how people use oe-selftest is unknown to me.
-> > For me, I want to run something like 'oe-selftest -r A -R A.B.C'.
-> > 
-> > Regards,
-> > Qi
-> > 
-> > -----Original Message-----
-> > From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> > Sent: Thursday, November 24, 2022 7:35 PM
-> > To: Chen, Qi <Qi.Chen@windriver.com>
-> > Cc: openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core][PATCH] selftest: allow '-R' and '-r' be used 
-> > together
-> > 
-> > Hello,
-> > 
-> > On 23/11/2022 18:55:28-0800, Chen Qi wrote:
-> > > For now, there's no easy way to skip some specified tests when using 
-> > > 'oe-selftest -r'. This is because '-R' and '-r' are in the mutually 
-> > > exclusive group. Looking at the codes, the codes have already 
-> > > allowed running specified tests and skipping specified tests at the same time.
-> > > So move '-R' out of the mutually exclusive group and change its help 
-> > > message.
-> > > 
-> > > After this change, the following command could be used.
-> > >   oe-selftest -r A -R A.B.C
-> > > 
-> > > This does introduce a behavior regression.
-> > > Previous 'oe-selftest -R xxx' needs to now be changed to 
-> > > 'oe-selftest -a -R xxx'.
-> > > 
-> > 
-> > This fails on the autobuilders which uses:
-> > 
-> > oe-selftest --skip-tests distrodata.Distrodata.test_checkpkg 
-> > buildoptions.SourceMirroring.test_yocto_source_mirror reproducible -T 
-> > machine -T toolchain-user -T toolchain-system -j 15
-> > 
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/4395
-> > /steps/14/logs/stdio
-> > 
-> > > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> > > ---
-> > >  meta/lib/oeqa/selftest/context.py | 6 +++---
-> > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/meta/lib/oeqa/selftest/context.py
-> > > b/meta/lib/oeqa/selftest/context.py
-> > > index 78c7a467e2..c7dd03ce37 100644
-> > > --- a/meta/lib/oeqa/selftest/context.py
-> > > +++ b/meta/lib/oeqa/selftest/context.py
-> > > @@ -154,9 +154,6 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
-> > >          group.add_argument('-a', '--run-all-tests', default=False,
-> > >                  action="store_true", dest="run_all_tests",
-> > >                  help='Run all (unhidden) tests')
-> > > -        group.add_argument('-R', '--skip-tests', required=False, action='store',
-> > > -                nargs='+', dest="skips", default=None,
-> > > -                help='Run all (unhidden) tests except the ones specified. Format should be <module>[.<class>[.<test_method>]]')
-> > >          group.add_argument('-r', '--run-tests', required=False, action='store',
-> > >                  nargs='+', dest="run_tests", default=None,
-> > >                  help='Select what tests to run (modules, classes or 
-> > > test methods). Format should be: <module>.<class>.<test_method>') @@ -171,6 +168,9 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
-> > >                  action="store_true", default=False,
-> > >                  help='List all available tests.')
-> > >  
-> > > +        parser.add_argument('-R', '--skip-tests', required=False, action='store',
-> > > +                nargs='+', dest="skips", default=None,
-> > > +                help='Skip the tests specified. Format should be
-> > > + <module>[.<class>[.<test_method>]]')
-> > >          parser.add_argument('-j', '--num-processes', dest='processes', action='store',
-> > >                  type=int, help="number of processes to execute in 
-> > > parallel with")
-> > >  
-> > > --
-> > > 2.37.1
-> > > 
-> > 
-> > > 
-> > > 
-> > > 
-> > 
-> > 
-> > --
-> > Alexandre Belloni, co-owner and COO, Bootlin Embedded Linux and Kernel 
-> > engineering https://bootlin.com
-> 
-> > 
-> > 
-> > 
-> 
-> 
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin Embedded Linux and Kernel engineering https://bootlin.com
+> The scenario with qemu is that when given a tarball or directory with
+> a rootfs, the content of that is extracted and given to a nfs server.
+> Then the kernel is instructed to mount / from that nfs share, instead
+> of reading it from a file. I'm not sure what use case this fulfils
+> that can't be done with 'standard' .wic or .ext4 rootfs files.
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#173748): https://lists.openembedded.org/g/openembedded-core/message/173748
-> Mute This Topic: https://lists.openembedded.org/mt/95231396/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+There is one really neat scenario where if booted that way, you can
+change files on the emulated system "live" directly from the host's
+filesystem. For some kinds of development or debugging, having a
+fast/instant way to sync things to the target as a normal filesystem
+can be very helpful. For that reason we should keep it around, it is
+part of our more unique developer support.
+
+Do we need special privileges to be able to run that?
+
+Thanks again for looking at it, it does look much better as a patch
+now!
+
+Cheers,
+
+Richard
 
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
