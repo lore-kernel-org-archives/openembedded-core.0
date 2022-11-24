@@ -1,173 +1,224 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <jing.hui.tham@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A0D9C4332F
-	for <webhook@archiver.kernel.org>; Thu, 24 Nov 2022 02:56:07 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.14723.1669258562129873615
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ADFDC4332F
+	for <webhook@archiver.kernel.org>; Thu, 24 Nov 2022 07:06:18 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by mx.groups.io with SMTP id smtpd.web10.17791.1669273573438541718
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Nov 2022 18:56:02 -0800
+ Wed, 23 Nov 2022 23:06:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=WvST35zr;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=8327d198c7=qi.chen@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2AO2quT5031691
-	for <openembedded-core@lists.openembedded.org>; Wed, 23 Nov 2022 18:56:01 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=oNtL9Pl7f6dC402Y1yo1bsRjiIqsSR88RzgC4RpKAiA=;
- b=WvST35zrFbhWrSHsm3zWqyKM4mExFyINRardENBisAP6CyiW/hgyEODRl97rUNDkwcB1
- Mul9FVt6lPKqY5U5LU98ob1dbX5TJiZxgLYxjIprr3XoHkD3JA3fCVNga9Vgzk0akOMI
- l/lZebV5s6MEnclrbpkPCsr3rA7J8YGMBgiqKQiMvxYi2rjK7tJVTI+Xsk6DF/fNoIgb
- YAR1qLvGXso5QZziYNYUKeYlshEEszLGURXiESsV6fzWrglc1B0N1MnYoIlxR2b6eGFo
- 0UphbAn73axoKqfQo4UQylUS2nC5g0qZV1sxJeXVEx+WG/grc1VyKg0GyuBk6z2pL0Mh Ig== 
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2170.outbound.protection.outlook.com [104.47.55.170])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kxua6btx9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 23 Nov 2022 18:56:01 -0800
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=IJLvJE/V;
+ spf=pass (domain: intel.com, ip: 192.55.52.115, mailfrom: jing.hui.tham@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1669273573; x=1700809573;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=wgM2Ug/AJuUzHdbumNkpLrJ7mvOQbWqPkCpJgIOvTjI=;
+  b=IJLvJE/Vjqws2GA9z7V3FP4DZyDPsqyRelTtrIalNMTIvHp3dEDlwVyT
+   s/eMk7c2iTigaojl5+u1bQjkXliqmOHcxsZfLocBESL0UOH8gpL3krjTU
+   Z6Dh6o341lDNRUGxmVu85OMR2cNzmyftV97Ajju4FWBOZH+4Su9p7BzqK
+   nnqNyR72yabUGObs8k5Vew+N+DS15nf0Kxg2h4Jz+ykeLyw8+YtSF/v0O
+   7DJjm/amhwH1gqZnz2JnzIrUYpj8VLmvxWTiNdpgpoN2V9fBfmonfANfY
+   I+CluY3TVt/r/yDDGFTsBv/AgL3rjJVMXtWy3i2kOPAKDQcszbQ4UEJch
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="314267002"
+X-IronPort-AV: E=Sophos;i="5.96,189,1665471600"; 
+   d="scan'208";a="314267002"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2022 23:06:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10540"; a="887247144"
+X-IronPort-AV: E=Sophos;i="5.96,189,1665471600"; 
+   d="scan'208";a="887247144"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by fmsmga006.fm.intel.com with ESMTP; 23 Nov 2022 23:06:12 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Wed, 23 Nov 2022 23:06:11 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Wed, 23 Nov 2022 23:06:11 -0800
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.108)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Wed, 23 Nov 2022 23:06:11 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EehVz2KlK22fpyeFMSMlIb82cChlip+fOxgIw0XPXnH1QNZNOzS7jP+A23OJLgvRka45nUsavKnfZ4nKDfBEc+Wwpsjwi8hcdsoJLOdO98AuEHVCXUle+J1Dik6fNAgl4rY4LtvGiQobIi3KaD2aXSZSSLOfVpBHV2dM1ImcaNb1/YsqCNLJBqREa6kmdPnAk1UfUtGPlmMm6UvQ80bV7nAxo+YtCBxVR+2Fg7doMuSngG+cc41+g+RVeqkZ9F9XeHyj0xxkPQzdf8gMOokozqlwNc8M1MZ0SXAKecOcN6DiiAtiCIpUdJB/wljFAWyfphjDXmgAk5EpbNPlBK0hPw==
+ b=LHheoFe23tZ4CypvO6BHMY2EyM0wyVygwtNuQfV1/Cl0/5kMLh6Jng10DelxdTrMepFvgIb6HFKSI3Dbbl7XHWZu65JrFEjw3fdAeBItT3MNz7nib33fQvdDcaAWqp32vtrPLjFVfFj/yULTdy/6bH8yzn0rvp4f0BOE2Q2YUqeFT5TLxyU1+gWtTyPFxEkROhREq6iE1pO3aGePLhJJOHO7ZUtWNdGizZNy3LfLPSn80VUzVrw7iAwDyDNqOgF3GGUzYznxSbwCcNL+F62DReRCY2j5y5NlDaHyOhQxFHWpZ3O8MxXBkAf97aegEQXrgSR2G4WF2FG8UgAxDtPozA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oNtL9Pl7f6dC402Y1yo1bsRjiIqsSR88RzgC4RpKAiA=;
- b=OZQQ9xS2SOuQMRh8hOHnCTly+E2zCcWNqGwoaO+TNvKklKgNxY/Eg9IvEedYl9oByOsQoCcXFnz6TUqQpqoFUdIuO3dhQBBKLYrmsMT6FAA/i6xcXvITwMCuSmOy4HPI2+CiLsxwAFojhp7rHBbyn4W79oPIA1MJq2VswOSXik3TUnQZaoEXpO6O1zW0y6UpnTUxdSlgKrrPCpi2HEXUn25x/jqw2roVk+WtO32F3vh4QaAH32o4EyQQ7yV7qMRkHLJBNouHJrAe77/cwoDTP0mzH779Q3w9HbQbtmQJfO0hESbjaRQbmHhvL/35RdxOJSWwkMAEJQ6Nseh2XKVCeg==
+ bh=7eKlWdkgdU4R1/U68zgCl+8ndUicof7OdjJsO/83mxQ=;
+ b=LcLgBWuV8b5A3rbrteqzr4QOhWt1ezVHODYf23YzyojiSQjf0fS90r2eIeee2osjEci7phlMGDUo6gYJp+as12phhCW4yRuiTGOLhYfTSpUxWtzxNia8kqVj0/JbRdEVTFlJoQOE9FKvefs1Qiagd0xbdb2FcnD/rHRoC0MSW++T6HgT0kOGecfxGD4GTgK605EfcmTTDgbmlxlCOvl4zEHr7KVdjrZK86tCOOIgHgzhgrr1+eSNARpzIzsEuRJPBemb4Xo4+i5CaCXbiYfc9Y+a5003yijpw64rVU4mrgHVnc5cwAIXbQ/GTdnS9P/kJrcXhr4sR/Bo3TbdGCdxWg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by PH7PR11MB7719.namprd11.prod.outlook.com (2603:10b6:510:2b4::19) with
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BY5PR11MB4152.namprd11.prod.outlook.com (2603:10b6:a03:191::11)
+ by SA1PR11MB7061.namprd11.prod.outlook.com (2603:10b6:806:2ba::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.18; Thu, 24 Nov
- 2022 02:55:57 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::d8ac:d3b0:6765:63f7]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::d8ac:d3b0:6765:63f7%9]) with mapi id 15.20.5857.019; Thu, 24 Nov 2022
- 02:55:57 +0000
-From: Chen Qi <Qi.Chen@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] selftest: allow '-R' and '-r' be used together
-Date: Wed, 23 Nov 2022 18:55:28 -0800
-Message-Id: <20221124025528.114101-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.37.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR05CA0190.namprd05.prod.outlook.com
- (2603:10b6:a03:330::15) To CO6PR11MB5602.namprd11.prod.outlook.com
- (2603:10b6:303:13a::5)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.15; Thu, 24 Nov
+ 2022 07:06:04 +0000
+Received: from BY5PR11MB4152.namprd11.prod.outlook.com
+ ([fe80::87c2:e4b3:7962:f4f4]) by BY5PR11MB4152.namprd11.prod.outlook.com
+ ([fe80::87c2:e4b3:7962:f4f4%7]) with mapi id 15.20.5834.015; Thu, 24 Nov 2022
+ 07:06:04 +0000
+From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
+To: "qa-build-notification@lists.yoctoproject.org"
+	<qa-build-notification@lists.yoctoproject.org>, Pokybuild User
+	<pokybuild@yoctoproject.org>, "<yocto@lists.yoctoproject.org>"
+	<yocto@lists.yoctoproject.org>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [qa-build-notification] QA notification for completed autobuilder
+ build (yocto-3.1.21.rc1)
+Thread-Topic: [qa-build-notification] QA notification for completed
+ autobuilder build (yocto-3.1.21.rc1)
+Thread-Index: AQHY/1mdiwLyhwAdAUeTSiXe5Hlo3q5Npvjw
+Date: Thu, 24 Nov 2022 07:06:04 +0000
+Message-ID: <BY5PR11MB41529E0CB8C4AA819A0F9977A10F9@BY5PR11MB4152.namprd11.prod.outlook.com>
+References: <01010184a5581bd5-3aac18e9-d345-4281-b60e-3721c03106f5-000000@us-west-2.amazonses.com>
+In-Reply-To: <01010184a5581bd5-3aac18e9-d345-4281-b60e-3721c03106f5-000000@us-west-2.amazonses.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BY5PR11MB4152:EE_|SA1PR11MB7061:EE_
+x-ms-office365-filtering-correlation-id: 0bbd6912-7195-4eaf-ecd7-08dacdea5a0b
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: CTsi4UQKa3purnLhT978d3BWDj4atQITSomKg9gACEh8mYTwWuX6UPelgzSvRwPTKL3TWjKGHA3DbTHO+5FzIv3550a8YrmXBXjKMhYLZgg1Cs0ct1HIgW1GxtO5hxklTu8ol7iaJWZi/zW7vx8R2RWu2NrzJ4AQPt0ULAOoXSCa3J78mdi7s+f6lH2iK8wFfTxNlCJTL3umm/Y1ojNk8GrEoG9CwKEQfyJMTvEvdwaU6RbKwaQndml6k9m9HTDoD4W6dfgyWRCWfsPpf5bjF/gJg2h6/uE9w1brZOgiWVVvv7stkjF17AuDC84DIs9H7qMoG65bojLcmFyAnS/5rdO/w5wxT85OF/s3lGnEN5ZcvqXVMI6XbroXCyl3Hoxb18aE8lPcMETIyr1IjbtH0wtJNRJvivuvHQKNPZg1zWgLPXMGL/kYHtMy6Dq/XuRdUYEZ4yXm+n6GdouiUcXYMt56rd2/gX4eiim0aeBmBl8OggHE089Cadv82672vlqmIDSPMPFHZJHTMIWkUiwhOFWjtB0ZSeZcRg1Q5OlNQfDRriIIxvIfdmXl+gJil0HM4d9dVj2xWvVYeu2Y3jr5AJaogpBWooSjYZsR7USDHTVD80gfzNDkuiSkT6Lp4CJ4Ct5/dUL8MvrMCIkRbN72C/2NaDRgzlFkKaAh8P+szgCG8dzso5z81ejtBhm/O+/7xDdWgEdOYNQ7GkNJ6ziDJmJO9wYuSWRFfwuYBw9nU9zOIPbLxMqWwqe2lalKElrzZLrlxNrnufWgv6TqyavhaZrCCiLm2jLawdkmLvSNfzI=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4152.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(366004)(396003)(136003)(376002)(39860400002)(346002)(451199015)(33656002)(110136005)(5660300002)(7696005)(86362001)(6506007)(186003)(66476007)(8936002)(66556008)(66446008)(76116006)(316002)(26005)(53546011)(41300700001)(9686003)(52536014)(122000001)(83380400001)(15650500001)(38100700002)(55016003)(82960400001)(64756008)(38070700005)(2906002)(966005)(478600001)(66946007)(8676002)(66899015)(71200400001)(491001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?txxIgIGjycDFPQSexvWZp1YwTmsy7Xb8VUxzbYJyO/fGrK0d61mCPBPG33cd?=
+ =?us-ascii?Q?6s4DxLAJbLisGhH5+Y+2PLdKvfmyb4r9pYJbaLZRsSIfMuKIIq3roZ68Ix9E?=
+ =?us-ascii?Q?jCa8szApPsGMHVM9D3CWxu7jbgUHkGpkfMQOWew7ngD31FXX2CYblN3+XtSc?=
+ =?us-ascii?Q?8DxwGgphavls/4DiYsNtAYT0LRo0cJGrto0HFfUdDvdFrq++7JtHFaWROOBT?=
+ =?us-ascii?Q?dy8U+OT//5fOd08oqMjw5TNWyyxRcmzv8xaGYhg6ocNxHgpbiqtESAn6KOLw?=
+ =?us-ascii?Q?jVekGdprKHYtrDIsho8P6n89vcDbyuHxbVgglanXdKju6ODDYfSQHIvIvLO0?=
+ =?us-ascii?Q?ITfyRwCeX0yJhKhkX9MJsX+wBywoN7uHloz76Y9LMUCUrbZk4+fAKugRRKac?=
+ =?us-ascii?Q?Ss3HVhlL6+9WNwW/sBP5vlEHJXtJL1rJ4MGCDdqadFDaM1nk5V+RpsR9hz6N?=
+ =?us-ascii?Q?rHyFXM0mSMnV3gbvoz4T2H0aeRKh2+s39251Xg/cDK9m2RTjZAMiT10Ejq95?=
+ =?us-ascii?Q?eoTmd9L0/Rt9z2MP6Tk4d2lyTitDJQKVH3MmZj1bqGUE/lIuDSXKbEg0CiZb?=
+ =?us-ascii?Q?uHIpNZGfVCAQ8FVig/slN+9DY5jvDqyOukB3KFd56CbmOjnnKUEim9Kl/n1I?=
+ =?us-ascii?Q?IG22JDNvQ6nP1E5yxGsQs2P1nfF/7b+OUZoMDDYRLp9/ZCuYzy4xk6XBjt7h?=
+ =?us-ascii?Q?gBd5WeUGY4IWkWbEv6wrcrhHXbGzvzsiMyaBxp06WDu7HXnA2m8TEe48rySH?=
+ =?us-ascii?Q?Ls2UwaSO2QdsuBtLf7emibB8/ouwmdhZWSapG2Y+ND8Ti4SM7/fvqgz81HIa?=
+ =?us-ascii?Q?/AoX5BMmPdit6R9/ZpTwOmSW5PXa8b0EWNozYbjB8BFF27wb3V2baXJz9Kxq?=
+ =?us-ascii?Q?k4VXL9NoEd3NPhsebP7ueBbS+8y2ZtyrgXM/P3wD03Emuo+EqoeqxwU/cD83?=
+ =?us-ascii?Q?7Q+twJwrIVRolFmyk81dcMHC7jwNMutdyUQJBPC94bb+P63PJ/MkwbF8/Ji6?=
+ =?us-ascii?Q?mpSzgpnEpM6UrPcMMGoNKU0Eu3haRcVn/QT4lK+yzh9fplYy4J50xrDtf8Is?=
+ =?us-ascii?Q?pIuNhYUz8FRZl9c91QH2ZD/cSgRPb4BlFgxGdr0lLCF3rxmlDS3aDCPvmclG?=
+ =?us-ascii?Q?lqkZjZYQOCiIeAoOsJJr12jZ2dSOZO7pEhahOh5i5bE03ZDX0+Jlvc8syrfT?=
+ =?us-ascii?Q?IicijAAVngzfDClSCoPifPLszuUMUwQNksnZ39VRDwoltmghY3AJMV09Lnmq?=
+ =?us-ascii?Q?cnQtFrdMnQWtnartbGdCkTBoc1Zh2XQFg0IpOYBV6y3FumqAeW2qSUfbkQ8Z?=
+ =?us-ascii?Q?XrRF84Id3gJuYaV1b7h9hgd9+BYsFX3IRbdNa0ij9ML5H58RG5mMM1Aaj9wG?=
+ =?us-ascii?Q?bkoh4csHw7nm6iFMYN6Xcc8UT3elI/e5mYLMR5TdNkp4Yhqxe1gIo0R5j39k?=
+ =?us-ascii?Q?Ws9hNliGct4nhH1ehuGrcSLuPNDce+hNwPwy2HqkS2Rwxpdg0cz8HV4INlpg?=
+ =?us-ascii?Q?N7WWSSsKLw4AP39sSCSAXyh19knytzWfY1E7//LNzfOzmxfflJevoNrey4H8?=
+ =?us-ascii?Q?zycwln4lt9q4Qa7wpJwIWDNeDFHJKOQM05wD7KAa?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|PH7PR11MB7719:EE_
-X-MS-Office365-Filtering-Correlation-Id: b4b27cea-7176-4eab-3a40-08dacdc76854
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	eDCxmeLf/CtrIt2L914ipTRL0LuFlkSNZcH9wwT02KfVZYuHPX5/gLxQzYJ1Ub2s0E+1HCATNScfFH1EUbM+J0YKiq29+GVj6ANQ6IrCsDYH88BlNm6Q58IST84Rh4l0Kfy0WBxmcOvqFGjEM/1IyT+h/UM/S5qFH1hf/eewPJqDjPTcdt8FnseJ1I6rNxiUFvDwvqAFhh2Hb03aWgdMDZzLDWeRKeJA4evqOXvUzl9wPMjMHu9ll5hamTk2wXHISEabVjjjSbjS4WyG7QjpWhuDKopsdlFIepwDkiPYvPMKMDGPRMeox4CLeBPh7GkQYz+WmsfEprbKXMyn40yo9/en1pSXVzb64A0lEmo/ScHYeacyABGzG7SSMnPqIQpFm8KCHevHw+zaPYGg38gx3Yy3MIFHsMs3j7D7ErSz+/ixjYVIH+mBW7G3oz7Z3OdmKe86XjbZ5nnO+3JnYbJiLkd0zhFeSU/crEISVJvfax6egQVF6v/HLKeybfvkqvt4xlbBNNAcWxxuP8hbTG33YV79JoJG9bJZCWxp7+TYLof/X01Fhij1iJiBPcj7Rqy0ob5SSZajqInIT9RNX0OOVa+jPgjaLPWQJvUbHXPQWcbofBixGnx5M/Na6vo7LHiXH6pxwZMslefYgCWKWhT024j+jvHM54ra+GZqHCJODas74REqM6uyBhsUXwpgKJFjlcUq5urW6zIcKSDoPnpTOg==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(136003)(346002)(396003)(376002)(39850400004)(451199015)(66946007)(66556008)(36756003)(8676002)(8936002)(66476007)(2616005)(186003)(1076003)(83380400001)(86362001)(2906002)(41300700001)(5660300002)(38350700002)(38100700002)(478600001)(6486002)(6916009)(316002)(52116002)(26005)(6506007)(6666004)(6512007)(21314003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Ocmry6wDj48RmYRN3iOu+IAN575XUaLLSBrH/kFxJHUunbLUMZ1eeV2boxou?=
- =?us-ascii?Q?fz2IjTXhLCctMTkdzF17Q4n6NDgi8FVyKSI3NWJDUeIt7QeGmCCYEpIbhrsy?=
- =?us-ascii?Q?C8a0M9ZNkuJisoaNnL/t0qWY75Jlpqn1BBAGwxaYGOdo3EJQHpgFT7Urjdx7?=
- =?us-ascii?Q?PhoyLUuXK6StBbEbas1HAOqdj/J3E6ToK5Jc7/ptg8tXVblvhE+1Nl3xLK7v?=
- =?us-ascii?Q?r0Z39x/6Y3762Bq7qx9jgzrz+3mQ+qLI15t6mDZj0lYOZweMBBSWCH6IlFR2?=
- =?us-ascii?Q?tyKSiRT26k01mZWxptSNVNiGNXSiTaBk/U8+UEIQoZRyrZkqgUQ8Yy+fcVON?=
- =?us-ascii?Q?lMcSeDDWv+4LU3Qrk+sEVWrz+7zgbbLJnGAQJd8faYQjDWHqVv9biweDSpfz?=
- =?us-ascii?Q?REn9AD4td1nNEVxxcjMWKn1HS85mQswk6Hg2FdVj27C7+eJo8VyelhZ+R7h5?=
- =?us-ascii?Q?wAlDtCHcFarTtMD1uAv10ar8yPI1g6Q81NNx/qPNoCSAmKj2ZbpOBzoDQvGj?=
- =?us-ascii?Q?ANuGI/cBXskXi6AmFO2u89EmwHUTi/TDe0YRfGJ+OpOlprmcRWutl0yJ5SrL?=
- =?us-ascii?Q?8tK0EYUD6FTu7ORKUWM6tn3qAN/W7C8RrGdgbbvgdIK5C3LMWIqFxMtjNiWN?=
- =?us-ascii?Q?sHeozJOYX47WzhZ1mvKfjuNqYMq4LLwdMdGfljrs6ufxUUaQF6CLom2s/A9j?=
- =?us-ascii?Q?gU71gsP42y/MwUi94H038Xao2IFnMnLSNRq1BNbl2gzeInQ5oarFhYVeCnYJ?=
- =?us-ascii?Q?W8nlyHNbbLP0hSDoluFmY3oTjbBXLcxuTMg0N1QBKiuelJn+3z6XShR+Wsxt?=
- =?us-ascii?Q?ZzUua6Zcz4XPYL1K3Y8eSO0lVWW2G5vDAwxsiMvOk7sW4cVz3ze9DdJwD3wX?=
- =?us-ascii?Q?ELfzUnEdG3aKYCmV/MClpx35bfsmH/RZzIOjVw0s+KcAZrecAUZIidKa6byX?=
- =?us-ascii?Q?W9m1yrbHsFsZGPZ3inS+8Y2RmZp2iByFiDsDqJd0wn13aIpNd42mtLF21xMb?=
- =?us-ascii?Q?NAYPda7T9r0Zmr75oVLWqf/7GYGIRQNDVTYA/x1TlpnmgSi53bgKja8El3wd?=
- =?us-ascii?Q?Yqc0B9Cu2k+EZG46d+1YzrmNxvyjrP4lR2O9vG1vvVrdZykdfyBRr77eICJy?=
- =?us-ascii?Q?ym85Lvup7+J+rndURyRsmKWdsl6Vgg6aJamkeWxaCTQLmj7nzQ+hqqqR9KLa?=
- =?us-ascii?Q?ClS7cID752W7BoFQfth6xluuVe/JcSqzs01zia4rioFfjNykwyMrf5uskekk?=
- =?us-ascii?Q?TYTwcvn+4pxjI1sHx9o8ltzGpjRD20QcsqT0LzvQ5vukZ5D1KOM31lM77GeR?=
- =?us-ascii?Q?adf/vGAZvlwzHM6XUMkFrry/QDorFyW+nfEBSNP1lNqn9aBildvyoAloNAjR?=
- =?us-ascii?Q?z6JwMPFDII+oONOuaUnB+eTueuLZS23CjmIFEljqZdEHAUceUhJK+6qa2ASS?=
- =?us-ascii?Q?hFyQQgXjmBuJNvlqziOAU4yIzRFtgS+0bYGw0rfVHr8C+cgMSuFLXyWosDss?=
- =?us-ascii?Q?/linU6TYTZo8l8rJDHaVN2upP+Pz8dLe/aI4xtAR5zZTjSy2zzlL6CuO/x4c?=
- =?us-ascii?Q?H63FoLXSnE1V4pLf37dLm5NM8eG1QNo+tveIylmd?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b4b27cea-7176-4eab-3a40-08dacdc76854
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2022 02:55:57.1848
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4152.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0bbd6912-7195-4eaf-ecd7-08dacdea5a0b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Nov 2022 07:06:04.2493
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fW+pS/gOUnoo8VPVPDDIftBml7E5GuswK8KjaVf7MYCBW+s3OUqUA5o8ZN47/rJihWrvJtZkKZ4kKi0+rcyVKg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7719
-X-Proofpoint-ORIG-GUID: PU5_LX4mZVJDNMaL9EudOEhympRidKY3
-X-Proofpoint-GUID: PU5_LX4mZVJDNMaL9EudOEhympRidKY3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-24_02,2022-11-23_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
- spamscore=0 suspectscore=0 lowpriorityscore=0 bulkscore=0 phishscore=0
- clxscore=1015 impostorscore=0 priorityscore=1501 mlxlogscore=862
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211240021
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 7X2GNyUzlaiv1SV6AsHoVeVKyf79Tm2qtbD02pZk6YPIxMKcRJGjHUhPTpVu610RdVPlIL07638bSx3rr9CzMw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB7061
+X-OriginatorOrg: intel.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Nov 2022 02:56:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173732
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Nov 2022 07:06:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173733
 
-For now, there's no easy way to skip some specified tests when
-using 'oe-selftest -r'. This is because '-R' and '-r' are in the
-mutually exclusive group. Looking at the codes, the codes have already
-allowed running specified tests and skipping specified tests at
-the same time. So move '-R' out of the mutually exclusive group
-and change its help message.
+Hi all,
+=20
+Intel and WR YP QA is planning for QA execution for YP build yocto-3.1.21.r=
+c1. We are planning to execute following tests for this cycle:
+=20
+OEQA-manual tests for following module:
+1. OE-Core
+2. BSP-hw
+=20
+Runtime auto test for following platforms:
+1. MinnowTurbot 32-bit
+2. NUC 7
+3. ADL
+4. TGL
+5. Edgerouter
+6. Beaglebone
+=20
+ETA for completion next Tuesday, November 29.
+=20
+Best regards,
+Jing Hui
 
-After this change, the following command could be used.
-  oe-selftest -r A -R A.B.C
 
-This does introduce a behavior regression.
-Previous 'oe-selftest -R xxx' needs to now be changed to
-'oe-selftest -a -R xxx'.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/lib/oeqa/selftest/context.py | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
-index 78c7a467e2..c7dd03ce37 100644
---- a/meta/lib/oeqa/selftest/context.py
-+++ b/meta/lib/oeqa/selftest/context.py
-@@ -154,9 +154,6 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
-         group.add_argument('-a', '--run-all-tests', default=False,
-                 action="store_true", dest="run_all_tests",
-                 help='Run all (unhidden) tests')
--        group.add_argument('-R', '--skip-tests', required=False, action='store',
--                nargs='+', dest="skips", default=None,
--                help='Run all (unhidden) tests except the ones specified. Format should be <module>[.<class>[.<test_method>]]')
-         group.add_argument('-r', '--run-tests', required=False, action='store',
-                 nargs='+', dest="run_tests", default=None,
-                 help='Select what tests to run (modules, classes or test methods). Format should be: <module>.<class>.<test_method>')
-@@ -171,6 +168,9 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
-                 action="store_true", default=False,
-                 help='List all available tests.')
- 
-+        parser.add_argument('-R', '--skip-tests', required=False, action='store',
-+                nargs='+', dest="skips", default=None,
-+                help='Skip the tests specified. Format should be <module>[.<class>[.<test_method>]]')
-         parser.add_argument('-j', '--num-processes', dest='processes', action='store',
-                 type=int, help="number of processes to execute in parallel with")
- 
--- 
-2.37.1
+> -----Original Message-----
+> From: qa-build-notification@lists.yoctoproject.org <qa-build-
+> notification@lists.yoctoproject.org> On Behalf Of Pokybuild User
+> Sent: Thursday, 24 November, 2022 12:35 AM
+> To: yocto@lists.yoctoproject.org
+> Cc: qa-build-notification@lists.yoctoproject.org
+> Subject: [qa-build-notification] QA notification for completed autobuilde=
+r
+> build (yocto-3.1.21.rc1)
+>=20
+>=20
+> A build flagged for QA (yocto-3.1.21.rc1) was completed on the autobuilde=
+r
+> and is available at:
+>=20
+>=20
+>     https://autobuilder.yocto.io/pub/releases/yocto-3.1.21.rc1
+>=20
+>=20
+> Build hash information:
+>=20
+> bitbake: e3db9c2e9eded3c5cb6040714a6054b44f6b3880
+> meta-agl: ac1c1371c3ccf48d458d2d2afb591cdc220c56b6
+> meta-arm: 08c44df351ae1913f41de8388981b03e21235f09
+> meta-aws: 49e7a5ffb8799b9eee638a6a5425a13b00c33215
+> meta-gplv2: 60b251c25ba87e946a0ca4cdc8d17b1cb09292ac
+> meta-intel: 6c202291925bb179d2d08b5bde80192f9b032b88
+> meta-mingw: 524de686205b5d6736661d4532f5f98fee8589b7
+> meta-openembedded: 7203130ed8b58c0df75cb72222ac2bcf546bce44
+> meta-virtualization: beea119eb529b4a11f266004aee8b548427aea39
+> oecore: 1ee082e979baaba871bbe1d91181bb04951faf3b
+> poky: aa0073041806c9f417a33b0b7f747d2a86289eda
+>=20
+>=20
+>=20
+> This is an automated message from the Yocto Project Autobuilder
+> Git: git://git.yoctoproject.org/yocto-autobuilder2
+> Email: richard.purdie@linuxfoundation.org
+>=20
+>=20
+>=20
+>=20
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#199): https://lists.yoctoproject.org/g/qa-build-
+> notification/message/199
+> Mute This Topic: https://lists.yoctoproject.org/mt/95221328/6424044
+> Group Owner: qa-build-notification+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/qa-build-
+> notification/leave/10762429/6424044/1746813897/xyzzy
+> [jing.hui.tham@intel.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 
 
