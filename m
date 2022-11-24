@@ -1,117 +1,88 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFBEBC43219
-	for <webhook@archiver.kernel.org>; Thu, 24 Nov 2022 11:35:19 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
- by mx.groups.io with SMTP id smtpd.web11.21572.1669289713276753980
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33256C433FE
+	for <webhook@archiver.kernel.org>; Thu, 24 Nov 2022 12:23:30 +0000 (UTC)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web11.22351.1669292600510041029
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Nov 2022 03:35:13 -0800
+ Thu, 24 Nov 2022 04:23:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=BPywO/JX;
- spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id D29CCE0011;
-	Thu, 24 Nov 2022 11:35:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1669289711;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KYhooDOS0ogC3Gdo+8b6H47gkrYXcSZc11OyLzGk82Y=;
-	b=BPywO/JXDAV+OfQbsr4843QO4OJaRagY1PfiwokpM5HGT8+QnP2yzJJEd8bgOsuOpCF6Rv
-	RbcKOKTBdPq+jKQNBxRadhoPJohP3QdFAWj0lp3ispXsvyGst7XPMiIX5UcgUJmw+BsnZP
-	tiI2X0qOkMr+NxKPDmz8OvHZkb7s/77VBmsFhqbGhy5xnEYB41lAqAdY9lHMnyN0MHNsdt
-	8z/p5aaXcQbnUkQwlReIfWWEWNdbTViCeUEg09rD56QaaHWRt3FNj94y1OqXwZtIQfOAQ7
-	hyEGqcl1HFIgjqNLlxIlo0gvIM7N92rikast58VJXha/hGvSEcR6rumCqPEBxw==
-Date: Thu, 24 Nov 2022 12:35:08 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core][PATCH] selftest: allow '-R' and '-r' be used together
-Message-ID: <Y39W7D6ps5v1cCyn@mail.local>
-References: <20221124025528.114101-1-Qi.Chen@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=boXdrAhY;
+ spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f172.google.com with SMTP id bn5so1831520ljb.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Nov 2022 04:23:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=I4XLBPohpZCVC84W+qw8y4X/gN4btVO6XZi8B5t7OfM=;
+        b=boXdrAhY6AcEd8tIS013tnqv9po06SKDuvqw0/j+COonuWgGncncqqrz1PKs6m2o44
+         JhKB/buNYCXEPdlHPnowUkpFXcu6Si6gZntJGO5ucKcgvkaqNYBsn5gV/6rZiFr4VbnA
+         A+VHoelgJGPhngec29pMUne4Ldf8DSkAsmLlcwOA9u6A6jUDsTdgjr9hAVzPuTHliTi5
+         EZX8gn5s5s10mq+OoeIMW5XAG6DAhbmhjLFOQiPzAKTe0KsqFmNNjBtk2QWtcZ8NYnLh
+         QL39ybmo3AreULMaYkxfO9llRWXiEFJrS3k3+gdZn8OSV6KO5EfqndrOrUZTdOs01DWO
+         jQYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=I4XLBPohpZCVC84W+qw8y4X/gN4btVO6XZi8B5t7OfM=;
+        b=oW2gSg0tCjTfw6QVGvdS4F9bWQTE7KWZFUtpyfnIpKGT9Ss2dPDqNt6ab1gd1CW+X6
+         B1vbt0Wzw1NUv6zzv6bhp+WZvtDkKXTMqHhvtFvFxR0PxG14nJVMlkk/6BtRtjaHDmQy
+         8h/7OWPvCgHqhhLUqRKRJH7Xk+ote0a7IdC6Nxd5zIj6PKS3Vfk5f4pGumg6eIwgCkcB
+         j5Nzt8F+xucDgdo4wbmp2JFyG2gqIQntM+cKq/6Uj9ZH/+bUr6MUujWpoTO6SfIxQv1q
+         Tkf+FJKqA7teqH06o/Y+Tp4x8jf829SkpPymMyIxkqi1cYpOEh0MMdVZGIccmqOj318K
+         pv5w==
+X-Gm-Message-State: ANoB5pmyvtyVfRcmP5XDeXp4+1kvMw5eCpu9BpzVySO0rMWsOGegAU77
+	3naw8CJ9/DoCBiJaUk7bBWPn1DCHzU50ePWFUmU=
+X-Google-Smtp-Source: AA0mqf5Mpea+3zSa+Ruc0cXj5KLww5ITjrBqC249GcTSUkQqGQ03g4GV3BR0O6gZJtOo/VdHZZfvn4zSt7iXs5TOiI0=
+X-Received: by 2002:a2e:9998:0:b0:279:7405:85d5 with SMTP id
+ w24-20020a2e9998000000b00279740585d5mr3390369lji.31.1669292598553; Thu, 24
+ Nov 2022 04:23:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221124025528.114101-1-Qi.Chen@windriver.com>
+References: <20221120133122.2464634-1-alex@linutronix.de> <20221120133122.2464634-13-alex@linutronix.de>
+ <034045b1e1ea7e23f19cab664e9c1491ba667658.camel@linuxfoundation.org>
+In-Reply-To: <034045b1e1ea7e23f19cab664e9c1491ba667658.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 24 Nov 2022 13:23:07 +0100
+Message-ID: <CANNYZj_GjLd_-KAhSca8+ppdsN7U+UcRxqiPE6UWucuam7vORQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 13/17] webkitgtk: update 2.36.7 -> 2.38.2
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Nov 2022 11:35:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173741
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Nov 2022 12:23:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173742
 
-Hello,
+On Tue, 22 Nov 2022 at 16:21, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 
-On 23/11/2022 18:55:28-0800, Chen Qi wrote:
-> For now, there's no easy way to skip some specified tests when
-> using 'oe-selftest -r'. This is because '-R' and '-r' are in the
-> mutually exclusive group. Looking at the codes, the codes have already
-> allowed running specified tests and skipping specified tests at
-> the same time. So move '-R' out of the mutually exclusive group
-> and change its help message.
-> 
-> After this change, the following command could be used.
->   oe-selftest -r A -R A.B.C
-> 
-> This does introduce a behavior regression.
-> Previous 'oe-selftest -R xxx' needs to now be changed to
-> 'oe-selftest -a -R xxx'.
-> 
+> I was going to say I was worried this introduces a reproducibility
+> issue:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/1907
+>
+> however I see the failure we encountered is on the previous version :(
+>
+> Diffoscope failed but the packages are here:
+>
+> http://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20221120-kpjhpoep/packages/reproducibleA/tmp/deploy/deb/core2-64/
+> http://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20221120-kpjhpoep/packages/reproducibleB/tmp/deploy/deb/core2-64/
+>
+> I've not looked into what happened as yet.
 
-This fails on the autobuilders which uses:
+The bug is here:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=14973
 
-oe-selftest --skip-tests distrodata.Distrodata.test_checkpkg buildoptions.SourceMirroring.test_yocto_source_mirror reproducible -T machine -T toolchain-user -T toolchain-system -j 15
+I wrote my findings there. I didn't quite get to the bottom of it, but
+it should provide a lead if this happens again. The version update is
+unrelated.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/4395/steps/14/logs/stdio
-
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  meta/lib/oeqa/selftest/context.py | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
-> index 78c7a467e2..c7dd03ce37 100644
-> --- a/meta/lib/oeqa/selftest/context.py
-> +++ b/meta/lib/oeqa/selftest/context.py
-> @@ -154,9 +154,6 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
->          group.add_argument('-a', '--run-all-tests', default=False,
->                  action="store_true", dest="run_all_tests",
->                  help='Run all (unhidden) tests')
-> -        group.add_argument('-R', '--skip-tests', required=False, action='store',
-> -                nargs='+', dest="skips", default=None,
-> -                help='Run all (unhidden) tests except the ones specified. Format should be <module>[.<class>[.<test_method>]]')
->          group.add_argument('-r', '--run-tests', required=False, action='store',
->                  nargs='+', dest="run_tests", default=None,
->                  help='Select what tests to run (modules, classes or test methods). Format should be: <module>.<class>.<test_method>')
-> @@ -171,6 +168,9 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
->                  action="store_true", default=False,
->                  help='List all available tests.')
->  
-> +        parser.add_argument('-R', '--skip-tests', required=False, action='store',
-> +                nargs='+', dest="skips", default=None,
-> +                help='Skip the tests specified. Format should be <module>[.<class>[.<test_method>]]')
->          parser.add_argument('-j', '--num-processes', dest='processes', action='store',
->                  type=int, help="number of processes to execute in parallel with")
->  
-> -- 
-> 2.37.1
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#173732): https://lists.openembedded.org/g/openembedded-core/message/173732
-> Mute This Topic: https://lists.openembedded.org/mt/95231396/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Alex
 
