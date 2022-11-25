@@ -1,207 +1,182 @@
-Return-Path: <soumya.sambu@windriver.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F589C4332F
-	for <webhook@archiver.kernel.org>; Fri, 25 Nov 2022 16:44:49 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.51198.1669394683894873586
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 748CAC4332F
+	for <webhook@archiver.kernel.org>; Fri, 25 Nov 2022 16:56:39 +0000 (UTC)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.web10.51595.1669395388890819145
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Nov 2022 08:44:44 -0800
+ Fri, 25 Nov 2022 08:56:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=rsjG/UfQ;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=8328a583ca=soumya.sambu@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2APGbLcT001622
-	for <openembedded-core@lists.openembedded.org>; Fri, 25 Nov 2022 16:44:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=PPS06212021;
- bh=d8nFvA3y+mr1w8rOcZvu0GR+0s3YkFg+rRnatiUzi0A=;
- b=rsjG/UfQ4VjcilAl+96vziJ/CuC09mbbA1mGXAzkm9iBPE3Y1UDEs32MQAM3ybP1Yt7F
- Rc/vqpZvjkV0a6IuoqHdOjPq3fA3vLPC6nCpC7LvCc4sTJ5esSz2PUQIlyz/RnjnagRF
- MbItQEAkxSr3bvQbDmDmfca9VDD0uOM5roDS7Lp6Fv2pDU6VihpqIvJplKbjaVuTGp2w
- 25TtXPSoyHxsH9Dg6uR3KGockCv4lPLeJtjCJBF7eUslPpKylr9kFDrj+ErIdRs+jGFB
- vDVyPQxp3Dyz3msau2pmYPoU44ZbBvp8kHk78ywTNX7+a1V8oXsuR2ruA3KcimG/pvlu rQ== 
-Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kxp48n47j-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 25 Nov 2022 16:44:43 +0000
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Fri, 25 Nov 2022 08:44:41 -0800
-Received: from pek-hostel-deb01.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2308.27 via Frontend Transport; Fri, 25 Nov 2022 08:44:40 -0800
-From: Soumya <soumya.sambu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <hari.gpillai@windriver.com>, Soumya <soumya.sambu@windriver.com>
-Subject: [oe-core][kirkstone][PATCH 1/1] xserver-xorg: fix CVE-2022-3550, CVE-2022-3551
-Date: Sat, 26 Nov 2022 00:44:36 +0800
-Message-ID: <20221125164436.923171-1-soumya.sambu@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=1b0bKDQ5;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.46, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f46.google.com with SMTP id f18so11588412ejz.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 25 Nov 2022 08:56:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=/PVaoZpO0n94rWEhWsrXWqCY6WrAutgjsFVeo40rvMA=;
+        b=1b0bKDQ5RBROv01FlM/koYt5EvfklAZ8DXyk7CzOje8UfyXDyBLrhvyTVvoa8Hntdv
+         pQiahum3otIGObi14MVHLxabtsQkIt7ObM4rpBUMF2PK2sBeqlo8SgPscubDpdkbOaAz
+         6NYp1d1CmHGHGv9//fSFqOWNM3RPxsFyXT7qXjoUJxfne/yJ3mo2IdwpoSxIOAIlaxjl
+         UsJTwVQN4uaOuawMoYMiUXT3xncNHOcuVLrZU20Qvi6IWd+w2ci7q+E615ZiHwEUK5u5
+         9U78DBTWwk/kcegzyDivKsjrNvBQ1NPk1AMD6iOmn+Z7PAVXCarbJ+h4ZwhO2lmiU8ob
+         cdWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/PVaoZpO0n94rWEhWsrXWqCY6WrAutgjsFVeo40rvMA=;
+        b=ox0IiPai/1V83kqorDI2GTpl7a86E5F3WOMS52pBEa3EAKgbns+gOhEl7jiW6pJaRp
+         kefJFl0oSIPSeoPWtCfe4nz7wgHNK3XpLSg3l745l54Mz2ZZl0KEMx4SjNYsS2ojPd3p
+         bHs5TPmZbnniOoO4ey1GHvikmE+WboUuBHffpK79+adX14GTDEA+2VettMIS7Q0lh9Uw
+         ySgh9rlaMlnZ1+hHCzl6mz/Cck/uDiS8iR/pImt+YrT4X6ofzXLSpSk2M56ayMaIX6bz
+         af7263iIJjzna3lZySNCXNB74ov6uVGLvaOPdAwVGjNbi0pm2Pc+BFDcagFzGWcjvBFC
+         eUWQ==
+X-Gm-Message-State: ANoB5plR3+pmra8AsgziXKQK7GLV2oqTk7tGlNMWqDlI0EBFsDJqb06o
+	cEZnYKu0hdw0gwC81OlMLBXr1wBztTpjbwVbP/RIrA==
+X-Google-Smtp-Source: AA0mqf6IqK84JMuBAhMLkYtpitV/roX4QnmlTZZnhO+HfGGK1LRJ/Do3lXC0mZ/8B+Dt57+1B4ZgopdfD4seKOm2kDQ=
+X-Received: by 2002:a17:906:c24d:b0:7ac:2e16:a8d2 with SMTP id
+ bl13-20020a170906c24d00b007ac2e16a8d2mr22764858ejb.584.1669395386862; Fri, 25
+ Nov 2022 08:56:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: 4GMYz7dt2qUw_ZvwY4juSIf9URDzcQn0
-X-Proofpoint-ORIG-GUID: 4GMYz7dt2qUw_ZvwY4juSIf9URDzcQn0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-25_08,2022-11-25_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=726
- lowpriorityscore=0 spamscore=0 mlxscore=0 impostorscore=0 clxscore=1015
- priorityscore=1501 suspectscore=0 adultscore=0 bulkscore=0 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211250130
+References: <20221124122522.38829-1-vkumbhar@mvista.com>
+In-Reply-To: <20221124122522.38829-1-vkumbhar@mvista.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Fri, 25 Nov 2022 06:56:16 -1000
+Message-ID: <CAOSpxdY28yYkE6ZpRazr0khadNMyD02qFtWnzCK+3pU9h3ox=g@mail.gmail.com>
+Subject: Re: [OE-core][dunfell][PATCH v2] python3: fix CVE-2022-42919 local
+ privilege escalation via the multiprocessing forkserver start method
+To: vkumbhar <vkumbhar@mvista.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Nov 2022 16:44:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173777
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Nov 2022 16:56:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173778
 
-A vulnerability classified as critical was found in X.org Server. Affected
-by this vulnerability is the function _GetCountedString of the file
-xkb/xkb.c. The manipulation leads to buffer overflow. It is recommended to
-apply a patch to fix this issue. The associated identifier of this
-vulnerability is VDB-211051.
+On Thu, Nov 24, 2022 at 2:25 AM vkumbhar <vkumbhar@mvista.com> wrote:
+>
+> From: Vivek Kumbhar <vkumbhar@mvista.com>
+>
+> Upstream-Status: Backport from https://github.com/python/cpython/commit/eae692eed18892309bcc25a2c0f8980038305ea2
+>
+> Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
+> ---
+>  .../python/python3/CVE-2022-42919.patch       | 70 +++++++++++++++++++
+>  .../recipes-devtools/python/python3_3.10.7.bb |  1 +
 
-A vulnerability, which was classified as problematic, has been found in
-X.org Server. Affected by this issue is the function ProcXkbGetKbdByName
-of the file xkb/xkb.c. The manipulation leads to memory leak. It is
-recommended to apply a patch to fix this issue. The identifier of this
-vulnerability is VDB-211052.
+Dunfell python version is 3.8.14, so this patch will not apply. This
+seems to be the same as the patch you sent for kirkstone.  Was this
+sent in error?
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2022-3550
-https://nvd.nist.gov/vuln/detail/CVE-2022-3551
+Steve
 
-Upstream patches:
-https://gitlab.freedesktop.org/xorg/xserver/commit/11beef0b7f1ed290348e45618e5fa0d2bffcb72e
-https://gitlab.freedesktop.org/xorg/xserver/commit/18f91b950e22c2a342a4fbc55e9ddf7534a707d2
-
-Signed-off-by: Soumya <soumya.sambu@windriver.com>
----
- ...possible-memleaks-in-XkbGetKbdByName.patch | 63 +++++++++++++++++++
- ...ntedString-against-request-length-at.patch | 38 +++++++++++
- 2 files changed, 101 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xkb-fix-some-possible-memleaks-in-XkbGetKbdByName.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xkb-proof-GetCountedString-against-request-length-at.patch
-
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xkb-fix-some-possible-memleaks-in-XkbGetKbdByName.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xkb-fix-some-possible-memleaks-in-XkbGetKbdByName.patch
-new file mode 100644
-index 0000000000..0e61ec5953
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xkb-fix-some-possible-memleaks-in-XkbGetKbdByName.patch
-@@ -0,0 +1,63 @@
-+CVE: CVE-2022-3551
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+From 18f91b950e22c2a342a4fbc55e9ddf7534a707d2 Mon Sep 17 00:00:00 2001
-+From: Peter Hutterer <peter.hutterer@who-t.net>
-+Date: Wed, 13 Jul 2022 11:23:09 +1000
-+Subject: [PATCH] xkb: fix some possible memleaks in XkbGetKbdByName
-+
-+GetComponentByName returns an allocated string, so let's free that if we
-+fail somewhere.
-+
-+Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
-+---
-+ xkb/xkb.c | 26 ++++++++++++++++++++------
-+ 1 file changed, 20 insertions(+), 6 deletions(-)
-+
-+diff --git a/xkb/xkb.c b/xkb/xkb.c
-+index 4692895db..b79a269e3 100644
-+--- a/xkb/xkb.c
-++++ b/xkb/xkb.c
-+@@ -5935,18 +5935,32 @@ ProcXkbGetKbdByName(ClientPtr client)
-+     xkb = dev->key->xkbInfo->desc;
-+     status = Success;
-+     str = (unsigned char *) &stuff[1];
-+-    if (GetComponentSpec(&str, TRUE, &status))  /* keymap, unsupported */
-+-        return BadMatch;
-++    {
-++        char *keymap = GetComponentSpec(&str, TRUE, &status);  /* keymap, unsupported */
-++        if (keymap) {
-++            free(keymap);
-++            return BadMatch;
-++        }
-++    }
-+     names.keycodes = GetComponentSpec(&str, TRUE, &status);
-+     names.types = GetComponentSpec(&str, TRUE, &status);
-+     names.compat = GetComponentSpec(&str, TRUE, &status);
-+     names.symbols = GetComponentSpec(&str, TRUE, &status);
-+     names.geometry = GetComponentSpec(&str, TRUE, &status);
-+-    if (status != Success)
-++    if (status == Success) {
-++        len = str - ((unsigned char *) stuff);
-++        if ((XkbPaddedSize(len) / 4) != stuff->length)
-++            status = BadLength;
-++    }
-++
-++    if (status != Success) {
-++        free(names.keycodes);
-++        free(names.types);
-++        free(names.compat);
-++        free(names.symbols);
-++        free(names.geometry);
-+         return status;
-+-    len = str - ((unsigned char *) stuff);
-+-    if ((XkbPaddedSize(len) / 4) != stuff->length)
-+-        return BadLength;
-++    }
-+ 
-+     CHK_MASK_LEGAL(0x01, stuff->want, XkbGBN_AllComponentsMask);
-+     CHK_MASK_LEGAL(0x02, stuff->need, XkbGBN_AllComponentsMask);
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xkb-proof-GetCountedString-against-request-length-at.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xkb-proof-GetCountedString-against-request-length-at.patch
-new file mode 100644
-index 0000000000..6f862e82f9
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xkb-proof-GetCountedString-against-request-length-at.patch
-@@ -0,0 +1,38 @@
-+CVE: CVE-2022-3550
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+From 11beef0b7f1ed290348e45618e5fa0d2bffcb72e Mon Sep 17 00:00:00 2001
-+From: Peter Hutterer <peter.hutterer@who-t.net>
-+Date: Tue, 5 Jul 2022 12:06:20 +1000
-+Subject: [PATCH] xkb: proof GetCountedString against request length attacks
-+
-+GetCountedString did a check for the whole string to be within the
-+request buffer but not for the initial 2 bytes that contain the length
-+field. A swapped client could send a malformed request to trigger a
-+swaps() on those bytes, writing into random memory.
-+
-+Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
-+---
-+ xkb/xkb.c | 5 +++++
-+ 1 file changed, 5 insertions(+)
-+
-+diff --git a/xkb/xkb.c b/xkb/xkb.c
-+index f42f59ef3..1841cff26 100644
-+--- a/xkb/xkb.c
-++++ b/xkb/xkb.c
-+@@ -5137,6 +5137,11 @@ _GetCountedString(char **wire_inout, ClientPtr client, char **str)
-+     CARD16 len;
-+ 
-+     wire = *wire_inout;
-++
-++    if (client->req_len <
-++        bytes_to_int32(wire + 2 - (char *) client->requestBuffer))
-++        return BadValue;
-++
-+     len = *(CARD16 *) wire;
-+     if (client->swapped) {
-+         swaps(&len);
-+-- 
-+2.34.1
-+
--- 
-2.25.1
-
+>  2 files changed, 71 insertions(+)
+>  create mode 100644 meta/recipes-devtools/python/python3/CVE-2022-42919.patch
+>
+> diff --git a/meta/recipes-devtools/python/python3/CVE-2022-42919.patch b/meta/recipes-devtools/python/python3/CVE-2022-42919.patch
+> new file mode 100644
+> index 0000000000..6040724dae
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python3/CVE-2022-42919.patch
+> @@ -0,0 +1,70 @@
+> +From 87ef80926ea0ec960a220af89d8ff4db99417b03 Mon Sep 17 00:00:00 2001
+> +From: Vivek Kumbhar <vkumbhar@mvista.com>
+> +Date: Thu, 24 Nov 2022 17:44:18 +0530
+> +Subject: [PATCH] CVE-2022-42919
+> +
+> +Upstream-Status: Backport [https://github.com/python/cpython/commit/eae692eed18892309bcc25a2c0f8980038305ea2]
+> +CVE: CVE-2022-42919
+> +Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
+> +
+> +[3.10] gh-97514: Don't use Linux abstract sockets for multiprocessing (GH-98501) (GH-98503)
+> +
+> +Linux abstract sockets are insecure as they lack any form of filesystem
+> +permissions so their use allows anyone on the system to inject code into
+> +the process.
+> +
+> +This removes the default preference for abstract sockets in
+> +multiprocessing introduced in Python 3.9+ via
+> +https://github.com/python/cpython/pull/18866 while fixing
+> +https://github.com/python/cpython/issues/84031.
+> +
+> +Explicit use of an abstract socket by a user now generates a
+> +RuntimeWarning.  If we choose to keep this warning, it should be
+> +backported to the 3.7 and 3.8 branches.
+> +(cherry picked from commit 49f61068f49747164988ffc5a442d2a63874fc17)
+> +---
+> + Lib/multiprocessing/connection.py                 |  5 -----
+> + .../2022-09-07-10-42-00.gh-issue-97514.Yggdsl.rst | 15 +++++++++++++++
+> + 2 files changed, 15 insertions(+), 5 deletions(-)
+> + create mode 100644 Misc/NEWS.d/next/Security/2022-09-07-10-42-00.gh-issue-97514.Yggdsl.rst
+> +
+> +diff --git a/Lib/multiprocessing/connection.py b/Lib/multiprocessing/connection.py
+> +index 510e4b5..8e2facf 100644
+> +--- a/Lib/multiprocessing/connection.py
+> ++++ b/Lib/multiprocessing/connection.py
+> +@@ -73,11 +73,6 @@ def arbitrary_address(family):
+> +     if family == 'AF_INET':
+> +         return ('localhost', 0)
+> +     elif family == 'AF_UNIX':
+> +-        # Prefer abstract sockets if possible to avoid problems with the address
+> +-        # size.  When coding portable applications, some implementations have
+> +-        # sun_path as short as 92 bytes in the sockaddr_un struct.
+> +-        if util.abstract_sockets_supported:
+> +-            return f"\0listener-{os.getpid()}-{next(_mmap_counter)}"
+> +         return tempfile.mktemp(prefix='listener-', dir=util.get_temp_dir())
+> +     elif family == 'AF_PIPE':
+> +         return tempfile.mktemp(prefix=r'\\.\pipe\pyc-%d-%d-' %
+> +diff --git a/Misc/NEWS.d/next/Security/2022-09-07-10-42-00.gh-issue-97514.Yggdsl.rst b/Misc/NEWS.d/next/Security/2022-09-07-10-42-00.gh-issue-97514.Yggdsl.rst
+> +new file mode 100644
+> +index 0000000..02d95b5
+> +--- /dev/null
+> ++++ b/Misc/NEWS.d/next/Security/2022-09-07-10-42-00.gh-issue-97514.Yggdsl.rst
+> +@@ -0,0 +1,15 @@
+> ++On Linux the :mod:`multiprocessing` module returns to using filesystem backed
+> ++unix domain sockets for communication with the *forkserver* process instead of
+> ++the Linux abstract socket namespace.  Only code that chooses to use the
+> ++:ref:`"forkserver" start method <multiprocessing-start-methods>` is affected.
+> ++
+> ++Abstract sockets have no permissions and could allow any user on the system in
+> ++the same `network namespace
+> ++<https://man7.org/linux/man-pages/man7/network_namespaces.7.html>`_ (often the
+> ++whole system) to inject code into the multiprocessing *forkserver* process.
+> ++This was a potential privilege escalation. Filesystem based socket permissions
+> ++restrict this to the *forkserver* process user as was the default in Python 3.8
+> ++and earlier.
+> ++
+> ++This prevents Linux `CVE-2022-42919
+> ++<https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-42919>`_.
+> +--
+> +2.25.1
+> +
+> diff --git a/meta/recipes-devtools/python/python3_3.10.7.bb b/meta/recipes-devtools/python/python3_3.10.7.bb
+> index 404a582135..2d230793ef 100644
+> --- a/meta/recipes-devtools/python/python3_3.10.7.bb
+> +++ b/meta/recipes-devtools/python/python3_3.10.7.bb
+> @@ -35,6 +35,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+>             file://0001-setup.py-Do-not-detect-multiarch-paths-when-cross-co.patch \
+>             file://deterministic_imports.patch \
+>             file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
+> +           file://CVE-2022-42919.patch \
+>             "
+>
+>  SRC_URI:append:class-native = " \
+> --
+> 2.25.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#173744): https://lists.openembedded.org/g/openembedded-core/message/173744
+> Mute This Topic: https://lists.openembedded.org/mt/95236618/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
