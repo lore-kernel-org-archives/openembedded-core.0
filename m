@@ -1,182 +1,174 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <Zheng.Qiu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 748CAC4332F
-	for <webhook@archiver.kernel.org>; Fri, 25 Nov 2022 16:56:39 +0000 (UTC)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web10.51595.1669395388890819145
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86882C4332F
+	for <webhook@archiver.kernel.org>; Fri, 25 Nov 2022 17:06:09 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.51693.1669395965741451980
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Nov 2022 08:56:29 -0800
+ Fri, 25 Nov 2022 09:06:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=1b0bKDQ5;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.46, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f46.google.com with SMTP id f18so11588412ejz.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 25 Nov 2022 08:56:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=/PVaoZpO0n94rWEhWsrXWqCY6WrAutgjsFVeo40rvMA=;
-        b=1b0bKDQ5RBROv01FlM/koYt5EvfklAZ8DXyk7CzOje8UfyXDyBLrhvyTVvoa8Hntdv
-         pQiahum3otIGObi14MVHLxabtsQkIt7ObM4rpBUMF2PK2sBeqlo8SgPscubDpdkbOaAz
-         6NYp1d1CmHGHGv9//fSFqOWNM3RPxsFyXT7qXjoUJxfne/yJ3mo2IdwpoSxIOAIlaxjl
-         UsJTwVQN4uaOuawMoYMiUXT3xncNHOcuVLrZU20Qvi6IWd+w2ci7q+E615ZiHwEUK5u5
-         9U78DBTWwk/kcegzyDivKsjrNvBQ1NPk1AMD6iOmn+Z7PAVXCarbJ+h4ZwhO2lmiU8ob
-         cdWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/PVaoZpO0n94rWEhWsrXWqCY6WrAutgjsFVeo40rvMA=;
-        b=ox0IiPai/1V83kqorDI2GTpl7a86E5F3WOMS52pBEa3EAKgbns+gOhEl7jiW6pJaRp
-         kefJFl0oSIPSeoPWtCfe4nz7wgHNK3XpLSg3l745l54Mz2ZZl0KEMx4SjNYsS2ojPd3p
-         bHs5TPmZbnniOoO4ey1GHvikmE+WboUuBHffpK79+adX14GTDEA+2VettMIS7Q0lh9Uw
-         ySgh9rlaMlnZ1+hHCzl6mz/Cck/uDiS8iR/pImt+YrT4X6ofzXLSpSk2M56ayMaIX6bz
-         af7263iIJjzna3lZySNCXNB74ov6uVGLvaOPdAwVGjNbi0pm2Pc+BFDcagFzGWcjvBFC
-         eUWQ==
-X-Gm-Message-State: ANoB5plR3+pmra8AsgziXKQK7GLV2oqTk7tGlNMWqDlI0EBFsDJqb06o
-	cEZnYKu0hdw0gwC81OlMLBXr1wBztTpjbwVbP/RIrA==
-X-Google-Smtp-Source: AA0mqf6IqK84JMuBAhMLkYtpitV/roX4QnmlTZZnhO+HfGGK1LRJ/Do3lXC0mZ/8B+Dt57+1B4ZgopdfD4seKOm2kDQ=
-X-Received: by 2002:a17:906:c24d:b0:7ac:2e16:a8d2 with SMTP id
- bl13-20020a170906c24d00b007ac2e16a8d2mr22764858ejb.584.1669395386862; Fri, 25
- Nov 2022 08:56:26 -0800 (PST)
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=hEs6bbvU;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=8328c4fba4=zheng.qiu@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2APH651T010831
+	for <openembedded-core@lists.openembedded.org>; Fri, 25 Nov 2022 09:06:05 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=PPS06212021;
+ bh=3bpiNP8CG+TumgfRYb5hYKECUMB84giCzp+pGNAJf6c=;
+ b=hEs6bbvUY/nMVvOLHmKulKxkqOlVUDo1GfmKbPWWMZSLj90IFx77KfAhosCQxaD0X4RB
+ PK7w8M80y+17hiHgqJhyRMjmREspjy+QXyMxYigup/EkqBGXRz2LPUlHL/1AqU2kb3b6
+ OXRm3ruZV1AEdlZG4n8liktXvXG+T1p2FKuJMCUAojwF3NwfByJoQyndKc+UxiGa13F5
+ hXKkyxXhmRLY62c+GlmvkqcJaoNwHSxsQgx2E4RwtjxxSNzk9u31v5Z2HwaLtqHPv+sD
+ BZBo582v2qGtcaMvpVVOu0kj2O2e6sVpt3+9DxHMlrpdBVLglelxPH7baBERiaSis1fC 2w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kxyhqcxvq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 25 Nov 2022 09:06:05 -0800
+Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2APH65xS010826
+	for <openembedded-core@lists.openembedded.org>; Fri, 25 Nov 2022 09:06:05 -0800
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2170.outbound.protection.outlook.com [104.47.59.170])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kxyhqcxvp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 25 Nov 2022 09:06:05 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=H6tGZUYjRT1/+XLnc6ehvR73Ho4teTxgVlKYGZFEqghFZdwgZ8l7xT7RyAtwUHOlAWACgvYJMxoEkTY+oCVTv1g8lMsGUKEoL6VNAUWMJkIEuOnY37FGfILDGyV6gkcWmkoswMEoDIz/udFYt3bHKpgQoRTqUDc5+li133Ih/KDGxYbfWjxWkIX+pFj9BMQ+rinZuvGFTtBZSG8uTQDMCHDySrChGD0mXF4jE+v0K/S+ALMQwTbrcYeo4P4Xmq4flD3VOZ7ZpCN0nsj5nd/McHxSwEqmkLANRcTm5Pde+LW/bW3fB/WwCMLME8JKiOV+wb7FncKBlRNv3yAOQZmCZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3bpiNP8CG+TumgfRYb5hYKECUMB84giCzp+pGNAJf6c=;
+ b=I0jhivOrF+3xD6QyK6BsbKM7OMcsKvbGgtIzG+MQm2Lq9F3wNVOQu8FsbCiGFawDdVA495E+SEHzvA7OtF2CxknLmKyY5Df3Vq6UzrHFKQsFV8r/AhtWll0aDrfM6pHDqYkmHnqvkGJo22AuozcOhTzcYCDT+vmlQ3SmmRw/m43EFK6EUxZt9/afxodhKfGfIgVqArxUCmw6uIFdrldwl+XQsjenmjUpZ8zAIRxDUrqGTSVvXGXKggDziJ7rqSo7YvTcaNxctzzHW8n9QbEr1DsCtrBp36BN4G8ZM0Ji/M9A9LEX44uJanCrrfAFYmsXB615seiZwzN1bx/xewmVGA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DM4PR11MB5536.namprd11.prod.outlook.com (2603:10b6:5:39b::15)
+ by DM4PR11MB5551.namprd11.prod.outlook.com (2603:10b6:5:392::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.20; Fri, 25 Nov
+ 2022 17:06:03 +0000
+Received: from DM4PR11MB5536.namprd11.prod.outlook.com
+ ([fe80::3fdd:fc11:e12c:46b0]) by DM4PR11MB5536.namprd11.prod.outlook.com
+ ([fe80::3fdd:fc11:e12c:46b0%5]) with mapi id 15.20.5857.020; Fri, 25 Nov 2022
+ 17:06:03 +0000
+From: "Qiu, Zheng" <Zheng.Qiu@windriver.com>
+To: Ross Burton <Ross.Burton@arm.com>
+CC: Openembedded Core <openembedded-core@lists.openembedded.org>,
+        "MacLeod,
+ Randy" <Randy.MacLeod@windriver.com>
+Subject: RE: [OE-core] [master][PATCH] tiff: Security fix for CVE-2022-3970
+Thread-Topic: [OE-core] [master][PATCH] tiff: Security fix for CVE-2022-3970
+Thread-Index: AQHY/ohtX5jQciaz1kq8Q54yhPBqTK5PvpYAgAACiACAAAztAIAAFOJw
+Date: Fri, 25 Nov 2022 17:06:03 +0000
+Message-ID: 
+ <DM4PR11MB5536325F591E9C62FAA3A455E60E9@DM4PR11MB5536.namprd11.prod.outlook.com>
+References: <20221122153757.2287659-1-zheng.qiu@windriver.com>
+ <33BDDCA9-7B36-48B1-AC53-E2E15B04CD77@arm.com>
+ <99704AC7-7EF1-465D-BBF0-FC74F18DC6C4@windriver.com>
+ <858B27AF-9C9F-4958-B2CF-3DEC91F7F2A8@arm.com>
+In-Reply-To: <858B27AF-9C9F-4958-B2CF-3DEC91F7F2A8@arm.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM4PR11MB5536:EE_|DM4PR11MB5551:EE_
+x-ms-office365-filtering-correlation-id: 183b18d3-9e99-4fbb-4075-08dacf0755a7
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ YcvKHzVGTn9xnyN5LJRqgtgQEtyWqClTnjewJmd0pc9MuVKF+ki25f391R2jVM4Tnxamp2BN+xEWj3JT2qDVZNuOmDYxt5iu4HkF9w94NKxZq2rW+Pj1htNFQiacyFjkyu8YOOd/wHGkqguKxynd1+Y/mLFh9t1ZeWfQx4ZM/mULsUuCsWFsGF787ptWPDFWSvPFLaM63HWpYFWOV+2mo++AVSunLiMutCiP4rHwnw0TMag49Cd84rFmA0xkT3Ul/xBA3EFcBvautrX1L1vXkQG/iJNmRPdJKHZ+LQ47w7S1b8/ox/Sn4vUHNVLABRiKRAyafH1ietrey3CBYlADkbevfwWDW5px1SBNKmsaSsziXUP81jg7+60lU0zfPgxd2pBeC3o0vzqU5s0rkpQnbXPNgcxWbkjVI+cnxyxpga8nLcW0ZgSdwIvBVCdnxpx7zZX/XOFjnkmzVGTnwbq94whnHCdt+kcpWVesLYljx9X8N8u9FpDsdI/etEqUK6GjY3q/Kek7yU7SsiCahT5boMg8sauhv/F84tDIRfgnTua/T5D1oYzm96Hh9qXh6aurxxaZBNfLXMo+n6mzKR/2wRfJq6MAscYZYtNLCN81rW+EAstw3zMvEcNnq3uim4+rQM74N/pJ8D2ad5fOmb4eKdNGc77iFOiW45uJh9ios6KrQeY6p4EjtlyOYBqsTXPrp+wpAsYkdtAfvea4b1R1pQ==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5536.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(366004)(136003)(396003)(346002)(39850400004)(451199015)(2906002)(26005)(15650500001)(8936002)(4744005)(52536014)(33656002)(5660300002)(83380400001)(186003)(41300700001)(86362001)(4326008)(66556008)(66476007)(64756008)(8676002)(107886003)(76116006)(66946007)(9686003)(7696005)(6506007)(53546011)(71200400001)(478600001)(122000001)(55016003)(38070700005)(316002)(6916009)(54906003)(38100700002)(66446008);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?eitFdjVhazA1KzJzK3lteTBSTGptRnR2T3Nvd0ZhcVIvWlVIeFliWnE0bS9J?=
+ =?utf-8?B?c1M5UlJrcG16K3k5SCtnamZzYm9tWnJVUmVrY1RWbXhwRmVlTzdFUThkWkxu?=
+ =?utf-8?B?eTF6S3FnWFhlWmJDazRmZUxCVFdOckdVUzd6aEdZWGMxd1Z3aG9vakpiSXdm?=
+ =?utf-8?B?TlQ2dFhMdXRXYTJaTU9nRTI3Mk0xb3VQNkJwVzUzQjVQZVRLOFFIcWZEV1U0?=
+ =?utf-8?B?RjBXTkJpandKUWpKL0FnT2pjUmdiK0NQVzQxUmJnOENsdHRtNUdtWlgyVFFs?=
+ =?utf-8?B?dW9QVmRxWS90dEpLZ3ZRMnpRSlo5d0pXZGhNZmxlWjBNdm1YTWtNRzU4aG9B?=
+ =?utf-8?B?ZnQwWXp3aWhzend5cWlWMWl0SHVzaXBXR2phUVA5SzRSMjZYcFBYSGwzb29Z?=
+ =?utf-8?B?dGpjVnl2VW9mWU9aTGNvWTRCZHd0WUErQy9VY3ViSVdVSXlNTThMZFZRRk83?=
+ =?utf-8?B?YjlVemU2cnh1UEdtVnlyQXovTTdGbFpwN2JKdW5FK1dhay9UL0RyTkt6UFFP?=
+ =?utf-8?B?N2RKVXFSMmpBenlDMUxkaXd6dU8rNzhnSHFkTmxpTklnVFdoLzRnWEVTSVRN?=
+ =?utf-8?B?RVd3L2F4KzhnWGdjc2pSWkU2VjA2Sld5VTJxQTAwRHNoaVlPZlJpVG5IS3VN?=
+ =?utf-8?B?eUJMNTYvWDl5czFtZm9JdVU5aWhpSWRCZWVBQmorNnVqWk1aT0ZqVnROc1BU?=
+ =?utf-8?B?QnQvQVpudGZSNXZOSmhoQkpmUEZNMHk5TElBeU9kSWk1QXk4ZTA5UDdsUFNL?=
+ =?utf-8?B?ZFFMN0J6d05zYWErTVhFTTYwT094S09SWVRYSUh2SmVLdkt6RXAva1VVZkFW?=
+ =?utf-8?B?Y001SzU2dkh4NHBjRC8xRGxIQTRsakw0RmY0akFnSkRDUDl1am8rYnVZdkow?=
+ =?utf-8?B?RWtoZlF6NzZDU1Z3TW1kUDl0TUpXWW5GaWtrU0JTclVxeXQ5SHc5cVA5czBi?=
+ =?utf-8?B?UitheG44d1JUcXB1RWlzM2Qwd2ZYbkh6aGt4Y3k4dzVtTG4rRVViY2RSQXNY?=
+ =?utf-8?B?b2VTS1cxRUZOMnFsd0hpM3I4R0ptMW1DaGdXNVcyQ3dic0hmaWw1Yyt3aVEv?=
+ =?utf-8?B?NnJ2QVBKWTZtTUI5eVJ1OHNLK3AyNUFEWnppdDdHZVlYR3ZtYmYyNDR6UG9s?=
+ =?utf-8?B?cDlBL2tQSXRDQldCUWhwUTd6dmxueDNpMG5JelNnamNZSlBpS0s1OUNJOUkz?=
+ =?utf-8?B?YTMyMUw5NGdSSHV0TVhlVnNqSUY4djdNZ2tqNXJtMHkxVi9IeTBWNlF1NFk3?=
+ =?utf-8?B?M1FwTE5EMTBQTmRtUVZSamdyVVFJamJQOG0vckZNWlYwclNBYmJpeUJsT0x2?=
+ =?utf-8?B?N3FVNEg2bUt3N2g1VWxmTkovdW1jcGs1WlhublphMmpRVlZ0U1BnNUhYYXFJ?=
+ =?utf-8?B?THhBUTh6SEpHTnhPK0RuSzRTOGdTZ0puc1A3cHhzR045WHc5WGZHM0Y5K25t?=
+ =?utf-8?B?bDlrdG1mT1Aza1BWNW55L3htelJQQ1lCbjFjeXpCL2h2MHVHRHV5a1hzQjN1?=
+ =?utf-8?B?WnNPKzRSK0s5Qm1yb0xDMEc3ZDcvQlVXV1k3TDRYNm5WQTN5VGhIZTEvZE1r?=
+ =?utf-8?B?Q2x0blM2SjErNTJLNEx0OG1DdGRRYXgyMGYvaWRyRjdkTEk1dVA2emFnK0RQ?=
+ =?utf-8?B?TkQybXMrRGllWmRaVmpnaWJTZ2xyQkdyaE5mSjJrWDhRdTV5OVM3dldvSnRj?=
+ =?utf-8?B?UnVCK0gwM21lU0kzdE5mNU15RjZIUG42d3kzakJCUFdocXJLZGZLKzQzVWJw?=
+ =?utf-8?B?NkFiTkgyb3FtM0hXeThXOEpwS0Rwdm4vdnlZOHoyTW05TklyRHM2YWhDdFox?=
+ =?utf-8?B?SEFkYmQwdXRtK0NVYzBTWGdLZVhDUWlKUmg5YVlOdG9DNms4V3hSZFVuZkNM?=
+ =?utf-8?B?ckQzVHpRSjJoa0JzUEdVOWQxdHRCMGNZa01BM0Ixcm9icjg5R05oOXV2dVNo?=
+ =?utf-8?B?L0ZKSkxseU5ocDlKVDNPZGxvdC9qVW1yU2g0VlNTZTIrbnRYVHVWUzNxSVZu?=
+ =?utf-8?B?SjM5QkQzTnNBMWg4OXk4R3lQMk5WMlFBWm1vUVVtUWFWZ2VWMnI4UVY2c0ow?=
+ =?utf-8?B?MXlTS2Nmb0c4QXFjeUR5cVFSenNnMlBLZ3EvYVU1dG1hMnV4N2tkek5qSlhE?=
+ =?utf-8?Q?b6NhuyrIlUvKGOvJDBaeBXvjV?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20221124122522.38829-1-vkumbhar@mvista.com>
-In-Reply-To: <20221124122522.38829-1-vkumbhar@mvista.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Fri, 25 Nov 2022 06:56:16 -1000
-Message-ID: <CAOSpxdY28yYkE6ZpRazr0khadNMyD02qFtWnzCK+3pU9h3ox=g@mail.gmail.com>
-Subject: Re: [OE-core][dunfell][PATCH v2] python3: fix CVE-2022-42919 local
- privilege escalation via the multiprocessing forkserver start method
-To: vkumbhar <vkumbhar@mvista.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5536.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 183b18d3-9e99-4fbb-4075-08dacf0755a7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Nov 2022 17:06:03.4466
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: RCK6Y0HxBHANHxcoOtsQPWId7BsEbvwuOnp6iMIf2vXFxZgF8VVyAbWqSk+giq/63Krh7M3DFv+ZkFAwRcg/Fg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5551
+X-Proofpoint-ORIG-GUID: jwdHOehPq4VZYMaNIoa0py3i69HdnCUL
+X-Proofpoint-GUID: iYd_BMdaUtOtlBVlYbXLzfH0rEY3Sa4s
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-25_08,2022-11-25_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ mlxlogscore=831 adultscore=0 phishscore=0 priorityscore=1501 spamscore=0
+ lowpriorityscore=0 clxscore=1015 mlxscore=0 malwarescore=0 bulkscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211250134
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Nov 2022 16:56:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173778
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Nov 2022 17:06:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173779
 
-On Thu, Nov 24, 2022 at 2:25 AM vkumbhar <vkumbhar@mvista.com> wrote:
->
-> From: Vivek Kumbhar <vkumbhar@mvista.com>
->
-> Upstream-Status: Backport from https://github.com/python/cpython/commit/eae692eed18892309bcc25a2c0f8980038305ea2
->
-> Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
-> ---
->  .../python/python3/CVE-2022-42919.patch       | 70 +++++++++++++++++++
->  .../recipes-devtools/python/python3_3.10.7.bb |  1 +
-
-Dunfell python version is 3.8.14, so this patch will not apply. This
-seems to be the same as the patch you sent for kirkstone.  Was this
-sent in error?
-
-Steve
-
->  2 files changed, 71 insertions(+)
->  create mode 100644 meta/recipes-devtools/python/python3/CVE-2022-42919.patch
->
-> diff --git a/meta/recipes-devtools/python/python3/CVE-2022-42919.patch b/meta/recipes-devtools/python/python3/CVE-2022-42919.patch
-> new file mode 100644
-> index 0000000000..6040724dae
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python3/CVE-2022-42919.patch
-> @@ -0,0 +1,70 @@
-> +From 87ef80926ea0ec960a220af89d8ff4db99417b03 Mon Sep 17 00:00:00 2001
-> +From: Vivek Kumbhar <vkumbhar@mvista.com>
-> +Date: Thu, 24 Nov 2022 17:44:18 +0530
-> +Subject: [PATCH] CVE-2022-42919
-> +
-> +Upstream-Status: Backport [https://github.com/python/cpython/commit/eae692eed18892309bcc25a2c0f8980038305ea2]
-> +CVE: CVE-2022-42919
-> +Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
-> +
-> +[3.10] gh-97514: Don't use Linux abstract sockets for multiprocessing (GH-98501) (GH-98503)
-> +
-> +Linux abstract sockets are insecure as they lack any form of filesystem
-> +permissions so their use allows anyone on the system to inject code into
-> +the process.
-> +
-> +This removes the default preference for abstract sockets in
-> +multiprocessing introduced in Python 3.9+ via
-> +https://github.com/python/cpython/pull/18866 while fixing
-> +https://github.com/python/cpython/issues/84031.
-> +
-> +Explicit use of an abstract socket by a user now generates a
-> +RuntimeWarning.  If we choose to keep this warning, it should be
-> +backported to the 3.7 and 3.8 branches.
-> +(cherry picked from commit 49f61068f49747164988ffc5a442d2a63874fc17)
-> +---
-> + Lib/multiprocessing/connection.py                 |  5 -----
-> + .../2022-09-07-10-42-00.gh-issue-97514.Yggdsl.rst | 15 +++++++++++++++
-> + 2 files changed, 15 insertions(+), 5 deletions(-)
-> + create mode 100644 Misc/NEWS.d/next/Security/2022-09-07-10-42-00.gh-issue-97514.Yggdsl.rst
-> +
-> +diff --git a/Lib/multiprocessing/connection.py b/Lib/multiprocessing/connection.py
-> +index 510e4b5..8e2facf 100644
-> +--- a/Lib/multiprocessing/connection.py
-> ++++ b/Lib/multiprocessing/connection.py
-> +@@ -73,11 +73,6 @@ def arbitrary_address(family):
-> +     if family == 'AF_INET':
-> +         return ('localhost', 0)
-> +     elif family == 'AF_UNIX':
-> +-        # Prefer abstract sockets if possible to avoid problems with the address
-> +-        # size.  When coding portable applications, some implementations have
-> +-        # sun_path as short as 92 bytes in the sockaddr_un struct.
-> +-        if util.abstract_sockets_supported:
-> +-            return f"\0listener-{os.getpid()}-{next(_mmap_counter)}"
-> +         return tempfile.mktemp(prefix='listener-', dir=util.get_temp_dir())
-> +     elif family == 'AF_PIPE':
-> +         return tempfile.mktemp(prefix=r'\\.\pipe\pyc-%d-%d-' %
-> +diff --git a/Misc/NEWS.d/next/Security/2022-09-07-10-42-00.gh-issue-97514.Yggdsl.rst b/Misc/NEWS.d/next/Security/2022-09-07-10-42-00.gh-issue-97514.Yggdsl.rst
-> +new file mode 100644
-> +index 0000000..02d95b5
-> +--- /dev/null
-> ++++ b/Misc/NEWS.d/next/Security/2022-09-07-10-42-00.gh-issue-97514.Yggdsl.rst
-> +@@ -0,0 +1,15 @@
-> ++On Linux the :mod:`multiprocessing` module returns to using filesystem backed
-> ++unix domain sockets for communication with the *forkserver* process instead of
-> ++the Linux abstract socket namespace.  Only code that chooses to use the
-> ++:ref:`"forkserver" start method <multiprocessing-start-methods>` is affected.
-> ++
-> ++Abstract sockets have no permissions and could allow any user on the system in
-> ++the same `network namespace
-> ++<https://man7.org/linux/man-pages/man7/network_namespaces.7.html>`_ (often the
-> ++whole system) to inject code into the multiprocessing *forkserver* process.
-> ++This was a potential privilege escalation. Filesystem based socket permissions
-> ++restrict this to the *forkserver* process user as was the default in Python 3.8
-> ++and earlier.
-> ++
-> ++This prevents Linux `CVE-2022-42919
-> ++<https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-42919>`_.
-> +--
-> +2.25.1
-> +
-> diff --git a/meta/recipes-devtools/python/python3_3.10.7.bb b/meta/recipes-devtools/python/python3_3.10.7.bb
-> index 404a582135..2d230793ef 100644
-> --- a/meta/recipes-devtools/python/python3_3.10.7.bb
-> +++ b/meta/recipes-devtools/python/python3_3.10.7.bb
-> @@ -35,6 +35,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
->             file://0001-setup.py-Do-not-detect-multiarch-paths-when-cross-co.patch \
->             file://deterministic_imports.patch \
->             file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
-> +           file://CVE-2022-42919.patch \
->             "
->
->  SRC_URI:append:class-native = " \
-> --
-> 2.25.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#173744): https://lists.openembedded.org/g/openembedded-core/message/173744
-> Mute This Topic: https://lists.openembedded.org/mt/95236618/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+DQo+LS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj5Gcm9tOiBSb3NzIEJ1cnRvbiA8Um9zcy5C
+dXJ0b25AYXJtLmNvbT4NCj5TZW50OiBGcmlkYXksIE5vdmVtYmVyIDI1LCAyMDIyIDEwOjUwIEFN
+DQo+VG86IFFpdSwgWmhlbmcgPFpoZW5nLlFpdUB3aW5kcml2ZXIuY29tPg0KPkNjOiBPcGVuZW1i
+ZWRkZWQgQ29yZSA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz47DQo+
+TWFjTGVvZCwgUmFuZHkgPFJhbmR5Lk1hY0xlb2RAd2luZHJpdmVyLmNvbT4NCj5TdWJqZWN0OiBS
+ZTogW09FLWNvcmVdIFttYXN0ZXJdW1BBVENIXSB0aWZmOiBTZWN1cml0eSBmaXggZm9yIENWRS0y
+MDIyLTM5NzANCj4NCj5DQVVUSU9OOiBUaGlzIGVtYWlsIGNvbWVzIGZyb20gYSBub24gV2luZCBS
+aXZlciBlbWFpbCBhY2NvdW50IQ0KPkRvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1l
+bnRzIHVubGVzcyB5b3UgcmVjb2duaXplIHRoZSBzZW5kZXIgYW5kDQo+a25vdyB0aGUgY29udGVu
+dCBpcyBzYWZlLg0KPg0KPk9uIDI1IE5vdiAyMDIyLCBhdCAxNTowMywgUWl1LCBaaGVuZyB2aWEg
+bGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPjxaaGVuZy5RaXU9d2luZHJpdmVyLmNvbUBsaXN0cy5v
+cGVuZW1iZWRkZWQub3JnPiB3cm90ZToNCj4+DQo+Pj4gT24gTm92IDI1LCAyMDIyLCBhdCA5OjU0
+IEFNLCBSb3NzIEJ1cnRvbiA8Um9zcy5CdXJ0b25AYXJtLmNvbT4gd3JvdGU6DQo+Pj4NCj4+PiBt
+YXN0ZXIgaGFzIGxpYnRpZmYgNC40LjAgc28gdGhpcyBkb2VzbuKAmXQgYXBwbHkuICBJcyB0aGUg
+Q1ZFIHN0aWxsIHZhbGlkIGluIHRoYXQNCj5yZWxlYXNlLCBvciBoYXMgaXQgYmVlbiBmaXhlZD8N
+Cj4+Pg0KPj4+IFJvc3MNCj4+DQo+PiBJdCBzZWVtcyBsaWtlIHRoaXMgQ1ZFIGlzIGZpeGVkIGFm
+dGVyIDQuNC4wIHRvIG1lLg0KPg0KPkNhbiB5b3UgcmViYXNlIGFuZCByZXNlbmQgdGhlbj8NCg0K
+W10gSSByZWJhc2VkIGFuZCBzZW50IGEgbmV3IHBhdGNoIHRoaXMgVHVlc2RheSBAIDEwOjQ5IEFN
+LiBEbyB5b3Ugc3RpbGwgd2FudCBtZSB0byBzZW5kIGEgbmV3IG9uZT8NCg0KWlENCg0KPg0KPlRo
+YW5rcywNCj5Sb3NzDQo=
 
