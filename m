@@ -2,147 +2,168 @@ Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 262E1C43219
-	for <webhook@archiver.kernel.org>; Fri, 25 Nov 2022 15:54:29 +0000 (UTC)
-Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
- by mx.groups.io with SMTP id smtpd.web10.50156.1669391661539725528
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24ABEC4332F
+	for <webhook@archiver.kernel.org>; Fri, 25 Nov 2022 15:57:59 +0000 (UTC)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+ by mx.groups.io with SMTP id smtpd.web10.50246.1669391869915296671
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Nov 2022 07:54:22 -0800
+ Fri, 25 Nov 2022 07:57:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
-Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
-	by mail.kapsi.fi with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1oyb1u-00CVKT-4m; Fri, 25 Nov 2022 17:54:18 +0200
-Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.94.2)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1oyb1t-004j5d-Ra; Fri, 25 Nov 2022 17:54:17 +0200
+ dkim=pass header.i=@linaro.org header.s=google header.b=rOoOyGBH;
+ spf=pass (domain: linaro.org, ip: 209.85.167.41, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f41.google.com with SMTP id j4so7569146lfk.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 25 Nov 2022 07:57:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cWajmxWYx1oQu++VISpGvvJ15Awzo/6njLn+QJW3syA=;
+        b=rOoOyGBHqC5WdnxXJVsdYqeL4werzpsupLjlTudtaP6B5veCJgLZLTfjOJ8/atfnD2
+         H9luVsKzvozXfFho8H8lYO90Fdsz4QHINERGoWjg6WkYIULg7OBNepiUBxlnUwd69btx
+         KoNSq2D36pQRPVeb/5K/afVwwGQ1rFvRISK1d0QWOD5gZPPMnsOTGZlDvMrHNnqdoTDe
+         XpZgXtAS7eSyYuNH61cJR0tmjaOGxmEKZkg1qyaG1wKF0jSBkFj7jfHlBmTtcPrFMGeA
+         4xXPXk4lwiLackIA3Kjled88LKz59Abp8y1bN95jwTRh/Cp6vPYUagBdMlbweBAVwErs
+         EenA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cWajmxWYx1oQu++VISpGvvJ15Awzo/6njLn+QJW3syA=;
+        b=RaZRS6NxuHZi2ryekpWsJcMX9d+eM8Kob9jhTCkk0s1LrGoTuYB7v2qqN22AAnueyM
+         k4k+E7zrambsm3SnyELKEZ+ns0NnnghOYb7k4wtCublnFJrBBCnM7qtYm5Mf4ZYMbOWb
+         5iXokx2ueAYxRKMavpAhBdj4lEGbDe7MS0Tfs/mN3mqcS6Lshw8EQ/IpRs74uWVFub+Q
+         9jiqbQJtT/E/mcwPK1lKP7m6ht2jkCkBR3GgJSThOEIWBstPascIVCvn9brSsg5aMIKA
+         fSPJgChBlxtuVQONqfTKFOp+LomZJtnhQqHDl0Nkfb+kDm1l+JKySLiDZd9CXri5m0gy
+         K29Q==
+X-Gm-Message-State: ANoB5plbIz8YzwGDY8MNhp1v9MEIJIPYrKsDj5HlyEwSjntTzbL0F86e
+	5r7xLoprUxJBDJUb32PjN5gtcqKxwl+QhsWz
+X-Google-Smtp-Source: AA0mqf5psBQU1emmve+5EV1RbNZqo4Pd4g7Y3kgzgXJm7T7b6fzTbOhnRVdiFqNw3qo+0V8R0RYV+A==
+X-Received: by 2002:a05:6512:2015:b0:4b5:26f:de9a with SMTP id a21-20020a056512201500b004b5026fde9amr1390130lfb.117.1669391867828;
+        Fri, 25 Nov 2022 07:57:47 -0800 (PST)
+Received: from nuoska (dsl-olubng11-54f814-94.dhcp.inet.fi. [84.248.20.94])
+        by smtp.gmail.com with ESMTPSA id i14-20020ac25d2e000000b004ab52b0bcf9sm572625lfb.207.2022.11.25.07.57.47
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Nov 2022 07:57:47 -0800 (PST)
+Date: Fri, 25 Nov 2022 17:57:45 +0200
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH] linux-yocto: enable strict kernel module signing by default
-Date: Fri, 25 Nov 2022 17:54:12 +0200
-Message-Id: <20221125155412.1119701-1-mikko.rapeli@linaro.org>
-X-Mailer: git-send-email 2.30.2
+Subject: Re: [PATCH] linux-yocto: enable strict kernel module signing by
+ default
+Message-ID: <Y4Dl+XawSWCMmo8o@nuoska>
+References: <20221125155412.1119701-1-mikko.rapeli@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspam-Score: -1.2 (-)
-X-Rspam-Report: Action: no action
- Symbol: RCVD_TLS_LAST(0.00)
- Symbol: ARC_NA(0.00)
- Symbol: DMARC_POLICY_SOFTFAIL(0.10)
- Symbol: FROM_HAS_DN(0.00)
- Symbol: TO_DN_SOME(0.00)
- Symbol: R_MISSING_CHARSET(0.50)
- Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
- Symbol: MIME_GOOD(-0.10)
- Symbol: RCPT_COUNT_TWO(0.00)
- Symbol: MID_CONTAINS_FROM(1.00)
- Symbol: NEURAL_HAM(-0.00)
- Symbol: R_SPF_NA(0.00)
- Symbol: FORGED_SENDER(0.30)
- Symbol: R_DKIM_NA(0.00)
- Symbol: MIME_TRACE(0.00)
- Symbol: ASN(0.00)
- Symbol: FROM_NEQ_ENVFROM(0.00)
- Symbol: BAYES_HAM(-3.00)
- Symbol: RCVD_COUNT_TWO(0.00)
- Message-ID: 20221125155412.1119701-1-mikko.rapeli@linaro.org
-X-SA-Exim-Connect-IP: 2001:67c:1be8::11
-X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221125155412.1119701-1-mikko.rapeli@linaro.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Nov 2022 15:54:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173774
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Nov 2022 15:57:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173775
 
-It's a good default and used in many Linux distributions.
-Did not test out of tree modules if they do correct things but
-any such failures should be fixed.
+Hi,
 
-One way to verify that kernel module signing also works:
+On Fri, Nov 25, 2022 at 05:54:12PM +0200, Mikko Rapeli wrote:
+> It's a good default and used in many Linux distributions.
+> Did not test out of tree modules if they do correct things but
+> any such failures should be fixed.
 
-root@qemux86-64:~# dmesg|grep X.509
-[    1.298936] Loading compiled-in X.509 certificates
-[    1.328280] Loaded X.509 cert 'Build time autogenerated kernel key: ee1bed6d845358744c764683bf73b4404cc79287'
+When testing this I saw some odd results and cert verification
+failures at runtime. I suspect it was just me and I did not take
+into account how kernel and rootfs get deployed while rebuilding
+the changes and can't reproduce any errors with this now.
 
-These logs in dmesg show that signing in kernel is enabled and
-key is found. Then if any kernel modules load, they were
-signed correctly. Additionally modinfo tool from kmod shows kernel module
-signing details:
+But if this exposes any issues, then those would need to be fixed too.
 
-root@qemux86-64:~# lsmod
-Module                  Size  Used by
-sch_fq_codel           20480  1
-root@qemux86-64:~# modinfo sch_fq_codel
-filename:
-/lib/modules/5.19.9-yocto-standard/kernel/net/sched/sch_fq_codel.ko
-description:    Fair Queue CoDel discipline
-license:        GPL
-author:         Eric Dumazet
-depends:
-retpoline:      Y
-intree:         Y
-name:           sch_fq_codel
-vermagic:       5.19.9-yocto-standard SMP preempt mod_unload
-sig_id:         PKCS#7
-signer:         Build time autogenerated kernel key
-sig_key:        2B:2A:BE:7D:B5:92:DC:98:A9:F8:D7:00:A6:73:35:20:10:D8:19:EE
-sig_hashalgo:   sha512
-signature:      72:6C:E1:78:7C:A7:7B:CC:C4:33:23:6B:95:EC:1B:2A:BD:D9:EC:7A:
-                85:07:05:B2:70:3C:C9:64:F6:78:8A:01:A0:E3:64:C7:47:BB:5D:0E:
-                86:BA:C1:DD:40:05:AE:1F:19:D4:F0:98:49:86:CC:61:14:3C:AB:1E:
-                4A:1C:83:47:1D:FA:6D:E4:83:79:3A:2B:3F:7D:B6:E0:09:AE:B4:01:
-                07:EE:C9:5B:99:70:4F:49:8A:64:E4:7D:84:AA:37:F5:DB:5F:16:5C:
-                D4:DC:0C:33:73:5D:D9:8D:7E:71:5B:A1:ED:61:81:5E:1C:ED:A2:D8:
-                76:46:99:B3:78:08:F7:7F:0D:4B:94:26:21:63:47:B0:75:9F:A4:EA:
-                3D:14:D4:09:CC:59:F3:FC:80:AC:BF:56:1E:8C:73:FD:CB:07:27:C6:
-                3D:98:4C:E4:C3:9C:C0:AD:90:53:46:8F:AE:66:FE:10:C8:92:7F:BA:
-                74:C2:B0:E3:6E:47:66:AB:39:25:41:12:66:91:20:27:1A:58:77:75:
-                4F:C0:3F:F1:8E:5F:AB:0A:BD:8B:62:4F:2B:01:5A:5C:4E:5C:31:39:
-                FB:F4:14:2E:BF:D8:51:4B:C8:D0:E2:0A:20:80:95:05:80:E3:46:75:
-                43:80:30:63:6F:A4:25:82:59:35:34:E8:6A:DC:FF:93:F8:32:BB:FA:
-                66:2D:B9:08:75:1A:3A:3A:5D:57:F4:63:85:01:B4:EB:96:1B:CE:6F:
-                4D:61:FC:AA:6C:39:7F:D6:37:C9:84:0A:84:17:FB:BE:FC:20:CB:EE:
-                8C:2F:93:92:F6:48:F4:07:50:84:D8:2C:B5:2E:A7:7D:3A:3F:DC:E9:
-                B9:17:EF:47:49:EC:BA:62:1C:C4:C6:58:9C:0C:8D:26:41:6E:1F:C1:
-                95:A7:8B:57:5D:1D:4B:B4:04:00:F6:68:24:9E:E2:BF:11:EC:05:6C:
-                83:E8:C6:DB:BB:3D:22:8B:31:BB:99:1A:44:E1:15:71:C3:AA:FA:01:
-                98:BA:6B:20:26:D6:9C:61:5C:6F:81:29:09:B1:EA:C5:28:15:F3:98:
-                C0:18:FE:08:8B:40:A5:F3:3C:71:4B:C6:41:CD:38:51:79:EA:5D:C9:
-                13:39:B5:FD:A3:D1:BB:11:94:66:F7:7B:6A:DC:2C:01:5F:AB:73:08:
-                68:24:32:BE:BC:7A:90:E5:FD:97:17:6C:DD:46:D0:0E:2C:03:31:66:
-                B3:7C:B2:48:E1:E0:1A:63:20:48:4C:D4:55:56:71:04:3B:5F:3B:28:
-                BF:64:6C:52:A9:07:6D:FF:21:E9:06:35:E8:A1:D7:F4:C2:F9:D7:7B:
-                9D:D2:90:16:2F:68:1E:3F:BE:43:ED:64
+I think this is a good default.
 
-Failures in signed kernel module loading should show as errors at
-runtime, for example systemd services, or as oeqa parselogs test
-failures which detects signature verification error messages from the
-kernel.
+Cheers,
 
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
----
- meta/recipes-kernel/linux/linux-yocto.inc | 3 +++
- 1 file changed, 3 insertions(+)
+-Mikko
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-index 091003ed82..bab1f21479 100644
---- a/meta/recipes-kernel/linux/linux-yocto.inc
-+++ b/meta/recipes-kernel/linux/linux-yocto.inc
-@@ -37,6 +37,9 @@ KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'efi', 'cfg/
- KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'numa', 'features/numa/numa.scc', '', d)}"
- KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'vfat', 'cfg/fs/vfat.scc', '', d)}"
- 
-+# enable module signing by default
-+KERNEL_FEATURES:append = " features/module-signing/force-signing.scc"
-+
- # A KMACHINE is the mapping of a yocto $MACHINE to what is built
- # by the kernel. This is typically the branch that should be built,
- # and it can be specific to the machine or shared
--- 
-2.35.1
-
+> One way to verify that kernel module signing also works:
+> 
+> root@qemux86-64:~# dmesg|grep X.509
+> [    1.298936] Loading compiled-in X.509 certificates
+> [    1.328280] Loaded X.509 cert 'Build time autogenerated kernel key: ee1bed6d845358744c764683bf73b4404cc79287'
+> 
+> These logs in dmesg show that signing in kernel is enabled and
+> key is found. Then if any kernel modules load, they were
+> signed correctly. Additionally modinfo tool from kmod shows kernel module
+> signing details:
+> 
+> root@qemux86-64:~# lsmod
+> Module                  Size  Used by
+> sch_fq_codel           20480  1
+> root@qemux86-64:~# modinfo sch_fq_codel
+> filename:
+> /lib/modules/5.19.9-yocto-standard/kernel/net/sched/sch_fq_codel.ko
+> description:    Fair Queue CoDel discipline
+> license:        GPL
+> author:         Eric Dumazet
+> depends:
+> retpoline:      Y
+> intree:         Y
+> name:           sch_fq_codel
+> vermagic:       5.19.9-yocto-standard SMP preempt mod_unload
+> sig_id:         PKCS#7
+> signer:         Build time autogenerated kernel key
+> sig_key:        2B:2A:BE:7D:B5:92:DC:98:A9:F8:D7:00:A6:73:35:20:10:D8:19:EE
+> sig_hashalgo:   sha512
+> signature:      72:6C:E1:78:7C:A7:7B:CC:C4:33:23:6B:95:EC:1B:2A:BD:D9:EC:7A:
+>                 85:07:05:B2:70:3C:C9:64:F6:78:8A:01:A0:E3:64:C7:47:BB:5D:0E:
+>                 86:BA:C1:DD:40:05:AE:1F:19:D4:F0:98:49:86:CC:61:14:3C:AB:1E:
+>                 4A:1C:83:47:1D:FA:6D:E4:83:79:3A:2B:3F:7D:B6:E0:09:AE:B4:01:
+>                 07:EE:C9:5B:99:70:4F:49:8A:64:E4:7D:84:AA:37:F5:DB:5F:16:5C:
+>                 D4:DC:0C:33:73:5D:D9:8D:7E:71:5B:A1:ED:61:81:5E:1C:ED:A2:D8:
+>                 76:46:99:B3:78:08:F7:7F:0D:4B:94:26:21:63:47:B0:75:9F:A4:EA:
+>                 3D:14:D4:09:CC:59:F3:FC:80:AC:BF:56:1E:8C:73:FD:CB:07:27:C6:
+>                 3D:98:4C:E4:C3:9C:C0:AD:90:53:46:8F:AE:66:FE:10:C8:92:7F:BA:
+>                 74:C2:B0:E3:6E:47:66:AB:39:25:41:12:66:91:20:27:1A:58:77:75:
+>                 4F:C0:3F:F1:8E:5F:AB:0A:BD:8B:62:4F:2B:01:5A:5C:4E:5C:31:39:
+>                 FB:F4:14:2E:BF:D8:51:4B:C8:D0:E2:0A:20:80:95:05:80:E3:46:75:
+>                 43:80:30:63:6F:A4:25:82:59:35:34:E8:6A:DC:FF:93:F8:32:BB:FA:
+>                 66:2D:B9:08:75:1A:3A:3A:5D:57:F4:63:85:01:B4:EB:96:1B:CE:6F:
+>                 4D:61:FC:AA:6C:39:7F:D6:37:C9:84:0A:84:17:FB:BE:FC:20:CB:EE:
+>                 8C:2F:93:92:F6:48:F4:07:50:84:D8:2C:B5:2E:A7:7D:3A:3F:DC:E9:
+>                 B9:17:EF:47:49:EC:BA:62:1C:C4:C6:58:9C:0C:8D:26:41:6E:1F:C1:
+>                 95:A7:8B:57:5D:1D:4B:B4:04:00:F6:68:24:9E:E2:BF:11:EC:05:6C:
+>                 83:E8:C6:DB:BB:3D:22:8B:31:BB:99:1A:44:E1:15:71:C3:AA:FA:01:
+>                 98:BA:6B:20:26:D6:9C:61:5C:6F:81:29:09:B1:EA:C5:28:15:F3:98:
+>                 C0:18:FE:08:8B:40:A5:F3:3C:71:4B:C6:41:CD:38:51:79:EA:5D:C9:
+>                 13:39:B5:FD:A3:D1:BB:11:94:66:F7:7B:6A:DC:2C:01:5F:AB:73:08:
+>                 68:24:32:BE:BC:7A:90:E5:FD:97:17:6C:DD:46:D0:0E:2C:03:31:66:
+>                 B3:7C:B2:48:E1:E0:1A:63:20:48:4C:D4:55:56:71:04:3B:5F:3B:28:
+>                 BF:64:6C:52:A9:07:6D:FF:21:E9:06:35:E8:A1:D7:F4:C2:F9:D7:7B:
+>                 9D:D2:90:16:2F:68:1E:3F:BE:43:ED:64
+> 
+> Failures in signed kernel module loading should show as errors at
+> runtime, for example systemd services, or as oeqa parselogs test
+> failures which detects signature verification error messages from the
+> kernel.
+> 
+> Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> ---
+>  meta/recipes-kernel/linux/linux-yocto.inc | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+> index 091003ed82..bab1f21479 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto.inc
+> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
+> @@ -37,6 +37,9 @@ KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'efi', 'cfg/
+>  KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'numa', 'features/numa/numa.scc', '', d)}"
+>  KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'vfat', 'cfg/fs/vfat.scc', '', d)}"
+>  
+> +# enable module signing by default
+> +KERNEL_FEATURES:append = " features/module-signing/force-signing.scc"
+> +
+>  # A KMACHINE is the mapping of a yocto $MACHINE to what is built
+>  # by the kernel. This is typically the branch that should be built,
+>  # and it can be specific to the machine or shared
+> -- 
+> 2.35.1
+> 
 
