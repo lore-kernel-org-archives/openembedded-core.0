@@ -1,150 +1,148 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D257C4332F
-	for <webhook@archiver.kernel.org>; Fri, 25 Nov 2022 15:50:19 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.76])
- by mx.groups.io with SMTP id smtpd.web10.50056.1669391411737712812
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 262E1C43219
+	for <webhook@archiver.kernel.org>; Fri, 25 Nov 2022 15:54:29 +0000 (UTC)
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+ by mx.groups.io with SMTP id smtpd.web10.50156.1669391661539725528
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Nov 2022 07:50:12 -0800
+ Fri, 25 Nov 2022 07:54:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=+BasFkkT;
- spf=pass (domain: arm.com, ip: 40.107.22.76, mailfrom: ross.burton@arm.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K9TuNEZHJ3STcDsFyNf7ZhNJGFS3rcMQbb4dkgBqlNU=;
- b=+BasFkkToznL0Lm3Ctpz8rm+4qgsN2KD+yMa5KK0zDxCC4x24LzAo5I6eFyNYHNJhFJjtkOyT28fawEsqHCaF6/z6JcVNGlq8RIiWeKDqACq4gEuuaCUQCXss+GSEo7vAH5ZkqZde9DCEkBohcf+i8WCTYxwUJAA0sswzE6zd7c=
-Received: from DB7PR03CA0089.eurprd03.prod.outlook.com (2603:10a6:10:72::30)
- by PAXPR08MB7648.eurprd08.prod.outlook.com (2603:10a6:102:243::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.5; Fri, 25 Nov
- 2022 15:50:08 +0000
-Received: from DBAEUR03FT033.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:10:72:cafe::dc) by DB7PR03CA0089.outlook.office365.com
- (2603:10a6:10:72::30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.17 via Frontend
- Transport; Fri, 25 Nov 2022 15:50:08 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DBAEUR03FT033.mail.protection.outlook.com (100.127.142.251) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5834.8 via Frontend Transport; Fri, 25 Nov 2022 15:50:07 +0000
-Received: ("Tessian outbound aeae1c7b66fd:v130"); Fri, 25 Nov 2022 15:50:07 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 81d1234ddd7720a4
-X-CR-MTA-TID: 64aa7808
-Received: from ca3e8ba5df4f.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 78E87F23-9DCF-4740-919D-5790D61E291B.1;
-	Fri, 25 Nov 2022 15:50:00 +0000
-Received: from EUR01-HE1-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id ca3e8ba5df4f.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Fri, 25 Nov 2022 15:50:00 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ht6AbIfWMFSa9mDMpSccdJdxFThphhKUmHBLYypEBzVa0ZKay+a3lXQ0FgYUjbGvvfCwu1rZyTxOK9xGdAmfuON/OIT33BEb7xcSab5uMX+50RluI3/Gjc4Vb91INr0FgMPC6TPLoRj+VMyCOV+e5wHp/fm3hYVe+hMPAMixq9BWhwbFZdkRmRw5gmn5StSG51AKdKXzyk47+JqfqAq8uezhTZRaiVNBGngJyChOjOK/2IAcAQ/ufcD/l8XTBEPgExm75fMxN8drH0RynQiYcYmXaQQPTV+FzzhPKw1MntnpuZtf5zwJ2GUocatNU3q6nrwABeFhV0t83MGjPZgIFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=K9TuNEZHJ3STcDsFyNf7ZhNJGFS3rcMQbb4dkgBqlNU=;
- b=UZrCp3YoT+yBnzyZ5w9kcOfXEo/nyVjVtHwK1l++3q468b6PHSnEf3xi9hSEEWOe/nC7VsDSwjXwLDjRbDz+ng/DP4CJtI7qIiZv95BcjYaMnGZM952O+MraOD4tECOY3aBvvagF9H2Di5AB0zcEZsZyxQ1qFUm9r1Tu5K4hLmZO487yo0DPB6ifXeY5yMNgo9kWWlG/TJqeImWDzwXnO8tW48yWvNcvB7nbNFkKy7w1ZIGIxoa5fHjIWhDfTngReiRgNCOnYrSYbKebzkgW5TfWpmM1QROD1BTqCFTicGqjV0ONfR4DDVgW71xBizXm62/LzZie6sWnvUWHamWIsA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K9TuNEZHJ3STcDsFyNf7ZhNJGFS3rcMQbb4dkgBqlNU=;
- b=+BasFkkToznL0Lm3Ctpz8rm+4qgsN2KD+yMa5KK0zDxCC4x24LzAo5I6eFyNYHNJhFJjtkOyT28fawEsqHCaF6/z6JcVNGlq8RIiWeKDqACq4gEuuaCUQCXss+GSEo7vAH5ZkqZde9DCEkBohcf+i8WCTYxwUJAA0sswzE6zd7c=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by DB9PR08MB7841.eurprd08.prod.outlook.com (2603:10a6:10:39c::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.5; Fri, 25 Nov
- 2022 15:49:52 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::1ecf:7fb9:8c0:8119]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::1ecf:7fb9:8c0:8119%9]) with mapi id 15.20.5880.005; Fri, 25 Nov 2022
- 15:49:52 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "Zheng.Qiu@windriver.com" <Zheng.Qiu@windriver.com>
-CC: Openembedded Core <openembedded-core@lists.openembedded.org>, "MacLeod,
- Randy" <Randy.MacLeod@windriver.com>
-Subject: Re: [OE-core] [master][PATCH] tiff: Security fix for CVE-2022-3970
-Thread-Topic: [OE-core] [master][PATCH] tiff: Security fix for CVE-2022-3970
-Thread-Index: AQHY/ojuPvgBbRqfVkChYjW+kVm6ta5PvoeAgAACogCAAAzUgA==
-Date: Fri, 25 Nov 2022 15:49:52 +0000
-Message-ID: <858B27AF-9C9F-4958-B2CF-3DEC91F7F2A8@arm.com>
-References: <20221122153757.2287659-1-zheng.qiu@windriver.com>
- <33BDDCA9-7B36-48B1-AC53-E2E15B04CD77@arm.com>
- <99704AC7-7EF1-465D-BBF0-FC74F18DC6C4@windriver.com>
-In-Reply-To: <99704AC7-7EF1-465D-BBF0-FC74F18DC6C4@windriver.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3731.200.110.1.12)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|DB9PR08MB7841:EE_|DBAEUR03FT033:EE_|PAXPR08MB7648:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7a892d19-292d-4fd2-b904-08dacefcba4c
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- DKjF+m5Pbb2syTMxdFq9Hb4qRwy6h+620TgCIpOMksIkHmfnmaPqHshxIf12rXHgXnpF2nVpcN7DIa9AQZFrsbl4cDCD1lyr2qkxRhRYjlfRsjRAcTo32ABSKxlY/QXVtE/JIyrfHIUQzGaxSb8DEYxM7yUjAr8ab9BtWjX8QAZdp/582/xGcxPNtjCbNwaSHB/UqdKCScXqrD8LBqZdH6t3hhYCLRT70oN5Mk3jalkdFgj0aEJQ7guxXKIeUq7tSTREJzJWibOUhXldpeUXhJCC+yluEBUyKdMOyW14Ol93Svbm7zSgu3aW8r7BRobiSY+n5bcvAWskRkS5c9J9AphQzeVc6ygfPjgSw32OOZZkY/7i9Dyd4DQXCUS7sPB48jEvRH4+sdqUyftYTvS9OA3WpHaiCuNGzuH9G4SHaLmERfpPeyexaJ+d17MgCJCuYc5hgzJPxZOATa6R8IDl2NWaiuzbYcFADkQLA0Adp4Aq4RUQReOuDPfS59hpo0tl0n1NyYYcD/Hg/RqOuzCdgpByKYrFYdLSpPyIvoGUwHLp4NfgHrW+ltdh2+38/Vg/qtf4meqOCSxzghJNO8yNWWV55/1KiIZ3X+F5tWcpYEO59jBGPzdy5ol8iN+sp9dWtKtkY1XInKvFBcQtfEmOBIkY9ABKg71wXhAclpaUqC2HfKDJBYrF5IiMLcktcPylQk+nFoESBfGS0suwwidWh9WXbPR7MFv8H1tkIk5HPQc=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(136003)(346002)(39860400002)(376002)(366004)(451199015)(2906002)(122000001)(38070700005)(8936002)(4744005)(41300700001)(54906003)(26005)(36756003)(6916009)(316002)(33656002)(186003)(2616005)(5660300002)(86362001)(6512007)(6506007)(53546011)(478600001)(76116006)(38100700002)(91956017)(71200400001)(64756008)(66476007)(8676002)(66556008)(66446008)(6486002)(66946007)(4326008)(45980500001);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <D8377A9608869146BC967036B766385B@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=missing; spf=none, err=permanent DNS error (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
+Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
+	by mail.kapsi.fi with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1oyb1u-00CVKT-4m; Fri, 25 Nov 2022 17:54:18 +0200
+Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.94.2)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1oyb1t-004j5d-Ra; Fri, 25 Nov 2022 17:54:17 +0200
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [PATCH] linux-yocto: enable strict kernel module signing by default
+Date: Fri, 25 Nov 2022 17:54:12 +0200
+Message-Id: <20221125155412.1119701-1-mikko.rapeli@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB7841
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DBAEUR03FT033.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	36e4aec1-f417-48ba-8cd8-08dacefcb0e1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	agjz7+tGlRfo5Nla/8wqcOuEoX5CDA4AB9WEGvlKHHNfC59yZ/halDmn7DpEvkKNxPhF0fYvtT2uXChgKCW45Fy9mcC1n3E7rGb4qOr20XxkYJEN3OiGFHr3rnfSQYe+ei3SvRXc6t4s/Hj2wfl30L3JBbo3slfubbMacObDd/7wbPJjXJZxL3bhhEzjVwOMiB41MlJcCl09UWp3O/LTaNFhEj0BvCmEMmYDZyc6dahFQ9PTTvTVdDfeINlJfW6Ye0bR1OP84lc+/wzgEhk37jv3ndsl2cbokfmTV3qbR+t6OjOLIgJwGB1+wa9MOfhht32i1rTjk+VtZjfbUUCrD37pDE0UIng37eQPjBXmFiwIuH1zpDrXTId606G1cxdl8Hzd0eqBJSL7UErZZB1q8F/jaXJ4ByyypxnxyQYCKZz/+PiF85rNBzkPbDeJQ+GDP4QPAu4XVo9pCyy2mT2Ld4wWSvczMNZV14w3B5o17sewzULJtMaOlMf5wBQ6DG4JF6w13iHfVrvCrI0wTI6/UvStins70nCwgVL4lMNcyNfhABkdBZyOQIjKS1RK8xJ425Q2O3lfh7uxUXijXYrNJPvxQncOzr/ZYmSwtxNgdJLfTCLAzYjDEkRc8cju5RrDBCsJWBAaAtpBg3tGSasTpAAjNvEN5CQ6W5oseHy2LsVz7GoVRXGugfQli3IARSEXhMCMdD7KPJ5tRE/CMo4rHw==
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230022)(4636009)(376002)(346002)(39860400002)(396003)(136003)(451199015)(40470700004)(46966006)(36840700001)(2906002)(4744005)(8936002)(6862004)(316002)(41300700001)(54906003)(36860700001)(40460700003)(33656002)(8676002)(4326008)(36756003)(478600001)(6486002)(70586007)(70206006)(5660300002)(336012)(2616005)(186003)(47076005)(26005)(6512007)(53546011)(6506007)(82310400005)(86362001)(40480700001)(356005)(81166007)(82740400003)(107886003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2022 15:50:07.8860
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7a892d19-292d-4fd2-b904-08dacefcba4c
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DBAEUR03FT033.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB7648
+Content-Transfer-Encoding: 8bit
+X-Rspam-Score: -1.2 (-)
+X-Rspam-Report: Action: no action
+ Symbol: RCVD_TLS_LAST(0.00)
+ Symbol: ARC_NA(0.00)
+ Symbol: DMARC_POLICY_SOFTFAIL(0.10)
+ Symbol: FROM_HAS_DN(0.00)
+ Symbol: TO_DN_SOME(0.00)
+ Symbol: R_MISSING_CHARSET(0.50)
+ Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
+ Symbol: MIME_GOOD(-0.10)
+ Symbol: RCPT_COUNT_TWO(0.00)
+ Symbol: MID_CONTAINS_FROM(1.00)
+ Symbol: NEURAL_HAM(-0.00)
+ Symbol: R_SPF_NA(0.00)
+ Symbol: FORGED_SENDER(0.30)
+ Symbol: R_DKIM_NA(0.00)
+ Symbol: MIME_TRACE(0.00)
+ Symbol: ASN(0.00)
+ Symbol: FROM_NEQ_ENVFROM(0.00)
+ Symbol: BAYES_HAM(-3.00)
+ Symbol: RCVD_COUNT_TWO(0.00)
+ Message-ID: 20221125155412.1119701-1-mikko.rapeli@linaro.org
+X-SA-Exim-Connect-IP: 2001:67c:1be8::11
+X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Nov 2022 15:50:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173773
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Nov 2022 15:54:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173774
 
-T24gMjUgTm92IDIwMjIsIGF0IDE1OjAzLCBRaXUsIFpoZW5nIHZpYSBsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnIDxaaGVuZy5RaXU9d2luZHJpdmVyLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiB3
-cm90ZToNCj4gDQo+PiBPbiBOb3YgMjUsIDIwMjIsIGF0IDk6NTQgQU0sIFJvc3MgQnVydG9uIDxS
-b3NzLkJ1cnRvbkBhcm0uY29tPiB3cm90ZToNCj4+IA0KPj4gbWFzdGVyIGhhcyBsaWJ0aWZmIDQu
-NC4wIHNvIHRoaXMgZG9lc27igJl0IGFwcGx5LiAgSXMgdGhlIENWRSBzdGlsbCB2YWxpZCBpbiB0
-aGF0IHJlbGVhc2UsIG9yIGhhcyBpdCBiZWVuIGZpeGVkPw0KPj4gDQo+PiBSb3NzDQo+IA0KPiBJ
-dCBzZWVtcyBsaWtlIHRoaXMgQ1ZFIGlzIGZpeGVkIGFmdGVyIDQuNC4wIHRvIG1lLg0KDQpDYW4g
-eW91IHJlYmFzZSBhbmQgcmVzZW5kIHRoZW4/DQoNClRoYW5rcywNClJvc3M=
+It's a good default and used in many Linux distributions.
+Did not test out of tree modules if they do correct things but
+any such failures should be fixed.
+
+One way to verify that kernel module signing also works:
+
+root@qemux86-64:~# dmesg|grep X.509
+[    1.298936] Loading compiled-in X.509 certificates
+[    1.328280] Loaded X.509 cert 'Build time autogenerated kernel key: ee1bed6d845358744c764683bf73b4404cc79287'
+
+These logs in dmesg show that signing in kernel is enabled and
+key is found. Then if any kernel modules load, they were
+signed correctly. Additionally modinfo tool from kmod shows kernel module
+signing details:
+
+root@qemux86-64:~# lsmod
+Module                  Size  Used by
+sch_fq_codel           20480  1
+root@qemux86-64:~# modinfo sch_fq_codel
+filename:
+/lib/modules/5.19.9-yocto-standard/kernel/net/sched/sch_fq_codel.ko
+description:    Fair Queue CoDel discipline
+license:        GPL
+author:         Eric Dumazet
+depends:
+retpoline:      Y
+intree:         Y
+name:           sch_fq_codel
+vermagic:       5.19.9-yocto-standard SMP preempt mod_unload
+sig_id:         PKCS#7
+signer:         Build time autogenerated kernel key
+sig_key:        2B:2A:BE:7D:B5:92:DC:98:A9:F8:D7:00:A6:73:35:20:10:D8:19:EE
+sig_hashalgo:   sha512
+signature:      72:6C:E1:78:7C:A7:7B:CC:C4:33:23:6B:95:EC:1B:2A:BD:D9:EC:7A:
+                85:07:05:B2:70:3C:C9:64:F6:78:8A:01:A0:E3:64:C7:47:BB:5D:0E:
+                86:BA:C1:DD:40:05:AE:1F:19:D4:F0:98:49:86:CC:61:14:3C:AB:1E:
+                4A:1C:83:47:1D:FA:6D:E4:83:79:3A:2B:3F:7D:B6:E0:09:AE:B4:01:
+                07:EE:C9:5B:99:70:4F:49:8A:64:E4:7D:84:AA:37:F5:DB:5F:16:5C:
+                D4:DC:0C:33:73:5D:D9:8D:7E:71:5B:A1:ED:61:81:5E:1C:ED:A2:D8:
+                76:46:99:B3:78:08:F7:7F:0D:4B:94:26:21:63:47:B0:75:9F:A4:EA:
+                3D:14:D4:09:CC:59:F3:FC:80:AC:BF:56:1E:8C:73:FD:CB:07:27:C6:
+                3D:98:4C:E4:C3:9C:C0:AD:90:53:46:8F:AE:66:FE:10:C8:92:7F:BA:
+                74:C2:B0:E3:6E:47:66:AB:39:25:41:12:66:91:20:27:1A:58:77:75:
+                4F:C0:3F:F1:8E:5F:AB:0A:BD:8B:62:4F:2B:01:5A:5C:4E:5C:31:39:
+                FB:F4:14:2E:BF:D8:51:4B:C8:D0:E2:0A:20:80:95:05:80:E3:46:75:
+                43:80:30:63:6F:A4:25:82:59:35:34:E8:6A:DC:FF:93:F8:32:BB:FA:
+                66:2D:B9:08:75:1A:3A:3A:5D:57:F4:63:85:01:B4:EB:96:1B:CE:6F:
+                4D:61:FC:AA:6C:39:7F:D6:37:C9:84:0A:84:17:FB:BE:FC:20:CB:EE:
+                8C:2F:93:92:F6:48:F4:07:50:84:D8:2C:B5:2E:A7:7D:3A:3F:DC:E9:
+                B9:17:EF:47:49:EC:BA:62:1C:C4:C6:58:9C:0C:8D:26:41:6E:1F:C1:
+                95:A7:8B:57:5D:1D:4B:B4:04:00:F6:68:24:9E:E2:BF:11:EC:05:6C:
+                83:E8:C6:DB:BB:3D:22:8B:31:BB:99:1A:44:E1:15:71:C3:AA:FA:01:
+                98:BA:6B:20:26:D6:9C:61:5C:6F:81:29:09:B1:EA:C5:28:15:F3:98:
+                C0:18:FE:08:8B:40:A5:F3:3C:71:4B:C6:41:CD:38:51:79:EA:5D:C9:
+                13:39:B5:FD:A3:D1:BB:11:94:66:F7:7B:6A:DC:2C:01:5F:AB:73:08:
+                68:24:32:BE:BC:7A:90:E5:FD:97:17:6C:DD:46:D0:0E:2C:03:31:66:
+                B3:7C:B2:48:E1:E0:1A:63:20:48:4C:D4:55:56:71:04:3B:5F:3B:28:
+                BF:64:6C:52:A9:07:6D:FF:21:E9:06:35:E8:A1:D7:F4:C2:F9:D7:7B:
+                9D:D2:90:16:2F:68:1E:3F:BE:43:ED:64
+
+Failures in signed kernel module loading should show as errors at
+runtime, for example systemd services, or as oeqa parselogs test
+failures which detects signature verification error messages from the
+kernel.
+
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+---
+ meta/recipes-kernel/linux/linux-yocto.inc | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+index 091003ed82..bab1f21479 100644
+--- a/meta/recipes-kernel/linux/linux-yocto.inc
++++ b/meta/recipes-kernel/linux/linux-yocto.inc
+@@ -37,6 +37,9 @@ KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'efi', 'cfg/
+ KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'numa', 'features/numa/numa.scc', '', d)}"
+ KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'vfat', 'cfg/fs/vfat.scc', '', d)}"
+ 
++# enable module signing by default
++KERNEL_FEATURES:append = " features/module-signing/force-signing.scc"
++
+ # A KMACHINE is the mapping of a yocto $MACHINE to what is built
+ # by the kernel. This is typically the branch that should be built,
+ # and it can be specific to the machine or shared
+-- 
+2.35.1
+
 
