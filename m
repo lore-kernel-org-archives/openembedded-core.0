@@ -1,158 +1,150 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC81DC4332F
-	for <webhook@archiver.kernel.org>; Fri, 25 Nov 2022 15:07:38 +0000 (UTC)
-Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
- by mx.groups.io with SMTP id smtpd.web10.49098.1669388852452287747
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D257C4332F
+	for <webhook@archiver.kernel.org>; Fri, 25 Nov 2022 15:50:19 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.76])
+ by mx.groups.io with SMTP id smtpd.web10.50056.1669391411737712812
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Nov 2022 07:07:32 -0800
+ Fri, 25 Nov 2022 07:50:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
-Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
-	by mail.kapsi.fi with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1oyaIa-00CJal-BO; Fri, 25 Nov 2022 17:07:28 +0200
-Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.94.2)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1oyaIa-007BMb-1G; Fri, 25 Nov 2022 17:07:28 +0200
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH] kmod: enable openssl support by default
-Date: Fri, 25 Nov 2022 17:07:21 +0200
-Message-Id: <20221125150721.1702791-1-mikko.rapeli@linaro.org>
-X-Mailer: git-send-email 2.30.2
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=+BasFkkT;
+ spf=pass (domain: arm.com, ip: 40.107.22.76, mailfrom: ross.burton@arm.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K9TuNEZHJ3STcDsFyNf7ZhNJGFS3rcMQbb4dkgBqlNU=;
+ b=+BasFkkToznL0Lm3Ctpz8rm+4qgsN2KD+yMa5KK0zDxCC4x24LzAo5I6eFyNYHNJhFJjtkOyT28fawEsqHCaF6/z6JcVNGlq8RIiWeKDqACq4gEuuaCUQCXss+GSEo7vAH5ZkqZde9DCEkBohcf+i8WCTYxwUJAA0sswzE6zd7c=
+Received: from DB7PR03CA0089.eurprd03.prod.outlook.com (2603:10a6:10:72::30)
+ by PAXPR08MB7648.eurprd08.prod.outlook.com (2603:10a6:102:243::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.5; Fri, 25 Nov
+ 2022 15:50:08 +0000
+Received: from DBAEUR03FT033.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:10:72:cafe::dc) by DB7PR03CA0089.outlook.office365.com
+ (2603:10a6:10:72::30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.17 via Frontend
+ Transport; Fri, 25 Nov 2022 15:50:08 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DBAEUR03FT033.mail.protection.outlook.com (100.127.142.251) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5834.8 via Frontend Transport; Fri, 25 Nov 2022 15:50:07 +0000
+Received: ("Tessian outbound aeae1c7b66fd:v130"); Fri, 25 Nov 2022 15:50:07 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 81d1234ddd7720a4
+X-CR-MTA-TID: 64aa7808
+Received: from ca3e8ba5df4f.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 78E87F23-9DCF-4740-919D-5790D61E291B.1;
+	Fri, 25 Nov 2022 15:50:00 +0000
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id ca3e8ba5df4f.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Fri, 25 Nov 2022 15:50:00 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ht6AbIfWMFSa9mDMpSccdJdxFThphhKUmHBLYypEBzVa0ZKay+a3lXQ0FgYUjbGvvfCwu1rZyTxOK9xGdAmfuON/OIT33BEb7xcSab5uMX+50RluI3/Gjc4Vb91INr0FgMPC6TPLoRj+VMyCOV+e5wHp/fm3hYVe+hMPAMixq9BWhwbFZdkRmRw5gmn5StSG51AKdKXzyk47+JqfqAq8uezhTZRaiVNBGngJyChOjOK/2IAcAQ/ufcD/l8XTBEPgExm75fMxN8drH0RynQiYcYmXaQQPTV+FzzhPKw1MntnpuZtf5zwJ2GUocatNU3q6nrwABeFhV0t83MGjPZgIFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=K9TuNEZHJ3STcDsFyNf7ZhNJGFS3rcMQbb4dkgBqlNU=;
+ b=UZrCp3YoT+yBnzyZ5w9kcOfXEo/nyVjVtHwK1l++3q468b6PHSnEf3xi9hSEEWOe/nC7VsDSwjXwLDjRbDz+ng/DP4CJtI7qIiZv95BcjYaMnGZM952O+MraOD4tECOY3aBvvagF9H2Di5AB0zcEZsZyxQ1qFUm9r1Tu5K4hLmZO487yo0DPB6ifXeY5yMNgo9kWWlG/TJqeImWDzwXnO8tW48yWvNcvB7nbNFkKy7w1ZIGIxoa5fHjIWhDfTngReiRgNCOnYrSYbKebzkgW5TfWpmM1QROD1BTqCFTicGqjV0ONfR4DDVgW71xBizXm62/LzZie6sWnvUWHamWIsA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K9TuNEZHJ3STcDsFyNf7ZhNJGFS3rcMQbb4dkgBqlNU=;
+ b=+BasFkkToznL0Lm3Ctpz8rm+4qgsN2KD+yMa5KK0zDxCC4x24LzAo5I6eFyNYHNJhFJjtkOyT28fawEsqHCaF6/z6JcVNGlq8RIiWeKDqACq4gEuuaCUQCXss+GSEo7vAH5ZkqZde9DCEkBohcf+i8WCTYxwUJAA0sswzE6zd7c=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by DB9PR08MB7841.eurprd08.prod.outlook.com (2603:10a6:10:39c::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.5; Fri, 25 Nov
+ 2022 15:49:52 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::1ecf:7fb9:8c0:8119]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::1ecf:7fb9:8c0:8119%9]) with mapi id 15.20.5880.005; Fri, 25 Nov 2022
+ 15:49:52 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "Zheng.Qiu@windriver.com" <Zheng.Qiu@windriver.com>
+CC: Openembedded Core <openembedded-core@lists.openembedded.org>, "MacLeod,
+ Randy" <Randy.MacLeod@windriver.com>
+Subject: Re: [OE-core] [master][PATCH] tiff: Security fix for CVE-2022-3970
+Thread-Topic: [OE-core] [master][PATCH] tiff: Security fix for CVE-2022-3970
+Thread-Index: AQHY/ojuPvgBbRqfVkChYjW+kVm6ta5PvoeAgAACogCAAAzUgA==
+Date: Fri, 25 Nov 2022 15:49:52 +0000
+Message-ID: <858B27AF-9C9F-4958-B2CF-3DEC91F7F2A8@arm.com>
+References: <20221122153757.2287659-1-zheng.qiu@windriver.com>
+ <33BDDCA9-7B36-48B1-AC53-E2E15B04CD77@arm.com>
+ <99704AC7-7EF1-465D-BBF0-FC74F18DC6C4@windriver.com>
+In-Reply-To: <99704AC7-7EF1-465D-BBF0-FC74F18DC6C4@windriver.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3731.200.110.1.12)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|DB9PR08MB7841:EE_|DBAEUR03FT033:EE_|PAXPR08MB7648:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7a892d19-292d-4fd2-b904-08dacefcba4c
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ DKjF+m5Pbb2syTMxdFq9Hb4qRwy6h+620TgCIpOMksIkHmfnmaPqHshxIf12rXHgXnpF2nVpcN7DIa9AQZFrsbl4cDCD1lyr2qkxRhRYjlfRsjRAcTo32ABSKxlY/QXVtE/JIyrfHIUQzGaxSb8DEYxM7yUjAr8ab9BtWjX8QAZdp/582/xGcxPNtjCbNwaSHB/UqdKCScXqrD8LBqZdH6t3hhYCLRT70oN5Mk3jalkdFgj0aEJQ7guxXKIeUq7tSTREJzJWibOUhXldpeUXhJCC+yluEBUyKdMOyW14Ol93Svbm7zSgu3aW8r7BRobiSY+n5bcvAWskRkS5c9J9AphQzeVc6ygfPjgSw32OOZZkY/7i9Dyd4DQXCUS7sPB48jEvRH4+sdqUyftYTvS9OA3WpHaiCuNGzuH9G4SHaLmERfpPeyexaJ+d17MgCJCuYc5hgzJPxZOATa6R8IDl2NWaiuzbYcFADkQLA0Adp4Aq4RUQReOuDPfS59hpo0tl0n1NyYYcD/Hg/RqOuzCdgpByKYrFYdLSpPyIvoGUwHLp4NfgHrW+ltdh2+38/Vg/qtf4meqOCSxzghJNO8yNWWV55/1KiIZ3X+F5tWcpYEO59jBGPzdy5ol8iN+sp9dWtKtkY1XInKvFBcQtfEmOBIkY9ABKg71wXhAclpaUqC2HfKDJBYrF5IiMLcktcPylQk+nFoESBfGS0suwwidWh9WXbPR7MFv8H1tkIk5HPQc=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(136003)(346002)(39860400002)(376002)(366004)(451199015)(2906002)(122000001)(38070700005)(8936002)(4744005)(41300700001)(54906003)(26005)(36756003)(6916009)(316002)(33656002)(186003)(2616005)(5660300002)(86362001)(6512007)(6506007)(53546011)(478600001)(76116006)(38100700002)(91956017)(71200400001)(64756008)(66476007)(8676002)(66556008)(66446008)(6486002)(66946007)(4326008)(45980500001);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <D8377A9608869146BC967036B766385B@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspam-Score: -1.2 (-)
-X-Rspam-Report: Action: no action
- Symbol: RCVD_TLS_LAST(0.00)
- Symbol: ARC_NA(0.00)
- Symbol: DMARC_POLICY_SOFTFAIL(0.10)
- Symbol: FROM_HAS_DN(0.00)
- Symbol: TO_DN_SOME(0.00)
- Symbol: R_MISSING_CHARSET(0.50)
- Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
- Symbol: MIME_GOOD(-0.10)
- Symbol: NEURAL_SPAM(0.00)
- Symbol: RCPT_COUNT_TWO(0.00)
- Symbol: MID_CONTAINS_FROM(1.00)
- Symbol: R_SPF_NA(0.00)
- Symbol: FORGED_SENDER(0.30)
- Symbol: R_DKIM_NA(0.00)
- Symbol: MIME_TRACE(0.00)
- Symbol: ASN(0.00)
- Symbol: FROM_NEQ_ENVFROM(0.00)
- Symbol: BAYES_HAM(-3.00)
- Symbol: RCVD_COUNT_TWO(0.00)
- Message-ID: 20221125150721.1702791-1-mikko.rapeli@linaro.org
-X-SA-Exim-Connect-IP: 2001:67c:1be8::11
-X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB7841
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DBAEUR03FT033.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	36e4aec1-f417-48ba-8cd8-08dacefcb0e1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	agjz7+tGlRfo5Nla/8wqcOuEoX5CDA4AB9WEGvlKHHNfC59yZ/halDmn7DpEvkKNxPhF0fYvtT2uXChgKCW45Fy9mcC1n3E7rGb4qOr20XxkYJEN3OiGFHr3rnfSQYe+ei3SvRXc6t4s/Hj2wfl30L3JBbo3slfubbMacObDd/7wbPJjXJZxL3bhhEzjVwOMiB41MlJcCl09UWp3O/LTaNFhEj0BvCmEMmYDZyc6dahFQ9PTTvTVdDfeINlJfW6Ye0bR1OP84lc+/wzgEhk37jv3ndsl2cbokfmTV3qbR+t6OjOLIgJwGB1+wa9MOfhht32i1rTjk+VtZjfbUUCrD37pDE0UIng37eQPjBXmFiwIuH1zpDrXTId606G1cxdl8Hzd0eqBJSL7UErZZB1q8F/jaXJ4ByyypxnxyQYCKZz/+PiF85rNBzkPbDeJQ+GDP4QPAu4XVo9pCyy2mT2Ld4wWSvczMNZV14w3B5o17sewzULJtMaOlMf5wBQ6DG4JF6w13iHfVrvCrI0wTI6/UvStins70nCwgVL4lMNcyNfhABkdBZyOQIjKS1RK8xJ425Q2O3lfh7uxUXijXYrNJPvxQncOzr/ZYmSwtxNgdJLfTCLAzYjDEkRc8cju5RrDBCsJWBAaAtpBg3tGSasTpAAjNvEN5CQ6W5oseHy2LsVz7GoVRXGugfQli3IARSEXhMCMdD7KPJ5tRE/CMo4rHw==
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230022)(4636009)(376002)(346002)(39860400002)(396003)(136003)(451199015)(40470700004)(46966006)(36840700001)(2906002)(4744005)(8936002)(6862004)(316002)(41300700001)(54906003)(36860700001)(40460700003)(33656002)(8676002)(4326008)(36756003)(478600001)(6486002)(70586007)(70206006)(5660300002)(336012)(2616005)(186003)(47076005)(26005)(6512007)(53546011)(6506007)(82310400005)(86362001)(40480700001)(356005)(81166007)(82740400003)(107886003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2022 15:50:07.8860
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7a892d19-292d-4fd2-b904-08dacefcba4c
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DBAEUR03FT033.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB7648
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Nov 2022 15:07:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173772
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Nov 2022 15:50:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173773
 
-linux-yocto kernel adds openssl-native dependency by default even
-when module signing is still optional. kmod should enable
-openssl support too. This helps see details of signed kernel
-modules and debug issues with module signing. For small systems
-this can still be disabled.
-
-modinfo output shows bad signing info when kernel signing is enabled
-but openssl support is missing from kmod:
-
-root@qemux86-64:~# dmesg|grep 509
-[    0.750905] ACPI: PCI: Interrupt link LNKG configured for IRQ 11
-[    0.950039] Asymmetric key parser 'x509' registered
-[    1.241727] Loading compiled-in X.509 certificates
-[    1.267863] Loaded X.509 cert 'Build time autogenerated kernel key: 48bcd79439f61aaf8fc19ec0882439d64db73820'
-root@qemux86-64:~# lsmod
-Module                  Size  Used by
-sch_fq_codel           20480  1
-root@qemux86-64:~# modinfo sch_fq_codel
-filename:       /lib/modules/5.19.9-yocto-standard/kernel/net/sched/sch_fq_codel.ko
-description:    Fair Queue CoDel discipline
-license:        GPL
-author:         Eric Dumazet
-depends:
-retpoline:      Y
-intree:         Y
-name:           sch_fq_codel
-vermagic:       5.19.9-yocto-standard SMP preempt mod_unload
-sig_id:         PKCS#7
-signer:
-sig_key:
-sig_hashalgo:   unknown
-signature:
-
-modinfo with openssl enabled in kmod:
-
-root@qemux86-64:~# modinfo sch_fq_codel
-filename:       /lib/modules/5.19.9-yocto-standard/kernel/net/sched/sch_fq_codel.ko
-description:    Fair Queue CoDel discipline
-license:        GPL
-author:         Eric Dumazet
-depends:
-retpoline:      Y
-intree:         Y
-name:           sch_fq_codel
-vermagic:       5.19.9-yocto-standard SMP preempt mod_unload
-sig_id:         PKCS#7
-signer:         Build time autogenerated kernel key
-sig_key:        07:9A:C4:36:96:98:6E:5B:73:CF:C8:40:A6:57:D9:03:5E:27:8D:25
-sig_hashalgo:   sha512
-signature:      21:4D:F0:E2:E0:7C:8E:31:A0:96:12:68:06:0D:FA:0D:E2:17:45:64:
-                51:94:7E:B0:97:DD:EB:59:89:CA:1A:C3:10:E7:7C:4D:5D:F0:5D:B6:
-                2A:61:D3:BF:89:7A:0D:CD:A2:39:57:1B:C6:B5:7D:C1:DB:6F:D9:36:
-                29:7A:07:18:F5:22:9F:9A:33:4D:38:BC:79:C8:51:8B:82:0F:B4:09:
-                08:37:52:11:98:50:7E:19:28:0F:13:2E:03:A5:E8:F8:D9:E7:DF:61:
-                18:AC:22:FE:96:BD:D0:55:96:9E:C9:1C:15:C9:0B:9A:5A:FD:D0:C0:
-                8F:41:12:5B:EA:4B:E5:5D:4D:EA:D5:2E:E5:80:D4:51:CC:63:97:F3:
-                4B:39:CC:B6:A1:83:F5:EF:2F:A1:22:CD:CA:BC:DB:82:C0:E4:AB:13:
-                5D:C5:F3:BC:B7:3E:B4:16:BF:87:1D:AC:69:43:1F:78:2A:5F:E2:63:
-                52:A2:DA:FC:F9:C0:BA:D8:1A:FE:58:4E:6A:D8:DE:BE:F8:F6:C2:59:
-                CE:F5:0A:A0:15:A3:01:BC:B6:70:36:4E:5F:D6:9B:B0:DE:93:15:3E:
-                35:37:38:D9:01:2B:72:2F:D3:74:A4:AD:F4:5F:52:74:44:E1:C9:D3:
-                A9:87:BC:93:58:8A:82:DB:14:6F:E0:4D:AF:8E:B5:3D:92:20:8B:4A:
-                04:54:6C:21:F1:76:DF:08:A9:0A:A5:D5:D0:17:CA:98:B5:F4:9F:F6:
-                9C:8F:DA:09:C2:37:FB:36:23:D1:25:27:4C:DB:9B:43:19:EB:55:1C:
-                DA:32:04:A5:B1:97:F7:A3:3B:82:55:FD:BD:6D:90:BB:61:E6:D3:93:
-                42:CB:FD:4A:1B:3E:03:43:7D:E3:85:32:91:45:C9:B4:CD:DC:B7:07:
-                37:58:8A:4A:49:5F:F7:26:41:E1:BB:A1:64:B5:86:00:17:9D:D7:81:
-                31:BA:DC:BF:04:CC:11:55:B1:C6:24:83:43:33:34:2D:BF:00:74:26:
-                6A:EC:56:90:C7:1B:C2:78:5C:7F:25:2D:78:BD:C5:D9:7D:69:6A:32:
-                5D:EF:48:6C:21:64:47:2A:FE:34:3C:58:8D:9E:D7:42:76:BE:89:84:
-                8D:62:9D:62:DE:7C:88:C4:5F:AA:13:20:6B:90:53:16:4E:06:EE:8A:
-                DE:F7:EA:F8:92:03:7D:84:B7:0C:9F:A0:52:B7:5E:21:BF:37:6A:C9:
-                34:6D:69:1E:4A:CC:48:F2:0A:6C:B8:AD:83:C0:8F:76:CC:43:0E:29:
-                17:A9:22:F3:0B:59:A9:87:24:AD:84:CD:EE:E2:C3:93:F7:A8:11:ED:
-                9A:CC:DA:7F:9D:73:06:5C:A7:1A:6A:54
-
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
----
- meta/recipes-kernel/kmod/kmod_30.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-kernel/kmod/kmod_30.bb b/meta/recipes-kernel/kmod/kmod_30.bb
-index 8eb83efe6d..ff6e20554b 100644
---- a/meta/recipes-kernel/kmod/kmod_30.bb
-+++ b/meta/recipes-kernel/kmod/kmod_30.bb
-@@ -26,7 +26,7 @@ S = "${WORKDIR}/git"
- 
- EXTRA_OECONF += "--enable-tools"
- 
--PACKAGECONFIG ??= "zlib xz"
-+PACKAGECONFIG ??= "zlib xz openssl"
- PACKAGECONFIG[debug] = "--enable-debug,--disable-debug"
- PACKAGECONFIG[logging] = " --enable-logging,--disable-logging"
- PACKAGECONFIG[manpages] = "--enable-manpages, --disable-manpages, libxslt-native xmlto-native"
--- 
-2.35.1
-
+T24gMjUgTm92IDIwMjIsIGF0IDE1OjAzLCBRaXUsIFpoZW5nIHZpYSBsaXN0cy5vcGVuZW1iZWRk
+ZWQub3JnIDxaaGVuZy5RaXU9d2luZHJpdmVyLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiB3
+cm90ZToNCj4gDQo+PiBPbiBOb3YgMjUsIDIwMjIsIGF0IDk6NTQgQU0sIFJvc3MgQnVydG9uIDxS
+b3NzLkJ1cnRvbkBhcm0uY29tPiB3cm90ZToNCj4+IA0KPj4gbWFzdGVyIGhhcyBsaWJ0aWZmIDQu
+NC4wIHNvIHRoaXMgZG9lc27igJl0IGFwcGx5LiAgSXMgdGhlIENWRSBzdGlsbCB2YWxpZCBpbiB0
+aGF0IHJlbGVhc2UsIG9yIGhhcyBpdCBiZWVuIGZpeGVkPw0KPj4gDQo+PiBSb3NzDQo+IA0KPiBJ
+dCBzZWVtcyBsaWtlIHRoaXMgQ1ZFIGlzIGZpeGVkIGFmdGVyIDQuNC4wIHRvIG1lLg0KDQpDYW4g
+eW91IHJlYmFzZSBhbmQgcmVzZW5kIHRoZW4/DQoNClRoYW5rcywNClJvc3M=
 
