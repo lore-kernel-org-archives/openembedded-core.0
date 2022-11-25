@@ -1,88 +1,58 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <ml@embed.me.uk>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24ABEC4332F
-	for <webhook@archiver.kernel.org>; Fri, 25 Nov 2022 15:57:59 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web10.50246.1669391869915296671
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E90FC43217
+	for <webhook@archiver.kernel.org>; Fri, 25 Nov 2022 16:11:49 +0000 (UTC)
+Received: from dane.soverin.net (dane.soverin.net [185.233.34.21])
+ by mx.groups.io with SMTP id smtpd.web11.50345.1669392704168753429
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Nov 2022 07:57:50 -0800
+ Fri, 25 Nov 2022 08:11:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=rOoOyGBH;
- spf=pass (domain: linaro.org, ip: 209.85.167.41, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f41.google.com with SMTP id j4so7569146lfk.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 25 Nov 2022 07:57:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cWajmxWYx1oQu++VISpGvvJ15Awzo/6njLn+QJW3syA=;
-        b=rOoOyGBHqC5WdnxXJVsdYqeL4werzpsupLjlTudtaP6B5veCJgLZLTfjOJ8/atfnD2
-         H9luVsKzvozXfFho8H8lYO90Fdsz4QHINERGoWjg6WkYIULg7OBNepiUBxlnUwd69btx
-         KoNSq2D36pQRPVeb/5K/afVwwGQ1rFvRISK1d0QWOD5gZPPMnsOTGZlDvMrHNnqdoTDe
-         XpZgXtAS7eSyYuNH61cJR0tmjaOGxmEKZkg1qyaG1wKF0jSBkFj7jfHlBmTtcPrFMGeA
-         4xXPXk4lwiLackIA3Kjled88LKz59Abp8y1bN95jwTRh/Cp6vPYUagBdMlbweBAVwErs
-         EenA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cWajmxWYx1oQu++VISpGvvJ15Awzo/6njLn+QJW3syA=;
-        b=RaZRS6NxuHZi2ryekpWsJcMX9d+eM8Kob9jhTCkk0s1LrGoTuYB7v2qqN22AAnueyM
-         k4k+E7zrambsm3SnyELKEZ+ns0NnnghOYb7k4wtCublnFJrBBCnM7qtYm5Mf4ZYMbOWb
-         5iXokx2ueAYxRKMavpAhBdj4lEGbDe7MS0Tfs/mN3mqcS6Lshw8EQ/IpRs74uWVFub+Q
-         9jiqbQJtT/E/mcwPK1lKP7m6ht2jkCkBR3GgJSThOEIWBstPascIVCvn9brSsg5aMIKA
-         fSPJgChBlxtuVQONqfTKFOp+LomZJtnhQqHDl0Nkfb+kDm1l+JKySLiDZd9CXri5m0gy
-         K29Q==
-X-Gm-Message-State: ANoB5plbIz8YzwGDY8MNhp1v9MEIJIPYrKsDj5HlyEwSjntTzbL0F86e
-	5r7xLoprUxJBDJUb32PjN5gtcqKxwl+QhsWz
-X-Google-Smtp-Source: AA0mqf5psBQU1emmve+5EV1RbNZqo4Pd4g7Y3kgzgXJm7T7b6fzTbOhnRVdiFqNw3qo+0V8R0RYV+A==
-X-Received: by 2002:a05:6512:2015:b0:4b5:26f:de9a with SMTP id a21-20020a056512201500b004b5026fde9amr1390130lfb.117.1669391867828;
-        Fri, 25 Nov 2022 07:57:47 -0800 (PST)
-Received: from nuoska (dsl-olubng11-54f814-94.dhcp.inet.fi. [84.248.20.94])
-        by smtp.gmail.com with ESMTPSA id i14-20020ac25d2e000000b004ab52b0bcf9sm572625lfb.207.2022.11.25.07.57.47
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Nov 2022 07:57:47 -0800 (PST)
-Date: Fri, 25 Nov 2022 17:57:45 +0200
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] linux-yocto: enable strict kernel module signing by
- default
-Message-ID: <Y4Dl+XawSWCMmo8o@nuoska>
-References: <20221125155412.1119701-1-mikko.rapeli@linaro.org>
+ dkim=fail reason="no key for verify" header.i=@embed.me.uk header.s=soverin header.b=O9GwgtF7;
+ spf=pass (domain: embed.me.uk, ip: 185.233.34.21, mailfrom: ml@embed.me.uk)
+Received: from smtp.soverin.net (c04smtp-lb01.int.sover.in [10.10.4.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by dane.soverin.net (Postfix) with ESMTPS id 4NJfxn6LHMzMZ
+	for <openembedded-core@lists.openembedded.org>; Fri, 25 Nov 2022 16:11:41 +0000 (UTC)
+Received: from smtp.soverin.net (smtp.soverin.net [10.10.4.100]) by soverin.net (Postfix) with ESMTPSA id 4NJfxn2btCzLJ
+	for <openembedded-core@lists.openembedded.org>; Fri, 25 Nov 2022 16:11:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=embed.me.uk;
+	s=soverin; t=1669392701;
+	bh=AQJptgKlArv21l6cxSzSygWF6Hs5SpsAGXdktqzkGcc=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=O9GwgtF7CJ7FHzp/0jW5nz+lyCDcgBd+1BZejAcTfilu6LLD7cMJQio+IpO6VF1hM
+	 zUOXJ2i8GSksFZPDm48JOYpxdi8VCh3wt5e8mtTsIHYzVm20ePIti3CSNFNB1ukK1p
+	 7VkVIW/1c5R+hU0jZ/EgADL06gzNd+zzKUZupULUoDkx8h+VQwOdx6Q9wEz/PBY1K0
+	 x//gWUau5Imr3AL1mY2e1ddrnTW4sUkdKZYWU/ShEtiamLIv4vsgBrz8OtGYxPepGE
+	 aqacsdJPynR6/7aJhpg1WlyOY3oBdLoecVcq+H52yiWLOSY5UAUzaEvyivs15yy+nw
+	 tYO6mv3q8ohSQ==
+Message-ID: <d2cd0198-ac04-159e-f4c3-42811cd677b5@embed.me.uk>
+Date: Fri, 25 Nov 2022 16:11:40 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Subject: Re: [OE-core] [PATCH] linux-yocto: enable strict kernel module
+ signing by default
+Content-Language: en-US-large
+To: openembedded-core@lists.openembedded.org
+References: <20221125155412.1119701-1-mikko.rapeli@linaro.org>
+X-Soverin-Authenticated: true
+From: Jack Mitchell <ml@embed.me.uk>
 In-Reply-To: <20221125155412.1119701-1-mikko.rapeli@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Nov 2022 15:57:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173775
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Nov 2022 16:11:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173776
 
-Hi,
-
-On Fri, Nov 25, 2022 at 05:54:12PM +0200, Mikko Rapeli wrote:
+On 25/11/2022 15:54, Mikko Rapeli wrote:
 > It's a good default and used in many Linux distributions.
 > Did not test out of tree modules if they do correct things but
 > any such failures should be fixed.
-
-When testing this I saw some odd results and cert verification
-failures at runtime. I suspect it was just me and I did not take
-into account how kernel and rootfs get deployed while rebuilding
-the changes and can't reproduce any errors with this now.
-
-But if this exposes any issues, then those would need to be fixed too.
-
-I think this is a good default.
-
-Cheers,
-
--Mikko
-
+> 
 > One way to verify that kernel module signing also works:
 > 
 > root@qemux86-64:~# dmesg|grep X.509
@@ -93,6 +63,16 @@ Cheers,
 > key is found. Then if any kernel modules load, they were
 > signed correctly. Additionally modinfo tool from kmod shows kernel module
 > signing details:
+
+Hi Mikko,
+
+Do the kernel modules get properly stripped, last time I was looking at
+this it was skipped when signed and as such root filesystem sizes
+ballooned with signed modules.
+
+Regards,
+Jack.
+
 > 
 > root@qemux86-64:~# lsmod
 > Module                  Size  Used by
@@ -163,7 +143,19 @@ Cheers,
 >  # A KMACHINE is the mapping of a yocto $MACHINE to what is built
 >  # by the kernel. This is typically the branch that should be built,
 >  # and it can be specific to the machine or shared
-> -- 
-> 2.35.1
 > 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#173774): https://lists.openembedded.org/g/openembedded-core/message/173774
+> Mute This Topic: https://lists.openembedded.org/mt/95256076/3618454
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ml@embed.me.uk]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+-- 
+Jack Mitchell, Consultant
+https://www.tuxable.co.uk
 
