@@ -1,234 +1,116 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5303BC43217
-	for <webhook@archiver.kernel.org>; Sat, 26 Nov 2022 11:32:25 +0000 (UTC)
-Received: from mailout07.t-online.de (mailout07.t-online.de [194.25.134.83])
- by mx.groups.io with SMTP id smtpd.web10.68426.1669462335642438890
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F06FC4167B
+	for <webhook@archiver.kernel.org>; Sat, 26 Nov 2022 14:15:06 +0000 (UTC)
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web10.70814.1669472102717248967
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Nov 2022 03:32:16 -0800
+ Sat, 26 Nov 2022 06:15:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.83, mailfrom: f_l_k@t-online.de)
-Received: from fwd84.dcpf.telekom.de (fwd84.aul.t-online.de [10.223.144.110])
-	by mailout07.t-online.de (Postfix) with SMTP id 04AEB11318
-	for <openembedded-core@lists.openembedded.org>; Sat, 26 Nov 2022 12:31:58 +0100 (CET)
-Received: from flk-MS-7C91.fritz.box ([79.219.224.10]) by fwd84.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1oytPY-2pgsMr0; Sat, 26 Nov 2022 12:31:56 +0100
-From: Markus Volk <f_l_k@t-online.de>
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=cIgczd2J;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.43, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f43.google.com with SMTP id md8so1713300pjb.4
+        for <openembedded-core@lists.openembedded.org>; Sat, 26 Nov 2022 06:15:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uknTsxd9yseChXNo9M3Hy/cBk4n02keF2F+rs7SIRZo=;
+        b=cIgczd2JUck/hP1ONBA+aVTZQt9HhWy1Et+d7xvC9tKNhc08qJE0xzgn8Mf3uS2VN0
+         F1kgTr05CEQc5ISbC2o2FkGIH+a9yt1BzbkiVeQ+p2t427LdeFaYc6iKpvj1B+YPS+vl
+         ntI+kDwS2v6eAplvVVSa0jq31B+fqxjBhagFs/gT3VmAQzkNZTcpziFRxkdeTP8bVwpG
+         0TiD8zYqICIJe3tj2OPD3M+cHnhImBrVN0xa1J1G06RpsU/MWQK7N2Oi5fH8N/4RD/UO
+         r0UZ/JlzUBUnwAbW5PaxxNpjwSDTN4c+GRpnZOBzBuqdB/9NVUewW0XtuUVk/Zo6n67o
+         p2AA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uknTsxd9yseChXNo9M3Hy/cBk4n02keF2F+rs7SIRZo=;
+        b=wYFZEZMS1otiiU3/6l5sFonEeaFFMVAqWvCwE+11TuibmL0SKHyjy8a5Mr65VO8W/R
+         UB/G2j9zQNyA4aCGIBtT1guWzv/AG7dBSqo9eU8CimuvNJfLtJfkpwOgIeYegBZiBg3g
+         iFDVwZ8ogEaR7LVU0CmT0g0lTcRes/EL8vPFCVVjIQW3F4Lm0gvi0UFS9UVy1eq1FVtb
+         87L6VK+vjWBxTFn7TKYnUhbq3ia3k127AE68vDk5XIwfUdN0y/i3Ecfcj1GXUe4gARXv
+         czpFr74wHcnvaPvRBgMbO9pf9j6VIxM7s4ETr5pGqDGiv/A4rohatOJZAR7/g9/vZhua
+         frKg==
+X-Gm-Message-State: ANoB5pn+uLVNLuGXs6n/74/H4J8QoH0V4O004HZ4mHYdEPTa3+DvaiB0
+	81+Z0ueiTrWWCcOf46qeNkZN92ki9sPo3p/E/5o=
+X-Google-Smtp-Source: AA0mqf5EdlYwY6TgGJ2uywEeaLhOYv2xYQ0qVnq9M+JUVeDJLJmRHZxqto69Q0X5ZYrLFPRSE2SixA==
+X-Received: by 2002:a17:902:ec01:b0:186:878e:3b0d with SMTP id l1-20020a170902ec0100b00186878e3b0dmr23340466pld.149.1669472101775;
+        Sat, 26 Nov 2022 06:15:01 -0800 (PST)
+Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
+        by smtp.gmail.com with ESMTPSA id im22-20020a170902bb1600b001895f7c8a71sm4649177plb.97.2022.11.26.06.15.00
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Nov 2022 06:15:01 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Markus Volk <f_l_k@t-online.de>
-Subject: [oe-core][PATCH] libsdl2: update 2.24.2 -> 2.26.0
-Date: Sat, 26 Nov 2022 12:31:48 +0100
-Message-Id: <20221126113148.1124930-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.34.1
+Subject: [OE-core][langdale 02/37] linux-firmware: upgrade 20220913 -> 20221012
+Date: Sat, 26 Nov 2022 04:14:06 -1000
+Message-Id: <75b852fa9cce9c331821aed9018eeb1679f58f2b.1669471990.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1669471990.git.steve@sakoman.com>
+References: <cover.1669471990.git.steve@sakoman.com>
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1669462316-4D45FB8C-E40A11C1/0/0 CLEAN NORMAL
-X-TOI-MSGID: b576ace0-7a2f-4d23-8ff1-4683957aedbe
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 26 Nov 2022 11:32:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173792
+ <openembedded-core@lists.openembedded.org>; Sat, 26 Nov 2022 14:15:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173795
 
-- add PACKAGECONFIG for libdecor
-- add PACKAGECONFIG for pipewire
-- remove native patch, CMakeLists.txt has been reworked,
-  still needed ?
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-In addition to lots of bug fixes, here are the major changes in this rele=
-ase:
+License-Update: copyright years, additional firmwares
 
-General:
-
-    Updated OpenGL headers to the latest API from The Khronos Group Inc.
-    Added SDL_GetWindowSizeInPixels() to get the window size in pixels, w=
-hich may differ from the window coordinate size for windows with high-DPI=
- support
-    Added simulated vsync synchronization for the software renderer
-    Added the mouse position to SDL_MouseWheelEvent
-    Added SDL_ResetHints() to reset all hints to their default values
-    Added SDL_GetJoystickGUIDInfo() to get device information encoded in =
-a joystick GUID
-    Added the hint SDL_HINT_JOYSTICK_HIDAPI_XBOX_360 to control whether t=
-he HIDAPI driver for XBox 360 controllers should be used
-    Added the hint SDL_HINT_JOYSTICK_HIDAPI_XBOX_360_PLAYER_LED to contro=
-l whether the player LEDs should be lit to indicate which player is assoc=
-iated with an Xbox 360 controller
-    Added the hint SDL_HINT_JOYSTICK_HIDAPI_XBOX_360_WIRELESS to control =
-whether the HIDAPI driver for XBox 360 wireless controllers should be use=
-d
-    Added the hint SDL_HINT_JOYSTICK_HIDAPI_XBOX_ONE to control whether t=
-he HIDAPI driver for XBox One controllers should be used
-    Added the hint SDL_HINT_JOYSTICK_HIDAPI_XBOX_ONE_HOME_LED to control =
-the brightness of the XBox One guide button LED
-    Added support for PS3 controllers to the HIDAPI driver, enabled by de=
-fault on macOS, controlled by the SDL_HINT_JOYSTICK_HIDAPI_PS3 hint
-    Added support for Nintendo Wii controllers to the HIDAPI driver, not =
-enabled by default, controlled by the SDL_HINT_JOYSTICK_HIDAPI_WII hint
-    Added the hint SDL_HINT_JOYSTICK_HIDAPI_WII_PLAYER_LED to control whe=
-ther the player LED should be lit on the Nintendo Wii controllers
-    Added the hint SDL_HINT_JOYSTICK_HIDAPI_VERTICAL_JOY_CONS to control =
-whether Nintendo Switch Joy-Con controllers will be in vertical mode when=
- using the HIDAPI driver
-    Added access to the individual left and right gyro sensors of the com=
-bined Joy-Cons controller
-    Added a microsecond timestamp to SDL_SensorEvent and SDL_ControllerSe=
-nsorEvent, when the hardware provides that information
-    Added SDL_SensorGetDataWithTimestamp() and SDL_GameControllerGetSenso=
-rDataWithTimestamp() to retrieve the last sensor data with the associated=
- microsecond timestamp
-    Added the hint SDL_HINT_HIDAPI_IGNORE_DEVICES to have the SDL HID API=
- ignore specific devices
-    SDL_GetRevision() now includes more information about the SDL build, =
-including the git commit hash if available
-
-Windows:
-
-    Added the hint SDL_HINT_MOUSE_RELATIVE_SYSTEM_SCALE to control whethe=
-r the system mouse acceleration curve is used for relative mouse motion
-
-macOS:
-
-    Implemented vsync synchronization on macOS 12
-
-Linux:
-
-    Added SDL_SetPrimarySelectionText(), SDL_GetPrimarySelectionText(), a=
-nd SDL_HasPrimarySelectionText() to interact with the X11 primary selecti=
-on clipboard
-    Added the hint SDL_HINT_VIDEO_WAYLAND_EMULATE_MOUSE_WARP to control w=
-hether mouse pointer warp emulation is enabled under Wayland
-
-Android:
-
-    Enabled IME soft keyboard input
-    Added version checking to make sure the SDL Java and C code are compa=
-tible
-
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit 9f658c724b6635e5745f30b25601bcc51a004be4)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...d-in-native-OE-builds-by-not-looking.patch | 36 -------------------
- .../{libsdl2_2.24.2.bb =3D> libsdl2_2.26.0.bb}  | 10 +++---
- 2 files changed, 5 insertions(+), 41 deletions(-)
- delete mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-Disable-li=
-bunwind-in-native-OE-builds-by-not-looking.patch
- rename meta/recipes-graphics/libsdl2/{libsdl2_2.24.2.bb =3D> libsdl2_2.2=
-6.0.bb} (91%)
+ ...inux-firmware_20220913.bb => linux-firmware_20221012.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20220913.bb => linux-firmware_20221012.bb} (99%)
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2/0001-Disable-libunwind=
--in-native-OE-builds-by-not-looking.patch b/meta/recipes-graphics/libsdl2=
-/libsdl2/0001-Disable-libunwind-in-native-OE-builds-by-not-looking.patch
-deleted file mode 100644
-index f34b870e74..0000000000
---- a/meta/recipes-graphics/libsdl2/libsdl2/0001-Disable-libunwind-in-nat=
-ive-OE-builds-by-not-looking.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--From 77093de6a12c24a60fc447698900d18d0a3943af Mon Sep 17 00:00:00 2001
--From: Carlos Rafael Giani <crg7475@mailbox.org>
--Date: Fri, 18 Mar 2022 12:06:23 +0100
--Subject: [PATCH] Disable libunwind in native OE builds by not looking fo=
-r
-- libunwind
--
--This is a workaround for this build error:
--
--| -- Checking for one of the modules 'libunwind'
--| CMake Error at [...]/build/tmp/work/x86_64-linux/libsdl2-native/2.0.20=
--r0/recipe-sysroot-native/usr/share/cmake-3.22/Modules/FindPkgConfig.cmak=
-e:890 (message):
--|   None of the required 'libunwind' found
--| Call Stack (most recent call first):
--|   CMakeLists.txt:1367 (pkg_search_module)
--
--By not looking for the libunwind header, the rest of the libunwind
--specific bits in the CMake build script are disabled.
--
--Upstream-Status: Inappropriate [OE specific]
--
-----
-- CMakeLists.txt | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/CMakeLists.txt b/CMakeLists.txt
--index 7617205..d9b1522 100644
----- a/CMakeLists.txt
--+++ b/CMakeLists.txt
--@@ -952,7 +952,7 @@ if(SDL_LIBC)
--     check_include_file(sys/types.h HAVE_SYS_TYPES_H)
--     foreach(_HEADER
--             stdio.h stdlib.h stddef.h stdarg.h malloc.h memory.h string=
-.h limits.h float.h
---            strings.h wchar.h inttypes.h stdint.h ctype.h math.h iconv.=
-h signal.h libunwind.h)
--+            strings.h wchar.h inttypes.h stdint.h ctype.h math.h iconv.=
-h signal.h)
--       string(TOUPPER "HAVE_${_HEADER}" _UPPER)
--       string(REPLACE "." "_" _HAVE_H ${_UPPER})
--       check_include_file("${_HEADER}" ${_HAVE_H})
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.24.2.bb b/meta/recip=
-es-graphics/libsdl2/libsdl2_2.26.0.bb
-similarity index 91%
-rename from meta/recipes-graphics/libsdl2/libsdl2_2.24.2.bb
-rename to meta/recipes-graphics/libsdl2/libsdl2_2.26.0.bb
-index ce5a8aa8f2..3dda082593 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.24.2.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.26.0.bb
-@@ -21,13 +21,11 @@ LIC_FILES_CHKSUM:append =3D " ${@bb.utils.contains('P=
-ACKAGECONFIG', 'arm-neon', 'f
-=20
- PROVIDES =3D "virtual/libsdl2"
-=20
--SRC_URI =3D "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
--           "
--SRC_URI:append:class-native =3D " file://0001-Disable-libunwind-in-nativ=
-e-OE-builds-by-not-looking.patch"
-+SRC_URI =3D "http://www.libsdl.org/release/SDL2-${PV}.tar.gz"
-=20
- S =3D "${WORKDIR}/SDL2-${PV}"
-=20
--SRC_URI[sha256sum] =3D "b35ef0a802b09d90ed3add0dcac0e95820804202914f5bb7=
-b0feb710f1a1329f"
-+SRC_URI[sha256sum] =3D "8000d7169febce93c84b6bdf376631f8179132fd69f7015d=
-4dadb8b9c2bdb295"
-=20
- inherit cmake lib_package binconfig-disabled pkgconfig upstream-version-=
-is-even
-=20
-@@ -59,7 +57,7 @@ PACKAGECONFIG:class-native =3D "x11 ${PACKAGECONFIG_GL}=
-"
- PACKAGECONFIG:class-nativesdk =3D "${@bb.utils.filter('DISTRO_FEATURES',=
- 'x11', d)} ${PACKAGECONFIG_GL}"
- PACKAGECONFIG ??=3D " \
-     ${PACKAGECONFIG_GL} \
--    ${@bb.utils.filter('DISTRO_FEATURES', 'alsa directfb pulseaudio x11 =
-vulkan', d)} \
-+    ${@bb.utils.filter('DISTRO_FEATURES', 'alsa directfb pulseaudio pipe=
-wire x11 vulkan', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland gles2', =
-'', d)} \
-     ${@bb.utils.contains("TUNE_FEATURES", "neon","arm-neon","",d)} \
- "
-@@ -72,7 +70,9 @@ PACKAGECONFIG[kmsdrm]     =3D "-DSDL_KMSDRM=3DON,-DSDL_=
-KMSDRM=3DOFF,libdrm virtual/lib
- # The hidraw support doesn't catch Xbox, PS4 and Nintendo controllers,
- #  so we'll just use libusb when it's available.
- PACKAGECONFIG[libusb] =3D ",,libusb1"
-+PACKAGECONFIG[libdecor] =3D "-DSDL_WAYLAND_LIBDECOR=3DON,-DSDL_WAYLAND_L=
-IBDECOR=3DOFF,libdecor"
- PACKAGECONFIG[opengl]     =3D "-DSDL_OPENGL=3DON,-DSDL_OPENGL=3DOFF,virt=
-ual/egl"
-+PACKAGECONFIG[pipewire] =3D "-DSDL_PIPEWIRE_SHARED=3DON,-DSDL_PIPEWIRE_S=
-HARED=3DOFF,pipewire"
- PACKAGECONFIG[pulseaudio] =3D "-DSDL_PULSEAUDIO=3DON,-DSDL_PULSEAUDIO=3D=
-OFF,pulseaudio"
- PACKAGECONFIG[vulkan]    =3D "-DSDL_VULKAN=3DON,-DSDL_VULKAN=3DOFF"
- PACKAGECONFIG[wayland]    =3D "-DSDL_WAYLAND=3DON,-DSDL_WAYLAND=3DOFF,wa=
-yland-native wayland wayland-protocols libxkbcommon"
---=20
-2.34.1
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20220913.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20221012.bb
+similarity index 99%
+rename from meta/recipes-kernel/linux-firmware/linux-firmware_20220913.bb
+rename to meta/recipes-kernel/linux-firmware/linux-firmware_20221012.bb
+index 8f921e2d0e..6ba59a34c2 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20220913.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20221012.bb
+@@ -71,7 +71,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     file://LICENCE.adsp_sst;md5=615c45b91a5a4a9fe046d6ab9a2df728 \
+                     file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
+                     file://LICENSE.amdgpu;md5=44c1166d052226cb2d6c8d7400090203 \
+-                    file://LICENSE.amd-ucode;md5=3c5399dc9148d7f0e1f41e34b69cf14f \
++                    file://LICENSE.amd-ucode;md5=6ca90c57f7b248de1e25c7f68ffc4698 \
+                     file://LICENSE.amlogic_vdec;md5=dc44f59bf64a81643e500ad3f39a468a \
+                     file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
+                     file://LICENSE.atmel;md5=aa74ac0c60595dee4d4e239107ea77a3 \
+@@ -132,7 +132,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     "
+ # WHENCE checksum is defined separately to ease overriding it if
+ # class-devupstream is selected.
+-WHENCE_CHKSUM  = "98ecc3d3223df7ebdc23b0ec56aafb20"
++WHENCE_CHKSUM  = "d6d9d74a344a78028e6b0f1df80db14b"
+ 
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+ # so that the license files will be copied from fetched source
+@@ -209,7 +209,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
+ # Pin this to the 20220509 release, override this in local.conf
+ SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
+ 
+-SRC_URI[sha256sum] = "26fd00f2d8e96c4af6f44269a6b893eb857253044f75ad28ef6706a2250cd8e9"
++SRC_URI[sha256sum] = "e9d174af729511c8cccb60ec4e0b223b3c44b67d813b42d1ab9813acfa667fa5"
+ 
+ inherit allarch
+ 
+-- 
+2.25.1
 
 
