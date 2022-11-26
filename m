@@ -1,169 +1,121 @@
-Return-Path: <pevik@seznam.cz>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD8ADC43217
-	for <webhook@archiver.kernel.org>; Sat, 26 Nov 2022 00:51:11 +0000 (UTC)
-Received: from mxd.seznam.cz (mxd.seznam.cz [77.75.78.210])
- by mx.groups.io with SMTP id smtpd.web11.61253.1669423870881410429
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C44FC4332F
+	for <webhook@archiver.kernel.org>; Sat, 26 Nov 2022 10:45:35 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web11.67819.1669459531336782781
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Nov 2022 16:51:11 -0800
+ Sat, 26 Nov 2022 02:45:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@seznam.cz header.s=szn20221014 header.b=LDmsrlYD;
- spf=pass (domain: seznam.cz, ip: 77.75.78.210, mailfrom: pevik@seznam.cz)
-Received: from email.seznam.cz
-	by smtpc-mxd-69d6476965-b5jvz
-	(smtpc-mxd-69d6476965-b5jvz [2a02:598:64:8a00::1000:a6b])
-	id 47111266f131ad3d4716ac11;
-	Sat, 26 Nov 2022 01:51:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seznam.cz;
-	s=szn20221014; t=1669423865;
-	bh=+xvjws2EIGQb40ILMOLEmMQfbGKvWE73yTZ5W6EK3RM=;
-	h=Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	b=LDmsrlYD+VFp8MrXnDwdzG+7ceIcNBq9joolPexFkiCa76hOsyDHl04lTg92HMSJE
-	 46Ri+u2RujbDkF8Ss4iAFeL5dn7Y7dazYx/IAMVY8dYF+HwBIUk18/dfrH+6ovRJTC
-	 r2ztuoTSnWmdsNI1X46E+izE/fp0hKM919DpLhUYVz8b/YsadLO+tK0OVAg22K8Pnc
-	 FCzmwJ+kvUtgR6Xmr4hjZeCwxu1iFG66HNQGF373lxPCfBChl2Tlm/kWzSnif+OTpd
-	 AFMVlPEuhTEkzRbicYVIy5FvdvY9WMbZmz/U0dtFpdNtFOC7BsnmFaGMWwvnCNPjUr
-	 hm0U01ROEySkQ==
-Received: from localhost.localdomain (mail.ms-free.net [185.147.46.46])
-	by email-relay14.ng.seznam.cz (Seznam SMTPD 1.3.140) with ESMTP;
-	Sat, 26 Nov 2022 01:51:03 +0100 (CET)  
-From: Petr Vorel <pevik@seznam.cz>
-To: openembedded-core@lists.openembedded.org
-Cc: Petr Vorel <petr.vorel@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	=?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>,
-	Khem Raj <raj.khem@gmail.com>,
-	Changhyeok Bae <changhyeok.bae@gmail.com>,
-	Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 1/1] iputils: update to 20221126
-Date: Sat, 26 Nov 2022 01:50:57 +0100
-Message-Id: <20221126005057.464290-1-pevik@seznam.cz>
-X-Mailer: git-send-email 2.38.1
+ dkim=pass header.i=@linaro.org header.s=google header.b=MhbUVuef;
+ spf=pass (domain: linaro.org, ip: 209.85.167.47, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f47.google.com with SMTP id r12so10383285lfp.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 26 Nov 2022 02:45:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=6d0hNrzlh8JUkIiSkq4wQHVRE8zy+KRVkIsLQVJzD84=;
+        b=MhbUVuef0Pce19mnIkxCDTfY/lyte59PP5NRg+4D7sJAIQ6pAkFtj8Cj8cOPEfbW7+
+         fLlPWlw2lqQXZ8gB4CvN1K2yJ3jCVewRAijvM/vrrOaRR3R1LX6D2D6hmcBn7c+tK6b3
+         gh0RapZ9VQO4D4twrWq+suKrWKMIhhT4mIyv0pwT/r+OhiwjNRookNRqQUleRNYrahsz
+         c8I1fW43GBQu34dh/WPbjnOKbsQAGAPGrcIQDYXkkUfsFRFDa8sqanVTF37EnsxC93cy
+         XU3U5WeFp4OI1jwgJrjFSabaAwAqjH4z4S7OKSZ3Rh9jaPoBok7K9LBIDlrpPrzb03jv
+         uMQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6d0hNrzlh8JUkIiSkq4wQHVRE8zy+KRVkIsLQVJzD84=;
+        b=7kYNu/IXt2sk4c8uZP12xV/6TyM03/YkRfVzZBGfIV76emKygA0uEejt5FeVJkG2kL
+         iQF6RiGtta3+3YAEy7N5ogds8yVXUin9V3l54VtsEwu/108YDfeATAxrTruScdzCJg+0
+         zOQvZY71qKn5Pf6HIdk3XJb8tEZrmyn1cVHQ4BpPiJhWBpfCOzzUYWHiKDyK1qDr6Yzn
+         qZ5jWMGuC8zfweX2LSxtrllHfImGZ3jC+OPH8ZXgRA/WukUOwX88rprk7WIxyLFIUbvM
+         sf2vIVcpaP1SICgFhBc/FSzs2gGukfeV5zumBVv0KL6JDqG8Emgoxp2Tk7k/eAqff9yL
+         uxIg==
+X-Gm-Message-State: ANoB5pkwtR8miCdkLi0Sb35atZzv4DdhatfdOGZAkbS2o/szcc/Iso30
+	562E9ZHchlL3S9Swd8/WDvbJrQ==
+X-Google-Smtp-Source: AA0mqf60A4/VnZw3Wu/i+J5uVPFCowhHrC40jW9T5Uq3dSJ4nTign6wrBrT82YPq0e/OQTFzYnqyug==
+X-Received: by 2002:ac2:4d44:0:b0:4b1:2aab:7cc0 with SMTP id 4-20020ac24d44000000b004b12aab7cc0mr9128865lfp.553.1669459529347;
+        Sat, 26 Nov 2022 02:45:29 -0800 (PST)
+Received: from nuoska (dsl-olubng12-54fa1d-36.dhcp.inet.fi. [84.250.29.36])
+        by smtp.gmail.com with ESMTPSA id bj35-20020a2eaaa3000000b0026bf43a4d72sm150599ljb.115.2022.11.26.02.45.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Nov 2022 02:45:28 -0800 (PST)
+Date: Sat, 26 Nov 2022 12:45:26 +0200
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Jack Mitchell <ml@embed.me.uk>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] linux-yocto: enable strict kernel module
+ signing by default
+Message-ID: <Y4HuRpeFLL480ymN@nuoska>
+References: <20221125155412.1119701-1-mikko.rapeli@linaro.org>
+ <d2cd0198-ac04-159e-f4c3-42811cd677b5@embed.me.uk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d2cd0198-ac04-159e-f4c3-42811cd677b5@embed.me.uk>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 26 Nov 2022 00:51:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173790
+ <openembedded-core@lists.openembedded.org>; Sat, 26 Nov 2022 10:45:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173791
 
-From: Petr Vorel <petr.vorel@gmail.com>
+Hi,
 
-This release removed: ninfod, rarpd, rdisc.
-Remove also related, not yet upstreamed patch.
+On Fri, Nov 25, 2022 at 04:11:40PM +0000, Jack Mitchell wrote:
+> On 25/11/2022 15:54, Mikko Rapeli wrote:
+> > It's a good default and used in many Linux distributions.
+> > Did not test out of tree modules if they do correct things but
+> > any such failures should be fixed.
+> > 
+> > One way to verify that kernel module signing also works:
+> > 
+> > root@qemux86-64:~# dmesg|grep X.509
+> > [    1.298936] Loading compiled-in X.509 certificates
+> > [    1.328280] Loaded X.509 cert 'Build time autogenerated kernel key: ee1bed6d845358744c764683bf73b4404cc79287'
+> > 
+> > These logs in dmesg show that signing in kernel is enabled and
+> > key is found. Then if any kernel modules load, they were
+> > signed correctly. Additionally modinfo tool from kmod shows kernel module
+> > signing details:
+> 
+> Hi Mikko,
+> 
+> Do the kernel modules get properly stripped, last time I was looking at
+> this it was skipped when signed and as such root filesystem sizes
+> ballooned with signed modules.
 
-Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
----
-Hi all,
+Yes, possibly. Linux kernel build scripts can also do this stripping
+though, and they do it correctly for kernel modules wile keeping signing
+and other data intact.
 
-I'm sorry, I haven't managed to test patch.
-Can anybody do it for me?
-Thank you.
+We could provide EXTRA_OEMAKE += "INSTALL_MOD_STRIP=1" for kernel and
+module builds to strip debug info.
 
-Kind regards,
-Petr
+$ cat linux/scripts/Makefile.modinst
+...
+# Strip
+#
+# INSTALL_MOD_STRIP, if defined, will cause modules to be stripped after
+# they
+# are installed. If INSTALL_MOD_STRIP is '1', then the default option
+# --strip-debug will be used. Otherwise, INSTALL_MOD_STRIP value will be
+# used
+# as the options to the strip command.
+ifdef INSTALL_MOD_STRIP
 
- .../0001-rarpd-rdisc-Drop-PrivateUsers.patch  | 27 -------------------
- ...putils_20211215.bb => iputils_20221126.bb} | 21 +++------------
- 2 files changed, 4 insertions(+), 44 deletions(-)
- delete mode 100644 meta/recipes-extended/iputils/iputils/0001-rarpd-rdisc-Drop-PrivateUsers.patch
- rename meta/recipes-extended/iputils/{iputils_20211215.bb => iputils_20221126.bb} (66%)
+ifeq ($(INSTALL_MOD_STRIP),1)
+strip-option := --strip-debug
+else
+strip-option := $(INSTALL_MOD_STRIP)
+endif
+...
 
-diff --git a/meta/recipes-extended/iputils/iputils/0001-rarpd-rdisc-Drop-PrivateUsers.patch b/meta/recipes-extended/iputils/iputils/0001-rarpd-rdisc-Drop-PrivateUsers.patch
-deleted file mode 100644
-index c61e39dc80..0000000000
---- a/meta/recipes-extended/iputils/iputils/0001-rarpd-rdisc-Drop-PrivateUsers.patch
-+++ /dev/null
-@@ -1,27 +0,0 @@
--From dfeeb3f1328d09f516edeb6349bd63e3c87f9397 Mon Sep 17 00:00:00 2001
--From: Alex Kiernan <alex.kiernan@gmail.com>
--Date: Thu, 13 Feb 2020 06:08:45 +0000
--Subject: [PATCH] rarpd:Drop PrivateUsers
--
--rarpd cannot gain the necessary capabilities with
--PrivateUsers enabled.
--
--Upstream-Status: Pending
--Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
--
-----
-- systemd/rarpd.service.in | 1 -
-- 1 file changed, 1 deletion(-)
--
--diff --git a/systemd/rarpd.service.in b/systemd/rarpd.service.in
--index e600c10..f5d7621 100644
----- a/systemd/rarpd.service.in
--+++ b/systemd/rarpd.service.in
--@@ -12,7 +12,6 @@ AmbientCapabilities=CAP_NET_RAW
-- DynamicUser=yes
-- PrivateTmp=yes
-- PrivateDevices=yes
---PrivateUsers=yes
-- ProtectSystem=strict
-- ProtectHome=yes
-- ProtectControlGroups=yes
-diff --git a/meta/recipes-extended/iputils/iputils_20211215.bb b/meta/recipes-extended/iputils/iputils_20221126.bb
-similarity index 66%
-rename from meta/recipes-extended/iputils/iputils_20211215.bb
-rename to meta/recipes-extended/iputils/iputils_20221126.bb
-index 3ddce0be54..b4ab2fce5e 100644
---- a/meta/recipes-extended/iputils/iputils_20211215.bb
-+++ b/meta/recipes-extended/iputils/iputils_20221126.bb
-@@ -11,9 +11,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=bb64c89bb0e23b72930d2380894c47a1"
- DEPENDS = "gnutls"
- 
- SRC_URI = "git://github.com/iputils/iputils;branch=master;protocol=https \
--           file://0001-rarpd-rdisc-Drop-PrivateUsers.patch \
-            "
--SRCREV = "1d1e7c43210d8af316a41cb2c53d612a4c16f34d"
-+SRCREV = "5ffabc4190cab975c7332645259e286a032e183b"
- 
- S = "${WORKDIR}/git"
- 
-@@ -23,14 +22,12 @@ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>20\d+)"
- # breaks the version order.
- CVE_CHECK_IGNORE += "CVE-2000-1213 CVE-2000-1214"
- 
--PACKAGECONFIG ??= "libcap rarpd \
--                   ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ninfod', '', d)} \
-+PACKAGECONFIG ??= "libcap \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', '', d)} \
-                    ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}"
- PACKAGECONFIG[libcap] = "-DUSE_CAP=true, -DUSE_CAP=false -DNO_SETCAP_OR_SUID=true, libcap libcap-native"
- PACKAGECONFIG[libidn] = "-DUSE_IDN=true, -DUSE_IDN=false, libidn2"
- PACKAGECONFIG[gettext] = "-DUSE_GETTEXT=true, -DUSE_GETTEXT=false, gettext"
--PACKAGECONFIG[ninfod] = "-DBUILD_NINFOD=true,-DBUILD_NINFOD=false,"
--PACKAGECONFIG[rarpd] = "-DBUILD_RARPD=true,-DBUILD_RARPD=false,"
- PACKAGECONFIG[systemd] = "-Dsystemdunitdir=${systemd_system_unitdir},,systemd"
- PACKAGECONFIG[docs] = "-DBUILD_HTML_MANS=true -DBUILD_MANS=true,-DBUILD_HTML_MANS=false -DBUILD_MANS=false, libxslt"
- 
-@@ -43,9 +40,7 @@ ALTERNATIVE_PRIORITY = "100"
- ALTERNATIVE:${PN}-ping = "ping"
- ALTERNATIVE_LINK_NAME[ping] = "${base_bindir}/ping"
- 
--SPLITPKGS = "${PN}-ping ${PN}-arping ${PN}-tracepath ${PN}-clockdiff ${PN}-rdisc \
--             ${@bb.utils.contains('PACKAGECONFIG', 'rarpd', '${PN}-rarpd', '', d)} \
--             ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', '${PN}-ninfod', '', d)}"
-+SPLITPKGS = "${PN}-ping ${PN}-arping ${PN}-tracepath ${PN}-clockdiff \
- PACKAGES += "${SPLITPKGS}"
- 
- ALLOW_EMPTY:${PN} = "1"
-@@ -56,11 +51,3 @@ FILES:${PN}-ping = "${base_bindir}/ping.${BPN}"
- FILES:${PN}-arping = "${base_bindir}/arping"
- FILES:${PN}-tracepath = "${base_bindir}/tracepath"
- FILES:${PN}-clockdiff = "${base_bindir}/clockdiff"
--FILES:${PN}-rarpd = "${base_sbindir}/rarpd  ${systemd_system_unitdir}/rarpd@.service"
--FILES:${PN}-rdisc = "${base_sbindir}/rdisc"
--FILES:${PN}-ninfod = "${base_sbindir}/ninfod ${sysconfdir}/init.d/ninfod.sh"
--
--SYSTEMD_PACKAGES = "${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', '${PN}-ninfod', '', d)} \
--                    ${PN}-rdisc"
--SYSTEMD_SERVICE:${PN}-ninfod = "ninfod.service"
--SYSTEMD_SERVICE:${PN}-rdisc = "rdisc.service"
--- 
-2.38.1
+Cheers,
 
+-Mikko
 
