@@ -2,228 +2,139 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E0C4C4321E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A932C46467
 	for <webhook@archiver.kernel.org>; Sat, 26 Nov 2022 14:15:06 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web11.70804.1669472096415062620
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web11.70805.1669472100936548173
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Nov 2022 06:14:56 -0800
+ Sat, 26 Nov 2022 06:15:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=5yG9BXa8;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f173.google.com with SMTP id d6so6295943pll.7
-        for <openembedded-core@lists.openembedded.org>; Sat, 26 Nov 2022 06:14:56 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=OILjlgVV;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.50, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f50.google.com with SMTP id l22-20020a17090a3f1600b00212fbbcfb78so10001401pjc.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 26 Nov 2022 06:15:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cjf6DpIpuFypItQceK5KyCKbpHEhkJ0tq8egaKWI7S0=;
-        b=5yG9BXa88ItX7wMd31muD5qbw2avsuLUEOO7Lj07kSjEoqSre0KOd6JlwZpaz6GRlj
-         2MXsm61uYyJLIuD+6T2koQ3b9oYjfxAd68esP8PiJHEVn0uxomsqOibZyaUvPGU1qMsF
-         azEG8IjDmB+okhvxWVI4req0B4rlzmkw48fhALqO3rnrYt/v6B4SjAT0f31VAdD/Yavs
-         uRipkdXclOjPhqU+Zp+6QTQhaEn3p7xua3XBQMOjZth83ZVoxcwCSX6yD8xzQIk0z+cT
-         5qqevumiaiwVz08+F5Go+tzm0RLqDeg/SKBmmQbt+0AKAvTmYejJqknCyRIs5n+lvbTH
-         o5WQ==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=quqHbKFiYs+s3A+VgiCwZ1loVzpwGxFwoD98K8xBIZw=;
+        b=OILjlgVVcd8HmlgoImASex4XX9mKWrXCtKlcBcIMwSrTiRHvIFFttVw+Mf+bpfH1GS
+         oFN68NxlLoKV8iNLr9zEVdsLwzlgGjPSJqx2LozCBVeNA8nWhS644U1kVdQTZ72OIY/c
+         sMDnX5KOazi8bBkHiDCZ5Y4WF9gYC+Xu7Kvfh4E6CnAuh0eXpZ1JhI387v8tO6CzkCoD
+         +D9hSFCMOxvOTDIgBi24JFDCPWp6Y06wWVOOulAwlcc6MBsSFdSVcJ1TpgkSF+y+7r/l
+         MW/L6ZKP2Hb77UmjsFfYyOZdlg4Ykess0ieIvyD1KYcGLEduQ2lBPomMP7Pmd86vwUr7
+         C8vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cjf6DpIpuFypItQceK5KyCKbpHEhkJ0tq8egaKWI7S0=;
-        b=dimd2ZOLHxGdsb4IZT8k3oaVGag4rrT07LowJN4UVkE0OzlKSb/CzVwTrp/7gZm7bK
-         LWJslwM410JCI5CAv6n8WynIoO7TpDcLJn3tlOJgK6qFSK9yrJi0e4v012XDHx7t1Cv+
-         +sIkl1gOTqYnkBm4EZcMXgDQs6gCoAlZR+4Ah+EZDgS8OK6qcfDoDptp4IsS2dcxtvbp
-         aXIxEUskgdWqZergJoGR4V6e8y20i+VlNkT2HM+vzNeBr7oGpm6kDP/+a1afkw0Esp0s
-         ilEwUzQj3T3Xzmh4tpB02IMxxDzomh8jAUdHIoFOqhTZZxznizsqX4Gqon4OFia07p+h
-         tqzw==
-X-Gm-Message-State: ANoB5pmBW7VkfI4aFqk4gCCg7b9vdNxSdQSzLSlatXPrXaicparKDowK
-	jhIk6X6X6DwEBU59VBw3SfH4pY7rDyFAD0M981Y=
-X-Google-Smtp-Source: AA0mqf5mqhpmX+9FaVRVH0WfQXswq7krwCgLJPBam/vEF0KCg0Bh0UXXJGh9bImXNzE97UN8nUlWAQ==
-X-Received: by 2002:a17:902:820b:b0:188:9ae7:bb7d with SMTP id x11-20020a170902820b00b001889ae7bb7dmr26813917pln.113.1669472095082;
-        Sat, 26 Nov 2022 06:14:55 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=quqHbKFiYs+s3A+VgiCwZ1loVzpwGxFwoD98K8xBIZw=;
+        b=Z6kF2FFnU3qZdKVFvpxTu6HXOPG/m/7Sum6AmEwxrwtuFlPRXneFLopcSsGakkJEej
+         GK+sAI2rCK+9GXnWUeNhh7kfBHaFv6pFE6tsKDgc6s5lYOwpcjDkfckVlzEgP1v5lHVL
+         cz017TXENd7UQyi+i8WyWLH9JcFjegB7yjsLbR0rVF+isT5+FNQLDBnVFEK62hys+Ces
+         GHL/iRVO1baBwUDY/1U+VYAOxIZEqokMd8MjcqJdu8Q3OJUyhU1IMcdAPPfxYbs8jAPx
+         /4UZy+cERMqPqkTxvW2m9zgooVRfTzHQFNA7jQX/d1CXq2d3sYjw4PsdYsKXyFk7FCbs
+         gHag==
+X-Gm-Message-State: ANoB5pmsZpH3MB1Gkn16eID7qOXai5VscISa8kpT0hlpORD9OQ+c+C3P
+	mwkFXA7x6Xsg6i3FV69JkhZljkT2FNejuEIkhQA=
+X-Google-Smtp-Source: AA0mqf70eeqlXX4+KE+NGvLn3Ks5hFoQWy7tjFioxtlqroqSF6k3a/2Yc0992QtR0cYhRzNzjHFG9w==
+X-Received: by 2002:a17:902:d552:b0:189:7722:99d9 with SMTP id z18-20020a170902d55200b00189772299d9mr2496176plf.119.1669472099721;
+        Sat, 26 Nov 2022 06:14:59 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id im22-20020a170902bb1600b001895f7c8a71sm4649177plb.97.2022.11.26.06.14.54
+        by smtp.gmail.com with ESMTPSA id im22-20020a170902bb1600b001895f7c8a71sm4649177plb.97.2022.11.26.06.14.58
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Nov 2022 06:14:54 -0800 (PST)
+        Sat, 26 Nov 2022 06:14:59 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 00/37] Patch review
-Date: Sat, 26 Nov 2022 04:14:04 -1000
-Message-Id: <cover.1669471990.git.steve@sakoman.com>
+Subject: [OE-core][langdale 01/37] ffmpeg: upgrade 5.1.1 -> 5.1.2
+Date: Sat, 26 Nov 2022 04:14:05 -1000
+Message-Id: <c893aa4d621de7505fca1bc4b9af22eb503c549c.1669471990.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1669471990.git.steve@sakoman.com>
+References: <cover.1669471990.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 26 Nov 2022 14:15:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173793
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173794
 
-Please review this set of patches for langdale and have comments back by
-end of day Tuesday.
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Passed a-full on autobuilder:
+version 5.1.2:
+- avcodec/dstdec: Check for overflow in build_filter()
+- avformat/spdifdec: Use 64bit to compute bit rate
+- avformat/rpl: Use 64bit for duration computation
+- avformat/xwma: Use av_rescale() for duration computation
+- avformat/sdsdec: Use av_rescale() to avoid intermediate overflow in duration calculation
+- avformat/sbgdec: Check ts_int in genrate_intervals
+- avformat/sbgdec: clamp end_ts
+- avformat/rmdec: check tag_size
+- avformat/nutdec: Check fields
+- avformat/flvdec: Use 64bit for sum_flv_tag_size
+- avformat/jacosubdec: Fix overflow in get_shift()
+- avformat/genh: Check nb_channels for IMA ADPCM
+- avformat/dxa: avoid bpc overflows
+- avformat/dhav: Use 64bit seek_back
+- avformat/cafdec: Check that nb_frasmes fits within 64bit
+- avformat/asfdec_o: Limit packet offset
+- avformat/apm: Use 64bit for bit_rate computation
+- avformat/ape: Check frames size
+- avformat/icodec: Check nb_pal
+- avformat/aiffdec: Use 64bit for block_duration use
+- avformat/aiffdec: Check block_duration
+- avformat/mxfdec: only probe max run in
+- avformat/mxfdec: Check run_in is within 65536
+- avcodec/mjpegdec: Check for unsupported bayer case
+- avcodec/apedec: Fix integer overflow in filter_3800()
+- avcodec/tta: Check 24bit scaling for overflow
+- avcodec/mobiclip: Check quantizer for overflow
+- avcodec/exr: Check preview psize
+- avcodec/tiff: Fix loop detection
+- libavformat/hls: Free keys
+- avcodec/fmvc: Move frame allocation to a later stage
+- avfilter/vf_showinfo: remove backspaces
+- avcodec/speedhq: Check width
+- avcodec/bink: disallow odd positioned scaled blocks
+- avformat/cafenc: derive Opus frame size from the relevant stream parameters
+- avformat/dashdec: Fix crash on invalid input/ENOMEM, fix leak
+- lavc/videotoolbox: do not pass AVCodecContext to decoder output callback
+- lavc/pthread_frame: always transfer stashed hwaccel state
+- avcodec/arm/sbcenc: avoid callee preserved vfp registers
+- avformat/riffdec: don't unconditionally overwrite WAVEFORMATEXTENSIBLE layout
+- avfilter/vf_scale: overwrite the width and height expressions with the original values
+- lavc/pthread_frame: avoid leaving stale hwaccel state in worker threads
+- avutil/tests/.gitignore: Add channel_layout testtool
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/4542
-
-The following changes since commit e0dc0f4a153f75d14d50d5bc91edb93fac93cd25:
-
-  wic: make ext2/3/4 images reproducible (2022-11-19 03:59:47 -1000)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/langdale-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/langdale-nut
-
-Alexander Kanavin (17):
-  ffmpeg: upgrade 5.1.1 -> 5.1.2
-  linux-firmware: upgrade 20220913 -> 20221012
-  xwayland: upgrade 22.1.3 -> 22.1.4
-  libffi: upgrade 3.4.2 -> 3.4.4
-  libical: upgrade 3.0.15 -> 3.0.16
-  mtd-utils: upgrade 2.1.4 -> 2.1.5
-  selftest: add a copy of previous mtd-utils version to meta-selftest
-  gdk-pixbuf: upgrade 2.42.9 -> 2.42.10
-  pango: upgrade 1.50.10 -> 1.50.11
-  pango: replace a recipe fix with an upstream submitted patch
-  gstreamer1.0: upgrade 1.20.3 -> 1.20.4
-  libepoxy: convert to git
-  libepoxy: update 1.5.9 -> 1.5.10
-  mesa: do not rely on native llvm-config in target sysroot
-  systemd: update 251.4 -> 251.8
-  vala: install vapigen-wrapper into /usr/bin/crosscripts and stage only
-    that
-  gnomebase.bbclass: return the whole version for tarball directory if
-    it is a number
-
-Jose Quaresma (3):
-  sstatesig: skip the rm_work task signature
-  rm_work: exclude the SSTATETASKS from the rm_work tasks sinature
-  sstate: Allow optimisation of do_deploy_archives task dependencies
-
-Joshua Watt (2):
-  qemu-helper-native: Re-write bridge helper as C program
-  qemu-helper-native: Correctly pass program name as argv[0]
-
-Konrad Weihmann (1):
-  create-spdx: default share_src for shared sources
-
-Nathan Rossi (2):
-  oeqa/selftest/lic_checksum: Cleanup changes to emptytest include
-  package: Fix handling of minidebuginfo with newer binutils
-
-Peter Kjellerstedt (1):
-  pango: Make it build with ptest disabled
-
-Peter Marko (2):
-  systemd: add group render to udev package
-  meta-selftest/staticids: add render group for systemd
-
-Richard Purdie (1):
-  sanity: Drop data finalize call
-
-Ross Burton (1):
-  linux-firmware: don't put the firmware into the sysroot
-
-Wang Mingyu (7):
-  xwayland: upgrade 22.1.4 -> 22.1.5
-  sysstat: upgrade 12.6.0 -> 12.6.1
-  mobile-broadband-provider-info: upgrade 20220725 -> 20221107
-  libsdl2: upgrade 2.24.1 -> 2.24.2
-  mesa: upgrade 22.2.2 -> 22.2.3
-  babeltrace: upgrade 1.5.8 -> 1.5.11
-  iso-codes: upgrade 4.11.0 -> 4.12.0
-
- meta-selftest/files/static-group              |  1 +
- ...used-linux-fs.h-header-from-includes.patch |  0
- .../mtd/mtd-utils-selftest_git.bb             | 77 +++++++++++++++++
- meta/classes-global/package.bbclass           | 21 ++++-
- meta/classes-global/sanity.bbclass            | 11 +--
- meta/classes-global/sstate.bbclass            |  2 +-
- meta/classes-recipe/gnomebase.bbclass         |  2 +-
- meta/classes/create-spdx.bbclass              |  5 +-
- meta/classes/rm_work.bbclass                  |  2 +
- meta/lib/oe/sstatesig.py                      |  6 ++
- meta/lib/oeqa/selftest/cases/devtool.py       |  4 +-
- meta/lib/oeqa/selftest/cases/lic_checksum.py  |  2 +
- .../mobile-broadband-provider-info_git.bb     |  4 +-
- ...md-boot_251.4.bb => systemd-boot_251.8.bb} |  0
- meta/recipes-core/systemd/systemd.inc         |  2 +-
- .../{systemd_251.4.bb => systemd_251.8.bb}    |  2 +
- meta/recipes-devtools/llvm/llvm/llvm-config   |  9 ++
- meta/recipes-devtools/mtd/mtd-utils_git.bb    |  8 +-
- .../qemu/qemu-helper-native_1.0.bb            |  6 +-
- .../qemu/qemu-helper/qemu-oe-bridge-helper    | 25 ------
- .../qemu/qemu-helper/qemu-oe-bridge-helper.c  | 34 ++++++++
- meta/recipes-devtools/vala/vala.inc           | 10 +--
- .../{sysstat_12.6.0.bb => sysstat_12.6.1.bb}  |  2 +-
- ...pixbuf_2.42.9.bb => gdk-pixbuf_2.42.10.bb} |  2 +-
- .../{libepoxy_1.5.9.bb => libepoxy_1.5.10.bb} |  6 +-
- .../{libsdl2_2.24.1.bb => libsdl2_2.24.2.bb}  |  2 +-
- .../{mesa-gl_22.2.2.bb => mesa-gl_22.2.3.bb}  |  0
- meta/recipes-graphics/mesa/mesa.inc           | 12 +--
- .../mesa/{mesa_22.2.2.bb => mesa_22.2.3.bb}   |  0
- ...d-install-nofonts-fonts.conf-as-it-i.patch | 35 ++++++++
- .../{pango_1.50.10.bb => pango_1.50.11.bb}    |  9 +-
- ...{xwayland_22.1.3.bb => xwayland_22.1.5.bb} |  2 +-
- ...20220913.bb => linux-firmware_20221012.bb} |  9 +-
- ...beltrace_1.5.8.bb => babeltrace_1.5.11.bb} |  2 +-
- .../{ffmpeg_5.1.1.bb => ffmpeg_5.1.2.bb}      |  2 +-
- ...tools_1.20.3.bb => gst-devtools_1.20.4.bb} |  2 +-
- ...r-APNG-encoder-property-registration.patch | 86 -------------------
- ...1.20.3.bb => gstreamer1.0-libav_1.20.4.bb} |  6 +-
- ...x_1.20.3.bb => gstreamer1.0-omx_1.20.4.bb} |  2 +-
- ....bb => gstreamer1.0-plugins-bad_1.20.4.bb} |  2 +-
- ...-system-headers-for-isspace-and-ssca.patch | 35 --------
- ...bb => gstreamer1.0-plugins-base_1.20.4.bb} |  3 +-
- ...bb => gstreamer1.0-plugins-good_1.20.4.bb} |  2 +-
- ...bb => gstreamer1.0-plugins-ugly_1.20.4.bb} |  2 +-
- ....20.3.bb => gstreamer1.0-python_1.20.4.bb} |  2 +-
- ....bb => gstreamer1.0-rtsp-server_1.20.4.bb} |  2 +-
- ...1.20.3.bb => gstreamer1.0-vaapi_1.20.4.bb} |  2 +-
- ...er1.0_1.20.3.bb => gstreamer1.0_1.20.4.bb} |  2 +-
- ...so-codes_4.11.0.bb => iso-codes_4.12.0.bb} |  2 +-
- ...m-sysv-reverted-clang-VFP-mitigation.patch |  6 +-
- .../libffi/libffi/not-win32.patch             |  8 +-
- .../{libffi_3.4.2.bb => libffi_3.4.4.bb}      |  4 +-
- .../{libical_3.0.15.bb => libical_3.0.16.bb}  |  2 +-
- 53 files changed, 252 insertions(+), 234 deletions(-)
- rename {meta/recipes-devtools/mtd/mtd-utils => meta-selftest/recipes-devtools/mtd/mtd-utils-selftest}/0001-tests-Remove-unused-linux-fs.h-header-from-includes.patch (100%)
- create mode 100644 meta-selftest/recipes-devtools/mtd/mtd-utils-selftest_git.bb
- rename meta/recipes-core/systemd/{systemd-boot_251.4.bb => systemd-boot_251.8.bb} (100%)
- rename meta/recipes-core/systemd/{systemd_251.4.bb => systemd_251.8.bb} (99%)
- delete mode 100755 meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper
- create mode 100644 meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper.c
- rename meta/recipes-extended/sysstat/{sysstat_12.6.0.bb => sysstat_12.6.1.bb} (65%)
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.42.9.bb => gdk-pixbuf_2.42.10.bb} (98%)
- rename meta/recipes-graphics/libepoxy/{libepoxy_1.5.9.bb => libepoxy_1.5.10.bb} (83%)
- rename meta/recipes-graphics/libsdl2/{libsdl2_2.24.1.bb => libsdl2_2.24.2.bb} (97%)
- rename meta/recipes-graphics/mesa/{mesa-gl_22.2.2.bb => mesa-gl_22.2.3.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_22.2.2.bb => mesa_22.2.3.bb} (100%)
- create mode 100644 meta/recipes-graphics/pango/pango/0001-tests-meson.build-install-nofonts-fonts.conf-as-it-i.patch
- rename meta/recipes-graphics/pango/{pango_1.50.10.bb => pango_1.50.11.bb} (85%)
- rename meta/recipes-graphics/xwayland/{xwayland_22.1.3.bb => xwayland_22.1.5.bb} (95%)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20220913.bb => linux-firmware_20221012.bb} (99%)
- rename meta/recipes-kernel/lttng/{babeltrace_1.5.8.bb => babeltrace_1.5.11.bb} (98%)
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit 32da2113e553a3f81f4dcc5834e3fe30f48e4709)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../ffmpeg/{ffmpeg_5.1.1.bb => ffmpeg_5.1.2.bb}                 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
  rename meta/recipes-multimedia/ffmpeg/{ffmpeg_5.1.1.bb => ffmpeg_5.1.2.bb} (98%)
- rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.20.3.bb => gst-devtools_1.20.4.bb} (95%)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-libav-Fix-for-APNG-encoder-property-registration.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.20.3.bb => gstreamer1.0-libav_1.20.4.bb} (82%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.20.3.bb => gstreamer1.0-omx_1.20.4.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.20.3.bb => gstreamer1.0-plugins-bad_1.20.4.bb} (98%)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-include-required-system-headers-for-isspace-and-ssca.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.20.3.bb => gstreamer1.0-plugins-base_1.20.4.bb} (96%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.20.3.bb => gstreamer1.0-plugins-good_1.20.4.bb} (97%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.20.3.bb => gstreamer1.0-plugins-ugly_1.20.4.bb} (94%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.20.3.bb => gstreamer1.0-python_1.20.4.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.20.3.bb => gstreamer1.0-rtsp-server_1.20.4.bb} (90%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.20.3.bb => gstreamer1.0-vaapi_1.20.4.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.20.3.bb => gstreamer1.0_1.20.4.bb} (97%)
- rename meta/recipes-support/iso-codes/{iso-codes_4.11.0.bb => iso-codes_4.12.0.bb} (94%)
- rename meta/recipes-support/libffi/{libffi_3.4.2.bb => libffi_3.4.4.bb} (90%)
- rename meta/recipes-support/libical/{libical_3.0.15.bb => libical_3.0.16.bb} (96%)
 
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb
+similarity index 98%
+rename from meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.1.bb
+rename to meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb
+index 2306fe4a42..a0c98d4ae0 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb
+@@ -23,7 +23,7 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
+ 
+ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz"
+-SRC_URI[sha256sum] = "95bf3ff8c496511e71e958fb249e663c8c9c3de583c5bebc0f5a9745abbc0435"
++SRC_URI[sha256sum] = "619e706d662c8420859832ddc259cd4d4096a48a2ce1eefd052db9e440eef3dc"
+ 
+ # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
+ ARM_INSTRUCTION_SET:armv4 = "arm"
 -- 
 2.25.1
 
