@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13690C46467
-	for <webhook@archiver.kernel.org>; Sat, 26 Nov 2022 14:16:06 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web10.70847.1669472157072884891
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EDC4C4167B
+	for <webhook@archiver.kernel.org>; Sat, 26 Nov 2022 14:16:16 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web11.70856.1669472173901123442
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Nov 2022 06:15:57 -0800
+ Sat, 26 Nov 2022 06:16:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=TzWKQgvL;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.53, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f53.google.com with SMTP id mv18so5814915pjb.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 26 Nov 2022 06:15:57 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=XZXCHC8D;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f170.google.com with SMTP id d3so1315326plr.10
+        for <openembedded-core@lists.openembedded.org>; Sat, 26 Nov 2022 06:16:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=uiBJ91iRzopvnwMd+x8LgIEg8MmwBTwc605K8GvdmQc=;
-        b=TzWKQgvLDTs2gW9lqXrFKO2VVNmpG2GgmE9dUB7kAUE8Ro15vEEDyhvTMoM4f51lL2
-         OIS7GL72QoW7G9xXRZngcSBfOLljP093TPlyHbpsilaQSKDzjzeKZ++JFfRpMw1+mwR/
-         szw/MHz2Lk41D7o+axzxXreg55M9LDz4V3XKF+c+j9Bwu4y7PgkMpnBuBU1mmPwYqWVA
-         4f/BAvWyj5XIcQSONx8No/0BjllDP9rO4FoosuqyF9aCbpFslj2dQZ4TV1eWBa44/ZJF
-         r8npMNMC88OmjRO5ooEdzte20FvSgDdoheAPsReqBcO4x22juRhX+8dToyMxBNs3WOUV
-         6K6Q==
+        bh=ufBWw5TiBz8pXgVkStSmWkJcydhUUx1ZBBEx32+Iv9M=;
+        b=XZXCHC8DezjZF1rc/sUIwYjTGgTAATslqWRF2rX42LKW1UJfvQql/4EMvqBm5Ylq8c
+         d5u3CrJWLHjwcsrEFNCtpqCJhjcOQEOhptTFeQLREwqTDG14nzYQg28nC/pKEf6w8njM
+         wTlL3JqDyG3Hg9X4jEDzxv/roFU7TxJFVKqwKTYuAC1I6hiOjz9jDQfXxFLyX96g/idB
+         EbNdpwpUz60lSpyS6fnUnZmWUnRmt2mbbEEv+zOEehnR9RbhBWT+Tu9kuwTOkd7MFStx
+         hDjHFHUsJl9QAyPV0uGpSpEx1Cg3I8nATt3L/gDhNXxe58CPwilbCY1gGqmu2Z5XhhGW
+         jerQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uiBJ91iRzopvnwMd+x8LgIEg8MmwBTwc605K8GvdmQc=;
-        b=mB/naRrMKjQ0sSr05g0xZ+6FRX5DV8Ebtey/D9TS5wiyHMedpauo/v+Hf8v+TSZqg7
-         TUzeVCmXaooVABuzwYs4SjQA8AQBBoHpyTMcq+B+SS0I+k1JADhMo+/QjZFvgdWGroPa
-         YHa+T4Zly5oMaLz3pWi2oUkefbcjp1FKao8gcMKSLt6sqlBHI8n65M4Kv6KvkNwmbQhO
-         lgGpVCdp+9devYyO+lNyT7/wFFb4nlxRhqFhl+LxQxrX6hVRfjQ1trEYYWDHaoFQyjYb
-         JRZhh/LbafEOwP6yA1XMKtHs/nMUQbEhoUf0HkUZ5zRiqY2lQZP57U4kciyo5hzd92X1
-         AvGA==
-X-Gm-Message-State: ANoB5pkIZhOcm0ung7aDKuGu8xOP4kctBPrIeFm315VGex4/IzbXQk0T
-	EHkIfmjFeJoAEpXt4g75oFBeK2JDjRncYjik26M=
-X-Google-Smtp-Source: AA0mqf5I7UZEItcCpunjuNOvfb4KinKcNt2a2fVgONA1rsySJy1xvlYR9CdKCbIDquZPJcwfm1akSw==
-X-Received: by 2002:a17:90b:4f85:b0:216:92a9:fd60 with SMTP id qe5-20020a17090b4f8500b0021692a9fd60mr50663486pjb.24.1669472156139;
-        Sat, 26 Nov 2022 06:15:56 -0800 (PST)
+        bh=ufBWw5TiBz8pXgVkStSmWkJcydhUUx1ZBBEx32+Iv9M=;
+        b=4RAQvmkY2Ycd40tXk/rty13k5lNaDYMdKaOhgPtVHsujQG4bVP3fMZ8YdUV+R6IteJ
+         IK3UKuvjdAjkonr5h3BjSxfV+WqsTBKSfTypNiPYhq/mFh+ifDxnKv49DyIQUYLZHzlR
+         tSTyWI117JXFfjWnnTtrtOKeOoboMNhHDjpHjyoBb6CuSpJ3hy3vLT1K3+qNua0PU6G0
+         ouQJl43q9HhFK/X9EYZjFV+yirgLEyknMiq/enii+k6xW+VgBFhQFcitxS9RK14E4wGt
+         2OKQ4o1bDktWza2qr95kTZEE1zvULmYsC4LUWj0Gjc8TwnBH5DtZ+iNeDmtIu36apa4R
+         Ig+A==
+X-Gm-Message-State: ANoB5pnRFjzFAZmS+UUZJXlbv50nUznxno9BnUfa4tGonTk0Zsa/7Hrh
+	Rjf/+TLWDZLyD9kMModixLg6mzxuZCpYQcg9ho4=
+X-Google-Smtp-Source: AA0mqf6tItxBTu8ENphWxpSdbJKq/1P1WeTKSADe50Wo+fKGNysMd3sj/K9kWVz6m4Et3i0ab6OyXw==
+X-Received: by 2002:a17:902:bc86:b0:189:6ab:a97c with SMTP id bb6-20020a170902bc8600b0018906aba97cmr23129195plb.39.1669472172968;
+        Sat, 26 Nov 2022 06:16:12 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id im22-20020a170902bb1600b001895f7c8a71sm4649177plb.97.2022.11.26.06.15.55
+        by smtp.gmail.com with ESMTPSA id im22-20020a170902bb1600b001895f7c8a71sm4649177plb.97.2022.11.26.06.16.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Nov 2022 06:15:55 -0800 (PST)
+        Sat, 26 Nov 2022 06:16:12 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 24/37] qemu-helper-native: Re-write bridge helper as C program
-Date: Sat, 26 Nov 2022 04:14:28 -1000
-Message-Id: <adabfbd9245553d1fb6abb050856e3da89f7a3d5.1669471990.git.steve@sakoman.com>
+Subject: [OE-core][langdale 33/37] sstate: Allow optimisation of do_deploy_archives task dependencies
+Date: Sat, 26 Nov 2022 04:14:37 -1000
+Message-Id: <1da259bc2df334271fc9c30ed49d4e86e872e872.1669471990.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1669471990.git.steve@sakoman.com>
 References: <cover.1669471990.git.steve@sakoman.com>
@@ -60,143 +60,35 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 26 Nov 2022 14:16:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173817
+ <openembedded-core@lists.openembedded.org>; Sat, 26 Nov 2022 14:16:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173826
 
-From: Joshua Watt <JPEWhacker@gmail.com>
+From: Jose Quaresma <quaresma.jose@gmail.com>
 
-The bridge helper program is invoked directly from QEMU when it needs to
-attach to a network bridge. As such, it is subject to the environment of
-QEMU itself. Specifically, if bridging is enabled with direct rendering
-acceleration, QEMU is run with an LD_PRELOAD that attempts to preload
-several uninative libraries; however /bin/sh doesn't use the uninative
-loader which means it can fail to start with an error like:
+do_deploy_archives tasks don't need their dependencies so we can optimistion
+this as we do for some other tasks.
 
- /bin/sh: symbol lookup error: sysroots-uninative/x86_64-linux/lib/librt.so.1: undefined symbol: __libc_unwind_link_get, version GLIBC_PRIVATE
-
-Converting the helper program to a C program resolves this problem
-because it will now use the uninative loader so the preload doesn't
-cause errors.
-
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit f698e98f2f09952b34488b8cf9e73e82bd7aea07)
+(cherry picked from commit 3dd9f6e398844380d3765c54d35afe0d2ccf82e7)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../qemu/qemu-helper-native_1.0.bb            |  6 +--
- .../qemu/qemu-helper/qemu-oe-bridge-helper    | 25 -----------
- .../qemu/qemu-helper/qemu-oe-bridge-helper.c  | 41 +++++++++++++++++++
- 3 files changed, 44 insertions(+), 28 deletions(-)
- delete mode 100755 meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper
- create mode 100644 meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper.c
+ meta/classes-global/sstate.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb b/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
-index aa9e499c77..e297586bbb 100644
---- a/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/tunctl.c;endline=4;md5=ff3a09996bc5fff6bc5
+diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
+index 2c8e7b8cc2..21959ff13b 100644
+--- a/meta/classes-global/sstate.bbclass
++++ b/meta/classes-global/sstate.bbclass
+@@ -1097,7 +1097,7 @@ def setscene_depvalid(task, taskdependees, notneeded, d, log=None):
  
- SRC_URI = "\
-     file://tunctl.c \
--    file://qemu-oe-bridge-helper \
-+    file://qemu-oe-bridge-helper.c \
-     "
+     logit("Considering setscene task: %s" % (str(taskdependees[task])), log)
  
- S = "${WORKDIR}"
-@@ -16,13 +16,13 @@ inherit native
+-    directtasks = ["do_populate_lic", "do_deploy_source_date_epoch", "do_shared_workdir", "do_stash_locale", "do_gcc_stash_builddir", "do_create_spdx"]
++    directtasks = ["do_populate_lic", "do_deploy_source_date_epoch", "do_shared_workdir", "do_stash_locale", "do_gcc_stash_builddir", "do_create_spdx", "do_deploy_archives"]
  
- do_compile() {
- 	${CC} ${CFLAGS} ${LDFLAGS} -Wall tunctl.c -o tunctl
-+	${CC} ${CFLAGS} ${LDFLAGS} -Wall qemu-oe-bridge-helper.c -o qemu-oe-bridge-helper
- }
- 
- do_install() {
- 	install -d ${D}${bindir}
- 	install tunctl ${D}${bindir}/
--
--    install -m 755 ${WORKDIR}/qemu-oe-bridge-helper ${D}${bindir}/
-+	install qemu-oe-bridge-helper ${D}${bindir}/
- }
- 
- DEPENDS += "qemu-system-native"
-diff --git a/meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper b/meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper
-deleted file mode 100755
-index f057d4eef0..0000000000
---- a/meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper
-+++ /dev/null
-@@ -1,25 +0,0 @@
--#! /bin/sh
--# Copyright 2020 Garmin Ltd. or its subsidiaries
--#
--# SPDX-License-Identifier: GPL-2.0
--#
--# Attempts to find and exec the host qemu-bridge-helper program
--
--# If the QEMU_BRIDGE_HELPER variable is set by the user, exec it.
--if [ -n "$QEMU_BRIDGE_HELPER" ]; then
--    exec "$QEMU_BRIDGE_HELPER" "$@"
--fi
--
--# Search common paths for the helper program
--BN="qemu-bridge-helper"
--PATHS="/usr/libexec/ /usr/lib/qemu/"
--
--for p in $PATHS; do
--    if [ -e "$p/$BN" ]; then
--        exec "$p/$BN" "$@"
--    fi
--done
--
--echo "$BN not found!" > /dev/stderr
--exit 1
--
-diff --git a/meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper.c b/meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper.c
-new file mode 100644
-index 0000000000..cadf2a012a
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper.c
-@@ -0,0 +1,41 @@
-+/*
-+ * Copyright 2022 Garmin Ltd. or its subsidiaries
-+ *
-+ * SPDX-License-Identifier: GPL-2.0
-+ *
-+ * Attempts to find and exec the host qemu-bridge-helper program
-+ */
-+
-+#include <stdio.h>
-+#include <unistd.h>
-+
-+void try_program(char const* path, char** args) {
-+    if (access(path, X_OK) == 0) {
-+        execv(path, args);
-+    }
-+}
-+
-+int main(int argc, char** argv) {
-+    char* var;
-+
-+    /* Copy arguments so that they are a NULL terminated list, skipping argv[0]
-+     * since it is this program name */
-+    char** args = malloc(argc * sizeof(char*));
-+    for (int i = 0; i < argc - 1; i++) {
-+        args[i] = argv[i + 1];
-+    }
-+    args[argc - 1] = NULL;
-+
-+    var = getenv("QEMU_BRIDGE_HELPER");
-+    if (var && var[0] != '\0') {
-+        execvp(var, args);
-+        return 1;
-+    }
-+
-+    try_program("/usr/libexec/qemu-bridge-helper", args);
-+    try_program("/usr/lib/qemu/qemu-bridge-helper", args);
-+
-+    fprintf(stderr, "No bridge helper found\n");
-+    return 1;
-+}
-+
+     def isNativeCross(x):
+         return x.endswith("-native") or "-cross-" in x or "-crosssdk" in x or x.endswith("-cross")
 -- 
 2.25.1
 
