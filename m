@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41FA2C4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D8E6C4708A
 	for <webhook@archiver.kernel.org>; Sun, 27 Nov 2022 13:55:53 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web11.92040.1669557352166009215
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web11.92030.1669557336713068613
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Nov 2022 05:55:52 -0800
+ Sun, 27 Nov 2022 05:55:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=ygEF+uCq;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f180.google.com with SMTP id p12so7865831plq.4
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Nov 2022 05:55:52 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=CcywH6Hr;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f48.google.com with SMTP id x13-20020a17090a46cd00b00218f611b6e9so7994080pjg.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Nov 2022 05:55:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zgRFf7mdvWpo/ep5/DkNYmvyF0xi8NgG3IXwkXFmj6M=;
-        b=ygEF+uCqrHjjq4bLy/T10GOvRrT2u5lBcH2PAdk1y1Wp359sKGYOmljk7sYQcBeP2K
-         ItvBrGFNm51gcJcxFpiqrM26wfnh71j2GZ0mUQ5ss/UUcHWE5VDaR2NpLvs5EeqGYpH/
-         mrJ1dA00xfPMaCB8CyLXcTjFlRQEsIUgerPqj44AELqQrU9Xn240VJySuSR3ycjCqy4B
-         84pe88keHdiEePJsfYnm3VWoxFrbwIq4qBdJgK6OIWpEL9Xx9fA0+/l3Zv+xPSJVgOrT
-         JjQQ9cFxezVmzQxN/otOb1bjd6Vb1KvAN3bZj1fxUUrDM6kuJk3cSR2qZ+ewNs7MRMU9
-         HJyA==
+        bh=wBcjFuTSdugV8+I5dcNqagfWQlu4t9DWYMzYzWw+omk=;
+        b=CcywH6Hrco9CCN0x9UMRYOfRef8SiISNXq1BG36XHrt3MzzH90pENAWEWp1N9a+sh4
+         JYkTH2g0fya47nonqyX1Wggws18vfA61e4sIWmih+r/IbyMM9v5R8WdskjdnC4/vnCSi
+         pvz+1/b8dDYbsTkleIi1uaLBIFi4MHtSed8NZOePAuwmGQ5Dh92ujD3TUTsYto9LjJOJ
+         m2zfPXf8hDq4ZH9ePbEOB0phOZlgrwNDvUkWbr+5QLBcNp+BHlhOHF/6s+Pp4s4TWVAj
+         MduYB6h9zti82/BDpshhRs5J5zsq1TSa1bRwTe21PNzKlfBytpse21B1zCtmbxAm/yFJ
+         rcZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zgRFf7mdvWpo/ep5/DkNYmvyF0xi8NgG3IXwkXFmj6M=;
-        b=wdXFVUZGA0YnzSiHzmzdEC9kNoZ7sSJEB8wqAdzDWGkq8rgl9dFI+tbbc1ACTFBE26
-         7p73FphURS86UqclNIFd9jUFs2GJInpFUCt6sf5fuqXA0f3Rgf68eh+y36kJOwgTI82i
-         Le2adBdDhZDh/lijJaDeazP9b07nLCe8kU0Rvbxb7sdMwKn5Wm18SkK8fbvwGN95lMy+
-         b6ct7xjUcsft28/mLBVwggcGsnHZSQ6fepJeVaazlOtFAEuQK8YKHB1BUwTvxyY94PcY
-         V6VrpbdW4lXv5OD3GC+HBwebVxEKZtSMpacJs6tYi1X1zM/NtqnGIcdzHjSZ03KYeT/M
-         nv/A==
-X-Gm-Message-State: ANoB5pklLIghlMtQ61NbOuiORYyuZUnTe0zdbb5ai9+rvgOHkqoL4Xs5
-	cBPA70fWESnMvCWNhDFQ5T5yU1XR0tI0bflBv3c=
-X-Google-Smtp-Source: AA0mqf5U/JRsdKPXAo5zTkuMH51iH/gds7KslGS+xU9N91VMeHfWf9F0yeCF3nbFNw5Oka7Ljc3kjg==
-X-Received: by 2002:a17:902:7089:b0:187:4ace:e20c with SMTP id z9-20020a170902708900b001874acee20cmr27984461plk.75.1669557351203;
-        Sun, 27 Nov 2022 05:55:51 -0800 (PST)
+        bh=wBcjFuTSdugV8+I5dcNqagfWQlu4t9DWYMzYzWw+omk=;
+        b=DfINUR/ukUpf2+9osASP89cjT0zkC8V3PsdpRIS0sPIJFGt185FEJ3m6SbmiXbcxJM
+         6omAVuUG2DfY83KjYwVOghEmKog20/VS70tUzFt7F8PmUwlX9CJjD2X+c/qQSs01FcMR
+         vxuvq8Fl0K47dO3fQcrI1TESwfPVGJaFsWLU1ef3sd+BAk9KZHY66+P7azpTj7EG81u8
+         jDsFSAsVcn5FYdT7GxCNbLIPAKB2ft+IF3HTpkXMexAUs6+orRNsdqoXh6DcIjRN0VkJ
+         SdN0p8RJE1mSX+vMCm4CUoR+PulBpvH6HDl/PSM6Tii65CG/Asc6p7/DZeqDesZ7v3YT
+         kdOQ==
+X-Gm-Message-State: ANoB5pmshoINf+CGq+cqz7I2Q0XHEeezeZOm6A3hH6Wk8OhPz3/8nI0c
+	wNkA5v8kv+32wDO7C9rUCkyEYV1Bk6xWCKlUvJ4=
+X-Google-Smtp-Source: AA0mqf5RYbB6wpmafNvOZFM2+xhOeAYBEkpzIwcNdWwVYVnz4NASgUjnHzN+HVOwtfbleNkX5unl6A==
+X-Received: by 2002:a17:90a:be0f:b0:219:21c0:8e32 with SMTP id a15-20020a17090abe0f00b0021921c08e32mr5579360pjs.101.1669557347477;
+        Sun, 27 Nov 2022 05:55:47 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id c15-20020a170902d48f00b001868bf6a7b8sm6910544plg.146.2022.11.27.05.55.50
+        by smtp.gmail.com with ESMTPSA id c15-20020a170902d48f00b001868bf6a7b8sm6910544plg.146.2022.11.27.05.55.46
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Nov 2022 05:55:50 -0800 (PST)
+        Sun, 27 Nov 2022 05:55:47 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 11/31] libical: upgrade 3.0.15 -> 3.0.16
-Date: Sun, 27 Nov 2022 03:54:57 -1000
-Message-Id: <6d68985f1a7a55cda92c177c739e51cac3faf653.1669557026.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 09/31] xwayland: upgrade 22.1.4 -> 22.1.5
+Date: Sun, 27 Nov 2022 03:54:55 -1000
+Message-Id: <9c1fc7e6c3d96f17f3eed2d8665dd6388ddcf1c5.1669557026.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1669557026.git.steve@sakoman.com>
 References: <cover.1669557026.git.steve@sakoman.com>
@@ -61,40 +61,35 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 27 Nov 2022 13:55:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173856
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173854
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Version 3.0.16 is a patch release.
-
-- Fix regressions in 3.0.15 due to improperly tested fuzz fixes
-- Fix argument guards in icaltime_as_timet to match documentation and tests.
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 77d4557d6f6a1405d03bb5dc7ca23d7ee78c2037)
+(cherry picked from commit 48ca760427f14ae291bf2ebf6f93f8d0fb27e3ab)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libical/{libical_3.0.15.bb => libical_3.0.16.bb}            | 2 +-
+ .../xwayland/{xwayland_22.1.4.bb => xwayland_22.1.5.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libical/{libical_3.0.15.bb => libical_3.0.16.bb} (96%)
+ rename meta/recipes-graphics/xwayland/{xwayland_22.1.4.bb => xwayland_22.1.5.bb} (95%)
 
-diff --git a/meta/recipes-support/libical/libical_3.0.15.bb b/meta/recipes-support/libical/libical_3.0.16.bb
-similarity index 96%
-rename from meta/recipes-support/libical/libical_3.0.15.bb
-rename to meta/recipes-support/libical/libical_3.0.16.bb
-index f5e9bb9372..c53b7ca375 100644
---- a/meta/recipes-support/libical/libical_3.0.15.bb
-+++ b/meta/recipes-support/libical/libical_3.0.16.bb
-@@ -15,7 +15,7 @@ SECTION = "libs"
- SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/v${PV}/${BP}.tar.gz \
-            file://0001-cmake-Do-not-export-CC-into-gir-compiler.patch \
-           "
--SRC_URI[sha256sum] = "019085ba99936f25546d86cb3e34852e5fe2b5a7d5f1cb4423a0cc42e399f629"
-+SRC_URI[sha256sum] = "b44705dd71ca4538c86fb16248483ab4b48978524fb1da5097bd76aa2e0f0c33"
- UPSTREAM_CHECK_URI = "https://github.com/libical/libical/releases"
+diff --git a/meta/recipes-graphics/xwayland/xwayland_22.1.4.bb b/meta/recipes-graphics/xwayland/xwayland_22.1.5.bb
+similarity index 95%
+rename from meta/recipes-graphics/xwayland/xwayland_22.1.4.bb
+rename to meta/recipes-graphics/xwayland/xwayland_22.1.5.bb
+index 8597d07a7d..c1c5407dee 100644
+--- a/meta/recipes-graphics/xwayland/xwayland_22.1.4.bb
++++ b/meta/recipes-graphics/xwayland/xwayland_22.1.5.bb
+@@ -10,7 +10,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=5df87950af51ac2c5822094553ea1880"
  
- inherit cmake pkgconfig gobject-introspection vala
+ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "5c39bdd77444c3fa7a0e2ef317ae69ddde89a901dc8914dbc8eac39a9313512a"
++SRC_URI[sha256sum] = "e317ac1f119f8321654921761420901e4abd95585a8c763ce26af3b045ac1672"
+ 
+ UPSTREAM_CHECK_REGEX = "xwayland-(?P<pver>\d+(\.(?!90\d)\d+)+)\.tar"
+ 
 -- 
 2.25.1
 
