@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C0B6C4708A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C088C47089
 	for <webhook@archiver.kernel.org>; Sun, 27 Nov 2022 13:56:23 +0000 (UTC)
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web10.91896.1669557376984228180
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+ by mx.groups.io with SMTP id smtpd.web10.91898.1669557378770204600
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Nov 2022 05:56:17 -0800
+ Sun, 27 Nov 2022 05:56:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=xSr/seuk;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f179.google.com with SMTP id a9so4689992pfr.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Nov 2022 05:56:16 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=MZf39Cfb;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.177, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f177.google.com with SMTP id q71so7704061pgq.8
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Nov 2022 05:56:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=IS7cFmxeuB1Uu0Xdv3I9iQgX4H4SgVgq36HnP/AmyfI=;
-        b=xSr/seukZyjrF1fTswnDhtNO//xMOwphJvl/nhoypW4yBDbBJ693/IhI5xlMBi9LMV
-         tDTqKGa/CPdKuoP9jDp+l5FscTsBQCPSjcXSO6fLw17r9eiwW/sOa/7q/kZ0WxqKcCGB
-         vureiK+UnHS8D4GzLg9F+zcRmWExW0Q9U788poLxTE5GtPasaO3YZrFtZ5/l1IAGKD98
-         TQ2l0h+QzJft+CaDqxhCJKecrpJi4HjIHX0XbTg9iVpG1KFQbpNQkbpcQIp5kJyoeTXr
-         7TFkp4eTwyURTrF4NjyP3pG4g822Kiso+McPSbpi9Prxc60Pm1tnYGJxGN7k1NNfmA2S
-         KP/g==
+        bh=boy1ZgaCdxAY/38Uj9UWf2dnE+3UHSybwSvP9nP0+ow=;
+        b=MZf39Cfbfj7oLVgzsZgSVJs8rKTdf+sReWWVsPvaZB9IT+A6vSM5TM6eUwYxfVhkoo
+         85AQfgX5didQg+qiD2fkNb7VrtD3xA9+ymKFInv3KMj8mH5KEe3+Ny1a6BNIasx92oZy
+         KvKwBMnVgOUMiIEu7UaUXrrffKze0eIyFj9WVmtmV0EGRWDTJzHSh/B/AatySs4IX6So
+         iB0g2GCX6C+s59xnQp0L5gHp0Uxh+dAJLDAp6JO+vcDXX6+CEedQwH65bIXgo25u86o8
+         EGfz+yHySPOarrwvF9Jc9zmYqE+I5Y9niaM4n2bgYQx3cZ2P97NcQ+ol9iE4I70eORj0
+         D1Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IS7cFmxeuB1Uu0Xdv3I9iQgX4H4SgVgq36HnP/AmyfI=;
-        b=SEduVjuNJsmHCG4BFTcwA3wECM+4P316+tcIHeq/Oyx3ZXC8R/bN5cJSltbSG8wEO3
-         SwPIZK5hvJyynR7aHZUvUGrsClGpzRTiO+k8j4sLsDRzYbJ0fqsk+gUfd6teKgWq/xtH
-         PIj1Gn+hbhUrpyQnW+mOaNQEi5SN8mWXySgEFk2gZMz+2L63EY4V9OHadIR8lxTcSDF2
-         KJeX1Kjk8g1prJ4u0N0auKO8Gis8tB6o8i1cyZ7rgMdDNFRCsFpIWDpD65z5ehBaZ7fD
-         9ex0xF8UU00tmGY/gky+wFVmdejKPUjJdzOI9TtyH4MCe4m2vhlFmn7s/bOROb4ub2nl
-         4xHA==
-X-Gm-Message-State: ANoB5pk6szpilZ8Pitjzr24xhVxcQzQEMEaEsm6I3Wz9PHk8qa+4Txxo
-	Um1aVmi4QdEZLFHMQf6HaLodvdLBFgbbE6SKBu0=
-X-Google-Smtp-Source: AA0mqf4MAWDdsbroZY3XqAVw6LsFm6gd95wXsAUYdyR4x59Qp/7Nco5kPSktrHrVRRyuMJHfCdJ3HA==
-X-Received: by 2002:a05:6a00:21c8:b0:560:e4d1:8df5 with SMTP id t8-20020a056a0021c800b00560e4d18df5mr28112806pfj.39.1669557376062;
-        Sun, 27 Nov 2022 05:56:16 -0800 (PST)
+        bh=boy1ZgaCdxAY/38Uj9UWf2dnE+3UHSybwSvP9nP0+ow=;
+        b=5nVDRwc7UmQGJKRy+qZlXCxf+FOvDCAExgW0XoYkEs33BxXoeTYsp2zgBTdWyuN/69
+         0dkMY0oV621bQV+TPLH8CWBDYsAMMSEusAc5RYgi8wjs0A3yuONZP7WjH6pMP9pOwpRD
+         b7yEATvvr/7GVsSXhtLeil0Jkl/t2o5HvluILps1o/7SCah8F/fdylB4izjlGaYQwivX
+         W0VpLjeyUm3XMuuzALsc74AmKfKO5hqZ0Lai/uV/4V3VxPuELKhVNw8hrc8R9mLozL8u
+         uvZzi2oXkDCoMK4NLw5cQesNAYdu6AA59ldOoZ+3iow/n730nGoQjrygbhm8596LgK2i
+         FYeQ==
+X-Gm-Message-State: ANoB5pkZwJUHdFvL6Fx0LHuLxNmHfbdKX0UV0ajAwF4Hc3fPaO8n0Rk6
+	nAVpeiZUF/ozyEkUGktilYuvCyyj2eotKHI43uM=
+X-Google-Smtp-Source: AA0mqf7c6issn906SYXMWf8WzYNYs4nBBHlrP+v2XjecxyKJoN/4Xx/nbQt8JxSZ7bYuGZyroeQS5A==
+X-Received: by 2002:a63:d60a:0:b0:476:85ed:5596 with SMTP id q10-20020a63d60a000000b0047685ed5596mr23118449pgg.88.1669557377838;
+        Sun, 27 Nov 2022 05:56:17 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id c15-20020a170902d48f00b001868bf6a7b8sm6910544plg.146.2022.11.27.05.56.15
+        by smtp.gmail.com with ESMTPSA id c15-20020a170902d48f00b001868bf6a7b8sm6910544plg.146.2022.11.27.05.56.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Nov 2022 05:56:15 -0800 (PST)
+        Sun, 27 Nov 2022 05:56:17 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 22/31] linux-firmware: don't put the firmware into the sysroot
-Date: Sun, 27 Nov 2022 03:55:08 -1000
-Message-Id: <a75f20f71b4dd964befbae2f517d0f41f02fb4fc.1669557026.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 23/31] vala: install vapigen-wrapper into /usr/bin/crosscripts and stage only that
+Date: Sun, 27 Nov 2022 03:55:09 -1000
+Message-Id: <66bdef9f5cae941c5067d88b1d26b2d6236ec56d.1669557026.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1669557026.git.steve@sakoman.com>
 References: <cover.1669557026.git.steve@sakoman.com>
@@ -61,33 +61,58 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 27 Nov 2022 13:56:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173867
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173868
 
-From: Ross Burton <ross.burton@arm.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-There's no need to have linux-firmware in the sysroot. The sysroot won't
-ever be used anyway as nothing needs the firmware at build-time, but this
-saves us building a ~900MB sysroot (~300MB sstate tarball).
+Staging the whole /usr/bin is not correct, as it pulls in also
+all the vala's cross binaries, which may be discovered by other recipes
+and things will go wrong then.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 26ed998c4f201c5cacf330f52e51e416afbd300c)
+(cherry picked from commit 52629d9db0344146ff4734632b17bd731e247fd5)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-kernel/linux-firmware/linux-firmware_20221012.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-devtools/vala/vala.inc | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20221012.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20221012.bb
-index 6ba59a34c2..c7ecee0d9a 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20221012.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20221012.bb
-@@ -1121,3 +1121,6 @@ INSANE_SKIP = "arch"
+diff --git a/meta/recipes-devtools/vala/vala.inc b/meta/recipes-devtools/vala/vala.inc
+index 974baa33f5..d3daee37dc 100644
+--- a/meta/recipes-devtools/vala/vala.inc
++++ b/meta/recipes-devtools/vala/vala.inc
+@@ -42,20 +42,20 @@ EXTRA_OECONF += " --disable-valadoc"
+ # Vapigen wrapper needs to be available system-wide, because it will be used
+ # to build vapi files from all other packages with vala support
+ do_install:append:class-target() {
+-        install -d ${D}${bindir}/
+-        install ${B}/vapigen-wrapper ${D}${bindir}/
++        install -d ${D}${bindir_crossscripts}/
++        install ${B}/vapigen-wrapper ${D}${bindir_crossscripts}/
+ }
  
- # Don't warn about already stripped files
- INSANE_SKIP:${PN} = "already-stripped"
-+
-+# No need to put firmware into the sysroot
-+SYSROOT_DIRS_IGNORE += "${nonarch_base_libdir}/firmware"
+ # Put vapigen wrapper into target sysroot so that it can be used when building
+ # vapi files.
+-SYSROOT_DIRS:append:class-target = " ${bindir}"
++SYSROOT_DIRS += "${bindir_crossscripts}"
+ 
+ SYSROOT_PREPROCESS_FUNCS:append:class-target = " vapigen_sysroot_preprocess"
+ vapigen_sysroot_preprocess() {
+         # Tweak the vapigen name in the vapigen pkgconfig file, so that it picks
+         # up our wrapper.
+         sed -i \
+-           -e "s|vapigen=.*|vapigen=${bindir}/vapigen-wrapper|" \
++           -e "s|vapigen=.*|vapigen=${bindir_crossscripts}/vapigen-wrapper|" \
+            ${SYSROOT_DESTDIR}${libdir}/pkgconfig/vapigen-${SHRT_VER}.pc
+ }
+ 
+@@ -64,5 +64,5 @@ SSTATE_SCAN_FILES += "vapigen-wrapper"
+ PACKAGE_PREPROCESS_FUNCS += "vala_package_preprocess"
+ 
+ vala_package_preprocess () {
+-	sed -i -e 's:${RECIPE_SYSROOT}::g;' ${PKGD}${bindir}/vapigen-wrapper
++	sed -i -e 's:${RECIPE_SYSROOT}::g;' ${PKGD}${bindir_crossscripts}/vapigen-wrapper
+ }
 -- 
 2.25.1
 
