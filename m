@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42C88C352A1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ED14C46467
 	for <webhook@archiver.kernel.org>; Sun, 27 Nov 2022 13:55:43 +0000 (UTC)
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
- by mx.groups.io with SMTP id smtpd.web11.92031.1669557338739231194
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web11.92030.1669557336713068613
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Nov 2022 05:55:42 -0800
+ Sun, 27 Nov 2022 05:55:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=KCXMFUuN;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.176, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f176.google.com with SMTP id r18so7689942pgr.12
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Nov 2022 05:55:42 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=Chk0o5lv;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f48.google.com with SMTP id x13-20020a17090a46cd00b00218f611b6e9so7993876pjg.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Nov 2022 05:55:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=KeVbzxVqjw6hVvKLEMOi9vlKikDfKRS1VYjdT+3CJ08=;
-        b=KCXMFUuNigy0DZVhH6GNDqfJnCCtDk7xgccKdoA4uU1YddfEpQKXHEt7EdhURBOmXs
-         CsSOOfkMlRDOQN4L35SRLvZg4WcIDuOahSykMAu5sq034rppFDzVsUGC4A/NXj66qpl+
-         X3wjW7R3fKgGZsalpdzf7eSzt7uW1GeGzMmJ7bndh2EMvQyW0zZk8fukTkD/n7SKcgGM
-         ZAXvYm+lv5qiPJuMVOtNkAuoA/gvDRYPBBpVIGzshPFvTGzdIETFB76SH3/0D2VD0LUM
-         6k8ZS22TDJ9vVrClimOrb4WyWe1DeE++Y9gOTcodIyXPP5vENkdit+jHdhyvfxZoPEul
-         152Q==
+        bh=cRXzp5pmm6bUlQLb94B+XrJcz0qZ2Z2jNlTNDnHq2bQ=;
+        b=Chk0o5lvfQq+bvViR3I6ozz+7Bmj8J8n0XPVqLNC+4VdvLaT5p8IehpWsMGwBVklbv
+         KIk0ohAf9uklgvmYQ8+D2zvh0gWxe4L9DtY+j3VEdGQwSaXM71uy2BvXEKPTJmrn8W0r
+         X1e1CsbBeS/iCsqJzvSwGbSbOxEZnjqQRZAAzJqcbc2NDTDU+1Kjlq0GtLlytJISyTCp
+         SJpB7V5FhHTD58rTwPY4Xz4c96sTW11NWHunMqnnrCVC7C7HyNnlMgNBAlRpuewG89Fc
+         aW3sYvoGu2NqLmTRPRj5BjdXDxXIdHpiB0HMcTLftufAjxfkZ0Ss5UPNkbtvf8lugnso
+         RtoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KeVbzxVqjw6hVvKLEMOi9vlKikDfKRS1VYjdT+3CJ08=;
-        b=UhQODnrSJUz8KB6XJKbcL8jV2SKztIPjCflWCDtSPk0bjBAPWAT9BFkKjyXi7rGS5g
-         4l4QNNZF1ueip71UWceYJx3RQplmayPemOpRslnop9/GnZFh9Hhyg2ZdFG3FTnvTdj8u
-         uiXI/Pp41LKU2Tvuz6fdvCFHUc7twL4ZkU6qBeIhNEqbgIZwfTbwct9tIzXySZh3hZVf
-         Yp1NDfudIFbl4ZWWGldV4yP8UCKWq3crqLfPDH5OlWnIkWZMplTLKC8RcEt/WKrk+emy
-         dsvmAlXWaHBCBM69kWOV69c9WBSnO8MQ+gKI8HLsZHRJ5E7j1d1MCBlBdXdAM91/UzNX
-         t1EA==
-X-Gm-Message-State: ANoB5pn8UVaWHa4vH409k0Aats9+6zy4Kfj07T7pTyy0HfaOBfE8N755
-	mLUVzHJMJC7K3D8HM3dOOyeAw8dKaiTOeacpysA=
-X-Google-Smtp-Source: AA0mqf6Flj1ng7n7OaDKhxaRaFdbyM+vc9jX7KlQ1b8gqmzg4Lv2izN7wzEbflKs5ME8/WigjjukEA==
-X-Received: by 2002:a62:542:0:b0:56c:45db:4481 with SMTP id 63-20020a620542000000b0056c45db4481mr48493375pff.86.1669557341489;
-        Sun, 27 Nov 2022 05:55:41 -0800 (PST)
+        bh=cRXzp5pmm6bUlQLb94B+XrJcz0qZ2Z2jNlTNDnHq2bQ=;
+        b=xO63hLeSuTW+gIOluN7DUvkN1bfErBbxq2uD17S4P8tjxOv6g3+FHbQURzpd0YDYiw
+         pZII/njle2cOfdIvBt6PYbs8OHIzdLsTI4CZhy5sZms6g73/nUbbNnRD3O37oneIaprd
+         SYONbd6xmUkR+oJOZm1PoekTzx4xvVvpH3SBKEEs3BnDO28sgrNs8w9rz6I2XkZjG8BX
+         ueTaMAr3g4/pxA/AlEsi1oIF4o4+goEoOQjvfyppSSnfnPumLQpmwvR0VUywJ/lV1xhj
+         5hDLgbT5gwNV+sbWdkppAjkJDAp2CnmJXiSZRePyvb9KA6VoU8aiDksRvjcV1Gz5v4pH
+         ThLw==
+X-Gm-Message-State: ANoB5pnDWsngBmFArVje0TNh7n0+vIPo1T+X42enGlE+1VHnnNy7NZv4
+	lZRw2EyhLDmaIqhcbA7SA18WQsyv05LKpdJiU88=
+X-Google-Smtp-Source: AA0mqf5n2cJP90o41VlAUoXEmsDXtuoaAWaGHK1SMvV/DpHCbdm/F9uRBQF8W6JURlIdcJIgbb1YSA==
+X-Received: by 2002:a17:902:9a8a:b0:189:58a9:14a4 with SMTP id w10-20020a1709029a8a00b0018958a914a4mr16992799plp.18.1669557335674;
+        Sun, 27 Nov 2022 05:55:35 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id c15-20020a170902d48f00b001868bf6a7b8sm6910544plg.146.2022.11.27.05.55.40
+        by smtp.gmail.com with ESMTPSA id c15-20020a170902d48f00b001868bf6a7b8sm6910544plg.146.2022.11.27.05.55.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Nov 2022 05:55:41 -0800 (PST)
+        Sun, 27 Nov 2022 05:55:35 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 06/31] go: fix CVE-2022-2880
-Date: Sun, 27 Nov 2022 03:54:52 -1000
-Message-Id: <a38f8316fdd0c9fc6fc7af195973028370935ba3.1669557026.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 03/31] ffmpeg: fix for CVE-2022-3964
+Date: Sun, 27 Nov 2022 03:54:49 -1000
+Message-Id: <40a1c9d3c839df6479582ac27264fac851a0d4c3.1669557026.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1669557026.git.steve@sakoman.com>
 References: <cover.1669557026.git.steve@sakoman.com>
@@ -61,216 +61,139 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 27 Nov 2022 13:55:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173851
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173848
 
-From: Sakib Sajal <sakib.sajal@windriver.com>
+From: Narpat Mali <narpat.mali@windriver.com>
 
-Backport patch to fix CVE-2022-2880.
+A vulnerability classified as problematic has been found in ffmpeg. This affects an unknown part of the file
+libavcodec/rpzaenc.c of the component QuickTime RPZA Video Encoder. The manipulation of the argument y_size
+leads to out-of-bounds read. It is possible to initiate the attack remotely. The name of the patch is
+92f9b28ed84a77138105475beba16c146bdaf984. It is recommended to apply a patch to fix this issue. The associated
+identifier of this vulnerability is VDB-213543.
 
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2022-3964
+
+Upstream Fix:
+https://github.com/FFmpeg/FFmpeg/commit/92f9b28ed84a77138105475beba16c146bdaf984
+
+Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/go/go-1.17.13.inc       |   1 +
- ...util-avoid-query-parameter-smuggling.patch | 178 ++++++++++++++++++
- 2 files changed, 179 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.18/0001-net-http-httputil-avoid-query-parameter-smuggling.patch
+ ...c-stop-accessing-out-of-bounds-frame.patch | 89 +++++++++++++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb |  2 +
+ 2 files changed, 91 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-rpzaenc-stop-accessing-out-of-bounds-frame.patch
 
-diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
-index b18de66f42..9c467d63b2 100644
---- a/meta/recipes-devtools/go/go-1.17.13.inc
-+++ b/meta/recipes-devtools/go/go-1.17.13.inc
-@@ -17,6 +17,7 @@ SRC_URI += "\
-     file://0001-exec.go-do-not-write-linker-flags-into-buildids.patch \
-     file://0001-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
-     file://CVE-2022-27664.patch \
-+    file://0001-net-http-httputil-avoid-query-parameter-smuggling.patch \
- "
- SRC_URI[main.sha256sum] = "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
- 
-diff --git a/meta/recipes-devtools/go/go-1.18/0001-net-http-httputil-avoid-query-parameter-smuggling.patch b/meta/recipes-devtools/go/go-1.18/0001-net-http-httputil-avoid-query-parameter-smuggling.patch
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-rpzaenc-stop-accessing-out-of-bounds-frame.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-rpzaenc-stop-accessing-out-of-bounds-frame.patch
 new file mode 100644
-index 0000000000..80fba1446e
+index 0000000000..2775a81cc8
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.18/0001-net-http-httputil-avoid-query-parameter-smuggling.patch
-@@ -0,0 +1,178 @@
-+From c8bdf59453c95528a444a85e1b206c1c09eb20f6 Mon Sep 17 00:00:00 2001
-+From: Damien Neil <dneil@google.com>
-+Date: Thu, 22 Sep 2022 13:32:00 -0700
-+Subject: [PATCH] net/http/httputil: avoid query parameter smuggling
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-rpzaenc-stop-accessing-out-of-bounds-frame.patch
+@@ -0,0 +1,89 @@
++From 92f9b28ed84a77138105475beba16c146bdaf984 Mon Sep 17 00:00:00 2001
++From: Paul B Mahol <onemda@gmail.com>
++Date: Sat, 12 Nov 2022 16:12:00 +0100
++Subject: [PATCH] avcodec/rpzaenc: stop accessing out of bounds frame
 +
-+Query parameter smuggling occurs when a proxy's interpretation
-+of query parameters differs from that of a downstream server.
-+Change ReverseProxy to avoid forwarding ignored query parameters.
++Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/92f9b28ed84a77138105475beba16c146bdaf984]
 +
-+Remove unparsable query parameters from the outbound request
++Signed-off-by: <narpat.mali@windriver.com>
 +
-+   * if req.Form != nil after calling ReverseProxy.Director; and
-+   * before calling ReverseProxy.Rewrite.
-+
-+This change preserves the existing behavior of forwarding the
-+raw query untouched if a Director hook does not parse the query
-+by calling Request.ParseForm (possibly indirectly).
-+
-+Fixes #55842
-+For #54663
-+For CVE-2022-2880
-+
-+Change-Id: If1621f6b0e73a49d79059dae9e6b256e0ff18ca9
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/432976
-+Reviewed-by: Roland Shoemaker <roland@golang.org>
-+Reviewed-by: Brad Fitzpatrick <bradfitz@golang.org>
-+TryBot-Result: Gopher Robot <gobot@golang.org>
-+Run-TryBot: Damien Neil <dneil@google.com>
-+(cherry picked from commit 7c84234142149bd24a4096c6cab691d3593f3431)
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/433695
-+Reviewed-by: Dmitri Shuralyov <dmitshur@golang.org>
-+Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
-+
-+CVE: CVE-2022-2880
-+Upstream-Status: Backport [9d2c73a9fd69e45876509bb3bdb2af99bf77da1e]
-+
-+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 +---
-+ src/net/http/httputil/reverseproxy.go      | 36 +++++++++++
-+ src/net/http/httputil/reverseproxy_test.go | 74 ++++++++++++++++++++++
-+ 2 files changed, 110 insertions(+)
++ libavcodec/rpzaenc.c | 22 +++++++++++++++-------
++ 1 file changed, 15 insertions(+), 7 deletions(-)
 +
-+diff --git a/src/net/http/httputil/reverseproxy.go b/src/net/http/httputil/reverseproxy.go
-+index 8b63368..c76eec6 100644
-+--- a/src/net/http/httputil/reverseproxy.go
-++++ b/src/net/http/httputil/reverseproxy.go
-+@@ -249,6 +249,9 @@ func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
-+ 	}
++diff --git a/libavcodec/rpzaenc.c b/libavcodec/rpzaenc.c
++index d710eb4f82..4ced9523e2 100644
++--- a/libavcodec/rpzaenc.c
+++++ b/libavcodec/rpzaenc.c
++@@ -205,7 +205,7 @@ static void get_max_component_diff(const BlockInfo *bi, const uint16_t *block_pt
 + 
-+ 	p.Director(outreq)
-++	if outreq.Form != nil {
-++		outreq.URL.RawQuery = cleanQueryParams(outreq.URL.RawQuery)
-++	}
-+ 	outreq.Close = false
++     // loop thru and compare pixels
++     for (y = 0; y < bi->block_height; y++) {
++-        for (x = 0; x < bi->block_width; x++){
+++        for (x = 0; x < bi->block_width; x++) {
++             // TODO:  optimize
++             min_r = FFMIN(R(block_ptr[x]), min_r);
++             min_g = FFMIN(G(block_ptr[x]), min_g);
++@@ -278,7 +278,7 @@ static int leastsquares(const uint16_t *block_ptr, const BlockInfo *bi,
++         return -1;
 + 
-+ 	reqUpType := upgradeType(outreq.Header)
-+@@ -628,3 +631,36 @@ func (c switchProtocolCopier) copyToBackend(errc chan<- error) {
-+ 	_, err := io.Copy(c.backend, c.user)
-+ 	errc <- err
-+ }
++     for (i = 0; i < bi->block_height; i++) {
++-        for (j = 0; j < bi->block_width; j++){
+++        for (j = 0; j < bi->block_width; j++) {
++             x = GET_CHAN(block_ptr[j], xchannel);
++             y = GET_CHAN(block_ptr[j], ychannel);
++             sumx += x;
++@@ -325,7 +325,7 @@ static int calc_lsq_max_fit_error(const uint16_t *block_ptr, const BlockInfo *bi
++     int max_err = 0;
++ 
++     for (i = 0; i < bi->block_height; i++) {
++-        for (j = 0; j < bi->block_width; j++){
+++        for (j = 0; j < bi->block_width; j++) {
++             int x_inc, lin_y, lin_x;
++             x = GET_CHAN(block_ptr[j], xchannel);
++             y = GET_CHAN(block_ptr[j], ychannel);
++@@ -420,7 +420,9 @@ static void update_block_in_prev_frame(const uint16_t *src_pixels,
++                                        uint16_t *dest_pixels,
++                                        const BlockInfo *bi, int block_counter)
++ {
++-    for (int y = 0; y < 4; y++) {
+++    const int y_size = FFMIN(4, bi->image_height - bi->row * 4);
 ++
-++func cleanQueryParams(s string) string {
-++	reencode := func(s string) string {
-++		v, _ := url.ParseQuery(s)
-++		return v.Encode()
-++	}
-++	for i := 0; i < len(s); {
-++		switch s[i] {
-++		case ';':
-++			return reencode(s)
-++		case '%':
-++			if i+2 >= len(s) || !ishex(s[i+1]) || !ishex(s[i+2]) {
-++				return reencode(s)
-++			}
-++			i += 3
-++		default:
-++			i++
-++		}
-++	}
-++	return s
-++}
+++    for (int y = 0; y < y_size; y++) {
++         memcpy(dest_pixels, src_pixels, 8);
++         dest_pixels += bi->rowstride;
++         src_pixels += bi->rowstride;
++@@ -730,14 +732,15 @@ post_skip :
++ 
++             if (err > s->sixteen_color_thresh) { // DO SIXTEEN COLOR BLOCK
++                 uint16_t *row_ptr;
++-                int rgb555;
+++                int y_size, rgb555;
++ 
++                 block_offset = get_block_info(&bi, block_counter);
++ 
++                 row_ptr = &src_pixels[block_offset];
+++                y_size = FFMIN(4, bi.image_height - bi.row * 4);
++ 
++-                for (int y = 0; y < 4; y++) {
++-                    for (int x = 0; x < 4; x++){
+++                for (int y = 0; y < y_size; y++) {
+++                    for (int x = 0; x < 4; x++) {
++                         rgb555 = row_ptr[x] & ~0x8000;
++ 
++                         put_bits(&s->pb, 16, rgb555);
++@@ -745,6 +748,11 @@ post_skip :
++                     row_ptr += bi.rowstride;
++                 }
++ 
+++                for (int y = y_size; y < 4; y++) {
+++                    for (int x = 0; x < 4; x++)
+++                        put_bits(&s->pb, 16, 0);
+++                }
 ++
-++func ishex(c byte) bool {
-++	switch {
-++	case '0' <= c && c <= '9':
-++		return true
-++	case 'a' <= c && c <= 'f':
-++		return true
-++	case 'A' <= c && c <= 'F':
-++		return true
-++	}
-++	return false
-++}
-+diff --git a/src/net/http/httputil/reverseproxy_test.go b/src/net/http/httputil/reverseproxy_test.go
-+index 4b6ad77..8c0a4f1 100644
-+--- a/src/net/http/httputil/reverseproxy_test.go
-++++ b/src/net/http/httputil/reverseproxy_test.go
-+@@ -1517,3 +1517,77 @@ func TestJoinURLPath(t *testing.T) {
-+ 		}
-+ 	}
-+ }
-++
-++const (
-++	testWantsCleanQuery = true
-++	testWantsRawQuery   = false
-++)
-++
-++func TestReverseProxyQueryParameterSmugglingDirectorDoesNotParseForm(t *testing.T) {
-++	testReverseProxyQueryParameterSmuggling(t, testWantsRawQuery, func(u *url.URL) *ReverseProxy {
-++		proxyHandler := NewSingleHostReverseProxy(u)
-++		oldDirector := proxyHandler.Director
-++		proxyHandler.Director = func(r *http.Request) {
-++			oldDirector(r)
-++		}
-++		return proxyHandler
-++	})
-++}
-++
-++func TestReverseProxyQueryParameterSmugglingDirectorParsesForm(t *testing.T) {
-++	testReverseProxyQueryParameterSmuggling(t, testWantsCleanQuery, func(u *url.URL) *ReverseProxy {
-++		proxyHandler := NewSingleHostReverseProxy(u)
-++		oldDirector := proxyHandler.Director
-++		proxyHandler.Director = func(r *http.Request) {
-++			// Parsing the form causes ReverseProxy to remove unparsable
-++			// query parameters before forwarding.
-++			r.FormValue("a")
-++			oldDirector(r)
-++		}
-++		return proxyHandler
-++	})
-++}
-++
-++func testReverseProxyQueryParameterSmuggling(t *testing.T, wantCleanQuery bool, newProxy func(*url.URL) *ReverseProxy) {
-++	const content = "response_content"
-++	backend := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-++		w.Write([]byte(r.URL.RawQuery))
-++	}))
-++	defer backend.Close()
-++	backendURL, err := url.Parse(backend.URL)
-++	if err != nil {
-++		t.Fatal(err)
-++	}
-++	proxyHandler := newProxy(backendURL)
-++	frontend := httptest.NewServer(proxyHandler)
-++	defer frontend.Close()
-++
-++	// Don't spam output with logs of queries containing semicolons.
-++	backend.Config.ErrorLog = log.New(io.Discard, "", 0)
-++	frontend.Config.ErrorLog = log.New(io.Discard, "", 0)
-++
-++	for _, test := range []struct {
-++		rawQuery   string
-++		cleanQuery string
-++	}{{
-++		rawQuery:   "a=1&a=2;b=3",
-++		cleanQuery: "a=1",
-++	}, {
-++		rawQuery:   "a=1&a=%zz&b=3",
-++		cleanQuery: "a=1&b=3",
-++	}} {
-++		res, err := frontend.Client().Get(frontend.URL + "?" + test.rawQuery)
-++		if err != nil {
-++			t.Fatalf("Get: %v", err)
-++		}
-++		defer res.Body.Close()
-++		body, _ := io.ReadAll(res.Body)
-++		wantQuery := test.rawQuery
-++		if wantCleanQuery {
-++			wantQuery = test.cleanQuery
-++		}
-++		if got, want := string(body), wantQuery; got != want {
-++			t.Errorf("proxy forwarded raw query %q as %q, want %q", test.rawQuery, got, want)
-++		}
-++	}
-++}
++                 block_counter++;
++             } else { // FOUR COLOR BLOCK
++                 block_counter += encode_four_color_block(min_color, max_color,
 +-- 
-+2.32.0
++2.34.1
 +
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
+index dd14f8df6f..e8e3462098 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
+@@ -24,7 +24,9 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ 
+ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://0001-libavutil-include-assembly-with-full-path-from-sourc.patch \
++           file://0001-avcodec-rpzaenc-stop-accessing-out-of-bounds-frame.patch \
+            "
++
+ SRC_URI[sha256sum] = "ef2efae259ce80a240de48ec85ecb062cecca26e4352ffb3fda562c21a93007b"
+ 
+ # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
 -- 
 2.25.1
 
