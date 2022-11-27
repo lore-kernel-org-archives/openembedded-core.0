@@ -2,133 +2,101 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4308FC352A1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FB34C4708A
 	for <webhook@archiver.kernel.org>; Sun, 27 Nov 2022 13:56:03 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web11.92043.1669557354101781715
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.web11.92044.1669557355916426196
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Nov 2022 05:55:54 -0800
+ Sun, 27 Nov 2022 05:55:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=XmEUaMXv;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f52.google.com with SMTP id e7-20020a17090a77c700b00216928a3917so11583255pjs.4
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Nov 2022 05:55:54 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=SSFY+Ze6;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.175, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f175.google.com with SMTP id 6so7705745pgm.6
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Nov 2022 05:55:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NVxMFME/9IwUsocw7bXfyymdESkvPBtcsXLx8PuWBMk=;
-        b=XmEUaMXveZa6d3AZNZfhVCTm0oUsD71eO3Bu9Jp9eyVexaBfln+WyfMoOiADWL8WrI
-         TzQO0hVCaGYGUeWKL32iKMAkdUfeRdx1ERwFVALZKM+dS+oYSStX6ij1aUWqTUA8D6zl
-         sdLSDMIkDLu96+z8yR1a+tXXygxM7ZvFdhQXbJdN4GBUCVg2rkSLA2xqWirWRb85xTA1
-         kPHojflNp+QH470THbALTaXQSTXcPWFVbgbeVE5DsuY6YpKrBfED6inDSutTxxWNdURe
-         35Et/Suz6iimFtWuFGqsWiGy6yZ+y/4TdSYysLGWmsa/3J08M/z3AaFHlvm5QdZmOP6E
-         tYtA==
+        bh=kS58cnk+4nzBjeob4orAcaQ4hJtc0c7VFXwA0Ifewso=;
+        b=SSFY+Ze6r5e9/t8mcfXRwNZiQP/wUHhHJrlQaDmDq4KWxyigwI+HRSijrCzlMOpOmp
+         S8nEY1jXmFPHuw8crW1gYR3LyxD6L20KxXviJpnVPE6GMEu2nayWhEWiFjusEO8VGuIV
+         8Rc5bjoDUuc6y0XCQIBUSBDjZi22MlicSlB5cSpIt2M2sU/yWf3zEGgb4EX/LRsCIuhS
+         XItzTg6WQlD5tg9SX2S2BCcZh1y3HL0EDPw6kbMSOqnU1XhMtuxfDm9s252eraiePmKZ
+         M3UiNuKjqNHmo/glmfBdZ31eLjtwDNznQaXRNzTxrTc6G/Jj0H7tmIlCnNH5uDGVR0r/
+         qIyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NVxMFME/9IwUsocw7bXfyymdESkvPBtcsXLx8PuWBMk=;
-        b=RDzJENdXeZ4Rv1SC0tKJU1MhzSXWN8T0rLNY/WGBG7G3Yqy8Et3GPwdwi3mT2MOcZk
-         vyw4TGQubnKErmgEZA8eWbtd2WgHZAzcpr8JjCk/5aQ9BW5RZv16dDrxoGkNsmMTumLi
-         aoHRU7PAkjjUqoH48qgwvIF82yRRqPg/zcMlnlCrT5MLVYFyjd+cMxSV9iZmmtkXMNI0
-         9uKR/J7qXX8QE3gFTy/zsCLGULhS8OnNFHiO+qrt3LrbWpifMysiIueI1H200aZHzzqf
-         wvbptVcc80tAMSRHzLkyqbXSGkWZjljTopA1ufWA32/DmXUZ37OiGm/Za3G0jZNhF4em
-         1Fpw==
-X-Gm-Message-State: ANoB5pmAJewdzB1eI+ApzCa0U28FF8HzR6MUfYu9k2nYt/iHzAbaK4MZ
-	I0ZMbqI3Y/tQNYh6lwgWzuGiAUeXUl/x/WtE3Qg=
-X-Google-Smtp-Source: AA0mqf7rHmZqpFkKDZl7EfoPxIVRfIkfOdz9I7OWiftMD9GZi435KoXY/7O82Tfvyfmh85WPnRxdZg==
-X-Received: by 2002:a17:903:1342:b0:186:90a7:6b75 with SMTP id jl2-20020a170903134200b0018690a76b75mr29132576plb.23.1669557353049;
-        Sun, 27 Nov 2022 05:55:53 -0800 (PST)
+        bh=kS58cnk+4nzBjeob4orAcaQ4hJtc0c7VFXwA0Ifewso=;
+        b=jM43LuCNs9828xF1+xROroO4MOd6u1rcfaFngs0QJT1nK5SP/a6OgHBA/cPlf4pSVm
+         CT79VekNjYgd9eMN7nr04JwaN0RTLheLeJ75L4Pod0oRD0qkPF9E/0rwDZcAxycVtMWC
+         Xc1mAjfqDxsVYbb56nQIdI0sQbW/reOvWImK1eCsk7AhDW6OzAddU/vRF9LF4sjtiY5S
+         XHqXv+1XFJiUE4gt6FIi9IKhjclOD0b4jBrJtAdLaXSDun12nJ5vaUxnWoUkvFiPRwvz
+         8mZMP/1caMu4KgWe3Tt+JewuDQYOZ5jtwOOKE6O46unoa5+sMZJEFR0SZ/62y4Sydg52
+         hNZw==
+X-Gm-Message-State: ANoB5pnAEGDwf99uU+0v3m0UfLdC4va/cgGcACYnza1orhEyi48ylF/D
+	cdhdQSL3dzh8uBF/WuIe+i5cyzEfriVh+PvxdR4=
+X-Google-Smtp-Source: AA0mqf7k8kP1jPv4r59dK5tPBPmpIOpZsu9yfNr/ubcgVAy6KYiBeNvla17isTWgGwCSpD+jEIj8fw==
+X-Received: by 2002:a05:6a00:21c1:b0:562:86a3:12fc with SMTP id t1-20020a056a0021c100b0056286a312fcmr28218826pfj.8.1669557354965;
+        Sun, 27 Nov 2022 05:55:54 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id c15-20020a170902d48f00b001868bf6a7b8sm6910544plg.146.2022.11.27.05.55.52
+        by smtp.gmail.com with ESMTPSA id c15-20020a170902d48f00b001868bf6a7b8sm6910544plg.146.2022.11.27.05.55.54
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Nov 2022 05:55:52 -0800 (PST)
+        Sun, 27 Nov 2022 05:55:54 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 12/31] mtd-utils: upgrade 2.1.4 -> 2.1.5
-Date: Sun, 27 Nov 2022 03:54:58 -1000
-Message-Id: <7f2503ef132634431b28207c51b3fd18de076eb9.1669557026.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 13/31] gdk-pixbuf: upgrade 2.42.9 -> 2.42.10
+Date: Sun, 27 Nov 2022 03:54:59 -1000
+Message-Id: <58629c6c42f018b9faa200c39e819c2db38fd935.1669557026.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1669557026.git.steve@sakoman.com>
 References: <cover.1669557026.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 27 Nov 2022 13:56:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173857
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173858
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Raw short log since the 2.1.4 release:
+2.42.10 (stable)
+===
 
-Alex Henrie (1):
-       mkfs.jffs2: fix spelling of --compression-mode parameter in help text
-
-Andrew Mellor (1):
-       ubinfo: Fix --vol_id return code for absent volume id
-
-Christophe Kerello (1):
-       nandflipbits: fix corrupted oob
-
-David Oberhollenzer (1):
-       Release mtd-utils-2.1.5
-
-Enrico Jorns (1):
-       libmtd: do not ignore non-zero eraseblock size when MTD_NO_ERASE is set
-
-Frederic Germain (2):
-       .gitignore: add new ubiscan utility
-       Fix warning about unaligned pointer in jffs2reader
-
-Khem Raj (1):
-       tests: Remove unused linux/fs.h header from includes
-
-Michael Walle (1):
-       mtd-utils: flash_otp_dump make offset optional
-
-Mike Frysinger (1):
-       fix test bashism
-
-Rafał Miłecki (1):
-       nandwrite: warn about writing 0xff blocks
-
-Sascha Hauer (1):
-       mtd-utils: nanddump: fix writing big images on 32bit machines
-
-liaohua (1):
-       nor-utils: fix memory leak
+- Search for rst2man.py [!145, Matt Turner]
+- Update the memory size limit for JPEG images [#216, #218]
+- Translation updates
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit a3289c988764e5b864873b4adc7656c101a5b9c0)
+(cherry picked from commit 01e1828f8e5bcb0ad88b89fe783c2973480695bb)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/mtd/mtd-utils_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../gdk-pixbuf/{gdk-pixbuf_2.42.9.bb => gdk-pixbuf_2.42.10.bb}  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.42.9.bb => gdk-pixbuf_2.42.10.bb} (98%)
 
-diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-index 3318277477..6a4f7b0688 100644
---- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
-+++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-@@ -11,9 +11,9 @@ inherit autotools pkgconfig update-alternatives
- DEPENDS = "zlib e2fsprogs util-linux"
- RDEPENDS:mtd-utils-tests += "bash"
- 
--PV = "2.1.4"
-+PV = "2.1.5"
- 
--SRCREV = "c7f1bfa44a84d02061787e2f6093df5cc40b9f5c"
-+SRCREV = "3f3b4cc6c3120107e7aaa21c6415772a255ac49c"
- SRC_URI = "git://git.infradead.org/mtd-utils.git;branch=master \
-            file://add-exclusion-to-mkfs-jffs2-git-2.patch \
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.9.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb
+similarity index 98%
+rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.9.bb
+rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb
+index d33718e3ea..aa44515fbb 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.9.bb
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb
+@@ -23,7 +23,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+            file://0001-Add-use_prebuilt_tools-option.patch \
             "
+ 
+-SRC_URI[sha256sum] = "28f7958e7bf29a32d4e963556d241d0a41a6786582ff6a5ad11665e0347fc962"
++SRC_URI[sha256sum] = "ee9b6c75d13ba096907a2e3c6b27b61bcd17f5c7ebeab5a5b439d2f2e39fe44b"
+ 
+ inherit meson pkgconfig gettext pixbufcache ptest-gnome upstream-version-is-even gobject-introspection gi-docgen lib_package
+ 
 -- 
 2.25.1
 
