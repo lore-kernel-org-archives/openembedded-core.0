@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 434CCC47089
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 434A4C47088
 	for <webhook@archiver.kernel.org>; Sun, 27 Nov 2022 13:56:13 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web11.92043.1669557354101781715
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web11.92049.1669557361761849325
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Nov 2022 05:56:11 -0800
+ Sun, 27 Nov 2022 05:56:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=PxuISd+N;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f52.google.com with SMTP id e7-20020a17090a77c700b00216928a3917so11583580pjs.4
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Nov 2022 05:56:11 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=kue9ztaI;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f51.google.com with SMTP id u15-20020a17090a3fcf00b002191825cf02so3669186pjm.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Nov 2022 05:56:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=S5U0x5dFqMCqGAixpDpKVX7MEX/WijEqnfTI2e10cv0=;
-        b=PxuISd+NwbTSR6SsGrE+HGWtD/VA9FWjFH005px/prJuLB3tQTrHyem46a3cl+l7/6
-         jn9sZolaYOtE2Cg7NHFXcuOLn+v2utbZmBQrgb8unZE0iiF1NRq6/nMxZxoWBnQRnf9c
-         F0mAWu83xNSbJP/N7UIVOdBhF8jP56ego0SYE3K5HFGk4n7ig+YV9s9bOXoThnNpBeIn
-         DMB38bXpeI94Tnh0LK00hM+EDdCUySxNR16LKy6Gpqa2DhoUgu5cmPkj0bxzXLiFdsdW
-         Y/gxmln31ilO9QwyOHi7qwOhkMmZ7gs6pcHiR5othlM0rs8JciTBcm9RQjtIOwPfdoTj
-         Is5A==
+        bh=SPOnO1FfISBXbUDAJ+IoLb1CN10Psf2/InEhTnxQDq4=;
+        b=kue9ztaIxwFqJIr8w4UCulfCuekzbPhnqjCl/8O5fwp337k85l6lbSdxW3uqneyCPG
+         9IhJGqeOePjnXcY4JZD03wmeqKqZ8qwhunqAu42DBv/OPoU0y2ZSyViZ1VhbWZ4EZyho
+         LDdiggb5gT5RBau5TSZm2FlhRwvBhR6ojih8Z1c/Qq/rfUpYSzCIvM2m4GFMBxkmz0eJ
+         V90ut+bDlW41NC4Y8tyAunyo4qZcqpTlxRusq80i7wwxe+l7r4RPoksVUEHSrejFMWli
+         g0L3Reg0vAqk/enoXqUttjS2qIScUybcbcBCn+F8v817rT3K+0j54ZqaRlXZWjoysF01
+         kEjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=S5U0x5dFqMCqGAixpDpKVX7MEX/WijEqnfTI2e10cv0=;
-        b=lZeWu36hVoslZ/gQj68WYeK4a8NwVxozEGnb90Rjqzdhd9Xu4koAS5BICObBKKEcwA
-         r+nYE2NTZK0JT3OZBmXy1/q0IKCVVcciAy5kvaVAJylH9iXFGstQ9aPCBJEg1Ur9OD8B
-         MIwZohJoXOiGgK6z/rpMOE89HXgyNe7LjKQdc0DjAuwKfBxukj1ixWzQDO7DSzgAph+5
-         rUa0jQAYbRLlIlk3TaKJUaNDnj8iAXkUrMdzHnLiDS/t5rm/sQv9qlVVbPDj2R+BN/my
-         N+a88fsOW7a2MZRx9Zmn8Ut6tl4fwq/fQ2xrPcV4Df1zFwXqMvJASh77Emw37o4xeENK
-         7PVw==
-X-Gm-Message-State: ANoB5pm5G0l0qsZh10FR3tKIIoo54oH8ejoSNxHacImKyELtIYRWdC4c
-	XuzrNaHmEvMCBcXxs5E1OLSIzGbvCGe1/bK3Duo=
-X-Google-Smtp-Source: AA0mqf77EWCH91jBZwtPMV2OEG2Y5S6VJQTyRoqPCsjsiTnMBzWNKCq6HsqzSs2Ejrkt8DlzqGuSgg==
-X-Received: by 2002:a17:902:848d:b0:17f:8097:83c1 with SMTP id c13-20020a170902848d00b0017f809783c1mr31050328plo.10.1669557370724;
-        Sun, 27 Nov 2022 05:56:10 -0800 (PST)
+        bh=SPOnO1FfISBXbUDAJ+IoLb1CN10Psf2/InEhTnxQDq4=;
+        b=1Bb5SlE6faHipKuuXw6QpKwtZK4vQltOkqFw+mx3FUNrhSLFyB6FOLuXkLOAS9G+5g
+         ENg2ctG8SIaZnGrrAtsHdfd/GlN4WEQu3E23Id9lCWGpZiIWdklw3QqXlkPxHmXnX1kA
+         +m8mI8iErQRlXTqjvBQe4a3pee3gt+OQUqvy30+Ss2P8aTp5nikMpdi10xn1jdkMEFFc
+         6mLxc30XgK/nvpPH/ixcL68kJVHz9kXnmjlaAK/iDbZlHLJ+zEQyV92/bpyWH8lV06wa
+         bqZsww+lEn283gGT42K8HzCHvN/bd8zK1bYCMdG8t3jtCRTdcqceMPVv/uXCuuHARFc0
+         oxQw==
+X-Gm-Message-State: ANoB5pk5azoJHfnWtJLh8NhJBH342EItNx1WoR4wX1iVIbk4PVjnO9tT
+	hwmJlvw2o4wGcAP5xY5eZZeUKIZ/vec07Vgoxso=
+X-Google-Smtp-Source: AA0mqf51kTBNIq+QXbzbOS5jKJSu0ep9Lq1S/Qn6ixspDGRqVagawbiBGbb07y84bmAqt5MZi4LlZQ==
+X-Received: by 2002:a17:90a:b706:b0:212:e75b:1602 with SMTP id l6-20020a17090ab70600b00212e75b1602mr49234254pjr.139.1669557364548;
+        Sun, 27 Nov 2022 05:56:04 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id c15-20020a170902d48f00b001868bf6a7b8sm6910544plg.146.2022.11.27.05.56.09
+        by smtp.gmail.com with ESMTPSA id c15-20020a170902d48f00b001868bf6a7b8sm6910544plg.146.2022.11.27.05.56.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Nov 2022 05:56:10 -0800 (PST)
+        Sun, 27 Nov 2022 05:56:04 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 19/31] iso-codes: upgrade 4.11.0 -> 4.12.0
-Date: Sun, 27 Nov 2022 03:55:05 -1000
-Message-Id: <017abb138460978e87c84c509f9af7524a053e1b.1669557026.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 17/31] mobile-broadband-provider-info: upgrade 20220725 -> 20221107
+Date: Sun, 27 Nov 2022 03:55:03 -1000
+Message-Id: <d9c986703568e115df7ce87b548879d1d732116f.1669557026.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1669557026.git.steve@sakoman.com>
 References: <cover.1669557026.git.steve@sakoman.com>
@@ -61,47 +61,33 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 27 Nov 2022 13:56:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173864
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173862
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
-Changelog:
-=========
-- ISO 3166-1: Update name for TR. Fixes #38
-- Translation updates for ISO 3166-1
-- Translation updates for ISO 3166-2. Closes: #1020633
-- Translation updates for ISO 3166-3
-- Translation updates for ISO 639-2
-- Translation updates for ISO 639-3
-- Translation updates for ISO 639-5
-- Translation updates for ISO 4217
-- Translation updates for ISO 15924
-
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 99917b4b7d5642b292cb95c770871b95e411dfc5)
+(cherry picked from commit 7e12fa1e6250fc358ba159a6b626458d871f7ccf)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../iso-codes/{iso-codes_4.11.0.bb => iso-codes_4.12.0.bb}      | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/iso-codes/{iso-codes_4.11.0.bb => iso-codes_4.12.0.bb} (94%)
+ .../mobile-broadband-provider-info_git.bb                     | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/iso-codes/iso-codes_4.11.0.bb b/meta/recipes-support/iso-codes/iso-codes_4.12.0.bb
-similarity index 94%
-rename from meta/recipes-support/iso-codes/iso-codes_4.11.0.bb
-rename to meta/recipes-support/iso-codes/iso-codes_4.12.0.bb
-index be573981b0..ea7c43cdae 100644
---- a/meta/recipes-support/iso-codes/iso-codes_4.11.0.bb
-+++ b/meta/recipes-support/iso-codes/iso-codes_4.12.0.bb
-@@ -9,7 +9,7 @@ LICENSE = "LGPL-2.1-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
+index 2cc92b7b47..e802bcee18 100644
+--- a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
++++ b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
+@@ -5,8 +5,8 @@ SECTION = "network"
+ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=87964579b2a8ece4bc6744d2dc9a8b04"
  
- SRC_URI = "git://salsa.debian.org/iso-codes-team/iso-codes.git;protocol=https;branch=main;"
--SRCREV = "2651d7fe65582263c57385a852b0c6d8a49f6985"
-+SRCREV = "5e4dddbd1f8902ab0252ccbb19b783cc0359505a"
+-SRCREV = "fe19892a8168bf19d81e3bc4ee319bf7f9f058f5"
+-PV = "20220725"
++SRCREV = "22a5de3ef637990ce03141f786fbdb327e9c5a3f"
++PV = "20221107"
+ PE = "1"
  
- # inherit gettext cannot be used, because it adds gettext-native to BASEDEPENDS which
- # are inhibited by allarch
+ SRC_URI = "git://gitlab.gnome.org/GNOME/mobile-broadband-provider-info.git;protocol=https;branch=main"
 -- 
 2.25.1
 
