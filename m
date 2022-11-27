@@ -1,129 +1,172 @@
-Return-Path: <petr.vorel@gmail.com>
+Return-Path: <pevik@seznam.cz>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4027C4332F
-	for <webhook@archiver.kernel.org>; Sun, 27 Nov 2022 22:22:25 +0000 (UTC)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web10.103054.1669587742482423564
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5A05C4332F
+	for <webhook@archiver.kernel.org>; Sun, 27 Nov 2022 22:22:55 +0000 (UTC)
+Received: from mxd.seznam.cz (mxd.seznam.cz [77.75.76.210])
+ by mx.groups.io with SMTP id smtpd.web10.103063.1669587767253818835
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Nov 2022 14:22:22 -0800
+ Sun, 27 Nov 2022 14:22:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=gCouKQZa;
- spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: petr.vorel@gmail.com)
-Received: by mail-pj1-f42.google.com with SMTP id 3-20020a17090a098300b00219041dcbe9so7418906pjo.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Nov 2022 14:22:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=UrtehQ3TXwAElU7q0WXfgd3zwnjuv2VlWpFeTAdJS0c=;
-        b=gCouKQZaE4IA0t1OooSJcef5pZzpJWBs/QlFAdFI6SH84r1VcybNu8dMf9+TY1bUfk
-         ZWVw8IYMImhzZYYPFILXy+AFxajsKjqV28BTxRqV51rkSKTV0iSaKspQ0/EiWuoifnwK
-         gp1AH6YTMTDgpTLBYRQZpUTVk9lWwPREqSP1XG3YAAwODkngy6K44pqCVwWYkfB4UN/l
-         OqOh/QzXLP++cZ4I1alnDLDFG1sfGjwVCEVwtlHpCso0m6yNs+sgcmXOcV38NkFZ1v7i
-         8EJ1dbILXQamp6BB9Q9fa1CKtbomAY1RTXdM9UXn80XpE6Po/GrD3K5SKVwpPUeI5TGa
-         aw7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UrtehQ3TXwAElU7q0WXfgd3zwnjuv2VlWpFeTAdJS0c=;
-        b=Yk9UW5cX+NZhMseGIjKEaXpF41BO4apNGklyC/vNHB56nywtTB5yh2GkFnsrrQQZcf
-         Do6trH3thTumGyAg6UAqIFMdfRN/UVP42R9FhZZOB+MJyfXrvUBCtvNBO6u7X7sI07kS
-         IbRKND4QLOQXBNUYoCoLoFPOxGtM9eRGy9iqY6yqOSVB90N4ATC++TntPX+bRocL/XHt
-         PxKtyRhr+Gw+N90awmQp2WK/oamwueGM5fLj8+8FFla6/ZHHr5C4SBCskzfYWweJ3PUs
-         Yn9uLqfdCisTziNJBiE/Ifl4Mkjyp8BQBMHXNUArjpLd4Py0khh9va0XUxnHHV/u5qMG
-         WCAA==
-X-Gm-Message-State: ANoB5pkcX3WZHEUPnL6WLdzAJ3wmLdFXGLd45NT7lPgz8NToym5o6mDB
-	V1aF4FBVvW8HMLgn0HQnt09mKxClNd8QMMIWxBk=
-X-Google-Smtp-Source: AA0mqf6VSr+gqg6LUHi5+yofPlTyUepKliqz+NHKgv3x9fhNymt+kxA1JXaWf/xcmUBvr4dg4SlHsq9PBTDXokgX90s=
-X-Received: by 2002:a17:90a:8592:b0:219:2e8c:a775 with SMTP id
- m18-20020a17090a859200b002192e8ca775mr3999675pjn.102.1669587741935; Sun, 27
- Nov 2022 14:22:21 -0800 (PST)
-MIME-Version: 1.0
-References: <20221127151708.473859-1-pevik@seznam.cz> <Y4OvnGtP+XQBEjXc@mail.local>
- <CAB1t1Cym1x5-k7yG3QCB+br+J-d0AouFJMBHObywPb7-F-PO7Q@mail.gmail.com> <Y4PhEOd5RUZ97Bff@mail.local>
-In-Reply-To: <Y4PhEOd5RUZ97Bff@mail.local>
-From: Petr Vorel <petr.vorel@gmail.com>
-Date: Sun, 27 Nov 2022 23:22:10 +0100
-Message-ID: <CAB1t1CxfTMpk+Lc_fA7wb=4ux0M_XEpteMxHKO1dgTrvh7Vetg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 1/1] iputils: update to 20221126
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Petr Vorel <pevik@seznam.cz>, openembedded-core@lists.openembedded.org, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	=?UTF-8?B?RGFuaWVsIETDrWF6?= <daniel.diaz@linaro.org>, 
-	Khem Raj <raj.khem@gmail.com>, Changhyeok Bae <changhyeok.bae@gmail.com>, 
+ dkim=pass header.i=@seznam.cz header.s=szn20221014 header.b=eg5IqLch;
+ spf=pass (domain: seznam.cz, ip: 77.75.76.210, mailfrom: pevik@seznam.cz)
+Received: from email.seznam.cz
+	by smtpc-mxd-6d6659f9df-gw7x2
+	(smtpc-mxd-6d6659f9df-gw7x2 [2a02:598:128:8a00::1000:a4b])
+	id 2aa6b03e9c860f652aa10e49;
+	Sun, 27 Nov 2022 23:22:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seznam.cz;
+	s=szn20221014; t=1669587762;
+	bh=F4khJpWFQh8qzFEgVbXw+sf64QopXFoyzHHSVjdmJbo=;
+	h=Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	b=eg5IqLchSYVZ0mQoYvQk8t1BsLUDwgUD41PIwUwA/IsjRLhujE63mdVVTJUbXVS0C
+	 Old6qKvjuK9uwEp+x1SLquYjRSZKfYSbCcxktDLfzWZJqA6mAJdx3p5tUsdctRzEh9
+	 OMi6dihuo6P1p9ru/bjg6wUThH8BAGVUxDbpITr1kR0gDFqpzdL2xUxInK2nBnHSCW
+	 +/8nQIqCF5JAJz4pfLIXlgZaMeGTSokObMrLvCI9stv3b+4GZ6drm/u6vr4ayoUkVv
+	 8z6SLzfXIT1662+ewAhoLffxLKJn0ApY1JiiWIljqPDFlq0FvcW54EReXJ5EntYFE9
+	 FMQq7UcSF3ClA==
+Received: from localhost.localdomain (mail.ms-free.net [185.147.46.46])
+	by email-relay8.ko.seznam.cz (Seznam SMTPD 1.3.140) with ESMTP;
+	Sun, 27 Nov 2022 23:22:40 +0100 (CET)  
+From: Petr Vorel <pevik@seznam.cz>
+To: openembedded-core@lists.openembedded.org
+Cc: Petr Vorel <petr.vorel@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	=?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>,
+	Khem Raj <raj.khem@gmail.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Changhyeok Bae <changhyeok.bae@gmail.com>,
 	Alexander Kanavin <alex.kanavin@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: [PATCH v3 1/1] iputils: update to 20221126
+Date: Sun, 27 Nov 2022 23:22:34 +0100
+Message-Id: <20221127222234.502122-1-pevik@seznam.cz>
+X-Mailer: git-send-email 2.38.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 27 Nov 2022 22:22:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173888
+ <openembedded-core@lists.openembedded.org>; Sun, 27 Nov 2022 22:22:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173889
 
-On Sun, 27 Nov 2022 at 23:13, Alexandre Belloni
-<alexandre.belloni@bootlin.com> wrote:
->
-> On 27/11/2022 22:55:31+0100, Petr Vorel wrote:
-> > On Sun, 27 Nov 2022 at 19:42, Alexandre Belloni
-> > <alexandre.belloni@bootlin.com> wrote:
-> > >
-> > > Hello,
-> > >
-> > > You should at least build test your patches
-> >
-> > OK, I'll do. What always discourages me is that unlike Buildroot
-> > build, openembedded takes so long.
-> >
-> > What I usually do:
-> > cd ..; git clone git://git.openembedded.org/bitbake.git; cd -
-> > . oe-init-build-env
-> > bitbake iputils
-> >
-> > If there is anything I can speedup a build (e.g. using some of host
-> > utils to build really just the target) please let me know.
->
-> Not really, you'd have to keep your sstate-cache but my guess is that
-> your builds are infrequent enough that everything will rebuild anyway.
+From: Petr Vorel <petr.vorel@gmail.com>
 
-Yes.
+This release removed: ninfod, rarpd, rdisc.
+Remove also related, not yet upstreamed patch.
 
->
-> This made me try to understand why you didn't test your patches and I
-> didn't realize you are maintaining iputils. Thanks for the help!
+Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
+---
+Hi,
 
-Yes, I'm just iputils and ltp maintainer, thus understand the upstream code,
-but not much of openembedded (I don't even use it).
-
->
-> >
-> > >
-> > > On 27/11/2022 16:17:08+0100, Petr Vorel wrote:
-> > > > -PACKAGECONFIG ??= "libcap rarpd \
-> > > > -                   ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ninfod', '', d)} \
-> > > > +PACKAGECONFIG ??= "libcap \
-> > > > +                   ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', '', d)} \
-> > >
-> > > This probably doesn't work either
-> > Not sure what's wrong on this, but maybe build shows that out.
->
-> The whole bb.utils.contains call can be removed because it doesn't do
-> anything once you remove the 'ninfod' argument.
->
-> I'll send the patch to our CI with the line removed
-Thank you! I'll send v3 without this line (so that it can be applied
-if your testing is ok):
+changes v2-v3:
+* Remove ninfod related code (Alexandre Belloni):
 ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ninfod', '', d)} \
+
+Hope now it's correct (Alexandre Belloni is going to test v2 without
+this line).
 
 Kind regards,
 Petr
 
->
->
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+ .../0001-rarpd-rdisc-Drop-PrivateUsers.patch  | 27 -------------------
+ ...putils_20211215.bb => iputils_20221126.bb} | 20 +++-----------
+ 2 files changed, 3 insertions(+), 44 deletions(-)
+ delete mode 100644 meta/recipes-extended/iputils/iputils/0001-rarpd-rdisc-Drop-PrivateUsers.patch
+ rename meta/recipes-extended/iputils/{iputils_20211215.bb => iputils_20221126.bb} (64%)
+
+diff --git a/meta/recipes-extended/iputils/iputils/0001-rarpd-rdisc-Drop-PrivateUsers.patch b/meta/recipes-extended/iputils/iputils/0001-rarpd-rdisc-Drop-PrivateUsers.patch
+deleted file mode 100644
+index c61e39dc80..0000000000
+--- a/meta/recipes-extended/iputils/iputils/0001-rarpd-rdisc-Drop-PrivateUsers.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-From dfeeb3f1328d09f516edeb6349bd63e3c87f9397 Mon Sep 17 00:00:00 2001
+-From: Alex Kiernan <alex.kiernan@gmail.com>
+-Date: Thu, 13 Feb 2020 06:08:45 +0000
+-Subject: [PATCH] rarpd:Drop PrivateUsers
+-
+-rarpd cannot gain the necessary capabilities with
+-PrivateUsers enabled.
+-
+-Upstream-Status: Pending
+-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+-
+----
+- systemd/rarpd.service.in | 1 -
+- 1 file changed, 1 deletion(-)
+-
+-diff --git a/systemd/rarpd.service.in b/systemd/rarpd.service.in
+-index e600c10..f5d7621 100644
+---- a/systemd/rarpd.service.in
+-+++ b/systemd/rarpd.service.in
+-@@ -12,7 +12,6 @@ AmbientCapabilities=CAP_NET_RAW
+- DynamicUser=yes
+- PrivateTmp=yes
+- PrivateDevices=yes
+--PrivateUsers=yes
+- ProtectSystem=strict
+- ProtectHome=yes
+- ProtectControlGroups=yes
+diff --git a/meta/recipes-extended/iputils/iputils_20211215.bb b/meta/recipes-extended/iputils/iputils_20221126.bb
+similarity index 64%
+rename from meta/recipes-extended/iputils/iputils_20211215.bb
+rename to meta/recipes-extended/iputils/iputils_20221126.bb
+index 3ddce0be54..ad9c275e0c 100644
+--- a/meta/recipes-extended/iputils/iputils_20211215.bb
++++ b/meta/recipes-extended/iputils/iputils_20221126.bb
+@@ -11,9 +11,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=bb64c89bb0e23b72930d2380894c47a1"
+ DEPENDS = "gnutls"
+ 
+ SRC_URI = "git://github.com/iputils/iputils;branch=master;protocol=https \
+-           file://0001-rarpd-rdisc-Drop-PrivateUsers.patch \
+            "
+-SRCREV = "1d1e7c43210d8af316a41cb2c53d612a4c16f34d"
++SRCREV = "5ffabc4190cab975c7332645259e286a032e183b"
+ 
+ S = "${WORKDIR}/git"
+ 
+@@ -23,14 +22,11 @@ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>20\d+)"
+ # breaks the version order.
+ CVE_CHECK_IGNORE += "CVE-2000-1213 CVE-2000-1214"
+ 
+-PACKAGECONFIG ??= "libcap rarpd \
+-                   ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ninfod', '', d)} \
++PACKAGECONFIG ??= "libcap \
+                    ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}"
+ PACKAGECONFIG[libcap] = "-DUSE_CAP=true, -DUSE_CAP=false -DNO_SETCAP_OR_SUID=true, libcap libcap-native"
+ PACKAGECONFIG[libidn] = "-DUSE_IDN=true, -DUSE_IDN=false, libidn2"
+ PACKAGECONFIG[gettext] = "-DUSE_GETTEXT=true, -DUSE_GETTEXT=false, gettext"
+-PACKAGECONFIG[ninfod] = "-DBUILD_NINFOD=true,-DBUILD_NINFOD=false,"
+-PACKAGECONFIG[rarpd] = "-DBUILD_RARPD=true,-DBUILD_RARPD=false,"
+ PACKAGECONFIG[systemd] = "-Dsystemdunitdir=${systemd_system_unitdir},,systemd"
+ PACKAGECONFIG[docs] = "-DBUILD_HTML_MANS=true -DBUILD_MANS=true,-DBUILD_HTML_MANS=false -DBUILD_MANS=false, libxslt"
+ 
+@@ -43,9 +39,7 @@ ALTERNATIVE_PRIORITY = "100"
+ ALTERNATIVE:${PN}-ping = "ping"
+ ALTERNATIVE_LINK_NAME[ping] = "${base_bindir}/ping"
+ 
+-SPLITPKGS = "${PN}-ping ${PN}-arping ${PN}-tracepath ${PN}-clockdiff ${PN}-rdisc \
+-             ${@bb.utils.contains('PACKAGECONFIG', 'rarpd', '${PN}-rarpd', '', d)} \
+-             ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', '${PN}-ninfod', '', d)}"
++SPLITPKGS = "${PN}-ping ${PN}-arping ${PN}-tracepath ${PN}-clockdiff"
+ PACKAGES += "${SPLITPKGS}"
+ 
+ ALLOW_EMPTY:${PN} = "1"
+@@ -56,11 +50,3 @@ FILES:${PN}-ping = "${base_bindir}/ping.${BPN}"
+ FILES:${PN}-arping = "${base_bindir}/arping"
+ FILES:${PN}-tracepath = "${base_bindir}/tracepath"
+ FILES:${PN}-clockdiff = "${base_bindir}/clockdiff"
+-FILES:${PN}-rarpd = "${base_sbindir}/rarpd  ${systemd_system_unitdir}/rarpd@.service"
+-FILES:${PN}-rdisc = "${base_sbindir}/rdisc"
+-FILES:${PN}-ninfod = "${base_sbindir}/ninfod ${sysconfdir}/init.d/ninfod.sh"
+-
+-SYSTEMD_PACKAGES = "${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', '${PN}-ninfod', '', d)} \
+-                    ${PN}-rdisc"
+-SYSTEMD_SERVICE:${PN}-ninfod = "ninfod.service"
+-SYSTEMD_SERVICE:${PN}-rdisc = "rdisc.service"
+-- 
+2.38.1
+
 
