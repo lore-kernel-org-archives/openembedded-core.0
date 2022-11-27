@@ -1,202 +1,449 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C924C4332F
-	for <webhook@archiver.kernel.org>; Sun, 27 Nov 2022 03:35:00 +0000 (UTC)
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
- by mx.groups.io with SMTP id smtpd.web10.85288.1669520093347862612
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28278C43217
+	for <webhook@archiver.kernel.org>; Sun, 27 Nov 2022 06:56:21 +0000 (UTC)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+ by mx.groups.io with SMTP id smtpd.web11.87453.1669532176014445423
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Nov 2022 19:34:53 -0800
+ Sat, 26 Nov 2022 22:56:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=bo7uIDKF;
- spf=pass (domain: gmail.com, ip: 209.85.166.175, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-il1-f175.google.com with SMTP id bp12so3621774ilb.9
-        for <openembedded-core@lists.openembedded.org>; Sat, 26 Nov 2022 19:34:53 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=DdvZK1wv;
+ spf=pass (domain: gmail.com, ip: 209.85.208.181, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f181.google.com with SMTP id a7so9647977ljq.12
+        for <openembedded-core@lists.openembedded.org>; Sat, 26 Nov 2022 22:56:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=hz6K8nt0W//sbWosc6FvtKDx0utaN204Ndl73S+kjcY=;
-        b=bo7uIDKF9/Z/utkq0THC1NgAknpNhnjv6CbxF8K/vqkS6oyipzIKJkUtW3NC1QKNQT
-         H9iMiNFjvl2d2p+UyvhpMCmn9dQFxH4Ux31hvlH3M4VtvAQZGHNiRWPoBddEJU2zXSOv
-         6bc1HjYfEsIX+5YqAB/EAbPqMP1qfm1S2y7rE0bagxUyRTubH3o9eSU7C8kOL5gipsj7
-         bzQChbACUY+j4/g2C59WocX3MEE0uIRps/zbmgZi7RFSRAvkVEkrjJmDgbSeiRswlv0b
-         Tp0Mf/EYHxbYPhT89ZYLif5zcJZy3cWC5H0HWJ9CykK7UVYKu/INQ11WTa4Pkr1J45ps
-         PBTQ==
+        bh=B3kzlyooUfMjuX9WuKMwEGsvZQUocjqai+6CHtMUTLs=;
+        b=DdvZK1wvrVKT8XSi0TcVKsCUYvENS3k66HoqbBEXzLVzeflQdA+UyUkJMSyXJ79fZf
+         Tp5nAr4i0QUmxp54lekroxc4k9iTJnCdy2PH35nSlqkThZo+sYzVwlit67p749PJ+wAI
+         /pcrO7r6Ic91qDzzqdxMDi8i9vwE5CZHhh7jOXYsyFaCFXIRsnhl+ESyDSn2K78nNLXa
+         I7uzpb428lEEcbE7O0WRY88g8tgL2mgj8KzIIUKQtI4b9MWLi+YVnRKPWnUGt8K3i9n8
+         8QU98TSjfRLdDs4GiTYbLefUpnQCtuFG3xtYH1hNpuzPTZhVz/z5lebZo5nQj/2Jsr8a
+         AX3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hz6K8nt0W//sbWosc6FvtKDx0utaN204Ndl73S+kjcY=;
-        b=RgXnatZyJ5jrZb7rmeqp7KbiuVlQuy5GMBKB+v3NYokCYoVJsNYKjaTHGfdNX0gf/4
-         tYpNK31h1cwUbkKTpnFy3VBV4giMB2dHLjAtzOZkVBUyI1lGW8khVqDNIWVlBpaGr1Sj
-         3tjPtyj1wYAGTU+o72mrzLLGLqJprC1lixabnMjwzca+BTdZ+gFpb4m5+lAUtQUOflJm
-         /EAykSUQszL9OFzVG2ydDKdRunuHdzsv8Af2jGYe/zk2IO4kb5JbhFFVay3BZ2fIMj4/
-         D7cJxUBV7cG6faGVpOQCGUkL4tt8MC9l+sFlyvMQ2ClQl0rTPEVzCVoKDUHS9r1W/6yw
-         aw2w==
-X-Gm-Message-State: ANoB5pmrmbDPEc7hKejEU0QL5ujXBJyPxE07ngFastCdVH6kiT5JSmqx
-	ho/ia0QSCNw98Xap603Z3KkQXxSMYONRf1+c43o=
-X-Google-Smtp-Source: AA0mqf6+v0vnkJNWcPySpkNbslrZXymyvK3HnYMdsFZM8i0LHD8tAR9KYLbG6u9Q3HSp/SPYztQcSkbGlWt/hpd3dG8=
-X-Received: by 2002:a92:d2c9:0:b0:302:f72b:2029 with SMTP id
- w9-20020a92d2c9000000b00302f72b2029mr4766638ilg.107.1669520092552; Sat, 26
- Nov 2022 19:34:52 -0800 (PST)
+        bh=B3kzlyooUfMjuX9WuKMwEGsvZQUocjqai+6CHtMUTLs=;
+        b=28trY8RLipUTP3cn2DX5ITx8/JB/q/8i/JHbHdIUlqAgQcGN7xHwudPFcf+yhiNk9f
+         YIlKq8lqco6z3fmfk8090PlHZstDJNCYFsJlrV63k2VSkDSZbVI8+bTiMkPZEyrPybkU
+         N3NKDiKsNNB1654K8Zscbu7BDHwV/thfkRyNgHD4I+opR6D0AiCYtzwiQtGPwSY81pU4
+         e1yBlJpblFfQrG4vumJJSDZwAcccm2xVeE7vnqDL7bbi7GqLMmseZYswbIKfv+xJE3ry
+         jh9MM9c9pA75CC/txGP2+px5GmhMEiwfrKqC+eZ6CrcY6bIq//fbYSJJGrAZu2clSgR7
+         GBnA==
+X-Gm-Message-State: ANoB5pn85b7dDmmMkGDEEfjk7ClK6Lak/8HSr6nUcLVtfiqTLZkx0tYE
+	w+Dr0fWlWuXP13U79wqRDcXzZoQQ4WCsrR/qm9Y=
+X-Google-Smtp-Source: AA0mqf7PgIMzHgCnp/yJAyW5UmLNcqvhi2/r9hKqPq6v+kmDr75K8BpiZsPujzO+JN/i2njmts7DH7BRwptTRAcwIUY=
+X-Received: by 2002:a2e:94cb:0:b0:279:8865:38e1 with SMTP id
+ r11-20020a2e94cb000000b00279886538e1mr4906974ljh.217.1669532173999; Sat, 26
+ Nov 2022 22:56:13 -0800 (PST)
 MIME-Version: 1.0
-References: <20221125155412.1119701-1-mikko.rapeli@linaro.org> <d2cd0198-ac04-159e-f4c3-42811cd677b5@embed.me.uk>
-In-Reply-To: <d2cd0198-ac04-159e-f4c3-42811cd677b5@embed.me.uk>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sat, 26 Nov 2022 22:34:41 -0500
-Message-ID: <CADkTA4NGsBnujfmkHixs5DhiyRL0--YgnB5x-cY_wfuebVu38A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] linux-yocto: enable strict kernel module
- signing by default
-To: Jack Mitchell <ml@embed.me.uk>
+References: <20221126230547.1432326-1-f_l_k@t-online.de> <20221126230547.1432326-2-f_l_k@t-online.de>
+In-Reply-To: <20221126230547.1432326-2-f_l_k@t-online.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sun, 27 Nov 2022 07:56:03 +0100
+Message-ID: <CANNYZj85CRTtm7Qq1=UUS2MBfXoiBatbGa8ORVA6xVV-E1CSqA@mail.gmail.com>
+Subject: Re: [oe-core][PATCH 2/2] gcr: add recipe for gcr-4, needed to build
+ with gtk4
+To: Markus Volk <f_l_k@t-online.de>
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/alternative; boundary="0000000000002c222f05ee6e40ab"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 27 Nov 2022 03:35:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173836
+ <openembedded-core@lists.openembedded.org>; Sun, 27 Nov 2022 06:56:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173837
 
-On Fri, Nov 25, 2022 at 11:11 AM Jack Mitchell <ml@embed.me.uk> wrote:
+--0000000000002c222f05ee6e40ab
+Content-Type: text/plain; charset="UTF-8"
+
+Can you name the 4.x recipe simply gcr please?
+
+Alex
+
+On Sun 27. Nov 2022 at 0.06, Markus Volk <f_l_k@t-online.de> wrote:
+
+> gcr-3 recipe is still needed for gnome projects that stick to gtk+3,
+> rename to gcr3.
 >
-> On 25/11/2022 15:54, Mikko Rapeli wrote:
-> > It's a good default and used in many Linux distributions.
-> > Did not test out of tree modules if they do correct things but
-> > any such failures should be fixed.
-> >
-> > One way to verify that kernel module signing also works:
-> >
-> > root@qemux86-64:~# dmesg|grep X.509
-> > [    1.298936] Loading compiled-in X.509 certificates
-> > [    1.328280] Loaded X.509 cert 'Build time autogenerated kernel key: ee1bed6d845358744c764683bf73b4404cc79287'
-> >
-> > These logs in dmesg show that signing in kernel is enabled and
-> > key is found. Then if any kernel modules load, they were
-> > signed correctly. Additionally modinfo tool from kmod shows kernel module
-> > signing details:
+> Signed-off-by: Markus Volk <f_l_k@t-online.de>
+> ---
+>  ...build-fix-one-parallel-build-failure.patch |  0
+>  ...1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch |  0
+>  .../gcr_3.40.0.bb => gcr4/gcr3_3.40.0.bb}     |  8 ++-
+>  meta/recipes-gnome/gcr4/gcr4_4.0.0.bb         | 59 +++++++++++++++++++
+>  4 files changed, 65 insertions(+), 2 deletions(-)
+>  rename meta/recipes-gnome/{gcr/gcr =>
+> gcr4/gcr3}/0001-gcr-meson.build-fix-one-parallel-build-failure.patch (100%)
+>  rename meta/recipes-gnome/{gcr/gcr =>
+> gcr4/gcr3}/b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch (100%)
+>  rename meta/recipes-gnome/{gcr/gcr_3.40.0.bb => gcr4/gcr3_3.40.0.bb}
+> (87%)
+>  create mode 100644 meta/recipes-gnome/gcr4/gcr4_4.0.0.bb
 >
-> Hi Mikko,
+> diff --git
+> a/meta/recipes-gnome/gcr/gcr/0001-gcr-meson.build-fix-one-parallel-build-failure.patch
+> b/meta/recipes-gnome/gcr4/gcr3/0001-gcr-meson.build-fix-one-parallel-build-failure.patch
+> similarity index 100%
+> rename from
+> meta/recipes-gnome/gcr/gcr/0001-gcr-meson.build-fix-one-parallel-build-failure.patch
+> rename to
+> meta/recipes-gnome/gcr4/gcr3/0001-gcr-meson.build-fix-one-parallel-build-failure.patch
+> diff --git
+> a/meta/recipes-gnome/gcr/gcr/b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch
+> b/meta/recipes-gnome/gcr4/gcr3/b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch
+> similarity index 100%
+> rename from
+> meta/recipes-gnome/gcr/gcr/b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch
+> rename to
+> meta/recipes-gnome/gcr4/gcr3/b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch
+> diff --git a/meta/recipes-gnome/gcr/gcr_3.40.0.bb
+> b/meta/recipes-gnome/gcr4/gcr3_3.40.0.bb
+> similarity index 87%
+> rename from meta/recipes-gnome/gcr/gcr_3.40.0.bb
+> rename to meta/recipes-gnome/gcr4/gcr3_3.40.0.bb
+> index 917be5938b..5318768db6 100644
+> --- a/meta/recipes-gnome/gcr/gcr_3.40.0.bb
+> +++ b/meta/recipes-gnome/gcr4/gcr3_3.40.0.bb
+> @@ -20,11 +20,15 @@ GTKDOC_MESON_OPTION = "gtk_doc"
+>  inherit gnomebase gtk-icon-cache gtk-doc features_check
+> upstream-version-is-even vala gobject-introspection gettext mime mime-xdg
+>  UPSTREAM_CHECK_REGEX =
+> "[^\d\.](?P<pver>\d+\.(?!9\d+)(\d*[02468])+(\.\d+)+)\.tar"
 >
-> Do the kernel modules get properly stripped, last time I was looking at
-> this it was skipped when signed and as such root filesystem sizes
-> ballooned with signed modules.
-
-oe package.py still does skip stripping for signed modules.
-
-I'm sure it is fixable, but we need someone to step up and have a closer look.
-
-Richard can probably comment better than I can, but there's a variety
-of use cases (from SDKs, to debug, to SBOM, etc) that all need to deal
-with whether binaries are stripped and be able to find the
-non-stripped executables in order to work properly.
-
-So to answer the follow up suggestion of using the kernel's module
-strip directly .. it also might be feasible, but we need to make sure
-that all the other uses cases still work. My preference is to do the
-work in package.py, so that we don't have to worry about the kernel
-provider and any additional features have code in the same place as a
-baseline.
-
-Bruce
-
+> -SRC_URI +=
+> "file://0001-gcr-meson.build-fix-one-parallel-build-failure.patch \
+> -            file://b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch"
+> +SRC_URI = " \
+> +
+> https://download.gnome.org/sources/gcr/3.40/gcr-${PV}.tar.xz;name=archive
+> \
+> +       file://0001-gcr-meson.build-fix-one-parallel-build-failure.patch \
+> +       file://b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch"
 >
-> Regards,
-> Jack.
+>  SRC_URI[archive.sha256sum] =
+> "b9d3645a5fd953a54285cc64d4fc046736463dbd4dcc25caf5c7b59bed3027f5"
 >
-> >
-> > root@qemux86-64:~# lsmod
-> > Module                  Size  Used by
-> > sch_fq_codel           20480  1
-> > root@qemux86-64:~# modinfo sch_fq_codel
-> > filename:
-> > /lib/modules/5.19.9-yocto-standard/kernel/net/sched/sch_fq_codel.ko
-> > description:    Fair Queue CoDel discipline
-> > license:        GPL
-> > author:         Eric Dumazet
-> > depends:
-> > retpoline:      Y
-> > intree:         Y
-> > name:           sch_fq_codel
-> > vermagic:       5.19.9-yocto-standard SMP preempt mod_unload
-> > sig_id:         PKCS#7
-> > signer:         Build time autogenerated kernel key
-> > sig_key:        2B:2A:BE:7D:B5:92:DC:98:A9:F8:D7:00:A6:73:35:20:10:D8:19:EE
-> > sig_hashalgo:   sha512
-> > signature:      72:6C:E1:78:7C:A7:7B:CC:C4:33:23:6B:95:EC:1B:2A:BD:D9:EC:7A:
-> >                 85:07:05:B2:70:3C:C9:64:F6:78:8A:01:A0:E3:64:C7:47:BB:5D:0E:
-> >                 86:BA:C1:DD:40:05:AE:1F:19:D4:F0:98:49:86:CC:61:14:3C:AB:1E:
-> >                 4A:1C:83:47:1D:FA:6D:E4:83:79:3A:2B:3F:7D:B6:E0:09:AE:B4:01:
-> >                 07:EE:C9:5B:99:70:4F:49:8A:64:E4:7D:84:AA:37:F5:DB:5F:16:5C:
-> >                 D4:DC:0C:33:73:5D:D9:8D:7E:71:5B:A1:ED:61:81:5E:1C:ED:A2:D8:
-> >                 76:46:99:B3:78:08:F7:7F:0D:4B:94:26:21:63:47:B0:75:9F:A4:EA:
-> >                 3D:14:D4:09:CC:59:F3:FC:80:AC:BF:56:1E:8C:73:FD:CB:07:27:C6:
-> >                 3D:98:4C:E4:C3:9C:C0:AD:90:53:46:8F:AE:66:FE:10:C8:92:7F:BA:
-> >                 74:C2:B0:E3:6E:47:66:AB:39:25:41:12:66:91:20:27:1A:58:77:75:
-> >                 4F:C0:3F:F1:8E:5F:AB:0A:BD:8B:62:4F:2B:01:5A:5C:4E:5C:31:39:
-> >                 FB:F4:14:2E:BF:D8:51:4B:C8:D0:E2:0A:20:80:95:05:80:E3:46:75:
-> >                 43:80:30:63:6F:A4:25:82:59:35:34:E8:6A:DC:FF:93:F8:32:BB:FA:
-> >                 66:2D:B9:08:75:1A:3A:3A:5D:57:F4:63:85:01:B4:EB:96:1B:CE:6F:
-> >                 4D:61:FC:AA:6C:39:7F:D6:37:C9:84:0A:84:17:FB:BE:FC:20:CB:EE:
-> >                 8C:2F:93:92:F6:48:F4:07:50:84:D8:2C:B5:2E:A7:7D:3A:3F:DC:E9:
-> >                 B9:17:EF:47:49:EC:BA:62:1C:C4:C6:58:9C:0C:8D:26:41:6E:1F:C1:
-> >                 95:A7:8B:57:5D:1D:4B:B4:04:00:F6:68:24:9E:E2:BF:11:EC:05:6C:
-> >                 83:E8:C6:DB:BB:3D:22:8B:31:BB:99:1A:44:E1:15:71:C3:AA:FA:01:
-> >                 98:BA:6B:20:26:D6:9C:61:5C:6F:81:29:09:B1:EA:C5:28:15:F3:98:
-> >                 C0:18:FE:08:8B:40:A5:F3:3C:71:4B:C6:41:CD:38:51:79:EA:5D:C9:
-> >                 13:39:B5:FD:A3:D1:BB:11:94:66:F7:7B:6A:DC:2C:01:5F:AB:73:08:
-> >                 68:24:32:BE:BC:7A:90:E5:FD:97:17:6C:DD:46:D0:0E:2C:03:31:66:
-> >                 B3:7C:B2:48:E1:E0:1A:63:20:48:4C:D4:55:56:71:04:3B:5F:3B:28:
-> >                 BF:64:6C:52:A9:07:6D:FF:21:E9:06:35:E8:A1:D7:F4:C2:F9:D7:7B:
-> >                 9D:D2:90:16:2F:68:1E:3F:BE:43:ED:64
-> >
-> > Failures in signed kernel module loading should show as errors at
-> > runtime, for example systemd services, or as oeqa parselogs test
-> > failures which detects signature verification error messages from the
-> > kernel.
-> >
-> > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-> > ---
-> >  meta/recipes-kernel/linux/linux-yocto.inc | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-> > index 091003ed82..bab1f21479 100644
-> > --- a/meta/recipes-kernel/linux/linux-yocto.inc
-> > +++ b/meta/recipes-kernel/linux/linux-yocto.inc
-> > @@ -37,6 +37,9 @@ KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'efi', 'cfg/
-> >  KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'numa', 'features/numa/numa.scc', '', d)}"
-> >  KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'vfat', 'cfg/fs/vfat.scc', '', d)}"
-> >
-> > +# enable module signing by default
-> > +KERNEL_FEATURES:append = " features/module-signing/force-signing.scc"
-> > +
-> >  # A KMACHINE is the mapping of a yocto $MACHINE to what is built
-> >  # by the kernel. This is typically the branch that should be built,
-> >  # and it can be specific to the machine or shared
-> >
-> >
-> >
-> >
-> >
->
+> +S = "${WORKDIR}/gcr-${PV}"
+> +
+>  PACKAGECONFIG ??= " \
+>         ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'gtk', '', d)} \
+>         ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'gtk', '', d)} \
+> diff --git a/meta/recipes-gnome/gcr4/gcr4_4.0.0.bb
+> b/meta/recipes-gnome/gcr4/gcr4_4.0.0.bb
+> new file mode 100644
+> index 0000000000..13efdcc2bd
+> --- /dev/null
+> +++ b/meta/recipes-gnome/gcr4/gcr4_4.0.0.bb
+> @@ -0,0 +1,59 @@
+> +SUMMARY = "A library for bits of crypto UI and parsing etc"
+> +DESCRIPTION = "GCR is a library for displaying certificates, and crypto
+> UI, \
+> +accessing key stores. It also provides the viewer for crypto files on the
+> \
+> +GNOME desktop."
+> +HOMEPAGE = "https://gitlab.gnome.org/GNOME/gcr"
+> +BUGTRACKER = "https://gitlab.gnome.org/GNOME/gcr/issues"
+> +
+> +LICENSE = "GPL-2.0-only"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
+> +
+> +DEPENDS = "p11-kit glib-2.0 libgcrypt gnupg-native libsecret \
+> +           ${@bb.utils.contains('GI_DATA_ENABLED', 'True',
+> 'libxslt-native', '', d)}"
+> +
+> +CACHED_CONFIGUREVARS += "ac_cv_path_GPG='gpg2'"
+> +
+> +CFLAGS += "-D_GNU_SOURCE"
+> +
+> +GNOMEBASEBUILDCLASS = "meson"
+> +GTKDOC_MESON_OPTION = "gtk_doc"
+> +inherit gnomebase gtk-icon-cache gtk-doc features_check
+> upstream-version-is-even vala gobject-introspection gettext mime mime-xdg
+> +UPSTREAM_CHECK_REGEX =
+> "[^\d\.](?P<pver>\d+\.(?!9\d+)(\d*[02468])+(\.\d+)+)\.tar"
+> +
+> +SRC_URI = "
+> https://download.gnome.org/sources/gcr/${PV}/gcr-${PV}.tar.xz;name=archive
+> "
+> +SRC_URI[archive.sha256sum] =
+> "c45855924f0ee7bab43e2dd38bfafd2ac815c6e9864341c0161e171173dcec7c"
+> +
+> +S = "${WORKDIR}/gcr-${PV}"
+> +
+> +PACKAGECONFIG ??= " \
+> +       ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
+> +       ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'gtk', '', d)} \
+> +       ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'gtk', '', d)} \
+> +"
+> +PACKAGECONFIG[gtk] = "-Dgtk4=true,-Dgtk4=false,gtk4"
+> +PACKAGECONFIG[ssh_agent] = "-Dssh_agent=true,-Dssh_agent=false,,openssh"
+> +#'Use systemd socket activation for server programs'
+> +PACKAGECONFIG[systemd] = "-Dsystemd=enabled,-Dsystemd=disabled,systemd"
+> +
+> +FILES:${PN} += " \
+> +    ${datadir}/dbus-1 \
+> +    ${datadir}/gcr-4 \
+> +"
+> +
+> +# http://errors.yoctoproject.org/Errors/Details/20229/
+> +ARM_INSTRUCTION_SET:armv4 = "arm"
+> +ARM_INSTRUCTION_SET:armv5 = "arm"
+> +ARM_INSTRUCTION_SET:armv6 = "arm"
+> +
+> +EXTRA_OEMESON += "--cross-file ${WORKDIR}/meson-${PN}.cross"
+> +do_write_config:append() {
+> +    cat >${WORKDIR}/meson-${PN}.cross <<EOF
+> +[binaries]
+> +gpg2 = '${bindir}/gpg2'
+> +EOF
+> +}
+> +
+> +do_configure:prepend() {
+> +    sed -i "s|ssh_add_path = find_program('ssh-add', required:
+> get_option('ssh_agent')).full_path()|ssh_add_path = '${bindir}/ssh-add'|"
+> ${S}/meson.build
+> +    sed -i "s|ssh_agent_path = find_program('ssh-agent', required:
+> get_option('ssh_agent')).full_path()|ssh_agent_path =
+> '${bindir}/ssh-agent'|" ${S}/meson.build
+> +}
 > --
-> Jack Mitchell, Consultant
-> https://www.tuxable.co.uk
+> 2.34.1
+>
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#173776): https://lists.openembedded.org/g/openembedded-core/message/173776
-> Mute This Topic: https://lists.openembedded.org/mt/95256076/1050810
+> View/Reply Online (#173832):
+> https://lists.openembedded.org/g/openembedded-core/message/173832
+> Mute This Topic: https://lists.openembedded.org/mt/95280551/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [bruce.ashfield@gmail.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
 >
+>
 
+--0000000000002c222f05ee6e40ab
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+<div dir=3D"auto">Can you name the 4.x recipe simply gcr please?</div><div =
+dir=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><br><div class=3D"g=
+mail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun 27. Nov 2022 at 0.=
+06, Markus Volk &lt;<a href=3D"mailto:f_l_k@t-online.de">f_l_k@t-online.de<=
+/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left=
+:1ex;border-left-color:rgb(204,204,204)">gcr-3 recipe is still needed for g=
+nome projects that stick to gtk+3, rename to gcr3.<br>
+<br>
+Signed-off-by: Markus Volk &lt;<a href=3D"mailto:f_l_k@t-online.de" target=
+=3D"_blank">f_l_k@t-online.de</a>&gt;<br>
+---<br>
+=C2=A0...build-fix-one-parallel-build-failure.patch |=C2=A0 0<br>
+=C2=A0...1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch |=C2=A0 0<br>
+=C2=A0.../<a href=3D"http://gcr_3.40.0.bb" rel=3D"noreferrer" target=3D"_bl=
+ank">gcr_3.40.0.bb</a> =3D&gt; gcr4/<a href=3D"http://gcr3_3.40.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">gcr3_3.40.0.bb</a>}=C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 8 ++-<br>
+=C2=A0meta/recipes-gnome/gcr4/<a href=3D"http://gcr4_4.0.0.bb" rel=3D"noref=
+errer" target=3D"_blank">gcr4_4.0.0.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0| 59 +++++++++++++++++++<br>
+=C2=A04 files changed, 65 insertions(+), 2 deletions(-)<br>
+=C2=A0rename meta/recipes-gnome/{gcr/gcr =3D&gt; gcr4/gcr3}/0001-gcr-meson.=
+build-fix-one-parallel-build-failure.patch (100%)<br>
+=C2=A0rename meta/recipes-gnome/{gcr/gcr =3D&gt; gcr4/gcr3}/b3ca1d02bb0148c=
+a787ac4aead164d7c8ce2c4d8.patch (100%)<br>
+=C2=A0rename meta/recipes-gnome/{gcr/<a href=3D"http://gcr_3.40.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">gcr_3.40.0.bb</a> =3D&gt; gcr4/<a href=3D=
+"http://gcr3_3.40.0.bb" rel=3D"noreferrer" target=3D"_blank">gcr3_3.40.0.bb=
+</a>} (87%)<br>
+=C2=A0create mode 100644 meta/recipes-gnome/gcr4/<a href=3D"http://gcr4_4.0=
+.0.bb" rel=3D"noreferrer" target=3D"_blank">gcr4_4.0.0.bb</a><br>
+<br>
+diff --git a/meta/recipes-gnome/gcr/gcr/0001-gcr-meson.build-fix-one-parall=
+el-build-failure.patch b/meta/recipes-gnome/gcr4/gcr3/0001-gcr-meson.build-=
+fix-one-parallel-build-failure.patch<br>
+similarity index 100%<br>
+rename from meta/recipes-gnome/gcr/gcr/0001-gcr-meson.build-fix-one-paralle=
+l-build-failure.patch<br>
+rename to meta/recipes-gnome/gcr4/gcr3/0001-gcr-meson.build-fix-one-paralle=
+l-build-failure.patch<br>
+diff --git a/meta/recipes-gnome/gcr/gcr/b3ca1d02bb0148ca787ac4aead164d7c8ce=
+2c4d8.patch b/meta/recipes-gnome/gcr4/gcr3/b3ca1d02bb0148ca787ac4aead164d7c=
+8ce2c4d8.patch<br>
+similarity index 100%<br>
+rename from meta/recipes-gnome/gcr/gcr/b3ca1d02bb0148ca787ac4aead164d7c8ce2=
+c4d8.patch<br>
+rename to meta/recipes-gnome/gcr4/gcr3/b3ca1d02bb0148ca787ac4aead164d7c8ce2=
+c4d8.patch<br>
+diff --git a/meta/recipes-gnome/gcr/<a href=3D"http://gcr_3.40.0.bb" rel=3D=
+"noreferrer" target=3D"_blank">gcr_3.40.0.bb</a> b/meta/recipes-gnome/gcr4/=
+<a href=3D"http://gcr3_3.40.0.bb" rel=3D"noreferrer" target=3D"_blank">gcr3=
+_3.40.0.bb</a><br>
+similarity index 87%<br>
+rename from meta/recipes-gnome/gcr/<a href=3D"http://gcr_3.40.0.bb" rel=3D"=
+noreferrer" target=3D"_blank">gcr_3.40.0.bb</a><br>
+rename to meta/recipes-gnome/gcr4/<a href=3D"http://gcr3_3.40.0.bb" rel=3D"=
+noreferrer" target=3D"_blank">gcr3_3.40.0.bb</a><br>
+index 917be5938b..5318768db6 100644<br>
+--- a/meta/recipes-gnome/gcr/<a href=3D"http://gcr_3.40.0.bb" rel=3D"norefe=
+rrer" target=3D"_blank">gcr_3.40.0.bb</a><br>
++++ b/meta/recipes-gnome/gcr4/<a href=3D"http://gcr3_3.40.0.bb" rel=3D"nore=
+ferrer" target=3D"_blank">gcr3_3.40.0.bb</a><br>
+@@ -20,11 +20,15 @@ GTKDOC_MESON_OPTION =3D &quot;gtk_doc&quot;<br>
+=C2=A0inherit gnomebase gtk-icon-cache gtk-doc features_check upstream-vers=
+ion-is-even vala gobject-introspection gettext mime mime-xdg<br>
+=C2=A0UPSTREAM_CHECK_REGEX =3D &quot;[^\d\.](?P&lt;pver&gt;\d+\.(?!9\d+)(\d=
+*[02468])+(\.\d+)+)\.tar&quot;<br>
+<br>
+-SRC_URI +=3D &quot;file://0001-gcr-meson.build-fix-one-parallel-build-fail=
+ure.patch \ <br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://b3ca1d02bb0148ca787ac4aea=
+d164d7c8ce2c4d8.patch&quot;<br>
++SRC_URI =3D &quot; \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"https://download.gnome.org/sources/g=
+cr/3.40/gcr-$%7BPV%7D.tar.xz;name=3Darchive" rel=3D"noreferrer" target=3D"_=
+blank">https://download.gnome.org/sources/gcr/3.40/gcr-${PV}.tar.xz;name=3D=
+archive</a> \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-gcr-meson.build-fix-one-parallel-bu=
+ild-failure.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0file://b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8=
+.patch&quot;<br>
+<br>
+=C2=A0SRC_URI[archive.sha256sum] =3D &quot;b9d3645a5fd953a54285cc64d4fc0467=
+36463dbd4dcc25caf5c7b59bed3027f5&quot;<br>
+<br>
++S =3D &quot;${WORKDIR}/gcr-${PV}&quot;<br>
++<br>
+=C2=A0PACKAGECONFIG ??=3D &quot; \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;,=
+ &#39;x11&#39;, &#39;gtk&#39;, &#39;&#39;, d)} \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;,=
+ &#39;wayland&#39;, &#39;gtk&#39;, &#39;&#39;, d)} \<br>
+diff --git a/meta/recipes-gnome/gcr4/<a href=3D"http://gcr4_4.0.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">gcr4_4.0.0.bb</a> b/meta/recipes-gnome/gc=
+r4/<a href=3D"http://gcr4_4.0.0.bb" rel=3D"noreferrer" target=3D"_blank">gc=
+r4_4.0.0.bb</a><br>
+new file mode 100644<br>
+index 0000000000..13efdcc2bd<br>
+--- /dev/null<br>
++++ b/meta/recipes-gnome/gcr4/<a href=3D"http://gcr4_4.0.0.bb" rel=3D"noref=
+errer" target=3D"_blank">gcr4_4.0.0.bb</a><br>
+@@ -0,0 +1,59 @@<br>
++SUMMARY =3D &quot;A library for bits of crypto UI and parsing etc&quot;<br=
+>
++DESCRIPTION =3D &quot;GCR is a library for displaying certificates, and cr=
+ypto UI, \<br>
++accessing key stores. It also provides the viewer for crypto files on the =
+\<br>
++GNOME desktop.&quot;<br>
++HOMEPAGE =3D &quot;<a href=3D"https://gitlab.gnome.org/GNOME/gcr" rel=3D"n=
+oreferrer" target=3D"_blank">https://gitlab.gnome.org/GNOME/gcr</a>&quot;<b=
+r>
++BUGTRACKER =3D &quot;<a href=3D"https://gitlab.gnome.org/GNOME/gcr/issues"=
+ rel=3D"noreferrer" target=3D"_blank">https://gitlab.gnome.org/GNOME/gcr/is=
+sues</a>&quot;<br>
++<br>
++LICENSE =3D &quot;GPL-2.0-only&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D55ca817ccb7d5b5b66355690e9=
+abc605&quot;<br>
++<br>
++DEPENDS =3D &quot;p11-kit glib-2.0 libgcrypt gnupg-native libsecret \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#39;GI_DATA=
+_ENABLED&#39;, &#39;True&#39;, &#39;libxslt-native&#39;, &#39;&#39;, d)}&qu=
+ot;<br>
++<br>
++CACHED_CONFIGUREVARS +=3D &quot;ac_cv_path_GPG=3D&#39;gpg2&#39;&quot;<br>
++<br>
++CFLAGS +=3D &quot;-D_GNU_SOURCE&quot;<br>
++<br>
++GNOMEBASEBUILDCLASS =3D &quot;meson&quot;<br>
++GTKDOC_MESON_OPTION =3D &quot;gtk_doc&quot;<br>
++inherit gnomebase gtk-icon-cache gtk-doc features_check upstream-version-i=
+s-even vala gobject-introspection gettext mime mime-xdg<br>
++UPSTREAM_CHECK_REGEX =3D &quot;[^\d\.](?P&lt;pver&gt;\d+\.(?!9\d+)(\d*[024=
+68])+(\.\d+)+)\.tar&quot;<br>
++<br>
++SRC_URI =3D &quot;<a href=3D"https://download.gnome.org/sources/gcr/$%7BPV=
+%7D/gcr-$%7BPV%7D.tar.xz;name=3Darchive" rel=3D"noreferrer" target=3D"_blan=
+k">https://download.gnome.org/sources/gcr/${PV}/gcr-${PV}.tar.xz;name=3Darc=
+hive</a>&quot;<br>
++SRC_URI[archive.sha256sum] =3D &quot;c45855924f0ee7bab43e2dd38bfafd2ac815c=
+6e9864341c0161e171173dcec7c&quot;<br>
++<br>
++S =3D &quot;${WORKDIR}/gcr-${PV}&quot;<br>
++<br>
++PACKAGECONFIG ??=3D &quot; \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0${@bb.utils.filter(&#39;DISTRO_FEATURES&#39;, &=
+#39;systemd&#39;, d)} \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;,=
+ &#39;x11&#39;, &#39;gtk&#39;, &#39;&#39;, d)} \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;,=
+ &#39;wayland&#39;, &#39;gtk&#39;, &#39;&#39;, d)} \<br>
++&quot;<br>
++PACKAGECONFIG[gtk] =3D &quot;-Dgtk4=3Dtrue,-Dgtk4=3Dfalse,gtk4&quot;<br>
++PACKAGECONFIG[ssh_agent] =3D &quot;-Dssh_agent=3Dtrue,-Dssh_agent=3Dfalse,=
+,openssh&quot;<br>
++#&#39;Use systemd socket activation for server programs&#39;<br>
++PACKAGECONFIG[systemd] =3D &quot;-Dsystemd=3Denabled,-Dsystemd=3Ddisabled,=
+systemd&quot;<br>
++<br>
++FILES:${PN} +=3D &quot; \<br>
++=C2=A0 =C2=A0 ${datadir}/dbus-1 \<br>
++=C2=A0 =C2=A0 ${datadir}/gcr-4 \<br>
++&quot;<br>
++<br>
++# <a href=3D"http://errors.yoctoproject.org/Errors/Details/20229/" rel=3D"=
+noreferrer" target=3D"_blank">http://errors.yoctoproject.org/Errors/Details=
+/20229/</a><br>
++ARM_INSTRUCTION_SET:armv4 =3D &quot;arm&quot;<br>
++ARM_INSTRUCTION_SET:armv5 =3D &quot;arm&quot;<br>
++ARM_INSTRUCTION_SET:armv6 =3D &quot;arm&quot;<br>
++<br>
++EXTRA_OEMESON +=3D &quot;--cross-file ${WORKDIR}/meson-${PN}.cross&quot;<b=
+r>
++do_write_config:append() {<br>
++=C2=A0 =C2=A0 cat &gt;${WORKDIR}/meson-${PN}.cross &lt;&lt;EOF<br>
++[binaries]<br>
++gpg2 =3D &#39;${bindir}/gpg2&#39;<br>
++EOF<br>
++}<br>
++<br>
++do_configure:prepend() {<br>
++=C2=A0 =C2=A0 sed -i &quot;s|ssh_add_path =3D find_program(&#39;ssh-add&#3=
+9;, required: get_option(&#39;ssh_agent&#39;)).full_path()|ssh_add_path =3D=
+ &#39;${bindir}/ssh-add&#39;|&quot; ${S}/meson.build<br>
++=C2=A0 =C2=A0 sed -i &quot;s|ssh_agent_path =3D find_program(&#39;ssh-agen=
+t&#39;, required: get_option(&#39;ssh_agent&#39;)).full_path()|ssh_agent_pa=
+th =3D &#39;${bindir}/ssh-agent&#39;|&quot; ${S}/meson.build<br>
++}<br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#173832): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/173832" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/173832</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/95280551/1686=
+489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/95280551/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--0000000000002c222f05ee6e40ab--
 
