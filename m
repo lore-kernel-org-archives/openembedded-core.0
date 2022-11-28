@@ -1,300 +1,206 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <Zheng.Qiu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C76EC433FE
-	for <webhook@archiver.kernel.org>; Mon, 28 Nov 2022 17:34:21 +0000 (UTC)
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.54])
- by mx.groups.io with SMTP id smtpd.web11.124667.1669656859430694831
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9965CC4332F
+	for <webhook@archiver.kernel.org>; Mon, 28 Nov 2022 17:47:51 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.124870.1669657668506322099
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Nov 2022 09:34:20 -0800
+ Mon, 28 Nov 2022 09:47:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=BNcuhFwz;
- spf=pass (domain: arm.com, ip: 40.107.104.54, mailfrom: ross.burton@arm.com)
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=cL8HQXCx;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=93317ef19f=zheng.qiu@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2ASFmKej003788
+	for <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 17:47:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=PPS06212021;
+ bh=+AOesm8ItXF99AfsresrTFU00s59XvkzLjxGmDCZ1Ac=;
+ b=cL8HQXCxT8qxfyFoCKF4MmxJImlfOh2Iz1W4WotB1ItTGDOpxRLoKjVfb6j+65Y82ROD
+ phxM0VWLN4/cacwhwxoY/aIYwc4e7s3nhzGM7SxJsdvHcy01IJtgIrQvP7bp0phHngeO
+ vSbq7gtMkYnHzI/3TOl76u5XE4UaWUDUeWFuGzsNbAY47aylZWC2mS70bxLdO0aQMUAe
+ Ktjn3JuC2ZLL5ywlsN3TDQZ/fFrVP7yJwi4wVIjxyVFPw64Gja04SCo1wsxiwoxsqJqw
+ S3kw/mcwuHnhkbP04rl5NmwCUv9AomEdjHtdU7c3Kg4aB4/aYXbn5eN8YjN3+wW/ezz+ vQ== 
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2102.outbound.protection.outlook.com [104.47.70.102])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3m39sbsppn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 17:47:47 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=L7AJqR6kxUl0eFBFDpJpcWGhrxuFtDINn9gFsQLFmAy7RAtOjaUVUd6Lj+CLw2qkDeIuhsFaPzznka/YFUr104EInZFYC932aHkOFwL3T6J22oOSpDazzLQNk6PgPhEwZo3fK/HoDs+dquyqXomjIB7hVDxJzaHh32JK+Zp3Iso5kEMEdYnnpFacCO8vP8XysGAsJxxTzT0r//m961Xa9BqdHaWPqL8HU8xietVFagXqSrQ0FEebp0gCA181mqlwxy/77lDm9B7KdPF33M9VTJcMUap8JYQsuiMVQeR+y4o+Q8PwwONfWRKy9EfixyCDo3WnmkUqjKR5mXu8KUogvg==
+ b=BStb06UWIVH/NsdVbILEVxsbXwre87WpazcU+7MEl6cduk1XViMhghn937khjxaC4Nwg69GBrsC7oLm5U/L/dfHHElz+NyuRfXhkEhq5dBcCYq07QK+jHZcSyrchk2NJalsoPCQ2r97R5lR5IgiF5CxyW/z+NPqV4Wa2xFG5CjdT1pOQnzMPoxYiOSjB5XNSjQpojhUX1RB6GFz9lJVXwNXzOE4vsX51tos7byKE57W9WZOcTLr1hGIiBA8uZcCh9xcJ5zulTLNmwlrhi/AuTjcMXcloWXZxD7cDuYqpMuUJsV1hT9GR62nI5Y08VrCzZunXjWaK2/cFIEZpxnBeYA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NhPPibeZ+dhwS1UcxCy0mmoDHRN+FwQwx2Y5bL92aiw=;
- b=eKuaVIFDZ6t/H1d+SzL5st0XT80tjAG7fLMkNOLNkI3dUoWE7ExNtK6Hvi9X8887mvUKjLg0DpNYm+0EzUL8PFaR0XVBmhUF8ohCCv7WkbqU/4glXcGKBQFVg70uUiEsGErniXHcRLQyc4fyrSuF4QWviy1lCgeEz5AuMXSJAH/vM2fSVWW/ZqJnoU5AcIUjLJ+WLfj4NHXK/B3mzfyrD/F9E6VA+C34QAEfnKlARuXMyyheRUZ/S1OY1pFVLJNsISuiTDec05MGfLm2BBlJExAD+TYi/4rOsNihxyt4J9ADMhCqP/EnAb4/XGV2XYoNXIHymfUaIlFfw4kjK5d8jA==
+ bh=+AOesm8ItXF99AfsresrTFU00s59XvkzLjxGmDCZ1Ac=;
+ b=Jnk8mDpe8/Bo8UZu71qXGT/GMDITNM+gCnW0rKg5ZzmiNjG2ivQTU8L+7us++kFRc7VlhYdMElcfo03R/H4WEBpgr4EaPjMTNq2UcH049ng3ly6jvZdIKl9pQ/b3giVZ8OO26MZWcz3yyYJjvPI2XSVpDqXTGnYo7QY2ayfVRIj9hss1iRPURFl52biKlgLymkdo8RCfQmb1hztLZtji9qKRwQeje+xQz/yw2DH9oHbTNecmiO+7lqcnDHlmTSAnOCPtTNeugfRZv0lo8g+CNMfFDhiKCSR/TvpewRyIvV8dtlg3DOYbYzVCHAKHjf2uLco0+gHrEEHWTcq+myWW6Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NhPPibeZ+dhwS1UcxCy0mmoDHRN+FwQwx2Y5bL92aiw=;
- b=BNcuhFwziJohOXL4gUG7X+5h/nxoSTmdakYf67+QvFSSMP8jC6XnaTgZFMOdZiW8OK84AH5+mtUymgqEgaw2R2JOYGN4yr46uxY9V7HiJ1Ir/gUMZp0MM80wl6wasNruLdgaOw/m84z16S7yWLkvQ34G7TeKu4WmFh69QULd3v0=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by PAVPR08MB9061.eurprd08.prod.outlook.com (2603:10a6:102:325::15) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DM4PR11MB5536.namprd11.prod.outlook.com (2603:10b6:5:39b::15)
+ by PH0PR11MB4872.namprd11.prod.outlook.com (2603:10b6:510:32::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.7; Mon, 28 Nov
- 2022 17:34:15 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::1ecf:7fb9:8c0:8119]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::1ecf:7fb9:8c0:8119%9]) with mapi id 15.20.5880.008; Mon, 28 Nov 2022
- 17:34:15 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "Mali, Narpat" <narpat.mali@windriver.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"archana.polampalli@windriver.com" <archana.polampalli@windriver.com>,
-	"hari.gpillai@windriver.com" <hari.gpillai@windriver.com>
-Subject: Re: [OE-core][PATCH 1/2] ffmpeg: fix for CVE-2022-3964
-Thread-Topic: [OE-core][PATCH 1/2] ffmpeg: fix for CVE-2022-3964
-Thread-Index: AQHY/0bP5Tn+2x4S5ECHyICQTi7Qx65UoKoA
-Date: Mon, 28 Nov 2022 17:34:15 +0000
-Message-ID: <9B7572D4-F1B3-4A23-B280-FB7A99808E84@arm.com>
-References: <20221123142022.136114-1-narpat.mali@windriver.com>
-In-Reply-To: <20221123142022.136114-1-narpat.mali@windriver.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3731.200.110.1.12)
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PA4PR08MB7411:EE_|PAVPR08MB9061:EE_
-x-ms-office365-filtering-correlation-id: 6044383c-91d8-4c7b-1919-08dad166c549
-nodisclaimer: true
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- znzSZK/3CJxIWk4qbH19tjpwloiS886c2QAOkMzvqc6rcrYd+l8wEpDyuwmeADS4SWDSiH1Ts1MmkNp602m4Mv5M9tXYXqOE2PS7lID0HnSw0tXGFMgThBNMMaitFXayS03IAvuPuTCIukGKpjA249OqKcBOO67lI1SSbC2Lig+L3qvMLh1ktyH/t+7htTw151Pjf4/MlFUdGZiTP3CSEdOCf1RshA1MjxfBqvvpqtv8goSnAfrqZcL6ZgKIGuS1nTXcS6MCYdtkXIFlP9eR85DN5uuuWkpkTnHCHWcxoabO1Bv07zqgzjw+tucbTSvh1ABd8nII9dacWVtJ6AFD4dWCV4dnfxpB+0TbJiLebeDx6Ka9Jg1+TO1hcTuCSIqbgJZQuiYTu1Eta+pC5LJPi9E9/3FIIxbCp7heKLGwydyomIsC5KVfFi36GCnh8zocQXgMAYUlTb8EH53O/M+cPuT7TaINnDw+5jLTteaTYeyvRRnNzj6SBS708yqNkXzvE7aJNj+m0mPNufRWTC7hoFa5JG8Q0K+X1XH2BUuST4hI44ai5uDPW9v/YJ+i8JWccJQQrTgs3Gq3p/bOsS7bG7CeYPfujLXXrMVP3lXRfkXNXs2Ha3vwob/kH6i1umD/MWISGBbRopzeMnPhwygn5mC2Dw2x0cIbwvdr3WptUe4CJkWqPrEexC1ixm0mPH1vVdx55kprp8FFyXItssghep+6O8frfewUmB+nkpZooZ6b46aMgfpdegkWG8P1sJ3Rrlxj/qsJcHuJX2Ba83iiJD/PgHWpkg70/bxi9gM0Lpg=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(376002)(136003)(39860400002)(366004)(396003)(451199015)(66899015)(2616005)(54906003)(8676002)(76116006)(966005)(66476007)(64756008)(6486002)(4326008)(66556008)(66446008)(41300700001)(478600001)(91956017)(6916009)(66946007)(2906002)(83380400001)(316002)(38100700002)(53546011)(86362001)(5660300002)(6506007)(186003)(71200400001)(6512007)(122000001)(26005)(33656002)(36756003)(8936002)(38070700005)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?pmLobk1e9ZfjLyj7ISdpoBrVj3ulKNrVqdO82EdgDxIjUD7mSlohcEMn2kIb?=
- =?us-ascii?Q?NuMPHcjFxLtgHNkx3hbl7YJezIqnzyQbEADdc7h5YFZKy1zu0QIx7tBQhGaY?=
- =?us-ascii?Q?GQlovk0lApJfb0faj4jdZB8Pe1TpNu6glQYHVPglnIii5dpe9sCC/D1nJzcO?=
- =?us-ascii?Q?4BdmS9d1NmXNFO7LdlXG4FEJjXvdv32nD30XuUUltnBXaXulPukl9a/8Gh3j?=
- =?us-ascii?Q?JaBsOWNk0oWF4F0miNQK/MTkXvV3ouElVbAepovmzGNVc1mBEg2TuZSDv6xJ?=
- =?us-ascii?Q?gOfpKvZv5GwZuMLzcTFf+19fF18ohOMjO/yiTh+FB5i8ZAltKIzVupJitOeu?=
- =?us-ascii?Q?SUyeI5pBePvM/V+jB1+RZ6N40zPdTu3nIqOTpme4sniJDlIFmmdn3uQXN/WK?=
- =?us-ascii?Q?091nBwj9uA7x6PABSqX9vMBQaM9OX3tiHnhA3PCHb768hvVo3t3gMtf8zsv6?=
- =?us-ascii?Q?TuiQhO5oXKMU9+VI6lpJubvKWQ3GkvD3/vi8IyMlWG5fSEKCLPV0sYR8jSBS?=
- =?us-ascii?Q?/HAKD/tSR1uK/UVc8zlRHzeJRVQx/mc/z6nf9NwJutqx5IqNonHSSElr/bCF?=
- =?us-ascii?Q?tURxx0jjBBfqsO4qpDVYE6Jsj9c5LUYvTI3TZjww5SGVGy9eMgJRjayIc+fR?=
- =?us-ascii?Q?p9mY7QC3ycQzpiTOuAyoamSIBnyxKxe7e5hxkelXyx4sk5rv8XFLcbUqfMcq?=
- =?us-ascii?Q?EgspL/QcMFQ6u2f84pB6WvSIB7bQpFrkO7dGHzqDPV9TcukELIS/ESLjKf/+?=
- =?us-ascii?Q?NfNNwa3QBNXykptjZvVXxU0CeulC7XyuZAlrl+yC8CrKaewxy7/Pq7fqw8T8?=
- =?us-ascii?Q?cbu1AVpBBf6aOhDC8eGk5HEZLbpI6gSS/0Lkme3Dlii5VbWFdxqXh74qE80O?=
- =?us-ascii?Q?ZuM2T1pICyVrgZkC21dbIbRtecoEdoPrthGlf/ZxVuUK5KOI+Bi62BLbC57G?=
- =?us-ascii?Q?skTF0D5vYjZq45rBSZ9S39e05e7CB82VwO9JU/r0CGLy2nPhwCsPub7L0wiq?=
- =?us-ascii?Q?Jh8LQeC30IxkWMsD3i4ewGVywOqvFY/4Lt0H62qXnGRhTeeJL3NJUaP3nSeH?=
- =?us-ascii?Q?HxJgt2hptXCbQKVgjktyOOXd4iGKsTRRYg6wia+K2n/E++N/1Y8W1gnyWZn4?=
- =?us-ascii?Q?l32Dt9A8nFScUf8iugaAaXKFV8XLfCjD5AV0mIv008zre/7X12YtDmCAKay0?=
- =?us-ascii?Q?DRnTV/yglL/92OJgPUF6z/kVkhFedNFjfvpzGKkiEA7JPBVBZeVdIoyoktKb?=
- =?us-ascii?Q?QEjlHqak9dh3Wk40WC6KvgpoVszp1HOGZjevkkQfAnJF5iIJLk+dwEFpHZ8j?=
- =?us-ascii?Q?A5Ru7Ku7KNBITII6qAMWjPsLQzJw6UXFVlIMzCvb10IXRhgaooqFp61+As68?=
- =?us-ascii?Q?BnhkgT9TmtUCQda9Lw722xHE0NVmw7NQiXs0kLyL/dTaYeBcbT7v7JF840+U?=
- =?us-ascii?Q?APq1W1MiHQ0jMmnpLCKO9J/yNO+NiSqxgR0+zi5CitLnXblzmWbqby4WJfD0?=
- =?us-ascii?Q?VLvt5sz2hakudqKTW5Rbvo8MurAZ8h+YD32YGby9H9YBYBOzP+3cY9xGbM37?=
- =?us-ascii?Q?P1PBO/0GuctLzI5oY6wdS6EvyCEevYDp39+6Del2?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <71A7648D2ED69240A2A4C97873FBB943@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23; Mon, 28 Nov
+ 2022 17:47:44 +0000
+Received: from DM4PR11MB5536.namprd11.prod.outlook.com
+ ([fe80::3fdd:fc11:e12c:46b0]) by DM4PR11MB5536.namprd11.prod.outlook.com
+ ([fe80::3fdd:fc11:e12c:46b0%5]) with mapi id 15.20.5857.023; Mon, 28 Nov 2022
+ 17:47:44 +0000
+From: Zheng Qiu <zheng.qiu@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Cc: zheng.qiu@windriver.com, randy.macleod@windriver.com
+Subject: [kirkstone][PATCH] tiff: Security fix for CVE-2022-3970
+Date: Mon, 28 Nov 2022 12:47:28 -0500
+Message-Id: <20221128174728.3804331-1-zheng.qiu@windriver.com>
+X-Mailer: git-send-email 2.33.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: YQBP288CA0010.CANP288.PROD.OUTLOOK.COM
+ (2603:10b6:c01:6a::29) To DM4PR11MB5536.namprd11.prod.outlook.com
+ (2603:10b6:5:39b::15)
 MIME-Version: 1.0
-X-OriginatorOrg: arm.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5536:EE_|PH0PR11MB4872:EE_
+X-MS-Office365-Filtering-Correlation-Id: 30a717d0-a3d7-4fe8-8f4c-08dad168a678
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	Q+U7EM2ENE43DkYyrUZX4NFhJzw7YSzDKBFL2/WGj2F3nmK3vpQlFLtmZO9B70jRpkq90jNF3xFE01oItVKWfYr0fOsECZMNBxu4C2pbKML1uMq3e02viB+IQ/ccNWE8c9ETOyxOauBwUrO6275+HPylryhl/rF2OvZ1w7MAYDZirqt1OUmcZXO0WeJ6q2gcbL2cnobilPuqobJ+22tr1gYfiiuBOdXZ/LTjWiZX+q4H1+WZSOTgmwYjS/hTLBPS0YwB5hXhuoHTIIELs7Y5P9lXuF4VFAVDf6PSSz4PYzP97gKjZ0HRMal48y8USV/62kYeM0ZciHP3BdJQ40bp9kcm7V8/FJZkaf/RoPOToF1kjd8Kl0Rcu+wI/N/zZF9UAn8k56rB4tfFsCeAHKWs18C7d8H87wusvRAZNzy0aQIamNQ/dUH02JaoGqKJ5hjEzkr4rAsyVU1aMV5cvCRBPf7QTj7b0D4Rrtf8kSoo0tgQRVbcvLWZLwr8HCx12b6G23XLxITSdUzG1WXTcMnx/Z9Xq/dMxVaYhVdAfCV1sgsDYTEC70L1OdXWKRdHCuK+fdXXSPUHvDhIZBbv7NUDF4ufjc6kcZNEwTyUEIzNk06zCjH8mDocXqFONhCZI5ekKDbdnr31y/hq/G+E49Vf6ZIkeGEL7npKZz7qU11JNU09ejmF78QFW2+GFzoAgPj/LziZvVIMyyqb1TaVsLSXkXnxMPO0obO7vivdKFAuaxwFCwRPQ7yySoO4AlpX9qHzhAMSsFtn71JHPk45LOy7hA==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5536.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(39850400004)(396003)(376002)(136003)(366004)(451199015)(36756003)(86362001)(316002)(6916009)(478600001)(2906002)(6486002)(966005)(15650500001)(44832011)(66946007)(66476007)(8676002)(66556008)(41300700001)(8936002)(5660300002)(4326008)(83380400001)(38350700002)(38100700002)(6506007)(52116002)(6512007)(26005)(107886003)(6666004)(2616005)(186003)(1076003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?rDj4J0S+rC9ybzPrPXdCAWpqQlwPhh10NBss0TqYEFpSvJxjF/9kw4LmynbG?=
+ =?us-ascii?Q?spZ7cE/bRLieQtG4E7/rRAoWFOI7wJBA4+pQP5SN0elpZHZF0d5ANCNI5cId?=
+ =?us-ascii?Q?ZBTYjE8zdW7QS7UGjLbKBUf69GWPi/kfmnLxbYtMFs59SaRMok5p/zSViOGO?=
+ =?us-ascii?Q?NEaMXuASYRQk7yFdzQHBj4r2LAtsOzQ/S90cm/eib5vC56D5daS+KmIiRnSo?=
+ =?us-ascii?Q?NtE5DWo16EMk+zAHGu/oaKuWvA1+b0B3b/Voik5IBjcJ6xMW55LIIqG3PWJ8?=
+ =?us-ascii?Q?TaWC4PW7ubWOJecnbjnSr6F9X5yV4KNYo7jszbO/ukaMalJzVkvFC+nUv/iC?=
+ =?us-ascii?Q?hrEabi+NuUmaZPnQFlUeml0XHqjVxEE+1/paRebW44O92bOi4ecW5GgeziYi?=
+ =?us-ascii?Q?JUgXyDwm+WmXfeK1rgnBcOb3CSXHrNQV/sqZUnTurtqLROsqgD+1UqH6DQpr?=
+ =?us-ascii?Q?Uh5FxnED+FUV/mn9kKnFnrN0PYGhnpGtSUa2i8mZnCPqP7yPkfijymSJlnFO?=
+ =?us-ascii?Q?eAdobl0Q210y+6b45YV+JbZknU0KQ8NH+wuR6V6QIIrgUiQeSXU1otNYjTjR?=
+ =?us-ascii?Q?Axa2XzudQIsfcVyppC0rQRxjnI933fiGYgyd2iy1wurEXwSnTOLRcJQRt1C+?=
+ =?us-ascii?Q?avpyaeIes/HFIq6qTGH2E7Piru85Abela4N8aLJfJ4IIuRz5UILBq76rQyFX?=
+ =?us-ascii?Q?CqL6gFOgzQXvFE4jj2Xj94lrCr+f42LMvfnac4ZpG18q6vLNSHWXUp3YCTWC?=
+ =?us-ascii?Q?e/X6TZLBC7E1b8vQZayHveHXUlMuXfaoqcj3lIPBhOwA8qXn23GZu0lk/ItO?=
+ =?us-ascii?Q?1U7kMmfSad/x8oe628cwu6/oe4i5BW+Hq2WITA9CV0kX0+FPrGXZkAXosZOu?=
+ =?us-ascii?Q?RsxQxVQx3SnmPkdRfo1pcUXCSBi3lGE51ZDF8HvCiuRMGdtvVMYW2xv8rP7+?=
+ =?us-ascii?Q?VEuDD7l1M9VQwcN3qi+7RP+cTpjX+8IQ+XP7LdnpW6GfjaB0UxVU/9mMjwT9?=
+ =?us-ascii?Q?qZUelciVBm9vBrPSTz6bT5qVVIxUL4/LMQLzruIXPUkzR+PiOQIVjhzluUjY?=
+ =?us-ascii?Q?z8R78NqcMJUGddELXLjpwKQbDgLFHXNpodGGoVt49YepBVjdKptIFPoCmxIk?=
+ =?us-ascii?Q?9qNOiMceEh5zWZDUU5geOFE4PbcFYchYxI54IY60fvYewtEZ/Eap4cWFJWg1?=
+ =?us-ascii?Q?LDmY24/a2FcglrQgER9qtm0978TaVT4fR5V4t1VehOzGkgqELypIjHtL/aAd?=
+ =?us-ascii?Q?6VaVgbeCo+bzb41vB+L58zbrB9gVBXIA9FYk4mAXLvMhkwk2uvlaAriNL39c?=
+ =?us-ascii?Q?EKtS9d0YHG0UkYQa+qwqm3Wp2a6zTs++OZr7SwYP3cLUyBJmlvnpMkYhX7qU?=
+ =?us-ascii?Q?uL8jYh9Gv1s3KF8d/R4uReSLCH0McDHQy+ARckeP8DMW/ltN4Oi7ZE7iHwe8?=
+ =?us-ascii?Q?lkRntCsNcoGPRpeG8UX7CB7rqbX9YUTaVOmU5l5qCHZDaschVqxNlmW4FRKn?=
+ =?us-ascii?Q?iHa4IxjOzPhu7tOlXG+QLt3oqsAI+iNG8gO4GN+EyLsimRei+Yzx3Hl/e5jG?=
+ =?us-ascii?Q?4uROnA0YZTqFdfF9cWGMmiIi0Sl+f2uGtRoLHSPhwNpIEnEUDYXu7kOs35uI?=
+ =?us-ascii?Q?Zw=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 30a717d0-a3d7-4fe8-8f4c-08dad168a678
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5536.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR08MB7411.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6044383c-91d8-4c7b-1919-08dad166c549
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Nov 2022 17:34:15.2649
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2022 17:47:44.0758
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /KzUjtp0eKOhWiU4sHnzjdFKS9LZScUBACFE8twM7TFhlB65RVJpjcsW251zYW7mqHw0OaEQEZpntjp+1zThnw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR08MB9061
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Hv9AQidm0+jtXxVS2X+aUCQp3ZyjzwSaJwtstmEs5yFAkooqwoPAvElCw5Z3ZnSjw5l5g3Akxmw8Npj9JfiHAQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4872
+X-Proofpoint-GUID: VtcyjHxkWU-eDwW2NQIjbjMJUTwLHkmg
+X-Proofpoint-ORIG-GUID: VtcyjHxkWU-eDwW2NQIjbjMJUTwLHkmg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-28_15,2022-11-28_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
+ adultscore=0 lowpriorityscore=0 clxscore=1015 impostorscore=0 bulkscore=0
+ malwarescore=0 spamscore=0 suspectscore=0 mlxlogscore=287 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
+ definitions=main-2211280130
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 17:34:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173934
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 17:47:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173935
 
-Can you put a CVE tag in the patch header alongside your Upstream-Status an=
-d Signed-off-by?
+This patch contains a fix for CVE-2022-3970
 
-We need this to track in an automated way that this patch deals with a spec=
-ific CVE.
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2022-3970
+https://security-tracker.debian.org/tracker/CVE-2022-3970
 
-eg CVE: CVE-2022-3964
+Patch generated from :
+https://gitlab.com/libtiff/libtiff/-/commit/227500897dfb07fb7d27f7aa570050e62617e3be
 
-Ross
+Upstream-Status: Accepted
 
-> On 23 Nov 2022, at 14:20, Narpat Mali via lists.openembedded.org <narpat.=
-mali=3Dwindriver.com@lists.openembedded.org> wrote:
->=20
-> A vulnerability classified as problematic has been found in ffmpeg. This =
-affects an unknown part of the file
-> libavcodec/rpzaenc.c of the component QuickTime RPZA Video Encoder. The m=
-anipulation of the argument y_size
-> leads to out-of-bounds read. It is possible to initiate the attack remote=
-ly. The name of the patch is
-> 92f9b28ed84a77138105475beba16c146bdaf984. It is recommended to apply a pa=
-tch to fix this issue. The associated
-> identifier of this vulnerability is VDB-213543.
->=20
-> Reference:
-> https://nvd.nist.gov/vuln/detail/CVE-2022-3964
->=20
-> Upstream Fix:
-> https://github.com/FFmpeg/FFmpeg/commit/92f9b28ed84a77138105475beba16c146=
-bdaf984
->=20
-> Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
-> ---
-> ...c-stop-accessing-out-of-bounds-frame.patch | 89 +++++++++++++++++++
-> .../recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb |  4 +-
-> 2 files changed, 92 insertions(+), 1 deletion(-)
-> create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-rpz=
-aenc-stop-accessing-out-of-bounds-frame.patch
->=20
-> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-rpzaenc-s=
-top-accessing-out-of-bounds-frame.patch b/meta/recipes-multimedia/ffmpeg/ff=
-mpeg/0001-avcodec-rpzaenc-stop-accessing-out-of-bounds-frame.patch
-> new file mode 100644
-> index 0000000000..2775a81cc8
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-rpzaenc-stop-acc=
-essing-out-of-bounds-frame.patch
-> @@ -0,0 +1,89 @@
-> +From 92f9b28ed84a77138105475beba16c146bdaf984 Mon Sep 17 00:00:00 2001
-> +From: Paul B Mahol <onemda@gmail.com>
-> +Date: Sat, 12 Nov 2022 16:12:00 +0100
-> +Subject: [PATCH] avcodec/rpzaenc: stop accessing out of bounds frame
-> +
-> +Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/92f9b=
-28ed84a77138105475beba16c146bdaf984]
-> +
-> +Signed-off-by: <narpat.mali@windriver.com>
-> +
-> +---
-> + libavcodec/rpzaenc.c | 22 +++++++++++++++-------
-> + 1 file changed, 15 insertions(+), 7 deletions(-)
-> +
-> +diff --git a/libavcodec/rpzaenc.c b/libavcodec/rpzaenc.c
-> +index d710eb4f82..4ced9523e2 100644
-> +--- a/libavcodec/rpzaenc.c
-> ++++ b/libavcodec/rpzaenc.c
-> +@@ -205,7 +205,7 @@ static void get_max_component_diff(const BlockInfo *=
-bi, const uint16_t *block_pt
-> +=20
-> +     // loop thru and compare pixels
-> +     for (y =3D 0; y < bi->block_height; y++) {
-> +-        for (x =3D 0; x < bi->block_width; x++){
-> ++        for (x =3D 0; x < bi->block_width; x++) {
-> +             // TODO:  optimize
-> +             min_r =3D FFMIN(R(block_ptr[x]), min_r);
-> +             min_g =3D FFMIN(G(block_ptr[x]), min_g);
-> +@@ -278,7 +278,7 @@ static int leastsquares(const uint16_t *block_ptr, c=
-onst BlockInfo *bi,
-> +         return -1;
-> +=20
-> +     for (i =3D 0; i < bi->block_height; i++) {
-> +-        for (j =3D 0; j < bi->block_width; j++){
-> ++        for (j =3D 0; j < bi->block_width; j++) {
-> +             x =3D GET_CHAN(block_ptr[j], xchannel);
-> +             y =3D GET_CHAN(block_ptr[j], ychannel);
-> +             sumx +=3D x;
-> +@@ -325,7 +325,7 @@ static int calc_lsq_max_fit_error(const uint16_t *bl=
-ock_ptr, const BlockInfo *bi
-> +     int max_err =3D 0;
-> +=20
-> +     for (i =3D 0; i < bi->block_height; i++) {
-> +-        for (j =3D 0; j < bi->block_width; j++){
-> ++        for (j =3D 0; j < bi->block_width; j++) {
-> +             int x_inc, lin_y, lin_x;
-> +             x =3D GET_CHAN(block_ptr[j], xchannel);
-> +             y =3D GET_CHAN(block_ptr[j], ychannel);
-> +@@ -420,7 +420,9 @@ static void update_block_in_prev_frame(const uint16_=
-t *src_pixels,
-> +                                        uint16_t *dest_pixels,
-> +                                        const BlockInfo *bi, int block_c=
-ounter)
-> + {
-> +-    for (int y =3D 0; y < 4; y++) {
-> ++    const int y_size =3D FFMIN(4, bi->image_height - bi->row * 4);
-> ++
-> ++    for (int y =3D 0; y < y_size; y++) {
-> +         memcpy(dest_pixels, src_pixels, 8);
-> +         dest_pixels +=3D bi->rowstride;
-> +         src_pixels +=3D bi->rowstride;
-> +@@ -730,14 +732,15 @@ post_skip :
-> +=20
-> +             if (err > s->sixteen_color_thresh) { // DO SIXTEEN COLOR BL=
-OCK
-> +                 uint16_t *row_ptr;
-> +-                int rgb555;
-> ++                int y_size, rgb555;
-> +=20
-> +                 block_offset =3D get_block_info(&bi, block_counter);
-> +=20
-> +                 row_ptr =3D &src_pixels[block_offset];
-> ++                y_size =3D FFMIN(4, bi.image_height - bi.row * 4);
-> +=20
-> +-                for (int y =3D 0; y < 4; y++) {
-> +-                    for (int x =3D 0; x < 4; x++){
-> ++                for (int y =3D 0; y < y_size; y++) {
-> ++                    for (int x =3D 0; x < 4; x++) {
-> +                         rgb555 =3D row_ptr[x] & ~0x8000;
-> +=20
-> +                         put_bits(&s->pb, 16, rgb555);
-> +@@ -745,6 +748,11 @@ post_skip :
-> +                     row_ptr +=3D bi.rowstride;
-> +                 }
-> +=20
-> ++                for (int y =3D y_size; y < 4; y++) {
-> ++                    for (int x =3D 0; x < 4; x++)
-> ++                        put_bits(&s->pb, 16, 0);
-> ++                }
-> ++
-> +                 block_counter++;
-> +             } else { // FOUR COLOR BLOCK
-> +                 block_counter +=3D encode_four_color_block(min_color, m=
-ax_color,
-> +--=20
-> +2.34.1
-> +
-> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb b/meta/recipe=
-s-multimedia/ffmpeg/ffmpeg_5.1.2.bb
-> index a0c98d4ae0..43b858984b 100644
-> --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb
-> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb
-> @@ -22,7 +22,9 @@ LIC_FILES_CHKSUM =3D "file://COPYING.GPLv2;md5=3Db234ee=
-4d69f5fce4486a80fdaf4a4263 \
->                     file://COPYING.LGPLv2.1;md5=3Dbd7a443320af8c812e4c18d=
-1b79df004 \
->                     file://COPYING.LGPLv3;md5=3De6a600fd5e1d9cbde2d983680=
-233ad02"
->=20
-> -SRC_URI =3D "https://www.ffmpeg.org/releases/${BP}.tar.xz"
-> +SRC_URI =3D "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-> +           file://0001-avcodec-rpzaenc-stop-accessing-out-of-bounds-fram=
-e.patch"
-> +
-> SRC_URI[sha256sum] =3D "619e706d662c8420859832ddc259cd4d4096a48a2ce1eefd0=
-52db9e440eef3dc"
->=20
-> # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/sh=
-ow_bug.cgi?id=3D7717
-> --=20
-> 2.34.1
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#173715): https://lists.openembedded.org/g/openembedde=
-d-core/message/173715
-> Mute This Topic: https://lists.openembedded.org/mt/95218376/6875888
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ro=
-ss.burton@arm.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+Signed-off-by: Zheng Qiu <zheng.qiu@windriver.com>
+---
+ .../libtiff/tiff/CVE-2022-3970.patch          | 38 +++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |  1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2022-3970.patch
+
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2022-3970.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2022-3970.patch
+new file mode 100644
+index 0000000000..e8f143933a
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2022-3970.patch
+@@ -0,0 +1,38 @@
++From 227500897dfb07fb7d27f7aa570050e62617e3be Mon Sep 17 00:00:00 2001
++From: Even Rouault <even.rouault@spatialys.com>
++Date: Tue, 8 Nov 2022 15:16:58 +0100
++Subject: [PATCH] TIFFReadRGBATileExt(): fix (unsigned) integer overflow on
++ strips/tiles > 2 GB
++
++Fixes https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=53137
++---
++ libtiff/tif_getimage.c | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
++
++diff --git a/libtiff/tif_getimage.c b/libtiff/tif_getimage.c
++index a4d0c1d6..60b94d8e 100644
++--- a/libtiff/tif_getimage.c
+++++ b/libtiff/tif_getimage.c
++@@ -3016,15 +3016,15 @@ TIFFReadRGBATileExt(TIFF* tif, uint32_t col, uint32_t row, uint32_t * raster, in
++         return( ok );
++ 
++     for( i_row = 0; i_row < read_ysize; i_row++ ) {
++-        memmove( raster + (tile_ysize - i_row - 1) * tile_xsize,
++-                 raster + (read_ysize - i_row - 1) * read_xsize,
+++        memmove( raster + (size_t)(tile_ysize - i_row - 1) * tile_xsize,
+++                 raster + (size_t)(read_ysize - i_row - 1) * read_xsize,
++                  read_xsize * sizeof(uint32_t) );
++-        _TIFFmemset( raster + (tile_ysize - i_row - 1) * tile_xsize+read_xsize,
+++        _TIFFmemset( raster + (size_t)(tile_ysize - i_row - 1) * tile_xsize+read_xsize,
++                      0, sizeof(uint32_t) * (tile_xsize - read_xsize) );
++     }
++ 
++     for( i_row = read_ysize; i_row < tile_ysize; i_row++ ) {
++-        _TIFFmemset( raster + (tile_ysize - i_row - 1) * tile_xsize,
+++        _TIFFmemset( raster + (size_t)(tile_ysize - i_row - 1) * tile_xsize,
++                      0, sizeof(uint32_t) * tile_xsize );
++     }
++ 
++-- 
++2.33.0
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+index 29a2c38d8e..7df4369755 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+@@ -24,6 +24,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://CVE-2022-34526.patch \
+            file://CVE-2022-2869.patch \
+            file://CVE-2022-2867.patch \
++           file://CVE-2022-3970.patch \
+            file://b258ed69a485a9cfb299d9f060eb2a46c54e5903.patch \
+            file://0001-tiffcrop-Fix-issue-330-and-some-more-from-320-to-349.patch \
+            file://CVE-2022-2953.patch \
+-- 
+2.33.0
 
 
