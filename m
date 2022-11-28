@@ -1,384 +1,180 @@
-Return-Path: <vishal.bhoj@linaro.org>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8521EC433FE
-	for <webhook@archiver.kernel.org>; Mon, 28 Nov 2022 13:59:50 +0000 (UTC)
-Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
- by mx.groups.io with SMTP id smtpd.web10.118260.1669643981297565452
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9233DC4321E
+	for <webhook@archiver.kernel.org>; Mon, 28 Nov 2022 14:03:20 +0000 (UTC)
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
+ by mx.groups.io with SMTP id smtpd.web10.118347.1669644196884328013
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Nov 2022 05:59:41 -0800
+ Mon, 28 Nov 2022 06:03:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=LIQHl73b;
- spf=pass (domain: linaro.org, ip: 209.85.166.49, mailfrom: vishal.bhoj@linaro.org)
-Received: by mail-io1-f49.google.com with SMTP id i85so7605857ioa.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 05:59:41 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=QoiRcxbZ;
+ spf=pass (domain: gmail.com, ip: 209.85.166.41, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f41.google.com with SMTP id q21so7603361iod.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 06:03:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y1C2/QzpgSQ8RsFowNwhGN05j8w3blnyQO3BEKNhhlQ=;
-        b=LIQHl73b4QJ6EBhKSyapyJh+Pd+4u993eqFFcj11+GwgeKvQgBGkQNLFoWlt7PzJEh
-         utvCHVl+S06qwwSco0n/76EnWQQPmGjwsUoPTfqWgWyt+nMdoA9lUG3kU7zY96BT+HFj
-         xEwLx7MCxeGI8kSpwMwFYBUdnzSHUJ/NcaZ1TPCZVJ7S9fjNpR5fT6jkFTbLhfTEiiTe
-         TWcwafeCwIu34ubAaeXcQuC66jWWuyo3xGG9KykqncCu1/wGlNLNqdNSStSJQQVBfgXX
-         oh9MqtjSwVwvbNY6adtkS0+aKy3d8pj6KwUbd8VzryetMp6l5ePX9tMViGPlex8gVHYq
-         3Dgg==
+        bh=637l2SUPjnB/z2dGCplRt47enG1v/OYTvV6Sk/sP3BA=;
+        b=QoiRcxbZqpdrDqQUpzU8uGzq5QnEKHyPqkB697CqxH24Abkcyy/2Izi3ltLAnwzfXh
+         Zm/Io1jwAgO7mpGOx3yr2vEB8JRCPg3GmpSqW8Aa1KRMJ8lxwUVTveMSDtB0aN23MIKm
+         Sd6tr9wwMZwDwFzQBL+qkpP+h+7zF6nrNDtulOGjDpg+6uHn4DP3b0BozgzGjN/wKW55
+         N7TszJGmtfjtxvR9hoA2u6GHFH8WFpVbZ2In7aRcepa6QY1ANIIrsopJEDC2aN6MKJqu
+         XQW1aTXKceZjs3ttMbwSjwPPR6q1r9R7QKRjs7KpqfE03K6p7izXxufBvO7/vh6Mq4+5
+         v4sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Y1C2/QzpgSQ8RsFowNwhGN05j8w3blnyQO3BEKNhhlQ=;
-        b=IfChliwtBGKNhRwGrQNugSU0W806ScyKbkRfvw5rrfdoy+XdxW3BSoiMxR7pUuy/+u
-         xETMQUBvCuPX5fCKGUpuaF9b4hXJnzN5RJvKQ19TCb+QLzAefH0Naity+3y8YVfDREwF
-         D//EFJnzbNdJufGDSuO+y9SqZ5qEOs6B6dRnX9gTXjgHz35RUO+TWalZFi4IgKQHI0ad
-         HrmmpGv6Bv68nfiqr0ZdeX7LBp0yEkfLpi5JQ+9gZutnPtpnF4PZwL0J6hjRxVp/b7hX
-         DIiWhSFYROQruB3QOkrM55/ROQ8YJzjh9T8NFgIN5kevYRsUekGGTJ8iWzvRYv8Tujgg
-         6+LA==
-X-Gm-Message-State: ANoB5pllPqqk1od8l7rj6+xRLJUSALsEc8dVguenaQkzl422MBMvQaQt
-	NEtGYGHMhQ9Z70mkZDAukKMwd0F10UOM0R7KsaqTdVCdyFs/Rg==
-X-Google-Smtp-Source: AA0mqf5ScRo6oHAG3fDnwlleuTgBciy983izpVwoRyFmAaPYC/3RrCVsh+kCg8ESeTAlgJNwg8kJ/Oh8/cOPykQiqWg=
-X-Received: by 2002:a05:6638:4410:b0:363:aec1:9a04 with SMTP id
- bp16-20020a056638441000b00363aec19a04mr24081238jab.78.1669643980437; Mon, 28
- Nov 2022 05:59:40 -0800 (PST)
+        bh=637l2SUPjnB/z2dGCplRt47enG1v/OYTvV6Sk/sP3BA=;
+        b=YFfYW7ySXSzwdmDKwdf0coZaumJEYKdMLRMNOU4nChygdGYSqujSoJ+jypZ+pCtGhe
+         UT9m7BEN/eTnhWwEmjuKK5BJoR1Nn5+laUrla9YA0SIrMuMvQeWvHv3LSCpXiDQ5cplf
+         gi/d8lFeDg8UDiW4kxi688aTyxTq32SyXg1TYMMVkljRWK9ssiJ0/rpRlnZ6ReFrTuS3
+         QHwrvq5WG0oj/yBEP8VtacPjPtNXUyD2g/X4rd0I1Sb+Syg+xSSsT7XRUxUQvDYT3Ruv
+         AiCpkVtYRdExXBpSDDyQH0PRSd7HLIHXGDAPQUAPyWwqFqTLW7+hVoU4hLgvj0s2NxbP
+         FJEQ==
+X-Gm-Message-State: ANoB5pk2JCOeuh6dumqmm1ESBlzcq/pHL7M0P2WuNKExxBpHunVtR7pQ
+	FPp9ILI5ETR+5BaBmBbUcT3wJVrKp3E4LXJRvmUFMQpRPMU=
+X-Google-Smtp-Source: AA0mqf7N+P27/4eo95Lqv1swnzy2/Suvgc1YBnHnb4WEuroeTG3FuHk1oH8LGlxXw/jpWwjA/VNpVfV8Zrsqi7a4fnQ=
+X-Received: by 2002:a02:6d53:0:b0:372:f7ed:9f78 with SMTP id
+ e19-20020a026d53000000b00372f7ed9f78mr17304862jaf.245.1669644195810; Mon, 28
+ Nov 2022 06:03:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20221127213640.539995-1-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20221127213640.539995-1-richard.purdie@linuxfoundation.org>
-From: Vishal Bhoj <vishal.bhoj@linaro.org>
-Date: Mon, 28 Nov 2022 19:29:29 +0530
-Message-ID: <CAKdWgSw2tZ68R531RZgi2bqLrdOXkc1oZnxM_rEugv7S-ysOUA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH RFC] base: Switch to use addpylib directive
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <20221125155412.1119701-1-mikko.rapeli@linaro.org>
+ <CADkTA4NeeEjOhUvU89GU6Ep2BjDHrcFqkf+ubaw=G_PSsVFJ3w@mail.gmail.com> <Y4RfR5ij3QW6BWYy@nuoska>
+In-Reply-To: <Y4RfR5ij3QW6BWYy@nuoska>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 28 Nov 2022 09:03:04 -0500
+Message-ID: <CADkTA4NBbmwW3smtJb7vvUfHOTcgr4nEHu6WOnBpFDm3J-9QwA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] linux-yocto: enable strict kernel module
+ signing by default
+To: Mikko Rapeli <mikko.rapeli@linaro.org>
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000005b1d7405ee8848c8"
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 13:59:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173917
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 14:03:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173918
 
---0000000000005b1d7405ee8848c8
-Content-Type: text/plain; charset="UTF-8"
-
-Hi,
-
-I get the below backtrace with this patch on master-next. The same patchset
-works fine on debian-11. Are there any specific versions of packages that
-need to be installed as  dependency ?
-
-Tested on host os: ubuntu-18.04/ubuntu-20.04
-
-tuxbake@b8b6586bfb2c:/source/source/poky/build$ bitbake -e
-ERROR: Error parsing configuration files
-Traceback (most recent call last):
-  File "/source/source/poky/bitbake/lib/bb/cookerdata.py", line 187, in
-parse_config_file(fn='/source/source/poky/meta/conf/layer.conf',
-data=<bb.data_smart.DataSmart object at 0x7f020867e250>, include=True):
-     def parse_config_file(fn, data, include=True):
-    >    return bb.parse.handle(fn, data, include)
-
-  File "/source/source/poky/bitbake/lib/bb/parse/__init__.py", line 107, in
-handle(fn='/source/source/poky/meta/conf/layer.conf',
-data=<bb.data_smart.DataSmart object at 0x7f020867e250>, include=True):
-                 with data.inchistory.include(fn):
-    >                return h['handle'](fn, data, include)
-         raise ParseError("not a BitBake file", fn)
-  File "/source/source/poky/bitbake/lib/bb/parse/parse_py/ConfHandler.py",
-line 152, in handle(fn='/source/source/poky/meta/conf/layer.conf',
-data=<bb.data_smart.DataSmart object at 0x7f020867e250>, include=True):
-         data.setVar('FILE', abs_fn)
-    >    statements.eval(data)
-         if oldfile:
-  File "/source/source/poky/bitbake/lib/bb/parse/ast.py", line 21, in
-StatementGroup.eval(data=<bb.data_smart.DataSmart object at
-0x7f020867e250>):
-             for statement in self:
-    >            statement.eval(data)
-
-  File "/source/source/poky/bitbake/lib/bb/parse/ast.py", line 324, in
-PyLibNode.eval(data=<bb.data_smart.DataSmart object at 0x7f020867e250>):
-                             bb.codeparser.modulecode_deps[entry][2] |=
-bb.codeparser.modulecode_deps[dup][2]
-    >                        bb.codeparser.modulecode_deps[entry][3] |=
-bb.codeparser.modulecode_deps[dup][3]
-
-TypeError: unsupported operand type(s) for |=: 'dict' and 'dict'
-
-
-
-On Mon, 28 Nov 2022 at 03:06, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> Since bitbake now supports an official method to inject python modules,
-> switch to it.
+On Mon, Nov 28, 2022 at 2:12 AM Mikko Rapeli <mikko.rapeli@linaro.org> wrote:
 >
-> Anyone using OE_EXTRA_IMPORTS will need to adjust their code accordingly,
-> probably switching to their own module namespace.
+> On Sat, Nov 26, 2022 at 10:06:57PM -0500, Bruce Ashfield wrote:
+> > On Fri, Nov 25, 2022 at 10:54 AM Mikko Rapeli <mikko.rapeli@linaro.org> wrote:
+> > >
+> > > It's a good default and used in many Linux distributions.
+> > > Did not test out of tree modules if they do correct things but
+> > > any such failures should be fixed.
+> > >
+> > > One way to verify that kernel module signing also works:
+> > >
+> > > root@qemux86-64:~# dmesg|grep X.509
+> > > [    1.298936] Loading compiled-in X.509 certificates
+> > > [    1.328280] Loaded X.509 cert 'Build time autogenerated kernel key: ee1bed6d845358744c764683bf73b4404cc79287'
+> > >
+> > > These logs in dmesg show that signing in kernel is enabled and
+> > > key is found. Then if any kernel modules load, they were
+> > > signed correctly. Additionally modinfo tool from kmod shows kernel module
+> > > signing details:
+> > >
+> > > root@qemux86-64:~# lsmod
+> > > Module                  Size  Used by
+> > > sch_fq_codel           20480  1
+> > > root@qemux86-64:~# modinfo sch_fq_codel
+> > > filename:
+> > > /lib/modules/5.19.9-yocto-standard/kernel/net/sched/sch_fq_codel.ko
+> > > description:    Fair Queue CoDel discipline
+> > > license:        GPL
+> > > author:         Eric Dumazet
+> > > depends:
+> > > retpoline:      Y
+> > > intree:         Y
+> > > name:           sch_fq_codel
+> > > vermagic:       5.19.9-yocto-standard SMP preempt mod_unload
+> > > sig_id:         PKCS#7
+> > > signer:         Build time autogenerated kernel key
+> > > sig_key:        2B:2A:BE:7D:B5:92:DC:98:A9:F8:D7:00:A6:73:35:20:10:D8:19:EE
+> > > sig_hashalgo:   sha512
+> > > signature:      72:6C:E1:78:7C:A7:7B:CC:C4:33:23:6B:95:EC:1B:2A:BD:D9:EC:7A:
+> > >                 85:07:05:B2:70:3C:C9:64:F6:78:8A:01:A0:E3:64:C7:47:BB:5D:0E:
+> > >                 86:BA:C1:DD:40:05:AE:1F:19:D4:F0:98:49:86:CC:61:14:3C:AB:1E:
+> > >                 4A:1C:83:47:1D:FA:6D:E4:83:79:3A:2B:3F:7D:B6:E0:09:AE:B4:01:
+> > >                 07:EE:C9:5B:99:70:4F:49:8A:64:E4:7D:84:AA:37:F5:DB:5F:16:5C:
+> > >                 D4:DC:0C:33:73:5D:D9:8D:7E:71:5B:A1:ED:61:81:5E:1C:ED:A2:D8:
+> > >                 76:46:99:B3:78:08:F7:7F:0D:4B:94:26:21:63:47:B0:75:9F:A4:EA:
+> > >                 3D:14:D4:09:CC:59:F3:FC:80:AC:BF:56:1E:8C:73:FD:CB:07:27:C6:
+> > >                 3D:98:4C:E4:C3:9C:C0:AD:90:53:46:8F:AE:66:FE:10:C8:92:7F:BA:
+> > >                 74:C2:B0:E3:6E:47:66:AB:39:25:41:12:66:91:20:27:1A:58:77:75:
+> > >                 4F:C0:3F:F1:8E:5F:AB:0A:BD:8B:62:4F:2B:01:5A:5C:4E:5C:31:39:
+> > >                 FB:F4:14:2E:BF:D8:51:4B:C8:D0:E2:0A:20:80:95:05:80:E3:46:75:
+> > >                 43:80:30:63:6F:A4:25:82:59:35:34:E8:6A:DC:FF:93:F8:32:BB:FA:
+> > >                 66:2D:B9:08:75:1A:3A:3A:5D:57:F4:63:85:01:B4:EB:96:1B:CE:6F:
+> > >                 4D:61:FC:AA:6C:39:7F:D6:37:C9:84:0A:84:17:FB:BE:FC:20:CB:EE:
+> > >                 8C:2F:93:92:F6:48:F4:07:50:84:D8:2C:B5:2E:A7:7D:3A:3F:DC:E9:
+> > >                 B9:17:EF:47:49:EC:BA:62:1C:C4:C6:58:9C:0C:8D:26:41:6E:1F:C1:
+> > >                 95:A7:8B:57:5D:1D:4B:B4:04:00:F6:68:24:9E:E2:BF:11:EC:05:6C:
+> > >                 83:E8:C6:DB:BB:3D:22:8B:31:BB:99:1A:44:E1:15:71:C3:AA:FA:01:
+> > >                 98:BA:6B:20:26:D6:9C:61:5C:6F:81:29:09:B1:EA:C5:28:15:F3:98:
+> > >                 C0:18:FE:08:8B:40:A5:F3:3C:71:4B:C6:41:CD:38:51:79:EA:5D:C9:
+> > >                 13:39:B5:FD:A3:D1:BB:11:94:66:F7:7B:6A:DC:2C:01:5F:AB:73:08:
+> > >                 68:24:32:BE:BC:7A:90:E5:FD:97:17:6C:DD:46:D0:0E:2C:03:31:66:
+> > >                 B3:7C:B2:48:E1:E0:1A:63:20:48:4C:D4:55:56:71:04:3B:5F:3B:28:
+> > >                 BF:64:6C:52:A9:07:6D:FF:21:E9:06:35:E8:A1:D7:F4:C2:F9:D7:7B:
+> > >                 9D:D2:90:16:2F:68:1E:3F:BE:43:ED:64
+> > >
+> > > Failures in signed kernel module loading should show as errors at
+> > > runtime, for example systemd services, or as oeqa parselogs test
+> > > failures which detects signature verification error messages from the
+> > > kernel.
+> > >
+> > > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> > > ---
+> > >  meta/recipes-kernel/linux/linux-yocto.inc | 3 +++
+> > >  1 file changed, 3 insertions(+)
+> > >
+> > > diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+> > > index 091003ed82..bab1f21479 100644
+> > > --- a/meta/recipes-kernel/linux/linux-yocto.inc
+> > > +++ b/meta/recipes-kernel/linux/linux-yocto.inc
+> > > @@ -37,6 +37,9 @@ KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'efi', 'cfg/
+> > >  KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'numa', 'features/numa/numa.scc', '', d)}"
+> > >  KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'vfat', 'cfg/fs/vfat.scc', '', d)}"
+> > >
+> > > +# enable module signing by default
+> > > +KERNEL_FEATURES:append = " features/module-signing/force-signing.scc"
+> > > +
+> >
+> > For the reference kernels, there are a huge amount of use cases, and I
+> > support a really broad set of deployments.
+> >
+> > We can enable this via either a distro or packageconfig, but not like
+> > this, since disabling it is difficult and requires a :remove. It needs
+> > to be opt-in.
 >
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> [This patch is an RFC as part of a series on the bitbake-devel list]
->
->  meta/classes-global/base.bbclass | 23 -----------------------
->  meta/conf/layer.conf             |  2 ++
->  meta/lib/oe/__init__.py          |  4 ++++
->  3 files changed, 6 insertions(+), 23 deletions(-)
->
-> diff --git a/meta/classes-global/base.bbclass
-> b/meta/classes-global/base.bbclass
-> index c81aa51ef3f..c4ac43c5696 100644
-> --- a/meta/classes-global/base.bbclass
-> +++ b/meta/classes-global/base.bbclass
-> @@ -15,31 +15,8 @@ inherit utils
->  inherit utility-tasks
->  inherit logging
->
-> -OE_EXTRA_IMPORTS ?= ""
-> -
-> -OE_IMPORTS += "os sys time oe.path oe.utils oe.types oe.package
-> oe.packagegroup oe.sstatesig oe.lsb oe.cachedpath oe.license oe.qa
-> oe.reproducible oe.rust oe.buildcfg ${OE_EXTRA_IMPORTS}"
-> -OE_IMPORTS[type] = "list"
-> -
->  PACKAGECONFIG_CONFARGS ??= ""
->
-> -def oe_import(d):
-> -    import sys
-> -
-> -    bbpath = [os.path.join(dir, "lib") for dir in
-> d.getVar("BBPATH").split(":")]
-> -    sys.path[0:0] = [dir for dir in bbpath if dir not in sys.path]
-> -
-> -    import oe.data
-> -    for toimport in oe.data.typed_value("OE_IMPORTS", d):
-> -        try:
-> -            # Make a python object accessible from the metadata
-> -            bb.utils._context[toimport.split(".", 1)[0]] =
-> __import__(toimport)
-> -        except AttributeError as e:
-> -            bb.error("Error importing OE modules: %s" % str(e))
-> -    return ""
-> -
-> -# We need the oe module name space early (before INHERITs get added)
-> -OE_IMPORTED := "${@oe_import(d)}"
-> -
->  inherit metadata_scm
->
->  def lsb_distro_identifier(d):
-> diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-> index 0ce90355baf..0fe05beebf0 100644
-> --- a/meta/conf/layer.conf
-> +++ b/meta/conf/layer.conf
-> @@ -125,3 +125,5 @@ SSTATE_EXCLUDEDEPS_SYSROOT +=
-> ".*->autoconf-archive-native"
->  # Avoid empty path entries
->  BITBAKEPATH :=
-> "${@os.path.dirname(bb.utils.which(d.getVar('PATH'),'bitbake'))}"
->  PATH := "${@'${BITBAKEPATH}:' if '${BITBAKEPATH}' != '' else
-> ''}${HOSTTOOLS_DIR}"
-> +
-> +addpylib ${LAYERDIR}/lib oe
-> diff --git a/meta/lib/oe/__init__.py b/meta/lib/oe/__init__.py
-> index 92f002d8726..9166420b00e 100644
-> --- a/meta/lib/oe/__init__.py
-> +++ b/meta/lib/oe/__init__.py
-> @@ -6,3 +6,7 @@
->
->  from pkgutil import extend_path
->  __path__ = extend_path(__path__, __name__)
-> +
-> +BBIMPORTS = ["os", "sys", "time", "oe.data", "oe.path", "oe.utils",
-> "oe.types", "oe.package", \
-> +             "oe.packagegroup", "oe.sstatesig", "oe.lsb",
-> "oe.cachedpath", "oe.license", \
-> +             "oe.qa", "oe.reproducible", "oe.rust", "oe.buildcfg"]
-> --
-> 2.34.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#173885):
-> https://lists.openembedded.org/g/openembedded-core/message/173885
-> Mute This Topic: https://lists.openembedded.org/mt/95297771/3616781
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> vishal.bhoj@linaro.org]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
+> This signing is purely a kernel internal self protection. Thus I don't see a
+> need for DISTRO_CONFIG, and kernel recipes don't use PACKAGECONFIG for
+> some reason. I know :append is difficult to :remove but it's used with "numa", "vfat",
+> "ptest" etc things too.
 
---0000000000005b1d7405ee8848c8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+And I've complained about those being added at times as well, in fact,
+I have a bug somewhere to clean them up.
 
-<div dir=3D"ltr">Hi,<div><br></div><div>I get the below backtrace with this=
- patch on master-next. The same patchset works fine on debian-11. Are there=
- any specific versions of packages that need to be installed as=C2=A0=C2=A0=
-dependency=C2=A0?</div><div><br></div><div>Tested on host os: ubuntu-18.04/=
-ubuntu-20.04</div><div><br></div><div><span style=3D"font-family:&quot;comi=
-c sans ms&quot;,sans-serif">tuxbake@b8b6586bfb2c:/source/source/poky/build$=
- bitbake -e</span><br></div><div><font face=3D"comic sans ms, sans-serif">E=
-RROR: Error parsing configuration files<br>Traceback (most recent call last=
-):<br>=C2=A0 File &quot;/source/source/poky/bitbake/lib/bb/cookerdata.py&qu=
-ot;, line 187, in parse_config_file(fn=3D&#39;/source/source/poky/meta/conf=
-/layer.conf&#39;, data=3D&lt;bb.data_smart.DataSmart object at 0x7f020867e2=
-50&gt;, include=3DTrue):<br>=C2=A0 =C2=A0 =C2=A0def parse_config_file(fn, d=
-ata, include=3DTrue):<br>=C2=A0 =C2=A0 &gt; =C2=A0 =C2=A0return bb.parse.ha=
-ndle(fn, data, include)<br><br>=C2=A0 File &quot;/source/source/poky/bitbak=
-e/lib/bb/parse/__init__.py&quot;, line 107, in handle(fn=3D&#39;/source/sou=
-rce/poky/meta/conf/layer.conf&#39;, data=3D&lt;bb.data_smart.DataSmart obje=
-ct at 0x7f020867e250&gt;, include=3DTrue):<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0with data.inchistory.include(fn):<br>=C2=
-=A0 =C2=A0 &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0retu=
-rn h[&#39;handle&#39;](fn, data, include)<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0raise ParseError(&quot;not a BitBake file&quot;, fn)<br>=C2=A0 File &=
-quot;/source/source/poky/bitbake/lib/bb/parse/parse_py/ConfHandler.py&quot;=
-, line 152, in handle(fn=3D&#39;/source/source/poky/meta/conf/layer.conf&#3=
-9;, data=3D&lt;bb.data_smart.DataSmart object at 0x7f020867e250&gt;, includ=
-e=3DTrue):<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0data.setVar(&#39;FILE&#39;,=
- abs_fn)<br>=C2=A0 =C2=A0 &gt; =C2=A0 =C2=A0statements.eval(data)<br>=C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0if oldfile:<br>=C2=A0 File &quot;/source/source=
-/poky/bitbake/lib/bb/parse/ast.py&quot;, line 21, in StatementGroup.eval(da=
-ta=3D&lt;bb.data_smart.DataSmart object at 0x7f020867e250&gt;):<br>=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for statement in self:<br>=C2=A0 =
-=C2=A0 &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0statement.eval(data)<b=
-r><br>=C2=A0 File &quot;/source/source/poky/bitbake/lib/bb/parse/ast.py&quo=
-t;, line 324, in PyLibNode.eval(data=3D&lt;bb.data_smart.DataSmart object a=
-t 0x7f020867e250&gt;):<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.codeparser.module=
-code_deps[entry][2] |=3D bb.codeparser.modulecode_deps[dup][2]<br>=C2=A0 =
-=C2=A0 &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0bb.codeparser.modulecode_deps[entry][3] |=3D bb.codepar=
-ser.modulecode_deps[dup][3]<br><br>TypeError: unsupported operand type(s) f=
-or |=3D: &#39;dict&#39; and &#39;dict&#39;</font><br></div><div><font face=
-=3D"comic sans ms, sans-serif"><br></font></div><div><font face=3D"comic sa=
-ns ms, sans-serif"><br></font></div></div><br><div class=3D"gmail_quote"><d=
-iv dir=3D"ltr" class=3D"gmail_attr">On Mon, 28 Nov 2022 at 03:06, Richard P=
-urdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.pur=
-die@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex">Since bitbake now supports an official method to inj=
-ect python modules,<br>
-switch to it.<br>
-<br>
-Anyone using OE_EXTRA_IMPORTS will need to adjust their code accordingly,<b=
-r>
-probably switching to their own module namespace.<br>
-<br>
-Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
-ndation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<b=
-r>
----<br>
-[This patch is an RFC as part of a series on the bitbake-devel list]<br>
-<br>
-=C2=A0meta/classes-global/base.bbclass | 23 -----------------------<br>
-=C2=A0meta/conf/layer.conf=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 2 ++<br>
-=C2=A0meta/lib/oe/__init__.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 4 +=
-+++<br>
-=C2=A03 files changed, 6 insertions(+), 23 deletions(-)<br>
-<br>
-diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base.bb=
-class<br>
-index c81aa51ef3f..c4ac43c5696 100644<br>
---- a/meta/classes-global/base.bbclass<br>
-+++ b/meta/classes-global/base.bbclass<br>
-@@ -15,31 +15,8 @@ inherit utils<br>
-=C2=A0inherit utility-tasks<br>
-=C2=A0inherit logging<br>
-<br>
--OE_EXTRA_IMPORTS ?=3D &quot;&quot;<br>
--<br>
--OE_IMPORTS +=3D &quot;os sys time oe.path oe.utils oe.types oe.package oe.=
-packagegroup oe.sstatesig oe.lsb oe.cachedpath oe.license <a href=3D"http:/=
-/oe.qa" rel=3D"noreferrer" target=3D"_blank">oe.qa</a> oe.reproducible oe.r=
-ust oe.buildcfg ${OE_EXTRA_IMPORTS}&quot;<br>
--OE_IMPORTS[type] =3D &quot;list&quot;<br>
--<br>
-=C2=A0PACKAGECONFIG_CONFARGS ??=3D &quot;&quot;<br>
-<br>
--def oe_import(d):<br>
--=C2=A0 =C2=A0 import sys<br>
--<br>
--=C2=A0 =C2=A0 bbpath =3D [os.path.join(dir, &quot;lib&quot;) for dir in d.=
-getVar(&quot;BBPATH&quot;).split(&quot;:&quot;)]<br>
--=C2=A0 =C2=A0 sys.path[0:0] =3D [dir for dir in bbpath if dir not in sys.p=
-ath]<br>
--<br>
--=C2=A0 =C2=A0 import oe.data<br>
--=C2=A0 =C2=A0 for toimport in oe.data.typed_value(&quot;OE_IMPORTS&quot;, =
-d):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Make a python object accessibl=
-e from the metadata<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.utils._context[toimport.split=
-(&quot;.&quot;, 1)[0]] =3D __import__(toimport)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 except AttributeError as e:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.error(&quot;Error importing O=
-E modules: %s&quot; % str(e))<br>
--=C2=A0 =C2=A0 return &quot;&quot;<br>
--<br>
--# We need the oe module name space early (before INHERITs get added)<br>
--OE_IMPORTED :=3D &quot;${@oe_import(d)}&quot;<br>
--<br>
-=C2=A0inherit metadata_scm<br>
-<br>
-=C2=A0def lsb_distro_identifier(d):<br>
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf<br>
-index 0ce90355baf..0fe05beebf0 100644<br>
---- a/meta/conf/layer.conf<br>
-+++ b/meta/conf/layer.conf<br>
-@@ -125,3 +125,5 @@ SSTATE_EXCLUDEDEPS_SYSROOT +=3D &quot;.*-&gt;autoconf-a=
-rchive-native&quot;<br>
-=C2=A0# Avoid empty path entries<br>
-=C2=A0BITBAKEPATH :=3D &quot;${@os.path.dirname(bb.utils.which(d.getVar(&#3=
-9;PATH&#39;),&#39;bitbake&#39;))}&quot;<br>
-=C2=A0PATH :=3D &quot;${@&#39;${BITBAKEPATH}:&#39; if &#39;${BITBAKEPATH}&#=
-39; !=3D &#39;&#39; else &#39;&#39;}${HOSTTOOLS_DIR}&quot;<br>
-+<br>
-+addpylib ${LAYERDIR}/lib oe<br>
-diff --git a/meta/lib/oe/__init__.py b/meta/lib/oe/__init__.py<br>
-index 92f002d8726..9166420b00e 100644<br>
---- a/meta/lib/oe/__init__.py<br>
-+++ b/meta/lib/oe/__init__.py<br>
-@@ -6,3 +6,7 @@<br>
-<br>
-=C2=A0from pkgutil import extend_path<br>
-=C2=A0__path__ =3D extend_path(__path__, __name__)<br>
-+<br>
-+BBIMPORTS =3D [&quot;os&quot;, &quot;sys&quot;, &quot;time&quot;, &quot;oe=
-.data&quot;, &quot;oe.path&quot;, &quot;oe.utils&quot;, &quot;oe.types&quot=
-;, &quot;oe.package&quot;, \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;oe.packagegroup&quot=
-;, &quot;oe.sstatesig&quot;, &quot;oe.lsb&quot;, &quot;oe.cachedpath&quot;,=
- &quot;oe.license&quot;, \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<a href=3D"http://oe=
-.qa" rel=3D"noreferrer" target=3D"_blank">oe.qa</a>&quot;, &quot;oe.reprodu=
-cible&quot;, &quot;oe.rust&quot;, &quot;oe.buildcfg&quot;]<br>
--- <br>
-2.34.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#173885): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/173885" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/173885</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/95297771/3616=
-781" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/95297771/3616781</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:vishal.bhoj@linaro.org" ta=
-rget=3D"_blank">vishal.bhoj@linaro.org</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
+Signing impacts the runtime, and can chain throughout the system (as
+with the stripping of the modules), so in this case, it has to be
+opt-in.
 
---0000000000005b1d7405ee8848c8--
+Bruce
+
+>
+> -Mikko
+
+
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
