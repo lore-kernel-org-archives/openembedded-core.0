@@ -2,136 +2,96 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84819C43217
-	for <webhook@archiver.kernel.org>; Mon, 28 Nov 2022 10:46:39 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web10.114809.1669632398816051270
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EC6EC433FE
+	for <webhook@archiver.kernel.org>; Mon, 28 Nov 2022 10:46:49 +0000 (UTC)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+ by mx.groups.io with SMTP id smtpd.web11.114795.1669632399490493699
  for <openembedded-core@lists.openembedded.org>;
  Mon, 28 Nov 2022 02:46:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Bq7K6fg5;
- spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id vp12so23406028ejc.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 02:46:38 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=BFK038TK;
+ spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f42.google.com with SMTP id s5so14788867edc.12
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 02:46:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=q+b7FdxbpiLbUza9LW5uZf8ZSyOuNa+3NDi9I3KrdcA=;
-        b=Bq7K6fg5yXEw/GE5CLB8f6y3nIFjRMfnh71C7i8+ebGFdS1TslIl1KMH2Cp8N1V3rF
-         5OjejfVouIE1MAGKt++FsBWNyjKewgsg4DhbletjvSHqgY0C2aOAWzp5l6X2agXrxiLM
-         44IrDfWn0LaDN8EYmGl1eDOcRYjMRbEhsk6oayeQczX7S97+eGexIfPo2ZbD1E1CeTzH
-         RAI6tzDUb4Ht6VRN46oJvr6ndYKVmg052jDbcI3/6u55swkUvngV4nnzd16akZKZsQfU
-         I2Zbuq8JpSnzL+61SZ1C8LqkNzK5SXlPPzOE+Q+ZYM8KP9EANKgXIewGxVATbfVZ2pNb
-         7qKg==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iP5rtKL9MTfoUY6ICGzRHu1UK8N7V2rEVsy9SYy4btU=;
+        b=BFK038TKbfXy8NmBdF1bvTFUfCRV3O16vCoFQEBlZiHZSDh7QdfLxUl5LEPkwpYI3B
+         SaI4sEBjvAdbv4aLxR9NAjV9u4UyY6b5cpj4Vey8pHvaF+dyCp5KxNpUg0/YUBUOMUF3
+         jDEB3xLynjnnhGcCiTTotKuLI4AVx5SLkj6NHkGZKzk8LPF8YLsX8Hu/9T+oqxSlgGUi
+         J8wdSpyZvXO+dJx+GTGg5oC9Ll6RMV8g1pQ0CqMXU0toxclPVZk4jFtlSWNTH0D9CCxr
+         noSmz1qA0DEQPkjnsO33JwbLXdxRYR+fDfBfmvfCvRXmXeTKEvSpigb35wiymxwK+rk0
+         Tvgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=q+b7FdxbpiLbUza9LW5uZf8ZSyOuNa+3NDi9I3KrdcA=;
-        b=7Z86rNSsYsEDtGHV+TkJ0nUixAkN0edDCGyF8uPL5g6NUV0+hY0S+Nm98/wsRyLUux
-         fiCyCky5U3kZUfKWBU1H6vQLww3wwn00iGNn1GKnx31lYQ8fShMM0rSaKZb+d51rv7cF
-         +Un7a+5lGINNEXjTT3Kvg1zBUcOhKMMRHXRI9q/v5R5Ti3BtsQJH7Pp8Ja2aa/u0w7UH
-         P8mq3jXXrA3KE0OsYO6ZE6j6JHOusSC7e7CQon5UvDEo5hip1edStBZ5zKzxY9dGRBti
-         DKKzp/+VLiMM2JHg13LG39Z9vkS+E4kSXDMkY2eVbvkW0sNW1WbHPYIZMJFPZBt9TBPt
-         +NSg==
-X-Gm-Message-State: ANoB5pnqNjCM6HP9kZRP8asSwjZr1vxC3HMChDxhGwcbvP6gXJdskq64
-	UjiKhBrVHdSntxGDnxv7EtYUz+npk8A=
-X-Google-Smtp-Source: AA0mqf5C7JfzOrjbKPzez+0xRoe2XtbT0B6Jr02ZYY0QmUe79MhHNTnsUkkL/r3FpCY/b3qRSMhC5w==
-X-Received: by 2002:a17:906:eb04:b0:7ae:77ef:d048 with SMTP id mb4-20020a170906eb0400b007ae77efd048mr26701496ejb.740.1669632397188;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iP5rtKL9MTfoUY6ICGzRHu1UK8N7V2rEVsy9SYy4btU=;
+        b=UG64bd+mfXDQGRoSGDvvoGY4eYBJQv+Rz9QbEevqk//rBOq72SpfN/LmE9V1Uq5sz3
+         9Xy3esp363/CnHItHqQC0xNPk9U62uXgNxBiEG8nDDgGp8XpXvtVRH40jGWLbLIDIAzk
+         De5oyialfO8z1U5bxs6XXsAOzZlTxsWNRHbfofi5IqJ00FB2bp5xo3tiwlLvZv38FgTv
+         xe0uTCRgkDNvcpozNdjvNVnZn1bz0y/kmBsmhmGh60thO5HrCOgB7hg/erT3VZBqpxIH
+         NdbGoDFNTDbLbJsswYN/oltMuntRYYBsEI92nJbyHQQITY2ttjeE3BlXmYQg11j1b/Rn
+         RuUw==
+X-Gm-Message-State: ANoB5pnZEJw1rCWPeVAKFYj53aEuxa2QiO7B4GnGdq5HrMiSKtebk2by
+	bVDfqdWcMZkdjOTOLG5+9jOTX00jwHE=
+X-Google-Smtp-Source: AA0mqf6aIWdsNGH67+u/2/Mr1hyZr08EnlAxASm2z6UIpBekm2uWgAArdk+Hwt1eGnM6v/RMp2MAvQ==
+X-Received: by 2002:aa7:d943:0:b0:469:cdb7:7fe4 with SMTP id l3-20020aa7d943000000b00469cdb77fe4mr31827856eds.261.1669632397784;
         Mon, 28 Nov 2022 02:46:37 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id q8-20020a17090676c800b0078db18d7972sm4776707ejn.117.2022.11.28.02.46.36
+        by smtp.gmail.com with ESMTPSA id q8-20020a17090676c800b0078db18d7972sm4776707ejn.117.2022.11.28.02.46.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Nov 2022 02:46:36 -0800 (PST)
+        Mon, 28 Nov 2022 02:46:37 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH v2 1/3] qemu-helper: depend on unfs3 and pseudo directly
-Date: Mon, 28 Nov 2022 11:46:31 +0100
-Message-Id: <20221128104633.52375-1-alex@linutronix.de>
+Subject: [PATCH v2 2/3] runqemu: do not hardcode the ip address of the nfs server when using tap
+Date: Mon, 28 Nov 2022 11:46:32 +0100
+Message-Id: <20221128104633.52375-2-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20221128104633.52375-1-alex@linutronix.de>
+References: <20221128104633.52375-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 10:46:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173902
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 10:46:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173903
 
-The eliminates having to do extra steps (e.g. meta-ide-support)
-when booting an image with a nfs mount as rootfs - startng runqemu
-with a nfs mount starts to 'just work' after building an image.
+Rather, set it similarly to the overall network config.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb | 2 +-
- meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb    | 2 +-
- scripts/runqemu-export-rootfs                           | 8 ++------
- scripts/runqemu-extract-sdk                             | 2 +-
- 4 files changed, 5 insertions(+), 9 deletions(-)
+ scripts/runqemu | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb b/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
-index abba7fe159..2a5bcfb909 100644
---- a/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
-+++ b/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
-@@ -1,6 +1,6 @@
- SUMMARY = "Qemu helper scripts"
- LICENSE = "GPL-2.0-only"
--RDEPENDS:${PN} = "nativesdk-qemu \
-+RDEPENDS:${PN} = "nativesdk-qemu nativesdk-unfs3 nativesdk-pseudo \
-                   nativesdk-python3-shell nativesdk-python3-fcntl nativesdk-python3-logging \
-                 "
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 7bd9465593..04728673de 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -999,7 +999,7 @@ class BaseConfig(object):
+             if self.slirp_enabled:
+                 self.nfs_server = '10.0.2.2'
+             else:
+-                self.nfs_server = '192.168.7.1'
++                self.nfs_server = '192.168.7.@GATEWAY@'
  
-diff --git a/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb b/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
-index e297586bbb..6053b71717 100644
---- a/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
-@@ -25,5 +25,5 @@ do_install() {
- 	install qemu-oe-bridge-helper ${D}${bindir}/
- }
- 
--DEPENDS += "qemu-system-native"
-+DEPENDS += "qemu-system-native unfs3-native pseudo-native"
- addtask addto_recipe_sysroot after do_populate_sysroot before do_build
-diff --git a/scripts/runqemu-export-rootfs b/scripts/runqemu-export-rootfs
-index c1fff7fcb3..6a8acd0d5a 100755
---- a/scripts/runqemu-export-rootfs
-+++ b/scripts/runqemu-export-rootfs
-@@ -34,16 +34,12 @@ if [ -z "$SYSROOT_SETUP_SCRIPT" ]; then
- 	echo "Did you forget to source your build environment setup script?"
- 	exit 1
- fi
--. $SYSROOT_SETUP_SCRIPT meta-ide-support
-+. $SYSROOT_SETUP_SCRIPT qemu-helper-native
- 
- if [ ! -e "$OECORE_NATIVE_SYSROOT/usr/bin/unfsd" ]; then
- 	echo "Error: Unable to find unfsd binary in $OECORE_NATIVE_SYSROOT/usr/bin/"
- 
--	if [ "x$OECORE_DISTRO_VERSION" = "x" ]; then
--		echo "Have you run 'bitbake meta-ide-support'?"
--	else
--		echo "This shouldn't happen - something is missing from your toolchain installation"
--	fi
-+	echo "This shouldn't happen - something is missing from your toolchain installation"
- 	exit 1
- fi
- 
-diff --git a/scripts/runqemu-extract-sdk b/scripts/runqemu-extract-sdk
-index 9bc0c07fb8..db05da25f2 100755
---- a/scripts/runqemu-extract-sdk
-+++ b/scripts/runqemu-extract-sdk
-@@ -25,7 +25,7 @@ if [ -z "$SYSROOT_SETUP_SCRIPT" ]; then
- 	echo "Did you forget to source your build system environment setup script?"
- 	exit 1
- fi
--. $SYSROOT_SETUP_SCRIPT meta-ide-support
-+. $SYSROOT_SETUP_SCRIPT qemu-helper-native
- PSEUDO_OPTS="-P $OECORE_NATIVE_SYSROOT/usr"
- 
- ROOTFS_TARBALL=$1
+         # Figure out a new nfs_instance to allow multiple qemus running.
+         ps = subprocess.check_output(("ps", "auxww")).decode('utf-8')
+@@ -1187,6 +1187,7 @@ class BaseConfig(object):
+         netconf = " " + self.cmdline_ip_tap
+         netconf = netconf.replace('@CLIENT@', str(client))
+         netconf = netconf.replace('@GATEWAY@', str(gateway))
++        self.nfs_server = self.nfs_server.replace('@GATEWAY@', str(gateway))
+         logger.info("Network configuration:%s", netconf)
+         self.kernel_cmdline_script += netconf
+         mac = "%s%02x" % (self.mac_tap, client)
 -- 
 2.30.2
 
