@@ -1,134 +1,137 @@
-Return-Path: <mingli.yu@eng.windriver.com>
+Return-Path: <bindudaniel1996@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C18A6C433FE
-	for <webhook@archiver.kernel.org>; Mon, 28 Nov 2022 08:16:58 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.112815.1669623408862780300
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6D99C433FE
+	for <webhook@archiver.kernel.org>; Mon, 28 Nov 2022 08:37:38 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web11.113064.1669624651530004758
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Nov 2022 00:16:49 -0800
+ Mon, 28 Nov 2022 00:37:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=83312b5adc=mingli.yu@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2AS7wPt5007896
-	for <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 08:16:48 GMT
-Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3m38131c1w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 08:16:47 +0000
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 28 Nov 2022 00:16:46 -0800
-Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Mon, 28 Nov 2022 00:16:46 -0800
-From: <mingli.yu@eng.windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] yocto-check-layer: add option to skip sublayer
-Date: Mon, 28 Nov 2022 16:16:45 +0800
-Message-ID: <20221128081645.3010581-1-mingli.yu@eng.windriver.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: QcaKyo4rqKHPhB3wRTkm4K4cDIx7y7FN
-X-Proofpoint-ORIG-GUID: QcaKyo4rqKHPhB3wRTkm4K4cDIx7y7FN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-28_06,2022-11-25_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 bulkscore=0
- phishscore=0 spamscore=0 clxscore=1015 priorityscore=1501
- lowpriorityscore=0 mlxlogscore=999 impostorscore=0 adultscore=0
- malwarescore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211280063
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=YJGrzTbt;
+ spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: bindudaniel1996@gmail.com)
+Received: by mail-pl1-f175.google.com with SMTP id g10so9453528plo.11
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 00:37:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iXUtF850uwb5ma9hzLe1X1oEW6daAkq808xnNA5gVzU=;
+        b=YJGrzTbtBR11Qxl7Zlh+FuadMLjQUGKPfWH/qQw3FD0ZI3uGu34jSGXnWNoMx5vxnw
+         r5jtY/4r74aKJ/Q5dGVkhIcV5u+UpY/XlUvVMtGyy5kby8ZzwoE/pJIgUFEqDsUb1fwM
+         MY6UXowbGiIjLPxPa6moELkZ8yu1t2wf+WzhrB+CAEoWt/lhbkTpkxA40XEQnS9SdgAx
+         5vZZcXiPnV0aPNRdgGeQzUyJvyX3K0HVKXDZQK9CdE4mp/TO0XucY3TKhjG7bDEuntKE
+         t+IhIOHscrEqzxa640NsI92RrfYOHQC4d1Akrz+Vq02m4yGWGyIjnTAWpL9/hqYscDkh
+         IfKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iXUtF850uwb5ma9hzLe1X1oEW6daAkq808xnNA5gVzU=;
+        b=KTi8XyqeK8KvKHD5xipRMlF3lPpDK0a4NQHfSF5FgfC/eHXb9PJ/fIsyl7xWNIV8Fr
+         /FMpspEzYjPooc4XukX/tvN+cR4nJq0T+VAZZwWVeNRY4Z0qFQNqQDbygikm92w93Sai
+         VF5Lmk9JrReZ0YjvH5EqdacBIAY05qekIlSy4yhKqwt9HeT59cMo/hWXYwMQ9x227D9s
+         ZCbEDwQB5avFzKu8W7XHyEZj1ywf/wdryATdeeyE72rZOIstst2P69Mu5SmXTIRJmC5S
+         akrOK8ErxPd0pGGojLUjc99kFVBnV/KtAMB/K1RdXzF5y2eZCT81bKHvkRbHIhRMVlO2
+         ZF9Q==
+X-Gm-Message-State: ANoB5plMgtHAWKgTokdRYnngv5JgG7NTCEdRbPqPCZ6CjzbZ9ZC7iwu4
+	Cxc6Hcxb37NP4mTnSR8Q7N5GAID5Qno=
+X-Google-Smtp-Source: AA0mqf7ZIJYJVpN9Gq35d0en5s45ZI4ct+Td9dnOk3S0HZs/TYdOGo2hM0I+qxopfKm8+SN+gjGm+Q==
+X-Received: by 2002:a17:90a:d3c8:b0:213:c06e:348f with SMTP id d8-20020a17090ad3c800b00213c06e348fmr59349396pjw.5.1669624650379;
+        Mon, 28 Nov 2022 00:37:30 -0800 (PST)
+Received: from localhost.localdomain ([106.76.198.64])
+        by smtp.gmail.com with ESMTPSA id x22-20020a170902821600b0017f48a9e2d6sm8121415pln.292.2022.11.28.00.37.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Nov 2022 00:37:30 -0800 (PST)
+From: Bhabu Bindu <bindudaniel1996@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	bhabu.bindu@kpit.com
+Cc: akash.hadke@kpit.com,
+	Ross Burton <ross.burton@arm.com>,
+	Steve Sakoman <steve@sakoman.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Bhabu Bindu <bindu.bindu@kpit.com>
+Subject: [OE-core][dunfell][PATCH] pixman: backport fix for CVE-2022-44638
+Date: Mon, 28 Nov 2022 14:05:58 +0530
+Message-Id: <20221128083558.9814-1-bindudaniel1996@gmail.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 08:16:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173896
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 08:37:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173897
 
-From: Mingli Yu <mingli.yu@windriver.com>
+From: Ross Burton <ross.burton@arm.com>
 
-When do yocto compliance for a layer which contains many sublayers,
-we may just want to check the top-level layer, so add one option to
-achieve this.
+(From OE-Core rev: 1d2e131d9ba55626354264d454b2808e84751600)
 
-Before the patch:
-  $ yocto-check-layer-wrapper ../layers/meta-cloud-services  --dependency ../layers/meta-openembedded ../layers/meta-virtualization --no-auto-dependency
-  [snip]
-  INFO: meta-cloud-services ... PASS
-  INFO: meta-openstack-controller-deploy ... PASS
-  INFO: meta-openstack-aio-deploy ... PASS
-  INFO: meta-openstack-compute-test-config ... PASS
-  INFO: meta-openstack-controller-test-config ... PASS
-  INFO: meta-openstack-compute-deploy ... PASS
-  INFO: meta-openstack-swift-deploy ... PASS
-  INFO: meta-openstack ... PASS
-  INFO: meta-openstack-qemu ... PASS
-
-After the patch:
- $ yocto-check-layer-wrapper ../layers/meta-cloud-services  --dependency ../layers/meta-openembedded ../layers/meta-virtualization --no-auto-dependency --no-sub
-  [snip]
-  INFO: meta-cloud-services ... PASS
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+(cherry picked from commit 23df4760ebc153c484d467e51b414910c570a6f8)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 37595eeddfb01110d8cdc628be76a8bf6bde483a)
+Signed-off-by: Bhabu Bindu <bindu.bindu@kpit.com>
 ---
- scripts/lib/checklayer/__init__.py | 9 ++++++++-
- scripts/yocto-check-layer          | 4 +++-
- 2 files changed, 11 insertions(+), 2 deletions(-)
+ .../xorg-lib/pixman/CVE-2022-44638.patch      | 34 +++++++++++++++++++
+ .../xorg-lib/pixman_0.38.4.bb                 |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch
 
-diff --git a/scripts/lib/checklayer/__init__.py b/scripts/lib/checklayer/__init__.py
-index aa946f3036..07bc7f3e3c 100644
---- a/scripts/lib/checklayer/__init__.py
-+++ b/scripts/lib/checklayer/__init__.py
-@@ -121,7 +121,7 @@ def _detect_layer(layer_path):
- 
-     return layer
- 
--def detect_layers(layer_directories, no_auto):
-+def detect_layers(layer_directories, no_auto, no_sub=0):
-     layers = []
- 
-     for directory in layer_directories:
-@@ -129,6 +129,13 @@ def detect_layers(layer_directories, no_auto):
-         if directory[-1] == '/':
-             directory = directory[0:-1]
- 
-+        if no_sub:
-+            conf_dir = os.path.join(directory, 'conf')
-+            if os.path.isdir(conf_dir):
-+                layer = _detect_layer(directory)
-+                if layer:
-+                    layers.append(layer)
-+                    continue
-         if no_auto:
-             conf_dir = os.path.join(directory, 'conf')
-             if os.path.isdir(conf_dir):
-diff --git a/scripts/yocto-check-layer b/scripts/yocto-check-layer
-index 0e5b75b1f7..6a8f23e8f8 100755
---- a/scripts/yocto-check-layer
-+++ b/scripts/yocto-check-layer
-@@ -71,6 +71,8 @@ def main():
-                        help='disable signature checking for software layers')
-     parser.add_argument('-n', '--no-auto', help='Disable auto layer discovery',
-             action='store_true')
-+    parser.add_argument('-s', '--no-sub', help='Disable auto sublayer testing',
-+            action='store_true')
-     parser.add_argument('-d', '--debug', help='Enable debug output',
-             action='store_true')
-     parser.add_argument('-q', '--quiet', help='Print only errors',
-@@ -98,7 +100,7 @@ def main():
-     builddir = os.environ['BUILDDIR']
-     bblayersconf = os.path.join(builddir, 'conf', 'bblayers.conf')
- 
--    layers = detect_layers(args.layers, args.no_auto)
-+    layers = detect_layers(args.layers, args.no_auto, args.no_sub)
-     if not layers:
-         logger.error("Failed to detect layers")
-         return 1
+diff --git a/meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch b/meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch
+new file mode 100644
+index 0000000000..d54ae16b33
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch
+@@ -0,0 +1,34 @@
++CVE: CVE-2022-44638
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++Signed-off-by:Bhabu Bindu <bhabu.bindu@kpit.com>
++
++From a1f88e842e0216a5b4df1ab023caebe33c101395 Mon Sep 17 00:00:00 2001
++From: Matt Turner <mattst88@gmail.com>
++Date: Wed, 2 Nov 2022 12:07:32 -0400
++Subject: [PATCH] Avoid integer overflow leading to out-of-bounds write
++
++Thanks to Maddie Stone and Google's Project Zero for discovering this
++issue, providing a proof-of-concept, and a great analysis.
++
++Closes: https://gitlab.freedesktop.org/pixman/pixman/-/issues/63
++---
++ pixman/pixman-trap.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/pixman/pixman-trap.c b/pixman/pixman-trap.c
++index 91766fd..7560405 100644
++--- a/pixman/pixman-trap.c
+++++ b/pixman/pixman-trap.c
++@@ -74,7 +74,7 @@ pixman_sample_floor_y (pixman_fixed_t y,
++ 
++     if (f < Y_FRAC_FIRST (n))
++     {
++-	if (pixman_fixed_to_int (i) == 0x8000)
+++	if (pixman_fixed_to_int (i) == 0xffff8000)
++ 	{
++ 	    f = 0; /* saturate */
++ 	}
++-- 
++GitLab
++
+diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.38.4.bb b/meta/recipes-graphics/xorg-lib/pixman_0.38.4.bb
+index 22e19ba069..5873c19bab 100644
+--- a/meta/recipes-graphics/xorg-lib/pixman_0.38.4.bb
++++ b/meta/recipes-graphics/xorg-lib/pixman_0.38.4.bb
+@@ -10,6 +10,7 @@ DEPENDS = "zlib"
+ SRC_URI = "https://www.cairographics.org/releases/${BP}.tar.gz \
+            file://0001-ARM-qemu-related-workarounds-in-cpu-features-detecti.patch \
+            file://0001-test-utils-Check-for-FE_INVALID-definition-before-us.patch \
++           file://CVE-2022-44638.patch \
+            "
+ SRC_URI[md5sum] = "267a7af290f93f643a1bc74490d9fdd1"
+ SRC_URI[sha256sum] = "da66d6fd6e40aee70f7bd02e4f8f76fc3f006ec879d346bae6a723025cfbdde7"
 -- 
-2.25.1
+2.17.1
 
 
