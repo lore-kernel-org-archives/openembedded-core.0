@@ -1,108 +1,147 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F8AEC43217
-	for <webhook@archiver.kernel.org>; Mon, 28 Nov 2022 10:46:49 +0000 (UTC)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web11.114796.1669632400142866417
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A29E1C43217
+	for <webhook@archiver.kernel.org>; Mon, 28 Nov 2022 11:12:59 +0000 (UTC)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.web11.115210.1669633969161219322
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Nov 2022 02:46:40 -0800
+ Mon, 28 Nov 2022 03:12:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Isvo77IO;
- spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id ud5so24710696ejc.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 02:46:39 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=TuXp1Di0;
+ spf=pass (domain: linaro.org, ip: 209.85.167.53, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f53.google.com with SMTP id p8so16767528lfu.11
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 03:12:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Dgsz/+TUXhKcuxQNx3pO9I+WbTWnUaoJ/n7+Lnbxm44=;
-        b=Isvo77IOQCvaLDUP0TG1lTiFtXjnT0OX9QLzmsrZqQbbtF4IwXbztDjzPbJ2zIO7kd
-         4eXQyUlJo8FurPjh9Radi7aCRN781LeP3PQiLlb+ABc+K/IuU7y7RVFBipRqLV+YwcX5
-         9EFIrDRUHP3LJTCV3KUSRT372TPtnHJKhRWVnF0VbTaa4T1nz+KiYnFPEQKlice+VKRc
-         +3DsVB0UPAmJDdhC+3i9/+oWxAzc03Bd2XmNC1Cxl+UYwULTCl6tVXPQF65L9+cdaoa0
-         +Na08B2NkeB1kgw+B8WIZjUMrdJK9haLgGKcVHABsRJBUQrOcck/yipEkJNz9Y+cl7WV
-         wtgw==
+        d=linaro.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=MwmSl9z01HcAbo2g2Ayv9Jfnj8NLFTDSLUqS1CSZfzg=;
+        b=TuXp1Di0mBvXZWMyHbUCYOPEMExtlm/owP/B2LqT+9DK8uZItJe2sOorA59BhPeIl4
+         KV9G5clQZhFz/Gg7xVpqTzm5IWJHdrd4mL1wcQ3C+CI4mdnQTX9Rpbee0He0erdqnVTe
+         PdB4lVP2tfhcJ+qSXDpGly0bVYe4YJuuQXIKNIHiCHecbMG6i0uBQnqXorWEryu0QX2T
+         K0BfriXogyFacYTjVdb7V1S0zi43R49af1OAA4xxnqnKF/hnCkAMWovXB5joA/4z4EdS
+         pXcpmCVxuUp+lTLPpVh2mkWJHQoJt/wE5pEyAZ1hOwjVSnMdDd9Ws95es7kKTmJkgVoo
+         gzCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Dgsz/+TUXhKcuxQNx3pO9I+WbTWnUaoJ/n7+Lnbxm44=;
-        b=7URqfLfwO+Ex5iVvU1wqO1hijhtiiW0Ymacsygsu0MxObDwuvXXZE4KIH3Q0SU5na+
-         kU9xXoK3IaGjy2MrVHcM0ncNwLWYKTM78bHbg5ItfyEuhdSO+Fez1Tdgvep6uBNCDruD
-         ueeDTYD2WFitqINKV24cQynY/rezMntLbHYTbpVbZI6YbvEqbg3Zk0uKZKL85CNXsEWt
-         yd+04ywH2n1PEEKuxI5sMxx9f+Y4LTUhGewTMj+TIZI8NwkC+RmNcl5OxksR1hOMTwWY
-         Q8T8pKAlEEWD9kGXeaVj9x50wW+g36ssZQaBxjw3LYyx8M4A6TzHFxPCjKp5sFmXcF5q
-         gZiw==
-X-Gm-Message-State: ANoB5pmLL2JbzmP7/2JgHc+ys8uCQIIDQ6met4FGldcVGbuoNContD0V
-	Mk8cRLRTkpEtFfCNsdBQMossg0+HXGA=
-X-Google-Smtp-Source: AA0mqf7YescEp2Vql34VFOEuT0dWi1bQZkBMtdAP0mY1N2OExA1vPi4KAWS6e3DLfO2Gq915MvVkyg==
-X-Received: by 2002:a17:906:8994:b0:7ae:ea4:583c with SMTP id gg20-20020a170906899400b007ae0ea4583cmr42448047ejc.587.1669632398506;
-        Mon, 28 Nov 2022 02:46:38 -0800 (PST)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id q8-20020a17090676c800b0078db18d7972sm4776707ejn.117.2022.11.28.02.46.37
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MwmSl9z01HcAbo2g2Ayv9Jfnj8NLFTDSLUqS1CSZfzg=;
+        b=qW/E4NFoNu/UGEdhZwSE6qG7UcszFy/L6w7MhTXg2J2mdlquibit1azG6EcVb++u5v
+         ZV6knGrDaAkHNJYuKcp9ehNLP437VVgwqCwpLICHLcGNzkpz2gHipCNEARraOmK5u6xx
+         KbDUgYmdkeZQ0H8Kkh6TXKBdDI4EEcwFQ06yJa8M39+oz2wYY9HYrj4Uzd1sueAtbUV4
+         Q/9u3gVlzZdMm6DTqlcXVHIgbZlvm/c3WIwGt42lfhQ6dp8uQEzSI4lyGKy4msE338DL
+         e6MYJ+xDE/5y3n0HGO7cKUZBcxPMqMXI0wISQipng/v80uNUMFEftQruxKZxFxc5Lvw6
+         dh0A==
+X-Gm-Message-State: ANoB5plU1FLnqA+tUsfbnrtA9cZ8p00jGTSA4iXPgEoQqOpTvic7BvEd
+	BkayeR3cKm2EzIX0G94uN1QcHQ==
+X-Google-Smtp-Source: AA0mqf7Kd8zrtKXvzo1jCPkh33E+HHuQcQ8TnK4gIw47B0L5fy2AldLjzX3m2iSi8lhWSJzpRYGgOQ==
+X-Received: by 2002:a05:6512:1505:b0:4af:b5d0:695e with SMTP id bq5-20020a056512150500b004afb5d0695emr17497868lfb.6.1669633967331;
+        Mon, 28 Nov 2022 03:12:47 -0800 (PST)
+Received: from nuoska (dsl-olubng11-54f814-94.dhcp.inet.fi. [84.248.20.94])
+        by smtp.gmail.com with ESMTPSA id o18-20020a05651205d200b004b4fefacd89sm1402142lfo.139.2022.11.28.03.12.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Nov 2022 02:46:38 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH v2 3/3] selftest/runqemu: reenable the nfs rootfs test
-Date: Mon, 28 Nov 2022 11:46:33 +0100
-Message-Id: <20221128104633.52375-3-alex@linutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221128104633.52375-1-alex@linutronix.de>
-References: <20221128104633.52375-1-alex@linutronix.de>
+        Mon, 28 Nov 2022 03:12:46 -0800 (PST)
+Date: Mon, 28 Nov 2022 13:12:44 +0200
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Jack Mitchell <ml@embed.me.uk>
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] linux-yocto: enable strict kernel module
+ signing by default
+Message-ID: <Y4SXrHS+GGFLDAID@nuoska>
+References: <20221125155412.1119701-1-mikko.rapeli@linaro.org>
+ <d2cd0198-ac04-159e-f4c3-42811cd677b5@embed.me.uk>
+ <CADkTA4NGsBnujfmkHixs5DhiyRL0--YgnB5x-cY_wfuebVu38A@mail.gmail.com>
+ <95775d91-4c85-2681-d902-d84e37aeef77@embed.me.uk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <95775d91-4c85-2681-d902-d84e37aeef77@embed.me.uk>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 10:46:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173904
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 11:12:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173905
 
-With the previous fixes the test can be run again,
-and it doesn't need all those extra steps. Runqemu
-takes care of everything automatically now.
+Hi,
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- meta/lib/oeqa/selftest/cases/runqemu.py | 14 ++------------
- 1 file changed, 2 insertions(+), 12 deletions(-)
+On Sun, Nov 27, 2022 at 06:47:30PM +0000, Jack Mitchell wrote:
+> On 27/11/2022 03:34, Bruce Ashfield wrote:
+> > On Fri, Nov 25, 2022 at 11:11 AM Jack Mitchell <ml@embed.me.uk> wrote:
+> > > 
+> > > On 25/11/2022 15:54, Mikko Rapeli wrote:
+> > > > It's a good default and used in many Linux distributions.
+> > > > Did not test out of tree modules if they do correct things but
+> > > > any such failures should be fixed.
+> > > > 
+> > > > One way to verify that kernel module signing also works:
+> > > > 
+> > > > root@qemux86-64:~# dmesg|grep X.509
+> > > > [    1.298936] Loading compiled-in X.509 certificates
+> > > > [    1.328280] Loaded X.509 cert 'Build time autogenerated kernel key: ee1bed6d845358744c764683bf73b4404cc79287'
+> > > > 
+> > > > These logs in dmesg show that signing in kernel is enabled and
+> > > > key is found. Then if any kernel modules load, they were
+> > > > signed correctly. Additionally modinfo tool from kmod shows kernel module
+> > > > signing details:
+> > > 
+> > > Hi Mikko,
+> > > 
+> > > Do the kernel modules get properly stripped, last time I was looking at
+> > > this it was skipped when signed and as such root filesystem sizes
+> > > ballooned with signed modules.
+> > 
+> > oe package.py still does skip stripping for signed modules.
+> > 
+> > I'm sure it is fixable, but we need someone to step up and have a closer look.
+> > 
+> > Richard can probably comment better than I can, but there's a variety
+> > of use cases (from SDKs, to debug, to SBOM, etc) that all need to deal
+> > with whether binaries are stripped and be able to find the
+> > non-stripped executables in order to work properly.
+> > 
+> > So to answer the follow up suggestion of using the kernel's module
+> > strip directly .. it also might be feasible, but we need to make sure
+> > that all the other uses cases still work. My preference is to do the
+> > work in package.py, so that we don't have to worry about the kernel
+> > provider and any additional features have code in the same place as a
+> > baseline.
+> > 
+> 
+> I agree, if the kernel has the right arguments available for properly
+> stripping the modules without stripping the signed portion then we can set
+> those args manually rather than skipping the strip all together I believe.
+> 
+> I also had the same thought with having the kernel do it as I don't know
+> where the stripped information goes and how that would then make it into
+> debug packages.
 
-diff --git a/meta/lib/oeqa/selftest/cases/runqemu.py b/meta/lib/oeqa/selftest/cases/runqemu.py
-index 58a4526df6..c2c3fbc924 100644
---- a/meta/lib/oeqa/selftest/cases/runqemu.py
-+++ b/meta/lib/oeqa/selftest/cases/runqemu.py
-@@ -199,22 +199,12 @@ class QemuTest(OESelftestTestCase):
-             qemu_shutdown_succeeded = self._start_qemu_shutdown_check_if_shutdown_succeeded(qemu, shutdown_timeout)
-             self.assertTrue(qemu_shutdown_succeeded, 'Failed: %s does not shutdown within timeout(%s)' % (self.machine, shutdown_timeout))
- 
--    # Need to have portmap/rpcbind running to allow this test to work and
--    # current autobuilder setup does not have this.
--    def disabled_test_qemu_can_boot_nfs_and_shutdown(self):
--        self.assertExists(self.qemuboot_conf)
--        bitbake('meta-ide-support')
-+    def test_qemu_can_boot_nfs_and_shutdown(self):
-         rootfs_tar = "%s-%s.tar.bz2" % (self.recipe, self.machine)
-         rootfs_tar = os.path.join(self.deploy_dir_image, rootfs_tar)
-         self.assertExists(rootfs_tar)
--        tmpdir = tempfile.mkdtemp(prefix='qemu_nfs')
--        tmpdir_nfs = os.path.join(tmpdir, 'nfs')
--        cmd_extract_nfs = 'runqemu-extract-sdk %s %s' % (rootfs_tar, tmpdir_nfs)
--        result = runCmd(cmd_extract_nfs)
--        self.assertEqual(0, result.status, "runqemu-extract-sdk didn't run as expected. %s" % result.output)
--        cmd = "%s nfs %s %s" % (self.cmd_common, self.qemuboot_conf, tmpdir_nfs)
-+        cmd = "%s %s" % (self.cmd_common, rootfs_tar)
-         shutdown_timeout = 120
-         with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-             qemu_shutdown_succeeded = self._start_qemu_shutdown_check_if_shutdown_succeeded(qemu, shutdown_timeout)
-             self.assertTrue(qemu_shutdown_succeeded, 'Failed: %s does not shutdown within timeout(%s)' % (self.machine, shutdown_timeout))
--        runCmd('rm -rf %s' % tmpdir)
--- 
-2.30.2
+https://www.kernel.org/doc/html/latest/admin-guide/module-signing.html#signed-modules-and-stripping
 
+"Signed modules are BRITTLE as the signature is outside of the defined
+ELF container. Thus they MAY NOT be stripped once the signature is
+computed and attached. Note the entire module is the signed payload,
+including any and all debug information present at the time of signing."
+
+linux/scripts/Makefile.modinst does in "make modules_install":
+
+...
+$(dst)/%.ko: $(extmod_prefix)%.ko FORCE
+        $(call cmd,install)
+        $(call cmd,strip)
+        $(call cmd,sign)
+...
+
+Thus I don't think signed kernel modules can ever be stripped by
+package.py or package.bbclass. It sounds like only option is to install
+modules without stripping and signing to debug packages and then install
+them stripped with and signed to real binary packages.
+
+Cheers,
+
+-Mikko
 
