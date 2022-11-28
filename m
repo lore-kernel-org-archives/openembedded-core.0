@@ -1,186 +1,85 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3CC6C433FE
-	for <webhook@archiver.kernel.org>; Mon, 28 Nov 2022 14:23:30 +0000 (UTC)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
- by mx.groups.io with SMTP id smtpd.web10.118897.1669645406400831261
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8B9BC433FE
+	for <webhook@archiver.kernel.org>; Mon, 28 Nov 2022 14:44:30 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web11.119683.1669646662818890778
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Nov 2022 06:23:26 -0800
+ Mon, 28 Nov 2022 06:44:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=dnoEQZSy;
- spf=pass (domain: linaro.org, ip: 209.85.208.179, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lj1-f179.google.com with SMTP id bn5so13337698ljb.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 06:23:26 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=O8a/BDH/;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id v124-20020a1cac82000000b003cf7a4ea2caso11810105wme.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 06:44:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wmiFsgDmONR7cIcwQST/TuG66lFuFmaarHeag/9sAjY=;
-        b=dnoEQZSyVmBQBdl8+bJcrqbwhcrCHEyt4d+q9GiEf0D+c7lTnI2M0Nd4Rq6aGJmxqE
-         0Ir11ip1sKFYszrBwRxPJmbgQnTYzodad2tCEFOTnh/0qLvCDB7VVYI/enydDTAoOGiU
-         xdDn1TTf6sjQkAwSRqeI5UMyaJkm+aVlnFbt4YQZICouX1wcOog/7Ec8gXmOx1QOu9BS
-         hHCM4vzRMnUBLYwEkstvsy12kOWgAtRBOIdceEZnmFIonHnGgKT1JOWlIZZslQJDKDpv
-         xAOjsJn1qcRu/cjWt4OUg2bieKgqtpJylkH83CuhSj3yvdwRpy92XNTSalauhDaHhicB
-         AWlQ==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=cquWpmEY2diRIDADZcRD//Tp2T9LAlDQbFt42IIE7Vw=;
+        b=O8a/BDH/EOJdDdbghoL5ng//+8K7/qgnoa06lKu6BP+eCQJ7yR2lQibI0uHO2JnTY8
+         DQdDBoIqV2BHP2/xgek0fkP4a4YB6f17k75oQ7OAinsL7dEvRKHJQ+TKMJim++lYfS0+
+         zlr4DZ0vCGEBS3xZ6jHADRB6T71Z2ZSGFdanU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wmiFsgDmONR7cIcwQST/TuG66lFuFmaarHeag/9sAjY=;
-        b=3fL1StKxbgLZEs/zpZ0NVZYHKyhwkD3zXFtjY3ekJgODSb2Iql7/jSPHnRVKQjZJgi
-         n4Q3AYUkdYp6nMzWshZHCs/2JsH3DNqT5r6XFcj9bWaKhukhtQZGQkbnq70K9ao0kpuK
-         erMeqiEAe734/7KB2XAmNHvNhM9v9fg1sD0QdBfLd6mfiG1JmPZGQPGPmH0lr60aKFEA
-         RNjRh3DhrvYMFspUp+7TC1oGTkSBU1f+EyJ5rnj8K3dfoHZgLE8l7BvUfaqw4wbBHnr6
-         ZWT8sTyYwR+NHCS3m3w+u16zRSKEmKf4xTu1+A9sMsjcmtFAAlctFzQH8WXWIFUhnOcI
-         hchg==
-X-Gm-Message-State: ANoB5pnDYnMVeSzgmrp45YAyG5ti1c2XSb35M07idzr1Z7qcs6tjtaLy
-	T5Dg9z+Y6j+Az1nl8cz6Te+SPA==
-X-Google-Smtp-Source: AA0mqf77EKY/8ROivqazG1Qwfe7af5bM5zfzkIxvN/fXmunqEtmgR9aRZGQquB87H3ahetAsgaPwhw==
-X-Received: by 2002:a2e:a4b7:0:b0:279:a796:eaf9 with SMTP id g23-20020a2ea4b7000000b00279a796eaf9mr1174034ljm.28.1669645404374;
-        Mon, 28 Nov 2022 06:23:24 -0800 (PST)
-Received: from nuoska (dsl-olubng11-54f814-94.dhcp.inet.fi. [84.248.20.94])
-        by smtp.gmail.com with ESMTPSA id j6-20020ac24546000000b00492c463526dsm1753563lfm.186.2022.11.28.06.23.23
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cquWpmEY2diRIDADZcRD//Tp2T9LAlDQbFt42IIE7Vw=;
+        b=m4xfhyRprrS8dRUXMmyIuikYRPvToDQedr9U47gHeAVudlueKLk1xuXCofTK7TT1eL
+         r/3JRFj+qQ/jUErBgKOUaDXbQXvfciWeKN97UMCnMVMo1gx603CTZ4GFL7oddC0jLG80
+         UVzo616CvVj8WXavtK8JvL9mrRk35xRqBhrgSOykXNBbKmxWTQQ6xW7OZ5LoC4hJVrrV
+         BGeLT8wTF4Ey5mnaiDV1vBEGJU9hxC4fIc801tTOfHqPPFJ65WAezf08uzf4+Io3TSrd
+         UhOOi4UXjayUTv3z+uN3dtwwyrKlkdhxpjjLiJ07o2XYGpn6Djk2F/rrOaLcWSgjWclx
+         3/Jg==
+X-Gm-Message-State: ANoB5plBOn0iYuBuA5ubabIEMKHcL9sF4C1YETVufsmcW3BcYHyJo2uG
+	3DImkQEoAQEDjLNRRhTdnX4MSQ==
+X-Google-Smtp-Source: AA0mqf6NnjqZS/rQiSfNLRHqgfknRAaIEQf9Dw9I6QZ2Vk7KQQ/sdJk5gk9HIyzB5lnFPybGMs+ruA==
+X-Received: by 2002:a05:600c:3108:b0:3cf:8058:43b8 with SMTP id g8-20020a05600c310800b003cf805843b8mr25466259wmo.95.1669646661199;
+        Mon, 28 Nov 2022 06:44:21 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:1da4:7286:b644:a924? ([2001:8b0:aba:5f3c:1da4:7286:b644:a924])
+        by smtp.gmail.com with ESMTPSA id bg3-20020a05600c3c8300b003c71358a42dsm25725492wmb.18.2022.11.28.06.44.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Nov 2022 06:23:23 -0800 (PST)
-Date: Mon, 28 Nov 2022 16:23:22 +0200
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
+        Mon, 28 Nov 2022 06:44:20 -0800 (PST)
+Message-ID: <89a3d3880e4da3f35326c7c3c2d4c904bae5f2aa.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH RFC] base: Switch to use addpylib directive
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Vishal Bhoj <vishal.bhoj@linaro.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] linux-yocto: enable strict kernel module
- signing by default
-Message-ID: <Y4TEWpzdVYhbS9Eh@nuoska>
-References: <20221125155412.1119701-1-mikko.rapeli@linaro.org>
- <CADkTA4NeeEjOhUvU89GU6Ep2BjDHrcFqkf+ubaw=G_PSsVFJ3w@mail.gmail.com>
- <Y4RfR5ij3QW6BWYy@nuoska>
- <CADkTA4NBbmwW3smtJb7vvUfHOTcgr4nEHu6WOnBpFDm3J-9QwA@mail.gmail.com>
+Date: Mon, 28 Nov 2022 14:44:20 +0000
+In-Reply-To: <CAKdWgSw2tZ68R531RZgi2bqLrdOXkc1oZnxM_rEugv7S-ysOUA@mail.gmail.com>
+References: <20221127213640.539995-1-richard.purdie@linuxfoundation.org>
+	 <CAKdWgSw2tZ68R531RZgi2bqLrdOXkc1oZnxM_rEugv7S-ysOUA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CADkTA4NBbmwW3smtJb7vvUfHOTcgr4nEHu6WOnBpFDm3J-9QwA@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 14:23:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173919
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 14:44:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173920
 
-On Mon, Nov 28, 2022 at 09:03:04AM -0500, Bruce Ashfield wrote:
-> On Mon, Nov 28, 2022 at 2:12 AM Mikko Rapeli <mikko.rapeli@linaro.org> wrote:
-> >
-> > On Sat, Nov 26, 2022 at 10:06:57PM -0500, Bruce Ashfield wrote:
-> > > On Fri, Nov 25, 2022 at 10:54 AM Mikko Rapeli <mikko.rapeli@linaro.org> wrote:
-> > > >
-> > > > It's a good default and used in many Linux distributions.
-> > > > Did not test out of tree modules if they do correct things but
-> > > > any such failures should be fixed.
-> > > >
-> > > > One way to verify that kernel module signing also works:
-> > > >
-> > > > root@qemux86-64:~# dmesg|grep X.509
-> > > > [    1.298936] Loading compiled-in X.509 certificates
-> > > > [    1.328280] Loaded X.509 cert 'Build time autogenerated kernel key: ee1bed6d845358744c764683bf73b4404cc79287'
-> > > >
-> > > > These logs in dmesg show that signing in kernel is enabled and
-> > > > key is found. Then if any kernel modules load, they were
-> > > > signed correctly. Additionally modinfo tool from kmod shows kernel module
-> > > > signing details:
-> > > >
-> > > > root@qemux86-64:~# lsmod
-> > > > Module                  Size  Used by
-> > > > sch_fq_codel           20480  1
-> > > > root@qemux86-64:~# modinfo sch_fq_codel
-> > > > filename:
-> > > > /lib/modules/5.19.9-yocto-standard/kernel/net/sched/sch_fq_codel.ko
-> > > > description:    Fair Queue CoDel discipline
-> > > > license:        GPL
-> > > > author:         Eric Dumazet
-> > > > depends:
-> > > > retpoline:      Y
-> > > > intree:         Y
-> > > > name:           sch_fq_codel
-> > > > vermagic:       5.19.9-yocto-standard SMP preempt mod_unload
-> > > > sig_id:         PKCS#7
-> > > > signer:         Build time autogenerated kernel key
-> > > > sig_key:        2B:2A:BE:7D:B5:92:DC:98:A9:F8:D7:00:A6:73:35:20:10:D8:19:EE
-> > > > sig_hashalgo:   sha512
-> > > > signature:      72:6C:E1:78:7C:A7:7B:CC:C4:33:23:6B:95:EC:1B:2A:BD:D9:EC:7A:
-> > > >                 85:07:05:B2:70:3C:C9:64:F6:78:8A:01:A0:E3:64:C7:47:BB:5D:0E:
-> > > >                 86:BA:C1:DD:40:05:AE:1F:19:D4:F0:98:49:86:CC:61:14:3C:AB:1E:
-> > > >                 4A:1C:83:47:1D:FA:6D:E4:83:79:3A:2B:3F:7D:B6:E0:09:AE:B4:01:
-> > > >                 07:EE:C9:5B:99:70:4F:49:8A:64:E4:7D:84:AA:37:F5:DB:5F:16:5C:
-> > > >                 D4:DC:0C:33:73:5D:D9:8D:7E:71:5B:A1:ED:61:81:5E:1C:ED:A2:D8:
-> > > >                 76:46:99:B3:78:08:F7:7F:0D:4B:94:26:21:63:47:B0:75:9F:A4:EA:
-> > > >                 3D:14:D4:09:CC:59:F3:FC:80:AC:BF:56:1E:8C:73:FD:CB:07:27:C6:
-> > > >                 3D:98:4C:E4:C3:9C:C0:AD:90:53:46:8F:AE:66:FE:10:C8:92:7F:BA:
-> > > >                 74:C2:B0:E3:6E:47:66:AB:39:25:41:12:66:91:20:27:1A:58:77:75:
-> > > >                 4F:C0:3F:F1:8E:5F:AB:0A:BD:8B:62:4F:2B:01:5A:5C:4E:5C:31:39:
-> > > >                 FB:F4:14:2E:BF:D8:51:4B:C8:D0:E2:0A:20:80:95:05:80:E3:46:75:
-> > > >                 43:80:30:63:6F:A4:25:82:59:35:34:E8:6A:DC:FF:93:F8:32:BB:FA:
-> > > >                 66:2D:B9:08:75:1A:3A:3A:5D:57:F4:63:85:01:B4:EB:96:1B:CE:6F:
-> > > >                 4D:61:FC:AA:6C:39:7F:D6:37:C9:84:0A:84:17:FB:BE:FC:20:CB:EE:
-> > > >                 8C:2F:93:92:F6:48:F4:07:50:84:D8:2C:B5:2E:A7:7D:3A:3F:DC:E9:
-> > > >                 B9:17:EF:47:49:EC:BA:62:1C:C4:C6:58:9C:0C:8D:26:41:6E:1F:C1:
-> > > >                 95:A7:8B:57:5D:1D:4B:B4:04:00:F6:68:24:9E:E2:BF:11:EC:05:6C:
-> > > >                 83:E8:C6:DB:BB:3D:22:8B:31:BB:99:1A:44:E1:15:71:C3:AA:FA:01:
-> > > >                 98:BA:6B:20:26:D6:9C:61:5C:6F:81:29:09:B1:EA:C5:28:15:F3:98:
-> > > >                 C0:18:FE:08:8B:40:A5:F3:3C:71:4B:C6:41:CD:38:51:79:EA:5D:C9:
-> > > >                 13:39:B5:FD:A3:D1:BB:11:94:66:F7:7B:6A:DC:2C:01:5F:AB:73:08:
-> > > >                 68:24:32:BE:BC:7A:90:E5:FD:97:17:6C:DD:46:D0:0E:2C:03:31:66:
-> > > >                 B3:7C:B2:48:E1:E0:1A:63:20:48:4C:D4:55:56:71:04:3B:5F:3B:28:
-> > > >                 BF:64:6C:52:A9:07:6D:FF:21:E9:06:35:E8:A1:D7:F4:C2:F9:D7:7B:
-> > > >                 9D:D2:90:16:2F:68:1E:3F:BE:43:ED:64
-> > > >
-> > > > Failures in signed kernel module loading should show as errors at
-> > > > runtime, for example systemd services, or as oeqa parselogs test
-> > > > failures which detects signature verification error messages from the
-> > > > kernel.
-> > > >
-> > > > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-> > > > ---
-> > > >  meta/recipes-kernel/linux/linux-yocto.inc | 3 +++
-> > > >  1 file changed, 3 insertions(+)
-> > > >
-> > > > diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-> > > > index 091003ed82..bab1f21479 100644
-> > > > --- a/meta/recipes-kernel/linux/linux-yocto.inc
-> > > > +++ b/meta/recipes-kernel/linux/linux-yocto.inc
-> > > > @@ -37,6 +37,9 @@ KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'efi', 'cfg/
-> > > >  KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'numa', 'features/numa/numa.scc', '', d)}"
-> > > >  KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'vfat', 'cfg/fs/vfat.scc', '', d)}"
-> > > >
-> > > > +# enable module signing by default
-> > > > +KERNEL_FEATURES:append = " features/module-signing/force-signing.scc"
-> > > > +
-> > >
-> > > For the reference kernels, there are a huge amount of use cases, and I
-> > > support a really broad set of deployments.
-> > >
-> > > We can enable this via either a distro or packageconfig, but not like
-> > > this, since disabling it is difficult and requires a :remove. It needs
-> > > to be opt-in.
-> >
-> > This signing is purely a kernel internal self protection. Thus I don't see a
-> > need for DISTRO_CONFIG, and kernel recipes don't use PACKAGECONFIG for
-> > some reason. I know :append is difficult to :remove but it's used with "numa", "vfat",
-> > "ptest" etc things too.
-> 
-> And I've complained about those being added at times as well, in fact,
-> I have a bug somewhere to clean them up.
-> 
-> Signing impacts the runtime, and can chain throughout the system (as
-> with the stripping of the modules), so in this case, it has to be
-> opt-in.
+On Mon, 2022-11-28 at 19:29 +0530, Vishal Bhoj wrote:
+> I get the below backtrace with this patch on master-next. The same
+> patchset works fine on debian-11. Are there any specific versions of
+> packages that need to be installed as=C2=A0=C2=A0dependency=C2=A0?
+>=20
+> Tested on host os: ubuntu-18.04/ubuntu-20.04
 
-Ok, fair enough. This can't be the default then and this patch can be
-ignored.
+Which python versions are those? It looks like I perhaps assumed a
+piece of newer python syntax accidentally. I suspect this code only
+works with python 3.9+:
 
-I hope the kmod openssl support can be enable by default though.
-linux-yocto too has openssl dependency by default even when signing is
-disabled.
+https://peps.python.org/pep-0584/
+
+I was wondering whether to remove this piece entirely anyway, I need to
+check the performance implications.
 
 Cheers,
 
--Mikko
+Richard
+
 
