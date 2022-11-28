@@ -1,137 +1,93 @@
-Return-Path: <vishal.bhoj@linaro.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC47EC43217
-	for <webhook@archiver.kernel.org>; Mon, 28 Nov 2022 15:30:40 +0000 (UTC)
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
- by mx.groups.io with SMTP id smtpd.web10.120766.1669649435799789201
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E16E6C43217
+	for <webhook@archiver.kernel.org>; Mon, 28 Nov 2022 15:33:50 +0000 (UTC)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+ by mx.groups.io with SMTP id smtpd.web10.120848.1669649625340927962
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Nov 2022 07:30:36 -0800
+ Mon, 28 Nov 2022 07:33:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=RCcNbkf4;
- spf=pass (domain: linaro.org, ip: 209.85.166.48, mailfrom: vishal.bhoj@linaro.org)
-Received: by mail-io1-f48.google.com with SMTP id g26so7166215iob.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 07:30:35 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=OOd0mnqq;
+ spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f41.google.com with SMTP id s8so17951882lfc.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 07:33:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=7otu+I8HkootANvSZ6wuWfgUiNuBm2YPxYtK5qXl5L4=;
-        b=RCcNbkf4nzAtqvusM8fqBPQdVaVdhxT2/Y1Tj2rQKq5+Pc54KNno1etvQ+esNOSPeY
-         0a1xPd5X2eSU8N/60auiMYC0MW4u3Hqu5wHgMndotKnJp8sxlRt2ArJhhwDmkXJVezmX
-         kOQoYCbcF1/lzeoFgLATuMlVn5Zi0DPsJg4AXTbFCZ3MG1zGJTCAI7FpIpnf1T24RSut
-         fL5djrJxuhRLOA9XdXHJdA0O7We4Sxf4jtaY9LBqOKhpNo3UjzGCzuqCOBnu34n0qBcB
-         Q+ZgDamMW3mZ/BOkuaYhpQXKc/T1USCE7k+stWaOsH/2EFYCVWk45ix68vGXnIzHED8H
-         nDYg==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cYcE6FW5PErAUwArWLjvOmjYMkgBJ8xX1l85PGv385k=;
+        b=OOd0mnqqhDpKpR7saQhjfx7LjidjyWYysvqktlsA1okGT0gS+VHk2Hlf4SC9FgG7lM
+         SMBgb+nzGcgvLaUmcVAp0dqvArkWmcf2jwkMZEHr+SlOvYT1U4GuljVCxXhr7lq2nlMJ
+         4YXicmIv/ZTSQaRI5S1H6xkduddvCc+Bssy7EAM6fkmOTLELHzCgCKRyuv/l3ALzwpbm
+         15guTrS3alyD9feb4JNha019Xy4BkbNOCbwiscCQWs71sfkl+x6CJuvXpUfMmhO+mdvL
+         GE5NGR8FWc4kEpb12RxsSAho0gWN8Z4OZYzQ++3AUMURHe/fDZ/d5G6V/4LJO8eSHRCC
+         MlKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7otu+I8HkootANvSZ6wuWfgUiNuBm2YPxYtK5qXl5L4=;
-        b=t+xqMNYBCyUaW5KEUFXkBktQUXVuRZWfgPuDMDX2F6Avno6D7nlnPEb5RGXQFIo8TL
-         eXN7GI/kgZMYU6f0tYid0mrEGaAXEM5t4rwyd1BtxBa7rbMgw9Ty1Ea+lg6nztJ1eeFA
-         EtEuwxAYaFWTqqE+Z0jrnh66msYO7L03eUBTtfaQ+psWd4aXwxPJubMzvzkJna5KZEui
-         ycsRZGXwCeVuNIvQuQplvoWYyemlICXllrNhTwOuCBTpvc6+Qd4CRuA3vmRJ2Yele8e0
-         gs8FylPAlocWuruylZsPukF00FOMzlNBCp+S17MsjzVbUBxRcJ7AWMsT1+ibPPurhvr2
-         azxQ==
-X-Gm-Message-State: ANoB5pl7fv4P/ow+IaAH69KPcIB8FykMzyRUqOpsyO2r7nmvIoGzARH/
-	40lDLR7HMyoC6b/aPJklBWC0jZFHR9EcZSNrFBY3gQ==
-X-Google-Smtp-Source: AA0mqf4wzZ6Dw/VlPURzCAkuMM2kRXr+Rxr9unyDejf+AtI4OcGOVQeTfl3r+eeeeJ8tO5pWlcrZ3UEtDtCBNSIqpn8=
-X-Received: by 2002:a6b:3102:0:b0:6bf:e923:388b with SMTP id
- j2-20020a6b3102000000b006bfe923388bmr24731341ioa.105.1669649434899; Mon, 28
- Nov 2022 07:30:34 -0800 (PST)
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cYcE6FW5PErAUwArWLjvOmjYMkgBJ8xX1l85PGv385k=;
+        b=CTHY+Sqc8iq6BO2xPN3RWRSHTaD93g0vR9Cnfox29STGZE0gJo4GpE2Nf6R7ufWV9h
+         5ZvDI5GLZot7ESmMkoT4kdNS729e7KuRFlmHyOgwuN7woYJzE77EPCqG2D3pUUwBrkFN
+         NB46OAQEXMfPwHdgYBt1sQ/VL7nO7T3qxdl9j/fk3bIwteRMwZTmATRVX0K6Zk6YnAwh
+         Fstf42WAllwd64HZy9/8/RoKBc2/5uTsGHRNjbgeOd38Ta5Gjvb+ENwY7zqAwWLcFyoG
+         TvjzCWAB+SUnTy6mosCv93ujmnvs/lXPN5GRs17gyzyk34HA+0Mjxiule0KsExjAr+uj
+         NuBw==
+X-Gm-Message-State: ANoB5pmIpfnPeqUD8Dj/ROq7FsQXg9vEY90P90Jdiu7lGTmorNotS8bx
+	VRcPY68eyGbLb+sB70Fv9U/IkzTungPTjn5joMQ=
+X-Google-Smtp-Source: AA0mqf4KWUvz/OB+c9XtG+IehiUw1Q3NZDoWyjbVUBbFgeGuBy5dUZgAwcudtCjNxRHcC3F09RnXDXAeOTxbvLve1P0=
+X-Received: by 2002:ac2:4c47:0:b0:4a2:4d53:8294 with SMTP id
+ o7-20020ac24c47000000b004a24d538294mr16116694lfk.263.1669649623378; Mon, 28
+ Nov 2022 07:33:43 -0800 (PST)
 MIME-Version: 1.0
-References: <20221127213640.539995-1-richard.purdie@linuxfoundation.org>
- <CAKdWgSw2tZ68R531RZgi2bqLrdOXkc1oZnxM_rEugv7S-ysOUA@mail.gmail.com> <89a3d3880e4da3f35326c7c3c2d4c904bae5f2aa.camel@linuxfoundation.org>
-In-Reply-To: <89a3d3880e4da3f35326c7c3c2d4c904bae5f2aa.camel@linuxfoundation.org>
-From: Vishal Bhoj <vishal.bhoj@linaro.org>
-Date: Mon, 28 Nov 2022 21:00:24 +0530
-Message-ID: <CAKdWgSwO_C22j+0SYRNAf-q_ZueV7Jf3bkrZ7WSf7w+BhktmyA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH RFC] base: Switch to use addpylib directive
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <20221128151122.317262-1-f_l_k@t-online.de> <CANNYZj-u-9qbexJvrhnjA=tnd08vnathK8zJdSwUcpykys9XvQ@mail.gmail.com>
+ <LOD2MR.LVNPXKRBX1HA3@t-online.de>
+In-Reply-To: <LOD2MR.LVNPXKRBX1HA3@t-online.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 28 Nov 2022 16:33:30 +0100
+Message-ID: <CANNYZj_V0D35j00OEZHTybduQdttzNKt-bFT0m2pZ=BsRx-Rvw@mail.gmail.com>
+Subject: Re: [oe-core][PATCHv3] gcr: add recipe for gcr-4, needed to build
+ with gtk4
+To: Markus Volk <f_l_k@t-online.de>
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000077908a05ee898d6c"
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 15:30:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173925
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 15:33:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173926
 
---00000000000077908a05ee898d6c
-Content-Type: text/plain; charset="UTF-8"
+Yes, otherwise I'm fine with it :)
 
-On Mon, 28 Nov 2022 at 20:14, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Mon, 2022-11-28 at 19:29 +0530, Vishal Bhoj wrote:
-> > I get the below backtrace with this patch on master-next. The same
-> > patchset works fine on debian-11. Are there any specific versions of
-> > packages that need to be installed as  dependency ?
-> >
-> > Tested on host os: ubuntu-18.04/ubuntu-20.04
+Alex
 
 
-> Which python versions are those? It looks like I perhaps assumed a
-> piece of newer python syntax accidentally. I suspect this code only
-> works with python 3.9+:
+On Mon, 28 Nov 2022 at 16:29, Markus Volk <f_l_k@t-online.de> wrote:
 >
-
-Looks like it is the case:
-ubuntu-18.04: python 3.6
-ubuntu-20.04: python 3.8
-
+> I know that ;)
 >
-> https://peps.python.org/pep-0584/
+> Just sent to see, if it would be ok for you like it is. I'll send the pat=
+ch upstream.
 >
-> I was wondering whether to remove this piece entirely anyway, I need to
-> check the performance implications.
+> Am Mo, 28. Nov 2022 um 16:21:35 +0100 schrieb Alexander Kanavin <alex.kan=
+avin@gmail.com>:
 >
-> Cheers,
+> On Mon, 28 Nov 2022 at 16:11, Markus Volk <f_l_k@t-online.de> wrote:
 >
-> Richard
+> +Upstream-Status: Pending
 >
->
-
---00000000000077908a05ee898d6c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, 28 Nov 2022 at 20:14, Richard=
- Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.p=
-urdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex">On Mon, 2022-11-28 at 19:29 +0530, Vishal Bhoj wro=
-te:<br>
-&gt; I get the below backtrace with this patch on master-next. The same<br>
-&gt; patchset works fine on debian-11. Are there any specific versions of<b=
-r>
-&gt; packages that need to be installed as=C2=A0=C2=A0dependency=C2=A0?<br>
-&gt; <br>
-&gt; Tested on host os: ubuntu-18.04/ubuntu-20.04=C2=A0</blockquote><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
-x solid rgb(204,204,204);padding-left:1ex">
-<br>
-Which python versions are those? It looks like I perhaps assumed a<br>
-piece of newer python syntax accidentally. I suspect this code only<br>
-works with python 3.9+:<br></blockquote><div><br></div><div>Looks like it i=
-s the case:</div><div>ubuntu-18.04: python 3.6</div><div>ubuntu-20.04: pyth=
-on 3.8</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-<a href=3D"https://peps.python.org/pep-0584/" rel=3D"noreferrer" target=3D"=
-_blank">https://peps.python.org/pep-0584/</a><br>
-<br>
-I was wondering whether to remove this piece entirely anyway, I need to<br>
-check the performance implications.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div></div>
-
---00000000000077908a05ee898d6c--
+> Please submit upstream first and include the link to the submission. I'm =
+highly allergic to 'Pending' without a reason. Alex
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D- Links: You receive all mess=
+ages sent to this group. View/Reply Online (#173923): https://lists.openemb=
+edded.org/g/openembedded-core/message/173923 Mute This Topic: https://lists=
+.openembedded.org/mt/95309600/3618223 Group Owner: openembedded-core+owner@=
+lists.openembedded.org Unsubscribe: https://lists.openembedded.org/g/openem=
+bedded-core/unsub [f_l_k@t-online.de] -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=
+=3D-=3D-
 
