@@ -1,375 +1,141 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03044C4167B
-	for <webhook@archiver.kernel.org>; Tue, 29 Nov 2022 16:02:19 +0000 (UTC)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
- by mx.groups.io with SMTP id smtpd.web10.153387.1669737734272835465
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4769FC4332F
+	for <webhook@archiver.kernel.org>; Tue, 29 Nov 2022 16:55:29 +0000 (UTC)
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.72])
+ by mx.groups.io with SMTP id smtpd.web10.155244.1669740922582641330
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Nov 2022 08:02:14 -0800
+ Tue, 29 Nov 2022 08:55:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=K6BDFtQ+;
- spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f170.google.com with SMTP id a7so17780705ljq.12
-        for <openembedded-core@lists.openembedded.org>; Tue, 29 Nov 2022 08:02:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hzHVhB2Ic7xr7w1H0t2onHDfmP7DptmwfdTXSeKF4ks=;
-        b=K6BDFtQ+cwstX9gpU7jaFx3GqoGyGOAXlgSBwpdMaJdN7e1Y2ma6Wb3LoCwf87jY3t
-         zmC2BtiZnQFpz40C1MTr2G2xyexY56topMqd1XPJvMACrtwYdJ4pwAvEzFSTAk3RVzLl
-         9M8G1awnjXwGLKEtPW8dAjFqxtCf+PaoUm5klPtqq2hgmRDrGdK3cRrTRcybd8tYiQJG
-         Yqi61TVtf/rX9BFGbwEJ3M6VEBB97FmsJwC2dJoYIv7FKuSfYajmJU2FsKWRvLaI98US
-         q7wBg785dg9E5nP7C8bekQZGwsRSr3iCdS3tCkLz2sP+Epsr37kEUjE8RWASJJCOr5yr
-         xsZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hzHVhB2Ic7xr7w1H0t2onHDfmP7DptmwfdTXSeKF4ks=;
-        b=jNE3aWjFK2sPNWt1GoqB6urGEZjaMuvPxikWH6/c27FaBJQFeX3Mkb4G3cg1exzQdd
-         r8plMrfxfLnFLRJktsoY5nkAX1p2QDIDlGwIfPrwfZegO3U6pmJUlc0qfFwpmhd7cWC+
-         DJprNsjN3k0AuozLI8NewmdKi0xOBhrCSiaSL53EUlSoXv0SbuGucdtlaE3zntUDDib1
-         PpLyy+JqOPqXQ8eWfmQ05Ia5w9BKm7taiFrLTqFGHSWLBvQE2EpyjDf5N748fVby0BHw
-         ej377A/OT8o3X11xHqihiNNoUAxIMvw2blHsuQu1GuPfPIhZ1isdaTFTlEvP6Se2jFS4
-         C/Nw==
-X-Gm-Message-State: ANoB5plyBDsms8IwycHVkNhFScjse+uQKGJdWoyhcKrXYdHYpgUrmkqU
-	z9saktjhuTZ0VPawfOZOKbV5PbK4OGE1Htr6lLk=
-X-Google-Smtp-Source: AA0mqf7C0rfGsOIpewnU/roRQY3ifnPi1/kWH/NWGHQqsQcdPAHj/cEUJlUbH3v198MAILTuc81Cl7OTdt8Yojq63Oc=
-X-Received: by 2002:a2e:94cb:0:b0:279:8865:38e1 with SMTP id
- r11-20020a2e94cb000000b00279886538e1mr8695957ljh.217.1669737730591; Tue, 29
- Nov 2022 08:02:10 -0800 (PST)
-MIME-Version: 1.0
-References: <20221129132220.6357-1-f_l_k@t-online.de> <20221129132220.6357-2-f_l_k@t-online.de>
- <F7525B10-17D1-43C6-B2AF-DF5BAEE11246@arm.com>
-In-Reply-To: <F7525B10-17D1-43C6-B2AF-DF5BAEE11246@arm.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 29 Nov 2022 17:01:58 +0100
-Message-ID: <CANNYZj9XvDiuZiUgKmEJcvHX_U7Q4KmH93GFGtH-N8FxqEn=GA@mail.gmail.com>
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=ntuokss/;
+ spf=pass (domain: arm.com, ip: 40.107.7.72, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DmAxyn2vX+2BYyd/zV4FEDwAd5g79PD/MxLa3r5yuGHNxIPtruOv7M7ZhNe7JXT7X0aNoRv6PqFkJ8gAgVue6JU5EPUYum5revDVmF0HSPmyvuhzilQMrtHN4tgf19XXspU/iCoc+tpXdnEp+7/XCOw8j2pHaFGHA8mvO1elXfr5jANC7Gk8Q/14o9IHIoa/ZwvuucFAA0C5atHKwlCkTqFIqlPZKUWs6DlmN2FFpyYHMMCcXTFNuqgvbIHCpEHJPw945v7A1hqQKKAPICg+spsvfU4J33lmMTPoeC/8HhySPeluE494MOof/DhFHbV+ZVTMSluEHJCgz2IHvXvvtA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Uu8d3oRc0w/rxR/CuF/+sMKUnrsAbtSIla1y6pkt5Jg=;
+ b=IlQxkB91C95PfNHSwqR8nngHFRP5+tWMpxS33WpJG1/aZbvtZfxpDcQpTWUnVq9pmqMeTSRcm8IbiA2nQhtcS332FiZzlf37G9Zqz73GFd8p0mZseNVFfoKTzGkNGgjv92SUprLc6VfNXPKy+tQyDsZX/7+iPWJOT6LR60lboLyt4irvwI/aTR7UA4rEOZMXjLXTCYCS9xOSsITZ4U6JbklO/OVH66FHgwlDTvtsw4PBtgDYC/LGKPBArcvhO+rQoQP42VCFAtFso3TqjBJgkpAN6kaeW/EDhepPlaeHeNotjShZ6WFqc8XNdHnOWf9cm8dYjSkS9t5lgi/gDUM17g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Uu8d3oRc0w/rxR/CuF/+sMKUnrsAbtSIla1y6pkt5Jg=;
+ b=ntuokss/be+WSrtGcrpyqRFOSRzT1gnX8oUI3olkjYollSk+Ej99sJfgfICeY2Bub5JkK2rDQ39PDo0dfsGNlO6BtXopE6x9/r46REUD5JR1WMj8u3vejwBEZ6YVj/LVZ1z2g0VjQXI0Mh13Q5IacnoZwWCVucDY47oSHnG5ROE=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by AM8PR08MB6321.eurprd08.prod.outlook.com (2603:10a6:20b:366::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.8; Tue, 29 Nov
+ 2022 16:55:18 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::1ecf:7fb9:8c0:8119]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::1ecf:7fb9:8c0:8119%9]) with mapi id 15.20.5880.008; Tue, 29 Nov 2022
+ 16:55:18 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: Markus Volk <f_l_k@t-online.de>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [oe-core][PATCHv7 2/2] gcr: add recipe for gcr-4, needed to build
  with gtk4
-To: Ross Burton <ross.burton@arm.com>
-Cc: Markus Volk <f_l_k@t-online.de>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thread-Topic: [oe-core][PATCHv7 2/2] gcr: add recipe for gcr-4, needed to
+ build with gtk4
+Thread-Index: AQHZA/W0qyx+ytOn+kKn73wneCpvGq5WDIQAgAADYgCAAA7WAA==
+Date: Tue, 29 Nov 2022 16:55:18 +0000
+Message-ID: <16D4E649-B4FA-4E57-A7F4-853FD7057141@arm.com>
+References: <20221129132220.6357-1-f_l_k@t-online.de>
+ <20221129132220.6357-2-f_l_k@t-online.de>
+ <F7525B10-17D1-43C6-B2AF-DF5BAEE11246@arm.com>
+ <CANNYZj9XvDiuZiUgKmEJcvHX_U7Q4KmH93GFGtH-N8FxqEn=GA@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj9XvDiuZiUgKmEJcvHX_U7Q4KmH93GFGtH-N8FxqEn=GA@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3731.200.110.1.12)
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PA4PR08MB7411:EE_|AM8PR08MB6321:EE_
+x-ms-office365-filtering-correlation-id: da21f354-6835-46f0-6880-08dad22a7ec3
+nodisclaimer: true
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ AzS8roDRusjpUisWOUJhFFK0xIxe3TCCAfEy7LKFqun4MR99LvaWFyzyZmGtT5jV77TkqaGY0rNLAjJnGqzXQaAp2WRQoFewIWUzsE1n1c8c5A65lcSN7eKhHOyMwYilGMIh6KqztMHPDWMFiXQaJBmby6ux+OZAJXRdHxMzrngOxvaGOF1GqTF1jKG59/e9LYzzGsSb0xcolA/ALK4Iq90+CmxqcEP+Uldp4velmnOCUqocfrjnBqm4yAPg40yra9RFrSrPeaaHXqkFVtcsaBBD0Y4tMCiw/jw5SfHHXQ9vEDSebNl0Y0pFK32CwPNa08sZkbiqTDdWAHoK4sBLhvOJX9rTX0oS0e0ejZodpGgC+OyHhSDc7AbT5Ga7g+7UDpzRtsu62qqZ+QxYCujUUWK6GAGKB9lcGFvRwVDdKo7cDPJ0vjKEd6R1ql5y2MwCzGHD4Htd2lVKkPWbeKAAfAMHSDtu5c51ExdT7cAP2BY2KpszafFhT08zoQ8eSZApwNwnab73w7UjmGRy3mWC7ahGHoTutguGCw5L8czn/afigBolfVSqEN0H/AtGHFdoLmluUUZtt9tUxIoa8te9wQF3JQpjGvFm8LONcrMwKAX+iquIv/Mlx+bTeFoabCyutlW1pOHX5Ax6QaFHog1SnOez/4vndcaScZHN7o5pRrSDphE8T1qCTz96R6xJe1IcUOqh7Yp/h9z/UX3HwHFQs8S1u9kuq8eKwoPju4FIp4UCp4LEmOEtSe/xCwombr5WNbP81xw6r6HqMZteAzkZKA==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(366004)(39850400004)(396003)(346002)(136003)(451199015)(2616005)(2906002)(86362001)(6506007)(966005)(6512007)(38100700002)(33656002)(66446008)(6486002)(66946007)(66556008)(91956017)(64756008)(41300700001)(76116006)(8676002)(122000001)(53546011)(36756003)(26005)(71200400001)(478600001)(66476007)(5660300002)(8936002)(186003)(316002)(4326008)(6916009)(38070700005)(54906003)(4744005)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?SjY3RURHUXlnN1VQWmlVeUkrb29BaldiOEszRVJaRFUzc2pVelE0S0diRlFL?=
+ =?utf-8?B?bmVlN0JhYS9kZ1BYODhzeDVlVVdNN2YzNitacUovSENrYmlKUG94MXVwbGgx?=
+ =?utf-8?B?SDFDNWI4OFdzOW80emRzWmZYN3dWU0ZxbDQyTHdaOHRvc1l1YSt4M3REK0hZ?=
+ =?utf-8?B?aXR4cVUwK3JJTzdUalFCSjRDbHhRRkdXSmpLTWNnV01rWkNqdk5yTW5tZEla?=
+ =?utf-8?B?OE5SRTlOMVhLNVFkMDZtamJ0WVpwV0VmUWxYU1BUVW1uZFBZSWg4dE5uQW8y?=
+ =?utf-8?B?UFpHZHM1ZktkaVFob2FscHJyTGJCMXY0ZzNWaWUyOTdUZS9HNUlWdU5ReVNN?=
+ =?utf-8?B?TGFEbThYTThvbEFwcDZZc2d1RTBqWENqU2pDTkVpMTh2WVJPaUVlTHhvRE81?=
+ =?utf-8?B?T0NreXRRQ0Y5NTZHb2tFMzd1WmlTb2hjZktiTkJlbFE4UTk0bHlxYzBOTDVU?=
+ =?utf-8?B?WWhDNWhtbS9kMmFPOU00b2pOTGVkRHVPbC9lZ05lSmozYWJuNS9UK2JHV25a?=
+ =?utf-8?B?MVZYRlg3RkVQOUExRkw0T0Z6QTFWK2xhcW0zOEdpL3hqQ0pOUjdyT0NCNkc3?=
+ =?utf-8?B?Vjl0RlZKUGU5bXorR3ZnWEM5UjcvU2lTcEI3KzdONGRSd3VsTnFTQ2d2RnRU?=
+ =?utf-8?B?WXJudVFOUDZVemhNWkt6OVU4QnQyM0REUHlkSnBNc3hWZm40SkZvVW9SQjQy?=
+ =?utf-8?B?TlVOb0x6a1VKSlNJNUJPVlBmUFdyRDh3UDNaM1Q2ZThwNzJnNTRiZEZNQnVn?=
+ =?utf-8?B?NFdXQXkxMU1ZbjU2b0RLRXpwUVh1TVNNa3hsSVJHU0VyWTVvVUpiRENNRHUv?=
+ =?utf-8?B?RjRoSEtXVmU1dHovL1BTY0hLcUVHdklkODA5T3ZEZ1Q5NDFnTEFnR0NGK2k5?=
+ =?utf-8?B?M0pYMXFwTmloaFhwV0V3eGhHVGR2SXJwK28xNGRoc00yOXVCRG55VjQ5a3o4?=
+ =?utf-8?B?S3lEZ3JjMGxpbTNjYzREZWgwZU9IczU2TS8xc0E3Y2hwUHRBYTYvc1krN1h2?=
+ =?utf-8?B?VkVnMlFGZWQvZEp0T09pZWxhN3pSZWtvaDJjVmhsNDZJaDdldURrcmxlMDdy?=
+ =?utf-8?B?d3IvSkc5UEk4alV6Y2pzZURQT1RERTIwN0ZlTXdha0NIOVFQc0pDMFlYNCth?=
+ =?utf-8?B?UjlwNDJpMTlXSXFuSW1WbE5ScFRNOWsyOERoNk52cHZrTFFOeXYvakE0RVN6?=
+ =?utf-8?B?TXdGOW83b2M0M25SOCt0ZkloU1h5a1YwSUdUejE3aTJyZEp1aVpoTmErbFNh?=
+ =?utf-8?B?djdiMFNFYnJMNzFWMXlGbnV5dTNWRVNIZjZzQzdCOStMaEZWdVlQUk5VTFZC?=
+ =?utf-8?B?bTF5VnhGTVJFdktOTFBGOGlPaXlNdTJ6WmZaWThnK1k1cVFvNmNPRzQ3QWVL?=
+ =?utf-8?B?MHNDaEYxdXQrMVh4NGlYTjVCVGZuQm81eTZGa2hLR2ZqaE1wcmtGZHRYN001?=
+ =?utf-8?B?L2VyWSswdDlYUmVkMzhtbGNrQVptWDIzemZtU09JbWs0d2tTZVl5OUdnZ0Er?=
+ =?utf-8?B?cjRWeU5hL0ZBSzZ5dmdNaExQWnkrZFVVVm5FWlNFTmo1aVlxYitNY21peE9M?=
+ =?utf-8?B?SVppQng5N0E4THNQeWxkdEI4Vlg5aE80ZFhkZEMxMVRHR3dWR1N2RUtvLzdv?=
+ =?utf-8?B?cEhsUGZuV25iZ241VHhPQ3djUmhObUtHNUpiUzU1TGhCbGxsdUs2ekpFcHFo?=
+ =?utf-8?B?bFR4R0haSG9QQ2UyZ1ZFODBReE0wOURSamhCZGliVWhUcVQ2N2ZXTlpiSUxT?=
+ =?utf-8?B?d2ZPckV1ZVZwMDQ5NjQxdWZ5VStjZHhhSWtvT2Y3ckJRZEdCc3N5bUJwQlpa?=
+ =?utf-8?B?MmhVU0RNM09lUkRXVEdKU0V5SVlpMTlvSWE4QlMwelpNaDVJbmNYT0pqb0hv?=
+ =?utf-8?B?TVBSemRhdUp3em1LMUU5MVh0cWdROUJ5TTBxVXNlOEkrbjh5b0d3WnFMS2Iy?=
+ =?utf-8?B?Y1orRkVKaUEwZTVFZHhpMzl5V1FMMGtYRWNET3B0Q0IxSjlCUDRBM1YraGRV?=
+ =?utf-8?B?Z1pGKzFlUHJVdzgyVEJOL2U5NmJ4clF2VEZMQjR4ZDV4U2pGT3pQRkJMV3FL?=
+ =?utf-8?B?cFV5U1RoaG9JUVQyQkhSRE5ZQWp3cVhCbWZ3ZGRhZWR2TDdVZDRheCtrVk10?=
+ =?utf-8?Q?33JX0/w1013t0YNEGt+5bLak3?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E459949A19D5574C95A2578D8061A313@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR08MB7411.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: da21f354-6835-46f0-6880-08dad22a7ec3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Nov 2022 16:55:18.3385
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: BchClHJFcbeOGyYREIziMHQxlQtMDS+/H5WSaotpgCrufwO3xz1HYrOcmLoY2SleiJNR9FQGPRox62kE/UDEdg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB6321
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Nov 2022 16:02:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173982
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Nov 2022 16:55:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173983
 
-Epiphany has moved to gtk4 in master. This makes us prepared for that.
-https://github.com/GNOME/epiphany/blob/master/meson.build
-
-Alex
-
-On Tue, 29 Nov 2022 at 16:50, Ross Burton <ross.burton@arm.com> wrote:
->
-> I=E2=80=99m obviously missing some context: why is gcr4 being added to co=
-re along with gtk4?  Why can=E2=80=99t gcr4 be added to meta-gnome along wi=
-th gtk4?
->
-> Ross
->
->
-> > On 29 Nov 2022, at 13:22, Markus Volk via lists.openembedded.org <f_l_k=
-=3Dt-online.de@lists.openembedded.org> wrote:
-> >
-> > gcr-3 recipe is still needed for gnome projects that stick to gtk+3, re=
-name to gcr3.
-> >
-> > Signed-off-by: Markus Volk <f_l_k@t-online.de>
-> > ---
-> > ...-add-options-to-set-ssh-binary-paths.patch | 60 +++++++++++++++++++
-> > ...ectly-handle-disabled-ssh_agent-opti.patch | 49 +++++++++++++++
-> > ...build-fix-one-parallel-build-failure.patch |  0
-> > ...1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch |  0
-> > .../gcr/{gcr_3.40.0.bb =3D> gcr3_3.40.0.bb}     |  8 ++-
-> > meta/recipes-gnome/gcr/gcr_4.0.0.bb           | 51 ++++++++++++++++
-> > 6 files changed, 166 insertions(+), 2 deletions(-)
-> > create mode 100644 meta/recipes-gnome/gcr/gcr/0001-meson-add-options-to=
--set-ssh-binary-paths.patch
-> > create mode 100644 meta/recipes-gnome/gcr/gcr/0001-meson.build-correctl=
-y-handle-disabled-ssh_agent-opti.patch
-> > rename meta/recipes-gnome/gcr/{gcr =3D> gcr3}/0001-gcr-meson.build-fix-=
-one-parallel-build-failure.patch (100%)
-> > rename meta/recipes-gnome/gcr/{gcr =3D> gcr3}/b3ca1d02bb0148ca787ac4aea=
-d164d7c8ce2c4d8.patch (100%)
-> > rename meta/recipes-gnome/gcr/{gcr_3.40.0.bb =3D> gcr3_3.40.0.bb} (87%)
-> > create mode 100644 meta/recipes-gnome/gcr/gcr_4.0.0.bb
-> >
-> > diff --git a/meta/recipes-gnome/gcr/gcr/0001-meson-add-options-to-set-s=
-sh-binary-paths.patch b/meta/recipes-gnome/gcr/gcr/0001-meson-add-options-t=
-o-set-ssh-binary-paths.patch
-> > new file mode 100644
-> > index 0000000000..cd3552464a
-> > --- /dev/null
-> > +++ b/meta/recipes-gnome/gcr/gcr/0001-meson-add-options-to-set-ssh-bina=
-ry-paths.patch
-> > @@ -0,0 +1,60 @@
-> > +From 89992bde916fe53dd737a5d678bc66dd51cd1f45 Mon Sep 17 00:00:00 2001
-> > +From: Markus Volk <f_l_k@t-online.de>
-> > +Date: Mon, 28 Nov 2022 15:47:50 +0100
-> > +Subject: [PATCH] meson: add options to set ssh binary paths
-> > +
-> > +Signed-off-by: Markus Volk <f_l_k@t-online.de>
-> > +
-> > +Upstream-Status: Submitted [ https://gitlab.gnome.org/GNOME/gcr/-/merg=
-e_requests/115/diffs?commit_id=3Df19dfa4fe0986f3f75b29f9c05cead59fe87cd19 ]
-> > +---
-> > + meson.build       | 11 +++++++++--
-> > + meson_options.txt | 10 ++++++++++
-> > + 2 files changed, 19 insertions(+), 2 deletions(-)
-> > +
-> > +diff --git a/meson.build b/meson.build
-> > +index 11d7fa7..231d7e2 100644
-> > +--- a/meson.build
-> > ++++ b/meson.build
-> > +@@ -58,9 +58,16 @@ if p11_system_config_modules =3D=3D ''
-> > +   error('Couldn\'t find location for pkcs11 module config')
-> > + endif
-> > + libsecret_dep =3D dependency('libsecret-1', version: '>=3D 0.20', req=
-uired: get_option('ssh_agent'))
-> > ++
-> > + if get_option('ssh_agent')
-> > +-  ssh_add_path =3D find_program('ssh-add').full_path()
-> > +-  ssh_agent_path =3D find_program('ssh-agent').full_path()
-> > ++  ssh_add_path =3D get_option('ssh_add_path')
-> > ++  ssh_agent_path =3D get_option('ssh_agent_path')
-> > ++  if ssh_add_path =3D=3D ''
-> > ++    ssh_add_path =3D find_program('ssh-add').full_path()
-> > ++  endif
-> > ++  if ssh_agent_path =3D=3D ''
-> > ++    ssh_agent_path =3D find_program('ssh-agent').full_path()
-> > ++  endif
-> > + endif
-> > +
-> > + with_systemd =3D false
-> > +diff --git a/meson_options.txt b/meson_options.txt
-> > +index 6840e44..5355940 100644
-> > +--- a/meson_options.txt
-> > ++++ b/meson_options.txt
-> > +@@ -23,6 +23,16 @@ option('gpg_path',
-> > +   value: '',
-> > +   description: 'Path to gpg, autodetected if not set',
-> > + )
-> > ++option('ssh_add_path',
-> > ++  type: 'string',
-> > ++  value: '',
-> > ++  description: 'Path to ssh-add, autodetected if not set',
-> > ++)
-> > ++option('ssh_agent_path',
-> > ++  type: 'string',
-> > ++  value: '',
-> > ++  description: 'Path to ssh-agent, autodetected if not set',
-> > ++)
-> > + option('ssh_agent',
-> > +   type: 'boolean',
-> > +   value: true,
-> > +--
-> > +2.34.1
-> > +
-> > diff --git a/meta/recipes-gnome/gcr/gcr/0001-meson.build-correctly-hand=
-le-disabled-ssh_agent-opti.patch b/meta/recipes-gnome/gcr/gcr/0001-meson.bu=
-ild-correctly-handle-disabled-ssh_agent-opti.patch
-> > new file mode 100644
-> > index 0000000000..940f78ebab
-> > --- /dev/null
-> > +++ b/meta/recipes-gnome/gcr/gcr/0001-meson.build-correctly-handle-disa=
-bled-ssh_agent-opti.patch
-> > @@ -0,0 +1,49 @@
-> > +From 9b67bb18d8409e0e693cc6000507acbd73a30eab Mon Sep 17 00:00:00 2001
-> > +From: Alexander Kanavin <alex@linutronix.de>
-> > +Date: Wed, 16 Nov 2022 11:27:24 +0100
-> > +Subject: [PATCH 1/2] meson.build: correctly handle disabled ssh_agent =
-option
-> > +
-> > +Existing code produces these errors:
-> > +| gcr/meson.build:61:0: ERROR: Unable to get the path of a not-found e=
-xternal program
-> > +| gcr/meson.build:101:5: ERROR: Unknown variable "ssh_add_path".
-> > +
-> > +Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> > +
-> > +Upstream-Status: Backport [ https://gitlab.gnome.org/GNOME/gcr/-/commi=
-t/9b67bb18d8409e0e693cc6000507acbd73a30eab ]
-> > +---
-> > + meson.build | 12 ++++++++----
-> > + 1 file changed, 8 insertions(+), 4 deletions(-)
-> > +
-> > +diff --git a/meson.build b/meson.build
-> > +index 3f35173..11d7fa7 100644
-> > +--- a/meson.build
-> > ++++ b/meson.build
-> > +@@ -58,8 +58,10 @@ if p11_system_config_modules =3D=3D ''
-> > +   error('Couldn\'t find location for pkcs11 module config')
-> > + endif
-> > + libsecret_dep =3D dependency('libsecret-1', version: '>=3D 0.20', req=
-uired: get_option('ssh_agent'))
-> > +-ssh_add_path =3D find_program('ssh-add', required: get_option('ssh_ag=
-ent')).full_path()
-> > +-ssh_agent_path =3D find_program('ssh-agent', required: get_option('ss=
-h_agent')).full_path()
-> > ++if get_option('ssh_agent')
-> > ++  ssh_add_path =3D find_program('ssh-add').full_path()
-> > ++  ssh_agent_path =3D find_program('ssh-agent').full_path()
-> > ++endif
-> > +
-> > + with_systemd =3D false
-> > + libsystemd_deps =3D []
-> > +@@ -96,8 +98,10 @@ conf.set('HAVE_TIMEGM', cc.has_function('timegm'))
-> > + conf.set('HAVE_MLOCK', cc.has_function('mlock'))
-> > + conf.set_quoted('GPG_EXECUTABLE', gpg_path)
-> > + conf.set_quoted('LIBGCRYPT_VERSION', libgcrypt_dep.version())
-> > +-conf.set_quoted('SSH_ADD_EXECUTABLE', ssh_add_path)
-> > +-conf.set_quoted('SSH_AGENT_EXECUTABLE', ssh_agent_path)
-> > ++if get_option('ssh_agent')
-> > ++  conf.set_quoted('SSH_ADD_EXECUTABLE', ssh_add_path)
-> > ++  conf.set_quoted('SSH_AGENT_EXECUTABLE', ssh_agent_path)
-> > ++endif
-> > + conf.set10('WITH_SYSTEMD', with_systemd)
-> > + config_file =3D configure_file(
-> > +   output: 'config.h',
-> > +--
-> > +2.34.1
-> > +
-> > diff --git a/meta/recipes-gnome/gcr/gcr/0001-gcr-meson.build-fix-one-pa=
-rallel-build-failure.patch b/meta/recipes-gnome/gcr/gcr3/0001-gcr-meson.bui=
-ld-fix-one-parallel-build-failure.patch
-> > similarity index 100%
-> > rename from meta/recipes-gnome/gcr/gcr/0001-gcr-meson.build-fix-one-par=
-allel-build-failure.patch
-> > rename to meta/recipes-gnome/gcr/gcr3/0001-gcr-meson.build-fix-one-para=
-llel-build-failure.patch
-> > diff --git a/meta/recipes-gnome/gcr/gcr/b3ca1d02bb0148ca787ac4aead164d7=
-c8ce2c4d8.patch b/meta/recipes-gnome/gcr/gcr3/b3ca1d02bb0148ca787ac4aead164=
-d7c8ce2c4d8.patch
-> > similarity index 100%
-> > rename from meta/recipes-gnome/gcr/gcr/b3ca1d02bb0148ca787ac4aead164d7c=
-8ce2c4d8.patch
-> > rename to meta/recipes-gnome/gcr/gcr3/b3ca1d02bb0148ca787ac4aead164d7c8=
-ce2c4d8.patch
-> > diff --git a/meta/recipes-gnome/gcr/gcr_3.40.0.bb b/meta/recipes-gnome/=
-gcr/gcr3_3.40.0.bb
-> > similarity index 87%
-> > rename from meta/recipes-gnome/gcr/gcr_3.40.0.bb
-> > rename to meta/recipes-gnome/gcr/gcr3_3.40.0.bb
-> > index 917be5938b..5318768db6 100644
-> > --- a/meta/recipes-gnome/gcr/gcr_3.40.0.bb
-> > +++ b/meta/recipes-gnome/gcr/gcr3_3.40.0.bb
-> > @@ -20,11 +20,15 @@ GTKDOC_MESON_OPTION =3D "gtk_doc"
-> > inherit gnomebase gtk-icon-cache gtk-doc features_check upstream-versio=
-n-is-even vala gobject-introspection gettext mime mime-xdg
-> > UPSTREAM_CHECK_REGEX =3D "[^\d\.](?P<pver>\d+\.(?!9\d+)(\d*[02468])+(\.=
-\d+)+)\.tar"
-> >
-> > -SRC_URI +=3D "file://0001-gcr-meson.build-fix-one-parallel-build-failu=
-re.patch \
-> > -            file://b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch"
-> > +SRC_URI =3D " \
-> > + https://download.gnome.org/sources/gcr/3.40/gcr-${PV}.tar.xz;name=3Da=
-rchive \
-> > + file://0001-gcr-meson.build-fix-one-parallel-build-failure.patch \
-> > + file://b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch"
-> >
-> > SRC_URI[archive.sha256sum] =3D "b9d3645a5fd953a54285cc64d4fc046736463db=
-d4dcc25caf5c7b59bed3027f5"
-> >
-> > +S =3D "${WORKDIR}/gcr-${PV}"
-> > +
-> > PACKAGECONFIG ??=3D " \
-> > ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'gtk', '', d)} \
-> > ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'gtk', '', d)} \
-> > diff --git a/meta/recipes-gnome/gcr/gcr_4.0.0.bb b/meta/recipes-gnome/g=
-cr/gcr_4.0.0.bb
-> > new file mode 100644
-> > index 0000000000..ff2f7978a9
-> > --- /dev/null
-> > +++ b/meta/recipes-gnome/gcr/gcr_4.0.0.bb
-> > @@ -0,0 +1,51 @@
-> > +SUMMARY =3D "A library for bits of crypto UI and parsing etc"
-> > +DESCRIPTION =3D "GCR is a library for displaying certificates, and cry=
-pto UI, \
-> > +accessing key stores. It also provides the viewer for crypto files on =
-the \
-> > +GNOME desktop."
-> > +HOMEPAGE =3D "https://gitlab.gnome.org/GNOME/gcr"
-> > +BUGTRACKER =3D "https://gitlab.gnome.org/GNOME/gcr/issues"
-> > +
-> > +LICENSE =3D "GPL-2.0-only"
-> > +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D55ca817ccb7d5b5b66355690e9a=
-bc605"
-> > +
-> > +DEPENDS =3D "p11-kit glib-2.0 libgcrypt gnupg-native \
-> > +           ${@bb.utils.contains('GI_DATA_ENABLED', 'True', 'libxslt-na=
-tive', '', d)}"
-> > +
-> > +CACHED_CONFIGUREVARS +=3D "ac_cv_path_GPG=3D'gpg2'"
-> > +
-> > +CFLAGS +=3D "-D_GNU_SOURCE"
-> > +
-> > +GNOMEBASEBUILDCLASS =3D "meson"
-> > +GTKDOC_MESON_OPTION =3D "gtk_doc"
-> > +inherit gnomebase gtk-icon-cache gtk-doc features_check upstream-versi=
-on-is-even vala gobject-introspection gettext mime mime-xdg
-> > +UPSTREAM_CHECK_REGEX =3D "[^\d\.](?P<pver>\d+\.(?!9\d+)(\d*[02468])+(\=
-.\d+)+)\.tar"
-> > +
-> > +SRC_URI +=3D " \
-> > + file://0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patc=
-h \
-> > + file://0001-meson-add-options-to-set-ssh-binary-paths.patch \
-> > +"
-> > +SRC_URI[archive.sha256sum] =3D "c45855924f0ee7bab43e2dd38bfafd2ac815c6=
-e9864341c0161e171173dcec7c"
-> > +
-> > +PACKAGECONFIG ??=3D " \
-> > + ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
-> > + ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'gtk', '', d)} \
-> > + ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'gtk', '', d)} \
-> > +"
-> > +PACKAGECONFIG[gtk] =3D "-Dgtk4=3Dtrue,-Dgtk4=3Dfalse,gtk4"
-> > +PACKAGECONFIG[ssh_agent] =3D "-Dssh_agent=3Dtrue -Dssh_add_path=3D${bi=
-ndir}/ssh-add -Dssh_agent_path=3D${bindir}/ssh-agent,-Dssh_agent=3Dfalse,li=
-bsecret,openssh"
-> > +#'Use systemd socket activation for server programs'
-> > +PACKAGECONFIG[systemd] =3D "-Dsystemd=3Denabled,-Dsystemd=3Ddisabled,s=
-ystemd"
-> > +
-> > +FILES:${PN} +=3D " \
-> > +    ${datadir}/dbus-1 \
-> > +    ${datadir}/gcr-4 \
-> > +    ${systemd_user_unitdir}/gcr-ssh-agent.socket \
-> > +    ${systemd_user_unitdir}/gcr-ssh-agent.service \
-> > +"
-> > +
-> > +# http://errors.yoctoproject.org/Errors/Details/20229/
-> > +ARM_INSTRUCTION_SET:armv4 =3D "arm"
-> > +ARM_INSTRUCTION_SET:armv5 =3D "arm"
-> > +ARM_INSTRUCTION_SET:armv6 =3D "arm"
-> > +
-> > +EXTRA_OEMESON +=3D "-Dgpg_path=3D${bindir}/gpg2"
-> > --
-> > 2.34.1
-> >
-> >
-> >
-> >
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#173980): https://lists.openembedded.org/g/openembedde=
-d-core/message/173980
-> Mute This Topic: https://lists.openembedded.org/mt/95333761/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+PiBPbiAyOSBOb3YgMjAyMiwgYXQgMTY6MDEsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2
+aW5AZ21haWwuY29tPiB3cm90ZToNCj4gDQo+IEVwaXBoYW55IGhhcyBtb3ZlZCB0byBndGs0IGlu
+IG1hc3Rlci4gVGhpcyBtYWtlcyB1cyBwcmVwYXJlZCBmb3IgdGhhdC4NCj4gaHR0cHM6Ly9naXRo
+dWIuY29tL0dOT01FL2VwaXBoYW55L2Jsb2IvbWFzdGVyL21lc29uLmJ1aWxkDQoNCknigJlkIHNh
+eSB0aGUgcmVjaXBlIHNob3VsZCBzaXQgaW4gbWV0YS1nbm9tZSB1bnRpbCBpdCBjYW4gYmUgcmVh
+c29uYWJseSB0ZXN0ZWQgYXMgcGFydCBvZiBvZS1jb3JlLg0KDQpBZGRpbmcgcmVjaXBlcyB0aGF0
+IGRvbuKAmXQgZ2V0IHRlc3RlZCBpbiBhbnkgbWVhbmluZ2Z1bCBzZW5zZSBpc27igJl0IGhlbHBm
+dWwuDQoNClJvc3M=
 
