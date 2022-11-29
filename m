@@ -1,175 +1,129 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3C3BC4167B
-	for <webhook@archiver.kernel.org>; Tue, 29 Nov 2022 14:56:28 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web11.151926.1669733781324622087
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D405AC433FE
+	for <webhook@archiver.kernel.org>; Tue, 29 Nov 2022 15:16:38 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web10.151971.1669734991789294665
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Nov 2022 06:56:21 -0800
+ Tue, 29 Nov 2022 07:16:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=RJO5bSW9;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.47, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f47.google.com with SMTP id bj12so34350827ejb.13
-        for <openembedded-core@lists.openembedded.org>; Tue, 29 Nov 2022 06:56:21 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=EmaWSef1;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id bs21so22603772wrb.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 29 Nov 2022 07:16:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=mtoBukYNFkr+IKXia1o6qCJ3NX27q87A8Kf0TvLlIhk=;
-        b=RJO5bSW9zLLuzbBY44XxoT0BPAS9OVa1V7ZzW5j/pIX49rXSBSZ9pPgsXlZQ2sQ+ee
-         JBz7GiiavhnRC6Z9TRy/vAikXbmRaKNdWp0fV6RpXP0MPQMcEi3mc6l6oQ96eRUDI6Ig
-         fz5XUTPT2kRhwGewWbMwvuI1Cu16YqTVUzUdIt0MKoy4OjGvyRpasA3+7hzQcSiaxAms
-         hhYFxS6kTwRsWC0XGZg0SpVgkwClJD/to4EdjChjxD9HYz6O21HehELHX9agwR2Ql1hM
-         tt03ANSVC9wkTV0Sc/+2S8SbShkG6cGJtVdLKfA2YDZ8opC7JH7OxZxopYzO5Ehek0fQ
-         cTcg==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qUcb1Yr7GR5Dl0HZMcReP+2IAI0X30WP4Bt+xhI7nxw=;
+        b=EmaWSef1NFF2Xokl0AF0wp8vYUWGkitDULCWoORT12TRJFdvgrEoYMARs3dLsb7hYV
+         3ajIWKRlGfeo25zng9ksdaVXPy2xDTbsFvMAipkL3gmUGiwqh8DSM2OFzwK4Qu/Sz2i9
+         eJz/feVqzti7Gpn7wSmBXd33jMiLc8SvKqOAw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mtoBukYNFkr+IKXia1o6qCJ3NX27q87A8Kf0TvLlIhk=;
-        b=qAJ6xlXk3lN8ImzWBza+vxjzQy03Zv7pYMSRSa8rK7iXKSjNWJot5risQ1bVnSArDX
-         JOVNB43sTtbf7kO36nZHBhdfKSyYheItBSL2wPvQ24hBRM7QjxypiW85HZXE+9QTNTQU
-         rSbLlkJwKzJ3UroCLUvOLGhT8bxeOOznQY3qC0Zothrg43ViDyFnWdYQ0622rwlYK1lk
-         0WfMygC3o1aTtWEfujKv499/rg0y1GcZuGVKNwD9Vt1hyXw/H2W/Kqz/fuFeGsXJ0V3Y
-         wP0dXMp/pu948WTge+uMAfOtthcfBq8/uT9apXjBX5gi2srZTtlTgVqSlpXb9WJXMNCU
-         qGHA==
-X-Gm-Message-State: ANoB5pnIMwokgN4T/7uxpfPFdJy29rmZH6w+M3Oaj8Lw+5SmXdyAywbJ
-	8l+N0UI+T/zAtY1174/1LaLqRAz5SlZPJlYfRhKHqg==
-X-Google-Smtp-Source: AA0mqf7/JwI2w3bLYffFfV7UsgZ8u+SNEtXQA4fzmkOU0SC91U0r+N+//nLHLY4s4jxBRlF8fWDdsM1h4jH217RwyZU=
-X-Received: by 2002:a17:906:a991:b0:7ba:85a7:2ec3 with SMTP id
- jr17-20020a170906a99100b007ba85a72ec3mr25493911ejb.36.1669733779398; Tue, 29
- Nov 2022 06:56:19 -0800 (PST)
-MIME-Version: 1.0
-References: <20221129110832.1040199-1-vkumbhar@mvista.com>
-In-Reply-To: <20221129110832.1040199-1-vkumbhar@mvista.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Tue, 29 Nov 2022 04:56:08 -1000
-Message-ID: <CAOSpxdbX=7Wz3m9XWVX6wbkwZeMJu3uMzSM3nS5G4bfc0AkzdQ@mail.gmail.com>
-Subject: Re: [OE-core][dunfell][PATCH v2] qemu: fix CVE-2021-20196 block fdc
- null pointer dereference may lead to guest crash
-To: vkumbhar <vkumbhar@mvista.com>
-Cc: openembedded-core@lists.openembedded.org
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=qUcb1Yr7GR5Dl0HZMcReP+2IAI0X30WP4Bt+xhI7nxw=;
+        b=vw4tQDpzEF/EitrryBf9b2jui1GOLu5JABAbVR+fgSH9/rOD/5oV3hEsXMjHfpYmQ7
+         rARixxTiNtf2uJ2HL/6GQsGCiUazfYAWuqa6F7gFjRAUqBJUySY+aIq66Mi8IeFBAXlP
+         HYpmKlyznAtbMVNdD/VUdw0YWeaP2lB6i/mTZy3CxvIKn3qciuQoRvMZ7Fqg+sHunR1W
+         80Mlli+BBfI4wENQyuO3BYVOh7ySeo56/FBcha/lpPCb4+O479IDiqp5IkXEVj6wbtyY
+         EtRFxLlvaNoN13B65MAp6q37ZZ+heg6F1lvA3qGNKJzP3zfo8xpU2g/iVor6fH8a2w1P
+         3wWA==
+X-Gm-Message-State: ANoB5pkfP7rw2Bgcxxfu4n1fp5ODp74yqFdxZi5boFYNeR4IvhKsShXa
+	aNgEdTIxts5SE+HTYlOKoeawjw==
+X-Google-Smtp-Source: AA0mqf7ZJrVfk42OHIuplqssg+TEpnJPs23KLCugHfzgnsCwJ/Z/qsF6Ogfo1PKV3FdegNbhdAEEig==
+X-Received: by 2002:adf:f406:0:b0:235:e6a9:b492 with SMTP id g6-20020adff406000000b00235e6a9b492mr23527962wro.212.1669734989972;
+        Tue, 29 Nov 2022 07:16:29 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:426:d29f:e451:e2dd? ([2001:8b0:aba:5f3c:426:d29f:e451:e2dd])
+        by smtp.gmail.com with ESMTPSA id i8-20020a5d4388000000b00228d52b935asm14114587wrq.71.2022.11.29.07.16.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Nov 2022 07:16:29 -0800 (PST)
+Message-ID: <85366683dfe3845128d1396287cc2288e9c18663.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2][master] go: Update reproducibility patch
+ to fix panic errors
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ryan Eatmon <reatmon@ti.com>, raj.khem@gmail.com, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 29 Nov 2022 15:16:27 +0000
+In-Reply-To: <4b9cf683-b93c-b395-73b8-9b36d586c76c@ti.com>
+References: <20221129122302.14589-1-reatmon@ti.com>
+	 <c9c1630165f51411750d4ca7715bfb4c625916e1.camel@linuxfoundation.org>
+	 <4b9cf683-b93c-b395-73b8-9b36d586c76c@ti.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Nov 2022 14:56:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173976
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Nov 2022 15:16:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173977
 
-On Tue, Nov 29, 2022 at 1:08 AM vkumbhar <vkumbhar@mvista.com> wrote:
->
-> From: Vivek Kumbhar <vkumbhar@mvista.com>
->
-> Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/1ab95af033a419e7a64e2d58e67dd96b20af5233]
->
-> Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
-> ---
->  meta/recipes-devtools/qemu/qemu.inc           |  1 +
->  .../qemu/qemu/CVE-2021-20196.patch            | 62 +++++++++++++++++++
->  2 files changed, 63 insertions(+)
->  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20196.patch
->
-> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-> index 764f948a28..a915b54c1a 100644
-> --- a/meta/recipes-devtools/qemu/qemu.inc
-> +++ b/meta/recipes-devtools/qemu/qemu.inc
-> @@ -113,6 +113,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
->             file://CVE-2022-0216-2.patch \
->             file://CVE-2021-3750.patch \
->            file://CVE-2021-3638.patch \
-> +          file://CVE-2021-20196.patch \
->             "
->  UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
->
-> diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-20196.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-20196.patch
-> new file mode 100644
-> index 0000000000..24da80e7db
-> --- /dev/null
-> +++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-20196.patch
-> @@ -0,0 +1,62 @@
-> +From 94608c59045791dfd35102bc59b792e96f2cfa30 Mon Sep 17 00:00:00 2001
-> +From: Vivek Kumbhar <vkumbhar@mvista.com>
-> +Date: Tue, 29 Nov 2022 15:57:13 +0530
-> +Subject: [PATCH] CVE-2021-20196
-> +
-> +Upstream-Status: https://gitlab.com/qemu-project/qemu/-/commit/1ab95af033a419e7a64e2d58e67dd96b20af5233
+On Tue, 2022-11-29 at 08:42 -0600, Ryan Eatmon wrote:
+>=20
+> On 11/29/2022 8:15, Richard Purdie wrote:
+> > On Tue, 2022-11-29 at 06:23 -0600, Ryan Eatmon via
+> > lists.openembedded.org wrote:
+> > > Based on a discussion on the mailing list [1], there are panic
+> > > errors that occur on a few platforms caused by the patch.  We
+> > > cannot simply remove the original patch due to the
+> > > reproducibility issues that it addresses, so this patch on the
+> > > original patch fixes the cause of the panic errors.
+> > >=20
+> > > The previous version of this patch was a little too aggressive
+> > > in cleaning up the environment.  Some of the variables impacted
+> > > by the filerCompilerFlags() function require at least one value
+> > > to remain in the array.  In this case, the values for ccExe,
+> > > cxxExe, and fcExe require a value or later code that access
+> > > them result in a panic related to accessing a value out of range.
+> > >=20
+> > > This updated patch adds a flag that requires keeping the first
+> > > value so that at least one thing remains and the assignments
+> > > for the Exes set that flag to true.  The first item in the
+> > > array should be the executable name, so leaving it should be
+> > > safe.
+> > >=20
+> > > I have run the oe-selftest and everything passed in my setup.
+> > >=20
+> > > There is a bug report [2] filed for the issue that this patch
+> > > addresses.
+> > >=20
+> > > [1] https://lists.openembedded.org/g/openembedded-core/topic/94022663
+> > > [2] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14976
+> > >=20
+> > > Signed-off-by: Ryan Eatmon <reatmon@ti.com>
+> > > ---
+> > >   ...ent-based-hash-generation-less-pedan.patch | 30 ++++++++++------=
+---
+> > >   1 file changed, 16 insertions(+), 14 deletions(-)
+> >=20
+> > If I remember rightly, the filter function removes anything starting
+> > with -m. Are you saying you found a case where the executable itself
+> > was called -m<something?
+> >=20
+> > I'd like to understand what this was stripping out which was valid?
+>=20
+> The function in the patch actually did the opposite.  It only keeps=20
+> values that start with -m.  I think what it was trying to strip out was=
+=20
+> anything with a path.
+>=20
+> Personally I think the way the original patch was implemented is like a=
+=20
+> sledge hammer.  Which may be ok with how go integrates into OE, but=20
+> feels like overkill to me.
 
-This should be: Upstream-Status: Backport
-[https://gitlab.com/qemu-project/qemu/-/commit/1ab95af033a419e7a64e2d58e67dd96b20af5233]
+Ah, right. I suspect the issue is you can have --sysroot <X> or --
+sysroot=3D which means removing one or two flags depending on the
+context. I'd be happy to see the patch made to handle flags more
+specifically though.
 
-I've fixed it, so no need for a v2.
+Cheers,
 
-Steve
-
-> +CVE: CVE-2021-20196
-> +Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
-> +
-> +hw/block/fdc: Kludge missing floppy drive to fix CVE-2021-20196
-> +
-> +Guest might select another drive on the bus by setting the
-> +DRIVE_SEL bit of the DIGITAL OUTPUT REGISTER (DOR).
-> +The current controller model doesn't expect a BlockBackend
-> +to be NULL. A simple way to fix CVE-2021-20196 is to create
-> +an empty BlockBackend when it is missing. All further
-> +accesses will be safely handled, and the controller state
-> +machines keep behaving correctly.
-> +---
-> + hw/block/fdc.c | 19 ++++++++++++++++++-
-> + 1 file changed, 18 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/hw/block/fdc.c b/hw/block/fdc.c
-> +index ac5d31e8..e128e975 100644
-> +--- a/hw/block/fdc.c
-> ++++ b/hw/block/fdc.c
-> +@@ -58,6 +58,11 @@
-> +         }                                                       \
-> +     } while (0)
-> +
-> ++/* Anonymous BlockBackend for empty drive */
-> ++static BlockBackend *blk_create_empty_drive(void)
-> ++{
-> ++    return blk_new(qemu_get_aio_context(), 0, BLK_PERM_ALL);
-> ++}
-> +
-> + /********************************************************/
-> + /* qdev floppy bus                                      */
-> +@@ -1356,7 +1361,19 @@ static FDrive *get_drv(FDCtrl *fdctrl, int unit)
-> +
-> + static FDrive *get_cur_drv(FDCtrl *fdctrl)
-> + {
-> +-    return get_drv(fdctrl, fdctrl->cur_drv);
-> ++    FDrive *cur_drv = get_drv(fdctrl, fdctrl->cur_drv);
-> ++
-> ++    if (!cur_drv->blk) {
-> ++        /*
-> ++         * Kludge: empty drive line selected. Create an anonymous
-> ++         * BlockBackend to avoid NULL deref with various BlockBackend
-> ++         * API calls within this model (CVE-2021-20196).
-> ++         * Due to the controller QOM model limitations, we don't
-> ++         * attach the created to the controller device.
-> ++         */
-> ++        cur_drv->blk = blk_create_empty_drive();
-> ++    }
-> ++    return cur_drv;
-> + }
-> +
-> + /* Status A register : 0x00 (read-only) */
-> +--
-> +2.25.1
-> +
-> --
-> 2.25.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#173964): https://lists.openembedded.org/g/openembedded-core/message/173964
-> Mute This Topic: https://lists.openembedded.org/mt/95331908/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Richard
 
