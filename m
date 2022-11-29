@@ -2,111 +2,92 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB45FC4332F
-	for <webhook@archiver.kernel.org>; Tue, 29 Nov 2022 18:30:39 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.web11.158912.1669746637131004652
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9132C4332F
+	for <webhook@archiver.kernel.org>; Tue, 29 Nov 2022 18:58:19 +0000 (UTC)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+ by mx.groups.io with SMTP id smtpd.web10.159197.1669748291414657823
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Nov 2022 10:30:37 -0800
+ Tue, 29 Nov 2022 10:58:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=YxUVUvaZ;
- spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f54.google.com with SMTP id d6so23379389lfs.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 29 Nov 2022 10:30:36 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=UVNV8MYB;
+ spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f170.google.com with SMTP id bn5so18364488ljb.2;
+        Tue, 29 Nov 2022 10:58:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=V28yK8a6s3GTXmqZf0rgc4YxGBuPYHKdR0uDOvrXEeY=;
-        b=YxUVUvaZkjcC+k4JcXPslFww6f8EauZowNkvCOWQlHOV37T8KbpeppCDTrfsts65cN
-         5QAeSdDYtt2PK2fbTIyGXMiX73Ohy3a2XYcuVsiOYSmnURF6iBPuMoOt0w2Osb5AmPYs
-         iUmkvAi/QizdGw3XsEctRmzAquF8D47bqslHnJL+F4qKaztREcIvkmY3p4jG+8Bzq+1p
-         FB2n168f6z6udJOb0RUCRwoaAIA6Mq4tenH/+55ceOBj8fCCA+W+fDZPMSqS2iT3IQvi
-         AjBfwnjHicJFJNG3e9og7emrLSf6R0SPsZ1JppozOnFxOxIhHa6t4hJxaVaFoqsPByX7
-         xWyA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=UYO33c/7xkV+dqprY/Rm1LITIVeoy4SesHSHqtwCvr8=;
+        b=UVNV8MYBxv5Oj3HvlbWCJRskNACBFRqU6Vc8P4Ag+6nc2zXnnos6yCAmJyhWxoS763
+         VtcA08vrWumbnx6w3gIuvrs6DvdwMgkkGlqWjdcRJ+vJFLf1i0Voaeva1G4M3CJBrb4+
+         7mzSnQp21IxOVjtB7lA1Jtem+iXn74geeKO5NCqmt3M0MLkpiaG3mPFQIhlP04iuKm+O
+         MBjfLfJYTr8INUiGfULDVrQ1yrfDocllr6pNQfi0V7bV4nd63YGypH0jUTTQUZmj8WqA
+         3JSpATVbWU8dMEzjbWokg7E4mi5CrDiXVj/vejpnuAlPF2+/KkdbXeyY5jR/SMK6CYns
+         TTgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=V28yK8a6s3GTXmqZf0rgc4YxGBuPYHKdR0uDOvrXEeY=;
-        b=7UQaw/GqrizM8xJtXW29zwMXkusiOvG8ps9No8Z0B67wKEYp2S2u2wht3uzY78Hjdc
-         QqzWACJHrV4/+/DtRx6H5KjQPDEvVRGTsM8n1icjTzmYDqq3+90aVTKytNzLM4+wc+8r
-         8xztvXJne6nz+FIoBUT2Q5Opi91uAgLnpGu9Z4nk7pjZ9gsDxEUgDZ1h+t53Svdqt6be
-         3H3KabfOsnjk6ClPhHlbtmndqg3rSON7I0XH9R1/xZcIannoTFzuIQWvuMIBQB/OOgJ9
-         i3OBWKGqVtS7HAzCpkL+LSdxA56WEeNfU1y2tDNeYPdcZHQIloJw6zt0q9BukbPuHiI7
-         BvEw==
-X-Gm-Message-State: ANoB5pmwIeD5MpUzHn7tZC60Rnpq+/zaf63TnpHRNCFfkympMU/G0dVN
-	q0KzRrUOy1xEhSj76FYylxVQrcvgCdn9I49WLOU=
-X-Google-Smtp-Source: AA0mqf7nBC3BSdgeco1XZ7mzV9p0iamYqF550c3ANKYvvXUZNEq4yrZRlRWi3E1KEdiJGPK424NMMn+IZWkNW/5jYco=
-X-Received: by 2002:ac2:4a62:0:b0:4aa:323f:e850 with SMTP id
- q2-20020ac24a62000000b004aa323fe850mr19585700lfp.492.1669746635257; Tue, 29
- Nov 2022 10:30:35 -0800 (PST)
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UYO33c/7xkV+dqprY/Rm1LITIVeoy4SesHSHqtwCvr8=;
+        b=dvNm3Zm51hCRWbFhWqZOLyBlSCCt4HHHEUvUoFMVlQ+5WSBCxQG0pKvHrqufXlkBDM
+         +tLevGA94YprPykU0cESO8lUkXDc3/uvrhxYanzVTtmCeOKEmShUrWTtcdUa9G/OiBpl
+         +oqrJZzwRwIoG4hE441fz898fYbLdhPlYMW9wkEoroVwI/X3SKCTs7IDIw1BPNPAgwBH
+         nZx3zGV7hSHUVOzeQvs/wXdLCSu4oaP/LeECFH7LwyBlNJwfPyd7C/Z6rKVt8X3Aphgj
+         JYEw4X2F0OEJqNeYtJeft7OmimTk42DFU+rHNrCM6EeA8KONTJIFQRByQbPWxmI6vKo7
+         SACg==
+X-Gm-Message-State: ANoB5pnKswATtjqTlQfC7DwJ+G3COqcalYavcIbf8Ebmm8EY+yTj6cDw
+	kpwLeCgAebQeqdXiNN+CzeFlbDPzqzLgYEWx2AU=
+X-Google-Smtp-Source: AA0mqf5g4a90fstxlN+9gDP7LG/AxbLtOw0TL7D3QI4SussaGxIytvnAWBwWLbD+rhGQkbDybsbBVYIAfd6GRSM88sQ=
+X-Received: by 2002:a2e:be8a:0:b0:26f:c081:9aed with SMTP id
+ a10-20020a2ebe8a000000b0026fc0819aedmr18455883ljr.222.1669748289250; Tue, 29
+ Nov 2022 10:58:09 -0800 (PST)
 MIME-Version: 1.0
-References: <20221129132220.6357-1-f_l_k@t-online.de> <20221129132220.6357-2-f_l_k@t-online.de>
- <F7525B10-17D1-43C6-B2AF-DF5BAEE11246@arm.com> <CANNYZj9XvDiuZiUgKmEJcvHX_U7Q4KmH93GFGtH-N8FxqEn=GA@mail.gmail.com>
- <16D4E649-B4FA-4E57-A7F4-853FD7057141@arm.com> <172C1CE774901751.11309@lists.openembedded.org>
-In-Reply-To: <172C1CE774901751.11309@lists.openembedded.org>
+References: <20221129131520.GP22689@denix.org>
+In-Reply-To: <20221129131520.GP22689@denix.org>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 29 Nov 2022 19:30:23 +0100
-Message-ID: <CANNYZj8ox-CCKTgtE0HmOOHcosT3Z-ANVv4SUbV_W1nMTLbZtg@mail.gmail.com>
-Subject: Re: [oe-core][PATCHv7 2/2] gcr: add recipe for gcr-4, needed to build
- with gtk4
-To: alex.kanavin@gmail.com
-Cc: Ross Burton <Ross.Burton@arm.com>, Markus Volk <f_l_k@t-online.de>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Date: Tue, 29 Nov 2022 19:57:57 +0100
+Message-ID: <CANNYZj__wodtcJzx3q7JTh15r9oF8RfSU_2XpgZ6aRvXVcTmvQ@mail.gmail.com>
+Subject: Re: [OE-core] OpenEmbedded Happy Hour November 30
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: "openembedded-devel@lists.openembedded.org" <openembedded-devel@lists.openembedded.org>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>, 
+	Yocto Project <yocto@lists.yoctoproject.org>, openembedded-members@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Nov 2022 18:30:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173986
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Nov 2022 18:58:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173987
 
-I need to add: gtk4 has been in meta-gnome for over a year, and
-already has over 20 consumers in there. So it has received plenty of
-testing.
-
-Gtk4 has always been intended for core, it's just that epiphany and
-webkit are late to the party (and sato will likely never show up).
+Isn't that clashing with YPS social slot?
+https://summit.yoctoproject.org/yocto-project-summit-2022-11/talk/UBXLG8/
 
 Alex
 
-On Tue, 29 Nov 2022 at 18:02, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
-wrote:
+On Tue, 29 Nov 2022 at 14:15, Denys Dmytriyenko <denis@denix.org> wrote:
 >
-> It=E2=80=99s going to be tested in world builds against gcr 4.x. For me t=
-hat=E2=80=99s good enough.
+> All,
 >
-> Alex
+> This month OpenEmbedded Happy Hour coincides with the Yocto Project Summit
+> and will be held on Wednesday, November 30 after the sessions are over,
+> aroud 1800/6pm UTC (1pm ET / 10am PT). The usual Zoom link is in the Wiki:
 >
-> On Tue 29. Nov 2022 at 17.55, Ross Burton <Ross.Burton@arm.com> wrote:
->>
->> > On 29 Nov 2022, at 16:01, Alexander Kanavin <alex.kanavin@gmail.com> w=
-rote:
->> >
->> > Epiphany has moved to gtk4 in master. This makes us prepared for that.
->> > https://github.com/GNOME/epiphany/blob/master/meson.build
->>
->> I=E2=80=99d say the recipe should sit in meta-gnome until it can be reas=
-onably tested as part of oe-core.
->>
->> Adding recipes that don=E2=80=99t get tested in any meaningful sense isn=
-=E2=80=99t helpful.
->>
->> Ross
+> https://www.openembedded.org/wiki/Calendar
+> https://www.openembedded.org/wiki/Happy_Hours
 >
+> --
+> Regards,
+> Denys Dmytriyenko <denis@denix.org>
+> PGP: 0x420902729A92C964 - https://denix.org/0x420902729A92C964
+> Fingerprint: 25FC E4A5 8A72 2F69 1186  6D76 4209 0272 9A92 C964
 >
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#173984): https://lists.openembedded.org/g/openembedde=
-d-core/message/173984
-> Mute This Topic: https://lists.openembedded.org/mt/95333761/1686489
+> View/Reply Online (#173966): https://lists.openembedded.org/g/openembedded-core/message/173966
+> Mute This Topic: https://lists.openembedded.org/mt/95333631/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
 >
 
