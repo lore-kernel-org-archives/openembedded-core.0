@@ -1,192 +1,110 @@
-Return-Path: <reatmon@ti.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A880C4321E
-	for <webhook@archiver.kernel.org>; Tue, 29 Nov 2022 14:12:08 +0000 (UTC)
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by mx.groups.io with SMTP id smtpd.web11.150630.1669731123867287421
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70D41C4167B
+	for <webhook@archiver.kernel.org>; Tue, 29 Nov 2022 14:15:58 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web11.150744.1669731348079324510
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Nov 2022 06:12:04 -0800
+ Tue, 29 Nov 2022 06:15:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17q1 header.b=x0UPGVX8;
- spf=pass (domain: ti.com, ip: 198.47.23.249, mailfrom: reatmon@ti.com)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 2ATEC3JR119205;
-	Tue, 29 Nov 2022 08:12:03 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1669731123;
-	bh=5BWg5wAaq49t2XNczfQ9t3ToMvY87UhBwmm9VbxWL1c=;
-	h=From:To:Subject:Date;
-	b=x0UPGVX8gZIXLhuBH1x+nmEtSIGOPZY5+nfoMu2rYIyn0FmVts94HP9+Xp/rMaqGv
-	 rBXx2uDfNMTPwaZbl4cSChLXvGMe4o75WcykWXrh9KzscK0JAfVm71lwF0Rzxf0IeL
-	 uqVCxpyyFYr1m6IJRQlkE9O46qVCTTirU+bQc6Vs=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 2ATEC2OJ067763
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 29 Nov 2022 08:12:03 -0600
-Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Tue, 29
- Nov 2022 08:12:02 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
- Frontend Transport; Tue, 29 Nov 2022 08:12:02 -0600
-Received: from uda0214219 (ileaxei01-snat.itg.ti.com [10.180.69.5])
-	by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 2ATEC2tI077660;
-	Tue, 29 Nov 2022 08:12:02 -0600
-Received: from reatmon by uda0214219 with local (Exim 4.90_1)
-	(envelope-from <reatmon@ti.com>)
-	id 1p01L8-000574-LX; Tue, 29 Nov 2022 08:12:02 -0600
-From: Ryan Eatmon <reatmon@ti.com>
-To: <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
-Subject: [PATCH v3][master] go: Update reproducibility patch to fix panic errors
-Date: Tue, 29 Nov 2022 08:12:02 -0600
-Message-ID: <20221129141202.19614-1-reatmon@ti.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Xz+QjNhH;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id g12so22276491wrs.10
+        for <openembedded-core@lists.openembedded.org>; Tue, 29 Nov 2022 06:15:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0qD29Zzgd4SQ3aPJHX4nAb1olyHyF5kErnGMeK+JnSE=;
+        b=Xz+QjNhHgJE+bPAu2hJ6aO3uGP8FigMPOxdsDdhtogeiOPGek1O0TVkNeMoQxI/AX7
+         qQWRx20iYZxsNmX1U0ilMRdO4nrg3PBw/E9/q8yw01gwCvvoEAPq2bp46G32dBCvgo9I
+         QztSyEQuerMEi+OHcb9yPf5ixEcXkiuYjCK2I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=0qD29Zzgd4SQ3aPJHX4nAb1olyHyF5kErnGMeK+JnSE=;
+        b=IziFbTbr0dtwIiAMTPt7AN4gW1urKde1KN611POILxgpC/td4hC5BXX3CimLeMQ6eD
+         4mVdVfklie+mu4OnAOHr5+R1+kBVYpMImP/nCxEcD+wsPgSgfe4b7VE1PQWiTZ/GnXTB
+         3J7J6AyM8kzW9WYQbpiQOi0EuxiN/o3OHF92KJODGvHRQtsmJhOX7M2fKfjPVQu3z5Mr
+         eQgXAaEQRMU5O5L02EmdtlwfmukIbnzm4NRenO/fEtXhwkyERJQaycL+CnjnVU3kRFvJ
+         0zQyD3Ox6SJ7K2J+M1qujkiNXm8SnlGHRVSpDij1pYgpjfXHG1/Ituua+SNkioGvgkmA
+         uUSw==
+X-Gm-Message-State: ANoB5pnCERV5j0OllbuLfGZBztnSW23lmBWtPIZXoKOJsBjR0ud+mzye
+	PErAEMmCJURtLRVtgTYxXiehzw==
+X-Google-Smtp-Source: AA0mqf6A8J6+R7OcH+5CbdjN/qn0gJylxu0d92cgkp96O/sRX+QMBAmJwcQJ4+HwryfMurAmkftANw==
+X-Received: by 2002:a5d:604b:0:b0:236:6442:3a48 with SMTP id j11-20020a5d604b000000b0023664423a48mr24946076wrt.41.1669731346149;
+        Tue, 29 Nov 2022 06:15:46 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:426:d29f:e451:e2dd? ([2001:8b0:aba:5f3c:426:d29f:e451:e2dd])
+        by smtp.gmail.com with ESMTPSA id f6-20020a05600c490600b003cf6e1df4a8sm2096348wmp.15.2022.11.29.06.15.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Nov 2022 06:15:45 -0800 (PST)
+Message-ID: <c9c1630165f51411750d4ca7715bfb4c625916e1.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2][master] go: Update reproducibility patch
+ to fix panic errors
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: reatmon@ti.com, raj.khem@gmail.com, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 29 Nov 2022 14:15:44 +0000
+In-Reply-To: <20221129122302.14589-1-reatmon@ti.com>
+References: <20221129122302.14589-1-reatmon@ti.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Nov 2022 14:12:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173973
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Nov 2022 14:15:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173974
 
-Based on a discussion on the mailing list [1], there are panic
-errors that occur on a few platforms caused by the patch.  We
-cannot simply remove the original patch due to the
-reproducibility issues that it addresses, so this patch on the
-original patch fixes the cause of the panic errors.
+On Tue, 2022-11-29 at 06:23 -0600, Ryan Eatmon via
+lists.openembedded.org wrote:
+> Based on a discussion on the mailing list [1], there are panic
+> errors that occur on a few platforms caused by the patch.  We
+> cannot simply remove the original patch due to the
+> reproducibility issues that it addresses, so this patch on the
+> original patch fixes the cause of the panic errors.
+>=20
+> The previous version of this patch was a little too aggressive
+> in cleaning up the environment.  Some of the variables impacted
+> by the filerCompilerFlags() function require at least one value
+> to remain in the array.  In this case, the values for ccExe,
+> cxxExe, and fcExe require a value or later code that access
+> them result in a panic related to accessing a value out of range.
+>=20
+> This updated patch adds a flag that requires keeping the first
+> value so that at least one thing remains and the assignments
+> for the Exes set that flag to true.  The first item in the
+> array should be the executable name, so leaving it should be
+> safe.
+>=20
+> I have run the oe-selftest and everything passed in my setup.
+>=20
+> There is a bug report [2] filed for the issue that this patch
+> addresses.
+>=20
+> [1] https://lists.openembedded.org/g/openembedded-core/topic/94022663
+> [2] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14976
+>=20
+> Signed-off-by: Ryan Eatmon <reatmon@ti.com>
+> ---
+>  ...ent-based-hash-generation-less-pedan.patch | 30 ++++++++++---------
+>  1 file changed, 16 insertions(+), 14 deletions(-)
 
-The previous version of this patch was a little too aggressive
-in cleaning up the environment.  Some of the variables impacted
-by the filerCompilerFlags() function require at least one value
-to remain in the array.  In this case, the values for ccExe,
-cxxExe, and fcExe require a value or later code that access
-them result in a panic related to accessing a value out of range.
+If I remember rightly, the filter function removes anything starting
+with -m. Are you saying you found a case where the executable itself
+was called -m<something?
 
-This updated patch adds a flag that requires keeping the first
-value so that at least one thing remains and the assignments
-for the Exes set that flag to true.  The first item in the
-array should be the executable name, so leaving it should be
-safe.
+I'd like to understand what this was stripping out which was valid?
 
-I have run the oe-selftest and everything passed in my setup.
+Cheers,
 
-There is a bug report [2] filed for the issue that this patch
-addresses.
+Richard
 
-[YOCTO #14976]
-
-[1] https://lists.openembedded.org/g/openembedded-core/topic/94022663
-[2] https://bugzilla.yoctoproject.org/show_bug.cgi?id=14976
-
-Signed-off-by: Ryan Eatmon <reatmon@ti.com>
----
-v3: Added [YOCTO #14976] to commit message.
-v2: Added more background and bug report link to commit message.
-
- ...ent-based-hash-generation-less-pedan.patch | 30 ++++++++++---------
- 1 file changed, 16 insertions(+), 14 deletions(-)
-
-diff --git a/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch b/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
-index 17fa9d9831..43be5cd2e8 100644
---- a/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
-+++ b/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
-@@ -74,7 +74,7 @@ index c88b315..a06455c 100644
- +		cppflags, cflags, cxxflags, fflags, ldflags, _ := b.CFlags(p, true)
-  
- -		ccExe := b.ccExe()
--+		ccExe := filterCompilerFlags(b.ccExe())
-++		ccExe := filterCompilerFlags(b.ccExe(), true)
-  		fmt.Fprintf(h, "CC=%q %q %q %q\n", ccExe, cppflags, cflags, ldflags)
-  		// Include the C compiler tool ID so that if the C
-  		// compiler changes we rebuild the package.
-@@ -83,7 +83,7 @@ index c88b315..a06455c 100644
-  		}
-  		if len(p.CXXFiles)+len(p.SwigCXXFiles) > 0 {
- -			cxxExe := b.cxxExe()
--+			cxxExe := filterCompilerFlags(b.cxxExe())
-++			cxxExe := filterCompilerFlags(b.cxxExe(), true)
-  			fmt.Fprintf(h, "CXX=%q %q\n", cxxExe, cxxflags)
-  			if cxxID, err := b.gccToolID(cxxExe[0], "c++"); err == nil {
-  				fmt.Fprintf(h, "CXX ID=%q\n", cxxID)
-@@ -91,7 +91,7 @@ index c88b315..a06455c 100644
-  		}
-  		if len(p.FFiles) > 0 {
- -			fcExe := b.fcExe()
--+			fcExe := filterCompilerFlags(b.fcExe())
-++			fcExe := filterCompilerFlags(b.fcExe(), true)
-  			fmt.Fprintf(h, "FC=%q %q\n", fcExe, fflags)
-  			if fcID, err := b.gccToolID(fcExe[0], "f95"); err == nil {
-  				fmt.Fprintf(h, "FC ID=%q\n", fcID)
-@@ -104,20 +104,22 @@ index c88b315..a06455c 100644
-  	}
-  
-  	// Configuration specific to compiler toolchain.
--@@ -2705,8 +2707,23 @@ func envList(key, def string) []string {
-+@@ -2705,8 +2707,25 @@ func envList(key, def string) []string {
-  	return args
-  }
-  
- +var filterFlags = os.Getenv("CGO_PEDANTIC") == ""
- +
--+func filterCompilerFlags(flags []string) []string {
-++func filterCompilerFlags(flags []string, keepfirst bool) []string {
- +	var newflags []string
-++   var realkeepfirst bool = keepfirst
- +	if !filterFlags {
- +		return flags
- +	}
- +	for _, flag := range flags {
--+		if strings.HasPrefix(flag, "-m") {
-++		if strings.HasPrefix(flag, "-m") || realkeepfirst {
- +			newflags = append(newflags, flag)
-++           realkeepfirst = false
- +		}
- +	}
- +	return newflags
-@@ -129,21 +131,21 @@ index c88b315..a06455c 100644
-  	defaults := "-g -O2"
-  
-  	if cppflags, err = buildFlags("CPPFLAGS", "", p.CgoCPPFLAGS, checkCompilerFlags); err != nil {
--@@ -2724,6 +2741,13 @@ func (b *Builder) CFlags(p *load.Package) (cppflags, cflags, cxxflags, fflags, l
-+@@ -2724,6 +2743,13 @@ func (b *Builder) CFlags(p *load.Package) (cppflags, cflags, cxxflags, fflags, l
-  	if ldflags, err = buildFlags("LDFLAGS", defaults, p.CgoLDFLAGS, checkLinkerFlags); err != nil {
-  		return
-  	}
- +	if filtered {
--+		cppflags = filterCompilerFlags(cppflags)
--+		cflags = filterCompilerFlags(cflags)
--+		cxxflags = filterCompilerFlags(cxxflags)
--+		fflags = filterCompilerFlags(fflags)
--+		ldflags = filterCompilerFlags(ldflags)
-++		cppflags = filterCompilerFlags(cppflags, false)
-++		cflags = filterCompilerFlags(cflags, false)
-++		cxxflags = filterCompilerFlags(cxxflags, false)
-++		fflags = filterCompilerFlags(fflags, false)
-++		ldflags = filterCompilerFlags(ldflags, false)
- +	}
-  
-  	return
-  }
--@@ -2739,7 +2763,7 @@ var cgoRe = lazyregexp.New(`[/\\:]`)
-+@@ -2739,7 +2765,7 @@ var cgoRe = lazyregexp.New(`[/\\:]`)
-  
-  func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgofiles, gccfiles, gxxfiles, mfiles, ffiles []string) (outGo, outObj []string, err error) {
-  	p := a.Package
-@@ -152,7 +154,7 @@ index c88b315..a06455c 100644
-  	if err != nil {
-  		return nil, nil, err
-  	}
--@@ -3246,7 +3270,7 @@ func (b *Builder) swigIntSize(objdir string) (intsize string, err error) {
-+@@ -3246,7 +3272,7 @@ func (b *Builder) swigIntSize(objdir string) (intsize string, err error) {
-  
-  // Run SWIG on one SWIG input file.
-  func (b *Builder) swigOne(a *Action, p *load.Package, file, objdir string, pcCFLAGS []string, cxx bool, intgosize string) (outGo, outC string, err error) {
--- 
-2.17.1
 
 
