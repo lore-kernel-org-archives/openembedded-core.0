@@ -2,228 +2,145 @@ Return-Path: <bindudaniel1996@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE91EC4332F
-	for <webhook@archiver.kernel.org>; Tue, 29 Nov 2022 03:58:44 +0000 (UTC)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web11.140793.1669694315242888149
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C8E7C4332F
+	for <webhook@archiver.kernel.org>; Tue, 29 Nov 2022 03:58:54 +0000 (UTC)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web11.140796.1669694325797920541
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Nov 2022 19:58:35 -0800
+ Mon, 28 Nov 2022 19:58:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=LlJZc0jl;
- spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: bindudaniel1996@gmail.com)
-Received: by mail-pj1-f46.google.com with SMTP id w4-20020a17090ac98400b002186f5d7a4cso16128687pjt.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 19:58:35 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=JRzGu///;
+ spf=pass (domain: gmail.com, ip: 209.85.216.48, mailfrom: bindudaniel1996@gmail.com)
+Received: by mail-pj1-f48.google.com with SMTP id o5-20020a17090a678500b00218cd5a21c9so12117216pjj.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Nov 2022 19:58:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=eGJOQ07YOJcJvHcjw5LFxK/627NusHqu2hMUOrP2B0w=;
-        b=LlJZc0jlWtyuuimhIUWTET2dCzPJHn6PHULdkDFtjHfkzb/A2JaHDlx8ejePBORhSs
-         b5kavCU8as0634J0D59WSv5ic7Karxyl8KkA/c39/OBzPHRCaUsyOAlKGBfByH3hqus4
-         E+ZnASXwKcoE+Oi/GgAGUYVpV1+woqPQ+2lYoA/xVr3s6Rp/OOgWv/RT+ZpRh3LGbFcJ
-         D1kusHIlpQAK0zwDLlVCuxWXvNgMdjx22l2ePkHLpXv5KlnzQHiqCYnoOuQKpLuJ5Yq7
-         Dt7iwcd/i4Swfb+EJGXDd5h5PKZP0hVha4N83eHCfEp1lxV9/pB4it1oDJvAfGJXz/6E
-         q/Pw==
+        bh=21KaVKPVh76E7x9B7o66M1HAdjRdVL/7ZR4O46JQoe4=;
+        b=JRzGu///eVjGQRkIixIqY+7toURfUyb9sPc7r7qfPj+F1KMforHh/DYi6kgN5SQlMs
+         FRk7riYuFn77PFb/tDW43VLXLEMG99B2Ey7Ne9k+L6FXOwc/3aBduKOSpUumeT6NCpaC
+         8KxBQkcma1FRZtMfx4+xPxJ/qcOwYkF+j0QRzXaeL/KNVjyP5YvTeUiag29PO9/uTL2I
+         ZaWagvVa1/qZfsJbQmrMs+1JhDhgV5hahZv4oRtBOWTVDjcrlty68mYiqA7S8/QX6JhD
+         6ReLS0sGqqhuLxnmCgaLu9EDGp8/DMSn6tWEcq10U7uyfMNz+B9C7y+7HEgUhpMvzFVe
+         0Y8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=references:in-reply-to:message-id:date:subject:cc:to:from
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eGJOQ07YOJcJvHcjw5LFxK/627NusHqu2hMUOrP2B0w=;
-        b=UT9mrq7U/spDJdNhRYzFVdnhe8ks5xS+lti9TCWm+ZaKchUE+Dqp+Gh0lARKMg9P9s
-         zFjtWuef+HgIIWqmBDGextG4LEkFqNXOCcG2+6NkgG5KdJi/T4N85dhSSAO2HMjJYSpH
-         sSxFKEAryeroQPMRyb4D+GNNjKh9m1TmSRUaTExMJl5lQH5LwtUlGaFjk+Vw5xY9lqNu
-         28MwwS9H/efq86P7LrsFVIBaDCLuAmonTyESt4JJQsXmeguDgWqUsYSIWEf9vbvWavlY
-         7Gw1s5QjIWfq+8YUrUcBF2hwdhLJFOAaClqDv7edR2gF6w+crxzwVV/P3NZcuhciFOcj
-         QwZg==
-X-Gm-Message-State: ANoB5pmflcCqUNVlwXh9uIDmxakRtqFvKwtJ+7RjUpZPsmnajDRuiz7s
-	lCtPlp/9qZJNupWX5B5EzBQyRLXoBSI=
-X-Google-Smtp-Source: AA0mqf6ecdilGxMPVzHsoL7zQVPkm+bR8XgGYjmdKz3MwGyN2jadbJKB/XwG+gfzfu4gQqvcxVUAFg==
-X-Received: by 2002:a17:902:d550:b0:189:7bfe:1eb5 with SMTP id z16-20020a170902d55000b001897bfe1eb5mr13014366plf.9.1669694314435;
-        Mon, 28 Nov 2022 19:58:34 -0800 (PST)
+        bh=21KaVKPVh76E7x9B7o66M1HAdjRdVL/7ZR4O46JQoe4=;
+        b=qq+UpEElu9voOCS75p3ON77q4YH87/iYqyG8VAF2Dyj/yYjMrj1Jf2zwrwjijTiEHL
+         JS3a3nry+4c3mKNbwiT1x45l1V2FMc0XbG/DgnyHXlVuAT2YI4TJZmMdAGb8vQdJl6JH
+         Qu5oll4683VSr3Vxp5J9QHxAyjyI96mwv7ZM9bMYmjHs7E04w0aEFlpxAZ3b+TdepKSg
+         wxHpz4cELcYuvEWW5tpr4nVFfoqsRmGP+ansBTNy3AjjO8PGLt2Y8spJdzYQFfr0FmDk
+         hBHr1M8Zr1cWt4Zg7kq0nBjz1qpwUjKjNi9Gz8ziZCIV+ifvLFV7dHjUqYfUcn8+aH0a
+         kHyQ==
+X-Gm-Message-State: ANoB5pnDcNaUQSU7Etk5ubRhGZE12mLY5Z7IjrnnTWUS9FQxCs8ZHbD+
+	h7jJG+DsuUk1sDhgSDpS8rxSN0M51Kc=
+X-Google-Smtp-Source: AA0mqf5UaCEzKpkRk+7nuP6wbM8g2HGMTM1Xn877xUPEAV7Mf2HvydfRJdVEKRTdqEsqaFZ/22B1ww==
+X-Received: by 2002:a17:90a:8d13:b0:213:c15:6f08 with SMTP id c19-20020a17090a8d1300b002130c156f08mr56725723pjo.134.1669694324940;
+        Mon, 28 Nov 2022 19:58:44 -0800 (PST)
 Received: from localhost.localdomain ([2401:4900:1f26:1387:97d:de1f:a2d:f4b0])
-        by smtp.gmail.com with ESMTPSA id x8-20020aa79568000000b005633a06ad67sm8783651pfq.64.2022.11.28.19.58.32
+        by smtp.gmail.com with ESMTPSA id x8-20020aa79568000000b005633a06ad67sm8783651pfq.64.2022.11.28.19.58.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Nov 2022 19:58:34 -0800 (PST)
+        Mon, 28 Nov 2022 19:58:44 -0800 (PST)
 From: Bhabu Bindu <bindudaniel1996@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	bhabu.bindu@kpit.com
 Cc: ranjitsinh.rathod@kpit.com
-Subject: [OE-core][kirkstone][PATCH 2/3] curl: Fix CVE-2022-42916
-Date: Tue, 29 Nov 2022 09:27:18 +0530
-Message-Id: <20221129035719.9207-2-bindudaniel1996@gmail.com>
+Subject: [OE-core][kirkstone][PATCH 3/3] curl: Fix CVE-2022-42915
+Date: Tue, 29 Nov 2022 09:27:19 +0530
+Message-Id: <20221129035719.9207-3-bindudaniel1996@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20221129035719.9207-1-bindudaniel1996@gmail.com>
 References: <20221129035719.9207-1-bindudaniel1996@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Nov 2022 03:58:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173956
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Nov 2022 03:58:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173957
 
 From: Bhabu Bindu <bhabu.bindu@kpit.com>
 
-HSTS bypass via IDN
+HTTP proxy double-free
 
-Link: https://security-tracker.debian.org/tracker/CVE-2022-42916
+Link: https://security-tracker.debian.org/tracker/CVE-2022-42915
 
 Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
 ---
- .../curl/curl/CVE-2022-42916.patch            | 136 ++++++++++++++++++
- meta/recipes-support/curl/curl_7.82.0.bb      |   1 +
- 2 files changed, 137 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-42916.patch
+ .../curl/curl/CVE-2022-42915.patch            | 53 +++++++++++++++++++
+ meta/recipes-support/curl/curl_7.82.0.bb      |  1 +
+ 2 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2022-42915.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2022-42916.patch b/meta/recipes-support/curl/curl/CVE-2022-42916.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2022-42915.patch b/meta/recipes-support/curl/curl/CVE-2022-42915.patch
 new file mode 100644
-index 0000000000..fbc592280a
+index 0000000000..0f37a80e09
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2022-42916.patch
-@@ -0,0 +1,136 @@
-+From 53bcf55b4538067e6dc36242168866becb987bb7 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/curl/curl/CVE-2022-42915.patch
+@@ -0,0 +1,53 @@
++From 55e1875729f9d9fc7315cec611bffbd2c817ad89 Mon Sep 17 00:00:00 2001
 +From: Daniel Stenberg <daniel@haxx.se>
-+Date: Wed, 12 Oct 2022 10:47:59 +0200
-+Subject: [PATCH] url: use IDN decoded names for HSTS checks
++Date: Thu, 6 Oct 2022 14:13:36 +0200
++Subject: [PATCH] http_proxy: restore the protocol pointer on error
 +
-+Reported-by: Hiroki Kurosawa
++Reported-by: Trail of Bits
 +
-+Closes #9791
++Closes #9790
 +
-+CVE: CVE-2022-42916
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/53bcf55b4538067e6dc36242168866becb987bb7]
++CVE: CVE-2022-42915
++Upstream-Status: Backport [https://github.com/curl/curl/commit/55e1875729f9d9fc7315cec611bffbd2c817ad89]
 +Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
-+Comments: Refreshed hunk
 +---
-+ lib/url.c | 91 ++++++++++++++++++++++++++++---------------------------
-+ 1 file changed, 47 insertions(+), 44 deletions(-)
++ lib/http_proxy.c | 6 ++----
++ lib/url.c        | 9 ---------
++ 2 files changed, 2 insertions(+), 13 deletions(-)
 +
++diff --git a/lib/http_proxy.c b/lib/http_proxy.c
++index 1f87f6c62aa40..cc20b3a801941 100644
++--- a/lib/http_proxy.c
+++++ b/lib/http_proxy.c
++@@ -212,10 +212,8 @@ void Curl_connect_done(struct Curl_easy *data)
++     Curl_dyn_free(&s->rcvbuf);
++     Curl_dyn_free(&s->req);
++ 
++-    /* restore the protocol pointer, if not already done */
++-    if(s->prot_save)
++-      data->req.p.http = s->prot_save;
++-    s->prot_save = NULL;
+++    /* restore the protocol pointer */
+++    data->req.p.http = s->prot_save;
++     data->info.httpcode = 0; /* clear it as it might've been used for the
++                                 proxy */
++     data->req.ignorebody = FALSE;
 +diff --git a/lib/url.c b/lib/url.c
-+index a3be56bced9de..690c53c81a3c1 100644
++index 690c53c81a3c1..be5ffca2d8b20 100644
 +--- a/lib/url.c
 ++++ b/lib/url.c
-+@@ -2012,10 +2012,56 @@
-+     if(!strcasecompare("file", data->state.up.scheme))
-+       return CURLE_OUT_OF_MEMORY;
-+   }
-++  hostname = data->state.up.hostname;
-++
-++  if(hostname && hostname[0] == '[') {
-++    /* This looks like an IPv6 address literal. See if there is an address
-++       scope. */
-++    size_t hlen;
-++    conn->bits.ipv6_ip = TRUE;
-++    /* cut off the brackets! */
-++    hostname++;
-++    hlen = strlen(hostname);
-++    hostname[hlen - 1] = 0;
-++
-++    zonefrom_url(uh, data, conn);
-++  }
-++
-++  /* make sure the connect struct gets its own copy of the host name */
-++  conn->host.rawalloc = strdup(hostname ? hostname : "");
-++  if(!conn->host.rawalloc)
-++    return CURLE_OUT_OF_MEMORY;
-++  conn->host.name = conn->host.rawalloc;
-++
-++  /*************************************************************
-++   * IDN-convert the hostnames
-++   *************************************************************/
-++  result = Curl_idnconvert_hostname(data, &conn->host);
-++  if(result)
-++    return result;
-++  if(conn->bits.conn_to_host) {
-++    result = Curl_idnconvert_hostname(data, &conn->conn_to_host);
-++    if(result)
-++      return result;
-++  }
-++#ifndef CURL_DISABLE_PROXY
-++  if(conn->bits.httpproxy) {
-++    result = Curl_idnconvert_hostname(data, &conn->http_proxy.host);
-++    if(result)
-++      return result;
-++  }
-++  if(conn->bits.socksproxy) {
-++    result = Curl_idnconvert_hostname(data, &conn->socks_proxy.host);
-++    if(result)
-++      return result;
-++  }
-++#endif
-+
-+ #ifndef CURL_DISABLE_HSTS
-++  /* HSTS upgrade */
-+   if(data->hsts && strcasecompare("http", data->state.up.scheme)) {
-+-    if(Curl_hsts(data->hsts, data->state.up.hostname, TRUE)) {
-++   /* This MUST use the IDN decoded name */
-++   if(Curl_hsts(data->hsts, conn->host.name, TRUE)) {
-+       char *url;
-+       Curl_safefree(data->state.up.scheme);
-+       uc = curl_url_set(uh, CURLUPART_SCHEME, "https", 0);
-+@@ -2145,26 +2191,6 @@ static CURLcode parseurlandfillconn(struct Curl_easy *data,
++@@ -751,15 +751,6 @@ static void conn_shutdown(struct Curl_easy *data, struct connectdata *conn)
++   DEBUGASSERT(data);
++   infof(data, "Closing connection %ld", conn->connection_id);
 + 
-+   (void)curl_url_get(uh, CURLUPART_QUERY, &data->state.up.query, 0);
-+ 
-+-  hostname = data->state.up.hostname;
-+-  if(hostname && hostname[0] == '[') {
-+-    /* This looks like an IPv6 address literal. See if there is an address
-+-       scope. */
-+-    size_t hlen;
-+-    conn->bits.ipv6_ip = TRUE;
-+-    /* cut off the brackets! */
-+-    hostname++;
-+-    hlen = strlen(hostname);
-+-    hostname[hlen - 1] = 0;
-+-
-+-    zonefrom_url(uh, data, conn);
-+-  }
-+-
-+-  /* make sure the connect struct gets its own copy of the host name */
-+-  conn->host.rawalloc = strdup(hostname ? hostname : "");
-+-  if(!conn->host.rawalloc)
-+-    return CURLE_OUT_OF_MEMORY;
-+-  conn->host.name = conn->host.rawalloc;
-+-
-+ #ifdef ENABLE_IPV6
-+   if(data->set.scope_id)
-+     /* Override any scope that was set above.  */
-+@@ -3713,29 +3739,6 @@ static CURLcode create_conn(struct Curl_easy *data,
-+   if(result)
-+     goto out;
-+ 
-+-  /*************************************************************
-+-   * IDN-convert the hostnames
-+-   *************************************************************/
-+-  result = Curl_idnconvert_hostname(data, &conn->host);
-+-  if(result)
-+-    goto out;
-+-  if(conn->bits.conn_to_host) {
-+-    result = Curl_idnconvert_hostname(data, &conn->conn_to_host);
-+-    if(result)
-+-      goto out;
-+-  }
-+-#ifndef CURL_DISABLE_PROXY
-+-  if(conn->bits.httpproxy) {
-+-    result = Curl_idnconvert_hostname(data, &conn->http_proxy.host);
-+-    if(result)
-+-      goto out;
-+-  }
-+-  if(conn->bits.socksproxy) {
-+-    result = Curl_idnconvert_hostname(data, &conn->socks_proxy.host);
-+-    if(result)
-+-      goto out;
++-#ifndef USE_HYPER
++-  if(conn->connect_state && conn->connect_state->prot_save) {
++-    /* If this was closed with a CONNECT in progress, cleanup this temporary
++-       struct arrangement */
++-    data->req.p.http = NULL;
++-    Curl_safefree(conn->connect_state->prot_save);
 +-  }
 +-#endif
-+ 
-+   /*************************************************************
-+    * Check whether the host and the "connect to host" are equal.
++-
++   /* possible left-overs from the async name resolvers */
++   Curl_resolver_cancel(data);
 diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
-index 641614fb0d..4d49ac33eb 100644
+index 4d49ac33eb..b0192143fb 100644
 --- a/meta/recipes-support/curl/curl_7.82.0.bb
 +++ b/meta/recipes-support/curl/curl_7.82.0.bb
-@@ -30,6 +30,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
-            file://CVE-2022-32208.patch \
+@@ -31,6 +31,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
             file://CVE-2022-35252.patch \
             file://CVE-2022-32221.patch \
-+           file://CVE-2022-42916.patch \
+            file://CVE-2022-42916.patch \
++           file://CVE-2022-42915.patch \
             "
  SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
  
