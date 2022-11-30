@@ -1,153 +1,311 @@
-Return-Path: <clopez@igalia.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD067C433FE
-	for <webhook@archiver.kernel.org>; Wed, 30 Nov 2022 15:40:54 +0000 (UTC)
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by mx.groups.io with SMTP id smtpd.web11.14616.1669822842622448200
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6F07C433FE
+	for <webhook@archiver.kernel.org>; Wed, 30 Nov 2022 15:52:44 +0000 (UTC)
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+ by mx.groups.io with SMTP id smtpd.web10.14917.1669823557536140304
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Nov 2022 07:40:45 -0800
+ Wed, 30 Nov 2022 07:52:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@igalia.com header.s=20170329 header.b=OrKdcHr2;
- spf=pass (domain: igalia.com, ip: 213.97.179.56, mailfrom: clopez@igalia.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
-	To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=zD3oTgptJLb1PsNzjzuaQzuCGCD3S5D7F4G85GHE+iE=; b=OrKdcHr2vKH+DbnWVy1PtJM/Yc
-	c7BK3+WIyzCzice3CKghMlDOtZdDGjNH0XQTBd8QFUFn22hKcSRI0iWtALEMDErdBMjq0ELtKAAUi
-	8AEVSuPk+Jhs0/IeEHp0JB4WjnzttmJlhjEaqRcIzTO6NujoxWO0PsHYqnCsaoMNZQsqH7gftroF/
-	W0yiKnE8ebmTeITk6J0/2UTE9RCFCAJ3nyoy0erv0P1wFzSzD+n22bborRxymc71qkl8G18RhypQo
-	SWcDV9rzGOf7VtI9Q/S+GtgqUVFbOuGHiCU7kTrbh1xCjmsA9XQ1x47WUEcOFurnz147CE0PPkZTz
-	NAUxu+yw==;
-Received: from bl9-126-48.dsl.telepac.pt ([85.242.126.48] helo=trinity.bot.igalia.com)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1p0PCR-00BhAN-HY
-	for <openembedded-core@lists.openembedded.org>; Wed, 30 Nov 2022 16:40:39 +0100
-From: Carlos Alberto Lopez Perez <clopez@igalia.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] Enable nativesdk for gperf, gi-docgen, unifdef, ruby and 3 python recipes
-Date: Wed, 30 Nov 2022 16:40:15 +0100
-Message-Id: <20221130154015.3950-1-clopez@igalia.com>
-X-Mailer: git-send-email 2.30.2
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=FraSwi9P;
+ spf=pass (domain: bootlin.com, ip: 217.70.178.230, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id C5969240006;
+	Wed, 30 Nov 2022 15:52:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1669823555;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Kf1YgjWp7NtkeN/253vc17EyboyRRrkjy/mykqUfrhE=;
+	b=FraSwi9Pr/DIuytADx/6EUyNup7dZ5GJdwYSlFrCrnSdJ8acmnWlPz7eDvYv/JvFzHBz7Y
+	a4/gesUmC7Wr/6SSn87is0bTkZ0Eq4WJs5S38Sbdx6xwhyv8Zl+P3hSRs/cQbhDblN0I/1
+	/T7Ze+lm4kleZGMk8NQZ5fTdxHg7V/McNTNMeqlkumfUGe6fFlPYMgPsze65LCUEofZ60a
+	EGUU7G0U0aW9Rs0Ou9ZMw7EOeNBvMtLCrZo1c/jJSwB8axuUPLoIJRio9V2TKW4WDgZDzS
+	LRIByeGHyZ+vfHbdO+U49Yebk9k9a2eYeePdbQqOqhwgOu8s8CzppFtO0yJ/kw==
+Date: Wed, 30 Nov 2022 16:52:34 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Markus Volk <f_l_k@t-online.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [oe-core][PATCHv8 4/4] gcr: add recipe for gcr-4, needed to
+ build with gtk4
+Message-ID: <Y4d8QoDyNaoV0rEY@mail.local>
+References: <20221130053450.95655-1-f_l_k@t-online.de>
+ <20221130053450.95655-4-f_l_k@t-online.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221130053450.95655-4-f_l_k@t-online.de>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Nov 2022 15:40:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174018
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Nov 2022 15:52:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174019
 
-I'm building a SDK (bitbake task: populate_sdk) for WPE/WebKit
-development and I need the tools below to be extended with the class
-nativesdk. They work fine on the SDK after this change.
+Hello,
 
-Signed-off-by: Carlos Alberto Lopez Perez <clopez@igalia.com>
----
- meta/recipes-devtools/python/python3-markdown_3.4.1.bb    | 2 +-
- meta/recipes-devtools/python/python3-smartypants_2.0.0.bb | 2 +-
- meta/recipes-devtools/python/python3-typogrify_2.0.7.bb   | 2 +-
- meta/recipes-devtools/ruby/ruby.inc                       | 1 +
- meta/recipes-devtools/ruby/ruby_3.1.2.bb                  | 2 +-
- meta/recipes-devtools/unifdef/unifdef_2.12.bb             | 2 +-
- meta/recipes-extended/gperf/gperf_3.1.bb                  | 2 +-
- meta/recipes-gnome/gi-docgen/gi-docgen_git.bb             | 2 +-
- 8 files changed, 8 insertions(+), 7 deletions(-)
+This one broke:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/6249/steps/11/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/6164/steps/11/logs/stdio
 
-diff --git a/meta/recipes-devtools/python/python3-markdown_3.4.1.bb b/meta/recipes-devtools/python/python3-markdown_3.4.1.bb
-index e99c3310ac..b398cd8bc4 100644
---- a/meta/recipes-devtools/python/python3-markdown_3.4.1.bb
-+++ b/meta/recipes-devtools/python/python3-markdown_3.4.1.bb
-@@ -8,6 +8,6 @@ inherit pypi python_setuptools_build_meta
- PYPI_PACKAGE = "Markdown"
- SRC_URI[sha256sum] = "3b809086bb6efad416156e00a0da66fe47618a5d6918dd688f53f40c8e4cfeff"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
- 
- RDEPENDS:${PN} += "${PYTHON_PN}-logging ${PYTHON_PN}-setuptools"
-diff --git a/meta/recipes-devtools/python/python3-smartypants_2.0.0.bb b/meta/recipes-devtools/python/python3-smartypants_2.0.0.bb
-index 05c94c390f..d089a89b95 100644
---- a/meta/recipes-devtools/python/python3-smartypants_2.0.0.bb
-+++ b/meta/recipes-devtools/python/python3-smartypants_2.0.0.bb
-@@ -9,6 +9,6 @@ PYPI_PACKAGE = "smartypants"
- SRC_URI += "file://0001-Change-hash-bang-to-python3.patch"
- SRC_URI[sha256sum] = "7812353a32022699a1aa8cd5626e01c94a946dcaeedaee2d0b382bae4c4cbf36"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
- 
- UPSTREAM_CHECK_REGEX = "/${PYPI_PACKAGE}/(?P<pver>(?!2\.0\.1)(\d+[\.\-_]*)+)/"
-diff --git a/meta/recipes-devtools/python/python3-typogrify_2.0.7.bb b/meta/recipes-devtools/python/python3-typogrify_2.0.7.bb
-index 83e9b5eadb..826f126ad9 100644
---- a/meta/recipes-devtools/python/python3-typogrify_2.0.7.bb
-+++ b/meta/recipes-devtools/python/python3-typogrify_2.0.7.bb
-@@ -8,7 +8,7 @@ inherit pypi setuptools3
- PYPI_PACKAGE = "typogrify"
- SRC_URI[sha256sum] = "8be4668cda434163ce229d87ca273a11922cb1614cb359970b7dc96eed13cb38"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
- 
- RDEPENDS:${PN} += "${PYTHON_PN}-smartypants"
- 
-diff --git a/meta/recipes-devtools/ruby/ruby.inc b/meta/recipes-devtools/ruby/ruby.inc
-index ebff5efd1f..efa40331e0 100644
---- a/meta/recipes-devtools/ruby/ruby.inc
-+++ b/meta/recipes-devtools/ruby/ruby.inc
-@@ -15,6 +15,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5b8c87559868796979806100db3f3805 \
- 
- DEPENDS = "zlib openssl libyaml gdbm readline libffi"
- DEPENDS:append:class-target = " ruby-native"
-+DEPENDS:append:class-nativesdk = " ruby-native"
- 
- SHRT_VER = "${@oe.utils.trim_version("${PV}", 2)}"
- SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
-diff --git a/meta/recipes-devtools/ruby/ruby_3.1.2.bb b/meta/recipes-devtools/ruby/ruby_3.1.2.bb
-index 387bfa9b44..80b4c2cd8a 100644
---- a/meta/recipes-devtools/ruby/ruby_3.1.2.bb
-+++ b/meta/recipes-devtools/ruby/ruby_3.1.2.bb
-@@ -105,4 +105,4 @@ FILES:${PN}-ptest:append:class-target = "\
-     ${libdir}/ruby/${SHRT_VER}.0/*/-test- \
- "
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/unifdef/unifdef_2.12.bb b/meta/recipes-devtools/unifdef/unifdef_2.12.bb
-index b42051b8b6..3e08b3a0a4 100644
---- a/meta/recipes-devtools/unifdef/unifdef_2.12.bb
-+++ b/meta/recipes-devtools/unifdef/unifdef_2.12.bb
-@@ -18,4 +18,4 @@ do_install() {
- 	oe_runmake install DESTDIR=${D} prefix=${prefix}
- }
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-extended/gperf/gperf_3.1.bb b/meta/recipes-extended/gperf/gperf_3.1.bb
-index c9f09c7931..4c32a5dc83 100644
---- a/meta/recipes-extended/gperf/gperf_3.1.bb
-+++ b/meta/recipes-extended/gperf/gperf_3.1.bb
-@@ -17,4 +17,4 @@ inherit autotools
- # it where to look explicitly (mirroring the behaviour of upstream's Makefile.devel).
- EXTRA_AUTORECONF += " -I ${S} --exclude=aclocal"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-gnome/gi-docgen/gi-docgen_git.bb b/meta/recipes-gnome/gi-docgen/gi-docgen_git.bb
-index 9e5adca3df..fa41f2ccd2 100644
---- a/meta/recipes-gnome/gi-docgen/gi-docgen_git.bb
-+++ b/meta/recipes-gnome/gi-docgen/gi-docgen_git.bb
-@@ -19,4 +19,4 @@ inherit setuptools3
- 
- RDEPENDS:${PN} += "python3-asyncio python3-core python3-jinja2 python3-json python3-markdown python3-markupsafe python3-pygments python3-toml python3-typogrify python3-xml"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
+| Run-time dependency gcr-3 found: NO (tried pkgconfig)
+| 
+| ../epiphany-42.4/meson.build:82:0: ERROR: Dependency "gcr-3" not found, tried pkgconfig
+| 
+| A full log can be found at /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/epiphany/42.4-r0/build/meson-logs/meson-log.txt
+| WARNING: Running the setup command as `meson [options]` instead of `meson setup [options]` is ambiguous and deprecated.
+| ERROR: meson failed
+| WARNING: exit code 1 from a shell command.
+
+On 30/11/2022 06:34:50+0100, Markus Volk wrote:
+> gcr-3 recipe is still needed for gnome projects that stick to gtk+3, rename to gcr3.
+> 
+> Signed-off-by: Markus Volk <f_l_k@t-online.de>
+> ---
+>  ...-add-options-to-set-ssh-binary-paths.patch | 60 +++++++++++++++++++
+>  ...ectly-handle-disabled-ssh_agent-opti.patch | 49 +++++++++++++++
+>  ...build-fix-one-parallel-build-failure.patch |  0
+>  ...1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch |  0
+>  .../gcr/{gcr_3.40.0.bb => gcr3_3.40.0.bb}     |  8 ++-
+>  meta/recipes-gnome/gcr/gcr_4.0.0.bb           | 51 ++++++++++++++++
+>  6 files changed, 166 insertions(+), 2 deletions(-)
+>  create mode 100644 meta/recipes-gnome/gcr/gcr/0001-meson-add-options-to-set-ssh-binary-paths.patch
+>  create mode 100644 meta/recipes-gnome/gcr/gcr/0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patch
+>  rename meta/recipes-gnome/gcr/{gcr => gcr3}/0001-gcr-meson.build-fix-one-parallel-build-failure.patch (100%)
+>  rename meta/recipes-gnome/gcr/{gcr => gcr3}/b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch (100%)
+>  rename meta/recipes-gnome/gcr/{gcr_3.40.0.bb => gcr3_3.40.0.bb} (87%)
+>  create mode 100644 meta/recipes-gnome/gcr/gcr_4.0.0.bb
+> 
+> diff --git a/meta/recipes-gnome/gcr/gcr/0001-meson-add-options-to-set-ssh-binary-paths.patch b/meta/recipes-gnome/gcr/gcr/0001-meson-add-options-to-set-ssh-binary-paths.patch
+> new file mode 100644
+> index 0000000000..cd3552464a
+> --- /dev/null
+> +++ b/meta/recipes-gnome/gcr/gcr/0001-meson-add-options-to-set-ssh-binary-paths.patch
+> @@ -0,0 +1,60 @@
+> +From 89992bde916fe53dd737a5d678bc66dd51cd1f45 Mon Sep 17 00:00:00 2001
+> +From: Markus Volk <f_l_k@t-online.de>
+> +Date: Mon, 28 Nov 2022 15:47:50 +0100
+> +Subject: [PATCH] meson: add options to set ssh binary paths
+> +
+> +Signed-off-by: Markus Volk <f_l_k@t-online.de>
+> +
+> +Upstream-Status: Submitted [ https://gitlab.gnome.org/GNOME/gcr/-/merge_requests/115/diffs?commit_id=f19dfa4fe0986f3f75b29f9c05cead59fe87cd19 ]
+> +---
+> + meson.build       | 11 +++++++++--
+> + meson_options.txt | 10 ++++++++++
+> + 2 files changed, 19 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/meson.build b/meson.build
+> +index 11d7fa7..231d7e2 100644
+> +--- a/meson.build
+> ++++ b/meson.build
+> +@@ -58,9 +58,16 @@ if p11_system_config_modules == ''
+> +   error('Couldn\'t find location for pkcs11 module config')
+> + endif
+> + libsecret_dep = dependency('libsecret-1', version: '>= 0.20', required: get_option('ssh_agent'))
+> ++
+> + if get_option('ssh_agent')
+> +-  ssh_add_path = find_program('ssh-add').full_path()
+> +-  ssh_agent_path = find_program('ssh-agent').full_path()
+> ++  ssh_add_path = get_option('ssh_add_path')
+> ++  ssh_agent_path = get_option('ssh_agent_path')
+> ++  if ssh_add_path == ''
+> ++    ssh_add_path = find_program('ssh-add').full_path()
+> ++  endif
+> ++  if ssh_agent_path == ''
+> ++    ssh_agent_path = find_program('ssh-agent').full_path()
+> ++  endif
+> + endif
+> + 
+> + with_systemd = false
+> +diff --git a/meson_options.txt b/meson_options.txt
+> +index 6840e44..5355940 100644
+> +--- a/meson_options.txt
+> ++++ b/meson_options.txt
+> +@@ -23,6 +23,16 @@ option('gpg_path',
+> +   value: '',
+> +   description: 'Path to gpg, autodetected if not set',
+> + )
+> ++option('ssh_add_path',
+> ++  type: 'string',
+> ++  value: '',
+> ++  description: 'Path to ssh-add, autodetected if not set',
+> ++)
+> ++option('ssh_agent_path',
+> ++  type: 'string',
+> ++  value: '',
+> ++  description: 'Path to ssh-agent, autodetected if not set',
+> ++)
+> + option('ssh_agent',
+> +   type: 'boolean',
+> +   value: true,
+> +-- 
+> +2.34.1
+> +
+> diff --git a/meta/recipes-gnome/gcr/gcr/0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patch b/meta/recipes-gnome/gcr/gcr/0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patch
+> new file mode 100644
+> index 0000000000..940f78ebab
+> --- /dev/null
+> +++ b/meta/recipes-gnome/gcr/gcr/0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patch
+> @@ -0,0 +1,49 @@
+> +From 9b67bb18d8409e0e693cc6000507acbd73a30eab Mon Sep 17 00:00:00 2001
+> +From: Alexander Kanavin <alex@linutronix.de>
+> +Date: Wed, 16 Nov 2022 11:27:24 +0100
+> +Subject: [PATCH 1/2] meson.build: correctly handle disabled ssh_agent option
+> +
+> +Existing code produces these errors:
+> +| gcr/meson.build:61:0: ERROR: Unable to get the path of a not-found external program
+> +| gcr/meson.build:101:5: ERROR: Unknown variable "ssh_add_path".
+> +
+> +Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> +
+> +Upstream-Status: Backport [ https://gitlab.gnome.org/GNOME/gcr/-/commit/9b67bb18d8409e0e693cc6000507acbd73a30eab ]
+> +---
+> + meson.build | 12 ++++++++----
+> + 1 file changed, 8 insertions(+), 4 deletions(-)
+> +
+> +diff --git a/meson.build b/meson.build
+> +index 3f35173..11d7fa7 100644
+> +--- a/meson.build
+> ++++ b/meson.build
+> +@@ -58,8 +58,10 @@ if p11_system_config_modules == ''
+> +   error('Couldn\'t find location for pkcs11 module config')
+> + endif
+> + libsecret_dep = dependency('libsecret-1', version: '>= 0.20', required: get_option('ssh_agent'))
+> +-ssh_add_path = find_program('ssh-add', required: get_option('ssh_agent')).full_path()
+> +-ssh_agent_path = find_program('ssh-agent', required: get_option('ssh_agent')).full_path()
+> ++if get_option('ssh_agent')
+> ++  ssh_add_path = find_program('ssh-add').full_path()
+> ++  ssh_agent_path = find_program('ssh-agent').full_path()
+> ++endif
+> + 
+> + with_systemd = false
+> + libsystemd_deps = []
+> +@@ -96,8 +98,10 @@ conf.set('HAVE_TIMEGM', cc.has_function('timegm'))
+> + conf.set('HAVE_MLOCK', cc.has_function('mlock'))
+> + conf.set_quoted('GPG_EXECUTABLE', gpg_path)
+> + conf.set_quoted('LIBGCRYPT_VERSION', libgcrypt_dep.version())
+> +-conf.set_quoted('SSH_ADD_EXECUTABLE', ssh_add_path)
+> +-conf.set_quoted('SSH_AGENT_EXECUTABLE', ssh_agent_path)
+> ++if get_option('ssh_agent')
+> ++  conf.set_quoted('SSH_ADD_EXECUTABLE', ssh_add_path)
+> ++  conf.set_quoted('SSH_AGENT_EXECUTABLE', ssh_agent_path)
+> ++endif
+> + conf.set10('WITH_SYSTEMD', with_systemd)
+> + config_file = configure_file(
+> +   output: 'config.h',
+> +-- 
+> +2.34.1
+> +
+> diff --git a/meta/recipes-gnome/gcr/gcr/0001-gcr-meson.build-fix-one-parallel-build-failure.patch b/meta/recipes-gnome/gcr/gcr3/0001-gcr-meson.build-fix-one-parallel-build-failure.patch
+> similarity index 100%
+> rename from meta/recipes-gnome/gcr/gcr/0001-gcr-meson.build-fix-one-parallel-build-failure.patch
+> rename to meta/recipes-gnome/gcr/gcr3/0001-gcr-meson.build-fix-one-parallel-build-failure.patch
+> diff --git a/meta/recipes-gnome/gcr/gcr/b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch b/meta/recipes-gnome/gcr/gcr3/b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch
+> similarity index 100%
+> rename from meta/recipes-gnome/gcr/gcr/b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch
+> rename to meta/recipes-gnome/gcr/gcr3/b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch
+> diff --git a/meta/recipes-gnome/gcr/gcr_3.40.0.bb b/meta/recipes-gnome/gcr/gcr3_3.40.0.bb
+> similarity index 87%
+> rename from meta/recipes-gnome/gcr/gcr_3.40.0.bb
+> rename to meta/recipes-gnome/gcr/gcr3_3.40.0.bb
+> index 917be5938b..5318768db6 100644
+> --- a/meta/recipes-gnome/gcr/gcr_3.40.0.bb
+> +++ b/meta/recipes-gnome/gcr/gcr3_3.40.0.bb
+> @@ -20,11 +20,15 @@ GTKDOC_MESON_OPTION = "gtk_doc"
+>  inherit gnomebase gtk-icon-cache gtk-doc features_check upstream-version-is-even vala gobject-introspection gettext mime mime-xdg
+>  UPSTREAM_CHECK_REGEX = "[^\d\.](?P<pver>\d+\.(?!9\d+)(\d*[02468])+(\.\d+)+)\.tar"
+>  
+> -SRC_URI += "file://0001-gcr-meson.build-fix-one-parallel-build-failure.patch \ 
+> -            file://b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch"
+> +SRC_URI = " \
+> +	https://download.gnome.org/sources/gcr/3.40/gcr-${PV}.tar.xz;name=archive \
+> +	file://0001-gcr-meson.build-fix-one-parallel-build-failure.patch \
+> +	file://b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch"
+>  
+>  SRC_URI[archive.sha256sum] = "b9d3645a5fd953a54285cc64d4fc046736463dbd4dcc25caf5c7b59bed3027f5"
+>  
+> +S = "${WORKDIR}/gcr-${PV}"
+> +
+>  PACKAGECONFIG ??= " \
+>  	${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'gtk', '', d)} \
+>  	${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'gtk', '', d)} \
+> diff --git a/meta/recipes-gnome/gcr/gcr_4.0.0.bb b/meta/recipes-gnome/gcr/gcr_4.0.0.bb
+> new file mode 100644
+> index 0000000000..ff2f7978a9
+> --- /dev/null
+> +++ b/meta/recipes-gnome/gcr/gcr_4.0.0.bb
+> @@ -0,0 +1,51 @@
+> +SUMMARY = "A library for bits of crypto UI and parsing etc"
+> +DESCRIPTION = "GCR is a library for displaying certificates, and crypto UI, \
+> +accessing key stores. It also provides the viewer for crypto files on the \
+> +GNOME desktop."
+> +HOMEPAGE = "https://gitlab.gnome.org/GNOME/gcr"
+> +BUGTRACKER = "https://gitlab.gnome.org/GNOME/gcr/issues"
+> +
+> +LICENSE = "GPL-2.0-only"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
+> +
+> +DEPENDS = "p11-kit glib-2.0 libgcrypt gnupg-native \
+> +           ${@bb.utils.contains('GI_DATA_ENABLED', 'True', 'libxslt-native', '', d)}"
+> +
+> +CACHED_CONFIGUREVARS += "ac_cv_path_GPG='gpg2'"
+> +
+> +CFLAGS += "-D_GNU_SOURCE"
+> +
+> +GNOMEBASEBUILDCLASS = "meson"
+> +GTKDOC_MESON_OPTION = "gtk_doc"
+> +inherit gnomebase gtk-icon-cache gtk-doc features_check upstream-version-is-even vala gobject-introspection gettext mime mime-xdg
+> +UPSTREAM_CHECK_REGEX = "[^\d\.](?P<pver>\d+\.(?!9\d+)(\d*[02468])+(\.\d+)+)\.tar"
+> +
+> +SRC_URI += " \
+> +	file://0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patch \
+> +	file://0001-meson-add-options-to-set-ssh-binary-paths.patch \
+> +"
+> +SRC_URI[archive.sha256sum] = "c45855924f0ee7bab43e2dd38bfafd2ac815c6e9864341c0161e171173dcec7c"
+> +
+> +PACKAGECONFIG ??= " \
+> +	${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
+> +	${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'gtk', '', d)} \
+> +	${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'gtk', '', d)} \
+> +"
+> +PACKAGECONFIG[gtk] = "-Dgtk4=true,-Dgtk4=false,gtk4"
+> +PACKAGECONFIG[ssh_agent] = "-Dssh_agent=true -Dssh_add_path=${bindir}/ssh-add -Dssh_agent_path=${bindir}/ssh-agent,-Dssh_agent=false,libsecret,openssh"
+> +#'Use systemd socket activation for server programs'
+> +PACKAGECONFIG[systemd] = "-Dsystemd=enabled,-Dsystemd=disabled,systemd"
+> +
+> +FILES:${PN} += " \
+> +    ${datadir}/dbus-1 \
+> +    ${datadir}/gcr-4 \
+> +    ${systemd_user_unitdir}/gcr-ssh-agent.socket \
+> +    ${systemd_user_unitdir}/gcr-ssh-agent.service \
+> +"
+> +
+> +# http://errors.yoctoproject.org/Errors/Details/20229/
+> +ARM_INSTRUCTION_SET:armv4 = "arm"
+> +ARM_INSTRUCTION_SET:armv5 = "arm"
+> +ARM_INSTRUCTION_SET:armv6 = "arm"
+> +
+> +EXTRA_OEMESON += "-Dgpg_path=${bindir}/gpg2"
+> -- 
+> 2.34.1
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#173992): https://lists.openembedded.org/g/openembedded-core/message/173992
+> Mute This Topic: https://lists.openembedded.org/mt/95352831/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 -- 
-2.30.2
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
