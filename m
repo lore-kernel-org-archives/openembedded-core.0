@@ -1,204 +1,153 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <clopez@igalia.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 912BDC4332F
-	for <webhook@archiver.kernel.org>; Wed, 30 Nov 2022 14:58:54 +0000 (UTC)
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
- by mx.groups.io with SMTP id smtpd.web10.13368.1669820324923962960
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD067C433FE
+	for <webhook@archiver.kernel.org>; Wed, 30 Nov 2022 15:40:54 +0000 (UTC)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by mx.groups.io with SMTP id smtpd.web11.14616.1669822842622448200
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Nov 2022 06:58:45 -0800
+ Wed, 30 Nov 2022 07:40:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=JQBqOvBx;
- spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 4A6D1C000A;
-	Wed, 30 Nov 2022 14:58:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1669820322;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s3dr+R+fbQ1ejk0/KSIuD1iJM4H3K3Cux7Cx9Or6xn0=;
-	b=JQBqOvBxhMKcfrdmCy6fh3OQhxyHU+yZoyy9GtTwBjapsUc3pjzdgagGsHom4xw9ZRsrsI
-	1dgnckaXUqs6lX4Cn6LGF9cUbfSMERC6ZXF/GKoLx0JeVa05S2Z1zoFqyGtNKfXE5M/nlw
-	L5G0igxMj64KHbTrEH3wqidaDH/yBuRz/VDIyUuxWuqmygk91So1lvyD+pn7WBE6CoXz6k
-	Uxcg2PiAWrgxIOBUA4f7zJb6ZOSPt8SrfUHQcvPPNfOnolfTqtR/VDteL6impGMk4BT4GE
-	NSjZjhdI+4Y6kW5gRU//7IcxnocOimuh+d2/Q6yrIGcwi4g8ypgpD+0/c0Aq+g==
-Date: Wed, 30 Nov 2022 15:58:41 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Narpat Mali <narpat.mali@windriver.com>
-Cc: openembedded-core@lists.openembedded.org,
-	archana.polampalli@windriver.com, hari.gpillai@windriver.com
-Subject: Re: [OE-core][PATCH 1/2] ffmpeg: fix for CVE-2022-3964
-Message-ID: <Y4dvoazSudWqVJQX@mail.local>
-References: <20221130140048.595320-1-narpat.mali@windriver.com>
+ dkim=pass header.i=@igalia.com header.s=20170329 header.b=OrKdcHr2;
+ spf=pass (domain: igalia.com, ip: 213.97.179.56, mailfrom: clopez@igalia.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+	To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=zD3oTgptJLb1PsNzjzuaQzuCGCD3S5D7F4G85GHE+iE=; b=OrKdcHr2vKH+DbnWVy1PtJM/Yc
+	c7BK3+WIyzCzice3CKghMlDOtZdDGjNH0XQTBd8QFUFn22hKcSRI0iWtALEMDErdBMjq0ELtKAAUi
+	8AEVSuPk+Jhs0/IeEHp0JB4WjnzttmJlhjEaqRcIzTO6NujoxWO0PsHYqnCsaoMNZQsqH7gftroF/
+	W0yiKnE8ebmTeITk6J0/2UTE9RCFCAJ3nyoy0erv0P1wFzSzD+n22bborRxymc71qkl8G18RhypQo
+	SWcDV9rzGOf7VtI9Q/S+GtgqUVFbOuGHiCU7kTrbh1xCjmsA9XQ1x47WUEcOFurnz147CE0PPkZTz
+	NAUxu+yw==;
+Received: from bl9-126-48.dsl.telepac.pt ([85.242.126.48] helo=trinity.bot.igalia.com)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1p0PCR-00BhAN-HY
+	for <openembedded-core@lists.openembedded.org>; Wed, 30 Nov 2022 16:40:39 +0100
+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] Enable nativesdk for gperf, gi-docgen, unifdef, ruby and 3 python recipes
+Date: Wed, 30 Nov 2022 16:40:15 +0100
+Message-Id: <20221130154015.3950-1-clopez@igalia.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221130140048.595320-1-narpat.mali@windriver.com>
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Nov 2022 14:58:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174017
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Nov 2022 15:40:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174018
 
-On 30/11/2022 14:00:48+0000, Narpat Mali wrote:
-> A vulnerability classified as problematic has been found in ffmpeg. This affects an unknown part of the file
-> libavcodec/rpzaenc.c of the component QuickTime RPZA Video Encoder. The manipulation of the argument y_size
-> leads to out-of-bounds read. It is possible to initiate the attack remotely. The name of the patch is
-> 92f9b28ed84a77138105475beba16c146bdaf984. It is recommended to apply a patch to fix this issue. The associated
-> identifier of this vulnerability is VDB-213543.
-> 
-> CVE: CVE-2022-3964
+I'm building a SDK (bitbake task: populate_sdk) for WPE/WebKit
+development and I need the tools below to be extended with the class
+nativesdk. They work fine on the SDK after this change.
 
-It doesn't matter anymore as this was already applied but Ross was
-mentioning adding this header to the patch that your are adding below:
+Signed-off-by: Carlos Alberto Lopez Perez <clopez@igalia.com>
+---
+ meta/recipes-devtools/python/python3-markdown_3.4.1.bb    | 2 +-
+ meta/recipes-devtools/python/python3-smartypants_2.0.0.bb | 2 +-
+ meta/recipes-devtools/python/python3-typogrify_2.0.7.bb   | 2 +-
+ meta/recipes-devtools/ruby/ruby.inc                       | 1 +
+ meta/recipes-devtools/ruby/ruby_3.1.2.bb                  | 2 +-
+ meta/recipes-devtools/unifdef/unifdef_2.12.bb             | 2 +-
+ meta/recipes-extended/gperf/gperf_3.1.bb                  | 2 +-
+ meta/recipes-gnome/gi-docgen/gi-docgen_git.bb             | 2 +-
+ 8 files changed, 8 insertions(+), 7 deletions(-)
 
-> 
-> Reference:
-> https://nvd.nist.gov/vuln/detail/CVE-2022-3964
-> 
-> Upstream Fix:
-> https://github.com/FFmpeg/FFmpeg/commit/92f9b28ed84a77138105475beba16c146bdaf984
-> 
-> Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
-> ---
->  ...c-stop-accessing-out-of-bounds-frame.patch | 89 +++++++++++++++++++
->  .../recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb |  4 +-
->  2 files changed, 92 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-rpzaenc-stop-accessing-out-of-bounds-frame.patch
-> 
-> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-rpzaenc-stop-accessing-out-of-bounds-frame.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-rpzaenc-stop-accessing-out-of-bounds-frame.patch
-> new file mode 100644
-> index 0000000000..2775a81cc8
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-rpzaenc-stop-accessing-out-of-bounds-frame.patch
-> @@ -0,0 +1,89 @@
-> +From 92f9b28ed84a77138105475beba16c146bdaf984 Mon Sep 17 00:00:00 2001
-> +From: Paul B Mahol <onemda@gmail.com>
-> +Date: Sat, 12 Nov 2022 16:12:00 +0100
-> +Subject: [PATCH] avcodec/rpzaenc: stop accessing out of bounds frame
-> +
-> +Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/92f9b28ed84a77138105475beba16c146bdaf984]
-
-Here
-
-> +
-> +Signed-off-by: <narpat.mali@windriver.com>
-> +
-> +---
-> + libavcodec/rpzaenc.c | 22 +++++++++++++++-------
-> + 1 file changed, 15 insertions(+), 7 deletions(-)
-> +
-> +diff --git a/libavcodec/rpzaenc.c b/libavcodec/rpzaenc.c
-> +index d710eb4f82..4ced9523e2 100644
-> +--- a/libavcodec/rpzaenc.c
-> ++++ b/libavcodec/rpzaenc.c
-> +@@ -205,7 +205,7 @@ static void get_max_component_diff(const BlockInfo *bi, const uint16_t *block_pt
-> + 
-> +     // loop thru and compare pixels
-> +     for (y = 0; y < bi->block_height; y++) {
-> +-        for (x = 0; x < bi->block_width; x++){
-> ++        for (x = 0; x < bi->block_width; x++) {
-> +             // TODO:  optimize
-> +             min_r = FFMIN(R(block_ptr[x]), min_r);
-> +             min_g = FFMIN(G(block_ptr[x]), min_g);
-> +@@ -278,7 +278,7 @@ static int leastsquares(const uint16_t *block_ptr, const BlockInfo *bi,
-> +         return -1;
-> + 
-> +     for (i = 0; i < bi->block_height; i++) {
-> +-        for (j = 0; j < bi->block_width; j++){
-> ++        for (j = 0; j < bi->block_width; j++) {
-> +             x = GET_CHAN(block_ptr[j], xchannel);
-> +             y = GET_CHAN(block_ptr[j], ychannel);
-> +             sumx += x;
-> +@@ -325,7 +325,7 @@ static int calc_lsq_max_fit_error(const uint16_t *block_ptr, const BlockInfo *bi
-> +     int max_err = 0;
-> + 
-> +     for (i = 0; i < bi->block_height; i++) {
-> +-        for (j = 0; j < bi->block_width; j++){
-> ++        for (j = 0; j < bi->block_width; j++) {
-> +             int x_inc, lin_y, lin_x;
-> +             x = GET_CHAN(block_ptr[j], xchannel);
-> +             y = GET_CHAN(block_ptr[j], ychannel);
-> +@@ -420,7 +420,9 @@ static void update_block_in_prev_frame(const uint16_t *src_pixels,
-> +                                        uint16_t *dest_pixels,
-> +                                        const BlockInfo *bi, int block_counter)
-> + {
-> +-    for (int y = 0; y < 4; y++) {
-> ++    const int y_size = FFMIN(4, bi->image_height - bi->row * 4);
-> ++
-> ++    for (int y = 0; y < y_size; y++) {
-> +         memcpy(dest_pixels, src_pixels, 8);
-> +         dest_pixels += bi->rowstride;
-> +         src_pixels += bi->rowstride;
-> +@@ -730,14 +732,15 @@ post_skip :
-> + 
-> +             if (err > s->sixteen_color_thresh) { // DO SIXTEEN COLOR BLOCK
-> +                 uint16_t *row_ptr;
-> +-                int rgb555;
-> ++                int y_size, rgb555;
-> + 
-> +                 block_offset = get_block_info(&bi, block_counter);
-> + 
-> +                 row_ptr = &src_pixels[block_offset];
-> ++                y_size = FFMIN(4, bi.image_height - bi.row * 4);
-> + 
-> +-                for (int y = 0; y < 4; y++) {
-> +-                    for (int x = 0; x < 4; x++){
-> ++                for (int y = 0; y < y_size; y++) {
-> ++                    for (int x = 0; x < 4; x++) {
-> +                         rgb555 = row_ptr[x] & ~0x8000;
-> + 
-> +                         put_bits(&s->pb, 16, rgb555);
-> +@@ -745,6 +748,11 @@ post_skip :
-> +                     row_ptr += bi.rowstride;
-> +                 }
-> + 
-> ++                for (int y = y_size; y < 4; y++) {
-> ++                    for (int x = 0; x < 4; x++)
-> ++                        put_bits(&s->pb, 16, 0);
-> ++                }
-> ++
-> +                 block_counter++;
-> +             } else { // FOUR COLOR BLOCK
-> +                 block_counter += encode_four_color_block(min_color, max_color,
-> +-- 
-> +2.34.1
-> +
-> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb
-> index a0c98d4ae0..43b858984b 100644
-> --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb
-> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb
-> @@ -22,7 +22,9 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
->                      file://COPYING.LGPLv2.1;md5=bd7a443320af8c812e4c18d1b79df004 \
->                      file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
->  
-> -SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz"
-> +SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-> +           file://0001-avcodec-rpzaenc-stop-accessing-out-of-bounds-frame.patch"
-> +
->  SRC_URI[sha256sum] = "619e706d662c8420859832ddc259cd4d4096a48a2ce1eefd052db9e440eef3dc"
->  
->  # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
-> -- 
-> 2.34.1
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#174008): https://lists.openembedded.org/g/openembedded-core/message/174008
-> Mute This Topic: https://lists.openembedded.org/mt/95218376/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
+diff --git a/meta/recipes-devtools/python/python3-markdown_3.4.1.bb b/meta/recipes-devtools/python/python3-markdown_3.4.1.bb
+index e99c3310ac..b398cd8bc4 100644
+--- a/meta/recipes-devtools/python/python3-markdown_3.4.1.bb
++++ b/meta/recipes-devtools/python/python3-markdown_3.4.1.bb
+@@ -8,6 +8,6 @@ inherit pypi python_setuptools_build_meta
+ PYPI_PACKAGE = "Markdown"
+ SRC_URI[sha256sum] = "3b809086bb6efad416156e00a0da66fe47618a5d6918dd688f53f40c8e4cfeff"
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+ 
+ RDEPENDS:${PN} += "${PYTHON_PN}-logging ${PYTHON_PN}-setuptools"
+diff --git a/meta/recipes-devtools/python/python3-smartypants_2.0.0.bb b/meta/recipes-devtools/python/python3-smartypants_2.0.0.bb
+index 05c94c390f..d089a89b95 100644
+--- a/meta/recipes-devtools/python/python3-smartypants_2.0.0.bb
++++ b/meta/recipes-devtools/python/python3-smartypants_2.0.0.bb
+@@ -9,6 +9,6 @@ PYPI_PACKAGE = "smartypants"
+ SRC_URI += "file://0001-Change-hash-bang-to-python3.patch"
+ SRC_URI[sha256sum] = "7812353a32022699a1aa8cd5626e01c94a946dcaeedaee2d0b382bae4c4cbf36"
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+ 
+ UPSTREAM_CHECK_REGEX = "/${PYPI_PACKAGE}/(?P<pver>(?!2\.0\.1)(\d+[\.\-_]*)+)/"
+diff --git a/meta/recipes-devtools/python/python3-typogrify_2.0.7.bb b/meta/recipes-devtools/python/python3-typogrify_2.0.7.bb
+index 83e9b5eadb..826f126ad9 100644
+--- a/meta/recipes-devtools/python/python3-typogrify_2.0.7.bb
++++ b/meta/recipes-devtools/python/python3-typogrify_2.0.7.bb
+@@ -8,7 +8,7 @@ inherit pypi setuptools3
+ PYPI_PACKAGE = "typogrify"
+ SRC_URI[sha256sum] = "8be4668cda434163ce229d87ca273a11922cb1614cb359970b7dc96eed13cb38"
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+ 
+ RDEPENDS:${PN} += "${PYTHON_PN}-smartypants"
+ 
+diff --git a/meta/recipes-devtools/ruby/ruby.inc b/meta/recipes-devtools/ruby/ruby.inc
+index ebff5efd1f..efa40331e0 100644
+--- a/meta/recipes-devtools/ruby/ruby.inc
++++ b/meta/recipes-devtools/ruby/ruby.inc
+@@ -15,6 +15,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5b8c87559868796979806100db3f3805 \
+ 
+ DEPENDS = "zlib openssl libyaml gdbm readline libffi"
+ DEPENDS:append:class-target = " ruby-native"
++DEPENDS:append:class-nativesdk = " ruby-native"
+ 
+ SHRT_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+ SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
+diff --git a/meta/recipes-devtools/ruby/ruby_3.1.2.bb b/meta/recipes-devtools/ruby/ruby_3.1.2.bb
+index 387bfa9b44..80b4c2cd8a 100644
+--- a/meta/recipes-devtools/ruby/ruby_3.1.2.bb
++++ b/meta/recipes-devtools/ruby/ruby_3.1.2.bb
+@@ -105,4 +105,4 @@ FILES:${PN}-ptest:append:class-target = "\
+     ${libdir}/ruby/${SHRT_VER}.0/*/-test- \
+ "
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/unifdef/unifdef_2.12.bb b/meta/recipes-devtools/unifdef/unifdef_2.12.bb
+index b42051b8b6..3e08b3a0a4 100644
+--- a/meta/recipes-devtools/unifdef/unifdef_2.12.bb
++++ b/meta/recipes-devtools/unifdef/unifdef_2.12.bb
+@@ -18,4 +18,4 @@ do_install() {
+ 	oe_runmake install DESTDIR=${D} prefix=${prefix}
+ }
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-extended/gperf/gperf_3.1.bb b/meta/recipes-extended/gperf/gperf_3.1.bb
+index c9f09c7931..4c32a5dc83 100644
+--- a/meta/recipes-extended/gperf/gperf_3.1.bb
++++ b/meta/recipes-extended/gperf/gperf_3.1.bb
+@@ -17,4 +17,4 @@ inherit autotools
+ # it where to look explicitly (mirroring the behaviour of upstream's Makefile.devel).
+ EXTRA_AUTORECONF += " -I ${S} --exclude=aclocal"
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-gnome/gi-docgen/gi-docgen_git.bb b/meta/recipes-gnome/gi-docgen/gi-docgen_git.bb
+index 9e5adca3df..fa41f2ccd2 100644
+--- a/meta/recipes-gnome/gi-docgen/gi-docgen_git.bb
++++ b/meta/recipes-gnome/gi-docgen/gi-docgen_git.bb
+@@ -19,4 +19,4 @@ inherit setuptools3
+ 
+ RDEPENDS:${PN} += "python3-asyncio python3-core python3-jinja2 python3-json python3-markdown python3-markupsafe python3-pygments python3-toml python3-typogrify python3-xml"
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.30.2
+
 
