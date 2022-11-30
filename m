@@ -2,113 +2,78 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ADD2C4321E
-	for <webhook@archiver.kernel.org>; Wed, 30 Nov 2022 21:11:16 +0000 (UTC)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
- by mx.groups.io with SMTP id smtpd.web10.24763.1669842670523016594
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87769C4321E
+	for <webhook@archiver.kernel.org>; Wed, 30 Nov 2022 21:15:06 +0000 (UTC)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+ by mx.groups.io with SMTP id smtpd.web10.24866.1669842902757728419
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Nov 2022 13:11:10 -0800
+ Wed, 30 Nov 2022 13:15:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=N78uvO0s;
- spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f42.google.com with SMTP id c1so28836667lfi.7
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Nov 2022 13:11:10 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=k7aFA9SI;
+ spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f170.google.com with SMTP id a19so6593106ljk.0;
+        Wed, 30 Nov 2022 13:15:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+NgzMuYiftVtCxFkQ8prk3+RMF2MmWJ/yn0pQkMyTGQ=;
-        b=N78uvO0s0GVMFq5AXP4z5w2VZPqucPJM77TnJXq59Ykiy4D0MVU4ZR1jMs9zgnlwBQ
-         LOIiWlkeMf5hOBTZsBDoa4A95fEG972cum0ibMfL6g51Xo1T0zVIQFufmCPbI+PQjuhH
-         D4bcFCfcDOtp0zh+V6nmobwvQx3up58ixr4+xXKqG1+ZkHwDXdbV6zzbljGkJ72KfUDm
-         r6trnsNANgdNRTtwfR0sgIzv7l8P+IjRwOobqBEEJ+wf9zMuuPYYoxq7gTTP0SNq+AG0
-         sN8ZtaM+FIXKza4KIpGUziGU0lQjJbedS88XTowVByaihglouhoFh3jksRqzksxnneNG
-         zrMA==
+        bh=V7WkNn5wFDZhGEO1yt3HJuru9xmw3SfTQmVir3OzfIA=;
+        b=k7aFA9SIOn/y6n0/ZDZsZxA8Nt+BFLmXdzt0K8OUTJC0nf/ddEDIlYKn9W+jGEfU34
+         Rz/oWCUMMVto9tux03Hjx4z/79bgT+JPmRypLmSJ7jB4sY9CNlHHaYjrjt0PYmwKHVOg
+         gY1iHh2w/GdU3GQBiK5u+cxKxn1k9xny2FTkvU14ELMbPqh/kWsXBoHArBkcf9ZcFoJW
+         ee7saN3p3loAK4ZB8x7E8fAwlGq910oX/SokItGnyQA6Gerkz54RHYv6eQK70sq0fBxx
+         UmFjYFOwLes/WOwGY+Je3REoGyN7qII6HBieEkKcOM0giwv0kRPGxcQvYFaS1f8XNyZo
+         HBeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+NgzMuYiftVtCxFkQ8prk3+RMF2MmWJ/yn0pQkMyTGQ=;
-        b=bqWk3c2mIv3eYHBFwYr3HWCA4iMbG+3eLBRkmkfYg1cNQ0VD/dpdPdZJZGgxs9ojKp
-         x1srUTO9hLn1mwzpUntphkcHag/wvQSgDpCXdZCM3nCxxnquVaD9dv3/zjF6+lgwpIyi
-         UKr2h3ARqEYoI0725c6199DPwKnKVjd+XkpxttbL/v7pMlm0Z8BfBvaUInTsPtqUAacI
-         z8Lne4mg0qhzEkFLvsa5PVfMt5Kt20RsP7dVsR2pyFVeEHwaoQQpryRdPkmvsUkNfqYh
-         6LPmMcCzDePoEetPDQWz3vWo2DjTlbGGh87p8v5ZAfL+0Hx4Qtm+vjaa1ryPDeTtxC5s
-         PaEg==
-X-Gm-Message-State: ANoB5pk/fF3lvj3Qiplc5ze1JxHk8Fzhuv+GCpuCjdHrh5acA1OMB7yz
-	juztreD/GXpPnpru8Sh1TJf13LrgPT18xnvR0Yc=
-X-Google-Smtp-Source: AA0mqf6R2SmwX/35QLCeAT+wmwMIZLiiXK8x2iSDW7wlOifxMtLIr7wAG1un3OG7IS62uHM2PTQYukfc/xstDzcwb6k=
-X-Received: by 2002:a05:6512:3445:b0:4a9:39f4:5793 with SMTP id
- j5-20020a056512344500b004a939f45793mr18183652lfr.131.1669842668479; Wed, 30
- Nov 2022 13:11:08 -0800 (PST)
+        bh=V7WkNn5wFDZhGEO1yt3HJuru9xmw3SfTQmVir3OzfIA=;
+        b=qXUvFVMSZ82kkuSRc2X397nAr09SZILZu/8DJg7j4L43QrAke3+EjV+PGas7ZJBPxF
+         bXHrt1+shwLPENMeXEbBiJHNjybyza5xfABf5/8t9yVBURc3gi8bDAYsAMNOZxL1K0/n
+         8KoQl0CBP0Cwq4nqBuWoiu+x+W8ld4WxMwzQ0xvYtyAriX+OfFRtEICzeWeIcLEQGPlD
+         DUjPEOwa1SCa1siMlHoF1mIh3MBxlKPlfQEg6Kxxrdzhbq8xcu97dIVeex7G4mx0SepC
+         WiENTfwdZKxzEeL8peXa1FDtjFYR30ddhx/imP8GNhqyBtBmTqyjOBVEeB4rOLN9UQfT
+         3J1g==
+X-Gm-Message-State: ANoB5pm38+INElgQOiGCOwvgdhfpKPXT5AScHM9EjGUmyMOcXy1sMXst
+	tx5wk6glilGKnUredw8jW4vyq124YI0DgKnWQ5k=
+X-Google-Smtp-Source: AA0mqf7xIzVfQZi3ZRU7l4sqCu/ptfHq80lE6iwMllhq/PZkmEyp66vX2ovEnyoQqKaNA0De4Imr+FLAGA+5GLxZTtg=
+X-Received: by 2002:a2e:a174:0:b0:279:75a0:c063 with SMTP id
+ u20-20020a2ea174000000b0027975a0c063mr13651139ljl.45.1669842900755; Wed, 30
+ Nov 2022 13:15:00 -0800 (PST)
 MIME-Version: 1.0
-References: <20221130053450.95655-1-f_l_k@t-online.de> <20221130053450.95655-4-f_l_k@t-online.de>
- <Y4d8QoDyNaoV0rEY@mail.local> <MD46MR.7526AS010V5V3@t-online.de> <Y4fDxIl6wWuVUTnc@mail.local>
-In-Reply-To: <Y4fDxIl6wWuVUTnc@mail.local>
+References: <0b6801d90409$885d6860$99183920$@gmail.com> <CANNYZj8Y37+s6Jzo1XvX0uCYNFc=NqOH8PWrFSL9_=TOS2ja7Q@mail.gmail.com>
+ <20221130092832.62067104@wsk>
+In-Reply-To: <20221130092832.62067104@wsk>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 30 Nov 2022 22:10:56 +0100
-Message-ID: <CANNYZj9bUx2=YbP+NY0Zkd9kZMX3vi81uPPhuJMTR-PCNi5FwA@mail.gmail.com>
-Subject: Re: [oe-core][PATCHv8 4/4] gcr: add recipe for gcr-4, needed to build
- with gtk4
-To: Markus Volk <f_l_k@t-online.de>
-Cc: openembedded-core@lists.openembedded.org, alexandre.belloni@bootlin.com
+Date: Wed, 30 Nov 2022 22:14:48 +0100
+Message-ID: <CANNYZj_uy0xpvB2-eSzsZYwPR6gew=RpTZJXiGAVGYhqRn8xkQ@mail.gmail.com>
+Subject: Re: [yocto] Y2038 proposal
+To: Lukasz Majewski <lukma@denx.de>
+Cc: openembedded-architecture <openembedded-architecture@lists.openembedded.org>, 
+	Yocto-mailing-list <yocto@lists.yoctoproject.org>, 
+	OE-core <openembedded-core@lists.openembedded.org>, 
+	Stephen Jolley <sjolley.yp.pm@gmail.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Nov 2022 21:11:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174031
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Nov 2022 21:15:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174032
 
-I would also request that you (Markus) run:
+On Wed, 30 Nov 2022 at 09:28, Lukasz Majewski <lukma@denx.de> wrote:
+> 2. There are ptest available [2] to validate if the Y2038 problem works
+> correctly.
+>
+> 3. Support for running ptests mentioned in point 2. is already
+> available in the poky repository [3].
 
-devtool check-upgrade-status <list of newly added recipes>
-
-and verify that their upstream version check works properly.
+I just ran these tests in (32 bit) qemux86 on top of poky master (e.g.
+no magic glibc flags), and they all passed. Do they need to be ran
+after setting the date to the 'post-2038 future' to reveal the issues
+and produce failures?
 
 Alex
-
-On Wed, 30 Nov 2022 at 21:57, Alexandre Belloni via
-lists.openembedded.org
-<alexandre.belloni=bootlin.com@lists.openembedded.org> wrote:
->
-> Last missing things:
->
-> The following recipes do not have a maintainer assigned to them. Please add an entry to meta/conf/distro/include/maintainers.inc file.
-> gcr3 (/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/recipes-gnome/gcr/gcr3_3.40.0.bb)
-> gtk4 (/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/recipes-gnome/gtk+/gtk4_4.6.7.bb)
-> graphene (/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/recipes-graphics/graphene/graphene_1.10.8.bb)
-> libsass (/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/recipes-support/sass/libsass_git.bb)
-> sassc (/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/recipes-support/sass/sassc_git.bb)
->
-> The following recipes do not have a HOMEPAGE. Please add an entry for HOMEPAGE in the recipe.
-> sassc (/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/recipes-support/sass/sassc_git.bb)
->
-> On 30/11/2022 16:58:34+0100, Markus Volk wrote:
-> > Am Mi, 30. Nov 2022 um 16:52:34 +0100 schrieb Alexandre Belloni via
-> > lists.openembedded.org
-> > <alexandre.belloni=bootlin.com@lists.openembedded.org>:
-> > > | Run-time dependency gcr-3 found: NO (tried pkgconfig)
-> >
-> > Sent a patch for it
-> >
->
-> >
-> >
-> >
->
->
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#174029): https://lists.openembedded.org/g/openembedded-core/message/174029
-> Mute This Topic: https://lists.openembedded.org/mt/95352831/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
 
