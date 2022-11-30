@@ -1,227 +1,230 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <chee.yang.lee@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55C6AC433FE
-	for <webhook@archiver.kernel.org>; Tue, 29 Nov 2022 23:13:31 +0000 (UTC)
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
- by mx.groups.io with SMTP id smtpd.web10.2596.1669763603819798574
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C3E4C4332F
+	for <webhook@archiver.kernel.org>; Wed, 30 Nov 2022 04:45:20 +0000 (UTC)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by mx.groups.io with SMTP id smtpd.web10.3121.1669783513521037173
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Nov 2022 15:13:24 -0800
+ Tue, 29 Nov 2022 20:45:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=QHAoSNCt;
- spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 668686000A;
-	Tue, 29 Nov 2022 23:13:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1669763602;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jWbbNDAZAKWj3Myfpm28phe+ExOuPu0v98iQz+cMkYI=;
-	b=QHAoSNCtyagfUlHJ6wnw9KzA5VL2WoSX1RJxzRiOHN6vutTMjpZ3R3GvPI06r9kgwEuHJi
-	9E4WbQ6BmAi6jaBjf6zEotdpbnZNDFiNdeubWaV1tWzbRGUDrY85iBVNnkRETS7dXpHlhI
-	zhV6BewB7RL/L78sZV+WjfeovhC8/5AWAKvZ/NTpPAQTeEZN/upgIhTeOnXWW9f//jHV5+
-	wk/UHV1tAnI/0bvUKbxKzCR7qPp24CduKN5DMG1vl9ofy1NKAn8AkNPvzBIvD/eKn4aEnc
-	ehqD+78S6gtvPzDBWZmcZoTfJKj/i0VaX1mBNO4aRNM/d2VKsQKPcZ0jUjQX3g==
-Date: Wed, 30 Nov 2022 00:13:20 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Markus Volk <f_l_k@t-online.de>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe-core][PATCHv7 1/2] gtk4: import recipe from meta-gnome
-Message-ID: <Y4aSEK3Kad4XgIa5@mail.local>
-References: <20221129132220.6357-1-f_l_k@t-online.de>
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=Fc/XL1MV;
+ spf=pass (domain: intel.com, ip: 192.55.52.43, mailfrom: chee.yang.lee@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1669783513; x=1701319513;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=kpVOTtSNv9fWAZWeKXtF0bcIuZ9SltdfMqDkHII8LP0=;
+  b=Fc/XL1MV+SpoVzhbwnZPtOTVPOZQV8wlmYZJb5ms2uM5O0sCDhy/lRib
+   mcX8GBFjR8KXUn++qSsupDOtcW2aR1fFDLraNSlSPpRL+/3PmFpMC+lwi
+   fGJFMQ3Gu5HhUxg6+n2AyG5+6G8u8HIVTdy/5vsq0AaR8kbnIz3dGa/jA
+   XAgUn6P4lBY36MRCtV9FCn/5TYVDTFkx8kKuHOA8dpNbPfUKX5AR68raP
+   woNSNXrXBGHIpm7j0bdpYJkiTkubDl7DUM42IArwprnlN0gIf7jh57eq9
+   I9GflxHR26iYlIIRaJ7HBKd2HkVrtRsFLXhRcFErBgCfLs4pWlZy9XcnA
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10546"; a="401582784"
+X-IronPort-AV: E=Sophos;i="5.96,205,1665471600"; 
+   d="scan'208";a="401582784"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2022 20:45:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10546"; a="712662364"
+X-IronPort-AV: E=Sophos;i="5.96,205,1665471600"; 
+   d="scan'208";a="712662364"
+Received: from andromeda01.png.intel.com (HELO cheeyang-Standard-PC-i440FX-PIIX-1996.png.intel.com) ([10.221.253.199])
+  by fmsmga004.fm.intel.com with ESMTP; 29 Nov 2022 20:45:12 -0800
+From: chee.yang.lee@intel.com
+To: openembedded-core@lists.openembedded.org
+Subject: [kirkstone][patch] dropbear: fix CVE-2021-36369
+Date: Wed, 30 Nov 2022 12:45:10 +0800
+Message-Id: <20221130044510.925824-1-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221129132220.6357-1-f_l_k@t-online.de>
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Nov 2022 23:13:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173989
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Nov 2022 04:45:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173990
 
-Hello,
+From: Chee Yang Lee <chee.yang.lee@intel.com>
 
-It seems this is not enough:
+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+---
+ meta/recipes-core/dropbear/dropbear.inc       |   4 +-
+ .../dropbear/dropbear/CVE-2021-36369.patch    | 145 ++++++++++++++++++
+ 2 files changed, 148 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2021-36369.patch
 
-ERROR: Nothing PROVIDES 'graphene' (but /home/pokybuild/yocto-worker/check-layer/build/meta/recipes-gnome/gtk+/gtk4_4.6.7.bb DEPENDS on or otherwise requires it)
-ERROR: Required build target 'meta-world-pkgdata' has no buildable providers.
-Missing or unbuildable dependency chain was: ['meta-world-pkgdata', 'epiphany', 'gcr', 'gtk4', 'graphene']
-
-On 29/11/2022 14:22:19+0100, Markus Volk wrote:
-> Signed-off-by: Markus Volk <f_l_k@t-online.de>
-> ---
->  meta/recipes-gnome/gtk+/gtk4_4.6.7.bb | 142 ++++++++++++++++++++++++++
->  1 file changed, 142 insertions(+)
->  create mode 100644 meta/recipes-gnome/gtk+/gtk4_4.6.7.bb
-> 
-> diff --git a/meta/recipes-gnome/gtk+/gtk4_4.6.7.bb b/meta/recipes-gnome/gtk+/gtk4_4.6.7.bb
-> new file mode 100644
-> index 0000000000..c71be23a7d
-> --- /dev/null
-> +++ b/meta/recipes-gnome/gtk+/gtk4_4.6.7.bb
-> @@ -0,0 +1,142 @@
-> +SUMMARY = "Multi-platform toolkit for creating GUIs"
-> +DESCRIPTION = "GTK is a multi-platform toolkit for creating graphical user interfaces. Offering a complete \
-> +set of widgets, GTK is suitable for projects ranging from small one-off projects to complete application suites."
-> +HOMEPAGE = "http://www.gtk.org"
-> +BUGTRACKER = "https://bugzilla.gnome.org/"
-> +SECTION = "libs"
-> +
-> +DEPENDS = " \
-> +    sassc-native \
-> +    glib-2.0 \
-> +    libepoxy \
-> +    graphene \
-> +    cairo \
-> +    pango \
-> +    atk \
-> +    jpeg \
-> +    libpng \
-> +    librsvg \
-> +    tiff \
-> +    gdk-pixbuf-native gdk-pixbuf \
-> +"
-> +
-> +LICENSE = "LGPL-2.0-only & LGPL-2.0-or-later & LGPL-2.1-or-later"
-> +LIC_FILES_CHKSUM = " \
-> +    file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2 \
-> +    file://gtk/gtk.h;endline=25;md5=1d8dc0fccdbfa26287a271dce88af737 \
-> +    file://gdk/gdk.h;endline=25;md5=c920ce39dc88c6f06d3e7c50e08086f2 \
-> +    file://tests/testgtk.c;endline=25;md5=49d06770681b8322466b52ed19d29fb2 \
-> +"
-> +
-> +MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
-> +
-> +UPSTREAM_CHECK_REGEX = "gtk-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)\.tar.xz"
-> +
-> +SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk/${MAJ_VER}/gtk-${PV}.tar.xz"
-> +SRC_URI[sha256sum] = "effd2e7c4b5e2a5c7fad43e0f24adea68baa4092abb0b752caff278e6bb010e8"
-> +
-> +S = "${WORKDIR}/gtk-${PV}"
-> +
-> +inherit meson gettext pkgconfig gtk-doc update-alternatives gsettings features_check gobject-introspection
-> +
-> +# TBD: nativesdk
-> +# gobject-introspection.bbclass pins introspection off for nativesk. As long as
-> +# we do not remove this wisdom or hack gtk4, it is not possible to build
-> +# nativesdk-gtk4
-> +BBCLASSEXTEND = "native"
-> +
-> +GSETTINGS_PACKAGE:class-native = ""
-> +
-> +ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
-> +REQUIRED_DISTRO_FEATURES = "opengl"
-> +
-> +GIR_MESON_ENABLE_FLAG = 'enabled'
-> +GIR_MESON_DISABLE_FLAG = 'disabled'
-> +GTKDOC_MESON_OPTION = 'gtk_doc'
-> +
-> +EXTRA_OEMESON = " -Dbuild-tests=false"
-> +
-> +PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11', d)}"
-> +PACKAGECONFIG:class-native = "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}"
-> +PACKAGECONFIG:class-nativesdk = "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}"
-> +
-> +PACKAGECONFIG[x11] = "-Dx11-backend=true,-Dx11-backend=false,at-spi2-atk fontconfig libx11 libxext libxcursor libxi libxdamage libxrandr libxrender libxcomposite libxfixes xinerama"
-> +PACKAGECONFIG[wayland] = "-Dwayland-backend=true,-Dwayland-backend=false,wayland wayland-protocols libxkbcommon virtual/egl virtual/libgles2 wayland-native"
-> +PACKAGECONFIG[cups] = "-Dprint-cups=enabled,-Dprint-cups=disabled,cups"
-> +PACKAGECONFIG[colord] = "-Dcolord=enabled,-Dcolord=disabled,colord"
-> +# gtk4 wants gstreamer-player-1.0 -> gstreamer1.0-plugins-bad
-> +PACKAGECONFIG[gstreamer] = "-Dmedia-gstreamer=enabled,-Dmedia-gstreamer=disabled,gstreamer1.0-plugins-bad"
-> +PACKAGECONFIG[tracker] = "-Dtracker=enabled,-Dtracker=disabled,tracker"
-> +
-> +
-> +do_compile:prepend() {
-> +    export GIR_EXTRA_LIBS_PATH="${B}/gdk/.libs"
-> +}
-> +
-> +
-> +PACKAGES =+ "${PN}-demo"
-> +LIBV = "4.0.0"
-> +
-> +FILES:${PN}-demo = " \
-> +    ${datadir}/applications/org.gtk.Demo4.desktop \
-> +    ${datadir}/applications/org.gtk.IconBrowser4.desktop \
-> +    ${datadir}/applications/org.gtk.WidgetFactory4.desktop \
-> +    ${datadir}/icons/hicolor/*/apps/org.gtk.Demo4*.* \
-> +    ${datadir}/icons/hicolor/*/apps/org.gtk.IconBrowser4*.* \
-> +    ${datadir}/icons/hicolor/*/apps/org.gtk.WidgetFactory4*.* \
-> +    ${bindir}/gtk4-demo \
-> +    ${bindir}/gtk4-demo-application \
-> +    ${bindir}/gtk4-icon-browser \
-> +    ${bindir}/gtk4-widget-factory \
-> +"
-> +
-> +FILES:${PN}:append = " \
-> +    ${datadir}/glib-2.0/schemas/ \
-> +    ${datadir}/gtk-4.0/emoji/ \
-> +    ${datadir}/metainfo/ \
-> +    ${datadir}/icons/hicolor/*/apps/org.gtk.PrintEditor4*.* \
-> +    ${libdir}/gtk-4.0/${LIBV}/printbackends \
-> +    ${bindir}/gtk4-update-icon-cache \
-> +    ${bindir}/gtk4-launch \
-> +"
-> +
-> +FILES:${PN}-dev += " \
-> +    ${datadir}/gtk-4.0/gtk4builder.rng \
-> +    ${datadir}/gtk-4.0/include \
-> +    ${datadir}/gtk-4.0/valgrind \
-> +    ${datadir}/gettext/its \
-> +    ${bindir}/gtk4-builder-tool \
-> +    ${bindir}/gtk4-encode-symbolic-svg \
-> +    ${bindir}/gtk4-query-settings \
-> +"
-> +
-> +GTKBASE_RRECOMMENDS ?= " \
-> +    liberation-fonts \
-> +    gdk-pixbuf-loader-png \
-> +    gdk-pixbuf-loader-jpeg \
-> +    gdk-pixbuf-loader-gif \
-> +    gdk-pixbuf-loader-xpm \
-> +    shared-mime-info \
-> +    adwaita-icon-theme-symbolic \
-> +"
-> +
-> +GTKBASE_RRECOMMENDS:class-native ?= ""
-> +
-> +GTKGLIBC_RRECOMMENDS ?= "${GTKBASE_RRECOMMENDS} glibc-gconv-iso8859-1"
-> +
-> +RRECOMMENDS:${PN} = "${GTKBASE_RRECOMMENDS}"
-> +RRECOMMENDS:${PN}:libc-glibc = "${GTKGLIBC_RRECOMMENDS}"
-> +RDEPENDS:${PN}-dev += "${@bb.utils.contains("PACKAGECONFIG", "wayland", "wayland-protocols", "", d)}"
-> +
-> +PACKAGES_DYNAMIC += "^gtk4-printbackend-.*"
-> +python populate_packages:prepend () {
-> +    import os.path
-> +
-> +    gtk_libdir = d.expand('${libdir}/gtk-3.0/${LIBV}')
-> +    printmodules_root = os.path.join(gtk_libdir, 'printbackends');
-> +
-> +    do_split_packages(d, printmodules_root, r'^libprintbackend-(.*)\.so$', 'gtk4-printbackend-%s', 'GTK printbackend module for %s')
-> +
-> +    if (d.getVar('DEBIAN_NAMES')):
-> +        d.setVar(d.expand('PKG:${PN}'), '${MLPREFIX}libgtk-4.0')
-> +}
-> -- 
-> 2.34.1
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#173967): https://lists.openembedded.org/g/openembedded-core/message/173967
-> Mute This Topic: https://lists.openembedded.org/mt/95333759/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
+diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
+index 2d6e64cf8d..f3f085b616 100644
+--- a/meta/recipes-core/dropbear/dropbear.inc
++++ b/meta/recipes-core/dropbear/dropbear.inc
+@@ -27,7 +27,9 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
+            file://dropbear.socket \
+            file://dropbear.default \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
+-           ${@bb.utils.contains('PACKAGECONFIG', 'disable-weak-ciphers', 'file://dropbear-disable-weak-ciphers.patch', '', d)} "
++           ${@bb.utils.contains('PACKAGECONFIG', 'disable-weak-ciphers', 'file://dropbear-disable-weak-ciphers.patch', '', d)} \
++	   file://CVE-2021-36369.patch \
++	   "
+ 
+ PAM_SRC_URI = "file://0005-dropbear-enable-pam.patch \
+                file://0006-dropbear-configuration-file.patch \
+diff --git a/meta/recipes-core/dropbear/dropbear/CVE-2021-36369.patch b/meta/recipes-core/dropbear/dropbear/CVE-2021-36369.patch
+new file mode 100644
+index 0000000000..5ff11abdd6
+--- /dev/null
++++ b/meta/recipes-core/dropbear/dropbear/CVE-2021-36369.patch
+@@ -0,0 +1,145 @@
++From e9b15a8b1035b62413b2b881315c6bffd02205d4 Mon Sep 17 00:00:00 2001
++From: Manfred Kaiser <37737811+manfred-kaiser@users.noreply.github.com>
++Date: Thu, 19 Aug 2021 17:37:14 +0200
++Subject: [PATCH] added option to disable trivial auth methods (#128)
++
++* added option to disable trivial auth methods
++
++* rename argument to match with other ssh clients
++
++* fixed trivial auth detection for pubkeys
++
++[https://github.com/mkj/dropbear/pull/128]
++Upstream-Status: Backport
++CVE: CVE-2021-36369
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++
++---
++ cli-auth.c         | 3 +++
++ cli-authinteract.c | 1 +
++ cli-authpasswd.c   | 2 +-
++ cli-authpubkey.c   | 1 +
++ cli-runopts.c      | 7 +++++++
++ cli-session.c      | 1 +
++ runopts.h          | 1 +
++ session.h          | 1 +
++ 8 files changed, 16 insertions(+), 1 deletion(-)
++
++diff --git a/cli-auth.c b/cli-auth.c
++index 2e509e5..6f04495 100644
++--- a/cli-auth.c
+++++ b/cli-auth.c
++@@ -267,6 +267,9 @@ void recv_msg_userauth_success() {
++ 	if DROPBEAR_CLI_IMMEDIATE_AUTH is set */
++ 
++ 	TRACE(("received msg_userauth_success"))
+++	if (cli_opts.disable_trivial_auth && cli_ses.is_trivial_auth) {
+++		dropbear_exit("trivial authentication not allowed");
+++	}
++ 	/* Note: in delayed-zlib mode, setting authdone here 
++ 	 * will enable compression in the transport layer */
++ 	ses.authstate.authdone = 1;
++diff --git a/cli-authinteract.c b/cli-authinteract.c
++index e1cc9a1..f7128ee 100644
++--- a/cli-authinteract.c
+++++ b/cli-authinteract.c
++@@ -114,6 +114,7 @@ void recv_msg_userauth_info_request() {
++ 	m_free(instruction);
++ 
++ 	for (i = 0; i < num_prompts; i++) {
+++		cli_ses.is_trivial_auth = 0;
++ 		unsigned int response_len = 0;
++ 		prompt = buf_getstring(ses.payload, NULL);
++ 		cleantext(prompt);
++diff --git a/cli-authpasswd.c b/cli-authpasswd.c
++index 00fdd8b..a24d43e 100644
++--- a/cli-authpasswd.c
+++++ b/cli-authpasswd.c
++@@ -155,7 +155,7 @@ void cli_auth_password() {
++ 
++ 	encrypt_packet();
++ 	m_burn(password, strlen(password));
++-
+++	cli_ses.is_trivial_auth = 0;
++ 	TRACE(("leave cli_auth_password"))
++ }
++ #endif	/* DROPBEAR_CLI_PASSWORD_AUTH */
++diff --git a/cli-authpubkey.c b/cli-authpubkey.c
++index 42c4e3f..fa01807 100644
++--- a/cli-authpubkey.c
+++++ b/cli-authpubkey.c
++@@ -176,6 +176,7 @@ static void send_msg_userauth_pubkey(sign_key *key, enum signature_type sigtype,
++ 		buf_putbytes(sigbuf, ses.writepayload->data, ses.writepayload->len);
++ 		cli_buf_put_sign(ses.writepayload, key, sigtype, sigbuf);
++ 		buf_free(sigbuf); /* Nothing confidential in the buffer */
+++		cli_ses.is_trivial_auth = 0;
++ 	}
++ 
++ 	encrypt_packet();
++diff --git a/cli-runopts.c b/cli-runopts.c
++index 3654b9a..255b47e 100644
++--- a/cli-runopts.c
+++++ b/cli-runopts.c
++@@ -152,6 +152,7 @@ void cli_getopts(int argc, char ** argv) {
++ #if DROPBEAR_CLI_ANYTCPFWD
++ 	cli_opts.exit_on_fwd_failure = 0;
++ #endif
+++	cli_opts.disable_trivial_auth = 0;
++ #if DROPBEAR_CLI_LOCALTCPFWD
++ 	cli_opts.localfwds = list_new();
++ 	opts.listen_fwd_all = 0;
++@@ -889,6 +890,7 @@ static void add_extendedopt(const char* origstr) {
++ #if DROPBEAR_CLI_ANYTCPFWD
++ 			"\tExitOnForwardFailure\n"
++ #endif
+++			"\tDisableTrivialAuth\n"
++ #ifndef DISABLE_SYSLOG
++ 			"\tUseSyslog\n"
++ #endif
++@@ -916,5 +918,10 @@ static void add_extendedopt(const char* origstr) {
++ 		return;
++ 	}
++ 
+++	if (match_extendedopt(&optstr, "DisableTrivialAuth") == DROPBEAR_SUCCESS) {
+++		cli_opts.disable_trivial_auth = parse_flag_value(optstr);
+++		return;
+++	}
+++
++ 	dropbear_log(LOG_WARNING, "Ignoring unknown configuration option '%s'", origstr);
++ }
++diff --git a/cli-session.c b/cli-session.c
++index 5e5af22..afb54a1 100644
++--- a/cli-session.c
+++++ b/cli-session.c
++@@ -165,6 +165,7 @@ static void cli_session_init(pid_t proxy_cmd_pid) {
++ 	/* Auth */
++ 	cli_ses.lastprivkey = NULL;
++ 	cli_ses.lastauthtype = 0;
+++	cli_ses.is_trivial_auth = 1;
++ 
++ 	/* For printing "remote host closed" for the user */
++ 	ses.remoteclosed = cli_remoteclosed;
++diff --git a/runopts.h b/runopts.h
++index 6a4a94c..01201d2 100644
++--- a/runopts.h
+++++ b/runopts.h
++@@ -159,6 +159,7 @@ typedef struct cli_runopts {
++ #if DROPBEAR_CLI_ANYTCPFWD
++ 	int exit_on_fwd_failure;
++ #endif
+++	int disable_trivial_auth;
++ #if DROPBEAR_CLI_REMOTETCPFWD
++ 	m_list * remotefwds;
++ #endif
++diff --git a/session.h b/session.h
++index fb5b8cb..6706592 100644
++--- a/session.h
+++++ b/session.h
++@@ -316,6 +316,7 @@ struct clientsession {
++ 
++ 	int lastauthtype; /* either AUTH_TYPE_PUBKEY or AUTH_TYPE_PASSWORD,
++ 						 for the last type of auth we tried */
+++	int is_trivial_auth;
++ 	int ignore_next_auth_response;
++ #if DROPBEAR_CLI_INTERACT_AUTH
++ 	int auth_interact_failed; /* flag whether interactive auth can still
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.25.1
+
 
