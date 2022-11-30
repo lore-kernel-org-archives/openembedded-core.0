@@ -1,230 +1,77 @@
-Return-Path: <chee.yang.lee@intel.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C3E4C4332F
-	for <webhook@archiver.kernel.org>; Wed, 30 Nov 2022 04:45:20 +0000 (UTC)
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by mx.groups.io with SMTP id smtpd.web10.3121.1669783513521037173
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00577C433FE
+	for <webhook@archiver.kernel.org>; Wed, 30 Nov 2022 05:35:11 +0000 (UTC)
+Received: from mailout11.t-online.de (mailout11.t-online.de [194.25.134.85])
+ by mx.groups.io with SMTP id smtpd.web11.3893.1669786505739975625
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Nov 2022 20:45:13 -0800
+ Tue, 29 Nov 2022 21:35:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=Fc/XL1MV;
- spf=pass (domain: intel.com, ip: 192.55.52.43, mailfrom: chee.yang.lee@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1669783513; x=1701319513;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=kpVOTtSNv9fWAZWeKXtF0bcIuZ9SltdfMqDkHII8LP0=;
-  b=Fc/XL1MV+SpoVzhbwnZPtOTVPOZQV8wlmYZJb5ms2uM5O0sCDhy/lRib
-   mcX8GBFjR8KXUn++qSsupDOtcW2aR1fFDLraNSlSPpRL+/3PmFpMC+lwi
-   fGJFMQ3Gu5HhUxg6+n2AyG5+6G8u8HIVTdy/5vsq0AaR8kbnIz3dGa/jA
-   XAgUn6P4lBY36MRCtV9FCn/5TYVDTFkx8kKuHOA8dpNbPfUKX5AR68raP
-   woNSNXrXBGHIpm7j0bdpYJkiTkubDl7DUM42IArwprnlN0gIf7jh57eq9
-   I9GflxHR26iYlIIRaJ7HBKd2HkVrtRsFLXhRcFErBgCfLs4pWlZy9XcnA
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10546"; a="401582784"
-X-IronPort-AV: E=Sophos;i="5.96,205,1665471600"; 
-   d="scan'208";a="401582784"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2022 20:45:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10546"; a="712662364"
-X-IronPort-AV: E=Sophos;i="5.96,205,1665471600"; 
-   d="scan'208";a="712662364"
-Received: from andromeda01.png.intel.com (HELO cheeyang-Standard-PC-i440FX-PIIX-1996.png.intel.com) ([10.221.253.199])
-  by fmsmga004.fm.intel.com with ESMTP; 29 Nov 2022 20:45:12 -0800
-From: chee.yang.lee@intel.com
+ dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.85, mailfrom: f_l_k@t-online.de)
+Received: from fwd82.dcpf.telekom.de (fwd82.aul.t-online.de [10.223.144.108])
+	by mailout11.t-online.de (Postfix) with SMTP id 0C158C1EC
+	for <openembedded-core@lists.openembedded.org>; Wed, 30 Nov 2022 06:35:04 +0100 (CET)
+Received: from flk-MS-7C91.fritz.box ([84.163.47.245]) by fwd82.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1p0FkK-0QHosD0; Wed, 30 Nov 2022 06:35:00 +0100
+From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [kirkstone][patch] dropbear: fix CVE-2021-36369
-Date: Wed, 30 Nov 2022 12:45:10 +0800
-Message-Id: <20221130044510.925824-1-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Markus Volk <f_l_k@t-online.de>
+Subject: [oe-core][PATCHv8 1/4] graphene: import from meta-oe
+Date: Wed, 30 Nov 2022 06:34:47 +0100
+Message-Id: <20221130053450.95655-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1669786500-E6FDD07E-7B7AE494/0/0 CLEAN NORMAL
+X-TOI-MSGID: 1237a0c3-dc3e-42dd-b833-c17d597354d7
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Nov 2022 04:45:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173990
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Nov 2022 05:35:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/173991
 
-From: Chee Yang Lee <chee.yang.lee@intel.com>
-
-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- meta/recipes-core/dropbear/dropbear.inc       |   4 +-
- .../dropbear/dropbear/CVE-2021-36369.patch    | 145 ++++++++++++++++++
- 2 files changed, 148 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2021-36369.patch
+ .../graphene/graphene_1.10.8.bb               | 22 +++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+ create mode 100644 meta/recipes-graphics/graphene/graphene_1.10.8.bb
 
-diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
-index 2d6e64cf8d..f3f085b616 100644
---- a/meta/recipes-core/dropbear/dropbear.inc
-+++ b/meta/recipes-core/dropbear/dropbear.inc
-@@ -27,7 +27,9 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
-            file://dropbear.socket \
-            file://dropbear.default \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
--           ${@bb.utils.contains('PACKAGECONFIG', 'disable-weak-ciphers', 'file://dropbear-disable-weak-ciphers.patch', '', d)} "
-+           ${@bb.utils.contains('PACKAGECONFIG', 'disable-weak-ciphers', 'file://dropbear-disable-weak-ciphers.patch', '', d)} \
-+	   file://CVE-2021-36369.patch \
-+	   "
- 
- PAM_SRC_URI = "file://0005-dropbear-enable-pam.patch \
-                file://0006-dropbear-configuration-file.patch \
-diff --git a/meta/recipes-core/dropbear/dropbear/CVE-2021-36369.patch b/meta/recipes-core/dropbear/dropbear/CVE-2021-36369.patch
+diff --git a/meta/recipes-graphics/graphene/graphene_1.10.8.bb b/meta/rec=
+ipes-graphics/graphene/graphene_1.10.8.bb
 new file mode 100644
-index 0000000000..5ff11abdd6
+index 0000000000..813ff74adf
 --- /dev/null
-+++ b/meta/recipes-core/dropbear/dropbear/CVE-2021-36369.patch
-@@ -0,0 +1,145 @@
-+From e9b15a8b1035b62413b2b881315c6bffd02205d4 Mon Sep 17 00:00:00 2001
-+From: Manfred Kaiser <37737811+manfred-kaiser@users.noreply.github.com>
-+Date: Thu, 19 Aug 2021 17:37:14 +0200
-+Subject: [PATCH] added option to disable trivial auth methods (#128)
++++ b/meta/recipes-graphics/graphene/graphene_1.10.8.bb
+@@ -0,0 +1,22 @@
++SUMMARY =3D "A thin layer of graphic data types"
++HOMEPAGE =3D "http://ebassi.github.io/graphene/"
++LICENSE =3D "MIT"
++LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3Da7d871d9e23c450c421a85bb2=
+819f648"
 +
-+* added option to disable trivial auth methods
++GNOMEBASEBUILDCLASS =3D "meson"
 +
-+* rename argument to match with other ssh clients
++inherit gnomebase gobject-introspection gtk-doc
 +
-+* fixed trivial auth detection for pubkeys
++SRC_URI[archive.sha256sum] =3D "a37bb0e78a419dcbeaa9c7027bcff52f5ec2367c=
+25ec859da31dfde2928f279a"
 +
-+[https://github.com/mkj/dropbear/pull/128]
-+Upstream-Status: Backport
-+CVE: CVE-2021-36369
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++# gtk4 & mutter 41.0 requires graphene build with introspection
++PACKAGECONFIG ?=3D "introspection"
++PACKAGECONFIG[introspection] =3D "-Dintrospection=3Denabled,-Dintrospect=
+ion=3Ddisabled,"
 +
-+---
-+ cli-auth.c         | 3 +++
-+ cli-authinteract.c | 1 +
-+ cli-authpasswd.c   | 2 +-
-+ cli-authpubkey.c   | 1 +
-+ cli-runopts.c      | 7 +++++++
-+ cli-session.c      | 1 +
-+ runopts.h          | 1 +
-+ session.h          | 1 +
-+ 8 files changed, 16 insertions(+), 1 deletion(-)
++GTKDOC_MESON_OPTION =3D "gtk_doc"
 +
-+diff --git a/cli-auth.c b/cli-auth.c
-+index 2e509e5..6f04495 100644
-+--- a/cli-auth.c
-++++ b/cli-auth.c
-+@@ -267,6 +267,9 @@ void recv_msg_userauth_success() {
-+ 	if DROPBEAR_CLI_IMMEDIATE_AUTH is set */
-+ 
-+ 	TRACE(("received msg_userauth_success"))
-++	if (cli_opts.disable_trivial_auth && cli_ses.is_trivial_auth) {
-++		dropbear_exit("trivial authentication not allowed");
-++	}
-+ 	/* Note: in delayed-zlib mode, setting authdone here 
-+ 	 * will enable compression in the transport layer */
-+ 	ses.authstate.authdone = 1;
-+diff --git a/cli-authinteract.c b/cli-authinteract.c
-+index e1cc9a1..f7128ee 100644
-+--- a/cli-authinteract.c
-++++ b/cli-authinteract.c
-+@@ -114,6 +114,7 @@ void recv_msg_userauth_info_request() {
-+ 	m_free(instruction);
-+ 
-+ 	for (i = 0; i < num_prompts; i++) {
-++		cli_ses.is_trivial_auth = 0;
-+ 		unsigned int response_len = 0;
-+ 		prompt = buf_getstring(ses.payload, NULL);
-+ 		cleantext(prompt);
-+diff --git a/cli-authpasswd.c b/cli-authpasswd.c
-+index 00fdd8b..a24d43e 100644
-+--- a/cli-authpasswd.c
-++++ b/cli-authpasswd.c
-+@@ -155,7 +155,7 @@ void cli_auth_password() {
-+ 
-+ 	encrypt_packet();
-+ 	m_burn(password, strlen(password));
-+-
-++	cli_ses.is_trivial_auth = 0;
-+ 	TRACE(("leave cli_auth_password"))
-+ }
-+ #endif	/* DROPBEAR_CLI_PASSWORD_AUTH */
-+diff --git a/cli-authpubkey.c b/cli-authpubkey.c
-+index 42c4e3f..fa01807 100644
-+--- a/cli-authpubkey.c
-++++ b/cli-authpubkey.c
-+@@ -176,6 +176,7 @@ static void send_msg_userauth_pubkey(sign_key *key, enum signature_type sigtype,
-+ 		buf_putbytes(sigbuf, ses.writepayload->data, ses.writepayload->len);
-+ 		cli_buf_put_sign(ses.writepayload, key, sigtype, sigbuf);
-+ 		buf_free(sigbuf); /* Nothing confidential in the buffer */
-++		cli_ses.is_trivial_auth = 0;
-+ 	}
-+ 
-+ 	encrypt_packet();
-+diff --git a/cli-runopts.c b/cli-runopts.c
-+index 3654b9a..255b47e 100644
-+--- a/cli-runopts.c
-++++ b/cli-runopts.c
-+@@ -152,6 +152,7 @@ void cli_getopts(int argc, char ** argv) {
-+ #if DROPBEAR_CLI_ANYTCPFWD
-+ 	cli_opts.exit_on_fwd_failure = 0;
-+ #endif
-++	cli_opts.disable_trivial_auth = 0;
-+ #if DROPBEAR_CLI_LOCALTCPFWD
-+ 	cli_opts.localfwds = list_new();
-+ 	opts.listen_fwd_all = 0;
-+@@ -889,6 +890,7 @@ static void add_extendedopt(const char* origstr) {
-+ #if DROPBEAR_CLI_ANYTCPFWD
-+ 			"\tExitOnForwardFailure\n"
-+ #endif
-++			"\tDisableTrivialAuth\n"
-+ #ifndef DISABLE_SYSLOG
-+ 			"\tUseSyslog\n"
-+ #endif
-+@@ -916,5 +918,10 @@ static void add_extendedopt(const char* origstr) {
-+ 		return;
-+ 	}
-+ 
-++	if (match_extendedopt(&optstr, "DisableTrivialAuth") == DROPBEAR_SUCCESS) {
-++		cli_opts.disable_trivial_auth = parse_flag_value(optstr);
-++		return;
-++	}
-++
-+ 	dropbear_log(LOG_WARNING, "Ignoring unknown configuration option '%s'", origstr);
-+ }
-+diff --git a/cli-session.c b/cli-session.c
-+index 5e5af22..afb54a1 100644
-+--- a/cli-session.c
-++++ b/cli-session.c
-+@@ -165,6 +165,7 @@ static void cli_session_init(pid_t proxy_cmd_pid) {
-+ 	/* Auth */
-+ 	cli_ses.lastprivkey = NULL;
-+ 	cli_ses.lastauthtype = 0;
-++	cli_ses.is_trivial_auth = 1;
-+ 
-+ 	/* For printing "remote host closed" for the user */
-+ 	ses.remoteclosed = cli_remoteclosed;
-+diff --git a/runopts.h b/runopts.h
-+index 6a4a94c..01201d2 100644
-+--- a/runopts.h
-++++ b/runopts.h
-+@@ -159,6 +159,7 @@ typedef struct cli_runopts {
-+ #if DROPBEAR_CLI_ANYTCPFWD
-+ 	int exit_on_fwd_failure;
-+ #endif
-++	int disable_trivial_auth;
-+ #if DROPBEAR_CLI_REMOTETCPFWD
-+ 	m_list * remotefwds;
-+ #endif
-+diff --git a/session.h b/session.h
-+index fb5b8cb..6706592 100644
-+--- a/session.h
-++++ b/session.h
-+@@ -316,6 +316,7 @@ struct clientsession {
-+ 
-+ 	int lastauthtype; /* either AUTH_TYPE_PUBKEY or AUTH_TYPE_PASSWORD,
-+ 						 for the last type of auth we tried */
-++	int is_trivial_auth;
-+ 	int ignore_next_auth_response;
-+ #if DROPBEAR_CLI_INTERACT_AUTH
-+ 	int auth_interact_failed; /* flag whether interactive auth can still
--- 
-2.25.1
++EXTRA_OEMESON =3D "-Dinstalled_tests=3Dfalse"
++
++FILES:${PN} +=3D "${libdir}/graphene-1.0"
++
++BBCLASSEXTEND =3D "native nativesdk"
+--=20
+2.34.1
 
 
