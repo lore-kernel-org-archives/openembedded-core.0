@@ -2,159 +2,113 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2DBBC4321E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFB02C47088
 	for <webhook@archiver.kernel.org>; Thu,  1 Dec 2022 15:25:42 +0000 (UTC)
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.web10.46613.1669908339739228776
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web10.46605.1669908335626363663
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Dec 2022 07:25:39 -0800
+ Thu, 01 Dec 2022 07:25:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=0s+U/rjq;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.175, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f175.google.com with SMTP id w37so1950342pga.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 07:25:39 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=EhALV5jM;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f175.google.com with SMTP id w2so636630pfq.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 07:25:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=abF55vm8vv7I1KGn6J1eja3q2cgksRZGSHDKYFE+PIQ=;
-        b=0s+U/rjq0rHyvx9WFKBtqlm1RCkoS51+v2H/NYUQoZxSRrQ3lwawd4wCOgem3c1vDE
-         WPJ5KXWd1JMGOorl68/9POeGAV3A1zo+l3K+H+8dUY8gmNK2AlHKAXFyBS1l/FCxXGX1
-         wGLF5Qwe+3cNVBx9E0yvRFodMABKo8jFuGBwkZWQkPwW0cQHLVjd00yOq5juBiCqBqYN
-         h3ickoKEcpV1OYNlgvI3gOkJCYwjGWbkW8ATNxc9E2FmfmsEPvXvkK1LmCB565ko/IzN
-         K3gq4Sc1uwwbUOq8a2WG7rQK8eh0v5HZ8lJrHAJjyrQY0YvvWckxNxhLC9E65b/XxUSL
-         5txg==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Rygp407UL8oUMtp7BWKEywhkkRVTCKj+DxXq271ktO4=;
+        b=EhALV5jMD5BOdTb7qw3ns/jsC4nSDK5QbnTAalX+1uugkFN9E3z1kJnQ6fbk1wHtg2
+         2EmdtQRpcexEwt+5pAQuYU5ps30jesSYMFui00blHLgX8lrG1x2fkn5fZAocVI5SDhCc
+         kPf3pXuDlRvCUnaxcz65zyd/1kmz6HSSOWHwHZuKEqnCOZuZvrCj0wNKXfa6gSOPMlgK
+         uHfD0E2aaphrPXafCgdBk1HQCVUW+eoqiyNzXxKKhsrtFrJnM9hiEpOftAdFj+8QP8Eo
+         nl1bimbic6Fbzju5WUiFZhEk1qM6Iphx856SfsZ/4m3yCmkHXAT7TqJjxpdhNsqBvBgt
+         62TA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=abF55vm8vv7I1KGn6J1eja3q2cgksRZGSHDKYFE+PIQ=;
-        b=tpo3Ti9FLZteaLpkhdOSzHHIjm4ZegdFu6vxcJKMxS1BL1TG7N46U9XO9jL0TxLJ5O
-         4Hq4reOrMTYJGGGMbXouj62XiTw8hYV9ovvD0cGYKLiJotdBo98zMiT1N/rymt5NdT1S
-         3kJL2gMLf4B4YxcntqnLyS67fmJvh1VntwH89flQwSLWo64F63H+N79NVPZadovVoH+3
-         Nq8+FGj83xL+QjTVAR5C6TKy8CrvQiSR5TJn2Z/pCSozwd3t/BMunpRhcJWZkaXXX7uT
-         EWq6XZv6/JTz+P6PKEKPxGeDwbtD9Nm2WcnkoHmOS2rwu/49BeUo3Xu2Kz1KFXanZbqG
-         CSvg==
-X-Gm-Message-State: ANoB5pmsx37/2OhzbQDyzn+YLKWok+nBq3I6+i6DMh1qiWKOSajrKN4V
-	51EEMjklYuUlsO6BdFozisEAlLZdC+iBRjua3d0=
-X-Google-Smtp-Source: AA0mqf46WPiSHTPJci6i99PqhknZn5uQcyPIrzoklJtxEAxDMgw1O8DPwrlppQrhNzMKvpiRZvSDMg==
-X-Received: by 2002:a63:cf14:0:b0:478:22cb:f05d with SMTP id j20-20020a63cf14000000b0047822cbf05dmr17930719pgg.456.1669908338562;
-        Thu, 01 Dec 2022 07:25:38 -0800 (PST)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Rygp407UL8oUMtp7BWKEywhkkRVTCKj+DxXq271ktO4=;
+        b=XtyexMuHHXeOUbLQJaUYYzaULnN0ZvF47PBk3oVH6dFUhMTjjo18dnfG+RiSXhlFlG
+         Ke00loHZbP5AgeeRv474bpIU/bo7RbtpeienNc6j6YX6K2WmGa+cefuv9ZFadd0fBKvv
+         Zdrp1eKaYgSSCa5L/DKDyXQUqa5mx27gOUwHfNolu6sg9Yab0NHIMDvaGWF/g4S3C+pQ
+         btn4JRUEDaFcsSytzoMgOn2WcpUSOFvaNCRHh5QjGxNA4+csfCG0m8bYSjpJW05wbRoW
+         GPp97MX8vAkDJROp7z2d03/foFVRAXO3pgg8BYzu3AajXDlQUrtRln8AjB0bySBaAEOm
+         wTIw==
+X-Gm-Message-State: ANoB5pmtqf+gZOFVnLX+gb1eJhire2xVQpSDl8Xskmdij70Q6t2WKHUo
+	xL1zztyVdbV/1d2TVJe1FEHd1fpna2BB/sBiqWg=
+X-Google-Smtp-Source: AA0mqf6bhVjNVWO790mxAdp+SWgRfkqVzxTh0p+xhCRphdsJ8yFEL+wHxXXL26LzsIoyS0ptfBpUDw==
+X-Received: by 2002:a62:54c2:0:b0:56b:fb4f:3d7c with SMTP id i185-20020a6254c2000000b0056bfb4f3d7cmr69648486pfb.54.1669908334517;
+        Thu, 01 Dec 2022 07:25:34 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id jc18-20020a17090325d200b001891a17bd93sm3812769plb.43.2022.12.01.07.25.37
+        by smtp.gmail.com with ESMTPSA id jc18-20020a17090325d200b001891a17bd93sm3812769plb.43.2022.12.01.07.25.33
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Dec 2022 07:25:38 -0800 (PST)
+        Thu, 01 Dec 2022 07:25:34 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 2/7] qemu: fix CVE-2021-20196 block fdc null pointer dereference may lead to guest crash
-Date: Thu,  1 Dec 2022 05:25:16 -1000
-Message-Id: <1523fcbb6fef60d30c07377673fca265c5c9781c.1669908167.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 0/7] Patch review
+Date: Thu,  1 Dec 2022 05:25:14 -1000
+Message-Id: <cover.1669908167.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1669908167.git.steve@sakoman.com>
-References: <cover.1669908167.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 15:25:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174115
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174113
 
-From: Vivek Kumbhar <vkumbhar@mvista.com>
+Please review this set of patches for dunfell and have comments back by
+end of day Monday.
 
-Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/1ab95af033a419e7a64e2d58e67dd96b20af5233]
+Passed a-full on autobuilder:
 
-Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/4565
+
+The following changes since commit 408bf1b4bb4f4ed126c17fb3676f9fa0513065ba:
+
+  sstate: Account for reserved characters when shortening sstate filenames (2022-11-23 00:26:19 +0000)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Alexander Kanavin (1):
+  linux-firmware: upgrade 20220913 -> 20221012
+
+Chen Qi (1):
+  kernel.bbclass: make KERNEL_DEBUG_TIMESTAMPS work at rebuild
+
+Dmitry Baryshkov (1):
+  linux-firmware: upgrade 20221012 -> 20221109
+
+Mike Crowe (1):
+  kernel: improve transformation from KERNEL_IMAGETYPE_FOR_MAKE
+
+Ross Burton (1):
+  pixman: backport fix for CVE-2022-44638
+
+Vivek Kumbhar (1):
+  qemu: fix CVE-2021-20196 block fdc null pointer dereference may lead
+    to guest crash
+
+Wang Mingyu (1):
+  mobile-broadband-provider-info: upgrade 20220725 -> 20221107
+
+ meta/classes/kernel.bbclass                   | 29 ++++++++-
+ .../mobile-broadband-provider-info_git.bb     |  4 +-
  meta/recipes-devtools/qemu/qemu.inc           |  1 +
  .../qemu/qemu/CVE-2021-20196.patch            | 62 +++++++++++++++++++
- 2 files changed, 63 insertions(+)
+ .../xorg-lib/pixman/CVE-2022-44638.patch      | 34 ++++++++++
+ .../xorg-lib/pixman_0.38.4.bb                 |  1 +
+ ...20220913.bb => linux-firmware_20221109.bb} |  6 +-
+ 7 files changed, 129 insertions(+), 8 deletions(-)
  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20196.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20220913.bb => linux-firmware_20221109.bb} (99%)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 764f948a28..a915b54c1a 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -113,6 +113,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2022-0216-2.patch \
-            file://CVE-2021-3750.patch \
- 	   file://CVE-2021-3638.patch \
-+	   file://CVE-2021-20196.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-20196.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-20196.patch
-new file mode 100644
-index 0000000000..e9b815740f
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-20196.patch
-@@ -0,0 +1,62 @@
-+From 94608c59045791dfd35102bc59b792e96f2cfa30 Mon Sep 17 00:00:00 2001
-+From: Vivek Kumbhar <vkumbhar@mvista.com>
-+Date: Tue, 29 Nov 2022 15:57:13 +0530
-+Subject: [PATCH] CVE-2021-20196
-+
-+Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/1ab95af033a419e7a64e2d58e67dd96b20af5233]
-+CVE: CVE-2021-20196
-+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
-+
-+hw/block/fdc: Kludge missing floppy drive to fix CVE-2021-20196
-+
-+Guest might select another drive on the bus by setting the
-+DRIVE_SEL bit of the DIGITAL OUTPUT REGISTER (DOR).
-+The current controller model doesn't expect a BlockBackend
-+to be NULL. A simple way to fix CVE-2021-20196 is to create
-+an empty BlockBackend when it is missing. All further
-+accesses will be safely handled, and the controller state
-+machines keep behaving correctly.
-+---
-+ hw/block/fdc.c | 19 ++++++++++++++++++-
-+ 1 file changed, 18 insertions(+), 1 deletion(-)
-+
-+diff --git a/hw/block/fdc.c b/hw/block/fdc.c
-+index ac5d31e8..e128e975 100644
-+--- a/hw/block/fdc.c
-++++ b/hw/block/fdc.c
-+@@ -58,6 +58,11 @@
-+         }                                                       \
-+     } while (0)
-+ 
-++/* Anonymous BlockBackend for empty drive */
-++static BlockBackend *blk_create_empty_drive(void)
-++{
-++    return blk_new(qemu_get_aio_context(), 0, BLK_PERM_ALL);
-++}
-+ 
-+ /********************************************************/
-+ /* qdev floppy bus                                      */
-+@@ -1356,7 +1361,19 @@ static FDrive *get_drv(FDCtrl *fdctrl, int unit)
-+ 
-+ static FDrive *get_cur_drv(FDCtrl *fdctrl)
-+ {
-+-    return get_drv(fdctrl, fdctrl->cur_drv);
-++    FDrive *cur_drv = get_drv(fdctrl, fdctrl->cur_drv);
-++
-++    if (!cur_drv->blk) {
-++        /*
-++         * Kludge: empty drive line selected. Create an anonymous
-++         * BlockBackend to avoid NULL deref with various BlockBackend
-++         * API calls within this model (CVE-2021-20196).
-++         * Due to the controller QOM model limitations, we don't
-++         * attach the created to the controller device.
-++         */
-++        cur_drv->blk = blk_create_empty_drive();
-++    }
-++    return cur_drv;
-+ }
-+ 
-+ /* Status A register : 0x00 (read-only) */
-+-- 
-+2.25.1
-+
 -- 
 2.25.1
 
