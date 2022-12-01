@@ -1,165 +1,238 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B67EDC43217
-	for <webhook@archiver.kernel.org>; Thu,  1 Dec 2022 18:23:25 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web10.52343.1669918998147202139
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C179C47088
+	for <webhook@archiver.kernel.org>; Thu,  1 Dec 2022 19:02:56 +0000 (UTC)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web10.53538.1669921372298337387
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Dec 2022 10:23:18 -0800
+ Thu, 01 Dec 2022 11:02:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IPlQFkAn;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id m7-20020a05600c090700b003cf8a105d9eso2292242wmp.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 10:23:17 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=SS/XbzOt;
+ spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f171.google.com with SMTP id s7so2528719plk.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 11:02:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0XuCX0jH75ZbAF9wMC+vDlfRpCwBHCiUvAO/lAYITzw=;
-        b=IPlQFkAn5bzZ8TMwGU19ulp9ew0/MTMiKwpFl2g0v5q1pToHycKCflEgjI6zCDGkSb
-         2DCkGIBOxg3h6jRPc970Auxb6R/KUUWDckMaJ+CIpIHUKpqqIlEX7XmXzTPbAkb/oVEL
-         kT3GHjV+28e/EPVLwHglVFVWB75eEyljPuGR0=
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UGQ3aQ2Rb59DaXXuZLY0Ok/ZWFkh9emQ56gSpne8Ffw=;
+        b=SS/XbzOtAq0H4GSAdA3BpDf0u82si5GDuZSm5eXta40YM7eA8uW2b/U5cSAB+4VXdL
+         6jmTKXGNBFkbfn58BivTdGjerkCFwV7h3keA3JB7RKUI8JPYMfse8Lu3hF0V2VegVErW
+         Ln0fX4jxv6pt7U/rZJYH1L4tyLaEPED824nb1t61VmmU0DmFkkOis6UhAf6wrrC2Ag3p
+         Sc+8cRC6pE/a1o0YyLHxf1CLbr/3ESI0K/tEutNCOG1tm8v+/icPE9QnI/u7uVHPFAET
+         e4M35EAx7ekql10HHEZ3HWVi+WFmnPv4P0YXf4ErcCaVxUb4uQpsjLHoQ8LLVttqvgD9
+         EMow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0XuCX0jH75ZbAF9wMC+vDlfRpCwBHCiUvAO/lAYITzw=;
-        b=IVhcFoCDpHwuyp0iYIw7d3bYaD+dirmY78tn72yiUVpCEXL/CEJ3WrmP4tqYwbVqpY
-         CIhx0qqprEz/XTfkt/YBMjwta+JE7fWV0YY39Hi5aXW/s2xeCzqPJ2NaiP/2WFBjxIGY
-         OJvuiQXAFErnKS5dXfn0FLVfQWWns7PIXmne8u7EWpxfIcot2V5rktOa+8q5B6HnHoU9
-         blgu5Zpg5jceamjgSm8Wh4n6HfeCwCkNPS1nJvUEUu95WZD2jiwNv3M6euF+F59J+s5Y
-         YFEB+MreY2/WCKkVXlifS7a0i2Mp6Do4UzTran0eYCDgZnZnJZCvN41RGIzzWVFfCi9w
-         X/eA==
-X-Gm-Message-State: ANoB5pklbdCkBIiDjWOFht9f65T1O/2L0mJTXSzs61GfImrp6P/POTAd
-	kzWoB/XxlUmIrlKj93i8+oUydNvSX9AJTQ==
-X-Google-Smtp-Source: AA0mqf7jzxsxcmjqLI0GE7W+ZmL/5DRsY8+3NsagUSo3RIAHynoV0xKU59E1PCFVxD4CUtSHBKFz9Q==
-X-Received: by 2002:a05:600c:3647:b0:3b4:c00d:2329 with SMTP id y7-20020a05600c364700b003b4c00d2329mr38092434wmq.124.1669918996153;
-        Thu, 01 Dec 2022 10:23:16 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:3f4c:de93:c029:9984])
-        by smtp.gmail.com with ESMTPSA id iv16-20020a05600c549000b003cf87623c16sm11149226wmb.4.2022.12.01.10.23.15
-        for <openembedded-core@lists.openembedded.org>
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UGQ3aQ2Rb59DaXXuZLY0Ok/ZWFkh9emQ56gSpne8Ffw=;
+        b=gdj5QnR/MgLH8axzp1zgrxcLZpWOe5uKkwC6T7sbgEJ/AmTXLawHNeC7TgRV7CvouU
+         RyNTY4g1tD2stPSrfdlPmhVI7fnNq6XUHNTyFSIDsqTU6xqx1olaJf4JeOXQjSdMPod2
+         5C4hLhiXaAZfinvI/biYjnOLkyiu8xcuZGGHc1wTrXF3n7i7WihGGoJN5IJGugf+ga4W
+         qQomaOAtJNowEO3keL0bU7CJptZWoJodHtIhzjP1ICjt1PC1P/oAPScoYMUs/33ePNPf
+         Wxr09cK90tKIHci4vQ+z8YDANnzgVf5gTsSLNPzmWzAfyl7j7nc2y8fRIknRMZ7Xyz5M
+         LG1A==
+X-Gm-Message-State: ANoB5pkX60F9Uhadf5d8RHinDGbXVc4dtRODkdAEvOMnt0BZtoPFbnt9
+	Rsk6t/oHh5mUUAEIVJDENCZSeAdivNU=
+X-Google-Smtp-Source: AA0mqf4yQPLAadSin2lTjTT0WN4Xf1PDJkGcOq4eu6D+LXHnVzXpxA+ePOZuHiWG4YMyUHzzaDktUA==
+X-Received: by 2002:a17:90a:928a:b0:219:5da9:84b6 with SMTP id n10-20020a17090a928a00b002195da984b6mr12017471pjo.31.1669921371458;
+        Thu, 01 Dec 2022 11:02:51 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::d00])
+        by smtp.gmail.com with ESMTPSA id 19-20020a621413000000b00576489088c7sm321092pfu.37.2022.12.01.11.02.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Dec 2022 10:23:15 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Thu, 01 Dec 2022 11:02:51 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] devtool/friends: Use LAYERSERIES_CORENAMES when generating LAYERSERIES_COMPAT entries
-Date: Thu,  1 Dec 2022 18:23:13 +0000
-Message-Id: <20221201182313.1185848-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.34.1
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 1/6] mdadm: Use _FILE_OFFSET_BITS to use largefile support
+Date: Thu,  1 Dec 2022 11:02:43 -0800
+Message-Id: <20221201190248.175753-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 18:23:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174201
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 19:02:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174202
 
-It seems some layers want to subvert the intent of LAYERSERIES_COMPAT
-so bitbake is going to have to become stricter about the values there.
-To work with this, use LAYERSERIES_CORENAMES to generate the entries in
-LAYERSERIES_COMPAT instead of the current magic LAYERSERIES_COMPAT_core
-value which may not continue to work.
-
-The downside to this is when migating between releases, people would
-need to update devtool workspace layer.conf files. I guess you could
-argue this is a feature!
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/lib/bblayers/create.py             | 2 +-
- meta/lib/oeqa/selftest/cases/devtool.py | 5 +++--
- meta/lib/oeqa/utils/commands.py         | 3 ++-
- scripts/devtool                         | 8 +++++++-
- 4 files changed, 13 insertions(+), 5 deletions(-)
+ ...FILE_OFFSET_BITS-to-enable-largefile.patch | 147 ++++++++++++++++++
+ meta/recipes-extended/mdadm/mdadm_4.2.bb      |   1 +
+ 2 files changed, 148 insertions(+)
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-restripe.c-Use-_FILE_OFFSET_BITS-to-enable-largefile.patch
 
-diff --git a/meta/lib/bblayers/create.py b/meta/lib/bblayers/create.py
-index 0aeb5d5f7b5..c8f3f1b370e 100644
---- a/meta/lib/bblayers/create.py
-+++ b/meta/lib/bblayers/create.py
-@@ -53,7 +53,7 @@ class CreatePlugin(LayerPlugin):
-         shutil.copy(license_src, license_dst)
- 
-         # Get the compat value for core layer.
--        compat = self.tinfoil.config_data.getVar('LAYERSERIES_COMPAT_core') or ""
-+        compat = self.tinfoil.config_data.getVar('LAYERSERIES_CORENAMES') or ""
- 
-         # Create the layer.conf from templates/layer.conf
-         layerconf_template = read_template('layer.conf').format(
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 0cb7403f16e..c78a68be5b4 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -1076,9 +1076,10 @@ class DevtoolUpdateTests(DevtoolBase):
-     def test_devtool_update_recipe_append_git(self):
-         # Check preconditions
-         testrecipe = 'mtd-utils-selftest'
--        bb_vars = get_bb_vars(['FILE', 'SRC_URI'], testrecipe)
-+        bb_vars = get_bb_vars(['FILE', 'SRC_URI', 'LAYERSERIES_CORENAMES'], testrecipe)
-         recipefile = bb_vars['FILE']
-         src_uri = bb_vars['SRC_URI']
-+        corenames = bb_vars['LAYERSERIES_CORENAMES']
-         self.assertIn('git://', src_uri, 'This test expects the %s recipe to be a git recipe' % testrecipe)
-         for entry in src_uri.split():
-             if entry.startswith('git://'):
-@@ -1109,7 +1110,7 @@ class DevtoolUpdateTests(DevtoolBase):
-             f.write('BBFILE_PATTERN_oeselftesttemplayer = "^${LAYERDIR}/"\n')
-             f.write('BBFILE_PRIORITY_oeselftesttemplayer = "999"\n')
-             f.write('BBFILE_PATTERN_IGNORE_EMPTY_oeselftesttemplayer = "1"\n')
--            f.write('LAYERSERIES_COMPAT_oeselftesttemplayer = "${LAYERSERIES_COMPAT_core}"\n')
-+            f.write('LAYERSERIES_COMPAT_oeselftesttemplayer = "%s"\n' % corenames)
-         self.add_command_to_tearDown('bitbake-layers remove-layer %s || true' % templayerdir)
-         result = runCmd('bitbake-layers add-layer %s' % templayerdir, cwd=self.builddir)
-         # Create the bbappend
-diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
-index f733fcdf3c8..f4daea25075 100644
---- a/meta/lib/oeqa/utils/commands.py
-+++ b/meta/lib/oeqa/utils/commands.py
-@@ -300,6 +300,7 @@ def get_test_layer():
- 
- def create_temp_layer(templayerdir, templayername, priority=999, recipepathspec='recipes-*/*'):
-     os.makedirs(os.path.join(templayerdir, 'conf'))
-+    corenames = get_bb_var('LAYERSERIES_CORENAMES')
-     with open(os.path.join(templayerdir, 'conf', 'layer.conf'), 'w') as f:
-         f.write('BBPATH .= ":${LAYERDIR}"\n')
-         f.write('BBFILES += "${LAYERDIR}/%s/*.bb \\' % recipepathspec)
-@@ -308,7 +309,7 @@ def create_temp_layer(templayerdir, templayername, priority=999, recipepathspec=
-         f.write('BBFILE_PATTERN_%s = "^${LAYERDIR}/"\n' % templayername)
-         f.write('BBFILE_PRIORITY_%s = "%d"\n' % (templayername, priority))
-         f.write('BBFILE_PATTERN_IGNORE_EMPTY_%s = "1"\n' % templayername)
--        f.write('LAYERSERIES_COMPAT_%s = "${LAYERSERIES_COMPAT_core}"\n' % templayername)
-+        f.write('LAYERSERIES_COMPAT_%s = "%s"\n' % (templayername, corenames))
- 
- @contextlib.contextmanager
- def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None, launch_cmd=None, qemuparams=None, overrides={}, discard_writes=True):
-diff --git a/scripts/devtool b/scripts/devtool
-index 20d785c7f79..4410613f401 100755
---- a/scripts/devtool
-+++ b/scripts/devtool
-@@ -148,6 +148,12 @@ def _create_workspace(workspacedir, config, basepath):
-     if os.path.exists(os.path.join(confdir, 'layer.conf')):
-         logger.info('Specified workspace already set up, leaving as-is')
-     else:
-+        tinfoil = setup_tinfoil(config_only=True, basepath=basepath)
-+        try:
-+            corenames = tinfoil.config_data.getVar('LAYERSERIES_CORENAMES')
-+        finally:
-+            tinfoil.shutdown()
+diff --git a/meta/recipes-extended/mdadm/files/0001-restripe.c-Use-_FILE_OFFSET_BITS-to-enable-largefile.patch b/meta/recipes-extended/mdadm/files/0001-restripe.c-Use-_FILE_OFFSET_BITS-to-enable-largefile.patch
+new file mode 100644
+index 0000000000..142ed355ef
+--- /dev/null
++++ b/meta/recipes-extended/mdadm/files/0001-restripe.c-Use-_FILE_OFFSET_BITS-to-enable-largefile.patch
+@@ -0,0 +1,147 @@
++From 6b861a267a6ef6f60f6cc21e4c8e6d7cdd2451dc Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Thu, 10 Nov 2022 12:31:22 -0800
++Subject: [PATCH] restripe.c: Use _FILE_OFFSET_BITS to enable largefile support
 +
-         # Add a config file
-         bb.utils.mkdirhier(confdir)
-         with open(os.path.join(confdir, 'layer.conf'), 'w') as f:
-@@ -159,7 +165,7 @@ def _create_workspace(workspacedir, config, basepath):
-             f.write('BBFILE_PATTERN_workspacelayer = "^$' + '{LAYERDIR}/"\n')
-             f.write('BBFILE_PATTERN_IGNORE_EMPTY_workspacelayer = "1"\n')
-             f.write('BBFILE_PRIORITY_workspacelayer = "99"\n')
--            f.write('LAYERSERIES_COMPAT_workspacelayer = "${LAYERSERIES_COMPAT_core}"\n')
-+            f.write('LAYERSERIES_COMPAT_workspacelayer = "%s"\n' % corenames)
-         # Add a README file
-         with open(os.path.join(workspacedir, 'README'), 'w') as f:
-             f.write('This layer was created by the OpenEmbedded devtool utility in order to\n')
++Instead of using the lseek64 and friends, its better to enable it via
++the feature macro _FILE_OFFSET_BITS = 64 and let the C library deal with
++the width of types
++
++Upstream-Status: Submitted [https://lore.kernel.org/linux-raid/20221110225546.337164-1-raj.khem@gmail.com/]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ restripe.c | 13 ++++++++-----
++ 1 file changed, 8 insertions(+), 5 deletions(-)
++
++--- a/restripe.c
+++++ b/restripe.c
++@@ -22,6 +22,9 @@
++  *    Email: <neilb@suse.de>
++  */
++ 
+++/* Enable largefile support */
+++#define _FILE_OFFSET_BITS 64
+++
++ #include "mdadm.h"
++ #include <stdint.h>
++ 
++@@ -581,7 +584,7 @@ int save_stripes(int *source, unsigned l
++ 				       raid_disks, level, layout);
++ 			if (dnum < 0) abort();
++ 			if (source[dnum] < 0 ||
++-			    lseek64(source[dnum],
+++			    lseek(source[dnum],
++ 				    offsets[dnum] + offset, 0) < 0 ||
++ 			    read(source[dnum], buf+disk * chunk_size,
++ 				 chunk_size) != chunk_size) {
++@@ -754,8 +757,8 @@ int restore_stripes(int *dest, unsigned
++ 					   raid_disks, level, layout);
++ 			if (src_buf == NULL) {
++ 				/* read from file */
++-				if (lseek64(source, read_offset, 0) !=
++-					 (off64_t)read_offset) {
+++				if (lseek(source, read_offset, 0) !=
+++					 (off_t)read_offset) {
++ 					rv = -1;
++ 					goto abort;
++ 				}
++@@ -816,7 +819,7 @@ int restore_stripes(int *dest, unsigned
++ 		}
++ 		for (i=0; i < raid_disks ; i++)
++ 			if (dest[i] >= 0) {
++-				if (lseek64(dest[i],
+++				if (lseek(dest[i],
++ 					 offsets[i]+offset, 0) < 0) {
++ 					rv = -1;
++ 					goto abort;
++@@ -866,7 +869,7 @@ int test_stripes(int *source, unsigned l
++ 		int disk;
++ 
++ 		for (i = 0 ; i < raid_disks ; i++) {
++-			if ((lseek64(source[i], offsets[i]+start, 0) < 0) ||
+++			if ((lseek(source[i], offsets[i]+start, 0) < 0) ||
++ 			    (read(source[i], stripes[i], chunk_size) !=
++ 			     chunk_size)) {
++ 				free(q);
++--- a/raid6check.c
+++++ b/raid6check.c
++@@ -22,6 +22,9 @@
++  *    Based on "restripe.c" from "mdadm" codebase
++  */
++ 
+++/* Enable largefile support */
+++#define _FILE_OFFSET_BITS 64
+++
++ #include "mdadm.h"
++ #include <stdint.h>
++ #include <signal.h>
++@@ -279,9 +282,9 @@ int manual_repair(int chunk_size, int sy
++ 	}
++ 
++ 	int write_res1, write_res2;
++-	off64_t seek_res;
+++	off_t seek_res;
++ 
++-	seek_res = lseek64(source[fd1],
+++	seek_res = lseek(source[fd1],
++ 			   offsets[fd1] + start * chunk_size, SEEK_SET);
++ 	if (seek_res < 0) {
++ 		fprintf(stderr, "lseek failed for failed_disk1\n");
++@@ -289,7 +292,7 @@ int manual_repair(int chunk_size, int sy
++ 	}
++ 	write_res1 = write(source[fd1], blocks[failed_slot1], chunk_size);
++ 
++-	seek_res = lseek64(source[fd2],
+++	seek_res = lseek(source[fd2],
++ 			   offsets[fd2] + start * chunk_size, SEEK_SET);
++ 	if (seek_res < 0) {
++ 		fprintf(stderr, "lseek failed for failed_disk2\n");
++@@ -374,7 +377,7 @@ int check_stripes(struct mdinfo *info, i
++ 			goto exitCheck;
++ 		}
++ 		for (i = 0 ; i < raid_disks ; i++) {
++-			off64_t seek_res = lseek64(source[i], offsets[i] + start * chunk_size,
+++			off_t seek_res = lseek(source[i], offsets[i] + start * chunk_size,
++ 						   SEEK_SET);
++ 			if (seek_res < 0) {
++ 				fprintf(stderr, "lseek to source %d failed\n", i);
++--- a/swap_super.c
+++++ b/swap_super.c
++@@ -1,3 +1,6 @@
+++/* Enable largefile support */
+++#define _FILE_OFFSET_BITS 64
+++
++ #include <unistd.h>
++ #include <stdlib.h>
++ #include <fcntl.h>
++@@ -16,8 +19,6 @@
++ 
++ #define MD_NEW_SIZE_SECTORS(x)		((x & ~(MD_RESERVED_SECTORS - 1)) - MD_RESERVED_SECTORS)
++ 
++-extern long long lseek64(int, long long, int);
++-
++ int main(int argc, char *argv[])
++ {
++ 	int fd, i;
++@@ -38,8 +39,8 @@ int main(int argc, char *argv[])
++ 		exit(1);
++ 	}
++ 	offset = MD_NEW_SIZE_SECTORS(size) * 512LL;
++-	if (lseek64(fd, offset, 0) < 0LL) {
++-		perror("lseek64");
+++	if (lseek(fd, offset, 0) < 0LL) {
+++		perror("lseek");
++ 		exit(1);
++ 	}
++ 	if (read(fd, super, 4096) != 4096) {
++@@ -68,8 +69,8 @@ int main(int argc, char *argv[])
++ 		super[32*4+10*4 +i] = t;
++ 	}
++ 
++-	if (lseek64(fd, offset, 0) < 0LL) {
++-		perror("lseek64");
+++	if (lseek(fd, offset, 0) < 0LL) {
+++		perror("lseek");
++ 		exit(1);
++ 	}
++ 	if (write(fd, super, 4096) != 4096) {
+diff --git a/meta/recipes-extended/mdadm/mdadm_4.2.bb b/meta/recipes-extended/mdadm/mdadm_4.2.bb
+index 19035caaec..7298860241 100644
+--- a/meta/recipes-extended/mdadm/mdadm_4.2.bb
++++ b/meta/recipes-extended/mdadm/mdadm_4.2.bb
+@@ -24,6 +24,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
+            file://0001-mdadm-skip-test-11spare-migration.patch \
+            file://0001-Fix-parsing-of-r-in-monitor-manager-mode.patch \
+            file://0001-Makefile-install-mdcheck.patch \
++           file://0001-restripe.c-Use-_FILE_OFFSET_BITS-to-enable-largefile.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "461c215670864bb74a4d1a3620684aa2b2f8296dffa06743f26dda5557acf01d"
 -- 
-2.34.1
+2.38.1
 
 
