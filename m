@@ -1,154 +1,143 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A807C43217
-	for <webhook@archiver.kernel.org>; Thu,  1 Dec 2022 13:15:02 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.42539.1669900497503741750
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32198C43217
+	for <webhook@archiver.kernel.org>; Thu,  1 Dec 2022 13:27:22 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.44])
+ by mx.groups.io with SMTP id smtpd.web10.42857.1669901237096677687
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Dec 2022 05:14:58 -0800
+ Thu, 01 Dec 2022 05:27:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=an/nFk6m;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id 125-20020a1c0283000000b003d076ee89d6so1202569wmc.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 05:14:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=nPdjUQA54IkedIRAp/zkJniU5FU32XlvhjUWGGbm8CQ=;
-        b=an/nFk6mzUOid1TkOxaQJCYXN7NUiB1vyJ+a1xUgTmZm87LjvcqZjcITP84/iPeWrI
-         6zcDqFk9zZeaileNh+7IEAhEhH4dXi3QO1d6JoyzJqSrbnpICegCFN9i6KMz9ckJ5/xR
-         MAHC0k9oXBBuhAyVHIrtDujKBvsuxb5mRVOlM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nPdjUQA54IkedIRAp/zkJniU5FU32XlvhjUWGGbm8CQ=;
-        b=j5BbxP9KqxmtGdTNu0fROvN9vND2PBvQa6Ozxgj9insNdZ4hFbYA7kTqiho8rvpxF7
-         /yNHyE0nSzo51mOPw/69xQhbLD9ZkfTdYetu6hZW/wQ3rwsY2FER8wVaD6ELbPVCNUhp
-         NDKJL8Y6mikM3szPNQDRs4VOjHs5sDiSoV5QRy5ZMd+lEAUOsgDfL3la7eqJg+PpqaEL
-         g0A6vw22dLZN6dXcZDAvIA8xwDfJ/knO98mqrxzUvqoW3hxz7K9Lkmyi2I9hMJ9oUXqW
-         hUtCYPOwhYMzdHWpC+eV35yVpy/j3weV3AlkV7UzC3lEdYpFolsd67AMeO4JI85MMyy3
-         NMkw==
-X-Gm-Message-State: ANoB5pkdhemVL3riA71iq2S8+2S2K04C3ilcZbNZUKDljh2qX5Gi1l5I
-	uHl+qGK2dBeK/aJRboGHCRCykg==
-X-Google-Smtp-Source: AA0mqf69who1UnRAA4Zc0zsqK3RcKyUWcRIxCp2QQZsIP9C6h4lkZsO4BhT+8gohdl2nEbK0MjUNTA==
-X-Received: by 2002:a05:600c:3514:b0:3cf:a985:7692 with SMTP id h20-20020a05600c351400b003cfa9857692mr41691898wmq.104.1669900495796;
-        Thu, 01 Dec 2022 05:14:55 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:3f4c:de93:c029:9984? ([2001:8b0:aba:5f3c:3f4c:de93:c029:9984])
-        by smtp.gmail.com with ESMTPSA id a1-20020adffac1000000b0024194bba380sm4539825wrs.22.2022.12.01.05.14.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Dec 2022 05:14:55 -0800 (PST)
-Message-ID: <a695e77fb8a6dbb8d9deec953b2767750aa3bbfd.camel@linuxfoundation.org>
-Subject: Re: [oe-core][PATCHv9 1/4] graphene: import from meta-oe
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ross Burton <ross.burton@arm.com>, "f_l_k@t-online.de"
- <f_l_k@t-online.de>
-Cc: "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Thu, 01 Dec 2022 13:14:53 +0000
-In-Reply-To: <0496E9D1-8A87-4F2C-9C6E-43CA4929D17E@arm.com>
-References: <20221201075324.353632-1-f_l_k@t-online.de>
-	 <0496E9D1-8A87-4F2C-9C6E-43CA4929D17E@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu1 
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=Vwtqsc3j;
+ spf=pass (domain: arm.com, ip: 40.107.22.44, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SvfaVbgOLD5l0LAP5hMTtJulaAGmHDTqU7I++5Sv8583FGlnFFCPEPLxzp6VmtfRSMNL5qixPeRE4NM8UX96aa7maLrb/SRNUuLTz4rSNro7bvg8VNB0Ub+O00d1K1AbJEmiLArfKIFUBIWo55Tp0d0XJ+I1Jgg0tt2ECr0glYwMnuaSVlIowEDlzB025cdi+QrXKGMvIglEd6pdxaSiQdIlCM910XXlyrVTOWla4ryzvbhu7vuWVJq1ChJgqAd+HAeH6AMe5ml/6vqMSLo6wwvaijKm/kGkN8Nzmgtk7Uad7+mlO6lwaVSJTaAuA+Zuc2UGQ0FZCnQyWAsL6NZfOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ya9HxhA16S7K+lv0/Ize1RY8lMotdA77+x5US3iW8Ro=;
+ b=L6ZTj2puwV/w+AQWmiJ8dPentqQzTXhDDhfLjzGJ0NsknwxBEVy/CRXwo9LWwkKioyKwKZqrm5B0X0VAz+zFZ6wc9iUHsm505A5W7HVDGcHZI4b0EdvQKAOIQNVImhoUCjEqkK3kKGNqrBRnLuT4/bdDmCARHuCJi7q7IAR89Wn0Gnaq1pHUVlsIX0a7v1cqmyAr05B4H1TirsGKkQOxkfxkcpIKgN+SnDjnQl2t+tKwe3+Gwon9N9YkCjHfy96etbqXq/da/WLa97GcqqoGf5xYdPWY5+L6d+yNsX7uwTicxbZetDTHWr7JbfF1yPvscrKi72I/rDePxHCJ0GGgXg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ya9HxhA16S7K+lv0/Ize1RY8lMotdA77+x5US3iW8Ro=;
+ b=Vwtqsc3jcJ8OredzeodxdyVyxo1h2hg0QX9TcODOz6CpSSR0y3im08mShQzdK04NeJwpUHAItsGHuTkeJMqzxjk87FTnckUFp+qeaLu6GdKoxNuqg+Yvn39oh4XlfN7WHOWD9BKGgeRQtQEsCWK0pfv65fgtNfe8ZYkdTrer8Bc=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by PAXPR08MB6494.eurprd08.prod.outlook.com (2603:10a6:102:154::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.8; Thu, 1 Dec
+ 2022 13:27:14 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::1ecf:7fb9:8c0:8119]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::1ecf:7fb9:8c0:8119%9]) with mapi id 15.20.5880.008; Thu, 1 Dec 2022
+ 13:27:13 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+CC: "pyih.soft@gmail.com" <pyih.soft@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] classes: make TOOLCHAIN more permissive for
+ kernel
+Thread-Topic: [OE-core] [PATCH] classes: make TOOLCHAIN more permissive for
+ kernel
+Thread-Index: AQHZBNg4VymjSPtyL0K4z+VVAFCF765Y5X+AgAANwACAABRHgA==
+Date: Thu, 1 Dec 2022 13:27:13 +0000
+Message-ID: <7EBEF3C3-A9F1-475E-A90E-DA21E6E5895C@arm.com>
+References: <20221130162113.3731385-1-pyih.soft@gmail.com>
+ <C5C61A1A-4E14-4D7F-97BA-B12C3FB15417@arm.com> <Y4iaqGB8RkrBQYsX@mail.local>
+In-Reply-To: <Y4iaqGB8RkrBQYsX@mail.local>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3731.200.110.1.12)
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PA4PR08MB7411:EE_|PAXPR08MB6494:EE_
+x-ms-office365-filtering-correlation-id: bd4fd6f2-cb9b-485a-6710-08dad39fc233
+nodisclaimer: true
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ x1km/piey9QAeG9TH3BRucdlGdYjvHxp5QbutbszG3BhUsqYYvy51fXRqCMKlHaSLoeK0rOMY4+y8akZczpHvL+9OeyI26v/4nOqpzDv4qAMTSPv5OZHsI2nnnZRi4YB1tSQ4T3iuXgfuzTM5Kco5wVkmGVR6sj4jst/XC/oTFIR1Lzpp0ndLE41Ms5G5Yg79jc2mhH9uFntiSyyQApzkkxSNONduXWnfmto4yJ1+Wt4dPPLDEfRuzQWxHXUi1VjJnYPp6Gxv/Q7s/p3b38r3XTxIZWJUMQnU1gqXzFdfIA2nfb8krIytD+R6aXj3lqB3oB0f6Xdm6Ssn1OSckzFLB+K8Xbfk2T4KkfqyTAsPqj5Rto+FLcUTNVeMSr+YBjWZ/vma+D+WNcRWy/NXwWgNEmRcff73HyCNQBK8FkneXFrD4KsgFRqncWxkrxXwbu6BObRyFMNlJQi5Xk+Si7+A4aoAAROtOzvJubHSG253ulHh5CfogMt/1jWjcbDWqh+VmCayZXo940/hlSTI6zN/v33B6h5x9ip9zayG03woTmKvV7rROtRfiap/Ti83GwHGZTm3bkl2SKAoxTkBWxv4zY5vd60sUU0YKshLYaKTj/52s9zVbLih5HLq7KMRO8rnEz1OU8oy6E/CQc56JvLmgg8Q9gpDSpBWmBm1nA50T7yA+5RjuyTGtlK0eSuAXIN9fh0ed7o4q6AkCGf/hbptiHgFP3lSnr0Xrg4OLmZTJE=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(39860400002)(396003)(366004)(346002)(136003)(451199015)(8936002)(76116006)(36756003)(6512007)(33656002)(91956017)(186003)(26005)(4326008)(71200400001)(5660300002)(66476007)(66446008)(66946007)(64756008)(8676002)(316002)(38100700002)(38070700005)(122000001)(2616005)(66556008)(6506007)(6486002)(478600001)(6916009)(53546011)(54906003)(41300700001)(86362001)(2906002)(4744005)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?ZjJnYUlFSFlSNzBMSUVIZTFLcnJkVmoyTFE4bVpEQ0F1ZjF3bjVyNzUvUUpa?=
+ =?utf-8?B?amxUZlBKQ0h5NVNmUjVaOTBicEFGQXY0b09ORzlZNHRaUXVOc09Pc2dOYis1?=
+ =?utf-8?B?TUFNT09RT2hsRC9FOExqVTBXMzVFSlFGUmFHc3UzTHBjTTc5bGdFclhyTmpP?=
+ =?utf-8?B?YkJGS1ZMdUs2OE9EUytWWGNwSWt1RzRIckJmd3RINk41Nll4N01CMjBmcHNN?=
+ =?utf-8?B?RlFKbWJ5OHpHYjFUVFRyQVEyY1ozS3BvUHdFdFo5b3ZrYVdtcXh1V3ZSdVln?=
+ =?utf-8?B?alc2Y2djOU91ZSt3L3paeVJ0cVRnRTJDWGxjdmFoamhvSTJ3eVkvcm9NaVlj?=
+ =?utf-8?B?bTVCSElkaDhnSTZFMjhtbmFkUFVnNmVIczBaYkZaaFpsMmxpdWVlWVpma0Q5?=
+ =?utf-8?B?aHdGYnpJNlpHUmlzbGZTR0tvUDZQb0hqLzF3aEE2czlOSVo5ejAxczRNZGFB?=
+ =?utf-8?B?NFpSWjN5QWJweWhkSElXWS9xUG9vTUg0YlZibGtBOW9yeGNrcUpsVnViSzA0?=
+ =?utf-8?B?L2hLOW1FQ21Ya0h1cWpyTlZYTXJzdlJmenJQdzBUUGJPTTN6VDBNR3ArNzVv?=
+ =?utf-8?B?OUdFd041WURSdlRqTFVzMWhkUlE5MGJ4eW40VEoxNTlEeGhUVUFHUVhJSFk1?=
+ =?utf-8?B?WDhOWlVxdlVSeGlYQ2VrSVBTc0RkSUtsMEx5NmY2aUxmc2srUHJJYXhrY0F6?=
+ =?utf-8?B?b0t5UW1qaUd2WE44dXVMc0QxNU1OU2xZdXlsY1hOS2krRXpKaHNNTWJxVlR6?=
+ =?utf-8?B?aGdIdURGaDkrdC9PL1llNTl3bURJeXEvWHNWQ3BoV2hRL2oyWG5vbmNpbkJP?=
+ =?utf-8?B?cDVvWi9yQllRbkZoelF1dE8vS2ZNbzh5TEZRb0NESW5VcDJVdnRCQ1ZOOUY2?=
+ =?utf-8?B?Nk13Z1d0MUg1blRkNlh0OG14djhqRTZLSnlIQjhZSUZ3NzJGOFFOSU9rTkE4?=
+ =?utf-8?B?bnhlTGhxVklDNTBzL3VpSmI3REk5SHBpRTFSbDNxMTcrV1ZMUFcxcUoySlMr?=
+ =?utf-8?B?a2ZOWmxzU01XSUN3Tm5GTVJQR2tHcFZrc21pQ1dtaFlxYXA5TDBSNStlK09v?=
+ =?utf-8?B?NHVhbFlEeXdMandVZFkwaGVrT29yVTBlRTZtN1NsNGZoRmVmYUZxSyt6MTk4?=
+ =?utf-8?B?WUk2TjdxMWdGeWYvMEI1ZDZQbC83ZGhnODFJN1c5SHZvOHBvaVZ0MWJuK21K?=
+ =?utf-8?B?bEhpOWVaU3VDM25QRUZwejFUVWJQdmU3Umd4VUVuamhYZ0RJdVlEcXpmNDRj?=
+ =?utf-8?B?NGpOUmZEVzJVMXVFdU1DMURSSlZpbmNMcFgreVkxQlhRMHNTQXkrSjJDcXgr?=
+ =?utf-8?B?R05ySmthMXRWRVVpUEVqQkRIcTdFWEFqYnY2KzBJQjFUTEluRzdBRGdOU0Nq?=
+ =?utf-8?B?QnM0bk1UWDBwMVVLWWw3emtqNjIrTVQydHdPQlhKVTJ0SzVVOEthN0JHanRW?=
+ =?utf-8?B?RFRhSFkyWlg0R2RIKzEyRnhWTHJxS3ZrTi93dURJUWhVeFVSZ0YvZlErNXp3?=
+ =?utf-8?B?RkhDS0ZKTml3R2tqM3U4MGpLOWx5WThqMmMreTd1a2RJNkt5L3hZUlk0cXRo?=
+ =?utf-8?B?YTdMejJkbDBheW04bUVLLzNDcUROYkJMUGhaMjdzRm9tK054R3MvQ3N5eXJs?=
+ =?utf-8?B?c0RBOFBPUklWaVlyelphWDFORFl5dEoweDFxNksrdlY5bnFYM0hWbVA1REJS?=
+ =?utf-8?B?NFVZTDJSV2Z3NDFhbHJRNE1uQ2pYV0VuWGRQakVONzVienI1c0V6WkxSNG1Z?=
+ =?utf-8?B?VkpoSENjc0llYld3MUxsbEFTQzNuVXpxcWNobXo1Unh0QWJuZmFEVUdlQThr?=
+ =?utf-8?B?bHhtbzhFRmpQRllVaW5PRXNMbTZzaWE2YTNjV0RpclhPQVJGUElKWVFoS2FL?=
+ =?utf-8?B?UmZZcDdMZDkxRnpzOG1XTjR0NUxZaEJ4azhVeURCbDEvaGY0T3ZoMFRVSEdv?=
+ =?utf-8?B?ZFFYZzUyZ210ZFRsR29hY0dnaFZ5RmdIclJrTS9wQkRidmc3RXlxY3JEcStG?=
+ =?utf-8?B?bXZRN2oyR1FWZ011UUl1WDZyTUVvV0Z1VG81cVpuUWdCTndOYzYvWXMzNzlT?=
+ =?utf-8?B?QkhjdUplZUxkQXR5aVFGQkRhZ1U5RTkxcExVdlQrWElieE1tTEs4Y3F4NUdJ?=
+ =?utf-8?Q?uh9DQTzleXev5u/DV8OAoKz11?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <98F0F28E3C6957469F88E2082504B00B@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR08MB7411.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bd4fd6f2-cb9b-485a-6710-08dad39fc233
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Dec 2022 13:27:13.7599
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zKt+shYdF3B7zQwAHGqdKbVSNEtYFKI6/VRba6cq0yM3VIUCx2nqA5HWHSit5RLDqvhrEK+JohgtB1UOqW2h6Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB6494
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 13:15:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174058
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 13:27:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174059
 
-On Thu, 2022-12-01 at 12:34 +0000, Ross Burton wrote:
-> I=E2=80=99m a big GNOME fan[1] but I wonder if moving pieces of the
-> GTK4/GNOME4 stack into oe-core because we want to upgrade epiphany is
-> the right thing to do.
->=20
-> It=E2=80=99s not the full GNOME stack as we=E2=80=99re just picking the b=
-uild
-> dependencies for Epiphany, so anyone who wants to use the GNOME stack
-> will need meta-gnome. It=E2=80=99s not really a proper test of GTK4 becau=
-se
-> epiphany isn=E2=80=99t in any images, so will only get built in the few w=
-orld
-> builds on the autobuilder.  Because it is in no images there is no
-> runtime QA for it, we could carry a GTK4 in oe-core that crashes on
-> startup for a long time before anyone noticed.
-
-There are a variety of pressures which say "lets move X or Y out of
-core".=C2=A0It would be less work for me and for anyone else working on OE-
-Core so there are advantages.
-
-The downside to doing that is that we lose "real world" testing of
-larger components and integration of them. webkit is a pain but in some
-ways having large painful C++ code in core helps stress test that. By
-real world I don't just mean someone using the end browser but even
-just building it, enduring we don't have leakage of build paths into
-C++ libraries, ensuring such things remain reproducible and so on. I've
-said before that we do need a graphics stack somewhere in our tests
-since in general graphics is important.
-
-I think it partly depends on where we go with OE-Core. If sato stays on
-gtk3+, we have a problem since that is a bit of a dead end. There is
-still value there since it pulls together so many pieces of software
-but as you say, gtk4 mixed with gtk3 like that isn't great.
-
-If over time we see some pieces of sato using gtk4, that changes the
-equation, this move could be a start of changes which put us in a
-better position in the future.
-
-Should we get rid of sato? I'm reluctant as we don't have a good
-replacement plan. Ideas have been proposed but nobody is willing to
-step up, propose and maintain something. We have a number of areas
-where we could spend time and there are probably higher priority
-issues. How much work is gtk4 in sato? No idea to be honest.
-
-I do think OE-Core needs to have enough variety and represent enough of
-the software ecosystem that it is useful in it's own right and is able
-to test a good cross section of the software world people work with.
-
-> WebKit supports both GTK3 and GTK4[2], so it=E2=80=99s easy enough for oe=
--
-> core to either have one recipe with  PACKAGECONFIGs, or a well
-> written flexible recipe that has a GTK3 variation in core and a GTK4
-> variation in meta-gnome.  I believe webkitgtk also ships a dumb-
-> browser application that would be enough to verify that webkitgtk
-> actually works, because in production use the choice of browser will
-> be based on more than just what is in core: maybe a custom shell
-> using webkit, maybe chromium, maybe something else entirely.
->=20
-> I=E2=80=99d even go as far as saying that maybe the meta-gnome maintainer=
-s
-> should talk to the autobuilder maintainers and get meta-gnome added
-> to the autobuilder test matrix.  GNOME has strong support for
-> installed tests so we can execute the ptests on the autobuilder, and
-> have some basic runtime tests to verify that GNOME starts.
-
-I would like to see more testing other layers on the autobuilder. There
-are some potential points of contention:
-
-a) OE-Core's test matrix often isn't what some other layer maintainer
-wish to maintain (e.g. ppc or mips?).
-
-b) the layers can influence the tests, for example would we need
-reproducible builds tests with and without the layer?
-
-c) What level of response can we expect to failures or issues?
-
-d) Would those layers want to match the "quality" metrics we've been
-aiming for in core (e.g. all recipes have MAINTAINER/HOMEPAGE etc.)?
-
-We've had quite a bit of success putting a high quality bar on core and
-we're trying to lead by example to other areas of the ecosystem but I
-can see this creating tensions depending on how we set things up with
-the autobuilder.
-
-Cheers,
-
-Richard
+DQoNCj4gT24gMSBEZWMgMjAyMiwgYXQgMTI6MTQsIEFsZXhhbmRyZSBCZWxsb25pIDxhbGV4YW5k
+cmUuYmVsbG9uaUBib290bGluLmNvbT4gd3JvdGU6DQo+IA0KPiBPbiAwMS8xMi8yMDIyIDExOjI1
+OjI5KzAwMDAsIFJvc3MgQnVydG9uIHdyb3RlOg0KPj4gT24gMzAgTm92IDIwMjIsIGF0IDE2OjIx
+LCBBbGV4ZXkgU21pcm5vdiB2aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8cHlpaC5zb2Z0PWdt
+YWlsLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiB3cm90ZToNCj4+PiAtVE9PTENIQUlOID0g
+ImdjYyINCj4+PiArVE9PTENIQUlOID89IOKAnGdjYyINCj4+IA0KPj4gSWYgdGhlIGtlcm5lbCBp
+cyBidWlsZGFibGUgd2l0aCBjbGFuZyB0aGVuIHRoZSBUT09MQ0hBSU4gc3RhdGVtZW50IHNob3Vs
+ZCBqdXN0IGJlIHJlbW92ZWQuDQo+PiANCj4gDQo+IEl0IGlzIGJ1aWxkYWJsZSBidXQgdGhlIGdl
+bmVyYXRlZCBiaW5hcnkgaXMgbm90IG5lY2Vzc2FyaWx5IGJvb3RhYmxlLA0KPiBkZXBlbmRpbmcg
+b24gdGhlIGFyY2hpdGVjdHVyZQ0KDQpTbyBtYXliZSB0aGUga2VybmVsIGNsYXNzIHNob3VsZCBq
+dXN0IHNldCBUT09MQ0hBSU4gZm9yIHRob3NlIGFyY2hpdGVjdHVyZXMgd2hlcmUgaXQgaXMga25v
+d24gdG8gbm90IHdvcmssIGxlYXZpbmcgaXQgdW5zZXQgKGFuZCB0aHVzIG92ZXJyaWRhYmxlIHdp
+dGggYSBnbG9iYWwgYXNzaWdubWVudCkgZm9yIGV2ZXJ5dGhpbmcgZWxzZT8NCg0KUm9zcw==
 
