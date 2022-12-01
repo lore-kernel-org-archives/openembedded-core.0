@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CF77C64E95
-	for <webhook@archiver.kernel.org>; Thu,  1 Dec 2022 15:30:34 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.46765.1669908625785666644
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91C0DC6370C
+	for <webhook@archiver.kernel.org>; Thu,  1 Dec 2022 15:30:33 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.46813.1669908626075548703
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Dec 2022 07:30:26 -0800
+ Thu, 01 Dec 2022 07:30:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=fOAd4VUA;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010184ce4f7651-6d610c79-2816-49da-97a6-71e84730eeb5-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=RMc6dms7;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010184ce4f7fb2-eea401a5-c9f6-45c3-8c72-0fa00e9435bd-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1669908626;
+	t=1669908627;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=v9KcumCYiGpBbJ6+umPn7sXSZPJ0B1KvFIl4siYMfoo=;
-	b=fOAd4VUANPsvrhkmLSgSMlm2UeCfVnUSgFaXfIBgYuR9Dv//BJACvvLfglp6AmRZ
-	Xb51YpvDx0PeBeA8pUOCi9qAX4DMQl1vQei8FWkp+FY81mOpjm1u4qoLLI1+cYHyyA3
-	d4x6uIn+fFV7IG2yLjyJP/QcSvmnZxIPuc08XvZE=
+	bh=b0Vuglo0sMAtWTgbOPy3TQMwvv6hlcogv7lgKbzUURg=;
+	b=RMc6dms7zk89hz3rkgdc7/PSTo+TX3tFoqLVYW8EBGm9oBEANAbu7v9lUSEtCx4I
+	F6rqWuVlFb4AR9n+zAhFuIf/8SAOgVYDoxm3j+9rmIsS04S9k7reJojMKZXqnluYoBd
+	MWPLy9EmcAIGYZGk743AKZS0X8ICMCFTAfo0tgHc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1669908626;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1669908627;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=v9KcumCYiGpBbJ6+umPn7sXSZPJ0B1KvFIl4siYMfoo=;
-	b=HFMzAHZn9QOn6OH0zvt8LwlgoVCVj1inE8ETCfYW9SgpvoYkqTmaLyGKOIZbjFzs
-	UkBvyAgaAMxyyiTScJz7X+cGh5xTF4vlMZyo6Iqro/W3qtMzBFTvgNEqaVMdZQxj4vG
-	ANAUuUHuGfAKCPKRzZdXJE/rx4gWzdS0ld/bETDU=
-Content-Type: multipart/mixed; boundary="===============6168733278025501679=="
+	bh=b0Vuglo0sMAtWTgbOPy3TQMwvv6hlcogv7lgKbzUURg=;
+	b=Tupon10wSGvnsJnrEG39ufkUbvovJpSg79CIDaj5LfKqmzrM2uVi45OqqKgEcAfn
+	3I8KVQpc+MFNrEH+werexPb4qX38HtIZnQOTEPMCqCRkgdNC8BQwQHRl6ThOTo5b0jv
+	NqOPUhBZHjcPmNhWYdfgCGANIy1qYAHwbrsf2bQE=
+Content-Type: multipart/mixed; boundary="===============1702195767324024483=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libxcrypt: upgrading to 4.4.33 FAILED
-Message-ID: <01010184ce4f7651-6d610c79-2816-49da-97a6-71e84730eeb5-000000@us-west-2.amazonses.com>
-Date: Thu, 1 Dec 2022 15:30:24 +0000
+Subject: [AUH] pango: upgrading to 1.50.12 SUCCEEDED
+Message-ID: <01010184ce4f7fb2-eea401a5-c9f6-45c3-8c72-0fa00e9435bd-000000@us-west-2.amazonses.com>
+Date: Thu, 1 Dec 2022 15:30:27 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.12.01-54.240.27.45
+X-SES-Outgoing: 2022.12.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 15:30:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174143
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 15:30:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174175
 
---===============6168733278025501679==
+--===============1702195767324024483==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,16 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libxcrypt* to *4.4.33* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *pango* to *1.50.12* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libxcrypt-upgrade-4.4.30-4.4.33.patch
+    - apply the patch: git am 0001-pango-upgrade-1.50.11-1.50.12.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,31 +69,352 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============6168733278025501679==
+--===============1702195767324024483==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
+
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 888 .bb files complete (0 cached, 888 parsed). 1668 targets, 54 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "arm-poky-linux-gnueabi"
+MACHINE              = "qemuarm"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
+TARGET_FPU           = "hard"
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:11c961335c1052cb823ead74722979b0896cc799"
+workspace            = "master:a0dcf93bc919757b23a52597eacb1777df4adf24"
+
+Initialising tasks...done.
+Sstate summary: Wanted 49 Local 29 Mirrors 0 Missed 20 Current 500 (59% match, 96% complete)
+Removing 1 stale sstate objects for arch qemuarm...done.
+Removing 2 stale sstate objects for arch cortexa15t2hf-neon...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 506 of 549 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_0.303.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 511 of 549 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 515 of 549 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 537 of 549 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_packagedata_setscene)
+NOTE: Running task 1363 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_fetch)
+NOTE: Running task 1364 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_fetch)
+NOTE: Running task 1365 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_fetch)
+NOTE: Running task 1378 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_fetch)
+NOTE: recipe cantarell-fonts-0.303.1-r0: task do_packagedata_setscene: Started
+NOTE: Running task 1545 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_write_config)
+NOTE: Running task 1546 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_write_config)
+NOTE: Running task 1550 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_write_config)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_fetch: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_fetch: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_fetch: Started
+NOTE: recipe pango-1.50.12-r0: task do_fetch: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_fetch: Succeeded
+NOTE: recipe libxft-1_2.3.6-r0: task do_fetch: Succeeded
+NOTE: recipe harfbuzz-5.3.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1805 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_unpack)
+NOTE: Running task 1806 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_prepare_recipe_sysroot)
+NOTE: recipe pango-1.50.12-r0: task do_fetch: Succeeded
+NOTE: Running task 1807 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_unpack)
+NOTE: Running task 1808 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_unpack)
+NOTE: Running task 1809 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_prepare_recipe_sysroot)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_write_config: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_write_config: Started
+NOTE: Running task 1810 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_unpack)
+NOTE: recipe pango-1.50.12-r0: task do_write_config: Started
+NOTE: recipe cantarell-fonts-0.303.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 544 of 549 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_setscene)
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/gobject-introspection/1.72.0-r0/temp/log.do_packagedata_setscene.4095574
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: recipe fribidi-1.0.12-r0: task do_write_config: Succeeded
+NOTE: recipe harfbuzz-5.3.1-r0: task do_write_config: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_write_config: Succeeded
+NOTE: recipe libxft-1_2.3.6-r0: task do_unpack: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_unpack: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_unpack: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe fribidi-1.0.12-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe pango-1.50.12-r0: task do_unpack: Started
+NOTE: Running setscene task 545 of 549 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_package_setscene)
+NOTE: recipe libxft-1_2.3.6-r0: task do_unpack: Succeeded
+NOTE: Running task 1824 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_patch)
+NOTE: recipe fribidi-1.0.12-r0: task do_unpack: Succeeded
+NOTE: Running task 1825 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_patch)
+NOTE: recipe libxft-1_2.3.6-r0: task do_patch: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe fribidi-1.0.12-r0: task do_patch: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_patch: Succeeded
+NOTE: recipe fribidi-1.0.12-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1826 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_deploy_source_date_epoch)
+NOTE: recipe fribidi-1.0.12-r0: task do_patch: Succeeded
+NOTE: Running task 1827 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_deploy_source_date_epoch)
+NOTE: recipe pango-1.50.12-r0: task do_unpack: Succeeded
+NOTE: Running task 1828 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_patch)
+NOTE: recipe libxft-1_2.3.6-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe pango-1.50.12-r0: task do_patch: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1829 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_configure)
+NOTE: recipe fribidi-1.0.12-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_patch: Succeeded
+NOTE: Running task 1830 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1831 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_populate_lic)
+NOTE: Running task 1832 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_configure)
+NOTE: recipe libxft-1_2.3.6-r0: task do_configure: Started
+NOTE: recipe pango-1.50.12-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe pango-1.50.12-r0: task do_populate_lic: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_configure: Started
+NOTE: recipe pango-1.50.12-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_populate_lic unihash changed to 233d0c2d2edfdbda80b06591b263caf24421a9d39cec48629457d94ebf1b1706
+NOTE: recipe pango-1.50.12-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_setscene: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_package_setscene: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_package_setscene: Succeeded
+NOTE: Running task 1843 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1845 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_packagedata)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1846 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_patch)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_packagedata: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_patch: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_patch: Succeeded
+NOTE: Running task 1847 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_packagedata: Succeeded
+NOTE: recipe harfbuzz-5.3.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1895 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_write_rpm)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1896 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_configure)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_configure: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_configure: Succeeded
+NOTE: Running task 1897 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_compile)
+NOTE: recipe fribidi-1.0.12-r0: task do_compile: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe fribidi-1.0.12-r0: task do_compile: Succeeded
+NOTE: Running task 1898 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_install)
+NOTE: recipe fribidi-1.0.12-r0: task do_install: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_install: Succeeded
+NOTE: Running task 1899 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_populate_sysroot)
+NOTE: Running task 1900 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_package)
+NOTE: recipe fribidi-1.0.12-r0: task do_populate_sysroot: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_package: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe fribidi-1.0.12-r0: task do_package: Succeeded
+NOTE: Running task 1901 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_packagedata)
+NOTE: recipe fribidi-1.0.12-r0: task do_packagedata: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_packagedata: Succeeded
+NOTE: recipe harfbuzz-5.3.1-r0: task do_configure: Succeeded
+NOTE: Running task 1902 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_compile)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_compile: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_configure: Succeeded
+NOTE: Running task 1903 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_compile)
+NOTE: recipe libxft-1_2.3.6-r0: task do_compile: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_compile: Succeeded
+NOTE: Running task 1904 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_install)
+NOTE: recipe libxft-1_2.3.6-r0: task do_install: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_install: Succeeded
+NOTE: Running task 1905 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_populate_sysroot)
+NOTE: Running task 1906 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_package)
+NOTE: recipe libxft-1_2.3.6-r0: task do_populate_sysroot: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_package: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libxft-1_2.3.6-r0: task do_package: Succeeded
+NOTE: Running task 1907 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_packagedata)
+NOTE: recipe libxft-1_2.3.6-r0: task do_packagedata: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_packagedata: Succeeded
+NOTE: recipe harfbuzz-5.3.1-r0: task do_compile: Succeeded
+NOTE: Running task 1908 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_install)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_install: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_install: Succeeded
+NOTE: Running task 1909 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_populate_sysroot)
+NOTE: Running task 1910 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_package)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_populate_sysroot: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_package: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1911 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_prepare_recipe_sysroot)
+NOTE: recipe pango-1.50.12-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe pango-1.50.12-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1912 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_configure)
+NOTE: recipe pango-1.50.12-r0: task do_configure: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_package: Succeeded
+NOTE: Running task 1913 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_packagedata)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_packagedata: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_packagedata: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_configure: Succeeded
+NOTE: Running task 1914 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_configure_ptest_base)
+NOTE: recipe pango-1.50.12-r0: task do_configure_ptest_base: Started
+NOTE: recipe pango-1.50.12-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1915 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_compile)
+NOTE: recipe pango-1.50.12-r0: task do_compile: Started
+NOTE: recipe pango-1.50.12-r0: task do_compile: Succeeded
+NOTE: Running task 1916 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_compile_ptest_base)
+NOTE: recipe pango-1.50.12-r0: task do_compile_ptest_base: Started
+NOTE: recipe pango-1.50.12-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1917 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_install)
+NOTE: recipe pango-1.50.12-r0: task do_install: Started
+NOTE: recipe pango-1.50.12-r0: task do_install: Succeeded
+NOTE: Running task 1918 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_install_ptest_base)
+NOTE: recipe pango-1.50.12-r0: task do_install_ptest_base: Started
+NOTE: recipe pango-1.50.12-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1919 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_package)
+NOTE: Running task 1920 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_populate_sysroot)
+NOTE: recipe pango-1.50.12-r0: task do_package: Started
+NOTE: recipe pango-1.50.12-r0: task do_populate_sysroot: Started
+NOTE: recipe pango-1.50.12-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_package: Succeeded
+NOTE: Running task 1921 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_packagedata)
+NOTE: recipe pango-1.50.12-r0: task do_packagedata: Started
+NOTE: recipe pango-1.50.12-r0: task do_packagedata: Succeeded
+NOTE: Running task 1922 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_package_write_rpm)
+NOTE: Running task 1923 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_package_qa)
+NOTE: recipe pango-1.50.12-r0: task do_package_write_rpm: Started
+NOTE: recipe pango-1.50.12-r0: task do_package_qa: Started
+NOTE: recipe pango-1.50.12-r0: task do_package_qa: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1924 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_build)
+NOTE: Tasks Summary: Attempted 1924 tasks of which 1868 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: There was 1 WARNING message.
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-src went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-dbg went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-staticdev went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-dev went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-doc went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-locale went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============1702195767324024483==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-pango-upgrade-1.50.11-1.50.12.patch"
+
+RnJvbSA4ZGE5OGViODI5YWNmOGUxMjYyZTA2YmMwODUxZmJiMjY2YWZjNTllIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMSBEZWMgMjAyMiAxMjowNDozNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHBh
+bmdvOiB1cGdyYWRlIDEuNTAuMTEgLT4gMS41MC4xMgoKLS0tCiAuLi5kLWluc3RhbGwtbm9mb250
+cy1mb250cy5jb25mLWFzLWl0LWkucGF0Y2ggfCAzNSAtLS0tLS0tLS0tLS0tLS0tLS0tCiAuLi4v
+e3BhbmdvXzEuNTAuMTEuYmIgPT4gcGFuZ29fMS41MC4xMi5iYn0gICAgfCAgMyArLQogMiBmaWxl
+cyBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMzcgZGVsZXRpb25zKC0pCiBkZWxldGUgbW9kZSAx
+MDA2NDQgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BhbmdvL3BhbmdvLzAwMDEtdGVzdHMtbWVzb24u
+YnVpbGQtaW5zdGFsbC1ub2ZvbnRzLWZvbnRzLmNvbmYtYXMtaXQtaS5wYXRjaAogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1ncmFwaGljcy9wYW5nby97cGFuZ29fMS41MC4xMS5iYiA9PiBwYW5nb18xLjUw
+LjEyLmJifSAoOTAlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9wYW5nby9w
+YW5nby8wMDAxLXRlc3RzLW1lc29uLmJ1aWxkLWluc3RhbGwtbm9mb250cy1mb250cy5jb25mLWFz
+LWl0LWkucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGFuZ28vcGFuZ28vMDAwMS10ZXN0
+cy1tZXNvbi5idWlsZC1pbnN0YWxsLW5vZm9udHMtZm9udHMuY29uZi1hcy1pdC1pLnBhdGNoCmRl
+bGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCA4ZGFjZDYyMTM4Li4wMDAwMDAwMDAwCi0tLSBh
+L21ldGEvcmVjaXBlcy1ncmFwaGljcy9wYW5nby9wYW5nby8wMDAxLXRlc3RzLW1lc29uLmJ1aWxk
+LWluc3RhbGwtbm9mb250cy1mb250cy5jb25mLWFzLWl0LWkucGF0Y2gKKysrIC9kZXYvbnVsbApA
+QCAtMSwzNSArMCwwIEBACi1Gcm9tIDEzZjhiYTVkNWI2OTlkZjFmODhlZWVhODU5NDA2ZGFiYTZk
+Njk0MWYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCi1Gcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8
+YWxleEBsaW51dHJvbml4LmRlPgotRGF0ZTogVHVlLCA4IE5vdiAyMDIyIDE4OjA4OjUxICswMTAw
+Ci1TdWJqZWN0OiBbUEFUQ0hdIHRlc3RzL21lc29uLmJ1aWxkOiBpbnN0YWxsIG5vZm9udHMvZm9u
+dHMuY29uZiBhcyBpdCBpcwotIHJlcXVpcmVkIGJ5IHRlc3RzCi0KLVVwc3RyZWFtLVN0YXR1czog
+U3VibWl0dGVkIFtodHRwczovL2dpdGxhYi5nbm9tZS5vcmcvR05PTUUvcGFuZ28vLS9tZXJnZV9y
+ZXF1ZXN0cy82NTRdCi1TaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleEBsaW51
+dHJvbml4LmRlPgotLS0tCi0gdGVzdHMvbWVzb24uYnVpbGQgfCA1ICsrKysrCi0gMSBmaWxlIGNo
+YW5nZWQsIDUgaW5zZXJ0aW9ucygrKQotCi1kaWZmIC0tZ2l0IGEvdGVzdHMvbWVzb24uYnVpbGQg
+Yi90ZXN0cy9tZXNvbi5idWlsZAotaW5kZXggOGI0YmZhMzguLjZjMWM0NjFiIDEwMDY0NAotLS0t
+IGEvdGVzdHMvbWVzb24uYnVpbGQKLSsrKyBiL3Rlc3RzL21lc29uLmJ1aWxkCi1AQCAtMjUwLDYg
+KzI1MCwxMCBAQCBmb3JlYWNoIGQ6IHRlc3RfaXRlbXNfZGF0YQotICAgaW5zdGFsbGVkX3Rlc3Rf
+aXRlbXNfZGF0YSArPSBkICsgJy5leHBlY3RlZCcKLSBlbmRmb3JlYWNoCi0gCi0raW5zdGFsbGVk
+X3Rlc3Rfbm9mb250c19kYXRhID0gWwotKyAgJ25vZm9udHMvZm9udHMuY29uZicsCi0rXQotKwot
+IGluc3RhbGxlZF90ZXN0X2RhdGFkaXIgPSBqb2luX3BhdGhzKHBhbmdvX2RhdGFkaXIsICdpbnN0
+YWxsZWQtdGVzdHMnLCAncGFuZ28nKQotIGluc3RhbGxlZF90ZXN0X2JpbmRpciA9IGpvaW5fcGF0
+aHMocGFuZ29fbGliZXhlY2RpciwgJ2luc3RhbGxlZC10ZXN0cycsICdwYW5nbycpCi0gCi1AQCAt
+MjYxLDYgKzI2NSw3IEBAIGlmIGdldF9vcHRpb24oJ2luc3RhbGwtdGVzdHMnKQotICAgaW5zdGFs
+bF9kYXRhKGluc3RhbGxlZF90ZXN0X2JyZWFrc19kYXRhLCBpbnN0YWxsX2Rpcjogam9pbl9wYXRo
+cyhpbnN0YWxsZWRfdGVzdF9iaW5kaXIsICdicmVha3MnKSkKLSAgIGluc3RhbGxfZGF0YShpbnN0
+YWxsZWRfdGVzdF9pdGVtc19kYXRhLCBpbnN0YWxsX2Rpcjogam9pbl9wYXRocyhpbnN0YWxsZWRf
+dGVzdF9iaW5kaXIsICdpdGVtaXplJykpCi0gICBpbnN0YWxsX2RhdGEoaW5zdGFsbGVkX3Rlc3Rf
+Zm9udHNldHNfZGF0YSwgaW5zdGFsbF9kaXI6IGpvaW5fcGF0aHMoaW5zdGFsbGVkX3Rlc3RfYmlu
+ZGlyLCAnZm9udHNldHMnKSkKLSsgIGluc3RhbGxfZGF0YShpbnN0YWxsZWRfdGVzdF9ub2ZvbnRz
+X2RhdGEsIGluc3RhbGxfZGlyOiBqb2luX3BhdGhzKGluc3RhbGxlZF90ZXN0X2JpbmRpciwgJ25v
+Zm9udHMnKSkKLSBlbmRpZgotIAotIGdlbl9pbnN0YWxsZWRfdGVzdCA9IGZpbGVzKFsgJ2dlbi1p
+bnN0YWxsZWQtdGVzdC5weScgXSkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9w
+YW5nby9wYW5nb18xLjUwLjExLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BhbmdvL3Bhbmdv
+XzEuNTAuMTIuYmIKc2ltaWxhcml0eSBpbmRleCA5MCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
+LWdyYXBoaWNzL3BhbmdvL3BhbmdvXzEuNTAuMTEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1n
+cmFwaGljcy9wYW5nby9wYW5nb18xLjUwLjEyLmJiCmluZGV4IDZmNTk5ZjViNzguLjY3NzlmMzlj
+NGYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9wYW5nby9wYW5nb18xLjUwLjEx
+LmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9wYW5nby9wYW5nb18xLjUwLjEyLmJiCkBA
+IC0yMiwxMCArMjIsOSBAQCBHSVJfTUVTT05fRElTQUJMRV9GTEFHID0gImRpc2FibGVkIgogCiBT
+UkNfVVJJICs9ICJmaWxlOi8vcnVuLXB0ZXN0IFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtU2tp
+cC1ydW5uaW5nLXRlc3QtbGF5b3V0LXRlc3QucGF0Y2ggXAotICAgICAgICAgICBmaWxlOi8vMDAw
+MS10ZXN0cy1tZXNvbi5idWlsZC1pbnN0YWxsLW5vZm9udHMtZm9udHMuY29uZi1hcy1pdC1pLnBh
+dGNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW2FyY2hpdmUuc2hhMjU2c3VtXSA9ICI4ODAw
+ZjgxMmQ4OWVlNjEzODgxODg3MDMyMDNmM2E3ODc4OTYzYzIyZjg2OTVhYWYxZmEwYTFhMTQyOGQx
+N2FlIgorU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiY2FlZjk2ZDI3YmJlNzkyYTZiZTky
+NzI3YzczNDY4ZDgzMmIxM2RhNTdjODA3MWVmNzliOWRmNjllZTA1OGZlMyIKIAogREVQRU5EUyA9
+ICJnbGliLTIuMCBnbGliLTIuMC1uYXRpdmUgZm9udGNvbmZpZyBmcmVldHlwZSB2aXJ0dWFsL2xp
+Ymljb252IGNhaXJvIGhhcmZidXp6IGZyaWJpZGkiCiAKLS0gCjIuMzEuMQoK
+
+--===============1702195767324024483==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libxcrypt: SRC_URI changed from "git://github.com/besser82/libxcrypt.git;branch=develop;protocol=https file://fix_cflags_handling.patch" to "git://github.com/besser82/libxcrypt.git;branch=master;protocol=https file://fix_cflags_handling.patch"
-packages/core2-32-poky-linux/libxcrypt: PKGV changed from 4.4.30 [default] to 4.4.33 [default]
-packages/core2-32-poky-linux/libxcrypt: PV changed from "4.4.30" to "4.4.33"
-packages/core2-32-poky-linux/libxcrypt/libxcrypt-dbg: PV changed from "4.4.30" to "4.4.33"
-packages/core2-32-poky-linux/libxcrypt/libxcrypt-dbg: PKGV changed from 4.4.30 [default] to 4.4.33 [default]
-packages/core2-32-poky-linux/libxcrypt/libxcrypt-dbg: PKGSIZE changed from 513212 to 514596 (+0%)
-packages/core2-32-poky-linux/libxcrypt/libxcrypt-dev: PV changed from "4.4.30" to "4.4.33"
-packages/core2-32-poky-linux/libxcrypt/libxcrypt-dev: PKGV changed from 4.4.30 [default] to 4.4.33 [default]
-packages/core2-32-poky-linux/libxcrypt/libxcrypt-doc: PV changed from "4.4.30" to "4.4.33"
-packages/core2-32-poky-linux/libxcrypt/libxcrypt-doc: PKGV changed from 4.4.30 [default] to 4.4.33 [default]
-packages/core2-32-poky-linux/libxcrypt/libxcrypt-locale: PV changed from "4.4.30" to "4.4.33"
-packages/core2-32-poky-linux/libxcrypt/libxcrypt-locale: PKGV changed from 4.4.30 [default] to 4.4.33 [default]
-packages/core2-32-poky-linux/libxcrypt/libxcrypt-src: PV changed from "4.4.30" to "4.4.33"
-packages/core2-32-poky-linux/libxcrypt/libxcrypt-src: PKGV changed from 4.4.30 [default] to 4.4.33 [default]
-packages/core2-32-poky-linux/libxcrypt/libxcrypt-src: PKGSIZE changed from 745176 to 745663 (+0%)
-packages/core2-32-poky-linux/libxcrypt/libxcrypt-staticdev: PV changed from "4.4.30" to "4.4.33"
-packages/core2-32-poky-linux/libxcrypt/libxcrypt-staticdev: PKGV changed from 4.4.30 [default] to 4.4.33 [default]
-packages/core2-32-poky-linux/libxcrypt/libxcrypt: PV changed from "4.4.30" to "4.4.33"
-packages/core2-32-poky-linux/libxcrypt/libxcrypt: PKGV changed from 4.4.30 [default] to 4.4.33 [default]
+packages/core2-32-poky-linux/pango: SRC_URI changed from "https://download.gnome.org/sources//pango/1.50/pango-1.50.11.tar.xz;name=archive file://run-ptest file://0001-Skip-running-test-layout-test.patch file://0001-tests-meson.build-install-nofonts-fonts.conf-as-it-i.patch" to "https://download.gnome.org/sources//pango/1.50/pango-1.50.12.tar.xz;name=archive file://run-ptest file://0001-Skip-running-test-layout-test.patch"
+packages/core2-32-poky-linux/pango: PV changed from "1.50.11" to "1.50.12"
+packages/core2-32-poky-linux/pango: PKGV changed from 1.50.11 [default] to 1.50.12 [default]
+packages/core2-32-poky-linux/pango/pango-dbg: PKGSIZE changed from 2385752 to 2386088 (+0%)
+packages/core2-32-poky-linux/pango/pango-dbg: FILELIST: removed "/usr/lib/.debug/libpangocairo-1.0.so.0.5000.11 /usr/lib/.debug/libpangoft2-1.0.so.0.5000.11 /usr/lib/.debug/libpangoxft-1.0.so.0.5000.11 /usr/lib/.debug/libpango-1.0.so.0.5000.11", added "/usr/lib/.debug/libpango-1.0.so.0.5000.12 /usr/lib/.debug/libpangoft2-1.0.so.0.5000.12 /usr/lib/.debug/libpangoxft-1.0.so.0.5000.12 /usr/lib/.debug/libpangocairo-1.0.so.0.5000.12"
+packages/core2-32-poky-linux/pango/pango-dbg: PV changed from "1.50.11" to "1.50.12"
+packages/core2-32-poky-linux/pango/pango-dbg: PKGV changed from 1.50.11 [default] to 1.50.12 [default]
+packages/core2-32-poky-linux/pango/pango-dev: PKGSIZE changed from 1553030 to 1554368 (+0%)
+packages/core2-32-poky-linux/pango/pango-dev: PV changed from "1.50.11" to "1.50.12"
+packages/core2-32-poky-linux/pango/pango-dev: PKGV changed from 1.50.11 [default] to 1.50.12 [default]
+packages/core2-32-poky-linux/pango/pango-doc: PV changed from "1.50.11" to "1.50.12"
+packages/core2-32-poky-linux/pango/pango-doc: PKGV changed from 1.50.11 [default] to 1.50.12 [default]
+packages/core2-32-poky-linux/pango/pango-locale: PV changed from "1.50.11" to "1.50.12"
+packages/core2-32-poky-linux/pango/pango-locale: PKGV changed from 1.50.11 [default] to 1.50.12 [default]
+packages/core2-32-poky-linux/pango/pango-ptest: PKGSIZE changed from 4090882 to 4090894 (+0%)
+packages/core2-32-poky-linux/pango/pango-ptest: PV changed from "1.50.11" to "1.50.12"
+packages/core2-32-poky-linux/pango/pango-ptest: PKGV changed from 1.50.11 [default] to 1.50.12 [default]
+packages/core2-32-poky-linux/pango/pango-src: PKGSIZE changed from 2318559 to 2320934 (+0%)
+packages/core2-32-poky-linux/pango/pango-src: PV changed from "1.50.11" to "1.50.12"
+packages/core2-32-poky-linux/pango/pango-src: PKGV changed from 1.50.11 [default] to 1.50.12 [default]
+packages/core2-32-poky-linux/pango/pango-staticdev: PV changed from "1.50.11" to "1.50.12"
+packages/core2-32-poky-linux/pango/pango-staticdev: PKGV changed from 1.50.11 [default] to 1.50.12 [default]
+packages/core2-32-poky-linux/pango/pango: PKGSIZE changed from 853971 to 862179 (+1%)
+packages/core2-32-poky-linux/pango/pango: FILELIST: removed "/usr/lib/libpango-1.0.so.0.5000.11 /usr/lib/libpangoxft-1.0.so.0.5000.11 /usr/lib/libpangocairo-1.0.so.0.5000.11 /usr/lib/libpangoft2-1.0.so.0.5000.11", added "/usr/lib/libpangocairo-1.0.so.0.5000.12 /usr/lib/libpangoft2-1.0.so.0.5000.12 /usr/lib/libpangoxft-1.0.so.0.5000.12 /usr/lib/libpango-1.0.so.0.5000.12"
+packages/core2-32-poky-linux/pango/pango: PV changed from "1.50.11" to "1.50.12"
+packages/core2-32-poky-linux/pango/pango: PKGV changed from 1.50.11 [default] to 1.50.12 [default]
+Changes to packages/core2-32-poky-linux/pango (sysroot):
+  /usr/lib/libpango-1.0.so.0 changed symlink target from libpango-1.0.so.0.5000.11 to libpango-1.0.so.0.5000.12
+  /usr/lib/libpangocairo-1.0.so.0 changed symlink target from libpangocairo-1.0.so.0.5000.11 to libpangocairo-1.0.so.0.5000.12
+  /usr/lib/libpangoft2-1.0.so.0 changed symlink target from libpangoft2-1.0.so.0.5000.11 to libpangoft2-1.0.so.0.5000.12
+  /usr/lib/libpangoxft-1.0.so.0 changed symlink target from libpangoxft-1.0.so.0.5000.11 to libpangoxft-1.0.so.0.5000.12
+  /usr/lib/libpango-1.0.so.0.5000.11 moved to /usr/lib/libpango-1.0.so.0.5000.12
+  /usr/lib/libpangocairo-1.0.so.0.5000.11 moved to /usr/lib/libpangocairo-1.0.so.0.5000.12
+  /usr/lib/libpangoft2-1.0.so.0.5000.11 moved to /usr/lib/libpangoft2-1.0.so.0.5000.12
+  /usr/lib/libpangoxft-1.0.so.0.5000.11 moved to /usr/lib/libpangoxft-1.0.so.0.5000.12
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1454,12 +1769,262 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
 
---===============6168733278025501679==
+--===============1702195767324024483==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1670 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 888 .bb files complete (887 cached, 1 parsed). 1668 targets, 36 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:11c961335c1052cb823ead74722979b0896cc799"
+workspace            = "master:a0dcf93bc919757b23a52597eacb1777df4adf24"
+
+Initialising tasks...done.
+Sstate summary: Wanted 50 Local 30 Mirrors 0 Missed 20 Current 499 (60% match, 96% complete)
+Removing 2 stale sstate objects for arch core2-64...done.
+Removing 1 stale sstate objects for arch qemux86_64...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 503 of 549 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_0.303.1.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 510 of 549 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 514 of 549 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 536 of 549 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_packagedata_setscene)
+NOTE: Running task 1363 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_fetch)
+NOTE: Running task 1364 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_fetch)
+NOTE: Running task 1365 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_fetch)
+NOTE: Running task 1378 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_fetch)
+NOTE: recipe cantarell-fonts-0.303.1-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 1545 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_write_config)
+NOTE: Running task 1546 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_write_config)
+NOTE: Running task 1550 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_write_config)
+NOTE: recipe libxft-1_2.3.6-r0: task do_fetch: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_fetch: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_fetch: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_fetch: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_fetch: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_fetch: Succeeded
+NOTE: Running task 1712 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_unpack)
+NOTE: Running task 1713 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_prepare_recipe_sysroot)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_fetch: Succeeded
+NOTE: recipe cantarell-fonts-0.303.1-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 543 of 549 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_0.303.1.bb:do_packagedata_setscene)
+NOTE: Running task 1714 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_unpack)
+NOTE: Running task 1715 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1716 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_unpack)
+NOTE: Running task 1717 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_unpack)
+NOTE: recipe fribidi-1.0.12-r0: task do_write_config: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_write_config: Started
+NOTE: recipe pango-1.50.12-r0: task do_write_config: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gobject-introspection/1.72.0-r0/temp/log.do_packagedata_setscene.4081236
+NOTE: Running setscene task 544 of 549 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_setscene)
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: recipe libxft-1_2.3.6-r0: task do_unpack: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_write_config: Succeeded
+NOTE: recipe harfbuzz-5.3.1-r0: task do_write_config: Succeeded
+NOTE: recipe libxft-1_2.3.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe cantarell-fonts-0.303.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe pango-1.50.12-r0: task do_write_config: Succeeded
+NOTE: Running setscene task 545 of 549 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_package_setscene)
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe fribidi-1.0.12-r0: task do_unpack: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_unpack: Started
+NOTE: recipe pango-1.50.12-r0: task do_unpack: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_unpack: Succeeded
+NOTE: Running task 1777 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_patch)
+NOTE: recipe cantarell-fonts-0.303.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe fribidi-1.0.12-r0: task do_unpack: Succeeded
+NOTE: Running task 1808 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_patch)
+NOTE: recipe libxft-1_2.3.6-r0: task do_patch: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_patch: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libxft-1_2.3.6-r0: task do_patch: Succeeded
+NOTE: Running task 1826 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_deploy_source_date_epoch)
+NOTE: recipe fribidi-1.0.12-r0: task do_patch: Succeeded
+NOTE: recipe fribidi-1.0.12-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1827 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxft-1_2.3.6-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe pango-1.50.12-r0: task do_unpack: Succeeded
+NOTE: Running task 1828 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_patch)
+NOTE: recipe pango-1.50.12-r0: task do_patch: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1829 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_configure)
+NOTE: recipe fribidi-1.0.12-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1830 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_configure)
+NOTE: recipe pango-1.50.12-r0: task do_patch: Succeeded
+NOTE: Running task 1831 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1832 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_populate_lic)
+NOTE: recipe libxft-1_2.3.6-r0: task do_configure: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_configure: Started
+NOTE: recipe pango-1.50.12-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe pango-1.50.12-r0: task do_populate_lic: Started
+NOTE: recipe pango-1.50.12-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_populate_lic unihash changed to 233d0c2d2edfdbda80b06591b263caf24421a9d39cec48629457d94ebf1b1706
+NOTE: recipe pango-1.50.12-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_setscene: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_package_setscene: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_package_setscene: Succeeded
+NOTE: Running task 1843 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1845 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_packagedata)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1846 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_patch)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_packagedata: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_patch: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_patch: Succeeded
+NOTE: Running task 1847 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_packagedata: Succeeded
+NOTE: recipe harfbuzz-5.3.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1895 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_write_rpm)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1896 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_configure)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_configure: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_configure: Succeeded
+NOTE: Running task 1897 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_compile)
+NOTE: recipe fribidi-1.0.12-r0: task do_compile: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe fribidi-1.0.12-r0: task do_compile: Succeeded
+NOTE: Running task 1898 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_install)
+NOTE: recipe fribidi-1.0.12-r0: task do_install: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_install: Succeeded
+NOTE: Running task 1899 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_populate_sysroot)
+NOTE: Running task 1900 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_package)
+NOTE: recipe fribidi-1.0.12-r0: task do_populate_sysroot: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_package: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe fribidi-1.0.12-r0: task do_package: Succeeded
+NOTE: Running task 1901 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_packagedata)
+NOTE: recipe fribidi-1.0.12-r0: task do_packagedata: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_packagedata: Succeeded
+NOTE: recipe harfbuzz-5.3.1-r0: task do_configure: Succeeded
+NOTE: Running task 1902 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_compile)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_compile: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_configure: Succeeded
+NOTE: Running task 1903 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_compile)
+NOTE: recipe libxft-1_2.3.6-r0: task do_compile: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_compile: Succeeded
+NOTE: Running task 1904 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_install)
+NOTE: recipe libxft-1_2.3.6-r0: task do_install: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_install: Succeeded
+NOTE: Running task 1905 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_populate_sysroot)
+NOTE: Running task 1906 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_package)
+NOTE: recipe libxft-1_2.3.6-r0: task do_populate_sysroot: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_package: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libxft-1_2.3.6-r0: task do_package: Succeeded
+NOTE: Running task 1907 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_packagedata)
+NOTE: recipe libxft-1_2.3.6-r0: task do_packagedata: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_packagedata: Succeeded
+NOTE: recipe harfbuzz-5.3.1-r0: task do_compile: Succeeded
+NOTE: Running task 1908 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_install)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_install: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_install: Succeeded
+NOTE: Running task 1909 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_populate_sysroot)
+NOTE: Running task 1910 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_package)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_populate_sysroot: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_package: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1911 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_prepare_recipe_sysroot)
+NOTE: recipe pango-1.50.12-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe pango-1.50.12-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1912 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_configure)
+NOTE: recipe pango-1.50.12-r0: task do_configure: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_package: Succeeded
+NOTE: Running task 1913 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_packagedata)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_packagedata: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_packagedata: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_configure: Succeeded
+NOTE: Running task 1914 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_configure_ptest_base)
+NOTE: recipe pango-1.50.12-r0: task do_configure_ptest_base: Started
+NOTE: recipe pango-1.50.12-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1915 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_compile)
+NOTE: recipe pango-1.50.12-r0: task do_compile: Started
+NOTE: recipe pango-1.50.12-r0: task do_compile: Succeeded
+NOTE: Running task 1916 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_compile_ptest_base)
+NOTE: recipe pango-1.50.12-r0: task do_compile_ptest_base: Started
+NOTE: recipe pango-1.50.12-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1917 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_install)
+NOTE: recipe pango-1.50.12-r0: task do_install: Started
+NOTE: recipe pango-1.50.12-r0: task do_install: Succeeded
+NOTE: Running task 1918 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_install_ptest_base)
+NOTE: recipe pango-1.50.12-r0: task do_install_ptest_base: Started
+NOTE: recipe pango-1.50.12-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1919 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_package)
+NOTE: Running task 1920 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_populate_sysroot)
+NOTE: recipe pango-1.50.12-r0: task do_package: Started
+NOTE: recipe pango-1.50.12-r0: task do_populate_sysroot: Started
+NOTE: recipe pango-1.50.12-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_package: Succeeded
+NOTE: Running task 1921 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_packagedata)
+NOTE: recipe pango-1.50.12-r0: task do_packagedata: Started
+NOTE: recipe pango-1.50.12-r0: task do_packagedata: Succeeded
+NOTE: Running task 1922 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_package_write_rpm)
+NOTE: Running task 1923 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_package_qa)
+NOTE: recipe pango-1.50.12-r0: task do_package_write_rpm: Started
+NOTE: recipe pango-1.50.12-r0: task do_package_qa: Started
+NOTE: recipe pango-1.50.12-r0: task do_package_qa: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1924 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_build)
+NOTE: Tasks Summary: Attempted 1924 tasks of which 1868 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: There was 1 WARNING message.
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-src went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-dbg went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-staticdev went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-dev went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-doc went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-locale went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============1702195767324024483==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/core2-32-poky-linux/pango/pango: FILELIST: removed "/usr/lib/libpango-1.0.so.0.5000.11 /usr/lib/libpangoxft-1.0.so.0.5000.11 /usr/lib/libpangocairo-1.0.so.0.5000.11 /usr/lib/libpangoft2-1.0.so.0.5000.11", added "/usr/lib/libpangoft2-1.0.so.0.5000.12 /usr/lib/libpangocairo-1.0.so.0.5000.12 /usr/lib/libpangoxft-1.0.so.0.5000.12 /usr/lib/libpango-1.0.so.0.5000.12"
+Changes to packages/core2-32-poky-linux/pango (sysroot):
+  /usr/lib/libpango-1.0.so.0 changed symlink target from libpango-1.0.so.0.5000.11 to libpango-1.0.so.0.5000.12
+  /usr/lib/libpangocairo-1.0.so.0 changed symlink target from libpangocairo-1.0.so.0.5000.11 to libpangocairo-1.0.so.0.5000.12
+  /usr/lib/libpangoft2-1.0.so.0 changed symlink target from libpangoft2-1.0.so.0.5000.11 to libpangoft2-1.0.so.0.5000.12
+  /usr/lib/libpangoxft-1.0.so.0 changed symlink target from libpangoxft-1.0.so.0.5000.11 to libpangoxft-1.0.so.0.5000.12
+  /usr/lib/libpango-1.0.so.0.5000.11 moved to /usr/lib/libpango-1.0.so.0.5000.12
+  /usr/lib/libpangocairo-1.0.so.0.5000.11 moved to /usr/lib/libpangocairo-1.0.so.0.5000.12
+  /usr/lib/libpangoft2-1.0.so.0.5000.11 moved to /usr/lib/libpangoft2-1.0.so.0.5000.12
+  /usr/lib/libpangoxft-1.0.so.0.5000.11 moved to /usr/lib/libpangoxft-1.0.so.0.5000.12
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -2814,42 +3379,244 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
 
---===============6168733278025501679==
-Content-Type: application/octet-stream
+--===============1702195767324024483==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libxcrypt-upgrade-4.4.30-4.4.33.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
 
-RnJvbSBmZmJjM2JiZjM0YzMwNWUzYTI1NGViMzVkNGJlYmRlZTY0ZWNlN2Q5IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBEZWMgMjAyMiAwNzo0Mjo1OCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YnhjcnlwdDogdXBncmFkZSA0LjQuMzAgLT4gNC40LjMzCgotLS0KIG1ldGEvcmVjaXBlcy1jb3Jl
-L2xpYnhjcnlwdC9saWJ4Y3J5cHQuaW5jICAgICAgICAgICAgICAgICAgICAgfCA0ICsrKy0KIC4u
-Li9saWJ4Y3J5cHQve2xpYnhjcnlwdF80LjQuMzAuYmIgPT4gbGlieGNyeXB0XzQuNC4zMy5iYn0g
-ICAgfCAwCiAyIGZpbGVzIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1jb3JlL2xpYnhjcnlwdC97bGlieGNyeXB0XzQuNC4zMC5iYiA9
-PiBsaWJ4Y3J5cHRfNC40LjMzLmJifSAoMTAwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
-Y29yZS9saWJ4Y3J5cHQvbGlieGNyeXB0LmluYyBiL21ldGEvcmVjaXBlcy1jb3JlL2xpYnhjcnlw
-dC9saWJ4Y3J5cHQuaW5jCmluZGV4IDJiZGVkY2JhNmQuLmZmMTU4NmY3OTYgMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1jb3JlL2xpYnhjcnlwdC9saWJ4Y3J5cHQuaW5jCisrKyBiL21ldGEvcmVj
-aXBlcy1jb3JlL2xpYnhjcnlwdC9saWJ4Y3J5cHQuaW5jCkBAIC0xMCw3ICsxMCw3IEBAIExJQ19G
-SUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0lORzttZDU9YzBhMzBlMmIxNTAyYzU1YTdmMzdl
-NDEyY2Q2YzZhNGIgXAogaW5oZXJpdCBhdXRvdG9vbHMgcGtnY29uZmlnCiAKIFNSQ19VUkkgPSAi
-Z2l0Oi8vZ2l0aHViLmNvbS9iZXNzZXI4Mi9saWJ4Y3J5cHQuZ2l0O2JyYW5jaD0ke1NSQ0JSQU5D
-SH07cHJvdG9jb2w9aHR0cHMiCi1TUkNSRVYgPSAiZmVlMjY4N2JhZDY2ZTM1MWEzZGNjOTYzYTM0
-YWU4MDEyNTkyM2ZmOCIKK1NSQ1JFViA9ICJkN2ZlMWFjMDRjMzI2ZGJhN2UwNDQwODY4ODg5ZDFk
-Y2NiNDFhMTc1IgogU1JDQlJBTkNIID89ICJkZXZlbG9wIgogCiBTUkNfVVJJICs9ICJmaWxlOi8v
-Zml4X2NmbGFnc19oYW5kbGluZy5wYXRjaCIKQEAgLTMzLDMgKzMzLDUgQEAgQVBJID0gIi0tZGlz
-YWJsZS1vYnNvbGV0ZS1hcGkiCiBFWFRSQV9PRUNPTkYgKz0gIiR7QVBJfSIKIAogQkJDTEFTU0VY
-VEVORCA9ICJuYXRpdmUgbmF0aXZlc2RrIgorCitTUkNCUkFOQ0ggPSAibWFzdGVyIgpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvbGlieGNyeXB0L2xpYnhjcnlwdF80LjQuMzAuYmIgYi9t
-ZXRhL3JlY2lwZXMtY29yZS9saWJ4Y3J5cHQvbGlieGNyeXB0XzQuNC4zMy5iYgpzaW1pbGFyaXR5
-IGluZGV4IDEwMCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvcmUvbGlieGNyeXB0L2xpYnhj
-cnlwdF80LjQuMzAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb3JlL2xpYnhjcnlwdC9saWJ4
-Y3J5cHRfNC40LjMzLmJiCi0tIAoyLjMxLjEKCg==
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 888 .bb files complete (0 cached, 888 parsed). 1668 targets, 71 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
 
---===============6168733278025501679==
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "powerpc-poky-linux"
+MACHINE              = "qemuppc"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:11c961335c1052cb823ead74722979b0896cc799"
+workspace            = "master:a0dcf93bc919757b23a52597eacb1777df4adf24"
+
+Initialising tasks...done.
+Sstate summary: Wanted 49 Local 29 Mirrors 0 Missed 20 Current 500 (59% match, 96% complete)
+Removing 1 stale sstate objects for arch qemuppc...done.
+Removing 2 stale sstate objects for arch ppc7400...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 506 of 549 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_0.303.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 511 of 549 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 515 of 549 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 537 of 549 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_packagedata_setscene)
+NOTE: Running task 1363 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_fetch)
+NOTE: Running task 1364 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_fetch)
+NOTE: Running task 1365 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_fetch)
+NOTE: Running task 1378 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_fetch)
+NOTE: recipe cantarell-fonts-0.303.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 1545 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_write_config)
+NOTE: Running task 1546 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_write_config)
+NOTE: Running task 1550 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_write_config)
+NOTE: recipe libxft-1_2.3.6-r0: task do_fetch: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_fetch: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_fetch: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_fetch: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_fetch: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_fetch: Succeeded
+NOTE: recipe harfbuzz-5.3.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1729 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_unpack)
+NOTE: Running task 1730 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_prepare_recipe_sysroot)
+NOTE: recipe pango-1.50.12-r0: task do_fetch: Succeeded
+NOTE: recipe cantarell-fonts-0.303.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 1731 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_unpack)
+NOTE: Running task 1732 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_unpack)
+NOTE: Running setscene task 544 of 549 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_setscene)
+NOTE: recipe fribidi-1.0.12-r0: task do_write_config: Started
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/gobject-introspection/1.72.0-r0/temp/log.do_packagedata_setscene.4123902
+NOTE: recipe harfbuzz-5.3.1-r0: task do_write_config: Started
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: recipe pango-1.50.12-r0: task do_write_config: Started
+NOTE: Running setscene task 545 of 549 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_package_setscene)
+NOTE: recipe fribidi-1.0.12-r0: task do_write_config: Succeeded
+NOTE: recipe libxft-1_2.3.6-r0: task do_unpack: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe harfbuzz-5.3.1-r0: task do_write_config: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_write_config: Succeeded
+NOTE: recipe libxft-1_2.3.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_unpack: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_unpack: Started
+NOTE: Running task 1733 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_unpack)
+NOTE: recipe libxft-1_2.3.6-r0: task do_unpack: Succeeded
+NOTE: Running task 1734 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_patch)
+NOTE: Running task 1735 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_prepare_recipe_sysroot)
+NOTE: recipe fribidi-1.0.12-r0: task do_unpack: Succeeded
+NOTE: Running task 1825 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_patch)
+NOTE: recipe libxft-1_2.3.6-r0: task do_patch: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe pango-1.50.12-r0: task do_unpack: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_patch: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_patch: Succeeded
+NOTE: Running task 1826 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxft-1_2.3.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libxft-1_2.3.6-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1827 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_configure)
+NOTE: recipe fribidi-1.0.12-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe fribidi-1.0.12-r0: task do_patch: Succeeded
+NOTE: Running task 1828 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxft-1_2.3.6-r0: task do_configure: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe pango-1.50.12-r0: task do_unpack: Succeeded
+NOTE: Running task 1829 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_patch)
+NOTE: recipe pango-1.50.12-r0: task do_patch: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1830 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_configure)
+NOTE: recipe pango-1.50.12-r0: task do_patch: Succeeded
+NOTE: Running task 1831 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1832 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_populate_lic)
+NOTE: recipe fribidi-1.0.12-r0: task do_configure: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_setscene: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_package_setscene: Started
+NOTE: recipe pango-1.50.12-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe pango-1.50.12-r0: task do_populate_lic: Started
+NOTE: recipe pango-1.50.12-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_populate_lic unihash changed to 233d0c2d2edfdbda80b06591b263caf24421a9d39cec48629457d94ebf1b1706
+NOTE: recipe pango-1.50.12-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_package_setscene: Succeeded
+NOTE: Running task 1843 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1845 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_packagedata)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1846 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_patch)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_packagedata: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_patch: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_patch: Succeeded
+NOTE: Running task 1847 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_packagedata: Succeeded
+NOTE: recipe harfbuzz-5.3.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1895 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_write_rpm)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1896 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_configure)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_configure: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_configure: Succeeded
+NOTE: Running task 1897 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_compile)
+NOTE: recipe fribidi-1.0.12-r0: task do_compile: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe fribidi-1.0.12-r0: task do_compile: Succeeded
+NOTE: Running task 1898 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_install)
+NOTE: recipe fribidi-1.0.12-r0: task do_install: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_install: Succeeded
+NOTE: Running task 1899 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_populate_sysroot)
+NOTE: Running task 1900 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_package)
+NOTE: recipe fribidi-1.0.12-r0: task do_populate_sysroot: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_package: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe fribidi-1.0.12-r0: task do_package: Succeeded
+NOTE: Running task 1901 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_packagedata)
+NOTE: recipe fribidi-1.0.12-r0: task do_packagedata: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_packagedata: Succeeded
+NOTE: recipe harfbuzz-5.3.1-r0: task do_configure: Succeeded
+NOTE: Running task 1902 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_compile)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_compile: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_configure: Succeeded
+NOTE: Running task 1903 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_compile)
+NOTE: recipe libxft-1_2.3.6-r0: task do_compile: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_compile: Succeeded
+NOTE: Running task 1904 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_install)
+NOTE: recipe libxft-1_2.3.6-r0: task do_install: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_install: Succeeded
+NOTE: Running task 1905 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_populate_sysroot)
+NOTE: Running task 1906 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_package)
+NOTE: recipe libxft-1_2.3.6-r0: task do_populate_sysroot: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_package: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libxft-1_2.3.6-r0: task do_package: Succeeded
+NOTE: Running task 1907 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_packagedata)
+NOTE: recipe libxft-1_2.3.6-r0: task do_packagedata: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_packagedata: Succeeded
+NOTE: recipe harfbuzz-5.3.1-r0: task do_compile: Succeeded
+NOTE: Running task 1908 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_install)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_install: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_install: Succeeded
+NOTE: Running task 1909 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_populate_sysroot)
+NOTE: Running task 1910 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_package)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_populate_sysroot: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_package: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1911 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_prepare_recipe_sysroot)
+NOTE: recipe pango-1.50.12-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe pango-1.50.12-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1912 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_configure)
+NOTE: recipe pango-1.50.12-r0: task do_configure: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_package: Succeeded
+NOTE: Running task 1913 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_packagedata)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_packagedata: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_packagedata: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_configure: Succeeded
+NOTE: Running task 1914 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_configure_ptest_base)
+NOTE: recipe pango-1.50.12-r0: task do_configure_ptest_base: Started
+NOTE: recipe pango-1.50.12-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1915 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_compile)
+NOTE: recipe pango-1.50.12-r0: task do_compile: Started
+NOTE: recipe pango-1.50.12-r0: task do_compile: Succeeded
+NOTE: Running task 1916 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_compile_ptest_base)
+NOTE: recipe pango-1.50.12-r0: task do_compile_ptest_base: Started
+NOTE: recipe pango-1.50.12-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1917 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_install)
+NOTE: recipe pango-1.50.12-r0: task do_install: Started
+NOTE: recipe pango-1.50.12-r0: task do_install: Succeeded
+NOTE: Running task 1918 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_install_ptest_base)
+NOTE: recipe pango-1.50.12-r0: task do_install_ptest_base: Started
+NOTE: recipe pango-1.50.12-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1919 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_package)
+NOTE: Running task 1920 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_populate_sysroot)
+NOTE: recipe pango-1.50.12-r0: task do_populate_sysroot: Started
+NOTE: recipe pango-1.50.12-r0: task do_package: Started
+NOTE: recipe pango-1.50.12-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_package: Succeeded
+NOTE: Running task 1921 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_packagedata)
+NOTE: recipe pango-1.50.12-r0: task do_packagedata: Started
+NOTE: recipe pango-1.50.12-r0: task do_packagedata: Succeeded
+NOTE: Running task 1922 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_package_write_rpm)
+NOTE: Running task 1923 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_package_qa)
+NOTE: recipe pango-1.50.12-r0: task do_package_write_rpm: Started
+NOTE: recipe pango-1.50.12-r0: task do_package_qa: Started
+NOTE: recipe pango-1.50.12-r0: task do_package_qa: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1924 of 1924 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_build)
+NOTE: Tasks Summary: Attempted 1924 tasks of which 1868 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: There was 1 WARNING message.
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-src went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-dbg went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-staticdev went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-dev went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-doc went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-locale went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============1702195767324024483==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -2860,15 +3627,853 @@ Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 888 .bb files complete (0 cached, 888 parsed). 1669 targets, 49 skipped, 0 masked, 0 errors.
-Removing 6 recipes from the core2-32 sysroot...done.
-Removing 5 recipes from the qemux86 sysroot...done.
+Removing 70 recipes from the core2-32 sysroot...done.
+Removing 82 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux-musl"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:11c961335c1052cb823ead74722979b0896cc799"
+workspace            = "master:a0dcf93bc919757b23a52597eacb1777df4adf24"
+
+Initialising tasks...done.
+Sstate summary: Wanted 293 Local 273 Mirrors 0 Missed 20 Current 181 (93% match, 95% complete)
+Removing 2 stale sstate objects for arch x86_64...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 188 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 189 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 193 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 194 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 206 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 207 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_72-1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 208 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_72-1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 209 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_package_write_rpm_setscene)
+NOTE: Running task 762 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_fetch)
+NOTE: Running task 763 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_fetch)
+NOTE: Running task 764 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_fetch)
+NOTE: Running task 765 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_fetch)
+NOTE: Running task 816 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_write_config)
+NOTE: Running task 817 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_write_config)
+NOTE: Running task 818 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_write_config)
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe cairo-1.16.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe cairo-1.16.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_fetch: Started
+NOTE: recipe icu-72-1-r0: task do_packagedata_setscene: Started
+NOTE: recipe icu-72-1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_fetch: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_fetch: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_write_config: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_fetch: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_fetch: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_write_config: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_fetch: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_write_config: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_fetch: Succeeded
+NOTE: Running task 832 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_unpack)
+NOTE: Running task 833 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_unpack)
+NOTE: recipe pango-1.50.12-r0: task do_fetch: Succeeded
+NOTE: Running task 834 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_unpack)
+NOTE: Running task 835 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_unpack)
+NOTE: recipe fribidi-1.0.12-r0: task do_write_config: Succeeded
+NOTE: recipe harfbuzz-5.3.1-r0: task do_write_config: Succeeded
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_write_config: Succeeded
+NOTE: Running setscene task 216 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/psmisc/psmisc_23.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 217 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_packagedata_setscene)
+NOTE: recipe libxft-1_2.3.6-r0: task do_unpack: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe fribidi-1.0.12-r0: task do_unpack: Started
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/gobject-introspection/1.72.0-r0/temp/log.do_packagedata_setscene.4138093
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: recipe cairo-1.16.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 218 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_package_setscene)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_unpack: Started
+NOTE: recipe pango-1.50.12-r0: task do_unpack: Started
+NOTE: recipe icu-72-1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe cairo-1.16.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_packagedata_setscene: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe psmisc-23.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe icu-72-1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxft-1_2.3.6-r0: task do_unpack: Succeeded
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe fribidi-1.0.12-r0: task do_unpack: Succeeded
+NOTE: Running setscene task 221 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.14.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 222 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.14.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 223 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.2.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 224 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.2.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 225 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 226 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 227 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 228 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 229 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_setscene)
+NOTE: Running task 843 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_patch)
+NOTE: Running task 844 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_patch)
+NOTE: recipe psmisc-23.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe fontconfig-2.14.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe fontconfig-2.14.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libsm-1_1.2.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_patch: Started
+NOTE: recipe pixman-1_0.42.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_patch: Started
+NOTE: recipe pixman-1_0.42.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe mesa-2_22.2.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libsm-1_1.2.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe mesa-2_22.2.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_patch: Succeeded
+NOTE: recipe fribidi-1.0.12-r0: task do_patch: Succeeded
+NOTE: Running task 854 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_deploy_source_date_epoch)
+NOTE: Running task 855 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_deploy_source_date_epoch)
+NOTE: recipe pango-1.50.12-r0: task do_unpack: Succeeded
+NOTE: Running task 856 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_patch)
+NOTE: recipe fontconfig-2.14.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe pixman-1_0.42.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 237 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.12.1.bb:do_packagedata_setscene)
+NOTE: recipe fontconfig-2.14.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libsm-1_1.2.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 240 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.12.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libsm-1_1.2.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 242 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb:do_packagedata_setscene)
+NOTE: Running setscene task 243 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb:do_populate_sysroot_setscene)
+NOTE: recipe pixman-1_0.42.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe fribidi-1.0.12-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe pango-1.50.12-r0: task do_patch: Started
+NOTE: recipe freetype-2.12.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe mesa-2_22.2.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe freetype-2.12.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe mesa-2_22.2.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 247 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.114.bb:do_packagedata_setscene)
+NOTE: Running setscene task 248 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.114.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 250 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.231.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 251 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.231.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 252 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 253 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 254 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 255 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 256 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 257 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 258 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 259 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe libice-1_1.0.10-r0: task do_packagedata_setscene: Started
+NOTE: recipe libice-1_1.0.10-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe vulkan-loader-1.3.231.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libdrm-2.4.114-r0: task do_packagedata_setscene: Started
+NOTE: recipe xrandr-1_1.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libdrm-2.4.114-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xrandr-1_1.5.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe vulkan-loader-1.3.231.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdamage-1_1.1.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe pango-1.50.12-r0: task do_patch: Succeeded
+NOTE: recipe libxdamage-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxshmfence-1.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe freetype-2.12.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxshmfence-1.3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 875 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 261 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.38.bb:do_packagedata_setscene)
+NOTE: Running task 876 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_populate_lic)
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe fribidi-1.0.12-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libice-1_1.0.10-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe freetype-2.12.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 264 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.38.bb:do_populate_sysroot_setscene)
+NOTE: recipe libice-1_1.0.10-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpng-1.6.38-r0: task do_packagedata_setscene: Started
+NOTE: recipe xrandr-1_1.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxdamage-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_populate_lic: Started
+NOTE: recipe vulkan-loader-1.3.231.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 268 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.231.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 269 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 271 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 272 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.2.bb:do_packagedata_setscene)
+NOTE: recipe vulkan-loader-1.3.231.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpng-1.6.38-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xrandr-1_1.5.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 273 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.231.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 275 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 278 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxdamage-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxshmfence-1.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 280 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libdrm-2.4.114-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxshmfence-1.3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libdrm-2.4.114-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 283 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.17.bb:do_packagedata_setscene)
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 286 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.17.bb:do_populate_sysroot_setscene)
+NOTE: recipe vulkan-headers-1.3.231.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxfixes-1_6.0.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrandr-1_1.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe wayland-1.21.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe vulkan-headers-1.3.231.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpng-1.6.38-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe wayland-1.21.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxfixes-1_6.0.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpciaccess-0.17-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpciaccess-0.17-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe pango-1.50.12-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_populate_lic unihash changed to 233d0c2d2edfdbda80b06591b263caf24421a9d39cec48629457d94ebf1b1706
+NOTE: recipe libpng-1.6.38-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe vulkan-headers-1.3.231.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxrandr-1_1.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxfixes-1_6.0.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe wayland-1.21.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpciaccess-0.17-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe wayland-1.21.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxfixes-1_6.0.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe vulkan-headers-1.3.231.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpciaccess-0.17-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 292 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 293 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 294 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.14.bb:do_packagedata_setscene)
+NOTE: Running setscene task 295 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.14.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 302 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 303 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 305 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 306 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_populate_sysroot_setscene)
+NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxext-1_1.3.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxext-1_1.3.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxrender-1_0.9.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_setscene: Started
+NOTE: recipe libxrender-1_0.9.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxml2-2.9.14-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxml2-2.9.14-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_package_setscene: Started
+NOTE: recipe libxrender-1_0.9.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 310 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_packagedata_setscene)
+NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxml2-2.9.14-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxrender-1_0.9.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 315 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxml2-2.9.14-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 318 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_unpack: Succeeded
+NOTE: Running task 954 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_patch)
+NOTE: recipe libx11-1_1.8.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libx11-1_1.8.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 319 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 320 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 321 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 322 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_patch: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libx11-1_1.8.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe harfbuzz-5.3.1-r0: task do_patch: Succeeded
+NOTE: Running setscene task 325 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_packagedata_setscene)
+NOTE: Running setscene task 326 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_packagedata_setscene)
+NOTE: Running task 964 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe libx11-1_1.8.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 328 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 329 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe glib-2.0-1_2.74.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe glib-2.0-1_2.74.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Started
+NOTE: recipe xtrans-1_1.4.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.11.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.11.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xtrans-1_1.4.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xtrans-1_1.4.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe glib-2.0-1_2.74.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe harfbuzz-5.3.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe xtrans-1_1.4.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 333 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 334 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 335 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.10.bb:do_packagedata_setscene)
+NOTE: Running setscene task 336 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.10.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 338 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 339 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 340 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 341 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxau-1_1.0.10-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxau-1_1.0.10-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xcb-proto-1.15.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe xcb-proto-1.15.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-3.11.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 343 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 344 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 345 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 346 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 347 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
+NOTE: Running setscene task 348 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.39.4.bb:do_packagedata_setscene)
+NOTE: recipe python3-3.11.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 349 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.7.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 350 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 352 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 353 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.7.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 354 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 355 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.39.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.10-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xcb-proto-1.15.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.10-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe readline-8.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe openssl-3.0.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.2.7-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 362 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 363 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb:do_packagedata_setscene)
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xcb-proto-1.15.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 366 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 367 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe glib-2.0-1_2.74.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.39.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe readline-8.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe openssl-3.0.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.2.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe sqlite3-3_3.39.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 370 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 371 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 372 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 373 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 374 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_packagedata_setscene)
+NOTE: Running setscene task 375 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_populate_sysroot_setscene)
+NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-macros-1_1.19.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe xorgproto-2022.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe xorgproto-2022.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-macros-1_1.19.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe readline-8.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 378 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_packagedata_setscene)
+NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpcre2-10.40-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-2.38.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpcre2-10.40-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-2.38.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe sqlite3-3_3.39.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe openssl-3.0.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe readline-8.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 382 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-macros-1_1.19.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.39.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xz-5.2.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xorgproto-2022.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xz-5.2.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.0.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-macros-1_1.19.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xorgproto-2022.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpcre2-10.40-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpcre2-10.40-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 396 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 397 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe util-linux-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe util-linux-2.38.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 405 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb:do_packagedata_setscene)
+NOTE: Running setscene task 406 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 407 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 408 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 410 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 411 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 412 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 413 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 414 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 415 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ncurses-6.3+20220423-r0: task do_packagedata_setscene: Started
+NOTE: recipe ncurses-6.3+20220423-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpam-1.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ncurses-6.3+20220423-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpam-1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ncurses-6.3+20220423-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 424 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 425 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 429 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 430 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 431 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 432 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.8.bb:do_populate_sysroot_setscene)
+NOTE: recipe cracklib-2.9.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe cracklib-2.9.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe flex-2.6.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe cracklib-2.9.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe flex-2.6.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe cracklib-2.9.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 437 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_packagedata_setscene)
+NOTE: Running setscene task 438 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 439 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
+NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Started
+NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 442 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_packagedata_setscene)
+NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 444 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-runtime-12.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-12.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-12.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 447 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.2.bb:do_packagedata_setscene)
+NOTE: recipe gcc-runtime-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 449 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libgcc-12.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-12.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-12.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 451 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe musl-1.2.3+gitAUTOINC+dc9285ad1d-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 452 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe musl-1.2.3+gitAUTOINC+dc9285ad1d-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.3+gitAUTOINC+dc9285ad1d-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 455 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 456 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 457 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.19.bb:do_packagedata_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-libc-headers-5.19-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-1.2.3+gitAUTOINC+dc9285ad1d-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 458 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 459 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-5.19-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 468 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 471 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.19.bb:do_populate_sysroot_setscene)
+NOTE: recipe linux-libc-headers-5.19-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-5.19-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 472 of 474 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.39.bb:do_populate_sysroot_setscene)
+NOTE: recipe binutils-cross-i686-2.39-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe binutils-cross-i686-2.39-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1564 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1565 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1566 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1623 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_packagedata)
+NOTE: Running task 1647 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_write_rpm)
+NOTE: recipe libxft-1_2.3.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_packagedata: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_packagedata: Succeeded
+NOTE: recipe libxft-1_2.3.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1648 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_configure)
+NOTE: recipe fribidi-1.0.12-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1649 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_configure)
+NOTE: recipe libxft-1_2.3.6-r0: task do_configure: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_configure: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1650 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_configure)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_configure: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe fribidi-1.0.12-r0: task do_configure: Succeeded
+NOTE: Running task 1651 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_compile)
+NOTE: recipe fribidi-1.0.12-r0: task do_compile: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_compile: Succeeded
+NOTE: Running task 1652 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_install)
+NOTE: recipe fribidi-1.0.12-r0: task do_install: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_install: Succeeded
+NOTE: Running task 1653 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_populate_sysroot)
+NOTE: Running task 1654 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_package)
+NOTE: recipe fribidi-1.0.12-r0: task do_populate_sysroot: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_package: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe harfbuzz-5.3.1-r0: task do_configure: Succeeded
+NOTE: Running task 1655 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_compile)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_compile: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_package: Succeeded
+NOTE: Running task 1656 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_packagedata)
+NOTE: recipe fribidi-1.0.12-r0: task do_packagedata: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_packagedata: Succeeded
+NOTE: recipe libxft-1_2.3.6-r0: task do_configure: Succeeded
+NOTE: Running task 1657 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_compile)
+NOTE: recipe libxft-1_2.3.6-r0: task do_compile: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_compile: Succeeded
+NOTE: Running task 1658 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_install)
+NOTE: recipe libxft-1_2.3.6-r0: task do_install: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_install: Succeeded
+NOTE: Running task 1659 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_populate_sysroot)
+NOTE: Running task 1660 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_package)
+NOTE: recipe libxft-1_2.3.6-r0: task do_populate_sysroot: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_package: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libxft-1_2.3.6-r0: task do_package: Succeeded
+NOTE: Running task 1661 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_packagedata)
+NOTE: recipe libxft-1_2.3.6-r0: task do_packagedata: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_packagedata: Succeeded
+NOTE: recipe harfbuzz-5.3.1-r0: task do_compile: Succeeded
+NOTE: Running task 1662 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_install)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_install: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_install: Succeeded
+NOTE: Running task 1663 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_populate_sysroot)
+NOTE: Running task 1664 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_package)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_populate_sysroot: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_package: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1665 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_prepare_recipe_sysroot)
+NOTE: recipe pango-1.50.12-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe pango-1.50.12-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1666 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_configure)
+NOTE: recipe pango-1.50.12-r0: task do_configure: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_package: Succeeded
+NOTE: Running task 1667 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_packagedata)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_packagedata: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_packagedata: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_configure: Succeeded
+NOTE: Running task 1668 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_configure_ptest_base)
+NOTE: recipe pango-1.50.12-r0: task do_configure_ptest_base: Started
+NOTE: recipe pango-1.50.12-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1669 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_compile)
+NOTE: recipe pango-1.50.12-r0: task do_compile: Started
+NOTE: recipe pango-1.50.12-r0: task do_compile: Succeeded
+NOTE: Running task 1670 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_compile_ptest_base)
+NOTE: recipe pango-1.50.12-r0: task do_compile_ptest_base: Started
+NOTE: recipe pango-1.50.12-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1671 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_install)
+NOTE: recipe pango-1.50.12-r0: task do_install: Started
+NOTE: recipe pango-1.50.12-r0: task do_install: Succeeded
+NOTE: Running task 1672 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_install_ptest_base)
+NOTE: recipe pango-1.50.12-r0: task do_install_ptest_base: Started
+NOTE: recipe pango-1.50.12-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1673 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_package)
+NOTE: Running task 1674 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_populate_sysroot)
+NOTE: recipe pango-1.50.12-r0: task do_package: Started
+NOTE: recipe pango-1.50.12-r0: task do_populate_sysroot: Started
+NOTE: recipe pango-1.50.12-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_package: Succeeded
+NOTE: Running task 1675 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_packagedata)
+NOTE: recipe pango-1.50.12-r0: task do_packagedata: Started
+NOTE: recipe pango-1.50.12-r0: task do_packagedata: Succeeded
+NOTE: Running task 1676 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_package_write_rpm)
+NOTE: Running task 1677 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_package_qa)
+NOTE: recipe pango-1.50.12-r0: task do_package_write_rpm: Started
+NOTE: recipe pango-1.50.12-r0: task do_package_qa: Started
+NOTE: recipe pango-1.50.12-r0: task do_package_qa: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1678 of 1678 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_build)
+NOTE: Tasks Summary: Attempted 1678 tasks of which 1622 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
 
 Summary: There was 1 WARNING message.
-Summary: There was 1 ERROR message, returning a non-zero exit code.
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
 /usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
   return f(*args, **kwds)
-ERROR: Nothing PROVIDES 'libxcrypt'
-libxcrypt was skipped: PREFERRED_PROVIDER_virtual/crypt set to musl, not libxcrypt
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-src went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-dbg went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-staticdev went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-dev went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-doc went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-locale went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
 
---===============6168733278025501679==--
+--===============1702195767324024483==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
+
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 888 .bb files complete (0 cached, 888 parsed). 1668 targets, 64 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "mips-poky-linux"
+MACHINE              = "qemumips"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:11c961335c1052cb823ead74722979b0896cc799"
+workspace            = "master:a0dcf93bc919757b23a52597eacb1777df4adf24"
+
+Initialising tasks...done.
+Sstate summary: Wanted 49 Local 29 Mirrors 0 Missed 20 Current 496 (59% match, 96% complete)
+Removing 2 stale sstate objects for arch mips32r2...done.
+Removing 1 stale sstate objects for arch qemumips...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 502 of 545 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_0.303.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 507 of 545 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 511 of 545 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 533 of 545 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_packagedata_setscene)
+NOTE: Running task 1360 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_fetch)
+NOTE: Running task 1361 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_fetch)
+NOTE: Running task 1362 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_fetch)
+NOTE: Running task 1375 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_fetch)
+NOTE: recipe cantarell-fonts-0.303.1-r0: task do_packagedata_setscene: Started
+NOTE: Running task 1537 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_write_config)
+NOTE: Running task 1538 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_write_config)
+NOTE: Running task 1542 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_write_config)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_fetch: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_fetch: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_fetch: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_fetch: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_fetch: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_fetch: Succeeded
+NOTE: recipe harfbuzz-5.3.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1761 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_unpack)
+NOTE: Running task 1762 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_prepare_recipe_sysroot)
+NOTE: recipe pango-1.50.12-r0: task do_fetch: Succeeded
+NOTE: Running task 1763 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_unpack)
+NOTE: Running task 1764 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_unpack)
+NOTE: Running task 1765 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_prepare_recipe_sysroot)
+NOTE: recipe fribidi-1.0.12-r0: task do_write_config: Started
+NOTE: Running task 1766 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_unpack)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_write_config: Started
+NOTE: recipe pango-1.50.12-r0: task do_write_config: Started
+NOTE: recipe cantarell-fonts-0.303.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/gobject-introspection/1.72.0-r0/temp/log.do_packagedata_setscene.4109601
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 540 of 545 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_package_setscene)
+NOTE: recipe fribidi-1.0.12-r0: task do_write_config: Succeeded
+NOTE: recipe libxft-1_2.3.6-r0: task do_unpack: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_write_config: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_write_config: Succeeded
+NOTE: recipe libxft-1_2.3.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_unpack: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe fribidi-1.0.12-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_unpack: Started
+NOTE: recipe pango-1.50.12-r0: task do_unpack: Started
+NOTE: Running setscene task 541 of 545 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_setscene)
+NOTE: recipe libxft-1_2.3.6-r0: task do_unpack: Succeeded
+NOTE: recipe fribidi-1.0.12-r0: task do_unpack: Succeeded
+NOTE: Running task 1810 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_patch)
+NOTE: Running task 1811 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_patch)
+NOTE: recipe libxft-1_2.3.6-r0: task do_patch: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_patch: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe fribidi-1.0.12-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libxft-1_2.3.6-r0: task do_patch: Succeeded
+NOTE: recipe fribidi-1.0.12-r0: task do_patch: Succeeded
+NOTE: Running task 1812 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1813 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_deploy_source_date_epoch)
+NOTE: recipe pango-1.50.12-r0: task do_unpack: Succeeded
+NOTE: Running task 1814 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_patch)
+NOTE: recipe libxft-1_2.3.6-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe pango-1.50.12-r0: task do_patch: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe fribidi-1.0.12-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1815 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_configure)
+NOTE: Running task 1816 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_configure)
+NOTE: recipe pango-1.50.12-r0: task do_patch: Succeeded
+NOTE: Running task 1817 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1818 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_populate_lic)
+NOTE: recipe libxft-1_2.3.6-r0: task do_configure: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_configure: Started
+NOTE: recipe pango-1.50.12-r0: task do_populate_lic: Started
+NOTE: recipe pango-1.50.12-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe pango-1.50.12-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_populate_lic unihash changed to 233d0c2d2edfdbda80b06591b263caf24421a9d39cec48629457d94ebf1b1706
+NOTE: recipe pango-1.50.12-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_setscene: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_package_setscene: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_package_setscene: Succeeded
+NOTE: Running task 1829 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1830 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_patch)
+NOTE: Running task 1832 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_packagedata)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_patch: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_packagedata: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_patch: Succeeded
+NOTE: Running task 1833 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_packagedata: Succeeded
+NOTE: recipe harfbuzz-5.3.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1881 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_write_rpm)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1882 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_configure)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_configure: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_configure: Succeeded
+NOTE: Running task 1883 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_compile)
+NOTE: recipe fribidi-1.0.12-r0: task do_compile: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe fribidi-1.0.12-r0: task do_compile: Succeeded
+NOTE: Running task 1884 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_install)
+NOTE: recipe fribidi-1.0.12-r0: task do_install: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_install: Succeeded
+NOTE: Running task 1885 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_populate_sysroot)
+NOTE: Running task 1886 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_package)
+NOTE: recipe fribidi-1.0.12-r0: task do_populate_sysroot: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_package: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe fribidi-1.0.12-r0: task do_package: Succeeded
+NOTE: Running task 1887 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_packagedata)
+NOTE: recipe fribidi-1.0.12-r0: task do_packagedata: Started
+NOTE: recipe fribidi-1.0.12-r0: task do_packagedata: Succeeded
+NOTE: recipe harfbuzz-5.3.1-r0: task do_configure: Succeeded
+NOTE: Running task 1888 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_compile)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_compile: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_configure: Succeeded
+NOTE: Running task 1889 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_compile)
+NOTE: recipe libxft-1_2.3.6-r0: task do_compile: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_compile: Succeeded
+NOTE: Running task 1890 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_install)
+NOTE: recipe libxft-1_2.3.6-r0: task do_install: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_install: Succeeded
+NOTE: Running task 1891 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_populate_sysroot)
+NOTE: Running task 1892 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_package)
+NOTE: recipe libxft-1_2.3.6-r0: task do_populate_sysroot: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_package: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libxft-1_2.3.6-r0: task do_package: Succeeded
+NOTE: Running task 1893 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.6.bb:do_packagedata)
+NOTE: recipe libxft-1_2.3.6-r0: task do_packagedata: Started
+NOTE: recipe libxft-1_2.3.6-r0: task do_packagedata: Succeeded
+NOTE: recipe harfbuzz-5.3.1-r0: task do_compile: Succeeded
+NOTE: Running task 1894 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_install)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_install: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_install: Succeeded
+NOTE: Running task 1895 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_populate_sysroot)
+NOTE: Running task 1896 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_package)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_populate_sysroot: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_package: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1897 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_prepare_recipe_sysroot)
+NOTE: recipe pango-1.50.12-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe pango-1.50.12-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1898 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_configure)
+NOTE: recipe pango-1.50.12-r0: task do_configure: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_package: Succeeded
+NOTE: Running task 1899 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb:do_packagedata)
+NOTE: recipe harfbuzz-5.3.1-r0: task do_packagedata: Started
+NOTE: recipe harfbuzz-5.3.1-r0: task do_packagedata: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_configure: Succeeded
+NOTE: Running task 1900 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_configure_ptest_base)
+NOTE: recipe pango-1.50.12-r0: task do_configure_ptest_base: Started
+NOTE: recipe pango-1.50.12-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1901 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_compile)
+NOTE: recipe pango-1.50.12-r0: task do_compile: Started
+NOTE: recipe pango-1.50.12-r0: task do_compile: Succeeded
+NOTE: Running task 1902 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_compile_ptest_base)
+NOTE: recipe pango-1.50.12-r0: task do_compile_ptest_base: Started
+NOTE: recipe pango-1.50.12-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1903 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_install)
+NOTE: recipe pango-1.50.12-r0: task do_install: Started
+NOTE: recipe pango-1.50.12-r0: task do_install: Succeeded
+NOTE: Running task 1904 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_install_ptest_base)
+NOTE: recipe pango-1.50.12-r0: task do_install_ptest_base: Started
+NOTE: recipe pango-1.50.12-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1905 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_package)
+NOTE: Running task 1906 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_populate_sysroot)
+NOTE: recipe pango-1.50.12-r0: task do_package: Started
+NOTE: recipe pango-1.50.12-r0: task do_populate_sysroot: Started
+NOTE: recipe pango-1.50.12-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_package: Succeeded
+NOTE: Running task 1907 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_packagedata)
+NOTE: recipe pango-1.50.12-r0: task do_packagedata: Started
+NOTE: recipe pango-1.50.12-r0: task do_packagedata: Succeeded
+NOTE: Running task 1908 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_package_write_rpm)
+NOTE: Running task 1909 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_package_qa)
+NOTE: recipe pango-1.50.12-r0: task do_package_write_rpm: Started
+NOTE: recipe pango-1.50.12-r0: task do_package_qa: Started
+NOTE: recipe pango-1.50.12-r0: task do_package_qa: Succeeded
+NOTE: recipe pango-1.50.12-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1910 of 1910 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.12.bb:do_build)
+NOTE: Tasks Summary: Attempted 1910 tasks of which 1854 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: There was 1 WARNING message.
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-src went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-dbg went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-staticdev went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-dev went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-doc went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection-locale went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: QA Issue: Package version for package gobject-introspection went backwards which would break package feeds (from 0:1.74.0-r0 to 0:1.72.0-r0) [version-going-backwards]
+ERROR: gobject-introspection-1.72.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============1702195767324024483==--
 
