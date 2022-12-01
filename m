@@ -2,113 +2,137 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFB02C47088
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6A6BC47089
 	for <webhook@archiver.kernel.org>; Thu,  1 Dec 2022 15:25:42 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web10.46605.1669908335626363663
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.web11.46683.1669908337895714543
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Dec 2022 07:25:35 -0800
+ Thu, 01 Dec 2022 07:25:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=EhALV5jM;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f175.google.com with SMTP id w2so636630pfq.12
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 07:25:35 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=TnrwZvp8;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.53, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f53.google.com with SMTP id hd14-20020a17090b458e00b0021909875bccso4368930pjb.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 07:25:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Rygp407UL8oUMtp7BWKEywhkkRVTCKj+DxXq271ktO4=;
-        b=EhALV5jMD5BOdTb7qw3ns/jsC4nSDK5QbnTAalX+1uugkFN9E3z1kJnQ6fbk1wHtg2
-         2EmdtQRpcexEwt+5pAQuYU5ps30jesSYMFui00blHLgX8lrG1x2fkn5fZAocVI5SDhCc
-         kPf3pXuDlRvCUnaxcz65zyd/1kmz6HSSOWHwHZuKEqnCOZuZvrCj0wNKXfa6gSOPMlgK
-         uHfD0E2aaphrPXafCgdBk1HQCVUW+eoqiyNzXxKKhsrtFrJnM9hiEpOftAdFj+8QP8Eo
-         nl1bimbic6Fbzju5WUiFZhEk1qM6Iphx856SfsZ/4m3yCmkHXAT7TqJjxpdhNsqBvBgt
-         62TA==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4kg3+v19znbO28+g/pFzy4If2kfBicC0jh1kPXmKgeE=;
+        b=TnrwZvp8/wRSJh02x0Hv0b730apr3VE/kjEWvYJMMFAL+BrqJusB07jFePKxodifdt
+         5tEReGZLoQRdRrp0BuduhNWnNCWLa6YzcBc+A600Ne6BiMTdbQyaYSLCMAEPgCv9dfih
+         7kG56HPwvnXnXKuGmaoxfwNAHSNQC41Z0GVavepMWjVwNb7ub3/BPP5xL6hPt+7BvnZL
+         tTOH8IPpM4EPw48sg/FkK+39iToqi1YmL6GIPqF0j0wrlACBpwy4ua0oTjmJCGYkx8pw
+         LEly3rNvDTtz0E53RPZ++sREU7GIctotfkYua23aZoUCkYoWD6FmGXWKrviKQr00ObYk
+         x9Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Rygp407UL8oUMtp7BWKEywhkkRVTCKj+DxXq271ktO4=;
-        b=XtyexMuHHXeOUbLQJaUYYzaULnN0ZvF47PBk3oVH6dFUhMTjjo18dnfG+RiSXhlFlG
-         Ke00loHZbP5AgeeRv474bpIU/bo7RbtpeienNc6j6YX6K2WmGa+cefuv9ZFadd0fBKvv
-         Zdrp1eKaYgSSCa5L/DKDyXQUqa5mx27gOUwHfNolu6sg9Yab0NHIMDvaGWF/g4S3C+pQ
-         btn4JRUEDaFcsSytzoMgOn2WcpUSOFvaNCRHh5QjGxNA4+csfCG0m8bYSjpJW05wbRoW
-         GPp97MX8vAkDJROp7z2d03/foFVRAXO3pgg8BYzu3AajXDlQUrtRln8AjB0bySBaAEOm
-         wTIw==
-X-Gm-Message-State: ANoB5pmtqf+gZOFVnLX+gb1eJhire2xVQpSDl8Xskmdij70Q6t2WKHUo
-	xL1zztyVdbV/1d2TVJe1FEHd1fpna2BB/sBiqWg=
-X-Google-Smtp-Source: AA0mqf6bhVjNVWO790mxAdp+SWgRfkqVzxTh0p+xhCRphdsJ8yFEL+wHxXXL26LzsIoyS0ptfBpUDw==
-X-Received: by 2002:a62:54c2:0:b0:56b:fb4f:3d7c with SMTP id i185-20020a6254c2000000b0056bfb4f3d7cmr69648486pfb.54.1669908334517;
-        Thu, 01 Dec 2022 07:25:34 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4kg3+v19znbO28+g/pFzy4If2kfBicC0jh1kPXmKgeE=;
+        b=RAWdwIUc7r2j4eJkZvJkvZnXZv/Ff21SX/TN3GgGUEV2W9Xij6s3suhdxpn0mbq2Bq
+         HJDhfNbV2ZgpnTQWQiO6WcqpS3TAqLSzMrYaPGma3Sm5DMihubJKn2Ax7KzKfZ9Cum25
+         hKptER8vQyqx2Ej0PTpjDoZ2M1kesNwO8is1K0dYFiQTgARfTlFGR0/c11Rj6meIWzhg
+         veB+enTGXucGSZLcWE8y7HeFIu2ewudgnXHubaiyU/MOIu5/YEwL6B7sYntlM2ntDUVU
+         69w35uhJZS3qDxosWNZLopkvLJa05BMr8nEal/cp0G5oadWMyrHeJvnnuCWzE5HmnB9U
+         NTUg==
+X-Gm-Message-State: ANoB5pkkdsZrGUNhi0XcyDE0LeEEK7Zo0h2WW0wDkAKSBqsmRYfiHGo/
+	vJ6DsMgT7ZalodBmORvl6AgRf5NL7NnR2vRIfC4=
+X-Google-Smtp-Source: AA0mqf6PrDIcT22PUjpfkLORBNf2RGejSB77pe5PKCtENB5WoSn0Cd/XCkC4pRWQbOILlbewlfZjow==
+X-Received: by 2002:a17:902:d349:b0:189:324:27cc with SMTP id l9-20020a170902d34900b00189032427ccmr47550477plk.70.1669908336672;
+        Thu, 01 Dec 2022 07:25:36 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id jc18-20020a17090325d200b001891a17bd93sm3812769plb.43.2022.12.01.07.25.33
+        by smtp.gmail.com with ESMTPSA id jc18-20020a17090325d200b001891a17bd93sm3812769plb.43.2022.12.01.07.25.35
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Dec 2022 07:25:34 -0800 (PST)
+        Thu, 01 Dec 2022 07:25:36 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 0/7] Patch review
-Date: Thu,  1 Dec 2022 05:25:14 -1000
-Message-Id: <cover.1669908167.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 1/7] pixman: backport fix for CVE-2022-44638
+Date: Thu,  1 Dec 2022 05:25:15 -1000
+Message-Id: <fe5a5009939f056ff4d9d3426832d0b67a668ed6.1669908167.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1669908167.git.steve@sakoman.com>
+References: <cover.1669908167.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 15:25:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174113
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174114
 
-Please review this set of patches for dunfell and have comments back by
-end of day Monday.
+From: Ross Burton <ross.burton@arm.com>
 
-Passed a-full on autobuilder:
+(From OE-Core rev: 1d2e131d9ba55626354264d454b2808e84751600)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/4565
-
-The following changes since commit 408bf1b4bb4f4ed126c17fb3676f9fa0513065ba:
-
-  sstate: Account for reserved characters when shortening sstate filenames (2022-11-23 00:26:19 +0000)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-
-Alexander Kanavin (1):
-  linux-firmware: upgrade 20220913 -> 20221012
-
-Chen Qi (1):
-  kernel.bbclass: make KERNEL_DEBUG_TIMESTAMPS work at rebuild
-
-Dmitry Baryshkov (1):
-  linux-firmware: upgrade 20221012 -> 20221109
-
-Mike Crowe (1):
-  kernel: improve transformation from KERNEL_IMAGETYPE_FOR_MAKE
-
-Ross Burton (1):
-  pixman: backport fix for CVE-2022-44638
-
-Vivek Kumbhar (1):
-  qemu: fix CVE-2021-20196 block fdc null pointer dereference may lead
-    to guest crash
-
-Wang Mingyu (1):
-  mobile-broadband-provider-info: upgrade 20220725 -> 20221107
-
- meta/classes/kernel.bbclass                   | 29 ++++++++-
- .../mobile-broadband-provider-info_git.bb     |  4 +-
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2021-20196.patch            | 62 +++++++++++++++++++
- .../xorg-lib/pixman/CVE-2022-44638.patch      | 34 ++++++++++
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+(cherry picked from commit 23df4760ebc153c484d467e51b414910c570a6f8)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 37595eeddfb01110d8cdc628be76a8bf6bde483a)
+Signed-off-by: Bhabu Bindu <bindu.bindu@kpit.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../xorg-lib/pixman/CVE-2022-44638.patch      | 34 +++++++++++++++++++
  .../xorg-lib/pixman_0.38.4.bb                 |  1 +
- ...20220913.bb => linux-firmware_20221109.bb} |  6 +-
- 7 files changed, 129 insertions(+), 8 deletions(-)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20196.patch
+ 2 files changed, 35 insertions(+)
  create mode 100644 meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20220913.bb => linux-firmware_20221109.bb} (99%)
 
+diff --git a/meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch b/meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch
+new file mode 100644
+index 0000000000..d54ae16b33
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch
+@@ -0,0 +1,34 @@
++CVE: CVE-2022-44638
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++Signed-off-by:Bhabu Bindu <bhabu.bindu@kpit.com>
++
++From a1f88e842e0216a5b4df1ab023caebe33c101395 Mon Sep 17 00:00:00 2001
++From: Matt Turner <mattst88@gmail.com>
++Date: Wed, 2 Nov 2022 12:07:32 -0400
++Subject: [PATCH] Avoid integer overflow leading to out-of-bounds write
++
++Thanks to Maddie Stone and Google's Project Zero for discovering this
++issue, providing a proof-of-concept, and a great analysis.
++
++Closes: https://gitlab.freedesktop.org/pixman/pixman/-/issues/63
++---
++ pixman/pixman-trap.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/pixman/pixman-trap.c b/pixman/pixman-trap.c
++index 91766fd..7560405 100644
++--- a/pixman/pixman-trap.c
+++++ b/pixman/pixman-trap.c
++@@ -74,7 +74,7 @@ pixman_sample_floor_y (pixman_fixed_t y,
++ 
++     if (f < Y_FRAC_FIRST (n))
++     {
++-	if (pixman_fixed_to_int (i) == 0x8000)
+++	if (pixman_fixed_to_int (i) == 0xffff8000)
++ 	{
++ 	    f = 0; /* saturate */
++ 	}
++-- 
++GitLab
++
+diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.38.4.bb b/meta/recipes-graphics/xorg-lib/pixman_0.38.4.bb
+index 22e19ba069..5873c19bab 100644
+--- a/meta/recipes-graphics/xorg-lib/pixman_0.38.4.bb
++++ b/meta/recipes-graphics/xorg-lib/pixman_0.38.4.bb
+@@ -10,6 +10,7 @@ DEPENDS = "zlib"
+ SRC_URI = "https://www.cairographics.org/releases/${BP}.tar.gz \
+            file://0001-ARM-qemu-related-workarounds-in-cpu-features-detecti.patch \
+            file://0001-test-utils-Check-for-FE_INVALID-definition-before-us.patch \
++           file://CVE-2022-44638.patch \
+            "
+ SRC_URI[md5sum] = "267a7af290f93f643a1bc74490d9fdd1"
+ SRC_URI[sha256sum] = "da66d6fd6e40aee70f7bd02e4f8f76fc3f006ec879d346bae6a723025cfbdde7"
 -- 
 2.25.1
 
