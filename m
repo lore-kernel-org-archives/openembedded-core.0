@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53876C64EC3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 743B9C64ED4
 	for <webhook@archiver.kernel.org>; Thu,  1 Dec 2022 15:30:34 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.46817.1669908626228612075
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.46761.1669908625061181489
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Dec 2022 07:30:26 -0800
+ Thu, 01 Dec 2022 07:30:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=AdcI9NyE;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010184ce4f77f5-c07008bc-e6c9-4334-bc85-693d87d5e4a4-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=L3/gCnmS;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010184ce4f7318-07e1bd92-c3a1-4209-ab47-63479db871cb-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1669908625;
+	t=1669908624;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=sAc8sFzNlAvJ//7aR9sZKe14bdXFv9mI/5aIYYlO4F4=;
-	b=AdcI9NyE5OJiKacorJqfyOnMg8Anv04Mt0FchyFy5XxWiqyh2AqXFbe4JU4CPtok
-	Q+hPAEdpKP0ckB6mFDjCnJ2VYdTuhZH9wX1PLK67F2yPt5o0oQ7IOAEGNKjra7f42wu
-	J92TVmNaKWDE0qKWiRnaqfdx98io3p03bbiNRD4w=
+	bh=9YgNTgUSec7qSR2G9pujigMCImLP3Tt5RFT09SqaAZk=;
+	b=L3/gCnmSXP/GgEWrc71U+aiPO2XMgwBsNBhYYXq/0S8wFJStvTItKptOWY1+3IBV
+	YhnwXHz1aL6hdYjU3uv2YNiJnnBl8C3N2VFl/eBkWcKDX8i6LJV5gWskoTfLH7fmWqA
+	YNhiY/xKEM7QIpQSfTyFr9jwxCf63CJhoWjkzFCw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1669908625;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1669908624;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=sAc8sFzNlAvJ//7aR9sZKe14bdXFv9mI/5aIYYlO4F4=;
-	b=SetBprn4TSor7izLGLFvbBM3bwlZTGgRCbYkmC0hhNT339uZel6h2V7sB0JwY5+f
-	Xi9juWWlIQyGZoBnz7cEyoil0zpHnsyHV+VGUmvyk21g/pBMWmK0vKr6gGt5gwYGTsY
-	Nb/sHhpWpeBXn/VMHlhVGflJSvFWszyITPCtgE4c=
-Content-Type: multipart/mixed; boundary="===============2157861690533087477=="
+	bh=9YgNTgUSec7qSR2G9pujigMCImLP3Tt5RFT09SqaAZk=;
+	b=HvxWZBeRfPgtrJRx//yH38a0OlJ87mp0Nn9Ktc22XyfkIgfVk/ibWeZl63E7uC/9
+	TrAx64SrUOWolyGAWH6oqYpgUcitB63skZyV1ZHdG3Pf8fqrOZkREsAvkFVLVOGngyJ
+	cS+IDp1shdJhrHrZB2fRmBft2frNeRBN5FrX/0fU=
+Content-Type: multipart/mixed; boundary="===============5925238546835188968=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Wang Mingyu <wangmy@fujitsu.com>
+To: Armin Kuster <akuster808@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] btrfs-tools: upgrading to 6.0.2 SUCCEEDED
-Message-ID: <01010184ce4f77f5-c07008bc-e6c9-4334-bc85-693d87d5e4a4-000000@us-west-2.amazonses.com>
-Date: Thu, 1 Dec 2022 15:30:25 +0000
+Subject: [AUH] bind: upgrading to 9.18.9 SUCCEEDED
+Message-ID: <01010184ce4f7318-07e1bd92-c3a1-4209-ab47-63479db871cb-000000@us-west-2.amazonses.com>
+Date: Thu, 1 Dec 2022 15:30:24 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.12.01-54.240.27.29
+X-SES-Outgoing: 2022.12.01-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 15:30:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174133
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174122
 
---===============2157861690533087477==
+--===============5925238546835188968==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *btrfs-tools* to *6.0.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *bind* to *9.18.9* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-btrfs-tools-upgrade-6.0.1-6.0.2.patch
+    - apply the patch: git am 0001-bind-upgrade-9.18.8-9.18.9.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,674 +69,210 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============2157861690533087477==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
-
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 888 .bb files complete (0 cached, 888 parsed). 1668 targets, 54 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the cortexa15t2hf-neon sysroot...done.
-Removing 1 recipes from the qemuarm sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "arm-poky-linux-gnueabi"
-MACHINE              = "qemuarm"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
-TARGET_FPU           = "hard"
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:47599a284a727b5e8159ee6d5f0cacaca71912c6"
-workspace            = "master:a0dcf93bc919757b23a52597eacb1777df4adf24"
-
-Initialising tasks...done.
-Sstate summary: Wanted 15 Local 4 Mirrors 0 Missed 11 Current 299 (26% match, 96% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 300 of 314 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_packagedata_setscene)
-NOTE: Running setscene task 301 of 314 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_populate_sysroot_setscene)
-NOTE: Running task 790 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_fetch)
-NOTE: Running task 926 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_fetch)
-NOTE: recipe libxcrypt-4.4.30-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxcrypt-4.4.30-r0: task do_packagedata_setscene: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_fetch: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_fetch: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_fetch: Succeeded
-NOTE: Running task 1089 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_unpack)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_fetch: Succeeded
-NOTE: Running task 1090 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_unpack)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/libxcrypt/4.4.30-r0/temp/log.do_packagedata_setscene.796009
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 313 of 314 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_package_setscene)
-NOTE: recipe libxcrypt-4.4.30-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_unpack: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_unpack: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_unpack: Succeeded
-NOTE: Running task 1091 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_patch)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_patch: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_unpack: Succeeded
-NOTE: Running task 1092 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_patch)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_patch: Succeeded
-NOTE: Running task 1093 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1094 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_populate_lic)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_patch: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_lic: Started
-NOTE: recipe libxcrypt-4.4.30-r0: task do_package_setscene: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_populate_lic unihash changed to d3c2cee66dd3b2efaf102a4cafeb60dbfebeb3c35e94dfa1e0fc45415d050854
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxcrypt-4.4.30-r0: task do_package_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1122 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1126 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_packagedata)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_patch: Succeeded
-NOTE: Running task 1143 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxcrypt-4.4.30-r0: task do_packagedata: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxcrypt-4.4.30-r0: task do_packagedata: Succeeded
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1155 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_configure)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure: Succeeded
-NOTE: Running task 1156 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_configure_ptest_base)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure_ptest_base: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1157 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_compile)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile: Succeeded
-NOTE: Running task 1158 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_compile_ptest_base)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile_ptest_base: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1159 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_install)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_install: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_install: Succeeded
-NOTE: Running task 1160 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_install_ptest_base)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_install_ptest_base: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1161 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_populate_sysroot)
-NOTE: Running task 1162 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_package)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_package: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_populate_sysroot: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1163 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1164 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_configure)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_configure: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_configure: Succeeded
-NOTE: Running task 1165 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_compile)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_compile: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_package: Succeeded
-NOTE: Running task 1166 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_packagedata)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_packagedata: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_packagedata: Succeeded
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_compile: Succeeded
-NOTE: Running task 1167 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_install)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_install: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_install: Succeeded
-NOTE: Running task 1168 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_package)
-NOTE: Running task 1169 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_populate_sysroot)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_sysroot: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_package: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_package: Succeeded
-NOTE: Running task 1170 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_packagedata)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_packagedata: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 1171 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_package_write_rpm)
-NOTE: Running task 1172 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_package_qa)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_write_rpm: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_qa: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_qa: Succeeded
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1173 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_build)
-NOTE: Tasks Summary: Attempted 1173 tasks of which 1143 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: There was 1 WARNING message.
-Summary: There were 8 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-src went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-dbg went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-staticdev went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-dev went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-doc went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-locale went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============2157861690533087477==
+--===============5925238546835188968==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGV changed from 6.0.1 [default] to 6.0.2 [default]
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGSIZE changed from 17282872 to 17318148 (+0%)
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dbg: PV changed from "6.0.1" to "6.0.2"
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dev: PKGV changed from 6.0.1 [default] to 6.0.2 [default]
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dev: PV changed from "6.0.1" to "6.0.2"
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-doc: PKGV changed from 6.0.1 [default] to 6.0.2 [default]
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-doc: PV changed from "6.0.1" to "6.0.2"
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-locale: PKGV changed from 6.0.1 [default] to 6.0.2 [default]
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-locale: PV changed from "6.0.1" to "6.0.2"
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-src: FILELIST: directory renamed /usr/src/debug/btrfs-tools/6.0.1-r0/common -> /usr/src/debug/btrfs-tools/6.0.2-r0/common, directory renamed /usr/src/debug/btrfs-tools/6.0.1-r0/cmds -> /usr/src/debug/btrfs-tools/6.0.2-r0/cmds, directory renamed /usr/src/debug/btrfs-tools/6.0.1-r0/convert -> /usr/src/debug/btrfs-tools/6.0.2-r0/convert, directory renamed /usr/src/debug/btrfs-tools/6.0.1-r0/image -> /usr/src/debug/btrfs-tools/6.0.2-r0/image, directory renamed /usr/src/debug/btrfs-tools/6.0.1-r0 -> /usr/src/debug/btrfs-tools/6.0.2-r0, directory renamed /usr/src/debug/btrfs-tools/6.0.1-r0/crypto -> /usr/src/debug/btrfs-tools/6.0.2-r0/crypto, directory renamed /usr/src/debug/btrfs-tools/6.0.1-r0/kernel-shared -> /usr/src/debug/btrfs-tools/6.0.2-r0/kernel-shared, directory renamed /usr/src/debug/btrfs-tools/6.0.1-r0/mkfs -> /usr/src/debug/btrfs-tools/6.0.2-r0/mkfs, directory renamed /usr/src/debug/btrfs-tools/6.0.1-r0/libbtrfs -> /usr/src
- /debug/btrfs-tools/6.0.2-r0/libbtrfs, directory renamed /usr/src/debug/btrfs-tools/6.0.1-r0/libbtrfsutil -> /usr/src/debug/btrfs-tools/6.0.2-r0/libbtrfsutil, directory renamed /usr/src/debug/btrfs-tools/6.0.1-r0/libbtrfsutil/python -> /usr/src/debug/btrfs-tools/6.0.2-r0/libbtrfsutil/python, directory renamed /usr/src/debug/btrfs-tools/6.0.1-r0/check -> /usr/src/debug/btrfs-tools/6.0.2-r0/check, removed "/usr/src/debug/btrfs-tools/6.0.1-r0/kernel-lib/rbtree.c /usr/src/debug/btrfs-tools/6.0.1-r0/kernel-lib/overflow.h /usr/src/debug/btrfs-tools/6.0.1-r0/kernel-lib/rbtree_types.h /usr/src/debug/btrfs-tools/6.0.1-r0/kernel-lib/rbtree_augmented.h /usr/src/debug/btrfs-tools/6.0.1-r0/kernel-lib/list.h /usr/src/debug/btrfs-tools/6.0.1-r0/kernel-lib/raid56.h /usr/src/debug/btrfs-tools/6.0.1-r0/kernel-lib/bitops.h /usr/src/debug/btrfs-tools/6.0.1-r0/kernel-lib/raid56.c /usr/src/debug/btrfs-tools/6.0.1-r0/kernel-lib/rbtree.h /usr/src/debug/btrfs-tools/6.0.1-r0/kernel-lib/list_sort.c /usr/src/de
- bug/btrfs-tools/6.0.1-r0/kernel-lib/list_sort.h /usr/src/debug/btrfs-tools/6.0.1-r0/kernel-lib/tables.c", added "/usr/src/debug/btrfs-tools/6.0.2-r0/kernel-lib/list_sort.h /usr/src/debug/btrfs-tools/6.0.2-r0/kernel-lib/raid56.h /usr/src/debug/btrfs-tools/6.0.2-r0/kernel-lib/bitmap.h /usr/src/debug/btrfs-tools/6.0.2-r0/kernel-lib/list.h /usr/src/debug/btrfs-tools/6.0.2-r0/kernel-lib/rbtree_types.h /usr/src/debug/btrfs-tools/6.0.2-r0/kernel-lib/list_sort.c /usr/src/debug/btrfs-tools/6.0.2-r0/kernel-lib/raid56.c /usr/src/debug/btrfs-tools/6.0.2-r0/kernel-lib/bitops.h /usr/src/debug/btrfs-tools/6.0.2-r0/kernel-lib/rbtree_augmented.h /usr/src/debug/btrfs-tools/6.0.2-r0/kernel-lib/overflow.h /usr/src/debug/btrfs-tools/6.0.2-r0/kernel-lib/rbtree.h /usr/src/debug/btrfs-tools/6.0.2-r0/kernel-lib/tables.c /usr/src/debug/btrfs-tools/6.0.2-r0/kernel-lib/rbtree.c"
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-src: PKGV changed from 6.0.1 [default] to 6.0.2 [default]
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-src: PKGSIZE changed from 3656541 to 3662686 (+0%)
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-src: PV changed from "6.0.1" to "6.0.2"
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-staticdev: PKGV changed from 6.0.1 [default] to 6.0.2 [default]
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-staticdev: PV changed from "6.0.1" to "6.0.2"
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools: PKGV changed from 6.0.1 [default] to 6.0.2 [default]
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools: PKGSIZE changed from 6119474 to 6127698 (+0%)
-packages/core2-32-poky-linux/btrfs-tools/btrfs-tools: PV changed from "6.0.1" to "6.0.2"
-packages/core2-32-poky-linux/btrfs-tools: PKGV changed from 6.0.1 [default] to 6.0.2 [default]
-packages/core2-32-poky-linux/btrfs-tools: PV changed from "6.0.1" to "6.0.2"
-Changes to packages/core2-32-poky-linux/btrfs-tools (sysroot):
-  /usr/lib/python3.11/site-packages/btrfsutil-6.0.1-py3.11.egg-info moved to /usr/lib/python3.11/site-packages/btrfsutil-6.0.2-py3.11.egg-info
+packages/core2-32-poky-linux/bind/bind-dbg: PKGSIZE changed from 10762932 to 10857132 (+1%)
+packages/core2-32-poky-linux/bind/bind-dbg: PV changed from "9.18.8" to "9.18.9"
+packages/core2-32-poky-linux/bind/bind-dbg: FILELIST: removed "/usr/lib/.debug/libirs-9.18.8.so /usr/lib/.debug/libns-9.18.8.so /usr/lib/.debug/libisccc-9.18.8.so /usr/lib/.debug/libisccfg-9.18.8.so /usr/lib/.debug/libdns-9.18.8.so /usr/lib/.debug/libisc-9.18.8.so /usr/lib/.debug/libbind9-9.18.8.so", added "/usr/lib/.debug/libisc-9.18.9.so /usr/lib/.debug/libns-9.18.9.so /usr/lib/.debug/libirs-9.18.9.so /usr/lib/.debug/libbind9-9.18.9.so /usr/lib/.debug/libdns-9.18.9.so /usr/lib/.debug/libisccc-9.18.9.so /usr/lib/.debug/libisccfg-9.18.9.so"
+packages/core2-32-poky-linux/bind/bind-dbg: PKGV changed from 9.18.8 [default] to 9.18.9 [default]
+packages/core2-32-poky-linux/bind/bind-dev: PKGSIZE changed from 1452447 to 1453177 (+0%)
+packages/core2-32-poky-linux/bind/bind-dev: PV changed from "9.18.8" to "9.18.9"
+packages/core2-32-poky-linux/bind/bind-dev: PKGV changed from 9.18.8 [default] to 9.18.9 [default]
+packages/core2-32-poky-linux/bind/bind-doc: PKGSIZE changed from 308441 to 308556 (+0%)
+packages/core2-32-poky-linux/bind/bind-doc: PV changed from "9.18.8" to "9.18.9"
+packages/core2-32-poky-linux/bind/bind-doc: PKGV changed from 9.18.8 [default] to 9.18.9 [default]
+packages/core2-32-poky-linux/bind/bind-libs: PKGSIZE changed from 6327664 to 6401392 (+1%)
+packages/core2-32-poky-linux/bind/bind-libs: FILES: removed "/usr/lib/*-9.18.8.so", added "/usr/lib/*-9.18.9.so"
+packages/core2-32-poky-linux/bind/bind-libs: PV changed from "9.18.8" to "9.18.9"
+packages/core2-32-poky-linux/bind/bind-libs: FILELIST: removed "/usr/lib/libns-9.18.8.so /usr/lib/libirs-9.18.8.so /usr/lib/libdns-9.18.8.so /usr/lib/libbind9-9.18.8.so /usr/lib/libisccc-9.18.8.so /usr/lib/libisccfg-9.18.8.so /usr/lib/libisc-9.18.8.so", added "/usr/lib/libisc-9.18.9.so /usr/lib/libirs-9.18.9.so /usr/lib/libdns-9.18.9.so /usr/lib/libisccfg-9.18.9.so /usr/lib/libns-9.18.9.so /usr/lib/libbind9-9.18.9.so /usr/lib/libisccc-9.18.9.so"
+packages/core2-32-poky-linux/bind/bind-libs: PKGV changed from 9.18.8 [default] to 9.18.9 [default]
+packages/core2-32-poky-linux/bind/bind-locale: PV changed from "9.18.8" to "9.18.9"
+packages/core2-32-poky-linux/bind/bind-locale: PKGV changed from 9.18.8 [default] to 9.18.9 [default]
+packages/core2-32-poky-linux/bind/bind-src: PKGSIZE changed from 9565235 to 9584446 (+0%)
+packages/core2-32-poky-linux/bind/bind-src: PV changed from "9.18.8" to "9.18.9"
+packages/core2-32-poky-linux/bind/bind-src: FILELIST: directory renamed /usr/src/debug/bind/9.18.8-r0/lib/isccfg -> /usr/src/debug/bind/9.18.9-r0/lib/isccfg, directory renamed /usr/src/debug/bind/9.18.8-r0/lib/isccfg/include/isccfg -> /usr/src/debug/bind/9.18.9-r0/lib/isccfg/include/isccfg, directory renamed /usr/src/debug/bind/9.18.8-r0/bin/named/include/named -> /usr/src/debug/bind/9.18.9-r0/bin/named/include/named, directory renamed /usr/src/debug/bind/9.18.8-r0/lib/dns/include/dns -> /usr/src/debug/bind/9.18.9-r0/lib/dns/include/dns, directory renamed /usr/src/debug/bind/9.18.8-r0/lib/dns/rdata/generic -> /usr/src/debug/bind/9.18.9-r0/lib/dns/rdata/generic, directory renamed /usr/src/debug/bind/9.18.8-r0/lib/dns/rdata/in_1 -> /usr/src/debug/bind/9.18.9-r0/lib/dns/rdata/in_1, directory renamed /usr/src/debug/bind/9.18.8-r0/bin/nsupdate -> /usr/src/debug/bind/9.18.9-r0/bin/nsupdate, directory renamed /usr/src/debug/bind/9.18.8-r0/lib/isccc -> /usr/src/debug/bind/9.18.9-r0/lib/isccc
+ , directory renamed /usr/src/debug/bind/9.18.8-r0/bin/confgen -> /usr/src/debug/bind/9.18.9-r0/bin/confgen, directory renamed /usr/src/debug/bind/9.18.8-r0/lib/irs -> /usr/src/debug/bind/9.18.9-r0/lib/irs, directory renamed /usr/src/debug/bind/9.18.8-r0/lib/ns/include/ns -> /usr/src/debug/bind/9.18.9-r0/lib/ns/include/ns, directory renamed /usr/src/debug/bind/9.18.8-r0/bin/dig -> /usr/src/debug/bind/9.18.9-r0/bin/dig, directory renamed /usr/src/debug/bind/9.18.8-r0/lib/bind9 -> /usr/src/debug/bind/9.18.9-r0/lib/bind9, directory renamed /usr/src/debug/bind/9.18.8-r0/lib/irs/include/irs -> /usr/src/debug/bind/9.18.9-r0/lib/irs/include/irs, directory renamed /usr/src/debug/bind/9.18.8-r0/bin/rndc -> /usr/src/debug/bind/9.18.9-r0/bin/rndc, directory renamed /usr/src/debug/bind/9.18.8-r0/bin/delv -> /usr/src/debug/bind/9.18.9-r0/bin/delv, directory renamed /usr/src/debug/bind/9.18.8-r0/lib/dns/rdata/any_255 -> /usr/src/debug/bind/9.18.9-r0/lib/dns/rdata/any_255, directory renamed /usr/sr
+ c/debug/bind/9.18.8-r0/bin/tools -> /usr/src/debug/bind/9.18.9-r0/bin/tools, directory renamed /usr/src/debug/bind/9.18.8-r0/lib/dns/rdata/hs_4 -> /usr/src/debug/bind/9.18.9-r0/lib/dns/rdata/hs_4, directory renamed /usr/src/debug/bind/9.18.8-r0/bin/check -> /usr/src/debug/bind/9.18.9-r0/bin/check, directory renamed /usr/src/debug/bind/9.18.8-r0/lib/dns/rdata/ch_3 -> /usr/src/debug/bind/9.18.9-r0/lib/dns/rdata/ch_3, directory renamed /usr/src/debug/bind/9.18.8-r0/bin/plugins -> /usr/src/debug/bind/9.18.9-r0/bin/plugins, directory renamed /usr/src/debug/bind/9.18.8-r0/lib/isc/include/isc -> /usr/src/debug/bind/9.18.9-r0/lib/isc/include/isc, directory renamed /usr/src/debug/bind/9.18.8-r0/lib/ns -> /usr/src/debug/bind/9.18.9-r0/lib/ns, directory renamed /usr/src/debug/bind/9.18.8-r0/lib/dns/include/dst -> /usr/src/debug/bind/9.18.9-r0/lib/dns/include/dst, directory renamed /usr/src/debug/bind/9.18.8-r0/lib/isccc/include/isccc -> /usr/src/debug/bind/9.18.9-r0/lib/isccc/include/isccc, di
+ rectory renamed /usr/src/debug/bind/9.18.8-r0/lib/dns -> /usr/src/debug/bind/9.18.9-r0/lib/dns, directory renamed /usr/src/debug/bind/9.18.8-r0/lib/bind9/include/bind9 -> /usr/src/debug/bind/9.18.9-r0/lib/bind9/include/bind9, directory renamed /usr/src/debug/bind/9.18.8-r0/lib/isc/netmgr -> /usr/src/debug/bind/9.18.9-r0/lib/isc/netmgr, directory renamed /usr/src/debug/bind/9.18.8-r0/bin/dnssec -> /usr/src/debug/bind/9.18.9-r0/bin/dnssec, directory renamed /usr/src/debug/bind/9.18.8-r0/bin/named -> /usr/src/debug/bind/9.18.9-r0/bin/named, directory renamed /usr/src/debug/bind/9.18.8-r0/bin/confgen/include/confgen -> /usr/src/debug/bind/9.18.9-r0/bin/confgen/include/confgen, directory renamed /usr/src/debug/bind/9.18.8-r0/bin/named/include/dlz -> /usr/src/debug/bind/9.18.9-r0/bin/named/include/dlz, removed "/usr/src/debug/bind/9.18.8-r0/lib/isc/trampoline_p.h /usr/src/debug/bind/9.18.8-r0/lib/isc/netmgr_p.h /usr/src/debug/bind/9.18.8-r0/lib/isc/condition.c /usr/src/debug/bind/9.18.8-r
+ 0/lib/isc/stats.c /usr/src/debug/bind/9.18.8-r0/lib/isc/tls_p.h /usr/src/debug/bind/9.18.8-r0/lib/isc/string.c /usr/src/debug/bind/9.18.8-r0/lib/isc/region.c /usr/src/debug/bind/9.18.8-r0/lib/isc/ht.c /usr/src/debug/bind/9.18.8-r0/lib/isc/netscope.c /usr/src/debug/bind/9.18.8-r0/lib/isc/counter.c /usr/src/debug/bind/9.18.8-r0/lib/isc/hash.c /usr/src/debug/bind/9.18.8-r0/lib/isc/symtab.c /usr/src/debug/bind/9.18.8-r0/lib/isc/app.c /usr/src/debug/bind/9.18.8-r0/lib/isc/result.c /usr/src/debug/bind/9.18.8-r0/lib/isc/lex.c /usr/src/debug/bind/9.18.8-r0/lib/isc/glob.c /usr/src/debug/bind/9.18.8-r0/lib/isc/jemalloc_shim.h /usr/src/debug/bind/9.18.8-r0/lib/isc/random.c /usr/src/debug/bind/9.18.8-r0/lib/isc/buffer.c /usr/src/debug/bind/9.18.8-r0/lib/isc/mem.c /usr/src/debug/bind/9.18.8-r0/lib/isc/os_p.h /usr/src/debug/bind/9.18.8-r0/lib/isc/tm.c /usr/src/debug/bind/9.18.8-r0/lib/isc/radix.c /usr/src/debug/bind/9.18.8-r0/lib/isc/regex.c /usr/src/debug/bind/9.18.8-r0/lib/isc/os.c /usr/src/deb
+ ug/bind/9.18.8-r0/lib/isc/parseint.c /usr/src/debug/bind/9.18.8-r0/lib/isc/error.c /usr/src/debug/bind/9.18.8-r0/lib/isc/dir.c /usr/src/debug/bind/9.18.8-r0/lib/isc/stdtime.c /usr/src/debug/bind/9.18.8-r0/lib/isc/base32.c /usr/src/debug/bind/9.18.8-r0/lib/isc/aes.c /usr/src/debug/bind/9.18.8-r0/lib/isc/heap.c /usr/src/debug/bind/9.18.8-r0/lib/isc/md.c /usr/src/debug/bind/9.18.8-r0/lib/isc/resource.c /usr/src/debug/bind/9.18.8-r0/lib/isc/timer_p.h /usr/src/debug/bind/9.18.8-r0/lib/isc/base64.c /usr/src/debug/bind/9.18.8-r0/lib/isc/errno.c /usr/src/debug/bind/9.18.8-r0/lib/isc/lib.c /usr/src/debug/bind/9.18.8-r0/lib/isc/trampoline.c /usr/src/debug/bind/9.18.8-r0/lib/isc/utf8.c /usr/src/debug/bind/9.18.8-r0/lib/isc/managers.c /usr/src/debug/bind/9.18.8-r0/lib/isc/commandline.c /usr/src/debug/bind/9.18.8-r0/lib/isc/portset.c /usr/src/debug/bind/9.18.8-r0/lib/isc/task_p.h /usr/src/debug/bind/9.18.8-r0/lib/isc/crc64.c /usr/src/debug/bind/9.18.8-r0/lib/isc/ratelimiter.c /usr/src/debug/bind
+ /9.18.8-r0/lib/isc/rwlock.c /usr/src/debug/bind/9.18.8-r0/lib/isc/errno2result.h /usr/src/debug/bind/9.18.8-r0/lib/isc/assertions.c /usr/src/debug/bind/9.18.8-r0/lib/isc/mem_p.h /usr/src/debug/bind/9.18.8-r0/lib/isc/taskpool.c /usr/src/debug/bind/9.18.8-r0/lib/isc/event.c /usr/src/debug/bind/9.18.8-r0/lib/isc/thread.c /usr/src/debug/bind/9.18.8-r0/lib/isc/hex.c /usr/src/debug/bind/9.18.8-r0/lib/isc/mutexblock.c /usr/src/debug/bind/9.18.8-r0/lib/isc/entropy.c /usr/src/debug/bind/9.18.8-r0/lib/isc/siphash.c /usr/src/debug/bind/9.18.8-r0/lib/isc/nonce.c /usr/src/debug/bind/9.18.8-r0/lib/isc/entropy_private.h /usr/src/debug/bind/9.18.8-r0/lib/isc/errno2result.c /usr/src/debug/bind/9.18.8-r0/lib/isc/safe.c /usr/src/debug/bind/9.18.8-r0/lib/isc/httpd.c /usr/src/debug/bind/9.18.8-r0/lib/isc/mutex.c /usr/src/debug/bind/9.18.8-r0/lib/isc/quota.c /usr/src/debug/bind/9.18.8-r0/lib/isc/timer.c /usr/src/debug/bind/9.18.8-r0/lib/isc/hmac.c /usr/src/debug/bind/9.18.8-r0/lib/isc/net.c /usr/src/debu
+ g/bind/9.18.8-r0/lib/isc/astack.c /usr/src/debug/bind/9.18.8-r0/lib/isc/sockaddr.c /usr/src/debug/bind/9.18.8-r0/lib/isc/iterated_hash.c /usr/src/debug/bind/9.18.8-r0/lib/isc/serial.c /usr/src/debug/bind/9.18.8-r0/lib/isc/syslog.c /usr/src/debug/bind/9.18.8-r0/lib/isc/meminfo.c /usr/src/debug/bind/9.18.8-r0/lib/isc/pool.c /usr/src/debug/bind/9.18.8-r0/lib/isc/file.c /usr/src/debug/bind/9.18.8-r0/lib/isc/fsaccess_common_p.h /usr/src/debug/bind/9.18.8-r0/lib/isc/log.c /usr/src/debug/bind/9.18.8-r0/lib/isc/backtrace.c /usr/src/debug/bind/9.18.8-r0/lib/isc/bind9.c /usr/src/debug/bind/9.18.8-r0/lib/isc/fsaccess_common.c /usr/src/debug/bind/9.18.8-r0/lib/isc/interfaceiter.c /usr/src/debug/bind/9.18.8-r0/lib/isc/task.c /usr/src/debug/bind/9.18.8-r0/lib/isc/fsaccess.c /usr/src/debug/bind/9.18.8-r0/lib/isc/time.c /usr/src/debug/bind/9.18.8-r0/lib/isc/stdio.c /usr/src/debug/bind/9.18.8-r0/lib/isc/netaddr.c /usr/src/debug/bind/9.18.8-r0/lib/isc/tls.c /usr/src/debug/bind/9.18.8-r0/lib/isc/url.c
+ ", added "/usr/src/debug/bind/9.18.9-r0/lib/isc/sockaddr.c /usr/src/debug/bind/9.18.9-r0/lib/isc/meminfo.c /usr/src/debug/bind/9.18.9-r0/lib/isc/mem.c /usr/src/debug/bind/9.18.9-r0/lib/isc/trampoline_p.h /usr/src/debug/bind/9.18.9-r0/lib/isc/quota.c /usr/src/debug/bind/9.18.9-r0/lib/isc/picohttpparser.h /usr/src/debug/bind/9.18.9-r0/lib/isc/resource.c /usr/src/debug/bind/9.18.9-r0/lib/isc/mem_p.h /usr/src/debug/bind/9.18.9-r0/lib/isc/aes.c /usr/src/debug/bind/9.18.9-r0/lib/isc/netaddr.c /usr/src/debug/bind/9.18.9-r0/lib/isc/utf8.c /usr/src/debug/bind/9.18.9-r0/lib/isc/pool.c /usr/src/debug/bind/9.18.9-r0/lib/isc/bind9.c /usr/src/debug/bind/9.18.9-r0/lib/isc/dir.c /usr/src/debug/bind/9.18.9-r0/lib/isc/stdtime.c /usr/src/debug/bind/9.18.9-r0/lib/isc/region.c /usr/src/debug/bind/9.18.9-r0/lib/isc/condition.c /usr/src/debug/bind/9.18.9-r0/lib/isc/syslog.c /usr/src/debug/bind/9.18.9-r0/lib/isc/os.c /usr/src/debug/bind/9.18.9-r0/lib/isc/log.c /usr/src/debug/bind/9.18.9-r0/lib/isc/glob.c /
+ usr/src/debug/bind/9.18.9-r0/lib/isc/serial.c /usr/src/debug/bind/9.18.9-r0/lib/isc/safe.c /usr/src/debug/bind/9.18.9-r0/lib/isc/fsaccess_common_p.h /usr/src/debug/bind/9.18.9-r0/lib/isc/file.c /usr/src/debug/bind/9.18.9-r0/lib/isc/parseint.c /usr/src/debug/bind/9.18.9-r0/lib/isc/nonce.c /usr/src/debug/bind/9.18.9-r0/lib/isc/crc64.c /usr/src/debug/bind/9.18.9-r0/lib/isc/mutexblock.c /usr/src/debug/bind/9.18.9-r0/lib/isc/string.c /usr/src/debug/bind/9.18.9-r0/lib/isc/siphash.c /usr/src/debug/bind/9.18.9-r0/lib/isc/event.c /usr/src/debug/bind/9.18.9-r0/lib/isc/time.c /usr/src/debug/bind/9.18.9-r0/lib/isc/taskpool.c /usr/src/debug/bind/9.18.9-r0/lib/isc/commandline.c /usr/src/debug/bind/9.18.9-r0/lib/isc/trampoline.c /usr/src/debug/bind/9.18.9-r0/lib/isc/os_p.h /usr/src/debug/bind/9.18.9-r0/lib/isc/url.c /usr/src/debug/bind/9.18.9-r0/lib/isc/random.c /usr/src/debug/bind/9.18.9-r0/lib/isc/regex.c /usr/src/debug/bind/9.18.9-r0/lib/isc/result.c /usr/src/debug/bind/9.18.9-r0/lib/isc/heap.c
+  /usr/src/debug/bind/9.18.9-r0/lib/isc/tls_p.h /usr/src/debug/bind/9.18.9-r0/lib/isc/errno.c /usr/src/debug/bind/9.18.9-r0/lib/isc/mutex.c /usr/src/debug/bind/9.18.9-r0/lib/isc/tls.c /usr/src/debug/bind/9.18.9-r0/lib/isc/lex.c /usr/src/debug/bind/9.18.9-r0/lib/isc/assertions.c /usr/src/debug/bind/9.18.9-r0/lib/isc/task_p.h /usr/src/debug/bind/9.18.9-r0/lib/isc/app.c /usr/src/debug/bind/9.18.9-r0/lib/isc/fsaccess.c /usr/src/debug/bind/9.18.9-r0/lib/isc/entropy.c /usr/src/debug/bind/9.18.9-r0/lib/isc/ratelimiter.c /usr/src/debug/bind/9.18.9-r0/lib/isc/picohttpparser.c /usr/src/debug/bind/9.18.9-r0/lib/isc/errno2result.c /usr/src/debug/bind/9.18.9-r0/lib/isc/errno2result.h /usr/src/debug/bind/9.18.9-r0/lib/isc/managers.c /usr/src/debug/bind/9.18.9-r0/lib/isc/portset.c /usr/src/debug/bind/9.18.9-r0/lib/isc/httpd.c /usr/src/debug/bind/9.18.9-r0/lib/isc/rwlock.c /usr/src/debug/bind/9.18.9-r0/lib/isc/lib.c /usr/src/debug/bind/9.18.9-r0/lib/isc/stdio.c /usr/src/debug/bind/9.18.9-r0/lib/isc/
+ hmac.c /usr/src/debug/bind/9.18.9-r0/lib/isc/jemalloc_shim.h /usr/src/debug/bind/9.18.9-r0/lib/isc/timer.c /usr/src/debug/bind/9.18.9-r0/lib/isc/backtrace.c /usr/src/debug/bind/9.18.9-r0/lib/isc/hash.c /usr/src/debug/bind/9.18.9-r0/lib/isc/fsaccess_common.c /usr/src/debug/bind/9.18.9-r0/lib/isc/symtab.c /usr/src/debug/bind/9.18.9-r0/lib/isc/netmgr_p.h /usr/src/debug/bind/9.18.9-r0/lib/isc/interfaceiter.c /usr/src/debug/bind/9.18.9-r0/lib/isc/thread.c /usr/src/debug/bind/9.18.9-r0/lib/isc/net.c /usr/src/debug/bind/9.18.9-r0/lib/isc/hex.c /usr/src/debug/bind/9.18.9-r0/lib/isc/entropy_private.h /usr/src/debug/bind/9.18.9-r0/lib/isc/radix.c /usr/src/debug/bind/9.18.9-r0/lib/isc/netscope.c /usr/src/debug/bind/9.18.9-r0/lib/isc/astack.c /usr/src/debug/bind/9.18.9-r0/lib/isc/base32.c /usr/src/debug/bind/9.18.9-r0/lib/isc/task.c /usr/src/debug/bind/9.18.9-r0/lib/isc/tm.c /usr/src/debug/bind/9.18.9-r0/lib/isc/error.c /usr/src/debug/bind/9.18.9-r0/lib/isc/base64.c /usr/src/debug/bind/9.18.9-r
+ 0/lib/isc/buffer.c /usr/src/debug/bind/9.18.9-r0/lib/isc/iterated_hash.c /usr/src/debug/bind/9.18.9-r0/lib/isc/md.c /usr/src/debug/bind/9.18.9-r0/lib/isc/counter.c /usr/src/debug/bind/9.18.9-r0/lib/isc/stats.c /usr/src/debug/bind/9.18.9-r0/lib/isc/ht.c /usr/src/debug/bind/9.18.9-r0/lib/isc/timer_p.h"
+packages/core2-32-poky-linux/bind/bind-src: PKGV changed from 9.18.8 [default] to 9.18.9 [default]
+packages/core2-32-poky-linux/bind/bind-staticdev: PV changed from "9.18.8" to "9.18.9"
+packages/core2-32-poky-linux/bind/bind-staticdev: PKGV changed from 9.18.8 [default] to 9.18.9 [default]
+packages/core2-32-poky-linux/bind/bind-utils: PKGSIZE changed from 491624 to 495720 (+1%)
+packages/core2-32-poky-linux/bind/bind-utils: PV changed from "9.18.8" to "9.18.9"
+packages/core2-32-poky-linux/bind/bind-utils: PKGV changed from 9.18.8 [default] to 9.18.9 [default]
+packages/core2-32-poky-linux/bind/bind: PKGSIZE changed from 1216452 to 1220548 (+0%)
+packages/core2-32-poky-linux/bind/bind: PV changed from "9.18.8" to "9.18.9"
+packages/core2-32-poky-linux/bind/bind: PKGV changed from 9.18.8 [default] to 9.18.9 [default]
+packages/core2-32-poky-linux/bind: PV changed from "9.18.8" to "9.18.9"
+packages/core2-32-poky-linux/bind: PKGV changed from 9.18.8 [default] to 9.18.9 [default]
+packages/core2-32-poky-linux/bind: SRC_URI changed from "https://ftp.isc.org/isc/bind9/9.18.8/bind-9.18.8.tar.xz file://conf.patch file://named.service file://bind9 file://generate-rndc-key.sh file://make-etc-initd-bind-stop-work.patch file://init.d-add-support-for-read-only-rootfs.patch file://bind-ensure-searching-for-json-headers-searches-sysr.patch file://0001-named-lwresd-V-and-start-log-hide-build-options.patch file://0001-avoid-start-failure-with-bind-user.patch" to "https://ftp.isc.org/isc/bind9/9.18.9/bind-9.18.9.tar.xz file://conf.patch file://named.service file://bind9 file://generate-rndc-key.sh file://make-etc-initd-bind-stop-work.patch file://init.d-add-support-for-read-only-rootfs.patch file://bind-ensure-searching-for-json-headers-searches-sysr.patch file://0001-named-lwresd-V-and-start-log-hide-build-options.patch file://0001-avoid-start-failure-with-bind-user.patch"
+Changes to packages/core2-32-poky-linux/bind (sysroot):
+  /usr/lib/libbind9.so changed symlink target from libbind9-9.18.8.so to libbind9-9.18.9.so
+  /usr/lib/libdns.so changed symlink target from libdns-9.18.8.so to libdns-9.18.9.so
+  /usr/lib/libirs.so changed symlink target from libirs-9.18.8.so to libirs-9.18.9.so
+  /usr/lib/libisccc.so changed symlink target from libisccc-9.18.8.so to libisccc-9.18.9.so
+  /usr/lib/libisccfg.so changed symlink target from libisccfg-9.18.8.so to libisccfg-9.18.9.so
+  /usr/lib/libisc.so changed symlink target from libisc-9.18.8.so to libisc-9.18.9.so
+  /usr/lib/libns.so changed symlink target from libns-9.18.8.so to libns-9.18.9.so
+  /usr/lib/libbind9-9.18.8.so moved to /usr/lib/libbind9-9.18.9.so
+  /usr/lib/libdns-9.18.8.so moved to /usr/lib/libdns-9.18.9.so
+  /usr/lib/libirs-9.18.8.so moved to /usr/lib/libirs-9.18.9.so
+  /usr/lib/libisc-9.18.8.so moved to /usr/lib/libisc-9.18.9.so
+  /usr/lib/libisccc-9.18.8.so moved to /usr/lib/libisccc-9.18.9.so
+  /usr/lib/libisccfg-9.18.8.so moved to /usr/lib/libisccfg-9.18.9.so
+  /usr/lib/libns-9.18.8.so moved to /usr/lib/libns-9.18.9.so
 
---===============2157861690533087477==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1670 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 888 .bb files complete (887 cached, 1 parsed). 1668 targets, 36 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:47599a284a727b5e8159ee6d5f0cacaca71912c6"
-workspace            = "master:a0dcf93bc919757b23a52597eacb1777df4adf24"
-
-Initialising tasks...done.
-Sstate summary: Wanted 15 Local 4 Mirrors 0 Missed 11 Current 299 (26% match, 96% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 300 of 314 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_packagedata_setscene)
-NOTE: Running setscene task 301 of 314 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_populate_sysroot_setscene)
-NOTE: Running task 790 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_fetch)
-NOTE: Running task 926 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_fetch)
-NOTE: recipe libxcrypt-4.4.30-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcrypt-4.4.30-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_fetch: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_fetch: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_fetch: Succeeded
-NOTE: Running task 1089 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_unpack)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_fetch: Succeeded
-NOTE: Running task 1090 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_unpack)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/libxcrypt/4.4.30-r0/temp/log.do_packagedata_setscene.777429
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 313 of 314 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_package_setscene)
-NOTE: recipe libxcrypt-4.4.30-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_unpack: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_unpack: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_unpack: Succeeded
-NOTE: Running task 1091 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_patch)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_patch: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_unpack: Succeeded
-NOTE: Running task 1092 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_patch)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_patch: Succeeded
-NOTE: Running task 1093 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1094 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_populate_lic)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_lic: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_patch: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxcrypt-4.4.30-r0: task do_package_setscene: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_populate_lic unihash changed to d3c2cee66dd3b2efaf102a4cafeb60dbfebeb3c35e94dfa1e0fc45415d050854
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxcrypt-4.4.30-r0: task do_package_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1122 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1126 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_packagedata)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_patch: Succeeded
-NOTE: Running task 1143 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxcrypt-4.4.30-r0: task do_packagedata: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxcrypt-4.4.30-r0: task do_packagedata: Succeeded
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1155 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_configure)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure: Succeeded
-NOTE: Running task 1156 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_configure_ptest_base)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure_ptest_base: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1157 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_compile)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile: Succeeded
-NOTE: Running task 1158 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_compile_ptest_base)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile_ptest_base: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1159 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_install)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_install: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_install: Succeeded
-NOTE: Running task 1160 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_install_ptest_base)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_install_ptest_base: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1161 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_populate_sysroot)
-NOTE: Running task 1162 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_package)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_populate_sysroot: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_package: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1163 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1164 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_configure)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_configure: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_configure: Succeeded
-NOTE: Running task 1165 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_compile)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_compile: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_package: Succeeded
-NOTE: Running task 1166 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_packagedata)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_packagedata: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_packagedata: Succeeded
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_compile: Succeeded
-NOTE: Running task 1167 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_install)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_install: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_install: Succeeded
-NOTE: Running task 1168 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_package)
-NOTE: Running task 1169 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_populate_sysroot)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_package: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_sysroot: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_package: Succeeded
-NOTE: Running task 1170 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_packagedata)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_packagedata: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 1171 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_package_write_rpm)
-NOTE: Running task 1172 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_package_qa)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_write_rpm: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_qa: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_qa: Succeeded
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1173 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_build)
-NOTE: Tasks Summary: Attempted 1173 tasks of which 1143 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: There was 1 WARNING message.
-Summary: There were 8 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-src went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-dbg went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-staticdev went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-dev went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-doc went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-locale went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============2157861690533087477==
+--===============5925238546835188968==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-32-poky-linux/btrfs-tools (sysroot):
-  /usr/lib/python3.11/site-packages/btrfsutil-6.0.1-py3.11.egg-info moved to /usr/lib/python3.11/site-packages/btrfsutil-6.0.2-py3.11.egg-info
+packages/core2-32-poky-linux/bind/bind-libs: FILELIST: removed "/usr/lib/libisccfg-9.18.8.so /usr/lib/libisc-9.18.8.so /usr/lib/libisccc-9.18.8.so /usr/lib/libns-9.18.8.so /usr/lib/libdns-9.18.8.so /usr/lib/libirs-9.18.8.so /usr/lib/libbind9-9.18.8.so", added "/usr/lib/libdns-9.18.9.so /usr/lib/libisccc-9.18.9.so /usr/lib/libirs-9.18.9.so /usr/lib/libns-9.18.9.so /usr/lib/libisccfg-9.18.9.so /usr/lib/libisc-9.18.9.so /usr/lib/libbind9-9.18.9.so"
+Changes to packages/core2-32-poky-linux/bind (sysroot):
+  /usr/lib/libbind9.so changed symlink target from libbind9-9.18.8.so to libbind9-9.18.9.so
+  /usr/lib/libdns.so changed symlink target from libdns-9.18.8.so to libdns-9.18.9.so
+  /usr/lib/libirs.so changed symlink target from libirs-9.18.8.so to libirs-9.18.9.so
+  /usr/lib/libisccc.so changed symlink target from libisccc-9.18.8.so to libisccc-9.18.9.so
+  /usr/lib/libisccfg.so changed symlink target from libisccfg-9.18.8.so to libisccfg-9.18.9.so
+  /usr/lib/libisc.so changed symlink target from libisc-9.18.8.so to libisc-9.18.9.so
+  /usr/lib/libns.so changed symlink target from libns-9.18.8.so to libns-9.18.9.so
+  /usr/lib/libbind9-9.18.8.so moved to /usr/lib/libbind9-9.18.9.so
+  /usr/lib/libdns-9.18.8.so moved to /usr/lib/libdns-9.18.9.so
+  /usr/lib/libirs-9.18.8.so moved to /usr/lib/libirs-9.18.9.so
+  /usr/lib/libisc-9.18.8.so moved to /usr/lib/libisc-9.18.9.so
+  /usr/lib/libisccc-9.18.8.so moved to /usr/lib/libisccc-9.18.9.so
+  /usr/lib/libisccfg-9.18.8.so moved to /usr/lib/libisccfg-9.18.9.so
+  /usr/lib/libns-9.18.8.so moved to /usr/lib/libns-9.18.9.so
 
---===============2157861690533087477==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
-
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 888 .bb files complete (0 cached, 888 parsed). 1668 targets, 71 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the ppc7400 sysroot...done.
-Removing 1 recipes from the qemuppc sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "powerpc-poky-linux"
-MACHINE              = "qemuppc"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:47599a284a727b5e8159ee6d5f0cacaca71912c6"
-workspace            = "master:a0dcf93bc919757b23a52597eacb1777df4adf24"
-
-Initialising tasks...done.
-Sstate summary: Wanted 15 Local 4 Mirrors 0 Missed 11 Current 299 (26% match, 96% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 300 of 314 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_packagedata_setscene)
-NOTE: Running setscene task 301 of 314 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_populate_sysroot_setscene)
-NOTE: Running task 790 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_fetch)
-NOTE: Running task 926 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_fetch)
-NOTE: recipe libxcrypt-4.4.30-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcrypt-4.4.30-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_fetch: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_fetch: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_fetch: Succeeded
-NOTE: Running task 1089 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_unpack)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_fetch: Succeeded
-NOTE: Running task 1090 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_unpack)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/libxcrypt/4.4.30-r0/temp/log.do_packagedata_setscene.833278
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 313 of 314 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_package_setscene)
-NOTE: recipe libxcrypt-4.4.30-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_unpack: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_unpack: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_unpack: Succeeded
-NOTE: Running task 1091 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_patch)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_patch: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_unpack: Succeeded
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_patch: Succeeded
-NOTE: Running task 1092 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_patch)
-NOTE: Running task 1093 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1094 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_populate_lic)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_lic: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_patch: Started
-NOTE: recipe libxcrypt-4.4.30-r0: task do_package_setscene: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_populate_lic unihash changed to d3c2cee66dd3b2efaf102a4cafeb60dbfebeb3c35e94dfa1e0fc45415d050854
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxcrypt-4.4.30-r0: task do_package_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1122 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1126 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_packagedata)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_patch: Succeeded
-NOTE: Running task 1143 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxcrypt-4.4.30-r0: task do_packagedata: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxcrypt-4.4.30-r0: task do_packagedata: Succeeded
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1155 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_configure)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure: Succeeded
-NOTE: Running task 1156 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_configure_ptest_base)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure_ptest_base: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1157 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_compile)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile: Succeeded
-NOTE: Running task 1158 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_compile_ptest_base)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile_ptest_base: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1159 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_install)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_install: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_install: Succeeded
-NOTE: Running task 1160 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_install_ptest_base)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_install_ptest_base: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1161 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_populate_sysroot)
-NOTE: Running task 1162 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_package)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_package: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_populate_sysroot: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1163 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1164 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_configure)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_configure: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_configure: Succeeded
-NOTE: Running task 1165 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_compile)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_compile: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_package: Succeeded
-NOTE: Running task 1166 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_packagedata)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_packagedata: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_packagedata: Succeeded
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_compile: Succeeded
-NOTE: Running task 1167 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_install)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_install: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_install: Succeeded
-NOTE: Running task 1168 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_package)
-NOTE: Running task 1169 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_populate_sysroot)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_package: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_sysroot: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_package: Succeeded
-NOTE: Running task 1170 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_packagedata)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_packagedata: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 1171 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_package_write_rpm)
-NOTE: Running task 1172 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_package_qa)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_write_rpm: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_qa: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_qa: Succeeded
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1173 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_build)
-NOTE: Tasks Summary: Attempted 1173 tasks of which 1143 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: There was 1 WARNING message.
-Summary: There were 8 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-src went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-dbg went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-staticdev went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-dev went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-doc went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-locale went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============2157861690533087477==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
-
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 888 .bb files complete (0 cached, 888 parsed). 1668 targets, 64 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the mips32r2 sysroot...done.
-Removing 1 recipes from the qemumips sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "mips-poky-linux"
-MACHINE              = "qemumips"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:47599a284a727b5e8159ee6d5f0cacaca71912c6"
-workspace            = "master:a0dcf93bc919757b23a52597eacb1777df4adf24"
-
-Initialising tasks...done.
-Sstate summary: Wanted 15 Local 4 Mirrors 0 Missed 11 Current 299 (26% match, 96% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 300 of 314 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_packagedata_setscene)
-NOTE: Running setscene task 301 of 314 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_populate_sysroot_setscene)
-NOTE: Running task 790 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_fetch)
-NOTE: Running task 926 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_fetch)
-NOTE: recipe libxcrypt-4.4.30-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcrypt-4.4.30-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_fetch: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_fetch: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_fetch: Succeeded
-NOTE: Running task 1089 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_unpack)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_fetch: Succeeded
-NOTE: Running task 1090 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_unpack)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/libxcrypt/4.4.30-r0/temp/log.do_packagedata_setscene.814543
-NOTE: recipe libxcrypt-4.4.30-r0: task do_populate_sysroot_setscene: Succeeded
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 313 of 314 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_package_setscene)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_unpack: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_unpack: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_unpack: Succeeded
-NOTE: Running task 1091 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_patch)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_patch: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_unpack: Succeeded
-NOTE: Running task 1092 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_patch)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_patch: Succeeded
-NOTE: Running task 1093 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1094 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_populate_lic)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_patch: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_lic: Started
-NOTE: recipe libxcrypt-4.4.30-r0: task do_package_setscene: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_populate_lic unihash changed to d3c2cee66dd3b2efaf102a4cafeb60dbfebeb3c35e94dfa1e0fc45415d050854
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxcrypt-4.4.30-r0: task do_package_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1122 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1126 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_packagedata)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_patch: Succeeded
-NOTE: Running task 1143 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxcrypt-4.4.30-r0: task do_packagedata: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxcrypt-4.4.30-r0: task do_packagedata: Succeeded
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1155 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_configure)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure: Succeeded
-NOTE: Running task 1156 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_configure_ptest_base)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure_ptest_base: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1157 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_compile)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile: Succeeded
-NOTE: Running task 1158 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_compile_ptest_base)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile_ptest_base: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1159 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_install)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_install: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_install: Succeeded
-NOTE: Running task 1160 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_install_ptest_base)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_install_ptest_base: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1161 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_populate_sysroot)
-NOTE: Running task 1162 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_package)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_package: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_populate_sysroot: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1163 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1164 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_configure)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_configure: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_configure: Succeeded
-NOTE: Running task 1165 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_compile)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_compile: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_package: Succeeded
-NOTE: Running task 1166 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_packagedata)
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_packagedata: Started
-NOTE: recipe e2fsprogs-1.46.5-r0: task do_packagedata: Succeeded
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_compile: Succeeded
-NOTE: Running task 1167 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_install)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_install: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_install: Succeeded
-NOTE: Running task 1168 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_package)
-NOTE: Running task 1169 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_populate_sysroot)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_package: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_sysroot: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_package: Succeeded
-NOTE: Running task 1170 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_packagedata)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_packagedata: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 1171 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_package_write_rpm)
-NOTE: Running task 1172 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_package_qa)
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_write_rpm: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_qa: Started
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_qa: Succeeded
-NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1173 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_build)
-NOTE: Tasks Summary: Attempted 1173 tasks of which 1143 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: There was 1 WARNING message.
-Summary: There were 8 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-src went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-dbg went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-staticdev went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-dev went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-doc went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-locale went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
-ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============2157861690533087477==
+--===============5925238546835188968==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-btrfs-tools-upgrade-6.0.1-6.0.2.patch"
+ filename="0001-bind-upgrade-9.18.8-9.18.9.patch"
 
-RnJvbSA2YmE5ZDY0YTJhOWU4N2Y3MzE1NDg2OTUwNTY0ZDhhMWIxNGI4NjhkIE1vbiBTZXAgMTcg
+RnJvbSAzZjEyMWRhN2FkODg5NmZlZWY3NDA5MTliYmI5NWIxZGYzYmNjZmMyIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBEZWMgMjAyMiAwODowNDozNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGJ0
-cmZzLXRvb2xzOiB1cGdyYWRlIDYuMC4xIC0+IDYuMC4yCgotLS0KIC4uLi9idHJmcy10b29scy97
-YnRyZnMtdG9vbHNfNi4wLjEuYmIgPT4gYnRyZnMtdG9vbHNfNi4wLjIuYmJ9ICB8IDIgKy0KIDEg
-ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1kZXZ0b29scy9idHJmcy10b29scy97YnRyZnMtdG9vbHNfNi4wLjEuYmIgPT4gYnRy
-ZnMtdG9vbHNfNi4wLjIuYmJ9ICg5OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzXzYuMC4xLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzXzYuMC4yLmJiCnNpbWlsYXJpdHkgaW5kZXggOTgl
-CnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9idHJmcy10b29scy9idHJmcy10b29s
-c182LjAuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2J0cmZzLXRvb2xzL2J0
-cmZzLXRvb2xzXzYuMC4yLmJiCmluZGV4IDcxNDQwODdhMTEuLjg3MmZiYTZiNmQgMTAwNjQ0Ci0t
-LSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9idHJmcy10b29scy9idHJmcy10b29sc182LjAuMS5i
-YgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHNfNi4w
-LjIuYmIKQEAgLTE4LDcgKzE4LDcgQEAgREVQRU5EUyA9ICJ1dGlsLWxpbnV4IHpsaWIiCiBTUkNf
-VVJJID0gImdpdDovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9rZGF2
-ZS9idHJmcy1wcm9ncy5naXQ7YnJhbmNoPW1hc3RlciBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAx
-LUFkZC1hLXBvc3NpYmlsaXR5LXRvLXNwZWNpZnktd2hlcmUtcHl0aG9uLW1vZHVsZXMtYXIucGF0
-Y2ggXAogICAgICAgICAgICAiCi1TUkNSRVYgPSAiNDQxZDAxNTU2ODczMzg1ZDU1ZmQ0OTQwZjUw
-ZWU3YWUxZmNmYjEzZCIKK1NSQ1JFViA9ICJmZjk2NGJhNmFlZjk4YmQxYmFmZThmZjliMDA4ODUw
-MWIzMGJkZDI3IgogUyA9ICIke1dPUktESVJ9L2dpdCIKIAogUEFDS0FHRUNPTkZJRyA/Pz0gIiBc
-Ci0tIAoyLjMxLjEKCg==
+CkRhdGU6IFRodSwgMSBEZWMgMjAyMiAwNjoyODo1OSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGJp
+bmQ6IHVwZ3JhZGUgOS4xOC44IC0+IDkuMTguOQoKLS0tCiAuLi4vMDAwMS1hdm9pZC1zdGFydC1m
+YWlsdXJlLXdpdGgtYmluZC11c2VyLnBhdGNoICAgICAgICAgICAgICAgfCAwCiAuLi4vMDAwMS1u
+YW1lZC1sd3Jlc2QtVi1hbmQtc3RhcnQtbG9nLWhpZGUtYnVpbGQtb3B0aW9ucy5wYXRjaCAgfCAw
+CiAuLi4vYmluZC1lbnN1cmUtc2VhcmNoaW5nLWZvci1qc29uLWhlYWRlcnMtc2VhcmNoZXMtc3lz
+ci5wYXRjaCAgfCAwCiAuLi4vYmluZC97YmluZC05LjE4LjggPT4gYmluZC05LjE4Ljl9L2JpbmQ5
+ICAgICAgICAgICAgICAgICAgICAgfCAwCiAuLi4vYmluZC97YmluZC05LjE4LjggPT4gYmluZC05
+LjE4Ljl9L2NvbmYucGF0Y2ggICAgICAgICAgICAgICAgfCAwCiAuLi4vYmluZC97YmluZC05LjE4
+LjggPT4gYmluZC05LjE4Ljl9L2dlbmVyYXRlLXJuZGMta2V5LnNoICAgICAgfCAwCiAuLi4vaW5p
+dC5kLWFkZC1zdXBwb3J0LWZvci1yZWFkLW9ubHktcm9vdGZzLnBhdGNoICAgICAgICAgICAgICAg
+fCAwCiAuLi4vbWFrZS1ldGMtaW5pdGQtYmluZC1zdG9wLXdvcmsucGF0Y2ggICAgICAgICAgICAg
+ICAgICAgICAgICAgfCAwCiAuLi4vYmluZC97YmluZC05LjE4LjggPT4gYmluZC05LjE4Ljl9L25h
+bWVkLnNlcnZpY2UgICAgICAgICAgICAgfCAwCiAuLi4vYmluZC97YmluZF85LjE4LjguYmIgPT4g
+YmluZF85LjE4LjkuYmJ9ICAgICAgICAgICAgICAgICAgICAgfCAyICstCiAxMCBmaWxlcyBjaGFu
+Z2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1j
+b25uZWN0aXZpdHkvYmluZC97YmluZC05LjE4LjggPT4gYmluZC05LjE4Ljl9LzAwMDEtYXZvaWQt
+c3RhcnQtZmFpbHVyZS13aXRoLWJpbmQtdXNlci5wYXRjaCAoMTAwJSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtY29ubmVjdGl2aXR5L2JpbmQve2JpbmQtOS4xOC44ID0+IGJpbmQtOS4xOC45fS8wMDAx
+LW5hbWVkLWx3cmVzZC1WLWFuZC1zdGFydC1sb2ctaGlkZS1idWlsZC1vcHRpb25zLnBhdGNoICgx
+MDAlKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC97YmluZC05LjE4Ljgg
+PT4gYmluZC05LjE4Ljl9L2JpbmQtZW5zdXJlLXNlYXJjaGluZy1mb3ItanNvbi1oZWFkZXJzLXNl
+YXJjaGVzLXN5c3IucGF0Y2ggKDEwMCUpCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0
+eS9iaW5kL3tiaW5kLTkuMTguOCA9PiBiaW5kLTkuMTguOX0vYmluZDkgKDEwMCUpCiByZW5hbWUg
+bWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL3tiaW5kLTkuMTguOCA9PiBiaW5kLTkuMTgu
+OX0vY29uZi5wYXRjaCAoMTAwJSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2Jp
+bmQve2JpbmQtOS4xOC44ID0+IGJpbmQtOS4xOC45fS9nZW5lcmF0ZS1ybmRjLWtleS5zaCAoMTAw
+JSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQve2JpbmQtOS4xOC44ID0+
+IGJpbmQtOS4xOC45fS9pbml0LmQtYWRkLXN1cHBvcnQtZm9yLXJlYWQtb25seS1yb290ZnMucGF0
+Y2ggKDEwMCUpCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL3tiaW5kLTku
+MTguOCA9PiBiaW5kLTkuMTguOX0vbWFrZS1ldGMtaW5pdGQtYmluZC1zdG9wLXdvcmsucGF0Y2gg
+KDEwMCUpCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL3tiaW5kLTkuMTgu
+OCA9PiBiaW5kLTkuMTguOX0vbmFtZWQuc2VydmljZSAoMTAwJSkKIHJlbmFtZSBtZXRhL3JlY2lw
+ZXMtY29ubmVjdGl2aXR5L2JpbmQve2JpbmRfOS4xOC44LmJiID0+IGJpbmRfOS4xOC45LmJifSAo
+OTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kLTku
+MTguOC8wMDAxLWF2b2lkLXN0YXJ0LWZhaWx1cmUtd2l0aC1iaW5kLXVzZXIucGF0Y2ggYi9tZXRh
+L3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC05LjE4LjkvMDAwMS1hdm9pZC1zdGFydC1m
+YWlsdXJlLXdpdGgtYmluZC11c2VyLnBhdGNoCnNpbWlsYXJpdHkgaW5kZXggMTAwJQpyZW5hbWUg
+ZnJvbSBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC05LjE4LjgvMDAwMS1hdm9p
+ZC1zdGFydC1mYWlsdXJlLXdpdGgtYmluZC11c2VyLnBhdGNoCnJlbmFtZSB0byBtZXRhL3JlY2lw
+ZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC05LjE4LjkvMDAwMS1hdm9pZC1zdGFydC1mYWlsdXJl
+LXdpdGgtYmluZC11c2VyLnBhdGNoCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2
+aXR5L2JpbmQvYmluZC05LjE4LjgvMDAwMS1uYW1lZC1sd3Jlc2QtVi1hbmQtc3RhcnQtbG9nLWhp
+ZGUtYnVpbGQtb3B0aW9ucy5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9i
+aW5kLTkuMTguOS8wMDAxLW5hbWVkLWx3cmVzZC1WLWFuZC1zdGFydC1sb2ctaGlkZS1idWlsZC1v
+cHRpb25zLnBhdGNoCnNpbWlsYXJpdHkgaW5kZXggMTAwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lw
+ZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC05LjE4LjgvMDAwMS1uYW1lZC1sd3Jlc2QtVi1hbmQt
+c3RhcnQtbG9nLWhpZGUtYnVpbGQtb3B0aW9ucy5wYXRjaApyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
+LWNvbm5lY3Rpdml0eS9iaW5kL2JpbmQtOS4xOC45LzAwMDEtbmFtZWQtbHdyZXNkLVYtYW5kLXN0
+YXJ0LWxvZy1oaWRlLWJ1aWxkLW9wdGlvbnMucGF0Y2gKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
+cy1jb25uZWN0aXZpdHkvYmluZC9iaW5kLTkuMTguOC9iaW5kLWVuc3VyZS1zZWFyY2hpbmctZm9y
+LWpzb24taGVhZGVycy1zZWFyY2hlcy1zeXNyLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rp
+dml0eS9iaW5kL2JpbmQtOS4xOC45L2JpbmQtZW5zdXJlLXNlYXJjaGluZy1mb3ItanNvbi1oZWFk
+ZXJzLXNlYXJjaGVzLXN5c3IucGF0Y2gKc2ltaWxhcml0eSBpbmRleCAxMDAlCnJlbmFtZSBmcm9t
+IG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kLTkuMTguOC9iaW5kLWVuc3VyZS1z
+ZWFyY2hpbmctZm9yLWpzb24taGVhZGVycy1zZWFyY2hlcy1zeXNyLnBhdGNoCnJlbmFtZSB0byBt
+ZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC05LjE4LjkvYmluZC1lbnN1cmUtc2Vh
+cmNoaW5nLWZvci1qc29uLWhlYWRlcnMtc2VhcmNoZXMtc3lzci5wYXRjaApkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmQtOS4xOC44L2JpbmQ5IGIvbWV0YS9y
+ZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmQtOS4xOC45L2JpbmQ5CnNpbWlsYXJpdHkgaW5k
+ZXggMTAwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC05
+LjE4LjgvYmluZDkKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5k
+LTkuMTguOS9iaW5kOQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5k
+L2JpbmQtOS4xOC44L2NvbmYucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQv
+YmluZC05LjE4LjkvY29uZi5wYXRjaApzaW1pbGFyaXR5IGluZGV4IDEwMCUKcmVuYW1lIGZyb20g
+bWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmQtOS4xOC44L2NvbmYucGF0Y2gKcmVu
+YW1lIHRvIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kLTkuMTguOS9jb25mLnBh
+dGNoCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC05LjE4
+LjgvZ2VuZXJhdGUtcm5kYy1rZXkuc2ggYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQv
+YmluZC05LjE4LjkvZ2VuZXJhdGUtcm5kYy1rZXkuc2gKc2ltaWxhcml0eSBpbmRleCAxMDAlCnJl
+bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kLTkuMTguOC9nZW5l
+cmF0ZS1ybmRjLWtleS5zaApyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5k
+L2JpbmQtOS4xOC45L2dlbmVyYXRlLXJuZGMta2V5LnNoCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
+ZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC05LjE4LjgvaW5pdC5kLWFkZC1zdXBwb3J0LWZvci1y
+ZWFkLW9ubHktcm9vdGZzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2Jp
+bmQtOS4xOC45L2luaXQuZC1hZGQtc3VwcG9ydC1mb3ItcmVhZC1vbmx5LXJvb3Rmcy5wYXRjaApz
+aW1pbGFyaXR5IGluZGV4IDEwMCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0
+eS9iaW5kL2JpbmQtOS4xOC44L2luaXQuZC1hZGQtc3VwcG9ydC1mb3ItcmVhZC1vbmx5LXJvb3Rm
+cy5wYXRjaApyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmQtOS4x
+OC45L2luaXQuZC1hZGQtc3VwcG9ydC1mb3ItcmVhZC1vbmx5LXJvb3Rmcy5wYXRjaApkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmQtOS4xOC44L21ha2UtZXRj
+LWluaXRkLWJpbmQtc3RvcC13b3JrLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9i
+aW5kL2JpbmQtOS4xOC45L21ha2UtZXRjLWluaXRkLWJpbmQtc3RvcC13b3JrLnBhdGNoCnNpbWls
+YXJpdHkgaW5kZXggMTAwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2Jp
+bmQvYmluZC05LjE4LjgvbWFrZS1ldGMtaW5pdGQtYmluZC1zdG9wLXdvcmsucGF0Y2gKcmVuYW1l
+IHRvIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kLTkuMTguOS9tYWtlLWV0Yy1p
+bml0ZC1iaW5kLXN0b3Atd29yay5wYXRjaApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5l
+Y3Rpdml0eS9iaW5kL2JpbmQtOS4xOC44L25hbWVkLnNlcnZpY2UgYi9tZXRhL3JlY2lwZXMtY29u
+bmVjdGl2aXR5L2JpbmQvYmluZC05LjE4LjkvbmFtZWQuc2VydmljZQpzaW1pbGFyaXR5IGluZGV4
+IDEwMCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmQtOS4x
+OC44L25hbWVkLnNlcnZpY2UKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmlu
+ZC9iaW5kLTkuMTguOS9uYW1lZC5zZXJ2aWNlCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29u
+bmVjdGl2aXR5L2JpbmQvYmluZF85LjE4LjguYmIgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5
+L2JpbmQvYmluZF85LjE4LjkuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZyb20gbWV0
+YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmRfOS4xOC44LmJiCnJlbmFtZSB0byBtZXRh
+L3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZF85LjE4LjkuYmIKaW5kZXggNDkyNWMwOTJj
+Ny4uMTYwOTg2ZWI1MyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5k
+L2JpbmRfOS4xOC44LmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5k
+XzkuMTguOS5iYgpAQCAtMjAsNyArMjAsNyBAQCBTUkNfVVJJID0gImh0dHBzOi8vZnRwLmlzYy5v
+cmcvaXNjL2JpbmQ5LyR7UFZ9LyR7QlBOfS0ke1BWfS50YXIueHogXAogICAgICAgICAgICBmaWxl
+Oi8vMDAwMS1hdm9pZC1zdGFydC1mYWlsdXJlLXdpdGgtYmluZC11c2VyLnBhdGNoIFwKICAgICAg
+ICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMGUzYzNhYjkzNzhkYjg0YmEwZjM3MDcz
+ZDY3YmExMjVhZTRmMmZmOGRhZjM2NmM5ZGIyODdlM2YxYjJjMzVmMCIKK1NSQ19VUklbc2hhMjU2
+c3VtXSA9ICI2YTk2NjU5OThkNTY4NjA0NDYwZGYwOTE4ZmM4Y2NmYWQ3ZDI5Mzg4ZDRkODQyNTYw
+YzA1NmNjMjExY2JiMjQzIgogCiBVUFNUUkVBTV9DSEVDS19VUkkgPSAiaHR0cHM6Ly9mdHAuaXNj
+Lm9yZy9pc2MvYmluZDkvIgogIyBmb2xsb3cgdGhlIEVTViB2ZXJzaW9ucyBkaXZpc2libGUgYnkg
+MgotLSAKMi4zMS4xCgo=
 
---===============2157861690533087477==--
+--===============5925238546835188968==--
 
