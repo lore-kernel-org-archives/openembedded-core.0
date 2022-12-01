@@ -2,76 +2,58 @@ Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABF04C47088
-	for <webhook@archiver.kernel.org>; Thu,  1 Dec 2022 16:05:24 +0000 (UTC)
-Received: from mailout05.t-online.de (mailout05.t-online.de [194.25.134.82])
- by mx.groups.io with SMTP id smtpd.web11.47954.1669910715534507491
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F7E8C43217
+	for <webhook@archiver.kernel.org>; Thu,  1 Dec 2022 16:09:05 +0000 (UTC)
+Received: from mailout09.t-online.de (mailout09.t-online.de [194.25.134.84])
+ by mx.groups.io with SMTP id smtpd.web10.48010.1669910937013402823
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Dec 2022 08:05:15 -0800
+ Thu, 01 Dec 2022 08:08:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.82, mailfrom: f_l_k@t-online.de)
-Received: from fwd85.dcpf.telekom.de (fwd85.aul.t-online.de [10.223.144.111])
-	by mailout05.t-online.de (Postfix) with SMTP id A6BE51B119
-	for <openembedded-core@lists.openembedded.org>; Thu,  1 Dec 2022 17:04:40 +0100 (CET)
-Received: from flk-MS-7C91.fritz.box ([84.163.47.248]) by fwd85.t-online.de
+ dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.84, mailfrom: f_l_k@t-online.de)
+Received: from fwd82.dcpf.telekom.de (fwd82.aul.t-online.de [10.223.144.108])
+	by mailout09.t-online.de (Postfix) with SMTP id 1FE46861C;
+	Thu,  1 Dec 2022 17:08:55 +0100 (CET)
+Received: from [192.168.178.83] ([84.163.47.248]) by fwd82.t-online.de
 	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1p0m3E-1OnxDN0; Thu, 1 Dec 2022 17:04:40 +0100
+	esmtp id 1p0m7K-0TOa9o0; Thu, 1 Dec 2022 17:08:54 +0100
+Date: Thu, 01 Dec 2022 17:08:48 +0100
 From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Markus Volk <f_l_k@t-online.de>
-Subject: [oe-core][PATCHv10 1/4] graphene: import from meta-oe
-Date: Thu,  1 Dec 2022 17:04:30 +0100
-Message-Id: <20221201160433.111286-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.34.1
+Subject: Re: [oe-core][PATCHv9 2/4] gtk4: import recipe from meta-gnome
+To: alexandre.belloni@bootlin.com
+Cc: openembedded-core@lists.openembedded.org
+Message-Id: <OIZ7MR.VM2Q4UMI1AIU3@t-online.de>
+In-Reply-To: <Y4jERD8ExQRQOfq1@mail.local>
+References: <20221201075324.353632-1-f_l_k@t-online.de>
+	<20221201075324.353632-2-f_l_k@t-online.de> <Y4iNKi5QtUlRdzrW@mail.local>
+	<Y4jERD8ExQRQOfq1@mail.local>
+X-Mailer: geary/40.0
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1669910680-2D8B7EA1-1CE9CD11/0/0 CLEAN NORMAL
-X-TOI-MSGID: 228461f0-4974-44dd-810f-ad9b9a33a4d4
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/alternative; boundary="=-eK0bXSgZ1HmqyMjdn5kS"
+X-TOI-EXPURGATEID: 150726::1669910934-E7FDB07E-AEBFD988/0/0 CLEAN NORMAL
+X-TOI-MSGID: d43c6fd0-0202-4021-b7f4-0aaa5d7ed643
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 16:05:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174195
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 16:09:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174197
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
----
- .../graphene/graphene_1.10.8.bb               | 22 +++++++++++++++++++
- 1 file changed, 22 insertions(+)
- create mode 100644 meta/recipes-graphics/graphene/graphene_1.10.8.bb
+--=-eK0bXSgZ1HmqyMjdn5kS
+Content-Type: text/plain; charset=us-ascii; format=flowed
 
-diff --git a/meta/recipes-graphics/graphene/graphene_1.10.8.bb b/meta/rec=
-ipes-graphics/graphene/graphene_1.10.8.bb
-new file mode 100644
-index 0000000000..813ff74adf
---- /dev/null
-+++ b/meta/recipes-graphics/graphene/graphene_1.10.8.bb
-@@ -0,0 +1,22 @@
-+SUMMARY =3D "A thin layer of graphic data types"
-+HOMEPAGE =3D "http://ebassi.github.io/graphene/"
-+LICENSE =3D "MIT"
-+LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3Da7d871d9e23c450c421a85bb2=
-819f648"
-+
-+GNOMEBASEBUILDCLASS =3D "meson"
-+
-+inherit gnomebase gobject-introspection gtk-doc
-+
-+SRC_URI[archive.sha256sum] =3D "a37bb0e78a419dcbeaa9c7027bcff52f5ec2367c=
-25ec859da31dfde2928f279a"
-+
-+# gtk4 & mutter 41.0 requires graphene build with introspection
-+PACKAGECONFIG ?=3D "introspection"
-+PACKAGECONFIG[introspection] =3D "-Dintrospection=3Denabled,-Dintrospect=
-ion=3Ddisabled,"
-+
-+GTKDOC_MESON_OPTION =3D "gtk_doc"
-+
-+EXTRA_OEMESON =3D "-Dinstalled_tests=3Dfalse"
-+
-+FILES:${PN} +=3D "${libdir}/graphene-1.0"
-+
-+BBCLASSEXTEND =3D "native nativesdk"
---=20
-2.34.1
+Am Do, 1. Dez 2022 um 16:12:04 +0100 schrieb Alexandre Belloni via 
+lists.openembedded.org 
+<alexandre.belloni=bootlin.com@lists.openembedded.org>:
+> ../gcr-4.0.0/docs/meson.build:1:0: ERROR: Program 'gi-docgen' not 
+> found or not executable
+
+Added a PACKAGECONFIG for iso-codes install and made sure i was able to 
+create doc for gcr
+
+
+--=-eK0bXSgZ1HmqyMjdn5kS
+Content-Type: text/html; charset=us-ascii
+
+<div id="geary-body" dir="auto">Am Do, 1. Dez 2022 um 16:12:04 +0100 schrieb Alexandre Belloni via lists.openembedded.org &lt;alexandre.belloni=bootlin.com@lists.openembedded.org&gt;:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">../gcr-4.0.0/docs/meson.build:1:0: ERROR: Program 'gi-docgen' not found or not executable</div></blockquote><div><br></div><div>Added a PACKAGECONFIG for iso-codes install and made sure i was able to create doc for gcr</div></div>
+--=-eK0bXSgZ1HmqyMjdn5kS--
 
 
