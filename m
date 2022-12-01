@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D84D8C64E70
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E295FC64E78
 	for <webhook@archiver.kernel.org>; Thu,  1 Dec 2022 15:30:33 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.46765.1669908625785666644
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.46816.1669908626212915941
  for <openembedded-core@lists.openembedded.org>;
  Thu, 01 Dec 2022 07:30:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=L8TMVKas;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010184ce4f7d7a-c07d97cc-89ea-4814-92dc-e04543e0af9e-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=AK2QdrcZ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010184ce4f7a06-2bc16b0d-44c3-4799-aab4-4fef464e16c7-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1669908627;
+	t=1669908626;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=UEwvb4G0T1RwuEkcNdEibdNZ8Gp1ivsNTaDOOWwcclw=;
-	b=L8TMVKas3QSs4/S1JI5KUi2DKE8dlvNIRlI399aNYnewbqRPKHGc2XLS6Fl514VT
-	UVDNmNvbz0zM0kVBVz4KbRq6fxydt99g86/GoyKxAGym3cTeOKKq2xyOnGg+2W1tv3M
-	j+i3DgpV7f4qSeu4pybJQ2D6L0tmfQVp4EQG9LBc=
+	bh=3hzdFzrPZS/EElZgaCU9kdertKy1guzevt/TlOoJbsQ=;
+	b=AK2QdrcZWec1KEqcjQ2yxNMKvLq3JKSPRFC3Kn1Lq/KDZPhRTTBNzVZ9e1ZJAbWB
+	NHQn++YMYqNWbsWmPm51WCcctfVyjavenhCUxLfZJZOftBzK7I4uz64hfbnaGAaVMUx
+	//Qh5QNDLXj0X0gSjKM3XeQlmCQ1jIbyyGSqbDLg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1669908627;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1669908626;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=UEwvb4G0T1RwuEkcNdEibdNZ8Gp1ivsNTaDOOWwcclw=;
-	b=FCz5/x1esbAf1cnfgC6BqoXKHwGN3F+AIpfevbl3DHsVKqzXJ/8JLi/iRj0JWzGY
-	7toLva1e4Hk3rDH61EZ+smtGM99pXAPJPfIel6vEyJQekzb81YjOKhIpLLWdFsjTcvk
-	whRCPCHoPQn/YPCBX8BLq39JmtCDgYUftDNUFLZY=
-Content-Type: multipart/mixed; boundary="===============7172946310595865858=="
+	bh=3hzdFzrPZS/EElZgaCU9kdertKy1guzevt/TlOoJbsQ=;
+	b=A8qrzsAyqXD+QoDOS9GTlfDB8NmS3F/knzBi404wxkEZvrrsF4XvsKITFF3nLZnk
+	aoT0USXNMXqtEtBfO3dlrN4weReKTErlDEXV9FXKD6MCnubrLuCA1lHhUXwNj8Z+hCk
+	pIcE5ptqITXjxswo8Zi8Pc3aglYFzrQ+GNKQzdGc=
+Content-Type: multipart/mixed; boundary="===============5057908370203827465=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] acpica: upgrading to 20221022 FAILED
-Message-ID: <01010184ce4f7d7a-c07d97cc-89ea-4814-92dc-e04543e0af9e-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-mako: upgrading to 1.2.4 SUCCEEDED
+Message-ID: <01010184ce4f7a06-2bc16b0d-44c3-4799-aab4-4fef464e16c7-000000@us-west-2.amazonses.com>
 Date: Thu, 1 Dec 2022 15:30:26 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.12.01-54.240.27.45
+X-SES-Outgoing: 2022.12.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 15:30:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174155
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174152
 
---===============7172946310595865858==
+--===============5057908370203827465==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,91 +50,89 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *acpica* to *20221022* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *python3-mako* to *1.2.4* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-mako-upgrade-1.2.3-1.2.4.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade acpica -V 20221022
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1668 entries from dependency cache.
-
-Summary: There was 1 WARNING message.
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:cadde942b835f83aeff25aea9199210307eb3547"
-workspace            = "master:a0dcf93bc919757b23a52597eacb1777df4adf24"
-
-Initialising tasks...done.
-Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 19 (100% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1668 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 889 .bb files complete (887 cached, 2 parsed). 1669 targets, 36 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 WARNING message.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:cadde942b835f83aeff25aea9199210307eb3547"
-workspace            = "master:a0dcf93bc919757b23a52597eacb1777df4adf24"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-WARNING: Failed to fetch URL https://acpica.org/sites/acpica/files/acpica-unix-20221022.tar.gz, attempting MIRRORS if available
-NOTE: Tasks Summary: Attempted 1 tasks of which 0 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://acpica.org/sites/acpica/files/acpica-unix-20221022.tar.gz...
-ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-6bl22vt3/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-6bl22vt3/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-6bl22vt3/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-6bl22vt3/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-6bl22vt3/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-6bl2
- 2vt3/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 --passive-ftp -O /home/pokybuild/yocto-worker/auh/build/build/build/downloads/acpica-unix-20221022.tar.gz.tmp -P /home/pokybuild/yocto-worker/auh/build/build/build/downloads 'https://acpica.org/sites/acpica/files/acpica-unix-20221022.tar.gz' --progress=dot -v failed with exit code 8, no output
-ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://acpica.org/sites/acpica/files/acpica-unix-20221022.tar.gz')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-6bl22vt3/work/temp/log.do_fetch.2590438
-ERROR: Failed to fetch URL https://acpica.org/sites/acpica/files/acpica-unix-20221022.tar.gz
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============7172946310595865858==--
+--===============5057908370203827465==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/python3-mako: PKGV changed from 1.2.3 [default] to 1.2.4 [default]
+packages/core2-32-poky-linux/python3-mako: SRC_URI changed from "https://files.pythonhosted.org/packages/source/M/Mako/Mako-1.2.3.tar.gz" to "https://files.pythonhosted.org/packages/source/M/Mako/Mako-1.2.4.tar.gz"
+packages/core2-32-poky-linux/python3-mako: PV changed from "1.2.3" to "1.2.4"
+packages/core2-32-poky-linux/python3-mako/python3-mako-dbg: PKGV changed from 1.2.3 [default] to 1.2.4 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-dbg: PV changed from "1.2.3" to "1.2.4"
+packages/core2-32-poky-linux/python3-mako/python3-mako-dev: PKGV changed from 1.2.3 [default] to 1.2.4 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-dev: PV changed from "1.2.3" to "1.2.4"
+packages/core2-32-poky-linux/python3-mako/python3-mako-doc: PKGV changed from 1.2.3 [default] to 1.2.4 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-doc: PV changed from "1.2.3" to "1.2.4"
+packages/core2-32-poky-linux/python3-mako/python3-mako-locale: PKGV changed from 1.2.3 [default] to 1.2.4 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-locale: PV changed from "1.2.3" to "1.2.4"
+packages/core2-32-poky-linux/python3-mako/python3-mako-src: PKGV changed from 1.2.3 [default] to 1.2.4 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-src: PV changed from "1.2.3" to "1.2.4"
+packages/core2-32-poky-linux/python3-mako/python3-mako-staticdev: PKGV changed from 1.2.3 [default] to 1.2.4 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-staticdev: PV changed from "1.2.3" to "1.2.4"
+packages/core2-32-poky-linux/python3-mako/python3-mako: PKGV changed from 1.2.3 [default] to 1.2.4 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako: PKGSIZE changed from 665085 to 665368 (+0%)
+packages/core2-32-poky-linux/python3-mako/python3-mako: PV changed from "1.2.3" to "1.2.4"
+Changes to packages/core2-32-poky-linux/python3-mako (sysroot):
+  /usr/lib/python3.11/site-packages/Mako-1.2.3.dist-info moved to /usr/lib/python3.11/site-packages/Mako-1.2.4.dist-info
+
+--===============5057908370203827465==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-32-poky-linux/python3-mako (sysroot):
+  /usr/lib/python3.11/site-packages/Mako-1.2.3.dist-info moved to /usr/lib/python3.11/site-packages/Mako-1.2.4.dist-info
+
+--===============5057908370203827465==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-mako-upgrade-1.2.3-1.2.4.patch"
+
+RnJvbSA3N2VmMTEwNGY5YWQ4MTM0MzVmNTlmYTUwYzQ0NWRhODhlYjUxYTg0IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMSBEZWMgMjAyMiAwOTozNjoxMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtbWFrbzogdXBncmFkZSAxLjIuMyAtPiAxLjIuNAoKLS0tCiAuLi4vcHl0aG9uL3tweXRo
+b24zLW1ha29fMS4yLjMuYmIgPT4gcHl0aG9uMy1tYWtvXzEuMi40LmJifSAgICAgfCAyICstCiAx
+IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLW1ha29fMS4yLjMuYmIgPT4gcHl0aG9u
+My1tYWtvXzEuMi40LmJifSAoODUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9weXRob24vcHl0aG9uMy1tYWtvXzEuMi4zLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvbi9weXRob24zLW1ha29fMS4yLjQuYmIKc2ltaWxhcml0eSBpbmRleCA4NSUKcmVuYW1lIGZy
+b20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW1ha29fMS4yLjMuYmIKcmVu
+YW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1tYWtvXzEuMi40LmJi
+CmluZGV4IDEyYWNmZWU3NzcuLjk4NjAwNTg3MjMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9weXRob24vcHl0aG9uMy1tYWtvXzEuMi4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9weXRob24vcHl0aG9uMy1tYWtvXzEuMi40LmJiCkBAIC04LDcgKzgsNyBAQCBQWVBJ
+X1BBQ0tBR0UgPSAiTWFrbyIKIAogaW5oZXJpdCBweXBpIHB5dGhvbl9zZXR1cHRvb2xzX2J1aWxk
+X21ldGEKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjdmZGU5NjQ2NmZjZmVlZGIwZWVkOTRmMTg3
+ZjIwYjIzZDg1ZTRjYjQxNDQ0YmUwZTU0MmUyYzhjNjVjMzk2Y2QiCitTUkNfVVJJW3NoYTI1NnN1
+bV0gPSAiZDYwYTM5MDNkYzNiYjAxYTE4YWQ2YTg5Y2RiZTJlNGVhZGM2OWMwYmM4ZWYxZTM3NzNi
+YTUzZDQ0YzNmN2EzNCIKIAogUkRFUEVORFM6JHtQTn0gPSAiJHtQWVRIT05fUE59LWh0bWwgXAog
+ICAgICAgICAgICAgICAgICAgJHtQWVRIT05fUE59LW1hcmt1cHNhZmUgXAotLSAKMi4zMS4xCgo=
+
+--===============5057908370203827465==--
 
