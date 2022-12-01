@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 693A3C64EC9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53876C64EC3
 	for <webhook@archiver.kernel.org>; Thu,  1 Dec 2022 15:30:34 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.46811.1669908625663220456
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.46817.1669908626228612075
  for <openembedded-core@lists.openembedded.org>;
  Thu, 01 Dec 2022 07:30:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=mt4eaY4V;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010184ce4f752e-eefb4ad0-06b1-47fa-a3e9-77b27eb3576f-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=AdcI9NyE;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010184ce4f77f5-c07008bc-e6c9-4334-bc85-693d87d5e4a4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1669908624;
+	t=1669908625;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=gpBGCBDGlCwcbUkP4bCCnb1A+r7gni6YOvGpNYAPO6M=;
-	b=mt4eaY4V4ub1JKYBqjnACWB146ZnHYA9p6U/BoGjcXYBohh0WJ/MOUPrcIJu+QdQ
-	RaFie944gqv1vixK05LJbzGdzUKzvrkd+QhDGXcrtYxSfTzBduUWVqbmxwTzml5GKKg
-	fMDz1nXlkhwclqw7mwtIMsDl8H/cXBsf2wy3BUH8=
+	bh=sAc8sFzNlAvJ//7aR9sZKe14bdXFv9mI/5aIYYlO4F4=;
+	b=AdcI9NyE5OJiKacorJqfyOnMg8Anv04Mt0FchyFy5XxWiqyh2AqXFbe4JU4CPtok
+	Q+hPAEdpKP0ckB6mFDjCnJ2VYdTuhZH9wX1PLK67F2yPt5o0oQ7IOAEGNKjra7f42wu
+	J92TVmNaKWDE0qKWiRnaqfdx98io3p03bbiNRD4w=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1669908624;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1669908625;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=gpBGCBDGlCwcbUkP4bCCnb1A+r7gni6YOvGpNYAPO6M=;
-	b=g3oFUWX/7W5Hruo5hWxTNSZhcJ/c8yMuCfGFu5PWWVDWF6LSkaBxAsEh40DMOp6+
-	wcTktsXANzTlCSaIa95tB5wfdanLrnrHAXlw2st2jXc6n0cU9qlqqwVC4WvBAa0pPwc
-	ZKvSexBEcoZYyhA1iHfLDQ3dH4c9z7i0e0nmSPuo=
-Content-Type: multipart/mixed; boundary="===============7186812941014963544=="
+	bh=sAc8sFzNlAvJ//7aR9sZKe14bdXFv9mI/5aIYYlO4F4=;
+	b=SetBprn4TSor7izLGLFvbBM3bwlZTGgRCbYkmC0hhNT339uZel6h2V7sB0JwY5+f
+	Xi9juWWlIQyGZoBnz7cEyoil0zpHnsyHV+VGUmvyk21g/pBMWmK0vKr6gGt5gwYGTsY
+	Nb/sHhpWpeBXn/VMHlhVGflJSvFWszyITPCtgE4c=
+Content-Type: multipart/mixed; boundary="===============2157861690533087477=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Wang Mingyu <wangmy@fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] glib-2.0: upgrading to 2.74.2 SUCCEEDED
-Message-ID: <01010184ce4f752e-eefb4ad0-06b1-47fa-a3e9-77b27eb3576f-000000@us-west-2.amazonses.com>
-Date: Thu, 1 Dec 2022 15:30:24 +0000
+Subject: [AUH] btrfs-tools: upgrading to 6.0.2 SUCCEEDED
+Message-ID: <01010184ce4f77f5-c07008bc-e6c9-4334-bc85-693d87d5e4a4-000000@us-west-2.amazonses.com>
+Date: Thu, 1 Dec 2022 15:30:25 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.12.01-54.240.27.193
+X-SES-Outgoing: 2022.12.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 15:30:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174127
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174133
 
---===============7186812941014963544==
+--===============2157861690533087477==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *glib-2.0* to *2.74.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *btrfs-tools* to *6.0.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-glib-2.0-upgrade-2.74.1-2.74.2.patch
+    - apply the patch: git am 0001-btrfs-tools-upgrade-6.0.1-6.0.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,353 +69,674 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7186812941014963544==
-Content-Type: application/octet-stream
+--===============2157861690533087477==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-glib-2.0-upgrade-2.74.1-2.74.2.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
 
-RnJvbSA0MTg0NGUyMmEwMjg5MjViNzBjZDk1ZjhjZWNkMmNmNmU2MGY5MWIzIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBEZWMgMjAyMiAwNzozNjoyNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGds
-aWItMi4wOiB1cGdyYWRlIDIuNzQuMSAtPiAyLjc0LjIKCi0tLQogbWV0YS9yZWNpcGVzLWNvcmUv
-Z2xpYi0yLjAvZ2xpYi0yLjAvcmVsb2NhdGUtbW9kdWxlcy5wYXRjaCAgICB8IDQgKystLQogLi4u
-L2dsaWItMi4wL3tnbGliLTIuMF8yLjc0LjEuYmIgPT4gZ2xpYi0yLjBfMi43NC4yLmJifSAgICAg
-ICB8IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygt
-KQogcmVuYW1lIG1ldGEvcmVjaXBlcy1jb3JlL2dsaWItMi4wL3tnbGliLTIuMF8yLjc0LjEuYmIg
-PT4gZ2xpYi0yLjBfMi43NC4yLmJifSAoOTYlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1j
-b3JlL2dsaWItMi4wL2dsaWItMi4wL3JlbG9jYXRlLW1vZHVsZXMucGF0Y2ggYi9tZXRhL3JlY2lw
-ZXMtY29yZS9nbGliLTIuMC9nbGliLTIuMC9yZWxvY2F0ZS1tb2R1bGVzLnBhdGNoCmluZGV4IDc3
-MjNhYzY2NzIuLjM0ZmRlZWM2MjQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2dsaWIt
-Mi4wL2dsaWItMi4wL3JlbG9jYXRlLW1vZHVsZXMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNv
-cmUvZ2xpYi0yLjAvZ2xpYi0yLjAvcmVsb2NhdGUtbW9kdWxlcy5wYXRjaApAQCAtMSw0ICsxLDQg
-QEAKLUZyb20gMGRhMGI2MDhmZGJiMTQ0YzM5MjI1MjMzY2JkZDg5OTk1Yjc2OTA0YiBNb24gU2Vw
-IDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNTFjNzhkYmY0ZWVjNzcyMjEzNGMwZTViZDlmZDhmZGVh
-ODhhMDRiOCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFJvc3MgQnVydG9uIDxyb3Nz
-LmJ1cnRvbkBpbnRlbC5jb20+CiBEYXRlOiBGcmksIDExIE1hciAyMDE2IDE1OjM1OjU1ICswMDAw
-CiBTdWJqZWN0OiBbUEFUQ0hdIGdsaWItMi4wOiByZWxvY2F0ZSB0aGUgR0lPIG1vZHVsZSBkaXJl
-Y3RvcnkgZm9yIG5hdGl2ZSBidWlsZHMKQEAgLTE5LDcgKzE5LDcgQEAgU2lnbmVkLW9mZi1ieTog
-SnVzc2kgS3Vra29uZW4gPGp1c3NpLmt1a2tvbmVuQGludGVsLmNvbT4KICAxIGZpbGUgY2hhbmdl
-ZCwgMTEgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvZ2lvL2dp
-b21vZHVsZS5jIGIvZ2lvL2dpb21vZHVsZS5jCi1pbmRleCBmNWRiYjQ1NTUuLmM5MjZlNzdhOCAx
-MDA2NDQKK2luZGV4IGY1ZGJiNDUuLmM5MjZlNzcgMTAwNjQ0CiAtLS0gYS9naW8vZ2lvbW9kdWxl
-LmMKICsrKyBiL2dpby9naW9tb2R1bGUuYwogQEAgLTU4LDYgKzU4LDggQEAKZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1jb3JlL2dsaWItMi4wL2dsaWItMi4wXzIuNzQuMS5iYiBiL21ldGEvcmVj
-aXBlcy1jb3JlL2dsaWItMi4wL2dsaWItMi4wXzIuNzQuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDk2
-JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29yZS9nbGliLTIuMC9nbGliLTIuMF8yLjc0LjEu
-YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb3JlL2dsaWItMi4wL2dsaWItMi4wXzIuNzQuMi5i
-YgppbmRleCA4ZmQ3ODVhN2ZkLi5kMTBkNmFjNzFmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
-Y29yZS9nbGliLTIuMC9nbGliLTIuMF8yLjc0LjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUv
-Z2xpYi0yLjAvZ2xpYi0yLjBfMi43NC4yLmJiCkBAIC0yMSw3ICsyMSw3IEBAIFNSQ19VUkkgPSAi
-JHtHTk9NRV9NSVJST1J9L2dsaWIvJHtTSFJUX1ZFUn0vZ2xpYi0ke1BWfS50YXIueHogXAogICAg
-ICAgICAgICAiCiBTUkNfVVJJOmFwcGVuZDpjbGFzcy1uYXRpdmUgPSAiIGZpbGU6Ly9yZWxvY2F0
-ZS1tb2R1bGVzLnBhdGNoIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMGFiOTgxNjE4ZDFkYjQ3
-ODQ1ZTU2NDE3YjBkN2MxMjNmODFhMzQyN2IyYjljOTNmNWE0NmZmNWJiYjk2NDk2NCIKK1NSQ19V
-Uklbc2hhMjU2c3VtXSA9ICJkZGYwM2U5YmM3ZWE1NzE3ZWYzYzJmNzdjMDcxNDkxM2ExNzI2YWRj
-MGJmM2U4MjQ3Y2Y0MTQ3NTI4NGVjN2JjIgogCiAjIEZpbmQgYW55IG1lc29uIGNyb3NzIGZpbGVz
-IGluIEZJTEVTUEFUSCB0aGF0IGFyZSByZWxldmFudCBmb3IgdGhlIGN1cnJlbnQKICMgYnVpbGQg
-KHVzaW5nIHNpdGVpbmZvKSBhbmQgYWRkIHRoZW0gdG8gRVhUUkFfT0VNRVNPTi4KLS0gCjIuMzEu
-MQoK
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 888 .bb files complete (0 cached, 888 parsed). 1668 targets, 54 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the cortexa15t2hf-neon sysroot...done.
+Removing 1 recipes from the qemuarm sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============7186812941014963544==
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "arm-poky-linux-gnueabi"
+MACHINE              = "qemuarm"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
+TARGET_FPU           = "hard"
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:47599a284a727b5e8159ee6d5f0cacaca71912c6"
+workspace            = "master:a0dcf93bc919757b23a52597eacb1777df4adf24"
+
+Initialising tasks...done.
+Sstate summary: Wanted 15 Local 4 Mirrors 0 Missed 11 Current 299 (26% match, 96% complete)
+NOTE: Executing Tasks
+NOTE: Running setscene task 300 of 314 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_packagedata_setscene)
+NOTE: Running setscene task 301 of 314 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_populate_sysroot_setscene)
+NOTE: Running task 790 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_fetch)
+NOTE: Running task 926 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_fetch)
+NOTE: recipe libxcrypt-4.4.30-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxcrypt-4.4.30-r0: task do_packagedata_setscene: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_fetch: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_fetch: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_fetch: Succeeded
+NOTE: Running task 1089 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_unpack)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_fetch: Succeeded
+NOTE: Running task 1090 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_unpack)
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/libxcrypt/4.4.30-r0/temp/log.do_packagedata_setscene.796009
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 313 of 314 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_package_setscene)
+NOTE: recipe libxcrypt-4.4.30-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_unpack: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_unpack: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1091 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_patch)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_patch: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_unpack: Succeeded
+NOTE: Running task 1092 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_patch)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_patch: Succeeded
+NOTE: Running task 1093 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1094 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_populate_lic)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_patch: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_lic: Started
+NOTE: recipe libxcrypt-4.4.30-r0: task do_package_setscene: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_populate_lic unihash changed to d3c2cee66dd3b2efaf102a4cafeb60dbfebeb3c35e94dfa1e0fc45415d050854
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxcrypt-4.4.30-r0: task do_package_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1122 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1126 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_packagedata)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_patch: Succeeded
+NOTE: Running task 1143 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxcrypt-4.4.30-r0: task do_packagedata: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxcrypt-4.4.30-r0: task do_packagedata: Succeeded
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1155 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_configure)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure: Succeeded
+NOTE: Running task 1156 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_configure_ptest_base)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure_ptest_base: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1157 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_compile)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile: Succeeded
+NOTE: Running task 1158 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_compile_ptest_base)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile_ptest_base: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1159 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_install)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_install: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_install: Succeeded
+NOTE: Running task 1160 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_install_ptest_base)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_install_ptest_base: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1161 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_populate_sysroot)
+NOTE: Running task 1162 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_package)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_package: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_populate_sysroot: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1163 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1164 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_configure)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_configure: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_configure: Succeeded
+NOTE: Running task 1165 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_compile)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_compile: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_package: Succeeded
+NOTE: Running task 1166 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_packagedata)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_packagedata: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_packagedata: Succeeded
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_compile: Succeeded
+NOTE: Running task 1167 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_install)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_install: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_install: Succeeded
+NOTE: Running task 1168 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_package)
+NOTE: Running task 1169 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_populate_sysroot)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_sysroot: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_package: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_package: Succeeded
+NOTE: Running task 1170 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_packagedata)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_packagedata: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 1171 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_package_write_rpm)
+NOTE: Running task 1172 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_package_qa)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_write_rpm: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_qa: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_qa: Succeeded
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1173 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_build)
+NOTE: Tasks Summary: Attempted 1173 tasks of which 1143 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: There was 1 WARNING message.
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-src went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-dbg went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-staticdev went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-dev went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-doc went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-locale went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============2157861690533087477==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-bash-completion: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-bash-completion: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-codegen: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-codegen: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-dbg: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-dbg: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-dbg: FILELIST: removed "/usr/lib/.debug/libgmodule-2.0.so.0.7400.1 /usr/lib/.debug/libgio-2.0.so.0.7400.1 /usr/lib/.debug/libgthread-2.0.so.0.7400.1 /usr/share/gdb/auto-load/usr/lib/libgobject-2.0.so.0.7400.1-gdb.py /usr/lib/.debug/libglib-2.0.so.0.7400.1 /usr/lib/.debug/libgobject-2.0.so.0.7400.1 /usr/share/gdb/auto-load/usr/lib/libglib-2.0.so.0.7400.1-gdb.py", added "/usr/lib/.debug/libgio-2.0.so.0.7400.2 /usr/lib/.debug/libglib-2.0.so.0.7400.2 /usr/lib/.debug/libgobject-2.0.so.0.7400.2 /usr/lib/.debug/libgthread-2.0.so.0.7400.2 /usr/share/gdb/auto-load/usr/lib/libglib-2.0.so.0.7400.2-gdb.py /usr/lib/.debug/libgmodule-2.0.so.0.7400.2 /usr/share/gdb/auto-load/usr/lib/libgobject-2.0.so.0.7400.2-gdb.py"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-dbg: PKGSIZE changed from 18215580 to 18223912 (+0%)
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-dev: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-dev: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-dev: PKGSIZE changed from 2371925 to 2371957 (+0%)
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-doc: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-doc: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ab: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ab: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ab: PKGSIZE changed from 10614 to 10816 (+2%)
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-af: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-af: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-am: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-am: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-an: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-an: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ar: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ar: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-as: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-as: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ast: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ast: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-az: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-az: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-be+latin: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-be+latin: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-be: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-be: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-bg: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-bg: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-bn-in: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-bn-in: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-bn: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-bn: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-bs: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-bs: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ca+valencia: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ca+valencia: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ca: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ca: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-cs: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-cs: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-cy: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-cy: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-da: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-da: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-de: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-de: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-dz: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-dz: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-el: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-el: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-en+shaw: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-en+shaw: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-en-ca: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-en-ca: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-en-gb: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-en-gb: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-eo: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-eo: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-es: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-es: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-et: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-et: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-eu: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-eu: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-fa: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-fa: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-fi: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-fi: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-fr: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-fr: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-fur: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-fur: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ga: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ga: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-gd: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-gd: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-gl: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-gl: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-gu: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-gu: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-he: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-he: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-hi: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-hi: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-hr: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-hr: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-hu: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-hu: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-hy: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-hy: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-id: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-id: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-is: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-is: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-it: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-it: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ja: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ja: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ka: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ka: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-kk: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-kk: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-kn: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-kn: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ko: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ko: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ku: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ku: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-lt: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-lt: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-lv: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-lv: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-mai: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-mai: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-mg: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-mg: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-mk: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-mk: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ml: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ml: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-mn: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-mn: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-mr: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-mr: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ms: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ms: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-nb: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-nb: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-nds: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-nds: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ne: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ne: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-nl: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-nl: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-nl: PKGSIZE changed from 89126 to 89647 (+1%)
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-nn: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-nn: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-oc: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-oc: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-or: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-or: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-pa: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-pa: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-pl: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-pl: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ps: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ps: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-pt-br: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-pt-br: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-pt: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-pt: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ro: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ro: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ru: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ru: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-rw: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-rw: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-si: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-si: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sk: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sk: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sl: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sl: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sq: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sq: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sr+ije: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sr+ije: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sr+latin: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sr+latin: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sr: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sr: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sr: PKGSIZE changed from 175669 to 174641 (-1%)
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sv: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sv: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ta: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ta: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-te: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-te: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-tg: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-tg: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-th: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-th: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-tl: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-tl: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-tr: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-tr: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-tt: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-tt: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ug: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ug: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-uk: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-uk: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-vi: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-vi: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-wa: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-wa: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-xh: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-xh: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-yi: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-yi: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-zh-cn: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-zh-cn: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-zh-hk: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-zh-hk: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-zh-tw: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-zh-tw: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-ptest: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-ptest: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-src: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-src: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-src: PKGSIZE changed from 23189699 to 23198683 (+0%)
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-staticdev: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-staticdev: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-utils: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-utils: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0: FILELIST: removed "/usr/lib/libgthread-2.0.so.0.7400.1 /usr/lib/libgio-2.0.so.0.7400.1 /usr/lib/libglib-2.0.so.0.7400.1 /usr/lib/libgobject-2.0.so.0.7400.1 /usr/lib/libgmodule-2.0.so.0.7400.1", added "/usr/lib/libgmodule-2.0.so.0.7400.2 /usr/lib/libglib-2.0.so.0.7400.2 /usr/lib/libgobject-2.0.so.0.7400.2 /usr/lib/libgthread-2.0.so.0.7400.2 /usr/lib/libgio-2.0.so.0.7400.2"
-packages/core2-32-poky-linux/glib-2.0: PKGV changed from 2.74.1 [default] to 2.74.2 [default]
-packages/core2-32-poky-linux/glib-2.0: PV changed from "2.74.1" to "2.74.2"
-packages/core2-32-poky-linux/glib-2.0: SRC_URI changed from "https://download.gnome.org/sources//glib/2.74/glib-2.74.1.tar.xz file://run-ptest file://0001-Fix-DATADIRNAME-on-uclibc-Linux.patch file://0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch file://0001-Install-gio-querymodules-as-libexec_PROGRAM.patch file://0010-Do-not-hardcode-python-path-into-various-tools.patch file://0001-Set-host_machine-correctly-when-building-with-mingw3.patch file://0001-Do-not-write-bindir-into-pkg-config-files.patch file://0001-meson-Run-atomics-test-on-clang-as-well.patch file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch file://0001-gio-tests-g-file-info-don-t-assume-million-in-one-ev.patch file://0001-gio-tests-meson.build-do-not-use-can_run_host_binari.patch file://cpp-null.patch file://cpp-null2.patch" to "https://download.gnome.org/sources//glib/2.74/glib-2.74.2.tar.xz file://run-ptest file://0001-Fix-DATADIRNAME-on-uclibc-Linux.patch file://0001-Remove-the-
- warning-about-deprecated-paths-in-schemas.patch file://0001-Install-gio-querymodules-as-libexec_PROGRAM.patch file://0010-Do-not-hardcode-python-path-into-various-tools.patch file://0001-Set-host_machine-correctly-when-building-with-mingw3.patch file://0001-Do-not-write-bindir-into-pkg-config-files.patch file://0001-meson-Run-atomics-test-on-clang-as-well.patch file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch file://0001-gio-tests-g-file-info-don-t-assume-million-in-one-ev.patch file://0001-gio-tests-meson.build-do-not-use-can_run_host_binari.patch file://cpp-null.patch file://cpp-null2.patch"
-Changes to packages/core2-32-poky-linux/glib-2.0 (sysroot):
-  /usr/lib/libgio-2.0.so.0 changed symlink target from libgio-2.0.so.0.7400.1 to libgio-2.0.so.0.7400.2
-  /usr/lib/libglib-2.0.so.0 changed symlink target from libglib-2.0.so.0.7400.1 to libglib-2.0.so.0.7400.2
-  /usr/lib/libgmodule-2.0.so.0 changed symlink target from libgmodule-2.0.so.0.7400.1 to libgmodule-2.0.so.0.7400.2
-  /usr/lib/libgobject-2.0.so.0 changed symlink target from libgobject-2.0.so.0.7400.1 to libgobject-2.0.so.0.7400.2
-  /usr/lib/libgthread-2.0.so.0 changed symlink target from libgthread-2.0.so.0.7400.1 to libgthread-2.0.so.0.7400.2
-  /usr/lib/libgio-2.0.so.0.7400.1 moved to /usr/lib/libgio-2.0.so.0.7400.2
-  /usr/lib/libglib-2.0.so.0.7400.1 moved to /usr/lib/libglib-2.0.so.0.7400.2
-  /usr/lib/libgmodule-2.0.so.0.7400.1 moved to /usr/lib/libgmodule-2.0.so.0.7400.2
-  /usr/lib/libgobject-2.0.so.0.7400.1 moved to /usr/lib/libgobject-2.0.so.0.7400.2
-  /usr/lib/libgthread-2.0.so.0.7400.1 moved to /usr/lib/libgthread-2.0.so.0.7400.2
-  /usr/share/gdb/auto-load/usr/lib/libglib-2.0.so.0.7400.1-gdb.py moved to /usr/share/gdb/auto-load/usr/lib/libglib-2.0.so.0.7400.2-gdb.py
-  /usr/share/gdb/auto-load/usr/lib/libgobject-2.0.so.0.7400.1-gdb.py moved to /usr/share/gdb/auto-load/usr/lib/libgobject-2.0.so.0.7400.2-gdb.py
-Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
-  /usr/lib/libgio-2.0.so.0 changed symlink target from libgio-2.0.so.0.7400.1 to libgio-2.0.so.0.7400.2
-  /usr/lib/libglib-2.0.so.0 changed symlink target from libglib-2.0.so.0.7400.1 to libglib-2.0.so.0.7400.2
-  /usr/lib/libgmodule-2.0.so.0 changed symlink target from libgmodule-2.0.so.0.7400.1 to libgmodule-2.0.so.0.7400.2
-  /usr/lib/libgobject-2.0.so.0 changed symlink target from libgobject-2.0.so.0.7400.1 to libgobject-2.0.so.0.7400.2
-  /usr/lib/libgthread-2.0.so.0 changed symlink target from libgthread-2.0.so.0.7400.1 to libgthread-2.0.so.0.7400.2
-  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.74.1-r0/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.7400.1-gdb.py moved to /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.74.2-r0/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.7400.2-gdb.py
-  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.74.1-r0/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.7400.1-gdb.py moved to /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.74.2-r0/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.7400.2-gdb.py
-  /usr/lib/libgio-2.0.so.0.7400.1 moved to /usr/lib/libgio-2.0.so.0.7400.2
-  /usr/lib/libglib-2.0.so.0.7400.1 moved to /usr/lib/libglib-2.0.so.0.7400.2
-  /usr/lib/libgmodule-2.0.so.0.7400.1 moved to /usr/lib/libgmodule-2.0.so.0.7400.2
-  /usr/lib/libgobject-2.0.so.0.7400.1 moved to /usr/lib/libgobject-2.0.so.0.7400.2
-  /usr/lib/libgthread-2.0.so.0.7400.1 moved to /usr/lib/libgthread-2.0.so.0.7400.2
-  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.74.1-r0 moved to /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.74.2-r0
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGV changed from 6.0.1 [default] to 6.0.2 [default]
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGSIZE changed from 17282872 to 17318148 (+0%)
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dbg: PV changed from "6.0.1" to "6.0.2"
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dev: PKGV changed from 6.0.1 [default] to 6.0.2 [default]
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dev: PV changed from "6.0.1" to "6.0.2"
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-doc: PKGV changed from 6.0.1 [default] to 6.0.2 [default]
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-doc: PV changed from "6.0.1" to "6.0.2"
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-locale: PKGV changed from 6.0.1 [default] to 6.0.2 [default]
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-locale: PV changed from "6.0.1" to "6.0.2"
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-src: FILELIST: directory renamed /usr/src/debug/btrfs-tools/6.0.1-r0/common -> /usr/src/debug/btrfs-tools/6.0.2-r0/common, directory renamed /usr/src/debug/btrfs-tools/6.0.1-r0/cmds -> /usr/src/debug/btrfs-tools/6.0.2-r0/cmds, directory renamed /usr/src/debug/btrfs-tools/6.0.1-r0/convert -> /usr/src/debug/btrfs-tools/6.0.2-r0/convert, directory renamed /usr/src/debug/btrfs-tools/6.0.1-r0/image -> /usr/src/debug/btrfs-tools/6.0.2-r0/image, directory renamed /usr/src/debug/btrfs-tools/6.0.1-r0 -> /usr/src/debug/btrfs-tools/6.0.2-r0, directory renamed /usr/src/debug/btrfs-tools/6.0.1-r0/crypto -> /usr/src/debug/btrfs-tools/6.0.2-r0/crypto, directory renamed /usr/src/debug/btrfs-tools/6.0.1-r0/kernel-shared -> /usr/src/debug/btrfs-tools/6.0.2-r0/kernel-shared, directory renamed /usr/src/debug/btrfs-tools/6.0.1-r0/mkfs -> /usr/src/debug/btrfs-tools/6.0.2-r0/mkfs, directory renamed /usr/src/debug/btrfs-tools/6.0.1-r0/libbtrfs -> /usr/src
+ /debug/btrfs-tools/6.0.2-r0/libbtrfs, directory renamed /usr/src/debug/btrfs-tools/6.0.1-r0/libbtrfsutil -> /usr/src/debug/btrfs-tools/6.0.2-r0/libbtrfsutil, directory renamed /usr/src/debug/btrfs-tools/6.0.1-r0/libbtrfsutil/python -> /usr/src/debug/btrfs-tools/6.0.2-r0/libbtrfsutil/python, directory renamed /usr/src/debug/btrfs-tools/6.0.1-r0/check -> /usr/src/debug/btrfs-tools/6.0.2-r0/check, removed "/usr/src/debug/btrfs-tools/6.0.1-r0/kernel-lib/rbtree.c /usr/src/debug/btrfs-tools/6.0.1-r0/kernel-lib/overflow.h /usr/src/debug/btrfs-tools/6.0.1-r0/kernel-lib/rbtree_types.h /usr/src/debug/btrfs-tools/6.0.1-r0/kernel-lib/rbtree_augmented.h /usr/src/debug/btrfs-tools/6.0.1-r0/kernel-lib/list.h /usr/src/debug/btrfs-tools/6.0.1-r0/kernel-lib/raid56.h /usr/src/debug/btrfs-tools/6.0.1-r0/kernel-lib/bitops.h /usr/src/debug/btrfs-tools/6.0.1-r0/kernel-lib/raid56.c /usr/src/debug/btrfs-tools/6.0.1-r0/kernel-lib/rbtree.h /usr/src/debug/btrfs-tools/6.0.1-r0/kernel-lib/list_sort.c /usr/src/de
+ bug/btrfs-tools/6.0.1-r0/kernel-lib/list_sort.h /usr/src/debug/btrfs-tools/6.0.1-r0/kernel-lib/tables.c", added "/usr/src/debug/btrfs-tools/6.0.2-r0/kernel-lib/list_sort.h /usr/src/debug/btrfs-tools/6.0.2-r0/kernel-lib/raid56.h /usr/src/debug/btrfs-tools/6.0.2-r0/kernel-lib/bitmap.h /usr/src/debug/btrfs-tools/6.0.2-r0/kernel-lib/list.h /usr/src/debug/btrfs-tools/6.0.2-r0/kernel-lib/rbtree_types.h /usr/src/debug/btrfs-tools/6.0.2-r0/kernel-lib/list_sort.c /usr/src/debug/btrfs-tools/6.0.2-r0/kernel-lib/raid56.c /usr/src/debug/btrfs-tools/6.0.2-r0/kernel-lib/bitops.h /usr/src/debug/btrfs-tools/6.0.2-r0/kernel-lib/rbtree_augmented.h /usr/src/debug/btrfs-tools/6.0.2-r0/kernel-lib/overflow.h /usr/src/debug/btrfs-tools/6.0.2-r0/kernel-lib/rbtree.h /usr/src/debug/btrfs-tools/6.0.2-r0/kernel-lib/tables.c /usr/src/debug/btrfs-tools/6.0.2-r0/kernel-lib/rbtree.c"
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-src: PKGV changed from 6.0.1 [default] to 6.0.2 [default]
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-src: PKGSIZE changed from 3656541 to 3662686 (+0%)
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-src: PV changed from "6.0.1" to "6.0.2"
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-staticdev: PKGV changed from 6.0.1 [default] to 6.0.2 [default]
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-staticdev: PV changed from "6.0.1" to "6.0.2"
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools: PKGV changed from 6.0.1 [default] to 6.0.2 [default]
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools: PKGSIZE changed from 6119474 to 6127698 (+0%)
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools: PV changed from "6.0.1" to "6.0.2"
+packages/core2-32-poky-linux/btrfs-tools: PKGV changed from 6.0.1 [default] to 6.0.2 [default]
+packages/core2-32-poky-linux/btrfs-tools: PV changed from "6.0.1" to "6.0.2"
+Changes to packages/core2-32-poky-linux/btrfs-tools (sysroot):
+  /usr/lib/python3.11/site-packages/btrfsutil-6.0.1-py3.11.egg-info moved to /usr/lib/python3.11/site-packages/btrfsutil-6.0.2-py3.11.egg-info
 
---===============7186812941014963544==
+--===============2157861690533087477==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1670 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 888 .bb files complete (887 cached, 1 parsed). 1668 targets, 36 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:47599a284a727b5e8159ee6d5f0cacaca71912c6"
+workspace            = "master:a0dcf93bc919757b23a52597eacb1777df4adf24"
+
+Initialising tasks...done.
+Sstate summary: Wanted 15 Local 4 Mirrors 0 Missed 11 Current 299 (26% match, 96% complete)
+NOTE: Executing Tasks
+NOTE: Running setscene task 300 of 314 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_packagedata_setscene)
+NOTE: Running setscene task 301 of 314 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_populate_sysroot_setscene)
+NOTE: Running task 790 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_fetch)
+NOTE: Running task 926 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_fetch)
+NOTE: recipe libxcrypt-4.4.30-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcrypt-4.4.30-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_fetch: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_fetch: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_fetch: Succeeded
+NOTE: Running task 1089 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_unpack)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_fetch: Succeeded
+NOTE: Running task 1090 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_unpack)
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/libxcrypt/4.4.30-r0/temp/log.do_packagedata_setscene.777429
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 313 of 314 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_package_setscene)
+NOTE: recipe libxcrypt-4.4.30-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_unpack: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_unpack: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1091 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_patch)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_patch: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_unpack: Succeeded
+NOTE: Running task 1092 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_patch)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_patch: Succeeded
+NOTE: Running task 1093 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1094 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_populate_lic)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_lic: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_patch: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxcrypt-4.4.30-r0: task do_package_setscene: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_populate_lic unihash changed to d3c2cee66dd3b2efaf102a4cafeb60dbfebeb3c35e94dfa1e0fc45415d050854
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxcrypt-4.4.30-r0: task do_package_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1122 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1126 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_packagedata)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_patch: Succeeded
+NOTE: Running task 1143 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxcrypt-4.4.30-r0: task do_packagedata: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxcrypt-4.4.30-r0: task do_packagedata: Succeeded
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1155 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_configure)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure: Succeeded
+NOTE: Running task 1156 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_configure_ptest_base)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure_ptest_base: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1157 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_compile)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile: Succeeded
+NOTE: Running task 1158 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_compile_ptest_base)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile_ptest_base: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1159 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_install)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_install: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_install: Succeeded
+NOTE: Running task 1160 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_install_ptest_base)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_install_ptest_base: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1161 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_populate_sysroot)
+NOTE: Running task 1162 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_package)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_populate_sysroot: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_package: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1163 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1164 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_configure)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_configure: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_configure: Succeeded
+NOTE: Running task 1165 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_compile)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_compile: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_package: Succeeded
+NOTE: Running task 1166 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_packagedata)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_packagedata: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_packagedata: Succeeded
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_compile: Succeeded
+NOTE: Running task 1167 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_install)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_install: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_install: Succeeded
+NOTE: Running task 1168 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_package)
+NOTE: Running task 1169 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_populate_sysroot)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_package: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_sysroot: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_package: Succeeded
+NOTE: Running task 1170 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_packagedata)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_packagedata: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 1171 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_package_write_rpm)
+NOTE: Running task 1172 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_package_qa)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_write_rpm: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_qa: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_qa: Succeeded
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1173 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_build)
+NOTE: Tasks Summary: Attempted 1173 tasks of which 1143 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: There was 1 WARNING message.
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-src went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-dbg went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-staticdev went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-dev went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-doc went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-locale went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============2157861690533087477==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/glib-2.0/glib-2.0: FILELIST: removed "/usr/lib/libglib-2.0.so.0.7400.1 /usr/lib/libgthread-2.0.so.0.7400.1 /usr/lib/libgobject-2.0.so.0.7400.1 /usr/lib/libgio-2.0.so.0.7400.1 /usr/lib/libgmodule-2.0.so.0.7400.1", added "/usr/lib/libgmodule-2.0.so.0.7400.2 /usr/lib/libgobject-2.0.so.0.7400.2 /usr/lib/libgthread-2.0.so.0.7400.2 /usr/lib/libgio-2.0.so.0.7400.2 /usr/lib/libglib-2.0.so.0.7400.2"
-Changes to packages/core2-32-poky-linux/glib-2.0 (sysroot):
-  /usr/lib/libgio-2.0.so.0 changed symlink target from libgio-2.0.so.0.7400.1 to libgio-2.0.so.0.7400.2
-  /usr/lib/libglib-2.0.so.0 changed symlink target from libglib-2.0.so.0.7400.1 to libglib-2.0.so.0.7400.2
-  /usr/lib/libgmodule-2.0.so.0 changed symlink target from libgmodule-2.0.so.0.7400.1 to libgmodule-2.0.so.0.7400.2
-  /usr/lib/libgobject-2.0.so.0 changed symlink target from libgobject-2.0.so.0.7400.1 to libgobject-2.0.so.0.7400.2
-  /usr/lib/libgthread-2.0.so.0 changed symlink target from libgthread-2.0.so.0.7400.1 to libgthread-2.0.so.0.7400.2
-  /usr/lib/libgio-2.0.so.0.7400.1 moved to /usr/lib/libgio-2.0.so.0.7400.2
-  /usr/lib/libglib-2.0.so.0.7400.1 moved to /usr/lib/libglib-2.0.so.0.7400.2
-  /usr/lib/libgmodule-2.0.so.0.7400.1 moved to /usr/lib/libgmodule-2.0.so.0.7400.2
-  /usr/lib/libgobject-2.0.so.0.7400.1 moved to /usr/lib/libgobject-2.0.so.0.7400.2
-  /usr/lib/libgthread-2.0.so.0.7400.1 moved to /usr/lib/libgthread-2.0.so.0.7400.2
-  /usr/share/gdb/auto-load/usr/lib/libglib-2.0.so.0.7400.1-gdb.py moved to /usr/share/gdb/auto-load/usr/lib/libglib-2.0.so.0.7400.2-gdb.py
-  /usr/share/gdb/auto-load/usr/lib/libgobject-2.0.so.0.7400.1-gdb.py moved to /usr/share/gdb/auto-load/usr/lib/libgobject-2.0.so.0.7400.2-gdb.py
-Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
-  /usr/lib/libgio-2.0.so.0 changed symlink target from libgio-2.0.so.0.7400.1 to libgio-2.0.so.0.7400.2
-  /usr/lib/libglib-2.0.so.0 changed symlink target from libglib-2.0.so.0.7400.1 to libglib-2.0.so.0.7400.2
-  /usr/lib/libgmodule-2.0.so.0 changed symlink target from libgmodule-2.0.so.0.7400.1 to libgmodule-2.0.so.0.7400.2
-  /usr/lib/libgobject-2.0.so.0 changed symlink target from libgobject-2.0.so.0.7400.1 to libgobject-2.0.so.0.7400.2
-  /usr/lib/libgthread-2.0.so.0 changed symlink target from libgthread-2.0.so.0.7400.1 to libgthread-2.0.so.0.7400.2
-  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.74.1-r0/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.7400.1-gdb.py moved to /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.74.2-r0/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.7400.2-gdb.py
-  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.74.1-r0/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.7400.1-gdb.py moved to /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.74.2-r0/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.7400.2-gdb.py
-  /usr/lib/libgio-2.0.so.0.7400.1 moved to /usr/lib/libgio-2.0.so.0.7400.2
-  /usr/lib/libglib-2.0.so.0.7400.1 moved to /usr/lib/libglib-2.0.so.0.7400.2
-  /usr/lib/libgmodule-2.0.so.0.7400.1 moved to /usr/lib/libgmodule-2.0.so.0.7400.2
-  /usr/lib/libgobject-2.0.so.0.7400.1 moved to /usr/lib/libgobject-2.0.so.0.7400.2
-  /usr/lib/libgthread-2.0.so.0.7400.1 moved to /usr/lib/libgthread-2.0.so.0.7400.2
-  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.74.1-r0 moved to /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.74.2-r0
+Changes to packages/core2-32-poky-linux/btrfs-tools (sysroot):
+  /usr/lib/python3.11/site-packages/btrfsutil-6.0.1-py3.11.egg-info moved to /usr/lib/python3.11/site-packages/btrfsutil-6.0.2-py3.11.egg-info
 
---===============7186812941014963544==--
+--===============2157861690533087477==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
+
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 888 .bb files complete (0 cached, 888 parsed). 1668 targets, 71 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the ppc7400 sysroot...done.
+Removing 1 recipes from the qemuppc sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "powerpc-poky-linux"
+MACHINE              = "qemuppc"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:47599a284a727b5e8159ee6d5f0cacaca71912c6"
+workspace            = "master:a0dcf93bc919757b23a52597eacb1777df4adf24"
+
+Initialising tasks...done.
+Sstate summary: Wanted 15 Local 4 Mirrors 0 Missed 11 Current 299 (26% match, 96% complete)
+NOTE: Executing Tasks
+NOTE: Running setscene task 300 of 314 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_packagedata_setscene)
+NOTE: Running setscene task 301 of 314 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_populate_sysroot_setscene)
+NOTE: Running task 790 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_fetch)
+NOTE: Running task 926 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_fetch)
+NOTE: recipe libxcrypt-4.4.30-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcrypt-4.4.30-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_fetch: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_fetch: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_fetch: Succeeded
+NOTE: Running task 1089 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_unpack)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_fetch: Succeeded
+NOTE: Running task 1090 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_unpack)
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/libxcrypt/4.4.30-r0/temp/log.do_packagedata_setscene.833278
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 313 of 314 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_package_setscene)
+NOTE: recipe libxcrypt-4.4.30-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_unpack: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_unpack: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1091 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_patch)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_patch: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_unpack: Succeeded
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_patch: Succeeded
+NOTE: Running task 1092 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_patch)
+NOTE: Running task 1093 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1094 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_populate_lic)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_lic: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_patch: Started
+NOTE: recipe libxcrypt-4.4.30-r0: task do_package_setscene: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_populate_lic unihash changed to d3c2cee66dd3b2efaf102a4cafeb60dbfebeb3c35e94dfa1e0fc45415d050854
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxcrypt-4.4.30-r0: task do_package_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1122 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1126 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_packagedata)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_patch: Succeeded
+NOTE: Running task 1143 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxcrypt-4.4.30-r0: task do_packagedata: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxcrypt-4.4.30-r0: task do_packagedata: Succeeded
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1155 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_configure)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure: Succeeded
+NOTE: Running task 1156 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_configure_ptest_base)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure_ptest_base: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1157 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_compile)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile: Succeeded
+NOTE: Running task 1158 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_compile_ptest_base)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile_ptest_base: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1159 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_install)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_install: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_install: Succeeded
+NOTE: Running task 1160 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_install_ptest_base)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_install_ptest_base: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1161 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_populate_sysroot)
+NOTE: Running task 1162 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_package)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_package: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_populate_sysroot: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1163 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1164 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_configure)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_configure: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_configure: Succeeded
+NOTE: Running task 1165 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_compile)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_compile: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_package: Succeeded
+NOTE: Running task 1166 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_packagedata)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_packagedata: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_packagedata: Succeeded
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_compile: Succeeded
+NOTE: Running task 1167 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_install)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_install: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_install: Succeeded
+NOTE: Running task 1168 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_package)
+NOTE: Running task 1169 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_populate_sysroot)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_package: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_sysroot: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_package: Succeeded
+NOTE: Running task 1170 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_packagedata)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_packagedata: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 1171 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_package_write_rpm)
+NOTE: Running task 1172 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_package_qa)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_write_rpm: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_qa: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_qa: Succeeded
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1173 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_build)
+NOTE: Tasks Summary: Attempted 1173 tasks of which 1143 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: There was 1 WARNING message.
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-src went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-dbg went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-staticdev went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-dev went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-doc went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-locale went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============2157861690533087477==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
+
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 888 .bb files complete (0 cached, 888 parsed). 1668 targets, 64 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the mips32r2 sysroot...done.
+Removing 1 recipes from the qemumips sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "mips-poky-linux"
+MACHINE              = "qemumips"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:47599a284a727b5e8159ee6d5f0cacaca71912c6"
+workspace            = "master:a0dcf93bc919757b23a52597eacb1777df4adf24"
+
+Initialising tasks...done.
+Sstate summary: Wanted 15 Local 4 Mirrors 0 Missed 11 Current 299 (26% match, 96% complete)
+NOTE: Executing Tasks
+NOTE: Running setscene task 300 of 314 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_packagedata_setscene)
+NOTE: Running setscene task 301 of 314 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_populate_sysroot_setscene)
+NOTE: Running task 790 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_fetch)
+NOTE: Running task 926 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_fetch)
+NOTE: recipe libxcrypt-4.4.30-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcrypt-4.4.30-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_fetch: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_fetch: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_fetch: Succeeded
+NOTE: Running task 1089 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_unpack)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_fetch: Succeeded
+NOTE: Running task 1090 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_unpack)
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/libxcrypt/4.4.30-r0/temp/log.do_packagedata_setscene.814543
+NOTE: recipe libxcrypt-4.4.30-r0: task do_populate_sysroot_setscene: Succeeded
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 313 of 314 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_package_setscene)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_unpack: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_unpack: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1091 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_patch)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_patch: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_unpack: Succeeded
+NOTE: Running task 1092 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_patch)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_patch: Succeeded
+NOTE: Running task 1093 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1094 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_populate_lic)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_patch: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_lic: Started
+NOTE: recipe libxcrypt-4.4.30-r0: task do_package_setscene: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_populate_lic unihash changed to d3c2cee66dd3b2efaf102a4cafeb60dbfebeb3c35e94dfa1e0fc45415d050854
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxcrypt-4.4.30-r0: task do_package_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1122 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1126 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb:do_packagedata)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_patch: Succeeded
+NOTE: Running task 1143 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxcrypt-4.4.30-r0: task do_packagedata: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxcrypt-4.4.30-r0: task do_packagedata: Succeeded
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1155 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_configure)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure: Succeeded
+NOTE: Running task 1156 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_configure_ptest_base)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure_ptest_base: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1157 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_compile)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile: Succeeded
+NOTE: Running task 1158 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_compile_ptest_base)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile_ptest_base: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1159 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_install)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_install: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_install: Succeeded
+NOTE: Running task 1160 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_install_ptest_base)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_install_ptest_base: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1161 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_populate_sysroot)
+NOTE: Running task 1162 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_package)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_package: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_populate_sysroot: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1163 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1164 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_configure)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_configure: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_configure: Succeeded
+NOTE: Running task 1165 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_compile)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_compile: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_package: Succeeded
+NOTE: Running task 1166 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb:do_packagedata)
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_packagedata: Started
+NOTE: recipe e2fsprogs-1.46.5-r0: task do_packagedata: Succeeded
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_compile: Succeeded
+NOTE: Running task 1167 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_install)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_install: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_install: Succeeded
+NOTE: Running task 1168 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_package)
+NOTE: Running task 1169 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_populate_sysroot)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_package: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_sysroot: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_package: Succeeded
+NOTE: Running task 1170 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_packagedata)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_packagedata: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 1171 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_package_write_rpm)
+NOTE: Running task 1172 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_package_qa)
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_write_rpm: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_qa: Started
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_qa: Succeeded
+NOTE: recipe btrfs-tools-6.0.2-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1173 of 1173 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb:do_build)
+NOTE: Tasks Summary: Attempted 1173 tasks of which 1143 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: There was 1 WARNING message.
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-src went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-dbg went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-staticdev went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-dev went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-doc went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt-locale went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: QA Issue: Package version for package libxcrypt went backwards which would break package feeds (from 0:4.4.33-r0 to 0:4.4.30-r0) [version-going-backwards]
+ERROR: libxcrypt-4.4.30-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============2157861690533087477==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-btrfs-tools-upgrade-6.0.1-6.0.2.patch"
+
+RnJvbSA2YmE5ZDY0YTJhOWU4N2Y3MzE1NDg2OTUwNTY0ZDhhMWIxNGI4NjhkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMSBEZWMgMjAyMiAwODowNDozNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGJ0
+cmZzLXRvb2xzOiB1cGdyYWRlIDYuMC4xIC0+IDYuMC4yCgotLS0KIC4uLi9idHJmcy10b29scy97
+YnRyZnMtdG9vbHNfNi4wLjEuYmIgPT4gYnRyZnMtdG9vbHNfNi4wLjIuYmJ9ICB8IDIgKy0KIDEg
+ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
+cmVjaXBlcy1kZXZ0b29scy9idHJmcy10b29scy97YnRyZnMtdG9vbHNfNi4wLjEuYmIgPT4gYnRy
+ZnMtdG9vbHNfNi4wLjIuYmJ9ICg5OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzXzYuMC4xLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzXzYuMC4yLmJiCnNpbWlsYXJpdHkgaW5kZXggOTgl
+CnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9idHJmcy10b29scy9idHJmcy10b29s
+c182LjAuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2J0cmZzLXRvb2xzL2J0
+cmZzLXRvb2xzXzYuMC4yLmJiCmluZGV4IDcxNDQwODdhMTEuLjg3MmZiYTZiNmQgMTAwNjQ0Ci0t
+LSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9idHJmcy10b29scy9idHJmcy10b29sc182LjAuMS5i
+YgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHNfNi4w
+LjIuYmIKQEAgLTE4LDcgKzE4LDcgQEAgREVQRU5EUyA9ICJ1dGlsLWxpbnV4IHpsaWIiCiBTUkNf
+VVJJID0gImdpdDovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9rZGF2
+ZS9idHJmcy1wcm9ncy5naXQ7YnJhbmNoPW1hc3RlciBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAx
+LUFkZC1hLXBvc3NpYmlsaXR5LXRvLXNwZWNpZnktd2hlcmUtcHl0aG9uLW1vZHVsZXMtYXIucGF0
+Y2ggXAogICAgICAgICAgICAiCi1TUkNSRVYgPSAiNDQxZDAxNTU2ODczMzg1ZDU1ZmQ0OTQwZjUw
+ZWU3YWUxZmNmYjEzZCIKK1NSQ1JFViA9ICJmZjk2NGJhNmFlZjk4YmQxYmFmZThmZjliMDA4ODUw
+MWIzMGJkZDI3IgogUyA9ICIke1dPUktESVJ9L2dpdCIKIAogUEFDS0FHRUNPTkZJRyA/Pz0gIiBc
+Ci0tIAoyLjMxLjEKCg==
+
+--===============2157861690533087477==--
 
