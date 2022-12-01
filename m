@@ -2,131 +2,142 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60F68C47088
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CB44C4321E
 	for <webhook@archiver.kernel.org>; Thu,  1 Dec 2022 14:28:12 +0000 (UTC)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web11.44919.1669904865204756937
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web11.44940.1669904889070158994
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Dec 2022 06:28:03 -0800
+ Thu, 01 Dec 2022 06:28:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=lBhrmHO7;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f182.google.com with SMTP id 136so1821659pga.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 06:28:03 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=cFr8IETd;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f181.google.com with SMTP id y4so1803646plb.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 06:28:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=03jrrJ1rvIokgXJc2Q1Z9w3J3D8XIOOW+EvIBSEf0Y4=;
-        b=lBhrmHO7fYv/HuOsgQzanLaZoMf5VpzngdyxkfKlSk7nXBwu47PTxTL9jQJA7O6yig
-         rKo7rlCPvowqT/I8Zvqvw3kSSn9hYGZhm8ihi58362ZCEtorQyWweEu2SUm0WY6sl6Gc
-         ZQqTg6facsktrQQidsAp48ZY+d6Et2ofqSL3f5Hz4e7N5XnrSG2ftWh51F2hKCCNrMH2
-         27Ajau73n7E5rTTUKCnzLs94UudmweGUZaXLWXxUkwVbqU6ChAC63Qh3+UnKx+qWHFbW
-         1tm/FRqNovR7dwegKFgVke0vLjcjlLlkxparJEuwQp02WY3UXIMvv0vAfQiTRVl6Hmue
-         j6HA==
+        bh=J4iAb9RzJjivxQAz+bpDbiGIqE2zFbAK3qkIU89jR3c=;
+        b=cFr8IETdp4oxG6ztKJ6jyxVSeq8P6UaZVzrqafmMoBW9D/j2D7tcgVPvtU1NkMvsdC
+         RhfH27LoX39HawEpg3ry11xomz1nuxWK1ksE76iOkjq/9L6sWK8iHMwPeOpwTHPXfcRl
+         pYGwRw0GTWXKse+e3ga6DY+rLLR6/1ebCcuanM6JmY4IepMve4qSpYZlTO3U6WFdr8OO
+         TmSwaj8Xt+ydvgZ68hakI3Sc86RQp0wy5Qx6aN6+8dgjUQh/hbg/rcOxfpCX3hYQTpRM
+         T4OPWlJhhWy6eOfXtlsZLMTipZZQLNuNgb0XXEM0sbkdSBhwcmgqwTO6nEdbbcK2H7tU
+         QyeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=03jrrJ1rvIokgXJc2Q1Z9w3J3D8XIOOW+EvIBSEf0Y4=;
-        b=SJ6sjk39RQaqPdjVDfQYN6NOVF9T3GtqSi31hbKUvIe61sqkhDBIq/Mymuee2YTpEv
-         taj1XVUTDbxJHhHvCUK3LLCpur6UVrlohMiiKM+N0QmVGd7exDbJIMWIjm87jMv+UNPl
-         ppQCVMdyAeWpM+XoJVkAV0Nm88Pj6YrZSpLl9bmA720mZ8dfUKDkyXNT4yE/kdLMO9zL
-         /dh60a5bhfU2JX0XuxIKG7EDFQWRr7WqhZa7s3RNyLwkZeG80XBigCE13XR1EkUcAIba
-         TqS+4tSm6T/qO2ntxJ0bDNlOweidsYWv8480+QpZeAibwgkQJxzj7guD7PvLVZNBsImZ
-         r3mQ==
-X-Gm-Message-State: ANoB5pk8wOOcymVgiYn7Uzr2ZMoNedcNH3zMu5oKYbcY0o1F7aiGYRVS
-	OotU1MS0EPGHBelEVXAqDGY0MMHlDNuhF2A6nUE=
-X-Google-Smtp-Source: AA0mqf6x0wtPdOzm694EJgEQFYh4JRWKv1I/HmGJYrASwUJP4rbPjTGnd8aKuiJattDb+SbONTuTOg==
-X-Received: by 2002:a05:6a00:1696:b0:537:b0c3:691 with SMTP id k22-20020a056a00169600b00537b0c30691mr47345447pfc.59.1669904881966;
-        Thu, 01 Dec 2022 06:28:01 -0800 (PST)
+        bh=J4iAb9RzJjivxQAz+bpDbiGIqE2zFbAK3qkIU89jR3c=;
+        b=zObduNKWautxOvaq3ngS37NMBKcvkP33buECbdCADHxXujHnsew6RWOsQqMr+kj1IO
+         HIwEzGBQ60m5gopWbCa8n0yBbqAjt8Xgp1HFLs2Mnpw9kV2/0EWILB8f4OJrMFQZAkQ8
+         ybowKXActdBVSs4AvlCi0yj/Gtu9vqS6iWVzB3iTuSIf+I5rrlLco0+RpfyXXFubd0FR
+         FubjyhQg302JyYU8S2L2OVeaN9tw89kVeBa2EwKA0QhLv9ZLeH72K7jxTJv5J9jZJuf/
+         mhI2dJtPDgZ25eGy62KXRXYmHMmAZTdjgvar98OCnoiySRD67SBo8kkxKCXKIwHQBCPR
+         uqIg==
+X-Gm-Message-State: ANoB5pn66Ipt9bYdQYNzeYDuBQB9fmPGOy0yoQtKb2tOZv2367Wm9S+O
+	5G1rmliJA1U/DGP+s8f+E3wN6sVnobsuhIlzW9s=
+X-Google-Smtp-Source: AA0mqf6GdhUzNw2Js7CgHCuR93Mj1g3bPxYS4It0tAP4K/nJBUXoGUAhoieOG+/VoCpN5RdrhozWFQ==
+X-Received: by 2002:a17:90a:1090:b0:212:f52e:55c9 with SMTP id c16-20020a17090a109000b00212f52e55c9mr75822239pja.56.1669904888110;
+        Thu, 01 Dec 2022 06:28:08 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id b14-20020a17090a6ace00b00218e8a0d7f0sm4908308pjm.22.2022.12.01.06.28.00
+        by smtp.gmail.com with ESMTPSA id b14-20020a17090a6ace00b00218e8a0d7f0sm4908308pjm.22.2022.12.01.06.28.07
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Dec 2022 06:28:01 -0800 (PST)
+        Thu, 01 Dec 2022 06:28:07 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 17/23] kernel.bbclass: make KERNEL_DEBUG_TIMESTAMPS work at rebuild
-Date: Thu,  1 Dec 2022 04:27:11 -1000
-Message-Id: <640ac18b2daed698adbf849a5aef55f5de9e5db5.1669904703.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 20/23] sstatesig: emit more helpful error message when not finding sstate manifest
+Date: Thu,  1 Dec 2022 04:27:14 -1000
+Message-Id: <cb4ad96a5d71c0a7e7a24fe12f12c2fbe06ae119.1669904703.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1669904703.git.steve@sakoman.com>
 References: <cover.1669904703.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 14:28:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174103
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174106
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Enrico Jörns <ejo@pengutronix.de>
 
-Currently, the KERNEL_DEBUG_TIMESTAMPS is not working as expected
-at rebuild. That is, even if we set it to "1", the kernel build time
-is not changed. The problem could be reproduced by the following steps.
-  1. bitbake core-image-minimal; start image and check `uname -a` output.
-  2. set in local.conf: KERNEL_DEBUG_TIMESTAMPS = "1"
-  3. bitbake core-image-minimal; start image and check `uname -a` output.
+Since oe-core commit 64b89f3c8fc31842256c482a3039d90d3f12c1cc
+("sstatesig.py: make it fatal error when sstate manifest isn't found")
+errors like:
 
-It's expected that after enabling KERNEL_DEBUG_TIMESTAMPS, the kernel
-build time will be set to current date. But it's not. This is because
-the compile.h was not re-generated when do_compile task was re-executed.
+| Manifest [..]/tmp/sstate-control/manifest-x86_64_x86_64-nativesdk-dbus.populate_sysroot not found in imx8mm_dummy cortexa53-mx8mm cortexa53 armv8a-crc armv8a aarch64 allarch x86_64_x86_64-nativesdk (variant '')?
 
-In mkcompile_h, we have:
-"""
- # Only replace the real compile.h if the new one is different,
- # in order to preserve the timestamp and avoid unnecessary
- # recompilations.
- # We don't consider the file changed if only the date/time changed,
- # unless KBUILD_BUILD_TIMESTAMP was explicitly set (e.g. for
- # reproducible builds with that value referring to a commit timestamp).
- # A kernel config change will increase the generation number, thus
- # causing compile.h to be updated (including date/time) due to the
- # changed comment in the
- # first line.
-"""
-It has made it very clear that it will not be re-generated unless
-we have KBUILD_BUILD_TIMESTAMP set explicitly. So we set this variable
-explicitly in do_compile to fix this issue.
+are fatal now and cannot be ignored but must be debugged.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Unfortunately, the currently emitted error message is a bit imprecise
+with telling the reader what has actually gone wrong.
+
+This commit:
+
+* adds the word 'sstate' to the error message to clarify the scope we
+  are dealing with ('sstate manifests', since there are other manifests,
+  too)
+* does not randomly print the last manifest file searched for as THE
+  manifest file that could not be found
+  Instead, we print the name of the task the sstate was searched for
+* adds the word 'multilib' to variant to make clear which variant we are
+  talking about
+* adds a separate line noting the searched pkgarchs and adds explicitly
+  mentions this word ('pkgarchs')
+* prints a list of ALL manifest file locations attempted
+* removes the '?' at the end of the message since such errors indeed
+  leave the question of what is the cause but the error message itself
+  is more like a statement.
+
+The result for the exact same issue as noted above then looks as
+follows:
+
+| The sstate manifest for task 'dbus:populate_sysroot' (multilib variant '') could not be found.
+| The pkgarchs considered were: imx8mm_dummy, cortexa53-mx8mm, cortexa53, armv8a-crc, armv8a, aarch64, allarch, x86_64_x86_64-nativesdk.
+| But none of these manifests exists:
+|     [..]/tmp/sstate-control/manifest-imx8mm_dummy-dbus.populate_sysroot
+|     [..]/tmp/sstate-control/manifest-cortexa53-mx8mm-dbus.populate_sysroot
+|     [..]/tmp/sstate-control/manifest-cortexa53-dbus.populate_sysroot
+|     [..]/tmp/sstate-control/manifest-armv8a-crc-dbus.populate_sysroot
+|     [..]/tmp/sstate-control/manifest-armv8a-dbus.populate_sysroot
+|     [..]/tmp/sstate-control/manifest-aarch64-dbus.populate_sysroot
+|     [..]/tmp/sstate-control/manifest-allarch-dbus.populate_sysroot
+|     [..]/tmp/sstate-control/manifest-x86_64_x86_64-nativesdk-dbus.populate_sysroot
+
+Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 1b68c2d2d385013a1c535ef81172494302a36d74)
+(cherry picked from commit 735ec126ec219c7cb89cb05b0e433201bb7f59eb)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/kernel.bbclass | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ meta/lib/oe/sstatesig.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index ad2b296c2d..3e7264fb98 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -361,6 +361,10 @@ kernel_do_compile() {
- 		export KBUILD_BUILD_TIMESTAMP="$ts"
- 		export KCONFIG_NOTIMESTAMP=1
- 		bbnote "KBUILD_BUILD_TIMESTAMP: $ts"
-+	else
-+		ts=`LC_ALL=C date`
-+		export KBUILD_BUILD_TIMESTAMP="$ts"
-+		bbnote "KBUILD_BUILD_TIMESTAMP: $ts"
- 	fi
- 	# The $use_alternate_initrd is only set from
- 	# do_bundle_initramfs() This variable is specifically for the
-@@ -406,6 +410,10 @@ do_compile_kernelmodules() {
- 		export KBUILD_BUILD_TIMESTAMP="$ts"
- 		export KCONFIG_NOTIMESTAMP=1
- 		bbnote "KBUILD_BUILD_TIMESTAMP: $ts"
-+	else
-+		ts=`LC_ALL=C date`
-+		export KBUILD_BUILD_TIMESTAMP="$ts"
-+		bbnote "KBUILD_BUILD_TIMESTAMP: $ts"
- 	fi
- 	if (grep -q -i -e '^CONFIG_MODULES=y$' ${B}/.config); then
- 		oe_runmake -C ${B} ${PARALLEL_MAKE} modules ${KERNEL_EXTRA_ARGS}
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index f5a77bea27..bbe28efa81 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -467,11 +467,15 @@ def find_sstate_manifest(taskdata, taskdata2, taskname, d, multilibcache):
+         pkgarchs.append('allarch')
+         pkgarchs.append('${SDK_ARCH}_${SDK_ARCH}-${SDKPKGSUFFIX}')
+ 
++    searched_manifests = []
++
+     for pkgarch in pkgarchs:
+         manifest = d2.expand("${SSTATE_MANIFESTS}/manifest-%s-%s.%s" % (pkgarch, taskdata, taskname))
+         if os.path.exists(manifest):
+             return manifest, d2
+-    bb.fatal("Manifest %s not found in %s (variant '%s')?" % (manifest, d2.expand(" ".join(pkgarchs)), variant))
++        searched_manifests.append(manifest)
++    bb.fatal("The sstate manifest for task '%s:%s' (multilib variant '%s') could not be found.\nThe pkgarchs considered were: %s.\nBut none of these manifests exists:\n    %s"
++            % (taskdata, taskname, variant, d2.expand(", ".join(pkgarchs)),"\n    ".join(searched_manifests)))
+     return None, d2
+ 
+ def OEOuthashBasic(path, sigfile, task, d):
 -- 
 2.25.1
 
