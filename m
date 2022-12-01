@@ -2,46 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EEF4C4708E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 758DEC63709
 	for <webhook@archiver.kernel.org>; Thu,  1 Dec 2022 15:30:33 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.46782.1669908629064558680
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.46777.1669908628298195860
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Dec 2022 07:30:29 -0800
+ Thu, 01 Dec 2022 07:30:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=OZPNr6mq;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010184ce4f821c-51435851-c5be-42d8-9d16-6149cc1f833c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=MnJz+gMp;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010184ce4f8045-94554de5-8b32-48d7-8605-2a03535da9a3-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1669908628;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=FBNfVwj+mU7utQYeQRGyyTKJtiTvSDmvABeDcLTHrMo=;
-	b=OZPNr6mq8PQNvRYI9m/Lqxote59Q+5hn29tzYiaaGHKVOrS3hgdLXU32fz0dW2mU
-	udYRmt3Z5NMaZYi4QD4eX0qIhdup46Z0PxaEODnNaQKbCXvBITKkEyMJXuNLAJm34rl
-	1hGNvUKjZKSe7cmKf7RqWpNWW+NXqRX9rYhyajUc=
+	t=1669908627;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=uqbitXd/mWviKxDcoj4JAfMnBMAMYHdDcVWE6px49fc=;
+	b=MnJz+gMpamy9eUa8eVelTAxrCTdk/yvEVyGmbu0pLlzr1g4VLS98M8E3PhpRrQ/E
+	9WaxxevhumSiOzpFsyk1QoMKjJsYPMI5Kmj2KdOEOXMzvb6CIOAbU0nU+WWNVNsRwvj
+	lcnR15BGknCZY+2QH/bCuyDptWeltFG0EgEWjtxk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1669908628;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=FBNfVwj+mU7utQYeQRGyyTKJtiTvSDmvABeDcLTHrMo=;
-	b=K71+5aa3i28iB2m4xf1zilZzMsd3rggYX3kJGzzs6ZAPo969ZeKzf10q3YAqNwot
-	ctPahiHDyPtv8Y0rGIDdYw9fR82waZ3jsroNSoCwhSvwPXK4RUH6TwwnPVp4jQ7Qc+K
-	e27h0xgFhfc7uW/D6CMkEZvof1+O9OEcUSb8TNDg=
-Content-Type: multipart/mixed; boundary="===============4024262680690965498=="
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1669908627;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=uqbitXd/mWviKxDcoj4JAfMnBMAMYHdDcVWE6px49fc=;
+	b=ccqCD8ZZjNWvpCovtnr3QL5dX7B83yp8sFp6G79z904iQs0NBl8sva/xbYXAE2gO
+	j2Abs16DaPpBFlO3B0OsDaY5lha25qpfTCbem19gquTVuLo0hss6o96aplpjOjzjiUL
+	RQW/fZNdzcAdYMcNRr8rpC3bPD4NCsV+rUwPAfrc=
+Content-Type: multipart/mixed; boundary="===============7445412062628246820=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] libxft: upgrading to 2.3.7 SUCCEEDED
-Message-ID: <01010184ce4f821c-51435851-c5be-42d8-9d16-6149cc1f833c-000000@us-west-2.amazonses.com>
-Date: Thu, 1 Dec 2022 15:30:28 +0000
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] vulkan-loader: upgrading to 1.3.231.2 SUCCEEDED
+Message-ID: <01010184ce4f8045-94554de5-8b32-48d7-8605-2a03535da9a3-000000@us-west-2.amazonses.com>
+Date: Thu, 1 Dec 2022 15:30:27 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.12.01-54.240.27.23
+X-SES-Outgoing: 2022.12.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 15:30:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174189
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174179
 
---===============4024262680690965498==
+--===============7445412062628246820==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -49,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libxft* to *2.3.7* has Succeeded.
+that the automatic attempt to upgrade the recipe *vulkan-loader* to *1.3.231.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libxft-upgrade-2.3.6-2.3.7.patch
+    - apply the patch: git am 0001-vulkan-loader-upgrade-1.3.231.1-1.3.231.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -68,146 +69,30 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============4024262680690965498==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
-
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 888 .bb files complete (0 cached, 888 parsed). 1668 targets, 54 skipped, 0 masked, 0 errors.
-Removing 2 recipes from the cortexa15t2hf-neon sysroot...done.
-Removing 2 recipes from the qemuarm sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "arm-poky-linux-gnueabi"
-MACHINE              = "qemuarm"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
-TARGET_FPU           = "hard"
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:cca26c582e463411689b947d1294c277b6741c6b"
-workspace            = "master:a0dcf93bc919757b23a52597eacb1777df4adf24"
-
-Initialising tasks...done.
-Sstate summary: Wanted 20 Local 13 Mirrors 0 Missed 7 Current 272 (65% match, 97% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 281 of 292 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 284 of 292 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_populate_sysroot_setscene)
-NOTE: Running task 1010 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_fetch)
-NOTE: recipe libx11-1_1.8.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_fetch: Started
-NOTE: recipe libx11-1_1.8.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_fetch: Succeeded
-NOTE: Running task 1065 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_unpack)
-NOTE: recipe libxft-1_2.3.7-r0: task do_unpack: Started
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/libx11/1_1.8.1-r0/temp/log.do_packagedata_setscene.639872
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 291 of 292 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_package_setscene)
-NOTE: recipe libx11-1_1.8.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxft-1_2.3.7-r0: task do_unpack: Succeeded
-NOTE: Running task 1066 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_patch)
-NOTE: recipe libxft-1_2.3.7-r0: task do_patch: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_patch: Succeeded
-NOTE: Running task 1067 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1068 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_populate_lic)
-NOTE: recipe libxft-1_2.3.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_populate_lic: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_populate_lic unihash changed to 8013cfcfb400bebf970a27493928f0cd0a35affc6958d79da677d3b9ccec5600
-NOTE: recipe libxft-1_2.3.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libx11-1_1.8.1-r0: task do_package_setscene: Started
-NOTE: recipe libx11-1_1.8.1-r0: task do_package_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1083 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_packagedata)
-NOTE: Running task 1085 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libx11-1_1.8.1-r0: task do_packagedata: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libx11-1_1.8.1-r0: task do_packagedata: Succeeded
-NOTE: recipe libxft-1_2.3.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1088 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_configure)
-NOTE: recipe libxft-1_2.3.7-r0: task do_configure: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_configure: Succeeded
-NOTE: Running task 1089 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_compile)
-NOTE: recipe libxft-1_2.3.7-r0: task do_compile: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_compile: Succeeded
-NOTE: Running task 1090 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_install)
-NOTE: recipe libxft-1_2.3.7-r0: task do_install: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_install: Succeeded
-NOTE: Running task 1091 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_package)
-NOTE: Running task 1092 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_populate_sysroot)
-NOTE: recipe libxft-1_2.3.7-r0: task do_package: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_populate_sysroot: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libxft-1_2.3.7-r0: task do_package: Succeeded
-NOTE: Running task 1093 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_packagedata)
-NOTE: recipe libxft-1_2.3.7-r0: task do_packagedata: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_packagedata: Succeeded
-NOTE: Running task 1094 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_package_write_rpm)
-NOTE: Running task 1095 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_package_qa)
-NOTE: recipe libxft-1_2.3.7-r0: task do_package_write_rpm: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_package_qa: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_package_qa: Succeeded
-NOTE: recipe libxft-1_2.3.7-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1096 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_build)
-NOTE: Tasks Summary: Attempted 1096 tasks of which 1080 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: There was 1 WARNING message.
-Summary: There were 9 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-src went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dbg went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-xcb went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-staticdev went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dev went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-doc went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-locale went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11 went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============4024262680690965498==
+--===============7445412062628246820==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libxft: PV changed from "2.3.6" to "2.3.7"
-packages/core2-32-poky-linux/libxft: PKGV changed from 2.3.6 [default] to 2.3.7 [default]
-packages/core2-32-poky-linux/libxft: SRC_URI changed from "https://www.x.org/releases//individual/lib/libXft-2.3.6.tar.xz" to "https://www.x.org/releases//individual/lib/libXft-2.3.7.tar.xz"
-packages/core2-32-poky-linux/libxft/libxft-dbg: PV changed from "2.3.6" to "2.3.7"
-packages/core2-32-poky-linux/libxft/libxft-dbg: PKGV changed from 2.3.6 [default] to 2.3.7 [default]
-packages/core2-32-poky-linux/libxft/libxft-dbg: PKGSIZE changed from 493264 to 493284 (+0%)
-packages/core2-32-poky-linux/libxft/libxft-dbg: FILELIST: removed "/usr/lib/.debug/libXft.so.2.3.6", added "/usr/lib/.debug/libXft.so.2.3.7"
-packages/core2-32-poky-linux/libxft/libxft-dev: PV changed from "2.3.6" to "2.3.7"
-packages/core2-32-poky-linux/libxft/libxft-dev: PKGV changed from 2.3.6 [default] to 2.3.7 [default]
-packages/core2-32-poky-linux/libxft/libxft-doc: PV changed from "2.3.6" to "2.3.7"
-packages/core2-32-poky-linux/libxft/libxft-doc: PKGV changed from 2.3.6 [default] to 2.3.7 [default]
-packages/core2-32-poky-linux/libxft/libxft-locale: PV changed from "2.3.6" to "2.3.7"
-packages/core2-32-poky-linux/libxft/libxft-locale: PKGV changed from 2.3.6 [default] to 2.3.7 [default]
-packages/core2-32-poky-linux/libxft/libxft-src: PV changed from "2.3.6" to "2.3.7"
-packages/core2-32-poky-linux/libxft/libxft-src: PKGV changed from 2.3.6 [default] to 2.3.7 [default]
-packages/core2-32-poky-linux/libxft/libxft-src: PKGSIZE changed from 221461 to 221468 (+0%)
-packages/core2-32-poky-linux/libxft/libxft-staticdev: PV changed from "2.3.6" to "2.3.7"
-packages/core2-32-poky-linux/libxft/libxft-staticdev: PKGV changed from 2.3.6 [default] to 2.3.7 [default]
-packages/core2-32-poky-linux/libxft/libxft: PV changed from "2.3.6" to "2.3.7"
-packages/core2-32-poky-linux/libxft/libxft: PKGV changed from 2.3.6 [default] to 2.3.7 [default]
-packages/core2-32-poky-linux/libxft/libxft: FILELIST: removed "/usr/lib/libXft.so.2.3.6", added "/usr/lib/libXft.so.2.3.7"
-Changes to packages/core2-32-poky-linux/libxft (sysroot):
-  /usr/lib/libXft.so.2 changed symlink target from libXft.so.2.3.6 to libXft.so.2.3.7
-  /usr/lib/libXft.so changed symlink target from libXft.so.2.3.6 to libXft.so.2.3.7
-  /usr/lib/libXft.so.2.3.6 moved to /usr/lib/libXft.so.2.3.7
+packages/core2-32-poky-linux/vulkan-loader: PV changed from "1.3.231.1" to "1.3.231.2"
+packages/core2-32-poky-linux/vulkan-loader: PKGV changed from 1.3.231.1 [default] to 1.3.231.2 [default]
+packages/core2-32-poky-linux/vulkan-loader/vulkan-loader-dbg: PKGSIZE changed from 2498240 to 2498420 (+0%)
+packages/core2-32-poky-linux/vulkan-loader/vulkan-loader-dbg: PV changed from "1.3.231.1" to "1.3.231.2"
+packages/core2-32-poky-linux/vulkan-loader/vulkan-loader-dbg: PKGV changed from 1.3.231.1 [default] to 1.3.231.2 [default]
+packages/core2-32-poky-linux/vulkan-loader/vulkan-loader-dev: PV changed from "1.3.231.1" to "1.3.231.2"
+packages/core2-32-poky-linux/vulkan-loader/vulkan-loader-dev: PKGV changed from 1.3.231.1 [default] to 1.3.231.2 [default]
+packages/core2-32-poky-linux/vulkan-loader/vulkan-loader-doc: PV changed from "1.3.231.1" to "1.3.231.2"
+packages/core2-32-poky-linux/vulkan-loader/vulkan-loader-doc: PKGV changed from 1.3.231.1 [default] to 1.3.231.2 [default]
+packages/core2-32-poky-linux/vulkan-loader/vulkan-loader-locale: PV changed from "1.3.231.1" to "1.3.231.2"
+packages/core2-32-poky-linux/vulkan-loader/vulkan-loader-locale: PKGV changed from 1.3.231.1 [default] to 1.3.231.2 [default]
+packages/core2-32-poky-linux/vulkan-loader/vulkan-loader-src: PKGSIZE changed from 1690452 to 1692064 (+0%)
+packages/core2-32-poky-linux/vulkan-loader/vulkan-loader-src: PV changed from "1.3.231.1" to "1.3.231.2"
+packages/core2-32-poky-linux/vulkan-loader/vulkan-loader-src: PKGV changed from 1.3.231.1 [default] to 1.3.231.2 [default]
+packages/core2-32-poky-linux/vulkan-loader/vulkan-loader-staticdev: PV changed from "1.3.231.1" to "1.3.231.2"
+packages/core2-32-poky-linux/vulkan-loader/vulkan-loader-staticdev: PKGV changed from 1.3.231.1 [default] to 1.3.231.2 [default]
+packages/core2-32-poky-linux/vulkan-loader/vulkan-loader: PV changed from "1.3.231.1" to "1.3.231.2"
+packages/core2-32-poky-linux/vulkan-loader/vulkan-loader: PKGV changed from 1.3.231.1 [default] to 1.3.231.2 [default]
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1562,126 +1447,43 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
 
---===============4024262680690965498==
-Content-Type: text/plain; charset="us-ascii"
+--===============7445412062628246820==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-vulkan-loader-upgrade-1.3.231.1-1.3.231.2.patch"
 
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1670 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 888 .bb files complete (887 cached, 1 parsed). 1668 targets, 36 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+RnJvbSBjYmMxZmVhYThmYWJiNTE5ODUyNTIzMjE4YzI1NWQyNTAyNmJkMDI3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMSBEZWMgMjAyMiAxMjo0MzozNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHZ1
+bGthbi1sb2FkZXI6IHVwZ3JhZGUgMS4zLjIzMS4xIC0+IDEuMy4yMzEuMgoKLS0tCiAuLi4ve3Z1
+bGthbi1sb2FkZXJfMS4zLjIzMS4xLmJiID0+IHZ1bGthbi1sb2FkZXJfMS4zLjIzMS4yLmJifSAg
+fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
+bmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3t2dWxrYW4tbG9hZGVyXzEuMy4yMzEu
+MS5iYiA9PiB2dWxrYW4tbG9hZGVyXzEuMy4yMzEuMi5iYn0gKDk2JSkKCmRpZmYgLS1naXQgYS9t
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1sb2FkZXJfMS4zLjIzMS4xLmJiIGIv
+bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4tbG9hZGVyXzEuMy4yMzEuMi5iYgpz
+aW1pbGFyaXR5IGluZGV4IDk2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVs
+a2FuL3Z1bGthbi1sb2FkZXJfMS4zLjIzMS4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3Jh
+cGhpY3MvdnVsa2FuL3Z1bGthbi1sb2FkZXJfMS4zLjIzMS4yLmJiCmluZGV4IDdhYWI3NDQ2ZjYu
+LmJjYzdmMjQ2NWUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4vdnVs
+a2FuLWxvYWRlcl8xLjMuMjMxLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGth
+bi92dWxrYW4tbG9hZGVyXzEuMy4yMzEuMi5iYgpAQCAtMTAsNyArMTAsNyBAQCBTRUNUSU9OID0g
+ImxpYnMiCiBMSUNFTlNFID0gIkFwYWNoZS0yLjAiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6
+Ly9MSUNFTlNFLnR4dDttZDU9N2RiZWZlZDIzMjQyNzYwYWEzNDc1ZWU0MjgwMWM1YWMiCiBTUkNf
+VVJJID0gImdpdDovL2dpdGh1Yi5jb20vS2hyb25vc0dyb3VwL1Z1bGthbi1Mb2FkZXIuZ2l0O2Jy
+YW5jaD1zZGstMS4zLjIzMTtwcm90b2NvbD1odHRwcyIKLVNSQ1JFViA9ICJlZWRiZjA4MjkyYTZi
+ZTE5YzM1MjdlNzdhZTJkZjNmMjA5Y2FiMjg1IgorU1JDUkVWID0gIjg4NmY3MTUxN2QxY2ZhYmZi
+ODNjNmMyZjJlZDNhZDRhNDA3YWY0NGYiCiAKIFMgPSAiJHtXT1JLRElSfS9naXQiCiAKLS0gCjIu
+MzEuMQoK
 
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:cca26c582e463411689b947d1294c277b6741c6b"
-workspace            = "master:a0dcf93bc919757b23a52597eacb1777df4adf24"
-
-Initialising tasks...done.
-Sstate summary: Wanted 20 Local 13 Mirrors 0 Missed 7 Current 272 (65% match, 97% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 281 of 292 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 284 of 292 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_populate_sysroot_setscene)
-NOTE: Running task 1010 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_fetch)
-NOTE: recipe libx11-1_1.8.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libx11-1_1.8.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_fetch: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_fetch: Succeeded
-NOTE: Running task 1065 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_unpack)
-NOTE: recipe libxft-1_2.3.7-r0: task do_unpack: Started
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/libx11/1_1.8.1-r0/temp/log.do_packagedata_setscene.634045
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 291 of 292 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_package_setscene)
-NOTE: recipe libx11-1_1.8.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxft-1_2.3.7-r0: task do_unpack: Succeeded
-NOTE: Running task 1066 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_patch)
-NOTE: recipe libxft-1_2.3.7-r0: task do_patch: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_patch: Succeeded
-NOTE: Running task 1067 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1068 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_populate_lic)
-NOTE: recipe libxft-1_2.3.7-r0: task do_populate_lic: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_populate_lic unihash changed to 8013cfcfb400bebf970a27493928f0cd0a35affc6958d79da677d3b9ccec5600
-NOTE: recipe libxft-1_2.3.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libx11-1_1.8.1-r0: task do_package_setscene: Started
-NOTE: recipe libx11-1_1.8.1-r0: task do_package_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1083 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_packagedata)
-NOTE: Running task 1085 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libx11-1_1.8.1-r0: task do_packagedata: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libx11-1_1.8.1-r0: task do_packagedata: Succeeded
-NOTE: recipe libxft-1_2.3.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1088 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_configure)
-NOTE: recipe libxft-1_2.3.7-r0: task do_configure: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_configure: Succeeded
-NOTE: Running task 1089 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_compile)
-NOTE: recipe libxft-1_2.3.7-r0: task do_compile: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_compile: Succeeded
-NOTE: Running task 1090 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_install)
-NOTE: recipe libxft-1_2.3.7-r0: task do_install: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_install: Succeeded
-NOTE: Running task 1091 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_package)
-NOTE: Running task 1092 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_populate_sysroot)
-NOTE: recipe libxft-1_2.3.7-r0: task do_package: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_populate_sysroot: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libxft-1_2.3.7-r0: task do_package: Succeeded
-NOTE: Running task 1093 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_packagedata)
-NOTE: recipe libxft-1_2.3.7-r0: task do_packagedata: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_packagedata: Succeeded
-NOTE: Running task 1094 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_package_write_rpm)
-NOTE: Running task 1095 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_package_qa)
-NOTE: recipe libxft-1_2.3.7-r0: task do_package_write_rpm: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_package_qa: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_package_qa: Succeeded
-NOTE: recipe libxft-1_2.3.7-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1096 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_build)
-NOTE: Tasks Summary: Attempted 1096 tasks of which 1080 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: There was 1 WARNING message.
-Summary: There were 9 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-src went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dbg went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-xcb went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-staticdev went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dev went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-doc went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-locale went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11 went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============4024262680690965498==
+--===============7445412062628246820==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/libxft/libxft: FILELIST: removed "/usr/lib/libXft.so.2.3.6", added "/usr/lib/libXft.so.2.3.7"
-Changes to packages/core2-32-poky-linux/libxft (sysroot):
-  /usr/lib/libXft.so.2 changed symlink target from libXft.so.2.3.6 to libXft.so.2.3.7
-  /usr/lib/libXft.so changed symlink target from libXft.so.2.3.6 to libXft.so.2.3.7
-  /usr/lib/libXft.so.2.3.6 moved to /usr/lib/libXft.so.2.3.7
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -3036,543 +2838,5 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
 
---===============4024262680690965498==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
-
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 888 .bb files complete (0 cached, 888 parsed). 1668 targets, 71 skipped, 0 masked, 0 errors.
-Removing 2 recipes from the ppc7400 sysroot...done.
-Removing 2 recipes from the qemuppc sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "powerpc-poky-linux"
-MACHINE              = "qemuppc"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:cca26c582e463411689b947d1294c277b6741c6b"
-workspace            = "master:a0dcf93bc919757b23a52597eacb1777df4adf24"
-
-Initialising tasks...done.
-Sstate summary: Wanted 20 Local 13 Mirrors 0 Missed 7 Current 272 (65% match, 97% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 281 of 292 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 284 of 292 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_populate_sysroot_setscene)
-NOTE: Running task 1010 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_fetch)
-NOTE: recipe libx11-1_1.8.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libx11-1_1.8.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_fetch: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_fetch: Succeeded
-NOTE: Running task 1065 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_unpack)
-NOTE: recipe libxft-1_2.3.7-r0: task do_unpack: Started
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/libx11/1_1.8.1-r0/temp/log.do_packagedata_setscene.651533
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 291 of 292 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_package_setscene)
-NOTE: recipe libx11-1_1.8.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxft-1_2.3.7-r0: task do_unpack: Succeeded
-NOTE: Running task 1066 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_patch)
-NOTE: recipe libxft-1_2.3.7-r0: task do_patch: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_patch: Succeeded
-NOTE: Running task 1067 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1068 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_populate_lic)
-NOTE: recipe libxft-1_2.3.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_populate_lic: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_populate_lic unihash changed to 8013cfcfb400bebf970a27493928f0cd0a35affc6958d79da677d3b9ccec5600
-NOTE: recipe libxft-1_2.3.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libx11-1_1.8.1-r0: task do_package_setscene: Started
-NOTE: recipe libx11-1_1.8.1-r0: task do_package_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1083 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_packagedata)
-NOTE: Running task 1085 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libx11-1_1.8.1-r0: task do_packagedata: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libx11-1_1.8.1-r0: task do_packagedata: Succeeded
-NOTE: recipe libxft-1_2.3.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1088 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_configure)
-NOTE: recipe libxft-1_2.3.7-r0: task do_configure: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_configure: Succeeded
-NOTE: Running task 1089 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_compile)
-NOTE: recipe libxft-1_2.3.7-r0: task do_compile: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_compile: Succeeded
-NOTE: Running task 1090 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_install)
-NOTE: recipe libxft-1_2.3.7-r0: task do_install: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_install: Succeeded
-NOTE: Running task 1091 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_package)
-NOTE: Running task 1092 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_populate_sysroot)
-NOTE: recipe libxft-1_2.3.7-r0: task do_package: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_populate_sysroot: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libxft-1_2.3.7-r0: task do_package: Succeeded
-NOTE: Running task 1093 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_packagedata)
-NOTE: recipe libxft-1_2.3.7-r0: task do_packagedata: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_packagedata: Succeeded
-NOTE: Running task 1094 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_package_write_rpm)
-NOTE: Running task 1095 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_package_qa)
-NOTE: recipe libxft-1_2.3.7-r0: task do_package_write_rpm: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_package_qa: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_package_qa: Succeeded
-NOTE: recipe libxft-1_2.3.7-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1096 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_build)
-NOTE: Tasks Summary: Attempted 1096 tasks of which 1080 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: There was 1 WARNING message.
-Summary: There were 9 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-src went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dbg went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-xcb went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-staticdev went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dev went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-doc went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-locale went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11 went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============4024262680690965498==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libxft-upgrade-2.3.6-2.3.7.patch"
-
-RnJvbSA3MTYyMzFmODZjYzMyMmVhNmEwMDZmY2U1MjBmMTc0MzZmNjAyYjNhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBEZWMgMjAyMiAxMzowMTo1MSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YnhmdDogdXBncmFkZSAyLjMuNiAtPiAyLjMuNwoKLS0tCiAuLi4veG9yZy1saWIve2xpYnhmdF8y
-LjMuNi5iYiA9PiBsaWJ4ZnRfMi4zLjcuYmJ9ICAgICAgICAgICAgICAgfCAyICstCiAxIGZpbGUg
-Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lw
-ZXMtZ3JhcGhpY3MveG9yZy1saWIve2xpYnhmdF8yLjMuNi5iYiA9PiBsaWJ4ZnRfMi4zLjcuYmJ9
-ICg5MiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnhm
-dF8yLjMuNi5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4ZnRfMi4zLjcu
-YmIKc2ltaWxhcml0eSBpbmRleCA5MiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNz
-L3hvcmctbGliL2xpYnhmdF8yLjMuNi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNz
-L3hvcmctbGliL2xpYnhmdF8yLjMuNy5iYgppbmRleCAyM2M3ZWNlM2FiLi5kYTI1YjBhMDVhIDEw
-MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGlieGZ0XzIuMy42LmJi
-CisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4ZnRfMi4zLjcuYmIKQEAg
-LTIxLDcgKzIxLDcgQEAgUFJPVklERVMgPSAieGZ0IgogUEUgPSAiMSIKIAogWE9SR19FWFQgPSAi
-dGFyLnh6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjYwYTZlNzMxOWZjOTM4YmJiOGQwOThjOWJj
-Yzg2MDMxY2MyMzI3YjVkMDg2ZDMzMzVmYzVjNzYzMjNjMDMwMjIiCitTUkNfVVJJW3NoYTI1NnN1
-bV0gPSAiNzlmMGIzN2M0NTAwNzM4MWMzNzFhNzkwYzI3NTQ2NDRhZDk1NTE2NmRiZjJhNDhlMzYy
-NTAzMmU5YmRkNGY3MSIKIAogWE9SR19QTiA9ICJsaWJYZnQiCiAKLS0gCjIuMzEuMQoK
-
---===============4024262680690965498==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
-
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 888 .bb files complete (0 cached, 888 parsed). 1669 targets, 49 skipped, 0 masked, 0 errors.
-Removing 31 recipes from the core2-32 sysroot...done.
-Removing 30 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux-musl"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:cca26c582e463411689b947d1294c277b6741c6b"
-workspace            = "master:a0dcf93bc919757b23a52597eacb1777df4adf24"
-
-Initialising tasks...done.
-Sstate summary: Wanted 140 Local 133 Mirrors 0 Missed 7 Current 153 (95% match, 97% complete)
-Removing 2 stale sstate objects for arch x86_64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 158 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.14.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 161 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.14.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 163 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 164 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_populate_sysroot_setscene)
-NOTE: Running task 696 of 1097 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_fetch)
-NOTE: recipe fontconfig-2.14.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe fontconfig-2.14.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_fetch: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_fetch: Succeeded
-NOTE: Running task 699 of 1097 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_unpack)
-NOTE: recipe libxrender-1_0.9.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxft-1_2.3.7-r0: task do_unpack: Started
-NOTE: Running setscene task 170 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_packagedata_setscene)
-NOTE: recipe fontconfig-2.14.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 172 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 173 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 174 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.12.1.bb:do_packagedata_setscene)
-NOTE: recipe libxrender-1_0.9.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe fontconfig-2.14.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 175 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 177 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 178 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 180 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.12.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libx11-1_1.8.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe freetype-2.12.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_unpack: Succeeded
-NOTE: recipe libx11-1_1.8.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-2.38.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe freetype-2.12.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 708 of 1097 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_patch)
-NOTE: recipe util-linux-2.38.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_patch: Started
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libx11/1_1.8.1-r0/temp/log.do_packagedata_setscene.657722
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 181 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_package_setscene)
-NOTE: recipe freetype-2.12.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libx11-1_1.8.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxft-1_2.3.7-r0: task do_patch: Succeeded
-NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe freetype-2.12.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-linux-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 186 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.38.bb:do_packagedata_setscene)
-NOTE: Running setscene task 187 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.38.bb:do_populate_sysroot_setscene)
-NOTE: Running task 718 of 1097 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_deploy_source_date_epoch)
-NOTE: Running task 719 of 1097 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_populate_lic)
-NOTE: recipe libpng-1.6.38-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpng-1.6.38-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_populate_lic: Started
-NOTE: recipe libpng-1.6.38-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpng-1.6.38-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxft-1_2.3.7-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_populate_lic unihash changed to 8013cfcfb400bebf970a27493928f0cd0a35affc6958d79da677d3b9ccec5600
-NOTE: recipe libxft-1_2.3.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe util-linux-2.38.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 191 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb:do_packagedata_setscene)
-NOTE: Running setscene task 192 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 193 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 194 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 196 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 197 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 198 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 199 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 200 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 201 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libx11-1_1.8.1-r0: task do_package_setscene: Started
-NOTE: recipe ncurses-6.3+20220423-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ncurses-6.3+20220423-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpam-1.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ncurses-6.3+20220423-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe ncurses-6.3+20220423-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpam-1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 209 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 210 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libx11-1_1.8.1-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 215 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_packagedata_setscene)
-NOTE: Running setscene task 216 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 217 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 218 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 220 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 221 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 222 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 223 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.8.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xtrans-1_1.4.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe xtrans-1_1.4.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cracklib-2.9.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe cracklib-2.9.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe flex-2.6.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xtrans-1_1.4.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xtrans-1_1.4.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe cracklib-2.9.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe flex-2.6.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 228 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 229 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 230 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.10.bb:do_packagedata_setscene)
-NOTE: Running setscene task 231 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.10.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 233 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 234 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 235 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 236 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxau-1_1.0.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxau-1_1.0.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xcb-proto-1.15.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe xcb-proto-1.15.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cracklib-2.9.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 240 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_packagedata_setscene)
-NOTE: Running setscene task 241 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xcb-proto-1.15.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 246 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 247 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb:do_packagedata_setscene)
-NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xcb-proto-1.15.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 252 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 253 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe xorgproto-2022.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-macros-1_1.19.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-macros-1_1.19.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xorgproto-2022.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xorgproto-2022.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-macros-1_1.19.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 259 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_packagedata_setscene)
-NOTE: recipe util-macros-1_1.19.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xorgproto-2022.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 260 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-12.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 263 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-runtime-12.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 266 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.2.bb:do_packagedata_setscene)
-NOTE: recipe gcc-runtime-12.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-12.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-12.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 268 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe musl-1.2.3+gitAUTOINC+dc9285ad1d-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 270 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgcc-12.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.3+gitAUTOINC+dc9285ad1d-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 272 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 273 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 274 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.19.bb:do_packagedata_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-libc-headers-5.19-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 275 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-libc-headers-5.19-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.3+gitAUTOINC+dc9285ad1d-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.3+gitAUTOINC+dc9285ad1d-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 280 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 281 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 287 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 290 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.19.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-5.19-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-5.19-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 291 of 293 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.39.bb:do_populate_sysroot_setscene)
-NOTE: recipe binutils-cross-i686-2.39-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe binutils-cross-i686-2.39-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1062 of 1097 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_packagedata)
-NOTE: Running task 1082 of 1097 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libx11-1_1.8.1-r0: task do_packagedata: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libx11-1_1.8.1-r0: task do_packagedata: Succeeded
-NOTE: recipe libxft-1_2.3.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1089 of 1097 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_configure)
-NOTE: recipe libxft-1_2.3.7-r0: task do_configure: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_configure: Succeeded
-NOTE: Running task 1090 of 1097 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_compile)
-NOTE: recipe libxft-1_2.3.7-r0: task do_compile: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_compile: Succeeded
-NOTE: Running task 1091 of 1097 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_install)
-NOTE: recipe libxft-1_2.3.7-r0: task do_install: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_install: Succeeded
-NOTE: Running task 1092 of 1097 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_package)
-NOTE: Running task 1093 of 1097 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_populate_sysroot)
-NOTE: recipe libxft-1_2.3.7-r0: task do_populate_sysroot: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_package: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libxft-1_2.3.7-r0: task do_package: Succeeded
-NOTE: Running task 1094 of 1097 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_packagedata)
-NOTE: recipe libxft-1_2.3.7-r0: task do_packagedata: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_packagedata: Succeeded
-NOTE: Running task 1095 of 1097 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_package_write_rpm)
-NOTE: Running task 1096 of 1097 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_package_qa)
-NOTE: recipe libxft-1_2.3.7-r0: task do_package_write_rpm: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_package_qa: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_package_qa: Succeeded
-NOTE: recipe libxft-1_2.3.7-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1097 of 1097 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_build)
-NOTE: Tasks Summary: Attempted 1097 tasks of which 1081 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: There was 1 WARNING message.
-Summary: There were 9 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-src went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dbg went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-xcb went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-staticdev went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dev went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-doc went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-locale went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11 went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============4024262680690965498==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
-
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 888 .bb files complete (0 cached, 888 parsed). 1668 targets, 64 skipped, 0 masked, 0 errors.
-Removing 2 recipes from the mips32r2 sysroot...done.
-Removing 2 recipes from the qemumips sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "mips-poky-linux"
-MACHINE              = "qemumips"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:cca26c582e463411689b947d1294c277b6741c6b"
-workspace            = "master:a0dcf93bc919757b23a52597eacb1777df4adf24"
-
-Initialising tasks...done.
-Sstate summary: Wanted 20 Local 13 Mirrors 0 Missed 7 Current 272 (65% match, 97% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 281 of 292 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 284 of 292 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_populate_sysroot_setscene)
-NOTE: Running task 1010 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_fetch)
-NOTE: recipe libx11-1_1.8.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libx11-1_1.8.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_fetch: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_fetch: Succeeded
-NOTE: Running task 1065 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_unpack)
-NOTE: recipe libxft-1_2.3.7-r0: task do_unpack: Started
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/libx11/1_1.8.1-r0/temp/log.do_packagedata_setscene.645706
-NOTE: recipe libx11-1_1.8.1-r0: task do_populate_sysroot_setscene: Succeeded
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 291 of 292 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_package_setscene)
-NOTE: recipe libxft-1_2.3.7-r0: task do_unpack: Succeeded
-NOTE: Running task 1066 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_patch)
-NOTE: recipe libxft-1_2.3.7-r0: task do_patch: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_patch: Succeeded
-NOTE: Running task 1067 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1068 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_populate_lic)
-NOTE: recipe libxft-1_2.3.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_populate_lic: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_populate_lic unihash changed to 8013cfcfb400bebf970a27493928f0cd0a35affc6958d79da677d3b9ccec5600
-NOTE: recipe libxft-1_2.3.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libx11-1_1.8.1-r0: task do_package_setscene: Started
-NOTE: recipe libx11-1_1.8.1-r0: task do_package_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1083 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_packagedata)
-NOTE: Running task 1085 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libx11-1_1.8.1-r0: task do_packagedata: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libx11-1_1.8.1-r0: task do_packagedata: Succeeded
-NOTE: recipe libxft-1_2.3.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1088 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_configure)
-NOTE: recipe libxft-1_2.3.7-r0: task do_configure: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_configure: Succeeded
-NOTE: Running task 1089 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_compile)
-NOTE: recipe libxft-1_2.3.7-r0: task do_compile: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_compile: Succeeded
-NOTE: Running task 1090 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_install)
-NOTE: recipe libxft-1_2.3.7-r0: task do_install: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_install: Succeeded
-NOTE: Running task 1091 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_package)
-NOTE: Running task 1092 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_populate_sysroot)
-NOTE: recipe libxft-1_2.3.7-r0: task do_package: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_populate_sysroot: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libxft-1_2.3.7-r0: task do_package: Succeeded
-NOTE: Running task 1093 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_packagedata)
-NOTE: recipe libxft-1_2.3.7-r0: task do_packagedata: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_packagedata: Succeeded
-NOTE: Running task 1094 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_package_write_rpm)
-NOTE: Running task 1095 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_package_qa)
-NOTE: recipe libxft-1_2.3.7-r0: task do_package_write_rpm: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_package_qa: Started
-NOTE: recipe libxft-1_2.3.7-r0: task do_package_qa: Succeeded
-NOTE: recipe libxft-1_2.3.7-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1096 of 1096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.7.bb:do_build)
-NOTE: Tasks Summary: Attempted 1096 tasks of which 1080 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: There was 1 WARNING message.
-Summary: There were 9 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-src went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dbg went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-xcb went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-staticdev went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-dev went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-doc went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11-locale went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: QA Issue: Package version for package libx11 went backwards which would break package feeds (from 1:1.8.2-r0 to 1:1.8.1-r0) [version-going-backwards]
-ERROR: libx11-1_1.8.1-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============4024262680690965498==--
+--===============7445412062628246820==--
 
