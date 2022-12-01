@@ -2,37 +2,37 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D795AC64E66
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D84D8C64E70
 	for <webhook@archiver.kernel.org>; Thu,  1 Dec 2022 15:30:33 +0000 (UTC)
 Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.46825.1669908626848628927
+ by mx.groups.io with SMTP id smtpd.web10.46765.1669908625785666644
  for <openembedded-core@lists.openembedded.org>;
  Thu, 01 Dec 2022 07:30:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=IgGTiZdS;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010184ce4f7d6c-9f1207d5-2ce2-4086-903e-f383186afbe9-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=L8TMVKas;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010184ce4f7d7a-c07d97cc-89ea-4814-92dc-e04543e0af9e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1669908627;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=n60bO17aTmntJ61SUqJ+WVmFwFYdSDz5jwg1BoGqzSk=;
-	b=IgGTiZdSnYc1Plf20o5XoktwWmdMyoYdH2J7uPVysaXB0/VbUBkiCySqbmab7lP5
-	ntNhQde7vVFH4CLiPlPz6H5kI1mO3Zt1l5fswsK15TRiWm0/cMqalutf4J28xjv2MKe
-	I/AZ2yH8tHDYJMCn1wPBiUJbF++dILCmJM0wI4WY=
+	bh=UEwvb4G0T1RwuEkcNdEibdNZ8Gp1ivsNTaDOOWwcclw=;
+	b=L8TMVKas3QSs4/S1JI5KUi2DKE8dlvNIRlI399aNYnewbqRPKHGc2XLS6Fl514VT
+	UVDNmNvbz0zM0kVBVz4KbRq6fxydt99g86/GoyKxAGym3cTeOKKq2xyOnGg+2W1tv3M
+	j+i3DgpV7f4qSeu4pybJQ2D6L0tmfQVp4EQG9LBc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1669908627;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=n60bO17aTmntJ61SUqJ+WVmFwFYdSDz5jwg1BoGqzSk=;
-	b=YxUDWIhGLyqFubhy1sJCKsJ2IVxTvylLFXYCVNjLmCIQ1HQP+g1hKnLRtb8yhQFp
-	hMl7kySm2Udup8keGcbBnHNkCMh9ebL13HpNuuSowJWNcUxHvD1BhL02Fi15JA2Eu5J
-	2BHWg4O3wv8HVHJRVxp3VENXhVX4/pLR5z6ibkmo=
-Content-Type: multipart/mixed; boundary="===============4534108695718552390=="
+	bh=UEwvb4G0T1RwuEkcNdEibdNZ8Gp1ivsNTaDOOWwcclw=;
+	b=FCz5/x1esbAf1cnfgC6BqoXKHwGN3F+AIpfevbl3DHsVKqzXJ/8JLi/iRj0JWzGY
+	7toLva1e4Hk3rDH61EZ+smtGM99pXAPJPfIel6vEyJQekzb81YjOKhIpLLWdFsjTcvk
+	whRCPCHoPQn/YPCBX8BLq39JmtCDgYUftDNUFLZY=
+Content-Type: multipart/mixed; boundary="===============7172946310595865858=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] swig: upgrading to 4.1.1 SUCCEEDED
-Message-ID: <01010184ce4f7d6c-9f1207d5-2ce2-4086-903e-f383186afbe9-000000@us-west-2.amazonses.com>
+Subject: [AUH] acpica: upgrading to 20221022 FAILED
+Message-ID: <01010184ce4f7d7a-c07d97cc-89ea-4814-92dc-e04543e0af9e-000000@us-west-2.amazonses.com>
 Date: Thu, 1 Dec 2022 15:30:26 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2022.12.01-54.240.27.45
@@ -40,9 +40,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 15:30:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174156
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174155
 
---===============4534108695718552390==
+--===============7172946310595865858==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,91 +50,91 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *swig* to *4.1.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *acpica* to *20221022* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-swig-upgrade-4.1.0-4.1.1.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade acpica -V 20221022
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1668 entries from dependency cache.
+
+Summary: There was 1 WARNING message.
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:cadde942b835f83aeff25aea9199210307eb3547"
+workspace            = "master:a0dcf93bc919757b23a52597eacb1777df4adf24"
+
+Initialising tasks...done.
+Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 19 (100% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1668 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 889 .bb files complete (887 cached, 2 parsed). 1669 targets, 36 skipped, 0 masked, 0 errors.
+
+Summary: There was 1 WARNING message.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:cadde942b835f83aeff25aea9199210307eb3547"
+workspace            = "master:a0dcf93bc919757b23a52597eacb1777df4adf24"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+WARNING: Failed to fetch URL https://acpica.org/sites/acpica/files/acpica-unix-20221022.tar.gz, attempting MIRRORS if available
+NOTE: Tasks Summary: Attempted 1 tasks of which 0 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://acpica.org/sites/acpica/files/acpica-unix-20221022.tar.gz...
+ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-6bl22vt3/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-6bl22vt3/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-6bl22vt3/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-6bl22vt3/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-6bl22vt3/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-6bl2
+ 2vt3/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 --passive-ftp -O /home/pokybuild/yocto-worker/auh/build/build/build/downloads/acpica-unix-20221022.tar.gz.tmp -P /home/pokybuild/yocto-worker/auh/build/build/build/downloads 'https://acpica.org/sites/acpica/files/acpica-unix-20221022.tar.gz' --progress=dot -v failed with exit code 8, no output
+ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://acpica.org/sites/acpica/files/acpica-unix-20221022.tar.gz')
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-6bl22vt3/work/temp/log.do_fetch.2590438
+ERROR: Failed to fetch URL https://acpica.org/sites/acpica/files/acpica-unix-20221022.tar.gz
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============4534108695718552390==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/swig: PKGV changed from 4.1.0 [default] to 4.1.1 [default]
-packages/core2-32-poky-linux/swig: PV changed from "4.1.0" to "4.1.1"
-packages/core2-32-poky-linux/swig: SRC_URI changed from "https://downloads.sourceforge.net/swig/swig-4.1.0.tar.gz file://0001-Use-proc-self-exe-for-swig-swiglib-on-non-Win32-plat.patch file://0001-configure-use-pkg-config-for-pcre-detection.patch file://determinism.patch" to "https://downloads.sourceforge.net/swig/swig-4.1.1.tar.gz file://0001-Use-proc-self-exe-for-swig-swiglib-on-non-Win32-plat.patch file://0001-configure-use-pkg-config-for-pcre-detection.patch file://determinism.patch"
-packages/core2-32-poky-linux/swig/swig-dbg: PKGV changed from 4.1.0 [default] to 4.1.1 [default]
-packages/core2-32-poky-linux/swig/swig-dbg: PKGSIZE changed from 6984104 to 6983624 (-0%)
-packages/core2-32-poky-linux/swig/swig-dbg: PV changed from "4.1.0" to "4.1.1"
-packages/core2-32-poky-linux/swig/swig-dev: PKGV changed from 4.1.0 [default] to 4.1.1 [default]
-packages/core2-32-poky-linux/swig/swig-dev: PV changed from "4.1.0" to "4.1.1"
-packages/core2-32-poky-linux/swig/swig-doc: PKGV changed from 4.1.0 [default] to 4.1.1 [default]
-packages/core2-32-poky-linux/swig/swig-doc: PV changed from "4.1.0" to "4.1.1"
-packages/core2-32-poky-linux/swig/swig-locale: PKGV changed from 4.1.0 [default] to 4.1.1 [default]
-packages/core2-32-poky-linux/swig/swig-locale: PV changed from "4.1.0" to "4.1.1"
-packages/core2-32-poky-linux/swig/swig-src: PKGV changed from 4.1.0 [default] to 4.1.1 [default]
-packages/core2-32-poky-linux/swig/swig-src: PKGSIZE changed from 3245461 to 3247169 (+0%)
-packages/core2-32-poky-linux/swig/swig-src: PV changed from "4.1.0" to "4.1.1"
-packages/core2-32-poky-linux/swig/swig-staticdev: PKGV changed from 4.1.0 [default] to 4.1.1 [default]
-packages/core2-32-poky-linux/swig/swig-staticdev: PV changed from "4.1.0" to "4.1.1"
-packages/core2-32-poky-linux/swig/swig: PKGV changed from 4.1.0 [default] to 4.1.1 [default]
-packages/core2-32-poky-linux/swig/swig: PKGSIZE changed from 5335055 to 5341258 (+0%)
-packages/core2-32-poky-linux/swig/swig: PV changed from "4.1.0" to "4.1.1"
-Changes to packages/core2-32-poky-linux/swig (sysroot):
-  /usr/share/swig/4.1.0 moved to /usr/share/swig/4.1.1
-
---===============4534108695718552390==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-32-poky-linux/swig (sysroot):
-  /usr/share/swig/4.1.0 moved to /usr/share/swig/4.1.1
-
---===============4534108695718552390==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-swig-upgrade-4.1.0-4.1.1.patch"
-
-RnJvbSA2M2MyM2NjODdmNzEyYTZmMDZhOThkNjhjNWJlMThjMmI4YzQyY2FlIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBEZWMgMjAyMiAxMDo0MzowNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHN3
-aWc6IHVwZ3JhZGUgNC4xLjAgLT4gNC4xLjEKCi0tLQogbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N3
-aWcve3N3aWdfNC4xLjAuYmIgPT4gc3dpZ180LjEuMS5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdl
-ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvc3dpZy97c3dpZ180LjEuMC5iYiA9PiBzd2lnXzQuMS4xLmJifSAoNzIlKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zd2lnL3N3aWdfNC4xLjAuYmIgYi9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvc3dpZy9zd2lnXzQuMS4xLmJiCnNpbWlsYXJpdHkgaW5kZXggNzIlCnJl
-bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9zd2lnL3N3aWdfNC4xLjAuYmIKcmVuYW1l
-IHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9zd2lnL3N3aWdfNC4xLjEuYmIKaW5kZXggMGVhYmQ4
-ZWQ2MC4uYjllMDE3NTI5OSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N3aWcv
-c3dpZ180LjEuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3dpZy9zd2lnXzQuMS4x
-LmJiCkBAIC00LDQgKzQsNCBAQCBTUkNfVVJJICs9ICJmaWxlOi8vMDAwMS1Vc2UtcHJvYy1zZWxm
-LWV4ZS1mb3Itc3dpZy1zd2lnbGliLW9uLW5vbi1XaW4zMi1wbGF0LnBhdAogICAgICAgICAgICAg
-ZmlsZTovLzAwMDEtY29uZmlndXJlLXVzZS1wa2ctY29uZmlnLWZvci1wY3JlLWRldGVjdGlvbi5w
-YXRjaCBcCiAgICAgICAgICAgICBmaWxlOi8vZGV0ZXJtaW5pc20ucGF0Y2ggXAogICAgICAgICAg
-ICAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZDZhOWE4MDk0ZTc4ZjdjZmI2ZjgwYTczY2MyNzFl
-MWZlMzg4Yzg2MzhlZDIyNjY4NjIyYzJjNjQ2ZGY1YmIzZCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9
-ICIyYWYwOGFjZWQ4ZmNkNjVjZGI1Y2M2MjQyNjc2ODkxNGJlZGM3MzViMWMyNTAzMjUyMDM3MTZm
-NzhlMzlhYzliIgotLSAKMi4zMS4xCgo=
-
---===============4534108695718552390==--
+--===============7172946310595865858==--
 
