@@ -2,207 +2,75 @@ Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 454D5C4708C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4473BC4321E
 	for <webhook@archiver.kernel.org>; Thu,  1 Dec 2022 07:53:50 +0000 (UTC)
-Received: from mailout03.t-online.de (mailout03.t-online.de [194.25.134.81])
- by mx.groups.io with SMTP id smtpd.web10.37399.1669881225955174779
+Received: from mailout08.t-online.de (mailout08.t-online.de [194.25.134.20])
+ by mx.groups.io with SMTP id smtpd.web10.37396.1669881220961842537
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Nov 2022 23:53:46 -0800
+ Wed, 30 Nov 2022 23:53:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.81, mailfrom: f_l_k@t-online.de)
+ dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.20, mailfrom: f_l_k@t-online.de)
 Received: from fwd84.dcpf.telekom.de (fwd84.aul.t-online.de [10.223.144.110])
-	by mailout03.t-online.de (Postfix) with SMTP id 0674215951
-	for <openembedded-core@lists.openembedded.org>; Thu,  1 Dec 2022 08:53:44 +0100 (CET)
+	by mailout08.t-online.de (Postfix) with SMTP id 59647F41D
+	for <openembedded-core@lists.openembedded.org>; Thu,  1 Dec 2022 08:53:37 +0100 (CET)
 Received: from flk-MS-7C91.fritz.box ([84.163.47.248]) by fwd84.t-online.de
 	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1p0eO6-0tSeaQ0; Thu, 1 Dec 2022 08:53:42 +0100
+	esmtp id 1p0eO1-0tSeaP0; Thu, 1 Dec 2022 08:53:37 +0100
 From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Markus Volk <f_l_k@t-online.de>
-Subject: [oe-core][PATCHv9 2/4] gtk4: import recipe from meta-gnome
-Date: Thu,  1 Dec 2022 08:53:22 +0100
-Message-Id: <20221201075324.353632-2-f_l_k@t-online.de>
+Subject: [oe-core][PATCHv9 1/4] graphene: import from meta-oe
+Date: Thu,  1 Dec 2022 08:53:21 +0100
+Message-Id: <20221201075324.353632-1-f_l_k@t-online.de>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221201075324.353632-1-f_l_k@t-online.de>
-References: <20221201075324.353632-1-f_l_k@t-online.de>
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1669881222-4D45FB8C-73B1B439/0/0 CLEAN NORMAL
-X-TOI-MSGID: 6a95383d-adb4-4f2d-aeb5-01149cc512b8
+X-TOI-EXPURGATEID: 150726::1669881217-4D45FB8C-E4DF62FF/0/0 CLEAN NORMAL
+X-TOI-MSGID: adfd2007-1eb9-4299-b583-11a015f29e73
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 07:53:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174041
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174038
 
 Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- meta/recipes-gnome/gtk+/gtk4_4.8.2.bb | 130 ++++++++++++++++++++++++++
- 1 file changed, 130 insertions(+)
- create mode 100644 meta/recipes-gnome/gtk+/gtk4_4.8.2.bb
+ .../graphene/graphene_1.10.8.bb               | 22 +++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+ create mode 100644 meta/recipes-graphics/graphene/graphene_1.10.8.bb
 
-diff --git a/meta/recipes-gnome/gtk+/gtk4_4.8.2.bb b/meta/recipes-gnome/g=
-tk+/gtk4_4.8.2.bb
+diff --git a/meta/recipes-graphics/graphene/graphene_1.10.8.bb b/meta/rec=
+ipes-graphics/graphene/graphene_1.10.8.bb
 new file mode 100644
-index 0000000000..dc552c5c91
+index 0000000000..813ff74adf
 --- /dev/null
-+++ b/meta/recipes-gnome/gtk+/gtk4_4.8.2.bb
-@@ -0,0 +1,130 @@
-+SUMMARY =3D "Multi-platform toolkit for creating GUIs"
-+DESCRIPTION =3D "GTK is a multi-platform toolkit for creating graphical =
-user interfaces. Offering a complete \
-+set of widgets, GTK is suitable for projects ranging from small one-off =
-projects to complete application suites."
-+HOMEPAGE =3D "http://www.gtk.org"
-+BUGTRACKER =3D "https://bugzilla.gnome.org/"
-+SECTION =3D "libs"
++++ b/meta/recipes-graphics/graphene/graphene_1.10.8.bb
+@@ -0,0 +1,22 @@
++SUMMARY =3D "A thin layer of graphic data types"
++HOMEPAGE =3D "http://ebassi.github.io/graphene/"
++LICENSE =3D "MIT"
++LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3Da7d871d9e23c450c421a85bb2=
+819f648"
 +
-+DEPENDS =3D " \
-+    atk \
-+    cairo \
-+    fribidi \
-+    gdk-pixbuf \
-+    gdk-pixbuf-native \
-+    gi-docgen \
-+    glib-2.0 \
-+    graphene \
-+    harfbuzz \
-+    iso-codes \
-+    jpeg \
-+    libepoxy \
-+    libpng \
-+    librsvg \
-+    libxkbcommon \
-+    pango \
-+    tiff \
-+"
++GNOMEBASEBUILDCLASS =3D "meson"
 +
-+LICENSE =3D "LGPL-2.0-only & LGPL-2.0-or-later & LGPL-2.1-or-later"
-+LIC_FILES_CHKSUM =3D " \
-+    file://COPYING;md5=3D5f30f0716dfdd0d91eb439ebec522ec2 \
-+    file://gtk/gtk.h;endline=3D25;md5=3D1d8dc0fccdbfa26287a271dce88af737=
- \
-+    file://gdk/gdk.h;endline=3D25;md5=3Dc920ce39dc88c6f06d3e7c50e08086f2=
- \
-+    file://tests/testgtk.c;endline=3D25;md5=3D49d06770681b8322466b52ed19=
-d29fb2 \
-+"
++inherit gnomebase gobject-introspection gtk-doc
 +
-+MAJ_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
++SRC_URI[archive.sha256sum] =3D "a37bb0e78a419dcbeaa9c7027bcff52f5ec2367c=
+25ec859da31dfde2928f279a"
 +
-+UPSTREAM_CHECK_REGEX =3D "gtk-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)\.tar.=
-xz"
++# gtk4 & mutter 41.0 requires graphene build with introspection
++PACKAGECONFIG ?=3D "introspection"
++PACKAGECONFIG[introspection] =3D "-Dintrospection=3Denabled,-Dintrospect=
+ion=3Ddisabled,"
 +
-+SRC_URI =3D "http://ftp.gnome.org/pub/gnome/sources/gtk/${MAJ_VER}/gtk-$=
-{PV}.tar.xz"
-+SRC_URI[sha256sum] =3D "85b7a160b6e02eafa4e7d38f046f8720fab537d3fe73c01c=
-864333a983a692a9"
++GTKDOC_MESON_OPTION =3D "gtk_doc"
 +
-+S =3D "${WORKDIR}/gtk-${PV}"
++EXTRA_OEMESON =3D "-Dinstalled_tests=3Dfalse"
 +
-+inherit meson gettext pkgconfig gi-docgen update-alternatives gsettings =
-features_check gobject-introspection
++FILES:${PN} +=3D "${libdir}/graphene-1.0"
 +
-+# TBD: nativesdk
-+# gobject-introspection.bbclass pins introspection off for nativesk. As =
-long as
-+# we do not remove this wisdom or hack gtk4, it is not possible to build
-+# nativesdk-gtk4
-+BBCLASSEXTEND =3D "native"
-+
-+GSETTINGS_PACKAGE:class-native =3D ""
-+
-+ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
-+REQUIRED_DISTRO_FEATURES =3D "opengl"
-+
-+GIR_MESON_ENABLE_FLAG =3D 'enabled'
-+GIR_MESON_DISABLE_FLAG =3D 'disabled'
-+
-+EXTRA_OEMESON =3D " -Dbuild-tests=3Dfalse -Ddemos=3Dfalse"
-+
-+PACKAGECONFIG ??=3D "gstreamer ${@bb.utils.filter('DISTRO_FEATURES', 'wa=
-yland x11 vulkan', d)}"
-+PACKAGECONFIG:class-native =3D "${@bb.utils.filter('DISTRO_FEATURES', 'x=
-11', d)}"
-+PACKAGECONFIG:class-nativesdk =3D "${@bb.utils.filter('DISTRO_FEATURES',=
- 'x11', d)}"
-+
-+PACKAGECONFIG[x11] =3D "-Dx11-backend=3Dtrue,-Dx11-backend=3Dfalse,at-sp=
-i2-atk fontconfig libx11 libxext libxcursor libxi libxdamage libxrandr li=
-bxrender libxcomposite libxfixes xinerama"
-+PACKAGECONFIG[wayland] =3D "-Dwayland-backend=3Dtrue,-Dwayland-backend=3D=
-false,wayland wayland-protocols virtual/egl virtual/libgles2 wayland-nati=
-ve"
-+PACKAGECONFIG[cups] =3D "-Dprint-cups=3Denabled,-Dprint-cups=3Ddisabled,=
-cups"
-+PACKAGECONFIG[colord] =3D "-Dcolord=3Denabled,-Dcolord=3Ddisabled,colord=
-"
-+PACKAGECONFIG[ffmpeg] =3D "-Dmedia-ffmpeg=3Denabled,-Dmedia-ffmpeg=3Ddis=
-abled,ffmpeg"
-+# gtk4 wants gstreamer-player-1.0 -> gstreamer1.0-plugins-bad
-+PACKAGECONFIG[gstreamer] =3D "-Dmedia-gstreamer=3Denabled,-Dmedia-gstrea=
-mer=3Ddisabled,gstreamer1.0-plugins-bad"
-+PACKAGECONFIG[tracker] =3D "-Dtracker=3Denabled,-Dtracker=3Ddisabled,tra=
-cker"
-+PACKAGECONFIG[vulkan] =3D "-Dvulkan=3Denabled,-Dvulkan=3Ddisabled, vulka=
-n-loader vulkan-headers shaderc-native"
-+
-+PACKAGES =3D+ "${PN}-demo"
-+LIBV =3D "4.0.0"
-+
-+FILES:${PN}:append =3D " \
-+    ${datadir}/glib-2.0/schemas/ \
-+    ${datadir}/gtk-4.0/emoji/ \
-+    ${datadir}/metainfo/ \
-+    ${datadir}/icons/hicolor/*/apps/org.gtk.PrintEditor4*.* \
-+    ${libdir}/gtk-4.0/${LIBV}/media \
-+    ${bindir}/gtk4-update-icon-cache \
-+    ${bindir}/gtk4-launch \
-+"
-+
-+FILES:${PN}-dev +=3D " \
-+    ${datadir}/gtk-4.0/gtk4builder.rng \
-+    ${datadir}/gtk-4.0/include \
-+    ${datadir}/gtk-4.0/valgrind \
-+    ${datadir}/gettext/its \
-+    ${bindir}/gtk4-builder-tool \
-+    ${bindir}/gtk4-encode-symbolic-svg \
-+    ${bindir}/gtk4-query-settings \
-+"
-+
-+GTKBASE_RRECOMMENDS ?=3D " \
-+    liberation-fonts \
-+    gdk-pixbuf-loader-png \
-+    gdk-pixbuf-loader-jpeg \
-+    gdk-pixbuf-loader-gif \
-+    gdk-pixbuf-loader-xpm \
-+    shared-mime-info \
-+    adwaita-icon-theme-symbolic \
-+"
-+
-+
-+GTKBASE_RRECOMMENDS:class-native ?=3D ""
-+
-+GTKGLIBC_RRECOMMENDS ?=3D "${GTKBASE_RRECOMMENDS} glibc-gconv-iso8859-1"
-+
-+RRECOMMENDS:${PN} =3D "${GTKBASE_RRECOMMENDS}"
-+RRECOMMENDS:${PN}:libc-glibc =3D "${GTKGLIBC_RRECOMMENDS}"
-+RDEPENDS:${PN}-dev +=3D "${@bb.utils.contains("PACKAGECONFIG", "wayland"=
-, "wayland-protocols", "", d)}"
-+
-+PACKAGES_DYNAMIC +=3D "^gtk4-printbackend-.*"
-+python populate_packages:prepend () {
-+    import os.path
-+
-+    gtk_libdir =3D d.expand('${libdir}/gtk-4.0/${LIBV}')
-+    printmodules_root =3D os.path.join(gtk_libdir, 'printbackends');
-+
-+    do_split_packages(d, printmodules_root, r'^libprintbackend-(.*)\.so$=
-', 'gtk4-printbackend-%s', 'GTK printbackend module for %s')
-+
-+    if (d.getVar('DEBIAN_NAMES')):
-+        d.setVar(d.expand('PKG:${PN}'), '${MLPREFIX}libgtk-4.0')
-+}
++BBCLASSEXTEND =3D "native nativesdk"
 --=20
 2.34.1
 
