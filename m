@@ -1,129 +1,147 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 762FBC4321E
-	for <webhook@archiver.kernel.org>; Thu,  1 Dec 2022 14:20:02 +0000 (UTC)
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.54])
- by mx.groups.io with SMTP id smtpd.web10.44510.1669904395355141370
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D666C47088
+	for <webhook@archiver.kernel.org>; Thu,  1 Dec 2022 14:23:12 +0000 (UTC)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web11.44755.1669904590120506233
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Dec 2022 06:19:56 -0800
+ Thu, 01 Dec 2022 06:23:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=ZCaMx/MZ;
- spf=pass (domain: siemens.com, ip: 40.107.8.54, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=elNnsAG9u+vjd/gtUnNfXepLhg1JbW/DvgwjcmQciqD7CyNyhDGupjymYjPOswksMTSY4TyrAVLJ/y6UsQGcDo/iddXiOwt3TSn363m7GfsPHRd7UMjeGiSYvd4+r6ufou7jEMP41u9D98aSUNfQd9OG/xgFkWVeTZoemW9hwtXqdULXLNo/pW57HvlgVgSKom0EkwK7BZ2KLY8Ykr3hyqFychIK/7KvOW79FVC4LkCkXo2Un5o/tip16MGfmMm62NBE2vj6gtsTdw+NZBsvPcJdnCigGlyKu9LjFYEds1NCzqFPN/5kTcaVSX30ANB2CvN3B0i9/0JEkAZBIVWA8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=r1EKiqGIapENqz6y4RLPGH0DgHv7EhohKKwXGQuBKr8=;
- b=cGmVY5IY8OdqynyYwKvNxZ0vNRalIjLMh5drEDwm17b8cSnY111lN7L20kX7zMKXvYyRMU2inwalWC0OqI4atSfYq1VXgRw789lEV2lmHmXmYA4PSmFeIULhHggn6KRrh7OUcFj2GTMhX5LS1UEaTl1m13jO647FTZ1vvzgT0LN7pzliiec8045r8XjwaghLOx0wy92zz17EmFU3XBKT8sp9SrvoQcs1FW767v5K9Xlq/qtgPVyn2BXbbsDjO7P9uwSc4FaFL5OGmxuFtMJhM/0tDaAs9Zi33tmiQSbbid6LddHcNKiBCmEwkuzmVrKHsT3lWlo/eYmknDEqzgU8bg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=r1EKiqGIapENqz6y4RLPGH0DgHv7EhohKKwXGQuBKr8=;
- b=ZCaMx/MZ38iwodX3MyawprPDUetP0Uo7bycSY5I3AW8+ML1FnDFl5lcb8bDMCqtprm+bN0KMBbmpdbdky9lAVjlq/5XDrnEYBlLDvdAW+BwaYTs++DY6dPQu5qDjMF+c6+Pz7dwdhN6+v7owPCbNo5iMIepjZwHAAKIBItU7ap5+7wwZNeQJ8OqSRvw1d7aLZSCn7AOtsaRy5ButaLflFoitmGCbf0nPTsnmVV8BzLVk6ijQJ0CYZBdKeJZl3A9c3AVWiDdq9HsWpSvctZKNK94RPJxvbYhmDIjJdIKkfZ4+RfP2RWXUcra8TX5mB38mA5eUEKrGjG0+lbV0y43+Rg==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by PAWPR10MB7817.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:34e::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.22; Thu, 1 Dec
- 2022 14:19:52 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::4f14:3c2e:f13a:963a]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::4f14:3c2e:f13a:963a%6]) with mapi id 15.20.5857.023; Thu, 1 Dec 2022
- 14:19:52 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core][kirkstone][master][PATCH] externalsrc: fix lookup for
- .gitmodules
-Thread-Topic: [OE-core][kirkstone][master][PATCH] externalsrc: fix lookup for
- .gitmodules
-Thread-Index: AQHZBY3q0erKpRnKFUG8ePLXOfgeU65ZEz5g
-Date: Thu, 1 Dec 2022 14:19:52 +0000
-Message-ID: 
- <AS1PR10MB56970A0D2B67A2A1E0BF7F0CFD149@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <172CB0632CCBE1F5.27320@lists.openembedded.org>
-In-Reply-To: <172CB0632CCBE1F5.27320@lists.openembedded.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2022-12-01T14:19:51Z;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=377a9d33-b30b-4607-91b7-3b6ac5401413;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0
-document_confidentiality: Restricted
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|PAWPR10MB7817:EE_
-x-ms-office365-filtering-correlation-id: f1718432-fb6c-45fe-d399-08dad3a71cbf
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- Cp/dVtXenlt1DfFchDBfKAVqRrBJ8N1IGRRfs4Zj82Em8TPOGa+3OoJNtGSWpPtvVaMONRQCNSm7VI6FxmjoNz/RUwOf8rW/AjCXiSeLggQCP42uZuShWiEa0CthXTHMqOAePKcfBA3wvkn2ZODdk3WG6WTBVQxvausiGX6cJRE/9EvKUJiMeVaD8pWYmFdxJbIVLelZZHHqeU0LCugs30NygwsC09cbD2teHc5xk5+CbQcDS7EQVGy0+MZsf9uW7fCu3peQzuAAih34YNGfKxym9xHl2B9kHBV+QAov3Dhe/Iv46/lyAArOun1eeRguQXqSgCX47+mt2qtRCK3LHXgzC3nM666AU10CyfcEWRBqcdZ1bKAv0M1wP4D1WZoc1NLRawDBcmUqEYaFZ4VTsrLCvVEZ6RTco74Enjysv4Fi76NXhRMmuF+1+Y5j/PbVM18n8nACAhQoYynHXsdrZrOu26o1DiV7yTaq96f9RW/otyJK6e0F28NlMkIX1+6xSg01zhCf4srEro8bxqys6Bywhjy1V/WcTq0TK5FephwXmpojlTeEgJYOoQLk+hsF9oenR0Dxfk+xTyGviFpWLWa4UcqneX7xOq2PmKTWrun1fHvlywEa7S80PtX1T/dzwJ4nvx7IWGnp3gfyUqPvDD4pcue6HSzF7bFXwVJJk6swVD1PPHNcFYE9bF/ykypYfpIkT/d/j6YUyaDQPTKcoYGqP9Kx2Gv7ROzdLdLgH4Q=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(396003)(136003)(39860400002)(366004)(346002)(451199015)(558084003)(33656002)(86362001)(8676002)(186003)(82960400001)(5660300002)(38100700002)(8936002)(2906002)(122000001)(38070700005)(6916009)(66556008)(71200400001)(6506007)(66446008)(55236004)(52536014)(55016003)(76116006)(316002)(478600001)(9686003)(66946007)(64756008)(41300700001)(7696005)(26005)(66476007)(142923001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?wwghthNh8Whd3hKpvIelZk+ol0CGbLV8qEIjPm+z7ukPgQOcpbFVQZ7tMkEd?=
- =?us-ascii?Q?Ye7iSonkmcRKd94jzJfaKlUPtcgw230dAMWguYhZdiTpo/IvxTtiA+fnnUt0?=
- =?us-ascii?Q?YP7XgyH6/I7j7DLLcpWgZx98779gKzMfzpj5qthm18a5Zs9i3p5yd1veZRKC?=
- =?us-ascii?Q?wYLvquxRAdlRu9uqwIKeRutSSZqc0JYC5BiD0hPTXCqEROvEJbTqO6NQeZy9?=
- =?us-ascii?Q?nsEIdL7reIYg8jJJ6wWqGmXQ+kCx6uSOkItTzlaC/x+BBihY5udrhRSi+bVy?=
- =?us-ascii?Q?s4jAN48hsdHo8ICZl0nu//0DtZ9NvIXlv3XTKTnxondB1dy6y4IvcDoiLBda?=
- =?us-ascii?Q?lJyMpYyqsUoasxrYmHXRD7UuDquCtvXfotLFweikOFkp8JB3rQzBUIGT4BsJ?=
- =?us-ascii?Q?rqaFz5sKOw6bIDZ9n7F6kND1tvR3JWecMLdvxZDfnSwseyk9Kk0zLKpmat1x?=
- =?us-ascii?Q?qcs1SEOXimfXapFmPoWP3nC89pPjPfzHcsXHijNZFY8OnXopvjpwqzq2hvY3?=
- =?us-ascii?Q?nHJZRWRN55kOWNNgtjW37/cunTmkakY0bHZjaLJbqbFEudlS3I7/5Z1mPEpK?=
- =?us-ascii?Q?VpmKSezANv1ownQUwvGb/dl662Pk1zdANMHl8IVmty6hpugr2YQFK3klq4zB?=
- =?us-ascii?Q?eoRbOeQafdsu8ZI87/IfB3bM5U+BU1bs/hwC6oi37EefNeyYVHy05Y7OmUtg?=
- =?us-ascii?Q?f5OSYZMwVPqmiZ/nznM1rTZHO2iRE7G2NV4VeyUQ+V8HevMrpFLyWz5uncVN?=
- =?us-ascii?Q?u27SDpY/1KOnsU2KYllUVzg7KR3ThzEq9nv6wm0evcWb9MD4QFMZvxjfjl18?=
- =?us-ascii?Q?gN8ct4VEyrrHY5wcZflfFTmwdEekcl6e4D3mMSoF1M0vVr9I0YWF3aT9ts9N?=
- =?us-ascii?Q?oOXDEB2aNf745cVfNxUroQu9f1SdN5GF0QSLYTTe2VEmBk+Z0I1vTh/45qgI?=
- =?us-ascii?Q?uCqMcRsu30Bwar652Kkqx+zlTuedQ5/TIRrxu214sEeBrTG6w6bR10hD7VIl?=
- =?us-ascii?Q?+te5zbJ7yWQJYDtQIaQ+wc1xDx+4PA8C0KD7AbZOcqR/FjOIChrh9ArQ07at?=
- =?us-ascii?Q?58E0hWCvLgbNuM4FqrRqeZrkQ6FoaKXXcInCUjF4gIvkEglg43z9piizDVWR?=
- =?us-ascii?Q?8gdm0/T4S1Jz9R6zk2R5cw+YFCqQIgDUhHYX7XO2rnsQQvJB/LR37SlRbt/x?=
- =?us-ascii?Q?r/dfxIEZFRaVjjJjnzSjEzmIXFmh/FDWxcBExZNjg/CcLaq9ZNq9/O92Lg14?=
- =?us-ascii?Q?wgek8d0xLnDfAvgmHTllrxlzM4IEpzXMdwaKtajswSwBK/eZs+z3+mtxbx25?=
- =?us-ascii?Q?C3Sc7qa/IguAmiCEUIINhFjrMntdPD1UaWT+YJQwczdndrcFDxm6ZlAS3MEa?=
- =?us-ascii?Q?6+26Z/p4jkmenDJMMyeA99OkqPfYQvq8+N34oEwp2wBgxY1nlFgfP98JO0dG?=
- =?us-ascii?Q?PhdNJ9VCnWibLmKWB5COGn+B76JHoHXN5zc7Ki7Meqtl+xIp66mDVxcnilFt?=
- =?us-ascii?Q?GqXE1jW7Wbj2KapKo0qiIyRR7h1v2771N/TRl5n9Lxv0pvgsKuH/kp21IT/g?=
- =?us-ascii?Q?tNQrsiLb6HFouurDwQOmCcxiO54zbwHYOQJ8Y0c3?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=mHk67pAK;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f47.google.com with SMTP id b13-20020a17090a5a0d00b0021906102d05so2184403pjd.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 06:23:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Kwbjr68qIquHAn+BNCFhSPmN3UwqquuHxume7SXXhOw=;
+        b=mHk67pAK22fceKMo7nWxeYy1YgDuEj02JtTrkbaub9mYDMSLZ/1s9sh27HHLbpJnx1
+         tdFpg3Ku4+baJJ4cYs8NFk2MzA+64iJaAMaD2sGpzDPVb4a0damEYFQLskxIJr6/pE7/
+         W1QJHOGSLimYIiCRTu626iqZYPnZI3qKDnUv+sZbrq18FTwJkf02ezsRGi3aaDfiQfWn
+         JbtmAtyGyNtEtilV+t4cXDZceFxR8MxLHku6IAUlFW0z85BB/CWFIYMk1uI9/sobwHl+
+         ae3IBiPamnOU6f4deU6BCH/ovEWbHFy4+N42RDFSH9rYG+O9k7o7mRqB0WXhaliAlr3z
+         q3uA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Kwbjr68qIquHAn+BNCFhSPmN3UwqquuHxume7SXXhOw=;
+        b=iH/s4kqgaFucSAeByUXurMoDzZAaWC/QFyLLVKIRw0nDePRUOw/F9Wy1tg1JBAXyfg
+         zo8R2QeivTInHbw9ZnVztdb6Tqn6OXgfCYWADtCwlrNquNFYXE0hUVujkY0NAUz5xdBZ
+         g02rnymaFL9sFTFnhGj56t0e2mKK5DkGH4Orty04N5Hotslo+MX3eOwcMeYRgMjflTz6
+         yewX9aHHR1oannkjPRfLTyW8MHJeyCdqfQGacJxuT34WkBwbrNsf3E5rwBxDWbuXV+su
+         Ei5vF0+/UKtao2bQAgBDoLtJrZvCrlSXYC/0lDxt33p3OHEm9WVa2if54cGBJ2NB6x59
+         2ZFw==
+X-Gm-Message-State: ANoB5plJ6gvw97pQpUI997WwkByrShOPvwBJ2ntMaFNMsAqevt8JcYuv
+	7AxKQGBp9vsgru5r38iBkD3augT+fkgaEAJD4Wg=
+X-Google-Smtp-Source: AA0mqf74w8iv8KFCms+2UHyq3jgh7P96HGCQLpZF/HcLZszSEeRknpNdTuzLChP5Ni1KNz+f0UiFWg==
+X-Received: by 2002:a17:902:cccd:b0:186:fd58:c706 with SMTP id z13-20020a170902cccd00b00186fd58c706mr48453585ple.4.1669904591011;
+        Thu, 01 Dec 2022 06:23:11 -0800 (PST)
+Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
+        by smtp.gmail.com with ESMTPSA id p2-20020a622902000000b00575acb243besm3300615pfp.1.2022.12.01.06.23.10
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Dec 2022 06:23:10 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][langdale 04/22] tiff: Security fix for CVE-2022-3970
+Date: Thu,  1 Dec 2022 04:22:34 -1000
+Message-Id: <d066f7e8435491f53622d9d6b21f3650c22f8995.1669904433.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1669904433.git.steve@sakoman.com>
+References: <cover.1669904433.git.steve@sakoman.com>
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: f1718432-fb6c-45fe-d399-08dad3a71cbf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Dec 2022 14:19:52.1523
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: PDophLD0swEzVAOA6dBMaY6GcyGjzW//T0JtsBEXKDbbqPznsLBU0zCoTOdcVTrVRmg+/6Bt8oGAqplzhzPuNA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR10MB7817
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 14:20:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174062
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 14:23:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174067
 
-Please pick this also to dunfell
-That's where we see this after updating to yocto-3.1.21 tag from yesterday.
+From: "Qiu, Zheng" <Zheng.Qiu@windriver.com>
 
-Thanks,
-  Peter
+This patch contains a fix for CVE-2022-3970
+
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2022-3970
+https://security-tracker.debian.org/tracker/CVE-2022-3970
+
+Patch generated from :
+https://gitlab.com/libtiff/libtiff/-/commit/227500897dfb07fb7d27f7aa570050e62617e3be
+
+Signed-off-by: Zheng Qiu <zheng.qiu@windriver.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit 668ff495ac44e5b6d9e1af15d3861b5c2b4dfcd1)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../libtiff/files/CVE-2022-3970.patch         | 39 +++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.4.0.bb |  1 +
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2022-3970.patch
+
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2022-3970.patch b/meta/recipes-multimedia/libtiff/files/CVE-2022-3970.patch
+new file mode 100644
+index 0000000000..b3352ba8ab
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2022-3970.patch
+@@ -0,0 +1,39 @@
++From 227500897dfb07fb7d27f7aa570050e62617e3be Mon Sep 17 00:00:00 2001
++From: Even Rouault <even.rouault@spatialys.com>
++Date: Tue, 8 Nov 2022 15:16:58 +0100
++Subject: [PATCH] TIFFReadRGBATileExt(): fix (unsigned) integer overflow on
++ strips/tiles > 2 GB
++
++Fixes https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=53137
++Upstream-Status: Accepted
++---
++ libtiff/tif_getimage.c | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
++
++diff --git a/libtiff/tif_getimage.c b/libtiff/tif_getimage.c
++index a4d0c1d6..60b94d8e 100644
++--- a/libtiff/tif_getimage.c
+++++ b/libtiff/tif_getimage.c
++@@ -3016,15 +3016,15 @@ TIFFReadRGBATileExt(TIFF* tif, uint32_t col, uint32_t row, uint32_t * raster, in
++         return( ok );
++ 
++     for( i_row = 0; i_row < read_ysize; i_row++ ) {
++-        memmove( raster + (tile_ysize - i_row - 1) * tile_xsize,
++-                 raster + (read_ysize - i_row - 1) * read_xsize,
+++        memmove( raster + (size_t)(tile_ysize - i_row - 1) * tile_xsize,
+++                 raster + (size_t)(read_ysize - i_row - 1) * read_xsize,
++                  read_xsize * sizeof(uint32_t) );
++-        _TIFFmemset( raster + (tile_ysize - i_row - 1) * tile_xsize+read_xsize,
+++        _TIFFmemset( raster + (size_t)(tile_ysize - i_row - 1) * tile_xsize+read_xsize,
++                      0, sizeof(uint32_t) * (tile_xsize - read_xsize) );
++     }
++ 
++     for( i_row = read_ysize; i_row < tile_ysize; i_row++ ) {
++-        _TIFFmemset( raster + (tile_ysize - i_row - 1) * tile_xsize,
+++        _TIFFmemset( raster + (size_t)(tile_ysize - i_row - 1) * tile_xsize,
++                      0, sizeof(uint32_t) * tile_xsize );
++     }
++ 
++-- 
++2.33.0
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
+index 29cb4111d6..970aab5433 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
+@@ -12,6 +12,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://0001-fix-the-FPE-in-tiffcrop-415-427-and-428.patch \
+            file://CVE-2022-34526.patch \
+            file://CVE-2022-2953.patch \
++           file://CVE-2022-3970.patch \
+            file://0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch \
+            file://0001-tiffcrop-S-option-Make-decision-simpler.patch \
+            file://0001-tiffcrop-disable-incompatibility-of-Z-X-Y-z-options-.patch \
+-- 
+2.25.1
+
 
