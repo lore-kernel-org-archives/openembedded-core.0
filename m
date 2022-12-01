@@ -2,93 +2,142 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60B51C47089
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 634ECC4708D
 	for <webhook@archiver.kernel.org>; Thu,  1 Dec 2022 14:23:52 +0000 (UTC)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web10.44640.1669904625505004408
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web10.44637.1669904623560068754
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Dec 2022 06:23:45 -0800
+ Thu, 01 Dec 2022 06:23:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=76jfMaZz;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f51.google.com with SMTP id w4-20020a17090ac98400b002186f5d7a4cso5416862pjt.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 06:23:45 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=jLIE+Cgg;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.50, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f50.google.com with SMTP id k5so1986856pjo.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 06:23:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/wthRAa93hvYf8cpUJgFFoE9aQ11V/eVxwEaLlVsnro=;
-        b=76jfMaZzD7o265irDFXZhvOZDhoJv18Gdkq7dLkBOmDwGXeXzrJQa1FY8rbyJBm2oA
-         eZ8xb4wuF9iEUD/hQJI6vQkhRB56Chiv7LM4scfxRIDA2Ivoo9QCJ0W1QTu3B8EoNPOB
-         Hmgaisk70zTd7oxNsGr0TZepL2ytixCgOVAZDgvR95eVUeI9lWy37eO9UnHoumX9017T
-         q36binLvrwGU9BLJev7iA1UNGIwaM6tIUu/ySOLoC7krPZhQ2YrvESbHv7vMEH35HstC
-         kVmPlyOYpLhIY4YKHD76opITruQqSAZBuR6bzqz869xegOYKjApLFC5/ggg7aJ2N5Sp0
-         ulhg==
+        bh=Wyrd2370KTzoDTIBjFdFpMgOozafrUjJVKH49sIkdBc=;
+        b=jLIE+CggbHZYxcRdSRGa9j1WQiUdoC/0DMpLXO/V5ZrZGEni8nqdYE8f48Bwntlcww
+         eW6zjdVHUcUWVwhR+5l/zyf1sXm5C88R52nCfeQEKHzLeef+SpTfkoDn63526QdD7IfZ
+         W0ZJNNR5A97BwMAw93HrZe9wOdGhmFiHbyWUWW32gPPHDPkszEcFBqgIBXaGpSnUq82l
+         9HXBB0RSbs0blEmQCgMJuIZymH3r0424VI9yVHWAQO21gCW4CtsCezpfHXyKxgjiuauX
+         xsIlM/yGTD+yWy+aQZqaPRrODfu17d84m8xLaF9pClne+Gm4+XuPmMOnhmSg5CW8CQjJ
+         PfPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/wthRAa93hvYf8cpUJgFFoE9aQ11V/eVxwEaLlVsnro=;
-        b=qK/abFTI5hQCYykqrEpqimf3Muzu7bVzI4R5oqUyFiDTgMuvs1PAdGb4Jfoanaq7gT
-         HHmicKxdU58wxKpxUKRpPvKSWGvbdwQM0sz+3wmPYb2eCpR0iP1Rznd7DGlezD3OTJ9V
-         Ge6RE4J/qv1PA0CtskSy1csykSgr3kF82fSr2UjbUHc0yMBfMZY3YVywPDEFg6DehfTb
-         lRk1umwORwaKiZYiOnC6H8/PQjmo9P+CQubzmdFInDaZ//fGmfc0DNGt4D7JErOUBuXj
-         W8oIxHUOuDchfx9Z7mIWl5IVxFWsIunhScyHPdGhZoShc37eANKXwoK+Bw7n17xQNPfy
-         Ri8Q==
-X-Gm-Message-State: ANoB5pkzWu81krz1RZSEAxxCeGD0W0U3g4O2yyIzmHQn3flGvuoU+cz+
-	gapct2+CCLID4xOumrfiW8iBdE/Z5M4ZnqpgNxM=
-X-Google-Smtp-Source: AA0mqf5V2CzHiwNsSQfTd7Tdupk1K2GCixw8VqlJTmizl6E5yNJRtV//mC12dNdP2ffgC+2/5347ig==
-X-Received: by 2002:a17:90a:f011:b0:212:e996:704d with SMTP id bt17-20020a17090af01100b00212e996704dmr70819161pjb.132.1669904624496;
-        Thu, 01 Dec 2022 06:23:44 -0800 (PST)
+        bh=Wyrd2370KTzoDTIBjFdFpMgOozafrUjJVKH49sIkdBc=;
+        b=t/TuuDwGzpSvxj1ORE14q27kqySZ872Du5Yt4bAVlPBAnWOuIQQNZ0IodMtdd0Pdao
+         dxFNrpHynAHGGPv590+P4hjRYf61kaNxZcD8/H48w2is3hRX2d87pUAjQUIfTr6mLCOo
+         tZ11Z/vb2i4+nwcJGn+Wg4z9NEF0bSIkRPVi/kmtw3KvjghOAaOsjdUqY1Q1T60l5/+s
+         egM5Uuy8POEdJrzpI3sMf1DzKJEOijEejcDfn10TFQYxaJ8uMB5CJ+EFyo4PDL7gn/4G
+         n1LhmpUMChPREpJJzJkzyH+PlalsScAt8Bt/0NIP5y0y6La3EUr5bJiLfA2moWm2i0Is
+         UVCQ==
+X-Gm-Message-State: ANoB5pk8NccdvDgIIsQGVkEsxO/V4MVWFKF5mdC1DdnU7hoznSoZhPxe
+	oq5/vHPrexUCM7mhV806huLkBkdVuWoLuIdmgco=
+X-Google-Smtp-Source: AA0mqf48g4I20UBvIUtMADYrmN5E8yxzOgKHqJm71R0iSP1CJocM7ILGEyCB6+jlH/Sgtcgw7TUTZg==
+X-Received: by 2002:a17:902:9889:b0:182:e9dd:936d with SMTP id s9-20020a170902988900b00182e9dd936dmr49048239plp.6.1669904626461;
+        Thu, 01 Dec 2022 06:23:46 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id p2-20020a622902000000b00575acb243besm3300615pfp.1.2022.12.01.06.23.43
+        by smtp.gmail.com with ESMTPSA id p2-20020a622902000000b00575acb243besm3300615pfp.1.2022.12.01.06.23.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Dec 2022 06:23:43 -0800 (PST)
+        Thu, 01 Dec 2022 06:23:46 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 18/22] linux-firmware: add new fw file to ${PN}-qcom-adreno-a530
-Date: Thu,  1 Dec 2022 04:22:48 -1000
-Message-Id: <fd3702355259b0e633c2e96fa65afab32c035e36.1669904433.git.steve@sakoman.com>
+Subject: [OE-core][langdale 19/22] sstatesig: emit more helpful error message when not finding sstate manifest
+Date: Thu,  1 Dec 2022 04:22:49 -1000
+Message-Id: <18f1a5554063b0cecd206abed6e57f397f7d1346.1669904433.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1669904433.git.steve@sakoman.com>
 References: <cover.1669904433.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 14:23:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174081
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174082
 
-From: Dmitry Baryshkov <dbaryshkov@gmail.com>
+From: Enrico Jörns <ejo@pengutronix.de>
 
-Extend the linux-firmware-qcom-adreno-a530 package with the squashed
-Adreno 530 zap shader.
+Since oe-core commit 64b89f3c8fc31842256c482a3039d90d3f12c1cc
+("sstatesig.py: make it fatal error when sstate manifest isn't found")
+errors like:
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+| Manifest [..]/tmp/sstate-control/manifest-x86_64_x86_64-nativesdk-dbus.populate_sysroot not found in imx8mm_dummy cortexa53-mx8mm cortexa53 armv8a-crc armv8a aarch64 allarch x86_64_x86_64-nativesdk (variant '')?
+
+are fatal now and cannot be ignored but must be debugged.
+
+Unfortunately, the currently emitted error message is a bit imprecise
+with telling the reader what has actually gone wrong.
+
+This commit:
+
+* adds the word 'sstate' to the error message to clarify the scope we
+  are dealing with ('sstate manifests', since there are other manifests,
+  too)
+* does not randomly print the last manifest file searched for as THE
+  manifest file that could not be found
+  Instead, we print the name of the task the sstate was searched for
+* adds the word 'multilib' to variant to make clear which variant we are
+  talking about
+* adds a separate line noting the searched pkgarchs and adds explicitly
+  mentions this word ('pkgarchs')
+* prints a list of ALL manifest file locations attempted
+* removes the '?' at the end of the message since such errors indeed
+  leave the question of what is the cause but the error message itself
+  is more like a statement.
+
+The result for the exact same issue as noted above then looks as
+follows:
+
+| The sstate manifest for task 'dbus:populate_sysroot' (multilib variant '') could not be found.
+| The pkgarchs considered were: imx8mm_dummy, cortexa53-mx8mm, cortexa53, armv8a-crc, armv8a, aarch64, allarch, x86_64_x86_64-nativesdk.
+| But none of these manifests exists:
+|     [..]/tmp/sstate-control/manifest-imx8mm_dummy-dbus.populate_sysroot
+|     [..]/tmp/sstate-control/manifest-cortexa53-mx8mm-dbus.populate_sysroot
+|     [..]/tmp/sstate-control/manifest-cortexa53-dbus.populate_sysroot
+|     [..]/tmp/sstate-control/manifest-armv8a-crc-dbus.populate_sysroot
+|     [..]/tmp/sstate-control/manifest-armv8a-dbus.populate_sysroot
+|     [..]/tmp/sstate-control/manifest-aarch64-dbus.populate_sysroot
+|     [..]/tmp/sstate-control/manifest-allarch-dbus.populate_sysroot
+|     [..]/tmp/sstate-control/manifest-x86_64_x86_64-nativesdk-dbus.populate_sysroot
+
+Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 920bf119f35824a3531801f5e41158a8ad1bca4c)
+(cherry picked from commit 735ec126ec219c7cb89cb05b0e433201bb7f59eb)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-kernel/linux-firmware/linux-firmware_20221109.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oe/sstatesig.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20221109.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20221109.bb
-index dc977c2bb7..b05b960ebd 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20221109.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20221109.bb
-@@ -993,7 +993,7 @@ FILES:${PN}-qcom-vpu-2.0 = "${nonarch_base_libdir}/firmware/qcom/vpu-2.0/*"
- FILES:${PN}-qcom-adreno-a2xx = "${nonarch_base_libdir}/firmware/qcom/leia_*.fw"
- FILES:${PN}-qcom-adreno-a3xx = "${nonarch_base_libdir}/firmware/qcom/a3*_*.fw ${nonarch_base_libdir}/firmware/a300_*.fw"
- FILES:${PN}-qcom-adreno-a4xx = "${nonarch_base_libdir}/firmware/qcom/a4*_*.fw"
--FILES:${PN}-qcom-adreno-a530 = "${nonarch_base_libdir}/firmware/qcom/a530*.*"
-+FILES:${PN}-qcom-adreno-a530 = "${nonarch_base_libdir}/firmware/qcom/a530*.* ${nonarch_base_libdir}/firmware/qcom/apq8096/a530*.*"
- FILES:${PN}-qcom-adreno-a630 = "${nonarch_base_libdir}/firmware/qcom/a630*.* ${nonarch_base_libdir}/firmware/qcom/sdm845/a630*.*"
- FILES:${PN}-qcom-adreno-a650 = "${nonarch_base_libdir}/firmware/qcom/a650*.* ${nonarch_base_libdir}/firmware/qcom/sm8250/a650*.*"
- FILES:${PN}-qcom-adreno-a660 = "${nonarch_base_libdir}/firmware/qcom/a660*.*"
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index aa273df970..bf48aed7e1 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -469,11 +469,15 @@ def find_sstate_manifest(taskdata, taskdata2, taskname, d, multilibcache):
+         pkgarchs.append('allarch')
+         pkgarchs.append('${SDK_ARCH}_${SDK_ARCH}-${SDKPKGSUFFIX}')
+ 
++    searched_manifests = []
++
+     for pkgarch in pkgarchs:
+         manifest = d2.expand("${SSTATE_MANIFESTS}/manifest-%s-%s.%s" % (pkgarch, taskdata, taskname))
+         if os.path.exists(manifest):
+             return manifest, d2
+-    bb.fatal("Manifest %s not found in %s (variant '%s')?" % (manifest, d2.expand(" ".join(pkgarchs)), variant))
++        searched_manifests.append(manifest)
++    bb.fatal("The sstate manifest for task '%s:%s' (multilib variant '%s') could not be found.\nThe pkgarchs considered were: %s.\nBut none of these manifests exists:\n    %s"
++            % (taskdata, taskname, variant, d2.expand(", ".join(pkgarchs)),"\n    ".join(searched_manifests)))
+     return None, d2
+ 
+ def OEOuthashBasic(path, sigfile, task, d):
 -- 
 2.25.1
 
