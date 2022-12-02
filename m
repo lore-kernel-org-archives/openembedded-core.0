@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14F9AC47088
-	for <webhook@archiver.kernel.org>; Fri,  2 Dec 2022 16:37:53 +0000 (UTC)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web10.80460.1669999069491293052
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0AA2C4708E
+	for <webhook@archiver.kernel.org>; Fri,  2 Dec 2022 16:37:52 +0000 (UTC)
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.web10.80462.1669999070372089237
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Dec 2022 08:37:49 -0800
+ Fri, 02 Dec 2022 08:37:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=LY8X9KdE;
- spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id s5so7136041edc.12
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 Dec 2022 08:37:49 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=lle+jXex;
+ spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f54.google.com with SMTP id ud5so12800777ejc.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 02 Dec 2022 08:37:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=I+xhp0tuF2EgnO3+4n7v1ayOYTJ/prUIuRv2JJywfrM=;
-        b=LY8X9KdEck/n8PMYnv8+5bzlJHO4toyiADtZDWQk/fwL//rrS/1X1054auF7FI7bMi
-         IOrj6dOzWIM+8TMfr3HlMqLT7rNWYRejCs23GifR9O6Z6vdV2vPdUuyXUV4iirzby3lo
-         GkdeyMuMQ6xiw9pkYSpI7qDAnqNksFhbgBlyUIQuvCp60vmKs7UvTm12Ir+sEk+U4IjS
-         bTlqAYvhraoW0IrJXbno4Kul7Cx5MyMw3t11XvPwBGg/qT1G82eXxCfxHbLA1+HdC+h0
-         kWeA3vMXwwRUW/JcrJdrhwpua+uTSvVCSX0euw/2i9+ps9Zf99/Wo2b4HhQoSoHEJZt9
-         NOSQ==
+        bh=yWks+p7xA2+LgE2uulms5js8xRy68FNG7y41o7sDL9A=;
+        b=lle+jXex4h6NrtkxbW2UXCHGxyuAEPvrNR/dXxSBjYcLFeyxFf+1xPB6L0GptLTHnO
+         H+m20dLy3GjHZRy2DouSlidxOt+HQZhig1HBtsMWK7NywNvt0rRXanW86zwlbaokI4dk
+         ccCaBl5WgA4pcVP0lauLRxn9s+r2FIKPlTlte2anLet+PknRqa88d0mWkgYaYySwEpUI
+         EdejiZLZkv6JGSUlThxkryiSaeZp0VuEN4tjErVQi+3jgJ9+4tPNEiE77gEP870Sotyp
+         f/tdP5UdMc+Xbs2XTpCFYpOHT+9cLs/9/VDgnTlau+YSKk0EkbBAXXDl7cPinga2M3BH
+         smHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=I+xhp0tuF2EgnO3+4n7v1ayOYTJ/prUIuRv2JJywfrM=;
-        b=f9UtGIU7w31vNWJpUb6w1fmIr6g3eg81wo9yqrNr7YWIXOUUEMQdH71Anv8M0oGx1d
-         dJnECiRN7ba0nBazKjMtyclOLX7d41o7HrCsBMQLuTMw6QMG2YlYFYM9JedVP36vcvOq
-         ZsRvwiYfDB8OlFzKrYVmG6yunFAT6Z2fL/7Ntmv5whZaa8T7JAuNGEGiMK+v8EEXy0HD
-         WBES8b6uu0B0P0skkHkuFfbUQ011SZ+P94AerXk6f0Jis56hFNRBvTgEpkt/3qoIRHME
-         RVMzLr25WcY2oKhm+ohJZaDn9icdhCqnFJEgHP9SNqBIWZalHh65gXnMGBViA8hWpuAY
-         xo1Q==
-X-Gm-Message-State: ANoB5pntU+M9+OAZd+yuPB71u/7IovRssVa2qZetq3psmDSG9/jqE/MM
-	Nsd+IKrNbBqvvdHbV3sn6QHkiVmKwTY=
-X-Google-Smtp-Source: AA0mqf4Zgh6iW7iMdJ/GEpCTy8mfSWgrkWZIh+bmtnzjZsZMvNGURzP9HIMdRVVKY+zsN4V7BQCRlA==
-X-Received: by 2002:aa7:d8d5:0:b0:46b:4156:76d2 with SMTP id k21-20020aa7d8d5000000b0046b415676d2mr21051214eds.224.1669999067936;
-        Fri, 02 Dec 2022 08:37:47 -0800 (PST)
+        bh=yWks+p7xA2+LgE2uulms5js8xRy68FNG7y41o7sDL9A=;
+        b=Yj7SRgvXRFFqn58rCAS5jbXTxOWsG1PNvqkguSLXUf7Uj1x15sgBlPnsbXf7LVwdtZ
+         4HBAi4YGxQaUJuppsMn5gerda5S+7gfFA+85qvCIYEpSGVAVO4PFtfuhia9HaZT9fjzD
+         OrFBgp5IB6HrAhG9aYxGr5//c/Xz9Gy6xNfCvypjGgf1+jPohZ1tchfX60j7tV8KXfLr
+         2IHiO7mNgzfwm25ONwnscNacOFnwJY5HfWWBN5FqpXmzOFtCh4Mcagc6TuDKDiMjt5dY
+         R5q4yr1xwFU5wokSam9WOjBNnBgHWznOkkxiJaBPxgcCOPP6txA5SWUX5TSywcsz0blA
+         +3bA==
+X-Gm-Message-State: ANoB5pn38OEJJG1M3bqEjBge4CfzJuiXHbsO8+u9Dvdmq9F2mTsctdmt
+	B3g1tZ1Iv7QrSunoioNDyqjd20hqJAM=
+X-Google-Smtp-Source: AA0mqf7wabw6pLT3oDgmfLFWg03iyGCm19mpa12GgKY5pMNmAHQTtarT/cFtg3E/4HAUQzCeWn1rYg==
+X-Received: by 2002:a17:906:6d03:b0:78d:9d0b:a9f6 with SMTP id m3-20020a1709066d0300b0078d9d0ba9f6mr14147605ejr.661.1669999068744;
+        Fri, 02 Dec 2022 08:37:48 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id kj22-20020a170907765600b007c090da9eb4sm3244340ejc.82.2022.12.02.08.37.47
+        by smtp.gmail.com with ESMTPSA id kj22-20020a170907765600b007c090da9eb4sm3244340ejc.82.2022.12.02.08.37.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Dec 2022 08:37:47 -0800 (PST)
+        Fri, 02 Dec 2022 08:37:48 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 2/4] glibc-tests: correctly pull in the actual tests when installing -ptest package
-Date: Fri,  2 Dec 2022 17:37:37 +0100
-Message-Id: <20221202163739.1194505-2-alex@linutronix.de>
+Subject: [PATCH 3/4] python3: fix tests on x86 (32 bit)
+Date: Fri,  2 Dec 2022 17:37:38 +0100
+Message-Id: <20221202163739.1194505-3-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221202163739.1194505-1-alex@linutronix.de>
 References: <20221202163739.1194505-1-alex@linutronix.de>
@@ -61,38 +61,61 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Dec 2022 16:37:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174241
-
-The tests are packaged into the main glibc-tests package which is fine,
-but then glibc-tests-ptest package needs to depend on that.
-Which is what this commit addresses.
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Dec 2022 16:37:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174242
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-core/glibc/glibc-tests_2.36.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...add-more-elements-in-test_determinis.patch | 27 +++++++++++++++++++
+ .../recipes-devtools/python/python3_3.11.0.bb |  1 +
+ 2 files changed, 28 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/0001-test_marshal.py-add-more-elements-in-test_determinis.patch
 
-diff --git a/meta/recipes-core/glibc/glibc-tests_2.36.bb b/meta/recipes-core/glibc/glibc-tests_2.36.bb
-index c71c0831c6..bb6ef06162 100644
---- a/meta/recipes-core/glibc/glibc-tests_2.36.bb
-+++ b/meta/recipes-core/glibc/glibc-tests_2.36.bb
-@@ -16,7 +16,6 @@ python __anonymous() {
-        d.setVar("PACKAGES", "${PN} ${PN}-ptest")
+diff --git a/meta/recipes-devtools/python/python3/0001-test_marshal.py-add-more-elements-in-test_determinis.patch b/meta/recipes-devtools/python/python3/0001-test_marshal.py-add-more-elements-in-test_determinis.patch
+new file mode 100644
+index 0000000000..9da7f94255
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/0001-test_marshal.py-add-more-elements-in-test_determinis.patch
+@@ -0,0 +1,27 @@
++From 076a4f9ab06105b94c87386c0dfe17b823502a13 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex@linutronix.de>
++Date: Thu, 1 Dec 2022 19:02:51 +0100
++Subject: [PATCH] test_marshal.py: add more elements in test_deterministic_sets
++
++Existing elements do produce different output on x86_64, but they
++do not on x86. Let's make the data longer to ensure it differs.
++
++Upstream-Status: Submitted [https://github.com/python/cpython/pull/99935]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ Lib/test/test_marshal.py | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Lib/test/test_marshal.py b/Lib/test/test_marshal.py
++index aae86cc..29d95ad 100644
++--- a/Lib/test/test_marshal.py
+++++ b/Lib/test/test_marshal.py
++@@ -352,7 +352,7 @@ class BugsTestCase(unittest.TestCase):
++             for elements in (
++                 "float('nan'), b'a', b'b', b'c', 'x', 'y', 'z'",
++                 # Also test for bad interactions with backreferencing:
++-                "('Spam', 0), ('Spam', 1), ('Spam', 2)",
+++                "('Spam', 0), ('Spam', 1), ('Spam', 2), ('Spam', 3), ('Spam', 4), ('Spam', 5)",
++             ):
++                 s = f"{kind}([{elements}])"
++                 with self.subTest(s):
+diff --git a/meta/recipes-devtools/python/python3_3.11.0.bb b/meta/recipes-devtools/python/python3_3.11.0.bb
+index 8c29424dde..ff25fe1ac4 100644
+--- a/meta/recipes-devtools/python/python3_3.11.0.bb
++++ b/meta/recipes-devtools/python/python3_3.11.0.bb
+@@ -33,6 +33,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://deterministic_imports.patch \
+            file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
+            file://cve-2022-37460.patch \
++           file://0001-test_marshal.py-add-more-elements-in-test_determinis.patch \
+            "
  
-        d.setVar("PROVIDES", "${PN} ${PN}-ptest")
--       d.setVar("RPROVIDES", "${PN} ${PN}-ptest")
- 
-        bbclassextend = d.getVar("BBCLASSEXTEND").replace("nativesdk", "").strip()
-        d.setVar("BBCLASSEXTEND", bbclassextend)
-@@ -29,6 +28,7 @@ python __anonymous() {
- RPROVIDES:${PN} = "${PN}"
- RRECOMMENDS:${PN} = ""
- RDEPENDS:${PN} = " glibc sed"
-+RDEPENDS:${PN}-ptest = "${PN}"
- DEPENDS += "sed"
- 
- export oe_srcdir="${exec_prefix}/src/debug/glibc/${PV}/"
+ SRC_URI:append:class-native = " \
 -- 
 2.30.2
 
