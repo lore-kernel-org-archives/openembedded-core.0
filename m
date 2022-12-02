@@ -1,335 +1,287 @@
-Return-Path: <shin.matsunaga@fujitsu.com>
+Return-Path: <xiangyu.chen@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8A0BC4332F
-	for <webhook@archiver.kernel.org>; Fri,  2 Dec 2022 09:55:50 +0000 (UTC)
-Received: from esa13.fujitsucc.c3s2.iphmx.com (esa13.fujitsucc.c3s2.iphmx.com [68.232.156.96])
- by mx.groups.io with SMTP id smtpd.web10.71342.1669974942953775916
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D89B0C4332F
+	for <webhook@archiver.kernel.org>; Fri,  2 Dec 2022 10:05:50 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.71478.1669975550031701894
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Dec 2022 01:55:43 -0800
+ Fri, 02 Dec 2022 02:05:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj1 header.b=AFPalmzY;
- spf=pass (domain: fujitsu.com, ip: 68.232.156.96, mailfrom: shin.matsunaga@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj1;
-  t=1669974943; x=1701510943;
-  h=from:to:subject:date:message-id:mime-version;
-  bh=c48jpv3AyUYaZuWt0XeEqpCFEYZlYbfrpK66JFiZTKo=;
-  b=AFPalmzY1OJRBRdAnN+fHTbz0t3SISAVw2OtgRoDBgaUQ+7cbe2ay4/w
-   sfSlhlv3J7Ty/2PLRgH9pVgd1x0z0SdutPboZ33BfmzKHWLIWo/DCH56q
-   Lqop9yMhTGjNEQ47bPbG2NW+W6ppZ9rvwZz3hY0HegOpvKPcZjojTStoW
-   Bu0Sh/YMnwT6Q6XywxPbgv01h3+v5BC4i8UCiTo1JpF/CtOkyQN0C/E68
-   f3a97K9VszSH5Qldu1sPjdWh1F8pA+WgO9qlfdxmgZFC8ulZtQOWAmX/T
-   GA3iBjh50klkCp2J1HjuuvUq1ZH/czRaiQjJ4jEAqav+vl946ZyOVwmwb
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10548"; a="71227888"
-X-IronPort-AV: E=Sophos;i="5.96,212,1665414000"; 
-   d="scan'208,217";a="71227888"
-Received: from mail-os0jpn01lp2105.outbound.protection.outlook.com (HELO JPN01-OS0-obe.outbound.protection.outlook.com) ([104.47.23.105])
-  by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2022 18:55:40 +0900
+ dkim=missing; spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=933599fd69=xiangyu.chen@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2B295iwq017371
+	for <openembedded-core@lists.openembedded.org>; Fri, 2 Dec 2022 10:05:49 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3m3813576m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 02 Dec 2022 10:05:49 +0000
+Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2B2A5mBl009833
+	for <openembedded-core@lists.openembedded.org>; Fri, 2 Dec 2022 10:05:48 GMT
+Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam02lp2047.outbound.protection.outlook.com [104.47.51.47])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3m3813576k-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 02 Dec 2022 10:05:48 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NkDMmPcQTuKHkwELrGyJhstr4RDkk07JAIDTG/Iqn0z87H9PzqN2BZtkhv1B+Me4ayLCkqf10I8rdCWsMLjlBdBCNSOrJOHNfrFoyudY6EA9204NfmV6aD2t5iOtmD++cqK61RinkDjanCuTvD2N1BYE+OrKllrYl8tM+DZLxRcWCx2pOijh9vQdpMDcXfs44LdPyzD7iMGxsHg1WECRCatikOFIqbzSHJqunMq/kDF3+MRBOOTTEeTMw3CHuWbODcVHh6TXtowwtbCG+JlTQ1Bg7zWF96uzfwVaaKkhUpJRYIjdaT08uQt30gBIXOaUihLP/w5dkEvRPuuT5ik5cA==
+ b=dicYRM7ak1ZBhkj3oZ63xnVT9YmWDWmukovSPYTQ1uGvT2Pvma5cFr4ELZmHJ6/2egj/DBhNVDSgT3tYQhVthvZUpbTeHcXtYhMCuE5aGuGHIIeX7s8EieI223MGbwASxz8FCbzpuwgVrs2OiEwoO5PijOillpBVyoW38IEMK06+fNfYEGod+1IJQKvhHc6UWvH+5YEiJRD9Pddwt+gtIm8m8QzTaXZ3vFUcc7szEtMWXmVsPljGIreokr+mDMrEVPvIKcpRnqpOVWhewq4FfUK270dt8EJ8NrbFU8FEJIubkesvAa3wKI2DL9wj0Dh6i/C7MYr0sd4U/934iWer8A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0fynnk/MBidzsLAb9vLT/Dp9uNwfVelzaUvT6AmrVoI=;
- b=BPFLC2r+ALQg2A7c+1a8HhR6W4uwGh1zMF2hXBVMNdGdjTYYtEEWJu3IXobpVQ6cMuMZR76YETvHP7eLfjKTBU7Qzb1dwzIQ2AFeQFT/l3mhyRoalUDwR12Ufv0mCsVPrzdRc+/lzgn7PvBvrwl6fttC3g2Ni/YZv64zHOJSKIbqV4Rr3lBh2i9sdFrx/qWPxuUbegfcsMiSPPT6/7yu2YuiwCa6AXDHwioAEmlid+S94i6BLk/S+Jl6y7bjqAd9G/8Zc3vCCQR6YVbkDLWsaTWjGlWCpHwhpeXrafdHFB7hDxrX/0Fx3+QQxgrpyWHKkkVFNDHHEBQky89rr9Mfng==
+ bh=5krxu9QcJQ2JA03l3x/V5K0ukFzeMG4xN46iA7pbVfw=;
+ b=i0ww40kO0xbkiOad3Hu82N/vqd5rMnPC3Af4WX6JGUsExj8LiWhAfjc+yJvS+J0D+qQsgMuAvz9LhuzJSQ1xS8r+igld1GeZJDa9WX0I9ULgy1qNwaF7lm+COcW2XO4Q1sd3e/PnpL5tyMi/SQQrqrTUh7/PmwyQ77/X4czhYLTqKk5iDT72qEBQjBawpNoQtbBGht0/p5nMWH54Q2Evg71LFmv/N0DhpMNibEB2VaX+ANQLUlxk7TB1iUrmNI26/1MUyfePSvWp0kEoEcSx/OXbEgRGd51C3G+z6/Fz5Ma5u+CuecYuWMGDehe3UgDyWmDdCMUokxvIIx9I2P33uQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
- dkim=pass header.d=fujitsu.com; arc=none
-Received: from TY2PR01MB3289.jpnprd01.prod.outlook.com (2603:1096:404:75::15)
- by OS3PR01MB9270.jpnprd01.prod.outlook.com (2603:1096:604:1ce::12) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
+Received: from MW4PR11MB5824.namprd11.prod.outlook.com (2603:10b6:303:187::19)
+ by MN0PR11MB6231.namprd11.prod.outlook.com (2603:10b6:208:3c4::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23; Fri, 2 Dec
- 2022 09:55:37 +0000
-Received: from TY2PR01MB3289.jpnprd01.prod.outlook.com
- ([fe80::bb24:562f:6259:c74]) by TY2PR01MB3289.jpnprd01.prod.outlook.com
- ([fe80::bb24:562f:6259:c74%7]) with mapi id 15.20.5857.023; Fri, 2 Dec 2022
- 09:55:37 +0000
-From: "Shinji Matsunaga (Fujitsu)" <shin.matsunaga@fujitsu.com>
-To: "'openembedded-core@lists.openembedded.org'"
-	<openembedded-core@lists.openembedded.org>
-Subject: About the judgment result of the CVE check tool
-Thread-Topic: About the judgment result of the CVE check tool
-Thread-Index: AdkGNAcaw2dpxGWXQ8+TyGNamp7HZQ==
-Date: Fri, 2 Dec 2022 09:55:37 +0000
-Message-ID: 
- <TY2PR01MB328952DEF46146B2AF44F25292179@TY2PR01MB3289.jpnprd01.prod.outlook.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Enabled=true;
- MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SetDate=2022-12-02T09:46:27Z;
- MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Method=Standard;
- MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Name=FUJITSU-RESTRICTED?;
- MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SiteId=a19f121d-81e1-4858-a9d8-736e267fd4c7;
- MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_ActionId=d6b06deb-3c7c-4a8e-bbc2-b85503d2c381;
- MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_ContentBits=0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=fujitsu.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY2PR01MB3289:EE_|OS3PR01MB9270:EE_
-x-ms-office365-filtering-correlation-id: 4ede619c-0339-4abd-4d1c-08dad44b5cf3
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- SXrsGO2Rz6lD6nzPyPVdeKd3vDzxVQCk6tH57ktD/fhduI3zCUUHc7Z/29+XnQZr/0Z7lBa60GIdRl0UWSJjv/Eg92Tg2FKcVgp6tligNBApd9cacU/9hCIGV/kBeveaGRsFbdglEa2TN8Wqwi1vsv/eM4HPpd4QMv4zu+TO2WEo9NDRy5NG6rTKa5wx1QWeuXB26TTUoNR5eI5KkBXsbK5yurHpg1KpB3fbol73H53cZ2ULcrIqgZcT338yOM4L/ASUZYwLrfk1x37TvHC+Dibmsrf0ZFlf9ZWIonkaWOcL7myj07kgDjTkt2fEGwjhMsjXwxNGOiWQJdpXW1fLy+mNS7DLEIXGrsIzROAhMYf7MZsAgq2s3KFKCptpAJ/iHTG9Exy7Gr3rvDSimDtNhDb9lhKOBInAIJSqZdTusCwR6uEjOL12DCQeFS7/NHehuSWRtzfme6Ib7ziz6bw8H/Zk8EG0mXRm+AZqNkeXc/yVGKyyrBbZUUNj3zVZnT/JogaLbknUPamVMOL/nAW0bg+JrXP887y/clLXv0Z8d4sMq5A940yKIIDvHfjeaCI8/ejuMHHOJ2VCyaJvh5fGh5ifkkibRm5P0khg/L1LrFfH4nk5NyYul6mDiHb3h8TmUeD6cHeZUyzvCKYxPah3lXkgXJoEToFEeV8TEt+2wnhx00tJI1YRVi/PHLllRbKAV2FbctVvehjh8JtCo0A9NNNkYt7juSzxZ732nfP/b+X5ZJNypE1DpMTKAtWdrxEhwYfiSE00Pz0DHajgwmaUbg==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3289.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(136003)(366004)(396003)(39860400002)(346002)(451199015)(1590799012)(85182001)(966005)(71200400001)(6506007)(478600001)(122000001)(38100700002)(66946007)(7696005)(9686003)(66476007)(64756008)(166002)(33656002)(8676002)(26005)(76116006)(66446008)(66556008)(82960400001)(316002)(6916009)(86362001)(52536014)(55016003)(38070700005)(4744005)(8936002)(5660300002)(41300700001)(186003)(83380400001)(2906002)(1580799009)(491001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?iso-2022-jp?B?eDJlWDA5aTYrUlgwdmw2UGwrS09lcnhncGp0d0JsdWltaXpJTW1PVUZt?=
- =?iso-2022-jp?B?S3dlY3ByQ09lK3VneDMxQzNzZ2tRTnFJRUhhNVN3YXZ1NStvczJUbW9t?=
- =?iso-2022-jp?B?cXpVNkNja0NwdFh5UGZiMHBWN0wzbzBQbFI0YzAxZU5IbE1qTThaa1ZC?=
- =?iso-2022-jp?B?RGlWR09GSmVlOFlmV1I5MEVVVytOZGpzQ1F6UFZaYytxSXpUVGVUOWRX?=
- =?iso-2022-jp?B?R2tyM2NnMkVZL0I4aVpuS3JWcjUvNDN6bkdId2tBb3djRzRsYXBva2RZ?=
- =?iso-2022-jp?B?NFV0VWl5MTF3dkxFNFk3cHN4K3BxVEtVTkRsbGZpc3dIWkRVY2xnb0Rv?=
- =?iso-2022-jp?B?Q2hodGxiQTJzVmhibDVMODIwcU12WTYxcDFaZjBmaG5FTHJ4MnJDWFhG?=
- =?iso-2022-jp?B?OVF6UmNhNkI2cE9QbXlDd1dITGlIVnZGZmF4dHYydDErdi9YQVkxdXVI?=
- =?iso-2022-jp?B?WjF6b2MrUzFYNCtKU1V3bWtmWlpPOU5mR0V4Qm52V2RlaERJL042ZFQ4?=
- =?iso-2022-jp?B?eUErTDVFcDBGdW4xUU1YaEhvSWxpcnlDL0pDTzFITnJ5NUpJRGRoRVAw?=
- =?iso-2022-jp?B?dlZYdUtxOVVPQ09kNW9UbGIwMjAvUXI4UjFTS1lkc3l3WEJodEx2TGxS?=
- =?iso-2022-jp?B?THpuUTRKbmp0ajlLZHdRL1ZrYUpTSzIrOXZzUS9UL25TQm9MOGJVcHpn?=
- =?iso-2022-jp?B?cERnaUdrbTJRbGRSYW84OTJrbm1naXlzY0xIaXNYejNNUTdERk94aEJK?=
- =?iso-2022-jp?B?bS91QWRqR0s1bjJPNlpmem90YzdBYWZJaWxpWkxwNksybUVibFVoTU1p?=
- =?iso-2022-jp?B?Z0RDNnhqb0RlK1BBMnJWRFppeGtrb0loMWNON2dndTJOZ1dZcjBvMUQ1?=
- =?iso-2022-jp?B?TkxPU25XVVppcVpwSEl2Vk9ERnZ6Q1NwOHR5R3hmWHZWNHRNSHJyc0do?=
- =?iso-2022-jp?B?bHB4Q0w1VmJxVU45VTI3MjR2by9PWTh0dnVFeHNqQ3NsTmdlR1o2ZVlw?=
- =?iso-2022-jp?B?QWRnM01ZM2ozdXhIMlpVVE51SUcxdDg3bGFFYVowNnlxN0E3ang3MENT?=
- =?iso-2022-jp?B?cFU1aDM3OE1yb0RXVzhoZEpZOTBxU0dqb3ZNV2ptUDVONzhETnI2a25V?=
- =?iso-2022-jp?B?ZzFwZm1YSjREWG10Qnlhckg1RTkzRlEwNkpxdWQwRzcwUnVtbkdQSzBI?=
- =?iso-2022-jp?B?ejAwdFJsTzBsWFIwcndmR09vb1d6YXBudGhqWFZzS2ZCVjFPZmpBNUJu?=
- =?iso-2022-jp?B?Q1pSRUFsamdZWTkvYlRjclQ3Z1VGNEZwZWhhNWZPaGRjNklNTlZjNzBv?=
- =?iso-2022-jp?B?MGhjSlE4M2JRMG1XYWlwNjZuaGZIMXBtMEx3eW5KeURycUIwSXpYTXFZ?=
- =?iso-2022-jp?B?c0hybTdjMXBRSjZHbXNLdGIzMmpNcjRJMlpjemxTMEZsc1MwV21GcXVq?=
- =?iso-2022-jp?B?R0tlNnhncUUvY0ExemIwUUw2Tk1JVzZUbHR6ZnovU3hVY0hzOUpYWFZ1?=
- =?iso-2022-jp?B?dkg4QmJhSHQ3dm04TWhqMFVvK1kxblJZM3gycGxQcGx0em9HelA4WGJS?=
- =?iso-2022-jp?B?cEYzWHNsMDFRNkE1bjF3VXMyc2lmNjhNVEZsZEFCRkoxdGwyamNNd0F2?=
- =?iso-2022-jp?B?N3BWNmpLYzVLY1FjZFdmOW5yRXVvYWNLOXFOUXZmRUZxYXlpVk5UY3hM?=
- =?iso-2022-jp?B?Q0dSdTNMY1YrT0k4cHFGTTduaHNRSC85ekRBWDg3d0NQbWtrVFkzeC9j?=
- =?iso-2022-jp?B?VzAzeWRKbmg1MElHcHBiNkFYY1VSRDJ1U0daMkVkYXF5cE9BUXY4Mm9h?=
- =?iso-2022-jp?B?Vzl0ME51a1ZyMmVCa3ZoLzFVNTNYQ0hkMnJXWGVESGlkM2pxZzlSZ0tY?=
- =?iso-2022-jp?B?UmxPYjA0QnE3RHFwVm92Ulp5ZVNMMm9BWmtSOGs4dGNSK1dDWjBVYjVp?=
- =?iso-2022-jp?B?TCs1VHpnRWVqWE5lNHdweHNPdldZWEoyUUlydTM4L2FyWXFwbkl4SHI1?=
- =?iso-2022-jp?B?TlIybjFQenp4ZGE0SGhwVkVleGFVY0loUUdVMU5uT0d4blRRTDRQQ2s5?=
- =?iso-2022-jp?B?S2sveC9jMDE4VDhLdGdDa3F6TG16ZHBaQzlpNVZjSGdPbi91bUpUZnk1?=
- =?iso-2022-jp?B?U2xNcm1OaGx0OWFyMlF0RThLL05CV09oK0Fkc3c4dnVQbEtFTU54MTZr?=
- =?iso-2022-jp?B?QjdaTEJuM1ZEem1DRFJaYWpYS1NWUmxpc0pDKzFyZnpZK0N4Q1hGd1Ez?=
- =?iso-2022-jp?B?OWQ2bDViZXphbzQrYzh1QjRqYzNxZTRWRldRREFkR0NsYjF6Yi96SllZ?=
- =?iso-2022-jp?B?NDVRN1Mwak54N3VZTkxZYTNkS1JJOVZENnc9PQ==?=
-Content-Type: multipart/alternative;
-	boundary="_000_TY2PR01MB328952DEF46146B2AF44F25292179TY2PR01MB3289jpnp_"
+ 2022 10:05:45 +0000
+Received: from MW4PR11MB5824.namprd11.prod.outlook.com
+ ([fe80::d252:a0d:467e:ad16]) by MW4PR11MB5824.namprd11.prod.outlook.com
+ ([fe80::d252:a0d:467e:ad16%4]) with mapi id 15.20.5880.010; Fri, 2 Dec 2022
+ 10:05:44 +0000
+Message-ID: <dfdafe6d-d73e-1032-8ae3-71524f667758@windriver.com>
+Date: Fri, 2 Dec 2022 18:05:34 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [OE-Core][master][langdale][kirkstone][PATCH v2] rng-tools:
+ backport patch to adjust jitterentropy library to timeout/fail on long delay
+To: Randy MacLeod <randy.macleod@windriver.com>, ross.burton@arm.com,
+        Alexander Kanavin <alex.kanavin@gmail.com>,
+        Khem Raj <raj.khem@gmail.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <20221127134909.72700-1-xiangyu.chen@eng.windriver.com>
+ <CANNYZj95YNhEgK+ony5KyLo_DBXJg-wE8cD7F9xVH4vDMELqwA@mail.gmail.com>
+ <0ADEBB89-0C61-4976-946B-4A0E1B997EA4@arm.com>
+ <ea2e31cb-21e1-0c04-9542-d8b8f0e58040@windriver.com>
+Content-Language: en-US
+From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
+In-Reply-To: <ea2e31cb-21e1-0c04-9542-d8b8f0e58040@windriver.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-ClientProxiedBy: SL2P216CA0176.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:1b::23) To MW4PR11MB5824.namprd11.prod.outlook.com
+ (2603:10b6:303:187::19)
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	26FDtXlwH9hRO9I0cNPhqA/IWEGBqI2kjvrxT0y0hWCVJ0P62ObPNPjJlDkKS9fT0u9o/RFFNruIE2QkPiCQ12oVIZtRpmjFLzPXtz6YqR9jJNAcL+DKSxqxnuj1UD7/pXG+baAV17dzRry1vicIp882B3aI1L+vG4cP6UlXivPGeuCFIyTqx5R5xi5tFjcCzoLhoTLN/I7893qdHYy6SOhaGzQwS7BUwjB3qb0EDisyB6o1wLc+9n5dueykTIYGWzWcIIRYkBBV85kBixyzjy8I1NQQI/oTYIHjvbZ48GqscQ2cSu/pqHmm6gE6qlL/V1pucZiRgwP83e+mO5dCrdQK/CWJXkEjJ6WhI2RoDPAvKhgg8Qyj59bg1Ksha7ajLMs/KSWY5GfkNAVGjjZhSRSQsCEVcdcs2XSMhQiu6T0t13DJIVd6btco+l4gpJTaskGopzkGiKXzXeqr+OFtQmAFYhR96aOiuyh5YZn6kHKTJHIiapSEn734qOZmgF0C1Ar44jS9inyJHVpoqMvJD1Y6rR8aAm8iohXAX7YQfWEctbRBOkthqTLUqkSWxelJBSCO3GgQpOzpCE4LJ61hkVWceODSyXSmBKsFJc6+ghKVOAgPsi8HHrG40IgDbK31r1CENqIiPh6wj6gvdeuFOSEKlSPBQ7vXFXocmFscNB7czwrTRbfy+49g9MgjvthagdsmG4L2pJ6layEUIPSi1Xxyz7Ydod13MIE5gTYYoTfCIGqN3IN2KGyuwNwENnEMqBeRI7gxYDeWtPgRTdWchg3P2w/p8xymbUjowFhVfMg=
-X-OriginatorOrg: fujitsu.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW4PR11MB5824:EE_|MN0PR11MB6231:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3544c0ec-b22f-4653-5495-08dad44cc6d2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	228fC2ofz4342dZeB0asjpdd49H7KdacnJq/oDU5yuC2z3juFziBwFNNZBPWdDnpWbg6Mj/RHSI1g6lyZlUZUHIVmDCNcPBKZ/pd7yN80NhMZvD70hVZepMCnzZXUalwU+Qs1eOOfI6YwWWq8tA8iLxMvxPZFLdOJCuthtXY2DitBV65FSBY08ZTtceTFFaWpmlyzzGAwVDEYVURYIit7fwskm8G5TB5HDDUC13u1esED/yS2CfcOznILEJ07/kShqX0rNJmjpuiAQUB+njUyzNgGU4SexEO+KCqiJlYlj/dAh2v13utUsb7QIRfWZCtQYB7yIspaLsbXv4l5bxd4uig55evOhIi/Df7WxH2tzxK/B2AcsqVKUJGxqYfBny1wzU/aUNoO+4ISvOkD1CEvzy7RZT8i12pjfHTjqnM+0c99OrKU79NtQmt2Nd+D5yJeynkX2m3djn/y7w/wEYQHg1BjXDk6qdlz3XQmuulcGM7OyXQ0H40oLSNzxmFtRpCt2cYsjtX0vs+/PTr3tqh3D9Y/4FoBAKyYMdGIxRewlkQRZ8TkljXEabY+UhL3zG/5OnoEYznHMwd0J1kr9cgdPWQIyv/QBNY4tYG1hj1yanICdE5PzzUGX953cm4JntNQDMnu70mFMNMTtaHuLVDPZuljCGu8Nem6OdfPAQCTx3GhuzaYqMGUR5AOSGP9Icbj6NHpGker0IY4GKYKPBOIbfLEzEWcv1K9BPwKSAfSDvQHx/FcSVVH03eQO5DXtmCls1DzdrG7JR2ok/ffkbwVg==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR11MB5824.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(396003)(136003)(39850400004)(366004)(376002)(451199015)(26005)(53546011)(31696002)(6512007)(186003)(9686003)(55236004)(110136005)(966005)(36756003)(478600001)(38100700002)(83170400001)(83380400001)(6506007)(44832011)(6486002)(4001150100001)(66899015)(2906002)(31686004)(66556008)(6666004)(4326008)(8676002)(66946007)(66476007)(8936002)(41300700001)(316002)(5660300002)(9126006)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?TUdpV0tEdzI2R0ZvUzBKT3dKTjRlWDU3R0RLL1dGOEVObm5QOG9WcFhHOUdy?=
+ =?utf-8?B?QlRKVnRxcFNzbFl1c3FvQ0JIU0pPd1d4TFBVeHhDOXJlQW13SytIcVo0VThu?=
+ =?utf-8?B?bGQ5elZjRGdEOXZTYTFBMGJVY0VZaEFzSVdXNm1lRUpKWDVRbG1xeGZPdEV5?=
+ =?utf-8?B?VmNpQlhLTTlsNnpEWUtyQWtNUmttVUNRT21HUUMwcWpVL1J1TmM1Q0twRTJY?=
+ =?utf-8?B?YmNjOFBNczcyeUZYZ2ZDQjRKTjRveW96QVpxNG55bUx2L2NPKytXL1Q4NTkr?=
+ =?utf-8?B?RTVwck5UQ0U3UHZuWGNsSld0dGtjbW92NS9tZVRvbC9mbzZJc05zZ1JTWVJF?=
+ =?utf-8?B?K2JKZUpiQTlFQ3JNRkRZaFE1NTl0bzN3ancrbUlhcGExRGtneXUwdGx6NXJk?=
+ =?utf-8?B?cnZwSHNZUGZKMXVySDhGWFRRYjhycHMvcVZmWlIyb1R2WThMRWlzTmJPQ3hu?=
+ =?utf-8?B?aFp6U3dCbkNOTkg5QjNaZStYQllTaFBGUm5DWjRuUFV4MDFSK3ZTbjRnZlNO?=
+ =?utf-8?B?dTIveW01Y2pMWnphUWhSMTdVY2tNRmZlYmdYVmZZR0FQa282d0lDYW8rTWd1?=
+ =?utf-8?B?VUZWNXkvWXFuVFVsODZHRWh5N20yTVVncWtXZW5pV3ozU1BhS0JzQ1Y1a3B4?=
+ =?utf-8?B?bzU4L3FEaU4wRzR2d2N2WXQ3S05Ock9qZVdIM0srMHVhVWhQdjJtMkQycklO?=
+ =?utf-8?B?NU5aazVPWnVrTEZTUjFwL2x1SCtDbFhXQzVWUmpONUFLV3dXOVBhRkpyY0gr?=
+ =?utf-8?B?bzk1aXQvUjg5ZXZSQy9KTy9XdVF1bTVzb3J1ZjJLQTk3bHNucEJGMkdRK2ht?=
+ =?utf-8?B?cXVDOUlSYWFBVFcwWnl2am9pRTM4RS9NR09BUFoydUpjU1V6RzlrK0lnbGkx?=
+ =?utf-8?B?bWN4RGFzVElzN0prUVYvRmtlVEF1WGJXVFVZdGNhQmZ4QTVpbXhvaHVsWUV0?=
+ =?utf-8?B?c2t6aWVtL0pCUVFTclBIbEVhVlFTaTdBRnB6VzJ0bWhvTW9keUdkV1dSSG92?=
+ =?utf-8?B?OFp4dWV6a3ByOVB4SlVGbm42MWdLcldsQXRxT1hmc1ZObG5kMTk2NHUvK3lw?=
+ =?utf-8?B?MTN3OUdDTDlmRTFBc2Zrbkp3akFFK2h4UWFxVlRlS3RjUk05Uks5eWViTTQ2?=
+ =?utf-8?B?c1pld0l0cXgvMi95clNBWFhIWDFPcUxaRWs0bHEwSGVXRGZPQWNtUGgrd1FG?=
+ =?utf-8?B?dEJDNFFmN05jaVlrcmFQMmw2MEgvMW5MN1JjSEMzZnUra1J0L0NzOXFhMnpo?=
+ =?utf-8?B?Ynlrd0IrZUp2VVJKYWpMb2h6dUpSREo3ZDFzZklqbTNtZlZlcVc3UkFNM1Zi?=
+ =?utf-8?B?eE5WNHh6ZFE3NlZZN1ExWGZCRDJ2TjBJaVNDcDcrY25EZEdudmVDQTlLdVdo?=
+ =?utf-8?B?Q21BWit2T0xmS0lTQTlCM0NwNE1YT0s2TXRveVJMQ3prUCtYbXRLbnVoaUZk?=
+ =?utf-8?B?b3FLNC9odkw5TGw4VjhudXZwbFdVL0Z4ZTQ1dXMwVUI2UUJHMVh0VTJDTmNl?=
+ =?utf-8?B?SldZOWp4djgvYy9OY09JbzN5eCtGYVF2SWM3Z080RDRYb2ozQlZiWVVKeDdS?=
+ =?utf-8?B?Y21ieWptVEdUM2tkM3Q4a1AzbmhkVzIxRmJKUGlUc09oa3VuQkdkaTQrMTFt?=
+ =?utf-8?B?Z0E4Tm5KQStrNEtVR1dDTjVXd1FDK2g2akhDYld6TVowUzRwUTdpODJzWWxa?=
+ =?utf-8?B?Y2Fhb1lWWDlPSnZIcjFUeSt4RWcrVkpqR3dadkwvemRucFJwWDFyTldFS0tF?=
+ =?utf-8?B?a0JCbVlhdENOdGtQbEFNSm0rMEN4eFhQRjlITXU1V1VEb0RXTnc0eG1YQWlj?=
+ =?utf-8?B?WEJvbnJkUzFpR3RWTURHMk1OTzVYZkt6WEdkSE1nYWt3enNyWElidG8zcmpW?=
+ =?utf-8?B?YjRkSXJXeHl4QTJGVkFRM0tTc0hFWkpyUGZxTDRGaUs2bTJBQ3J1UmZOR0NP?=
+ =?utf-8?B?eFhMVzZsV3VjK21waytOREMzODBvSDNucnNuTDQwdGFLOVZJeWFIMTAzMXUy?=
+ =?utf-8?B?LzBrSmtVeTg0aWpaSW1EKzFiZ0g3bmljUEl6czdoRitRNDFLc29NeE1kSmdI?=
+ =?utf-8?B?Ry9pS05jYUYwWXlNMlhCSG9vYXZKV0tzbGx1OHVySHBLOVdGZG1oMklwZ2tk?=
+ =?utf-8?B?Mk5qRkRHaVZsMVZFdFRHVmIzVmhVdzAzSHMydzc0SVowUmVWQWtsV3hualJN?=
+ =?utf-8?B?dnc9PQ==?=
+X-OriginatorOrg: eng.windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3544c0ec-b22f-4653-5495-08dad44cc6d2
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB5824.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3289.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4ede619c-0339-4abd-4d1c-08dad44b5cf3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Dec 2022 09:55:37.2962
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2022 10:05:44.7121
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Ejm3QM8QY/gdIie2tjA0C7r0mgIXGWaoYKhmK0RS33ue8H3PE1io0KfUigb6Paykgzn8gJu59NT9Rz5omwHb4P7h3UdYwhDIOuYyZVNaTkI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB9270
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wZZyBsmisz1gr7jG9KZxmKXTVTjKE2HKKBMlXGNWnMn8EHqO1OjTdQ0Oc3eSjUTWi3gmowXpGfKpRUYo/Y8VnsW077jfPpglawRn440lQYE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6231
+X-Proofpoint-GUID: l7AZ6cmAw04rNcmfEYLnFN3Rr_0YnW11
+X-Proofpoint-ORIG-GUID: eqk17B3D49KqcXS-QZFjV1Wzcn1iPF4Q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-02_04,2022-12-01_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 bulkscore=0
+ phishscore=0 spamscore=0 clxscore=1015 priorityscore=1501
+ lowpriorityscore=0 mlxlogscore=999 impostorscore=0 adultscore=0
+ malwarescore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212020078
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 2B295iwq017371
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Dec 2022 09:55:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174231
-
---_000_TY2PR01MB328952DEF46146B2AF44F25292179TY2PR01MB3289jpnp_
-Content-Type: text/plain; charset="iso-2022-jp"
-Content-Transfer-Encoding: quoted-printable
-
-Hi, I'm Shinji.
-
-I have a question about the judgment result of the CVE check tool.
-
-If the version of the package "pv" cannot be compared to the version retrie=
-ved from NVD("version_start" or "version_end"),
-there is a vulnerability for which the judgment result is "Patched".(e.g. C=
-VE-2020-15117)
-
-If you can't compare versions, I think it should be judged as "Unpatched"
-Why does the CVE check tool judge "Patched"?
-
-Examples of judgment results:
-
-=1B$B!!=1B(BLAYER: meta-qti-base-prop
-=1B$B!!=1B(BPACKAGE NAME: synergy
-=1B$B!!=1B(BPACKAGE VERSION: git
-=1B$B!!=1B(BCVE: CVE-2020-15117
-=1B$B!!=1B(BCVE STATUS: Patched
-
-Examples of logs:
-
-"WARNING: synergy: Failed to compare git < 1.12.0 for CVE-2020-15117"
-
-log output location:
-
-=1B$B!!=1B(Bhttps://github.com/openembedded/openembedded-core/blob/master/m=
-eta/classes/cve-check.bbclass#L346
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Dec 2022 10:05:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174232
 
 
-=1B$BIY;NDL=1B(B(=1B$B3t=1B(B) ISS=1B$B;vK\=1B(B
-Linux=1B$B%=3D%U%H%&%'%";v6HIt=1B(B =1B$B%"%W%i%$%"%s%95;=3DQIt=1B(B
-=1B$B>>1J=1B(B =1B$B?5;J=1B(B / Matsunaga Shinji
-e-mail=1B$B!'=1B(Bshin.matsunaga@fujitsu.com<mailto:shin.matsunaga@fujitsu.=
-com>
+On 11/30/22 06:28, Randy MacLeod wrote:
+> On 2022-11-29 10:52, Ross Burton via lists.openembedded.org wrote:
+>> On 28 Nov 2022, at 09:25, Alexander Kanavin via=20
+>> lists.openembedded.org=20
+>> <alex.kanavin=3Dgmail.com@lists.openembedded.org> wrote:
+>>>
+>>> On Sun, 27 Nov 2022 at 14:39, Xiangyu Chen
+>>> <xiangyu.chen@eng.windriver.com> wrote:
+>>>> =C2=A0 * add libgcc in RDEPENDS flag to solve testing failed in=20
+>>>> core-image-full-cmdline
+>>>> +RDEPENDS:${PN} =3D "libgcc"
+>>>
+>>> This needs to be better investigated first. The change looks like
+>>> solving the symptom, but not the actual issue.
+>> It=E2=80=99s not uncommon:=20
+>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D10954
+>
+> While it would be good to solve the general case of libgcc dependency=20
+> mentioned in that case,
+> I do wonder if the original issue that Xiangyu saw, goes away if we=20
+> _only_ add:
+>
+> =C2=A0+RDEPENDS:${PN} =3D "libgcc"
+>
+> to rngtools without added the upstream timeout after 5 seconds or
+> it the dependency is only required with the patch?
+>
+> Xiangyu ?
+
+The software jitter thread will call the pthread_exit after timeout=20
+value reached, the code has already exists there but normally won't be=20
+called,=C2=A0 when applying this patch, the timeout logic can go there,=20
+that's the reason missing libgcc which was reported by oe testing
+
+>
+>
+> I also don't like the arbitrary timeout and I'd like references
+> from the board vendor that explains that proper RNG isn't supported!
+> ( I'm not a BSP person so this may be optimistic! )
+> Note that there is a follow-up patch to make the timeout configurable,=20
+> see below.
+> If we take the original patch, we should take both and require that=20
+> the BSP tune
+> the timeout. We'll get this behaviour once the patches are integrated=20
+> into a release
+> so we might as well figure out if we're going to:
+> =C2=A01. have a tuning policy,
+> =C2=A02. continually revert the patch or
+> =C2=A03. actually get to the root cause of the problem (by working with=
+=20
+> board vendors I expect).
+>
+After investigating this patch, it just add a mechanism to avoid jitter=20
+thread take long time, but not "really" solve the jitter thread full cpu=20
+usage when it start.=C2=A0 But we still need to think about the timeout v=
+alue=20
+because this commit will contain in next rng-tool release version.
+
+There is another question need to clarify that whether rng-tool built-in=20
+jitter random generator still need after kernel 5.6, the /dev/random=20
+doesn't block anymore, perhaps we can turn built-in jitter random=20
+generator off by default service start parameter because it would take=20
+full CPU cores effort to generate jitter random when it start.
 
 
---_000_TY2PR01MB328952DEF46146B2AF44F25292179TY2PR01MB3289jpnp_
-Content-Type: text/html; charset="iso-2022-jp"
-Content-Transfer-Encoding: quoted-printable
+Br,
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-2022-=
-jp">
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:=1B$B^b%4%7%C%/=1B(B;
-	panose-1:2 11 4 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"=1B$B#M#S=1B(B =1B$B#P%4%7%C%/=1B(B";
-	panose-1:2 11 6 0 7 2 5 8 2 4;}
-@font-face
-	{font-family:"\@=1B$B#M#S=1B(B =1B$B#P%4%7%C%/=1B(B";}
-@font-face
-	{font-family:"\@=1B$B^b%4%7%C%/=1B(B";
-	panose-1:2 11 4 0 0 0 0 0 0 0;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0mm;
-	text-align:justify;
-	text-justify:inter-ideograph;
-	font-size:10.5pt;
-	font-family:=1B$B^b%4%7%C%/=1B(B;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.17
-	{mso-style-type:personal-compose;
-	font-family:=1B$B^b%4%7%C%/=1B(B;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:=1B$B^b%4%7%C%/=1B(B;}
-/* Page Definitions */
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:99.25pt 30.0mm 30.0mm 30.0mm;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026">
-<v:textbox inset=3D"5.85pt,.7pt,5.85pt,.7pt" />
-</o:shapedefaults></xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"JA" link=3D"#0563C1" vlink=3D"#954F72" style=3D"word-wrap:bre=
-ak-word;text-justify-trim:punctuation">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt">Hi, =
-I'm Shinji.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt"><o:p=
->&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt">I ha=
-ve a question about the judgment result of the CVE check tool.<o:p></o:p></=
-span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt"><o:p=
->&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt">If t=
-he version of the package &quot;pv&quot; cannot be compared to the version =
-retrieved from NVD(&quot;version_start&quot; or &quot;version_end&quot;),<o=
-:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt">ther=
-e is a vulnerability for which the judgment result is &quot;Patched&quot;.(=
-e.g. CVE-2020-15117)<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt"><o:p=
->&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt">If y=
-ou can't compare versions, I think it should be judged as &quot;Unpatched&q=
-uot;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt">Why =
-does the CVE check tool judge &quot;Patched&quot;?<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt"><o:p=
->&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt">Exam=
-ples of judgment results:<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt"><o:p=
->&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">=1B$B!!=1B(B<span l=
-ang=3D"EN-US">LAYER: meta-qti-base-prop<o:p></o:p></span></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">=1B$B!!=1B(B<span l=
-ang=3D"EN-US">PACKAGE NAME: synergy<o:p></o:p></span></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">=1B$B!!=1B(B<span l=
-ang=3D"EN-US">PACKAGE VERSION: git<o:p></o:p></span></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">=1B$B!!=1B(B<span l=
-ang=3D"EN-US">CVE: CVE-2020-15117
-<o:p></o:p></span></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">=1B$B!!=1B(B<span l=
-ang=3D"EN-US">CVE STATUS: Patched<o:p></o:p></span></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt"><o:p=
->&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt">Exam=
-ples of logs:<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt"><o:p=
->&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt">&quo=
-t;WARNING: synergy: Failed to compare git &lt; 1.12.0 for CVE-2020-15117&qu=
-ot;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt"><o:p=
->&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt">log =
-output location:<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt"><o:p=
->&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">=1B$B!!=1B(B<span l=
-ang=3D"EN-US"><a href=3D"https://github.com/openembedded/openembedded-core/=
-blob/master/meta/classes/cve-check.bbclass#L346">https://github.com/openemb=
-edded/openembedded-core/blob/master/meta/classes/cve-check.bbclass#L346</a>=
-<o:p></o:p></span></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt"><o:p=
->&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:11.0pt"><o:p=
->&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal" align=3D"left" style=3D"text-align:left"><span style=
-=3D"font-size:11.0pt">=1B$BIY;NDL=1B(B<span lang=3D"EN-US">(</span>=1B$B3t=
-=1B(B<span lang=3D"EN-US">) ISS</span>=1B$B;vK\=1B(B<span lang=3D"EN-US"><o=
-:p></o:p></span></span></p>
-<p class=3D"MsoNormal" align=3D"left" style=3D"text-align:left"><span lang=
-=3D"EN-US" style=3D"font-size:11.0pt">Linux</span><span style=3D"font-size:=
-11.0pt">=1B$B%=3D%U%H%&%'%";v6HIt=1B(B =1B$B%"%W%i%$%"%s%95;=3DQIt=1B(B<spa=
-n lang=3D"EN-US"><o:p></o:p></span></span></p>
-<p class=3D"MsoNormal" align=3D"left" style=3D"text-align:left"><span style=
-=3D"font-size:11.0pt">=1B$B>>1J=1B(B =1B$B?5;J=1B(B<span lang=3D"EN-US"> / =
-Matsunaga Shinji<o:p></o:p></span></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">e-mail</span>=1B$B!'=1B(B<span =
-lang=3D"EN-US" style=3D"font-size:11.0pt"><a href=3D"mailto:shin.matsunaga@=
-fujitsu.com"><span style=3D"color:#0563C1">shin.matsunaga@fujitsu.com</span=
-></a><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-</div>
-</body>
-</html>
+Xiangyu
 
---_000_TY2PR01MB328952DEF46146B2AF44F25292179TY2PR01MB3289jpnp_--
+>
+> ../Randy
+>
+> commit 6e14b8bd491b3f94f60f36748959e0ae7d7c1f95
+> Author: Dan Hor=C3=A1k <dan@danny.cz>
+> Date:=C2=A0=C2=A0 Mon Jul 18 04:47:41 2022
+>
+> =C2=A0=C2=A0=C2=A0 rngd_jitter: make timeout configurable
+>
+> =C2=A0=C2=A0=C2=A0 The current default 5 sec timeout can be too short i=
+n some situations
+> =C2=A0=C2=A0=C2=A0 (eg. slow hardware). Introduce a command line option=
+ (jitter:timeout)
+> =C2=A0=C2=A0=C2=A0 to make the value configurable. Increasing the defau=
+lt timeout is not
+> =C2=A0=C2=A0=C2=A0 desirable, because it might slow down system startup=
+ when there are
+> =C2=A0=C2=A0=C2=A0 other entropy sources.
+>
+> =C2=A0=C2=A0=C2=A0 Signed-off-by: Dan Hor=C3=A1k <dan@danny.cz>
+>
+> commit c29424f10a0dcbd18ac25607fa1c81c18a960e81 (origin/jitter-init)
+> Author: Neil Horman <nhorman@tuxdriver.com>
+> Date:=C2=A0=C2=A0 Mon May 16 13:38:54 2022
+>
+> =C2=A0=C2=A0=C2=A0 Adjust jitterentropy library to timeout/fail on long=
+ delay
+>
+> =C2=A0=C2=A0=C2=A0 When running rngd -l its possible, on platforms that=
+ have low jitter
+> =C2=A0=C2=A0=C2=A0 entropy to block for long periods of time.=C2=A0 Adj=
+ust jitter to=20
+> timeout on
+> =C2=A0=C2=A0=C2=A0 init after 5 seconds in the event it takes to long t=
+o gether jitter
+> =C2=A0=C2=A0=C2=A0 entropy
+>
+> =C2=A0=C2=A0=C2=A0 Also while we're at it, I might have a build solutio=
+n for the=20
+> presence
+> =C2=A0=C2=A0=C2=A0 of internal timers.=C2=A0 When jitterentropy is buil=
+t without internal
+> =C2=A0=C2=A0=C2=A0 timers, jent_notime_init is defined publically, but =
+when it is built
+> =C2=A0=C2=A0=C2=A0 with timers, its declared as a static symbol, preent=
+ing=20
+> resolution, so
+> =C2=A0=C2=A0=C2=A0 we can test to see if the function exists.=C2=A0 If =
+it does we _don't_=20
+> have
+> =C2=A0=C2=A0=C2=A0 notime support. The logic is a bit backwards, but i =
+think it works
+>
+>
+>>
+>> Ross
+>>
+>>
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#173981):=20
+>> https://lists.openembedded.org/g/openembedded-core/message/173981
+>> Mute This Topic: https://lists.openembedded.org/mt/95288451/3616765
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=20
+>> [randy.macleod@windriver.com]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
+>
 
