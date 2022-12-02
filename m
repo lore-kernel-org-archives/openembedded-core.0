@@ -1,171 +1,171 @@
-Return-Path: <sandeep.gundlupet-raju@amd.com>
+Return-Path: <alex.stewart@ni.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70711C4332F
-	for <webhook@archiver.kernel.org>; Fri,  2 Dec 2022 18:24:33 +0000 (UTC)
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (NAM11-DM6-obe.outbound.protection.outlook.com [40.107.223.57])
- by mx.groups.io with SMTP id smtpd.web11.83621.1670005469951978627
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EE8EC4321E
+	for <webhook@archiver.kernel.org>; Fri,  2 Dec 2022 20:59:44 +0000 (UTC)
+Received: from mx0b-00010702.pphosted.com (mx0b-00010702.pphosted.com [148.163.158.57])
+ by mx.groups.io with SMTP id smtpd.web10.87795.1670014783780197519
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Dec 2022 10:24:30 -0800
+ Fri, 02 Dec 2022 12:59:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@amd.com header.s=selector1 header.b=bB+TmeiD;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: amd.com, ip: 40.107.223.57, mailfrom: sandeep.gundlupet-raju@amd.com)
+ dkim=pass header.i=@ni.com header.s=pps11062020 header.b=kvtovTeZ;
+ spf=pass (domain: ni.com, ip: 148.163.158.57, mailfrom: prvs=9335fb5549=alex.stewart@ni.com)
+Received: from pps.filterd (m0239463.ppops.net [127.0.0.1])
+	by mx0b-00010702.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2B2EaVZg013428
+	for <openembedded-core@lists.openembedded.org>; Fri, 2 Dec 2022 14:59:43 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ni.com; h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=PPS11062020;
+ bh=XnFUUOJe26wWeOTkEW6YlOZm4eH8GNPLLny5pWRa3I8=;
+ b=kvtovTeZLO5HFdS9G8vvgvkql7w5IInIs4sxt4S0ilOX1FZjH5/5q8v34r/IG1eOxpKI
+ p/yG5nHjYZw4xEbJblw2vHmov2PT67GQMScXTe7G59+sXXBWQDJc2uiWPaukgW7JMTSU
+ Acf4L2mFwPEmmCCvAspWVtBddhDxQpIz7Au4mNndS2C4TPmVDdmHcnBLtgt40/xICgMA
+ RRLCP3kaSdvr/3mkb9QruTTshFjknRhAdds6BqD8w0SWPDRzrka+JldBjwR8+uDmmI9g
+ ym/jna7eMO+iWQcouUzAMtgPMKZyPmTKJZyf9jsPo2NGJm9n+qEJS9pryqJdU+PtXmxz cg== 
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2168.outbound.protection.outlook.com [104.47.57.168])
+	by mx0b-00010702.pphosted.com (PPS) with ESMTPS id 3m6k4tumpj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 02 Dec 2022 14:59:42 -0600
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Y/LHLwKY0Af6NgZoLPHKkvtOG9/JoidOEPdP0ryY9DaLp71/1KBg8a2g80bWabkrbLbrXeNdT7x+QdY3D+IRbyeMujR7eEc8xHMdsXf3px1Z4SdHnJHFkwQh5zz1D1cHdeXtWepJvP3HlWBsVv/RR3/J9qiY7H6zyDyiJ1F7uWkqc9rPzpYLkHlhNFX3Zyg7ZNuFt+oKoUEeYyjqBci5ttJSSCqWRZdgkprobpjdjLqd51C5+Rzk46zm5Wlgj8hQZEONYK9nA0ieKiGQpZm9YHEZ1hDqm8+jGlR8Tv1gTdiUH0aykZiB2T0kiiclwP98Te0Du5qGiZUfJ1tR530hVA==
+ b=OoCuasyhvbijhk+moetUAqojTZFNZs8vHS/iXfCbKmjJ7R/SiqnL7kFv7B7oynUqnxx2tHt9j5uESWKWEObf4VMfLofICTNOv2YTaiBH3UsI9ZmyEcnAK78+JIApyKvLMOaz/35pgk6C/RPhgSXOjcBOP/VdTcAYJeWZiprRd+YnzB8yYnTt90CI54HOFY3wES9R198QTnSaKVQGi+rFheEc8J+6Y6uEm4Bm9MLnlYwre1YSyMDokE8oRIuYsBdjJaU79snNbO4FklQzcrskscVohbSz+ZpgldsFpVX45WGtqp3X9sRPr5PaTLAlMuCU8DwVvZDJXFACgUvXb1zr5g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=StY1Tj+rAV9UzfQAS+bJJsMpnrmI0k3EvFYzbJiPXk4=;
- b=arY4ZFlA4k/RSdrdrSm3knwx3g6qUuAhNdwyGk+8PNn3HI6OzdU8IBf03inVQ0P+MNE+qpQTQCD6hLXFpF0oJ+RGyX5IGMd8RDAl9HsJMFrO2a120VLcm4zUz83PrF071nFPxC2AlZpo7Pcv7/+QdIggDm1mnR0NBV323i/AROA/WYFrzcWn2m6+/1SVk321VmAevjfo3WRjgO+UNw9+MMmpFPJ0rhN2rJ+3TToiUzD35NEMA4JnPu8zA1JQZuGXxh9krTwmFJQ/O5P8XBGOzv167u1JGlZiFwHuInfxJOmPknfXkNoZVSSlQG/QmrqsJGTEFPw8ZoiRGxZIKSCPyA==
+ bh=XnFUUOJe26wWeOTkEW6YlOZm4eH8GNPLLny5pWRa3I8=;
+ b=lMIwe7jrVNZR4AMH1amwkTq24MgnW2KwEBobEGu3Hk+ZAyebLphvXWWlmeYwbFQwkGYWnLgjH/pGKcOENheajmAqwwvUXRomt5Wmal9tLzaYm+IaJ2SDvi+TMgz2bLIj4mxq//DVwfRFHHuaGg7YPW423Lx65cS1fKO4B36+ee4KBGJBeHk8oKVcFCjOy42sIuIeHrE2r4/ItA2LwJ3wJlTBPB6eI51WxWxJxOPucTk1xULVqukQwgjklirjnuyo1XtjARyVECd+5eVxWAEGsNEDGxd8GmJP9Wv5egHgo3hoPzojSYBPW6W/AdR5SoHvwxIHR0jQDimKCm68qG159g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ smtp.mailfrom=ni.com; dmarc=pass action=none header.from=ni.com; dkim=pass
+ header.d=ni.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nio365.onmicrosoft.com; s=selector2-nio365-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=StY1Tj+rAV9UzfQAS+bJJsMpnrmI0k3EvFYzbJiPXk4=;
- b=bB+TmeiDRJsne8tdxmHAb3Y1BlIBZH+xBR7T0+UzmbxDmOL0laRkSpfRyHQlE/S9XGlpVBFhuM2tVa7R3gtD8SiDX7O/ytO6QFFDUlBVnw5y6aDDEPlH/15UmCGkHs1w0gvyJ6GhsNNBBu6e+If/hI9Vqlbg6GkJatFK02oFocA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from SA0PR12MB4367.namprd12.prod.outlook.com (2603:10b6:806:94::13)
- by PH7PR12MB6609.namprd12.prod.outlook.com (2603:10b6:510:213::20) with
+ bh=XnFUUOJe26wWeOTkEW6YlOZm4eH8GNPLLny5pWRa3I8=;
+ b=PZQwnwh5JqJXfuVxNeKhYGATjK1bsOmdsRXG5i0PphBbsUonbc5adacPMWr+5WaMIZDd+MoBzxMMwhuZiJ2x+lM+CC/zTToqDNr9ZrovyP7vTbuxl4vFGniPSq3zK3Tp9h7G73RpEkivQ3ZealwKp1gXFVQosGxxKjhr3gLy1Ow=
+Received: from SN6PR04MB5151.namprd04.prod.outlook.com (2603:10b6:805:90::25)
+ by BN8PR04MB5810.namprd04.prod.outlook.com (2603:10b6:408:a4::33) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5857.23; Fri, 2 Dec
- 2022 18:24:27 +0000
-Received: from SA0PR12MB4367.namprd12.prod.outlook.com
- ([fe80::9fe9:bf9b:f265:1a5f]) by SA0PR12MB4367.namprd12.prod.outlook.com
- ([fe80::9fe9:bf9b:f265:1a5f%8]) with mapi id 15.20.5880.008; Fri, 2 Dec 2022
- 18:24:27 +0000
-Message-ID: <cd6f1de6-3520-f050-afab-3f29a3ce16ba@amd.com>
-Date: Fri, 2 Dec 2022 11:24:25 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [OE-Core][master,langdale][PATCH] libdrm: Remove libdrm-kms
- package
-Content-Language: en-US
-From: "Gundlupet Raju, Sandeep" <sandeep.gundlupet-raju@amd.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.10; Fri, 2 Dec
+ 2022 20:59:38 +0000
+Received: from SN6PR04MB5151.namprd04.prod.outlook.com
+ ([fe80::d240:66cd:3152:9511]) by SN6PR04MB5151.namprd04.prod.outlook.com
+ ([fe80::d240:66cd:3152:9511%3]) with mapi id 15.20.5857.023; Fri, 2 Dec 2022
+ 20:59:38 +0000
+From: Alex Stewart <alex.stewart@ni.com>
 To: openembedded-core@lists.openembedded.org
-CC: mark.hatle@kernel.crashing.org
-References: <20221028021738.46045-1-sandeep.gundlupet-raju@amd.com>
- <53fe1ba9-660d-aece-0b2d-8188b82332b4@amd.com>
-In-Reply-To: <53fe1ba9-660d-aece-0b2d-8188b82332b4@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: SJ0PR03CA0249.namprd03.prod.outlook.com
- (2603:10b6:a03:3a0::14) To SA0PR12MB4367.namprd12.prod.outlook.com
- (2603:10b6:806:94::13)
+Cc: Alex Stewart <alex.stewart@ni.com>, Kyle Roeschley <kyle.roeschley@ni.com>
+Subject: [OE-core] [PATCH] lsof: add update-alternatives logic
+Date: Fri,  2 Dec 2022 14:59:10 -0600
+Message-Id: <20221202205910.316426-1-alex.stewart@ni.com>
+X-Mailer: git-send-email 2.38.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SN7PR04CA0173.namprd04.prod.outlook.com
+ (2603:10b6:806:125::28) To SN6PR04MB5151.namprd04.prod.outlook.com
+ (2603:10b6:805:90::25)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4367:EE_|PH7PR12MB6609:EE_
-X-MS-Office365-Filtering-Correlation-Id: 256aeb93-caa5-43c8-0afb-08dad4927267
+X-MS-TrafficTypeDiagnostic: SN6PR04MB5151:EE_|BN8PR04MB5810:EE_
+X-MS-Office365-Filtering-Correlation-Id: 73de50f9-7c64-420b-91eb-08dad4a82014
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	W38ZTh2qCS18MzDjs1eUeepGu5bKcb0MjCWAedDV4rF34bqjbiWicbcFlT0BDNiW/SDAK88OXTmkdHjsill0xxscWnx8OnJLAs/EnN28KnNUlDwAWFb4+/q6GSwnKLcE685WEFSmzZJdgDApuNlfYEiP+N+BfU0SOwe4w5CAc68hMqu1cRDPXcBoi0kW079kC6ak/kWf/df0u3MmdIgAl6jerMlxpd0bXWfkoO7XjY+auVmsUaKvkgM60r2X7b75LOjgPWc9cEpNiDuhkLRIQRzTZf1y4Gz5rrTKP+mt5ULg2qDJXP0a6MJmzpeawHHw2RUh0aCyccso541qgaW7TdBzbqoy5EXQJHKb/XN3c3y/3JijcDf67XY5CCXmzageJNbrU9wOMPgXP8zzDCMzjUndYvuoHgpIiCHY4SxOCt5KCT4pw/g7kEzLX71/MaCOoKeKJix8vL4+AK1dfHDupiQ0+xDqSaCkSwTt4ltip/wSOL2veRFES/ubhLyTNExfLe7AeUwYNeoKsrpCsiJqh7vK4HSeCyrQvoxfAfCTziK3UeWYbFMTP9I5QszYi3JPdDEA9j95Qe9q8724waangc8ErtI/Ggl+xOQ5TJKTjdGI4ujW/8UjYcObw+3soL/VseMAm5ya90KE9ryw1jF7paLLmoLzu9W87Y3AhY+hAzdXsCQJEyL1FIIsZrfsbqBN7OiIyW37MIBNJVjL0SiPSXeoJIQmGvopmP+ulRvyaeY=
+	ISr0iw50UkbmKiVyLo3VtGHEn5L8cCuv8tUCuJgkIoM85OXfggmjPr9WrdFKbrgMrCkwqCTc+4hUBFKLHoop19CjZydkHHH1F5SgQS/HdBsAN5xri6WjN1+ZZRAzbekuwCxbMgC5el2NSDfsf0Rseyk6OdSkUa5BAKO9VusUW0aXNvjDfW+csZjtytEdiO1CfHq4w1IDdDC2uMn2ctYb3fxa6O0Mxsn03TPpL8WX8+nSP/YcsBMyme/4qFzE56uLj61b4h3af07tUIcUoveouwKIKeo5IA4hQpAsaLUISeaGwARrPQWz8fva6zBXEkEB+ddOq2KbBg12oorOsSH/RN9jgFzAN8v73fjwMC4ffvm5uaNn3D2YNWL7/5po6QSuo+zoz2AWEC9RNsnWt95hcdQ5XIRuY90c0OvijfVy2H7OzzIIKW9EiAItaFLq6qOiA7xy/cSPvVX0dA60rz+m9Uko5sYAWwskzs+hTHLG4rA9ntG9sTiWVxKdc5BLYhgb1HN7E2VO0So1yXmCl0LtXrX1ZiVOVyVxHIZZSfkm00D87Dwwr2ToVywaehLZQciLdjtujGU3h+5ED0ko+imjhVo3/f4yHY4Dqaa1cNNClD6vXsYjTM+Fy9HMF/BMEO+I
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR12MB4367.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(136003)(346002)(39860400002)(396003)(366004)(451199015)(31686004)(186003)(53546011)(6916009)(6486002)(316002)(31696002)(38100700002)(36756003)(6506007)(86362001)(26005)(83380400001)(8676002)(2616005)(66946007)(6512007)(2906002)(41300700001)(5660300002)(66476007)(8936002)(66556008)(4326008)(478600001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR04MB5151.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(136003)(366004)(39860400002)(346002)(376002)(396003)(451199015)(36756003)(38100700002)(86362001)(316002)(6512007)(54906003)(6916009)(66946007)(8676002)(66556008)(66476007)(478600001)(6486002)(6666004)(186003)(26005)(6506007)(83380400001)(2906002)(15650500001)(2616005)(41300700001)(1076003)(4326008)(5660300002)(8936002)(44832011);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?elsogjUeM1WauRADHo2WAMos98kv3Y1IR23MCA07ZD3OrWvT6ojq5Z8vjLrN?=
- =?us-ascii?Q?8apX+RaFHSsbr72w83DM/gqjAjLF0Kt82RMPQuTpKAj92NVfMKDARcRB5BPa?=
- =?us-ascii?Q?lwsg9xVylnNbN61lIsQnSKXcSprpCdgzPWqnAz/ROTWlSkh3LHDyPBVm5lAE?=
- =?us-ascii?Q?lYT55kxZhTYxdajQdkGHLy0MxVPRkiUV67kemsPZI0+0V8tFlnS3aygiEfqZ?=
- =?us-ascii?Q?MccM70yqoyoVpi989uFufy3ap4F7KTOdwjpbfFWqylh0GtQIZI7oOyFuzSe7?=
- =?us-ascii?Q?onXgjSErkY85A5mgKPZFFvTgReIs5H/Bk0ztEAQMZDOUs3Qnu+xMujtittUT?=
- =?us-ascii?Q?spfHSmve3+Az049wwwcFqRKOVO7bZaN4EImKBqUBaseYSw4EfyUDHX6q3g7E?=
- =?us-ascii?Q?F+AdG6KBljG4lnEnlftNwqFuglyXJ8LtH7NMYaytkYCS5xES0tGfDIhGGEjB?=
- =?us-ascii?Q?dkPx4EjietKZWDzNfN9s3rSHACPeHw+Gj3L0JRn4DA2QnSq3BbEHiLGGDzTY?=
- =?us-ascii?Q?Ylr7oJG7nV6tAjxyy5ZM2qzNqDYx2N/UNKYTSwBWFPwoX0xd8uxmGT/ihxBC?=
- =?us-ascii?Q?ufyHulu4driBLLBxRg9vk95dYJrjN3NPWMK0jaUezy7G/tMMAMfEbQ/+NmWX?=
- =?us-ascii?Q?Gjl1Y8U9HGo9G6bqCKGpKb58TWAsb4ZzLXllHmHqpA7kgDUDHEXvV70zcAeC?=
- =?us-ascii?Q?MTbM9x6je47Sz/QIPR4Dn74vjna5FpKWhCYofVVm3nZx2SDiOh6gZgbB0juF?=
- =?us-ascii?Q?EIR/BJ85keLeFcpjFyONG1aT6lAJyn2hCkP+mqjQy2AhFujcyoylu1FwU4DB?=
- =?us-ascii?Q?KwukhwJpqQJXdWDpwdn8pCHNn4R1JxQP6LoXLhDcNKmcvaMFdBRHCURhPspg?=
- =?us-ascii?Q?Hscv9WAw5n4h/nfNGb0E1bYhz67/ioa0Ni9UAc44mc5uuWuvBzzlvaEKbRWz?=
- =?us-ascii?Q?fteIdOwXyUY1BzFxAZiHctdDtmpkJbqbTpm8gTJs6BoaK8xZifU3du+llpo5?=
- =?us-ascii?Q?wlcresDtCN3vnP2GTa1ZcQJqeRGsOo3BNEcmPjap4NRVa3g0Ihc8/ud9jHdD?=
- =?us-ascii?Q?zY1HtSMwKCkZhhxokxQDHU8pHCqvoOEYLs2gUWKoxBiHvOuKro3/BP7aQ4W6?=
- =?us-ascii?Q?So9uJ/DmNCP52TK4vf7hApmG33L9qQJA+TdcB3BC53J5irmN95+kJqh2jKCr?=
- =?us-ascii?Q?BO7XWDfWpqUPdMJwxHMPChYH6iI3tVcc1M5GFrmx0gVaQz6/ZUHDzrM0eOuT?=
- =?us-ascii?Q?6o1juDEBAAMDXhS1rma+vdJBAOuutnpWPhe6F6A1K8BGbct/xlpw5bCKkGVd?=
- =?us-ascii?Q?zdgrD6cEr1crlX28cdgfTKOrQyA1tCRgmJxQF0AHpiMr/x9DzcKlNBSw8ocd?=
- =?us-ascii?Q?Iy3jDLPSyP9dvbsvRhY23Cq4gIdqg8MKObo6S2NbeD68n2/+YQkIIL/jMyNP?=
- =?us-ascii?Q?IGEoxfUL4r1FdY9BmsR67XjH65d7FkcqRCS4oekLd3KnHyh3B4vFTHVUIOdq?=
- =?us-ascii?Q?XY/n2YDCPlhKRRo4vrJaNAAbAQa1bRoTk7J8YpLu6Z3AvyFul0nkPuHANQat?=
- =?us-ascii?Q?MJCbcjBfHbf16K8sh4LGSbmKdUnJzjFg5paR0sVC?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 256aeb93-caa5-43c8-0afb-08dad4927267
-X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4367.namprd12.prod.outlook.com
+	=?us-ascii?Q?iYka9w+BlenLEljStbMtSycEmbbuBJMPh9ZNqlc/6d1Hq/MyzGl7+PRutMYc?=
+ =?us-ascii?Q?HJRzhDA+PE+4t/xxNMjl9F6EaOM8ooV97hkE1t5Avh8JV1uRSm7+/KjoRZzw?=
+ =?us-ascii?Q?51fOBkBcUOO6w1MzPAcdfh/IMJzK4tdtC+Nukb/eEOF8okoz7oRn7HZuWsIU?=
+ =?us-ascii?Q?Ja+G66nAUS2OdHCY0bGzvIiNLg6pQs4e/As2lqRdueC5R30Z0m8IGRs0ZgCM?=
+ =?us-ascii?Q?8oY+zOJQOFxsVJrilNoMKCnoqLoRLrrTPnNaSs1+/nVx3XOe7HxAbBQoFkDy?=
+ =?us-ascii?Q?5pU5KhVj3KA8nObAxsqTZu3P2/dVDzHEjJ8fyqBaRbgwWebXXYBYRDLcDADX?=
+ =?us-ascii?Q?hHbmSXbTHVAfwO9qzY2o7x2N6kUvWKHvJxQMMWKkLqkQqs2cT+XjRMgQvtTE?=
+ =?us-ascii?Q?dagyvzBicx0PpTYOZwzQn0ibNejyCzM+GKVfrfp8BgGIM6Dj0SClOBsGrtzx?=
+ =?us-ascii?Q?pXVbZ39NppqEi9Anx4DyOsQBIAeYc67ZF8C8ggdKJMOnakUSKhmRmMfGW1P8?=
+ =?us-ascii?Q?nmpD4kco14D7sGBDksRkI9MfbTIiaRv+YiMbOADYqMG2zbdD1lxbpYoPcCl5?=
+ =?us-ascii?Q?Z2iOuJTRfaFoGj226YO5NINVYK4mrGN3UQKz53BRAEWiv7KStydgQKUG/ZG0?=
+ =?us-ascii?Q?6O8ZTK6Vg+6etylkQBwlqa5nUsiJQ5vz9q2aW5WD13+CaLcw73uqoJkWEtfg?=
+ =?us-ascii?Q?PmFlxP8BrBe9kqcdGpP3OHFqLg34Pw5ZQxhBnD2zonUwZbaEU2TW8/XiL4sr?=
+ =?us-ascii?Q?Orxp3Hsna6m5CiLuJSMtxiL/jv4Xqmo4vVcraVoLkBZfWi8mKtoP0audBF7y?=
+ =?us-ascii?Q?dAf2bgPb9ee/fYDIuUdywxmAg4KedPvn7ypwKkfzPku3Z2SgqEPNzaQTDLWb?=
+ =?us-ascii?Q?eJfIxgVhffm1lkMWzDSPyk++vj8Coy7P8n4RY1YSAfVVYDkg00cdrt/gZMOn?=
+ =?us-ascii?Q?8Mv/SNiIZQEzkoml2fOIxEs0pYLrAPkaCFQO6bNg2lA4c5+bOsaBiY1bzaBk?=
+ =?us-ascii?Q?Y6aOoV1WAyh78GlMb1PBfCuGSzbHGl4DXycgRYj2BN3IhZmKOGNdmVXBDBqI?=
+ =?us-ascii?Q?xulQGGg3DRn/5/rivuTdlQIasenzHG5LJ3huNIW6dfZF4HgUZKbngIiN9s8X?=
+ =?us-ascii?Q?hL/NTzVEVr1q3qvIaK56F2O3Vno1VXcgW32Udq5OLgTF6prpD2hfdmG0SulX?=
+ =?us-ascii?Q?KF9qysP3SVTalsz42HFiFogmDaU/WW9ndvvHk2efELwnvPHdI/878fazHZ5B?=
+ =?us-ascii?Q?PzCz6Qk+KSktn3piE08U0AhdX7C36Bfqb5GEqbGksldpp/yjLsEi4Ki7nly/?=
+ =?us-ascii?Q?giNVRk/3ciAGRvrlXFWpgeYZp0UjBPUfuNtqktNO/DOnYj9n4hQCtmqC/pFa?=
+ =?us-ascii?Q?XwJuEJVKosCl4hLAsfD5lyPKysUe2qWFAaaUbHVhsEqmdz7LO0z4dkwW4i4G?=
+ =?us-ascii?Q?bJMxL/07axcGzfOKQraCt6gfWuHax4BW1/L+evoyLUD0dP6ulUzF2bDM2GhE?=
+ =?us-ascii?Q?9Vqk58Sq2UK7yYKqQvNTcrY5/2P0cbfklVeIt0Y+5o91WJTs9Jn5P+Wx9yeZ?=
+ =?us-ascii?Q?9xBAFEOUEbdG7BwR0n3sr9nKoWPyyjZt51bJYb5Z?=
+X-OriginatorOrg: ni.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 73de50f9-7c64-420b-91eb-08dad4a82014
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR04MB5151.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2022 18:24:27.8515
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2022 20:59:38.5409
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 87ba1f9a-44cd-43a6-b008-6fdb45a5204e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ofmH8lBOb8O1E9Im/Fi0i5+csYDen6ozFcnwNMPSgXEr0QdO2vwUENh7jov0OJPos+HL8QzCDRzh5IZDHmkHgQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6609
+X-MS-Exchange-CrossTenant-UserPrincipalName: A7cgdkJczgIj9FzzcCo97j+Q03d4uEXnzZA083mccBmFf4CFy0Lx+IyKLt3UQOTAG3RTgx4OS66VdBDmI2L3/g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR04MB5810
+X-Proofpoint-GUID: IqYIwlIMng7-Nbr9yevmhgjuk9iqBULi
+X-Proofpoint-ORIG-GUID: IqYIwlIMng7-Nbr9yevmhgjuk9iqBULi
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-02_12,2022-12-01_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy score=30
+ mlxlogscore=912 mlxscore=0 malwarescore=0 suspectscore=0 bulkscore=0
+ clxscore=1011 adultscore=0 impostorscore=0 phishscore=0 priorityscore=1501
+ lowpriorityscore=0 spamscore=0 classifier=spam adjust=30 reason=mlx
+ scancount=1 engine=8.12.0-2210170000 definitions=main-2212020169
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Dec 2022 18:24:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174244
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Dec 2022 20:59:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174245
 
-Hi Alex, Richard,
+Some distributions (NI LinuxRT) provide both busybox-lsof and
+full-featured lsof implementations. When users install the full-featured
+lsof package, the full-binary fails to replace the bbox-binary in PATH,
+because `lsof` contains no update-alternatives logic.
 
-Any updates on reviewing this patch?
+Inherit the update-alternatives bbclass and assert that the
+full-featured lsof package has higher priority than the busybox
+implementation.
 
-Thanks,
+Co-Authored-By: Kyle Roeschley <kyle.roeschley@ni.com>
+Signed-off-by: Alex Stewart <alex.stewart@ni.com>
+---
+ meta/recipes-extended/lsof/lsof_4.96.4.bb | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Sandeep
+diff --git a/meta/recipes-extended/lsof/lsof_4.96.4.bb b/meta/recipes-extended/lsof/lsof_4.96.4.bb
+index bdd883d0ce..11de535a0f 100644
+--- a/meta/recipes-extended/lsof/lsof_4.96.4.bb
++++ b/meta/recipes-extended/lsof/lsof_4.96.4.bb
+@@ -12,6 +12,15 @@ SRCREV = "669c33a253e414feb60fbbcf2984c25dc413cd75"
+ 
+ S = "${WORKDIR}/git"
+ 
++
++inherit update-alternatives
++
++ALTERNATIVE_${PN} = "lsof"
++ALTERNATIVE_LINK_NAME[lsof] = "${sbindir}/lsof"
++# Make our priority higher than busybox
++ALTERNATIVE_PRIORITY = "100"
++
++
+ export LSOF_INCLUDE = "${STAGING_INCDIR}"
+ 
+ do_configure () {
+-- 
+2.38.1
 
-On 11/3/2022 2:09 PM, Gundlupet Raju, Sandeep wrote:
-> Hello,
->
-> Any updates on reviewing this patch?
->
-> Thanks,
->
-> Sandeep
->
-> On 10/27/2022 8:17 PM, Sandeep Gundlupet Raju wrote:
->> libkms library is deprecated in 2.4.111 version. Hence remove
->> libdrm-kms package.
->>
->> Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
->> ---
->> =C2=A0 meta/recipes-graphics/drm/libdrm_2.4.113.bb | 3 +--
->> =C2=A0 1 file changed, 1 insertion(+), 2 deletions(-)
->>
->> diff --git a/meta/recipes-graphics/drm/libdrm_2.4.113.bb=20
->> b/meta/recipes-graphics/drm/libdrm_2.4.113.bb
->> index 959ef68032..613d3430ce 100644
->> --- a/meta/recipes-graphics/drm/libdrm_2.4.113.bb
->> +++ b/meta/recipes-graphics/drm/libdrm_2.4.113.bb
->> @@ -39,7 +39,7 @@ PACKAGECONFIG[manpages] =3D=20
->> "-Dman-pages=3Denabled,-Dman-pages=3Ddisabled,libxslt-nati
->> =C2=A0 =C2=A0 ALLOW_EMPTY:${PN}-drivers =3D "1"
->> =C2=A0 PACKAGES =3D+ "${PN}-tests ${PN}-drivers ${PN}-radeon ${PN}-nouve=
-au=20
->> ${PN}-omap \
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 ${PN}-intel ${PN}-exynos ${PN}-kms ${PN}-freedreno=20
->> ${PN}-amdgpu \
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 ${PN}-intel ${PN}-exynos ${PN}-freedreno ${PN}-amdgpu \
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 ${PN}-etnaviv"
->> =C2=A0 =C2=A0 RRECOMMENDS:${PN}-drivers =3D "${PN}-radeon ${PN}-nouveau=
-=20
->> ${PN}-omap ${PN}-intel \
->> @@ -52,7 +52,6 @@ FILES:${PN}-nouveau =3D "${libdir}/libdrm_nouveau.so.*=
-"
->> =C2=A0 FILES:${PN}-omap =3D "${libdir}/libdrm_omap.so.*"
->> =C2=A0 FILES:${PN}-intel =3D "${libdir}/libdrm_intel.so.*"
->> =C2=A0 FILES:${PN}-exynos =3D "${libdir}/libdrm_exynos.so.*"
->> -FILES:${PN}-kms =3D "${libdir}/libkms*.so.*"
->> =C2=A0 FILES:${PN}-freedreno =3D "${libdir}/libdrm_freedreno.so.*"
->> =C2=A0 FILES:${PN}-amdgpu =3D "${libdir}/libdrm_amdgpu.so.*=20
->> ${datadir}/${PN}/amdgpu.ids"
->> =C2=A0 FILES:${PN}-etnaviv =3D "${libdir}/libdrm_etnaviv.so.*"
 
