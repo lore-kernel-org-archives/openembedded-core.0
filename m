@@ -1,117 +1,116 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A849C4332F
-	for <webhook@archiver.kernel.org>; Thu,  1 Dec 2022 23:23:07 +0000 (UTC)
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
- by mx.groups.io with SMTP id smtpd.web10.61083.1669936981529939659
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93653C4332F
+	for <webhook@archiver.kernel.org>; Fri,  2 Dec 2022 02:47:18 +0000 (UTC)
+Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com [195.245.231.4])
+ by mx.groups.io with SMTP id smtpd.web10.65460.1669949234250646817
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Dec 2022 15:23:01 -0800
+ Thu, 01 Dec 2022 18:47:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=n8vu8oQd;
- spf=pass (domain: gmail.com, ip: 209.85.160.54, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-14286d5ebc3so3947693fac.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 15:23:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ViTkA4GsUYl3ZurjlBrPxOGCr5YhrA3ByXQEy+f5Qzo=;
-        b=n8vu8oQdaMRu1UggJr68Iz7ZtAtmi6gTE+VYCsp64nEpB8cVtUciQgGo4OrkFztlfd
-         QpG9K3Vr7CO0s7XHBn00Hg9gvozAU4Zqk/jxp7Cn1TDZYvbIIODR0BteS6Q5yxdVBRNP
-         y5p/E0Y3LvkOb4t7f1KQnB4D9qPcVLDGxoWlYzOKpGimga2K4PySKCk0xMtypW/judSt
-         WC3HFIhC/jJGXeEDe0STC8qou3EL3j/O8EIZ8uyYutBRCqXsbxJR3GohH4LqPiDi9fvi
-         Ss4f9ii1wO2TzTooqud6elPGbsRtbnMZWLDIA+CMii+MCfBx4wMCeWX+bQJuCznWD7NB
-         9WAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ViTkA4GsUYl3ZurjlBrPxOGCr5YhrA3ByXQEy+f5Qzo=;
-        b=hII/8LjcI/UXynix7wxEjrULA2YmDXjhTeYaFpSC9hqePRIak8StWmKVvaKOP93fMR
-         SDVFI4Bk4pmguT8ahyo56W9zbG4nDMH/SSJ37wvavlUmy6JaxTiw2mcIq+NhUnfrGeLW
-         ZuCo5ncunAJEP1mrY8ZJ7KZ1OTccf/bqB0aDnjPXh5pFS95vNo5iYjtiEcXTzuHWmYwv
-         lHa6gZIUrvgR65N44feJJaZVWH4x1wXl83PN8H3wxeHnL2/5j26aY5K4nDrK5BMl3FeC
-         e203h+tz5pYTkJHD6RtfQ6AVvXJHyJ6s9LcpWjLkD0pfuLjmb9CLxZn7FWLD+mO72UuA
-         XkpQ==
-X-Gm-Message-State: ANoB5pmpbkh3e/R1vv/xatBZcie8N55i5Nwn5RNRsR7qb89/4CckJ1TG
-	SDAzEGDZVwxBBozCDRNytS1cKYINO2K94y5sHx0=
-X-Google-Smtp-Source: AA0mqf4/d5fAIM0i4aspeWu/E/tueQdNAT93DhA+RC9Wep4H/HRV8wyM3HkOnra/oL/psErmUFXO7EptnQS/EGt/1og=
-X-Received: by 2002:a05:6870:1784:b0:13b:1e05:a73d with SMTP id
- r4-20020a056870178400b0013b1e05a73dmr40597438oae.55.1669936980680; Thu, 01
- Dec 2022 15:23:00 -0800 (PST)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=Riq7s4PM;
+ spf=pass (domain: fujitsu.com, ip: 195.245.231.4, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1669949232; i=@fujitsu.com;
+	bh=e9UZx7/3n+QkfbrNB7GhI0BAwrMsYaOB+g4Y+RfA+dk=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=Riq7s4PM2lZ9aO5qTnVLul3D5lgik6DFjnYpW5n2bCgkq+GI9YzSmY7veXFXMbe/t
+	 6dnlv9oHc8RKacQveoZAnB8qH1HDaSp0aCus4VBPqNvIICJcOmawSNlzRYK5HmsKp8
+	 afBR+uNmtmTUxyVnAZ+rNKd0pILdkbOwNOTh69S2rIyRuIugMp7gqBSQi6bnx81AgJ
+	 EWQ38x7aZXcNFhRtP7MIOCl7Hr/daWIaCY2XJMu1qdiHFCvI2TvmfgqFrcyye+LrG5
+	 I0jWl2T6PwNJxOAZMwbguB71bu0KcOaaOlGjsROxV29laOiWxfB+hORL1wElb/nVbo
+	 zPSXQkHuZYSpw==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrJIsWRWlGSWpSXmKPExsViZ8ORqKuf3pl
+  sMP+FicWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmtHSNJO9YAZPxcRL31kaGC9ydTFycQgJPGaU
+  2HXkICuEc41J4l/DL2YIZzejxPzmD+xdjJwcbAJSEjfu/2frYuTgEBHQk7j6TxQkzCygIvHid
+  w9YibCAncSeC/NZQWwWoPjOF1/A4rwCThIPTm5lArElBBQkpjx8zwwRF5Q4OfMJC8QcCYmDL1
+  4wQ9QoSsy+3MwCYVdIzJrVBtWrJnH13CbmCYz8s5C0z0LSvoCRaRWjaXFqUVlqka6ZXlJRZnp
+  GSW5iZo5eYpVuol5qqW55anGJrpFeYnmxXmpxsV5xZW5yTopeXmrJJkZgKKYUK93bwTht2R+9
+  Q4ySHExKoryyvzqShfiS8lMqMxKLM+KLSnNSiw8xynBwKEnwKid3JgsJFqWmp1akZeYA4wImL
+  cHBoyTCWxEClOYtLkjMLc5Mh0idYtTlmPm17QCzEEtefl6qlDivWSpQkQBIUUZpHtwIWIxeYp
+  SVEuZlZGBgEOIpSC3KzSxBlX/FKM7BqCTMqwcyhSczrwRu0yugI5iAjogUawM5oiQRISXVwGT
+  qsOy6bYna+/bC2tT501+euCH0afO8noiezUWXbZmO/qx+vSnDpkz7T3TB1N2feCublkZnzVUT
+  LmupcpXyiz+wKEjodmVsebTxh9eGZ9qvyZ35viz6+DTuU1MW79CdXXjgmOvupYfVPXs2nHKcK
+  vB64s/TS9708Qm1ik1rvf+J7VzihdXFy1m73M53rVKez3D1o9iC5rUJ3mVP5jHuCvy35VbR5L
+  BkR5GVvb0SxcVKK/NuTl9wd+HKSVaXVvza8Wd+VDJvV4Nk4u1S6zZmtuYJJccepS66JasSn+v
+  su+WeRuse1xIeF80ZyXKaci8jjRew5tZE2Ul9XyoevjVX40LHNnNXy7bKch+9gs+ThJVYijMS
+  DbWYi4oTAV5A015MAwAA
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-6.tower-548.messagelabs.com!1669949231!141178!1
+X-Originating-IP: [62.60.8.97]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.101.1; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 30722 invoked from network); 2 Dec 2022 02:47:11 -0000
+Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
+  by server-6.tower-548.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 2 Dec 2022 02:47:11 -0000
+Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id 8EC95100191
+	for <openembedded-core@lists.openembedded.org>; Fri,  2 Dec 2022 02:47:11 +0000 (GMT)
+Received: from R01UKEXCASM126.r01.fujitsu.local (R01UKEXCASM126 [10.183.43.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id 82DE210018D
+	for <openembedded-core@lists.openembedded.org>; Fri,  2 Dec 2022 02:47:11 +0000 (GMT)
+Received: from localhost.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.42; Fri, 2 Dec 2022 02:47:10 +0000
+From: <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] btrfs-tools: upgrade 6.0.1 -> 6.0.2
+Date: Fri, 2 Dec 2022 10:46:47 +0800
+Message-ID: <1669949207-13254-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-References: <20221201190248.175753-1-raj.khem@gmail.com> <20221201190248.175753-6-raj.khem@gmail.com>
- <e65f40a225318abefd91c75d51943fc141368082.camel@linuxfoundation.org>
- <Y4kzP3WMTabOHMYB@mail.local> <CAMKF1spdT_yK7K-Do++uMvbxsfAhuPZMu-6qgPn2uBkwi-aSGg@mail.gmail.com>
- <bd44a8ef327c3316e82a4f6a5b8e5b96c00d8019.camel@linuxfoundation.org>
-In-Reply-To: <bd44a8ef327c3316e82a4f6a5b8e5b96c00d8019.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 1 Dec 2022 15:22:34 -0800
-Message-ID: <CAMKF1sqN=QnQOZbQn77QjvGYiu9G8hV6LpRx+TjLdG8V8-XJbQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 6/6] pseudo: Disable LFS on 32bit arches
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Dec 2022 23:23:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174217
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Dec 2022 02:47:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174218
 
-On Thu, Dec 1, 2022 at 3:20 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Thu, 2022-12-01 at 15:07 -0800, Khem Raj wrote:
-> > On Thu, Dec 1, 2022 at 3:05 PM Alexandre Belloni
-> > <alexandre.belloni@bootlin.com> wrote:
-> > >
-> > > On 01/12/2022 19:12:50+0000, Richard Purdie wrote:
-> > > > On Thu, 2022-12-01 at 11:02 -0800, Khem Raj wrote:
-> > > > > pseudo overrides certain libc functions which are aliases when LFS64 is
-> > > > > enabled. In anycase pseudo may not be much used on 32bit systems anyway
-> > > > >
-> > > > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > > > ---
-> > > > >  meta/recipes-devtools/pseudo/pseudo_git.bb | 2 ++
-> > > > >  1 file changed, 2 insertions(+)
-> > > > >
-> > > > > diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-> > > > > index c34580b4ff..c3f0a987fc 100644
-> > > > > --- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-> > > > > +++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-> > > > > @@ -17,5 +17,7 @@ SRCREV = "c9670c27ff67ab899007ce749254b16091577e55"
-> > > > >  S = "${WORKDIR}/git"
-> > > > >  PV = "1.9.0+git${SRCPV}"
-> > > > >
-> > > > > +TARGET_CPPFLAGS:remove = "-D_LARGEFILE_SOURCE -D
-> > > > > +
-> > > > >
-> > > >
-> > > > We need to put some comments in here about what this is doing and why.
-> > > >
-> > >
-> > > Note that this was one of the issues I had with the
-> > > -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64 build. My guess is that we also
-> > > have to remove -D_TIME_BITS=64.
-> >
-> > Eventually yes, however lets do that incrementally. First I am trying
-> > to get LFS handled.
->
-> Pseudo is a bit of a special case so if we can see an issue here, lets
-> add the other bit needed as well please! :)
->
-> I don't mind if it is one or two patches but we should do it.
->
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-OK, I wanted to first fail with that option because we are removing
--D_FILE_OFFSET_BITS=64 it should be enough
-for 64bit time_t as well.
+Changelog:
+==========
+* fixes:
+   * resize cancel did not work in some cases
+   * fix fileattr stream command format and add workaround when it cannot be applied
+   * properly handle degraded raid56 reads
+   * fi defrag: fix verbosity, don't print file names by default
+   * receive: fix silent data loss after fall back from encoded write
+* fi mkswapfile: new command to create a formatted swapfile in one go
 
-> Cheers,
->
-> Richard
->
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ .../btrfs-tools/{btrfs-tools_6.0.1.bb => btrfs-tools_6.0.2.bb}  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_6.0.1.bb => btrfs-tools_6.0.2.bb} (98%)
+
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb
+similarity index 98%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.1.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb
+index 7144087a11..872fba6b6d 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.1.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb
+@@ -18,7 +18,7 @@ DEPENDS = "util-linux zlib"
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git;branch=master \
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
+            "
+-SRCREV = "441d01556873385d55fd4940f50ee7ae1fcfb13d"
++SRCREV = "ff964ba6aef98bd1bafe8ff9b0088501b30bdd27"
+ S = "${WORKDIR}/git"
+ 
+ PACKAGECONFIG ??= " \
+-- 
+2.25.1
+
 
