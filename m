@@ -1,86 +1,84 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F287C4708E
-	for <webhook@archiver.kernel.org>; Sat,  3 Dec 2022 03:29:46 +0000 (UTC)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web10.96659.1670038178219910251
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13796C4332F
+	for <webhook@archiver.kernel.org>; Sun,  4 Dec 2022 12:02:36 +0000 (UTC)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web11.127280.1670155347729630426
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Dec 2022 19:29:38 -0800
+ Sun, 04 Dec 2022 04:02:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=odoFIQh+;
- spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f42.google.com with SMTP id o12so6589306pjo.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 Dec 2022 19:29:38 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=o/0sbFPm;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f179.google.com with SMTP id y17so8491687plp.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 04 Dec 2022 04:02:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=n1u25S1YSb2CwBa75yfMOYa839oelH9lKnu9qMPDrbY=;
-        b=odoFIQh+BrdtGBf02axwUnA6sjn1nU2H+JP/Fg/nWa+zsSq4uLugxfBnJb5NxAOqYj
-         mXhYg5ICGNoJg8F4Qid++LAcgCA40DFhUed8xfQixGAgvCk9D8fnnMvWR8QFdmcxvLOf
-         mOqnoVVtIJ9Bw3E7qyJ+z282vC5pZLxAzHFFVOHmhPGjZ0jZMIN0PL2jhoeAyOe1uEnh
-         KxigB6gMpb3i0XVgMKZkg3VWDBhvYQ/bfQm3FzwC2ejgoNsswZbZwxIl54CgPoUWDsD+
-         SQsNEF4k/KeXX9wcuhdiYWY1KRl7IdqimCvH2QV79rxa5piSqSS+mgYdR0w9T9fHP3Tj
-         ZsDQ==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=date:message-id:to:from:subject:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pchxvQ1apzgLC40ZWiHE1Wj68DuR0HthsRTKuJj8oVg=;
+        b=o/0sbFPmmpyFGQvOiJy8nMg1Gv62Cs/0U7g6wBMH9SDL/hhM6W7jYROcRctYN3MJWn
+         hAOA1TIgmCmVD3Kv4EHUhH1pfGSiiEpnvg6+du/dIC7C5kABab6tLtTCfbUvO8bUSCoU
+         mlshkE/XSeCr84B1Ig0mN/IlgWHeklQRLCNP3J6ktMsGEIHaxi+QPU5mUEdrqvYc9vb/
+         xiRZsBj8Tw6wsul+zuHR2BiNkxpLjxitTTpucMiUlo7564aoDY0gbHcEl3q0Z9li7cgY
+         HIaPY4Y19KY367+59VZKksUV6cOC3mGa3Rdblo/w15J54ViEYN9bwJ71oiWj5CpD/7lO
+         ie/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        h=date:message-id:to:from:subject:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=n1u25S1YSb2CwBa75yfMOYa839oelH9lKnu9qMPDrbY=;
-        b=QOw0DPkPb59LZP21T1QdGfDgG2o275kLQwcmlCW8pBDdswVc0ovX70kTKf4O9ukltA
-         9aMrmGd+2W+EgqqtG4OFi/zffZuHTfxC+dIam4f+Fn6V7SnutfPmycU9MSvLCZGgeb+q
-         9ywY3/ig6tbHapjxNagn1aexBN/rQjSm/3pZZB/MVWqMUM3R6O0DvPYKKtjtacFgixRC
-         tF40xXiwdkQrYVm7aQPRuyN8/UPcfr/iEM2O9hFAZGw7hZ/djxPowC6K+lrRc3FLjN+Y
-         0RHNX/rd/HQejOhTfAmJkTny2NZ0vJZpkjhD1idrx7g4iQlYHzW7ey1xNNT7Ny21EhGF
-         dIQA==
-X-Gm-Message-State: ANoB5pnWEEkzgbwrzu17sWOkTjUKiSGJQ7vHZd6QYSZs64ScOkt9h+pY
-	bJVj0eAI7VmvWrFakzutet7PYMktScA=
-X-Google-Smtp-Source: AA0mqf4bL/pOVI/AvH5DvlPU3ms1IZ7KPG3WvEsxYfdcCbUSIOqZmivED7LEzhMKoiP5pOC/gUTJGA==
-X-Received: by 2002:a17:90b:2686:b0:218:bb0a:e295 with SMTP id pl6-20020a17090b268600b00218bb0ae295mr62301966pjb.80.1670038177430;
-        Fri, 02 Dec 2022 19:29:37 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::d00])
-        by smtp.gmail.com with ESMTPSA id m11-20020a170902db0b00b00172951ddb12sm6366234plx.42.2022.12.02.19.29.36
+        bh=pchxvQ1apzgLC40ZWiHE1Wj68DuR0HthsRTKuJj8oVg=;
+        b=U5IPlxRdG5BUHvFuSgv33RA1OO0hF89lxTVW26b1+KU+fFul94+uQJBGxQdmaZORbX
+         I2l39+V3Wee0bES2QDuArubPphYezga4szFNlY05m19fFK4f8LYhPF7ZSkH8F5BIcE0X
+         El51fcl08HI1hCT6wgExafrIaZjIVugPA80J5mbb0CtHXi14aN/77Zs9To/PAPPTm7Ty
+         AZ0+RHYBN0/fC9baW1PSo6RQ7SNYk9RnCPckHcXaTAZRSI/q+xsHS8tL+RuZgGkjrRqw
+         +pyM7zFqWgnueLW2Tm8OZWspfAsZqFC6uI9/xSI9pjpdR0J+gDux4xDcUXCYyKmEe96W
+         Vs6g==
+X-Gm-Message-State: ANoB5pnvoyQlCZgiugi/t7k/U0ZMrYtgdUmKgWFUn4iMYbMvLA+GhMLh
+	Dqh70TdQFw1Y+OUr6XtITUuCaCxkorm5bDJaR4oD5Q==
+X-Google-Smtp-Source: AA0mqf6J6Qsv+sgQN0Qdi+Zn0IqQAi3ZjYN4vQSV17sSJXQ9FnjRatLuu7ne85PXczdMqyqvk2aOWg==
+X-Received: by 2002:a17:90a:bb16:b0:200:2d7f:18c2 with SMTP id u22-20020a17090abb1600b002002d7f18c2mr84382339pjr.106.1670155346608;
+        Sun, 04 Dec 2022 04:02:26 -0800 (PST)
+Received: from nuc.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
+        by smtp.gmail.com with ESMTPSA id e17-20020aa798d1000000b005742ee445fdsm8005418pfm.70.2022.12.04.04.02.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Dec 2022 19:29:37 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 3/3] xkeyboard-config: Extend to build native package
-Date: Fri,  2 Dec 2022 19:29:33 -0800
-Message-Id: <20221203032933.878802-3-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221203032933.878802-1-raj.khem@gmail.com>
-References: <20221203032933.878802-1-raj.khem@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sun, 04 Dec 2022 04:02:25 -0800 (PST)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id EA1309602B7; Sun,  4 Dec 2022 02:02:23 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 04 Dec 2022 02:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20221204120223.EA1309602B7@nuc.router0800d9.com>
+Date: Sun,  4 Dec 2022 02:02:23 -1000 (HST)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 03 Dec 2022 03:29:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174249
+ <openembedded-core@lists.openembedded.org>; Sun, 04 Dec 2022 12:02:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174250
 
-Needed by gtk4
+Branch: master
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-graphics/xorg-lib/xkeyboard-config_2.37.bb | 2 ++
- 1 file changed, 2 insertions(+)
+New this week: 5 CVEs
+CVE-2022-36227 (CVSS3: 9.8 CRITICAL): libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36227 *
+CVE-2022-40303 (CVSS3: 7.5 HIGH): libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40303 *
+CVE-2022-40304 (CVSS3: 7.8 HIGH): libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40304 *
+CVE-2022-4141 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4141 *
+CVE-2022-4144 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4144 *
 
-diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.37.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.37.bb
-index f3d9ac9221..f9322d4866 100644
---- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.37.bb
-+++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.37.bb
-@@ -28,3 +28,5 @@ do_install:append () {
-     install -d ${D}${datadir}/X11/xkb/compiled
-     cd ${D}${datadir}/X11/xkb/rules && ln -sf base xorg
- }
-+
-+BBCLASSEXTEND += "native"
--- 
-2.38.1
+Removed this week: 1 CVEs
+CVE-2022-3970 (CVSS3: 9.8 CRITICAL): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3970 *
 
+Full list:  Found 8 unpatched CVEs
+CVE-2022-36227 (CVSS3: 9.8 CRITICAL): libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36227 *
+CVE-2022-3872 (CVSS3: 8.6 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3872 *
+CVE-2022-40303 (CVSS3: 7.5 HIGH): libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40303 *
+CVE-2022-40304 (CVSS3: 7.8 HIGH): libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40304 *
+CVE-2022-4055 (CVSS3: 7.4 HIGH): xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4055 *
+CVE-2022-4141 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4141 *
+CVE-2022-4144 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4144 *
+CVE-2022-45061 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-45061 *
+
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
