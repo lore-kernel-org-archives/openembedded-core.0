@@ -1,204 +1,272 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <flowergom@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A17A2C4321E
-	for <webhook@archiver.kernel.org>; Sun,  4 Dec 2022 17:24:17 +0000 (UTC)
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
- by mx.groups.io with SMTP id smtpd.web10.133211.1670174656158965247
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE635C4321E
+	for <webhook@archiver.kernel.org>; Sun,  4 Dec 2022 18:40:07 +0000 (UTC)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web10.135044.1670179203397140210
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 Dec 2022 09:24:16 -0800
+ Sun, 04 Dec 2022 10:40:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=bs0Gkvcu;
- spf=pass (domain: gmail.com, ip: 209.85.160.48, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-1433ef3b61fso10965165fac.10
-        for <openembedded-core@lists.openembedded.org>; Sun, 04 Dec 2022 09:24:16 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=jb/IVRWI;
+ spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: flowergom@gmail.com)
+Received: by mail-ej1-f48.google.com with SMTP id fc4so16031358ejc.12
+        for <openembedded-core@lists.openembedded.org>; Sun, 04 Dec 2022 10:40:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NKz7C/O5H4aWwYcgSOIj9oLVtwYrOV2MFoCbeb5L6EI=;
-        b=bs0Gkvcu9047qwS8TUz7qRiwOLQZBJOZeawoLD5pc8ezIZuLBJ+r24/Sjdziv0H01f
-         cw7SIWWip4uA//W8qfv5RI4pOlR4LSgrRr8ObaFlUu3S0gstEAAja7nJEVbDfm4ObRwr
-         ex+o/SR1SHdZW+qIrTX2/wmVtJ2dIzg1MkMALg2g4REmJpOwJmiAI/+8rbNZspgOq1L1
-         W26EZQuHaaHCqXKV/4XJkAqnJrjNmjnHSKiFKGZn6jJFES+DeNHbicRR0CEYTGzqcdbX
-         tvv6oPm9YVXpupuCO6KJ2AIBaaKxq6/KhM70IZzDiGZ9BJcHt4aBDhiFJ12+E8q8D57H
-         O93w==
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=upwpL1PaYj8WeZkCTKoJJahOEPAAN7jHs7277DEGtGk=;
+        b=jb/IVRWIQ5mjbBtUI/xJdtqmc3qdbWuqnW/OnTD/JZit6cQ88s9ihD618MhTnsZHC8
+         /S4S9Tw/MRPWoTIOXmr8WGY6P87ZcpoIc5+H4WfAVI8Jt99SttriXjBQrus58qb5KGs5
+         8XKQ6YIBIRAroKb/8NoKeI2rW4/hFGyNRXIOA0QVXXU/EPqlmHPMBf7lp5sS932sRHhD
+         Ki18p0bHWO84Ut+WnGZh8nCwrMaLmTc32Kx0KK6ZxCQez9iHQKEVN4FYVJaaUBM/Unqj
+         f4PMmztZQW/27dIEtLegbNnkTi+vbwt9BBuWEYzWM8zhD64KJryZbsu6jP5MlhMRE8zU
+         TWKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NKz7C/O5H4aWwYcgSOIj9oLVtwYrOV2MFoCbeb5L6EI=;
-        b=C5LXITWL7O0Y/w6dskfvScpYv24EFVoPseJ3zsH8P957sY6czbDcwpAEXv+7ciJpyP
-         Owl72l/6V+uhszcdNdL55xCtIIvZuHuYfA3UkBvPPWYh02RwGb5A3Rwt1c+UtZB1jVIY
-         7NTbk1T3tupLoT2g+YsYSYVejOS/n9rL1dMuCyg8qvt1+QCMLLF1vGfVYrGmp1ElNkYx
-         e3960ZuWtQi619LXJPWOIWZMVlSEoBtKWEwU+Mxe8XkckpVSNmEDR4dHDjxB6NEncbFE
-         Mpe7DOuBJzedUIClZ/9mrV1LXOzZY0SXrMXv5rj7VFaZ8nyVpfHcvTO6w7nv4uHDpsYr
-         PJAg==
-X-Gm-Message-State: ANoB5pmxPmG/9yKjVBTJqy76LZjeJ65Q8qUzmZ8KW1uSXFIAghMJ9H9P
-	XTx0m8mRY7yDDfQb/vAFvqalyk7cjHr7C686WOw=
-X-Google-Smtp-Source: AA0mqf6rhfc2GHU8nReT1joL0dwf8p4m6PJkqxcHVam6K+zBWbsZryf+lAcENk43hLtXOzHbvco6XFmjIGclVZPAats=
-X-Received: by 2002:a05:6870:1784:b0:13b:1e05:a73d with SMTP id
- r4-20020a056870178400b0013b1e05a73dmr46238522oae.55.1670174655272; Sun, 04
- Dec 2022 09:24:15 -0800 (PST)
-MIME-Version: 1.0
-References: <20221201173942.1218836-1-f_l_k@t-online.de>
-In-Reply-To: <20221201173942.1218836-1-f_l_k@t-online.de>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 4 Dec 2022 09:23:49 -0800
-Message-ID: <CAMKF1srCn0tDWAxxpVCYhTZmow3uwy0tGqLXy2VDX0qBHDx2ZA@mail.gmail.com>
-Subject: Re: [oe-core][PATCH] mesa: update 22.2.3 -> 22.3.0
-To: Markus Volk <f_l_k@t-online.de>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=upwpL1PaYj8WeZkCTKoJJahOEPAAN7jHs7277DEGtGk=;
+        b=I5CWMGH/gwAnnujCokVVlZhUV62/zbhsjqqJd9ugU3qFy5J0oNxpWK6QO3M8mRCy3n
+         0tsaQ9N6NLqumaAwsBbY6G7/9P911Cwf6N6NEv43slRaI5lKXnURvWY/pJayxeszIlgi
+         afEaDktHi83EMBRT8clxkSoiQsstNiK2A9SxZOfRdmJnL6W33pcR+4QtQTv5lswj0UnF
+         zfb2tlaTubYDYhhh26a+Pf2ADd39eHTbPia4ZRnOL3XKjjIIOwZ8B3wgZ8l1azU08N3H
+         9cV8RquBUQwiSYZBkrYKG3ttUVzm1HxiSXx3myIkI6gMyLxxkvezwHdmwUTVC2IGisMf
+         PCfg==
+X-Gm-Message-State: ANoB5pn5uwmaVbpe65NofcihruECpGG4tK+/wHt672dvTWGviKuS4OEu
+	Muxjn7eYomoZbgUtCk+g144up1sW8ee5MD21
+X-Google-Smtp-Source: AA0mqf6dRUV3PBzhN32pUHkHl85ISEaV+xbUSajKavbbLF77smVbt1mfh56Um+Lp4VIxKiHuSEeNbA==
+X-Received: by 2002:a17:906:704:b0:7a1:b555:6f1 with SMTP id y4-20020a170906070400b007a1b55506f1mr69752992ejb.29.1670179201216;
+        Sun, 04 Dec 2022 10:40:01 -0800 (PST)
+Received: from localhost.localdomain (ip5b423fb4.dynamic.kabel-deutschland.de. [91.66.63.180])
+        by smtp.gmail.com with ESMTPSA id p13-20020a056402154d00b0046778ce5fdfsm1878760edx.10.2022.12.04.10.40.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Dec 2022 10:40:00 -0800 (PST)
+From: Minjae Kim <flowergom@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Minjae Kim <flowergom@gmail.com>
+Subject: [dunfell][PATCHv2] xserver-xorg: backport fixes for CVE-2022-3550, CVE-2022-3551 and CVE-2022-3553
+Date: Sun,  4 Dec 2022 18:39:27 +0000
+Message-Id: <20221204183927.13808-1-flowergom@gmail.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 04 Dec 2022 17:24:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174254
+ <openembedded-core@lists.openembedded.org>; Sun, 04 Dec 2022 18:40:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174255
 
-On Thu, Dec 1, 2022 at 9:39 AM Markus Volk <f_l_k@t-online.de> wrote:
->
-> - remove deprecated xvmc PACKAGECONFIG
-> - remove futex.h patch. Code has been reworked, still needed?
->
-> Note: mesa-22.3.0 will require libperfetto update to v28. Otherwise compilation will fail.
+<CVE-2022-3550>
+xkb: proof GetCountedString against request length attacks
+Upstream-Status: Backport [https://cgit.freedesktop.org/xorg/xserver/commit/?id=11beef0b7f1ed290348e45618e5fa0d2bffcb72e]
 
-I am also seeing qtwayland fail.
-https://errors.yoctoproject.org/Errors/Details/682034/
-Not sure if this is related  but I think its somewhere in egl headers
-provided by mesa.
+<CVE-2022-3551>
+xkb: fix some possible memleaks in XkbGetKbdByName
+Upstream-Status: Backport [https://cgit.freedesktop.org/xorg/xserver/commit/?id=18f91b950e22c2a342a4fbc55e9ddf7534a707d2]
 
->
-> Signed-off-by: Markus Volk <f_l_k@t-online.de>
-> ---
->  ...fine-__NR_futex-if-it-does-not-exist.patch | 34 -------------------
->  ...k-for-all-linux-host_os-combinations.patch |  7 ++--
->  .../{mesa-gl_22.2.3.bb => mesa-gl_22.3.0.bb}  |  0
->  meta/recipes-graphics/mesa/mesa.inc           |  4 +--
->  .../mesa/{mesa_22.2.3.bb => mesa_22.3.0.bb}   |  0
->  5 files changed, 5 insertions(+), 40 deletions(-)
->  delete mode 100644 meta/recipes-graphics/mesa/files/0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch
->  rename meta/recipes-graphics/mesa/{mesa-gl_22.2.3.bb => mesa-gl_22.3.0.bb} (100%)
->  rename meta/recipes-graphics/mesa/{mesa_22.2.3.bb => mesa_22.3.0.bb} (100%)
->
-> diff --git a/meta/recipes-graphics/mesa/files/0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch b/meta/recipes-graphics/mesa/files/0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch
-> deleted file mode 100644
-> index e7d92197be..0000000000
-> --- a/meta/recipes-graphics/mesa/files/0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch
-> +++ /dev/null
-> @@ -1,34 +0,0 @@
-> -From 859bfc342d1db9b61c43f30d9aa27cea35ca7599 Mon Sep 17 00:00:00 2001
-> -From: Khem Raj <raj.khem@gmail.com>
-> -Date: Fri, 16 Oct 2020 11:03:47 -0700
-> -Subject: [PATCH] futex.h: Define __NR_futex if it does not exist
-> -
-> -__NR_futex is not defines by newer architectures e.g. arc, riscv32 as
-> -they only have 64bit variant of time_t. Glibc defines SYS_futex interface based on
-> -__NR_futex, since this is used in applications, such applications start
-> -to fail to build for these newer architectures. This patch defines a
-> -fallback to alias __NR_futex to __NR_futex_tim64 so SYS_futex keeps
-> -working
-> -
-> -Upstream-Status: Pending
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> -
-> ----
-> - src/util/futex.h | 4 ++++
-> - 1 file changed, 4 insertions(+)
-> -
-> -diff --git a/src/util/futex.h b/src/util/futex.h
-> -index 2a2a00c..92fc123 100644
-> ---- a/src/util/futex.h
-> -+++ b/src/util/futex.h
-> -@@ -38,6 +38,10 @@
-> - #define SYS_futex SYS_futex_time64
-> - #endif
-> -
-> -+#if !defined(SYS_futex) && defined(SYS_futex_time64)
-> -+# define SYS_futex SYS_futex_time64
-> -+#endif
-> -+
-> - static inline long sys_futex(void *addr1, int op, int val1, const struct timespec *timeout, void *addr2, int val3)
-> - {
-> -    return syscall(SYS_futex, addr1, op, val1, timeout, addr2, val3);
-> diff --git a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
-> index ec263ce479..2031ea957a 100644
-> --- a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
-> +++ b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
-> @@ -23,16 +23,16 @@ diff --git a/meson.build b/meson.build
->  index 250b528..b5c98f8 100644
->  --- a/meson.build
->  +++ b/meson.build
-> -@@ -173,7 +173,7 @@ with_any_opengl = with_opengl or with_gles1 or with_gles2
-> +@@ -173,7 +173,7 @@
->   # Only build shared_glapi if at least one OpenGL API is enabled
->   with_shared_glapi = with_shared_glapi and with_any_opengl
->
-> --system_has_kms_drm = ['openbsd', 'netbsd', 'freebsd', 'gnu/kfreebsd', 'dragonfly', 'linux', 'sunos'].contains(host_machine.system())
-> +-system_has_kms_drm = ['openbsd', 'netbsd', 'freebsd', 'gnu/kfreebsd', 'dragonfly', 'linux', 'sunos', 'android'].contains(host_machine.system())
->  +system_has_kms_drm = ['openbsd', 'netbsd', 'freebsd', 'dragonfly'].contains(host_machine.system()) or host_machine.system().startswith('linux')
->
->   dri_drivers = get_option('dri-drivers')
->   if dri_drivers.length() != 0
-> -@@ -1091,7 +1091,7 @@ if cc.has_function('reallocarray')
-> +@@ -1072,7 +1072,7 @@
->   endif
->
->   # TODO: this is very incomplete
-> @@ -41,3 +41,4 @@ index 250b528..b5c98f8 100644
->     pre_args += '-D_GNU_SOURCE'
->   elif host_machine.system() == 'sunos'
->     pre_args += '-D__EXTENSIONS__'
-> +
-> diff --git a/meta/recipes-graphics/mesa/mesa-gl_22.2.3.bb b/meta/recipes-graphics/mesa/mesa-gl_22.3.0.bb
-> similarity index 100%
-> rename from meta/recipes-graphics/mesa/mesa-gl_22.2.3.bb
-> rename to meta/recipes-graphics/mesa/mesa-gl_22.3.0.bb
-> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-> index 115621228a..86bd91ff5c 100644
-> --- a/meta/recipes-graphics/mesa/mesa.inc
-> +++ b/meta/recipes-graphics/mesa/mesa.inc
-> @@ -17,7 +17,6 @@ PE = "2"
->  SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
->             file://0001-meson.build-check-for-all-linux-host_os-combinations.patch \
->             file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
-> -           file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
->             file://0001-util-format-Check-for-NEON-before-using-it.patch \
->             ${NATIVE_PATCHES} \
->             "
-> @@ -25,7 +24,7 @@ NATIVE_PATCHES ?= ""
->  # required by mesa-native on Ubuntu 18.04 with gcc 7.5 when DEBUG_BUILD enabled
->  NATIVE_PATCHES:class-native = "file://0001-nir-nir_opt_move-fix-ALWAYS_INLINE-compiler-error.patch"
->
-> -SRC_URI[sha256sum] = "ee7d026f7b1991dbae0861d359b671145c3a86f2a731353b885d2ea2d5c098d6"
-> +SRC_URI[sha256sum] = "644bf936584548c2b88762111ad58b4aa3e4688874200e5a4eb74e53ce301746"
->
->  UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
->
-> @@ -97,7 +96,6 @@ PACKAGECONFIG[gbm] = "-Dgbm=enabled,-Dgbm=disabled"
->  X11_DEPS = "xorgproto virtual/libx11 libxext libxxf86vm libxdamage libxfixes xrandr"
->  # "x11" requires "opengl"
->  PACKAGECONFIG[x11] = ",-Dglx=disabled,${X11_DEPS}"
-> -PACKAGECONFIG[xvmc] = "-Dgallium-xvmc=enabled,-Dgallium-xvmc=disabled,libxvmc"
->  PACKAGECONFIG[wayland] = ",,wayland-native wayland libdrm wayland-protocols"
->
->  PACKAGECONFIG[dri3] = "-Ddri3=enabled, -Ddri3=disabled, xorgproto libxshmfence"
-> diff --git a/meta/recipes-graphics/mesa/mesa_22.2.3.bb b/meta/recipes-graphics/mesa/mesa_22.3.0.bb
-> similarity index 100%
-> rename from meta/recipes-graphics/mesa/mesa_22.2.3.bb
-> rename to meta/recipes-graphics/mesa/mesa_22.3.0.bb
-> --
-> 2.34.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#174199): https://lists.openembedded.org/g/openembedded-core/message/174199
-> Mute This Topic: https://lists.openembedded.org/mt/95388063/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+<CVE-2022-3553>
+xquartz: Fix a possible crash when editing the Application
+menu due to mutaing immutable arrays
+Upstream-Status: Backport[https://cgit.freedesktop.org/xorg/xserver/commit/?id=dfd057996b26420309c324ec844a5ba6dd07eda3]
+
+Signed-off-by:Minjae Kim <flowergom@gmail.com>
+---
+ .../xserver-xorg/CVE-2022-3550.patch          | 40 ++++++++++++
+ .../xserver-xorg/CVE-2022-3551.patch          | 64 +++++++++++++++++++
+ .../xserver-xorg/CVE-2022-3553.patch          | 49 ++++++++++++++
+ .../xorg-xserver/xserver-xorg_1.20.14.bb      |  3 +
+ 4 files changed, 156 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-3550.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-3551.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-3553.patch
+
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-3550.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-3550.patch
+new file mode 100644
+index 0000000000..9674b548d9
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-3550.patch
+@@ -0,0 +1,40 @@
++From d2dcbdc67c96c84dff301505072b0b7b022f1a14 Mon Sep 17 00:00:00 2001
++From: Peter Hutterer <peter.hutterer@who-t.net>
++Date: Sun, 4 Dec 2022 17:40:21 +0000
++Subject: [PATCH 1/3] xkb: proof GetCountedString against request length
++ attacks
++
++GetCountedString did a check for the whole string to be within the
++request buffer but not for the initial 2 bytes that contain the length
++field. A swapped client could send a malformed request to trigger a
++swaps() on those bytes, writing into random memory.
++
++Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
++
++Ustream-Status: Backport
++[https://cgit.freedesktop.org/xorg/xserver/commit/?id=11beef0b7f1ed290348e45618e5fa0d2bffcb72e]
++
++Signed-off-by:Minjae Kim <flowergom@gmail.com>
++---
++ xkb/xkb.c | 5 +++++
++ 1 file changed, 5 insertions(+)
++
++diff --git a/xkb/xkb.c b/xkb/xkb.c
++index 68c59df..bf8aaa3 100644
++--- a/xkb/xkb.c
+++++ b/xkb/xkb.c
++@@ -5138,6 +5138,11 @@ _GetCountedString(char **wire_inout, ClientPtr client, char **str)
++     CARD16 len;
++ 
++     wire = *wire_inout;
+++
+++    if (client->req_len <
+++        bytes_to_int32(wire + 2 - (char *) client->requestBuffer))
+++	return BadValue;
+++
++     len = *(CARD16 *) wire;
++     if (client->swapped) {
++         swaps(&len);
++-- 
++2.17.1
++
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-3551.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-3551.patch
+new file mode 100644
+index 0000000000..c1313b5ad6
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-3551.patch
+@@ -0,0 +1,64 @@
++From d3787290f56165f5656ddd2123dbf676a32d0a68 Mon Sep 17 00:00:00 2001
++From: Peter Hutterer <peter.hutterer@who-t.net>
++Date: Sun, 4 Dec 2022 17:44:00 +0000
++Subject: [PATCH 2/3] xkb: fix some possible memleaks in XkbGetKbdByName
++
++GetComponentByName returns an allocated string, so let's free that if we
++fail somewhere.
++
++Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
++
++Upstream-Status: Backport
++[https://cgit.freedesktop.org/xorg/xserver/commit/?id=18f91b950e22c2a342a4fbc55e9ddf7534a707d2]
++
++Signed-off-by:Minjae Kim <flowergom@gmail.com>
++---
++ xkb/xkb.c | 26 +++++++++++++++++++-------
++ 1 file changed, 19 insertions(+), 7 deletions(-)
++
++diff --git a/xkb/xkb.c b/xkb/xkb.c
++index bf8aaa3..f79d306 100644
++--- a/xkb/xkb.c
+++++ b/xkb/xkb.c
++@@ -5908,19 +5908,31 @@ ProcXkbGetKbdByName(ClientPtr client)
++     xkb = dev->key->xkbInfo->desc;
++     status = Success;
++     str = (unsigned char *) &stuff[1];
++-    if (GetComponentSpec(&str, TRUE, &status))  /* keymap, unsupported */
++-        return BadMatch;
+++    {
+++        char *keymap = GetComponentSpec(&str, TRUE, &status);  /* keymap, unsupported */
+++        if (keymap) {
+++            free(keymap);
+++            return BadMatch;
+++        }
+++    }
++     names.keycodes = GetComponentSpec(&str, TRUE, &status);
++     names.types = GetComponentSpec(&str, TRUE, &status);
++     names.compat = GetComponentSpec(&str, TRUE, &status);
++     names.symbols = GetComponentSpec(&str, TRUE, &status);
++     names.geometry = GetComponentSpec(&str, TRUE, &status);
++-    if (status != Success)
++-        return status;
++-    len = str - ((unsigned char *) stuff);
++-    if ((XkbPaddedSize(len) / 4) != stuff->length)
++-        return BadLength;
+++    if (status == Success) {
+++        len = str - ((unsigned char *) stuff);
+++        if ((XkbPaddedSize(len) / 4) != stuff->length)
+++            status = BadLength;
+++    }
++ 
+++    if (status != Success) {
+++        free(names.keycodes);
+++        free(names.types);
+++        free(names.compat);
+++        free(names.symbols);
+++        free(names.geometry);
+++    }
++     CHK_MASK_LEGAL(0x01, stuff->want, XkbGBN_AllComponentsMask);
++     CHK_MASK_LEGAL(0x02, stuff->need, XkbGBN_AllComponentsMask);
++ 
++-- 
++2.17.1
++
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-3553.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-3553.patch
+new file mode 100644
+index 0000000000..d06dc2cf79
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-3553.patch
+@@ -0,0 +1,49 @@
++From 57ad2c03730d56f8432b6d66b29c0e5a9f9b1ec2 Mon Sep 17 00:00:00 2001
++From: Jeremy Huddleston Sequoia <jeremyhu@apple.com>
++Date: Sun, 4 Dec 2022 17:46:18 +0000
++Subject: [PATCH 3/3] xquartz: Fix a possible crash when editing the
++ Application menu due to mutaing immutable arrays
++
++Crashing on exception: -[__NSCFArray replaceObjectAtIndex:withObject:]: mutating method sent to immutable object
++
++Application Specific Backtrace 0:
++0   CoreFoundation                      0x00007ff80d2c5e9b __exceptionPreprocess + 242
++1   libobjc.A.dylib                     0x00007ff80d027e48 objc_exception_throw + 48
++2   CoreFoundation                      0x00007ff80d38167b _CFThrowFormattedException + 194
++3   CoreFoundation                      0x00007ff80d382a25 -[__NSCFArray removeObjectAtIndex:].cold.1 + 0
++4   CoreFoundation                      0x00007ff80d2e6c0b -[__NSCFArray replaceObjectAtIndex:withObject:] + 119
++5   X11.bin                             0x00000001003180f9 -[X11Controller tableView:setObjectValue:forTableColumn:row:] + 169
++
++Fixes: https://github.com/XQuartz/XQuartz/issues/267
++Signed-off-by: Jeremy Huddleston Sequoia <jeremyhu@apple.com>
++
++Upstream-Status: Backport
++[https://cgit.freedesktop.org/xorg/xserver/commit/?id=dfd057996b26420309c324ec844a5ba6dd07eda3]
++
++Signed-off-by:Minjae Kim <flowergom@gmail.com>
++---
++ hw/xquartz/X11Controller.m | 8 ++++++--
++ 1 file changed, 6 insertions(+), 2 deletions(-)
++
++diff --git a/hw/xquartz/X11Controller.m b/hw/xquartz/X11Controller.m
++index 3efda50..9870ff2 100644
++--- a/hw/xquartz/X11Controller.m
+++++ b/hw/xquartz/X11Controller.m
++@@ -467,8 +467,12 @@ extern char *bundle_id_prefix;
++     self.table_apps = table_apps;
++ 
++     NSArray * const apps = self.apps;
++-    if (apps != nil)
++-        [table_apps addObjectsFromArray:apps];
+++
+++    if (apps != nil) {
+++        for (NSArray <NSString *> * row in apps) {
+++            [table_apps addObject:row.mutableCopy];
+++        }
+++    }
++ 
++     columns = [apps_table tableColumns];
++     [[columns objectAtIndex:0] setIdentifier:@"0"];
++-- 
++2.17.1
++
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.14.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.14.bb
+index d176f390a4..4f5528f78b 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.14.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.14.bb
+@@ -5,6 +5,9 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
+            file://0001-test-xtest-Initialize-array-with-braces.patch \
+            file://sdksyms-no-build-path.patch \
+            file://0001-drmmode_display.c-add-missing-mi.h-include.patch \
++           file://CVE-2022-3550.patch \
++           file://CVE-2022-3551.patch \
++           file://CVE-2022-3553.patch \
+            "
+ SRC_URI[md5sum] = "453fc86aac8c629b3a5b77e8dcca30bf"
+ SRC_URI[sha256sum] = "54b199c9280ff8bf0f73a54a759645bd0eeeda7255d1c99310d5b7595f3ac066"
+-- 
+2.17.1
+
 
