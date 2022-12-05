@@ -1,143 +1,213 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A11FEC47089
-	for <webhook@archiver.kernel.org>; Mon,  5 Dec 2022 21:42:07 +0000 (UTC)
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.57])
- by mx.groups.io with SMTP id smtpd.web11.29385.1670276524653788182
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB5C4C4708C
+	for <webhook@archiver.kernel.org>; Mon,  5 Dec 2022 22:16:17 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+ by mx.groups.io with SMTP id smtpd.web11.30401.1670278573914485883
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Dec 2022 13:42:05 -0800
+ Mon, 05 Dec 2022 14:16:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=GrT0fwZO;
- spf=pass (domain: siemens.com, ip: 40.107.7.57, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=f5RTIaLPhwkErmqh8f0EwiuZVumWbfMl9Y8Xp4/jf83sKdmSSpxGBVBYl9HLlDBEUmHNF86nEnXz+Qgn1N30PXOnZxCggMY2KCscfWUWsUjLO8xjUdlIwjvwzlFYMq1f0gYsK8nMsRwB31pAqmtwpaOhp8ioRIjF3p3GgT1D8fCeRtvvMiySMfBhnoIYzRdHemSP7EbB0+Jiy/hqF90jB7VXc8azsEA2td1rujRcKd1djiySfuud/lSDOZEGpVISHZLsCLgG9KgMwaanWRXcQYQIG+ZG+EhmQ5d+NMH4V73D/KedLn1L3E6mNCb4LGz4hJ8qZYM5OzOBqoASPATLLA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=260T+xRobfvTwKyTlWlkWdXqclq/d3YmqxUW9XxX9L8=;
- b=bvCvQJzwTx75P5UjEV6hbW7HAdghGhFC/O27x3b/TFI/pObJ7JGEk+Ij3E02Os4SAoa9FgMwzaVc1DB5vE1SBDCwKcbjXdWGrifuaPj6zjRxulli9aPwLVPYdik8cwoW6MyZb35ulmTr7yOjjm5lU3JJd1M7P1ha60BGYpJznd9xk4u0ZJUh0AjdCUqC6WPAkYhlCdm2TbxdyuIJJ03kjZ2fIQzNkJqdZcR8hx+YT5IlzhYXA2ZuBKrrultZJKI8lyfERxo9g2q8qm0XCDuL2l9mo9aOZi/kYGrNkQ5GFaB1D1IbcN8i/X9fWi0x9SQ+eJ/zJEyJ0J95SjUs5CzGqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=260T+xRobfvTwKyTlWlkWdXqclq/d3YmqxUW9XxX9L8=;
- b=GrT0fwZOk04v/eSvqUiC2f5vy4E0O+Z5ER0yAXi1VYt7+2EnDRj7XNmNuaDNG1fVkZr7Re6q0AI5Lbunhpg1wsdHcZJrs6YdAt44D5frhaB7C40+rZPeMUY14CcNldAa3zwJjhYjBs8DPoNixCKe8b+3EE4saMrVLPQkAHpyqtgR7A5yINULYpmXsdiwdJG9sNkiJXcDw1rNKau0zFoYW3tLyqOoioauaV0yCttO5orIIJFy2JOMs+XaiRfTgi8kpFv24QmY9fS+WoaBwYw+2sagbv9yTuW1tmJDjKg+dtqGpFJO164F6TkOrrdekNgUFBhtwotsv4at9tBk+TcjEQ==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by DB9PR10MB5212.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:33e::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14; Mon, 5 Dec
- 2022 21:42:00 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::4f14:3c2e:f13a:963a]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::4f14:3c2e:f13a:963a%5]) with mapi id 15.20.5880.013; Mon, 5 Dec 2022
- 21:42:00 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: Ross Burton <Ross.Burton@arm.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core][kirkstone][master][PATCH] externalsrc: fix lookup for
- .gitmodules
-Thread-Topic: [OE-core][kirkstone][master][PATCH] externalsrc: fix lookup for
- .gitmodules
-Thread-Index: AQHZBY3lnxyg0rzqUUS2zY28AH+MW65fUbuAgACHYJA=
-Date: Mon, 5 Dec 2022 21:42:00 +0000
-Message-ID: 
- <AS1PR10MB569768FEB782D3B693E2D5F0FD189@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <20221201140440.9051-1-peter.marko@siemens.com>
- <1F703361-541D-4BE8-AA1F-B62007C68B94@arm.com>
-In-Reply-To: <1F703361-541D-4BE8-AA1F-B62007C68B94@arm.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2022-12-05T21:41:59Z;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=987b6ed2-4c7b-46d0-9b23-2beef0ccad21;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0
-document_confidentiality: Restricted
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|DB9PR10MB5212:EE_
-x-ms-office365-filtering-correlation-id: 5a4b681b-66b8-48f0-9497-08dad7098a96
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- Z8E/k+sRwBtHdloW7tRoLN0h13/HjKih8OYoAgporwpv/1zMntzLKHza/Gj/vBAvET7SG0/T5e+qtagaXbjgq1s9IW/wzCyBduekAr4pPFnbLFJnU+WXf1kh8yTKO5znL0mOHishz3PzvOFTivqfneN7eltvXoTlQAhHzS7de5lYa2z4G5EQ8lIKMc+JOXEr41BwDPfWfuW5B9vE69f90kP1LHXmNTAWmglrHuj6PK42llpm8rO1WnBDGkfhxuXEyOiqkIrIXLqIalV5xBptoAqZtyeViz4jzE/z4Fyi/SSEVPuoWWfRZ9HV0FxzK11Ey+HQNsfPmBCvvMi/0bQLJyHYVbws89AL2oVetgHvw9fyZoGQLW7qTv1j3g6ccYIKrFm6QWo/+KW755EFH2Sqq1Cwq1ZjJ+aLt/teUayev6o1agUM9kYz+Nl3MitIPX0f8nkzrdqXNqRl91K7Dc+cD0+FLxUuc2YIyrIg99D/yPQvczhBqE6bItxwfQTUkxeM0zhU5F2tHPJePxUZHm03TZU7XpK4rx5bWo7CLQ0FSeiLCB6B9Bin9RUgv1KfAuMSBrZIZtZ8APdFYmjekRQvsqaTe9ljMHYG+srQ4sq0VJuV2dEQ8NslvACilf5DDjdT+tCg+xXrftS+vWQP4lpwqIjVxS2s/6tuKClX9i6U3/dB0n87RSNnZXPSBXZvLMSClrfitTZakbUFjiMUmh4zf6ZYvWjFE6st7MxZyMYPHe56pSDT9ixhFJtvX1U0Lz/7
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(376002)(396003)(39860400002)(136003)(346002)(451199015)(38100700002)(82960400001)(86362001)(8936002)(2906002)(4326008)(41300700001)(38070700005)(4744005)(5660300002)(122000001)(83380400001)(33656002)(478600001)(966005)(66476007)(66556008)(76116006)(66446008)(316002)(6916009)(66946007)(71200400001)(55016003)(52536014)(8676002)(186003)(55236004)(26005)(64756008)(6506007)(9686003)(7696005)(142923001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?cGNPT214WTU1MGE0bExQZGxzR3djMUpsRzR1NTVFc0NzWGpnU29JMVRpek4y?=
- =?utf-8?B?Rk9tTHMrZXdmSWZJeHkzZHFiWU5NQ0FaQTZEU1VRb081Q0Q2SFFhT0k5R1ZF?=
- =?utf-8?B?UVp1ZkhzUGhwbVY2TytDOGZYR1lyVWRTbVVOOWRsOUFQUitiS2lmK2RyOVNp?=
- =?utf-8?B?MWx3NjhhbE1QZkluUVVRRkR5NklEMFhaNzZpY3VIaHpyeStPVFZjYTlpOHA0?=
- =?utf-8?B?V3o1My9aYW4wd3E0bzE0TmRQWXdDS0tYWitXdkxCVFRuNE41NHFtRW5Dekpw?=
- =?utf-8?B?Uk9GWDU1ZmJ6emZHME9xb0V4cUErTjFJSjFLY2c2bzZrY1FkQityT255bEd5?=
- =?utf-8?B?SWpqYnpLWUtXS0RXRVg5VmQ3eXBPbkY4YWZIazVzNkhvdExodFJpeXVYdmN4?=
- =?utf-8?B?L1FtWktFNUFqRkNETk5COXFZamJLVEVjTi9QdHYrQjRuK2lNWnFkRXlRbGxC?=
- =?utf-8?B?d0I5aGI3NmNjWG1uRll4TFN0QStGRW9pK1lSZlh0d2hYQVNwQ0lOY1Z1OHNP?=
- =?utf-8?B?RXYyMFpBQ0NLbm5KVVpZZlZwdWdVZ2l1bWJoRGttc0JZUUhOV3AzWXFOcThT?=
- =?utf-8?B?K3ZvQnNiZUsxMERsWE9OQ29vNlBPbHdneDNFcmRReGV0K3VCU0ZhZm1GQVl5?=
- =?utf-8?B?U1F5Q3EveDd6Z21rd3Zwc2hPSkFWTnJxMWRaSFBwbDBQVXpONzlGVlU0NVhX?=
- =?utf-8?B?V1pzS1lRcHhmcGx5L1FlQW12SDJLSHFUclFZcmZvQzc1aE5SUXBqYmN3Zyt1?=
- =?utf-8?B?a3h3U2VXRkpoeVdjc1hPNC9LQkNxN3JVZGJWZHI3VzBFd0Y3a25mb0FiTEJ5?=
- =?utf-8?B?dlZGOUlTL0RwM3o1YkRSZWxmbVpHQm1ob0ZnY3N6YnhIV0h1ZkZzd1ZHT3dy?=
- =?utf-8?B?WEs2bGlxRFMvRWZ1OGlWWWtJU3ZqV1ZlaTVHbkxadjJ2bFJRby9DbDE2dE52?=
- =?utf-8?B?dnd1djdtWGpJZGxDUmpmUlNwblZQVmU0YUJZUGpQU1VlcnlydFBaemtYYytN?=
- =?utf-8?B?TUlJekdNaEZqMHg0WmZOVHRnYXBCekppWUExckN0TnBhb2Y5REFLc3FqU2xs?=
- =?utf-8?B?Ykp3RGNzUm9YbktXNmVsY0JvZ3dTejI2d2FnZlFNOW9RQWJxN3JhUTZ2Nk8v?=
- =?utf-8?B?R2dVK1FQVnVjVHg2bjlxVkRuOWEyQUxEczRJaUhhSElvT1hGQTB0bjYxVjNn?=
- =?utf-8?B?YmVqL01FbUt5dyttdUdjaFdMenJEQzlsdkNzNnVmZXB5S2Fadmd1S2FMbmdT?=
- =?utf-8?B?TGlZQ1FqektVUGEwdnZvWDMwMlJrdko3anhKNXVQcDBnNmdGNGlZclFzWWNr?=
- =?utf-8?B?VXhGUGxFQ1hMSHloZjFLak1ZTFZpTnZlVDV2bXNZa0QyaVJnelRlU1YwdmtS?=
- =?utf-8?B?Mk9mSVRJMkFGMzVZSG44VVpVSEtDVVhzM2VTaUp3aWJqdFVEd2V3S2VueHlL?=
- =?utf-8?B?MnFUMjZpSmV1czh6OXB1ZWgzZ080Ym1Td1ZsZ3BuS2VoM2dkc2N4VFFkeWEv?=
- =?utf-8?B?YmViMi9CdFM4UGUycU1oQ3RBRmFOek4rVTRuMkVSdlZ4VUVOM1JCYWdwZ0VG?=
- =?utf-8?B?RGx6MTlGVVprVEtyUEQwN1h1SHhYSnRldWtpQWE5bU44VWdTVTVkVk9WNzBB?=
- =?utf-8?B?dWEwTTdVU3RBTHk0YUpnUjRjRjVUVzc4UlFFMWNYTXl0a1VKd3NDTXZ4NGFr?=
- =?utf-8?B?Yjd1d3BlWk55L1pJaFo3RXpCZUMrVlRQb1piOGRKSko3MXlUd3RGOGUyOGVp?=
- =?utf-8?B?SEExZURLbzVWQ0dQVnNsNDdaNUIwUjZiV2RpQUJwYTJhWW05UnBTUVpaMlhY?=
- =?utf-8?B?enQ2Z2FlOW42d0dlbkc5SkpMNU9KK216ZUZhUy84ZjNGY1N4RC8zVjIxaTh4?=
- =?utf-8?B?WFFkdEx1WXFMSk9KckpjMEMzV0huZVNOUFhKRVdZYWUxL3JBWDZJaHhoclh5?=
- =?utf-8?B?elorYXFjYnpiOEFXRnFzek1sUUdqRzN0azBTTWJtdkZTdTZGVmpBZnNZWDF2?=
- =?utf-8?B?d0ZOOU5lUlNmUlNDL2V3M2FCMmswbHhBY3loR1NkS2ViQ0tyeHBkWnorOHdz?=
- =?utf-8?B?dVJDbW1WT1dBM1JQUHZoamQrakNDckxva1JVVlZaVWxxcjFIYTd1bUc0eUtS?=
- =?utf-8?Q?Ln568xAB6nNK5TXPKySe4eSGj?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Ds2XJLac;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id C16B740002;
+	Mon,  5 Dec 2022 22:16:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1670278572;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e1MZ0Hl9H6JZULQ3pd23jP+cRUnTCSfF0YZUCW7HMBg=;
+	b=Ds2XJLacfnbVB8CsKv3SJKwyO5zhErVnMmIIaxAN0128cMc4qO8MU94R5HU2hC/NkSYKAB
+	FKIYI/KDqht3UsDV3mv2G3B6AXnU+FZyu6xeQvgZ3+IiwuLuIhD4FRBObsYvjgBTVRus4A
+	rHBPwU4WMEPJ1cFQ3szXVWyIVUHctjG+QKMaFNWpTIuxQxonhtG1qPL7GhqGxXj+HBXiJi
+	HuAKww7qOetNneRws80lFkjAfHW4oALN6B9P83ZI24OtY5Nfo33drdxq65GGjflA+OGxOP
+	9JKzZq27rVM4si5eFvh6as/qOT4NC7s57Kw5PlUwce2BkMlPaazwEFsVxgP9og==
+Date: Mon, 5 Dec 2022 23:16:11 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: reatmon@ti.com
+Cc: raj.khem@gmail.com, openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v3][master] go: Update reproducibility patch to
+ fix panic errors
+Message-ID: <Y45tq3xWsOyWAPpo@mail.local>
+References: <172C139C5D52718E.368@lists.openembedded.org>
+ <c949cf5a-fe8f-c842-514b-75a016e8e111@ti.com>
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5a4b681b-66b8-48f0-9497-08dad7098a96
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Dec 2022 21:42:00.5992
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JR14x/+5VGhe3Mgr8Cgn6uTmdP2K3GCqEx8j1crJKvzBHGT8o77//w3XyWYJnI23CLdQiGZjGouAdfCsSWvh1A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR10MB5212
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c949cf5a-fe8f-c842-514b-75a016e8e111@ti.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Dec 2022 21:42:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174305
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Dec 2022 22:16:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174306
 
-PiBUaGVyZeKAmXMgYmVlbiBhIHNlcmllcyBvZiBjb21taXRzIG5vdyDigJxmaXhpbmfigJ0gdGhl
-IGxvb2t1cCBsb2dpYywgY2FuIHlvdSB3cml0ZSBhIHNtYWxsIHRlc3QgY2FzZSB0byBleGVyY2lz
-ZSB0aGlzIHBhdGg/DQo+IA0KPiBSb3NzDQoNClRlc3QgaW1wbGVtZW50ZWQgdW5kZXIgaHR0cHM6
-Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8xNzQz
-MDQuDQpJIGRpZCBpdCBhcyBhIHNlcGFyYXRlIHBhdGNoIGZyb20gdGhpcyBvbmUgYXMgaXQgaXMg
-bXkgZmlyc3QgdGVzdCBhbmQgaXQgbWF5IG5lZWQgc2V2ZXJhbCBpdGVyYXRpb25zIHRvIGdldCBy
-aWdodC4NCkJ1dCBpZiBuZWNlc3NhcnksIEknbGwgc2VuZCBhIHYyIHdoaWNoIHdpbGwgYmUgYSBz
-ZXJpZXMgb2YgdGhvc2UgdHdvIHBhdGNoZXMuDQoNClBldGVyDQo=
+Hello,
+
+On 05/12/2022 13:49:48-0600, Ryan Eatmon via lists.openembedded.org wrote:
+> 
+> This might have gotten lost in the fun of the YPS and the many discussions
+> around the previous versions of then patch.  Was there any more feedback or
+> changes that folks want me to make for this patch, or is it good to go?
+> Just curious if there was more that you needed from me?
+> 
+
+It passed successfully on the autobuilders, it is now up to Richard to
+merge.
+
+> 
+> On 11/29/2022 8:12, Ryan Eatmon via lists.openembedded.org wrote:
+> > Based on a discussion on the mailing list [1], there are panic
+> > errors that occur on a few platforms caused by the patch.  We
+> > cannot simply remove the original patch due to the
+> > reproducibility issues that it addresses, so this patch on the
+> > original patch fixes the cause of the panic errors.
+> > 
+> > The previous version of this patch was a little too aggressive
+> > in cleaning up the environment.  Some of the variables impacted
+> > by the filerCompilerFlags() function require at least one value
+> > to remain in the array.  In this case, the values for ccExe,
+> > cxxExe, and fcExe require a value or later code that access
+> > them result in a panic related to accessing a value out of range.
+> > 
+> > This updated patch adds a flag that requires keeping the first
+> > value so that at least one thing remains and the assignments
+> > for the Exes set that flag to true.  The first item in the
+> > array should be the executable name, so leaving it should be
+> > safe.
+> > 
+> > I have run the oe-selftest and everything passed in my setup.
+> > 
+> > There is a bug report [2] filed for the issue that this patch
+> > addresses.
+> > 
+> > [YOCTO #14976]
+> > 
+> > [1] https://lists.openembedded.org/g/openembedded-core/topic/94022663
+> > [2] https://bugzilla.yoctoproject.org/show_bug.cgi?id=14976
+> > 
+> > Signed-off-by: Ryan Eatmon <reatmon@ti.com>
+> > ---
+> > v3: Added [YOCTO #14976] to commit message.
+> > v2: Added more background and bug report link to commit message.
+> > 
+> >   ...ent-based-hash-generation-less-pedan.patch | 30 ++++++++++---------
+> >   1 file changed, 16 insertions(+), 14 deletions(-)
+> > 
+> > diff --git a/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch b/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
+> > index 17fa9d9831..43be5cd2e8 100644
+> > --- a/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
+> > +++ b/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
+> > @@ -74,7 +74,7 @@ index c88b315..a06455c 100644
+> >   +		cppflags, cflags, cxxflags, fflags, ldflags, _ := b.CFlags(p, true)
+> >   -		ccExe := b.ccExe()
+> > -+		ccExe := filterCompilerFlags(b.ccExe())
+> > ++		ccExe := filterCompilerFlags(b.ccExe(), true)
+> >    		fmt.Fprintf(h, "CC=%q %q %q %q\n", ccExe, cppflags, cflags, ldflags)
+> >    		// Include the C compiler tool ID so that if the C
+> >    		// compiler changes we rebuild the package.
+> > @@ -83,7 +83,7 @@ index c88b315..a06455c 100644
+> >    		}
+> >    		if len(p.CXXFiles)+len(p.SwigCXXFiles) > 0 {
+> >   -			cxxExe := b.cxxExe()
+> > -+			cxxExe := filterCompilerFlags(b.cxxExe())
+> > ++			cxxExe := filterCompilerFlags(b.cxxExe(), true)
+> >    			fmt.Fprintf(h, "CXX=%q %q\n", cxxExe, cxxflags)
+> >    			if cxxID, err := b.gccToolID(cxxExe[0], "c++"); err == nil {
+> >    				fmt.Fprintf(h, "CXX ID=%q\n", cxxID)
+> > @@ -91,7 +91,7 @@ index c88b315..a06455c 100644
+> >    		}
+> >    		if len(p.FFiles) > 0 {
+> >   -			fcExe := b.fcExe()
+> > -+			fcExe := filterCompilerFlags(b.fcExe())
+> > ++			fcExe := filterCompilerFlags(b.fcExe(), true)
+> >    			fmt.Fprintf(h, "FC=%q %q\n", fcExe, fflags)
+> >    			if fcID, err := b.gccToolID(fcExe[0], "f95"); err == nil {
+> >    				fmt.Fprintf(h, "FC ID=%q\n", fcID)
+> > @@ -104,20 +104,22 @@ index c88b315..a06455c 100644
+> >    	}
+> >    	// Configuration specific to compiler toolchain.
+> > -@@ -2705,8 +2707,23 @@ func envList(key, def string) []string {
+> > +@@ -2705,8 +2707,25 @@ func envList(key, def string) []string {
+> >    	return args
+> >    }
+> >   +var filterFlags = os.Getenv("CGO_PEDANTIC") == ""
+> >   +
+> > -+func filterCompilerFlags(flags []string) []string {
+> > ++func filterCompilerFlags(flags []string, keepfirst bool) []string {
+> >   +	var newflags []string
+> > ++   var realkeepfirst bool = keepfirst
+> >   +	if !filterFlags {
+> >   +		return flags
+> >   +	}
+> >   +	for _, flag := range flags {
+> > -+		if strings.HasPrefix(flag, "-m") {
+> > ++		if strings.HasPrefix(flag, "-m") || realkeepfirst {
+> >   +			newflags = append(newflags, flag)
+> > ++           realkeepfirst = false
+> >   +		}
+> >   +	}
+> >   +	return newflags
+> > @@ -129,21 +131,21 @@ index c88b315..a06455c 100644
+> >    	defaults := "-g -O2"
+> >    	if cppflags, err = buildFlags("CPPFLAGS", "", p.CgoCPPFLAGS, checkCompilerFlags); err != nil {
+> > -@@ -2724,6 +2741,13 @@ func (b *Builder) CFlags(p *load.Package) (cppflags, cflags, cxxflags, fflags, l
+> > +@@ -2724,6 +2743,13 @@ func (b *Builder) CFlags(p *load.Package) (cppflags, cflags, cxxflags, fflags, l
+> >    	if ldflags, err = buildFlags("LDFLAGS", defaults, p.CgoLDFLAGS, checkLinkerFlags); err != nil {
+> >    		return
+> >    	}
+> >   +	if filtered {
+> > -+		cppflags = filterCompilerFlags(cppflags)
+> > -+		cflags = filterCompilerFlags(cflags)
+> > -+		cxxflags = filterCompilerFlags(cxxflags)
+> > -+		fflags = filterCompilerFlags(fflags)
+> > -+		ldflags = filterCompilerFlags(ldflags)
+> > ++		cppflags = filterCompilerFlags(cppflags, false)
+> > ++		cflags = filterCompilerFlags(cflags, false)
+> > ++		cxxflags = filterCompilerFlags(cxxflags, false)
+> > ++		fflags = filterCompilerFlags(fflags, false)
+> > ++		ldflags = filterCompilerFlags(ldflags, false)
+> >   +	}
+> >    	return
+> >    }
+> > -@@ -2739,7 +2763,7 @@ var cgoRe = lazyregexp.New(`[/\\:]`)
+> > +@@ -2739,7 +2765,7 @@ var cgoRe = lazyregexp.New(`[/\\:]`)
+> >    func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgofiles, gccfiles, gxxfiles, mfiles, ffiles []string) (outGo, outObj []string, err error) {
+> >    	p := a.Package
+> > @@ -152,7 +154,7 @@ index c88b315..a06455c 100644
+> >    	if err != nil {
+> >    		return nil, nil, err
+> >    	}
+> > -@@ -3246,7 +3270,7 @@ func (b *Builder) swigIntSize(objdir string) (intsize string, err error) {
+> > +@@ -3246,7 +3272,7 @@ func (b *Builder) swigIntSize(objdir string) (intsize string, err error) {
+> >    // Run SWIG on one SWIG input file.
+> >    func (b *Builder) swigOne(a *Action, p *load.Package, file, objdir string, pcCFLAGS []string, cxx bool, intgosize string) (outGo, outC string, err error) {
+> > 
+> > 
+> > 
+> > 
+> > 
+> 
+> -- 
+> Ryan Eatmon                reatmon@ti.com
+> -----------------------------------------
+> Texas Instruments, Inc.  -  LCPD  -  MGTS
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#174301): https://lists.openembedded.org/g/openembedded-core/message/174301
+> Mute This Topic: https://lists.openembedded.org/mt/95334740/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
