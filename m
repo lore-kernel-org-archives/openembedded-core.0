@@ -1,67 +1,74 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBB56C4321E
-	for <webhook@archiver.kernel.org>; Mon,  5 Dec 2022 19:08:36 +0000 (UTC)
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
- by mx.groups.io with SMTP id smtpd.web10.24983.1670267308044875945
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D459FC4332F
+	for <webhook@archiver.kernel.org>; Mon,  5 Dec 2022 19:18:16 +0000 (UTC)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+ by mx.groups.io with SMTP id smtpd.web11.25193.1670267887233116879
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Dec 2022 11:08:28 -0800
+ Mon, 05 Dec 2022 11:18:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=S/yT6vyJ;
- spf=pass (domain: gmail.com, ip: 209.85.160.46, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-1442977d77dso13462533fac.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 05 Dec 2022 11:08:27 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=qEcsm8nm;
+ spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f54.google.com with SMTP id c1so20128694lfi.7
+        for <openembedded-core@lists.openembedded.org>; Mon, 05 Dec 2022 11:18:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=H7b8r9xM+yZum1GH5minWHjDWFChqsP4sWS3Y4+t/II=;
-        b=S/yT6vyJDGHr8ecdRhy1Xgowuzvi+FfDvQy1t2AzJyrm2lYHolYfalACkzwrdBmb6O
-         HaINTukEGFDKRju3rp6IXeVYvXsxBAP28nQAvVe4F24ogb41VLI1j6IG5amMieqJfErG
-         NOBaS4jzRgRSS7zCViQn4iy1Bu4B6n4DwdRNAvJ0KQjaTbugcXrfwNCkrFJamhEHtc9X
-         bDeHIPt5FgMBerppBe1hFR9ZZV+ZLOaGW9SITMJoWhWsl9UhwSFBbXIUQ/vqQWjFbgsH
-         wh2CSiskuKtZIlDzTbi9ZR8np5Gy+3JrfKRQxVRwdx7mjBQzvW3YHcboYAPqLfFQMTRQ
-         YABg==
+        bh=OzagaHx+/2JsdzghMIpvjl3ICc7f97quApyx8KJojJs=;
+        b=qEcsm8nmYRXOZQyoESboBjFbaHg8fe/KK27kmZrkgvUuGgVDaYAFyz33hovyRWq2EX
+         Kf9tjT9+7F8KvzBHbSVrkNUuuRN8N5nGR9/iKQLNRgbjTU43LlmNprB51pHYWGqt1KiA
+         AXVfQ1CzN1RyFCvsCKszNkEngEpb5pKMMM7QGxlBUl5oPQ5SOC6xnLWC36jajg4uYwfd
+         v4NXyWIIcc5IUD33e0qMykRvoXALhCye0xWmvMIL4gJNC/uQITCQ6K+o1ugCpI2IbQCG
+         H82ML2TRiuXlJT7RNQHMfxcPniTpA6qSHISUbkXxmDW51wzhP1EmHago9IOm0i0e1hOg
+         mc1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=H7b8r9xM+yZum1GH5minWHjDWFChqsP4sWS3Y4+t/II=;
-        b=MErg19rxZLgyCIVjL+t2oL90+VWQxPxrAiW79rvwnzoXFC0VZlYn0RaLCXuSt9XnRp
-         bavYsTPeiXQudL9oN96NmFDsySfa3QhqMNUtsDZ5cJk+boUg4CsBiw2WNieBcQ42zjBZ
-         9uKzVlhRciS5C19i+mTDG3mAAEhELPDSwBxjo+/Y0pkhJaH8eyQBeCIJIWqt5B+V3b9Z
-         kxsA0atfByanqzrT04nEBArhJsVqVJLjG9uCfu/E2aHogijlqIiurQ9MRrWe0YsMPBYs
-         6k4+3KhkmcLUWjISmWYfqUQbm0GqJOpjdItWnggg04Hq9uL3XtSIg7ufG7Ob5WVtQWW6
-         QH9Q==
-X-Gm-Message-State: ANoB5pn36i0OKnFFr+lEHmEY78eACNzwqiazdPRczsdT5OjTBwKWeyjn
-	K1DnjgRUUv/Owfb0kWpN3zTVqfg5ogMmL6/6SG4=
-X-Google-Smtp-Source: AA0mqf5i6XzaUQohwCNrVYN3NLEYQRM86ByCx23tZ2QQKTIxVInU/ZnnzOJcS9kyCU9kGUrZh/dHIhvgY+gBUpOm6eU=
-X-Received: by 2002:a05:6870:1784:b0:13b:1e05:a73d with SMTP id
- r4-20020a056870178400b0013b1e05a73dmr48667436oae.55.1670267307151; Mon, 05
- Dec 2022 11:08:27 -0800 (PST)
+        bh=OzagaHx+/2JsdzghMIpvjl3ICc7f97quApyx8KJojJs=;
+        b=sK7e8VpJY4t6f3Iv6WpEk8YoPCM/nHNR15L75ZRaWzr6iIaqWKUat8DjokxiVJZbXq
+         b5AKVuEKdA63Ez6g+ZMe2Per16hAL9QXoDECoJPAX9BpckFnLwKfQWEMVA4Mq0NjuhQe
+         OsmLXz0jtSj2tEiikxnvZPoGmdwIfgGvQEDHaJIcyYgU6pMThiGZEC44Al4bfC/e1f/0
+         kxBJXVMI1a2/njqO/F1VjrTUIbI5Y+h02tRfS6iSG6YpoUKli4BKB01iUQX3/IvdibTr
+         FGIZNaIYHk3kzjHRk17k5aJ2yPYMxdvjejFkhmfhtL1oywn4W7G+MwpCU20wiFcbOXKG
+         vM8A==
+X-Gm-Message-State: ANoB5pmI6ebdD65SH3r3zUZNk9vb1BZBRfYKA/T78X3w9+t74gpgl6SJ
+	561jcq2tfbkh7WO9dS3RFHvi5f4lhlIexQ5puN4=
+X-Google-Smtp-Source: AA0mqf4Xvpe3p5ejnK/AcoOJxWCoXSaj/Pv3OcLnYtyfNoZFxjC2kVx3CyBTQr0tGVqIHEzwi+ijQi8nCutvGZyXl4U=
+X-Received: by 2002:a05:6512:6d3:b0:4b5:62e4:bff2 with SMTP id
+ u19-20020a05651206d300b004b562e4bff2mr3321015lff.492.1670267885352; Mon, 05
+ Dec 2022 11:18:05 -0800 (PST)
 MIME-Version: 1.0
 References: <20221201173942.1218836-1-f_l_k@t-online.de> <Y44A+3v1z+4YztFg@mail.local>
  <CAMKF1soJqh4VNJCDAq=VMgFfatiwwtUdYSsGtZCSwDVuOH4ckw@mail.gmail.com> <6BMFMR.8PMB5H9B5CRG1@t-online.de>
 In-Reply-To: <6BMFMR.8PMB5H9B5CRG1@t-online.de>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 5 Dec 2022 11:08:01 -0800
-Message-ID: <CAMKF1sr57t_JUxZx1YrZnaR8KFp6h=NzaPwb7SRP7fXb+qEz_g@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 5 Dec 2022 20:17:53 +0100
+Message-ID: <CANNYZj9EirdvYtf6T4XwNqetq7p1rQv=9jKiu3oHwUUwQMja8w@mail.gmail.com>
 Subject: Re: [oe-core][PATCH] mesa: update 22.2.3 -> 22.3.0
 To: Markus Volk <f_l_k@t-online.de>
-Cc: alexandre.belloni@bootlin.com, openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>, alexandre.belloni@bootlin.com, 
+	openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Dec 2022 19:08:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174297
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Dec 2022 19:18:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174298
 
-On Mon, Dec 5, 2022 at 11:04 AM Markus Volk <f_l_k@t-online.de> wrote:
+We don't use the monorepo, we use source tarballs and in them vaapi
+continues to be provided separately:
+https://gstreamer.freedesktop.org/src/gstreamer-vaapi/
+
+Alex
+
+On Mon, 5 Dec 2022 at 20:04, Markus Volk <f_l_k@t-online.de> wrote:
 >
 > Wouldn't it be best if we just removed the gstreamer-1.0-vaapi recipe. Gi=
 tlab repo says:
@@ -78,9 +85,6 @@ be enabled by
 > https://gitlab.freedesktop.org/gstreamer/gstreamer/-/blob/main/meson_opti=
 ons.txt#L13
 >
-
-yes I think that would be preferred.
-
 >
 > Am Mo, 5. Dez 2022 um 09:23:21 -0800 schrieb Khem Raj <raj.khem@gmail.com=
 >:
@@ -246,11 +250,15 @@ es-graphics/mesa/mesa_22.2.3.bb > rename to meta/recipes-graphics/mesa/mesa=
 _22.3.0.bb > -- > 2.34.1 > > > > -- Alexandre Belloni, co-owner and COO, Bo=
 otlin Embedded Linux and Kernel engineering https://bootlin.com
 >
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D- Links: You receive all mess=
-ages sent to this group. View/Reply Online (#174294): https://lists.openemb=
-edded.org/g/openembedded-core/message/174294 Mute This Topic: https://lists=
-.openembedded.org/mt/95388063/3618223 Group Owner: openembedded-core+owner@=
-lists.openembedded.org Unsubscribe: https://lists.openembedded.org/g/openem=
-bedded-core/unsub [f_l_k@t-online.de] -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=
-=3D-=3D-
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#174296): https://lists.openembedded.org/g/openembedde=
+d-core/message/174296
+> Mute This Topic: https://lists.openembedded.org/mt/95388063/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
