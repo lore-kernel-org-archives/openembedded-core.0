@@ -1,76 +1,206 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F0DEC352A1
-	for <webhook@archiver.kernel.org>; Tue,  6 Dec 2022 16:10:23 +0000 (UTC)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web10.52063.1670343012812197305
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 750D9C352A1
+	for <webhook@archiver.kernel.org>; Tue,  6 Dec 2022 16:46:13 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web11.53010.1670345163187414990
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Dec 2022 08:10:13 -0800
+ Tue, 06 Dec 2022 08:46:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=EB/hcIhd;
- spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f44.google.com with SMTP id d6so24412679lfs.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Dec 2022 08:10:12 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MAKkj8e1;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id q7so24330578wrr.8
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Dec 2022 08:46:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=mtDT1r8a/evQaC3lDWKPG0TEqFC0uocanKBnyPY6HUU=;
-        b=EB/hcIhdaBxIGcrAqIBlmLSNn9fUKotojl5Bf5TuHYW2l7UoSaADqNSkLKHyEuACYL
-         4hs4fRIXnSvFr7R8RqAfVa+rEbIz06x+I94umorSRRCeR7/zs/aAVR2N4aUaAxDzKk7h
-         wymvHnBv8jHsxIYBEzfJPoVPsCZ6oD59VVrVIfJ1qwE6+1F5CZ6GtqPy/ZWA6Ins5zRL
-         qJFbfM2RXjW+XZMkFG1XevdtwF3i9pZ3ukW1Ew/+3vaQKua+ZHJBCsYpcfbrvZptvatj
-         RpS9i9UmpatFLyognTv58gBfmzYpi+/kPyP0xs/k5hgBDOo6PIH5EtORRt2qSTXmNW50
-         JCoA==
+        d=linuxfoundation.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6T/efl/D6JOhjr45zuvbXMonnM0Wjy4BWP/0102MawM=;
+        b=MAKkj8e1bov7m4QQpssPa2EmGa1FzLCczl+H0GVtSBlayi+n+8HnW0SKJ08Wu98SRX
+         4cfWo8/IZSuss0s+vLI6xLjbONkSYCOZ88WbnXIku8j++9QPreABH5ovBCqanq0zmlro
+         ZGAu6IExU8a65M/PyagQDIRqGfSoGUSs5mO44=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mtDT1r8a/evQaC3lDWKPG0TEqFC0uocanKBnyPY6HUU=;
-        b=jkUUonX6LGdV7RMFDsrX2TzaGQaRqrQjbWExKeuR2lccSxAXPnqGwaz7NSEihNFqYn
-         6pwQPhYzUXl20L4VTS2Wop4nDuM+CoFIwgwPceMpAYO4lgkPxmbSrtVvhUU8mxBsNO3Y
-         qMr4rATtDBJCVS+0txWVvhek3/03MtSz9/pswwijZmd8S0mxDf7UkCPh0w+DPNhGGRex
-         VoQVY+hQqyo6lwCvc77JVdvEkpNAhUy1g9syf9tgFOEWkWgUogqnQme4lCAhY+QzAW8x
-         nfXjSBuYVc6Gudklr5Q3jViNTi1A0GxHJg3AeIbxAUgRKH9C/AHl0LHUjuXowM4x9wn4
-         ZPaw==
-X-Gm-Message-State: ANoB5pmGTZIZQOdMrSvWCPpc0r3PxLeZNx97OgwsZzUhJMemlzL6qtWJ
-	+rR94QgHzqQSmb2S3hsg8DeO9en/w4BsDSsYmOk=
-X-Google-Smtp-Source: AA0mqf75pvyzdFCxIEFgeC1lCl+5+OPNlnRd4WZibzih87QuK2OwK4PFOej/2ZKltsN1ZPBF/GSPUzlOziy7d+c6Nqs=
-X-Received: by 2002:a05:6512:746:b0:4a2:4f74:f47c with SMTP id
- c6-20020a056512074600b004a24f74f47cmr28295905lfs.367.1670343010696; Tue, 06
- Dec 2022 08:10:10 -0800 (PST)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6T/efl/D6JOhjr45zuvbXMonnM0Wjy4BWP/0102MawM=;
+        b=47pH6AD2XAAOVsXVgL4kX2+uPH2nAupXpJkvGKBeGyM6wyYArc4Tgakrghu/mgifPk
+         WrawoNlnXBipfzflBdtDIYQdy6rIzqjU/7IWXYkS15TK8Trejcp9C7Q1CgfBL2Y8BVJd
+         kOak5L/CDG1djbIJqzWMXkupW1E1v649HD4Z1Sfl/XUVud/1Gk8vgqbiuH3qJ4PWNcz5
+         ajX2IOS8fkzzZ9N+dauEM2RB9nhfNsck2rkDpeoGFEi1hgGKFJWWMVsbrihfLSCWubMj
+         eEQ7Y6m4WYqc7Z+l2BIQ4vQHdkWH/ZGS/XnwstevgWFnlOzmIYIkWjnWMLh7Mn0uPqly
+         LYGg==
+X-Gm-Message-State: ANoB5plYT4XesVvt5tLkV6hU1s5YysRdzrkQqgcMQe3Qt0l2g1+efrmK
+	t+EhIQ7PmKhrulIitdybeWHajpx2PzCeLmGo
+X-Google-Smtp-Source: AA0mqf545BgrNYJo57nzi/iAeQTAeoQVr0YXAU/pWxOp62Xr+pW4k8eylTwwCIB7Ji66HPaLXx5nSg==
+X-Received: by 2002:adf:fb45:0:b0:241:ea14:f22b with SMTP id c5-20020adffb45000000b00241ea14f22bmr36999155wrs.460.1670345160961;
+        Tue, 06 Dec 2022 08:46:00 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:d6:2c80:98d5:dc63])
+        by smtp.gmail.com with ESMTPSA id l11-20020a1ced0b000000b003b3307fb98fsm20632128wmh.24.2022.12.06.08.46.00
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Dec 2022 08:46:00 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] devtool/friends: Use LAYERSERIES_CORENAMES when generating LAYERSERIES_COMPAT entries
+Date: Tue,  6 Dec 2022 16:45:59 +0000
+Message-Id: <20221206164559.1969059-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20221201190248.175753-1-raj.khem@gmail.com> <20221201190248.175753-3-raj.khem@gmail.com>
- <172CC0ECD8B86688.27320@lists.openembedded.org> <CANNYZj9WLFJ7WvKsutsSc702Of2f6j8fyZvJD11g5Bfkyeb+fA@mail.gmail.com>
- <4ed4c85070809d440fcfbbe421a911fe2f3fa524.camel@linuxfoundation.org>
-In-Reply-To: <4ed4c85070809d440fcfbbe421a911fe2f3fa524.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 6 Dec 2022 17:09:58 +0100
-Message-ID: <CANNYZj8cvEDo+z+3ga27+SKktgLsN84g-qA2PpfqGY4NRBhtWQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 3/6] btrfs-tools: Do not use 64bit functions for
- largefile support
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, Khem Raj <raj.khem@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Dec 2022 16:10:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174326
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Dec 2022 16:46:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174327
 
-On Tue, 6 Dec 2022 at 16:29, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> I'm worried the mdadm upstream isn't very active so that one, whilst
-> submitted, may take a while.
+It seems some layers want to subvert the intent of LAYERSERIES_COMPAT
+so bitbake is going to have to become stricter about the values there.
+To work with this, use LAYERSERIES_CORENAMES to generate the entries in
+LAYERSERIES_COMPAT instead of the current magic LAYERSERIES_COMPAT_core
+value which may not continue to work.
 
-There's a steady amount of new commits here:
-https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git/log/
-so I'd send directly to the person committing them (Jes Sorensen
-<jsorensen@fb.com>), and cc: maillist.
+The downside to this is when migating between releases, people would
+need to update devtool workspace layer.conf files. I guess you could
+argue this is a feature!
 
-Alex
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+v2 - fix hangs with esdk building from bitbake lockfile contention by adding --layerseries option
+
+ meta/classes-recipe/populate_sdk_ext.bbclass |  3 +--
+ meta/lib/bblayers/create.py                  |  2 +-
+ meta/lib/oeqa/selftest/cases/devtool.py      |  5 +++--
+ meta/lib/oeqa/utils/commands.py              |  3 ++-
+ scripts/devtool                              | 15 ++++++++++++---
+ 5 files changed, 19 insertions(+), 9 deletions(-)
+
+diff --git a/meta/classes-recipe/populate_sdk_ext.bbclass b/meta/classes-recipe/populate_sdk_ext.bbclass
+index 01d8a693a72..f78a9f4e9b2 100644
+--- a/meta/classes-recipe/populate_sdk_ext.bbclass
++++ b/meta/classes-recipe/populate_sdk_ext.bbclass
+@@ -255,7 +255,7 @@ python copy_buildsystem () {
+     bbpath = d.getVar('BBPATH')
+     env = os.environ.copy()
+     env['PYTHONDONTWRITEBYTECODE'] = '1'
+-    bb.process.run(['devtool', '--bbpath', bbpath, '--basepath', baseoutpath, 'create-workspace', '--create-only', os.path.join(baseoutpath, 'workspace')], env=env)
++    bb.process.run(['devtool', '--bbpath', bbpath, '--basepath', baseoutpath, 'create-workspace', '--layerseries', d.getVar("LAYERSERIES_CORENAMES"), '--create-only', os.path.join(baseoutpath, 'workspace')], env=env)
+ 
+     # Create bblayers.conf
+     bb.utils.mkdirhier(baseoutpath + '/conf')
+@@ -498,7 +498,6 @@ python copy_buildsystem () {
+     else:
+         tasklistfn = None
+ 
+-
+     cachedir = os.path.join(baseoutpath, 'cache')
+     bb.utils.mkdirhier(cachedir)
+     bb.parse.siggen.copy_unitaskhashes(cachedir)
+diff --git a/meta/lib/bblayers/create.py b/meta/lib/bblayers/create.py
+index 0aeb5d5f7b5..c8f3f1b370e 100644
+--- a/meta/lib/bblayers/create.py
++++ b/meta/lib/bblayers/create.py
+@@ -53,7 +53,7 @@ class CreatePlugin(LayerPlugin):
+         shutil.copy(license_src, license_dst)
+ 
+         # Get the compat value for core layer.
+-        compat = self.tinfoil.config_data.getVar('LAYERSERIES_COMPAT_core') or ""
++        compat = self.tinfoil.config_data.getVar('LAYERSERIES_CORENAMES') or ""
+ 
+         # Create the layer.conf from templates/layer.conf
+         layerconf_template = read_template('layer.conf').format(
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index 0cb7403f16e..c78a68be5b4 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -1076,9 +1076,10 @@ class DevtoolUpdateTests(DevtoolBase):
+     def test_devtool_update_recipe_append_git(self):
+         # Check preconditions
+         testrecipe = 'mtd-utils-selftest'
+-        bb_vars = get_bb_vars(['FILE', 'SRC_URI'], testrecipe)
++        bb_vars = get_bb_vars(['FILE', 'SRC_URI', 'LAYERSERIES_CORENAMES'], testrecipe)
+         recipefile = bb_vars['FILE']
+         src_uri = bb_vars['SRC_URI']
++        corenames = bb_vars['LAYERSERIES_CORENAMES']
+         self.assertIn('git://', src_uri, 'This test expects the %s recipe to be a git recipe' % testrecipe)
+         for entry in src_uri.split():
+             if entry.startswith('git://'):
+@@ -1109,7 +1110,7 @@ class DevtoolUpdateTests(DevtoolBase):
+             f.write('BBFILE_PATTERN_oeselftesttemplayer = "^${LAYERDIR}/"\n')
+             f.write('BBFILE_PRIORITY_oeselftesttemplayer = "999"\n')
+             f.write('BBFILE_PATTERN_IGNORE_EMPTY_oeselftesttemplayer = "1"\n')
+-            f.write('LAYERSERIES_COMPAT_oeselftesttemplayer = "${LAYERSERIES_COMPAT_core}"\n')
++            f.write('LAYERSERIES_COMPAT_oeselftesttemplayer = "%s"\n' % corenames)
+         self.add_command_to_tearDown('bitbake-layers remove-layer %s || true' % templayerdir)
+         result = runCmd('bitbake-layers add-layer %s' % templayerdir, cwd=self.builddir)
+         # Create the bbappend
+diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
+index f733fcdf3c8..f4daea25075 100644
+--- a/meta/lib/oeqa/utils/commands.py
++++ b/meta/lib/oeqa/utils/commands.py
+@@ -300,6 +300,7 @@ def get_test_layer():
+ 
+ def create_temp_layer(templayerdir, templayername, priority=999, recipepathspec='recipes-*/*'):
+     os.makedirs(os.path.join(templayerdir, 'conf'))
++    corenames = get_bb_var('LAYERSERIES_CORENAMES')
+     with open(os.path.join(templayerdir, 'conf', 'layer.conf'), 'w') as f:
+         f.write('BBPATH .= ":${LAYERDIR}"\n')
+         f.write('BBFILES += "${LAYERDIR}/%s/*.bb \\' % recipepathspec)
+@@ -308,7 +309,7 @@ def create_temp_layer(templayerdir, templayername, priority=999, recipepathspec=
+         f.write('BBFILE_PATTERN_%s = "^${LAYERDIR}/"\n' % templayername)
+         f.write('BBFILE_PRIORITY_%s = "%d"\n' % (templayername, priority))
+         f.write('BBFILE_PATTERN_IGNORE_EMPTY_%s = "1"\n' % templayername)
+-        f.write('LAYERSERIES_COMPAT_%s = "${LAYERSERIES_COMPAT_core}"\n' % templayername)
++        f.write('LAYERSERIES_COMPAT_%s = "%s"\n' % (templayername, corenames))
+ 
+ @contextlib.contextmanager
+ def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None, launch_cmd=None, qemuparams=None, overrides={}, discard_writes=True):
+diff --git a/scripts/devtool b/scripts/devtool
+index 20d785c7f79..16605e1d1e2 100755
+--- a/scripts/devtool
++++ b/scripts/devtool
+@@ -137,11 +137,19 @@ def create_workspace(args, config, basepath, workspace):
+         workspacedir = os.path.abspath(args.layerpath)
+     else:
+         workspacedir = os.path.abspath(os.path.join(basepath, 'workspace'))
+-    _create_workspace(workspacedir, config, basepath)
++    if args.layerseries:
++        layerseries = args.layerseries
++    else:
++        tinfoil = setup_tinfoil(config_only=True, basepath=basepath)
++        try:
++            layerseries = tinfoil.config_data.getVar('LAYERSERIES_CORENAMES')
++        finally:
++            tinfoil.shutdown()
++    _create_workspace(workspacedir, config, basepath, layerseries)
+     if not args.create_only:
+         _enable_workspace_layer(workspacedir, config, basepath)
+ 
+-def _create_workspace(workspacedir, config, basepath):
++def _create_workspace(workspacedir, config, basepath, layerseries):
+     import bb
+ 
+     confdir = os.path.join(workspacedir, 'conf')
+@@ -159,7 +167,7 @@ def _create_workspace(workspacedir, config, basepath):
+             f.write('BBFILE_PATTERN_workspacelayer = "^$' + '{LAYERDIR}/"\n')
+             f.write('BBFILE_PATTERN_IGNORE_EMPTY_workspacelayer = "1"\n')
+             f.write('BBFILE_PRIORITY_workspacelayer = "99"\n')
+-            f.write('LAYERSERIES_COMPAT_workspacelayer = "${LAYERSERIES_COMPAT_core}"\n')
++            f.write('LAYERSERIES_COMPAT_workspacelayer = "%s"\n' % layerseries)
+         # Add a README file
+         with open(os.path.join(workspacedir, 'README'), 'w') as f:
+             f.write('This layer was created by the OpenEmbedded devtool utility in order to\n')
+@@ -309,6 +317,7 @@ def main():
+                                                         description='Sets up a new workspace. NOTE: other devtool subcommands will create a workspace automatically as needed, so you only need to use %(prog)s if you want to specify where the workspace should be located.',
+                                                         group='advanced')
+         parser_create_workspace.add_argument('layerpath', nargs='?', help='Path in which the workspace layer should be created')
++        parser_create_workspace.add_argument('--layerseries', help='Layer series the workspace should be set to be compatible with')
+         parser_create_workspace.add_argument('--create-only', action="store_true", help='Only create the workspace layer, do not alter configuration')
+         parser_create_workspace.set_defaults(func=create_workspace, no_workspace=True)
+ 
+-- 
+2.34.1
+
 
