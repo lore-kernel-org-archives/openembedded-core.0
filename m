@@ -1,227 +1,238 @@
-Return-Path: <chee.yang.lee@intel.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAC04C3A5A7
-	for <webhook@archiver.kernel.org>; Tue,  6 Dec 2022 07:55:40 +0000 (UTC)
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by mx.groups.io with SMTP id smtpd.web11.42181.1670313337214698624
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D26DDC352A1
+	for <webhook@archiver.kernel.org>; Tue,  6 Dec 2022 14:40:32 +0000 (UTC)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+ by mx.groups.io with SMTP id smtpd.web10.49472.1670337622761733521
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Dec 2022 23:55:37 -0800
+ Tue, 06 Dec 2022 06:40:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=KLH5T9My;
- spf=pass (domain: intel.com, ip: 192.55.52.136, mailfrom: chee.yang.lee@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670313337; x=1701849337;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=e95XDkeP6SIqIJbyAgCoNIrTuWup7hBjUSNuRIg2me8=;
-  b=KLH5T9My/L0BSwVdvCOHLCcM5URuul9P7mog63esDi2/wx5ECWcIs1uC
-   Sz0SBZ3t4PQSjkj9GdDE+7hPPs9pz/0Cr+RGCQhcY0gX6t04CpYXzj5k7
-   /GOTZ2xfcplSf25Rhn+tb1amZ+0txSBcL7KzSgvnChdbCCIc/5BaFK2mI
-   0HfTAOUB4HUX3Io9rVyZhfQuGgf5RF0uEqivMSyXCv5DwDW1+3eBUj/NE
-   buLywYCChBMZqNQCk2aCKLiCljSYGladt12oCDhtWWtNd0OItDUelqoB1
-   oGICVrXs9zTlgvrRqTzShF/lJoG6oSZLWXwoO/q0vZl0fCyV+jCvkoPgH
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10552"; a="296253373"
-X-IronPort-AV: E=Sophos;i="5.96,220,1665471600"; 
-   d="scan'208";a="296253373"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2022 23:55:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10552"; a="891284293"
-X-IronPort-AV: E=Sophos;i="5.96,220,1665471600"; 
-   d="scan'208";a="891284293"
-Received: from andromeda01.png.intel.com (HELO cheeyang-Standard-PC-i440FX-PIIX-1996.png.intel.com) ([10.221.253.199])
-  by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2022 23:55:12 -0800
-From: chee.yang.lee@intel.com
-To: openembedded-core@lists.openembedded.org
-Subject: [dunfell][patch] dropbear: fix CVE-2021-36369
-Date: Tue,  6 Dec 2022 15:55:12 +0800
-Message-Id: <20221206075512.4097789-1-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=py5jYICa;
+ spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: jpewhacker@gmail.com)
+Received: by mail-ed1-f47.google.com with SMTP id m19so20527412edj.8
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Dec 2022 06:40:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=51gA3u9Ec2dT2qUIybv0U7v4dV3uSS+CKKCvrOTqBNY=;
+        b=py5jYICanpgXYv9QjlpkQFjkcMRASu5JPNo9Lr5WiYnF08B4qDdhneE34ReKm618Jq
+         WQBCzW65GbL5BsIo2OcCiAZPBZzU62uZ1Abn7lWonG78svHlqbMkOvZeE3i6ew2Pr9yo
+         7snVKFy7Zp0WlasrSssMZIg93psummzOmGBFTr2CicPtftflIQYeRMR5RF9fah2yITgg
+         nT4SrhOcYVZEGobAf3GqtKHFBchieWzZAAklZPpgxgiPVeXsPYSkuHw1fJvtdU1sbj//
+         qHJzK8VxfqLVp90Phz5lkcgwtouZlB78rFWbO6B58QfhY5OHVSs50iCpqs3mL/x+sBI0
+         jU6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=51gA3u9Ec2dT2qUIybv0U7v4dV3uSS+CKKCvrOTqBNY=;
+        b=S8IwluzAvS/uk15zw0tE6CXx8F6LdnuJASKOqaF/R8wRCRsrI+w2u3aH+FYIm01DgR
+         kD7yKxaIqScyAPXzD9io2qvQmVN/t1pD7SnZdPY9BSTDP5q5UzqAwCiu5mExLb56VmcN
+         NxVPGMGWjtkcDu6pxeduC9DnVbRL6nrh54DYsBJjXRSpnltmq2TCe9pcO9wzVBTcomN5
+         mA8gDsCc70Ubl7uNc88hi+PHnLDHq+rm3dtqRi9lOv1HMzxg2X90DafXBlfmZSUwSp9G
+         PvIMI4PTaRWTaMzAwHJPtWTm6hXqSKjaUY8w4FGDt59kf5RmFOZ5b5dD3CHLIop5wHYH
+         4Mjw==
+X-Gm-Message-State: ANoB5pnXoa5des9mZnGAG1oLo4+qI625Dy1FO7D22vMy4bW927H5i/gj
+	7eDriUmFA7GNyc4dEwYAl3JqwTqcmGcRKFWzapYsVYoy
+X-Google-Smtp-Source: AA0mqf4K0DhaARiJL3l/Q9VecBIoiVXdauskD7mvp4MqK3T2L/eynyfWSH4bZr59UtBpKFZ/0gFoFpn1h36AKO5ycB4=
+X-Received: by 2002:a05:6402:189:b0:469:85d:2663 with SMTP id
+ r9-20020a056402018900b00469085d2663mr2284462edv.56.1670337621026; Tue, 06 Dec
+ 2022 06:40:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20221111145551.1115391-1-JPEWhacker@gmail.com>
+ <CAJdd5GaYZNrHT8Ki3-M7yNuHcGbdz38O04aGJJspu=86PC2-Ag@mail.gmail.com> <CAOSpxdY9h1f4dRVMzbc__eHZ-cPrd7RivFVtO_VGn0VNsWzAmQ@mail.gmail.com>
+In-Reply-To: <CAOSpxdY9h1f4dRVMzbc__eHZ-cPrd7RivFVtO_VGn0VNsWzAmQ@mail.gmail.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Tue, 6 Dec 2022 08:40:07 -0600
+Message-ID: <CAJdd5GYLiHPYBRZ0NN_6=4FJi40+XuD7dvs3Jx0YFsBpAaM4SA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] scripts: convert-overrides: Allow command-line customizations
+To: Steve Sakoman <steve@sakoman.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Dec 2022 07:55:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174319
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Dec 2022 14:40:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174320
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+Steve,
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
----
- meta/recipes-core/dropbear/dropbear.inc       |   1 +
- .../dropbear/dropbear/CVE-2021-36369.patch    | 145 ++++++++++++++++++
- 2 files changed, 146 insertions(+)
- create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2021-36369.patch
+I don't see this one in (or pending for) kirkstone yet?
 
-diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
-index 026292230c..0f5e9ba4ac 100644
---- a/meta/recipes-core/dropbear/dropbear.inc
-+++ b/meta/recipes-core/dropbear/dropbear.inc
-@@ -29,6 +29,7 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
-            ${@bb.utils.contains('PACKAGECONFIG', 'disable-weak-ciphers', 'file://dropbear-disable-weak-ciphers.patch', '', d)} \
-            file://CVE-2020-36254.patch \
-+           file://CVE-2021-36369.patch \
-            "
- 
- PAM_SRC_URI = "file://0005-dropbear-enable-pam.patch \
-diff --git a/meta/recipes-core/dropbear/dropbear/CVE-2021-36369.patch b/meta/recipes-core/dropbear/dropbear/CVE-2021-36369.patch
-new file mode 100644
-index 0000000000..5ff11abdd6
---- /dev/null
-+++ b/meta/recipes-core/dropbear/dropbear/CVE-2021-36369.patch
-@@ -0,0 +1,145 @@
-+From e9b15a8b1035b62413b2b881315c6bffd02205d4 Mon Sep 17 00:00:00 2001
-+From: Manfred Kaiser <37737811+manfred-kaiser@users.noreply.github.com>
-+Date: Thu, 19 Aug 2021 17:37:14 +0200
-+Subject: [PATCH] added option to disable trivial auth methods (#128)
-+
-+* added option to disable trivial auth methods
-+
-+* rename argument to match with other ssh clients
-+
-+* fixed trivial auth detection for pubkeys
-+
-+[https://github.com/mkj/dropbear/pull/128]
-+Upstream-Status: Backport
-+CVE: CVE-2021-36369
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+
-+---
-+ cli-auth.c         | 3 +++
-+ cli-authinteract.c | 1 +
-+ cli-authpasswd.c   | 2 +-
-+ cli-authpubkey.c   | 1 +
-+ cli-runopts.c      | 7 +++++++
-+ cli-session.c      | 1 +
-+ runopts.h          | 1 +
-+ session.h          | 1 +
-+ 8 files changed, 16 insertions(+), 1 deletion(-)
-+
-+diff --git a/cli-auth.c b/cli-auth.c
-+index 2e509e5..6f04495 100644
-+--- a/cli-auth.c
-++++ b/cli-auth.c
-+@@ -267,6 +267,9 @@ void recv_msg_userauth_success() {
-+ 	if DROPBEAR_CLI_IMMEDIATE_AUTH is set */
-+ 
-+ 	TRACE(("received msg_userauth_success"))
-++	if (cli_opts.disable_trivial_auth && cli_ses.is_trivial_auth) {
-++		dropbear_exit("trivial authentication not allowed");
-++	}
-+ 	/* Note: in delayed-zlib mode, setting authdone here 
-+ 	 * will enable compression in the transport layer */
-+ 	ses.authstate.authdone = 1;
-+diff --git a/cli-authinteract.c b/cli-authinteract.c
-+index e1cc9a1..f7128ee 100644
-+--- a/cli-authinteract.c
-++++ b/cli-authinteract.c
-+@@ -114,6 +114,7 @@ void recv_msg_userauth_info_request() {
-+ 	m_free(instruction);
-+ 
-+ 	for (i = 0; i < num_prompts; i++) {
-++		cli_ses.is_trivial_auth = 0;
-+ 		unsigned int response_len = 0;
-+ 		prompt = buf_getstring(ses.payload, NULL);
-+ 		cleantext(prompt);
-+diff --git a/cli-authpasswd.c b/cli-authpasswd.c
-+index 00fdd8b..a24d43e 100644
-+--- a/cli-authpasswd.c
-++++ b/cli-authpasswd.c
-+@@ -155,7 +155,7 @@ void cli_auth_password() {
-+ 
-+ 	encrypt_packet();
-+ 	m_burn(password, strlen(password));
-+-
-++	cli_ses.is_trivial_auth = 0;
-+ 	TRACE(("leave cli_auth_password"))
-+ }
-+ #endif	/* DROPBEAR_CLI_PASSWORD_AUTH */
-+diff --git a/cli-authpubkey.c b/cli-authpubkey.c
-+index 42c4e3f..fa01807 100644
-+--- a/cli-authpubkey.c
-++++ b/cli-authpubkey.c
-+@@ -176,6 +176,7 @@ static void send_msg_userauth_pubkey(sign_key *key, enum signature_type sigtype,
-+ 		buf_putbytes(sigbuf, ses.writepayload->data, ses.writepayload->len);
-+ 		cli_buf_put_sign(ses.writepayload, key, sigtype, sigbuf);
-+ 		buf_free(sigbuf); /* Nothing confidential in the buffer */
-++		cli_ses.is_trivial_auth = 0;
-+ 	}
-+ 
-+ 	encrypt_packet();
-+diff --git a/cli-runopts.c b/cli-runopts.c
-+index 3654b9a..255b47e 100644
-+--- a/cli-runopts.c
-++++ b/cli-runopts.c
-+@@ -152,6 +152,7 @@ void cli_getopts(int argc, char ** argv) {
-+ #if DROPBEAR_CLI_ANYTCPFWD
-+ 	cli_opts.exit_on_fwd_failure = 0;
-+ #endif
-++	cli_opts.disable_trivial_auth = 0;
-+ #if DROPBEAR_CLI_LOCALTCPFWD
-+ 	cli_opts.localfwds = list_new();
-+ 	opts.listen_fwd_all = 0;
-+@@ -889,6 +890,7 @@ static void add_extendedopt(const char* origstr) {
-+ #if DROPBEAR_CLI_ANYTCPFWD
-+ 			"\tExitOnForwardFailure\n"
-+ #endif
-++			"\tDisableTrivialAuth\n"
-+ #ifndef DISABLE_SYSLOG
-+ 			"\tUseSyslog\n"
-+ #endif
-+@@ -916,5 +918,10 @@ static void add_extendedopt(const char* origstr) {
-+ 		return;
-+ 	}
-+ 
-++	if (match_extendedopt(&optstr, "DisableTrivialAuth") == DROPBEAR_SUCCESS) {
-++		cli_opts.disable_trivial_auth = parse_flag_value(optstr);
-++		return;
-++	}
-++
-+ 	dropbear_log(LOG_WARNING, "Ignoring unknown configuration option '%s'", origstr);
-+ }
-+diff --git a/cli-session.c b/cli-session.c
-+index 5e5af22..afb54a1 100644
-+--- a/cli-session.c
-++++ b/cli-session.c
-+@@ -165,6 +165,7 @@ static void cli_session_init(pid_t proxy_cmd_pid) {
-+ 	/* Auth */
-+ 	cli_ses.lastprivkey = NULL;
-+ 	cli_ses.lastauthtype = 0;
-++	cli_ses.is_trivial_auth = 1;
-+ 
-+ 	/* For printing "remote host closed" for the user */
-+ 	ses.remoteclosed = cli_remoteclosed;
-+diff --git a/runopts.h b/runopts.h
-+index 6a4a94c..01201d2 100644
-+--- a/runopts.h
-++++ b/runopts.h
-+@@ -159,6 +159,7 @@ typedef struct cli_runopts {
-+ #if DROPBEAR_CLI_ANYTCPFWD
-+ 	int exit_on_fwd_failure;
-+ #endif
-++	int disable_trivial_auth;
-+ #if DROPBEAR_CLI_REMOTETCPFWD
-+ 	m_list * remotefwds;
-+ #endif
-+diff --git a/session.h b/session.h
-+index fb5b8cb..6706592 100644
-+--- a/session.h
-++++ b/session.h
-+@@ -316,6 +316,7 @@ struct clientsession {
-+ 
-+ 	int lastauthtype; /* either AUTH_TYPE_PUBKEY or AUTH_TYPE_PASSWORD,
-+ 						 for the last type of auth we tried */
-++	int is_trivial_auth;
-+ 	int ignore_next_auth_response;
-+ #if DROPBEAR_CLI_INTERACT_AUTH
-+ 	int auth_interact_failed; /* flag whether interactive auth can still
--- 
-2.25.1
+Thanks,
+Joshua Watt
 
+On Tue, Nov 15, 2022 at 3:56 PM Steve Sakoman <steve@sakoman.com> wrote:
+>
+>
+>
+> On Tue, Nov 15, 2022, 9:42 AM Joshua Watt <jpewhacker@gmail.com> wrote:
+>>
+>> Steve,
+>>
+>> Please backport this to kirkstone and langdale.
+>>
+>> Thanks!
+>
+>
+> Ok, will do!
+>
+> Steve
+>
+>
+>>
+>> On Fri, Nov 11, 2022 at 8:55 AM Joshua Watt <jpewhacker@gmail.com> wrote:
+>> >
+>> > Adds argument parsing to the conversion script so that the fields that
+>> > the script uses to do conversions can be customized on the command line.
+>> > The intention is to allows easier customization without having to fork
+>> > the script, and allow automated checking on 3rd party layers via CI
+>> > without false positives
+>> >
+>> > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+>> > ---
+>> >  scripts/contrib/convert-overrides.py | 103 +++++++++++++++------------
+>> >  1 file changed, 57 insertions(+), 46 deletions(-)
+>> >
+>> > diff --git a/scripts/contrib/convert-overrides.py b/scripts/contrib/convert-overrides.py
+>> > index 4d41a4c4759..1939757f1bc 100755
+>> > --- a/scripts/contrib/convert-overrides.py
+>> > +++ b/scripts/contrib/convert-overrides.py
+>> > @@ -22,50 +22,62 @@ import sys
+>> >  import tempfile
+>> >  import shutil
+>> >  import mimetypes
+>> > +import argparse
+>> >
+>> > -if len(sys.argv) < 2:
+>> > -    print("Please specify a directory to run the conversion script against.")
+>> > -    sys.exit(1)
+>> > +parser = argparse.ArgumentParser(description="Convert override syntax")
+>> > +parser.add_argument("--override", "-o", action="append", default=[], help="Add additional strings to consider as an override (e.g. custom machines/distros")
+>> > +parser.add_argument("--skip", "-s", action="append", default=[], help="Add additional string to skip and not consider an override")
+>> > +parser.add_argument("--skip-ext", "-e", action="append", default=[], help="Additional file suffixes to skip when processing (e.g. '.foo')")
+>> > +parser.add_argument("--package-vars", action="append", default=[], help="Additional variables to treat as package variables")
+>> > +parser.add_argument("--image-vars", action="append", default=[], help="Additional variables to treat as image variables")
+>> > +parser.add_argument("--short-override", action="append", default=[], help="Additional strings to treat as short overrides")
+>> > +parser.add_argument("path", nargs="+", help="Paths to convert")
+>> > +
+>> > +args = parser.parse_args()
+>> >
+>> >  # List of strings to treat as overrides
+>> > -vars = ["append", "prepend", "remove"]
+>> > -vars = vars + ["qemuarm", "qemux86", "qemumips", "qemuppc", "qemuriscv", "qemuall"]
+>> > -vars = vars + ["genericx86", "edgerouter", "beaglebone-yocto"]
+>> > -vars = vars + ["armeb", "arm", "armv5", "armv6", "armv4", "powerpc64", "aarch64", "riscv32", "riscv64", "x86", "mips64", "powerpc"]
+>> > -vars = vars + ["mipsarch", "x86-x32", "mips16e", "microblaze", "e5500-64b", "mipsisa32", "mipsisa64"]
+>> > -vars = vars + ["class-native", "class-target", "class-cross-canadian", "class-cross", "class-devupstream"]
+>> > -vars = vars + ["tune-",  "pn-", "forcevariable"]
+>> > -vars = vars + ["libc-musl", "libc-glibc", "libc-newlib","libc-baremetal"]
+>> > -vars = vars + ["task-configure", "task-compile", "task-install", "task-clean", "task-image-qa", "task-rm_work", "task-image-complete", "task-populate-sdk"]
+>> > -vars = vars + ["toolchain-clang", "mydistro", "nios2", "sdkmingw32", "overrideone", "overridetwo"]
+>> > -vars = vars + ["linux-gnux32", "linux-muslx32", "linux-gnun32", "mingw32", "poky", "darwin", "linuxstdbase"]
+>> > -vars = vars + ["linux-gnueabi", "eabi"]
+>> > -vars = vars + ["virtclass-multilib", "virtclass-mcextend"]
+>> > +vars = args.override
+>> > +vars += ["append", "prepend", "remove"]
+>> > +vars += ["qemuarm", "qemux86", "qemumips", "qemuppc", "qemuriscv", "qemuall"]
+>> > +vars += ["genericx86", "edgerouter", "beaglebone-yocto"]
+>> > +vars += ["armeb", "arm", "armv5", "armv6", "armv4", "powerpc64", "aarch64", "riscv32", "riscv64", "x86", "mips64", "powerpc"]
+>> > +vars += ["mipsarch", "x86-x32", "mips16e", "microblaze", "e5500-64b", "mipsisa32", "mipsisa64"]
+>> > +vars += ["class-native", "class-target", "class-cross-canadian", "class-cross", "class-devupstream"]
+>> > +vars += ["tune-",  "pn-", "forcevariable"]
+>> > +vars += ["libc-musl", "libc-glibc", "libc-newlib","libc-baremetal"]
+>> > +vars += ["task-configure", "task-compile", "task-install", "task-clean", "task-image-qa", "task-rm_work", "task-image-complete", "task-populate-sdk"]
+>> > +vars += ["toolchain-clang", "mydistro", "nios2", "sdkmingw32", "overrideone", "overridetwo"]
+>> > +vars += ["linux-gnux32", "linux-muslx32", "linux-gnun32", "mingw32", "poky", "darwin", "linuxstdbase"]
+>> > +vars += ["linux-gnueabi", "eabi"]
+>> > +vars += ["virtclass-multilib", "virtclass-mcextend"]
+>> >
+>> >  # List of strings to treat as overrides but only with whitespace following or another override (more restricted matching).
+>> >  # Handles issues with arc matching arch.
+>> > -shortvars = ["arc", "mips", "mipsel", "sh4"]
+>> > +shortvars = ["arc", "mips", "mipsel", "sh4"] + args.short_override
+>> >
+>> >  # Variables which take packagenames as an override
+>> >  packagevars = ["FILES", "RDEPENDS", "RRECOMMENDS", "SUMMARY", "DESCRIPTION", "RSUGGESTS", "RPROVIDES", "RCONFLICTS", "PKG", "ALLOW_EMPTY",
+>> >                "pkg_postrm", "pkg_postinst_ontarget", "pkg_postinst", "INITSCRIPT_NAME", "INITSCRIPT_PARAMS", "DEBIAN_NOAUTONAME", "ALTERNATIVE",
+>> >                "PKGE", "PKGV", "PKGR", "USERADD_PARAM", "GROUPADD_PARAM", "CONFFILES", "SYSTEMD_SERVICE", "LICENSE", "SECTION", "pkg_preinst",
+>> >                "pkg_prerm", "RREPLACES", "GROUPMEMS_PARAM", "SYSTEMD_AUTO_ENABLE", "SKIP_FILEDEPS", "PRIVATE_LIBS", "PACKAGE_ADD_METADATA",
+>> > -              "INSANE_SKIP", "DEBIANNAME", "SYSTEMD_SERVICE_ESCAPED"]
+>> > +              "INSANE_SKIP", "DEBIANNAME", "SYSTEMD_SERVICE_ESCAPED"] + args.package_vars
+>> >
+>> >  # Expressions to skip if encountered, these are not overrides
+>> > -skips = ["parser_append", "recipe_to_append", "extra_append", "to_remove", "show_appends", "applied_appends", "file_appends", "handle_remove"]
+>> > -skips = skips + ["expanded_removes", "color_remove", "test_remove", "empty_remove", "toaster_prepend", "num_removed", "licfiles_append", "_write_append"]
+>> > -skips = skips + ["no_report_remove", "test_prepend", "test_append", "multiple_append", "test_remove", "shallow_remove", "do_remove_layer", "first_append"]
+>> > -skips = skips + ["parser_remove", "to_append", "no_remove", "bblayers_add_remove", "bblayers_remove", "apply_append", "is_x86", "base_dep_prepend"]
+>> > -skips = skips + ["autotools_dep_prepend", "go_map_arm", "alt_remove_links", "systemd_append_file", "file_append", "process_file_darwin"]
+>> > -skips = skips + ["run_loaddata_poky", "determine_if_poky_env", "do_populate_poky_src", "libc_cv_include_x86_isa_level", "test_rpm_remove", "do_install_armmultilib"]
+>> > -skips = skips + ["get_appends_for_files", "test_doubleref_remove", "test_bitbakelayers_add_remove", "elf32_x86_64", "colour_remove", "revmap_remove"]
+>> > -skips = skips + ["test_rpm_remove", "test_bitbakelayers_add_remove", "recipe_append_file", "log_data_removed", "recipe_append", "systemd_machine_unit_append"]
+>> > -skips = skips + ["recipetool_append", "changetype_remove", "try_appendfile_wc", "test_qemux86_directdisk", "test_layer_appends", "tgz_removed"]
+>> > -
+>> > -imagevars = ["IMAGE_CMD", "EXTRA_IMAGECMD", "IMAGE_TYPEDEP", "CONVERSION_CMD", "COMPRESS_CMD"]
+>> > -packagevars = packagevars + imagevars
+>> > +skips = args.skip
+>> > +skips += ["parser_append", "recipe_to_append", "extra_append", "to_remove", "show_appends", "applied_appends", "file_appends", "handle_remove"]
+>> > +skips += ["expanded_removes", "color_remove", "test_remove", "empty_remove", "toaster_prepend", "num_removed", "licfiles_append", "_write_append"]
+>> > +skips += ["no_report_remove", "test_prepend", "test_append", "multiple_append", "test_remove", "shallow_remove", "do_remove_layer", "first_append"]
+>> > +skips += ["parser_remove", "to_append", "no_remove", "bblayers_add_remove", "bblayers_remove", "apply_append", "is_x86", "base_dep_prepend"]
+>> > +skips += ["autotools_dep_prepend", "go_map_arm", "alt_remove_links", "systemd_append_file", "file_append", "process_file_darwin"]
+>> > +skips += ["run_loaddata_poky", "determine_if_poky_env", "do_populate_poky_src", "libc_cv_include_x86_isa_level", "test_rpm_remove", "do_install_armmultilib"]
+>> > +skips += ["get_appends_for_files", "test_doubleref_remove", "test_bitbakelayers_add_remove", "elf32_x86_64", "colour_remove", "revmap_remove"]
+>> > +skips += ["test_rpm_remove", "test_bitbakelayers_add_remove", "recipe_append_file", "log_data_removed", "recipe_append", "systemd_machine_unit_append"]
+>> > +skips += ["recipetool_append", "changetype_remove", "try_appendfile_wc", "test_qemux86_directdisk", "test_layer_appends", "tgz_removed"]
+>> > +
+>> > +imagevars = ["IMAGE_CMD", "EXTRA_IMAGECMD", "IMAGE_TYPEDEP", "CONVERSION_CMD", "COMPRESS_CMD"] + args.image_vars
+>> > +packagevars += imagevars
+>> > +
+>> > +skip_ext = [".html", ".patch", ".m4", ".diff"] + args.skip_ext
+>> >
+>> >  vars_re = {}
+>> >  for exp in vars:
+>> > @@ -124,21 +136,20 @@ def processfile(fn):
+>> >  ourname = os.path.basename(sys.argv[0])
+>> >  ourversion = "0.9.3"
+>> >
+>> > -if os.path.isfile(sys.argv[1]):
+>> > -    processfile(sys.argv[1])
+>> > -    sys.exit(0)
+>> > -
+>> > -for targetdir in sys.argv[1:]:
+>> > -    print("processing directory '%s'" % targetdir)
+>> > -    for root, dirs, files in os.walk(targetdir):
+>> > -        for name in files:
+>> > -            if name == ourname:
+>> > -                continue
+>> > -            fn = os.path.join(root, name)
+>> > -            if os.path.islink(fn):
+>> > -                continue
+>> > -            if "/.git/" in fn or fn.endswith(".html") or fn.endswith(".patch") or fn.endswith(".m4") or fn.endswith(".diff"):
+>> > -                continue
+>> > -            processfile(fn)
+>> > +for p in args.path:
+>> > +    if os.path.isfile(p):
+>> > +        processfile(p)
+>> > +    else:
+>> > +        print("processing directory '%s'" % p)
+>> > +        for root, dirs, files in os.walk(p):
+>> > +            for name in files:
+>> > +                if name == ourname:
+>> > +                    continue
+>> > +                fn = os.path.join(root, name)
+>> > +                if os.path.islink(fn):
+>> > +                    continue
+>> > +                if "/.git/" in fn or any(fn.endswith(ext) for ext in skip_ext):
+>> > +                    continue
+>> > +                processfile(fn)
+>> >
+>> >  print("All files processed with version %s" % ourversion)
+>> > --
+>> > 2.33.0
+>> >
 
