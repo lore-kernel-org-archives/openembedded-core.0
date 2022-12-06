@@ -1,247 +1,141 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E53DAC352A1
-	for <webhook@archiver.kernel.org>; Tue,  6 Dec 2022 19:55:45 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
- by mx.groups.io with SMTP id smtpd.web11.1499.1670356542779861716
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D637CC352A1
+	for <webhook@archiver.kernel.org>; Tue,  6 Dec 2022 22:07:23 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.44])
+ by mx.groups.io with SMTP id smtpd.web10.1621.1670364435824246026
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Dec 2022 11:55:43 -0800
+ Tue, 06 Dec 2022 14:07:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=pBFOIy/H;
- spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 8A196E0002;
-	Tue,  6 Dec 2022 19:55:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1670356541;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/5YcBI+BfRinkqk/fiV0LAzGIOgQ1XoUAebyBo1Rkkw=;
-	b=pBFOIy/HZ69li03tYskbS7Jc4Qs3BYwKmies50h20rnCO32VshCCpjyRYwNkmbp+WUTLxU
-	b2kCMbD8dan6qEFb/fIfMQ0eY6N5PsVu2BpJRrxezy68eWJd+YPUbS5motF7G4ZHgIOnZe
-	HKoVQBsWIQI9sgZbNBClTDYGsXxDuYGeoPw4oK0IAcbXpak2xE5XNEvt8E9aoHB9mjPB/G
-	lDKMxbyDoyhalMDrqZDPJuGJ8+WSJWBERyS7mhPupHftprO+sKYJX8jHdlY4W4F+UrfjTP
-	liv8ecjcAduFkfTTCjmk2A8EoCPLGiJ3rpZ/OPO6ukGAddz57kq6kd+aDyTHvg==
-Date: Tue, 6 Dec 2022 20:55:40 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Peter Marko <peter.marko@siemens.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core][PATCH] oeqa/selftest/externalsrc: add test for
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=gI/jaC3m;
+ spf=pass (domain: siemens.com, ip: 40.107.20.44, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=B/9aJ2cxIRyerVkjH38bchcURbqb2Ej1uNvVmzYC5hwqAxYZFaALrEPifoGHiZ91Y5sEMCa38WlGo3EzTgJSiIzkiscmZ5wyir4EHWHnl5/XuHYckWIpy0MnKoFtD6KgcbdCU/77bw3ZxDQ0k/DEJgBM7uUuwrs0p7AT0gK73fA11IGXJLtQLr0oKxQseOe4Hs2dX1zr+QX9wk7SxVTG1+CUeJuZ7nrf7gFHsUb/y5+KVJQlwOZ6iRKDyz77Tufcxzks5agL3U3RtGsKOYJwQVQCTZARM5wJW0dIEmew2CJ4zRMA+q+rVxJgxmg4QnT7BXYXdXZwO4NkNgygi2qsHg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=osG9dGne1zgJcWxYFBbVRLaDAgn8Frod/Nspj5bD4KQ=;
+ b=a8qqOKSikbYeqp33oZ/6BJVb8gRsaxDy1/NE5+HLFcYOJ1WLdq3sPX2luOtkqCFiaPR6GpGz4YI3YXlTErKnmpUgf+9bXAjObVgTDzxgaa6yXNz9VJFxUZ0o1RKSqBAAl/21kkM6kQzqRMr5aCIQSNWnn8ugXcBnm5JWmrP3kryPRagTGJoORv9hxduorBIFaK7x03hJrRpGdK7x2ttjzzHyXa6u4vQjBi2uxLU169slohyRIVn6GQzf1Ov3hkk7d/Zxz5BK6XLRLkEUtS1FLl6U2nYsXMWL6epg7Y6iuITl7J79kyqZn8Bnel9CD1vhnWowobJ8gaFB3fUACTelhQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=osG9dGne1zgJcWxYFBbVRLaDAgn8Frod/Nspj5bD4KQ=;
+ b=gI/jaC3mcI/C9K68S2GuL4UcN3k+0JHBDUsAlgW4h0+qYIysRaNjt91psZNNVYpI5VpXCqDjkiq6Wj+cvOjNa3zZYKA5162fCWLcc0nvxgmd4R4UtiepSUCU69fRMIpsWdRDVBys0c3Yd7NKp5gB7qbhS7z/JsmwklTQ3u9PR5RyHLUPxwd+LHr1U4oYlzEJguaLtxYicqUj1MI1Azs0xsJAQyoajSoTF09/M80R2ntXhWZuTXkw7hQc86KCPHPr2ElfNb7YDMMlbKPonaoWxMJ3r9nmofpqwscYt7BSW4LmOO+Ft4FKNCzN5vRv1KVMOdhfyIihbrdhLk55k20K5A==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by DB9PR10MB5210.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:324::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14; Tue, 6 Dec
+ 2022 22:07:13 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::4f14:3c2e:f13a:963a]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::4f14:3c2e:f13a:963a%5]) with mapi id 15.20.5880.014; Tue, 6 Dec 2022
+ 22:07:13 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core][PATCH] oeqa/selftest/externalsrc: add test for
  srctree_hash_files
-Message-ID: <Y4+ePE1/BGRK5j1D@mail.local>
+Thread-Topic: [OE-core][PATCH] oeqa/selftest/externalsrc: add test for
+ srctree_hash_files
+Thread-Index: AQHZCPIDLdpl27W16EiTRZg7DSvaYa5hR4oAgAAjqOA=
+Date: Tue, 6 Dec 2022 22:07:13 +0000
+Message-ID: 
+ <AS1PR10MB56978A28C5EB19FD9C927635FD1B9@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
 References: <20221205213815.460409-1-peter.marko@siemens.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+ <Y4+ePE1/BGRK5j1D@mail.local>
+In-Reply-To: <Y4+ePE1/BGRK5j1D@mail.local>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2022-12-06T22:07:11Z;
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=9fd444e9-3f9c-473f-af95-bfb012c8a748;
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0
+document_confidentiality: Restricted
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|DB9PR10MB5210:EE_
+x-ms-office365-filtering-correlation-id: 75d80f14-3577-4ea7-3603-08dad7d63a98
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ LRa9TJ+hh8OtssY2cfZwDsomjZbQzMl03iEv2S8qQFVbaxtrg87r+v3MpbO61XzAG44kU64/nmyfyoDNCeEE60cVhH0IkWZS2I0QLdDy9MDHEXLfdaBX1w+GWgA08Il0J3ba4giSEvxpk654NAkMR9WKFAlwb+PhKtbjZ07aSpcNBaAybqzX/w2vmSYIrdLq/hmkGHxeuILdtWGRYH/FLasX5sqt/KXXcpqVMdD6ivIkfnYlW2pXgXeFaq8Uir1+jSL7en+unEAz0n7HyfSo5NmC3SnqG9/mt9LSm4xLV9NRJE2/0zujJWLMjmRtjnI/+VIuYtNF8QoQuizt/58UBGuD3Aw+DFG6A6On90iimszSMvtXaaAxixCoo7w8VdId6im7rbYnJm/YoncGNHzj7czr+G/zJfMYX9D44K17snuzfuKYsZk3jyG2odwC2+7Ergy8JHB6TM+jrito0NUa5w03JawfoNZOmE+Uo2Tr2g+u0my8G/orX7cSqbVTbbxQ5qRFPMDWyMgG5NKy+nTHGrSOgT//vMtQUiu1ISzKG8cyc5jXYPTWmhZ9sDDaIDDOMd5uUysWzey5KmV4GLmkJw3UMdXMCMx9sZioUFymOv8AqrolvntLDV1c7+63p8JzGuZBMFn6Lui7cBAkTx2fg4B7HKPGH/lgGxZQctlEsyzEndU0+AduWndcH2MmkYkoqKjPoGSHU1XOgZ+aKmCtFv6Kjwjxq5RbeyfXx0apPWJB2OQ4Qt8De9q2wKB7Dlh8L0SA+YbOUf3rGEzfqbfukA==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(39860400002)(376002)(396003)(136003)(346002)(451199015)(82960400001)(55016003)(38070700005)(33656002)(86362001)(316002)(71200400001)(478600001)(6916009)(4744005)(2906002)(5660300002)(66476007)(8936002)(66946007)(76116006)(66446008)(52536014)(41300700001)(66556008)(64756008)(4326008)(8676002)(122000001)(83380400001)(38100700002)(55236004)(966005)(9686003)(7696005)(6506007)(26005)(186003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?YDPTvKBckiBcsG2vfhI1SZtyMXOR75bCTEx7DySmbq6nY1m7UYPauIQsGZQl?=
+ =?us-ascii?Q?5yV/GaWShuan/LNXTnRmSHu+SK31kp5M7rmKlHHc9qFE9FYXjhycYv4MaJJF?=
+ =?us-ascii?Q?cLoqJA867AgECCFtKYSzpygoG5JQxMCpg7EaKmzI7kgTefaX80aXv1r7K6la?=
+ =?us-ascii?Q?3CYt8QDWkqvMrGjO9NBV57Ob6YYnVPwl03746jynLXq/kp2wix4LBsnALHrb?=
+ =?us-ascii?Q?CR5vuENPxpjH+6WVFveZKCZIMiLcKaV1mJL5N0qGCwyQXnGGzE/4z/Lytlph?=
+ =?us-ascii?Q?0ExWsGDZZIuywYHbyAF+IRY6EI5OvvMuRtYaO6rjqInSaT8/lrQJh4PdRYN8?=
+ =?us-ascii?Q?nRfpcrZlYRi9mWZzGDZ4VmdwOI7tJecPht/rP/KhPiwP5wG0mfCFMjssKiGO?=
+ =?us-ascii?Q?lY1tAjgFpR9NDcZaE8xJegCcCwwF5gAHTIRVCOY1cdA59gquzbt7DNgNMBW2?=
+ =?us-ascii?Q?B1xOoxwJTD4ozhXyRLbXuFhsMBuCvzw8ike4o0uO3ueyo+75+8SIQGRUFi9x?=
+ =?us-ascii?Q?gndMqQFIjzzdUKkcEIsBPxHPJ27uDVh6GFwsLsFUfQce8HXLlYP5YXkyYO0I?=
+ =?us-ascii?Q?Ggc4ZHOl+OpBTSOQhLdQXQb2F8JEgQTwpQQvBq6y0iB80bQ3OtY8wi8a0M2I?=
+ =?us-ascii?Q?sO5OtYUivISdKZiSQr3dTCFuofBjupXGW5rA5yVNvnX1bvuDZsWgNsc8S7Xk?=
+ =?us-ascii?Q?Ja4bt+oBDiaRtG4XOVv+ztSJdjwQXVR+JeM4XnCPt57uglaXvhTxpwO4ge//?=
+ =?us-ascii?Q?cQ8QxBic61SBVF4K4QGZj+aHPDGcHhkvDVXTvHRkqg+ji7/mDuDH5GihQlmF?=
+ =?us-ascii?Q?NsLU2KSY8tkpMOyA8Oimo1W/acB/Oz7JsF2A2MsPTvycbbr9ugsJx+xxTl6v?=
+ =?us-ascii?Q?OOFUKQ+43KWWqWsuQxREAgL+5scek+QtD7hxIcmn9M4n8eOHzfTbGyGUG7Ob?=
+ =?us-ascii?Q?hxIuC7YegTSE7t53iRvBLANkP0LA+7TSDE4NzBABdBIjYX7AlAFfpwC6wyUF?=
+ =?us-ascii?Q?9+J9wHwDsqcM9ermFvJpzbw6AbZoocVmdLOXwMT/9s29U2Jc4XYVfUzU3UNe?=
+ =?us-ascii?Q?0cT+MW10CjM96NylhCzmGHHMxVWTPFlm7A1BS6MaeAmju37OQzXaGHQsfhGs?=
+ =?us-ascii?Q?0Ggkx407VRIhnp111bJScWPwpUAyKUzE/uwMLJWQU1jq7cfie0E/ABThy2pT?=
+ =?us-ascii?Q?JyrljRrjKLZIath1P3uEPO5Xm5iOr+3MazdMb5KKdPIMxylRnFPPrna0vOF+?=
+ =?us-ascii?Q?XQ6QC0tf3IPVoHgzjWwofFI4z2w37xYQt+zvcDdWKI+3kzKbwjCg2u7BNgqf?=
+ =?us-ascii?Q?MhkQI3L2CgwM7BeVoQfhPmaI852hJlpZ+b3ajuxhnS0MaaP3tqBXpr/F2qED?=
+ =?us-ascii?Q?r9Nf8u8Y/3fNNfakxRh1Z9uOGoe278KVvvHDERjeyUeEKeZbIxKpJziBCEkX?=
+ =?us-ascii?Q?1OZCq3WstRLWXINZnFIRdmvY5kVL+wB0djECtURk7kxJ6AndGXoi6fyewe3j?=
+ =?us-ascii?Q?WSmFpCsHiRpkfJHXJemTg4Df8PB+CgUnkdUTRiyKtj6oE+tNpmULCUg1dqLm?=
+ =?us-ascii?Q?jLRVwOWq4Z+NGdrLtTnJfIPJ9RJSAhlljCrKMxSI?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20221205213815.460409-1-peter.marko@siemens.com>
+MIME-Version: 1.0
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 75d80f14-3577-4ea7-3603-08dad7d63a98
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Dec 2022 22:07:13.2218
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0f76bbNFV8iC59v6fBmSjd/mDftG3EDCjfVRubCDPdjhoiGqwPdMB9yAdzowk7WhLU62gOyxJa81a1mLYX75tA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR10MB5210
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Dec 2022 19:55:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174331
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Dec 2022 22:07:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174332
 
-Hello,
+> Hello,
+> The submodule test fails on the autobuilders:
 
-The submodule test fails on the autobuilders:
+Sure, that's the point of a test - fail if issue is not fixed and pass when=
+ the issue is fixed.
+Queue this together with https://lists.openembedded.org/g/openembedded-core=
+/message/174061.
+Ross asked me to provide a test for it - https://lists.openembedded.org/g/o=
+penembedded-core/message/174286
+Should I resend as a series of will you try these together?
 
-2022-12-06 19:23:44,209 - oe-selftest - INFO - =3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-2022-12-06 19:23:44,209 - oe-selftest - INFO - FAIL: externalsrc.ExternalSr=
-c.test_externalsrc_srctree_hash_files (subunit.RemotedTestCase)
-2022-12-06 19:23:44,209 - oe-selftest - INFO - ----------------------------=
-------------------------------------------
-2022-12-06 19:23:44,209 - oe-selftest - INFO - testtools.testresult.real._S=
-tringException: Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/lib/oeqa=
-/selftest/cases/externalsrc.py", line 34, in test_externalsrc_srctree_hash_=
-files
-    self.assertEqual(get_bb_var("S", test_recipe), externalsrc_dir, msg =3D=
- "S does not equal to EXTERNALSRC")
-  File "/home/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/lib/oeqa=
-/utils/commands.py", line 288, in get_bb_var
-    return get_bb_vars([var], target, postconfig)[var]
-  File "/home/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/lib/oeqa=
-/utils/commands.py", line 250, in get_bb_vars
-    bbenv =3D get_bb_env(target, postconfig=3Dpostconfig)
-  File "/home/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/lib/oeqa=
-/utils/commands.py", line 244, in get_bb_env
-    return bitbake("-e %s" % target, postconfig=3Dpostconfig).output
-  File "/home/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/lib/oeqa=
-/utils/commands.py", line 236, in bitbake
-    return runCmd(cmd, ignore_status, timeout, output_log=3Doutput_log, **o=
-ptions)
-  File "/home/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/lib/oeqa=
-/utils/commands.py", line 214, in runCmd
-    raise AssertionError("Command '%s' returned non-zero exit status %d:\n%=
-s" % (command, result.status, exc_output))
-AssertionError: Command 'bitbake  -e git-submodule-test' returned non-zero =
-exit status 1:
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...ERROR: ExpansionError during parsing /home/pokybuild/yoct=
-o-worker/oe-selftest-fedora/build/build-st-3944040/meta-selftest/recipes-te=
-st/git-submodule-test/git-submodule-test.bb
-Traceback (most recent call last):
-  File "Var <do_compile[file-checksums]>", line 1, in <module>
-  File "/home/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/classes/=
-externalsrc.bbclass", line 234, in srctree_hash_files(d=3D<bb.data_smart.Da=
-taSmart object at 0x7f8809b5c310>, srcdir=3DNone):
-                 if os.path.exists(".gitmodules"):
-    >                submodule_helper =3D subprocess.check_output(["git", "=
-config", "--file", ".gitmodules", "--get-regexp", "path"], cwd=3Ds_dir, env=
-=3Denv).decode("utf-8")
-                     for line in submodule_helper.splitlines():
-  File "/usr/lib64/python3.10/subprocess.py", line 421, in check_output(tim=
-eout=3DNone, *popenargs=3D(['git', 'config', '--file', '.gitmodules', '--ge=
-t-regexp', 'path'],), **kwargs=3D{'cwd': '/tmp/externalsrccxnk_jyq', 'env':=
- {'SHELL': '/bin/bash', 'BB_ENV_PASSTHROUGH_ADDITIONS': 'ALL_PROXY BBPATH_E=
-XTRA BB_LOGCONFIG BB_NO_NETWORK BB_NUMBER_THREADS BB_SETSCENE_ENFORCE BB_SR=
-CREV_POLICY DISTRO FTPS_PROXY FTP_PROXY GIT_PROXY_COMMAND HTTPS_PROXY HTTP_=
-PROXY MACHINE NO_PROXY PARALLEL_MAKE SCREENDIR SDKMACHINE SOCKS5_PASSWD SOC=
-KS5_USER SSH_AGENT_PID SSH_AUTH_SOCK STAMPS_DIR TCLIBC TCMODE all_proxy ftp=
-_proxy ftps_proxy http_proxy https_proxy no_proxy ', 'BB_LOGCONFIG': '/home=
-/pokybuild/yocto-worker/oe-selftest-fedora/build/build-st-3944040/../bitbak=
-e/contrib/autobuilderlog.json', 'PWD': '/home/pokybuild/yocto-worker/oe-sel=
-ftest-fedora/build/build-st-3944040', 'LOGNAME': 'pokybuild', 'ftp_proxy': =
-'http://proxy.yocto.io:5187/', 'HOME': '/home/pokybuild', 'BBPATH': '/home/=
-pokybuild/yocto-worker/oe-selftest-fedora/build/build-st-3944040', 'USER': =
-'pokybuild', 'FTP_PROXY': 'http://proxy.yocto.io:5187/', 'PATH': '/home/pok=
-ybuild/yocto-worker/oe-selftest-fedora/build/scripts:/home/pokybuild/yocto-=
-worker/oe-selftest-fedora/build/bitbake/bin:/home/pokybuild/.local/bin:/hom=
-e/pokybuild/bin:/usr/lib64/ccache:/usr/local/bin:/usr/bin:/usr/local/sbin:/=
-usr/sbin', 'LC_ALL': 'en_US.UTF-8', 'GIT_INDEX_FILE': '/tmp/oe-devtool-inde=
-x18lc6e8_'}}):
-    =20
-    >    return run(*popenargs, stdout=3DPIPE, timeout=3Dtimeout, check=3DT=
-rue,
-                    **kwargs).stdout
-  File "/usr/lib64/python3.10/subprocess.py", line 526, in run(input=3DNone=
-, capture_output=3DFalse, timeout=3DNone, check=3DTrue, *popenargs=3D(['git=
-', 'config', '--file', '.gitmodules', '--get-regexp', 'path'],), **kwargs=
-=3D{'stdout': -1, 'cwd': '/tmp/externalsrccxnk_jyq', 'env': {'SHELL': '/bin=
-/bash', 'BB_ENV_PASSTHROUGH_ADDITIONS': 'ALL_PROXY BBPATH_EXTRA BB_LOGCONFI=
-G BB_NO_NETWORK BB_NUMBER_THREADS BB_SETSCENE_ENFORCE BB_SRCREV_POLICY DIST=
-RO FTPS_PROXY FTP_PROXY GIT_PROXY_COMMAND HTTPS_PROXY HTTP_PROXY MACHINE NO=
-_PROXY PARALLEL_MAKE SCREENDIR SDKMACHINE SOCKS5_PASSWD SOCKS5_USER SSH_AGE=
-NT_PID SSH_AUTH_SOCK STAMPS_DIR TCLIBC TCMODE all_proxy ftp_proxy ftps_prox=
-y http_proxy https_proxy no_proxy ', 'BB_LOGCONFIG': '/home/pokybuild/yocto=
--worker/oe-selftest-fedora/build/build-st-3944040/../bitbake/contrib/autobu=
-ilderlog.json', 'PWD': '/home/pokybuild/yocto-worker/oe-selftest-fedora/bui=
-ld/build-st-3944040', 'LOGNAME': 'pokybuild', 'ftp_proxy': 'http://proxy.yo=
-cto.io:5187/', 'HOME': '/home/pokybuild', 'BBPATH': '/home/pokybuild/yocto-=
-worker/oe-selftest-fedora/build/build-st-3944040', 'USER': 'pokybuild', 'FT=
-P_PROXY': 'http://proxy.yocto.io:5187/', 'PATH': '/home/pokybuild/yocto-wor=
-ker/oe-selftest-fedora/build/scripts:/home/pokybuild/yocto-worker/oe-selfte=
-st-fedora/build/bitbake/bin:/home/pokybuild/.local/bin:/home/pokybuild/bin:=
-/usr/lib64/ccache:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin', 'LC_A=
-LL': 'en_US.UTF-8', 'GIT_INDEX_FILE': '/tmp/oe-devtool-index18lc6e8_'}}):
-             if check and retcode:
-    >            raise CalledProcessError(retcode, process.args,
-                                          output=3Dstdout, stderr=3Dstderr)
-bb.data_smart.ExpansionError: Failure expanding variable do_compile[file-ch=
-ecksums], expression was ${@srctree_hash_files(d)} which triggered exceptio=
-n CalledProcessError: Command '['git', 'config', '--file', '.gitmodules', '=
---get-regexp', 'path']' returned non-zero exit status 1.
-The variable dependency chain for the failure is: do_compile[file-checksums]
-ERROR: Parsing halted due to errors, see error messages above
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
+Regards,
+  Peter
 
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/4443/step=
-s/14/logs/stdio
-
-On 05/12/2022 22:38:15+0100, Peter Marko wrote:
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> ---
->  meta/lib/oeqa/selftest/cases/externalsrc.py | 44 +++++++++++++++++++++
->  1 file changed, 44 insertions(+)
->  create mode 100644 meta/lib/oeqa/selftest/cases/externalsrc.py
->=20
-> diff --git a/meta/lib/oeqa/selftest/cases/externalsrc.py b/meta/lib/oeqa/=
-selftest/cases/externalsrc.py
-> new file mode 100644
-> index 0000000000..1d800dc82c
-> --- /dev/null
-> +++ b/meta/lib/oeqa/selftest/cases/externalsrc.py
-> @@ -0,0 +1,44 @@
-> +#
-> +# Copyright OpenEmbedded Contributors
-> +#
-> +# SPDX-License-Identifier: MIT
-> +#
-> +
-> +import os
-> +import shutil
-> +import tempfile
-> +
-> +from oeqa.selftest.case import OESelftestTestCase
-> +from oeqa.utils.commands import get_bb_var, runCmd
-> +
-> +class ExternalSrc(OESelftestTestCase):
-> +    # test that srctree_hash_files does not crash
-> +    # we should be actually checking do_compile[file-checksums] but oeqa=
- currently does not support it
-> +    #     so we check only that a recipe with externalsrc can be parsed
-> +    def test_externalsrc_srctree_hash_files(self):
-> +        test_recipe =3D "git-submodule-test"
-> +        git_url =3D "git://git.yoctoproject.org/git-submodule-test"
-> +        externalsrc_dir =3D tempfile.TemporaryDirectory(prefix=3D"extern=
-alsrc").name
-> +
-> +        self.write_config(
-> +            """
-> +INHERIT +=3D "externalsrc"
-> +EXTERNALSRC:pn-%s =3D "%s"
-> +""" % (test_recipe, externalsrc_dir)
-> +        )
-> +
-> +        # test with git without submodules
-> +        runCmd('git clone %s %s' % (git_url, externalsrc_dir))
-> +        os.unlink(externalsrc_dir + "/.gitmodules")
-> +        open(".gitmodules", 'w').close()  # local file .gitmodules in cw=
-d should not affect externalsrc parsing
-> +        self.assertEqual(get_bb_var("S", test_recipe), externalsrc_dir, =
-msg =3D "S does not equal to EXTERNALSRC")
-> +        os.unlink(".gitmodules")
-> +
-> +        # test with git with submodules
-> +        runCmd('git checkout .gitmodules', cwd=3Dexternalsrc_dir)
-> +        runCmd('git submodule update --init --recursive', cwd=3Dexternal=
-src_dir)
-> +        self.assertEqual(get_bb_var("S", test_recipe), externalsrc_dir, =
-msg =3D "S does not equal to EXTERNALSRC")
-> +
-> +        # test without git
-> +        shutil.rmtree(os.path.join(externalsrc_dir, ".git"))
-> +        self.assertEqual(get_bb_var("S", test_recipe), externalsrc_dir, =
-msg =3D "S does not equal to EXTERNALSRC")
-> --=20
-> 2.30.2
->=20
-
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#174304): https://lists.openembedded.org/g/openembedde=
-d-core/message/174304
-> Mute This Topic: https://lists.openembedded.org/mt/95479820/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-exandre.belloni@bootlin.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
-
-
---=20
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
