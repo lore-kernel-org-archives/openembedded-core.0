@@ -1,108 +1,59 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F0DFC352A1
-	for <webhook@archiver.kernel.org>; Tue,  6 Dec 2022 18:45:44 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web10.56850.1670352339255297755
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D899AC352A1
+	for <webhook@archiver.kernel.org>; Tue,  6 Dec 2022 19:45:35 +0000 (UTC)
+Received: from mailout05.t-online.de (mailout05.t-online.de [194.25.134.82])
+ by mx.groups.io with SMTP id smtpd.web11.1211.1670355933437568400
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Dec 2022 10:45:39 -0800
+ Tue, 06 Dec 2022 11:45:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=eTLIA6Kd;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f52.google.com with SMTP id w15-20020a17090a380f00b0021873113cb4so15685177pjb.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Dec 2022 10:45:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nWrRaYit9bVTiVskD7EgBzOYcdyI4TR8WXyzjwQXG6Q=;
-        b=eTLIA6KdQouhGl7dAXh+vREQ0OsVYblIGmGbctpabqbkOSFttRsxOeN4HryafkUeb2
-         a92l/pfOIw26WXTIt/xH3peQMe87DuKDzgYCuOXL3nPial6CHZi0VSy/JbnSzUoVQU1A
-         uIfAoaPPgDVJ4TyizLzf/BSdB8Cv0XDNfb8ePMG2DsixbxMF5H8y+kUdJkWRyvLi8huz
-         k3cLjFLEfprjXe5nQ1MrGV10YeXtS0YyDRtn/ptQY0FW359Wo+MeNbRGFCAFCDLULGaI
-         mVyBuxhyhTBzPzTEClk2oifEQnHJ4GCe6R/6kLRyM3JDbykr3N19yMY1dfcPeiLi+YLz
-         FBYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nWrRaYit9bVTiVskD7EgBzOYcdyI4TR8WXyzjwQXG6Q=;
-        b=LJpPrjVjaBlJJ8PNK4Vmh6+27eiyFYrE/cdY6+8kxZ2+3anNRzWNSIANFYnyXzDHTa
-         GPcQexpfO9SbGEJa8nDH8vIDKQImy7TZbQS69k9Gw61Alw3XZyzF527FJnW7B99RJ05S
-         PQFaoLU0d545OzGRbcJ2Jbi8KEf92k+pmAVKwkuSSgZML9OmQcfxo1bgP+gyaOLzR5x0
-         DAVjum/25CDTCflJ1QMHnvJenZoT36dymFj9pWkqyIzrnNgQrxun2n9PZ/pBnWqT61GF
-         cGbAZB9l7pfiy7Yseefuxs8GotBNTdvJ25uMQeWuNjjJlulyA5tFk7lDRYXmHX4Z6S3b
-         OzWA==
-X-Gm-Message-State: ANoB5pmT71CEMWuA+GH6nyF6BNgj9rcjQ/vH12DQTT0jEivMoWMc66hF
-	ogMyejUZnj+EpiqoYiCKqicKW4Pw+Oe5XRJQk1TGPw==
-X-Google-Smtp-Source: AA0mqf7quRg1yDjr+PDn33UVrOtSkHeTiGGc4QX4FB71wF5FMjFVQjSXRl52yV8fieBSBDwGhE7Xtw==
-X-Received: by 2002:a17:902:a989:b0:188:d4bf:dbfe with SMTP id bh9-20020a170902a98900b00188d4bfdbfemr70316956plb.31.1670352338023;
-        Tue, 06 Dec 2022 10:45:38 -0800 (PST)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id t4-20020a170902e84400b00189e7eaa005sm2262999plg.107.2022.12.06.10.45.36
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Dec 2022 10:45:37 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 0/7] Pull request (cover letter only)
-Date: Tue,  6 Dec 2022 08:45:33 -1000
-Message-Id: <cover.1670352273.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.82, mailfrom: f_l_k@t-online.de)
+Received: from fwd83.dcpf.telekom.de (fwd83.aul.t-online.de [10.223.144.109])
+	by mailout05.t-online.de (Postfix) with SMTP id 0B4B15D4;
+	Tue,  6 Dec 2022 20:45:28 +0100 (CET)
+Received: from [192.168.178.83] ([84.163.47.136]) by fwd83.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1p2dsY-10mvNg0; Tue, 6 Dec 2022 20:45:22 +0100
+Date: Tue, 06 Dec 2022 20:45:16 +0100
+From: Markus Volk <f_l_k@t-online.de>
+Subject: Re: [oe-core][PATCH] gstreamer-vaapi: rename USE_X11 variable
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Message-Id: <GVIHMR.5M8TI95NPQA22@t-online.de>
+In-Reply-To: <172E098AC1FC1CC7.6582@lists.openembedded.org>
+References: <20221205201330.2184787-1-f_l_k@t-online.de>
+	<febe3d80e804684b2cd8f1be280bca7193e8ff9c.camel@linuxfoundation.org>
+	<172E098AC1FC1CC7.6582@lists.openembedded.org>
+X-Mailer: geary/40.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/alternative; boundary="=-OKwbysB1qBzbRjIUQ2T6"
+X-TOI-EXPURGATEID: 150726::1670355922-6120D2DC-45233B1F/0/0 CLEAN NORMAL
+X-TOI-MSGID: b8a40615-4263-4f9f-a732-d24297f362b7
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Dec 2022 18:45:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174328
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Dec 2022 19:45:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174329
 
-The following changes since commit 408bf1b4bb4f4ed126c17fb3676f9fa0513065ba:
+--=-OKwbysB1qBzbRjIUQ2T6
+Content-Type: text/plain; charset=us-ascii; format=flowed
 
-  sstate: Account for reserved characters when shortening sstate filenames (2022-11-23 00:26:19 +0000)
+Am Di, 6. Dez 2022 um 00:29:48 +0100 schrieb Markus Volk 
+<f_l_k@t-online.de>:
+> we should discuss it with upstream as it is presumably
+> something they'd want to fix
 
-are available in the Git repository at:
+I submitted an issue for it
+<https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/1634>
 
-  https://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
 
-Alexander Kanavin (1):
-  linux-firmware: upgrade 20220913 -> 20221012
+--=-OKwbysB1qBzbRjIUQ2T6
+Content-Type: text/html; charset=us-ascii
 
-Chen Qi (1):
-  kernel.bbclass: make KERNEL_DEBUG_TIMESTAMPS work at rebuild
-
-Dmitry Baryshkov (1):
-  linux-firmware: upgrade 20221012 -> 20221109
-
-Mike Crowe (1):
-  kernel: improve transformation from KERNEL_IMAGETYPE_FOR_MAKE
-
-Ross Burton (1):
-  pixman: backport fix for CVE-2022-44638
-
-Vivek Kumbhar (1):
-  qemu: fix CVE-2021-20196 block fdc null pointer dereference may lead
-    to guest crash
-
-Wang Mingyu (1):
-  mobile-broadband-provider-info: upgrade 20220725 -> 20221107
-
- meta/classes/kernel.bbclass                   | 29 ++++++++-
- .../mobile-broadband-provider-info_git.bb     |  4 +-
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2021-20196.patch            | 62 +++++++++++++++++++
- .../xorg-lib/pixman/CVE-2022-44638.patch      | 34 ++++++++++
- .../xorg-lib/pixman_0.38.4.bb                 |  1 +
- ...20220913.bb => linux-firmware_20221109.bb} |  6 +-
- 7 files changed, 129 insertions(+), 8 deletions(-)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20196.patch
- create mode 100644 meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20220913.bb => linux-firmware_20221109.bb} (99%)
-
--- 
-2.25.1
+<div id="geary-body" dir="auto">Am Di, 6. Dez 2022 um 00:29:48 +0100 schrieb Markus Volk &lt;f_l_k@t-online.de&gt;:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">we should discuss it with upstream as it is presumably
+something they'd want to fix</div></blockquote><div><br></div><div>I submitted an issue for it</div><div><a href="https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/1634">https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/1634</a></div></div>
+--=-OKwbysB1qBzbRjIUQ2T6--
 
 
