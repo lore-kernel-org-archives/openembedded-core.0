@@ -1,549 +1,427 @@
-Return-Path: <xiangyu.chen@eng.windriver.com>
+Return-Path: <ceggers@arri.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E93D7C352A1
-	for <webhook@archiver.kernel.org>; Wed,  7 Dec 2022 04:54:48 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.7889.1670388886801142102
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D99AEC352A1
+	for <webhook@archiver.kernel.org>; Wed,  7 Dec 2022 07:45:19 +0000 (UTC)
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com (EUR01-HE1-obe.outbound.protection.outlook.com [40.107.13.115])
+ by mx.groups.io with SMTP id smtpd.web10.9943.1670399112368942713
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Dec 2022 20:54:47 -0800
+ Tue, 06 Dec 2022 23:45:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=9340152798=xiangyu.chen@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2B74p0Lk027367
-	for <openembedded-core@lists.openembedded.org>; Wed, 7 Dec 2022 04:54:46 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3m7we934n6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 07 Dec 2022 04:54:45 +0000
+ dkim=pass header.i=@arrigroup.onmicrosoft.com header.s=selector1-arrigroup-onmicrosoft-com header.b=jAXZSp//;
+ spf=pass (domain: arri.de, ip: 40.107.13.115, mailfrom: ceggers@arri.de)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kjaMnmcTk0JnTK1FnoOpWkI2K/moT98csKK7sakxmA9rO/pKWr7+/hG8TwjVK4xwSeI1s6F5A7qPL6oVKeeb0MBrXBkwTp+TVaihx5vNIKjxCz4Td6RHAxsFSdKxMWyu6OEU/JwTB6fIH/Pm1RFxUBtD5LHQUgJBhWMQ3MAAAreWJIfPzaUAJLvOWSmKsKHkwcLfGllE8qi8QYsO9mSxUTvRBHUg5fJ48h24rv4MLxQfCH80uif1QqauvPibT/owmCUg5nzKlJPjsw4Cfpur81PUNkH8l3WLwCTSccZy+5tE5FKB0/jOJR7/AhwM/kjTshyVRPIa4gXZyptIknKB1A==
+ b=i2S816OYYBvGKpr+1lRpeKQpdGehPM54c7+oQwhmtTms19t4Q3IXRXubziSHCiDeMYvWh/yDizhNn/DOzBc+LhsSujYlW92rHsAM5BqK+ZLd1VVUFN7ki67tJT6ejcMP8BowLfJOWR7ZRrgJnHS3XkntLvYSSv1KHcaku0rnPejQO0HgvFZBdzVXVV5VTJmptyBuJn9dO18Q+Gr/KgQqa0Pwl/DwEDaXveiniaNabaJ4nD3yEaBN4oEiLMfQFFsRTZXpbuGs65oQf3h4VwfWVYfMDxwVCGy3L7kPPbMgvPNzFPYMPxMCOWaYIdFm9uJb5oetYmIwQfdYO11d0P5Mcw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SBvP819TqsvDQk7V20YEH0gmXeRh71pDiWXLp5AOzyM=;
- b=gYCSYXfsaxiFcg51CSYjZ6dN1g0eSpm4YJtmDQKEwMBlHoVEF/z3WMEVewkFkqNKthlT3Wit7bDW2Qp9BA8tEmy4/2j6n2gEZgSOMZISFnEzoqtWR49bDo9PAa7Q8CegFjXF+EGn/196tTWjjLBWpAfW2Y7hgjn/HvlkusIQ6oeqY08W7S7HmALvIauDSBhpM1Z9D2Z9SNBvUvpQW24kxYuEEgdxqQwDPI+NUw28DZPNwxXvGW9H7GgZ+kwTCMe9jw70oISk06PfDGO+s/CzpzLRCzBKtrMjYZ7JzvqjTRJ9XGQ3aD+d8H22FIycPStxtU/VnpiC2KYSgxMg3uykWw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
-Received: from MW4PR11MB5824.namprd11.prod.outlook.com (2603:10b6:303:187::19)
- by SJ0PR11MB4798.namprd11.prod.outlook.com (2603:10b6:a03:2d5::12) with
+ bh=seqbuGtMP7pPydOxfYzNng9HuquOgu1xJa9n+Dejjp4=;
+ b=mCeJ85IGBaXqFcqNXYjdTQzaE/a2/vJpYZ4SqQmccKI+Abk4GDt87XN+oMXOG6LMdv+so3BkbXmHwidlAq4+N7lXkk2b6/RuLG8wlKytzpzI5NsHlvaCY3crzVQ1An0CqcUd6CJ4TipxoRrn4pYMBvt/x9FFjRfzugXxMOhwr9Rhup2hIBVRJ1vLIjwKtA55mfNL4vWMASKjG9b0IeuPnCnoVqsyj4m29/q0ibbPA/qR5XAPxpsn7NXctnJlHTtxHgj4v/yA1wuiIALjuw/XEMoDZVpHFyiYryqL1PxqAcbhRC+astg37R6Y4pyDn9QmRv5zMnhr+bgMawCVdNTD4A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 52.169.0.179) smtp.rcpttodomain=gmail.com smtp.mailfrom=arri.de;
+ dmarc=bestguesspass action=none header.from=arri.de; dkim=none (message not
+ signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=arrigroup.onmicrosoft.com; s=selector1-arrigroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=seqbuGtMP7pPydOxfYzNng9HuquOgu1xJa9n+Dejjp4=;
+ b=jAXZSp//3SQY93aC1eBkRVyKWE71KpPzNSnKmEWDxTkuam+IN4ThRVNInUQMeVJ7hfO0dPMqulQbyeqQYtHVllWyv1s1U4mQkaZLyGMKA1KSTxpi/hF4kI4cdZkzAdgRy/1jxks9Th9hg/HDd6vTQ41iWHMp7nrKQNOUvn1kvow=
+Received: from DB7PR05CA0069.eurprd05.prod.outlook.com (2603:10a6:10:2e::46)
+ by AS8PR07MB7703.eurprd07.prod.outlook.com (2603:10a6:20b:25d::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14; Wed, 7 Dec
- 2022 04:54:42 +0000
-Received: from MW4PR11MB5824.namprd11.prod.outlook.com
- ([fe80::d252:a0d:467e:ad16]) by MW4PR11MB5824.namprd11.prod.outlook.com
- ([fe80::d252:a0d:467e:ad16%3]) with mapi id 15.20.5880.014; Wed, 7 Dec 2022
- 04:54:42 +0000
-From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-Core][kirkstone][PATCH] grub: backport patches to fix CVE-2022-28736
-Date: Wed,  7 Dec 2022 12:54:26 +0800
-Message-Id: <20221207045426.59552-1-xiangyu.chen@eng.windriver.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SL2PR04CA0005.apcprd04.prod.outlook.com
- (2603:1096:100:2d::17) To MW4PR11MB5824.namprd11.prod.outlook.com
- (2603:10b6:303:187::19)
+ 2022 07:45:07 +0000
+Received: from DB5EUR02FT066.eop-EUR02.prod.protection.outlook.com
+ (2603:10a6:10:2e:cafe::f5) by DB7PR05CA0069.outlook.office365.com
+ (2603:10a6:10:2e::46) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.10 via Frontend
+ Transport; Wed, 7 Dec 2022 07:45:07 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 52.169.0.179)
+ smtp.mailfrom=arri.de; dkim=none (message not signed)
+ header.d=none;dmarc=bestguesspass action=none header.from=arri.de;
+Received-SPF: Pass (protection.outlook.com: domain of arri.de designates
+ 52.169.0.179 as permitted sender) receiver=protection.outlook.com;
+ client-ip=52.169.0.179; helo=eu2.smtp.exclaimer.net; pr=C
+Received: from eu2.smtp.exclaimer.net (52.169.0.179) by
+ DB5EUR02FT066.mail.protection.outlook.com (10.13.59.11) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.5880.13 via Frontend Transport; Wed, 7 Dec 2022 07:45:06 +0000
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (104.47.18.108)
+	 by eu2.smtp.exclaimer.net (52.169.0.179) with Exclaimer Signature Manager
+	 ESMTP Proxy eu2.smtp.exclaimer.net (tlsversion=TLS12,
+	 tlscipher=TLS_ECDHE_WITH_AES256_SHA384); Wed, 7 Dec 2022 07:45:06 +0000
+X-ExclaimerHostedSignatures-MessageProcessed: true
+X-ExclaimerProxyLatency: 10623101
+X-ExclaimerImprintLatency: 2949856
+X-ExclaimerImprintAction: 4e5b0c8189a0405bb7cf81396da92903
+Content-Type: multipart/related;
+	boundary="----_=_NextPart_0c66fcb9-59a7-43cc-863a-a91db775e2a4"
+Received: from DB7PR05CA0071.eurprd05.prod.outlook.com (2603:10a6:10:2e::48)
+ by PAWPR07MB9345.eurprd07.prod.outlook.com (2603:10a6:102:2e4::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.10; Wed, 7 Dec
+ 2022 07:45:04 +0000
+Received: from DB5EUR02FT043.eop-EUR02.prod.protection.outlook.com
+ (2603:10a6:10:2e:cafe::77) by DB7PR05CA0071.outlook.office365.com
+ (2603:10a6:10:2e::48) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.10 via Frontend
+ Transport; Wed, 7 Dec 2022 07:45:04 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 217.111.95.7)
+ smtp.mailfrom=arri.de; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arri.de;
+Received-SPF: Fail (protection.outlook.com: domain of arri.de does not
+ designate 217.111.95.7 as permitted sender) receiver=protection.outlook.com;
+ client-ip=217.111.95.7; helo=mta.arri.de;
+Received: from mta.arri.de (217.111.95.7) by
+ DB5EUR02FT043.mail.protection.outlook.com (10.13.59.6) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5880.14 via Frontend Transport; Wed, 7 Dec 2022 07:45:04 +0000
+Received: from n95hx1g2.localnet (192.168.54.106) by mta.arri.de (10.10.18.5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 7 Dec
+ 2022 08:45:03 +0100
+From: Christian Eggers <ceggers@arri.de>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+CC: <openembedded-core@lists.openembedded.org>
+Subject: Re: kernel: export native PKGCONFIG variables
+Date: Wed, 7 Dec 2022 08:45:03 +0100
+Message-ID: <4793800.31r3eYUQgx@n95hx1g2>
+Organization: Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR11MB5824:EE_|SJ0PR11MB4798:EE_
-X-MS-Office365-Filtering-Correlation-Id: 197a17b2-a631-4b4a-2390-08dad80f272d
+X-Originating-IP: [192.168.54.106]
+X-EOPAttributedMessage: 1
+X-MS-TrafficTypeDiagnostic: 
+	DB5EUR02FT043:EE_|PAWPR07MB9345:EE_|DB5EUR02FT066:EE_|AS8PR07MB7703:EE_
+X-MS-Office365-Filtering-Correlation-Id: 67aad44e-ec93-49e5-6f13-08dad826f5b6
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ 3ddTmGkLzltk486xF5bZV3e7WtjdyIWc+V3Y3uLb/qc2+fo7CaCln3QV3lq3dAeUu1DtdsfjQp5wMdvVOErTCBQ6ypN9ZAOpE+IdvbL1MPh6M53rS8sqM4rIsGmmSLYhj16TbEEKnPN9iIQItpqCCCkwOAxM19bxwpX/V/GOIubv4zfUANJq1+ha+FD891DkTO/J6pEufWV4c4fOzPXxnCIkY1yuClkd/BGsM4xhOnyROTge8HyAtLrJyUMMvHYgdwYjm4LHOVI3miGDhhZZYhafoNyc/ySvDnEjL7AhbZ28roH6PI7NlCsUXDN5kYKlFlgsD8AmP9wL5Z1R/jVM34+ORjuDQl0Kkg43i0b6C4eqSnqYCVv1MFgw1f8aYZCxyK3YlL9qGs3bXggAwnx0N8kQwxwvyBFy64ag2z5jA1MN/5qgi7XXUxWLbgSHm+Qhh4Zjao82jxWkn4M0I23MfRNo4t16+RSqr6hkFRkoy9ctwINSFe9TEbgqRR2d+g/gt4Q3N9L2ZBItEEOZAtNmHAIIubcV7PN7OU1af4/NzkDZsvG3B4xhkIjEc7GU+il0GEDB/6QvUnZAUTEhh6HpfYLOBPrSt1WZd3iN1vVP61LbtHsmohIQnD8hlEWDnnj0qZ6KU5uIn1/p5DlcdepooJOn2NFKIYMy0715dbXulkakDCoP6jwdB6tuTeQ+lf44+v1F0pcYmbTapaBS9exV4KoI1KqDf6Oz79paYFB1rGV60wAA0ht/ywHooZGxSYw1
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:217.111.95.7;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mta.arri.de;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(376002)(396003)(136003)(346002)(451199015)(36840700001)(46966006)(356005)(4001150100001)(33716001)(81166007)(47076005)(5660300002)(41300700001)(4326008)(86362001)(8936002)(2906002)(36860700001)(83380400001)(82740400003)(966005)(6916009)(478600001)(316002)(70206006)(70586007)(36916002)(16526019)(40480700001)(26005)(9576002)(336012)(426003)(82310400005)(9686003)(8676002)(186003)(39026012)(36900700001);DIR:OUT;SFP:1102;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR07MB9345
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DB5EUR02FT066.eop-EUR02.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	bdeb74ac-9031-4936-1533-08dad826f414
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	jXKdBuwxZihC511DsNAzU5umT1KCRcw1djfrgLV/RHBtdIiq+3Rpvdej8Q+RMTCy1SoBU/Mj3GsJNiwakTQbin0GhLPGmURgs4z2ZZgRZsqRV/DlBT+WcI1jl/8//0BtH/ba+SQ0bzKP3rHOGuuC0qK4FA1gjLe5eLAiNYmK7DJeczoyJAR8z9xYFuNVnMzYCnXtvH7BCk4MNvrdXl8772MSK/Gm8zhxy13CJvHPhkiqro51AaUyVco9lslkwolPSjsVheQIB/hrSTP4o1Z/wGcXC+PtVcVq00JUtIcPTnvdzamQmBG8tSfdZkioHps5Im2Tx8NWovgYK9qr/DVj+z+s+fNSp6KZiSIboevrZkDG2lGSqKZ7Ox58aN3yTxcDwhbjVtTG9MRIjV5fRWqN/z+HJWLC3g8feI6xWZXoMLq+Z6YKD5BJkl8pyH0oShfmgR7aNoijyqbYqqVYqkmzxeyfXRI2+8RX/o0A6lVeWykTvvpW45c3/HrfVAGLfIaAvbdOf07xFElVVDtfqFU//KRnja83yyPDUqrIVZ6cmbzn7RAFLU5aDOTe85y0x9Uu7mSVDHFw2pPbVYUARd9jEJ/t4BKACVtAwWf1P2R0oSBUL4zBIddsk0yo2RhsC4xR7hRDDAm0CXqMJB71ztm6TJAQG3B721BDpDr7NkGz2hwiuZOmvKgnZZWgdlQr+TJpYk33jjLdakM4Vi74Zbil0B8ZQo6dGYjgsUrCHEIkqwQ11N99hHwNd4Oo5vMzZ8U0WVNTWUiZubckimh/uxYy2g==
+	80ANT8GpkA6lgzcgrQkCRouVB2BVTgQ36pRdNkbb3U6xj1NxvxH9gudFqO0bL+tXmKvsCPIcsJgiDusR6dZyxjUm84AsG4Q6jK1EzeMqMp3ASq1V0eZSaIFFpCn67Wk8K3Tfh5ul9DLb0CBZEEykOcyrmB/Gu9FOjD8r4mLWo0sDkbedBQdL6pi2PO/zfn6twAQmw4ZOAPJn+3sipB3FgM0GjPkskwJrY8uai9mDgPh/szxApQaJ0N4gjKXfVhRdyUSXbl77FQAKtkYvYVFZhFTG1rFg2QVtaid4m/0R5kvjLuZP0znyQa+kKSWK9WvuDU0bxHkVUOMi/N/BadiCZa1Ct0ynt++OiaLMxAVHN4Hw0+2kr19hbDcofKSLou7+LAKDOyaMY6vgIYazQRpxHxjfOF10f/8CK81J4EVObe/F3jxSiakEwuQ74xHnUDn2P9XGocS8jzvKvbj2VpEqdw5276/0V0wVlSBh5Rb/l6mY7y0sRa/e/1fvpEht5dZbCnvehm7wulfucU4f56LY+vZKRlPmzyszpgyg1NjAilj/im2v8fbVpXLR2O1D9914sYMo+wlOym8X1soX17HsdxDVVvJcsy4wVf7YtRnfM++2kkMfhIn1L8ahChKcR6TqoqhTPU0fRA4vz0QQsikzugQ2x5b2deijna7tz5ulTTI0tQb6sS/SNk4S0qG1yg6ANp+54e5Qtisgryl9jh9d3oR/fbhmyR00aiqIrrNrxeglrqa+1DNxZSJCF/1ujZJcwb3ToZq5OtZ3zJQd4KRx4hqTBHi07YBE3Aksg0OS5J5SkLAihLR1cdfBir8PeDjQszPOtNGvo7/4axdueYiUdDcq+RDRz5DJAx90m6j83+U=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR11MB5824.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(396003)(366004)(376002)(39850400004)(346002)(451199015)(83380400001)(83170400001)(30864003)(2906002)(5660300002)(41300700001)(8936002)(44832011)(8676002)(6666004)(52116002)(1076003)(26005)(186003)(6512007)(6506007)(2616005)(6916009)(316002)(66476007)(66946007)(6486002)(478600001)(66556008)(38350700002)(38100700002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?aehht8xE8Y/29iLTpVbwBspL4Y/T7poLpeSRTm61bcFmxsOQrVaVwbpR+I1J?=
- =?us-ascii?Q?xYAllv4+TGSH8si3hgilYOZNb3aiSeeYljem7bLiUEc6ARbx1wuXL+k6SY8K?=
- =?us-ascii?Q?cGnLCVIf08gC+ZC9nIhWo8kWjdnSl8P7/wDE/F7nE+xKsYwYHMDofBSstlSa?=
- =?us-ascii?Q?naq0viUwnnvVwGJhu4WnQLvk/6wysfrk1XxJFsOSd7LcQhGizhS7W6/lQciT?=
- =?us-ascii?Q?ahurB8xYF6pB6TaugAMzddHMnWpNUJ3LGaNl704d01ib7a9JDbh6WwMDlwI/?=
- =?us-ascii?Q?sLyHTY17JDaPxyNPIZnhRNSyKf7p4WAIn/VRa6C/kDDC446InZtiuTTXeOj9?=
- =?us-ascii?Q?IBdS06NTWt2U2IYAG6S8YKN4sKCTJDJFU9/BYDoFcy+DA+cUPTfEL1gYcqAO?=
- =?us-ascii?Q?hA9I1TURqoHGLbRUHOyKCu0ftCOpHa8pZW5q1O6j6BWxJPvMVme4ZHGWDhXE?=
- =?us-ascii?Q?EzZYLdwesdvo3w+jfh7+qFuK20v9mJZ/L/rz7p3eXE53M6VvMBneqMQSN6Gm?=
- =?us-ascii?Q?vM77n7eyT3qHurzL622OG6EPK/4enKL3qTLqQlHcupxdWn209SFa/qPBIBHY?=
- =?us-ascii?Q?iGyJBYu4t7gd38Kyru52DCSlU82dzwLssRd8WUU4mEMhfSfyYrjEow1vW1Bx?=
- =?us-ascii?Q?JPUlosSgoAj2I7dJsk+PyBzER1cU451rZRc97QqrC76/0UQ/nif69kYoJTq8?=
- =?us-ascii?Q?LYWaEnB+TQkqkUquoqIdjsgPbOexlPzuYVJtxwx/bePgdLXEycFQDaJsYN9+?=
- =?us-ascii?Q?E9/JDZcKprctPdF8s631UC6AkSSmdVdhNACxRhYky4wRmUDFf+nrMRAC82tg?=
- =?us-ascii?Q?uQr/aPS+6pDuruebJ7BCHXzFH61viFxt2oqCPR1ToDFmZv2cEhg0LjmQ6xu3?=
- =?us-ascii?Q?7Cm46yZaoLweW+dZwTt+/Y/2JvmMrKlDdiqpICV/bUF42j1SOgK1TY4K8cjR?=
- =?us-ascii?Q?AHVx1YSNl4FeeArXS9qRmY9Ju/f24CXW5jwQeqLhaFWi4dvxgjsdWLzhH2K9?=
- =?us-ascii?Q?QpXAer8Jt3NtDb+F7CDwJHFku6JVB07BQ8Rg+SGvZGgD8uaTnU5x8OiCvisE?=
- =?us-ascii?Q?O+8t/FRAiBE1cik9HfBzm8CR1ow+y0XKFJvJRKRpr6eqCHiVzJ2zurqKZDvm?=
- =?us-ascii?Q?e+9VdMw3GUJ3EXTieQB40qiSKdpeiaT+xixix51uZ7LK8hzeGwNiyNdpruMn?=
- =?us-ascii?Q?lcVjFJgSz6KDFUWESFVjn7mIBdt00DDVwxwx8ftANLLyJtjWpN4CNvJ5aQVW?=
- =?us-ascii?Q?qDru61grkFrLF/1a40SPCcOzzWDNeFw9n3JTigo674uTJfbyyydrl9q67bB4?=
- =?us-ascii?Q?F+cBxhukno2FAXLy61EfhdINBliYWugtCwfrxGcPA/ww1FtNK2GniKFgTJCU?=
- =?us-ascii?Q?nMuIGp6AWeI8AWrZNtcvISoDM53OKHr8JAS+DpKZIInOlCrg8fmXuyG5/VlU?=
- =?us-ascii?Q?j6oL9i4LLeZKHqRlu94R9hiWjlVG692K+9bChjcu6eH8rfkIyzhgyYDcxW6x?=
- =?us-ascii?Q?AOuQus3lJQ8PATWSlqn02frP+Hv5SFMZJCxfrJT7p8P7n57DMFQDgFIZ/S0y?=
- =?us-ascii?Q?80rkqfPaJ99bQfsn0LY1R+1ge3uX1cgrwMKN8MGc8l0rLVJztNnRh3FJq5A2?=
- =?us-ascii?Q?Ag=3D=3D?=
-X-OriginatorOrg: eng.windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 197a17b2-a631-4b4a-2390-08dad80f272d
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB5824.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2022 04:54:42.2863
+	CIP:52.169.0.179;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:eu2.smtp.exclaimer.net;PTR:eu2.smtp.exclaimer.net;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(346002)(376002)(396003)(136003)(1690799008)(451199015)(46966006)(36840700001)(40470700004)(478600001)(40460700003)(36860700001)(966005)(83380400001)(6916009)(7596003)(7636003)(41300700001)(16526019)(166002)(186003)(33964004)(36916002)(4001150100001)(2906002)(82740400003)(45080400002)(70206006)(9686003)(70586007)(82310400005)(316002)(86362001)(26005)(15974865002)(33716001)(336012)(4326008)(47076005)(5660300002)(66574015)(8936002)(9576002)(426003)(40480700001)(8676002)(39026012);DIR:OUT;SFP:1102;
+X-OriginatorOrg: arri.de
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2022 07:45:06.3296
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eE4k7ifabSv93S6C3tMJu1KnMHVx+uAVUYsoexMkiGeHLVBxat7asTXRLfPfIRVMiXCZPMWVAC3omzKSMo7tyb3g1FoyxwdboUfPJrO2t6w=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4798
-X-Proofpoint-GUID: JfqOjcJBTosbWEDElBbW0pag8KsJzKul
-X-Proofpoint-ORIG-GUID: JfqOjcJBTosbWEDElBbW0pag8KsJzKul
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-07_02,2022-12-06_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 bulkscore=0
- clxscore=1015 suspectscore=0 spamscore=0 adultscore=0 priorityscore=1501
- mlxlogscore=999 mlxscore=0 lowpriorityscore=0 impostorscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2212070037
+X-MS-Exchange-CrossTenant-Network-Message-Id: 67aad44e-ec93-49e5-6f13-08dad826f5b6
+X-MS-Exchange-CrossTenant-Id: e6a73a5a-614d-4c51-b3e3-53b660a9433a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e6a73a5a-614d-4c51-b3e3-53b660a9433a;Ip=[52.169.0.179];Helo=[eu2.smtp.exclaimer.net]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB5EUR02FT066.eop-EUR02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR07MB7703
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Dec 2022 04:54:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174342
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Dec 2022 07:45:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174343
 
-From: Xiangyu Chen <xiangyu.chen@windriver.com>
+This is a multi-part message in MIME format.
 
-Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
----
- ...i-chainloader-Use-grub_loader_set_ex.patch |  86 +++++++++
- ...ot-Add-API-to-pass-context-to-loader.patch | 168 ++++++++++++++++++
- ...hainloader-Simplify-the-loader-state.patch | 129 ++++++++++++++
- meta/recipes-bsp/grub/grub2.inc               |   3 +
- 4 files changed, 386 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2022-28736-loader-efi-chainloader-Use-grub_loader_set_ex.patch
- create mode 100644 meta/recipes-bsp/grub/files/commands-boot-Add-API-to-pass-context-to-loader.patch
- create mode 100644 meta/recipes-bsp/grub/files/loader-efi-chainloader-Simplify-the-loader-state.patch
+------_=_NextPart_0c66fcb9-59a7-43cc-863a-a91db775e2a4
+Content-Type: multipart/alternative;
+	boundary="----_=_NextPart_35c2e375-da4d-4048-a74e-945a7cdd7a1a"
 
-diff --git a/meta/recipes-bsp/grub/files/CVE-2022-28736-loader-efi-chainloader-Use-grub_loader_set_ex.patch b/meta/recipes-bsp/grub/files/CVE-2022-28736-loader-efi-chainloader-Use-grub_loader_set_ex.patch
-new file mode 100644
-index 0000000000..5741e53f42
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2022-28736-loader-efi-chainloader-Use-grub_loader_set_ex.patch
-@@ -0,0 +1,86 @@
-+From 04c86e0bb7b58fc2f913f798cdb18934933e532d Mon Sep 17 00:00:00 2001
-+From: Chris Coulson <chris.coulson@canonical.com>
-+Date: Tue, 5 Apr 2022 11:48:58 +0100
-+Subject: [PATCH] loader/efi/chainloader: Use grub_loader_set_ex()
-+
-+This ports the EFI chainloader to use grub_loader_set_ex() in order to fix
-+a use-after-free bug that occurs when grub_cmd_chainloader() is executed
-+more than once before a boot attempt is performed.
-+
-+Fixes: CVE-2022-28736
-+
-+Signed-off-by: Chris Coulson <chris.coulson@canonical.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+Upstream-Status: Backport
-+CVE: CVE-2022-28736
-+
-+Reference to upstream patch:
-+https://git.savannah.gnu.org/cgit/grub.git/commit/?id=04c86e0bb7b58fc2f913f798cdb18934933e532d
-+
-+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-+---
-+ grub-core/loader/efi/chainloader.c | 16 +++++++---------
-+ 1 file changed, 7 insertions(+), 9 deletions(-)
-+
-+diff --git a/grub-core/loader/efi/chainloader.c b/grub-core/loader/efi/chainloader.c
-+index d1602c89b..7557eb269 100644
-+--- a/grub-core/loader/efi/chainloader.c
-++++ b/grub-core/loader/efi/chainloader.c
-+@@ -44,11 +44,10 @@ GRUB_MOD_LICENSE ("GPLv3+");
-+ 
-+ static grub_dl_t my_mod;
-+ 
-+-static grub_efi_handle_t image_handle;
-+-
-+ static grub_err_t
-+-grub_chainloader_unload (void)
-++grub_chainloader_unload (void *context)
-+ {
-++  grub_efi_handle_t image_handle = (grub_efi_handle_t) context;
-+   grub_efi_loaded_image_t *loaded_image;
-+   grub_efi_boot_services_t *b;
-+ 
-+@@ -64,8 +63,9 @@ grub_chainloader_unload (void)
-+ }
-+ 
-+ static grub_err_t
-+-grub_chainloader_boot (void)
-++grub_chainloader_boot (void *context)
-+ {
-++  grub_efi_handle_t image_handle = (grub_efi_handle_t) context;
-+   grub_efi_boot_services_t *b;
-+   grub_efi_status_t status;
-+   grub_efi_uintn_t exit_data_size;
-+@@ -225,6 +225,7 @@ grub_cmd_chainloader (grub_command_t cmd __attribute__ ((unused)),
-+   grub_efi_physical_address_t address = 0;
-+   grub_efi_uintn_t pages = 0;
-+   grub_efi_char16_t *cmdline = NULL;
-++  grub_efi_handle_t image_handle = NULL;
-+ 
-+   if (argc == 0)
-+     return grub_error (GRUB_ERR_BAD_ARGUMENT, N_("filename expected"));
-+@@ -405,7 +406,7 @@ grub_cmd_chainloader (grub_command_t cmd __attribute__ ((unused)),
-+   efi_call_2 (b->free_pages, address, pages);
-+   grub_free (file_path);
-+ 
-+-  grub_loader_set (grub_chainloader_boot, grub_chainloader_unload, 0);
-++  grub_loader_set_ex (grub_chainloader_boot, grub_chainloader_unload, image_handle, 0);
-+   return 0;
-+ 
-+  fail:
-+@@ -423,10 +424,7 @@ grub_cmd_chainloader (grub_command_t cmd __attribute__ ((unused)),
-+     efi_call_2 (b->free_pages, address, pages);
-+ 
-+   if (image_handle != NULL)
-+-    {
-+-      efi_call_1 (b->unload_image, image_handle);
-+-      image_handle = NULL;
-+-    }
-++    efi_call_1 (b->unload_image, image_handle);
-+ 
-+   grub_dl_unref (my_mod);
-+ 
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-bsp/grub/files/commands-boot-Add-API-to-pass-context-to-loader.patch b/meta/recipes-bsp/grub/files/commands-boot-Add-API-to-pass-context-to-loader.patch
-new file mode 100644
-index 0000000000..a2c0530f04
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/commands-boot-Add-API-to-pass-context-to-loader.patch
-@@ -0,0 +1,168 @@
-+From 14ceb3b3ff6db664649138442b6562c114dcf56e Mon Sep 17 00:00:00 2001
-+From: Chris Coulson <chris.coulson@canonical.com>
-+Date: Tue, 5 Apr 2022 10:58:28 +0100
-+Subject: [PATCH] commands/boot: Add API to pass context to loader
-+
-+Loaders rely on global variables for saving context which is consumed
-+in the boot hook and freed in the unload hook. In the case where a loader
-+command is executed twice, calling grub_loader_set() a second time executes
-+the unload hook, but in some cases this runs when the loader's global
-+context has already been updated, resulting in the updated context being
-+freed and potential use-after-free bugs when the boot hook is subsequently
-+called.
-+
-+This adds a new API, grub_loader_set_ex(), which allows a loader to specify
-+context that is passed to its boot and unload hooks. This is an alternative
-+to requiring that loaders call grub_loader_unset() before mutating their
-+global context.
-+
-+Signed-off-by: Chris Coulson <chris.coulson@canonical.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+Upstream-Status: Backport
-+
-+Reference to upstream patch:
-+https://git.savannah.gnu.org/cgit/grub.git/commit/?id=14ceb3b3ff6db664649138442b6562c114dcf56e
-+
-+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-+---
-+ grub-core/commands/boot.c | 66 ++++++++++++++++++++++++++++++++++-----
-+ include/grub/loader.h     |  5 +++
-+ 2 files changed, 63 insertions(+), 8 deletions(-)
-+
-+diff --git a/grub-core/commands/boot.c b/grub-core/commands/boot.c
-+index bbca81e94..61514788e 100644
-+--- a/grub-core/commands/boot.c
-++++ b/grub-core/commands/boot.c
-+@@ -27,10 +27,20 @@
-+ 
-+ GRUB_MOD_LICENSE ("GPLv3+");
-+ 
-+-static grub_err_t (*grub_loader_boot_func) (void);
-+-static grub_err_t (*grub_loader_unload_func) (void);
-++static grub_err_t (*grub_loader_boot_func) (void *context);
-++static grub_err_t (*grub_loader_unload_func) (void *context);
-++static void *grub_loader_context;
-+ static int grub_loader_flags;
-+ 
-++struct grub_simple_loader_hooks
-++{
-++  grub_err_t (*boot) (void);
-++  grub_err_t (*unload) (void);
-++};
-++
-++/* Don't heap allocate this to avoid making grub_loader_set() fallible. */
-++static struct grub_simple_loader_hooks simple_loader_hooks;
-++
-+ struct grub_preboot
-+ {
-+   grub_err_t (*preboot_func) (int);
-+@@ -44,6 +54,29 @@ static int grub_loader_loaded;
-+ static struct grub_preboot *preboots_head = 0,
-+   *preboots_tail = 0;
-+ 
-++static grub_err_t
-++grub_simple_boot_hook (void *context)
-++{
-++  struct grub_simple_loader_hooks *hooks;
-++
-++  hooks = (struct grub_simple_loader_hooks *) context;
-++  return hooks->boot ();
-++}
-++
-++static grub_err_t
-++grub_simple_unload_hook (void *context)
-++{
-++  struct grub_simple_loader_hooks *hooks;
-++  grub_err_t ret;
-++
-++  hooks = (struct grub_simple_loader_hooks *) context;
-++
-++  ret = hooks->unload ();
-++  grub_memset (hooks, 0, sizeof (*hooks));
-++
-++  return ret;
-++}
-++
-+ int
-+ grub_loader_is_loaded (void)
-+ {
-+@@ -110,28 +143,45 @@ grub_loader_unregister_preboot_hook (struct grub_preboot *hnd)
-+ }
-+ 
-+ void
-+-grub_loader_set (grub_err_t (*boot) (void),
-+-		 grub_err_t (*unload) (void),
-+-		 int flags)
-++grub_loader_set_ex (grub_err_t (*boot) (void *context),
-++		    grub_err_t (*unload) (void *context),
-++		    void *context,
-++		    int flags)
-+ {
-+   if (grub_loader_loaded && grub_loader_unload_func)
-+-    grub_loader_unload_func ();
-++    grub_loader_unload_func (grub_loader_context);
-+ 
-+   grub_loader_boot_func = boot;
-+   grub_loader_unload_func = unload;
-++  grub_loader_context = context;
-+   grub_loader_flags = flags;
-+ 
-+   grub_loader_loaded = 1;
-+ }
-+ 
-++void
-++grub_loader_set (grub_err_t (*boot) (void),
-++		 grub_err_t (*unload) (void),
-++		 int flags)
-++{
-++  grub_loader_set_ex (grub_simple_boot_hook,
-++		      grub_simple_unload_hook,
-++		      &simple_loader_hooks,
-++		      flags);
-++
-++  simple_loader_hooks.boot = boot;
-++  simple_loader_hooks.unload = unload;
-++}
-++
-+ void
-+ grub_loader_unset(void)
-+ {
-+   if (grub_loader_loaded && grub_loader_unload_func)
-+-    grub_loader_unload_func ();
-++    grub_loader_unload_func (grub_loader_context);
-+ 
-+   grub_loader_boot_func = 0;
-+   grub_loader_unload_func = 0;
-++  grub_loader_context = 0;
-+ 
-+   grub_loader_loaded = 0;
-+ }
-+@@ -158,7 +208,7 @@ grub_loader_boot (void)
-+ 	  return err;
-+ 	}
-+     }
-+-  err = (grub_loader_boot_func) ();
-++  err = (grub_loader_boot_func) (grub_loader_context);
-+ 
-+   for (cur = preboots_tail; cur; cur = cur->prev)
-+     if (! err)
-+diff --git a/include/grub/loader.h b/include/grub/loader.h
-+index b20864282..97f231054 100644
-+--- a/include/grub/loader.h
-++++ b/include/grub/loader.h
-+@@ -40,6 +40,11 @@ void EXPORT_FUNC (grub_loader_set) (grub_err_t (*boot) (void),
-+ 				    grub_err_t (*unload) (void),
-+ 				    int flags);
-+ 
-++void EXPORT_FUNC (grub_loader_set_ex) (grub_err_t (*boot) (void *context),
-++				       grub_err_t (*unload) (void *context),
-++				       void *context,
-++				       int flags);
-++
-+ /* Unset current loader, if any.  */
-+ void EXPORT_FUNC (grub_loader_unset) (void);
-+ 
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-bsp/grub/files/loader-efi-chainloader-Simplify-the-loader-state.patch b/meta/recipes-bsp/grub/files/loader-efi-chainloader-Simplify-the-loader-state.patch
-new file mode 100644
-index 0000000000..a43025d425
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/loader-efi-chainloader-Simplify-the-loader-state.patch
-@@ -0,0 +1,129 @@
-+From 1469983ebb9674753ad333d37087fb8cb20e1dce Mon Sep 17 00:00:00 2001
-+From: Chris Coulson <chris.coulson@canonical.com>
-+Date: Tue, 5 Apr 2022 10:02:04 +0100
-+Subject: [PATCH] loader/efi/chainloader: Simplify the loader state
-+
-+The chainloader command retains the source buffer and device path passed
-+to LoadImage(), requiring the unload hook passed to grub_loader_set() to
-+free them. It isn't required to retain this state though - they aren't
-+required by StartImage() or anything else in the boot hook, so clean them
-+up before grub_cmd_chainloader() finishes.
-+
-+Signed-off-by: Chris Coulson <chris.coulson@canonical.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+Upstream-Status: Backport
-+
-+Reference to upstream patch:
-+https://git.savannah.gnu.org/cgit/grub.git/commit/?id=1469983ebb9674753ad333d37087fb8cb20e1dce
-+
-+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-+---
-+ grub-core/loader/efi/chainloader.c | 38 +++++++++++++++++-------------
-+ 1 file changed, 21 insertions(+), 17 deletions(-)
-+
-+diff --git a/grub-core/loader/efi/chainloader.c b/grub-core/loader/efi/chainloader.c
-+index 2bd80f4db..d1602c89b 100644
-+--- a/grub-core/loader/efi/chainloader.c
-++++ b/grub-core/loader/efi/chainloader.c
-+@@ -44,25 +44,20 @@ GRUB_MOD_LICENSE ("GPLv3+");
-+ 
-+ static grub_dl_t my_mod;
-+ 
-+-static grub_efi_physical_address_t address;
-+-static grub_efi_uintn_t pages;
-+-static grub_efi_device_path_t *file_path;
-+ static grub_efi_handle_t image_handle;
-+-static grub_efi_char16_t *cmdline;
-+ 
-+ static grub_err_t
-+ grub_chainloader_unload (void)
-+ {
-++  grub_efi_loaded_image_t *loaded_image;
-+   grub_efi_boot_services_t *b;
-+ 
-++  loaded_image = grub_efi_get_loaded_image (image_handle);
-++  if (loaded_image != NULL)
-++    grub_free (loaded_image->load_options);
-++
-+   b = grub_efi_system_table->boot_services;
-+   efi_call_1 (b->unload_image, image_handle);
-+-  efi_call_2 (b->free_pages, address, pages);
-+-
-+-  grub_free (file_path);
-+-  grub_free (cmdline);
-+-  cmdline = 0;
-+-  file_path = 0;
-+ 
-+   grub_dl_unref (my_mod);
-+   return GRUB_ERR_NONE;
-+@@ -140,7 +135,7 @@ make_file_path (grub_efi_device_path_t *dp, const char *filename)
-+   char *dir_start;
-+   char *dir_end;
-+   grub_size_t size;
-+-  grub_efi_device_path_t *d;
-++  grub_efi_device_path_t *d, *file_path;
-+ 
-+   dir_start = grub_strchr (filename, ')');
-+   if (! dir_start)
-+@@ -222,11 +217,14 @@ grub_cmd_chainloader (grub_command_t cmd __attribute__ ((unused)),
-+   grub_efi_status_t status;
-+   grub_efi_boot_services_t *b;
-+   grub_device_t dev = 0;
-+-  grub_efi_device_path_t *dp = 0;
-++  grub_efi_device_path_t *dp = NULL, *file_path = NULL;
-+   grub_efi_loaded_image_t *loaded_image;
-+   char *filename;
-+   void *boot_image = 0;
-+   grub_efi_handle_t dev_handle = 0;
-++  grub_efi_physical_address_t address = 0;
-++  grub_efi_uintn_t pages = 0;
-++  grub_efi_char16_t *cmdline = NULL;
-+ 
-+   if (argc == 0)
-+     return grub_error (GRUB_ERR_BAD_ARGUMENT, N_("filename expected"));
-+@@ -234,11 +232,6 @@ grub_cmd_chainloader (grub_command_t cmd __attribute__ ((unused)),
-+ 
-+   grub_dl_ref (my_mod);
-+ 
-+-  /* Initialize some global variables.  */
-+-  address = 0;
-+-  image_handle = 0;
-+-  file_path = 0;
-+-
-+   b = grub_efi_system_table->boot_services;
-+ 
-+   file = grub_file_open (filename, GRUB_FILE_TYPE_EFI_CHAINLOADED_IMAGE);
-+@@ -408,6 +401,10 @@ grub_cmd_chainloader (grub_command_t cmd __attribute__ ((unused)),
-+   grub_file_close (file);
-+   grub_device_close (dev);
-+ 
-++  /* We're finished with the source image buffer and file path now. */
-++  efi_call_2 (b->free_pages, address, pages);
-++  grub_free (file_path);
-++
-+   grub_loader_set (grub_chainloader_boot, grub_chainloader_unload, 0);
-+   return 0;
-+ 
-+@@ -419,11 +416,18 @@ grub_cmd_chainloader (grub_command_t cmd __attribute__ ((unused)),
-+   if (file)
-+     grub_file_close (file);
-+ 
-++  grub_free (cmdline);
-+   grub_free (file_path);
-+ 
-+   if (address)
-+     efi_call_2 (b->free_pages, address, pages);
-+ 
-++  if (image_handle != NULL)
-++    {
-++      efi_call_1 (b->unload_image, image_handle);
-++      image_handle = NULL;
-++    }
-++
-+   grub_dl_unref (my_mod);
-+ 
-+   return grub_errno;
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index 270efd30ef..c14fe315d3 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -35,6 +35,9 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://0001-font-Fix-size-overflow-in-grub_font_get_glyph_intern.patch \
-            file://CVE-2022-2601.patch \
-            file://CVE-2022-3775.patch \
-+           file://loader-efi-chainloader-Simplify-the-loader-state.patch \
-+           file://commands-boot-Add-API-to-pass-context-to-loader.patch \
-+           file://CVE-2022-28736-loader-efi-chainloader-Use-grub_loader_set_ex.patch \
- "
- 
- SRC_URI[sha256sum] = "23b64b4c741569f9426ed2e3d0e6780796fca081bee4c99f62aa3f53ae803f5f"
--- 
-2.34.1
+------_=_NextPart_35c2e375-da4d-4048-a74e-945a7cdd7a1a
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
+Hi Bruce,
+
+on 2021-11-23, you added the following patch:
+
+> 9172d61c57e23682c3d2c25701cbd53c84d01a27
+>
+> kernel: export native PKGCONFIG variables
+>
+> In a similar manner to cml1.bbclass, we export the pkg-config
+> variables to allow a direct call to pkg-config access to the
+> native sysroot versus the target sysroot.
+> 
+> The kernel doesn't use pkg-config for target configuration,
+I found some calls in the tools/ directory of the kernel.
+Isn't this related to target configuration?
+
+> and has many explicit calls to pkg-config, without the
+> possibility of easy override to pkg-config-native.
+I just noticed that this has recently changed:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?=
+id=3Dd5ea4fece4508bf8e72b659cd22fa4840d8d61e5
+
+This change is in Linux 6.0, but not in 5.15. Probably it
+could be backported easily.
+
+> 
+> The calls to pkg-config could be made cross friendly via
+> replacement with make variables, but until that effort is
+> undertaken upstream, we need a bridge approach.
+> 
+> In particular, this is required for dtschema validation,
+> which is a requirement in kernel 5.16+
+
+regards
+Christian
+
+
+
+
+_______________________________________________________
+Christian 
+Eggers
+Software Engineer
+=E2=80=8B
+ARRI
+Arnold & Richter Cine Technik GmbH & Co. Betriebs KG 
+Arriweg 17, 
+83071 
+Stephanskirchen
+www.arri.com 
+
++49 8036 3009-3118
+CEggers@arri.de
+
+=E2=80=8B
+Get all the latest information from www.arri.com, Facebook, Twitter, Instag=
+ram, LinkedIn and YouTube.
+
+Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
+Sitz: M=C3=BCnchen - Registergericht: Amtsgericht M=C3=BCnchen - Handelsreg=
+isternummer: HRA 57918
+Pers=C3=B6nlich haftender Gesellschafter: Arnold & Richter Cine Technik Gmb=
+H
+Sitz: M=C3=BCnchen - Registergericht: Amtsgericht M=C3=BCnchen - Handelsreg=
+isternummer: HRB 54477
+Gesch=C3=A4ftsf=C3=BChrer: Dr. Matthias Erb (Chairman); Dr. Michael Neuh=
+=C3=A4user; Stephan Schenk; Walter Trauninger
+
+=E2=80=8B
+
+------_=_NextPart_35c2e375-da4d-4048-a74e-945a7cdd7a1a
+Content-Type: text/html;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; charset=
+=3Dutf-8" /></head><body><div>Hi Bruce,<br /><br />on 2021-11-23, you added=
+ the following patch:<br /><br />&gt; 9172d61c57e23682c3d2c25701cbd53c84d01=
+a27<br />&gt;<br />&gt; kernel: export native PKGCONFIG variables<br />&gt;=
+<br />&gt; In a similar manner to cml1.bbclass, we export the pkg-config<br=
+ />&gt; variables to allow a direct call to pkg-config access to the<br />&=
+gt; native sysroot versus the target sysroot.<br />&gt; <br />&gt; The kern=
+el doesn&#39;t use pkg-config for target configuration,<br />I found some c=
+alls in the tools/ directory of the kernel.<br />Isn&#39;t this related to =
+target configuration?<br /><br />&gt; and has many explicit calls to pkg-co=
+nfig, without the<br />&gt; possibility of easy override to pkg-config-nati=
+ve.<br />I just noticed that this has recently changed:<br /><br />https://=
+git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=3Dd5e=
+a4fece4508bf8e72b659cd22fa4840d8d61e5<br /><br />This change is in Linux 6.=
+0, but not in 5.15. Probably it<br />could be backported easily.<br /><br /=
+>&gt; <br />&gt; The calls to pkg-config could be made cross friendly via<b=
+r />&gt; replacement with make variables, but until that effort is<br />&gt=
+; undertaken upstream, we need a bridge approach.<br />&gt; <br />&gt; In p=
+articular, this is required for dtschema validation,<br />&gt; which is a r=
+equirement in kernel 5.16+<br /><br />regards<br />Christian<br /><br /><br=
+ /><br /></div><div dir=3D"ltr" style=3D"mso-line-height-rule:exactly;-webk=
+it-text-size-adjust:100%;font-size:1px;direction:ltr;"><table cellpadding=
+=3D"0" cellspacing=3D"0" border=3D"0" style=3D"width:100%;font-size:1px;"><=
+tr style=3D"font-size:0;"><td align=3D"left" style=3D"vertical-align:top;">=
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" style=3D"font-size:=
+0;"><tr style=3D"font-size:0;"><td align=3D"left" style=3D"padding:0;vertic=
+al-align:top;"><table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" styl=
+e=3D"width:100%;font-size:0;"><tr style=3D"font-size:14.67px;color:#7F7F7F;=
+font-style:normal;font-weight:400;white-space:nowrap;"><td align=3D"left" s=
+tyle=3D"vertical-align:top;font-family:Calibri,Arial,sans-serif;">_________=
+______________________________________________<span style=3D"font-family:re=
+mialcxesans;font-size:1px;color:#FFFFFF;line-height:1px;">&#8203;</span></t=
+d></tr><tr style=3D"font-size:0;"><td align=3D"left" style=3D"vertical-alig=
+n:top;"><table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" style=3D"fo=
+nt-size:0;"><tr style=3D"font-size:0;"><td align=3D"left" style=3D"vertical=
+-align:top;"><table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" style=
+=3D"font-size:0;color:#7F7F7F;font-style:normal;font-weight:400;white-space=
+:nowrap;"><tr style=3D"font-size:14.67px;"><td align=3D"left" style=3D"vert=
+ical-align:top;font-family:Calibri,Arial,sans-serif;">Christian</td><td ali=
+gn=3D"left" style=3D"vertical-align:top;color:#000001;font-family:Calibri,A=
+rial,sans-serif;">&nbsp;<br /></td><td align=3D"left" style=3D"vertical-ali=
+gn:top;font-family:Calibri,Arial,sans-serif;">Eggers</td></tr></table></td>=
+</tr><tr style=3D"font-size:0;"><td align=3D"left" style=3D"vertical-align:=
+top;"><table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" style=3D"font=
+-size:0;color:#7F7F7F;font-style:normal;font-weight:400;white-space:nowrap;=
+"><tr style=3D"font-size:14.67px;"><td align=3D"left" style=3D"vertical-ali=
+gn:top;font-family:Calibri,Arial,sans-serif;">Software&nbsp;Engineer</td></=
+tr><tr style=3D"font-size:14.67px;color:#000001;"><td align=3D"left" style=
+=3D"vertical-align:top;font-family:Calibri,Arial,sans-serif;">&#8203;</td><=
+/tr></table></td></tr></table></td></tr><tr style=3D"font-size:0;"><td alig=
+n=3D"left" style=3D"vertical-align:top;"><table cellpadding=3D"0" cellspaci=
+ng=3D"0" border=3D"0" style=3D"font-size:0;"><tr style=3D"font-size:0;"><td=
+ align=3D"left" style=3D"vertical-align:top;"><table cellpadding=3D"0" cell=
+spacing=3D"0" border=3D"0" style=3D"font-size:0;color:#0E50AD;font-style:no=
+rmal;font-weight:400;white-space:nowrap;"><tr style=3D"font-size:13.33px;">=
+<td align=3D"left" style=3D"vertical-align:top;font-family:&#39;Arial Black=
+&#39;;">ARRI</td></tr><tr style=3D"font-size:10.67px;color:#7F7F7F;"><td al=
+ign=3D"left" style=3D"vertical-align:top;font-family:Arial;"><span style=
+=3D"font-size:11px;">Arnold&nbsp;&amp;&nbsp;Richter&nbsp;Cine&nbsp;Technik&=
+nbsp;GmbH&nbsp;&amp;&nbsp;Co.&nbsp;Betriebs&nbsp;KG</span>&nbsp;<br /></td>=
+</tr></table></td></tr><tr style=3D"font-size:0;"><td align=3D"left" style=
+=3D"vertical-align:top;"><table cellpadding=3D"0" cellspacing=3D"0" border=
+=3D"0" style=3D"font-size:0;color:#7F7F7F;font-style:normal;font-weight:400=
+;white-space:nowrap;"><tr style=3D"font-size:10.67px;"><td align=3D"left" s=
+tyle=3D"vertical-align:top;font-family:Arial;">Arriweg&nbsp;17</td><td alig=
+n=3D"left" style=3D"vertical-align:top;font-family:Arial;">,&nbsp;<br /></t=
+d><td align=3D"left" style=3D"vertical-align:middle;font-family:Arial;">830=
+71</td><td align=3D"left" style=3D"vertical-align:middle;font-family:Arial;=
+">&nbsp;<br /></td><td align=3D"left" style=3D"vertical-align:middle;font-f=
+amily:Arial;">Stephanskirchen</td></tr></table></td></tr></table></td></tr>=
+<tr style=3D"font-size:0;"><td align=3D"left" style=3D"vertical-align:top;"=
+><table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" style=3D"font-size=
+:0;"><tr style=3D"font-size:0;"><td align=3D"left" style=3D"vertical-align:=
+top;"><table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" style=3D"font=
+-size:0;color:#1532B9;font-style:normal;font-weight:400;white-space:nowrap;=
+"><tr style=3D"font-size:11px;"><td align=3D"left" style=3D"vertical-align:=
+top;font-family:Arial;"><span style=3D"text-decoration:underline;"><a href=
+=3D"http://www.arri.com/" target=3D"_blank" id=3D"LPlnk689713" style=3D"tex=
+t-decoration:underline;color:#1532B9;"><strong style=3D"font-weight:400;">w=
+ww.arri.com&nbsp;<br /><br /></strong></a></span></td></tr><tr style=3D"fon=
+t-size:0;"><td align=3D"left" style=3D"vertical-align:top;"><table cellpadd=
+ing=3D"0" cellspacing=3D"0" border=3D"0" style=3D"font-size:0;color:#858080=
+;font-style:normal;font-weight:400;line-height:normal;white-space:nowrap;">=
+<tr style=3D"font-size:14.67px;"><td align=3D"left" style=3D"padding:0;vert=
+ical-align:top;font-size:0;"><img src=3D"cid:image336616.png@4C0C5F83.ACE39=
+45E" width=3D"20" border=3D"0" alt=3D"" style=3D"width:20px;min-width:20px;=
+max-width:20px;font-size:0;" /></td><td align=3D"left" style=3D"padding:0;v=
+ertical-align:top;font-family:Calibri,Arial,sans-serif;"><a href=3D"tel:+49=
+%208036%203009-3118" target=3D"_blank" id=3D"LPlnk689713" style=3D"text-dec=
+oration:none;color:#858080;"><strong style=3D"font-weight:400;">+49&nbsp;80=
+36&nbsp;3009-3118</strong></a></td></tr><tr style=3D"font-size:0;"><td alig=
+n=3D"left" style=3D"padding:0;vertical-align:top;"></td><td align=3D"left" =
+style=3D"padding:0;vertical-align:top;"></td></tr><tr style=3D"font-size:0;=
+"><td align=3D"left" style=3D"padding:0;vertical-align:top;"></td><td align=
+=3D"left" style=3D"padding:0;vertical-align:top;"></td></tr><tr style=3D"fo=
+nt-size:14.67px;"><td align=3D"left" style=3D"padding:0;vertical-align:top;=
+font-size:0;"><img src=3D"cid:image460246.png@47069BC7.569C60D9" width=3D"2=
+0" border=3D"0" alt=3D"" style=3D"width:20px;min-width:20px;max-width:20px;=
+font-size:0;" /></td><td align=3D"left" style=3D"padding:0;vertical-align:t=
+op;font-family:Calibri,Arial,sans-serif;"><a href=3D"mailto:CEggers@arri.de=
+" target=3D"_blank" id=3D"LPlnk689713" style=3D"text-decoration:none;color:=
+#858080;"><strong style=3D"font-weight:400;">CEggers@arri.de</strong></a></=
+td></tr></table></td></tr></table></td></tr></table></td></tr><tr style=3D"=
+font-size:14.67px;color:#000001;font-style:normal;font-weight:400;white-spa=
+ce:nowrap;"><td align=3D"left" style=3D"vertical-align:top;font-family:Cali=
+bri,Arial,sans-serif;"><br />&#8203;</td></tr></table></td></tr><tr style=
+=3D"font-size:0;line-height:normal;"><td align=3D"left" style=3D"padding:0;=
+vertical-align:top;"><a href=3D"https://www.arri.com/en" target=3D"_blank" =
+id=3D"LPlnk689713" style=3D"text-decoration:none;"><img src=3D"https://asse=
+ts.arri.com/media/sign/2022_11-17_E-mail_signature_-_xmas_-_Retina__-_02.jp=
+g" width=3D"466" height=3D"205" border=3D"0" title=3D"Season&#39;s Greeting=
+s" alt=3D"Season&#39;s Greetings" style=3D"width:466px;min-width:466px;max-=
+width:466px;height:205px;min-height:205px;max-height:205px;font-size:12px;"=
+ /></a></td></tr><tr style=3D"font-size:13px;color:#7F7F7F;font-style:norma=
+l;font-weight:400;white-space:nowrap;"><td align=3D"left" style=3D"padding:=
+0;vertical-align:top;font-family:Calibri,Arial,sans-serif;">Get&nbsp;all&nb=
+sp;the&nbsp;latest&nbsp;information&nbsp;from&nbsp;<span style=3D"text-deco=
+ration:underline;"><a href=3D"https://www.arri.com/" target=3D"_blank" id=
+=3D"LPlnk689713" style=3D"text-decoration:underline;color:#7F7F7F;"><strong=
+ style=3D"font-weight:400;">www.arri.com</strong></a></span>,&nbsp;<span st=
+yle=3D"text-decoration:underline;"><a href=3D"https://www.facebook.com/Team=
+ARRI" target=3D"_blank" id=3D"LPlnk689713" style=3D"text-decoration:underli=
+ne;color:#7F7F7F;"><strong style=3D"font-weight:400;">Facebook</strong></a>=
+</span>,&nbsp;<span style=3D"text-decoration:underline;"><a href=3D"https:/=
+/twitter.com/ARRIChannel" target=3D"_blank" id=3D"LPlnk689713" style=3D"tex=
+t-decoration:none;color:#7F7F7F;"><strong style=3D"font-weight:400;">Twitte=
+r</strong></a></span>,&nbsp;<a href=3D"https://www.instagram.com/arri/" tar=
+get=3D"_blank" id=3D"LPlnk689713" style=3D"text-decoration:none;color:#7F7F=
+7F;"><strong style=3D"font-weight:400;"><span style=3D"text-decoration:unde=
+rline;">Instagram</span></strong></a>,&nbsp;<a href=3D"https://www.linkedin=
+=2Ecom/company/arri" target=3D"_blank" id=3D"LPlnk689713" style=3D"text-dec=
+oration:none;color:#7F7F7F;"><strong style=3D"font-weight:400;"><span style=
+=3D"text-decoration:underline;">LinkedIn</span></strong></a>&nbsp;and&nbsp;=
+<a href=3D"https://www.youtube.com/user/ARRIChannel" target=3D"_blank" id=
+=3D"LPlnk689713" style=3D"text-decoration:none;color:#7F7F7F;"><strong styl=
+e=3D"font-weight:400;"><span style=3D"text-decoration:underline;">YouTube</=
+span></strong></a>.<br /></td></tr><tr style=3D"font-size:0;"><td align=3D"=
+left" style=3D"padding:0;vertical-align:top;"><table cellpadding=3D"0" cell=
+spacing=3D"0" border=3D"0" style=3D"font-size:0;color:#6A6A6A;font-style:no=
+rmal;font-weight:400;white-space:nowrap;"><tr style=3D"font-size:10px;"><td=
+ align=3D"left" style=3D"vertical-align:top;font-family:Arial;"><br />Arnol=
+d&nbsp;&amp;&nbsp;Richter&nbsp;Cine&nbsp;Technik&nbsp;GmbH&nbsp;&amp;&nbsp;=
+Co.&nbsp;Betriebs&nbsp;KG<br />Sitz:&nbsp;M&#252;nchen&nbsp;=E2=80=91&nbsp;=
+Registergericht:&nbsp;Amtsgericht&nbsp;M&#252;nchen&nbsp;=E2=80=91&nbsp;Han=
+delsregisternummer:&nbsp;HRA&nbsp;57918<br />Pers&#246;nlich&nbsp;haftender=
+&nbsp;Gesellschafter:&nbsp;Arnold&nbsp;&amp;&nbsp;Richter&nbsp;Cine&nbsp;Te=
+chnik&nbsp;GmbH<br />Sitz:&nbsp;M&#252;nchen&nbsp;=E2=80=91&nbsp;Registerge=
+richt:&nbsp;Amtsgericht&nbsp;M&#252;nchen&nbsp;=E2=80=91&nbsp;Handelsregist=
+ernummer:&nbsp;HRB&nbsp;54477<br />Gesch&#228;ftsf&#252;hrer:&nbsp;Dr.&nbsp=
+;Matthias&nbsp;Erb&nbsp;(Chairman);&nbsp;Dr.&nbsp;Michael&nbsp;Neuh&#228;us=
+er;&nbsp;Stephan&nbsp;Schenk;&nbsp;Walter&nbsp;Trauninger<br /></td></tr><t=
+r style=3D"font-size:14.67px;color:#000001;"><td align=3D"left" style=3D"ve=
+rtical-align:top;font-family:Calibri,Arial,sans-serif;"><br />&#8203;<br />=
+</td></tr></table></td></tr></table></td></tr></table></div></body></html>
+------_=_NextPart_35c2e375-da4d-4048-a74e-945a7cdd7a1a--
+
+------_=_NextPart_0c66fcb9-59a7-43cc-863a-a91db775e2a4
+Content-Type: image/png;
+	name="image336616.png"
+Content-Transfer-Encoding: base64
+Content-ID: <image336616.png@4C0C5F83.ACE3945E>
+Content-Description: image336616.png
+Content-Disposition: inline;
+	creation-date="Wed, 07 Dec 2022 07:45:06 +0000";
+	filename=image336616.png;
+	modification-date="Wed, 07 Dec 2022 07:45:06 +0000";
+	size=528
+
+iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACx
+jwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGlSURBVDhP1ZOxSgNBEIZ3o6QSSWGRwiJFCl9A
+iCDEIqKFgo2FYGHjA1hYRZ0sGrURgq0WgkoqEUHQShJMYWFhmcLCwsIHsJBEs/5zmTvvJIE9sPGD
+Zf7Zu/tvdndW/TVaogcRDSWVKlilMhvGVGQ6FoEhzAaTWt9AFji31q7C9Jh1HBISFSpbQPDMGK31
+NlcsqTOBIRxmRPmkUTGJdubHUKmsxDA5ic6EDV8k+jRa1i6KdiYw/LL2QiTzDrNpY8yb5M4EhlvG
+XKNdniXl9pkTHYvwkrlXDkTxIR3tEWUkcyZi2FbqBOGxm6lUR+tT7k/JnYgYYs8+sHfzkP7eTaJ1
+LmGaktyjTDSGsSxphMjV89khyqGx7yG96rC3r7g5S5vGNHaJsrb7LI3RwPw6btQDv8f0NGRwTWYT
+Wlch/eo+Mc5gPoWPfu9tpVgqrbGIHkoIVHOLQ5qAQVOmuNqVHma8guDK9jVkisY029aOQ/JhcYU9
+wbLPRaoBiX2p1+utu1rtqpDPV9FKHVQziiqH5fETzMr40yHe68hcfPaJRnHyI5L+K5T6BsZ9gKi6
+xb3hAAAAAElFTkSuQmCC
+
+------_=_NextPart_0c66fcb9-59a7-43cc-863a-a91db775e2a4
+Content-Type: image/png;
+	name="image460246.png"
+Content-Transfer-Encoding: base64
+Content-ID: <image460246.png@47069BC7.569C60D9>
+Content-Description: image460246.png
+Content-Disposition: inline;
+	creation-date="Wed, 07 Dec 2022 07:45:06 +0000";
+	filename=image460246.png;
+	modification-date="Wed, 07 Dec 2022 07:45:06 +0000";
+	size=824
+
+iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACx
+jwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAALNSURBVDhPtZQ/SNVRFMfv1Z/S4PCGBoeg1Uih
+oaFB8j1wMGgweBJBgUNRUQ2BQaH2e79SaKipwcGhlkioQEiooT++7RUOBkYODg0GgiIOLyi1bp/v
+/d3fL8U31hfuO/ec3z3nfM895z7zr2GDbIg4jgutxvQ6Yw5IRy5uGzOfJMmKP9AADQMSaH+LtQ/5
+WEaNUutfEHj5t3OXbyfJTDDl2BNwPI7LxtoJthFOD5A1WM0hf7QY04FDB98vohdZjzeduwbjOnuP
+piA9QrBnMJjl4KHRJBmD3hJlF5HdW8Z8HU6SqeFKpeScu4BLmUoepd4pcoYqs9XaLwo2UqkMoEfo
+YjrIysreNs6dI+kk515b516wf4ptgETPdSBnqDtDRFuUIJ1g0s/jOE3pJ7TQZ30AY9pg4tmyn8E2
+AYE29mlmdVMNwInrSFbG4vgq5kvY7lHeLZ0ROFcj0SrbCFYfZNM9N1n7XveLOucZajQQCl6TTsYr
+MFv66dyo1wNItoFQg4QF/dAwL0GnfnxAnP2cqZu6S3WSD1MEwLQbnFVpdcpdlM6ZNcSatfaw9Cyg
+2Ml5G7bd3ubcJ8md0D2RTEzmU0uOPLEPyM8yIiLqEYIXZMtY7wTJhsI2K1tJ2hHtEPgs3QfcVPdS
+HGP5UijhtGSGO3F8EuOw9pmzGNOkSbYbkHkjGxWkGK9UXsGqk7Hp4tBLTN3oU2RcQvahH0VO49DP
+XgxF4iyr8Is5zJ6hZyg08TY5XCDY3WbnzgTnMnKEz5FeBgN/ijG5gW1fSKLh7tr5pnOGguaPUjXQ
+93l6GhlddlsYl13gmfZzVTXNbTB5NAfp8a5a/Vjq6flO0JsM6yD3sspaf1utruu77qy3WDzeWyo9
+4T6HKO8bPunsBuximIHs+kfRo1eThA1KrHM46/w8pV/nzyNrZo6GATNwBRqjPtgeRK2H7i6MJEk+
+Nv8ZxvwBPgIhrepF7fMAAAAASUVORK5CYII=
+
+------_=_NextPart_0c66fcb9-59a7-43cc-863a-a91db775e2a4--
 
