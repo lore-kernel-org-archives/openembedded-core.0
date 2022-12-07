@@ -1,130 +1,139 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA6ECC63705
-	for <webhook@archiver.kernel.org>; Wed,  7 Dec 2022 14:10:31 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web10.16030.1670422224792625129
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3A6BC352A1
+	for <webhook@archiver.kernel.org>; Wed,  7 Dec 2022 14:16:51 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web10.16206.1670422608709158439
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Dec 2022 06:10:25 -0800
+ Wed, 07 Dec 2022 06:16:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=gYYvhOnP;
- spf=pass (domain: gmail.com, ip: 209.85.221.47, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f47.google.com with SMTP id q7so28272246wrr.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Dec 2022 06:10:24 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FDc4Tyag;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id ja4-20020a05600c556400b003cf6e77f89cso2765596wmb.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Dec 2022 06:16:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZjGDOj5U9/ZpnR/5cv639wpC2b0GsK9W/K6TfhrRgoc=;
-        b=gYYvhOnPadV7BFONiz3woJVJEQb4i18OAaCTX+dzEAckD5jsuhHOLSfC9zRHotSWN9
-         hcipyVIymVtDqM1oLsWEZEGeCW9hlw/5jZg5b7m3HbI/bNTDFTjQAaLCrORg7wUswkws
-         Sr9H4BoMLZGXr55qHp0xCUL5WWD9a5oFiBa6SUzvhXWvfC8UK8Lyz4m7eJo/hgF3IylY
-         jc3LDiBeTtyKjUNlfd6A/hucY7kPZE8ElfGDVdF4zYTXJBT8+FgnHzWsz8RHfcplfmtM
-         Pkt6srg+U9FlrgZ/pdXfzzj91Z70aGxkiG2bddIKgYDTpofWjlhq/4alL22kic5rM0+O
-         pxSQ==
+        d=linuxfoundation.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TD6CGYPo75GmZX8c6vgulKtOEdtjQ7pXm/rDH9Cn9lM=;
+        b=FDc4TyagoHa8TzBB9AH/BtIzpmPn5v0OYcujAA5YUoEsILs8i9gLWiGUn8L/BfzZ6m
+         CgTE80Ok5ZEcvWOZtp7K1ZJwBl6rnNOrodtq1049drvwVDLzwhqTlZt+B1G2sn8E8wu2
+         W8pprRPjbGOC+KycA7zSJxD0y4MxsTJRI1Knc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZjGDOj5U9/ZpnR/5cv639wpC2b0GsK9W/K6TfhrRgoc=;
-        b=mNyt3YSoEvk1HS/4urBrMmRItJVipajloGv5S4X1T64q72rtS6pfV/PyOGfPyB0Det
-         qh2TyAX5RYYzyucawPY9ocOk6VKydTepUqApBPptjq2dsVWYtzi4V35t5wT024dzYQTn
-         BvNwJ3TnLgglI/q/N+YZgA8Lsf843cZLXsK+K6c5A+SQXx+SJuS8TF8yp6Cm2u1REs1F
-         yYGtHtqeNin7tq2hqPWC2rgWHLC+RuvvnVCVpMbQ+j0KrR2+lPoSWB2qmNIcLo2VIdHJ
-         rd7sIzxbmj1Al+4uTqnZ9CgTXB/HSgRxy9l+rZhVNP9JBhNL7hHQj2IDVs0ug+vjTTxf
-         xpaA==
-X-Gm-Message-State: ANoB5pnvL7IVS0Cnr22pdxFfP8Cv8YszIsVJp2MpQ54GE0L7mdLVjel8
-	FXA57c+J+l0cBrwU29JoZq41duWHYdafsD2mFGc=
-X-Google-Smtp-Source: AA0mqf673HyTGoYaapGrZ3lB7hwntPtfac8+AGOusLKMdOn/1di+kIiPGmrRNi6iQXuYxhq0SIH4ljrMDhAIaM/gz/M=
-X-Received: by 2002:a05:6000:258:b0:242:4008:6e06 with SMTP id
- m24-20020a056000025800b0024240086e06mr14860114wrz.204.1670422223079; Wed, 07
- Dec 2022 06:10:23 -0800 (PST)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TD6CGYPo75GmZX8c6vgulKtOEdtjQ7pXm/rDH9Cn9lM=;
+        b=eDqZF2fRK8rj297R6oiDcSM+kllDy3+HcDuhYroHVpUi4GvNExoJWOZIwUWKxbkvUd
+         qDwDGxqWBqIM4fwe8Rop54nnyLLqzHXQrwyIK5HzHG6X+6qUf8Vbeg5q7FVAOrFKM0Ss
+         +NoBk6TWkkDcMV3ZxCkdOUEG62cepAG9+cus6SG5kzsGff3sp+KvL3d3UnC2283RYQlY
+         h6xjA98kMov4pZ2P3F5BRYFkfAALfw30jKPZ3nc1b9Y2ysukjwQrhDUaD9DOYOxWTGNB
+         mj69/gG7s6cq8cIGnsN94v0LMSw5ETylveL5PcRWHMKQHRMj9R/meTSrqSLadoGp/O5K
+         velA==
+X-Gm-Message-State: ANoB5pkL4ahOLugKWSIs7idFJTSVYjrRTFxmoslJQ7Ikd8GbKWv4mVUY
+	j7EUraSB90FtQqcDHA/ipdDUQS2OOU68/IBb
+X-Google-Smtp-Source: AA0mqf4uyv8ETmVe5a/4XvL6oRnWN18pY85ZhF6FCX7qF9zhjczqicwed0wnxtQCqcdhHDBkynxF9w==
+X-Received: by 2002:a05:600c:3587:b0:3cf:a9c2:2b04 with SMTP id p7-20020a05600c358700b003cfa9c22b04mr66096981wmq.152.1670422606959;
+        Wed, 07 Dec 2022 06:16:46 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:a7cc:35cb:98f7:71b8])
+        by smtp.gmail.com with ESMTPSA id t8-20020a1c7708000000b003c5571c27a1sm2295384wmi.32.2022.12.07.06.16.46
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Dec 2022 06:16:46 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] base: Switch to use addpylib directive and BB_GLOBAL_PYMODULES
+Date: Wed,  7 Dec 2022 14:16:45 +0000
+Message-Id: <20221207141645.2129293-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20221201173942.1218836-1-f_l_k@t-online.de> <CAMKF1srCn0tDWAxxpVCYhTZmow3uwy0tGqLXy2VDX0qBHDx2ZA@mail.gmail.com>
- <NMLEMR.NA7JF86LUFN83@t-online.de> <CAP9ODKopgRpWZNiFHjFtw34dYhRHKH188p2_AAs_=Ptyti-ESA@mail.gmail.com>
-In-Reply-To: <CAP9ODKopgRpWZNiFHjFtw34dYhRHKH188p2_AAs_=Ptyti-ESA@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 7 Dec 2022 15:10:09 +0100
-Message-ID: <CA+chaQcCzmqKquXstrcBBQGD8vJ5gDVuUJDNoN7uVNEbpjm+AA@mail.gmail.com>
-Subject: Re: [oe-core][PATCH] mesa: update 22.2.3 -> 22.3.0
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>, Samuli Piippo <samuli.piippo@qt.io>
-Cc: Markus Volk <f_l_k@t-online.de>, Khem Raj <raj.khem@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000003b52f805ef3d7bca"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Dec 2022 14:10:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174354
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Dec 2022 14:16:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174355
 
---0000000000003b52f805ef3d7bca
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Since bitbake now supports an official method to inject python modules,
+switch to it.
 
-On Mon, Dec 5, 2022 at 3:04 PM Otavio Salvador <
-otavio.salvador@ossystems.com.br> wrote:
+Anyone using OE_EXTRA_IMPORTS will need to adjust their code accordingly,
+probably switching to their own module namespace.
 
->
->
-> Em seg., 5 de dez. de 2022 =C3=A0s 02:52, Markus Volk <f_l_k@t-online.de>
-> escreveu:
->
->> Am So, 4. Dez 2022 um 09:23:49 -0800 schrieb Khem Raj <raj.khem@gmail.co=
-m
->> >:
->>
->> Not sure if this is related but I think its somewhere in egl headers
->> provided by mesa.
->>
->>
->> This is related to an update of the egl headers in Mesa, just as you
->> thought:
->> https://github.com/meta-qt5/meta-qt5/pull/491
->>
->
-> It looks fine for me. @Martin Jansa <Martin.Jansa@gmail.com> could you
-> check the PR above and merge if fine with it?
->
+Also switch to using BB_GLOBAL_PYMODULES to list the global modules
+to import.
 
-Thanks, I've merged this yesterday.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes-global/base.bbclass | 23 -----------------------
+ meta/conf/layer.conf             |  5 +++++
+ meta/lib/oe/__init__.py          |  4 ++++
+ 3 files changed, 9 insertions(+), 23 deletions(-)
 
-+Samuli Piippo <samuli.piippo@qt.io> as qtbase in meta-qt6 fails with this
-mesa upgrade as well.
+diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base.bbclass
+index c81aa51ef3f..c4ac43c5696 100644
+--- a/meta/classes-global/base.bbclass
++++ b/meta/classes-global/base.bbclass
+@@ -15,31 +15,8 @@ inherit utils
+ inherit utility-tasks
+ inherit logging
+ 
+-OE_EXTRA_IMPORTS ?= ""
+-
+-OE_IMPORTS += "os sys time oe.path oe.utils oe.types oe.package oe.packagegroup oe.sstatesig oe.lsb oe.cachedpath oe.license oe.qa oe.reproducible oe.rust oe.buildcfg ${OE_EXTRA_IMPORTS}"
+-OE_IMPORTS[type] = "list"
+-
+ PACKAGECONFIG_CONFARGS ??= ""
+ 
+-def oe_import(d):
+-    import sys
+-
+-    bbpath = [os.path.join(dir, "lib") for dir in d.getVar("BBPATH").split(":")]
+-    sys.path[0:0] = [dir for dir in bbpath if dir not in sys.path]
+-
+-    import oe.data
+-    for toimport in oe.data.typed_value("OE_IMPORTS", d):
+-        try:
+-            # Make a python object accessible from the metadata
+-            bb.utils._context[toimport.split(".", 1)[0]] = __import__(toimport)
+-        except AttributeError as e:
+-            bb.error("Error importing OE modules: %s" % str(e))
+-    return ""
+-
+-# We need the oe module name space early (before INHERITs get added)
+-OE_IMPORTED := "${@oe_import(d)}"
+-
+ inherit metadata_scm
+ 
+ def lsb_distro_identifier(d):
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index 0ce90355baf..e41ada5d35d 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -125,3 +125,8 @@ SSTATE_EXCLUDEDEPS_SYSROOT += ".*->autoconf-archive-native"
+ # Avoid empty path entries
+ BITBAKEPATH := "${@os.path.dirname(bb.utils.which(d.getVar('PATH'),'bitbake'))}"
+ PATH := "${@'${BITBAKEPATH}:' if '${BITBAKEPATH}' != '' else ''}${HOSTTOOLS_DIR}"
++
++# Only OE-Core should set/change this
++BB_GLOBAL_PYMODULES = "os sys time"
++
++addpylib ${LAYERDIR}/lib oe
+diff --git a/meta/lib/oe/__init__.py b/meta/lib/oe/__init__.py
+index 92f002d8726..6bdb93196f2 100644
+--- a/meta/lib/oe/__init__.py
++++ b/meta/lib/oe/__init__.py
+@@ -6,3 +6,7 @@
+ 
+ from pkgutil import extend_path
+ __path__ = extend_path(__path__, __name__)
++
++BBIMPORTS = ["oe.data", "oe.path", "oe.utils", "oe.types", "oe.package", \
++             "oe.packagegroup", "oe.sstatesig", "oe.lsb", "oe.cachedpath", "oe.license", \
++             "oe.qa", "oe.reproducible", "oe.rust", "oe.buildcfg"]
+-- 
+2.34.1
 
---0000000000003b52f805ef3d7bca
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Mon, Dec 5, 2022 at 3:04 PM Otavio Sal=
-vador &lt;<a href=3D"mailto:otavio.salvador@ossystems.com.br">otavio.salvad=
-or@ossystems.com.br</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
-:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"=
-ltr"><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gma=
-il_attr">Em seg., 5 de dez. de 2022 =C3=A0s 02:52, Markus Volk &lt;<a href=
-=3D"mailto:f_l_k@t-online.de" target=3D"_blank">f_l_k@t-online.de</a>&gt; e=
-screveu:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div id=
-=3D"m_1949578005322084513m_-7398430256557306960geary-body" dir=3D"auto">Am =
-So, 4. Dez 2022 um 09:23:49 -0800 schrieb Khem Raj &lt;<a href=3D"mailto:ra=
-j.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;:<br><blockqu=
-ote type=3D"cite"><div style=3D"white-space:break-spaces">Not sure if this =
-is related  but I think its somewhere in egl headers
-provided by mesa.</div></blockquote><div><br></div><div>This is related to =
-an update of the egl headers in Mesa, just as you thought:</div><div><a hre=
-f=3D"https://github.com/meta-qt5/meta-qt5/pull/491" target=3D"_blank">https=
-://github.com/meta-qt5/meta-qt5/pull/491</a></div></div>
-</blockquote></div><div><br></div><div>It looks fine for me.=C2=A0<a class=
-=3D"gmail_plusreply" id=3D"m_1949578005322084513plusReplyChip-0" href=3D"ma=
-ilto:Martin.Jansa@gmail.com" target=3D"_blank">@Martin Jansa</a>=C2=A0could=
- you check the PR above and merge if fine with it?</div></div></blockquote>=
-<div><br></div><div>Thanks, I&#39;ve merged this yesterday.</div><div><br><=
-/div><div><a class=3D"gmail_plusreply" id=3D"plusReplyChip-0" href=3D"mailt=
-o:samuli.piippo@qt.io" tabindex=3D"-1">+Samuli Piippo</a>=C2=A0as qtbase in=
- meta-qt6 fails with this mesa upgrade as well.=C2=A0</div></div></div>
-
---0000000000003b52f805ef3d7bca--
 
