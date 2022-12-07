@@ -1,138 +1,89 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mathieu.dubois-briand@hyprua.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3A6BC352A1
-	for <webhook@archiver.kernel.org>; Wed,  7 Dec 2022 14:16:51 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web10.16206.1670422608709158439
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFF80C4708E
+	for <webhook@archiver.kernel.org>; Wed,  7 Dec 2022 14:26:31 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web11.16472.1670423183413536822
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Dec 2022 06:16:49 -0800
+ Wed, 07 Dec 2022 06:26:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FDc4Tyag;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id ja4-20020a05600c556400b003cf6e77f89cso2765596wmb.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Dec 2022 06:16:48 -0800 (PST)
+ dkim=pass header.i=@hyprua-org.20210112.gappssmtp.com header.s=20210112 header.b=Qv5ALPBT;
+ spf=none, err=SPF record not found (domain: hyprua.org, ip: 209.85.128.48, mailfrom: mathieu.dubois-briand@hyprua.org)
+Received: by mail-wm1-f48.google.com with SMTP id j5-20020a05600c410500b003cfa9c0ea76so1177526wmi.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Dec 2022 06:26:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TD6CGYPo75GmZX8c6vgulKtOEdtjQ7pXm/rDH9Cn9lM=;
-        b=FDc4TyagoHa8TzBB9AH/BtIzpmPn5v0OYcujAA5YUoEsILs8i9gLWiGUn8L/BfzZ6m
-         CgTE80Ok5ZEcvWOZtp7K1ZJwBl6rnNOrodtq1049drvwVDLzwhqTlZt+B1G2sn8E8wu2
-         W8pprRPjbGOC+KycA7zSJxD0y4MxsTJRI1Knc=
+        d=hyprua-org.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zTqEUCEw6Eh2WaPM1MftDNmmS3I4v6qnHkvQsh9Mhcw=;
+        b=Qv5ALPBTfdtHC2bsCFJiTwkj2OpWIhV/KipS+bErGKwzbYVeAy83Tsok8I302QC29M
+         0qL/I907O/VDCqKaVSn9UZ6i55yFZtpbXlo/9nh5uJcQYmHfyp4vMBh7+zYQanncodor
+         zHUUDtRJcuPPTGgcp9zhBC+SrLwydky+mpDrbwXSVTKgxBwD/+qYRldKy5yDpKhGSOgI
+         safF14918E3rVMGqMzXK6Ixg0SoNa+pGQyO6mN2B+99Bpzi7laOQpbgGsUamNkQF0DBC
+         sNE+Vt7ZnT/lM0yTbrrFyFxo+BgoF/WkisMx9JfM02o4FVQIHEgnDHlNHy/XueQS4oZ3
+         bBxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TD6CGYPo75GmZX8c6vgulKtOEdtjQ7pXm/rDH9Cn9lM=;
-        b=eDqZF2fRK8rj297R6oiDcSM+kllDy3+HcDuhYroHVpUi4GvNExoJWOZIwUWKxbkvUd
-         qDwDGxqWBqIM4fwe8Rop54nnyLLqzHXQrwyIK5HzHG6X+6qUf8Vbeg5q7FVAOrFKM0Ss
-         +NoBk6TWkkDcMV3ZxCkdOUEG62cepAG9+cus6SG5kzsGff3sp+KvL3d3UnC2283RYQlY
-         h6xjA98kMov4pZ2P3F5BRYFkfAALfw30jKPZ3nc1b9Y2ysukjwQrhDUaD9DOYOxWTGNB
-         mj69/gG7s6cq8cIGnsN94v0LMSw5ETylveL5PcRWHMKQHRMj9R/meTSrqSLadoGp/O5K
-         velA==
-X-Gm-Message-State: ANoB5pkL4ahOLugKWSIs7idFJTSVYjrRTFxmoslJQ7Ikd8GbKWv4mVUY
-	j7EUraSB90FtQqcDHA/ipdDUQS2OOU68/IBb
-X-Google-Smtp-Source: AA0mqf4uyv8ETmVe5a/4XvL6oRnWN18pY85ZhF6FCX7qF9zhjczqicwed0wnxtQCqcdhHDBkynxF9w==
-X-Received: by 2002:a05:600c:3587:b0:3cf:a9c2:2b04 with SMTP id p7-20020a05600c358700b003cfa9c22b04mr66096981wmq.152.1670422606959;
-        Wed, 07 Dec 2022 06:16:46 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:a7cc:35cb:98f7:71b8])
-        by smtp.gmail.com with ESMTPSA id t8-20020a1c7708000000b003c5571c27a1sm2295384wmi.32.2022.12.07.06.16.46
-        for <openembedded-core@lists.openembedded.org>
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zTqEUCEw6Eh2WaPM1MftDNmmS3I4v6qnHkvQsh9Mhcw=;
+        b=Onke9EA4/F5nXr5iyvwTN/FGyRimdINp6UJdsode8rsEpxW5dfVeMelx2WXwGE8Yao
+         emuJFqDj4lIKCCFJUQFsgnuWopICCFCauLUJIEV3woUd3Sqyhko606fI5tw7Y8R9ofAq
+         47/L3sFoSrCrSLDxV2eB6/6p7/2jJO80HAcbKMKvM0sXi72yCPFPT+IUX3eaqcV8nJOs
+         1FD+7ZvfMigmx1oqoNiY3wdpiA1FGoRBQShbnpVSBe8uc7S8QoTl/iCeL06IM1956HTg
+         h0NDrAm0W+tOr3WRLxQeE2knb6vNnPCUyRdGZ34dQ+G5cLX8ga3mUIGBbrt1PnFEpsEp
+         LeKQ==
+X-Gm-Message-State: ANoB5plbEuj6uLHX/G8TOvcnI8rx7yo8L2AF+gNaVXANiVBevn6HVuOA
+	wLzoN+lo9S6T/Crh3psq56wNprupsPXYZRhU
+X-Google-Smtp-Source: AA0mqf7qwaLclkO/czG8ypui4ErsHFnp0WDlB3FjecRg1GYQXj5uNZPIi+V40qrAOgT6yWG8Uh8WVQ==
+X-Received: by 2002:a05:600c:1c87:b0:3cf:ae53:9193 with SMTP id k7-20020a05600c1c8700b003cfae539193mr723347wms.39.1670423181314;
+        Wed, 07 Dec 2022 06:26:21 -0800 (PST)
+Received: from WIPC21110265.. ([2a01:e0a:a66:3180:c091:5ea2:164e:f210])
+        by smtp.gmail.com with ESMTPSA id j4-20020a05600c410400b003cfbbd54178sm6689385wmi.2.2022.12.07.06.26.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Dec 2022 06:16:46 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Wed, 07 Dec 2022 06:26:20 -0800 (PST)
+From: Mathieu Dubois-Briand <mathieu.dubois-briand@hyprua.org>
+X-Google-Original-From: Mathieu Dubois-Briand <mbriand@witekio.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] base: Switch to use addpylib directive and BB_GLOBAL_PYMODULES
-Date: Wed,  7 Dec 2022 14:16:45 +0000
-Message-Id: <20221207141645.2129293-1-richard.purdie@linuxfoundation.org>
+Cc: trini@konsulko.com,
+	Mathieu Dubois-Briand <mbriand@witekio.com>
+Subject: [dunfell][PATCH] vim: update 9.0.820 -> 9.0.1025
+Date: Wed,  7 Dec 2022 15:26:01 +0100
+Message-Id: <20221207142601.1138495-1-mbriand@witekio.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Dec 2022 14:16:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174355
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Dec 2022 14:26:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174356
 
-Since bitbake now supports an official method to inject python modules,
-switch to it.
+Includes fixes for CVE-2022-4141 and CVE-2022-4292.
 
-Anyone using OE_EXTRA_IMPORTS will need to adjust their code accordingly,
-probably switching to their own module namespace.
-
-Also switch to using BB_GLOBAL_PYMODULES to list the global modules
-to import.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Mathieu Dubois-Briand <mbriand@witekio.com>
 ---
- meta/classes-global/base.bbclass | 23 -----------------------
- meta/conf/layer.conf             |  5 +++++
- meta/lib/oe/__init__.py          |  4 ++++
- 3 files changed, 9 insertions(+), 23 deletions(-)
+ meta/recipes-support/vim/vim.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base.bbclass
-index c81aa51ef3f..c4ac43c5696 100644
---- a/meta/classes-global/base.bbclass
-+++ b/meta/classes-global/base.bbclass
-@@ -15,31 +15,8 @@ inherit utils
- inherit utility-tasks
- inherit logging
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 262c97bf0f00..de979d01c587 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -20,8 +20,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://no-path-adjust.patch \
+            "
  
--OE_EXTRA_IMPORTS ?= ""
--
--OE_IMPORTS += "os sys time oe.path oe.utils oe.types oe.package oe.packagegroup oe.sstatesig oe.lsb oe.cachedpath oe.license oe.qa oe.reproducible oe.rust oe.buildcfg ${OE_EXTRA_IMPORTS}"
--OE_IMPORTS[type] = "list"
--
- PACKAGECONFIG_CONFARGS ??= ""
+-PV .= ".0820"
+-SRCREV = "03d6e6f42b0deeb02d52c8a48c14abe431370c1c"
++PV .= ".1025"
++SRCREV = "3fc84dc2c7efecd7c14ce341cd777475058936fd"
  
--def oe_import(d):
--    import sys
--
--    bbpath = [os.path.join(dir, "lib") for dir in d.getVar("BBPATH").split(":")]
--    sys.path[0:0] = [dir for dir in bbpath if dir not in sys.path]
--
--    import oe.data
--    for toimport in oe.data.typed_value("OE_IMPORTS", d):
--        try:
--            # Make a python object accessible from the metadata
--            bb.utils._context[toimport.split(".", 1)[0]] = __import__(toimport)
--        except AttributeError as e:
--            bb.error("Error importing OE modules: %s" % str(e))
--    return ""
--
--# We need the oe module name space early (before INHERITs get added)
--OE_IMPORTED := "${@oe_import(d)}"
--
- inherit metadata_scm
- 
- def lsb_distro_identifier(d):
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-index 0ce90355baf..e41ada5d35d 100644
---- a/meta/conf/layer.conf
-+++ b/meta/conf/layer.conf
-@@ -125,3 +125,8 @@ SSTATE_EXCLUDEDEPS_SYSROOT += ".*->autoconf-archive-native"
- # Avoid empty path entries
- BITBAKEPATH := "${@os.path.dirname(bb.utils.which(d.getVar('PATH'),'bitbake'))}"
- PATH := "${@'${BITBAKEPATH}:' if '${BITBAKEPATH}' != '' else ''}${HOSTTOOLS_DIR}"
-+
-+# Only OE-Core should set/change this
-+BB_GLOBAL_PYMODULES = "os sys time"
-+
-+addpylib ${LAYERDIR}/lib oe
-diff --git a/meta/lib/oe/__init__.py b/meta/lib/oe/__init__.py
-index 92f002d8726..6bdb93196f2 100644
---- a/meta/lib/oe/__init__.py
-+++ b/meta/lib/oe/__init__.py
-@@ -6,3 +6,7 @@
- 
- from pkgutil import extend_path
- __path__ = extend_path(__path__, __name__)
-+
-+BBIMPORTS = ["oe.data", "oe.path", "oe.utils", "oe.types", "oe.package", \
-+             "oe.packagegroup", "oe.sstatesig", "oe.lsb", "oe.cachedpath", "oe.license", \
-+             "oe.qa", "oe.reproducible", "oe.rust", "oe.buildcfg"]
+ # Remove when 8.3 is out
+ UPSTREAM_VERSION_UNKNOWN = "1"
 -- 
 2.34.1
 
