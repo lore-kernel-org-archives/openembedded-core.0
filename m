@@ -1,170 +1,214 @@
-Return-Path: <alex.stewart@ni.com>
+Return-Path: <joe.slater@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66AE8C4708D
-	for <webhook@archiver.kernel.org>; Wed,  7 Dec 2022 22:33:53 +0000 (UTC)
-Received: from mx0a-00010702.pphosted.com (mx0a-00010702.pphosted.com [148.163.156.75])
- by mx.groups.io with SMTP id smtpd.web10.600.1670452431139167975
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F0E5C63703
+	for <webhook@archiver.kernel.org>; Wed,  7 Dec 2022 22:55:13 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.1151.1670453704377530337
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Dec 2022 14:33:51 -0800
+ Wed, 07 Dec 2022 14:55:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ni.com header.s=pps11062020 header.b=dhoT4Ghr;
- spf=pass (domain: ni.com, ip: 148.163.156.75, mailfrom: prvs=9340fa93ca=alex.stewart@ni.com)
-Received: from pps.filterd (m0239462.ppops.net [127.0.0.1])
-	by mx0b-00010702.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2B7K4ulm007251
-	for <openembedded-core@lists.openembedded.org>; Wed, 7 Dec 2022 16:33:50 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ni.com; h=from : to : cc : subject
- : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS11062020;
- bh=TvvJEHimr9qJLZ2OalV44yMv8CPVSGik/ELSmBixDSU=;
- b=dhoT4GhrffYjQ3B81d/STgKTPX/KabfFWWf1GrshQsr5s2xBhk12wtPyqW9YpelBdtUU
- UA9iIyP3up/AxTO/d+yIDKb+rzJZCm4lVHndiFIZ3Luo8vwrkhmf9C8flB4Voh13D0dM
- uBnamz5Q8W1MwNV1QOmUGCsNh9ZECcB1Vt+O05g6cMXOw1+Qz+y4ku8SzPd+RwlXsGNL
- 9ES0x63lT0TJ3Zx73BoDi7z92Z0RY7EeH+g+kaWGFHk6oRtQ23EkUV1zNQR9mvTnvCIP
- 6lQYXot/S6nuq5J4hXO5IvyIKtWmGA1C6MSb/27dBmrRItgkdC3kMRTq++SyCtDH9PCe JQ== 
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2102.outbound.protection.outlook.com [104.47.55.102])
-	by mx0b-00010702.pphosted.com (PPS) with ESMTPS id 3m83dk8exg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 07 Dec 2022 16:33:50 -0600
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jx4VxyPlKLMJF/kf5ZRwx9IZgjZhTAMHBxxxwi9YPQtU9dVLCPw3rmK8ArqTK0UEKCNOq1fIPRzGYEguQeYL2GWydarRfrHZs5vBMlTgCYbWKHLJhlaZJwAGkE3PyaWkpAf3Ayu/Jxa5LlHh2AKAnMLMSO0anQYYf6UqziEF7mHELV5fFRtUOD4bbDiTYxRp9l5BbscSBHBW23Ofb5oZAr3RR0ShypuIwEBOyrY5mLezyGprubYxOVCKonr2B++gWgf57bUaUAKuCG2KwFFbAI8vLHn8BJbdYAyeX0vi+MogwgdbIyCfvvVkonAMjFoEfLKfCOYz9/zjKCa3KEe2rA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TvvJEHimr9qJLZ2OalV44yMv8CPVSGik/ELSmBixDSU=;
- b=Lw/8g/0d4IFY0eXEPvFxeqAVf7z9qoIEwo5LsnrR+5deFF78DCUFO/491knBnYAL+i6kRyJ8GdAPT6I6zHPZ5L00LLLD6ES2gl1jyer0aB5PZG7QDnVKyITi31Z3Nvnu4hAFCTKso55whL3TV/AjhdhlJTWtA7wULcJOWXVtuCw73aVV8TkzlOxlXNDs1s02bMvl76/qG2gA9DIFw7rfxSWtoNCvK8EFmpiAXYWdfhU+KJTSjDYUwJaUxMF1sgqM2pZIthBT4Z6x4AmxCoErOoqFeuKEyviXP0r5BKaKjK0GjwRgi/hUVis6Zg7W287OfNam3+7mZ5jd6sceTLGQCQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ni.com; dmarc=pass action=none header.from=ni.com; dkim=pass
- header.d=ni.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nio365.onmicrosoft.com; s=selector2-nio365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TvvJEHimr9qJLZ2OalV44yMv8CPVSGik/ELSmBixDSU=;
- b=c/SzimqjRY8e+a2l/CJYML9N8zBAO90puG4gsPa+4CqZ7SfOaV9OYN+mdtxjushoSwMAiNY7iQiKrz5PqXJ14Qz50S7L9G+InWL8KogLkGOBx7VPYqFP3SxxblmPKf9yl1b7j1cxMyZkWmB0moBdadWVas0o5B7/7cc2MBbpTV4=
-Received: from SN6PR04MB5151.namprd04.prod.outlook.com (2603:10b6:805:90::25)
- by BYAPR04MB6213.namprd04.prod.outlook.com (2603:10b6:a03:e4::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.14; Wed, 7 Dec
- 2022 22:33:48 +0000
-Received: from SN6PR04MB5151.namprd04.prod.outlook.com
- ([fe80::d240:66cd:3152:9511]) by SN6PR04MB5151.namprd04.prod.outlook.com
- ([fe80::d240:66cd:3152:9511%3]) with mapi id 15.20.5880.014; Wed, 7 Dec 2022
- 22:33:48 +0000
-From: Alex Stewart <alex.stewart@ni.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alex Stewart <alex.stewart@ni.com>
-Subject: [OE-core][PATCH] opkg: upgrade to version 0.6.1
-Date: Wed,  7 Dec 2022 16:33:33 -0600
-Message-Id: <20221207223333.856058-1-alex.stewart@ni.com>
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=PDbtOc0O;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=93408defbe=joe.slater@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2B7MemkI010954
+	for <openembedded-core@lists.openembedded.org>; Wed, 7 Dec 2022 14:55:04 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=PPS06212021;
+ bh=dHR5wqmRhy4IG+ScIkCYFbTfai1ZZPkNDkcrnB/ChV0=;
+ b=PDbtOc0Oeh0pn5KyH4gGA9ESatkt8+FCbN6p4lp8x8xfx0fbyVt3p8ETAsSyRqfcrdDg
+ ZQYKmSwVmdU6zOzfV3DvxMVvhQVpfcLdyeLJD4KPWTAPgru1i0Rd0hxy2WKU/2APxXai
+ ejkkbc/Et2Y7tUhkExQTF43bRKjWWL4vIYbZTPtf2vbtRdWCXxzQ9UBostPYG/TaymKt
+ E7rNHjHFnC5ZCiiC7FYv4uizsiPQyyYUJ7Pf1cjA8Z6ug5xjuzZSdKCOQR5DU0bK59PZ
+ Vtcm5hy2e2JcR7UF/Ht89k8MK125HcIuSI3FPfQUA0VLDtPchfxCUSwFvyNl+JSdH2A5 gQ== 
+Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3m82m6utdw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 07 Dec 2022 14:55:03 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Wed, 7 Dec 2022 14:55:03 -0800
+Received: from ala-lpggp5.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Wed, 7 Dec 2022 14:55:03 -0800
+From: Joe Slater <joe.slater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <joe.slater@windriver.com>, <randy.macleod@windriver.com>
+Subject: [v2][oe-core][kirkstone][PATCH 1/1] python3: advance to version 3.10.8
+Date: Wed, 7 Dec 2022 14:55:03 -0800
+Message-ID: <20221207225503.13556-1-joe.slater@windriver.com>
 X-Mailer: git-send-email 2.38.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: MN2PR16CA0044.namprd16.prod.outlook.com
- (2603:10b6:208:234::13) To SN6PR04MB5151.namprd04.prod.outlook.com
- (2603:10b6:805:90::25)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN6PR04MB5151:EE_|BYAPR04MB6213:EE_
-X-MS-Office365-Filtering-Correlation-Id: e76df2f1-4399-4f0c-c404-08dad8a31b97
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	S3+U7dybCYB3ZKFuRHDHYRHBB0FwVadaAOXS88M7sTYyzEUEVZyTRBcWr1r114VPKQwYIF0O2NwM3Sbs7pR6Fl7oiJUri//HBNYNqJ5SJU+goK94rYAygCwzJgvPSfIi2Y4wBrWlOnf0DlUAtdo5VYp8mdi0al/6jYcqegnAnrNvqer3UMmLupmK7199Gs3n7HR/kroDxJ8sJRmrEIfnWA4y4pE/QltssSfxUalQKLfTXwGo3VTq7FRmddP92vUYT2E8pMZh7VbKVA1GjMThXUrhilhrgq1VShsmAJmjTzOgreDankwsNJu3ZuSGQ9kABViSO35TLF/SsxRAsfmuWd61qwo3RC9SZUD9sTGypsRD4v+/zDI/MOQ2RipkbhNUfGujpEoi2jgdfcBEiVYTqdMVJGikz0aEcaN72rt6Pn65EhxirqaSfEM7o48Vd/i7nW1YAch6uXPAJhqJ37tzOm3kzLBlKt/mRW8TE0D8Am72bFajWZXr3YKkiC7tFs7RSoU5LWNgsh2LlWfJwHycFVIoNDROGtVw3IzE/FgnFzKputBx98PxWeOyeoz5lfCaRgGhGSm881AXyyTLVIPhFYnqDzNG2bsc9jLazugi+7I3VB+Fv1KTEbGsJ2ChKwSXki/4jtMUEUmiTSe4ZKfDLEGyU/SsojD9Jp5HGiO5V1o=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR04MB5151.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(396003)(366004)(376002)(136003)(39860400002)(346002)(451199015)(2616005)(186003)(1076003)(86362001)(41300700001)(38100700002)(83380400001)(8936002)(44832011)(2906002)(5660300002)(6512007)(478600001)(8676002)(26005)(6506007)(6666004)(66946007)(6486002)(4326008)(66476007)(6916009)(316002)(66556008)(36756003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?CLRh1ZcNlBWQmRzUjOy/vERS++BcIrAwIespqXdGjWUVIlc5PK/O9ntYucE+?=
- =?us-ascii?Q?emo5aQi9d3cfJSUQr/QLgdoRkynDLTZNJR/t+9LWnndREZOhlHLEIlQPBN6v?=
- =?us-ascii?Q?WZb5k7dApdqKWhSrBE+EjovuJ1k6ffgOwJvkwc8HztHufqzf2WKQ0vCAw1Pz?=
- =?us-ascii?Q?JtPg0yZMwrMHW/hxnpYEDoSMzoSmkNOnb2ppPoKRCUghj3VKaHcwrKzFdsXl?=
- =?us-ascii?Q?sxUrGEufg0ZsxyiT2f9TGwI1SCCE6T298X0Ag0IRJXtgItiwYnBPCuOF7RnX?=
- =?us-ascii?Q?amZJBPWTiOjQ/qeuRKCnhiKjo0fSJdNMkJqnIDF3vyPi797gTtHZuXRurWpR?=
- =?us-ascii?Q?qW3QjVdhBVqM9AiGEBCH09vIxY2uh6XGbB5hjUQeZkRg8E9692B3XlOpJGRc?=
- =?us-ascii?Q?WyDDzRD4LMmV/2lJyuxLm7/ZKau0l4xPY8DJyB71DFRM11+NHin1vy9mPiGT?=
- =?us-ascii?Q?q1uvNkoAfqiIrVbaUBHMmosRL2urphlTBE9soQemkly+IWZSJCZsk/wQWGMb?=
- =?us-ascii?Q?6cI21Ap+BV1nTJPPi0BY21f0/skGfJDz9o5+ozng6I/dEi6bYX9QBmhK0IHt?=
- =?us-ascii?Q?xFQPAlTzXaaJznnKqlp2XVPnFD3QtnBI0NwBSS720moqff5p+Xajkaq9okdq?=
- =?us-ascii?Q?DE9MvyRE5lgEObTem7h36srNKdiXCAqXjlI7Gq8vpGldgs/KCjW+eIncrlrp?=
- =?us-ascii?Q?UGVmRIgYXFGkCRM3zPWIxw7BEnvx27CcCCkV+bJQpp6Izw9MDnlmCl8bwfHn?=
- =?us-ascii?Q?y2Lx3WNGm3ElO+dBPrTlUbDnOcAuEmlHkPROmz5HQyVhz7M0n/5BpFv3YV9n?=
- =?us-ascii?Q?RRD0/Goj2UpXvw/fPgokKCf1IhyZ1dVBEE/v3SgjYXv7ywPKUvFAwbg+bwcP?=
- =?us-ascii?Q?aY6Gb9LrsqDk6xjCXvQ6zu1uBHiyGr0fI6bbyMEPLN1zErMCu6J1n3+/gOV3?=
- =?us-ascii?Q?y2T2+GZZtEDQbPPa4AWn7bjDtxulZ8XkFW2PU6ROaarLqgKUOwt/p0quu64d?=
- =?us-ascii?Q?Qn+s9web0zwfBykV23Ruue+AUuQff6zh0Du0vMdMtKTFBg7JCzihv8GFYFiL?=
- =?us-ascii?Q?+w9+Svj6NRWU+Z7cdktHQZ4Y0XT0nGUZYDUGnClu8+mgXQOgwXWNsFdK3o/F?=
- =?us-ascii?Q?9xVmaIJSVVBsk4lPOVivYGT/9mYVfbyctPxoeWMxU4uUyV0AHVHcftBT7K15?=
- =?us-ascii?Q?8O+m2kiQnjfksFp/N4z34/lAfbNo+ac5cMJ1/l2JBmqTx0FGmXG8ESVV7KwU?=
- =?us-ascii?Q?SLn/98jad9pf65+4DvF7sRYdkMPcXJnogebe/g6dHYcO4yN1oH6TNKlcpPKo?=
- =?us-ascii?Q?egXdUMM/txexUr4eG/ReCTSMDh/WMcCwUwFKrYfA33R/Q9s21SbXgtG3586p?=
- =?us-ascii?Q?/wQQI0VtoadQoMULrDEikoPZA2K7lFO89DqmGvB8xLC7UkkobWfnnPD26NZ4?=
- =?us-ascii?Q?DYM83M3px5u/slkoEQk5ZQqKuCOfzpr8/ZdLBK5AH3A5+YqkvFhsROB0210B?=
- =?us-ascii?Q?oed/SO2/ERLuqO/CGz5A0CL8HrObWZJgPO8kwTNzF7zAmkEshUDbk5uO36CV?=
- =?us-ascii?Q?LmBykBv5j4LcW+PZizW9P9QTHr+jghIIMkHjnEjC?=
-X-OriginatorOrg: ni.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e76df2f1-4399-4f0c-c404-08dad8a31b97
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR04MB5151.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2022 22:33:48.1952
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 87ba1f9a-44cd-43a6-b008-6fdb45a5204e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0ulh5fReWpiCFcnIp3gFqyPb4CDQt1fb9+NElGBO787rIET/BInVT5pbLYHwtWeab4S3+Hcuceog5Yqu30qRDA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB6213
-X-Proofpoint-GUID: c28HO3IQP9f-uAZv4p_CAXMwD9pKpKMH
-X-Proofpoint-ORIG-GUID: c28HO3IQP9f-uAZv4p_CAXMwD9pKpKMH
+X-Proofpoint-ORIG-GUID: xd-SkRuytklfSKmQZnWkgWKTXREc2UBJ
+X-Proofpoint-GUID: xd-SkRuytklfSKmQZnWkgWKTXREc2UBJ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-12-07_11,2022-12-07_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy score=30
- impostorscore=0 clxscore=1015 bulkscore=0 phishscore=0 malwarescore=0
- priorityscore=1501 mlxlogscore=907 lowpriorityscore=0 adultscore=0
- mlxscore=0 spamscore=0 suspectscore=0 classifier=spam adjust=30 reason=mlx
- scancount=1 engine=8.12.0-2210170000 definitions=main-2212070191
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
+ lowpriorityscore=0 impostorscore=0 suspectscore=0 adultscore=0
+ phishscore=0 clxscore=1011 malwarescore=0 priorityscore=1501 mlxscore=0
+ bulkscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2210170000 definitions=main-2212070194
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Dec 2022 22:33:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174369
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Dec 2022 22:55:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174370
 
-Opkg 0.6.1 Changes:
-- Opkg will no longer complain when trying to clean up the temporary
-  directory, if the directory does not exist.
-- Fixed a SEGFAULT when parsing package indexes with invalid `Size` or
-  `Installed-Size` fields. These indexes will now produce a
-  comprehensible error.
-- Fixed an inconsistecy in .list generation where files would sometimes
-  be entered with/without a trailing slash. The trailng slash should now
-  always be removed.
-- Fixed [a bug](https://bugzilla.yoctoproject.org/show_bug.cgi?id=10461)
-  in package removal, where empty common directories would be left on
-  disk, even after all owning packages were removed.
+Fixes CVE-2022-37460.  Also add patch to fix CVE-2022-37454.
 
-Signed-off-by: Alex Stewart <alex.stewart@ni.com>
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
 ---
- meta/recipes-devtools/opkg/{opkg_0.6.0.bb => opkg_0.6.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/opkg/{opkg_0.6.0.bb => opkg_0.6.1.bb} (97%)
+ .../python/python3/cve-2022-37454.patch       | 108 ++++++++++++++++++
+ .../{python3_3.10.7.bb => python3_3.10.8.bb}  |   4 +-
+ 2 files changed, 110 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python3/cve-2022-37454.patch
+ rename meta/recipes-devtools/python/{python3_3.10.7.bb => python3_3.10.8.bb} (99%)
 
-diff --git a/meta/recipes-devtools/opkg/opkg_0.6.0.bb b/meta/recipes-devtools/opkg/opkg_0.6.1.bb
-similarity index 97%
-rename from meta/recipes-devtools/opkg/opkg_0.6.0.bb
-rename to meta/recipes-devtools/opkg/opkg_0.6.1.bb
-index 53c7399929..50c9451a57 100644
---- a/meta/recipes-devtools/opkg/opkg_0.6.0.bb
-+++ b/meta/recipes-devtools/opkg/opkg_0.6.1.bb
-@@ -18,7 +18,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
+diff --git a/meta/recipes-devtools/python/python3/cve-2022-37454.patch b/meta/recipes-devtools/python/python3/cve-2022-37454.patch
+new file mode 100644
+index 0000000000..c019151a64
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/cve-2022-37454.patch
+@@ -0,0 +1,108 @@
++From 1f66b714c5f2fef80ec5389456ac31756dbfff0e Mon Sep 17 00:00:00 2001
++From: Theo Buehler <botovq@users.noreply.github.com>
++Date: Fri, 21 Oct 2022 21:26:01 +0200
++Subject: [PATCH] gh-98517: Fix buffer overflows in _sha3 module (#98519)
++
++This is a port of the applicable part of XKCP's fix [1] for
++CVE-2022-37454 and avoids the segmentation fault and the infinite
++loop in the test cases published in [2].
++
++[1]: https://github.com/XKCP/XKCP/commit/fdc6fef075f4e81d6b1bc38364248975e08e340a
++[2]: https://mouha.be/sha-3-buffer-overflow/
++
++Regression test added by: Gregory P. Smith [Google LLC] <greg@krypto.org>
++---
++
++Patch applied without modification.
++
++CVE: CVE-2022-37454
++
++Upstream-Status: Backport [github.com/cpython/cpython.git 0e4e058602d...]
++
++Signed-off-by: Joe Slater <joe.slater@windriver.com>
++---
++ Lib/test/test_hashlib.py                          |  9 +++++++++
++ .../2022-10-21-13-31-47.gh-issue-98517.SXXGfV.rst |  1 +
++ Modules/_sha3/kcp/KeccakSponge.inc                | 15 ++++++++-------
++ 3 files changed, 18 insertions(+), 7 deletions(-)
++ create mode 100644 Misc/NEWS.d/next/Security/2022-10-21-13-31-47.gh-issue-98517.SXXGfV.rst
++
++diff --git a/Lib/test/test_hashlib.py b/Lib/test/test_hashlib.py
++index ea31f8b..65330e1 100644
++--- a/Lib/test/test_hashlib.py
+++++ b/Lib/test/test_hashlib.py
++@@ -491,6 +491,15 @@ class HashLibTestCase(unittest.TestCase):
++     def test_case_md5_uintmax(self, size):
++         self.check('md5', b'A'*size, '28138d306ff1b8281f1a9067e1a1a2b3')
++ 
+++    @unittest.skipIf(sys.maxsize < _4G - 1, 'test cannot run on 32-bit systems')
+++    @bigmemtest(size=_4G - 1, memuse=1, dry_run=False)
+++    def test_sha3_update_overflow(self, size):
+++        """Regression test for gh-98517 CVE-2022-37454."""
+++        h = hashlib.sha3_224()
+++        h.update(b'\x01')
+++        h.update(b'\x01'*0xffff_ffff)
+++        self.assertEqual(h.hexdigest(), '80762e8ce6700f114fec0f621fd97c4b9c00147fa052215294cceeed')
+++
++     # use the three examples from Federal Information Processing Standards
++     # Publication 180-1, Secure Hash Standard,  1995 April 17
++     # http://www.itl.nist.gov/div897/pubs/fip180-1.htm
++diff --git a/Misc/NEWS.d/next/Security/2022-10-21-13-31-47.gh-issue-98517.SXXGfV.rst b/Misc/NEWS.d/next/Security/2022-10-21-13-31-47.gh-issue-98517.SXXGfV.rst
++new file mode 100644
++index 0000000..2d23a6a
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Security/2022-10-21-13-31-47.gh-issue-98517.SXXGfV.rst
++@@ -0,0 +1 @@
+++Port XKCP's fix for the buffer overflows in SHA-3 (CVE-2022-37454).
++diff --git a/Modules/_sha3/kcp/KeccakSponge.inc b/Modules/_sha3/kcp/KeccakSponge.inc
++index e10739d..cf92e4d 100644
++--- a/Modules/_sha3/kcp/KeccakSponge.inc
+++++ b/Modules/_sha3/kcp/KeccakSponge.inc
++@@ -171,7 +171,7 @@ int SpongeAbsorb(SpongeInstance *instance, const unsigned char *data, size_t dat
++     i = 0;
++     curData = data;
++     while(i < dataByteLen) {
++-        if ((instance->byteIOIndex == 0) && (dataByteLen >= (i + rateInBytes))) {
+++        if ((instance->byteIOIndex == 0) && (dataByteLen-i >= rateInBytes)) {
++ #ifdef SnP_FastLoop_Absorb
++             /* processing full blocks first */
++ 
++@@ -199,10 +199,10 @@ int SpongeAbsorb(SpongeInstance *instance, const unsigned char *data, size_t dat
++         }
++         else {
++             /* normal lane: using the message queue */
++-
++-            partialBlock = (unsigned int)(dataByteLen - i);
++-            if (partialBlock+instance->byteIOIndex > rateInBytes)
+++            if (dataByteLen-i > rateInBytes-instance->byteIOIndex)
++                 partialBlock = rateInBytes-instance->byteIOIndex;
+++            else
+++                partialBlock = (unsigned int)(dataByteLen - i);
++             #ifdef KeccakReference
++             displayBytes(1, "Block to be absorbed (part)", curData, partialBlock);
++             #endif
++@@ -281,7 +281,7 @@ int SpongeSqueeze(SpongeInstance *instance, unsigned char *data, size_t dataByte
++     i = 0;
++     curData = data;
++     while(i < dataByteLen) {
++-        if ((instance->byteIOIndex == rateInBytes) && (dataByteLen >= (i + rateInBytes))) {
+++        if ((instance->byteIOIndex == rateInBytes) && (dataByteLen-i >= rateInBytes)) {
++             for(j=dataByteLen-i; j>=rateInBytes; j-=rateInBytes) {
++                 SnP_Permute(instance->state);
++                 SnP_ExtractBytes(instance->state, curData, 0, rateInBytes);
++@@ -299,9 +299,10 @@ int SpongeSqueeze(SpongeInstance *instance, unsigned char *data, size_t dataByte
++                 SnP_Permute(instance->state);
++                 instance->byteIOIndex = 0;
++             }
++-            partialBlock = (unsigned int)(dataByteLen - i);
++-            if (partialBlock+instance->byteIOIndex > rateInBytes)
+++            if (dataByteLen-i > rateInBytes-instance->byteIOIndex)
++                 partialBlock = rateInBytes-instance->byteIOIndex;
+++            else
+++                partialBlock = (unsigned int)(dataByteLen - i);
++             i += partialBlock;
++ 
++             SnP_ExtractBytes(instance->state, curData, instance->byteIOIndex, partialBlock);
++-- 
++2.32.0
++
+diff --git a/meta/recipes-devtools/python/python3_3.10.7.bb b/meta/recipes-devtools/python/python3_3.10.8.bb
+similarity index 99%
+rename from meta/recipes-devtools/python/python3_3.10.7.bb
+rename to meta/recipes-devtools/python/python3_3.10.8.bb
+index 404a582135..7cc1ce53ca 100644
+--- a/meta/recipes-devtools/python/python3_3.10.7.bb
++++ b/meta/recipes-devtools/python/python3_3.10.8.bb
+@@ -4,7 +4,7 @@ DESCRIPTION = "Python is a programming language that lets you work more quickly
+ LICENSE = "PSF-2.0"
+ SECTION = "devel/python"
+ 
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=4b8801e752a2c70ac41a5f9aa243f766"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=a1822df8d0f068628ca6090aedc5bfc8"
+ 
+ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
             file://run-ptest \
- "
+@@ -43,7 +43,7 @@ SRC_URI:append:class-native = " \
+            file://12-distutils-prefix-is-inside-staging-area.patch \
+            file://0001-Don-t-search-system-for-headers-libraries.patch \
+            "
+-SRC_URI[sha256sum] = "6eed8415b7516fb2f260906db5d48dd4c06acc0cb24a7d6cc15296a604dcdc48"
++SRC_URI[sha256sum] = "6a30ecde59c47048013eb5a658c9b5dec277203d2793667f578df7671f7f03f3"
  
--SRC_URI[sha256sum] = "56844722eff237daf14aa6e681436f3245213c5590ed0cda37a79df637ff3a4c"
-+SRC_URI[sha256sum] = "e87fccb575c64d3ac0559444016a2795f12125986a0da896bab97c4a1a2f1b2a"
- 
- # This needs to be before ptest inherit, otherwise all ptest files end packaged
- # in libopkg package if OPKGLIBDIR == libdir, because default
+ # exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
 -- 
 2.38.1
 
