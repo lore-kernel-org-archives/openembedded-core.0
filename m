@@ -1,603 +1,134 @@
-Return-Path: <olani@axis.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3155BC3A5A7
-	for <webhook@archiver.kernel.org>; Thu,  8 Dec 2022 07:11:43 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web11.7701.1670483499485246944
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ABBFC3A5A7
+	for <webhook@archiver.kernel.org>; Thu,  8 Dec 2022 07:26:43 +0000 (UTC)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web10.7833.1670484395720006810
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Dec 2022 23:11:41 -0800
+ Wed, 07 Dec 2022 23:26:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=AM79kJT3;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: ola.x.nilsson@axis.com)
+ dkim=pass header.i=@mvista.com header.s=google header.b=apDvttP/;
+ spf=pass (domain: mvista.com, ip: 209.85.210.175, mailfrom: hprajapati@mvista.com)
+Received: by mail-pf1-f175.google.com with SMTP id a14so641034pfa.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Dec 2022 23:26:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1670483502;
-  x=1702019502;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=dmvAQANDNwn3Cfy3bopVlx3lo0ZV+pX9fSIC0Cv7AvE=;
-  b=AM79kJT3pcoSUrUrWrxx6AyEyxc32+hqYIUGgTRdGwsVK7CGVTJ0apLV
-   jQwEDirhMwn3YSQYpK3mqVdVp4CSqhfmIlAbCL74IwMr+7gKdnvqo+mtB
-   ksmxJ4hyWfiAMaU6RQGKinCDdQnaGaKyIHNiGljvFZUuDKiBGAyd80BrW
-   K5AsomffokXPeJ4/vkFBByaFI+/rhjxDCPMymnKw8uhKyZRDfXedARkDB
-   IPGoDk1FbiJxBDo4kGFPq3vqlK/PoH1NzVwGGf/CVjlDdM/3UUr3XJvio
-   0mWXJx0JsaYGg/H6bPWfCOlrhvI8P5GqoUdJbtRdEZyecY7c79ueEqm8B
-   g==;
-From: Ola x Nilsson <olani@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH RFC 1/3] glibc: Add ppoll fortify symbol for 64 bit time_t
-Date: Thu, 8 Dec 2022 08:11:34 +0100
-Message-ID: <20221208071136.1967696-2-olani@axis.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221208071136.1967696-1-olani@axis.com>
-References: <20221208071136.1967696-1-olani@axis.com>
+        d=mvista.com; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vJAuCWm16xvVfcrb6UC5gcm5aRNJlybdxVFFmbRXiM0=;
+        b=apDvttP/6r6U6bbT6CzwIBoxizWs0y/OaXkDnPy6YJkc47TRTjv1pTX2Fx3h/zZqIv
+         2i2qsL8zD4OhlhfbsmHjGOAZionp+C4zTnfSuUaWwU5ecKMubaaqwlKmySAyrlFT19Kb
+         NR3sW2PcS53cQS9XI76bmGQHXOMr9yxjybbL4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vJAuCWm16xvVfcrb6UC5gcm5aRNJlybdxVFFmbRXiM0=;
+        b=7YcP5MKHX5HOOjPAB/E+wgBGF5Q7l3/qiLIaHyBSHKdR1HaegO+3XWMpb7M/Y0PEMo
+         kuCbNJCCJIt0lFnyEx4CNuGnAPpjQqEC84fN1wQJhH0KW13ncd0rnS6mCmxMRdAr4gXA
+         diqI5nBcbOrgIyGIDgMAd92e0hmQTooDyHFCEQLYjgcX7R4F3VRKXW3wGJevsjoDSThV
+         cwv4YMyxNQNpN7xqdUVU2IwHrsi2UtbADGhhLbdMhuovtkRABFNtmlkrp6kkFGyq4F7l
+         Gj5uT1l6GadQ5Q5heMgVENhP1MBCb98T9aUP0nRduHfN+VMzNwlZof9MztOBoPspT5iR
+         DYpQ==
+X-Gm-Message-State: ANoB5pkomCSyTDk5HyZ3JJi7afhMg3IzF+2BqYN2Vu2eXh3bmjEpGrwO
+	O82fTXqwdL/zyvOzCMQsqC4Gra5oOZe4yk9z
+X-Google-Smtp-Source: AA0mqf7bL8V/rvAV8cLzyjvfdvcTetFSjBun2itmcqubsC6evJtKJc57Ykyd5yvw3Yqm/eHEIHSIRQ==
+X-Received: by 2002:a05:6a00:4009:b0:563:2ada:30a3 with SMTP id by9-20020a056a00400900b005632ada30a3mr77930836pfb.27.1670484394666;
+        Wed, 07 Dec 2022 23:26:34 -0800 (PST)
+Received: from MVIN00024 ([103.250.136.158])
+        by smtp.gmail.com with ESMTPSA id x19-20020aa79413000000b00576ebde78ffsm7110895pfo.192.2022.12.07.23.26.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Dec 2022 23:26:34 -0800 (PST)
+Received: by MVIN00024 (sSMTP sendmail emulation); Thu, 08 Dec 2022 12:56:28 +0530
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [dunfell][PATCH] libarchive: CVE-2022-36227 NULL pointer dereference in archive_write.c
+Date: Thu,  8 Dec 2022 12:56:27 +0530
+Message-Id: <20221208072627.30880-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Dec 2022 07:11:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174388
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Dec 2022 07:26:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174390
 
-Patch so ppoll is properly redirected to it's 64bit time variant even
-when source fortification is active.
+Upstream-Status: Backport from https://github.com/libarchive/libarchive/commit/bff38efe8c110469c5080d387bec62a6ca15b1a5
 
-Signed-off-by: Ola x Nilsson <olani@axis.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- ...fortify-symbol-for-64-bit-time_t-BZ-.patch | 528 ++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.36.bb         |   1 +
- 2 files changed, 529 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0001-Linux-Add-ppoll-fortify-symbol-for-64-bit-time_t-BZ-.patch
+ .../libarchive/CVE-2022-36227.patch           | 43 +++++++++++++++++++
+ .../libarchive/libarchive_3.4.2.bb            |  1 +
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2022-36227.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/0001-Linux-Add-ppoll-fortify-symbol-for-64-bit-time_t-BZ-.patch b/meta/recipes-core/glibc/glibc/0001-Linux-Add-ppoll-fortify-symbol-for-64-bit-time_t-BZ-.patch
+diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2022-36227.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2022-36227.patch
 new file mode 100644
-index 0000000000..678dc2af2c
+index 0000000000..980a0e884a
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0001-Linux-Add-ppoll-fortify-symbol-for-64-bit-time_t-BZ-.patch
-@@ -0,0 +1,528 @@
-+From 69318192d16adc7d57adcd69fbbb1e3e107b2783 Mon Sep 17 00:00:00 2001
-+From: Adhemerval Zanella <adhemerval.zanella@linaro.org>
-+Date: Fri, 4 Nov 2022 16:02:52 -0300
-+Subject: [PATCH] Linux: Add ppoll fortify symbol for 64 bit time_t (BZ# 29746)
++++ b/meta/recipes-extended/libarchive/libarchive/CVE-2022-36227.patch
+@@ -0,0 +1,43 @@
++From 6311080bff566fcc5591dadfd78efb41705b717f Mon Sep 17 00:00:00 2001
++From: obiwac <obiwac@gmail.com>
++Date: Fri, 22 Jul 2022 22:41:10 +0200
++Subject: [PATCH] CVE-2022-36227
 +
-+Similar to ppoll, the poll.h header needs to redirect the poll call
-+to a proper fortified ppoll with 64 bit time_t support.
++libarchive: CVE-2022-36227 Handle a `calloc` returning NULL (fixes #1754)
 +
-+The implementation is straightforward, just need to add a similar
-+check as __poll_chk and call the 64 bit time_t ppoll version.  The
-+debug fortify tests are also extended to cover 64 bit time_t for
-+affected ABIs.
-+
-+Unfortunately it requires an aditional symbol, which makes backport
-+tricky.  One possibility is to add a static inline version if compiler
-+supports is and call abort instead of __chk_fail, so fortified version
-+will call __poll64 in the end.
-+
-+Another possibility is to just remove the fortify support for
-+_TIME_BITS=64.
-+
-+Checked on i686-linux-gnu.
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Ola Nilsson <olani@axis.com>
++Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/bff38efe8c110469c5080d387bec62a6ca15b1a5]
++CVE: CVE-2022-36227
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com
 +---
-+ debug/Makefile                                | 41 ++++++++++++------
-+ include/sys/poll.h                            |  5 ++-
-+ io/bits/poll2.h                               | 25 +++++++++++
-+ sysdeps/unix/sysv/linux/Versions              |  5 +++
-+ sysdeps/unix/sysv/linux/arm/be/libc.abilist   |  1 +
-+ sysdeps/unix/sysv/linux/arm/le/libc.abilist   |  1 +
-+ sysdeps/unix/sysv/linux/csky/libc.abilist     |  1 +
-+ sysdeps/unix/sysv/linux/hppa/libc.abilist     |  1 +
-+ sysdeps/unix/sysv/linux/i386/libc.abilist     |  1 +
-+ .../sysv/linux/m68k/coldfire/libc.abilist     |  1 +
-+ .../unix/sysv/linux/m68k/m680x0/libc.abilist  |  1 +
-+ .../sysv/linux/microblaze/be/libc.abilist     |  1 +
-+ .../sysv/linux/microblaze/le/libc.abilist     |  1 +
-+ .../sysv/linux/mips/mips32/fpu/libc.abilist   |  1 +
-+ .../sysv/linux/mips/mips32/nofpu/libc.abilist |  1 +
-+ .../sysv/linux/mips/mips64/n32/libc.abilist   |  1 +
-+ sysdeps/unix/sysv/linux/nios2/libc.abilist    |  1 +
-+ .../linux/powerpc/powerpc32/fpu/libc.abilist  |  1 +
-+ .../powerpc/powerpc32/nofpu/libc.abilist      |  1 +
-+ sysdeps/unix/sysv/linux/ppoll.c               |  3 +-
-+ sysdeps/unix/sysv/linux/ppoll_chk.c           | 42 +++++++++++++++++++
-+ .../unix/sysv/linux/s390/s390-32/libc.abilist |  1 +
-+ sysdeps/unix/sysv/linux/sh/be/libc.abilist    |  1 +
-+ sysdeps/unix/sysv/linux/sh/le/libc.abilist    |  1 +
-+ .../sysv/linux/sparc/sparc32/libc.abilist     |  1 +
-+ 25 files changed, 125 insertions(+), 15 deletions(-)
-+ create mode 100644 sysdeps/unix/sysv/linux/ppoll_chk.c
++ libarchive/archive_write.c | 8 ++++++++
++ 1 file changed, 8 insertions(+)
 +
-+diff --git a/debug/Makefile b/debug/Makefile
-+index 456b349c4d..075a135a2b 100644
-+--- a/debug/Makefile
-++++ b/debug/Makefile
-+@@ -120,8 +120,10 @@ CPPFLAGS-tst-read-chk-cancel.c += -D_FORTIFY_SOURCE=2
-+ # CFLAGS for the file.
++diff --git a/libarchive/archive_write.c b/libarchive/archive_write.c
++index 98a55fb..7fe88b6 100644
++--- a/libarchive/archive_write.c
+++++ b/libarchive/archive_write.c
++@@ -211,6 +211,10 @@ __archive_write_allocate_filter(struct archive *_a)
++ 	struct archive_write_filter *f;
 + 
-+ tests-all-chk = tst-fortify
-+-tests-c-chk =
-+-tests-cc-chk =
-++tests-c-def-chk =
-++tests-cc-def-chk =
-++tests-c-time64-chk =
-++tests-cc-time64-chk =
-+ 
-+ CFLAGS-tst-fortify.c += -Wno-format -Wno-deprecated-declarations -Wno-error
-+ 
-+@@ -130,11 +132,11 @@ define cflags-default
-+ endef
-+ 
-+ define cflags-lfs
-+-CFLAGS-tst-fortify-$(1)-lfs-$(2).$(1) += -D_FILE_OFFSET_BITS=64
-++CFLAGS-tst-fortify-$(1)-lfs-$(2)-$(3).$(1) += -D_FILE_OFFSET_BITS=64
-+ endef
-+ 
-+ define cflags-nongnu
-+-CFLAGS-tst-fortify-$(1)-nongnu-$(2).$(1) += -D_LARGEFILE64_SOURCE=1
-++CFLAGS-tst-fortify-$(1)-nongnu-$(2)-$(3).$(1) += -D_LARGEFILE64_SOURCE=1
-+ endef
-+ 
-+ src-chk-nongnu = \#undef _GNU_SOURCE
-+@@ -145,12 +147,12 @@ src-chk-nongnu = \#undef _GNU_SOURCE
-+ # And they also generate warnings from warning attributes, which
-+ # cannot be disabled via pragmas, so require -Wno-error to be used.
-+ define gen-chk-test
-+-tests-$(1)-chk += tst-fortify-$(1)-$(2)-$(3)
-+-CFLAGS-tst-fortify-$(1)-$(2)-$(3).$(1) += -D_FORTIFY_SOURCE=$(3) -Wno-format \
-++tests-$(1)-$(4)-chk += tst-fortify-$(1)-$(2)-$(3)-$(4)
-++CFLAGS-tst-fortify-$(1)-$(2)-$(3)-$(4).$(1) += -D_FORTIFY_SOURCE=$(3) -Wno-format \
-+ 					  -Wno-deprecated-declarations \
-+ 					  -Wno-error
-+-$(eval $(call cflags-$(2),$(1),$(3)))
-+-$(objpfx)tst-fortify-$(1)-$(2)-$(3).$(1): tst-fortify.c Makefile
-++$(eval $(call cflags-$(2),$(1),$(3),$(4)))
-++$(objpfx)tst-fortify-$(1)-$(2)-$(3)-$(4).$(1): tst-fortify.c Makefile
-+ 	( echo "/* Autogenerated from Makefile.  */"; \
-+ 	  echo "$(src-chk-$(2))"; \
-+ 	  echo "#include \"tst-fortify.c\"" ) > $$@.tmp
-+@@ -159,19 +161,29 @@ endef
-+ 
-+ chk-extensions = c cc
-+ chk-types = default lfs nongnu
-++# 64 bit time_t implies LFS.
-++chk-types-time64 = default nongnu
-+ chk-levels = 1 2 3
-+ 
-+ $(foreach e,$(chk-extensions), \
-+   $(foreach t,$(chk-types), \
-+     $(foreach l,$(chk-levels), \
-+-      $(eval $(call gen-chk-test,$(e),$(t),$(l))))))
-++      $(eval $(call gen-chk-test,$(e),$(t),$(l),def)))))
-+ 
-+-tests-all-chk += $(tests-c-chk) $(tests-cc-chk)
-++tests-all-chk += $(tests-c-def-chk) $(tests-cc-def-chk)
++ 	f = calloc(1, sizeof(*f));
 ++
-++$(foreach e,$(chk-extensions), \
-++  $(foreach t,$(chk-types-time64), \
-++    $(foreach l,$(chk-levels), \
-++      $(eval $(call gen-chk-test,$(e),$(t),$(l),time64)))))
+++	if (f == NULL)
+++		return (NULL);
 ++
-++tests-all-time64-chk += $(tests-c-time64-chk) $(tests-cc-time64-chk)
++ 	f->archive = _a;
++ 	f->state = ARCHIVE_WRITE_FILTER_STATE_NEW;
++ 	if (a->filter_first == NULL)
++@@ -527,6 +531,10 @@ archive_write_open(struct archive *_a, void *client_data,
++ 	a->client_data = client_data;
 + 
-+ define link-cc
-+ LDLIBS-$(1) = -lstdc++
-+ endef
-+-$(foreach t,$(tests-cc-chk), $(eval $(call link-cc,$(t))))
-++$(foreach t,$(tests-cc-def-chk), $(eval $(call link-cc,$(t))))
-++$(foreach t,$(tests-cc-time64-chk), $(eval $(call link-cc,$(t))))
-+ 
-+ # backtrace_symbols only works if we link with -rdynamic.  backtrace
-+ # requires unwind tables on most architectures.
-+@@ -201,6 +213,10 @@ tests = backtrace-tst \
-+ 	tst-realpath-chk \
-+ 	$(tests-all-chk)
-+ 
-++tests-time64 += \
-++	$(tests-all-time64-chk) \
-++	# tests-time64
++ 	client_filter = __archive_write_allocate_filter(_a);
 ++
-+ ifeq ($(have-ssp),yes)
-+ tests += tst-ssp-1
-+ endif
-+@@ -210,7 +226,7 @@ tests += tst-read-chk-cancel
-+ endif
-+ 
-+ ifeq (,$(CXX))
-+-tests-unsupported = $(tests-cc-chk)
-++tests-unsupported = $(tests-cc-def-chk) $(test-cc-time64-chk)
-+ endif
-+ 
-+ extra-libs = libpcprofile
-+@@ -235,6 +251,7 @@ define chk-gen-locales
-+ $(objpfx)$(1).out: $(gen-locales)
-+ endef
-+ $(foreach t, $(tests-all-chk), $(eval $(call chk-gen-locales,$(t))))
-++$(foreach t, $(tests-all-time64-chk), $(eval $(call chk-gen-locales,$(t))))
-+ endif
-+ 
-+ sLIBdir := $(shell echo $(slibdir) | sed 's,lib\(\|64\)$$,\\\\$$LIB,')
-+diff --git a/include/sys/poll.h b/include/sys/poll.h
-+index f904e21f89..228704fe79 100644
-+--- a/include/sys/poll.h
-++++ b/include/sys/poll.h
-+@@ -2,13 +2,16 @@
-+ # include <io/sys/poll.h>
-+ 
-+ #ifndef _ISOMAC
-++#include <include/struct___timespec64.h>
+++	if (client_filter == NULL)
+++		return (ARCHIVE_FATAL);
 ++
-+ extern int __poll (struct pollfd *__fds, unsigned long int __nfds,
-+ 		   int __timeout);
-+ libc_hidden_proto (__poll)
-+ libc_hidden_proto (ppoll)
-+ 
-+ # if __TIMESIZE == 64
-+-#  define __ppoll64 __ppoll
-++#  define __ppoll64 ppoll
-++#  define __ppoll64_chk __ppoll_chk
-+ # else
-+ # include <time.h>
-+ # include <signal.h>
-+diff --git a/io/bits/poll2.h b/io/bits/poll2.h
-+index 3679d8451a..90f5574969 100644
-+--- a/io/bits/poll2.h
-++++ b/io/bits/poll2.h
-+@@ -43,6 +43,30 @@ poll (struct pollfd *__fds, nfds_t __nfds, int __timeout)
-+ 
-+ 
-+ #ifdef __USE_GNU
-++# ifdef __USE_TIME_BITS64
-++extern int __REDIRECT (__ppoll64_alias, (struct pollfd *__fds, nfds_t __nfds,
-++				       const struct timespec *__timeout,
-++				       const __sigset_t *__ss), __ppoll64);
-++extern int __ppoll64_chk (struct pollfd *__fds, nfds_t __nfds,
-++			  const struct timespec *__timeout,
-++			  const __sigset_t *__ss, __SIZE_TYPE__ __fdslen)
-++    __attr_access ((__write_only__, 1, 2));
-++extern int __REDIRECT (__ppoll64_chk_warn, (struct pollfd *__fds, nfds_t __n,
-++					    const struct timespec *__timeout,
-++					    const __sigset_t *__ss,
-++					    __SIZE_TYPE__ __fdslen),
-++		       __ppoll64_chk)
-++  __warnattr ("ppoll called with fds buffer too small file nfds entries");
-++
-++__fortify_function __fortified_attr_access (__write_only__, 1, 2) int
-++ppoll (struct pollfd *__fds, nfds_t __nfds, const struct timespec *__timeout,
-++       const __sigset_t *__ss)
-++{
-++  return __glibc_fortify (ppoll64, __nfds, sizeof (*__fds),
-++			  __glibc_objsize (__fds),
-++			  __fds, __nfds, __timeout, __ss);
-++}
-++# else
-+ extern int __REDIRECT (__ppoll_alias, (struct pollfd *__fds, nfds_t __nfds,
-+ 				       const struct timespec *__timeout,
-+ 				       const __sigset_t *__ss), ppoll);
-+@@ -65,6 +89,7 @@ ppoll (struct pollfd *__fds, nfds_t __nfds, const struct timespec *__timeout,
-+ 			  __glibc_objsize (__fds),
-+ 			  __fds, __nfds, __timeout, __ss);
-+ }
-++# endif
-+ #endif
-+ 
-+ __END_DECLS
-+diff --git a/sysdeps/unix/sysv/linux/Versions b/sysdeps/unix/sysv/linux/Versions
-+index 65d2ceda2c..ca6eb1a49e 100644
-+--- a/sysdeps/unix/sysv/linux/Versions
-++++ b/sysdeps/unix/sysv/linux/Versions
-+@@ -313,6 +313,11 @@ libc {
-+     process_madvise;
-+     process_mrelease;
-+   }
-++  GLIBC_2.37 {
-++%ifdef TIME64_NON_DEFAULT
-++    __ppoll64_chk;
-++%endif
-++  }
-+   GLIBC_PRIVATE {
-+     # functions used in other libraries
-+     __syscall_rt_sigqueueinfo;
-+diff --git a/sysdeps/unix/sysv/linux/arm/be/libc.abilist b/sysdeps/unix/sysv/linux/arm/be/libc.abilist
-+index e0668a80cf..f28402fe03 100644
-+--- a/sysdeps/unix/sysv/linux/arm/be/libc.abilist
-++++ b/sysdeps/unix/sysv/linux/arm/be/libc.abilist
-+@@ -513,6 +513,7 @@ GLIBC_2.36 pidfd_open F
-+ GLIBC_2.36 pidfd_send_signal F
-+ GLIBC_2.36 process_madvise F
-+ GLIBC_2.36 process_mrelease F
-++GLIBC_2.37 __ppoll64_chk F
-+ GLIBC_2.4 _Exit F
-+ GLIBC_2.4 _IO_2_1_stderr_ D 0xa0
-+ GLIBC_2.4 _IO_2_1_stdin_ D 0xa0
-+diff --git a/sysdeps/unix/sysv/linux/arm/le/libc.abilist b/sysdeps/unix/sysv/linux/arm/le/libc.abilist
-+index d28e7c60b7..e2f56880ed 100644
-+--- a/sysdeps/unix/sysv/linux/arm/le/libc.abilist
-++++ b/sysdeps/unix/sysv/linux/arm/le/libc.abilist
-+@@ -510,6 +510,7 @@ GLIBC_2.36 pidfd_open F
-+ GLIBC_2.36 pidfd_send_signal F
-+ GLIBC_2.36 process_madvise F
-+ GLIBC_2.36 process_mrelease F
-++GLIBC_2.37 __ppoll64_chk F
-+ GLIBC_2.4 _Exit F
-+ GLIBC_2.4 _IO_2_1_stderr_ D 0xa0
-+ GLIBC_2.4 _IO_2_1_stdin_ D 0xa0
-+diff --git a/sysdeps/unix/sysv/linux/csky/libc.abilist b/sysdeps/unix/sysv/linux/csky/libc.abilist
-+index 922b05062f..319d92356e 100644
-+--- a/sysdeps/unix/sysv/linux/csky/libc.abilist
-++++ b/sysdeps/unix/sysv/linux/csky/libc.abilist
-+@@ -2669,3 +2669,4 @@ GLIBC_2.36 pidfd_open F
-+ GLIBC_2.36 pidfd_send_signal F
-+ GLIBC_2.36 process_madvise F
-+ GLIBC_2.36 process_mrelease F
-++GLIBC_2.37 __ppoll64_chk F
-+diff --git a/sysdeps/unix/sysv/linux/hppa/libc.abilist b/sysdeps/unix/sysv/linux/hppa/libc.abilist
-+index 412144f94c..6450e17ebe 100644
-+--- a/sysdeps/unix/sysv/linux/hppa/libc.abilist
-++++ b/sysdeps/unix/sysv/linux/hppa/libc.abilist
-+@@ -2618,6 +2618,7 @@ GLIBC_2.36 pidfd_open F
-+ GLIBC_2.36 pidfd_send_signal F
-+ GLIBC_2.36 process_madvise F
-+ GLIBC_2.36 process_mrelease F
-++GLIBC_2.37 __ppoll64_chk F
-+ GLIBC_2.4 __confstr_chk F
-+ GLIBC_2.4 __fgets_chk F
-+ GLIBC_2.4 __fgets_unlocked_chk F
-+diff --git a/sysdeps/unix/sysv/linux/i386/libc.abilist b/sysdeps/unix/sysv/linux/i386/libc.abilist
-+index 134393900a..0a24ec9afd 100644
-+--- a/sysdeps/unix/sysv/linux/i386/libc.abilist
-++++ b/sysdeps/unix/sysv/linux/i386/libc.abilist
-+@@ -2802,6 +2802,7 @@ GLIBC_2.36 pidfd_open F
-+ GLIBC_2.36 pidfd_send_signal F
-+ GLIBC_2.36 process_madvise F
-+ GLIBC_2.36 process_mrelease F
-++GLIBC_2.37 __ppoll64_chk F
-+ GLIBC_2.4 __confstr_chk F
-+ GLIBC_2.4 __fgets_chk F
-+ GLIBC_2.4 __fgets_unlocked_chk F
-+diff --git a/sysdeps/unix/sysv/linux/m68k/coldfire/libc.abilist b/sysdeps/unix/sysv/linux/m68k/coldfire/libc.abilist
-+index 0604029c68..16243a7a92 100644
-+--- a/sysdeps/unix/sysv/linux/m68k/coldfire/libc.abilist
-++++ b/sysdeps/unix/sysv/linux/m68k/coldfire/libc.abilist
-+@@ -514,6 +514,7 @@ GLIBC_2.36 pidfd_open F
-+ GLIBC_2.36 pidfd_send_signal F
-+ GLIBC_2.36 process_madvise F
-+ GLIBC_2.36 process_mrelease F
-++GLIBC_2.37 __ppoll64_chk F
-+ GLIBC_2.4 _Exit F
-+ GLIBC_2.4 _IO_2_1_stderr_ D 0x98
-+ GLIBC_2.4 _IO_2_1_stdin_ D 0x98
-+diff --git a/sysdeps/unix/sysv/linux/m68k/m680x0/libc.abilist b/sysdeps/unix/sysv/linux/m68k/m680x0/libc.abilist
-+index af2be5c80d..564a553b27 100644
-+--- a/sysdeps/unix/sysv/linux/m68k/m680x0/libc.abilist
-++++ b/sysdeps/unix/sysv/linux/m68k/m680x0/libc.abilist
-+@@ -2745,6 +2745,7 @@ GLIBC_2.36 pidfd_open F
-+ GLIBC_2.36 pidfd_send_signal F
-+ GLIBC_2.36 process_madvise F
-+ GLIBC_2.36 process_mrelease F
-++GLIBC_2.37 __ppoll64_chk F
-+ GLIBC_2.4 __confstr_chk F
-+ GLIBC_2.4 __fgets_chk F
-+ GLIBC_2.4 __fgets_unlocked_chk F
-+diff --git a/sysdeps/unix/sysv/linux/microblaze/be/libc.abilist b/sysdeps/unix/sysv/linux/microblaze/be/libc.abilist
-+index e090b8d48f..e850f47b21 100644
-+--- a/sysdeps/unix/sysv/linux/microblaze/be/libc.abilist
-++++ b/sysdeps/unix/sysv/linux/microblaze/be/libc.abilist
-+@@ -2718,3 +2718,4 @@ GLIBC_2.36 pidfd_open F
-+ GLIBC_2.36 pidfd_send_signal F
-+ GLIBC_2.36 process_madvise F
-+ GLIBC_2.36 process_mrelease F
-++GLIBC_2.37 __ppoll64_chk F
-+diff --git a/sysdeps/unix/sysv/linux/microblaze/le/libc.abilist b/sysdeps/unix/sysv/linux/microblaze/le/libc.abilist
-+index 8c5b2db243..37178c503f 100644
-+--- a/sysdeps/unix/sysv/linux/microblaze/le/libc.abilist
-++++ b/sysdeps/unix/sysv/linux/microblaze/le/libc.abilist
-+@@ -2715,3 +2715,4 @@ GLIBC_2.36 pidfd_open F
-+ GLIBC_2.36 pidfd_send_signal F
-+ GLIBC_2.36 process_madvise F
-+ GLIBC_2.36 process_mrelease F
-++GLIBC_2.37 __ppoll64_chk F
-+diff --git a/sysdeps/unix/sysv/linux/mips/mips32/fpu/libc.abilist b/sysdeps/unix/sysv/linux/mips/mips32/fpu/libc.abilist
-+index 68847134a2..3b30b31466 100644
-+--- a/sysdeps/unix/sysv/linux/mips/mips32/fpu/libc.abilist
-++++ b/sysdeps/unix/sysv/linux/mips/mips32/fpu/libc.abilist
-+@@ -2710,6 +2710,7 @@ GLIBC_2.36 pidfd_open F
-+ GLIBC_2.36 pidfd_send_signal F
-+ GLIBC_2.36 process_madvise F
-+ GLIBC_2.36 process_mrelease F
-++GLIBC_2.37 __ppoll64_chk F
-+ GLIBC_2.4 __confstr_chk F
-+ GLIBC_2.4 __fgets_chk F
-+ GLIBC_2.4 __fgets_unlocked_chk F
-+diff --git a/sysdeps/unix/sysv/linux/mips/mips32/nofpu/libc.abilist b/sysdeps/unix/sysv/linux/mips/mips32/nofpu/libc.abilist
-+index daa44e64fa..0e358570a2 100644
-+--- a/sysdeps/unix/sysv/linux/mips/mips32/nofpu/libc.abilist
-++++ b/sysdeps/unix/sysv/linux/mips/mips32/nofpu/libc.abilist
-+@@ -2708,6 +2708,7 @@ GLIBC_2.36 pidfd_open F
-+ GLIBC_2.36 pidfd_send_signal F
-+ GLIBC_2.36 process_madvise F
-+ GLIBC_2.36 process_mrelease F
-++GLIBC_2.37 __ppoll64_chk F
-+ GLIBC_2.4 __confstr_chk F
-+ GLIBC_2.4 __fgets_chk F
-+ GLIBC_2.4 __fgets_unlocked_chk F
-+diff --git a/sysdeps/unix/sysv/linux/mips/mips64/n32/libc.abilist b/sysdeps/unix/sysv/linux/mips/mips64/n32/libc.abilist
-+index 6169188c96..59c598b98f 100644
-+--- a/sysdeps/unix/sysv/linux/mips/mips64/n32/libc.abilist
-++++ b/sysdeps/unix/sysv/linux/mips/mips64/n32/libc.abilist
-+@@ -2716,6 +2716,7 @@ GLIBC_2.36 pidfd_open F
-+ GLIBC_2.36 pidfd_send_signal F
-+ GLIBC_2.36 process_madvise F
-+ GLIBC_2.36 process_mrelease F
-++GLIBC_2.37 __ppoll64_chk F
-+ GLIBC_2.4 __confstr_chk F
-+ GLIBC_2.4 __fgets_chk F
-+ GLIBC_2.4 __fgets_unlocked_chk F
-+diff --git a/sysdeps/unix/sysv/linux/nios2/libc.abilist b/sysdeps/unix/sysv/linux/nios2/libc.abilist
-+index 58e9b486b0..463e01ab84 100644
-+--- a/sysdeps/unix/sysv/linux/nios2/libc.abilist
-++++ b/sysdeps/unix/sysv/linux/nios2/libc.abilist
-+@@ -2757,3 +2757,4 @@ GLIBC_2.36 pidfd_open F
-+ GLIBC_2.36 pidfd_send_signal F
-+ GLIBC_2.36 process_madvise F
-+ GLIBC_2.36 process_mrelease F
-++GLIBC_2.37 __ppoll64_chk F
-+diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc32/fpu/libc.abilist b/sysdeps/unix/sysv/linux/powerpc/powerpc32/fpu/libc.abilist
-+index 8c9ca32cbe..405d40d11c 100644
-+--- a/sysdeps/unix/sysv/linux/powerpc/powerpc32/fpu/libc.abilist
-++++ b/sysdeps/unix/sysv/linux/powerpc/powerpc32/fpu/libc.abilist
-+@@ -2772,6 +2772,7 @@ GLIBC_2.36 pidfd_open F
-+ GLIBC_2.36 pidfd_send_signal F
-+ GLIBC_2.36 process_madvise F
-+ GLIBC_2.36 process_mrelease F
-++GLIBC_2.37 __ppoll64_chk F
-+ GLIBC_2.4 _IO_fprintf F
-+ GLIBC_2.4 _IO_printf F
-+ GLIBC_2.4 _IO_sprintf F
-+diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc32/nofpu/libc.abilist b/sysdeps/unix/sysv/linux/powerpc/powerpc32/nofpu/libc.abilist
-+index 08a6604aab..ce89602b93 100644
-+--- a/sysdeps/unix/sysv/linux/powerpc/powerpc32/nofpu/libc.abilist
-++++ b/sysdeps/unix/sysv/linux/powerpc/powerpc32/nofpu/libc.abilist
-+@@ -2805,6 +2805,7 @@ GLIBC_2.36 pidfd_open F
-+ GLIBC_2.36 pidfd_send_signal F
-+ GLIBC_2.36 process_madvise F
-+ GLIBC_2.36 process_mrelease F
-++GLIBC_2.37 __ppoll64_chk F
-+ GLIBC_2.4 _IO_fprintf F
-+ GLIBC_2.4 _IO_printf F
-+ GLIBC_2.4 _IO_sprintf F
-+diff --git a/sysdeps/unix/sysv/linux/ppoll.c b/sysdeps/unix/sysv/linux/ppoll.c
-+index 1105e29b00..2e173b931d 100644
-+--- a/sysdeps/unix/sysv/linux/ppoll.c
-++++ b/sysdeps/unix/sysv/linux/ppoll.c
-+@@ -67,7 +67,7 @@ __ppoll64 (struct pollfd *fds, nfds_t nfds, const struct __timespec64 *timeout,
-+ libc_hidden_def (__ppoll64)
-+ 
-+ int
-+-__ppoll (struct pollfd *fds, nfds_t nfds, const struct timespec *timeout,
-++ppoll (struct pollfd *fds, nfds_t nfds, const struct timespec *timeout,
-+          const sigset_t *sigmask)
-+ {
-+   struct __timespec64 ts64;
-+@@ -77,5 +77,4 @@ __ppoll (struct pollfd *fds, nfds_t nfds, const struct timespec *timeout,
-+   return __ppoll64 (fds, nfds, timeout ? &ts64 : NULL, sigmask);
-+ }
-+ #endif
-+-strong_alias (__ppoll, ppoll)
-+ libc_hidden_def (ppoll)
-+diff --git a/sysdeps/unix/sysv/linux/ppoll_chk.c b/sysdeps/unix/sysv/linux/ppoll_chk.c
-+new file mode 100644
-+index 0000000000..65c4b56671
-+--- /dev/null
-++++ b/sysdeps/unix/sysv/linux/ppoll_chk.c
-+@@ -0,0 +1,42 @@
-++/* Fortify ppoll implementation.  Linux version.
-++   Copyright (C) 2022 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <https://www.gnu.org/licenses/>.  */
-++
-++#include <poll.h>
-++
-++int
-++__ppoll64_chk (struct pollfd *fds, nfds_t nfds,
-++	       const struct __timespec64 *tmo, const __sigset_t *ss,
-++	       __SIZE_TYPE__ fdslen)
-++{
-++  if (fdslen / sizeof (*fds) < nfds)
-++    __chk_fail ();
-++
-++  return __ppoll64 (fds, nfds, tmo, ss);
-++}
-++
-++#if __TIMESIZE != 64
-++int
-++__ppoll_chk (struct pollfd *fds, nfds_t nfds, const struct timespec *tmo,
-++	     const __sigset_t *ss, __SIZE_TYPE__ fdslen)
-++{
-++  if (fdslen / sizeof (*fds) < nfds)
-++    __chk_fail ();
-++
-++  return ppoll (fds, nfds, tmo, ss);
-++}
-++#endif
-+diff --git a/sysdeps/unix/sysv/linux/s390/s390-32/libc.abilist b/sysdeps/unix/sysv/linux/s390/s390-32/libc.abilist
-+index 009f22931e..5ca051a9eb 100644
-+--- a/sysdeps/unix/sysv/linux/s390/s390-32/libc.abilist
-++++ b/sysdeps/unix/sysv/linux/s390/s390-32/libc.abilist
-+@@ -2770,6 +2770,7 @@ GLIBC_2.36 pidfd_open F
-+ GLIBC_2.36 pidfd_send_signal F
-+ GLIBC_2.36 process_madvise F
-+ GLIBC_2.36 process_mrelease F
-++GLIBC_2.37 __ppoll64_chk F
-+ GLIBC_2.4 _IO_fprintf F
-+ GLIBC_2.4 _IO_printf F
-+ GLIBC_2.4 _IO_sprintf F
-+diff --git a/sysdeps/unix/sysv/linux/sh/be/libc.abilist b/sysdeps/unix/sysv/linux/sh/be/libc.abilist
-+index afb5bc37b1..5b48168ec6 100644
-+--- a/sysdeps/unix/sysv/linux/sh/be/libc.abilist
-++++ b/sysdeps/unix/sysv/linux/sh/be/libc.abilist
-+@@ -2625,6 +2625,7 @@ GLIBC_2.36 pidfd_open F
-+ GLIBC_2.36 pidfd_send_signal F
-+ GLIBC_2.36 process_madvise F
-+ GLIBC_2.36 process_mrelease F
-++GLIBC_2.37 __ppoll64_chk F
-+ GLIBC_2.4 __confstr_chk F
-+ GLIBC_2.4 __fgets_chk F
-+ GLIBC_2.4 __fgets_unlocked_chk F
-+diff --git a/sysdeps/unix/sysv/linux/sh/le/libc.abilist b/sysdeps/unix/sysv/linux/sh/le/libc.abilist
-+index 2b53a3cf92..c42b39cea8 100644
-+--- a/sysdeps/unix/sysv/linux/sh/le/libc.abilist
-++++ b/sysdeps/unix/sysv/linux/sh/le/libc.abilist
-+@@ -2622,6 +2622,7 @@ GLIBC_2.36 pidfd_open F
-+ GLIBC_2.36 pidfd_send_signal F
-+ GLIBC_2.36 process_madvise F
-+ GLIBC_2.36 process_mrelease F
-++GLIBC_2.37 __ppoll64_chk F
-+ GLIBC_2.4 __confstr_chk F
-+ GLIBC_2.4 __fgets_chk F
-+ GLIBC_2.4 __fgets_unlocked_chk F
-+diff --git a/sysdeps/unix/sysv/linux/sparc/sparc32/libc.abilist b/sysdeps/unix/sysv/linux/sparc/sparc32/libc.abilist
-+index 43b9844a99..5a0a662dee 100644
-+--- a/sysdeps/unix/sysv/linux/sparc/sparc32/libc.abilist
-++++ b/sysdeps/unix/sysv/linux/sparc/sparc32/libc.abilist
-+@@ -2765,6 +2765,7 @@ GLIBC_2.36 pidfd_open F
-+ GLIBC_2.36 pidfd_send_signal F
-+ GLIBC_2.36 process_madvise F
-+ GLIBC_2.36 process_mrelease F
-++GLIBC_2.37 __ppoll64_chk F
-+ GLIBC_2.4 _IO_fprintf F
-+ GLIBC_2.4 _IO_printf F
-+ GLIBC_2.4 _IO_sprintf F
-diff --git a/meta/recipes-core/glibc/glibc_2.36.bb b/meta/recipes-core/glibc/glibc_2.36.bb
-index 45bc784b33..3010f783ac 100644
---- a/meta/recipes-core/glibc/glibc_2.36.bb
-+++ b/meta/recipes-core/glibc/glibc_2.36.bb
-@@ -54,6 +54,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0023-fix-create-thread-failed-in-unprivileged-process-BZ-.patch \
-            file://0024-Avoid-hardcoded-build-time-paths-in-the-output-binar.patch \
-            file://0025-startup-Force-O2.patch \
-+           file://0001-Linux-Add-ppoll-fortify-symbol-for-64-bit-time_t-BZ-.patch \
++ 	client_filter->open = archive_write_client_open;
++ 	client_filter->write = archive_write_client_write;
++ 	client_filter->close = archive_write_client_close;
++-- 
++2.25.1
++
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.4.2.bb b/meta/recipes-extended/libarchive/libarchive_3.4.2.bb
+index 7d2e7b711b..e0a6174d8b 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.4.2.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.4.2.bb
+@@ -39,6 +39,7 @@ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+            file://CVE-2021-23177.patch \
+            file://CVE-2021-31566-01.patch \
+            file://CVE-2021-31566-02.patch \
++           file://CVE-2022-36227.patch \
  "
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
+ 
+ SRC_URI[md5sum] = "d953ed6b47694dadf0e6042f8f9ff451"
 -- 
-2.30.2
+2.25.1
 
 
