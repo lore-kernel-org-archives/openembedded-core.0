@@ -1,344 +1,142 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6F5BC4332F
-	for <webhook@archiver.kernel.org>; Thu,  8 Dec 2022 12:10:45 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.11729.1670501442329859308
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04C08C3A5A7
+	for <webhook@archiver.kernel.org>; Thu,  8 Dec 2022 12:17:46 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web11.11879.1670501861474028139
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Dec 2022 04:10:42 -0800
+ Thu, 08 Dec 2022 04:17:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A6B0723A;
-	Thu,  8 Dec 2022 04:10:48 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 59AA73F73B;
-	Thu,  8 Dec 2022 04:10:41 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: nd@arm.com
-Subject: [PATCH] libxml2: add more testing
-Date: Thu,  8 Dec 2022 12:10:39 +0000
-Message-Id: <20221208121039.3507174-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TI8FX1D9;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id ay40so907073wmb.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Dec 2022 04:17:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9VsiO72WUfP5kH3d4Y2m8g+/Vq0YjNF3J3nr74QzFTc=;
+        b=TI8FX1D9Tzv29z9Anvv5YLf4mtdrB6HLoqpgqc+m9RYyzQor8zRm5ZsvAiwoziABJC
+         73nlbqlXyUUSoRbpTvJuT5f6tS2EWoPxshDK0M7nE4x5Se2xW+1Ew4eQsSUInhBdm3kS
+         by8rI62Emk2v5V2LE66SuK2cXk8vQQXzgsZko=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=9VsiO72WUfP5kH3d4Y2m8g+/Vq0YjNF3J3nr74QzFTc=;
+        b=qOJVUCef3V1OlIQB9HMco33S4EP6uEivjCzGB0ZlrjQAxVefv0l3F6OEEUN51uM8GZ
+         m3i38vGLi0uTwS3uMhD0e+kkl7lSCoPlW89NwqvOPamJaxMbqR6//Gm5MFZoStRb85LQ
+         RJWn1CFkXoalm82qaZ9cwwp92JbSq0b9SUbRU3aKoHKEgvzUJoo9WflN+BO9rLzKlAyp
+         XsKreIBSKKEb8DZn648fGM6uLQt1+wTVE+6eP95qH2XI50du//s04kfRIGV6+NbKf8Ha
+         W5rPhsKVeB7U+mUfYah+q07oKz5gy/1koAOLbbxRn0zEeumPSVvPPGOwit9SV/gMCFCP
+         +Tbg==
+X-Gm-Message-State: ANoB5pm+AA/J1G3aBoHXIsynO0k6FYDBYtKL3g8cnAMXFVNBlczYEUX/
+	0ezBkg8OQlyYTopzNYIEPeYQJg==
+X-Google-Smtp-Source: AA0mqf5ai7xkagngbOsQOStqa2k7LiZhR2cHdwT8hDSb0k9UpFytF+wac3wkv3Y4ZIo1D3GfYpfVDQ==
+X-Received: by 2002:a05:600c:5407:b0:3c6:e63e:89a6 with SMTP id he7-20020a05600c540700b003c6e63e89a6mr1942805wmb.2.1670501859790;
+        Thu, 08 Dec 2022 04:17:39 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:50bb:c4ee:bb3b:bc91? ([2001:8b0:aba:5f3c:50bb:c4ee:bb3b:bc91])
+        by smtp.gmail.com with ESMTPSA id l5-20020a5d5605000000b002367ad808a9sm21919213wrv.30.2022.12.08.04.17.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Dec 2022 04:17:39 -0800 (PST)
+Message-ID: <cd5af976d2f6c820f8aced11c07155c71ff16125.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [langdale][master][PATCH] rust: Do not use default
+ compiler flags defined in CC crate
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Anton Antonov <anton.antonov@arm.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 08 Dec 2022 12:17:38 +0000
+In-Reply-To: <20221118144253.1156045-1-Anton.Antonov@arm.com>
+References: <20221118144253.1156045-1-Anton.Antonov@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Dec 2022 12:10:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174401
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Dec 2022 12:17:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174402
 
-Backport more test cases fixes from upstream, and add runsuite to the
-ptests.
+On Fri, 2022-11-18 at 14:42 +0000, Anton Antonov wrote:
+> Rust crates build dependecy C libraries using "CC" crate.
+> This crate adds some default compiler parameters depending on target arch=
+.
+> For some target archs these parameters conflict with the parameters defin=
+ed by OE.
+>=20
+> Warnings/errors like this can be seen in the case:
+>=20
+> cc1: error: switch '-mcpu=3Dcortex-a15' conflicts with switch '-march=3Da=
+rmv7-a+fp' [-Werror]
+>=20
+> Lets use the OE parameters only by exporting CRATE_CC_NO_DEFAULTS.
+> https://github.com/rust-lang/cc-rs#external-configuration-via-environment=
+-variables
+>=20
+> This patch fixes https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D1494=
+7
+>=20
+> Signed-off-by: Anton Antonov <Anton.Antonov@arm.com>
+> ---
+>  meta/classes-recipe/rust-target-config.bbclass | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+>=20
+> diff --git a/meta/classes-recipe/rust-target-config.bbclass b/meta/classe=
+s-recipe/rust-target-config.bbclass
+> index 2710b4325d..4135335043 100644
+> --- a/meta/classes-recipe/rust-target-config.bbclass
+> +++ b/meta/classes-recipe/rust-target-config.bbclass
+> @@ -401,3 +401,21 @@ python do_rust_gen_targets () {
+>  addtask rust_gen_targets after do_patch before do_compile
+>  do_rust_gen_targets[dirs] +=3D "${RUST_TARGETS_DIR}"
+> =20
+> +# For building C dependecies only use compiler parameters defined in OE-=
+core
+> +# and ignore the default parameters defined in the CC crate.
+> +# https://github.com/rust-lang/cc-rs#external-configuration-via-environm=
+ent-variables
+> +# For rust native recipes we still rely on the CC crate parameters.
+> +
+> +CRATE_CC_NO_DEFAULTS:class-target ?=3D "true"
+> +CRATE_CC_NO_DEFAULTS:class-nativesdk ?=3D "true"
+> +CRATE_CC_NO_DEFAULTS:class-native ?=3D ""
+> +
+> +# The CC crate checks for CRATE_CC_NO_DEFAULTS existence not value.
+> +# Even empty CRATE_CC_NO_DEFAULTS will be taken into account.
+> +# So, don't export it if empty.
+> +do_compile:prepend() {
+> +    if [ -n "${CRATE_CC_NO_DEFAULTS}" ]; then
+> +        export CRATE_CC_NO_DEFAULTS=3D"${CRATE_CC_NO_DEFAULTS}"
+> +        bbnote "CRATE_CC_NO_DEFAULTS is exported"
+> +    fi
+> +}
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- .../libxml/libxml2/fix-tests.patch            | 222 ++++++++++++++++++
- meta/recipes-core/libxml/libxml2/run-ptest    |   2 +-
- meta/recipes-core/libxml/libxml2_2.10.3.bb    |   1 +
- 3 files changed, 224 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/libxml/libxml2/fix-tests.patch
+Sorry about the delays on this. I did want to try and sort the
+underlying export issue and whilst I proposed a patch, the performance
+impact of it is a concern so it isn't moving forward right now.
 
-diff --git a/meta/recipes-core/libxml/libxml2/fix-tests.patch b/meta/reci=
-pes-core/libxml/libxml2/fix-tests.patch
-new file mode 100644
-index 00000000000..80678efcfee
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/fix-tests.patch
-@@ -0,0 +1,222 @@
-+Backport the following patches to fix the reader2 and runsuite test case=
-s:
-+
-+b92768cd tests: Enable "runsuite" test
-+0ac8c15e python/tests/reader2: use absolute paths everywhere
-+b9ba5e1d python/tests/reader2: always exit(1) if a test fails
-+
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+diff --git a/python/tests/reader2.py b/python/tests/reader2.py
-+index 65cecd47..6e6353b4 100755
-+--- a/python/tests/reader2.py
-++++ b/python/tests/reader2.py
-+@@ -6,7 +6,6 @@
-+ import sys
-+ import glob
-+ import os
-+-import string
-+ import libxml2
-+ try:
-+     import StringIO
-+@@ -20,103 +19,104 @@ libxml2.debugMemory(1)
-+=20
-+ err =3D ""
-+ basedir =3D os.path.dirname(os.path.realpath(__file__))
-+-dir_prefix =3D os.path.join(basedir, "../../test/valid/")
-++dir_prefix =3D os.path.realpath(os.path.join(basedir, "..", "..", "test=
-", "valid"))
-++
-+ # This dictionary reflects the contents of the files
-+ # ../../test/valid/*.xml.err that are not empty, except that
-+ # the file paths in the messages start with ../../test/
-+=20
-+ expect =3D {
-+     '766956':
-+-"""../../test/valid/dtds/766956.dtd:2: parser error : PEReference: expe=
-cting ';'
-++"""{0}/dtds/766956.dtd:2: parser error : PEReference: expecting ';'
-+ %=C3=A4%ent;
-+    ^
-+-../../test/valid/dtds/766956.dtd:2: parser error : Content error in the=
- external subset
-++{0}/dtds/766956.dtd:2: parser error : Content error in the external sub=
-set
-+ %=C3=A4%ent;
-+         ^
-+ Entity: line 1:=20
-+ value
-+ ^
-+-""",
-++""".format(dir_prefix),
-+     '781333':
-+-"""../../test/valid/781333.xml:4: element a: validity error : Element a=
- content does not follow the DTD, expecting ( ..., got=20
-++"""{0}/781333.xml:4: element a: validity error : Element a content does=
- not follow the DTD, expecting ( ..., got=20
-+ <a/>
-+     ^
-+-../../test/valid/781333.xml:5: element a: validity error : Element a co=
-ntent does not follow the DTD, Expecting more child
-++{0}/781333.xml:5: element a: validity error : Element a content does no=
-t follow the DTD, Expecting more child
-+=20
-+ ^
-+-""",
-++""".format(dir_prefix),
-+     'cond_sect2':
-+-"""../../test/valid/dtds/cond_sect2.dtd:15: parser error : All markup o=
-f the conditional section is not in the same entity
-++"""{0}/dtds/cond_sect2.dtd:15: parser error : All markup of the conditi=
-onal section is not in the same entity
-+     %ent;
-+          ^
-+ Entity: line 1:=20
-+ ]]>
-+ ^
-+-../../test/valid/dtds/cond_sect2.dtd:17: parser error : Content error i=
-n the external subset
-++{0}/dtds/cond_sect2.dtd:17: parser error : Content error in the externa=
-l subset
-+=20
-+ ^
-+-""",
-++""".format(dir_prefix),
-+     'rss':
-+-"""../../test/valid/rss.xml:177: element rss: validity error : Element =
-rss does not carry attribute version
-++"""{0}/rss.xml:177: element rss: validity error : Element rss does not =
-carry attribute version
-+ </rss>
-+       ^
-+-""",
-++""".format(dir_prefix),
-+     't8':
-+-"""../../test/valid/t8.xml:6: parser error : internal error: xmlParseIn=
-ternalSubset: error detected in Markup declaration
-++"""{0}/t8.xml:6: parser error : internal error: xmlParseInternalSubset:=
- error detected in Markup declaration
-+=20
-+ %defroot; %defmiddle; %deftest;
-+          ^
-+ Entity: line 1:=20
-+ &lt;!ELEMENT root (middle) >
-+ ^
-+-../../test/valid/t8.xml:6: parser error : internal error: xmlParseInter=
-nalSubset: error detected in Markup declaration
-++{0}/t8.xml:6: parser error : internal error: xmlParseInternalSubset: er=
-ror detected in Markup declaration
-+=20
-+ %defroot; %defmiddle; %deftest;
-+                      ^
-+ Entity: line 1:=20
-+ &lt;!ELEMENT middle (test) >
-+ ^
-+-../../test/valid/t8.xml:6: parser error : internal error: xmlParseInter=
-nalSubset: error detected in Markup declaration
-++{0}/t8.xml:6: parser error : internal error: xmlParseInternalSubset: er=
-ror detected in Markup declaration
-+=20
-+ %defroot; %defmiddle; %deftest;
-+                                ^
-+ Entity: line 1:=20
-+ &lt;!ELEMENT test (#PCDATA) >
-+ ^
-+-""",
-++""".format(dir_prefix),
-+     't8a':
-+-"""../../test/valid/t8a.xml:6: parser error : internal error: xmlParseI=
-nternalSubset: error detected in Markup declaration
-++"""{0}/t8a.xml:6: parser error : internal error: xmlParseInternalSubset=
-: error detected in Markup declaration
-+=20
-+ %defroot;%defmiddle;%deftest;
-+          ^
-+ Entity: line 1:=20
-+ &lt;!ELEMENT root (middle) >
-+ ^
-+-../../test/valid/t8a.xml:6: parser error : internal error: xmlParseInte=
-rnalSubset: error detected in Markup declaration
-++{0}/t8a.xml:6: parser error : internal error: xmlParseInternalSubset: e=
-rror detected in Markup declaration
-+=20
-+ %defroot;%defmiddle;%deftest;
-+                     ^
-+ Entity: line 1:=20
-+ &lt;!ELEMENT middle (test) >
-+ ^
-+-../../test/valid/t8a.xml:6: parser error : internal error: xmlParseInte=
-rnalSubset: error detected in Markup declaration
-++{0}/t8a.xml:6: parser error : internal error: xmlParseInternalSubset: e=
-rror detected in Markup declaration
-+=20
-+ %defroot;%defmiddle;%deftest;
-+                              ^
-+ Entity: line 1:=20
-+ &lt;!ELEMENT test (#PCDATA) >
-+ ^
-+-""",
-++""".format(dir_prefix),
-+     'xlink':
-+-"""../../test/valid/xlink.xml:450: element termdef: validity error : ID=
- dt-arc already defined
-++"""{0}/xlink.xml:450: element termdef: validity error : ID dt-arc alrea=
-dy defined
-+ 	<p><termdef id=3D"dt-arc" term=3D"Arc">An <ter
-+ 	                                  ^
-+ validity error : attribute def line 199 references an unknown ID "dt-xl=
-g"
-+-""",
-++""".format(dir_prefix),
-+ }
-+=20
-+ # Add prefix_dir and extension to the keys
-+-expect =3D {"{}{}.xml".format(dir_prefix, key): val for key, val in exp=
-ect.items()}
-++expect =3D {os.path.join(dir_prefix, key + ".xml"): val for key, val in=
- expect.items()}
-+=20
-+ def callback(ctx, str):
-+     global err
-+@@ -124,11 +124,12 @@ def callback(ctx, str):
-+ libxml2.registerErrorHandler(callback, "")
-+=20
-+ parsing_error_files =3D ["766956", "cond_sect2", "t8", "t8a"]
-+-expect_parsing_error =3D ["{}{}.xml".format(dir_prefix, f) for f in par=
-sing_error_files]
-++expect_parsing_error =3D [os.path.join(dir_prefix, f + ".xml") for f in=
- parsing_error_files]
-+=20
-+-valid_files =3D glob.glob(dir_prefix + "*.x*")
-++valid_files =3D glob.glob(os.path.join(dir_prefix, "*.x*"))
-+ assert valid_files, "found no valid files in '{}'".format(dir_prefix)
-+ valid_files.sort()
-++failures =3D 0
-+ for file in valid_files:
-+     err =3D ""
-+     reader =3D libxml2.newTextReaderFilename(file)
-+@@ -142,9 +143,15 @@ for file in valid_files:
-+         #sys.exit(1)
-+     if (err):
-+         if not(file in expect and err =3D=3D expect[file]):
-++            failures +=3D 1
-+             print("Error: ", err)
-+             if file in expect:
-+                 print("Expected: ", expect[file])
-++
-++if failures:
-++    print("Failed %d tests" % failures)
-++    sys.exit(1)
-++
-+ #
-+ # another separate test based on Stephane Bidoul one
-+ #
-+@@ -337,9 +344,11 @@ while reader.Read() =3D=3D 1:
-+ if res !=3D expect:
-+     print("test5 failed: unexpected output")
-+     print(res)
-++    sys.exit(1)
-+ if err !=3D "":
-+     print("test5 failed: validation error found")
-+     print(err)
-++    sys.exit(1)
-+=20
-+ #
-+ # cleanup
-+diff --git a/runsuite.c b/runsuite.c
-+index 483490a2..a522d24b 100644
-+--- a/runsuite.c
-++++ b/runsuite.c
-+@@ -1054,13 +1054,18 @@ main(int argc ATTRIBUTE_UNUSED, char **argv ATTR=
-IBUTE_UNUSED) {
-+     old_tests =3D nb_tests;
-+     old_leaks =3D nb_leaks;
-+     xsdTest();
-+-    if ((nb_errors =3D=3D old_errors) && (nb_leaks =3D=3D old_leaks))
-+-	printf("Ran %d tests, no errors\n", nb_tests - old_tests);
-+-    else
-+-	printf("Ran %d tests, %d errors, %d leaks\n",
-+-	       nb_tests - old_tests,
-+-	       nb_errors - old_errors,
-+-	       nb_leaks - old_leaks);
-++    printf("Ran %d tests, %d errors, %d leaks\n",
-++           nb_tests - old_tests,
-++           nb_errors - old_errors,
-++           nb_leaks - old_leaks);
-++    if (nb_errors - old_errors =3D=3D 10) {
-++        printf("10 errors were expected\n");
-++        nb_errors =3D old_errors;
-++    } else {
-++        printf("10 errors were expected, got %d errors\n",
-++               nb_errors - old_errors);
-++        nb_errors =3D old_errors + 1;
-++    }
-+     old_errors =3D nb_errors;
-+     old_tests =3D nb_tests;
-+     old_leaks =3D nb_leaks;
-diff --git a/meta/recipes-core/libxml/libxml2/run-ptest b/meta/recipes-co=
-re/libxml/libxml2/run-ptest
-index d5c7bb5b02f..f252a78f179 100755
---- a/meta/recipes-core/libxml/libxml2/run-ptest
-+++ b/meta/recipes-core/libxml/libxml2/run-ptest
-@@ -5,7 +5,7 @@ set -e
- export LC_ALL=3Den_US.UTF-8
-=20
- # testModule isn't that useful and hard-codes buildtree, so we don't run=
- that
--TESTS=3D"runtest testrecurse testchar testdict testThreads runxmlconf te=
-stapi"
-+TESTS=3D"runtest runsuite testrecurse testchar testdict testThreads runx=
-mlconf testapi"
-=20
- for T in $TESTS; do
-     echo Running $T
-diff --git a/meta/recipes-core/libxml/libxml2_2.10.3.bb b/meta/recipes-co=
-re/libxml/libxml2_2.10.3.bb
-index 32b37aacdb5..645d102e785 100644
---- a/meta/recipes-core/libxml/libxml2_2.10.3.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.10.3.bb
-@@ -16,6 +16,7 @@ inherit gnomebase
- SRC_URI +=3D "http://www.w3.org/XML/Test/xmlts20080827.tar.gz;subdir=3D$=
-{BP};name=3Dtesttar \
-            file://run-ptest \
-            file://libxml-64bit.patch \
-+           file://fix-tests.patch \
-            file://install-tests.patch \
-            file://libxml-m4-use-pkgconfig.patch \
-            "
---=20
-2.34.1
+I suspect that means we should merge a different fix for now. The above
+is still a little more complex and harder to read than it could be.
+Could you try a version which does something like:
+
+
+do_compile:prepend:class-target() {
+    export CRATE_CC_NO_DEFAULTS=3D1
+}
+
+do_compile:prepend:class-nativesdk() {
+    export CRATE_CC_NO_DEFAULTS=3D1
+}
+
+which should be a bit clearer/simpler?
+
+Cheers,
+
+Richard
 
 
