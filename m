@@ -1,183 +1,344 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9E9CC63709
-	for <webhook@archiver.kernel.org>; Thu,  8 Dec 2022 11:54:45 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.11510.1670500475819790882
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6F5BC4332F
+	for <webhook@archiver.kernel.org>; Thu,  8 Dec 2022 12:10:45 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.11729.1670501442329859308
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Dec 2022 03:54:36 -0800
+ Thu, 08 Dec 2022 04:10:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=T0FmoTDn;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id o15so525673wmr.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Dec 2022 03:54:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Adu0+P9APn5O4rp7mWquULu2UDyxG2kVcOuqfGkmjkg=;
-        b=T0FmoTDn3yXhE0iqyss/efMR5KLyELf/H6x7JH2a6YysHZ9GbJDuraSIKSxoatbpib
-         aGrei9aWB+RiWSj73+8iW0rX1y8smF2wWuyFUHCbukumZsWOujHQfpRqyr1JStd6MQAu
-         cZU/j+GwmowXvrqTPy3xqzn4RV5XTD8LBq1bA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Adu0+P9APn5O4rp7mWquULu2UDyxG2kVcOuqfGkmjkg=;
-        b=ASbuOUunA7F4GDuHpKXUci77Wh1V53omPIC57fNtCwaTZ7/CF26U34PMNBbeZ8UxV/
-         gNfht2VFKGRllRlRuCba1S1L1E3FWd6e2AbEzY3VD3DJ5Sq1TqG7LdRGfG1gDCQ3pO0q
-         qm3yWXdKv/QYObcCJ0i6B7RQPKOwvZgF5YuDMD6U62cUSyz5cH062SrVZHZ3GGiy/Bw/
-         xAVI10D+Cz9xg4E/txazWItefZG6qq6B5qKxRpjx+GK4p2mtSBPoHrQATmITZqa1hJjY
-         ot9G++1fGl8ZOYqQ81LXWIaNl8JLQGlyZC0vP59ovxkCtP0uzRxe/+XvghqW/k8UuFHk
-         +J4Q==
-X-Gm-Message-State: ANoB5pldwb2ETIxA6cP5MZZobvVDzJet6cB8FJ/J4oMxH9Tm4fRGdT8d
-	l9YArP2ddfB60NvOtMCf9cWeHDi1JxDQk0I1
-X-Google-Smtp-Source: AA0mqf4LMIywnRTRnZR6ekRKQqfMHpkBKvJ59NwleZVQeV0uc91V1XhY8n6aW0iLrhPHGiMDErTaIg==
-X-Received: by 2002:a05:600c:34d0:b0:3d0:89f7:f82e with SMTP id d16-20020a05600c34d000b003d089f7f82emr1788248wmq.21.1670500473565;
-        Thu, 08 Dec 2022 03:54:33 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:50bb:c4ee:bb3b:bc91])
-        by smtp.gmail.com with ESMTPSA id p12-20020a05600c468c00b003cfaae07f68sm5447180wmo.17.2022.12.08.03.54.32
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Dec 2022 03:54:33 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A6B0723A;
+	Thu,  8 Dec 2022 04:10:48 -0800 (PST)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 59AA73F73B;
+	Thu,  8 Dec 2022 04:10:41 -0800 (PST)
+From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] yocto-check-layer: Allow OE-Core to be tested
-Date: Thu,  8 Dec 2022 11:54:32 +0000
-Message-Id: <20221208115432.2332379-1-richard.purdie@linuxfoundation.org>
+Cc: nd@arm.com
+Subject: [PATCH] libxml2: add more testing
+Date: Thu,  8 Dec 2022 12:10:39 +0000
+Message-Id: <20221208121039.3507174-1-ross.burton@arm.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Dec 2022 11:54:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174400
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Dec 2022 12:10:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174401
 
-For unknown reasons we've never seemingly run the check layer script
-against OE-Core itself. This isn't entirely straightforward as the core
-layer is a bit of a special case, we can't for example compare signatures
-against ourselve and we can't remove core from bblayers.conf.
+Backport more test cases fixes from upstream, and add runsuite to the
+ptests.
 
-Core does have distro, machine and software components too, in the case
-of distro, our fallback default settings. Whilst the qemu machines could
-be split into a seperate layer directory, core wouldn't then parse at all
-standalone due to the lack of any machine so it seems a bit pointless to
-do that.
-
-These changes tweak the script to handle core's special cases, specifically
-to allow distro and machine directories and to account for the README placed
-a directory level higher than other layers.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- scripts/lib/checklayer/__init__.py     | 11 ++++++++---
- scripts/lib/checklayer/cases/bsp.py    |  2 +-
- scripts/lib/checklayer/cases/common.py |  3 +++
- scripts/lib/checklayer/cases/distro.py |  2 +-
- scripts/yocto-check-layer              |  5 ++---
- 5 files changed, 15 insertions(+), 8 deletions(-)
+ .../libxml/libxml2/fix-tests.patch            | 222 ++++++++++++++++++
+ meta/recipes-core/libxml/libxml2/run-ptest    |   2 +-
+ meta/recipes-core/libxml/libxml2_2.10.3.bb    |   1 +
+ 3 files changed, 224 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/libxml/libxml2/fix-tests.patch
 
-diff --git a/scripts/lib/checklayer/__init__.py b/scripts/lib/checklayer/__init__.py
-index 78c74ca6ec3..0a0db2f02ac 100644
---- a/scripts/lib/checklayer/__init__.py
-+++ b/scripts/lib/checklayer/__init__.py
-@@ -16,6 +16,7 @@ class LayerType(Enum):
-     BSP = 0
-     DISTRO = 1
-     SOFTWARE = 2
-+    CORE = 3
-     ERROR_NO_LAYER_CONF = 98
-     ERROR_BSP_DISTRO = 99
- 
-@@ -106,7 +107,13 @@ def _detect_layer(layer_path):
-         if distros:
-             is_distro = True
- 
--    if is_bsp and is_distro:
-+    layer['collections'] = _get_layer_collections(layer['path'])
+diff --git a/meta/recipes-core/libxml/libxml2/fix-tests.patch b/meta/reci=
+pes-core/libxml/libxml2/fix-tests.patch
+new file mode 100644
+index 00000000000..80678efcfee
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/fix-tests.patch
+@@ -0,0 +1,222 @@
++Backport the following patches to fix the reader2 and runsuite test case=
+s:
 +
-+    if layer_name == "meta" and "core" in layer['collections']:
-+        layer['type'] = LayerType.CORE
-+        layer['conf']['machines'] = machines
-+        layer['conf']['distros'] = distros
-+    elif is_bsp and is_distro:
-         layer['type'] = LayerType.ERROR_BSP_DISTRO
-     elif is_bsp:
-         layer['type'] = LayerType.BSP
-@@ -117,8 +124,6 @@ def _detect_layer(layer_path):
-     else:
-         layer['type'] = LayerType.SOFTWARE
- 
--    layer['collections'] = _get_layer_collections(layer['path'])
--
-     return layer
- 
- def detect_layers(layer_directories, no_auto):
-diff --git a/scripts/lib/checklayer/cases/bsp.py b/scripts/lib/checklayer/cases/bsp.py
-index a80a5844da6..b76163fb56d 100644
---- a/scripts/lib/checklayer/cases/bsp.py
-+++ b/scripts/lib/checklayer/cases/bsp.py
-@@ -11,7 +11,7 @@ from checklayer.case import OECheckLayerTestCase
- class BSPCheckLayer(OECheckLayerTestCase):
-     @classmethod
-     def setUpClass(self):
--        if self.tc.layer['type'] != LayerType.BSP:
-+        if self.tc.layer['type'] not in (LayerType.BSP, LayerType.CORE):
-             raise unittest.SkipTest("BSPCheckLayer: Layer %s isn't BSP one." %\
-                 self.tc.layer['name'])
- 
-diff --git a/scripts/lib/checklayer/cases/common.py b/scripts/lib/checklayer/cases/common.py
-index 491a13953c8..722d3cf6383 100644
---- a/scripts/lib/checklayer/cases/common.py
-+++ b/scripts/lib/checklayer/cases/common.py
-@@ -12,6 +12,9 @@ from checklayer.case import OECheckLayerTestCase
- 
- class CommonCheckLayer(OECheckLayerTestCase):
-     def test_readme(self):
-+        if self.tc.layer['type'] == LayerType.CORE:
-+            raise unittest.SkipTest("Core layer's README is top level")
++b92768cd tests: Enable "runsuite" test
++0ac8c15e python/tests/reader2: use absolute paths everywhere
++b9ba5e1d python/tests/reader2: always exit(1) if a test fails
 +
-         # The top-level README file may have a suffix (like README.rst or README.txt).
-         readme_files = glob.glob(os.path.join(self.tc.layer['path'], '[Rr][Ee][Aa][Dd][Mm][Ee]*'))
-         self.assertTrue(len(readme_files) > 0,
-diff --git a/scripts/lib/checklayer/cases/distro.py b/scripts/lib/checklayer/cases/distro.py
-index f0bee5493c2..a35332451c7 100644
---- a/scripts/lib/checklayer/cases/distro.py
-+++ b/scripts/lib/checklayer/cases/distro.py
-@@ -11,7 +11,7 @@ from checklayer.case import OECheckLayerTestCase
- class DistroCheckLayer(OECheckLayerTestCase):
-     @classmethod
-     def setUpClass(self):
--        if self.tc.layer['type'] != LayerType.DISTRO:
-+        if self.tc.layer['type'] not in (LayerType.DISTRO, LayerType.CORE):
-             raise unittest.SkipTest("DistroCheckLayer: Layer %s isn't Distro one." %\
-                 self.tc.layer['name'])
- 
-diff --git a/scripts/yocto-check-layer b/scripts/yocto-check-layer
-index 0e5b75b1f7d..67cc71950ff 100755
---- a/scripts/yocto-check-layer
-+++ b/scripts/yocto-check-layer
-@@ -168,14 +168,13 @@ def main():
- 
-     layers_tested = 0
-     for layer in layers:
--        if layer['type'] == LayerType.ERROR_NO_LAYER_CONF or \
--                layer['type'] == LayerType.ERROR_BSP_DISTRO:
-+        if layer['type'] in (LayerType.ERROR_NO_LAYER_CONF, LayerType.ERROR_BSP_DISTRO):
-             continue
- 
-         # Reset to a clean backup copy for each run
-         shutil.copyfile(bblayersconf + '.backup', bblayersconf)
- 
--        if check_bblayers(bblayersconf, layer['path'], logger):
-+        if layer['type'] not in (LayerType.CORE, ) and check_bblayers(bblayersconf, layer['path'], logger):
-             logger.info("%s already in %s. To capture initial signatures, layer under test should not present "
-                "in BBLAYERS. Please remove %s from BBLAYERS." % (layer['name'], bblayersconf, layer['name']))
-             results[layer['name']] = None
--- 
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++
++diff --git a/python/tests/reader2.py b/python/tests/reader2.py
++index 65cecd47..6e6353b4 100755
++--- a/python/tests/reader2.py
+++++ b/python/tests/reader2.py
++@@ -6,7 +6,6 @@
++ import sys
++ import glob
++ import os
++-import string
++ import libxml2
++ try:
++     import StringIO
++@@ -20,103 +19,104 @@ libxml2.debugMemory(1)
++=20
++ err =3D ""
++ basedir =3D os.path.dirname(os.path.realpath(__file__))
++-dir_prefix =3D os.path.join(basedir, "../../test/valid/")
+++dir_prefix =3D os.path.realpath(os.path.join(basedir, "..", "..", "test=
+", "valid"))
+++
++ # This dictionary reflects the contents of the files
++ # ../../test/valid/*.xml.err that are not empty, except that
++ # the file paths in the messages start with ../../test/
++=20
++ expect =3D {
++     '766956':
++-"""../../test/valid/dtds/766956.dtd:2: parser error : PEReference: expe=
+cting ';'
+++"""{0}/dtds/766956.dtd:2: parser error : PEReference: expecting ';'
++ %=C3=A4%ent;
++    ^
++-../../test/valid/dtds/766956.dtd:2: parser error : Content error in the=
+ external subset
+++{0}/dtds/766956.dtd:2: parser error : Content error in the external sub=
+set
++ %=C3=A4%ent;
++         ^
++ Entity: line 1:=20
++ value
++ ^
++-""",
+++""".format(dir_prefix),
++     '781333':
++-"""../../test/valid/781333.xml:4: element a: validity error : Element a=
+ content does not follow the DTD, expecting ( ..., got=20
+++"""{0}/781333.xml:4: element a: validity error : Element a content does=
+ not follow the DTD, expecting ( ..., got=20
++ <a/>
++     ^
++-../../test/valid/781333.xml:5: element a: validity error : Element a co=
+ntent does not follow the DTD, Expecting more child
+++{0}/781333.xml:5: element a: validity error : Element a content does no=
+t follow the DTD, Expecting more child
++=20
++ ^
++-""",
+++""".format(dir_prefix),
++     'cond_sect2':
++-"""../../test/valid/dtds/cond_sect2.dtd:15: parser error : All markup o=
+f the conditional section is not in the same entity
+++"""{0}/dtds/cond_sect2.dtd:15: parser error : All markup of the conditi=
+onal section is not in the same entity
++     %ent;
++          ^
++ Entity: line 1:=20
++ ]]>
++ ^
++-../../test/valid/dtds/cond_sect2.dtd:17: parser error : Content error i=
+n the external subset
+++{0}/dtds/cond_sect2.dtd:17: parser error : Content error in the externa=
+l subset
++=20
++ ^
++-""",
+++""".format(dir_prefix),
++     'rss':
++-"""../../test/valid/rss.xml:177: element rss: validity error : Element =
+rss does not carry attribute version
+++"""{0}/rss.xml:177: element rss: validity error : Element rss does not =
+carry attribute version
++ </rss>
++       ^
++-""",
+++""".format(dir_prefix),
++     't8':
++-"""../../test/valid/t8.xml:6: parser error : internal error: xmlParseIn=
+ternalSubset: error detected in Markup declaration
+++"""{0}/t8.xml:6: parser error : internal error: xmlParseInternalSubset:=
+ error detected in Markup declaration
++=20
++ %defroot; %defmiddle; %deftest;
++          ^
++ Entity: line 1:=20
++ &lt;!ELEMENT root (middle) >
++ ^
++-../../test/valid/t8.xml:6: parser error : internal error: xmlParseInter=
+nalSubset: error detected in Markup declaration
+++{0}/t8.xml:6: parser error : internal error: xmlParseInternalSubset: er=
+ror detected in Markup declaration
++=20
++ %defroot; %defmiddle; %deftest;
++                      ^
++ Entity: line 1:=20
++ &lt;!ELEMENT middle (test) >
++ ^
++-../../test/valid/t8.xml:6: parser error : internal error: xmlParseInter=
+nalSubset: error detected in Markup declaration
+++{0}/t8.xml:6: parser error : internal error: xmlParseInternalSubset: er=
+ror detected in Markup declaration
++=20
++ %defroot; %defmiddle; %deftest;
++                                ^
++ Entity: line 1:=20
++ &lt;!ELEMENT test (#PCDATA) >
++ ^
++-""",
+++""".format(dir_prefix),
++     't8a':
++-"""../../test/valid/t8a.xml:6: parser error : internal error: xmlParseI=
+nternalSubset: error detected in Markup declaration
+++"""{0}/t8a.xml:6: parser error : internal error: xmlParseInternalSubset=
+: error detected in Markup declaration
++=20
++ %defroot;%defmiddle;%deftest;
++          ^
++ Entity: line 1:=20
++ &lt;!ELEMENT root (middle) >
++ ^
++-../../test/valid/t8a.xml:6: parser error : internal error: xmlParseInte=
+rnalSubset: error detected in Markup declaration
+++{0}/t8a.xml:6: parser error : internal error: xmlParseInternalSubset: e=
+rror detected in Markup declaration
++=20
++ %defroot;%defmiddle;%deftest;
++                     ^
++ Entity: line 1:=20
++ &lt;!ELEMENT middle (test) >
++ ^
++-../../test/valid/t8a.xml:6: parser error : internal error: xmlParseInte=
+rnalSubset: error detected in Markup declaration
+++{0}/t8a.xml:6: parser error : internal error: xmlParseInternalSubset: e=
+rror detected in Markup declaration
++=20
++ %defroot;%defmiddle;%deftest;
++                              ^
++ Entity: line 1:=20
++ &lt;!ELEMENT test (#PCDATA) >
++ ^
++-""",
+++""".format(dir_prefix),
++     'xlink':
++-"""../../test/valid/xlink.xml:450: element termdef: validity error : ID=
+ dt-arc already defined
+++"""{0}/xlink.xml:450: element termdef: validity error : ID dt-arc alrea=
+dy defined
++ 	<p><termdef id=3D"dt-arc" term=3D"Arc">An <ter
++ 	                                  ^
++ validity error : attribute def line 199 references an unknown ID "dt-xl=
+g"
++-""",
+++""".format(dir_prefix),
++ }
++=20
++ # Add prefix_dir and extension to the keys
++-expect =3D {"{}{}.xml".format(dir_prefix, key): val for key, val in exp=
+ect.items()}
+++expect =3D {os.path.join(dir_prefix, key + ".xml"): val for key, val in=
+ expect.items()}
++=20
++ def callback(ctx, str):
++     global err
++@@ -124,11 +124,12 @@ def callback(ctx, str):
++ libxml2.registerErrorHandler(callback, "")
++=20
++ parsing_error_files =3D ["766956", "cond_sect2", "t8", "t8a"]
++-expect_parsing_error =3D ["{}{}.xml".format(dir_prefix, f) for f in par=
+sing_error_files]
+++expect_parsing_error =3D [os.path.join(dir_prefix, f + ".xml") for f in=
+ parsing_error_files]
++=20
++-valid_files =3D glob.glob(dir_prefix + "*.x*")
+++valid_files =3D glob.glob(os.path.join(dir_prefix, "*.x*"))
++ assert valid_files, "found no valid files in '{}'".format(dir_prefix)
++ valid_files.sort()
+++failures =3D 0
++ for file in valid_files:
++     err =3D ""
++     reader =3D libxml2.newTextReaderFilename(file)
++@@ -142,9 +143,15 @@ for file in valid_files:
++         #sys.exit(1)
++     if (err):
++         if not(file in expect and err =3D=3D expect[file]):
+++            failures +=3D 1
++             print("Error: ", err)
++             if file in expect:
++                 print("Expected: ", expect[file])
+++
+++if failures:
+++    print("Failed %d tests" % failures)
+++    sys.exit(1)
+++
++ #
++ # another separate test based on Stephane Bidoul one
++ #
++@@ -337,9 +344,11 @@ while reader.Read() =3D=3D 1:
++ if res !=3D expect:
++     print("test5 failed: unexpected output")
++     print(res)
+++    sys.exit(1)
++ if err !=3D "":
++     print("test5 failed: validation error found")
++     print(err)
+++    sys.exit(1)
++=20
++ #
++ # cleanup
++diff --git a/runsuite.c b/runsuite.c
++index 483490a2..a522d24b 100644
++--- a/runsuite.c
+++++ b/runsuite.c
++@@ -1054,13 +1054,18 @@ main(int argc ATTRIBUTE_UNUSED, char **argv ATTR=
+IBUTE_UNUSED) {
++     old_tests =3D nb_tests;
++     old_leaks =3D nb_leaks;
++     xsdTest();
++-    if ((nb_errors =3D=3D old_errors) && (nb_leaks =3D=3D old_leaks))
++-	printf("Ran %d tests, no errors\n", nb_tests - old_tests);
++-    else
++-	printf("Ran %d tests, %d errors, %d leaks\n",
++-	       nb_tests - old_tests,
++-	       nb_errors - old_errors,
++-	       nb_leaks - old_leaks);
+++    printf("Ran %d tests, %d errors, %d leaks\n",
+++           nb_tests - old_tests,
+++           nb_errors - old_errors,
+++           nb_leaks - old_leaks);
+++    if (nb_errors - old_errors =3D=3D 10) {
+++        printf("10 errors were expected\n");
+++        nb_errors =3D old_errors;
+++    } else {
+++        printf("10 errors were expected, got %d errors\n",
+++               nb_errors - old_errors);
+++        nb_errors =3D old_errors + 1;
+++    }
++     old_errors =3D nb_errors;
++     old_tests =3D nb_tests;
++     old_leaks =3D nb_leaks;
+diff --git a/meta/recipes-core/libxml/libxml2/run-ptest b/meta/recipes-co=
+re/libxml/libxml2/run-ptest
+index d5c7bb5b02f..f252a78f179 100755
+--- a/meta/recipes-core/libxml/libxml2/run-ptest
++++ b/meta/recipes-core/libxml/libxml2/run-ptest
+@@ -5,7 +5,7 @@ set -e
+ export LC_ALL=3Den_US.UTF-8
+=20
+ # testModule isn't that useful and hard-codes buildtree, so we don't run=
+ that
+-TESTS=3D"runtest testrecurse testchar testdict testThreads runxmlconf te=
+stapi"
++TESTS=3D"runtest runsuite testrecurse testchar testdict testThreads runx=
+mlconf testapi"
+=20
+ for T in $TESTS; do
+     echo Running $T
+diff --git a/meta/recipes-core/libxml/libxml2_2.10.3.bb b/meta/recipes-co=
+re/libxml/libxml2_2.10.3.bb
+index 32b37aacdb5..645d102e785 100644
+--- a/meta/recipes-core/libxml/libxml2_2.10.3.bb
++++ b/meta/recipes-core/libxml/libxml2_2.10.3.bb
+@@ -16,6 +16,7 @@ inherit gnomebase
+ SRC_URI +=3D "http://www.w3.org/XML/Test/xmlts20080827.tar.gz;subdir=3D$=
+{BP};name=3Dtesttar \
+            file://run-ptest \
+            file://libxml-64bit.patch \
++           file://fix-tests.patch \
+            file://install-tests.patch \
+            file://libxml-m4-use-pkgconfig.patch \
+            "
+--=20
 2.34.1
 
 
