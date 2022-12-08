@@ -1,149 +1,90 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85A83C3A5A7
-	for <webhook@archiver.kernel.org>; Thu,  8 Dec 2022 09:24:04 +0000 (UTC)
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
- by mx.groups.io with SMTP id smtpd.web11.9327.1670491439398441611
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A732AC63705
+	for <webhook@archiver.kernel.org>; Thu,  8 Dec 2022 10:01:14 +0000 (UTC)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+ by mx.groups.io with SMTP id smtpd.web10.9732.1670493671733308999
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Dec 2022 01:24:00 -0800
+ Thu, 08 Dec 2022 02:01:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=a7YZQ2Nd;
- spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id CBBAF1BF204;
-	Thu,  8 Dec 2022 09:23:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1670491437;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EpY3HuolKUUEO8geKNN4SbRuydYrIkTIeBVQgHjnyQc=;
-	b=a7YZQ2Nd0jmD5pWAyrQ83vHsR3KStku/lmCxLM1XCZ76/iAPaCDF7Orq9yRlNIQeuKUEXk
-	1Tha2iWJ4BMPRDTAvIuzeVHPvbDr5RkScyp6r4xZVuyz82WAVTJ6Up0MNCwjo9uBRaRMQm
-	MwfjNtHB2SLR+MjNfKAURHhGWLDWB++m9Z8Rd6zWv7HJOQHOrOAlIKbiyQx0Et0u/Vi8CM
-	kwpHUhsFd7IANqM2ygrFhD5a4sxkMqBXixQW40QffSJXdek858Qd7Mn90jQ4T5+BOA1+/6
-	p5w98Vprg8hNwR88d34tYDKolmwQvg/hZWKrNwVd6vGaSy3cRMVtoJb2wrn18w==
-Date: Thu, 8 Dec 2022 10:23:54 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Manoj Saun <manojsingh.saun@windriver.com>
-Cc: openembedded-core@lists.openembedded.org, narpat.mali@windriver.com
-Subject: Re: [OE-core] [meta-core][PATCH 1/1] libksba: fix CVE-2022-3515
-Message-ID: <Y5GtKvwEUpRfP0wp@mail.local>
-References: <20221208062744.3450638-1-manojsingh.saun@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Qn/zCSfN;
+ spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f174.google.com with SMTP id f20so1012129lja.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Dec 2022 02:01:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=TtdLgBKNI7OJZx389iFiu4L2SHTJVkFEWZFYM7szeAc=;
+        b=Qn/zCSfNpCDZK+Y2kQusIWodPYJZAhVew1o5R6dj0v7KB3nvoKHAQPGnunCwW2ju/z
+         AS/42/2eBC4HyI/bZi/iQH693DL34hbgzKA0LI+KbAVKAS4n4lZVO1WTp1Hoj2I7Qi09
+         F/SSZ/QTZEFDUwCcqzN9SdsKmTuMCXtSyBWMmhc4XmMsB2UorncdoCYTHVzfLYy5TQkW
+         xG3RxhN+Wu8E6XtpscjENCnh0Mcm8boRx7jusd62X857W++22+6ZUtA5HYHxh7VOigTw
+         k4BbEtUu6/QlKEP2ZdSH1+njdTKZDK+KJtIFS+ojtlA43RJ3v6XwuYlgwAAl9xkWObqr
+         zm1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TtdLgBKNI7OJZx389iFiu4L2SHTJVkFEWZFYM7szeAc=;
+        b=Ig8iQIFWochlD/Jf9sM7Y3n2me2zUqiUEMYPhAYeUXGWgV51dZqrHIjY6p0fcKkDdn
+         YVYgOMF65X269G8UwlTni1zE75UIiMjf7d7ddSqZ/YI2ZMSO4gipsVxolbpmk9AQKwe9
+         ZWYszhARPn0cVuSujcbxdNaL53eY5V9q0B8ZGdeMNLtMlvKURpqrLlsri+pIIfF/z3mr
+         VZjSiUkKk1UfRfm3+Jbs1DyYh3zxheXRr+zWH3hWgfiKs4Z9ZpqKvcjqfvReq7pmrNeW
+         43go5LZDiarsRknuWLsXvIJqe7eu2Be8yFhv9bhXRWbWeXEXnRMTfLrafr2AHCwU3wuH
+         siug==
+X-Gm-Message-State: ANoB5pnTdzPSvf7GFudL0vFI2M4wddffEkuT7Qpn+759GSl1TAsA7D4x
+	50nbD2A5kegYUX9TUXpUOJB6NzqeR9+QtC+eRtw=
+X-Google-Smtp-Source: AA0mqf57NZMpXhuMHzV0mXSrOcJiZNtxTfqUnZDBibnv2LJt8VhD4NC2FOavGozvPuwAeH9046I/RJyJFQp/uLGZyPc=
+X-Received: by 2002:a2e:94cb:0:b0:279:8865:38e1 with SMTP id
+ r11-20020a2e94cb000000b00279886538e1mr20151708ljh.217.1670493669913; Thu, 08
+ Dec 2022 02:01:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221208062744.3450638-1-manojsingh.saun@windriver.com>
+References: <20221208071136.1967696-1-olani@axis.com> <20221208071136.1967696-4-olani@axis.com>
+In-Reply-To: <20221208071136.1967696-4-olani@axis.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 8 Dec 2022 11:00:58 +0100
+Message-ID: <CANNYZj_NFOejE6Xe2xHTTWkuMVY2TmPGpXTZYT=3+5V1Y2u3Xg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH RFC 3/3] time64.conf: Include to enable 64 bit
+ time flags
+To: Ola x Nilsson <olani@axis.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Dec 2022 09:24:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174393
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Dec 2022 10:01:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174394
 
-Hello,
+On Thu, 8 Dec 2022 at 08:11, Ola x Nilsson <olani@axis.com> wrote:
+> +# TODO: Only for 32-bit architectures?
+> +TARGET_CC_ARCH:append:arm = " ${GLIBC_64BIT_TIME_FLAGS}"
+> +TARGET_CC_ARCH:append:armeb = " ${GLIBC_64BIT_TIME_FLAGS}"
+> +TARGET_CC_ARCH:append:mips32el = " ${GLIBC_64BIT_TIME_FLAGS}"
 
-On 08/12/2022 06:27:44+0000, Manoj Saun wrote:
-> libksba: integer overflow may lead to remote code execution.
-> 
-> Reference:
-> https://www.gnupg.org/blog/20221017-pepe-left-the-ksba.html
-> 
-> Upstream fixes:
-> https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libksba.git;a=commit;h=4b7d9cd4a018898d7714ce06f3faf2626c14582b
-> 
+On the contrary, why not set this globally?
 
-The patch is missing Upstream-Status:
-
-Missing Upstream-Status tag (meta/recipes-support/libksba/libksba/0001-Detect-a-possible-overflow-directly-in-the-TLV-parse.patch)
-
-> Signed-off-by: Manoj Saun <manojsingh.saun@windriver.com>
-> ---
->  ...e-overflow-directly-in-the-TLV-parse.patch | 42 +++++++++++++++++++
->  meta/recipes-support/libksba/libksba_1.6.2.bb |  3 +-
->  2 files changed, 44 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-support/libksba/libksba/0001-Detect-a-possible-overflow-directly-in-the-TLV-parse.patch
-> 
-> diff --git a/meta/recipes-support/libksba/libksba/0001-Detect-a-possible-overflow-directly-in-the-TLV-parse.patch b/meta/recipes-support/libksba/libksba/0001-Detect-a-possible-overflow-directly-in-the-TLV-parse.patch
-> new file mode 100644
-> index 0000000000..e2cb842a4d
-> --- /dev/null
-> +++ b/meta/recipes-support/libksba/libksba/0001-Detect-a-possible-overflow-directly-in-the-TLV-parse.patch
-> @@ -0,0 +1,42 @@
-> +From 4b7d9cd4a018898d7714ce06f3faf2626c14582b Mon Sep 17 00:00:00 2001
-> +From: Werner Koch <wk@gnupg.org>
-> +Date: Wed, 5 Oct 2022 14:19:06 +0200
-> +Subject: [PATCH] Detect a possible overflow directly in the TLV parser.
+> +GLIBC_64BIT_TIME_FLAGS:pn-glibc = ""
+> +GLIBC_64BIT_TIME_FLAGS:pn-glibc-tests = ""
+> +# pipewire-v4l2 explicitly sets _FILE_OFFSET_BITS=32 to get access to
+> +# both 32 and 64 bit file APIs.  But it does not handle the time side?
+> +# Needs further investigation
+> +GLIBC_64BIT_TIME_FLAGS:pn-pipewire = ""
+> +GLIBC_64BIT_TIME_FLAGS:pn-gcc-sanitizers = ""
 > +
-> +* src/ber-help.c (_ksba_ber_read_tl): Check for overflow of a commonly
-> +used sum.
-> +--
+> +INSANE_SKIP:libstd-rs[_usr_lib_rustlib_armv7-poky-linux-gnueabihf_lib_libstd.so] = "clock_gettime gettime fcntl fstat64 fstatat64 getsockopt ioctl lstat64 nanosleep prctl recvmsg sendmsg setsockopt stat64"
+> +INSANE_SKIP:librsvg[_usr_bin_rsvg-convert] = "fcntl fstat64 prctl stat64 clock_gettime"
+> +INSANE_SKIP:librsvg[_usr_lib_librsvg-2.so.2.48.0] = "fcntl lstat64 setsockopt sendmsg fstat64 getsockopt ioctl nanosleep timegm fstatat64 prctl mktime gmtime_r recvmsg stat64 clock_gettime localtime_r"
 > +
-> +It is quite common to have checks like
-> +
-> +    if (ti.nhdr + ti.length >= DIM(tmpbuf))
-> +       return gpg_error (GPG_ERR_TOO_LARGE);
-> +
-> +This patch detects possible integer overflows immmediately when
-> +creating the TI object.
-> +
-> +Reported-by: ZDI-CAN-18927, ZDI-CAN-18928, ZDI-CAN-18929
-> +---
-> + src/ber-help.c | 6 ++++++
-> + 1 file changed, 6 insertions(+)
-> +
-> +diff --git a/src/ber-help.c b/src/ber-help.c
-> +index 81c31ed..56efb6a 100644
-> +--- a/src/ber-help.c
-> ++++ b/src/ber-help.c
-> +@@ -182,6 +182,12 @@ _ksba_ber_read_tl (ksba_reader_t reader, struct tag_info *ti)
-> +       ti->length = len;
-> +     }
-> + 
-> ++  if (ti->length > ti->nhdr && (ti->nhdr + ti->length) < ti->length)
-> ++    {
-> ++      ti->err_string = "header+length would overflow";
-> ++      return gpg_error (GPG_ERR_EOVERFLOW);
-> ++    }
-> ++
-> +   /* Without this kludge some example certs can't be parsed */
-> +   if (ti->class == CLASS_UNIVERSAL && !ti->tag)
-> +     ti->length = 0;
-> +-- 
-> +2.34.1
-> +
-> diff --git a/meta/recipes-support/libksba/libksba_1.6.2.bb b/meta/recipes-support/libksba/libksba_1.6.2.bb
-> index f6ecb9aec4..c25c23ef0f 100644
-> --- a/meta/recipes-support/libksba/libksba_1.6.2.bb
-> +++ b/meta/recipes-support/libksba/libksba_1.6.2.bb
-> @@ -22,7 +22,8 @@ inherit autotools binconfig-disabled pkgconfig texinfo
->  
->  UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
->  SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-> -           file://ksba-add-pkgconfig-support.patch"
-> +           file://ksba-add-pkgconfig-support.patch \
-> +           file://0001-Detect-a-possible-overflow-directly-in-the-TLV-parse.patch"
->  
->  SRC_URI[sha256sum] = "fce01ccac59812bddadffacff017dac2e4762bdb6ebc6ffe06f6ed4f6192c971"
->  
-> -- 
-> 2.34.1
-> 
+> +# libpulsedsp.so is a preload-library that hooks libc functions
+> +INSANE_SKIP:pulseaudio[_usr_lib_pulseaudio_libpulsedsp.so] = "setsockopt fcntl"
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#174384): https://lists.openembedded.org/g/openembedded-core/message/174384
-> Mute This Topic: https://lists.openembedded.org/mt/95533228/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Some of these perhaps need a ticket in bugzilla, and there should be a
+meta-ticket for Y2038 that tracks individual issues (by depending on
+them). Can you arrange that please?
 
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Alex
 
