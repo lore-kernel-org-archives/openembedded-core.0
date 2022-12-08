@@ -1,215 +1,228 @@
-Return-Path: <joe.slater@windriver.com>
+Return-Path: <chee.yang.lee@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F0E5C63703
-	for <webhook@archiver.kernel.org>; Wed,  7 Dec 2022 22:55:13 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.1151.1670453704377530337
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75903C4332F
+	for <webhook@archiver.kernel.org>; Thu,  8 Dec 2022 05:00:42 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by mx.groups.io with SMTP id smtpd.web11.6104.1670475638559087073
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Dec 2022 14:55:06 -0800
+ Wed, 07 Dec 2022 21:00:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=PDbtOc0O;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=93408defbe=joe.slater@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2B7MemkI010954
-	for <openembedded-core@lists.openembedded.org>; Wed, 7 Dec 2022 14:55:04 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=PPS06212021;
- bh=dHR5wqmRhy4IG+ScIkCYFbTfai1ZZPkNDkcrnB/ChV0=;
- b=PDbtOc0Oeh0pn5KyH4gGA9ESatkt8+FCbN6p4lp8x8xfx0fbyVt3p8ETAsSyRqfcrdDg
- ZQYKmSwVmdU6zOzfV3DvxMVvhQVpfcLdyeLJD4KPWTAPgru1i0Rd0hxy2WKU/2APxXai
- ejkkbc/Et2Y7tUhkExQTF43bRKjWWL4vIYbZTPtf2vbtRdWCXxzQ9UBostPYG/TaymKt
- E7rNHjHFnC5ZCiiC7FYv4uizsiPQyyYUJ7Pf1cjA8Z6ug5xjuzZSdKCOQR5DU0bK59PZ
- Vtcm5hy2e2JcR7UF/Ht89k8MK125HcIuSI3FPfQUA0VLDtPchfxCUSwFvyNl+JSdH2A5 gQ== 
-Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3m82m6utdw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 07 Dec 2022 14:55:03 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Wed, 7 Dec 2022 14:55:03 -0800
-Received: from ala-lpggp5.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Wed, 7 Dec 2022 14:55:03 -0800
-From: Joe Slater <joe.slater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <joe.slater@windriver.com>, <randy.macleod@windriver.com>
-Subject: [v2][oe-core][kirkstone][PATCH 1/1] python3: advance to version 3.10.8
-Date: Wed, 7 Dec 2022 14:55:03 -0800
-Message-ID: <20221207225503.13556-1-joe.slater@windriver.com>
-X-Mailer: git-send-email 2.38.1
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=LLV0YMZD;
+ spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: chee.yang.lee@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1670475638; x=1702011638;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Vfv7GAAmjYPeuCgnxTfWOdnlkghfAnaBacXz41MhuXM=;
+  b=LLV0YMZDFq7fOHE259oVUvyD3ElnhSzwpQjvxyIwJW/JBK9mAMNZajXK
+   d65GM67bULSEKKD2YI+bAlUuHYHtsjt8BOZmEr5KzrujtrLDX5tDr8/Or
+   zjTjkkHbMFjfUM48pHzJoREsHZNx24LliZtv/Cdqa0DM+B3g7Pau/vxA4
+   fTPWn1wYcfT3VZqh/MmvLahH1+A1G9llr7y1g1xXdILk7+3+5UeIqyBuo
+   i3uVzf8SExush+GHdbTZH6HDiAlpVTac86y02Y3pJe34HLpw1MPhLuYw7
+   SFL+qDmH+Thr02hQ/N6nk6cFiRqLCyJxAyROeN6fct54N+oD76DhVTmWs
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="315791479"
+X-IronPort-AV: E=Sophos;i="5.96,226,1665471600"; 
+   d="scan'208";a="315791479"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2022 21:00:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="771349576"
+X-IronPort-AV: E=Sophos;i="5.96,226,1665471600"; 
+   d="scan'208";a="771349576"
+Received: from andromeda01.png.intel.com (HELO cheeyang-Standard-PC-i440FX-PIIX-1996.png.intel.com) ([10.221.253.199])
+  by orsmga004.jf.intel.com with ESMTP; 07 Dec 2022 21:00:36 -0800
+From: chee.yang.lee@intel.com
+To: openembedded-core@lists.openembedded.org
+Subject: [dunfell][patch v2] dropbear: fix CVE-2021-36369
+Date: Thu,  8 Dec 2022 13:00:37 +0800
+Message-Id: <20221208050037.459910-1-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: xd-SkRuytklfSKmQZnWkgWKTXREc2UBJ
-X-Proofpoint-GUID: xd-SkRuytklfSKmQZnWkgWKTXREc2UBJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-12-07_11,2022-12-07_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
- lowpriorityscore=0 impostorscore=0 suspectscore=0 adultscore=0
- phishscore=0 clxscore=1011 malwarescore=0 priorityscore=1501 mlxscore=0
- bulkscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2210170000 definitions=main-2212070194
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Dec 2022 22:55:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174370
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Dec 2022 05:00:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174371
 
-Fixes CVE-2022-37460.  Also add patch to fix CVE-2022-37454.
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 ---
- .../python/python3/cve-2022-37454.patch       | 108 ++++++++++++++++++
- .../{python3_3.10.7.bb => python3_3.10.8.bb}  |   4 +-
- 2 files changed, 110 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python3/cve-2022-37454.patch
- rename meta/recipes-devtools/python/{python3_3.10.7.bb => python3_3.10.8.bb} (99%)
+v2: fix fuzz
+ meta/recipes-core/dropbear/dropbear.inc       |   1 +
+ .../dropbear/dropbear/CVE-2021-36369.patch    | 145 ++++++++++++++++++
+ 2 files changed, 146 insertions(+)
+ create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2021-36369.patch
 
-diff --git a/meta/recipes-devtools/python/python3/cve-2022-37454.patch b/meta/recipes-devtools/python/python3/cve-2022-37454.patch
-new file mode 100644
-index 0000000000..c019151a64
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/cve-2022-37454.patch
-@@ -0,0 +1,108 @@
-+From 1f66b714c5f2fef80ec5389456ac31756dbfff0e Mon Sep 17 00:00:00 2001
-+From: Theo Buehler <botovq@users.noreply.github.com>
-+Date: Fri, 21 Oct 2022 21:26:01 +0200
-+Subject: [PATCH] gh-98517: Fix buffer overflows in _sha3 module (#98519)
-+
-+This is a port of the applicable part of XKCP's fix [1] for
-+CVE-2022-37454 and avoids the segmentation fault and the infinite
-+loop in the test cases published in [2].
-+
-+[1]: https://github.com/XKCP/XKCP/commit/fdc6fef075f4e81d6b1bc38364248975e08e340a
-+[2]: https://mouha.be/sha-3-buffer-overflow/
-+
-+Regression test added by: Gregory P. Smith [Google LLC] <greg@krypto.org>
-+---
-+
-+Patch applied without modification.
-+
-+CVE: CVE-2022-37454
-+
-+Upstream-Status: Backport [github.com/cpython/cpython.git 0e4e058602d...]
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+---
-+ Lib/test/test_hashlib.py                          |  9 +++++++++
-+ .../2022-10-21-13-31-47.gh-issue-98517.SXXGfV.rst |  1 +
-+ Modules/_sha3/kcp/KeccakSponge.inc                | 15 ++++++++-------
-+ 3 files changed, 18 insertions(+), 7 deletions(-)
-+ create mode 100644 Misc/NEWS.d/next/Security/2022-10-21-13-31-47.gh-issue-98517.SXXGfV.rst
-+
-+diff --git a/Lib/test/test_hashlib.py b/Lib/test/test_hashlib.py
-+index ea31f8b..65330e1 100644
-+--- a/Lib/test/test_hashlib.py
-++++ b/Lib/test/test_hashlib.py
-+@@ -491,6 +491,15 @@ class HashLibTestCase(unittest.TestCase):
-+     def test_case_md5_uintmax(self, size):
-+         self.check('md5', b'A'*size, '28138d306ff1b8281f1a9067e1a1a2b3')
-+ 
-++    @unittest.skipIf(sys.maxsize < _4G - 1, 'test cannot run on 32-bit systems')
-++    @bigmemtest(size=_4G - 1, memuse=1, dry_run=False)
-++    def test_sha3_update_overflow(self, size):
-++        """Regression test for gh-98517 CVE-2022-37454."""
-++        h = hashlib.sha3_224()
-++        h.update(b'\x01')
-++        h.update(b'\x01'*0xffff_ffff)
-++        self.assertEqual(h.hexdigest(), '80762e8ce6700f114fec0f621fd97c4b9c00147fa052215294cceeed')
-++
-+     # use the three examples from Federal Information Processing Standards
-+     # Publication 180-1, Secure Hash Standard,  1995 April 17
-+     # http://www.itl.nist.gov/div897/pubs/fip180-1.htm
-+diff --git a/Misc/NEWS.d/next/Security/2022-10-21-13-31-47.gh-issue-98517.SXXGfV.rst b/Misc/NEWS.d/next/Security/2022-10-21-13-31-47.gh-issue-98517.SXXGfV.rst
-+new file mode 100644
-+index 0000000..2d23a6a
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2022-10-21-13-31-47.gh-issue-98517.SXXGfV.rst
-+@@ -0,0 +1 @@
-++Port XKCP's fix for the buffer overflows in SHA-3 (CVE-2022-37454).
-+diff --git a/Modules/_sha3/kcp/KeccakSponge.inc b/Modules/_sha3/kcp/KeccakSponge.inc
-+index e10739d..cf92e4d 100644
-+--- a/Modules/_sha3/kcp/KeccakSponge.inc
-++++ b/Modules/_sha3/kcp/KeccakSponge.inc
-+@@ -171,7 +171,7 @@ int SpongeAbsorb(SpongeInstance *instance, const unsigned char *data, size_t dat
-+     i = 0;
-+     curData = data;
-+     while(i < dataByteLen) {
-+-        if ((instance->byteIOIndex == 0) && (dataByteLen >= (i + rateInBytes))) {
-++        if ((instance->byteIOIndex == 0) && (dataByteLen-i >= rateInBytes)) {
-+ #ifdef SnP_FastLoop_Absorb
-+             /* processing full blocks first */
-+ 
-+@@ -199,10 +199,10 @@ int SpongeAbsorb(SpongeInstance *instance, const unsigned char *data, size_t dat
-+         }
-+         else {
-+             /* normal lane: using the message queue */
-+-
-+-            partialBlock = (unsigned int)(dataByteLen - i);
-+-            if (partialBlock+instance->byteIOIndex > rateInBytes)
-++            if (dataByteLen-i > rateInBytes-instance->byteIOIndex)
-+                 partialBlock = rateInBytes-instance->byteIOIndex;
-++            else
-++                partialBlock = (unsigned int)(dataByteLen - i);
-+             #ifdef KeccakReference
-+             displayBytes(1, "Block to be absorbed (part)", curData, partialBlock);
-+             #endif
-+@@ -281,7 +281,7 @@ int SpongeSqueeze(SpongeInstance *instance, unsigned char *data, size_t dataByte
-+     i = 0;
-+     curData = data;
-+     while(i < dataByteLen) {
-+-        if ((instance->byteIOIndex == rateInBytes) && (dataByteLen >= (i + rateInBytes))) {
-++        if ((instance->byteIOIndex == rateInBytes) && (dataByteLen-i >= rateInBytes)) {
-+             for(j=dataByteLen-i; j>=rateInBytes; j-=rateInBytes) {
-+                 SnP_Permute(instance->state);
-+                 SnP_ExtractBytes(instance->state, curData, 0, rateInBytes);
-+@@ -299,9 +299,10 @@ int SpongeSqueeze(SpongeInstance *instance, unsigned char *data, size_t dataByte
-+                 SnP_Permute(instance->state);
-+                 instance->byteIOIndex = 0;
-+             }
-+-            partialBlock = (unsigned int)(dataByteLen - i);
-+-            if (partialBlock+instance->byteIOIndex > rateInBytes)
-++            if (dataByteLen-i > rateInBytes-instance->byteIOIndex)
-+                 partialBlock = rateInBytes-instance->byteIOIndex;
-++            else
-++                partialBlock = (unsigned int)(dataByteLen - i);
-+             i += partialBlock;
-+ 
-+             SnP_ExtractBytes(instance->state, curData, instance->byteIOIndex, partialBlock);
-+-- 
-+2.32.0
-+
-diff --git a/meta/recipes-devtools/python/python3_3.10.7.bb b/meta/recipes-devtools/python/python3_3.10.8.bb
-similarity index 99%
-rename from meta/recipes-devtools/python/python3_3.10.7.bb
-rename to meta/recipes-devtools/python/python3_3.10.8.bb
-index 404a582135..7cc1ce53ca 100644
---- a/meta/recipes-devtools/python/python3_3.10.7.bb
-+++ b/meta/recipes-devtools/python/python3_3.10.8.bb
-@@ -4,7 +4,7 @@ DESCRIPTION = "Python is a programming language that lets you work more quickly
- LICENSE = "PSF-2.0"
- SECTION = "devel/python"
- 
--LIC_FILES_CHKSUM = "file://LICENSE;md5=4b8801e752a2c70ac41a5f9aa243f766"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=a1822df8d0f068628ca6090aedc5bfc8"
- 
- SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://run-ptest \
-@@ -43,7 +43,7 @@ SRC_URI:append:class-native = " \
-            file://12-distutils-prefix-is-inside-staging-area.patch \
-            file://0001-Don-t-search-system-for-headers-libraries.patch \
+diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
+index 026292230c..0f5e9ba4ac 100644
+--- a/meta/recipes-core/dropbear/dropbear.inc
++++ b/meta/recipes-core/dropbear/dropbear.inc
+@@ -29,6 +29,7 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
+            ${@bb.utils.contains('PACKAGECONFIG', 'disable-weak-ciphers', 'file://dropbear-disable-weak-ciphers.patch', '', d)} \
+            file://CVE-2020-36254.patch \
++           file://CVE-2021-36369.patch \
             "
--SRC_URI[sha256sum] = "6eed8415b7516fb2f260906db5d48dd4c06acc0cb24a7d6cc15296a604dcdc48"
-+SRC_URI[sha256sum] = "6a30ecde59c47048013eb5a658c9b5dec277203d2793667f578df7671f7f03f3"
  
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+ PAM_SRC_URI = "file://0005-dropbear-enable-pam.patch \
+diff --git a/meta/recipes-core/dropbear/dropbear/CVE-2021-36369.patch b/meta/recipes-core/dropbear/dropbear/CVE-2021-36369.patch
+new file mode 100644
+index 0000000000..5cabe8339d
+--- /dev/null
++++ b/meta/recipes-core/dropbear/dropbear/CVE-2021-36369.patch
+@@ -0,0 +1,145 @@
++From e10dec82930863e487b22978d3df107274f366b2 Mon Sep 17 00:00:00 2001
++From: Manfred Kaiser <37737811+manfred-kaiser@users.noreply.github.com>
++Date: Thu, 19 Aug 2021 17:37:14 +0200
++Subject: [PATCH] added option to disable trivial auth methods (#128)
++
++* added option to disable trivial auth methods
++
++* rename argument to match with other ssh clients
++
++* fixed trivial auth detection for pubkeys
++
++[https://github.com/mkj/dropbear/pull/128]
++Upstream-Status: Backport
++CVE: CVE-2021-36369
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++
++---
++ cli-auth.c         | 3 +++
++ cli-authinteract.c | 1 +
++ cli-authpasswd.c   | 2 +-
++ cli-authpubkey.c   | 1 +
++ cli-runopts.c      | 7 +++++++
++ cli-session.c      | 1 +
++ runopts.h          | 1 +
++ session.h          | 1 +
++ 8 files changed, 16 insertions(+), 1 deletion(-)
++
++diff --git a/cli-auth.c b/cli-auth.c
++index 2e509e5..6f04495 100644
++--- a/cli-auth.c
+++++ b/cli-auth.c
++@@ -267,6 +267,9 @@ void recv_msg_userauth_success() {
++ 	if DROPBEAR_CLI_IMMEDIATE_AUTH is set */
++ 
++ 	TRACE(("received msg_userauth_success"))
+++	if (cli_opts.disable_trivial_auth && cli_ses.is_trivial_auth) {
+++		dropbear_exit("trivial authentication not allowed");
+++	}
++ 	/* Note: in delayed-zlib mode, setting authdone here 
++ 	 * will enable compression in the transport layer */
++ 	ses.authstate.authdone = 1;
++diff --git a/cli-authinteract.c b/cli-authinteract.c
++index e1cc9a1..f7128ee 100644
++--- a/cli-authinteract.c
+++++ b/cli-authinteract.c
++@@ -114,6 +114,7 @@ void recv_msg_userauth_info_request() {
++ 	m_free(instruction);
++ 
++ 	for (i = 0; i < num_prompts; i++) {
+++		cli_ses.is_trivial_auth = 0;
++ 		unsigned int response_len = 0;
++ 		prompt = buf_getstring(ses.payload, NULL);
++ 		cleantext(prompt);
++diff --git a/cli-authpasswd.c b/cli-authpasswd.c
++index 00fdd8b..a24d43e 100644
++--- a/cli-authpasswd.c
+++++ b/cli-authpasswd.c
++@@ -155,7 +155,7 @@ void cli_auth_password() {
++ 
++ 	encrypt_packet();
++ 	m_burn(password, strlen(password));
++-
+++	cli_ses.is_trivial_auth = 0;
++ 	TRACE(("leave cli_auth_password"))
++ }
++ #endif	/* DROPBEAR_CLI_PASSWORD_AUTH */
++diff --git a/cli-authpubkey.c b/cli-authpubkey.c
++index 7cee164..7da1a04 100644
++--- a/cli-authpubkey.c
+++++ b/cli-authpubkey.c
++@@ -174,6 +174,7 @@ static void send_msg_userauth_pubkey(sign_key *key, int type, int realsign) {
++ 		buf_putbytes(sigbuf, ses.writepayload->data, ses.writepayload->len);
++ 		cli_buf_put_sign(ses.writepayload, key, type, sigbuf);
++ 		buf_free(sigbuf); /* Nothing confidential in the buffer */
+++		cli_ses.is_trivial_auth = 0;
++ 	}
++ 
++ 	encrypt_packet();
++diff --git a/cli-runopts.c b/cli-runopts.c
++index 7d1fffe..6bf8b8e 100644
++--- a/cli-runopts.c
+++++ b/cli-runopts.c
++@@ -152,6 +152,7 @@ void cli_getopts(int argc, char ** argv) {
++ #if DROPBEAR_CLI_ANYTCPFWD
++ 	cli_opts.exit_on_fwd_failure = 0;
++ #endif
+++	cli_opts.disable_trivial_auth = 0;
++ #if DROPBEAR_CLI_LOCALTCPFWD
++ 	cli_opts.localfwds = list_new();
++ 	opts.listen_fwd_all = 0;
++@@ -888,6 +889,7 @@ static void add_extendedopt(const char* origstr) {
++ #if DROPBEAR_CLI_ANYTCPFWD
++ 			"\tExitOnForwardFailure\n"
++ #endif
+++			"\tDisableTrivialAuth\n"
++ #ifndef DISABLE_SYSLOG
++ 			"\tUseSyslog\n"
++ #endif
++@@ -915,5 +917,10 @@ static void add_extendedopt(const char* origstr) {
++ 		return;
++ 	}
++ 
+++	if (match_extendedopt(&optstr, "DisableTrivialAuth") == DROPBEAR_SUCCESS) {
+++		cli_opts.disable_trivial_auth = parse_flag_value(optstr);
+++		return;
+++	}
+++
++ 	dropbear_log(LOG_WARNING, "Ignoring unknown configuration option '%s'", origstr);
++ }
++diff --git a/cli-session.c b/cli-session.c
++index 56dd4af..73ef0db 100644
++--- a/cli-session.c
+++++ b/cli-session.c
++@@ -164,6 +164,7 @@ static void cli_session_init(pid_t proxy_cmd_pid) {
++ 	/* Auth */
++ 	cli_ses.lastprivkey = NULL;
++ 	cli_ses.lastauthtype = 0;
+++	cli_ses.is_trivial_auth = 1;
++ 
++ 	/* For printing "remote host closed" for the user */
++ 	ses.remoteclosed = cli_remoteclosed;
++diff --git a/runopts.h b/runopts.h
++index 31eae1f..8519626 100644
++--- a/runopts.h
+++++ b/runopts.h
++@@ -154,6 +154,7 @@ typedef struct cli_runopts {
++ #if DROPBEAR_CLI_ANYTCPFWD
++ 	int exit_on_fwd_failure;
++ #endif
+++	int disable_trivial_auth;
++ #if DROPBEAR_CLI_REMOTETCPFWD
++ 	m_list * remotefwds;
++ #endif
++diff --git a/session.h b/session.h
++index 0f77055..8676054 100644
++--- a/session.h
+++++ b/session.h
++@@ -287,6 +287,7 @@ struct clientsession {
++ 
++ 	int lastauthtype; /* either AUTH_TYPE_PUBKEY or AUTH_TYPE_PASSWORD,
++ 						 for the last type of auth we tried */
+++	int is_trivial_auth;
++ 	int ignore_next_auth_response;
++ #if DROPBEAR_CLI_INTERACT_AUTH
++ 	int auth_interact_failed; /* flag whether interactive auth can still
 -- 
-2.38.1
+2.25.1
 
 
