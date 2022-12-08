@@ -1,238 +1,148 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EED6C4332F
-	for <webhook@archiver.kernel.org>; Thu,  8 Dec 2022 22:21:54 +0000 (UTC)
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
- by mx.groups.io with SMTP id smtpd.web11.4015.1670538107186527847
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A166C4332F
+	for <webhook@archiver.kernel.org>; Thu,  8 Dec 2022 22:43:04 +0000 (UTC)
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.web11.4569.1670539382254600421
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Dec 2022 14:21:47 -0800
+ Thu, 08 Dec 2022 14:43:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=hAQR0k4K;
- spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 06A4A240007;
-	Thu,  8 Dec 2022 22:21:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1670538105;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/BS9rJ4ChlpwofTuLu5YS7z0vUI0tL3Be3/lW9TDLYE=;
-	b=hAQR0k4K8BFlOuDchmYHhRDHi6GOZWbQ7zExueKnhwC/kIQZPI/sKSS3eDwA2qLlaPQAgn
-	ArTLRYvDqgZP7EGYyHIIJoVnjiQyN8Hf6FrHA8AvZkQWcw7YxFHFthVa6Lg3Mz2LQw4c1G
-	oIYMRKXQ4x7SrKHgvkn+iNy/VHvVh8p95ToebMNIvplhHB+wMhsVLnDQa34RLvPLwe4DbY
-	6UqZSKCd1jjL0xwi9cEx3eohYnUhlfAPbysdowNRM3IGc3jMz7b98qCA8pQvFfALWg+X2w
-	s0zNwDTirFGEzk9tp3he6SmH1IY8ekvENv0S+2EFYSXIWWRWymVaP3XvKp5/0g==
-Date: Thu, 8 Dec 2022 23:21:44 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Markus Volk <f_l_k@t-online.de>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe-core][PATCHv9 3/4] gcr: add recipe for gcr-4, needed to
- build with gtk4
-Message-ID: <Y5JjeMGwqmkpTcwF@mail.local>
-References: <20221201075324.353632-1-f_l_k@t-online.de>
- <20221201075324.353632-3-f_l_k@t-online.de>
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=ANMdwlSN;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.42, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f42.google.com with SMTP id gt4so1293033pjb.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Dec 2022 14:43:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3DwAeKJB/yBnrl2l1YfH2Q/3tKRkUQojAO45OWqWFYc=;
+        b=ANMdwlSNR5G3pZAcfuI0lkdFINNpMtMgor8ddfr4qPKgbGavLAOTo849mGQdOzeFXa
+         PJWj4oKWUUWjSlwSfGCUuAeLpvX67CvpNO+xKl9EZ6fer65F+F/DpP1Kwyo7H5bocGAS
+         kjW46UIOs6egQavbVmjPtU/NdXLSYJmC/9cOWsNa+l+fJt8VI/7AJHQ1J0CMH2wHeoml
+         x0KLvnZu/+w/jSnVGf6jOMrTHOpxuc4ZL4XM1Ae+seLnFvfSTymf5hAc2SBZh7gMySZk
+         BKKl4A771I2T+/2dzoCBHywCdeJw42Web0ujTNUWiB2MD6F5KylSV7yGAFpZi/Gi9vca
+         cmPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3DwAeKJB/yBnrl2l1YfH2Q/3tKRkUQojAO45OWqWFYc=;
+        b=Sx6NU03fRoxbneWZccmw1Rf3KN5Iq06Nl1c9Qw19e1WLi2Ne36lDvi9UOvh5vYUPUy
+         hUHkKR3LSSJ2k4Hua0hjJZDjBsePAs818/j5/pct0CEJz95atj0DhLlvV6M76kMrKRZj
+         JsV3yxwON1iK3JH0WBXAyvPD8oeV1A1fXlYO+e2HY5pOobTYn8rePPN8RYr6Wh2uMC8l
+         x+GgJVZ68mbJRLW+LxiGSbVClaUP58pMTkJVdpRAXTYjJF0K28DHxwoNGd+oD3AmPkYu
+         rITiAi4iFf41AS8F1cjVJaDG8RXYQiX8xoRG36Zq+U7Yv/ORRH8Ny56YVeJQ4R3Cyn4v
+         dpLQ==
+X-Gm-Message-State: ANoB5pnN9gMgI9zNLhY/Cj3weSyXP7g/8LdkFcF1BBDzWjZwwoHFKEQH
+	g/OwEKx9Rk7iAS1/wxcOv5Us71Mo78wA/YUVVVFi6g==
+X-Google-Smtp-Source: AA0mqf6q0Y+Bt7uvxERggA29MBk62x+t5FnwunavCjvWcAGFOjLuU3wK5YURhc7EnphJYSScTRup7w==
+X-Received: by 2002:a05:6a20:939e:b0:ac:36bd:3f74 with SMTP id x30-20020a056a20939e00b000ac36bd3f74mr5228689pzh.34.1670539381054;
+        Thu, 08 Dec 2022 14:43:01 -0800 (PST)
+Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
+        by smtp.gmail.com with ESMTPSA id p1-20020a1709027ec100b00172973d3cd9sm1675980plb.55.2022.12.08.14.42.59
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Dec 2022 14:43:00 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 00/12] Patch review
+Date: Thu,  8 Dec 2022 12:42:41 -1000
+Message-Id: <cover.1670539235.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221201075324.353632-3-f_l_k@t-online.de>
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Dec 2022 22:21:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174412
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Dec 2022 22:43:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174413
 
-Could you split this patch in two parts so we can move epiphany to gcr3
-and fix meta-oe?
+Please review this set of patches for kirkstone and have comments back by
+end of day Monday.
 
+This should be the final set of patches for the 4.0.6 release.
 
-On 01/12/2022 08:53:23+0100, Markus Volk wrote:
-> gcr-3 recipe is still needed for gnome projects that stick to gtk+3, rename to gcr3.
-> 
-> Signed-off-by: Markus Volk <f_l_k@t-online.de>
-> ---
->  ...ectly-handle-disabled-ssh_agent-opti.patch | 49 ++++++++++++++++
->  ...build-fix-one-parallel-build-failure.patch |  0
->  ...1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch |  0
->  .../gcr/{gcr_3.40.0.bb => gcr3_3.40.0.bb}     |  8 ++-
->  meta/recipes-gnome/gcr/gcr_4.0.0.bb           | 57 +++++++++++++++++++
->  5 files changed, 112 insertions(+), 2 deletions(-)
->  create mode 100644 meta/recipes-gnome/gcr/gcr/0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patch
->  rename meta/recipes-gnome/gcr/{gcr => gcr3}/0001-gcr-meson.build-fix-one-parallel-build-failure.patch (100%)
->  rename meta/recipes-gnome/gcr/{gcr => gcr3}/b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch (100%)
->  rename meta/recipes-gnome/gcr/{gcr_3.40.0.bb => gcr3_3.40.0.bb} (87%)
->  create mode 100644 meta/recipes-gnome/gcr/gcr_4.0.0.bb
-> 
-> diff --git a/meta/recipes-gnome/gcr/gcr/0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patch b/meta/recipes-gnome/gcr/gcr/0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patch
-> new file mode 100644
-> index 0000000000..940f78ebab
-> --- /dev/null
-> +++ b/meta/recipes-gnome/gcr/gcr/0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patch
-> @@ -0,0 +1,49 @@
-> +From 9b67bb18d8409e0e693cc6000507acbd73a30eab Mon Sep 17 00:00:00 2001
-> +From: Alexander Kanavin <alex@linutronix.de>
-> +Date: Wed, 16 Nov 2022 11:27:24 +0100
-> +Subject: [PATCH 1/2] meson.build: correctly handle disabled ssh_agent option
-> +
-> +Existing code produces these errors:
-> +| gcr/meson.build:61:0: ERROR: Unable to get the path of a not-found external program
-> +| gcr/meson.build:101:5: ERROR: Unknown variable "ssh_add_path".
-> +
-> +Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> +
-> +Upstream-Status: Backport [ https://gitlab.gnome.org/GNOME/gcr/-/commit/9b67bb18d8409e0e693cc6000507acbd73a30eab ]
-> +---
-> + meson.build | 12 ++++++++----
-> + 1 file changed, 8 insertions(+), 4 deletions(-)
-> +
-> +diff --git a/meson.build b/meson.build
-> +index 3f35173..11d7fa7 100644
-> +--- a/meson.build
-> ++++ b/meson.build
-> +@@ -58,8 +58,10 @@ if p11_system_config_modules == ''
-> +   error('Couldn\'t find location for pkcs11 module config')
-> + endif
-> + libsecret_dep = dependency('libsecret-1', version: '>= 0.20', required: get_option('ssh_agent'))
-> +-ssh_add_path = find_program('ssh-add', required: get_option('ssh_agent')).full_path()
-> +-ssh_agent_path = find_program('ssh-agent', required: get_option('ssh_agent')).full_path()
-> ++if get_option('ssh_agent')
-> ++  ssh_add_path = find_program('ssh-add').full_path()
-> ++  ssh_agent_path = find_program('ssh-agent').full_path()
-> ++endif
-> + 
-> + with_systemd = false
-> + libsystemd_deps = []
-> +@@ -96,8 +98,10 @@ conf.set('HAVE_TIMEGM', cc.has_function('timegm'))
-> + conf.set('HAVE_MLOCK', cc.has_function('mlock'))
-> + conf.set_quoted('GPG_EXECUTABLE', gpg_path)
-> + conf.set_quoted('LIBGCRYPT_VERSION', libgcrypt_dep.version())
-> +-conf.set_quoted('SSH_ADD_EXECUTABLE', ssh_add_path)
-> +-conf.set_quoted('SSH_AGENT_EXECUTABLE', ssh_agent_path)
-> ++if get_option('ssh_agent')
-> ++  conf.set_quoted('SSH_ADD_EXECUTABLE', ssh_add_path)
-> ++  conf.set_quoted('SSH_AGENT_EXECUTABLE', ssh_agent_path)
-> ++endif
-> + conf.set10('WITH_SYSTEMD', with_systemd)
-> + config_file = configure_file(
-> +   output: 'config.h',
-> +-- 
-> +2.34.1
-> +
-> diff --git a/meta/recipes-gnome/gcr/gcr/0001-gcr-meson.build-fix-one-parallel-build-failure.patch b/meta/recipes-gnome/gcr/gcr3/0001-gcr-meson.build-fix-one-parallel-build-failure.patch
-> similarity index 100%
-> rename from meta/recipes-gnome/gcr/gcr/0001-gcr-meson.build-fix-one-parallel-build-failure.patch
-> rename to meta/recipes-gnome/gcr/gcr3/0001-gcr-meson.build-fix-one-parallel-build-failure.patch
-> diff --git a/meta/recipes-gnome/gcr/gcr/b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch b/meta/recipes-gnome/gcr/gcr3/b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch
-> similarity index 100%
-> rename from meta/recipes-gnome/gcr/gcr/b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch
-> rename to meta/recipes-gnome/gcr/gcr3/b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch
-> diff --git a/meta/recipes-gnome/gcr/gcr_3.40.0.bb b/meta/recipes-gnome/gcr/gcr3_3.40.0.bb
-> similarity index 87%
-> rename from meta/recipes-gnome/gcr/gcr_3.40.0.bb
-> rename to meta/recipes-gnome/gcr/gcr3_3.40.0.bb
-> index 917be5938b..5318768db6 100644
-> --- a/meta/recipes-gnome/gcr/gcr_3.40.0.bb
-> +++ b/meta/recipes-gnome/gcr/gcr3_3.40.0.bb
-> @@ -20,11 +20,15 @@ GTKDOC_MESON_OPTION = "gtk_doc"
->  inherit gnomebase gtk-icon-cache gtk-doc features_check upstream-version-is-even vala gobject-introspection gettext mime mime-xdg
->  UPSTREAM_CHECK_REGEX = "[^\d\.](?P<pver>\d+\.(?!9\d+)(\d*[02468])+(\.\d+)+)\.tar"
->  
-> -SRC_URI += "file://0001-gcr-meson.build-fix-one-parallel-build-failure.patch \ 
-> -            file://b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch"
-> +SRC_URI = " \
-> +	https://download.gnome.org/sources/gcr/3.40/gcr-${PV}.tar.xz;name=archive \
-> +	file://0001-gcr-meson.build-fix-one-parallel-build-failure.patch \
-> +	file://b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch"
->  
->  SRC_URI[archive.sha256sum] = "b9d3645a5fd953a54285cc64d4fc046736463dbd4dcc25caf5c7b59bed3027f5"
->  
-> +S = "${WORKDIR}/gcr-${PV}"
-> +
->  PACKAGECONFIG ??= " \
->  	${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'gtk', '', d)} \
->  	${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'gtk', '', d)} \
-> diff --git a/meta/recipes-gnome/gcr/gcr_4.0.0.bb b/meta/recipes-gnome/gcr/gcr_4.0.0.bb
-> new file mode 100644
-> index 0000000000..c702184c74
-> --- /dev/null
-> +++ b/meta/recipes-gnome/gcr/gcr_4.0.0.bb
-> @@ -0,0 +1,57 @@
-> +SUMMARY = "A library for bits of crypto UI and parsing etc"
-> +DESCRIPTION = "GCR is a library for displaying certificates, and crypto UI, \
-> +accessing key stores. It also provides the viewer for crypto files on the \
-> +GNOME desktop."
-> +HOMEPAGE = "https://gitlab.gnome.org/GNOME/gcr"
-> +BUGTRACKER = "https://gitlab.gnome.org/GNOME/gcr/issues"
-> +
-> +LICENSE = "GPL-2.0-only"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
-> +
-> +DEPENDS = "p11-kit glib-2.0 libgcrypt gnupg-native \
-> +           ${@bb.utils.contains('GI_DATA_ENABLED', 'True', 'libxslt-native', '', d)}"
-> +
-> +CACHED_CONFIGUREVARS += "ac_cv_path_GPG='gpg2'"
-> +
-> +CFLAGS += "-D_GNU_SOURCE"
-> +
-> +GNOMEBASEBUILDCLASS = "meson"
-> +GTKDOC_MESON_OPTION = "gtk_doc"
-> +inherit gnomebase gtk-icon-cache gtk-doc features_check upstream-version-is-even vala gobject-introspection gettext mime mime-xdg
-> +UPSTREAM_CHECK_REGEX = "gcr-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)\.tar.xz"
-> +
-> +SRC_URI += "file://0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patch"
-> +SRC_URI[archive.sha256sum] = "c45855924f0ee7bab43e2dd38bfafd2ac815c6e9864341c0161e171173dcec7c"
-> +
-> +PACKAGECONFIG ??= " \
-> +	${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
-> +	${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'gtk', '', d)} \
-> +	${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'gtk', '', d)} \
-> +"
-> +PACKAGECONFIG[gtk] = "-Dgtk4=true,-Dgtk4=false,gtk4"
-> +PACKAGECONFIG[ssh_agent] = "-Dssh_agent=true,-Dssh_agent=false,libsecret,openssh"
-> +#'Use systemd socket activation for server programs'
-> +PACKAGECONFIG[systemd] = "-Dsystemd=enabled,-Dsystemd=disabled,systemd"
-> +
-> +FILES:${PN} += " \
-> +    ${datadir}/dbus-1 \
-> +    ${datadir}/gcr-4 \
-> +    ${systemd_user_unitdir}/gcr-ssh-agent.socket \
-> +    ${systemd_user_unitdir}/gcr-ssh-agent.service \
-> +"
-> +
-> +# http://errors.yoctoproject.org/Errors/Details/20229/
-> +ARM_INSTRUCTION_SET:armv4 = "arm"
-> +ARM_INSTRUCTION_SET:armv5 = "arm"
-> +ARM_INSTRUCTION_SET:armv6 = "arm"
-> +
-> +EXTRA_OEMESON += "--cross-file=${WORKDIR}/meson-${PN}.cross"
-> +
-> +do_write_config:append() {
-> +    cat >${WORKDIR}/meson-${PN}.cross <<EOF
-> +[binaries]
-> +gpg2 = '${bindir}/gpg2'
-> +ssh-add = '${bindir}/ssh-add'
-> +ssh-agent = '${bindir}/ssh-agent'
-> +EOF
-> +}
-> -- 
-> 2.34.1
-> 
+Passed a-full on autobuilder:
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#174039): https://lists.openembedded.org/g/openembedded-core/message/174039
-> Mute This Topic: https://lists.openembedded.org/mt/95377613/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/4600
 
+The following changes since commit c0f3da88a9646fc5e6d549b1a2327c0823c0e5a1:
+
+  mirrors.bbclass: update CPAN_MIRROR (2022-11-30 05:51:07 -1000)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
+
+Alexey Smirnov (1):
+  classes: make TOOLCHAIN more permissive for kernel
+
+Chen Qi (1):
+  psplash: consider the situation of psplash not exist for systemd
+
+Harald Seiler (1):
+  opkg: Set correct info_dir and status_file in opkg.conf
+
+Hitendra Prajapati (1):
+  libarchive: CVE-2022-36227 NULL pointer dereference in archive_write.c
+
+Joe Slater (1):
+  python3: advance to version 3.10.8
+
+Joshua Watt (1):
+  scripts: convert-overrides: Allow command-line customizations
+
+Qiu, Zheng (2):
+  vim: upgrade 9.0.0820 -> 9.0.0947
+  valgrind: remove most hidden tests for arm64
+
+Richard Purdie (1):
+  oeqa/selftest/tinfoil: Add test for separate config_data with
+    recipe_parse_file()
+
+Ross Burton (1):
+  xserver-xorg: backport fixes for CVE-2022-3550 and CVE-2022-3551
+
+Xiangyu Chen (2):
+  sysstat: fix CVE-2022-39377
+  grub: backport patches to fix CVE-2022-28736
+
+ meta/classes/kernel-arch.bbclass              |   2 +-
+ meta/lib/oeqa/selftest/cases/tinfoil.py       |  14 ++
+ ...i-chainloader-Use-grub_loader_set_ex.patch |  86 +++++++
+ ...ot-Add-API-to-pass-context-to-loader.patch | 168 +++++++++++++
+ ...hainloader-Simplify-the-loader-state.patch | 129 ++++++++++
+ meta/recipes-bsp/grub/grub2.inc               |   3 +
+ .../psplash/files/psplash-start.service       |   1 +
+ .../psplash/files/psplash-systemd.service     |   1 +
+ meta/recipes-devtools/opkg/opkg_0.5.0.bb      |   4 +-
+ .../python/python3/cve-2022-37454.patch       | 108 +++++++++
+ .../{python3_3.10.7.bb => python3_3.10.8.bb}  |   4 +-
+ .../valgrind/valgrind/remove-for-aarch64      | 227 +-----------------
+ .../libarchive/CVE-2022-36227.patch           |  42 ++++
+ .../libarchive/libarchive_3.6.1.bb            |   4 +-
+ .../sysstat/sysstat/CVE-2022-39377.patch      |  93 +++++++
+ .../sysstat/sysstat_12.4.5.bb                 |   3 +-
+ ...possible-memleaks-in-XkbGetKbdByName.patch |  63 +++++
+ ...ntedString-against-request-length-at.patch |  38 +++
+ .../xorg-xserver/xserver-xorg_21.1.4.bb       |   2 +
+ meta/recipes-support/vim/vim.inc              |   4 +-
+ scripts/contrib/convert-overrides.py          | 103 ++++----
+ 21 files changed, 821 insertions(+), 278 deletions(-)
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2022-28736-loader-efi-chainloader-Use-grub_loader_set_ex.patch
+ create mode 100644 meta/recipes-bsp/grub/files/commands-boot-Add-API-to-pass-context-to-loader.patch
+ create mode 100644 meta/recipes-bsp/grub/files/loader-efi-chainloader-Simplify-the-loader-state.patch
+ create mode 100644 meta/recipes-devtools/python/python3/cve-2022-37454.patch
+ rename meta/recipes-devtools/python/{python3_3.10.7.bb => python3_3.10.8.bb} (99%)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2022-36227.patch
+ create mode 100644 meta/recipes-extended/sysstat/sysstat/CVE-2022-39377.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xkb-fix-some-possible-memleaks-in-XkbGetKbdByName.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xkb-proof-GetCountedString-against-request-length-at.patch
 
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.25.1
+
 
