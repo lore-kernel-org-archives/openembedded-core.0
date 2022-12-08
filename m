@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C5A2C10F31
-	for <webhook@archiver.kernel.org>; Thu,  8 Dec 2022 22:43:24 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web10.4563.1670539384446843153
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FC54C4332F
+	for <webhook@archiver.kernel.org>; Thu,  8 Dec 2022 22:43:34 +0000 (UTC)
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web11.4590.1670539405252646354
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Dec 2022 14:43:17 -0800
+ Thu, 08 Dec 2022 14:43:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=ydb2a0Ld;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f52.google.com with SMTP id u5so2932381pjy.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Dec 2022 14:43:17 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=PJqi6HV6;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.43, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f43.google.com with SMTP id fa4-20020a17090af0c400b002198d1328a0so6983953pjb.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Dec 2022 14:43:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jnNzPWvRzX/fqhuu0FRrDh4UjSinyJlwvDgtBlVYy8M=;
-        b=ydb2a0LdLagfOYviGOMhXHsyjICZVEEDiBL462ckPYkKhfWWaGldyB8HyAsaw03V4k
-         AJZYpGglnGtNJh3nX3pQqzEDuOzaBnZH3aPDnggL5FSNnxTfcFCDBtty53zbfo0AlmhL
-         yTxe2F0g9muLaUWpOX3y6yKNWK6ibccuTWVS4ES7JEg+V3d/yM1FsulF+z16PR2vBktj
-         pljyAN68NQPO535JCzLpeuDfvTsDx+bOCyGYF+hjfmPfNaoQGtbRdA9wbDXOfJOtZmBE
-         8jleU6vYifS9t6TVyV4HYZCRv7UmkrjEj1ozOdwkebfhSV0/QWQMTsQZ+I/ItLro3RrP
-         Kzuw==
+        bh=PBOP2ylt03dLN95SSzteD6JmIluoIdRRCeet/5gbbaA=;
+        b=PJqi6HV6ajeIijz/5EfS64S8yX8xYTfBBG80sK9J5V2Mz/LblqXwKdaLD/WRW9EgIg
+         OrOYF7b0IPwAzFOfDZY45j6MJ2GDLK790rOBsYGA1xjbJk0pNvsVuabrJQH21/WX93Od
+         cXAQz7ENY4jTHDz8hQqm/sQEWyae8z1XS4ExGNkh3pMsRqX2J1RlN/mQH92fVjHoJQ6S
+         m+k6yhbEQbbgBw14RWpw6jUKZa0PU9qhzZpx8eeZ7xHN3k1wdUHX25+/z3KQVLnxrCdL
+         vgWNU56ZxyfvuDUz2k6W1mNuzJtgbFTDVV+ETw0V0SSYER83ugbnjtb/+rvHtXd46pY5
+         Uu9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jnNzPWvRzX/fqhuu0FRrDh4UjSinyJlwvDgtBlVYy8M=;
-        b=ZlMrVxEsjsK9wz8i4Iu7eQcS0/EZRLedoBFIOziV9VQPIIEz//6bwuoImERxm/emr2
-         XJZZ+jtjxlTtdUfPZYPGSDrJgfLoTZRBNuCE2XDPWHXWj4+yG2yCouO6r9GVG59TOYHS
-         t+TJW88Nxk7g8eX8obyImQC0NuJ1ZCL/IzhlCDJYsL9t5ZaRlJgzBedJr7d2/HAgPo+C
-         xahxVX6PVHinAs3k/DewhFvRu2yiX6Yo4IBvk42yREIG/Anw7vAAGEEqF7Pdg50ViwlJ
-         KwhatGpLS7ymVbkZE+0rYjdvo+5ak2qmW91XQ/1WJ3rBfYl3tV8h/plyFTv6o2YBSZG0
-         FCEg==
-X-Gm-Message-State: ANoB5pkvlnGWNkeW1jShDsGXyy2UsOfJYkpOur3YV8xkMUA8x4MrEodM
-	2DIAV9bONZF9CSt0dHuj5mPEo9uRUPFnDcpC8FbdAg==
-X-Google-Smtp-Source: AA0mqf4jJUSVkf/wM2lLzkxnlDPhFrO1rUQNwrt8SFaxwKNNEDgo4gtP3wIU4cUCTsSHPWceDNn7ZA==
-X-Received: by 2002:a17:903:1209:b0:185:441e:90b4 with SMTP id l9-20020a170903120900b00185441e90b4mr5052245plh.26.1670539396734;
-        Thu, 08 Dec 2022 14:43:16 -0800 (PST)
+        bh=PBOP2ylt03dLN95SSzteD6JmIluoIdRRCeet/5gbbaA=;
+        b=XA6ojKrl+uhuu0h2J7G3LpvAz3ijufTM2rNQnmFuGqu01EAL8Jst7bb937KnAYpLS3
+         jSu+cb9Z9IcI291V8+q/nW8FNZXbYw9U92boC1TkQwK4eC6wBFK9jdBW4ND2GHBhGqDd
+         qc8FablYcZE3W5KyGrRxQlNb/upZ17SP/X9+IDSG3hVSbzmhbgIgP6/J8V/waZb3iK5/
+         hkdj0fp4KqgGRuMdstdz1ByaKqDkeVzcMumsJ5lCNGj0mEW7EJSkSAfmq3UOLYU4Rixh
+         08P2elrOS3525KWaTizfJJjVnKANEzdkJY4UEl6S2ntg8UpsG10BUjIQBXvfhRxB0h4R
+         /BMA==
+X-Gm-Message-State: ANoB5plNGj6l4UMftvHuUB32s525YuQAqkBjYonEJPLVN3v05okEM+kw
+	dNBfxZRqNpjCbcGg8NpG+kspLgBk74bfPQZy40D6JA==
+X-Google-Smtp-Source: AA0mqf7g7D3OxWgTQVVEK4+YMs4GlJhRcgr0cDTFnSn3+FW2Pfpc5wq3LZ7GoKdb9vguGaocL90QcQ==
+X-Received: by 2002:a17:902:b218:b0:185:441e:2d98 with SMTP id t24-20020a170902b21800b00185441e2d98mr3819076plr.47.1670539404264;
+        Thu, 08 Dec 2022 14:43:24 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id p1-20020a1709027ec100b00172973d3cd9sm1675980plb.55.2022.12.08.14.43.15
+        by smtp.gmail.com with ESMTPSA id p1-20020a1709027ec100b00172973d3cd9sm1675980plb.55.2022.12.08.14.43.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Dec 2022 14:43:16 -0800 (PST)
+        Thu, 08 Dec 2022 14:43:23 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 08/12] valgrind: remove most hidden tests for arm64
-Date: Thu,  8 Dec 2022 12:42:49 -1000
-Message-Id: <e6dcc48f71ce0e81b38d8745e908306dd716e924.1670539236.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 12/12] oeqa/selftest/tinfoil: Add test for separate config_data with recipe_parse_file()
+Date: Thu,  8 Dec 2022 12:42:53 -1000
+Message-Id: <fe294798f6f371e98e8234c8c45e78d28e824b7a.1670539237.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1670539235.git.steve@sakoman.com>
 References: <cover.1670539235.git.steve@sakoman.com>
@@ -60,279 +60,48 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Dec 2022 22:43:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174421
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Dec 2022 22:43:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174425
 
-From: "Qiu, Zheng" <Zheng.Qiu@windriver.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-An earlier version of valgrind fixed the defunct processes bug, so those
-tests that were skipped specifically for arm can pass now in master,
-kirkstone, honister, hardknott, and dunfell.
+We've seen two different regressions in this API since it is used by
+layer-index but not be the core code. Add a test for it to try and
+ensure we don't break it again.
 
-Detailed test result with remove-for-aarch64 skipped on qemuarm64:
-
-    Commit           Pass   Fail    Skip
-    master           624    9       21
-    kirkstone        618    10      20
-    honister         616    10      19
-    hardknott        609    13      18
-    dunfell          598    16      17
-    zeus             Out of memory: Killed (with many defunct processes)
-
-There are now only 12 skipped by remove-for-aarch64 because 9 fail on
-qemuarm64 and 3 more fail on raspberry pi. These are tracked by:
-    https://bugzilla.yoctoproject.org/show_bug.cgi?id=14960
-
-Signed-off-by: Zheng Qiu <zheng.qiu@windriver.com>
-Signed-off-by: Randy MacLeod <randy.macleod@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit cbeb9418c43ec834868aa65b774dc09e983d26d9)
+(cherry picked from commit b07de5de43ec9c9a2c5d496a64940ccdc5b47cf8)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../valgrind/valgrind/remove-for-aarch64      | 227 +-----------------
- 1 file changed, 3 insertions(+), 224 deletions(-)
+ meta/lib/oeqa/selftest/cases/tinfoil.py | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind/remove-for-aarch64 b/meta/recipes-devtools/valgrind/valgrind/remove-for-aarch64
-index 887bfd2766..a9809e5d8c 100644
---- a/meta/recipes-devtools/valgrind/valgrind/remove-for-aarch64
-+++ b/meta/recipes-devtools/valgrind/valgrind/remove-for-aarch64
-@@ -1,211 +1,6 @@
- gdbserver_tests/hgtls
--cachegrind/tests/ann1
--callgrind/tests/simwork1
--callgrind/tests/simwork2
--callgrind/tests/simwork3
--callgrind/tests/simwork-both
--callgrind/tests/simwork-cache
--callgrind/tests/threads
--callgrind/tests/threads-use
--drd/tests/annotate_barrier
--drd/tests/annotate_barrier_xml
--drd/tests/annotate_hbefore
--drd/tests/annotate_hb_err
--drd/tests/annotate_hb_race
--drd/tests/annotate_ignore_read
--drd/tests/annotate_ignore_rw
--drd/tests/annotate_ignore_rw2
--drd/tests/annotate_ignore_write
--drd/tests/annotate_ignore_write2
--drd/tests/annotate_order_1
--drd/tests/annotate_order_2
--drd/tests/annotate_order_3
--drd/tests/annotate_publish_hg
--drd/tests/annotate_rwlock
--drd/tests/annotate_rwlock_hg
--drd/tests/annotate_sem
--drd/tests/annotate_smart_pointer
--drd/tests/annotate_smart_pointer2
--drd/tests/annotate_spinlock
--drd/tests/annotate_static
--drd/tests/annotate_trace_memory
--drd/tests/annotate_trace_memory_xml
--drd/tests/atomic_var
--drd/tests/bar_bad
--drd/tests/bar_trivial
--drd/tests/boost_thread
--drd/tests/bug-235681
--drd/tests/bug322621
--drd/tests/circular_buffer
--drd/tests/concurrent_close
--drd/tests/custom_alloc
--drd/tests/custom_alloc_fiw
--drd/tests/dlopen
--drd/tests/fork-parallel
--drd/tests/fork-serial
--drd/tests/fp_race
--drd/tests/fp_race2
--drd/tests/fp_race_xml
--drd/tests/free_is_write
--drd/tests/free_is_write2
--drd/tests/hg01_all_ok
--drd/tests/hg02_deadlock
--drd/tests/hg03_inherit
--drd/tests/hg04_race
--drd/tests/hg05_race2
--drd/tests/hg06_readshared
--drd/tests/hold_lock_1
--drd/tests/hold_lock_2
--drd/tests/linuxthreads_det
--drd/tests/matinv
--drd/tests/memory_allocation
--drd/tests/monitor_example
--drd/tests/new_delete
--drd/tests/pth_barrier
--drd/tests/pth_barrier2
--drd/tests/pth_barrier3
--drd/tests/pth_barrier_race
--drd/tests/pth_barrier_reinit
--drd/tests/pth_broadcast
--drd/tests/pth_cancel_locked
--drd/tests/pth_cleanup_handler
--drd/tests/pth_cond_race
--drd/tests/pth_cond_race2
--drd/tests/pth_detached2
--drd/tests/pth_detached3
--drd/tests/pth_detached_sem
--drd/tests/pth_inconsistent_cond_wait
--drd/tests/pth_mutex_reinit
--drd/tests/pth_once
--drd/tests/pth_process_shared_mutex
--drd/tests/pth_spinlock
--drd/tests/pth_uninitialized_cond
--drd/tests/read_and_free_race
--drd/tests/recursive_mutex
--drd/tests/rwlock_race
--drd/tests/rwlock_test
--drd/tests/rwlock_type_checking
--drd/tests/sem_as_mutex
--drd/tests/sem_as_mutex2
--drd/tests/sem_as_mutex3
--drd/tests/sem_open
--drd/tests/sem_open2
--drd/tests/sem_open3
--drd/tests/sem_open_traced
--drd/tests/sem_wait
--drd/tests/sigalrm
--drd/tests/sigaltstack
--drd/tests/std_atomic
--drd/tests/std_string
--drd/tests/std_thread
--drd/tests/std_thread2
--drd/tests/str_tester
--drd/tests/tc01_simple_race
--drd/tests/tc02_simple_tls
--drd/tests/tc03_re_excl
--drd/tests/tc04_free_lock
--drd/tests/tc05_simple_race
--drd/tests/tc06_two_races
--drd/tests/tc07_hbl1
--drd/tests/tc08_hbl2
--drd/tests/tc10_rec_lock
--drd/tests/tc11_XCHG
--drd/tests/tc12_rwl_trivial
--drd/tests/tc13_laog1
--drd/tests/tc15_laog_lockdel
--drd/tests/tc16_byterace
--drd/tests/tc17_sembar
--drd/tests/tc18_semabuse
--drd/tests/tc19_shadowmem
--drd/tests/tc21_pthonce
--drd/tests/tc22_exit_w_lock
--drd/tests/tc23_bogus_condwait
--helgrind/tests/annotate_rwlock
--helgrind/tests/annotate_smart_pointer
--helgrind/tests/bar_bad
--helgrind/tests/bar_trivial
--helgrind/tests/bug322621
--helgrind/tests/cond_init_destroy
--helgrind/tests/cond_timedwait_invalid
--helgrind/tests/cond_timedwait_test
--helgrind/tests/free_is_write
--helgrind/tests/hg01_all_ok
--helgrind/tests/hg03_inherit
--helgrind/tests/hg04_race
--helgrind/tests/hg05_race2
--helgrind/tests/hg06_readshared
--helgrind/tests/locked_vs_unlocked1_fwd
--helgrind/tests/locked_vs_unlocked1_rev
--helgrind/tests/locked_vs_unlocked2
--helgrind/tests/locked_vs_unlocked3
--helgrind/tests/pth_barrier1
--helgrind/tests/pth_barrier2
--helgrind/tests/pth_barrier3
--helgrind/tests/pth_destroy_cond
--helgrind/tests/rwlock_race
--helgrind/tests/rwlock_test
--helgrind/tests/shmem_abits
--helgrind/tests/stackteardown
--helgrind/tests/t2t_laog
--helgrind/tests/tc01_simple_race
--helgrind/tests/tc02_simple_tls
--helgrind/tests/tc03_re_excl
--helgrind/tests/tc04_free_lock
--helgrind/tests/tc05_simple_race
--helgrind/tests/tc06_two_races
--helgrind/tests/tc06_two_races_xml
--helgrind/tests/tc07_hbl1
--helgrind/tests/tc08_hbl2
--helgrind/tests/tc09_bad_unlock
--helgrind/tests/tc10_rec_lock
--helgrind/tests/tc11_XCHG
--helgrind/tests/tc12_rwl_trivial
--helgrind/tests/tc13_laog1
--helgrind/tests/tc14_laog_dinphils
--helgrind/tests/tc15_laog_lockdel
--helgrind/tests/tc16_byterace
--helgrind/tests/tc17_sembar
--helgrind/tests/tc18_semabuse
--helgrind/tests/tc19_shadowmem
--helgrind/tests/tc20_verifywrap
--helgrind/tests/tc21_pthonce
--helgrind/tests/tc22_exit_w_lock
--helgrind/tests/tc23_bogus_condwait
--helgrind/tests/tc24_nonzero_sem
--memcheck/tests/accounting
--memcheck/tests/addressable
--memcheck/tests/arm64-linux/scalar
--memcheck/tests/atomic_incs
--memcheck/tests/badaddrvalue
--memcheck/tests/badfree
--memcheck/tests/badfree-2trace
--memcheck/tests/badfree3
--memcheck/tests/badjump
--memcheck/tests/badjump2
--memcheck/tests/badloop
--memcheck/tests/badpoll
--memcheck/tests/badrw
--memcheck/tests/big_blocks_freed_list
--memcheck/tests/brk2
- memcheck/tests/dw4
--memcheck/tests/err_disable4
--memcheck/tests/err_disable_arange1
--memcheck/tests/leak-autofreepool-5
--memcheck/tests/linux/lsframe1
--memcheck/tests/linux/lsframe2
--memcheck/tests/linux/with-space
--memcheck/tests/origin5-bz2
--memcheck/tests/origin6-fp
--memcheck/tests/partial_load_dflt
--memcheck/tests/pdb-realloc2
--memcheck/tests/sh-mem
--memcheck/tests/sh-mem-random
--memcheck/tests/sigaltstack
--memcheck/tests/sigkill
--memcheck/tests/signal2
--memcheck/tests/threadname
--memcheck/tests/threadname_xml
--memcheck/tests/unit_oset
-+memcheck/tests/leak_cpp_interior
- memcheck/tests/varinfo1
- memcheck/tests/varinfo2
- memcheck/tests/varinfo3
-@@ -213,21 +8,5 @@ memcheck/tests/varinfo4
- memcheck/tests/varinfo5
- memcheck/tests/varinfo6
- memcheck/tests/varinforestrict
--memcheck/tests/vcpu_bz2
--memcheck/tests/vcpu_fbench
--memcheck/tests/vcpu_fnfns
--memcheck/tests/wcs
--memcheck/tests/wrap1
--memcheck/tests/wrap2
--memcheck/tests/wrap3
--memcheck/tests/wrap4
--memcheck/tests/wrap5
--memcheck/tests/wrap6
--memcheck/tests/wrap7
--memcheck/tests/wrap8
--memcheck/tests/wrapmalloc
--memcheck/tests/wrapmallocstatic
--memcheck/tests/writev1
--memcheck/tests/xml1
--memcheck/tests/linux/stack_changes
--memcheck/tests/linux/timerfd-syscall
-+helgrind/tests/hg05_race2
-+helgrind/tests/tc20_verifywrap
+diff --git a/meta/lib/oeqa/selftest/cases/tinfoil.py b/meta/lib/oeqa/selftest/cases/tinfoil.py
+index c81d56d82b..4b261dad00 100644
+--- a/meta/lib/oeqa/selftest/cases/tinfoil.py
++++ b/meta/lib/oeqa/selftest/cases/tinfoil.py
+@@ -64,6 +64,20 @@ class TinfoilTests(OESelftestTestCase):
+             localdata.setVar('PN', 'hello')
+             self.assertEqual('hello', localdata.getVar('BPN'))
+ 
++    # The config_data API tp parse_recipe_file is used by:
++    # layerindex-web layerindex/update_layer.py
++    def test_parse_recipe_custom_data(self):
++        with bb.tinfoil.Tinfoil() as tinfoil:
++            tinfoil.prepare(config_only=False, quiet=2)
++            localdata = bb.data.createCopy(tinfoil.config_data)
++            localdata.setVar("TESTVAR", "testval")
++            testrecipe = 'mdadm'
++            best = tinfoil.find_best_provider(testrecipe)
++            if not best:
++                self.fail('Unable to find recipe providing %s' % testrecipe)
++            rd = tinfoil.parse_recipe_file(best[3], config_data=localdata)
++            self.assertEqual("testval", rd.getVar('TESTVAR'))
++
+     def test_list_recipes(self):
+         with bb.tinfoil.Tinfoil() as tinfoil:
+             tinfoil.prepare(config_only=False, quiet=2)
 -- 
 2.25.1
 
