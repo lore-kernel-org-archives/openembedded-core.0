@@ -1,227 +1,105 @@
-Return-Path: <chee.yang.lee@intel.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75903C4332F
-	for <webhook@archiver.kernel.org>; Thu,  8 Dec 2022 05:00:42 +0000 (UTC)
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by mx.groups.io with SMTP id smtpd.web11.6104.1670475638559087073
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE057C3A5A7
+	for <webhook@archiver.kernel.org>; Thu,  8 Dec 2022 06:08:52 +0000 (UTC)
+Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com [85.158.142.113])
+ by mx.groups.io with SMTP id smtpd.web11.6946.1670479728927015320
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Dec 2022 21:00:39 -0800
+ Wed, 07 Dec 2022 22:08:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=LLV0YMZD;
- spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: chee.yang.lee@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670475638; x=1702011638;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Vfv7GAAmjYPeuCgnxTfWOdnlkghfAnaBacXz41MhuXM=;
-  b=LLV0YMZDFq7fOHE259oVUvyD3ElnhSzwpQjvxyIwJW/JBK9mAMNZajXK
-   d65GM67bULSEKKD2YI+bAlUuHYHtsjt8BOZmEr5KzrujtrLDX5tDr8/Or
-   zjTjkkHbMFjfUM48pHzJoREsHZNx24LliZtv/Cdqa0DM+B3g7Pau/vxA4
-   fTPWn1wYcfT3VZqh/MmvLahH1+A1G9llr7y1g1xXdILk7+3+5UeIqyBuo
-   i3uVzf8SExush+GHdbTZH6HDiAlpVTac86y02Y3pJe34HLpw1MPhLuYw7
-   SFL+qDmH+Thr02hQ/N6nk6cFiRqLCyJxAyROeN6fct54N+oD76DhVTmWs
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="315791479"
-X-IronPort-AV: E=Sophos;i="5.96,226,1665471600"; 
-   d="scan'208";a="315791479"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2022 21:00:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10554"; a="771349576"
-X-IronPort-AV: E=Sophos;i="5.96,226,1665471600"; 
-   d="scan'208";a="771349576"
-Received: from andromeda01.png.intel.com (HELO cheeyang-Standard-PC-i440FX-PIIX-1996.png.intel.com) ([10.221.253.199])
-  by orsmga004.jf.intel.com with ESMTP; 07 Dec 2022 21:00:36 -0800
-From: chee.yang.lee@intel.com
-To: openembedded-core@lists.openembedded.org
-Subject: [dunfell][patch v2] dropbear: fix CVE-2021-36369
-Date: Thu,  8 Dec 2022 13:00:37 +0800
-Message-Id: <20221208050037.459910-1-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=agMYPXs3;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.113, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1670479727; i=@fujitsu.com;
+	bh=rmMf1OASHNPE1MxG14etS9lBjvCDzra13h4uP3JZ1kE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=agMYPXs3rHCWeKdI7oKW4tN8MWaI/AIbOMBle26L1o4E4TaGKBdUKHfFVLw9H6KfH
+	 evMA31FC1WdAbMbTURS7ctZRZLhYcS3ZdZNBbpBVxBpywjoZgY+7t4LmGukqemeobk
+	 yfoT3tWQrWFfdHNaImeqJifokOW0PVqINfYA5nCpWY+he3H6QzG4qObbzXTuQKuins
+	 jYy5kumrjb88UXd42U+aY/Z8wwZMVGhmfDTAZf5QvBl9IlPls7uzZQAZax6PPi9Oin
+	 ZczzVGPL1zCgzEehkBBjQe5u4JZcmjtaOJVsPHx73FJs5w2XeKqRVCjrQ6mW4jJ5VQ
+	 FIP/ua0o4HM4A==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrFIsWRWlGSWpSXmKPExsViZ8OxWTenfmK
+  ywd1XFhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8a7V59YCp5wVjy5e5ytgbGbs4uRi0NI4AGj
+  xIN1bawQziUmiVWtW9ggnN2MEheP/wPKcHKwCUhJ3Lj/HyjBwSEioCdx9Z8oSJhZQEXixe8ed
+  hBbWMBfovn/b0YQmwUofvDwBjCbV8BR4vvP12BjJAQUJKY8fM8MEReUODnzCQvEHAmJgy9eME
+  PUKErMvtzMAmFXSMya1cYEYatJXD23iXkCI/8sJO2zkLQvYGRaxWhWnFpUllqka6iXVJSZnlG
+  Sm5iZo5dYpZuol1qqm5dfVJIBlEosL9ZLLS7WK67MTc5J0ctLLdnECAzGlOJk9h2Mb5b80TvE
+  KMnBpCTK+6K6P1mILyk/pTIjsTgjvqg0J7X4EKMMB4eSBO+FyonJQoJFqempFWmZOcDIgElLc
+  PAoifD61gKleYsLEnOLM9MhUqcYdTlmfm07wCzEkpeflyolzrsbpEgApCijNA9uBCxKLzHKSg
+  nzMjIwMAjxFKQW5WaWoMq/YhTnYFQS5uWoA5rCk5lXArfpFdARTEBH3PvfC3JESSJCSqqBaYG
+  UhlUeU8rmHyuU+b1F5hnMqJyhbK4yYYXvTm+TW5ZJvIbat+16En4793P/2JO17pxaGHvqJ5YF
+  O/hf54Q+tu5QLD630V+qzUDR9mOw3f6N11u9fEQmXrM4cFVDI6RJ7viWAzeWnFvou+lP/Vv50
+  Kgso5nuS7wqNt9YbvLyoMWm2j0PraW3fd2h5uJ0ZPpfVb8fMv9+ddr/DN+hv0pqIktK1YWqtf
+  P2K+0UfxeStEU94Fbd+SgX4xXSBYGnJSeovSp9UOK8Z0HgJ9Xc9Q7HLqyR99FnkD9UuGOW8eo
+  f4id2XN//ddnptY9S5zSaLPhxXquxJLRzcvQig/544b8/DR88uCTv94qfeenjdMcdq5RYijMS
+  DbWYi4oTAaBanlRNAwAA
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-18.tower-745.messagelabs.com!1670479724!174183!1
+X-Originating-IP: [62.60.8.179]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.101.1; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 6691 invoked from network); 8 Dec 2022 06:08:44 -0000
+Received: from unknown (HELO n03ukasimr04.n03.fujitsu.local) (62.60.8.179)
+  by server-18.tower-745.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 8 Dec 2022 06:08:44 -0000
+Received: from n03ukasimr04.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTP id 6AAB8155
+	for <openembedded-core@lists.openembedded.org>; Thu,  8 Dec 2022 06:08:44 +0000 (GMT)
+Received: from R01UKEXCASM126.r01.fujitsu.local (R01UKEXCASM126 [10.183.43.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTPS id 5E5D17B
+	for <openembedded-core@lists.openembedded.org>; Thu,  8 Dec 2022 06:08:44 +0000 (GMT)
+Received: from localhost.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.42; Thu, 8 Dec 2022 06:08:42 +0000
+From: <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [oe] [meta-python] [PATCH] python3-protobuf: upgrade 4.21.9 -> 4.21.10
+Date: Thu, 8 Dec 2022 14:08:11 +0800
+Message-ID: <1670479695-1183-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Dec 2022 05:00:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174371
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Dec 2022 06:08:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174372
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
-v2: fix fuzz
- meta/recipes-core/dropbear/dropbear.inc       |   1 +
- .../dropbear/dropbear/CVE-2021-36369.patch    | 145 ++++++++++++++++++
- 2 files changed, 146 insertions(+)
- create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2021-36369.patch
+ .../{python3-protobuf_4.21.9.bb => python3-protobuf_4.21.10.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta-python/recipes-devtools/python/{python3-protobuf_4.21.9.bb => python3-protobuf_4.21.10.bb} (92%)
 
-diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
-index 026292230c..0f5e9ba4ac 100644
---- a/meta/recipes-core/dropbear/dropbear.inc
-+++ b/meta/recipes-core/dropbear/dropbear.inc
-@@ -29,6 +29,7 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
-            ${@bb.utils.contains('PACKAGECONFIG', 'disable-weak-ciphers', 'file://dropbear-disable-weak-ciphers.patch', '', d)} \
-            file://CVE-2020-36254.patch \
-+           file://CVE-2021-36369.patch \
-            "
+diff --git a/meta-python/recipes-devtools/python/python3-protobuf_4.21.9.bb b/meta-python/recipes-devtools/python/python3-protobuf_4.21.10.bb
+similarity index 92%
+rename from meta-python/recipes-devtools/python/python3-protobuf_4.21.9.bb
+rename to meta-python/recipes-devtools/python/python3-protobuf_4.21.10.bb
+index 7970d0b90..0ddd49cfe 100644
+--- a/meta-python/recipes-devtools/python/python3-protobuf_4.21.9.bb
++++ b/meta-python/recipes-devtools/python/python3-protobuf_4.21.10.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=8;md5=53dbfa56f61b90215a
  
- PAM_SRC_URI = "file://0005-dropbear-enable-pam.patch \
-diff --git a/meta/recipes-core/dropbear/dropbear/CVE-2021-36369.patch b/meta/recipes-core/dropbear/dropbear/CVE-2021-36369.patch
-new file mode 100644
-index 0000000000..5cabe8339d
---- /dev/null
-+++ b/meta/recipes-core/dropbear/dropbear/CVE-2021-36369.patch
-@@ -0,0 +1,145 @@
-+From e10dec82930863e487b22978d3df107274f366b2 Mon Sep 17 00:00:00 2001
-+From: Manfred Kaiser <37737811+manfred-kaiser@users.noreply.github.com>
-+Date: Thu, 19 Aug 2021 17:37:14 +0200
-+Subject: [PATCH] added option to disable trivial auth methods (#128)
-+
-+* added option to disable trivial auth methods
-+
-+* rename argument to match with other ssh clients
-+
-+* fixed trivial auth detection for pubkeys
-+
-+[https://github.com/mkj/dropbear/pull/128]
-+Upstream-Status: Backport
-+CVE: CVE-2021-36369
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+
-+---
-+ cli-auth.c         | 3 +++
-+ cli-authinteract.c | 1 +
-+ cli-authpasswd.c   | 2 +-
-+ cli-authpubkey.c   | 1 +
-+ cli-runopts.c      | 7 +++++++
-+ cli-session.c      | 1 +
-+ runopts.h          | 1 +
-+ session.h          | 1 +
-+ 8 files changed, 16 insertions(+), 1 deletion(-)
-+
-+diff --git a/cli-auth.c b/cli-auth.c
-+index 2e509e5..6f04495 100644
-+--- a/cli-auth.c
-++++ b/cli-auth.c
-+@@ -267,6 +267,9 @@ void recv_msg_userauth_success() {
-+ 	if DROPBEAR_CLI_IMMEDIATE_AUTH is set */
-+ 
-+ 	TRACE(("received msg_userauth_success"))
-++	if (cli_opts.disable_trivial_auth && cli_ses.is_trivial_auth) {
-++		dropbear_exit("trivial authentication not allowed");
-++	}
-+ 	/* Note: in delayed-zlib mode, setting authdone here 
-+ 	 * will enable compression in the transport layer */
-+ 	ses.authstate.authdone = 1;
-+diff --git a/cli-authinteract.c b/cli-authinteract.c
-+index e1cc9a1..f7128ee 100644
-+--- a/cli-authinteract.c
-++++ b/cli-authinteract.c
-+@@ -114,6 +114,7 @@ void recv_msg_userauth_info_request() {
-+ 	m_free(instruction);
-+ 
-+ 	for (i = 0; i < num_prompts; i++) {
-++		cli_ses.is_trivial_auth = 0;
-+ 		unsigned int response_len = 0;
-+ 		prompt = buf_getstring(ses.payload, NULL);
-+ 		cleantext(prompt);
-+diff --git a/cli-authpasswd.c b/cli-authpasswd.c
-+index 00fdd8b..a24d43e 100644
-+--- a/cli-authpasswd.c
-++++ b/cli-authpasswd.c
-+@@ -155,7 +155,7 @@ void cli_auth_password() {
-+ 
-+ 	encrypt_packet();
-+ 	m_burn(password, strlen(password));
-+-
-++	cli_ses.is_trivial_auth = 0;
-+ 	TRACE(("leave cli_auth_password"))
-+ }
-+ #endif	/* DROPBEAR_CLI_PASSWORD_AUTH */
-+diff --git a/cli-authpubkey.c b/cli-authpubkey.c
-+index 7cee164..7da1a04 100644
-+--- a/cli-authpubkey.c
-++++ b/cli-authpubkey.c
-+@@ -174,6 +174,7 @@ static void send_msg_userauth_pubkey(sign_key *key, int type, int realsign) {
-+ 		buf_putbytes(sigbuf, ses.writepayload->data, ses.writepayload->len);
-+ 		cli_buf_put_sign(ses.writepayload, key, type, sigbuf);
-+ 		buf_free(sigbuf); /* Nothing confidential in the buffer */
-++		cli_ses.is_trivial_auth = 0;
-+ 	}
-+ 
-+ 	encrypt_packet();
-+diff --git a/cli-runopts.c b/cli-runopts.c
-+index 7d1fffe..6bf8b8e 100644
-+--- a/cli-runopts.c
-++++ b/cli-runopts.c
-+@@ -152,6 +152,7 @@ void cli_getopts(int argc, char ** argv) {
-+ #if DROPBEAR_CLI_ANYTCPFWD
-+ 	cli_opts.exit_on_fwd_failure = 0;
-+ #endif
-++	cli_opts.disable_trivial_auth = 0;
-+ #if DROPBEAR_CLI_LOCALTCPFWD
-+ 	cli_opts.localfwds = list_new();
-+ 	opts.listen_fwd_all = 0;
-+@@ -888,6 +889,7 @@ static void add_extendedopt(const char* origstr) {
-+ #if DROPBEAR_CLI_ANYTCPFWD
-+ 			"\tExitOnForwardFailure\n"
-+ #endif
-++			"\tDisableTrivialAuth\n"
-+ #ifndef DISABLE_SYSLOG
-+ 			"\tUseSyslog\n"
-+ #endif
-+@@ -915,5 +917,10 @@ static void add_extendedopt(const char* origstr) {
-+ 		return;
-+ 	}
-+ 
-++	if (match_extendedopt(&optstr, "DisableTrivialAuth") == DROPBEAR_SUCCESS) {
-++		cli_opts.disable_trivial_auth = parse_flag_value(optstr);
-++		return;
-++	}
-++
-+ 	dropbear_log(LOG_WARNING, "Ignoring unknown configuration option '%s'", origstr);
-+ }
-+diff --git a/cli-session.c b/cli-session.c
-+index 56dd4af..73ef0db 100644
-+--- a/cli-session.c
-++++ b/cli-session.c
-+@@ -164,6 +164,7 @@ static void cli_session_init(pid_t proxy_cmd_pid) {
-+ 	/* Auth */
-+ 	cli_ses.lastprivkey = NULL;
-+ 	cli_ses.lastauthtype = 0;
-++	cli_ses.is_trivial_auth = 1;
-+ 
-+ 	/* For printing "remote host closed" for the user */
-+ 	ses.remoteclosed = cli_remoteclosed;
-+diff --git a/runopts.h b/runopts.h
-+index 31eae1f..8519626 100644
-+--- a/runopts.h
-++++ b/runopts.h
-+@@ -154,6 +154,7 @@ typedef struct cli_runopts {
-+ #if DROPBEAR_CLI_ANYTCPFWD
-+ 	int exit_on_fwd_failure;
-+ #endif
-++	int disable_trivial_auth;
-+ #if DROPBEAR_CLI_REMOTETCPFWD
-+ 	m_list * remotefwds;
-+ #endif
-+diff --git a/session.h b/session.h
-+index 0f77055..8676054 100644
-+--- a/session.h
-++++ b/session.h
-+@@ -287,6 +287,7 @@ struct clientsession {
-+ 
-+ 	int lastauthtype; /* either AUTH_TYPE_PUBKEY or AUTH_TYPE_PASSWORD,
-+ 						 for the last type of auth we tried */
-++	int is_trivial_auth;
-+ 	int ignore_next_auth_response;
-+ #if DROPBEAR_CLI_INTERACT_AUTH
-+ 	int auth_interact_failed; /* flag whether interactive auth can still
+ inherit pypi setuptools3
+ 
+-SRC_URI[sha256sum] = "61f21493d96d2a77f9ca84fefa105872550ab5ef71d21c458eb80edcf4885a99"
++SRC_URI[sha256sum] = "4d97c16c0d11155b3714a29245461f0eb60cace294455077f3a3b8a629afa383"
+ 
+ # http://errors.yoctoproject.org/Errors/Details/184715/
+ # Can't find required file: ../src/google/protobuf/descriptor.proto
 -- 
 2.25.1
 
