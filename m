@@ -1,147 +1,149 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CA96C3A5A7
-	for <webhook@archiver.kernel.org>; Thu,  8 Dec 2022 07:55:53 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web10.8175.1670486145052628997
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85A83C3A5A7
+	for <webhook@archiver.kernel.org>; Thu,  8 Dec 2022 09:24:04 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+ by mx.groups.io with SMTP id smtpd.web11.9327.1670491439398441611
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Dec 2022 23:55:45 -0800
+ Thu, 08 Dec 2022 01:24:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=VqFkulCe;
- spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f43.google.com with SMTP id k22-20020a05600c1c9600b003d1ee3a6289so416847wms.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Dec 2022 23:55:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=qIHGLxtmKB10j4zGz+TTuOtXC41XUEztJBGRA+OPLU8=;
-        b=VqFkulCe1AEcjR6bHq3U/BxM7yy6gFvr0cKMh4UfNI0+OzCIFgDtOX4+2xiVu+/PnT
-         evXpG4FCtNHeQkryz+sL49D6f7fZ/8xmz/cSG6y82Kupeglw1YuX+tfcrsIcDhQzKX/4
-         ahf36vRHSJ7nnb9bwa53qUxdFnK9pb83urKGsVWqMwnF90y+emhZ+SRno4ZB7gZ7uDs3
-         vrL2ASOyCqapJKba7LHSGjzrTfxgvMtrpajaQuP+HJM2P7gtKjVnWUiEV/pWklMSwUkK
-         RIV6NrmRtFOjNxO/gR8/Ml2byxbUopXgkEFrk/20XHZZX8vbFEza0N1KeKdTKiSY6OKY
-         Wc2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qIHGLxtmKB10j4zGz+TTuOtXC41XUEztJBGRA+OPLU8=;
-        b=zOERag/dCmhVx0Pc/nau6lgnOFPIzZL0LUWKxB6ZacI422rgdb6wfZKwCJt3dYjiSQ
-         BiVOUMfAs/fOnqdF/ASlm55hg1MHgTEGqzsKIt3aiLeEsPDg58ebVVZZsHeMmby8397c
-         nQIXisMvpbnuoUEXnq9NV9DJ0FpSwum7zrhKS+jjlskDUdO1mGVQYKmFRfEoIS/93FMI
-         bHOXbrQQYdtNV5vJKE5Pnqxx28v8ceEPqVY9CHUugOX/HbLYJzNEVWXvAyC9wpqXurUU
-         To/9rjm2+IEPgV/RkKKLwT+0WcP3NYxJSfwUF8u7l/z6X1YY2Pg3jr8m5KEPN0OTJaQM
-         Fosg==
-X-Gm-Message-State: ANoB5pldjgrhOIst3dqsNMWf2aBZ7NA4fR+bRwAiEZ5yZ+kzEHFWZmiv
-	d2K14//pwKc6YDcRt7I7zkg5umAR3N/QiJs0fPQ=
-X-Google-Smtp-Source: AA0mqf5vS5BR8AafPsr2/MrS32yHW9YcjvRf/NLXytgOqgkHpEtfwKe1rRwBYOGW0TiU57n/7tv45olCRlWcCzqQvzU=
-X-Received: by 2002:a1c:7504:0:b0:3cf:6b10:ca8d with SMTP id
- o4-20020a1c7504000000b003cf6b10ca8dmr72536883wmc.44.1670486143395; Wed, 07
- Dec 2022 23:55:43 -0800 (PST)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=a7YZQ2Nd;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id CBBAF1BF204;
+	Thu,  8 Dec 2022 09:23:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1670491437;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EpY3HuolKUUEO8geKNN4SbRuydYrIkTIeBVQgHjnyQc=;
+	b=a7YZQ2Nd0jmD5pWAyrQ83vHsR3KStku/lmCxLM1XCZ76/iAPaCDF7Orq9yRlNIQeuKUEXk
+	1Tha2iWJ4BMPRDTAvIuzeVHPvbDr5RkScyp6r4xZVuyz82WAVTJ6Up0MNCwjo9uBRaRMQm
+	MwfjNtHB2SLR+MjNfKAURHhGWLDWB++m9Z8Rd6zWv7HJOQHOrOAlIKbiyQx0Et0u/Vi8CM
+	kwpHUhsFd7IANqM2ygrFhD5a4sxkMqBXixQW40QffSJXdek858Qd7Mn90jQ4T5+BOA1+/6
+	p5w98Vprg8hNwR88d34tYDKolmwQvg/hZWKrNwVd6vGaSy3cRMVtoJb2wrn18w==
+Date: Thu, 8 Dec 2022 10:23:54 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Manoj Saun <manojsingh.saun@windriver.com>
+Cc: openembedded-core@lists.openembedded.org, narpat.mali@windriver.com
+Subject: Re: [OE-core] [meta-core][PATCH 1/1] libksba: fix CVE-2022-3515
+Message-ID: <Y5GtKvwEUpRfP0wp@mail.local>
+References: <20221208062744.3450638-1-manojsingh.saun@windriver.com>
 MIME-Version: 1.0
-References: <20221201173942.1218836-1-f_l_k@t-online.de> <CAMKF1srCn0tDWAxxpVCYhTZmow3uwy0tGqLXy2VDX0qBHDx2ZA@mail.gmail.com>
- <NMLEMR.NA7JF86LUFN83@t-online.de> <CAP9ODKopgRpWZNiFHjFtw34dYhRHKH188p2_AAs_=Ptyti-ESA@mail.gmail.com>
- <CA+chaQcCzmqKquXstrcBBQGD8vJ5gDVuUJDNoN7uVNEbpjm+AA@mail.gmail.com> <AM4PR0201MB20975667EA5BA27E0326E3BEE91D9@AM4PR0201MB2097.eurprd02.prod.outlook.com>
-In-Reply-To: <AM4PR0201MB20975667EA5BA27E0326E3BEE91D9@AM4PR0201MB2097.eurprd02.prod.outlook.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 8 Dec 2022 08:55:29 +0100
-Message-ID: <CA+chaQeJR3NtxnMkhY1DL84ok1EL4me3AX1X1xR38E7w0keVxQ@mail.gmail.com>
-Subject: Re: [oe-core][PATCH] mesa: update 22.2.3 -> 22.3.0
-To: Samuli Piippo <samuli.piippo@qt.io>
-Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>, Markus Volk <f_l_k@t-online.de>, 
-	Khem Raj <raj.khem@gmail.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000002dee0705ef4c5d37"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221208062744.3450638-1-manojsingh.saun@windriver.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Dec 2022 07:55:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174392
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Dec 2022 09:24:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174393
 
---0000000000002dee0705ef4c5d37
-Content-Type: text/plain; charset="UTF-8"
+Hello,
 
-On Thu, Dec 8, 2022 at 8:42 AM Samuli Piippo <samuli.piippo@qt.io> wrote:
+On 08/12/2022 06:27:44+0000, Manoj Saun wrote:
+> libksba: integer overflow may lead to remote code execution.
+> 
+> Reference:
+> https://www.gnupg.org/blog/20221017-pepe-left-the-ksba.html
+> 
+> Upstream fixes:
+> https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libksba.git;a=commit;h=4b7d9cd4a018898d7714ce06f3faf2626c14582b
+> 
 
-> Qt6 should handle this already with
-> https://codereview.qt-project.org/c/qt/qtbase/+/371780 in place.
-> I tried test build with the mesa upgrade and didn't catch any build errors.
->
+The patch is missing Upstream-Status:
 
-I've tried qemux86-64 build with 6.4.1 and 6.5.0 from yesterday's dev
-branch and both failed after including this mesa upgrade with:
-| In file included from
-qtbase/6.4.1-r0/recipe-sysroot/usr/include/EGL/egl.h:20,
-|                  from
-qtbase/6.4.1-r0/build/include/QtGui/6.4.1/QtGui/private/../../../../../../git/src/gui/opengl/platform/egl/qt_egl_p.h:43,
-|                  from
-qtbase/6.4.1-r0/build/include/QtGui/6.4.1/QtGui/private/qt_egl_p.h:1,
-|                  from
-qtbase/6.4.1-r0/git/src/gui/opengl/platform/egl/qeglstreamconvenience_p.h:20,
-|                  from
-qtbase/6.4.1-r0/git/src/gui/opengl/platform/egl/qeglstreamconvenience.cpp:4:
-| qtbase/6.4.1-r0/recipe-sysroot/usr/include/EGL/eglplatform.h:109:10:
-fatal error: X11/Xlib.h: No such file or directory
-|   109 | #include <X11/Xlib.h>
-|       |          ^~~~~~~~~~~~
-| compilation terminated.
+Missing Upstream-Status tag (meta/recipes-support/libksba/libksba/0001-Detect-a-possible-overflow-directly-in-the-TLV-parse.patch)
 
->
+> Signed-off-by: Manoj Saun <manojsingh.saun@windriver.com>
+> ---
+>  ...e-overflow-directly-in-the-TLV-parse.patch | 42 +++++++++++++++++++
+>  meta/recipes-support/libksba/libksba_1.6.2.bb |  3 +-
+>  2 files changed, 44 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-support/libksba/libksba/0001-Detect-a-possible-overflow-directly-in-the-TLV-parse.patch
+> 
+> diff --git a/meta/recipes-support/libksba/libksba/0001-Detect-a-possible-overflow-directly-in-the-TLV-parse.patch b/meta/recipes-support/libksba/libksba/0001-Detect-a-possible-overflow-directly-in-the-TLV-parse.patch
+> new file mode 100644
+> index 0000000000..e2cb842a4d
+> --- /dev/null
+> +++ b/meta/recipes-support/libksba/libksba/0001-Detect-a-possible-overflow-directly-in-the-TLV-parse.patch
+> @@ -0,0 +1,42 @@
+> +From 4b7d9cd4a018898d7714ce06f3faf2626c14582b Mon Sep 17 00:00:00 2001
+> +From: Werner Koch <wk@gnupg.org>
+> +Date: Wed, 5 Oct 2022 14:19:06 +0200
+> +Subject: [PATCH] Detect a possible overflow directly in the TLV parser.
+> +
+> +* src/ber-help.c (_ksba_ber_read_tl): Check for overflow of a commonly
+> +used sum.
+> +--
+> +
+> +It is quite common to have checks like
+> +
+> +    if (ti.nhdr + ti.length >= DIM(tmpbuf))
+> +       return gpg_error (GPG_ERR_TOO_LARGE);
+> +
+> +This patch detects possible integer overflows immmediately when
+> +creating the TI object.
+> +
+> +Reported-by: ZDI-CAN-18927, ZDI-CAN-18928, ZDI-CAN-18929
+> +---
+> + src/ber-help.c | 6 ++++++
+> + 1 file changed, 6 insertions(+)
+> +
+> +diff --git a/src/ber-help.c b/src/ber-help.c
+> +index 81c31ed..56efb6a 100644
+> +--- a/src/ber-help.c
+> ++++ b/src/ber-help.c
+> +@@ -182,6 +182,12 @@ _ksba_ber_read_tl (ksba_reader_t reader, struct tag_info *ti)
+> +       ti->length = len;
+> +     }
+> + 
+> ++  if (ti->length > ti->nhdr && (ti->nhdr + ti->length) < ti->length)
+> ++    {
+> ++      ti->err_string = "header+length would overflow";
+> ++      return gpg_error (GPG_ERR_EOVERFLOW);
+> ++    }
+> ++
+> +   /* Without this kludge some example certs can't be parsed */
+> +   if (ti->class == CLASS_UNIVERSAL && !ti->tag)
+> +     ti->length = 0;
+> +-- 
+> +2.34.1
+> +
+> diff --git a/meta/recipes-support/libksba/libksba_1.6.2.bb b/meta/recipes-support/libksba/libksba_1.6.2.bb
+> index f6ecb9aec4..c25c23ef0f 100644
+> --- a/meta/recipes-support/libksba/libksba_1.6.2.bb
+> +++ b/meta/recipes-support/libksba/libksba_1.6.2.bb
+> @@ -22,7 +22,8 @@ inherit autotools binconfig-disabled pkgconfig texinfo
+>  
+>  UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
+>  SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+> -           file://ksba-add-pkgconfig-support.patch"
+> +           file://ksba-add-pkgconfig-support.patch \
+> +           file://0001-Detect-a-possible-overflow-directly-in-the-TLV-parse.patch"
+>  
+>  SRC_URI[sha256sum] = "fce01ccac59812bddadffacff017dac2e4762bdb6ebc6ffe06f6ed4f6192c971"
+>  
+> -- 
+> 2.34.1
+> 
 
---0000000000002dee0705ef4c5d37
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Thu, Dec 8, 2022 at 8:42 AM Samuli Pii=
-ppo &lt;<a href=3D"mailto:samuli.piippo@qt.io">samuli.piippo@qt.io</a>&gt; =
-wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex"><div class=3D"msg-6257577558531904790">
-
-
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#174384): https://lists.openembedded.org/g/openembedded-core/message/174384
+> Mute This Topic: https://lists.openembedded.org/mt/95533228/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
-<div dir=3D"ltr">
-<div><span style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-siz=
-e:12pt;color:rgb(0,0,0);background-color:rgb(255,255,255)">Qt6 should handl=
-e this already with
-<a href=3D"https://codereview.qt-project.org/c/qt/qtbase/+/371780" id=3D"m_=
--2294924994488092156LPlnk780937" target=3D"_blank">
-https://codereview.qt-project.org/c/qt/qtbase/+/371780</a> in place.</span>=
-</div>
-<div><span style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-siz=
-e:12pt;color:rgb(0,0,0);background-color:rgb(255,255,255)">I tried test bui=
-ld with the mesa upgrade and didn&#39;t catch any build
- errors.</span></div></div></div></blockquote><div><br></div><div>I&#39;ve =
-tried qemux86-64 build with 6.4.1 and 6.5.0 from yesterday&#39;s dev branch=
- and both failed after including this mesa upgrade with:</div><div>| In fil=
-e included from qtbase/6.4.1-r0/recipe-sysroot/usr/include/EGL/egl.h:20,<br=
->| =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from qtbas=
-e/6.4.1-r0/build/include/QtGui/6.4.1/QtGui/private/../../../../../../git/sr=
-c/gui/opengl/platform/egl/qt_egl_p.h:43,<br>| =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from qtbase/6.4.1-r0/build/include/QtGui/=
-6.4.1/QtGui/private/qt_egl_p.h:1,<br>| =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0from qtbase/6.4.1-r0/git/src/gui/opengl/platform=
-/egl/qeglstreamconvenience_p.h:20,<br>| =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0from qtbase/6.4.1-r0/git/src/gui/opengl/platform=
-/egl/qeglstreamconvenience.cpp:4:<br>| qtbase/6.4.1-r0/recipe-sysroot/usr/i=
-nclude/EGL/eglplatform.h:109:10: fatal error: X11/Xlib.h: No such file or d=
-irectory<br>| =C2=A0 109 | #include &lt;X11/Xlib.h&gt;<br>| =C2=A0 =C2=A0 =
-=C2=A0 | =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^~~~~~~~~~~~<br>| compilation te=
-rminated.<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div c=
-lass=3D"msg-6257577558531904790"><div dir=3D"ltr"><div><div dir=3D"ltr"><di=
-v>
-</div>
-</div>
-</div>
-</div>
-
-</div></blockquote></div></div>
-
---0000000000002dee0705ef4c5d37--
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
