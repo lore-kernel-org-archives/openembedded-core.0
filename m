@@ -2,165 +2,158 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC1C1C4332F
-	for <webhook@archiver.kernel.org>; Fri,  9 Dec 2022 16:48:14 +0000 (UTC)
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
- by mx.groups.io with SMTP id smtpd.web11.6622.1670604494239513375
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB7FFC4332F
+	for <webhook@archiver.kernel.org>; Fri,  9 Dec 2022 17:03:24 +0000 (UTC)
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+ by mx.groups.io with SMTP id smtpd.web10.7061.1670605400847240888
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Dec 2022 08:48:14 -0800
+ Fri, 09 Dec 2022 09:03:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=JxwDz/7t;
- spf=pass (domain: gmail.com, ip: 209.85.161.47, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f47.google.com with SMTP id q6-20020a4aa886000000b004a083f945a6so761504oom.6
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Dec 2022 08:48:14 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=oYpNPSGn;
+ spf=pass (domain: gmail.com, ip: 209.85.160.49, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-1433ef3b61fso427723fac.10
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Dec 2022 09:03:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=v0PtmiHAaxvohnmV7Htm6DagS+/GFFSKTVVugTXdXCw=;
-        b=JxwDz/7taw46IYT9thUmt/hYOhhhCP7AKdpqKgEQuELHpxGOpI40Wol33n3TUjDha/
-         sqOTG1YLFKa+WU3e03xB6x1v+rN2FciTLE453b6HNlR9FmoKPRnhAAQnisgW9lIrGb20
-         y9eKRytupjbNl4STntgsU7IlAnVDFxO3LhVknpEw7qIjbPJQ53gknHUMB6kIa+bppAT2
-         8LZhMRNYW1vAdWve4vaUywEvOc0O/uK0ugPLxxFvjno/PchmJEAwj3QUhc2OOKN8hhXm
-         e9AvNN+UND0ZBXWqUc3SXLFcw79SoCKBVM1/8ZAft/zW3DK781hCC6sEp3X+qmnbd/gM
-         9TRg==
+        bh=7IdEwGEb9AW/F+m1qaRS+3IPOeuuHu4dHKx6JaTz0EA=;
+        b=oYpNPSGnq8WNjjg1WZaz1H/mWB9JVZ7UG35QdmSyzow+7JD4pndomzcOcLIj/SE7v/
+         xX+CKGAgtbNSXyCzI1KJk6kWwFzsGakWb27uQOgZlMKCJHRDRsRNlHluqtZ+mQllygpl
+         XFXlKOqXdBtwT+zX/cyF4hSka3G02Uzv+nZINSNhbv3vsBiRKIX+lzXrq4vSMgSSma4Z
+         NBAlP+ryTnHmSKnxEU81a1xJ86TDqmUQsA5q8fcef/jygNqO4BhL7WRi890aFcnjS7G/
+         eCv9guw5auIWYswzCuBPaW1zsDI45qKId/gtcAE1/C//JVl6/ZxAHXXAPLUzsTuVcO7e
+         IKGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=v0PtmiHAaxvohnmV7Htm6DagS+/GFFSKTVVugTXdXCw=;
-        b=IJTqp23+qzXdfhbO5KT8rSvKOTTyKZtYlp441j1BMIryTsiKXzUeaV2TjepKdxD/9F
-         KTFJxSK9CjPCPcwf8M90JORGxaOZLJqcphUDjMXKINwJWJSIKtk61D6XdItoHCYxlay6
-         Uh/XUZE2Ip8u96A4vhDECYTGheuRcCBqV43fK+3TLJzrEKrkZb2yuVLPinS+CxQjsjyp
-         Ys7hnjfFFkhKuuNvPoNh1ZoU+n6zyDvLKDtaD2lzMl2Nr9wxmuBzCRGy02qatr3C2Yb3
-         FJhFxCzzM5cipJh9yLH92I8T2o9Iqh13VrqKFJiQJ1hYsXbLW1w1SMjOkCvt7bwsHfXR
-         GzYg==
-X-Gm-Message-State: ANoB5pnp3e0MEFbgw36M8kCbY7b4qzWHB+0PweoQy2kA9KcyElL8GtfK
-	zAqrNs5vnrQlAmh01ZILDMN/J8rt3FK7Q90+mf/s9ybgT54=
-X-Google-Smtp-Source: AA0mqf54GrLDY5h1C/sFFLGCSRFeEttfhokNyI6Y3l7j7yp5M2okoIHqVNg7iStsFi3dklsoMS6Cv1mbJrgJ4HYUSyU=
-X-Received: by 2002:a05:6820:131:b0:4a3:6eb4:2129 with SMTP id
- i17-20020a056820013100b004a36eb42129mr2405905ood.9.1670604493319; Fri, 09 Dec
- 2022 08:48:13 -0800 (PST)
+        bh=7IdEwGEb9AW/F+m1qaRS+3IPOeuuHu4dHKx6JaTz0EA=;
+        b=Xvz6r+f/Pxh48KlITWVXl1h0q6gXsnvj/7zve33EzNSzOy/PGkyjhNt7i8X+PRKdML
+         LAIYRYMeA2bE/zNRFro5rOKvVSPdO6FZVtxto95Q2ZL17S/gj2QV3CtvTxspzrEKo1b+
+         2dk0Dle7BZNXsjiDKbhrP8pd80dBAoVlXX82gOclCIvX+Dwr1gqcJnVMmRAYYUsN4sva
+         K3tjp0b8c/vYaob6WgrvEsRiEp6gvQuMU5Ws1FqXVMmvCfR3t3KbGlYtzDKfiVeGVBac
+         71Fsiw7UBDB3Mv0UO/FJIvA//4t6fOCNNuMqN97EqVAIW5nTVb743sq+xz/1XqBSZQ8m
+         GOCw==
+X-Gm-Message-State: ANoB5pkqICfpMajh0F8Kgq/SlG/197w18Tj/MctNFnEj6WBOq5cxBQf+
+	XVwWwD5Q+QbrIxLWhBGe133ZVXv5NhAWL+ia3Y6VLrwN
+X-Google-Smtp-Source: AA0mqf7n0nk1llqbe+N+x4BUMxnUl0ulnuNbJ073/P6CECeWO+LSEqIqIIvnS2ExkipukE12A1kK9zwxdTJ5RoT4wIw=
+X-Received: by 2002:a05:6870:1784:b0:13b:1e05:a73d with SMTP id
+ r4-20020a056870178400b0013b1e05a73dmr54853374oae.55.1670605399904; Fri, 09
+ Dec 2022 09:03:19 -0800 (PST)
 MIME-Version: 1.0
-References: <20221208071136.1967696-1-olani@axis.com> <20221208071136.1967696-4-olani@axis.com>
- <08c1f279-d446-bc7c-f01d-4ebfb1da51d8@gmail.com> <jwq5yekdg24.fsf@axis.com>
-In-Reply-To: <jwq5yekdg24.fsf@axis.com>
+References: <20221209070538.72901-1-xiangyu.chen@eng.windriver.com>
+In-Reply-To: <20221209070538.72901-1-xiangyu.chen@eng.windriver.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 9 Dec 2022 08:47:47 -0800
-Message-ID: <CAMKF1so_bqFoQSE1t_ONA_0M2Y_2muJtoEtOnGbO7mYN4E2OOw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH RFC 3/3] time64.conf: Include to enable 64 bit
- time flags
-To: Ola x Nilsson <ola.x.nilsson@axis.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Date: Fri, 9 Dec 2022 09:02:53 -0800
+Message-ID: <CAMKF1sokegC9mr0VkmdEqW2WqRxBdc0fVYS39Pp8FFFzj6jc-Q@mail.gmail.com>
+Subject: Re: [OE-Core][master][PATCH] openssh: remove RRECOMMENDS to rng-tools
+ for sshd package
+To: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Dec 2022 16:48:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174468
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Dec 2022 17:03:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174469
 
-On Fri, Dec 9, 2022 at 2:31 AM Ola x Nilsson <ola.x.nilsson@axis.com> wrote:
->
->
-> On Fri, Dec 09 2022, Khem Raj wrote:
->
-> > Thanks for the patches
-> >
-> > On 12/7/22 23:11, Ola x Nilsson wrote:
-> >> Signed-off-by: Ola x Nilsson <olani@axis.com>
-> >> ---
-> >>   meta/conf/distro/time64.conf | 23 +++++++++++++++++++++++
-> >>   1 file changed, 23 insertions(+)
-> >>   create mode 100644 meta/conf/distro/time64.conf
-> >>
-> >> diff --git a/meta/conf/distro/time64.conf b/meta/conf/distro/time64.conf
-> >> new file mode 100644
-> >> index 0000000000..99eb06dc0f
-> >> --- /dev/null
-> >> +++ b/meta/conf/distro/time64.conf
-> >> @@ -0,0 +1,23 @@
-> >> +GLIBC_64BIT_TIME_FLAGS = "-D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64"
-> >> +
-> >> +# TODO: Only for 32-bit architectures?
-> >> +TARGET_CC_ARCH:append:arm = " ${GLIBC_64BIT_TIME_FLAGS}"
-> >> +TARGET_CC_ARCH:append:armeb = " ${GLIBC_64BIT_TIME_FLAGS}"
-> >> +TARGET_CC_ARCH:append:mips32el = " ${GLIBC_64BIT_TIME_FLAGS}"
-> >
-> > We should enable it across all 32bit systems
-> > something like
-> >
-> > TARGET_CC_ARCH += "${@'-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64' if
-> > d.getVar('SITEINFO_BITS') == '32' else ''}"
-> >
-> > would do it.
->
-> I was looking for a way to identify 32-bit platforms but did not find
-> SITEINFO_BITS.  I'll look into using that instead.
->
-> > Also adding -D_LARGEFILE_SOURCE will ensure needed functions that LFS
-> > needs is enabled as well, usually its automatically defined when
-> > -D_GNU_SOURCE is set but that may not be case all the time.
->
-> As far as I can tell, _LARGEFILE_SOURCE and _LARGEFILE64_SOURCE are
-> independent of _TIME_BITS=64 and _FILE_OFFSET_BITS=64 (while
-> _TIME_BITS=64 requiress _FILE_OFFSET_BITS=64).
->
-> I thought the _LARGEFILE* options were controlled by the largefile
-> DISTRO_FEATURE but there seems to be some confusion about that.
->
+would be good to know some numbers on non-arm/non-x86 systems too.
 
-this was transitional it was removed because we wanted to enable it
-globally by default
-however, we might want to add --enable-largefile unconditionally to
-autotools.bbclass
-for some autotooled packages which still need it for others we have to define
--D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64, in this case 64bit off_t
-is common need between both LFS and 64bit time_t
-
-Also see this discussion on same topic
-https://sourceware.org/pipermail/libc-alpha/2022-November/143386.html
-
-> It looks like you (Khem) made largefile default instead of using the
-> distro feature in all of the OE-core recipes, and the largefile distro
-> feature is no longer mentioned in docs.  It is mentioned as removed in
-> the transition notes.  But it is still in poky-tiny.conf and
-> POKY_DEFAULT_DISTRO_FEATURES.  Probably an oversight?
-
-yes seems so, it should be removed from there.
+On Thu, Dec 8, 2022 at 11:05 PM Xiangyu Chen
+<xiangyu.chen@eng.windriver.com> wrote:
 >
-> I do not see the _LARGEFILE*_SOURCE options defined globally anywhere.
+> It appears that rngd is not needed as of linux-5.6 and later[1]
+> and should not be installed by default since the purpose of rngd
+> is to provide additional trusted sources of entropy.
 >
-> Am I missing something?
-
-most of packages are enabling it indirectly via enabling _GNU_SOURCE macro
-on glibc systems. So we are fine but it will be better to be explicit about it.
-
+> We did some testing on real hardware, the result seems to support that
+> we no longer need rngd by default on kernel v5.6 and later.
 >
-> >> +
-> >> +GLIBC_64BIT_TIME_FLAGS:pn-glibc = ""
-> >> +GLIBC_64BIT_TIME_FLAGS:pn-glibc-tests = ""
-> >> +# pipewire-v4l2 explicitly sets _FILE_OFFSET_BITS=32 to get access to
-> >> +# both 32 and 64 bit file APIs.  But it does not handle the time side?
-> >> +# Needs further investigation
-> >> +GLIBC_64BIT_TIME_FLAGS:pn-pipewire = ""
-> >> +GLIBC_64BIT_TIME_FLAGS:pn-gcc-sanitizers = ""
-> >> +
-> >> +INSANE_SKIP:libstd-rs[_usr_lib_rustlib_armv7-poky-linux-gnueabihf_lib_libstd.so]
-> >> = "clock_gettime gettime fcntl fstat64 fstatat64 getsockopt ioctl
-> >> lstat64 nanosleep prctl recvmsg sendmsg setsockopt stat64"
-> >> +INSANE_SKIP:librsvg[_usr_bin_rsvg-convert] = "fcntl fstat64 prctl stat64 clock_gettime"
-> >> +INSANE_SKIP:librsvg[_usr_lib_librsvg-2.so.2.48.0] = "fcntl lstat64
-> >> setsockopt sendmsg fstat64 getsockopt ioctl nanosleep timegm
-> >> fstatat64 prctl mktime gmtime_r recvmsg stat64 clock_gettime
-> >> localtime_r"
-> >> +
-> >> +# libpulsedsp.so is a preload-library that hooks libc functions
-> >> +INSANE_SKIP:pulseaudio[_usr_lib_pulseaudio_libpulsedsp.so] = "setsockopt fcntl"
-> >> +
-> >> +
-> >>
+> Testing result as below:
+>
+> 1. observing the crng init stage.
+>  the "random: crng init done" always available before fs being mounted.
+>
+> 2. generating random number without rngd.
+>  testing command: dd if=/dev/random of=/dev/null status=progress
+>    on Marvell CN96xx RDB board, speed almost 20.4 MB/s without block
+>    on NXP i.mx6q board, speed almost 31.9 MB/s without block
+>    on qemu x86-64, speed almost 2.6MB/s without block
+>
+> 3. using rngtest command without rngd
+>  testing command: rngtest -c 1000 </dev/random
+>    on Marvell CN96xx RDB board:
+>       rngtest: input channel speed: (min=4.340; avg=135.364; max=146.719)Mibits/s
+>       rngtest: FIPS tests speed: (min=8.197; avg=69.020; max=72.800)Mibits/s
+>       rngtest: Program run time: 418771 microseconds
+>
+>    on NXP i.mx6q board:
+>       rngtest: input channel speed: (min=96.820; avg=326.769; max=340.598)Mibits/s
+>       rngtest: FIPS tests speed: (min=15.090; avg=37.543; max=40.324)Mibits/s
+>       rngtest: Program run time: 570229 microseconds
+>
+>    on qemu x86-64:
+>       rngtest: input channel speed: (min=37.769; avg=101.136; max=136.239)Mibits/s
+>       rngtest: FIPS tests speed: (min=10.288; avg=30.682; max=40.155)Mibits/s
+>       rngtest: Program run time: 836800 microseconds
+>
+> 4. observing sshd service.
+>   using "systemctl disable rng-tools" disable service and reboot system.
+>   system boot up normal, sshd service also start in normal time without
+>   block.
+>
+> Reference:
+> [1] https://github.com/torvalds/linux/commit/30c08efec8884fb106b8e57094baa51bb4c44e32
+>
+> Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+> ---
+>  meta/recipes-connectivity/openssh/openssh_9.1p1.bb | 9 +--------
+>  1 file changed, 1 insertion(+), 8 deletions(-)
+>
+> diff --git a/meta/recipes-connectivity/openssh/openssh_9.1p1.bb b/meta/recipes-connectivity/openssh/openssh_9.1p1.bb
+> index 85f97b1bbb..23ae8d5b0c 100644
+> --- a/meta/recipes-connectivity/openssh/openssh_9.1p1.bb
+> +++ b/meta/recipes-connectivity/openssh/openssh_9.1p1.bb
+> @@ -52,15 +52,12 @@ SYSTEMD_SERVICE:${PN}-sshd = "sshd.socket"
+>
+>  inherit autotools-brokensep ptest
+>
+> -PACKAGECONFIG ??= "rng-tools"
+> +PACKAGECONFIG ??= ""
+>  PACKAGECONFIG[kerberos] = "--with-kerberos5,--without-kerberos5,krb5"
+>  PACKAGECONFIG[ldns] = "--with-ldns,--without-ldns,ldns"
+>  PACKAGECONFIG[libedit] = "--with-libedit,--without-libedit,libedit"
+>  PACKAGECONFIG[manpages] = "--with-mantype=man,--with-mantype=cat"
+>
+> -# Add RRECOMMENDS to rng-tools for sshd package
+> -PACKAGECONFIG[rng-tools] = ""
+> -
+>  EXTRA_AUTORECONF += "--exclude=aclocal"
+>
+>  # login path is hardcoded in sshd
+> @@ -160,10 +157,6 @@ FILES:${PN}-keygen = "${bindir}/ssh-keygen"
+>
+>  RDEPENDS:${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen ${PN}-sftp-server"
+>  RDEPENDS:${PN}-sshd += "${PN}-keygen ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-keyinit pam-plugin-loginuid', '', d)}"
+> -RRECOMMENDS:${PN}-sshd:append:class-target = "\
+> -    ${@bb.utils.filter('PACKAGECONFIG', 'rng-tools', d)} \
+> -"
+> -
+>  # gdb would make attach-ptrace test pass rather than skip but not worth the build dependencies
+>  RDEPENDS:${PN}-ptest += "${PN}-sftp ${PN}-misc ${PN}-sftp-server make sed sudo coreutils"
 >
 > --
-> Ola x Nilsson
+> 2.34.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#174434): https://lists.openembedded.org/g/openembedded-core/message/174434
+> Mute This Topic: https://lists.openembedded.org/mt/95556189/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
