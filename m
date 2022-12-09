@@ -1,208 +1,159 @@
-Return-Path: <jing.hui.tham@intel.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B516DC10F1B
-	for <webhook@archiver.kernel.org>; Fri,  9 Dec 2022 10:58:18 +0000 (UTC)
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by mx.groups.io with SMTP id smtpd.web11.10386.1670583494836287830
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05391C4332F
+	for <webhook@archiver.kernel.org>; Fri,  9 Dec 2022 12:01:19 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web10.11416.1670587268088206008
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Dec 2022 02:58:15 -0800
+ Fri, 09 Dec 2022 04:01:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=EUNMeo4H;
- spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: jing.hui.tham@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1670583494; x=1702119494;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=9q6+rbEIvvDego8Ht21NjlOijj8YtTODlDVSlGTv9zM=;
-  b=EUNMeo4HEu8/slTPzU/GAtxSvNuD77IG5KjybSGbncEoBYtSu6O27U8G
-   70H+1vJVPom+i/yDyBmXM5JqrtUUp/a8OYNbi/48wjDgqZNqlb3f1+USt
-   KA8ypbpXhyNIGl2/XfYd14oUvusCaqlO394k5F5aspjRCu36wZ09BwI0L
-   DORcqtFXfxSSvBl3QMTouFXsUDOZpK5Ov12Sf6L+Ypc9OVHGY41LSwC6R
-   mbUqVMHereATZ0uvloLOsBZ5RC73P2sH55IQytD2YqkQxmk65HEYE/PGh
-   oICvxOXA6WrJd709we+WxVYzaCmpAZk1V0PhH56pUp9lsmGGWElTmPl80
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10555"; a="379648189"
-X-IronPort-AV: E=Sophos;i="5.96,230,1665471600"; 
-   d="scan'208";a="379648189"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2022 02:58:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10555"; a="789684294"
-X-IronPort-AV: E=Sophos;i="5.96,230,1665471600"; 
-   d="scan'208";a="789684294"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmsmga001.fm.intel.com with ESMTP; 09 Dec 2022 02:58:13 -0800
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Fri, 9 Dec 2022 02:58:13 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Fri, 9 Dec 2022 02:58:13 -0800
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.45) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Fri, 9 Dec 2022 02:58:12 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DB4V+IedplnhgHio1paewDLE/Zrahz3D5/SVpE9Pf7y4Hismh7sayC6yblAVmhj/5VsOjdq29ZIkFOEyUYCVD3S5n11hkAhymElNaNAPzd7FkZUUrwuabGOgNLh72qn5HIx1Ice/bO5V0nmdjSGV6CMS/lzzTcEG1WlurYuiI4XUxxuGxTfxv8slBEwMlRPGKJhfDF9Nl4QTJGWLzTQybvBZlfE2L/+LlDhZs3lpLlBida4DELqwxy7uUID23kjEh7MCnvVz/GiwMeq6h8sgzQwkTMZd7NDlqMHMxcqQUNM3zJIZvmfJ+fKp8rvoBbXocVn7Mb7rOyamc8bIkUivXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OVm8u5mAL21tNPYE+9KqatIvfynl5pGnY4JeP6hqXEo=;
- b=mbXHTGvpTURChMGezKCXqUDonUnG0WMpiVykk1gqlfO7N9ZrpJ+Czf2hBKjSIorRRrmhii0d6jnsSzAAgsRtPXKoCYz2YfHxgWJ9FfteZL08WvuONurvKkiO/vhACuClAN1q9iFWH467ib+P5eWhE+hAdE3qlZWXIU9rxEg1IxmGfBxSxibgzfv0DQyhDNtCUITtjG9xx9/DOpvPLDo4EEY+H9KPoB841xnEwMvbKdRTR/e2+SdCxbqzdFY4q5hiUkeTEZuDwFe52WvSM/vRHIXN64uf+oRKHtnUEmz/9BFJthhcI6IAQIO4uYLowMZ1UFvtfikwCH+xXJWN8CVkEQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BY5PR11MB4152.namprd11.prod.outlook.com (2603:10b6:a03:191::11)
- by CH3PR11MB7274.namprd11.prod.outlook.com (2603:10b6:610:140::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5880.18; Fri, 9 Dec
- 2022 10:58:10 +0000
-Received: from BY5PR11MB4152.namprd11.prod.outlook.com
- ([fe80::87c2:e4b3:7962:f4f4]) by BY5PR11MB4152.namprd11.prod.outlook.com
- ([fe80::87c2:e4b3:7962:f4f4%7]) with mapi id 15.20.5880.014; Fri, 9 Dec 2022
- 10:58:10 +0000
-From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
-To: "qa-build-notification@lists.yoctoproject.org"
-	<qa-build-notification@lists.yoctoproject.org>, Pokybuild User
-	<pokybuild@yoctoproject.org>, "yocto@lists.yoctoproject.org"
-	<yocto@lists.yoctoproject.org>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [yocto] QA notification for completed autobuilder build
- (yocto-4.2_M1.rc1)
-Thread-Topic: [yocto] QA notification for completed autobuilder build
- (yocto-4.2_M1.rc1)
-Thread-Index: AQHZCzy02DNcsB2E8U2T4g2VPa0Vdq5lYl8A
-Date: Fri, 9 Dec 2022 10:58:10 +0000
-Message-ID: <BY5PR11MB41525AF8A89547219C6D546DA11C9@BY5PR11MB4152.namprd11.prod.outlook.com>
-References: <01010184f33f3b78-07acc2b2-ae5d-4466-bf8c-59a138757177-000000@us-west-2.amazonses.com>
-In-Reply-To: <01010184f33f3b78-07acc2b2-ae5d-4466-bf8c-59a138757177-000000@us-west-2.amazonses.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BY5PR11MB4152:EE_|CH3PR11MB7274:EE_
-x-ms-office365-filtering-correlation-id: 5ef6f7a7-6e96-4e03-706d-08dad9d44301
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: F56heoTBuNNW2O/wzUzzZ62Zbrmicmz/yQNJCmM6ZTd+ODP6CNdCJSluipzLvmfrny3zTtmxtn2cXoIpGxbek9Gt1qEKlGqRZOito+Qig2Uv/TSSHUS35NFLSocmbDywoayHNR7EDfPcykHy/S7LDlF3IA6tJgRi5TCDcMOG2oDa7KPb2oVre2y0LYLLtcuHrz+o5envzKorrDdMA1FWiOnyoWTeJNjXAK/KGD/ZTkm7iFYALrzO83NvWYvq+FQu9yGvg/nzTAJoA3Ehfxzw5OT03m3Qc9W/gPupqYtPf2IwWT437xCmYwf24kNLzy2CEuK6bHFLvYvFaBsRQh2+9zIG53SO77J0d5OJodLMXvA6Dd3riiR60GQgNiji/uXx36NPTzUkJXb5BB4rPxouwqc1DrA32G0AdSRaJohuTEpttsJA9cduTTl0P6v3+7VexcZrGhuc66iIGVC6k/Xi7QajhJy1EELHW5DPYQjzArPBY0o9zcqZJO6JFg3FbSjYSqoN+amKC/J85caDxccV1gT09ymfhur7PC2g8JSSkWl3PnBMoNsCj2wKu4smnGzlBd4JRgp5nAvRRPpRo/LBJi2hsNteQQC+2R8ku1pTvacyxIOR2jJBV2zAQ1yAiLJwkhg1ccOVRABIH/lupnMTa0eGmdcLEf0u/+rgOJ7xEltjJ0g3mGsL+ljKEn4LZ0aQ6JlzdB+bDWI9kZbfm3wcrZJ1i8N6v9p6vXhUMriebU4=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4152.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(366004)(346002)(39860400002)(376002)(136003)(396003)(451199015)(71200400001)(316002)(110136005)(15650500001)(38100700002)(478600001)(186003)(26005)(966005)(83380400001)(41300700001)(9686003)(82960400001)(2906002)(66556008)(66476007)(64756008)(8676002)(33656002)(66446008)(66946007)(76116006)(38070700005)(5660300002)(53546011)(7696005)(52536014)(55016003)(6506007)(8936002)(122000001)(86362001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Z1QCgB660ZNXz9pAlhQMX2yZEHWfRPtlpgW+yS9gDKOpPeHdRu7BARBqg8uG?=
- =?us-ascii?Q?hgEjiBU5sOgI2cH3CvxVn5gxomsI/xH0j5Dfkm3Ha6yoD9oa3rBw8RnC5SZR?=
- =?us-ascii?Q?4yamElc2vqf9nxsJLbJs5JnD8QlVxg5Y7F5dFzaprBfHsjOzSam5ZLIfV/rU?=
- =?us-ascii?Q?NBnNubylMekxUG/EvNNfLZusPd847eaNbmz+VSWIu58sta+hmgpfqg1njcON?=
- =?us-ascii?Q?SiEcFunQkwlTvf9/wroL0aXdhseROLn2zCQqv+qP3yJjbpTyE7EOYOcMRFt6?=
- =?us-ascii?Q?F2jEjFzMFAaBwv5drlZWO/kHj2lUzm8ogO4gE6INI1RX4Jtonl8zEv3382gv?=
- =?us-ascii?Q?SyBJLrC6huUxJWVZvnZTIXzUefpUEYN20Cz1vlKDqDPJERcoiGC52F7hKjkz?=
- =?us-ascii?Q?7RoOK6m9zN3oqGVEyY5SluW526nFVHCwei5KowgV0/ZRF+sXYwPLcJhLgDZr?=
- =?us-ascii?Q?pLVCy3gARJBbDxaYu6LSh8mqSQhXwIQLjNGYDLZSfDnBiPmNhhyqgwf0fT8E?=
- =?us-ascii?Q?1xe+KRL+Ve+DQt4ZqFUNJ0vmiEHUqB7R5XYCfpLtVRWHS4t1VsFnn3j8NWjh?=
- =?us-ascii?Q?Fm+XzNikE4dFBbAbcyufrj/SEZMdQMpj3P0rOQst+qP9t+WI6Hp1fH3KRoSB?=
- =?us-ascii?Q?k4vA1NCw178EitPzVrcupbhwDsgvEJrh3CAltEhNHajj1aLZ0VwCkywY2gu/?=
- =?us-ascii?Q?sUkYtgo55O9ptb+/pw2VMXEQDjBfLb0sTipmoBVGD+wu6RZ6WszXY4bX/jeQ?=
- =?us-ascii?Q?CVSwA1psl0MoJt4cgGETaHdOFH2Ep0Tf2ALxFLFKidEoSnl4PiWILb9qA0c4?=
- =?us-ascii?Q?rrZHbCV7HqMNmU/R/TnkMwSA0oD1G1qPO4HdsLhTcatqkCmm9mrYRgmlOOzI?=
- =?us-ascii?Q?BEiQ8RVLl9mWMXr2wDSaSsizc8TRW1UeyYFf/jCBcPOYYYtLLOmJoin3l/a8?=
- =?us-ascii?Q?/PkaBwOy8ChR8LDKHhUR6YT10IOaBfBe2gevHKlsJ8cv9yLj6zM52HInBlwp?=
- =?us-ascii?Q?vfW64XTYBVffHBsiDOaDhXyST948JhGqYrxo0HLd/rrv+6rbGTdZf214hqGI?=
- =?us-ascii?Q?QCgI4uZiRkWnFWkAMeIWfxRccwjXv27LNOxIopNyMJ4zGyHGbdWnHQlk48yO?=
- =?us-ascii?Q?JclYM9Qlo4sHC0aXkmJtU5IYNwSdEsSc+BM3JiNJMz4gZKJDodloJO/wiPiB?=
- =?us-ascii?Q?juez7LiShsz0/frMP+tQOw0dkT4jR5VT1Vp44LcHRk7LaYivPUjcsMMdiVNG?=
- =?us-ascii?Q?D/PeE910K3aMdEEmloMaEI4Uk3vlr6uRCrn3nbQta/hqLSgRkJLb+lC9m+pA?=
- =?us-ascii?Q?ezwlKe3gvWyqfCdJ1Nz4VDxJlWi16PJcWzTw6dDbmPhvAK6qrq4MzF4FVJkG?=
- =?us-ascii?Q?2dEPTS0+mOvxQLFyEfecRFA1ch7JuY3zZrs2vcX3tI+zXCPN3xs+8rPyYvKQ?=
- =?us-ascii?Q?O4xj3rI1KXl8TbM8qCtSwD3Q1/tNncQOwg5usKS7osHne52RXuMjVUQ5wl7b?=
- =?us-ascii?Q?a++i3Tpy/JJv+heg1dhPMktMqDrUmUaxqa0MDcEtw0l0qUjvoZoF6E7O6VgV?=
- =?us-ascii?Q?k6JXLT8Z4T2+qmBJchlfRkBu85vtjh73X8ccIwOT?=
-Content-Type: text/plain; charset="us-ascii"
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=F9uq7Uoz;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id 125-20020a1c0283000000b003d1e906ca23so3113691wmc.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Dec 2022 04:01:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=v3CFkOdsm7o8Uq5PKleEUZ6mBp7zblHO+3cJ5sG20tk=;
+        b=F9uq7UozsKeZ8zecNGtvlC+8g2pqHZbaWybDcpcdZpZ1NPaTAtq4ciWusKgZl0FI9T
+         M4WWSiwd4wIaR4GARcJvfkox5y5O2J3O6jfZglQhQqMrjOZS0MCmpQPs+pkZ19NxoWX2
+         pNWOuGXB/z3uWLg0xZlyg9EmiXl24md1apJHg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=v3CFkOdsm7o8Uq5PKleEUZ6mBp7zblHO+3cJ5sG20tk=;
+        b=W0naXC/lymmTlExVORqnSJFv7B8fuq+b9hEdInzJaE0BKIvRKmYFZJrsfPyN+pTaqt
+         Gqzb7tqmj/9CKxkHj2wO94jL3gSLVrDG5M1TMsmZB1esu5uXzO380XsEhcqqOXOpOsgC
+         T8zB5L4bT5A1LaLH7cOOyquZS8tLwF+Vz9GgCVC/C7WeUktnDWO24IEvc/g1wwJz5uwJ
+         6hyp2j8hCaG7kkrl5kMQmEzKJgHWk1bjlE/KThUe3rkwh5ADVrmTDO/hwV8vQwVB8MMk
+         eXfWmE3IwZWp7kVQYXWv+8rnfi86/Yms44E1JwE5c1p+BoWZoD4zPbhSGYjeXWAWyide
+         6pSw==
+X-Gm-Message-State: ANoB5pkYmjW5IRBW7Yow+yGdY6BzheB7K671HQ1m1sHnC0Lva5t6uxL2
+	cMJWJC9hmqG8O3l8FySUmRt2ww==
+X-Google-Smtp-Source: AA0mqf6JcBvZq+MOo6fK6rPVke6ftK6jCdY3URf9QsKClFrOXjRyzOhUHZ5IuxPd56P8XYOee8y5/Q==
+X-Received: by 2002:a05:600c:3ac3:b0:3d2:148b:4a26 with SMTP id d3-20020a05600c3ac300b003d2148b4a26mr103004wms.32.1670587266280;
+        Fri, 09 Dec 2022 04:01:06 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:9b77:8930:5aaa:e9c4? ([2001:8b0:aba:5f3c:9b77:8930:5aaa:e9c4])
+        by smtp.gmail.com with ESMTPSA id s9-20020a5d5109000000b002421ce6a275sm1173499wrt.114.2022.12.09.04.01.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Dec 2022 04:01:05 -0800 (PST)
+Message-ID: <7f51955aada8f9e74322aa0ad15f21b9985d993d.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 01/13] cargo-update-recipe-crates.bbclass: add
+ a class to generate SRC_URI crate lists from Cargo.lock
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>, 
+	Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Alexander Kanavin <alex@linutronix.de>, Michael Opdenacker
+ <michael.opdenacker@bootlin.com>, Randy MacLeod
+ <randy.macleod@windriver.com>,  Sergey Bostandzhyan <jin@mediatomb.cc>,
+ openembedded-core@lists.openembedded.org
+Date: Fri, 09 Dec 2022 12:01:03 +0000
+In-Reply-To: <1de0c6c3-cd27-1c86-f515-f4510ddd36f2@weidmueller.com>
+References: <20221031114719.2725967-1-alex@linutronix.de>
+	 <167d8dfa-fe50-24ff-d2d2-249df3445ae8@windriver.com>
+	 <20221207002040.GB1080@xn--80adja5bqm.su>
+	 <CANNYZj9_46SdQdVuwFQ-HosVB7X2QpG0PDYNybV+ZL2Xt1FS3Q@mail.gmail.com>
+	 <96c54599-b4b0-5235-28fd-41c71272c213@weidmueller.com>
+	 <CANNYZj8gX4ab+zOVN974vwL8UkJqO-gqkshxsdYVtPsHZfExfg@mail.gmail.com>
+	 <1de0c6c3-cd27-1c86-f515-f4510ddd36f2@weidmueller.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4152.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5ef6f7a7-6e96-4e03-706d-08dad9d44301
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Dec 2022 10:58:10.6183
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: BKpPXWDGbCgDMpGoNcRBRucPqWU8W/TdDaSZu1TdZZTvug/aUXnt9ekeNJ6W7Uy9nzuyhtb8e0xNjgMdnlK8zQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7274
-X-OriginatorOrg: intel.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Dec 2022 10:58:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174445
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Dec 2022 12:01:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174446
 
-Hi all,
-=20
-Intel and WR YP QA is planning for QA execution for YP build yocto-4.2_M1.r=
-c1. We are planning to execute following tests for this cycle:
-=20
-OEQA-manual tests for following module:
-1. OE-Core
-2. BSP-hw
-=20
-Runtime auto test for following platforms:
-1. MinnowTurbot 32-bit
-2. NUC 7
-3. ADL
-4. TGL NUC 11
-5. Edgerouter
-6. Beaglebone
-=20
-ETA for completion next Thursday, December 15.
-=20
-Best regards,
-Jing Hui
+On Fri, 2022-12-09 at 11:39 +0100, Stefan Herbrechtsmeier wrote:
+> Sorry for the harsh tone but you ignore existing tools and add just
+> another tool to oe-core without mention any reason or document it. Do
+> you really expect that somebody will patch existing tools if main
+> developers ignore existing tools and provide new tool for their use
+> case?
 
-> -----Original Message-----
-> From: yocto@lists.yoctoproject.org <yocto@lists.yoctoproject.org> On Beha=
-lf
-> Of Pokybuild User
-> Sent: Friday, 9 December, 2022 3:39 AM
-> To: yocto@lists.yoctoproject.org
-> Cc: qa-build-notification@lists.yoctoproject.org
-> Subject: [yocto] QA notification for completed autobuilder build (yocto-
-> 4.2_M1.rc1)
->=20
->=20
-> A build flagged for QA (yocto-4.2_M1.rc1) was completed on the autobuilde=
-r
-> and is available at:
->=20
->=20
->     https://autobuilder.yocto.io/pub/releases/yocto-4.2_M1.rc1
->=20
->=20
-> Build hash information:
->=20
-> bitbake: 6709aedccbb2e7ddbb1b2e7e4893481a7b536436
-> meta-agl: e2c31ebda224bf6813ff861df9a51e8fc46944e5
-> meta-arm: 02b430d045b50d5e5cab9a52b786d1134ba17c19
-> meta-aws: da36bf8bc3f5a1cbb9396e8d28559c422cd96412
-> meta-intel: de59d48ad2ce88ebe331a8355e742fce7c3b428c
-> meta-mingw: 4a066511a944ec946efa7a4571029c992cf0ae00
-> meta-openembedded: 8c58f419c299fe3764482ebe4f366e25533ea23f
-> meta-virtualization: cb5dfda6f6d862a575f029ee8ded0bc3db6bc766
-> oecore: 96ff9baa8ead57504f40f362ed3a4aaa776d1b58
-> poky: 4d19594b8bdacde6d809d3f2a25cff7c5a42295e
->=20
->=20
->=20
-> This is an automated message from the Yocto Project Autobuilder
-> Git: git://git.yoctoproject.org/yocto-autobuilder2
-> Email: richard.purdie@linuxfoundation.org
->=20
->=20
->=20
+I'm not sure that is entirely fair criticism. We have some challenges
+with some of the new languages. Rust support was in a separate layer.
+We took some of those recipes into core, then ended up making
+significant changes to them. We never took the external tool.
+
+The hope in doing that was that we'd find a better way to make things
+work. I think what Alex has done is an improvement over that external
+tool and it experiments with a different way of handling things. I've
+had generally quite positive feedback on the approach itself. Yes,
+there are some issues with documentation and some people using it have
+struggled with some usability issues. None of those look like they're
+unfixable.
+
+>  Why should somebody improve an existing tool, extend the
+> documentation, add tests or even upstream its work if these same
+> requirements don=E2=80=99t exist for the main developers. It looks like t=
+he
+> requirements for foreign and main contributors are different and this
+> doesn't encourage people to participant.
+
+I don't see us treating developers differently and I am concerned you
+think we/I do. Any given solution that is proposed is evaluated on it's
+pros and cons. In this case the solution is quite self contained and
+allowed the approach to be experimented with whilst solving a real
+world issue. If it doesn't work out we can easily drop it. The risk
+from taking it is therefore low. Yes, I should probably insist on
+documentation. In this case it is relatively simple code which is
+relatively easily understood so I've been less worried about that up
+front.
+
+If it worked out well, we can integrate it further and document it. If
+it doesn't it can be removed. FWIW I have heard people saying they like
+the approach and that we should use it for some of the other languages
+with challenges like this.
+
+>  Maybe this is only my personal feeling and I apologize my harsh
+> tone, but the acceptance of patches should be comprehensible, and
+> expectations should be the same for everyone.
+
+I do try to ensure that. My "algorithm" for accepting patches is
+probably not easily documented but I think the factors here which are=20
+the standalone nature of the change and the easy with which we could
+drop it if needed. As such it is in my "low risk" category of patches.
+
+I'd note Alex has another patch which has been sitting for months
+unmerged as it is in my "high risk" to the project category. I suspect
+that one will not actually merge but I need to find the time to explain
+why, right now it is more based on a feeling it is the wrong direction.
+
+>  Should others answer to your comments that their solution doesn=E2=80=99=
+t
+> preclude your suggestion and that they welcome patches? For sure it
+> takes more time to add rust support to recipetool but I think a
+> second tool without a clear reason in oe-core hurts more in long term
+> because its now unclear if new features (like checksums or licenses
+> support) should be added to this tool or if this tool is only a
+> temporary solution and should be replaced by recipetool in long term.
+> Furthermore, this class is marked as a class for a recipe but
+> shouldn=E2=80=99t be inherit by a recipe and manipulates a file inside th=
+e
+> meta data.
+
+We do have precedence for classes that help updates like this. Both
+python and perl have code that adds tasks that function a bit like
+this, in those cases for the core recipe.
+
+Personally, I would ultimately like to see these operations handled by
+recipetool and I suspect natural evolution of the code may head that
+way. Both devtool and recipetool have used classes as a way to help
+them perform operations so in that sense, this is actually a logical
+development path for those tools.
+
+Cheers,
+
+Richard
+
+
 
