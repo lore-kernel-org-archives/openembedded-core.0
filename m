@@ -2,89 +2,89 @@ Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09DAEC4332F
-	for <webhook@archiver.kernel.org>; Fri,  9 Dec 2022 05:08:27 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web10.5373.1670562502202459449
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18A8DC4332F
+	for <webhook@archiver.kernel.org>; Fri,  9 Dec 2022 05:18:47 +0000 (UTC)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web10.5520.1670563118782456326
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Dec 2022 21:08:24 -0800
+ Thu, 08 Dec 2022 21:18:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=UhLgYMbo;
- spf=pass (domain: mvista.com, ip: 209.85.214.169, mailfrom: hprajapati@mvista.com)
-Received: by mail-pl1-f169.google.com with SMTP id 4so3787913pli.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Dec 2022 21:08:22 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=HiVJqwps;
+ spf=pass (domain: mvista.com, ip: 209.85.214.179, mailfrom: hprajapati@mvista.com)
+Received: by mail-pl1-f179.google.com with SMTP id k7so3764035pll.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Dec 2022 21:18:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=mvista.com; s=google;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BfeJANesVvtaO7InPDfJ/FN0tmbxCWokMnyhD3AYMBs=;
-        b=UhLgYMbo8BTU4IWIvWqFjb80fIpiuj3npYku/+pGfWgkk70CB5R2Kg0T49p3K4ugJf
-         zKdEkg4USdpE6FsaJdSOaVAj0f2WotylkmwQYgssQ8Yf8dSyO9DufIN25HtGvx4z0XW7
-         f3SSUorGmb/YuInYVGKyQnlSl9cMme//764y0=
+        bh=APD5aFiIGxEolsrTngnYUhB40bBZSIGRait0rkei3ro=;
+        b=HiVJqwpsQb70qqenG8nuStpLdGtNmW+mHsIqJDccWK89VL2i6l5AWDc5nymDRLQ0K6
+         zrIzUbkIE17lXirhE84I4g3OGOP2PSRB5sz6mic4wcPPjfkZ8V8DmYuqxFFmgSEQlPez
+         6+T1V0Cz7wfjDYlYtHhodQHYeFh64miuJzaDQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BfeJANesVvtaO7InPDfJ/FN0tmbxCWokMnyhD3AYMBs=;
-        b=10faG6yV1FgPFr07Y6UdC7YCESr2yD9Zoi9cXeaM5RHISCkSmE/KYO86qGg7nnZWjq
-         bl2X8VAvBKKBrK3Cp3a3CcjqBPEyhRdDxHyO08gALRWc88RmdgLKTHtsWCncu0iCuCxx
-         mrA70JI6DYby5t2kbcHQvyPt6isY3eEtz6Ulj3PSs+TKxlxrgz62xxwQ6NPyPZ3l8M6P
-         KZVPBzD1L7V7PBfJgy5BU5zI1I9CZnXTYw0jC0lIAZTE/vXJIgRoxpISDM7+6FCU6y1s
-         F0vVh9mTsVcLN1FZPUYUXiCZr9esWriT436CF98bnFZ/vcQ4ZQO/PNuEnVQ4l1+65jBU
-         u9VA==
-X-Gm-Message-State: ANoB5plTFYfMVxwAXEh5h69FOJi/xZydE6mLsMEKPYhYRRqu4eUzhz7R
-	+QWrzbF8E7Eq7Qcbp0HYYhmEZiJmO3j4jK1D
-X-Google-Smtp-Source: AA0mqf4fYEq3sOQFpezW9Q6E7ndZOowJjw/XmWJJD5KP1P96QUV4oSUxYMFOqtXqMeGzaJuGYmkpBQ==
-X-Received: by 2002:a17:903:138a:b0:189:5f5c:da1f with SMTP id jx10-20020a170903138a00b001895f5cda1fmr4740023plb.5.1670562501135;
-        Thu, 08 Dec 2022 21:08:21 -0800 (PST)
+        bh=APD5aFiIGxEolsrTngnYUhB40bBZSIGRait0rkei3ro=;
+        b=JfZRhZBUyIxCMi12ZXS6o3QL5K80f3+kO5pB9psQH3u/KS7k4XHZAqawx6Ty07RxqJ
+         CpicBXgWEL+vE+q1G8OJlFAJh3JhfOEMtRkkWVjX6OocYl4gOZHmfTIBGu+P/9rzY2Ac
+         oqzl+NHdfya7OSurwXdcT4K2J9LK1eNirlaSQar/nV45BMwvzKqjo2F428KfikVRrYR7
+         KVRWxkBcRqcRKxP4J253HV9IZlZoTqMVdSsCVj3YavFvL7jLsDpfT7OwErj8om9RY3Nm
+         b/yY+joh+EvIBf0Um2NIv59C3la5ITkvkUXfxhtnysVLfo+aCFqidFhugmIoGy8gV0t7
+         kBDg==
+X-Gm-Message-State: ANoB5pk+eE2xtz9hM1B1eJ6a4lwhTiyJcxhcegS0Z8UQHKXFnOcXEG2E
+	UDC1DPzx9WV2yfI17F+PHbUX/Jk8eNpuPQF0
+X-Google-Smtp-Source: AA0mqf6k9DhaYOLPJG3iaqNf6UbPU/y1zfo6k17EKG+abVx/SBgCzBFkwKgGZSnYWVmee7X+lDcCPg==
+X-Received: by 2002:a17:90a:e58a:b0:20d:bd61:204e with SMTP id g10-20020a17090ae58a00b0020dbd61204emr4407935pjz.37.1670563117481;
+        Thu, 08 Dec 2022 21:18:37 -0800 (PST)
 Received: from MVIN00024 ([103.250.136.190])
-        by smtp.gmail.com with ESMTPSA id g13-20020a170902e38d00b00186e2123506sm308105ple.300.2022.12.08.21.08.18
+        by smtp.gmail.com with ESMTPSA id y12-20020a17090a390c00b00218ec4ff0d4sm450271pjb.6.2022.12.08.21.18.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Dec 2022 21:08:20 -0800 (PST)
-Received: by MVIN00024 (sSMTP sendmail emulation); Fri, 09 Dec 2022 10:38:15 +0530
+        Thu, 08 Dec 2022 21:18:37 -0800 (PST)
+Received: by MVIN00024 (sSMTP sendmail emulation); Fri, 09 Dec 2022 10:48:31 +0530
 From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [dunfell][PATCH v2] golang: CVE-2022-41715 regexp/syntax: limit memory used by parsing regexps
-Date: Fri,  9 Dec 2022 10:38:14 +0530
-Message-Id: <20221209050814.27199-1-hprajapati@mvista.com>
+Subject: [kirkstone][PATCH v2] golang: CVE-2022-41715 regexp/syntax: limit memory used by parsing regexps
+Date: Fri,  9 Dec 2022 10:48:30 +0530
+Message-Id: <20221209051830.27783-1-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Dec 2022 05:08:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174428
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Dec 2022 05:18:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174429
 
 Upstream-Status: Backport from https://github.com/golang/go/commit/e9017c2416ad0ef642f5e0c2eab2dbf3cba4d997
 
 Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- meta/recipes-devtools/go/go-1.14.inc          |   1 +
- .../go/go-1.14/CVE-2022-41715.patch           | 271 ++++++++++++++++++
- 2 files changed, 272 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2022-41715.patch
+ meta/recipes-devtools/go/go-1.17.13.inc       |   1 +
+ .../go/go-1.18/CVE-2022-41715.patch           | 270 ++++++++++++++++++
+ 2 files changed, 271 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2022-41715.patch
 
-diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
-index cec37c1b09..b4a137b8c8 100644
---- a/meta/recipes-devtools/go/go-1.14.inc
-+++ b/meta/recipes-devtools/go/go-1.14.inc
-@@ -49,6 +49,7 @@ SRC_URI += "\
-     file://CVE-2022-24921.patch \
-     file://CVE-2022-28131.patch \
-     file://CVE-2022-28327.patch \
+diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
+index 9c467d63b2..a1942e9f15 100644
+--- a/meta/recipes-devtools/go/go-1.17.13.inc
++++ b/meta/recipes-devtools/go/go-1.17.13.inc
+@@ -18,6 +18,7 @@ SRC_URI += "\
+     file://0001-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
+     file://CVE-2022-27664.patch \
+     file://0001-net-http-httputil-avoid-query-parameter-smuggling.patch \
 +    file://CVE-2022-41715.patch \
  "
+ SRC_URI[main.sha256sum] = "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
  
- SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
-diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2022-41715.patch b/meta/recipes-devtools/go/go-1.14/CVE-2022-41715.patch
+diff --git a/meta/recipes-devtools/go/go-1.18/CVE-2022-41715.patch b/meta/recipes-devtools/go/go-1.18/CVE-2022-41715.patch
 new file mode 100644
-index 0000000000..fac0ebe94c
+index 0000000000..994f37aaf3
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.14/CVE-2022-41715.patch
-@@ -0,0 +1,271 @@
++++ b/meta/recipes-devtools/go/go-1.18/CVE-2022-41715.patch
+@@ -0,0 +1,270 @@
 +From e9017c2416ad0ef642f5e0c2eab2dbf3cba4d997 Mon Sep 17 00:00:00 2001
 +From: Russ Cox <rsc@golang.org>
 +Date: Wed, 28 Sep 2022 11:18:51 -0400
@@ -118,14 +118,13 @@ index 0000000000..fac0ebe94c
 +Upstream-Status: Backport [https://github.com/golang/go/commit/e9017c2416ad0ef642f5e0c2eab2dbf3cba4d997]
 +CVE: CVE-2022-41715
 +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+
 +---
 + src/regexp/syntax/parse.go      | 145 ++++++++++++++++++++++++++++++--
 + src/regexp/syntax/parse_test.go |  13 +--
 + 2 files changed, 148 insertions(+), 10 deletions(-)
 +
 +diff --git a/src/regexp/syntax/parse.go b/src/regexp/syntax/parse.go
-+index 55bd20d..60491d5 100644
++index d7cf2af..3792960 100644
 +--- a/src/regexp/syntax/parse.go
 ++++ b/src/regexp/syntax/parse.go
 +@@ -90,15 +90,49 @@ const (
@@ -303,7 +302,7 @@ index 0000000000..fac0ebe94c
 + 	return re
 + }
 + 
-+@@ -305,7 +438,7 @@ func (p *parser) repeat(op Op, min, max int, before, after, lastRepeat string) (
++@@ -299,7 +432,7 @@ func (p *parser) repeat(op Op, min, max int, before, after, lastRepeat string) (
 + 	re.Sub = re.Sub0[:1]
 + 	re.Sub[0] = sub
 + 	p.stack[n-1] = re
@@ -312,7 +311,7 @@ index 0000000000..fac0ebe94c
 + 
 + 	if op == OpRepeat && (min >= 2 || max >= 2) && !repeatIsValid(re, 1000) {
 + 		return "", &Error{ErrInvalidRepeatSize, before[:len(before)-len(after)]}
-+@@ -509,6 +642,7 @@ func (p *parser) factor(sub []*Regexp) []*Regexp {
++@@ -503,6 +636,7 @@ func (p *parser) factor(sub []*Regexp) []*Regexp {
 + 
 + 			for j := start; j < i; j++ {
 + 				sub[j] = p.removeLeadingString(sub[j], len(str))
@@ -320,7 +319,7 @@ index 0000000000..fac0ebe94c
 + 			}
 + 			suffix := p.collapse(sub[start:i], OpAlternate) // recurse
 + 
-+@@ -566,6 +700,7 @@ func (p *parser) factor(sub []*Regexp) []*Regexp {
++@@ -560,6 +694,7 @@ func (p *parser) factor(sub []*Regexp) []*Regexp {
 + 			for j := start; j < i; j++ {
 + 				reuse := j != start // prefix came from sub[start]
 + 				sub[j] = p.removeLeadingRegexp(sub[j], reuse)
