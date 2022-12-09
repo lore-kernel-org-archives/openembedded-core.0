@@ -1,361 +1,146 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <manojsingh.saun@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18A8DC4332F
-	for <webhook@archiver.kernel.org>; Fri,  9 Dec 2022 05:18:47 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web10.5520.1670563118782456326
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 615BEC4332F
+	for <webhook@archiver.kernel.org>; Fri,  9 Dec 2022 06:12:47 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.6215.1670566362172181376
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Dec 2022 21:18:38 -0800
+ Thu, 08 Dec 2022 22:12:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=HiVJqwps;
- spf=pass (domain: mvista.com, ip: 209.85.214.179, mailfrom: hprajapati@mvista.com)
-Received: by mail-pl1-f179.google.com with SMTP id k7so3764035pll.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Dec 2022 21:18:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=APD5aFiIGxEolsrTngnYUhB40bBZSIGRait0rkei3ro=;
-        b=HiVJqwpsQb70qqenG8nuStpLdGtNmW+mHsIqJDccWK89VL2i6l5AWDc5nymDRLQ0K6
-         zrIzUbkIE17lXirhE84I4g3OGOP2PSRB5sz6mic4wcPPjfkZ8V8DmYuqxFFmgSEQlPez
-         6+T1V0Cz7wfjDYlYtHhodQHYeFh64miuJzaDQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=APD5aFiIGxEolsrTngnYUhB40bBZSIGRait0rkei3ro=;
-        b=JfZRhZBUyIxCMi12ZXS6o3QL5K80f3+kO5pB9psQH3u/KS7k4XHZAqawx6Ty07RxqJ
-         CpicBXgWEL+vE+q1G8OJlFAJh3JhfOEMtRkkWVjX6OocYl4gOZHmfTIBGu+P/9rzY2Ac
-         oqzl+NHdfya7OSurwXdcT4K2J9LK1eNirlaSQar/nV45BMwvzKqjo2F428KfikVRrYR7
-         KVRWxkBcRqcRKxP4J253HV9IZlZoTqMVdSsCVj3YavFvL7jLsDpfT7OwErj8om9RY3Nm
-         b/yY+joh+EvIBf0Um2NIv59C3la5ITkvkUXfxhtnysVLfo+aCFqidFhugmIoGy8gV0t7
-         kBDg==
-X-Gm-Message-State: ANoB5pk+eE2xtz9hM1B1eJ6a4lwhTiyJcxhcegS0Z8UQHKXFnOcXEG2E
-	UDC1DPzx9WV2yfI17F+PHbUX/Jk8eNpuPQF0
-X-Google-Smtp-Source: AA0mqf6k9DhaYOLPJG3iaqNf6UbPU/y1zfo6k17EKG+abVx/SBgCzBFkwKgGZSnYWVmee7X+lDcCPg==
-X-Received: by 2002:a17:90a:e58a:b0:20d:bd61:204e with SMTP id g10-20020a17090ae58a00b0020dbd61204emr4407935pjz.37.1670563117481;
-        Thu, 08 Dec 2022 21:18:37 -0800 (PST)
-Received: from MVIN00024 ([103.250.136.190])
-        by smtp.gmail.com with ESMTPSA id y12-20020a17090a390c00b00218ec4ff0d4sm450271pjb.6.2022.12.08.21.18.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Dec 2022 21:18:37 -0800 (PST)
-Received: by MVIN00024 (sSMTP sendmail emulation); Fri, 09 Dec 2022 10:48:31 +0530
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [kirkstone][PATCH v2] golang: CVE-2022-41715 regexp/syntax: limit memory used by parsing regexps
-Date: Fri,  9 Dec 2022 10:48:30 +0530
-Message-Id: <20221209051830.27783-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=Ci3oSq33;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=9342a40bf4=manojsingh.saun@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2B95vi6O005836
+	for <openembedded-core@lists.openembedded.org>; Thu, 8 Dec 2022 22:12:41 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=PPS06212021;
+ bh=qi+5HTaBkmVyIvSP/TJo9JOM3+DGX4O5QhD2Z/3YbsA=;
+ b=Ci3oSq33K73cN5GFGhjPAjFRh9HUQUhP2vaarpISB2I6gkrg440+eRKUk0OkPCAw1Kff
+ AXS3InZhU3+fqGjKWJKOAj+hn7AymzmFm9wPXm41Xmc1fQcKvvEUIGZwNeyVBrKAlXnI
+ YDUr7y9Ou0UuOF36jPcdMfOR5rUIN9WmiluJ/VW7yqjdOKXAlncP1z3hdtcmJMwqa9V9
+ 4t1xC7h9XIpxoKBfq4Tt3p1MqerX8hDuNmoNjGJcmapWfarB83jZuR8V0Qn8hk44k6gP
+ YhZi1RIZbCp302qH7OdxyWwZuS8WhFos7IbgNvdByKsSf+h/nAGYAxRgvAPtR7fhv7ya fg== 
+Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3m86uqvxb0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 08 Dec 2022 22:12:41 -0800
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Thu, 8 Dec 2022 22:12:40 -0800
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2308.27 via Frontend Transport; Thu, 8 Dec 2022 22:12:38 -0800
+From: Manoj Saun <manojsingh.saun@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <archana.polampalli@windriver.com>, <narpat.mali@windriver.com>,
+        <hari.gpillai@windriver.com>,
+        Manoj Saun <manojsingh.saun@windriver.com>
+Subject: [meta-core][PATCH 1/1] libksba: fix CVE-2022-3515
+Date: Fri, 9 Dec 2022 06:11:30 +0000
+Message-ID: <20221209061130.3794053-1-manojsingh.saun@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: oKj55s4Iv8nAj-D_LmGAjkHN61jKT2yf
+X-Proofpoint-GUID: oKj55s4Iv8nAj-D_LmGAjkHN61jKT2yf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-09_02,2022-12-08_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ impostorscore=0 phishscore=0 lowpriorityscore=0 clxscore=1015
+ suspectscore=0 mlxscore=0 bulkscore=0 mlxlogscore=999 priorityscore=1501
+ adultscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212090053
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Dec 2022 05:18:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174429
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Dec 2022 06:12:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174430
 
-Upstream-Status: Backport from https://github.com/golang/go/commit/e9017c2416ad0ef642f5e0c2eab2dbf3cba4d997
+libksba: integer overflow may lead to remote code execution.
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Reference:
+https://www.gnupg.org/blog/20221017-pepe-left-the-ksba.html
+
+Upstream-Status: Backport [https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libksba.git;a=commit;h=4b7d9cd4a018898d7714ce06f3faf2626c14582b]
+
+CVE: CVE-2022-3515
+
+Signed-off-by: Manoj Saun <manojsingh.saun@windriver.com>
 ---
- meta/recipes-devtools/go/go-1.17.13.inc       |   1 +
- .../go/go-1.18/CVE-2022-41715.patch           | 270 ++++++++++++++++++
- 2 files changed, 271 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2022-41715.patch
+ ...e-overflow-directly-in-the-TLV-parse.patch | 42 +++++++++++++++++++
+ meta/recipes-support/libksba/libksba_1.6.2.bb |  3 +-
+ 2 files changed, 44 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/libksba/libksba/0001-Detect-a-possible-overflow-directly-in-the-TLV-parse.patch
 
-diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
-index 9c467d63b2..a1942e9f15 100644
---- a/meta/recipes-devtools/go/go-1.17.13.inc
-+++ b/meta/recipes-devtools/go/go-1.17.13.inc
-@@ -18,6 +18,7 @@ SRC_URI += "\
-     file://0001-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
-     file://CVE-2022-27664.patch \
-     file://0001-net-http-httputil-avoid-query-parameter-smuggling.patch \
-+    file://CVE-2022-41715.patch \
- "
- SRC_URI[main.sha256sum] = "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
- 
-diff --git a/meta/recipes-devtools/go/go-1.18/CVE-2022-41715.patch b/meta/recipes-devtools/go/go-1.18/CVE-2022-41715.patch
+diff --git a/meta/recipes-support/libksba/libksba/0001-Detect-a-possible-overflow-directly-in-the-TLV-parse.patch b/meta/recipes-support/libksba/libksba/0001-Detect-a-possible-overflow-directly-in-the-TLV-parse.patch
 new file mode 100644
-index 0000000000..994f37aaf3
+index 0000000000..e2cb842a4d
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.18/CVE-2022-41715.patch
-@@ -0,0 +1,270 @@
-+From e9017c2416ad0ef642f5e0c2eab2dbf3cba4d997 Mon Sep 17 00:00:00 2001
-+From: Russ Cox <rsc@golang.org>
-+Date: Wed, 28 Sep 2022 11:18:51 -0400
-+Subject: [PATCH] [release-branch.go1.18] regexp: limit size of parsed regexps
++++ b/meta/recipes-support/libksba/libksba/0001-Detect-a-possible-overflow-directly-in-the-TLV-parse.patch
+@@ -0,0 +1,42 @@
++From 4b7d9cd4a018898d7714ce06f3faf2626c14582b Mon Sep 17 00:00:00 2001
++From: Werner Koch <wk@gnupg.org>
++Date: Wed, 5 Oct 2022 14:19:06 +0200
++Subject: [PATCH] Detect a possible overflow directly in the TLV parser.
 +
-+Set a 128 MB limit on the amount of space used by []syntax.Inst
-+in the compiled form corresponding to a given regexp.
++* src/ber-help.c (_ksba_ber_read_tl): Check for overflow of a commonly
++used sum.
++--
 +
-+Also set a 128 MB limit on the rune storage in the *syntax.Regexp
-+tree itself.
++It is quite common to have checks like
 +
-+Thanks to Adam Korczynski (ADA Logics) and OSS-Fuzz for reporting this issue.
++    if (ti.nhdr + ti.length >= DIM(tmpbuf))
++       return gpg_error (GPG_ERR_TOO_LARGE);
 +
-+Fixes CVE-2022-41715.
-+Updates #55949.
-+Fixes #55950.
++This patch detects possible integer overflows immmediately when
++creating the TI object.
 +
-+Change-Id: Ia656baed81564436368cf950e1c5409752f28e1b
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1592136
-+TryBot-Result: Security TryBots <security-trybots@go-security-trybots.iam.gserviceaccount.com>
-+Reviewed-by: Damien Neil <dneil@google.com>
-+Run-TryBot: Roland Shoemaker <bracewell@google.com>
-+Reviewed-by: Julie Qiu <julieqiu@google.com>
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/438501
-+Run-TryBot: Carlos Amedee <carlos@golang.org>
-+Reviewed-by: Carlos Amedee <carlos@golang.org>
-+Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
-+TryBot-Result: Gopher Robot <gobot@golang.org>
-+Reviewed-by: Dmitri Shuralyov <dmitshur@golang.org>
-+
-+Upstream-Status: Backport [https://github.com/golang/go/commit/e9017c2416ad0ef642f5e0c2eab2dbf3cba4d997]
-+CVE: CVE-2022-41715
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++Reported-by: ZDI-CAN-18927, ZDI-CAN-18928, ZDI-CAN-18929
 +---
-+ src/regexp/syntax/parse.go      | 145 ++++++++++++++++++++++++++++++--
-+ src/regexp/syntax/parse_test.go |  13 +--
-+ 2 files changed, 148 insertions(+), 10 deletions(-)
++ src/ber-help.c | 6 ++++++
++ 1 file changed, 6 insertions(+)
 +
-+diff --git a/src/regexp/syntax/parse.go b/src/regexp/syntax/parse.go
-+index d7cf2af..3792960 100644
-+--- a/src/regexp/syntax/parse.go
-++++ b/src/regexp/syntax/parse.go
-+@@ -90,15 +90,49 @@ const (
-+ // until we've allocated at least maxHeight Regexp structures.
-+ const maxHeight = 1000
++diff --git a/src/ber-help.c b/src/ber-help.c
++index 81c31ed..56efb6a 100644
++--- a/src/ber-help.c
+++++ b/src/ber-help.c
++@@ -182,6 +182,12 @@ _ksba_ber_read_tl (ksba_reader_t reader, struct tag_info *ti)
++       ti->length = len;
++     }
 + 
-++// maxSize is the maximum size of a compiled regexp in Insts.
-++// It too is somewhat arbitrarily chosen, but the idea is to be large enough
-++// to allow significant regexps while at the same time small enough that
-++// the compiled form will not take up too much memory.
-++// 128 MB is enough for a 3.3 million Inst structures, which roughly
-++// corresponds to a 3.3 MB regexp.
-++const (
-++	maxSize  = 128 << 20 / instSize
-++	instSize = 5 * 8 // byte, 2 uint32, slice is 5 64-bit words
-++)
+++  if (ti->length > ti->nhdr && (ti->nhdr + ti->length) < ti->length)
+++    {
+++      ti->err_string = "header+length would overflow";
+++      return gpg_error (GPG_ERR_EOVERFLOW);
+++    }
 ++
-++// maxRunes is the maximum number of runes allowed in a regexp tree
-++// counting the runes in all the nodes.
-++// Ignoring character classes p.numRunes is always less than the length of the regexp.
-++// Character classes can make it much larger: each \pL adds 1292 runes.
-++// 128 MB is enough for 32M runes, which is over 26k \pL instances.
-++// Note that repetitions do not make copies of the rune slices,
-++// so \pL{1000} is only one rune slice, not 1000.
-++// We could keep a cache of character classes we've seen,
-++// so that all the \pL we see use the same rune list,
-++// but that doesn't remove the problem entirely:
-++// consider something like [\pL01234][\pL01235][\pL01236]...[\pL^&*()].
-++// And because the Rune slice is exposed directly in the Regexp,
-++// there is not an opportunity to change the representation to allow
-++// partial sharing between different character classes.
-++// So the limit is the best we can do.
-++const (
-++	maxRunes = 128 << 20 / runeSize
-++	runeSize = 4 // rune is int32
-++)
-++
-+ type parser struct {
-+ 	flags       Flags     // parse mode flags
-+ 	stack       []*Regexp // stack of parsed expressions
-+ 	free        *Regexp
-+ 	numCap      int // number of capturing groups seen
-+ 	wholeRegexp string
-+-	tmpClass    []rune          // temporary char class work space
-+-	numRegexp   int             // number of regexps allocated
-+-	height      map[*Regexp]int // regexp height for height limit check
-++	tmpClass    []rune            // temporary char class work space
-++	numRegexp   int               // number of regexps allocated
-++	numRunes    int               // number of runes in char classes
-++	repeats     int64             // product of all repetitions seen
-++	height      map[*Regexp]int   // regexp height, for height limit check
-++	size        map[*Regexp]int64 // regexp compiled size, for size limit check
-+ }
-+ 
-+ func (p *parser) newRegexp(op Op) *Regexp {
-+@@ -122,6 +156,104 @@ func (p *parser) reuse(re *Regexp) {
-+ 	p.free = re
-+ }
-+ 
-++func (p *parser) checkLimits(re *Regexp) {
-++	if p.numRunes > maxRunes {
-++		panic(ErrInternalError)
-++	}
-++	p.checkSize(re)
-++	p.checkHeight(re)
-++}
-++
-++func (p *parser) checkSize(re *Regexp) {
-++	if p.size == nil {
-++		// We haven't started tracking size yet.
-++		// Do a relatively cheap check to see if we need to start.
-++		// Maintain the product of all the repeats we've seen
-++		// and don't track if the total number of regexp nodes
-++		// we've seen times the repeat product is in budget.
-++		if p.repeats == 0 {
-++			p.repeats = 1
-++		}
-++		if re.Op == OpRepeat {
-++			n := re.Max
-++			if n == -1 {
-++				n = re.Min
-++			}
-++			if n <= 0 {
-++				n = 1
-++			}
-++			if int64(n) > maxSize/p.repeats {
-++				p.repeats = maxSize
-++			} else {
-++				p.repeats *= int64(n)
-++			}
-++		}
-++		if int64(p.numRegexp) < maxSize/p.repeats {
-++			return
-++		}
-++
-++		// We need to start tracking size.
-++		// Make the map and belatedly populate it
-++		// with info about everything we've constructed so far.
-++		p.size = make(map[*Regexp]int64)
-++		for _, re := range p.stack {
-++			p.checkSize(re)
-++		}
-++	}
-++
-++	if p.calcSize(re, true) > maxSize {
-++		panic(ErrInternalError)
-++	}
-++}
-++
-++func (p *parser) calcSize(re *Regexp, force bool) int64 {
-++	if !force {
-++		if size, ok := p.size[re]; ok {
-++			return size
-++		}
-++	}
-++
-++	var size int64
-++	switch re.Op {
-++	case OpLiteral:
-++		size = int64(len(re.Rune))
-++	case OpCapture, OpStar:
-++		// star can be 1+ or 2+; assume 2 pessimistically
-++		size = 2 + p.calcSize(re.Sub[0], false)
-++	case OpPlus, OpQuest:
-++		size = 1 + p.calcSize(re.Sub[0], false)
-++	case OpConcat:
-++		for _, sub := range re.Sub {
-++			size += p.calcSize(sub, false)
-++		}
-++	case OpAlternate:
-++		for _, sub := range re.Sub {
-++			size += p.calcSize(sub, false)
-++		}
-++		if len(re.Sub) > 1 {
-++			size += int64(len(re.Sub)) - 1
-++		}
-++	case OpRepeat:
-++		sub := p.calcSize(re.Sub[0], false)
-++		if re.Max == -1 {
-++			if re.Min == 0 {
-++				size = 2 + sub // x*
-++			} else {
-++				size = 1 + int64(re.Min)*sub // xxx+
-++			}
-++			break
-++		}
-++		// x{2,5} = xx(x(x(x)?)?)?
-++		size = int64(re.Max)*sub + int64(re.Max-re.Min)
-++	}
-++
-++	if size < 1 {
-++		size = 1
-++	}
-++	p.size[re] = size
-++	return size
-++}
-++
-+ func (p *parser) checkHeight(re *Regexp) {
-+ 	if p.numRegexp < maxHeight {
-+ 		return
-+@@ -158,6 +290,7 @@ func (p *parser) calcHeight(re *Regexp, force bool) int {
-+ 
-+ // push pushes the regexp re onto the parse stack and returns the regexp.
-+ func (p *parser) push(re *Regexp) *Regexp {
-++	p.numRunes += len(re.Rune)
-+ 	if re.Op == OpCharClass && len(re.Rune) == 2 && re.Rune[0] == re.Rune[1] {
-+ 		// Single rune.
-+ 		if p.maybeConcat(re.Rune[0], p.flags&^FoldCase) {
-+@@ -189,7 +322,7 @@ func (p *parser) push(re *Regexp) *Regexp {
-+ 	}
-+ 
-+ 	p.stack = append(p.stack, re)
-+-	p.checkHeight(re)
-++	p.checkLimits(re)
-+ 	return re
-+ }
-+ 
-+@@ -299,7 +432,7 @@ func (p *parser) repeat(op Op, min, max int, before, after, lastRepeat string) (
-+ 	re.Sub = re.Sub0[:1]
-+ 	re.Sub[0] = sub
-+ 	p.stack[n-1] = re
-+-	p.checkHeight(re)
-++	p.checkLimits(re)
-+ 
-+ 	if op == OpRepeat && (min >= 2 || max >= 2) && !repeatIsValid(re, 1000) {
-+ 		return "", &Error{ErrInvalidRepeatSize, before[:len(before)-len(after)]}
-+@@ -503,6 +636,7 @@ func (p *parser) factor(sub []*Regexp) []*Regexp {
-+ 
-+ 			for j := start; j < i; j++ {
-+ 				sub[j] = p.removeLeadingString(sub[j], len(str))
-++				p.checkLimits(sub[j])
-+ 			}
-+ 			suffix := p.collapse(sub[start:i], OpAlternate) // recurse
-+ 
-+@@ -560,6 +694,7 @@ func (p *parser) factor(sub []*Regexp) []*Regexp {
-+ 			for j := start; j < i; j++ {
-+ 				reuse := j != start // prefix came from sub[start]
-+ 				sub[j] = p.removeLeadingRegexp(sub[j], reuse)
-++				p.checkLimits(sub[j])
-+ 			}
-+ 			suffix := p.collapse(sub[start:i], OpAlternate) // recurse
-+ 
-+diff --git a/src/regexp/syntax/parse_test.go b/src/regexp/syntax/parse_test.go
-+index 1ef6d8a..67e3c56 100644
-+--- a/src/regexp/syntax/parse_test.go
-++++ b/src/regexp/syntax/parse_test.go
-+@@ -484,12 +484,15 @@ var invalidRegexps = []string{
-+ 	`(?P<>a)`,
-+ 	`[a-Z]`,
-+ 	`(?i)[a-Z]`,
-+-	`a{100000}`,
-+-	`a{100000,}`,
-+-	"((((((((((x{2}){2}){2}){2}){2}){2}){2}){2}){2}){2})",
-+-	strings.Repeat("(", 1000) + strings.Repeat(")", 1000),
-+-	strings.Repeat("(?:", 1000) + strings.Repeat(")*", 1000),
-+ 	`\Q\E*`,
-++	`a{100000}`,  // too much repetition
-++	`a{100000,}`, // too much repetition
-++	"((((((((((x{2}){2}){2}){2}){2}){2}){2}){2}){2}){2})",    // too much repetition
-++	strings.Repeat("(", 1000) + strings.Repeat(")", 1000),    // too deep
-++	strings.Repeat("(?:", 1000) + strings.Repeat(")*", 1000), // too deep
-++	"(" + strings.Repeat("(xx?)", 1000) + "){1000}",          // too long
-++	strings.Repeat("(xx?){1000}", 1000),                      // too long
-++	strings.Repeat(`\pL`, 27000),                             // too many runes
-+ }
-+ 
-+ var onlyPerl = []string{
++   /* Without this kludge some example certs can't be parsed */
++   if (ti->class == CLASS_UNIVERSAL && !ti->tag)
++     ti->length = 0;
 +-- 
-+2.25.1
++2.34.1
 +
+diff --git a/meta/recipes-support/libksba/libksba_1.6.2.bb b/meta/recipes-support/libksba/libksba_1.6.2.bb
+index f6ecb9aec4..c25c23ef0f 100644
+--- a/meta/recipes-support/libksba/libksba_1.6.2.bb
++++ b/meta/recipes-support/libksba/libksba_1.6.2.bb
+@@ -22,7 +22,8 @@ inherit autotools binconfig-disabled pkgconfig texinfo
+ 
+ UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
+ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+-           file://ksba-add-pkgconfig-support.patch"
++           file://ksba-add-pkgconfig-support.patch \
++           file://0001-Detect-a-possible-overflow-directly-in-the-TLV-parse.patch"
+ 
+ SRC_URI[sha256sum] = "fce01ccac59812bddadffacff017dac2e4762bdb6ebc6ffe06f6ed4f6192c971"
+ 
 -- 
-2.25.1
+2.34.1
 
 
