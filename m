@@ -1,188 +1,81 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDD28C25B04
-	for <webhook@archiver.kernel.org>; Fri,  9 Dec 2022 14:11:33 +0000 (UTC)
-Received: from mailout05.t-online.de (mailout05.t-online.de [194.25.134.82])
- by mx.groups.io with SMTP id smtpd.web10.2006.1670595088751178691
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16B20C4332F
+	for <webhook@archiver.kernel.org>; Fri,  9 Dec 2022 14:43:34 +0000 (UTC)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+ by mx.groups.io with SMTP id smtpd.web11.2972.1670597006827413194
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Dec 2022 06:11:29 -0800
+ Fri, 09 Dec 2022 06:43:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.82, mailfrom: f_l_k@t-online.de)
-Received: from fwd72.dcpf.telekom.de (fwd72.aul.t-online.de [10.223.144.98])
-	by mailout05.t-online.de (Postfix) with SMTP id 1DDE314A43
-	for <openembedded-core@lists.openembedded.org>; Fri,  9 Dec 2022 15:11:27 +0100 (CET)
-Received: from flk-MS-7C91.fritz.box ([84.163.47.94]) by fwd72.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1p3e62-3QaSEG0; Fri, 9 Dec 2022 15:11:26 +0100
-From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Markus Volk <f_l_k@t-online.de>
-Subject: [oe-core][PATCHv10 4/6] gcr: add recipe for gcr-4, needed to build with gtk4
-Date: Fri,  9 Dec 2022 15:11:15 +0100
-Message-Id: <20221209141117.1311827-4-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221209141117.1311827-1-f_l_k@t-online.de>
-References: <20221209141117.1311827-1-f_l_k@t-online.de>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=KUJdBJRc;
+ spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f171.google.com with SMTP id x11so5126930ljh.7
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Dec 2022 06:43:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=a+YssHlrZVyk2mYsuZOlEw0NMDqdEaTEYys6LUJK/z8=;
+        b=KUJdBJRcL9oqQfU5lYz18MTRsu8etj11KmHsCHxNHaGHRwuj9gBsD94LQ5mtdLhjZ6
+         8AGoNstsQE2q7L7O7/+MI04NI6kPTF3jBgjnBq237YQWh+M4Xda38MeSFpcEhyTWtcpj
+         W8xhYfDCRZLHpnLDHO+zx8zs9aXjyt0jSPu3S0y8BvZMcsTcegL2uja/+upyWcBSUliL
+         PBJ0koxetovqkP43JpCch4bZDMhf8jc9pFTG1XLbhgBO36Jo6oCzgd6k9yAxRyxeiFiq
+         j3Lo1Ell0qF27VhUHvfaG/YNyXRz6ZpAYHTfflN5Mxe97olgbXEZMwHP8n84iThB5LCd
+         4AcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=a+YssHlrZVyk2mYsuZOlEw0NMDqdEaTEYys6LUJK/z8=;
+        b=e8YWz5AY3yyGU/JP8D3njvoGeDj73+yLfvCHsHwsV7ImpkVkI+SqLxeii4heyC1Cbg
+         1DGcYNIEw9QhvgWdJHCemUNabAX9Ou4rcglZx1Fk/+YFZIGKCudEHJTrrADbOqQoFrcN
+         bYyFjDDGgelFj13HjIUTw1+OJNDyHiYsUH/Z3y77Dlhs/dZosVkELeaxh57tNhPQTazo
+         EaCvP+XV91jMigZepKtD9n4/k2Ilmrp0GAqXRXoslOLH4gRIHQL9HluLtY3gPjkJk3Rq
+         YB1QZQG43Z3OZo1np/c68oE44WWFVmW0vCso1F5xU5qI31xe5D9yA7b+bEa25iPk6q8F
+         ycSw==
+X-Gm-Message-State: ANoB5plTAvxV04Qzoq7ThmpfPPzaJFojjxWFoT2+XYAdmSe/ERPTvPrc
+	+7A0sjSfz0f+pn9pdgzVY8X5TJ5pmcOfuQftLvU=
+X-Google-Smtp-Source: AA0mqf5HiV//s3zzLnCX7UHwhu6YKEmRBggzwyk/IFJtFfzOrrs1xLL37IWU76YGxhXZ6eV40lHMn7pBuEcTNsgO6Rg=
+X-Received: by 2002:a2e:be8a:0:b0:26f:c081:9aed with SMTP id
+ a10-20020a2ebe8a000000b0026fc0819aedmr29657099ljr.222.1670597004958; Fri, 09
+ Dec 2022 06:43:24 -0800 (PST)
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1670595086-5AFEE991-C09599ED/0/0 CLEAN NORMAL
-X-TOI-MSGID: d214d72e-e9fb-4233-a8b3-89cce15833f4
-Content-Transfer-Encoding: quoted-printable
+References: <20221031114719.2725967-1-alex@linutronix.de> <167d8dfa-fe50-24ff-d2d2-249df3445ae8@windriver.com>
+ <20221207002040.GB1080@xn--80adja5bqm.su> <CANNYZj9_46SdQdVuwFQ-HosVB7X2QpG0PDYNybV+ZL2Xt1FS3Q@mail.gmail.com>
+ <96c54599-b4b0-5235-28fd-41c71272c213@weidmueller.com> <CANNYZj8gX4ab+zOVN974vwL8UkJqO-gqkshxsdYVtPsHZfExfg@mail.gmail.com>
+ <1de0c6c3-cd27-1c86-f515-f4510ddd36f2@weidmueller.com> <7f51955aada8f9e74322aa0ad15f21b9985d993d.camel@linuxfoundation.org>
+In-Reply-To: <7f51955aada8f9e74322aa0ad15f21b9985d993d.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 9 Dec 2022 15:43:13 +0100
+Message-ID: <CANNYZj-BDoPzV5qNLKafbr-0s7PLU2WCvmdA1OfZhW2qxqq1Gg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 01/13] cargo-update-recipe-crates.bbclass: add a
+ class to generate SRC_URI crate lists from Cargo.lock
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>, 
+	Alexander Kanavin <alex@linutronix.de>, Michael Opdenacker <michael.opdenacker@bootlin.com>, 
+	Randy MacLeod <randy.macleod@windriver.com>, Sergey Bostandzhyan <jin@mediatomb.cc>, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Dec 2022 14:11:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174455
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Dec 2022 14:43:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174459
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
----
- ...ectly-handle-disabled-ssh_agent-opti.patch | 49 ++++++++++++++++
- meta/recipes-gnome/gcr/gcr_4.0.0.bb           | 57 +++++++++++++++++++
- 2 files changed, 106 insertions(+)
- create mode 100644 meta/recipes-gnome/gcr/gcr/0001-meson.build-correctly=
--handle-disabled-ssh_agent-opti.patch
- create mode 100644 meta/recipes-gnome/gcr/gcr_4.0.0.bb
+On Fri, 9 Dec 2022 at 13:01, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> I'd note Alex has another patch which has been sitting for months
+> unmerged as it is in my "high risk" to the project category. I suspect
+> that one will not actually merge but I need to find the time to explain
+> why, right now it is more based on a feeling it is the wrong direction.
 
-diff --git a/meta/recipes-gnome/gcr/gcr/0001-meson.build-correctly-handle=
--disabled-ssh_agent-opti.patch b/meta/recipes-gnome/gcr/gcr/0001-meson.bu=
-ild-correctly-handle-disabled-ssh_agent-opti.patch
-new file mode 100644
-index 0000000000..940f78ebab
---- /dev/null
-+++ b/meta/recipes-gnome/gcr/gcr/0001-meson.build-correctly-handle-disabl=
-ed-ssh_agent-opti.patch
-@@ -0,0 +1,49 @@
-+From 9b67bb18d8409e0e693cc6000507acbd73a30eab Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Wed, 16 Nov 2022 11:27:24 +0100
-+Subject: [PATCH 1/2] meson.build: correctly handle disabled ssh_agent op=
-tion
-+
-+Existing code produces these errors:
-+| gcr/meson.build:61:0: ERROR: Unable to get the path of a not-found ext=
-ernal program
-+| gcr/meson.build:101:5: ERROR: Unknown variable "ssh_add_path".
-+
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+
-+Upstream-Status: Backport [ https://gitlab.gnome.org/GNOME/gcr/-/commit/=
-9b67bb18d8409e0e693cc6000507acbd73a30eab ]
-+---
-+ meson.build | 12 ++++++++----
-+ 1 file changed, 8 insertions(+), 4 deletions(-)
-+
-+diff --git a/meson.build b/meson.build
-+index 3f35173..11d7fa7 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -58,8 +58,10 @@ if p11_system_config_modules =3D=3D ''
-+   error('Couldn\'t find location for pkcs11 module config')
-+ endif
-+ libsecret_dep =3D dependency('libsecret-1', version: '>=3D 0.20', requi=
-red: get_option('ssh_agent'))
-+-ssh_add_path =3D find_program('ssh-add', required: get_option('ssh_agen=
-t')).full_path()
-+-ssh_agent_path =3D find_program('ssh-agent', required: get_option('ssh_=
-agent')).full_path()
-++if get_option('ssh_agent')
-++  ssh_add_path =3D find_program('ssh-add').full_path()
-++  ssh_agent_path =3D find_program('ssh-agent').full_path()
-++endif
-+=20
-+ with_systemd =3D false
-+ libsystemd_deps =3D []
-+@@ -96,8 +98,10 @@ conf.set('HAVE_TIMEGM', cc.has_function('timegm'))
-+ conf.set('HAVE_MLOCK', cc.has_function('mlock'))
-+ conf.set_quoted('GPG_EXECUTABLE', gpg_path)
-+ conf.set_quoted('LIBGCRYPT_VERSION', libgcrypt_dep.version())
-+-conf.set_quoted('SSH_ADD_EXECUTABLE', ssh_add_path)
-+-conf.set_quoted('SSH_AGENT_EXECUTABLE', ssh_agent_path)
-++if get_option('ssh_agent')
-++  conf.set_quoted('SSH_ADD_EXECUTABLE', ssh_add_path)
-++  conf.set_quoted('SSH_AGENT_EXECUTABLE', ssh_agent_path)
-++endif
-+ conf.set10('WITH_SYSTEMD', with_systemd)
-+ config_file =3D configure_file(
-+   output: 'config.h',
-+--=20
-+2.34.1
-+
-diff --git a/meta/recipes-gnome/gcr/gcr_4.0.0.bb b/meta/recipes-gnome/gcr=
-/gcr_4.0.0.bb
-new file mode 100644
-index 0000000000..264069ffd1
---- /dev/null
-+++ b/meta/recipes-gnome/gcr/gcr_4.0.0.bb
-@@ -0,0 +1,57 @@
-+SUMMARY =3D "A library for bits of crypto UI and parsing etc"
-+DESCRIPTION =3D "GCR is a library for displaying certificates, and crypt=
-o UI, \
-+accessing key stores. It also provides the viewer for crypto files on th=
-e \
-+GNOME desktop."
-+HOMEPAGE =3D "https://gitlab.gnome.org/GNOME/gcr"
-+BUGTRACKER =3D "https://gitlab.gnome.org/GNOME/gcr/issues"
-+
-+LICENSE =3D "GPL-2.0-only"
-+LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D55ca817ccb7d5b5b66355690e9abc=
-605"
-+
-+DEPENDS =3D "p11-kit glib-2.0 libgcrypt gnupg-native \
-+           ${@bb.utils.contains('GI_DATA_ENABLED', 'True', 'libxslt-nati=
-ve', '', d)}"
-+
-+CACHED_CONFIGUREVARS +=3D "ac_cv_path_GPG=3D'gpg2'"
-+
-+CFLAGS +=3D "-D_GNU_SOURCE"
-+
-+GNOMEBASEBUILDCLASS =3D "meson"
-+GTKDOC_MESON_OPTION =3D "gtk_doc"
-+inherit gnomebase gtk-icon-cache gi-docgen features_check upstream-versi=
-on-is-even vala gobject-introspection gettext mime mime-xdg
-+UPSTREAM_CHECK_REGEX =3D "gcr-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)\.tar.=
-xz"
-+
-+SRC_URI +=3D "file://0001-meson.build-correctly-handle-disabled-ssh_agen=
-t-opti.patch"
-+SRC_URI[archive.sha256sum] =3D "c45855924f0ee7bab43e2dd38bfafd2ac815c6e9=
-864341c0161e171173dcec7c"
-+
-+PACKAGECONFIG ??=3D " \
-+	${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
-+	${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'gtk', '', d)} \
-+	${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'gtk', '', d)} \
-+"
-+PACKAGECONFIG[gtk] =3D "-Dgtk4=3Dtrue,-Dgtk4=3Dfalse,gtk4"
-+PACKAGECONFIG[ssh_agent] =3D "-Dssh_agent=3Dtrue,-Dssh_agent=3Dfalse,lib=
-secret,openssh"
-+#'Use systemd socket activation for server programs'
-+PACKAGECONFIG[systemd] =3D "-Dsystemd=3Denabled,-Dsystemd=3Ddisabled,sys=
-temd"
-+
-+FILES:${PN} +=3D " \
-+    ${datadir}/dbus-1 \
-+    ${datadir}/gcr-4 \
-+    ${systemd_user_unitdir}/gcr-ssh-agent.socket \
-+    ${systemd_user_unitdir}/gcr-ssh-agent.service \
-+"
-+
-+# http://errors.yoctoproject.org/Errors/Details/20229/
-+ARM_INSTRUCTION_SET:armv4 =3D "arm"
-+ARM_INSTRUCTION_SET:armv5 =3D "arm"
-+ARM_INSTRUCTION_SET:armv6 =3D "arm"
-+
-+EXTRA_OEMESON +=3D "--cross-file=3D${WORKDIR}/meson-${PN}.cross"
-+
-+do_write_config:append() {
-+    cat >${WORKDIR}/meson-${PN}.cross <<EOF
-+[binaries]
-+gpg2 =3D '${bindir}/gpg2'
-+ssh-add =3D '${bindir}/ssh-add'
-+ssh-agent =3D '${bindir}/ssh-agent'
-+EOF
-+}
---=20
-2.34.1
+I'd be happy to be 'course corrected' on oe-setup-build, I personally
+feel it does more 'guessing' than I'm comfortable with but I can't
+figure out a better way to handle things. The problems it's aiming to
+address are real, so it shouldn't be formally rejected without a plan.
 
+Alex
 
