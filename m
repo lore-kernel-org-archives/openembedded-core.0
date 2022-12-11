@@ -1,84 +1,78 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FCD6C4332F
-	for <webhook@archiver.kernel.org>; Fri,  9 Dec 2022 22:23:58 +0000 (UTC)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.web11.1361.1670624627766606917
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEE95C4332F
+	for <webhook@archiver.kernel.org>; Sun, 11 Dec 2022 12:02:32 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web10.15520.1670760150139585726
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Dec 2022 14:23:48 -0800
+ Sun, 11 Dec 2022 04:02:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=NVvdKa/h;
- spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f169.google.com with SMTP id g14so2398237ljh.10
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Dec 2022 14:23:47 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=76avmcfk;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f174.google.com with SMTP id jl24so9337793plb.8
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 Dec 2022 04:02:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=HFHUgLrMgF4cp7/czdh9N1yTB03b1L5daymLxO5DWGw=;
-        b=NVvdKa/hmPuANZ8ucaacsynvpsYiWcgrcROQavIi4/nkM3Y0RTQG4iyxYF+95irSFr
-         nAeoRd3sBaZY89OcQlmYEo4ZvzUf3i8meWitFV4mtp8JamuKyh7+34EqIs+h+G2QlUMW
-         hCkkLWYBHMePu3ZsOXhAqTakUxU/rrKvF5wav6VVL1/CIbvsqbCGO5GNSvAajRSA+p0O
-         ffi2oVu+/7QXgf+E/e6QCIV3Wv9YE9wh+NqwXXE3eBqa+6KIlwG0hkIwhlQ4a9JwV0H7
-         mn2JwGPdpjtvTJB6HPsRiO4DquaeZ0QHcAriE1GU4IF6F6evs9Nx3be+3pHPppJi9j6F
-         JfgQ==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=date:message-id:to:from:subject:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mppZTENRNkp7W9ID0ALpgC81DV3uensXdZzk8Ub4cAE=;
+        b=76avmcfkGymf7TYwu7cuGkpmS7tB1pWyX/e5iqMnKqCYEs1IuFSCntcCtdERwruo9t
+         iSGWeoG/6f66/qZB+K0T3PPytK0tzPLwUWC33ZRQ9jYk8xO08M7c8Och/Drd0wfbI6E6
+         LFYbJNUry0SwLXkS1kPNuHB6siwEkfJbP9RLl2UNKU7j+4/YkP0VYJpWsGvIwE4kbbaM
+         LdnZN4Cv2V1Xb/sQLMIIMAJXRnrwISIVfAKE9gwiiXCysaxmpwR60Uy0AkUlcsCo9HlK
+         bQc6EgQDMDUtLftGRExd6HuebSpnXxO29+24geJCZH/rB5rtl43r97oPgSNnwT7U1veg
+         EwqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HFHUgLrMgF4cp7/czdh9N1yTB03b1L5daymLxO5DWGw=;
-        b=nCv7aJOeuRJIw1dys2hoEMObnV7mnPtpaI/iiQ9KEmATGTZFxgttqYZV8Q9zCkztQ/
-         c3B4MWEBjRNAlOJ7EQfMkxFu3DpTtvo6JHSN+vcH0tjFpVHnpyiYgavwOFA/o/rvVJ/p
-         lxlMeXikbt9Bo2SvWsDVWp4mp8GTUbWpSb0KmMcbkSEayB7Kf6FuEIsgu0TIwduN6dOM
-         liLldhY+gFaoUxI9PW+rSJIuYQlMXLAcpghNdQSi/sZUGCBdWWdcFPTkGQOB7+jlTVL/
-         SUIzeTu9xb7wGMLuR3aUXH+wYYvQ54Q7zWsPKyW+r3gFqwMHyKhnoBCtE4Pd62nldFeH
-         SOVQ==
-X-Gm-Message-State: ANoB5plnnpMKGQ3R3EbycJIbbTioLMKKiavoTcM9i7bnXKkIphtQpEtW
-	ygdH9Zd5wxxlW5AWZDbeypmdWw1Q1sRKZ2BwVRY=
-X-Google-Smtp-Source: AA0mqf5rqbDQnbjty7nQSDYV302rI1UzyknYFBzt5s6PII5MiLzHZ2l5elFp4j8sBJyX7HQJHouDl3ZQTkWTXcu8hFA=
-X-Received: by 2002:a2e:a174:0:b0:279:75a0:c063 with SMTP id
- u20-20020a2ea174000000b0027975a0c063mr24181751ljl.45.1670624625440; Fri, 09
- Dec 2022 14:23:45 -0800 (PST)
-MIME-Version: 1.0
-References: <20220811154005.4084669-1-trini@konsulko.com> <CANNYZj82WqbCr2MktnE8GrowoRiXL=W2GGOVpgzgi9Ud9YJJOg@mail.gmail.com>
- <f037201c52a8acd0bbc42b521e40795fb30b0359.camel@intel.com>
-In-Reply-To: <f037201c52a8acd0bbc42b521e40795fb30b0359.camel@intel.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 9 Dec 2022 23:23:33 +0100
-Message-ID: <CANNYZj_yC4GUJX1SxxJuwBRCkS2KgHg=JR6kYMiQ1nJ6Or=nDg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] qemux86-64: Allow higher tunes
-To: "Mittal, Anuj" <anuj.mittal@intel.com>
-Cc: "trini@konsulko.com" <trini@konsulko.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
-	"JPEWhacker@gmail.com" <JPEWhacker@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        h=date:message-id:to:from:subject:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mppZTENRNkp7W9ID0ALpgC81DV3uensXdZzk8Ub4cAE=;
+        b=o6yRW8189M3tLfnFb7/v/nhUami5pdKdL2Utk+HYI0rAucc3GgRdRIHyEZpSBjKi5N
+         PKUxEGonH3EvP28FxGi9S/EmXKgkkgDHj5Kx+U1cVHjLlirPyIP/YkCeXW3SHk0teJjF
+         M9e3m6qzb4GYWg56EJcZcV4BCbdEmVuy75xAQc+Z5OVQLxNfDEk7gLHgeJnJsxxaW+E0
+         9eWShtPAd36x8mkLoTb6GEt36qhBzzMbVhcLl/UKoaMcggLfVJzr031HKlwVyH0+Ai6h
+         5W6lf+jQOjXxGkubMKzDWB98LgT4dKFGaR5/Y4QIILJ3p4LTWv5qxq82ZwpopaiwHL9l
+         BUqA==
+X-Gm-Message-State: ANoB5pk0r0N5SlVv+yRSsVCjjqdUQWHSZ6V3+a9C0Pl80tDc1WvgaGae
+	gegILyP/vhDckOvOajjlt3DDsbGRXkjJOpU6Xaz+BQ==
+X-Google-Smtp-Source: AA0mqf6acDvrPxUQMPZ44aia2XKc/EqoldGb8rsNICwBeVlucwjjQWzU2shrb6gh4QRP+GrVYZ9Kvw==
+X-Received: by 2002:a05:6a21:e207:b0:ac:705b:d931 with SMTP id by7-20020a056a21e20700b000ac705bd931mr15386015pzc.7.1670760148822;
+        Sun, 11 Dec 2022 04:02:28 -0800 (PST)
+Received: from nuc.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
+        by smtp.gmail.com with ESMTPSA id q9-20020a17090a7a8900b00217cdc4b0a5sm3702988pjf.16.2022.12.11.04.02.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Dec 2022 04:02:28 -0800 (PST)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id 739E19602A7; Sun, 11 Dec 2022 02:02:26 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 11 Dec 2022 02:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20221211120226.739E19602A7@nuc.router0800d9.com>
+Date: Sun, 11 Dec 2022 02:02:26 -1000 (HST)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Dec 2022 22:23:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174470
+ <openembedded-core@lists.openembedded.org>; Sun, 11 Dec 2022 12:02:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174471
 
-On Thu, 11 Aug 2022 at 18:42, Mittal, Anuj <anuj.mittal@intel.com> wrote:
->
-> On Thu, 2022-08-11 at 17:51 +0200, Alexander Kanavin wrote:
-> > You won't get AVX or
-> > anything newer, which requires adding these instructions to qemu
-> > usermode (a project I'd like to do if I had the time).
->
-> https://lore.kernel.org/all/20220418173904.3746036-1-paul@nowt.org/
->
-> I didn't notice any v3 or an update on the bug.
+Branch: master
 
-This is now merged in qemu:
-https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg02253.html
+New this week: 0 CVEs
 
-7.2 will be out shortly, so then we can look into adding skylake tunes
-and perhaps moving qemux86_64 to them. Making skylake a fully
-supported default in meta-intel would be nice too.
+Removed this week: 4 CVEs
+CVE-2022-36227 (CVSS3: 9.8 CRITICAL): libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36227 *
+CVE-2022-40303 (CVSS3: 7.5 HIGH): libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40303 *
+CVE-2022-40304 (CVSS3: 7.8 HIGH): libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40304 *
+CVE-2022-4141 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4141 *
 
-Alex
+Full list:  Found 4 unpatched CVEs
+CVE-2022-3872 (CVSS3: 8.6 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3872 *
+CVE-2022-4055 (CVSS3: 7.4 HIGH): xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4055 *
+CVE-2022-4144 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4144 *
+CVE-2022-45061 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-45061 *
+
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
