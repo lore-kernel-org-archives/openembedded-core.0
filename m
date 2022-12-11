@@ -1,83 +1,99 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A738C4332F
-	for <webhook@archiver.kernel.org>; Sun, 11 Dec 2022 13:32:23 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web11.16643.1670765533988319955
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18C32C4167B
+	for <webhook@archiver.kernel.org>; Sun, 11 Dec 2022 16:12:54 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web11.19893.1670775163541178952
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Dec 2022 05:32:14 -0800
+ Sun, 11 Dec 2022 08:12:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=IucuhNkd;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f173.google.com with SMTP id 17so2018843pll.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 11 Dec 2022 05:32:13 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HatUjRBV;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id o15so3293478wmr.4
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 Dec 2022 08:12:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=date:message-id:to:from:subject:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GeOcgAOOIvNix0d7BvGZcIKXUMMlkEXeBd8LZGAqQeo=;
-        b=IucuhNkd/+JhZI/wR0T8BaxeZMpxRwlT4SOI4Len6U1HPjNg6w+FXgPuJv8ctNbf13
-         rCYsB+v9i8227hrH+Dmx5X+VCE7UMRwcFZXuZ8J1tASWr7EdMj0oTW1hK5Li7ty+1mfr
-         Ug97N3fNZbdZAyBu0aXiVU2gesxJwYiJDQWicBvqjMrZChPt7n4PgHVu1aa+NOW5NLcD
-         sEX7M3mYQJ/z1rz9FQzISmhK3YUMHKiaEhDDSwBYkPeDOaZiyUDVwSubHk9zZWAabX6W
-         MbolRGOL6pNdYYA4bbz7M3CZAAkNT3e8t2rv0HeDKTN+NAL1GDT0f1a9Rf4VVHlYaS5z
-         08yg==
+        d=linuxfoundation.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HzIs2TDXJGQ0P+pf+mFQejyr54Mb1/pQvwqISFl4bfE=;
+        b=HatUjRBVesHYkpPq1O/DZTIYdGC3EREOBv61e7kAJh6t81jSS9bgraYtq1DoeOj0W1
+         d/7P6KKxAoA8dvjm+nVSLxByxEo+bH8Lz++2NPYpmCvDDznLEqJFqJkWdu/ZOIKcLQvi
+         2I91Nrzzkoe5fLzY7g3kQOq2L9eKfn6DVIKWI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=date:message-id:to:from:subject:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GeOcgAOOIvNix0d7BvGZcIKXUMMlkEXeBd8LZGAqQeo=;
-        b=Qygf98N0NfHFDx80quKqPmws7U7ZF/eSzzeiMydGmtG9Mujz3jBhGlvaySPv56A3N3
-         b/TwSwmY108HGMLS9s3oIcz7Bp7ndK1TUbKCiE8kchj5IT2vckL/th2zQ6/TLvoZZyBq
-         4Cfos2WiwEQVqmd3EXPvXFfI5aen8N3AMC2TgAWXeOSQbHDOvvSaEZ35nVu9jmqJWD5H
-         fftDuL9QKPrvUQP8iw+11UDuIeuF1QQRrQcD1Xa3FEjcEQFVYOUQDnNwv1OzOzv+QYFT
-         g4tGHua0xlOUgUENFTATUTwhAEKHw+u9xTrLCnBtSKT5qhzOrFZSYnEzV+8wUgbIyLw/
-         UT9g==
-X-Gm-Message-State: ANoB5pmC/wj6KtyN+uFhQE8j4tJcJYmVpZ5dMBRk5sy+E3CIQjXg1AWq
-	iLupic3wp2+iAZFvitWgHfgryrqo5CogsXPnv3hKEA==
-X-Google-Smtp-Source: AA0mqf4zxaOPSc6Oi3JuGICbxacryyByufNn4OYaQO9MRqrn5VwthQ5i7UHpybtLvmElQT5ANHwayQ==
-X-Received: by 2002:a05:6a20:43ab:b0:ac:f68:24a0 with SMTP id i43-20020a056a2043ab00b000ac0f6824a0mr18343264pzl.29.1670765532891;
-        Sun, 11 Dec 2022 05:32:12 -0800 (PST)
-Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id o14-20020a170902d4ce00b0018999a3dd7esm4367984plg.28.2022.12.11.05.32.12
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HzIs2TDXJGQ0P+pf+mFQejyr54Mb1/pQvwqISFl4bfE=;
+        b=fo82GZmGCyNE9lcy7+atju/glvyf5i9Fm/sB5eZpKy6SPPlhKBV3CFrugcc8GOEqlD
+         iyTFUya+ytCg4qMiMklZGZm1IwAwzcTyQcOTaFvL88MTIb6GTc/7td5feBUtLOnXU/RZ
+         dbw9gWgL26vt9LRfdfQR/+T6H35NWQdKJoJQKBHMreO/lVKibciFZPv6UgJUcCodkW/G
+         AAe3H6c/JikFVlBAvRjaJM1bDyHx3wzRC4i3Nxm9I9wj+B3WOB4hb8cIIP2+FDURQFBb
+         +mTtY7kgtuQMo1L1mkD8pzwv8ATV4a1MdNKJymkipxwe1pwUGddp1n0R8kPb+TcvoFv4
+         8h+g==
+X-Gm-Message-State: ANoB5pnusPhcClBJXe6uH8IKgw5+S1ot/NBt0Niy6x4RqgDAvNdkoEcF
+	nipuK9gVlErGzoIBEvERstCrEdoi26pDHNRR
+X-Google-Smtp-Source: AA0mqf7F0/ECt+hVHEKUaLgjbqDlTf9qpHUo01N5oEtg3GB1Sflr5+FlMJgbYDDi8Bibng8v/ZZizQ==
+X-Received: by 2002:a7b:c417:0:b0:3c6:e63e:8155 with SMTP id k23-20020a7bc417000000b003c6e63e8155mr9855435wmi.12.1670775161626;
+        Sun, 11 Dec 2022 08:12:41 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:db5:b2f0:a022:4502])
+        by smtp.gmail.com with ESMTPSA id n3-20020a056000170300b002368f6b56desm7966324wrc.18.2022.12.11.08.12.40
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Dec 2022 05:32:12 -0800 (PST)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id 695109602A7; Sun, 11 Dec 2022 03:32:10 -1000 (HST)
-Subject: OE-core CVE metrics for langdale on Sun 11 Dec 2022 03:30:01 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20221211133210.695109602A7@nuc.router0800d9.com>
-Date: Sun, 11 Dec 2022 03:32:10 -1000 (HST)
+        Sun, 11 Dec 2022 08:12:41 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] lib/sstatesig: Drop OEBasic siggen
+Date: Sun, 11 Dec 2022 16:12:39 +0000
+Message-Id: <20221211161239.17710-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.37.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 11 Dec 2022 13:32:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174474
+ <openembedded-core@lists.openembedded.org>; Sun, 11 Dec 2022 16:12:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174475
 
-Branch: langdale
+We're now used to using hashes as part of the task hashes and the sstate code
+relies on this. The older OEBasic hash approach therefore wouldn't work and
+can be removed.
 
-New this week: 0 CVEs
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oe/sstatesig.py | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-Removed this week: 0 CVEs
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index bf48aed7e11..f0224454c93 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -101,15 +101,6 @@ def sstate_lockedsigs(d):
+             sigs[pn][task] = [h, siggen_lockedsigs_var]
+     return sigs
+ 
+-class SignatureGeneratorOEBasic(bb.siggen.SignatureGeneratorBasic):
+-    name = "OEBasic"
+-    def init_rundepcheck(self, data):
+-        self.abisaferecipes = (data.getVar("SIGGEN_EXCLUDERECIPES_ABISAFE") or "").split()
+-        self.saferecipedeps = (data.getVar("SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS") or "").split()
+-        pass
+-    def rundep_check(self, fn, recipename, task, dep, depname, dataCaches = None):
+-        return sstate_rundepfilter(self, fn, recipename, task, dep, depname, dataCaches)
+-
+ class SignatureGeneratorOEBasicHashMixIn(object):
+     supports_multiconfig_datacaches = True
+ 
+@@ -326,7 +317,6 @@ class SignatureGeneratorOEEquivHash(SignatureGeneratorOEBasicHashMixIn, bb.sigge
+             bb.fatal("OEEquivHash requires SSTATE_HASHEQUIV_METHOD to be set")
+ 
+ # Insert these classes into siggen's namespace so it can see and select them
+-bb.siggen.SignatureGeneratorOEBasic = SignatureGeneratorOEBasic
+ bb.siggen.SignatureGeneratorOEBasicHash = SignatureGeneratorOEBasicHash
+ bb.siggen.SignatureGeneratorOEEquivHash = SignatureGeneratorOEEquivHash
+ 
+-- 
+2.37.2
 
-Full list:  Found 13 unpatched CVEs
-CVE-2022-36227 (CVSS3: 9.8 CRITICAL): libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36227 *
-CVE-2022-37454 (CVSS3: 9.8 CRITICAL): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-37454 *
-CVE-2022-3872 (CVSS3: 8.6 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3872 *
-CVE-2022-39253 (CVSS3: 5.5 MEDIUM): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-39253 *
-CVE-2022-39260 (CVSS3: 8.8 HIGH): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-39260 *
-CVE-2022-40303 (CVSS3: 7.5 HIGH): libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40303 *
-CVE-2022-40304 (CVSS3: 7.8 HIGH): libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40304 *
-CVE-2022-4055 (CVSS3: 7.4 HIGH): xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4055 *
-CVE-2022-4141 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4141 *
-CVE-2022-4144 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4144 *
-CVE-2022-42919 (CVSS3: 7.8 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-42919 *
-CVE-2022-4292 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4292 *
-CVE-2022-45061 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-45061 *
-
-For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
