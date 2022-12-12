@@ -1,156 +1,179 @@
-Return-Path: <mark.hatle@kernel.crashing.org>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DFE8C4332F
-	for <webhook@archiver.kernel.org>; Sun, 11 Dec 2022 18:35:14 +0000 (UTC)
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.web10.23537.1670783714144200138
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39C46C4332F
+	for <webhook@archiver.kernel.org>; Mon, 12 Dec 2022 03:07:37 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.34279.1670814448390486052
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Dec 2022 10:35:14 -0800
+ Sun, 11 Dec 2022 19:07:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from [192.168.2.107] ([70.99.78.137])
-	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 2BBIZCU9023022
-	for <openembedded-core@lists.openembedded.org>; Sun, 11 Dec 2022 12:35:13 -0600
-Message-ID: <883249ff-3f56-21c3-8bec-b10f01c06499@kernel.crashing.org>
-Date: Sun, 11 Dec 2022 12:35:11 -0600
+ dkim=missing; spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=9345b5b890=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2BC2urLj029402
+	for <openembedded-core@lists.openembedded.org>; Sun, 11 Dec 2022 19:07:28 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3mctgp8vvq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sun, 11 Dec 2022 19:07:27 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Sun, 11 Dec 2022 19:07:27 -0800
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Sun, 11 Dec 2022 19:07:26 -0800
+From: <mingli.yu@eng.windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [kirkstone][PATCH] yocto-check-layer: Allow OE-Core to be tested
+Date: Mon, 12 Dec 2022 11:07:25 +0800
+Message-ID: <20221212030725.2659725-1-mingli.yu@eng.windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.3.3
-Subject: Re: [OE-Core][master][PATCH] openssh: remove RRECOMMENDS to rng-tools
- for sshd package
-Content-Language: en-US
-To: openembedded-core@lists.openembedded.org
-References: <20221209070538.72901-1-xiangyu.chen@eng.windriver.com>
- <CAMKF1sokegC9mr0VkmdEqW2WqRxBdc0fVYS39Pp8FFFzj6jc-Q@mail.gmail.com>
-From: Mark Hatle <mark.hatle@kernel.crashing.org>
-In-Reply-To: <CAMKF1sokegC9mr0VkmdEqW2WqRxBdc0fVYS39Pp8FFFzj6jc-Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: fdan6qdU2bkV_DESUpQH9ZuyLDe547s1
+X-Proofpoint-ORIG-GUID: fdan6qdU2bkV_DESUpQH9ZuyLDe547s1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-10_10,2022-12-08_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ bulkscore=0 mlxscore=0 suspectscore=0 clxscore=1015 phishscore=0
+ impostorscore=0 adultscore=0 malwarescore=0 spamscore=0 lowpriorityscore=0
+ mlxlogscore=702 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212120028
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 11 Dec 2022 18:35:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174478
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Dec 2022 03:07:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174479
 
-In the kernel is the jitter entropy system.  It should work on all platforms 
-that have high res timers available.  (This is the same mechanism that haveged 
-was using before as well.  So no change in the RNG quality, just now built into 
-the kernel itself.)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-The only place we've observed an issue with the new approach is on a qemu 
-machine that was moderately loaned.  The jitter was apparently too large (our 
-theory) and caused the crng init to happen VERY slowly.  (This would not have 
-been resolved using rngd.)
+For unknown reasons we've never seemingly run the check layer script
+against OE-Core itself. This isn't entirely straightforward as the core
+layer is a bit of a special case, we can't for example compare signatures
+against ourselve and we can't remove core from bblayers.conf.
 
-All-in-all, I thought this change had already been made, and think it should go in.
+Core does have distro, machine and software components too, in the case
+of distro, our fallback default settings. Whilst the qemu machines could
+be split into a seperate layer directory, core wouldn't then parse at all
+standalone due to the lack of any machine so it seems a bit pointless to
+do that.
 
-(We tested this on microblaze, and performance with and without haveged was the 
-same.  I don't have number, but I expect the same behaviors on any architecture.)
+These changes tweak the script to handle core's special cases, specifically
+to allow distro and machine directories and to account for the README placed
+a directory level higher than other layers.
 
---Mark
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+---
+ scripts/lib/checklayer/__init__.py     | 11 ++++++++---
+ scripts/lib/checklayer/cases/bsp.py    |  2 +-
+ scripts/lib/checklayer/cases/common.py |  3 +++
+ scripts/lib/checklayer/cases/distro.py |  2 +-
+ scripts/yocto-check-layer              |  5 ++---
+ 5 files changed, 15 insertions(+), 8 deletions(-)
 
-On 12/9/22 11:02 AM, Khem Raj wrote:
-> would be good to know some numbers on non-arm/non-x86 systems too.
-> 
-> On Thu, Dec 8, 2022 at 11:05 PM Xiangyu Chen
-> <xiangyu.chen@eng.windriver.com> wrote:
->>
->> It appears that rngd is not needed as of linux-5.6 and later[1]
->> and should not be installed by default since the purpose of rngd
->> is to provide additional trusted sources of entropy.
->>
->> We did some testing on real hardware, the result seems to support that
->> we no longer need rngd by default on kernel v5.6 and later.
->>
->> Testing result as below:
->>
->> 1. observing the crng init stage.
->>   the "random: crng init done" always available before fs being mounted.
->>
->> 2. generating random number without rngd.
->>   testing command: dd if=/dev/random of=/dev/null status=progress
->>     on Marvell CN96xx RDB board, speed almost 20.4 MB/s without block
->>     on NXP i.mx6q board, speed almost 31.9 MB/s without block
->>     on qemu x86-64, speed almost 2.6MB/s without block
->>
->> 3. using rngtest command without rngd
->>   testing command: rngtest -c 1000 </dev/random
->>     on Marvell CN96xx RDB board:
->>        rngtest: input channel speed: (min=4.340; avg=135.364; max=146.719)Mibits/s
->>        rngtest: FIPS tests speed: (min=8.197; avg=69.020; max=72.800)Mibits/s
->>        rngtest: Program run time: 418771 microseconds
->>
->>     on NXP i.mx6q board:
->>        rngtest: input channel speed: (min=96.820; avg=326.769; max=340.598)Mibits/s
->>        rngtest: FIPS tests speed: (min=15.090; avg=37.543; max=40.324)Mibits/s
->>        rngtest: Program run time: 570229 microseconds
->>
->>     on qemu x86-64:
->>        rngtest: input channel speed: (min=37.769; avg=101.136; max=136.239)Mibits/s
->>        rngtest: FIPS tests speed: (min=10.288; avg=30.682; max=40.155)Mibits/s
->>        rngtest: Program run time: 836800 microseconds
->>
->> 4. observing sshd service.
->>    using "systemctl disable rng-tools" disable service and reboot system.
->>    system boot up normal, sshd service also start in normal time without
->>    block.
->>
->> Reference:
->> [1] https://github.com/torvalds/linux/commit/30c08efec8884fb106b8e57094baa51bb4c44e32
->>
->> Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
->> ---
->>   meta/recipes-connectivity/openssh/openssh_9.1p1.bb | 9 +--------
->>   1 file changed, 1 insertion(+), 8 deletions(-)
->>
->> diff --git a/meta/recipes-connectivity/openssh/openssh_9.1p1.bb b/meta/recipes-connectivity/openssh/openssh_9.1p1.bb
->> index 85f97b1bbb..23ae8d5b0c 100644
->> --- a/meta/recipes-connectivity/openssh/openssh_9.1p1.bb
->> +++ b/meta/recipes-connectivity/openssh/openssh_9.1p1.bb
->> @@ -52,15 +52,12 @@ SYSTEMD_SERVICE:${PN}-sshd = "sshd.socket"
->>
->>   inherit autotools-brokensep ptest
->>
->> -PACKAGECONFIG ??= "rng-tools"
->> +PACKAGECONFIG ??= ""
->>   PACKAGECONFIG[kerberos] = "--with-kerberos5,--without-kerberos5,krb5"
->>   PACKAGECONFIG[ldns] = "--with-ldns,--without-ldns,ldns"
->>   PACKAGECONFIG[libedit] = "--with-libedit,--without-libedit,libedit"
->>   PACKAGECONFIG[manpages] = "--with-mantype=man,--with-mantype=cat"
->>
->> -# Add RRECOMMENDS to rng-tools for sshd package
->> -PACKAGECONFIG[rng-tools] = ""
->> -
->>   EXTRA_AUTORECONF += "--exclude=aclocal"
->>
->>   # login path is hardcoded in sshd
->> @@ -160,10 +157,6 @@ FILES:${PN}-keygen = "${bindir}/ssh-keygen"
->>
->>   RDEPENDS:${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen ${PN}-sftp-server"
->>   RDEPENDS:${PN}-sshd += "${PN}-keygen ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-keyinit pam-plugin-loginuid', '', d)}"
->> -RRECOMMENDS:${PN}-sshd:append:class-target = "\
->> -    ${@bb.utils.filter('PACKAGECONFIG', 'rng-tools', d)} \
->> -"
->> -
->>   # gdb would make attach-ptrace test pass rather than skip but not worth the build dependencies
->>   RDEPENDS:${PN}-ptest += "${PN}-sftp ${PN}-misc ${PN}-sftp-server make sed sudo coreutils"
->>
->> --
->> 2.34.1
->>
->>
->>
->>
->>
->>
->> -=-=-=-=-=-=-=-=-=-=-=-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#174469): https://lists.openembedded.org/g/openembedded-core/message/174469
->> Mute This Topic: https://lists.openembedded.org/mt/95556189/3616948
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mark.hatle@kernel.crashing.org]
->> -=-=-=-=-=-=-=-=-=-=-=-
->>
+diff --git a/scripts/lib/checklayer/__init__.py b/scripts/lib/checklayer/__init__.py
+index aa946f3036..938805289e 100644
+--- a/scripts/lib/checklayer/__init__.py
++++ b/scripts/lib/checklayer/__init__.py
+@@ -16,6 +16,7 @@ class LayerType(Enum):
+     BSP = 0
+     DISTRO = 1
+     SOFTWARE = 2
++    CORE = 3
+     ERROR_NO_LAYER_CONF = 98
+     ERROR_BSP_DISTRO = 99
+ 
+@@ -106,7 +107,13 @@ def _detect_layer(layer_path):
+         if distros:
+             is_distro = True
+ 
+-    if is_bsp and is_distro:
++    layer['collections'] = _get_layer_collections(layer['path'])
++
++    if layer_name == "meta" and "core" in layer['collections']:
++        layer['type'] = LayerType.CORE
++        layer['conf']['machines'] = machines
++        layer['conf']['distros'] = distros
++    elif is_bsp and is_distro:
+         layer['type'] = LayerType.ERROR_BSP_DISTRO
+     elif is_bsp:
+         layer['type'] = LayerType.BSP
+@@ -117,8 +124,6 @@ def _detect_layer(layer_path):
+     else:
+         layer['type'] = LayerType.SOFTWARE
+ 
+-    layer['collections'] = _get_layer_collections(layer['path'])
+-
+     return layer
+ 
+ def detect_layers(layer_directories, no_auto):
+diff --git a/scripts/lib/checklayer/cases/bsp.py b/scripts/lib/checklayer/cases/bsp.py
+index a80a5844da..b76163fb56 100644
+--- a/scripts/lib/checklayer/cases/bsp.py
++++ b/scripts/lib/checklayer/cases/bsp.py
+@@ -11,7 +11,7 @@ from checklayer.case import OECheckLayerTestCase
+ class BSPCheckLayer(OECheckLayerTestCase):
+     @classmethod
+     def setUpClass(self):
+-        if self.tc.layer['type'] != LayerType.BSP:
++        if self.tc.layer['type'] not in (LayerType.BSP, LayerType.CORE):
+             raise unittest.SkipTest("BSPCheckLayer: Layer %s isn't BSP one." %\
+                 self.tc.layer['name'])
+ 
+diff --git a/scripts/lib/checklayer/cases/common.py b/scripts/lib/checklayer/cases/common.py
+index 491a13953c..722d3cf638 100644
+--- a/scripts/lib/checklayer/cases/common.py
++++ b/scripts/lib/checklayer/cases/common.py
+@@ -12,6 +12,9 @@ from checklayer.case import OECheckLayerTestCase
+ 
+ class CommonCheckLayer(OECheckLayerTestCase):
+     def test_readme(self):
++        if self.tc.layer['type'] == LayerType.CORE:
++            raise unittest.SkipTest("Core layer's README is top level")
++
+         # The top-level README file may have a suffix (like README.rst or README.txt).
+         readme_files = glob.glob(os.path.join(self.tc.layer['path'], '[Rr][Ee][Aa][Dd][Mm][Ee]*'))
+         self.assertTrue(len(readme_files) > 0,
+diff --git a/scripts/lib/checklayer/cases/distro.py b/scripts/lib/checklayer/cases/distro.py
+index f0bee5493c..a35332451c 100644
+--- a/scripts/lib/checklayer/cases/distro.py
++++ b/scripts/lib/checklayer/cases/distro.py
+@@ -11,7 +11,7 @@ from checklayer.case import OECheckLayerTestCase
+ class DistroCheckLayer(OECheckLayerTestCase):
+     @classmethod
+     def setUpClass(self):
+-        if self.tc.layer['type'] != LayerType.DISTRO:
++        if self.tc.layer['type'] not in (LayerType.DISTRO, LayerType.CORE):
+             raise unittest.SkipTest("DistroCheckLayer: Layer %s isn't Distro one." %\
+                 self.tc.layer['name'])
+ 
+diff --git a/scripts/yocto-check-layer b/scripts/yocto-check-layer
+index 0e5b75b1f7..67cc71950f 100755
+--- a/scripts/yocto-check-layer
++++ b/scripts/yocto-check-layer
+@@ -168,14 +168,13 @@ def main():
+ 
+     layers_tested = 0
+     for layer in layers:
+-        if layer['type'] == LayerType.ERROR_NO_LAYER_CONF or \
+-                layer['type'] == LayerType.ERROR_BSP_DISTRO:
++        if layer['type'] in (LayerType.ERROR_NO_LAYER_CONF, LayerType.ERROR_BSP_DISTRO):
+             continue
+ 
+         # Reset to a clean backup copy for each run
+         shutil.copyfile(bblayersconf + '.backup', bblayersconf)
+ 
+-        if check_bblayers(bblayersconf, layer['path'], logger):
++        if layer['type'] not in (LayerType.CORE, ) and check_bblayers(bblayersconf, layer['path'], logger):
+             logger.info("%s already in %s. To capture initial signatures, layer under test should not present "
+                "in BBLAYERS. Please remove %s from BBLAYERS." % (layer['name'], bblayersconf, layer['name']))
+             results[layer['name']] = None
+-- 
+2.25.1
+
 
