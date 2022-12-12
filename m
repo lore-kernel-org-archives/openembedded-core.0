@@ -2,126 +2,171 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFF96C4167B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFE43C4332F
 	for <webhook@archiver.kernel.org>; Mon, 12 Dec 2022 21:03:12 +0000 (UTC)
 Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web10.55975.1670878987593925394
+ by mx.groups.io with SMTP id smtpd.web11.56062.1670878987154918742
  for <openembedded-core@lists.openembedded.org>;
  Mon, 12 Dec 2022 13:03:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=nCFJQwgN;
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ovFpQzD/;
  spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f181.google.com with SMTP id d15so3785529pls.6
+Received: by mail-pl1-f181.google.com with SMTP id d3so13379470plr.10
         for <openembedded-core@lists.openembedded.org>; Mon, 12 Dec 2022 13:03:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pxIK7cgEuXqIfvFV3PZN20efhWUb6Ymg6b+8ku6TDkw=;
-        b=nCFJQwgNooGf0XmE7Hmj1eX1q0/f/LXk8iSwL7w9TtF4umKb2VJz1KC8cZqygXdc9u
-         BBzecNDfUhnEnlQVWek8shWkaba23ZfI3bbn2XgxrMtZpDWYtda80edMhCnoskmd5+Z4
-         k5pAadCSi81V88kJ/pfIsAo0v5acspjD/QEv0TJGiez7XKWECI/xQpydwhh/kYMblI2L
-         8qx18T6cU+pfEy8bH9ptxQwPe5XR93+NABKmI7jPHbu0gcLIObflBc379Ei/EQNu1Ik2
-         ub/1GjbwXd0TdvvmZ+T5fOozt4IpSacNgC/1Gvmd33Rp821cJMUMLZRBM5yD20bid67W
-         T8dQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hpEqw6BzS8EOgriTbOHpcnFRcgWq1QGEU3nBR6YMuQQ=;
+        b=ovFpQzD/AU5uuIQeLGlufrZ0JhJJpIeYjxpBM827j/lquJhRCPo7oPGquz+JEkaMNa
+         uaEUbO3RZeJgME8QSpRASRiz5Ufl2JapTVdZDzoN0gM4SUeJXG5q5W8xLJ/31ZOJtdsb
+         Pza9wf0FZDL58w7XtjHDnUbfvbgV6pP8Kudl5xyfniyotU7ol9r1x7OZbDCT3CAjENGG
+         IwO02d62lA8lT2nUQuSXdz8o9DEk/1HFdolPMWvYfgWhT6PWOqzO17dl/niYm0Pdx+NN
+         5u27W4zVx4XbtB+kSL5z3DCX0s02SvmcmdRJPkAIbOBKTewHJFGizErVGpV7aNCY6Xwy
+         9VpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pxIK7cgEuXqIfvFV3PZN20efhWUb6Ymg6b+8ku6TDkw=;
-        b=tDIPcOKCAcmG4QlXuAN9Tp2CNMumPdyaicEObG+DE2Y51lv36cC1+fAk5R7Fqn04l2
-         8eQCaZUeRG/hXcxv2sh7+kd4kMxspWiN1AVE1sianIEipHUzbibNPR4vs+dCjI9IIo06
-         cUB8cLPp95U8jgGoEQjUFOe3bd7J8vrtQxmYYbupiaPmjbPdxpBnBwXkG+HHUpNvbdLG
-         jqs+fPlOCJiwIgaeu/OGZqKGGgb1R8PqFV7764QDkrgETknKaEWSwZDnnhtjLUBVF8lc
-         V/WeLzocR8f0ZytrnJreYr0b08BZqKkjRA586SCzuc0DOGze1aFhNdkTVbVBmbe4vTfg
-         i7Cw==
-X-Gm-Message-State: ANoB5pkVwOxtW58J1Qbi/Ar0d+J+C2PTpL74+iMkMiCwbOnHCwXPdssz
-	B0UWfl2zJRAAy2BLZOolahWVv1jkQPc=
-X-Google-Smtp-Source: AA0mqf5MbrfhZQMDbIHnm3plmDjMtxF68AdyyF0svrPnTt67R4Grrj7LxgcD8uD3EDoBg6iU2bWeGA==
-X-Received: by 2002:a17:902:6b05:b0:185:441f:7087 with SMTP id o5-20020a1709026b0500b00185441f7087mr17624492plk.12.1670878986782;
-        Mon, 12 Dec 2022 13:03:06 -0800 (PST)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hpEqw6BzS8EOgriTbOHpcnFRcgWq1QGEU3nBR6YMuQQ=;
+        b=I/HeTvuuoTjlDZrD7/n8B6h3TtvAd3I91qHTmsfMA2gSgt5Kg2/y0xPgYGRCGU/mgE
+         6OGj/iCXzFX0CZjrntsJ1sFEOD9GoNqlSowUGfikReb36e9yEkEvSbWA8mpoGBiv/xXX
+         bmTXmcsioDLCufsEgqeltC5qcxI4CsDruggsCwNLx0uZ8vWW8qoc1TTNQZJXX56GoJh2
+         kXehuNXp3CuuJCS+T/scDyJL+iGgK++qq6ON8jqZtv3TlidWzzFAfX/Cl4+IG2MDXWQp
+         Nmrxv51EXTocz937F9YMMiEqf4jPyY+0134XIzkubBRzKiqbsL39UJdP6BzRcxuZnaTu
+         w7wQ==
+X-Gm-Message-State: ANoB5pmLM4w0WlKxxKBWxY0VN+9X2QKdpD1QMmbZMzzSeno17ssQ4PMQ
+	Bzvmi/dmASDuvVfF4cKys7dAgAx6zKY=
+X-Google-Smtp-Source: AA0mqf5P4I8mRR6ysISP/Hybwvu7RCHGM8MjsgCZxuZk99j3IDYBNoKFoWxK75DSH4ZK4qa6OwG9AA==
+X-Received: by 2002:a17:903:2446:b0:189:a50d:2a40 with SMTP id l6-20020a170903244600b00189a50d2a40mr23244883pls.45.1670878985972;
+        Mon, 12 Dec 2022 13:03:05 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::7d9c])
-        by smtp.gmail.com with ESMTPSA id i13-20020a170902c94d00b00186c54188b4sm6842987pla.240.2022.12.12.13.03.06
+        by smtp.gmail.com with ESMTPSA id i13-20020a170902c94d00b00186c54188b4sm6842987pla.240.2022.12.12.13.03.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Dec 2022 13:03:06 -0800 (PST)
+        Mon, 12 Dec 2022 13:03:05 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 2/2] gptfdisk: Enable largefile support functions
-Date: Mon, 12 Dec 2022 13:03:03 -0800
-Message-Id: <20221212210303.3756051-2-raj.khem@gmail.com>
+Subject: [PATCH 1/2] rpcsvc-proto: Use autoconf knob to enable largefile support
+Date: Mon, 12 Dec 2022 13:03:02 -0800
+Message-Id: <20221212210303.3756051-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20221212210303.3756051-1-raj.khem@gmail.com>
-References: <20221212210303.3756051-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 12 Dec 2022 21:03:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174503
-
-Ensures it builds/works fine when _LARGEFILE64_SUPPORT is disabled.
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174502
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...01-Use-64bit-time_t-on-linux-as-well.patch | 32 +++++++++++++++++++
- meta/recipes-devtools/fdisk/gptfdisk_1.0.9.bb |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-devtools/fdisk/gptfdisk/0001-Use-64bit-time_t-on-linux-as-well.patch
+ .../rpcsvc-proto/rpcsvc-proto.bb              |  3 +-
+ ...FILE-macro-to-control-largefile-supp.patch | 80 +++++++++++++++++++
+ 2 files changed, 82 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/rpcsvc-proto/rpcsvc-proto/0001-Use-AC_SYS_LARGEFILE-macro-to-control-largefile-supp.patch
 
-diff --git a/meta/recipes-devtools/fdisk/gptfdisk/0001-Use-64bit-time_t-on-linux-as-well.patch b/meta/recipes-devtools/fdisk/gptfdisk/0001-Use-64bit-time_t-on-linux-as-well.patch
+diff --git a/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb b/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb
+index dd7bd2b1be..00919a3d70 100644
+--- a/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb
++++ b/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb
+@@ -21,7 +21,8 @@ SRCREV = "71e0a12c04d130a78674ac6309eefffa6ecee612"
+ 
+ SRC_URI = "git://github.com/thkukuk/${BPN};branch=master;protocol=https \
+            file://0001-Use-cross-compiled-rpcgen.patch \
+-          "
++           file://0001-Use-AC_SYS_LARGEFILE-macro-to-control-largefile-supp.patch \
++           "
+ 
+ S = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto/0001-Use-AC_SYS_LARGEFILE-macro-to-control-largefile-supp.patch b/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto/0001-Use-AC_SYS_LARGEFILE-macro-to-control-largefile-supp.patch
 new file mode 100644
-index 0000000000..80e6f1bc9c
+index 0000000000..f07866d55a
 --- /dev/null
-+++ b/meta/recipes-devtools/fdisk/gptfdisk/0001-Use-64bit-time_t-on-linux-as-well.patch
-@@ -0,0 +1,32 @@
-+From cbdbabcc14e4ae4debcc64e41c0bb97d47b4eeef Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto/0001-Use-AC_SYS_LARGEFILE-macro-to-control-largefile-supp.patch
+@@ -0,0 +1,80 @@
++From 6820c53c3952f78185beb59f767c372fc745dcf3 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 12 Dec 2022 12:50:07 -0800
-+Subject: [PATCH] Use 64bit time_t on linux as well
++Date: Sun, 11 Dec 2022 21:42:59 -0800
++Subject: [PATCH] Use AC_SYS_LARGEFILE macro to control largefile support
 +
-+Alias 64bit version of stat functions to original functions
-+we are already passing -D_FILE_OFFSET_BITS=64 in linux Makefile
++The autoconf macro AC_SYS_LARGEFILE defines _FILE_OFFSET_BITS=64
++where necessary to ensure that off_t and all interfaces using off_t
++are 64bit, even on 32bit systems.
 +
-+Upstream-Status: Submitted [https://sourceforge.net/p/gptfdisk/code/merge-requests/29/]
++replace stat64 by equivalent stat struct/func
++
++Upstream-Status: Accepted [https://github.com/thkukuk/rpcsvc-proto/pull/15]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ diskio-unix.cc | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
++ configure.ac      |  1 +
++ rpcgen/rpc_main.c | 16 +++++-----------
++ 2 files changed, 6 insertions(+), 11 deletions(-)
 +
-+diff --git a/diskio-unix.cc b/diskio-unix.cc
-+index 7780aeb..0897c56 100644
-+--- a/diskio-unix.cc
-++++ b/diskio-unix.cc
-+@@ -37,8 +37,12 @@
++diff --git a/configure.ac b/configure.ac
++index bacc2fb..a9fc730 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -8,6 +8,7 @@ AC_PREFIX_DEFAULT(/usr)
++ AC_SUBST(PACKAGE)
++ AC_SUBST(VERSION)
 + 
-+ using namespace std;
+++AC_SYS_LARGEFILE
++ AC_PROG_CC
++ AC_GNU_SOURCE
++ AM_PROG_CC_C_O
++diff --git a/rpcgen/rpc_main.c b/rpcgen/rpc_main.c
++index 277adc6..fd7dea9 100644
++--- a/rpcgen/rpc_main.c
+++++ b/rpcgen/rpc_main.c
++@@ -62,12 +62,6 @@
++ #define EXTEND	1		/* alias for TRUE */
++ #define DONT_EXTEND	0	/* alias for FALSE */
 + 
 +-#ifdef __APPLE__
-++#if defined(__APPLE__) || defined(__linux__)
-+ #define off64_t off_t
-++#define stat64 stat
-++#define fstat64 fstat
-++#define lstat64 lstat
-++#define lseek64 lseek
-+ #endif
++-# if __DARWIN_ONLY_64_BIT_INO_T
++-#  define stat64 stat
++-# endif
++-#endif
++-
++ struct commandline
++   {
++     int cflag;			/* xdr C routines */
++@@ -337,9 +331,9 @@ clear_args (void)
++ static void
++ find_cpp (void)
++ {
++-  struct stat64 buf;
+++  struct stat buf;
 + 
-+ // Returns the official "real" name for a shortened version of same.
-diff --git a/meta/recipes-devtools/fdisk/gptfdisk_1.0.9.bb b/meta/recipes-devtools/fdisk/gptfdisk_1.0.9.bb
-index 4a25945363..66935b7fbb 100644
---- a/meta/recipes-devtools/fdisk/gptfdisk_1.0.9.bb
-+++ b/meta/recipes-devtools/fdisk/gptfdisk_1.0.9.bb
-@@ -11,6 +11,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${PV}/${BP}.tar.gz \
-            file://0001-gptcurses-correctly-include-curses.h.patch \
-            file://0001-Updated-guid.cc-to-deal-with-minor-change-in-libuuid.patch \
-            file://0001-Fix-failure-crash-of-sgdisk-when-compiled-with-lates.patch \
-+           file://0001-Use-64bit-time_t-on-linux-as-well.patch \
-            "
- SRC_URI[sha256sum] = "dafead2693faeb8e8b97832b23407f6ed5b3219bc1784f482dd855774e2d50c2"
- 
++-  if (stat64 (CPP, &buf) == 0)
+++  if (stat (CPP, &buf) == 0)
++     return;
++ 
++   if (cppDefined) /* user specified cpp but it does not exist */
++@@ -1125,17 +1119,17 @@ putarg (int whereto, const char *cp)
++ static void
++ checkfiles (const char *infile, const char *outfile)
++ {
++-  struct stat64 buf;
+++  struct stat buf;
++ 
++   if (infile)			/* infile ! = NULL */
++-    if (stat64 (infile, &buf) < 0)
+++    if (stat (infile, &buf) < 0)
++       {
++ 	perror (infile);
++ 	crash ();
++       }
++   if (outfile)
++     {
++-      if (stat64 (outfile, &buf) < 0)
+++      if (stat (outfile, &buf) < 0)
++ 	return;			/* file does not exist */
++       else
++ 	{
 -- 
 2.39.0
 
