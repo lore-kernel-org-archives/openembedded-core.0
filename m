@@ -1,454 +1,128 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF302C4167B
-	for <webhook@archiver.kernel.org>; Mon, 12 Dec 2022 17:36:01 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.50004.1670866560765464933
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFF96C4167B
+	for <webhook@archiver.kernel.org>; Mon, 12 Dec 2022 21:03:12 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web10.55975.1670878987593925394
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Dec 2022 09:36:01 -0800
+ Mon, 12 Dec 2022 13:03:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AFD512F4;
-	Mon, 12 Dec 2022 09:36:40 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9AA4B3F73B;
-	Mon, 12 Dec 2022 09:35:59 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=nCFJQwgN;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id d15so3785529pls.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Dec 2022 13:03:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pxIK7cgEuXqIfvFV3PZN20efhWUb6Ymg6b+8ku6TDkw=;
+        b=nCFJQwgNooGf0XmE7Hmj1eX1q0/f/LXk8iSwL7w9TtF4umKb2VJz1KC8cZqygXdc9u
+         BBzecNDfUhnEnlQVWek8shWkaba23ZfI3bbn2XgxrMtZpDWYtda80edMhCnoskmd5+Z4
+         k5pAadCSi81V88kJ/pfIsAo0v5acspjD/QEv0TJGiez7XKWECI/xQpydwhh/kYMblI2L
+         8qx18T6cU+pfEy8bH9ptxQwPe5XR93+NABKmI7jPHbu0gcLIObflBc379Ei/EQNu1Ik2
+         ub/1GjbwXd0TdvvmZ+T5fOozt4IpSacNgC/1Gvmd33Rp821cJMUMLZRBM5yD20bid67W
+         T8dQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pxIK7cgEuXqIfvFV3PZN20efhWUb6Ymg6b+8ku6TDkw=;
+        b=tDIPcOKCAcmG4QlXuAN9Tp2CNMumPdyaicEObG+DE2Y51lv36cC1+fAk5R7Fqn04l2
+         8eQCaZUeRG/hXcxv2sh7+kd4kMxspWiN1AVE1sianIEipHUzbibNPR4vs+dCjI9IIo06
+         cUB8cLPp95U8jgGoEQjUFOe3bd7J8vrtQxmYYbupiaPmjbPdxpBnBwXkG+HHUpNvbdLG
+         jqs+fPlOCJiwIgaeu/OGZqKGGgb1R8PqFV7764QDkrgETknKaEWSwZDnnhtjLUBVF8lc
+         V/WeLzocR8f0ZytrnJreYr0b08BZqKkjRA586SCzuc0DOGze1aFhNdkTVbVBmbe4vTfg
+         i7Cw==
+X-Gm-Message-State: ANoB5pkVwOxtW58J1Qbi/Ar0d+J+C2PTpL74+iMkMiCwbOnHCwXPdssz
+	B0UWfl2zJRAAy2BLZOolahWVv1jkQPc=
+X-Google-Smtp-Source: AA0mqf5MbrfhZQMDbIHnm3plmDjMtxF68AdyyF0svrPnTt67R4Grrj7LxgcD8uD3EDoBg6iU2bWeGA==
+X-Received: by 2002:a17:902:6b05:b0:185:441f:7087 with SMTP id o5-20020a1709026b0500b00185441f7087mr17624492plk.12.1670878986782;
+        Mon, 12 Dec 2022 13:03:06 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::7d9c])
+        by smtp.gmail.com with ESMTPSA id i13-20020a170902c94d00b00186c54188b4sm6842987pla.240.2022.12.12.13.03.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Dec 2022 13:03:06 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: nd@arm.com
-Subject: [PATCH 2/2] gtk+3: upgrade 3.24.34 -> 3.24.35
-Date: Mon, 12 Dec 2022 17:35:47 +0000
-Message-Id: <20221212173547.1860380-2-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221212173547.1860380-1-ross.burton@arm.com>
-References: <20221212173547.1860380-1-ross.burton@arm.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 2/2] gptfdisk: Enable largefile support functions
+Date: Mon, 12 Dec 2022 13:03:03 -0800
+Message-Id: <20221212210303.3756051-2-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20221212210303.3756051-1-raj.khem@gmail.com>
+References: <20221212210303.3756051-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Dec 2022 17:36:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174501
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Dec 2022 21:03:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174503
 
-The gtktypefuncs.c removal is obsolete as that file isn't in the tarball
-anymore, so remove it.
+Ensures it builds/works fine when _LARGEFILE64_SUPPORT is disabled.
 
-However the wayland-scanner files are still in the tarball despite
-efforts to stop this, so generalise the removal to ensure it covers all
-files which may be affected.  Further investigation will be needed to
-see if this is still an issue.
-
-Rebase 0003-Add-disable-opengl-configure-option.patch.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-gnome/gtk+/gtk+3.inc             |  7 +-
- ...-Add-disable-opengl-configure-option.patch | 86 ++++++++++---------
- .../{gtk+3_3.24.34.bb =3D> gtk+3_3.24.35.bb}    |  2 +-
- 3 files changed, 46 insertions(+), 49 deletions(-)
- rename meta/recipes-gnome/gtk+/{gtk+3_3.24.34.bb =3D> gtk+3_3.24.35.bb} =
-(89%)
+ ...01-Use-64bit-time_t-on-linux-as-well.patch | 32 +++++++++++++++++++
+ meta/recipes-devtools/fdisk/gptfdisk_1.0.9.bb |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-devtools/fdisk/gptfdisk/0001-Use-64bit-time_t-on-linux-as-well.patch
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/=
-gtk+3.inc
-index 7d50d7bd2e3..5b7b73ac8dc 100644
---- a/meta/recipes-gnome/gtk+/gtk+3.inc
-+++ b/meta/recipes-gnome/gtk+/gtk+3.inc
-@@ -27,15 +27,10 @@ ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
- export PKG_CONFIG_FOR_BUILD =3D "${STAGING_BINDIR_NATIVE}/pkg-config-nat=
-ive"
-=20
- do_configure:prepend() {
--    #delete a file that will get confused with generated one in ${B}
--    rm -f ${S}/gtk/gtktypefuncs.c
--
-     # These files are generated by wayland-scanner but will race over mo=
-dification
-     # time between the copies in the sysroot from wayland-protocols and =
-the copy
-     # in the source tree. Solve the race by deleting so they need to be =
-regenerated.
--    # 3.24.22 will not be shipping these files so this can be deleted th=
-en:
--    # https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/2183
--    rm -f ${S}/modules/input/text-input-unstable-v3*.[ch]
-+    rm -f ${S}/modules/input/*-text-input-*.[ch]
- }
-=20
- EXTRA_OECONF +=3D " \
-diff --git a/meta/recipes-gnome/gtk+/gtk+3/0003-Add-disable-opengl-config=
-ure-option.patch b/meta/recipes-gnome/gtk+/gtk+3/0003-Add-disable-opengl-=
-configure-option.patch
-index 35cbab87610..fe671445365 100644
---- a/meta/recipes-gnome/gtk+/gtk+3/0003-Add-disable-opengl-configure-opt=
-ion.patch
-+++ b/meta/recipes-gnome/gtk+/gtk+3/0003-Add-disable-opengl-configure-opt=
-ion.patch
-@@ -1,4 +1,4 @@
--From eef50c94587fc30cd624adb5eb213eb9fa663dc1 Mon Sep 17 00:00:00 2001
-+From e59cb71740ff70022bb2d9bd3685a1d77b43cac0 Mon Sep 17 00:00:00 2001
- From: Jussi Kukkonen <jussi.kukkonen@intel.com>
- Date: Tue, 21 Jun 2016 15:11:39 +0300
- Subject: [PATCH] Add --disable-opengl configure option
-@@ -19,13 +19,12 @@ as it actually will depend on OpenGL.
-=20
- Upstream-Status: Inappropriate [Evil eye expected from upstream]
- Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
--
- ---
-  configure.ac                               | 13 ++++-
-  demos/gtk-demo/glarea.c                    | 14 ++++++
-  docs/tools/Makefile.am                     |  9 +++-
-  docs/tools/widgets.c                       |  4 +-
-- gdk/Makefile.am                            |  8 ++-
-+ gdk/gdk-sources.inc                        |  8 ++-
-  gdk/gdkdisplay.c                           |  4 +-
-  gdk/gdkgl.c                                | 10 ++++
-  gdk/gdkglcontext.c                         |  6 +++
-@@ -47,7 +46,7 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com=
->
-  create mode 100644 gdk/x11/gdkx-without-gl-context.h
-=20
- diff --git a/configure.ac b/configure.ac
--index 851bcbf..6cbf6a2 100644
-+index 9ed65e5f8a..70c68364ff 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -346,6 +346,15 @@ AC_ARG_ENABLE(cloudproviders,
-@@ -66,7 +65,7 @@ index 851bcbf..6cbf6a2 100644
-  AC_ARG_ENABLE(glx,
-                [AS_HELP_STRING([--enable-glx],
-                                [When enabled Gdk will try to initialize =
-GLX])])
--@@ -1345,7 +1354,7 @@ CFLAGS=3D"$saved_cflags"
-+@@ -1367,7 +1376,7 @@ CFLAGS=3D"$saved_cflags"
-  LDFLAGS=3D"$saved_ldflags"
- =20
-  GDK_PACKAGES=3D"$PANGO_PACKAGES gdk-pixbuf-2.0 >=3D gdk_pixbuf_required=
-_version cairo >=3D cairo_required_version cairo-gobject >=3D cairo_requi=
-red_version"
-@@ -75,7 +74,7 @@ index 851bcbf..6cbf6a2 100644
- =20
-  PKG_CHECK_MODULES(GDK_DEP, $GDK_PACKAGES $GDK_PRIVATE_PACKAGES)
-  GDK_DEP_LIBS=3D"$GDK_EXTRA_LIBS $GDK_DEP_LIBS $MATH_LIB"
--@@ -1379,7 +1388,7 @@ fi
-+@@ -1401,7 +1410,7 @@ fi
-  PKG_CHECK_MODULES(ATK, $ATK_PACKAGES)
- =20
-  GTK_PACKAGES=3D"atk >=3D atk_required_version cairo >=3D cairo_required=
-_version cairo-gobject >=3D cairo_required_version gdk-pixbuf-2.0 >=3D gd=
-k_pixbuf_required_version gio-2.0 >=3D glib_required_version"
-@@ -85,7 +84,7 @@ index 851bcbf..6cbf6a2 100644
-    GTK_PRIVATE_PACKAGES=3D"$GTK_PRIVATE_PACKAGES pangoft2"
-  fi
- diff --git a/demos/gtk-demo/glarea.c b/demos/gtk-demo/glarea.c
--index b51e4ae..82409c7 100644
-+index b51e4ae1fe..82409c7358 100644
- --- a/demos/gtk-demo/glarea.c
- +++ b/demos/gtk-demo/glarea.c
- @@ -3,9 +3,12 @@
-@@ -168,7 +167,7 @@ index b51e4ae..82409c7 100644
-    return TRUE;
-  }
- diff --git a/docs/tools/Makefile.am b/docs/tools/Makefile.am
--index bec43e3..189e8fc 100644
-+index bec43e3a55..189e8fc926 100644
- --- a/docs/tools/Makefile.am
- +++ b/docs/tools/Makefile.am
- @@ -9,13 +9,18 @@ AM_CPPFLAGS =3D \
-@@ -193,7 +192,7 @@ index bec43e3..189e8fc 100644
-  	$(GDK_DEP_LIBS)			\
-  	-lm
- diff --git a/docs/tools/widgets.c b/docs/tools/widgets.c
--index 932daf1..54239d6 100644
-+index 932daf1746..54239d6129 100644
- --- a/docs/tools/widgets.c
- +++ b/docs/tools/widgets.c
- @@ -1526,9 +1526,11 @@ create_gl_area (void)
-@@ -209,11 +208,11 @@ index 932daf1..54239d6 100644
-    info =3D new_widget_info ("glarea", widget, MEDIUM);
- =20
-    return info;
--diff --git a/gdk/Makefile.am b/gdk/Makefile.am
--index 710a548..b45f631 100644
----- a/gdk/Makefile.am
--+++ b/gdk/Makefile.am
--@@ -274,7 +274,6 @@ x11_introspection_files =3D 		\
-+diff --git a/gdk/gdk-sources.inc b/gdk/gdk-sources.inc
-+index 9235edb6cf..349acb8f4c 100644
-+--- a/gdk/gdk-sources.inc
-++++ b/gdk/gdk-sources.inc
-+@@ -146,7 +146,6 @@ x11_introspection_files =3D 		\
-  	x11/gdkeventsource.c		\
-  	x11/gdkeventtranslator.c	\
-  	x11/gdkgeometry-x11.c		\
-@@ -221,7 +220,7 @@ index 710a548..b45f631 100644
-  	x11/gdkkeys-x11.c		\
-  	x11/gdkmain-x11.c		\
-  	x11/gdkmonitor-x11.c		\
--@@ -300,7 +299,6 @@ x11_introspection_files =3D 		\
-+@@ -172,7 +171,6 @@ x11_introspection_files =3D 		\
-  	x11/gdkx11display.h		\
-  	x11/gdkx11displaymanager.h	\
-  	x11/gdkx11dnd.h			\
-@@ -229,7 +228,7 @@ index 710a548..b45f631 100644
-  	x11/gdkx11keys.h		\
-  	x11/gdkx11monitor.h		\
-  	x11/gdkx11property.h		\
--@@ -310,6 +308,12 @@ x11_introspection_files =3D 		\
-+@@ -182,6 +180,12 @@ x11_introspection_files =3D 		\
-  	x11/gdkx11visual.h		\
-  	x11/gdkx11window.h
- =20
-@@ -239,11 +238,11 @@ index 710a548..b45f631 100644
- +	x11/gdkx11glcontext.h
- +endif
- +
-- GdkX11-3.0.gir: libgdk-3.la Gdk-3.0.gir Makefile
-- GdkX11_3_0_gir_SCANNERFLAGS =3D 		\
-- 	--identifier-prefix=3DGdk		\
-+ w32_introspection_files =3D		\
-+ 	win32/gdkcursor-win32.c		\
-+ 	win32/gdkdevicemanager-win32.c	\
- diff --git a/gdk/gdkdisplay.c b/gdk/gdkdisplay.c
--index 748f548..911ab2a 100644
-+index 748f54860c..911ab2a65f 100644
- --- a/gdk/gdkdisplay.c
- +++ b/gdk/gdkdisplay.c
- @@ -2420,7 +2420,9 @@ gboolean
-@@ -258,7 +257,7 @@ index 748f548..911ab2a 100644
- =20
-  GdkRenderingMode
- diff --git a/gdk/gdkgl.c b/gdk/gdkgl.c
--index 9690077..55f85ef 100644
-+index 9690077cc2..55f85ef605 100644
- --- a/gdk/gdkgl.c
- +++ b/gdk/gdkgl.c
- @@ -26,7 +26,9 @@
-@@ -334,7 +333,7 @@ index 9690077..55f85ef 100644
- +#endif
-  }
- diff --git a/gdk/gdkglcontext.c b/gdk/gdkglcontext.c
--index 3b23639..1f04f8e 100644
-+index 3b23639e1c..1f04f8e0b2 100644
- --- a/gdk/gdkglcontext.c
- +++ b/gdk/gdkglcontext.c
- @@ -85,7 +85,9 @@
-@@ -380,7 +379,7 @@ index 3b23639..1f04f8e 100644
- =20
-  /**
- diff --git a/gdk/gdkwindow.c b/gdk/gdkwindow.c
--index 2de8ba4..1883a79 100644
-+index 727b0cf1f4..d4d91b0d16 100644
- --- a/gdk/gdkwindow.c
- +++ b/gdk/gdkwindow.c
- @@ -45,7 +45,9 @@
-@@ -440,7 +439,7 @@ index 2de8ba4..1883a79 100644
-            cairo_region_destroy (opaque_region);
- =20
- diff --git a/gdk/x11/Makefile.am b/gdk/x11/Makefile.am
--index 32b1f24..6352313 100644
-+index 32b1f24434..63523130ce 100644
- --- a/gdk/x11/Makefile.am
- +++ b/gdk/x11/Makefile.am
- @@ -40,8 +40,6 @@ libgdk_x11_la_SOURCES =3D 	\
-@@ -513,7 +512,7 @@ index 32b1f24..6352313 100644
- +
-  -include $(top_srcdir)/git.mk
- diff --git a/gdk/x11/gdkdisplay-x11.c b/gdk/x11/gdkdisplay-x11.c
--index 7e08f47..30fd7b6 100644
-+index 7e08f472cc..30fd7b6089 100644
- --- a/gdk/x11/gdkdisplay-x11.c
- +++ b/gdk/x11/gdkdisplay-x11.c
- @@ -37,7 +37,9 @@
-@@ -538,10 +537,10 @@ index 7e08f47..30fd7b6 100644
-    display_class->get_default_seat =3D gdk_x11_display_get_default_seat;
- =20
- diff --git a/gdk/x11/gdkscreen-x11.c b/gdk/x11/gdkscreen-x11.c
--index bb4df05..46f5349 100644
-+index c2b7480c48..114fd4c67a 100644
- --- a/gdk/x11/gdkscreen-x11.c
- +++ b/gdk/x11/gdkscreen-x11.c
--@@ -1827,3 +1827,8 @@ gdk_x11_screen_get_current_desktop (GdkScreen *scr=
-een)
-+@@ -1842,3 +1842,8 @@ gdk_x11_screen_get_current_desktop (GdkScreen *scr=
-een)
-  {
-    return get_netwm_cardinal_property (screen, "_NET_CURRENT_DESKTOP");
-  }
-@@ -551,7 +550,7 @@ index bb4df05..46f5349 100644
- +void _gdk_x11_screen_update_visuals_for_gl (GdkScreen *screen) {}
- +#endif
- diff --git a/gdk/x11/gdkwindow-x11.c b/gdk/x11/gdkwindow-x11.c
--index 721d9bb..8e87acc 100644
-+index 194bc82e29..0302bb68d4 100644
- --- a/gdk/x11/gdkwindow-x11.c
- +++ b/gdk/x11/gdkwindow-x11.c
- @@ -36,7 +36,9 @@
-@@ -564,7 +563,7 @@ index 721d9bb..8e87acc 100644
-  #include "gdkprivate-x11.h"
-  #include "gdk-private.h"
- =20
--@@ -5881,7 +5883,9 @@ gdk_window_impl_x11_class_init (GdkWindowImplX11Cl=
-ass *klass)
-+@@ -5888,7 +5890,9 @@ gdk_window_impl_x11_class_init (GdkWindowImplX11Cl=
-ass *klass)
-    impl_class->set_opaque_region =3D gdk_x11_window_set_opaque_region;
-    impl_class->set_shadow_width =3D gdk_x11_window_set_shadow_width;
-    impl_class->show_window_menu =3D gdk_x11_window_show_window_menu;
-@@ -575,7 +574,7 @@ index 721d9bb..8e87acc 100644
-    impl_class->get_unscaled_size =3D gdk_x11_window_get_unscaled_size;
-  }
- diff --git a/gdk/x11/gdkx-autocleanups.h b/gdk/x11/gdkx-autocleanups.h
--index edb0ea7..a317d61 100644
-+index edb0ea7dbf..a317d61cca 100644
- --- a/gdk/x11/gdkx-autocleanups.h
- +++ b/gdk/x11/gdkx-autocleanups.h
- @@ -30,7 +30,9 @@ G_DEFINE_AUTOPTR_CLEANUP_FUNC(GdkX11DeviceXI2, g_objec=
-t_unref)
-@@ -592,7 +591,7 @@ diff --git a/gdk/x11/gdkx.h b/gdk/x11/gdkx-with-gl-co=
-ntext.h
- similarity index 98%
- rename from gdk/x11/gdkx.h
- rename to gdk/x11/gdkx-with-gl-context.h
--index 1f64bcc..ae05fa6 100644
-+index 1f64bccb6d..ae05fa6b1f 100644
- --- a/gdk/x11/gdkx.h
- +++ b/gdk/x11/gdkx-with-gl-context.h
- @@ -45,7 +45,6 @@
-@@ -605,7 +604,7 @@ index 1f64bcc..ae05fa6 100644
-  #include <gdk/x11/gdkx11selection.h>
- diff --git a/gdk/x11/gdkx-without-gl-context.h b/gdk/x11/gdkx-without-gl=
--context.h
- new file mode 100644
--index 0000000..c9e2617
-+index 0000000000..c9e261720f
- --- /dev/null
- +++ b/gdk/x11/gdkx-without-gl-context.h
- @@ -0,0 +1,58 @@
-@@ -668,10 +667,10 @@ index 0000000..c9e2617
- +
- +#endif /* __GDK_X_H__ */
- diff --git a/gtk/Makefile.am b/gtk/Makefile.am
--index 074fb35..4fa9eb6 100644
-+index 946e72febc..b01da7f128 100644
- --- a/gtk/Makefile.am
- +++ b/gtk/Makefile.am
--@@ -1457,7 +1457,7 @@ gtktypefuncs.inc: stamp-gtktypebuiltins.h stamp-gt=
-kprivatetypebuiltins.h $(top_s
-+@@ -467,7 +467,7 @@ gtktypefuncs.inc: stamp-gtktypebuiltins.h stamp-gtkp=
-rivatetypebuiltins.h $(top_s
-  	  ${CPP} $(DEFS) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) xge=
-n-gtfsrc.c | \
-  	  $(GREP) -o '\bg[td]k_[a-zA-Z0-9_]*_get_type\b' | \
-  	  sort | uniq | \
-@@ -681,7 +680,7 @@ index 074fb35..4fa9eb6 100644
-  $(srcdir)/gtktestutils.c: gtktypefuncs.inc
- =20
- diff --git a/gtk/gtkglarea.c b/gtk/gtkglarea.c
--index 802303e..33001cf 100644
-+index 802303ea9f..33001cfb61 100644
- --- a/gtk/gtkglarea.c
- +++ b/gtk/gtkglarea.c
- @@ -29,7 +29,9 @@
-@@ -777,7 +776,7 @@ index 802303e..33001cf 100644
- =20
-  static gboolean
- diff --git a/gtk/inspector/general.c b/gtk/inspector/general.c
--index 48237d1..1f9b9be 100644
-+index 4fd0c3039c..a8e59ed077 100644
- --- a/gtk/inspector/general.c
- +++ b/gtk/inspector/general.c
- @@ -33,8 +33,10 @@
-@@ -791,7 +790,7 @@ index 48237d1..1f9b9be 100644
- =20
-  #ifdef GDK_WINDOWING_WIN32
-  #include "win32/gdkwin32.h"
--@@ -196,6 +198,7 @@ add_label_row (GtkInspectorGeneral *gen,
-+@@ -217,6 +219,7 @@ add_label_row (GtkInspectorGeneral *gen,
-    gtk_size_group_add_widget (GTK_SIZE_GROUP (gen->priv->labels), label)=
-;
-  }
- =20
-@@ -799,7 +798,7 @@ index 48237d1..1f9b9be 100644
-  #ifdef GDK_WINDOWING_X11
-  static void
-  append_glx_extension_row (GtkInspectorGeneral *gen,
--@@ -205,6 +208,7 @@ append_glx_extension_row (GtkInspectorGeneral *gen,
-+@@ -226,6 +229,7 @@ append_glx_extension_row (GtkInspectorGeneral *gen,
-    add_check_row (gen, GTK_LIST_BOX (gen->priv->gl_box), ext, epoxy_has_=
-glx_extension (dpy, 0, ext), 0);
-  }
-  #endif
-@@ -807,7 +806,7 @@ index 48237d1..1f9b9be 100644
- =20
-  #ifdef GDK_WINDOWING_WAYLAND
-  static void
--@@ -254,6 +258,7 @@ wayland_get_display (struct wl_display *wl_display)
-+@@ -275,6 +279,7 @@ wayland_get_display (struct wl_display *wl_display)
-  static void
-  init_gl (GtkInspectorGeneral *gen)
-  {
-@@ -815,7 +814,7 @@ index 48237d1..1f9b9be 100644
-  #ifdef GDK_WINDOWING_X11
-    if (GDK_IS_X11_DISPLAY (gdk_display_get_default ()))
-      {
--@@ -280,6 +285,7 @@ init_gl (GtkInspectorGeneral *gen)
-+@@ -301,6 +306,7 @@ init_gl (GtkInspectorGeneral *gen)
-      }
-    else
-  #endif
-@@ -824,7 +823,7 @@ index 48237d1..1f9b9be 100644
-    if (GDK_IS_WAYLAND_DISPLAY (gdk_display_get_default ()))
-      {
- diff --git a/tests/Makefile.am b/tests/Makefile.am
--index f283e89..5e7180e 100644
-+index f283e89831..5e7180e923 100644
- --- a/tests/Makefile.am
- +++ b/tests/Makefile.am
- @@ -80,8 +80,6 @@ noinst_PROGRAMS =3D  $(TEST_PROGS)	\
-@@ -857,7 +856,7 @@ index f283e89..5e7180e 100644
-  noinst_PROGRAMS +=3D testforeign
-  endif
- diff --git a/testsuite/gtk/objects-finalize.c b/testsuite/gtk/objects-fi=
-nalize.c
--index 24540e3..e0f863a 100644
-+index 24540e313f..e0f863ab6a 100644
- --- a/testsuite/gtk/objects-finalize.c
- +++ b/testsuite/gtk/objects-finalize.c
- @@ -116,7 +116,9 @@ main (int argc, char **argv)
-@@ -870,3 +869,6 @@ index 24540e3..e0f863a 100644
-  #endif
-  	  /* Not allowed to finalize a GdkPixbufLoader without calling gdk_pix=
-buf_loader_close() */
-  	  all_types[i] !=3D GDK_TYPE_PIXBUF_LOADER &&
-+--=20
-+2.34.1
+diff --git a/meta/recipes-devtools/fdisk/gptfdisk/0001-Use-64bit-time_t-on-linux-as-well.patch b/meta/recipes-devtools/fdisk/gptfdisk/0001-Use-64bit-time_t-on-linux-as-well.patch
+new file mode 100644
+index 0000000000..80e6f1bc9c
+--- /dev/null
++++ b/meta/recipes-devtools/fdisk/gptfdisk/0001-Use-64bit-time_t-on-linux-as-well.patch
+@@ -0,0 +1,32 @@
++From cbdbabcc14e4ae4debcc64e41c0bb97d47b4eeef Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Mon, 12 Dec 2022 12:50:07 -0800
++Subject: [PATCH] Use 64bit time_t on linux as well
 +
-diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.24.34.bb b/meta/recipes-gnom=
-e/gtk+/gtk+3_3.24.35.bb
-similarity index 89%
-rename from meta/recipes-gnome/gtk+/gtk+3_3.24.34.bb
-rename to meta/recipes-gnome/gtk+/gtk+3_3.24.35.bb
-index f862e143d48..3a63ef57fcf 100644
---- a/meta/recipes-gnome/gtk+/gtk+3_3.24.34.bb
-+++ b/meta/recipes-gnome/gtk+/gtk+3_3.24.35.bb
-@@ -7,7 +7,7 @@ SRC_URI =3D "http://ftp.gnome.org/pub/gnome/sources/gtk+/=
-${MAJ_VER}/gtk+-${PV}.tar
-            file://0003-Add-disable-opengl-configure-option.patch \
-            file://link_fribidi.patch \
++Alias 64bit version of stat functions to original functions
++we are already passing -D_FILE_OFFSET_BITS=64 in linux Makefile
++
++Upstream-Status: Submitted [https://sourceforge.net/p/gptfdisk/code/merge-requests/29/]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ diskio-unix.cc | 6 +++++-
++ 1 file changed, 5 insertions(+), 1 deletion(-)
++
++diff --git a/diskio-unix.cc b/diskio-unix.cc
++index 7780aeb..0897c56 100644
++--- a/diskio-unix.cc
+++++ b/diskio-unix.cc
++@@ -37,8 +37,12 @@
++ 
++ using namespace std;
++ 
++-#ifdef __APPLE__
+++#if defined(__APPLE__) || defined(__linux__)
++ #define off64_t off_t
+++#define stat64 stat
+++#define fstat64 fstat
+++#define lstat64 lstat
+++#define lseek64 lseek
++ #endif
++ 
++ // Returns the official "real" name for a shortened version of same.
+diff --git a/meta/recipes-devtools/fdisk/gptfdisk_1.0.9.bb b/meta/recipes-devtools/fdisk/gptfdisk_1.0.9.bb
+index 4a25945363..66935b7fbb 100644
+--- a/meta/recipes-devtools/fdisk/gptfdisk_1.0.9.bb
++++ b/meta/recipes-devtools/fdisk/gptfdisk_1.0.9.bb
+@@ -11,6 +11,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${PV}/${BP}.tar.gz \
+            file://0001-gptcurses-correctly-include-curses.h.patch \
+            file://0001-Updated-guid.cc-to-deal-with-minor-change-in-libuuid.patch \
+            file://0001-Fix-failure-crash-of-sgdisk-when-compiled-with-lates.patch \
++           file://0001-Use-64bit-time_t-on-linux-as-well.patch \
             "
--SRC_URI[sha256sum] =3D "dbc69f90ddc821b8d1441f00374dc1da4323a2eafa9078e6=
-1edbe5eeefa852ec"
-+SRC_URI[sha256sum] =3D "ec10fe6d712ef0b3c63b5f932639c9d1ae99fce94f500f6f=
-06965629fef60bd1"
-=20
- S =3D "${WORKDIR}/gtk+-${PV}"
-=20
---=20
-2.34.1
+ SRC_URI[sha256sum] = "dafead2693faeb8e8b97832b23407f6ed5b3219bc1784f482dd855774e2d50c2"
+ 
+-- 
+2.39.0
 
 
