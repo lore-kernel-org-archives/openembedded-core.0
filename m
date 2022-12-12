@@ -1,107 +1,119 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F617C04FDE
-	for <webhook@archiver.kernel.org>; Mon, 12 Dec 2022 07:33:58 +0000 (UTC)
-Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com [85.158.142.113])
- by mx.groups.io with SMTP id smtpd.web10.37678.1670830430175404287
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A5DAC4332F
+	for <webhook@archiver.kernel.org>; Mon, 12 Dec 2022 08:56:19 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.38548.1670835376378130303
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Dec 2022 23:33:50 -0800
+ Mon, 12 Dec 2022 00:56:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=JLHlD1Gu;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.113, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1670830428; i=@fujitsu.com;
-	bh=n4t1CTiBAWiSZYb83LnPwfUcROWklJOMfL2hFG+6CQQ=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=JLHlD1Gu5y/JxeJFoxzcNh48CCX5YCAtI69QyCBylIwqA8V/OhDeUEdz3+s3/EG0N
-	 iSjCMPsB9k2ch7i07NZsluVkSEYF7XqmPnELhS4vTs/vdqJsyDJkffZHl596VsIue5
-	 v7Hqj1zHmRvCYKdjw6ZwxOHZH2oqtx/LDt48+DpPw+LqjksnL3kxidS6MglOqKLXTx
-	 ffE6VxVJDsqRYPya1epD+U9XvYyU3HFuwL0bE7K0jiW2B9s2RhF4xM8By8PJw/qHbv
-	 lU6D7Rdt2VT3wr6/Y8+RJ9fTGNpSN8zkQNxtHHMmt/9KCmGLWUE8snYpE7qRdUw2N7
-	 ZRCfl9nRPEt/w==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrAIsWRWlGSWpSXmKPExsViZ8ORpBt9c1q
-  ywY1/FhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8bRy49ZCnZyVuxbf4utgfE6RxcjF4eQwANG
-  ibmdyxkhnMtMEv/bFrFBOHsYJe5cb2bqYuTkYBOQkrhx/z9QgoNDREBP4uo/UZAws4CKxIvfP
-  ewgtrCAvUTb5CWMIDaLgKrExCfXWUFsXgFHia2728FsCQEFiSkP3zNDxAUlTs58wgIxR0Li4I
-  sXzBA1ihKzLzezQNgVErNmtTFB2GoSV89tYp7AyD8LSfssJO0LGJlWMZoVpxaVpRbpWuglFWW
-  mZ5TkJmbm6CVW6SbqpZbq5uUXlWToGuollhfrpRYX6xVX5ibnpOjlpZZsYgQGY0pxivsOxuPL
-  /ugdYpTkYFIS5a28Mi1ZiC8pP6UyI7E4I76oNCe1+BCjDAeHkgTvhmtAOcGi1PTUirTMHGBkw
-  KQlOHiURHjdQFp5iwsSc4sz0yFSpxiNOdY2HNjLzDHza9sBZiGWvPy8VClx3gnXgUoFQEozSv
-  PgBsEi9hKjrJQwLyMDA4MQT0FqUW5mCar8K0ZxDkYlYV4bkCk8mXklcPteAZ3CBHRK1MupIKe
-  UJCKkpBqYUj9/nyavvyt1vprXfb/HGmemOjzO4d1yo8r45D/rXudn/xg0lDkq5JeYN25K2eom
-  98J71QKO4n/nhX/Vp1xNnCYzQ+tXcYv9xUlv4ndNqPy+vSU9MnRFwNeQrGYlcU7Z+S89CoTsH
-  iiKPZ9VZnbKPyG9ez9j+Y0PARLXNedsWf3KU6JuRmTR4owNl/N+sj1weP755yPB5RMj1sYUJm
-  96rp5Tytr1QP3v1bMHrJuUrhimLc3X8rxxrP/Wdot3kXHzdh2JmHqaM4BLdCJ39JMTPzfuYem
-  9+S512lHxk9M3y3G3aJZ2XHf/6XSUTfmyD9etHkfj3c7TjUsP+H6Z0Ky6gP2inSNH953ZQaGz
-  Jm9pVmIpzkg01GIuKk4EAFQrh9BTAwAA
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-22.tower-732.messagelabs.com!1670830427!223219!1
-X-Originating-IP: [62.60.8.98]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.101.2; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 5837 invoked from network); 12 Dec 2022 07:33:47 -0000
-Received: from unknown (HELO n03ukasimr03.n03.fujitsu.local) (62.60.8.98)
-  by server-22.tower-732.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 12 Dec 2022 07:33:47 -0000
-Received: from n03ukasimr03.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTP id 60BDC1AF
-	for <openembedded-core@lists.openembedded.org>; Mon, 12 Dec 2022 07:33:47 +0000 (GMT)
-Received: from R01UKEXCASM126.r01.fujitsu.local (R01UKEXCASM126 [10.183.43.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTPS id 55DC01AD
-	for <openembedded-core@lists.openembedded.org>; Mon, 12 Dec 2022 07:33:47 +0000 (GMT)
-Received: from localhost.localdomain (10.167.225.33) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.42; Mon, 12 Dec 2022 07:33:45 +0000
-From: <wangmy@fujitsu.com>
+ dkim=missing; spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=9345b5b890=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2BC8g5gO029036
+	for <openembedded-core@lists.openembedded.org>; Mon, 12 Dec 2022 08:56:15 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3mchn39bbc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 12 Dec 2022 08:56:15 +0000
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Mon, 12 Dec 2022 00:56:14 -0800
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Mon, 12 Dec 2022 00:56:13 -0800
+From: <mingli.yu@eng.windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] libxshmfence: upgrade 1.3.1 -> 1.3.2
-Date: Mon, 12 Dec 2022 15:33:17 +0800
-Message-ID: <1670830398-2960-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] yocto-check-layer: add skip layer support
+Date: Mon, 12 Dec 2022 16:56:12 +0800
+Message-ID: <20221212085612.3204827-1-mingli.yu@eng.windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-X-Virus-Scanned: ClamAV using ClamSMTP
+X-Proofpoint-GUID: dvscrRD9SCc3cpa2lttIzwvp5lZsEnXT
+X-Proofpoint-ORIG-GUID: dvscrRD9SCc3cpa2lttIzwvp5lZsEnXT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-12_01,2022-12-08_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 spamscore=0
+ priorityscore=1501 bulkscore=0 suspectscore=0 phishscore=0 adultscore=0
+ mlxlogscore=999 mlxscore=0 impostorscore=0 clxscore=1015
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2212120084
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Dec 2022 07:33:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174486
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Dec 2022 08:56:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174488
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Changelog:
-configure: Use AC_SYS_LARGEFILE to enable large file support
+We can define the layers need to check in a file and skip the yocto
+compliance check if the layer is't defined in the file.
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- .../xorg-lib/{libxshmfence_1.3.1.bb => libxshmfence_1.3.2.bb}   | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{libxshmfence_1.3.1.bb => libxshmfence_1.3.2.bb} (87%)
+ scripts/yocto-check-layer | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.1.bb b/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb
-similarity index 87%
-rename from meta/recipes-graphics/xorg-lib/libxshmfence_1.3.1.bb
-rename to meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb
-index be793882dc..6b9ed20ae7 100644
---- a/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.1.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb
-@@ -16,6 +16,6 @@ EXTRA_OECONF += "--with-shared-memory-dir=/dev/shm"
- SRC_URI += "file://0001-xshmfence_futex.h-Define-SYS_futex-if-it-does-not-ex.patch"
+diff --git a/scripts/yocto-check-layer b/scripts/yocto-check-layer
+index 67cc71950f..e75f89f224 100755
+--- a/scripts/yocto-check-layer
++++ b/scripts/yocto-check-layer
+@@ -47,6 +47,28 @@ def dump_layer_debug(layer):
+     if collections:
+         logger.debug("%s collections: %s" % (layer["name"], ", ".join(collections)))
  
- XORG_EXT = "tar.xz"
--SRC_URI[sha256sum] = "1129f95147f7bfe6052988a087f1b7cb7122283d2c47a7dbf7135ce0df69b4f8"
-+SRC_URI[sha256sum] = "870df257bc40b126d91b5a8f1da6ca8a524555268c50b59c0acd1a27f361606f"
++def skip_layer(layer, config=""):
++    """
++    The config define a file used to define the layers we need to check.
++    And the content looks like as below for example:
++    RECIPE_LIST_LAYERS = 'openembedded-layer chromium-browser-layer clang-layer'
++    The return value True indicates we need to skip the layer
++    """
++    if config and os.path.exists(config):
++        logger.debug("Reading RECIPE_LIST_LAYERS from %s" % os.path.realpath(config))
++        layerlists = []
++        collections = layer.get("collections", {})
++        if collections:
++            collections = " ".join(collections)
++            logger.debug("layername: %s, collections: %s" % (layer["name"], collections))
++            with open(config, 'r') as f:
++                for line in f:
++                    if line.startswith("RECIPE_LIST_LAYERS"):
++                        layerlists = line.replace("'", '').replace('"', '').split()[2:]
++            if layerlists:
++                return not (collections in layerlists)
++    return False
++
+ def main():
+     parser = argparse.ArgumentParser(
+             description="Yocto Project layer checking tool",
+@@ -57,6 +79,8 @@ def main():
+             help='File to output log (optional)', action='store')
+     parser.add_argument('--dependency', nargs="+",
+             help='Layers to process for dependencies', action='store')
++    parser.add_argument("--recipe-list-layers",
++            help='Read RECIPE_LIST_LAYERS from the file, the RECIPE_LIST_LAYERS must be in one line (optional)', action='store')
+     parser.add_argument('--no-auto-dependency', help='Disable automatic testing of dependencies',
+             action='store_true')
+     parser.add_argument('--machines', nargs="+",
+@@ -185,6 +209,12 @@ def main():
+         logger.info("Setting up for %s(%s), %s" % (layer['name'], layer['type'],
+             layer['path']))
  
- BBCLASSEXTEND = "native nativesdk"
++        if args.recipe_list_layers and skip_layer(layer, args.recipe_list_layers):
++
++            results[layer['name']] = None
++            results_status[layer['name']] = 'SKIPPED (Unsupported by RECIPE_LIST_LAYERS)'
++            layers_tested = layers_tested + 1
++            continue
+         missing_dependencies = not add_layer_dependencies(bblayersconf, layer, dep_layers, logger)
+         if not missing_dependencies:
+             for additional_layer in additional_layers:
 -- 
 2.25.1
 
