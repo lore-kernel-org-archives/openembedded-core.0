@@ -1,173 +1,102 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <patrick@stwcx.xyz>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFE43C4332F
-	for <webhook@archiver.kernel.org>; Mon, 12 Dec 2022 21:03:12 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web11.56062.1670878987154918742
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22E06C4332F
+	for <webhook@archiver.kernel.org>; Mon, 12 Dec 2022 22:18:23 +0000 (UTC)
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+ by mx.groups.io with SMTP id smtpd.web10.58081.1670883498902831895
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Dec 2022 13:03:07 -0800
+ Mon, 12 Dec 2022 14:18:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ovFpQzD/;
- spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f181.google.com with SMTP id d3so13379470plr.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Dec 2022 13:03:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hpEqw6BzS8EOgriTbOHpcnFRcgWq1QGEU3nBR6YMuQQ=;
-        b=ovFpQzD/AU5uuIQeLGlufrZ0JhJJpIeYjxpBM827j/lquJhRCPo7oPGquz+JEkaMNa
-         uaEUbO3RZeJgME8QSpRASRiz5Ufl2JapTVdZDzoN0gM4SUeJXG5q5W8xLJ/31ZOJtdsb
-         Pza9wf0FZDL58w7XtjHDnUbfvbgV6pP8Kudl5xyfniyotU7ol9r1x7OZbDCT3CAjENGG
-         IwO02d62lA8lT2nUQuSXdz8o9DEk/1HFdolPMWvYfgWhT6PWOqzO17dl/niYm0Pdx+NN
-         5u27W4zVx4XbtB+kSL5z3DCX0s02SvmcmdRJPkAIbOBKTewHJFGizErVGpV7aNCY6Xwy
-         9VpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hpEqw6BzS8EOgriTbOHpcnFRcgWq1QGEU3nBR6YMuQQ=;
-        b=I/HeTvuuoTjlDZrD7/n8B6h3TtvAd3I91qHTmsfMA2gSgt5Kg2/y0xPgYGRCGU/mgE
-         6OGj/iCXzFX0CZjrntsJ1sFEOD9GoNqlSowUGfikReb36e9yEkEvSbWA8mpoGBiv/xXX
-         bmTXmcsioDLCufsEgqeltC5qcxI4CsDruggsCwNLx0uZ8vWW8qoc1TTNQZJXX56GoJh2
-         kXehuNXp3CuuJCS+T/scDyJL+iGgK++qq6ON8jqZtv3TlidWzzFAfX/Cl4+IG2MDXWQp
-         Nmrxv51EXTocz937F9YMMiEqf4jPyY+0134XIzkubBRzKiqbsL39UJdP6BzRcxuZnaTu
-         w7wQ==
-X-Gm-Message-State: ANoB5pmLM4w0WlKxxKBWxY0VN+9X2QKdpD1QMmbZMzzSeno17ssQ4PMQ
-	Bzvmi/dmASDuvVfF4cKys7dAgAx6zKY=
-X-Google-Smtp-Source: AA0mqf5P4I8mRR6ysISP/Hybwvu7RCHGM8MjsgCZxuZk99j3IDYBNoKFoWxK75DSH4ZK4qa6OwG9AA==
-X-Received: by 2002:a17:903:2446:b0:189:a50d:2a40 with SMTP id l6-20020a170903244600b00189a50d2a40mr23244883pls.45.1670878985972;
-        Mon, 12 Dec 2022 13:03:05 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::7d9c])
-        by smtp.gmail.com with ESMTPSA id i13-20020a170902c94d00b00186c54188b4sm6842987pla.240.2022.12.12.13.03.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Dec 2022 13:03:05 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+ dkim=fail reason="signature has expired" header.i=@stwcx.xyz header.s=fm2 header.b=T/DxUB+w;
+ spf=pass (domain: stwcx.xyz, ip: 64.147.123.25, mailfrom: patrick@stwcx.xyz)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.west.internal (Postfix) with ESMTP id 2AC2C320092B;
+	Mon, 12 Dec 2022 17:18:18 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Mon, 12 Dec 2022 17:18:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
+	:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm2; t=1670883497; x=1670969897; bh=TGLjH4uudHiwnzEzpOsC1mI28
+	rT0mvPkQguCUSkSOfc=; b=T/DxUB+wETco7FGQEgCpIrRrp/Lizjf0A1Z4BYwS0
+	Xipl/mhBWfLqYLAqKthO6or+/WW3YcB0k4lokVPGVdoVQG3sF8zDXd/EiBI1MqQg
+	ZN/ExtF97QruQ3fysybQQUsZkVlqZaOnyv3+6U/QD7XixQTAPWBkDTxyCbj7wuDO
+	jULmvQsSbX2Ch4nuKw5l69ld+r46J97MHe/1WlUbgM3VJHDOEZceO+QWe01vgyHZ
+	eDIBSiHvYwheal5MxadjKnFoa4c/afmBMKAuQlQwCuuwxzFtYtSWUlGjN7uYauYV
+	0am1BedXEvEUTOWnKNqqWZ7Ym+QCUdj/vxtK4wwHNoPjg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1670883497; x=1670969897; bh=TGLjH4uudHiwnzEzpOsC1mI28rT0mvPkQgu
+	CUSkSOfc=; b=jK2Q0DuKx0uN/GquKAEwo58snrQya7vhoiCv/T6K06CtrDQ9F1F
+	Wb9JcgCfS18lz4TX28stcvL91vjgdol2kYfYzq/zfc/fjAWoXhuVfTeDWigK1Lpy
+	h4UzBGaA5D+vFvFGbPtdyztWbOY7OKn4iQFq6T8npznnnKIodLa3yJWg6v3sFCSy
+	wwkgsGZ/npBWrfaT7tgMOECKt+x+gwSpytF8n+jYv4bjeYgU6JMGUCo51aBrOR1M
+	P9D/kmd9vWHI2L45f4luvV4SABtN+MApWBRIwm+DekYPgif67r6JT1PhaUJ5ddS4
+	/b1Z3fp1OHNFh/YKuRf3HZkddFezv+mQBXA==
+X-ME-Sender: <xms:qaiXY7SgI4jCf8UxJn4vr88mhgc5me0e1lcptLM8XjK2wZ2sahmX_A>
+    <xme:qaiXY8xAc39CqD387SvJs_Ll2vg_lYXTIO6OCtJZrqdB1_dsrfyiGVbnbaXFHknMv
+    E0qchsoCj2GGwIF0NI>
+X-ME-Received: <xmr:qaiXYw03umvgoZWceyxWFb-emmUwv8dQxn6EMK5cyvIS6q8QggqRPOMfVz_PUlzOmyNECrWXQ1sqhljX6njFQpO8Ld1i1NsWyms>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdekgddufeehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucgfrhhlucfvnfffucdljedtmdenucfjughrpefhvf
+    evufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefrrghtrhhitghkucghihhllhhi
+    rghmshcuoehprghtrhhitghksehsthiftgigrdighiiiqeenucggtffrrghtthgvrhhnpe
+    evtdevgfdthfefveejudelheeghefhhfdtteetheehudeiueefhfetkeejleefteenucev
+    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehprghtrhhitg
+    hksehsthiftgigrdighiii
+X-ME-Proxy: <xmx:qaiXY7CKnnbj8IcDjXLOmj9X1cThn7t2wFBnTfUvEU1ioiaQ0Qvlpg>
+    <xmx:qaiXY0jxnqgBQPLmJDL99SDWt66klvLpY8egZPKAj-Sjsnpa63maZg>
+    <xmx:qaiXY_oHuvdLj1KaYYk1yMVPK1HGnkKubj2nmdOiLYQcGZY9QobEMQ>
+    <xmx:qaiXY8JIYLv0wW8aWIBHjWB1i6GUL3t23aQk7-CstfTZg1SkFA5ILA>
+Feedback-ID: i68a1478a:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 12 Dec 2022 17:18:17 -0500 (EST)
+From: Patrick Williams <patrick@stwcx.xyz>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/2] rpcsvc-proto: Use autoconf knob to enable largefile support
-Date: Mon, 12 Dec 2022 13:03:02 -0800
-Message-Id: <20221212210303.3756051-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.39.0
+Cc: Patrick Williams <patrick@stwcx.xyz>
+Subject: [PATCH] kernel-fitimage: reduce dependency to the cpio
+Date: Mon, 12 Dec 2022 16:18:08 -0600
+Message-Id: <20221212221808.753268-1-patrick@stwcx.xyz>
+X-Mailer: git-send-email 2.37.4
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Dec 2022 21:03:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174502
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Dec 2022 22:18:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174504
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+In order to build a fitimage, we don't need the image to be "complete"
+but we need the cpio portion of it built since the cpio is what ends
+up inside the FIT.  By reducing the dependency to `do_image_cpio` we
+are able to include an image's rootfs as the ramdisk for a FIT and
+then bundle that FIT into a larger SPI flash layout.
+
+Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
 ---
- .../rpcsvc-proto/rpcsvc-proto.bb              |  3 +-
- ...FILE-macro-to-control-largefile-supp.patch | 80 +++++++++++++++++++
- 2 files changed, 82 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/rpcsvc-proto/rpcsvc-proto/0001-Use-AC_SYS_LARGEFILE-macro-to-control-largefile-supp.patch
+ meta/classes-recipe/kernel-fitimage.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb b/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb
-index dd7bd2b1be..00919a3d70 100644
---- a/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb
-+++ b/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb
-@@ -21,7 +21,8 @@ SRCREV = "71e0a12c04d130a78674ac6309eefffa6ecee612"
+diff --git a/meta/classes-recipe/kernel-fitimage.bbclass b/meta/classes-recipe/kernel-fitimage.bbclass
+index 7980910aa8..ccc132482e 100644
+--- a/meta/classes-recipe/kernel-fitimage.bbclass
++++ b/meta/classes-recipe/kernel-fitimage.bbclass
+@@ -38,7 +38,7 @@ python __anonymous () {
  
- SRC_URI = "git://github.com/thkukuk/${BPN};branch=master;protocol=https \
-            file://0001-Use-cross-compiled-rpcgen.patch \
--          "
-+           file://0001-Use-AC_SYS_LARGEFILE-macro-to-control-largefile-supp.patch \
-+           "
+         image = d.getVar('INITRAMFS_IMAGE')
+         if image:
+-            d.appendVarFlag('do_assemble_fitimage_initramfs', 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
++            d.appendVarFlag('do_assemble_fitimage_initramfs', 'depends', ' ${INITRAMFS_IMAGE}:do_image_cpio')
  
- S = "${WORKDIR}/git"
- 
-diff --git a/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto/0001-Use-AC_SYS_LARGEFILE-macro-to-control-largefile-supp.patch b/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto/0001-Use-AC_SYS_LARGEFILE-macro-to-control-largefile-supp.patch
-new file mode 100644
-index 0000000000..f07866d55a
---- /dev/null
-+++ b/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto/0001-Use-AC_SYS_LARGEFILE-macro-to-control-largefile-supp.patch
-@@ -0,0 +1,80 @@
-+From 6820c53c3952f78185beb59f767c372fc745dcf3 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 11 Dec 2022 21:42:59 -0800
-+Subject: [PATCH] Use AC_SYS_LARGEFILE macro to control largefile support
-+
-+The autoconf macro AC_SYS_LARGEFILE defines _FILE_OFFSET_BITS=64
-+where necessary to ensure that off_t and all interfaces using off_t
-+are 64bit, even on 32bit systems.
-+
-+replace stat64 by equivalent stat struct/func
-+
-+Upstream-Status: Accepted [https://github.com/thkukuk/rpcsvc-proto/pull/15]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ configure.ac      |  1 +
-+ rpcgen/rpc_main.c | 16 +++++-----------
-+ 2 files changed, 6 insertions(+), 11 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index bacc2fb..a9fc730 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -8,6 +8,7 @@ AC_PREFIX_DEFAULT(/usr)
-+ AC_SUBST(PACKAGE)
-+ AC_SUBST(VERSION)
-+ 
-++AC_SYS_LARGEFILE
-+ AC_PROG_CC
-+ AC_GNU_SOURCE
-+ AM_PROG_CC_C_O
-+diff --git a/rpcgen/rpc_main.c b/rpcgen/rpc_main.c
-+index 277adc6..fd7dea9 100644
-+--- a/rpcgen/rpc_main.c
-++++ b/rpcgen/rpc_main.c
-+@@ -62,12 +62,6 @@
-+ #define EXTEND	1		/* alias for TRUE */
-+ #define DONT_EXTEND	0	/* alias for FALSE */
-+ 
-+-#ifdef __APPLE__
-+-# if __DARWIN_ONLY_64_BIT_INO_T
-+-#  define stat64 stat
-+-# endif
-+-#endif
-+-
-+ struct commandline
-+   {
-+     int cflag;			/* xdr C routines */
-+@@ -337,9 +331,9 @@ clear_args (void)
-+ static void
-+ find_cpp (void)
-+ {
-+-  struct stat64 buf;
-++  struct stat buf;
-+ 
-+-  if (stat64 (CPP, &buf) == 0)
-++  if (stat (CPP, &buf) == 0)
-+     return;
-+ 
-+   if (cppDefined) /* user specified cpp but it does not exist */
-+@@ -1125,17 +1119,17 @@ putarg (int whereto, const char *cp)
-+ static void
-+ checkfiles (const char *infile, const char *outfile)
-+ {
-+-  struct stat64 buf;
-++  struct stat buf;
-+ 
-+   if (infile)			/* infile ! = NULL */
-+-    if (stat64 (infile, &buf) < 0)
-++    if (stat (infile, &buf) < 0)
-+       {
-+ 	perror (infile);
-+ 	crash ();
-+       }
-+   if (outfile)
-+     {
-+-      if (stat64 (outfile, &buf) < 0)
-++      if (stat (outfile, &buf) < 0)
-+ 	return;			/* file does not exist */
-+       else
-+ 	{
+         ubootenv = d.getVar('UBOOT_ENV')
+         if ubootenv:
 -- 
-2.39.0
+2.37.4
 
 
