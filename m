@@ -1,156 +1,103 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CF1AC4332F
-	for <webhook@archiver.kernel.org>; Mon, 12 Dec 2022 16:36:01 +0000 (UTC)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web11.48247.1670862956167919437
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDFBFC4332F
+	for <webhook@archiver.kernel.org>; Mon, 12 Dec 2022 17:36:01 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.50116.1670866560570701453
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Dec 2022 08:35:56 -0800
+ Mon, 12 Dec 2022 09:36:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=cUWyRpzP;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.46, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f46.google.com with SMTP id kw15so29466898ejc.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Dec 2022 08:35:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0osOG5xlIItrfQPmUiPPW0fkFeoEz5B5G3dlk1ssCI4=;
-        b=cUWyRpzPV63E5DBZExEPhyH8txKbMUMTV0uK+GoXpz5yst2rrj5qLSKoFYl0G6xGZI
-         2se8qZWJXw5rmLgwBO9aNP12Cib5JTafFjvWu7v1IFpidFRKISUJ45kUjc6uAbOLo8aT
-         G24xOCpcNfiStqhAYzWXa6zJoa85MdKqlQkWmhyKyBHYXYBjhJcLlZhrTmLhTSIfPKrP
-         JE6srYkpZo6kSlOaEQS1IPMTAUIYqkTwAEJSGIvW3zZX7gNk5rH67CPqso2+3wC4hGkE
-         AC9Mdkm5fo5bZVLF5+FCuk8EUBGw/KuyBglyWgTdQ4AJNUYHuXIVrj79VRCxV0h61fyS
-         fu3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0osOG5xlIItrfQPmUiPPW0fkFeoEz5B5G3dlk1ssCI4=;
-        b=Wam/F3tt2LethdmUJhv00NSPefL+T04SVuhghXSXrbexVcUPYhFReKVTnxTRcdb4Sd
-         oe3S/5DRa8uAzGw+tbOWa7IROzfMA5vD9UQ6c55+QbwyVRZ3B1Nn26cOratJaCSmUFpi
-         6mTh8YDhzZzUN4hsudvuhhY3UOEj6UgE8oX2gz7NoQs7Wfsjmp4bjomJ/OHtxD/A/Iie
-         b6F4DHeJ3qkJGONiXiQCLhcYepz+COxxnfZcdyuCMH9XDBmDO73Re2K1AKD2WqAywxp3
-         H0UOQuDgsesO/BpXkQKVED3zGuMQiqbmyDM+0rrSxWMFdZZBz8ZgMDjayK6Y01IWlOky
-         SHCg==
-X-Gm-Message-State: ANoB5pnIAlLPmg5brLyab65vMslKTm04krmE7TdLRmE1jcaqBQFAvgJ2
-	YxplkTp7zkWmEVz4DqIKfi4SK/GuTuSsDviADcMj8eXnRnJrWDL6tRi+pQ==
-X-Google-Smtp-Source: AA0mqf4UaVekUHxrFnPcVhKDnj7C+2aX52frYuWswAytg8BK/a8JwkM7JtyBhasNOC80+pbjzFytNGzAIA7gabW+j34=
-X-Received: by 2002:a17:906:99d1:b0:7c1:7808:c469 with SMTP id
- s17-20020a17090699d100b007c17808c469mr306748ejn.584.1670862954524; Mon, 12
- Dec 2022 08:35:54 -0800 (PST)
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EBD4E1FB;
+	Mon, 12 Dec 2022 09:36:39 -0800 (PST)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ECF2F3F73B;
+	Mon, 12 Dec 2022 09:35:58 -0800 (PST)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: nd@arm.com
+Subject: [PATCH 1/2] libepoxy: remove upstreamed patch
+Date: Mon, 12 Dec 2022 17:35:46 +0000
+Message-Id: <20221212173547.1860380-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20221212160827.894775-1-soumya.sambu@windriver.com>
-In-Reply-To: <20221212160827.894775-1-soumya.sambu@windriver.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Mon, 12 Dec 2022 06:35:43 -1000
-Message-ID: <CAOSpxdajMzQ4x5ip4+v5gaQ_o3Yh-MHAUQWN99sVxKQK+0yxww@mail.gmail.com>
-Subject: Re: [oe-core][kirkstone][PATCH 1/1] pixman: fix CVE-2022-44638
-To: Soumya <soumya.sambu@windriver.com>
-Cc: openembedded-core@lists.openembedded.org, Hari.GPillai@windriver.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Dec 2022 16:36:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174499
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Dec 2022 17:36:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174500
 
-I think you may not be using the current kirkstone head, there was a
-patch accepted for this CVE last month:
+This patch was upstreamed in 6b09a8bc, 1.5.5 onwards.
 
-https://git.openembedded.org/openembedded-core/commit/?h=kirkstone&id=1d2e131d9ba55626354264d454b2808e84751600
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ ...atch_common.h-define-also-EGL_NO_X11.patch | 27 -------------------
+ .../libepoxy/libepoxy_1.5.10.bb               |  4 +--
+ 2 files changed, 1 insertion(+), 30 deletions(-)
+ delete mode 100644 meta/recipes-graphics/libepoxy/files/0001-dispatch_co=
+mmon.h-define-also-EGL_NO_X11.patch
 
-Thanks!
+diff --git a/meta/recipes-graphics/libepoxy/files/0001-dispatch_common.h-=
+define-also-EGL_NO_X11.patch b/meta/recipes-graphics/libepoxy/files/0001-=
+dispatch_common.h-define-also-EGL_NO_X11.patch
+deleted file mode 100644
+index 971a3f54e04..00000000000
+--- a/meta/recipes-graphics/libepoxy/files/0001-dispatch_common.h-define-=
+also-EGL_NO_X11.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-From 7211120d1e2f059d900f3379b9790484dbcf7761 Mon Sep 17 00:00:00 2001
+-From: Martin Jansa <Martin.Jansa@gmail.com>
+-Date: Fri, 25 Oct 2019 11:09:34 +0000
+-Subject: [PATCH] dispatch_common.h: define also EGL_NO_X11
+-
+-MESA_EGL_NO_X11_HEADERS was renamed to EGL_NO_X11 in:
+-https://github.com/mesa3d/mesa/commit/6202a13b71e18dc31ba7e2f4ea915b67ea=
+cc1ddb
+-
+-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+-Upstream-Status: Pending
+-
+----
+- src/dispatch_common.h | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/src/dispatch_common.h b/src/dispatch_common.h
+-index a136943..448c9b1 100644
+---- a/src/dispatch_common.h
+-+++ b/src/dispatch_common.h
+-@@ -55,6 +55,7 @@
+-  * as EGL_NO_X11
+-  */
+- #  define MESA_EGL_NO_X11_HEADERS 1
+-+#  define EGL_NO_X11 1
+- # endif
+- #include "epoxy/egl.h"
+- #endif
+diff --git a/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb b/meta/rec=
+ipes-graphics/libepoxy/libepoxy_1.5.10.bb
+index d10134568ac..384afa69079 100644
+--- a/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb
++++ b/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb
+@@ -9,9 +9,7 @@ SECTION =3D "libs"
+ LICENSE =3D "MIT"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D58ef4c80d401e07bd9ee8b6b58cf4=
+64b"
+=20
+-SRC_URI =3D "git://github.com/anholt/libepoxy;branch=3Dmaster;protocol=3D=
+https \
+-           file://0001-dispatch_common.h-define-also-EGL_NO_X11.patch \
+-           "
++SRC_URI =3D "git://github.com/anholt/libepoxy;branch=3Dmaster;protocol=3D=
+https"
+ SRCREV =3D "c84bc9459357a40e46e2fec0408d04fbdde2c973"
+ S =3D "${WORKDIR}/git"
+=20
+--=20
+2.34.1
 
-Steve
-
-On Mon, Dec 12, 2022 at 6:08 AM Soumya <soumya.sambu@windriver.com> wrote:
->
-> pixman: In libpixman in Pixman before 0.42.2, there is an out-of-bounds write
-> (aka heap-based buffer overflow) in rasterize_edges_8 due to an integer
-> overflow in pixman_sample_floor_y.
->
-> References:
-> https://nvd.nist.gov/vuln/detail/CVE-2022-44638
->
-> Upstream-Status: Backport [https://gitlab.freedesktop.org/pixman/pixman/-/commit/a1f88e842e0216a5b4df1ab023caebe33c101395]
->
-> CVE: CVE-2022-44638
->
-> Signed-off-by: Soumya <soumya.sambu@windriver.com>
-> ---
->  .../xorg-lib/pixman/CVE-2022-44638.patch      | 36 +++++++++++++++++++
->  .../xorg-lib/pixman_0.40.0.bb                 |  1 +
->  2 files changed, 37 insertions(+)
->  create mode 100644 meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch
->
-> diff --git a/meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch b/meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch
-> new file mode 100644
-> index 0000000000..5705d8e4e5
-> --- /dev/null
-> +++ b/meta/recipes-graphics/xorg-lib/pixman/CVE-2022-44638.patch
-> @@ -0,0 +1,36 @@
-> +From a1f88e842e0216a5b4df1ab023caebe33c101395 Mon Sep 17 00:00:00 2001
-> +From: Matt Turner <mattst88@gmail.com>
-> +Date: Wed, 2 Nov 2022 12:07:32 -0400
-> +Subject: [PATCH] Avoid integer overflow leading to out-of-bounds write
-> +
-> +Thanks to Maddie Stone and Google's Project Zero for discovering this
-> +issue, providing a proof-of-concept, and a great analysis.
-> +
-> +Closes: https://gitlab.freedesktop.org/pixman/pixman/-/issues/63
-> +
-> +Upstream-Status: Backport
-> +CVE: CVE-2022-44638
-> +
-> +Reference to upstream patch:
-> +[https://gitlab.freedesktop.org/pixman/pixman/-/commit/a1f88e842e0216a5b4df1ab023caebe33c101395]
-> +
-> +Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
-> +---
-> + pixman/pixman-trap.c | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/pixman/pixman-trap.c b/pixman/pixman-trap.c
-> +index 91766fd..7560405 100644
-> +--- a/pixman/pixman-trap.c
-> ++++ b/pixman/pixman-trap.c
-> +@@ -74,7 +74,7 @@ pixman_sample_floor_y (pixman_fixed_t y,
-> +
-> +     if (f < Y_FRAC_FIRST (n))
-> +     {
-> +-      if (pixman_fixed_to_int (i) == 0x8000)
-> ++      if (pixman_fixed_to_int (i) == 0xffff8000)
-> +       {
-> +           f = 0; /* saturate */
-> +       }
-> +--
-> +2.38.1
-> diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb b/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb
-> index ccfe277746..c56733eefd 100644
-> --- a/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb
-> +++ b/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb
-> @@ -9,6 +9,7 @@ DEPENDS = "zlib"
->
->  SRC_URI = "https://www.cairographics.org/releases/${BP}.tar.gz \
->             file://0001-ARM-qemu-related-workarounds-in-cpu-features-detecti.patch \
-> +           file://CVE-2022-44638.patch \
->             "
->  SRC_URI[md5sum] = "73858c0862dd9896fb5f62ae267084a4"
->  SRC_URI[sha256sum] = "6d200dec3740d9ec4ec8d1180e25779c00bc749f94278c8b9021f5534db223fc"
-> --
-> 2.25.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#174498): https://lists.openembedded.org/g/openembedded-core/message/174498
-> Mute This Topic: https://lists.openembedded.org/mt/95624429/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
 
