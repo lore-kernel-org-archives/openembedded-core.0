@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E787EC25B04
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F25F7C10F31
 	for <webhook@archiver.kernel.org>; Tue, 13 Dec 2022 11:11:46 +0000 (UTC)
 Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web11.70922.1670929891962143381
+ by mx.groups.io with SMTP id smtpd.web11.70918.1670929888100924406
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Dec 2022 03:11:41 -0800
+ Tue, 13 Dec 2022 03:11:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=iqZEEdqz;
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=QTmCIIYL;
  spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f44.google.com with SMTP id h12so15198549wrv.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Dec 2022 03:11:40 -0800 (PST)
+Received: by mail-wr1-f44.google.com with SMTP id o5so15237654wrm.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Dec 2022 03:11:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=594qFos5MUFZzxAVYz9a8SlFh/xDXgPZHoBQTYi1LUA=;
-        b=iqZEEdqzEaC0dL1PJqMhkxHb3kQBfe0YhAh4p0Ly09rycSuBtVsvvyoxC8fAF6xYnd
-         ql+IVQezBNJKXU/yFI3aQa2x7CvrfmBq2UeRck1EfZ0pcqbP11KV4snhkmDleP7rLaxL
-         ce/uj1uYQX7WqZwMMt9lUwsrSAfsJCmtbLotBFKhzHggpzABccgB2V4dh4RDO+pHiHTi
-         fedKVg+v4tWsjJZTI2adyhqmBgvMcUvOwylZqzJUj8yCPKkfFHd0ztutaVlbfUTpIl+C
-         AW9J/S6LC/QH7C6uIkO4JHrauXQY/7xewzP+6Ck5jboA5eVYOuuME+Y2TbIICPpGRTLz
-         RkTg==
+        bh=eK4WjCbJy51oOUhakYCmqHdEcyZ1szGEdTbAdbf4UTk=;
+        b=QTmCIIYLfUFMd6RcXu6OgD83IJP3ffJlBGPKzabt75zBJPJ1Woe+SKVC8T4SLcyLYg
+         md3S0/TCYc9y7y+01TJBFHCi+yEDfzxEYeHjT6Xl/PI6hI/qJjboes5cIUN33OO/zf8P
+         vhNvGTr2h20cbSCvOsXXjXEP/ibnTrS8Egcxi8Q0806FhiD99uF9mbnG/Oc6/wJEQnoh
+         WKEjdSCfR2vtvwZmc0e5rbBNKLOPLYFkXM9kp1tMojBZr7jwK2Bm760KwgZcLEWEr8De
+         zMYjFCZZdG8CpuIlmG8KnfIclyKxnGwBZgG3J+KgtJ6GIU5vrNGGezdVQnFvdcXIbHWS
+         quhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=594qFos5MUFZzxAVYz9a8SlFh/xDXgPZHoBQTYi1LUA=;
-        b=L4K0hif+3MTD5md6ipA3FuhRQmdRKwTMdh0OZZqo3NmW08/wJUGaqM88sQrFOb03XF
-         rZcZVOlS07pvdbUcrfbYKPCm2eFuxN65sg7j3BvKYDt5r65dHoMfPjbECwwiLt4zyB+x
-         RY+El2zT8pfvDli5w/KYw26IAIpCucu1iv51/QpwUIVK0QH7IinVtAuW+zTMM662FtHm
-         OLwthDPdDLlrOu0OaGSj95XOwsZVk2a0XjfsqIB51in0dyW491kazBDAwMpT4d5ZCDpH
-         ptIaR3OMgTmD5tku22t3PKAj5lQ9DGw2KyEZhnrBoaaLiTSTPcM+5tT3u18fVsfKOYcl
-         olaQ==
-X-Gm-Message-State: ANoB5plO582TnmdsW7WkHLTIgl0VCMdOT82ayoHvV9ZailHOp6Ioxoi5
-	7RBN43zXC9v5d8w0uPoc14fCsaCSQZc=
-X-Google-Smtp-Source: AA0mqf615MMm5q7JzwfgelPGe9dHlH9zCzRqa4Ekjw+dT/4XWyJW4TJvzG+To/FmxMXNrOUqx5MQlQ==
-X-Received: by 2002:adf:a743:0:b0:242:1c1a:37ec with SMTP id e3-20020adfa743000000b002421c1a37ecmr11765862wrd.17.1670929900219;
-        Tue, 13 Dec 2022 03:11:40 -0800 (PST)
+        bh=eK4WjCbJy51oOUhakYCmqHdEcyZ1szGEdTbAdbf4UTk=;
+        b=hEAkaa667lhXmpRzUDGKeg4aR5ZoHwnnXdZxvA0TMLYqKYJaTvyQxR/f4cd4h8OOwq
+         WpvzoC06K/S6cG7hU1r1nKCxiANgZKISG8XeQFNqF1Lr4jiGOU4Jw5TvL1tJZaSgsXy+
+         sOHSNjLzswHKF91orzLE0o7g5rHicNbHwhNS++Tjj0ln4Ks3zXSA+zrp8eBYl++MzKbB
+         LQMPGwXg4YYRISCp07lvm4z5xsZZQgj0r/WRl0BUfxPUUgM4Q9U78s3FHmAKRKZxhjlP
+         50S6nUNGIj5IxLZWFMr1P2l2E+YS6bJjw1JEELVvWaFzAcSXRW5+5gp+DwcmDmL8i9Kn
+         zVFQ==
+X-Gm-Message-State: ANoB5pnM9/YWy/wTDdQkqfz9IWMsT9FaYKTr5Byi26+iebqH97YMB6WV
+	rY56P7J6jdTjk7ZvY63aVxnJJTggS9c=
+X-Google-Smtp-Source: AA0mqf5oItBFqr0l1bo+hsKk3CKD4M4hG1aCS+JA2VNCtCxkq3c1hcO4EkQFZtDYqM6gSLY3TmuAfQ==
+X-Received: by 2002:a5d:484e:0:b0:242:154e:5f14 with SMTP id n14-20020a5d484e000000b00242154e5f14mr12745471wrs.17.1670929899520;
+        Tue, 13 Dec 2022 03:11:39 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id m8-20020a056000008800b002366c3eefccsm11362665wrx.109.2022.12.13.03.11.39
+        by smtp.gmail.com with ESMTPSA id m8-20020a056000008800b002366c3eefccsm11362665wrx.109.2022.12.13.03.11.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 13 Dec 2022 03:11:39 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 23/24] systemtap: upgrade 4.7 -> 4.8
-Date: Tue, 13 Dec 2022 12:11:17 +0100
-Message-Id: <20221213111118.149697-23-alex@linutronix.de>
+Subject: [PATCH 22/24] tzdata: update 2022d -> 2022g
+Date: Tue, 13 Dec 2022 12:11:16 +0100
+Message-Id: <20221213111118.149697-22-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221213111118.149697-1-alex@linutronix.de>
 References: <20221213111118.149697-1-alex@linutronix.de>
@@ -62,78 +62,35 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 13 Dec 2022 11:11:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174533
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174532
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../systemtap/systemtap/python-3.11.patch     | 37 -------------------
- .../systemtap/systemtap_git.inc               |  5 +--
- 2 files changed, 2 insertions(+), 40 deletions(-)
- delete mode 100644 meta/recipes-kernel/systemtap/systemtap/python-3.11.patch
+ meta/recipes-extended/timezone/timezone.inc | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap/python-3.11.patch b/meta/recipes-kernel/systemtap/systemtap/python-3.11.patch
-deleted file mode 100644
-index 6e0c97b8d6..0000000000
---- a/meta/recipes-kernel/systemtap/systemtap/python-3.11.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--From 069e109c95d1afca17cd3781b39f220cf8b39978 Mon Sep 17 00:00:00 2001
--From: Stan Cox <scox@redhat.com>
--Date: Wed, 13 Jul 2022 09:49:51 -0400
--Subject: [PATCH 1/1] python 3.11 removed direct access to PyFrameObject
-- members
--
--Take into account the change in PyFrameObject definition to allow
--building systemtap with python 3.11.  Additional support for python
--3.11 is forthcoming.
--
--Upstream-Status: Backport [https://sourceware.org/git/?p=systemtap.git;a=commit;h=069e109c95d1afca17cd3781b39f220cf8b39978]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- python/HelperSDT/_HelperSDT.c | 6 ++++++
-- 1 file changed, 6 insertions(+)
--
--diff --git a/python/HelperSDT/_HelperSDT.c b/python/HelperSDT/_HelperSDT.c
--index 967cb6077..4d287132e 100644
----- a/python/HelperSDT/_HelperSDT.c
--+++ b/python/HelperSDT/_HelperSDT.c
--@@ -14,7 +14,13 @@
-- // PR25841: ensure that the libHelperSDT.so file contains debuginfo
-- // for the tapset helper functions, so they don't have to look into libpython*
-- #include <frameobject.h>
--+// python 3.11 removed direct access to PyFrameObject members
--+// https://docs.python.org/3.11/whatsnew/3.11.html#c-api-changes
--+#if PY_MAJOR_VERSION <= 3 && PY_MINOR_VERSION < 11
-- PyFrameObject _dummy_frame;
--+#else
--+//PyFrameObject *_dummy_frame;
--+#endif
-- #include <object.h>
-- PyVarObject _dummy_var;
-- #include <dictobject.h>
---- 
--2.31.1
--
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index b05a5a2b0d..d309a89496 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -1,13 +1,12 @@
- LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
--SRCREV = "0c335a75a789ff44b514e567d458881e15cc283d"
--PV = "4.7"
-+SRCREV = "b176afb2e49119ef844d193d27b0752a6d84fe8f"
-+PV = "4.8"
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+index d3c78e9157..1834665a1e 100644
+--- a/meta/recipes-extended/timezone/timezone.inc
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -6,7 +6,7 @@ SECTION = "base"
+ LICENSE = "PD & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
  
- SRC_URI = "git://sourceware.org/git/systemtap.git;branch=master \
-            file://0001-Do-not-let-configure-write-a-python-location-into-th.patch \
-            file://0001-Install-python-modules-to-correct-library-dir.patch \
-            file://0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch \
--           file://python-3.11.patch \
-            "
+-PV = "2022d"
++PV = "2022g"
  
- COMPATIBLE_HOST = '(x86_64|i.86|powerpc|arm|aarch64|microblazeel|mips|riscv64).*-linux'
+ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
+            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata \
+@@ -14,6 +14,5 @@ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
+ 
+ UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
+ 
+-SRC_URI[tzcode.sha256sum] = "d644ba0f938899374ea8cb554e35fb4afa0f7bd7b716c61777cd00500b8759e0"
+-SRC_URI[tzdata.sha256sum] = "6ecdbee27fa43dcfa49f3d4fd8bb1dfef54c90da1abcd82c9abcf2dc4f321de0"
+-
++SRC_URI[tzcode.sha256sum] = "9610bb0b9656ff404c361a41f3286da53064b5469d84f00c9cb2314c8614da74"
++SRC_URI[tzdata.sha256sum] = "4491db8281ae94a84d939e427bdd83dc389f26764d27d9a5c52d782c16764478"
 -- 
 2.30.2
 
