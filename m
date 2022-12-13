@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E784CC4708D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F263CC2D0CC
 	for <webhook@archiver.kernel.org>; Tue, 13 Dec 2022 11:11:46 +0000 (UTC)
 Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web11.70918.1670929888100924406
+ by mx.groups.io with SMTP id smtpd.web10.70630.1670929887012599922
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Dec 2022 03:11:41 -0800
+ Tue, 13 Dec 2022 03:11:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=TFfXJ+HN;
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=odUxC5pw;
  spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f44.google.com with SMTP id o5so15237704wrm.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Dec 2022 03:11:41 -0800 (PST)
+Received: by mail-wr1-f44.google.com with SMTP id co23so15230896wrb.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Dec 2022 03:11:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8Yh0fh48xXBpouUL9Ne6fWU5v4oCokp7YRWdzoeR/Fs=;
-        b=TFfXJ+HNvEsf0lukMJiJVQkb/IqwdPdjg7AlktLwiyLpqI5Kw2LeWX4ea9OdEhN3V3
-         JUM0Q+os5hwi9OwGyy4NJN0V0vxo4wfgveoEf/PatKsIo9TsBl4t/UXCHPMS6Lbyfcvn
-         CS7Nv3my8lcxKuSzABT00sxRxtim2pxRDYYI3AJQj9m9rMsQOMIrJw4wQGHTk86sWbX+
-         tj+7jOMGaBMeDc+jOo4pdiJ2lcUtLpQ9mp4z5yIeTjpSVvjUxqAdRlMNx2eLuhJEY2Qz
-         7BZPluytVydf72bhCEYRu3G7CQnz2aUNlmb9/0QAuI3hHapbOfdbAdLdrNY+GEK8z6gH
-         xhPw==
+        bh=0734l3aoUZblG4wHamfW+9Z0+sDRpxq4nYVqrIBnLAU=;
+        b=odUxC5pwmcW7NLtUUAva99iCWyZ0FJdhpBY8kUNmCivACrPjVD6e6ZDmwXfA5Gf5FP
+         gzAgPGDcoeGRA7UY1T0BgFpWIwF+sJoEjnf4SjwRZA7FgblTpkdXo+XHTpTmm5jwCSac
+         hEQpTJOU+sU4TyxbbOWDLvxD1XdcbWTTD+lcQgSCyKzeSxITWCGu7fv3WgYJqczSf3h3
+         L0s972hvlEAGk69/mt6q3U/FlFJN5oEDQ8nS92NPNJ3/3Z8Q3nJVK2K/UIE3jqLVad39
+         aN9hozGvBWD078quuIag3xLU6fLUOyP8EA52ioVYwH1XrXmmCoL9v58cYx+JX7CG5TAK
+         LGVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8Yh0fh48xXBpouUL9Ne6fWU5v4oCokp7YRWdzoeR/Fs=;
-        b=WacRM146bDCdFfQdEJcOjWstuT48c8Z8GLqalSzS9z8wZQBWxuHr5KpOOkh+juxmkf
-         929OTDU9iP0aqtFe8EzIusI6BRvn5Aq680oVKomr/VPdKJJ4LRYlLeZB5MFX++X3+KmO
-         8bKfSofskCF3mpCtI7WbQNq5dugePNcN9XApPU51h//dym7MMnyRiI1IRtFPn1tnjIpv
-         EkNwjt79iZV1e8BxEkolTnCWSPGSQnOX0tH7mMK3pgODH/RU7+KpIomNPSKCwFEqr1+S
-         gOH2onNjmfP855vQQoRZirDL4Oc1b+Ljh+j3JcP8rf6ckmHCrLXh/VFPm90wT9JYQoVv
-         8zfQ==
-X-Gm-Message-State: ANoB5plNqaQuxrBBwd5wc5yMKRIzwT17vWLX51HbHwOsMkzHV/5m9Q0+
-	5U3LyujH6V4wBIre9OFxWk9uxS4Xz5k=
-X-Google-Smtp-Source: AA0mqf57LRJPndE1zJaqb3aR2iGzvTvS3yW+p2NyuRgdboK1v8Giz6sImf2Q1YZskSZ+yTx30tlCZA==
-X-Received: by 2002:a5d:4492:0:b0:242:3600:d221 with SMTP id j18-20020a5d4492000000b002423600d221mr12811335wrq.55.1670929900870;
-        Tue, 13 Dec 2022 03:11:40 -0800 (PST)
+        bh=0734l3aoUZblG4wHamfW+9Z0+sDRpxq4nYVqrIBnLAU=;
+        b=Om778+hZNeUU52U9FnPtN/OnBtLvC4j0pNMYL9+o+CIsUGp+SXF8Nsw39vIz+JDElG
+         smhpI6DB2hCz5BQkpjSwDtFH44XzNzIUZcS+Nsd9MK/C74/DgYwxD6pxKE6eOaeGgQzG
+         WPHZ40qBJGTdPPTPK07hScCKN/+tSBzbSDlr/zFU6/1jGcnctjyOtQCeWlD3alNd8rcD
+         vnPzB9+e7H/KewEwZKMRPOQhsprHhCfUnXVJ/UzzGAOJIUlrHvxWxwPQacUGr+ThFnSp
+         oKueQgOKM/38mhKDUKwodgCMQEv8AIHVW6hqtfixXC/PLoIInmhY8/8rfEFA7rpY8kjE
+         aVJA==
+X-Gm-Message-State: ANoB5plgrDdCB7SItaARTxvDunAsNdo7uPTN3kz4ZcrWIGn8s2IlXOd/
+	rckPFnkbhbdCeJdc/tQyV7SoYqqTlAY=
+X-Google-Smtp-Source: AA0mqf4EU5mUfifXLMvpcpYrwxYhYO/VNAAkcYA8MyWlwo7cqfGgEwOM0/xqlUJIqr+K/4pIn7y8Iw==
+X-Received: by 2002:adf:e4cc:0:b0:24d:b0fb:e2c3 with SMTP id v12-20020adfe4cc000000b0024db0fbe2c3mr8255553wrm.61.1670929898795;
+        Tue, 13 Dec 2022 03:11:38 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id m8-20020a056000008800b002366c3eefccsm11362665wrx.109.2022.12.13.03.11.40
+        by smtp.gmail.com with ESMTPSA id m8-20020a056000008800b002366c3eefccsm11362665wrx.109.2022.12.13.03.11.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Dec 2022 03:11:40 -0800 (PST)
+        Tue, 13 Dec 2022 03:11:38 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 24/24] gnupg: upgrade 2.3.7 -> 2.3.8
-Date: Tue, 13 Dec 2022 12:11:18 +0100
-Message-Id: <20221213111118.149697-24-alex@linutronix.de>
+Subject: [PATCH 21/24] ghostscript: update 9.56.1 -> 10.0.0
+Date: Tue, 13 Dec 2022 12:11:15 +0100
+Message-Id: <20221213111118.149697-21-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221213111118.149697-1-alex@linutronix.de>
 References: <20221213111118.149697-1-alex@linutronix.de>
@@ -62,177 +62,129 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 13 Dec 2022 11:11:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174534
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174531
+
+Drop --without-jbig2dec as it is now required by pdf support
+and jbig2dec library is in ghostscript's source tree.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...-a-custom-value-for-the-location-of-.patch |  4 +--
- .../gnupg/gnupg/fix-ldap.patch                | 35 +++++++++++++++++++
- .../gnupg/gnupg/relocate.patch                | 18 +++++-----
- .../gnupg/{gnupg_2.3.7.bb => gnupg_2.3.8.bb}  |  3 +-
- 4 files changed, 48 insertions(+), 12 deletions(-)
- create mode 100644 meta/recipes-support/gnupg/gnupg/fix-ldap.patch
- rename meta/recipes-support/gnupg/{gnupg_2.3.7.bb => gnupg_2.3.8.bb} (95%)
+ .../ghostscript/cross-compile.patch           | 40 +++++++++++++++++++
+ .../do-not-check-local-libpng-source.patch    |  8 ++--
+ ...script_9.56.1.bb => ghostscript_10.0.0.bb} |  5 ++-
+ 3 files changed, 47 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/cross-compile.patch
+ rename meta/recipes-extended/ghostscript/{files => ghostscript}/do-not-check-local-libpng-source.patch (85%)
+ rename meta/recipes-extended/ghostscript/{ghostscript_9.56.1.bb => ghostscript_10.0.0.bb} (96%)
 
-diff --git a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-index c4ede9ea5e..eb2e47f035 100644
---- a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/cross-compile.patch b/meta/recipes-extended/ghostscript/ghostscript/cross-compile.patch
+new file mode 100644
+index 0000000000..ba62820df1
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/ghostscript/cross-compile.patch
+@@ -0,0 +1,40 @@
++From 4c3575346b9c7d394ebc73b4e5fabebadd8877ec Mon Sep 17 00:00:00 2001
++From: Chris Liddell <chris.liddell@artifex.com>
++Date: Thu, 24 Nov 2022 16:33:47 +0000
++Subject: [PATCH] Fix a little bitrot in the cross-compiling logic
++
++Removing the option to disable FAPI meant configuring for cross compiling would
++fail because the option being passed to the sub-call to configure would include
++an unknown command line option.
++
++Upstream-Status: Backport [https://git.ghostscript.com/?p=ghostpdl.git;a=patch;f=configure.ac;h=4c3575346b9c7d394ebc73b4e5fabebadd8877ec]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ configure.ac | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index d5c68c4b3..738eb10a9 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -138,7 +138,7 @@ if test x"$host" != x"$build" ; then
++   echo $AUXFLAGS_MAK_LINE07 >> $AUXFLAGS_MAK.in
++ 
++   AC_MSG_NOTICE([Begin recursive call to configure script (for auxiliary tools)])
++-  "$absolute_source_path/configure" CC="$CCAUX" CFLAGS="$CFLAGSAUX" CPPFLAGS="$CPPFLAGSAUX" LDFLAGS="$LDFLAGSAUX" CCAUX= CFLAGSAUX= CFLAGSAUX= MAKEFILE=$AUXFLAGS_MAK --host=$build --build=$build --enable-auxtools_only --disable-hidden-visibility --with-local-zlib --without-libtiff --disable-contrib --disable-fontconfig --disable-dbus --disable-freetype --disable-fapi --disable-cups --disable-openjpeg --disable-gtk --with-libiconv=no --without-libidn --without-libpaper --without-pdftoraster --without-ijs --without-jbig2dec --without-x --with-drivers=""
+++  "$absolute_source_path/configure" CC="$CCAUX" CFLAGS="$CFLAGSAUX" CPPFLAGS="$CPPFLAGSAUX" LDFLAGS="$LDFLAGSAUX" CCAUX= CFLAGSAUX= CFLAGSAUX= MAKEFILE=$AUXFLAGS_MAK --host=$build --build=$build --enable-auxtools_only --disable-hidden-visibility --with-local-zlib --without-libtiff --disable-contrib --disable-fontconfig --disable-dbus --disable-freetype --disable-cups --disable-openjpeg --disable-gtk --with-libiconv=no --without-libidn --without-libpaper --without-pdftoraster --without-ijs --without-jbig2dec --without-x --with-drivers=""
++   status=$?
++   cp config.log "$olddir/configaux.log"
++   if test $status -eq 0 ; then
++@@ -2530,7 +2530,7 @@ PDF=
++ PDF_MAK="\$(GLSRCDIR)\$(D)stub.mak"
++ PDFROMFS_MAK="\$(GLSRCDIR)\$(D)stub.mak"
++ 
++-if test x"$with_pdf" != x"no" ; then
+++if test x"$with_pdf" != x"no" -a x"$enable_auxtools_only" != x"yes" ; then
++ 
++   if test x"$JBIG2_DECODER" = x""; then
++       AC_MSG_ERROR([No JBIG2 decoder available, required for PDF support])
++-- 
++2.25.1
++
+diff --git a/meta/recipes-extended/ghostscript/files/do-not-check-local-libpng-source.patch b/meta/recipes-extended/ghostscript/ghostscript/do-not-check-local-libpng-source.patch
+similarity index 85%
+rename from meta/recipes-extended/ghostscript/files/do-not-check-local-libpng-source.patch
+rename to meta/recipes-extended/ghostscript/ghostscript/do-not-check-local-libpng-source.patch
+index a9afb9948c..13e71c824f 100644
+--- a/meta/recipes-extended/ghostscript/files/do-not-check-local-libpng-source.patch
++++ b/meta/recipes-extended/ghostscript/ghostscript/do-not-check-local-libpng-source.patch
 @@ -1,4 +1,4 @@
--From 89b98553084fbefe1ef2c7cbff9e72cf43144c49 Mon Sep 17 00:00:00 2001
-+From b0c42c8273c5fa1e31094567122be24ba28a965d Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 22 Jan 2018 18:00:21 +0200
- Subject: [PATCH] configure.ac: use a custom value for the location of
-@@ -14,7 +14,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-From 2adaa7366064a8f18af864eda74e52877a89620c Mon Sep 17 00:00:00 2001
++From 108a7d3f79af8c669af129bd87401402e76edfa9 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Mon, 18 Jan 2016 01:00:30 -0500
+ Subject: [PATCH] configure.ac: do not check local png source
+@@ -17,12 +17,12 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
   1 file changed, 1 insertion(+), 1 deletion(-)
  
  diff --git a/configure.ac b/configure.ac
--index d86c60e..65c22b2 100644
-+index b043386..dd839d0 100644
+-index 698abd3..e65ac8b 100644
++index bb57825..389c473 100644
  --- a/configure.ac
  +++ b/configure.ac
- @@ -1955,7 +1955,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
-diff --git a/meta/recipes-support/gnupg/gnupg/fix-ldap.patch b/meta/recipes-support/gnupg/gnupg/fix-ldap.patch
-new file mode 100644
-index 0000000000..24299e16fb
---- /dev/null
-+++ b/meta/recipes-support/gnupg/gnupg/fix-ldap.patch
-@@ -0,0 +1,35 @@
-+From 7011286ce6e1fb56c2989fdafbd11b931c489faa Mon Sep 17 00:00:00 2001
-+From: NIIBE Yutaka <gniibe@fsij.org>
-+Date: Fri, 14 Oct 2022 09:58:41 +0900
-+Subject: [PATCH] dirmngr: Fix build with no LDAP support.
-+
-+* dirmngr/server.c [USE_LDAP] (start_command_handler): Conditionalize.
-+
-+--
-+
-+GnuPG-bug-id: 6239
-+Signed-off-by: NIIBE Yutaka <gniibe@fsij.org>
-+Upstream-Status: Backport [https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=patch;h=7011286ce6e1fb56c2989fdafbd11b931c489faa]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ dirmngr/server.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/dirmngr/server.c b/dirmngr/server.c
-+index 04ebfd317..98f354300 100644
-+--- a/dirmngr/server.c
-++++ b/dirmngr/server.c
-+@@ -3137,8 +3137,10 @@ start_command_handler (assuan_fd_t fd, unsigned int session_id)
-+                ctrl->refcount);
-+   else
-+     {
-++#if USE_LDAP
-+       ks_ldap_free_state (ctrl->ks_get_state);
-+       ctrl->ks_get_state = NULL;
-++#endif
-+       release_ctrl_ocsp_certs (ctrl);
-+       xfree (ctrl->server_local);
-+       dirmngr_deinit_default_ctrl (ctrl);
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-support/gnupg/gnupg/relocate.patch b/meta/recipes-support/gnupg/gnupg/relocate.patch
-index 43999b8a6d..ca0e46141d 100644
---- a/meta/recipes-support/gnupg/gnupg/relocate.patch
-+++ b/meta/recipes-support/gnupg/gnupg/relocate.patch
-@@ -1,4 +1,4 @@
--From 89ae4f03307104689e1857d9857d452af6b35ac4 Mon Sep 17 00:00:00 2001
-+From 7c6f9724f53ed2c5237dad4e3f4ec44091ac683d Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Wed, 19 Sep 2018 14:44:40 +0100
- Subject: [PATCH] Allow the environment to override where gnupg looks for its
-@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-  1 file changed, 7 insertions(+), 7 deletions(-)
+-@@ -1241,7 +1241,7 @@ else
++@@ -1441,7 +1441,7 @@ else
+    PNGDEVS=''
+-   PNGDEVS_ALL='png48 png16m pnggray pngmono pngmonod png256 png16 pngalpha'
++   PNGDEVS_ALL='png48 png16m pnggray pngmono pngmonod png256 png16 pngalpha png16malpha'
+    AC_MSG_CHECKING([for local png library source])
+ -  if test -f $srcdir/libpng/pngread.c; then
+ +  if false; then
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.56.1.bb b/meta/recipes-extended/ghostscript/ghostscript_10.0.0.bb
+similarity index 96%
+rename from meta/recipes-extended/ghostscript/ghostscript_9.56.1.bb
+rename to meta/recipes-extended/ghostscript/ghostscript_10.0.0.bb
+index e71a6cc0d3..56a93632e2 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.56.1.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_10.0.0.bb
+@@ -33,6 +33,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
+                 file://do-not-check-local-libpng-source.patch \
+                 file://avoid-host-contamination.patch \
+                 file://mkdir-p.patch \
++                file://cross-compile.patch \
+ "
  
- diff --git a/common/homedir.c b/common/homedir.c
--index 260aeb2..1aeb08d 100644
-+index 67bbde8..7f360ba 100644
- --- a/common/homedir.c
- +++ b/common/homedir.c
--@@ -1143,7 +1143,7 @@ gnupg_socketdir (void)
-+@@ -1171,7 +1171,7 @@ gnupg_socketdir (void)
-    if (!name)
-      {
-        unsigned int dummy;
-@@ -26,7 +26,7 @@ index 260aeb2..1aeb08d 100644
-        gpgrt_annotate_leaked_object (name);
-      }
-  
--@@ -1175,7 +1175,7 @@ gnupg_sysconfdir (void)
-+@@ -1203,7 +1203,7 @@ gnupg_sysconfdir (void)
-    if (dir)
-      return dir;
-    else
-@@ -35,7 +35,7 @@ index 260aeb2..1aeb08d 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
-  
--@@ -1211,7 +1211,7 @@ gnupg_bindir (void)
-+@@ -1239,7 +1239,7 @@ gnupg_bindir (void)
-        return name;
-      }
-    else
-@@ -44,7 +44,7 @@ index 260aeb2..1aeb08d 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
-  
--@@ -1238,7 +1238,7 @@ gnupg_libexecdir (void)
-+@@ -1266,7 +1266,7 @@ gnupg_libexecdir (void)
-        return name;
-      }
-    else
-@@ -53,7 +53,7 @@ index 260aeb2..1aeb08d 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
-  
--@@ -1268,7 +1268,7 @@ gnupg_libdir (void)
-+@@ -1296,7 +1296,7 @@ gnupg_libdir (void)
-        return name;
-      }
-    else
-@@ -62,7 +62,7 @@ index 260aeb2..1aeb08d 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
-  
--@@ -1299,7 +1299,7 @@ gnupg_datadir (void)
-+@@ -1327,7 +1327,7 @@ gnupg_datadir (void)
-        return name;
-      }
-    else
-@@ -71,7 +71,7 @@ index 260aeb2..1aeb08d 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
-  
--@@ -1331,7 +1331,7 @@ gnupg_localedir (void)
-+@@ -1359,7 +1359,7 @@ gnupg_localedir (void)
-        return name;
-      }
-    else
-diff --git a/meta/recipes-support/gnupg/gnupg_2.3.7.bb b/meta/recipes-support/gnupg/gnupg_2.3.8.bb
-similarity index 95%
-rename from meta/recipes-support/gnupg/gnupg_2.3.7.bb
-rename to meta/recipes-support/gnupg/gnupg_2.3.8.bb
-index da2b1c4deb..aaa8d8fe99 100644
---- a/meta/recipes-support/gnupg/gnupg_2.3.7.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.3.8.bb
-@@ -18,12 +18,13 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0002-use-pkgconfig-instead-of-npth-config.patch \
-            file://0004-autogen.sh-fix-find-version-for-beta-checking.patch \
-            file://0001-Woverride-init-is-not-needed-with-gcc-9.patch \
-+           file://fix-ldap.patch \
-            "
- SRC_URI:append:class-native = " file://0001-configure.ac-use-a-custom-value-for-the-location-of-.patch \
-                                 file://relocate.patch"
- SRC_URI:append:class-nativesdk = " file://relocate.patch"
+ SRC_URI = "${SRC_URI_BASE} \
+@@ -44,7 +45,7 @@ SRC_URI:class-native = "${SRC_URI_BASE} \
+                         file://base-genht.c-add-a-preprocessor-define-to-allow-fope.patch \
+                         "
  
--SRC_URI[sha256sum] = "ee163a5fb9ec99ffc1b18e65faef8d086800c5713d15a672ab57d3799da83669"
-+SRC_URI[sha256sum] = "540b7a40e57da261fb10ef521a282e0021532a80fd023e75fb71757e8a4969ed"
+-SRC_URI[sha256sum] = "1598b9a38659cce8448d42a73054b2f9cbfcc40a9b97eeec5f22d4d6cd1de8e6"
++SRC_URI[sha256sum] = "a57764d70caf85e2fc0b0f59b83b92e25775631714dcdb97cc6e0cea414bb5a3"
  
- EXTRA_OECONF = "--disable-ldap \
- 		--disable-ccid-driver \
+ # Put something like
+ #
+@@ -72,7 +73,7 @@ EXTRA_OECONF:append:mipsarcho32 = " --with-large_color_index=0"
+ # Explicity disable libtiff, fontconfig,
+ # freetype, cups for ghostscript-native
+ EXTRA_OECONF:class-native = "--without-x --with-system-libtiff=no \
+-                             --without-jbig2dec --without-libpaper \
++                             --without-libpaper \
+                              --with-fontpath=${datadir}/fonts \
+                              --without-libidn --disable-fontconfig \
+                              --enable-freetype --disable-cups "
 -- 
 2.30.2
 
