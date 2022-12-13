@@ -2,287 +2,171 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D50F3C4708D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3129C3DA6D
 	for <webhook@archiver.kernel.org>; Tue, 13 Dec 2022 11:11:36 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.70916.1670929886323152213
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web11.70913.1670929885131388622
  for <openembedded-core@lists.openembedded.org>;
  Tue, 13 Dec 2022 03:11:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=UtbyuyUu;
- spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f48.google.com with SMTP id u12so15203933wrr.11
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Dec 2022 03:11:29 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=gSggjOa8;
+ spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f42.google.com with SMTP id h7so15219201wrs.6
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Dec 2022 03:11:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IO4UPMJAKlus8RGV8itOSMQ/K3m3RTk6eLizBHtlBiw=;
-        b=UtbyuyUuTk2AGfsJdwshg+2/1uVKVgE+shur1HacZWz3Qt0pOkDowTbhftnBYG731l
-         lMysepnyu04oyqQC0JWYMMjCOnO0E6P3BJ8kr/9U48giusPQCebsbdMdNUsJO4R+b9x7
-         LBke0z3dlADgScrb/AVkcf3vanOMAjpctgRNO69GFajQy7055vA3c1Y5iKYBZXfKwxhq
-         GPTRvG5yXdsJC97Fzp7EGa0m4y/D7bs7Yf5f+dlFpyNRKV2OP4Y6APM55pI6LB04f7sa
-         ylHr7KmnoTUKiIp9Riq6x5mtGqx2xitRxoDYmcUmwU3NIk/ay0F20I6DTMmJLjps6S/l
-         Lskg==
+        bh=7i8GNCDPdMGzah4RWUxYJRmeEVG5un+WlK00ivZkLLw=;
+        b=gSggjOa835CrQujGPXcpaRMeAxNyC8CcDwcl29RUFY8fYx7fkuVTy85S7b3UJj+OyZ
+         K1UgA35XfYb1DBbdv+ZcAFnfA/d64/nUeEqajhykCLXBxf/6+vDrLVI9WkdZhx88kTJ0
+         6dcWwAh5LgrcmHsLh0HJO4sO4r63oViPwro2v01IcyczLJCpN9I73PMjGEQ3XFDJq2Ou
+         85ILS67Dou7NsxR/5YlS3WpSpQ/+idTwyVaMwR4YFllt3rwwT3j8AU1LWhvK5XGm+iQ9
+         XBbzedlEhNuyqx70/kwIDJ4GtBYQRQ8m1NM9CZRPTqwKf0n/0TSgeIVzOwzcXM87MGX7
+         EHTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IO4UPMJAKlus8RGV8itOSMQ/K3m3RTk6eLizBHtlBiw=;
-        b=5cUnod7JixGUC3tXN7R6V6xirEdVwc55E+NOJSxyEkSxdoIRE6QQCaXMb+UnrbC2Vt
-         AFciR2MKZoHMFz/3dPuC6yxbRazDa4WJ4PecLmXVjn0j/9n7McQMU7mC/vnKhDBbEn4N
-         jL+R2iR85w466082onBgfdGxIr3pxgMw6Btu2ULNKWKIRoZaE/nXG5qDRTLJmuNvmbVq
-         MEj1Lm7bgdnBe8tkdZw7lWOKZWuWeMh0vopEqmsglobp1a1FC2BKmXP6ghYqCGfodjkY
-         vtoC1vZvSDn9RqizXVDzc23gGeepyRHMiPErQHgWMhnHDCaNHMmw9KiJlJOB9OKdGEgv
-         IIRQ==
-X-Gm-Message-State: ANoB5pler/9IRzrLufVppFuQF+zL7qJJeO3erxG/nnHXofCjr8dlk6j6
-	URyKxMTW8q9LczEvFKS1npr9UKWBXTU=
-X-Google-Smtp-Source: AA0mqf7guRMnW4fpFhpOZ01qKuOkriMgRqnUdoKotRY3tpLKOdP/1Wd9pdrj98sT9SahEJpoHZhuJg==
-X-Received: by 2002:a5d:4312:0:b0:241:997a:4f57 with SMTP id h18-20020a5d4312000000b00241997a4f57mr11677809wrq.39.1670929888879;
+        bh=7i8GNCDPdMGzah4RWUxYJRmeEVG5un+WlK00ivZkLLw=;
+        b=QeAd1DASTD6jesJP5laE22SG6ljp7vsZibmfuTiOUhcGrqS0afn+yif8Y/uqpLJLCp
+         TgiDDVWRaHsU5nPaML0ql2lWAEhpx8B+mzg6wauitvTF+SEuCUGPnShi/cMxeRdtKc5q
+         44T20fhaJ8+sJUUX4mcRjbOTe5CMNAesEee5/MeUnAUK63dBjMRAekg87ifd7a0ijF/M
+         vfkI5VHfq55XJ/FfiEY4r2HZf/YLNDVUl0/ATT8NyjhhD6AlsKupsHipsGhd+Wa3pvRc
+         +AEIg5/AjiFJxXR/WAmSY7dASfYJvQfw3lWKndBdGA4bHQ6CKzH5FTO0e1fN50iHpykw
+         QukQ==
+X-Gm-Message-State: ANoB5plK0DKB3xuPaU9u4odgHZjp1TzNGPOVEiWJdfA26dWDYg+5yk8L
+	a6aE6CLQeTnXBAfIAa31d5va9lkLCYE=
+X-Google-Smtp-Source: AA0mqf7nX64H2uc+PjWIzB2TVQWHE0W2Hn+uos+kIgZeEAg67S6rITkaz9KIXRTL7HiFLSH0zEapmQ==
+X-Received: by 2002:adf:aa8a:0:b0:242:91e:6a78 with SMTP id h10-20020adfaa8a000000b00242091e6a78mr13457458wrc.34.1670929888081;
         Tue, 13 Dec 2022 03:11:28 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id m8-20020a056000008800b002366c3eefccsm11362665wrx.109.2022.12.13.03.11.28
+        by smtp.gmail.com with ESMTPSA id m8-20020a056000008800b002366c3eefccsm11362665wrx.109.2022.12.13.03.11.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Dec 2022 03:11:28 -0800 (PST)
+        Tue, 13 Dec 2022 03:11:27 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 09/24] gtk+3: update 3.24.34 -> 3.24.35
-Date: Tue, 13 Dec 2022 12:11:03 +0100
-Message-Id: <20221213111118.149697-9-alex@linutronix.de>
+Subject: [PATCH 08/24] libnewt: update 0.52.21 -> 0.52.23
+Date: Tue, 13 Dec 2022 12:11:02 +0100
+Message-Id: <20221213111118.149697-8-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221213111118.149697-1-alex@linutronix.de>
 References: <20221213111118.149697-1-alex@linutronix.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 13 Dec 2022 11:11:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174519
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174517
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...-Add-disable-opengl-configure-option.patch | 60 +++++++++----------
- .../{gtk+3_3.24.34.bb => gtk+3_3.24.35.bb}    |  2 +-
- 2 files changed, 31 insertions(+), 31 deletions(-)
- rename meta/recipes-gnome/gtk+/{gtk+3_3.24.34.bb => gtk+3_3.24.35.bb} (89%)
+ .../0001-detect-gold-as-GNU-linker-too.patch  | 14 ++++-----
+ ...-t-ignore-CFLAGS-when-building-snack.patch | 29 -------------------
+ ...{libnewt_0.52.21.bb => libnewt_0.52.23.bb} |  4 +--
+ 3 files changed, 7 insertions(+), 40 deletions(-)
+ delete mode 100644 meta/recipes-extended/newt/files/0002-don-t-ignore-CFLAGS-when-building-snack.patch
+ rename meta/recipes-extended/newt/{libnewt_0.52.21.bb => libnewt_0.52.23.bb} (87%)
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+3/0003-Add-disable-opengl-configure-option.patch b/meta/recipes-gnome/gtk+/gtk+3/0003-Add-disable-opengl-configure-option.patch
-index 35cbab8761..ea8bd28e7b 100644
---- a/meta/recipes-gnome/gtk+/gtk+3/0003-Add-disable-opengl-configure-option.patch
-+++ b/meta/recipes-gnome/gtk+/gtk+3/0003-Add-disable-opengl-configure-option.patch
+diff --git a/meta/recipes-extended/newt/files/0001-detect-gold-as-GNU-linker-too.patch b/meta/recipes-extended/newt/files/0001-detect-gold-as-GNU-linker-too.patch
+index a4b3afd959..090ed5c1c9 100644
+--- a/meta/recipes-extended/newt/files/0001-detect-gold-as-GNU-linker-too.patch
++++ b/meta/recipes-extended/newt/files/0001-detect-gold-as-GNU-linker-too.patch
 @@ -1,4 +1,4 @@
--From eef50c94587fc30cd624adb5eb213eb9fa663dc1 Mon Sep 17 00:00:00 2001
-+From 8f3edf5f8379ac482d9eb7a64d7408b5f95535ce Mon Sep 17 00:00:00 2001
- From: Jussi Kukkonen <jussi.kukkonen@intel.com>
- Date: Tue, 21 Jun 2016 15:11:39 +0300
- Subject: [PATCH] Add --disable-opengl configure option
-@@ -25,7 +25,7 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-  demos/gtk-demo/glarea.c                    | 14 ++++++
-  docs/tools/Makefile.am                     |  9 +++-
-  docs/tools/widgets.c                       |  4 +-
-- gdk/Makefile.am                            |  8 ++-
-+ gdk/gdk-sources.inc                        |  8 ++-
-  gdk/gdkdisplay.c                           |  4 +-
-  gdk/gdkgl.c                                | 10 ++++
-  gdk/gdkglcontext.c                         |  6 +++
-@@ -47,7 +47,7 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-  create mode 100644 gdk/x11/gdkx-without-gl-context.h
+-From 58245b859ffbcb1780575bf1b0a018d55e74e434 Mon Sep 17 00:00:00 2001
++From 08ba909500412611953aea0fa2fe0d8fe76b6e24 Mon Sep 17 00:00:00 2001
+ From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+ Date: Wed, 21 Sep 2016 21:14:40 +0200
+ Subject: [PATCH] detect gold as GNU linker too
+@@ -9,23 +9,21 @@ Content-Transfer-Encoding: 8bit
+ Upstream-Status: Pending
+ 
+ Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
++
+ ---
+  configure.ac | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
  diff --git a/configure.ac b/configure.ac
--index 851bcbf..6cbf6a2 100644
-+index 9ed65e5..70c6836 100644
+-index 03e8bda..c2fce51 100644
++index 468c718..cd93f30 100644
  --- a/configure.ac
  +++ b/configure.ac
- @@ -346,6 +346,15 @@ AC_ARG_ENABLE(cloudproviders,
-@@ -66,7 +66,7 @@ index 851bcbf..6cbf6a2 100644
-  AC_ARG_ENABLE(glx,
-                [AS_HELP_STRING([--enable-glx],
-                                [When enabled Gdk will try to initialize GLX])])
--@@ -1345,7 +1354,7 @@ CFLAGS="$saved_cflags"
-+@@ -1367,7 +1376,7 @@ CFLAGS="$saved_cflags"
-  LDFLAGS="$saved_ldflags"
+ @@ -28,7 +28,7 @@ AC_CHECK_SIZEOF([void *])
+  AC_MSG_CHECKING([for GNU ld])
+- LD=`$CC -print-prog-name=ld 2>&5`
++ LD=$($CC -print-prog-name=ld 2>&5)
   
-  GDK_PACKAGES="$PANGO_PACKAGES gdk-pixbuf-2.0 >= gdk_pixbuf_required_version cairo >= cairo_required_version cairo-gobject >= cairo_required_version"
-@@ -75,7 +75,7 @@ index 851bcbf..6cbf6a2 100644
-  
-  PKG_CHECK_MODULES(GDK_DEP, $GDK_PACKAGES $GDK_PRIVATE_PACKAGES)
-  GDK_DEP_LIBS="$GDK_EXTRA_LIBS $GDK_DEP_LIBS $MATH_LIB"
--@@ -1379,7 +1388,7 @@ fi
-+@@ -1401,7 +1410,7 @@ fi
-  PKG_CHECK_MODULES(ATK, $ATK_PACKAGES)
-  
-  GTK_PACKAGES="atk >= atk_required_version cairo >= cairo_required_version cairo-gobject >= cairo_required_version gdk-pixbuf-2.0 >= gdk_pixbuf_required_version gio-2.0 >= glib_required_version"
-@@ -209,11 +209,11 @@ index 932daf1..54239d6 100644
-    info = new_widget_info ("glarea", widget, MEDIUM);
-  
-    return info;
--diff --git a/gdk/Makefile.am b/gdk/Makefile.am
--index 710a548..b45f631 100644
----- a/gdk/Makefile.am
--+++ b/gdk/Makefile.am
--@@ -274,7 +274,6 @@ x11_introspection_files = 		\
-+diff --git a/gdk/gdk-sources.inc b/gdk/gdk-sources.inc
-+index 9235edb..eb59524 100644
-+--- a/gdk/gdk-sources.inc
-++++ b/gdk/gdk-sources.inc
-+@@ -146,7 +146,6 @@ x11_introspection_files = 		\
-  	x11/gdkeventsource.c		\
-  	x11/gdkeventtranslator.c	\
-  	x11/gdkgeometry-x11.c		\
-@@ -221,7 +221,7 @@ index 710a548..b45f631 100644
-  	x11/gdkkeys-x11.c		\
-  	x11/gdkmain-x11.c		\
-  	x11/gdkmonitor-x11.c		\
--@@ -300,7 +299,6 @@ x11_introspection_files = 		\
-+@@ -172,7 +171,6 @@ x11_introspection_files = 		\
-  	x11/gdkx11display.h		\
-  	x11/gdkx11displaymanager.h	\
-  	x11/gdkx11dnd.h			\
-@@ -229,19 +229,19 @@ index 710a548..b45f631 100644
-  	x11/gdkx11keys.h		\
-  	x11/gdkx11monitor.h		\
-  	x11/gdkx11property.h		\
--@@ -310,6 +308,12 @@ x11_introspection_files = 		\
-+@@ -182,6 +180,12 @@ x11_introspection_files = 		\
-  	x11/gdkx11visual.h		\
-  	x11/gdkx11window.h
-  
- +if HAVE_OPENGL
--+x11_introspection_files += 		\
--+	x11/gdkglcontext-x11.c		\
--+	x11/gdkx11glcontext.h
-++x11_introspection_files +=              \
-++        x11/gdkglcontext-x11.c          \
-++        x11/gdkx11glcontext.h
- +endif
- +
-- GdkX11-3.0.gir: libgdk-3.la Gdk-3.0.gir Makefile
-- GdkX11_3_0_gir_SCANNERFLAGS = 		\
-- 	--identifier-prefix=Gdk		\
-+ w32_introspection_files =		\
-+ 	win32/gdkcursor-win32.c		\
-+ 	win32/gdkdevicemanager-win32.c	\
- diff --git a/gdk/gdkdisplay.c b/gdk/gdkdisplay.c
- index 748f548..911ab2a 100644
- --- a/gdk/gdkdisplay.c
-@@ -380,7 +380,7 @@ index 3b23639..1f04f8e 100644
-  
-  /**
- diff --git a/gdk/gdkwindow.c b/gdk/gdkwindow.c
--index 2de8ba4..1883a79 100644
-+index 727b0cf..d4d91b0 100644
- --- a/gdk/gdkwindow.c
- +++ b/gdk/gdkwindow.c
- @@ -45,7 +45,9 @@
-@@ -538,10 +538,10 @@ index 7e08f47..30fd7b6 100644
-    display_class->get_default_seat = gdk_x11_display_get_default_seat;
-  
- diff --git a/gdk/x11/gdkscreen-x11.c b/gdk/x11/gdkscreen-x11.c
--index bb4df05..46f5349 100644
-+index c2b7480..114fd4c 100644
- --- a/gdk/x11/gdkscreen-x11.c
- +++ b/gdk/x11/gdkscreen-x11.c
--@@ -1827,3 +1827,8 @@ gdk_x11_screen_get_current_desktop (GdkScreen *screen)
-+@@ -1842,3 +1842,8 @@ gdk_x11_screen_get_current_desktop (GdkScreen *screen)
-  {
-    return get_netwm_cardinal_property (screen, "_NET_CURRENT_DESKTOP");
-  }
-@@ -551,7 +551,7 @@ index bb4df05..46f5349 100644
- +void _gdk_x11_screen_update_visuals_for_gl (GdkScreen *screen) {}
- +#endif
- diff --git a/gdk/x11/gdkwindow-x11.c b/gdk/x11/gdkwindow-x11.c
--index 721d9bb..8e87acc 100644
-+index 194bc82..0302bb6 100644
- --- a/gdk/x11/gdkwindow-x11.c
- +++ b/gdk/x11/gdkwindow-x11.c
- @@ -36,7 +36,9 @@
-@@ -564,7 +564,7 @@ index 721d9bb..8e87acc 100644
-  #include "gdkprivate-x11.h"
-  #include "gdk-private.h"
-  
--@@ -5881,7 +5883,9 @@ gdk_window_impl_x11_class_init (GdkWindowImplX11Class *klass)
-+@@ -5888,7 +5890,9 @@ gdk_window_impl_x11_class_init (GdkWindowImplX11Class *klass)
-    impl_class->set_opaque_region = gdk_x11_window_set_opaque_region;
-    impl_class->set_shadow_width = gdk_x11_window_set_shadow_width;
-    impl_class->show_window_menu = gdk_x11_window_show_window_menu;
-@@ -668,10 +668,10 @@ index 0000000..c9e2617
- +
- +#endif /* __GDK_X_H__ */
- diff --git a/gtk/Makefile.am b/gtk/Makefile.am
--index 074fb35..4fa9eb6 100644
-+index 946e72f..b01da7f 100644
- --- a/gtk/Makefile.am
- +++ b/gtk/Makefile.am
--@@ -1457,7 +1457,7 @@ gtktypefuncs.inc: stamp-gtktypebuiltins.h stamp-gtkprivatetypebuiltins.h $(top_s
-+@@ -467,7 +467,7 @@ gtktypefuncs.inc: stamp-gtktypebuiltins.h stamp-gtkprivatetypebuiltins.h $(top_s
-  	  ${CPP} $(DEFS) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) xgen-gtfsrc.c | \
-  	  $(GREP) -o '\bg[td]k_[a-zA-Z0-9_]*_get_type\b' | \
-  	  sort | uniq | \
-@@ -777,7 +777,7 @@ index 802303e..33001cf 100644
-  
-  static gboolean
- diff --git a/gtk/inspector/general.c b/gtk/inspector/general.c
--index 48237d1..1f9b9be 100644
-+index 4fd0c30..a8e59ed 100644
- --- a/gtk/inspector/general.c
- +++ b/gtk/inspector/general.c
- @@ -33,8 +33,10 @@
-@@ -791,7 +791,7 @@ index 48237d1..1f9b9be 100644
-  
-  #ifdef GDK_WINDOWING_WIN32
-  #include "win32/gdkwin32.h"
--@@ -196,6 +198,7 @@ add_label_row (GtkInspectorGeneral *gen,
-+@@ -217,6 +219,7 @@ add_label_row (GtkInspectorGeneral *gen,
-    gtk_size_group_add_widget (GTK_SIZE_GROUP (gen->priv->labels), label);
-  }
-  
-@@ -799,7 +799,7 @@ index 48237d1..1f9b9be 100644
-  #ifdef GDK_WINDOWING_X11
-  static void
-  append_glx_extension_row (GtkInspectorGeneral *gen,
--@@ -205,6 +208,7 @@ append_glx_extension_row (GtkInspectorGeneral *gen,
-+@@ -226,6 +229,7 @@ append_glx_extension_row (GtkInspectorGeneral *gen,
-    add_check_row (gen, GTK_LIST_BOX (gen->priv->gl_box), ext, epoxy_has_glx_extension (dpy, 0, ext), 0);
-  }
-  #endif
-@@ -807,7 +807,7 @@ index 48237d1..1f9b9be 100644
-  
-  #ifdef GDK_WINDOWING_WAYLAND
-  static void
--@@ -254,6 +258,7 @@ wayland_get_display (struct wl_display *wl_display)
-+@@ -275,6 +279,7 @@ wayland_get_display (struct wl_display *wl_display)
-  static void
-  init_gl (GtkInspectorGeneral *gen)
-  {
-@@ -815,7 +815,7 @@ index 48237d1..1f9b9be 100644
-  #ifdef GDK_WINDOWING_X11
-    if (GDK_IS_X11_DISPLAY (gdk_display_get_default ()))
-      {
--@@ -280,6 +285,7 @@ init_gl (GtkInspectorGeneral *gen)
-+@@ -301,6 +306,7 @@ init_gl (GtkInspectorGeneral *gen)
-      }
-    else
-  #endif
-diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.24.34.bb b/meta/recipes-gnome/gtk+/gtk+3_3.24.35.bb
-similarity index 89%
-rename from meta/recipes-gnome/gtk+/gtk+3_3.24.34.bb
-rename to meta/recipes-gnome/gtk+/gtk+3_3.24.35.bb
-index f862e143d4..3a63ef57fc 100644
---- a/meta/recipes-gnome/gtk+/gtk+3_3.24.34.bb
-+++ b/meta/recipes-gnome/gtk+/gtk+3_3.24.35.bb
-@@ -7,7 +7,7 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar
-            file://0003-Add-disable-opengl-configure-option.patch \
-            file://link_fribidi.patch \
+--if test `$LD -v 2>&1 | $ac_cv_path_GREP -c "GNU ld"` = 0; then
+-+if test `$LD -v 2>&1 | $ac_cv_path_GREP -c "GNU "` = 0; then
++-if test $($LD -v 2>&1 | $ac_cv_path_GREP -c "GNU ld") = 0; then
+++if test $($LD -v 2>&1 | $ac_cv_path_GREP -c "GNU ") = 0; then
+    # Not
+    GNU_LD=""
+    AC_MSG_RESULT([no])
+--- 
+-2.5.5
+-
+diff --git a/meta/recipes-extended/newt/files/0002-don-t-ignore-CFLAGS-when-building-snack.patch b/meta/recipes-extended/newt/files/0002-don-t-ignore-CFLAGS-when-building-snack.patch
+deleted file mode 100644
+index ca235d5108..0000000000
+--- a/meta/recipes-extended/newt/files/0002-don-t-ignore-CFLAGS-when-building-snack.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-From f60dc1063607ca1f201ba4cbda467d8af3f78f64 Mon Sep 17 00:00:00 2001
+-From: Miroslav Lichvar <mlichvar@redhat.com>
+-Date: Tue, 1 Oct 2019 16:37:55 +0200
+-Subject: [PATCH] don't ignore CFLAGS when building snack
+-
+-In addition to the flags returned by python-config --cflags, use the
+-user-specified CFLAGS when building the snack object.
+-
+-Upstream-Status: Backport from master
+-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+----
+- Makefile.in | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/Makefile.in b/Makefile.in
+-index be5f87b..6facd5e 100644
+---- a/Makefile.in
+-+++ b/Makefile.in
+-@@ -96,8 +96,8 @@ _snack.$(SOEXT):   snack.c $(LIBNEWTSH)
+- 		PIFLAGS=`$$pyconfig --includes`; \
+- 		PLDFLAGS=`$$pyconfig --ldflags`; \
+- 		PLFLAGS=`$$pyconfig --libs`; \
+--		echo $(CC) $(SHCFLAGS) $(CPPFLAGS) $$PIFLAGS $$PCFLAGS -c -o $$ver/snack.o snack.c; \
+--		$(CC) $(SHCFLAGS) $(CPPFLAGS) $$PIFLAGS $$PCFLAGS -c -o $$ver/snack.o snack.c; \
+-+		echo $(CC) $(SHCFLAGS) $(CFLAGS) $(CPPFLAGS) $$PIFLAGS $$PCFLAGS -c -o $$ver/snack.o snack.c; \
+-+		$(CC) $(SHCFLAGS) $(CFLAGS) $(CPPFLAGS) $$PIFLAGS $$PCFLAGS -c -o $$ver/snack.o snack.c; \
+- 		echo $(CC) --shared $$PLDFLAGS $$PLFLAGS $(LDFLAGS) -o $$ver/_snack.$(SOEXT) $$ver/snack.o -L.  -lnewt $(LIBS); \
+- 		$(CC) --shared $$PLDFLAGS $$PLFLAGS $(LDFLAGS) -o $$ver/_snack.$(SOEXT) $$ver/snack.o -L.  -lnewt $(LIBS); \
+- 	done || :
+diff --git a/meta/recipes-extended/newt/libnewt_0.52.21.bb b/meta/recipes-extended/newt/libnewt_0.52.23.bb
+similarity index 87%
+rename from meta/recipes-extended/newt/libnewt_0.52.21.bb
+rename to meta/recipes-extended/newt/libnewt_0.52.23.bb
+index 430e481b36..cd3731cf74 100644
+--- a/meta/recipes-extended/newt/libnewt_0.52.21.bb
++++ b/meta/recipes-extended/newt/libnewt_0.52.23.bb
+@@ -21,11 +21,9 @@ SRC_URI = "https://releases.pagure.org/newt/newt-${PV}.tar.gz \
+            file://cross_ar.patch \
+            file://Makefile.in-Add-tinfo-library-to-the-linking-librari.patch \
+            file://0001-detect-gold-as-GNU-linker-too.patch \
+-           file://0002-don-t-ignore-CFLAGS-when-building-snack.patch \
             "
--SRC_URI[sha256sum] = "dbc69f90ddc821b8d1441f00374dc1da4323a2eafa9078e61edbe5eeefa852ec"
-+SRC_URI[sha256sum] = "ec10fe6d712ef0b3c63b5f932639c9d1ae99fce94f500f6f06965629fef60bd1"
  
- S = "${WORKDIR}/gtk+-${PV}"
+-SRC_URI[md5sum] = "a0a5fd6b53bb167a65e15996b249ebb5"
+-SRC_URI[sha256sum] = "265eb46b55d7eaeb887fca7a1d51fe115658882dfe148164b6c49fccac5abb31"
++SRC_URI[sha256sum] = "caa372907b14ececfe298f0d512a62f41d33b290610244a58aed07bbc5ada12a"
+ 
+ S = "${WORKDIR}/newt-${PV}"
  
 -- 
 2.30.2
