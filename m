@@ -2,28 +2,28 @@ Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C797C4332F
-	for <webhook@archiver.kernel.org>; Wed, 14 Dec 2022 08:54:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB7F3C4167B
+	for <webhook@archiver.kernel.org>; Wed, 14 Dec 2022 09:20:53 +0000 (UTC)
 Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
- by mx.groups.io with SMTP id smtpd.web11.98711.1671008075117901150
+ by mx.groups.io with SMTP id smtpd.web10.98404.1671009643307484868
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Dec 2022 00:54:35 -0800
+ Wed, 14 Dec 2022 01:20:43 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
-Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
+Received: from kapsi.fi ([91.232.154.11] helo=lakka.kapsi.fi)
 	by mail.kapsi.fi with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1p5NX5-00DEOE-6Y; Wed, 14 Dec 2022 10:54:31 +0200
+	id 1p5MvO-00D394-8Y; Wed, 14 Dec 2022 10:15:34 +0200
 Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.94.2)
 	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1p5NX4-008JOP-TQ; Wed, 14 Dec 2022 10:54:30 +0200
+	id 1p5MvN-006lnM-Q3; Wed, 14 Dec 2022 10:15:33 +0200
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
 Subject: [PATCH] runqemu: add QB_SETUP_CMD and QB_CLEANUP_CMD
-Date: Wed, 14 Dec 2022 10:54:25 +0200
-Message-Id: <20221214085425.1980230-1-mikko.rapeli@linaro.org>
+Date: Wed, 14 Dec 2022 10:15:22 +0200
+Message-Id: <20221214081522.1611782-1-mikko.rapeli@linaro.org>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -48,15 +48,15 @@ X-Rspam-Report: Action: no action
  Symbol: FROM_NEQ_ENVFROM(0.00)
  Symbol: BAYES_HAM(-3.00)
  Symbol: RCVD_COUNT_TWO(0.00)
- Message-ID: 20221214085425.1980230-1-mikko.rapeli@linaro.org
-X-SA-Exim-Connect-IP: 2001:67c:1be8::11
+ Message-ID: 20221214081522.1611782-1-mikko.rapeli@linaro.org
+X-SA-Exim-Connect-IP: 91.232.154.11
 X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Dec 2022 08:54:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174550
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Dec 2022 09:20:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174551
 
 These enable running custom shell setup and cleanup commands
 before and after qemu. Enables machine configurations to for
