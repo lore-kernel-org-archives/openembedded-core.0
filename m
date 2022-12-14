@@ -1,150 +1,99 @@
-Return-Path: <patrick@stwcx.xyz>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09831C4332F
-	for <webhook@archiver.kernel.org>; Wed, 14 Dec 2022 03:20:12 +0000 (UTC)
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
- by mx.groups.io with SMTP id smtpd.web11.94565.1670988001317312889
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E28E1C4332F
+	for <webhook@archiver.kernel.org>; Wed, 14 Dec 2022 03:20:41 +0000 (UTC)
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web11.94578.1670988033610000970
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Dec 2022 19:20:01 -0800
+ Tue, 13 Dec 2022 19:20:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@stwcx.xyz header.s=fm2 header.b=omrXKcvn;
- spf=pass (domain: stwcx.xyz, ip: 66.111.4.28, mailfrom: patrick@stwcx.xyz)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id 80A5E5C0066;
-	Tue, 13 Dec 2022 22:20:00 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Tue, 13 Dec 2022 22:20:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm2; t=1670988000; x=1671074400; bh=qcKkmEHxRr
-	99pCg5yxtF2zeag8OknqsyVtcwgli2FBI=; b=omrXKcvnO6r5Ew7LNPZzjisuIj
-	S86r+FhrYKAv1ke5iaNzzol7J9mM0emmvzF29iltTg3EareCDCUCX8i3o5aO32D5
-	HUz3FcbSyheVMcK8BASVqNjPXaYutubDDq0n4MISPiKrArJMzM8QuZNq787OJ5DJ
-	lYMJntq8BgXp/DbEhSFVynUG+Eb07B8BYVmkYeTBPJ+ZSYiD8wtBksNbWD0y7sxY
-	IwwHhHeoDpKuaUvpLI08V9ZLyAFza1VrekgzXvaiSe59smYtf4DFsbJuxczcCll2
-	46+ZC/BAU2WbRrsFMLZhXFz/oH/fjX732XB8D5oHHv71UZHqjJq71HIbnN0A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1670988000; x=1671074400; bh=qcKkmEHxRr99pCg5yxtF2zeag8Ok
-	nqsyVtcwgli2FBI=; b=d5aZCh8nI+1tMTJ1uQOM94//4rdQiUL+VNLN201jAjYp
-	pqnUMTL9Z/A9UmK5eoHQ1+0Hy13gWqM6RIwk44ix2PTVM61BRHNadjQKrMc2NUZK
-	UYKb50crdaQ5ePLIQkQ5lc7wiSb5+7BZ7iSqmjjCTV6g8FjXB9lVobD2o4qrrFT3
-	tM354eRYyoebp+jPy/A4YGIiqDDVk9JP/Yyaxyw7uVCud+kPvUYw9C0BnMNnDBVU
-	I7xyYd+cJ+kgPM8230cvDmiOsZWy3hgRQUmY3fCX5OQUeK82yAVWgPNKsF7IbKQ7
-	8FXMPxramKMd8Jv1kEcCY/qiKyY2ZAGy63E0+JLIsA==
-X-ME-Sender: <xms:4ECZY8g6lGMl8VkUy20yO6GavqEkzBh1s0PrDRlyuBcJu-Nyfmgg2g>
-    <xme:4ECZY1DTQnvjh4bmVOuSQAmiU6P4QEcIcpKzjti-ci0DRwwlje5GqLeVAPNnCAy3X
-    F7MnuBgdnd9j5kCzF8>
-X-ME-Received: <xmr:4ECZY0Exbqo4wWYqXZan2x4g8qdcpOuG8rw_H71MNFGuFInpTinj1RuDa-RTuwjOdq51hDriNXE7hGYktsaBOXk8Hg1KFTyUIao>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfedvgdehhecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenfg
-    hrlhcuvffnffculdefhedmnecujfgurhepfffhvfevuffkfhggtggujgesghdtreertddt
-    vdenucfhrhhomheprfgrthhrihgtkhcuhghilhhlihgrmhhsuceophgrthhrihgtkhessh
-    htfigtgidrgiihiieqnecuggftrfgrthhtvghrnhepheefjeehfedtjeeivdefkeffheel
-    udekudelleffkefgtdeludelvddtgedtheeknecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomhepphgrthhrihgtkhesshhtfigtgidrgiihii
-X-ME-Proxy: <xmx:4ECZY9TK-ptn4ihVh_kZWBOsEvamnk4e_aDhWAQkjXP_YfgxB6JM5w>
-    <xmx:4ECZY5yYtstxh4kGMGKc_QO5bMgcFFNidTTbiBHftAgGypADG3GBfA>
-    <xmx:4ECZY76-kUJ-blqj9elz_3q_bQJV86O2tA44qZGW_lW0vyxOxx4XGA>
-    <xmx:4ECZY3bVfQ4XPf0I6cNBIW0s4Tz3RiuKFmA0znwiRNLcX-Yprlpp3Q>
-Feedback-ID: i68a1478a:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 13 Dec 2022 22:19:59 -0500 (EST)
-Date: Tue, 13 Dec 2022 21:19:58 -0600
-From: Patrick Williams <patrick@stwcx.xyz>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] kernel-fitimage: reduce dependency to the cpio
-Message-ID: <Y5lA3pSK+DT4WVnF@heinlein.taila677.ts.net>
-References: <20221212221808.753268-1-patrick@stwcx.xyz>
- <fdd0b8fac4e6a8398c9cda35d0c11a3bac355c8e.camel@linuxfoundation.org>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=pas+5o25;
+ spf=pass (domain: gmail.com, ip: 209.85.210.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f174.google.com with SMTP id 21so3579494pfw.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Dec 2022 19:20:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BL9K7lgSAt/0YPPSzBgR/ur49Rh6pXvsx8t9K0d7l/k=;
+        b=pas+5o25jvgZ7LOxYa32EkCxNQBnzUBNTVO2/8tRypBEtw/EMt6816wfJgFJryGzgZ
+         OuZUnCW6Ikt2MYLDXumh6eDACEctmZDvSdRJQXxxrj/1BYQ7PjwoPgBnpEuaKoJaROEG
+         Nv6QMCtaGlEWoJXT95mIqdsuGZsqQ7Acd6rfjwMmwX5s24aAZ7jzP5SN/mr4kYcjcUaE
+         f37RByebrgEEIJiMe5uMqofpEgUB6EGTk7SS5050rak8hA8RueMIg5mxNjUX3Hk0Ac+k
+         kQdrsVzT7ksfDrapZSBlpSn2OZt0TnfJcNYzq2TJnbdCLecU52YJILE5rCODFgExIStX
+         Jhqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BL9K7lgSAt/0YPPSzBgR/ur49Rh6pXvsx8t9K0d7l/k=;
+        b=yR+LUYJSVecGeG0dgENo7J0iQf166HB7t6p6C2cQ2nUUIWoy7yTTLHoPSIXlDdlhZX
+         Gl+8Z2cVlaUrIp8y1r3Ntv4tXg1+k0vKN0PL4WHLUPtmupZ+WaZruwtzCDoo3IfxRE5Z
+         gZHhqWMKurlkztgX8cgSarGefRv5STpqa50sIAEPeSAG1Vu0eimvddTZ3yoMQk1XFgPH
+         4Q4HOrqpYx8xgQAT4yf3DouuXs9jr+iN1KMuDBuPaQZX5gCmV85kJh1H8LidbwPNBIWW
+         kFP+7byftrNbvE5hAnVJinjhSKDisRRmSTsDLy52RaDbYqhc06FIVN9o3Z4kmalC33nH
+         XWsA==
+X-Gm-Message-State: ANoB5pma30wLWNpdhSGaktTOpzLzh6tHKv8scMMyHalFgPhy/e46frO3
+	+96bhJI4KrMS9VG5iZBUfoyhhC2Czzk=
+X-Google-Smtp-Source: AA0mqf7c+aAZwXRLP4iN/5AOSh+ChcEys7I3infwr395pK5fXFqAHJqbUGD3QlSDLfCRYBPh65k8mg==
+X-Received: by 2002:a62:fb11:0:b0:56c:3696:ad68 with SMTP id x17-20020a62fb11000000b0056c3696ad68mr22851364pfm.8.1670988032602;
+        Tue, 13 Dec 2022 19:20:32 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::7d9c])
+        by smtp.gmail.com with ESMTPSA id z7-20020aa79587000000b005769436a23dsm8299638pfj.218.2022.12.13.19.20.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Dec 2022 19:20:32 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Wang Mingyu <wangmy@fujitsu.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Subject: [PATCH] libpcre2: Upgrade to 10.42
+Date: Tue, 13 Dec 2022 19:20:29 -0800
+Message-Id: <20221214032029.660193-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ooZvOpTDmFK97WQj"
-Content-Disposition: inline
-In-Reply-To: <fdd0b8fac4e6a8398c9cda35d0c11a3bac355c8e.camel@linuxfoundation.org>
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Dec 2022 03:20:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174548
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Dec 2022 03:20:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174549
 
+10.41 regressed apps which were using pcre2posix.h without pcre2.h
+mariadb is one such application in meta-oe which broke, this immediate
+upgrade helps fixing these sort of apps. See [1] and [2]
 
---ooZvOpTDmFK97WQj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[1] https://github.com/PCRE2Project/pcre2/releases/tag/pcre2-10.42
+[2] https://github.com/PCRE2Project/pcre2/commit/cd8dc40b901bdedf5bcc0b3acdd9eede16802f39
 
-Hello Richard,
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Wang Mingyu <wangmy@fujitsu.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+---
+ .../libpcre/{libpcre2_10.41.bb => libpcre2_10.42.bb}            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/libpcre/{libpcre2_10.41.bb => libpcre2_10.42.bb} (95%)
 
-On Tue, Dec 13, 2022 at 11:52:08PM +0000, Richard Purdie wrote:
-> On Mon, 2022-12-12 at 16:18 -0600, Patrick Williams wrote:
-> > In order to build a fitimage, we don't need the image to be "complete"
-> > but we need the cpio portion of it built since the cpio is what ends
-> > up inside the FIT.  By reducing the dependency to `do_image_cpio` we
-> > are able to include an image's rootfs as the ramdisk for a FIT and
-> > then bundle that FIT into a larger SPI flash layout.
-> >=20
-> > Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
-> > ---
+diff --git a/meta/recipes-support/libpcre/libpcre2_10.41.bb b/meta/recipes-support/libpcre/libpcre2_10.42.bb
+similarity index 95%
+rename from meta/recipes-support/libpcre/libpcre2_10.41.bb
+rename to meta/recipes-support/libpcre/libpcre2_10.42.bb
+index 2a50d07192..cd65493c48 100644
+--- a/meta/recipes-support/libpcre/libpcre2_10.41.bb
++++ b/meta/recipes-support/libpcre/libpcre2_10.42.bb
+@@ -15,7 +15,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/pcre2-${PV}/pcre2-${PV}.tar.bz2"
+ GITHUB_BASE_URI = "https://github.com/PhilipHazel/pcre2/releases"
+ UPSTREAM_CHECK_REGEX = "releases/tag/pcre2-(?P<pver>.+)"
+ 
+-SRC_URI[sha256sum] = "0f78cebd3e28e346475fb92e95fe9999945b4cbaad5f3b42aca47b887fb53308"
++SRC_URI[sha256sum] = "8d36cd8cb6ea2a4c2bb358ff6411b0c788633a2a45dabbf1aeb4b701d1b5e840"
+ 
+ CVE_PRODUCT = "pcre2"
+ 
+-- 
+2.39.0
 
-> > -            d.appendVarFlag('do_assemble_fitimage_initramfs', 'depends=
-', ' ${INITRAMFS_IMAGE}:do_image_complete')
-> > +            d.appendVarFlag('do_assemble_fitimage_initramfs', 'depends=
-', ' ${INITRAMFS_IMAGE}:do_image_cpio')
->=20
-> I merged this but then realised you can't do this.=20
-=2E..
-> As such I reverted it.
-
-Apologies for that.  It seemed to be working on my end but I was not
-going to be surprised if someone told me I had very bad ideas as was
-completely overlooking something.
-
-> The copy to
-> DEPLOY_DIR_IMAGE happens during do_image_complete so you can't rely on
-> this to be present until that task.=20
-
-I didn't notice this issue, but I very well could have had stale data in
-my DEPLOY_DIR_IMAGE.  I'll investigate further.  Is there any reason
-this couldn't be moved?
-
-> We need the copy and sstate code so
-> we have a manifest of what is "installed" so we can clean up the task
-> and replace it with code re-running.
-
-I'll look into this as well.  Is it fine to make do_image_cpio sstated?
-
-
---=20
-Patrick Williams
-
---ooZvOpTDmFK97WQj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAmOZQNwACgkQqwNHzC0A
-wRmbdhAAoNiQ9huPxXWw1j6Aj+WOOeIiHu56BE4LtmcwSfptHDERJzsdzfUvxSdm
-a396hWtVBcICs9EbZ/CGLky0hU8sFzDEXelmpkwTV7QTtCigpAynN9W0ehUD2vj+
-Ph7ovIMFSz9t920CFkLOhS1DxeUAIHdb9Oj8rnoZBedRVJwI6wTVurDLNaCEGrPC
-t6Mp9eP12QFBSwyL47QNZ3++o7HsF2rAcJhm4igV/8tF7oAoJz7yAckz8pqMj5z7
-Prp7Pm6oNpiI9P6Qji0/nvPniPDeiy7cHOFt2y+IsDkPtdQyLZTwPnW/RpmrD8Qj
-uK1q3WFHa9NdaqHjYJcG3oxUBz1/xmULdINlA0zcvaElfHLraJxQEVWL+IpB9z2n
-rNkstNZXjL6YaLRX4VFjijzeByY3ioWaAb/SyX+hm3d0UtnxLC+bZp4/hf2aGwO3
-orcOUnn/lqIMwZ/vnxFXUWMaFcmmjOSHaKDan81bls+hF68Edlezk9MetVLMGSOg
-T3RKxt7NWLR+HDJJpwEXO9WPwM/5CSRqrrIzCE8eVCVrm79KAo/iBnxGwPzYoaAx
-+BReNm/OQ0ravoHyDvXNeIBSE/5tgCjt1Pne/BQNUD3dMs2N+3T4ejBAM3nBBycY
-0urpZs/ET3Cy8sQX8QMJfJ8MMIp0VyiwM+m0DbCWrqrUML0nq88=
-=0sEW
------END PGP SIGNATURE-----
-
---ooZvOpTDmFK97WQj--
 
