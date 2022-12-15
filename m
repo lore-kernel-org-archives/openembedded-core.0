@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE04EC3DA71
-	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 19:21:33 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.142657.1671132090268548050
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00B2CC25B04
+	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 19:21:34 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web11.143548.1671132064789602923
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Dec 2022 11:21:30 -0800
+ Thu, 15 Dec 2022 11:21:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=k67y2PA1;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f175.google.com with SMTP id d15so7896554pls.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 11:21:30 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=12y0KY0X;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f174.google.com with SMTP id n4so25647plp.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 11:21:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Hnbk2KMG+0tbEsHbdyTDcURCKtLuAzDuNA3/x18IXnM=;
-        b=k67y2PA1WhZCtwoC+KVyP+0NSDtYOK5pNMI3jOshv4ZTspOZUU6OxBAKPx0eoJG8Oz
-         9PLw8rJNty2Uve8Hk8HOgNVWA6p6w3rqwYM6dwozltC8q7DdVhGPaBzpZ3cwYCqxPSId
-         D3O/2wqkItpOLtIZdbGaxBHnV0rDohshZXDxyPzAk1jaTxKODarTrAO1pAozeWGvrVl/
-         71NIfWUUnhql3s3qx3ugM43S/85lRTr/+heKuGpzj3zjOR25xjGY6VxdYXvy7yjF9IgT
-         FM2df9mPtM/OchYaAAMMyO0DDavMjRLSFfO863VR8F4LOKT47u2lamfYulACT/l3V3i1
-         HQPw==
+        bh=ch0XT0yIMK/+lp4EPyM97ArzIbrcgAVDZz/UeI6AJd8=;
+        b=12y0KY0Xbl/sWw8P1GaT0r5Lv7sakBN7b8uznunI9KlgmkIVWU/vEfEZR3niv70fld
+         Ot3bbF9LAtmkhGtFy7UhiYbHgzw5MatTcYSI0UhzGkBAm4qhohqF/cZM846w+NbZb10T
+         1Cs2QHZE/6Y1Hg+BvMSuvtcZ9qQxYCyLAQpIAC6YhMLNn1ztyrEpl2/decJ9EDrRVg5J
+         feo1SwP/FZk6rQKzNjzyE1t0S+mxiOFJCVsqs/qx8JCWexmqVU1WVDGbaQO2Akh5hyWj
+         szMN0nN2fotr0FK44FNZ3KKbW/o7grU10rGTsimutMIkzs/PDq9rc+SE3qKxNvwneqiO
+         7F5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Hnbk2KMG+0tbEsHbdyTDcURCKtLuAzDuNA3/x18IXnM=;
-        b=Kz+llEKrZvi2n0ybu1xsj+KrMQq2Z6L+3yN1lo7lXQsHo8PjDaPden05Sk2MlZghaB
-         6D8mNIZP1Ez2ZQgikEkzsOwhkF3g8nfQJ2aj3M/fFL9vSPSEBmR/7S62CQ+qw4cxGT3X
-         3BbvPeBnuFEKm/6O0tWg2Ooa3HrWewIUgEXBGO1Wp9WbyscnhHJm5Gdmhq/O3eL+bwWc
-         h/6rynvqukhttTDFxBXtBRyVDYB1xwSzPcKciAlHT174mc6JhVwK7wJWX6ta66lBCf8k
-         ppgvd9jlyzpiwRWOiWzggrYnJ4cVKQqV8UrC5fvNfUGQQAfzw6jvaQmCqE/SyIlmV9jK
-         vAbg==
-X-Gm-Message-State: ANoB5pmWgwLE4e6JBXZFMSdPEUd3umWaKB4hGnmFzSg2BUH0A+OmjLp6
-	rHkxyTqVTli6X3+dGxCoEznH7aBXH+nnbvHfZXs=
-X-Google-Smtp-Source: AA0mqf4/Pt7l/70UwkOW40m9pw3yyvEtOW5YPBcw7QHN3IA8eY3Cz37NL0QESynoOo3M173MV0tuQw==
-X-Received: by 2002:a17:902:e38a:b0:18f:7fb3:fe11 with SMTP id g10-20020a170902e38a00b0018f7fb3fe11mr16794845ple.19.1671132089232;
-        Thu, 15 Dec 2022 11:21:29 -0800 (PST)
+        bh=ch0XT0yIMK/+lp4EPyM97ArzIbrcgAVDZz/UeI6AJd8=;
+        b=k5IRF91CCb+Iycfe+p0nfAJoi8FqR2KVV8C6dWDYxI4roibIU1ZB4WoWhubvLRbNA8
+         Z6wf9j9nM6tf2pIBuR3mlzWPW0K/ymEwECghbqPOA0NsE1qpy2NaD2CEzoDudcZ5uefS
+         uHpiQDRQwVo0db5ion0lRCsLICaKlv0GWMOp3nyiRCZy7xVsY/SEUJef36PcVDYMA9nX
+         xR8438pRrk9x2nPiCPyNahLuC50aPxhs8u7iukyTLPdZO3RTbGJYe51pH3Zcrxsodyu2
+         Arg3w09u1ZZWPx3pwhiQfSc0lSQki1wOkx0OWqm9udzcXz7OId+z1o4FyrpMVgYTONjm
+         kbAA==
+X-Gm-Message-State: AFqh2krMhf33tSN2/pspaZ1M73/G8TfNthxTGe4KXUsPF2hA+Gpx+1WS
+	chOOfQRHuHUJoMgSr8BewrEbB62iQrpHUxkbilw=
+X-Google-Smtp-Source: AMrXdXsjq1iKuTnRy4FJ2ZGByz6claaqDSVZ7K4T3obeMETQJOJU+yTqZTuZI3MzjVnaVNVlcN9YeA==
+X-Received: by 2002:a17:902:7d8a:b0:190:edc5:a4e6 with SMTP id a10-20020a1709027d8a00b00190edc5a4e6mr5643768plm.13.1671132086066;
+        Thu, 15 Dec 2022 11:21:26 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id r19-20020a170902c61300b001869b988d93sm4167095plr.187.2022.12.15.11.21.28
+        by smtp.gmail.com with ESMTPSA id r19-20020a170902c61300b001869b988d93sm4167095plr.187.2022.12.15.11.21.25
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Dec 2022 11:21:28 -0800 (PST)
+        Thu, 15 Dec 2022 11:21:25 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 16/30] oeqa/selftest/tinfoil: Add test for separate config_data with recipe_parse_file()
-Date: Thu, 15 Dec 2022 09:20:40 -1000
-Message-Id: <25e6559aaccabe602757d7a195a4e6916c74a5fc.1671122751.git.steve@sakoman.com>
+Subject: [OE-core][langdale 14/30] classes: make TOOLCHAIN more permissive for kernel
+Date: Thu, 15 Dec 2022 09:20:38 -1000
+Message-Id: <1458a7ff80cd054f54170d9f312cb4bf111c89a1.1671122751.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1671122751.git.steve@sakoman.com>
 References: <cover.1671122751.git.steve@sakoman.com>
@@ -61,47 +61,33 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 19:21:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174608
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174606
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Alexey Smirnov <pyih.soft@gmail.com>
 
-We've seen two different regressions in this API since it is used by
-layer-index but not be the core code. Add a test for it to try and
-ensure we don't break it again.
+Currently TOOLCHAIN is strictly set to gcc in kernel-arch.bbclass.
+And this prevents any TOOLCHAIN changes for any kernel recipe.
+This change makes TOOLCHAIN configurable as usual.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Alexey Smirnov <pyih.soft@gmail.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit b07de5de43ec9c9a2c5d496a64940ccdc5b47cf8)
+(cherry picked from commit be1634fc35dcc81f0301d942064a6eed584e0704)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/selftest/cases/tinfoil.py | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ meta/classes-recipe/kernel-arch.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/tinfoil.py b/meta/lib/oeqa/selftest/cases/tinfoil.py
-index 0a66615fd1..dd13c20402 100644
---- a/meta/lib/oeqa/selftest/cases/tinfoil.py
-+++ b/meta/lib/oeqa/selftest/cases/tinfoil.py
-@@ -66,6 +66,20 @@ class TinfoilTests(OESelftestTestCase):
-             localdata.setVar('PN', 'hello')
-             self.assertEqual('hello', localdata.getVar('BPN'))
+diff --git a/meta/classes-recipe/kernel-arch.bbclass b/meta/classes-recipe/kernel-arch.bbclass
+index 6f5d3bde6c..1531ae6cd5 100644
+--- a/meta/classes-recipe/kernel-arch.bbclass
++++ b/meta/classes-recipe/kernel-arch.bbclass
+@@ -70,5 +70,5 @@ HOST_AR_KERNEL_ARCH ?= "${TARGET_AR_KERNEL_ARCH}"
+ KERNEL_CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_KERNEL_ARCH} -fuse-ld=bfd ${DEBUG_PREFIX_MAP} -fdebug-prefix-map=${STAGING_KERNEL_DIR}=${KERNEL_SRC_PATH} -fdebug-prefix-map=${STAGING_KERNEL_BUILDDIR}=${KERNEL_SRC_PATH}"
+ KERNEL_LD = "${CCACHE}${HOST_PREFIX}ld.bfd ${HOST_LD_KERNEL_ARCH}"
+ KERNEL_AR = "${CCACHE}${HOST_PREFIX}ar ${HOST_AR_KERNEL_ARCH}"
+-TOOLCHAIN = "gcc"
++TOOLCHAIN ?= "gcc"
  
-+    # The config_data API tp parse_recipe_file is used by:
-+    # layerindex-web layerindex/update_layer.py
-+    def test_parse_recipe_custom_data(self):
-+        with bb.tinfoil.Tinfoil() as tinfoil:
-+            tinfoil.prepare(config_only=False, quiet=2)
-+            localdata = bb.data.createCopy(tinfoil.config_data)
-+            localdata.setVar("TESTVAR", "testval")
-+            testrecipe = 'mdadm'
-+            best = tinfoil.find_best_provider(testrecipe)
-+            if not best:
-+                self.fail('Unable to find recipe providing %s' % testrecipe)
-+            rd = tinfoil.parse_recipe_file(best[3], config_data=localdata)
-+            self.assertEqual("testval", rd.getVar('TESTVAR'))
-+
-     def test_list_recipes(self):
-         with bb.tinfoil.Tinfoil() as tinfoil:
-             tinfoil.prepare(config_only=False, quiet=2)
 -- 
 2.25.1
 
