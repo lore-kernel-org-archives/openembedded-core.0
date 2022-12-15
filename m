@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0F10C71136
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB254C7113D
 	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 20:32:35 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.144504.1671136351826711372
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.145439.1671136351788403793
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Dec 2022 12:32:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=jQopRd2F;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010185177d12ef-6b382cb4-0437-490a-b660-7f2b89d25659-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=KicVuZla;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010185177d1057-2d2c984c-9471-4444-b5b0-5bce5714e3de-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1671136351;
+	t=1671136350;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=v2b38FrOS0dEM8IbTnGwz3xFUqplFCY6UIwm7Q54My8=;
-	b=jQopRd2F6KMxpX4wG/e3Pr+HKeK7tNbNkqFlEoz5ZZYgZX7NnMB0Sp0M1tvgLfus
-	CtDcTJY3xrEifuCN7yDIlxRQY5CBtZqSVryhVDV6mgz293Rmrid1AfhlWj3UqFHvtWL
-	PbifcfHCdcQLLGDtXkyKJAgoOwb0JyJ9ptgaYCzE=
+	bh=zw/19chTIBzXZ7OV6rt6bsRZwe77idcCXOJoIlT2F3k=;
+	b=KicVuZlalhtiBKhn0+e69Dw1P/bk0S1j4/RL8H0M4wj4IVpdDI1FiDo0cZeKdOpe
+	QcbIZVbfTuhndAH53fAhHcV5/OTODyP6VGQ3bK+sroSe24+SoVKuYxoO+Xbhm9eXS3Z
+	Q43gq75JAMArXAlrmiJNy3K05zuWkUoRJjFo29ac=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1671136351;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1671136350;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=v2b38FrOS0dEM8IbTnGwz3xFUqplFCY6UIwm7Q54My8=;
-	b=FlfBGXMQA3qH9DdsFdVFFJFp2lWCV2TKVQJUURzcNaRB340OztQNvuzADJ+25tTY
-	3jQ966tATb/6hXmSTFUp7p51p8rxZT0gDFH7bTdn2cpR542jEZkkRzJO09TxEtlUULW
-	e2iWJ1SC8+3cj1AJLLL36WrGCqGR2bXMdctQcCBU=
-Content-Type: multipart/mixed; boundary="===============1494868428648407910=="
+	bh=zw/19chTIBzXZ7OV6rt6bsRZwe77idcCXOJoIlT2F3k=;
+	b=DjOn314MIyGk+zTWRP3QeaNn2AprJNWC03UDFv+QD8+SzTQiMW1hODnuxYyWNFhG
+	m1Vd3leojHD0DA+9h+96OF5gnS/3266i7ZwuL1nZax41Fs/2tUjxrxWwKRhdPEC1L+m
+	twWOEilEgNCkkXCIr9546fOMhr2YX8y8ltdXRdiU=
+Content-Type: multipart/mixed; boundary="===============3612877932962585614=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-hypothesis: upgrading to 6.61.0 SUCCEEDED
-Message-ID: <01010185177d12ef-6b382cb4-0437-490a-b660-7f2b89d25659-000000@us-west-2.amazonses.com>
+Subject: [AUH] meson: upgrading to 1.0.0 FAILED
+Message-ID: <01010185177d1057-2d2c984c-9471-4444-b5b0-5bce5714e3de-000000@us-west-2.amazonses.com>
 Date: Thu, 15 Dec 2022 20:32:30 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.12.15-54.240.27.192
+X-SES-Outgoing: 2022.12.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 20:32:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174648
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174646
 
---===============1494868428648407910==
+--===============3612877932962585614==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,92 +50,96 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-hypothesis* to *6.61.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *meson* to *1.0.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.57.1-6.61.0.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade meson -V 1.0.0
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Previous bitbake instance shutting down?, waiting to retry... (09:50:53.716544)
+NOTE: Directory listing: ['buildhistory', 'sstate-cache', 'downloads', 'workspace', 'bitbake-cookerdaemon.log', 'upgrade-helper', 'cache', 'conf', 'tmp']
+NOTE: Retrying server connection (#1)... (09:50:53.896936)
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 888 .bb files complete (0 cached, 888 parsed). 1672 targets, 36 skipped, 0 masked, 0 errors.
+
+Summary: There was 1 WARNING message.
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:eb8cb39cbaffe6badd40b7b5409f8419c18519f6"
+workspace            = "master:46fd76aa07bd431f0ba73bdafeb7bf5aa31cef25"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1672 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 889 .bb files complete (887 cached, 2 parsed). 1673 targets, 36 skipped, 0 masked, 0 errors.
+
+Summary: There was 1 WARNING message.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:eb8cb39cbaffe6badd40b7b5409f8419c18519f6"
+workspace            = "master:46fd76aa07bd431f0ba73bdafeb7bf5aa31cef25"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+WARNING: Failed to fetch URL https://github.com/mesonbuild/meson/releases//download/1.0.0/meson-1.0.0.tar.gz, attempting MIRRORS if available
+NOTE: Tasks Summary: Attempted 1 tasks of which 0 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+INFO: Extracting current version source...
+INFO: Adding local source files to srctree...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://github.com/mesonbuild/meson/releases//download/1.0.0/meson-1.0.0.tar.gz...
+ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-5_igdhx0/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-5_igdhx0/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-5_igdhx0/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-wor
+ ker/auh/build/build/build/tmp/work/recipetool-5_igdhx0/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-5_igdhx0/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-5_igdhx0/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 --passive-ftp -O /home/pokybuild/yocto-worker/auh/build/build/build/downloads/meson-1.0.0.tar.gz.tmp -P /home/pokybuild/yocto-worker/auh/build/build/build/downloads 'https://github.com/mesonbuild/meson/releases//download/1.0.0/meson-1.0.0.tar.gz' --progress=dot -v failed with exit code 8, no output
+ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://github.com/mesonbuild/meson/releases//download/1.0.0/meson-1.0.0.tar.gz')
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-5_igdhx0/work/temp/log.do_fetch.276846
+ERROR: Failed to fetch URL https://github.com/mesonbuild/meson/releases//download/1.0.0/meson-1.0.0.tar.gz
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============1494868428648407910==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/python3-hypothesis: PKGV changed from 6.57.1 [default] to 6.61.0 [default]
-packages/core2-32-poky-linux/python3-hypothesis: PV changed from "6.57.1" to "6.61.0"
-packages/core2-32-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.57.1.tar.gz file://run-ptest file://test_binary_search.py file://test_rle.py" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.61.0.tar.gz file://run-ptest file://test_binary_search.py file://test_rle.py"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "6.57.1" to "6.61.0"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 6.57.1 [default] to 6.61.0 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "6.57.1" to "6.61.0"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 6.57.1 [default] to 6.61.0 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "6.57.1" to "6.61.0"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 6.57.1 [default] to 6.61.0 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "6.57.1" to "6.61.0"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 6.57.1 [default] to 6.61.0 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PV changed from "6.57.1" to "6.61.0"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PKGV changed from 6.57.1 [default] to 6.61.0 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "6.57.1" to "6.61.0"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 6.57.1 [default] to 6.61.0 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "6.57.1" to "6.61.0"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 6.57.1 [default] to 6.61.0 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "6.57.1" to "6.61.0"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 6.57.1 [default] to 6.61.0 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 2726432 to 2745764 (+1%)
-Changes to packages/core2-32-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.11/site-packages/hypothesis-6.57.1.dist-info moved to /usr/lib/python3.11/site-packages/hypothesis-6.61.0.dist-info
-
---===============1494868428648407910==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-32-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.11/site-packages/hypothesis-6.57.1.dist-info moved to /usr/lib/python3.11/site-packages/hypothesis-6.61.0.dist-info
-
---===============1494868428648407910==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-hypothesis-upgrade-6.57.1-6.61.0.patch"
-
-RnJvbSA4ODE3NjgzYzBmNWExZjNkNTlmZmQ0ZjdmMzJkY2M3ZWY2Y2Y1NTA5IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgRGVjIDIwMjIgMTA6NTY6NDcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWh5cG90aGVzaXM6IHVwZ3JhZGUgNi41Ny4xIC0+IDYuNjEuMAoKLS0tCiAuLi55dGhv
-bjMtaHlwb3RoZXNpc182LjU3LjEuYmIgPT4gcHl0aG9uMy1oeXBvdGhlc2lzXzYuNjEuMC5iYn0g
-fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
-bmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWh5cG90aGVzaXNfNi41
-Ny4xLmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjYxLjAuYmJ9ICg5MSUpCgpkaWZmIC0tZ2l0
-IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi41Ny4x
-LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi42
-MS4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0
-b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuNTcuMS5iYgpyZW5hbWUgdG8gbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi42MS4wLmJiCmluZGV4
-IDA2NGQ3MDE0ZDUuLjIwNDQ3MWMxODYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuNTcuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182LjYxLjAuYmIKQEAgLTEzLDcgKzEz
-LDcgQEAgU1JDX1VSSSArPSAiIFwKICAgICBmaWxlOi8vdGVzdF9ybGUucHkgXAogICAgICIKIAot
-U1JDX1VSSVtzaGEyNTZzdW1dID0gIjFkOGVkNTEzNmYzNjhlMzQzZjM5MTcyYjA2ZjY4YWE3ZmQx
-MzEyY2Y2NDNjMzMyYWIxOGE3NWQ1Njc4OWZhOTAiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZmJm
-N2RhMzBhZWE4MzlkODg4OThmNzRiY2MwMjdmMGY5OTcwNjA0OThhOGE3NjA1ODgwNjg4YzhhMjE2
-NjIxNSIKIAogUkRFUEVORFM6JHtQTn0gKz0gIiBcCiAgICAgcHl0aG9uMy1hdHRycyBcCi0tIAoy
-LjM3LjMKCg==
-
---===============1494868428648407910==--
+--===============3612877932962585614==--
 
