@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E842DC3DA79
-	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 19:21:13 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web10.142642.1671132068307840906
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18576C3DA7A
+	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 19:21:14 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web11.143548.1671132064789602923
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Dec 2022 11:21:08 -0800
+ Thu, 15 Dec 2022 11:21:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=x25le+60;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f177.google.com with SMTP id w23so7860422ply.12
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 11:21:08 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=PNfz1LKY;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f174.google.com with SMTP id n4so24557plp.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 11:21:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=skQSfjDGg4wk3ai7s64SlrqngFj010lakxerTRFvwaQ=;
-        b=x25le+60hc2U+GgoiKPf6lX1+YDivimVMjY5vMPEjlZGzu7PD45epjjrIgWbSrciJZ
-         aGmOihUjrIhFjSX/B6mkiJ8hDR7GIbtVyUpTVbd9uwiibgwpLf3gU2IfEteT4y9Rwv+E
-         ga6yI6nRXfY7IzFDRRCi0rDHP9M1pb1GG3L1UctxCIQbreCx2+maNR7PhC9Ec9H2ZDPV
-         iAB0kUvxRBq8EENkjp4gikqW7QZb3Dv0FPvPGYDo2cCuePV9jYqx7hemhEllMPqkeya1
-         LTrcUVlXNVGBNa6aE1dJxvA6tJOncs7bqjsbCfp0E4+Xr5PxtHCM1gdgwBTdigFiNDsF
-         TXJQ==
+        bh=UYHOS5ZZQSYfg1eKw4DU6lBQwMLhJysXt/a/Ue5mJYU=;
+        b=PNfz1LKYVszQGPOZswSOW/v/x7Z3CIq9bmp9a5EOImDQMw6hybj8B2EjZ/yefsZnsM
+         4OaDTIUhvxsBJTaC657wwiekWl6VUVwMnNzIA+AyayvmrLzAuseip/pmm5KjJ54TupAs
+         CvFB9gnXAqeF4+lBJCL6Ju8CmlCnLLUE0ztX8Z3EzlIr5h1kPNwzBgpL3EJ4Qf+0jpQM
+         NPlbirM1KdRcIyF6ionLVP18oUUcVybTVh+LoXgdFhqrzLhOBfYEEEiRcf4pMwYqImd2
+         47PsAT2LW8AGxV3ipPWD4hEMI0QojBKa7rLRvLig4bCfTxoVThiLVkEYdGEzPpRsbwsa
+         flkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=skQSfjDGg4wk3ai7s64SlrqngFj010lakxerTRFvwaQ=;
-        b=wYVBcbajJK9SI1zZ6TNa/1uE3pM4r9W+dcWxmRty7Fp8vZeU9BnA+eGSPthLYl23HT
-         H1sBkvZEQNQR0vzkpwASxkSLpkJpCsxCOjLimnzIAOAsTviabvqbIsOUIE0TOZ2nPQAg
-         9U89X0gKlLS7y5Px+aIlTQlYh312Tl421Fh5MXu6lqaAIW9UAphLFDz6wjreX81p2OU3
-         ipL8a/6AmnEj2nttFWf9nlyoFVB71ZukNuqrNTAXu38uasxiiOjgz2E4UwfiQnU2p4xd
-         IdUKtKhRXzcSvUhotrSTwZ33//pFqcJ6jqJbpcgGw1MJorO1fmbZKKmO8yb2BjVp5Fc2
-         /UBw==
-X-Gm-Message-State: ANoB5pnPW3MWkvy/25wUx2WhL2rkFf9XXPdu4EWVxwDfQQK8cqOjTSki
-	yV2H7C/k73woIrFrAY4QoeCLVqq7QSifpxuYA8s=
-X-Google-Smtp-Source: AA0mqf4YChX1kZUIxb1szrFSx5wxZvFgjOBKC1YzYowjMsp8pAgXJuAxaxKOEXJjS+/ycFa23hxgWA==
-X-Received: by 2002:a17:903:2689:b0:189:5265:a647 with SMTP id jf9-20020a170903268900b001895265a647mr26797675plb.41.1671132067361;
-        Thu, 15 Dec 2022 11:21:07 -0800 (PST)
+        bh=UYHOS5ZZQSYfg1eKw4DU6lBQwMLhJysXt/a/Ue5mJYU=;
+        b=58R+StPAhLitf703YDOmgbLrAsiE3yHX00bbrJwEFIAch6FOtfS4bE+pr3Du003UlF
+         CgpyU8CZ072/voG8ki1GnPiCKS2ftt7TJEGA0/LjxuSHHydshoky6f8S+Ezlco3O0gY6
+         SpzY7fV2Yhr2kGvrXTeRLWt8gpuDvYY5wy6lEFsfZlMKccrX6lE2buymq/mPgEMgQbih
+         0cyvAZ1VUHYNHurIZhBFYre0K/eyAfHC5kukdkXWigERlJfQOUV6CcT7AZ/tokzuft5d
+         X1IaQcDv5Vd1VQJODl0Pi+nmUMO5t46cn0r08TWdRvgLWN1/Ef1ewmflj4fBvMdz1cOO
+         t7pA==
+X-Gm-Message-State: ANoB5pmYX1UC90IxokXdogDFvH5RfTHMjzip2evP1e16prLeM8E7tlcY
+	yEUGjTcV0F65VJU5TSRH7kF0SMKgxycHuWKfseM=
+X-Google-Smtp-Source: AA0mqf6hrc2JvPWRaEixvYukwXsI5ghaghk2EbhGph2hbck+0QCgbKuLEL06+JPR1lxMF2Yfgkg7xA==
+X-Received: by 2002:a17:902:e80c:b0:18a:4493:5db6 with SMTP id u12-20020a170902e80c00b0018a44935db6mr43628144plg.41.1671132063848;
+        Thu, 15 Dec 2022 11:21:03 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id r19-20020a170902c61300b001869b988d93sm4167095plr.187.2022.12.15.11.21.06
+        by smtp.gmail.com with ESMTPSA id r19-20020a170902c61300b001869b988d93sm4167095plr.187.2022.12.15.11.21.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Dec 2022 11:21:06 -0800 (PST)
+        Thu, 15 Dec 2022 11:21:03 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 03/30] dbus: Add missing CVE product name
-Date: Thu, 15 Dec 2022 09:20:27 -1000
-Message-Id: <6c51aa51bdeb06b4ac114d5c75d5e2d205af8f17.1671122751.git.steve@sakoman.com>
+Subject: [OE-core][langdale 01/30] libarchive: CVE-2022-36227 NULL pointer dereference in archive_write.c
+Date: Thu, 15 Dec 2022 09:20:25 -1000
+Message-Id: <a6e4e67cf8f2e98cc2cc3f5c66722a35cc0dda46.1671122751.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1671122751.git.steve@sakoman.com>
 References: <cover.1671122751.git.steve@sakoman.com>
@@ -60,29 +60,83 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 19:21:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174595
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 19:21:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174593
 
-From: Mathieu Dubois-Briand <mathieu.dubois-briand@hyprua.org>
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-Signed-off-by: Mathieu Dubois-Briand <mbriand@witekio.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 67b2db202834f1213bed3580badda2a67655ab7d)
+Upstream-Status: Backport from https://github.com/libarchive/libarchive/commit/bff38efe8c110469c5080d387bec62a6ca15b1a5
+
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/dbus/dbus_1.14.0.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ .../libarchive/CVE-2022-36227.patch           | 42 +++++++++++++++++++
+ .../libarchive/libarchive_3.6.1.bb            |  3 +-
+ 2 files changed, 44 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2022-36227.patch
 
-diff --git a/meta/recipes-core/dbus/dbus_1.14.0.bb b/meta/recipes-core/dbus/dbus_1.14.0.bb
-index 0046b9fda2..863e35faf7 100644
---- a/meta/recipes-core/dbus/dbus_1.14.0.bb
-+++ b/meta/recipes-core/dbus/dbus_1.14.0.bb
-@@ -182,3 +182,5 @@ do_install:class-nativesdk() {
- 	rm -rf ${D}${localstatedir}/run
- }
- BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2022-36227.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2022-36227.patch
+new file mode 100644
+index 0000000000..d0d143710c
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/CVE-2022-36227.patch
+@@ -0,0 +1,42 @@
++From b5332ed6d59ba5113a0a2c67fd82b69fcd5cde68 Mon Sep 17 00:00:00 2001
++From: obiwac <obiwac@gmail.com>
++Date: Fri, 22 Jul 2022 22:41:10 +0200
++Subject: [PATCH] libarchive: CVE-2022-36227 Handle a `calloc` returning NULL
++ (fixes #1754)
 +
-+CVE_PRODUCT += "d-bus_project:d-bus"
++Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/bff38efe8c110469c5080d387bec62a6ca15b1a5]
++CVE: CVE-2022-36227
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com
++---
++ libarchive/archive_write.c | 8 ++++++++
++ 1 file changed, 8 insertions(+)
++
++diff --git a/libarchive/archive_write.c b/libarchive/archive_write.c
++index 66592e8..27626b5 100644
++--- a/libarchive/archive_write.c
+++++ b/libarchive/archive_write.c
++@@ -201,6 +201,10 @@ __archive_write_allocate_filter(struct archive *_a)
++ 	struct archive_write_filter *f;
++ 
++ 	f = calloc(1, sizeof(*f));
+++
+++	if (f == NULL)
+++		return (NULL);
+++
++ 	f->archive = _a;
++ 	f->state = ARCHIVE_WRITE_FILTER_STATE_NEW;
++ 	if (a->filter_first == NULL)
++@@ -548,6 +552,10 @@ archive_write_open2(struct archive *_a, void *client_data,
++ 	a->client_data = client_data;
++ 
++ 	client_filter = __archive_write_allocate_filter(_a);
+++
+++	if (client_filter == NULL)
+++		return (ARCHIVE_FATAL);
+++
++ 	client_filter->open = archive_write_client_open;
++ 	client_filter->write = archive_write_client_write;
++ 	client_filter->close = archive_write_client_close;
++-- 
++2.25.1
++
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.6.1.bb b/meta/recipes-extended/libarchive/libarchive_3.6.1.bb
+index 24d7918bf9..79e13e514f 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.6.1.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.6.1.bb
+@@ -34,7 +34,8 @@ EXTRA_OECONF += "--enable-largefile"
+ 
+ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+            file://0001-libarchive-Do-not-include-sys-mount.h-when-linux-fs..patch \
+-           "
++           file://CVE-2022-36227.patch \
++	   "
+ UPSTREAM_CHECK_URI = "http://libarchive.org/"
+ 
+ SRC_URI[sha256sum] = "c676146577d989189940f1959d9e3980d28513d74eedfbc6b7f15ea45fe54ee2"
 -- 
 2.25.1
 
