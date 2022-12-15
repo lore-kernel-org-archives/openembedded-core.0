@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34808C76186
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 774D1C742A7
 	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 20:32:36 +0000 (UTC)
 Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.144490.1671136350597676354
+ by mx.groups.io with SMTP id smtpd.web10.144505.1671136351882171312
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Dec 2022 12:32:30 -0800
+ Thu, 15 Dec 2022 12:32:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Er4cfY0D;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010185177d0e1d-662f1cc4-7f90-46f1-bd12-d3781cb3733d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=TMeB+rA/;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010185177d1eb6-5994c2ee-6987-4e19-b496-752c8988966e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1671136350;
+	t=1671136354;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=P6QnsOQa9GlP29I8pAg3eXQhY24YLEGK8RiuTuppkWo=;
-	b=Er4cfY0DNQZE8VvP91B/vMwYazA749GggEa83jLuX6wvq52MpKwFf4ODEIIdLWhP
-	DkxXuUoyrShVkxPAb15S8aJMzfEv/MgSRzc5CX0zzdggivg1u5WGgpUL2oOuggT74a7
-	EswmBmQoJvUxwewC/EDXE13bFefckLS9gt2p+oe0=
+	bh=I0KQT7x3TiT8MZl60dcosDUlLP4EMs6cOaEVOHbZYxk=;
+	b=TMeB+rA/2pResDWJernrk2jq+fvIlB3hKpSR/yEYOdB0qG4cjN4vCE+2vDq7xY8B
+	GW0XUJFBLH+Hs0wiZ+xlMCUcqDIRV4IIwmp+K60bkG/exMeitzu36++wQRS/A0YF+YU
+	t5L3BTr06WteZlKrUtxU6FdEMYrzPEu49hf9GOsc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1671136350;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1671136354;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=P6QnsOQa9GlP29I8pAg3eXQhY24YLEGK8RiuTuppkWo=;
-	b=A0K8y6Ooj8nHKA5/XD6M+8zimlg4LpeGNS1KPVMzzcjbmHOC1gDxzpP7QAwkPRf/
-	+K2Fod8/31kL01XioHuAmLDmlVT89Rx1p3v6vL5eIw7yiePYfXaKariWP3qYKspFPvm
-	QzT6q5tkN+8Cu6xAgOajqpH3++eZ5OnzxFel/Yrc=
-Content-Type: multipart/mixed; boundary="===============4345614533420793073=="
+	bh=I0KQT7x3TiT8MZl60dcosDUlLP4EMs6cOaEVOHbZYxk=;
+	b=SiTOdb9dKBZTrtAFTkVVugJKfNsIbMEm1mNwtsR6as9VJt8D+u7XOUGdHCWxYHFF
+	pCzc1xWNWhzLbJAK21iCYVuccH+kMh7qowzmytH8co17X8HwCituCousP9zp0TLVCHi
+	r/MOcdPWRYm8RZQ7AhNUD2s6DDuU3hzRbR8n7Q8A=
+Content-Type: multipart/mixed; boundary="===============3145282358753186053=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libxcrypt: upgrading to 4.4.33 FAILED
-Message-ID: <01010185177d0e1d-662f1cc4-7f90-46f1-bd12-d3781cb3733d-000000@us-west-2.amazonses.com>
-Date: Thu, 15 Dec 2022 20:32:29 +0000
+Subject: [AUH] nghttp2: upgrading to 1.51.0 SUCCEEDED
+Message-ID: <01010185177d1eb6-5994c2ee-6987-4e19-b496-752c8988966e-000000@us-west-2.amazonses.com>
+Date: Thu, 15 Dec 2022 20:32:33 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2022.12.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 20:32:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174627
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174721
 
---===============4345614533420793073==
+--===============3145282358753186053==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,16 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libxcrypt* to *4.4.33* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *nghttp2* to *1.51.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libxcrypt-upgrade-4.4.30-4.4.33.patch
+    - apply the patch: git am 0001-nghttp2-upgrade-1.50.0-1.51.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,57 +69,45 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============4345614533420793073==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libxcrypt-upgrade-4.4.30-4.4.33.patch"
-
-RnJvbSA0MmNmZmQ3NDFmMzVkZmJjZjdmNDdlNmY2MmVlMTY5OThjZDhkMTM2IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgRGVjIDIwMjIgMDg6MjU6NDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJ4Y3J5cHQ6IHVwZ3JhZGUgNC40LjMwIC0+IDQuNC4zMwoKLS0tCiBtZXRhL3JlY2lwZXMtY29y
-ZS9saWJ4Y3J5cHQvbGlieGNyeXB0LmluYyAgICAgICAgICAgICAgICAgICAgICAgfCAyICsrCiAu
-Li4vbGlieGNyeXB0L3tsaWJ4Y3J5cHRfNC40LjMwLmJiID0+IGxpYnhjcnlwdF80LjQuMzMuYmJ9
-ICAgICAgfCAwCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKQogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1jb3JlL2xpYnhjcnlwdC97bGlieGNyeXB0XzQuNC4zMC5iYiA9PiBsaWJ4Y3J5cHRf
-NC40LjMzLmJifSAoMTAwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9saWJ4Y3J5
-cHQvbGlieGNyeXB0LmluYyBiL21ldGEvcmVjaXBlcy1jb3JlL2xpYnhjcnlwdC9saWJ4Y3J5cHQu
-aW5jCmluZGV4IDYxYjAzODEwNzYuLmZmMTU4NmY3OTYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
-cy1jb3JlL2xpYnhjcnlwdC9saWJ4Y3J5cHQuaW5jCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2xp
-YnhjcnlwdC9saWJ4Y3J5cHQuaW5jCkBAIC0zMywzICszMyw1IEBAIEFQSSA9ICItLWRpc2FibGUt
-b2Jzb2xldGUtYXBpIgogRVhUUkFfT0VDT05GICs9ICIke0FQSX0iCiAKIEJCQ0xBU1NFWFRFTkQg
-PSAibmF0aXZlIG5hdGl2ZXNkayIKKworU1JDQlJBTkNIID0gIm1hc3RlciIKZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1jb3JlL2xpYnhjcnlwdC9saWJ4Y3J5cHRfNC40LjMwLmJiIGIvbWV0YS9y
-ZWNpcGVzLWNvcmUvbGlieGNyeXB0L2xpYnhjcnlwdF80LjQuMzMuYmIKc2ltaWxhcml0eSBpbmRl
-eCAxMDAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb3JlL2xpYnhjcnlwdC9saWJ4Y3J5cHRf
-NC40LjMwLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtY29yZS9saWJ4Y3J5cHQvbGlieGNyeXB0
-XzQuNC4zMy5iYgotLSAKMi4zNy4zCgo=
-
---===============4345614533420793073==
+--===============3145282358753186053==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libxcrypt: SRC_URI changed from "git://github.com/besser82/libxcrypt.git;branch=develop;protocol=https file://fix_cflags_handling.patch" to "git://github.com/besser82/libxcrypt.git;branch=master;protocol=https file://fix_cflags_handling.patch"
-packages/core2-32-poky-linux/libxcrypt: PV changed from "4.4.30" to "4.4.33"
-packages/core2-32-poky-linux/libxcrypt: PKGV changed from 4.4.30 [default] to 4.4.33 [default]
-packages/core2-32-poky-linux/libxcrypt/libxcrypt-dbg: PV changed from "4.4.30" to "4.4.33"
-packages/core2-32-poky-linux/libxcrypt/libxcrypt-dbg: PKGV changed from 4.4.30 [default] to 4.4.33 [default]
-packages/core2-32-poky-linux/libxcrypt/libxcrypt-dev: PV changed from "4.4.30" to "4.4.33"
-packages/core2-32-poky-linux/libxcrypt/libxcrypt-dev: PKGV changed from 4.4.30 [default] to 4.4.33 [default]
-packages/core2-32-poky-linux/libxcrypt/libxcrypt-doc: PV changed from "4.4.30" to "4.4.33"
-packages/core2-32-poky-linux/libxcrypt/libxcrypt-doc: PKGV changed from 4.4.30 [default] to 4.4.33 [default]
-packages/core2-32-poky-linux/libxcrypt/libxcrypt-locale: PV changed from "4.4.30" to "4.4.33"
-packages/core2-32-poky-linux/libxcrypt/libxcrypt-locale: PKGV changed from 4.4.30 [default] to 4.4.33 [default]
-packages/core2-32-poky-linux/libxcrypt/libxcrypt-src: PV changed from "4.4.30" to "4.4.33"
-packages/core2-32-poky-linux/libxcrypt/libxcrypt-src: PKGV changed from 4.4.30 [default] to 4.4.33 [default]
-packages/core2-32-poky-linux/libxcrypt/libxcrypt-staticdev: PV changed from "4.4.30" to "4.4.33"
-packages/core2-32-poky-linux/libxcrypt/libxcrypt-staticdev: PKGV changed from 4.4.30 [default] to 4.4.33 [default]
-packages/core2-32-poky-linux/libxcrypt/libxcrypt: PV changed from "4.4.30" to "4.4.33"
-packages/core2-32-poky-linux/libxcrypt/libxcrypt: PKGV changed from 4.4.30 [default] to 4.4.33 [default]
+packages/core2-32-poky-linux/nghttp2: PKGV changed from 1.50.0 [default] to 1.51.0 [default]
+packages/core2-32-poky-linux/nghttp2: SRC_URI changed from "https://github.com/nghttp2/nghttp2/releases//download/v1.50.0/nghttp2-1.50.0.tar.xz file://0001-fetch-ocsp-response-use-python3.patch" to "https://github.com/nghttp2/nghttp2/releases//download/v1.51.0/nghttp2-1.51.0.tar.xz file://0001-fetch-ocsp-response-use-python3.patch"
+packages/core2-32-poky-linux/nghttp2: PV changed from "1.50.0" to "1.51.0"
+packages/core2-32-poky-linux/nghttp2/libnghttp2: PKGV changed from 1.50.0 [default] to 1.51.0 [default]
+packages/core2-32-poky-linux/nghttp2/libnghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.24.0", added "/usr/lib/libnghttp2.so.14.24.1"
+packages/core2-32-poky-linux/nghttp2/libnghttp2: PV changed from "1.50.0" to "1.51.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-client: PKGV changed from 1.50.0 [default] to 1.51.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-client: PV changed from "1.50.0" to "1.51.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-dbg: PKGV changed from 1.50.0 [default] to 1.51.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-dbg: FILELIST: removed "/usr/lib/.debug/libnghttp2.so.14.24.0", added "/usr/lib/.debug/libnghttp2.so.14.24.1"
+packages/core2-32-poky-linux/nghttp2/nghttp2-dbg: PV changed from "1.50.0" to "1.51.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-dev: PKGV changed from 1.50.0 [default] to 1.51.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-dev: PKGSIZE changed from 207588 to 207288 (-0%)
+packages/core2-32-poky-linux/nghttp2/nghttp2-dev: PV changed from "1.50.0" to "1.51.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-doc: PKGV changed from 1.50.0 [default] to 1.51.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-doc: PKGSIZE changed from 179861 to 179955 (+0%)
+packages/core2-32-poky-linux/nghttp2/nghttp2-doc: PV changed from "1.50.0" to "1.51.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-locale: PKGV changed from 1.50.0 [default] to 1.51.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-locale: PV changed from "1.50.0" to "1.51.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-proxy: PKGV changed from 1.50.0 [default] to 1.51.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-proxy: PV changed from "1.50.0" to "1.51.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-server: PKGV changed from 1.50.0 [default] to 1.51.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-server: PV changed from "1.50.0" to "1.51.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-src: PKGV changed from 1.50.0 [default] to 1.51.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-src: PKGSIZE changed from 1008607 to 1008307 (-0%)
+packages/core2-32-poky-linux/nghttp2/nghttp2-src: PV changed from "1.50.0" to "1.51.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-staticdev: PKGV changed from 1.50.0 [default] to 1.51.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-staticdev: PV changed from "1.50.0" to "1.51.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2: PKGV changed from 1.50.0 [default] to 1.51.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2: PV changed from "1.50.0" to "1.51.0"
+Changes to packages/core2-32-poky-linux/nghttp2 (sysroot):
+  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.24.0 to libnghttp2.so.14.24.1
+  /usr/lib/libnghttp2.so.14.24.0 moved to /usr/lib/libnghttp2.so.14.24.1
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1480,31 +1462,46 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
 
---===============4345614533420793073==
-Content-Type: text/plain; charset="us-ascii"
+--===============3145282358753186053==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-nghttp2-upgrade-1.50.0-1.51.0.patch"
 
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 888 .bb files complete (0 cached, 888 parsed). 1673 targets, 49 skipped, 0 masked, 0 errors.
-Removing 6 recipes from the core2-32 sysroot...done.
-Removing 5 recipes from the qemux86 sysroot...done.
+RnJvbSA1ZGFkNDFiNmRkYzA2ZmVkZGU1M2RjMTlkZmRiZTc0OTUwODJiMmRjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTUgRGVjIDIwMjIgMjA6MjI6MjIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBu
+Z2h0dHAyOiB1cGdyYWRlIDEuNTAuMCAtPiAxLjUxLjAKCi0tLQogLi4uL25naHR0cDIve25naHR0
+cDJfMS41MC4wLmJiID0+IG5naHR0cDJfMS41MS4wLmJifSAgICAgICAgICAgIHwgMiArLQogMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvbmdodHRwMi97bmdodHRwMl8xLjUwLjAuYmIgPT4gbmdodHRwMl8xLjUx
+LjAuYmJ9ICg5MiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdodHRwMi9u
+Z2h0dHAyXzEuNTAuMC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMl8x
+LjUxLjAuYmIKc2ltaWxhcml0eSBpbmRleCA5MiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEuNTAuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEuNTEuMC5iYgppbmRleCA2NjMxMWIyZWRmLi5mYzFhNTky
+MjAwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9uZ2h0dHAyL25naHR0cDJfMS41
+MC4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMl8xLjUxLjAu
+YmIKQEAgLTgsNyArOCw3IEBAIFNSQ19VUkkgPSAiXAogICAgICR7R0lUSFVCX0JBU0VfVVJJfS9k
+b3dubG9hZC92JHtQVn0vbmdodHRwMi0ke1BWfS50YXIueHogXAogICAgIGZpbGU6Ly8wMDAxLWZl
+dGNoLW9jc3AtcmVzcG9uc2UtdXNlLXB5dGhvbjMucGF0Y2ggXAogIgotU1JDX1VSSVtzaGEyNTZz
+dW1dID0gImFmMjQwMDdlMzRjMThjNzgyMzkzYTFkYzM2ODVmOGZkNWI1MDI4M2U5MGE5MTkxZDI1
+NDg4ZWI1MGFhMmM4MjUiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNjZhYTc2ZDk3YzE0M2Y0MjI5
+NTQwNWEzMTQxM2U1ZTdkMTU3OTY4ZGFkOWY5NTdiYjRiMDE1YjU5ODg4MmU2YiIKIAogaW5oZXJp
+dCBjbWFrZSBtYW5wYWdlcyBweXRob24zbmF0aXZlIGdpdGh1Yi1yZWxlYXNlcwogUEFDS0FHRUNP
+TkZJR1ttYW5wYWdlc10gPSAiIgotLSAKMi4zNy4zCgo=
 
-Summary: There was 1 WARNING message.
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: Nothing PROVIDES 'libxcrypt'
-libxcrypt was skipped: PREFERRED_PROVIDER_virtual/crypt set to musl, not libxcrypt
-
---===============4345614533420793073==
+--===============3145282358753186053==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/core2-32-poky-linux/nghttp2/libnghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.24.0", added "/usr/lib/libnghttp2.so.14.24.1"
+Changes to packages/core2-32-poky-linux/nghttp2 (sysroot):
+  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.24.0 to libnghttp2.so.14.24.1
+  /usr/lib/libnghttp2.so.14.24.0 moved to /usr/lib/libnghttp2.so.14.24.1
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -2859,5 +2856,5 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
 
---===============4345614533420793073==--
+--===============3145282358753186053==--
 
