@@ -1,97 +1,93 @@
-Return-Path: <alejandro@enedino.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A908C4332F
-	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 07:32:50 +0000 (UTC)
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.web10.127535.1671089563284812274
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98E9AC4332F
+	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 08:45:50 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web11.129132.1671093950150936066
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Dec 2022 23:32:43 -0800
+ Thu, 15 Dec 2022 00:45:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: enedino.org, ip: 13.77.154.182, mailfrom: alejandro@enedino.org)
-Received: from alsamon-xub.lan (cpe-68-201-55-29.elp.res.rr.com [68.201.55.29])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 6032520B87E0;
-	Wed, 14 Dec 2022 23:32:42 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6032520B87E0
-From: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Yub38l1l;
+ spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f170.google.com with SMTP id t2so6148572ply.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 00:45:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Vcb0IljHuNGtoTs5WEVGN7N0/VKiTHDOwnW/iH98r3s=;
+        b=Yub38l1lP6Z9auJhhxyU1n/AA8yo8K8XMfaESIrsIB2sCG9GfAbXwVVKc5PaCsUiip
+         NSNt8vlhWqW2dE9OOE9ZOooB+VS7lBgupvY8h0SmDXVmNDWx5RUTWjbFqVNqhIunlpPx
+         5CTdlMR04RDcKOaut7MfInqbjVVyfIErXIwc+1jTWPZw4RHGmorM8znzfRFZkvtHvDTb
+         BGPcdWv8PQQgoaYeGg9IyMIJSFgk9iDn8kbFayHHJcfRffqiQztAWLgqEpxZFFRLVYcy
+         5XaHirkkI1JHku69DEOiazaa6FW0dAHVWIIwY6O0SMQmq+C3VUDXWnzpInz/vM9+6SCD
+         ANgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Vcb0IljHuNGtoTs5WEVGN7N0/VKiTHDOwnW/iH98r3s=;
+        b=53OeVsvfbmpgJZvu798BwJ4Lt88SSjovXGifv3Xp+kkRrc5JIO6frN6RnIFVCi9Q6J
+         W35cCX1s0tgFusKWDXI8B5UWO6OvtAulTaDxixJ48IDRCnwuDoXJdrsUMa0G+GZqdH6d
+         ISpICJ4vyWFdtgB1rEDrnGIH8GN5OTA7QAB5dGoRrHN7O49U7smFp4GKDJ5TgkaKFjRr
+         yQSYCqjK08+qqvR6WSt6tp5tkpj9zCW3X4Kh2VM6RJR6BN1jNU4QHor0ERO3T2juzXMI
+         fWk3kFMeUpXprk4XnWgcx3qxYXtZ7s7ewU2NxyksnF4Pjn6/tEytnslyDnZRJpq3upNN
+         oG9Q==
+X-Gm-Message-State: ANoB5pmQPX3/9HiKYC+Lx9iG/zuaeabyF/WA8yYz0Ji2c3/oDzgYkkxe
+	6dBGjbH/+CY9Nm8jRXC9IIMARrQRfd8=
+X-Google-Smtp-Source: AA0mqf4/aNiDqgZQrm/qWIPPFPgK4CJpsmLQDSL28lr+q276QhbETmiGAzTzUuvYb7HI1mfocvACjw==
+X-Received: by 2002:a17:902:8343:b0:186:95c9:ddc9 with SMTP id z3-20020a170902834300b0018695c9ddc9mr32891240pln.55.1671093949173;
+        Thu, 15 Dec 2022 00:45:49 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::7d9c])
+        by smtp.gmail.com with ESMTPSA id z14-20020a170903018e00b00188ea79fae0sm3255723plg.48.2022.12.15.00.45.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Dec 2022 00:45:48 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
-Subject: [PATCH 2/2] rust: Enable baremetal targets
-Date: Thu, 15 Dec 2022 00:32:24 -0700
-Message-Id: <20221215073224.3061128-2-alejandro@enedino.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221215073224.3061128-1-alejandro@enedino.org>
-References: <20221215073224.3061128-1-alejandro@enedino.org>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 02/11] pseudo: Remove 64bit time_t flags
+Date: Thu, 15 Dec 2022 00:45:37 -0800
+Message-Id: <20221215084546.125368-2-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20221215084546.125368-1-raj.khem@gmail.com>
+References: <20221215084546.125368-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 07:32:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174562
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 08:45:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174564
 
-Allow rust to build for baremetal targets by generating the proper target
-triple, follow the format specified by rusts Triple [1], that is:
+pseudo traps syscalls and has intimate knowledge of them
+and does not really depend on glibc interfaces to kernel
 
-<arch>-<vendor>-<os>-<abi>
+flags are added via TARGET_CC_ARCH therefore move the remove
+operation from TARGET_CPPFLAGS to TARGET_CC_ARCH
 
-This is done automatically based on both TARGET_OS and TCLIBC.
-
-For example, a riscv64 baremetal target triple would look like this:
-riscv64gc-poky-none-elf
-
-matching rusts own target triple for riscv64 according to platform-suppor=
-t [2]
-
-[1] https://docs.rs/target-lexicon/latest/target_lexicon/struct.Triple.ht=
-ml
-[2] https://doc.rust-lang.org/stable/rustc/platform-support.html
-
-Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.o=
-rg>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes-recipe/rust-common.bbclass        | 6 ++++++
- meta/classes-recipe/rust-target-config.bbclass | 5 ++++-
- 2 files changed, 10 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/rust-common.bbclass b/meta/classes-recip=
-e/rust-common.bbclass
-index 3338de7502..0f72e45e8c 100644
---- a/meta/classes-recipe/rust-common.bbclass
-+++ b/meta/classes-recipe/rust-common.bbclass
-@@ -66,6 +66,12 @@ def rust_base_triple(d, thing):
-     elif "musl" in os:
-         libc =3D "-musl"
-         os =3D "linux"
-+    elif "elf" in os:
-+        libc =3D "-elf"
-+        os =3D "none"
-+    elif "eabi" in os:
-+        libc =3D "-eabi"
-+        os =3D "none"
-=20
-     return arch + vendor + '-' + os + libc
-=20
-diff --git a/meta/classes-recipe/rust-target-config.bbclass b/meta/classe=
-s-recipe/rust-target-config.bbclass
-index 2710b4325d..7fd7128bcf 100644
---- a/meta/classes-recipe/rust-target-config.bbclass
-+++ b/meta/classes-recipe/rust-target-config.bbclass
-@@ -355,7 +355,10 @@ def rust_gen_target(d, thing, wd, arch):
-     tspec['target-c-int-width'] =3D d.getVarFlag('TARGET_C_INT_WIDTH', a=
-rch_abi)
-     tspec['target-endian'] =3D d.getVarFlag('TARGET_ENDIAN', arch_abi)
-     tspec['arch'] =3D arch_to_rust_target_arch(rust_arch)
--    tspec['os'] =3D "linux"
-+    if "baremetal" in d.getVar('TCLIBC'):
-+        tspec['os'] =3D "none"
-+    else:
-+        tspec['os'] =3D "linux"
-     if "musl" in tspec['llvm-target']:
-         tspec['env'] =3D "musl"
-     else:
---=20
-2.34.1
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 8bb8993439..1a708066f7 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -22,7 +22,7 @@ PV = "1.9.0+git${SRCPV}"
+ # aliased due to this e.g. open/open64 and it will complain about duplicate definitions
+ # pseudo on 32bit systems is not much of use anyway and these features are not of much
+ # use for it.
+-TARGET_CPPFLAGS:remove = "-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
++TARGET_CC_ARCH:remove = "-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64"
+ 
+ # error: use of undeclared identifier '_STAT_VER'
+ COMPATIBLE_HOST:libc-musl = 'null'
+-- 
+2.39.0
 
 
