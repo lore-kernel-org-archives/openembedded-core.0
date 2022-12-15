@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05D20C46467
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01AD8C4167B
 	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 19:21:44 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web11.143584.1671132101947158083
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web11.143580.1671132095288241778
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Dec 2022 11:21:42 -0800
+ Thu, 15 Dec 2022 11:21:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=huorPpT8;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f52.google.com with SMTP id k88-20020a17090a4ce100b00219d0b857bcso132674pjh.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 11:21:41 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=1uOpJDvl;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f49.google.com with SMTP id js9so174576pjb.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 11:21:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=rLXxDYotwqHhu0FyTQ1vk9U9Zoo3Ydq+X625oUi7juY=;
-        b=huorPpT8PaW5SOHo2YfUw60kPm7slqgG1dAglRvMyyIaqb+ujcgpjL8AtJgYgoZDiJ
-         9ekaZozY5IkfgPCLz7+di+hb31YJqOgNI480Vn+6A81hb34npz2p5qFwAKFRY/U1cwe6
-         WoECA8AKOGtlsKVCHVhVLyaH5NPnon5vbseFm9KlJbeaq9lrRNAHtBA736XBf7FfGUB1
-         7NCMcpAmHlWE2BCjGijTKvyuLCV2y8tyVDXzzGphK7zbL3MnGBEFQOEIdSbQ/ayzQWjM
-         HwY/zsG9D/y5d8DAx1K5hDYIxM1gJEvcQtGmAtLr0Uz2T+M7vGelbsPWKocLX5dxMmsQ
-         mzGQ==
+        bh=6DKRsJtwV0v+NVcva+4gPktHjYJwGWSmOy4Zn9DlcNo=;
+        b=1uOpJDvloKX/vGFJVvNCXuwuqbpgkOcIllH3SEm9/+bv88oSR0BiUwRQ9sKjWjiTJY
+         m3qvqF3TP1gvaKDW58ywdaMTZHUlE8weAzDGRZHb/aN++luesQxHz6G06J+pcKJIxQAZ
+         0LE0ACJSncE9a7Xc3cxGictyYsWyO6Sn1qaVblUSkAXlHVGrhFVB+T4c5o+aDyUFLvxl
+         8ljJTslSU+Iw46lHy5pjXoWjU+m46BaDfRxX5xGRrkI3QPxl+ZfiuVWeeoWfNuBiQFeY
+         N+RbCQurlIJKGwjuAtaglj5xhuhjzSzZb7hhnhf0+oC6JPwmpC6yRsaL3GG6PRV1BRTS
+         GObA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rLXxDYotwqHhu0FyTQ1vk9U9Zoo3Ydq+X625oUi7juY=;
-        b=eFozFllu+82AfJ65IeKKczpAi9pCd045qQ2Ome4a48cLBFIG8a747N7xJRyY5DuGjF
-         01gzpEwSJ6c3O8B/byVSwFK30BPUp6+xCMK6RCsg3od3DHwIAmdRWs/TS6aSQodJfdbk
-         M4PczztktRuOkq6X34qEyfULXymyyNHS9mwYa4dXV2+ABCiWdtNqQRh13w1RtbhPf3tb
-         iyFwDDcC0kzbs6zMScqTSKJFX/PTlBKp+RYp0mjzbSPY+G/PMAOIMjIkZ12kYqpUkLpt
-         ny0TqTyCOXBJUTa7EWcvaMWLmRh13HPZFrRZeGOVlhlnEL2U1dU0lVBv1KZE9PYrgg8z
-         lGbQ==
-X-Gm-Message-State: ANoB5pnRE+5ltavN1nXsE7WnrIPbKJNvG8E24uVK6PGMxKJ3Ck9KH+6B
-	Mah9dNGrZvxtwivF19UbXKqfmMxDJhjlcftqUdI=
-X-Google-Smtp-Source: AA0mqf7zFYS71cBuYK+bHFaGA9GUdgOXLnfPaXQ7aPX+VpVJEOnw+1AfZexltLU0P1v3j0M6vSKoug==
-X-Received: by 2002:a17:903:31ce:b0:189:aa5c:7f7f with SMTP id v14-20020a17090331ce00b00189aa5c7f7fmr28949813ple.63.1671132100973;
-        Thu, 15 Dec 2022 11:21:40 -0800 (PST)
+        bh=6DKRsJtwV0v+NVcva+4gPktHjYJwGWSmOy4Zn9DlcNo=;
+        b=4r7MEduMLXQ8WZtetmPWzemwQG2GH/R5y3WacxtquQvgMvwY1/9onGTnMq7RUB/tQX
+         7LPJem4evPQJVYlYRinJk0WOCcYxaXFRqiC/N/Eiz3gJsjDDCIvgBV2N3g8yOdAUD9mX
+         PwR2or0tdPnvNLdVg99jDrqQS2Rwmg4MlAeqxiv5nEbOMB2n55b09+F0GScHFI6Z/UcY
+         l6kw1GZgTdhwC3IRVUEjfhOySgf9QTe9y5PDFGhTyouJmxoQSrT1/0cGQX8HR0d6QUff
+         PnwLkwmGyqn+e3AEsCz5Q2L6mjh431bRK2SFbWXiju/pZe4/R7+VwGCfozOqgcHGrZjm
+         Utog==
+X-Gm-Message-State: ANoB5pksfEEB3WsBBJVpiTIGhDidX7LpJQ/4/pEfIiHIT4xFdNG0yGAb
+	/Me7eTjM74ZM5yVAyZjLJ6V+IrG4OXTHStnunus=
+X-Google-Smtp-Source: AA0mqf7q/nolApmvJxyaXbpiFLB5tSqalgtU7lfWa2+TBqai/oobs3MMq6ALPv9k8hzoLhRopFeG7Q==
+X-Received: by 2002:a05:6a20:9c89:b0:a3:9598:e5c5 with SMTP id mj9-20020a056a209c8900b000a39598e5c5mr34209341pzb.35.1671132094183;
+        Thu, 15 Dec 2022 11:21:34 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id r19-20020a170902c61300b001869b988d93sm4167095plr.187.2022.12.15.11.21.40
+        by smtp.gmail.com with ESMTPSA id r19-20020a170902c61300b001869b988d93sm4167095plr.187.2022.12.15.11.21.33
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Dec 2022 11:21:40 -0800 (PST)
+        Thu, 15 Dec 2022 11:21:33 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 23/30] kernel.bbclass: remove empty module directories to prevent QA issues
-Date: Thu, 15 Dec 2022 09:20:47 -1000
-Message-Id: <f65e3db99b4f85eae73adb3a2699ecb29d06450f.1671122751.git.steve@sakoman.com>
+Subject: [OE-core][langdale 19/30] lsof: add update-alternatives logic
+Date: Thu, 15 Dec 2022 09:20:43 -1000
+Message-Id: <3217ea61a1721df1b26f6e0695f03a50f21ebac8.1671122751.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1671122751.git.steve@sakoman.com>
 References: <cover.1671122751.git.steve@sakoman.com>
@@ -61,45 +61,48 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 19:21:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174615
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174611
 
-From: Ovidiu Panait <ovidiu.panait@windriver.com>
+From: Alex Stewart <alex.stewart@ni.com>
 
-Currently, allyesconfig test runs for x86_64 fail with:
-ERROR: linux-yocto-5.19.17+gitAUTOINC+0cba9aa404_aaf4490d18-r0 do_package:
-QA Issue: linux-yocto: Files/directories were installed but not shipped in any
-package:
-  /lib/modules/5.19.17/kernel/drivers/nvdimm
+Some distributions (NI LinuxRT) provide both busybox-lsof and
+full-featured lsof implementations. When users install the full-featured
+lsof package, the full-binary fails to replace the bbox-binary in PATH,
+because `lsof` contains no update-alternatives logic.
 
-With CONFIG_NVDIMM_TEST_BUILD=m, an empty nvdimm directory is created during
-modules_install, which triggers the QA issue.
+Inherit the update-alternatives bbclass and assert that the
+full-featured lsof package has higher priority than the busybox
+implementation.
 
-Extend kernel_do_install() to also remove inner empty directories that might
-get created by modules_install.
-
-Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+Co-Authored-By: Kyle Roeschley <kyle.roeschley@ni.com>
+Signed-off-by: Alex Stewart <alex.stewart@ni.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 7120b09a33af4c9a18063c0f2e51fb598697e39c)
+(cherry picked from commit e2893fa692a6e91eee09fc04c8c03fe27c718a58)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-recipe/kernel.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-extended/lsof/lsof_4.95.0.bb | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
-index 3f6b40907f..553e17bb4e 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -450,8 +450,8 @@ kernel_do_install() {
- 		oe_runmake DEPMOD=echo MODLIB=${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION} INSTALL_FW_PATH=${D}${nonarch_base_libdir}/firmware modules_install
- 		rm "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
- 		rm "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/source"
--		# If the kernel/ directory is empty remove it to prevent QA issues
--		rmdir --ignore-fail-on-non-empty "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/kernel"
-+		# Remove empty module directories to prevent QA issues
-+		find "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/kernel" -type d -empty -delete
- 	else
- 		bbnote "no modules to install"
- 	fi
+diff --git a/meta/recipes-extended/lsof/lsof_4.95.0.bb b/meta/recipes-extended/lsof/lsof_4.95.0.bb
+index f380de0b6b..80128369ec 100644
+--- a/meta/recipes-extended/lsof/lsof_4.95.0.bb
++++ b/meta/recipes-extended/lsof/lsof_4.95.0.bb
+@@ -19,6 +19,15 @@ SRCREV = "67d8c828e7bdc01ba93f8ff79765dd424da0c9d7"
+ 
+ S = "${WORKDIR}/git"
+ 
++
++inherit update-alternatives
++
++ALTERNATIVE_${PN} = "lsof"
++ALTERNATIVE_LINK_NAME[lsof] = "${sbindir}/lsof"
++# Make our priority higher than busybox
++ALTERNATIVE_PRIORITY = "100"
++
++
+ export LSOF_INCLUDE = "${STAGING_INCDIR}"
+ 
+ do_configure () {
 -- 
 2.25.1
 
