@@ -2,46 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB663C3DA7C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0254C53210
 	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 20:32:34 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.144489.1671136350181511172
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.144494.1671136350880845425
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Dec 2022 12:32:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=GB0a2Yz6;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010185177d1be8-a74f3b0c-430d-4895-9e11-1b3cc0c183ac-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=B0dCrKQS;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010185177d1a30-74a205a9-e327-4ca8-93c3-ff466b66ad42-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1671136353;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=+08m9i/AT8YpT+RAsxGuCPEwkKOuFu6mG3NEWuY0hd8=;
-	b=GB0a2Yz6GbpCDX9sInlXS8M4anQBy9hxdCsPaHxqlXJ2OkE724asiHr8ka4j7ew4
-	phCrkf9dnfXQogWHXfrbV3iX2Oefyy4/VUb9S9J455gLUuwke6j1O+CHlbbpWWiw6c3
-	7reVeMtHw0rqmQYt+g2Y78kKTHuggISohljURdlA=
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=Fw7aMyM8CZMMEWTkxVAapjLyiMW5GQzk2ISf2cLDQ0U=;
+	b=B0dCrKQSolPqA81zAXguP4Q3Svb0ixUFfsSJAFAdCiZcts05InmjGsOPmreb+Fre
+	DKQAr4ru/SSsiLSxYkBzEEFrLPSM5GcelvAdi0gn3ZOzFG8jti3Zrp9Ufe0nGxb0UZk
+	1fe1AM37AD/IEF/badYgA2kg65jYao8uZ0F5lro4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1671136353;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=+08m9i/AT8YpT+RAsxGuCPEwkKOuFu6mG3NEWuY0hd8=;
-	b=FkmA36eTCVwPZPQPg23BMEZ44qTdGfySXZrVgcJ4LYa/rgqxJC6trq3F/bx9Dyrg
-	wy6e7oKd9ZIRKeNM6TRt4QKzk/dTqfojBblnlYjNpnaDb5IAg7PFJs23ndI5J6KjldV
-	ZNWbH3NywyKxnvO2Iz3p/mEx4Mu27q7ddpXEJKE8=
-Content-Type: multipart/mixed; boundary="===============4291304861923458441=="
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=Fw7aMyM8CZMMEWTkxVAapjLyiMW5GQzk2ISf2cLDQ0U=;
+	b=XQWbYCZ/66xi+hD6Md9I2unpyg+V59F4ONycP8n4T7hVa+jvnj5ZopGI1oSpUcY+
+	84R9ouj99ENLXAjJXGk924jcIGTNPWYjwCvXeOPt1IkbXHN7/qrp4Zbp6tnAvExjLVQ
+	nFePRKVUzKypNnrNHkr64AkgXXP6eaX1rWFnw+Do=
+Content-Type: multipart/mixed; boundary="===============3204809796987085362=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] xinit: upgrading to 1.4.2 FAILED
-Message-ID: <01010185177d1be8-a74f3b0c-430d-4895-9e11-1b3cc0c183ac-000000@us-west-2.amazonses.com>
-Date: Thu, 15 Dec 2022 20:32:33 +0000
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] glslang: upgrading to 1.3.236.0 SUCCEEDED
+Message-ID: <01010185177d1a30-74a205a9-e327-4ca8-93c3-ff466b66ad42-000000@us-west-2.amazonses.com>
+Date: Thu, 15 Dec 2022 20:32:32 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.12.15-54.240.27.23
+X-SES-Outgoing: 2022.12.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 20:32:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174688
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174685
 
---===============4291304861923458441==
+--===============3204809796987085362==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -49,88 +50,114 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *xinit* to *1.4.2* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *glslang* to *1.3.236.0* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-glslang-upgrade-1.3.231.1-1.3.236.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade xinit -V 1.4.2
-NOTE: Starting bitbake server...
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1672 entries from dependency cache.
-
-Summary: There was 1 WARNING message.
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:003e75d23e54d342bc7ca178009bfb68a212b9ed"
-workspace            = "master:46fd76aa07bd431f0ba73bdafeb7bf5aa31cef25"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1672 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 889 .bb files complete (887 cached, 2 parsed). 1673 targets, 36 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 WARNING message.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:003e75d23e54d342bc7ca178009bfb68a212b9ed"
-workspace            = "master:46fd76aa07bd431f0ba73bdafeb7bf5aa31cef25"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-WARNING: Failed to fetch URL https://www.x.org/releases//individual/app/xinit-1.4.2.tar.bz2, attempting MIRRORS if available
-NOTE: Tasks Summary: Attempted 1 tasks of which 0 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://www.x.org/releases//individual/app/xinit-1.4.2.tar.bz2...
-ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-zv2ptos1/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-zv2ptos1/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-zv2ptos1/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-wor
- ker/auh/build/build/build/tmp/work/recipetool-zv2ptos1/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-zv2ptos1/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-zv2ptos1/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 --passive-ftp -O /home/pokybuild/yocto-worker/auh/build/build/build/downloads/xinit-1.4.2.tar.bz2.tmp -P /home/pokybuild/yocto-worker/auh/build/build/build/downloads 'https://www.x.org/releases//individual/app/xinit-1.4.2.tar.bz2' --progress=dot -v failed with exit code 8, no output
-ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://www.x.org/releases//individual/app/xinit-1.4.2.tar.bz2')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-zv2ptos1/work/temp/log.do_fetch.2316177
-ERROR: Failed to fetch URL https://www.x.org/releases//individual/app/xinit-1.4.2.tar.bz2
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============4291304861923458441==--
+--===============3204809796987085362==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-glslang-upgrade-1.3.231.1-1.3.236.0.patch"
+
+RnJvbSA4YjI2ZTAyMWZkOWYzOTJlNmRkNjEyZWZiNmQ3OGMxODA1N2ZiYzViIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTUgRGVjIDIwMjIgMTQ6NTc6NTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+bHNsYW5nOiB1cGdyYWRlIDEuMy4yMzEuMSAtPiAxLjMuMjM2LjAKCi0tLQogLi4uL2dsc2xhbmcv
+e2dsc2xhbmdfMS4zLjIzMS4xLmJiID0+IGdsc2xhbmdfMS4zLjIzNi4wLmJifSAgICAgIHwgMiAr
+LQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUg
+bWV0YS9yZWNpcGVzLWdyYXBoaWNzL2dsc2xhbmcve2dsc2xhbmdfMS4zLjIzMS4xLmJiID0+IGds
+c2xhbmdfMS4zLjIzNi4wLmJifSAoOTUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFw
+aGljcy9nbHNsYW5nL2dsc2xhbmdfMS4zLjIzMS4xLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
+L2dsc2xhbmcvZ2xzbGFuZ18xLjMuMjM2LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1l
+IGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2dsc2xhbmcvZ2xzbGFuZ18xLjMuMjMxLjEuYmIK
+cmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9nbHNsYW5nL2dsc2xhbmdfMS4zLjIzNi4w
+LmJiCmluZGV4IGZlZGUyNTE2YjEuLjk5ZWNhNmE2YzEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
+cy1ncmFwaGljcy9nbHNsYW5nL2dsc2xhbmdfMS4zLjIzMS4xLmJiCisrKyBiL21ldGEvcmVjaXBl
+cy1ncmFwaGljcy9nbHNsYW5nL2dsc2xhbmdfMS4zLjIzNi4wLmJiCkBAIC04LDcgKzgsNyBAQCBI
+T01FUEFHRSA9ICJodHRwczovL3d3dy5raHJvbm9zLm9yZy9vcGVuZ2xlcy9zZGsvdG9vbHMvUmVm
+ZXJlbmNlLUNvbXBpbGVyIgogTElDRU5TRSA9ICJCU0QtMy1DbGF1c2UgJiBCU0QtMi1DbGF1c2Ug
+JiBNSVQgJiBBcGFjaGUtMi4wICYgR1BMLTMtd2l0aC1iaXNvbi1leGNlcHRpb24iCiBMSUNfRklM
+RVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLnR4dDttZDU9MmEyYjVhY2Q3YmM0ODQ0OTY0Y2Zk
+YTQ1ZmU4MDdkYzMiCiAKLVNSQ1JFViA9ICI1NzU1ZGU0NmIwN2U0Mzc0YzA1ZmIxMDgxZjY1Zjdh
+ZTFmOGNjYTgxIgorU1JDUkVWID0gIjc3NTUxYzQyOWY4NmMwZTA3N2YyNjU1MmI3YzFjMGYxMmE5
+ZjIzNWUiCiBTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vS2hyb25vc0dyb3VwL2dsc2xhbmcu
+Z2l0O3Byb3RvY29sPWh0dHBzO2JyYW5jaD1tYXN0ZXIgXAogICAgICAgICAgICBmaWxlOi8vMDAw
+MS1nZW5lcmF0ZS1nbHNsYW5nLXBrZy1jb25maWcucGF0Y2giCiBQRSA9ICIxIgotLSAKMi4zNy4z
+Cgo=
+
+--===============3204809796987085362==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/glslang/glslang-dbg: PV changed from "1.3.231.1" to "1.3.236.0"
+packages/core2-32-poky-linux/glslang/glslang-dbg: PKGSIZE changed from 70438344 to 70462404 (+0%)
+packages/core2-32-poky-linux/glslang/glslang-dbg: PKGV changed from 1.3.231.1 [default] to 1.3.236.0 [default]
+packages/core2-32-poky-linux/glslang/glslang-dbg: FILELIST: removed "/usr/lib/.debug/libglslang.so.11.12.0", added "/usr/lib/.debug/libglslang.so.11.13.0"
+packages/core2-32-poky-linux/glslang/glslang-dev: PV changed from "1.3.231.1" to "1.3.236.0"
+packages/core2-32-poky-linux/glslang/glslang-dev: PKGSIZE changed from 988779 to 994093 (+1%)
+packages/core2-32-poky-linux/glslang/glslang-dev: PKGV changed from 1.3.231.1 [default] to 1.3.236.0 [default]
+packages/core2-32-poky-linux/glslang/glslang-dev: FILELIST: added "/usr/include/glslang/Public/ResourceLimits.h /usr/include/glslang/Public/resource_limits_c.h /usr/include/glslang/SPIRV/GLSL.ext.ARM.h"
+packages/core2-32-poky-linux/glslang/glslang-doc: PV changed from "1.3.231.1" to "1.3.236.0"
+packages/core2-32-poky-linux/glslang/glslang-doc: PKGV changed from 1.3.231.1 [default] to 1.3.236.0 [default]
+packages/core2-32-poky-linux/glslang/glslang-locale: PV changed from "1.3.231.1" to "1.3.236.0"
+packages/core2-32-poky-linux/glslang/glslang-locale: PKGV changed from 1.3.231.1 [default] to 1.3.236.0 [default]
+packages/core2-32-poky-linux/glslang/glslang-src: PV changed from "1.3.231.1" to "1.3.236.0"
+packages/core2-32-poky-linux/glslang/glslang-src: PKGSIZE changed from 4679040 to 4687396 (+0%)
+packages/core2-32-poky-linux/glslang/glslang-src: PKGV changed from 1.3.231.1 [default] to 1.3.236.0 [default]
+packages/core2-32-poky-linux/glslang/glslang-src: FILELIST: directory renamed /usr/src/debug/glslang/1_1.3.231.1-r0/glslang/OSDependent/Unix -> /usr/src/debug/glslang/1_1.3.236.0-r0/glslang/OSDependent/Unix, directory renamed /usr/src/debug/glslang/1_1.3.231.1-r0/glslang/HLSL -> /usr/src/debug/glslang/1_1.3.236.0-r0/glslang/HLSL, directory renamed /usr/src/debug/glslang/1_1.3.231.1-r0/glslang/GenericCodeGen -> /usr/src/debug/glslang/1_1.3.236.0-r0/glslang/GenericCodeGen, directory renamed /usr/src/debug/glslang/1_1.3.231.1-r0/glslang/CInterface -> /usr/src/debug/glslang/1_1.3.236.0-r0/glslang/CInterface, directory renamed /usr/src/debug/glslang/1_1.3.231.1-r0/glslang/MachineIndependent/preprocessor -> /usr/src/debug/glslang/1_1.3.236.0-r0/glslang/MachineIndependent/preprocessor, directory renamed /usr/src/debug/glslang/1_1.3.231.1-r0/include/glslang -> /usr/src/debug/glslang/1_1.3.236.0-r0/include/glslang, directory renamed /usr/src/debug/glslang/1_1.3.231.1-r0/glslang/Include -> /us
+ r/src/debug/glslang/1_1.3.236.0-r0/glslang/Include, directory renamed /usr/src/debug/glslang/1_1.3.231.1-r0/SPIRV/CInterface -> /usr/src/debug/glslang/1_1.3.236.0-r0/SPIRV/CInterface, directory renamed /usr/src/debug/glslang/1_1.3.231.1-r0/glslang/OSDependent -> /usr/src/debug/glslang/1_1.3.236.0-r0/glslang/OSDependent, directory renamed /usr/src/debug/glslang/1_1.3.231.1-r0/OGLCompilersDLL -> /usr/src/debug/glslang/1_1.3.236.0-r0/OGLCompilersDLL, directory renamed /usr/src/debug/glslang/1_1.3.231.1-r0/glslang/MachineIndependent -> /usr/src/debug/glslang/1_1.3.236.0-r0/glslang/MachineIndependent, removed "/usr/src/debug/glslang/1_1.3.231.1-r0/SPIRV/doc.h /usr/src/debug/glslang/1_1.3.231.1-r0/SPIRV/SpvBuilder.h /usr/src/debug/glslang/1_1.3.231.1-r0/SPIRV/hex_float.h /usr/src/debug/glslang/1_1.3.231.1-r0/SPIRV/GLSL.ext.KHR.h /usr/src/debug/glslang/1_1.3.231.1-r0/SPIRV/GLSL.ext.EXT.h /usr/src/debug/glslang/1_1.3.231.1-r0/SPIRV/GLSL.std.450.h /usr/src/debug/glslang/1_1.3.231.1-r0/SPIRV/
+ GLSL.ext.AMD.h /usr/src/debug/glslang/1_1.3.231.1-r0/SPIRV/SPVRemapper.cpp /usr/src/debug/glslang/1_1.3.231.1-r0/SPIRV/SpvBuilder.cpp /usr/src/debug/glslang/1_1.3.231.1-r0/SPIRV/Logger.cpp /usr/src/debug/glslang/1_1.3.231.1-r0/SPIRV/disassemble.cpp /usr/src/debug/glslang/1_1.3.231.1-r0/StandAlone/StandAlone.cpp /usr/src/debug/glslang/1_1.3.231.1-r0/SPIRV/GlslangToSpv.cpp /usr/src/debug/glslang/1_1.3.231.1-r0/SPIRV/NonSemanticShaderDebugInfo100.h /usr/src/debug/glslang/1_1.3.231.1-r0/SPIRV/Logger.h /usr/src/debug/glslang/1_1.3.231.1-r0/SPIRV/NonSemanticDebugPrintf.h /usr/src/debug/glslang/1_1.3.231.1-r0/StandAlone/DirStackFileIncluder.h /usr/src/debug/glslang/1_1.3.231.1-r0/SPIRV/InReadableOrder.cpp /usr/src/debug/glslang/1_1.3.231.1-r0/SPIRV/SpvPostProcess.cpp /usr/src/debug/glslang/1_1.3.231.1-r0/SPIRV/GLSL.ext.NV.h /usr/src/debug/glslang/1_1.3.231.1-r0/SPIRV/spvIR.h /usr/src/debug/glslang/1_1.3.231.1-r0/SPIRV/GlslangToSpv.h /usr/src/debug/glslang/1_1.3.231.1-r0/glslang/Public/Shad
+ erLang.h /usr/src/debug/glslang/1_1.3.231.1-r0/SPIRV/SPVRemapper.h /usr/src/debug/glslang/1_1.3.231.1-r0/StandAlone/spirv-remap.cpp /usr/src/debug/glslang/1_1.3.231.1-r0/StandAlone/ResourceLimits.cpp /usr/src/debug/glslang/1_1.3.231.1-r0/SPIRV/bitutils.h /usr/src/debug/glslang/1_1.3.231.1-r0/SPIRV/spirv.hpp /usr/src/debug/glslang/1_1.3.231.1-r0/StandAlone/resource_limits_c.cpp /usr/src/debug/glslang/1_1.3.231.1-r0/SPIRV/disassemble.h /usr/src/debug/glslang/1_1.3.231.1-r0/StandAlone/ResourceLimits.h /usr/src/debug/glslang/1_1.3.231.1-r0/SPIRV/SpvTools.h /usr/src/debug/glslang/1_1.3.231.1-r0/SPIRV/doc.cpp /usr/src/debug/glslang/1_1.3.231.1-r0/StandAlone/Worklist.h", added "/usr/src/debug/glslang/1_1.3.236.0-r0/SPIRV/doc.h /usr/src/debug/glslang/1_1.3.236.0-r0/SPIRV/SpvBuilder.h /usr/src/debug/glslang/1_1.3.236.0-r0/SPIRV/hex_float.h /usr/src/debug/glslang/1_1.3.236.0-r0/SPIRV/GLSL.ext.EXT.h /usr/src/debug/glslang/1_1.3.236.0-r0/SPIRV/GLSL.ext.ARM.h /usr/src/debug/glslang/1_1.3.236.0-r
+ 0/SPIRV/GLSL.ext.AMD.h /usr/src/debug/glslang/1_1.3.236.0-r0/SPIRV/GLSL.ext.KHR.h /usr/src/debug/glslang/1_1.3.236.0-r0/SPIRV/GLSL.std.450.h /usr/src/debug/glslang/1_1.3.236.0-r0/SPIRV/SPVRemapper.cpp /usr/src/debug/glslang/1_1.3.236.0-r0/SPIRV/SpvBuilder.cpp /usr/src/debug/glslang/1_1.3.236.0-r0/SPIRV/disassemble.cpp /usr/src/debug/glslang/1_1.3.236.0-r0/StandAlone/StandAlone.cpp /usr/src/debug/glslang/1_1.3.236.0-r0/SPIRV/GlslangToSpv.cpp /usr/src/debug/glslang/1_1.3.236.0-r0/SPIRV/NonSemanticShaderDebugInfo100.h /usr/src/debug/glslang/1_1.3.236.0-r0/SPIRV/Logger.cpp /usr/src/debug/glslang/1_1.3.236.0-r0/SPIRV/Logger.h /usr/src/debug/glslang/1_1.3.236.0-r0/SPIRV/NonSemanticDebugPrintf.h /usr/src/debug/glslang/1_1.3.236.0-r0/StandAlone/DirStackFileIncluder.h /usr/src/debug/glslang/1_1.3.236.0-r0/SPIRV/InReadableOrder.cpp /usr/src/debug/glslang/1_1.3.236.0-r0/SPIRV/SpvPostProcess.cpp /usr/src/debug/glslang/1_1.3.236.0-r0/SPIRV/GLSL.ext.NV.h /usr/src/debug/glslang/1_1.3.236.0-r0/SPIR
+ V/spvIR.h /usr/src/debug/glslang/1_1.3.236.0-r0/SPIRV/GlslangToSpv.h /usr/src/debug/glslang/1_1.3.236.0-r0/glslang/Public/ShaderLang.h /usr/src/debug/glslang/1_1.3.236.0-r0/SPIRV/SPVRemapper.h /usr/src/debug/glslang/1_1.3.236.0-r0/StandAlone/spirv-remap.cpp /usr/src/debug/glslang/1_1.3.236.0-r0/StandAlone/ResourceLimits.cpp /usr/src/debug/glslang/1_1.3.236.0-r0/glslang/Public/ResourceLimits.h /usr/src/debug/glslang/1_1.3.236.0-r0/SPIRV/bitutils.h /usr/src/debug/glslang/1_1.3.236.0-r0/SPIRV/spirv.hpp /usr/src/debug/glslang/1_1.3.236.0-r0/StandAlone/resource_limits_c.cpp /usr/src/debug/glslang/1_1.3.236.0-r0/SPIRV/disassemble.h /usr/src/debug/glslang/1_1.3.236.0-r0/SPIRV/SpvTools.h /usr/src/debug/glslang/1_1.3.236.0-r0/SPIRV/doc.cpp /usr/src/debug/glslang/1_1.3.236.0-r0/StandAlone/Worklist.h"
+packages/core2-32-poky-linux/glslang/glslang-staticdev: PV changed from "1.3.231.1" to "1.3.236.0"
+packages/core2-32-poky-linux/glslang/glslang-staticdev: PKGV changed from 1.3.231.1 [default] to 1.3.236.0 [default]
+packages/core2-32-poky-linux/glslang/glslang: PV changed from "1.3.231.1" to "1.3.236.0"
+packages/core2-32-poky-linux/glslang/glslang: PKGSIZE changed from 6350641 to 6362929 (+0%)
+packages/core2-32-poky-linux/glslang/glslang: PKGV changed from 1.3.231.1 [default] to 1.3.236.0 [default]
+packages/core2-32-poky-linux/glslang/glslang: FILELIST: removed "/usr/lib/libglslang.so.11.12.0", added "/usr/lib/libglslang.so.11.13.0"
+packages/core2-32-poky-linux/glslang: PV changed from "1.3.231.1" to "1.3.236.0"
+packages/core2-32-poky-linux/glslang: PKGV changed from 1.3.231.1 [default] to 1.3.236.0 [default]
+Changes to packages/core2-32-poky-linux/glslang (sysroot):
+  /usr/lib/libglslang.so.11 changed symlink target from libglslang.so.11.12.0 to libglslang.so.11.13.0
+  /usr/lib/libglslang.so.11.12.0 moved to /usr/lib/libglslang.so.11.13.0
+  /usr/include/glslang/Public/resource_limits_c.h was added
+  /usr/include/glslang/Public/ResourceLimits.h was added
+  /usr/include/glslang/SPIRV/GLSL.ext.ARM.h was added
+
+--===============3204809796987085362==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/glslang/glslang-dev: FILELIST: added "/usr/include/glslang/SPIRV/GLSL.ext.ARM.h /usr/include/glslang/Public/resource_limits_c.h /usr/include/glslang/Public/ResourceLimits.h"
+packages/core2-32-poky-linux/glslang/glslang: FILELIST: removed "/usr/lib/libglslang.so.11.12.0", added "/usr/lib/libglslang.so.11.13.0"
+Changes to packages/core2-32-poky-linux/glslang (sysroot):
+  /usr/lib/libglslang.so.11 changed symlink target from libglslang.so.11.12.0 to libglslang.so.11.13.0
+  /usr/lib/libglslang.so.11.12.0 moved to /usr/lib/libglslang.so.11.13.0
+  /usr/include/glslang/Public/resource_limits_c.h was added
+  /usr/include/glslang/Public/ResourceLimits.h was added
+  /usr/include/glslang/SPIRV/GLSL.ext.ARM.h was added
+
+--===============3204809796987085362==--
 
