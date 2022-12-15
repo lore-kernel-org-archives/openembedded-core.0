@@ -2,48 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15D73C54E76
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24150C54EF0
 	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 20:32:35 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.144500.1671136351640128072
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.145448.1671136353139519142
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Dec 2022 12:32:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=eP4sjFOK;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010185177d196b-8623df1d-eefc-4f26-9dcb-bd953fb62227-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=M9kWF05Z;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010185177d19b3-aa4544fe-2d25-41ec-98be-e54db41f8035-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1671136352;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=W/Isgz/wGxhtuebXkw9Kjfmq/AddQT4hw0YZkb5RW/Q=;
-	b=eP4sjFOKjrlGn+8jTF3qsMWc0/TP+Hw7GGtJf1F86/0xlQUDOtCeLOcWSQq0aSz0
-	hr+STygaMroeXCIEMFa3ugYut8PXudxAUgRK/eOJC5ApZ9ioU9ib6FTiQZZOLaYNxbM
-	de5laBVk1rz8undRAH0rh9O5skmFsWXVQpU2/KSQ=
+	bh=qFGhhKas+EMmo8evKLUWX+3imkJF/G51Vd7jqRPS3z0=;
+	b=M9kWF05Zbb9wc/V+S+Up0kGSR5tuC1D5gz1kyq0wZghCB5BXjdypcjkUusA1QGHC
+	xEep/YjOiv4CGsFnqobh4fMPaR2l4WQ8e+XQKteEQwln9+GdRBkMWpFgmlZPKPwJnRX
+	/Vwf8Nog88240+MVNcsKJj8ZJVbFpiC8qazD6S6g=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1671136352;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=W/Isgz/wGxhtuebXkw9Kjfmq/AddQT4hw0YZkb5RW/Q=;
-	b=YjvCH3JEE3nqUU6qbG+HiP9yX+DdWR0ExIVPCvhMjKSOlALyCU6tXoL/asMDwPkI
-	CvCAvgCPs0PLMN0PO/QSKqDa5l1z8CfVuuAauzZBWipCeI/cjpkWum7XQq6y7T2vkyi
-	ratJv0nuE+Usi6Gmd1xM0dca3Q6nuVmJAyGk6RFQ=
-Content-Type: multipart/mixed; boundary="===============8394451344532556372=="
+	bh=qFGhhKas+EMmo8evKLUWX+3imkJF/G51Vd7jqRPS3z0=;
+	b=FCHxhVAFZzPbwaX0lmOkTLwGFv/Ww2LkgEA1gIkbeZBN4SKAT0Y04uKdECimWuuZ
+	P63MN1Cduvr+bq3ymfWM0KKf1sokN4c6AaRjoSAFwMYCmEGTPJpDXgp4s15Cj+BWjbZ
+	rdpE0EfSOQlWSGxqu8HQ5zgTuta9cyg/EKvuWLto=
+Content-Type: multipart/mixed; boundary="===============2587277737121166711=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Carlos Rafael Giani <dv@pseudoterminal.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] kmscube: upgrading to 345111481d654b38a72b5c3629151dc74f7a82bc
- SUCCEEDED
-Message-ID: <01010185177d196b-8623df1d-eefc-4f26-9dcb-bd953fb62227-000000@us-west-2.amazonses.com>
+Subject: [AUH] gcr: upgrading to 4.0.0 FAILED
+Message-ID: <01010185177d19b3-aa4544fe-2d25-41ec-98be-e54db41f8035-000000@us-west-2.amazonses.com>
 Date: Thu, 15 Dec 2022 20:32:32 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.12.15-54.240.27.33
+X-SES-Outgoing: 2022.12.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 20:32:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174682
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174680
 
---===============8394451344532556372==
+--===============2587277737121166711==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,50 +50,100 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *kmscube* to *345111481d654b38a72b5c3629151dc74f7a82bc* has Succeeded.
+that the automatic attempt to upgrade the recipe *gcr* to *4.0.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-kmscube-upgrade-to-latest-revision.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe gcr failed.
+NOTE: Starting bitbake server...
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1672 entries from dependency cache.
+
+Summary: There was 1 WARNING message.
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:dbb87fd6f40de787b99fdecf12ca92f57f4b1ea0"
+workspace            = "master:46fd76aa07bd431f0ba73bdafeb7bf5aa31cef25"
+
+Initialising tasks...done.
+Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 21 (100% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1672 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 889 .bb files complete (887 cached, 2 parsed). 1673 targets, 36 skipped, 0 masked, 0 errors.
+
+Summary: There was 1 WARNING message.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:dbb87fd6f40de787b99fdecf12ca92f57f4b1ea0"
+workspace            = "master:46fd76aa07bd431f0ba73bdafeb7bf5aa31cef25"
+
+Initialising tasks...done.
+Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 17 (100% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  22% |########                            | ETA:  0:00:00
+Adding changed files:  45% |################                    | ETA:  0:00:00
+Adding changed files:  68% |########################            | ETA:  0:00:00
+Adding changed files:  91% |################################    | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://download.gnome.org/sources//gcr/4.0/gcr-4.0.0.tar.xz;name=archive...
+INFO: Rebasing devtool onto ce019c700db88ae1fc492497bade606c554967af
+WARNING: Command 'git rebase ce019c700db88ae1fc492497bade606c554967af' failed:
+Auto-merging gck/meson.build
+CONFLICT (content): Merge conflict in gck/meson.build
+Auto-merging gcr/meson.build
+CONFLICT (content): Merge conflict in gcr/meson.build
+CONFLICT (modify/delete): ui/meson.build deleted in HEAD and modified in fc7f47b (meson: Fix unknown kw argument in gnome.generate_gir).  Version fc7f47b (meson: Fix unknown kw argument in gnome.generate_gir) of ui/meson.build left in tree.
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/gcr
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/gcr/gcr_4.0.0.bb
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============8394451344532556372==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-kmscube-upgrade-to-latest-revision.patch"
-
-RnJvbSAzMGQ5OWRjNzZmNjViNTFkYjFiNjU1MGJiZWUzMWVhNjQyNzI1NDQxIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgRGVjIDIwMjIgMTU6MDE6MTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBr
-bXNjdWJlOiB1cGdyYWRlIHRvIGxhdGVzdCByZXZpc2lvbgoKLS0tCiBtZXRhL3JlY2lwZXMtZ3Jh
-cGhpY3Mva21zY3ViZS9rbXNjdWJlX2dpdC5iYiB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGlu
-c2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFw
-aGljcy9rbXNjdWJlL2ttc2N1YmVfZ2l0LmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2ttc2N1
-YmUva21zY3ViZV9naXQuYmIKaW5kZXggNmVkOTdkZmFmZS4uYjJjMTBlMDlmYiAxMDA2NDQKLS0t
-IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2ttc2N1YmUva21zY3ViZV9naXQuYmIKKysrIGIvbWV0
-YS9yZWNpcGVzLWdyYXBoaWNzL2ttc2N1YmUva21zY3ViZV9naXQuYmIKQEAgLTEwLDcgKzEwLDcg
-QEAgREVQRU5EUyA9ICJ2aXJ0dWFsL2xpYmdsZXMzIHZpcnR1YWwvbGliZ2xlczIgdmlydHVhbC9l
-Z2wgbGliZHJtIgogCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9rbXNjdWJlLmM7YmVnaW5s
-aW5lPTE7ZW5kbGluZT0yMzttZDU9OGIzMDlkNGVlNjdiNzMxNWZmNzM4MTI3MGRkNjMxZmIiCiAK
-LVNSQ1JFViA9ICIzYmY2ZWUxYTAyMzM0Mzg2ZDg3Y2ZlMzU2YzNiZmIwYjI0ZTFmZWQ4IgorU1JD
-UkVWID0gIjM0NTExMTQ4MWQ2NTRiMzhhNzJiNWMzNjI5MTUxZGM3NGY3YTgyYmMiCiBTUkNfVVJJ
-ID0gImdpdDovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvbWVzYS9rbXNjdWJlO2JyYW5jaD1tYXN0
-ZXI7cHJvdG9jb2w9aHR0cHMiCiBVUFNUUkVBTV9DSEVDS19DT01NSVRTID0gIjEiCiAKLS0gCjIu
-MzcuMwoK
-
---===============8394451344532556372==--
+--===============2587277737121166711==--
 
