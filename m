@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18576C3DA7A
-	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 19:21:14 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web11.143548.1671132064789602923
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5E55C3DA71
+	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 19:21:13 +0000 (UTC)
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.web11.143551.1671132072200312332
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Dec 2022 11:21:05 -0800
+ Thu, 15 Dec 2022 11:21:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=PNfz1LKY;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id n4so24557plp.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 11:21:04 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=wezIqvcd;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.44, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f44.google.com with SMTP id 3-20020a17090a098300b00219041dcbe9so108317pjo.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 11:21:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=UYHOS5ZZQSYfg1eKw4DU6lBQwMLhJysXt/a/Ue5mJYU=;
-        b=PNfz1LKYVszQGPOZswSOW/v/x7Z3CIq9bmp9a5EOImDQMw6hybj8B2EjZ/yefsZnsM
-         4OaDTIUhvxsBJTaC657wwiekWl6VUVwMnNzIA+AyayvmrLzAuseip/pmm5KjJ54TupAs
-         CvFB9gnXAqeF4+lBJCL6Ju8CmlCnLLUE0ztX8Z3EzlIr5h1kPNwzBgpL3EJ4Qf+0jpQM
-         NPlbirM1KdRcIyF6ionLVP18oUUcVybTVh+LoXgdFhqrzLhOBfYEEEiRcf4pMwYqImd2
-         47PsAT2LW8AGxV3ipPWD4hEMI0QojBKa7rLRvLig4bCfTxoVThiLVkEYdGEzPpRsbwsa
-         flkw==
+        bh=KgzuQ9Unw10wEp3Lb52IXHHJi7KmPTtwqwyMfcpLscM=;
+        b=wezIqvcdtPrjMshffLq7wjXOk4b/q4bnvnwl2PVnai/H3eLqsKIqGTkqejasEFIFol
+         lF0mWqysCMO4LNHKxS5WycqpEYEcfrBhDjRu1vQ+8kqGWh9+UmeTZq3FnDk28+KknDIu
+         xZKcACcH09Irtit0qDLUX9Ko6pF93ItD0xHYyR6oajxjc4ssJtAzygKiSQuQCrqgqPca
+         kOwVToWIT7gQz8aHKIk4ZH03m5wE6KkGqeKgkSOm82+D2lyT6Mfhu/PoHwvUJjI0zibf
+         4C3YhWQvN0MvaNQyC5JLqfdXwyqCy0zluNrm844KsCfipgp19JaAsi/hR7y17JuGaC9p
+         ZF4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UYHOS5ZZQSYfg1eKw4DU6lBQwMLhJysXt/a/Ue5mJYU=;
-        b=58R+StPAhLitf703YDOmgbLrAsiE3yHX00bbrJwEFIAch6FOtfS4bE+pr3Du003UlF
-         CgpyU8CZ072/voG8ki1GnPiCKS2ftt7TJEGA0/LjxuSHHydshoky6f8S+Ezlco3O0gY6
-         SpzY7fV2Yhr2kGvrXTeRLWt8gpuDvYY5wy6lEFsfZlMKccrX6lE2buymq/mPgEMgQbih
-         0cyvAZ1VUHYNHurIZhBFYre0K/eyAfHC5kukdkXWigERlJfQOUV6CcT7AZ/tokzuft5d
-         X1IaQcDv5Vd1VQJODl0Pi+nmUMO5t46cn0r08TWdRvgLWN1/Ef1ewmflj4fBvMdz1cOO
-         t7pA==
-X-Gm-Message-State: ANoB5pmYX1UC90IxokXdogDFvH5RfTHMjzip2evP1e16prLeM8E7tlcY
-	yEUGjTcV0F65VJU5TSRH7kF0SMKgxycHuWKfseM=
-X-Google-Smtp-Source: AA0mqf6hrc2JvPWRaEixvYukwXsI5ghaghk2EbhGph2hbck+0QCgbKuLEL06+JPR1lxMF2Yfgkg7xA==
-X-Received: by 2002:a17:902:e80c:b0:18a:4493:5db6 with SMTP id u12-20020a170902e80c00b0018a44935db6mr43628144plg.41.1671132063848;
-        Thu, 15 Dec 2022 11:21:03 -0800 (PST)
+        bh=KgzuQ9Unw10wEp3Lb52IXHHJi7KmPTtwqwyMfcpLscM=;
+        b=qAApNiOQCufTL1G9QIYhwYmAuZMUsHLE1czQLd7gmmeG9uSznNRcuUucdqo7iUzemQ
+         qPRMIE9H7nEFkXI/MZFGKKSohbJPI1IOjUxCqt+PIihpEz6OldeWgz4K/QWxnXfO7mPP
+         j4upm+A8YFmdtb1cP1SjehgaIv6Yiy+aP1rZAYiSwLmKVC5WDa8XDuDDVLMof2cU7mJc
+         jC9DTM2awAEHbdI9ctW5V9O3GybP8V/bJjmgSxb2xDEYoXC5p38jMiWsUBUUb0DaIYFs
+         r5CExOnfST9vm2UttGqfblQLo9hFnpms2J7r9UEhSZhTekaAG8BmHY33KBjEUazajz87
+         KRzg==
+X-Gm-Message-State: ANoB5pk+r+NIcB6bTrpLFMtEBGRN810Q1T//VmDjznj12MmUngXW516C
+	UsjEw1s6SwRsmWyQKXR8bE7gYU9yb0jmRTZnSTo=
+X-Google-Smtp-Source: AA0mqf7QBpe0CX7nJLnbR3YYbKtsHERpKiIJS+IGP0lOrALQc9BDHs1POWWOgMtOj0/w77yTMP5H2Q==
+X-Received: by 2002:a17:902:ecc1:b0:189:340c:20c4 with SMTP id a1-20020a170902ecc100b00189340c20c4mr39442112plh.66.1671132070947;
+        Thu, 15 Dec 2022 11:21:10 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id r19-20020a170902c61300b001869b988d93sm4167095plr.187.2022.12.15.11.21.03
+        by smtp.gmail.com with ESMTPSA id r19-20020a170902c61300b001869b988d93sm4167095plr.187.2022.12.15.11.21.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Dec 2022 11:21:03 -0800 (PST)
+        Thu, 15 Dec 2022 11:21:10 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 01/30] libarchive: CVE-2022-36227 NULL pointer dereference in archive_write.c
-Date: Thu, 15 Dec 2022 09:20:25 -1000
-Message-Id: <a6e4e67cf8f2e98cc2cc3f5c66722a35cc0dda46.1671122751.git.steve@sakoman.com>
+Subject: [OE-core][langdale 05/30] bind: upgrade 9.18.8 -> 9.18.9
+Date: Thu, 15 Dec 2022 09:20:29 -1000
+Message-Id: <eea02875a8dbbd1a33c7f6daa2b267933cd25c8b.1671122751.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1671122751.git.steve@sakoman.com>
 References: <cover.1671122751.git.steve@sakoman.com>
@@ -60,83 +60,137 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 19:21:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174593
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 19:21:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174597
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Upstream-Status: Backport from https://github.com/libarchive/libarchive/commit/bff38efe8c110469c5080d387bec62a6ca15b1a5
+Changelog:
+===========
+  Fix a crash that could happen when you change
+  a dnssec-policy zone with NSEC3 to start using
+  inline-signing. [GL #3591]
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+  Don't trust a placeholder KEYDATA from the managed-keys
+  zone by adding it into secroots. [GL #2895]
+
+  Fixed a race condition that could cause a crash
+  in dns_zone_synckeyzone(). [GL #3617]
+
+  Don't enforce the jemalloc use on NetBSD. [GL #3634]
+
+  Fix an inheritance bug when setting the port on
+  remote servers in configuration. [GL #3627]
+
+  Fix a resolver prefetch bug when the record's TTL value
+  is equal to the configured prefetch eligibility value,
+  but the record was erroneously not treated as eligible
+  for prefetching. [GL #3603]
+
+  Always call dns_adb_endudpfetch() after calling
+  dns_adb_beginudpfetch() for UDP queries in resolver.c,
+  in order to adjust back the quota. [GL #3598]
+
+  Fix a startup issue on Solaris systems with many
+  (reportedly > 510) CPUs. Thanks to Stacey Marshall from
+  Oracle for deep investigation of the problem. [GL #3563]
+
+  rpz-ip rules could be ineffective in some scenarios
+  with CD=1 queries. [GL #3247]
+
+  The RecursClients statistics counter could overflow
+  in certain resolution scenarios. [GL #3584]
+
+  Less ceremonial UNEXPECTED_ERROR() and FATAL_ERROR()
+  reporting macros. [GL !6914]
+
+  Fix a couple of bugs in cfg_print_duration(), which
+  could result in generating incomplete duration values
+  when printing the configuration using named-checkconf.
+  [GL !6880]
+
+  Refactor the isc_httpd implementation used in the
+  statistics channel. [GL !6879]
+
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit e57fe26b3f85ebfabdc8b574caa5c97602e4d771)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libarchive/CVE-2022-36227.patch           | 42 +++++++++++++++++++
- .../libarchive/libarchive_3.6.1.bb            |  3 +-
- 2 files changed, 44 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2022-36227.patch
+ .../0001-avoid-start-failure-with-bind-user.patch               | 0
+ .../0001-named-lwresd-V-and-start-log-hide-build-options.patch  | 0
+ .../bind-ensure-searching-for-json-headers-searches-sysr.patch  | 0
+ .../bind/{bind-9.18.8 => bind-9.18.9}/bind9                     | 0
+ .../bind/{bind-9.18.8 => bind-9.18.9}/conf.patch                | 0
+ .../bind/{bind-9.18.8 => bind-9.18.9}/generate-rndc-key.sh      | 0
+ .../init.d-add-support-for-read-only-rootfs.patch               | 0
+ .../make-etc-initd-bind-stop-work.patch                         | 0
+ .../bind/{bind-9.18.8 => bind-9.18.9}/named.service             | 0
+ .../bind/{bind_9.18.8.bb => bind_9.18.9.bb}                     | 2 +-
+ 10 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/bind/{bind-9.18.8 => bind-9.18.9}/0001-avoid-start-failure-with-bind-user.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.8 => bind-9.18.9}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.8 => bind-9.18.9}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.8 => bind-9.18.9}/bind9 (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.8 => bind-9.18.9}/conf.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.8 => bind-9.18.9}/generate-rndc-key.sh (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.8 => bind-9.18.9}/init.d-add-support-for-read-only-rootfs.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.8 => bind-9.18.9}/make-etc-initd-bind-stop-work.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.8 => bind-9.18.9}/named.service (100%)
+ rename meta/recipes-connectivity/bind/{bind_9.18.8.bb => bind_9.18.9.bb} (97%)
 
-diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2022-36227.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2022-36227.patch
-new file mode 100644
-index 0000000000..d0d143710c
---- /dev/null
-+++ b/meta/recipes-extended/libarchive/libarchive/CVE-2022-36227.patch
-@@ -0,0 +1,42 @@
-+From b5332ed6d59ba5113a0a2c67fd82b69fcd5cde68 Mon Sep 17 00:00:00 2001
-+From: obiwac <obiwac@gmail.com>
-+Date: Fri, 22 Jul 2022 22:41:10 +0200
-+Subject: [PATCH] libarchive: CVE-2022-36227 Handle a `calloc` returning NULL
-+ (fixes #1754)
-+
-+Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/bff38efe8c110469c5080d387bec62a6ca15b1a5]
-+CVE: CVE-2022-36227
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com
-+---
-+ libarchive/archive_write.c | 8 ++++++++
-+ 1 file changed, 8 insertions(+)
-+
-+diff --git a/libarchive/archive_write.c b/libarchive/archive_write.c
-+index 66592e8..27626b5 100644
-+--- a/libarchive/archive_write.c
-++++ b/libarchive/archive_write.c
-+@@ -201,6 +201,10 @@ __archive_write_allocate_filter(struct archive *_a)
-+ 	struct archive_write_filter *f;
-+ 
-+ 	f = calloc(1, sizeof(*f));
-++
-++	if (f == NULL)
-++		return (NULL);
-++
-+ 	f->archive = _a;
-+ 	f->state = ARCHIVE_WRITE_FILTER_STATE_NEW;
-+ 	if (a->filter_first == NULL)
-+@@ -548,6 +552,10 @@ archive_write_open2(struct archive *_a, void *client_data,
-+ 	a->client_data = client_data;
-+ 
-+ 	client_filter = __archive_write_allocate_filter(_a);
-++
-++	if (client_filter == NULL)
-++		return (ARCHIVE_FATAL);
-++
-+ 	client_filter->open = archive_write_client_open;
-+ 	client_filter->write = archive_write_client_write;
-+ 	client_filter->close = archive_write_client_close;
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.6.1.bb b/meta/recipes-extended/libarchive/libarchive_3.6.1.bb
-index 24d7918bf9..79e13e514f 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.6.1.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.6.1.bb
-@@ -34,7 +34,8 @@ EXTRA_OECONF += "--enable-largefile"
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.8/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.18.9/0001-avoid-start-failure-with-bind-user.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.8/0001-avoid-start-failure-with-bind-user.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.9/0001-avoid-start-failure-with-bind-user.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.8/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.18.9/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.8/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.9/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.8/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.18.9/bind-ensure-searching-for-json-headers-searches-sysr.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.8/bind-ensure-searching-for-json-headers-searches-sysr.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.9/bind-ensure-searching-for-json-headers-searches-sysr.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.8/bind9 b/meta/recipes-connectivity/bind/bind-9.18.9/bind9
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.8/bind9
+rename to meta/recipes-connectivity/bind/bind-9.18.9/bind9
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.8/conf.patch b/meta/recipes-connectivity/bind/bind-9.18.9/conf.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.8/conf.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.9/conf.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.8/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.18.9/generate-rndc-key.sh
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.8/generate-rndc-key.sh
+rename to meta/recipes-connectivity/bind/bind-9.18.9/generate-rndc-key.sh
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.8/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.18.9/init.d-add-support-for-read-only-rootfs.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.8/init.d-add-support-for-read-only-rootfs.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.9/init.d-add-support-for-read-only-rootfs.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.8/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.18.9/make-etc-initd-bind-stop-work.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.8/make-etc-initd-bind-stop-work.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.9/make-etc-initd-bind-stop-work.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.8/named.service b/meta/recipes-connectivity/bind/bind-9.18.9/named.service
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.8/named.service
+rename to meta/recipes-connectivity/bind/bind-9.18.9/named.service
+diff --git a/meta/recipes-connectivity/bind/bind_9.18.8.bb b/meta/recipes-connectivity/bind/bind_9.18.9.bb
+similarity index 97%
+rename from meta/recipes-connectivity/bind/bind_9.18.8.bb
+rename to meta/recipes-connectivity/bind/bind_9.18.9.bb
+index 4925c092c7..160986eb53 100644
+--- a/meta/recipes-connectivity/bind/bind_9.18.8.bb
++++ b/meta/recipes-connectivity/bind/bind_9.18.9.bb
+@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://0001-avoid-start-failure-with-bind-user.patch \
+            "
  
- SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
-            file://0001-libarchive-Do-not-include-sys-mount.h-when-linux-fs..patch \
--           "
-+           file://CVE-2022-36227.patch \
-+	   "
- UPSTREAM_CHECK_URI = "http://libarchive.org/"
+-SRC_URI[sha256sum] = "0e3c3ab9378db84ba0f37073d67ba125ae4f2ff8daf366c9db287e3f1b2c35f0"
++SRC_URI[sha256sum] = "6a9665998d568604460df0918fc8ccfad7d29388d4d842560c056cc211cbb243"
  
- SRC_URI[sha256sum] = "c676146577d989189940f1959d9e3980d28513d74eedfbc6b7f15ea45fe54ee2"
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ # follow the ESV versions divisible by 2
 -- 
 2.25.1
 
