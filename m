@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04DA7C71153
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04DF6C71155
 	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 20:32:36 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.145435.1671136351362708133
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.145434.1671136351237794782
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Dec 2022 12:32:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=JJltcOKk;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010185177d1080-c27cd752-467a-497f-b222-2aa79349c7b6-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=fYPra4sD;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010185177d1082-36fc2a3f-d80c-476d-9e8d-89c2849741a4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1671136350;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=bRPyDIa96oyydGftESuPuNI5t0JcwTQwY/kaoiwjETc=;
-	b=JJltcOKkbtzFZq5CCO7y6Kx7hyBdeB2vTp1fJ/3vNV5IHiFfpDaqPzhr6WLp+xrk
-	I5SwFY4XjaNs65qyS1DzMyoYfDMBOwyiq9l94KXxQXKVTILN1V1eGFrjS1aFS3L2BDI
-	KjDwuZG4esqPKIubAx5Tkh6vD9i/Wd7WLIs7mDyI=
+	bh=gh95cujfJrMCTMxwABg/dPmIJKGtfxA/rQtctL/9zUA=;
+	b=fYPra4sDiTok352+HJl1MEDTtoG6n/7glndJSrYXY5hF0aBxuJbqTi6YQBFhl0vZ
+	0vtBqMZsZpVoVEpX4xU93OfaHGlVqOA/P6XWQTbMCArURgirgW51W5ccaQsngQq6iLg
+	awmjqiju4MlHn/KVrWIgLq/+u63VoUjFyuNigI9w=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1671136350;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=bRPyDIa96oyydGftESuPuNI5t0JcwTQwY/kaoiwjETc=;
-	b=aiQrTWiKmLpWXPqUOzYc3BzvIrvrytDma10jKmikPGSMof35niFnkrRDMo9rXtWC
-	ZHNO4mKQnTJLCzZUIAWTenW8LTfuYgvSH0eDsDExwaaZ8leWsjHjhT+M/JES5eD91VA
-	GddCwlHPlS5cxNM7yeCbQ+EARtWxHQVvWwVK45zI=
-Content-Type: multipart/mixed; boundary="===============7190223998126284581=="
+	bh=gh95cujfJrMCTMxwABg/dPmIJKGtfxA/rQtctL/9zUA=;
+	b=T114lnG1ZkerlK6m2lza0JZqFUneiasQ5XZoAePZS0HXn05hfunyRBQr1llYnunF
+	Mt9e2dhYLl8B0mnauPlbkOr7z4PfLR08DBsISReJw5az8QuK5PP8RXfXXdTj5tlnOoc
+	v4M1jqCdQNWrmqPdb6XKZjOgrGx1f9IEgKzUNgfE=
+Content-Type: multipart/mixed; boundary="===============1172699589343496341=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-certifi: upgrading to 2022.12.7 SUCCEEDED
-Message-ID: <01010185177d1080-c27cd752-467a-497f-b222-2aa79349c7b6-000000@us-west-2.amazonses.com>
+Subject: [AUH] go-runtime: upgrading to 1.19.4 FAILED
+Message-ID: <01010185177d1082-36fc2a3f-d80c-476d-9e8d-89c2849741a4-000000@us-west-2.amazonses.com>
 Date: Thu, 15 Dec 2022 20:32:30 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.12.15-54.240.27.193
+X-SES-Outgoing: 2022.12.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 20:32:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174637
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174635
 
---===============7190223998126284581==
+--===============1172699589343496341==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-certifi* to *2022.12.7* has Succeeded.
+that the automatic attempt to upgrade the recipe *go-runtime* to *1.19.4* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-python3-certifi-upgrade-2022.9.24-2022.12.7.patch
+    - apply the patch: git am 0001-go-runtime-upgrade-1.19.3-1.19.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,94 +75,55 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7190223998126284581==
+--===============1172699589343496341==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-certifi-upgrade-2022.9.24-2022.12.7.patch"
+ filename="0001-go-runtime-upgrade-1.19.3-1.19.4.patch"
 
-RnJvbSBlYWI4NzI3NjFmM2FkM2VhMzE2ZDFjZjg2MjYxYzFmZTYzNzcyZWZjIE1vbiBTZXAgMTcg
+RnJvbSBjMTY3MjhkYjBlOTgyZTc3OGUwYjg1YTA3NTYwYzRjZjA4NmUyMWI4IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgRGVjIDIwMjIgMTA6MDA6MDcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWNlcnRpZmk6IHVwZ3JhZGUgMjAyMi45LjI0IC0+IDIwMjIuMTIuNwoKLS0tCiAuLi55
-dGhvbjMtY2VydGlmaV8yMDIyLjkuMjQuYmIgPT4gcHl0aG9uMy1jZXJ0aWZpXzIwMjIuMTIuNy5i
-Yn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
-IHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWNlcnRpZmlfMjAy
-Mi45LjI0LmJiID0+IHB5dGhvbjMtY2VydGlmaV8yMDIyLjEyLjcuYmJ9ICg4NiUpCgpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNlcnRpZmlfMjAyMi45
-LjI0LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNlcnRpZmlfMjAy
-Mi4xMi43LmJiCnNpbWlsYXJpdHkgaW5kZXggODYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uMy1jZXJ0aWZpXzIwMjIuOS4yNC5iYgpyZW5hbWUgdG8gbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNlcnRpZmlfMjAyMi4xMi43LmJiCmlu
-ZGV4IGE2Yjc0NjcwNTIuLmRjYTNkMjY4MTEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9weXRob24vcHl0aG9uMy1jZXJ0aWZpXzIwMjIuOS4yNC5iYgorKysgYi9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2VydGlmaV8yMDIyLjEyLjcuYmIKQEAgLTcsNyAr
-Nyw3IEBAIEhPTUVQQUdFID0gIiBodHRwOi8vY2VydGlmaS5pby8iCiBMSUNFTlNFID0gIklTQyIK
-IExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTNjMmI3NDA0MzY5YzU4N2Mz
-NTU5YWZiNjA0ZmNlMmYyIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMGQ5YzYwMTEyNGU1YTZi
-YTk3MTJkYmM2MGQ5YzUzYzIxZTM0ZjVmNjQxZmU4MzAwMjMxNzM5NDMxMWJkY2UxNCIKK1NSQ19V
-Uklbc2hhMjU2c3VtXSA9ICIzNTgyNGI0YzNhOTcxMTU5NjRiNDA4ODQ0ZDY0YWExNGRiMWNjNTE4
-ZjY1NjJlOGQ3MjYxNjk5ZDEzNTBhOWUzIgogCiBpbmhlcml0IHB5cGkgc2V0dXB0b29sczMKIAot
-LSAKMi4zNy4zCgo=
+CkRhdGU6IFRodSwgMTUgRGVjIDIwMjIgMDk6MTk6MTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+by1ydW50aW1lOiB1cGdyYWRlIDEuMTkuMyAtPiAxLjE5LjQKCi0tLQogbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL2dvL3tnby0xLjE5LjMuaW5jID0+IGdvLTEuMTkuNC5pbmN9ICAgICAgIHwgMiArLQog
+Li4uL2dvL3tnby1ydW50aW1lXzEuMTkuMy5iYiA9PiBnby1ydW50aW1lXzEuMTkuNC5iYn0gICAg
+ICAgICAgIHwgMAogMiBmaWxlcyBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigt
+KQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9nby97Z28tMS4xOS4zLmluYyA9PiBnby0x
+LjE5LjQuaW5jfSAoODklKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9nby97Z28tcnVu
+dGltZV8xLjE5LjMuYmIgPT4gZ28tcnVudGltZV8xLjE5LjQuYmJ9ICgxMDAlKQoKZGlmZiAtLWdp
+dCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nby0xLjE5LjMuaW5jIGIvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL2dvL2dvLTEuMTkuNC5pbmMKc2ltaWxhcml0eSBpbmRleCA4OSUKcmVuYW1lIGZy
+b20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dvL2dvLTEuMTkuMy5pbmMKcmVuYW1lIHRvIG1ldGEv
+cmVjaXBlcy1kZXZ0b29scy9nby9nby0xLjE5LjQuaW5jCmluZGV4IDEyNDVmYWJhOTMuLjQ5MzQ5
+YmE2ZWMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nby0xLjE5LjMuaW5j
+CisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nby0xLjE5LjQuaW5jCkBAIC0xNSw0ICsx
+NSw0IEBAIFNSQ19VUkkgKz0gIlwKICAgICBmaWxlOi8vMDAwMS1zcmMtY21kLWRpc3QtYnVpbGRn
+by5nby1kby1ub3QtaGFyZGNvZGUtaG9zdC1jb21waWxlLnBhdGNoIFwKICAgICBmaWxlOi8vZmls
+dGVyLWJ1aWxkLXBhdGhzLnBhdGNoIFwKICIKLVNSQ19VUklbbWFpbi5zaGEyNTZzdW1dID0gIjE4
+YWMyNjNlMzkyMTBiY2Y2OGQ4NWY0MzcwZTk3ZmIxNzM0MTY2OTk1YTFmNjNmYjM4YjRmNmUwN2Q5
+MGQyMTIiCitTUkNfVVJJW21haW4uc2hhMjU2c3VtXSA9ICJlZGE3NGRiNGFjNDk0ODAwYTNlNjZl
+ZTc4NGU0OTViZmJiOWI4ZTUzNWRmOTI0YThiMDFiMWE4MDI4YjdmMzY4IgpkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL2dvL2dvLXJ1bnRpbWVfMS4xOS4zLmJiIGIvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL2dvL2dvLXJ1bnRpbWVfMS4xOS40LmJiCnNpbWlsYXJpdHkgaW5kZXggMTAw
+JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ28vZ28tcnVudGltZV8xLjE5LjMu
+YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nby1ydW50aW1lXzEuMTkuNC5i
+YgotLSAKMi4zNy4zCgo=
 
---===============7190223998126284581==
+--===============1172699589343496341==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
 
-packages/core2-32-poky-linux/python3-certifi: SRC_URI changed from "https://files.pythonhosted.org/packages/source/c/certifi/certifi-2022.9.24.tar.gz" to "https://files.pythonhosted.org/packages/source/c/certifi/certifi-2022.12.7.tar.gz"
-packages/core2-32-poky-linux/python3-certifi: PKGV changed from 2022.9.24 [default] to 2022.12.7 [default]
-packages/core2-32-poky-linux/python3-certifi: PV changed from "2022.9.24" to "2022.12.7"
-packages/core2-32-poky-linux/python3-certifi/python3-certifi-dbg: PKGV changed from 2022.9.24 [default] to 2022.12.7 [default]
-packages/core2-32-poky-linux/python3-certifi/python3-certifi-dbg: PV changed from "2022.9.24" to "2022.12.7"
-packages/core2-32-poky-linux/python3-certifi/python3-certifi-dev: PKGV changed from 2022.9.24 [default] to 2022.12.7 [default]
-packages/core2-32-poky-linux/python3-certifi/python3-certifi-dev: PV changed from "2022.9.24" to "2022.12.7"
-packages/core2-32-poky-linux/python3-certifi/python3-certifi-doc: PKGV changed from 2022.9.24 [default] to 2022.12.7 [default]
-packages/core2-32-poky-linux/python3-certifi/python3-certifi-doc: PV changed from "2022.9.24" to "2022.12.7"
-packages/core2-32-poky-linux/python3-certifi/python3-certifi-locale: PKGV changed from 2022.9.24 [default] to 2022.12.7 [default]
-packages/core2-32-poky-linux/python3-certifi/python3-certifi-locale: PV changed from "2022.9.24" to "2022.12.7"
-packages/core2-32-poky-linux/python3-certifi/python3-certifi-src: PKGV changed from 2022.9.24 [default] to 2022.12.7 [default]
-packages/core2-32-poky-linux/python3-certifi/python3-certifi-src: PV changed from "2022.9.24" to "2022.12.7"
-packages/core2-32-poky-linux/python3-certifi/python3-certifi-staticdev: PKGV changed from 2022.9.24 [default] to 2022.12.7 [default]
-packages/core2-32-poky-linux/python3-certifi/python3-certifi-staticdev: PV changed from "2022.9.24" to "2022.12.7"
-packages/core2-32-poky-linux/python3-certifi/python3-certifi: PKGSIZE changed from 300250 to 289113 (-4%)
-packages/core2-32-poky-linux/python3-certifi/python3-certifi: PKGV changed from 2022.9.24 [default] to 2022.12.7 [default]
-packages/core2-32-poky-linux/python3-certifi/python3-certifi: PV changed from "2022.9.24" to "2022.12.7"
-Changes to packages/core2-32-poky-linux/python3-certifi (sysroot):
-  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info was added
-  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/LICENSE was added
-  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/METADATA was added
-  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/RECORD was added
-  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/top_level.txt was added
-  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/WHEEL was added
-  /usr/lib/python3.11/site-packages/certifi-2022.9.24.dist-info was removed
-  /usr/lib/python3.11/site-packages/certifi-2022.9.24.dist-info/LICENSE was removed
-  /usr/lib/python3.11/site-packages/certifi-2022.9.24.dist-info/METADATA was removed
-  /usr/lib/python3.11/site-packages/certifi-2022.9.24.dist-info/RECORD was removed
-  /usr/lib/python3.11/site-packages/certifi-2022.9.24.dist-info/top_level.txt was removed
-  /usr/lib/python3.11/site-packages/certifi-2022.9.24.dist-info/WHEEL was removed
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1672 entries from dependency cache.
+Parsing recipes...
+Summary: There was 1 WARNING message.
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: ParseError at /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/go/go-native_1.19.3.bb:4: Could not include required file go-1.19.3.inc
+ERROR: Parsing halted due to errors, see error messages above
 
---===============7190223998126284581==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-32-poky-linux/python3-certifi (sysroot):
-  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info was added
-  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/LICENSE was added
-  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/METADATA was added
-  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/RECORD was added
-  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/top_level.txt was added
-  /usr/lib/python3.11/site-packages/certifi-2022.12.7.dist-info/WHEEL was added
-  /usr/lib/python3.11/site-packages/certifi-2022.9.24.dist-info was removed
-  /usr/lib/python3.11/site-packages/certifi-2022.9.24.dist-info/LICENSE was removed
-  /usr/lib/python3.11/site-packages/certifi-2022.9.24.dist-info/METADATA was removed
-  /usr/lib/python3.11/site-packages/certifi-2022.9.24.dist-info/RECORD was removed
-  /usr/lib/python3.11/site-packages/certifi-2022.9.24.dist-info/top_level.txt was removed
-  /usr/lib/python3.11/site-packages/certifi-2022.9.24.dist-info/WHEEL was removed
-
---===============7190223998126284581==--
+--===============1172699589343496341==--
 
