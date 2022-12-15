@@ -2,46 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82974C77B6C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E526C77B62
 	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 20:32:36 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.145452.1671136354512042685
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.144512.1671136353105711785
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Dec 2022 12:32:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=QrPWz38m;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010185177d1ea8-b3f97961-c4fd-4e9a-bd05-2676d8f8e179-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Fr+mgL7j;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010185177d1d52-1ba03cbe-6caa-4f77-88f7-b4615abcf2a1-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1671136354;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=HGTIcFPNUPB4wJ0mO9V1cvtiziPAy9iVZxrKKwFq7SU=;
-	b=QrPWz38mp04r/SgYpSUewksoND1lBEVrsN8KNWZYssymboxqOaOAI2/3gHi+iX82
-	P9HwOrnu0/DwI/EY0lMLXY1wW7TuSGEd9xVzm+1CJzcKQofi1AQUCXSH+51u9GgXLwg
-	WmCZ7ICHsaDYPAMiqbeH1vVXpoiWgbNHQhiAUkzA=
+	t=1671136353;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=F0cYBEXxTOnphX/nxAGyNy5gByAm1Gse/HCudU7lpok=;
+	b=Fr+mgL7jecTWgPgqWW1Bs1q5kER3Yyv+Dls9S41ekxQLz6MD9+TDKp9o35Dl1uhk
+	qQSxeKUpQuUzynSXYkbU7TnUlVtZCdB5VAEMrZIEKhJbkmK0eAdN7UITrFbiF/iP9hw
+	DGqDmb4o7YdGb/7y/NIDnuRO322nX7xZ1sKbuYRs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1671136354;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=HGTIcFPNUPB4wJ0mO9V1cvtiziPAy9iVZxrKKwFq7SU=;
-	b=E3XTvruoyrK6qAdfF3mIrFAFw+1veEe/s80y/9VODjBaaYUxW+jqJBh9m7kZjh9U
-	7vv60K5TqJUJQbe9LQ3c71UiRJlYmb4yuB3pjfbhRXfAcOUzDAQyXTHA2w1OpZ84hld
-	r0QTNdLjIu7u0MsE3fWQmEKt1vBy1naev9+3OIAI=
-Content-Type: multipart/mixed; boundary="===============1923795045041447014=="
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1671136353;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=F0cYBEXxTOnphX/nxAGyNy5gByAm1Gse/HCudU7lpok=;
+	b=dIcQffI6sY15uz6M5e3zeEZJH8PEYDple3aCTxh6WjqWtKq9EhvlKc/W86Y1ttCJ
+	XVqhPHPVBeyuWZBMeKokH6WXKpBG7BaIHJMBfDzsU/HQUVIZz6MnfAQtuGWYmNlTEzL
+	ocZ1hK8sTxhRGUEtdcSEjGOhvYhD0mLiceXY7IV0=
+Content-Type: multipart/mixed; boundary="===============5948401123411535148=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] libpcre2: upgrading to 10.42 SUCCEEDED
-Message-ID: <01010185177d1ea8-b3f97961-c4fd-4e9a-bd05-2676d8f8e179-000000@us-west-2.amazonses.com>
+To: Victor Kamensky <victor.kamensky7@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] systemtap: upgrading to 4.8 FAILED
+Message-ID: <01010185177d1d52-1ba03cbe-6caa-4f77-88f7-b4615abcf2a1-000000@us-west-2.amazonses.com>
 Date: Thu, 15 Dec 2022 20:32:33 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.12.15-54.240.27.29
+X-SES-Outgoing: 2022.12.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 20:32:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174719
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174713
 
---===============1923795045041447014==
+--===============5948401123411535148==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -49,10 +50,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libpcre2* to *10.42* has Succeeded.
+that the automatic attempt to upgrade the recipe *systemtap* to *4.8* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-libpcre2-upgrade-10.41-10.42.patch
+    - apply the patch: git am 0001-systemtap-upgrade-4.7-4.8.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -68,157 +75,146 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============1923795045041447014==
+--===============5948401123411535148==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
 
-packages/core2-32-poky-linux/libpcre2: SRC_URI changed from "https://github.com/PhilipHazel/pcre2/releases/download/pcre2-10.41/pcre2-10.41.tar.bz2" to "https://github.com/PhilipHazel/pcre2/releases/download/pcre2-10.42/pcre2-10.42.tar.bz2"
-packages/core2-32-poky-linux/libpcre2: PV changed from "10.41" to "10.42"
-packages/core2-32-poky-linux/libpcre2: PKGV changed from 10.41 [default] to 10.42 [default]
-packages/core2-32-poky-linux/libpcre2/libpcre2-16: FILELIST: removed "/usr/lib/libpcre2-16.so.0.11.1", added "/usr/lib/libpcre2-16.so.0.11.2"
-packages/core2-32-poky-linux/libpcre2/libpcre2-16: PV changed from "10.41" to "10.42"
-packages/core2-32-poky-linux/libpcre2/libpcre2-16: PKGV changed from 10.41 [default] to 10.42 [default]
-packages/core2-32-poky-linux/libpcre2/libpcre2-32: FILELIST: removed "/usr/lib/libpcre2-32.so.0.11.1", added "/usr/lib/libpcre2-32.so.0.11.2"
-packages/core2-32-poky-linux/libpcre2/libpcre2-32: PV changed from "10.41" to "10.42"
-packages/core2-32-poky-linux/libpcre2/libpcre2-32: PKGV changed from 10.41 [default] to 10.42 [default]
-packages/core2-32-poky-linux/libpcre2/libpcre2-dbg: FILELIST: removed "/usr/lib/.debug/libpcre2-8.so.0.11.1 /usr/lib/.debug/libpcre2-16.so.0.11.1 /usr/lib/.debug/libpcre2-32.so.0.11.1 /usr/lib/.debug/libpcre2-posix.so.3.0.3", added "/usr/lib/.debug/libpcre2-posix.so.3.0.4 /usr/lib/.debug/libpcre2-8.so.0.11.2 /usr/lib/.debug/libpcre2-16.so.0.11.2 /usr/lib/.debug/libpcre2-32.so.0.11.2"
-packages/core2-32-poky-linux/libpcre2/libpcre2-dbg: PV changed from "10.41" to "10.42"
-packages/core2-32-poky-linux/libpcre2/libpcre2-dbg: PKGV changed from 10.41 [default] to 10.42 [default]
-packages/core2-32-poky-linux/libpcre2/libpcre2-dbg: PKGSIZE changed from 2058132 to 2058824 (+0%)
-packages/core2-32-poky-linux/libpcre2/libpcre2-dev: PV changed from "10.41" to "10.42"
-packages/core2-32-poky-linux/libpcre2/libpcre2-dev: PKGV changed from 10.41 [default] to 10.42 [default]
-packages/core2-32-poky-linux/libpcre2/libpcre2-dev: PKGSIZE changed from 55509 to 56038 (+1%)
-packages/core2-32-poky-linux/libpcre2/libpcre2-doc: PV changed from "10.41" to "10.42"
-packages/core2-32-poky-linux/libpcre2/libpcre2-doc: PKGV changed from 10.41 [default] to 10.42 [default]
-packages/core2-32-poky-linux/libpcre2/libpcre2-doc: PKGSIZE changed from 2534577 to 2537659 (+0%)
-packages/core2-32-poky-linux/libpcre2/libpcre2-locale: PV changed from "10.41" to "10.42"
-packages/core2-32-poky-linux/libpcre2/libpcre2-locale: PKGV changed from 10.41 [default] to 10.42 [default]
-packages/core2-32-poky-linux/libpcre2/libpcre2-src: PV changed from "10.41" to "10.42"
-packages/core2-32-poky-linux/libpcre2/libpcre2-src: PKGV changed from 10.41 [default] to 10.42 [default]
-packages/core2-32-poky-linux/libpcre2/libpcre2-src: PKGSIZE changed from 2577442 to 2577856 (+0%)
-packages/core2-32-poky-linux/libpcre2/libpcre2-staticdev: PV changed from "10.41" to "10.42"
-packages/core2-32-poky-linux/libpcre2/libpcre2-staticdev: PKGV changed from 10.41 [default] to 10.42 [default]
-packages/core2-32-poky-linux/libpcre2/libpcre2: FILELIST: removed "/usr/lib/libpcre2-8.so.0.11.1 /usr/lib/libpcre2-posix.so.3.0.3", added "/usr/lib/libpcre2-8.so.0.11.2 /usr/lib/libpcre2-posix.so.3.0.4"
-packages/core2-32-poky-linux/libpcre2/libpcre2: PV changed from "10.41" to "10.42"
-packages/core2-32-poky-linux/libpcre2/libpcre2: PKGV changed from 10.41 [default] to 10.42 [default]
-packages/core2-32-poky-linux/libpcre2/pcre2grep-doc: PV changed from "10.41" to "10.42"
-packages/core2-32-poky-linux/libpcre2/pcre2grep-doc: PKGV changed from 10.41 [default] to 10.42 [default]
-packages/core2-32-poky-linux/libpcre2/pcre2grep: PV changed from "10.41" to "10.42"
-packages/core2-32-poky-linux/libpcre2/pcre2grep: PKGV changed from 10.41 [default] to 10.42 [default]
-packages/core2-32-poky-linux/libpcre2/pcre2test-doc: PV changed from "10.41" to "10.42"
-packages/core2-32-poky-linux/libpcre2/pcre2test-doc: PKGV changed from 10.41 [default] to 10.42 [default]
-packages/core2-32-poky-linux/libpcre2/pcre2test: PV changed from "10.41" to "10.42"
-packages/core2-32-poky-linux/libpcre2/pcre2test: PKGV changed from 10.41 [default] to 10.42 [default]
-Changes to packages/core2-32-poky-linux/libpcre2 (sysroot):
-  /usr/lib/libpcre2-16.so.0 changed symlink target from libpcre2-16.so.0.11.1 to libpcre2-16.so.0.11.2
-  /usr/lib/libpcre2-16.so changed symlink target from libpcre2-16.so.0.11.1 to libpcre2-16.so.0.11.2
-  /usr/lib/libpcre2-32.so.0 changed symlink target from libpcre2-32.so.0.11.1 to libpcre2-32.so.0.11.2
-  /usr/lib/libpcre2-32.so changed symlink target from libpcre2-32.so.0.11.1 to libpcre2-32.so.0.11.2
-  /usr/lib/libpcre2-8.so.0 changed symlink target from libpcre2-8.so.0.11.1 to libpcre2-8.so.0.11.2
-  /usr/lib/libpcre2-8.so changed symlink target from libpcre2-8.so.0.11.1 to libpcre2-8.so.0.11.2
-  /usr/lib/libpcre2-posix.so.3 changed symlink target from libpcre2-posix.so.3.0.3 to libpcre2-posix.so.3.0.4
-  /usr/lib/libpcre2-posix.so changed symlink target from libpcre2-posix.so.3.0.3 to libpcre2-posix.so.3.0.4
-  /usr/lib/libpcre2-8.so.0.11.1 moved to /usr/lib/libpcre2-8.so.0.11.2
-  /usr/lib/libpcre2-posix.so.3.0.3 moved to /usr/lib/libpcre2-posix.so.3.0.4
-  /usr/lib/libpcre2-16.so.0.11.2 was added
-  /usr/lib/libpcre2-32.so.0.11.2 was added
-  /usr/lib/libpcre2-16.so.0.11.1 was removed
-  /usr/lib/libpcre2-32.so.0.11.1 was removed
-Changes to packages/x86_64-linux/libmpc-native (sysroot):
-  /usr/lib/libmpc.so.3 changed symlink target from libmpc.so.3.3.0 to libmpc.so.3.2.1
-  /usr/lib/libmpc.so changed symlink target from libmpc.so.3.3.0 to libmpc.so.3.2.1
-  /usr/lib/libmpc.so.3.3.0 moved to /usr/lib/libmpc.so.3.2.1
-Changes to packages/x86_64-linux/libpcre2-native (sysroot):
-  /usr/lib/libpcre2-16.so.0 changed symlink target from libpcre2-16.so.0.11.1 to libpcre2-16.so.0.11.2
-  /usr/lib/libpcre2-16.so changed symlink target from libpcre2-16.so.0.11.1 to libpcre2-16.so.0.11.2
-  /usr/lib/libpcre2-32.so.0 changed symlink target from libpcre2-32.so.0.11.1 to libpcre2-32.so.0.11.2
-  /usr/lib/libpcre2-32.so changed symlink target from libpcre2-32.so.0.11.1 to libpcre2-32.so.0.11.2
-  /usr/lib/libpcre2-8.so.0 changed symlink target from libpcre2-8.so.0.11.1 to libpcre2-8.so.0.11.2
-  /usr/lib/libpcre2-8.so changed symlink target from libpcre2-8.so.0.11.1 to libpcre2-8.so.0.11.2
-  /usr/lib/libpcre2-posix.so.3 changed symlink target from libpcre2-posix.so.3.0.3 to libpcre2-posix.so.3.0.4
-  /usr/lib/libpcre2-posix.so changed symlink target from libpcre2-posix.so.3.0.3 to libpcre2-posix.so.3.0.4
-  /usr/lib/libpcre2-8.so.0.11.1 moved to /usr/lib/libpcre2-8.so.0.11.2
-  /usr/lib/libpcre2-posix.so.3.0.3 moved to /usr/lib/libpcre2-posix.so.3.0.4
-  /usr/lib/libpcre2-16.so.0.11.2 was added
-  /usr/lib/libpcre2-32.so.0.11.2 was added
-  /usr/lib/libpcre2-16.so.0.11.1 was removed
-  /usr/lib/libpcre2-32.so.0.11.1 was removed
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...
+Summary: There was 1 WARNING message.
+Summary: There were 4 ERROR messages, returning a non-zero exit code.
+ERROR: /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap-uprobes_git.bb: Unable to get checksum for systemtap-uprobes SRC_URI entry python-3.11.patch: file could not be found
+The following paths were searched:
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap/poky/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap-uprobes-4.8/poky/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap-uprobes/poky/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/files/poky/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap/qemux86/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap-uprobes-4.8/qemux86/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap-uprobes/qemux86/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/files/qemux86/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap/qemuall/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap-uprobes-4.8/qemuall/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap-uprobes/qemuall/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/files/qemuall/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap/x86/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap-uprobes-4.8/x86/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap-uprobes/x86/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/files/x86/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap/i686/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap-uprobes-4.8/i686/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap-uprobes/i686/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/files/i686/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap-uprobes-4.8/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap-uprobes/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/files/python-3.11.patch
+ERROR: /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap-native_git.bb: Unable to get checksum for nativesdk-systemtap-native SRC_URI entry python-3.11.patch: file could not be found
+The following paths were searched:
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap-4.8/poky/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap/poky/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/files/poky/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap-4.8/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/files/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap-4.8/x86-64/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap/x86-64/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/files/x86-64/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap-4.8/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/files/python-3.11.patch
+ERROR: /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap_git.bb: Unable to get checksum for nativesdk-systemtap SRC_URI entry python-3.11.patch: file could not be found
+The following paths were searched:
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap-4.8/poky/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap/poky/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/files/poky/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap-4.8/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/files/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap-4.8/x86-64/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap/x86-64/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/files/x86-64/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap-4.8/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/systemtap/python-3.11.patch
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/systemtap/files/python-3.11.patch
+ERROR: Parsing halted due to errors, see error messages above
 
---===============1923795045041447014==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/libpcre2/libpcre2-16: FILELIST: removed "/usr/lib/libpcre2-16.so.0.11.1", added "/usr/lib/libpcre2-16.so.0.11.2"
-packages/core2-32-poky-linux/libpcre2/libpcre2-32: FILELIST: removed "/usr/lib/libpcre2-32.so.0.11.1", added "/usr/lib/libpcre2-32.so.0.11.2"
-packages/core2-32-poky-linux/libpcre2/libpcre2: FILELIST: removed "/usr/lib/libpcre2-posix.so.3.0.3 /usr/lib/libpcre2-8.so.0.11.1", added "/usr/lib/libpcre2-posix.so.3.0.4 /usr/lib/libpcre2-8.so.0.11.2"
-Changes to packages/core2-32-poky-linux/libpcre2 (sysroot):
-  /usr/lib/libpcre2-16.so.0 changed symlink target from libpcre2-16.so.0.11.1 to libpcre2-16.so.0.11.2
-  /usr/lib/libpcre2-16.so changed symlink target from libpcre2-16.so.0.11.1 to libpcre2-16.so.0.11.2
-  /usr/lib/libpcre2-32.so.0 changed symlink target from libpcre2-32.so.0.11.1 to libpcre2-32.so.0.11.2
-  /usr/lib/libpcre2-32.so changed symlink target from libpcre2-32.so.0.11.1 to libpcre2-32.so.0.11.2
-  /usr/lib/libpcre2-8.so.0 changed symlink target from libpcre2-8.so.0.11.1 to libpcre2-8.so.0.11.2
-  /usr/lib/libpcre2-8.so changed symlink target from libpcre2-8.so.0.11.1 to libpcre2-8.so.0.11.2
-  /usr/lib/libpcre2-posix.so.3 changed symlink target from libpcre2-posix.so.3.0.3 to libpcre2-posix.so.3.0.4
-  /usr/lib/libpcre2-posix.so changed symlink target from libpcre2-posix.so.3.0.3 to libpcre2-posix.so.3.0.4
-  /usr/lib/libpcre2-8.so.0.11.1 moved to /usr/lib/libpcre2-8.so.0.11.2
-  /usr/lib/libpcre2-posix.so.3.0.3 moved to /usr/lib/libpcre2-posix.so.3.0.4
-  /usr/lib/libpcre2-16.so.0.11.2 was added
-  /usr/lib/libpcre2-32.so.0.11.2 was added
-  /usr/lib/libpcre2-16.so.0.11.1 was removed
-  /usr/lib/libpcre2-32.so.0.11.1 was removed
-Changes to packages/x86_64-linux/libmpc-native (sysroot):
-  /usr/lib/libmpc.so.3 changed symlink target from libmpc.so.3.3.0 to libmpc.so.3.2.1
-  /usr/lib/libmpc.so changed symlink target from libmpc.so.3.3.0 to libmpc.so.3.2.1
-  /usr/lib/libmpc.so.3.3.0 moved to /usr/lib/libmpc.so.3.2.1
-Changes to packages/x86_64-linux/libpcre2-native (sysroot):
-  /usr/lib/libpcre2-16.so.0 changed symlink target from libpcre2-16.so.0.11.1 to libpcre2-16.so.0.11.2
-  /usr/lib/libpcre2-16.so changed symlink target from libpcre2-16.so.0.11.1 to libpcre2-16.so.0.11.2
-  /usr/lib/libpcre2-32.so.0 changed symlink target from libpcre2-32.so.0.11.1 to libpcre2-32.so.0.11.2
-  /usr/lib/libpcre2-32.so changed symlink target from libpcre2-32.so.0.11.1 to libpcre2-32.so.0.11.2
-  /usr/lib/libpcre2-8.so.0 changed symlink target from libpcre2-8.so.0.11.1 to libpcre2-8.so.0.11.2
-  /usr/lib/libpcre2-8.so changed symlink target from libpcre2-8.so.0.11.1 to libpcre2-8.so.0.11.2
-  /usr/lib/libpcre2-posix.so.3 changed symlink target from libpcre2-posix.so.3.0.3 to libpcre2-posix.so.3.0.4
-  /usr/lib/libpcre2-posix.so changed symlink target from libpcre2-posix.so.3.0.3 to libpcre2-posix.so.3.0.4
-  /usr/lib/libpcre2-8.so.0.11.1 moved to /usr/lib/libpcre2-8.so.0.11.2
-  /usr/lib/libpcre2-posix.so.3.0.3 moved to /usr/lib/libpcre2-posix.so.3.0.4
-  /usr/lib/libpcre2-16.so.0.11.2 was added
-  /usr/lib/libpcre2-32.so.0.11.2 was added
-  /usr/lib/libpcre2-16.so.0.11.1 was removed
-  /usr/lib/libpcre2-32.so.0.11.1 was removed
-
---===============1923795045041447014==
+--===============5948401123411535148==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libpcre2-upgrade-10.41-10.42.patch"
+ filename="0001-systemtap-upgrade-4.7-4.8.patch"
 
-RnJvbSA3Y2U2ZTZiMGYyODcyNDQzNWY1MDUyYjJiNDNiZjZjMTFjNWQ1Mzk1IE1vbiBTZXAgMTcg
+RnJvbSBmODBhNjJlZDhjYzk5MjBlOWM3MzZmZTE1OWRmN2RjMjc1MWZlYjQ0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgRGVjIDIwMjIgMjA6MTU6NTIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJwY3JlMjogdXBncmFkZSAxMC40MSAtPiAxMC40MgoKLS0tCiAuLi4vbGlicGNyZS97bGlicGNy
-ZTJfMTAuNDEuYmIgPT4gbGlicGNyZTJfMTAuNDIuYmJ9ICAgICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9saWJwY3JlL3tsaWJwY3JlMl8xMC40MS5iYiA9PiBsaWJwY3JlMl8xMC40
-Mi5iYn0gKDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJwY3JlL2xp
-YnBjcmUyXzEwLjQxLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlicGNyZS9saWJwY3JlMl8x
-MC40Mi5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3Vw
-cG9ydC9saWJwY3JlL2xpYnBjcmUyXzEwLjQxLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3Vw
-cG9ydC9saWJwY3JlL2xpYnBjcmUyXzEwLjQyLmJiCmluZGV4IDJhNTBkMDcxOTIuLmNkNjU0OTNj
-NDggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnBjcmUvbGlicGNyZTJfMTAu
-NDEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlicGNyZS9saWJwY3JlMl8xMC40Mi5i
-YgpAQCAtMTUsNyArMTUsNyBAQCBTUkNfVVJJID0gIiR7R0lUSFVCX0JBU0VfVVJJfS9kb3dubG9h
-ZC9wY3JlMi0ke1BWfS9wY3JlMi0ke1BWfS50YXIuYnoyIgogR0lUSFVCX0JBU0VfVVJJID0gImh0
-dHBzOi8vZ2l0aHViLmNvbS9QaGlsaXBIYXplbC9wY3JlMi9yZWxlYXNlcyIKIFVQU1RSRUFNX0NI
-RUNLX1JFR0VYID0gInJlbGVhc2VzL3RhZy9wY3JlMi0oP1A8cHZlcj4uKykiCiAKLVNSQ19VUklb
-c2hhMjU2c3VtXSA9ICIwZjc4Y2ViZDNlMjhlMzQ2NDc1ZmI5MmU5NWZlOTk5OTk0NWI0Y2JhYWQ1
-ZjNiNDJhY2E0N2I4ODdmYjUzMzA4IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjhkMzZjZDhjYjZl
-YTJhNGMyYmIzNThmZjY0MTFiMGM3ODg2MzNhMmE0NWRhYmJmMWFlYjRiNzAxZDFiNWU4NDAiCiAK
-IENWRV9QUk9EVUNUID0gInBjcmUyIgogCi0tIAoyLjM3LjMKCg==
+CkRhdGU6IFRodSwgMTUgRGVjIDIwMjIgMTg6MzU6MzYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
+eXN0ZW10YXA6IHVwZ3JhZGUgNC43IC0+IDQuOAoKLS0tCiAuLi4vc3lzdGVtdGFwL3N5c3RlbXRh
+cC9weXRob24tMy4xMS5wYXRjaCAgICAgfCAzNyAtLS0tLS0tLS0tLS0tLS0tLS0tCiAuLi4vcmVj
+aXBlcy1rZXJuZWwvc3lzdGVtdGFwL3N5c3RlbXRhcF9naXQuYmIgfCAgNSArKy0KIC4uLi9zeXN0
+ZW10YXAvc3lzdGVtdGFwX2dpdC5pbmMgICAgICAgICAgICAgICB8ICA0ICstCiAzIGZpbGVzIGNo
+YW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgNDAgZGVsZXRpb25zKC0pCiBkZWxldGUgbW9kZSAxMDA2
+NDQgbWV0YS9yZWNpcGVzLWtlcm5lbC9zeXN0ZW10YXAvc3lzdGVtdGFwL3B5dGhvbi0zLjExLnBh
+dGNoCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9zeXN0ZW10YXAvc3lzdGVtdGFw
+L3B5dGhvbi0zLjExLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9zeXN0ZW10YXAvc3lzdGVt
+dGFwL3B5dGhvbi0zLjExLnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCA2ZTBj
+OTdiOGQ2Li4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1rZXJuZWwvc3lzdGVtdGFwL3N5
+c3RlbXRhcC9weXRob24tMy4xMS5wYXRjaAorKysgL2Rldi9udWxsCkBAIC0xLDM3ICswLDAgQEAK
+LUZyb20gMDY5ZTEwOWM5NWQxYWZjYTE3Y2QzNzgxYjM5ZjIyMGNmOGIzOTk3OCBNb24gU2VwIDE3
+IDAwOjAwOjAwIDIwMDEKLUZyb206IFN0YW4gQ294IDxzY294QHJlZGhhdC5jb20+Ci1EYXRlOiBX
+ZWQsIDEzIEp1bCAyMDIyIDA5OjQ5OjUxIC0wNDAwCi1TdWJqZWN0OiBbUEFUQ0ggMS8xXSBweXRo
+b24gMy4xMSByZW1vdmVkIGRpcmVjdCBhY2Nlc3MgdG8gUHlGcmFtZU9iamVjdAotIG1lbWJlcnMK
+LQotVGFrZSBpbnRvIGFjY291bnQgdGhlIGNoYW5nZSBpbiBQeUZyYW1lT2JqZWN0IGRlZmluaXRp
+b24gdG8gYWxsb3cKLWJ1aWxkaW5nIHN5c3RlbXRhcCB3aXRoIHB5dGhvbiAzLjExLiAgQWRkaXRp
+b25hbCBzdXBwb3J0IGZvciBweXRob24KLTMuMTEgaXMgZm9ydGhjb21pbmcuCi0KLVVwc3RyZWFt
+LVN0YXR1czogQmFja3BvcnQgW2h0dHBzOi8vc291cmNld2FyZS5vcmcvZ2l0Lz9wPXN5c3RlbXRh
+cC5naXQ7YT1jb21taXQ7aD0wNjllMTA5Yzk1ZDFhZmNhMTdjZDM3ODFiMzlmMjIwY2Y4YjM5OTc4
+XQotU2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4K
+LS0tLQotIHB5dGhvbi9IZWxwZXJTRFQvX0hlbHBlclNEVC5jIHwgNiArKysrKysKLSAxIGZpbGUg
+Y2hhbmdlZCwgNiBpbnNlcnRpb25zKCspCi0KLWRpZmYgLS1naXQgYS9weXRob24vSGVscGVyU0RU
+L19IZWxwZXJTRFQuYyBiL3B5dGhvbi9IZWxwZXJTRFQvX0hlbHBlclNEVC5jCi1pbmRleCA5Njdj
+YjYwNzcuLjRkMjg3MTMyZSAxMDA2NDQKLS0tLSBhL3B5dGhvbi9IZWxwZXJTRFQvX0hlbHBlclNE
+VC5jCi0rKysgYi9weXRob24vSGVscGVyU0RUL19IZWxwZXJTRFQuYwotQEAgLTE0LDcgKzE0LDEz
+IEBACi0gLy8gUFIyNTg0MTogZW5zdXJlIHRoYXQgdGhlIGxpYkhlbHBlclNEVC5zbyBmaWxlIGNv
+bnRhaW5zIGRlYnVnaW5mbwotIC8vIGZvciB0aGUgdGFwc2V0IGhlbHBlciBmdW5jdGlvbnMsIHNv
+IHRoZXkgZG9uJ3QgaGF2ZSB0byBsb29rIGludG8gbGlicHl0aG9uKgotICNpbmNsdWRlIDxmcmFt
+ZW9iamVjdC5oPgotKy8vIHB5dGhvbiAzLjExIHJlbW92ZWQgZGlyZWN0IGFjY2VzcyB0byBQeUZy
+YW1lT2JqZWN0IG1lbWJlcnMKLSsvLyBodHRwczovL2RvY3MucHl0aG9uLm9yZy8zLjExL3doYXRz
+bmV3LzMuMTEuaHRtbCNjLWFwaS1jaGFuZ2VzCi0rI2lmIFBZX01BSk9SX1ZFUlNJT04gPD0gMyAm
+JiBQWV9NSU5PUl9WRVJTSU9OIDwgMTEKLSBQeUZyYW1lT2JqZWN0IF9kdW1teV9mcmFtZTsKLSsj
+ZWxzZQotKy8vUHlGcmFtZU9iamVjdCAqX2R1bW15X2ZyYW1lOwotKyNlbmRpZgotICNpbmNsdWRl
+IDxvYmplY3QuaD4KLSBQeVZhck9iamVjdCBfZHVtbXlfdmFyOwotICNpbmNsdWRlIDxkaWN0b2Jq
+ZWN0Lmg+Ci0tLSAKLTIuMzEuMQotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMta2VybmVsL3N5
+c3RlbXRhcC9zeXN0ZW10YXBfZ2l0LmJiIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9zeXN0ZW10YXAv
+c3lzdGVtdGFwX2dpdC5iYgppbmRleCAwNzJmY2IzMTBhLi41ZGQzZmU4ZGViIDEwMDY0NAotLS0g
+YS9tZXRhL3JlY2lwZXMta2VybmVsL3N5c3RlbXRhcC9zeXN0ZW10YXBfZ2l0LmJiCisrKyBiL21l
+dGEvcmVjaXBlcy1rZXJuZWwvc3lzdGVtdGFwL3N5c3RlbXRhcF9naXQuYmIKQEAgLTYsNyArNiwx
+MCBAQCBIT01FUEFHRSA9ICJodHRwczovL3NvdXJjZXdhcmUub3JnL3N5c3RlbXRhcC8iCiAKIHJl
+cXVpcmUgc3lzdGVtdGFwX2dpdC5pbmMKIAotU1JDX1VSSSArPSAiIFwKK1NSQ19VUkkgKz0gImdp
+dDovL3NvdXJjZXdhcmUub3JnL2dpdC9zeXN0ZW10YXAuZ2l0O2JyYW5jaD1tYXN0ZXIgXAorICAg
+ICAgICAgICBmaWxlOi8vMDAwMS1Eby1ub3QtbGV0LWNvbmZpZ3VyZS13cml0ZS1hLXB5dGhvbi1s
+b2NhdGlvbi1pbnRvLXRoLnBhdGNoIFwKKyAgICAgICAgICAgZmlsZTovLzAwMDEtSW5zdGFsbC1w
+eXRob24tbW9kdWxlcy10by1jb3JyZWN0LWxpYnJhcnktZGlyLnBhdGNoIFwKKyAgICAgICAgICAg
+ZmlsZTovLzAwMDEtc3RhcHJ1bi1zdGFwYnBmLWRvbi10LXN1cHBvcnQtaW5zdGFsbGluZy1hLW5v
+bi1yb290LnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtaW1wcm92ZS1yZXByb2R1Y2li
+aWxpdHktZm9yLWMtY29tcGlsaW5nLnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtc3Rh
+cHJ1bi1hZGRyZXNzLW5jdXJzZXMtNi4zLWZhaWx1cmVzLnBhdGNoIFwKICAgICAgICAgICAgIgpk
+aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9zeXN0ZW10YXAvc3lzdGVtdGFwX2dpdC5p
+bmMgYi9tZXRhL3JlY2lwZXMta2VybmVsL3N5c3RlbXRhcC9zeXN0ZW10YXBfZ2l0LmluYwppbmRl
+eCBiMDVhNWEyYjBkLi5lY2U4YmFjZTk2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMta2VybmVs
+L3N5c3RlbXRhcC9zeXN0ZW10YXBfZ2l0LmluYworKysgYi9tZXRhL3JlY2lwZXMta2VybmVsL3N5
+c3RlbXRhcC9zeXN0ZW10YXBfZ2l0LmluYwpAQCAtMSw3ICsxLDcgQEAKIExJQ0VOU0UgPSAiR1BM
+LTIuMC1vbmx5IgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9YjIzNGVl
+NGQ2OWY1ZmNlNDQ4NmE4MGZkYWY0YTQyNjMiCi1TUkNSRVYgPSAiMGMzMzVhNzVhNzg5ZmY0NGI1
+MTRlNTY3ZDQ1ODg4MWUxNWNjMjgzZCIKLVBWID0gIjQuNyIKK1NSQ1JFViA9ICJiMTc2YWZiMmU0
+OTExOWVmODQ0ZDE5M2QyN2IwNzUyYTZkODRmZThmIgorUFYgPSAiNC44IgogCiBTUkNfVVJJID0g
+ImdpdDovL3NvdXJjZXdhcmUub3JnL2dpdC9zeXN0ZW10YXAuZ2l0O2JyYW5jaD1tYXN0ZXIgXAog
+ICAgICAgICAgICBmaWxlOi8vMDAwMS1Eby1ub3QtbGV0LWNvbmZpZ3VyZS13cml0ZS1hLXB5dGhv
+bi1sb2NhdGlvbi1pbnRvLXRoLnBhdGNoIFwKLS0gCjIuMzcuMwoK
 
---===============1923795045041447014==--
+--===============5948401123411535148==--
 
