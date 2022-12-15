@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01AD8C4167B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05CD2C3DA71
 	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 19:21:44 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web11.143580.1671132095288241778
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web10.142657.1671132090268548050
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Dec 2022 11:21:35 -0800
+ Thu, 15 Dec 2022 11:21:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=1uOpJDvl;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f49.google.com with SMTP id js9so174576pjb.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 11:21:35 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=LOnPg+4S;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id d15so7897052pls.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 11:21:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6DKRsJtwV0v+NVcva+4gPktHjYJwGWSmOy4Zn9DlcNo=;
-        b=1uOpJDvloKX/vGFJVvNCXuwuqbpgkOcIllH3SEm9/+bv88oSR0BiUwRQ9sKjWjiTJY
-         m3qvqF3TP1gvaKDW58ywdaMTZHUlE8weAzDGRZHb/aN++luesQxHz6G06J+pcKJIxQAZ
-         0LE0ACJSncE9a7Xc3cxGictyYsWyO6Sn1qaVblUSkAXlHVGrhFVB+T4c5o+aDyUFLvxl
-         8ljJTslSU+Iw46lHy5pjXoWjU+m46BaDfRxX5xGRrkI3QPxl+ZfiuVWeeoWfNuBiQFeY
-         N+RbCQurlIJKGwjuAtaglj5xhuhjzSzZb7hhnhf0+oC6JPwmpC6yRsaL3GG6PRV1BRTS
-         GObA==
+        bh=ECSmod6b3vtRRjnfA6OOtFtelkJGhaoz6twAgOFMvcA=;
+        b=LOnPg+4S14VKKKuwmGIumj13yjYONLI9qBCHFT/zDlM1CqbHXIkqgut8NbWJHSy5cM
+         gL3bwDWXbT989g1+xIyWVCfreilH+wtie15/4HJWMt8QHwt+TUgopjy2TO3anOn72LI1
+         ggAuxgYCSr4XlZh9hjITIwwBCetFDvz+MYagfXyqxt1iEHtNlg5C8w67DIJzgyYeral6
+         X/+tqLMjxTfypYZgmsKQyIDyX+HDdGvJnsvtpHaMoSqRDkQAoGff4Hh8pKwK7UOCLLg9
+         siUtbAC8Gy4I41vSiBj8/QcoggTRSKt423Co8vf27WPBqqtMPH80RhBBe17uUyD5F3Jf
+         F/vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6DKRsJtwV0v+NVcva+4gPktHjYJwGWSmOy4Zn9DlcNo=;
-        b=4r7MEduMLXQ8WZtetmPWzemwQG2GH/R5y3WacxtquQvgMvwY1/9onGTnMq7RUB/tQX
-         7LPJem4evPQJVYlYRinJk0WOCcYxaXFRqiC/N/Eiz3gJsjDDCIvgBV2N3g8yOdAUD9mX
-         PwR2or0tdPnvNLdVg99jDrqQS2Rwmg4MlAeqxiv5nEbOMB2n55b09+F0GScHFI6Z/UcY
-         l6kw1GZgTdhwC3IRVUEjfhOySgf9QTe9y5PDFGhTyouJmxoQSrT1/0cGQX8HR0d6QUff
-         PnwLkwmGyqn+e3AEsCz5Q2L6mjh431bRK2SFbWXiju/pZe4/R7+VwGCfozOqgcHGrZjm
-         Utog==
-X-Gm-Message-State: ANoB5pksfEEB3WsBBJVpiTIGhDidX7LpJQ/4/pEfIiHIT4xFdNG0yGAb
-	/Me7eTjM74ZM5yVAyZjLJ6V+IrG4OXTHStnunus=
-X-Google-Smtp-Source: AA0mqf7q/nolApmvJxyaXbpiFLB5tSqalgtU7lfWa2+TBqai/oobs3MMq6ALPv9k8hzoLhRopFeG7Q==
-X-Received: by 2002:a05:6a20:9c89:b0:a3:9598:e5c5 with SMTP id mj9-20020a056a209c8900b000a39598e5c5mr34209341pzb.35.1671132094183;
-        Thu, 15 Dec 2022 11:21:34 -0800 (PST)
+        bh=ECSmod6b3vtRRjnfA6OOtFtelkJGhaoz6twAgOFMvcA=;
+        b=DUj4m6rDHIReScfEAoFQm8UX+iK0sBl3bdXKiqmG6phtkrXg33uoT9HURZkeHChdAp
+         1lwzLxrDVrbr7Mp6nbPZPuTKBQ2Sd1/P9GgXLh8tatmZ8+6KnO/9acmR2xtFi1+fckkT
+         Dp9BcWdg+qklyzfjk7MFp8oQjcWwX5RSuQQ97tvSJ/NFCMbeOBLsFk293IOdWladONNW
+         GvwV5VU9dIfCFzJK1oTMh/9wPT5iD8FwYDtDifOBe+V42dici7q5tV9NgLeD9XLPWPir
+         j4vCVDYobdlTngdrhBSWOc3M7AHIvBvCKWzFRNs2RI8WPQoKo8ZX8KrFpn1Ihq0JNGSA
+         fvpw==
+X-Gm-Message-State: ANoB5plNN5IPxs1pSIg5uXNxAGLI0UrEmYtzrfCfDQ9WFEj0cfupBTzP
+	9o8QsDmQeTXe1jsgrEndVQlVklKc85KEJumKOEM=
+X-Google-Smtp-Source: AA0mqf7ThPMbr7WEOlQbATHZvxBTsJE4Z74sD/MZHhtrd3Lsg/22QqpPNJGqI9CDPseNNBtfhkkypQ==
+X-Received: by 2002:a17:902:ea86:b0:18f:a0de:6ad0 with SMTP id x6-20020a170902ea8600b0018fa0de6ad0mr17198929plb.55.1671132099106;
+        Thu, 15 Dec 2022 11:21:39 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id r19-20020a170902c61300b001869b988d93sm4167095plr.187.2022.12.15.11.21.33
+        by smtp.gmail.com with ESMTPSA id r19-20020a170902c61300b001869b988d93sm4167095plr.187.2022.12.15.11.21.38
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Dec 2022 11:21:33 -0800 (PST)
+        Thu, 15 Dec 2022 11:21:38 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 19/30] lsof: add update-alternatives logic
-Date: Thu, 15 Dec 2022 09:20:43 -1000
-Message-Id: <3217ea61a1721df1b26f6e0695f03a50f21ebac8.1671122751.git.steve@sakoman.com>
+Subject: [OE-core][langdale 22/30] rm_work: adjust dependency to make do_rm_work_all depend on do_rm_work
+Date: Thu, 15 Dec 2022 09:20:46 -1000
+Message-Id: <cd321118ec380d785e5def87c82c3ddf6eef9b3e.1671122751.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1671122751.git.steve@sakoman.com>
 References: <cover.1671122751.git.steve@sakoman.com>
@@ -61,48 +61,60 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 19:21:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174611
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174614
 
-From: Alex Stewart <alex.stewart@ni.com>
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Some distributions (NI LinuxRT) provide both busybox-lsof and
-full-featured lsof implementations. When users install the full-featured
-lsof package, the full-binary fails to replace the bbox-binary in PATH,
-because `lsof` contains no update-alternatives logic.
+For now, if we use rm_work and `bitbake core-image-minimal', some
+recipes' WORKDIRs are not cleaned up, e.g., makedevs-native.
 
-Inherit the update-alternatives bbclass and assert that the
-full-featured lsof package has higher priority than the busybox
-implementation.
+Adjust the dependency to make do_rm_work_all depend on do_rm_work
+to solve this problem.
 
-Co-Authored-By: Kyle Roeschley <kyle.roeschley@ni.com>
-Signed-off-by: Alex Stewart <alex.stewart@ni.com>
+Below are the detailed explanation of why this would work.
+
+Without this patch, the dependency chain is like:
+[other deps] -> [do_rm_work] -+-> [do_build]
+                              |
+[do_rm_work_all] -------------+
+
+With this patch, the depedency chain is like:
+[other deps] -> [do_rm_work] -> [do_rm_work_all] -> [do_build]
+
+Such dependency chain adjustment fixes the issue because do_rm_work_all
+now depends on [other deps] and thus the [depends] of these [other deps].
+Take core-image-minimal as an example. Before this adjustment,
+do_rm_work_all does not have any relationship with do_rootfs, and we have
+do_rootfs[depends] += "makedevs-native:do_populate_sysroot ..."
+This essentially prevents 'recrdeptask' setting of do_rm_work_all extend
+to makedevs-native. With this patch, the do_rm_work_all now depends
+on do_rm_work which in turn depends on do_rootfs, and so do_rm_work_all's
+recrdeptask could have effect on makedevs-native.
+
+With this patch, all built recipes WORKDIR will be cleaned up with
+a few expected exceptions such as kernel and qemu-helper-native.
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit e2893fa692a6e91eee09fc04c8c03fe27c718a58)
+(cherry picked from commit b25cc45c9b39f79ba0a03c4556cb2e2431677b4e)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/lsof/lsof_4.95.0.bb | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ meta/classes/rm_work.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/lsof/lsof_4.95.0.bb b/meta/recipes-extended/lsof/lsof_4.95.0.bb
-index f380de0b6b..80128369ec 100644
---- a/meta/recipes-extended/lsof/lsof_4.95.0.bb
-+++ b/meta/recipes-extended/lsof/lsof_4.95.0.bb
-@@ -19,6 +19,15 @@ SRCREV = "67d8c828e7bdc01ba93f8ff79765dd424da0c9d7"
+diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
+index 4121a13279..1f28bc7187 100644
+--- a/meta/classes/rm_work.bbclass
++++ b/meta/classes/rm_work.bbclass
+@@ -180,7 +180,7 @@ python inject_rm_work() {
+         # other recipes and thus will typically run much later than completion of
+         # work in the recipe itself.
+         # In practice, addtask() here merely updates the dependencies.
+-        bb.build.addtask('do_rm_work', 'do_build', ' '.join(deps), d)
++        bb.build.addtask('do_rm_work', 'do_rm_work_all do_build', ' '.join(deps), d)
  
- S = "${WORKDIR}/git"
- 
-+
-+inherit update-alternatives
-+
-+ALTERNATIVE_${PN} = "lsof"
-+ALTERNATIVE_LINK_NAME[lsof] = "${sbindir}/lsof"
-+# Make our priority higher than busybox
-+ALTERNATIVE_PRIORITY = "100"
-+
-+
- export LSOF_INCLUDE = "${STAGING_INCDIR}"
- 
- do_configure () {
+     # Always update do_build_without_rm_work dependencies.
+     bb.build.addtask('do_build_without_rm_work', '', ' '.join(deps), d)
 -- 
 2.25.1
 
