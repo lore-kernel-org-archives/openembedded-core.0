@@ -2,46 +2,46 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABC3DC77B72
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADA75C77B74
 	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 20:32:36 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.144522.1671136354149467556
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.145449.1671136354047489806
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Dec 2022 12:32:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=nZowYFdq;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010185177d1d30-19ef5b1c-dc9e-4b48-ad23-dd30ee29c642-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Pj30bmFF;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010185177d1c4b-eebbdcb9-8a7e-4d7e-9b1d-c49b6fd27789-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1671136353;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=Bjnfl6LgGLscej12ju76scJBaZRBepG3Ah1sk81oIng=;
-	b=nZowYFdqpk0i4T6DHmey4FdCaMDWt12BRy2JneYcrMVfl38yeklsaoY6llKmZW85
-	rRz2B2mJysPjjbJY2sEI5aY1YM2LeYzOc+/gNFogvxkd0dnWNB011eGGfE/R7G218cQ
-	I4mzNAfDxenX6glP7K5yzqiD3+1HCxEipQrHI4iM=
+	bh=90EDHw3RpakcFDCyuAsjXwvKkRc5uR6QkE8OX204m0U=;
+	b=Pj30bmFFA8kH382L1an0amyarlOKzysn65YsTjFs7IvpbaTEOgwbNChqWebZI3bn
+	rKSllG24fgE/x8bMh/GU1StyNak3cW3li40yWjatgFuctrZH3ZnG2sKxCCI+rQuh/ot
+	8bbsSkZrh4jfpWcFW7KL9L+f08tGNeLeaLFZjvcM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1671136353;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=Bjnfl6LgGLscej12ju76scJBaZRBepG3Ah1sk81oIng=;
-	b=Rt3M4uhtEsrqmrHPPKykJDRO6K7pzcTm/JISKus2+1JdLgcckidbw+HyWF6t/bXV
-	oTdRii2rNP1MA4Pvx90GORpKxMWIxAuX8FtH/aVkbAlIjspnEW+R66jj8S+bUGYqqZX
-	Nsfu1wHn6l8w5yS7/Kg3XlEjtHxzer9MhzC1FiaE=
-Content-Type: multipart/mixed; boundary="===============1457862461695338526=="
+	bh=90EDHw3RpakcFDCyuAsjXwvKkRc5uR6QkE8OX204m0U=;
+	b=MSPiy/EyAT5zZeuFQTu5KEYp4OhKgNpZLCv7jCKI5lO6WEygD05Nub1q0JemRrmf
+	S8N7LoORy1AmUtHjK8O41HXT0Zb6iYWdkfMCylnbns65J+WoxiGPgS3IGuq4smo4oTp
+	/n78Ax7ln/X9GX99T50s2yABLeJ6zxvkS4sJNzZQ=
+Content-Type: multipart/mixed; boundary="===============8703680948317603116=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
-Subject: [AUH] xwayland: upgrading to 22.1.6 SUCCEEDED
-Message-ID: <01010185177d1d30-19ef5b1c-dc9e-4b48-ad23-dd30ee29c642-000000@us-west-2.amazonses.com>
+Subject: [AUH] libxcomposite: upgrading to 0.4.6 FAILED
+Message-ID: <01010185177d1c4b-eebbdcb9-8a7e-4d7e-9b1d-c49b6fd27789-000000@us-west-2.amazonses.com>
 Date: Thu, 15 Dec 2022 20:32:33 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.12.15-54.240.27.31
+X-SES-Outgoing: 2022.12.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 20:32:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174711
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174710
 
---===============1457862461695338526==
+--===============8703680948317603116==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -49,81 +49,91 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *xwayland* to *22.1.6* has Succeeded.
+that the automatic attempt to upgrade the recipe *libxcomposite* to *0.4.6* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-xwayland-upgrade-22.1.5-22.1.6.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade libxcomposite -V 0.4.6
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)... (16:37:20.828586)
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1672 entries from dependency cache.
+
+Summary: There was 1 WARNING message.
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:b1b212858f5d389164531503ddcb3e87bb9a7ffa"
+workspace            = "master:46fd76aa07bd431f0ba73bdafeb7bf5aa31cef25"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1672 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 889 .bb files complete (887 cached, 2 parsed). 1673 targets, 36 skipped, 0 masked, 0 errors.
+
+Summary: There was 1 WARNING message.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:b1b212858f5d389164531503ddcb3e87bb9a7ffa"
+workspace            = "master:46fd76aa07bd431f0ba73bdafeb7bf5aa31cef25"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+WARNING: Failed to fetch URL https://www.x.org/releases//individual/lib/libXcomposite-0.4.6.tar.bz2, attempting MIRRORS if available
+NOTE: Tasks Summary: Attempted 1 tasks of which 0 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://www.x.org/releases//individual/lib/libXcomposite-0.4.6.tar.bz2...
+ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-ahmoq20_/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-ahmoq20_/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-ahmoq20_/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-wor
+ ker/auh/build/build/build/tmp/work/recipetool-ahmoq20_/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-ahmoq20_/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-ahmoq20_/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 --passive-ftp -O /home/pokybuild/yocto-worker/auh/build/build/build/downloads/libXcomposite-0.4.6.tar.bz2.tmp -P /home/pokybuild/yocto-worker/auh/build/build/build/downloads 'https://www.x.org/releases//individual/lib/libXcomposite-0.4.6.tar.bz2' --progress=dot -v failed with exit code 8, no output
+ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://www.x.org/releases//individual/lib/libXcomposite-0.4.6.tar.bz2')
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-ahmoq20_/work/temp/log.do_fetch.3410214
+ERROR: Failed to fetch URL https://www.x.org/releases//individual/lib/libXcomposite-0.4.6.tar.bz2
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============1457862461695338526==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/xwayland: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/xwayland: SRC_URI changed from "https://www.x.org/archive/individual/xserver/xwayland-22.1.5.tar.xz" to "https://www.x.org/archive/individual/xserver/xwayland-22.1.6.tar.xz"
-packages/core2-32-poky-linux/xwayland: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/xwayland/xwayland-dbg: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/xwayland/xwayland-dbg: PKGSIZE changed from 10281436 to 10281360 (-0%)
-packages/core2-32-poky-linux/xwayland/xwayland-dbg: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/xwayland/xwayland-dev: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/xwayland/xwayland-dev: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/xwayland/xwayland-doc: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/xwayland/xwayland-doc: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/xwayland/xwayland-locale: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/xwayland/xwayland-locale: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/xwayland/xwayland-src: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/xwayland/xwayland-src: PKGSIZE changed from 8603294 to 8603731 (+0%)
-packages/core2-32-poky-linux/xwayland/xwayland-src: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/xwayland/xwayland-staticdev: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/xwayland/xwayland-staticdev: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-packages/core2-32-poky-linux/xwayland/xwayland: PV changed from "22.1.5" to "22.1.6"
-packages/core2-32-poky-linux/xwayland/xwayland: PKGV changed from 22.1.5 [default] to 22.1.6 [default]
-
---===============1457862461695338526==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-xwayland-upgrade-22.1.5-22.1.6.patch"
-
-RnJvbSAyMWIyYTkyZmVjNGIzOTFmNjU1MjVkMGRiMTY5MTY4Y2VhMDQ4ZmFjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgRGVjIDIwMjIgMTc6MTE6MDQgKzAwMDAKU3ViamVjdDogW1BBVENIXSB4
-d2F5bGFuZDogdXBncmFkZSAyMi4xLjUgLT4gMjIuMS42CgotLS0KIC4uLi94d2F5bGFuZC97eHdh
-eWxhbmRfMjIuMS41LmJiID0+IHh3YXlsYW5kXzIyLjEuNi5iYn0gICAgICAgICB8IDIgKy0KIDEg
-ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1ncmFwaGljcy94d2F5bGFuZC97eHdheWxhbmRfMjIuMS41LmJiID0+IHh3YXlsYW5k
-XzIyLjEuNi5iYn0gKDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveHdh
-eWxhbmQveHdheWxhbmRfMjIuMS41LmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3h3YXlsYW5k
-L3h3YXlsYW5kXzIyLjEuNi5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRh
-L3JlY2lwZXMtZ3JhcGhpY3MveHdheWxhbmQveHdheWxhbmRfMjIuMS41LmJiCnJlbmFtZSB0byBt
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3MveHdheWxhbmQveHdheWxhbmRfMjIuMS42LmJiCmluZGV4IDUx
-ZDg0N2EwOTMuLjY4YWNiZDU5OTMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94
-d2F5bGFuZC94d2F5bGFuZF8yMi4xLjUuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3h3
-YXlsYW5kL3h3YXlsYW5kXzIyLjEuNi5iYgpAQCAtMTAsNyArMTAsNyBAQCBMSUNFTlNFID0gIk1J
-VCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PTVkZjg3OTUwYWY1MWFj
-MmM1ODIyMDk0NTUzZWExODgwIgogCiBTUkNfVVJJID0gImh0dHBzOi8vd3d3Lngub3JnL2FyY2hp
-dmUvaW5kaXZpZHVhbC94c2VydmVyL3h3YXlsYW5kLSR7UFZ9LnRhci54eiIKLVNSQ19VUklbc2hh
-MjU2c3VtXSA9ICJlMzE3YWMxZjExOWY4MzIxNjU0OTIxNzYxNDIwOTAxZTRhYmQ5NTU4NWE4Yzc2
-M2NlMjZhZjNiMDQ1YWMxNjcyIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjllNDI0M2YwM2QwMGZk
-MTI0MzVhZWUzOWRiNGNlMTA3MWZjNDc4NmZmYzUyNTQ3ZThhMDdhNjVhYjU1YjBlN2MiCiAKIFVQ
-U1RSRUFNX0NIRUNLX1JFR0VYID0gInh3YXlsYW5kLSg/UDxwdmVyPlxkKyhcLig/ITkwXGQpXGQr
-KSspXC50YXIiCiAKLS0gCjIuMzcuMwoK
-
---===============1457862461695338526==--
+--===============8703680948317603116==--
 
