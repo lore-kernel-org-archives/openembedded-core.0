@@ -2,56 +2,56 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8625FC25B04
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 865DAC46467
 	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 08:46:00 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web10.128335.1671093951750537163
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web10.128338.1671093953646276517
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Dec 2022 00:45:54 -0800
+ Thu, 15 Dec 2022 00:45:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=eBhnrzz1;
- spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f50.google.com with SMTP id o1-20020a17090a678100b00219cf69e5f0so2042244pjj.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 00:45:54 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=gRkVp9CK;
+ spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f46.google.com with SMTP id t11-20020a17090a024b00b0021932afece4so2011799pje.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 00:45:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=u5FR59x43KKvoKLz00M0bujHhtlEJiVX8piZWEngr/g=;
-        b=eBhnrzz1VSiUAQS5mkd4iWkA7XBYUJ0YHqa6Ismr3g4fositS5er3mMsiVA6Z7gXTB
-         EnuLhrv6v2YI4moAyxfbuwCMvJbJ2Soq4tkGzz8Dhum6IDoUtp+RrCxfKx1UrMnUO0YU
-         37t1nXhzq1CaQXY8xDqv7Buz4mp5dAMVF2L/o4sgcV56zMxG2Vs6p/BTKM/XeC12h3WX
-         MZiUXBCr2gHxqQAylmQLwr2nlkRVU3S2CqeCz+pzzbCIIQEVSESUxjK8o8BrcdE9Ho2j
-         3yU4GChdrc6Jfy1ZhV693UX8wap6L3s/PP/VG3se2S18FpdYsEfZU6xqLCTaeQ0IhMuG
-         ciaA==
+        bh=iMxZo+V30+1JVj89jb6evNdwtFtHGg03/xmFpBhmAXg=;
+        b=gRkVp9CKEC2uHymFajnb+6j1XPJNfHPxkcSzJmpS9x5ei4TWCnvP7hQjnTeLBWtSh4
+         9IHya2WaxITRZroN+wTow3xoz8Z3Iu66xJ1Mt9KuTMcARUAmb3iJ1rmHRSKFnCb13HIU
+         w3Poq320LeO0GbcF69xlSKnRKX8g6R0lnUoiCwS0MC0K97cTzggjDjraQtXqFBge1b5c
+         VNzGOwvblTmDFgwUL28Cd0i7XcZtOn47ERLOEMZYzD5So6FnQakwP9MvXAe+RX6E31N+
+         y819wcWOD3LOHLHXY+tpsuis77TIdwM5AIhJlL8x3xmY7mnMyhsU4lgK5YfufznFA64u
+         Q3qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=u5FR59x43KKvoKLz00M0bujHhtlEJiVX8piZWEngr/g=;
-        b=UV8+y9dVAY9Ff/w9p8n2SZwYSCyhsmDIK7pE28f2WXf5Ss97E1TuSApPdbMcB2ewHP
-         HI5SmFxXkVBrvhIfMr5osdVrC7RsC7iSGgZg/jcqPsgq4pFzKGXj61TUMLtaRrMp8tro
-         MRlbRENJ9wAUDRslZjERDTt3ZV2+m5kmTGV76+AzfyoMDF7vV4SroTFYSFCHTjfE3UvH
-         dankikZyx9gKgNUtvAbm3F19KMylH0WWgHQfdir+GvTwxq6Ra2GJGm+lzhIOMfgtWfXG
-         Q2GILOSG2QISuxB3wNTkFwT3nqP0L/wg3TBeQHF8r4uGdBwDg+B/7ysoE30I52mBBQmE
-         Re5w==
-X-Gm-Message-State: ANoB5plgFEUkV4iL7M38ldt5FhkQzoYB+9OaC/gXEOF9pj9/HNTxk7IZ
-	hWyzZfD8VP763oHbgWhWblvwWp8fNJ8=
-X-Google-Smtp-Source: AA0mqf7EI/5KkcVQFfG+W4tHWhAQT6j/T8vECHHUedhyggegwq2fDHQT/okTx9gENtXd7EBGL/H8mA==
-X-Received: by 2002:a17:903:1209:b0:185:441e:90b4 with SMTP id l9-20020a170903120900b00185441e90b4mr39383310plh.26.1671093954300;
-        Thu, 15 Dec 2022 00:45:54 -0800 (PST)
+        bh=iMxZo+V30+1JVj89jb6evNdwtFtHGg03/xmFpBhmAXg=;
+        b=8MQ26Pd56CMawopI5hJ5xBhFU19I20N/WmT4gaSNpjprY2HNr6xkMYJ9fm5zS4WynL
+         9Uv0ieLzRXPPtTmIokibGljZvvoFRw8umIqpbZpklZ9WN6GDHlnruwtyCmHDBpUE7RO6
+         DyhdFKhWM56LbJSfXvm8lR/APdFBzvvpjfdD3p9w9Fa3SoKyNwh1gzd9AGHhPw/gy4Me
+         sjxLYB1wJSW9BvyHdukSFcZgPEkABsgt8dbjjVezQRLj5eBI2madhQw6ZY6p3QHPtGJG
+         Krk/Sv2KzwNEwRUJ0xvybMkZgoRq1gSstMtq099loIpoy/da8s2xxlLgbu/qBgRp7lYY
+         ewzw==
+X-Gm-Message-State: ANoB5pkNpR0ftoCzTXzO3bCFU/NjeuiwsStsWwoN3Q4LOPZkrwJwvAck
+	gxgT73NfKcKxGnlMCQ+VakYQRVkNQtM=
+X-Google-Smtp-Source: AA0mqf6Nco+GaaMZ5RKUe3sT2uau5tqjs/tRay9Q1Hgfel9sGJBRUZWUkT0TO0i7neuTQmGyObE2yA==
+X-Received: by 2002:a17:903:181:b0:189:9007:ecef with SMTP id z1-20020a170903018100b001899007ecefmr40064210plg.25.1671093956765;
+        Thu, 15 Dec 2022 00:45:56 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::7d9c])
-        by smtp.gmail.com with ESMTPSA id z14-20020a170903018e00b00188ea79fae0sm3255723plg.48.2022.12.15.00.45.53
+        by smtp.gmail.com with ESMTPSA id z14-20020a170903018e00b00188ea79fae0sm3255723plg.48.2022.12.15.00.45.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Dec 2022 00:45:54 -0800 (PST)
+        Thu, 15 Dec 2022 00:45:56 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 08/11] e2fsprogs: Do not use 64bit functions for largefile support
-Date: Thu, 15 Dec 2022 00:45:43 -0800
-Message-Id: <20221215084546.125368-8-raj.khem@gmail.com>
+Subject: [PATCH 11/11] btrfs-tools: Do not use 64bit functions for largefile support
+Date: Thu, 15 Dec 2022 00:45:46 -0800
+Message-Id: <20221215084546.125368-11-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20221215084546.125368-1-raj.khem@gmail.com>
 References: <20221215084546.125368-1-raj.khem@gmail.com>
@@ -61,174 +61,939 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 08:46:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174570
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174573
 
 Using -D_FILE_OFFSET_BITS=64 already makes the normal function behave
 like 64bit variants. Moreover it makes them portable across libc
 
-Ensure that right lseek function is used with _FILE_OFFSET_BITS = 64
-
-Refresh patches with devtool
-
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...-to-enable-disable-largefile-support.patch | 57 +++++++++++++++++++
- ...t-lseek-when-_FILE_OFFSET_BITS-is-64.patch | 37 ++++++++++++
- ...-missing-check-for-permission-denied.patch |  2 +-
- .../e2fsprogs/e2fsprogs/quiet-debugfs.patch   |  2 +-
- .../e2fsprogs/e2fsprogs_1.46.5.bb             |  4 +-
- 5 files changed, 99 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-Add-option-to-enable-disable-largefile-support.patch
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-ext2fs-Use-64bit-lseek-when-_FILE_OFFSET_BITS-is-64.patch
+ ...-ftruncate-stat-instead-of-64bit-equ.patch | 903 ++++++++++++++++++
+ .../btrfs-tools/btrfs-tools_6.0.2.bb          |   1 +
+ 2 files changed, 904 insertions(+)
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Use-pread-pwrite-ftruncate-stat-instead-of-64bit-equ.patch
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-Add-option-to-enable-disable-largefile-support.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-Add-option-to-enable-disable-largefile-support.patch
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Use-pread-pwrite-ftruncate-stat-instead-of-64bit-equ.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Use-pread-pwrite-ftruncate-stat-instead-of-64bit-equ.patch
 new file mode 100644
-index 0000000000..5e3730ca40
+index 0000000000..2618687088
 --- /dev/null
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-Add-option-to-enable-disable-largefile-support.patch
-@@ -0,0 +1,57 @@
-+From 6fab3346d448298a24cee1faeb5fc8507a3b9712 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Use-pread-pwrite-ftruncate-stat-instead-of-64bit-equ.patch
+@@ -0,0 +1,903 @@
++From 37425f422e46003ed623f8e6387bed1aa5778b96 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Thu, 10 Nov 2022 20:34:54 -0800
-+Subject: [PATCH] Add option to enable/disable largefile support
++Date: Fri, 11 Nov 2022 11:26:05 -0800
++Subject: [PATCH] Use pread/pwrite/ftruncate/stat instead of 64bit equivalents
 +
-+fallocate can be used to have 64bit off_t provided its compiled with
-+_FILE_OFFSET_BITS=64 which will be added automatically when
-+--enable-largefile is used.
++64bit functions are aliases to original functions when largefile feature
++is enabled via autoconf or right macro is passed on compiler cmdline
 +
-+Upstream-Status: Submitted [https://sourceforge.net/p/e2fsprogs/code/merge-requests/4/]
++-D_FILE_OFFSET_BITS=64
++
++Upstream-Status: Submitted [https://lore.kernel.org/linux-btrfs/20221215084046.122836-1-raj.khem@gmail.com/T/#u]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ configure.ac    | 3 +++
-+ misc/e4defrag.c | 6 +-----
-+ 2 files changed, 4 insertions(+), 5 deletions(-)
++ cmds/rescue-chunk-recover.c |   4 +-
++ image/main.c                |  14 +--
++ kernel-shared/zoned.c       |   6 +-
++ kernel-shared/zoned.h       |   4 +-
++ mkfs/main.c                 |   4 +-
++ mkfs/rootdir.c              |  10 +-
++ tests/fsstress.c            | 192 ++++++++++++++++++------------------
++ tests/fssum.c               |   8 +-
++ 8 files changed, 121 insertions(+), 121 deletions(-)
 +
-+diff --git a/configure.ac b/configure.ac
-+index dff3d1ca..ec1c5b64 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -1800,6 +1800,9 @@ OS_IO_FILE=""
-+   ;;
-+ esac]
-+ AC_SUBST(OS_IO_FILE)
-++
-++AC_SYS_LARGEFILE
-++
-+ dnl
-+ dnl Make our output files, being sure that we create the some miscellaneous 
-+ dnl directories
-+diff --git a/misc/e4defrag.c b/misc/e4defrag.c
-+index 86e97ee3..e7175c37 100644
-+--- a/misc/e4defrag.c
-++++ b/misc/e4defrag.c
-+@@ -195,10 +195,6 @@ static struct frag_statistic_ino	frag_rank[SHOW_FRAG_FILES];
-+ #error posix_fadvise not available!
-+ #endif
++--- a/cmds/rescue-chunk-recover.c
+++++ b/cmds/rescue-chunk-recover.c
++@@ -755,7 +755,7 @@ static int scan_one_device(void *dev_sca
++ 		if (is_super_block_address(bytenr))
++ 			bytenr += rc->sectorsize;
 + 
-+-#ifndef HAVE_FALLOCATE64
-+-#error fallocate64 not available!
-+-#endif /* ! HAVE_FALLOCATE64 */
-+-
-+ /*
-+  * get_mount_point() -	Get device's mount point.
-+  *
-+@@ -1568,7 +1564,7 @@ static int file_defrag(const char *file, const struct stat64 *buf,
-+ 	/* Allocate space for donor inode */
-+ 	orig_group_tmp = orig_group_head;
-+ 	do {
-+-		ret = fallocate64(donor_fd, 0,
-++		ret = fallocate(donor_fd, 0,
-+ 		  (ext2_loff_t)orig_group_tmp->start->data.logical * block_size,
-+ 		  (ext2_loff_t)orig_group_tmp->len * block_size);
++-		if (pread64(fd, buf->data, rc->nodesize, bytenr) <
+++		if (pread(fd, buf->data, rc->nodesize, bytenr) <
++ 		    rc->nodesize)
++ 			break;
++ 
++@@ -1875,7 +1875,7 @@ static int check_one_csum(int fd, u64 st
++ 	data = malloc(len);
++ 	if (!data)
++ 		return -1;
++-	ret = pread64(fd, data, len, start);
+++	ret = pread(fd, data, len, start);
++ 	if (ret < 0 || ret != len) {
++ 		ret = -1;
++ 		goto out;
++--- a/image/main.c
+++++ b/image/main.c
++@@ -691,7 +691,7 @@ static int flush_pending(struct metadump
++ 		if (start == BTRFS_SUPER_INFO_OFFSET) {
++ 			int fd = get_dev_fd(md->root);
++ 
++-			ret = pread64(fd, async->buffer, size, start);
+++			ret = pread(fd, async->buffer, size, start);
++ 			if (ret < size) {
++ 				free(async->buffer);
++ 				free(async);
++@@ -1366,7 +1366,7 @@ static void write_backup_supers(int fd,
++ 			break;
++ 		btrfs_set_super_bytenr(super, bytenr);
++ 		csum_block(buf, BTRFS_SUPER_INFO_SIZE);
++-		ret = pwrite64(fd, buf, BTRFS_SUPER_INFO_SIZE, bytenr);
+++		ret = pwrite(fd, buf, BTRFS_SUPER_INFO_SIZE, bytenr);
++ 		if (ret < BTRFS_SUPER_INFO_SIZE) {
++ 			if (ret < 0)
++ 				error(
++@@ -1487,12 +1487,12 @@ static int restore_one_work(struct mdres
++ 				else
++ 					bytenr = logical;
++ 
++-				ret = pwrite64(outfd, buffer + offset, chunk_size, bytenr);
+++				ret = pwrite(outfd, buffer + offset, chunk_size, bytenr);
++ 				if (ret != chunk_size)
++ 					goto write_error;
++ 
++ 				if (physical_dup)
++-					ret = pwrite64(outfd, buffer + offset,
+++					ret = pwrite(outfd, buffer + offset,
++ 						       chunk_size, physical_dup);
++ 				if (ret != chunk_size)
++ 					goto write_error;
++@@ -2454,7 +2454,7 @@ static int fixup_device_size(struct btrf
++ 	}
++ 	if (S_ISREG(buf.st_mode)) {
++ 		/* Don't forget to enlarge the real file */
++-		ret = ftruncate64(out_fd, dev_size);
+++		ret = ftruncate(out_fd, dev_size);
 + 		if (ret < 0) {
-+-- 
-+2.38.1
-+
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-ext2fs-Use-64bit-lseek-when-_FILE_OFFSET_BITS-is-64.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-ext2fs-Use-64bit-lseek-when-_FILE_OFFSET_BITS-is-64.patch
-new file mode 100644
-index 0000000000..a219296b89
---- /dev/null
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-ext2fs-Use-64bit-lseek-when-_FILE_OFFSET_BITS-is-64.patch
-@@ -0,0 +1,37 @@
-+From 1a8aaa8ff7f4aca68b5ae964458e49ab16b4315f Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 14 Dec 2022 20:56:44 -0800
-+Subject: [PATCH] ext2fs: Use 64bit lseek when _FILE_OFFSET_BITS is 64
-+
-+Use lseek() with 64bit off_t when _FILE_OFFSET_BITS is 64
-+this fixes build with musl where there is no _llseek but lseek
-+is using off_t which is 64bit on musl
-+
-+Upstream-Status: Submitted [https://sourceforge.net/p/e2fsprogs/code/merge-requests/4/]
-+Signe-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ lib/ext2fs/llseek.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/lib/ext2fs/llseek.c b/lib/ext2fs/llseek.c
-+index 922a0d56..45f21d09 100644
-+--- a/lib/ext2fs/llseek.c
-++++ b/lib/ext2fs/llseek.c
-+@@ -51,7 +51,7 @@ extern long long llseek (int fd, long long offset, int origin);
++ 			error("failed to enlarge result image: %m");
++ 			return -errno;
++@@ -2913,7 +2913,7 @@ static int restore_metadump(const char *
++ 			goto out;
++ 		}
++ 		if (S_ISREG(st.st_mode) && st.st_size < dev_size) {
++-			ret = ftruncate64(fileno(out), dev_size);
+++			ret = ftruncate(fileno(out), dev_size);
++ 			if (ret < 0) {
++ 				error(
++ 		"failed to enlarge result image file from %llu to %llu: %m",
++@@ -3010,7 +3010,7 @@ static int update_disk_super_on_device(s
++ 	memcpy(dev_item->fsid, fs_uuid, BTRFS_UUID_SIZE);
++ 	csum_block((u8 *)&disk_super, BTRFS_SUPER_INFO_SIZE);
 + 
-+ #else	/* ! HAVE_LLSEEK */
++-	ret = pwrite64(fp, &disk_super, BTRFS_SUPER_INFO_SIZE, BTRFS_SUPER_INFO_OFFSET);
+++	ret = pwrite(fp, &disk_super, BTRFS_SUPER_INFO_SIZE, BTRFS_SUPER_INFO_OFFSET);
++ 	if (ret != BTRFS_SUPER_INFO_SIZE) {
++ 		if (ret < 0) {
++ 			errno = ret;
++--- a/kernel-shared/zoned.c
+++++ b/kernel-shared/zoned.c
++@@ -194,7 +194,7 @@ static int sb_write_pointer(int fd, stru
++ 			bytenr = ((zones[i].start + zones[i].len)
++ 				   << SECTOR_SHIFT) - BTRFS_SUPER_INFO_SIZE;
 + 
-+-#if SIZEOF_LONG == SIZEOF_LONG_LONG
-++#if SIZEOF_LONG == SIZEOF_LONG_LONG || _FILE_OFFSET_BITS+0 == 64
++-			ret = pread64(fd, buf[i], BTRFS_SUPER_INFO_SIZE, bytenr);
+++			ret = pread(fd, buf[i], BTRFS_SUPER_INFO_SIZE, bytenr);
++ 			if (ret != BTRFS_SUPER_INFO_SIZE)
++ 				return -EIO;
++ 			super[i] = (struct btrfs_super_block *)&buf[i];
++@@ -515,8 +515,8 @@ size_t btrfs_sb_io(int fd, void *buf, of
++ 	/* We can call pread/pwrite if 'fd' is non-zoned device/file */
++ 	if (zone_size_sector == 0) {
++ 		if (rw == READ)
++-			return pread64(fd, buf, count, offset);
++-		return pwrite64(fd, buf, count, offset);
+++			return pread(fd, buf, count, offset);
+++		return pwrite(fd, buf, count, offset);
++ 	}
 + 
-+ #define my_llseek lseek
++ 	ASSERT(IS_ALIGNED(zone_size_sector, sb_size_sector));
++--- a/kernel-shared/zoned.h
+++++ b/kernel-shared/zoned.h
++@@ -150,9 +150,9 @@ int btrfs_wipe_temporary_sb(struct btrfs
++ #else
 + 
-+@@ -69,7 +69,7 @@ static int _llseek (unsigned int, unsigned long,
++ #define sbread(fd, buf, offset) \
++-	pread64(fd, buf, BTRFS_SUPER_INFO_SIZE, offset)
+++	pread(fd, buf, BTRFS_SUPER_INFO_SIZE, offset)
++ #define sbwrite(fd, buf, offset) \
++-	pwrite64(fd, buf, BTRFS_SUPER_INFO_SIZE, offset)
+++	pwrite(fd, buf, BTRFS_SUPER_INFO_SIZE, offset)
 + 
-+ static _syscall5(int,_llseek,unsigned int,fd,unsigned long,offset_high,
-+ 		 unsigned long, offset_low,ext2_loff_t *,result,
-+-		 unsigned int, origin)
-++		 unsigned int, origin);
-+ #endif
++ static inline int btrfs_reset_dev_zone(int fd, struct blk_zone *zone)
++ {
++--- a/mkfs/main.c
+++++ b/mkfs/main.c
++@@ -453,14 +453,14 @@ static int zero_output_file(int out_fd,
++ 	/* Only zero out the first 1M */
++ 	loop_num = SZ_1M / SZ_4K;
++ 	for (i = 0; i < loop_num; i++) {
++-		written = pwrite64(out_fd, buf, SZ_4K, location);
+++		written = pwrite(out_fd, buf, SZ_4K, location);
++ 		if (written != SZ_4K)
++ 			ret = -EIO;
++ 		location += SZ_4K;
++ 	}
 + 
-+ static ext2_loff_t my_llseek (int fd, ext2_loff_t offset, int origin)
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-missing-check-for-permission-denied.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-missing-check-for-permission-denied.patch
-index 29078f9dd3..92bd0d0c1f 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-missing-check-for-permission-denied.patch
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-missing-check-for-permission-denied.patch
-@@ -1,4 +1,4 @@
--From 22d7557905534d9e1b39f7d2a6d2036a40bf0c4e Mon Sep 17 00:00:00 2001
-+From cce489c96aa3f4272a19d2137c2a46b439636712 Mon Sep 17 00:00:00 2001
- From: Jackie Huang <jackie.huang@windriver.com>
- Date: Wed, 10 Aug 2016 11:19:44 +0800
- Subject: [PATCH] Fix missing check for permission denied.
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/quiet-debugfs.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/quiet-debugfs.patch
-index 902a369eb0..d695580c92 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/quiet-debugfs.patch
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/quiet-debugfs.patch
-@@ -1,4 +1,4 @@
--From 5408b6463ee700a080a15102bccccdeb2615d734 Mon Sep 17 00:00:00 2001
-+From 20bf59365646af0466c1910e8763b352380b26d6 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Mon, 23 Dec 2013 13:38:34 +0000
- Subject: [PATCH] e2fsprogs: silence debugfs
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb
-index 5b2d1921f0..ceceb7edcc 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb
-@@ -5,6 +5,8 @@ SRC_URI += "file://remove.ldconfig.call.patch \
-            file://ptest.patch \
-            file://mkdir_p.patch \
-            file://extents.patch \
-+           file://0001-Add-option-to-enable-disable-largefile-support.patch \
-+           file://0001-ext2fs-Use-64bit-lseek-when-_FILE_OFFSET_BITS-is-64.patch \
++ 	/* Then enlarge the file to size */
++-	written = pwrite64(out_fd, buf, 1, size - 1);
+++	written = pwrite(out_fd, buf, 1, size - 1);
++ 	if (written < 1)
++ 		ret = -EIO;
++ 	return ret;
++--- a/mkfs/rootdir.c
+++++ b/mkfs/rootdir.c
++@@ -340,7 +340,7 @@ static int add_file_items(struct btrfs_t
++ 			goto end;
++ 		}
++ 
++-		ret_read = pread64(fd, buffer, st->st_size, bytes_read);
+++		ret_read = pread(fd, buffer, st->st_size, bytes_read);
++ 		if (ret_read == -1) {
++ 			error("cannot read %s at offset %llu length %llu: %m",
++ 				path_name, bytes_read, (unsigned long long)st->st_size);
++@@ -386,7 +386,7 @@ again:
++ 
++ 		memset(eb->data, 0, sectorsize);
++ 
++-		ret_read = pread64(fd, eb->data, sectorsize, file_pos +
+++		ret_read = pread(fd, eb->data, sectorsize, file_pos +
++ 				   bytes_read);
++ 		if (ret_read == -1) {
++ 			error("cannot read %s at offset %llu length %u: %m",
++@@ -929,7 +929,7 @@ int btrfs_mkfs_shrink_fs(struct btrfs_fs
++ 	u64 new_size;
++ 	struct btrfs_device *device;
++ 	struct list_head *cur;
++-	struct stat64 file_stat;
+++	struct stat file_stat;
++ 	int nr_devs = 0;
++ 	int ret;
++ 
++@@ -963,14 +963,14 @@ int btrfs_mkfs_shrink_fs(struct btrfs_fs
++ 		*new_size_ret = new_size;
++ 
++ 	if (shrink_file_size) {
++-		ret = fstat64(device->fd, &file_stat);
+++		ret = fstat(device->fd, &file_stat);
++ 		if (ret < 0) {
++ 			error("failed to stat devid %llu: %m", device->devid);
++ 			return ret;
++ 		}
++ 		if (!S_ISREG(file_stat.st_mode))
++ 			return ret;
++-		ret = ftruncate64(device->fd, new_size);
+++		ret = ftruncate(device->fd, new_size);
++ 		if (ret < 0) {
++ 			error("failed to truncate device file of devid %llu: %m",
++ 				device->devid);
++--- a/tests/fsstress.c
+++++ b/tests/fsstress.c
++@@ -458,7 +458,7 @@ int	get_fname(int, long, pathname_t *, f
++ void	init_pathname(pathname_t *);
++ int	lchown_path(pathname_t *, uid_t, gid_t);
++ int	link_path(pathname_t *, pathname_t *);
++-int	lstat64_path(pathname_t *, struct stat64 *);
+++int	lstat_path(pathname_t *, struct stat *);
++ void	make_freq_table(void);
++ int	mkdir_path(pathname_t *, mode_t);
++ int	mknod_path(pathname_t *, mode_t, dev_t);
++@@ -472,9 +472,9 @@ int	rename_path(pathname_t *, pathname_t
++ int	rmdir_path(pathname_t *);
++ void	separate_pathname(pathname_t *, char *, pathname_t *);
++ void	show_ops(int, char *);
++-int	stat64_path(pathname_t *, struct stat64 *);
+++int	stat_path(pathname_t *, struct stat *);
++ int	symlink_path(const char *, pathname_t *);
++-int	truncate64_path(pathname_t *, off64_t);
+++int	truncate_path(pathname_t *, off64_t);
++ int	unlink_path(pathname_t *);
++ void	usage(void);
++ void	write_freq(void);
++@@ -998,12 +998,12 @@ void
++ check_cwd(void)
++ {
++ #ifdef DEBUG
++-	struct stat64	statbuf;
+++	struct stat	statbuf;
++ 	int ret;
++ 
++-	ret = stat64(".", &statbuf);
+++	ret = stat(".", &statbuf);
++ 	if (ret != 0) {
++-		fprintf(stderr, "fsstress: check_cwd stat64() returned %d with errno: %d (%m)\n",
+++		fprintf(stderr, "fsstress: check_cwd stat() returned %d with errno: %d (%m)\n",
++ 			ret, errno);
++ 		goto out;
++ 	}
++@@ -1171,7 +1171,7 @@ again:
++ void
++ doproc(void)
++ {
++-	struct stat64	statbuf;
+++	struct stat	statbuf;
++ 	char		buf[10];
++ 	char		cmd[64];
++ 	opnum_t		opno;
++@@ -1182,7 +1182,7 @@ doproc(void)
++ 	dividend = (operations + execute_freq) / (execute_freq + 1);
++ 	sprintf(buf, "p%x", procid);
++ 	(void)mkdir(buf, 0777);
++-	if (chdir(buf) < 0 || stat64(".", &statbuf) < 0) {
+++	if (chdir(buf) < 0 || stat(".", &statbuf) < 0) {
++ 		perror(buf);
++ 		_exit(1);
++ 	}
++@@ -1214,7 +1214,7 @@ doproc(void)
++ 		 * the forced shutdown happened.
++ 		 */
++ 		if (errtag != 0 && opno % 100 == 0)  {
++-			rval = stat64(".", &statbuf);
+++			rval = stat(".", &statbuf);
++ 			if (rval == EIO)  {
++ 				fprintf(stderr, "Detected EIO\n");
++ 				goto errout;
++@@ -1537,18 +1537,18 @@ link_path(pathname_t *name1, pathname_t
++ }
++ 
++ int
++-lstat64_path(pathname_t *name, struct stat64 *sbuf)
+++lstat_path(pathname_t *name, struct stat *sbuf)
++ {
++ 	char		buf[NAME_MAX + 1];
++ 	pathname_t	newname;
++ 	int		rval;
++ 
++-	rval = lstat64(name->path, sbuf);
+++	rval = lstat(name->path, sbuf);
++ 	if (rval >= 0 || errno != ENAMETOOLONG)
++ 		return rval;
++ 	separate_pathname(name, buf, &newname);
++ 	if (chdir(buf) == 0) {
++-		rval = lstat64_path(&newname, sbuf);
+++		rval = lstat_path(&newname, sbuf);
++ 		assert(chdir("..") == 0);
++ 	}
++ 	free_pathname(&newname);
++@@ -1870,18 +1870,18 @@ show_ops(int flag, char *lead_str)
++ }
++ 
++ int
++-stat64_path(pathname_t *name, struct stat64 *sbuf)
+++stat_path(pathname_t *name, struct stat *sbuf)
++ {
++ 	char		buf[NAME_MAX + 1];
++ 	pathname_t	newname;
++ 	int		rval;
++ 
++-	rval = stat64(name->path, sbuf);
+++	rval = stat(name->path, sbuf);
++ 	if (rval >= 0 || errno != ENAMETOOLONG)
++ 		return rval;
++ 	separate_pathname(name, buf, &newname);
++ 	if (chdir(buf) == 0) {
++-		rval = stat64_path(&newname, sbuf);
+++		rval = stat_path(&newname, sbuf);
++ 		assert(chdir("..") == 0);
++ 	}
++ 	free_pathname(&newname);
++@@ -1913,18 +1913,18 @@ symlink_path(const char *name1, pathname
++ }
++ 
++ int
++-truncate64_path(pathname_t *name, off64_t length)
+++truncate_path(pathname_t *name, off64_t length)
++ {
++ 	char		buf[NAME_MAX + 1];
++ 	pathname_t	newname;
++ 	int		rval;
++ 
++-	rval = truncate64(name->path, length);
+++	rval = truncate(name->path, length);
++ 	if (rval >= 0 || errno != ENAMETOOLONG)
++ 		return rval;
++ 	separate_pathname(name, buf, &newname);
++ 	if (chdir(buf) == 0) {
++-		rval = truncate64_path(&newname, length);
+++		rval = truncate_path(&newname, length);
++ 		assert(chdir("..") == 0);
++ 	}
++ 	free_pathname(&newname);
++@@ -2026,7 +2026,7 @@ non_btrfs_freq(const char *path)
++ 		ops[btrfs_ops[i]].freq = 0;
++ }
++ 
++-void inode_info(char *str, size_t sz, struct stat64 *s, int verbose)
+++void inode_info(char *str, size_t sz, struct stat *s, int verbose)
++ {
++ 	if (verbose)
++ 		snprintf(str, sz, "[%ld %ld %d %d %lld %lld]",
++@@ -2101,7 +2101,7 @@ allocsp_f(opnum_t opno, long r)
++ 	struct xfs_flock64	fl;
++ 	int64_t		lr;
++ 	off64_t		off;
++-	struct stat64	stb;
+++	struct stat	stb;
++ 	int		v;
++ 	char		st[1024];
++ 
++@@ -2122,9 +2122,9 @@ allocsp_f(opnum_t opno, long r)
++ 		free_pathname(&f);
++ 		return;
++ 	}
++-	if (fstat64(fd, &stb) < 0) {
+++	if (fstat(fd, &stb) < 0) {
++ 		if (v)
++-			printf("%d/%lld: allocsp - fstat64 %s failed %d\n",
+++			printf("%d/%lld: allocsp - fstat %s failed %d\n",
++ 				procid, opno, f.path, errno);
++ 		free_pathname(&f);
++ 		close(fd);
++@@ -2160,7 +2160,7 @@ do_aio_rw(opnum_t opno, long r, int flag
++ 	size_t		len;
++ 	int64_t		lr;
++ 	off64_t		off;
++-	struct stat64	stb;
+++	struct stat	stb;
++ 	int		v;
++ 	char		st[1024];
++ 	char		*dio_env;
++@@ -2184,9 +2184,9 @@ do_aio_rw(opnum_t opno, long r, int flag
++ 			       procid, opno, f.path, e);
++ 		goto aio_out;
++ 	}
++-	if (fstat64(fd, &stb) < 0) {
+++	if (fstat(fd, &stb) < 0) {
++ 		if (v)
++-			printf("%d/%lld: do_aio_rw - fstat64 %s failed %d\n",
+++			printf("%d/%lld: do_aio_rw - fstat %s failed %d\n",
++ 			       procid, opno, f.path, errno);
++ 		goto aio_out;
++ 	}
++@@ -2278,7 +2278,7 @@ do_uring_rw(opnum_t opno, long r, int fl
++ 	size_t		len;
++ 	int64_t		lr;
++ 	off64_t		off;
++-	struct stat64	stb;
+++	struct stat	stb;
++ 	int		v;
++ 	char		st[1024];
++ 	struct io_uring_sqe	*sqe;
++@@ -2304,9 +2304,9 @@ do_uring_rw(opnum_t opno, long r, int fl
++ 			       procid, opno, f.path, e);
++ 		goto uring_out;
++ 	}
++-	if (fstat64(fd, &stb) < 0) {
+++	if (fstat(fd, &stb) < 0) {
++ 		if (v)
++-			printf("%d/%lld: do_uring_rw - fstat64 %s failed %d\n",
+++			printf("%d/%lld: do_uring_rw - fstat %s failed %d\n",
++ 			       procid, opno, f.path, errno);
++ 		goto uring_out;
++ 	}
++@@ -2522,7 +2522,7 @@ bulkstat1_f(opnum_t opno, long r)
++ 	int		fd;
++ 	int		good;
++ 	__u64		ino;
++-	struct stat64	s;
+++	struct stat	s;
++ 	struct xfs_bstat	t;
++ 	int		v;
++ 	struct xfs_fsop_bulkreq bsr;
++@@ -2534,7 +2534,7 @@ bulkstat1_f(opnum_t opno, long r)
++ 		init_pathname(&f);
++ 		if (!get_fname(FT_ANYm, r, &f, NULL, NULL, &v))
++ 			append_pathname(&f, ".");
++-		ino = stat64_path(&f, &s) < 0 ? (ino64_t)r : s.st_ino;
+++		ino = stat_path(&f, &s) < 0 ? (ino64_t)r : s.st_ino;
++ 		check_cwd();
++ 		free_pathname(&f);
++ 	} else {
++@@ -2605,8 +2605,8 @@ clonerange_f(
++ 	struct file_clone_range	fcr;
++ 	struct pathname		fpath1;
++ 	struct pathname		fpath2;
++-	struct stat64		stat1;
++-	struct stat64		stat2;
+++	struct stat		stat1;
+++	struct stat		stat2;
++ 	char			inoinfo1[1024];
++ 	char			inoinfo2[1024];
++ 	off64_t			lr;
++@@ -2660,17 +2660,17 @@ clonerange_f(
++ 	}
++ 
++ 	/* Get file stats */
++-	if (fstat64(fd1, &stat1) < 0) {
+++	if (fstat(fd1, &stat1) < 0) {
++ 		if (v1)
++-			printf("%d/%lld: clonerange read - fstat64 %s failed %d\n",
+++			printf("%d/%lld: clonerange read - fstat %s failed %d\n",
++ 				procid, opno, fpath1.path, errno);
++ 		goto out_fd2;
++ 	}
++ 	inode_info(inoinfo1, sizeof(inoinfo1), &stat1, v1);
++ 
++-	if (fstat64(fd2, &stat2) < 0) {
+++	if (fstat(fd2, &stat2) < 0) {
++ 		if (v2)
++-			printf("%d/%lld: clonerange write - fstat64 %s failed %d\n",
+++			printf("%d/%lld: clonerange write - fstat %s failed %d\n",
++ 				procid, opno, fpath2.path, errno);
++ 		goto out_fd2;
++ 	}
++@@ -2743,8 +2743,8 @@ copyrange_f(
++ #ifdef HAVE_COPY_FILE_RANGE
++ 	struct pathname		fpath1;
++ 	struct pathname		fpath2;
++-	struct stat64		stat1;
++-	struct stat64		stat2;
+++	struct stat		stat1;
+++	struct stat		stat2;
++ 	char			inoinfo1[1024];
++ 	char			inoinfo2[1024];
++ 	loff_t			lr;
++@@ -2802,17 +2802,17 @@ copyrange_f(
++ 	}
++ 
++ 	/* Get file stats */
++-	if (fstat64(fd1, &stat1) < 0) {
+++	if (fstat(fd1, &stat1) < 0) {
++ 		if (v1)
++-			printf("%d/%lld: copyrange read - fstat64 %s failed %d\n",
+++			printf("%d/%lld: copyrange read - fstat %s failed %d\n",
++ 				procid, opno, fpath1.path, errno);
++ 		goto out_fd2;
++ 	}
++ 	inode_info(inoinfo1, sizeof(inoinfo1), &stat1, v1);
++ 
++-	if (fstat64(fd2, &stat2) < 0) {
+++	if (fstat(fd2, &stat2) < 0) {
++ 		if (v2)
++-			printf("%d/%lld: copyrange write - fstat64 %s failed %d\n",
+++			printf("%d/%lld: copyrange write - fstat %s failed %d\n",
++ 				procid, opno, fpath2.path, errno);
++ 		goto out_fd2;
++ 	}
++@@ -2900,7 +2900,7 @@ deduperange_f(
++ #define INFO_SZ			1024
++ 	struct file_dedupe_range *fdr;
++ 	struct pathname		*fpath;
++-	struct stat64		*stat;
+++	struct stat		*stat;
++ 	char			*info;
++ 	off64_t			*off;
++ 	int			*v;
++@@ -2938,7 +2938,7 @@ deduperange_f(
++ 		goto out_fdr;
++ 	}
++ 
++-	stat = calloc(nr, sizeof(struct stat64));
+++	stat = calloc(nr, sizeof(struct stat));
++ 	if (!stat) {
++ 		printf("%d/%lld: line %d error %d\n",
++ 			procid, opno, __LINE__, errno);
++@@ -3017,9 +3017,9 @@ deduperange_f(
++ 	}
++ 
++ 	/* Get file stats */
++-	if (fstat64(fd[0], &stat[0]) < 0) {
+++	if (fstat(fd[0], &stat[0]) < 0) {
++ 		if (v[0])
++-			printf("%d/%lld: deduperange read - fstat64 %s failed %d\n",
+++			printf("%d/%lld: deduperange read - fstat %s failed %d\n",
++ 				procid, opno, fpath[0].path, errno);
++ 		goto out_fds;
++ 	}
++@@ -3027,9 +3027,9 @@ deduperange_f(
++ 	inode_info(&info[0], INFO_SZ, &stat[0], v[0]);
++ 
++ 	for (i = 1; i < nr; i++) {
++-		if (fstat64(fd[i], &stat[i]) < 0) {
+++		if (fstat(fd[i], &stat[i]) < 0) {
++ 			if (v[i])
++-				printf("%d/%lld: deduperange write - fstat64 %s failed %d\n",
+++				printf("%d/%lld: deduperange write - fstat %s failed %d\n",
++ 					procid, opno, fpath[i].path, errno);
++ 			goto out_fds;
++ 		}
++@@ -3179,8 +3179,8 @@ splice_f(opnum_t opno, long r)
++ {
++ 	struct pathname		fpath1;
++ 	struct pathname		fpath2;
++-	struct stat64		stat1;
++-	struct stat64		stat2;
+++	struct stat		stat1;
+++	struct stat		stat2;
++ 	char			inoinfo1[1024];
++ 	char			inoinfo2[1024];
++ 	loff_t			lr;
++@@ -3237,17 +3237,17 @@ splice_f(opnum_t opno, long r)
++ 	}
++ 
++ 	/* Get file stats */
++-	if (fstat64(fd1, &stat1) < 0) {
+++	if (fstat(fd1, &stat1) < 0) {
++ 		if (v1)
++-			printf("%d/%lld: splice read - fstat64 %s failed %d\n",
+++			printf("%d/%lld: splice read - fstat %s failed %d\n",
++ 				procid, opno, fpath1.path, errno);
++ 		goto out_fd2;
++ 	}
++ 	inode_info(inoinfo1, sizeof(inoinfo1), &stat1, v1);
++ 
++-	if (fstat64(fd2, &stat2) < 0) {
+++	if (fstat(fd2, &stat2) < 0) {
++ 		if (v2)
++-			printf("%d/%lld: splice write - fstat64 %s failed %d\n",
+++			printf("%d/%lld: splice write - fstat %s failed %d\n",
++ 				procid, opno, fpath2.path, errno);
++ 		goto out_fd2;
++ 	}
++@@ -3432,7 +3432,7 @@ dread_f(opnum_t opno, long r)
++ 	size_t		len;
++ 	int64_t		lr;
++ 	off64_t		off;
++-	struct stat64	stb;
+++	struct stat	stb;
++ 	int		v;
++ 	char		st[1024];
++ 	char		*dio_env;
++@@ -3454,9 +3454,9 @@ dread_f(opnum_t opno, long r)
++ 		free_pathname(&f);
++ 		return;
++ 	}
++-	if (fstat64(fd, &stb) < 0) {
+++	if (fstat(fd, &stb) < 0) {
++ 		if (v)
++-			printf("%d/%lld: dread - fstat64 %s failed %d\n",
+++			printf("%d/%lld: dread - fstat %s failed %d\n",
++ 			       procid, opno, f.path, errno);
++ 		free_pathname(&f);
++ 		close(fd);
++@@ -3522,7 +3522,7 @@ dwrite_f(opnum_t opno, long r)
++ 	size_t		len;
++ 	int64_t		lr;
++ 	off64_t		off;
++-	struct stat64	stb;
+++	struct stat	stb;
++ 	int		v;
++ 	char		st[1024];
++ 	char		*dio_env;
++@@ -3544,9 +3544,9 @@ dwrite_f(opnum_t opno, long r)
++ 		free_pathname(&f);
++ 		return;
++ 	}
++-	if (fstat64(fd, &stb) < 0) {
+++	if (fstat(fd, &stb) < 0) {
++ 		if (v)
++-			printf("%d/%lld: dwrite - fstat64 %s failed %d\n",
+++			printf("%d/%lld: dwrite - fstat %s failed %d\n",
++ 				procid, opno, f.path, errno);
++ 		free_pathname(&f);
++ 		close(fd);
++@@ -3620,7 +3620,7 @@ do_fallocate(opnum_t opno, long r, int m
++ 	int64_t		lr;
++ 	off64_t		off;
++ 	off64_t		len;
++-	struct stat64	stb;
+++	struct stat	stb;
++ 	int		v;
++ 	char		st[1024];
++ 
++@@ -3640,9 +3640,9 @@ do_fallocate(opnum_t opno, long r, int m
++ 		return;
++ 	}
++ 	check_cwd();
++-	if (fstat64(fd, &stb) < 0) {
+++	if (fstat(fd, &stb) < 0) {
++ 		if (v)
++-			printf("%d/%lld: do_fallocate - fstat64 %s failed %d\n",
+++			printf("%d/%lld: do_fallocate - fstat %s failed %d\n",
++ 				procid, opno, f.path, errno);
++ 		free_pathname(&f);
++ 		close(fd);
++@@ -3734,7 +3734,7 @@ fiemap_f(opnum_t opno, long r)
++ 	int		fd;
++ 	int64_t		lr;
++ 	off64_t		off;
++-	struct stat64	stb;
+++	struct stat	stb;
++ 	int		v;
++ 	char		st[1024];
++ 	int blocks_to_map;
++@@ -3757,9 +3757,9 @@ fiemap_f(opnum_t opno, long r)
++ 		free_pathname(&f);
++ 		return;
++ 	}
++-	if (fstat64(fd, &stb) < 0) {
+++	if (fstat(fd, &stb) < 0) {
++ 		if (v)
++-			printf("%d/%lld: fiemap - fstat64 %s failed %d\n",
+++			printf("%d/%lld: fiemap - fstat %s failed %d\n",
++ 				procid, opno, f.path, errno);
++ 		free_pathname(&f);
++ 		close(fd);
++@@ -3807,7 +3807,7 @@ freesp_f(opnum_t opno, long r)
++ 	struct xfs_flock64	fl;
++ 	int64_t		lr;
++ 	off64_t		off;
++-	struct stat64	stb;
+++	struct stat	stb;
++ 	int		v;
++ 	char		st[1024];
++ 
++@@ -3828,9 +3828,9 @@ freesp_f(opnum_t opno, long r)
++ 		free_pathname(&f);
++ 		return;
++ 	}
++-	if (fstat64(fd, &stb) < 0) {
+++	if (fstat(fd, &stb) < 0) {
++ 		if (v)
++-			printf("%d/%lld: freesp - fstat64 %s failed %d\n",
+++			printf("%d/%lld: freesp - fstat %s failed %d\n",
++ 				procid, opno, f.path, errno);
++ 		free_pathname(&f);
++ 		close(fd);
++@@ -4226,7 +4226,7 @@ do_mmap(opnum_t opno, long r, int prot)
++ 	int64_t		lr;
++ 	off64_t		off;
++ 	int		flags;
++-	struct stat64	stb;
+++	struct stat	stb;
++ 	int		v;
++ 	char		st[1024];
++ 	sigjmp_buf	sigbus_jmpbuf;
++@@ -4248,9 +4248,9 @@ do_mmap(opnum_t opno, long r, int prot)
++ 		free_pathname(&f);
++ 		return;
++ 	}
++-	if (fstat64(fd, &stb) < 0) {
+++	if (fstat(fd, &stb) < 0) {
++ 		if (v)
++-			printf("%d/%lld: do_mmap - fstat64 %s failed %d\n",
+++			printf("%d/%lld: do_mmap - fstat %s failed %d\n",
++ 			       procid, opno, f.path, errno);
++ 		free_pathname(&f);
++ 		close(fd);
++@@ -4370,7 +4370,7 @@ read_f(opnum_t opno, long r)
++ 	size_t		len;
++ 	int64_t		lr;
++ 	off64_t		off;
++-	struct stat64	stb;
+++	struct stat	stb;
++ 	int		v;
++ 	char		st[1024];
++ 
++@@ -4391,9 +4391,9 @@ read_f(opnum_t opno, long r)
++ 		free_pathname(&f);
++ 		return;
++ 	}
++-	if (fstat64(fd, &stb) < 0) {
+++	if (fstat(fd, &stb) < 0) {
++ 		if (v)
++-			printf("%d/%lld: read - fstat64 %s failed %d\n",
+++			printf("%d/%lld: read - fstat %s failed %d\n",
++ 				procid, opno, f.path, errno);
++ 		free_pathname(&f);
++ 		close(fd);
++@@ -4454,7 +4454,7 @@ readv_f(opnum_t opno, long r)
++ 	size_t		len;
++ 	int64_t		lr;
++ 	off64_t		off;
++-	struct stat64	stb;
+++	struct stat	stb;
++ 	int		v;
++ 	char		st[1024];
++ 	struct iovec	*iov = NULL;
++@@ -4480,9 +4480,9 @@ readv_f(opnum_t opno, long r)
++ 		free_pathname(&f);
++ 		return;
++ 	}
++-	if (fstat64(fd, &stb) < 0) {
+++	if (fstat(fd, &stb) < 0) {
++ 		if (v)
++-			printf("%d/%lld: readv - fstat64 %s failed %d\n",
+++			printf("%d/%lld: readv - fstat %s failed %d\n",
++ 				procid, opno, f.path, errno);
++ 		free_pathname(&f);
++ 		close(fd);
++@@ -4739,7 +4739,7 @@ resvsp_f(opnum_t opno, long r)
++ 	struct xfs_flock64	fl;
++ 	int64_t		lr;
++ 	off64_t		off;
++-	struct stat64	stb;
+++	struct stat	stb;
++ 	int		v;
++ 	char		st[1024];
++ 
++@@ -4760,9 +4760,9 @@ resvsp_f(opnum_t opno, long r)
++ 		free_pathname(&f);
++ 		return;
++ 	}
++-	if (fstat64(fd, &stb) < 0) {
+++	if (fstat(fd, &stb) < 0) {
++ 		if (v)
++-			printf("%d/%lld: resvsp - fstat64 %s failed %d\n",
+++			printf("%d/%lld: resvsp - fstat %s failed %d\n",
++ 				procid, opno, f.path, errno);
++ 		free_pathname(&f);
++ 		close(fd);
++@@ -4971,7 +4971,7 @@ stat_f(opnum_t opno, long r)
++ {
++ 	int		e;
++ 	pathname_t	f;
++-	struct stat64	stb;
+++	struct stat	stb;
++ 	int		v;
++ 
++ 	init_pathname(&f);
++@@ -4981,7 +4981,7 @@ stat_f(opnum_t opno, long r)
++ 		free_pathname(&f);
++ 		return;
++ 	}
++-	e = lstat64_path(&f, &stb) < 0 ? errno : 0;
+++	e = lstat_path(&f, &stb) < 0 ? errno : 0;
++ 	check_cwd();
++ 	if (v)
++ 		printf("%d/%lld: stat %s %d\n", procid, opno, f.path, e);
++@@ -5133,7 +5133,7 @@ truncate_f(opnum_t opno, long r)
++ 	pathname_t	f;
++ 	int64_t		lr;
++ 	off64_t		off;
++-	struct stat64	stb;
+++	struct stat	stb;
++ 	int		v;
++ 	char		st[1024];
++ 
++@@ -5144,11 +5144,11 @@ truncate_f(opnum_t opno, long r)
++ 		free_pathname(&f);
++ 		return;
++ 	}
++-	e = stat64_path(&f, &stb) < 0 ? errno : 0;
+++	e = stat_path(&f, &stb) < 0 ? errno : 0;
++ 	check_cwd();
++ 	if (e > 0) {
++ 		if (v)
++-			printf("%d/%lld: truncate - stat64 %s failed %d\n",
+++			printf("%d/%lld: truncate - stat %s failed %d\n",
++ 				procid, opno, f.path, e);
++ 		free_pathname(&f);
++ 		return;
++@@ -5157,7 +5157,7 @@ truncate_f(opnum_t opno, long r)
++ 	lr = ((int64_t)random() << 32) + random();
++ 	off = (off64_t)(lr % MIN(stb.st_size + (1024 * 1024), MAXFSIZE));
++ 	off %= maxfsize;
++-	e = truncate64_path(&f, off) < 0 ? errno : 0;
+++	e = truncate_path(&f, off) < 0 ? errno : 0;
++ 	check_cwd();
++ 	if (v)
++ 		printf("%d/%lld: truncate %s%s %lld %d\n", procid, opno, f.path,
++@@ -5209,7 +5209,7 @@ unresvsp_f(opnum_t opno, long r)
++ 	struct xfs_flock64	fl;
++ 	int64_t		lr;
++ 	off64_t		off;
++-	struct stat64	stb;
+++	struct stat	stb;
++ 	int		v;
++ 	char		st[1024];
++ 
++@@ -5230,9 +5230,9 @@ unresvsp_f(opnum_t opno, long r)
++ 		free_pathname(&f);
++ 		return;
++ 	}
++-	if (fstat64(fd, &stb) < 0) {
+++	if (fstat(fd, &stb) < 0) {
++ 		if (v)
++-			printf("%d/%lld: unresvsp - fstat64 %s failed %d\n",
+++			printf("%d/%lld: unresvsp - fstat %s failed %d\n",
++ 				procid, opno, f.path, errno);
++ 		free_pathname(&f);
++ 		close(fd);
++@@ -5281,7 +5281,7 @@ write_f(opnum_t opno, long r)
++ 	size_t		len;
++ 	int64_t		lr;
++ 	off64_t		off;
++-	struct stat64	stb;
+++	struct stat	stb;
++ 	int		v;
++ 	char		st[1024];
++ 
++@@ -5302,9 +5302,9 @@ write_f(opnum_t opno, long r)
++ 		free_pathname(&f);
++ 		return;
++ 	}
++-	if (fstat64(fd, &stb) < 0) {
+++	if (fstat(fd, &stb) < 0) {
++ 		if (v)
++-			printf("%d/%lld: write - fstat64 %s failed %d\n",
+++			printf("%d/%lld: write - fstat %s failed %d\n",
++ 				procid, opno, f.path, errno);
++ 		free_pathname(&f);
++ 		close(fd);
++@@ -5337,7 +5337,7 @@ writev_f(opnum_t opno, long r)
++ 	size_t		len;
++ 	int64_t		lr;
++ 	off64_t		off;
++-	struct stat64	stb;
+++	struct stat	stb;
++ 	int		v;
++ 	char		st[1024];
++ 	struct iovec	*iov = NULL;
++@@ -5363,9 +5363,9 @@ writev_f(opnum_t opno, long r)
++ 		free_pathname(&f);
++ 		return;
++ 	}
++-	if (fstat64(fd, &stb) < 0) {
+++	if (fstat(fd, &stb) < 0) {
++ 		if (v)
++-			printf("%d/%lld: writev - fstat64 %s failed %d\n",
+++			printf("%d/%lld: writev - fstat %s failed %d\n",
++ 				procid, opno, f.path, errno);
++ 		free_pathname(&f);
++ 		close(fd);
++--- a/tests/fssum.c
+++++ b/tests/fssum.c
++@@ -519,9 +519,9 @@ sum(int dirfd, int level, sum_t *dircs,
++ 	int excl;
++ 	sum_file_data_t sum_file_data = flags[FLAG_STRUCTURE] ?
++ 			sum_file_data_strict : sum_file_data_permissive;
++-	struct stat64 dir_st;
+++	struct stat dir_st;
++ 
++-	if (fstat64(dirfd, &dir_st)) {
+++	if (fstat(dirfd, &dir_st)) {
++ 		perror("fstat");
++ 		exit(-1);
++ 	}
++@@ -552,7 +552,7 @@ sum(int dirfd, int level, sum_t *dircs,
++ 	}
++ 	qsort(namelist, entries, sizeof(*namelist), namecmp);
++ 	for (i = 0; i < entries; ++i) {
++-		struct stat64 st;
+++		struct stat st;
++ 		sum_t cs;
++ 		sum_t meta;
++ 		char *path;
++@@ -572,7 +572,7 @@ sum(int dirfd, int level, sum_t *dircs,
++ 			perror("fchdir");
++ 			exit(-1);
++ 		}
++-		ret = lstat64(namelist[i], &st);
+++		ret = lstat(namelist[i], &st);
++ 		if (ret) {
++ 			fprintf(stderr, "stat failed for %s/%s: %m\n",
++ 				path_prefix, path);
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb
+index 872fba6b6d..aa48422080 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb
+@@ -17,6 +17,7 @@ DEPENDS = "util-linux zlib"
+ 
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git;branch=master \
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
++           file://0001-Use-pread-pwrite-ftruncate-stat-instead-of-64bit-equ.patch \
             "
- SRC_URI:append:class-native = " \
-            file://e2fsprogs-fix-missing-check-for-permission-denied.patch \
-@@ -17,7 +19,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+\.\d+(\.\d+)*)$"
- EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} \
-                 --enable-elf-shlibs --disable-libuuid --disable-uuidd \
-                 --disable-libblkid --enable-verbose-makecmds \
--                --with-crond-dir=no"
-+                --enable-largefile --with-crond-dir=no"
- 
- EXTRA_OECONF:darwin = "--libdir=${base_libdir} --sbindir=${base_sbindir} --enable-bsd-shlibs"
- 
+ SRCREV = "ff964ba6aef98bd1bafe8ff9b0088501b30bdd27"
+ S = "${WORKDIR}/git"
 -- 
 2.39.0
 
