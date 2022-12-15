@@ -1,195 +1,143 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 040F9C4332F
-	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 19:22:04 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web11.143564.1671132082168738641
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96C9AC3DA71
+	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 20:32:34 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.144505.1671136351882171312
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Dec 2022 11:21:53 -0800
+ Thu, 15 Dec 2022 12:32:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=tjxnht+e;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.43, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f43.google.com with SMTP id u15-20020a17090a3fcf00b002191825cf02so128408pjm.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 11:21:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=L5BqG/pNlQVz44ZzBoY8Z0mkRKX9jf/N30SfyKHcVyo=;
-        b=tjxnht+eqBeZ1KKwuyidGM7F8kFXojPAWgDTHWzsWRQd2EW2jtL8JBl/Tb7b3oFLkY
-         9cqB4E/ZRgpbmkpNdpjn/Fzt2Lj4zrHO40wQEDfPAav6GAZSv4eGtqmvB46sCs0r5zh6
-         SSSekEvuYOwqpYyXE/mUx5OVTrkBSzIkiXMh1bbFCqnnmKxc0UhyrQ5Vy/05VAl1dPLB
-         GUFEbVFoAFsXNBc67N5+rb6te3b9jlW8Q0p5rOjcEs41sUtcxmaj5EHGEhHMzJvFivgg
-         Z/2VeTUmBTcbUHg1B6TlracNc2BKKupuCV/73d8CMAXIylWf0RqJi9MBNfj1I2nly5ja
-         gHwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=L5BqG/pNlQVz44ZzBoY8Z0mkRKX9jf/N30SfyKHcVyo=;
-        b=vYpqOnCpwu1ofWgRrsngMi5aoFGQ9gwcN2+cO6rd5DQeeEQJqZMLjrCtv2TiopY1jS
-         mSKEcdwHs3d3tWolw5UzKVfkP5Hgh+wDZoYAgHXBxbfJCsH+2FfUWoFSRH1uaf1iCcol
-         vgXKIVzKtAf1bU/zS1ijIpEKTPc6kGrGGABBrluawto/Ta9QM1CkJFPJhWw3clRUO8og
-         h7lgab9hYqCANY+IPdK3Dt6LL5BFo0SCghHVAVDZ4B08smV+8TZNfSLQQaFTeEh52IYW
-         ExFTmJ7Af1hZq39HLRy9cOpL+HlGHbD0S7B7/xXpD/vCDz2ftAGgzd+3Bd1zptR67D33
-         NJEw==
-X-Gm-Message-State: ANoB5pk9GyONr9izX2N3gVUTdSdTOhRj58kL/cSvbIWLWaQoGivuNIeu
-	f9URktSoB0GIvA/HUsq1Fqd9xnQrgZjJaxtXyf0=
-X-Google-Smtp-Source: AA0mqf77pWivsSMhrlXfrvNJR1Qfzjsd8w6mSUTo+uNnDTOPQHb7VVooCBaweuNdYdeCdt6GcgvRuw==
-X-Received: by 2002:a05:6a20:c887:b0:ac:f68:33c9 with SMTP id hb7-20020a056a20c88700b000ac0f6833c9mr36378659pzb.33.1671132112990;
-        Thu, 15 Dec 2022 11:21:52 -0800 (PST)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id r19-20020a170902c61300b001869b988d93sm4167095plr.187.2022.12.15.11.21.52
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Dec 2022 11:21:52 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 30/30] yocto-check-layer: Allow OE-Core to be tested
-Date: Thu, 15 Dec 2022 09:20:54 -1000
-Message-Id: <2a987c36c98707fa33d24a3896bb447145c5bf41.1671122751.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1671122751.git.steve@sakoman.com>
-References: <cover.1671122751.git.steve@sakoman.com>
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=UZrCLQ9E;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010185177d1ba7-90f13dfe-84bc-4558-aa34-ce1b26330fe1-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1671136353;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=W+mdakdgqv9nrGyqyWVOikQotIMCvqEYnzQ5EgfA0AM=;
+	b=UZrCLQ9EQti9Az8cgHyPz6+3+AVXajKQ6tbOJtmpHMqNCTIDj3GCD5rtLz60JUqz
+	X29m1w+C93ldoBbzLQMbIfYMy6K79u+kTE8cx6kK5/CazHoiHqgtGgSQTesI2+6TZmV
+	pt/p01FZZ+6EVqDZPlCjkYw8Z75KDhtpTqGNnII4=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1671136353;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=W+mdakdgqv9nrGyqyWVOikQotIMCvqEYnzQ5EgfA0AM=;
+	b=UXRMUf2Yb+FWd5tZ14GwVTWCsg/c3MDPkobIxSP5+T9J3wQ60Kw8ey1rrhLBYd37
+	b6tWhlcczGgGLow8+OY1/YbBsyKMzg3mmzRFsEg7EZ/RMyizRTW0oq8uZ8WohMLDu4V
+	hxU2e40K1R4ul+JV/o7wA7kkyx4lb1k9ypoX1cbg=
+Content-Type: multipart/mixed; boundary="===============6098355800419596556=="
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: auh@yoctoproject.org
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] weston: upgrading to 11.0.1 FAILED
+Message-ID: <01010185177d1ba7-90f13dfe-84bc-4558-aa34-ce1b26330fe1-000000@us-west-2.amazonses.com>
+Date: Thu, 15 Dec 2022 20:32:33 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2022.12.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 19:22:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174622
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 20:32:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174694
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+--===============6098355800419596556==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-For unknown reasons we've never seemingly run the check layer script
-against OE-Core itself. This isn't entirely straightforward as the core
-layer is a bit of a special case, we can't for example compare signatures
-against ourselve and we can't remove core from bblayers.conf.
+Hello,
 
-Core does have distro, machine and software components too, in the case
-of distro, our fallback default settings. Whilst the qemu machines could
-be split into a seperate layer directory, core wouldn't then parse at all
-standalone due to the lack of any machine so it seems a bit pointless to
-do that.
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *weston* to *11.0.1* has Failed (devtool error).
 
-These changes tweak the script to handle core's special cases, specifically
-to allow distro and machine directories and to account for the README placed
-a directory level higher than other layers.
+Detailed error information:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit ba312ed228507d05f280aeb96819d671b01400b8)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- scripts/lib/checklayer/__init__.py     | 11 ++++++++---
- scripts/lib/checklayer/cases/bsp.py    |  2 +-
- scripts/lib/checklayer/cases/common.py |  3 +++
- scripts/lib/checklayer/cases/distro.py |  2 +-
- scripts/yocto-check-layer              |  5 ++---
- 5 files changed, 15 insertions(+), 8 deletions(-)
+The following devtool command failed:  upgrade weston -V 11.0.1
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Previous bitbake instance shutting down?, waiting to retry... (16:19:29.234120)
+NOTE: Directory listing: ['buildhistory', 'sstate-cache', 'downloads', 'workspace', 'bitbake-cookerdaemon.log', 'upgrade-helper', 'cache', 'conf', 'tmp']
+NOTE: Retrying server connection (#1)... (16:19:29.456207)
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 888 .bb files complete (0 cached, 888 parsed). 1672 targets, 36 skipped, 0 masked, 0 errors.
 
-diff --git a/scripts/lib/checklayer/__init__.py b/scripts/lib/checklayer/__init__.py
-index aa946f3036..938805289e 100644
---- a/scripts/lib/checklayer/__init__.py
-+++ b/scripts/lib/checklayer/__init__.py
-@@ -16,6 +16,7 @@ class LayerType(Enum):
-     BSP = 0
-     DISTRO = 1
-     SOFTWARE = 2
-+    CORE = 3
-     ERROR_NO_LAYER_CONF = 98
-     ERROR_BSP_DISTRO = 99
- 
-@@ -106,7 +107,13 @@ def _detect_layer(layer_path):
-         if distros:
-             is_distro = True
- 
--    if is_bsp and is_distro:
-+    layer['collections'] = _get_layer_collections(layer['path'])
-+
-+    if layer_name == "meta" and "core" in layer['collections']:
-+        layer['type'] = LayerType.CORE
-+        layer['conf']['machines'] = machines
-+        layer['conf']['distros'] = distros
-+    elif is_bsp and is_distro:
-         layer['type'] = LayerType.ERROR_BSP_DISTRO
-     elif is_bsp:
-         layer['type'] = LayerType.BSP
-@@ -117,8 +124,6 @@ def _detect_layer(layer_path):
-     else:
-         layer['type'] = LayerType.SOFTWARE
- 
--    layer['collections'] = _get_layer_collections(layer['path'])
--
-     return layer
- 
- def detect_layers(layer_directories, no_auto):
-diff --git a/scripts/lib/checklayer/cases/bsp.py b/scripts/lib/checklayer/cases/bsp.py
-index a80a5844da..b76163fb56 100644
---- a/scripts/lib/checklayer/cases/bsp.py
-+++ b/scripts/lib/checklayer/cases/bsp.py
-@@ -11,7 +11,7 @@ from checklayer.case import OECheckLayerTestCase
- class BSPCheckLayer(OECheckLayerTestCase):
-     @classmethod
-     def setUpClass(self):
--        if self.tc.layer['type'] != LayerType.BSP:
-+        if self.tc.layer['type'] not in (LayerType.BSP, LayerType.CORE):
-             raise unittest.SkipTest("BSPCheckLayer: Layer %s isn't BSP one." %\
-                 self.tc.layer['name'])
- 
-diff --git a/scripts/lib/checklayer/cases/common.py b/scripts/lib/checklayer/cases/common.py
-index 491a13953c..722d3cf638 100644
---- a/scripts/lib/checklayer/cases/common.py
-+++ b/scripts/lib/checklayer/cases/common.py
-@@ -12,6 +12,9 @@ from checklayer.case import OECheckLayerTestCase
- 
- class CommonCheckLayer(OECheckLayerTestCase):
-     def test_readme(self):
-+        if self.tc.layer['type'] == LayerType.CORE:
-+            raise unittest.SkipTest("Core layer's README is top level")
-+
-         # The top-level README file may have a suffix (like README.rst or README.txt).
-         readme_files = glob.glob(os.path.join(self.tc.layer['path'], '[Rr][Ee][Aa][Dd][Mm][Ee]*'))
-         self.assertTrue(len(readme_files) > 0,
-diff --git a/scripts/lib/checklayer/cases/distro.py b/scripts/lib/checklayer/cases/distro.py
-index f0bee5493c..a35332451c 100644
---- a/scripts/lib/checklayer/cases/distro.py
-+++ b/scripts/lib/checklayer/cases/distro.py
-@@ -11,7 +11,7 @@ from checklayer.case import OECheckLayerTestCase
- class DistroCheckLayer(OECheckLayerTestCase):
-     @classmethod
-     def setUpClass(self):
--        if self.tc.layer['type'] != LayerType.DISTRO:
-+        if self.tc.layer['type'] not in (LayerType.DISTRO, LayerType.CORE):
-             raise unittest.SkipTest("DistroCheckLayer: Layer %s isn't Distro one." %\
-                 self.tc.layer['name'])
- 
-diff --git a/scripts/yocto-check-layer b/scripts/yocto-check-layer
-index 0e5b75b1f7..67cc71950f 100755
---- a/scripts/yocto-check-layer
-+++ b/scripts/yocto-check-layer
-@@ -168,14 +168,13 @@ def main():
- 
-     layers_tested = 0
-     for layer in layers:
--        if layer['type'] == LayerType.ERROR_NO_LAYER_CONF or \
--                layer['type'] == LayerType.ERROR_BSP_DISTRO:
-+        if layer['type'] in (LayerType.ERROR_NO_LAYER_CONF, LayerType.ERROR_BSP_DISTRO):
-             continue
- 
-         # Reset to a clean backup copy for each run
-         shutil.copyfile(bblayersconf + '.backup', bblayersconf)
- 
--        if check_bblayers(bblayersconf, layer['path'], logger):
-+        if layer['type'] not in (LayerType.CORE, ) and check_bblayers(bblayersconf, layer['path'], logger):
-             logger.info("%s already in %s. To capture initial signatures, layer under test should not present "
-                "in BBLAYERS. Please remove %s from BBLAYERS." % (layer['name'], bblayersconf, layer['name']))
-             results[layer['name']] = None
--- 
-2.25.1
+Summary: There was 1 WARNING message.
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+NOTE: Resolving any missing task queue dependencies
 
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:003e75d23e54d342bc7ca178009bfb68a212b9ed"
+workspace            = "master:46fd76aa07bd431f0ba73bdafeb7bf5aa31cef25"
+
+Initialising tasks...done.
+Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 21 (100% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1672 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 889 .bb files complete (887 cached, 2 parsed). 1673 targets, 36 skipped, 0 masked, 0 errors.
+
+Summary: There was 1 WARNING message.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:003e75d23e54d342bc7ca178009bfb68a212b9ed"
+workspace            = "master:46fd76aa07bd431f0ba73bdafeb7bf5aa31cef25"
+
+Initialising tasks...done.
+Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 17 (100% match, 100% complete)
+NOTE: Executing Tasks
+WARNING: Failed to fetch URL https://gitlab.freedesktop.org/wayland/weston/-/releases/11.0.1/downloads/weston-11.0.1.tar.xz, attempting MIRRORS if available
+NOTE: Tasks Summary: Attempted 82 tasks of which 81 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+INFO: Extracting current version source...
+INFO: Adding local source files to srctree...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://gitlab.freedesktop.org/wayland/weston/-/releases/11.0.1/downloads/weston-11.0.1.tar.xz...
+ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-hjvlqpbe/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-hjvlqpbe/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-hjvlqpbe/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-wor
+ ker/auh/build/build/build/tmp/work/recipetool-hjvlqpbe/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-hjvlqpbe/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-hjvlqpbe/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 --passive-ftp -O /home/pokybuild/yocto-worker/auh/build/build/build/downloads/weston-11.0.1.tar.xz.tmp -P /home/pokybuild/yocto-worker/auh/build/build/build/downloads 'https://gitlab.freedesktop.org/wayland/weston/-/releases/11.0.1/downloads/weston-11.0.1.tar.xz' --progress=dot -v failed with exit code 8, no output
+ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://gitlab.freedesktop.org/wayland/weston/-/releases/11.0.1/downloads/weston-11.0.1.tar.xz')
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-hjvlqpbe/work/temp/log.do_fetch.2149326
+ERROR: Failed to fetch URL https://gitlab.freedesktop.org/wayland/weston/-/releases/11.0.1/downloads/weston-11.0.1.tar.xz
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============6098355800419596556==--
 
