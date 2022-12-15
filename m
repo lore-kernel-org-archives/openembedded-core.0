@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00B2CC25B04
-	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 19:21:34 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web11.143548.1671132064789602923
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7DAFC4167B
+	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 19:21:33 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web11.143577.1671132093450204625
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Dec 2022 11:21:26 -0800
+ Thu, 15 Dec 2022 11:21:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=12y0KY0X;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id n4so25647plp.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 11:21:26 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=LIiZjtUN;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id g10so7866199plo.11
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 11:21:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ch0XT0yIMK/+lp4EPyM97ArzIbrcgAVDZz/UeI6AJd8=;
-        b=12y0KY0Xbl/sWw8P1GaT0r5Lv7sakBN7b8uznunI9KlgmkIVWU/vEfEZR3niv70fld
-         Ot3bbF9LAtmkhGtFy7UhiYbHgzw5MatTcYSI0UhzGkBAm4qhohqF/cZM846w+NbZb10T
-         1Cs2QHZE/6Y1Hg+BvMSuvtcZ9qQxYCyLAQpIAC6YhMLNn1ztyrEpl2/decJ9EDrRVg5J
-         feo1SwP/FZk6rQKzNjzyE1t0S+mxiOFJCVsqs/qx8JCWexmqVU1WVDGbaQO2Akh5hyWj
-         szMN0nN2fotr0FK44FNZ3KKbW/o7grU10rGTsimutMIkzs/PDq9rc+SE3qKxNvwneqiO
-         7F5Q==
+        bh=gGq3zr3oKEUUZvtA/kvIr8L80NEKFWs2vPvuImFUWNM=;
+        b=LIiZjtUNLZW55Vh4ol9wToyyXq3tEkv5AT5GPzuw4qvdDlUBc1YwpFKOqiAKlj1Gzw
+         H0smbSnT45mDX9md5xPxrFdKfvJMdPGOalpdVPlzVSkUAoRIjIUTUtpVpqCxNzXDkktv
+         xLvt3uaSikqI12O2XoVxrVpDYkZaB5wCpgFhBfeRGoKHBPnhCG3DfP7Yuy8EOsS2NYIX
+         DxoCtX0zPsm8mqYbJ1YQ/4jCTfgSrqGVHFysZve4b7SJp3kvvQ9wfePA7FYJoObo/2Uh
+         Kh0NlXGlvEZqT+ui/nlL4LiDSvn91+PNuxNWt1h28PJR4M4Wi+X+cK8rimsBD58b/AhA
+         g/DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ch0XT0yIMK/+lp4EPyM97ArzIbrcgAVDZz/UeI6AJd8=;
-        b=k5IRF91CCb+Iycfe+p0nfAJoi8FqR2KVV8C6dWDYxI4roibIU1ZB4WoWhubvLRbNA8
-         Z6wf9j9nM6tf2pIBuR3mlzWPW0K/ymEwECghbqPOA0NsE1qpy2NaD2CEzoDudcZ5uefS
-         uHpiQDRQwVo0db5ion0lRCsLICaKlv0GWMOp3nyiRCZy7xVsY/SEUJef36PcVDYMA9nX
-         xR8438pRrk9x2nPiCPyNahLuC50aPxhs8u7iukyTLPdZO3RTbGJYe51pH3Zcrxsodyu2
-         Arg3w09u1ZZWPx3pwhiQfSc0lSQki1wOkx0OWqm9udzcXz7OId+z1o4FyrpMVgYTONjm
-         kbAA==
-X-Gm-Message-State: AFqh2krMhf33tSN2/pspaZ1M73/G8TfNthxTGe4KXUsPF2hA+Gpx+1WS
-	chOOfQRHuHUJoMgSr8BewrEbB62iQrpHUxkbilw=
-X-Google-Smtp-Source: AMrXdXsjq1iKuTnRy4FJ2ZGByz6claaqDSVZ7K4T3obeMETQJOJU+yTqZTuZI3MzjVnaVNVlcN9YeA==
-X-Received: by 2002:a17:902:7d8a:b0:190:edc5:a4e6 with SMTP id a10-20020a1709027d8a00b00190edc5a4e6mr5643768plm.13.1671132086066;
-        Thu, 15 Dec 2022 11:21:26 -0800 (PST)
+        bh=gGq3zr3oKEUUZvtA/kvIr8L80NEKFWs2vPvuImFUWNM=;
+        b=nRX4AvPsHBJtCaTv89+BbfUwM4yeaYYE22NnzAuituKXVJeOLS8ez629rF6pSOF9m3
+         ynqAKe3SbYZgoUsy7uXgYZmZqWMSm5zDIlheu9kVLS2KmPXvLJjEak68IGIo+yxLZfCl
+         ZEl1z3/DG8B9WHLmRRxik6V8u+EriYDYTYcaavnwwI8KGjQvSa/DhEjlNkUTCpDcX7Ci
+         +z/GuIt80vPXE1OxlMsUKO4ZMEXtNu4Ze9gpPW5za88/1NywdnYbQobQyB8ayoTzkrNh
+         BHPgJ8qGamHpQlywSa6mHeqb/YX6K+gXh3b/fcSE5QPu+w6RNgagvtZF1Dafl33f0bRS
+         Pj/A==
+X-Gm-Message-State: ANoB5plo3ev/sTtDSN7k7WowCwSZpuw0OZHm7fy4bP5uc8pkEmbMcBc8
+	EYClNTwNvtGW5Q4jZckmuMNkRGnE+vv40Ggxo7Y=
+X-Google-Smtp-Source: AA0mqf5kp7iwslXIp81v+2q4dOqywCClS9lU5WojtwG9LEYOoHH627UAfkmUvtoLvTPuF3FuRS5MpA==
+X-Received: by 2002:a17:902:6a85:b0:185:441e:2dda with SMTP id n5-20020a1709026a8500b00185441e2ddamr32505954plk.44.1671132092494;
+        Thu, 15 Dec 2022 11:21:32 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id r19-20020a170902c61300b001869b988d93sm4167095plr.187.2022.12.15.11.21.25
+        by smtp.gmail.com with ESMTPSA id r19-20020a170902c61300b001869b988d93sm4167095plr.187.2022.12.15.11.21.31
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Dec 2022 11:21:25 -0800 (PST)
+        Thu, 15 Dec 2022 11:21:32 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 14/30] classes: make TOOLCHAIN more permissive for kernel
-Date: Thu, 15 Dec 2022 09:20:38 -1000
-Message-Id: <1458a7ff80cd054f54170d9f312cb4bf111c89a1.1671122751.git.steve@sakoman.com>
+Subject: [OE-core][langdale 18/30] xwayland: libxshmfence is needed when dri3 is enabled
+Date: Thu, 15 Dec 2022 09:20:42 -1000
+Message-Id: <72482a16bb499052248ad155402667654ca911b6.1671122751.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1671122751.git.steve@sakoman.com>
 References: <cover.1671122751.git.steve@sakoman.com>
@@ -61,33 +61,35 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 19:21:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174606
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174610
 
-From: Alexey Smirnov <pyih.soft@gmail.com>
+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
 
-Currently TOOLCHAIN is strictly set to gcc in kernel-arch.bbclass.
-And this prevents any TOOLCHAIN changes for any kernel recipe.
-This change makes TOOLCHAIN configurable as usual.
+* The build error happens already at configure time:
 
-Signed-off-by: Alexey Smirnov <pyih.soft@gmail.com>
+| meson.build: ERROR: Problem encountered: DRI3 requested, but xshmfence not found
+
+Signed-off-by: Carlos Alberto Lopez Perez <clopez@igalia.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit be1634fc35dcc81f0301d942064a6eed584e0704)
+(cherry picked from commit 451fe4a067432b432b9cd38d2fc78072f6ce5421)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-recipe/kernel-arch.bbclass | 2 +-
+ meta/recipes-graphics/xwayland/xwayland_22.1.5.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/kernel-arch.bbclass b/meta/classes-recipe/kernel-arch.bbclass
-index 6f5d3bde6c..1531ae6cd5 100644
---- a/meta/classes-recipe/kernel-arch.bbclass
-+++ b/meta/classes-recipe/kernel-arch.bbclass
-@@ -70,5 +70,5 @@ HOST_AR_KERNEL_ARCH ?= "${TARGET_AR_KERNEL_ARCH}"
- KERNEL_CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_KERNEL_ARCH} -fuse-ld=bfd ${DEBUG_PREFIX_MAP} -fdebug-prefix-map=${STAGING_KERNEL_DIR}=${KERNEL_SRC_PATH} -fdebug-prefix-map=${STAGING_KERNEL_BUILDDIR}=${KERNEL_SRC_PATH}"
- KERNEL_LD = "${CCACHE}${HOST_PREFIX}ld.bfd ${HOST_LD_KERNEL_ARCH}"
- KERNEL_AR = "${CCACHE}${HOST_PREFIX}ar ${HOST_AR_KERNEL_ARCH}"
--TOOLCHAIN = "gcc"
-+TOOLCHAIN ?= "gcc"
- 
+diff --git a/meta/recipes-graphics/xwayland/xwayland_22.1.5.bb b/meta/recipes-graphics/xwayland/xwayland_22.1.5.bb
+index c1c5407dee..51d847a093 100644
+--- a/meta/recipes-graphics/xwayland/xwayland_22.1.5.bb
++++ b/meta/recipes-graphics/xwayland/xwayland_22.1.5.bb
+@@ -23,7 +23,7 @@ OPENGL_PKGCONFIGS = "glx glamor dri3"
+ PACKAGECONFIG ??= "${XORG_CRYPTO} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', '${OPENGL_PKGCONFIGS}', '', d)} \
+ "
+-PACKAGECONFIG[dri3] = "-Ddri3=true,-Ddri3=false"
++PACKAGECONFIG[dri3] = "-Ddri3=true,-Ddri3=false,libxshmfence"
+ PACKAGECONFIG[glx] = "-Dglx=true,-Dglx=false,virtual/libgl virtual/libx11"
+ PACKAGECONFIG[glamor] = "-Dglamor=true,-Dglamor=false,libepoxy virtual/libgbm,libegl"
+ PACKAGECONFIG[unwind] = "-Dlibunwind=true,-Dlibunwind=false,libunwind"
 -- 
 2.25.1
 
