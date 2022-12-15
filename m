@@ -2,47 +2,46 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99732C10F1E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86C0FC4332F
 	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 20:32:34 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.144515.1671136353610903836
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.145433.1671136351198038392
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Dec 2022 12:32:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=fA+Ql7E+;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010185177d1ae1-8e48579d-2642-4d05-8cf1-fb3b83fa7aa4-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=C4CBlw60;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010185177d1c46-791f9684-6414-4d03-8d40-94742f5b3e8f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1671136353;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=oLLHwIo9NbSdj6mMcnkIHzy1EHA46+UxjSszPz4PwjQ=;
-	b=fA+Ql7E+Is2B4X8SEaL8qYt1PxJHtx360ptnK7yJXmerOIXF8OYuHpCA1nTGoGxq
-	Wt4MiSsozUeK7DfH4j0YrsMCXwvXasQTw7IA+ZgkM3HvbKMSZhTdheBbhFB84eOvJQx
-	YmzPDejvTkyksAEV1v3IKbnazDlOMoE0v5TzFA2c=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=isAC/HiVNPgKLAsT1K7BNqT9un/8c+pkbFTPa6jqy3k=;
+	b=C4CBlw60kPPpDCoIh4GGOEI9DdpCfJo9+hMk9s5224nQMMf6xLwIcEC9y81C6e5G
+	u42QZWR+RehF70fw9CQQU9HSesja3oHpZqdZTYv2eG7foUg/i7OMJlcI5ihMm/R03Yn
+	x3STXo2wCha8G7l4A0STEtouodRZnaANKcYJesaA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1671136353;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=oLLHwIo9NbSdj6mMcnkIHzy1EHA46+UxjSszPz4PwjQ=;
-	b=YyAmhzHVpXYIYPz96Drb7XyRVTqOVO1kexztiga0UAQ35zsEOaiMw8HZee307r//
-	9hXwnU0fx9ZtGFTWpBgyqcry8uY/c1+t+SDziVIG5r0SgnsqT2htjjVIGPmTkXrlgyf
-	wfeb3Pneql+2g8tXidMKxLY7lJQ17JIFzqDqhIF8=
-Content-Type: multipart/mixed; boundary="===============6332741401768576370=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=isAC/HiVNPgKLAsT1K7BNqT9un/8c+pkbFTPa6jqy3k=;
+	b=d3Zh3VsqE6bkNrG3gujHkLI5LGo4UYcF2cvPh5aNf0tqeLU3xybZga5OBtAy3d19
+	4rPRr+PDY7sbyCWj3GpwqAchtACPSv2l4gFgKjuyV9Vgc8LFiyEg+SWjiw7oE5BU30f
+	ecxwBs/8NkG3m2OAOQ0tj+zHC0DU1CAYQKuQYgyQ=
+Content-Type: multipart/mixed; boundary="===============8056698301185107575=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] vulkan-loader: upgrading to 1.3.236.0 FAILED
-Message-ID: <01010185177d1ae1-8e48579d-2642-4d05-8cf1-fb3b83fa7aa4-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] libx11: upgrading to 1.8.2 SUCCEEDED
+Message-ID: <01010185177d1c46-791f9684-6414-4d03-8d40-94742f5b3e8f-000000@us-west-2.amazonses.com>
 Date: Thu, 15 Dec 2022 20:32:33 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.12.15-54.240.27.193
+X-SES-Outgoing: 2022.12.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 20:32:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174695
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174696
 
---===============6332741401768576370==
+--===============8056698301185107575==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,16 +49,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *vulkan-loader* to *1.3.236.0* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *libx11* to *1.8.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-vulkan-loader-upgrade-1.3.231.1-1.3.236.0.patch
+    - apply the patch: git am 0001-libx11-upgrade-1.8.1-1.8.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,195 +68,186 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============6332741401768576370==
+--===============8056698301185107575==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 888 .bb files complete (0 cached, 888 parsed). 1672 targets, 37 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-32 sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/core2-32-poky-linux/libx11: SRC_URI changed from "https://www.x.org/releases//individual/lib/libX11-1.8.1.tar.xz file://disable_tests.patch file://0001-fix-a-memory-leak-in-XRegisterIMInstantiateCallback.patch" to "https://www.x.org/releases//individual/lib/libX11-1.8.2.tar.xz file://disable_tests.patch"
+packages/core2-32-poky-linux/libx11: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
+packages/core2-32-poky-linux/libx11: PV changed from "1.8.1" to "1.8.2"
+packages/core2-32-poky-linux/libx11/libx11-dbg: PKGSIZE changed from 10906652 to 10912016 (+0%)
+packages/core2-32-poky-linux/libx11/libx11-dbg: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
+packages/core2-32-poky-linux/libx11/libx11-dbg: PV changed from "1.8.1" to "1.8.2"
+packages/core2-32-poky-linux/libx11/libx11-dev: PKGSIZE changed from 251573 to 251755 (+0%)
+packages/core2-32-poky-linux/libx11/libx11-dev: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
+packages/core2-32-poky-linux/libx11/libx11-dev: PV changed from "1.8.1" to "1.8.2"
+packages/core2-32-poky-linux/libx11/libx11-doc: PKGSIZE changed from 1996741 to 1992393 (-0%)
+packages/core2-32-poky-linux/libx11/libx11-doc: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
+packages/core2-32-poky-linux/libx11/libx11-doc: PV changed from "1.8.1" to "1.8.2"
+packages/core2-32-poky-linux/libx11/libx11-locale: PKGSIZE changed from 1182441 to 1172688 (-1%)
+packages/core2-32-poky-linux/libx11/libx11-locale: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
+packages/core2-32-poky-linux/libx11/libx11-locale: PV changed from "1.8.1" to "1.8.2"
+packages/core2-32-poky-linux/libx11/libx11-src: PKGSIZE changed from 5435435 to 5436154 (+0%)
+packages/core2-32-poky-linux/libx11/libx11-src: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
+packages/core2-32-poky-linux/libx11/libx11-src: PV changed from "1.8.1" to "1.8.2"
+packages/core2-32-poky-linux/libx11/libx11-staticdev: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
+packages/core2-32-poky-linux/libx11/libx11-staticdev: PV changed from "1.8.1" to "1.8.2"
+packages/core2-32-poky-linux/libx11/libx11-xcb: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
+packages/core2-32-poky-linux/libx11/libx11-xcb: PV changed from "1.8.1" to "1.8.2"
+packages/core2-32-poky-linux/libx11/libx11: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
+packages/core2-32-poky-linux/libx11/libx11: PV changed from "1.8.1" to "1.8.2"
 
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:4e2709ade3ea9aa70ffebb563ac623e3f333dd77"
-workspace            = "master:46fd76aa07bd431f0ba73bdafeb7bf5aa31cef25"
-
-Initialising tasks...done.
-Sstate summary: Wanted 131 Local 121 Mirrors 0 Missed 10 Current 237 (92% match, 97% complete)
-Removing 2 stale sstate objects for arch core2-32...done.
-Removing 1 stale sstate objects for arch qemux86...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 283 of 368 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.114.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 292 of 368 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 303 of 368 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 314 of 368 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 316 of 368 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 348 of 368 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glslang/glslang_1.3.231.1.bb:do_populate_sysroot_setscene)
-NOTE: Running task 870 of 1351 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.236.0.bb:do_fetch)
-NOTE: Running task 891 of 1351 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.2.3.bb:do_fetch)
-NOTE: Running task 941 of 1351 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.2.3.bb:do_write_config)
-NOTE: recipe libdrm-2.4.114-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxdamage-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxshmfence-1.3.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe vulkan-loader-1.3.236.0-r0: task do_fetch: Started
-NOTE: recipe glslang-native-1_1.3.231.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe mesa-2_22.2.3-r0: task do_fetch: Started
-NOTE: recipe vulkan-loader-1.3.236.0-r0: task do_fetch: Succeeded
-NOTE: Running task 942 of 1351 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.236.0.bb:do_unpack)
-NOTE: recipe mesa-2_22.2.3-r0: task do_write_config: Started
-NOTE: recipe libxdamage-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 354 of 368 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe mesa-2_22.2.3-r0: task do_fetch: Succeeded
-NOTE: recipe libxshmfence-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 951 of 1351 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.2.3.bb:do_unpack)
-NOTE: recipe mesa-2_22.2.3-r0: task do_write_config: Succeeded
-NOTE: recipe vulkan-loader-1.3.236.0-r0: task do_unpack: Started
-NOTE: recipe libdrm-2.4.114-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 358 of 368 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.17.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxfixes-1_6.0.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe glslang-native-1_1.3.231.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe mesa-2_22.2.3-r0: task do_unpack: Started
-NOTE: recipe libpciaccess-0.17-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxfixes-1_6.0.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpciaccess-0.17-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 363 of 368 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe vulkan-loader-1.3.236.0-r0: task do_unpack: Succeeded
-NOTE: Running task 987 of 1351 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.236.0.bb:do_patch)
-NOTE: recipe vulkan-loader-1.3.236.0-r0: task do_patch: Started
-NOTE: recipe vulkan-loader-1.3.236.0-r0: task do_patch: Succeeded
-NOTE: Running task 988 of 1351 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.236.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 989 of 1351 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.236.0.bb:do_generate_toolchain_file)
-NOTE: Running task 990 of 1351 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.236.0.bb:do_populate_lic)
-NOTE: recipe vulkan-loader-1.3.236.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe vulkan-loader-1.3.236.0-r0: task do_generate_toolchain_file: Started
-NOTE: recipe vulkan-loader-1.3.236.0-r0: task do_populate_lic: Started
-NOTE: recipe vulkan-loader-1.3.236.0-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe vulkan-loader-1.3.236.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe vulkan-loader-1.3.236.0-r0: task do_populate_lic: Succeeded
-NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1291 of 1351 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.236.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe mesa-2_22.2.3-r0: task do_unpack: Succeeded
-NOTE: Running task 1334 of 1351 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.2.3.bb:do_patch)
-NOTE: recipe vulkan-loader-1.3.236.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe mesa-2_22.2.3-r0: task do_patch: Started
-NOTE: recipe mesa-2_22.2.3-r0: task do_patch: Succeeded
-NOTE: recipe vulkan-loader-1.3.236.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1336 of 1351 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.236.0.bb:do_configure)
-NOTE: recipe vulkan-loader-1.3.236.0-r0: task do_configure: Started
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.36.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake-native_3.24.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.231.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb:do_populate_sysroot', '
- /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/ninja/ninja_1.11.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['glibc', 'cmake-native', 'gcc-cross-i686', 'gcc-runtime', 'quilt-native', 'vulkan-headers', 'wayland', 'libx11', 'libxcb', 'libxrandr', 'ninja-native', 'patch-native', 'pkgconfig-native', 'pseudo-native', 'expat', 'libxml2', 'libffi', 'zstd-native', 'xz-native', 'zlib-native', 'ncurses-native', 'curl-native', 'bzip2-native', 'libmpc-native', 'binutils-cross-i686', 'gmp-native', 'flex-native', 'linux-libc-headers', 'libtool-native', 'texinfo-dummy-native', 'gnu-config-native', 'mpfr-native', 'attr-native', 're2c-native', 'libgcc', 'util-macros', 'autoconf-archive', 'xorgproto', 'xtrans', 'libxext', 'libxrender', 'libxdmcp', 'xcb-proto', 'libpthread-stubs', 'libxau', 'zlib', 'python3', 'gettext-minimal-native', 'openssl-native', 'm4-native', 'openssl', 'xz', 'readline', 'sqlite3', 'opkg-utils', 'bzip2', 'libtirpc', 'gdbm', 'util-linux-libuuid', 'libnsl2', 'libxcrypt', 'ncurses', 'perl-native', 'make-native', 'gdbm-native']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_configure
-| -- The C compiler identification is GNU 12.2.0
-| -- The CXX compiler identification is GNU 12.2.0
-| -- Detecting C compiler ABI info
-| -- Detecting C compiler ABI info - done
-| -- Check for working C compiler: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.236.0-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-gcc - skipped
-| -- Detecting C compile features
-| -- Detecting C compile features - done
-| -- Detecting CXX compiler ABI info
-| -- Detecting CXX compiler ABI info - done
-| -- Check for working CXX compiler: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.236.0-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ - skipped
-| -- Detecting CXX compile features
-| -- Detecting CXX compile features - done
-| ********************************************************************************
-| * NOTE: Not adding target to run update_deps.py automatically.                 *
-| ********************************************************************************
-| -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
-| -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
-| -- Found Threads: TRUE
-| CMake Error at CMakeLists.txt:112 (find_package):
-|   Could not find a package configuration file provided by "VulkanHeaders"
-|   with any of the following names:
-| 
-|     VulkanHeadersConfig.cmake
-|     vulkanheaders-config.cmake
-| 
-|   Add the installation prefix of "VulkanHeaders" to CMAKE_PREFIX_PATH or set
-|   "VulkanHeaders_DIR" to a directory containing one of the above files.  If
-|   "VulkanHeaders" provides a separate development package or SDK, be sure it
-|   has been installed.
-| 
-| 
-| -- Configuring incomplete, errors occurred!
-| See also "/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.236.0-r0/build/CMakeFiles/CMakeOutput.log".
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.236.0-r0/temp/run.do_configure.1788168:162 exit 1 from 'cmake -G 'Ninja' -DCMAKE_MAKE_PROGRAM=ninja $oecmake_sitefile /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.236.0-r0/git -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_INSTALL_BINDIR:PATH=bin -DCMAKE_INSTALL_SBINDIR:PATH=sbin -DCMAKE_INSTALL_LIBEXECDIR:PATH=libexec -DCMAKE_INSTALL_SYSCONFDIR:PATH=/etc -DCMAKE_INSTALL_SHAREDSTATEDIR:PATH=../com -DCMAKE_INSTALL_LOCALSTATEDIR:PATH=/var -DCMAKE_INSTALL_LIBDIR:PATH=lib -DCMAKE_INSTALL_INCLUDEDIR:PATH=include -DCMAKE_INSTALL_DATAROOTDIR:PATH=share -DPYTHON_EXECUTABLE:PATH=/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 -DPython_EXECUTABLE:PATH=/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 -DPython3_EXECUTABLE:PATH=/home/pokybuild/yocto-
- worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 -DLIB_SUFFIX= -DCMAKE_INSTALL_SO_NO_EXE=0 -DCMAKE_TOOLCHAIN_FILE=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.236.0-r0/toolchain.cmake -DCMAKE_NO_SYSTEM_FROM_IMPORTED=1 -DCMAKE_EXPORT_NO_PACKAGE_REGISTRY=ON -DFETCHCONTENT_FULLY_DISCONNECTED=ON -DBUILD_TESTS=OFF -DPYTHON_EXECUTABLE=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/python3 -DASSEMBLER_WORKS=FALSE -DVulkanHeaders_INCLUDE_DIR=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.236.0-r0/recipe-sysroot/usr/include -DVulkanRegistry_DIR=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.236.0-r0/recipe-sysroot//usr/share -DBUILD_WSI_WAYLAND_SUPPORT=ON -DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_XCB_SUPPORT=ON -Wno-dev'
-| WARNING: Backtrace (BB generated script):
-| 	#1: cmake_do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.236.0-r0/temp/run.do_configure.1788168, line 162
-| 	#2: do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.236.0-r0/temp/run.do_configure.1788168, line 141
-| 	#3: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.236.0-r0/temp/run.do_configure.1788168, line 198
-NOTE: recipe vulkan-loader-1.3.236.0-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 1336 tasks of which 1324 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.236.0.bb:do_configure
-Summary: There was 1 WARNING message.
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: vulkan-loader-1.3.236.0-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.236.0-r0/temp/run.do_configure.1788168', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.3.236.0-r0/temp/log.do_configure.1788168
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.236.0.bb:do_configure) failed with exit code '1'
-
---===============6332741401768576370==
+--===============8056698301185107575==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-vulkan-loader-upgrade-1.3.231.1-1.3.236.0.patch"
+ filename="0001-libx11-upgrade-1.8.1-1.8.2.patch"
 
-RnJvbSBhOTU0YTExZDBmMzVhZDM1NWQ1MmZkMTRhODQzYzU5Y2YwMTgzNDZhIE1vbiBTZXAgMTcg
+RnJvbSA5ZTMyYjUxNWUwODAxMGJlYWI5NzVhN2RkMTdhYWE3NDI4ODhjMWJlIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgRGVjIDIwMjIgMTY6MTQ6MjYgKzAwMDAKU3ViamVjdDogW1BBVENIXSB2
-dWxrYW4tbG9hZGVyOiB1cGdyYWRlIDEuMy4yMzEuMSAtPiAxLjMuMjM2LjAKCi0tLQogLi4ue3Z1
-bGthbi1sb2FkZXJfMS4zLjIzMS4xLmJiID0+IHZ1bGthbi1sb2FkZXJfMS4zLjIzNi4wLmJifSB8
-IDQgKystLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkK
-IHJlbmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3t2dWxrYW4tbG9hZGVyXzEuMy4y
-MzEuMS5iYiA9PiB2dWxrYW4tbG9hZGVyXzEuMy4yMzYuMC5iYn0gKDk0JSkKCmRpZmYgLS1naXQg
-YS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1sb2FkZXJfMS4zLjIzMS4xLmJi
-IGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4tbG9hZGVyXzEuMy4yMzYuMC5i
-YgpzaW1pbGFyaXR5IGluZGV4IDk0JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
-dnVsa2FuL3Z1bGthbi1sb2FkZXJfMS4zLjIzMS4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
-Z3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1sb2FkZXJfMS4zLjIzNi4wLmJiCmluZGV4IDdhYWI3NDQ2
-ZjYuLjU2ZjlkNzY1ZjggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4v
-dnVsa2FuLWxvYWRlcl8xLjMuMjMxLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1
-bGthbi92dWxrYW4tbG9hZGVyXzEuMy4yMzYuMC5iYgpAQCAtOSw4ICs5LDggQEAgU0VDVElPTiA9
-ICJsaWJzIgogCiBMSUNFTlNFID0gIkFwYWNoZS0yLjAiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZp
-bGU6Ly9MSUNFTlNFLnR4dDttZDU9N2RiZWZlZDIzMjQyNzYwYWEzNDc1ZWU0MjgwMWM1YWMiCi1T
-UkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vS2hyb25vc0dyb3VwL1Z1bGthbi1Mb2FkZXIuZ2l0
-O2JyYW5jaD1zZGstMS4zLjIzMTtwcm90b2NvbD1odHRwcyIKLVNSQ1JFViA9ICJlZWRiZjA4Mjky
-YTZiZTE5YzM1MjdlNzdhZTJkZjNmMjA5Y2FiMjg1IgorU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIu
-Y29tL0tocm9ub3NHcm91cC9WdWxrYW4tTG9hZGVyLmdpdDticmFuY2g9c2RrLTEuMy4yMzY7cHJv
-dG9jb2w9aHR0cHMiCitTUkNSRVYgPSAiMWVlODNhMjVjMmMyMGUyZWZiZmMwYWM5NzZjN2EzZGRi
-NWZjMjkxYyIKIAogUyA9ICIke1dPUktESVJ9L2dpdCIKIAotLSAKMi4zNy4zCgo=
+CkRhdGU6IFRodSwgMTUgRGVjIDIwMjIgMTY6MzY6NDUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJ4MTE6IHVwZ3JhZGUgMS44LjEgLT4gMS44LjIKCi0tLQogLi4uYWstaW4tWFJlZ2lzdGVySU1J
+bnN0YW50aWF0ZUNhbGxiYWNrLnBhdGNoIHwgNTcgLS0tLS0tLS0tLS0tCiAuLi4ve2xpYngxMV8x
+LjguMS5iYiA9PiBsaWJ4MTFfMS44LjIuYmJ9ICAgICAgfCA5MCArKysrKysrKysrKysrKysrKy0t
+CiAyIGZpbGVzIGNoYW5nZWQsIDg0IGluc2VydGlvbnMoKyksIDYzIGRlbGV0aW9ucygtKQogZGVs
+ZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4MTEvMDAw
+MS1maXgtYS1tZW1vcnktbGVhay1pbi1YUmVnaXN0ZXJJTUluc3RhbnRpYXRlQ2FsbGJhY2sucGF0
+Y2gKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIve2xpYngxMV8xLjguMS5i
+YiA9PiBsaWJ4MTFfMS44LjIuYmJ9ICgyNSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdy
+YXBoaWNzL3hvcmctbGliL2xpYngxMS8wMDAxLWZpeC1hLW1lbW9yeS1sZWFrLWluLVhSZWdpc3Rl
+cklNSW5zdGFudGlhdGVDYWxsYmFjay5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3Jn
+LWxpYi9saWJ4MTEvMDAwMS1maXgtYS1tZW1vcnktbGVhay1pbi1YUmVnaXN0ZXJJTUluc3RhbnRp
+YXRlQ2FsbGJhY2sucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDcyMjExNmMw
+N2UuLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYngx
+MS8wMDAxLWZpeC1hLW1lbW9yeS1sZWFrLWluLVhSZWdpc3RlcklNSW5zdGFudGlhdGVDYWxsYmFj
+ay5wYXRjaAorKysgL2Rldi9udWxsCkBAIC0xLDU3ICswLDAgQEAKLUNWRTogQ1ZFLTIwMjItMzU1
+NAotVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydAotU2lnbmVkLW9mZi1ieTogUm9zcyBCdXJ0b24g
+PHJvc3MuYnVydG9uQGFybS5jb20+Ci0KLUZyb20gMWQxMTgyMjYwMWZkMjRhMzk2YjM1NGZhNjE2
+YjA0ZWQzZGY4YjRlZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206ICJUaG9tYXMgRS4g
+RGlja2V5IiA8ZGlja2V5QGludmlzaWJsZS1pc2xhbmQubmV0PgotRGF0ZTogVHVlLCA0IE9jdCAy
+MDIyIDE4OjI2OjE3IC0wNDAwCi1TdWJqZWN0OiBbUEFUQ0hdIGZpeCBhIG1lbW9yeSBsZWFrIGlu
+IFhSZWdpc3RlcklNSW5zdGFudGlhdGVDYWxsYmFjawotCi1BbmFseXNpczoKLQotICAgIF9YaW1S
+ZWdpc3RlcklNSW5zdGFudGlhdGVDYWxsYmFjaygpIG9wZW5zIGFuIFhJTSBhbmQgY2xvc2VzIGl0
+IHVzaW5nCi0gICAgdGhlIGludGVybmFsIGZ1bmN0aW9uIHBvaW50ZXJzLCBidXQgdGhlIGludGVy
+bmFsIGNsb3NlIGZ1bmN0aW9uIGRvZXMKLSAgICBub3QgZnJlZSB0aGUgcG9pbnRlciB0byB0aGUg
+WElNICh0aGlzIHdvdWxkIGJlIGRvbmUgaW4gWENsb3NlSU0oKSkuCi0KLVJlcG9ydC9wYXRjaDoK
+LQotICAgIERhdGU6IE1vbiwgMDMgT2N0IDIwMjIgMTg6NDc6MzIgKzA4MDAKLSAgICBGcm9tOiBQ
+byBMdSA8bHVhbmdydW9AeWFob28uY29tPgotICAgIFRvOiB4b3JnLWRldmVsQGxpc3RzLngub3Jn
+Ci0gICAgU3ViamVjdDogUmU6IFlldCBhbm90aGVyIGxlYWsgaW4gWGxpYgotCi0gICAgRm9yIHJl
+ZmVyZW5jZSwgaGVyZSdzIGhvdyBJJ20gY2FsbGluZyBYUmVnaXN0ZXJJTUluc3RhbnRpYXRlQ2Fs
+bGJhY2s6Ci0KLSAgICBYU2V0TG9jYWxlTW9kaWZpZXJzICgiIik7Ci0gICAgWFJlZ2lzdGVySU1J
+bnN0YW50aWF0ZUNhbGxiYWNrIChjb21wb3NpdG9yLmRpc3BsYXksCi0gICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICBYcm1HZXREYXRhYmFzZSAoY29tcG9zaXRvci5kaXNwbGF5KSwK
+LSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIChjaGFyICopIGNvbXBvc2l0b3Iu
+cmVzb3VyY2VfbmFtZSwKLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIChjaGFy
+ICopIGNvbXBvc2l0b3IuYXBwX25hbWUsCi0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICBJTUluc3RhbnRpYXRlQ2FsbGJhY2ssIE5VTEwpOwotCi0gICAgYW5kIFhNT0RJRklFUlMg
+aXM6Ci0KLSAgICAgICAgQGltPWlidXMKLQotU2lnbmVkLW9mZi1ieTogVGhvbWFzIEUuIERpY2tl
+eSA8ZGlja2V5QGludmlzaWJsZS1pc2xhbmQubmV0PgotLS0tCi0gbW9kdWxlcy9pbS94aW1jcC9p
+bUluc0NsYmsuYyB8IDMgKysrCi0gMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQotCi1k
+aWZmIC0tZ2l0IGEvbW9kdWxlcy9pbS94aW1jcC9pbUluc0NsYmsuYyBiL21vZHVsZXMvaW0veGlt
+Y3AvaW1JbnNDbGJrLmMKLWluZGV4IDk1YjM3OWNiLi5jMTBlMzQ3ZiAxMDA2NDQKLS0tLSBhL21v
+ZHVsZXMvaW0veGltY3AvaW1JbnNDbGJrLmMKLSsrKyBiL21vZHVsZXMvaW0veGltY3AvaW1JbnND
+bGJrLmMKLUBAIC0yMTIsNiArMjEyLDkgQEAgX1hpbVJlZ2lzdGVySU1JbnN0YW50aWF0ZUNhbGxi
+YWNrKAotICAgICBpZiggeGltICkgewotIAlsb2NrID0gVHJ1ZTsKLSAJeGltLT5tZXRob2RzLT5j
+bG9zZSggKFhJTSl4aW0gKTsKLSsJLyogWElNcyBtdXN0IGJlIGZyZWVkIG1hbnVhbGx5IGFmdGVy
+IGJlaW5nIG9wZW5lZDsgY2xvc2UganVzdAotKwkgICBkb2VzIHRoZSBwcm90b2NvbCB0byBkZWlu
+aXRpYWxpemUgdGhlIElNLiAgKi8KLSsJWEZyZWUoIHhpbSApOwotIAlsb2NrID0gRmFsc2U7Ci0g
+CWljYi0+Y2FsbCA9IFRydWU7Ci0gCWNhbGxiYWNrKCBkaXNwbGF5LCBjbGllbnRfZGF0YSwgTlVM
+TCApOwotLS0gCi0yLjM0LjEKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hv
+cmctbGliL2xpYngxMV8xLjguMS5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9s
+aWJ4MTFfMS44LjIuYmIKc2ltaWxhcml0eSBpbmRleCAyNSUKcmVuYW1lIGZyb20gbWV0YS9yZWNp
+cGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYngxMV8xLjguMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
+cGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYngxMV8xLjguMi5iYgppbmRleCA5ZmYxOTZjODk3Li43
+NDNiN2ExMTRiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGli
+eDExXzEuOC4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4MTFf
+MS44LjIuYmIKQEAgLTEsMyArMSw4MiBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0g
+dmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9s
+bG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNl
+bnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBh
+bmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xp
+Y2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmln
+aHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIENPUFlJTkcK
+KyMgKysrIENPUFlJTkcKKyMgQEAgLTEzLDggKzEzLDcgQEAKKyMgIAorIyAgQ29weXJpZ2h0IChD
+KSAyMDAzLTIwMDYsMjAwOCBKYW1leSBTaGFycCwgSm9zaCBUcmlwbGV0dAorIyAgQ29weXJpZ2h0
+IMKpIDIwMDkgUmVkIEhhdCwgSW5jLgorIyAtQ29weXJpZ2h0IDE5OTAtMTk5MiwxOTk5LDIwMDAs
+MjAwNCwyMDA5LDIwMTAgT3JhY2xlIGFuZC9vciBpdHMgYWZmaWxpYXRlcy4KKyMgLUFsbCByaWdo
+dHMgcmVzZXJ2ZWQuCisjICtDb3B5cmlnaHQgKGMpIDE5OTAtMTk5MiwgMTk5OSwgMjAwMCwgMjAw
+NCwgMjAwOSwgMjAxMCwgMjAxNSwgMjAxNywgT3JhY2xlIGFuZC9vciBpdHMgYWZmaWxpYXRlcy4K
+KyMgIAorIyAgUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3JhbnRlZCwgZnJlZSBvZiBjaGFyZ2UsIHRv
+IGFueSBwZXJzb24gb2J0YWluaW5nIGEKKyMgIGNvcHkgb2YgdGhpcyBzb2Z0d2FyZSBhbmQgYXNz
+b2NpYXRlZCBkb2N1bWVudGF0aW9uIGZpbGVzICh0aGUgIlNvZnR3YXJlIiksCisjIEBAIC0yMjgs
+MzUgKzIyNyw2IEBACisjICAKKyMgIAkJLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLQorIyAgCisjIC0KKyMgLUNvcHlyaWdodCAoYykgMTk5NSBEYXZpZCBFLiBXZXhlbGJs
+YXQuICBBbGwgcmlnaHRzIHJlc2VydmVkCisjIC0KKyMgLVBlcm1pc3Npb24gaXMgaGVyZWJ5IGdy
+YW50ZWQsIGZyZWUgb2YgY2hhcmdlLCB0byBhbnkgcGVyc29uIG9idGFpbmluZworIyAtYSBjb3B5
+IG9mIHRoaXMgc29mdHdhcmUgYW5kIGFzc29jaWF0ZWQgZG9jdW1lbnRhdGlvbiBmaWxlcyAodGhl
+CisjIC0iU29mdHdhcmUiKSwgdG8gZGVhbCBpbiB0aGUgU29mdHdhcmUgd2l0aG91dCByZXN0cmlj
+dGlvbiwgaW5jbHVkaW5nCisjIC13aXRob3V0IGxpbWl0YXRpb24gdGhlIHJpZ2h0cyB0byB1c2Us
+IGNvcHksIG1vZGlmeSwgbWVyZ2UsIHB1Ymxpc2gsCisjIC1kaXN0cmlidXRlLCBzdWJsaWNlbnNl
+LCBhbmQvb3Igc2VsbCBjb3BpZXMgb2YgdGhlIFNvZnR3YXJlLCBhbmQgdG8KKyMgLXBlcm1pdCBw
+ZXJzb25zIHRvIHdob20gdGhlIFNvZnR3YXJlIGlzIGZ1cm5pc2hlZCB0byBkbyBzbywgc3ViamVj
+dCB0bworIyAtdGhlIGZvbGxvd2luZyBjb25kaXRpb25zOgorIyAtCisjIC1UaGUgYWJvdmUgY29w
+eXJpZ2h0IG5vdGljZSBhbmQgdGhpcyBwZXJtaXNzaW9uIG5vdGljZSBzaGFsbCBiZSBpbmNsdWRl
+ZAorIyAtaW4gYWxsIGNvcGllcyBvciBzdWJzdGFudGlhbCBwb3J0aW9ucyBvZiB0aGUgU29mdHdh
+cmUuCisjIC0KKyMgLVRIRSBTT0ZUV0FSRSBJUyBQUk9WSURFRCAiQVMgSVMiLCBXSVRIT1VUIFdB
+UlJBTlRZIE9GIEFOWSBLSU5ELCBFWFBSRVNTCisjIC1PUiBJTVBMSUVELCBJTkNMVURJTkcgQlVU
+IE5PVCBMSU1JVEVEIFRPIFRIRSBXQVJSQU5USUVTIE9GCisjIC1NRVJDSEFOVEFCSUxJVFksIEZJ
+VE5FU1MgRk9SIEEgUEFSVElDVUxBUiBQVVJQT1NFIEFORCBOT05JTkZSSU5HRU1FTlQuCisjIC1J
+TiBOTyBFVkVOVCBTSEFMTCBEQVZJRCBFLiBXRVhFTEJMQVQgQkUgTElBQkxFIEZPUiBBTlkgQ0xB
+SU0sIERBTUFHRVMgT1IKKyMgLU9USEVSIExJQUJJTElUWSwgV0hFVEhFUiBJTiBBTiBBQ1RJT04g
+T0YgQ09OVFJBQ1QsIFRPUlQgT1IgT1RIRVJXSVNFLAorIyAtQVJJU0lORyBGUk9NLCBPVVQgT0Yg
+T1IgSU4gQ09OTkVDVElPTiBXSVRIIFRIRSBTT0ZUV0FSRSBPUiBUSEUgVVNFIE9SCisjIC1PVEhF
+UiBERUFMSU5HUyBJTiBUSEUgU09GVFdBUkUuCisjIC0KKyMgLUV4Y2VwdCBhcyBjb250YWluZWQg
+aW4gdGhpcyBub3RpY2UsIHRoZSBuYW1lIG9mIERhdmlkIEUuIFdleGVsYmxhdCBzaGFsbAorIyAt
+bm90IGJlIHVzZWQgaW4gYWR2ZXJ0aXNpbmcgb3Igb3RoZXJ3aXNlIHRvIHByb21vdGUgdGhlIHNh
+bGUsIHVzZSBvcgorIyAtb3RoZXIgZGVhbGluZ3MgaW4gdGhpcyBTb2Z0d2FyZSB3aXRob3V0IHBy
+aW9yIHdyaXR0ZW4gYXV0aG9yaXphdGlvbgorIyAtZnJvbSBEYXZpZCBFLiBXZXhlbGJsYXQuCisj
+IC0KKyMgLQkJLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQorIyAtCisj
+ICBDb3B5cmlnaHQgMTk5MCwgMTk5MSBieSBPTVJPTiBDb3Jwb3JhdGlvbgorIyAgCisjICBQZXJt
+aXNzaW9uIHRvIHVzZSwgY29weSwgbW9kaWZ5LCBkaXN0cmlidXRlLCBhbmQgc2VsbCB0aGlzIHNv
+ZnR3YXJlIGFuZCBpdHMKKyMgQEAgLTk0MCwzICs5MTAsMTkgQEAKKyMgIEFDVElPTiBPRiBDT05U
+UkFDVCwgTkVHTElHRU5DRSBPUiBPVEhFUiBUT1JUSU9VUyBBQ1RJT04sIEFSSVNJTkcgT1VUIE9G
+CisjICBPUiBJTiBDT05ORUNUSU9OIFdJVEggVEhFIFVTRSBPUiBQRVJGT1JNQU5DRSBPRiBUSElT
+IFNPRlRXQVJFLgorIyAgCisjICsJCS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0KKyMgKworIyArQ29weXJpZ2h0IChjKSAyMDA4IE90dG8gTW9lcmJlZWsgPG90dG9AZHJp
+amYubmV0PgorIyArCisjICtQZXJtaXNzaW9uIHRvIHVzZSwgY29weSwgbW9kaWZ5LCBhbmQgZGlz
+dHJpYnV0ZSB0aGlzIHNvZnR3YXJlIGZvciBhbnkKKyMgK3B1cnBvc2Ugd2l0aCBvciB3aXRob3V0
+IGZlZSBpcyBoZXJlYnkgZ3JhbnRlZCwgcHJvdmlkZWQgdGhhdCB0aGUgYWJvdmUKKyMgK2NvcHly
+aWdodCBub3RpY2UgYW5kIHRoaXMgcGVybWlzc2lvbiBub3RpY2UgYXBwZWFyIGluIGFsbCBjb3Bp
+ZXMuCisjICsKKyMgK1RIRSBTT0ZUV0FSRSBJUyBQUk9WSURFRCAiQVMgSVMiIEFORCBUSEUgQVVU
+SE9SIERJU0NMQUlNUyBBTEwgV0FSUkFOVElFUworIyArV0lUSCBSRUdBUkQgVE8gVEhJUyBTT0ZU
+V0FSRSBJTkNMVURJTkcgQUxMIElNUExJRUQgV0FSUkFOVElFUyBPRgorIyArTUVSQ0hBTlRBQklM
+SVRZIEFORCBGSVRORVNTLiBJTiBOTyBFVkVOVCBTSEFMTCBUSEUgQVVUSE9SIEJFIExJQUJMRSBG
+T1IKKyMgK0FOWSBTUEVDSUFMLCBESVJFQ1QsIElORElSRUNULCBPUiBDT05TRVFVRU5USUFMIERB
+TUFHRVMgT1IgQU5ZIERBTUFHRVMKKyMgK1dIQVRTT0VWRVIgUkVTVUxUSU5HIEZST00gTE9TUyBP
+RiBVU0UsIERBVEEgT1IgUFJPRklUUywgV0hFVEhFUiBJTiBBTgorIyArQUNUSU9OIE9GIENPTlRS
+QUNULCBORUdMSUdFTkNFIE9SIE9USEVSIFRPUlRJT1VTIEFDVElPTiwgQVJJU0lORyBPVVQgT0YK
+KyMgK09SIElOIENPTk5FQ1RJT04gV0lUSCBUSEUgVVNFIE9SIFBFUkZPUk1BTkNFIE9GIFRISVMg
+U09GVFdBUkUuCisjICsKKyMgCisjCisKIFNVTU1BUlkgPSAiWGxpYjogQyBMYW5ndWFnZSBYIElu
+dGVyZmFjZSBsaWJyYXJ5IgogCiBERVNDUklQVElPTiA9ICJUaGlzIHBhY2thZ2UgcHJvdmlkZXMg
+YSBjbGllbnQgaW50ZXJmYWNlIHRvIHRoZSBYIFdpbmRvdyBcCkBAIC0xMiwxOCArOTEsMTcgQEAg
+UEUgPSAiMSIKIAogIyB0ZW1wb3JhcmlseSBvdmVycmlkZSBTUkNfVVJJIHdoaWNoIGlzIGhhcmQt
+Y29kZWQgaW4geG9yZy1saWItY29tbW9uLmluYwogIyBzaW5jZSBuZXcgdmVyc2lvbnMgb2YgcGFj
+a2FnZXMgdXNlIGEgbmV3IGNvbXByZXNzaW9uIGZvcm1hdCAtIC50YXIuZ3oKLVNSQ19VUkkgPSAi
+JHtYT1JHX01JUlJPUn0vaW5kaXZpZHVhbC9saWIvJHtYT1JHX1BOfS0ke1BWfS50YXIueHoiCi0K
+LVNSQ19VUkkgKz0gImZpbGU6Ly9kaXNhYmxlX3Rlc3RzLnBhdGNoIFwKLSAgICAgICAgICAgIGZp
+bGU6Ly8wMDAxLWZpeC1hLW1lbW9yeS1sZWFrLWluLVhSZWdpc3RlcklNSW5zdGFudGlhdGVDYWxs
+YmFjay5wYXRjaCBcCitTUkNfVVJJID0gIiR7WE9SR19NSVJST1J9L2luZGl2aWR1YWwvbGliLyR7
+WE9SR19QTn0tJHtQVn0udGFyLnh6IFwKKyAgICAgICAgICAgZmlsZTovL2Rpc2FibGVfdGVzdHMu
+cGF0Y2ggXAogICAgICAgICAgICAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMWJjNDFhYTFiYmUw
+MTQwMWYzMzBkNzZkZmExOWYzODZiNzljNTE4ODFjN2JiZmVlOWViNGUyN2YyMmYyZDlmNyIKKwor
+U1JDX1VSSVtzaGEyNTZzdW1dID0gImVkOTFkNTczZDU3MGRiODNiOGFlNTQ2ZjQ4OTBkY2NmY2Qw
+YjlkZmUxZTUwYTFiNDAxYjYzYTc0YzE1MmVkMDQiCiAKIFBST1ZJREVTID0gInZpcnR1YWwvbGli
+eDExIgogCiBYT1JHX1BOID0gImxpYlgxMSIKIExJQ0VOU0UgPSAiTUlUICYgTUlUICYgQlNELTEt
+Q2xhdXNlICYgSFBORCAmIEhQTkQtc2VsbC12YXJpYW50IgotTElDX0ZJTEVTX0NIS1NVTSA9ICJm
+aWxlOi8vQ09QWUlORzttZDU9MTcyMjU1ZGVlNjZiYjAxNTE0MzViMmQ1ZDcwOWZjZjciCitMSUNf
+RklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT0xZDQ5Y2RkMmIzODZjNWRiMTFlYzYz
+NmQ2ODBiNzExNiIKIAogREVQRU5EUyArPSAieG9yZ3Byb3RvIFwKICAgICAgICAgICAgIHh0cmFu
+cyBcCi0tIAoyLjM3LjMKCg==
 
---===============6332741401768576370==--
+--===============8056698301185107575==--
 
