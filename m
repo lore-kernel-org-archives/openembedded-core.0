@@ -1,129 +1,208 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alejandro@enedino.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05846C4332F
-	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 16:32:53 +0000 (UTC)
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
- by mx.groups.io with SMTP id smtpd.web10.137951.1671121965798727711
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05278C4332F
+	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 16:38:33 +0000 (UTC)
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
+ by mx.groups.io with SMTP id smtpd.web11.138959.1671122306532187339
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Dec 2022 08:32:45 -0800
+ Thu, 15 Dec 2022 08:38:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ocd10mS8;
- spf=pass (domain: gmail.com, ip: 209.85.210.41, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f41.google.com with SMTP id v19-20020a9d5a13000000b0066e82a3872dso3894272oth.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 08:32:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3Nkh9c9g3el0oUn92dpRj7h372RtyIEIClFmGeLnZ4k=;
-        b=ocd10mS8mTxY0wyKS0kX48wkA757KmZ/alkWvriWv6D1C62aWRpFaMzuFbpkqzWrqr
-         dAuOVWSzX+Mhnb/m3qmYpa4RAKdjBMxtn1iVxzATfct3isKxfLFfwUhlj+ewoN6SKQfo
-         McSV3fkDiXr+3N+Z/lE7tqu7LrTlv/9t0CA0dN/0RJon1fIOcEw00lI3NiBRGtO1VSCE
-         UzT0AMW8hJ8t67ywVQJcnJ9SZ5xzWGIrPzU4zr4y5bH1wZKiyoAndVdp9L31ZGFiMVtP
-         C2qXFXd/p3EjQxKgQkXS8WGMPioYBXnEp0XLLzRKCzLKk0zO08yjVN5vtBxjZXp208n7
-         o7Sg==
+ dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.166.53, mailfrom: aehs29@gmail.com)
+Received: by mail-io1-f53.google.com with SMTP id r72so5373418iod.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 08:38:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3Nkh9c9g3el0oUn92dpRj7h372RtyIEIClFmGeLnZ4k=;
-        b=YA4PA8X5Ea2SxDEZSaKddC7CE5lHXl76rMpJ0TeEl1KVSNs2OODBfViYVAyGnkY04A
-         dqbAWv7w7rJrxeyLXe3b1wolfOxvAs6aGINd18e4lp0KV83pSt5ggf+w8eJMVULtBrG9
-         JwrY91RDkzQTodgIx09wpjU+yHLqtoQ0KyZIwBaPP/DXWMz7tfAfw0V55TlMiDwRQJFi
-         JHS4I+jw11LUgwgHdita38IMAJqsW4Vnk6w/66OvN78n4k6A+lHvlbz6Ho0LcqOtK7C7
-         ARzlAx1kuWw6OuFppz8gdfxPsU0jg3FusfWMBGm2X2WXi0Ar8j/h/RzSrYtv8Ypog+UA
-         RcIQ==
-X-Gm-Message-State: ANoB5pnxoqOTJGB1k+lY+83v/cVP2h+TO1jI88+3RaXXpV+m3KaGQ3VT
-	fkVT8+UZEtb9z/Aryq65mjsNNWT0h511w2Kk9Jo=
-X-Google-Smtp-Source: AA0mqf5+NZ5P1kZ43Ch/ex+04maTJNIg/D6LsitKqQa1itNzspIcyvClr8MpJd23K5Y3yziPUc/j2WPdo3Y+Zjf5Mfs=
-X-Received: by 2002:a9d:68d1:0:b0:670:9d62:667f with SMTP id
- i17-20020a9d68d1000000b006709d62667fmr875509oto.111.1671121964968; Thu, 15
- Dec 2022 08:32:44 -0800 (PST)
+        bh=jKbzYwIu/raoXuIZFOYfNWsLjo4wIkqD0PRiQv7vDzo=;
+        b=y0ceY4HfLvtylGeWsCBTNqBZ/LgvA1srYwWXJGSBnZxpzn1ZooYL1XXXScgwLX8uyb
+         xLDkWr+0eBAYWqfDQbbRKJ6YPtvxLbKrNbDGWLidheVBHcZAZabQkO7s91ROwe0VDeoi
+         r9bZdtxSp0nMPvatqlK00AyEHiO9Bv760fqubZO/fx69pdLvchPrK2bKInZH5V9H+ErX
+         djnRmkOH0fHuH7qy87M4SCwwRDe02sd/huEj7c17wxu7qKVgWRLYAmWiEV6AECO9SF9f
+         zUc+MNlkuLSKIonBcaZ8jLfT47/bjOLh8fMlURtvyh/Au3waWr+HM+E91ajeDf68hYeK
+         L2Wg==
+X-Gm-Message-State: ANoB5pk/hn57/yHGOmYGXokMcX9MVGhfnUNJ1vyzoKmWHUnhGaltQetT
+	rhdwxneqhWJJD64LH03qce42X4hlPYBbGw==
+X-Google-Smtp-Source: AA0mqf7oFcFNaSH06ZYiBlMlQxKq2ogcT76VK0fUAZ6+SCeO0LeXYJg80WcXXok+m6EQdfLOMCZs0w==
+X-Received: by 2002:a05:6602:22d5:b0:6e0:7dd:59ac with SMTP id e21-20020a05660222d500b006e007dd59acmr17508028ioe.14.1671122305564;
+        Thu, 15 Dec 2022 08:38:25 -0800 (PST)
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com. [209.85.166.41])
+        by smtp.gmail.com with ESMTPSA id b18-20020a05660214d200b006de16e510b5sm1241301iow.53.2022.12.15.08.38.25
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Dec 2022 08:38:25 -0800 (PST)
+Received: by mail-io1-f41.google.com with SMTP id b192so5363148iof.8
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 08:38:25 -0800 (PST)
+X-Received: by 2002:a5e:a711:0:b0:6e3:1926:f46e with SMTP id
+ b17-20020a5ea711000000b006e31926f46emr1129196iod.162.1671122305167; Thu, 15
+ Dec 2022 08:38:25 -0800 (PST)
 MIME-Version: 1.0
-References: <20221208071136.1967696-1-olani@axis.com> <20221208071136.1967696-4-olani@axis.com>
-In-Reply-To: <20221208071136.1967696-4-olani@axis.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 15 Dec 2022 08:32:19 -0800
-Message-ID: <CAMKF1sqAsU91XHhhN=JkpSX-EZ3RWmbFs+x8KkejRzyfwPnLLA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH RFC 3/3] time64.conf: Include to enable 64 bit
- time flags
-To: Ola x Nilsson <olani@axis.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+References: <20221215073224.3061128-1-alejandro@enedino.org>
+ <CANNYZj9qbT+fGQ=18hjLkzR4D=eyr1amX2qxpwM5u_XQTqLo3g@mail.gmail.com>
+ <CAHMutrae2sCtGqa-aXVYz1_kDkCtnY2qjKLhGunA-U3-ZxthnA@mail.gmail.com> <CAO5Uq5S2reaaVJe7hZwL2okWjKBbVhU_=g6bMjguQ7T9UNC-Vw@mail.gmail.com>
+In-Reply-To: <CAO5Uq5S2reaaVJe7hZwL2okWjKBbVhU_=g6bMjguQ7T9UNC-Vw@mail.gmail.com>
+From: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
+Date: Thu, 15 Dec 2022 09:38:14 -0700
+X-Gmail-Original-Message-ID: <CAHMutrZnL2e4_7AuPkacEb-Rgyw0cb7eaErjWRuXZYXu_fUZgw@mail.gmail.com>
+Message-ID: <CAHMutrZnL2e4_7AuPkacEb-Rgyw0cb7eaErjWRuXZYXu_fUZgw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] rust: Enable building rust from stable,
+ beta and nightly channels
+To: Alex Kiernan <alex.kiernan@gmail.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000603e2205efe07b53"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 16:32:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174584
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 16:38:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174585
 
-On Wed, Dec 7, 2022 at 11:11 PM Ola x Nilsson <olani@axis.com> wrote:
+--000000000000603e2205efe07b53
+Content-Type: text/plain; charset="UTF-8"
+
+On Thu, 15 Dec 2022 at 09:08, Alex Kiernan <alex.kiernan@gmail.com> wrote:
+
+> On Thu, Dec 15, 2022 at 3:38 PM Alejandro Hernandez Samaniego
+> <alejandro@enedino.org> wrote:
+> >
+> >
+> >
+> > On Thu, Dec 15, 2022, 3:05 AM Alexander Kanavin <alex.kanavin@gmail.com>
+> wrote:
+> >>
+> >> On Thu, 15 Dec 2022 at 08:32, Alejandro Hernandez Samaniego
+> >> <alejandro@enedino.org> wrote:
+> >> > +RUST_VERSION = "1.65.0"
+> >> > +SRC_URI += "
+> https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;name=rust
+> "
+> >>
+> >> Adding a manually set variable adds friction to updates. Can
+> >> RUST_VERSION be set instead with a helper @function from PV?
+> >
+> >
+> > Hey Alex,
+> >
+> > I agree, and ideally yes, I tried to set it automatically to PV, but,
+> sadly it conflicts if we try to include rust-source.inc from a non-rust
+> recipe (This is necessary for some recipes that need to have rust source
+> available to them) since it uses the PV set from that recipe instead.
+> >
 >
-> Signed-off-by: Ola x Nilsson <olani@axis.com>
-> ---
->  meta/conf/distro/time64.conf | 23 +++++++++++++++++++++++
->  1 file changed, 23 insertions(+)
->  create mode 100644 meta/conf/distro/time64.conf
+> Is this different cargo/rust versions, or something else you have?
 >
-> diff --git a/meta/conf/distro/time64.conf b/meta/conf/distro/time64.conf
-> new file mode 100644
-> index 0000000000..99eb06dc0f
-> --- /dev/null
-> +++ b/meta/conf/distro/time64.conf
+> Basically I'm on the same page as Alex - updating this recipe is
+> already quite painful, making it any worse doesn't seem like a great
+> idea, but I guess you could argue that rust/cargo already conflate
+> their versions in the current usage.
+>
 
-I think this file should be called time64.inc to make it similar to
-other distro fragments that distros can use.
+I'm referring to any recipe that could include rust-source.inc, if
+RUST_VERSION ?= ${PV} for example,
+ for rust recipes that works fine because RUST_VERSION would expand to
+1.65.0 today, but lets say
+recipe foo_1.0.1.bb needs rust-source.inc to recompile built-in crates, in
+that case RUST_VERSION
+would expand to 1.0.1 instead.
 
-> @@ -0,0 +1,23 @@
-> +GLIBC_64BIT_TIME_FLAGS = "-D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64"
+While I agree its not ideal, in my opinion this approach provides more
+consistency with the drawback of
+ modifying that variable on upgrades, however I also think that requiring
+rust-source.inc is seldom the
+case, hence the other option is to keep RUST_VERSION ?= ${PV} and hardcode
+it on every recipe that
+would require this flow.
 
-Also add -D_LARGEFILE_SOURCE here too so we have all dependent changes
-in one place
+Alejandro
 
-> +
-> +# TODO: Only for 32-bit architectures?
-> +TARGET_CC_ARCH:append:arm = " ${GLIBC_64BIT_TIME_FLAGS}"
-> +TARGET_CC_ARCH:append:armeb = " ${GLIBC_64BIT_TIME_FLAGS}"
-> +TARGET_CC_ARCH:append:mips32el = " ${GLIBC_64BIT_TIME_FLAGS}"
 
-I think it should be made generic across all 32bit arches as I
-mentioned last time.
 
-> +
-> +GLIBC_64BIT_TIME_FLAGS:pn-glibc = ""
-> +GLIBC_64BIT_TIME_FLAGS:pn-glibc-tests = ""
-> +# pipewire-v4l2 explicitly sets _FILE_OFFSET_BITS=32 to get access to
-> +# both 32 and 64 bit file APIs.  But it does not handle the time side?
-> +# Needs further investigation
-> +GLIBC_64BIT_TIME_FLAGS:pn-pipewire = ""
-> +GLIBC_64BIT_TIME_FLAGS:pn-gcc-sanitizers = ""
-> +
-> +INSANE_SKIP:libstd-rs[_usr_lib_rustlib_armv7-poky-linux-gnueabihf_lib_libstd.so] = "clock_gettime gettime fcntl fstat64 fstatat64 getsockopt ioctl lstat64 nanosleep prctl recvmsg sendmsg setsockopt stat64"
-> +INSANE_SKIP:librsvg[_usr_bin_rsvg-convert] = "fcntl fstat64 prctl stat64 clock_gettime"
-> +INSANE_SKIP:librsvg[_usr_lib_librsvg-2.so.2.48.0] = "fcntl lstat64 setsockopt sendmsg fstat64 getsockopt ioctl nanosleep timegm fstatat64 prctl mktime gmtime_r recvmsg stat64 clock_gettime localtime_r"
-> +
-> +# libpulsedsp.so is a preload-library that hooks libc functions
-> +INSANE_SKIP:pulseaudio[_usr_lib_pulseaudio_libpulsedsp.so] = "setsockopt fcntl"
-> +
-
-Earlier I thought we won't need it on musl. Ideally that's true, but
-many applications do rely on _FILE_OFFSET_BITS=64 so I think
-we will need to include it on musl too even though these defines wont
-means much from libc point of view.
-
-> +
+>
 > --
-> 2.30.2
+> Alex Kiernan
 >
+
+--000000000000603e2205efe07b53
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-family:arial,sans-serif;font-size:small"><br></div></div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 15 Dec 2022 =
+at 09:08, Alex Kiernan &lt;<a href=3D"mailto:alex.kiernan@gmail.com">alex.k=
+iernan@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
+style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
+dding-left:1ex">On Thu, Dec 15, 2022 at 3:38 PM Alejandro Hernandez Samanie=
+go<br>
+&lt;<a href=3D"mailto:alejandro@enedino.org" target=3D"_blank">alejandro@en=
+edino.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; On Thu, Dec 15, 2022, 3:05 AM Alexander Kanavin &lt;<a href=3D"mailto:=
+alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt; wr=
+ote:<br>
+&gt;&gt;<br>
+&gt;&gt; On Thu, 15 Dec 2022 at 08:32, Alejandro Hernandez Samaniego<br>
+&gt;&gt; &lt;<a href=3D"mailto:alejandro@enedino.org" target=3D"_blank">ale=
+jandro@enedino.org</a>&gt; wrote:<br>
+&gt;&gt; &gt; +RUST_VERSION =3D &quot;1.65.0&quot;<br>
+&gt;&gt; &gt; +SRC_URI +=3D &quot;<a href=3D"https://static.rust-lang.org/d=
+ist/rustc-$%7BRUST_VERSION%7D-src.tar.xz;name=3Drust" rel=3D"noreferrer" ta=
+rget=3D"_blank">https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src=
+.tar.xz;name=3Drust</a>&quot;<br>
+&gt;&gt;<br>
+&gt;&gt; Adding a manually set variable adds friction to updates. Can<br>
+&gt;&gt; RUST_VERSION be set instead with a helper @function from PV?<br>
+&gt;<br>
+&gt;<br>
+&gt; Hey Alex,<br>
+&gt;<br>
+&gt; I agree, and ideally yes, I tried to set it automatically to PV, but, =
+sadly it conflicts if we try to include rust-source.inc from a non-rust rec=
+ipe (This is necessary for some recipes that need to have rust source avail=
+able to them) since it uses the PV set from that recipe instead.<br>
+&gt;<br>
+<br>
+Is this different cargo/rust versions, or something else you have?<br>
+<br>
+Basically I&#39;m on the same page as Alex - updating this recipe is<br>
+already quite painful, making it any worse doesn&#39;t seem like a great<br=
 >
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#174389): https://lists.openembedded.org/g/openembedded-core/message/174389
-> Mute This Topic: https://lists.openembedded.org/mt/95533494/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+idea, but I guess you could argue that rust/cargo already conflate<br>
+their versions in the current usage.<br></blockquote><div><br></div><div><d=
+iv class=3D"gmail_default" style=3D"font-family:arial,sans-serif;font-size:=
+small">I&#39;m referring to any recipe that could include rust-source.inc, =
+if RUST_VERSION ?=3D ${PV} for example,</div><div class=3D"gmail_default" s=
+tyle=3D"font-family:arial,sans-serif;font-size:small">=C2=A0for rust recipe=
+s that works fine because RUST_VERSION would expand to 1.65.0 today, but le=
+ts say=C2=A0</div><div class=3D"gmail_default" style=3D"font-family:arial,s=
+ans-serif;font-size:small">recipe <a href=3D"http://foo_1.0.1.bb">foo_1.0.1=
+.bb</a> needs rust-source.inc to recompile built-in crates, in that case RU=
+ST_VERSION=C2=A0</div><div class=3D"gmail_default" style=3D"font-family:ari=
+al,sans-serif;font-size:small">would expand to 1.0.1 instead.</div><div cla=
+ss=3D"gmail_default" style=3D"font-family:arial,sans-serif;font-size:small"=
+><br></div><div class=3D"gmail_default" style=3D"font-family:arial,sans-ser=
+if;font-size:small">While I agree its not ideal, in my opinion this approac=
+h provides more consistency with the drawback of</div><div class=3D"gmail_d=
+efault" style=3D"font-family:arial,sans-serif;font-size:small">=C2=A0modify=
+ing that variable on upgrades, however I also think that requiring rust-sou=
+rce.inc is seldom the=C2=A0</div><div class=3D"gmail_default" style=3D"font=
+-family:arial,sans-serif;font-size:small">case, hence the other option is t=
+o keep RUST_VERSION ?=3D ${PV} and hardcode it on every recipe that=C2=A0</=
+div><div class=3D"gmail_default" style=3D"font-family:arial,sans-serif;font=
+-size:small">would require this flow.</div></div><div><br></div><div><div c=
+lass=3D"gmail_default" style=3D"font-family:arial,sans-serif;font-size:smal=
+l">Alejandro</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex">
+<br>
+-- <br>
+Alex Kiernan<br>
+</blockquote></div></div>
+
+--000000000000603e2205efe07b53--
 
