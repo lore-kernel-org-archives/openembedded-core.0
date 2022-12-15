@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D8F2C678D8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A074C678DB
 	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 20:32:35 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.144501.1671136351677962713
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.144509.1671136352190779105
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Dec 2022 12:32:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=asgBhrEw;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010185177d15e3-1597e684-0005-4d18-8c96-61c82d3327dd-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=lzZ1rQPp;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010185177d14d6-0ef3b26d-74d0-45ec-a440-e2e994f88f3f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1671136351;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=bYmqILQIgS+34wZUKBMZwvTccNeIagiwUYB4ADsfh6Q=;
-	b=asgBhrEwj6CHCkEfbRDNYT0nzrdFXbN+gJN2S0MCVwgoEb7ZXwIhnszvoDD4+xWV
-	mBZHN59ZlzKk21HOeAUgjoO+JYeyf5LhWY1AbR7nzO9NEf5JqTLjCdjitYHX1Yk/6uW
-	BA9EfghS5ez1Qln7y5GUENJ94YQxcSYaVAac1dnw=
+	bh=EHuHDm9aubnXW/zYFM0ognyljda/0HzGkrevdVh+WBA=;
+	b=lzZ1rQPpsduN94NPqLjx2oHfR51lTciYF7+Vi876QuuXKEk2J0r6F19xMBbROzfl
+	vu04drT2O5BSizDN7noZ8ZqWBOLhPg3n4/G19/O9oJE8MJNuIGW1rXK0c36JXm62QzX
+	SmkpmdjXnB83+dkyRR6XQEO/tzPpouQ31eTMUc8w=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1671136351;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=bYmqILQIgS+34wZUKBMZwvTccNeIagiwUYB4ADsfh6Q=;
-	b=BFjHAip70rfJNA+ahpA+uvZ8U5ixdmu4rjZG+5I8CJaEvx5TUckWUnBweGu/EDWs
-	/yLv49t6mvNuk7+rbCxS5TPfJjyuNzDEtk+GhDu9iVdrr7X9kkzmfDBo2wGeYl0ASgt
-	BX7sHBJq5T9SB2HO3fqdebcnybBD0ru09TYkb6kA=
-Content-Type: multipart/mixed; boundary="===============3601054394842573022=="
+	bh=EHuHDm9aubnXW/zYFM0ognyljda/0HzGkrevdVh+WBA=;
+	b=jhZQi38x0nE3b4sptP7zYGlecBP/AK3OCUSqz08oZZspQwh6ogJMb0zJSUxzDkue
+	By4A7o7/2BM2IWQY7qhZvj7mxdLhvPR+xanJzWIOpFzbRfktEaIOcOV7ur7XcZKAw8O
+	0a6hX7DX20nSAy6k+sobBnUTFg2HeVHt4mTQIVyc=
+Content-Type: multipart/mixed; boundary="===============5235466171213525639=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3: upgrading to 3.11.1 FAILED
-Message-ID: <01010185177d15e3-1597e684-0005-4d18-8c96-61c82d3327dd-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-setuptools: upgrading to 65.6.3 SUCCEEDED
+Message-ID: <01010185177d14d6-0ef3b26d-74d0-45ec-a440-e2e994f88f3f-000000@us-west-2.amazonses.com>
 Date: Thu, 15 Dec 2022 20:32:31 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.12.15-54.240.27.193
+X-SES-Outgoing: 2022.12.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 20:32:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174661
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174660
 
---===============3601054394842573022==
+--===============5235466171213525639==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,110 +50,122 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3* to *3.11.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *python3-setuptools* to *65.6.3* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-setuptools-upgrade-65.5.1-65.6.3.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe python3 failed.
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)... (12:02:28.414395)
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 888 .bb files complete (0 cached, 888 parsed). 1672 targets, 36 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 WARNING message.
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:5671081576118d182e2b621d0ff603a567d51853"
-workspace            = "master:46fd76aa07bd431f0ba73bdafeb7bf5aa31cef25"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 22 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1672 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 889 .bb files complete (887 cached, 2 parsed). 1673 targets, 36 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 WARNING message.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:5671081576118d182e2b621d0ff603a567d51853"
-workspace            = "master:46fd76aa07bd431f0ba73bdafeb7bf5aa31cef25"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 18 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  24% |########                            | ETA:  0:00:01
-Adding changed files:  48% |#################                   | ETA:  0:00:00
-Adding changed files:  72% |##########################          | ETA:  0:00:00
-Adding changed files:  96% |##################################  | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Extracting current version source...
-INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
-INFO: Adding local source files to srctree...
-INFO: Extracting upgraded version source...
-INFO: Fetching http://www.python.org/ftp/python/3.11.1/Python-3.11.1.tar.xz...
-INFO: Rebasing devtool onto d83bec616752d0d49f8d3698035f33b0516d5cd3
-WARNING: Command 'git rebase d83bec616752d0d49f8d3698035f33b0516d5cd3' failed:
-Auto-merging configure.ac
-CONFLICT (content): Merge conflict in configure.ac
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Rebasing devtool-override-class-native onto d83bec616752d0d49f8d3698035f33b0516d5cd3
-WARNING: Command 'git rebase d83bec616752d0d49f8d3698035f33b0516d5cd3' failed:
-Auto-merging configure.ac
-CONFLICT (content): Merge conflict in configure.ac
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/python3
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/python3/python3_3.11.1.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============3601054394842573022==--
+--===============5235466171213525639==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-setuptools-upgrade-65.5.1-65.6.3.patch"
+
+RnJvbSBmZDM0MzMxZjhlMzVhZTRlNmNiMTNmMjA2YWYwYzRhYTkzYWNlOTI3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTUgRGVjIDIwMjIgMTE6NTE6MTQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXNldHVwdG9vbHM6IHVwZ3JhZGUgNjUuNS4xIC0+IDY1LjYuMwoKLS0tCiAuLi4vMDAw
+MS1jb25kaXRpb25hbGx5LWRvLW5vdC1mZXRjaC1jb2RlLWJ5LWVhc3lfaW5zdGFsbC5wYXRjaCAg
+fCAyICstCiAuLi55dGhvbjMtc2V0dXB0b29sc182NS41LjEuYmIgPT4gcHl0aG9uMy1zZXR1cHRv
+b2xzXzY1LjYuMy5iYn0gfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwg
+MiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRo
+b24zLXNldHVwdG9vbHNfNjUuNS4xLmJiID0+IHB5dGhvbjMtc2V0dXB0b29sc182NS42LjMuYmJ9
+ICg5NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
+LXNldHVwdG9vbHMvMDAwMS1jb25kaXRpb25hbGx5LWRvLW5vdC1mZXRjaC1jb2RlLWJ5LWVhc3lf
+aW5zdGFsbC5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1
+cHRvb2xzLzAwMDEtY29uZGl0aW9uYWxseS1kby1ub3QtZmV0Y2gtY29kZS1ieS1lYXN5X2luc3Rh
+bGwucGF0Y2gKaW5kZXggMWI1ZjljNzU3Ny4uOGRiMWYxNjBmZCAxMDA2NDQKLS0tIGEvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9vbHMvMDAwMS1jb25kaXRpb25h
+bGx5LWRvLW5vdC1mZXRjaC1jb2RlLWJ5LWVhc3lfaW5zdGFsbC5wYXRjaAorKysgYi9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29scy8wMDAxLWNvbmRpdGlvbmFs
+bHktZG8tbm90LWZldGNoLWNvZGUtYnktZWFzeV9pbnN0YWxsLnBhdGNoCkBAIC0xLDQgKzEsNCBA
+QAotRnJvbSBhMGUwODczYThlZTY2NzRkNDNlNjA0ZDY2YmY2NmQ5NGZjOGVlYjZmIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQorRnJvbSBjZDlmYmE5ODUyZGJjYTNkNmE4ZmY3ZDc2NzMxMmVmYmMx
+ZTNjNWQxIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogSG9uZ3h1IEppYSA8aG9uZ3h1
+LmppYUB3aW5kcml2ZXIuY29tPgogRGF0ZTogVHVlLCAxNyBKdWwgMjAxOCAxMDoxMzozOCArMDgw
+MAogU3ViamVjdDogW1BBVENIXSBjb25kaXRpb25hbGx5IGRvIG5vdCBmZXRjaCBjb2RlIGJ5IGVh
+c3lfaW5zdGFsbApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
+b24zLXNldHVwdG9vbHNfNjUuNS4xLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
+eXRob24zLXNldHVwdG9vbHNfNjUuNi4zLmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBm
+cm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzXzY1LjUu
+MS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVw
+dG9vbHNfNjUuNi4zLmJiCmluZGV4IDhkYzcyNGU1NWEuLmE4YmNiM2E2MDIgMTAwNjQ0Ci0tLSBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzXzY1LjUuMS5i
+YgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29sc182
+NS42LjMuYmIKQEAgLTExLDcgKzExLDcgQEAgU1JDX1VSSTphcHBlbmQ6Y2xhc3MtbmF0aXZlID0g
+IiBmaWxlOi8vMDAwMS1jb25kaXRpb25hbGx5LWRvLW5vdC1mZXRjaC1jb2RlLWJ5LWUKIFNSQ19V
+UkkgKz0gImZpbGU6Ly8wMDAxLWNoYW5nZS1zaGViYW5nLXRvLXB5dGhvbjMucGF0Y2ggXAogICAg
+ICAgICAgICAgZmlsZTovLzAwMDEtX2Rpc3R1dGlscy1zeXNjb25maWcucHktbWFrZS1pdC1wb3Nz
+aWJsZS10by1zdWJzdGl0ZS5wYXRjaCIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImUxOTdhMTlh
+YThlYzk3MjI5MjhmMjIwNmY4ZGU3NTJkZWYwZTRjOWZjNjk1MzUyNzM2MGQxYzM2ZDk0ZGRiMmYi
+CitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYTc2MjA3NTdiZjk4NGI1OGRlYWYzMmZjOGE0NTc3YTli
+YmMwODUwY2Y5MmMyMGUxY2U0MWMzOGMxOWU1ZmI3NSIKIAogREVQRU5EUyArPSAiJHtQWVRIT05f
+UE59IgogCi0tIAoyLjM3LjMKCg==
+
+--===============5235466171213525639==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/python3-setuptools: PV changed from "65.5.1" to "65.6.3"
+packages/core2-32-poky-linux/python3-setuptools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-65.5.1.tar.gz file://0001-change-shebang-to-python3.patch file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch" to "https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-65.6.3.tar.gz file://0001-change-shebang-to-python3.patch file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
+packages/core2-32-poky-linux/python3-setuptools: PKGV changed from 65.5.1 [default] to 65.6.3 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-pkg-resources: PV changed from "65.5.1" to "65.6.3"
+packages/core2-32-poky-linux/python3-setuptools/python3-pkg-resources: PKGV changed from 65.5.1 [default] to 65.6.3 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-dbg: PV changed from "65.5.1" to "65.6.3"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-dbg: PKGV changed from 65.5.1 [default] to 65.6.3 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-dev: PV changed from "65.5.1" to "65.6.3"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-dev: PKGV changed from 65.5.1 [default] to 65.6.3 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-doc: PV changed from "65.5.1" to "65.6.3"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-doc: PKGV changed from 65.5.1 [default] to 65.6.3 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-locale: PV changed from "65.5.1" to "65.6.3"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-locale: PKGV changed from 65.5.1 [default] to 65.6.3 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-src: PV changed from "65.5.1" to "65.6.3"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-src: PKGV changed from 65.5.1 [default] to 65.6.3 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-staticdev: PV changed from "65.5.1" to "65.6.3"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-staticdev: PKGV changed from 65.5.1 [default] to 65.6.3 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools: PV changed from "65.5.1" to "65.6.3"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools: PKGV changed from 65.5.1 [default] to 65.6.3 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools: FILELIST: directory renamed /usr/lib/python3.11/site-packages/setuptools-65.5.1.dist-info -> /usr/lib/python3.11/site-packages/setuptools-65.6.3.dist-info, added "/usr/lib/python3.11/site-packages/setuptools/_distutils/_log.py /usr/lib/python3.11/site-packages/setuptools/_distutils/__pycache__/_log.cpython-311.pyc"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools: PKGSIZE changed from 6071920 to 6076889 (+0%)
+Changes to packages/core2-32-poky-linux/python3-setuptools (sysroot):
+  /usr/lib/python3.11/site-packages/setuptools-65.5.1.dist-info moved to /usr/lib/python3.11/site-packages/setuptools-65.6.3.dist-info
+  /usr/lib/python3.11/site-packages/setuptools/_distutils/_log.py was added
+  /usr/lib/python3.11/site-packages/setuptools/_distutils/__pycache__/_log.cpython-311.pyc was added
+Changes to packages/x86_64-linux/python3-setuptools-native (sysroot):
+  /usr/lib/python3.11/site-packages/setuptools-65.5.1.dist-info moved to /usr/lib/python3.11/site-packages/setuptools-65.6.3.dist-info
+  /usr/lib/python3.11/site-packages/setuptools/_distutils/_log.py was added
+
+--===============5235466171213525639==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools: FILELIST: directory renamed /usr/lib/python3.11/site-packages/setuptools-65.5.1.dist-info -> /usr/lib/python3.11/site-packages/setuptools-65.6.3.dist-info, added "/usr/lib/python3.11/site-packages/setuptools/_distutils/__pycache__/_log.cpython-311.pyc /usr/lib/python3.11/site-packages/setuptools/_distutils/_log.py"
+Changes to packages/core2-32-poky-linux/python3-setuptools (sysroot):
+  /usr/lib/python3.11/site-packages/setuptools-65.5.1.dist-info moved to /usr/lib/python3.11/site-packages/setuptools-65.6.3.dist-info
+  /usr/lib/python3.11/site-packages/setuptools/_distutils/_log.py was added
+  /usr/lib/python3.11/site-packages/setuptools/_distutils/__pycache__/_log.cpython-311.pyc was added
+Changes to packages/x86_64-linux/python3-setuptools-native (sysroot):
+  /usr/lib/python3.11/site-packages/setuptools-65.5.1.dist-info moved to /usr/lib/python3.11/site-packages/setuptools-65.6.3.dist-info
+  /usr/lib/python3.11/site-packages/setuptools/_distutils/_log.py was added
+
+--===============5235466171213525639==--
 
