@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EDDCC7115A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 111BFC71159
 	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 20:32:36 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.144494.1671136350880845425
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.144489.1671136350181511172
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Dec 2022 12:32:30 -0800
+ Thu, 15 Dec 2022 12:32:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Uy8adcPE;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010185177d0fd9-b3808f65-bed2-46d7-95f8-8464fab1c6fb-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=dTYzyVmA;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010185177d1215-fea2701a-f986-4b99-a4f3-5490bb61de38-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1671136350;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=fvBDmu9EIJiuGRotouylRqSt0j+iNbciYxF1yhgGRDA=;
-	b=Uy8adcPEFdpbekjqcJ8Y8nzamjk1v82KMGwdwZqAatKAgUY3pkEpuCYcIt/XrSgj
-	/2bY2u+9izgKpK4CCLcOEHDPA6McDmv6XW3nQQaQGXWhkHr3PfWkj80DwPkO1zSXyDL
-	26wgyOmYZZNboTXmQWLpq9nGqh9UcHN7JVpihW2k=
+	bh=WEEam+S6T1wqg7wxMUncNIIaqsAO0qsOoio1MfBKvis=;
+	b=dTYzyVmAtRV7lyfOf5zJGYBbJI9fBUGBBhNaHDQxoEM+xmn9c0fPfXqqiqwo9RBj
+	jtGg1+7CgMgggTZViPPmPajLHw62dnM4oswVJLUhdJ2DHBydXoVpu+9jXHCcu+UYbUx
+	iyMZeI8+Rrp2QDEEyIkHhu51vlka7LZzbJ+hgKo8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1671136350;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=fvBDmu9EIJiuGRotouylRqSt0j+iNbciYxF1yhgGRDA=;
-	b=XtxEV7luZaatOVN0rMxkd0OhB09d7j+uVZpJ5VdnOUY6JnchB5HK1AgTZKfjOiXo
-	ig3JwSF/8kChWuGqdSKoGEcWL1TFUtUN7ANVFdzOcfLF7bD0qbpCqy9tWIRKrHEfoTa
-	J34Ca1Wuqayhsidubl7pKMRYtNoRpECBR6eq78rk=
-Content-Type: multipart/mixed; boundary="===============0064985829447564155=="
+	bh=WEEam+S6T1wqg7wxMUncNIIaqsAO0qsOoio1MfBKvis=;
+	b=F2SnF8o6bWlauIMeQIxIGQmihF65vViC7g68o1iabB6SHk7Ac9Nm9VZ2EgCzi9Yw
+	YbXEg2fmuMMDWgDYjFcjUGQbr581hFbe/p6p73pOqQ88ANigrYN6s1qsbfbRjD0SMof
+	o6hLJm1vDb2OkXZ8cfqdIkfHJ0AYwBkA7Z6Pviks=
+Content-Type: multipart/mixed; boundary="===============0516421440416188449=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] go: upgrading to 1.19.4 FAILED
-Message-ID: <01010185177d0fd9-b3808f65-bed2-46d7-95f8-8464fab1c6fb-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-chardet: upgrading to 5.1.0 FAILED
+Message-ID: <01010185177d1215-fea2701a-f986-4b99-a4f3-5490bb61de38-000000@us-west-2.amazonses.com>
 Date: Thu, 15 Dec 2022 20:32:30 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.12.15-54.240.27.191
+X-SES-Outgoing: 2022.12.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 20:32:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174630
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174633
 
---===============0064985829447564155==
+--===============0516421440416188449==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,7 +50,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *go* to *1.19.4* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe *python3-chardet* to *5.1.0* has Failed(do_compile).
 
 Detailed error information:
 
@@ -59,7 +59,7 @@ do_compile failed
 
 
 Next steps:
-    - apply the patch: git am 0001-go-upgrade-1.19.3-1.19.4.patch
+    - apply the patch: git am 0001-python3-chardet-upgrade-5.0.0-5.1.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,41 +75,38 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============0064985829447564155==
+--===============0516421440416188449==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-go-upgrade-1.19.3-1.19.4.patch"
+ filename="0001-python3-chardet-upgrade-5.0.0-5.1.0.patch"
 
-RnJvbSA0ZDY4MWI4ZjAwMmY5YTc2NjM0YjEzMmEyNWZlNmE2YmQyNTJkOTYzIE1vbiBTZXAgMTcg
+RnJvbSBkNzM1NmJkNWVmMDk5ODY5NDE0YWI0MzM0M2MxZDk5MjczYjYyYzk1IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgRGVjIDIwMjIgMDk6MjE6NDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-bzogdXBncmFkZSAxLjE5LjMgLT4gMS4xOS40CgotLS0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9n
-by97Z28tMS4xOS4zLmluYyA9PiBnby0xLjE5LjQuaW5jfSB8IDIgKy0KIG1ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9nby97Z29fMS4xOS4zLmJiID0+IGdvXzEuMTkuNC5iYn0gICB8IDAKIDIgZmlsZXMg
-Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvZ28ve2dvLTEuMTkuMy5pbmMgPT4gZ28tMS4xOS40LmluY30gKDg5JSkKIHJl
-bmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ28ve2dvXzEuMTkuMy5iYiA9PiBnb18xLjE5LjQu
-YmJ9ICgxMDAlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nby0xLjE5
-LjMuaW5jIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dvL2dvLTEuMTkuNC5pbmMKc2ltaWxhcml0
-eSBpbmRleCA4OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dvL2dvLTEuMTku
-My5pbmMKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nby0xLjE5LjQuaW5jCmlu
-ZGV4IDEyNDVmYWJhOTMuLjQ5MzQ5YmE2ZWMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9nby9nby0xLjE5LjMuaW5jCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nby0x
-LjE5LjQuaW5jCkBAIC0xNSw0ICsxNSw0IEBAIFNSQ19VUkkgKz0gIlwKICAgICBmaWxlOi8vMDAw
-MS1zcmMtY21kLWRpc3QtYnVpbGRnby5nby1kby1ub3QtaGFyZGNvZGUtaG9zdC1jb21waWxlLnBh
-dGNoIFwKICAgICBmaWxlOi8vZmlsdGVyLWJ1aWxkLXBhdGhzLnBhdGNoIFwKICIKLVNSQ19VUklb
-bWFpbi5zaGEyNTZzdW1dID0gIjE4YWMyNjNlMzkyMTBiY2Y2OGQ4NWY0MzcwZTk3ZmIxNzM0MTY2
-OTk1YTFmNjNmYjM4YjRmNmUwN2Q5MGQyMTIiCitTUkNfVVJJW21haW4uc2hhMjU2c3VtXSA9ICJl
-ZGE3NGRiNGFjNDk0ODAwYTNlNjZlZTc4NGU0OTViZmJiOWI4ZTUzNWRmOTI0YThiMDFiMWE4MDI4
-YjdmMzY4IgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dvL2dvXzEuMTkuMy5i
-YiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nb18xLjE5LjQuYmIKc2ltaWxhcml0eSBpbmRl
-eCAxMDAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nb18xLjE5LjMuYmIK
-cmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nb18xLjE5LjQuYmIKLS0gCjIuMzcu
-MwoK
+CkRhdGU6IFRodSwgMTUgRGVjIDIwMjIgMTA6MDE6MjEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWNoYXJkZXQ6IHVwZ3JhZGUgNS4wLjAgLT4gNS4xLjAKCi0tLQogLi4uL3tweXRob24z
+LWNoYXJkZXRfNS4wLjAuYmIgPT4gcHl0aG9uMy1jaGFyZGV0XzUuMS4wLmJifSAgICAgIHwgMiAr
+LQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUg
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1jaGFyZGV0XzUuMC4wLmJiID0+
+IHB5dGhvbjMtY2hhcmRldF81LjEuMC5iYn0gKDg2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2hhcmRldF81LjAuMC5iYiBiL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jaGFyZGV0XzUuMS4wLmJiCnNpbWlsYXJpdHkgaW5k
+ZXggODYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1j
+aGFyZGV0XzUuMC4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
+dGhvbjMtY2hhcmRldF81LjEuMC5iYgppbmRleCA4MGJhZWQ3OTg2Li4wMTM5MTc1YjQ5IDEwMDY0
+NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2hhcmRldF81LjAu
+MC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2hhcmRldF81
+LjEuMC5iYgpAQCAtMyw3ICszLDcgQEAgSE9NRVBBR0UgPSAiaHR0cHM6Ly9weXBpLm9yZy9wcm9q
+ZWN0L2NoYXJkZXQvIgogTElDRU5TRSA9ICJMR1BMLTIuMS1vbmx5IgogTElDX0ZJTEVTX0NIS1NV
+TSA9ICJmaWxlOi8vTElDRU5TRTttZDU9NGZiZDY1MzgwY2RkMjU1OTUxMDc5MDA4YjM2NDUxNmMi
+CiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIwMzY4ZGYyYmZkNzhiNWZjMjA1NzJiYjRlOWJiN2Zi
+NTNlMmMwOTRmNjBhZTk5OTMzMzllODY3MWQwYWZiOGFhIgorU1JDX1VSSVtzaGEyNTZzdW1dID0g
+IjBkNjI3MTJiOTU2YmMxNTRmODVmYjBhMjY2ZTJhM2M1OTEzYzI5NjdlMDAzNDg3MDFiMzI0MTFk
+NmRlZjMxZTUiCiAKICMgc2V0dXAucHkgb2YgY2hhcmRldCBuZWVkcyB0aGlzLgogREVQRU5EUyAr
+PSAiJHtQWVRIT05fUE59LXB5dGVzdC1ydW5uZXItbmF0aXZlIgotLSAKMi4zNy4zCgo=
 
---===============0064985829447564155==
+--===============0516421440416188449==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -117,12 +114,78 @@ Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
 
 WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...
+Loaded 1672 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 888 .bb files complete (887 cached, 1 parsed). 1672 targets, 37 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:c7405cb3aae892ac73a455f8bc83fb11f2af7fc1"
+workspace            = "master:46fd76aa07bd431f0ba73bdafeb7bf5aa31cef25"
+
+Initialising tasks...done.
+Sstate summary: Wanted 86 Local 79 Mirrors 0 Missed 7 Current 223 (91% match, 97% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 970 of 1183 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_fetch)
+NOTE: recipe python3-chardet-5.1.0-r0: task do_fetch: Started
+NOTE: recipe python3-chardet-5.1.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1170 of 1183 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_unpack)
+NOTE: Running task 1171 of 1183 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-chardet-5.1.0-r0: task do_unpack: Started
+NOTE: recipe python3-chardet-5.1.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-chardet-5.1.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1172 of 1183 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_patch)
+NOTE: recipe python3-chardet-5.1.0-r0: task do_patch: Started
+NOTE: recipe python3-chardet-5.1.0-r0: task do_patch: Succeeded
+NOTE: Running task 1173 of 1183 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1174 of 1183 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_populate_lic)
+NOTE: recipe python3-chardet-5.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-chardet-5.1.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-chardet-5.1.0-r0: task do_populate_lic: Started
+NOTE: recipe python3-chardet-5.1.0-r0: task do_populate_lic: Succeeded
+NOTE: recipe python3-chardet-5.1.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1175 of 1183 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_configure)
+NOTE: recipe python3-chardet-5.1.0-r0: task do_configure: Started
+NOTE: recipe python3-chardet-5.1.0-r0: task do_configure: Succeeded
+NOTE: Running task 1176 of 1183 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_compile)
+NOTE: recipe python3-chardet-5.1.0-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-chardet/5.1.0-r0/recipe-sysroot-native/usr/bin/python3-native/python3: can't open file '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-chardet/5.1.0-r0/chardet-5.1.0/setup.py': [Errno 2] No such file or directory
+| ERROR: 'python3 setup.py bdist_wheel ' execution failed.
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-chardet/5.1.0-r0/temp/run.do_compile.567405:180 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-chardet/5.1.0-r0/temp/run.do_compile.567405, line 180
+| 	#2: setuptools3_do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-chardet/5.1.0-r0/temp/run.do_compile.567405, line 170
+| 	#3: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-chardet/5.1.0-r0/temp/run.do_compile.567405, line 152
+| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-chardet/5.1.0-r0/temp/run.do_compile.567405, line 184
+NOTE: recipe python3-chardet-5.1.0-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 1176 tasks of which 1168 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_compile
 Summary: There was 1 WARNING message.
 Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: ParseError at /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/go/go-crosssdk_1.19.3.bb:2: Could not include required file go-1.19.3.inc
-ERROR: Parsing halted due to errors, see error messages above
+ERROR: python3-chardet-5.1.0-r0 do_compile: 'python3 setup.py bdist_wheel ' execution failed.
+ERROR: python3-chardet-5.1.0-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-chardet/5.1.0-r0/temp/run.do_compile.567405', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-chardet/5.1.0-r0/temp/log.do_compile.567405
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_compile) failed with exit code '1'
 
---===============0064985829447564155==--
+--===============0516421440416188449==--
 
