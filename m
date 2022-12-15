@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 179BBC3DA79
-	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 19:21:44 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web11.143564.1671132082168738641
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3BA1C4332F
+	for <webhook@archiver.kernel.org>; Thu, 15 Dec 2022 19:21:53 +0000 (UTC)
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web10.142670.1671132111896010736
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Dec 2022 11:21:36 -0800
+ Thu, 15 Dec 2022 11:21:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=dyQjgIPX;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.43, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f43.google.com with SMTP id u15-20020a17090a3fcf00b002191825cf02so127704pjm.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 11:21:36 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=VD2mh6Y/;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.54, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f54.google.com with SMTP id gt4so178636pjb.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 11:21:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=OkLLvecsjgY06UrWyRQQAZdLZOAIdUSrn76jy7SEIXA=;
-        b=dyQjgIPXR45jivXn/9K0SbqwNflQYdnNNV7iCrpDyYxOTkSIwZ7nyPXV/Ay1Im8r4H
-         qaptbQ5+T1LS02Ezk5jd0iIhbl8s4J1vcFFius47s4xdtaI0Iv6GDqFw7k7vv2bL0l2L
-         KCKdif1hwJXYLx0xklQItgmTg9UkVjR7I8C9wnrZ8jWN00EXFryHvhJcbkO2wL4Hv4fe
-         cxDMDZn9s7uLVNyRMIIDjWiM3AzLQOzzGAxmtthZzdpjW5xN1I4oMDSQVV4L2Gmw6oU5
-         t8jxoBlZC0aKl2fvHdvqOAPwMXJBgjMKdJ4F9W7Oko78MlArxk6rP/2A2smA8E859LzC
-         NUtA==
+        bh=3KcD1dMWsiDajC8BK/vr3ezOCC8BWL15oMjGCa6+4IU=;
+        b=VD2mh6Y/LYAjfe8Cp+dKfHczxJv1L54VqYLExCBWxT2R8VxXFr7kbcufb53pDLuufV
+         qfZxcEVaEiAxFQHg4RvodxvXTEFD5SNV5djTQpQBdXcImQyKl29Z/OtrIA0PCsXqvo1R
+         3jSABIL/zlKoaQVgmFXTZ4CzPkaw/x2pVRp2R/DfkeQyWpbiQRNOHhWYCfUo4yFMbzx5
+         3lz/SMnIK1j3ixmPgEcWJoepZgJ/q0NdUi6GWCseur2U5gyFBWnLpJZMMf2XRUN8Q4It
+         t8S9qLSCssvFV3BE7MsMHwwLB0bWG5zc/wpLJ5jmWdEstthDmfS+Fvvd6TBYGg0xhWfs
+         6PVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OkLLvecsjgY06UrWyRQQAZdLZOAIdUSrn76jy7SEIXA=;
-        b=vSBZ+74bxaoR/JZ2PYBOe7DB+UUhKwI2/PpmRG/XQrc1CxCZetdzwGi7JH4u/ngJVu
-         D02wyATo+KJi5XrWv5+8qlh83cBdtaGY0KTVJAy8W3oQHLBb6l3p8kr8nEVaOlgu5BVE
-         xOIInljC22ppuj0AUmbddbl9qFbN3wDTiIvyjPnVHtJwlfaAIx81khiWOX+gqaG+1/Fm
-         o6QZETX3tqQjCXYYz2MMCuuKqCOXqInxcjp4bXq07J5X0Do2d49vnJEVjA/XT0gntzLH
-         pdcSr2jvc5cqVFnyXQxrirHM97eEctqxRzbP1xrNVsMyycjoVfflgnO1b8D2Y3NhN3Vl
-         9fvw==
-X-Gm-Message-State: ANoB5pkwYgYwPnuTbAgijTnC0lvc+CR9MFoEDmboPCy3L5Ack2mu7kGM
-	GkfI65cSd+3Mq2P8BoKQwtzg+/jXHti5yHD7kU8=
-X-Google-Smtp-Source: AA0mqf7iXxcZExRP1wU4x52ykLd9YTs8gcxv1LqrvJ2+jd4Zaq8wiEvdOo1HUlV/OBP+4AgDb1RBdg==
-X-Received: by 2002:a17:902:d3d3:b0:189:cc58:77a8 with SMTP id w19-20020a170902d3d300b00189cc5877a8mr28594910plb.46.1671132095884;
-        Thu, 15 Dec 2022 11:21:35 -0800 (PST)
+        bh=3KcD1dMWsiDajC8BK/vr3ezOCC8BWL15oMjGCa6+4IU=;
+        b=Dmo/QX5yloDopgilcuilGCP/hG1GakJHMAoPL0D1WialM/myoHPaRvSeN1oL12LQOw
+         SP1B8E9Kq0048mg5plGLAGlITDHBaWZ2741Ee8xD8PzgT8Dx8Yz0dZL+uOILOvL+Zd9e
+         lpMXxbU7A/ixvO7Qt9LIP/qW91e2l0+azsObYiKD+C0ai+t+m+lDDCeWdfUuuPxa8rMe
+         D0RS46aXjOjYq/AK/Q42hx/42OsATmUmCoHnB2Y3uDbMp3+SAFw5h00EH6i7+HYuXtBx
+         L4iJKlEW6eBE4rB+URAyIGHGNCAKA3TZjaltzWeeTelI5JgEYgsX9wtLoogXbKpN5iHN
+         hm+A==
+X-Gm-Message-State: ANoB5pnn3ScLN6N6DZ33IoJVG9WUXvbe4ickcqZW8jMb+JYIYxuAQ/99
+	goSXHP/8wxvvRHWI+vlPdyAhgmFzymbtv80NF20=
+X-Google-Smtp-Source: AA0mqf7EH7E1goYtpJgTMkq1sm8OyWwd48UM3SiAopeiZ/dFhTRtXLc6BH5PXP5UP4Tvc7HDVYJfPw==
+X-Received: by 2002:a17:903:40ce:b0:189:c83f:d5 with SMTP id t14-20020a17090340ce00b00189c83f00d5mr32056287pld.52.1671132110905;
+        Thu, 15 Dec 2022 11:21:50 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id r19-20020a170902c61300b001869b988d93sm4167095plr.187.2022.12.15.11.21.35
+        by smtp.gmail.com with ESMTPSA id r19-20020a170902c61300b001869b988d93sm4167095plr.187.2022.12.15.11.21.50
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Dec 2022 11:21:35 -0800 (PST)
+        Thu, 15 Dec 2022 11:21:50 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 20/30] qemu: Ensure libpng dependency is deterministic
-Date: Thu, 15 Dec 2022 09:20:44 -1000
-Message-Id: <a52aee0dae884aaff6857490df4865e033dd39df.1671122751.git.steve@sakoman.com>
+Subject: [OE-core][langdale 29/30] combo-layer: add sync-revs command
+Date: Thu, 15 Dec 2022 09:20:53 -1000
+Message-Id: <3f297420eadf107bb19e71322e34b8aef2623e04.1671122751.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1671122751.git.steve@sakoman.com>
 References: <cover.1671122751.git.steve@sakoman.com>
@@ -60,35 +60,77 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 19:21:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174612
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Dec 2022 19:21:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174621
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Ross Burton <ross.burton@arm.com>
 
-If the host has libpng, because of the way we handle the GL dependency in qemu,
-it can cause determinism issues. Add a specific PACKAGECONFIG entry for libpng
-to avoid this (and the associated autobuilder/uninative glibc symbol mismatch
-failures).
+When starting to use combo-layer, or if someone else is using it too,
+the local last_revision may be incorrect.
 
+This command will forcibly update the last_revision config values to the
+latest SHA on the remote branch that is tracked.
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 34afdd0bf5e2810d440bcd378ba1023159c2b2d0)
+(cherry picked from commit 2bb5d12ecd1b0273983f7c05699f34dd64b11c25)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/combo-layer | 27 +++++++++++++++++++++++----
+ 1 file changed, 23 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 55aced9f9a..0b24540bf9 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -148,6 +148,7 @@ PACKAGECONFIG:remove:darwin = "kvm virglrenderer epoxy gtk+"
- PACKAGECONFIG:remove:mingw32 = "kvm virglrenderer epoxy gtk+"
+diff --git a/scripts/combo-layer b/scripts/combo-layer
+index e467f390c1..7f2020fca7 100755
+--- a/scripts/combo-layer
++++ b/scripts/combo-layer
+@@ -191,6 +191,23 @@ def runcmd(cmd,destdir=None,printerr=True,out=None,env=None):
+     logger.debug("output: %s" % output.replace(chr(0), '\\0'))
+     return output
  
- PACKAGECONFIG[sdl] = "--enable-sdl,--disable-sdl,libsdl2"
-+PACKAGECONFIG[png] = "--enable-png,--disable-png,libpng"
- PACKAGECONFIG[virtfs] = "--enable-virtfs --enable-attr --enable-cap-ng,--disable-virtfs,libcap-ng attr,"
- PACKAGECONFIG[aio] = "--enable-linux-aio,--disable-linux-aio,libaio,"
- PACKAGECONFIG[uring] = "--enable-linux-io-uring,--disable-linux-io-uring,liburing"
++def action_sync_revs(conf, args):
++    """
++    Update the last_revision config option for each repo with the latest
++    revision in the remote's branch. Useful if multiple people are using
++    combo-layer.
++    """
++    repos = get_repos(conf, args[1:])
++
++    for name in repos:
++        repo = conf.repos[name]
++        ldir = repo['local_repo_dir']
++        branch = repo.get('branch', "master")
++        runcmd("git fetch", ldir)
++        lastrev = runcmd('git rev-parse origin/%s' % branch, ldir).strip()
++        print("Updating %s to %s" % (name, lastrev))
++        conf.update(name, "last_revision", lastrev)
++
+ def action_init(conf, args):
+     """
+         Clone component repositories
+@@ -1301,6 +1318,7 @@ actions = {
+     "update": action_update,
+     "pull": action_pull,
+     "splitpatch": action_splitpatch,
++    "sync-revs": action_sync_revs,
+ }
+ 
+ def main():
+@@ -1311,10 +1329,11 @@ def main():
+ Create and update a combination layer repository from multiple component repositories.
+ 
+ Action:
+-  init                 initialise the combo layer repo
+-  update [components]  get patches from component repos and apply them to the combo repo
+-  pull [components]    just pull component repos only
+-  splitpatch [commit]  generate commit patch and split per component, default commit is HEAD""")
++  init                   initialise the combo layer repo
++  update [components]    get patches from component repos and apply them to the combo repo
++  pull [components]      just pull component repos only
++  sync-revs [components] update the config file's last_revision for each repository
++  splitpatch [commit]    generate commit patch and split per component, default commit is HEAD""")
+ 
+     parser.add_option("-c", "--conf", help = "specify the config file (conf/combo-layer.conf is the default).",
+                action = "store", dest = "conffile", default = "conf/combo-layer.conf")
 -- 
 2.25.1
 
