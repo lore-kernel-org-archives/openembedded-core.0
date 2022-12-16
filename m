@@ -1,70 +1,94 @@
-Return-Path: <ola.x.nilsson@axis.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49D5BC001B2
-	for <webhook@archiver.kernel.org>; Fri, 16 Dec 2022 11:49:14 +0000 (UTC)
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web11.11247.1671191346898113929
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70243C4332F
+	for <webhook@archiver.kernel.org>; Fri, 16 Dec 2022 12:06:44 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web10.11230.1671192403391943337
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Dec 2022 03:49:07 -0800
+ Fri, 16 Dec 2022 04:06:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=DR0rPH3f;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: ola.x.nilsson@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=VuXQ2VJ9;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id o5so2300049wrm.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 16 Dec 2022 04:06:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1671191347;
-  x=1702727347;
-  h=references:from:to:cc:subject:date:in-reply-to:
-   message-id:mime-version;
-  bh=tyINQZgFwUVtdM7ir5IiDDdyB3Zi10VDLZbsfHWvQVA=;
-  b=DR0rPH3fQ6UMNBPU3yZ3Vw15fuQHtUV6UVWC7/MIn3cjML5gN+qzHRt3
-   Ev/v3zxHhZrzf6i06t8nt9iDZSXQQmuEAy+O5+0AY459A3W/jgb1kh5OH
-   SDuugFPeJiDErffqVIdsQx5kFaP1k1QMUHkAmuS1M4PPexBzN9RipBqw7
-   xuTyn2t7wVSQtghhJc3NKsChGkLqlEEaS0HsOjLQHMSPVQ8TH4Z5nFTnF
-   8KrWdxVA2kOCkf+TOSTrsvjiAQrPGqV3SuSWjQbeKKbgYGYCVr062XuC+
-   eDJ6leqpKz6T2X1/728Af37x9DMWcDswiS/um7SJJO7tFWHJQpzE7HjTs
-   g==;
-References: <20221216114650.854563-1-olani@axis.com>
-User-agent: mu4e 1.8.8; emacs 29.0.60
-From: Ola x Nilsson <ola.x.nilsson@axis.com>
-To: Ola x Nilsson <Ola.x.Nilsson@axis.com>
-CC: <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] v2: Y2038: Sanity checker for non-64-bit time and
- file functions
-Date: Fri, 16 Dec 2022 12:47:50 +0100
-Organization: Axis Communications AB
-In-Reply-To: <20221216114650.854563-1-olani@axis.com>
-Message-ID: <jwqwn6ra7ri.fsf@axis.com>
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zdKs7yWMcO61O9IJ6bflzBIAovOW96mC/HmREdBbM2o=;
+        b=VuXQ2VJ9/PUfzq/NMVmA0nzbuXwfHCqvLnQfLzDanmusTSQwbpcn7TXK1IdkW5sc18
+         OsB77rOpEfvXNXwwg23CpHVpQIlY1X9bt4mEmV/lthAcyYxIryLKEqSC2l/ChJ/lvvHR
+         F7dRGSCuuvf7qIwv4Ha2uLDoRCqQS8QmLmAhkSRck39L0YW3cpsJWBS60yAVlMx08+nm
+         vEux/Up8U1ryMqMOQZHKG5nXCkRvITNHUmuzcNIOylYZd9odNHkZpNwFyxSNEFWLaG+0
+         GqlkbSRvcJQlzZRpB6PyC54gB3K2krCP94kwiHna9Ek6YOJ7/Bm/BCic7lxxovcQHtVx
+         18og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zdKs7yWMcO61O9IJ6bflzBIAovOW96mC/HmREdBbM2o=;
+        b=hlGOjXH5dD6E3SKOFtE/sUqYhtEg1rbqoBUju7R77zRQL+w77Ka1+1VCrVnbN1IEYp
+         l6kikaU4ZDMd/XmpSjvlRQHhRF73+k9PxYtZHBsdq7Kpp7ed8LTrvuKDhdB2tsmFb+Px
+         xxanRHMDmV0IM9P/dfwFfEu/BC7S8QJseEwJAxv7bZcoIpcT79AAcgZ/rnvwcx9ZH6o6
+         DkHi8Rz6lQNA52iWV7jR/BHAhr7qVIXrTcrdAP0kzZFaxwivpL+v6wKYMVjQUqOZfPZx
+         7kRobRY53FZBSo7cFV9ADQHKf0Gwn1j7VagymCTX2VQAbuXCdzQIUQxiVYQ/PWN5xJKC
+         peHA==
+X-Gm-Message-State: ANoB5plmZVfJUEly9kRhK5d3VxZUimBkZaHKfQLn1MhP8J5q2RqPp/WL
+	njek/J4WFtR8xDicj3IOp60SC1eDmDg=
+X-Google-Smtp-Source: AA0mqf6OFra5vmSagd9ZQP9AIsGF7A9FXm8MC0mT/eEFaIIN9UII+ix3VUmALCBrgYYLjDicvEhXkQ==
+X-Received: by 2002:a5d:5b1c:0:b0:242:1bdf:a02 with SMTP id bx28-20020a5d5b1c000000b002421bdf0a02mr22574486wrb.37.1671192401387;
+        Fri, 16 Dec 2022 04:06:41 -0800 (PST)
+Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net. [91.135.6.246])
+        by smtp.gmail.com with ESMTPSA id bt19-20020a056000081300b002302dc43d77sm2074661wrb.115.2022.12.16.04.06.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Dec 2022 04:06:40 -0800 (PST)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alex Kiernan <alex.kiernan@gmail.com>
+Subject: [OE-Core][PATCH 1/2] rust: Install target.json for target rustc
+Date: Fri, 16 Dec 2022 12:06:31 +0000
+Message-Id: <20221216120632.5804-1-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Dec 2022 11:49:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174740
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Dec 2022 12:06:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174741
 
+As part of the merging builds, installation of target.json was lost
+causing `rustc` to fail on startup with:
 
-On Fri, Dec 16 2022, Ola x Nilsson wrote:
+  error: Error loading target specification: Could not find specification for target "aarch64-poky-linux-gnu". Run `rustc --print target-list` for a list of built-in targets
 
-> v2:
->
-> Renamed conf/distro/time64.conf -> conf/distro/time64.inc
-> Use SITEINFO_BITS to select when to apply GLIBC_64BIT_TIME_FLAGS.
->
->
-> I did not add _LARGEFILE to the option yet as I do not believe it is
-> the right place.
-> The _TIME_BITS=64 and _FILE_OFFSET_BITS=64 option redefine types and
-> functions.  The _LARGEFILE* options add new types and functions.  The
-> purpose of the time64.inc file is to enforce the redefinition of
-> time_t and other types in code that has not bothered before.  The
-> _LARGEFILE* options should probably only be used by code that has
-> explicitly chosen to use these glibc extensions, possible configured
-> by autoconf.
+We know the full target specification, so just install it directly
+rather than using the glob approach from previously.
 
-I'm working on time64 support in pulseaudio at the moment.  If anyone
-else has started on pulseaudio I can move on to something else. 
+Fixes: b9b0cd99cdc7 ("rust: Enable nativesdk and target builds + replace rust-tools-cross-canadian")
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+---
+ meta/recipes-devtools/rust/rust_1.65.0.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
+diff --git a/meta/recipes-devtools/rust/rust_1.65.0.bb b/meta/recipes-devtools/rust/rust_1.65.0.bb
+index dbf74cec8feb..b39f772c5fe1 100644
+--- a/meta/recipes-devtools/rust/rust_1.65.0.bb
++++ b/meta/recipes-devtools/rust/rust_1.65.0.bb
+@@ -68,6 +68,9 @@ rust_do_install:class-target() {
+         chrpath -r "\$ORIGIN/../lib" ${D}${bindir}/$i
+     done
+ 
++    install -d ${D}${libdir}/rustlib/${RUST_HOST_SYS}
++    install -m 0644 ${WORKDIR}/rust-targets/${RUST_HOST_SYS}.json ${D}${libdir}/rustlib/${RUST_HOST_SYS}/target.json
++
+     chown root:root ${D}/ -R
+     rm ${D}${libdir}/rustlib/uninstall.sh
+     rm ${D}${libdir}/rustlib/install.log
 -- 
-Ola x Nilsson
+2.39.0
+
 
