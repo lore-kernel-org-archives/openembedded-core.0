@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18AA2C46467
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DC87C3DA71
 	for <webhook@archiver.kernel.org>; Fri, 16 Dec 2022 14:58:15 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web11.15110.1671202682004738349
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web10.14916.1671202691847433743
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Dec 2022 06:58:14 -0800
+ Fri, 16 Dec 2022 06:58:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=y0PIBwok;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id a9so2550190pld.7
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 Dec 2022 06:58:13 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=f86bqcci;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f51.google.com with SMTP id fa4-20020a17090af0c400b002198d1328a0so8875567pjb.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 16 Dec 2022 06:58:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fahoIAAtpI175Nln87p7HAaV8p4bMtNzGfdx/66zfdI=;
-        b=y0PIBwokb2GTma/TB1luQg/sbGOgcwMc1vtKu4wsuWrvnHKChpG6a9KIY/Qv0FdiXU
-         BlK8NKnrfkr25zBIy7dZ3Cna0EA6ScGkrpm6ntIAle/QOzG0WjnlG5r3lfRI6EfNnHYp
-         D8hvRH1DWUbPvoZB0qW1boeVnpbNb7Ob/NKi5Ps0AS9mF1+osx3nAOsuffrweIfh6/HC
-         RLQydW8jZ4CNpq+171S8g2EDZoGja0uTVdbZOkw6D9xN5oUyqu5j/qWJm20Nl7be0vuK
-         UJo26sq66uJonoGzkYK7lSTqav5RtygkbyOKLYP7jHnPaFEmFO+GXYuEXXkvPC9GtRYr
-         8idg==
+        bh=RfPCxcsrb6Z3n71/Grod/lqHPgZJJ4Hn/29JX+YgF08=;
+        b=f86bqcciL4dVaqn9SDjJgFML54iTGaYlCszlHALtDsD7C6ur2rSy236nXkkCrsF0vM
+         vjjfuFme6LV7eRPqR/sAPLk1TGn/HKr8nxmJlKixTb8NIwleDE3beUgVi/AWgvYHwXKN
+         u/F0W+nhM6fTpxkF4D8aIDPl3/KxfIpbp2HAprTavheq5gzWF52CHdesj0PCXjgIj82O
+         RDEtf4kjtelCSMqnPHLoe3iUbsb1RVgkbCTt64qkLV7TaIq5asjko7Ig15IqXwIfIhbN
+         ho1siAEDaoDNpwhuTtub7qnChgPOeN0Hx7JMZ8T14FjjWOIe9Bu9So2TNzJw8CAObbVo
+         4ysg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fahoIAAtpI175Nln87p7HAaV8p4bMtNzGfdx/66zfdI=;
-        b=p5UqKBpkZ4gD98zaxrTrNgiRTA4o2avtmXkhImD8+10JRikEfKLVYePYRx4/uJuBCy
-         yYmot18AdC3k4loIlYtRL2c5wCKKz0vPjDOXgq+z2DiiBSHIOt5cH6R5IGQpG9JpRsRV
-         Idao/kLtPtZfMhZbIHHAsxXTODdYC1zNBqgTQG3bBt7bFuIgzC7+lxwP2TCTdMB+wYI5
-         BF8sSChRxfpootPP73bnwhVYL52SyoGxEdJMlL/K9SS90jr0rFs4uhCFZqOFrarvrfLs
-         aVOZ0WV1383T+LAdHWr8+Ujq8DvQsQRRAxeK3Ya0e7U8yahyLFE8HpOuDj3REPen43qk
-         IPEg==
-X-Gm-Message-State: ANoB5pmfc7eljzrVvFZtM8fIB1V3jrOTtLDBGVFq9UGCn2yRedDA9qTk
-	+XPyP0QRBnZtL2KC1EobCqx2VRwMovtAbidEzQ4=
-X-Google-Smtp-Source: AA0mqf7extqmwjZ+4PhRArwCfR+aSkHBhRXdGSq25rkGYWp+JQbyPaNbkspMF4K68Sz+LWU7WUNyrg==
-X-Received: by 2002:a17:90a:3188:b0:219:3e5f:2a65 with SMTP id j8-20020a17090a318800b002193e5f2a65mr33916218pjb.36.1671202692832;
-        Fri, 16 Dec 2022 06:58:12 -0800 (PST)
+        bh=RfPCxcsrb6Z3n71/Grod/lqHPgZJJ4Hn/29JX+YgF08=;
+        b=Haf1w/Ad0cC/ICB3+AcneotNCcGsJF6aWwjUE41TEEgrQdVIe4q7JIIe4adKnlLNSG
+         V0cCsdkNM1Q0QYMxG9kbxMT1pzo6+KiXGzFsVbsrHsb25dp61I+zE5glokW0sy+XXT5V
+         srxnyCWggv3FX2d36W3LCmxaW9GpYnAbjc2109O+x3s3hDMWOfFUu7mRHqOp7OUGx8WI
+         5E2zF5J9l6m631COP6ElohhXKbZ5m611x6TtdtslNKV6uclBhlT1mZFthi2uvi6jF+RR
+         4SaaAp5Llspe/rcVZHT0HKl5Qjzg9wLdtkFfIaB2hw1nKGi9NHGN2wOHSg3oHCRD+qYY
+         MTSA==
+X-Gm-Message-State: ANoB5pl1URL8nKGbZbxsv9cC508eNUBAtAukc4koCQHjlS19KAa+k1vh
+	tj7WFdcppQPsc2F8ID8u/1IZ6xZNPIX0UwCEzms=
+X-Google-Smtp-Source: AA0mqf6uAcNzC4f/OUayDV2vGuXu4WlM/JhzYtEuvfZJq3qBSnMFdLhJiWa25cvXiOoZMX7JO08T4w==
+X-Received: by 2002:a17:90a:e391:b0:219:89c1:33ed with SMTP id b17-20020a17090ae39100b0021989c133edmr33299588pjz.46.1671202690805;
+        Fri, 16 Dec 2022 06:58:10 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id r21-20020a17090b051500b00219eefe47c7sm1482230pjz.47.2022.12.16.06.58.11
+        by smtp.gmail.com with ESMTPSA id r21-20020a17090b051500b00219eefe47c7sm1482230pjz.47.2022.12.16.06.58.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Dec 2022 06:58:12 -0800 (PST)
+        Fri, 16 Dec 2022 06:58:10 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 07/13] golang: CVE-2022-41715 regexp/syntax: limit memory used by parsing regexps
-Date: Fri, 16 Dec 2022 04:57:46 -1000
-Message-Id: <2470c52db633f206dbfcd049fcca828d1ff5f82a.1671202568.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 06/13] dropbear: fix CVE-2021-36369
+Date: Fri, 16 Dec 2022 04:57:45 -1000
+Message-Id: <c0e44595555a81d1a1cd206c2235cbc419d02bd1.1671202568.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1671202568.git.steve@sakoman.com>
 References: <cover.1671202568.git.steve@sakoman.com>
@@ -61,309 +61,181 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Dec 2022 14:58:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174751
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174750
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-Upstream-Status: Backport from https://github.com/golang/go/commit/e9017c2416ad0ef642f5e0c2eab2dbf3cba4d997
-
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/go/go-1.14.inc          |   1 +
- .../go/go-1.14/CVE-2022-41715.patch           | 271 ++++++++++++++++++
- 2 files changed, 272 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2022-41715.patch
+ meta/recipes-core/dropbear/dropbear.inc       |   1 +
+ .../dropbear/dropbear/CVE-2021-36369.patch    | 145 ++++++++++++++++++
+ 2 files changed, 146 insertions(+)
+ create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2021-36369.patch
 
-diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
-index cec37c1b09..b4a137b8c8 100644
---- a/meta/recipes-devtools/go/go-1.14.inc
-+++ b/meta/recipes-devtools/go/go-1.14.inc
-@@ -49,6 +49,7 @@ SRC_URI += "\
-     file://CVE-2022-24921.patch \
-     file://CVE-2022-28131.patch \
-     file://CVE-2022-28327.patch \
-+    file://CVE-2022-41715.patch \
- "
+diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
+index 026292230c..0f5e9ba4ac 100644
+--- a/meta/recipes-core/dropbear/dropbear.inc
++++ b/meta/recipes-core/dropbear/dropbear.inc
+@@ -29,6 +29,7 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
+            ${@bb.utils.contains('PACKAGECONFIG', 'disable-weak-ciphers', 'file://dropbear-disable-weak-ciphers.patch', '', d)} \
+            file://CVE-2020-36254.patch \
++           file://CVE-2021-36369.patch \
+            "
  
- SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
-diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2022-41715.patch b/meta/recipes-devtools/go/go-1.14/CVE-2022-41715.patch
+ PAM_SRC_URI = "file://0005-dropbear-enable-pam.patch \
+diff --git a/meta/recipes-core/dropbear/dropbear/CVE-2021-36369.patch b/meta/recipes-core/dropbear/dropbear/CVE-2021-36369.patch
 new file mode 100644
-index 0000000000..fac0ebe94c
+index 0000000000..5cabe8339d
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.14/CVE-2022-41715.patch
-@@ -0,0 +1,271 @@
-+From e9017c2416ad0ef642f5e0c2eab2dbf3cba4d997 Mon Sep 17 00:00:00 2001
-+From: Russ Cox <rsc@golang.org>
-+Date: Wed, 28 Sep 2022 11:18:51 -0400
-+Subject: [PATCH] [release-branch.go1.18] regexp: limit size of parsed regexps
++++ b/meta/recipes-core/dropbear/dropbear/CVE-2021-36369.patch
+@@ -0,0 +1,145 @@
++From e10dec82930863e487b22978d3df107274f366b2 Mon Sep 17 00:00:00 2001
++From: Manfred Kaiser <37737811+manfred-kaiser@users.noreply.github.com>
++Date: Thu, 19 Aug 2021 17:37:14 +0200
++Subject: [PATCH] added option to disable trivial auth methods (#128)
 +
-+Set a 128 MB limit on the amount of space used by []syntax.Inst
-+in the compiled form corresponding to a given regexp.
++* added option to disable trivial auth methods
 +
-+Also set a 128 MB limit on the rune storage in the *syntax.Regexp
-+tree itself.
++* rename argument to match with other ssh clients
 +
-+Thanks to Adam Korczynski (ADA Logics) and OSS-Fuzz for reporting this issue.
++* fixed trivial auth detection for pubkeys
 +
-+Fixes CVE-2022-41715.
-+Updates #55949.
-+Fixes #55950.
-+
-+Change-Id: Ia656baed81564436368cf950e1c5409752f28e1b
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1592136
-+TryBot-Result: Security TryBots <security-trybots@go-security-trybots.iam.gserviceaccount.com>
-+Reviewed-by: Damien Neil <dneil@google.com>
-+Run-TryBot: Roland Shoemaker <bracewell@google.com>
-+Reviewed-by: Julie Qiu <julieqiu@google.com>
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/438501
-+Run-TryBot: Carlos Amedee <carlos@golang.org>
-+Reviewed-by: Carlos Amedee <carlos@golang.org>
-+Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
-+TryBot-Result: Gopher Robot <gobot@golang.org>
-+Reviewed-by: Dmitri Shuralyov <dmitshur@golang.org>
-+
-+Upstream-Status: Backport [https://github.com/golang/go/commit/e9017c2416ad0ef642f5e0c2eab2dbf3cba4d997]
-+CVE: CVE-2022-41715
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++[https://github.com/mkj/dropbear/pull/128]
++Upstream-Status: Backport
++CVE: CVE-2021-36369
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
 +
 +---
-+ src/regexp/syntax/parse.go      | 145 ++++++++++++++++++++++++++++++--
-+ src/regexp/syntax/parse_test.go |  13 +--
-+ 2 files changed, 148 insertions(+), 10 deletions(-)
++ cli-auth.c         | 3 +++
++ cli-authinteract.c | 1 +
++ cli-authpasswd.c   | 2 +-
++ cli-authpubkey.c   | 1 +
++ cli-runopts.c      | 7 +++++++
++ cli-session.c      | 1 +
++ runopts.h          | 1 +
++ session.h          | 1 +
++ 8 files changed, 16 insertions(+), 1 deletion(-)
 +
-+diff --git a/src/regexp/syntax/parse.go b/src/regexp/syntax/parse.go
-+index 55bd20d..60491d5 100644
-+--- a/src/regexp/syntax/parse.go
-++++ b/src/regexp/syntax/parse.go
-+@@ -90,15 +90,49 @@ const (
-+ // until we've allocated at least maxHeight Regexp structures.
-+ const maxHeight = 1000
++diff --git a/cli-auth.c b/cli-auth.c
++index 2e509e5..6f04495 100644
++--- a/cli-auth.c
+++++ b/cli-auth.c
++@@ -267,6 +267,9 @@ void recv_msg_userauth_success() {
++ 	if DROPBEAR_CLI_IMMEDIATE_AUTH is set */
 + 
-++// maxSize is the maximum size of a compiled regexp in Insts.
-++// It too is somewhat arbitrarily chosen, but the idea is to be large enough
-++// to allow significant regexps while at the same time small enough that
-++// the compiled form will not take up too much memory.
-++// 128 MB is enough for a 3.3 million Inst structures, which roughly
-++// corresponds to a 3.3 MB regexp.
-++const (
-++	maxSize  = 128 << 20 / instSize
-++	instSize = 5 * 8 // byte, 2 uint32, slice is 5 64-bit words
-++)
-++
-++// maxRunes is the maximum number of runes allowed in a regexp tree
-++// counting the runes in all the nodes.
-++// Ignoring character classes p.numRunes is always less than the length of the regexp.
-++// Character classes can make it much larger: each \pL adds 1292 runes.
-++// 128 MB is enough for 32M runes, which is over 26k \pL instances.
-++// Note that repetitions do not make copies of the rune slices,
-++// so \pL{1000} is only one rune slice, not 1000.
-++// We could keep a cache of character classes we've seen,
-++// so that all the \pL we see use the same rune list,
-++// but that doesn't remove the problem entirely:
-++// consider something like [\pL01234][\pL01235][\pL01236]...[\pL^&*()].
-++// And because the Rune slice is exposed directly in the Regexp,
-++// there is not an opportunity to change the representation to allow
-++// partial sharing between different character classes.
-++// So the limit is the best we can do.
-++const (
-++	maxRunes = 128 << 20 / runeSize
-++	runeSize = 4 // rune is int32
-++)
-++
-+ type parser struct {
-+ 	flags       Flags     // parse mode flags
-+ 	stack       []*Regexp // stack of parsed expressions
-+ 	free        *Regexp
-+ 	numCap      int // number of capturing groups seen
-+ 	wholeRegexp string
-+-	tmpClass    []rune          // temporary char class work space
-+-	numRegexp   int             // number of regexps allocated
-+-	height      map[*Regexp]int // regexp height for height limit check
-++	tmpClass    []rune            // temporary char class work space
-++	numRegexp   int               // number of regexps allocated
-++	numRunes    int               // number of runes in char classes
-++	repeats     int64             // product of all repetitions seen
-++	height      map[*Regexp]int   // regexp height, for height limit check
-++	size        map[*Regexp]int64 // regexp compiled size, for size limit check
++ 	TRACE(("received msg_userauth_success"))
+++	if (cli_opts.disable_trivial_auth && cli_ses.is_trivial_auth) {
+++		dropbear_exit("trivial authentication not allowed");
+++	}
++ 	/* Note: in delayed-zlib mode, setting authdone here 
++ 	 * will enable compression in the transport layer */
++ 	ses.authstate.authdone = 1;
++diff --git a/cli-authinteract.c b/cli-authinteract.c
++index e1cc9a1..f7128ee 100644
++--- a/cli-authinteract.c
+++++ b/cli-authinteract.c
++@@ -114,6 +114,7 @@ void recv_msg_userauth_info_request() {
++ 	m_free(instruction);
++ 
++ 	for (i = 0; i < num_prompts; i++) {
+++		cli_ses.is_trivial_auth = 0;
++ 		unsigned int response_len = 0;
++ 		prompt = buf_getstring(ses.payload, NULL);
++ 		cleantext(prompt);
++diff --git a/cli-authpasswd.c b/cli-authpasswd.c
++index 00fdd8b..a24d43e 100644
++--- a/cli-authpasswd.c
+++++ b/cli-authpasswd.c
++@@ -155,7 +155,7 @@ void cli_auth_password() {
++ 
++ 	encrypt_packet();
++ 	m_burn(password, strlen(password));
++-
+++	cli_ses.is_trivial_auth = 0;
++ 	TRACE(("leave cli_auth_password"))
 + }
-+ 
-+ func (p *parser) newRegexp(op Op) *Regexp {
-+@@ -122,6 +156,104 @@ func (p *parser) reuse(re *Regexp) {
-+ 	p.free = re
-+ }
-+ 
-++func (p *parser) checkLimits(re *Regexp) {
-++	if p.numRunes > maxRunes {
-++		panic(ErrInternalError)
-++	}
-++	p.checkSize(re)
-++	p.checkHeight(re)
-++}
-++
-++func (p *parser) checkSize(re *Regexp) {
-++	if p.size == nil {
-++		// We haven't started tracking size yet.
-++		// Do a relatively cheap check to see if we need to start.
-++		// Maintain the product of all the repeats we've seen
-++		// and don't track if the total number of regexp nodes
-++		// we've seen times the repeat product is in budget.
-++		if p.repeats == 0 {
-++			p.repeats = 1
-++		}
-++		if re.Op == OpRepeat {
-++			n := re.Max
-++			if n == -1 {
-++				n = re.Min
-++			}
-++			if n <= 0 {
-++				n = 1
-++			}
-++			if int64(n) > maxSize/p.repeats {
-++				p.repeats = maxSize
-++			} else {
-++				p.repeats *= int64(n)
-++			}
-++		}
-++		if int64(p.numRegexp) < maxSize/p.repeats {
-++			return
-++		}
-++
-++		// We need to start tracking size.
-++		// Make the map and belatedly populate it
-++		// with info about everything we've constructed so far.
-++		p.size = make(map[*Regexp]int64)
-++		for _, re := range p.stack {
-++			p.checkSize(re)
-++		}
-++	}
-++
-++	if p.calcSize(re, true) > maxSize {
-++		panic(ErrInternalError)
-++	}
-++}
-++
-++func (p *parser) calcSize(re *Regexp, force bool) int64 {
-++	if !force {
-++		if size, ok := p.size[re]; ok {
-++			return size
-++		}
-++	}
-++
-++	var size int64
-++	switch re.Op {
-++	case OpLiteral:
-++		size = int64(len(re.Rune))
-++	case OpCapture, OpStar:
-++		// star can be 1+ or 2+; assume 2 pessimistically
-++		size = 2 + p.calcSize(re.Sub[0], false)
-++	case OpPlus, OpQuest:
-++		size = 1 + p.calcSize(re.Sub[0], false)
-++	case OpConcat:
-++		for _, sub := range re.Sub {
-++			size += p.calcSize(sub, false)
-++		}
-++	case OpAlternate:
-++		for _, sub := range re.Sub {
-++			size += p.calcSize(sub, false)
-++		}
-++		if len(re.Sub) > 1 {
-++			size += int64(len(re.Sub)) - 1
-++		}
-++	case OpRepeat:
-++		sub := p.calcSize(re.Sub[0], false)
-++		if re.Max == -1 {
-++			if re.Min == 0 {
-++				size = 2 + sub // x*
-++			} else {
-++				size = 1 + int64(re.Min)*sub // xxx+
-++			}
-++			break
-++		}
-++		// x{2,5} = xx(x(x(x)?)?)?
-++		size = int64(re.Max)*sub + int64(re.Max-re.Min)
-++	}
-++
-++	if size < 1 {
-++		size = 1
-++	}
-++	p.size[re] = size
-++	return size
-++}
-++
-+ func (p *parser) checkHeight(re *Regexp) {
-+ 	if p.numRegexp < maxHeight {
-+ 		return
-+@@ -158,6 +290,7 @@ func (p *parser) calcHeight(re *Regexp, force bool) int {
-+ 
-+ // push pushes the regexp re onto the parse stack and returns the regexp.
-+ func (p *parser) push(re *Regexp) *Regexp {
-++	p.numRunes += len(re.Rune)
-+ 	if re.Op == OpCharClass && len(re.Rune) == 2 && re.Rune[0] == re.Rune[1] {
-+ 		// Single rune.
-+ 		if p.maybeConcat(re.Rune[0], p.flags&^FoldCase) {
-+@@ -189,7 +322,7 @@ func (p *parser) push(re *Regexp) *Regexp {
++ #endif	/* DROPBEAR_CLI_PASSWORD_AUTH */
++diff --git a/cli-authpubkey.c b/cli-authpubkey.c
++index 7cee164..7da1a04 100644
++--- a/cli-authpubkey.c
+++++ b/cli-authpubkey.c
++@@ -174,6 +174,7 @@ static void send_msg_userauth_pubkey(sign_key *key, int type, int realsign) {
++ 		buf_putbytes(sigbuf, ses.writepayload->data, ses.writepayload->len);
++ 		cli_buf_put_sign(ses.writepayload, key, type, sigbuf);
++ 		buf_free(sigbuf); /* Nothing confidential in the buffer */
+++		cli_ses.is_trivial_auth = 0;
 + 	}
 + 
-+ 	p.stack = append(p.stack, re)
-+-	p.checkHeight(re)
-++	p.checkLimits(re)
-+ 	return re
++ 	encrypt_packet();
++diff --git a/cli-runopts.c b/cli-runopts.c
++index 7d1fffe..6bf8b8e 100644
++--- a/cli-runopts.c
+++++ b/cli-runopts.c
++@@ -152,6 +152,7 @@ void cli_getopts(int argc, char ** argv) {
++ #if DROPBEAR_CLI_ANYTCPFWD
++ 	cli_opts.exit_on_fwd_failure = 0;
++ #endif
+++	cli_opts.disable_trivial_auth = 0;
++ #if DROPBEAR_CLI_LOCALTCPFWD
++ 	cli_opts.localfwds = list_new();
++ 	opts.listen_fwd_all = 0;
++@@ -888,6 +889,7 @@ static void add_extendedopt(const char* origstr) {
++ #if DROPBEAR_CLI_ANYTCPFWD
++ 			"\tExitOnForwardFailure\n"
++ #endif
+++			"\tDisableTrivialAuth\n"
++ #ifndef DISABLE_SYSLOG
++ 			"\tUseSyslog\n"
++ #endif
++@@ -915,5 +917,10 @@ static void add_extendedopt(const char* origstr) {
++ 		return;
++ 	}
++ 
+++	if (match_extendedopt(&optstr, "DisableTrivialAuth") == DROPBEAR_SUCCESS) {
+++		cli_opts.disable_trivial_auth = parse_flag_value(optstr);
+++		return;
+++	}
+++
++ 	dropbear_log(LOG_WARNING, "Ignoring unknown configuration option '%s'", origstr);
 + }
++diff --git a/cli-session.c b/cli-session.c
++index 56dd4af..73ef0db 100644
++--- a/cli-session.c
+++++ b/cli-session.c
++@@ -164,6 +164,7 @@ static void cli_session_init(pid_t proxy_cmd_pid) {
++ 	/* Auth */
++ 	cli_ses.lastprivkey = NULL;
++ 	cli_ses.lastauthtype = 0;
+++	cli_ses.is_trivial_auth = 1;
 + 
-+@@ -305,7 +438,7 @@ func (p *parser) repeat(op Op, min, max int, before, after, lastRepeat string) (
-+ 	re.Sub = re.Sub0[:1]
-+ 	re.Sub[0] = sub
-+ 	p.stack[n-1] = re
-+-	p.checkHeight(re)
-++	p.checkLimits(re)
++ 	/* For printing "remote host closed" for the user */
++ 	ses.remoteclosed = cli_remoteclosed;
++diff --git a/runopts.h b/runopts.h
++index 31eae1f..8519626 100644
++--- a/runopts.h
+++++ b/runopts.h
++@@ -154,6 +154,7 @@ typedef struct cli_runopts {
++ #if DROPBEAR_CLI_ANYTCPFWD
++ 	int exit_on_fwd_failure;
++ #endif
+++	int disable_trivial_auth;
++ #if DROPBEAR_CLI_REMOTETCPFWD
++ 	m_list * remotefwds;
++ #endif
++diff --git a/session.h b/session.h
++index 0f77055..8676054 100644
++--- a/session.h
+++++ b/session.h
++@@ -287,6 +287,7 @@ struct clientsession {
 + 
-+ 	if op == OpRepeat && (min >= 2 || max >= 2) && !repeatIsValid(re, 1000) {
-+ 		return "", &Error{ErrInvalidRepeatSize, before[:len(before)-len(after)]}
-+@@ -509,6 +642,7 @@ func (p *parser) factor(sub []*Regexp) []*Regexp {
-+ 
-+ 			for j := start; j < i; j++ {
-+ 				sub[j] = p.removeLeadingString(sub[j], len(str))
-++				p.checkLimits(sub[j])
-+ 			}
-+ 			suffix := p.collapse(sub[start:i], OpAlternate) // recurse
-+ 
-+@@ -566,6 +700,7 @@ func (p *parser) factor(sub []*Regexp) []*Regexp {
-+ 			for j := start; j < i; j++ {
-+ 				reuse := j != start // prefix came from sub[start]
-+ 				sub[j] = p.removeLeadingRegexp(sub[j], reuse)
-++				p.checkLimits(sub[j])
-+ 			}
-+ 			suffix := p.collapse(sub[start:i], OpAlternate) // recurse
-+ 
-+diff --git a/src/regexp/syntax/parse_test.go b/src/regexp/syntax/parse_test.go
-+index 1ef6d8a..67e3c56 100644
-+--- a/src/regexp/syntax/parse_test.go
-++++ b/src/regexp/syntax/parse_test.go
-+@@ -484,12 +484,15 @@ var invalidRegexps = []string{
-+ 	`(?P<>a)`,
-+ 	`[a-Z]`,
-+ 	`(?i)[a-Z]`,
-+-	`a{100000}`,
-+-	`a{100000,}`,
-+-	"((((((((((x{2}){2}){2}){2}){2}){2}){2}){2}){2}){2})",
-+-	strings.Repeat("(", 1000) + strings.Repeat(")", 1000),
-+-	strings.Repeat("(?:", 1000) + strings.Repeat(")*", 1000),
-+ 	`\Q\E*`,
-++	`a{100000}`,  // too much repetition
-++	`a{100000,}`, // too much repetition
-++	"((((((((((x{2}){2}){2}){2}){2}){2}){2}){2}){2}){2})",    // too much repetition
-++	strings.Repeat("(", 1000) + strings.Repeat(")", 1000),    // too deep
-++	strings.Repeat("(?:", 1000) + strings.Repeat(")*", 1000), // too deep
-++	"(" + strings.Repeat("(xx?)", 1000) + "){1000}",          // too long
-++	strings.Repeat("(xx?){1000}", 1000),                      // too long
-++	strings.Repeat(`\pL`, 27000),                             // too many runes
-+ }
-+ 
-+ var onlyPerl = []string{
-+-- 
-+2.25.1
-+
++ 	int lastauthtype; /* either AUTH_TYPE_PUBKEY or AUTH_TYPE_PASSWORD,
++ 						 for the last type of auth we tried */
+++	int is_trivial_auth;
++ 	int ignore_next_auth_response;
++ #if DROPBEAR_CLI_INTERACT_AUTH
++ 	int auth_interact_failed; /* flag whether interactive auth can still
 -- 
 2.25.1
 
