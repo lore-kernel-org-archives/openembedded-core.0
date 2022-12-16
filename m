@@ -2,64 +2,64 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65295C4332F
-	for <webhook@archiver.kernel.org>; Fri, 16 Dec 2022 15:39:25 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web10.15990.1671205161138552249
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F15EC3DA71
+	for <webhook@archiver.kernel.org>; Fri, 16 Dec 2022 15:45:25 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web10.16182.1671205516375507133
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Dec 2022 07:39:21 -0800
+ Fri, 16 Dec 2022 07:45:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=XcsiKNV2;
- spf=pass (domain: gmail.com, ip: 209.85.221.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f53.google.com with SMTP id y16so2908739wrm.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 Dec 2022 07:39:20 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=RBhuf8Oq;
+ spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f51.google.com with SMTP id ay2-20020a05600c1e0200b003d22e3e796dso2115285wmb.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 16 Dec 2022 07:45:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bG7s20Y9nuHEEKrF6QMs0axwQGgh4rsbQj09LgMY3Is=;
-        b=XcsiKNV2r/QxgCmOo5+Q3RX4pdS3GLr/TUiRPnQ3TN2JOV+SPNfncdyjJQGc+9HIKN
-         2yOGuoBAX8lL2sI1RZ/XuILzmF/Pmc2XmCVzCXNAGJKIEzNbRMeAZr/j1XuIgFRGOniY
-         XS8C7qBHe/WWjt7hCapoEiCXgDgB7ZOVrjwPqR1rLXUO3Dmp9g5kiQ0Ody2+mdzpeOGF
-         KQf4Ha0KGWjXfyuPsxqJlCrgQ0a+iFxy1/tUxOQfwOSJnYYHgtueBCiXrwdh6BvyxxGa
-         4QSFr8dcTV71pR+wHupCWzjsgfva25iYM2I4iA+tgKI1usU2YJFQ7V36ER1MSyONQiJr
-         xnzA==
+        bh=G8lf3D4/byvUWXG66pG0dRGbyZC3K3RfPfKMbXjDtxA=;
+        b=RBhuf8OqxoJFT8ihLkwVhPqGrXIG3OoEJNIq240ZE5n7wMHHy5UN6+l3e0TSLAQRJy
+         FgVaQBHC7RfKmDzsXHuzDLEWZ9H5g9h82J0YeAVo8plEEmktZvrea5P8uztC4jKjT5dd
+         LKyLTCgSW1Putiu+j52ZUWL+b/6uMY7uyKZXyRcXOolSvkitMI5VWWIv8FP5sZxsj7Vw
+         8ZaFcb2ASvBdV1Ei9Ilms5rbHcfn0SQiEXhPp3nCTpQe5XOyaN8RdMGhZDlUMAtFNVHN
+         ovjyrI/tf26tW+Rg079J4xG6iQ+JiMM7R6Xw2ndF3mTNcOaraRPVU/MbjNtWNjlec4rK
+         xlvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=bG7s20Y9nuHEEKrF6QMs0axwQGgh4rsbQj09LgMY3Is=;
-        b=2v6xIFE6SqYX6ycgZ044SQ35n0TG1wsZJn+WG8DdSvrkq8aXMo/eUchvs3f/xBJdGh
-         mLTQVZC/kMV6v+irAjrFUT3AZ+KHZeFq5ikUsJmPgqZ3vx0kiFJfV2p9R8AbbRAafeLL
-         BQ11URACxLX83fi8UKSGh0jlzpxSXb38COFNqnH73IdH5sdEtMOGNbO6iGBaJQ0Jvjh8
-         p8+TW9LoVUP265R35vV66k1iVgJ2jwWPsXY5CJXgmfnBRbm5sTCElRk3jXl69SNuiU4P
-         w4olkmJbP5UFJ6jGAYK8YziXI3tatntJ5i4JMn1Py/rbyMPahGUVFyQTVL4IE3MlSVSi
-         kwwg==
-X-Gm-Message-State: ANoB5pl17pfOQLTrXu+93vftawOSsD7OuVwYylR3vAyvBan927Kf/MIH
-	CmFusUZd7ZDwBdPs4Ems3NEn98QSbAI=
-X-Google-Smtp-Source: AA0mqf4nBRvoMOQkKjd6nQDg4DDEC0FMb06iE7ryUwA11408ume8IlttEYDbpeNNvFBqMzGX7yqHUA==
-X-Received: by 2002:a5d:5f07:0:b0:250:8ff5:6141 with SMTP id cl7-20020a5d5f07000000b002508ff56141mr20481245wrb.6.1671205159404;
-        Fri, 16 Dec 2022 07:39:19 -0800 (PST)
+        bh=G8lf3D4/byvUWXG66pG0dRGbyZC3K3RfPfKMbXjDtxA=;
+        b=OCZ92XxMHqzxrX79EVgC+kxsVwB4tkFDiuE+g3E3YCi0vgkVTEWrCNsg5EQqvvR75V
+         SKtUP0R0ReDZWJNqQwKRdxEOg0p79PxI/yYD+anxyRCGn0Ed030RUYZGx2Nbt5khBm1z
+         TlfIVcwF+esT/FLDDmzK6ahW1ZlTIytO925+jqqsj1jo15Mc2pw7IIys2g1m2EqIbXi8
+         z6kv9sr4ONFVTXPUfqtnfhAmEJAIgRih9fII7FPdMqwNxZcdbpRcNfLj7nD8aKeEsUug
+         wsU/ZJP8ug5nmsGbltIju5HuwJDIuWNhsweYBVhHJ8eLJlkE9M+VmW8aQ/jsrtMQVrKo
+         V/Ug==
+X-Gm-Message-State: ANoB5pld7zpSPhcZatwo4IKbRmydF6OqVhb7hEMJMutGSYLK8lbcctIn
+	xofpzoyg/OLqn1oIqwPAvMp893dWXSQ=
+X-Google-Smtp-Source: AA0mqf4yGfYwjVejuzzEo8SvFSY4bxO921pEws5Z6l+JyoG9SZZ5Fj4RbQ5+fL9gsMvnwTtEIEJJ0w==
+X-Received: by 2002:a05:600c:354e:b0:3cf:5d41:b748 with SMTP id i14-20020a05600c354e00b003cf5d41b748mr25476721wmq.36.1671205514618;
+        Fri, 16 Dec 2022 07:45:14 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id co22-20020a0560000a1600b00241fab5a296sm2569374wrb.40.2022.12.16.07.39.18
+        by smtp.gmail.com with ESMTPSA id v2-20020a05600c214200b003cfa81e2eb4sm2887836wml.38.2022.12.16.07.45.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Dec 2022 07:39:19 -0800 (PST)
+        Fri, 16 Dec 2022 07:45:14 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [RFC PATCH] qemu: update 7.1.0 -> 7.2.0
-Date: Fri, 16 Dec 2022 16:39:14 +0100
-Message-Id: <20221216153914.340918-1-alex@linutronix.de>
+Subject: [RFC PATCH v2] qemu: update 7.1.0 -> 7.2.0
+Date: Fri, 16 Dec 2022 16:45:11 +0100
+Message-Id: <20221216154511.341054-1-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Dec 2022 15:39:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174758
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Dec 2022 15:45:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174759
 
 Disable slirp by default: qemu no longer carries libslirp in-tree,
 and enabling slirp requires providing external libslirp first
@@ -85,14 +85,14 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
  ...ulip-Restrict-DMA-engine-to-memories.patch | 64 -------------------
  .../qemu/qemu/CVE-2022-3165.patch             | 59 -----------------
  .../qemu/qemu/arm-cpreg-fix.patch             | 27 --------
- .../qemu/{qemu_7.1.0.bb => qemu_7.2.0.bb}     |  2 +-
- 8 files changed, 7 insertions(+), 160 deletions(-)
+ .../qemu/{qemu_7.1.0.bb => qemu_7.2.0.bb}     |  4 +-
+ 8 files changed, 8 insertions(+), 161 deletions(-)
  rename meta/recipes-devtools/qemu/{qemu-native_7.1.0.bb => qemu-native_7.2.0.bb} (100%)
  rename meta/recipes-devtools/qemu/{qemu-system-native_7.1.0.bb => qemu-system-native_7.2.0.bb} (96%)
  delete mode 100644 meta/recipes-devtools/qemu/qemu/0001-net-tulip-Restrict-DMA-engine-to-memories.patch
  delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2022-3165.patch
  delete mode 100644 meta/recipes-devtools/qemu/qemu/arm-cpreg-fix.patch
- rename meta/recipes-devtools/qemu/{qemu_7.1.0.bb => qemu_7.2.0.bb} (97%)
+ rename meta/recipes-devtools/qemu/{qemu_7.1.0.bb => qemu_7.2.0.bb} (91%)
 
 diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
 index bb34d0deff..be2a381a39 100644
@@ -339,13 +339,13 @@ index 071691f8ca..0000000000
 -     { .name = "SPSel", .state = ARM_CP_STATE_AA64,
 -       .opc0 = 3, .opc1 = 0, .crn = 4, .crm = 2, .opc2 = 0,
 diff --git a/meta/recipes-devtools/qemu/qemu_7.1.0.bb b/meta/recipes-devtools/qemu/qemu_7.2.0.bb
-similarity index 97%
+similarity index 91%
 rename from meta/recipes-devtools/qemu/qemu_7.1.0.bb
 rename to meta/recipes-devtools/qemu/qemu_7.2.0.bb
-index 42e133967e..8b553bf2af 100644
+index 42e133967e..9f7fad9886 100644
 --- a/meta/recipes-devtools/qemu/qemu_7.1.0.bb
 +++ b/meta/recipes-devtools/qemu/qemu_7.2.0.bb
-@@ -15,7 +15,7 @@ EXTRA_OECONF:append:class-target:mipsarcho32 = "${@bb.utils.contains('BBEXTENDCU
+@@ -15,12 +15,12 @@ EXTRA_OECONF:append:class-target:mipsarcho32 = "${@bb.utils.contains('BBEXTENDCU
  EXTRA_OECONF:append:class-nativesdk = " --target-list=${@get_qemu_target_list(d)}"
  
  PACKAGECONFIG ??= " \
@@ -354,6 +354,12 @@ index 42e133967e..8b553bf2af 100644
      ${@bb.utils.filter('DISTRO_FEATURES', 'alsa xen', d)} \
      ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virglrenderer epoxy', '', d)} \
      ${@bb.utils.filter('DISTRO_FEATURES', 'seccomp', d)} \
+ "
+-PACKAGECONFIG:class-nativesdk ??= "fdt sdl kvm pie slirp \
++PACKAGECONFIG:class-nativesdk ??= "fdt sdl kvm pie \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virglrenderer epoxy', '', d)} \
+ "
+ # ppc32 hosts are no longer supported in qemu
 -- 
 2.30.2
 
