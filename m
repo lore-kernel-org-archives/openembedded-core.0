@@ -1,180 +1,120 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B093AC4332F
-	for <webhook@archiver.kernel.org>; Sat, 17 Dec 2022 17:11:52 +0000 (UTC)
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
- by mx.groups.io with SMTP id smtpd.web11.11913.1671297106912283653
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9BEBC4332F
+	for <webhook@archiver.kernel.org>; Sat, 17 Dec 2022 17:19:52 +0000 (UTC)
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+ by mx.groups.io with SMTP id smtpd.web11.12056.1671297583688130149
  for <openembedded-core@lists.openembedded.org>;
- Sat, 17 Dec 2022 09:11:47 -0800
+ Sat, 17 Dec 2022 09:19:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=jThgIXrR;
- spf=pass (domain: gmail.com, ip: 209.85.166.44, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-io1-f44.google.com with SMTP id p66so357552iof.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 17 Dec 2022 09:11:46 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=SrWc6s8V;
+ spf=pass (domain: gmail.com, ip: 209.85.160.52, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-14455716674so6932782fac.7
+        for <openembedded-core@lists.openembedded.org>; Sat, 17 Dec 2022 09:19:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=93QYcKslO0iCadQaPzyqnfZBCCkIZv4jSeaPZqNtJjU=;
-        b=jThgIXrRGdyamtpr0acjisNtHcxsBYQ9kSWvznshgqPGEe1YwdyDJCwnZ/EF04WZ9O
-         Yrma0Zr4FxtoNHq/AHIYIac3xD7PYdIh4TomM6SvRa8atOLzODE2qkp0Hkky6l38UmzP
-         DZIopjTMcfNzeTSkl9goDPOD1n3hbVGm94D/0lk6Fh1tIJtE2PJReja2Sa7tyxDU2+m6
-         nIm0qtx48Uw+jJBRkTGjqpRk+DzmhaCLtQmv0ewQBFQJG3iaVtVqg9myZP9C2CAsRLjY
-         xAJapMHS2QCB7rKG7Tom6KkfqGDPl7WGLmMi4OcBJRN420Sp/pC4aM5Ghs6ZBjikRvpv
-         5xww==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=bgbejC1CfmSYnuy7C8x1oFZrPv6TlWM0prpd6K/XboM=;
+        b=SrWc6s8VI1KWWMo5VF/jkEy+L/QoMFV40ar+69IdzbLu65QBWavaptXQ20cK4D1ptu
+         5ntE6xdBIGhH4Umxu2X5Zb2S2Ohv2K4V0q/Pyq/HXFqGl0qBj+OMBJ7bNJSQG5xbNjdK
+         K3/h6polt136WqeQfnRgjXhyNjyiXWKZpSbT5ofZpu7Vnalg2qaesvlpwf/JfddjNhCy
+         bz8eDR0aZZ/P6Ymnt4PQknFnTsS1e7CKBxtTWvZ5ebwaWWy0fxvW2bWqzw8u0m+ZXiri
+         5Ty4lz/oFcTbdFnyLTrssL1nlA8mjKzVhZ/VG4MqYzlXPKg4EHBlGoKwd+hK42mSspFV
+         JkJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=93QYcKslO0iCadQaPzyqnfZBCCkIZv4jSeaPZqNtJjU=;
-        b=aNR5f18JzkCWt7DcatIq/akZJRA2dptpfTt0lKXQfGSzZTCf8jV5MVli+QRR592VnP
-         F5mKG/c7pbKYazUqK8OMd4tw3I7uQ6da5BVpHX96m/PxFxIipdqqRjzaKp+kpRBmcqKv
-         VYuyxI74wnelUi3mdVUSgLS1/8nX5b7fj/ZVMiUIcnzz9V2r7o2cKcXvZ91me0dx2hz0
-         1vWsab5S0xEB3lK2jb1dtZjX5+0AckC4/cr6JS3N3AeO4vcqseJtke8qBwRj8+7Yogbw
-         lxmjkNhG8FIPL/833eC5NXUWuZSG9dDOyxNa/HYCWUzHKKYcwYcasfOgeRQvotpNzsxY
-         KWaQ==
-X-Gm-Message-State: ANoB5pn0KOBE+I1WFIVHhS2rdez4brmaebjt4I0ZhmX09I+BYQMo/rM9
-	/G9UFnkoHpMZdm9grlGZAx0XiUo41nTe6ICCOpo=
-X-Google-Smtp-Source: AA0mqf7qT9xZHt1UWe8IXoXDty1x1b6sv8TnRqsZUFtx4HGspcRs8C0+sbXympcXh/UiU5995F3fawxRpTXSrAXlnrc=
-X-Received: by 2002:a05:6638:1a86:b0:38a:a6c3:7983 with SMTP id
- ce6-20020a0566381a8600b0038aa6c37983mr2815192jab.187.1671297106242; Sat, 17
- Dec 2022 09:11:46 -0800 (PST)
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bgbejC1CfmSYnuy7C8x1oFZrPv6TlWM0prpd6K/XboM=;
+        b=b8iN/K3LL4uag1bmaTHwiO7Y+9ffrEqz8YJeCX4f79cvbW5AFY8brXqjv9ehcQvGCq
+         9q0s9vLeq7kTT9auliolERjIBDY2y579hqzfHajZzVhHZSn9W8gjAf2zzy1gAATjzDW/
+         Vq1aPjngc0MIvBu9Soz1ik2lEqrZUbhxBbseoPSfCG/IyBtTQ4vhrHnK7dmgKayZMfpr
+         zUnOu575mtFRjl98i7yWC2YEpKPo3x/5w3eimlIPQtTznbZOCzAbmgFJrANU6q8m1X/H
+         hhEXRlHEuMuZW1+9u/vK2CJJJTfKmIjJpYdGJn/nfrzEpVz4+wBeJkcO7jiB83EN65rL
+         blbA==
+X-Gm-Message-State: AFqh2kr0SYHochl+wC6W4YWL688mOGbUEWoWACVeL9zwxB3t+Tv/uRiM
+	3wOR8zdiE4bvmnE5jr97SWT6W03mHJy6qixJwWc=
+X-Google-Smtp-Source: AMrXdXvv76FMldTRVBqjSUuAuyCbPe+/Z8c2NnBPixx6LHqq+Dmn72waAFC/7WZL4LLAuMdwQRMsPy5swm+9UW4lt0Y=
+X-Received: by 2002:a05:6870:98b1:b0:13b:1e05:a73d with SMTP id
+ eg49-20020a05687098b100b0013b1e05a73dmr710922oab.55.1671297582776; Sat, 17
+ Dec 2022 09:19:42 -0800 (PST)
 MIME-Version: 1.0
-References: <20221215073224.3061128-1-alejandro@enedino.org>
- <CANNYZj9qbT+fGQ=18hjLkzR4D=eyr1amX2qxpwM5u_XQTqLo3g@mail.gmail.com>
- <CAHMutrae2sCtGqa-aXVYz1_kDkCtnY2qjKLhGunA-U3-ZxthnA@mail.gmail.com>
- <CAO5Uq5S2reaaVJe7hZwL2okWjKBbVhU_=g6bMjguQ7T9UNC-Vw@mail.gmail.com>
- <CAHMutrZnL2e4_7AuPkacEb-Rgyw0cb7eaErjWRuXZYXu_fUZgw@mail.gmail.com>
- <1731096B411C6A99.9432@lists.openembedded.org> <CANNYZj9BmxffYxhd1gWy6dUBcsjHi6kXgswC=4LVXUnePSOo1w@mail.gmail.com>
- <CAHMutrZhNPdLoiFTfOVvHiqqeYwSOyPB3v2qmmy7BUoraj=GZg@mail.gmail.com>
- <CAHMutrbJo2ocWz88UbQsRjBDccXr0yVDC60SZ35bdMaXHw8LAw@mail.gmail.com>
- <CAO5Uq5QT1zg1jC0wHFMxv0T+m7y_GSS2Wdg_vbuG3Yi5hOZpgQ@mail.gmail.com>
- <CAHMutrYvqcZ806jGpOYwgNrQJKUhoRicf_6M+9REPV5L2Mttxw@mail.gmail.com>
- <CAO5Uq5RTVPLuTS8JePuTy2jgGq6troObiMiPcoUg0VMzbq=geg@mail.gmail.com> <CAHMutrajquaPOofJH6YaF5kqLk2kWif-WVDuRXNRUfUv7f8ZLQ@mail.gmail.com>
-In-Reply-To: <CAHMutrajquaPOofJH6YaF5kqLk2kWif-WVDuRXNRUfUv7f8ZLQ@mail.gmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Sat, 17 Dec 2022 17:11:33 +0000
-Message-ID: <CAO5Uq5Ty+yOF7k7jC6s_nfW9R6LiaaDFAR2g=d+jLGKiMxg_XQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] rust: Enable building rust from stable,
- beta and nightly channels
-To: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>
+References: <20221208071136.1967696-1-olani@axis.com> <20221208071136.1967696-3-olani@axis.com>
+ <bd77e4f055d3b5e85f48c0479e8734ec46a20daf.camel@linuxfoundation.org>
+In-Reply-To: <bd77e4f055d3b5e85f48c0479e8734ec46a20daf.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 17 Dec 2022 09:19:17 -0800
+Message-ID: <CAMKF1sroDJBXrbjxC0aWBP6Y9p8mLTrnjYD5z_Yb_i1uLUUJGQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH RFC 2/3] Add QA check for 32 bit time and file
+ offset functions
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Ola x Nilsson <olani@axis.com>, openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 17 Dec 2022 17:11:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174780
+ <openembedded-core@lists.openembedded.org>; Sat, 17 Dec 2022 17:19:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174781
 
-On Sat, Dec 17, 2022 at 1:20 AM Alejandro Enedino Hernandez Samaniego
-<alejandro@enedino.org> wrote:
+On Sat, Dec 17, 2022 at 3:17 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
+> On Thu, 2022-12-08 at 08:11 +0100, Ola x Nilsson wrote:
+> > Check for known symbols that should have been redirected to 64bit
+> > variants when -D_FILE_OFFSET_BITS=64 and -D_TIME_BITS=64 are set.
+> >
+> > Signed-off-by: Ola x Nilsson <olani@axis.com>
+> > ---
+> >  meta/classes-global/insane.bbclass | 132 +++++++++++++++++++++++++++++
+> >  1 file changed, 132 insertions(+)
+> >
+> > diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insane.bbclass
+> > index df2c40c3c5..b0e99c4c3f 100644
+> > --- a/meta/classes-global/insane.bbclass
+> > +++ b/meta/classes-global/insane.bbclass
+> > @@ -506,6 +506,138 @@ def package_qa_check_symlink_to_sysroot(path, name, d, elf, messages):
+> >                  trimmed = path.replace(os.path.join (d.getVar("PKGDEST"), name), "")
+> >                  oe.qa.add_message(messages, "symlink-to-sysroot", "Symlink %s in %s points to TMPDIR" % (trimmed, name))
+> >
+> > +QAPATHTEST[32bit-time] = "check_32bit_symbols"
+> > +def check_32bit_symbols(path, packagename, d, elf, messages):
+> > +    """
+> > +    Check that ELF files do not use any 32 bit time APIs from glibc.
+> > +    """
+> > +    # TODO: We should have some DISTRO_FEATURE flag to check here
+> > +    # if '-D_TIME_BITS=64' not in d.getVar('GLIBC_64BIT_TIME_FLAGS'):
+> > +    #     # No use checking if the feature is not enabled?
+> > +    #     return
 >
+> I did merge this patch with two fixes:
 >
+> a) It needed the class name in the subject line so we know which code
+> the patch changes at a glance
 >
-> On Thu, 15 Dec 2022 at 22:33, Alex Kiernan <alex.kiernan@gmail.com> wrote=
-:
->>
->> On Thu, Dec 15, 2022 at 9:45 PM Alejandro Enedino Hernandez Samaniego
->> <alejandro@enedino.org> wrote:
->> >
->> >
->> >
->> > On Thu, Dec 15, 2022, 3:36 PM Alex Kiernan <alex.kiernan@gmail.com> wr=
-ote:
->> >>
->> >> On Thu, Dec 15, 2022 at 6:24 PM Alejandro Enedino Hernandez Samaniego
->> >> <alejandro@enedino.org> wrote:
->> >> >
->> >> >
->> >> >
->> >> > On Thu, 15 Dec 2022 at 11:11, Alejandro Enedino Hernandez Samaniego=
- <alejandro@enedino.org> wrote:
->> >> >>
->> >> >>
->> >> >> On Thu, 15 Dec 2022 at 11:03, Alexander Kanavin <alex.kanavin@gmai=
-l.com> wrote:
->> >> >>>
->> >> >>> On Thu, 15 Dec 2022 at 19:01, Alexander Kanavin via
->> >> >>> lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedd=
-ed.org>
->> >> >>> wrote:
->> >> >>> > Ok, I think what we should do first is to actually drop the ver=
-sion
->> >> >>> > from all of the .bb file names, and set it once, inside some .i=
-nc, and
->> >> >>> > probably next to SRC_URI and tarball checksum. Then this should=
- allow
->> >> >>> > a convenient scheme for including and overriding things.
->> >> >>> >
->> >> >>> > rust_1.65.0.bb - > rust.bb, and so on.
->> >> >>>
->> >> >>> Oh, and upstream version checks must be kept functional. It needs=
- to
->> >> >>> both correctly report a newer version, and match the recipe versi=
-on
->> >> >>> with upstream if it is already the latest.
->> >> >>>
->> >> >>> Alex
->> >> >>
->> >> >>
->> >> >> How should I test that upstream checks are still functional?
->> >> >>
->> >> >>
->> >> > Actually how would this make it any simpler?, if we remove PV from =
-the filenames, the correct place to put the variable is in rust-source.inc =
-since all others include it (rust-cross-canadian, rust, rust-llvm), if like=
- I said, rust-source.inc gets included from somewhere else, wouldnt that ov=
-erride PV for the other recipe as well? beating the whole purpose of the ch=
-ange, this, or creating a new .inc file just for this seems too convoluted =
-IMO.
->> >> >
->> >> > If changing RUST_VERSION is too problematic on every upgrade I thin=
-k approach #2 its a lot simpler just specifying RUST_VERSION on other recip=
-es since it would be very seldom used and it wont conflict with upgrades
->> >> >
->> >>
->> >> Actually changing it is clearly straightforward, the problem is that
->> >> upgrading the rust version is already tricky because of the need to
->> >> regenerate the cargo checksums, so every extra step is something that
->> >> you have to remember to do.
->> >>
->> >> Which leaves me wondering how introducing nightly/beta actually work
->> >> with those patches?
->> >
->> >
->> > I understand that , the checksums/patches shouldn't cause any problem =
-since as its explained in the commit message beta/nightly builds from the e=
-xact same sources, hence patches should apply and checksums wouldn't change=
-.
->> >
->>
->> Sorry, now I'm properly confused, if the sources don't change, how is
->> this beta/nightly?
->>
->> cargo-checksum.json is basically completely non-patch friendly, you
->> have to fix it up every time as its based on the vendored sources in
->> the tarball.
->>
->> --
->> Alex Kiernan
->
->
-> Yes, I was confused at first myself, the channel actually works as a buil=
-d time flag, setting it to "beta" would enable the beta
-> features that already in the source code at the time of every release, sa=
-me with nightly hence why there are no extra conflicts
-> when doing upgrades..
->
+> b) I removed the above TODO since I don't think we should be adding a
+> distro feature for this, it can be handled by including a the include
+> file from the distro and setting WARN_QA and ERROR_QA as the distro
+> wishes.
 
-Oh I see... that makes sense now!
+Right, I think once it's sorted out and is working well, we should
+probably include it
+in poky distro conf and/or maybe even in defaultsetup.conf eventually.
 
---
-Alex Kiernan
+>
+> Cheers,
+>
+> Richard
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#174772): https://lists.openembedded.org/g/openembedded-core/message/174772
+> Mute This Topic: https://lists.openembedded.org/mt/95533492/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
