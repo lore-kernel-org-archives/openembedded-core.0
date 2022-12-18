@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0DF9C46467
-	for <webhook@archiver.kernel.org>; Sun, 18 Dec 2022 16:13:19 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web10.32101.1671379997538031804
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D47CC4708D
+	for <webhook@archiver.kernel.org>; Sun, 18 Dec 2022 16:13:29 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web10.32105.1671380005620702465
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Dec 2022 08:13:17 -0800
+ Sun, 18 Dec 2022 08:13:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=tFxhus9H;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.41, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f41.google.com with SMTP id o1-20020a17090a678100b00219cf69e5f0so10749562pjj.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 18 Dec 2022 08:13:17 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=QN5BECDW;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id m4so6876583pls.4
+        for <openembedded-core@lists.openembedded.org>; Sun, 18 Dec 2022 08:13:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4dyHMkguoEhhbwcEd8zLiN6ug/R6ni8BcprwNg0dwG4=;
-        b=tFxhus9HFOl+3hlwD0tP/f5wEHWpJAL8Q5KPFpVwwCzAWMI6APzpwi3V3TwrbaHFM0
-         OJHkQka0nnix6oP0es7J5K5WMhgwpG2uTidrwrBHJnE9jlGydjRCVxcAIozjUgfx0SKJ
-         jgEwYef/E0ALCF63xrmWjGnPnoVsC2gW//wrzl0QO9VsrVcaLw9/B/QJ7ROyLiXro5zQ
-         E/OF/KMCMyVGSWcr+BD/Ak8igQ+4nMA3kj3HFsW7lXJnvFlrWABR9m137npdvEnUi+n8
-         Dqfbabqq/PFzN2iwOE80HlZmv8HmLG3HNLJ/We2jWN99RSzWHIkLTlGXCesZsyUZHAee
-         Qi6w==
+        bh=VJDw9J7cX0VT/icCCQr6rlXNN++e6HZG1Uz1MFdPeuI=;
+        b=QN5BECDWAZo3GPX9U+6Rdg50wiParcq/O/HQMdPIFq/EzMYf1iw9EewIZJVo350+FP
+         xr325HrKu7jhs9s+JbgviMDAA/9LviIlKn/Z3YBk0N0xpjHeAbCfXPhdNWDXcCc5irYq
+         z1hRk7PULSlChZzIj8wRbVPbic51lpZQH/vvNFrwkSpri0GFPMuOdKfujd0erbZTrl7/
+         T2ePHBnPHQP5V1fyEsjAov1aDV5YvNoKGru8DkhTiUsJAdhT41apvdFzDrjLFJU86sob
+         Wg6zVGOsAXoi6aLfvbk0Om/SlEjNN98yCY/eMuECa/aGeLS/Qoyw1S5T8e1zRAT8ii8o
+         nqkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4dyHMkguoEhhbwcEd8zLiN6ug/R6ni8BcprwNg0dwG4=;
-        b=oaAWIpWHLl2MH/jqypFWWUtTIdpS+oRZzq2Y8ro0PlVUddMl22vxStvFzltnmntHgz
-         zBP8uqySSMY/FjG6M1HI9Gv9evaMnlwTD5rooyq37FiiwJOuB91PI3joV0Y05/FqgJz9
-         Izo0BV5EfTH/aqHZDanMgEvPoPlHf0cn9B6ZP3S17zzyHIeOgFmXEJJmU38vB8OW55wf
-         P0vh83O6GKEDVlwHVvTcekbsAA4eTki0oTxWMekB9o5VfQuRUMI7Xi96/R9aquZPvO05
-         h8dyMSf7dv4mSxadlpHE8IV03mFu6k+qhB4VMLWBoi6RnTHILMCZlAb1xCftFTPnXMGZ
-         6BXg==
-X-Gm-Message-State: AFqh2ko+eKZ/04yETdwG0m7+j6ro2FLEZM1MOoeo8z1UMfoESNzBNJmz
-	dvA8GpAURS4WJNHCd07CfAmOkfDXOgYneTO5g+8=
-X-Google-Smtp-Source: AMrXdXvom1BaVD5eg3W9YEb2W4Jc7falwYYwwNb6kyC9EAaj8fNtGfBrg/QhMVcWOly8jbirGZCG5g==
-X-Received: by 2002:a17:902:968f:b0:186:9850:7af6 with SMTP id n15-20020a170902968f00b0018698507af6mr5569769plp.41.1671379996091;
-        Sun, 18 Dec 2022 08:13:16 -0800 (PST)
+        bh=VJDw9J7cX0VT/icCCQr6rlXNN++e6HZG1Uz1MFdPeuI=;
+        b=Cbr5NJxRY8QCknnogx9SoDN8olp/T/5gWiWZFhvieqgNkr0ugOVS7iNZFjpfb+geCQ
+         5vvnnY76mc4nSoVGTCJtnfqrabTNxiWI2cHqPSCkBGeZ3euBfNzgn2wmymFkDC0HPa+S
+         92qMtun9AnDObgqFxbdeMgC3NMZNV0JWkF4dKumJoJ+q3np0GunSLrW6e+kONfp9r1pc
+         AkWuOC90jwNJwRHqsXWmNiy4Soxo1vtcgwhDyxFKVV5ZFNWe+AKjak0aoLu9hDSp9/Sz
+         wYpYPl3EY3K2sElpMgYrLmSwyLuyCtqkTT8JrR2Gn8TbHUegae/7mltBzFSJeqCgr5ok
+         ++TA==
+X-Gm-Message-State: AFqh2kqekrkwws53zryQMnNpZDsqqmdR9iWxAok39hA0PgiJaw5A2WHs
+	3I80efIAMm7nObH3ns+Uz4ahI8dgf78rbvgQ+S4=
+X-Google-Smtp-Source: AMrXdXtsHIJbcu3mfBLfgZdP/kx/rbqHGAYW7mlFQs1pdM4hVHgKrk+xcoLCDqH+rDMhSQm3sH2kbw==
+X-Received: by 2002:a17:902:ea02:b0:187:2f28:bfd6 with SMTP id s2-20020a170902ea0200b001872f28bfd6mr7305147plg.21.1671380004629;
+        Sun, 18 Dec 2022 08:13:24 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id c7-20020a170902d48700b001896522a23bsm5278763plg.39.2022.12.18.08.13.14
+        by smtp.gmail.com with ESMTPSA id c7-20020a170902d48700b001896522a23bsm5278763plg.39.2022.12.18.08.13.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Dec 2022 08:13:15 -0800 (PST)
+        Sun, 18 Dec 2022 08:13:24 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 02/19] libxml2: Fix CVE-2022-40303 && CVE-2022-40304
-Date: Sun, 18 Dec 2022 06:12:46 -1000
-Message-Id: <b46d0b7a599ee5d3009cca302ad5322d64eb94b9.1671379841.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 05/19] mpfr: upgrade 4.1.0 -> 4.1.1
+Date: Sun, 18 Dec 2022 06:12:49 -1000
+Message-Id: <9977278a12d6bc0b811077fa19c64b80e793a33d.1671379841.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1671379841.git.steve@sakoman.com>
 References: <cover.1671379841.git.steve@sakoman.com>
@@ -60,778 +60,42 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 18 Dec 2022 16:13:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174789
+ <openembedded-core@lists.openembedded.org>; Sun, 18 Dec 2022 16:13:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174792
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Upstream-Status: Backport from https://gitlab.gnome.org/GNOME/libxml2/-/commit/c846986356fc149915a74972bf198abc266bc2c0 && https://gitlab.gnome.org/GNOME/libxml2/-/commit/1b41ec4e9433b05bb0376be4725804c54ef1d80b
+Changelog:
+=========
+- Bug fixes (see <https://www.mpfr.org/mpfr-4.1.0/#fixed> and/or the
+  ChangeLog file), in particular for macros implementing functions.
+- Improved manual formatting.
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit f733eddc428cf9537f97cb91025b73dd1fdea932)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libxml/libxml2/CVE-2022-40303.patch       | 624 ++++++++++++++++++
- .../libxml/libxml2/CVE-2022-40304.patch       | 106 +++
- meta/recipes-core/libxml/libxml2_2.9.14.bb    |   2 +
- 3 files changed, 732 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2022-40303.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2022-40304.patch
+ meta/recipes-support/mpfr/{mpfr_4.1.0.bb => mpfr_4.1.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/mpfr/{mpfr_4.1.0.bb => mpfr_4.1.1.bb} (91%)
 
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2022-40303.patch b/meta/recipes-core/libxml/libxml2/CVE-2022-40303.patch
-new file mode 100644
-index 0000000000..346ec37a9f
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2022-40303.patch
-@@ -0,0 +1,624 @@
-+From 15050f59d2a62b97b34e9cab8b8076a68ef003bd Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Thu, 25 Aug 2022 17:43:08 +0200
-+Subject: [PATCH] CVE-2022-40303
-+
-+Fix integer overflows with XML_PARSE_HUGE
-+
-+Also impose size limits when XML_PARSE_HUGE is set. Limit size of names
-+to XML_MAX_TEXT_LENGTH (10 million bytes) and other content to
-+XML_MAX_HUGE_LENGTH (1 billion bytes).
-+
-+Move some the length checks to the end of the respective loop to make
-+them strict.
-+
-+xmlParseEntityValue didn't have a length limitation at all. But without
-+XML_PARSE_HUGE, this should eventually trigger an error in xmlGROW.
-+
-+Thanks to Maddie Stone working with Google Project Zero for the report!
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/c846986356fc149915a74972bf198abc266bc2c0]
-+CVE: CVE-2022-40303
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ parser.c | 233 +++++++++++++++++++++++++++++--------------------------
-+ 1 file changed, 121 insertions(+), 112 deletions(-)
-+
-+diff --git a/parser.c b/parser.c
-+index 1bc3713..0f76577 100644
-+--- a/parser.c
-++++ b/parser.c
-+@@ -115,6 +115,8 @@ xmlParseElementEnd(xmlParserCtxtPtr ctxt);
-+  *									*
-+  ************************************************************************/
-+ 
-++#define XML_MAX_HUGE_LENGTH 1000000000
-++
-+ #define XML_PARSER_BIG_ENTITY 1000
-+ #define XML_PARSER_LOT_ENTITY 5000
-+ 
-+@@ -565,7 +567,7 @@ xmlFatalErr(xmlParserCtxtPtr ctxt, xmlParserErrors error, const char *info)
-+             errmsg = "Malformed declaration expecting version";
-+             break;
-+         case XML_ERR_NAME_TOO_LONG:
-+-            errmsg = "Name too long use XML_PARSE_HUGE option";
-++            errmsg = "Name too long";
-+             break;
-+ #if 0
-+         case:
-+@@ -3210,6 +3212,9 @@ xmlParseNameComplex(xmlParserCtxtPtr ctxt) {
-+     int len = 0, l;
-+     int c;
-+     int count = 0;
-++    int maxLength = (ctxt->options & XML_PARSE_HUGE) ?
-++                    XML_MAX_TEXT_LENGTH :
-++                    XML_MAX_NAME_LENGTH;
-+ 
-+ #ifdef DEBUG
-+     nbParseNameComplex++;
-+@@ -3275,7 +3280,8 @@ xmlParseNameComplex(xmlParserCtxtPtr ctxt) {
-+                 if (ctxt->instate == XML_PARSER_EOF)
-+                     return(NULL);
-+ 	    }
-+-	    len += l;
-++            if (len <= INT_MAX - l)
-++	        len += l;
-+ 	    NEXTL(l);
-+ 	    c = CUR_CHAR(l);
-+ 	}
-+@@ -3301,13 +3307,13 @@ xmlParseNameComplex(xmlParserCtxtPtr ctxt) {
-+                 if (ctxt->instate == XML_PARSER_EOF)
-+                     return(NULL);
-+ 	    }
-+-	    len += l;
-++            if (len <= INT_MAX - l)
-++	        len += l;
-+ 	    NEXTL(l);
-+ 	    c = CUR_CHAR(l);
-+ 	}
-+     }
-+-    if ((len > XML_MAX_NAME_LENGTH) &&
-+-        ((ctxt->options & XML_PARSE_HUGE) == 0)) {
-++    if (len > maxLength) {
-+         xmlFatalErr(ctxt, XML_ERR_NAME_TOO_LONG, "Name");
-+         return(NULL);
-+     }
-+@@ -3346,7 +3352,10 @@ const xmlChar *
-+ xmlParseName(xmlParserCtxtPtr ctxt) {
-+     const xmlChar *in;
-+     const xmlChar *ret;
-+-    int count = 0;
-++    size_t count = 0;
-++    size_t maxLength = (ctxt->options & XML_PARSE_HUGE) ?
-++                       XML_MAX_TEXT_LENGTH :
-++                       XML_MAX_NAME_LENGTH;
-+ 
-+     GROW;
-+ 
-+@@ -3370,8 +3379,7 @@ xmlParseName(xmlParserCtxtPtr ctxt) {
-+ 	    in++;
-+ 	if ((*in > 0) && (*in < 0x80)) {
-+ 	    count = in - ctxt->input->cur;
-+-            if ((count > XML_MAX_NAME_LENGTH) &&
-+-                ((ctxt->options & XML_PARSE_HUGE) == 0)) {
-++            if (count > maxLength) {
-+                 xmlFatalErr(ctxt, XML_ERR_NAME_TOO_LONG, "Name");
-+                 return(NULL);
-+             }
-+@@ -3392,6 +3400,9 @@ xmlParseNCNameComplex(xmlParserCtxtPtr ctxt) {
-+     int len = 0, l;
-+     int c;
-+     int count = 0;
-++    int maxLength = (ctxt->options & XML_PARSE_HUGE) ?
-++                    XML_MAX_TEXT_LENGTH :
-++                    XML_MAX_NAME_LENGTH;
-+     size_t startPosition = 0;
-+ 
-+ #ifdef DEBUG
-+@@ -3412,17 +3423,13 @@ xmlParseNCNameComplex(xmlParserCtxtPtr ctxt) {
-+     while ((c != ' ') && (c != '>') && (c != '/') && /* test bigname.xml */
-+ 	   (xmlIsNameChar(ctxt, c) && (c != ':'))) {
-+ 	if (count++ > XML_PARSER_CHUNK_SIZE) {
-+-            if ((len > XML_MAX_NAME_LENGTH) &&
-+-                ((ctxt->options & XML_PARSE_HUGE) == 0)) {
-+-                xmlFatalErr(ctxt, XML_ERR_NAME_TOO_LONG, "NCName");
-+-                return(NULL);
-+-            }
-+ 	    count = 0;
-+ 	    GROW;
-+             if (ctxt->instate == XML_PARSER_EOF)
-+                 return(NULL);
-+ 	}
-+-	len += l;
-++        if (len <= INT_MAX - l)
-++	    len += l;
-+ 	NEXTL(l);
-+ 	c = CUR_CHAR(l);
-+ 	if (c == 0) {
-+@@ -3440,8 +3447,7 @@ xmlParseNCNameComplex(xmlParserCtxtPtr ctxt) {
-+ 	    c = CUR_CHAR(l);
-+ 	}
-+     }
-+-    if ((len > XML_MAX_NAME_LENGTH) &&
-+-        ((ctxt->options & XML_PARSE_HUGE) == 0)) {
-++    if (len > maxLength) {
-+         xmlFatalErr(ctxt, XML_ERR_NAME_TOO_LONG, "NCName");
-+         return(NULL);
-+     }
-+@@ -3467,7 +3473,10 @@ static const xmlChar *
-+ xmlParseNCName(xmlParserCtxtPtr ctxt) {
-+     const xmlChar *in, *e;
-+     const xmlChar *ret;
-+-    int count = 0;
-++    size_t count = 0;
-++    size_t maxLength = (ctxt->options & XML_PARSE_HUGE) ?
-++                       XML_MAX_TEXT_LENGTH :
-++                       XML_MAX_NAME_LENGTH;
-+ 
-+ #ifdef DEBUG
-+     nbParseNCName++;
-+@@ -3492,8 +3501,7 @@ xmlParseNCName(xmlParserCtxtPtr ctxt) {
-+ 	    goto complex;
-+ 	if ((*in > 0) && (*in < 0x80)) {
-+ 	    count = in - ctxt->input->cur;
-+-            if ((count > XML_MAX_NAME_LENGTH) &&
-+-                ((ctxt->options & XML_PARSE_HUGE) == 0)) {
-++            if (count > maxLength) {
-+                 xmlFatalErr(ctxt, XML_ERR_NAME_TOO_LONG, "NCName");
-+                 return(NULL);
-+             }
-+@@ -3575,6 +3583,9 @@ xmlParseStringName(xmlParserCtxtPtr ctxt, const xmlChar** str) {
-+     const xmlChar *cur = *str;
-+     int len = 0, l;
-+     int c;
-++    int maxLength = (ctxt->options & XML_PARSE_HUGE) ?
-++                    XML_MAX_TEXT_LENGTH :
-++                    XML_MAX_NAME_LENGTH;
-+ 
-+ #ifdef DEBUG
-+     nbParseStringName++;
-+@@ -3610,12 +3621,6 @@ xmlParseStringName(xmlParserCtxtPtr ctxt, const xmlChar** str) {
-+ 		if (len + 10 > max) {
-+ 		    xmlChar *tmp;
-+ 
-+-                    if ((len > XML_MAX_NAME_LENGTH) &&
-+-                        ((ctxt->options & XML_PARSE_HUGE) == 0)) {
-+-                        xmlFatalErr(ctxt, XML_ERR_NAME_TOO_LONG, "NCName");
-+-			xmlFree(buffer);
-+-                        return(NULL);
-+-                    }
-+ 		    max *= 2;
-+ 		    tmp = (xmlChar *) xmlRealloc(buffer,
-+ 			                            max * sizeof(xmlChar));
-+@@ -3629,14 +3634,18 @@ xmlParseStringName(xmlParserCtxtPtr ctxt, const xmlChar** str) {
-+ 		COPY_BUF(l,buffer,len,c);
-+ 		cur += l;
-+ 		c = CUR_SCHAR(cur, l);
-++                if (len > maxLength) {
-++                    xmlFatalErr(ctxt, XML_ERR_NAME_TOO_LONG, "NCName");
-++                    xmlFree(buffer);
-++                    return(NULL);
-++                }
-+ 	    }
-+ 	    buffer[len] = 0;
-+ 	    *str = cur;
-+ 	    return(buffer);
-+ 	}
-+     }
-+-    if ((len > XML_MAX_NAME_LENGTH) &&
-+-        ((ctxt->options & XML_PARSE_HUGE) == 0)) {
-++    if (len > maxLength) {
-+         xmlFatalErr(ctxt, XML_ERR_NAME_TOO_LONG, "NCName");
-+         return(NULL);
-+     }
-+@@ -3663,6 +3672,9 @@ xmlParseNmtoken(xmlParserCtxtPtr ctxt) {
-+     int len = 0, l;
-+     int c;
-+     int count = 0;
-++    int maxLength = (ctxt->options & XML_PARSE_HUGE) ?
-++                    XML_MAX_TEXT_LENGTH :
-++                    XML_MAX_NAME_LENGTH;
-+ 
-+ #ifdef DEBUG
-+     nbParseNmToken++;
-+@@ -3714,12 +3726,6 @@ xmlParseNmtoken(xmlParserCtxtPtr ctxt) {
-+ 		if (len + 10 > max) {
-+ 		    xmlChar *tmp;
-+ 
-+-                    if ((max > XML_MAX_NAME_LENGTH) &&
-+-                        ((ctxt->options & XML_PARSE_HUGE) == 0)) {
-+-                        xmlFatalErr(ctxt, XML_ERR_NAME_TOO_LONG, "NmToken");
-+-                        xmlFree(buffer);
-+-                        return(NULL);
-+-                    }
-+ 		    max *= 2;
-+ 		    tmp = (xmlChar *) xmlRealloc(buffer,
-+ 			                            max * sizeof(xmlChar));
-+@@ -3733,6 +3739,11 @@ xmlParseNmtoken(xmlParserCtxtPtr ctxt) {
-+ 		COPY_BUF(l,buffer,len,c);
-+ 		NEXTL(l);
-+ 		c = CUR_CHAR(l);
-++                if (len > maxLength) {
-++                    xmlFatalErr(ctxt, XML_ERR_NAME_TOO_LONG, "NmToken");
-++                    xmlFree(buffer);
-++                    return(NULL);
-++                }
-+ 	    }
-+ 	    buffer[len] = 0;
-+ 	    return(buffer);
-+@@ -3740,8 +3751,7 @@ xmlParseNmtoken(xmlParserCtxtPtr ctxt) {
-+     }
-+     if (len == 0)
-+         return(NULL);
-+-    if ((len > XML_MAX_NAME_LENGTH) &&
-+-        ((ctxt->options & XML_PARSE_HUGE) == 0)) {
-++    if (len > maxLength) {
-+         xmlFatalErr(ctxt, XML_ERR_NAME_TOO_LONG, "NmToken");
-+         return(NULL);
-+     }
-+@@ -3767,6 +3777,9 @@ xmlParseEntityValue(xmlParserCtxtPtr ctxt, xmlChar **orig) {
-+     int len = 0;
-+     int size = XML_PARSER_BUFFER_SIZE;
-+     int c, l;
-++    int maxLength = (ctxt->options & XML_PARSE_HUGE) ?
-++                    XML_MAX_HUGE_LENGTH :
-++                    XML_MAX_TEXT_LENGTH;
-+     xmlChar stop;
-+     xmlChar *ret = NULL;
-+     const xmlChar *cur = NULL;
-+@@ -3826,6 +3839,12 @@ xmlParseEntityValue(xmlParserCtxtPtr ctxt, xmlChar **orig) {
-+ 	    GROW;
-+ 	    c = CUR_CHAR(l);
-+ 	}
-++
-++        if (len > maxLength) {
-++            xmlFatalErrMsg(ctxt, XML_ERR_ENTITY_NOT_FINISHED,
-++                           "entity value too long\n");
-++            goto error;
-++        }
-+     }
-+     buf[len] = 0;
-+     if (ctxt->instate == XML_PARSER_EOF)
-+@@ -3913,6 +3932,9 @@ xmlParseAttValueComplex(xmlParserCtxtPtr ctxt, int *attlen, int normalize) {
-+     xmlChar *rep = NULL;
-+     size_t len = 0;
-+     size_t buf_size = 0;
-++    size_t maxLength = (ctxt->options & XML_PARSE_HUGE) ?
-++                       XML_MAX_HUGE_LENGTH :
-++                       XML_MAX_TEXT_LENGTH;
-+     int c, l, in_space = 0;
-+     xmlChar *current = NULL;
-+     xmlEntityPtr ent;
-+@@ -3944,16 +3966,6 @@ xmlParseAttValueComplex(xmlParserCtxtPtr ctxt, int *attlen, int normalize) {
-+     while (((NXT(0) != limit) && /* checked */
-+             (IS_CHAR(c)) && (c != '<')) &&
-+             (ctxt->instate != XML_PARSER_EOF)) {
-+-        /*
-+-         * Impose a reasonable limit on attribute size, unless XML_PARSE_HUGE
-+-         * special option is given
-+-         */
-+-        if ((len > XML_MAX_TEXT_LENGTH) &&
-+-            ((ctxt->options & XML_PARSE_HUGE) == 0)) {
-+-            xmlFatalErrMsg(ctxt, XML_ERR_ATTRIBUTE_NOT_FINISHED,
-+-                           "AttValue length too long\n");
-+-            goto mem_error;
-+-        }
-+ 	if (c == '&') {
-+ 	    in_space = 0;
-+ 	    if (NXT(1) == '#') {
-+@@ -4101,6 +4113,11 @@ xmlParseAttValueComplex(xmlParserCtxtPtr ctxt, int *attlen, int normalize) {
-+ 	}
-+ 	GROW;
-+ 	c = CUR_CHAR(l);
-++        if (len > maxLength) {
-++            xmlFatalErrMsg(ctxt, XML_ERR_ATTRIBUTE_NOT_FINISHED,
-++                           "AttValue length too long\n");
-++            goto mem_error;
-++        }
-+     }
-+     if (ctxt->instate == XML_PARSER_EOF)
-+         goto error;
-+@@ -4122,16 +4139,6 @@ xmlParseAttValueComplex(xmlParserCtxtPtr ctxt, int *attlen, int normalize) {
-+     } else
-+ 	NEXT;
-+ 
-+-    /*
-+-     * There we potentially risk an overflow, don't allow attribute value of
-+-     * length more than INT_MAX it is a very reasonable assumption !
-+-     */
-+-    if (len >= INT_MAX) {
-+-        xmlFatalErrMsg(ctxt, XML_ERR_ATTRIBUTE_NOT_FINISHED,
-+-                       "AttValue length too long\n");
-+-        goto mem_error;
-+-    }
-+-
-+     if (attlen != NULL) *attlen = (int) len;
-+     return(buf);
-+ 
-+@@ -4202,6 +4209,9 @@ xmlParseSystemLiteral(xmlParserCtxtPtr ctxt) {
-+     int len = 0;
-+     int size = XML_PARSER_BUFFER_SIZE;
-+     int cur, l;
-++    int maxLength = (ctxt->options & XML_PARSE_HUGE) ?
-++                    XML_MAX_TEXT_LENGTH :
-++                    XML_MAX_NAME_LENGTH;
-+     xmlChar stop;
-+     int state = ctxt->instate;
-+     int count = 0;
-+@@ -4229,13 +4239,6 @@ xmlParseSystemLiteral(xmlParserCtxtPtr ctxt) {
-+ 	if (len + 5 >= size) {
-+ 	    xmlChar *tmp;
-+ 
-+-            if ((size > XML_MAX_NAME_LENGTH) &&
-+-                ((ctxt->options & XML_PARSE_HUGE) == 0)) {
-+-                xmlFatalErr(ctxt, XML_ERR_NAME_TOO_LONG, "SystemLiteral");
-+-                xmlFree(buf);
-+-		ctxt->instate = (xmlParserInputState) state;
-+-                return(NULL);
-+-            }
-+ 	    size *= 2;
-+ 	    tmp = (xmlChar *) xmlRealloc(buf, size * sizeof(xmlChar));
-+ 	    if (tmp == NULL) {
-+@@ -4264,6 +4267,12 @@ xmlParseSystemLiteral(xmlParserCtxtPtr ctxt) {
-+ 	    SHRINK;
-+ 	    cur = CUR_CHAR(l);
-+ 	}
-++        if (len > maxLength) {
-++            xmlFatalErr(ctxt, XML_ERR_NAME_TOO_LONG, "SystemLiteral");
-++            xmlFree(buf);
-++            ctxt->instate = (xmlParserInputState) state;
-++            return(NULL);
-++        }
-+     }
-+     buf[len] = 0;
-+     ctxt->instate = (xmlParserInputState) state;
-+@@ -4291,6 +4300,9 @@ xmlParsePubidLiteral(xmlParserCtxtPtr ctxt) {
-+     xmlChar *buf = NULL;
-+     int len = 0;
-+     int size = XML_PARSER_BUFFER_SIZE;
-++    int maxLength = (ctxt->options & XML_PARSE_HUGE) ?
-++                    XML_MAX_TEXT_LENGTH :
-++                    XML_MAX_NAME_LENGTH;
-+     xmlChar cur;
-+     xmlChar stop;
-+     int count = 0;
-+@@ -4318,12 +4330,6 @@ xmlParsePubidLiteral(xmlParserCtxtPtr ctxt) {
-+ 	if (len + 1 >= size) {
-+ 	    xmlChar *tmp;
-+ 
-+-            if ((size > XML_MAX_NAME_LENGTH) &&
-+-                ((ctxt->options & XML_PARSE_HUGE) == 0)) {
-+-                xmlFatalErr(ctxt, XML_ERR_NAME_TOO_LONG, "Public ID");
-+-                xmlFree(buf);
-+-                return(NULL);
-+-            }
-+ 	    size *= 2;
-+ 	    tmp = (xmlChar *) xmlRealloc(buf, size * sizeof(xmlChar));
-+ 	    if (tmp == NULL) {
-+@@ -4351,6 +4357,11 @@ xmlParsePubidLiteral(xmlParserCtxtPtr ctxt) {
-+ 	    SHRINK;
-+ 	    cur = CUR;
-+ 	}
-++        if (len > maxLength) {
-++            xmlFatalErr(ctxt, XML_ERR_NAME_TOO_LONG, "Public ID");
-++            xmlFree(buf);
-++            return(NULL);
-++        }
-+     }
-+     buf[len] = 0;
-+     if (cur != stop) {
-+@@ -4750,6 +4761,9 @@ xmlParseCommentComplex(xmlParserCtxtPtr ctxt, xmlChar *buf,
-+     int r, rl;
-+     int cur, l;
-+     size_t count = 0;
-++    size_t maxLength = (ctxt->options & XML_PARSE_HUGE) ?
-++                       XML_MAX_HUGE_LENGTH :
-++                       XML_MAX_TEXT_LENGTH;
-+     int inputid;
-+ 
-+     inputid = ctxt->input->id;
-+@@ -4795,13 +4809,6 @@ xmlParseCommentComplex(xmlParserCtxtPtr ctxt, xmlChar *buf,
-+ 	if ((r == '-') && (q == '-')) {
-+ 	    xmlFatalErr(ctxt, XML_ERR_HYPHEN_IN_COMMENT, NULL);
-+ 	}
-+-        if ((len > XML_MAX_TEXT_LENGTH) &&
-+-            ((ctxt->options & XML_PARSE_HUGE) == 0)) {
-+-            xmlFatalErrMsgStr(ctxt, XML_ERR_COMMENT_NOT_FINISHED,
-+-                         "Comment too big found", NULL);
-+-            xmlFree (buf);
-+-            return;
-+-        }
-+ 	if (len + 5 >= size) {
-+ 	    xmlChar *new_buf;
-+             size_t new_size;
-+@@ -4839,6 +4846,13 @@ xmlParseCommentComplex(xmlParserCtxtPtr ctxt, xmlChar *buf,
-+ 	    GROW;
-+ 	    cur = CUR_CHAR(l);
-+ 	}
-++
-++        if (len > maxLength) {
-++            xmlFatalErrMsgStr(ctxt, XML_ERR_COMMENT_NOT_FINISHED,
-++                         "Comment too big found", NULL);
-++            xmlFree (buf);
-++            return;
-++        }
-+     }
-+     buf[len] = 0;
-+     if (cur == 0) {
-+@@ -4883,6 +4897,9 @@ xmlParseComment(xmlParserCtxtPtr ctxt) {
-+     xmlChar *buf = NULL;
-+     size_t size = XML_PARSER_BUFFER_SIZE;
-+     size_t len = 0;
-++    size_t maxLength = (ctxt->options & XML_PARSE_HUGE) ?
-++                       XML_MAX_HUGE_LENGTH :
-++                       XML_MAX_TEXT_LENGTH;
-+     xmlParserInputState state;
-+     const xmlChar *in;
-+     size_t nbchar = 0;
-+@@ -4966,8 +4983,7 @@ get_more:
-+ 		buf[len] = 0;
-+ 	    }
-+ 	}
-+-        if ((len > XML_MAX_TEXT_LENGTH) &&
-+-            ((ctxt->options & XML_PARSE_HUGE) == 0)) {
-++        if (len > maxLength) {
-+             xmlFatalErrMsgStr(ctxt, XML_ERR_COMMENT_NOT_FINISHED,
-+                          "Comment too big found", NULL);
-+             xmlFree (buf);
-+@@ -5167,6 +5183,9 @@ xmlParsePI(xmlParserCtxtPtr ctxt) {
-+     xmlChar *buf = NULL;
-+     size_t len = 0;
-+     size_t size = XML_PARSER_BUFFER_SIZE;
-++    size_t maxLength = (ctxt->options & XML_PARSE_HUGE) ?
-++                       XML_MAX_HUGE_LENGTH :
-++                       XML_MAX_TEXT_LENGTH;
-+     int cur, l;
-+     const xmlChar *target;
-+     xmlParserInputState state;
-+@@ -5242,14 +5261,6 @@ xmlParsePI(xmlParserCtxtPtr ctxt) {
-+                         return;
-+                     }
-+ 		    count = 0;
-+-                    if ((len > XML_MAX_TEXT_LENGTH) &&
-+-                        ((ctxt->options & XML_PARSE_HUGE) == 0)) {
-+-                        xmlFatalErrMsgStr(ctxt, XML_ERR_PI_NOT_FINISHED,
-+-                                          "PI %s too big found", target);
-+-                        xmlFree(buf);
-+-                        ctxt->instate = state;
-+-                        return;
-+-                    }
-+ 		}
-+ 		COPY_BUF(l,buf,len,cur);
-+ 		NEXTL(l);
-+@@ -5259,15 +5270,14 @@ xmlParsePI(xmlParserCtxtPtr ctxt) {
-+ 		    GROW;
-+ 		    cur = CUR_CHAR(l);
-+ 		}
-++                if (len > maxLength) {
-++                    xmlFatalErrMsgStr(ctxt, XML_ERR_PI_NOT_FINISHED,
-++                                      "PI %s too big found", target);
-++                    xmlFree(buf);
-++                    ctxt->instate = state;
-++                    return;
-++                }
-+ 	    }
-+-            if ((len > XML_MAX_TEXT_LENGTH) &&
-+-                ((ctxt->options & XML_PARSE_HUGE) == 0)) {
-+-                xmlFatalErrMsgStr(ctxt, XML_ERR_PI_NOT_FINISHED,
-+-                                  "PI %s too big found", target);
-+-                xmlFree(buf);
-+-                ctxt->instate = state;
-+-                return;
-+-            }
-+ 	    buf[len] = 0;
-+ 	    if (cur != '?') {
-+ 		xmlFatalErrMsgStr(ctxt, XML_ERR_PI_NOT_FINISHED,
-+@@ -8959,6 +8969,9 @@ xmlParseAttValueInternal(xmlParserCtxtPtr ctxt, int *len, int *alloc,
-+     const xmlChar *in = NULL, *start, *end, *last;
-+     xmlChar *ret = NULL;
-+     int line, col;
-++    int maxLength = (ctxt->options & XML_PARSE_HUGE) ?
-++                    XML_MAX_HUGE_LENGTH :
-++                    XML_MAX_TEXT_LENGTH;
-+ 
-+     GROW;
-+     in = (xmlChar *) CUR_PTR;
-+@@ -8998,8 +9011,7 @@ xmlParseAttValueInternal(xmlParserCtxtPtr ctxt, int *len, int *alloc,
-+ 	    start = in;
-+ 	    if (in >= end) {
-+                 GROW_PARSE_ATT_VALUE_INTERNAL(ctxt, in, start, end)
-+-                if (((in - start) > XML_MAX_TEXT_LENGTH) &&
-+-                    ((ctxt->options & XML_PARSE_HUGE) == 0)) {
-++                if ((in - start) > maxLength) {
-+                     xmlFatalErrMsg(ctxt, XML_ERR_ATTRIBUTE_NOT_FINISHED,
-+                                    "AttValue length too long\n");
-+                     return(NULL);
-+@@ -9012,8 +9024,7 @@ xmlParseAttValueInternal(xmlParserCtxtPtr ctxt, int *len, int *alloc,
-+ 	    if ((*in++ == 0x20) && (*in == 0x20)) break;
-+ 	    if (in >= end) {
-+                 GROW_PARSE_ATT_VALUE_INTERNAL(ctxt, in, start, end)
-+-                if (((in - start) > XML_MAX_TEXT_LENGTH) &&
-+-                    ((ctxt->options & XML_PARSE_HUGE) == 0)) {
-++                if ((in - start) > maxLength) {
-+                     xmlFatalErrMsg(ctxt, XML_ERR_ATTRIBUTE_NOT_FINISHED,
-+                                    "AttValue length too long\n");
-+                     return(NULL);
-+@@ -9046,16 +9057,14 @@ xmlParseAttValueInternal(xmlParserCtxtPtr ctxt, int *len, int *alloc,
-+ 		    last = last + delta;
-+ 		}
-+ 		end = ctxt->input->end;
-+-                if (((in - start) > XML_MAX_TEXT_LENGTH) &&
-+-                    ((ctxt->options & XML_PARSE_HUGE) == 0)) {
-++                if ((in - start) > maxLength) {
-+                     xmlFatalErrMsg(ctxt, XML_ERR_ATTRIBUTE_NOT_FINISHED,
-+                                    "AttValue length too long\n");
-+                     return(NULL);
-+                 }
-+ 	    }
-+ 	}
-+-        if (((in - start) > XML_MAX_TEXT_LENGTH) &&
-+-            ((ctxt->options & XML_PARSE_HUGE) == 0)) {
-++        if ((in - start) > maxLength) {
-+             xmlFatalErrMsg(ctxt, XML_ERR_ATTRIBUTE_NOT_FINISHED,
-+                            "AttValue length too long\n");
-+             return(NULL);
-+@@ -9068,8 +9077,7 @@ xmlParseAttValueInternal(xmlParserCtxtPtr ctxt, int *len, int *alloc,
-+ 	    col++;
-+ 	    if (in >= end) {
-+                 GROW_PARSE_ATT_VALUE_INTERNAL(ctxt, in, start, end)
-+-                if (((in - start) > XML_MAX_TEXT_LENGTH) &&
-+-                    ((ctxt->options & XML_PARSE_HUGE) == 0)) {
-++                if ((in - start) > maxLength) {
-+                     xmlFatalErrMsg(ctxt, XML_ERR_ATTRIBUTE_NOT_FINISHED,
-+                                    "AttValue length too long\n");
-+                     return(NULL);
-+@@ -9077,8 +9085,7 @@ xmlParseAttValueInternal(xmlParserCtxtPtr ctxt, int *len, int *alloc,
-+ 	    }
-+ 	}
-+ 	last = in;
-+-        if (((in - start) > XML_MAX_TEXT_LENGTH) &&
-+-            ((ctxt->options & XML_PARSE_HUGE) == 0)) {
-++        if ((in - start) > maxLength) {
-+             xmlFatalErrMsg(ctxt, XML_ERR_ATTRIBUTE_NOT_FINISHED,
-+                            "AttValue length too long\n");
-+             return(NULL);
-+@@ -9768,6 +9775,9 @@ xmlParseCDSect(xmlParserCtxtPtr ctxt) {
-+     int	s, sl;
-+     int cur, l;
-+     int count = 0;
-++    int maxLength = (ctxt->options & XML_PARSE_HUGE) ?
-++                    XML_MAX_HUGE_LENGTH :
-++                    XML_MAX_TEXT_LENGTH;
-+ 
-+     /* Check 2.6.0 was NXT(0) not RAW */
-+     if (CMP9(CUR_PTR, '<', '!', '[', 'C', 'D', 'A', 'T', 'A', '[')) {
-+@@ -9801,13 +9811,6 @@ xmlParseCDSect(xmlParserCtxtPtr ctxt) {
-+ 	if (len + 5 >= size) {
-+ 	    xmlChar *tmp;
-+ 
-+-            if ((size > XML_MAX_TEXT_LENGTH) &&
-+-                ((ctxt->options & XML_PARSE_HUGE) == 0)) {
-+-                xmlFatalErrMsgStr(ctxt, XML_ERR_CDATA_NOT_FINISHED,
-+-                             "CData section too big found", NULL);
-+-                xmlFree (buf);
-+-                return;
-+-            }
-+ 	    tmp = (xmlChar *) xmlRealloc(buf, size * 2 * sizeof(xmlChar));
-+ 	    if (tmp == NULL) {
-+ 	        xmlFree(buf);
-+@@ -9834,6 +9837,12 @@ xmlParseCDSect(xmlParserCtxtPtr ctxt) {
-+ 	}
-+ 	NEXTL(l);
-+ 	cur = CUR_CHAR(l);
-++        if (len > maxLength) {
-++            xmlFatalErrMsg(ctxt, XML_ERR_CDATA_NOT_FINISHED,
-++                           "CData section too big found\n");
-++            xmlFree(buf);
-++            return;
-++        }
-+     }
-+     buf[len] = 0;
-+     ctxt->instate = XML_PARSER_CONTENT;
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2022-40304.patch b/meta/recipes-core/libxml/libxml2/CVE-2022-40304.patch
-new file mode 100644
-index 0000000000..b24be03315
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2022-40304.patch
-@@ -0,0 +1,106 @@
-+From cde95d801abc9405ca821ad814c7730333328d96 Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Wed, 31 Aug 2022 22:11:25 +0200
-+Subject: [PATCH] CVE-2022-40304
-+
-+Fix dict corruption caused by entity reference cycles
-+
-+When an entity reference cycle is detected, the entity content is
-+cleared by setting its first byte to zero. But the entity content might
-+be allocated from a dict. In this case, the dict entry becomes corrupted
-+leading to all kinds of logic errors, including memory errors like
-+double-frees.
-+
-+Stop storing entity content, orig, ExternalID and SystemID in a dict.
-+These values are unlikely to occur multiple times in a document, so they
-+shouldn't have been stored in a dict in the first place.
-+
-+Thanks to Ned Williamson and Nathan Wachholz working with Google Project
-+Zero for the report!
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/1b41ec4e9433b05bb0376be4725804c54ef1d80b]
-+CVE: CVE-2022-40304
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ entities.c | 55 ++++++++++++++++--------------------------------------
-+ 1 file changed, 16 insertions(+), 39 deletions(-)
-+
-+diff --git a/entities.c b/entities.c
-+index 1a8f86f..ec1b9a7 100644
-+--- a/entities.c
-++++ b/entities.c
-+@@ -112,36 +112,19 @@ xmlFreeEntity(xmlEntityPtr entity)
-+     if ((entity->children) && (entity->owner == 1) &&
-+         (entity == (xmlEntityPtr) entity->children->parent))
-+         xmlFreeNodeList(entity->children);
-+-    if (dict != NULL) {
-+-        if ((entity->name != NULL) && (!xmlDictOwns(dict, entity->name)))
-+-            xmlFree((char *) entity->name);
-+-        if ((entity->ExternalID != NULL) &&
-+-	    (!xmlDictOwns(dict, entity->ExternalID)))
-+-            xmlFree((char *) entity->ExternalID);
-+-        if ((entity->SystemID != NULL) &&
-+-	    (!xmlDictOwns(dict, entity->SystemID)))
-+-            xmlFree((char *) entity->SystemID);
-+-        if ((entity->URI != NULL) && (!xmlDictOwns(dict, entity->URI)))
-+-            xmlFree((char *) entity->URI);
-+-        if ((entity->content != NULL)
-+-            && (!xmlDictOwns(dict, entity->content)))
-+-            xmlFree((char *) entity->content);
-+-        if ((entity->orig != NULL) && (!xmlDictOwns(dict, entity->orig)))
-+-            xmlFree((char *) entity->orig);
-+-    } else {
-+-        if (entity->name != NULL)
-+-            xmlFree((char *) entity->name);
-+-        if (entity->ExternalID != NULL)
-+-            xmlFree((char *) entity->ExternalID);
-+-        if (entity->SystemID != NULL)
-+-            xmlFree((char *) entity->SystemID);
-+-        if (entity->URI != NULL)
-+-            xmlFree((char *) entity->URI);
-+-        if (entity->content != NULL)
-+-            xmlFree((char *) entity->content);
-+-        if (entity->orig != NULL)
-+-            xmlFree((char *) entity->orig);
-+-    }
-++    if ((entity->name != NULL) &&
-++        ((dict == NULL) || (!xmlDictOwns(dict, entity->name))))
-++        xmlFree((char *) entity->name);
-++    if (entity->ExternalID != NULL)
-++        xmlFree((char *) entity->ExternalID);
-++    if (entity->SystemID != NULL)
-++        xmlFree((char *) entity->SystemID);
-++    if (entity->URI != NULL)
-++        xmlFree((char *) entity->URI);
-++    if (entity->content != NULL)
-++        xmlFree((char *) entity->content);
-++    if (entity->orig != NULL)
-++        xmlFree((char *) entity->orig);
-+     xmlFree(entity);
-+ }
-+ 
-+@@ -177,18 +160,12 @@ xmlCreateEntity(xmlDictPtr dict, const xmlChar *name, int type,
-+ 	    ret->SystemID = xmlStrdup(SystemID);
-+     } else {
-+         ret->name = xmlDictLookup(dict, name, -1);
-+-	if (ExternalID != NULL)
-+-	    ret->ExternalID = xmlDictLookup(dict, ExternalID, -1);
-+-	if (SystemID != NULL)
-+-	    ret->SystemID = xmlDictLookup(dict, SystemID, -1);
-++	ret->ExternalID = xmlStrdup(ExternalID);
-++	ret->SystemID = xmlStrdup(SystemID);
-+     }
-+     if (content != NULL) {
-+         ret->length = xmlStrlen(content);
-+-	if ((dict != NULL) && (ret->length < 5))
-+-	    ret->content = (xmlChar *)
-+-	                   xmlDictLookup(dict, content, ret->length);
-+-	else
-+-	    ret->content = xmlStrndup(content, ret->length);
-++	ret->content = xmlStrndup(content, ret->length);
-+      } else {
-+         ret->length = 0;
-+         ret->content = NULL;
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.14.bb b/meta/recipes-core/libxml/libxml2_2.9.14.bb
-index 519985bbae..fffe7dda98 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.14.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.14.bb
-@@ -23,6 +23,8 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar.gz;subdir=${BP};name=te
-            file://remove-fuzz-from-ptests.patch \
-            file://libxml-m4-use-pkgconfig.patch \
-            file://0001-Port-gentest.py-to-Python-3.patch \
-+           file://CVE-2022-40303.patch \
-+           file://CVE-2022-40304.patch \
-            "
+diff --git a/meta/recipes-support/mpfr/mpfr_4.1.0.bb b/meta/recipes-support/mpfr/mpfr_4.1.1.bb
+similarity index 91%
+rename from meta/recipes-support/mpfr/mpfr_4.1.0.bb
+rename to meta/recipes-support/mpfr/mpfr_4.1.1.bb
+index 2121dad57c..f531a88961 100644
+--- a/meta/recipes-support/mpfr/mpfr_4.1.0.bb
++++ b/meta/recipes-support/mpfr/mpfr_4.1.1.bb
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464 \
+ DEPENDS = "gmp autoconf-archive"
  
- SRC_URI[archive.sha256sum] = "60d74a257d1ccec0475e749cba2f21559e48139efba6ff28224357c7c798dfee"
+ SRC_URI = "https://www.mpfr.org/mpfr-${PV}/mpfr-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "0c98a3f1732ff6ca4ea690552079da9c597872d30e96ec28414ee23c95558a7f"
++SRC_URI[sha256sum] = "ffd195bd567dbaffc3b98b23fd00aad0537680c9896171e44fe3ff79e28ac33d"
+ 
+ UPSTREAM_CHECK_URI = "http://www.mpfr.org/mpfr-current/"
+ 
 -- 
 2.25.1
 
