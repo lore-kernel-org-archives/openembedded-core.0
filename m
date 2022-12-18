@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E957C4167B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A822C10F1E
 	for <webhook@archiver.kernel.org>; Sun, 18 Dec 2022 16:13:49 +0000 (UTC)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web10.32119.1671380028315478027
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web11.32491.1671380022330272187
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Dec 2022 08:13:48 -0800
+ Sun, 18 Dec 2022 08:13:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=zW09ZTbl;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.42, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f42.google.com with SMTP id fa4-20020a17090af0c400b002198d1328a0so12354580pjb.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 18 Dec 2022 08:13:48 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=2rvGQiBl;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.54, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f54.google.com with SMTP id hd14-20020a17090b458e00b0021909875bccso12086121pjb.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 18 Dec 2022 08:13:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3KcD1dMWsiDajC8BK/vr3ezOCC8BWL15oMjGCa6+4IU=;
-        b=zW09ZTblshR3Vkobv+4gNrelbyAYOa/pj0IdMv8jjqUl267senVbtiEGksbZaMIvVj
-         SC9gbygo7Z+d/XEo0mFHrgVU3OJjHrQh1tBhHnQ95jhIpeKnONxVN7qhIW+KS7gc+YfR
-         e7epKLV7bHpakGkHs3NMtXlKFoYw4nLkhN15SecWnRGFXkCRcb4e4PG07h+HpohdDBe0
-         5L66jg+5qxce7j8I+6coezFcLbEuqRfN1TSbjboYsyVYpkGUCK5jwJgnIeN9WpOyxcst
-         73KVmSeG9WNbJFbREd4TPj/J0xbya/CkbowG5mYHap94GU9bgfv5RjlFxxJgWeBpm0nt
-         QCxQ==
+        bh=Ar86LaAF3BpUFetRwPtcv4ZJbB4PML4ZD8H0ZnjrTm0=;
+        b=2rvGQiBl1SV+IFS0xh/vra5wY4wdBrGyxYoIKwRX5g/GJHaNJeo+bvHw7orrl6xhWT
+         tqZdOTRs8stOdyk+vv8XhwTVSCf/mzZXOFEAc3u9Z37N0ZJKzk7HX1Wdi3WXu/Hz4XQ6
+         yjhxboPZm3ZnNf4Vh852qEyoiGvb5hlQzPF1t8K0wphyN9z81s/odJkEfP2gSoYgAs1h
+         +++rfJ7cp81/R13eH2NH57luBeDaGeLQNg0Vhc1KjBG3YJWvy6nTWUmWGAOWgiHe+Y3w
+         NelNP2uRvOOeiUfnm+vCq+96s3+UdYdFUIGiiF5Taisi4jq3Sui+WTM2PXR0U952BYBz
+         EBig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3KcD1dMWsiDajC8BK/vr3ezOCC8BWL15oMjGCa6+4IU=;
-        b=p8do2Ew1YaEJpAwrOOC1aRoeCTFIlrdYM0hG9iWGmK9PfNgVSGOCo9cCvvswaDzBRT
-         P8XCVPiHhWtVljElPET02QOBAD94Z/IbrfY30mA69RucJNB2HHqGQi4ljdUjN+QwB7ia
-         GwrATt5lUi8ZYXzuH+aqMRg/aF43J9YeBwTsgrt0Twr7080WhbwVfiEZKfrNhdehBCOe
-         z6SSJsfGs25KkHf011pcmWMiY5QTuTA3jVX3sf2kuv5TFHjAE68IJyDPjANHfaBTi2Ru
-         m/s2aa070XMOc8LoJ7aAppBOvNnasnqucTioZRv9FX+lxTsp4WfQWCQj8bYnERi5gbq+
-         4rfw==
-X-Gm-Message-State: ANoB5pmz9wZRi7+DPYQSiSq4wQKJYtqwfefudKFBTjVS74GMwxnzWED6
-	XMMi+lDM8W8WSKit9Ij5RvVDEYkcJIXkJbMOj3g=
-X-Google-Smtp-Source: AA0mqf6X/mDZCL7vOKK3gDCwy/JSz8pIoPNuZhdvJq3BIvXlulzdFM2nqsrwyR7Tek6sIOfMPSZREg==
-X-Received: by 2002:a17:902:8ec1:b0:189:2276:30c5 with SMTP id x1-20020a1709028ec100b00189227630c5mr36171887plo.0.1671380027340;
-        Sun, 18 Dec 2022 08:13:47 -0800 (PST)
+        bh=Ar86LaAF3BpUFetRwPtcv4ZJbB4PML4ZD8H0ZnjrTm0=;
+        b=hZDKzLXMjIFOU90VlUubUo8DGqd64SXoWzOIK2VxOEVGzTpx1WQ+OED3vEvQEDZirI
+         kMo7jYcgpKxBqR3bR3U3NzqhOQz9G1OxAe5gLdpeATaMFFFnj0ZkpiCwU3VjIpGJ9S+q
+         c4cVlZ9xiBwx476pYbRWRyFmLul7U2IPceaCPLAs0te38Dlk7AA3v6OgjHNMyMOuaadB
+         NychUPkXBiMYFirE4fGSxxT+CAOWXfKW7H/YLN6rKwzfJ1RrA+h/siB2OxVWSnXO9E2x
+         Xnnkdg290PkADZMX5jxtwGhkehlum/IStPlCL9tYkUX+RiY+grCbYj6Vubw80ZGtrgHz
+         JztQ==
+X-Gm-Message-State: ANoB5pmgTSydVEEtXKLy+VkQPUgR0re70l0s8l50m2VI4TE9jPhLOYVI
+	mJWooOUiLkhtE2k/SgiUTjYnep7p42XlVymYlb0=
+X-Google-Smtp-Source: AA0mqf7MxgBKUJDWcrt3xigLLNA01lXmgY8cBxUt9cbG/OwD8JALymAXAxuPAOjqWYQeWnmvwS/0cg==
+X-Received: by 2002:a17:902:bc88:b0:186:748e:9383 with SMTP id bb8-20020a170902bc8800b00186748e9383mr35700218plb.46.1671380021365;
+        Sun, 18 Dec 2022 08:13:41 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id c7-20020a170902d48700b001896522a23bsm5278763plg.39.2022.12.18.08.13.46
+        by smtp.gmail.com with ESMTPSA id c7-20020a170902d48700b001896522a23bsm5278763plg.39.2022.12.18.08.13.40
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Dec 2022 08:13:46 -0800 (PST)
+        Sun, 18 Dec 2022 08:13:40 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 17/19] combo-layer: add sync-revs command
-Date: Sun, 18 Dec 2022 06:13:01 -1000
-Message-Id: <ba24231de6a3826558c9fcd403b075fc6772fffa.1671379841.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 14/19] oeqa/selftest/externalsrc: add test for srctree_hash_files
+Date: Sun, 18 Dec 2022 06:12:58 -1000
+Message-Id: <c3647c6beb04426774e4d99f2442f460d6a6b42c.1671379841.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1671379841.git.steve@sakoman.com>
 References: <cover.1671379841.git.steve@sakoman.com>
@@ -61,76 +61,69 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 18 Dec 2022 16:13:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174804
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174801
 
-From: Ross Burton <ross.burton@arm.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-When starting to use combo-layer, or if someone else is using it too,
-the local last_revision may be incorrect.
-
-This command will forcibly update the last_revision config values to the
-latest SHA on the remote branch that is tracked.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2bb5d12ecd1b0273983f7c05699f34dd64b11c25)
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit 7b9728e5b8bdf1193c1304ec3beeca4b5bf8d2da)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/combo-layer | 27 +++++++++++++++++++++++----
- 1 file changed, 23 insertions(+), 4 deletions(-)
+ meta/lib/oeqa/selftest/cases/externalsrc.py | 44 +++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
+ create mode 100644 meta/lib/oeqa/selftest/cases/externalsrc.py
 
-diff --git a/scripts/combo-layer b/scripts/combo-layer
-index e467f390c1..7f2020fca7 100755
---- a/scripts/combo-layer
-+++ b/scripts/combo-layer
-@@ -191,6 +191,23 @@ def runcmd(cmd,destdir=None,printerr=True,out=None,env=None):
-     logger.debug("output: %s" % output.replace(chr(0), '\\0'))
-     return output
- 
-+def action_sync_revs(conf, args):
-+    """
-+    Update the last_revision config option for each repo with the latest
-+    revision in the remote's branch. Useful if multiple people are using
-+    combo-layer.
-+    """
-+    repos = get_repos(conf, args[1:])
+diff --git a/meta/lib/oeqa/selftest/cases/externalsrc.py b/meta/lib/oeqa/selftest/cases/externalsrc.py
+new file mode 100644
+index 0000000000..1d800dc82c
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/externalsrc.py
+@@ -0,0 +1,44 @@
++#
++# Copyright OpenEmbedded Contributors
++#
++# SPDX-License-Identifier: MIT
++#
 +
-+    for name in repos:
-+        repo = conf.repos[name]
-+        ldir = repo['local_repo_dir']
-+        branch = repo.get('branch', "master")
-+        runcmd("git fetch", ldir)
-+        lastrev = runcmd('git rev-parse origin/%s' % branch, ldir).strip()
-+        print("Updating %s to %s" % (name, lastrev))
-+        conf.update(name, "last_revision", lastrev)
++import os
++import shutil
++import tempfile
 +
- def action_init(conf, args):
-     """
-         Clone component repositories
-@@ -1301,6 +1318,7 @@ actions = {
-     "update": action_update,
-     "pull": action_pull,
-     "splitpatch": action_splitpatch,
-+    "sync-revs": action_sync_revs,
- }
- 
- def main():
-@@ -1311,10 +1329,11 @@ def main():
- Create and update a combination layer repository from multiple component repositories.
- 
- Action:
--  init                 initialise the combo layer repo
--  update [components]  get patches from component repos and apply them to the combo repo
--  pull [components]    just pull component repos only
--  splitpatch [commit]  generate commit patch and split per component, default commit is HEAD""")
-+  init                   initialise the combo layer repo
-+  update [components]    get patches from component repos and apply them to the combo repo
-+  pull [components]      just pull component repos only
-+  sync-revs [components] update the config file's last_revision for each repository
-+  splitpatch [commit]    generate commit patch and split per component, default commit is HEAD""")
- 
-     parser.add_option("-c", "--conf", help = "specify the config file (conf/combo-layer.conf is the default).",
-                action = "store", dest = "conffile", default = "conf/combo-layer.conf")
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import get_bb_var, runCmd
++
++class ExternalSrc(OESelftestTestCase):
++    # test that srctree_hash_files does not crash
++    # we should be actually checking do_compile[file-checksums] but oeqa currently does not support it
++    #     so we check only that a recipe with externalsrc can be parsed
++    def test_externalsrc_srctree_hash_files(self):
++        test_recipe = "git-submodule-test"
++        git_url = "git://git.yoctoproject.org/git-submodule-test"
++        externalsrc_dir = tempfile.TemporaryDirectory(prefix="externalsrc").name
++
++        self.write_config(
++            """
++INHERIT += "externalsrc"
++EXTERNALSRC:pn-%s = "%s"
++""" % (test_recipe, externalsrc_dir)
++        )
++
++        # test with git without submodules
++        runCmd('git clone %s %s' % (git_url, externalsrc_dir))
++        os.unlink(externalsrc_dir + "/.gitmodules")
++        open(".gitmodules", 'w').close()  # local file .gitmodules in cwd should not affect externalsrc parsing
++        self.assertEqual(get_bb_var("S", test_recipe), externalsrc_dir, msg = "S does not equal to EXTERNALSRC")
++        os.unlink(".gitmodules")
++
++        # test with git with submodules
++        runCmd('git checkout .gitmodules', cwd=externalsrc_dir)
++        runCmd('git submodule update --init --recursive', cwd=externalsrc_dir)
++        self.assertEqual(get_bb_var("S", test_recipe), externalsrc_dir, msg = "S does not equal to EXTERNALSRC")
++
++        # test without git
++        shutil.rmtree(os.path.join(externalsrc_dir, ".git"))
++        self.assertEqual(get_bb_var("S", test_recipe), externalsrc_dir, msg = "S does not equal to EXTERNALSRC")
 -- 
 2.25.1
 
