@@ -2,179 +2,367 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0CE9C10F1E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A19AAC4708D
 	for <webhook@archiver.kernel.org>; Sun, 18 Dec 2022 16:13:19 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.32098.1671379991394062434
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web10.32099.1671379995056519891
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Dec 2022 08:13:11 -0800
+ Sun, 18 Dec 2022 08:13:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=flc9th9R;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id w20so274618ply.12
-        for <openembedded-core@lists.openembedded.org>; Sun, 18 Dec 2022 08:13:11 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=PToXrUo0;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f45.google.com with SMTP id z8-20020a17090abd8800b00219ed30ce47so10730727pjr.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 18 Dec 2022 08:13:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zoIdOxoYUxNICRABmQo9r6x/AqD0FfgtA9PPYO60+ug=;
-        b=flc9th9Rnle0sqMmP3TM2Y3RKlQSFBTVrpPQnUbgXyqQ3KbPggKue2xs+TwhEGVhZc
-         nxJacuW5CWBFPsbYekAQDPgaCspNuTNU6t/5+TOpfzpUyYcFV7uUXrxTT28hAbHk/7ne
-         6ZxXyjtaSVfo5/x0NRY096yW4oa9gEDb3fbZz0VS91GZojFEGtZARzcHVALanAVe0O5D
-         ktPSIYF460AjT27drvtwqketfDh6ql2dxAAeY8RsW56OgybZu81TJ0wbX7bXE7an8/Y7
-         0inlxUwen2f5Eqo0bPasC/oHkAZs/cTSecwVvVa6gGFV/AxVT5mw2GoHZBX0wjKaUJIg
-         xoAw==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wnbU2gEDNYl51PK3px6KFv8b8z6EzPl2bI5U6ClVwd0=;
+        b=PToXrUo0SEKPtjB+OW+qKAXc/Fiom45+Xa5iG3xMsK2PWm9YpWVRgbE3K6pSBnVkm8
+         mO7tSaNs612HvgvXkbDJh2DyCmwxTaMUfUPdTrbOaTapf8M4QdoyNslgmH/sLIxDYKpH
+         qfm4vBaSUJpWU/gHEhdISSxQq8DbFa5wyaDa4PG6nj5zRXJYn5RbZwOOLRdheQcjvmvB
+         u1plgTplOrLBJ+cuqDFYdJdlAH7GpKEFehKNDasBm5IVq7EexY9o7R7xM/QCnu40ZJS2
+         KnGaOSLa+oljHR8EOWcwJctM099zAT2CZFou443mV7HHozTy/v0eavh5w6h6fxLNYodo
+         OJUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zoIdOxoYUxNICRABmQo9r6x/AqD0FfgtA9PPYO60+ug=;
-        b=2QTE5OCRrjKtGuG9HPAfUhBZDPs3Gx+MAZ+622NTu2ersIh1rx3t+2jl/o2eDVsmhS
-         mM+C/goGpSRmBN154ECXLW4+q41JTn0kiieNLKpAKBRHIX5iLagHmo3Ck3X+JiMMTPPG
-         wVGUbD6nOq81i+YAZIxvzEJ37cj4EFTI9A7guwEhUFrxD2NAVFCEr0zL710x0lV/eYhk
-         yzbqLcfaRL9tLjFGQXlDH3UWtZk7H+GTtqyTzYPLBbXQfE3yyzsQ8cWGv3OkBeNSXGrc
-         hqqy9cD6k/ysOysD4D1tkd/LpYVLJQWPeisd9sWYH5MXm84H0f13K7xjA1WN6lWf/E2Y
-         TMyQ==
-X-Gm-Message-State: ANoB5pl3m4nnCLzltxAeoIhjqatXftemrGsUGEI3vcBWn353qYfTj6Is
-	GyZ7MEe0F3eKZ7lwcG+Oof8xgT3G9OAJjz6l8l8=
-X-Google-Smtp-Source: AA0mqf5gsa3XHYyiH4F/F87Ae0xjZEZuC5ZSkBSP3x8g2TSfg1F9PqxJIoJ10KQ2Kv6UXLLYx1Q7Hw==
-X-Received: by 2002:a17:902:8d81:b0:189:dd9b:66c3 with SMTP id v1-20020a1709028d8100b00189dd9b66c3mr36742064plo.11.1671379990050;
-        Sun, 18 Dec 2022 08:13:10 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wnbU2gEDNYl51PK3px6KFv8b8z6EzPl2bI5U6ClVwd0=;
+        b=sytCRj4My0w5/3De9x29JhGE97bxPz/wNp7lgh62FrymRfc/PLnjhhus2fAdnJU8az
+         rBgJkLV/KkSrcuqNNhiwMmQGBlyMuQXcRu9UayDSdweKTmk5kiIm+2/Ct0+w+o8uOKxQ
+         97CKzWvVxDhDFlQqSfSLDNTxlXmvtKgcCJYFK/4vUaCmVqIUwXu/HVGUsYEPCcbTGiH4
+         n4b07/noiI2l3Fjh1dQ55GbwKmPFrY1YJzyvtfmfKgUmTybX1zADdRVoXBQwVxrxm3jz
+         4OmXtSWWkCGSK1TkEyslfNeTrVqSAw3cxlsxiul21QImVYYYl67cIxrwYmR1NTu7biCW
+         Kkcw==
+X-Gm-Message-State: ANoB5pno73fjabwbfikzELR7HHfQcXPD4XBuzcN8pLUKgB+ulDu9yG2i
+	ab6GrRYK19jtsPfqjGo40VnTdChTJv6X+K2y4jM=
+X-Google-Smtp-Source: AA0mqf444y65LsNVAHZAlYWt9zKaCtoaoctZQ2hk4dQHJJhw1203shKRLDKgeBcGFGLDiMg1QJvEUw==
+X-Received: by 2002:a17:902:e293:b0:189:6d2f:4bcd with SMTP id o19-20020a170902e29300b001896d2f4bcdmr34793877plc.0.1671379993938;
+        Sun, 18 Dec 2022 08:13:13 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net. [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id c7-20020a170902d48700b001896522a23bsm5278763plg.39.2022.12.18.08.13.09
+        by smtp.gmail.com with ESMTPSA id c7-20020a170902d48700b001896522a23bsm5278763plg.39.2022.12.18.08.13.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Dec 2022 08:13:09 -0800 (PST)
+        Sun, 18 Dec 2022 08:13:13 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 00/19] Patch review
-Date: Sun, 18 Dec 2022 06:12:44 -1000
-Message-Id: <cover.1671379841.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 01/19] golang: CVE-2022-41715 regexp/syntax: limit memory used by parsing regexps
+Date: Sun, 18 Dec 2022 06:12:45 -1000
+Message-Id: <d5a533b86ce68b4c3cd2d3c3dd198c2897d37587.1671379841.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1671379841.git.steve@sakoman.com>
+References: <cover.1671379841.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 18 Dec 2022 16:13:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174787
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174788
 
-Please review this set of patches for kirkstone and have comments back by
-end of day Tuesday.
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-Passed a-full on autobuilder:
+Upstream-Status: Backport from https://github.com/golang/go/commit/e9017c2416ad0ef642f5e0c2eab2dbf3cba4d997
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/4645
-
-The following changes since commit 45a8b4101b14453aa3020d3f2b8a76b4dc0ae3f2:
-
-  build-appliance-image: Update to kirkstone head revision (2022-12-13 15:59:33 +0000)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-Alex Stewart (1):
-  lsof: add update-alternatives logic
-
-Carlos Alberto Lopez Perez (1):
-  xwayland: libxshmfence is needed when dri3 is enabled
-
-Chen Qi (2):
-  bc: extend to nativesdk
-  rm_work: adjust dependency to make do_rm_work_all depend on do_rm_work
-
-Florin Diaconescu (1):
-  python3: upgrade 3.10.8 -> 3.10.9
-
-Hitendra Prajapati (2):
-  golang: CVE-2022-41715 regexp/syntax: limit memory used by parsing
-    regexps
-  libxml2: Fix CVE-2022-40303 && CVE-2022-40304
-
-Marta Rybczynska (1):
-  efibootmgr: update compilation with musl
-
-Mathieu Dubois-Briand (1):
-  dbus: Add missing CVE product name
-
-Peter Marko (2):
-  externalsrc: fix lookup for .gitmodules
-  oeqa/selftest/externalsrc: add test for srctree_hash_files
-
-Richard Purdie (1):
-  yocto-check-layer: Allow OE-Core to be tested
-
-Ross Burton (4):
-  lib/buildstats: fix parsing of trees with reduced_proc_pressure
-    directories
-  combo-layer: remove unused import
-  combo-layer: dont use bb.utils.rename
-  combo-layer: add sync-revs command
-
-Wang Mingyu (3):
-  bind: upgrade 9.18.8 -> 9.18.9
-  mpfr: upgrade 4.1.0 -> 4.1.1
-  libxcrypt-compat: upgrade 4.4.30 -> 4.4.33
-
- meta/classes/externalsrc.bbclass              |   2 +-
- meta/classes/rm_work.bbclass                  |   2 +-
- meta/lib/oeqa/selftest/cases/externalsrc.py   |  44 ++
- meta/recipes-bsp/efibootmgr/efibootmgr_17.bb  |   2 -
- ...1-avoid-start-failure-with-bind-user.patch |   0
- ...d-V-and-start-log-hide-build-options.patch |   0
- ...ching-for-json-headers-searches-sysr.patch |   0
- .../bind/{bind-9.18.8 => bind-9.18.9}/bind9   |   0
- .../{bind-9.18.8 => bind-9.18.9}/conf.patch   |   0
- .../generate-rndc-key.sh                      |   0
- ...t.d-add-support-for-read-only-rootfs.patch |   0
- .../make-etc-initd-bind-stop-work.patch       |   0
- .../named.service                             |   0
- .../bind/{bind_9.18.8.bb => bind_9.18.9.bb}   |   2 +-
- meta/recipes-core/dbus/dbus_1.14.4.bb         |   2 +
- ...t_4.4.30.bb => libxcrypt-compat_4.4.33.bb} |   0
- meta/recipes-core/libxcrypt/libxcrypt.inc     |   2 +-
- .../libxml/libxml2/CVE-2022-40303.patch       | 624 ++++++++++++++++++
- .../libxml/libxml2/CVE-2022-40304.patch       | 106 +++
- meta/recipes-core/libxml/libxml2_2.9.14.bb    |   2 +
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
  meta/recipes-devtools/go/go-1.17.13.inc       |   1 +
- .../go/go-1.18/CVE-2022-41715.patch           | 270 ++++++++
- .../python/python3/CVE-2022-42919.patch       |  70 --
- .../python/python3/cve-2022-37454.patch       | 108 ---
- .../{python3_3.10.8.bb => python3_3.10.9.bb}  |   3 +-
- meta/recipes-extended/bc/bc_1.07.1.bb         |   2 +-
- meta/recipes-extended/lsof/lsof_4.94.0.bb     |   9 +
- .../xwayland/xwayland_22.1.5.bb               |   2 +-
- .../mpfr/{mpfr_4.1.0.bb => mpfr_4.1.1.bb}     |   2 +-
- scripts/combo-layer                           |  30 +-
- scripts/lib/buildstats.py                     |   4 +-
- scripts/lib/checklayer/__init__.py            |  11 +-
- scripts/lib/checklayer/cases/bsp.py           |   2 +-
- scripts/lib/checklayer/cases/common.py        |   3 +
- scripts/lib/checklayer/cases/distro.py        |   2 +-
- scripts/yocto-check-layer                     |   5 +-
- 36 files changed, 1107 insertions(+), 205 deletions(-)
- create mode 100644 meta/lib/oeqa/selftest/cases/externalsrc.py
- rename meta/recipes-connectivity/bind/{bind-9.18.8 => bind-9.18.9}/0001-avoid-start-failure-with-bind-user.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.8 => bind-9.18.9}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.8 => bind-9.18.9}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.8 => bind-9.18.9}/bind9 (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.8 => bind-9.18.9}/conf.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.8 => bind-9.18.9}/generate-rndc-key.sh (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.8 => bind-9.18.9}/init.d-add-support-for-read-only-rootfs.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.8 => bind-9.18.9}/make-etc-initd-bind-stop-work.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.8 => bind-9.18.9}/named.service (100%)
- rename meta/recipes-connectivity/bind/{bind_9.18.8.bb => bind_9.18.9.bb} (97%)
- rename meta/recipes-core/libxcrypt/{libxcrypt-compat_4.4.30.bb => libxcrypt-compat_4.4.33.bb} (100%)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2022-40303.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2022-40304.patch
+ .../go/go-1.18/CVE-2022-41715.patch           | 270 ++++++++++++++++++
+ 2 files changed, 271 insertions(+)
  create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2022-41715.patch
- delete mode 100644 meta/recipes-devtools/python/python3/CVE-2022-42919.patch
- delete mode 100644 meta/recipes-devtools/python/python3/cve-2022-37454.patch
- rename meta/recipes-devtools/python/{python3_3.10.8.bb => python3_3.10.9.bb} (99%)
- rename meta/recipes-support/mpfr/{mpfr_4.1.0.bb => mpfr_4.1.1.bb} (91%)
 
+diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
+index 9c467d63b2..a1942e9f15 100644
+--- a/meta/recipes-devtools/go/go-1.17.13.inc
++++ b/meta/recipes-devtools/go/go-1.17.13.inc
+@@ -18,6 +18,7 @@ SRC_URI += "\
+     file://0001-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
+     file://CVE-2022-27664.patch \
+     file://0001-net-http-httputil-avoid-query-parameter-smuggling.patch \
++    file://CVE-2022-41715.patch \
+ "
+ SRC_URI[main.sha256sum] = "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
+ 
+diff --git a/meta/recipes-devtools/go/go-1.18/CVE-2022-41715.patch b/meta/recipes-devtools/go/go-1.18/CVE-2022-41715.patch
+new file mode 100644
+index 0000000000..994f37aaf3
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.18/CVE-2022-41715.patch
+@@ -0,0 +1,270 @@
++From e9017c2416ad0ef642f5e0c2eab2dbf3cba4d997 Mon Sep 17 00:00:00 2001
++From: Russ Cox <rsc@golang.org>
++Date: Wed, 28 Sep 2022 11:18:51 -0400
++Subject: [PATCH] [release-branch.go1.18] regexp: limit size of parsed regexps
++
++Set a 128 MB limit on the amount of space used by []syntax.Inst
++in the compiled form corresponding to a given regexp.
++
++Also set a 128 MB limit on the rune storage in the *syntax.Regexp
++tree itself.
++
++Thanks to Adam Korczynski (ADA Logics) and OSS-Fuzz for reporting this issue.
++
++Fixes CVE-2022-41715.
++Updates #55949.
++Fixes #55950.
++
++Change-Id: Ia656baed81564436368cf950e1c5409752f28e1b
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1592136
++TryBot-Result: Security TryBots <security-trybots@go-security-trybots.iam.gserviceaccount.com>
++Reviewed-by: Damien Neil <dneil@google.com>
++Run-TryBot: Roland Shoemaker <bracewell@google.com>
++Reviewed-by: Julie Qiu <julieqiu@google.com>
++Reviewed-on: https://go-review.googlesource.com/c/go/+/438501
++Run-TryBot: Carlos Amedee <carlos@golang.org>
++Reviewed-by: Carlos Amedee <carlos@golang.org>
++Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
++TryBot-Result: Gopher Robot <gobot@golang.org>
++Reviewed-by: Dmitri Shuralyov <dmitshur@golang.org>
++
++Upstream-Status: Backport [https://github.com/golang/go/commit/e9017c2416ad0ef642f5e0c2eab2dbf3cba4d997]
++CVE: CVE-2022-41715
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ src/regexp/syntax/parse.go      | 145 ++++++++++++++++++++++++++++++--
++ src/regexp/syntax/parse_test.go |  13 +--
++ 2 files changed, 148 insertions(+), 10 deletions(-)
++
++diff --git a/src/regexp/syntax/parse.go b/src/regexp/syntax/parse.go
++index d7cf2af..3792960 100644
++--- a/src/regexp/syntax/parse.go
+++++ b/src/regexp/syntax/parse.go
++@@ -90,15 +90,49 @@ const (
++ // until we've allocated at least maxHeight Regexp structures.
++ const maxHeight = 1000
++ 
+++// maxSize is the maximum size of a compiled regexp in Insts.
+++// It too is somewhat arbitrarily chosen, but the idea is to be large enough
+++// to allow significant regexps while at the same time small enough that
+++// the compiled form will not take up too much memory.
+++// 128 MB is enough for a 3.3 million Inst structures, which roughly
+++// corresponds to a 3.3 MB regexp.
+++const (
+++	maxSize  = 128 << 20 / instSize
+++	instSize = 5 * 8 // byte, 2 uint32, slice is 5 64-bit words
+++)
+++
+++// maxRunes is the maximum number of runes allowed in a regexp tree
+++// counting the runes in all the nodes.
+++// Ignoring character classes p.numRunes is always less than the length of the regexp.
+++// Character classes can make it much larger: each \pL adds 1292 runes.
+++// 128 MB is enough for 32M runes, which is over 26k \pL instances.
+++// Note that repetitions do not make copies of the rune slices,
+++// so \pL{1000} is only one rune slice, not 1000.
+++// We could keep a cache of character classes we've seen,
+++// so that all the \pL we see use the same rune list,
+++// but that doesn't remove the problem entirely:
+++// consider something like [\pL01234][\pL01235][\pL01236]...[\pL^&*()].
+++// And because the Rune slice is exposed directly in the Regexp,
+++// there is not an opportunity to change the representation to allow
+++// partial sharing between different character classes.
+++// So the limit is the best we can do.
+++const (
+++	maxRunes = 128 << 20 / runeSize
+++	runeSize = 4 // rune is int32
+++)
+++
++ type parser struct {
++ 	flags       Flags     // parse mode flags
++ 	stack       []*Regexp // stack of parsed expressions
++ 	free        *Regexp
++ 	numCap      int // number of capturing groups seen
++ 	wholeRegexp string
++-	tmpClass    []rune          // temporary char class work space
++-	numRegexp   int             // number of regexps allocated
++-	height      map[*Regexp]int // regexp height for height limit check
+++	tmpClass    []rune            // temporary char class work space
+++	numRegexp   int               // number of regexps allocated
+++	numRunes    int               // number of runes in char classes
+++	repeats     int64             // product of all repetitions seen
+++	height      map[*Regexp]int   // regexp height, for height limit check
+++	size        map[*Regexp]int64 // regexp compiled size, for size limit check
++ }
++ 
++ func (p *parser) newRegexp(op Op) *Regexp {
++@@ -122,6 +156,104 @@ func (p *parser) reuse(re *Regexp) {
++ 	p.free = re
++ }
++ 
+++func (p *parser) checkLimits(re *Regexp) {
+++	if p.numRunes > maxRunes {
+++		panic(ErrInternalError)
+++	}
+++	p.checkSize(re)
+++	p.checkHeight(re)
+++}
+++
+++func (p *parser) checkSize(re *Regexp) {
+++	if p.size == nil {
+++		// We haven't started tracking size yet.
+++		// Do a relatively cheap check to see if we need to start.
+++		// Maintain the product of all the repeats we've seen
+++		// and don't track if the total number of regexp nodes
+++		// we've seen times the repeat product is in budget.
+++		if p.repeats == 0 {
+++			p.repeats = 1
+++		}
+++		if re.Op == OpRepeat {
+++			n := re.Max
+++			if n == -1 {
+++				n = re.Min
+++			}
+++			if n <= 0 {
+++				n = 1
+++			}
+++			if int64(n) > maxSize/p.repeats {
+++				p.repeats = maxSize
+++			} else {
+++				p.repeats *= int64(n)
+++			}
+++		}
+++		if int64(p.numRegexp) < maxSize/p.repeats {
+++			return
+++		}
+++
+++		// We need to start tracking size.
+++		// Make the map and belatedly populate it
+++		// with info about everything we've constructed so far.
+++		p.size = make(map[*Regexp]int64)
+++		for _, re := range p.stack {
+++			p.checkSize(re)
+++		}
+++	}
+++
+++	if p.calcSize(re, true) > maxSize {
+++		panic(ErrInternalError)
+++	}
+++}
+++
+++func (p *parser) calcSize(re *Regexp, force bool) int64 {
+++	if !force {
+++		if size, ok := p.size[re]; ok {
+++			return size
+++		}
+++	}
+++
+++	var size int64
+++	switch re.Op {
+++	case OpLiteral:
+++		size = int64(len(re.Rune))
+++	case OpCapture, OpStar:
+++		// star can be 1+ or 2+; assume 2 pessimistically
+++		size = 2 + p.calcSize(re.Sub[0], false)
+++	case OpPlus, OpQuest:
+++		size = 1 + p.calcSize(re.Sub[0], false)
+++	case OpConcat:
+++		for _, sub := range re.Sub {
+++			size += p.calcSize(sub, false)
+++		}
+++	case OpAlternate:
+++		for _, sub := range re.Sub {
+++			size += p.calcSize(sub, false)
+++		}
+++		if len(re.Sub) > 1 {
+++			size += int64(len(re.Sub)) - 1
+++		}
+++	case OpRepeat:
+++		sub := p.calcSize(re.Sub[0], false)
+++		if re.Max == -1 {
+++			if re.Min == 0 {
+++				size = 2 + sub // x*
+++			} else {
+++				size = 1 + int64(re.Min)*sub // xxx+
+++			}
+++			break
+++		}
+++		// x{2,5} = xx(x(x(x)?)?)?
+++		size = int64(re.Max)*sub + int64(re.Max-re.Min)
+++	}
+++
+++	if size < 1 {
+++		size = 1
+++	}
+++	p.size[re] = size
+++	return size
+++}
+++
++ func (p *parser) checkHeight(re *Regexp) {
++ 	if p.numRegexp < maxHeight {
++ 		return
++@@ -158,6 +290,7 @@ func (p *parser) calcHeight(re *Regexp, force bool) int {
++ 
++ // push pushes the regexp re onto the parse stack and returns the regexp.
++ func (p *parser) push(re *Regexp) *Regexp {
+++	p.numRunes += len(re.Rune)
++ 	if re.Op == OpCharClass && len(re.Rune) == 2 && re.Rune[0] == re.Rune[1] {
++ 		// Single rune.
++ 		if p.maybeConcat(re.Rune[0], p.flags&^FoldCase) {
++@@ -189,7 +322,7 @@ func (p *parser) push(re *Regexp) *Regexp {
++ 	}
++ 
++ 	p.stack = append(p.stack, re)
++-	p.checkHeight(re)
+++	p.checkLimits(re)
++ 	return re
++ }
++ 
++@@ -299,7 +432,7 @@ func (p *parser) repeat(op Op, min, max int, before, after, lastRepeat string) (
++ 	re.Sub = re.Sub0[:1]
++ 	re.Sub[0] = sub
++ 	p.stack[n-1] = re
++-	p.checkHeight(re)
+++	p.checkLimits(re)
++ 
++ 	if op == OpRepeat && (min >= 2 || max >= 2) && !repeatIsValid(re, 1000) {
++ 		return "", &Error{ErrInvalidRepeatSize, before[:len(before)-len(after)]}
++@@ -503,6 +636,7 @@ func (p *parser) factor(sub []*Regexp) []*Regexp {
++ 
++ 			for j := start; j < i; j++ {
++ 				sub[j] = p.removeLeadingString(sub[j], len(str))
+++				p.checkLimits(sub[j])
++ 			}
++ 			suffix := p.collapse(sub[start:i], OpAlternate) // recurse
++ 
++@@ -560,6 +694,7 @@ func (p *parser) factor(sub []*Regexp) []*Regexp {
++ 			for j := start; j < i; j++ {
++ 				reuse := j != start // prefix came from sub[start]
++ 				sub[j] = p.removeLeadingRegexp(sub[j], reuse)
+++				p.checkLimits(sub[j])
++ 			}
++ 			suffix := p.collapse(sub[start:i], OpAlternate) // recurse
++ 
++diff --git a/src/regexp/syntax/parse_test.go b/src/regexp/syntax/parse_test.go
++index 1ef6d8a..67e3c56 100644
++--- a/src/regexp/syntax/parse_test.go
+++++ b/src/regexp/syntax/parse_test.go
++@@ -484,12 +484,15 @@ var invalidRegexps = []string{
++ 	`(?P<>a)`,
++ 	`[a-Z]`,
++ 	`(?i)[a-Z]`,
++-	`a{100000}`,
++-	`a{100000,}`,
++-	"((((((((((x{2}){2}){2}){2}){2}){2}){2}){2}){2}){2})",
++-	strings.Repeat("(", 1000) + strings.Repeat(")", 1000),
++-	strings.Repeat("(?:", 1000) + strings.Repeat(")*", 1000),
++ 	`\Q\E*`,
+++	`a{100000}`,  // too much repetition
+++	`a{100000,}`, // too much repetition
+++	"((((((((((x{2}){2}){2}){2}){2}){2}){2}){2}){2}){2})",    // too much repetition
+++	strings.Repeat("(", 1000) + strings.Repeat(")", 1000),    // too deep
+++	strings.Repeat("(?:", 1000) + strings.Repeat(")*", 1000), // too deep
+++	"(" + strings.Repeat("(xx?)", 1000) + "){1000}",          // too long
+++	strings.Repeat("(xx?){1000}", 1000),                      // too long
+++	strings.Repeat(`\pL`, 27000),                             // too many runes
++ }
++ 
++ var onlyPerl = []string{
++-- 
++2.25.1
++
 -- 
 2.25.1
 
