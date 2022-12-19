@@ -1,145 +1,87 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84306C4332F
-	for <webhook@archiver.kernel.org>; Mon, 19 Dec 2022 14:38:46 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web10.23399.1671460719931461607
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 910BAC4332F
+	for <webhook@archiver.kernel.org>; Mon, 19 Dec 2022 14:47:16 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web10.23639.1671461232299559713
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Dec 2022 06:38:40 -0800
+ Mon, 19 Dec 2022 06:47:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=B0+imTHI;
- spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f41.google.com with SMTP id y25so13913855lfa.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Dec 2022 06:38:39 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YfgvaIHv;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id ay2-20020a05600c1e0200b003d22e3e796dso6630700wmb.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 19 Dec 2022 06:47:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1eoj2wajSJV6+myP7kauKQX3iekgEvA5yJSem1TtnOY=;
-        b=B0+imTHIDg9C8RoEhZPuVyW4h60ba44XaxCKLlJEKDbuQrWeNxHfPDCA2cnz2U/Hn7
-         9z0tPnT+tgFGyuCGh9EI52QRkF6HMYEWsx5O9TZBKLB9rpwOVX4QVx/LaZdaasFcgmpn
-         cW6GqV0zVnARM3qsCQvN7LU7DfNf9nXjhzmuZJev/yX+HKG4X+/cbHEmm9+NF8w3y01f
-         nWgqzvm1S8Ocw3+JW9C02dlNQxhytO2ZqPK2wGmXpGT2nFNX5/5LGPePc3qfjLC+XSnA
-         oKTpJ1rci5TZxBa8NkX0yE9b0bIoDgbaPnhK0LrYcQOxhHZj2Ij14WYLQ3M4vEBqCnat
-         z4Gg==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=t+xByeEYcHl1mEcRvsEQNo0e+LTFrfkAwB3VTpntQc8=;
+        b=YfgvaIHvlalKtJKJGI9NtltDVWUhcVW9rwNwjkqq7N6cgFU/M+kzskSZPIvspmKgyx
+         XR9SECXtWq86aa07A0aUw0qH/HnISuT3bdYpoHBdZ1QbgWTH6UDEpMIPbT7poLIJdBm3
+         XF5d7w6Bzb4Glp84aFOSRl3C866kKwUwZdy2c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1eoj2wajSJV6+myP7kauKQX3iekgEvA5yJSem1TtnOY=;
-        b=X1mrr9Cigvr4nfiYbpQeQWABHnRMDbVcBBkz504/fW9Ivk/sn+nt95B8tQG71vZCms
-         ma0LP2AzdbUqHVYw1MvtJ0+8m7o8X3KWur6yMiSrkN6s86szIW1cYe7rC5r8sGQDc4bJ
-         SLaruruGQBpuqCw93haqgZaDKpf5ieyD81n1p/x2GEmsEVnQxR9n9J5zul1unwkv+59y
-         eoqiQ0KGUPBjG5zFES7xt1s9daSHIbOlxumL6gEVX/pHElzyYHwMRpLxNYLzlnerb3EB
-         YJB+TI2MbevzKFxn00VXzvVZ7LONNV0BOb4f11aDG07ElE51L/cA9913Su5O+AwPQ1kX
-         AodQ==
-X-Gm-Message-State: ANoB5pluO8XaosDX8tgYtgFsJ7ZkHZR7Y7tiYnHRFPsoegcAxp2bAswJ
-	Jczy67eFXhytm/FVYvHNSs5d+2ZxRUv6E5zg0OE=
-X-Google-Smtp-Source: AA0mqf4T6b4CtWWI6w9KcqGuBcIOF4n7rLHFK9ZkotMm5LeS4iIuy3f+3xi+chEmZQWFsPCo4ldQtKVoVJFF8Epiw+c=
-X-Received: by 2002:a05:6512:39d0:b0:4b7:13b:259e with SMTP id
- k16-20020a05651239d000b004b7013b259emr1954058lfu.131.1671460717969; Mon, 19
- Dec 2022 06:38:37 -0800 (PST)
-MIME-Version: 1.0
-References: <20221219141840.26358-1-alex.kiernan@gmail.com>
- <CAO5Uq5T20q0wVhM0wQrOMu-GcoAaKFTOGCMxDxCOLXoUS+sLxQ@mail.gmail.com> <edd6881dda3b935165f95093da2cbafcd42fc2e8.camel@linuxfoundation.org>
-In-Reply-To: <edd6881dda3b935165f95093da2cbafcd42fc2e8.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 19 Dec 2022 15:38:26 +0100
-Message-ID: <CANNYZj8vkH2iunZd8mkj+7C5uSQckXtiNe+pdHbKjbFQsG-MKg@mail.gmail.com>
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=t+xByeEYcHl1mEcRvsEQNo0e+LTFrfkAwB3VTpntQc8=;
+        b=6MJJDnQFYFGM8Ys4bLtbalV5k0GLPZA+r1WwFTo/8GKFHFk+AbCyvtee3YqPBiAI6l
+         F0PxOt1U3oIi29+/EwPAlRlSsLbzdQwnbTvsVO08Z5uh28wnfl+x/ubVyORhI+wquLgg
+         uKGXU6+nwin5dbYQq3oh27nyFOt/bQkgtVvghxY6trt3BBAD8HbGZG9Y3EeUFr415uTj
+         W8y5yrzwedV4tk/rYWtCT+Y9mjub9x/nUlgaGiEk0S7bLo+ThPpAxMO3oj1tfEn1Rqum
+         ccbGnXb3gdUkAQvG1+MFam43WeeC2RHO3By0pmqr7EvpaOw+I7b4g5l/AxmJDtEQFzcy
+         gI/Q==
+X-Gm-Message-State: ANoB5pkF9RrzC9SnZK6EOogVRSn5Ff60OfrepH8RYQY398qT/YoU4xeW
+	6FJGIkH/t604IStk1ZlNb+V08A==
+X-Google-Smtp-Source: AA0mqf6SLp2Gyo5A/9uGNBXXRiv7llemHq66y3L4mJZEHJA+HvhTelqymSOuiseNA5fE6M32tAKf1Q==
+X-Received: by 2002:a05:600c:2d07:b0:3d1:ee3a:62ae with SMTP id x7-20020a05600c2d0700b003d1ee3a62aemr31870575wmf.8.1671461230827;
+        Mon, 19 Dec 2022 06:47:10 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:ac4f:7328:1210:6c79? ([2001:8b0:aba:5f3c:ac4f:7328:1210:6c79])
+        by smtp.gmail.com with ESMTPSA id i26-20020a1c541a000000b003c6c182bef9sm23338965wmb.36.2022.12.19.06.47.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Dec 2022 06:47:10 -0800 (PST)
+Message-ID: <204c95a442302fa04a534081b4d8144ed0625d81.camel@linuxfoundation.org>
 Subject: Re: [OE-Core][PATCH] oeqa/runtime/rust: Add basic compile/run test
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Alex Kiernan <alex.kiernan@gmail.com>, openembedded-core@lists.openembedded.org
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Alex Kiernan <alex.kiernan@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 19 Dec 2022 14:47:09 +0000
+In-Reply-To: <CANNYZj8vkH2iunZd8mkj+7C5uSQckXtiNe+pdHbKjbFQsG-MKg@mail.gmail.com>
+References: <20221219141840.26358-1-alex.kiernan@gmail.com>
+	 <CAO5Uq5T20q0wVhM0wQrOMu-GcoAaKFTOGCMxDxCOLXoUS+sLxQ@mail.gmail.com>
+	 <edd6881dda3b935165f95093da2cbafcd42fc2e8.camel@linuxfoundation.org>
+	 <CANNYZj8vkH2iunZd8mkj+7C5uSQckXtiNe+pdHbKjbFQsG-MKg@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Dec 2022 14:38:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174817
+ <openembedded-core@lists.openembedded.org>; Mon, 19 Dec 2022 14:47:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174818
 
-But we need to add rust to core-image-sato-sdk then, if it's not there yet.
+On Mon, 2022-12-19 at 15:38 +0100, Alexander Kanavin wrote:
+> But we need to add rust to core-image-sato-sdk then, if it's not there ye=
+t.
 
-Alex
+Ah, I misunderstood you question. The sdk tooling comes from:
 
-On Mon, 19 Dec 2022 at 15:32, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Mon, 2022-12-19 at 14:28 +0000, Alex Kiernan wrote:
-> > On Mon, Dec 19, 2022 at 2:19 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
-> > >
-> > > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> > > ---
-> > >  meta/lib/oeqa/files/test.rs         |  2 ++
-> > >  meta/lib/oeqa/runtime/cases/rust.py | 24 ++++++++++++++++++++++++
-> > >  2 files changed, 26 insertions(+)
-> > >  create mode 100644 meta/lib/oeqa/files/test.rs
-> > >
-> > > diff --git a/meta/lib/oeqa/files/test.rs b/meta/lib/oeqa/files/test.rs
-> > > new file mode 100644
-> > > index 000000000000..f79c691f0853
-> > > --- /dev/null
-> > > +++ b/meta/lib/oeqa/files/test.rs
-> > > @@ -0,0 +1,2 @@
-> > > +fn main() {
-> > > +}
-> > > diff --git a/meta/lib/oeqa/runtime/cases/rust.py b/meta/lib/oeqa/runtime/cases/rust.py
-> > > index 55b280d61d8a..186bb0d79e15 100644
-> > > --- a/meta/lib/oeqa/runtime/cases/rust.py
-> > > +++ b/meta/lib/oeqa/runtime/cases/rust.py
-> > > @@ -8,6 +8,30 @@ from oeqa.runtime.case import OERuntimeTestCase
-> > >  from oeqa.core.decorator.depends import OETestDepends
-> > >  from oeqa.runtime.decorator.package import OEHasPackage
-> > >
-> > > +class RustCompileTest(OERuntimeTestCase):
-> > > +
-> > > +    @classmethod
-> > > +    def setUp(cls):
-> > > +        dst = '/tmp/'
-> > > +        src = os.path.join(cls.tc.files_dir, 'test.rs')
-> > > +        cls.tc.target.copyTo(src, dst)
-> > > +
-> > > +    @classmethod
-> > > +    def tearDown(cls):
-> > > +        files = '/tmp/test.rs /tmp/test'
-> > > +        cls.tc.target.run('rm %s' % files)
-> > > +
-> > > +    @OETestDepends(['ssh.SSHTest.test_ssh'])
-> > > +    @OEHasPackage(['rust'])
-> > > +    def test_rust_compile(self):
-> > > +        status, output = self.target.run('rustc /tmp/test.rs -o /tmp/test')
-> > > +        msg = 'rust compile failed, output: %s' % output
-> > > +        self.assertEqual(status, 0, msg=msg)
-> > > +
-> > > +        status, output = self.target.run('/tmp/test')
-> > > +        msg = 'running compiled file failed, output: %s' % output
-> > > +        self.assertEqual(status, 0, msg=msg)
-> > > +
-> > >  class RustHelloworldTest(OERuntimeTestCase):
-> > >      @OETestDepends(['ssh.SSHTest.test_ssh'])
-> > >      @OEHasPackage(['rust-hello-world'])
-> >
-> > One thing I wasn't clear on with this, is how I ensure that rust is
-> > actually installed on the test image during CI, so this test runs?
->
-> Isn't that what you're doing with:
->
-> @OEHasPackage(['rust'])
->
-> ?
->
-> Cheers,
->
-> Richard
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#174816): https://lists.openembedded.org/g/openembedded-core/message/174816
-> Mute This Topic: https://lists.openembedded.org/mt/95765437/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+classes-recipe/core-image.bbclass:FEATURE_PACKAGES_tools-sdk =3D "packagegr=
+oup-core-sdk packagegroup-core-standalone-sdk-target"
+
+so maybe making recipes-core/packagegroups/packagegroup-core-sdk.bb
+have something a bit like SDK_TOOLCHAIN_LANGS in classes-
+recipe/populate_sdk_base.bbclass?
+
+Cheers,
+
+Richard
+
+
+
 
