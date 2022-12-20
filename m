@@ -1,105 +1,130 @@
-Return-Path: <ranjitsinhrathod1991@gmail.com>
+Return-Path: <vkumbhar@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11BF4C4332F
-	for <webhook@archiver.kernel.org>; Tue, 20 Dec 2022 05:38:41 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.43923.1671514716351638739
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D192C4332F
+	for <webhook@archiver.kernel.org>; Tue, 20 Dec 2022 06:15:41 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web10.44350.1671516929852183170
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Dec 2022 21:38:36 -0800
+ Mon, 19 Dec 2022 22:15:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Zqn7ToIm;
- spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: ranjitsinhrathod1991@gmail.com)
-Received: by mail-pl1-f182.google.com with SMTP id s7so11216562plk.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Dec 2022 21:38:36 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=SS/n7q4K;
+ spf=pass (domain: mvista.com, ip: 209.85.210.179, mailfrom: vkumbhar@mvista.com)
+Received: by mail-pf1-f179.google.com with SMTP id 21so7840536pfw.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 19 Dec 2022 22:15:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=mvista.com; s=google;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4h+mHPwLDnsoWypAN+2lJXp3Qls6KHx2ymvih9t7xmc=;
-        b=Zqn7ToImSvdj5Iu/z0YmeBrcyhX8yKoZr9Grbx+347kmfBiMslVsjv+pg24oEs2whc
-         UiLDSVx8Ds7Om8fJ1yNOTUSq5AvDmGpNishsjbwnyDTvVjn4YqeN0RW7Csk35vq4nNcn
-         n6L2yJ2HnRXHyx+OzENr+Rs4WisE1FfTM5PjcIAagsSeCJqOOG4H7JbLCXr2otkWhplw
-         efMxNQIvw2IGYJydbBQ4ush3syApZsaKhhkkbrTEcX2d/ooZAxzReQatZTdpipgTL7SU
-         97GWQ/KM4TUScaFu1QTGjCfO7W368iHvE0BEYq1Oa1CZSzGmzTqWNyHtzCT1V/jXdZpP
-         m36A==
+        bh=errdZUsT1erLB7OYWsALCjUPAAVbHZhIk5Bn5NLSjBs=;
+        b=SS/n7q4KNagAuArJwoJW8AEg//wgZ1nIeDKjSfu7sT/zvgf30ZG95Q87AmvAx+BnOp
+         HRnjfr1SnnUPJZJLkWjgqCrnJZ2/lh1SO/aa+T6va0edJina8xyYKc4cUlH/Fe9Y/mvS
+         9pGPGfZNq859piVbJApSan6p0T08m8DReyPN4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4h+mHPwLDnsoWypAN+2lJXp3Qls6KHx2ymvih9t7xmc=;
-        b=SgWuwgNssRCNduzSlafdZ9UZwUT1wsdaTAqUBstqRlVYz5qD01O2OzHL6LVLxjnVt7
-         pBcaSMYogp188WIARXmYc8gJoChjSB2amw6wa0F0PZSxHx1dmyIkjD5qV9QBL6tG4pAQ
-         cjDICnAVq/ORzinkW4LrNCxNS0pWDs9qVAMCSwVNlmhAwHeGiBczomrxDVZnDYxd2VT5
-         YCFHcDGmg6xv1u79h+P1QSVVgcpxdem1KuYJ5c1ynqd9X6Dh+zLvttbHRYRUjwXwGMzc
-         JmiSZRRtpaX3zlLJPpfGWa/9JVYQgYVYAXW/SEqZ9w2XmOqcu0XVMKnxi68/BIT8Wrht
-         Xs5g==
-X-Gm-Message-State: ANoB5pmCrhUDELyJbNXpfJ839XEwVj4MxpbLYXk/TNzp+hKs7dLQcPn6
-	x4zKoHWs0jPspOwseQC8lwYRli5agc4=
-X-Google-Smtp-Source: AA0mqf40NXaFl0I8GbnRn/r0ChVUVt0jkkyC5SigvCUGtCe2PHQZz8QYQI0Ndl0MIGXcU1NtVfPpSA==
-X-Received: by 2002:a05:6a20:9c89:b0:9d:efbf:7876 with SMTP id mj9-20020a056a209c8900b0009defbf7876mr55153657pzb.43.1671514715345;
-        Mon, 19 Dec 2022 21:38:35 -0800 (PST)
-Received: from localhost.localdomain ([2405:205:c8c1:b77c:227:2a0:4a:4e67])
-        by smtp.gmail.com with ESMTPSA id e11-20020a170902ed8b00b00191152c4c6esm4918998plj.152.2022.12.19.21.38.33
+        bh=errdZUsT1erLB7OYWsALCjUPAAVbHZhIk5Bn5NLSjBs=;
+        b=iU67h+DI9vcvJba+S0DZmW9t5Cq3nMic3ZkGAtBLYjSVXBUkuWmMq3eWzPUvM6xffE
+         8erKHhMPUkjOaVUYtq4j01yU3trQ19CeayOeSC1/FUWbrwGqC3J433eNsL4sahLXK6n6
+         5nOOZwuCDZWXl5wZKLZP9jnsp/bY5gnnrL0iC7zJ0+gTEGqg7YE7+sP6STZ/cW9oxrwd
+         mMv45jK5cQMMQqudnKi/MWReAiGTi0y2dqHZ6ptAGgJXSueAu1HohrZ8zpENNqSb5CwY
+         1qrczvJ5inCWUmTQv1z7gMTWiyQLW7WIPnioIUsUrl6cJYPPBApK+3pRc74J4Xp5RqjN
+         CnEw==
+X-Gm-Message-State: ANoB5pm2HzgpZzhB+EL/kPLgfBA103JFcZnjxuwGzS0I2WQK6mqsNhjd
+	wrPkF5Cu3EiawNvsbMj2G2k5Ib6Ppex8v6x0
+X-Google-Smtp-Source: AA0mqf49yJxsrIAu1/DaK3d3vw9n9PuxJrc5mNLdtO5ioYXlqxST/HdH+rEYrJaoMkM4RfJ7VuDudg==
+X-Received: by 2002:a05:6a00:1d09:b0:578:128b:3a3f with SMTP id a9-20020a056a001d0900b00578128b3a3fmr46742223pfx.15.1671516928418;
+        Mon, 19 Dec 2022 22:15:28 -0800 (PST)
+Received: from vkumbhar-latitude3400.mvista.com ([116.74.236.255])
+        by smtp.gmail.com with ESMTPSA id c13-20020a056a00008d00b00574ee8d8779sm7708074pfj.65.2022.12.19.22.15.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Dec 2022 21:38:35 -0800 (PST)
-From: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>
+        Mon, 19 Dec 2022 22:15:27 -0800 (PST)
+From: Vivek Kumbhar <vkumbhar@mvista.com>
+X-Google-Original-From: Vivek Kumbhar <vkumbhar@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [OE-Core][langdale][kirkstone][PATCH] curl: Correct LICENSE from MIT-open-group to curl
-Date: Tue, 20 Dec 2022 11:08:04 +0530
-Message-Id: <20221220053804.26740-1-ranjitsinhrathod1991@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Vivek Kumbhar <vkumbhar@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] sqlite: fix CVE-2022-46908 safe mode authorizer callback allows disallowed UDFs.
+Date: Tue, 20 Dec 2022 11:45:12 +0530
+Message-Id: <20221220061512.177139-1-vkumbhar@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 Dec 2022 05:38:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174840
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Dec 2022 06:15:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174841
 
-From: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
+From: Vivek Kumbhar <vkumbhar@mvista.com>
 
-LICENSE for curl is set to MIT-open-group which is wrong and proper
-license is 'curl'
-
-I check below link and the line "Curl and libcurl are licensed under
-the license below, which is inspired by MIT/X, but not identical." says
-that the license is identical to MIT but actual license is identical
-from the file "meta/files/common-licenses/curl"
-Link: https://curl.se/docs/copyright.html
-
-Also, I do not find the MIT-open-group license text in the entire
-source-code
-
-(From OE-Core rev: 34b228bd3a80a74bf4d84ef7ee362f4ab1e3a466)
-
-Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
-Signed-off-by: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4a246e06cb62efff8bfd20cdf3dde31e24f9b711)
-Signed-off-by: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>
+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
 ---
- meta/recipes-support/curl/curl_7.82.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../sqlite/files/CVE-2022-46908.patch         | 39 +++++++++++++++++++
+ meta/recipes-support/sqlite/sqlite3_3.38.5.bb |  1 +
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-support/sqlite/files/CVE-2022-46908.patch
 
-diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
-index 87f4cd13aa..4774ae7f2b 100644
---- a/meta/recipes-support/curl/curl_7.82.0.bb
-+++ b/meta/recipes-support/curl/curl_7.82.0.bb
-@@ -6,7 +6,7 @@ HTTP post, SSL connections, proxy support, FTP uploads, and more!"
- HOMEPAGE = "https://curl.se/"
- BUGTRACKER = "https://github.com/curl/curl/issues"
- SECTION = "console/network"
--LICENSE = "MIT-open-group"
-+LICENSE = "curl"
- LIC_FILES_CHKSUM = "file://COPYING;md5=190c514872597083303371684954f238"
+diff --git a/meta/recipes-support/sqlite/files/CVE-2022-46908.patch b/meta/recipes-support/sqlite/files/CVE-2022-46908.patch
+new file mode 100644
+index 0000000000..38bd544838
+--- /dev/null
++++ b/meta/recipes-support/sqlite/files/CVE-2022-46908.patch
+@@ -0,0 +1,39 @@
++From 1b779afa3ed2f35a110e460fc6ed13cba744db85 2022-12-05 02:52:37 UTC
++From: larrybr <larrybr@sqlite.org>
++Date: 2022-12-05 02:52:37 UTC
++Subject: [PATCH] Fix safe mode authorizer callback to reject disallowed UDFs
++
++Fix safe mode authorizer callback to reject disallowed UDFs. Reported at Forum post 07beac8056151b2f.
++
++Upstream-Status: Backport [https://sqlite.org/src/info/cefc032473ac5ad2]
++CVE-2022-46908
++Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
++---
++ shell.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/shell.c b/shell.c
++index d104768..0200c0a 100644
++--- a/shell.c
+++++ b/shell.c
++@@ -12894,7 +12894,7 @@ static int safeModeAuth(
++     "zipfile",
++     "zipfile_cds",
++   };
++-  UNUSED_PARAMETER(zA2);
+++  UNUSED_PARAMETER(zA1);
++   UNUSED_PARAMETER(zA3);
++   UNUSED_PARAMETER(zA4);
++   switch( op ){
++@@ -12905,7 +12905,7 @@ static int safeModeAuth(
++     case SQLITE_FUNCTION: {
++       int i;
++       for(i=0; i<ArraySize(azProhibitedFunctions); i++){
++-        if( sqlite3_stricmp(zA1, azProhibitedFunctions[i])==0 ){
+++        if( sqlite3_stricmp(zA2, azProhibitedFunctions[i])==0 ){
++           failIfSafeMode(p, "cannot use the %s() function in safe mode",
++                          azProhibitedFunctions[i]);
++         }
++-- 
++2.30.2
++
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.38.5.bb b/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
+index 628f630657..313c15dff4 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
+@@ -5,6 +5,7 @@ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed0
  
- SRC_URI = "https://curl.se/download/${BP}.tar.xz \
+ SRC_URI = "http://www.sqlite.org/2022/sqlite-autoconf-${SQLITE_PV}.tar.gz \
+            file://0001-sqlite-Increased-the-size-of-loop-variables-in-the-printf-implementation.patch \
++           file://CVE-2022-46908.patch \
+ "
+ SRC_URI[sha256sum] = "5af07de982ba658fd91a03170c945f99c971f6955bc79df3266544373e39869c"
+ 
 -- 
-2.25.1
+2.30.2
 
 
