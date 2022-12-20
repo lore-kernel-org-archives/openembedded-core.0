@@ -2,56 +2,56 @@ Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA098C46467
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4EC9C5479D
 	for <webhook@archiver.kernel.org>; Tue, 20 Dec 2022 18:07:24 +0000 (UTC)
 Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web11.57312.1671559638624404252
+ by mx.groups.io with SMTP id smtpd.web10.57097.1671559636978449023
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Dec 2022 10:07:18 -0800
+ Tue, 20 Dec 2022 10:07:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=kVyIN+pw;
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=AbilzMuY;
  spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wm1-f51.google.com with SMTP id c65-20020a1c3544000000b003cfffd00fc0so11779252wma.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Dec 2022 10:07:18 -0800 (PST)
+Received: by mail-wm1-f51.google.com with SMTP id ay2-20020a05600c1e0200b003d22e3e796dso9503689wmb.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Dec 2022 10:07:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FagPer16TqSGKfWM657hm6JiI+yBiVBCvqxCOmlxkMA=;
-        b=kVyIN+pwoAHWJODr9Rf96si+4MKvsNfKYVMWuR/tZnsLwlPYlNEWOOXmHNfWRGYHy+
-         Oo/H5pCq5aJ78qOuDWV3QF4X5mMnN57hBAWSW2ePxKqose572LyvHeYHsHbGz5cQLccr
-         2HOnP8L9J+7qC1e7LDknCHwgyZnPj6RhvvxQ5w9IIEae2/6rHvt08fIfUGMQN1Ca9tZm
-         pTtjuNWcK0KmO3vkJPNMYk3lJZEdcIu3WcG0cPFpHF4rgQuauntLnYKrGCD5OpHG/54y
-         DS9eJfZvQCrV3rrw79CGYW9iWPSTmSpQ5QgVshmaaSC6YIfFa/MVUvjYoOFhmF8wLYF3
-         3AGw==
+        bh=thRuJtmTssIyG7l2IJePOzLYheC6XwEfWOGtbQPzcbQ=;
+        b=AbilzMuYSsY5jjn66PMXY1cxASYqVzN3WA3ZWKMhJsayZO4kb3F74TSVw2nMzS7yAg
+         ysMyU1N6G8JKupebrY+nXnP8UTx2jhjbIw8JwbCkpg3yGmVxDKJh0ffDPh5Og+pNlMln
+         sTxw7dWZ0xHdqj00gFkeGL3RDo9ntGe09fFZprW+uUZvz6LgNv84FIFDW/P1CuRGqJpZ
+         CEpkXaCn37a43CK/hPTZUdg1iIgqI0QkGHiupSQrr/6f/FMeWM5fhCEt+kh9YNhW8khi
+         6aBzaNZceJuFoVmageHUffYJq9eNIP5QzxnH5A67oLC1PQPrSy/ieqfxWEIGP2mNe2C3
+         392A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FagPer16TqSGKfWM657hm6JiI+yBiVBCvqxCOmlxkMA=;
-        b=G6TSBBw2p+Sjw0S5yDwmEq+23Ev2VFVw7HNaYU7VSiQnvwtqQH049FQinHgfaTPyps
-         vVVPwVb4EPKITbtDQGjLc5tL/DxBGIX+dliH2pAXooQdEhqV/AYGbENtCB/jI/HsrXSD
-         ROwvOnZrxh3enfnXKrIxDG8P/a7GmFM8MrVCJKHrwtWJEy6ZPi6K8+3hTPKkeCEtSX4n
-         V4GtkoO/nuY93qWCOVHDcl0/g8SiENaut/SP/5ApMlUQ1PTYfjAd3dmQx53nfQ/9cWJN
-         JJ5WQ2TfvoVVqHMAg8P6kqg/xCU/9NqUvmXrbVODTZl7TFmI1s2dwWhL2SBY/MiAz7vF
-         Cnkg==
-X-Gm-Message-State: AFqh2koql0FAyeyFYziE/LB85Inb4oUD5o2fKp+C+STtqkgRchvewDSx
-	a1JgvXhz4RwFUxFrOMLJOtaHZrelUO4=
-X-Google-Smtp-Source: AMrXdXtoos1zEcrEwTG+s/dQJzfEq/j4IIkOYFXa78Rv8rmniG6PT67vrwx3st/b7FmPjdMHnWXgRQ==
-X-Received: by 2002:a1c:4b06:0:b0:3cf:5e42:de64 with SMTP id y6-20020a1c4b06000000b003cf5e42de64mr2314421wma.39.1671559637042;
-        Tue, 20 Dec 2022 10:07:17 -0800 (PST)
+        bh=thRuJtmTssIyG7l2IJePOzLYheC6XwEfWOGtbQPzcbQ=;
+        b=UVaC2P6ku0zwptORY/1xPVlbfDvd75AOUh9/wwELbPd5XY2+/s48UplAr4TqK4Kv9h
+         vzGTT/nNhuYNIYBwKVrxBxf7Tpm2rmWF4OwoI/HOzdlHLIO7k6sw8oN8Q6Eet9UNwmVr
+         Y8pd9Ynp+NlpdIF1VYMA4qfjiEFaTJnuEvAHlMADm1YlnGCETU76T6NNWvD/4DQzIQvH
+         73Y7M81NHtWOEONWrlyg0btWkIynqc6iNc9grPnOiZLnTD2pSaOytXY8CZUlJbFdnQzB
+         bXYcqMRE0K/Xwaxz3HoMEbnrdUML/ECwCzot42mvdtPPvA1jfwk6oRb4r8xyNXd9zqGV
+         HkPQ==
+X-Gm-Message-State: AFqh2krsd6mfE1nV+DMPX9x3rrkjDcOEvMH0RoGrWzVk1qZAjRK5y4C0
+	n6a1CRgoKIx9Fp8WBIIZ89I4HrqQ2uE=
+X-Google-Smtp-Source: AMrXdXt9cn5dkneZjrlrlXx4Y9yaWg9HelOUjij5VAR8DGb8UAhASmOSz1nBDEXebqFsMrEFJnK/Og==
+X-Received: by 2002:a05:600c:34cb:b0:3d5:79bb:d7da with SMTP id d11-20020a05600c34cb00b003d579bbd7damr2631861wmq.18.1671559635345;
+        Tue, 20 Dec 2022 10:07:15 -0800 (PST)
 Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net. [91.135.6.246])
-        by smtp.gmail.com with ESMTPSA id u9-20020a05600c00c900b003cf37c5ddc0sm16243754wmm.22.2022.12.20.10.07.16
+        by smtp.gmail.com with ESMTPSA id u9-20020a05600c00c900b003cf37c5ddc0sm16243754wmm.22.2022.12.20.10.07.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Dec 2022 10:07:16 -0800 (PST)
+        Tue, 20 Dec 2022 10:07:14 -0800 (PST)
 From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [OE-Core][PATCH][PATCH 04/11] rust-llvm: Merge .inc into .bb
-Date: Tue, 20 Dec 2022 18:06:05 +0000
-Message-Id: <20221220180612.24555-5-alex.kiernan@gmail.com>
+Subject: [OE-Core][PATCH][PATCH 02/11] libstd-rs: Merge .inc into .bb
+Date: Tue, 20 Dec 2022 18:06:03 +0000
+Message-Id: <20221220180612.24555-3-alex.kiernan@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20221220180612.24555-1-alex.kiernan@gmail.com>
 References: <20221220180612.24555-1-alex.kiernan@gmail.com>
@@ -61,190 +61,113 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 20 Dec 2022 18:07:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174864
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174862
 
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
 
- meta/recipes-devtools/rust/rust-llvm.inc      | 78 ------------------
- .../recipes-devtools/rust/rust-llvm_1.66.0.bb | 80 ++++++++++++++++++-
- 2 files changed, 79 insertions(+), 79 deletions(-)
- delete mode 100644 meta/recipes-devtools/rust/rust-llvm.inc
+ meta/recipes-devtools/rust/libstd-rs.inc      | 40 -------------------
+ .../recipes-devtools/rust/libstd-rs_1.66.0.bb | 40 ++++++++++++++++++-
+ 2 files changed, 39 insertions(+), 41 deletions(-)
+ delete mode 100644 meta/recipes-devtools/rust/libstd-rs.inc
 
-diff --git a/meta/recipes-devtools/rust/rust-llvm.inc b/meta/recipes-devtools/rust/rust-llvm.inc
+diff --git a/meta/recipes-devtools/rust/libstd-rs.inc b/meta/recipes-devtools/rust/libstd-rs.inc
 deleted file mode 100644
-index 625eb5704166..000000000000
---- a/meta/recipes-devtools/rust/rust-llvm.inc
+index 44cf683837db..000000000000
+--- a/meta/recipes-devtools/rust/libstd-rs.inc
 +++ /dev/null
-@@ -1,78 +0,0 @@
--SUMMARY = "LLVM compiler framework (packaged with rust)"
--LICENSE ?= "Apache-2.0-with-LLVM-exception"
+@@ -1,40 +0,0 @@
+-SUMMARY = "Rust standard libaries"
 -HOMEPAGE = "http://www.rust-lang.org"
+-SECTION = "devel"
+-LICENSE = "(MIT | Apache-2.0) & Unicode-TOU"
+-LIC_FILES_CHKSUM = "file://../../COPYRIGHT;md5=92289ed52a60b63ab715612ad2915603"
 -
--SRC_URI += "file://0002-llvm-allow-env-override-of-exe-path.patch;striplevel=2 \
--            file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=2 \
--	    file://0003-llvm-fix-include-benchmarks.patch;striplevel=2"
+-RUSTLIB_DEP = ""
+-inherit cargo
 -
--S = "${RUSTSRC}/src/llvm-project/llvm"
+-DEPENDS:append:libc-musl = " libunwind"
+-# rv32 does not have libunwind ported yet
+-DEPENDS:remove:riscv32 = "libunwind"
+-DEPENDS:remove:riscv64 = "libunwind"
 -
--LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=8a15a0759ef07f2682d2ba4b893c9afe"
+-# Embed bitcode in order to allow compiling both with and without LTO
+-RUSTFLAGS += "-Cembed-bitcode=yes"
+-# Needed so cargo can find libbacktrace
+-RUSTFLAGS += "-L ${STAGING_LIBDIR} -C link-arg=-Wl,-soname,libstd.so"
 -
--inherit cmake python3native
+-S = "${RUSTSRC}/src/libstd"
 -
--DEPENDS += "ninja-native rust-llvm-native"
+-CARGO_FEATURES ?= "panic-unwind backtrace"
+-CARGO_BUILD_FLAGS += "--features '${CARGO_FEATURES}'"
+-CARGO_VENDORING_DIRECTORY = "${RUSTSRC}/vendor"
 -
--ARM_INSTRUCTION_SET:armv5 = "arm"
--ARM_INSTRUCTION_SET:armv4t = "arm"
--
--# rustc_llvm with debug info is not recognized as a valid crate that's
--# generated by rust-llvm-native.
--CFLAGS:remove = "-g"
--CXXFLAGS:remove = "-g"
--
--LLVM_DIR = "llvm${LLVM_RELEASE}"
--
--EXTRA_OECMAKE = " \
--    -DCMAKE_BUILD_TYPE=Release \
--    -DLLVM_TARGETS_TO_BUILD='ARM;AArch64;Mips;PowerPC;RISCV;X86' \
--    -DLLVM_BUILD_DOCS=OFF \
--    -DLLVM_ENABLE_TERMINFO=OFF \
--    -DLLVM_ENABLE_ZLIB=OFF \
--    -DLLVM_ENABLE_LIBXML2=OFF \
--    -DLLVM_ENABLE_FFI=OFF \
--    -DLLVM_INSTALL_UTILS=ON \
--    -DLLVM_BUILD_EXAMPLES=OFF \
--    -DLLVM_INCLUDE_EXAMPLES=OFF \
--    -DLLVM_BUILD_TESTS=OFF \
--    -DLLVM_INCLUDE_TESTS=OFF \
--    -DLLVM_TARGET_ARCH=${TARGET_ARCH} \
--    -DCMAKE_INSTALL_PREFIX:PATH=${libdir}/llvm-rust \
--"
--EXTRA_OECMAKE:append:class-target = "\
--    -DCMAKE_CROSSCOMPILING:BOOL=ON \
--    -DLLVM_BUILD_TOOLS=OFF \
--    -DLLVM_TABLEGEN=${STAGING_LIBDIR_NATIVE}/llvm-rust/bin/llvm-tblgen \
--    -DLLVM_CONFIG_PATH=${STAGING_LIBDIR_NATIVE}/llvm-rust/bin/llvm-config \
--"
--
--EXTRA_OECMAKE:append:class-nativesdk = "\
--    -DCMAKE_CROSSCOMPILING:BOOL=ON \
--    -DLLVM_BUILD_TOOLS=OFF \
--    -DLLVM_TABLEGEN=${STAGING_LIBDIR_NATIVE}/llvm-rust/bin/llvm-tblgen \
--    -DLLVM_CONFIG_PATH=${STAGING_LIBDIR_NATIVE}/llvm-rust/bin/llvm-config \
--"
--
--# The debug symbols are huge here (>2GB) so suppress them since they
--# provide almost no value. If you really need them then override this
--INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
--
--export YOCTO_ALTERNATE_EXE_PATH = "${STAGING_LIBDIR}/llvm-rust/bin/llvm-config"
--
--do_install:append () {
--    # we don't need any of this stuff to build Rust
--    rm -rf "${D}/usr/lib/cmake"
+-do_compile:prepend () {
+-    export CARGO_TARGET_DIR="${B}"
+-    # For Rust 1.13.0 and newer
+-    export RUSTC_BOOTSTRAP="1"
 -}
 -
--PACKAGES =+ "${PN}-bugpointpasses ${PN}-llvmhello ${PN}-liblto"
+-do_install () {
+-    mkdir -p ${D}${rustlibdir}
 -
--# Add the extra locations to avoid the complaints about unpackaged files
--FILES:${PN}-bugpointpasses = "${libdir}/llvm-rust/lib/BugpointPasses.so"
--FILES:${PN}-llvmhello = "${libdir}/llvm-rust/lib/LLVMHello.so"
--FILES:${PN}-liblto = "${libdir}/llvm-rust/lib/libLTO.so.*"
--FILES:${PN}-staticdev =+ "${libdir}/llvm-rust/*/*.a"
--FILES:${PN} += "${libdir}/libLLVM*.so.* ${libdir}/llvm-rust/lib/*.so.* ${libdir}/llvm-rust/bin"
--FILES:${PN}-dev += "${datadir}/llvm ${libdir}/llvm-rust/lib/*.so ${libdir}/llvm-rust/include ${libdir}/llvm-rust/share ${libdir}/llvm-rust/lib/cmake"
--
--BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/rust/rust-llvm_1.66.0.bb b/meta/recipes-devtools/rust/rust-llvm_1.66.0.bb
-index 396f741953ed..e1baeb78574f 100644
---- a/meta/recipes-devtools/rust/rust-llvm_1.66.0.bb
-+++ b/meta/recipes-devtools/rust/rust-llvm_1.66.0.bb
-@@ -1,6 +1,84 @@
-+SUMMARY = "LLVM compiler framework (packaged with rust)"
-+LICENSE ?= "Apache-2.0-with-LLVM-exception"
+-    # With the incremental build support added in 1.24, the libstd deps directory also includes dependency
+-    # files that get installed. Those are really only needed to incrementally rebuild the libstd library
+-    # itself and don't need to be installed.
+-    rm -f ${B}/${RUST_TARGET_SYS}/${BUILD_DIR}/deps/*.d
+-    cp ${B}/${RUST_TARGET_SYS}/${BUILD_DIR}/deps/* ${D}${rustlibdir}
+-}
+diff --git a/meta/recipes-devtools/rust/libstd-rs_1.66.0.bb b/meta/recipes-devtools/rust/libstd-rs_1.66.0.bb
+index eec0245ae19b..6c5a979f4f23 100644
+--- a/meta/recipes-devtools/rust/libstd-rs_1.66.0.bb
++++ b/meta/recipes-devtools/rust/libstd-rs_1.66.0.bb
+@@ -1,7 +1,45 @@
++SUMMARY = "Rust standard libaries"
 +HOMEPAGE = "http://www.rust-lang.org"
-+
- # check src/llvm-project/llvm/CMakeLists.txt for llvm version in use
- #
- LLVM_RELEASE = "14.0.5"
++SECTION = "devel"
++LICENSE = "(MIT | Apache-2.0) & Unicode-TOU"
++LIC_FILES_CHKSUM = "file://../../COPYRIGHT;md5=92289ed52a60b63ab715612ad2915603"
 +
  require rust-source.inc
--require rust-llvm.inc
+-require libstd-rs.inc
  
-+SRC_URI += "file://0002-llvm-allow-env-override-of-exe-path.patch;striplevel=2 \
-+            file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=2 \
-+	    file://0003-llvm-fix-include-benchmarks.patch;striplevel=2"
+ # libstd moved from src/libstd to library/std in 1.47+
+ S = "${RUSTSRC}/library/std"
+ 
++RUSTLIB_DEP = ""
++inherit cargo
 +
-+S = "${RUSTSRC}/src/llvm-project/llvm"
++DEPENDS:append:libc-musl = " libunwind"
++# rv32 does not have libunwind ported yet
++DEPENDS:remove:riscv32 = "libunwind"
++DEPENDS:remove:riscv64 = "libunwind"
 +
-+LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=8a15a0759ef07f2682d2ba4b893c9afe"
++# Embed bitcode in order to allow compiling both with and without LTO
++RUSTFLAGS += "-Cembed-bitcode=yes"
++# Needed so cargo can find libbacktrace
++RUSTFLAGS += "-L ${STAGING_LIBDIR} -C link-arg=-Wl,-soname,libstd.so"
 +
-+inherit cmake python3native
++CARGO_FEATURES ?= "panic-unwind backtrace"
++CARGO_BUILD_FLAGS += "--features '${CARGO_FEATURES}'"
++CARGO_VENDORING_DIRECTORY = "${RUSTSRC}/vendor"
 +
-+DEPENDS += "ninja-native rust-llvm-native"
-+
-+ARM_INSTRUCTION_SET:armv5 = "arm"
-+ARM_INSTRUCTION_SET:armv4t = "arm"
-+
-+# rustc_llvm with debug info is not recognized as a valid crate that's
-+# generated by rust-llvm-native.
-+CFLAGS:remove = "-g"
-+CXXFLAGS:remove = "-g"
-+
-+LLVM_DIR = "llvm${LLVM_RELEASE}"
-+
-+EXTRA_OECMAKE = " \
-+    -DCMAKE_BUILD_TYPE=Release \
-+    -DLLVM_TARGETS_TO_BUILD='ARM;AArch64;Mips;PowerPC;RISCV;X86' \
-+    -DLLVM_BUILD_DOCS=OFF \
-+    -DLLVM_ENABLE_TERMINFO=OFF \
-+    -DLLVM_ENABLE_ZLIB=OFF \
-+    -DLLVM_ENABLE_LIBXML2=OFF \
-+    -DLLVM_ENABLE_FFI=OFF \
-+    -DLLVM_INSTALL_UTILS=ON \
-+    -DLLVM_BUILD_EXAMPLES=OFF \
-+    -DLLVM_INCLUDE_EXAMPLES=OFF \
-+    -DLLVM_BUILD_TESTS=OFF \
-+    -DLLVM_INCLUDE_TESTS=OFF \
-+    -DLLVM_TARGET_ARCH=${TARGET_ARCH} \
-+    -DCMAKE_INSTALL_PREFIX:PATH=${libdir}/llvm-rust \
-+"
-+EXTRA_OECMAKE:append:class-target = "\
-+    -DCMAKE_CROSSCOMPILING:BOOL=ON \
-+    -DLLVM_BUILD_TOOLS=OFF \
-+    -DLLVM_TABLEGEN=${STAGING_LIBDIR_NATIVE}/llvm-rust/bin/llvm-tblgen \
-+    -DLLVM_CONFIG_PATH=${STAGING_LIBDIR_NATIVE}/llvm-rust/bin/llvm-config \
-+"
-+
-+EXTRA_OECMAKE:append:class-nativesdk = "\
-+    -DCMAKE_CROSSCOMPILING:BOOL=ON \
-+    -DLLVM_BUILD_TOOLS=OFF \
-+    -DLLVM_TABLEGEN=${STAGING_LIBDIR_NATIVE}/llvm-rust/bin/llvm-tblgen \
-+    -DLLVM_CONFIG_PATH=${STAGING_LIBDIR_NATIVE}/llvm-rust/bin/llvm-config \
-+"
-+
-+# The debug symbols are huge here (>2GB) so suppress them since they
-+# provide almost no value. If you really need them then override this
-+INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
-+
-+export YOCTO_ALTERNATE_EXE_PATH = "${STAGING_LIBDIR}/llvm-rust/bin/llvm-config"
-+
-+do_install:append () {
-+    # we don't need any of this stuff to build Rust
-+    rm -rf "${D}/usr/lib/cmake"
++do_compile:prepend () {
++    export CARGO_TARGET_DIR="${B}"
++    # For Rust 1.13.0 and newer
++    export RUSTC_BOOTSTRAP="1"
 +}
 +
-+PACKAGES =+ "${PN}-bugpointpasses ${PN}-llvmhello ${PN}-liblto"
++do_install () {
++    mkdir -p ${D}${rustlibdir}
 +
-+# Add the extra locations to avoid the complaints about unpackaged files
-+FILES:${PN}-bugpointpasses = "${libdir}/llvm-rust/lib/BugpointPasses.so"
-+FILES:${PN}-llvmhello = "${libdir}/llvm-rust/lib/LLVMHello.so"
-+FILES:${PN}-liblto = "${libdir}/llvm-rust/lib/libLTO.so.*"
-+FILES:${PN}-staticdev =+ "${libdir}/llvm-rust/*/*.a"
-+FILES:${PN} += "${libdir}/libLLVM*.so.* ${libdir}/llvm-rust/lib/*.so.* ${libdir}/llvm-rust/bin"
-+FILES:${PN}-dev += "${datadir}/llvm ${libdir}/llvm-rust/lib/*.so ${libdir}/llvm-rust/include ${libdir}/llvm-rust/share ${libdir}/llvm-rust/lib/cmake"
++    # With the incremental build support added in 1.24, the libstd deps directory also includes dependency
++    # files that get installed. Those are really only needed to incrementally rebuild the libstd library
++    # itself and don't need to be installed.
++    rm -f ${B}/${RUST_TARGET_SYS}/${BUILD_DIR}/deps/*.d
++    cp ${B}/${RUST_TARGET_SYS}/${BUILD_DIR}/deps/* ${D}${rustlibdir}
++}
 +
-+BBCLASSEXTEND = "native nativesdk"
+ BBCLASSEXTEND = "nativesdk"
 -- 
 2.39.0
 
