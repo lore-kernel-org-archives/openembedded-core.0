@@ -2,56 +2,56 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4065DC3DA7D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D8D6C3DA7A
 	for <webhook@archiver.kernel.org>; Tue, 20 Dec 2022 18:42:25 +0000 (UTC)
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
- by mx.groups.io with SMTP id smtpd.web11.58203.1671561737956477275
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+ by mx.groups.io with SMTP id smtpd.web10.57990.1671561738957739388
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Dec 2022 10:42:18 -0800
+ Tue, 20 Dec 2022 10:42:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=GB6tWDgn;
- spf=pass (domain: gmail.com, ip: 209.85.160.175, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f175.google.com with SMTP id jr11so11761417qtb.7
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Dec 2022 10:42:17 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Db7dqLLA;
+ spf=pass (domain: gmail.com, ip: 209.85.160.179, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f179.google.com with SMTP id fu10so11828585qtb.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Dec 2022 10:42:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=erAIghH2mm/HJkYGSmJY/woNVDvMR6pYzJtiQ2TowHg=;
-        b=GB6tWDgnxAt5POsdXrTxirJUD+T6H6bi9ePAvujDDpLISrr3QPJ3w0ZHLblhLt2hF/
-         97H6IX8driH+jm5XFYlaZ7nxP/bgW7NYwK1iTu33NBFC39ttnVEpnd+GuBjrtu8G/0ez
-         Cj7pW01FFFAPoTKi9jNLnym5I7IlbfNN7/5I/VPO0+LjN9SK48dpM19HMpVWj12RHXN5
-         r6bEtEEQ/XpzSetcOGhzuJdKkDhGpSgr6fqkYKaBIsiG6xBujOg9D/FeQ1Xb7uRQuRE5
-         nro2Z3BkUIiwludA+8V1b9Lo+99Xch0k/+nxzxfLX1fuJpO6Iuq8VH4y7qh5BpBg1Ukq
-         VL0A==
+        bh=PpkBdPh2bSTAJW1esyxB62UUM/RcYJQ455pKHBrdXY4=;
+        b=Db7dqLLAgl+Lm8SNgNNwXN8h0nWZnu+DKTymvTsrgHF7qzTJzunqE+1+V2gWVoKjJL
+         baLDkQKyhAzj3RHQe6XaUmrRwtlvW0eodcgVzBjkJFQx8y7lACBWrdH+CUzfJxQlCWuy
+         T9Mx1B6gMIz5CLyJUUVgc7QwtUvRccm3S2WZSnTYboYp71rkwQK302sAHLpoy2ocvZmk
+         B9UZhCfvJHal3/XFCahNX78IPRFQx0AH5JKxEF0tIBx6Rva7mmpjfgHashKfmRYBF6/C
+         QlteTtLJZej/iQSF6pw4Mnz+PvVJ4nsoYp8BWOVbpz4MqwWi6bSiaFcmAAkAsrsfiQyH
+         kslA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=erAIghH2mm/HJkYGSmJY/woNVDvMR6pYzJtiQ2TowHg=;
-        b=UTq2DmF3oUPms87cXAdXKhoVHufYSnH5ilaicKvWze8nB9OYb7OesVHhvkpaCNarqk
-         xM0VCWln+WuCqUjWH22wieTbUmslWlQ1cMGElmN3/1xrhmbW7/DtPGLJRHSMNh9/PWL7
-         21NphnkXnm0TQEcO1dGZrD6GvmhP0HrltZdjVYKTg2t4cT+CkygNPD/pnWfbSjjDBEQr
-         W4Iocnw/u8zK1MEvzD8Dk7gseix9m7AZYK+fVXGFiJ1Q78/3xVpM0HdySwPVjvjuio41
-         Sp9ieqPvtQhz0pbAqxGjXVCJptXT2LN21xTTi88ZGzf9OzEGXBcwmMQA5lBF7+6NarV4
-         nE5Q==
-X-Gm-Message-State: ANoB5pl+6VoYN2VCYsqtsEORn4udEStPhbGZQ/FG78bcYCPO5vOZIb0G
-	XjhdDCENagM/qrjuxjhtMs4PGU87eOM=
-X-Google-Smtp-Source: AA0mqf73bubknOidSqDMwDqrOzP824Kx8og6PXE9wv53Jt2X8R3yn1Vdq4EQ0jlVs7DRR99LZhyr0g==
-X-Received: by 2002:ac8:4508:0:b0:3a8:59a:39fd with SMTP id q8-20020ac84508000000b003a8059a39fdmr59025929qtn.60.1671561736913;
-        Tue, 20 Dec 2022 10:42:16 -0800 (PST)
+        bh=PpkBdPh2bSTAJW1esyxB62UUM/RcYJQ455pKHBrdXY4=;
+        b=vPmCsSiZepZY70pTb0+J9OUZ/fywQAhFk/rnZGojfyv9r3lK8X6CiANllR75TR/34K
+         bevfhxX47rBJ3uGJexti/RbzEi4VFw989ujVbuLdRmUgShH2/xWlu/1a1UUDoTQ+NtXc
+         d51bBBQcaveaCEBFD5XoRCpkjQ8po7hxiknFR/TZ1DaWBKOVe/GFJOaTYeOfgJrEpt9a
+         hbKEg7X0gdmfNpjTgHOWrzduN/vdkNewMnGDH9hjd0dPrATa87cNNGfGSXbAaTB7iExP
+         LkQz0b8ORmy22aeXX62et14qyYkFvRSx+b0+aRNreb358CMxEFPrYozbK5KFY5gOLr8q
+         Vffw==
+X-Gm-Message-State: ANoB5pmUrfEjeRsOeinoaDTDXeG45nzsvg7ylBmmopaNMaqTtS6Jey7U
+	NHv9jvZjGyLMMO6hG6h3NGBqXL5mV5Q=
+X-Google-Smtp-Source: AA0mqf4R/h6PVyJP4kIVW5DPjxuNEGfmLyzUZQWN3gHK4LKUbw6q5V+JLHK+Xz2vmR7YMrA9h0zIBQ==
+X-Received: by 2002:a05:622a:1b14:b0:3a7:e9dc:699d with SMTP id bb20-20020a05622a1b1400b003a7e9dc699dmr64679443qtb.20.1671561737889;
+        Tue, 20 Dec 2022 10:42:17 -0800 (PST)
 Received: from build.lan (cpe7c9a54441c1f-cm7c9a54441c1d.cpe.net.cable.rogers.com. [173.34.238.88])
-        by smtp.gmail.com with ESMTPSA id x30-20020a05620a0b5e00b006fc94f65417sm9229265qkg.40.2022.12.20.10.42.16
+        by smtp.gmail.com with ESMTPSA id x30-20020a05620a0b5e00b006fc94f65417sm9229265qkg.40.2022.12.20.10.42.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Dec 2022 10:42:16 -0800 (PST)
+        Tue, 20 Dec 2022 10:42:17 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/9] linux-yocto/5.15: ltp and squashfs fixes
-Date: Tue, 20 Dec 2022 13:42:05 -0500
-Message-Id: <2e6cab2172009658055a544e397fcad1d53c5d5b.1671560769.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 5/9] linux-libc-headers: bump to 6.1
+Date: Tue, 20 Dec 2022 13:42:06 -0500
+Message-Id: <002f2fbb83f9bc269bd240e2fb1cf430f54b4a4a.1671560769.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <cover.1671560768.git.bruce.ashfield@gmail.com>
 References: <cover.1671560768.git.bruce.ashfield@gmail.com>
@@ -61,93 +61,134 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 20 Dec 2022 18:42:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174877
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174878
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Integrating the following commit(s) to linux-yocto/5.15:
+6.1 is a LTS and one of the reference kernels for our next
+relase. Making it a logical update point for our libc-headers.
 
-    1c5699ee85d4 fs: move S_ISGID stripping into the vfs_*() helpers
-    838f5d0701d8 fs: add mode_strip_sgid() helper
-    d97172683641 squashfs: provide backing_dev_info in order to disable read-ahead
+We can drop one of our patche as the gcc-goto.sh is no longer
+used, and hence we won't have race conditions like we previously
+had.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- .../linux/linux-yocto-rt_5.15.bb              |  4 ++--
- .../linux/linux-yocto-tiny_5.15.bb            |  4 ++--
- meta/recipes-kernel/linux/linux-yocto_5.15.bb | 24 +++++++++----------
- 3 files changed, 16 insertions(+), 16 deletions(-)
+ meta/conf/distro/include/tcmode-default.inc   |  2 +-
+ ...d-input-and-output-files-instead-of-.patch | 67 -------------------
+ ...ders_5.19.bb => linux-libc-headers_6.1.bb} |  5 +-
+ 3 files changed, 3 insertions(+), 71 deletions(-)
+ delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch
+ rename meta/recipes-kernel/linux-libc-headers/{linux-libc-headers_5.19.bb => linux-libc-headers_6.1.bb} (70%)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-index fc1ccd9b39..bd57d7c47e 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-@@ -11,8 +11,8 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 6f9a68a900..444dfec9eb 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -21,7 +21,7 @@ SDKGCCVERSION ?= "${GCCVERSION}"
+ BINUVERSION ?= "2.39%"
+ GDBVERSION ?= "12.%"
+ GLIBCVERSION ?= "2.36"
+-LINUXLIBCVERSION ?= "5.19%"
++LINUXLIBCVERSION ?= "6.1%"
+ QEMUVERSION ?= "7.1%"
+ GOVERSION ?= "1.19%"
+ # This can not use wildcards like 8.0.% since it is also used in mesa to denote
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch
+deleted file mode 100644
+index a5ded602e5..0000000000
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch
++++ /dev/null
+@@ -1,67 +0,0 @@
+-From 694eba7bb974f6b8bd308804cb24350150108b2b Mon Sep 17 00:00:00 2001
+-From: He Zhe <zhe.he@windriver.com>
+-Date: Wed, 21 Nov 2018 15:12:43 +0800
+-Subject: [PATCH] scripts: Use fixed input and output files instead of pipe for here-doc
+-
+-There was a bug of "as" in binutils that when it checks if the input file and
+-output file are the same one, it would not check if they are on the same block
+-device. The check is introduced by the following commit in v2.31.
+-
+-https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=commit;h=
+-67f846b59b32f3d704c601669409c2584383fea9
+-
+-The here-doc usage in this script creates temporary file in /tmp. When we run in
+-an environment where /tmp has rarely been used, the newly created temporary file
+-may have a very low inode number. If the inode number was 6 which is the same as
+-/dev/null, the as would wrongly think the input file and the output file are the
+-same and report the following error.
+-
+-*** Compiler lacks asm-goto support.. Stop.
+-
+-One observed case happened in docker where the /tmp could be so rarely used that
+-very low number inode may be allocated and triggers the error.
+-
+-The fix below for the bug only exists on the master branch of binutils so far
+-and has not been released from upstream. As the convict is introduced since
+-v2.31, only v2.31 is affected.
+-
+-https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=commit;h=
+-2a50366ded329bfb39d387253450c9d5302c3503
+-
+-When building linux-libc-headers we need to use "as" in binutils which does not
+-contain the fix for the moment. To work around the error, we create a fixed
+-temporary file to contain the program being tested.
+-
+-This patch also removes ">/dev/null 2>&1" so we will have more direct error
+-information in case something else wrong happened.
+-
+-Upstream-Status: Inappropriate [A work around for binutils v2.31]
+-
+-Signed-off-by: He Zhe <zhe.he@windriver.com>
+----
+- scripts/gcc-goto.sh | 5 ++++-
+- 1 file changed, 4 insertions(+), 1 deletion(-)
+-
+-diff --git a/scripts/gcc-goto.sh b/scripts/gcc-goto.sh
+-index 8b980fb22..d256a9438 100755
+---- a/scripts/gcc-goto.sh
+-+++ b/scripts/gcc-goto.sh
+-@@ -3,7 +3,7 @@
+- # Test for gcc 'asm goto' support
+- # Copyright (C) 2010, Jason Baron <jbaron@redhat.com>
+- 
+--cat << "END" | $@ -x c - -fno-PIE -c -o /dev/null
+-+cat << "END" > ./input
+- int main(void)
+- {
+- #if defined(__arm__) || defined(__aarch64__)
+-@@ -20,3 +20,6 @@ entry:
+- 	return 0;
+- }
+- END
+-+
+-+$@ -x c ./input -fno-PIE -c -o ./output
+-+rm ./input ./output
+--- 
+-2.19.1
+-
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.19.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb
+similarity index 70%
+rename from meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.19.bb
+rename to meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb
+index 3557526d14..0019a4f1d4 100644
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.19.bb
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb
+@@ -8,13 +8,12 @@ SRC_URI:append:libc-musl = "\
+    "
  
--SRCREV_machine ?= "a0d36398b257c555381e735cd721cd8479d6762d"
--SRCREV_meta ?= "f475b1a9deddbde23f48d7d535abdd5fb133b837"
-+SRCREV_machine ?= "9860fe27332e09dd4f0f3b303e40377de083be9a"
-+SRCREV_meta ?= "c2d64b008142d2a2bc9c8cca8a3d579a62275122"
+ SRC_URI += "\
+-    file://0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch \
+     file://0001-kbuild-install_headers.sh-Strip-_UAPI-from-if-define.patch \
+ "
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-index 087c30b5a5..8b83b5a8de 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-@@ -14,8 +14,8 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
  
--SRCREV_machine ?= "1c3448ff6cc6d24d16c6ef6065cb642245cac627"
--SRCREV_meta ?= "f475b1a9deddbde23f48d7d535abdd5fb133b837"
-+SRCREV_machine ?= "86627fc3da74aefec1338724a597356e6b8ad88b"
-+SRCREV_meta ?= "c2d64b008142d2a2bc9c8cca8a3d579a62275122"
+-SRC_URI[md5sum] = "f91bfe133d2cb1692f705947282e123a"
+-SRC_URI[sha256sum] = "ff240c579b9ee1affc318917de07394fc1c3bb49dac25ec1287370c2e15005a8"
++SRC_URI[md5sum] = "475320de08f16c9fa486fc4edfe98b30"
++SRC_URI[sha256sum] = "2ca1f17051a430f6fed1196e4952717507171acfd97d96577212502703b25deb"
  
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.15.bb b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-index d5f21daf35..0b373c40fe 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-@@ -13,24 +13,24 @@ KBRANCH:qemux86  ?= "v5.15/standard/base"
- KBRANCH:qemux86-64 ?= "v5.15/standard/base"
- KBRANCH:qemumips64 ?= "v5.15/standard/mti-malta64"
- 
--SRCREV_machine:qemuarm ?= "d3aa5916b2b02966ef37bfe3fc527c99754571ec"
--SRCREV_machine:qemuarm64 ?= "a1d364fbe3d8a916426a107f07b89fd0338923c7"
--SRCREV_machine:qemumips ?= "904de7b55a7e8edf4cd894fb0558efee799a314a"
--SRCREV_machine:qemuppc ?= "35d547b91124bef128a13402190ca05f54a2392e"
--SRCREV_machine:qemuriscv64 ?= "8cd3f1c8dc13e8fa2d9a25ce0285d3526705eea7"
--SRCREV_machine:qemuriscv32 ?= "8cd3f1c8dc13e8fa2d9a25ce0285d3526705eea7"
--SRCREV_machine:qemux86 ?= "8cd3f1c8dc13e8fa2d9a25ce0285d3526705eea7"
--SRCREV_machine:qemux86-64 ?= "8cd3f1c8dc13e8fa2d9a25ce0285d3526705eea7"
--SRCREV_machine:qemumips64 ?= "ae8ab2e3acaf9e14cd75a6c96f1ba43c66a1babd"
--SRCREV_machine ?= "8cd3f1c8dc13e8fa2d9a25ce0285d3526705eea7"
--SRCREV_meta ?= "f475b1a9deddbde23f48d7d535abdd5fb133b837"
-+SRCREV_machine:qemuarm ?= "4915b05912ee7d15224eb9064ca63678f0bc6815"
-+SRCREV_machine:qemuarm64 ?= "660bf605998f60fd77f24d3316b95b14ef2fa035"
-+SRCREV_machine:qemumips ?= "38bf282c052b70c1c6dd79dc6ae49da1ec1c7de8"
-+SRCREV_machine:qemuppc ?= "ac4a5d99364cede21dc1838213f7fb29e1735969"
-+SRCREV_machine:qemuriscv64 ?= "1c5699ee85d4ffe1be2bea17f4587375bf3877f6"
-+SRCREV_machine:qemuriscv32 ?= "1c5699ee85d4ffe1be2bea17f4587375bf3877f6"
-+SRCREV_machine:qemux86 ?= "1c5699ee85d4ffe1be2bea17f4587375bf3877f6"
-+SRCREV_machine:qemux86-64 ?= "1c5699ee85d4ffe1be2bea17f4587375bf3877f6"
-+SRCREV_machine:qemumips64 ?= "2923c39cc815e2109c9bfc0985adcd8d342fc415"
-+SRCREV_machine ?= "1c5699ee85d4ffe1be2bea17f4587375bf3877f6"
-+SRCREV_meta ?= "c2d64b008142d2a2bc9c8cca8a3d579a62275122"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
- # meta SRCREV as the linux-yocto-standard builds. Select your version using the
- # normal PREFERRED_VERSION settings.
- BBCLASSEXTEND = "devupstream:target"
--SRCREV_machine:class-devupstream ?= "509a32764e1a5692935c4f26ed96fbe94c480186"
-+SRCREV_machine:class-devupstream ?= "71e496bd338221709b180b60ba419fa542c2b320"
- PN:class-devupstream = "linux-yocto-upstream"
- KBRANCH:class-devupstream = "v5.15/base"
  
 -- 
 2.37.3
