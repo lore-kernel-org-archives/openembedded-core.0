@@ -2,56 +2,56 @@ Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7A43C3DA7B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8680C41535
 	for <webhook@archiver.kernel.org>; Tue, 20 Dec 2022 18:07:24 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web11.57309.1671559636214307821
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web11.57318.1671559641120083356
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Dec 2022 10:07:16 -0800
+ Tue, 20 Dec 2022 10:07:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=QQvwOcxs;
- spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wm1-f43.google.com with SMTP id f13-20020a1cc90d000000b003d08c4cf679so9451770wmb.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Dec 2022 10:07:15 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ZBgJrTlR;
+ spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wm1-f45.google.com with SMTP id p13-20020a05600c468d00b003cf8859ed1bso9476084wmo.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Dec 2022 10:07:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AkX+OL5XGvyNxIw1EJ1jBvBfH7lZ2ywO9otqk6cGgFY=;
-        b=QQvwOcxsaICNWgpGWxeySH3FTFQFsVSFKIMxPFid7MiriR1RKWj7c2U1YUShIqSiIl
-         NnLQ5MzCFUayA9hwGDr1gUR/euskY5qGGWl17EbqaFHPJRaME94/DbVsRM/JsF71yC3O
-         6w55EjaFJkqVa0rQCcgijWfcWu+5cLQ2hwIKs6ksFF+ZJF3Gss+r3o6acKidjssk1paI
-         8lpaBV2k4SINPDKeKuWD2QZDNLSkythwhqJPyghSco/Ylx9geLa+uqJ1MsyJvFIKs1N/
-         H4Rq4W7bDSxQ7Gxe9KpAoUrgR82XFibCpzEciyy0TeSIHTPAImSmrWWVYCiyw4SUZQ9k
-         CnLw==
+        bh=dLmadIfCOQneY28PsYFKv/FyI+0rwD+tX3CNbqBwmyU=;
+        b=ZBgJrTlRWcF1Mmu27rBpQlSkjunx3odd9O5TAL2QDidpkLYpFxoZzeAKZRzTdQVPLP
+         iAd3qv7ESURkoLXbB31fPjNlGAFHZ5S5eIeBkVtVwR98UZYNqaHG/+GQK/NaY3sgHUoM
+         hey4bhjaPVtHqHKH/l3s87p8DobSsE9SR55/Rp6qDcbX3UOtnC9NEil7AiPFi6i1ovk9
+         u4fUFvXMMBogMKnpTe2fqF4bUJndKu7LsNW4Bg8qSzByZO1Fz5SMOFT7M4CV9to4hgdA
+         SxSW4CcPNih/SfDH24DAmHLBS+lrEKTf9u2yu+2xf814MCC17yWBepr1AwNvFjmP6pgw
+         hTcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AkX+OL5XGvyNxIw1EJ1jBvBfH7lZ2ywO9otqk6cGgFY=;
-        b=2R+gE4G2AXsEjjJMxQicm3KTdmRGWbZd1hoASRQ4s5BYQF2+ZzPBJIWL6MMA/Yefl7
-         ysFc8kQmFmISUlBJFankAfWpsGQ5yHrXCqZTotQPI4sXwgbEoswxRP0kK9/RQ996f+Ve
-         uewg1OL4O8+faprKAoaKzHlH/+GqSeZiYAEV4z8JwoREPBOcHAQ2OJac6CAwm+UdPiIn
-         ZWjp2pjiMh41MZnmesNpfT2NJjbB+mPtOMPNA11ilX2n4C5m5N8a4b3NSAAVnq7LFEtk
-         42sATuZO3ce9TntdSWizlIVVEfluYYxJ2y0zw2NUew/5yBk5QaV3LjHQo/4wjJkGsZKM
-         MQ3A==
-X-Gm-Message-State: ANoB5pnL6FmJJ5j0gk6uGXBD4bqZUJX2drDNyPv6vCJxiKPqS9U6RYRP
-	zaFzXXewHldYILTWP9a+hm44joY/Zg8=
-X-Google-Smtp-Source: AA0mqf7jYUibT9H5j797GwnDdhcc6XccUDKyn8gXTDZiyuGg16J+pWvYS+NXoHffWJvLEt3KqRWfug==
-X-Received: by 2002:a05:600c:5407:b0:3c6:e63e:89a6 with SMTP id he7-20020a05600c540700b003c6e63e89a6mr36279169wmb.2.1671559634447;
-        Tue, 20 Dec 2022 10:07:14 -0800 (PST)
+        bh=dLmadIfCOQneY28PsYFKv/FyI+0rwD+tX3CNbqBwmyU=;
+        b=X3Uerysag3z857jdfO7umEwuFPvUidObWzipHmVBfhkiBYfBKJ31VwaL2xff5foq53
+         DcIKAcw6TMj680GDAX/xGaxfA+PxQ8OwOQIHGtuUOA6ngXaQd4cD1R7MQe9+GDm4lyNT
+         c+900aSi/Z08/UKPXfz4Z4dDcWK9iYQE4tu0XwAe4UKScaJU7i6LKvLJkWWRJSk1gYtt
+         qsPxRoZ3LGdOLMTiAT4UWXTe6nJE/PJjzwm1BiKrvsq6xoyi6AWUBNp0fR9DrGZtaLIH
+         BG1s26MQg5dPWak3TW4YbUOjUnrF9NO5X6dm2dLQALphxrT8zjFjqXCmWBHrMW+lZYL6
+         OLmA==
+X-Gm-Message-State: ANoB5pkMnPz2UzyPPnlcPQQAyS+D4fDDJZOmRBEvhJ4sHNqK+vKzvng5
+	IiMaLOWHDAes6c14aFOevTxeQanZtmc=
+X-Google-Smtp-Source: AA0mqf6JRKZdOdQXWv4MKoVv4N7L2PVntjkj4NyCI0XIN7E2tVyeJRIogA+TEYeOsAv3lvu8ikE7CQ==
+X-Received: by 2002:a05:600c:2d0b:b0:3d2:2d2a:d581 with SMTP id x11-20020a05600c2d0b00b003d22d2ad581mr21816203wmf.30.1671559639382;
+        Tue, 20 Dec 2022 10:07:19 -0800 (PST)
 Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net. [91.135.6.246])
-        by smtp.gmail.com with ESMTPSA id u9-20020a05600c00c900b003cf37c5ddc0sm16243754wmm.22.2022.12.20.10.07.13
+        by smtp.gmail.com with ESMTPSA id u9-20020a05600c00c900b003cf37c5ddc0sm16243754wmm.22.2022.12.20.10.07.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Dec 2022 10:07:14 -0800 (PST)
+        Tue, 20 Dec 2022 10:07:18 -0800 (PST)
 From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [OE-Core][PATCH][PATCH 01/11] oeqa/runtime/rust: Add basic compile/run test
-Date: Tue, 20 Dec 2022 18:06:02 +0000
-Message-Id: <20221220180612.24555-2-alex.kiernan@gmail.com>
+Subject: [OE-Core][PATCH][PATCH 07/11] packagegroup-core-sdk: Add SDK toolchain language selection support
+Date: Tue, 20 Dec 2022 18:06:08 +0000
+Message-Id: <20221220180612.24555-8-alex.kiernan@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20221220180612.24555-1-alex.kiernan@gmail.com>
 References: <20221220180612.24555-1-alex.kiernan@gmail.com>
@@ -61,59 +61,45 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 20 Dec 2022 18:07:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174861
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174868
+
+Use SDK_TOOLCHAIN_LANGS to allow different language support to be
+selected within SDKs. Initially supported options are rust and go.
 
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
 
- meta/lib/oeqa/files/test.rs         |  2 ++
- meta/lib/oeqa/runtime/cases/rust.py | 24 ++++++++++++++++++++++++
- 2 files changed, 26 insertions(+)
- create mode 100644 meta/lib/oeqa/files/test.rs
+ .../packagegroups/packagegroup-core-sdk.bb             | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/files/test.rs b/meta/lib/oeqa/files/test.rs
-new file mode 100644
-index 000000000000..f79c691f0853
---- /dev/null
-+++ b/meta/lib/oeqa/files/test.rs
-@@ -0,0 +1,2 @@
-+fn main() {
-+}
-diff --git a/meta/lib/oeqa/runtime/cases/rust.py b/meta/lib/oeqa/runtime/cases/rust.py
-index 55b280d61d8a..186bb0d79e15 100644
---- a/meta/lib/oeqa/runtime/cases/rust.py
-+++ b/meta/lib/oeqa/runtime/cases/rust.py
-@@ -8,6 +8,30 @@ from oeqa.runtime.case import OERuntimeTestCase
- from oeqa.core.decorator.depends import OETestDepends
- from oeqa.runtime.decorator.package import OEHasPackage
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
+index d70aff22c725..0e480e6ac756 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
+@@ -11,6 +11,11 @@ inherit packagegroup
  
-+class RustCompileTest(OERuntimeTestCase):
+ #PACKAGEFUNCS =+ 'generate_sdk_pkgs'
+ 
++SDK_TOOLCHAIN_LANGS ??= ""
++SDK_TOOLCHAIN_LANGS:remove:sdkmingw32 = "rust"
++# libstd-rs doesn't build for mips n32 with compiler constraint errors
++SDK_TOOLCHAIN_LANGS:remove:mipsarchn32 = "rust"
 +
-+    @classmethod
-+    def setUp(cls):
-+        dst = '/tmp/'
-+        src = os.path.join(cls.tc.files_dir, 'test.rs')
-+        cls.tc.target.copyTo(src, dst)
-+
-+    @classmethod
-+    def tearDown(cls):
-+        files = '/tmp/test.rs /tmp/test'
-+        cls.tc.target.run('rm %s' % files)
-+
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    @OEHasPackage(['rust'])
-+    def test_rust_compile(self):
-+        status, output = self.target.run('rustc /tmp/test.rs -o /tmp/test')
-+        msg = 'rust compile failed, output: %s' % output
-+        self.assertEqual(status, 0, msg=msg)
-+
-+        status, output = self.target.run('/tmp/test')
-+        msg = 'running compiled file failed, output: %s' % output
-+        self.assertEqual(status, 0, msg=msg)
-+
- class RustHelloworldTest(OERuntimeTestCase):
-     @OETestDepends(['ssh.SSHTest.test_ssh'])
-     @OEHasPackage(['rust-hello-world'])
+ RDEPENDS:packagegroup-core-sdk = "\
+     packagegroup-core-buildessential \
+     coreutils \
+@@ -23,7 +28,10 @@ RDEPENDS:packagegroup-core-sdk = "\
+     less \
+     ldd \
+     file \
+-    tcl"
++    tcl \
++    ${@bb.utils.contains('SDK_TOOLCHAIN_LANGS', 'go', 'packagegroup-go-sdk-target', '', d)} \
++    ${@bb.utils.contains('SDK_TOOLCHAIN_LANGS', 'rust', 'packagegroup-rust-sdk-target', '', d)} \
++"
+ 
+ SANITIZERS = "libasan-dev libubsan-dev"
+ SANITIZERS:arc = ""
 -- 
 2.39.0
 
