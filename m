@@ -1,423 +1,568 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <randy.macleod@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B273DC4167B
-	for <webhook@archiver.kernel.org>; Tue, 20 Dec 2022 14:27:33 +0000 (UTC)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web11.51410.1671546451347755190
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6241C4332F
+	for <webhook@archiver.kernel.org>; Tue, 20 Dec 2022 14:29:13 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.51279.1671546548787119572
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Dec 2022 06:27:32 -0800
+ Tue, 20 Dec 2022 06:29:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=W4JRJ0az;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.51, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f51.google.com with SMTP id u19so29582132ejm.8
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Dec 2022 06:27:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=78/Nd/7Y0dMtEI3n++P1BUnnCcMW3dczgHQlKDG/FCo=;
-        b=W4JRJ0azKsB/ExrV8NYaWto4JvuOilTmzFV+6CIa3U1wlgbHVMaigIdSW78nsgtcNN
-         kgAmYpyVsfoIGw4wQMAWwaeK2Nvo2cpLtlANNhsamsLRa9G7Kkq9sg3Dkxw1Vx8YVa2t
-         S98T5IH50hP2mxAsBqb50uhaQm8lIl9Hb5D4pdSokSsnSaASGEiveG4dSJGzgk5AaFpa
-         NqdJrltIhJC2ho8wU6eAQwk7lu3R6P6jT/R8ZZ+MTfNtPZxuMLi981lkH9vQXaPwXW7E
-         NJq+wxMSnnsaHXoyvW4KdAb9/GZl09+rSvVNenOepmhFilbh5vyz4eu0u3rqgPNCt9c2
-         W0pA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=78/Nd/7Y0dMtEI3n++P1BUnnCcMW3dczgHQlKDG/FCo=;
-        b=I1XH2PG22k+c0K3wk2/MDnfeyRFm/LA6NQ+ROKf9aiA49e9rjk//xoyDeswrWb0gPE
-         Y5gjiOpgmwQYS+WN/q1eXPE58ftTwfUMdr4F3xmD4sbISZOBoTQ2l9EgC11BBhGUfFoK
-         XNiMF9YTVPYXKjT/pd/2qUn6ikcI4bzKdILE3YJBkewlpQuDLviqN06bknB5qOg3MxEL
-         HffVSPgWXU62zNh1MTg4Fnbq5S2OWSVDcDZDLe0dSaTkiQCti2fg1vmvlGmgYWHSxuZq
-         +g2EWkOvexBptycAH5HlCELliHopQFznh0CpIINNT1xfyvYFMd30Uh3gR7Shz0iUYGGH
-         k6kA==
-X-Gm-Message-State: ANoB5pm/MCsFZb0oCS+WwbgAy+MaR+4dbuGvp3XZfkDnZ7VLHz8eugEY
-	lsQ+nfNaPiARS8KmXCwoL4pP7Uj/ZEbe7M3FL6iKMw==
-X-Google-Smtp-Source: AA0mqf5h3ipmRf8reDTVzPPP6hwHuuQihKX6Uo8Wjluh4WXcbwk25s/2Z9E8EI2Z4n/J6bClteUmvChhC35BmKNcw1w=
-X-Received: by 2002:a17:906:99d1:b0:7c1:7808:c469 with SMTP id
- s17-20020a17090699d100b007c17808c469mr3486440ejn.584.1671546449413; Tue, 20
- Dec 2022 06:27:29 -0800 (PST)
+ dkim=fail reason="body hash did not verify" header.i=@windriver.com header.s=pps06212021 header.b=LdWRF3sS;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=93534e26d5=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2BKEFvZj024517
+	for <openembedded-core@lists.openembedded.org>; Tue, 20 Dec 2022 06:29:08 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=content-type :
+ message-id : date : subject : to : cc : references : from : in-reply-to :
+ mime-version; s=PPS06212021;
+ bh=WagQQv+YhaH8Bps/BX3V8RRodoGlr8cwpUa1v8ltCFM=;
+ b=LdWRF3sSiD8vkjLn/gG8nJd/lcStAIb37oDGEVzLbL3gzNpFhz7llbu1AtSKQR1rKzP3
+ FW+zjPHqySQLGQeTAjsBXF4C95i58KVPuWsS/FjfygwCqE2fVS4eat707YLiBtZY+19L
+ R7isuipMkgPV13Xb3EOTSn17TnLt6JCdE8N0pCYEg2lrdV8boYKBVF83MLb7BHqbMA3/
+ m16nvIUWoUC+OIKIIhj58ycxzOnuI2nq7ISqXBk2SGCKUyMbrCLXCm4aJVy381Jwr/Eu
+ Dhw1SZhRvk6r2wsLv7urdqDOevGfW9HGCV7ubfq4AJ/4az4C3Tr1p8P4ypvJYtdTlw4x Nw== 
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2177.outbound.protection.outlook.com [104.47.59.177])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3mhe5qa2b1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 20 Dec 2022 06:29:08 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RqLuf/vroEesPJXscs7+0XO76ZtH/iCw6voRnNNp6qE+EakHkWVYoy1egJcIp7dCD2nmHQvER9HC/w+JXyUImxJxUdMYCE3R3b8HEgqgeaikggo9UO9n4AtZ1NtUOsFW+qX1FJvW/BrsVH1xX+9jpPnCTE++PtHtOzkl2vKNK+Dm56b5HtyRTgFhs2dtiTOwRtjn6AEDn6Ix7z1IaetzKxs2GvbikGHglaUZAB8RUqER27tfmu0621CVxU4JJqMaqIwYN2uwmTH+HIRzy0EW35P6RJus1S5Jz/phPY0qkVmflScfBb3thB8oplrteQ+5Wl7cXxZ/11mfPMiGLe7zOA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WagQQv+YhaH8Bps/BX3V8RRodoGlr8cwpUa1v8ltCFM=;
+ b=L64Yefem0t8zyQ+cCSUnZBzquQahHfviwOMOxHTrq5fhBn6cZkzegvkg/YzzEJ99HT+nVp+tnUt/VLQ47tZPdtUM+41jvmhwn348tEdqePDXP3oKsYuCa7Qq+DMZ/klHS2TIbAKI4Kh+Snzzo/ZQInlFuFQrRV7GXVWOkXhp0rHOguXmyqj64lxdStosPdm/tcVvvQwT22Fd5MhivMgxyqJ8cEEUenpQao/k2H5K68OkH14yq4c9m81wd1bQ+xu27AKHmUS2N/yyj6vYzPF9fCgLQHPj8lMKubdA5/5Ps6C8QVLYUp3zewLcd0rsLOlFpNmPldkg2JXt3pSzceoh2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
+ by MW3PR11MB4571.namprd11.prod.outlook.com (2603:10b6:303:59::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.16; Tue, 20 Dec
+ 2022 14:29:05 +0000
+Received: from DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::e794:335f:5e0f:8d36]) by DM6PR11MB3994.namprd11.prod.outlook.com
+ ([fe80::e794:335f:5e0f:8d36%6]) with mapi id 15.20.5924.016; Tue, 20 Dec 2022
+ 14:29:05 +0000
+Content-Type: multipart/alternative;
+ boundary="------------wWqZe7xWAdkJrfyAd00otsg2"
+Message-ID: <971b4e7b-a7c3-dd0f-1640-4014bae5a472@windriver.com>
+Date: Tue, 20 Dec 2022 09:29:01 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [OE-core] [meta-oe][PATCH 1/1] libksba: fix CVE-2022-3515
+Content-Language: en-CA
+To: archana.polampalli@windriver.com,
+        "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>,
+        "Saun, Manoj Singh" <ManojSingh.Saun@windriver.com>
+Cc: "Mali, Narpat" <Narpat.Mali@windriver.com>,
+        "G Pillai, Hari" <Hari.GPillai@windriver.com>,
+        "Kang, Kai" <Kai.Kang@windriver.com>
+References: <20221220062956.609061-1-manojsingh.saun@windriver.com>
+ <MW4PR11MB58228FD9C6AA67968C7C494584EA9@MW4PR11MB5822.namprd11.prod.outlook.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+In-Reply-To: <MW4PR11MB58228FD9C6AA67968C7C494584EA9@MW4PR11MB5822.namprd11.prod.outlook.com>
+X-ClientProxiedBy: SJ0PR13CA0064.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c4::9) To DM6PR11MB3994.namprd11.prod.outlook.com
+ (2603:10b6:5:193::19)
 MIME-Version: 1.0
-References: <20221219174146.64696-1-bruce.ashfield@gmail.com> <20221219174146.64696-4-bruce.ashfield@gmail.com>
-In-Reply-To: <20221219174146.64696-4-bruce.ashfield@gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Tue, 20 Dec 2022 04:27:18 -1000
-Message-ID: <CAOSpxdbQ9SaCmMJddnFTyX3Z7p+seZO9vtGjYcDNUPSAWQOhzQ@mail.gmail.com>
-Subject: Re: [PATCH 4/4][dunfell] linux-yocto/5.4: update to v5.4.228
-To: bruce.ashfield@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR11MB3994:EE_|MW3PR11MB4571:EE_
+X-MS-Office365-Filtering-Correlation-Id: e74ca227-4dc2-405a-1bed-08dae2968c7b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	YXroFEvmdU6S/+dFFyMFWC9z5AnsQruLQMA8Le2E7t0iW7EGe47BZf3R+Lmc4PPHCy2JDjOXGqmFpEwnPMj4SE6287gP2y+YEYTd5FgCT2CG2u3W3zZ394fBL1QH+4SBazTVsQGBLy35cb+MBj9crK0gP88955etgQqR9sTupAX8+UZmjuck8Zb84O8APBVux1NoTnZeaawyCgpA+Qt3+Z2YWGgfxS1r+y5m0PYaAFdTRswrfr7ERaIIV2XrO4BS2Pu9z1U4ncAFfBOSxwJjh8ovK10WFimySYFqo0jJMe3Ui/FmgZkRZuveGotP8eg6qLPq2zm7CUnSOrplYYDjaZyN9HpjOMozQe1I3hs0Ry35bo2JRkhgCD5LFqJxglK5qyXim5Pzd050IjKjYqo4j2VHymBTX1a+jCCT1CHNg9X0FtSJjEvwO7fX58t1SWvqkzA/fdkiLHEmBF5mJ/e6bxOV5uDjvwPDcqmBYU+IthsFerVCVf8KhRMukUxZ8b/lQqz5QSDRPva1TsPZxRSBKKH2GQV6Ufga3/lezABMtZbPTlrOlIVpxxOHqmaRFQHbJyNjYNDLT8skJ84J4KJa40+cpRlQXB+CNt6FSr8U5gJOlZF7s40e0xBgd0KrxEzSoevuW2pNAxmEqrUJloXSytEf5RxfJPIercfgK0DkAQ9Z7J0Jq0NNj3X6B3qCox8moksM21Q+f3zTAC5QxiwJqzY5/sH/rPEFFP0bHxgDqVY/q3RJGpKYCLKg2xcbzUFR4TTqQdyn63LTy4fp8Gux7DCQcKYXOL+o2ssZyg8PkOY=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(396003)(376002)(136003)(39850400004)(366004)(451199015)(66476007)(66556008)(66946007)(86362001)(4326008)(31696002)(8676002)(19627405001)(316002)(5660300002)(36756003)(8936002)(41300700001)(53546011)(2616005)(107886003)(6666004)(186003)(6506007)(6512007)(33964004)(26005)(83380400001)(38100700002)(54906003)(966005)(6636002)(166002)(478600001)(6486002)(110136005)(66899015)(2906002)(31686004)(4001150100001)(21615005)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?cWtQbmpEd2tHMERYYjQzQlZUajEyeVJFdG5meFdhRTFTWEQ3bjFPWGxkRGtz?=
+ =?utf-8?B?SWxFQmFRNHlmU0ludkhZNUxheEJCbVR2VWxjaDRqMy9vMzFqVW1VTVljMFBN?=
+ =?utf-8?B?anRsdHh6WWNza2ZXK2ZLNm4yYkNYQkhJRWgvU1B6dGxVREgwTUcwWDU1TWc3?=
+ =?utf-8?B?WGptdWt2a0VJU3grR0JIV0l2ZkIzU1d5NnUxNDdZRG9EcDZyWnNyKysxNm9O?=
+ =?utf-8?B?VkdHcGd3R0xsWkc2TXBKTnNSekpkdndTWFZkQjdiR3FTNnFZU0pZNUhKcDhw?=
+ =?utf-8?B?ZE5CQzNrRGJOM2F6aXFjVVBjRGRtcC9uVURVZjlOc3RZK3N6UzdYUk9rME9O?=
+ =?utf-8?B?SUZGcEVMbkF1bUdnaU13UVlTQW0yaXkrVW9UOG84OSt1amZNYlczcVhWejhJ?=
+ =?utf-8?B?YVdTc1RiOWpBZENnaTVITVcrV1N6ZGYrajFycWkrL0dkaEF1RXlVQ1AxZy9l?=
+ =?utf-8?B?ZkpqNy80Tzh2d3NEaWdORzRNNzYrVWFlNS9XTklCeGE3MVl6NklGVTFaams1?=
+ =?utf-8?B?RnUwSWRyZlBhbmFZMVBqS3BhT3U5RS9QbDEyVjY2c2V3RWtETWRsRURUUEZk?=
+ =?utf-8?B?VmN3cDdKM2xvakczTnNuQUxwWTA5SExBOXhPSUpLTVF1dGdSTlFLeVdaSlVI?=
+ =?utf-8?B?RmExVnFRbFpraHNRL3cxdFNrcmNuZTJ3MmMzNXJzeGZaMjhySVpXMWJOS2Nn?=
+ =?utf-8?B?NDNlbit2M1hUVGxqVlFGV2ZobnQ5RmVmSEVXcE5VZWpEMFFpWW1XWDVNendD?=
+ =?utf-8?B?WmkxKzE0ejJTQzZ5bDNlTXRtTmV5MGpDV0NaNDg3alRBWitINXptK1pGMEFQ?=
+ =?utf-8?B?V2Z0Q1N0UVJBM1BSbFYzK0REdG1nKzRLTW02STJMcnYrRC8zWDE5ZDgvallw?=
+ =?utf-8?B?ZVFUL0tlT3ZaaDhtd25zVDA3WWZSTEVNLzBKTStTR0RZVEI0akFwZHB6ckhm?=
+ =?utf-8?B?cEtob1ZvVHVzTDNPMFR4VGNSZ28vK3lEUWZ4REZCelNScTA2bGQxUUJQS0U1?=
+ =?utf-8?B?ei81T1hKTU54eFFHa0FFd2RrKzUzOXQ4Q3JLd0t3ZUJjd3pTOFhHWlVzNmNG?=
+ =?utf-8?B?TnRVMFJSNUJFallpWkhTSEJVYTZCT1VKVXZMWHQxeHFweGNuNHF4Z0xOQTRj?=
+ =?utf-8?B?d3RsT1R0MWtMUFE0YU81ZGlUYklGR3RjRGNKVlA4bkRlQjNWdFZKY1dOR0xx?=
+ =?utf-8?B?bkliSHRBRktpZDYwT3lvY2YvVnVzWU5nSk94OEhGSG1mUjVNRkI0WjNRUTM2?=
+ =?utf-8?B?aHpReDl1TnB2KzZHaGlSSVdKampjRW0yYXdDa0N6VXQyNW5jKzIxUkE5QU40?=
+ =?utf-8?B?RDg1MWk5OGF3eUNYc3VjSmJ1V05MZS9tZ1lJWmhlU3lpSlpEL1F1QVVhQnZC?=
+ =?utf-8?B?SVpCaUthYTZqTUhjbTNoNHgwSFZiYVVVMUFPRXNIMVlmTTZzZi9RRHN1cjdG?=
+ =?utf-8?B?UWRScEFKSXJZc0NCaDBaZ29LaTQ5ZE9oMnJ6ZUxmbHhPSHQ2QThvVVZNU29I?=
+ =?utf-8?B?ZXZBMkZxcHVQZDRKaGtYMHdMNU5HL2xYVFJWQ0EyLzdSMGo2Q09veHVKL0ZH?=
+ =?utf-8?B?ajh6QTRMSERMVUliQzc2eW1XOHJ0b1pLZVZQc0dmMEVGWUdxZkk3WmF4cFRF?=
+ =?utf-8?B?WjdlUzFMaXpPcVcwUWVNQnFTNUk1bjhuazYweHBaaXBQcncrZ1h2ZlFqS3Iv?=
+ =?utf-8?B?QlhaTUZqaUUvcGNTaXFnQkc1MHJFVTBXR1drRUZaVzBGb05OQzhVcjF4b2My?=
+ =?utf-8?B?ZGE0MXRlR2Vic3BZL1RKQnhQK2hiL2FrWWhTc3M1WE9qQms5NHI2cEdoQnpP?=
+ =?utf-8?B?bE1SQUQzc2QrTkw3T3JldzFseHVINm1lYUZWZklicmFYNUE3djlwclloSnVQ?=
+ =?utf-8?B?YUc3TjlBTXVleHdqTW1IeGR4eWkzTDVPUytiUDNSN2d0bkc5VDUvSSs4ZWdy?=
+ =?utf-8?B?L2wyOHZneUVwMVBhUnpWYnB4MndOa0ROby94MFFoR051T25QOEJlNnVuRTdV?=
+ =?utf-8?B?RnUvbjFVODFxdFhVN0lkR0lrVGl6Vk9lRlhEaDM1UnloOE9ueWdKTGtPZCtV?=
+ =?utf-8?B?YlFPemVpZHhQWmZ5aCt2TlVYYzJnb1VQN01aVlgxNmYwS3h2QmVQREJGbDVG?=
+ =?utf-8?B?d1JvR2ZDWnJEempKWXpKNFdpNmdtbE5oZGRuOE81cUVjeHpXTTZRUXUzTHNR?=
+ =?utf-8?B?SlE9PQ==?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e74ca227-4dc2-405a-1bed-08dae2968c7b
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Dec 2022 14:29:05.7602
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9UZ3shE1Z0BQgkfTy7niFa4Kues2YmIZC05ANPYEByDDtF1XoRCK0fp0498Q0AKGTcJUSp8xXtubCIPZSPjvrEodH9Krb1ebzCcXz/X2AiA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4571
+X-Proofpoint-ORIG-GUID: w7xoN0PzzSIeKLBUeSZgsz7NavEqw5Ce
+X-Proofpoint-GUID: w7xoN0PzzSIeKLBUeSZgsz7NavEqw5Ce
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-12-20_05,2022-12-20_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ impostorscore=0 lowpriorityscore=0 mlxlogscore=999 phishscore=0 mlxscore=0
+ adultscore=0 spamscore=0 suspectscore=0 priorityscore=1501 bulkscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2212200119
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 Dec 2022 14:27:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174852
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Dec 2022 14:29:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174853
 
-On Mon, Dec 19, 2022 at 7:41 AM <bruce.ashfield@gmail.com> wrote:
+--------------wWqZe7xWAdkJrfyAd00otsg2
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 2BKEFvZj024517
+
+On 2022-12-20 01:34, Polampalli, Archana via lists.openembedded.org wrote=
+:
+> Hi Manoj,
 >
-> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> Please remove [meta-oe] in patch subject, it should be
 >
-> Updating  to the latest korg -stable release that comprises
-> the following commits:
+> [OE-core][PATCH 1/1] libksba: fix CVE-2022-3515
+
+
+Hi Manoj,
+
+
+Instead of patching, please update to release 1.6.3 and add ptest=20
+coverage since
+the source has some c code in the tests directory.
+
+
+../Randy
+
+
+
 >
->     851c2b5fb793 Linux 5.4.228
->     ff484a9ba449 ASoC: ops: Correct bounds check for second channel on SX controls
->     7d4aa0929963 can: mcba_usb: Fix termination command argument
->     f843fdcac054 can: sja1000: fix size of OCR_MODE_MASK define
->     b439b12d1050 pinctrl: meditatek: Startup with the IRQs disabled
->     9796d07c7531 ASoC: ops: Check bounds for second channel in snd_soc_put_volsw_sx()
->     3c837460f920 nfp: fix use-after-free in area_cache_get()
->     a40c3c9ae58f block: unhash blkdev part inode when the part is deleted
->     176ba4c19d1b mm/hugetlb: fix races when looking up a CONT-PTE/PMD size hugetlb page
->     69d4f3baa694 x86/smpboot: Move rcu_cpu_starting() earlier
->     d1988bf2bba3 net: bpf: Allow TC programs to call BPF_FUNC_skb_change_head
->     66bb2e2b24ce Linux 5.4.227
->     898270ec11be can: esd_usb: Allow REC and TEC to return to zero
->     08bf219d62f5 net: mvneta: Fix an out of bounds check
->     6b6d3be3661b ipv6: avoid use-after-free in ip6_fragment()
->     f73eb3fc9b41 net: plip: don't call kfree_skb/dev_kfree_skb() under spin_lock_irq()
->     f0af234e2e55 xen/netback: fix build warning
->     99669d94ce14 ethernet: aeroflex: fix potential skb leak in greth_init_rings()
->     3295582cd7a5 ipv4: Fix incorrect route flushing when table ID 0 is used
->     2537b637eac0 ipv4: Fix incorrect route flushing when source address is deleted
->     36eedb9a05a7 tipc: Fix potential OOB in tipc_link_proto_rcv()
->     1b6360a093ab net: hisilicon: Fix potential use-after-free in hix5hd2_rx()
->     e71a46cc8c9a net: hisilicon: Fix potential use-after-free in hisi_femac_rx()
->     7081cf86e1f6 net: thunderx: Fix missing destroy_workqueue of nicvf_rx_mode_wq
->     bc06207b4c1c net: stmmac: fix "snps,axi-config" node property parsing
->     7fab7add08f5 nvme initialize core quirks before calling nvme_init_subsystem
->     677843470694 NFC: nci: Bounds check struct nfc_target arrays
->     e5292711b020 i40e: Disallow ip4 and ip6 l4_4_bytes
->     9337d87da417 i40e: Fix for VF MAC address 0
->     a1e295517b36 i40e: Fix not setting default xps_cpus after reset
->     eec1fc21edc2 net: mvneta: Prevent out of bounds read in mvneta_config_rss()
->     ed773dd798bf xen-netfront: Fix NULL sring after live migration
->     18e10a9e0e32 net: encx24j600: Fix invalid logic in reading of MISTAT register
->     1356c17758b8 net: encx24j600: Add parentheses to fix precedence
->     1831d4540406 mac802154: fix missing INIT_LIST_HEAD in ieee802154_if_add()
->     8fb4b50f5436 selftests: rtnetlink: correct xfrm policy rule in kci_test_ipsec_offload
->     0834d4b121e7 net: dsa: ksz: Check return value
->     2c6cf0afc385 Bluetooth: Fix not cleanup led when bt_init fails
->     07ea5d74fc12 Bluetooth: 6LoWPAN: add missing hci_dev_put() in get_l2cap_conn()
->     c66d78aee55d af_unix: Get user_ns from in_skb in unix_diag_get_exact().
->     9d2ee8abf160 igb: Allocate MSI-X vector when testing
->     cff8ba243f5f e1000e: Fix TX dispatch condition
->     48bd5d3801f6 gpio: amd8111: Fix PCI device reference count leak
->     d2be7ba2d47b drm/bridge: ti-sn65dsi86: Fix output polarity setting bug
->     e2e218177271 ca8210: Fix crash by zero initializing data
->     efbca8234aee ieee802154: cc2520: Fix error return code in cc2520_hw_init()
->     3982652957e8 can: af_can: fix NULL pointer dereference in can_rcv_filter
->     db1ed1b3fb4e HID: core: fix shift-out-of-bounds in hid_report_raw_event
->     60bce926a8f3 HID: hid-lg4ff: Add check for empty lbuf
->     625814b85f74 HID: usbhid: Add ALWAYS_POLL quirk for some mice
->     585a07b82005 drm/shmem-helper: Remove errant put in error path
->     b8419d16f47e KVM: s390: vsie: Fix the initialization of the epoch extension (epdx) field
->     04edfa3dc06e mm/gup: fix gup_pud_range() for dax
->     35963b318219 memcg: fix possible use-after-free in memcg_write_event_control()
->     4afc77068e36 media: v4l2-dv-timings.c: fix too strict blanking sanity checks
->     91516ba54a02 Revert "net: dsa: b53: Fix valid setting for MDB entries"
->     50e1ab7e638f xen/netback: don't call kfree_skb() with interrupts disabled
->     6b1d47f9c34b xen/netback: do some code cleanup
->     8fe1bf6f32cd xen/netback: Ensure protocol headers don't fall in the non-linear area
->     5ffc2a75534d mm/khugepaged: invoke MMU notifiers in shmem/file collapse paths
->     48b00ceb5472 mm/khugepaged: fix GUP-fast interaction by sending IPI
->     324abbd8b91c mm/khugepaged: take the right locks for page table retraction
->     b2963819d03b net: usb: qmi_wwan: add u-blox 0x1342 composition
->     e35c3ad0c208 9p/xen: check logical size for buffer size
->     9d5126b574c9 fbcon: Use kzalloc() in fbcon_prepare_logo()
->     102459222d41 regulator: twl6030: fix get status of twl6032 regulators
->     f2ba66d87385 ASoC: soc-pcm: Add NULL check in BE reparenting
->     3b2c064a8e11 btrfs: send: avoid unaligned encoded writes when attempting to clone range
->     63badfed2002 ALSA: seq: Fix function prototype mismatch in snd_seq_expand_var_event
->     8d16d3826ff2 regulator: slg51000: Wait after asserting CS pin
->     9327a9c624ee 9p/fd: Use P9_HDRSZ for header size
->     671f950d17d5 ARM: dts: rockchip: disable arm_global_timer on rk3066 and rk3188
->     2c2c5d1d10f7 ARM: 9266/1: mm: fix no-MMU ZERO_PAGE() implementation
->     29917e381e02 ARM: 9251/1: perf: Fix stacktraces for tracepoint events in THUMB2 kernels
->     3f39d53bc731 ARM: dts: rockchip: rk3188: fix lcdc1-rgb24 node name
->     135fcc458170 ARM: dts: rockchip: fix ir-receiver node names
->     368f2c2640be arm: dts: rockchip: fix node name for hym8563 rtc
->     4b346f07f064 arm64: dts: rockchip: keep I2S1 disabled for GPIO function on ROCK Pi 4 series
->     316cdfc48d4d Linux 5.4.226
->     3ab84e89135b ipc/sem: Fix dangling sem_array access in semtimedop race
->     210f96fb7ed5 v4l2: don't fall back to follow_pfn() if pin_user_pages_fast() fails
->     0390da0565ad proc: proc_skip_spaces() shouldn't think it is working on C strings
->     dd3124a051a1 proc: avoid integer type confusion in get_proc_long
->     1061bf5d018b mmc: sdhci: Fix voltage switch delay
->     9a5f49c0f532 mmc: sdhci: use FIELD_GET for preset value bit masks
->     d699373ac5f3 char: tpm: Protect tpm_pm_suspend with locks
->     9decec299337 Revert "clocksource/drivers/riscv: Events are stopped during CPU suspend"
->     e67e119adf3e x86/ioremap: Fix page aligned size calculation in __ioremap_caller()
->     0d87bb607036 Bluetooth: L2CAP: Fix accepting connection request for invalid SPSM
->     b5041a3daa7f x86/pm: Add enumeration check before spec MSRs save/restore setup
->     3b2859457688 x86/tsx: Add a feature bit for TSX control MSR support
->     99c59256ea00 nvme: ensure subsystem reset is single threaded
->     dc85ff0a5f32 nvme: restrict management ioctls to admin
->     c41a89af7b7a epoll: check for events when removing a timed out thread from the wait queue
->     b8e803cda58b epoll: call final ep_events_available() check under the lock
->     e65ac2bdda54 tracing/ring-buffer: Have polling block on watermark
->     899e148171c6 ipv4: Fix route deletion when nexthop info is not specified
->     cc3cd130ecfb ipv4: Handle attempt to delete multipath route when fib_info contains an nh reference
->     a14f1a9c5313 selftests: net: fix nexthop warning cleanup double ip typo
->     8aefb9329522 selftests: net: add delete nexthop route warning test
->     dd6d2d82f0be Kconfig.debug: provide a little extra FRAME_WARN leeway when KASAN is enabled
->     7da3a10f39c9 parisc: Increase FRAME_WARN to 2048 bytes on parisc
->     15568cdbe599 xtensa: increase size of gcc stack frame check
->     76f48511a1c8 parisc: Increase size of gcc stack frame check
->     cbdd83bd2fd6 iommu/vt-d: Fix PCI device refcount leak in dmar_dev_scope_init()
->     0090231df2cf pinctrl: single: Fix potential division by zero
->     73dce3c1d48c ASoC: ops: Fix bounds check for _sx controls
->     ced17a55a8e7 mm: Fix '.data.once' orphan section warning
->     c9ecc420941f arm64: errata: Fix KVM Spectre-v2 mitigation selection for Cortex-A57/A72
->     44ccd8c52fb7 arm64: Fix panic() when Spectre-v2 causes Spectre-BHB to re-allocate KVM vectors
->     1603feac154f tracing: Free buffers when a used dynamic event is removed
->     dcd1daad31ac mmc: sdhci-sprd: Fix no reset data and command after voltage switch
->     9e5581c772cf mmc: sdhci-esdhc-imx: correct CQHCI exit halt state check
->     bfdfe86d839f mmc: core: Fix ambiguous TRIM and DISCARD arg
->     040d08c99620 mmc: mmc_test: Fix removal of debugfs file
->     eb5001ecfb4f pinctrl: intel: Save and restore pins in "direct IRQ" mode
->     ae34a4f4a209 x86/bugs: Make sure MSR_SPEC_CTRL is updated properly upon resume from S3
->     9a130b72e6bd nilfs2: fix NULL pointer dereference in nilfs_palloc_commit_free_entry()
->     3ae3bb33c47e tools/vm/slabinfo-gnuplot: use "grep -E" instead of "egrep"
->     cf1c12bc5c8c error-injection: Add prompt for function error injection
->     2f6fd2de726d net/mlx5: DR, Fix uninitialized var warning
->     ea5844f946b1 hwmon: (coretemp) fix pci device refcount leak in nv1a_ram_new()
->     89eecabe6a47 hwmon: (coretemp) Check for null before removing sysfs attrs
->     0aacac75b8d6 net: ethernet: renesas: ravb: Fix promiscuous mode after system resumed
->     a7555681e50b sctp: fix memory leak in sctp_stream_outq_migrate()
->     168de4096b9c packet: do not set TP_STATUS_CSUM_VALID on CHECKSUM_COMPLETE
->     16c244bc65d1 net: tun: Fix use-after-free in tun_detach()
->     1c1d4830a960 afs: Fix fileserver probe RTT handling
->     53a62c5efe91 net: hsr: Fix potential use-after-free
->     ae633816ddf1 dsa: lan9303: Correct stat name
->     910c0264b64e net: ethernet: nixge: fix NULL dereference
->     2d24d91b9f44 net/9p: Fix a potential socket leak in p9_socket_open
->     4720725e22e1 net: net_netdev: Fix error handling in ntb_netdev_init_module()
->     3e21f85d87c8 net: phy: fix null-ptr-deref while probe() failed
->     f5c2ec288a86 wifi: cfg80211: fix buffer overflow in elem comparison
->     06785845e150 qlcnic: fix sleep-in-atomic-context bugs caused by msleep
->     78f8a34b375f can: cc770: cc770_isa_probe(): add missing free_cc770dev()
->     e4b474fa787c can: sja1000_isa: sja1000_isa_probe(): add missing free_sja1000dev()
->     0a2d73a77060 net/mlx5e: Fix use-after-free when reverting termination table
->     093ccc2f8450 net/mlx5: Fix uninitialized variable bug in outlen_write()
->     b10dd3bd14ec of: property: decrement node refcount in of_fwnode_get_reference_args()
->     7b2b67fe1339 hwmon: (ibmpex) Fix possible UAF when ibmpex_register_bmc() fails
->     45a643783435 hwmon: (i5500_temp) fix missing pci_disable_device()
->     dbcc3390015f scripts/faddr2line: Fix regression in name resolution on ppc64le
->     2b916ee1d37c iio: light: rpr0521: add missing Kconfig dependencies
->     3f566b626029 iio: health: afe4404: Fix oob read in afe4404_[read|write]_raw
->     2d6a437064ff iio: health: afe4403: Fix oob read in afe4403_read_raw
->     8eb912af5250 btrfs: qgroup: fix sleep from invalid context bug in btrfs_qgroup_inherit()
->     7e88a416ed43 drm/amdgpu: Partially revert "drm/amdgpu: update drm_display_info correctly when the edid is read"
->     41f0abeadc09 drm/amdgpu: update drm_display_info correctly when the edid is read
->     787138e4b9e1 btrfs: move QUOTA_ENABLED check to rescan_should_stop from btrfs_qgroup_rescan_worker
->     255289adce05 spi: spi-imx: Fix spi_bus_clk if requested clock is higher than input clock
->     83aae3204e5c btrfs: free btrfs_path before copying inodes to userspace
->     9fd11e2de746 fuse: lock inode unconditionally in fuse_fallocate()
->     3659e33c1e4f drm/i915: fix TLB invalidation for Gen12 video and compute engines
->     0d1cad597199 drm/amdgpu: always register an MMU notifier for userptr
->     d4e9bab771aa drm/amd/dc/dce120: Fix audio register mapping, stop triggering KASAN
->     a541f1f0ce90 btrfs: sysfs: normalize the error handling branch in btrfs_init_sysfs()
->     d037681515b6 btrfs: free btrfs_path before copying subvol info to userspace
->     69e2f1dd93c1 btrfs: free btrfs_path before copying fspath to userspace
->     3cde2bc70819 btrfs: free btrfs_path before copying root refs to userspace
->     4741b00cac23 binder: Gracefully handle BINDER_TYPE_FDA objects with num_fds=0
->     4e682ce5601a binder: Address corner cases in deferred copy and fixup
->     15e098ab1d3c binder: fix pointer cast warning
->     74e7f1828ab4 binder: defer copies of pre-patched txn data
->     7b31ab0d9efb binder: read pre-translated fds from sender buffer
->     c056a6ba35e0 binder: avoid potential data leakage when copying txn
->     f8fee36515f4 dm integrity: flush the journal on suspend
->     096e1bd659d8 net: usb: qmi_wwan: add Telit 0x103a composition
->     86136bf62387 tcp: configurable source port perturb table size
->     07da8fca307e platform/x86: hp-wmi: Ignore Smart Experience App event
->     82d758c9daf1 platform/x86: acer-wmi: Enable SW_TABLET_MODE on Switch V 10 (SW5-017)
->     846c0f9cd05b platform/x86: asus-wmi: add missing pci_dev_put() in asus_wmi_set_xusb2pr()
->     6579436fd1a6 xen/platform-pci: add missing free_irq() in error path
->     375e79c57155 serial: 8250: 8250_omap: Avoid RS485 RTS glitch on ->set_termios()
->     e3a2211fe17c ASoC: Intel: bytcht_es8316: Add quirk for the Nanote UMPC-01
->     3e2452cbc6f6 Input: synaptics - switch touchpad on HP Laptop 15-da3001TU to RMI mode
->     47b4949335cb gcov: clang: fix the buffer overflow issue
->     ecbde4222e6b nilfs2: fix nilfs_sufile_mark_dirty() not set segment usage as dirty
->     7d08b4eba1e1 firmware: coreboot: Register bus in module init
->     a2012335aa53 firmware: google: Release devices before unregistering the bus
->     cb7495fe9575 ceph: avoid putting the realm twice when decoding snaps fails
->     12a93545b2ed ceph: do not update snapshot context when there is no new snapshot
->     0528b19d5701 iio: pressure: ms5611: fixed value compensation bug
->     562f415bb378 iio: ms5611: Simplify IO callback parameters
->     def48fbbac1c nios2: add FORCE for vmlinuz.gz
->     da849abded31 init/Kconfig: fix CC_HAS_ASM_GOTO_TIED_OUTPUT test with dash
->     03949acb58f0 iio: core: Fix entry not deleted when iio_register_sw_trigger_type() fails
->     f8a76c28e957 iio: light: apds9960: fix wrong register for gesture gain
->     d3ad47426a58 arm64: dts: rockchip: lower rk3399-puma-haikou SD controller clock frequency
->     ae6bcb26984b usb: dwc3: exynos: Fix remove() function
->     15f8b52523ba lib/vdso: use "grep -E" instead of "egrep"
->     960cf3c7ff95 s390/crashdump: fix TOD programmable field size
->     fabd3ab6a19d net: thunderx: Fix the ACPI memory leak
->     1633e6d6aa82 nfc: st-nci: fix memory leaks in EVT_TRANSACTION
->     0e2a4560db77 nfc: st-nci: fix incorrect validating logic in EVT_TRANSACTION
->     420b21235d63 s390/dasd: fix no record found for raw_track_access
->     9d1264c914d3 dccp/tcp: Reset saddr on failure after inet6?_hash_connect().
->     08f25427d81a bnx2x: fix pci device refcount leak in bnx2x_vf_is_pcie_pending()
->     59612acf6b5e regulator: twl6030: re-add TWL6032_SUBCLASS
->     1c12909a7820 NFC: nci: fix memory leak in nci_rx_data_packet()
->     23b83a3c76b3 xfrm: Fix ignored return value in xfrm6_init()
->     23ba1997ebc0 tipc: check skb_linearize() return value in tipc_disc_rcv()
->     59f9aad22fd7 tipc: add an extra conn_get in tipc_conn_alloc
->     30f91687fa25 tipc: set con sock in tipc_conn_alloc
->     5c12136c00b5 net/mlx5: Fix FW tracer timestamp calculation
->     00492f823f30 Drivers: hv: vmbus: fix possible memory leak in vmbus_device_register()
->     e0d5becab1d0 Drivers: hv: vmbus: fix double free in the error path of vmbus_add_channel_work()
->     ec3d7202e99f nfp: add port from netdev validation for EEPROM access
->     9b8061a6dbd0 net: pch_gbe: fix pci device refcount leak while module exiting
->     9a39ea43f16a net/qla3xxx: fix potential memleak in ql3xxx_send()
->     a07149c10bae net/mlx4: Check retval of mlx4_bitmap_init
->     bbf6d1bc077f ARM: mxs: fix memory leak in mxs_machine_init()
->     3afa86449ee8 9p/fd: fix issue of list_del corruption in p9_fd_cancel()
->     bfadcbf5bac5 net: pch_gbe: fix potential memleak in pch_gbe_tx_queue()
->     e00b42cbec15 nfc/nci: fix race with opening and closing
->     04ffa53ab7ae net: liquidio: simplify if expression
->     79c55e66caa0 ARM: dts: at91: sam9g20ek: enable udc vbus gpio pinctrl
->     897f6a309138 tee: optee: fix possible memory leak in optee_register_device()
->     9c1fbac623cb bus: sunxi-rsb: Support atomic transfers
->     347875ff9ad4 regulator: core: fix UAF in destroy_regulator()
->     556121103170 regulator: core: fix kobject release warning and memory leak in regulator_register()
->     c06267652886 ASoC: sgtl5000: Reset the CHIP_CLK_CTRL reg on remove
->     168d59f7f72d ARM: dts: am335x-pcm-953: Define fixed regulators in root node
->     dd56c671ccca af_key: Fix send_acquire race with pfkey_register
->     9221a53bfcba MIPS: pic32: treat port as signed integer
->     dff9b25cb977 RISC-V: vdso: Do not add missing symbols to version section in linker script
->     b0e025dd87ab arm64/syscall: Include asm/ptrace.h in syscall_wrapper header.
->     0ba7c091f7f1 block, bfq: fix null pointer dereference in bfq_bio_bfqg()
->     b848811655db drm: panel-orientation-quirks: Add quirk for Acer Switch V 10 (SW5-017)
->     5dfbb54fe115 spi: stm32: fix stm32_spi_prepare_mbr() that halves spi clk for every run
->     9029aee8742e wifi: mac80211: Fix ack frame idr leak when mesh has no route
->     1f75f9c1af6a audit: fix undefined behavior in bit shift for AUDIT_BIT
->     3129cec05f3d wifi: mac80211_hwsim: fix debugfs attribute ps with rc table support
->     b4cb3dc11185 wifi: mac80211: fix memory free error when registering wiphy fail
+> Regards,
+> Archana
+> -----------------------------------------------------------------------=
+-
+> *From:* openembedded-core@lists.openembedded.org=20
+> <openembedded-core@lists.openembedded.org> on behalf of Manoj Saun via=20
+> lists.openembedded.org=20
+> <manojsingh.saun=3Dwindriver.com@lists.openembedded.org>
+> *Sent:* Tuesday, December 20, 2022 11:59 AM
+> *To:* openembedded-core@lists.openembedded.org=20
+> <openembedded-core@lists.openembedded.org>
+> *Cc:* Mali, Narpat <Narpat.Mali@windriver.com>; G Pillai, Hari=20
+> <Hari.GPillai@windriver.com>; Kang, Kai <Kai.Kang@windriver.com>;=20
+> Saun, Manoj Singh <ManojSingh.Saun@windriver.com>
+> *Subject:* [OE-core] [meta-oe][PATCH 1/1] libksba: fix CVE-2022-3515
+> libksba: integer overflow may lead to remote code execution.
 >
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> Reference:
+> https://www.gnupg.org/blog/20221017-pepe-left-the-ksba.html
+>
+> Upstream-Status: Backport=20
+> [https://git.gnupg.org/cgi-bin/gitweb.cgi?p=3Dlibksba.git;a=3Dcommit;h=3D=
+4b7d9cd4a018898d7714ce06f3faf2626c14582b]
+>
+> CVE: CVE-2022-3515
+>
+> Signed-off-by: Manoj Saun <manojsingh.saun@windriver.com>
 > ---
->  .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
->  .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
->  meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
->  3 files changed, 18 insertions(+), 18 deletions(-)
+> =C2=A0...e-overflow-directly-in-the-TLV-parse.patch | 42 ++++++++++++++=
++++++
+> =C2=A0meta/recipes-support/libksba/libksba_1.6.2.bb |=C2=A0 3 +-
+> =C2=A02 files changed, 44 insertions(+), 1 deletion(-)
+> =C2=A0create mode 100644=20
+> meta/recipes-support/libksba/libksba/0001-Detect-a-possible-overflow-di=
+rectly-in-the-TLV-parse.patch
 >
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-> index 5601c43b8e..e9abb46493 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-> @@ -11,13 +11,13 @@ python () {
->          raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
->  }
+> diff --git=20
+> a/meta/recipes-support/libksba/libksba/0001-Detect-a-possible-overflow-=
+directly-in-the-TLV-parse.patch=20
+> b/meta/recipes-support/libksba/libksba/0001-Detect-a-possible-overflow-=
+directly-in-the-TLV-parse.patch
+> new file mode 100644
+> index 0000000000..e2cb842a4d
+> --- /dev/null
+> +++=20
+> b/meta/recipes-support/libksba/libksba/0001-Detect-a-possible-overflow-=
+directly-in-the-TLV-parse.patch
+> @@ -0,0 +1,42 @@
+> +From 4b7d9cd4a018898d7714ce06f3faf2626c14582b Mon Sep 17 00:00:00 2001
+> +From: Werner Koch <wk@gnupg.org>
+> +Date: Wed, 5 Oct 2022 14:19:06 +0200
+> +Subject: [PATCH] Detect a possible overflow directly in the TLV parser.
+> +
+> +Upstream-Status: Backport=20
+> [https://git.gnupg.org/cgi-bin/gitweb.cgi?p=3Dlibksba.git;a=3Dcommit;h=3D=
+4b7d9cd4a018898d7714ce06f3faf2626c14582b]
+> +
+> +CVE: CVE-2022-3515
+> +
+> +Signed-off-by: Manoj Saun <manojsingh.saun@windriver.com>
+> +
+> +* src/ber-help.c (_ksba_ber_read_tl): Check for overflow of a commonly
+> +used sum.
+> +--
+> +
+> +It is quite common to have checks like
+> +
+> +=C2=A0=C2=A0=C2=A0 if (ti.nhdr + ti.length >=3D DIM(tmpbuf))
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return gpg_error (GPG_ERR_TOO_LAR=
+GE);
+> +
+> +This patch detects possible integer overflows immmediately when
+> +creating the TI object.
+> +
+> +Reported-by: ZDI-CAN-18927, ZDI-CAN-18928, ZDI-CAN-18929
+> +---
+> + src/ber-help.c | 6 ++++++
+> + 1 file changed, 6 insertions(+)
+> +
+> +diff --git a/src/ber-help.c b/src/ber-help.c
+> +index 81c31ed..56efb6a 100644
+> +--- a/src/ber-help.c
+> ++++ b/src/ber-help.c
+> +@@ -182,6 +182,12 @@ _ksba_ber_read_tl (ksba_reader_t reader, struct=20
+> tag_info *ti)
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ti->length =3D len;
+> +=C2=A0=C2=A0=C2=A0=C2=A0 }
+> +
+> ++=C2=A0 if (ti->length > ti->nhdr && (ti->nhdr + ti->length) < ti->len=
+gth)
+> ++=C2=A0=C2=A0=C2=A0 {
+> ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ti->err_string =3D "header+length woul=
+d overflow";
+> ++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return gpg_error (GPG_ERR_EOVERFLOW);
+> ++=C2=A0=C2=A0=C2=A0 }
+> ++
+> +=C2=A0=C2=A0 /* Without this kludge some example certs can't be parsed=
+ */
+> +=C2=A0=C2=A0 if (ti->class =3D=3D CLASS_UNIVERSAL && !ti->tag)
+> +=C2=A0=C2=A0=C2=A0=C2=A0 ti->length =3D 0;
+> +--
+> +2.34.1
+> +
+> diff --git a/meta/recipes-support/libksba/libksba_1.6.2.bb=20
+> b/meta/recipes-support/libksba/libksba_1.6.2.bb
+> index f6ecb9aec4..c25c23ef0f 100644
+> --- a/meta/recipes-support/libksba/libksba_1.6.2.bb
+> +++ b/meta/recipes-support/libksba/libksba_1.6.2.bb
+> @@ -22,7 +22,8 @@ inherit autotools binconfig-disabled pkgconfig texinf=
+o
 >
-> -SRCREV_machine ?= "c06836b5ea27b0b97c04cd205959e21b2a60f32e"
-> -SRCREV_meta ?= "3e7ca0fe77707fabb1beefd5d3cd322a4db1eb41"
-> +SRCREV_machine ?= "acaf6e01f6ecd6d80ac02f552344c6c0de1c7fe1"
-> +SRCREV_meta ?= "b00c12ce7affe7e5da43fa4285998866a51e6e79"
+> =C2=A0UPSTREAM_CHECK_URI =3D "https://gnupg.org/download/index.html"
+> =C2=A0SRC_URI =3D "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+> - file://ksba-add-pkgconfig-support.patch"=20
+> <file://ksba-add-pkgconfig-support.patch">
+> + file://ksba-add-pkgconfig-support.patch=20
+> <file://ksba-add-pkgconfig-support.patch> \
+> +=20
+> file://0001-Detect-a-possible-overflow-directly-in-the-TLV-parse.patch"=
+=20
+> <file://0001-Detect-a-possible-overflow-directly-in-the-TLV-parse.patch=
+">
 >
->  SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
->             git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+> =C2=A0SRC_URI[sha256sum] =3D=20
+> "fce01ccac59812bddadffacff017dac2e4762bdb6ebc6ffe06f6ed4f6192c971"
 >
-> -LINUX_VERSION ?= "5.4.225"
-> +LINUX_VERSION ?= "5.4.228"
+> --=20
+> 2.34.1
 >
->  LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
 >
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-> index 5916a42f34..a9f83f2835 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-> @@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#174843):https://lists.openembedded.org/g/openembedd=
+ed-core/message/174843
+> Mute This Topic:https://lists.openembedded.org/mt/95781520/3616765
+> Group Owner:openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub  [=
+randy.macleod@windriver.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
->  require recipes-kernel/linux/linux-yocto.inc
->
-> -LINUX_VERSION ?= "5.4.225"
-> +LINUX_VERSION ?= "5.4.228"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
->
->  DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-> @@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
->  KMETA = "kernel-meta"
->  KCONF_BSP_AUDIT_LEVEL = "2"
->
-> -SRCREV_machine_qemuarm ?= "92964f40a4e096e1971b65ce0572ad909ab41e84"
-> -SRCREV_machine ?= "00e9d6d6f5c09bd5fd47af67fd7d03881d74c608"
-> -SRCREV_meta ?= "3e7ca0fe77707fabb1beefd5d3cd322a4db1eb41"
-> +SRCREV_machine_qemuarm ?= "575c3de9d720c998b5b4ab0253893a4132b4423f"
-> +SRCREV_machine ?= "b72387f2b7f2babf1b0ca6e4ced3b22538162474"
-> +SRCREV_meta ?= "b00c12ce7affe7e5da43fa4285998866a51e6e79"
->
->  PV = "${LINUX_VERSION}+git${SRCPV}"
->
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-> index 5951668c57..d76ed47f03 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-> @@ -12,16 +12,16 @@ KBRANCH_qemux86  ?= "v5.4/standard/base"
->  KBRANCH_qemux86-64 ?= "v5.4/standard/base"
->  KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
->
-> -SRCREV_machine_qemuarm ?= "13d88d2fc15f1edfa91378bc3a76aa4274969ed8"
-> -SRCREV_machine_qemuarm64 ?= "14d0e6d0baf0c7b2308ff1270bd706f927c72df4"
-> -SRCREV_machine_qemumips ?= "11472a4308590f1858d1ba7bb03bdc25cd2c9b3f"
-> -SRCREV_machine_qemuppc ?= "daf1282f1c6fd653fcae25e8d1d49540a932baeb"
-> -SRCREV_machine_qemuriscv64 ?= "15231fe2f4542b044e279e53269ee506bced9988"
-> -SRCREV_machine_qemux86 ?= "15231fe2f4542b044e279e53269ee506bced9988"
-> -SRCREV_machine_qemux86-64 ?= "15231fe2f4542b044e279e53269ee506bced9988"
-> -SRCREV_machine_qemumips64 ?= "31f08b9f81298e80e00ea37886db6f88092a5cf6"
-> -SRCREV_machine ?= "15231fe2f4542b044e279e53269ee506bced9988"
-> -SRCREV_meta ?= "3e7ca0fe77707fabb1beefd5d3cd322a4db1eb41"
-> +SRCREV_machine_qemuarm ?= "32654a547b05ba63c604503fc865d7052ae96992"
-> +SRCREV_machine_qemuarm64 ?= "2bd8ca7c0973870753b103107513689a598383d7"
-> +SRCREV_machine_qemumips ?= "84a8ba0ada556ba3307c33e2b5a0ca8f9e3df1dd"
-> +SRCREV_machine_qemuppc ?= "20db90d7935c8760bfc68c0de4f7d7085cba7c14"
-> +SRCREV_machine_qemuriscv64 ?= "921d9e22542506ba26c2e5e2f25ec00ff9bffa63"
-> +SRCREV_machine_qemux86 ?= "921d9e22542506ba26c2e5e2f25ec00ff9bffa63"
-> +SRCREV_machine_qemux86-64 ?= "921d9e22542506ba26c2e5e2f25ec00ff9bffa63"
 
-I suspect you forgot to push this final change set to the linux-yocto repo!
+--=20
+# Randy MacLeod
+# Wind River Linux
 
-stdio: ERROR: linux-yocto-5.4.228+gitAUTOINC+b00c12ce7a_921d9e2254-r0
-do_fetch: Fetcher failure: Unable to find revision
-921d9e22542506ba26c2e5e2f25ec00ff9bffa63 in branch v5.4/standard/base
-even from upstream
-stdio: ERROR: linux-yocto-5.4.228+gitAUTOINC+b00c12ce7a_921d9e2254-r0
-do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from
-any source.', 'git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=v5.4/standard/base;')
-stdio: ERROR: Logfile of failure stored in:
-/home/pokybuild/yocto-worker/a-full/build/build/tmp/work/qemux86-poky-linux/linux-yocto/5.4.228+gitAUTOINC+b00c12ce7a_921d9e2254-r0/temp/log.do_fetch.15480
-stdio: ERROR: Task
-(/home/pokybuild/yocto-worker/a-full/build/meta/recipes-kernel/linux/linux-yocto_5.4.bb:do_fetch)
-failed with exit code '1'
-stdio: ERROR: Command . ./oe-init-build-env; bitbake universe -c fetch
--k -k failed with exit code 1, see errors above. (1671503359.0: 966.9)
+--------------wWqZe7xWAdkJrfyAd00otsg2
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Thanks for the kernel version bumps :-)
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">On 2022-12-20 01:34, Polampalli,
+      Archana via lists.openembedded.org wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:MW4PR11MB58228FD9C6AA67968C7C494584EA9@MW4PR11MB5822.namprd11.prod.outlook.com">
+      
+      <style type="text/css" style="display:none;">P {margin-top:0;margin-bottom:0;}</style>
+      <div class="elementToProof"><span style="font-family: Calibri,
+          Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(0,
+          0, 0); background-color: rgb(255, 255, 255);">Hi Manoj,</span></div>
+      <div class="elementToProof"><span style="font-family: Calibri,
+          Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(0,
+          0, 0); background-color: rgb(255, 255, 255);"><br>
+        </span></div>
+      <div class="elementToProof"><span style="font-family: Calibri,
+          Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(0,
+          0, 0); background-color: rgb(255, 255, 255);">Please remove
+          [meta-oe] in patch subject, it should be&nbsp;</span></div>
+      <div class="elementToProof"><span style="font-family: Calibri,
+          Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(0,
+          0, 0); background-color: rgb(255, 255, 255);"><br>
+        </span></div>
+      <div class="elementToProof"><span style="font-family: Calibri,
+          Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(0,
+          0, 0); background-color: rgb(255, 255, 255);"><span style="color: rgb(66, 66, 66); font-family: &quot;Segoe
+            UI&quot;, &quot;Segoe UI Web (West European)&quot;,
+            &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont,
+            Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size:
+            11pt; font-weight: 600; background-color: rgb(255, 255,
+            255); display: inline !important;" class="ContentPasted0">[</span><span data-markjs="true" class="markdse4i8rx5 ContentPasted0" data-ogac="" data-ogab="" data-ogsc="" data-ogsb="" style="font-weight: 600; font-size: 11pt; font-family:
+            &quot;Segoe UI&quot;, &quot;Segoe UI Web (West
+            European)&quot;, &quot;Segoe UI&quot;, -apple-system,
+            BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;,
+            sans-serif; margin: 0px; color: black; background-color:
+            rgb(255, 241, 0);">OE-core</span><span style="color: rgb(66,
+            66, 66); font-family: &quot;Segoe UI&quot;, &quot;Segoe UI
+            Web (West European)&quot;, &quot;Segoe UI&quot;,
+            -apple-system, BlinkMacSystemFont, Roboto, &quot;Helvetica
+            Neue&quot;, sans-serif; font-size: 11pt; font-weight: 600;
+            background-color: rgb(255, 255, 255); display: inline
+            !important;" class="ContentPasted0">][PATCH 1/1] libksba:
+            fix CVE-2022-3515</span><br>
+        </span></div>
+    </blockquote>
+    <p><br>
+    </p>
+    <p>Hi Manoj,</p>
+    <p><br>
+    </p>
+    <p>Instead of patching, please update to release 1.6.3 and add ptest
+      coverage since<br>
+      the source has some c code in the tests directory.<br>
+    </p>
+    <p><br>
+    </p>
+    <p>../Randy</p>
+    <p><br>
+    </p>
+    <p><br>
+    </p>
+    <p></p>
+    <blockquote type="cite" cite="mid:MW4PR11MB58228FD9C6AA67968C7C494584EA9@MW4PR11MB5822.namprd11.prod.outlook.com">
+      <div class="elementToProof"><span style="font-family: Calibri,
+          Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(0,
+          0, 0); background-color: rgb(255, 255, 255);">
+        </span></div>
+      <div class="elementToProof"><span style="font-family: Calibri,
+          Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(0,
+          0, 0); background-color: rgb(255, 255, 255);"><span style="color: rgb(66, 66, 66); font-family: &quot;Segoe
+            UI&quot;, &quot;Segoe UI Web (West European)&quot;,
+            &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont,
+            Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size:
+            11pt; font-weight: 600; background-color: rgb(255, 255,
+            255); display: inline !important;" class="ContentPasted0"><br>
+          </span></span></div>
+      <div class="elementToProof"><span style="font-family: Calibri,
+          Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(0,
+          0, 0); background-color: rgb(255, 255, 255);"><span style="color: rgb(66, 66, 66); font-family: &quot;Segoe
+            UI&quot;, &quot;Segoe UI Web (West European)&quot;,
+            &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont,
+            Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size:
+            11pt; background-color: rgb(255, 255, 255); display: inline
+            !important;" class="ContentPasted0">Regards,</span></span></div>
+      <div class="elementToProof"><span style="font-family: Calibri,
+          Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(0,
+          0, 0); background-color: rgb(255, 255, 255);"><span style="color: rgb(66, 66, 66); font-family: &quot;Segoe
+            UI&quot;, &quot;Segoe UI Web (West European)&quot;,
+            &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont,
+            Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size:
+            11pt; background-color: rgb(255, 255, 255); display: inline
+            !important;" class="ContentPasted0">Archana</span></span></div>
+      <hr style="display:inline-block;width:98%" tabindex="-1">
+      <div id="divRplyFwdMsg" dir="ltr"><font style="font-size:11pt" face="Calibri, sans-serif" color="#000000"><b>From:</b>
+          <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core@lists.openembedded.org">openembedded-core@lists.openembedded.org</a>
+          <a class="moz-txt-link-rfc2396E" href="mailto:openembedded-core@lists.openembedded.org">&lt;openembedded-core@lists.openembedded.org&gt;</a> on behalf of
+          Manoj Saun via lists.openembedded.org
+          <a class="moz-txt-link-rfc2396E" href="mailto:manojsingh.saun=windriver.com@lists.openembedded.org">&lt;manojsingh.saun=windriver.com@lists.openembedded.org&gt;</a><br>
+          <b>Sent:</b> Tuesday, December 20, 2022 11:59 AM<br>
+          <b>To:</b> <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core@lists.openembedded.org">openembedded-core@lists.openembedded.org</a>
+          <a class="moz-txt-link-rfc2396E" href="mailto:openembedded-core@lists.openembedded.org">&lt;openembedded-core@lists.openembedded.org&gt;</a><br>
+          <b>Cc:</b> Mali, Narpat <a class="moz-txt-link-rfc2396E" href="mailto:Narpat.Mali@windriver.com">&lt;Narpat.Mali@windriver.com&gt;</a>; G
+          Pillai, Hari <a class="moz-txt-link-rfc2396E" href="mailto:Hari.GPillai@windriver.com">&lt;Hari.GPillai@windriver.com&gt;</a>; Kang, Kai
+          <a class="moz-txt-link-rfc2396E" href="mailto:Kai.Kang@windriver.com">&lt;Kai.Kang@windriver.com&gt;</a>; Saun, Manoj Singh
+          <a class="moz-txt-link-rfc2396E" href="mailto:ManojSingh.Saun@windriver.com">&lt;ManojSingh.Saun@windriver.com&gt;</a><br>
+          <b>Subject:</b> [OE-core] [meta-oe][PATCH 1/1] libksba: fix
+          CVE-2022-3515</font>
+        <div>&nbsp;</div>
+      </div>
+      <div class="BodyFragment"><font size="2"><span style="font-size:11pt;">
+            <div class="PlainText">libksba: integer overflow may lead to
+              remote code execution.<br>
+              <br>
+              Reference:<br>
+              <a href="https://www.gnupg.org/blog/20221017-pepe-left-the-ksba.html" moz-do-not-send="true" class="moz-txt-link-freetext">https://www.gnupg.org/blog/20221017-pepe-left-the-ksba.html</a><br>
+              <br>
+              Upstream-Status: Backport [<a href="https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libksba.git;a=commit;h=4b7d9cd4a018898d7714ce06f3faf2626c14582b" moz-do-not-send="true" class="moz-txt-link-freetext">https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libksba.git;a=commit;h=4b7d9cd4a018898d7714ce06f3faf2626c14582b</a>]<br>
+              <br>
+              CVE: CVE-2022-3515<br>
+              <br>
+              Signed-off-by: Manoj Saun
+              <a class="moz-txt-link-rfc2396E" href="mailto:manojsingh.saun@windriver.com">&lt;manojsingh.saun@windriver.com&gt;</a><br>
+              ---<br>
+              &nbsp;...e-overflow-directly-in-the-TLV-parse.patch | 42
+              +++++++++++++++++++<br>
+              &nbsp;meta/recipes-support/libksba/libksba_1.6.2.bb |&nbsp; 3 +-<br>
+              &nbsp;2 files changed, 44 insertions(+), 1 deletion(-)<br>
+              &nbsp;create mode 100644
+meta/recipes-support/libksba/libksba/0001-Detect-a-possible-overflow-directly-in-the-TLV-parse.patch<br>
+              <br>
+              diff --git
+a/meta/recipes-support/libksba/libksba/0001-Detect-a-possible-overflow-directly-in-the-TLV-parse.patch
+b/meta/recipes-support/libksba/libksba/0001-Detect-a-possible-overflow-directly-in-the-TLV-parse.patch<br>
+              new file mode 100644<br>
+              index 0000000000..e2cb842a4d<br>
+              --- /dev/null<br>
+              +++
+b/meta/recipes-support/libksba/libksba/0001-Detect-a-possible-overflow-directly-in-the-TLV-parse.patch<br>
+              @@ -0,0 +1,42 @@<br>
+              +From 4b7d9cd4a018898d7714ce06f3faf2626c14582b Mon Sep 17
+              00:00:00 2001<br>
+              +From: Werner Koch <a class="moz-txt-link-rfc2396E" href="mailto:wk@gnupg.org">&lt;wk@gnupg.org&gt;</a><br>
+              +Date: Wed, 5 Oct 2022 14:19:06 +0200<br>
+              +Subject: [PATCH] Detect a possible overflow directly in
+              the TLV parser.<br>
+              +<br>
+              +Upstream-Status: Backport [<a href="https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libksba.git;a=commit;h=4b7d9cd4a018898d7714ce06f3faf2626c14582b" moz-do-not-send="true" class="moz-txt-link-freetext">https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libksba.git;a=commit;h=4b7d9cd4a018898d7714ce06f3faf2626c14582b</a>]<br>
+              +<br>
+              +CVE: CVE-2022-3515<br>
+              +<br>
+              +Signed-off-by: Manoj Saun
+              <a class="moz-txt-link-rfc2396E" href="mailto:manojsingh.saun@windriver.com">&lt;manojsingh.saun@windriver.com&gt;</a><br>
+              +<br>
+              +* src/ber-help.c (_ksba_ber_read_tl): Check for overflow
+              of a commonly<br>
+              +used sum.<br>
+              +--<br>
+              +<br>
+              +It is quite common to have checks like<br>
+              +<br>
+              +&nbsp;&nbsp;&nbsp; if (ti.nhdr + ti.length &gt;= DIM(tmpbuf))<br>
+              +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return gpg_error (GPG_ERR_TOO_LARGE);<br>
+              +<br>
+              +This patch detects possible integer overflows
+              immmediately when<br>
+              +creating the TI object.<br>
+              +<br>
+              +Reported-by: ZDI-CAN-18927, ZDI-CAN-18928, ZDI-CAN-18929<br>
+              +---<br>
+              + src/ber-help.c | 6 ++++++<br>
+              + 1 file changed, 6 insertions(+)<br>
+              +<br>
+              +diff --git a/src/ber-help.c b/src/ber-help.c<br>
+              +index 81c31ed..56efb6a 100644<br>
+              +--- a/src/ber-help.c<br>
+              ++++ b/src/ber-help.c<br>
+              +@@ -182,6 +182,12 @@ _ksba_ber_read_tl (ksba_reader_t
+              reader, struct tag_info *ti)<br>
+              +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ti-&gt;length = len;<br>
+              +&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+              + <br>
+              ++&nbsp; if (ti-&gt;length &gt; ti-&gt;nhdr &amp;&amp;
+              (ti-&gt;nhdr + ti-&gt;length) &lt; ti-&gt;length)<br>
+              ++&nbsp;&nbsp;&nbsp; {<br>
+              ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ti-&gt;err_string = &quot;header+length would
+              overflow&quot;;<br>
+              ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return gpg_error (GPG_ERR_EOVERFLOW);<br>
+              ++&nbsp;&nbsp;&nbsp; }<br>
+              ++<br>
+              +&nbsp;&nbsp; /* Without this kludge some example certs can't be
+              parsed */<br>
+              +&nbsp;&nbsp; if (ti-&gt;class == CLASS_UNIVERSAL &amp;&amp;
+              !ti-&gt;tag)<br>
+              +&nbsp;&nbsp;&nbsp;&nbsp; ti-&gt;length = 0;<br>
+              +-- <br>
+              +2.34.1<br>
+              +<br>
+              diff --git a/meta/recipes-support/libksba/libksba_1.6.2.bb
+              b/meta/recipes-support/libksba/libksba_1.6.2.bb<br>
+              index f6ecb9aec4..c25c23ef0f 100644<br>
+              --- a/meta/recipes-support/libksba/libksba_1.6.2.bb<br>
+              +++ b/meta/recipes-support/libksba/libksba_1.6.2.bb<br>
+              @@ -22,7 +22,8 @@ inherit autotools binconfig-disabled
+              pkgconfig texinfo<br>
+              &nbsp;<br>
+              &nbsp;UPSTREAM_CHECK_URI = &quot;<a href="https://gnupg.org/download/index.html" moz-do-not-send="true" class="moz-txt-link-freetext">https://gnupg.org/download/index.html</a>&quot;<br>
+              &nbsp;SRC_URI = &quot;${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \<br>
+              -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="file://ksba-add-pkgconfig-support.patch&quot;" moz-do-not-send="true">file://ksba-add-pkgconfig-support.patch&quot;</a><br>
+              +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="file://ksba-add-pkgconfig-support.patch" moz-do-not-send="true">file://ksba-add-pkgconfig-support.patch</a>
+              \<br>
+              +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="file://0001-Detect-a-possible-overflow-directly-in-the-TLV-parse.patch&quot;" moz-do-not-send="true">
+file://0001-Detect-a-possible-overflow-directly-in-the-TLV-parse.patch&quot;</a><br>
+              &nbsp;<br>
+              &nbsp;SRC_URI[sha256sum] =
+              &quot;fce01ccac59812bddadffacff017dac2e4762bdb6ebc6ffe06f6ed4f6192c971&quot;<br>
+              &nbsp;<br>
+              -- <br>
+              2.34.1<br>
+              <br>
+            </div>
+          </span></font></div>
+      <br>
+      <fieldset class="moz-mime-attachment-header"></fieldset>
+      <pre class="moz-quote-pre" wrap="">-=-=-=-=-=-=-=-=-=-=-=-
+Links: You receive all messages sent to this group.
+View/Reply Online (#174843): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/174843">https://lists.openembedded.org/g/openembedded-core/message/174843</a>
+Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/95781520/3616765">https://lists.openembedded.org/mt/95781520/3616765</a>
+Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:randy.macleod@windriver.com">randy.macleod@windriver.com</a>]
+-=-=-=-=-=-=-=-=-=-=-=-
 
-Steve
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+    <pre class="moz-signature" cols="72">-- 
+# Randy MacLeod
+# Wind River Linux</pre>
+  </body>
+</html>
 
-> +SRCREV_machine_qemumips64 ?= "929fde255b362923e9bba63250005b09c3a50f45"
-> +SRCREV_machine ?= "921d9e22542506ba26c2e5e2f25ec00ff9bffa63"
-> +SRCREV_meta ?= "b00c12ce7affe7e5da43fa4285998866a51e6e79"
->
->  # remap qemuarm to qemuarma15 for the 5.4 kernel
->  # KMACHINE_qemuarm ?= "qemuarma15"
-> @@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
->             git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
->
->  LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
-> -LINUX_VERSION ?= "5.4.225"
-> +LINUX_VERSION ?= "5.4.228"
->
->  DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
->  DEPENDS += "openssl-native util-linux-native"
-> --
-> 2.19.1
->
+--------------wWqZe7xWAdkJrfyAd00otsg2--
 
