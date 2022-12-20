@@ -2,137 +2,151 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DE44C4332F
-	for <webhook@archiver.kernel.org>; Tue, 20 Dec 2022 18:42:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BC65C4332F
+	for <webhook@archiver.kernel.org>; Tue, 20 Dec 2022 18:42:25 +0000 (UTC)
 Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
- by mx.groups.io with SMTP id smtpd.web10.57984.1671561734121225634
+ by mx.groups.io with SMTP id smtpd.web10.57987.1671561736542596924
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Dec 2022 10:42:14 -0800
+ Tue, 20 Dec 2022 10:42:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ffc836X0;
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=WDx8Eozv;
  spf=pass (domain: gmail.com, ip: 209.85.160.174, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f174.google.com with SMTP id z12so11778682qtv.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Dec 2022 10:42:13 -0800 (PST)
+Received: by mail-qt1-f174.google.com with SMTP id c7so11760290qtw.8
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Dec 2022 10:42:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mj/VfzcUFlAr8mAiabDxdp+LEkc6n+FQF+MzWUSI1Ag=;
-        b=ffc836X064EtzCEQjEV0XeFXeJxa1Hmpm1/9L6mqODJ/efC0mR/azq7Rh3GxwkhEXL
-         8SE1u72zMvcm8AX3mXu1TXaruNgEQlrYFzUYDRDTRe0hr1jVVAJeUTLr+sHFGT48jG/g
-         9TFzE4+vTf+g6yghdBhQAmv7+KIsEhsJBHaobE0H0Ja6rLVz5FHpj5FCy+XwyzcJNsq0
-         oX+uEB3GytE6MtgTUaYCH/UVF+Xz/laSUQ6hsy/Thqb2yG0IIsYrPmM5yf1X3bou4zKZ
-         eLF3W0KNX2MOrOiSA2a84M0bNubvFb1UaL+3joB0mxGq6ssgM7sc96P4q36KDBudgs2E
-         gAyw==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hPqUW44+jLh2hJdoEBE0W+t1R/OjaDIX/UWdC++BMpo=;
+        b=WDx8EozvlCo3Od1ibS1WW5fAf07xyCNIoEEipm1z6eNP9MDokFLXZnsa8YeJr7z3fu
+         Yx9SCuu+YXLbNeBxTL59yqmzmviNXuyR0Z9x2TDa4Yu9Pe3zMVlGpB4b+jt6Qje7YMkc
+         5Vd8BVwZ+cIdmcloYhE1+mDgYOGRUv4ZWYMnHgVsmrn/yhcUWqMitOLDJhvVqejJR9W+
+         uDmaYKPu2S3iQi9bi3dFGQ0rp1CWku1Gv7FKXDJNVWj6/aCxYeDRqDDl+D+IN12URhT3
+         4HNd95dgBMXWK8GdiiHgchRIaTeF1O9pMN90Gd7Qqyag8uD/zvnALD5rb3wrnNYhHONs
+         Cc1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mj/VfzcUFlAr8mAiabDxdp+LEkc6n+FQF+MzWUSI1Ag=;
-        b=t0HMSE1K5h7m9WPINO4X6ZQy5t9XZS5IuV6PMd18BVnL8Aq9GdkDSUPLxATNgwDFoQ
-         FCXULzTQz4sPp/fOZ6zqPindYSl3ak1Rf60YMwoN3NpkNdn8NY6o2zQ8ZeszY00obJkh
-         gCwoUy+f6PFJOXvm8rl8+RKQRNHLMyPxOqz9pmO8BgnK0SY3t+gdlbACittf8r+gxMik
-         VzLWbHtdWuyD17i8yErTAGfRCMEQtdCbdJ+9HIPnkvTSYAiHSZNk3EGdNIov7497gPe7
-         hG+OhFJVixTbRz9sho/32fTUTrOFAC08aczJR5pzsF1Tkz1RDSq6//GXBQ/0R3NJAWn5
-         pM4A==
-X-Gm-Message-State: AFqh2krCoo//XGOmZejPK1L6lK2WbmUqXdVz7mkz3H9FBid4Vasy/ma6
-	dGygDt04ku8p8Of2eQ3ryhw=
-X-Google-Smtp-Source: AMrXdXttc2ejemA23xKVLvQpgf2LwZhJAbAxg031CFXrE6hJmH3nYbwIEVl6GZz1FHuRFYWPKypB3w==
-X-Received: by 2002:ac8:7c96:0:b0:3a8:1e9f:47f5 with SMTP id y22-20020ac87c96000000b003a81e9f47f5mr13292845qtv.45.1671561732960;
-        Tue, 20 Dec 2022 10:42:12 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hPqUW44+jLh2hJdoEBE0W+t1R/OjaDIX/UWdC++BMpo=;
+        b=XKoTs9Vvow1UgV/Ol8WjdZQMTMt6bYwbSTsGKqlhCW1TlrEKMEdEFLqaG6j/81A7IJ
+         MwoopSAtzwjQketzRyo7aoTfIz51Y+5cTXHqwNdZXf3gWeotopUA7JAmiMA5GeuBjUuB
+         xfmeriS4V2FNt2WUTTlUaEQfDf7q9ng/shth5C8mjW/5/o7qDPZM27ErlUHi4Hukysnd
+         NqOatWyzp5bkHMNHU0qjNSpkHyKLArv7qXOaHvA74tW8xMH8bAcXrgZYZXQuoARg/74b
+         yVWIUSLRg6Scjmjybx73Xk3xZ0wpC9D4hXVqfbLnMrQvTI4vG+nmvOLmbVbSWUr8K0+s
+         Vbwg==
+X-Gm-Message-State: ANoB5pkAgNm9bCeYP3dpk89hq8mihsrsv28JM1JXLR5ETO9sPsQ6V0LQ
+	TLGlSEutMB3C7CljNwAsL5G4AkKIXH8=
+X-Google-Smtp-Source: AA0mqf7RTHTeQWCR8OvrIVIMt+6Dns3cJ1es8WGt8+BMT06p2uxwULDyuS8kjOVXEl5Xe2y1TBFuSw==
+X-Received: by 2002:ac8:4d82:0:b0:3a7:e514:c7e0 with SMTP id a2-20020ac84d82000000b003a7e514c7e0mr57284575qtw.26.1671561742019;
+        Tue, 20 Dec 2022 10:42:22 -0800 (PST)
 Received: from build.lan (cpe7c9a54441c1f-cm7c9a54441c1d.cpe.net.cable.rogers.com. [173.34.238.88])
-        by smtp.gmail.com with ESMTPSA id x30-20020a05620a0b5e00b006fc94f65417sm9229265qkg.40.2022.12.20.10.42.12
+        by smtp.gmail.com with ESMTPSA id x30-20020a05620a0b5e00b006fc94f65417sm9229265qkg.40.2022.12.20.10.42.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Dec 2022 10:42:12 -0800 (PST)
+        Tue, 20 Dec 2022 10:42:21 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/9] kernel: consolidated pull request
-Date: Tue, 20 Dec 2022 13:42:01 -0500
-Message-Id: <cover.1671560768.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 9/9] linux-yocto/5.15: libbpf: Fix build warning on ref_ctr_off
+Date: Tue, 20 Dec 2022 13:42:10 -0500
+Message-Id: <a1918c32870c04fbc1af642773cc2fd772723e8c.1671560769.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.37.3
+In-Reply-To: <cover.1671560768.git.bruce.ashfield@gmail.com>
+References: <cover.1671560768.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 Dec 2022 18:42:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174873
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Dec 2022 18:42:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174882
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Richard,
+Integrating the following commit(s) to linux-yocto/5.15:
 
-Most of these are -stable udpates, mixed in are a couple of clang fixes
-from Khem, and of course the bigger items of the libc-headers bump and
-the v6.1 reference kernel recipes.
+    da5513f30187 libbpf: Fix build warning on ref_ctr_off
 
-I've built both musl and glibc for all architectures with the new libc
-headers, and sent patches last week for issues that I found in core or
-meta-oe.
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ .../linux/linux-yocto-rt_5.15.bb              |  4 ++--
+ .../linux/linux-yocto-tiny_5.15.bb            |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb | 24 +++++++++----------
+ 3 files changed, 16 insertions(+), 16 deletions(-)
 
-That being said, I'm sure there's something .. somewhere lurking, but
-there's no sense sitting on it longer.
-
-As for the 6.1 reference kernel, I've done the same. Built and booted
-core-image-minimal, sato and kernel dev on all architectures. The changes
-sent before the last release meant that our normal culprits of lttng-modules
-and kernel-devsrc don't need any tweaking to work. -rt has also been
-tested.
-
-We can't make 6.1 the default yet, as the reference h/w BSPs need to
-be updated, and then 5.19 removed. But again, no sense sitting on these
-longer.
-
-I'm around full time for the rest of this week, and then off and on
-through the first week of January to squash any fallout from the
-updates.
-
-Cheers,
-
-Bruce
-
-The following changes since commit ace02cec70a4a1bc9088044905b3c4a801a39a1b:
-
-  systemd: Make importd depend on glib-2.0 again (2022-12-18 19:48:00 +0000)
-
-are available in the Git repository at:
-
-  https://git.yoctoproject.org/poky-contrib zedd/kernel
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (9):
-  yocto-bsps/5.15: update to v5.15.78
-  linux-yocto/5.15: update to v5.15.80
-  linux-yocto/5.19: fix perf build with clang
-  linux-yocto/5.15: ltp and squashfs fixes
-  linux-libc-headers: bump to 6.1
-  linux-yocto: introduce v6.1 reference kernel recipes
-  linux-yocto/5.15: fix perf build with clang
-  linux-yocto/5.15: update to v5.15.84
-  linux-yocto/5.15: libbpf: Fix build warning on ref_ctr_off
-
- .../linux/linux-yocto_5.15.bbappend           | 16 ++---
- meta/conf/distro/include/tcmode-default.inc   |  2 +-
- ...d-input-and-output-files-instead-of-.patch | 67 ------------------
- ...ders_5.19.bb => linux-libc-headers_6.1.bb} |  5 +-
- .../linux/linux-yocto-rt_5.15.bb              |  4 +-
- .../linux/linux-yocto-rt_5.19.bb              |  4 +-
- .../linux/linux-yocto-rt_6.1.bb               | 45 ++++++++++++
- .../linux/linux-yocto-tiny_5.15.bb            |  4 +-
- .../linux/linux-yocto-tiny_5.19.bb            |  4 +-
- .../linux/linux-yocto-tiny_6.1.bb             | 30 ++++++++
- meta/recipes-kernel/linux/linux-yocto_5.15.bb | 24 +++----
- meta/recipes-kernel/linux/linux-yocto_5.19.bb | 22 +++---
- meta/recipes-kernel/linux/linux-yocto_6.1.bb  | 70 +++++++++++++++++++
- 13 files changed, 187 insertions(+), 110 deletions(-)
- delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch
- rename meta/recipes-kernel/linux-libc-headers/{linux-libc-headers_5.19.bb => linux-libc-headers_6.1.bb} (70%)
- create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
- create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
- create mode 100644 meta/recipes-kernel/linux/linux-yocto_6.1.bb
-
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
+index 63294f5bb6..3dac2fbcd2 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
+@@ -11,8 +11,8 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+-SRCREV_machine ?= "dcd3b533c5f6bc4698d5b09aa83ce9a4695df3b0"
+-SRCREV_meta ?= "66de7a6f2687cdaf5169ce5b57dd35f508be1682"
++SRCREV_machine ?= "6a972b54f014ca67588d73f32058c42af0bd856e"
++SRCREV_meta ?= "72756ee16d7230f04fb6bbf0bb115e32a9d73d8d"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
+index 12e462228f..3dd2ecdf6f 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
+@@ -14,8 +14,8 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "c7e10f06a33a546bcdd0b2e2909459b7572b5443"
+-SRCREV_meta ?= "66de7a6f2687cdaf5169ce5b57dd35f508be1682"
++SRCREV_machine ?= "6e85c80a960287ec238f53c91eeade3456044fa3"
++SRCREV_meta ?= "72756ee16d7230f04fb6bbf0bb115e32a9d73d8d"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.15.bb b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+index 4e341713f6..dabbb82822 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+@@ -13,24 +13,24 @@ KBRANCH:qemux86  ?= "v5.15/standard/base"
+ KBRANCH:qemux86-64 ?= "v5.15/standard/base"
+ KBRANCH:qemumips64 ?= "v5.15/standard/mti-malta64"
+ 
+-SRCREV_machine:qemuarm ?= "e5f2cf3560139bbaad54796c323d60e66cc19374"
+-SRCREV_machine:qemuarm64 ?= "d8835a4d4e9d4ea835316cd1843d62e30c5fef33"
+-SRCREV_machine:qemumips ?= "0f802d6525c21abe586c833074fece3e665a9ed9"
+-SRCREV_machine:qemuppc ?= "84f529230ca9f2ec20517821f7422d62e43ab808"
+-SRCREV_machine:qemuriscv64 ?= "4c5a089621a8f395f020f6c2f4c578aafa155011"
+-SRCREV_machine:qemuriscv32 ?= "4c5a089621a8f395f020f6c2f4c578aafa155011"
+-SRCREV_machine:qemux86 ?= "4c5a089621a8f395f020f6c2f4c578aafa155011"
+-SRCREV_machine:qemux86-64 ?= "4c5a089621a8f395f020f6c2f4c578aafa155011"
+-SRCREV_machine:qemumips64 ?= "ea2140a5f0cf7b8351982f60d3b30a4657ab0919"
+-SRCREV_machine ?= "4c5a089621a8f395f020f6c2f4c578aafa155011"
+-SRCREV_meta ?= "66de7a6f2687cdaf5169ce5b57dd35f508be1682"
++SRCREV_machine:qemuarm ?= "24c30a8e9f8385f6d74785aa345f5731321b6c41"
++SRCREV_machine:qemuarm64 ?= "c3caed57192735dc74adff939ea35af248a11177"
++SRCREV_machine:qemumips ?= "3bed92886dc9177ce0076dada5056cbe83ec11f0"
++SRCREV_machine:qemuppc ?= "45cbeb05d362ee51b7836a7faa07958670110c38"
++SRCREV_machine:qemuriscv64 ?= "da5513f301871b972d5bc6fab284d3cb277e0a28"
++SRCREV_machine:qemuriscv32 ?= "da5513f301871b972d5bc6fab284d3cb277e0a28"
++SRCREV_machine:qemux86 ?= "da5513f301871b972d5bc6fab284d3cb277e0a28"
++SRCREV_machine:qemux86-64 ?= "da5513f301871b972d5bc6fab284d3cb277e0a28"
++SRCREV_machine:qemumips64 ?= "2642cdd862a63f5a8c2774f372f3d3424991b1b9"
++SRCREV_machine ?= "da5513f301871b972d5bc6fab284d3cb277e0a28"
++SRCREV_meta ?= "72756ee16d7230f04fb6bbf0bb115e32a9d73d8d"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
+ # meta SRCREV as the linux-yocto-standard builds. Select your version using the
+ # normal PREFERRED_VERSION settings.
+ BBCLASSEXTEND = "devupstream:target"
+-SRCREV_machine:class-devupstream ?= "71e496bd338221709b180b60ba419fa542c2b320"
++SRCREV_machine:class-devupstream ?= "d68f50bfb00f6288e812be895ea5c77932a4b9dd"
+ PN:class-devupstream = "linux-yocto-upstream"
+ KBRANCH:class-devupstream = "v5.15/base"
+ 
 -- 
 2.37.3
 
