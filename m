@@ -1,211 +1,354 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE5FEC4332F
-	for <webhook@archiver.kernel.org>; Tue, 20 Dec 2022 14:30:43 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web10.51319.1671546642174696506
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C62BAC4167B
+	for <webhook@archiver.kernel.org>; Tue, 20 Dec 2022 14:37:03 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web10.51473.1671547019700145350
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Dec 2022 06:30:42 -0800
+ Tue, 20 Dec 2022 06:37:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=oOTWp4E1;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.43, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f43.google.com with SMTP id u5so12563506pjy.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Dec 2022 06:30:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5yR4Uvj2ezMKvIcDWjBzoVCvgbA7IgU5y/wHRy/rwTg=;
-        b=oOTWp4E1FrFHkEuNdfV60fsD4AgTwX1g6Ep89paXXG22pDCTAaRLrgHeslkBWRnxD4
-         jxzAR2fZlM54ASymbIuUWPk/baF/D6BxWyYB5qpNhKIEXrLRe4mpCFkksnJbb7onzmua
-         0eAy7IpJswLYRGje750sN1EbcjA7xYbZ8cL2jij1q+WZMfaqo3Lm/jRySOh/2iIDvr4U
-         LplmrwHh48P3qj2XXicZCYuo19uzNAmCJEG9/JqjYDjKJvZtVFVZdKLXE8Us2zi6oME4
-         Gz19M0ejWTezev1cc6DSSN+JpZ/4NECUiHhIjCt36nfurdqt4i21jnNJuTLkYOwdPvDJ
-         rvsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5yR4Uvj2ezMKvIcDWjBzoVCvgbA7IgU5y/wHRy/rwTg=;
-        b=WyvuANA4VL/rfoizgixDohgPV5Q0i++SuN5DnSD5OM/KLubcH/5zZTdzzHmlvaShdl
-         XmJhR/H761JKj9HvlFbhl6b6z1KCvmSg5GsJbQ3YdyGIS+W4PIbOcQmLKPIZttdm9Bw1
-         2ttfji+yFp6rMLlqrbt9FIFrmRZsuhRJ7YfpcDVUY/7LLLaA5O7a54WBAWIIP+PwxWV9
-         9UkM7wBvTfWNnJrRF8fIdJ5Xk7pabSKvm+flrC7eU6KY3SZTRPGv5/w2Pl3y73jDLcV/
-         ijYgQeNvCIqP5Gz2z/goGfODMpPVjiZpk8t5IcHn4Rh0skeyrTNxxVhlBwoEil4LN1HJ
-         cebw==
-X-Gm-Message-State: AFqh2kqsJwJvrBiHVkxMqMjqgT0KbVFkltdHyqn/4diDs0IWmeKtUQCn
-	36RuqwByGhwK/6YZqPEyHGgkDbanyHCpVGAzaZs=
-X-Google-Smtp-Source: AMrXdXsKMzcLKkfyE2fmtoGbl3rjXQRNmhtqg2K6FSfhIoSR6hFr4Dmh5PStLigtemaupflzjN7i6g==
-X-Received: by 2002:a17:90b:2749:b0:223:a079:7354 with SMTP id qi9-20020a17090b274900b00223a0797354mr14393609pjb.15.1671546640766;
-        Tue, 20 Dec 2022 06:30:40 -0800 (PST)
-Received: from hexa.router0800d9.com (dhcp-72-253-5-74.hawaiiantel.net. [72.253.5.74])
-        by smtp.gmail.com with ESMTPSA id s8-20020a17090a760800b00218abadb6a8sm880064pjk.49.2022.12.20.06.30.39
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Dec 2022 06:30:40 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 00/30] Pull request (cover letter only)
-Date: Tue, 20 Dec 2022 04:30:30 -1000
-Message-Id: <cover.1671546565.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=V0fTjpoU;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id BBECC240010;
+	Tue, 20 Dec 2022 14:36:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1671547017;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z2lX3TgrymbPqDTi7c38q3C/8N6LQAMFSz/E7t8lK74=;
+	b=V0fTjpoUDMLQ//TL0fg/Y4JFvKRQhEme9nZq3Zz08eEhy8hiDiJEQvXvpGNkHe+7GC5xr6
+	R4m293SC/B636HT22zV6ZKZfhtQ92SXU60kzDb8SnBfkw+vz37yi6EQQfQiJ/W08DMSb3k
+	Rsr+nvy/ZtqCWYnAtOdazl3xPtJmcrdgys4XFf5FIm0rYv52UWewBntOlo+rCnQRkb3Tab
+	Dg/WgP0CK4tQiJGiApUxlgAEurES15QWhFMX1S+OZurCURd7WA73dq2HbcitBYMw3mokMb
+	8TVQ/6FjJQkrd90S1MJK8r8ideStdHb3S0FdVOY4zXcEuIDL+ZWsJZFO7LojRA==
+Date: Tue, 20 Dec 2022 15:36:56 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Manoj Saun <manojsingh.saun@windriver.com>
+Cc: openembedded-core@lists.openembedded.org, narpat.mali@windriver.com,
+	hari.gpillai@windriver.com, kai.kang@windriver.com
+Subject: Re: [OE-core] [meta-oe][PATCH 1/1] libksba: fix CVE-2022-3515
+Message-ID: <Y6HIiLJgv/iDcCnM@mail.local>
+References: <20221220062956.609061-1-manojsingh.saun@windriver.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20221220062956.609061-1-manojsingh.saun@windriver.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 Dec 2022 14:30:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174854
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Dec 2022 14:37:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174855
 
-The following changes since commit 5a622a9171da941c705aedc88d487d7158955a8f:
+Hello,
 
-  mirrors.bbclass: update CPAN_MIRROR (2022-11-30 11:10:48 -1000)
+This doesn't build:
 
-are available in the Git repository at:
+| ../../libksba-1.6.2/src/ber-help.c:198:3: error: expected identifier or '=
+(' before 'if'
+|   198 |   if (ti->length > ti->nhdr && (ti->nhdr + ti->length) < ti->leng=
+th)
+|       |   ^~
+| make[3]: *** [Makefile:739: ber_dump-ber-help.o] Error 1
+| make[3]: *** Waiting for unfinished jobs....
+| libtool: compile:  i686-poky-linux-gcc -m32 -march=3Dcore2 -mtune=3Dcore2=
+ -msse3 -mfpmath=3Dsse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=3D2 -=
+Wformat -Wformat-security -Werror=3Dformat-security --sysroot=3D/home/pokyb=
+uild/yocto-worker/genericx86-alt/build/build/tmp/work/core2-32-poky-linux/l=
+ibksba/1.6.2-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../libksba-1.6.2/sr=
+c -I.. -I../gl -I../../libksba-1.6.2/gl -O2 -pipe -g -feliminate-unused-deb=
+ug-types -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/genericx86-alt/b=
+uild/build/tmp/work/core2-32-poky-linux/libksba/1.6.2-r0/libksba-1.6.2=3D/u=
+sr/src/debug/libksba/1.6.2-r0 -fdebug-prefix-map=3D/home/pokybuild/yocto-wo=
+rker/genericx86-alt/build/build/tmp/work/core2-32-poky-linux/libksba/1.6.2-=
+r0/libksba-1.6.2=3D/usr/src/debug/libksba/1.6.2-r0 -fmacro-prefix-map=3D/ho=
+me/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/work/core2-32-poky=
+-linux/libksba/1.6.2-r0/build=3D/usr/src/debug/libksba/1.6.2-r0 -fdebug-pre=
+fix-map=3D/home/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/work/=
+core2-32-poky-linux/libksba/1.6.2-r0/build=3D/usr/src/debug/libksba/1.6.2-r=
+0 -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/genericx86-alt/build/bu=
+ild/tmp/work/core2-32-poky-linux/libksba/1.6.2-r0/recipe-sysroot=3D -fmacro=
+-prefix-map=3D/home/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/w=
+ork/core2-32-poky-linux/libksba/1.6.2-r0/recipe-sysroot=3D -fdebug-prefix-m=
+ap=3D/home/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/work/core2=
+-32-poky-linux/libksba/1.6.2-r0/recipe-sysroot-native=3D -Wall -Wcast-align=
+ -Wshadow -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -fvisibilit=
+y=3Dhidden -c ../../libksba-1.6.2/src/asn1-func.c  -fPIC -DPIC -o .libs/asn=
+1-func.o
+| libtool: compile:  i686-poky-linux-gcc -m32 -march=3Dcore2 -mtune=3Dcore2=
+ -msse3 -mfpmath=3Dsse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=3D2 -=
+Wformat -Wformat-security -Werror=3Dformat-security --sysroot=3D/home/pokyb=
+uild/yocto-worker/genericx86-alt/build/build/tmp/work/core2-32-poky-linux/l=
+ibksba/1.6.2-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../libksba-1.6.2/sr=
+c -I.. -I../gl -I../../libksba-1.6.2/gl -O2 -pipe -g -feliminate-unused-deb=
+ug-types -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/genericx86-alt/b=
+uild/build/tmp/work/core2-32-poky-linux/libksba/1.6.2-r0/libksba-1.6.2=3D/u=
+sr/src/debug/libksba/1.6.2-r0 -fdebug-prefix-map=3D/home/pokybuild/yocto-wo=
+rker/genericx86-alt/build/build/tmp/work/core2-32-poky-linux/libksba/1.6.2-=
+r0/libksba-1.6.2=3D/usr/src/debug/libksba/1.6.2-r0 -fmacro-prefix-map=3D/ho=
+me/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/work/core2-32-poky=
+-linux/libksba/1.6.2-r0/build=3D/usr/src/debug/libksba/1.6.2-r0 -fdebug-pre=
+fix-map=3D/home/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/work/=
+core2-32-poky-linux/libksba/1.6.2-r0/build=3D/usr/src/debug/libksba/1.6.2-r=
+0 -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/genericx86-alt/build/bu=
+ild/tmp/work/core2-32-poky-linux/libksba/1.6.2-r0/recipe-sysroot=3D -fmacro=
+-prefix-map=3D/home/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/w=
+ork/core2-32-poky-linux/libksba/1.6.2-r0/recipe-sysroot=3D -fdebug-prefix-m=
+ap=3D/home/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/work/core2=
+-32-poky-linux/libksba/1.6.2-r0/recipe-sysroot-native=3D -Wall -Wcast-align=
+ -Wshadow -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -fvisibilit=
+y=3Dhidden -c ../../libksba-1.6.2/src/writer.c  -fPIC -DPIC -o .libs/writer=
+=2Eo
+| libtool: compile:  i686-poky-linux-gcc -m32 -march=3Dcore2 -mtune=3Dcore2=
+ -msse3 -mfpmath=3Dsse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=3D2 -=
+Wformat -Wformat-security -Werror=3Dformat-security --sysroot=3D/home/pokyb=
+uild/yocto-worker/genericx86-alt/build/build/tmp/work/core2-32-poky-linux/l=
+ibksba/1.6.2-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../libksba-1.6.2/sr=
+c -I.. -I../gl -I../../libksba-1.6.2/gl -O2 -pipe -g -feliminate-unused-deb=
+ug-types -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/genericx86-alt/b=
+uild/build/tmp/work/core2-32-poky-linux/libksba/1.6.2-r0/libksba-1.6.2=3D/u=
+sr/src/debug/libksba/1.6.2-r0 -fdebug-prefix-map=3D/home/pokybuild/yocto-wo=
+rker/genericx86-alt/build/build/tmp/work/core2-32-poky-linux/libksba/1.6.2-=
+r0/libksba-1.6.2=3D/usr/src/debug/libksba/1.6.2-r0 -fmacro-prefix-map=3D/ho=
+me/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/work/core2-32-poky=
+-linux/libksba/1.6.2-r0/build=3D/usr/src/debug/libksba/1.6.2-r0 -fdebug-pre=
+fix-map=3D/home/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/work/=
+core2-32-poky-linux/libksba/1.6.2-r0/build=3D/usr/src/debug/libksba/1.6.2-r=
+0 -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/genericx86-alt/build/bu=
+ild/tmp/work/core2-32-poky-linux/libksba/1.6.2-r0/recipe-sysroot=3D -fmacro=
+-prefix-map=3D/home/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/w=
+ork/core2-32-poky-linux/libksba/1.6.2-r0/recipe-sysroot=3D -fdebug-prefix-m=
+ap=3D/home/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/work/core2=
+-32-poky-linux/libksba/1.6.2-r0/recipe-sysroot-native=3D -Wall -Wcast-align=
+ -Wshadow -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -fvisibilit=
+y=3Dhidden -c ../../libksba-1.6.2/src/asn1-func2.c  -fPIC -DPIC -o .libs/as=
+n1-func2.o
+| libtool: compile:  i686-poky-linux-gcc -m32 -march=3Dcore2 -mtune=3Dcore2=
+ -msse3 -mfpmath=3Dsse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=3D2 -=
+Wformat -Wformat-security -Werror=3Dformat-security --sysroot=3D/home/pokyb=
+uild/yocto-worker/genericx86-alt/build/build/tmp/work/core2-32-poky-linux/l=
+ibksba/1.6.2-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../libksba-1.6.2/sr=
+c -I.. -I../gl -I../../libksba-1.6.2/gl -O2 -pipe -g -feliminate-unused-deb=
+ug-types -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/genericx86-alt/b=
+uild/build/tmp/work/core2-32-poky-linux/libksba/1.6.2-r0/libksba-1.6.2=3D/u=
+sr/src/debug/libksba/1.6.2-r0 -fdebug-prefix-map=3D/home/pokybuild/yocto-wo=
+rker/genericx86-alt/build/build/tmp/work/core2-32-poky-linux/libksba/1.6.2-=
+r0/libksba-1.6.2=3D/usr/src/debug/libksba/1.6.2-r0 -fmacro-prefix-map=3D/ho=
+me/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/work/core2-32-poky=
+-linux/libksba/1.6.2-r0/build=3D/usr/src/debug/libksba/1.6.2-r0 -fdebug-pre=
+fix-map=3D/home/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/work/=
+core2-32-poky-linux/libksba/1.6.2-r0/build=3D/usr/src/debug/libksba/1.6.2-r=
+0 -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/genericx86-alt/build/bu=
+ild/tmp/work/core2-32-poky-linux/libksba/1.6.2-r0/recipe-sysroot=3D -fmacro=
+-prefix-map=3D/home/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/w=
+ork/core2-32-poky-linux/libksba/1.6.2-r0/recipe-sysroot=3D -fdebug-prefix-m=
+ap=3D/home/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/work/core2=
+-32-poky-linux/libksba/1.6.2-r0/recipe-sysroot-native=3D -Wall -Wcast-align=
+ -Wshadow -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -fvisibilit=
+y=3Dhidden -c ../../libksba-1.6.2/src/visibility.c  -fPIC -DPIC -o .libs/vi=
+sibility.o
+| libtool: compile:  i686-poky-linux-gcc -m32 -march=3Dcore2 -mtune=3Dcore2=
+ -msse3 -mfpmath=3Dsse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=3D2 -=
+Wformat -Wformat-security -Werror=3Dformat-security --sysroot=3D/home/pokyb=
+uild/yocto-worker/genericx86-alt/build/build/tmp/work/core2-32-poky-linux/l=
+ibksba/1.6.2-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../libksba-1.6.2/sr=
+c -I.. -I../gl -I../../libksba-1.6.2/gl -O2 -pipe -g -feliminate-unused-deb=
+ug-types -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/genericx86-alt/b=
+uild/build/tmp/work/core2-32-poky-linux/libksba/1.6.2-r0/libksba-1.6.2=3D/u=
+sr/src/debug/libksba/1.6.2-r0 -fdebug-prefix-map=3D/home/pokybuild/yocto-wo=
+rker/genericx86-alt/build/build/tmp/work/core2-32-poky-linux/libksba/1.6.2-=
+r0/libksba-1.6.2=3D/usr/src/debug/libksba/1.6.2-r0 -fmacro-prefix-map=3D/ho=
+me/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/work/core2-32-poky=
+-linux/libksba/1.6.2-r0/build=3D/usr/src/debug/libksba/1.6.2-r0 -fdebug-pre=
+fix-map=3D/home/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/work/=
+core2-32-poky-linux/libksba/1.6.2-r0/build=3D/usr/src/debug/libksba/1.6.2-r=
+0 -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/genericx86-alt/build/bu=
+ild/tmp/work/core2-32-poky-linux/libksba/1.6.2-r0/recipe-sysroot=3D -fmacro=
+-prefix-map=3D/home/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/w=
+ork/core2-32-poky-linux/libksba/1.6.2-r0/recipe-sysroot=3D -fdebug-prefix-m=
+ap=3D/home/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/work/core2=
+-32-poky-linux/libksba/1.6.2-r0/recipe-sysroot-native=3D -Wall -Wcast-align=
+ -Wshadow -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -fvisibilit=
+y=3Dhidden -c ../../libksba-1.6.2/src/reader.c  -fPIC -DPIC -o .libs/reader=
+=2Eo
+| libtool: compile:  i686-poky-linux-gcc -m32 -march=3Dcore2 -mtune=3Dcore2=
+ -msse3 -mfpmath=3Dsse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=3D2 -=
+Wformat -Wformat-security -Werror=3Dformat-security --sysroot=3D/home/pokyb=
+uild/yocto-worker/genericx86-alt/build/build/tmp/work/core2-32-poky-linux/l=
+ibksba/1.6.2-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../../libksba-1.6.2/sr=
+c -I.. -I../gl -I../../libksba-1.6.2/gl -O2 -pipe -g -feliminate-unused-deb=
+ug-types -fmacro-prefix-map=3D/home/pokybuild/yocto-worker/genericx86-alt/b=
+uild/build/tmp/work/core2-32-poky-linux/libksba/1.6.2-r0/libksba-1.6.2=3D/u=
+sr/src/debug/libksba/1.6.2-r0 -fdebug-prefix-map=3D/home/pokybuild/yocto-wo=
+rker/genericx86-alt/build/build/tmp/work/core2-32-poky-linux/libksba/1.6.2-=
+r0/libksba-1.6.2=3D/usr/src/debug/libksba/1.6.2-r0 -fmacro-prefix-map=3D/ho=
+me/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/work/core2-32-poky=
+-linux/libksba/1.6.2-r0/build=3D/usr/src/debug/libksba/1.6.2-r0 -fdebug-pre=
+fix-map=3D/home/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/work/=
+core2-32-poky-linux/libksba/1.6.2-r0/build=3D/usr/src/debug/libksba/1.6.2-r=
+0 -fdebug-prefix-map=3D/home/pokybuild/yocto-worker/genericx86-alt/build/bu=
+ild/tmp/work/core2-32-poky-linux/libksba/1.6.2-r0/recipe-sysroot=3D -fmacro=
+-prefix-map=3D/home/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/w=
+ork/core2-32-poky-linux/libksba/1.6.2-r0/recipe-sysroot=3D -fdebug-prefix-m=
+ap=3D/home/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/work/core2=
+-32-poky-linux/libksba/1.6.2-r0/recipe-sysroot-native=3D -Wall -Wcast-align=
+ -Wshadow -Wstrict-prototypes -Wpointer-arith -Wno-pointer-sign -fvisibilit=
+y=3Dhidden -c ../../libksba-1.6.2/src/asn1-parse.c  -fPIC -DPIC -o .libs/as=
+n1-parse.o
+| make[3]: Leaving directory '/home/pokybuild/yocto-worker/genericx86-alt/b=
+uild/build/tmp/work/core2-32-poky-linux/libksba/1.6.2-r0/build/src'
+| make[2]: *** [Makefile:510: all] Error 2
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/genericx86-alt/b=
+uild/build/tmp/work/core2-32-poky-linux/libksba/1.6.2-r0/build/src'
+| make[1]: Leaving directory '/home/pokybuild/yocto-worker/genericx86-alt/b=
+uild/build/tmp/work/core2-32-poky-linux/libksba/1.6.2-r0/build'
+| make[1]: *** [Makefile:482: all-recursive] Error 1
+| make: *** [Makefile:414: all] Error 2
+| ERROR: oe_runmake failed
+| WARNING: /home/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/work=
+/core2-32-poky-linux/libksba/1.6.2-r0/temp/run.do_compile.1534480:182 exit =
+1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/genericx86-alt/build/build=
+/tmp/work/core2-32-poky-linux/libksba/1.6.2-r0/temp/run.do_compile.1534480,=
+ line 182
+| 	#2: die, /home/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/wor=
+k/core2-32-poky-linux/libksba/1.6.2-r0/temp/run.do_compile.1534480, line 166
+| 	#3: oe_runmake, /home/pokybuild/yocto-worker/genericx86-alt/build/build/=
+tmp/work/core2-32-poky-linux/libksba/1.6.2-r0/temp/run.do_compile.1534480, =
+line 161
+| 	#4: autotools_do_compile, /home/pokybuild/yocto-worker/genericx86-alt/bu=
+ild/build/tmp/work/core2-32-poky-linux/libksba/1.6.2-r0/temp/run.do_compile=
+=2E1534480, line 156
+| 	#5: do_compile, /home/pokybuild/yocto-worker/genericx86-alt/build/build/=
+tmp/work/core2-32-poky-linux/libksba/1.6.2-r0/temp/run.do_compile.1534480, =
+line 151
+| 	#6: main, /home/pokybuild/yocto-worker/genericx86-alt/build/build/tmp/wo=
+rk/core2-32-poky-linux/libksba/1.6.2-r0/temp/run.do_compile.1534480, line 1=
+95
+NOTE: recipe libksba-1.6.2-r0: task do_compile: Failed
+ERROR: Task (/home/pokybuild/yocto-worker/genericx86-alt/build/meta/recipes=
+-support/libksba/libksba_1.6.2.bb:do_compile) failed with exit code '1'
 
-  https://git.openembedded.org/openembedded-core-contrib stable/langdale-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/langdale-next
+On 20/12/2022 06:29:56+0000, Manoj Saun wrote:
+> libksba: integer overflow may lead to remote code execution.
+>=20
+> Reference:
+> https://www.gnupg.org/blog/20221017-pepe-left-the-ksba.html
+>=20
+> Upstream-Status: Backport [https://git.gnupg.org/cgi-bin/gitweb.cgi?p=3Dl=
+ibksba.git;a=3Dcommit;h=3D4b7d9cd4a018898d7714ce06f3faf2626c14582b]
+>=20
+> CVE: CVE-2022-3515
+>=20
+> Signed-off-by: Manoj Saun <manojsingh.saun@windriver.com>
+> ---
+>  ...e-overflow-directly-in-the-TLV-parse.patch | 42 +++++++++++++++++++
+>  meta/recipes-support/libksba/libksba_1.6.2.bb |  3 +-
+>  2 files changed, 44 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-support/libksba/libksba/0001-Detect-a-po=
+ssible-overflow-directly-in-the-TLV-parse.patch
+>=20
+> diff --git a/meta/recipes-support/libksba/libksba/0001-Detect-a-possible-=
+overflow-directly-in-the-TLV-parse.patch b/meta/recipes-support/libksba/lib=
+ksba/0001-Detect-a-possible-overflow-directly-in-the-TLV-parse.patch
+> new file mode 100644
+> index 0000000000..e2cb842a4d
+> --- /dev/null
+> +++ b/meta/recipes-support/libksba/libksba/0001-Detect-a-possible-overflo=
+w-directly-in-the-TLV-parse.patch
+> @@ -0,0 +1,42 @@
+> +From 4b7d9cd4a018898d7714ce06f3faf2626c14582b Mon Sep 17 00:00:00 2001
+> +From: Werner Koch <wk@gnupg.org>
+> +Date: Wed, 5 Oct 2022 14:19:06 +0200
+> +Subject: [PATCH] Detect a possible overflow directly in the TLV parser.
+> +
+> +Upstream-Status: Backport [https://git.gnupg.org/cgi-bin/gitweb.cgi?p=3D=
+libksba.git;a=3Dcommit;h=3D4b7d9cd4a018898d7714ce06f3faf2626c14582b]
+> +
+> +CVE: CVE-2022-3515
+> +
+> +Signed-off-by: Manoj Saun <manojsingh.saun@windriver.com>
+> +
+> +* src/ber-help.c (_ksba_ber_read_tl): Check for overflow of a commonly
+> +used sum.
+> +--
+> +
+> +It is quite common to have checks like
+> +
+> +    if (ti.nhdr + ti.length >=3D DIM(tmpbuf))
+> +       return gpg_error (GPG_ERR_TOO_LARGE);
+> +
+> +This patch detects possible integer overflows immmediately when
+> +creating the TI object.
+> +
+> +Reported-by: ZDI-CAN-18927, ZDI-CAN-18928, ZDI-CAN-18929
+> +---
+> + src/ber-help.c | 6 ++++++
+> + 1 file changed, 6 insertions(+)
+> +
+> +diff --git a/src/ber-help.c b/src/ber-help.c
+> +index 81c31ed..56efb6a 100644
+> +--- a/src/ber-help.c
+> ++++ b/src/ber-help.c
+> +@@ -182,6 +182,12 @@ _ksba_ber_read_tl (ksba_reader_t reader, struct tag=
+_info *ti)
+> +       ti->length =3D len;
+> +     }
+> +=20
+> ++  if (ti->length > ti->nhdr && (ti->nhdr + ti->length) < ti->length)
+> ++    {
+> ++      ti->err_string =3D "header+length would overflow";
+> ++      return gpg_error (GPG_ERR_EOVERFLOW);
+> ++    }
+> ++
+> +   /* Without this kludge some example certs can't be parsed */
+> +   if (ti->class =3D=3D CLASS_UNIVERSAL && !ti->tag)
+> +     ti->length =3D 0;
+> +--=20
+> +2.34.1
+> +
+> diff --git a/meta/recipes-support/libksba/libksba_1.6.2.bb b/meta/recipes=
+-support/libksba/libksba_1.6.2.bb
+> index f6ecb9aec4..c25c23ef0f 100644
+> --- a/meta/recipes-support/libksba/libksba_1.6.2.bb
+> +++ b/meta/recipes-support/libksba/libksba_1.6.2.bb
+> @@ -22,7 +22,8 @@ inherit autotools binconfig-disabled pkgconfig texinfo
+> =20
+>  UPSTREAM_CHECK_URI =3D "https://gnupg.org/download/index.html"
+>  SRC_URI =3D "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+> -           file://ksba-add-pkgconfig-support.patch"
+> +           file://ksba-add-pkgconfig-support.patch \
+> +           file://0001-Detect-a-possible-overflow-directly-in-the-TLV-pa=
+rse.patch"
+> =20
+>  SRC_URI[sha256sum] =3D "fce01ccac59812bddadffacff017dac2e4762bdb6ebc6ffe=
+06f6ed4f6192c971"
+> =20
+> --=20
+> 2.34.1
+>=20
 
-Alex Stewart (1):
-  lsof: add update-alternatives logic
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#174842): https://lists.openembedded.org/g/openembedde=
+d-core/message/174842
+> Mute This Topic: https://lists.openembedded.org/mt/95781520/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+exandre.belloni@bootlin.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 
-Alexander Kanavin (1):
-  glibc-tests: correctly pull in the actual tests when installing -ptest
-    package
 
-Alexey Smirnov (1):
-  classes: make TOOLCHAIN more permissive for kernel
-
-Carlos Alberto Lopez Perez (1):
-  xwayland: libxshmfence is needed when dri3 is enabled
-
-Chen Qi (3):
-  psplash: consider the situation of psplash not exist for systemd
-  bc: extend to nativesdk
-  rm_work: adjust dependency to make do_rm_work_all depend on do_rm_work
-
-Harald Seiler (1):
-  opkg: Set correct info_dir and status_file in opkg.conf
-
-Hitendra Prajapati (1):
-  libarchive: CVE-2022-36227 NULL pointer dereference in archive_write.c
-
-Joshua Watt (1):
-  scripts: convert-overrides: Allow command-line customizations
-
-Mathieu Dubois-Briand (1):
-  dbus: Add missing CVE product name
-
-Ola x Nilsson (1):
-  kbd: Don't build tests
-
-Ovidiu Panait (1):
-  kernel.bbclass: remove empty module directories to prevent QA issues
-
-Peter Marko (2):
-  externalsrc: fix lookup for .gitmodules
-  oeqa/selftest/externalsrc: add test for srctree_hash_files
-
-Qiu, Zheng (2):
-  vim: upgrade 9.0.0820 -> 9.0.0947
-  valgrind: remove most hidden tests for arm64
-
-Richard Purdie (3):
-  oeqa/selftest/tinfoil: Add test for separate config_data with
-    recipe_parse_file()
-  qemu: Ensure libpng dependency is deterministic
-  yocto-check-layer: Allow OE-Core to be tested
-
-Ross Burton (4):
-  lib/buildstats: fix parsing of trees with reduced_proc_pressure
-    directories
-  combo-layer: remove unused import
-  combo-layer: dont use bb.utils.rename
-  combo-layer: add sync-revs command
-
-Ryan Eatmon (1):
-  go: Update reproducibility patch to fix panic errors
-
-Sandeep Gundlupet Raju (1):
-  libdrm: Remove libdrm-kms package
-
-Wang Mingyu (3):
-  bind: upgrade 9.18.8 -> 9.18.9
-  libxcrypt-compat: upgrade 4.4.30 -> 4.4.33
-  mpfr: upgrade 4.1.0 -> 4.1.1
-
-Xiangyu Chen (1):
-  grub: backport patches to fix CVE-2022-28736
-
- meta/classes-recipe/kernel-arch.bbclass       |   2 +-
- meta/classes-recipe/kernel.bbclass            |   4 +-
- meta/classes/externalsrc.bbclass              |   2 +-
- meta/classes/rm_work.bbclass                  |   2 +-
- meta/lib/oeqa/selftest/cases/externalsrc.py   |  44 ++++
- meta/lib/oeqa/selftest/cases/tinfoil.py       |  14 ++
- ...i-chainloader-Use-grub_loader_set_ex.patch |  86 +++++++
- ...ot-Add-API-to-pass-context-to-loader.patch | 168 +++++++++++++
- ...hainloader-Simplify-the-loader-state.patch | 129 ++++++++++
- meta/recipes-bsp/grub/grub2.inc               |   3 +
- ...1-avoid-start-failure-with-bind-user.patch |   0
- ...d-V-and-start-log-hide-build-options.patch |   0
- ...ching-for-json-headers-searches-sysr.patch |   0
- .../bind/{bind-9.18.8 => bind-9.18.9}/bind9   |   0
- .../{bind-9.18.8 => bind-9.18.9}/conf.patch   |   0
- .../generate-rndc-key.sh                      |   0
- ...t.d-add-support-for-read-only-rootfs.patch |   0
- .../make-etc-initd-bind-stop-work.patch       |   0
- .../named.service                             |   0
- .../bind/{bind_9.18.8.bb => bind_9.18.9.bb}   |   2 +-
- meta/recipes-core/dbus/dbus_1.14.0.bb         |   2 +
- meta/recipes-core/glibc/glibc-tests_2.36.bb   |   2 +-
- meta/recipes-core/kbd/kbd_2.5.1.bb            |   1 +
- ...t_4.4.30.bb => libxcrypt-compat_4.4.33.bb} |   0
- meta/recipes-core/libxcrypt/libxcrypt.inc     |   2 +-
- .../psplash/files/psplash-start.service       |   1 +
- .../psplash/files/psplash-systemd.service     |   1 +
- ...ent-based-hash-generation-less-pedan.patch |  30 +--
- meta/recipes-devtools/opkg/opkg_0.6.0.bb      |   4 +-
- meta/recipes-devtools/qemu/qemu.inc           |   1 +
- .../valgrind/valgrind/remove-for-aarch64      | 227 +-----------------
- meta/recipes-extended/bc/bc_1.07.1.bb         |   2 +-
- .../libarchive/CVE-2022-36227.patch           |  42 ++++
- .../libarchive/libarchive_3.6.1.bb            |   3 +-
- meta/recipes-extended/lsof/lsof_4.95.0.bb     |   9 +
- meta/recipes-graphics/drm/libdrm_2.4.113.bb   |   3 +-
- .../xwayland/xwayland_22.1.5.bb               |   2 +-
- .../mpfr/{mpfr_4.1.0.bb => mpfr_4.1.1.bb}     |   2 +-
- meta/recipes-support/vim/vim.inc              |   4 +-
- scripts/combo-layer                           |  30 ++-
- scripts/contrib/convert-overrides.py          | 103 ++++----
- scripts/lib/buildstats.py                     |   4 +-
- scripts/lib/checklayer/__init__.py            |  11 +-
- scripts/lib/checklayer/cases/bsp.py           |   2 +-
- scripts/lib/checklayer/cases/common.py        |   3 +
- scripts/lib/checklayer/cases/distro.py        |   2 +-
- scripts/yocto-check-layer                     |   5 +-
- 47 files changed, 637 insertions(+), 317 deletions(-)
- create mode 100644 meta/lib/oeqa/selftest/cases/externalsrc.py
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2022-28736-loader-efi-chainloader-Use-grub_loader_set_ex.patch
- create mode 100644 meta/recipes-bsp/grub/files/commands-boot-Add-API-to-pass-context-to-loader.patch
- create mode 100644 meta/recipes-bsp/grub/files/loader-efi-chainloader-Simplify-the-loader-state.patch
- rename meta/recipes-connectivity/bind/{bind-9.18.8 => bind-9.18.9}/0001-avoid-start-failure-with-bind-user.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.8 => bind-9.18.9}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.8 => bind-9.18.9}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.8 => bind-9.18.9}/bind9 (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.8 => bind-9.18.9}/conf.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.8 => bind-9.18.9}/generate-rndc-key.sh (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.8 => bind-9.18.9}/init.d-add-support-for-read-only-rootfs.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.8 => bind-9.18.9}/make-etc-initd-bind-stop-work.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.8 => bind-9.18.9}/named.service (100%)
- rename meta/recipes-connectivity/bind/{bind_9.18.8.bb => bind_9.18.9.bb} (97%)
- rename meta/recipes-core/libxcrypt/{libxcrypt-compat_4.4.30.bb => libxcrypt-compat_4.4.33.bb} (100%)
- create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2022-36227.patch
- rename meta/recipes-support/mpfr/{mpfr_4.1.0.bb => mpfr_4.1.1.bb} (91%)
-
--- 
-2.25.1
-
+--=20
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
