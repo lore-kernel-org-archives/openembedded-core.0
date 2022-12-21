@@ -1,134 +1,111 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CBA0C4332F
-	for <webhook@archiver.kernel.org>; Wed, 21 Dec 2022 21:01:26 +0000 (UTC)
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
- by mx.groups.io with SMTP id smtpd.web11.30313.1671656483444055757
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8895FC4167B
+	for <webhook@archiver.kernel.org>; Wed, 21 Dec 2022 21:17:16 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.30729.1671657433841671591
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Dec 2022 13:01:23 -0800
+ Wed, 21 Dec 2022 13:17:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=iTg18exx;
- spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id E4BE21BF208;
-	Wed, 21 Dec 2022 21:01:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1671656481;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EfPpJA38jHBt+VQq9lgg/lMlIlgcKJDX+L1btgjnXY8=;
-	b=iTg18exxYzX6V29w3/iK6BYhmRf7Ptri86Kt7Vtx0sFZVKympb9Y7q2dMZOJp901CsCDqw
-	+4Pqk0VksPu743DlMmxylkvlCZoOVZUWGLoYiD9Qc0qLZAk8Xjqg8zuk7DK1TXVENCXpnn
-	ZHPDEAnyS2CkaIk091GbWu+/M8wB6M5QFingmCdqPMJA6LwysjLDuo1PZy/Ls5PrXJriKB
-	SklbbQwa6nwJiAbH1nAbbmZInEjvINXce2jGNtAtgp56kW+rw+qsGqPZH9FHObTIu6Q8tm
-	TbBuayMC01W4BYyLOX3ja6nRejwAgAmgg0jKW/kX2EnIHujbpR+Oz5ShhJFn/A==
-Date: Wed, 21 Dec 2022 22:01:19 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Yash Shinde <yashinde145@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, Yash.Shinde@windriver.com
-Subject: Re: [OE-core] [PATCH v2] binutils : Fix CVE-2022-4285
-Message-ID: <Y6N0HxEZizm6amUL@mail.local>
-References: <20221221180009.255511-1-yashinde145@gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=jMeugVsO;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id i7so16184276wrv.8
+        for <openembedded-core@lists.openembedded.org>; Wed, 21 Dec 2022 13:17:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OXb46HEf994XMf0wJdctjkH5R8xrkv5Ai4txvj4FPmI=;
+        b=jMeugVsOiVqeXNYeLsWAf8twAf9zyxpf09S81BUTMJx2y4cdsKsLvxVqB4Cz5FRRUd
+         eLlv45fWjpkR1X7Wwx4ihonSCLw+/ARW6XuP+ymA8sKw0I8TtR1pqU95m/tbvehx5UKF
+         35nX2byJDn/JIHlINqBFbP5IJGuzj9o6lZ1bVN2BmqZ2I6fpWUHCedSEDVDHeXBZsT+L
+         ExV9QrYM0A7VGQc4/ZP2zARZQBGJvlcXzF/VQMVXpwlQbSkNCwrLY8C4BbFEhV44Tn1L
+         XhEf7c8PgxXwEJyM+Y8tlGT9RBem1Eh+f4w3idNlYFxbpQEHRSHUv5BNUhgR3lxL51jY
+         E0LQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OXb46HEf994XMf0wJdctjkH5R8xrkv5Ai4txvj4FPmI=;
+        b=mCe+3HQwbABtkiHll95sQUUVBwSWQECQDbA2pnf3q/OtqmCk9TAFCvgp0RWXjiflIY
+         qI2RjzeOunzON6nqXLVdQW8x++krN/xHU3a/WtgwY2rktR+WtrP4Hhe0ZNLjch0uF79G
+         4W+fcHFhmzobQndRHI4LOMgxaNjeJnmi5cjzR8ezmp+5twX8QBfeDDqTGpnNQ80nMwvn
+         3Tx2czAHaN1Fga+whw1enS/wG9FJm5GYgYv7b3ALz7QHlXvWMDBWFlMY89hKoskVC963
+         lBbdKfv9/i1zHNX/ia8fFeMmxhhRt5gQLtvdiFmVaOcaOxPcSfu+OOi2edfNSx5gND4C
+         U8hg==
+X-Gm-Message-State: AFqh2krZicA91k39+t7MpWRFKIkevC0iMxTDBI69NB21Li5bgqeMtQ69
+	NxzYjkGy9Ucuvnr+ScjIsIMK+voXn38=
+X-Google-Smtp-Source: AMrXdXvwlV3LGPGqYUOGmEesMXh+yZ5XzuQWjmEBV0v7IAKIF6tsqNVEaUHURWJ08mOJ+kdyimOvZA==
+X-Received: by 2002:a5d:6548:0:b0:242:15d5:2c0b with SMTP id z8-20020a5d6548000000b0024215d52c0bmr2181668wrv.22.1671657431999;
+        Wed, 21 Dec 2022 13:17:11 -0800 (PST)
+Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net. [91.135.6.246])
+        by smtp.gmail.com with ESMTPSA id bx25-20020a5d5b19000000b00225307f43fbsm16312442wrb.44.2022.12.21.13.17.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Dec 2022 13:17:11 -0800 (PST)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alex Kiernan <alex.kiernan@gmail.com>
+Subject: [OE-Core][PATCH v3 00/10] Add rust runtime tests
+Date: Wed, 21 Dec 2022 21:16:56 +0000
+Message-Id: <20221221211706.25347-1-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221221180009.255511-1-yashinde145@gmail.com>
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 21 Dec 2022 21:01:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174939
+ <openembedded-core@lists.openembedded.org>; Wed, 21 Dec 2022 21:17:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174940
 
-This is already fixed upstream:
 
-https://git.openembedded.org/openembedded-core/commit/?id=b6b750f8e41a392ff92d9118ef7530ada20d06fe
+This series adds runtime tests for rust and cargo, merges (most of) the
+include files into the base recipes and fixes target cargo builds.
 
-On 21/12/2022 23:30:09+0530, Yash Shinde wrote:
-> From: Yash Shinde <Yash.Shinde@windriver.com>
-> 
-> Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=5c831a3c7f3ca98d6aba1200353311e1a1f84c70]
-> 
-> Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
-> ---
->  .../binutils/binutils-2.39.inc                |  1 +
->  .../binutils/0015-CVE-2022-4285.patch         | 36 +++++++++++++++++++
->  2 files changed, 37 insertions(+)
->  create mode 100644 meta/recipes-devtools/binutils/binutils/0015-CVE-2022-4285.patch
-> 
-> diff --git a/meta/recipes-devtools/binutils/binutils-2.39.inc b/meta/recipes-devtools/binutils/binutils-2.39.inc
-> index b040e57037..419571d56c 100644
-> --- a/meta/recipes-devtools/binutils/binutils-2.39.inc
-> +++ b/meta/recipes-devtools/binutils/binutils-2.39.inc
-> @@ -35,6 +35,7 @@ SRC_URI = "\
->       file://0014-CVE-2022-38128-1.patch \
->       file://0014-CVE-2022-38128-2.patch \
->       file://0014-CVE-2022-38128-3.patch \
-> +     file://0015-CVE-2022-4285.patch \
->  "
->  S  = "${WORKDIR}/git"
->  # Already in 2.39 branch
-> diff --git a/meta/recipes-devtools/binutils/binutils/0015-CVE-2022-4285.patch b/meta/recipes-devtools/binutils/binutils/0015-CVE-2022-4285.patch
-> new file mode 100644
-> index 0000000000..5ff5290334
-> --- /dev/null
-> +++ b/meta/recipes-devtools/binutils/binutils/0015-CVE-2022-4285.patch
-> @@ -0,0 +1,36 @@
-> +From 5c831a3c7f3ca98d6aba1200353311e1a1f84c70 Mon Sep 17 00:00:00 2001
-> +From: Nick Clifton <nickc@redhat.com>
-> +Date: Wed, 19 Oct 2022 15:09:12 +0100
-> +Subject: [PATCH] Fix an illegal memory access when parsing an ELF file
-> + containing corrupt symbol version information.
-> +
-> +	PR 29699
-> +	* elf.c (_bfd_elf_slurp_version_tables): Fail if the sh_info field
-> +	of the section header is zero.
-> +
-> +Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=5c831a3c7f3ca98d6aba1200353311e1a1f84c70]
-> +CVE: CVE-2022-4285
-> +
-> +---
-> + bfd/ChangeLog | 6 ++++++
-> + bfd/elf.c     | 4 +++-
-> + 2 files changed, 9 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/bfd/elf.c b/bfd/elf.c
-> +index fe00e0f9189..7cd7febcf95 100644
-> +--- a/bfd/elf.c
-> ++++ b/bfd/elf.c
-> +@@ -8918,7 +8918,9 @@ _bfd_elf_slurp_version_tables (bfd *abfd, bool default_imported_symver)
-> + 	  bfd_set_error (bfd_error_file_too_big);
-> + 	  goto error_return_verref;
-> + 	}
-> +-      elf_tdata (abfd)->verref = (Elf_Internal_Verneed *) bfd_alloc (abfd, amt);
-> ++      if (amt == 0)
-> ++	goto error_return_verref;
-> ++      elf_tdata (abfd)->verref = (Elf_Internal_Verneed *) bfd_zalloc (abfd, amt);
-> +       if (elf_tdata (abfd)->verref == NULL)
-> + 	goto error_return_verref;
-> + 
-> +-- 
-> +2.31.1
-> +
-> -- 
-> 2.25.1
-> 
+Also add SDK_TOOLCHAIN_LANGS for selection of target toolchains as part
+of packagegroup-core-sdk.
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#174935): https://lists.openembedded.org/g/openembedded-core/message/174935
-> Mute This Topic: https://lists.openembedded.org/mt/95811724/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Changes in v3:
+- Switch to packagegroup-core-sdk driven from TARGET_TOOLCHAIN_LANGS
+  (which defaults to SDK_TOOLCHAIN_LANGS)
 
+Changes in v2:
+- Drop rust.inc/rust.bb merge, not actually made use of in the change
+  set
+- Reorder so cargo test goes after build fixes
+
+Alex Kiernan (10):
+  oeqa/runtime/rust: Add basic compile/run test
+  libstd-rs: Merge .inc into .bb
+  libstd-rs: Move source directory to library/test
+  rust-llvm: Merge .inc into .bb
+  rust-llvm: Update LLVM_VERSION to match embedded version
+  cargo: Merge .inc into .bb
+  cargo: Extend DEBUG_PREFIX_MAP to cover vendor
+  packagegroup-rust-sdk-target: Add Rust SDK target packagegroup
+  packagegroup-core-sdk: Add SDK toolchain language selection support
+  oeqa/runtime/rust: Add cargo test
+
+ meta/lib/oeqa/files/test.rs                   |  2 +
+ meta/lib/oeqa/runtime/cases/rust.py           | 41 ++++++++++
+ .../packagegroups/packagegroup-core-sdk.bb    | 10 ++-
+ .../packagegroup-rust-sdk-target.bb           | 14 ++++
+ meta/recipes-devtools/cargo/cargo.inc         | 69 ----------------
+ meta/recipes-devtools/cargo/cargo_1.66.0.bb   | 73 ++++++++++++++++-
+ meta/recipes-devtools/rust/libstd-rs.inc      | 40 ---------
+ .../recipes-devtools/rust/libstd-rs_1.66.0.bb | 46 ++++++++++-
+ meta/recipes-devtools/rust/rust-llvm.inc      | 78 ------------------
+ .../recipes-devtools/rust/rust-llvm_1.66.0.bb | 82 ++++++++++++++++++-
+ 10 files changed, 260 insertions(+), 195 deletions(-)
+ create mode 100644 meta/lib/oeqa/files/test.rs
+ create mode 100644 meta/recipes-core/packagegroups/packagegroup-rust-sdk-target.bb
+ delete mode 100644 meta/recipes-devtools/cargo/cargo.inc
+ delete mode 100644 meta/recipes-devtools/rust/libstd-rs.inc
+ delete mode 100644 meta/recipes-devtools/rust/rust-llvm.inc
 
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.39.0
+
 
