@@ -1,255 +1,134 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C716EC4332F
-	for <webhook@archiver.kernel.org>; Wed, 21 Dec 2022 18:54:35 +0000 (UTC)
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
- by mx.groups.io with SMTP id smtpd.web11.27137.1671648873950602651
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CBA0C4332F
+	for <webhook@archiver.kernel.org>; Wed, 21 Dec 2022 21:01:26 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+ by mx.groups.io with SMTP id smtpd.web11.30313.1671656483444055757
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Dec 2022 10:54:34 -0800
+ Wed, 21 Dec 2022 13:01:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=MqWLaCWy;
- spf=pass (domain: gmail.com, ip: 209.85.167.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f171.google.com with SMTP id r205so13187652oib.9
-        for <openembedded-core@lists.openembedded.org>; Wed, 21 Dec 2022 10:54:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=sXLOULlPJ0hW42AUnXr6TMxYz/A08yYqo6QY27OMdBw=;
-        b=MqWLaCWyncJywlKtONm8WypDANYb75Fk4cXgU/2qF1RLglVNh7ADdT33lqol8EWpRS
-         9NVqBcFbUyc4+ndkXLpLH9aYfLA5eNdSJL+3KKKyQDSSJcn44F23oW5NaQFr0V8cRkPx
-         HA2X7xaiZYqM25VjfTTfH4L73zW/fswJkIpTlOM1bEzZXaHAb8/bSre6Qfrz0pQ0wONf
-         uJd0ID3ByBqXzYBYnuSy8w8Sqhy+l9q8ZfUuW3rdqJUSX3G9x3WoRTtVKzo64VvlH4FA
-         ZIu4Hnq0Uxo9fJHY0ehUIr9vuGSixAYB2f8MOwjZES8EIFyyeT+IQZgiE4Tk7oK196i8
-         EvWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sXLOULlPJ0hW42AUnXr6TMxYz/A08yYqo6QY27OMdBw=;
-        b=NyYfMZuAx7R2b8zTGtEP9DX/2kjyZkt49kDHep+32QUBkK/08EHrBpUBSZfZqSs9wb
-         pdtQqJi9tLQAijJnYG24hOOVbxnoAiWhiep6wjW8M61ZgaP8p5ep+YeG9SFgWVUaeSOH
-         MOGcM3jiXWm9cV4oth4c3TAIiIVnwx1KQlSVBrAD45r7kD4Im4+XXxFVgYsdLaMqbwEs
-         djSHutlyjoJvNweshIoje3RTc+a3tZrKHboYfZJReor8Aa/1+jCP1Ad4ROikE29ggbjA
-         0QycTQuzN1/UF37Nn+tBm5awG9bTxaHfUtoXELOTv3cJIkBuHgb15od5BLJ5XjqqLHFp
-         3c4g==
-X-Gm-Message-State: AFqh2kpu+CkMwQZo7rClLRHMUC0UwDvjlchrq+OmhMmyjLNzl/QyXRZm
-	BtdMNsNzAbVjIJkQbcDgL1Z4nANSroEWqGNeoU4=
-X-Google-Smtp-Source: AMrXdXsxNt3uapeihdPqjbCT3Tt9dZ28NA5OW6BI5galoqN0OXiqVYCYKZa/JyXrDNrP/v0S6++Eg1jZPUxbT/VpWEw=
-X-Received: by 2002:aca:3855:0:b0:35c:53a9:5513 with SMTP id
- f82-20020aca3855000000b0035c53a95513mr14716oia.262.1671648873102; Wed, 21 Dec
- 2022 10:54:33 -0800 (PST)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=iTg18exx;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id E4BE21BF208;
+	Wed, 21 Dec 2022 21:01:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1671656481;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EfPpJA38jHBt+VQq9lgg/lMlIlgcKJDX+L1btgjnXY8=;
+	b=iTg18exxYzX6V29w3/iK6BYhmRf7Ptri86Kt7Vtx0sFZVKympb9Y7q2dMZOJp901CsCDqw
+	+4Pqk0VksPu743DlMmxylkvlCZoOVZUWGLoYiD9Qc0qLZAk8Xjqg8zuk7DK1TXVENCXpnn
+	ZHPDEAnyS2CkaIk091GbWu+/M8wB6M5QFingmCdqPMJA6LwysjLDuo1PZy/Ls5PrXJriKB
+	SklbbQwa6nwJiAbH1nAbbmZInEjvINXce2jGNtAtgp56kW+rw+qsGqPZH9FHObTIu6Q8tm
+	TbBuayMC01W4BYyLOX3ja6nRejwAgAmgg0jKW/kX2EnIHujbpR+Oz5ShhJFn/A==
+Date: Wed, 21 Dec 2022 22:01:19 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Yash Shinde <yashinde145@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, Yash.Shinde@windriver.com
+Subject: Re: [OE-core] [PATCH v2] binutils : Fix CVE-2022-4285
+Message-ID: <Y6N0HxEZizm6amUL@mail.local>
+References: <20221221180009.255511-1-yashinde145@gmail.com>
 MIME-Version: 1.0
-References: <20221221125306.13779-1-alex.kiernan@gmail.com>
- <20221221125306.13779-10-alex.kiernan@gmail.com> <abe8931d3e41dae57f13ab07a8e016c2ded2827f.camel@linuxfoundation.org>
-In-Reply-To: <abe8931d3e41dae57f13ab07a8e016c2ded2827f.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 21 Dec 2022 10:54:22 -0800
-Message-ID: <CAMKF1sqJXFUnDZY8=HXNWXx2dag8Mn16WUWttFmJoy8=Op7RVg@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH v2 09/10] packagegroup-core-sdk: Add SDK
- toolchain language selection support
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Alex Kiernan <alex.kiernan@gmail.com>, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000045439405f05b15a7"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221221180009.255511-1-yashinde145@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 21 Dec 2022 18:54:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174938
+ <openembedded-core@lists.openembedded.org>; Wed, 21 Dec 2022 21:01:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174939
 
---00000000000045439405f05b15a7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This is already fixed upstream:
 
-On Wed, Dec 21, 2022 at 8:39 AM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+https://git.openembedded.org/openembedded-core/commit/?id=b6b750f8e41a392ff92d9118ef7530ada20d06fe
 
-> On Wed, 2022-12-21 at 12:53 +0000, Alex Kiernan wrote:
-> > Use SDK_TOOLCHAIN_LANGS to allow different language support to be
-> > selected within SDKs. Initially supported options are rust and go.
-> >
-> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> > ---
-> >
-> > (no changes since v1)
-> >
-> >  .../packagegroups/packagegroup-core-sdk.bb             | 10 +++++++++-
-> >  1 file changed, 9 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-> b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-> > index d70aff22c725..0e480e6ac756 100644
-> > --- a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-> > +++ b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-> > @@ -11,6 +11,11 @@ inherit packagegroup
-> >
-> >  #PACKAGEFUNCS =3D+ 'generate_sdk_pkgs'
-> >
-> > +SDK_TOOLCHAIN_LANGS ??=3D ""
-> > +SDK_TOOLCHAIN_LANGS:remove:sdkmingw32 =3D "rust"
-> > +# libstd-rs doesn't build for mips n32 with compiler constraint errors
-> > +SDK_TOOLCHAIN_LANGS:remove:mipsarchn32 =3D "rust"
-> > +
-> >  RDEPENDS:packagegroup-core-sdk =3D "\
-> >      packagegroup-core-buildessential \
-> >      coreutils \
-> > @@ -23,7 +28,10 @@ RDEPENDS:packagegroup-core-sdk =3D "\
-> >      less \
-> >      ldd \
-> >      file \
-> > -    tcl"
-> > +    tcl \
-> > +    ${@bb.utils.contains('SDK_TOOLCHAIN_LANGS', 'go',
-> 'packagegroup-go-sdk-target', '', d)} \
-> > +    ${@bb.utils.contains('SDK_TOOLCHAIN_LANGS', 'rust',
-> 'packagegroup-rust-sdk-target', '', d)} \
-> > +"
->
-> I'm a little torn on this. I created SDK_TOOLCHAIN_LANGS as a control
-> for the SDKs from populate_sdk. Whether the target SDK images should
-> follow that as well, I'm less sure.
->
-> It is probably fine and I nearly didn't send a comment but I just
-> wanted to see what others think.
->
-> We could perhaps do something like:
->
-> TARGET_TOOLCHAIN_LANGS ??=3D "${SDK_TOOLCHAIN_LANGS}"
+On 21/12/2022 23:30:09+0530, Yash Shinde wrote:
+> From: Yash Shinde <Yash.Shinde@windriver.com>
+> 
+> Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=5c831a3c7f3ca98d6aba1200353311e1a1f84c70]
+> 
+> Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
+> ---
+>  .../binutils/binutils-2.39.inc                |  1 +
+>  .../binutils/0015-CVE-2022-4285.patch         | 36 +++++++++++++++++++
+>  2 files changed, 37 insertions(+)
+>  create mode 100644 meta/recipes-devtools/binutils/binutils/0015-CVE-2022-4285.patch
+> 
+> diff --git a/meta/recipes-devtools/binutils/binutils-2.39.inc b/meta/recipes-devtools/binutils/binutils-2.39.inc
+> index b040e57037..419571d56c 100644
+> --- a/meta/recipes-devtools/binutils/binutils-2.39.inc
+> +++ b/meta/recipes-devtools/binutils/binutils-2.39.inc
+> @@ -35,6 +35,7 @@ SRC_URI = "\
+>       file://0014-CVE-2022-38128-1.patch \
+>       file://0014-CVE-2022-38128-2.patch \
+>       file://0014-CVE-2022-38128-3.patch \
+> +     file://0015-CVE-2022-4285.patch \
+>  "
+>  S  = "${WORKDIR}/git"
+>  # Already in 2.39 branch
+> diff --git a/meta/recipes-devtools/binutils/binutils/0015-CVE-2022-4285.patch b/meta/recipes-devtools/binutils/binutils/0015-CVE-2022-4285.patch
+> new file mode 100644
+> index 0000000000..5ff5290334
+> --- /dev/null
+> +++ b/meta/recipes-devtools/binutils/binutils/0015-CVE-2022-4285.patch
+> @@ -0,0 +1,36 @@
+> +From 5c831a3c7f3ca98d6aba1200353311e1a1f84c70 Mon Sep 17 00:00:00 2001
+> +From: Nick Clifton <nickc@redhat.com>
+> +Date: Wed, 19 Oct 2022 15:09:12 +0100
+> +Subject: [PATCH] Fix an illegal memory access when parsing an ELF file
+> + containing corrupt symbol version information.
+> +
+> +	PR 29699
+> +	* elf.c (_bfd_elf_slurp_version_tables): Fail if the sh_info field
+> +	of the section header is zero.
+> +
+> +Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=5c831a3c7f3ca98d6aba1200353311e1a1f84c70]
+> +CVE: CVE-2022-4285
+> +
+> +---
+> + bfd/ChangeLog | 6 ++++++
+> + bfd/elf.c     | 4 +++-
+> + 2 files changed, 9 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/bfd/elf.c b/bfd/elf.c
+> +index fe00e0f9189..7cd7febcf95 100644
+> +--- a/bfd/elf.c
+> ++++ b/bfd/elf.c
+> +@@ -8918,7 +8918,9 @@ _bfd_elf_slurp_version_tables (bfd *abfd, bool default_imported_symver)
+> + 	  bfd_set_error (bfd_error_file_too_big);
+> + 	  goto error_return_verref;
+> + 	}
+> +-      elf_tdata (abfd)->verref = (Elf_Internal_Verneed *) bfd_alloc (abfd, amt);
+> ++      if (amt == 0)
+> ++	goto error_return_verref;
+> ++      elf_tdata (abfd)->verref = (Elf_Internal_Verneed *) bfd_zalloc (abfd, amt);
+> +       if (elf_tdata (abfd)->verref == NULL)
+> + 	goto error_return_verref;
+> + 
+> +-- 
+> +2.31.1
+> +
+> -- 
+> 2.25.1
+> 
 
-
-Let=E2=80=99s go with this approach. It=E2=80=99s in line with other simila=
-r variables
-
-
->
-> in the recipe to cover the ability to separate the two if we wanted...
->
-> Cheers,
->
-> Richard
->
->
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#174922):
-> https://lists.openembedded.org/g/openembedded-core/message/174922
-> Mute This Topic: https://lists.openembedded.org/mt/95805446/1997914
+> View/Reply Online (#174935): https://lists.openembedded.org/g/openembedded-core/message/174935
+> Mute This Topic: https://lists.openembedded.org/mt/95811724/3617179
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
---00000000000045439405f05b15a7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Wed, Dec 21, 2022 at 8:39 AM Richard Purdie &lt;<a href=
-=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
-on.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Wed, 2022-=
-12-21 at 12:53 +0000, Alex Kiernan wrote:<br>
-&gt; Use SDK_TOOLCHAIN_LANGS to allow different language support to be<br>
-&gt; selected within SDKs. Initially supported options are rust and go.<br>
-&gt; <br>
-&gt; Signed-off-by: Alex Kiernan &lt;<a href=3D"mailto:alex.kiernan@gmail.c=
-om" target=3D"_blank">alex.kiernan@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt; <br>
-&gt; (no changes since v1)<br>
-&gt; <br>
-&gt;=C2=A0 .../packagegroups/<a href=3D"http://packagegroup-core-sdk.bb" re=
-l=3D"noreferrer" target=3D"_blank">packagegroup-core-sdk.bb</a>=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 10 +++++++++-<br>
-&gt;=C2=A0 1 file changed, 9 insertions(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/meta/recipes-core/packagegroups/<a href=3D"http://package=
-group-core-sdk.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-core-s=
-dk.bb</a> b/meta/recipes-core/packagegroups/<a href=3D"http://packagegroup-=
-core-sdk.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-core-sdk.bb<=
-/a><br>
-&gt; index d70aff22c725..0e480e6ac756 100644<br>
-&gt; --- a/meta/recipes-core/packagegroups/<a href=3D"http://packagegroup-c=
-ore-sdk.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-core-sdk.bb</=
-a><br>
-&gt; +++ b/meta/recipes-core/packagegroups/<a href=3D"http://packagegroup-c=
-ore-sdk.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-core-sdk.bb</=
-a><br>
-&gt; @@ -11,6 +11,11 @@ inherit packagegroup<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 #PACKAGEFUNCS =3D+ &#39;generate_sdk_pkgs&#39;<br>
-&gt;=C2=A0 <br>
-&gt; +SDK_TOOLCHAIN_LANGS ??=3D &quot;&quot;<br>
-&gt; +SDK_TOOLCHAIN_LANGS:remove:sdkmingw32 =3D &quot;rust&quot;<br>
-&gt; +# libstd-rs doesn&#39;t build for mips n32 with compiler constraint e=
-rrors<br>
-&gt; +SDK_TOOLCHAIN_LANGS:remove:mipsarchn32 =3D &quot;rust&quot;<br>
-&gt; +<br>
-&gt;=C2=A0 RDEPENDS:packagegroup-core-sdk =3D &quot;\<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 packagegroup-core-buildessential \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 coreutils \<br>
-&gt; @@ -23,7 +28,10 @@ RDEPENDS:packagegroup-core-sdk =3D &quot;\<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 less \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 ldd \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 file \<br>
-&gt; -=C2=A0 =C2=A0 tcl&quot;<br>
-&gt; +=C2=A0 =C2=A0 tcl \<br>
-&gt; +=C2=A0 =C2=A0 ${@bb.utils.contains(&#39;SDK_TOOLCHAIN_LANGS&#39;, &#3=
-9;go&#39;, &#39;packagegroup-go-sdk-target&#39;, &#39;&#39;, d)} \<br>
-&gt; +=C2=A0 =C2=A0 ${@bb.utils.contains(&#39;SDK_TOOLCHAIN_LANGS&#39;, &#3=
-9;rust&#39;, &#39;packagegroup-rust-sdk-target&#39;, &#39;&#39;, d)} \<br>
-&gt; +&quot;<br>
-<br>
-I&#39;m a little torn on this. I created SDK_TOOLCHAIN_LANGS as a control<b=
-r>
-for the SDKs from populate_sdk. Whether the target SDK images should<br>
-follow that as well, I&#39;m less sure.<br>
-<br>
-It is probably fine and I nearly didn&#39;t send a comment but I just<br>
-wanted to see what others think.<br>
-<br>
-We could perhaps do something like:<br>
-<br>
-TARGET_TOOLCHAIN_LANGS ??=3D &quot;${SDK_TOOLCHAIN_LANGS}&quot;</blockquote=
-><div dir=3D"auto"><br></div><div dir=3D"auto">Let=E2=80=99s go with this a=
-pproach. It=E2=80=99s in line with other similar variables=C2=A0</div><div =
-dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex" dir=3D"auto"><br>
-<br>
-in the recipe to cover the ability to separate the two if we wanted...<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#174922): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/174922" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/174922</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/95805446/1997=
-914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/95805446/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---00000000000045439405f05b15a7--
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
