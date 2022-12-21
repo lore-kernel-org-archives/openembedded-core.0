@@ -1,130 +1,296 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12D4EC4332F
-	for <webhook@archiver.kernel.org>; Wed, 21 Dec 2022 08:43:02 +0000 (UTC)
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.43])
- by mx.groups.io with SMTP id smtpd.web11.14249.1671612174935830545
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C634C4332F
+	for <webhook@archiver.kernel.org>; Wed, 21 Dec 2022 09:34:42 +0000 (UTC)
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
+ by mx.groups.io with SMTP id smtpd.web10.15128.1671615280627191738
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Dec 2022 00:42:55 -0800
+ Wed, 21 Dec 2022 01:34:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=aZJZzGPu;
- spf=pass (domain: siemens.com, ip: 40.107.20.43, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jcHo7L1k932urLMrlSI3KHX8UNk3N7SmbACshm+EbVNbFNp8byb9maaxExlMiTTFEhDlSO6dEQxzf/L7Nr7XuEcAntNJZaa4i6D/ydSUy7sKdcZiTKPuLQqd/D+us4pz9L1/emfxnn181/rscXR7rqnCX+pG5Vsg/fwvzrr7NxkN3TTzMwuv4h8KVVCDB6PZXqa2dEExnP+AQmAzrOX0yMmfW+0HrnXeEvUKPLQ+Et3HAZysStPpD9AXxYUYYUHWbn08JSf0V/9cmTVriJKBfxPEp6sKP299AbqXeMPbqgCm7Z5ME44UiKA7113G+PT5J+3f3x6bV2zK4zGK/WA4Ug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=l9QK5RapX8gOBpt94HwWHTl4xYyBxhHTJ73yx7zk6Y8=;
- b=ZfyrAIRjCwpuDbbJAiKObIF1LruUw4PtAhXHXonsqcMuvQZSYVT8UaW+zHist6iP+o2bzxawA7GU9MPpa68XF6nwXgDDWUDQMdXALpVVv7W+XgAHr7h6n9KsTKwsNLADrVV3lhJfKU82zMIwrQQL7ynPmLtEFDhQgGUh8J9XPMtXumwQth4S2yBYnNAaQP1mrtaxU7mophdJZnQe3KTjs4xkJAU+LVdQ6EVWCK5zqAKmpuHdmUxu9Ujbj7fo1QhmdGXw0K4kdMbknVHUYdK2Dy6DvKF7mqwImTy+N6Z2z9lFpYuuJToMPzbfIXnCivjEmdXa7yCYcuPzu8NV9Gz0RQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l9QK5RapX8gOBpt94HwWHTl4xYyBxhHTJ73yx7zk6Y8=;
- b=aZJZzGPus8ztcoD8E3E2CzaupWUiokP3J4vshXrO8Zj8KfiAO2uC0DKcGyoaKf6EWQBZqrNuO+sWDS1H8MKwSYcuJOTYl9aw6xr+6mg2Iiv4LQao672G0BC8ukPL1oZFIJdS/oWQmTMWHb43V/HU/dSD0bMRqkyHMh2SqMOENba1dHhFy6i40bfjm7qtJBC67fGqYfQ06kN5PdgYFEtqfzOIzSXUX1QPBzjmtmrQPUu2EFvu5y+QWy/u+au8NwWnE7NddGrYBKREjVBjqYnfGLV36XDESZn6lSsikWVrjYBl8mYRiDW0vffvr1e2bQ0u4gnW+F10vCgbK8m6N2sHtw==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by AS4PR10MB6183.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:58a::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5924.16; Wed, 21 Dec
- 2022 08:42:52 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::4a66:8183:5d7d:eed7]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::4a66:8183:5d7d:eed7%5]) with mapi id 15.20.5924.016; Wed, 21 Dec 2022
- 08:42:52 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: "tashana.buys@digi.com" <tashana.buys@digi.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH] externalsrc: fix appends with --no-same-dir
- flag
-Thread-Topic: [OE-core] [PATCH] externalsrc: fix appends with --no-same-dir
- flag
-Thread-Index: AQHZFPbyYNfbqjwY3EetET9ZB/kNeq54BZVw
-Date: Wed, 21 Dec 2022 08:42:51 +0000
-Message-ID: 
- <AS1PR10MB5697F9D62F898B32E1028EB1FDEB9@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <20221221044348.808000-1-tashana.buys@digi.com>
-In-Reply-To: <20221221044348.808000-1-tashana.buys@digi.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2022-12-21T08:42:50Z;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=76a56abe-bbd1-4283-95ec-86aa669bfd24;
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0
-document_confidentiality: Restricted
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|AS4PR10MB6183:EE_
-x-ms-office365-filtering-correlation-id: 1bfac881-d31e-4abc-3356-08dae32f58d7
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- 0Ewf/nFQT2+yDBXwY0PcgB+TIcjPLzKoxsnhDoVQUgT3pDM6HOrFkxR5zeKAAJEGIa8dJjGcaF6EGgbZwDA9DHLLyosVdV53uCEcWI1IhOPfoFOn7A0p1YINGGN1DWObWPs3kWZ+sO1iTbyNKOwCvIGfTCycDkIuxs2fri0rxjIjAI5MP4F0YfOsYPSqM3OsUrkcUnhPKqnnSOOuihSDyhkoiVCOay0ChCboKAqrFCkMLNUUdpfgLpj0N3mV+zvNSaFH63BcyhJpF29qwz0uuwPFfTBUvLRwEgKIyi0jD6gJGoST7/a/ebcBW9rc+VUfvEkoURaVYFmn+C03PO/qs97uGLJ4AURoQyJ9zebfzFNqoDaQ8qI+JBt++rvKgoZsjRHcL14F1RRNQ6vF3WRakAgYJK2F9aMPecsp8mRrlby3b8oa4P7LjoQ3dODkZ8/rZefpnsdUGWqqpEJXophvaIYT0vf9OoApr+YkIZtTO/oHk+VIjSfSUh2ebbJIOUiqNGl9mUqF1FE7hZirpt5HpMLG9k0iueZzyozJW+7bEW3bgNSE3BbFuapTpZblvSs8hlOSVTu+sHOFeHypmduqDc6Mvpm1R8/hjlsQOZI/AS+r2qUXiB7wGt36MUfqaq9Zylts4HUXzWJimMz12roxVuu4hXYyaEn+aJSl0F58VTumKQWC2IlB8+jM9TxMb46jF+pLNTNVgnAvWE2b2H60YQ==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(376002)(346002)(366004)(39860400002)(136003)(451199015)(66946007)(76116006)(66556008)(66446008)(66476007)(64756008)(86362001)(8676002)(316002)(5660300002)(52536014)(8936002)(33656002)(7696005)(9686003)(186003)(6506007)(558084003)(26005)(38070700005)(55236004)(41300700001)(71200400001)(6916009)(82960400001)(122000001)(478600001)(55016003)(2906002)(38100700002)(4326008);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?dNjcU4hrBDOlW5PoKD1hI9NZf1pWgKFNybuXIZIFVo8/SPg1hv+b9Hz1aElW?=
- =?us-ascii?Q?agUQQAYvM58W3IWCLCN2abNT4Gy8AHiqmR7Kmx9NmlKoBbw9iT2Ebuc9OMSh?=
- =?us-ascii?Q?bm1QMhQzpLDcZigzVngrc2xfOBwOAS+wEPtRqRaWjk/bZZ31HMUKYUalwqpw?=
- =?us-ascii?Q?bBI5MF4tnmWlGpr2dPYBQKh/brWmBUzn6FG7l/l6DPbGtd83O3FJkBgQKwY/?=
- =?us-ascii?Q?Ac3V6N+KULgAimZ8GuIvkNLyy+6m36m/f/66IW0XlIlngx+L3CpdI2YM1Ehc?=
- =?us-ascii?Q?d2c8DnRqlg87u8NcJh13sH1kr3pBSNh1Iwk0LyjWYHJ6UKAclveTyZUxXx8I?=
- =?us-ascii?Q?72Dy91TbNviGsIUpoDuOcBEuYcDtGvcQCG2vd89E//AEDo6dtiVd1bNCFdcW?=
- =?us-ascii?Q?T7s9he02/r3uTJtsWOTaEVc8Eq2nRqD7zHZFNCs6VeVLT73j8tNBVqazhHSB?=
- =?us-ascii?Q?fOVfhQFpbVs0aVooAtiKxkHjRX2CX9vEEkL4nKhECC0Blf3y2MJLsqKYxlkl?=
- =?us-ascii?Q?AeawEXL2eiSqbTs6KaqwkrbMMHwoqMGsfDhbJiBYPMfiw+PjZD4pinK3MYQK?=
- =?us-ascii?Q?U8W+GdzyI99hsqKEf+maz5oRQYDULxEMaZU9UA9UWSdQHAMBagXAghu9NhE8?=
- =?us-ascii?Q?O/HLLUkqhooGUZM/x9DcDPXtKHk/tjZCkQ66L68XAexd2rLK9uZ3Dyr8QdrM?=
- =?us-ascii?Q?92weamFIiSgp4kaxnQuvIELMlGOJB4aXNDgx8rYKCRtV8geiv8eZY2XgYvM5?=
- =?us-ascii?Q?LCnoE17H4r2j+hpweHC4Eep7SpKNDg/OXmqKjImDMPO6Tk7mt9MZK2dXKr0s?=
- =?us-ascii?Q?yWCz1PMx9Q45AOgjkgsYSt9jEs+c/OxqCGUhz86M1DKSmtLre1iRdetzxc0j?=
- =?us-ascii?Q?Eo/G06dvdkZzUmo2pe2oX1gnH4tBmbMhKNdlcRsJ8rNX7Gw+qSqVY8F6qNgU?=
- =?us-ascii?Q?+h8GQ3YWoV2KJfz1VGsz78mYknmt/p3QBkVshljn/mhv+iDF4U5DKoigcj/i?=
- =?us-ascii?Q?99gAVOwQKmFtWsfYyV+jniUpVHioCpzIG0eVnO5hwYOIX2yQ46+tuUMRLCNH?=
- =?us-ascii?Q?YOHhsdclIJgk4iMgYa99iVzAo9CxkhS83HU5bn9gloVCRDzvGjbGNvVtC/+G?=
- =?us-ascii?Q?lo07PiQ2HTd5P/lMquxPzPpQHRpTn8/w5fCV4TXDe3jwXng3NcVTxUFJh7x7?=
- =?us-ascii?Q?AwcPoy12UbkLj22iByJk50C1smfzi8LBaBlXw/sko4wF/t7zUijlCFXCeOSy?=
- =?us-ascii?Q?3z5pmJpmM9az6kSByrDZMl3/oAgik0DYcezV93g1D6oblKrFVqB1ngtfva97?=
- =?us-ascii?Q?W6H4KEPtq+x9whTz5B8xClMF1mR8YJQ/1LJiESFM9h7u6xhhnSFnt7Gxl9LE?=
- =?us-ascii?Q?lzaIXzbUzXicnPWb6x4dqLv9Y8JPfZCkQC4pN0jsuQEHpMAGDlsyYtOwSD9j?=
- =?us-ascii?Q?faP9X9qs29De4UutzCdSkpj6oBaFiarorPnaJozAsjmvzR5pL8gx8HLBHQst?=
- =?us-ascii?Q?qYKykzvqu9J0a6hlZd+BEgrfNv+xdlOYN2tG/5sjeKUg1yYosNVjEKJnSmsz?=
- =?us-ascii?Q?vmgJSPUGStFbFb7v1AD3SW5T/KNsJU0UqrabOxmW?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=g8NfL3h0;
+ spf=pass (domain: gmail.com, ip: 209.85.217.50, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-vs1-f50.google.com with SMTP id 3so14191400vsq.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 21 Dec 2022 01:34:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=I3HwRX5I0FnbHM7n7CWT/1s7yuDsegnTsT2dSfLOD1o=;
+        b=g8NfL3h0SCQloiJgjcgQGR6mMOBDXFTTehjx2nPh9laLvJnhuFlNhOq5LNKClriSml
+         vBuTSlOHeEqHDB2poK+sGrXrIkeUzsbYVFwx2w01eKABjWQDupv7uDsCF+EJwimCXdov
+         P2+ihB89Nh3OaQuMipGwcDPXh8OrPipcpHIFVxPUhQF/e6lIITRkF1PsPz1mntHT1eqN
+         Mpa2iKT1vxnTE1C7cYvcY2bEU9s4uLxVmlO+Uplelp3mB7SB3Gh6SfrBlDl8jiPwSWGU
+         xLL5ggKXZn4Souakr4Ft2YNJqSCa49emCm786DgKL3fICMHh0wuW6FA2MR0RRyv7N36s
+         Q/sQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=I3HwRX5I0FnbHM7n7CWT/1s7yuDsegnTsT2dSfLOD1o=;
+        b=lUMoO1m2MLRqqhLxBr2P6Jasiv3xDVkNvSLX34QEevarB5omyl2llYbS/cE4Q5StTC
+         GN1487AD0WNx/XJf9QmiXeJo9ZzgmYteXYopHq18DBC4LVfe/xkOd8WfFZcAsSPNXINs
+         cAXPmkyVAtOgzrqjY7wXVxZLv7T53Jqh0GOE2gPnltUZ6fmOcson4vKB+Kq0oyyHRr77
+         MPvFwygK5H0ypBAjPG28VyLqrIs50g0fW9/uzVgVuK98/zFRrG9dXg7yGLAMNhClZvp3
+         /YJebokOilkp28AmTGFpbQNah5wgOaq5WGuQvKYlDiwzKaBAUx7kTVsLYRcgOU5irqMw
+         tQxA==
+X-Gm-Message-State: AFqh2kpgow18CkGknKYCSTMSQhcgAo8CJr5Pe83mN2sX/OS407yZaomj
+	OVw4NQKE4F9CkkY7HtN7nlmPfiy5jnkZsQsl1R4=
+X-Google-Smtp-Source: AMrXdXuOkYs5YqX8fMG9RioHIT6MM7poRURQmbEvFFEguw2l2Agf3FU2i9FgnI2OrO876JyVZSEXQgAmd7/jBl7NFa4=
+X-Received: by 2002:a05:6102:22eb:b0:3b6:35bc:72c0 with SMTP id
+ b11-20020a05610222eb00b003b635bc72c0mr151872vsh.2.1671615279611; Wed, 21 Dec
+ 2022 01:34:39 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1bfac881-d31e-4abc-3356-08dae32f58d7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Dec 2022 08:42:51.9656
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: p7wAApmpZ/5PgDefbPnlICVLXBS22Y4FMlAkXQ8guDzcINWU1eAFQdtStrjVZQ1Jq3epviKNBzZOulNrRvBImg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR10MB6183
+References: <1671591551-12455-1-git-send-email-wangmy@fujitsu.com> <1671591551-12455-4-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <1671591551-12455-4-git-send-email-wangmy@fujitsu.com>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Wed, 21 Dec 2022 09:34:28 +0000
+Message-ID: <CANPvuRk=XV8cTMp_oge-OHGQnOn=2vF=xicpEQAwmqc=hdAPTg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] gstreamer1.0: upgrade 1.20.4 -> 1.20.5
+To: wangmy <wangmy@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000f143b705f05342d9"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 21 Dec 2022 08:43:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174902
+ <openembedded-core@lists.openembedded.org>; Wed, 21 Dec 2022 09:34:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174903
 
-This is already fixed on master, you should pull the latest version.
-I have also seen it in queue for langdale and kirkstone and hope to see thi=
-s in dunfell, too.
+--000000000000f143b705f05342d9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Peter
+Hi Wang,
+
+This won't work without updating the full framework with all the plugins.
+
+Jose
+
+wangmy <wangmy@fujitsu.com> escreveu no dia quarta, 21/12/2022 =C3=A0(s) 02=
+:59:
+
+> From: Wang Mingyu <wangmy@fujitsu.com>
+>
+> Changelog:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> systemclock waiting fixes for certain 32-bit platforms/libcs
+> alphacombine: robustness improvements for corner case scenarios
+> avfvideosrc: Report latency when doing screen capture
+> d3d11videosink: various thread-safety and stability fixes
+> decklink: fix performance issue when HDMI signal has been lost for a long
+> time
+> flacparse: Fix handling of headers advertising 32 bits per sample
+> mpegts: Handle when iconv doesn't support ISO 6937 (e.g. musl libc)
+> opengl: fix automatic dispmanx detection for rpi4 and fix usage of
+> eglCreate/DestroyImage
+> opusdec: Various channel-related fixes
+> textrender: event handling fixes, esp. for GAP event
+> subparse: Fix non-closed tag handling
+> videoscale: fix handling of unknown buffer metas
+> videosink: reverse playback handling fixes
+> qtmux: Prefill mode fixes, especially for raw audio
+> multiudpsink: allow binding to IPv6 address
+> rtspsrc: Fix usage of IPv6 connections in SETUP
+> rtspsrc: Only EOS on timeout if all streams are timed out/EOS
+> splitmuxsrc: fix playback stall if there are unlinked pads
+> v4l2: Fix SIGSEGV on state change during format changes
+> wavparse robustness fixes
+> Fix static linking on macOS (opengl, vulkan)
+> gstreamer-vaapi: fix headless build against mesa >=3D 22.3.0
+> GStreamer Editing Services library: Fix build with tools disabled
+> webrtc example/demo fixes
+> unit test fixes for aesdec and rtpjitterbuffer
+> Cerbero: Fix ios cross-compile with cmake on M1; some recipe updates and
+> other build fixes
+> Binary packages: pkg-config file fixes for various recipes (ffmpeg,
+> taglib, gstreamer)
+> Binary packages: Enable high bitdepth support for libvpx (VP8/VP9
+> encoding/decoding)
+> Binary packages: ship aes plugin
+> Miscellaneous bug fixes, memory leak fixes, and other stability and
+> reliability improvements
+> Performance improvements
+>
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  .../{gstreamer1.0_1.20.4.bb =3D> gstreamer1.0_1.20.5.bb}          | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.20.4.bb =3D>
+> gstreamer1.0_1.20.5.bb} (97%)
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.4.bb
+> b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.5.bb
+> similarity index 97%
+> rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.4.bb
+> rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.5.bb
+> index d0ba2919ee..bb4dba3861 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.4.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.5.bb
+> @@ -23,7 +23,7 @@ SRC_URI =3D "
+> https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
+>
+> file://0004-tests-add-helper-script-to-run-the-installed_tests.patch;stri=
+plevel=3D3
+> \
+>
+> file://0005-tests-remove-gstbin-test_watch_for_state_change-test.patch \
+>             "
+> -SRC_URI[sha256sum] =3D
+> "67c1edf8c3c339cda5dde85f4f7b953bb9607c2d13ae970e2491c5c4c055ef5f"
+> +SRC_URI[sha256sum] =3D
+> "5a19083faaf361d21fc391124f78ba6d609be55845a82fa8f658230e5fa03dff"
+>
+>  PACKAGECONFIG ??=3D "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests',
+> '', d)} \
+>                     check \
+> --
+> 2.25.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#174892):
+> https://lists.openembedded.org/g/openembedded-core/message/174892
+> Mute This Topic: https://lists.openembedded.org/mt/95800009/5052612
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> quaresma.jose@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
+
+--000000000000f143b705f05342d9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div style=3D"color:rgb(0,0,0)">Hi Wang,<br><br>This won&#=
+39;t work without updating the full framework with all the plugins.</div><b=
+r style=3D"color:rgb(0,0,0)"><span style=3D"color:rgb(0,0,0)">Jose</span><b=
+r></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
+">wangmy &lt;<a href=3D"mailto:wangmy@fujitsu.com">wangmy@fujitsu.com</a>&g=
+t; escreveu no dia quarta, 21/12/2022 =C3=A0(s) 02:59:<br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
+lid rgb(204,204,204);padding-left:1ex">From: Wang Mingyu &lt;<a href=3D"mai=
+lto:wangmy@fujitsu.com" target=3D"_blank">wangmy@fujitsu.com</a>&gt;<br>
+<br>
+Changelog:<br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+systemclock waiting fixes for certain 32-bit platforms/libcs<br>
+alphacombine: robustness improvements for corner case scenarios<br>
+avfvideosrc: Report latency when doing screen capture<br>
+d3d11videosink: various thread-safety and stability fixes<br>
+decklink: fix performance issue when HDMI signal has been lost for a long t=
+ime<br>
+flacparse: Fix handling of headers advertising 32 bits per sample<br>
+mpegts: Handle when iconv doesn&#39;t support ISO 6937 (e.g. musl libc)<br>
+opengl: fix automatic dispmanx detection for rpi4 and fix usage of eglCreat=
+e/DestroyImage<br>
+opusdec: Various channel-related fixes<br>
+textrender: event handling fixes, esp. for GAP event<br>
+subparse: Fix non-closed tag handling<br>
+videoscale: fix handling of unknown buffer metas<br>
+videosink: reverse playback handling fixes<br>
+qtmux: Prefill mode fixes, especially for raw audio<br>
+multiudpsink: allow binding to IPv6 address<br>
+rtspsrc: Fix usage of IPv6 connections in SETUP<br>
+rtspsrc: Only EOS on timeout if all streams are timed out/EOS<br>
+splitmuxsrc: fix playback stall if there are unlinked pads<br>
+v4l2: Fix SIGSEGV on state change during format changes<br>
+wavparse robustness fixes<br>
+Fix static linking on macOS (opengl, vulkan)<br>
+gstreamer-vaapi: fix headless build against mesa &gt;=3D 22.3.0<br>
+GStreamer Editing Services library: Fix build with tools disabled<br>
+webrtc example/demo fixes<br>
+unit test fixes for aesdec and rtpjitterbuffer<br>
+Cerbero: Fix ios cross-compile with cmake on M1; some recipe updates and ot=
+her build fixes<br>
+Binary packages: pkg-config file fixes for various recipes (ffmpeg, taglib,=
+ gstreamer)<br>
+Binary packages: Enable high bitdepth support for libvpx (VP8/VP9 encoding/=
+decoding)<br>
+Binary packages: ship aes plugin<br>
+Miscellaneous bug fixes, memory leak fixes, and other stability and reliabi=
+lity improvements<br>
+Performance improvements<br>
+<br>
+Signed-off-by: Wang Mingyu &lt;<a href=3D"mailto:wangmy@fujitsu.com" target=
+=3D"_blank">wangmy@fujitsu.com</a>&gt;<br>
+---<br>
+=C2=A0.../{<a href=3D"http://gstreamer1.0_1.20.4.bb" rel=3D"noreferrer" tar=
+get=3D"_blank">gstreamer1.0_1.20.4.bb</a> =3D&gt; <a href=3D"http://gstream=
+er1.0_1.20.5.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0_1.20.5.b=
+b</a>}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+=C2=A0rename meta/recipes-multimedia/gstreamer/{<a href=3D"http://gstreamer=
+1.0_1.20.4.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0_1.20.4.bb<=
+/a> =3D&gt; <a href=3D"http://gstreamer1.0_1.20.5.bb" rel=3D"noreferrer" ta=
+rget=3D"_blank">gstreamer1.0_1.20.5.bb</a>} (97%)<br>
+<br>
+diff --git a/meta/recipes-multimedia/gstreamer/<a href=3D"http://gstreamer1=
+.0_1.20.4.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0_1.20.4.bb</=
+a> b/meta/recipes-multimedia/gstreamer/<a href=3D"http://gstreamer1.0_1.20.=
+5.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0_1.20.5.bb</a><br>
+similarity index 97%<br>
+rename from meta/recipes-multimedia/gstreamer/<a href=3D"http://gstreamer1.=
+0_1.20.4.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0_1.20.4.bb</a=
+><br>
+rename to meta/recipes-multimedia/gstreamer/<a href=3D"http://gstreamer1.0_=
+1.20.5.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0_1.20.5.bb</a><=
+br>
+index d0ba2919ee..bb4dba3861 100644<br>
+--- a/meta/recipes-multimedia/gstreamer/<a href=3D"http://gstreamer1.0_1.20=
+.4.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0_1.20.4.bb</a><br>
++++ b/meta/recipes-multimedia/gstreamer/<a href=3D"http://gstreamer1.0_1.20=
+.5.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0_1.20.5.bb</a><br>
+@@ -23,7 +23,7 @@ SRC_URI =3D &quot;<a href=3D"https://gstreamer.freedeskto=
+p.org/src/gstreamer/gstreamer-$%7BPV%7D.tar.x" rel=3D"noreferrer" target=3D=
+"_blank">https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.ta=
+r.x</a><br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0004-tests-add-helper-scri=
+pt-to-run-the-installed_tests.patch;striplevel=3D3 \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0005-tests-remove-gstbin-t=
+est_watch_for_state_change-test.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+-SRC_URI[sha256sum] =3D &quot;67c1edf8c3c339cda5dde85f4f7b953bb9607c2d13ae9=
+70e2491c5c4c055ef5f&quot;<br>
++SRC_URI[sha256sum] =3D &quot;5a19083faaf361d21fc391124f78ba6d609be55845a82=
+fa8f658230e5fa03dff&quot;<br>
+<br>
+=C2=A0PACKAGECONFIG ??=3D &quot;${@bb.utils.contains(&#39;PTEST_ENABLED&#39=
+;, &#39;1&#39;, &#39;tests&#39;, &#39;&#39;, d)} \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 check=
+ \<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#174892): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/174892" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/174892</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/95800009/5052=
+612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/95800009/5052612</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
+arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
+ Quaresma</div></div></div>
+
+--000000000000f143b705f05342d9--
 
