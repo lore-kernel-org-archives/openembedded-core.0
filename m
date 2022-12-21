@@ -2,140 +2,254 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C766C4332F
-	for <webhook@archiver.kernel.org>; Wed, 21 Dec 2022 18:18:15 +0000 (UTC)
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
- by mx.groups.io with SMTP id smtpd.web11.26208.1671646692166818956
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C716EC4332F
+	for <webhook@archiver.kernel.org>; Wed, 21 Dec 2022 18:54:35 +0000 (UTC)
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+ by mx.groups.io with SMTP id smtpd.web11.27137.1671648873950602651
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Dec 2022 10:18:12 -0800
+ Wed, 21 Dec 2022 10:54:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=oB0ZZL/3;
- spf=pass (domain: gmail.com, ip: 209.85.167.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f173.google.com with SMTP id s187so13998659oie.10
-        for <openembedded-core@lists.openembedded.org>; Wed, 21 Dec 2022 10:18:12 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=MqWLaCWy;
+ spf=pass (domain: gmail.com, ip: 209.85.167.171, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f171.google.com with SMTP id r205so13187652oib.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 21 Dec 2022 10:54:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uJhgKdwsjBR/6uEoAu5e1VR5tfMcXdrrwfeQdCz3kcM=;
-        b=oB0ZZL/3kT+keyXIDkTvHvWyH0+K9KzI9DsvYyL4vZ8MFgv5mfb4BMK/Uu6y3ukzrw
-         lcR0NKCf/wMM5aov89C/jU9ZMphIubfpbuxZoouExMCajl5YRGSDBByGq8R8Jf7+11i+
-         XklqGNQd9Cv3hg9BkNRZk8mbmLo4MQzyIV0EEJKJd1xWqxLZGr4kbXDi+I90JcXFNlfL
-         TjyB9knmafYtlp6HlQMNxdYLV19DvImacjx5N9D++GLBGBH636Ma2JyjXtNNwpu0fd73
-         PUnTAT+xg9BBlr5a3mjinDPts+3Mk2MlxwdTn9HHPOYhco2WK+YpYAVL3J+Z1t+xbL84
-         aCTg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=sXLOULlPJ0hW42AUnXr6TMxYz/A08yYqo6QY27OMdBw=;
+        b=MqWLaCWyncJywlKtONm8WypDANYb75Fk4cXgU/2qF1RLglVNh7ADdT33lqol8EWpRS
+         9NVqBcFbUyc4+ndkXLpLH9aYfLA5eNdSJL+3KKKyQDSSJcn44F23oW5NaQFr0V8cRkPx
+         HA2X7xaiZYqM25VjfTTfH4L73zW/fswJkIpTlOM1bEzZXaHAb8/bSre6Qfrz0pQ0wONf
+         uJd0ID3ByBqXzYBYnuSy8w8Sqhy+l9q8ZfUuW3rdqJUSX3G9x3WoRTtVKzo64VvlH4FA
+         ZIu4Hnq0Uxo9fJHY0ehUIr9vuGSixAYB2f8MOwjZES8EIFyyeT+IQZgiE4Tk7oK196i8
+         EvWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uJhgKdwsjBR/6uEoAu5e1VR5tfMcXdrrwfeQdCz3kcM=;
-        b=L75XeD47i57RhaC0lrhiL2M/Gt0MyZ2htyT9XO/SnAxrLDkZDxlSWIuEKeyb7rt5sB
-         GHfib8xv1IvqIscZmmDQ4U03sp4EKyeLs0MCLvy73jngDxXg/KyQLw2oXYp40m7Q8zhN
-         K28Zs/b3MebAXeBpLi4QTF9ZbpngN09ON+LyPv91Xb9g0cirkT8w86x9JEj7J9LBSU5+
-         7bWK+GOZxlbEcDycOz7D+pwCmnlLMuNUUWKZCly5rXMcQu1Mbp+BYDzXDOY9b6zIwk6J
-         dSRR1OtI0CgG6PGdTXYTZZA0W7LUaCM0pfxu+JeUtVS5T/+AFld01MhPDXVrgx5BxzAu
-         q1zw==
-X-Gm-Message-State: AFqh2kqQmUoIxcCgpGeNNpa3SqarKqtJi5D/ZCIGCVvXWFDl0r9H0B7C
-	2R9aWkk/F4DaSQGKHqIQDQ5PLKgIUgpAaiQiapk=
-X-Google-Smtp-Source: AMrXdXsbuwyakAosATEEaK/dkKYT72bJltHz7yV3Va87fjaapuvBHP+6zWtbHs3IeMJBwfdFe0X68wDybsEUdMCyRHQ=
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sXLOULlPJ0hW42AUnXr6TMxYz/A08yYqo6QY27OMdBw=;
+        b=NyYfMZuAx7R2b8zTGtEP9DX/2kjyZkt49kDHep+32QUBkK/08EHrBpUBSZfZqSs9wb
+         pdtQqJi9tLQAijJnYG24hOOVbxnoAiWhiep6wjW8M61ZgaP8p5ep+YeG9SFgWVUaeSOH
+         MOGcM3jiXWm9cV4oth4c3TAIiIVnwx1KQlSVBrAD45r7kD4Im4+XXxFVgYsdLaMqbwEs
+         djSHutlyjoJvNweshIoje3RTc+a3tZrKHboYfZJReor8Aa/1+jCP1Ad4ROikE29ggbjA
+         0QycTQuzN1/UF37Nn+tBm5awG9bTxaHfUtoXELOTv3cJIkBuHgb15od5BLJ5XjqqLHFp
+         3c4g==
+X-Gm-Message-State: AFqh2kpu+CkMwQZo7rClLRHMUC0UwDvjlchrq+OmhMmyjLNzl/QyXRZm
+	BtdMNsNzAbVjIJkQbcDgL1Z4nANSroEWqGNeoU4=
+X-Google-Smtp-Source: AMrXdXsxNt3uapeihdPqjbCT3Tt9dZ28NA5OW6BI5galoqN0OXiqVYCYKZa/JyXrDNrP/v0S6++Eg1jZPUxbT/VpWEw=
 X-Received: by 2002:aca:3855:0:b0:35c:53a9:5513 with SMTP id
- f82-20020aca3855000000b0035c53a95513mr6178oia.262.1671646691258; Wed, 21 Dec
- 2022 10:18:11 -0800 (PST)
+ f82-20020aca3855000000b0035c53a95513mr14716oia.262.1671648873102; Wed, 21 Dec
+ 2022 10:54:33 -0800 (PST)
 MIME-Version: 1.0
-References: <SJ1PR11MB61299AC634FF3D553C33003CEBEB9@SJ1PR11MB6129.namprd11.prod.outlook.com>
-In-Reply-To: <SJ1PR11MB61299AC634FF3D553C33003CEBEB9@SJ1PR11MB6129.namprd11.prod.outlook.com>
+References: <20221221125306.13779-1-alex.kiernan@gmail.com>
+ <20221221125306.13779-10-alex.kiernan@gmail.com> <abe8931d3e41dae57f13ab07a8e016c2ded2827f.camel@linuxfoundation.org>
+In-Reply-To: <abe8931d3e41dae57f13ab07a8e016c2ded2827f.camel@linuxfoundation.org>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 21 Dec 2022 10:17:45 -0800
-Message-ID: <CAMKF1sr62SvX7hB66FMKANyJJu6uhFL8EJSRjK8nrtrxB20c6Q@mail.gmail.com>
-Subject: Re: GCC Patch Tracking [Pending Patches in Poky Sources]
-To: "Shinde, Yash" <Yash.Shinde@windriver.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	"MacLeod, Randy" <Randy.MacLeod@windriver.com>, 
-	"Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date: Wed, 21 Dec 2022 10:54:22 -0800
+Message-ID: <CAMKF1sqJXFUnDZY8=HXNWXx2dag8Mn16WUWttFmJoy8=Op7RVg@mail.gmail.com>
+Subject: Re: [OE-Core][PATCH v2 09/10] packagegroup-core-sdk: Add SDK
+ toolchain language selection support
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Alex Kiernan <alex.kiernan@gmail.com>, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000045439405f05b15a7"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 21 Dec 2022 18:18:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174937
+ <openembedded-core@lists.openembedded.org>; Wed, 21 Dec 2022 18:54:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174938
 
-On Wed, Dec 21, 2022 at 9:36 AM Shinde, Yash <Yash.Shinde@windriver.com> wr=
-ote:
+--00000000000045439405f05b15a7
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Dec 21, 2022 at 8:39 AM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> On Wed, 2022-12-21 at 12:53 +0000, Alex Kiernan wrote:
+> > Use SDK_TOOLCHAIN_LANGS to allow different language support to be
+> > selected within SDKs. Initially supported options are rust and go.
+> >
+> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> > ---
+> >
+> > (no changes since v1)
+> >
+> >  .../packagegroups/packagegroup-core-sdk.bb             | 10 +++++++++-
+> >  1 file changed, 9 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
+> b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
+> > index d70aff22c725..0e480e6ac756 100644
+> > --- a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
+> > +++ b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
+> > @@ -11,6 +11,11 @@ inherit packagegroup
+> >
+> >  #PACKAGEFUNCS =3D+ 'generate_sdk_pkgs'
+> >
+> > +SDK_TOOLCHAIN_LANGS ??=3D ""
+> > +SDK_TOOLCHAIN_LANGS:remove:sdkmingw32 =3D "rust"
+> > +# libstd-rs doesn't build for mips n32 with compiler constraint errors
+> > +SDK_TOOLCHAIN_LANGS:remove:mipsarchn32 =3D "rust"
+> > +
+> >  RDEPENDS:packagegroup-core-sdk =3D "\
+> >      packagegroup-core-buildessential \
+> >      coreutils \
+> > @@ -23,7 +28,10 @@ RDEPENDS:packagegroup-core-sdk =3D "\
+> >      less \
+> >      ldd \
+> >      file \
+> > -    tcl"
+> > +    tcl \
+> > +    ${@bb.utils.contains('SDK_TOOLCHAIN_LANGS', 'go',
+> 'packagegroup-go-sdk-target', '', d)} \
+> > +    ${@bb.utils.contains('SDK_TOOLCHAIN_LANGS', 'rust',
+> 'packagegroup-rust-sdk-target', '', d)} \
+> > +"
 >
-> 0002-gcc-poison-system-directories.patch:Upstream-Status: Pending
+> I'm a little torn on this. I created SDK_TOOLCHAIN_LANGS as a control
+> for the SDKs from populate_sdk. Whether the target SDK images should
+> follow that as well, I'm less sure.
 >
-
-This could be submitted to gcc, now that clang already has implemented
-such an option https://reviews.llvm.org/D52524
-it might be good to do so.
-
-> 0004-Pass-CXXFLAGS_FOR_BUILD-in-a-couple-of-places-to-avo.patch:Upstream-=
-Status: Pending
-
-This is upstreamable too.
-
+> It is probably fine and I nearly didn't send a comment but I just
+> wanted to see what others think.
 >
-> 0005-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch:Upstream-St=
-atus: Pending
+> We could perhaps do something like:
 >
+> TARGET_TOOLCHAIN_LANGS ??=3D "${SDK_TOOLCHAIN_LANGS}"
 
-barring this hunk in gcc/Makefile.in
--tmake_file=3D@tmake_file@
-+tmake_file=3D@tmake_file@ ./t-oe
 
-This can be submitted too.
+Let=E2=80=99s go with this approach. It=E2=80=99s in line with other simila=
+r variables
 
-> 0006-cpp-honor-sysroot.patch:Upstream-Status: Pending
->
-
-this can be submitted too.
-
-> 0008-libtool.patch: Upstream-Status: Pending
-
-Not sure about this. but worth discussing it upstream as well.
 
 >
-> 0009-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch:Upstream-Sta=
-tus: Pending
-
-We have to keep it until we drop armv4 support from core.
-
+> in the recipe to cover the ability to separate the two if we wanted...
 >
-> 0013-Ensure-target-gcc-headers-can-be-included.patch:Upstream-Status: Pen=
-ding
-
-this is specific to OE gcc install structure.
-
+> Cheers,
 >
-> 0017-Search-target-sysroot-gcc-version-specific-dirs-with.patch: Upstream=
--Status: Pending
->
-
-Specific to OE's notion of multilib
-
-> 0018-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch:Upstream-=
-Status: Pending
-
-This is needed for musl systems. Should be worth discussing.
-
->
-> 0020-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch:Upstream-=
-Status: Pending
->
-
-Musl specific. It was already submitted few years back but it has not
-yet been accpeted. Perhaps worth raising the thread again.
-
-> The given GCC patches are with it=E2=80=99s current status as =E2=80=98Pe=
-nding =E2=80=99 in the Poky sources(meta/recipes-devtools/gcc/gcc/). Please=
- let us know about why the patches are not submitted or let us know if ther=
-e is any problem in including it in upstream.
+> Richard
 >
 >
-> Regards,
-> Yash.
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#174922):
+> https://lists.openembedded.org/g/openembedded-core/message/174922
+> Mute This Topic: https://lists.openembedded.org/mt/95805446/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--00000000000045439405f05b15a7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Wed, Dec 21, 2022 at 8:39 AM Richard Purdie &lt;<a href=
+=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
+on.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Wed, 2022-=
+12-21 at 12:53 +0000, Alex Kiernan wrote:<br>
+&gt; Use SDK_TOOLCHAIN_LANGS to allow different language support to be<br>
+&gt; selected within SDKs. Initially supported options are rust and go.<br>
+&gt; <br>
+&gt; Signed-off-by: Alex Kiernan &lt;<a href=3D"mailto:alex.kiernan@gmail.c=
+om" target=3D"_blank">alex.kiernan@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt; <br>
+&gt; (no changes since v1)<br>
+&gt; <br>
+&gt;=C2=A0 .../packagegroups/<a href=3D"http://packagegroup-core-sdk.bb" re=
+l=3D"noreferrer" target=3D"_blank">packagegroup-core-sdk.bb</a>=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 10 +++++++++-<br>
+&gt;=C2=A0 1 file changed, 9 insertions(+), 1 deletion(-)<br>
+&gt; <br>
+&gt; diff --git a/meta/recipes-core/packagegroups/<a href=3D"http://package=
+group-core-sdk.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-core-s=
+dk.bb</a> b/meta/recipes-core/packagegroups/<a href=3D"http://packagegroup-=
+core-sdk.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-core-sdk.bb<=
+/a><br>
+&gt; index d70aff22c725..0e480e6ac756 100644<br>
+&gt; --- a/meta/recipes-core/packagegroups/<a href=3D"http://packagegroup-c=
+ore-sdk.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-core-sdk.bb</=
+a><br>
+&gt; +++ b/meta/recipes-core/packagegroups/<a href=3D"http://packagegroup-c=
+ore-sdk.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-core-sdk.bb</=
+a><br>
+&gt; @@ -11,6 +11,11 @@ inherit packagegroup<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 #PACKAGEFUNCS =3D+ &#39;generate_sdk_pkgs&#39;<br>
+&gt;=C2=A0 <br>
+&gt; +SDK_TOOLCHAIN_LANGS ??=3D &quot;&quot;<br>
+&gt; +SDK_TOOLCHAIN_LANGS:remove:sdkmingw32 =3D &quot;rust&quot;<br>
+&gt; +# libstd-rs doesn&#39;t build for mips n32 with compiler constraint e=
+rrors<br>
+&gt; +SDK_TOOLCHAIN_LANGS:remove:mipsarchn32 =3D &quot;rust&quot;<br>
+&gt; +<br>
+&gt;=C2=A0 RDEPENDS:packagegroup-core-sdk =3D &quot;\<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 packagegroup-core-buildessential \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 coreutils \<br>
+&gt; @@ -23,7 +28,10 @@ RDEPENDS:packagegroup-core-sdk =3D &quot;\<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 less \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ldd \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 file \<br>
+&gt; -=C2=A0 =C2=A0 tcl&quot;<br>
+&gt; +=C2=A0 =C2=A0 tcl \<br>
+&gt; +=C2=A0 =C2=A0 ${@bb.utils.contains(&#39;SDK_TOOLCHAIN_LANGS&#39;, &#3=
+9;go&#39;, &#39;packagegroup-go-sdk-target&#39;, &#39;&#39;, d)} \<br>
+&gt; +=C2=A0 =C2=A0 ${@bb.utils.contains(&#39;SDK_TOOLCHAIN_LANGS&#39;, &#3=
+9;rust&#39;, &#39;packagegroup-rust-sdk-target&#39;, &#39;&#39;, d)} \<br>
+&gt; +&quot;<br>
+<br>
+I&#39;m a little torn on this. I created SDK_TOOLCHAIN_LANGS as a control<b=
+r>
+for the SDKs from populate_sdk. Whether the target SDK images should<br>
+follow that as well, I&#39;m less sure.<br>
+<br>
+It is probably fine and I nearly didn&#39;t send a comment but I just<br>
+wanted to see what others think.<br>
+<br>
+We could perhaps do something like:<br>
+<br>
+TARGET_TOOLCHAIN_LANGS ??=3D &quot;${SDK_TOOLCHAIN_LANGS}&quot;</blockquote=
+><div dir=3D"auto"><br></div><div dir=3D"auto">Let=E2=80=99s go with this a=
+pproach. It=E2=80=99s in line with other similar variables=C2=A0</div><div =
+dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex" dir=3D"auto"><br>
+<br>
+in the recipe to cover the ability to separate the two if we wanted...<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#174922): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/174922" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/174922</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/95805446/1997=
+914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/95805446/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--00000000000045439405f05b15a7--
 
