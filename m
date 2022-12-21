@@ -2,56 +2,56 @@ Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38033C4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D387C3DA7B
 	for <webhook@archiver.kernel.org>; Wed, 21 Dec 2022 12:53:33 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web11.17637.1671627202775453670
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web11.17640.1671627207796468335
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Dec 2022 04:53:23 -0800
+ Wed, 21 Dec 2022 04:53:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Ho8rWkX8;
- spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wm1-f46.google.com with SMTP id o5-20020a05600c510500b003d21f02fbaaso1435492wms.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 21 Dec 2022 04:53:22 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=lPd5lSfc;
+ spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wm1-f54.google.com with SMTP id bi26-20020a05600c3d9a00b003d3404a89faso2389130wmb.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 21 Dec 2022 04:53:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xXKqORzweSvujDCxv+GaazsPIlo9TE4kGXHlHGAWgvI=;
-        b=Ho8rWkX8N+ordZw/wel2nogfZ+YkQkIZ9qoX2uoIbRVVcx1aGNF39GaQa4HleCU3ha
-         FasSSqQaS0ufrJFuNuKHV7fXiV0c0+EW/Wv7TsIofPLWn2Ko2dcR0i/ec9+BbZxyRcJ7
-         LZwx3zP7U+5ALoFx5V3c2nip8dlV1Em3BQlmFsZXXp4HPLyXxFfj7CNm6bymxScEMwGX
-         fMaRX/BMRCdwGCUqQ3xjfJzZ5ZjouUqLFKqsTjnmMhvSGycGCOFFX0V1U4HZlibuM9Wi
-         l7p3Su3K8RoJDjs28uu4Mtgm+yd8PpS24lS58pLbwk+qgcgJjPrVuig3ivMizGzHV2ci
-         7SsQ==
+        bh=4dQHPa1jl42Qnqzrk65PfWAhCFFrh3E/g4lPOBwYjb8=;
+        b=lPd5lSfcXGAwNDHUfTNjfMufpVptuLnbXLY4Qo+IIcMOpvh3CVmJdfsq7qSJswC2TJ
+         OrkdmbNu1ik9yuMVSeEOVdbo0AnHsavusSCg1Tn9k91OPf9eyiqnQpYCMRKnyhs6QLRp
+         tzqoa6ptHZnVPg8ga/KMvLtEBOoPDA2a74Xqb3lfL4N5A9qDqkSDr2SIiRQf0YFo4iPK
+         HJ+3r8qkw3vDqQHtCEl/aJsVRLwp6XavZrYJwdeGXVlfzxV1rfZkrGZiVdgBOpJ1QWDD
+         tMYltB2ktC0Dcm+p+qzjv6e0Vw6qJGu5+1zhywgwfscof7iEpUPihsUYmHMRw44AwWkC
+         XdGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xXKqORzweSvujDCxv+GaazsPIlo9TE4kGXHlHGAWgvI=;
-        b=MZfGbDmhU4sjhbY8KflD2ZHPdRARvlDF49AB2ulcB/+37beqz36PLCmH+OyJR4amof
-         /2ZJLkohBqnN+/n8/XxabZwNfF1C/sukPP9NP+x1f9tb6itOvGg28vBZVGfyiYYjsiHr
-         B/pe8QSj1bA5MPkKWfehmwKRvJl2uvu5GOvtQa3BP466qudk/CaS0VAXZ2DtA/vl24uI
-         2yYM+jthTfoT0RpKo01DnnxkxNXVnZ+w9a5RJCNcpxFwSNQIZWoYbInh/YlpyAFp3mfZ
-         3KyRb/M3x8qlWjZQ/yjKafhaoHFK22RzlSuBfiWMHD3q+VRbmZfdzdUTEkICupuCa+ku
-         gzVQ==
-X-Gm-Message-State: AFqh2kqEJ2X7aP4jqHlTPdZVxH7ngD9fbwOj6EOdpvxFf++z61xgVCDd
-	096CW5Nk7YzOnJEW0LmLxcHiio7/aYY=
-X-Google-Smtp-Source: AMrXdXumGwpbzlYtGvEtNtKBhxB/2XzU6Wxiv+5aB+3JM8GasKRSo6c66u6xbd15e9xwGqBk9Ucx+Q==
-X-Received: by 2002:a05:600c:54cb:b0:3cf:d0be:1231 with SMTP id iw11-20020a05600c54cb00b003cfd0be1231mr1879210wmb.13.1671627201007;
-        Wed, 21 Dec 2022 04:53:21 -0800 (PST)
+        bh=4dQHPa1jl42Qnqzrk65PfWAhCFFrh3E/g4lPOBwYjb8=;
+        b=iknPRyoI9/Mqktexx1NvRzAamInGOY4wSHzTtKGbnFgbzSbJRUELZAK0HqKEreAxnq
+         p9hFTxW4z2zwCFnYe6FGn36axSn6s1RvUSL/fLNJD1BkVkWIqeze9HWDk5hLD8wY1aKr
+         J0wUW0vf3TJelOhauhIO0VKHnxnEYbbro6OcPiXRiHQozKGAhaN+BXXr5HU8OwTsnYNw
+         BBrKJu/e7E30m3aKB8p9UPezj3BsKrFtcc4hE6dV7ex1W+iMdiFAiXO4WPB9Om/5ZF/m
+         ySczzaFbww1C6+FBns6cvICmgcxwGYVAyTLRkwgOdQQuwjKHxHcxRGwXQddPDaU/og8Q
+         fNUQ==
+X-Gm-Message-State: AFqh2koGiJPjwtyDm0U/7oJd3gwDi29Gh8Cec8A2Pj0UP4n2dwQp4CVn
+	slpb8H8GOVBI4/jXFSmJCV52WyKPgZM=
+X-Google-Smtp-Source: AMrXdXu7lAkAiK+6e+KlwXu5MAsPxwAGFFkY0qRdE17K6EtAJpJSondzMMo2cP6BEC2t/My/ow4YoQ==
+X-Received: by 2002:a05:600c:4e51:b0:3cf:7b8b:6521 with SMTP id e17-20020a05600c4e5100b003cf7b8b6521mr1555394wmq.32.1671627206163;
+        Wed, 21 Dec 2022 04:53:26 -0800 (PST)
 Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net. [91.135.6.246])
-        by smtp.gmail.com with ESMTPSA id m6-20020a7bcb86000000b003b47ff307e1sm2124097wmi.31.2022.12.21.04.53.20
+        by smtp.gmail.com with ESMTPSA id m6-20020a7bcb86000000b003b47ff307e1sm2124097wmi.31.2022.12.21.04.53.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Dec 2022 04:53:20 -0800 (PST)
+        Wed, 21 Dec 2022 04:53:25 -0800 (PST)
 From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [OE-Core][PATCH v2 06/10] cargo: Merge .inc into .bb
-Date: Wed, 21 Dec 2022 12:53:01 +0000
-Message-Id: <20221221125306.13779-7-alex.kiernan@gmail.com>
+Subject: [OE-Core][PATCH v2 10/10] oeqa/runtime/rust: Add cargo test
+Date: Wed, 21 Dec 2022 12:53:05 +0000
+Message-Id: <20221221125306.13779-11-alex.kiernan@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20221221125306.13779-1-alex.kiernan@gmail.com>
 References: <20221221125306.13779-1-alex.kiernan@gmail.com>
@@ -61,173 +61,51 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 21 Dec 2022 12:53:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174912
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174916
 
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
 
 (no changes since v1)
 
- meta/recipes-devtools/cargo/cargo.inc       | 69 --------------------
- meta/recipes-devtools/cargo/cargo_1.66.0.bb | 71 ++++++++++++++++++++-
- 2 files changed, 69 insertions(+), 71 deletions(-)
- delete mode 100644 meta/recipes-devtools/cargo/cargo.inc
+ meta/lib/oeqa/runtime/cases/rust.py | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/meta/recipes-devtools/cargo/cargo.inc b/meta/recipes-devtools/cargo/cargo.inc
-deleted file mode 100644
-index 40421df4f76d..000000000000
---- a/meta/recipes-devtools/cargo/cargo.inc
-+++ /dev/null
-@@ -1,69 +0,0 @@
--SUMMARY ?= "Cargo, a package manager for Rust."
--HOMEPAGE = "https://crates.io"
--LICENSE = "MIT | Apache-2.0"
--SECTION = "devel"
--
--DEPENDS = "openssl zlib curl ca-certificates libssh2"
--
--LIC_FILES_CHKSUM = " \
--    file://LICENSE-MIT;md5=b377b220f43d747efdec40d69fcaa69d \
--    file://LICENSE-APACHE;md5=71b224ca933f0676e26d5c2e2271331c \
--    file://LICENSE-THIRD-PARTY;md5=f257ad009884cb88a3a87d6920e7180a \
--"
--
--
--S = "${RUSTSRC}/src/tools/cargo"
--CARGO_VENDORING_DIRECTORY = "${RUSTSRC}/vendor"
--EXCLUDE_FROM_WORLD = "1"
--
--inherit cargo pkgconfig
--
--do_cargo_setup_snapshot () {
--	${WORKDIR}/rust-snapshot-components/${CARGO_SNAPSHOT}/install.sh --prefix="${WORKDIR}/${CARGO_SNAPSHOT}" --disable-ldconfig
--	# Need to use uninative's loader if enabled/present since the library paths
--	# are used internally by rust and result in symbol mismatches if we don't
--	if [ ! -z "${UNINATIVE_LOADER}" -a -e "${UNINATIVE_LOADER}" ]; then
--		patchelf-uninative ${WORKDIR}/${CARGO_SNAPSHOT}/bin/cargo --set-interpreter ${UNINATIVE_LOADER}
--	fi
--}
--
--addtask cargo_setup_snapshot after do_unpack before do_configure
--do_cargo_setup_snapshot[dirs] += "${WORKDIR}/${CARGO_SNAPSHOT}"
--do_cargo_setup_snapshot[vardepsexclude] += "UNINATIVE_LOADER"
--
--
--do_compile:prepend () {
--	export RUSTC_BOOTSTRAP="1"
--}
--
--do_install () {
--	install -d "${D}${bindir}"
--	install -m 755 "${B}/target/${CARGO_TARGET_SUBDIR}/cargo" "${D}${bindir}"
--}
--
--do_install:append:class-nativesdk() {
--	# To quote the cargo docs, "Cargo also sets the dynamic library path when compiling
--	# and running binaries with commands like `cargo run` and `cargo test`". Sadly it
--	# sets to libdir but not base_libdir leading to symbol mismatches depending on the
--	# host OS. Fully set LD_LIBRARY_PATH to contain both to avoid this.
--	create_wrapper ${D}/${bindir}/cargo LD_LIBRARY_PATH=${libdir}:${base_libdir}
--}
--
--# Disabled due to incompatibility with libgit2 0.28.x (https://github.com/rust-lang/git2-rs/issues/458, https://bugs.gentoo.org/707746#c1)
--# as shipped by Yocto Dunfell.
--# According to https://github.com/rust-lang/git2-rs/issues/458#issuecomment-522567539, there are no compatibility guarantees between
--# libgit2-sys and arbitrary system libgit2 versions, so better keep this turned off.
--#export LIBGIT2_SYS_USE_PKG_CONFIG = "1"
--
--# Needed for pkg-config to be used
--export LIBSSH2_SYS_USE_PKG_CONFIG = "1"
--
--# When building cargo-native we don't have cargo-native to use and depend on,
--# so we must use the locally set up snapshot to bootstrap the build.
--BASEDEPENDS:remove:class-native = "cargo-native"
--CARGO:class-native = "${WORKDIR}/${CARGO_SNAPSHOT}/bin/cargo"
--
--DEPENDS:append:class-nativesdk = " nativesdk-rust"
--RUSTLIB:append:class-nativesdk = " -L ${STAGING_DIR_HOST}/${SDKPATHNATIVE}/usr/lib/rustlib/${RUST_HOST_SYS}/lib"
--
--
-diff --git a/meta/recipes-devtools/cargo/cargo_1.66.0.bb b/meta/recipes-devtools/cargo/cargo_1.66.0.bb
-index 5c8527708cb3..6c167c0c5f0b 100644
---- a/meta/recipes-devtools/cargo/cargo_1.66.0.bb
-+++ b/meta/recipes-devtools/cargo/cargo_1.66.0.bb
-@@ -1,5 +1,72 @@
-+SUMMARY ?= "Cargo, a package manager for Rust."
-+HOMEPAGE = "https://crates.io"
-+LICENSE = "MIT | Apache-2.0"
-+SECTION = "devel"
+diff --git a/meta/lib/oeqa/runtime/cases/rust.py b/meta/lib/oeqa/runtime/cases/rust.py
+index 186bb0d79e15..e2793f65c932 100644
+--- a/meta/lib/oeqa/runtime/cases/rust.py
++++ b/meta/lib/oeqa/runtime/cases/rust.py
+@@ -20,6 +20,8 @@ class RustCompileTest(OERuntimeTestCase):
+     def tearDown(cls):
+         files = '/tmp/test.rs /tmp/test'
+         cls.tc.target.run('rm %s' % files)
++        dirs = '/tmp/hello'
++        cls.tc.target.run('rm -r %s' % dirs)
+ 
+     @OETestDepends(['ssh.SSHTest.test_ssh'])
+     @OEHasPackage(['rust'])
+@@ -32,6 +34,21 @@ class RustCompileTest(OERuntimeTestCase):
+         msg = 'running compiled file failed, output: %s' % output
+         self.assertEqual(status, 0, msg=msg)
+ 
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    @OEHasPackage(['cargo'])
++    def test_cargo_compile(self):
++        status, output = self.target.run('cargo new /tmp/hello')
++        msg = 'cargo new failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
 +
-+DEPENDS = "openssl zlib curl ca-certificates libssh2"
++        status, output = self.target.run('cargo build --manifest-path=/tmp/hello/Cargo.toml')
++        msg = 'cargo build failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
 +
-+LIC_FILES_CHKSUM = " \
-+    file://LICENSE-MIT;md5=b377b220f43d747efdec40d69fcaa69d \
-+    file://LICENSE-APACHE;md5=71b224ca933f0676e26d5c2e2271331c \
-+    file://LICENSE-THIRD-PARTY;md5=f257ad009884cb88a3a87d6920e7180a \
-+"
++        status, output = self.target.run('/tmp/hello/target/debug/hello')
++        msg = 'running compiled file failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
 +
- require recipes-devtools/rust/rust-source.inc
- require recipes-devtools/rust/rust-snapshot.inc
--require cargo.inc
-+
-+S = "${RUSTSRC}/src/tools/cargo"
-+CARGO_VENDORING_DIRECTORY = "${RUSTSRC}/vendor"
-+EXCLUDE_FROM_WORLD = "1"
-+
-+inherit cargo pkgconfig
-+
-+do_cargo_setup_snapshot () {
-+	${WORKDIR}/rust-snapshot-components/${CARGO_SNAPSHOT}/install.sh --prefix="${WORKDIR}/${CARGO_SNAPSHOT}" --disable-ldconfig
-+	# Need to use uninative's loader if enabled/present since the library paths
-+	# are used internally by rust and result in symbol mismatches if we don't
-+	if [ ! -z "${UNINATIVE_LOADER}" -a -e "${UNINATIVE_LOADER}" ]; then
-+		patchelf-uninative ${WORKDIR}/${CARGO_SNAPSHOT}/bin/cargo --set-interpreter ${UNINATIVE_LOADER}
-+	fi
-+}
-+
-+addtask cargo_setup_snapshot after do_unpack before do_configure
-+do_cargo_setup_snapshot[dirs] += "${WORKDIR}/${CARGO_SNAPSHOT}"
-+do_cargo_setup_snapshot[vardepsexclude] += "UNINATIVE_LOADER"
-+
-+
-+do_compile:prepend () {
-+	export RUSTC_BOOTSTRAP="1"
-+}
-+
-+do_install () {
-+	install -d "${D}${bindir}"
-+	install -m 755 "${B}/target/${CARGO_TARGET_SUBDIR}/cargo" "${D}${bindir}"
-+}
-+
-+do_install:append:class-nativesdk() {
-+	# To quote the cargo docs, "Cargo also sets the dynamic library path when compiling
-+	# and running binaries with commands like `cargo run` and `cargo test`". Sadly it
-+	# sets to libdir but not base_libdir leading to symbol mismatches depending on the
-+	# host OS. Fully set LD_LIBRARY_PATH to contain both to avoid this.
-+	create_wrapper ${D}/${bindir}/cargo LD_LIBRARY_PATH=${libdir}:${base_libdir}
-+}
-+
-+# Disabled due to incompatibility with libgit2 0.28.x (https://github.com/rust-lang/git2-rs/issues/458, https://bugs.gentoo.org/707746#c1)
-+# as shipped by Yocto Dunfell.
-+# According to https://github.com/rust-lang/git2-rs/issues/458#issuecomment-522567539, there are no compatibility guarantees between
-+# libgit2-sys and arbitrary system libgit2 versions, so better keep this turned off.
-+#export LIBGIT2_SYS_USE_PKG_CONFIG = "1"
-+
-+# Needed for pkg-config to be used
-+export LIBSSH2_SYS_USE_PKG_CONFIG = "1"
-+
-+# When building cargo-native we don't have cargo-native to use and depend on,
-+# so we must use the locally set up snapshot to bootstrap the build.
-+BASEDEPENDS:remove:class-native = "cargo-native"
-+CARGO:class-native = "${WORKDIR}/${CARGO_SNAPSHOT}/bin/cargo"
-+
-+DEPENDS:append:class-nativesdk = " nativesdk-rust"
-+RUSTLIB:append:class-nativesdk = " -L ${STAGING_DIR_HOST}/${SDKPATHNATIVE}/usr/lib/rustlib/${RUST_HOST_SYS}/lib"
-+RUSTLIB_DEP:class-nativesdk = ""
-+
- BBCLASSEXTEND = "native nativesdk"
--RUSTLIB_DEP:class-nativesdk = ""
-\ No newline at end of file
+ class RustHelloworldTest(OERuntimeTestCase):
+     @OETestDepends(['ssh.SSHTest.test_ssh'])
+     @OEHasPackage(['rust-hello-world'])
 -- 
 2.39.0
 
