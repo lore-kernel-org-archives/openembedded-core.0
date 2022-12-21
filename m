@@ -2,158 +2,153 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E9C9C4332F
-	for <webhook@archiver.kernel.org>; Wed, 21 Dec 2022 02:29:20 +0000 (UTC)
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
- by mx.groups.io with SMTP id smtpd.web11.9495.1671589750236686760
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B362C4332F
+	for <webhook@archiver.kernel.org>; Wed, 21 Dec 2022 02:32:30 +0000 (UTC)
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+ by mx.groups.io with SMTP id smtpd.web11.9555.1671589945914454361
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Dec 2022 18:29:10 -0800
+ Tue, 20 Dec 2022 18:32:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=rA1jBydw;
- spf=pass (domain: gmail.com, ip: 209.85.217.50, mailfrom: sakoman@gmail.com)
-Received: by mail-vs1-f50.google.com with SMTP id h26so13515720vsr.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Dec 2022 18:29:10 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=tnbNAcDe;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.177, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f177.google.com with SMTP id w37so9542629pga.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Dec 2022 18:32:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=krHAouruLfvhuC2TILgROD6bLOZoBr2kT3Sx+fWH6Ic=;
-        b=rA1jBydw76X2SPOvztzMUg92tqjL/3IxussgpOqNM02QcejMuLu/dmTsmuF2L2p28m
-         a7rEUQ/TVt0+6otMUle3y140vIsrud6NYuJtiIPM+pvxAC+SfwXAcvSOvLdG5QstQXjz
-         eRsk+uHYaXK83sbqVTqIXEu9XX8EuPN1ohVXYgdEHzFwTZta27FHfvxbNulOIDXNlSb1
-         yRSwqNlzF6KxqMSVYasou/E9ak5oGKdofUXGxZYC/wlQ4NNjkTfo9fpWN76GsmovhQfZ
-         mkJ7HWBgPdVAyfnoY7DqKJ+6UCYmZbvkwbf2lRma3HpbkZUauhryL9byssVoDThapran
-         1cPw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0lathfNIWAJfXEfhnoawPXxM1Xc4J5/xglZa0Tcf+LE=;
+        b=tnbNAcDeywJXF5aWg9XKNPHL+r/48KDI2nw0vp/Bn9IEyM0ra0rySrCF8hI1ASTBxa
+         r0NGItAFrYAj8mIK9BcsEMVqExQJX3/YLaScxONY/g7yB4Hhm3rV8KeMAg1qQWJJXDbT
+         6Ufxq9eVvgLkEhHT38T2nNofML1WMXOdZkzzgzdnQLJVEG4ZTy+7l4eB9GcaqRvMCt4F
+         SWa/9tzMyG6ofj72p7qerhCu8AW0+1ln8a8Q1UVAfwJx1jkzs9T6o8ntNWnYqrMmeZ1Y
+         tSSeYmQe7oYpTybr1vgnt9aGNA7gDROKaRNbyJFXw8ze2iu8lpoPGwXXV3vNLsm3Mris
+         FI1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=krHAouruLfvhuC2TILgROD6bLOZoBr2kT3Sx+fWH6Ic=;
-        b=BMC/T4omL2aQ3JvahRi2CiPs8HfLRvk6L843WyaMns66SpJxURvMKJ/D2H+X2yxMHl
-         iXDV1AvD4aZoVpMP1O+lPvBHgwAFPc9ZtgWf6vRhvXFWZsD7V57i2tIQe9pN4bf36vNw
-         ZyRApCO1LqCg1BIhlBlKG2fHiA65QIkiWvkk0VEwmwP5udxarNh2CILwmGkj7TeeNF1T
-         yDJ67IKkJYOaFNq6AD2k0FRjHNyX5g4zI6vpH47PbInaHILQYYHEh14yXrpuup61Nqws
-         ZxRIJ0PsfGt0me/CHzWjIS2OjE7kypLUeqriEU4MPXb53czVc8LekwYmam9A7jJvHWas
-         uECg==
-X-Gm-Message-State: AFqh2kpukU17D5aEt+yvpY1jn2kVGcC1yk+o1eWZK4vNs3zPKFN6j6jm
-	RrxZmTQl/sBw5JHAP9xqBLhB4hL0U26IWiO9EO4=
-X-Google-Smtp-Source: AMrXdXsNmEjJkvX3SKAFV4OOJhqejhn1zU0QaciUfDwhj+N2M5xJKSY+u7mVRwvlN2L7LFT7kFQkPkpcg9nNblJbBg0=
-X-Received: by 2002:a05:6102:3642:b0:3b2:f4e4:a865 with SMTP id
- s2-20020a056102364200b003b2f4e4a865mr18193vsu.71.1671589749204; Tue, 20 Dec
- 2022 18:29:09 -0800 (PST)
-MIME-Version: 1.0
-References: <20221219174146.64696-1-bruce.ashfield@gmail.com>
- <20221219174146.64696-4-bruce.ashfield@gmail.com> <CAOSpxdbQ9SaCmMJddnFTyX3Z7p+seZO9vtGjYcDNUPSAWQOhzQ@mail.gmail.com>
- <CADkTA4NFev8Kxy_Eu5rUYt6zMwfb+smyCcH7RzZLC-zAmOA2Tg@mail.gmail.com>
- <CAOSpxdbjEq0PyuSgu+RrZ7bhb+Pf=oTZv33F_EL+ou11DFk5sA@mail.gmail.com>
- <CADkTA4NvfML8HQ_K03OknW44hi3NG5MW+kHj3wCM_-44dCKxcA@mail.gmail.com> <5132a777cff0cefe9ccc04c74ae7272aa3263240.camel@linuxfoundation.org>
-In-Reply-To: <5132a777cff0cefe9ccc04c74ae7272aa3263240.camel@linuxfoundation.org>
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0lathfNIWAJfXEfhnoawPXxM1Xc4J5/xglZa0Tcf+LE=;
+        b=pgXR+Ul4jXtgNplLDwXZYAjdqjenv/CMjkbWDRCVxRvIYs/IB75Z6gJwJvBCyqn/0/
+         bP9sv1qN4g4OToK10v+FCcHDhJXy7huOrSUC/HphlgGS3MRcVlKSKRnH49NSofByizOO
+         wBUn2tdCsDbMK2gGx//iujFL86PQwEL16kLnvYQ21eFBkXbXvgvev328RNG/ZhFgxJyp
+         eYewjaR/TWO1uTbCQpgYv4n1XoJ04K3EbIHkehmzxVF1GpBoM4gC3GAVqUaWwxTGjnm3
+         GlZXJ2RrTz2OQPO2hFqqsED+lbrir63tLf2k2p4/UbJJH+3/YDFDZ9ZmaCT+PUF4H0k5
+         nNYQ==
+X-Gm-Message-State: AFqh2kpjN5UlTrDWhXa4YWppnmOpU8njF0cNXLImh3VjGlXIU1miLPM6
+	nk3FDJprATeHHVi2wiZ0nBL9WzvkYAiMyz4RY7M=
+X-Google-Smtp-Source: AMrXdXvPd35nhjFez77CG3WbLbojhsVfXIjcFQ5ekO+Y8sbzw05Fi0jqidbETpSttYKUUpVxkYggyw==
+X-Received: by 2002:a62:36c4:0:b0:578:7e9d:97b2 with SMTP id d187-20020a6236c4000000b005787e9d97b2mr769889pfa.3.1671589944730;
+        Tue, 20 Dec 2022 18:32:24 -0800 (PST)
+Received: from hexa.router0800d9.com (dhcp-72-253-5-74.hawaiiantel.net. [72.253.5.74])
+        by smtp.gmail.com with ESMTPSA id n2-20020aa79842000000b0056bb36c047asm9374458pfq.105.2022.12.20.18.32.23
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Dec 2022 18:32:24 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
-Date: Tue, 20 Dec 2022 16:28:58 -1000
-Message-ID: <CAGDS+nno0+wVA4dmmhZzjaUJn06YPxHWmEMAizCKhbiaBq3Owg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 4/4][dunfell] linux-yocto/5.4: update to v5.4.228
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/13] Pull request (cover letter only)
+Date: Tue, 20 Dec 2022 16:32:19 -1000
+Message-Id: <cover.1671589894.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 21 Dec 2022 02:29:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174886
+ <openembedded-core@lists.openembedded.org>; Wed, 21 Dec 2022 02:32:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174887
 
-On Tue, Dec 20, 2022 at 11:49 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Tue, 2022-12-20 at 13:50 -0500, Bruce Ashfield wrote:
-> > On Tue, Dec 20, 2022 at 1:48 PM Steve Sakoman <steve@sakoman.com> wrote:
-> > >
-> > > On Tue, Dec 20, 2022 at 4:46 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
-> > > >
-> > > > On Tue, Dec 20, 2022 at 9:27 AM Steve Sakoman <steve@sakoman.com> wrote:
-> > > > >
-> > > > > On Mon, Dec 19, 2022 at 7:41 AM <bruce.ashfield@gmail.com> wrote:
-> > > > > >
-> > > > > > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > > > > >
-> > > > > > Updating  to the latest korg -stable release that comprises
-> > > > > > the following commits:
-> > > > > >
-> > > > > > [...]
-> > > > > > -SRCREV_machine_qemuarm ?= "13d88d2fc15f1edfa91378bc3a76aa4274969ed8"
-> > > > > > -SRCREV_machine_qemuarm64 ?= "14d0e6d0baf0c7b2308ff1270bd706f927c72df4"
-> > > > > > -SRCREV_machine_qemumips ?= "11472a4308590f1858d1ba7bb03bdc25cd2c9b3f"
-> > > > > > -SRCREV_machine_qemuppc ?= "daf1282f1c6fd653fcae25e8d1d49540a932baeb"
-> > > > > > -SRCREV_machine_qemuriscv64 ?= "15231fe2f4542b044e279e53269ee506bced9988"
-> > > > > > -SRCREV_machine_qemux86 ?= "15231fe2f4542b044e279e53269ee506bced9988"
-> > > > > > -SRCREV_machine_qemux86-64 ?= "15231fe2f4542b044e279e53269ee506bced9988"
-> > > > > > -SRCREV_machine_qemumips64 ?= "31f08b9f81298e80e00ea37886db6f88092a5cf6"
-> > > > > > -SRCREV_machine ?= "15231fe2f4542b044e279e53269ee506bced9988"
-> > > > > > -SRCREV_meta ?= "3e7ca0fe77707fabb1beefd5d3cd322a4db1eb41"
-> > > > > > +SRCREV_machine_qemuarm ?= "32654a547b05ba63c604503fc865d7052ae96992"
-> > > > > > +SRCREV_machine_qemuarm64 ?= "2bd8ca7c0973870753b103107513689a598383d7"
-> > > > > > +SRCREV_machine_qemumips ?= "84a8ba0ada556ba3307c33e2b5a0ca8f9e3df1dd"
-> > > > > > +SRCREV_machine_qemuppc ?= "20db90d7935c8760bfc68c0de4f7d7085cba7c14"
-> > > > > > +SRCREV_machine_qemuriscv64 ?= "921d9e22542506ba26c2e5e2f25ec00ff9bffa63"
-> > > > > > +SRCREV_machine_qemux86 ?= "921d9e22542506ba26c2e5e2f25ec00ff9bffa63"
-> > > > > > +SRCREV_machine_qemux86-64 ?= "921d9e22542506ba26c2e5e2f25ec00ff9bffa63"
-> > > > >
-> > > > > I suspect you forgot to push this final change set to the linux-yocto repo!
-> > > >
-> > > > Hmm. nope. Everything is pushed, disregard the updates, I'll have
-> > > > another look at it the second week of January.
-> > >
-> > > It wasn't there earlier this morning when I sent the email, but now it
-> > > has magically appeared!
-> > >
-> > > So nothing for you to do at this point.  I've restarted the build and
-> > > will let you know if I run into any other issues.
-> >
-> > odd. I was pushing some 6.1 changes, but git didn't report anything coming
-> > from the 5.4 branches.
-> >
-> > Fingers crossed that my script updates to the SRCREVs and what is there
-> > now are a match!
->
-> FWIW it takes time for the revisions to mirror from the push server to
-> the other public git servers. For the kernel it probably takes longer.
+The following changes since commit e44f0cda8176186d42a752631810c1cb5f1971eb:
 
-Yes, I'm familiar with the delay.  In this case though the patch
-emails arrived yesterday at 7:41am and I did the build hours later in
-the early afternoon. I'm not sure when Bruce did the push, I assume it
-was before he sent the patches!
+  kernel.bbclass: make KERNEL_DEBUG_TIMESTAMPS work at rebuild (2022-12-06 07:52:17 -1000)
 
-I noticed the failures in the early evening and stopped the build.  I
-didn't look at the errors till this morning and noticed when I browsed
-the linux-yocto repo that the requested commit id wasn't present. IIRC
-the top of tree was the 5.4.227 tag.  It was at that point that I sent
-the email.
+are available in the Git repository at:
 
-Later in the morning I checked linux-yocto again and the referenced
-commit was now top of tree and my build succeeded.
+  https://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
 
-Not sure if any of this is helpful in debugging mirror tarball
-breakage, but thought I would record the details while they were still
-fresh in my mind.
+Alexey Smirnov (1):
+  classes: make TOOLCHAIN more permissive for kernel
 
-Steve
+Chen Qi (1):
+  psplash: consider the situation of psplash not exist for systemd
 
+Harald Seiler (1):
+  opkg: Set correct info_dir and status_file in opkg.conf
 
-> I think these builds with "missing" revisions and the older fetcher in
-> dunfell caused some kernel mirror tarballs to get deleted and broke the
-> esdk kernel module tests in my build. That shouldn't happen but somehow
-> seemed to :/.
->
-> Cheers,
->
-> Richard
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#174885): https://lists.openembedded.org/g/openembedded-core/message/174885
-> Mute This Topic: https://lists.openembedded.org/mt/95769673/3617601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [sakoman@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Hitendra Prajapati (3):
+  libarchive: CVE-2022-36227 NULL pointer dereference in archive_write.c
+  sysstat: fix CVE-2022-39377
+  golang: CVE-2022-41715 regexp/syntax: limit memory used by parsing
+    regexps
+
+Lee Chee Yang (1):
+  dropbear: fix CVE-2021-36369
+
+Mathieu Dubois-Briand (1):
+  curl: Fix CVE CVE-2022-35260
+
+Minjae Kim (1):
+  xserver-xorg: backport fixes for CVE-2022-3550, CVE-2022-3551 and
+    CVE-2022-3553
+
+Pawan Badganchi (1):
+  python3: Fix CVE-2022-37454
+
+Qiu, Zheng (1):
+  vim: upgrade 9.0.0820 -> 9.0.0947
+
+Richard Purdie (1):
+  oeqa/selftest/tinfoil: Add test for separate config_data with
+    recipe_parse_file()
+
+Riyaz Khan (1):
+  rpm: Fix rpm CVE CVE-2021-3521
+
+ meta/classes/kernel-arch.bbclass              |   2 +-
+ meta/lib/oeqa/selftest/cases/tinfoil.py       |  14 +
+ meta/recipes-core/dropbear/dropbear.inc       |   1 +
+ .../dropbear/dropbear/CVE-2021-36369.patch    | 145 ++++++++
+ .../psplash/files/psplash-start.service       |   1 +
+ .../psplash/files/psplash-systemd.service     |   1 +
+ meta/recipes-devtools/go/go-1.14.inc          |   1 +
+ .../go/go-1.14/CVE-2022-41715.patch           | 271 ++++++++++++++
+ meta/recipes-devtools/opkg/opkg_0.4.2.bb      |   4 +-
+ .../python/python3/CVE-2022-37454.patch       | 105 ++++++
+ .../recipes-devtools/python/python3_3.8.14.bb |   1 +
+ .../rpm/files/CVE-2021-3521-01.patch          |  60 ++++
+ .../rpm/files/CVE-2021-3521-02.patch          |  55 +++
+ .../rpm/files/CVE-2021-3521-03.patch          |  34 ++
+ .../rpm/files/CVE-2021-3521.patch             | 330 ++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_4.14.2.1.bb     |   4 +
+ .../libarchive/CVE-2022-36227.patch           |  43 +++
+ .../libarchive/libarchive_3.4.2.bb            |   1 +
+ .../sysstat/sysstat/CVE-2022-39377.patch      |  92 +++++
+ .../sysstat/sysstat_12.2.1.bb                 |   4 +-
+ .../xserver-xorg/CVE-2022-3550.patch          |  40 +++
+ .../xserver-xorg/CVE-2022-3551.patch          |  64 ++++
+ .../xserver-xorg/CVE-2022-3553.patch          |  49 +++
+ .../xorg-xserver/xserver-xorg_1.20.14.bb      |   3 +
+ .../curl/curl/CVE-2022-35260.patch            |  68 ++++
+ meta/recipes-support/curl/curl_7.69.1.bb      |   1 +
+ meta/recipes-support/vim/vim.inc              |   4 +-
+ 27 files changed, 1393 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2021-36369.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2022-41715.patch
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2022-37454.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/CVE-2021-3521-01.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/CVE-2021-3521-02.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/CVE-2021-3521-03.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/CVE-2021-3521.patch
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2022-36227.patch
+ create mode 100644 meta/recipes-extended/sysstat/sysstat/CVE-2022-39377.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-3550.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-3551.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-3553.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2022-35260.patch
+
+-- 
+2.25.1
+
 
