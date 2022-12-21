@@ -2,56 +2,56 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FC4CC4167B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C377C4332F
 	for <webhook@archiver.kernel.org>; Wed, 21 Dec 2022 17:56:05 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.25705.1671645356687858605
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web11.25617.1671645360958282586
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Dec 2022 09:56:00 -0800
+ Wed, 21 Dec 2022 09:56:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Q9D7F1O0;
- spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f175.google.com with SMTP id u7so8074934plq.11
-        for <openembedded-core@lists.openembedded.org>; Wed, 21 Dec 2022 09:55:59 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=aLoM+QDI;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f178.google.com with SMTP id s7so16266604plk.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 21 Dec 2022 09:56:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hgNrS1NW5GaKRi3KNKOeW5LJeiIuLkdPqHXGjNak6AU=;
-        b=Q9D7F1O0or8UVl95zv4dM5NZDL9kc4JhxSQ36tQq2+AoUp5lY7ep8vTox1+MArD1Qn
-         zxMrXUzMwQO9l67t8QnhZxnpZF0RavDfkN4lU+p1WlaWabta/CGJbE3HG+RjCse5NDl2
-         N5YDbqZFyLxS0za1Sah934sn3d3gOTDQUq5VnCnvYtSdcoM/yktS4LwnThfoZBZH6WB3
-         yRGiMxFOTbwsKFEqj18+DdR/PX+aaP0m029aBZmzb9od9Yy1OuOsfrMjy740+6evIYZX
-         iCvvmjOBucupgL4OeYNFIb4QNUXc5M8VjHmNLsm0qYe+ZMzzR70c6BjcgG4hKIx6lmdW
-         GV6A==
+        bh=u7EUekXTWDoZ/WyTpbzFdtWbqhmEX26nmHtXoZ1beq8=;
+        b=aLoM+QDIwBtbl/smNWKZR1tf3qdc6viBYxLKG42lH1qqyNxAVCLlyJ1H/0ell+wkrI
+         /hs5q9ELDFcwsxcqkNQ1GkKPDChn4cvHAIlSAksM7bXls+P+FcQnC4yHpK8UiCSJtYpW
+         1dqDiHIAHSOUln84SMdVUi9kbKve7k/fPNKmlggzTT4M3sY3/DlM7p+eSofBayjHiBW4
+         p/LfrbUFuJALhR6Cwb/mxF4cipJqGUX78BadvIwQciEELx1W472IBqASvyR/ROY9dc58
+         3/+6UzWfzShtJshAkqMHCIzTFMWBAgQxO5g63V5Jg8LsVU8qW7VzyGdnriIY/aooZNDd
+         mVhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hgNrS1NW5GaKRi3KNKOeW5LJeiIuLkdPqHXGjNak6AU=;
-        b=dU3DoNYjDEbh7Uw+O51Py8HFtdI4slL+3QAoOkZ7igXOakZ1BaDrXYTuLPDaoFeCyG
-         MGs2ivqiGlFVSJc0LWzdrlk+vtrlJ/vVXzIcfziBlavUemXwkmXAFTP+d99QnawAqY0T
-         yLxiV16cusf/937k5KNHnMT+wGH8UOj2GCZlTV3wNI107/D9hVodCGh69BDEP6De3xPK
-         p9oKU4bNwcK7ijH0C5zfcelwPg7EEcultSoLuSd4E59s5e+92tYuFv9eiE8aX3YT8lqv
-         cS+h9z433rUg8fCt/4wzBLZ4504NfbI0+1iRnncVywBewwpWsCftvq3j0713s4AlKaCc
-         bLkQ==
-X-Gm-Message-State: AFqh2kqJmf1j5olxOIN0DY52hCKfDYkktkUTqJa0A/c3cYEpyk1vJvGQ
-	xUQH8HJr9VE6tsG3nw7Vw98P4AsvQF4=
-X-Google-Smtp-Source: AMrXdXsMhAgkTN4Dr8nNNTYG+rqA4oQLNjpNs6LnUPd7HlincEY/uLe58BJ4bBBto3s5vTxQCg1a6w==
-X-Received: by 2002:a17:90a:9606:b0:219:f7e5:cb56 with SMTP id v6-20020a17090a960600b00219f7e5cb56mr3157452pjo.20.1671645359399;
-        Wed, 21 Dec 2022 09:55:59 -0800 (PST)
+        bh=u7EUekXTWDoZ/WyTpbzFdtWbqhmEX26nmHtXoZ1beq8=;
+        b=ucbzULdojIs2WD2tif4Y855f75SwHOgWiLguGH4qabjdzle/aPxlFFz9as/W/bbMDL
+         i58IhPOset/dAuxA9IVCdRn9jvE16w9RgI4iCjnQwVoHdxeZY8h/8eXoGgG8I9aYaqUV
+         4NZjoRCUIBuP3a3MnrBxT2rj/mTrxjCJgMCRIiZid5wN0vpGZwBFCXNSGPDd3T1f3vfs
+         npx/L32dZa5hFCdTi+3AL5g2ILYA/Q8JYTm4o6YRyzblpY9OI2CFJhUtyj93LjMRdm7t
+         10uTYgT45n3DKfrowFR5rOwJycs0H9MJHlQekgqpTj/iyGNYwFjvsD8dLlTK7qxW8g9D
+         R8Bw==
+X-Gm-Message-State: AFqh2kr1+i7JloquVyn70Mje7bijkZ+zWgYfULtGkBXZ2ucWezOdgBpr
+	sJmgXfX4onXHmcAG6aS09YMeGHgyvvA=
+X-Google-Smtp-Source: AMrXdXsRWyidMRY7gHPcoS61EEzs44Gawu8Bl5IOW1h/hFi6GxJsEwBGeJ6iD+QSTBiGREkjnpJZvw==
+X-Received: by 2002:a17:90b:2786:b0:221:7043:74c4 with SMTP id pw6-20020a17090b278600b00221704374c4mr2997814pjb.13.1671645360196;
+        Wed, 21 Dec 2022 09:56:00 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::41f2])
-        by smtp.gmail.com with ESMTPSA id x11-20020a17090a294b00b00225a127b2a2sm1548943pjf.5.2022.12.21.09.55.58
+        by smtp.gmail.com with ESMTPSA id x11-20020a17090a294b00b00225a127b2a2sm1548943pjf.5.2022.12.21.09.55.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 21 Dec 2022 09:55:59 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 7/9] strace: Add knob to enable largefile support
-Date: Wed, 21 Dec 2022 09:55:49 -0800
-Message-Id: <20221221175551.1940464-7-raj.khem@gmail.com>
+Subject: [PATCH 8/9] numactl: Enable largefile support
+Date: Wed, 21 Dec 2022 09:55:50 -0800
+Message-Id: <20221221175551.1940464-8-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20221221175551.1940464-1-raj.khem@gmail.com>
 References: <20221221175551.1940464-1-raj.khem@gmail.com>
@@ -61,112 +61,133 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 21 Dec 2022 17:56:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174932
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174933
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...toconf-macro-to-detect-largefile-sup.patch | 27 ++++++++++++
- ...002-tests-Replace-off64_t-with-off_t.patch | 43 +++++++++++++++++++
- meta/recipes-devtools/strace/strace_6.0.bb    |  2 +
- 3 files changed, 72 insertions(+)
- create mode 100644 meta/recipes-devtools/strace/strace/0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch
- create mode 100644 meta/recipes-devtools/strace/strace/0002-tests-Replace-off64_t-with-off_t.patch
+ ...onfigure-Check-for-largefile-support.patch | 27 ++++++++
+ ...at64-fstat64-ftruncate64mmap64-with-.patch | 64 +++++++++++++++++++
+ meta/recipes-support/numactl/numactl_git.bb   |  2 +
+ 3 files changed, 93 insertions(+)
+ create mode 100644 meta/recipes-support/numactl/numactl/0001-configure-Check-for-largefile-support.patch
+ create mode 100644 meta/recipes-support/numactl/numactl/0002-shm.c-Replace-stat64-fstat64-ftruncate64mmap64-with-.patch
 
-diff --git a/meta/recipes-devtools/strace/strace/0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch b/meta/recipes-devtools/strace/strace/0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch
+diff --git a/meta/recipes-support/numactl/numactl/0001-configure-Check-for-largefile-support.patch b/meta/recipes-support/numactl/numactl/0001-configure-Check-for-largefile-support.patch
 new file mode 100644
-index 0000000000..76ca7a76a8
+index 0000000000..152eb2807b
 --- /dev/null
-+++ b/meta/recipes-devtools/strace/strace/0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch
++++ b/meta/recipes-support/numactl/numactl/0001-configure-Check-for-largefile-support.patch
 @@ -0,0 +1,27 @@
-+From 470399f3636c412b74f9daf6ae430b13c3126f02 Mon Sep 17 00:00:00 2001
++From 61f910f5d12d6f6a66223b5af6d74e30ace3a2e1 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Thu, 15 Dec 2022 15:54:27 -0800
-+Subject: [PATCH] configure: Use autoconf macro to detect largefile support
++Date: Thu, 15 Dec 2022 12:10:37 -0800
++Subject: [PATCH] configure: Check for largefile support
 +
-+Adds --enable-largefile/--disable-largefile configure knobs
-+where default is to detect the support
++This helps in using 64bit versions of off_t related functions
 +
-+Upstream-Status: Submitted [https://github.com/strace/strace/pull/230]
++Upstream-Status: Backport [https://github.com/numactl/numactl/pull/159]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ configure.ac | 2 ++
-+ 1 file changed, 2 insertions(+)
++ configure.ac | 3 +++
++ 1 file changed, 3 insertions(+)
 +
 +diff --git a/configure.ac b/configure.ac
-+index 4797b42dd..7d57fb254 100644
++index 8510fc5..d74bc6e 100644
 +--- a/configure.ac
 ++++ b/configure.ac
-+@@ -43,6 +43,8 @@ AC_PROG_INSTALL
-+ AC_PROG_RANLIB
-+ AC_PROG_LN_S
++@@ -14,6 +14,9 @@ LT_INIT
 + 
++ AC_PROG_CC
++ 
+++# Check for enabling LFS support
 ++AC_SYS_LARGEFILE
 ++
-+ AC_USE_SYSTEM_EXTENSIONS
-+ AX_CODE_COVERAGE
++ # Override CFLAGS so that we can specify custom CFLAGS for numademo.
++ AX_AM_OVERRIDE_VAR([CFLAGS])
 + 
-diff --git a/meta/recipes-devtools/strace/strace/0002-tests-Replace-off64_t-with-off_t.patch b/meta/recipes-devtools/strace/strace/0002-tests-Replace-off64_t-with-off_t.patch
+diff --git a/meta/recipes-support/numactl/numactl/0002-shm.c-Replace-stat64-fstat64-ftruncate64mmap64-with-.patch b/meta/recipes-support/numactl/numactl/0002-shm.c-Replace-stat64-fstat64-ftruncate64mmap64-with-.patch
 new file mode 100644
-index 0000000000..ce0428e977
+index 0000000000..03b98e0a2c
 --- /dev/null
-+++ b/meta/recipes-devtools/strace/strace/0002-tests-Replace-off64_t-with-off_t.patch
-@@ -0,0 +1,43 @@
-+From 579b2ebe52d4b97f954e6188df2d07e137820075 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/numactl/numactl/0002-shm.c-Replace-stat64-fstat64-ftruncate64mmap64-with-.patch
+@@ -0,0 +1,64 @@
++From 8a08d3583d77bebeb1763fb9b378899201ce5afa Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Thu, 15 Dec 2022 15:56:13 -0800
-+Subject: [PATCH] tests: Replace off64_t with off_t
++Date: Thu, 15 Dec 2022 12:11:13 -0800
++Subject: [PATCH] shm.c: Replace stat64/fstat64/ftruncate64mmap64 with normal functions
 +
-+when _FILE_OFFSET_BITS=64 then off_t is 64bit wide, this also fixes
-+build on musl where off64_t is not available without _LARGEFILE64_SOURCE
++These functions were needed when _FILE_OFFSET_BITS was not 64, using
++AC_SYS_LARGEFILE will detect it correctly and make the normal variants
++of these functions behave same as their *64 counterparts.
 +
-+Upstream-Status: Submitted [https://github.com/strace/strace/pull/230]
++Upstream-Status: Backport [https://github.com/numactl/numactl/pull/159]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ tests/readahead.c        | 2 +-
-+ tests/sync_file_range2.c | 4 ++--
-+ 2 files changed, 3 insertions(+), 3 deletions(-)
++ shm.c | 10 +++++-----
++ 1 file changed, 5 insertions(+), 5 deletions(-)
 +
-+diff --git a/tests/readahead.c b/tests/readahead.c
-+index 10723785c..b9597e697 100644
-+--- a/tests/readahead.c
-++++ b/tests/readahead.c
-+@@ -42,7 +42,7 @@ static const int fds[] = {
-+ 	0x7fffffff,
-+ };
-+ 
-+-static const off64_t offsets[] = {
-++static const off_t offsets[] = {
-+ 	-0x8000000000000000LL,
-+ 	-0x5060708090a0b0c0LL,
-+ 	-1LL,
-+diff --git a/tests/sync_file_range2.c b/tests/sync_file_range2.c
-+index 0f7c9e428..15a5fec71 100644
-+--- a/tests/sync_file_range2.c
-++++ b/tests/sync_file_range2.c
-+@@ -20,8 +20,8 @@ int
-+ main(void)
++diff --git a/shm.c b/shm.c
++index 20537d9..5d0d1ab 100644
++--- a/shm.c
+++++ b/shm.c
++@@ -24,8 +24,8 @@
++ #include <sys/mman.h>
++ #include <sys/ipc.h>
++ #include <sys/shm.h>
++-#include <sys/fcntl.h>
++ #include <sys/stat.h>
+++#include <fcntl.h>
++ #include <stdarg.h>
++ #include <errno.h>
++ #include <unistd.h>
++@@ -135,7 +135,7 @@ void attach_sysvshm(char *name, char *opt)
++ /* Attach a shared memory file. */
++ void attach_shared(char *name, char *opt)
 + {
-+ 	const int fd = -1;
-+-	const off64_t offset = 0xdeadbeefbadc0ded;
-+-	const off64_t nbytes = 0xfacefeedcafef00d;
-++	const off_t offset = 0xdeadbeefbadc0ded;
-++	const off_t nbytes = 0xfacefeedcafef00d;
-+ 	const unsigned int flags = -1;
++-	struct stat64 st;
+++	struct stat st;
 + 
-+ 	int rc = sync_file_range(fd, offset, nbytes, flags);
-diff --git a/meta/recipes-devtools/strace/strace_6.0.bb b/meta/recipes-devtools/strace/strace_6.0.bb
-index 4fa3589d15..7679235b01 100644
---- a/meta/recipes-devtools/strace/strace_6.0.bb
-+++ b/meta/recipes-devtools/strace/strace_6.0.bb
-@@ -13,6 +13,8 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
-            file://ptest-spacesave.patch \
-            file://0001-strace-fix-reproducibilty-issues.patch \
-            file://skip-load.patch \
-+           file://0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch \
-+           file://0002-tests-Replace-off64_t-with-off_t.patch \
++ 	shmfd = open(name, O_RDWR);
++ 	if (shmfd < 0) {
++@@ -146,14 +146,14 @@ void attach_shared(char *name, char *opt)
++ 		if (shmfd < 0)
++ 			nerror("cannot create file %s", name);
++ 	}
++-	if (fstat64(shmfd, &st) < 0)
+++	if (fstat(shmfd, &st) < 0)
++ 		err("shm stat");
++ 	/* the file size must be larger than mmap shmlen + shmoffset, otherwise SIGBUS
++ 	 * will be caused when we access memory, because mmaped memory is no longer in
++ 	 * the range of the file laster.
++ 	 */
++ 	if ((shmlen + shmoffset) > st.st_size) {
++-		if (ftruncate64(shmfd, shmlen + shmoffset) < 0) {
+++		if (ftruncate(shmfd, shmlen + shmoffset) < 0) {
++ 			/* XXX: we could do it by hand, but it would it
++ 			   would be impossible to apply policy then.
++ 			   need to fix that in the kernel. */
++@@ -168,7 +168,7 @@ void attach_shared(char *name, char *opt)
++ 
++ 	/* RED-PEN For shmlen > address space may need to map in pieces.
++ 	   Left for some poor 32bit soul. */
++-	shmptr = mmap64(NULL, shmlen, PROT_READ | PROT_WRITE, MAP_SHARED, shmfd, shmoffset);
+++	shmptr = mmap(NULL, shmlen, PROT_READ | PROT_WRITE, MAP_SHARED, shmfd, shmoffset);
++ 	if (shmptr == (char*)-1)
++ 		err("shm mmap");
++ }
+diff --git a/meta/recipes-support/numactl/numactl_git.bb b/meta/recipes-support/numactl/numactl_git.bb
+index 23be0a3b4f..0f71258bc3 100644
+--- a/meta/recipes-support/numactl/numactl_git.bb
++++ b/meta/recipes-support/numactl/numactl_git.bb
+@@ -18,6 +18,8 @@ SRC_URI = "git://github.com/numactl/numactl;branch=master;protocol=https \
+            file://Makefile \
+            file://run-ptest \
+            file://0001-define-run-test-target.patch \
++           file://0001-configure-Check-for-largefile-support.patch \
++           file://0002-shm.c-Replace-stat64-fstat64-ftruncate64mmap64-with-.patch \
             "
- SRC_URI[sha256sum] = "92d720a666855e9f1c6a11512fd6e99674a82bbfe1442557815f2ce8e1293338"
  
+ S = "${WORKDIR}/git"
 -- 
 2.39.0
 
