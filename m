@@ -1,122 +1,100 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <uvv.mail@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DE8BC4332F
-	for <webhook@archiver.kernel.org>; Thu, 22 Dec 2022 16:49:02 +0000 (UTC)
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
- by mx.groups.io with SMTP id smtpd.web10.49926.1671727733450849107
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E073C4332F
+	for <webhook@archiver.kernel.org>; Thu, 22 Dec 2022 18:40:03 +0000 (UTC)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+ by mx.groups.io with SMTP id smtpd.web11.53167.1671734394041644838
  for <Openembedded-core@lists.openembedded.org>;
- Thu, 22 Dec 2022 08:48:53 -0800
+ Thu, 22 Dec 2022 10:39:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=bPP4j2Vx;
- spf=pass (domain: gmail.com, ip: 209.85.166.47, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f47.google.com with SMTP id q190so1255071iod.10
-        for <Openembedded-core@lists.openembedded.org>; Thu, 22 Dec 2022 08:48:53 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=OMjLBH1L;
+ spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: uvv.mail@gmail.com)
+Received: by mail-lf1-f46.google.com with SMTP id cf42so4027441lfb.1
+        for <Openembedded-core@lists.openembedded.org>; Thu, 22 Dec 2022 10:39:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=4nqiFbZZ8uPM6WyHSYegt6d1hqB946A3WRpixQJ7tFk=;
-        b=bPP4j2Vxtr/PmHQwon86EqBdwWdnOOkWbtHNl9rd7VSzPSLdD3nC6Es46Ynr3VQtVn
-         ZGlU5uA61fuhMO395LhXMaYq0+ZWqQNTQwDVLdIEDrt/RN+F0ygxrgadNY0tsWb8TQ62
-         r5STmTpqUGMFw7hWpNk1AhurfXEAk1RAG60t1QPfhGf03Ncdvh1pbVYPcfX/3bJhtwH0
-         HIIdbAnrKhWbKhNyEBdcddQ1V7TIVJ6+/otXT18UmdafnLuUuPqUfbza0PA6MFYJ99mq
-         I/qDV2kNBSLWjxPNWMDnBX9oXiCwNmHQe+hJXtDTT7KV9xoJURvcOOAqgsk8dHxmVxgz
-         MO7Q==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=g6/TibfiqniQHc/buRoHZwBoQnQ9Uttb4jfqBUKb9PE=;
+        b=OMjLBH1LT9kzUhPo4NFxJUKfiHtJVk9qXNEcURbYrA2zVY3aq+3ieuzi5iBvHK5lbi
+         bbsL1n2qyVZC/0/Ibm/wdo2aC0bG+nVmz13Gann16sD4REiC041TuAPSBwrMid4u0GNL
+         aUg4R5n248U5z6NJn2rfwZrPbIgTpMdwBTmGOmwHSTwD+NLWuTN6F8bBw3uDgU01VevS
+         MtELac9vc2egTOB7pLmE8/zEaCwUa1PpjFMCzURAR1bNKynBa/pUXf+7kcqEksvamHgQ
+         el4UIlyIKjKfFdjNEnwgefN3tIn3jVgZPFGmzQde7kfbp2AU6IINVhooJv70g/uZ2+28
+         J0kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4nqiFbZZ8uPM6WyHSYegt6d1hqB946A3WRpixQJ7tFk=;
-        b=omfkWPBToiEGnQ5sh583EvnEMcqxwUhFFkkdmdFoQ1ZPyVLqt3MqErhJac3kE5hDw0
-         gnNMbWfbNM9JS4R2QQCqnNoTL3HhvFEWk86olDy+UBLzTYfBboFfgj8Jnq8Nx4EmWhga
-         FW4NBw09eLe7pcDiQ7IteQmWkXwbP4NgnskItDSKCjPOJadGYC8W+wJf9fob+/KI+NwD
-         veKt2HJePKBUOya/qctfMbcYLUN+TNbF+c1OWsXdM/mXlju02JQmksAqtrVAO8d7gLma
-         4OZjQfLo2RYK68x/xuY7Aes9521/CpQSdchLZlGecuGe+SJVAlDRpAts7QaKZQZe3oln
-         P2Jg==
-X-Gm-Message-State: AFqh2kpGxzruAci7EAzXYbTJ0N6sQYJZKRysDNM/mk0fSe8uvZrqqfYt
-	4q36pl4r1Qrsc9nA4Ez8NahIh7dFpqcA7rEibZM=
-X-Google-Smtp-Source: AMrXdXskcQvrdpNh7Y+GK9NWWBZqh5xVX7W8UoEUOlYgojSERXy0558UwI/6A5ssP+VaCey43LOXmSep0FewSNxX4mQ=
-X-Received: by 2002:a02:b70a:0:b0:38a:d000:e872 with SMTP id
- g10-20020a02b70a000000b0038ad000e872mr517480jam.70.1671727732788; Thu, 22 Dec
- 2022 08:48:52 -0800 (PST)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=g6/TibfiqniQHc/buRoHZwBoQnQ9Uttb4jfqBUKb9PE=;
+        b=bMDf3uutQc/Dp71x7rwEX8nVy/nldHPsxYw26IWawnTqZj0kecG2nkLdY1ryendT1H
+         R30GtzbHTFX7EVuKzCNI8oIYPNtLeuhm32YUnyKuRNttKYmFaAl6jhXoNCMNzvXJu0HE
+         VNgUPPum3UM8a1SaVnQlRoulyIA3ctKEZWOCzCIJIQ+ZaWkoXhBhYULVgSdSbLJmp+Db
+         yKqLrcw0WZDafUzefMAAUD1spAKKZr7LXyOkdh6yv1wF3wz3M9Bwwt75veGdIIhM2+ew
+         7PyCt4G0S7LdqsQqlwtHQeUdVoRAg+mYSLC0krhIi0Gi4GMZ89OHv0K9CTiCQvNimPP9
+         Snnw==
+X-Gm-Message-State: AFqh2kokuKICFRhW+91MFBUmRKdswS2+IE/9xQO6hXqwx9hDyTg3s//B
+	zcSHYv5qTa9uEcwLX/Yf/hI=
+X-Google-Smtp-Source: AMrXdXt88HU00mo7RkhnaHNYUV9kpcVqp5My3Q6YnFtq369dLrQFPyBOMb2XT5qCRJ33+11sajYnbQ==
+X-Received: by 2002:a05:6512:2031:b0:4b5:81ab:4c75 with SMTP id s17-20020a056512203100b004b581ab4c75mr1741742lfs.40.1671734392151;
+        Thu, 22 Dec 2022 10:39:52 -0800 (PST)
+Received: from [10.133.224.14] ([185.253.97.14])
+        by smtp.gmail.com with ESMTPSA id c23-20020a196557000000b004978e51b691sm157638lfj.266.2022.12.22.10.39.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 Dec 2022 10:39:51 -0800 (PST)
+Message-ID: <5910a96e-28a2-4af6-2dc9-bc21e8bee9fb@gmail.com>
+Date: Thu, 22 Dec 2022 19:39:50 +0100
 MIME-Version: 1.0
-References: <20221222150246.91423-1-uvv.mail@gmail.com> <0c9483d89d86eae9a84362935108f0e915b31dda.camel@linuxfoundation.org>
-In-Reply-To: <0c9483d89d86eae9a84362935108f0e915b31dda.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 22 Dec 2022 11:48:41 -0500
-Message-ID: <CADkTA4NnDKC0LybGM5w_otZVpAPy3Gk8+0UR1s1_tn7NVUC0Sg@mail.gmail.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
 Subject: Re: [OE-core] [langdale][kirkstone][PATCH] go-mod.bbclass: Allow
  network in do_compile
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Vyacheslav Yurkov <uvv.mail@gmail.com>, Openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Language: en-US
+To: Bruce Ashfield <bruce.ashfield@gmail.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Openembedded-core@lists.openembedded.org
+References: <20221222150246.91423-1-uvv.mail@gmail.com>
+ <0c9483d89d86eae9a84362935108f0e915b31dda.camel@linuxfoundation.org>
+ <CADkTA4NnDKC0LybGM5w_otZVpAPy3Gk8+0UR1s1_tn7NVUC0Sg@mail.gmail.com>
+From: Vyacheslav Yurkov <uvv.mail@gmail.com>
+In-Reply-To: <CADkTA4NnDKC0LybGM5w_otZVpAPy3Gk8+0UR1s1_tn7NVUC0Sg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 22 Dec 2022 16:49:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174969
+ <openembedded-core@lists.openembedded.org>; Thu, 22 Dec 2022 18:40:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174970
 
-On Thu, Dec 22, 2022 at 11:20 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Thu, 2022-12-22 at 16:02 +0100, Vyacheslav Yurkov wrote:
-> > This is a workaround to allow using go-mod until a proper solution is in
-> > place. Possible solutions were discussued ealier this year in these
-> > threads:
-> >
-> > https://lists.openembedded.org/g/openembedded-core/topic/89464905
-> > https://lists.openembedded.org/g/openembedded-architecture/topic/90782883
-> >
-> > Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
-> > ---
-> >  meta/classes-recipe/go-mod.bbclass | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> >
-> > diff --git a/meta/classes-recipe/go-mod.bbclass b/meta/classes-recipe/go-mod.bbclass
-> > index 61571596bc..da9a583288 100644
-> > --- a/meta/classes-recipe/go-mod.bbclass
-> > +++ b/meta/classes-recipe/go-mod.bbclass
-> > @@ -24,3 +24,8 @@ inherit go
-> >
-> >  GO_WORKDIR ?= "${GO_IMPORT}"
-> >  do_compile[dirs] += "${B}/src/${GO_WORKDIR}"
-> > +do_compile[network] = "1"
-> > +
-> > +do_compile:prepend() {
-> > +    bbwarn "Using go-mod enables network during compilation to be able to fetch dependencies. This breaks reproducibility of the build!"
-> > +}
->
-> This patch is not in master and is not a backport therefore not
-> eligible for kirkstone/langdale.
->
+On 22.12.2022 17:48, Bruce Ashfield wrote:
+> On Thu, Dec 22, 2022 at 11:20 AM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>> This patch is not in master and is not a backport therefore not
+>> eligible for kirkstone/langdale.
 
-'nor should it go to master.
+My bad, the intention was to have it in all three branches: master, 
+kirkstone, and langdale.
 
-If someone wants to allow go to fetch sources during builds, it needs
-to be done in their own layers.
-
-Bruce
-
-> Cheers,
+> 'nor should it go to master.
 >
-> Richard
+> If someone wants to allow go to fetch sources during builds, it needs
+> to be done in their own layers.
 >
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#174968): https://lists.openembedded.org/g/openembedded-core/message/174968
-> Mute This Topic: https://lists.openembedded.org/mt/95827446/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+> Bruce
 
+Probably I misunderstood the outcome of the discussion in my first link. 
+Bruce and Richard, you both suggested to have it in go-mod with the 
+warning. I agree that it breaks reproducibility, and is considered a bad 
+practice in general (I'm aware of a few more build systems with the same 
+shortcoming).
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+My point is, until a proper solution is in place, it should be at least 
+documented somewhere that this should be done in own layer/recipe. Any 
+suggestions where this can be documented if not in OE-Core?
+
+Vyacheslav
 
