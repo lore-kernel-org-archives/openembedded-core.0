@@ -2,423 +2,127 @@ Return-Path: <vkumbhar@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6248AC4332F
-	for <webhook@archiver.kernel.org>; Fri, 23 Dec 2022 05:18:26 +0000 (UTC)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web10.66174.1671772701460852601
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0101C4332F
+	for <webhook@archiver.kernel.org>; Fri, 23 Dec 2022 07:10:36 +0000 (UTC)
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+ by mx.groups.io with SMTP id smtpd.web11.67309.1671779433085039405
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Dec 2022 21:18:21 -0800
+ Thu, 22 Dec 2022 23:10:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=Rt1q1KYf;
- spf=pass (domain: mvista.com, ip: 209.85.215.180, mailfrom: vkumbhar@mvista.com)
-Received: by mail-pg1-f180.google.com with SMTP id f3so2684340pgc.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Dec 2022 21:18:21 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=V8/D7Tla;
+ spf=pass (domain: mvista.com, ip: 209.85.215.176, mailfrom: vkumbhar@mvista.com)
+Received: by mail-pg1-f176.google.com with SMTP id f9so2799519pgf.7
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Dec 2022 23:10:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=mvista.com; s=google;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0IpGPrenI5GVcDUO3vJNJrZ5AE1SOyp9yrBAhDqUOjM=;
-        b=Rt1q1KYfdQuIvkKZVg/b855ExTKZefC+Vc1WqxVS6gsQ/q7INeeHi8acbvZqtTlgsb
-         uJXWO56jhoNkY6KpUsF5MevjZc7D0liqHh8m+o70pKpuK7LCb/32qNNg6+ZO5clGO5vd
-         KZUwXO3WY+5fDxi8n5r5DXXjOdELYoBmHVglw=
+        bh=awLxS9sJgoASxHMhPanlUmrh3YIBmcC0HViEPkWRb9E=;
+        b=V8/D7TlaILsqRlQvq56SNcAg4uQXTRjzGz/q4uGbX79/tmN9qIF6dEq3GT9G/WeKR0
+         uL0BuNqoxJLnud9FCfOrDo0GdLCBKUzJFDT+sJB7tIyUW6XqVBHd0MlldL5ToY3N3GLj
+         DklxRUByq+bAABaiy3PuFkZqSNn9/zWAKOk00=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0IpGPrenI5GVcDUO3vJNJrZ5AE1SOyp9yrBAhDqUOjM=;
-        b=LeKmwfuQvPkdPyuxv1LOxLH1QI3jO0t6EMifEV27GANRuxsUtR+R99dXUEfUPOCZ/0
-         7t9NpKiYic7BjFN5Du72YCmvs5Z4ZOZ7qwpi23CaBqmH8SRtbLk5NtqJ25BUIIGxHMlR
-         OyQgl15/slwDUR136TPs8jsNQ8wxTFxZeamLTVKpnzU9gc9Sj7ykJo2Sv59JiYls8m2B
-         oz3Lkk1WtCQrQ+SJvU62VsKwGxUag+pBeG8/0NKbZaZN5mUo3FihLckOoroKpXoJVIan
-         EeWu0+taz0sAszx6grBtB9UeYu3Nr7twnOVweJEcre8W7z+4NrzoiRRPG7jYWbTioE0B
-         qb4Q==
-X-Gm-Message-State: AFqh2koNVE9BZm6cA/mbrCv/ZT8FBY468mImRa4P/GbNj3CpHf9CqH8V
-	jjTwloJFv+ihnbWwpzfGYZJHxJW/x9pB/jZj
-X-Google-Smtp-Source: AMrXdXvMf4PS6GkjoDkS5bwf2ObJ7zXlM6mzCoKk+vBY/EncVHcxp8dxl2W86pIs0kDBDrObSdqqhg==
-X-Received: by 2002:a62:3883:0:b0:580:b942:e85 with SMTP id f125-20020a623883000000b00580b9420e85mr26981pfa.16.1671772699722;
-        Thu, 22 Dec 2022 21:18:19 -0800 (PST)
+        bh=awLxS9sJgoASxHMhPanlUmrh3YIBmcC0HViEPkWRb9E=;
+        b=i3Dj9gqUduEf/NBKyXiwQVrQv1EId4tOFpguxDcvQjhx5mXX1+mL+pzdjR0VYmRrlG
+         rBxp/KR/shMqd3rH9W9Tjnl6O/8jQGEgtH1EGXKxUjhYerP1Ibhg5nZlPn3vHWaoU6X3
+         wypRo1SyWZYYr6eH4Xq54os+HImpplpLpxjXEZ9qsxHKMnGYrvlu8kbRX8KB79FGQqgv
+         yelzFllYzsjAq1IVFp60pbrPr0zVKX0GIwwuDKCQjWApJf6mdM6CT7B3FnTs2LRCNtlg
+         /Qs9lKoWk28ccMJ3a6aJjr5mpuf6tytOwsfuTg2bxvsIxqss9t5UreYO4FLoyaNegNbM
+         jIeA==
+X-Gm-Message-State: AFqh2kqSmYdbRC242xfyR7RwjnZVQeo0XUEuYty8FGuXygCrlhznTrQM
+	SkogPImfmVdrNl2ulXXftK2PeNeZQpC7Z27h
+X-Google-Smtp-Source: AMrXdXvOzVYskgDJoj84JH1xZSUb+awUd0QEx6D7aHyfS63iQOw7qbpGBTzjLWA+ZjZ6ivQS5NII6Q==
+X-Received: by 2002:a62:ed08:0:b0:577:272f:fdb with SMTP id u8-20020a62ed08000000b00577272f0fdbmr7569817pfh.29.1671779431747;
+        Thu, 22 Dec 2022 23:10:31 -0800 (PST)
 Received: from vkumbhar-latitude3400.mvista.com ([116.74.137.86])
-        by smtp.gmail.com with ESMTPSA id w2-20020a628202000000b0057ef1262347sm1629604pfd.19.2022.12.22.21.18.18
+        by smtp.gmail.com with ESMTPSA id e4-20020aa79804000000b00576f9773c81sm1752239pfl.211.2022.12.22.23.10.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Dec 2022 21:18:19 -0800 (PST)
+        Thu, 22 Dec 2022 23:10:31 -0800 (PST)
 From: Vivek Kumbhar <vkumbhar@mvista.com>
 X-Google-Original-From: Vivek Kumbhar <vkumbhar@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Vivek Kumbhar <vkumbhar@mvista.com>
-Subject: [OE-core][dunfell][PATCH v2] rsync: fix CVE-2022-29154 remote arbitrary files write inside the directories of connecting peers
-Date: Fri, 23 Dec 2022 10:48:07 +0530
-Message-Id: <20221223051807.700261-1-vkumbhar@gmail.com>
+Subject: [OE-core][dunfell][PATCH v2] libx11: fix CVE-2022-3555 memory leak in _XFreeX11XCBStructure() of xcb_disp.c
+Date: Fri, 23 Dec 2022 12:40:23 +0530
+Message-Id: <20221223071023.762305-1-vkumbhar@gmail.com>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 Dec 2022 05:18:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174974
+ <openembedded-core@lists.openembedded.org>; Fri, 23 Dec 2022 07:10:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174975
 
 From: Vivek Kumbhar <vkumbhar@mvista.com>
 
 Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
 ---
- .../rsync/files/CVE-2022-29154.patch          | 334 ++++++++++++++++++
- meta/recipes-devtools/rsync/rsync_3.1.3.bb    |   1 +
- 2 files changed, 335 insertions(+)
- create mode 100644 meta/recipes-devtools/rsync/files/CVE-2022-29154.patch
+ .../xorg-lib/libx11/CVE-2022-3555.patch       | 38 +++++++++++++++++++
+ .../recipes-graphics/xorg-lib/libx11_1.6.9.bb |  1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11/CVE-2022-3555.patch
 
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2022-29154.patch b/meta/recipes-devtools/rsync/files/CVE-2022-29154.patch
+diff --git a/meta/recipes-graphics/xorg-lib/libx11/CVE-2022-3555.patch b/meta/recipes-graphics/xorg-lib/libx11/CVE-2022-3555.patch
 new file mode 100644
-index 0000000000..61e4e03254
+index 0000000000..855ce80e77
 --- /dev/null
-+++ b/meta/recipes-devtools/rsync/files/CVE-2022-29154.patch
-@@ -0,0 +1,334 @@
-+From b7231c7d02cfb65d291af74ff66e7d8c507ee871 Mon Sep 17 00:00:00 2001
-+From: Wayne Davison <wayne@opencoder.net>
-+Date: Sun, 31 Jul 2022 16:55:34 -0700
-+Subject: [PATCH] Some extra file-list safety checks.
++++ b/meta/recipes-graphics/xorg-lib/libx11/CVE-2022-3555.patch
+@@ -0,0 +1,38 @@
++From 8a368d808fec166b5fb3dfe6312aab22c7ee20af Mon Sep 17 00:00:00 2001
++From: Hodong <hodong@yozmos.com>
++Date: Thu, 20 Jan 2022 00:57:41 +0900
++Subject: [PATCH] Fix two memory leaks in _XFreeX11XCBStructure()
 +
-+CVE-2022-29154 rsync: remote arbitrary files write inside the
++Even when XCloseDisplay() was called, some memory was leaked.
 +
-+Upstream-Status: Backport from [https://git.samba.org/?p=rsync.git;a=patch;h=b7231c7d02cfb65d291af74ff66e7d8c507ee871]
-+CVE:CVE-2022-29154
++XCloseDisplay() calls _XFreeDisplayStructure(), which calls
++_XFreeX11XCBStructure().
++
++However, _XFreeX11XCBStructure() did not destroy the condition variables,
++resulting in the leaking of some 40 bytes.
++
++Signed-off-by: Hodong <hodong@yozmos.com>
++
++Upstream-Status: Backport from [https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/8a368d808fec166b5fb3dfe6312aab22c7ee20af]
++CVE:CVE-2022-3555
 +Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
 +---
-+ exclude.c  | 127 ++++++++++++++++++++++++++++++++++++++++++++++++++++-
-+ flist.c    |  17 ++++++-
-+ io.c       |   4 ++
-+ main.c     |   7 ++-
-+ receiver.c |  11 +++--
-+ 5 files changed, 158 insertions(+), 8 deletions(-)
++ src/xcb_disp.c | 2 ++
++ 1 file changed, 2 insertions(+)
 +
-+diff --git a/exclude.c b/exclude.c
-+index 7989fb3..e146e96 100644
-+--- a/exclude.c
-++++ b/exclude.c
-+@@ -26,16 +26,21 @@ extern int am_server;
-+ extern int am_sender;
-+ extern int eol_nulls;
-+ extern int io_error;
-++extern int xfer_dirs;
-++extern int recurse;
-+ extern int local_server;
-+ extern int prune_empty_dirs;
-+ extern int ignore_perishable;
-++extern int relative_paths;
-+ extern int delete_mode;
-+ extern int delete_excluded;
-+ extern int cvs_exclude;
-+ extern int sanitize_paths;
-+ extern int protocol_version;
-++extern int list_only;
-+ extern int module_id;
-+ 
-++extern char *filesfrom_host;
-+ extern char curr_dir[MAXPATHLEN];
-+ extern unsigned int curr_dir_len;
-+ extern unsigned int module_dirlen;
-+@@ -43,8 +48,10 @@ extern unsigned int module_dirlen;
-+ filter_rule_list filter_list = { .debug_type = "" };
-+ filter_rule_list cvs_filter_list = { .debug_type = " [global CVS]" };
-+ filter_rule_list daemon_filter_list = { .debug_type = " [daemon]" };
-++filter_rule_list implied_filter_list = { .debug_type = " [implied]" };
-+ 
-+ int saw_xattr_filter = 0;
-++int trust_sender_filter = 0;
-+ 
-+ /* Need room enough for ":MODS " prefix plus some room to grow. */
-+ #define MAX_RULE_PREFIX (16)
-+@@ -293,6 +300,123 @@ static void add_rule(filter_rule_list *listp, const char *pat, unsigned int pat_
++diff --git a/src/xcb_disp.c b/src/xcb_disp.c
++index 70a602f4..e9becee3 100644
++--- a/src/xcb_disp.c
+++++ b/src/xcb_disp.c
++@@ -102,6 +102,8 @@ void _XFreeX11XCBStructure(Display *dpy)
++ 		dpy->xcb->pending_requests = tmp->next;
++ 		free(tmp);
 + 	}
-+ }
-+ 
-++/* Each arg the client sends to the remote sender turns into an implied include
-++ * that the receiver uses to validate the file list from the sender. */
-++void add_implied_include(const char *arg)
-++{
-++	filter_rule *rule;
-++	int arg_len, saw_wild = 0, backslash_cnt = 0;
-++	int slash_cnt = 1; /* We know we're adding a leading slash. */
-++	const char *cp;
-++	char *p;
-++	if (relative_paths) {
-++		cp = strstr(arg, "/./");
-++		if (cp)
-++			arg = cp+3;
-++	} else {
-++		if ((cp = strrchr(arg, '/')) != NULL)
-++			arg = cp + 1;
-++	}
-++	arg_len = strlen(arg);
-++	if (arg_len) {
-++		if (strpbrk(arg, "*[?")) {
-++			/* We need to add room to escape backslashes if wildcard chars are present. */
-++			cp = arg;
-++			while ((cp = strchr(cp, '\\')) != NULL) {
-++				arg_len++;
-++				cp++;
-++			}
-++			saw_wild = 1;
-++		}
-++		arg_len++; /* Leave room for the prefixed slash */
-++		rule = new0(filter_rule);
-++		if (!implied_filter_list.head)
-++			implied_filter_list.head = implied_filter_list.tail = rule;
-++		else {
-++			rule->next = implied_filter_list.head;
-++			implied_filter_list.head = rule;
-++		}
-++		rule->rflags = FILTRULE_INCLUDE + (saw_wild ? FILTRULE_WILD : 0);
-++		p = rule->pattern = new_array(char, arg_len + 1);
-++		*p++ = '/';
-++		cp = arg;
-++		while (*cp) {
-++			switch (*cp) {
-++			  case '\\':
-++				backslash_cnt++;
-++				if (saw_wild)
-++					*p++ = '\\';
-++				*p++ = *cp++;
-++				break;
-++			  case '/':
-++				if (p[-1] == '/') /* This is safe because of the initial slash. */
-++					break;
-++				if (relative_paths) {
-++					filter_rule const *ent;
-++					int found = 0;
-++					*p = '\0';
-++					for (ent = implied_filter_list.head; ent; ent = ent->next) {
-++						if (ent != rule && strcmp(ent->pattern, rule->pattern) == 0)
-++							found = 1;
-++					}
-++					if (!found) {
-++						filter_rule *R_rule = new0(filter_rule);
-++						R_rule->rflags = FILTRULE_INCLUDE + (saw_wild ? FILTRULE_WILD : 0);
-++						R_rule->pattern = strdup(rule->pattern);
-++						R_rule->u.slash_cnt = slash_cnt;
-++						R_rule->next = implied_filter_list.head;
-++						implied_filter_list.head = R_rule;
-++					}
-++				}
-++				slash_cnt++;
-++				*p++ = *cp++;
-++				break;
-++			  default:
-++				*p++ = *cp++;
-++				break;
-++			}
-++		}
-++		*p = '\0';
-++		rule->u.slash_cnt = slash_cnt;
-++		arg = (const char *)rule->pattern;
-++	}
-++
-++	if (recurse || xfer_dirs) {
-++		/* Now create a rule with an added "/" & "**" or "*" at the end */
-++		rule = new0(filter_rule);
-++		if (recurse)
-++			rule->rflags = FILTRULE_INCLUDE | FILTRULE_WILD | FILTRULE_WILD2;
-++		else
-++			rule->rflags = FILTRULE_INCLUDE | FILTRULE_WILD;
-++		/* A +4 in the len leaves enough room for / * * \0 or / * \0 \0 */
-++		if (!saw_wild && backslash_cnt) {
-++			/* We are appending a wildcard, so now the backslashes need to be escaped. */
-++			p = rule->pattern = new_array(char, arg_len + backslash_cnt + 3 + 1);
-++			cp = arg;
-++			while (*cp) {
-++				if (*cp == '\\')
-++					*p++ = '\\';
-++				*p++ = *cp++;
-++			}
-++		} else {
-++			p = rule->pattern = new_array(char, arg_len + 3 + 1);
-++			if (arg_len) {
-++				memcpy(p, arg, arg_len);
-++				p += arg_len;
-++			}
-++		}
-++		if (p[-1] != '/')
-++			*p++ = '/';
-++		*p++ = '*';
-++		if (recurse)
-++			*p++ = '*';
-++		*p = '\0';
-++		rule->u.slash_cnt = slash_cnt + 1;
-++		rule->next = implied_filter_list.head;
-++		implied_filter_list.head = rule;
-++	}
-++}
-++
-+ /* This frees any non-inherited items, leaving just inherited items on the list. */
-+ static void pop_filter_list(filter_rule_list *listp)
-+ {
-+@@ -721,7 +845,7 @@ static void report_filter_result(enum logcode code, char const *name,
-+ 			      : name_flags & NAME_IS_DIR ? "directory"
-+ 			      : "file";
-+ 		rprintf(code, "[%s] %sing %s %s because of pattern %s%s%s\n",
-+-		    w, actions[*w!='s'][!(ent->rflags & FILTRULE_INCLUDE)],
-++		    w, actions[*w=='g'][!(ent->rflags & FILTRULE_INCLUDE)],
-+ 		    t, name, ent->pattern,
-+ 		    ent->rflags & FILTRULE_DIRECTORY ? "/" : "", type);
-+ 	}
-+@@ -894,6 +1018,7 @@ static filter_rule *parse_rule_tok(const char **rulestr_ptr,
-+ 		}
-+ 		switch (ch) {
-+ 		case ':':
-++			trust_sender_filter = 1;
-+ 			rule->rflags |= FILTRULE_PERDIR_MERGE
-+ 				      | FILTRULE_FINISH_SETUP;
-+ 			/* FALL THROUGH */
-+diff --git a/flist.c b/flist.c
-+index 499440c..630d685 100644
-+--- a/flist.c
-++++ b/flist.c
-+@@ -70,6 +70,7 @@ extern int need_unsorted_flist;
-+ extern int sender_symlink_iconv;
-+ extern int output_needs_newline;
-+ extern int sender_keeps_checksum;
-++extern int trust_sender_filter;
-+ extern int unsort_ndx;
-+ extern uid_t our_uid;
-+ extern struct stats stats;
-+@@ -80,8 +81,7 @@ extern char curr_dir[MAXPATHLEN];
-+ 
-+ extern struct chmod_mode_struct *chmod_modes;
-+ 
-+-extern filter_rule_list filter_list;
-+-extern filter_rule_list daemon_filter_list;
-++extern filter_rule_list filter_list, implied_filter_list, daemon_filter_list;
-+ 
-+ #ifdef ICONV_OPTION
-+ extern int filesfrom_convert;
-+@@ -904,6 +904,19 @@ static struct file_struct *recv_file_entry(int f, struct file_list *flist, int x
-+ 		exit_cleanup(RERR_UNSUPPORTED);
-+ 	}
-+ 
-++	if (*thisname != '.' || thisname[1] != '\0') {
-++		int filt_flags = S_ISDIR(mode) ? NAME_IS_DIR : NAME_IS_FILE;
-++		if (!trust_sender_filter /* a per-dir filter rule means we must trust the sender's filtering */
-++		 && filter_list.head && check_filter(&filter_list, FINFO, thisname, filt_flags) < 0) {
-++			rprintf(FERROR, "ERROR: rejecting excluded file-list name: %s\n", thisname);
-++			exit_cleanup(RERR_PROTOCOL);
-++		}
-++		if (implied_filter_list.head && check_filter(&implied_filter_list, FINFO, thisname, filt_flags) <= 0) {
-++			rprintf(FERROR, "ERROR: rejecting unrequested file-list name: %s\n", thisname);
-++			exit_cleanup(RERR_PROTOCOL);
-++		}
-++	}
-++
-+ 	if (inc_recurse && S_ISDIR(mode)) {
-+ 		if (one_file_system) {
-+ 			/* Room to save the dir's device for -x */
-+diff --git a/io.c b/io.c
-+index c04dbd5..698a7da 100644
-+--- a/io.c
-++++ b/io.c
-+@@ -415,6 +415,7 @@ static void forward_filesfrom_data(void)
-+ 		while (s != eob) {
-+ 			if (*s++ == '\0') {
-+ 				ff_xb.len = s - sob - 1;
-++				add_implied_include(sob);
-+ 				if (iconvbufs(ic_send, &ff_xb, &iobuf.out, flags) < 0)
-+ 					exit_cleanup(RERR_PROTOCOL); /* impossible? */
-+ 				write_buf(iobuf.out_fd, s-1, 1); /* Send the '\0'. */
-+@@ -446,9 +447,12 @@ static void forward_filesfrom_data(void)
-+ 		char *f = ff_xb.buf + ff_xb.pos;
-+ 		char *t = ff_xb.buf;
-+ 		char *eob = f + len;
-++		char *cur = t;
-+ 		/* Eliminate any multi-'\0' runs. */
-+ 		while (f != eob) {
-+ 			if (!(*t++ = *f++)) {
-++				add_implied_include(cur);
-++				cur = t;
-+ 				while (f != eob && *f == '\0')
-+ 					f++;
-+ 			}
-+diff --git a/main.c b/main.c
-+index ee9630f..6ec56e7 100644
-+--- a/main.c
-++++ b/main.c
-+@@ -78,6 +78,7 @@ extern BOOL flist_receiving_enabled;
-+ extern BOOL shutting_down;
-+ extern int backup_dir_len;
-+ extern int basis_dir_cnt;
-++extern int trust_sender_filter;
-+ extern struct stats stats;
-+ extern char *stdout_format;
-+ extern char *logfile_format;
-+@@ -93,7 +94,7 @@ extern char curr_dir[MAXPATHLEN];
-+ extern char backup_dir_buf[MAXPATHLEN];
-+ extern char *basis_dir[MAX_BASIS_DIRS+1];
-+ extern struct file_list *first_flist;
-+-extern filter_rule_list daemon_filter_list;
-++extern filter_rule_list daemon_filter_list, implied_filter_list;
-+ 
-+ uid_t our_uid;
-+ gid_t our_gid;
-+@@ -534,6 +535,7 @@ static pid_t do_cmd(char *cmd, char *machine, char *user, char **remote_argv, in
-+ #ifdef ICONV_CONST
-+ 		setup_iconv();
-+ #endif
-++		trust_sender_filter = 1;
-+ 	} else if (local_server) {
-+ 		/* If the user didn't request --[no-]whole-file, force
-+ 		 * it on, but only if we're not batch processing. */
-+@@ -1358,6 +1360,8 @@ static int start_client(int argc, char *argv[])
-+ 		char *dummy_host;
-+ 		int dummy_port = rsync_port;
-+ 		int i;
-++		if (filesfrom_fd < 0)
-++			add_implied_include(remote_argv[0]);
-+ 		/* For remote source, any extra source args must have either
-+ 		 * the same hostname or an empty hostname. */
-+ 		for (i = 1; i < remote_argc; i++) {
-+@@ -1381,6 +1385,7 @@ static int start_client(int argc, char *argv[])
-+ 			if (!rsync_port && !*arg) /* Turn an empty arg into a dot dir. */
-+ 				arg = ".";
-+ 			remote_argv[i] = arg;
-++			add_implied_include(arg);
-+ 		}
-+ 	}
-+ 
-+diff --git a/receiver.c b/receiver.c
-+index d6a48f1..c0aa893 100644
-+--- a/receiver.c
-++++ b/receiver.c
-+@@ -577,10 +577,13 @@ int recv_files(int f_in, int f_out, char *local_name)
-+ 		if (DEBUG_GTE(RECV, 1))
-+ 			rprintf(FINFO, "recv_files(%s)\n", fname);
-+ 
-+-		if (daemon_filter_list.head && (*fname != '.' || fname[1] != '\0')
-+-		 && check_filter(&daemon_filter_list, FLOG, fname, 0) < 0) {
-+-			rprintf(FERROR, "attempt to hack rsync failed.\n");
-+-			exit_cleanup(RERR_PROTOCOL);
-++		if (daemon_filter_list.head && (*fname != '.' || fname[1] != '\0')) {
-++			int filt_flags = S_ISDIR(file->mode) ? NAME_IS_DIR : NAME_IS_FILE;
-++			if (check_filter(&daemon_filter_list, FLOG, fname, filt_flags) < 0) {
-++				rprintf(FERROR, "ERROR: rejecting file transfer request for daemon excluded file: %s\n",
-++					fname);
-++				exit_cleanup(RERR_PROTOCOL);
-++			}
-+ 		}
-+ 
-+ #ifdef SUPPORT_XATTRS
+++	xcondition_clear(dpy->xcb->event_notify);
+++	xcondition_clear(dpy->xcb->reply_notify);
++ 	xcondition_free(dpy->xcb->event_notify);
++ 	xcondition_free(dpy->xcb->reply_notify);
++ 	Xfree(dpy->xcb);
 +-- 
-+2.30.2
++2.18.2
 +
-diff --git a/meta/recipes-devtools/rsync/rsync_3.1.3.bb b/meta/recipes-devtools/rsync/rsync_3.1.3.bb
-index c743e3f75b..a5c20dee34 100644
---- a/meta/recipes-devtools/rsync/rsync_3.1.3.bb
-+++ b/meta/recipes-devtools/rsync/rsync_3.1.3.bb
-@@ -16,6 +16,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
-            file://CVE-2016-9841.patch \
-            file://CVE-2016-9842.patch \
-            file://CVE-2016-9843.patch \
-+           file://CVE-2022-29154.patch \
+diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.6.9.bb b/meta/recipes-graphics/xorg-lib/libx11_1.6.9.bb
+index 72ab1d4150..ad3fab1204 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11_1.6.9.bb
++++ b/meta/recipes-graphics/xorg-lib/libx11_1.6.9.bb
+@@ -17,6 +17,7 @@ SRC_URI += "file://Fix-hanging-issue-in-_XReply.patch \
+             file://CVE-2020-14363.patch \
+             file://CVE-2021-31535.patch \
+             file://CVE-2022-3554.patch \
++            file://CVE-2022-3555.patch \
  "
  
- SRC_URI[md5sum] = "1581a588fde9d89f6bc6201e8129afaf"
+ SRC_URI[md5sum] = "55adbfb6d4370ecac5e70598c4e7eed2"
 -- 
 2.30.2
 
