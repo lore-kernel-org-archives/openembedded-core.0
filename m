@@ -1,109 +1,107 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75F48C4332F
-	for <webhook@archiver.kernel.org>; Sat, 24 Dec 2022 08:30:44 +0000 (UTC)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web11.92860.1671870636513461200
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F390C4332F
+	for <webhook@archiver.kernel.org>; Sat, 24 Dec 2022 17:00:07 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web11.101081.1671901199457046961
  for <openembedded-core@lists.openembedded.org>;
- Sat, 24 Dec 2022 00:30:36 -0800
+ Sat, 24 Dec 2022 08:59:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=eNtu+Smd;
- spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f42.google.com with SMTP id kw15so16626402ejc.10
-        for <openembedded-core@lists.openembedded.org>; Sat, 24 Dec 2022 00:30:36 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=VtTo5w2g;
+ spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f52.google.com with SMTP id z10so7028428wrh.10
+        for <openembedded-core@lists.openembedded.org>; Sat, 24 Dec 2022 08:59:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=uLNgiAYoLZAWqMb9LclMJmP+owuXN5XA8B602Zb54q4=;
-        b=eNtu+SmdXuSTWu3SGzH8UVPW4HXreu8SvzSo9PNhDqSxwnN8xLD0hgL0SeD0k1q3xY
-         QWcA8IH6o77UO0XJ/YXWTizFKXMxWU7pPDeGB73x0+E/unwwUSWMM0lkG3rA6VwK6cUt
-         hROUWDOhqLRAzlWLxoI+1GpePG7CMGtCNADJkVGZgsOqlE+8tYg56astAxj2mNYnASli
-         DB1RnvWB/F2BNnLkTf235/dbeuCLTYqs5ackmFsOSsAtLwI5Of4qCSk/E9P4DnnID7sQ
-         ur9erUxS+zNLcXuiB5r/f0F9GOFshe/NaoUmbTDRJBg3/Aj4XAt+ubbLUUt4wIx9SsHA
-         bjuw==
+        bh=qkMb2ryTtaFs1sTL4czOn/niRqbBmSE55UGACvqN6VI=;
+        b=VtTo5w2gv+aetc78lJdXscXXTfDv+mpTqkJvQsXQYnWlJ4q+JzdjaEDS7n1qCPh7fH
+         nzKVY2PARzWGuEDjkUJTx1Wb9odXK/mME71zBW1i2QlSDavnzyvOuNyJhIqAO3Un/gMa
+         B617Z0c7DCFjV2rvqhWJAVnvokEc62BhCd++PGoRghMplJKz6mF1qCKjMPm5ZOulHEB0
+         avz3lS8y+zJkJh5cUpprDDJKi0PBv9j1KB4JwFuL08ZHchm69Z1xG7gfVps454T6+pXi
+         GSFgmjeiFtQGAM0iPw5crChnEEzFsX6U7G7JV4+q06a+k/96ByJFbnBUkIRfkAjPFHRk
+         nU/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=uLNgiAYoLZAWqMb9LclMJmP+owuXN5XA8B602Zb54q4=;
-        b=D6bdIe5F4vQMH8fZH/WY8X1sDsWVxE9ulEBcTt7IXTTczdCtNig6Yd9OWCpn8bGf7m
-         6GVGhAoRQ+0+pLM+cUt212TsGCgX8AUcN5dHWjHr2IZ0ybbUdKYr09OUWdCHyAuN5t+j
-         Ee99X+GoiNjskQbyg7i5Z4/IvgNtTTOWZ+FsFstk3v0V7Vcd1sRacHcNxByK6Ab+iQYh
-         vDxwi2gr7hCff2IwPgF3FrDam/z4OgmL0nawoKEEWSRo2p94yFSNgUGvv3ixP4ucO7zz
-         I6LlDnPtQAEv3esffDx3M3Gd/fMLnIQaqQ85EYJ3SLS31hKxx/9UA7tJT9+vsYlOlG72
-         5jfg==
-X-Gm-Message-State: AFqh2kpPdJmLbYPNtZXIPh2ujRuFMGAP0ZapLDXugaH52ujPrZmL2GCI
-	D4xsUyv0vqVys9xA/jewteO3Ot29cpw=
-X-Google-Smtp-Source: AMrXdXsutqdtk2/z/zI573nAY0rKc0gkpZ4Q3JBKsnXusj5NZgZcRtIfZIB1r5j7gDygv5dTqxSJOw==
-X-Received: by 2002:a17:906:1c59:b0:7bb:af66:f38c with SMTP id l25-20020a1709061c5900b007bbaf66f38cmr10418803ejg.10.1671870635000;
-        Sat, 24 Dec 2022 00:30:35 -0800 (PST)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id 16-20020a170906319000b0084c2065b388sm232066ejy.128.2022.12.24.00.30.34
+        bh=qkMb2ryTtaFs1sTL4czOn/niRqbBmSE55UGACvqN6VI=;
+        b=UsZm0HyRnpb9R6jLwfwXet/bDBkf5Y5ByGcfHshINaWjTvYzusIUvkza6H3lOgc/0y
+         6uuEoJ4HhKS5+z1JkCbRZIgQHm8/evvE1Bp4T++q6SnmwKOQRKDUTn5Wc/HtgSmYzffF
+         JX6wTVUc83fvAZnXzr7+y4iHK8LPrA2wnKYQoqyegxO6VlC6/k43cbQvKNjJy43vkKKd
+         QzCXtN08hOTXDoCsQAZDHbA8G9fheRZn9TPrtE2w7znQC8z4qv4YR3EFXzHD7VqsKbBh
+         Sdh0XytuMs/okTGXvHTXPj8EbibQHVm9pY6qqyCriysebj0GO0upVo38wrB90embLfWG
+         Tq4w==
+X-Gm-Message-State: AFqh2krmFZakkiEh78K5YcFCEMC3w2rZdEN4p+d/fNtAPsHqF60aZfgL
+	8h+WpMl7+WXa7uTGvr4srl8DNES+bYU=
+X-Google-Smtp-Source: AMrXdXvasUPYsdrdIW0CmKPHBDf870jWJZgTPzQgRvMK4OT64NAeW4t2z3kgCC7LDKOKAZnVnYKUmQ==
+X-Received: by 2002:adf:f38f:0:b0:242:102c:c571 with SMTP id m15-20020adff38f000000b00242102cc571mr8102016wro.19.1671901197575;
+        Sat, 24 Dec 2022 08:59:57 -0800 (PST)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id b2-20020adff242000000b0023662245d3csm6005622wrp.95.2022.12.24.08.59.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Dec 2022 00:30:34 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+        Sat, 24 Dec 2022 08:59:57 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: steve@sakoman.com,
-	Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH][langdale][kirkstone] libxml2: fix test data checksums
-Date: Sat, 24 Dec 2022 09:30:30 +0100
-Message-Id: <20221224083030.1185986-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.39.0
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 1/7] llvm: update 15.0.4 -> 15.0.6
+Date: Sat, 24 Dec 2022 17:59:37 +0100
+Message-Id: <20221224165943.1324800-1-alex@linutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 24 Dec 2022 08:30:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174982
+ <openembedded-core@lists.openembedded.org>; Sat, 24 Dec 2022 17:00:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174983
 
-* switch from tar.gz to tar, because the tar.gz archives upstream are regular tar as well now
-  https://www.w3.org/XML/Test/ still has 3 separate URLs for .zip, .tar
-  and .tar.gz, but both tar links return the same file:
-
-  xmlts20080827.tar:      POSIX tar archive (GNU)
-  xmlts20080827.tar.gz:   POSIX tar archive (GNU)
-
-  -rw-r--r--  1 martin martin 5.7M Sep  1  2008 xmlts20080827.tar
-  -rw-r--r--  1 martin martin 5.7M Sep  1  2008 xmlts20080827.tar.gz
-
-  9b2c865aba66c6429ca301a7ef048d7eca2cdb7a9106184416710853c7b37d0d  xmlts20080827.tar
-  9b2c865aba66c6429ca301a7ef048d7eca2cdb7a9106184416710853c7b37d0d  xmlts20080827.tar.gz
-  96151685cec997e1f9f3387e3626d61e6284d4d6e66e0e440c209286c03e9cc7  /OE/build/downloads/xmlts20080827.tar.gz
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-core/libxml/libxml2_2.9.14.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/conf/distro/include/tcmode-default.inc | 2 +-
+ meta/recipes-devtools/llvm/llvm_git.bb      | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.14.bb b/meta/recipes-core/libxml/libxml2_2.9.14.bb
-index 519985bbae..fc4a1c3c68 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.14.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.14.bb
-@@ -13,7 +13,7 @@ DEPENDS = "zlib virtual/libiconv"
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 6f9a68a900..dc1cac734f 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -26,7 +26,7 @@ QEMUVERSION ?= "7.1%"
+ GOVERSION ?= "1.19%"
+ # This can not use wildcards like 8.0.% since it is also used in mesa to denote
+ # llvm version being used, so always bump it with llvm recipe version bump
+-LLVMVERSION ?= "15.0.4"
++LLVMVERSION ?= "15.0.6"
+ RUSTVERSION ?= "1.66%"
  
- inherit gnomebase
+ PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
+diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
+index 2d346b70cf..402460ee10 100644
+--- a/meta/recipes-devtools/llvm/llvm_git.bb
++++ b/meta/recipes-devtools/llvm/llvm_git.bb
+@@ -19,14 +19,14 @@ inherit cmake pkgconfig
  
--SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar.gz;subdir=${BP};name=testtar \
-+SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar;subdir=${BP};name=testtar \
-            file://libxml-64bit.patch \
-            file://runtest.patch \
-            file://run-ptest \
-@@ -26,7 +26,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar.gz;subdir=${BP};name=te
-            "
+ PROVIDES += "llvm${PV}"
  
- SRC_URI[archive.sha256sum] = "60d74a257d1ccec0475e749cba2f21559e48139efba6ff28224357c7c798dfee"
--SRC_URI[testtar.sha256sum] = "96151685cec997e1f9f3387e3626d61e6284d4d6e66e0e440c209286c03e9cc7"
-+SRC_URI[testtar.sha256sum] = "9b2c865aba66c6429ca301a7ef048d7eca2cdb7a9106184416710853c7b37d0d"
+-PV = "15.0.4"
++PV = "15.0.6"
  
- BINCONFIG = "${bindir}/xml2-config"
+ MAJOR_VERSION = "${@oe.utils.trim_version("${PV}", 1)}"
  
+ LLVM_RELEASE = "${PV}"
+ 
+ BRANCH = "release/${MAJOR_VERSION}.x"
+-SRCREV = "5c68a1cb123161b54b72ce90e7975d95a8eaf2a4"
++SRCREV = "088f33605d8a61ff519c580a71b1dd57d16a03f8"
+ SRC_URI = "git://github.com/llvm/llvm-project.git;branch=${BRANCH};protocol=https \
+            file://0007-llvm-allow-env-override-of-exe-path.patch;striplevel=2 \
+            file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=2 \
 -- 
-2.39.0
+2.30.2
 
 
