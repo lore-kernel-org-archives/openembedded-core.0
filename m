@@ -2,105 +2,114 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F390C4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10D21C10F1B
 	for <webhook@archiver.kernel.org>; Sat, 24 Dec 2022 17:00:07 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web11.101081.1671901199457046961
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web10.100756.1671901202173394276
  for <openembedded-core@lists.openembedded.org>;
- Sat, 24 Dec 2022 08:59:59 -0800
+ Sat, 24 Dec 2022 09:00:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=VtTo5w2g;
- spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f52.google.com with SMTP id z10so7028428wrh.10
-        for <openembedded-core@lists.openembedded.org>; Sat, 24 Dec 2022 08:59:59 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=eHRo4XF8;
+ spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f51.google.com with SMTP id y8so7022983wrl.13
+        for <openembedded-core@lists.openembedded.org>; Sat, 24 Dec 2022 09:00:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qkMb2ryTtaFs1sTL4czOn/niRqbBmSE55UGACvqN6VI=;
-        b=VtTo5w2gv+aetc78lJdXscXXTfDv+mpTqkJvQsXQYnWlJ4q+JzdjaEDS7n1qCPh7fH
-         nzKVY2PARzWGuEDjkUJTx1Wb9odXK/mME71zBW1i2QlSDavnzyvOuNyJhIqAO3Un/gMa
-         B617Z0c7DCFjV2rvqhWJAVnvokEc62BhCd++PGoRghMplJKz6mF1qCKjMPm5ZOulHEB0
-         avz3lS8y+zJkJh5cUpprDDJKi0PBv9j1KB4JwFuL08ZHchm69Z1xG7gfVps454T6+pXi
-         GSFgmjeiFtQGAM0iPw5crChnEEzFsX6U7G7JV4+q06a+k/96ByJFbnBUkIRfkAjPFHRk
-         nU/w==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2yD8JQ3sBJBENlk16VnPgwnmRkS150UAREqRalQcq2w=;
+        b=eHRo4XF87pb+BrrRE63ArFXURJjpIPx2wzI0q3HNYoQ2LtSqI+p/StTaEcMa1Qo1Mm
+         kVsQ3BettVzjxGxdE5OVnnuNVEWRTYIaMzZBE7e2xb+/HYA9bBNG8/cE6296FeApGz6Q
+         jDDIBXQU65rzjRTtGQsuoTAIey7/JIxnnfc8TxJGO1tjX0r2zgBbJFqBWgf+YZpf6A3E
+         EwGpUCcidit3+Q/5v0RxWYcQRmQJcC2uwvasOOeLZW+hKdWX7QV3mpQkyIHRAElOCLnB
+         YeAExC2FwPLT6sJV2wzahfGj7MHMosaG9DohD6xPs9/dcT89+KFgzfzAWpXOQ/ezN1Th
+         niVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qkMb2ryTtaFs1sTL4czOn/niRqbBmSE55UGACvqN6VI=;
-        b=UsZm0HyRnpb9R6jLwfwXet/bDBkf5Y5ByGcfHshINaWjTvYzusIUvkza6H3lOgc/0y
-         6uuEoJ4HhKS5+z1JkCbRZIgQHm8/evvE1Bp4T++q6SnmwKOQRKDUTn5Wc/HtgSmYzffF
-         JX6wTVUc83fvAZnXzr7+y4iHK8LPrA2wnKYQoqyegxO6VlC6/k43cbQvKNjJy43vkKKd
-         QzCXtN08hOTXDoCsQAZDHbA8G9fheRZn9TPrtE2w7znQC8z4qv4YR3EFXzHD7VqsKbBh
-         Sdh0XytuMs/okTGXvHTXPj8EbibQHVm9pY6qqyCriysebj0GO0upVo38wrB90embLfWG
-         Tq4w==
-X-Gm-Message-State: AFqh2krmFZakkiEh78K5YcFCEMC3w2rZdEN4p+d/fNtAPsHqF60aZfgL
-	8h+WpMl7+WXa7uTGvr4srl8DNES+bYU=
-X-Google-Smtp-Source: AMrXdXvasUPYsdrdIW0CmKPHBDf870jWJZgTPzQgRvMK4OT64NAeW4t2z3kgCC7LDKOKAZnVnYKUmQ==
-X-Received: by 2002:adf:f38f:0:b0:242:102c:c571 with SMTP id m15-20020adff38f000000b00242102cc571mr8102016wro.19.1671901197575;
-        Sat, 24 Dec 2022 08:59:57 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2yD8JQ3sBJBENlk16VnPgwnmRkS150UAREqRalQcq2w=;
+        b=2XH2p5JAYwl8yP0OzE6rxlMbg6OIcrW5DixqrCzGgiPpUPm90v1hSvKF/zMzGS4cht
+         SbHFgffijc5dUfEx5qhTk265FkQeGPseE4EIeuqLEMS0eqm/UJydwiD2pWZWTBdO+8Dw
+         TRQHVRznCm1VF4i239EPnsZ9V1Pyh03z8697KPJ50x9DtXTuhtzCERM4WwXUpUC3Muo3
+         +lFnVlW6IR7RLh4VCVOm/6LKzj8j91wJPWUnvby7T0grK46aR+F0wSIxGOs9lI5N0wm8
+         d40ggOJHB41kBjEB87KKIn8R6b+IpsLlHewCuTSu6duxpgmAwKRB+q4HlfCyB4v/IUn2
+         nQjA==
+X-Gm-Message-State: AFqh2kqCyTKcCMPh9en2unwTlHxZf/4GP6bna2gt994kg8RpoDbTAL/Z
+	rKSzrci9sBNcqPKNKt0POy+rSpo6McM=
+X-Google-Smtp-Source: AMrXdXuxzXfb+BWJSPOi5mjYFvdWcb/9GWa2JqrJR7Voe4fJrT4G8IL4AiqFyKspPUGAz1Xv3p4W5A==
+X-Received: by 2002:a05:6000:16c4:b0:247:4802:9435 with SMTP id h4-20020a05600016c400b0024748029435mr9321750wrf.5.1671901200706;
+        Sat, 24 Dec 2022 09:00:00 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id b2-20020adff242000000b0023662245d3csm6005622wrp.95.2022.12.24.08.59.56
+        by smtp.gmail.com with ESMTPSA id b2-20020adff242000000b0023662245d3csm6005622wrp.95.2022.12.24.09.00.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Dec 2022 08:59:57 -0800 (PST)
+        Sat, 24 Dec 2022 09:00:00 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 1/7] llvm: update 15.0.4 -> 15.0.6
-Date: Sat, 24 Dec 2022 17:59:37 +0100
-Message-Id: <20221224165943.1324800-1-alex@linutronix.de>
+Subject: [PATCH 6/7] libslirp: add recipe to continue slirp support in qemu
+Date: Sat, 24 Dec 2022 17:59:42 +0100
+Message-Id: <20221224165943.1324800-6-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20221224165943.1324800-1-alex@linutronix.de>
+References: <20221224165943.1324800-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 24 Dec 2022 17:00:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174983
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174989
+
+qemu 7.2 no longer carries libslirp in-tree, and so
+it has to be provided externally.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/conf/distro/include/tcmode-default.inc | 2 +-
- meta/recipes-devtools/llvm/llvm_git.bb      | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ meta/conf/distro/include/maintainers.inc       |  1 +
+ .../recipes-connectivity/slirp/libslirp_git.bb | 18 ++++++++++++++++++
+ 2 files changed, 19 insertions(+)
+ create mode 100644 meta/recipes-connectivity/slirp/libslirp_git.bb
 
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index 6f9a68a900..dc1cac734f 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -26,7 +26,7 @@ QEMUVERSION ?= "7.1%"
- GOVERSION ?= "1.19%"
- # This can not use wildcards like 8.0.% since it is also used in mesa to denote
- # llvm version being used, so always bump it with llvm recipe version bump
--LLVMVERSION ?= "15.0.4"
-+LLVMVERSION ?= "15.0.6"
- RUSTVERSION ?= "1.66%"
- 
- PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
-diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
-index 2d346b70cf..402460ee10 100644
---- a/meta/recipes-devtools/llvm/llvm_git.bb
-+++ b/meta/recipes-devtools/llvm/llvm_git.bb
-@@ -19,14 +19,14 @@ inherit cmake pkgconfig
- 
- PROVIDES += "llvm${PV}"
- 
--PV = "15.0.4"
-+PV = "15.0.6"
- 
- MAJOR_VERSION = "${@oe.utils.trim_version("${PV}", 1)}"
- 
- LLVM_RELEASE = "${PV}"
- 
- BRANCH = "release/${MAJOR_VERSION}.x"
--SRCREV = "5c68a1cb123161b54b72ce90e7975d95a8eaf2a4"
-+SRCREV = "088f33605d8a61ff519c580a71b1dd57d16a03f8"
- SRC_URI = "git://github.com/llvm/llvm-project.git;branch=${BRANCH};protocol=https \
-            file://0007-llvm-allow-env-override-of-exe-path.patch;striplevel=2 \
-            file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=2 \
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 66797db02c..be96123ce6 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -382,6 +382,7 @@ RECIPE_MAINTAINER:pn-libsamplerate0 = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-libsdl2 = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER:pn-libseccomp = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-libsecret = "Alexander Kanavin <alex.kanavin@gmail.com>"
++RECIPE_MAINTAINER:pn-libslirp = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-libsm = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-libsndfile1 = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-libsolv = "Anuj Mittal <anuj.mittal@intel.com>"
+diff --git a/meta/recipes-connectivity/slirp/libslirp_git.bb b/meta/recipes-connectivity/slirp/libslirp_git.bb
+new file mode 100644
+index 0000000000..334b786b9b
+--- /dev/null
++++ b/meta/recipes-connectivity/slirp/libslirp_git.bb
+@@ -0,0 +1,18 @@
++SUMMARY = "A general purpose TCP-IP emulator"
++DESCRIPTION = "A general purpose TCP-IP emulator used by virtual machine hypervisors to provide virtual networking services."
++HOMEPAGE = "https://gitlab.freedesktop.org/slirp/libslirp"
++LICENSE = "BSD-3-Clause & MIT"
++LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=bca0186b14e6b05e338e729f106db727"
++
++SRC_URI = "git://gitlab.freedesktop.org/slirp/libslirp.git;protocol=https;branch=master"
++SRCREV = "3ad1710a96678fe79066b1469cead4058713a1d9"
++PV = "4.7.0"
++S = "${WORKDIR}/git"
++
++DEPENDS = " \
++    glib-2.0 \
++"
++
++inherit meson pkgconfig
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.30.2
 
