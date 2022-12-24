@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10D21C10F1B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2090DC4708D
 	for <webhook@archiver.kernel.org>; Sat, 24 Dec 2022 17:00:07 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web10.100756.1671901202173394276
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web11.101084.1671901201040997081
  for <openembedded-core@lists.openembedded.org>;
- Sat, 24 Dec 2022 09:00:02 -0800
+ Sat, 24 Dec 2022 09:00:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=eHRo4XF8;
- spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id y8so7022983wrl.13
-        for <openembedded-core@lists.openembedded.org>; Sat, 24 Dec 2022 09:00:01 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=BwCY9JTB;
+ spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f48.google.com with SMTP id i7so7036443wrv.8
+        for <openembedded-core@lists.openembedded.org>; Sat, 24 Dec 2022 09:00:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2yD8JQ3sBJBENlk16VnPgwnmRkS150UAREqRalQcq2w=;
-        b=eHRo4XF87pb+BrrRE63ArFXURJjpIPx2wzI0q3HNYoQ2LtSqI+p/StTaEcMa1Qo1Mm
-         kVsQ3BettVzjxGxdE5OVnnuNVEWRTYIaMzZBE7e2xb+/HYA9bBNG8/cE6296FeApGz6Q
-         jDDIBXQU65rzjRTtGQsuoTAIey7/JIxnnfc8TxJGO1tjX0r2zgBbJFqBWgf+YZpf6A3E
-         EwGpUCcidit3+Q/5v0RxWYcQRmQJcC2uwvasOOeLZW+hKdWX7QV3mpQkyIHRAElOCLnB
-         YeAExC2FwPLT6sJV2wzahfGj7MHMosaG9DohD6xPs9/dcT89+KFgzfzAWpXOQ/ezN1Th
-         niVA==
+        bh=80GLV2kyYfm6kShdhQwxfzPC4+BC6JPtLS06xV7qcBY=;
+        b=BwCY9JTBz8iRcxqqe9iB/zaM0mzBs6hyefExlqkocWRGi0Ts1r+DHynZBOzT2fFOUF
+         KoJu4xPQE9TfitH0I2dYytPrqh0ajldvs9jclySmD0cbCMx9+gNRWYW6VShisu4zEW1X
+         m67YxQ0ApzIfIn3dwfptWPzHGxOAUcnhURYHn9LSxuMKzbmUxevQkm+cZIPJAG5gB+gT
+         RcltWbsGJfX3vJJE1BXYYG6cGSRSihb5RXN/KhH57yhat7FaTa5XZgRI2nc9jwUhlIek
+         4+gjvTnbB2P2i3s75anOGtzYRYXgVkmUCZ5GN7wp0N82xjkGMeI1TitWfMuTM6Hvyrxr
+         KcfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2yD8JQ3sBJBENlk16VnPgwnmRkS150UAREqRalQcq2w=;
-        b=2XH2p5JAYwl8yP0OzE6rxlMbg6OIcrW5DixqrCzGgiPpUPm90v1hSvKF/zMzGS4cht
-         SbHFgffijc5dUfEx5qhTk265FkQeGPseE4EIeuqLEMS0eqm/UJydwiD2pWZWTBdO+8Dw
-         TRQHVRznCm1VF4i239EPnsZ9V1Pyh03z8697KPJ50x9DtXTuhtzCERM4WwXUpUC3Muo3
-         +lFnVlW6IR7RLh4VCVOm/6LKzj8j91wJPWUnvby7T0grK46aR+F0wSIxGOs9lI5N0wm8
-         d40ggOJHB41kBjEB87KKIn8R6b+IpsLlHewCuTSu6duxpgmAwKRB+q4HlfCyB4v/IUn2
-         nQjA==
-X-Gm-Message-State: AFqh2kqCyTKcCMPh9en2unwTlHxZf/4GP6bna2gt994kg8RpoDbTAL/Z
-	rKSzrci9sBNcqPKNKt0POy+rSpo6McM=
-X-Google-Smtp-Source: AMrXdXuxzXfb+BWJSPOi5mjYFvdWcb/9GWa2JqrJR7Voe4fJrT4G8IL4AiqFyKspPUGAz1Xv3p4W5A==
-X-Received: by 2002:a05:6000:16c4:b0:247:4802:9435 with SMTP id h4-20020a05600016c400b0024748029435mr9321750wrf.5.1671901200706;
-        Sat, 24 Dec 2022 09:00:00 -0800 (PST)
+        bh=80GLV2kyYfm6kShdhQwxfzPC4+BC6JPtLS06xV7qcBY=;
+        b=ZsrQGpOYVhyLM26EELH3dqJvTxmyWpY+224DmMRNWJ7yeaLFB4MKhWNPzJ7vOWiUQq
+         Kac3TUVOOnsvDxOT21HoIIIStjMudH0AhGML0Nnol1PTLHIPpjz1Mdfl3Bf+MCP1vvNM
+         gQjmC4dN4Fa31Qt5gNuOEwdltnEheP1zKiuc7poXlO1vhrSSyG8AuhKbAfG1oyCKt5SI
+         oU/RkjIJwAB/DMzCYcKFQCbqHBL50qD+aWWBTp5E3J6URB6WdERBgoMCjWG04b2gVVW+
+         IVlqsX+fzyH2sjHi8WnDatWxo8Sji54KVM14yguNo8WJ2YNYrCdewxM1430r8WpVrDqS
+         8LZQ==
+X-Gm-Message-State: AFqh2kpOmYQxX1q+qhpL8Oz2hjQ4cu1fufMbdos7EOnKn6BPoAnjDaPJ
+	cLmmHZiSIyhXibSDv+YE8/X4vQ66DGk=
+X-Google-Smtp-Source: AMrXdXt7rcJeb4VS/fXVcycqIdTnWDyCM3eK7SEkJxdh7PYvhRoKkVbkGFDUXpUA1TdxzClrk9ivFQ==
+X-Received: by 2002:a5d:6d09:0:b0:277:2e27:61e7 with SMTP id e9-20020a5d6d09000000b002772e2761e7mr2822726wrq.17.1671901199518;
+        Sat, 24 Dec 2022 08:59:59 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id b2-20020adff242000000b0023662245d3csm6005622wrp.95.2022.12.24.09.00.00
+        by smtp.gmail.com with ESMTPSA id b2-20020adff242000000b0023662245d3csm6005622wrp.95.2022.12.24.08.59.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Dec 2022 09:00:00 -0800 (PST)
+        Sat, 24 Dec 2022 08:59:59 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 6/7] libslirp: add recipe to continue slirp support in qemu
-Date: Sat, 24 Dec 2022 17:59:42 +0100
-Message-Id: <20221224165943.1324800-6-alex@linutronix.de>
+Subject: [PATCH 4/7] python3-native: further tweak to sysconfig.py to find python includes correctly
+Date: Sat, 24 Dec 2022 17:59:40 +0100
+Message-Id: <20221224165943.1324800-4-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221224165943.1324800-1-alex@linutronix.de>
 References: <20221224165943.1324800-1-alex@linutronix.de>
@@ -62,54 +62,63 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 24 Dec 2022 17:00:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174989
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174986
 
-qemu 7.2 no longer carries libslirp in-tree, and so
-it has to be provided externally.
+Without this, sysconfig would report the target location, which is not
+what we want in cross-builds. This is used in particular by
+latest autoconf-archive m4 macros, which have migrated from
+(removed in py 3.12) distutils to setuptools.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/conf/distro/include/maintainers.inc       |  1 +
- .../recipes-connectivity/slirp/libslirp_git.bb | 18 ++++++++++++++++++
- 2 files changed, 19 insertions(+)
- create mode 100644 meta/recipes-connectivity/slirp/libslirp_git.bb
+ ...py-use-prefix-value-from-build-configu.patch | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 66797db02c..be96123ce6 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -382,6 +382,7 @@ RECIPE_MAINTAINER:pn-libsamplerate0 = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-libsdl2 = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-libseccomp = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-libsecret = "Alexander Kanavin <alex.kanavin@gmail.com>"
-+RECIPE_MAINTAINER:pn-libslirp = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-libsm = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-libsndfile1 = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-libsolv = "Anuj Mittal <anuj.mittal@intel.com>"
-diff --git a/meta/recipes-connectivity/slirp/libslirp_git.bb b/meta/recipes-connectivity/slirp/libslirp_git.bb
-new file mode 100644
-index 0000000000..334b786b9b
---- /dev/null
-+++ b/meta/recipes-connectivity/slirp/libslirp_git.bb
-@@ -0,0 +1,18 @@
-+SUMMARY = "A general purpose TCP-IP emulator"
-+DESCRIPTION = "A general purpose TCP-IP emulator used by virtual machine hypervisors to provide virtual networking services."
-+HOMEPAGE = "https://gitlab.freedesktop.org/slirp/libslirp"
-+LICENSE = "BSD-3-Clause & MIT"
-+LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=bca0186b14e6b05e338e729f106db727"
-+
-+SRC_URI = "git://gitlab.freedesktop.org/slirp/libslirp.git;protocol=https;branch=master"
-+SRCREV = "3ad1710a96678fe79066b1469cead4058713a1d9"
-+PV = "4.7.0"
-+S = "${WORKDIR}/git"
-+
-+DEPENDS = " \
-+    glib-2.0 \
-+"
-+
-+inherit meson pkgconfig
-+
-+BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch b/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
+index 2f519e4917..5ca855e7ed 100644
+--- a/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
++++ b/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
+@@ -1,24 +1,23 @@
+-From 05d676ddf675d9c8229b723e64717aa485d6809e Mon Sep 17 00:00:00 2001
++From 45548f40668d429adcb7532d35db1ac16fe74562 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Fri, 10 Sep 2021 12:28:31 +0200
+-Subject: [PATCH] Lib/sysconfig.py: use prefix value from build configuration
+- file
++Subject: [PATCH] Lib/sysconfig.py: use values from build configuration file
+ 
+-This allows correctly substituting them for target installs using
++This allows correctly substituting them for target builds using
+ native python.
+ 
+ Upstream-Status: Inappropriate [oe-core cross builds]
+ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+ 
+ ---
+- Lib/sysconfig.py | 5 +++++
+- 1 file changed, 5 insertions(+)
++ Lib/sysconfig.py | 7 +++++++
++ 1 file changed, 7 insertions(+)
+ 
+ diff --git a/Lib/sysconfig.py b/Lib/sysconfig.py
+-index 93c6f73..ff399e2 100644
++index 93c6f73..a87870f 100644
+ --- a/Lib/sysconfig.py
+ +++ b/Lib/sysconfig.py
+-@@ -668,6 +668,11 @@ def get_config_vars(*args):
++@@ -668,6 +668,13 @@ def get_config_vars(*args):
+              _CONFIG_VARS['VPATH'] = sys._vpath
+          if os.name == 'posix':
+              _init_posix(_CONFIG_VARS)
+@@ -27,6 +26,8 @@ index 93c6f73..ff399e2 100644
+ +        _CONFIG_VARS['installed_platbase'] = _CONFIG_VARS['prefix']
+ +        _CONFIG_VARS['platbase'] = _CONFIG_VARS['prefix']
+ +        _CONFIG_VARS['platlibdir'] = _CONFIG_VARS['PLATLIBDIR']
+++        _INSTALL_SCHEMES['posix_prefix']['include'] = _CONFIG_VARS['INCLUDEPY']
+++        _INSTALL_SCHEMES['posix_prefix']['platinclude'] = _CONFIG_VARS['INCLUDEPY']
+          if _HAS_USER_BASE:
+              # Setting 'userbase' is done below the call to the
+              # init function to enable using 'get_config_var' in
 -- 
 2.30.2
 
