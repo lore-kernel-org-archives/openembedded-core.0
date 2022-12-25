@@ -1,126 +1,81 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EABDC3DA7D
-	for <webhook@archiver.kernel.org>; Sat, 24 Dec 2022 17:00:07 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web11.101082.1671901199887380916
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1819EC4332F
+	for <webhook@archiver.kernel.org>; Sun, 25 Dec 2022 12:03:13 +0000 (UTC)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web10.116334.1671969788502748953
  for <openembedded-core@lists.openembedded.org>;
- Sat, 24 Dec 2022 09:00:00 -0800
+ Sun, 25 Dec 2022 04:03:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=m0ok2tjz;
- spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id j17so1680577wrr.7
-        for <openembedded-core@lists.openembedded.org>; Sat, 24 Dec 2022 08:59:59 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=ByDIBZeM;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.41, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f41.google.com with SMTP id v23so8665984pju.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 25 Dec 2022 04:03:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K1Ozo/yV2hxV/K1pBzt6M4b47j2LkHlO0nXM0WMiSMc=;
-        b=m0ok2tjz/OkKAoGZGnpm8OqPXywp+7cNkWPYPI7daXTXsJVH/doSGFotg5qIt3XG6B
-         hvpKSvvVXMvs865OUHEHyaBixztIlHVTRsQCudlNd/ntd2FZ7XsDed8OOZskqJKvBbD3
-         MaZkyyTaEkeUsbUvAfgSsGZ44A7uI058tyMSsXb+9KYbD+rRzNf9B6D4udMm+S50lJ70
-         FSR9YoKUojdzZvjDNzdxp0/cVH6kMkCqxSwm/Gxza5VWVk9+gpbv2jjEQqwgTKSvDzlW
-         hDlBykqsjnmgFR5IkYwVM+H2Ae7pvIINHeVNFlLzi+UkxQj2sMiTOaUbn4m+FO1Wm6ym
-         I4DQ==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=date:message-id:to:from:subject:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BHRF4SM2TOhX6ZGDa4ctsdyjOhlyiLkjI3Ou0LguO/I=;
+        b=ByDIBZeM/G15i/cU7g+riMRwRe6XODhuJmORc1k9GadP9P8gIhPe+1HqKZz8VgGogp
+         JJmXNwuHK0A3wjJ+yJGiF0ScG570Q+31uVpaucD6JnEdaRkMB34g+zJTpd0xpRLv0vgX
+         DV5p1qQOdW7kxAq5XWhfBJoATCoLyzan+OywpjM0klVp0vU82NXvA6XczuGBQMtkUmnL
+         kNv3Hxb9GBlCJ9V13MUsnK6yG3ciXrk43lR4aDe8UHDF13KphRv5b6cI1SwiB2eVqvJy
+         /bKmTrznoNA4hxmaWu6JUXPMjU5v1vFVvD65fsHwn96gKk45EXAyON4edInyBrpMgdcr
+         dR6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        h=date:message-id:to:from:subject:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=K1Ozo/yV2hxV/K1pBzt6M4b47j2LkHlO0nXM0WMiSMc=;
-        b=vBlttYhIhq10yYbaHnXeF32oxt/NyLsxG4cDGTgrNtIWrOzudAT6WlqIjqFOmNPbWW
-         EtfBIjiOnTPBnljzQhXHI0MnAOkFE/tcTL1bFPWdQ+JkHu1HIDpTT9LI51MnOe/s7btI
-         Xe2KG8HfF3ZpKmOlT4njwBQTYgzmgiuGzoXF/BlH3uZBT4Ee9VDb9DMDX4xhKnK96V+h
-         zxJsxoKT1Rzms9E3VUx9Vsre+yKiHSuZASUvrFTRycz3v3peIplkLCgKLopcDntR9YVh
-         IcWjFfGD1L2GXNPppOAGrQ1LfAcaKp9Oolt7XLGYtEa8tyCbURli+6vsNvVQ3KCvAwiu
-         PLMQ==
-X-Gm-Message-State: AFqh2kqYB0NaId0h82mbEFJyB5UtuC/XSGF5rT10hwJ5tKCx6UpWOZBN
-	5p2MnIgCpaZlCMRjDtOb+Gy1XpHUcVs=
-X-Google-Smtp-Source: AMrXdXv1R6OOMKbKqtnODGxic+SDEELV3KJ+Zpp1SgBI8hbyQOZntCekw6PaaiI60yWiJ2zAQEv6cQ==
-X-Received: by 2002:adf:ec49:0:b0:242:989:e07c with SMTP id w9-20020adfec49000000b002420989e07cmr8463298wrn.38.1671901198266;
-        Sat, 24 Dec 2022 08:59:58 -0800 (PST)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id b2-20020adff242000000b0023662245d3csm6005622wrp.95.2022.12.24.08.59.57
+        bh=BHRF4SM2TOhX6ZGDa4ctsdyjOhlyiLkjI3Ou0LguO/I=;
+        b=KasoalX1OTi8dYSNtZkNq8/3W3+TMWBlQuDzhCq5KpEPsWpusCPas70wQvP2yaDHZp
+         zrGlQL22cIs5Gf+sXK37LUEDsOzGfnWGI8FAJw4MnTsxHlNiPGKfcmRZsx+HE677RJCc
+         0MJAyGgXdwN8b6yLuGBNVgJXKk/2ypPmBYNXx5XwAz5r1O+6tz6axtlRehyeA3hNDJAn
+         0aLPWiZyNEe1hrDNd41Rnoj8acgbMSRwK6m7FuZ5+fmPPfv6Lsf/lSnFhs3iQbJvZODN
+         FiN/M+YIltdgjcQw43aFe8NF4l8A4GR0DN6SNkf3CbqqLTybEHChPpicvVSEeDcoMv/X
+         ca+A==
+X-Gm-Message-State: AFqh2koOG5zWrjLJ3yr/5VBy4GeAwTH6fiHYvS5fTc8ay7ufAZmiVZwh
+	cgV7o2mqmVoUqHyjMPzTzz+l7btcd671pX8MANc=
+X-Google-Smtp-Source: AMrXdXt2dDI5AHGeuNz1S0xGq98OAo78VZEH21czlg7eszEW+cdmkW9kh9r2+Pdx59G9HmRswmOUCw==
+X-Received: by 2002:a05:6a20:3b9c:b0:ac:94a1:8afb with SMTP id b28-20020a056a203b9c00b000ac94a18afbmr14700491pzh.13.1671969787115;
+        Sun, 25 Dec 2022 04:03:07 -0800 (PST)
+Received: from nuc.router0800d9.com (dhcp-72-253-5-74.hawaiiantel.net. [72.253.5.74])
+        by smtp.gmail.com with ESMTPSA id c13-20020a63ea0d000000b00478ac3c34f3sm4691766pgi.93.2022.12.25.04.03.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Dec 2022 08:59:57 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 2/7] tcmode-default.inc: set LLVMVERSION to a major version wildcard
-Date: Sat, 24 Dec 2022 17:59:38 +0100
-Message-Id: <20221224165943.1324800-2-alex@linutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221224165943.1324800-1-alex@linutronix.de>
-References: <20221224165943.1324800-1-alex@linutronix.de>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sun, 25 Dec 2022 04:03:06 -0800 (PST)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id 950AF9602C2; Sun, 25 Dec 2022 02:03:04 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 25 Dec 2022 02:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20221225120304.950AF9602C2@nuc.router0800d9.com>
+Date: Sun, 25 Dec 2022 02:03:04 -1000 (HST)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 24 Dec 2022 17:00:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174984
+ <openembedded-core@lists.openembedded.org>; Sun, 25 Dec 2022 12:03:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174990
 
-There is no longer need to be specific: none of the recipes
-using this variable in core need to know the particular version
-of llvm exactly when using the default one set via PREFERRED_VERSION
-from LLVMVERSION.
+Branch: master
 
-This as well enables automated version updates of llvm
-for minor releases.
+New this week: 1 CVEs
+CVE-2022-4603 (CVSS3: 8.8 HIGH): ppp https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4603 *
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- meta/classes-recipe/meson.bbclass           | 2 +-
- meta/conf/distro/include/tcmode-default.inc | 4 +---
- meta/recipes-graphics/mesa/mesa.inc         | 2 +-
- 3 files changed, 3 insertions(+), 5 deletions(-)
+Removed this week: 0 CVEs
 
-diff --git a/meta/classes-recipe/meson.bbclass b/meta/classes-recipe/meson.bbclass
-index 3cc94c7584..48688bed75 100644
---- a/meta/classes-recipe/meson.bbclass
-+++ b/meta/classes-recipe/meson.bbclass
-@@ -72,7 +72,7 @@ strip = ${@meson_array('STRIP', d)}
- readelf = ${@meson_array('READELF', d)}
- objcopy = ${@meson_array('OBJCOPY', d)}
- pkgconfig = 'pkg-config'
--llvm-config = 'llvm-config${LLVMVERSION}'
-+llvm-config = 'llvm-config'
- cups-config = 'cups-config'
- g-ir-scanner = '${STAGING_BINDIR}/g-ir-scanner-wrapper'
- g-ir-compiler = '${STAGING_BINDIR}/g-ir-compiler-wrapper'
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index dc1cac734f..c784221062 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -24,9 +24,7 @@ GLIBCVERSION ?= "2.36"
- LINUXLIBCVERSION ?= "5.19%"
- QEMUVERSION ?= "7.1%"
- GOVERSION ?= "1.19%"
--# This can not use wildcards like 8.0.% since it is also used in mesa to denote
--# llvm version being used, so always bump it with llvm recipe version bump
--LLVMVERSION ?= "15.0.6"
-+LLVMVERSION ?= "15.%"
- RUSTVERSION ?= "1.66%"
- 
- PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 115621228a..93b3b59a91 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -58,7 +58,7 @@ ANY_OF_DISTRO_FEATURES:class-target = "opengl vulkan"
- 
- PLATFORMS ??= "${@bb.utils.filter('PACKAGECONFIG', 'x11 wayland', d)}"
- 
--MESA_LLVM_RELEASE ?= "${LLVMVERSION}"
-+MESA_LLVM_RELEASE ?= ""
- 
- # set the MESA_BUILD_TYPE to either 'release' (default) or 'debug'
- # by default the upstream mesa sources build a debug release
--- 
-2.30.2
+Full list:  Found 10 unpatched CVEs
+CVE-2022-2601 (CVSS3: 8.6 HIGH): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2601 *
+CVE-2022-3872 (CVSS3: 8.6 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3872 *
+CVE-2022-3996 (CVSS3: 7.5 HIGH): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3996 *
+CVE-2022-4055 (CVSS3: 7.4 HIGH): xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4055 *
+CVE-2022-4144 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4144 *
+CVE-2022-41717 (CVSS3: 5.3 MEDIUM): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41717 *
+CVE-2022-41720 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41720 *
+CVE-2022-45061 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-45061 *
+CVE-2022-4603 (CVSS3: 8.8 HIGH): ppp https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4603 *
+CVE-2022-46908 (CVSS3: 7.3 HIGH): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46908 *
 
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
