@@ -1,131 +1,90 @@
-Return-Path: <pavel@zhukoff.net>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3892BC4332F
-	for <webhook@archiver.kernel.org>; Sun, 25 Dec 2022 12:47:13 +0000 (UTC)
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
- by mx.groups.io with SMTP id smtpd.web10.116835.1671972431836467445
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51545C4332F
+	for <webhook@archiver.kernel.org>; Sun, 25 Dec 2022 13:02:33 +0000 (UTC)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web10.117062.1671973346099275052
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Dec 2022 04:47:12 -0800
+ Sun, 25 Dec 2022 05:02:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@zhukoff.net header.s=fm2 header.b=Bj97nT5T;
- spf=pass (domain: zhukoff.net, ip: 66.111.4.27, mailfrom: pavel@zhukoff.net)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 1635A5C00C7;
-	Sun, 25 Dec 2022 07:47:11 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Sun, 25 Dec 2022 07:47:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm2; t=1671972431; x=1672058831; bh=4drC86p/MAqp+poIcksG1kekY
-	JY98wnvd1mNNS8Irug=; b=Bj97nT5TkoZaVyW3wBhiaHd7GAa4L7F68fticeRQk
-	y5pcGys9rqv+BIHxRmgD8/HJH22VE82kwLhiisd9nngJ0Ytvq2O8mptrHhU6gscw
-	sPCdL79xJ+cuPXdVoQRE/68jZ3D7MGKmaqBRmz44+6MnCMS5ysLIukZCgUpQHdwM
-	v0jasOZARfjqmUV6CXsbyOlVh6b8Mz8N1zyrAYxUgk63cZZW35+a0wYLW75wZKFp
-	cYxPVlHw/1BXLs8Mc0NSli0auyFRNvhMgwWp+03rojQ7ExOMwB0ZCstmhGQpi+BU
-	gzrBl+ET+n54+WX2oGMf5AePR7L5d0W05fXnNP2Ld1vJg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1671972431; x=1672058831; bh=4drC86p/MAqp+poIcksG1kekYJY98wnvd1m
-	NNS8Irug=; b=JW8seKu6BkQ9h3m8SKmHebuxMmAX05lvu9LS56Jn8HfUlIDoKCe
-	jzLeKw89l+26IBd7hBqatUBM1d5no1KSEzuXyWB6cteokWSGR6wDVmrt0VGXx7Uz
-	fV4sDbYHSdtju56IP0uzDdPahXYDvVHYrq1Vxd6dUjYpae9bHtWnmWnQZF3cWPYJ
-	vZCrFGGQdZoMA+MKp4hZbU68Vr6N0IM948dL6b9xNGYwd8emFYKhd/xrnlMe7OT4
-	Yr5BiTsSJsy9GooRUBAGKU2gvrr+RN+tHwJrwijRMciQfkIX1JelZvCaP9TggbUx
-	RRzUOSdz/IrYSViXbCf2ToDgq8cvolRZ3jQ==
-X-ME-Sender: <xms:TkaoY8pmyC-2jUXU8zatKDdK9RhFaNgwHy9u9pVzELjnEcutEphMSA>
-    <xme:TkaoYypc25p16If31I_DhMBfwJ2E2H9cKgci2XUlDUUh-aYqOwie5J6nLojTG5s4l
-    MY8i9I5FQhuTifCOv8>
-X-ME-Received: <xmr:TkaoYxNSTF4p5G4QppJDC8Ese1uW-VT5-EI6pcPKVo8pkJvWUJiWG33_kqmO-oS4QFpj-RhRyDUrTeNx8JaDADY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrheeigdeggecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtre
-    dttdenucfhrhhomheprfgrvhgvlhcukghhuhhkohhvuceophgrvhgvlhesiihhuhhkohhf
-    fhdrnhgvtheqnecuggftrfgrthhtvghrnhepvdfhvdelueektdehtefhgeelffehleekge
-    euledvvefgveekffejleduieevgeehnecuffhomhgrihhnpehgihhthhhusgdrtghomhdp
-    rhgvughhrghtrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
-    hilhhfrhhomhepphgrvhgvlhesiihhuhhkohhffhdrnhgvth
-X-ME-Proxy: <xmx:TkaoYz5woyACdgJlLV5urc5ZLkPI7_0mz76vbC7Hi-0bbE7DwTuCqA>
-    <xmx:TkaoY75C2jUWpE1O7r5iFsX4LiDfWfWgiCqe64JGEQ6q2ZGN2HdqPQ>
-    <xmx:TkaoYzi789FIitbVK5VuKoJvr0SxIGTFi4537JqJ9WEjkEDcBMwx7Q>
-    <xmx:T0aoY4h-3GCYenztI8Rlv1QvD_LTyJPqt-9MTXoF2AYP8vIKri8KNQ>
-Feedback-ID: ib94946c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 25 Dec 2022 07:47:10 -0500 (EST)
-From: Pavel Zhukov <pavel@zhukoff.net>
-To: openembedded-core@lists.openembedded.org
-Cc: Pavel Zhukov <pavel@zhukoff.net>
-Subject: [PATCH] oeqa/rpm.py: Increase timeout and add debug output
-Date: Sun, 25 Dec 2022 13:46:58 +0100
-Message-Id: <20221225124657.2824-1-pavel@zhukoff.net>
-X-Mailer: git-send-email 2.38.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=yT6knUbY;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f47.google.com with SMTP id k88-20020a17090a4ce100b00219d0b857bcso8752447pjh.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 25 Dec 2022 05:02:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=date:message-id:to:from:subject:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3QOnrz8nk3c9xZZlXiEnMfbhQl6Lw1rwO3+E44A1e/4=;
+        b=yT6knUbYnEUyQ6uTo3PXlpaOlFB2CC+Wj9aeob2ZwW4s7Q5VaqITCo+N1H2pATr3u7
+         0klir0J9h2AEOqr/cF3yOPIwfvWw5r5oCdVE+gQhu90HtulR6fr8/sMvctkVcEeJY7eZ
+         vxPvr/WL2nmaRnBiPktDUILbfj8fFxVvqEpCM4jwgGm0r507h+JqlSRW4GDV82xs6Ycj
+         Td296blTgZImLP3vhEZtgbJ4WKdGO4T69E+fjdc2GdwF4KrIUnPCPFZLWmN5lrQxM683
+         rQ8kNo9RAWwHMioe5YG7yiGZY2yi7SGmOUGb7wYxmsoDnuBhyy4wF6HNMHc+w3zlyF3F
+         Bp5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=date:message-id:to:from:subject:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3QOnrz8nk3c9xZZlXiEnMfbhQl6Lw1rwO3+E44A1e/4=;
+        b=eNFpv47+8vyW5CSgEuc9WqqKn4BL5mRV9bN2exoV0jEFk+tNGvBVg+tfW0vdn2pQgn
+         tCbX3AslOjDSsqWrrBoZLJNKJp2p2G+4VWMle/tdtxHZ598GYwAB5GYaMjJuCKdH6p0o
+         FFlyRi3n+UmrBBafsTvHMRgOOu+KEdKv4b4zKBpaG/258qawELK8rj0uzKiI2awYl0NL
+         y+PAJzigpIxbTDxN/GALvmwu99qc7bYdVzn5p8vYVOeCtww88Y/eRr9tafZZEGupyB1d
+         kfluDCaadZC9kCT/oTx5kJtfshpG3lmFeX6Q7IcjDji7F4oSqQQOz3uWk7ND7Dfidxtl
+         Yj6g==
+X-Gm-Message-State: AFqh2ko7+zX6pTBT+0PKeCpfm5AVRZXqcuy5YLYd0aGx+ocl59GTH+UE
+	ULbDA5TJ/37xdbkmkNY0KxtOuQND5UjttTIi0GQ=
+X-Google-Smtp-Source: AMrXdXukgpx5LuldkV1ulUfcLKDgV/dERm4tLD4sHB/DBkYt84LlDrMHXEZoHIGqNaVa0WpCpU2ziQ==
+X-Received: by 2002:a17:90a:9f86:b0:225:ab78:dbaa with SMTP id o6-20020a17090a9f8600b00225ab78dbaamr16104212pjp.20.1671973344868;
+        Sun, 25 Dec 2022 05:02:24 -0800 (PST)
+Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id g4-20020a655944000000b004792b557b1csm4830467pgu.87.2022.12.25.05.02.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Dec 2022 05:02:24 -0800 (PST)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id 236559602C2; Sun, 25 Dec 2022 03:02:22 -1000 (HST)
+Subject: OE-core CVE metrics for kirkstone on Sun 25 Dec 2022 03:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20221225130222.236559602C2@nuc.router0800d9.com>
+Date: Sun, 25 Dec 2022 03:02:22 -1000 (HST)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 25 Dec 2022 12:47:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174992
+ <openembedded-core@lists.openembedded.org>; Sun, 25 Dec 2022 13:02:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174993
 
-[Yocto #14346]
-Systemd may be slow in killing pam session sometimes [1][2]. It may cause rpm
-test to fail because there's process (sd_pam) running and own by "test1" user
-after timeout.
-Increasing timeout to 2 mins and assert earlier with debug output if
-there's such process(es). If increasing of timeout doesn't help we may
-want to force deletion of the user as [2] suggests.
+Branch: kirkstone
 
-[1] https://github.com/systemd/systemd/issues/8598
-[2] https://access.redhat.com/solutions/6969188
+New this week: 1 CVEs
+CVE-2022-4603 (CVSS3: 8.8 HIGH): ppp https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4603 *
 
-Signed-off-by: Pavel Zhukov <pavel@zhukoff.net>
----
- meta/lib/oeqa/runtime/cases/rpm.py | 23 +++++++++++------------
- 1 file changed, 11 insertions(+), 12 deletions(-)
+Removed this week: 5 CVEs
+CVE-2022-37454 (CVSS3: 9.8 CRITICAL): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-37454 *
+CVE-2022-40303 (CVSS3: 7.5 HIGH): libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40303 *
+CVE-2022-40304 (CVSS3: 7.8 HIGH): libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40304 *
+CVE-2022-41715 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41715 *
+CVE-2022-45061 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-45061 *
 
-diff --git a/meta/lib/oeqa/runtime/cases/rpm.py b/meta/lib/oeqa/runtime/cases/rpm.py
-index e3cd818b2b..fa86eb0537 100644
---- a/meta/lib/oeqa/runtime/cases/rpm.py
-+++ b/meta/lib/oeqa/runtime/cases/rpm.py
-@@ -51,21 +51,20 @@ class RpmBasicTest(OERuntimeTestCase):
-             msg = 'status: %s. Cannot run rpm -qa: %s' % (status, output)
-             self.assertEqual(status, 0, msg=msg)
- 
--        def check_no_process_for_user(u):
--            _, output = self.target.run(self.tc.target_cmds['ps'])
--            if u + ' ' in output:
--                return False
--            else:
--                return True
-+        def wait_for_no_process_for_user(u, timeout = 120):
-+            timeout_at = time.time() + timeout
-+            while time.time() < timeout_at:
-+                _, output = self.target.run(self.tc.target_cmds['ps'])
-+                if u + ' ' not in output:
-+                    return
-+                time.sleep(1)
-+            user_pss = [ps for ps in output.split("\n") if u + ' ' in ps]
-+            msg = "There're %s 's process(es) still running: %s".format(u, "\n".join(user_pss))
-+            assertTrue(True, msg=msg)
- 
-         def unset_up_test_user(u):
-             # ensure no test1 process in running
--            timeout = time.time() + 30
--            while time.time() < timeout:
--                if check_no_process_for_user(u):
--                    break
--                else:
--                    time.sleep(1)
-+            wait_for_no_process_for_user(u)
-             status, output = self.target.run('userdel -r %s' % u)
-             msg = 'Failed to erase user: %s' % output
-             self.assertTrue(status == 0, msg=msg)
--- 
-2.38.1
+Full list:  Found 14 unpatched CVEs
+CVE-2021-35937 (CVSS3: 6.4 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35937 *
+CVE-2021-35938 (CVSS3: 6.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35938 *
+CVE-2021-35939 (CVSS3: 6.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35939 *
+CVE-2022-2879 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2879 *
+CVE-2022-3553 (CVSS3: 6.5 MEDIUM): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3553 *
+CVE-2022-3872 (CVSS3: 8.6 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3872 *
+CVE-2022-3996 (CVSS3: 7.5 HIGH): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3996 *
+CVE-2022-4055 (CVSS3: 7.4 HIGH): xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4055 *
+CVE-2022-4144 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4144 *
+CVE-2022-41716 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41716 *
+CVE-2022-41717 (CVSS3: 5.3 MEDIUM): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41717 *
+CVE-2022-41720 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41720 *
+CVE-2022-4603 (CVSS3: 8.8 HIGH): ppp https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4603 *
+CVE-2022-46908 (CVSS3: 7.3 HIGH): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46908 *
 
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
