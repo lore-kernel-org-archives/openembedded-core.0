@@ -1,96 +1,90 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80810C4332F
-	for <webhook@archiver.kernel.org>; Sun, 25 Dec 2022 13:33:03 +0000 (UTC)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web11.117982.1671975182459171711
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D3E2C46467
+	for <webhook@archiver.kernel.org>; Sun, 25 Dec 2022 21:59:36 +0000 (UTC)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.web10.125282.1672005573826840492
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Dec 2022 05:33:02 -0800
+ Sun, 25 Dec 2022 13:59:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=XsqHdoll;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f172.google.com with SMTP id t2so8884132ply.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 25 Dec 2022 05:33:02 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ENPIXjAu;
+ spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-ej1-f44.google.com with SMTP id bj12so23050285ejb.13
+        for <openembedded-core@lists.openembedded.org>; Sun, 25 Dec 2022 13:59:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=date:message-id:to:from:subject:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rjMhF9wXU91ye2uN3mguJOBxeRcW2vqG9vft5jg/vb0=;
-        b=XsqHdollizs0pNS5GyRQlFi+hp2yOGzX9DsmjJECCII5zwRW2VHrck5zqydy53rE6d
-         zRQqhU9atxjb3WKahIKfjoFKmubwMFHa4kBPBqUvNNiWULzFn6X87adU5bRZlXn1cYYd
-         ViJzOnAe6S5kvC3HmT05krErRUKqq9NToVSZG8zpzozLWpuTHqo5BqsrLlofBBcUbKh6
-         tFfEi0RunarkwkcHuu8BveY9M9NojuzycyQWfU2rAUjTugTMkichVwhQWXNNebHmTMnS
-         irXUJ81k21bTkIkiyqKtcYV/ROMtL/qf+TzmJXQoJL+BYjt3VL72TEzNRojWqXt8OC/f
-         qbOQ==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=d4gQi8OuYoeZcVag7RZJ3HkFSj96ezDIqCzNwhzZp4I=;
+        b=ENPIXjAuZ0uC1fwGA42O5hWnbSifDB9GCsBGPfwmvxBAo9dH13NNGGxiEeKA21MD3U
+         /AhR7Q64qcE1lJ2EptcPyTSMKAYxrtkQRiiFp8dMQgMHouKOtUlpHcXa0J8pK1B6mdxG
+         NDUR22Mm0vQMfm+F6xUcIT2ozMpDhrmAUQift/HfZsxVysZyExVrhE19WtJbPaTjdHjm
+         5nxzjdN7jEqqcwRSOMgJzlU10qHRJLdM101GIgc5gVYy+sIga7uST/iEdJh3Tkk8BCh/
+         KWboyBfZXbae54g47vsaL+SkaX9455WHnHT5lF2ObEFKMfLYEWrz3XnIPFJasMw8c0dh
+         xM7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=date:message-id:to:from:subject:x-gm-message-state:from:to:cc
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rjMhF9wXU91ye2uN3mguJOBxeRcW2vqG9vft5jg/vb0=;
-        b=bEJK49glzz5jD89o2TX0PrRRF4+oddXVmnusU79zMj1hj12d+njnOY3+tWOAumgbqa
-         cXhzRlfXwI05fpziOnjpNwyoyMkiiIIjitiqfB58jbO6MJ0MwI4DBImJuVHentCjSadT
-         xvaj968vp0h2Yffa5aTf5NZ9Ot74JodlgiQ2+9ouJrbKRJ5m5FBCE2myZo+WOcmUOCwP
-         t/4QGG8PLrNz2c51gPSue6+kVZYA6Jo9tDQJz9FvDlAFsdSHkg8Aa3ctHJL/9+9bvxkG
-         mb4omQfrIf2RqS2ih0p7PsJA3tzV+zlRuQnuw0r00QtLzBKOMUtV3+Bj0BDPo8JhxpC4
-         0o5Q==
-X-Gm-Message-State: AFqh2kqCVHwRSllG3wV432W61GsMkFebMo18u1z9alBQaCeVc72h3ig7
-	ElPEQAiral+Ds+SFnyuyoQiOWlHxhm32MhEqh64=
-X-Google-Smtp-Source: AMrXdXsBNIKKpsbT1yaiWqyc5uEW/u9EVaGoGTnHCi5BLeh6CPeCc6VW62QuTyz+L7mT7YrLQfC+xg==
-X-Received: by 2002:a17:902:ccce:b0:189:e577:c83e with SMTP id z14-20020a170902ccce00b00189e577c83emr19227262ple.36.1671975181124;
-        Sun, 25 Dec 2022 05:33:01 -0800 (PST)
-Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id s16-20020a17090302d000b00186b138706fsm5441223plk.13.2022.12.25.05.33.00
+        bh=d4gQi8OuYoeZcVag7RZJ3HkFSj96ezDIqCzNwhzZp4I=;
+        b=A/MpLy8yp+vrRXaXjrsz8TgAHnwlxOooxza/3ny+wuK4KRjrSTbAkdKGs6pIoaJ0wL
+         6l2vIc0Kx0gXhq6ddyrudFb3CISe+vYPQc9Yf68wUFP2QFsfHN2GTvo0gNWW9WI4WybY
+         kmLpB/4VXsOzAlHVEeKBa97H8BEKA1HyMTVvVsF6lmQAr9k9nX/7CbRQFgCYr+O38mu4
+         JuNjryPu1n7d4Zd1ZdkZZblBnyNiT61b5UQAZUHTjmTitUD/IGHsVKXolYEwaAe3Ip1j
+         2jU1msOoKfFlLQYZ+FBy0RKeJWbqUlPvZIQtGtMkHq06H9awiev0iE0aJIdX4XB05oOV
+         t89A==
+X-Gm-Message-State: AFqh2kp1ta6xO9c7WqpwGSQhPrFzCwdfwJGQh33Zw8ieenhg3WLlyudF
+	JisJ9rzTLry2rNXe2nf2xYGeKwIB+rw=
+X-Google-Smtp-Source: AMrXdXtmlw3Y0XNuvx/2mA9cDvAMPkePBDBKE6nfrjGdJVtie0DVWOvTdDZD83WIIh9QbVBBA4o8AA==
+X-Received: by 2002:a17:907:8a20:b0:7c0:cfb2:40d2 with SMTP id sc32-20020a1709078a2000b007c0cfb240d2mr17545924ejc.64.1672005572138;
+        Sun, 25 Dec 2022 13:59:32 -0800 (PST)
+Received: from localhost.localdomain (42.93.115.87.dyn.plus.net. [87.115.93.42])
+        by smtp.gmail.com with ESMTPSA id k8-20020a17090632c800b007c0f2c4cdffsm4066487ejk.44.2022.12.25.13.59.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Dec 2022 05:33:00 -0800 (PST)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id 8FB1C9602C2; Sun, 25 Dec 2022 03:32:58 -1000 (HST)
-Subject: OE-core CVE metrics for langdale on Sun 25 Dec 2022 03:30:01 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20221225133258.8FB1C9602C2@nuc.router0800d9.com>
-Date: Sun, 25 Dec 2022 03:32:58 -1000 (HST)
+        Sun, 25 Dec 2022 13:59:31 -0800 (PST)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alex Kiernan <alex.kiernan@gmail.com>
+Subject: [OE-Core][PATCH v4 02/11] rust-llvm: Update LLVM_VERSION to match embedded version
+Date: Sun, 25 Dec 2022 21:59:12 +0000
+Message-Id: <20221225215921.12868-3-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20221225215921.12868-1-alex.kiernan@gmail.com>
+References: <20221225215921.12868-1-alex.kiernan@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 25 Dec 2022 13:33:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174994
+ <openembedded-core@lists.openembedded.org>; Sun, 25 Dec 2022 21:59:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/174997
 
-Branch: langdale
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+---
 
-New this week: 4 CVEs
-CVE-2022-42010 (CVSS3: 6.5 MEDIUM): dbus:dbus-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-42010 *
-CVE-2022-42011 (CVSS3: 6.5 MEDIUM): dbus:dbus-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-42011 *
-CVE-2022-42012 (CVSS3: 6.5 MEDIUM): dbus:dbus-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-42012 *
-CVE-2022-4603 (CVSS3: 8.8 HIGH): ppp https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4603 *
+(no changes since v1)
 
-Removed this week: 3 CVEs
-CVE-2022-36227 (CVSS3: 9.8 CRITICAL): libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36227 *
-CVE-2022-4141 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4141 *
-CVE-2022-4292 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4292 *
+ meta/recipes-devtools/rust/rust-llvm_1.66.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Full list:  Found 19 unpatched CVEs
-CVE-2022-2601 (CVSS3: 8.6 HIGH): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2601 *
-CVE-2022-37454 (CVSS3: 9.8 CRITICAL): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-37454 *
-CVE-2022-3872 (CVSS3: 8.6 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3872 *
-CVE-2022-39253 (CVSS3: 5.5 MEDIUM): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-39253 *
-CVE-2022-39260 (CVSS3: 8.8 HIGH): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-39260 *
-CVE-2022-3996 (CVSS3: 7.5 HIGH): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3996 *
-CVE-2022-40303 (CVSS3: 7.5 HIGH): libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40303 *
-CVE-2022-40304 (CVSS3: 7.8 HIGH): libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40304 *
-CVE-2022-4055 (CVSS3: 7.4 HIGH): xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4055 *
-CVE-2022-4144 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4144 *
-CVE-2022-41717 (CVSS3: 5.3 MEDIUM): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41717 *
-CVE-2022-41720 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41720 *
-CVE-2022-42010 (CVSS3: 6.5 MEDIUM): dbus:dbus-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-42010 *
-CVE-2022-42011 (CVSS3: 6.5 MEDIUM): dbus:dbus-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-42011 *
-CVE-2022-42012 (CVSS3: 6.5 MEDIUM): dbus:dbus-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-42012 *
-CVE-2022-42919 (CVSS3: 7.8 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-42919 *
-CVE-2022-45061 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-45061 *
-CVE-2022-4603 (CVSS3: 8.8 HIGH): ppp https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4603 *
-CVE-2022-46908 (CVSS3: 7.3 HIGH): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46908 *
+diff --git a/meta/recipes-devtools/rust/rust-llvm_1.66.0.bb b/meta/recipes-devtools/rust/rust-llvm_1.66.0.bb
+index e1baeb78574f..4cf244bb67f5 100644
+--- a/meta/recipes-devtools/rust/rust-llvm_1.66.0.bb
++++ b/meta/recipes-devtools/rust/rust-llvm_1.66.0.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "http://www.rust-lang.org"
+ 
+ # check src/llvm-project/llvm/CMakeLists.txt for llvm version in use
+ #
+-LLVM_RELEASE = "14.0.5"
++LLVM_RELEASE = "15.0.2"
+ 
+ require rust-source.inc
+ 
+-- 
+2.39.0
 
-For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
