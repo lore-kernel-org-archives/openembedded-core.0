@@ -1,179 +1,119 @@
-Return-Path: <vkumbhar@mvista.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5008C3DA79
-	for <webhook@archiver.kernel.org>; Mon, 26 Dec 2022 13:51:00 +0000 (UTC)
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.web11.136627.1672062657900798649
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BEB5C4167B
+	for <webhook@archiver.kernel.org>; Mon, 26 Dec 2022 18:33:32 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web11.142036.1672079602482406659
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Dec 2022 05:50:58 -0800
+ Mon, 26 Dec 2022 10:33:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=TvAVT8cV;
- spf=pass (domain: mvista.com, ip: 209.85.215.175, mailfrom: vkumbhar@mvista.com)
-Received: by mail-pg1-f175.google.com with SMTP id 79so7186812pgf.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Dec 2022 05:50:57 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XT9Bqb4e;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id y16so10591391wrm.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 26 Dec 2022 10:33:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0LcIsx6ykgjYCLdBdctjUT7kq4WjcNTITocNdNzrmeA=;
-        b=TvAVT8cVdzzUxOLh0J+nB992ZrnjhjnmrtjMpjsTOiB89NTfBMSmHEQta6RJwIbbXC
-         GDeNcjhr77Gpfk9m25hItVrN9ztCCe5/P+LYlklPrUiHG/MYb1bdrTkIEdAioTicwG5N
-         jVwpgYe1qHA3YqX442OCqNEfB7XGfuV0CVNxo=
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=FEuvoPliBgA3PMH6o/LETSyecKpUVNqOcPLYi88rwmY=;
+        b=XT9Bqb4ep/9tKcINqAW7HrT0eeGUFxlstnPomhwcg8QhdVqcgxY7FWzUG875MkM+TO
+         y9033R3i8GDDybaGfRF34tswdhqGjzLDqhSTfKqUCVSYe2QHgvKCBq8vwUVYiZCqrPtn
+         Lyt1u2g/Qi0/+mvzV6fayaZhmz0ztjt5oyj+A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0LcIsx6ykgjYCLdBdctjUT7kq4WjcNTITocNdNzrmeA=;
-        b=7rn/0RSKe4cTCTJbCk7IXIV3GdF2jVOz/aBd2ff+SD96oqjyxeHAvsyYPKcckxTImn
-         eodGpFVOlM1IerRAFngK4Spx/EH4MwNcy3dcmMvot0wwjbObT6MyQA97dtTTe59Rt7bC
-         2/kXUUw21LmpfOULVLBslfrPDh+H2g/L39Js4D5fxzyj/wpACD7VpWyAbj5obfNDjZfg
-         g7KImLt7G9yayfuDaS2/slx2RsbPJWWauM/xGwsxqzBX2XAy0Mu4vQZ75sH7y/u1fiDb
-         tdVGXQYIHpWBvFvlSWReUYfV4NgT9sYy7yZXGwLwPv48t8DGLM/SuE97eO9jhDfXPNjK
-         VYpw==
-X-Gm-Message-State: AFqh2kr9sQcP4JNGz4EO9vihZXjYemsokxlP+FLuUvcpBiXnj8s2gvN9
-	U7xURQFkPGzbRdCcCcK6MpEFJ7xwOTidH/BW
-X-Google-Smtp-Source: AMrXdXuP0GahBUaDqzcc1B+wd2NsuRexPMZHuAVua9OYypMmHrzk7MscFovnT4ZlubnNQxV52Cegpg==
-X-Received: by 2002:a05:6a00:1f0d:b0:573:d183:4218 with SMTP id be13-20020a056a001f0d00b00573d1834218mr33189679pfb.10.1672062656677;
-        Mon, 26 Dec 2022 05:50:56 -0800 (PST)
-Received: from vkumbhar-latitude3400.mvista.com ([116.74.155.15])
-        by smtp.gmail.com with ESMTPSA id x68-20020a626347000000b0056bc742d21esm7103001pfb.176.2022.12.26.05.50.54
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FEuvoPliBgA3PMH6o/LETSyecKpUVNqOcPLYi88rwmY=;
+        b=XsKwhHLYGo0SRD+YQC5zCCvy2iu75/0Aa1Gcx4ZiUUqA0HhcrzgOgfEOvmWfEWfEXw
+         sBBLpuxpPfJt3Jsc7dmXnXEpJ9yGJN97VPe/Mlgps+tWoxh2qI/gEpLoE9HUWnp46nB5
+         G8B8jexK4G/Q4NZKJlKhA551O7NSz9ej7Qdy9NOFQIe+wbZOBQYvT1HYkubOGYqpM4IU
+         i1Z5FFgOFuE1uDh0XRgNCyfAO6fA1Sda+7NpqUpPNWCDQknnuqynUXxzwatHdzK36ypy
+         2TSZqYyqi16nXaAdZQu0xhoHk71MDIVcJ1lF+NoslL+0PiYYaDsm5xx3LqRNEhx51T90
+         04iA==
+X-Gm-Message-State: AFqh2kqEX9PqJgdd7n+aa2AU0UKzMUyGuuT0eD5nPEFXgLIyQmlsGPYv
+	3n6UaVY3yksan69TUF+hDXc13Q==
+X-Google-Smtp-Source: AMrXdXsBr0g8TJg9YE6EyJ4g47CmVnyvE7FRw3Arr/EG8PvMeK9NphHXnOzaPCxYQtUDl5Zif3bLDw==
+X-Received: by 2002:a5d:5606:0:b0:242:5ae0:5b38 with SMTP id l6-20020a5d5606000000b002425ae05b38mr10293768wrv.8.1672079600689;
+        Mon, 26 Dec 2022 10:33:20 -0800 (PST)
+Received: from max.broadband ([90.253.2.200])
+        by smtp.gmail.com with ESMTPSA id f8-20020a5d58e8000000b0022e57e66824sm12421520wrd.99.2022.12.26.10.33.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Dec 2022 05:50:56 -0800 (PST)
-From: Vivek Kumbhar <vkumbhar@mvista.com>
-X-Google-Original-From: Vivek Kumbhar <vkumbhar@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Vivek Kumbhar <vkumbhar@mvista.com>
-Subject: [OE-core][dunfell][PATCH] qemu: fix CVE-2021-3507 fdc heap buffer overflow in DMA read data transfers
-Date: Mon, 26 Dec 2022 19:20:40 +0530
-Message-Id: <20221226135040.259265-1-vkumbhar@gmail.com>
-X-Mailer: git-send-email 2.30.2
+        Mon, 26 Dec 2022 10:33:20 -0800 (PST)
+Message-ID: <d9a2558d888f94721deb2696a426773dced38c44.camel@linuxfoundation.org>
+Subject: Re: [OE-Core][PATCH v4 00/11] Add rust runtime tests
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alex Kiernan <alex.kiernan@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: "Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>, Randy MacLeod
+	 <randy.macleod@windriver.com>
+Date: Mon, 26 Dec 2022 18:33:19 +0000
+In-Reply-To: <20221225215921.12868-1-alex.kiernan@gmail.com>
+References: <20221225215921.12868-1-alex.kiernan@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 Dec 2022 13:51:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175021
+ <openembedded-core@lists.openembedded.org>; Mon, 26 Dec 2022 18:33:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175022
 
-From: Vivek Kumbhar <vkumbhar@mvista.com>
+On Sun, 2022-12-25 at 21:59 +0000, Alex Kiernan wrote:
+> This series adds runtime tests for rust and cargo, merges (most of) the
+> include files into the base recipes and fixes target cargo builds.
+>=20
+> Also add SDK_TOOLCHAIN_LANGS for selection of target toolchains as part
+> of packagegroup-core-sdk.
+>=20
+> Changes in v4:
+> - Fixup `__stack_chk_fail_local` in musl-x86
+> - Add crossbeam atomics fixes for ppc/mips
+>=20
+> Changes in v3:
+> - Switch to packagegroup-core-sdk driven from TARGET_TOOLCHAIN_LANGS
+>   (which defaults to SDK_TOOLCHAIN_LANGS)
+>=20
+> Changes in v2:
+> - Drop rust.inc/rust.bb merge, not actually made use of in the change
+>   set
+> - Reorder so cargo test goes after build fixes
+>=20
+> Alex Kiernan (11):
+>   rust-llvm: Merge .inc into .bb
+>   rust-llvm: Update LLVM_VERSION to match embedded version
+>   packagegroup-rust-sdk-target: Add Rust SDK target packagegroup
+>   packagegroup-core-sdk: Add SDK toolchain language selection support
+>   cargo: Merge .inc into .bb
+>   cargo: Extend DEBUG_PREFIX_MAP to cover vendor
+>   rust: Merge .inc into .bb
+>   rust: Move musl-x86 fix for `__stack_chk_fail_local` to rust-source
+>   cargo: Override crossbeam-utils with 0.8.14
+>   packagegroup-rust-sdk-target: Add cargo
+>   oeqa/runtime/rust: Add cargo test
 
-Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
----
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2021-3507.patch             | 87 +++++++++++++++++++
- 2 files changed, 88 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3507.patch
+Looks much better thanks. There was one remaining issue which showed up
+in testing with a reproducibility issue:
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index a915b54c1a..fff2c87780 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -114,6 +114,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2021-3750.patch \
- 	   file://CVE-2021-3638.patch \
- 	   file://CVE-2021-20196.patch \
-+	   file://CVE-2021-3507.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3507.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3507.patch
-new file mode 100644
-index 0000000000..4ff3413f8e
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3507.patch
-@@ -0,0 +1,87 @@
-+From defac5e2fbddf8423a354ff0454283a2115e1367 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-+Date: Thu, 18 Nov 2021 12:57:32 +0100
-+Subject: [PATCH] hw/block/fdc: Prevent end-of-track overrun (CVE-2021-3507)
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Per the 82078 datasheet, if the end-of-track (EOT byte in
-+the FIFO) is more than the number of sectors per side, the
-+command is terminated unsuccessfully:
-+
-+* 5.2.5 DATA TRANSFER TERMINATION
-+
-+  The 82078 supports terminal count explicitly through
-+  the TC pin and implicitly through the underrun/over-
-+  run and end-of-track (EOT) functions. For full sector
-+  transfers, the EOT parameter can define the last
-+  sector to be transferred in a single or multisector
-+  transfer. If the last sector to be transferred is a par-
-+  tial sector, the host can stop transferring the data in
-+  mid-sector, and the 82078 will continue to complete
-+  the sector as if a hardware TC was received. The
-+  only difference between these implicit functions and
-+  TC is that they return "abnormal termination" result
-+  status. Such status indications can be ignored if they
-+  were expected.
-+
-+* 6.1.3 READ TRACK
-+
-+  This command terminates when the EOT specified
-+  number of sectors have been read. If the 82078
-+  does not find an I D Address Mark on the diskette
-+  after the second· occurrence of a pulse on the
-+  INDX# pin, then it sets the IC code in Status Regis-
-+  ter 0 to "01" (Abnormal termination), sets the MA bit
-+  in Status Register 1 to "1", and terminates the com-
-+  mand.
-+
-+* 6.1.6 VERIFY
-+
-+  Refer to Table 6-6 and Table 6-7 for information
-+  concerning the values of MT and EC versus SC and
-+  EOT value.
-+
-+* Table 6·6. Result Phase Table
-+
-+* Table 6-7. Verify Command Result Phase Table
-+
-+Fix by aborting the transfer when EOT > # Sectors Per Side.
-+
-+Cc: qemu-stable@nongnu.org
-+Cc: Hervé Poussineau <hpoussin@reactos.org>
-+Fixes: baca51faff0 ("floppy driver: disk geometry auto detect")
-+Reported-by: Alexander Bulekov <alxndr@bu.edu>
-+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/339
-+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-+Message-Id: <20211118115733.4038610-2-philmd@redhat.com>
-+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-+
-+Upstream-Status: Backport [https://github.com/qemu/qemu/commit/defac5e2fbddf8423a354ff0454283a2115e1367]
-+CVE: CVE-2021-3507
-+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
-+---
-+ hw/block/fdc.c | 8 ++++++++
-+ 1 file changed, 8 insertions(+)
-+
-+diff --git a/hw/block/fdc.c b/hw/block/fdc.c
-+index 347875a0cdae..57bb355794a9 100644
-+--- a/hw/block/fdc.c
-++++ b/hw/block/fdc.c
-+@@ -1530,6 +1530,14 @@ static void fdctrl_start_transfer(FDCtrl *fdctrl, int direction)
-+         int tmp;
-+         fdctrl->data_len = 128 << (fdctrl->fifo[5] > 7 ? 7 : fdctrl->fifo[5]);
-+         tmp = (fdctrl->fifo[6] - ks + 1);
-++        if (tmp < 0) {
-++            FLOPPY_DPRINTF("invalid EOT: %d\n", tmp);
-++            fdctrl_stop_transfer(fdctrl, FD_SR0_ABNTERM, FD_SR1_MA, 0x00);
-++            fdctrl->fifo[3] = kt;
-++            fdctrl->fifo[4] = kh;
-++            fdctrl->fifo[5] = ks;
-++            return;
-++        }
-+         if (fdctrl->fifo[0] & 0x80)
-+             tmp += fdctrl->fifo[6];
-+         fdctrl->data_len *= tmp;
--- 
-2.30.2
+https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/2119/ste=
+ps/12/logs/stdio
 
+We did already have an open bug for a rust reproducibility issue and we
+excluded it from the tests until we could get to the bottom of it, I
+suspect cargo may have the same issue. It frustrates me a bit as it is
+the one reproducibility exclusion for core.
+
+Ideally we would fix it but excluding it from the tests and noting it
+in the bug may be an option if it is the same issue. It may be simpler
+to reproduce and fix the issue with cargo too.
+
+Cc: Sundeep who as been looking at it.
+
+Cheers,
+
+Richard
 
