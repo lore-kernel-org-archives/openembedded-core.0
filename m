@@ -1,366 +1,251 @@
-Return-Path: <uvv.mail@gmail.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82DF7C4167B
-	for <webhook@archiver.kernel.org>; Mon, 26 Dec 2022 09:39:09 +0000 (UTC)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web11.133791.1672047539698001390
- for <Openembedded-core@lists.openembedded.org>;
- Mon, 26 Dec 2022 01:39:00 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BEACC46467
+	for <webhook@archiver.kernel.org>; Mon, 26 Dec 2022 09:41:59 +0000 (UTC)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web11.133818.1672047710159455579
+ for <openembedded-core@lists.openembedded.org>;
+ Mon, 26 Dec 2022 01:41:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=RHjYiNDj;
- spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: uvv.mail@gmail.com)
-Received: by mail-lf1-f44.google.com with SMTP id o6so15378005lfi.5
-        for <Openembedded-core@lists.openembedded.org>; Mon, 26 Dec 2022 01:38:59 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=l/mccRJp;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-ej1-f43.google.com with SMTP id vm8so18305821ejc.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 26 Dec 2022 01:41:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:from:references:cc:to:content-language:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jzfSz0TcGr2BqjzHOSY6Uuf+vrI1wAyJV+gmMEshQCA=;
-        b=RHjYiNDjGnyqrdmZBr1IPBaVMzf5bZJH3OKWx46iLekouplV9PI2MFNg+498MZLpWP
-         RRQqhiPMJVgj0ryd7qqFiLZQh5iA3znH6ErZG7Ja6hR+yV5Nee+sxzq0aLj0b3gYmNqA
-         6sN9L8ZCyeeze+3OSrcgj5EV/fd56CXDndG/zU+2AvWyYtMY0GLNLG0HwroQUERmBcuv
-         a12wJbnFlAixs3xVYNiY9lDKwzDqe0v0wDayqq29sjiTEjHRW5qbdYrNu+UGOiriM5zi
-         mO7jGDSVvNx6Jxj/gHJ9krnIiQo89Uq35PXQqXCRuVrsF/usDYmT6eROT4wujiJN4WGQ
-         MZNw==
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=K31NjjsMi0kfN19QQuqTMAdLJtwANRaaYYZMi1wpv8Q=;
+        b=l/mccRJpe+qN4UJA1nfK/vljdehfanZ/ZbGp/Y5MTt+iirx++VUR5iOOAI/RpIH2V6
+         ZM863fHJtL2I/1Lat5iNUiaCkx5OKw1RgGGM16P5QWdy+j8klp8X7kvWoQER1LPC1JNf
+         hj+jA85JiwvlKbjU/4RGad7Q1se3SA8y2ps6l6388cwY+TZ249N2hs2JU5AvW2AW3eR0
+         DV9K3trW5Nu9OB+kC3p2TUa2fL12bDs+FzuglgcjpJ3hmdOI3dx4oSSY49lyv89rMyV4
+         g4e8pEgLCuH06/xhkK9k4Cer6RaGqno+MU/u2ZG1qV52znqPs2uk8BRFnb2wKvCuG2yx
+         BHaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:from:references:cc:to:content-language:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=jzfSz0TcGr2BqjzHOSY6Uuf+vrI1wAyJV+gmMEshQCA=;
-        b=G3PLS2hsehcywWY2cpm5yQKu48uYMUvj2iTV0JCKxWN6oQUWdUKT9EHu8FFlBNDoOi
-         Am1yAH9k23QiFkW9xLmPBmbC6FB9qF1gmONWCb1z5GUJtifim7j2i2dLztgCqDPokC7+
-         se/2MRx0TBlEGJi2MtzPBKtJY+YCxgKVDLGsrPe5H+MaZF+v69X6v1PYRLOuHhu0pUKc
-         xAk2X6wPB/hJ7lDPwfLulypwJjFC1G37Xks7QbOwEUYAM84DLozX7BYRrmeKtXf80HOV
-         dAHPfLrlOCCQOuwqgIFVZnPuOo5EHnoWCTnUfeJZJWu+dza1btFxfF4wmUK0daP2gnNL
-         KeuQ==
-X-Gm-Message-State: AFqh2krwOFOqCHFhLocz9NA5rSujziO2fwqe2a3pgxX94kB7BpZpvzKz
-	6yKcsS4mcV1Uv1EgCdskdJ0=
-X-Google-Smtp-Source: AMrXdXsmqCmvtApnytIQ7xnaTD65R2QFy6Ga/lyxhAx9MZU3ARwP9OwPN4TAkPaP7cp9bh7fKFTPPQ==
-X-Received: by 2002:a19:5218:0:b0:4bc:4ad0:4148 with SMTP id m24-20020a195218000000b004bc4ad04148mr4496325lfb.8.1672047537814;
-        Mon, 26 Dec 2022 01:38:57 -0800 (PST)
-Received: from [10.133.222.121] ([185.253.97.13])
-        by smtp.gmail.com with ESMTPSA id b11-20020a056512070b00b004a45edc1de2sm1716031lfs.239.2022.12.26.01.38.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Dec 2022 01:38:57 -0800 (PST)
-Content-Type: multipart/alternative;
- boundary="------------bfJ9YPS8Vz4LcqFxuFdTg0jy"
-Message-ID: <3d6e9c54-6d00-9400-d8ef-25109e95b775@gmail.com>
-Date: Mon, 26 Dec 2022 10:38:55 +0100
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=K31NjjsMi0kfN19QQuqTMAdLJtwANRaaYYZMi1wpv8Q=;
+        b=kuRuL07cN+SAesq6K3jYnGKPTcgpGksPaNXzPT6suqexIBhYWR0gwastE5+Meq7w2q
+         MTNeD/iF/UktwAb0uCETxIG0qXsOHiNmJlUokV4Rc1/WwlxR2HeEcS/1LUan4nBBI7Fk
+         79tAESCiQo3ycMoAvas2mJIar3sqdKOEiYC7SjlBnNOJXexb/qaRShI9K2cuVgTUTgJO
+         8B+9ba1qwyjfYHYwO2m43zn8nxEl7EdITUn8VymrRtqqKj4I8kG/JtLtNBawaWLMxhyS
+         6AzYFYHtIUOj7pqvLNp3gi9RnD3wNYNBkHUriX9+fNvCRJW6oZ7VLXv/91CX2R84qm3h
+         suCA==
+X-Gm-Message-State: AFqh2kqcZ6Plmax81V+mfC4FnC/zLKD0TM8hJEHeO/AdOCj1F/HPs6tT
+	UNio9lMD9Hvi5WwXrO/YSMkw6mtqbOSMSksgE6I=
+X-Google-Smtp-Source: AMrXdXvntNz2nPdNiEzNLcpB3PsKSP2X/uea1F7KYCarBwDKfV/MbGg3MlkffOXkGVmJmgD1wj47Bldb5itLNq39oLE=
+X-Received: by 2002:a17:906:1311:b0:7c0:aa96:e934 with SMTP id
+ w17-20020a170906131100b007c0aa96e934mr2183516ejb.309.1672047708412; Mon, 26
+ Dec 2022 01:41:48 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [OE-core] [langdale][kirkstone][PATCH] go-mod.bbclass: Allow
- network in do_compile
-Content-Language: en-US
-To: Martin Jansa <martin.jansa@gmail.com>, lukas.funke@weidmueller.com,
- stefan.herbrechtsmeier@weidmueller.com, wonsang.ryu@lge.co,
- =?UTF-8?B?66+86rK97KeB?= <dp.min@lge.com>
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>,
- Richard Purdie <richard.purdie@linuxfoundation.org>,
- Openembedded-core@lists.openembedded.org
-References: <20221222150246.91423-1-uvv.mail@gmail.com>
- <0c9483d89d86eae9a84362935108f0e915b31dda.camel@linuxfoundation.org>
- <CADkTA4NnDKC0LybGM5w_otZVpAPy3Gk8+0UR1s1_tn7NVUC0Sg@mail.gmail.com>
- <5910a96e-28a2-4af6-2dc9-bc21e8bee9fb@gmail.com>
- <CA+chaQebMbjndYC_vqjFohnNBzuov8X0p2F4a0AvMcjEFnqjyA@mail.gmail.com>
-From: Vyacheslav Yurkov <uvv.mail@gmail.com>
-In-Reply-To: <CA+chaQebMbjndYC_vqjFohnNBzuov8X0p2F4a0AvMcjEFnqjyA@mail.gmail.com>
+References: <17342835AC830076.27785@lists.openembedded.org>
+In-Reply-To: <17342835AC830076.27785@lists.openembedded.org>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Mon, 26 Dec 2022 09:41:37 +0000
+Message-ID: <CAO5Uq5SqpQyL8PQHsFYDn8B7rios5EvpCni_5-JmzksAKWP0tw@mail.gmail.com>
+Subject: Re: [OE-Core][PATCH v4 00/11] Add rust runtime tests
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000b51fcb05f0b7f14e"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 Dec 2022 09:39:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175016
+ <openembedded-core@lists.openembedded.org>; Mon, 26 Dec 2022 09:41:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175017
 
-This is a multi-part message in MIME format.
---------------bfJ9YPS8Vz4LcqFxuFdTg0jy
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+--000000000000b51fcb05f0b7f14e
+Content-Type: text/plain; charset="UTF-8"
 
-Martin, I did see that patch series, but I was not sure about its state, 
-therefore I didn't try it. If I understood correctly, that partially 
-solves the issue, but the proper solution should involve the fetcher, 
-that's why it's not yet merged to master. Am I missing something?
+There's something odd happened here. Three of the patches in the previous
+version I posted look to have been merged in poky, but not oe-core? I
+thought the flow was from oe-core into poky.
 
-Regards,
-Slava
+On Sun, 25 Dec 2022, 21:59 Alex Kiernan via lists.openembedded.org,
+<alex.kiernan=gmail.com@lists.openembedded.org> wrote:
 
-On 22.12.2022 20:08, Martin Jansa wrote:
 >
-> Have you tried the changes submitted by Lukas/Stefan in:
-> https://lists.openembedded.org/g/openembedded-architecture/message/1539
-> ?
+> This series adds runtime tests for rust and cargo, merges (most of) the
+> include files into the base recipes and fixes target cargo builds.
 >
-> It's not perfect, I was testing it on 
-> https://github.com/influxdata/telegraf/blob/master/go.mod and I've 
-> found some corner cases where it failed.
+> Also add SDK_TOOLCHAIN_LANGS for selection of target toolchains as part
+> of packagegroup-core-sdk.
 >
-> But it seems like very good start and we should work with Lukas/Stefan 
-> to get it merged in master. Then all branches could consume recipes 
-> created in master and only the exceptions would need to have network 
-> access (instead of the bbclass enabling it for every go-mod user - 
-> go-vendor inherits go-mod as well).
+> Changes in v4:
+> - Fixup `__stack_chk_fail_local` in musl-x86
+> - Add crossbeam atomics fixes for ppc/mips
 >
-> Lukas/Stefan: is there something we can do to help with v2 of your 
-> patches?
+> Changes in v3:
+> - Switch to packagegroup-core-sdk driven from TARGET_TOOLCHAIN_LANGS
+>   (which defaults to SDK_TOOLCHAIN_LANGS)
 >
-> I wanted to submit better review on submitted patches after more 
-> debugging, but here it is:
+> Changes in v2:
+> - Drop rust.inc/rust.bb merge, not actually made use of in the change
+>   set
+> - Reorder so cargo test goes after build fixes
 >
-> 1) to resolve 2 deps:
-> {'Path': 'gonum.org/v1/gonum <http://gonum.org/v1/gonum>', 'Version': 
-> 'v0.12.0'} due to 404 "ERROR: Error while fetching redirect page: HTTP 
-> Error 404: Not Found"
+> Alex Kiernan (11):
+>   rust-llvm: Merge .inc into .bb
+>   rust-llvm: Update LLVM_VERSION to match embedded version
+>   packagegroup-rust-sdk-target: Add Rust SDK target packagegroup
+>   packagegroup-core-sdk: Add SDK toolchain language selection support
+>   cargo: Merge .inc into .bb
+>   cargo: Extend DEBUG_PREFIX_MAP to cover vendor
+>   rust: Merge .inc into .bb
+>   rust: Move musl-x86 fix for `__stack_chk_fail_local` to rust-source
+>   cargo: Override crossbeam-utils with 0.8.14
+>   packagegroup-rust-sdk-target: Add cargo
+>   oeqa/runtime/rust: Add cargo test
 >
-> {'Path': 'code.cloudfoundry.org/clock 
-> <http://code.cloudfoundry.org/clock>', 'Version': 'v1.0.0', 
-> 'Indirect': True} due to this being redirect to github.com 
-> <http://github.com> and failing with "ERROR: Error while fetching 
-> redirect page: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] 
-> certificate verify failed: Hostname mismatch, certificate is not valid 
-> for 'code.cloudfoundry.org <http://code.cloudfoundry.org>'. (_ssl.c:996)>"
-> parse
+>  meta/lib/oeqa/runtime/cases/rust.py           |  17 ++
+>  .../packagegroups/packagegroup-core-sdk.bb    |  10 +-
+>  .../packagegroup-rust-sdk-target.bb           |  14 ++
+>  meta/recipes-devtools/cargo/cargo.inc         |  69 ------
+>  meta/recipes-devtools/cargo/cargo_1.66.0.bb   |  80 ++++++-
+>  meta/recipes-devtools/rust/rust-llvm.inc      |  78 ------
+>  .../recipes-devtools/rust/rust-llvm_1.66.0.bb |  82 ++++++-
+>  meta/recipes-devtools/rust/rust-source.inc    |   5 +
+>  meta/recipes-devtools/rust/rust-target.inc    |  10 -
+>  meta/recipes-devtools/rust/rust.inc           | 223 ------------------
+>  meta/recipes-devtools/rust/rust_1.66.0.bb     | 223 +++++++++++++++++-
+>  11 files changed, 420 insertions(+), 391 deletions(-)
+>  create mode 100644 meta/recipes-core/packagegroups/
+> packagegroup-rust-sdk-target.bb
+>  delete mode 100644 meta/recipes-devtools/cargo/cargo.inc
+>  delete mode 100644 meta/recipes-devtools/rust/rust-llvm.inc
+>  delete mode 100644 meta/recipes-devtools/rust/rust-target.inc
+>  delete mode 100644 meta/recipes-devtools/rust/rust.inc
 >
-> 2) some issues with LICENSEs:
-> INFO: Please add the following line for 
-> 'docs/LICENSE_OF_DEPENDENCIES.md' to a 'lib/recipetool/licenses.csv' 
-> and replace `Unknown` with the license:
-> c4807c5b058a56c02f592207b4e056b1,Unknown
-> Traceback (most recent call last):
->   File "/OE/build/oe-core/openembedded-core/scripts/recipetool", line 
-> 111, in <module>
->     ret = main()
->           ^^^^^^
->   File "/OE/build/oe-core/openembedded-core/scripts/recipetool", line 
-> 100, in main
->     ret = args.func(args)
->           ^^^^^^^^^^^^^^^
->   File 
-> "/OE/layers/openembedded-core/scripts/lib/recipetool/create.py", line 
-> 746, in create_recipe
->     handler.process(srctree_use, classes, lines_before, lines_after, 
-> handled, extravalues)
->   File 
-> "/OE/layers/openembedded-core/scripts/lib/recipetool/create_go.py", 
-> line 349, in process
->     self._rewrite_lic_uri(lines_before)
->   File 
-> "/OE/layers/openembedded-core/scripts/lib/recipetool/create_go.py", 
-> line 380, in _rewrite_lic_uri
->     updated, newlines = bb.utils.edit_metadata(lines_before, 
-> ['LIC_FILES_CHKSUM'], varfunc)
-> ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->   File "/OE/build/oe-core/bitbake/lib/bb/utils.py", line 1382, in 
-> edit_metadata
->     if handle_var_end():
->        ^^^^^^^^^^^^^^^^
->   File "/OE/build/oe-core/bitbake/lib/bb/utils.py", line 1280, in 
-> handle_var_end
->     (newvalue, newop, indent, minbreak) = varfunc(in_var, full_value, 
-> op, newlines)
-> ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->   File 
-> "/OE/layers/openembedded-core/scripts/lib/recipetool/create_go.py", 
-> line 372, in varfunc
->     uri, chksum = license.split(';', 1)
->     ^^^^^^^^^^^
-> ValueError: not enough values to unpack (expected 2, got 1)
+> --
+> 2.39.0
 >
-> (the license was just '/')
 >
-> 3) some SRCREVs set to None leading to parsing failure:
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#174995):
+> https://lists.openembedded.org/g/openembedded-core/message/174995
+> Mute This Topic: https://lists.openembedded.org/mt/95880347/3618097
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kiernan@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
 >
->   File "/OE/layers/bitbake/lib/bb/fetch2/git.py", line 762, in 
-> _latest_revision
->     raise bb.fetch2.FetchError("Unable to resolve '%s' in upstream git 
-> repository in git ls-remote output for %s" % \
-> bb.data_smart.ExpansionError: Failure expanding variable SRCPV, 
-> expression was ${@bb.fetch2.get_srcrev(d)} which triggered exception 
-> FetchError: Fetcher failure: Unable to resolve 'None' in upstream git 
-> repository in git ls-remote output for 
-> github.com/googleapis/google-cloud-go 
-> <http://github.com/googleapis/google-cloud-go>
-> The variable dependency chain for the failure is: SRCPV -> PV -> BP -> 
-> FILESPATH
->
-> ERROR: Parsing newly created recipe failed, moving recipe to 
-> /OE/build/oe-core/workspace/recipes/telegraf/telegraf_git.bb.parsefailed 
-> for reference. If this looks to be caused by the recipe itself, please 
-> report this error.
->
-> It takes long time to fetch all telegraf dependencies, so I'll create 
-> some test recipe to more easily debug these 3 issues in isolation.
 >
 
---------------bfJ9YPS8Vz4LcqFxuFdTg0jy
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+--000000000000b51fcb05f0b7f14e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">Martin, I did see that patch series,
-      but I was not sure about its state, therefore I didn't try it. If
-      I understood correctly, that partially solves the issue, but the
-      proper solution should involve the fetcher, that's why it's not
-      yet merged to master. Am I missing something?<br>
-      <br>
-      Regards,<br>
-      Slava<br>
-      <br>
-      On 22.12.2022 20:08, Martin Jansa wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CA+chaQebMbjndYC_vqjFohnNBzuov8X0p2F4a0AvMcjEFnqjyA@mail.gmail.com">
-      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-      <br>
-      <div dir="ltr">
-        <div class="gmail_quote">
-          <div>Have you tried the changes submitted by Lukas/Stefan in:</div>
-          <div><a
-href="https://lists.openembedded.org/g/openembedded-architecture/message/1539"
-              moz-do-not-send="true" class="moz-txt-link-freetext">https://lists.openembedded.org/g/openembedded-architecture/message/1539</a></div>
-          <div>?</div>
-          <div><br>
-          </div>
-          <div>It's not perfect, I was testing it on <a
-              href="https://github.com/influxdata/telegraf/blob/master/go.mod"
-              moz-do-not-send="true" class="moz-txt-link-freetext">https://github.com/influxdata/telegraf/blob/master/go.mod</a>
-            and I've found some corner cases where it failed.</div>
-          <div><br>
-          </div>
-          <div>But it seems like very good start and we should work with
-            Lukas/Stefan to get it merged in master. Then all branches
-            could consume recipes created in master and only the
-            exceptions would need to have network access (instead of the
-            bbclass enabling it for every go-mod user - go-vendor
-            inherits go-mod as well).</div>
-          <div><br>
-          </div>
-          <div>Lukas/Stefan: is there something we can do to help with
-            v2 of your patches?</div>
-          <div><br>
-          </div>
-          <div>I wanted to submit better review on submitted patches
-            after more debugging, but here it is:</div>
-          <div><br>
-          </div>
-          <div>1) to resolve 2 deps:</div>
-          <div>{'Path': '<a href="http://gonum.org/v1/gonum"
-              moz-do-not-send="true">gonum.org/v1/gonum</a>', 'Version':
-            'v0.12.0'} due to 404 "ERROR: Error while fetching redirect
-            page: HTTP Error 404: Not Found"<br>
-          </div>
-          <div><br>
-          </div>
-          <div>{'Path': '<a href="http://code.cloudfoundry.org/clock"
-              moz-do-not-send="true">code.cloudfoundry.org/clock</a>',
-            'Version': 'v1.0.0', 'Indirect': True} due to this being
-            redirect to <a href="http://github.com"
-              moz-do-not-send="true">github.com</a> and failing with
-            "ERROR: Error while fetching redirect page: &lt;urlopen
-            error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify
-            failed: Hostname mismatch, certificate is not valid for '<a
-              href="http://code.cloudfoundry.org" moz-do-not-send="true">code.cloudfoundry.org</a>'.
-            (_ssl.c:996)&gt;"<br>
-          </div>
-          <div>parse</div>
-          <div><br>
-          </div>
-          <div>2) some issues with LICENSEs:</div>
-          <div>INFO: Please add the following line for
-            'docs/LICENSE_OF_DEPENDENCIES.md' to a
-            'lib/recipetool/licenses.csv' and replace `Unknown` with the
-            license:<br>
-            c4807c5b058a56c02f592207b4e056b1,Unknown<br>
-            Traceback (most recent call last):<br>
-              File
-            "/OE/build/oe-core/openembedded-core/scripts/recipetool",
-            line 111, in &lt;module&gt;<br>
-                ret = main()<br>
-                      ^^^^^^<br>
-              File
-            "/OE/build/oe-core/openembedded-core/scripts/recipetool",
-            line 100, in main<br>
-                ret = args.func(args)<br>
-                      ^^^^^^^^^^^^^^^<br>
-              File
-            "/OE/layers/openembedded-core/scripts/lib/recipetool/create.py",
-            line 746, in create_recipe<br>
-                handler.process(srctree_use, classes, lines_before,
-            lines_after, handled, extravalues)<br>
-              File
-            "/OE/layers/openembedded-core/scripts/lib/recipetool/create_go.py",
-            line 349, in process<br>
-                self._rewrite_lic_uri(lines_before)<br>
-              File
-            "/OE/layers/openembedded-core/scripts/lib/recipetool/create_go.py",
-            line 380, in _rewrite_lic_uri<br>
-                updated, newlines = bb.utils.edit_metadata(lines_before,
-            ['LIC_FILES_CHKSUM'], varfunc)<br>
-                                   
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^<br>
-              File "/OE/build/oe-core/bitbake/lib/bb/utils.py", line
-            1382, in edit_metadata<br>
-                if handle_var_end():<br>
-                   ^^^^^^^^^^^^^^^^<br>
-              File "/OE/build/oe-core/bitbake/lib/bb/utils.py", line
-            1280, in handle_var_end<br>
-                (newvalue, newop, indent, minbreak) = varfunc(in_var,
-            full_value, op, newlines)<br>
-                                                     
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^<br>
-              File
-            "/OE/layers/openembedded-core/scripts/lib/recipetool/create_go.py",
-            line 372, in varfunc<br>
-                uri, chksum = license.split(';', 1)<br>
-                ^^^^^^^^^^^<br>
-            ValueError: not enough values to unpack (expected 2, got 1)<br>
-          </div>
-          <div><br>
-          </div>
-          <div>(the license was just '/')</div>
-          <div><br>
-          </div>
-          <div>3) some SRCREVs set to None leading to parsing failure:</div>
-          <div><br>
-          </div>
-          <div>  File "/OE/layers/bitbake/lib/bb/fetch2/git.py", line
-            762, in _latest_revision<br>
-                raise bb.fetch2.FetchError("Unable to resolve '%s' in
-            upstream git repository in git ls-remote output for %s" % \<br>
-            bb.data_smart.ExpansionError: Failure expanding variable
-            SRCPV, expression was ${@bb.fetch2.get_srcrev(d)} which
-            triggered exception FetchError: Fetcher failure: Unable to
-            resolve 'None' in upstream git repository in git ls-remote
-            output for <a
-              href="http://github.com/googleapis/google-cloud-go"
-              moz-do-not-send="true">github.com/googleapis/google-cloud-go</a><br>
-            The variable dependency chain for the failure is: SRCPV
-            -&gt; PV -&gt; BP -&gt; FILESPATH<br>
-            <br>
-            ERROR: Parsing newly created recipe failed, moving recipe to
-/OE/build/oe-core/workspace/recipes/telegraf/telegraf_git.bb.parsefailed
-            for reference. If this looks to be caused by the recipe
-            itself, please report this error.</div>
-          <div><br>
-          </div>
-          <div>It takes long time to fetch all telegraf dependencies, so
-            I'll create some test recipe to more easily debug these 3
-            issues in isolation.</div>
-          <div><br>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
+<div dir=3D"auto"><div>There&#39;s something odd happened here. Three of th=
+e patches in the previous version I posted look to have been merged in poky=
+, but not oe-core? I thought the flow was from oe-core into poky.<br><br><d=
+iv class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, 25 D=
+ec 2022, 21:59 Alex Kiernan via <a href=3D"http://lists.openembedded.org" t=
+arget=3D"_blank" rel=3D"noreferrer">lists.openembedded.org</a>, &lt;alex.ki=
+ernan=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" target=3D"_blan=
+k" rel=3D"noreferrer">gmail.com@lists.openembedded.org</a>&gt; wrote:<br></=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
+t:1px #ccc solid;padding-left:1ex"><br>
+This series adds runtime tests for rust and cargo, merges (most of) the<br>
+include files into the base recipes and fixes target cargo builds.<br>
+<br>
+Also add SDK_TOOLCHAIN_LANGS for selection of target toolchains as part<br>
+of packagegroup-core-sdk.<br>
+<br>
+Changes in v4:<br>
+- Fixup `__stack_chk_fail_local` in musl-x86<br>
+- Add crossbeam atomics fixes for ppc/mips<br>
+<br>
+Changes in v3:<br>
+- Switch to packagegroup-core-sdk driven from TARGET_TOOLCHAIN_LANGS<br>
+=C2=A0 (which defaults to SDK_TOOLCHAIN_LANGS)<br>
+<br>
+Changes in v2:<br>
+- Drop rust.inc/<a href=3D"http://rust.bb" rel=3D"noreferrer noreferrer nor=
+eferrer" target=3D"_blank">rust.bb</a> merge, not actually made use of in t=
+he change<br>
+=C2=A0 set<br>
+- Reorder so cargo test goes after build fixes<br>
+<br>
+Alex Kiernan (11):<br>
+=C2=A0 rust-llvm: Merge .inc into .bb<br>
+=C2=A0 rust-llvm: Update LLVM_VERSION to match embedded version<br>
+=C2=A0 packagegroup-rust-sdk-target: Add Rust SDK target packagegroup<br>
+=C2=A0 packagegroup-core-sdk: Add SDK toolchain language selection support<=
+br>
+=C2=A0 cargo: Merge .inc into .bb<br>
+=C2=A0 cargo: Extend DEBUG_PREFIX_MAP to cover vendor<br>
+=C2=A0 rust: Merge .inc into .bb<br>
+=C2=A0 rust: Move musl-x86 fix for `__stack_chk_fail_local` to rust-source<=
+br>
+=C2=A0 cargo: Override crossbeam-utils with 0.8.14<br>
+=C2=A0 packagegroup-rust-sdk-target: Add cargo<br>
+=C2=A0 oeqa/runtime/rust: Add cargo test<br>
+<br>
+=C2=A0meta/lib/oeqa/runtime/cases/rust.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0|=C2=A0 17 ++<br>
+=C2=A0.../packagegroups/<a href=3D"http://packagegroup-core-sdk.bb" rel=3D"=
+noreferrer noreferrer noreferrer" target=3D"_blank">packagegroup-core-sdk.b=
+b</a>=C2=A0 =C2=A0 |=C2=A0 10 +-<br>
+=C2=A0.../<a href=3D"http://packagegroup-rust-sdk-target.bb" rel=3D"norefer=
+rer noreferrer noreferrer" target=3D"_blank">packagegroup-rust-sdk-target.b=
+b</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 14 ++<br>
+=C2=A0meta/recipes-devtools/cargo/cargo.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0|=C2=A0 69 ------<br>
+=C2=A0meta/recipes-devtools/cargo/<a href=3D"http://cargo_1.66.0.bb" rel=3D=
+"noreferrer noreferrer noreferrer" target=3D"_blank">cargo_1.66.0.bb</a>=C2=
+=A0 =C2=A0|=C2=A0 80 ++++++-<br>
+=C2=A0meta/recipes-devtools/rust/rust-llvm.inc=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
+78 ------<br>
+=C2=A0.../recipes-devtools/rust/<a href=3D"http://rust-llvm_1.66.0.bb" rel=
+=3D"noreferrer noreferrer noreferrer" target=3D"_blank">rust-llvm_1.66.0.bb=
+</a> |=C2=A0 82 ++++++-<br>
+=C2=A0meta/recipes-devtools/rust/rust-source.inc=C2=A0 =C2=A0 |=C2=A0 =C2=
+=A05 +<br>
+=C2=A0meta/recipes-devtools/rust/rust-target.inc=C2=A0 =C2=A0 |=C2=A0 10 -<=
+br>
+=C2=A0meta/recipes-devtools/rust/rust.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0| 223 ------------------<br>
+=C2=A0meta/recipes-devtools/rust/<a href=3D"http://rust_1.66.0.bb" rel=3D"n=
+oreferrer noreferrer noreferrer" target=3D"_blank">rust_1.66.0.bb</a>=C2=A0=
+ =C2=A0 =C2=A0| 223 +++++++++++++++++-<br>
+=C2=A011 files changed, 420 insertions(+), 391 deletions(-)<br>
+=C2=A0create mode 100644 meta/recipes-core/packagegroups/<a href=3D"http://=
+packagegroup-rust-sdk-target.bb" rel=3D"noreferrer noreferrer noreferrer" t=
+arget=3D"_blank">packagegroup-rust-sdk-target.bb</a><br>
+=C2=A0delete mode 100644 meta/recipes-devtools/cargo/cargo.inc<br>
+=C2=A0delete mode 100644 meta/recipes-devtools/rust/rust-llvm.inc<br>
+=C2=A0delete mode 100644 meta/recipes-devtools/rust/rust-target.inc<br>
+=C2=A0delete mode 100644 meta/recipes-devtools/rust/rust.inc<br>
+<br>
+-- <br>
+2.39.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#174995): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/174995" rel=3D"noreferrer noreferrer noreferrer" ta=
+rget=3D"_blank">https://lists.openembedded.org/g/openembedded-core/message/=
+174995</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/95880347/3618=
+097" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">https://lis=
+ts.openembedded.org/mt/95880347/3618097</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" rel=3D"noreferrer noreferrer" target=3D"_blank">openembedded-core+own=
+er@lists.openembedded.org</a><br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">https://l=
+ists.openembedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:alex=
+.kiernan@gmail.com" rel=3D"noreferrer noreferrer" target=3D"_blank">alex.ki=
+ernan@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+</div></div>
 
---------------bfJ9YPS8Vz4LcqFxuFdTg0jy--
+--000000000000b51fcb05f0b7f14e--
 
