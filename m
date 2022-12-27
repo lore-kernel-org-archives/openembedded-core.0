@@ -1,103 +1,129 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <yashinde145@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81818C10F1B
-	for <webhook@archiver.kernel.org>; Tue, 27 Dec 2022 09:28:46 +0000 (UTC)
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
- by mx.groups.io with SMTP id smtpd.web10.153737.1672133319317518227
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8889AC4167B
+	for <webhook@archiver.kernel.org>; Tue, 27 Dec 2022 16:37:48 +0000 (UTC)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web11.161788.1672159059340638075
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Dec 2022 01:28:39 -0800
+ Tue, 27 Dec 2022 08:37:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Uvt5DhLi;
- spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f48.google.com with SMTP id s5so18261986edc.12
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Dec 2022 01:28:39 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=AYeWZEc1;
+ spf=pass (domain: gmail.com, ip: 209.85.210.176, mailfrom: yashinde145@gmail.com)
+Received: by mail-pf1-f176.google.com with SMTP id y21so6981889pfo.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Dec 2022 08:37:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xpB6R87YEhk2DSTjsa3m3ikinuwVbGDcQe4ntrImKZI=;
-        b=Uvt5DhLiUP+9IRjJ6XCm7UVxVh2T02M5gybEW9mF79za40/DzXTKHDgnZQLDR9Woj1
-         XWEdmMQkamOEZJAl2zJRNKGOgr3VUDGdobyLV8WU6D9ctHeX5LIVNcsA5Cb6YiX3M9e2
-         nt8jKscOueaspXaAheMjdxxw+Dobq6vfegMJuXai7ilBtxzqmLZx6bUYKg/V0E02aZLu
-         43+trHVXf+PaLyX/1apKhV14jpVYycYFsWiJXw40gVBn73bjxZoyuc9E1h9gox+6HPeZ
-         405MdE3RuuNg9Idh/d9sByAIK6+OXqU8hL1Q9jchPH696vNV4602N99iNZXVtqhybdFW
-         4B+Q==
+        bh=Y9RKevrZlipfiIz/51X1o2y40JY5FMvJIUm2B2/Idds=;
+        b=AYeWZEc1itrTiXrV+cIbSvPtJmkD/bp/RKR08g1k72MU3gZ9GXiYPWUrQ0TUsullsr
+         tgUnQ/phjEsjrxqUemelopn20SdEXFq1LYG59Bwn4Qj2xFr6Xoecz7Hl9JQ2D1cLFCO1
+         rUKSazcFXXEDFAZZkvKlEh76vvHEJuoPN3nE+h182zGRBSHE39f4zdb9vVQ68MaILRNN
+         JlZn38Y70d5DCZIH2nW5VAYTB7x1IKrlr0XWjoqiwme6vD3EeLTtH+SXf2fUNH1s9T1R
+         F8ksIKdfoHmeej4ypj8PszMOugL3R51KQACmPcthpdmbX7zwqZRtTl0D8WC0Lwvqo/E8
+         ik5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xpB6R87YEhk2DSTjsa3m3ikinuwVbGDcQe4ntrImKZI=;
-        b=R519AfC//4BqN3QaEDAaDP2z2Nczl5xHtzKowWQhBvmafL9Uf8rlr9CdH1Cn9OYA9P
-         ZXFpDks6X7ZhtqCZExE/sE3ozgGnfgbeXjO/YcFtv/weaROUmzQRCzSGB2wiCO3tdFFO
-         vVodPOVAqK26zpDC1KDpZdOxJi9TGJ8QnO7qUQsfq3CGZTEHmfr7WkXWUHZDLhGHeO2D
-         9+LIZXbsP5moScbGwHlfnEDmbEYLRMBXmBN5Of5kSrIA+8x5FrWovtvEoVGXni+7O59r
-         jfqQoGmVxLVQOGYPCMd1V/gmRvFf33XeQCYFd1ScJCZ5ZYDDbRWSi32hNBlK3cNqdLXt
-         DQfw==
-X-Gm-Message-State: AFqh2kriE09OWIzF1UI3SIRmOJE1N+w18KD3Hocr6LD5uBbVIPAPKMi1
-	TR2rGjHbrNP7kr7I97+MeyF7Hnf/2Kk=
-X-Google-Smtp-Source: AMrXdXsL6t+Ww56g7gldnU4Hdvt57jpVgsk8SxaCalm8eq2b1MExtpbwWE/IgO2GBXgCKp8fPeXzjA==
-X-Received: by 2002:a05:6402:158d:b0:472:adc9:6eb2 with SMTP id c13-20020a056402158d00b00472adc96eb2mr18233369edv.29.1672133317706;
-        Tue, 27 Dec 2022 01:28:37 -0800 (PST)
-Received: from localhost ([109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id b18-20020aa7cd12000000b00482e0c55e2bsm4054516edw.93.2022.12.27.01.28.37
+        bh=Y9RKevrZlipfiIz/51X1o2y40JY5FMvJIUm2B2/Idds=;
+        b=h8GJ4WjBqV9h2HU/Fvx3JnIOakwrB5BJvq4QkDaKVepcIKB59dbdA90OS8lNUcUWYU
+         7cobpLmhIfibTk8L2Y7iJwXZbhH072RBFbeoAr1B1sjGzEGosv9aLx6aLDCuYdp7ay3R
+         VYnovQYU+HKoAbzugcJEI5IRPfWyj4ipe9akAZsLCbMwGXBxey/ihgNBf2s4yG0oU7H1
+         YRJa4HcLfVj16NTSEhK7mhP3OrZz/XbxTuORfpxZGvEF+ARY1qinEv8xa8vCaZ5hy9lw
+         6oP1js9c1ENdyW2FMYcj0eycB137JzztHVU/didLCaSlaAQQxQuqyx/gQBFilMQAAPmS
+         eVJQ==
+X-Gm-Message-State: AFqh2krsFtr7WJvelAZh/p1JBR01Qr0DKaxaR1x5IgWlk0ueU9W5BfQU
+	oQlDXfr2LoOzsddvjDmZttbp5vwJd1heFg==
+X-Google-Smtp-Source: AMrXdXspqn5uj4CjcCNaY+pm0kZmv71qSr7YRePuwWlLHQ8VAbxIVEbVZVExZKDpDTwtOq+ytkFwYQ==
+X-Received: by 2002:a05:6a00:1d0a:b0:56e:d7f4:3bf9 with SMTP id a10-20020a056a001d0a00b0056ed7f43bf9mr26775801pfx.7.1672159058483;
+        Tue, 27 Dec 2022 08:37:38 -0800 (PST)
+Received: from localhost.localdomain ([49.204.85.206])
+        by smtp.gmail.com with ESMTPSA id k6-20020aa79726000000b0057681626495sm9105817pfg.141.2022.12.27.08.37.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Dec 2022 01:28:37 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+        Tue, 27 Dec 2022 08:37:37 -0800 (PST)
+From: Yash Shinde <yashinde145@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: steve@sakoman.com,
-	Alexander Kanavin <alex.kanavin@gmail.com>,
-	Alexander Kanavin <alex@linutronix.de>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: [PATCH][langdale] cmake: update 3.24.0 -> 3.24.2
-Date: Tue, 27 Dec 2022 10:28:27 +0100
-Message-Id: <20221227092827.602052-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.39.0
+Cc: Yash.Shinde@windriver.com
+Subject: [kirkstone] [PATCH v3] binutils : Fix CVE-2022-4285
+Date: Tue, 27 Dec 2022 22:06:14 +0530
+Message-Id: <20221227163614.3699894-1-yashinde145@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Dec 2022 09:28:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175028
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Dec 2022 16:37:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175029
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=5c831a3c7f3ca98d6aba1200353311e1a1f84c70]
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
 ---
- .../cmake/{cmake-native_3.24.0.bb => cmake-native_3.24.2.bb}    | 0
- meta/recipes-devtools/cmake/cmake.inc                           | 2 +-
- .../recipes-devtools/cmake/{cmake_3.24.0.bb => cmake_3.24.2.bb} | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/cmake/{cmake-native_3.24.0.bb => cmake-native_3.24.2.bb} (100%)
- rename meta/recipes-devtools/cmake/{cmake_3.24.0.bb => cmake_3.24.2.bb} (100%)
+ .../binutils/binutils-2.38.inc                |  1 +
+ .../binutils/0019-CVE-2022-4285.patch         | 37 +++++++++++++++++++
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0019-CVE-2022-4285.patch
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_3.24.0.bb b/meta/recipes-devtools/cmake/cmake-native_3.24.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake-native_3.24.0.bb
-rename to meta/recipes-devtools/cmake/cmake-native_3.24.2.bb
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index d64afffdc1..1ede8eee61 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -21,7 +21,7 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
-            file://0004-Fail-silently-if-system-Qt-installation-is-broken.patch \
+diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
+index c1904768dc..0a4a0d7bc1 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.38.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
+@@ -42,5 +42,6 @@ SRC_URI = "\
+      file://0018-CVE-2022-38128-1.patch \
+      file://0018-CVE-2022-38128-2.patch \
+      file://0018-CVE-2022-38128-3.patch \
++     file://0019-CVE-2022-4285.patch \
  "
- 
--SRC_URI[sha256sum] = "c2b61f7cdecb1576cad25f918a8f42b8685d88a832fd4b62b9e0fa32e915a658"
-+SRC_URI[sha256sum] = "0d9020f06f3ddf17fb537dc228e1a56c927ee506b486f55fe2dc19f69bf0c8db"
- 
- UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/cmake/cmake_3.24.0.bb b/meta/recipes-devtools/cmake/cmake_3.24.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake_3.24.0.bb
-rename to meta/recipes-devtools/cmake/cmake_3.24.2.bb
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/0019-CVE-2022-4285.patch b/meta/recipes-devtools/binutils/binutils/0019-CVE-2022-4285.patch
+new file mode 100644
+index 0000000000..e5e404982e
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0019-CVE-2022-4285.patch
+@@ -0,0 +1,37 @@
++From 5c831a3c7f3ca98d6aba1200353311e1a1f84c70 Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Wed, 19 Oct 2022 15:09:12 +0100
++Subject: [PATCH] Fix an illegal memory access when parsing an ELF file
++ containing corrupt symbol version information.
++
++	PR 29699
++	* elf.c (_bfd_elf_slurp_version_tables): Fail if the sh_info field
++	of the section header is zero.
++
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=5c831a3c7f3ca98d6aba1200353311e1a1f84c70]
++CVE: CVE-2022-4285
++
++Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
++---
++ bfd/ChangeLog | 6 ++++++
++ bfd/elf.c     | 4 +++-
++ 2 files changed, 9 insertions(+), 1 deletion(-)
++
++diff --git a/bfd/elf.c b/bfd/elf.c
++index fe00e0f9189..7cd7febcf95 100644
++--- a/bfd/elf.c
+++++ b/bfd/elf.c
++@@ -8918,7 +8918,9 @@ _bfd_elf_slurp_version_tables (bfd *abfd, bool default_imported_symver)
++ 	  bfd_set_error (bfd_error_file_too_big);
++ 	  goto error_return_verref;
++ 	}
++-      elf_tdata (abfd)->verref = (Elf_Internal_Verneed *) bfd_alloc (abfd, amt);
+++      if (amt == 0)
+++	goto error_return_verref;
+++      elf_tdata (abfd)->verref = (Elf_Internal_Verneed *) bfd_zalloc (abfd, amt);
++       if (elf_tdata (abfd)->verref == NULL)
++ 	goto error_return_verref;
++ 
++-- 
++2.31.1
++
 -- 
-2.39.0
+2.25.1
 
 
