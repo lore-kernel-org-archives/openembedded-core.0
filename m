@@ -1,395 +1,208 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8431C46467
-	for <webhook@archiver.kernel.org>; Tue, 27 Dec 2022 00:11:23 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web11.148330.1672099875223810743
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DAF6C10F1B
+	for <webhook@archiver.kernel.org>; Tue, 27 Dec 2022 06:35:55 +0000 (UTC)
+Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com [195.245.230.66])
+ by mx.groups.io with SMTP id smtpd.web10.152362.1672122946060119409
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Dec 2022 16:11:15 -0800
+ Mon, 26 Dec 2022 22:35:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=XxeiCgYs;
- spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f42.google.com with SMTP id t15so2305978wro.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Dec 2022 16:11:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OJZPHHYX9aWRct1pMYyFoCF+NWcL/g1hEeJFReXuwTw=;
-        b=XxeiCgYsh26rTPJR/YRlv+qro6+JqFkN8xOJTnH+v8i+8cF6gd+nvSebUp34Frn3Qg
-         sgmOkaZ/0pYcIaitiCjBCyd4ghWDOm8fGOddj0zvQi+jzRiIMSTHIVjg4yOOlzCR0c3b
-         82NVKxAtnL85Y3PNyvki4Vh8ZiFSUlOxRv0cqZeBde9Qth0LFqJkuLCI6DePOrwqKW18
-         e/nqx3MvHRJz/CMTDW0vdMvQerOZfGgJWcjsc8WT9xm8WeF4BzYIIOGoc9q47/9gC2oM
-         W42DzT64X5/hoMtWcGfhAZyNOveuq0DDSJKhe6LRP5mZOZyg0bvuRomzsgnI3Gw3x9ob
-         eMKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OJZPHHYX9aWRct1pMYyFoCF+NWcL/g1hEeJFReXuwTw=;
-        b=p2gVEgn4F77/S2S5od9rrQfX1rfjXulkJOQ2RKahw5ixZWwJfCqbwXLVcMFjndexgX
-         fOGyZNn7mVQwBcJPrEXbNsCRCeAdADcFCAKK9dIlAVrXYnrPQtaN7ppNSWjlss6zKYEi
-         zcHHbbXgz+GXokU6awlwR8Zo8fEU4d/McBHWLAuONDuYCj7ma4zuQkwUK3G476pyLp7a
-         UdLViyz4L6Z8q4Z3bvzOOTyHUJ/R6wzdKjfJ9NXFu+FU6nBpYtDspVHEvoKKEjezuttd
-         kc+LOXuu9ZkszqUWmNqj5jHVGECiOB4DsjMxp/0BfWh+fK5LmdXnzHH8ho7gIiR+w5s6
-         vgVw==
-X-Gm-Message-State: AFqh2krvv3nPO4wRPr9YSFS0DNw753bzPiCP50bUYVT9GY5jpXaitQjM
-	IX3rvuNVxs393FoCNhgsDonEyq3BJzQ=
-X-Google-Smtp-Source: AMrXdXuJegwYeCk+7lOok4YuLf84/mh9WThjFXfcaaDpGyQiqstBDSiVsfAOfQZXrKu55CXVFoHKhg==
-X-Received: by 2002:adf:ffc1:0:b0:242:3fa4:8217 with SMTP id x1-20020adfffc1000000b002423fa48217mr12565185wrs.50.1672099873053;
-        Mon, 26 Dec 2022 16:11:13 -0800 (PST)
-Received: from fio.lan (11.77.115.89.rev.vodafone.pt. [89.115.77.11])
-        by smtp.gmail.com with ESMTPSA id q20-20020a1ce914000000b003b4935f04a4sm18160747wmc.5.2022.12.26.16.11.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Dec 2022 16:11:12 -0800 (PST)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [OE-core][PATCH 2/2] gstreamer1.0: Fix race conditions in gstbin tests
-Date: Tue, 27 Dec 2022 00:10:55 +0000
-Message-Id: <20221227001055.126232-2-jose.quaresma@foundries.io>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20221227001055.126232-1-jose.quaresma@foundries.io>
-References: <20221227001055.126232-1-jose.quaresma@foundries.io>
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=oZEHkQGo;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.66, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1672122944; i=@fujitsu.com;
+	bh=1pWWjdLFc/cTbbycZC/LyYpoRGy8wq6VyB4CwSt2YMA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=oZEHkQGoJD+x55ZbBbphKO4Dl8WgWx7lWzEPfok8JfQBfpEPodDdtSAE3oOoznjM0
+	 vrNh3oXZ303lYKOvrBva8CfKDWai0EaxtejiOdsy6bfbY1TBG9Q4hBzDb4axuI3yz1
+	 b7pg/UexFbOMT6o9wd5CRc/7zHCIb508rYMXtYXnyhZ6D3gWggXWnXAeZ0cb2ueekf
+	 9LcV69M6mlc4Q9PdisqS4PEJezNzG59N09IyxKrIp72cXXzv6AyO8B1iAdDdEyNfYb
+	 7L1pzdTYqKZqKlk+XHcKw5bECM3h29JqYPuD0PxGSvsZWWpcZxTrXGPPCTwz+MzMvj
+	 v3HIewepqDoOg==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrDIsWRWlGSWpSXmKPExsViZ8ORpGs/aVW
+  ywcp+GYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPj5htsBdttKg6cWMHewPjMrIuRk0NI4AGj
+  xNWFMl2MXED2JSaJ1/PXsEI4exgldm7sZgKpYhOQkrhx/z9bFyMHh4iAnsTVf6IgYWYBFYkXv
+  3vYQWxhASuJ3Qdeg9ksAqoSl/r2gtm8Ak4SkxcuYQGxJQQUJKY8fM8MEReUODnzCQvEHAmJgy
+  9eMEPUKErMvtwMVV8hMWtWGxOErSZx9dwm5gmM/LOQtM9C0r6AkWkVo2lxalFZapGusV5SUWZ
+  6RkluYmaOXmKVbqJeaqlueWpxia6hXmJ5sV5qcbFecWVuck6KXl5qySZGYCCmFLNV72B8u/SP
+  3iFGSQ4mJVFeqe5VyUJ8SfkplRmJxRnxRaU5qcWHGGU4OJQkeC+D5ASLUtNTK9Iyc4BRAZOW4
+  OBREoFo5S0uSMwtzkyHSJ1iVJQS5+2cCJQQAElklObBtcEi8RKjrJQwLyMDA4MQT0FqUW5mCa
+  r8K0ZxDkYlYV51kPE8mXklcNNfAS1mAlr84dBKkMUliQgpqQamBKFJMoubkgo2iAc/2a+3IUV
+  QeZbWj+vtm9JzNy0R2jS/rfRR2xfl/m3TbMM15ibK+Rqr8hsbxyhlmhiJaPhxFpU6zpD+PSnY
+  23HmuqyDzeZ8990jC5/o9+pf88+ITspb7Hgt65Nn6u2EFfP+vC3TZOzuerV+vfutczkiPKd4z
+  EUnTlh2TmxvMnsgq3/Sx6n7YpVY+3KF1wZevqcpWLl56Y01Fwq5XjdVSTJxFQgKKt/7UREUxf
+  hr10yRtp2uP61tymwVJ28LeV0rULrhyF52nUWG0QwxHAyWzRzR9zmfPZk0K6Dm8iYtIbs688z
+  r6y7EfJa5WBF+Vl1oz9Jox54rFzs8gj8Lu858fHjeEiWW4oxEQy3mouJEANiA+P0/AwAA
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-22.tower-587.messagelabs.com!1672122943!180404!1
+X-Originating-IP: [62.60.8.98]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.101.2; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 31445 invoked from network); 27 Dec 2022 06:35:43 -0000
+Received: from unknown (HELO n03ukasimr03.n03.fujitsu.local) (62.60.8.98)
+  by server-22.tower-587.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 27 Dec 2022 06:35:43 -0000
+Received: from n03ukasimr03.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTP id 109E81AD
+	for <openembedded-core@lists.openembedded.org>; Tue, 27 Dec 2022 06:35:43 +0000 (GMT)
+Received: from R01UKEXCASM126.r01.fujitsu.local (R01UKEXCASM126 [10.183.43.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTPS id 04AD27B
+	for <openembedded-core@lists.openembedded.org>; Tue, 27 Dec 2022 06:35:43 +0000 (GMT)
+Received: from localhost.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.42; Tue, 27 Dec 2022 06:35:41 +0000
+From: <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] bind: upgrade 9.18.9 -> 9.18.10
+Date: Tue, 27 Dec 2022 14:35:06 +0800
+Message-ID: <1672122906-31708-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Dec 2022 00:11:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175026
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Dec 2022 06:35:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175027
 
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+From: Wang Mingyu <wangmy@fujitsu.com>
+
+Changelog:
+==========
+The key file IO locks objects would never get deleted from the hashtable due to
+off-by-one error.
+
+ANY responses could sometimes have the wrong TTL.
+
+Speed up the named shutdown time by explicitly canceling all recursing ns_client
+objects for
+
+Removing a catalog zone from catalog-zones without also removing the referenced
+zone could leave a dangling pointer. [GL #3683]
+
+nslookup and host were not honoring the selected port in TCP mode. [GL #3721]
+
+Deprecate alt-transfer-source, alt-transfer-source-v6 and
+use-alt-transfer-source. [GL #3694]
+
+Move the "final reference detached" log message from dns_zone unit to the
+DEBUG(1) log level.
+
+Fix assertion failure in isc_http API used by statschannel if the read callback
+would be called on HTTP request that has been already closed.
+
+Deduplicate time unit conversion factors.
+
+Copy TLS identifier when setting up primaries for catalog member zones.
+
+Deprecate 'auto-dnssec'. [GL #3667]
+
+The decompression implementation in dns_name_fromwire() is now smaller and
+faster. [GL #3655]
+
+Use the current domain name when checking answers from a dual-stack-server.
+
+Ensure 'named-checkconf -z' respects the check-wildcard option when loading a
+zone.  [GL #1905]
+
+Deprecate 'coresize', 'datasize', 'files', and 'stacksize' named.conf options.
+
+The view's zone table was not locked when it should have been leading to race
+conditions when external extensions that manipulate the zone table where in use.
+
+Some browsers (Firefox) send more than 10 HTTP headers.  Bump the number of
+allowed HTTP headers to 100. [GL #3670]
+
+NXDOMAIN cache records are no longer retained in the cache after expiry,
+even when serve-stale is in use. [GL #3386]
+
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- ...005-bin-Fix-race-conditions-in-tests.patch | 300 ++++++++++++++++++
- .../gstreamer/gstreamer1.0_1.20.5.bb          |   1 +
- 2 files changed, 301 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-bin-Fix-race-conditions-in-tests.patch
+ .../0001-avoid-start-failure-with-bind-user.patch               | 0
+ .../0001-named-lwresd-V-and-start-log-hide-build-options.patch  | 0
+ .../bind-ensure-searching-for-json-headers-searches-sysr.patch  | 0
+ .../bind/{bind-9.18.9 => bind-9.18.10}/bind9                    | 0
+ .../bind/{bind-9.18.9 => bind-9.18.10}/conf.patch               | 0
+ .../bind/{bind-9.18.9 => bind-9.18.10}/generate-rndc-key.sh     | 0
+ .../init.d-add-support-for-read-only-rootfs.patch               | 0
+ .../make-etc-initd-bind-stop-work.patch                         | 0
+ .../bind/{bind-9.18.9 => bind-9.18.10}/named.service            | 0
+ .../bind/{bind_9.18.9.bb => bind_9.18.10.bb}                    | 2 +-
+ 10 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/bind/{bind-9.18.9 => bind-9.18.10}/0001-avoid-start-failure-with-bind-user.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.9 => bind-9.18.10}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.9 => bind-9.18.10}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.9 => bind-9.18.10}/bind9 (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.9 => bind-9.18.10}/conf.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.9 => bind-9.18.10}/generate-rndc-key.sh (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.9 => bind-9.18.10}/init.d-add-support-for-read-only-rootfs.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.9 => bind-9.18.10}/make-etc-initd-bind-stop-work.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.9 => bind-9.18.10}/named.service (100%)
+ rename meta/recipes-connectivity/bind/{bind_9.18.9.bb => bind_9.18.10.bb} (97%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-bin-Fix-race-conditions-in-tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-bin-Fix-race-conditions-in-tests.patch
-new file mode 100644
-index 0000000000..f1fac2df57
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-bin-Fix-race-conditions-in-tests.patch
-@@ -0,0 +1,300 @@
-+From e1e2d8d58c1e09e065849cdb1f6466c0537a7c51 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Tue, 21 Jun 2022 11:51:35 +0300
-+Subject: [PATCH] bin: Fix race conditions in tests
-+
-+The latency messages are non-deterministic and can arrive before/after
-+async-done or during state-changes as they are posted by e.g. sinks from
-+their streaming thread but bins are finishing asynchronous state changes
-+from a secondary helper thread.
-+
-+To solve this, expect latency messages at any time and assert that we
-+receive one at some point during the test.
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/2643>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/2643]
-+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-+---
-+ .../gstreamer/tests/check/gst/gstbin.c        | 132 ++++++++++++------
-+ 1 file changed, 92 insertions(+), 40 deletions(-)
-+
-+diff --git a/subprojects/gstreamer/tests/check/gst/gstbin.c b/subprojects/gstreamer/tests/check/gst/gstbin.c
-+index e366d5fe20f..88ff44db0c3 100644
-+--- a/subprojects/gstreamer/tests/check/gst/gstbin.c
-++++ b/subprojects/gstreamer/tests/check/gst/gstbin.c
-+@@ -27,50 +27,95 @@
-+ #include <gst/base/gstbasesrc.h>
-+ 
-+ static void
-+-pop_async_done (GstBus * bus)
-++pop_async_done (GstBus * bus, gboolean * had_latency)
-+ {
-+   GstMessage *message;
-++  GstMessageType types = GST_MESSAGE_ASYNC_DONE;
-++
-++  if (!*had_latency)
-++    types |= GST_MESSAGE_LATENCY;
-+ 
-+   GST_DEBUG ("popping async-done message");
-+-  message = gst_bus_poll (bus, GST_MESSAGE_ASYNC_DONE, -1);
-+ 
-+-  fail_unless (message && GST_MESSAGE_TYPE (message)
-+-      == GST_MESSAGE_ASYNC_DONE, "did not get GST_MESSAGE_ASYNC_DONE");
-++  do {
-++    message = gst_bus_poll (bus, types, -1);
-+ 
-+-  gst_message_unref (message);
-+-  GST_DEBUG ("popped message");
-++    fail_unless (message);
-++    GST_DEBUG ("popped message %s",
-++        gst_message_type_get_name (GST_MESSAGE_TYPE (message)));
-++
-++    if (GST_MESSAGE_TYPE (message) == GST_MESSAGE_LATENCY) {
-++      fail_unless (*had_latency == FALSE);
-++      *had_latency = TRUE;
-++      gst_clear_message (&message);
-++      types &= ~GST_MESSAGE_LATENCY;
-++      continue;
-++    }
-++
-++    fail_unless (GST_MESSAGE_TYPE (message)
-++        == GST_MESSAGE_ASYNC_DONE, "did not get GST_MESSAGE_ASYNC_DONE");
-++
-++    gst_clear_message (&message);
-++    break;
-++  } while (TRUE);
-+ }
-+ 
-+ static void
-+-pop_latency (GstBus * bus)
-++pop_latency (GstBus * bus, gboolean * had_latency)
-+ {
-+   GstMessage *message;
-+ 
-+-  GST_DEBUG ("popping async-done message");
-++  if (*had_latency)
-++    return;
-++
-++  GST_DEBUG ("popping latency message");
-+   message = gst_bus_poll (bus, GST_MESSAGE_LATENCY, -1);
-+ 
-+-  fail_unless (message && GST_MESSAGE_TYPE (message)
-++  fail_unless (message);
-++  fail_unless (GST_MESSAGE_TYPE (message)
-+       == GST_MESSAGE_LATENCY, "did not get GST_MESSAGE_LATENCY");
-+ 
-+-  gst_message_unref (message);
-+-  GST_DEBUG ("popped message");
-++  GST_DEBUG ("popped message %s",
-++      gst_message_type_get_name (GST_MESSAGE_TYPE (message)));
-++  gst_clear_message (&message);
-++
-++  *had_latency = TRUE;
-+ }
-+ 
-+ static void
-+-pop_state_changed (GstBus * bus, int count)
-++pop_state_changed (GstBus * bus, int count, gboolean * had_latency)
-+ {
-+   GstMessage *message;
-+-
-++  GstMessageType types = GST_MESSAGE_STATE_CHANGED;
-+   int i;
-+ 
-++  if (!*had_latency)
-++    types |= GST_MESSAGE_LATENCY;
-++
-+   GST_DEBUG ("popping %d messages", count);
-+   for (i = 0; i < count; ++i) {
-+-    message = gst_bus_poll (bus, GST_MESSAGE_STATE_CHANGED, -1);
-+-
-+-    fail_unless (message && GST_MESSAGE_TYPE (message)
-+-        == GST_MESSAGE_STATE_CHANGED, "did not get GST_MESSAGE_STATE_CHANGED");
-+-
-+-    gst_message_unref (message);
-++    do {
-++      message = gst_bus_poll (bus, types, -1);
-++
-++      fail_unless (message);
-++      GST_DEBUG ("popped message %s",
-++          gst_message_type_get_name (GST_MESSAGE_TYPE (message)));
-++
-++      if (GST_MESSAGE_TYPE (message) == GST_MESSAGE_LATENCY) {
-++        fail_unless (*had_latency == FALSE);
-++        *had_latency = TRUE;
-++        gst_clear_message (&message);
-++        types &= ~GST_MESSAGE_LATENCY;
-++        continue;
-++      }
-++
-++      fail_unless (GST_MESSAGE_TYPE (message)
-++          == GST_MESSAGE_STATE_CHANGED,
-++          "did not get GST_MESSAGE_STATE_CHANGED");
-++
-++      gst_message_unref (message);
-++      break;
-++    } while (TRUE);
-+   }
-+   GST_DEBUG ("popped %d messages", count);
-+ }
-+@@ -538,6 +583,7 @@ GST_START_TEST (test_message_state_changed_children)
-+   GstBus *bus;
-+   GstStateChangeReturn ret;
-+   GstState current, pending;
-++  gboolean had_latency = FALSE;
-+ 
-+   pipeline = GST_PIPELINE (gst_pipeline_new (NULL));
-+   fail_unless (pipeline != NULL, "Could not create pipeline");
-+@@ -576,7 +622,7 @@ GST_START_TEST (test_message_state_changed_children)
-+   ASSERT_OBJECT_REFCOUNT (sink, "sink", 2);
-+   ASSERT_OBJECT_REFCOUNT (pipeline, "pipeline", 2);
-+ 
-+-  pop_state_changed (bus, 3);
-++  pop_state_changed (bus, 3, &had_latency);
-+   fail_if (gst_bus_have_pending (bus), "unexpected pending messages");
-+ 
-+   ASSERT_OBJECT_REFCOUNT (bus, "bus", 2);
-+@@ -619,9 +665,9 @@ GST_START_TEST (test_message_state_changed_children)
-+    * its state_change message */
-+   ASSERT_OBJECT_REFCOUNT_BETWEEN (pipeline, "pipeline", 3, 4);
-+ 
-+-  pop_state_changed (bus, 3);
-+-  pop_async_done (bus);
-+-  pop_latency (bus);
-++  pop_state_changed (bus, 3, &had_latency);
-++  pop_async_done (bus, &had_latency);
-++  pop_latency (bus, &had_latency);
-+   fail_if ((gst_bus_pop (bus)) != NULL);
-+ 
-+   ASSERT_OBJECT_REFCOUNT_BETWEEN (bus, "bus", 2, 3);
-+@@ -648,7 +694,7 @@ GST_START_TEST (test_message_state_changed_children)
-+   ASSERT_OBJECT_REFCOUNT_BETWEEN (sink, "sink", 2, 4);
-+   ASSERT_OBJECT_REFCOUNT (pipeline, "pipeline", 3);
-+ 
-+-  pop_state_changed (bus, 3);
-++  pop_state_changed (bus, 3, &had_latency);
-+   fail_if ((gst_bus_pop (bus)) != NULL);
-+ 
-+   ASSERT_OBJECT_REFCOUNT (bus, "bus", 2);
-+@@ -669,7 +715,7 @@ GST_START_TEST (test_message_state_changed_children)
-+   ASSERT_OBJECT_REFCOUNT_BETWEEN (sink, "sink", 3, 4);
-+   ASSERT_OBJECT_REFCOUNT (pipeline, "pipeline", 3);
-+ 
-+-  pop_state_changed (bus, 6);
-++  pop_state_changed (bus, 6, &had_latency);
-+   fail_if ((gst_bus_pop (bus)) != NULL);
-+ 
-+   ASSERT_OBJECT_REFCOUNT (src, "src", 1);
-+@@ -696,6 +742,7 @@ GST_START_TEST (test_watch_for_state_change)
-+   GstElement *src, *sink, *bin;
-+   GstBus *bus;
-+   GstStateChangeReturn ret;
-++  gboolean had_latency = FALSE;
-+ 
-+   bin = gst_element_factory_make ("bin", NULL);
-+   fail_unless (bin != NULL, "Could not create bin");
-+@@ -722,9 +769,9 @@ GST_START_TEST (test_watch_for_state_change)
-+       GST_CLOCK_TIME_NONE);
-+   fail_unless (ret == GST_STATE_CHANGE_SUCCESS);
-+ 
-+-  pop_state_changed (bus, 6);
-+-  pop_async_done (bus);
-+-  pop_latency (bus);
-++  pop_state_changed (bus, 6, &had_latency);
-++  pop_async_done (bus, &had_latency);
-++  pop_latency (bus, &had_latency);
-+ 
-+   fail_unless (gst_bus_have_pending (bus) == FALSE,
-+       "Unexpected messages on bus");
-+@@ -732,16 +779,17 @@ GST_START_TEST (test_watch_for_state_change)
-+   ret = gst_element_set_state (GST_ELEMENT (bin), GST_STATE_PLAYING);
-+   fail_unless (ret == GST_STATE_CHANGE_SUCCESS);
-+ 
-+-  pop_state_changed (bus, 3);
-++  pop_state_changed (bus, 3, &had_latency);
-+ 
-++  had_latency = FALSE;
-+   /* this one might return either SUCCESS or ASYNC, likely SUCCESS */
-+   ret = gst_element_set_state (GST_ELEMENT (bin), GST_STATE_PAUSED);
-+   gst_element_get_state (GST_ELEMENT (bin), NULL, NULL, GST_CLOCK_TIME_NONE);
-+ 
-+-  pop_state_changed (bus, 3);
-++  pop_state_changed (bus, 3, &had_latency);
-+   if (ret == GST_STATE_CHANGE_ASYNC) {
-+-    pop_async_done (bus);
-+-    pop_latency (bus);
-++    pop_async_done (bus, &had_latency);
-++    pop_latency (bus, &had_latency);
-+   }
-+ 
-+   fail_unless (gst_bus_have_pending (bus) == FALSE,
-+@@ -898,6 +946,7 @@ GST_START_TEST (test_children_state_change_order_flagged_sink)
-+   GstStateChangeReturn ret;
-+   GstState current, pending;
-+   GstBus *bus;
-++  gboolean had_latency = FALSE;
-+ 
-+   pipeline = gst_pipeline_new (NULL);
-+   fail_unless (pipeline != NULL, "Could not create pipeline");
-+@@ -951,10 +1000,11 @@ GST_START_TEST (test_children_state_change_order_flagged_sink)
-+   ASSERT_STATE_CHANGE_MSG (bus, sink, GST_STATE_READY, GST_STATE_PAUSED, 107);
-+ #else
-+ 
-+-  pop_state_changed (bus, 2);   /* pop remaining ready => paused messages off the bus */
-++  pop_state_changed (bus, 2, &had_latency);     /* pop remaining ready => paused messages off the bus */
-+   ASSERT_STATE_CHANGE_MSG (bus, pipeline, GST_STATE_READY, GST_STATE_PAUSED,
-+       108);
-+-  pop_async_done (bus);
-++  pop_async_done (bus, &had_latency);
-++  pop_latency (bus, &had_latency);
-+ #endif
-+   /* PAUSED => PLAYING */
-+   GST_DEBUG ("popping PAUSED -> PLAYING messages");
-+@@ -972,8 +1022,8 @@ GST_START_TEST (test_children_state_change_order_flagged_sink)
-+   fail_if (ret != GST_STATE_CHANGE_SUCCESS, "State change to READY failed");
-+ 
-+   /* TODO: do we need to check downwards state change order as well? */
-+-  pop_state_changed (bus, 4);   /* pop playing => paused messages off the bus */
-+-  pop_state_changed (bus, 4);   /* pop paused => ready messages off the bus */
-++  pop_state_changed (bus, 4, &had_latency);     /* pop playing => paused messages off the bus */
-++  pop_state_changed (bus, 4, &had_latency);     /* pop paused => ready messages off the bus */
-+ 
-+   while (GST_OBJECT_REFCOUNT_VALUE (pipeline) > 1)
-+     THREAD_SWITCH ();
-+@@ -1002,6 +1052,7 @@ GST_START_TEST (test_children_state_change_order_semi_sink)
-+   GstStateChangeReturn ret;
-+   GstState current, pending;
-+   GstBus *bus;
-++  gboolean had_latency = FALSE;
-+ 
-+   /* (2) Now again, but check other code path where we don't have
-+    *     a proper sink correctly flagged as such, but a 'semi-sink' */
-+@@ -1056,10 +1107,11 @@ GST_START_TEST (test_children_state_change_order_semi_sink)
-+   ASSERT_STATE_CHANGE_MSG (bus, src, GST_STATE_READY, GST_STATE_PAUSED, 206);
-+   ASSERT_STATE_CHANGE_MSG (bus, sink, GST_STATE_READY, GST_STATE_PAUSED, 207);
-+ #else
-+-  pop_state_changed (bus, 2);   /* pop remaining ready => paused messages off the bus */
-++  pop_state_changed (bus, 2, &had_latency);     /* pop remaining ready => paused messages off the bus */
-+   ASSERT_STATE_CHANGE_MSG (bus, pipeline, GST_STATE_READY, GST_STATE_PAUSED,
-+       208);
-+-  pop_async_done (bus);
-++  pop_async_done (bus, &had_latency);
-++  pop_latency (bus, &had_latency);
-+ 
-+   /* PAUSED => PLAYING */
-+   GST_DEBUG ("popping PAUSED -> PLAYING messages");
-+@@ -1076,8 +1128,8 @@ GST_START_TEST (test_children_state_change_order_semi_sink)
-+   fail_if (ret != GST_STATE_CHANGE_SUCCESS, "State change to READY failed");
-+ 
-+   /* TODO: do we need to check downwards state change order as well? */
-+-  pop_state_changed (bus, 4);   /* pop playing => paused messages off the bus */
-+-  pop_state_changed (bus, 4);   /* pop paused => ready messages off the bus */
-++  pop_state_changed (bus, 4, &had_latency);     /* pop playing => paused messages off the bus */
-++  pop_state_changed (bus, 4, &had_latency);     /* pop paused => ready messages off the bus */
-+ 
-+   GST_DEBUG ("waiting for pipeline to reach refcount 1");
-+   while (GST_OBJECT_REFCOUNT_VALUE (pipeline) > 1)
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.5.bb
-index 5a96764780..ce9c1c116f 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.5.bb
-@@ -21,6 +21,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
-            file://0002-tests-add-support-for-install-the-tests.patch;striplevel=3 \
-            file://0003-tests-use-a-dictionaries-for-environment.patch;striplevel=3 \
-            file://0004-tests-add-helper-script-to-run-the-installed_tests.patch;striplevel=3 \
-+           file://0005-bin-Fix-race-conditions-in-tests.patch;striplevel=3 \
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.9/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.18.10/0001-avoid-start-failure-with-bind-user.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.9/0001-avoid-start-failure-with-bind-user.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.10/0001-avoid-start-failure-with-bind-user.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.9/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.18.10/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.9/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.10/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.9/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.18.10/bind-ensure-searching-for-json-headers-searches-sysr.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.9/bind-ensure-searching-for-json-headers-searches-sysr.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.10/bind-ensure-searching-for-json-headers-searches-sysr.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.9/bind9 b/meta/recipes-connectivity/bind/bind-9.18.10/bind9
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.9/bind9
+rename to meta/recipes-connectivity/bind/bind-9.18.10/bind9
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.9/conf.patch b/meta/recipes-connectivity/bind/bind-9.18.10/conf.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.9/conf.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.10/conf.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.9/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.18.10/generate-rndc-key.sh
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.9/generate-rndc-key.sh
+rename to meta/recipes-connectivity/bind/bind-9.18.10/generate-rndc-key.sh
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.9/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.18.10/init.d-add-support-for-read-only-rootfs.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.9/init.d-add-support-for-read-only-rootfs.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.10/init.d-add-support-for-read-only-rootfs.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.9/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.18.10/make-etc-initd-bind-stop-work.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.9/make-etc-initd-bind-stop-work.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.10/make-etc-initd-bind-stop-work.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.9/named.service b/meta/recipes-connectivity/bind/bind-9.18.10/named.service
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.9/named.service
+rename to meta/recipes-connectivity/bind/bind-9.18.10/named.service
+diff --git a/meta/recipes-connectivity/bind/bind_9.18.9.bb b/meta/recipes-connectivity/bind/bind_9.18.10.bb
+similarity index 97%
+rename from meta/recipes-connectivity/bind/bind_9.18.9.bb
+rename to meta/recipes-connectivity/bind/bind_9.18.10.bb
+index 160986eb53..cb0e251d51 100644
+--- a/meta/recipes-connectivity/bind/bind_9.18.9.bb
++++ b/meta/recipes-connectivity/bind/bind_9.18.10.bb
+@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://0001-avoid-start-failure-with-bind-user.patch \
             "
- SRC_URI[sha256sum] = "5a19083faaf361d21fc391124f78ba6d609be55845a82fa8f658230e5fa03dff"
  
+-SRC_URI[sha256sum] = "6a9665998d568604460df0918fc8ccfad7d29388d4d842560c056cc211cbb243"
++SRC_URI[sha256sum] = "f415a92feb62568b50854a063cb231e257351f8672186d0ab031a49b3de2cac6"
+ 
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ # follow the ESV versions divisible by 2
 -- 
-2.39.0
+2.25.1
 
 
