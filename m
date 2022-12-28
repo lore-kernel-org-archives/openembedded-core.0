@@ -1,69 +1,70 @@
-Return-Path: <clopez@igalia.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 760E4C4167B
-	for <webhook@archiver.kernel.org>; Wed, 28 Dec 2022 05:36:42 +0000 (UTC)
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by mx.groups.io with SMTP id smtpd.web11.176115.1672205797231859408
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB115C4332F
+	for <webhook@archiver.kernel.org>; Wed, 28 Dec 2022 07:13:42 +0000 (UTC)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+ by mx.groups.io with SMTP id smtpd.web10.175930.1672211621239646627
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Dec 2022 21:36:40 -0800
+ Tue, 27 Dec 2022 23:13:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@igalia.com header.s=20170329 header.b=WE+SmZV+;
- spf=pass (domain: igalia.com, ip: 213.97.179.56, mailfrom: clopez@igalia.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
-	To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=yJg6Hh97W5pmuh1h7JKooCwn8W7GcRUKscUumBFoVY4=; b=WE+SmZV+jbfE4mx0IW+XCA4hYp
-	Sv4UJPNd1nUEx8nWnvxp76KD8BSvoGig1txh6UW6jeL7brLgf226V2XRqvMS2F3l+m0OsJWdCI8oB
-	RlX22G+LDKHUwXgxUOps45Oh2Xz6TccT8fOfyIrrH3hGLSZmfC1geSnZniAldyJ06ZQPlqmvK4MUE
-	d4deoZaspgQcBcz7zTMMy8ZhbqMVAtI7xaIcWmxoKwM502p6QSRpSMeYbhVHBsW4VSjxsNjl24dyv
-	gGTmZp3I7PL7dwtE76lECgsdqRS1RlCwEYvPjTWiAsBuW6Ho1eiNbY72wXtLMvZuBt0Moseu4hNfB
-	lmSYS12w==;
-Received: from [213.60.16.212] (helo=trinity.bot.igalia.com)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1pAP7B-00BXfn-5a
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Dec 2022 06:36:33 +0100
-From: Carlos Alberto Lopez Perez <clopez@igalia.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] mesa-gl: gallium is required when enabling x11
-Date: Wed, 28 Dec 2022 06:36:04 +0100
-Message-Id: <20221228053604.2392-1-clopez@igalia.com>
-X-Mailer: git-send-email 2.30.2
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=SpfzfR5j;
+ spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f46.google.com with SMTP id b3so22526579lfv.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Dec 2022 23:13:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=eSDpJ8oCGpvnUG7IP4MH+BG9V8t7I7hHA0JPWDP1sxQ=;
+        b=SpfzfR5jI1shyTX14SJ3pMTul8TlEhZZ82NP7gEuG4ZpGFgY9gnd/1d/BXvYkdVXFq
+         Z3sjkzMjiC1Op5DNFxeV5ZnXcszCbV5+NQbdfQBxfaM+niEJELgK0tjGySA3UqSLISyL
+         VlKROq2z8MgeDT0OxLBjCjFCvFPnK3x+HuKl56CMgdHraMCTvUFRvM5fBdv79fENP3Vp
+         A2Ct6IJVo44/TZmgahuIcUdLQCkgHuuRkiN8yA5NWr6IWNVzWeyZ2tKMZ00wp7jQDtTD
+         VswY5WXX3UAv4FpjhmY88jkw8SmRRb2SlNjO8S18iJeOA7uMUJy4UAUY5UP3qKySA74V
+         a2Dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eSDpJ8oCGpvnUG7IP4MH+BG9V8t7I7hHA0JPWDP1sxQ=;
+        b=eRGq3p2tftq1qtsNWQ13XSG3ZNRI6WF7JGsrZ83j+/BUFFQdrPoEsgULzJKKAbPnc1
+         G3dSMJrSO9KRPTcUIQvGT6yyu6wC4HdoKCyZiQPqLlgMAXreVf6MVVXi+SeK27W1l7so
+         UpQna1vn37yjmB85fMvfOSHzqPbh8Lzmt5Kk7DROkQRT3mRZZmqrYw0iOUHTmXXLw1xw
+         NWQKm7IW49VXZVhE/cpro2gZ8IJVTLOSvxs2AbcXxsFniGTG10wKbrJZRBzVba6kq3DF
+         d2twirxnzM6LtqX4eWSqZT+CoknejZn2+NSM1AhdFjIHTt2drRY+F/4CEtNplS3AKGAP
+         vY2A==
+X-Gm-Message-State: AFqh2kqz5NDjZFJkOI5cueSBT0G9LPi8xgnE3hSeRAUL84Ysv7p2gzRT
+	iBKk3opzbsJhErPdS9psa5mri7A+CFLaEzrnpoI=
+X-Google-Smtp-Source: AMrXdXtFGMSDun4GoCVgyClZ83ZzPcdVN3YxLj4qayqpWdpslzNglX7PrJiq+Di04ydZvkIqqW11LBMPK46uPC3tlMU=
+X-Received: by 2002:ac2:4bc9:0:b0:4b5:4502:1323 with SMTP id
+ o9-20020ac24bc9000000b004b545021323mr1438874lfq.345.1672211619276; Tue, 27
+ Dec 2022 23:13:39 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20221228040546.1790437-1-vince@underview.tech>
+In-Reply-To: <20221228040546.1790437-1-vince@underview.tech>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 28 Dec 2022 08:13:27 +0100
+Message-ID: <CANNYZj_DY9PdAFLBC0qkMgpy86PqVPxCA2b45bXaRDoLZOANoQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] mesa-gl: allow mesa (gbm) to compile without backend
+To: Vincent Davis Jr <vince@underview.tech>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 Dec 2022 05:36:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175039
+ <openembedded-core@lists.openembedded.org>; Wed, 28 Dec 2022 07:13:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175040
 
-Otherwise Meson will fail wit this error:
-  - meson.build:555:6: ERROR: Problem encountered: xlib based GLX requires at least one gallium driver
+On Wed, 28 Dec 2022 at 05:06, Vincent Davis Jr <vince@underview.tech> wrote:
+> +Fix gbm compile without dri
+> +
+> +Upstream-Status: Inappropriate
 
-Related: https://github.com/agherzan/meta-raspberrypi/pull/1119
----
- meta/recipes-graphics/mesa/mesa-gl_22.2.3.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This looks very much appropriate for upstream submission; please do so
+and re-submit as backport.
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_22.2.3.bb b/meta/recipes-graphics/mesa/mesa-gl_22.2.3.bb
-index f2bc8f6b5b..c7c7aa7ac3 100644
---- a/meta/recipes-graphics/mesa/mesa-gl_22.2.3.bb
-+++ b/meta/recipes-graphics/mesa/mesa-gl_22.2.3.bb
-@@ -8,6 +8,6 @@ S = "${WORKDIR}/mesa-${PV}"
- 
- # At least one DRI rendering engine is required to build mesa.
- # When no X11 is available, use osmesa for the rendering engine.
--PACKAGECONFIG ??= "opengl ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'osmesa gallium', d)}"
--PACKAGECONFIG:class-target = "opengl ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'osmesa gallium', d)}"
-+PACKAGECONFIG ??= "opengl gallium ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'osmesa', d)}"
-+PACKAGECONFIG:class-target = "opengl gallium ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'osmesa', d)}"
- 
--- 
-2.30.2
-
+Alex
 
