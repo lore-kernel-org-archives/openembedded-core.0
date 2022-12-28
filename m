@@ -1,112 +1,104 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69443C3DA7A
-	for <webhook@archiver.kernel.org>; Wed, 28 Dec 2022 15:24:05 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web10.182573.1672241036553355207
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3421FC4167B
+	for <webhook@archiver.kernel.org>; Wed, 28 Dec 2022 17:20:06 +0000 (UTC)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+ by mx.groups.io with SMTP id smtpd.web10.185287.1672248002187164304
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Dec 2022 07:23:56 -0800
+ Wed, 28 Dec 2022 09:20:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=XHsnGgHv;
- spf=pass (domain: gmail.com, ip: 209.85.221.53, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wr1-f53.google.com with SMTP id bs20so13114703wrb.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Dec 2022 07:23:56 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=LaEin4GY;
+ spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f54.google.com with SMTP id p36so24393751lfa.12
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Dec 2022 09:20:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=i8NxucXV6rn0spdM+T2O1RQX0uQD3s/Ct+shKCIlKQ4=;
-        b=XHsnGgHvzSFYn9PdTGcLXhVSPD2OP00KG5AivhdWG785pfcjwzwci9uHpkAIAeXKPO
-         crI9H1fsjy4ZkGNf+KAkgu4GBGG5HS2jWvQ46aaoQbmS5+uxOAoMZ/S6rsZ+stfvcC4y
-         +ujEY45TGJHIHj344K3TOiouC7oI/ZDnZvLC3CSGMN+o722VxLRaeX9UzjVNXNVn7lbL
-         EwJXH9dayN130Vwv7xJGJxDgJzpLYb3pGOabjFkaF/9/2cgceNSBl1fnuKrJo+fSsUZ0
-         8lmVLHfquLTXgiV8GdBT+clZwTXTUoAkLfbwLqXNAd89lw3jUzUxlevCij0Olbhwlq0V
-         /XhQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=5AuVgGYeHM+77N+DZeBHdI+ngBTFaD9Qd1s4vKqLf/M=;
+        b=LaEin4GYC9Y8ZDYCBSE6UoEb5gMNzBcjF4opa6lw0HaWwtGYok1zPp68Q1BuOqMvbO
+         Og+2tzqcque+4qanEi6Uun7iztu+E90W9gWtnbzyd4peMLHVE3dyk+cwEkp6n1MUNbLP
+         W9kz+GOCwtnk2VoxD1eLrxDQ0QMG9pkiRYMdkwL0EtF/9gHYr1C9mRe0KO/JwBxs2bvK
+         6DSQzUUn4Z+/Rpto/cCQdR/OoBuwXycuQF4QS49VGIqKVaI+fNBFjqgFXbj3Q7H3xXR9
+         nZQKa/Z/YTcHF00bt2G5UA8t6Qf9ZV7d1wmyGSvhMv2AB374VTlwOyhOzuwto+f7MxQ1
+         pSQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=i8NxucXV6rn0spdM+T2O1RQX0uQD3s/Ct+shKCIlKQ4=;
-        b=hAMaQ+tr9utDHWswpxuu8gvlNP+qC7qDDS4DY3KpQMcXU93vXftBreAxB+P5TZovrD
-         gkETIxFtH+Eq6DLD0Sn8CasS9xVEbMziz5BJWzw+4B55BL+EQ69pbqNYHARr7KDbgnf7
-         DI5zqhxw/4JwhQ7DXzgzjWl/S9N1xkA7DjwTXqXaLO9lwcMVylTNjwy4TjIsVJFYQkCT
-         1pwkE64HWYLzsXrRzdUSIyfR78rgnq+ATkJ+LGuXYSqloADqLo4WIVeI0v1ilJd9sL1z
-         g7iffHF0jpJ4B3sT8Lc7mEWMuMFWQrxQroZEqEo1Wmjorj7JKs/5Sr2xNUfq6L5EeF63
-         vrfA==
-X-Gm-Message-State: AFqh2kqUWIqx9ARvfaDWxENTg694gbpHKx4sxa3ZjRTWZF/tF1rmKJmc
-	E7GxYlVMBnNY26ZYA0t/b7sWY8Uh49Q=
-X-Google-Smtp-Source: AMrXdXtRnhEQm5rAX9NgsXm1//gI/4lAz+C8LGAzDcOm2I4igt4d5hY5/ZGOv6iFC0Imq0Y1MkCNZw==
-X-Received: by 2002:adf:d084:0:b0:278:29ac:f894 with SMTP id y4-20020adfd084000000b0027829acf894mr8396124wrh.64.1672241034819;
-        Wed, 28 Dec 2022 07:23:54 -0800 (PST)
-Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net. [91.135.6.246])
-        by smtp.gmail.com with ESMTPSA id r17-20020adfdc91000000b0027973315213sm10884893wrj.89.2022.12.28.07.23.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Dec 2022 07:23:54 -0800 (PST)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [OE-Core][PATCH v5 12/12] oeqa/runtime/rust: Add cargo test
-Date: Wed, 28 Dec 2022 15:23:34 +0000
-Message-Id: <20221228152334.25449-13-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20221228152334.25449-1-alex.kiernan@gmail.com>
-References: <20221228152334.25449-1-alex.kiernan@gmail.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5AuVgGYeHM+77N+DZeBHdI+ngBTFaD9Qd1s4vKqLf/M=;
+        b=j4GlVOg5/eFJmu4CQQh2wLM/bizuN/nxi87DTx6fXigLvWEsVZooFf3opOlgql3YEn
+         8tnJCfPFGsKvC0qCyg9sJeXUJ9HlNqdFNqLuj04lPKzltBizbGfKrruzXJkjowdcujZN
+         obBKVmFzc3NOiWyBYd3iNWN+ImU6qGjRWOAFmD6mwTOlAF9bCrMPiCB40isqnJ/8QhfL
+         6uKBEOaq0gvxFAlrGHvrTWunspjmLVKPlAIS6JdVysvwqT15PeAZX12xxBABsG4zGHQV
+         xJDWLQeB3bRdkM2sT1auj0mQ5kkKnINCfFgdHii6pvaO1tX/Q/2nqXyZeFDiXNkRlK04
+         516A==
+X-Gm-Message-State: AFqh2kpAA2VyndIo76H2fROwXEdYDcLEDbpFuuKVnZcthcklAhFXzFbL
+	nmNrMcb9JFKOc71MJCou2hAZJzTzJBfb7hIQL8A=
+X-Google-Smtp-Source: AMrXdXuE1zDQGZEQjOqH9eNYXWfG3JdS3UIccH4fAjtbWo7580cgorlCrQkzNESnj60xhtyfjjZXHJzEwfOt+06xW/E=
+X-Received: by 2002:ac2:4bc9:0:b0:4b5:4502:1323 with SMTP id
+ o9-20020ac24bc9000000b004b545021323mr1540885lfq.345.1672248000244; Wed, 28
+ Dec 2022 09:20:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20221224165943.1324800-1-alex@linutronix.de> <20221224165943.1324800-6-alex@linutronix.de>
+ <05ddc76c998a397e7392957760517b2011a4d61e.camel@linuxfoundation.org>
+In-Reply-To: <05ddc76c998a397e7392957760517b2011a4d61e.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 28 Dec 2022 18:19:48 +0100
+Message-ID: <CANNYZj8wuHTJ6+fH3hmepbs2SnRbJEW1KakTZneKEQEvKjeGiw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 6/7] libslirp: add recipe to continue slirp
+ support in qemu
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>, Bruce Ashfield <bruce.ashfield@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 Dec 2022 15:24:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175082
+ <openembedded-core@lists.openembedded.org>; Wed, 28 Dec 2022 17:20:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175083
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
----
+On Wed, 28 Dec 2022 at 14:42, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> I've had some feedback about the way this was handled. In future things
+> might be smoother if we:
+>
+> a) make sure the maintainers of other layers containing such recipes
+>    are cc'd on the changes.
+> b) mention in the commit which layer a recipe came from and who worked
+>    on the underlying code
+> c) mention any changes made to merge to core
+> d) time things outside of holidays
 
-(no changes since v1)
+I agree with documenting origin, giving credit and making
+changes-on-top clear; I did copy the recipe (however simple) from
+meta-virtualization and should've done that at that point.
 
- meta/lib/oeqa/runtime/cases/rust.py | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+Otherwise, there's no 'evil intent' with the timing. It's just that
+recent AUH reports (and associated weekly CVE reports for master)
+bother me more and more, Christmas season is a great time to get
+actual work done :) and I handle hardest updates first - and qemu is
+certainly in that category. I wouldn't do these large, disruptive,
+inconveniently timed (for some) update batches if we had a healthy
+maintainer ecosystem.
 
-diff --git a/meta/lib/oeqa/runtime/cases/rust.py b/meta/lib/oeqa/runtime/cases/rust.py
-index 186bb0d79e15..c9c60e16fd2b 100644
---- a/meta/lib/oeqa/runtime/cases/rust.py
-+++ b/meta/lib/oeqa/runtime/cases/rust.py
-@@ -20,6 +20,8 @@ class RustCompileTest(OERuntimeTestCase):
-     def tearDown(cls):
-         files = '/tmp/test.rs /tmp/test'
-         cls.tc.target.run('rm %s' % files)
-+        dirs = '/tmp/hello'
-+        cls.tc.target.run('rm -r %s' % dirs)
- 
-     @OETestDepends(['ssh.SSHTest.test_ssh'])
-     @OEHasPackage(['rust'])
-@@ -32,6 +34,21 @@ class RustCompileTest(OERuntimeTestCase):
-         msg = 'running compiled file failed, output: %s' % output
-         self.assertEqual(status, 0, msg=msg)
- 
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    @OEHasPackage(['cargo'])
-+    def test_cargo_compile(self):
-+        status, output = self.target.run('cargo new /tmp/hello')
-+        msg = 'cargo new failed, output: %s' % output
-+        self.assertEqual(status, 0, msg=msg)
-+
-+        status, output = self.target.run('cargo build --manifest-path=/tmp/hello/Cargo.toml')
-+        msg = 'cargo build failed, output: %s' % output
-+        self.assertEqual(status, 0, msg=msg)
-+
-+        status, output = self.target.run('cargo run --manifest-path=/tmp/hello/Cargo.toml')
-+        msg = 'running compiled file failed, output: %s' % output
-+        self.assertEqual(status, 0, msg=msg)
-+
- class RustHelloworldTest(OERuntimeTestCase):
-     @OETestDepends(['ssh.SSHTest.test_ssh'])
-     @OEHasPackage(['rust-hello-world'])
--- 
-2.39.0
+By the way, at Linutronix there is a requirement to clearly document
+code that's been copied from elsewhere, one is not allowed to change
+it in the same commit, and there's associated nomenclature for commit
+messages. For example, recently I wrote this into a commit:
 
+    (copy from external source:
+    git: git://git.yoctoproject.org/poky
+    archive: c615d00a361510b0425a57ea6afdda5a39069692
+    copy: meta/recipes-core/initrdscripts/files/init-install-efi.sh
+--> recipes-core/images/initramfs-module-someproduct-install/someproduct-partition-install.sh
+    copy: meta/recipes-core/initrdscripts/files/init-install-efi.sh
+--> recipes-core/images/initramfs-module-someproduct-install/someproduct-reinstall.sh
+    )
+
+
+Alex
 
