@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15491C4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19911C3DA7A
 	for <webhook@archiver.kernel.org>; Wed, 28 Dec 2022 07:38:03 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web11.177184.1672213075363182659
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web11.177183.1672213072797548842
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Dec 2022 23:37:59 -0800
+ Tue, 27 Dec 2022 23:37:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=AjZvIt7s;
- spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f49.google.com with SMTP id bx10so14252254wrb.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Dec 2022 23:37:53 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=CisEeLq8;
+ spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f46.google.com with SMTP id p1-20020a05600c1d8100b003d8c9b191e0so10742872wms.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Dec 2022 23:37:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Rxspv4TU9GO+SFRI4DVSIKhAg7n8Jcf9M06nJBuyTRU=;
-        b=AjZvIt7scLLIVYnYH8ckZW0UijWkGBXm6Pb/Ca2YQ/vcpDSDTczx+SbmXigmtcYVHS
-         b32U17KxzwytJjp7zcXXAGpRieQCeAx9vBxwoZbsx2+zrNUCdIwV6FBd1gXw6WkSBUuF
-         VFGGdJkkqVVtE8UYCpVos+USpnShuMRNx7jTJDXtLVHaB3gJI+rax1Fz5511dh8y5two
-         1kLx9+LtdbzQuFw3rZ86gl++gkGLjwIKdytDvfFhetU8fnNLTVmvUOFSD4sGyvxGTpRi
-         xtHuALOVdtonsCOYRi1565q5WlFBIjD9bkF8jpj5RW5kKLYGDslaJ+4csPFuVx7JJCrp
-         VhfQ==
+        bh=2BnQtcuLDxDRD6ESGSU/T8nrw4TCDqxR9loRgsz87cc=;
+        b=CisEeLq8MQpAooiXDrFHXXFRoB3YCuBHnvZmJVVtiXRSf3n8dSqTShdo91wGe5jHKS
+         /QxYrUI14ly6pOILQGgJ+1/GBDCnyQYmAqy+1+7TDGb80uQvsv2GE2kKq6rLaFEFEcI9
+         ZZyGJAQP6PP7wYL082aCsV4g5Yo/Yzxk/j2NFO1LVYEHTnHZb3pq6INL7MMCLuqTCIzs
+         TItjRw98jDzQE7Bum1KdV1+NovFn5MuxaIn5veZogynXF0lgLgNveqdgeH3I6wZ6TCh7
+         XdWo/QJu2gY1N9qHZT/IBTL6sFa6EVhl9INxHJaG4yivakFUWCCUCjrJYJDMNTyfxvE4
+         nKxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Rxspv4TU9GO+SFRI4DVSIKhAg7n8Jcf9M06nJBuyTRU=;
-        b=Jp3s2rR+HXEjdGSaQgGWTGyDhOtTXPvCeCcpdWRblQ+HcH4+RgyTQFvAtwl5YGhOfh
-         4wkuCUq9sZm4ZR4b6/IeEhrpblDI6mXQGVPU25OOoYxlCpI96mG9ihoyZeNycbAu58WZ
-         WZfBiwj0L3PdGrQIa1S6ZSVAgIyKMTSFI0PWu3qsujcIZ2e2pCd0hiVh8WBGfRqkqyTo
-         9hPt4FQfoBNbuQMRow7yWB3nkMvNmmBp65YVKiYeKgoX9HUUJ8Zabq2vGCkBWmkkTLkx
-         twBJAXUFGjSbCjPfgWcaCbJNadajSB09MDg8Ru1kgd5iunaBgBePYdij5XwEdqSTUV8l
-         vsWA==
-X-Gm-Message-State: AFqh2kqDY3o2Iz3XDdCqGJv2RFpZX2cTo3h8yL+zYGpmiM28ytmNzgt3
-	G0TsOuI3TQbHIjQr1McSGF9X18ZQtdI=
-X-Google-Smtp-Source: AMrXdXvsi61ti9osPI3LkFjWUhnSm4NHKkONNFaetPZeoQgvclet84tRoylqJIHoNUfZ2oOG+0IOzQ==
-X-Received: by 2002:a5d:46c3:0:b0:242:7676:689d with SMTP id g3-20020a5d46c3000000b002427676689dmr14501353wrs.19.1672213065199;
-        Tue, 27 Dec 2022 23:37:45 -0800 (PST)
+        bh=2BnQtcuLDxDRD6ESGSU/T8nrw4TCDqxR9loRgsz87cc=;
+        b=D1y8x84ogMietI2Mj93FqO0f30cD8J4lyfi+pFKPOnuGHt5qWvMfR/HvhrwI3QJCxb
+         yw8ovMjIMmT9f776Tnp/qMStXrkOR4Q6J1Y5KlPU1tI6FawZf5ZL3f5y+G1ER0KIGqsd
+         YtgvPavgGcWi3xwepLjrU3FlTLvBv/mq1ccfht4TFEgPDAFN8MFd0HIAfa9XuMp1sKbz
+         cmIv6bR21SD42a9wZEhyI3y1QcvcDphZAb8f4HAK0F/QtoEhAh3NZAdZs72GCbIrTJWZ
+         lw85BIhA0dkvj0Mieh3OUrKu5LvdUZwJP7sZcgM7cLtgwbfVpE4gkoaRojY/F8ecV4as
+         d1HQ==
+X-Gm-Message-State: AFqh2kp1zPYZSRQ4UgxkLlNYDEkUhMSiyIo/EuW2qWO1yfT0Px02qAVq
+	1Fu1TxbsKwnWo2b762vbXaUZ/c8TZZk=
+X-Google-Smtp-Source: AMrXdXtTeAhlpEv/HjdHw5qCFEs9RS0tQrl3otIz4lurFPjCA0cJHk5YLa42tMiFeo9iUpYITeZiQQ==
+X-Received: by 2002:a05:600c:3ac3:b0:3d1:cfcb:7d19 with SMTP id d3-20020a05600c3ac300b003d1cfcb7d19mr21695668wms.32.1672213062420;
+        Tue, 27 Dec 2022 23:37:42 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id t15-20020a5d534f000000b002365254ea42sm14802040wrv.1.2022.12.27.23.37.44
+        by smtp.gmail.com with ESMTPSA id t15-20020a5d534f000000b002365254ea42sm14802040wrv.1.2022.12.27.23.37.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Dec 2022 23:37:44 -0800 (PST)
+        Tue, 27 Dec 2022 23:37:42 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 23/25] stress-ng: upgrade 0.15.00 -> 0.15.01
-Date: Wed, 28 Dec 2022 08:37:19 +0100
-Message-Id: <20221228073721.3454255-23-alex@linutronix.de>
+Subject: [PATCH 19/25] jquery: upgrade 3.6.1 -> 3.6.2
+Date: Wed, 28 Dec 2022 08:37:15 +0100
+Message-Id: <20221228073721.3454255-19-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221228073721.3454255-1-alex@linutronix.de>
 References: <20221228073721.3454255-1-alex@linutronix.de>
@@ -62,36 +62,34 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 28 Dec 2022 07:38:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175065
-
-libbsd is required for splay tree macros in tree.h
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175064
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../stress-ng/{stress-ng_0.15.00.bb => stress-ng_0.15.01.bb}  | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/stress-ng/{stress-ng_0.15.00.bb => stress-ng_0.15.01.bb} (90%)
+ .../jquery/{jquery_3.6.1.bb => jquery_3.6.2.bb}             | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/jquery/{jquery_3.6.1.bb => jquery_3.6.2.bb} (81%)
 
-diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.15.00.bb b/meta/recipes-extended/stress-ng/stress-ng_0.15.01.bb
-similarity index 90%
-rename from meta/recipes-extended/stress-ng/stress-ng_0.15.00.bb
-rename to meta/recipes-extended/stress-ng/stress-ng_0.15.01.bb
-index e0d8a58517..38fd6698b3 100644
---- a/meta/recipes-extended/stress-ng/stress-ng_0.15.00.bb
-+++ b/meta/recipes-extended/stress-ng/stress-ng_0.15.01.bb
-@@ -6,10 +6,10 @@ LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+diff --git a/meta/recipes-devtools/jquery/jquery_3.6.1.bb b/meta/recipes-devtools/jquery/jquery_3.6.2.bb
+similarity index 81%
+rename from meta/recipes-devtools/jquery/jquery_3.6.1.bb
+rename to meta/recipes-devtools/jquery/jquery_3.6.2.bb
+index a474889099..fe6c57d206 100644
+--- a/meta/recipes-devtools/jquery/jquery_3.6.1.bb
++++ b/meta/recipes-devtools/jquery/jquery_3.6.2.bb
+@@ -13,9 +13,9 @@ SRC_URI = "\
+     https://code.jquery.com/${BP}.min.map;name=map;subdir=${BP} \
+     "
  
- SRC_URI = "git://github.com/ColinIanKing/stress-ng.git;protocol=https;branch=master"
--SRCREV = "91ec6bccd7e94fd04674b29e081e579710b97d71"
-+SRCREV = "8c7c3d95555c50148470553b55477db895a4f1ad"
- S = "${WORKDIR}/git"
+-SRC_URI[js.sha256sum] = "df3941e6cdaec28533ad72b7053ec05f7172be88ecada345c42736bc2ffba4d2"
+-SRC_URI[min.sha256sum] = "a3cf00c109d907e543bc4f6dbc85eb31068f94515251347e9e57509b52ee3d74"
+-SRC_URI[map.sha256sum] = "856ee620cebac56e872d6e99b09de05f81ccd3f3dc346e9b55eb694611a6d5e1"
++SRC_URI[js.sha256sum] = "a649f609466685e49ecacb18c37bcca75fb1cae6f89be7be40ae2c42c92fba8e"
++SRC_URI[min.sha256sum] = "da4ad864a87ffcf71c851b5df87f95cb242867f7b711cae4c6133cc9cc0048f0"
++SRC_URI[map.sha256sum] = "f46902fc1b81c286e51f4eb4812382ee9eedba0e9fc855e4dc3af59e0c57f404"
  
--DEPENDS = "coreutils-native"
-+DEPENDS = "coreutils-native libbsd"
+ UPSTREAM_CHECK_REGEX = "jquery-(?P<pver>\d+(\.\d+)+)\.js"
  
- PROVIDES = "stress"
- RPROVIDES:${PN} = "stress"
 -- 
 2.30.2
 
