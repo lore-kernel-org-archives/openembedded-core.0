@@ -2,56 +2,56 @@ Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 668B5C3DA7D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68D09C5479D
 	for <webhook@archiver.kernel.org>; Wed, 28 Dec 2022 15:23:55 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web10.182569.1672241033199044101
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web10.182567.1672241031884907521
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Dec 2022 07:23:53 -0800
+ Wed, 28 Dec 2022 07:23:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=DNB8bNJg;
- spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wr1-f46.google.com with SMTP id co23so15223539wrb.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Dec 2022 07:23:52 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=RmOmFbtJ;
+ spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wr1-f50.google.com with SMTP id o5so15231332wrm.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Dec 2022 07:23:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gkpzqQN9G/12Pfdyi6/oZup6uewsyCJTfSNd5kS3RJQ=;
-        b=DNB8bNJgg5IpC846+6CPVOiKc2VYQIF3wYgshoct8gaUnriVl6Yf+AR3RvpI2ArO9T
-         r86vuAIJbak4Tcp6FZNuDCxndazc3zzCwSsnbHMAd61dhRrKecrhtybjmnwEw7QhDgNY
-         osQkuG5u5PkFhjrEXdTFD0HM97YiaA+BVKmqn97ylJ1Bi0JGXa6JTy749PG4m0TTr58Z
-         UAEQviM8DmNN1mQbZDtuAO/vtCRLQkXqYq8DXL7eva+PWqQLVcW9LecLgzYf4eX4S4Tk
-         7tB3m7Fu1AwsMqDId6JR3VgDRuTBqmxBdBhlGptER6timH9CRne0xH9rZkVhfXS8fLj+
-         4Ojw==
+        bh=2HA/VgbRt4K5DtgWiWJz+bCKxX+eSYbjrNMB/rIykaA=;
+        b=RmOmFbtJYhnJdDV5vHzzTgbCIA6c1nWoIk8wVZaul6ERGniSy+WaM00pDaDo0aleZJ
+         MCJcoY+E57aBnRObtYJgW5cqadNWseTyn6xxZUJ3OW6Liz1UgFbjyV1l/LbAWEFMRT3M
+         EYv41uM5AVpECzRsfsd47K0JqKSHxk5fCWhsb7Qg5ROc6PBGjBmrYvJciAwBEjW5i1V8
+         SSTaMB2N7UBnotkwEgS7FN1SwvOp3qCWxLA4KgOmscad/SYbkZmxvRcjHo4efwJu2zK5
+         tMPwjAFhU9Oot+mpppFnxYQ0u4ni9pevchufN8LnF9PWS442iZ/gfdEM1qUKknWe4236
+         gFOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gkpzqQN9G/12Pfdyi6/oZup6uewsyCJTfSNd5kS3RJQ=;
-        b=JuLcByqKC4/XMT0JvHV0HpquZCB0oO3Dh+/dmwndwe9znF+zyon7VSH3b17h92lvuu
-         jLm+N9RIFMP10LzvAL8i8S+2AEjlsLclyv0un6cjT/fOpVVOYcmsCYQl/eK6xPtnjbXJ
-         K6R18jJaLds15kUWShRI1NJk+AFHBTRYTLFRwtSQE2NHAhsZeifChAOyORvkeVFfM5pE
-         CoPsY/MJMVMtcjtZqtMbx0ZsPPjTnaynBqpI6iSoZ/VaxIBRuF4XwcV771wufPPt9wBJ
-         v2+RT9VCbGM5xCDSJFuBsc68GtTfEbosAkH/PK3Z1gCS9mc2cthLvimj5mg0p6X0tNar
-         yZnw==
-X-Gm-Message-State: AFqh2krWtX9rvprZaJmkBOyLxNtHaUw2PW4mAeC7OlL57GmEex2goKTC
-	iIgquMuA6t+XE6iWyMDNcxbkZe8Cldw=
-X-Google-Smtp-Source: AMrXdXtWi/Cf1eGSBGyPxLCAI4JDC2cdZ6jBIQZoekM0AgYAwkZS4ooaJqGKsGBijsUFSLeBDod3vg==
-X-Received: by 2002:a5d:5508:0:b0:242:865b:903a with SMTP id b8-20020a5d5508000000b00242865b903amr15932633wrv.17.1672241031409;
-        Wed, 28 Dec 2022 07:23:51 -0800 (PST)
-Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net. [91.135.6.246])
-        by smtp.gmail.com with ESMTPSA id r17-20020adfdc91000000b0027973315213sm10884893wrj.89.2022.12.28.07.23.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        bh=2HA/VgbRt4K5DtgWiWJz+bCKxX+eSYbjrNMB/rIykaA=;
+        b=nCsNdn5W4CELSDnA01mo9+Meo/XR3+Y2YbZ3E1Z9tXIAE/8RhrBcts0vMbDRWSEfV0
+         anFbqySW1zhel+sHcyJc8SRrATIzUmrmdxvzW7Gr4r8muklImG30LyWDQY2mSqzq6vO7
+         6fq2mJJGUGLemL7ktjNjpRbA2fC3ECxvqRUr/mRsZgLt+2wD0wce+rH78/8FjRYiB934
+         r31m/OsWG/X33F0lTmjsa6iC4QGFnky5MHhfktppGGRhDNCNU77GoOQ3uUQvzAZ1w2HZ
+         eB2fziHOBvgCuUR9PHNnEHclis9vYFIH97Erv1IRWcxq3vh/CMKS/UHUCMKq3CMYdGl4
+         z7Iw==
+X-Gm-Message-State: AFqh2kpxKB2hsAjT6rWq52Ec3cLj0nqtsSjChBvmM0JSucbs6Jky2fFl
+	KuZ/Zdi33TP8IkmBowMPkFKkjp4QS9Y=
+X-Google-Smtp-Source: AMrXdXsCYybCYBs7F1IsJr1N5v73XjsfNB4GbKEpfIj6MdFmXK5cm2zex+BelRv6IaH6LiLvTf4cUg==
+X-Received: by 2002:a5d:6a43:0:b0:242:13bf:29de with SMTP id t3-20020a5d6a43000000b0024213bf29demr15074722wrw.52.1672241030263;
         Wed, 28 Dec 2022 07:23:50 -0800 (PST)
+Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net. [91.135.6.246])
+        by smtp.gmail.com with ESMTPSA id r17-20020adfdc91000000b0027973315213sm10884893wrj.89.2022.12.28.07.23.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Dec 2022 07:23:49 -0800 (PST)
 From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [OE-Core][PATCH v5 09/12] cargo: Include crossbeam-utils patch
-Date: Wed, 28 Dec 2022 15:23:31 +0000
-Message-Id: <20221228152334.25449-10-alex.kiernan@gmail.com>
+Subject: [OE-Core][PATCH v5 08/12] cargo: Extend DEBUG_PREFIX_MAP to cover vendor
+Date: Wed, 28 Dec 2022 15:23:30 +0000
+Message-Id: <20221228152334.25449-9-alex.kiernan@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20221228152334.25449-1-alex.kiernan@gmail.com>
 References: <20221228152334.25449-1-alex.kiernan@gmail.com>
@@ -61,53 +61,32 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 28 Dec 2022 15:23:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175079
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175078
 
-We need patched crossbeam-utils in cargo as well as rust, move cargo
-alongside rust so they can both use the same patch.
+The cargo build builds vendored libgit and curl, but these exist outside
+${S} which DEBUG_PREFIX_MAP covers.
 
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
 
-Changes in v5:
-- Switch from cargo patching to bitbake patching (https://github.com/rust-lang/rust/issues/98185)
+(no changes since v1)
 
-Changes in v4:
-- Add crossbeam atomics fixes for ppc/mips
+ meta/recipes-devtools/cargo/cargo_1.66.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
- meta/recipes-devtools/{cargo => rust}/cargo_1.66.0.bb    | 9 +++++++--
- .../rust/{rust => files}/crossbeam_atomic.patch          | 0
- 2 files changed, 7 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/{cargo => rust}/cargo_1.66.0.bb (93%)
- rename meta/recipes-devtools/rust/{rust => files}/crossbeam_atomic.patch (100%)
-
-diff --git a/meta/recipes-devtools/cargo/cargo_1.66.0.bb b/meta/recipes-devtools/rust/cargo_1.66.0.bb
-similarity index 93%
-rename from meta/recipes-devtools/cargo/cargo_1.66.0.bb
-rename to meta/recipes-devtools/rust/cargo_1.66.0.bb
-index fe8049b68c9b..f00c67bef5e5 100644
+diff --git a/meta/recipes-devtools/cargo/cargo_1.66.0.bb b/meta/recipes-devtools/cargo/cargo_1.66.0.bb
+index 6c167c0c5f0b..fe8049b68c9b 100644
 --- a/meta/recipes-devtools/cargo/cargo_1.66.0.bb
-+++ b/meta/recipes-devtools/rust/cargo_1.66.0.bb
-@@ -11,8 +11,13 @@ LIC_FILES_CHKSUM = " \
-     file://LICENSE-THIRD-PARTY;md5=f257ad009884cb88a3a87d6920e7180a \
- "
++++ b/meta/recipes-devtools/cargo/cargo_1.66.0.bb
+@@ -20,6 +20,8 @@ EXCLUDE_FROM_WORLD = "1"
  
--require recipes-devtools/rust/rust-source.inc
--require recipes-devtools/rust/rust-snapshot.inc
-+require rust-source.inc
-+require rust-snapshot.inc
-+
-+SRC_URI:append:class-target = " file://crossbeam_atomic.patch;patchdir=${RUSTSRC}"
-+
-+# Used by crossbeam_atomic.patch
-+export TARGET_VENDOR
+ inherit cargo pkgconfig
  
- S = "${RUSTSRC}/src/tools/cargo"
- CARGO_VENDORING_DIRECTORY = "${RUSTSRC}/vendor"
-diff --git a/meta/recipes-devtools/rust/rust/crossbeam_atomic.patch b/meta/recipes-devtools/rust/files/crossbeam_atomic.patch
-similarity index 100%
-rename from meta/recipes-devtools/rust/rust/crossbeam_atomic.patch
-rename to meta/recipes-devtools/rust/files/crossbeam_atomic.patch
++DEBUG_PREFIX_MAP += "-fdebug-prefix-map=${RUSTSRC}/vendor=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}"
++
+ do_cargo_setup_snapshot () {
+ 	${WORKDIR}/rust-snapshot-components/${CARGO_SNAPSHOT}/install.sh --prefix="${WORKDIR}/${CARGO_SNAPSHOT}" --disable-ldconfig
+ 	# Need to use uninative's loader if enabled/present since the library paths
 -- 
 2.39.0
 
