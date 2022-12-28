@@ -1,177 +1,158 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4305AC4167B
-	for <webhook@archiver.kernel.org>; Wed, 28 Dec 2022 14:32:35 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web10.181424.1672237953817007807
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A1D1C3DA7A
+	for <webhook@archiver.kernel.org>; Wed, 28 Dec 2022 14:51:35 +0000 (UTC)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+ by mx.groups.io with SMTP id smtpd.web10.181844.1672239088475748026
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Dec 2022 06:32:34 -0800
+ Wed, 28 Dec 2022 06:51:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dgX1Z1wp;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id bg13-20020a05600c3c8d00b003d9712b29d2so8833651wmb.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Dec 2022 06:32:33 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=LNaOalR7;
+ spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-ed1-f42.google.com with SMTP id c17so23073019edj.13
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Dec 2022 06:51:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=i2s4JNuRK9Lca8yKLEVHoiwLscxPKwLapg8trP7NvMg=;
-        b=dgX1Z1wp/dt4kOWWBI5dgLZlfwKrLEr3vbqejh8w/aR3TUoAJozsiKEihWNB/y5z5q
-         ii/Gtjc6vEZCQY3B4T/QulpR6OBsgl3mWeCMxWg9EfqRXyp8zuOvBawJZbuVgsMK6JyV
-         8jUSq2fmIaPJ1zA1EqtBHRVkm0RUnR0IgYg1Q=
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=fFE82l5B85feyATaewUy32i1h6mmfYtsTYjVmfKT7yo=;
+        b=LNaOalR7rqoYiXRF0EvWKF4o2xxO4WWAYmxeN6qIOSWdp078XoMPgODIZ7JgdWI0il
+         q6lXJ/4j42EsaJZm9ELEAjbPAwZyR6Bz2+Sg6bEdJWkZT3tehOH3KKLcSTiH0h9Qapem
+         EBnIJmLS7Qo3FP0QcEl/XdY55unqH1G4GgjLQbkoWfIjbe5nfZYoootNehNDEJaFLEr2
+         8WPtAlsbGKpoFxntT5+we4kjLMHsdhe+pCEcrYA5MfnGM8/z9F4rVawh9oBER3BLkb/S
+         LseGrpscPGI9vG44UmMMB+jlIbv/ukXan1iKUjJOJSQYqEiepO7HluGAuflc6Koc5C5P
+         FnDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=i2s4JNuRK9Lca8yKLEVHoiwLscxPKwLapg8trP7NvMg=;
-        b=yKUF/AqVC4szj7I10aicDL+rNE5JdQ1j4Nn8DzEy5SFpC9dsWaO4YwjKFCJ9RYqeD+
-         kRGOafZ32yl1XfArUbN0GdVaay2RObR0LEVlh11bitFp8AZM4PAYpJs3zVIWlmVgOvYn
-         VKaV8QB0xN7HZ7nLZtzDVRdQWtgJ6F62H78xpUxxX4PBSa3pk+nxZKTO2SdGFPF4Kqcs
-         kAeqjEBzXfTIMbsu00r45m8wNyFn3gln5nTYLIm+FbEQ2CBQaVIllrrstmoT2YghJOeb
-         FiICSS4tkBIn+nbKLe0hmpWLXN0BBwIVXJRPE8smeVPV/lBfKW/foIWGmBV0ypCwKM8P
-         fEGw==
-X-Gm-Message-State: AFqh2koc1tu77an5AJ1xzZHnFZDr5BXoFsQWxZ4qa6FAfpn1OdryC7d1
-	DfvMeNhO/32fpmpXIGdzMPeqwQ==
-X-Google-Smtp-Source: AMrXdXuUB+a1Mo7a9jRuBTB7Neu3gohVTYQhgi9r4L8zUtRAoPXNRqoiCVzV+wX59DHccKru52ozzw==
-X-Received: by 2002:a05:600c:5008:b0:3cf:6f4d:c25d with SMTP id n8-20020a05600c500800b003cf6f4dc25dmr17883810wmr.21.1672237951997;
-        Wed, 28 Dec 2022 06:32:31 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:9a6e:7039:ab68:1e0d? ([2001:8b0:aba:5f3c:9a6e:7039:ab68:1e0d])
-        by smtp.gmail.com with ESMTPSA id j30-20020a05600c1c1e00b003c71358a42dsm33831212wms.18.2022.12.28.06.32.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Dec 2022 06:32:31 -0800 (PST)
-Message-ID: <b02a88ae46a84e7ad04702b925d2800519d5cd20.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [RFC PATCH 1/3] conf/machine/include: add x86-64-v3
- tunes (AVX, AVX2, BMI1, BMI2, F16C, FMA, LZCNT, MOVBE, XSAVE)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Date: Wed, 28 Dec 2022 14:32:30 +0000
-In-Reply-To: <20221226084455.2835751-1-alex@linutronix.de>
-References: <20221226084455.2835751-1-alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.1-0ubuntu1 
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fFE82l5B85feyATaewUy32i1h6mmfYtsTYjVmfKT7yo=;
+        b=rGCTFp3j1vKp61ygQokewH1Oa3oS9EQ1Kl++zZOEDgSelQgCHvc+4lfgyTjRhO2sVa
+         ENcnKio2qrgcWwc1PUODqHjkltXps5zfz2kq7BazH3T6FFBB4NZol/VT0LpwBO4ZW3YG
+         yK4ms0nieF34w04JDWy/uOpVOQAzch/P9WYk2hCK1UFQA12pAvVWDrFxA4blQ919zANu
+         hqMQ5mRwQHMmimF7Ki0e77ss2Wf8d+cV0DRt5TIpSVdMQzx4byz9WQAZChylS82tO8XH
+         2Bq2ZFdVb0dyhLPqI7jjzbRzo93+p1ZGiH9zrY8Lyylyhi1Szo0sBcQ+UkUDCrGEKZT5
+         f7QA==
+X-Gm-Message-State: AFqh2koYd1LmcbHwwqFFtkFAT9YRKnD0fFioCAE0UtGK3hFTQZI3qAML
+	fxYT3UOWZKvQVEYh+qhzyMjEgJbpYdfbCj9KbIA=
+X-Google-Smtp-Source: AMrXdXvTbZ7xVnIAeeDKuOwXy6iyedajt8uabUjeBQz/BH7k66X/Q0FGnncAky35P9NcMe10zWt5A2SO6CM8+6mqGt0=
+X-Received: by 2002:a05:6402:1c9b:b0:459:53dc:adc9 with SMTP id
+ cy27-20020a0564021c9b00b0045953dcadc9mr1955762edb.166.1672239086563; Wed, 28
+ Dec 2022 06:51:26 -0800 (PST)
 MIME-Version: 1.0
+References: <20221225215921.12868-1-alex.kiernan@gmail.com>
+ <d9a2558d888f94721deb2696a426773dced38c44.camel@linuxfoundation.org>
+ <CAO5Uq5RdKixvptDjxb4GqxSgFMosT+-Gf0=gjw3o=HXCpJCYcA@mail.gmail.com> <2da2bcbfa690802a5dd68e7def0b7b07d1c9c277.camel@linuxfoundation.org>
+In-Reply-To: <2da2bcbfa690802a5dd68e7def0b7b07d1c9c277.camel@linuxfoundation.org>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Wed, 28 Dec 2022 14:51:15 +0000
+Message-ID: <CAO5Uq5S1MvMr1rM36ovf-+_xPmUq8q6BzBiY20=SYsztj6i9VA@mail.gmail.com>
+Subject: Re: [OE-Core][PATCH v4 00/11] Add rust runtime tests
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, 
+	"Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>, 
+	Randy MacLeod <randy.macleod@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 Dec 2022 14:32:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175068
+ <openembedded-core@lists.openembedded.org>; Wed, 28 Dec 2022 14:51:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175069
 
-On Mon, 2022-12-26 at 09:44 +0100, Alexander Kanavin wrote:
-> Qemu 7.2 finally allows us to move beyond building for original Core 2/Co=
-re i7 era hardware,
-> and this patch adds support for the newer generations. But first, a bit o=
-f
-> background:
->=20
-> Recently toolchains gained support for specifying x86-64 'levels' of
-> instruction set support; v3 corresponds to 2013-era Haswell CPUs
-> (and later), with AVX, AVX2 and a few other instructions that
-> were introduced in that generation. I believe this is preferrable
-> to picking a specific CPU model as the baseline.
->=20
-> Here's Phoronix's feature article that explains the feature and the avail=
-able levels:
->=20
-> "Both LLVM Clang 12 and GCC 11 are ready to go in offering the new x86-64=
--v2, x86-64-v3, and x86-64-v4 targets.
->=20
-> These x86_64 micro-architecture feature levels have been about coming up =
-with a few "classes" of Intel/AMD CPU processor support rather than continu=
-ing to rely on just the x86_64 baseline or targeting a
-> specific CPU family for optimizations. These new levels make it easier to=
- raise the base requirements around Linux x86-64 whether it be for a Linux =
-distribution or a particular software application where
-> the developer/ISV may be wanting to compile with greater instruction set =
-extensions enabled in catering to more recent Intel/AMD CPUs."
->=20
-> https://www.phoronix.com/news/GCC-11-x86-64-Feature-Levels
->=20
-> Here's gcc docs for it:
-> https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html
->=20
-> And here's the formal specification (click on the pdf link):
-> https://gitlab.com/x86-psABIs/x86-64-ABI
->=20
-> The actual tune file was created by copying corei7 tunes and doing
-> search/replace on them. Qemu options were dropped as unnecessary.
->=20
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  .../machine/include/x86/tune-x86-64-v3.inc    | 35 +++++++++++++++++++
->  1 file changed, 35 insertions(+)
->  create mode 100644 meta/conf/machine/include/x86/tune-x86-64-v3.inc
->=20
-> diff --git a/meta/conf/machine/include/x86/tune-x86-64-v3.inc b/meta/conf=
-/machine/include/x86/tune-x86-64-v3.inc
-> new file mode 100644
-> index 0000000000..365e23b49b
-> --- /dev/null
-> +++ b/meta/conf/machine/include/x86/tune-x86-64-v3.inc
-> @@ -0,0 +1,35 @@
-> +# Settings for the GCC(1) cpu-type "x86-64-v3":
-> +#
-> +#     CPUs with AVX, AVX2, BMI1, BMI2, F16C, FMA, LZCNT, MOVBE, XSAVE.
-> +#     (but not AVX512).
-> +#     See https://www.phoronix.com/news/GCC-11-x86-64-Feature-Levels for=
- details.
-> +#
-> +# This tune is recommended for Intel Haswell/AMD Excavator CPUs (and lat=
-er).
-> +#
-> +DEFAULTTUNE ?=3D "x86-64-v3-64"
-> +
-> +# Include the previous tune to pull in PACKAGE_EXTRA_ARCHS
-> +require conf/machine/include/x86/tune-corei7.inc
-> +
-> +# Extra tune features
-> +TUNEVALID[x86-64-v3] =3D "Enable x86-64-v3 specific processor optimizati=
-ons"
-> +TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'x86-64-v3', ' -=
-march=3Dx86-64-v3', '', d)}"
-> +
-> +# Extra tune selections
-> +AVAILTUNES +=3D "x86-64-v3-32"
-> +TUNE_FEATURES:tune-x86-64-v3-32 =3D "${TUNE_FEATURES:tune-x86} x86-64-v3=
-"
-> +BASE_LIB:tune-x86-64-v3-32 =3D "lib"
-> +TUNE_PKGARCH:tune-x86-64-v3-32 =3D "x86-64-v3-32"
-> +PACKAGE_EXTRA_ARCHS:tune-x86-64-v3-32 =3D "${PACKAGE_EXTRA_ARCHS:tune-co=
-rei7-32} x86-64-v3-32"
-> +
-> +AVAILTUNES +=3D "x86-64-v3-64"
-> +TUNE_FEATURES:tune-x86-64-v3-64 =3D "${TUNE_FEATURES:tune-x86-64} x86-64=
--v3"
-> +BASE_LIB:tune-x86-64-v3-64 =3D "lib64"
-> +TUNE_PKGARCH:tune-x86-64-v3-64 =3D "x86-64-v3-64"
-> +PACKAGE_EXTRA_ARCHS:tune-x86-64-v3-64 =3D "${PACKAGE_EXTRA_ARCHS:tune-co=
-rei7-64} x86-64-v3-64"
-> +
-> +AVAILTUNES +=3D "x86-64-v3-64-x32"
-> +TUNE_FEATURES:tune-x86-64-v3-64-x32 =3D "${TUNE_FEATURES:tune-x86-64-x32=
-} x86-64-v3"
-> +BASE_LIB:tune-x86-64-v3-64-x32 =3D "libx32"
-> +TUNE_PKGARCH:tune-x86-64-v3-64-x32 =3D "x86-64-v3-64-x32"
-> +PACKAGE_EXTRA_ARCHS:tune-x86-64-v3-64-x32 =3D "${PACKAGE_EXTRA_ARCHS:tun=
-e-corei7-64-x32} x86-64-v3-64-x32"
+On Wed, Dec 28, 2022 at 12:01 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Tue, 2022-12-27 at 18:09 +0000, Alex Kiernan wrote:
+> > On Mon, Dec 26, 2022 at 6:33 PM Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > >
+> > > On Sun, 2022-12-25 at 21:59 +0000, Alex Kiernan wrote:
+> > > > This series adds runtime tests for rust and cargo, merges (most of) the
+> > > > include files into the base recipes and fixes target cargo builds.
+> > > >
+> > > > Also add SDK_TOOLCHAIN_LANGS for selection of target toolchains as part
+> > > > of packagegroup-core-sdk.
+> > > >
+> > > > Changes in v4:
+> > > > - Fixup `__stack_chk_fail_local` in musl-x86
+> > > > - Add crossbeam atomics fixes for ppc/mips
+> > > >
+> > > > Changes in v3:
+> > > > - Switch to packagegroup-core-sdk driven from TARGET_TOOLCHAIN_LANGS
+> > > >   (which defaults to SDK_TOOLCHAIN_LANGS)
+> > > >
+> > > > Changes in v2:
+> > > > - Drop rust.inc/rust.bb merge, not actually made use of in the change
+> > > >   set
+> > > > - Reorder so cargo test goes after build fixes
+> > > >
+> > > > Alex Kiernan (11):
+> > > >   rust-llvm: Merge .inc into .bb
+> > > >   rust-llvm: Update LLVM_VERSION to match embedded version
+> > > >   packagegroup-rust-sdk-target: Add Rust SDK target packagegroup
+> > > >   packagegroup-core-sdk: Add SDK toolchain language selection support
+> > > >   cargo: Merge .inc into .bb
+> > > >   cargo: Extend DEBUG_PREFIX_MAP to cover vendor
+> > > >   rust: Merge .inc into .bb
+> > > >   rust: Move musl-x86 fix for `__stack_chk_fail_local` to rust-source
+> > > >   cargo: Override crossbeam-utils with 0.8.14
+> > > >   packagegroup-rust-sdk-target: Add cargo
+> > > >   oeqa/runtime/rust: Add cargo test
+> > >
+> > > Looks much better thanks. There was one remaining issue which showed up
+> > > in testing with a reproducibility issue:
+> > >
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/2119/steps/12/logs/stdio
+> > >
+> > > We did already have an open bug for a rust reproducibility issue and we
+> > > excluded it from the tests until we could get to the bottom of it, I
+> > > suspect cargo may have the same issue. It frustrates me a bit as it is
+> > > the one reproducibility exclusion for core.
+> > >
+> > > Ideally we would fix it but excluding it from the tests and noting it
+> > > in the bug may be an option if it is the same issue. It may be simpler
+> > > to reproduce and fix the issue with cargo too.
+> > >
+> > > Cc: Sundeep who as been looking at it.
+> > >
+> >
+> > Just reading the ticket and the upstream ones... the upstream ticket
+> > is closed as remap path fixes it (which it looks like it does to me),
+> > there are build paths embedded in the build directory which don't get
+> > caught by that, but they're in thing like bootstrap which isn't
+> > packaged (which may or may not be an issue, but I'm suspecting not);
+> > it kinda feels like we're missing something.
+> >
+> > Can I get hold of the cargo packages generated here to have a poke at them?
+>
+> Yes. The key line in the log is:
+>
+> 022-12-26 11:56:30,555 - oe-selftest - INFO - Non-reproducible packages will be copied to /srv/autobuilder/autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20221226-0vk5efsk
+>
+> i.e.
+>
+> https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20221226-0vk5efsk
+>
+> where you'll find both the package files and diffoscope output:
+>
+> https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20221226-0vk5efsk/packages/diff-html/
+>
+> which seems to be saying the symbol table changed size which is
+> unusual. I didn't look very deeply.
+>
 
-I suspect we may want to call the x86-64-v3-64 tune simply "x86-64-v3"?
+Upstream has this ticket which, given how I did the patching for
+cargo, feels like the right kind of thing (rust has something similar
+out of the box):
 
-Also, does a 32 bit version of the tune make sense? Is that useful to
-anyone? I appreciate the x32 case is marginal as well but at least
-there it is something designed for 64 bit processors.
+https://github.com/rust-lang/rust/issues/98185
 
-Cheers,
+I've switched it around so that it uses local patching rather than
+cargo patching, which if it is this, seems like it might resolve it.
 
-Richard
-
-
-
-
+--
+Alex Kiernan
 
