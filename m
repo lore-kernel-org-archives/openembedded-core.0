@@ -2,56 +2,56 @@ Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 798DEC46467
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80DC8C54EBC
 	for <webhook@archiver.kernel.org>; Wed, 28 Dec 2022 15:23:55 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web10.182565.1672241029706140040
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web10.182564.1672241025954530333
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Dec 2022 07:23:50 -0800
+ Wed, 28 Dec 2022 07:23:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=jvett054;
- spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wr1-f46.google.com with SMTP id bx10so15245859wrb.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Dec 2022 07:23:49 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=p+H62wbK;
+ spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wm1-f51.google.com with SMTP id k26-20020a05600c1c9a00b003d972646a7dso8269968wms.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Dec 2022 07:23:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hLrreCI8uETlO0TspB7vF7bRZZ8qnLMqJpMgy4myUzo=;
-        b=jvett054/beOF5BsYT4fdADGbyT1Yn2M2e12IpCxRVxpLAIhQH1Uqrga8bcT9g+uon
-         T9xTLnMiwhlJdl3oXp2NjzVzx80pDhgAQN5Olezkg8TBYvMWA+Y2ozfPY1ofjhUEpyr2
-         Ck9JBnRfZQO8x6O1soE+oxbiNxcf5Y+g7sUTRUbsPbTqhfqHk/o9FemINYeLiFQhvVif
-         PYje8qodFX3S6ZSjvJkuVYBVw3qwV9DSiqa4rL+YYYaDAg+KEZ/QCle1r9yxgsG1ZAkD
-         agUciKY/q5eddKom2EsHLU5Ma/K1m1/luc9271XI8eHWwHEYm5iDzsR7vIlFcwVRHOqR
-         PcPg==
+        bh=1YlgVUmiYjg1J/GEX49qH/hsjBd0WI8g61dopNy/aw0=;
+        b=p+H62wbKls5m9DcXuBghWTppVZd1+B4PV6yagl24gy2xcWAvt2aep6mdrV47b/i3Qo
+         JaspEcuRAt6wqSqOhyp8Ewkjgv5SlqJ9iKa8qmeQOtDiFHiYoWxeSXKsgMr9j5Cv1RyY
+         xOHkV33dJY5RxIOukMztSqiUjgIWy8PIvLe9Tp+Z4uFHLEF4GFDfUD9Zi1Vc5nWJhCX9
+         mYf9HkwIHTWiLGadU322sqTUZhVUU1qf0vIsaBWTd9/FyJrBENj493/bWETQQRdXS4tC
+         tFHaVXPnD88c6ww8RnPA+gglJJX1b3ocySKlga4TdivmcJ2LqPX02NsCpbT1NEG9PHDD
+         dYgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hLrreCI8uETlO0TspB7vF7bRZZ8qnLMqJpMgy4myUzo=;
-        b=yWZv6g9Tvaex+NlbmpwEVtsXciooqLLggCVvOG8DM27Wl4cSnkgEemCBMQVu3kmXMX
-         LRqUJ2MUEQASjRQVl6RZg4a1skLeguXU2rT2xwsiusp53SWf5u/pieaCG+nPWv2aKdzw
-         TyOUCQnyxUlQFh8+NS9ih0nNJQYCnHah3g6YLxkrqOA5+cAe7Oh0LTUUPTf7GVfHvpCX
-         HPTTFtxOUnXeS/xOoUpwT58BekyoRMt5BqamoKTj+7vWMRXiisU5BUyaSQ5wcwtQY3XO
-         kh2jGkQXOG9DERZbn3cJIc7ASvhdALdJDhq3IfShShC/8T4VjQdfuFtsQn0abvmlZ6tm
-         K6PA==
-X-Gm-Message-State: AFqh2kqoY7xtyvPr5Iho/mJBMfq2k6ITZB6pmaNrvtgUgdctqaqHxfAe
-	1I4uU8S5DtduI14lG/uo8pKom2f3tto=
-X-Google-Smtp-Source: AMrXdXstSYOT9ojfP4fu6xuUuA8L/I4OuRaBRD0SfT1qhFDQCAW2Mmg5NgT4vur190CIgZqKS0K8Sg==
-X-Received: by 2002:a05:6000:1812:b0:238:3d56:f061 with SMTP id m18-20020a056000181200b002383d56f061mr14352563wrh.63.1672241027986;
-        Wed, 28 Dec 2022 07:23:47 -0800 (PST)
+        bh=1YlgVUmiYjg1J/GEX49qH/hsjBd0WI8g61dopNy/aw0=;
+        b=HpElt+xdJfjpV73Jctk4j3eDsWfs5aSZW0i/Tso+dd5vKi+qAirPkL65go3CZQroef
+         DYSLcFDKyu68qrEwceP4av9nnMDQ04S0MfPoDz8/X2gQhDD4GUOpT/j3lHuBuQEkfvTH
+         yKek0cydC31A18wu/egQcPRgYsnEAimzxn4hCpbmxwymS5ZqHLCn5ZSAJPcg7125HLum
+         2Vk+BCW+d0wqPsTUn081H5gbfRCdaMd2LJw9qC0uwbYA8kZjmIFl3Q3XFJ01Pe3EJIY8
+         +IV3gcxPa3ke5wNY0zVSjnFZuwDJ6VHFhfT8XS4MrBCDYVlJa7GNwfH10yh12ciYBmG8
+         hSRA==
+X-Gm-Message-State: AFqh2krY/An1rnzNBfK2RYu8oIjafBQfbBm3jI5O2m32TuZYu07qIvyR
+	H3HoMKcblzePceN1efFlyIqRH2Of3Gw=
+X-Google-Smtp-Source: AMrXdXuDYTeCbH2Hw6zgQqmN/LT8s3NtZH0e/RTBfUdcUAXEqieJ6AbmqYwqDr0WNzO1zEButV3+fg==
+X-Received: by 2002:a05:600c:3ac3:b0:3d1:cfcb:7d19 with SMTP id d3-20020a05600c3ac300b003d1cfcb7d19mr22864495wms.32.1672241024173;
+        Wed, 28 Dec 2022 07:23:44 -0800 (PST)
 Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net. [91.135.6.246])
-        by smtp.gmail.com with ESMTPSA id r17-20020adfdc91000000b0027973315213sm10884893wrj.89.2022.12.28.07.23.46
+        by smtp.gmail.com with ESMTPSA id r17-20020adfdc91000000b0027973315213sm10884893wrj.89.2022.12.28.07.23.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Dec 2022 07:23:47 -0800 (PST)
+        Wed, 28 Dec 2022 07:23:43 -0800 (PST)
 From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [OE-Core][PATCH v5 06/12] rust: Move musl-x86 fix for `__stack_chk_fail_local` to rust-source
-Date: Wed, 28 Dec 2022 15:23:28 +0000
-Message-Id: <20221228152334.25449-7-alex.kiernan@gmail.com>
+Subject: [OE-Core][PATCH v5 03/12] packagegroup-rust-sdk-target: Add Rust SDK target packagegroup
+Date: Wed, 28 Dec 2022 15:23:25 +0000
+Message-Id: <20221228152334.25449-4-alex.kiernan@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20221228152334.25449-1-alex.kiernan@gmail.com>
 References: <20221228152334.25449-1-alex.kiernan@gmail.com>
@@ -61,52 +61,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 28 Dec 2022 15:23:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175076
-
-Any consumer of rust-source (potentially) needs this, so move to
-rust-source.inc
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175074
 
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
 
-(no changes since v4)
+(no changes since v1)
 
-Changes in v4:
-- Fixup `__stack_chk_fail_local` in musl-x86
+ .../packagegroups/packagegroup-rust-sdk-target.bb   | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+ create mode 100644 meta/recipes-core/packagegroups/packagegroup-rust-sdk-target.bb
 
- meta/recipes-devtools/rust/rust-source.inc | 5 +++++
- meta/recipes-devtools/rust/rust_1.66.0.bb  | 5 -----
- 2 files changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
-index 91a6c5a942ae..b63e18ac95d2 100644
---- a/meta/recipes-devtools/rust/rust-source.inc
-+++ b/meta/recipes-devtools/rust/rust-source.inc
-@@ -11,3 +11,8 @@ RUSTSRC = "${WORKDIR}/rustc-${RUST_VERSION}-src"
- 
- UPSTREAM_CHECK_URI = "https://forge.rust-lang.org/infra/other-installation-methods.html"
- UPSTREAM_CHECK_REGEX = "rustc-(?P<pver>\d+(\.\d+)+)-src"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-rust-sdk-target.bb b/meta/recipes-core/packagegroups/packagegroup-rust-sdk-target.bb
+new file mode 100644
+index 000000000000..334b24900b4b
+--- /dev/null
++++ b/meta/recipes-core/packagegroups/packagegroup-rust-sdk-target.bb
+@@ -0,0 +1,13 @@
++#
++# Copyright OpenEmbedded Contributors
++#
++# SPDX-License-Identifier: MIT
++#
 +
-+# see recipes-devtools/gcc/gcc/0018-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch
-+# we need to link with ssp_nonshared on musl to avoid "undefined reference to `__stack_chk_fail_local'"
-+# when building MACHINE=qemux86 for musl
-+WRAPPER_TARGET_EXTRALD:libc-musl = "-lssp_nonshared"
-diff --git a/meta/recipes-devtools/rust/rust_1.66.0.bb b/meta/recipes-devtools/rust/rust_1.66.0.bb
-index 5192ec2ee11a..f1ec769aef48 100644
---- a/meta/recipes-devtools/rust/rust_1.66.0.bb
-+++ b/meta/recipes-devtools/rust/rust_1.66.0.bb
-@@ -292,11 +292,6 @@ rust_do_install:class-target() {
-     rm ${D}${libdir}/rustlib/manifest*
- }
- 
--# see recipes-devtools/gcc/gcc/0018-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch
--# we need to link with ssp_nonshared on musl to avoid "undefined reference to `__stack_chk_fail_local'"
--# when building MACHINE=qemux86 for musl
--WRAPPER_TARGET_EXTRALD:libc-musl = "-lssp_nonshared"
--
- RUSTLIB_DEP:class-nativesdk = ""
- 
- # musl builds include libunwind.a
++SUMMARY = "Target packages for the Rust SDK"
++
++inherit packagegroup
++
++RDEPENDS:${PN} = " \
++    rust \
++"
 -- 
 2.39.0
 
