@@ -2,58 +2,57 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7DA5C3DA79
-	for <webhook@archiver.kernel.org>; Thu, 29 Dec 2022 23:11:48 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web10.7002.1672355500803060280
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F1A1C3DA7A
+	for <webhook@archiver.kernel.org>; Thu, 29 Dec 2022 23:19:19 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web11.7073.1672355953354509062
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Dec 2022 15:11:41 -0800
+ Thu, 29 Dec 2022 15:19:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cEPBImoD;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id m3so5225602wmq.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Dec 2022 15:11:40 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=f+zDOaO5;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id m26-20020a05600c3b1a00b003d9811fcaafso7625639wms.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Dec 2022 15:19:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=4rYp5LH6EtcKiAJR7Mvp0MdaYssNpVDE93913IULzeI=;
-        b=cEPBImoDYpksuRPoTUdmPqKgo2N9moNE6WOjVF15/PzTQGh3gKI8nr0xtSwevTaC3w
-         WoUFu2ViA5hJpuLDt1uWauMDCn0T0Iy49mrVkiuckxB9v/TLEvrKybKLoDE3xWN1ICcA
-         qOjQNBIK8wk9GR9PJawgcV0at3O3e+sFc6Q1k=
+        bh=jzqhmlefk/EX4J9cXMdftP76iDJAj69YGQLc+ryTHBE=;
+        b=f+zDOaO5EOcFN2XvkyE+2f8sl/+P5Mq4CY777+gTVGIbCKRtvje3AByYArUEVc0h8K
+         kQrvl/rHsJYjc6OyKq4NetBFcHb2eaE7czdO245ikbPIr7Y6s0R1kU6S1g+oD3V3RdL0
+         bRC9CiaExBX86fBmuDKj81xzmz21aEdwDBa60=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=4rYp5LH6EtcKiAJR7Mvp0MdaYssNpVDE93913IULzeI=;
-        b=ZMwSY7dtxWszUInX0UwdhvTAY+f1va/kRwMtSo3oUzIOgusFbCHb9peYJRkgOEYIpn
-         WEcYHdHG/KAiM59xQcsRedEYMxcBrJGOFZz1UGLJYS3DfG6asvCs70wxvUQ5i/i40bPB
-         gPVf77az1TEZw+q4aVpg+kg1VlfnbmIenMEaTt951piV5lkW06JSan6cqmevv7VMZzfJ
-         NxMW2Isl7j4jhW6M+cf6zM+D1lLYQGktJVkMPUmwwMVjnedr9U+yib9/ThGYuMVzrpSy
-         EGvYm5ce70blWD1TeQq6pZbzGc2HHYmeL1mhLcy7uivYrlz0L27EnzMG6lDie02j3CQP
-         6Ezw==
-X-Gm-Message-State: AFqh2kpLigSjvV4J7iNNRH1mD2DaQCkgpRbMNGfGyx6fWYMaeRDLkTBu
-	5EE0bM1uZ+OlKhqmyumKmzlPKQ==
-X-Google-Smtp-Source: AMrXdXtMXJBJUeWj+O0FjucZuDHQyfDN0F7RZcKKMIvoHjMwMlCvgw1Qhx5thHtOo849z2IWRzNMHw==
-X-Received: by 2002:a05:600c:1e1d:b0:3cf:b07a:cd2f with SMTP id ay29-20020a05600c1e1d00b003cfb07acd2fmr20805463wmb.37.1672355499426;
-        Thu, 29 Dec 2022 15:11:39 -0800 (PST)
+        bh=jzqhmlefk/EX4J9cXMdftP76iDJAj69YGQLc+ryTHBE=;
+        b=fHIXplsAbxSMRvNh6ovTV3Nk6IAutMpDkkSd+ptNBmiHEl9XtGd3qbb8J0xYIfrQb6
+         LIJJhnGlug/dle3YFLeTVrt2gQ3BeahOuQjrokUg1oOSvU8PWVRZGfGdqBKTdteLvK0a
+         MswgF0EVABybSFsq2uAKJahm5nDXfMzG6vynkRBny2xlIo1CgpbDdMY65AeVKnBRP7v9
+         MosjailOzKv7nFkNdVXOBQPjHbf6KUmEELNTGUgo0TQnaZ+vubKHERmJC0A4jQgnCMng
+         XYTqcxY0LIHl6F23J4r82SHePppbFvAnp4sashTs3EZnvhfyUo2fIm3+PgBmD5r2S4ly
+         m/wQ==
+X-Gm-Message-State: AFqh2koskIm65EdS4+IXlayQbObt1eUwfdnQA+T3+XdYCymtJgc+pBcd
+	aPQZF0l36XLccPlgMM2O3wvuUw==
+X-Google-Smtp-Source: AMrXdXspRdRGKO6oISNSzsLBdLg6jKBYs3nJDJfTugtkOXYIHWIMHvRMRo8CG9nyvrav93thbMzbQw==
+X-Received: by 2002:a05:600c:4fcf:b0:3d1:d396:1ade with SMTP id o15-20020a05600c4fcf00b003d1d3961ademr21187116wmq.9.1672355951840;
+        Thu, 29 Dec 2022 15:19:11 -0800 (PST)
 Received: from ?IPv6:2001:8b0:aba:5f3c:fd62:db1:ca71:a503? ([2001:8b0:aba:5f3c:fd62:db1:ca71:a503])
-        by smtp.gmail.com with ESMTPSA id e16-20020a05600c4e5000b003c21ba7d7d6sm26410583wmq.44.2022.12.29.15.11.38
+        by smtp.gmail.com with ESMTPSA id r9-20020a05600c35c900b003d6b71c0c92sm42371741wmq.45.2022.12.29.15.19.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Dec 2022 15:11:39 -0800 (PST)
-Message-ID: <2bdd585e090a4615a53f1b67d1346861abc4c701.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] cargo: Do not use open64 on musl anymore
+        Thu, 29 Dec 2022 15:19:11 -0800 (PST)
+Message-ID: <6ea0dc08bc4007911090f49ebf4c9d9dee9579fb.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 7/7] qemu: update 7.1.0 -> 7.2.0
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, Alex Kiernan <alex.kiernan@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>
-Date: Thu, 29 Dec 2022 23:11:36 +0000
-In-Reply-To: <CAMKF1sq7+8u+pA5duTdpXn86qQySVdE482U+GLQpQS=xTzOVrA@mail.gmail.com>
-References: <20221229190918.2242791-1-raj.khem@gmail.com>
-	 <CAO5Uq5SXZrmiu-RsxaJ_yxj6RV=+-LH1765D7Dqdz+a1DCecMA@mail.gmail.com>
-	 <CAMKF1sq7+8u+pA5duTdpXn86qQySVdE482U+GLQpQS=xTzOVrA@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Date: Thu, 29 Dec 2022 23:19:08 +0000
+In-Reply-To: <20221224165943.1324800-7-alex@linutronix.de>
+References: <20221224165943.1324800-1-alex@linutronix.de>
+	 <20221224165943.1324800-7-alex@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.1-0ubuntu1 
@@ -61,22 +60,35 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 Dec 2022 23:11:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175132
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Dec 2022 23:19:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175133
 
-On Thu, 2022-12-29 at 11:21 -0800, Khem Raj wrote:
-> On Thu, Dec 29, 2022 at 11:11 AM Alex Kiernan <alex.kiernan@gmail.com> wr=
-ote:
-> >=20
-> > Should we just move these patches to rust-source and apply them for eve=
-ryone who consumes it?
+On Sat, 2022-12-24 at 17:59 +0100, Alexander Kanavin wrote:
+> qemu no longer carries libslirp in-tree,
+> so enabling slirp requires providing external libslirp.
 >=20
-> A common source will certainly be better however, we do not use shared
-> workspace for rust recipes
-> so it does not matter as much.
+> Another noteworthy change is:
+>=20
+> x86: TCG support for AVX, AVX2, F16C, FMA3 and VAES instructions
+>=20
+> ... which means both meta-intel and qemu x86 targets can
+> now fully utilize Haswell-and-later instruction set with benefits
+> for performance in emulation and on silicon.
+>=20
+> Changelog:
+> https://wiki.qemu.org/ChangeLog/7.2
+>=20
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 
-I think this may be why cargo was failing in my test build. There were
-some other issues there too.
+Since I merged this we've been seeing an intermittent qemu ptest
+failure on both arm and x86:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/4479/step=
+s/12/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/4273/step=
+s/12/logs/stdio
+
+Not sure what the pattern to trigger it is, not looked into it.
 
 Cheers,
 
