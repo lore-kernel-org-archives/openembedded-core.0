@@ -1,101 +1,145 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <flowergom@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96F1AC4332F
-	for <webhook@archiver.kernel.org>; Thu, 29 Dec 2022 17:30:13 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web11.210494.1672335011974846190
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 949C9C4332F
+	for <webhook@archiver.kernel.org>; Thu, 29 Dec 2022 17:37:43 +0000 (UTC)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web10.209314.1672335459919743311
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Dec 2022 09:30:12 -0800
+ Thu, 29 Dec 2022 09:37:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=d5Fg4hy+;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id c65-20020a1c3544000000b003cfffd00fc0so16813989wma.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Dec 2022 09:30:11 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=K1JhiO03;
+ spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: flowergom@gmail.com)
+Received: by mail-ej1-f48.google.com with SMTP id tz12so46548278ejc.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Dec 2022 09:37:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=4ZmoFk0eI6MsMvKwTS5NjD3HIacHgDgroyQmxeOj44c=;
-        b=d5Fg4hy+mXrM+Uyl3JlcPF7O583xhGOnCiFiHQAOuAkAsUayjIltPfYcIu3MrpU/3O
-         4Z79UF46v5xPDEO+DoUejMGkRUEuAuFj4mH+Yce17UxqZMCDYQbGXG45soRXidYUh1z0
-         6XO1JLoH2005dpMFFHPGZjZ5o91UfjZTkEZk0=
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RIuo4lF5hFtOGI8bCTULfLjdmtQ2COa0i5XFJRwnx8Y=;
+        b=K1JhiO03jl00QYOhZZpE+7Qv4Jxq7bBt74h+IJHt0cJhyaEL3JC5bRrbi7rV02qhZh
+         VbsKELvvYNzliA2QKNycu01vfoKP5+qmErFS5aWOC8BODlJX0NSFoJb6yKOu0j4C80D7
+         S6RvcEvEz0DNA3J1pXbz59gNOPjUr2+2rXymujYRLjVJR51r+jC8eImZtfgOQ/nV6tV+
+         hK4RafvPwxfAty48Iqg179SMnTWspGPQVSgBO7+aJtGPru40frLac5tcpTDM8GWKwsVX
+         qEa/dPSro11VlI0DNSPmfVxQ/AbLcYCJ03YNlu3oLcLsS6+/Lt2I67QHCVTPUGlUVxn0
+         7xMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4ZmoFk0eI6MsMvKwTS5NjD3HIacHgDgroyQmxeOj44c=;
-        b=AguKAODjV9g5SoJ28pDPuw6dfZgB0np/W9hg/QPYVXHEiGjfKHiUdAV8V9pREmn/Ek
-         u3DdbL0j2p1od3sTRF7VwzkO8+gF3DyPfGCAAygwaHt9HUhpxojwh9hm0VQAUxJDd5/S
-         tGjuaeJNXVUzJLBtvi5bgvyJCfuK1mM5r4/iiNF9XWtt5b+g3BZe0zedUS9IN+sPKr5V
-         4EPQXiuUr5cM0ykfbd3f+XaPYTp7I9HN2GTyobU4lKGVIbI2GkyU3z8bnX30YU6cPAN9
-         YpZWeTxbPPnJuA7jrlWtxFWFmS1nFl0BBMI98ConF4bJgWsZefiezcVPNUagBc3eFWzI
-         ZCSg==
-X-Gm-Message-State: AFqh2kqxKOAMu90zmBsGWBSVky764kLvhV8Inhl1BG8WG/5mbUK7ripK
-	Uwkod0+QFh5EjYbJ2/iYTNfsQw==
-X-Google-Smtp-Source: AMrXdXsYvlXWTLxLvDk7KRkezcvHGYUAh7y/GbFGIVwzsF3sCPb1g2WYLZaue9zpvOWEeWACbaMH1A==
-X-Received: by 2002:a05:600c:3596:b0:3cf:497c:c4f5 with SMTP id p22-20020a05600c359600b003cf497cc4f5mr21503965wmq.13.1672335010422;
-        Thu, 29 Dec 2022 09:30:10 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:43af:59a1:5bcf:54fb? ([2001:8b0:aba:5f3c:43af:59a1:5bcf:54fb])
-        by smtp.gmail.com with ESMTPSA id d9-20020a05600c3ac900b003d973d4fb28sm19362046wms.4.2022.12.29.09.30.09
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RIuo4lF5hFtOGI8bCTULfLjdmtQ2COa0i5XFJRwnx8Y=;
+        b=F1DiVpIfh27xJ+HBatVDc01MENAdTKETKgXJrmM2flBCV1/AbD4IgWRpArTv1+T5sx
+         xWeFH/6JppD8EgxdV8/iA+fKydH8krNS98bxVXENucWmhsWgEppAsqNrkLZqDrVKsgHb
+         TAeJ1kIpvOoiKT4lWuQ3WYYNmQ9cbNv/NJao+rDAAJyQgXlkSA/cPoKBBVgtkU5g0sji
+         dhLY6IE3B/tykGvSz4/nZWuTMa8l4xHI1L2dnxJBurOdknfbTcZ3jEept+aj7jeGrjnU
+         eyY/COLO4l1El9MQ9nyJIB4QYmygp4qfE/LTukIoNTHSV89M3zbzHCupd5EAOcGHjzDd
+         ooRQ==
+X-Gm-Message-State: AFqh2ko0j/o+LelSRgcXglQr3cH19qwjlwV8JTZT+9U7eZcYhv9hb5Gm
+	PGqQinIYDfnwKPlmlX6zfP26hkEy+/M=
+X-Google-Smtp-Source: AMrXdXvbyPs07s6bFJcy7tAqH+VIfZOhKLyCteyuGWJqpC1CbUNwbtOTjaVZ7W5H6gedWr00i22h9w==
+X-Received: by 2002:a17:907:c78e:b0:7c1:23f7:623a with SMTP id tz14-20020a170907c78e00b007c123f7623amr23712046ejc.66.1672335457835;
+        Thu, 29 Dec 2022 09:37:37 -0800 (PST)
+Received: from localhost.localdomain (ip5b423fb4.dynamic.kabel-deutschland.de. [91.66.63.180])
+        by smtp.gmail.com with ESMTPSA id f10-20020a17090631ca00b0084c4657120fsm5927090ejf.55.2022.12.29.09.37.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Dec 2022 09:30:10 -0800 (PST)
-Message-ID: <17a0bc0fedaa85a2d6efebf6145d0e4dc77c0cc5.camel@linuxfoundation.org>
-Subject: Re: [oe-core][PATCH] gtk-icon-cache.bbclass: replace += by :append
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mikko Rapeli <mikko.rapeli@linaro.org>, Markus Volk <f_l_k@t-online.de>
-Cc: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Dec 2022 17:30:09 +0000
-In-Reply-To: <Y62wQ3gdqXEFTB+/@nuoska>
-References: <20221229151110.224320-1-f_l_k@t-online.de>
-	 <Y62wQ3gdqXEFTB+/@nuoska>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.1-0ubuntu1 
+        Thu, 29 Dec 2022 09:37:37 -0800 (PST)
+From: Minjae Kim <flowergom@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Minjae Kim <flowergom@gmail.com>
+Subject: [dunfell][PATCH] ppp: fix CVE-2022-4603
+Date: Thu, 29 Dec 2022 18:37:14 +0100
+Message-Id: <20221229173714.18736-1-flowergom@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 Dec 2022 17:30:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175124
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Dec 2022 17:37:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175125
 
-On Thu, 2022-12-29 at 17:20 +0200, Mikko Rapeli wrote:
-> Hi,
->=20
-> On Thu, Dec 29, 2022 at 04:11:10PM +0100, Markus Volk wrote:
-> > While updating gnome-control-center I encountered an issue where
-> > gtk-update-icon-cache could not be found and do_configure failed:
-> >=20
-> > > Program glib-compile-schemas found: YES (glib-compile-schemas)
-> > > Program gtk4-update-icon-cache found: NO
-> > > Program gtk-update-icon-cache found: NO
-> > >=20
-> > > ../gnome-control-center-43.2/meson.build:298:6: ERROR: Program 'gtk-u=
-pdate-icon-cache' not found or not executable
-> >=20
-> > This can be fixed by using DEPENDS:append instead of DEPENDS +=3D
->=20
-> Why? +=3D and :append are applied differently and it is crucial to
-> understand why this is a problem in your case.
->=20
-> IMO it's bad design to use :append everywhere because the changes can't
-> be overwritten in a bbappend without explicitly removing all added
-> things with :remove. In upstream and intermediate layers it's best to
-> use +=3D where ever possible since these can then easily be overwritten i=
-n
-> product specific layers with a simple assignment.
+<CVE-2022-4603>
+Avoid out-of-range access to packet buffer
+Upstream-Status: Backport[https://github.com/ppp-project/ppp/commit/a75fb7b198eed50d769c80c36629f38346882cbf]
 
-I would much prefer to keep the +=3D and tweak the other place this is
-being set to use +=3D as well so that :append isn't needed.
+Signed-off-by:Minjae Kim <flowergom@gmail.com>
+---
+ .../ppp/ppp/CVE-2022-4603.patch               | 50 +++++++++++++++++++
+ meta/recipes-connectivity/ppp/ppp_2.4.7.bb    |  1 +
+ 2 files changed, 51 insertions(+)
+ create mode 100644 meta/recipes-connectivity/ppp/ppp/CVE-2022-4603.patch
 
-Replacing all +=3D with DEPENDS (which is where this path leads) creates
-different and likely harder problems.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-connectivity/ppp/ppp/CVE-2022-4603.patch b/meta/recipes-connectivity/ppp/ppp/CVE-2022-4603.patch
+new file mode 100644
+index 0000000000..27b8863a4e
+--- /dev/null
++++ b/meta/recipes-connectivity/ppp/ppp/CVE-2022-4603.patch
+@@ -0,0 +1,50 @@
++From 2aeb41a9a3a43b11b1e46628d0bf98197ff9f141 Mon Sep 17 00:00:00 2001
++From: Paul Mackerras <paulus@ozlabs.org>
++Date: Thu, 29 Dec 2022 18:00:20 +0100
++Subject: [PATCH] pppdump: Avoid out-of-range access to packet buffer
++
++This fixes a potential vulnerability where data is written to spkt.buf
++and rpkt.buf without a check on the array index.  To fix this, we
++check the array index (pkt->cnt) before storing the byte or
++incrementing the count.  This also means we no longer have a potential
++signed integer overflow on the increment of pkt->cnt.
++
++Fortunately, pppdump is not used in the normal process of setting up a
++PPP connection, is not installed setuid-root, and is not invoked
++automatically in any scenario that I am aware of.
++
++Ustream-Status: Backport [https://github.com/ppp-project/ppp/commit/a75fb7b198eed50d769c80c36629f38346882cbf]
++CVE: CVE-2022-4603
++Signed-off-by:Minjae Kim <flowergom@gmail.com>
++---
++ pppdump/pppdump.c | 7 ++++++-
++ 1 file changed, 6 insertions(+), 1 deletion(-)
++
++diff --git a/pppdump/pppdump.c b/pppdump/pppdump.c
++index 87c2e8f..dec4def 100644
++--- a/pppdump/pppdump.c
+++++ b/pppdump/pppdump.c
++@@ -296,6 +296,10 @@ dumpppp(f)
++ 			    printf("%s aborted packet:\n     ", dir);
++ 			    q = "    ";
++ 			}
+++			if (pkt->cnt >= sizeof(pkt->buf)) {
+++			    printf("%s over-long packet truncated:\n     ", dir);
+++			    q = "    ";
+++			}
++ 			nb = pkt->cnt;
++ 			p = pkt->buf;
++ 			pkt->cnt = 0;
++@@ -399,7 +403,8 @@ dumpppp(f)
++ 			c ^= 0x20;
++ 			pkt->esc = 0;
++ 		    }
++-		    pkt->buf[pkt->cnt++] = c;
+++		    if (pkt->cnt < sizeof(pkt->buf))
+++			    pkt->buf[pkt->cnt++] = c;
++ 		    break;
++ 		}
++ 	    }
++-- 
++2.25.1
++
+diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
+index 76c1cc62a7..51ec25e660 100644
+--- a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
++++ b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
+@@ -34,6 +34,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/${BP}.tar.gz \
+            file://0001-ppp-Remove-unneeded-include.patch \
+            file://ppp-2.4.7-DES-openssl.patch \
+            file://0001-pppd-Fix-bounds-check-in-EAP-code.patch \
++           file://CVE-2022-4603.patch \
+ "
+ 
+ SRC_URI_append_libc-musl = "\
+-- 
+2.25.1
 
 
