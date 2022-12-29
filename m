@@ -1,114 +1,117 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A7C2C4332F
-	for <webhook@archiver.kernel.org>; Thu, 29 Dec 2022 07:13:20 +0000 (UTC)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web11.200907.1672297994564832435
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E596C3DA7D
+	for <webhook@archiver.kernel.org>; Thu, 29 Dec 2022 08:08:30 +0000 (UTC)
+Received: from mailout12.t-online.de (mailout12.t-online.de [194.25.134.22])
+ by mx.groups.io with SMTP id smtpd.web11.201362.1672301303359513206
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Dec 2022 23:13:14 -0800
+ Thu, 29 Dec 2022 00:08:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=lX3VetH9;
- spf=pass (domain: gmail.com, ip: 209.85.214.172, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f172.google.com with SMTP id d3so18156104plr.10
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Dec 2022 23:13:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=i+UifP2/plBXWqjWXsscYjijISuDjtMxWhbkgkv2yG8=;
-        b=lX3VetH9GnhZkxzYvUaqtByrUM9elpCVx32tSNs/EeYqqV2s4O8gLIoy5BFYPq29p5
-         1z63p+3+NOYPvt+gDehBiO3g8JloIIgOQKDi5QoYY11YfIc8sMzjqfg4c2b2k8AAyqh0
-         NOLHhswGUG4VhEpCHSAn/Sq2QoOW11JcyW5pEnzMCqZB3j7TZmX8bxdNXStp595JErxU
-         IYsQQQkIlezMEpf3FHUroE8wpNS3C8EmfhPu6pGuyPYoF4yO8BmRhjUqHtH24y9V2U5U
-         MhM1TfteXZ1DCgjj4lkDHW2zc6Pg6ZHMlwKoByLfwuFCIlQkL067zQn9u61xN0CmaSPK
-         STQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=i+UifP2/plBXWqjWXsscYjijISuDjtMxWhbkgkv2yG8=;
-        b=VYcFoF53JGKI9HCBf474WaAOQlyceAUxoBMQRolpm6IzoZSpcW/Irg1GkG30gkbPIe
-         OMWorrKweW5n+Ff9gL8yoibJDfJNPPR1anDIYJvAuX2cVGuBrNh4PS8C4VTDz4jIny0R
-         NEM4Xrpm09lVidTMP+JRS+F1JW1v8Tr63XvQ+vKCUHllDc1VrvQO6FE34XrG9yDHnsjh
-         5RDaMqk9GwHVUM0fLEpT+IktP9DYLqHNkGqsvwCz62Ez17Z4aoL5HJezMZQnJi6WKDAG
-         5TX6Z2BjIDUh4iu1Pd8OZWWn9l2y0jyb2j8tXdjHhEI0na0NY7oY4OmxGOXL0+a4bjEr
-         HBDA==
-X-Gm-Message-State: AFqh2kpBRTj5sbKhZwitWcXDN5GI1bPaWNgD63i3s/v2sChCfOxBUpeS
-	kTohMY16TUry7AksgYXjq4m8o3c5hMs=
-X-Google-Smtp-Source: AMrXdXssyyqebZ4x8wTNZNanj6r0c8Rmt5NjwAKgKJ5XhbPSSQRNgwG62aqPp+qP0LlN/UNu//GRWg==
-X-Received: by 2002:a17:902:8ec7:b0:192:52d6:7fc7 with SMTP id x7-20020a1709028ec700b0019252d67fc7mr26524970plo.63.1672297993761;
-        Wed, 28 Dec 2022 23:13:13 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::bccc])
-        by smtp.gmail.com with ESMTPSA id p8-20020a1709027ec800b001929f0b4582sm932045plb.300.2022.12.28.23.13.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Dec 2022 23:13:13 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+ dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.22, mailfrom: f_l_k@t-online.de)
+Received: from fwd73.dcpf.telekom.de (fwd73.aul.t-online.de [10.223.144.99])
+	by mailout12.t-online.de (Postfix) with SMTP id 334EA1FF86
+	for <openembedded-core@lists.openembedded.org>; Thu, 29 Dec 2022 09:08:21 +0100 (CET)
+Received: from flk-MS-7C91.fritz.box ([79.219.226.205]) by fwd73.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1pAnxY-24qmrB0; Thu, 29 Dec 2022 09:08:16 +0100
+From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] musl: Update to latest on tip of trunk
-Date: Wed, 28 Dec 2022 23:13:10 -0800
-Message-Id: <20221229071310.4111511-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.39.0
+Cc: Markus Volk <f_l_k@t-online.de>
+Subject: [oe-core][PATCH] gsettings-desktop-schemas.pc.in: use pc_sysrootdir for prefix
+Date: Thu, 29 Dec 2022 09:08:10 +0100
+Message-Id: <20221229080810.98961-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1672301296-2488F98D-AF0B6514/0/0 CLEAN NORMAL
+X-TOI-MSGID: bbf51a35-d0dc-4f8a-9606-687e4886fe99
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 Dec 2022 07:13:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175094
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Dec 2022 08:08:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175095
 
-Brings following changes
-
-* f47a8cdd ldso: fix invalid early references to extern-linkage libc.page_size
-* 377218cb pthread_atfork: fix return value on malloc failure
-* 29e43191 fix double-processing of DT_RELR relocations in ldso relocating itself
-* b50eb8c3 fix strverscmp comparison of digit sequence with non-digits
-* ad5dcd39 fix async thread cancellation stack alignment
-* 8f925945 fix return value of gethostby{name[2],addr} with no result but no error
-* 63402be2 clean up dns_parse_callback
-* 0a7b4323 dns response handling: don't treat too many addresses as an error
-* 41603c77 dns response handling: ignore presence of wrong-type RRs
-* cf76df0e fix missing synchronization of pthread TSD keys with MT-fork
-* 5ff3eea9 fgets: avoid arithmetic overflow when n==INT_MIN is passed
-* d8f35e29 fix AS-safety of close when aio is in use and fd map is expanded
-* 26c76a90 fix use of uninitialized dummy_fut in aio_suspend
-* aebd6a36 fix potential deadlock between multithreaded fork and aio
-* d64148a8 fix potential unsynchronized access to killlock state at thread exit
-* 36b72cd6 fix potential deadlock in dlerror buffer handling at thread exit
-* 833a4691 configure: disable TBAA optimization because most compilers are buggy
-* e6e82132 disable MADV_FREE usage in mallocng
-* 25e6fee2 remove LFS64 programming interfaces (macro-only) from _GNU_SOURCE
-* 246f1c81 remove LFS64 symbol aliases; replace with dynamic linker remapping
-* dec8f0a4 dns query core: detect udp truncation at recv time
-* 8c408937 getaddrinfo dns lookup: use larger answer buffer to handle long CNAMEs
-* 759bf785 arpa/nameser.h: update RR types list
-* 51d4669f dns: implement tcp fallback in __res_msend query core
-* e2e95176 res_send: use a temp buffer if caller's buffer is under 512 bytes
-* c87d75f2 adapt res_msend DNS query core for working with multiple sockets
-* 85050ac5 getaddrinfo: add EAI_NODATA error code to distinguish NODATA vs NxDomain
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- meta/recipes-core/musl/musl_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...ktop-schemas.pc.in-use-pc_sysrootdir.patch | 34 +++++++++++++++++++
+ .../gsettings-desktop-schemas_43.0.bb         |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-gnome/gsettings-desktop-schemas/gsetting=
+s-desktop-schemas/0001-gsettings-desktop-schemas.pc.in-use-pc_sysrootdir.=
+patch
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index a72d87ea6f..7749495ec6 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -4,7 +4,7 @@
- require musl.inc
- inherit linuxloader
- 
--SRCREV = "dc9285ad1dc19349c407072cc48ba70dab86de45"
-+SRCREV = "f47a8cdd250d9163fcfb39bf4e9d813957c0b187"
- 
- BASEVER = "1.2.3"
- 
--- 
-2.39.0
+diff --git a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-deskt=
+op-schemas/0001-gsettings-desktop-schemas.pc.in-use-pc_sysrootdir.patch b=
+/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas/0=
+001-gsettings-desktop-schemas.pc.in-use-pc_sysrootdir.patch
+new file mode 100644
+index 0000000000..4bf38c1987
+--- /dev/null
++++ b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-sche=
+mas/0001-gsettings-desktop-schemas.pc.in-use-pc_sysrootdir.patch
+@@ -0,0 +1,34 @@
++From abd179df28adcdd9fac3d066aaccbd4c4cd135f5 Mon Sep 17 00:00:00 2001
++From: Markus Volk <f_l_k@t-online.de>
++Date: Thu, 29 Dec 2022 06:39:59 +0100
++Subject: [PATCH] gsettings-desktop-schemas.pc.in: use pc_sysrootdir for =
+prefix
++
++gnome-settings uses pkgconfig to find gdesktop-enums.h
++https://github.com/GNOME/gnome-control-center/blob/4648296a706df83af984a=
+918e5f14c3ece42f5fc/panels/background/meson.build#L22
++
++Adding pc-sysrootdir to prefix would allow to find the file also if we h=
+ave a user defined sysroot.
++
++This will fix cross compilation of gnome-control-center with yocto/opene=
+mbedded that otherwise fails like this:
++
++| ../gnome-control-center-43.2/panels/background/meson.build:27:0: ERROR=
+: File /usr/include/gsettings-desktop-schemas/gdesktop-enums.h does not e=
+xist.
++
++Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/gsettings-des=
+ktop-schemas/-/merge_requests/62]
++
++Signed-off-by: Markus Volk <f_l_k@t-online.de>
++---
++ gsettings-desktop-schemas.pc.in | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/gsettings-desktop-schemas.pc.in b/gsettings-desktop-schemas=
+.pc.in
++index d611dc1..992fa55 100644
++--- a/gsettings-desktop-schemas.pc.in
+++++ b/gsettings-desktop-schemas.pc.in
++@@ -1,4 +1,4 @@
++-prefix=3D@prefix@
+++prefix=3D${pc_sysrootdir}@prefix@
++=20
++ Name: gsettings-desktop-schemas
++ Description: Shared GSettings schemas for the desktop, including helper=
+ headers
++--=20
++2.34.1
++
+diff --git a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-deskt=
+op-schemas_43.0.bb b/meta/recipes-gnome/gsettings-desktop-schemas/gsettin=
+gs-desktop-schemas_43.0.bb
+index 966a67fead..09aec42ded 100644
+--- a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-sche=
+mas_43.0.bb
++++ b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-sche=
+mas_43.0.bb
+@@ -13,4 +13,5 @@ GNOMEBASEBUILDCLASS =3D "meson"
+=20
+ inherit gnomebase gsettings gobject-introspection gettext
+=20
++SRC_URI +=3D "file://0001-gsettings-desktop-schemas.pc.in-use-pc_sysroot=
+dir.patch"
+ SRC_URI[archive.sha256sum] =3D "5d5568282ab38b95759d425401f7476e56f8cbf2=
+629885587439f43bd0b84bbe"
+--=20
+2.34.1
 
 
