@@ -1,145 +1,96 @@
-Return-Path: <flowergom@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 949C9C4332F
-	for <webhook@archiver.kernel.org>; Thu, 29 Dec 2022 17:37:43 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web10.209314.1672335459919743311
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA689C4332F
+	for <webhook@archiver.kernel.org>; Thu, 29 Dec 2022 19:09:27 +0000 (UTC)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web11.1649.1672340962551416072
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Dec 2022 09:37:40 -0800
+ Thu, 29 Dec 2022 11:09:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=K1JhiO03;
- spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: flowergom@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id tz12so46548278ejc.9
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Dec 2022 09:37:39 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=dDFGOYxQ;
+ spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f46.google.com with SMTP id ge16so16431899pjb.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Dec 2022 11:09:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RIuo4lF5hFtOGI8bCTULfLjdmtQ2COa0i5XFJRwnx8Y=;
-        b=K1JhiO03jl00QYOhZZpE+7Qv4Jxq7bBt74h+IJHt0cJhyaEL3JC5bRrbi7rV02qhZh
-         VbsKELvvYNzliA2QKNycu01vfoKP5+qmErFS5aWOC8BODlJX0NSFoJb6yKOu0j4C80D7
-         S6RvcEvEz0DNA3J1pXbz59gNOPjUr2+2rXymujYRLjVJR51r+jC8eImZtfgOQ/nV6tV+
-         hK4RafvPwxfAty48Iqg179SMnTWspGPQVSgBO7+aJtGPru40frLac5tcpTDM8GWKwsVX
-         qEa/dPSro11VlI0DNSPmfVxQ/AbLcYCJ03YNlu3oLcLsS6+/Lt2I67QHCVTPUGlUVxn0
-         7xMw==
+        bh=MER1q61bB2aZako9Ujmk8Gvz0yYpm9pLvFkR0g7EE80=;
+        b=dDFGOYxQc1fXEu2mxDiKX74YTAAVt31bXhYj0yOQVE/iEAg4pXKMd0S5EJWVjFxZZK
+         nCevhoJ6Yd3SxcJyyqlGd1KJCnocvMEIZcEAt1Z+aw7VUKhta8NlsVWQj0bGB3RF6m1A
+         9BVOXy6pl61D4HqvCO2zeFfk0UraYg/B7B1vXTpXlzi9i4RAcpaLgcQuo5A3DI6zvZ4c
+         kW6lG94whJZx7RIfdYVdlbO6V+xftCFWMEoTTN75HYTVvIu/2yrvP3e65XgZhW5mGhyY
+         WwpeJCiYkvReMSgEUEOhKwV8s9Ug4B98ztVD9ZmcYEcFdM83iHJeTJkk/H7TLxd81m7P
+         v7xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RIuo4lF5hFtOGI8bCTULfLjdmtQ2COa0i5XFJRwnx8Y=;
-        b=F1DiVpIfh27xJ+HBatVDc01MENAdTKETKgXJrmM2flBCV1/AbD4IgWRpArTv1+T5sx
-         xWeFH/6JppD8EgxdV8/iA+fKydH8krNS98bxVXENucWmhsWgEppAsqNrkLZqDrVKsgHb
-         TAeJ1kIpvOoiKT4lWuQ3WYYNmQ9cbNv/NJao+rDAAJyQgXlkSA/cPoKBBVgtkU5g0sji
-         dhLY6IE3B/tykGvSz4/nZWuTMa8l4xHI1L2dnxJBurOdknfbTcZ3jEept+aj7jeGrjnU
-         eyY/COLO4l1El9MQ9nyJIB4QYmygp4qfE/LTukIoNTHSV89M3zbzHCupd5EAOcGHjzDd
-         ooRQ==
-X-Gm-Message-State: AFqh2ko0j/o+LelSRgcXglQr3cH19qwjlwV8JTZT+9U7eZcYhv9hb5Gm
-	PGqQinIYDfnwKPlmlX6zfP26hkEy+/M=
-X-Google-Smtp-Source: AMrXdXvbyPs07s6bFJcy7tAqH+VIfZOhKLyCteyuGWJqpC1CbUNwbtOTjaVZ7W5H6gedWr00i22h9w==
-X-Received: by 2002:a17:907:c78e:b0:7c1:23f7:623a with SMTP id tz14-20020a170907c78e00b007c123f7623amr23712046ejc.66.1672335457835;
-        Thu, 29 Dec 2022 09:37:37 -0800 (PST)
-Received: from localhost.localdomain (ip5b423fb4.dynamic.kabel-deutschland.de. [91.66.63.180])
-        by smtp.gmail.com with ESMTPSA id f10-20020a17090631ca00b0084c4657120fsm5927090ejf.55.2022.12.29.09.37.36
+        bh=MER1q61bB2aZako9Ujmk8Gvz0yYpm9pLvFkR0g7EE80=;
+        b=bDQ0trtqNIURUpkKRNy7GoEZihosvweEp5jTX/CTkuA5vAVwWeMk1I8OVLAC3lOHlB
+         R21e6tFGwVyXB7mPfjucchOcTPMD9UsboJPqQYGeommPgQeTR7xBsPSYeYyCTXFUbtZ1
+         YZaoWCl8YgiiG0qN51pFABSTgsURQKbXDLeVyOpTbgmbNzqpb6U7u86tmBTlhfip/7FR
+         EhDx1XRAAKQ5sW72e1wx4YHzRyUl87ZnwTF1qZNudFeQBNmFceFM+rrFS4XS6zp59fqq
+         3u8w92xu56f2fFB6TMJBMCTqhQl4oSrUzIWKNg1p5sxwj/goJzpYkoWRjS68DJy6t3JP
+         4VlA==
+X-Gm-Message-State: AFqh2kpeCf8OaBKQNtfvdw7N36+aUXSpEIAexyLPzyB5qSr4VIFdUybn
+	Rwo9DahKtC79bM9seUa9/iWN139DoKw=
+X-Google-Smtp-Source: AMrXdXuqXDPRMBTFVmX56Rl9RYugUH47iYMxik4vcnh7d4vK+n94ZD/PxW9jGFni+7NpSbt060tP+g==
+X-Received: by 2002:a17:90a:d811:b0:223:bb51:979d with SMTP id a17-20020a17090ad81100b00223bb51979dmr31216971pjv.2.1672340961617;
+        Thu, 29 Dec 2022 11:09:21 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::bccc])
+        by smtp.gmail.com with ESMTPSA id u7-20020a17090a1d4700b00225bc0e5f19sm11411356pju.1.2022.12.29.11.09.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Dec 2022 09:37:37 -0800 (PST)
-From: Minjae Kim <flowergom@gmail.com>
+        Thu, 29 Dec 2022 11:09:21 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Minjae Kim <flowergom@gmail.com>
-Subject: [dunfell][PATCH] ppp: fix CVE-2022-4603
-Date: Thu, 29 Dec 2022 18:37:14 +0100
-Message-Id: <20221229173714.18736-1-flowergom@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] cargo: Do not use open64 on musl anymore
+Date: Thu, 29 Dec 2022 11:09:18 -0800
+Message-Id: <20221229190918.2242791-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 Dec 2022 17:37:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175125
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Dec 2022 19:09:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175126
 
-<CVE-2022-4603>
-Avoid out-of-range access to packet buffer
-Upstream-Status: Backport[https://github.com/ppp-project/ppp/commit/a75fb7b198eed50d769c80c36629f38346882cbf]
+The same rust getrandom patch is needed for cargo on target as well
+as it uses the same crate
 
-Signed-off-by:Minjae Kim <flowergom@gmail.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../ppp/ppp/CVE-2022-4603.patch               | 50 +++++++++++++++++++
- meta/recipes-connectivity/ppp/ppp_2.4.7.bb    |  1 +
- 2 files changed, 51 insertions(+)
- create mode 100644 meta/recipes-connectivity/ppp/ppp/CVE-2022-4603.patch
+ meta/recipes-devtools/rust/cargo_1.66.0.bb                   | 5 ++++-
+ .../rust/{rust => files}/getrandom-open64.patch              | 0
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+ rename meta/recipes-devtools/rust/{rust => files}/getrandom-open64.patch (100%)
 
-diff --git a/meta/recipes-connectivity/ppp/ppp/CVE-2022-4603.patch b/meta/recipes-connectivity/ppp/ppp/CVE-2022-4603.patch
-new file mode 100644
-index 0000000000..27b8863a4e
---- /dev/null
-+++ b/meta/recipes-connectivity/ppp/ppp/CVE-2022-4603.patch
-@@ -0,0 +1,50 @@
-+From 2aeb41a9a3a43b11b1e46628d0bf98197ff9f141 Mon Sep 17 00:00:00 2001
-+From: Paul Mackerras <paulus@ozlabs.org>
-+Date: Thu, 29 Dec 2022 18:00:20 +0100
-+Subject: [PATCH] pppdump: Avoid out-of-range access to packet buffer
-+
-+This fixes a potential vulnerability where data is written to spkt.buf
-+and rpkt.buf without a check on the array index.  To fix this, we
-+check the array index (pkt->cnt) before storing the byte or
-+incrementing the count.  This also means we no longer have a potential
-+signed integer overflow on the increment of pkt->cnt.
-+
-+Fortunately, pppdump is not used in the normal process of setting up a
-+PPP connection, is not installed setuid-root, and is not invoked
-+automatically in any scenario that I am aware of.
-+
-+Ustream-Status: Backport [https://github.com/ppp-project/ppp/commit/a75fb7b198eed50d769c80c36629f38346882cbf]
-+CVE: CVE-2022-4603
-+Signed-off-by:Minjae Kim <flowergom@gmail.com>
-+---
-+ pppdump/pppdump.c | 7 ++++++-
-+ 1 file changed, 6 insertions(+), 1 deletion(-)
-+
-+diff --git a/pppdump/pppdump.c b/pppdump/pppdump.c
-+index 87c2e8f..dec4def 100644
-+--- a/pppdump/pppdump.c
-++++ b/pppdump/pppdump.c
-+@@ -296,6 +296,10 @@ dumpppp(f)
-+ 			    printf("%s aborted packet:\n     ", dir);
-+ 			    q = "    ";
-+ 			}
-++			if (pkt->cnt >= sizeof(pkt->buf)) {
-++			    printf("%s over-long packet truncated:\n     ", dir);
-++			    q = "    ";
-++			}
-+ 			nb = pkt->cnt;
-+ 			p = pkt->buf;
-+ 			pkt->cnt = 0;
-+@@ -399,7 +403,8 @@ dumpppp(f)
-+ 			c ^= 0x20;
-+ 			pkt->esc = 0;
-+ 		    }
-+-		    pkt->buf[pkt->cnt++] = c;
-++		    if (pkt->cnt < sizeof(pkt->buf))
-++			    pkt->buf[pkt->cnt++] = c;
-+ 		    break;
-+ 		}
-+ 	    }
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-index 76c1cc62a7..51ec25e660 100644
---- a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-+++ b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-@@ -34,6 +34,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/${BP}.tar.gz \
-            file://0001-ppp-Remove-unneeded-include.patch \
-            file://ppp-2.4.7-DES-openssl.patch \
-            file://0001-pppd-Fix-bounds-check-in-EAP-code.patch \
-+           file://CVE-2022-4603.patch \
- "
+diff --git a/meta/recipes-devtools/rust/cargo_1.66.0.bb b/meta/recipes-devtools/rust/cargo_1.66.0.bb
+index 37e0123ee3..f45f8f1e12 100644
+--- a/meta/recipes-devtools/rust/cargo_1.66.0.bb
++++ b/meta/recipes-devtools/rust/cargo_1.66.0.bb
+@@ -14,7 +14,10 @@ LIC_FILES_CHKSUM = " \
+ require rust-source.inc
+ require rust-snapshot.inc
  
- SRC_URI_append_libc-musl = "\
+-SRC_URI:append:class-target = " file://crossbeam_atomic.patch;patchdir=${RUSTSRC}"
++SRC_URI:append:class-target = "\
++    file://crossbeam_atomic.patch;patchdir=${RUSTSRC} \
++    file://getrandom-open64.patch;patchdir=${RUSTSRC} \                          
++"
+ 
+ # Used by crossbeam_atomic.patch
+ export TARGET_VENDOR
+diff --git a/meta/recipes-devtools/rust/rust/getrandom-open64.patch b/meta/recipes-devtools/rust/files/getrandom-open64.patch
+similarity index 100%
+rename from meta/recipes-devtools/rust/rust/getrandom-open64.patch
+rename to meta/recipes-devtools/rust/files/getrandom-open64.patch
 -- 
-2.25.1
+2.39.0
 
 
