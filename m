@@ -1,182 +1,159 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9328C4332F
-	for <webhook@archiver.kernel.org>; Thu, 29 Dec 2022 16:07:52 +0000 (UTC)
-Received: from mailout12.t-online.de (mailout12.t-online.de [194.25.134.22])
- by mx.groups.io with SMTP id smtpd.web10.207081.1672330066582010397
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16FA8C4332F
+	for <webhook@archiver.kernel.org>; Thu, 29 Dec 2022 16:21:53 +0000 (UTC)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web10.207453.1672330909992284640
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Dec 2022 08:07:46 -0800
+ Thu, 29 Dec 2022 08:21:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.22, mailfrom: f_l_k@t-online.de)
-Received: from fwd75.dcpf.telekom.de (fwd75.aul.t-online.de [10.223.144.101])
-	by mailout12.t-online.de (Postfix) with SMTP id 5A9F9424E;
-	Thu, 29 Dec 2022 17:07:36 +0100 (CET)
-Received: from [192.168.178.83] ([79.219.226.205]) by fwd75.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1pAvRP-1LNfSS0; Thu, 29 Dec 2022 17:07:35 +0100
-Date: Thu, 29 Dec 2022 17:07:29 +0100
-From: Markus Volk <f_l_k@t-online.de>
-Subject: Re: [OE-core] [PATCH 06/10] libportal: add from
- meta-openembedded/meta-gnome
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, Alexander Kanavin
-	<alex@linutronix.de>
-Message-Id: <H4UNNR.OSLU872EYWJ01@t-online.de>
-In-Reply-To: <20221229160110.255775-6-alex@linutronix.de>
-References: <20221229160110.255775-1-alex@linutronix.de>
-	<20221229160110.255775-6-alex@linutronix.de>
-X-Mailer: geary/40.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=bOFLnngg;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f43.google.com with SMTP id u9so46192594ejo.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Dec 2022 08:21:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1pKkGPh+V/CRS+ck9bYcpQ5Hbw6Gx3P4PoUbQpDpLw8=;
+        b=bOFLnnggx7yx+uSbcz75xla6r81e7JbfT3M5H8WszjLX52ctptuhuxLaEPqyFs5xNS
+         rlt+Z6SmXwKfyROfkothD4fCP/v7IemN6pHaNf+9Z0nqBE1ZrLCzkut62upuwudQO8F/
+         jJlZVpCnxaLTmTHYCsBtJOjFVQJGg+ZtieMROYQUPYJ/grI/h95G2vO07j5H+RSDoFIg
+         g//yesM3mNR+s58vI5XfkBGJDYpfL5s+pPZNYDQt+QXt64q+iTtb7HiSG6SRZpUO+eAs
+         cnZXgwfLGs9FOAXi4L78hl3uIjxpTuzc4jX7TlENNLnoyap+gF6WPLD8fKaDss8PIu97
+         97RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1pKkGPh+V/CRS+ck9bYcpQ5Hbw6Gx3P4PoUbQpDpLw8=;
+        b=yFTx3LNIPG+XpchAiu0Mt8gJOsrhBq7kv2LuCgnzaUq2N4VRrODCDwVa5rfVqgXVUK
+         S4SjYvymuFqRYWeWnGW4Kl64Y+hzctRClbRvqSbQYMI3iHfaQ5+Tu3O+JAwO0IR7zZF8
+         3QlCQPkTpv3WuGR59GE7Wz27JsipNiAU+x7s00Qk+/XgJrid9qAcqD8xSC6ePckrIQQv
+         RuimvFeoVkf3fuUWl0eBjfHSLfrEOKpCAuwUguljMy9yzkbXveijaxn/Iym3f5r3GUdM
+         00b4G5bVhM7B22acHt2RdltjKBnJfQa472PywMR7dcKp89Ld+3AtfYvb/sqmtAp2j7ea
+         OrHw==
+X-Gm-Message-State: AFqh2krizgUy+kUXnWtg28td6kC+36rjVNVx8FGGf5K9VvKj9py7/d/C
+	CfFbmEO533uC1qCYgiQ01g35D5ZL3jw=
+X-Google-Smtp-Source: AMrXdXves8SOqBrywiNXHOY3U9aIc9J1EtD1qOTZA9g/H0kuv2pr2Vg9pI7MN7/D+zFc1o12foupkg==
+X-Received: by 2002:a17:906:dff5:b0:7ef:b60e:cb02 with SMTP id lc21-20020a170906dff500b007efb60ecb02mr24905165ejc.48.1672330908423;
+        Thu, 29 Dec 2022 08:21:48 -0800 (PST)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id r4-20020a17090638c400b007c16f120aacsm8601950ejd.121.2022.12.29.08.21.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Dec 2022 08:21:47 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [PATCH 1/2] nativesdk-rpm: export RPM_ETCCONFIGDIR and MAGIC in environment like RPM_CONFIGDIR
+Date: Thu, 29 Dec 2022 17:21:31 +0100
+Message-Id: <20221229162132.1256730-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-2Z8DTs2cuKCDFubktUR8"
-X-TOI-EXPURGATEID: 150726::1672330055-2FFFE535-374E2B64/0/0 CLEAN NORMAL
-X-TOI-MSGID: a4b16502-ac90-44e4-ad8a-71bc693e42d6
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 Dec 2022 16:07:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175117
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Dec 2022 16:21:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175118
 
---=-2Z8DTs2cuKCDFubktUR8
-Content-Type: text/plain; charset=us-ascii; format=flowed
+* the paths in wrapper don't work for rpmdeps which is installed in
+  ${libdir}/rpm unlike other wrapped bins from ${bindir} these relative
+  paths don't work there
 
-I have recently sent a patch for libportal to includes libportal-gtk4. 
-It is under testing in meta-openembedded master-next.
+* replace environment.d-rpm.sh with here-doc so that we can use
+  OE variables
 
-Without gtk4 support 'nautilus' will fail to compile and i guess others 
-will follow.
+* in the end it might be better to just get rid of the wrappers at
+  this point and depend on environment.d to always set right values
 
+* the wrappers were added in:
+  commit 760103cdaed3e820888d8984ec0b76cfc831d534
+  Author: Ovidiu Panait <ovidiu.panait@windriver.com>
+  Date:   Fri May 25 10:48:29 2018 +0800
 
-Am Do, 29. Dez 2022 um 17:01:06 +0100 schrieb Alexander Kanavin 
-<alex.kanavin@gmail.com>:
-> This used to be required by epiphany, then it became
-> optional and was moved to meta-oe, now it is again required.
-> 
-> The recipe was originally provided by... actually me :-)
-> 
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de 
-> <mailto:alex@linutronix.de>>
-> ---
->  meta/conf/distro/include/maintainers.inc      |  1 +
->  meta/recipes-gnome/libportal/libportal_0.6.bb | 19 
-> +++++++++++++++++++
->  2 files changed, 20 insertions(+)
->  create mode 100644 meta/recipes-gnome/libportal/libportal_0.6.bb
-> 
-> diff --git a/meta/conf/distro/include/maintainers.inc 
-> b/meta/conf/distro/include/maintainers.inc
-> index be96123ce6..0affa1bded 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -371,6 +371,7 @@ RECIPE_MAINTAINER:pn-libpcre = "Yi Zhao 
-> <yi.zhao@windriver.com>"
->  RECIPE_MAINTAINER:pn-libpcre2 = "Unassigned 
-> <unassigned@yoctoproject.org <mailto:unassigned@yoctoproject.org>>"
->  RECIPE_MAINTAINER:pn-libpipeline = "Wang Mingyu <wangmy@fujitsu.com 
-> <mailto:wangmy@fujitsu.com>>"
->  RECIPE_MAINTAINER:pn-libpng = "Anuj Mittal <anuj.mittal@intel.com 
-> <mailto:anuj.mittal@intel.com>>"
-> +RECIPE_MAINTAINER:pn-libportal = "Alexander Kanavin 
-> <alex.kanavin@gmail.com <mailto:alex.kanavin@gmail.com>>"
->  RECIPE_MAINTAINER:pn-libproxy = "Anuj Mittal <anuj.mittal@intel.com 
-> <mailto:anuj.mittal@intel.com>>"
->  RECIPE_MAINTAINER:pn-libpthread-stubs = "Alexander Kanavin 
-> <alex.kanavin@gmail.com <mailto:alex.kanavin@gmail.com>>"
->  RECIPE_MAINTAINER:pn-libptytty = "Alexander Kanavin 
-> <alex.kanavin@gmail.com <mailto:alex.kanavin@gmail.com>>"
-> diff --git a/meta/recipes-gnome/libportal/libportal_0.6.bb 
-> b/meta/recipes-gnome/libportal/libportal_0.6.bb
-> new file mode 100644
-> index 0000000000..9784f04818
-> --- /dev/null
-> +++ b/meta/recipes-gnome/libportal/libportal_0.6.bb
-> @@ -0,0 +1,19 @@
-> +SUMMARY = "libportal provides GIO-style async APIs for most Flatpak 
-> portals."
-> +DESCRIPTION = "It provides simple asynchronous wrappers for most 
-> Flatpak portals \
-> +with a familiar GObject API along side the D-Bus API"
-> +HOMEPAGE = "<https://github.com/flatpak/libportal>"
-> +BUGTRACKER = "<https://github.com/flatpak/libportal/issues>"
-> +LICENSE = "LGPL-3.0-only"
-> +LIC_FILES_CHKSUM = 
-> "file://COPYING;md5=3000208d539ec061b899bce1d9ce9404" 
-> <file://copying;md5=3000208d539ec061b899bce1d9ce9404/>
-> +
-> +SRC_URI = 
-> "git://github.com/flatpak/${BPN}.git;protocol=https;branch=main 
-> <git://github.com/flatpak/$%7BBPN%7D.git;protocol=https;branch=main>"
-> +SRCREV = "13df0b887a7eb7b0f9b14069561a41f62e813155"
-> +S = "${WORKDIR}/git"
-> +
-> +inherit meson gtk-doc gobject-introspection features_check
-> +
-> +ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
-> +
-> +DEPENDS += "glib-2.0 glib-2.0-native gtk+3"
-> +
-> +EXTRA_OEMESON = "-Dbackends=gtk3 -Dvapi=false"
-> --
-> 2.30.2
+    nativesdk-rpm: Add wrappers for nativesdk support
 
+    When installing the SDK to a non-default path, running "rpm --showrc" from the
+    sdk will produce the following error:
+    error: Unable to open /opt/windriver/wrlinux-small/10.17.41/sysroots/x86_64-wrlinuxsdk-linux/usr/lib/rpm/rpmrc for reading: No such file or directory.
+    Fix this by adding wrappers that dynamically export the RPM_CONFIGDIR,
+    RPM_ETCCONFIGDIR and MAGIC environment variables, pointing to the proper
+    sdk locations.
 
+* the rpm.sh in environment.d a bit later:
+  commit 5f16fd0bf774314c79572daf4ba7e4a8ae209ba1
+  Author: hongxu <hongxu.jia@windriver.com>
+  Date:   Wed Jul 29 01:22:06 2020 -0700
 
+    nativesdk-rpm: adjust RPM_CONFIGDIR paths dynamically
 
---=-2Z8DTs2cuKCDFubktUR8
-Content-Type: text/html; charset=us-ascii
+    While installing/extracting SDK to a non-default dir(not /opt),
+    run rpm failed:
+    $ python3 -c "import rpm"
+    |error: Unable to open /opt/windriver/wrlinux-graphics/20.31/sysroots/
+    x86_64-wrlinuxsdk-linux/usr/lib/rpm/rpmrc for reading: No such file or
+    directory.
 
-<div id="geary-body" dir="auto"><div><div>I have recently sent a patch for libportal to includes libportal-gtk4. It is under testing in meta-openembedded master-next.</div><div><br></div><div>Without gtk4 support 'nautilus' will fail to compile and i guess others will follow.</div></div><div><br></div><div><br></div>Am Do, 29. Dez 2022 um 17:01:06 +0100 schrieb Alexander Kanavin &lt;alex.kanavin@gmail.com&gt;:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">This used to be required by epiphany, then it became
-optional and was moved to meta-oe, now it is again required.
+    This patch adds a flexible way to configure RPM_CONFIGDIR in SDK.
 
-The recipe was originally provided by... actually me :-)
-
-Signed-off-by: Alexander Kanavin &lt;<a href="mailto:alex@linutronix.de">alex@linutronix.de</a>&gt;
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/conf/distro/include/maintainers.inc      |  1 +
- meta/recipes-gnome/libportal/libportal_0.6.bb | 19 +++++++++++++++++++
- 2 files changed, 20 insertions(+)
- create mode 100644 meta/recipes-gnome/libportal/libportal_0.6.bb
+ .../rpm/files/environment.d-rpm.sh                 |  1 -
+ meta/recipes-devtools/rpm/rpm_4.18.0.bb            | 14 +++++++++-----
+ 2 files changed, 9 insertions(+), 6 deletions(-)
+ delete mode 100644 meta/recipes-devtools/rpm/files/environment.d-rpm.sh
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index be96123ce6..0affa1bded 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -371,6 +371,7 @@ RECIPE_MAINTAINER:pn-libpcre = "Yi Zhao &lt;yi.zhao@windriver.com&gt;"
- RECIPE_MAINTAINER:pn-libpcre2 = "Unassigned &lt;<a href="mailto:unassigned@yoctoproject.org">unassigned@yoctoproject.org</a>&gt;"
- RECIPE_MAINTAINER:pn-libpipeline = "Wang Mingyu &lt;<a href="mailto:wangmy@fujitsu.com">wangmy@fujitsu.com</a>&gt;"
- RECIPE_MAINTAINER:pn-libpng = "Anuj Mittal &lt;<a href="mailto:anuj.mittal@intel.com">anuj.mittal@intel.com</a>&gt;"
-+RECIPE_MAINTAINER:pn-libportal = "Alexander Kanavin &lt;<a href="mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt;"
- RECIPE_MAINTAINER:pn-libproxy = "Anuj Mittal &lt;<a href="mailto:anuj.mittal@intel.com">anuj.mittal@intel.com</a>&gt;"
- RECIPE_MAINTAINER:pn-libpthread-stubs = "Alexander Kanavin &lt;<a href="mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt;"
- RECIPE_MAINTAINER:pn-libptytty = "Alexander Kanavin &lt;<a href="mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt;"
-diff --git a/meta/recipes-gnome/libportal/libportal_0.6.bb b/meta/recipes-gnome/libportal/libportal_0.6.bb
-new file mode 100644
-index 0000000000..9784f04818
---- /dev/null
-+++ b/meta/recipes-gnome/libportal/libportal_0.6.bb
-@@ -0,0 +1,19 @@
-+SUMMARY = "libportal provides GIO-style async APIs for most Flatpak portals."
-+DESCRIPTION = "It provides simple asynchronous wrappers for most Flatpak portals \
-+with a familiar GObject API along side the D-Bus API"
-+HOMEPAGE = "<a href="https://github.com/flatpak/libportal">https://github.com/flatpak/libportal</a>"
-+BUGTRACKER = "<a href="https://github.com/flatpak/libportal/issues">https://github.com/flatpak/libportal/issues</a>"
-+LICENSE = "LGPL-3.0-only"
-+LIC_FILES_CHKSUM = "<a href="file://COPYING;md5=3000208d539ec061b899bce1d9ce9404" "="">file://COPYING;md5=3000208d539ec061b899bce1d9ce9404"</a>
-+
-+SRC_URI = "<a href="git://github.com/flatpak/${BPN}.git;protocol=https;branch=main">git://github.com/flatpak/${BPN}.git;protocol=https;branch=main</a>"
-+SRCREV = "13df0b887a7eb7b0f9b14069561a41f62e813155"
-+S = "${WORKDIR}/git"
-+
-+inherit meson gtk-doc gobject-introspection features_check
-+
-+ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
-+
-+DEPENDS += "glib-2.0 glib-2.0-native gtk+3"
-+
-+EXTRA_OEMESON = "-Dbackends=gtk3 -Dvapi=false"
-<div class="geary-signature"><div>-- 
-</div>2.30.2</div></div></blockquote><div><br></div><div><br></div></div>
---=-2Z8DTs2cuKCDFubktUR8--
+diff --git a/meta/recipes-devtools/rpm/files/environment.d-rpm.sh b/meta/recipes-devtools/rpm/files/environment.d-rpm.sh
+deleted file mode 100644
+index 9b669a18d1..0000000000
+--- a/meta/recipes-devtools/rpm/files/environment.d-rpm.sh
++++ /dev/null
+@@ -1 +0,0 @@
+-export RPM_CONFIGDIR="$OECORE_NATIVE_SYSROOT/usr/lib/rpm"
+diff --git a/meta/recipes-devtools/rpm/rpm_4.18.0.bb b/meta/recipes-devtools/rpm/rpm_4.18.0.bb
+index 5f3986d8a3..152cab490d 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.18.0.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.18.0.bb
+@@ -25,7 +25,6 @@ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c4eec0c20c6034b9407a09945b48a43f"
+ 
+ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.18.x;protocol=https \
+-           file://environment.d-rpm.sh \
+            file://0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch \
+            file://0001-Do-not-read-config-files-from-HOME.patch \
+            file://0001-When-cross-installing-execute-package-scriptlets-wit.patch \
+@@ -120,16 +119,21 @@ do_install:append:class-native() {
+ do_install:append:class-nativesdk() {
+         for tool in ${WRAPPER_TOOLS}; do
+                 test -x ${D}$tool && create_wrapper ${D}$tool \
+-                        RPM_CONFIGDIR='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir'), d.getVar('bindir'))}/rpm \
++                        RPM_CONFIGDIR='$'{RPM_CONFIGDIR-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir'), d.getVar('bindir'))}/rpm} \
+                         RPM_ETCCONFIGDIR='$'{RPM_ETCCONFIGDIR-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir'), d.getVar('bindir'))}/..} \
+-                        MAGIC='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir'), d.getVar('bindir'))}/misc/magic.mgc \
++                        MAGIC=''{MAGIC-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir'), d.getVar('bindir'))}/misc/magic.mgc} \
+                         RPM_NO_CHROOT_FOR_SCRIPTS=1
+         done
+ 
+         rm -rf ${D}/var
+ 
+-        mkdir -p ${D}${SDKPATHNATIVE}/environment-setup.d
+-        install -m 644 ${WORKDIR}/environment.d-rpm.sh ${D}${SDKPATHNATIVE}/environment-setup.d/rpm.sh
++	mkdir -p ${D}${SDKPATHNATIVE}/environment-setup.d
++	cat <<- EOF > ${D}${SDKPATHNATIVE}/environment-setup.d/rpm.sh
++		export RPM_CONFIGDIR="$OECORE_NATIVE_SYSROOT${libdir}/rpm"
++		export RPM_ETCCONFIGDIR="$OECORE_NATIVE_SYSROOT${sysconfdir}"
++		export MAGIC="$OECORE_NATIVE_SYSROOT${datadir}/misc/magic.mgc"
++		export RPM_NO_CHROOT_FOR_SCRIPTS=1
++	EOF
+ }
+ 
+ # Rpm's make install creates var/tmp which clashes with base-files packaging
+-- 
+2.39.0
 
 
