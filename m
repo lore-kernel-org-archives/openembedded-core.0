@@ -1,96 +1,131 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA323C4332F
-	for <webhook@archiver.kernel.org>; Thu, 29 Dec 2022 15:18:42 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.207261.1672327120243301548
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7A21C4332F
+	for <webhook@archiver.kernel.org>; Thu, 29 Dec 2022 15:20:42 +0000 (UTC)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+ by mx.groups.io with SMTP id smtpd.web10.205991.1672327239192750606
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Dec 2022 07:18:40 -0800
+ Thu, 29 Dec 2022 07:20:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=HRRbS2EB;
- spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f45.google.com with SMTP id m26-20020a05600c3b1a00b003d9811fcaafso6834780wms.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Dec 2022 07:18:39 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=XL7kgSHv;
+ spf=pass (domain: linaro.org, ip: 209.85.167.42, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f42.google.com with SMTP id bq39so20114774lfb.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Dec 2022 07:20:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=rnxnw7VqjDr648QuJc6TgnwFSC0sC42VlebPAuBPMh8=;
-        b=HRRbS2EBs6NOa6/J9l5PG2iRBcEpZJED+FCXSVeGHRzn/x7CIPH95NMCg+HpaLJgQN
-         BS5QTHG1dYquDnH8qfDz08W7nMIhaXe62HrDB/TmPNyRwc/ReY6WLYlLi+8eES89wLir
-         OIV+afKtHuc6oz0+ssl/PWELJ5qQw8hbb1/+XpnQ85GzHCp1Q3/ZniAj06toKgGTrPj3
-         7AwKJsiFqV5+ZmqfHGG1En74oT8BJKJGUXoFYmxITTyVlgrBWDt0adIKvGEe9bWdKKYl
-         I4YEc/j2CrdmMgoB6Beqnp+PxzxkdDGE3sPNZY+Lf7OJpYuPwfUp6To/VZ8/rOmFAfy9
-         djeg==
+        d=linaro.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xrEncJ16XwKJHuD3lqnNE38aWQLxzITZWBtQ3aBQrUk=;
+        b=XL7kgSHvpPCiNF4QpdaIzWG/3ryy6w6juHB9ba1n+MuCO/HgtvlKFJIsafvLKdHfi/
+         5S4rA0oy82e0lKR2lMNg2XoHwABSB18vYyNFCCyK//PXLQ5WS+zcuz5DKQF43XDqjres
+         MEZIuZoM7PxlFOCup8lYVkxzbClJev/jVu4GKkoUv76zE8+fOU28a1MbLWrJj3NRIBPT
+         CFb0uW21G7DPMmeim0R0eZNvsU7YnzhQn3Z3sjvt4N9vjZ90gJ9AJwOAzK+bFdIK8teJ
+         sFJAeX8h4cx3dsploxgDjriTWOu3jNUtqQbQiIDowYrMAwOw7Blh6rFjEvO6tWtCHead
+         ZX6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rnxnw7VqjDr648QuJc6TgnwFSC0sC42VlebPAuBPMh8=;
-        b=QF2ZFjcfFHP4X07swJoCiK0pKpQareOA9bypZ/sUo1rR+L9vbGMVB8ISHyF4PbeTWk
-         EdUaUUQTzozkHwzzkZiPDkj2jYN21kdIISJKn55eDL0pqy6T+IDzDU5pwvPRMoiPHNHU
-         sDtlUjpY58uuDgJn2bYd4AB5chRyzNbvCxaqD3U5YTZX8qfcwhDKCOGQSI5UOu2tQ6e1
-         EsxTsPiYOS5KUR93XyLSUQxxkouQt7WQZ5tmXyte3mS/eSA+FjdjyCGLWAXO863RcaIU
-         sMuHsGoEUfM00Uk+iwFE5q5GptBYYx5QTJpKHcDIp0VNMsI79n/wOykVNbCFpS292HWF
-         CAvQ==
-X-Gm-Message-State: AFqh2koY89HkOZ20qDJYNjvHc6k8L1cOnxV0gbHzSmTftfbCEM9jkM0R
-	RC4XpMuf8YIvb+yA4eJgecv/04GvV/x/IFIoqok=
-X-Google-Smtp-Source: AMrXdXtZ4mMvlud+/v5J3BYXReH3e6XCaCArkbehBBBn+GGky0xKtqISqzFrV/X72s4IcfcsbL3lEBeP+b1GuJb41E4=
-X-Received: by 2002:a05:600c:d9:b0:3d1:ed5f:b8ec with SMTP id
- u25-20020a05600c00d900b003d1ed5fb8ecmr1401639wmm.102.1672327117508; Thu, 29
- Dec 2022 07:18:37 -0800 (PST)
-MIME-Version: 1.0
-References: <20221229151110.224320-1-f_l_k@t-online.de> <CANNYZj-gY4N=95D39TcAy0OWoi+rOkb2pN1beZy_UOiY3BYRaA@mail.gmail.com>
-In-Reply-To: <CANNYZj-gY4N=95D39TcAy0OWoi+rOkb2pN1beZy_UOiY3BYRaA@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 29 Dec 2022 16:18:26 +0100
-Message-ID: <CA+chaQfqN0JLgPk3zUE_QN6KRcm7-q2TWbYLyeMUAbg1AGw_5g@mail.gmail.com>
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xrEncJ16XwKJHuD3lqnNE38aWQLxzITZWBtQ3aBQrUk=;
+        b=V5RtV7X0b0EeTMo5jKAgTvpYxi7oBbo6dnMlo3xa1b2NQ5gWM+bKy2oxaV515cA/pY
+         dPL7LAb7seYrMtHMW2Wfs26HFkIGHTk41OAkABVeIEAdhbeJEjIIfatcZjwfzg7RgY74
+         8lxYHREHhcIr0cShfR4xseRwCGlA/BaFqdFPJAnFHADdmugqiQgDtGqN6Fh67AmGOFmM
+         PT3brQCFWjytAbORpZOnTb/5KAxjc6UeLpa3WRcDCK8cB88ryjRsSI15z+di6jlBkT2Q
+         5ozpCn0QH1vdu3pPBtqIgqCIDxIJNcbxCONNjyOKIlNSPf6FwWgtdIdkCa7DWVusZxVe
+         Xdzg==
+X-Gm-Message-State: AFqh2kpky3AW/LbuuW2Idj4MrYGx+cyTa6UbFzb59UOcGmfMdSTglgnH
+	sLhelm6K9wVUyjAPr3VQ38qCyw==
+X-Google-Smtp-Source: AMrXdXtiZ58QouDnJNVf8tJ9TQP+6Ep8idf2DnDjwzTiL0VzsMtNN80ek7Y8UePPK2F06QfvMZyc1Q==
+X-Received: by 2002:ac2:5982:0:b0:4b5:892:3987 with SMTP id w2-20020ac25982000000b004b508923987mr11389608lfn.9.1672327237542;
+        Thu, 29 Dec 2022 07:20:37 -0800 (PST)
+Received: from nuoska (85-76-48-196-nat.elisa-mobile.fi. [85.76.48.196])
+        by smtp.gmail.com with ESMTPSA id m28-20020a056512015c00b004b580a526c3sm3111858lfo.295.2022.12.29.07.20.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Dec 2022 07:20:37 -0800 (PST)
+Date: Thu, 29 Dec 2022 17:20:35 +0200
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Markus Volk <f_l_k@t-online.de>
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [oe-core][PATCH] gtk-icon-cache.bbclass: replace += by :append
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Markus Volk <f_l_k@t-online.de>, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000c995b305f0f8ff9b"
+Message-ID: <Y62wQ3gdqXEFTB+/@nuoska>
+References: <20221229151110.224320-1-f_l_k@t-online.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221229151110.224320-1-f_l_k@t-online.de>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 Dec 2022 15:18:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175103
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Dec 2022 15:20:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175104
 
---000000000000c995b305f0f8ff9b
-Content-Type: text/plain; charset="UTF-8"
+Hi,
 
-On Thu, Dec 29, 2022 at 4:14 PM Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
+On Thu, Dec 29, 2022 at 04:11:10PM +0100, Markus Volk wrote:
+> While updating gnome-control-center I encountered an issue where
+> gtk-update-icon-cache could not be found and do_configure failed:
+> 
+> | Program glib-compile-schemas found: YES (glib-compile-schemas)
+> | Program gtk4-update-icon-cache found: NO
+> | Program gtk-update-icon-cache found: NO
+> |
+> | ../gnome-control-center-43.2/meson.build:298:6: ERROR: Program 'gtk-update-icon-cache' not found or not executable
+> 
+> This can be fixed by using DEPENDS:append instead of DEPENDS +=
 
-> But what is the actual issue? Did depends end up malformed, and how?
->
+Why? += and :append are applied differently and it is crucial to
+understand why this is a problem in your case.
 
-My guess is that it was caused by gnome-control-center inheritting
-gtk-icon-cache before setting DEPENDS, so the DEPENDS from bbclass are
-overwritten.
+IMO it's bad design to use :append everywhere because the changes can't
+be overwritten in a bbappend without explicitly removing all added
+things with :remove. In upstream and intermediate layers it's best to
+use += where ever possible since these can then easily be overwritten in
+product specific layers with a simple assignment.
 
-Moving inherit bellow DEPENDS would solve it as well, but I agree that
-append in this case might be less surprising as many people aren't very
-careful about inherit position inside the recipe.
+Cheers,
 
---000000000000c995b305f0f8ff9b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+-Mikko
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Thu, Dec 29, 2022 at 4:14 PM Alexander=
- Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.c=
-om</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex"><div dir=3D"auto">But what is the actual issue=
-? Did depends end up malformed, and how?</div></blockquote><div><br></div><=
-div>My guess is that it was caused by gnome-control-center inheritting gtk-=
-icon-cache before setting DEPENDS, so the DEPENDS from bbclass are overwrit=
-ten.</div><div><br></div><div>Moving inherit bellow DEPENDS would solve it =
-as well, but I agree that append in this case might be less surprising as m=
-any people aren&#39;t very careful about inherit position inside the recipe=
-.</div></div></div>
+> Signed-off-by: Markus Volk <f_l_k@t-online.de>
+> ---
+>  meta/classes-recipe/gtk-icon-cache.bbclass | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meta/classes-recipe/gtk-icon-cache.bbclass b/meta/classes-recipe/gtk-icon-cache.bbclass
+> index 9ecb49916c..2096dcfcbb 100644
+> --- a/meta/classes-recipe/gtk-icon-cache.bbclass
+> +++ b/meta/classes-recipe/gtk-icon-cache.bbclass
+> @@ -16,10 +16,11 @@ GTKIC_CMD = "${@ 'gtk4-update-icon-cache' if d.getVar('GTKIC_VERSION') == '4' el
+>  inherit features_check
+>  ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+>  
+> -DEPENDS +=" ${@ '' if d.getVar('BPN') == 'hicolor-icon-theme' else 'hicolor-icon-theme' } \
+> -            ${@ '' if d.getVar('BPN') == 'gdk-pixbuf' else 'gdk-pixbuf' } \
+> -            ${@ '' if d.getVar('BPN') == d.getVar('GTKPN') else d.getVar('GTKPN') } \
+> -            ${GTKPN}-native \
+> +DEPENDS:append = " \
+> +	${@ '' if d.getVar('BPN') == 'hicolor-icon-theme' else 'hicolor-icon-theme' } \
+> +	${@ '' if d.getVar('BPN') == 'gdk-pixbuf' else 'gdk-pixbuf' } \
+> +	${@ '' if d.getVar('BPN') == d.getVar('GTKPN') else d.getVar('GTKPN') } \
+> +	${GTKPN}-native \
+>  "
+>  
+>  PACKAGE_WRITE_DEPS += "${GTKPN}-native gdk-pixbuf-native"
+> -- 
+> 2.34.1
+> 
 
---000000000000c995b305f0f8ff9b--
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#175101): https://lists.openembedded.org/g/openembedded-core/message/175101
+> Mute This Topic: https://lists.openembedded.org/mt/95937867/7159507
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mikko.rapeli@linaro.org]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
 
