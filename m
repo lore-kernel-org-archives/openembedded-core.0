@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69E20C10F1B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6097BC4167B
 	for <webhook@archiver.kernel.org>; Fri, 30 Dec 2022 18:39:15 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.25153.1672425547186515434
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web10.25150.1672425545343839005
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Dec 2022 10:39:07 -0800
+ Fri, 30 Dec 2022 10:39:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=JoYh7qG0;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id m8-20020a05600c3b0800b003d96f801c48so13453759wms.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 10:39:06 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=QyQ/eK95;
+ spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f41.google.com with SMTP id b24-20020a05600c4a9800b003d21efdd61dso15679924wmp.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 10:39:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZnA3QvKJECUKMQBjr/9fOHj8eol3XS3YXZ8jtMSTRCs=;
-        b=JoYh7qG0PLhCg/96kJ9bnY1yzPpMWrxVX8cA+B1bw9Fhj+Wie4By/eut3gANQvJF7y
-         +vVUBdDZmxMVWb700WcesjTbgm45HBlPKbfR4St3e8+GMFH+M4vEawFjln0fFfKAN5uW
-         FIewEErl6TujS0S0YcSXtE9VMNaGnQibD+Vnrf0ZZuutjhDMsDvH72cYxi4Us4LEVYAv
-         w6ee57RHIgYBt6oDZDKelzeWLE+dV4CUSOZ8UVVW8mPYdraSGjhAAGf5xnf+I2qfj2UT
-         oqCn85MSvmiT/bxDair+X3VytjCZwz5wEU9PYu5YpIOuI4wOPQgXMvn7WRCNB82lV3vD
-         DyiA==
+        bh=zezpfdb4xH2c0at1GQz7fumNIqKLHhloErLPZ1VehJo=;
+        b=QyQ/eK95LQvtBlP7+DJW8CaeR865lS8L07jAxfXXY3BghmX4pNR0KIdzoEV1dXXcMK
+         XyAxeFfRfv4WUoKE5zlFewKt/2ndQQ8X2+ToBuZBIssP8FbyYZ3F4PcKXTpFaiNHno2n
+         JA353BaqJRKp8puIHvznO5INb4GVwk5mYc03h3KEZFBBMcYeyW1/S8Vuxx21JGV5o7u7
+         PZS678kLsBS/p5sa+mP9CftlzPLkFZjo2wmWGfRcVyhL9qS/Hs4u6fENBCdQz7z5UhTG
+         O696Ap7BiKUDssqZ4Uf7GbY0n+aTiN01getZjx30jFEDT1k2f2Z+B5rH+Tvrz2utYJdw
+         iTyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZnA3QvKJECUKMQBjr/9fOHj8eol3XS3YXZ8jtMSTRCs=;
-        b=Cb2FsIsYdGFcpHwtYkuJ+N37leqDGa9GLGRzMsOn5R4vOujgPe2dHRPH3Z1jv2V+HO
-         oApIbaPfcvsjvcOwbnIrWHu+RHvbmAseFu+idymWEFvngdZy5bU7Wq8XL80Ge/U0QH7k
-         paafJJ3pfNkNikPBpbX+pRRSvJqzZol/h6U3orU8MGOlqUPylIZFZcDOHHfjR8mnyMFa
-         u7gF4bOAgXNVhIDrEs4gJ53SUquyWNkIRSTFEvlpbwj9aL793X+JPE6NgGNblJBiVklo
-         gaMEq/yLm1RCU0j4WN3+zRHgPYNNq1UFi/z+yB8/x5mhMm38bIIxdjWPgbHp1j6w2nzB
-         U5AQ==
-X-Gm-Message-State: AFqh2krMj3Hu8XwauXJRz+rWANGfXcOG0obcD7NXJlOW7IyH/XZYRFRP
-	+hHGFRoXVO+tWraZZbvUNh9q7oO8Oeo=
-X-Google-Smtp-Source: AMrXdXtFdLWuZN7T2iuV94fgUujDuylhwsNF3/FU6d5ACKyzb8LChbL3O0zgOv05AgBh6CtG9D8ZNw==
-X-Received: by 2002:a05:600c:22c7:b0:3d1:cf66:3afa with SMTP id 7-20020a05600c22c700b003d1cf663afamr23656270wmg.19.1672425545741;
-        Fri, 30 Dec 2022 10:39:05 -0800 (PST)
+        bh=zezpfdb4xH2c0at1GQz7fumNIqKLHhloErLPZ1VehJo=;
+        b=yKmcGboZkPYt2TXVBkhqXj+1sg4DGTCoyuesWdkXPV2TG3Xdcw4jl5JiB6Swn0yEQ7
+         ZvbZREgLpJwg5ZT7+g4cmQuwhtNpANoAEruIJRxRVdXNx2QBnMhRsjUsGX8BShZMiotj
+         nW6GUjC2NwtBSRRBXX4trzWBTUJCd6ZBFQ1fOq0Ii3RGqC26XExcR2htfa6rVSJGLLa9
+         lLIMz4kTbMeyb1F0HCYXzlMBkCPIFPAAX6Guu01qbjgKedOy+Ulj+8L+Key81NDfKBN7
+         fPxt1etrKNYYdyJ4ASFq3oOObi6Ii1qGM83Ltyn/Tka8w/QQOh6bvv9Kfx/h1FYe7+F7
+         dDKQ==
+X-Gm-Message-State: AFqh2kqcw2RW7eTrn8TVEpARs4Gvfn+f5NG4c5GNm3G2gGIfI6jvA3hs
+	pxZAQ63UthFSNLtTSFb/p+qcb6FfjQ8=
+X-Google-Smtp-Source: AMrXdXvX7I6OXc5Tl7y4evwkyRod84g0S6YsCKE+lpsEx/Xa+cK5HlTg58BiTsBrB25T9OXYdF5w6Q==
+X-Received: by 2002:a05:600c:228b:b0:3d2:37a4:222a with SMTP id 11-20020a05600c228b00b003d237a4222amr26855713wmf.38.1672425543879;
+        Fri, 30 Dec 2022 10:39:03 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id n1-20020a05600c4f8100b003d96b8e9bcasm31426682wmq.32.2022.12.30.10.39.05
+        by smtp.gmail.com with ESMTPSA id n1-20020a05600c4f8100b003d96b8e9bcasm31426682wmq.32.2022.12.30.10.39.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Dec 2022 10:39:05 -0800 (PST)
+        Fri, 30 Dec 2022 10:39:03 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 09/11] boost-build-native: update 1.80.0 -> 1.81.0
-Date: Fri, 30 Dec 2022 19:38:48 +0100
-Message-Id: <20221230183850.3089510-9-alex@linutronix.de>
+Subject: [PATCH 06/11] libportal: convert from gtk-doc to gi-docgen
+Date: Fri, 30 Dec 2022 19:38:45 +0100
+Message-Id: <20221230183850.3089510-6-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221230183850.3089510-1-alex@linutronix.de>
 References: <20221230183850.3089510-1-alex@linutronix.de>
@@ -62,32 +62,27 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 18:39:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175172
-
-boost itself is already updated.
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175169
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...oost-build-native_1.80.0.bb => boost-build-native_1.81.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/boost/{boost-build-native_1.80.0.bb => boost-build-native_1.81.0.bb} (92%)
+ meta/recipes-gnome/libportal/libportal_0.6.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/boost/boost-build-native_1.80.0.bb b/meta/recipes-support/boost/boost-build-native_1.81.0.bb
-similarity index 92%
-rename from meta/recipes-support/boost/boost-build-native_1.80.0.bb
-rename to meta/recipes-support/boost/boost-build-native_1.81.0.bb
-index 54c0b2064f..d01c7658d5 100644
---- a/meta/recipes-support/boost/boost-build-native_1.80.0.bb
-+++ b/meta/recipes-support/boost/boost-build-native_1.81.0.bb
-@@ -7,7 +7,7 @@ LICENSE = "BSL-1.0"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=e4224ccaecb14d942c71d31bef20d78c"
+diff --git a/meta/recipes-gnome/libportal/libportal_0.6.bb b/meta/recipes-gnome/libportal/libportal_0.6.bb
+index 9c628c457f..ca58ef4138 100644
+--- a/meta/recipes-gnome/libportal/libportal_0.6.bb
++++ b/meta/recipes-gnome/libportal/libportal_0.6.bb
+@@ -10,7 +10,8 @@ SRC_URI = "git://github.com/flatpak/${BPN}.git;protocol=https;branch=main"
+ SRCREV = "13df0b887a7eb7b0f9b14069561a41f62e813155"
+ S = "${WORKDIR}/git"
  
- SRC_URI = "git://github.com/boostorg/build;protocol=https;branch=master"
--SRCREV = "405d34a04d29519625c5edfe1f3bac3bc3dc3534"
-+SRCREV = "0271fafc1141c182d4aaa8db8b1c08a109d04c87"
- PE = "1"
+-inherit meson gtk-doc gobject-introspection vala features_check
++inherit meson gi-docgen gobject-introspection vala features_check pkgconfig
++GIDOCGEN_MESON_OPTION = 'docs'
  
- UPSTREAM_CHECK_GITTAGREGEX = "boost-(?P<pver>(\d+(\.\d+)+))"
+ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+ 
 -- 
 2.30.2
 
