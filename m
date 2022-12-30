@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA3F5C46467
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D70A2C3DA7D
 	for <webhook@archiver.kernel.org>; Fri, 30 Dec 2022 16:44:34 +0000 (UTC)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web10.22290.1672418665272767544
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web10.22294.1672418670200713817
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Dec 2022 08:44:25 -0800
+ Fri, 30 Dec 2022 08:44:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=74Os/1UL;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.180, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f180.google.com with SMTP id e10so597270pgc.9
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 08:44:25 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=ePrPJ7lK;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id d3so22360847plr.10
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 08:44:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qpSkTaKSRcLrKEbupBwjDH2MefBdXMz7u1+dOB60LKk=;
-        b=74Os/1UL3Ng48GX/vK2nYvetE9lso9DHI4qx9vCJYLBktLJ70D1Z4BaO7kfvi6M3rl
-         iWS9+0syju1uT5Na0nl/zX9lFBtGFVSsrLVQ9wwHTebDkXM9HWXi47nUHAZsHcecU2EG
-         jyYmnunAvbelxinr5+nijGdqebKGrv/ufEJOvsc7+Bs240buk4852evBikkswnIlIytA
-         eOklnMm0bOhhIPR67J0X7zT31T/zJHuVGWIcHcO5R7Z8BkOnCFUb3zXuSCzTcTNIAKvv
-         Nh778CHDIh3S6w/U8RDqKgSEXQL5W+5rAKrJzzGbB+fMQeZmkUpyj+5NUb3hFLzBTdoG
-         uX2A==
+        bh=Z9e4mXhtAHcAP4LLPYHMeQ9ArI7irHV1U0vbJ8WCAZM=;
+        b=ePrPJ7lKFj7Lon9Uejmm7ryuQT06B9d2G20Btb1YPEixYtC+sR0q6Q/C59Bbgj8R1A
+         GPVs0R2fXqORlu0qMUSUlYgAdPlxjxbFLJg/Z60jSKG3FtmTL4Sk5bXvemrXdKu+5Ltn
+         zzZp7LJkMEmZxEhcb8C+JsdZo9aX97DMHPCNAMe5kNx+5lSWqzelskWk2HNeMB1jIErH
+         aAj6ESModciw+7OEbfyg3gXgEot9IBYIC/rO/iBbtoqP7/luV6Q41ht8ncuk/non6AI6
+         xtdtbqj8WcQQh67Z/lDE+aE772mFd8Q/GBHE0HPgQE48t4U7cCbMGaTrFKl6XBAJ3xZ5
+         1WqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qpSkTaKSRcLrKEbupBwjDH2MefBdXMz7u1+dOB60LKk=;
-        b=jt8p+yAQxOY2zu26Uf2xldL4clK7bU0H0dAePcb6HRUaCkyaCKX8GNoc9oPXr5b6BC
-         HTp23qpz7DrGBZw6edAn/6tAtYFR760SGIVR8MtsEfgDD8V/6otuWch0GxheXT0whP1W
-         ETvoUi91PjxhRw79hxkLY91c1Ib1zfz2umG8L4gn7l9cKnaE/9mwJadXUxdagy1blgrn
-         sqKvL2lhOkhlrQLjWkNd016T1dVH0DOFZy4Yh8CA6dO4cVtg5kq/NAKB6zWSBPwa5zP2
-         Th1n+lnAT2Qf4Oevx2Grz2JpTX1UJO2/Xwc4lXuWBSjmD2wT1L9M8ZGCX6AxjtrEWWix
-         u8FA==
-X-Gm-Message-State: AFqh2kqH1MGYY/ic4TTUyi/+2YDBtXchVGA/yx38ed8ux4p+iWApc5Vy
-	/Efm1Ylsw1yWg/tG4vib+Qi2Rft9X/d8spkCK+4=
-X-Google-Smtp-Source: AMrXdXt8TiZDQCCeFegnQbFmt0rkwuLKaTX7+Q7fI8i3e5RWZmHNLjHDpUTTUJYJ6hFp3MlBRxsXgA==
-X-Received: by 2002:aa7:87c7:0:b0:57a:9b14:69b7 with SMTP id i7-20020aa787c7000000b0057a9b1469b7mr32977163pfo.0.1672418664315;
-        Fri, 30 Dec 2022 08:44:24 -0800 (PST)
+        bh=Z9e4mXhtAHcAP4LLPYHMeQ9ArI7irHV1U0vbJ8WCAZM=;
+        b=2Uw7/IBTNW3xRzF01G3Ka+mIPw/l92Cq3YDgKICFM9CwJr4WJe1s3xZdOpUL0HpwrI
+         yPjCr3wRZvjBQ0nXNed/HOM+qZvaLipllfMhN2lMUbRBpPQYS4QGxP8yfWPLlkOT4l5+
+         VrkNlvrznmv4Yrl0oBDOu1TslXMcRigYUrGZ0gh4lITiZeUyUnVV2tVsh8xxNpmXxxJ1
+         oG8eWQ1N1+TYwCGp8ov5w5x0saUnCM/C/4RiAF1HNvwEXdo19EGti8dtoL2dViioJfj+
+         KfSr/HIOfAtkHZ7bY1lbJsubbvkiwgskKLvMFemsx/X0osKPveLulZWA3KAUk2JoFXeA
+         I2jg==
+X-Gm-Message-State: AFqh2krrIl4OTrGUALQWU/n08+yZhHc/TMH+7euQU4TcSypJrphfKkud
+	jSL35QO+b68A86sjh97Y4vU60c0C7Ho+rJX6Cic=
+X-Google-Smtp-Source: AMrXdXuwOskQSg3OQhd3ps5Bn6POcIOKGipLG+mYXNK+11SAWkcVtnd/2spmbAIBLIW0PFm0a7PhVg==
+X-Received: by 2002:a05:6a20:6a83:b0:ab:fe5a:df95 with SMTP id bi3-20020a056a206a8300b000abfe5adf95mr34944235pzb.15.1672418669138;
+        Fri, 30 Dec 2022 08:44:29 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-5-74.hawaiiantel.net. [72.253.5.74])
-        by smtp.gmail.com with ESMTPSA id a79-20020a621a52000000b00581ad007a9fsm4413200pfa.153.2022.12.30.08.44.23
+        by smtp.gmail.com with ESMTPSA id a79-20020a621a52000000b00581ad007a9fsm4413200pfa.153.2022.12.30.08.44.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Dec 2022 08:44:23 -0800 (PST)
+        Fri, 30 Dec 2022 08:44:28 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 03/22] opkg: upgrade to version 0.6.1
-Date: Fri, 30 Dec 2022 06:43:53 -1000
-Message-Id: <e331a832a2ca4b53158a8492d5230136da7c0bf1.1672418540.git.steve@sakoman.com>
+Subject: [OE-core][langdale 06/22] ruby: merge .inc into .bb
+Date: Fri, 30 Dec 2022 06:43:56 -1000
+Message-Id: <22082b75298730f5b30b486e1e37e7b241e3db25.1672418540.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1672418540.git.steve@sakoman.com>
 References: <cover.1672418540.git.steve@sakoman.com>
@@ -61,48 +61,125 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 16:44:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175144
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175147
 
-From: Alex Stewart <alex.stewart@ni.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Opkg 0.6.1 Changes:
-- Opkg will no longer complain when trying to clean up the temporary
-  directory, if the directory does not exist.
-- Fixed a SEGFAULT when parsing package indexes with invalid `Size` or
-  `Installed-Size` fields. These indexes will now produce a
-  comprehensible error.
-- Fixed an inconsistecy in .list generation where files would sometimes
-  be entered with/without a trailing slash. The trailng slash should now
-  always be removed.
-- Fixed [a bug](https://bugzilla.yoctoproject.org/show_bug.cgi?id=10461)
-  in package removal, where empty common directories would be left on
-  disk, even after all owning packages were removed.
-
-Signed-off-by: Alex Stewart <alex.stewart@ni.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 037ff235fa8e369c0eac9f84cb82c9eaffba85f3)
+(cherry picked from commit d88ff809b2e78ee49d5da42bb08ff5244e6101af)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/opkg/{opkg_0.6.0.bb => opkg_0.6.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/opkg/{opkg_0.6.0.bb => opkg_0.6.1.bb} (97%)
+ meta/recipes-devtools/ruby/ruby.inc      | 39 --------------------
+ meta/recipes-devtools/ruby/ruby_3.1.2.bb | 45 +++++++++++++++++++++---
+ 2 files changed, 40 insertions(+), 44 deletions(-)
+ delete mode 100644 meta/recipes-devtools/ruby/ruby.inc
 
-diff --git a/meta/recipes-devtools/opkg/opkg_0.6.0.bb b/meta/recipes-devtools/opkg/opkg_0.6.1.bb
-similarity index 97%
-rename from meta/recipes-devtools/opkg/opkg_0.6.0.bb
-rename to meta/recipes-devtools/opkg/opkg_0.6.1.bb
-index 53c7399929..50c9451a57 100644
---- a/meta/recipes-devtools/opkg/opkg_0.6.0.bb
-+++ b/meta/recipes-devtools/opkg/opkg_0.6.1.bb
-@@ -18,7 +18,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
+diff --git a/meta/recipes-devtools/ruby/ruby.inc b/meta/recipes-devtools/ruby/ruby.inc
+deleted file mode 100644
+index ebff5efd1f..0000000000
+--- a/meta/recipes-devtools/ruby/ruby.inc
++++ /dev/null
+@@ -1,39 +0,0 @@
+-SUMMARY = "An interpreter of object-oriented scripting language"
+-DESCRIPTION = "Ruby is an interpreted scripting language for quick \
+-and easy object-oriented programming. It has many features to process \
+-text files and to do system management tasks (as in Perl). \
+-It is simple, straight-forward, and extensible. \
+-"
+-HOMEPAGE = "http://www.ruby-lang.org/"
+-SECTION = "devel/ruby"
+-LICENSE = "Ruby | BSD-2-Clause | BSD-3-Clause | GPL-2.0-only | ISC | MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=5b8c87559868796979806100db3f3805 \
+-                    file://BSDL;md5=8b50bc6de8f586dc66790ba11d064d75 \
+-                    file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+-                    file://LEGAL;md5=f260190bc1e92e363f0ee3c0463d4c7c \
+-                    "
+-
+-DEPENDS = "zlib openssl libyaml gdbm readline libffi"
+-DEPENDS:append:class-target = " ruby-native"
+-
+-SHRT_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+-SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
+-           file://0001-extmk-fix-cross-compilation-of-external-gems.patch \
+-           file://0002-Obey-LDFLAGS-for-the-link-of-libruby.patch \
+-           "
+-UPSTREAM_CHECK_URI = "https://www.ruby-lang.org/en/downloads/"
+-
+-inherit autotools ptest pkgconfig
+-
+-
+-# This snippet lets compiled extensions which rely on external libraries,
+-# such as zlib, compile properly.  If we don't do this, then when extmk.rb
+-# runs, it uses the native libraries instead of the target libraries, and so
+-# none of the linking operations succeed -- which makes extconf.rb think
+-# that the libraries aren't available and hence that the extension can't be
+-# built.
+-
+-do_configure:prepend() {
+-    sed -i "s#%%TARGET_CFLAGS%%#$CFLAGS#; s#%%TARGET_LDFLAGS%%#$LDFLAGS#" ${S}/common.mk
+-    rm -rf ${S}/ruby/
+-}
+diff --git a/meta/recipes-devtools/ruby/ruby_3.1.2.bb b/meta/recipes-devtools/ruby/ruby_3.1.2.bb
+index 387bfa9b44..0115daf22a 100644
+--- a/meta/recipes-devtools/ruby/ruby_3.1.2.bb
++++ b/meta/recipes-devtools/ruby/ruby_3.1.2.bb
+@@ -1,8 +1,25 @@
+-require ruby.inc
+-
+-DEPENDS:append:libc-musl = " libucontext"
+-
+-SRC_URI += " \
++SUMMARY = "An interpreter of object-oriented scripting language"
++DESCRIPTION = "Ruby is an interpreted scripting language for quick \
++and easy object-oriented programming. It has many features to process \
++text files and to do system management tasks (as in Perl). \
++It is simple, straight-forward, and extensible. \
++"
++HOMEPAGE = "http://www.ruby-lang.org/"
++SECTION = "devel/ruby"
++LICENSE = "Ruby | BSD-2-Clause | BSD-3-Clause | GPL-2.0-only | ISC | MIT"
++LIC_FILES_CHKSUM = "file://COPYING;md5=5b8c87559868796979806100db3f3805 \
++                    file://BSDL;md5=8b50bc6de8f586dc66790ba11d064d75 \
++                    file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++                    file://LEGAL;md5=f260190bc1e92e363f0ee3c0463d4c7c \
++                    "
++
++DEPENDS = "zlib openssl libyaml gdbm readline libffi"
++DEPENDS:append:class-target = " ruby-native"
++
++SHRT_VER = "${@oe.utils.trim_version("${PV}", 2)}"
++SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
++           file://0001-extmk-fix-cross-compilation-of-external-gems.patch \
++           file://0002-Obey-LDFLAGS-for-the-link-of-libruby.patch \
+            file://remove_has_include_macros.patch \
             file://run-ptest \
- "
+            file://0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch \
+@@ -14,6 +31,24 @@ SRC_URI += " \
+            file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch \
+            file://0001-Remove-dependency-on-libcapstone.patch \
+            "
++UPSTREAM_CHECK_URI = "https://www.ruby-lang.org/en/downloads/"
++
++inherit autotools ptest pkgconfig
++
++
++# This snippet lets compiled extensions which rely on external libraries,
++# such as zlib, compile properly.  If we don't do this, then when extmk.rb
++# runs, it uses the native libraries instead of the target libraries, and so
++# none of the linking operations succeed -- which makes extconf.rb think
++# that the libraries aren't available and hence that the extension can't be
++# built.
++
++do_configure:prepend() {
++    sed -i "s#%%TARGET_CFLAGS%%#$CFLAGS#; s#%%TARGET_LDFLAGS%%#$LDFLAGS#" ${S}/common.mk
++    rm -rf ${S}/ruby/
++}
++
++DEPENDS:append:libc-musl = " libucontext"
  
--SRC_URI[sha256sum] = "56844722eff237daf14aa6e681436f3245213c5590ed0cda37a79df637ff3a4c"
-+SRC_URI[sha256sum] = "e87fccb575c64d3ac0559444016a2795f12125986a0da896bab97c4a1a2f1b2a"
+ SRC_URI[sha256sum] = "61843112389f02b735428b53bb64cf988ad9fb81858b8248e22e57336f24a83e"
  
- # This needs to be before ptest inherit, otherwise all ptest files end packaged
- # in libopkg package if OPKGLIBDIR == libdir, because default
 -- 
 2.25.1
 
