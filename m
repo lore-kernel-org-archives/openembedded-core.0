@@ -2,170 +2,112 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A93DC4167B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B87AC46467
 	for <webhook@archiver.kernel.org>; Fri, 30 Dec 2022 20:33:06 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web10.27639.1672432378815486214
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web10.27640.1672432380497070554
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Dec 2022 12:32:58 -0800
+ Fri, 30 Dec 2022 12:33:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=gzhzkkYp;
- spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f173.google.com with SMTP id 124so15104652pfy.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 12:32:58 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Cl0DAkVl;
+ spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f50.google.com with SMTP id o1-20020a17090a678100b00219cf69e5f0so26797935pjj.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 12:33:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=D7PFV3jvxinZRxSuZkqtlOEB/M+PCtdf5RVfsrRgqA4=;
-        b=gzhzkkYpms6qr13bupGpjmF1f/93JGzxYlucfVoKfYZ8IdYQC4SEaQb/u0dEKTM319
-         4kosMhps0NjpMPFPbO/CihlYfhDyQWYuYQZ5MKuN2HYinUP5NYf4FfFhYDHvWEZzXZol
-         W31qCjdf7Ezn8wn4O6fYJ7BHDBeJL/vpkfkQg+aXJufn29mocQZFNYUzEwrIoeShANoI
-         Q8X+1UwzKVcTsiVLw9xI9EjgwD17/jNT4FolZloW83NDs6pcH1jtr9+QmRhd618rzvtt
-         nqrilYNPcQ6mbJfFBdu1hMqvfZaKtydxwcl8eWlyQmXeR/0WeV/pb9Yw/a09ovRd3ISq
-         z+ug==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=50y/ZNRw67JHVKoSfwCm2Mp/w9z3lrDT3tN9a6uXfOY=;
+        b=Cl0DAkVlYkd4amVYjYOdTGMgTPJcaG8m6L49lUQsZHi/jda4uw1l8vH7R51cEAhy5/
+         IdgEgpqw3m2CbIi55rDbIJo3vLaGSi73U2pF540dUwy3q05KtGvFJ/GUtr6nYY8WiG3s
+         Z0N70zRWPp8To9I53gVe4UGLyhGr19s+k6BLYbXSDdrWqOA96YmlxOfjAMdrbn+5L2My
+         /tz1l9RReeAqobNCjv6F0fNQTr8hz1p5hHzlkhunw617YGbOhSJf3MWjfLpj4SWf+nDZ
+         09N9r36/1NsrD8J2KbQm5eSUZ9p5PsvIsMpO0qIC+m9wRMgFGHhjuHMCuhTAgfmYFEUS
+         INuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=D7PFV3jvxinZRxSuZkqtlOEB/M+PCtdf5RVfsrRgqA4=;
-        b=vIA3dLNvi0VjTRGiReZlzucqTUdb5D9WcxmwLgOXcGBXu8b0qtQqK4lVKWwZD6sFU9
-         rCP7QVJ+NqGC1lbJlnwNtT3qTty4C+ft/lhz4ItXQoHR0cHzxV4unC44X4cpTlFNj1fx
-         qXD+u9XB1/yL72EKV8D1Ctl37Gd0vqrRYF9DhT7vv055YUFmih6aJWx/ypJmYChX2v77
-         bo8OiHVk0RZESp2La2KYQCJM5m0Vrl4VULvGhdGHXkJpMnTTsGZJsylbj2NGNOE4Md5c
-         EGPMTErAgwa6iQXjkdfhKGmfYuwm9nGLmGR19eF0MfPDqk5LAduDDeV4z+Zz46fJdfC/
-         mvDA==
-X-Gm-Message-State: AFqh2kobKnDO8wYKxKmPxkKEbgl2DaP5iWf5+rw+iCYKMEAjjGdb8m15
-	WvUAsIbY+aOzEqEdeG1grOqxtYo/1B8=
-X-Google-Smtp-Source: AMrXdXtg8SBGe9zgrYCeIv5nylPeK7cSjV2R6g4rtFcKzocFzZSKxaQNHC3QDeAE57cXucPlz+C83Q==
-X-Received: by 2002:a05:6a00:4398:b0:580:d5ea:7b7d with SMTP id bt24-20020a056a00439800b00580d5ea7b7dmr18347335pfb.33.1672432377785;
-        Fri, 30 Dec 2022 12:32:57 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=50y/ZNRw67JHVKoSfwCm2Mp/w9z3lrDT3tN9a6uXfOY=;
+        b=DWPn1niviPJSRjIe+T6g0eN5PxjNMw6c/VRqrZuy760SLoNEzLoiGSmUFzKP8BkEce
+         qOVwFtX1J/zSle5iu8VSB4qfJnldfFNwRfYVg+H7E7TvTQzqymyxRaStFS3Jju9AUM63
+         ghuk08g4G50ogBDddA+8FQGS7+O3gQDcJamLb0K3mvkkmY57nNDKXzlFtMEKi+5PDyvU
+         mTWDliNHQ/59pl2QoQ/ZwwthJV2suqoba+A9J/l5NLWXWScmifU5Gm0/YSECjyfnwekm
+         UBEE91E5cF1YOHxX7zIj1z3Z1C0cGBQ6hHiK2fLkEzOKXZzCoE8kYav9siwGUvLIgD+v
+         uDAA==
+X-Gm-Message-State: AFqh2krqHHU/gdsHEnRQVXYL+JuGdKZQiW4rwf58o0flF5G1H8hlv43O
+	uUXASAhrl1cKPgROaJxNKpQ/EmCUPz0=
+X-Google-Smtp-Source: AMrXdXuIpqXAc2+hp0SHFbiY3H68erYimQqxqCjOjmA/dedaEIfTSDyuLNlrgSoI0IolIZMypQWB4w==
+X-Received: by 2002:a05:6a20:d013:b0:af:ae14:9ecb with SMTP id hu19-20020a056a20d01300b000afae149ecbmr33960175pzb.17.1672432379554;
+        Fri, 30 Dec 2022 12:32:59 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::bccc])
-        by smtp.gmail.com with ESMTPSA id x15-20020a62860f000000b0056ba6952e40sm14093792pfd.181.2022.12.30.12.32.56
+        by smtp.gmail.com with ESMTPSA id x15-20020a62860f000000b0056ba6952e40sm14093792pfd.181.2022.12.30.12.32.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Dec 2022 12:32:56 -0800 (PST)
+        Fri, 30 Dec 2022 12:32:58 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/2] llvm: Do not use lseek64
-Date: Fri, 30 Dec 2022 12:32:53 -0800
-Message-Id: <20221230203254.1087816-1-raj.khem@gmail.com>
+Subject: [PATCH 2/2] strace: Replace off64_t with off_t in sync_file_range.c test
+Date: Fri, 30 Dec 2022 12:32:54 -0800
+Message-Id: <20221230203254.1087816-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20221230203254.1087816-1-raj.khem@gmail.com>
+References: <20221230203254.1087816-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 20:33:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175175
-
-Fixes build with musl where the LFS64 functions are deprecated
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175176
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...e-64bit-off_t-on-32bit-glibc-systems.patch | 79 +++++++++++++++++++
- meta/recipes-devtools/llvm/llvm_git.bb        |  1 +
- 2 files changed, 80 insertions(+)
- create mode 100644 meta/recipes-devtools/llvm/llvm/0035-cmake-Enable-64bit-off_t-on-32bit-glibc-systems.patch
+ .../0002-tests-Replace-off64_t-with-off_t.patch | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/llvm/llvm/0035-cmake-Enable-64bit-off_t-on-32bit-glibc-systems.patch b/meta/recipes-devtools/llvm/llvm/0035-cmake-Enable-64bit-off_t-on-32bit-glibc-systems.patch
-new file mode 100644
-index 0000000000..fe98e3e4c0
---- /dev/null
-+++ b/meta/recipes-devtools/llvm/llvm/0035-cmake-Enable-64bit-off_t-on-32bit-glibc-systems.patch
-@@ -0,0 +1,79 @@
-+From cd2fa12d715929642513fc441287c402f4560096 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 25 Dec 2022 15:13:41 -0800
-+Subject: [PATCH] build: Enable 64bit off_t on 32bit glibc systems
-+
-+Pass -D_FILE_OFFSET_BITS=64 to compiler flags on 32bit glibc based
-+systems. This will make sure that 64bit versions of LFS functions are
-+used e.g. lseek will behave same as lseek64. Also revert [1] partially
-+because this added a cmake test to detect lseek64 but then forgot to
-+pass the needed macro during actual compile, this test was incomplete too
-+since libc implementations like musl has 64-bit off_t by default on 32-bit
-+systems and does not bundle -D_LARGEFILE64_SOURCE [2] under -D_GNU_SOURCE
-+like glibc, which means the compile now fails on musl because the cmake
-+check passes but we do not have _LARGEFILE64_SOURCE defined. Moreover,
-+Using the *64 function was transitional anyways so use
-+-D_FILE_OFFSET_BITS=64 instead
-+
-+[1] https://github.com/llvm/llvm-project/commit/8db7e5e4eed4c4e697dc3164f2c9351d8c3e942b
-+[2] https://git.musl-libc.org/cgit/musl/commit/?id=25e6fee27f4a293728dd15b659170e7b9c7db9bc
-+
-+Upstream-Status: Submitted [https://reviews.llvm.org/D139752]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ llvm/cmake/config-ix.cmake                                | 8 +++++---
-+ llvm/include/llvm/Config/config.h.cmake                   | 3 ---
-+ llvm/lib/Support/raw_ostream.cpp                          | 2 --
-+ llvm/utils/gn/secondary/llvm/include/llvm/Config/BUILD.gn | 2 --
-+ utils/bazel/llvm-project-overlay/llvm/config.bzl          | 1 -
-+ .../llvm/include/llvm/Config/config.h                     | 3 ---
-+ utils/bazel/llvm_configs/config.h.cmake                   | 3 ---
-+ 7 files changed, 5 insertions(+), 17 deletions(-)
-+
-+--- a/llvm/cmake/config-ix.cmake
-++++ b/llvm/cmake/config-ix.cmake
-+@@ -284,9 +284,6 @@ check_symbol_exists(futimes sys/time.h H
-+ if( HAVE_SIGNAL_H AND NOT LLVM_USE_SANITIZER MATCHES ".*Address.*" AND NOT APPLE )
-+   check_symbol_exists(sigaltstack signal.h HAVE_SIGALTSTACK)
-+ endif()
-+-set(CMAKE_REQUIRED_DEFINITIONS "-D_LARGEFILE64_SOURCE")
-+-check_symbol_exists(lseek64 "sys/types.h;unistd.h" HAVE_LSEEK64)
-+-set(CMAKE_REQUIRED_DEFINITIONS "")
-+ check_symbol_exists(mallctl malloc_np.h HAVE_MALLCTL)
-+ check_symbol_exists(mallinfo malloc.h HAVE_MALLINFO)
-+ check_symbol_exists(mallinfo2 malloc.h HAVE_MALLINFO2)
-+@@ -350,6 +347,11 @@ check_symbol_exists(__GLIBC__ stdio.h LL
-+ if( LLVM_USING_GLIBC )
-+   add_definitions( -D_GNU_SOURCE )
-+   list(APPEND CMAKE_REQUIRED_DEFINITIONS "-D_GNU_SOURCE")
-++# enable 64bit off_t on 32bit systems using glibc
-++  if (CMAKE_SIZEOF_VOID_P EQUAL 4)
-++    add_compile_definitions(_FILE_OFFSET_BITS=64)
-++    list(APPEND CMAKE_REQUIRED_DEFINITIONS "-D_FILE_OFFSET_BITS=64")
-++  endif()
-+ endif()
-+ # This check requires _GNU_SOURCE
-+ if (NOT PURE_WINDOWS)
-+--- a/llvm/include/llvm/Config/config.h.cmake
-++++ b/llvm/include/llvm/Config/config.h.cmake
-+@@ -128,9 +128,6 @@
-+ /* Define to 1 if you have the <link.h> header file. */
-+ #cmakedefine HAVE_LINK_H ${HAVE_LINK_H}
-+ 
-+-/* Define to 1 if you have the `lseek64' function. */
-+-#cmakedefine HAVE_LSEEK64 ${HAVE_LSEEK64}
-+-
-+ /* Define to 1 if you have the <mach/mach.h> header file. */
-+ #cmakedefine HAVE_MACH_MACH_H ${HAVE_MACH_MACH_H}
-+ 
-+--- a/llvm/lib/Support/raw_ostream.cpp
-++++ b/llvm/lib/Support/raw_ostream.cpp
-+@@ -804,8 +804,6 @@ uint64_t raw_fd_ostream::seek(uint64_t o
-+   flush();
-+ #ifdef _WIN32
-+   pos = ::_lseeki64(FD, off, SEEK_SET);
-+-#elif defined(HAVE_LSEEK64)
-+-  pos = ::lseek64(FD, off, SEEK_SET);
-+ #else
-+   pos = ::lseek(FD, off, SEEK_SET);
-+ #endif
-diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
-index 402460ee10..77fccbccc2 100644
---- a/meta/recipes-devtools/llvm/llvm_git.bb
-+++ b/meta/recipes-devtools/llvm/llvm_git.bb
-@@ -30,6 +30,7 @@ SRCREV = "088f33605d8a61ff519c580a71b1dd57d16a03f8"
- SRC_URI = "git://github.com/llvm/llvm-project.git;branch=${BRANCH};protocol=https \
-            file://0007-llvm-allow-env-override-of-exe-path.patch;striplevel=2 \
-            file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=2 \
-+           file://0035-cmake-Enable-64bit-off_t-on-32bit-glibc-systems.patch;striplevel=2 \
-            file://llvm-config \
-            "
+diff --git a/meta/recipes-devtools/strace/strace/0002-tests-Replace-off64_t-with-off_t.patch b/meta/recipes-devtools/strace/strace/0002-tests-Replace-off64_t-with-off_t.patch
+index ce0428e977..0cabdfe99f 100644
+--- a/meta/recipes-devtools/strace/strace/0002-tests-Replace-off64_t-with-off_t.patch
++++ b/meta/recipes-devtools/strace/strace/0002-tests-Replace-off64_t-with-off_t.patch
+@@ -13,8 +13,6 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  tests/sync_file_range2.c | 4 ++--
+  2 files changed, 3 insertions(+), 3 deletions(-)
  
+-diff --git a/tests/readahead.c b/tests/readahead.c
+-index 10723785c..b9597e697 100644
+ --- a/tests/readahead.c
+ +++ b/tests/readahead.c
+ @@ -42,7 +42,7 @@ static const int fds[] = {
+@@ -26,8 +24,6 @@ index 10723785c..b9597e697 100644
+  	-0x8000000000000000LL,
+  	-0x5060708090a0b0c0LL,
+  	-1LL,
+-diff --git a/tests/sync_file_range2.c b/tests/sync_file_range2.c
+-index 0f7c9e428..15a5fec71 100644
+ --- a/tests/sync_file_range2.c
+ +++ b/tests/sync_file_range2.c
+ @@ -20,8 +20,8 @@ int
+@@ -40,4 +36,17 @@ index 0f7c9e428..15a5fec71 100644
+ +	const off_t nbytes = 0xfacefeedcafef00d;
+  	const unsigned int flags = -1;
+  
++ 	int rc = sync_file_range(fd, offset, nbytes, flags);
++--- a/tests/sync_file_range.c
+++++ b/tests/sync_file_range.c
++@@ -20,8 +20,8 @@ int
++ main(void)
++ {
++ 	const int fd = -1;
++-	const off64_t offset = 0xdeadbeefbadc0dedULL;
++-	const off64_t nbytes = 0xfacefeedcafef00dULL;
+++	const off_t offset = 0xdeadbeefbadc0dedULL;
+++	const off_t nbytes = 0xfacefeedcafef00dULL;
++ 	const unsigned int flags = -1;
++ 
+  	int rc = sync_file_range(fd, offset, nbytes, flags);
 -- 
 2.39.0
 
