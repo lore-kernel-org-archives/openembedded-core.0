@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D70A2C3DA7D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9A75C4167B
 	for <webhook@archiver.kernel.org>; Fri, 30 Dec 2022 16:44:34 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.22294.1672418670200713817
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web10.22297.1672418673625441069
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Dec 2022 08:44:30 -0800
+ Fri, 30 Dec 2022 08:44:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=ePrPJ7lK;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f175.google.com with SMTP id d3so22360847plr.10
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 08:44:30 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=b+w4NKMF;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f45.google.com with SMTP id n65-20020a17090a2cc700b0021bc5ef7a14so22175097pjd.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 08:44:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Z9e4mXhtAHcAP4LLPYHMeQ9ArI7irHV1U0vbJ8WCAZM=;
-        b=ePrPJ7lKFj7Lon9Uejmm7ryuQT06B9d2G20Btb1YPEixYtC+sR0q6Q/C59Bbgj8R1A
-         GPVs0R2fXqORlu0qMUSUlYgAdPlxjxbFLJg/Z60jSKG3FtmTL4Sk5bXvemrXdKu+5Ltn
-         zzZp7LJkMEmZxEhcb8C+JsdZo9aX97DMHPCNAMe5kNx+5lSWqzelskWk2HNeMB1jIErH
-         aAj6ESModciw+7OEbfyg3gXgEot9IBYIC/rO/iBbtoqP7/luV6Q41ht8ncuk/non6AI6
-         xtdtbqj8WcQQh67Z/lDE+aE772mFd8Q/GBHE0HPgQE48t4U7cCbMGaTrFKl6XBAJ3xZ5
-         1WqA==
+        bh=0wZUUPDUWwjYB2N26ZiIdWErgkZrc0rOF65snY+qPLo=;
+        b=b+w4NKMF4qUGQDstxKkA/08znowJF3kLxXUFAL7pSuMELJktgTqPBvXhjsH9dg8COl
+         QNhE6SdDaa2u3IaYLoNjPYDFxQpdNwZFoKPyEGk2/6HN3TBDlWb1PzxPO1x8bIw3rKq+
+         dMC69FojbPL5NP89gjGoZL2UCYNaPcTeTFOH6zxfwMWtsIe4cw7xfups0cuO52lw9o5H
+         UeuhbDJ7H18o5xbUSIyvYrfQoBOE8E2bdZF+Hl8Xq7QO8Li5eYgh9bVLAq+0Sx5uPhpE
+         7DVlMrrsIWKwLJSCrUY8M+ApAZinQimLhPMAXGoU52sfrMDcN5WwLI4XcBlzSoCkkwwV
+         /jKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Z9e4mXhtAHcAP4LLPYHMeQ9ArI7irHV1U0vbJ8WCAZM=;
-        b=2Uw7/IBTNW3xRzF01G3Ka+mIPw/l92Cq3YDgKICFM9CwJr4WJe1s3xZdOpUL0HpwrI
-         yPjCr3wRZvjBQ0nXNed/HOM+qZvaLipllfMhN2lMUbRBpPQYS4QGxP8yfWPLlkOT4l5+
-         VrkNlvrznmv4Yrl0oBDOu1TslXMcRigYUrGZ0gh4lITiZeUyUnVV2tVsh8xxNpmXxxJ1
-         oG8eWQ1N1+TYwCGp8ov5w5x0saUnCM/C/4RiAF1HNvwEXdo19EGti8dtoL2dViioJfj+
-         KfSr/HIOfAtkHZ7bY1lbJsubbvkiwgskKLvMFemsx/X0osKPveLulZWA3KAUk2JoFXeA
-         I2jg==
-X-Gm-Message-State: AFqh2krrIl4OTrGUALQWU/n08+yZhHc/TMH+7euQU4TcSypJrphfKkud
-	jSL35QO+b68A86sjh97Y4vU60c0C7Ho+rJX6Cic=
-X-Google-Smtp-Source: AMrXdXuwOskQSg3OQhd3ps5Bn6POcIOKGipLG+mYXNK+11SAWkcVtnd/2spmbAIBLIW0PFm0a7PhVg==
-X-Received: by 2002:a05:6a20:6a83:b0:ab:fe5a:df95 with SMTP id bi3-20020a056a206a8300b000abfe5adf95mr34944235pzb.15.1672418669138;
-        Fri, 30 Dec 2022 08:44:29 -0800 (PST)
+        bh=0wZUUPDUWwjYB2N26ZiIdWErgkZrc0rOF65snY+qPLo=;
+        b=5aqOGGdNnx32J02OpPeTZRCrBpq2cdu8vsrtnQlbl6JDvp67WZ6c8CNJ+M4255McLR
+         31Z2qDZe+NrKhsEzm+L/SxzpnpEg8apTro/x+353TIgfjp2Om/XIFV2M0IGpMsRNUFx5
+         8gjdl91AqtMHwQbtJbhhZSM8/H0oeOSsWIhSk56Wo/w9FoY/tom2JdjWXnyQEM69CHz1
+         t/q4oeXfYFOEN/e9M4N/igKfcBbNmWedmTp+atqUQ01Bo2Rwz7FXR+EWdAL7QgJQ9wBB
+         B29Zg3ydElB6onr2vTb5Cv7gN8nAne2MoHonOpFZXeSVD4DYJN1DaqASlxHkU1hGrM4W
+         nCTQ==
+X-Gm-Message-State: AFqh2koY8oTP4SHXEpINziqH0XdkU5LxJsJ9V6Glq6tbq+CpKKMrLf51
+	CnQ9aH89tKjz4d6fDV0iPu616yTPZLjUoSL6N04=
+X-Google-Smtp-Source: AMrXdXt9oRecakG1wkjA34B6GrNDCl4A1N/010hDTL0/k2L4zWCPwQcFdHnzaeZmZYvf0ShcYN9YMw==
+X-Received: by 2002:a05:6a20:8e10:b0:a4:a73e:d1e2 with SMTP id y16-20020a056a208e1000b000a4a73ed1e2mr48969127pzj.57.1672418672653;
+        Fri, 30 Dec 2022 08:44:32 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-5-74.hawaiiantel.net. [72.253.5.74])
-        by smtp.gmail.com with ESMTPSA id a79-20020a621a52000000b00581ad007a9fsm4413200pfa.153.2022.12.30.08.44.28
+        by smtp.gmail.com with ESMTPSA id a79-20020a621a52000000b00581ad007a9fsm4413200pfa.153.2022.12.30.08.44.31
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Dec 2022 08:44:28 -0800 (PST)
+        Fri, 30 Dec 2022 08:44:32 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 06/22] ruby: merge .inc into .bb
-Date: Fri, 30 Dec 2022 06:43:56 -1000
-Message-Id: <22082b75298730f5b30b486e1e37e7b241e3db25.1672418540.git.steve@sakoman.com>
+Subject: [OE-core][langdale 08/22] tzdata: update 2022d -> 2022g
+Date: Fri, 30 Dec 2022 06:43:58 -1000
+Message-Id: <5b15e5d8c83637f88c5d0359af8732334cbf4d74.1672418540.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1672418540.git.steve@sakoman.com>
 References: <cover.1672418540.git.steve@sakoman.com>
@@ -61,125 +61,40 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 16:44:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175147
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175149
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit d88ff809b2e78ee49d5da42bb08ff5244e6101af)
+(cherry picked from commit 2394a481db1b41ad4581e22ba901ac76fa7b3dcd)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/ruby/ruby.inc      | 39 --------------------
- meta/recipes-devtools/ruby/ruby_3.1.2.bb | 45 +++++++++++++++++++++---
- 2 files changed, 40 insertions(+), 44 deletions(-)
- delete mode 100644 meta/recipes-devtools/ruby/ruby.inc
+ meta/recipes-extended/timezone/timezone.inc | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/ruby/ruby.inc b/meta/recipes-devtools/ruby/ruby.inc
-deleted file mode 100644
-index ebff5efd1f..0000000000
---- a/meta/recipes-devtools/ruby/ruby.inc
-+++ /dev/null
-@@ -1,39 +0,0 @@
--SUMMARY = "An interpreter of object-oriented scripting language"
--DESCRIPTION = "Ruby is an interpreted scripting language for quick \
--and easy object-oriented programming. It has many features to process \
--text files and to do system management tasks (as in Perl). \
--It is simple, straight-forward, and extensible. \
--"
--HOMEPAGE = "http://www.ruby-lang.org/"
--SECTION = "devel/ruby"
--LICENSE = "Ruby | BSD-2-Clause | BSD-3-Clause | GPL-2.0-only | ISC | MIT"
--LIC_FILES_CHKSUM = "file://COPYING;md5=5b8c87559868796979806100db3f3805 \
--                    file://BSDL;md5=8b50bc6de8f586dc66790ba11d064d75 \
--                    file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
--                    file://LEGAL;md5=f260190bc1e92e363f0ee3c0463d4c7c \
--                    "
--
--DEPENDS = "zlib openssl libyaml gdbm readline libffi"
--DEPENDS:append:class-target = " ruby-native"
--
--SHRT_VER = "${@oe.utils.trim_version("${PV}", 2)}"
--SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
--           file://0001-extmk-fix-cross-compilation-of-external-gems.patch \
--           file://0002-Obey-LDFLAGS-for-the-link-of-libruby.patch \
--           "
--UPSTREAM_CHECK_URI = "https://www.ruby-lang.org/en/downloads/"
--
--inherit autotools ptest pkgconfig
--
--
--# This snippet lets compiled extensions which rely on external libraries,
--# such as zlib, compile properly.  If we don't do this, then when extmk.rb
--# runs, it uses the native libraries instead of the target libraries, and so
--# none of the linking operations succeed -- which makes extconf.rb think
--# that the libraries aren't available and hence that the extension can't be
--# built.
--
--do_configure:prepend() {
--    sed -i "s#%%TARGET_CFLAGS%%#$CFLAGS#; s#%%TARGET_LDFLAGS%%#$LDFLAGS#" ${S}/common.mk
--    rm -rf ${S}/ruby/
--}
-diff --git a/meta/recipes-devtools/ruby/ruby_3.1.2.bb b/meta/recipes-devtools/ruby/ruby_3.1.2.bb
-index 387bfa9b44..0115daf22a 100644
---- a/meta/recipes-devtools/ruby/ruby_3.1.2.bb
-+++ b/meta/recipes-devtools/ruby/ruby_3.1.2.bb
-@@ -1,8 +1,25 @@
--require ruby.inc
--
--DEPENDS:append:libc-musl = " libucontext"
--
--SRC_URI += " \
-+SUMMARY = "An interpreter of object-oriented scripting language"
-+DESCRIPTION = "Ruby is an interpreted scripting language for quick \
-+and easy object-oriented programming. It has many features to process \
-+text files and to do system management tasks (as in Perl). \
-+It is simple, straight-forward, and extensible. \
-+"
-+HOMEPAGE = "http://www.ruby-lang.org/"
-+SECTION = "devel/ruby"
-+LICENSE = "Ruby | BSD-2-Clause | BSD-3-Clause | GPL-2.0-only | ISC | MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=5b8c87559868796979806100db3f3805 \
-+                    file://BSDL;md5=8b50bc6de8f586dc66790ba11d064d75 \
-+                    file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-+                    file://LEGAL;md5=f260190bc1e92e363f0ee3c0463d4c7c \
-+                    "
-+
-+DEPENDS = "zlib openssl libyaml gdbm readline libffi"
-+DEPENDS:append:class-target = " ruby-native"
-+
-+SHRT_VER = "${@oe.utils.trim_version("${PV}", 2)}"
-+SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
-+           file://0001-extmk-fix-cross-compilation-of-external-gems.patch \
-+           file://0002-Obey-LDFLAGS-for-the-link-of-libruby.patch \
-            file://remove_has_include_macros.patch \
-            file://run-ptest \
-            file://0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch \
-@@ -14,6 +31,24 @@ SRC_URI += " \
-            file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch \
-            file://0001-Remove-dependency-on-libcapstone.patch \
-            "
-+UPSTREAM_CHECK_URI = "https://www.ruby-lang.org/en/downloads/"
-+
-+inherit autotools ptest pkgconfig
-+
-+
-+# This snippet lets compiled extensions which rely on external libraries,
-+# such as zlib, compile properly.  If we don't do this, then when extmk.rb
-+# runs, it uses the native libraries instead of the target libraries, and so
-+# none of the linking operations succeed -- which makes extconf.rb think
-+# that the libraries aren't available and hence that the extension can't be
-+# built.
-+
-+do_configure:prepend() {
-+    sed -i "s#%%TARGET_CFLAGS%%#$CFLAGS#; s#%%TARGET_LDFLAGS%%#$LDFLAGS#" ${S}/common.mk
-+    rm -rf ${S}/ruby/
-+}
-+
-+DEPENDS:append:libc-musl = " libucontext"
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+index d3c78e9157..1834665a1e 100644
+--- a/meta/recipes-extended/timezone/timezone.inc
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -6,7 +6,7 @@ SECTION = "base"
+ LICENSE = "PD & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
  
- SRC_URI[sha256sum] = "61843112389f02b735428b53bb64cf988ad9fb81858b8248e22e57336f24a83e"
+-PV = "2022d"
++PV = "2022g"
  
+ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
+            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata \
+@@ -14,6 +14,5 @@ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
+ 
+ UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
+ 
+-SRC_URI[tzcode.sha256sum] = "d644ba0f938899374ea8cb554e35fb4afa0f7bd7b716c61777cd00500b8759e0"
+-SRC_URI[tzdata.sha256sum] = "6ecdbee27fa43dcfa49f3d4fd8bb1dfef54c90da1abcd82c9abcf2dc4f321de0"
+-
++SRC_URI[tzcode.sha256sum] = "9610bb0b9656ff404c361a41f3286da53064b5469d84f00c9cb2314c8614da74"
++SRC_URI[tzdata.sha256sum] = "4491db8281ae94a84d939e427bdd83dc389f26764d27d9a5c52d782c16764478"
 -- 
 2.25.1
 
