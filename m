@@ -1,118 +1,103 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3D91C4167B
-	for <webhook@archiver.kernel.org>; Fri, 30 Dec 2022 08:33:31 +0000 (UTC)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
- by mx.groups.io with SMTP id smtpd.web10.14456.1672389206679648410
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6568BC4167B
+	for <webhook@archiver.kernel.org>; Fri, 30 Dec 2022 10:37:02 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web10.15779.1672396619749299795
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Dec 2022 00:33:27 -0800
+ Fri, 30 Dec 2022 02:37:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=X91j89BP;
- spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f42.google.com with SMTP id bp15so30868031lfb.13
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 00:33:26 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=X2AiBJ86;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id j17so14181960wrr.7
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 02:36:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eyvtYoAieE7zO42bkdtDGf5kemy4+HEMYaK0AKsRxzA=;
-        b=X91j89BPjA6lg3nPNKCfckj+W4lhZfinVgCtnR5wvCV3gb1j3FupVPHC2QPqbZs0qI
-         ciGE86drkgon5sXz0NlMgMWWsSPh5STUlDh/f00qQ6ZacZD/Az4GGPy94MF3VxUmrqpC
-         ZptyMzaarqVwC3p7guQsJ5t+tftUSP1geekamNDcTmPoGGMzpnokFBREV2MNm2qyrAxC
-         ETStHl5TRrR3d3f0vkZINsckJs0UoMXKq2qXxMjdq8Xzgw9w96AF15DIsZWBI7PwnQDC
-         hMDP4ZSNBDh3Gl8ZVfzepwedFZ1v2wIR1ZAxhe+ETdo5MSHiMpZw6tcZttQ2LDrVejgZ
-         1bQA==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=rSxkET9fFmDqA2Ih1mNrqUzMppAAx2/kemsrrxGt2lo=;
+        b=X2AiBJ86TaNgCm1J6j0FDCf6KbhLRf3TnlFT6YBZ+rTiY60PR62Nmp85Ic9CfISR2+
+         DJcskgyBawi2Q5FOYp4rXLkeBA4Tj+HLdBUVUi01ONcHxDjOc1aLW45VCzkiObPh40NS
+         +dUgCn8WxbX3DM3EKQZ1Ua08gIyrcJhBjs4Fc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eyvtYoAieE7zO42bkdtDGf5kemy4+HEMYaK0AKsRxzA=;
-        b=qJLvNKnq8ev1s3GFDQdIDvaE3DcbRSHSkFc3UHjxATg2MkbAnzNZMpvpFG9dXns6/r
-         2sUyHQbZh85O/uKcthOvfUCqjC468Lq9wTgN4Goi145kt64zFfUe5oYB731oe2t04xk6
-         HzpTag7hWoAls7McVJ+cbPMmPSpsoMA+gVb4H0CfVXEpuVI2IRvBCt0rCUGs77fQIT7o
-         IbyIylSgEZ4mOF2L2oaj11UeV+00u9zDAU1n2lu+qpLWepT43oP30qeo0hC3N68g21w2
-         Q8jdasuQY3qYtvlECcGs80UHnsjHlRPdZ0g808FAUuvd/3kjNiePFS4Si0/Pb4e7a0zJ
-         T6Hw==
-X-Gm-Message-State: AFqh2kpC5Ng2BnaFDxCLAoeez/5Y7XQdsVb3fTOxEzIXX5/tw27s6dL4
-	bbHN+KNxBzp0YD+/eooqBjcfXmA1LxbjeU3h6GI=
-X-Google-Smtp-Source: AMrXdXsqAKJZkn711VeUlL+iNp3ZezOmVnS/U0yK1R9NmTr51C2yyTR8ZRol0gZmwpUCn9QyzWNJKHCfImjIrYzJ7g4=
-X-Received: by 2002:ac2:4569:0:b0:4cb:22f5:902 with SMTP id
- k9-20020ac24569000000b004cb22f50902mr117575lfm.263.1672389204813; Fri, 30 Dec
- 2022 00:33:24 -0800 (PST)
-MIME-Version: 1.0
-References: <20221229160110.255775-1-alex@linutronix.de> <20221229160110.255775-6-alex@linutronix.de>
- <H4UNNR.OSLU872EYWJ01@t-online.de>
-In-Reply-To: <H4UNNR.OSLU872EYWJ01@t-online.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 30 Dec 2022 09:33:13 +0100
-Message-ID: <CANNYZj8NDmvyAPaPf4LKHzuVnuYtHxqfO_TvgvT5CsUAWGdBDA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 06/10] libportal: add from meta-openembedded/meta-gnome
-To: Markus Volk <f_l_k@t-online.de>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rSxkET9fFmDqA2Ih1mNrqUzMppAAx2/kemsrrxGt2lo=;
+        b=IiXn0vN+fSYYzF03593dV2CD3IjqOeNuzuTRlXy1t1L8Hk5+Um0rCVPPmtwfaCqaIY
+         19pkmjVDpdCaxZzeyn43f1QWXM63K8yfzBKBZJP487KP8V9ifdz5MtXcAOgMlett8tHT
+         2gnPnGszTIH+Wo8P3OAr9hZNXkV2MS1LPAXxBl6Tl9sCt37SXYy7jduYQLNEwnNaRvFF
+         QEe/FNPF9v1Vi9/iOlxT5xzuvwvJfFVyZg+WEnfeTn8JcY8LBEiwulH+SCdNSgV7EHJG
+         p2EemAfmCrsDeD73tA8sTxdZMnWjeN48ETEKAY5meAkqQa6cPpvVesTRpRRMg8b2S/gD
+         xzrQ==
+X-Gm-Message-State: AFqh2kpq0QwmJ+Z/qCL2J6tjtdratCqqkQgYOzyWC7rC0Z8TjkFGhexq
+	VLth4XG3G7T9E0zoySlp1uMWvg==
+X-Google-Smtp-Source: AMrXdXu/m31XuBSi5Nfk9CnCiZbrNqmORWPIMVIoYh12TX7zcbu5Hxsz996FM7jDxSltxAb2jPVLeA==
+X-Received: by 2002:a5d:438e:0:b0:24d:867f:10e6 with SMTP id i14-20020a5d438e000000b0024d867f10e6mr21860669wrq.32.1672396617984;
+        Fri, 30 Dec 2022 02:36:57 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:fd62:db1:ca71:a503? ([2001:8b0:aba:5f3c:fd62:db1:ca71:a503])
+        by smtp.gmail.com with ESMTPSA id b2-20020adff242000000b0023662245d3csm20460187wrp.95.2022.12.30.02.36.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Dec 2022 02:36:57 -0800 (PST)
+Message-ID: <876a1de350c1c096dcc34766c7412e765542dbd2.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 7/7] qemu: update 7.1.0 -> 7.2.0
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, Alexander Kanavin
+	 <alex@linutronix.de>, alex.bennee@linaro.org, berrange@redhat.com
+Date: Fri, 30 Dec 2022 10:36:56 +0000
+In-Reply-To: <CANNYZj__BZwPwMP2SzTWsJSvfzVM2cnJ-XNZzOmqOj2P+_h5Hg@mail.gmail.com>
+References: <20221224165943.1324800-1-alex@linutronix.de>
+	 <20221224165943.1324800-7-alex@linutronix.de>
+	 <6ea0dc08bc4007911090f49ebf4c9d9dee9579fb.camel@linuxfoundation.org>
+	 <173581B798B2479E.21302@lists.openembedded.org>
+	 <CANNYZj__BZwPwMP2SzTWsJSvfzVM2cnJ-XNZzOmqOj2P+_h5Hg@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 08:33:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175136
+ <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 10:37:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175137
 
-I'll send an updated version that includes that.
+On Fri, 2022-12-30 at 09:06 +0100, Alexander Kanavin wrote:
+> On Fri, 30 Dec 2022 at 08:31, Alexander Kanavin via
+> lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
+> wrote:
+> > > Since I merged this we've been seeing an intermittent qemu ptest
+> > > failure on both arm and x86:
+> > >=20
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/447=
+9/steps/12/logs/stdio
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/427=
+3/steps/12/logs/stdio
+> > >=20
+> > > Not sure what the pattern to trigger it is, not looked into it.
+> >=20
+> > I had filed a bug for this:
+> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14996
+>=20
+> The culprit is here:
+> https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D68406d10859385c88da=
+73d0106254a7f47e6652e
+>=20
+> Particularly the
+>     /* try to avoid a race to create the socket */
+>     g_usleep(1000);
+>=20
+> bit is not reliable enough, there has to be hard synchronization.
+>=20
+> I guess we have to disable the test altogether for now.
 
-Alex
+Disabling sounds reasonable, thanks for looking into it.
 
-On Thu, 29 Dec 2022 at 17:07, Markus Volk <f_l_k@t-online.de> wrote:
->
-> I have recently sent a patch for libportal to includes libportal-gtk4. It=
- is under testing in meta-openembedded master-next.
->
-> Without gtk4 support 'nautilus' will fail to compile and i guess others w=
-ill follow.
->
->
-> Am Do, 29. Dez 2022 um 17:01:06 +0100 schrieb Alexander Kanavin <alex.kan=
-avin@gmail.com>:
->
-> This used to be required by epiphany, then it became optional and was mov=
-ed to meta-oe, now it is again required. The recipe was originally provided=
- by... actually me :-) Signed-off-by: Alexander Kanavin <alex@linutronix.de=
-> --- meta/conf/distro/include/maintainers.inc | 1 + meta/recipes-gnome/lib=
-portal/libportal_0.6.bb | 19 +++++++++++++++++++ 2 files changed, 20 insert=
-ions(+) create mode 100644 meta/recipes-gnome/libportal/libportal_0.6.bb di=
-ff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/incl=
-ude/maintainers.inc index be96123ce6..0affa1bded 100644 --- a/meta/conf/dis=
-tro/include/maintainers.inc +++ b/meta/conf/distro/include/maintainers.inc =
-@@ -371,6 +371,7 @@ RECIPE_MAINTAINER:pn-libpcre =3D "Yi Zhao <yi.zhao@wind=
-river.com>" RECIPE_MAINTAINER:pn-libpcre2 =3D "Unassigned <unassigned@yocto=
-project.org>" RECIPE_MAINTAINER:pn-libpipeline =3D "Wang Mingyu <wangmy@fuj=
-itsu.com>" RECIPE_MAINTAINER:pn-libpng =3D "Anuj Mittal <anuj.mittal@intel.=
-com>" +RECIPE_MAINTAINER:pn-libportal =3D "Alexander Kanavin <alex.kanavin@=
-gmail.com>" RECIPE_MAINTAINER:pn-libproxy =3D "Anuj Mittal <anuj.mittal@int=
-el.com>" RECIPE_MAINTAINER:pn-libpthread-stubs =3D "Alexander Kanavin <alex=
-.kanavin@gmail.com>" RECIPE_MAINTAINER:pn-libptytty =3D "Alexander Kanavin =
-<alex.kanavin@gmail.com>" diff --git a/meta/recipes-gnome/libportal/libport=
-al_0.6.bb b/meta/recipes-gnome/libportal/libportal_0.6.bb new file mode 100=
-644 index 0000000000..9784f04818 --- /dev/null +++ b/meta/recipes-gnome/lib=
-portal/libportal_0.6.bb @@ -0,0 +1,19 @@ +SUMMARY =3D "libportal provides G=
-IO-style async APIs for most Flatpak portals." +DESCRIPTION =3D "It provide=
-s simple asynchronous wrappers for most Flatpak portals \ +with a familiar =
-GObject API along side the D-Bus API" +HOMEPAGE =3D "https://github.com/fla=
-tpak/libportal" +BUGTRACKER =3D "https://github.com/flatpak/libportal/issue=
-s" +LICENSE =3D "LGPL-3.0-only" +LIC_FILES_CHKSUM =3D "file://COPYING;md5=
-=3D3000208d539ec061b899bce1d9ce9404" + +SRC_URI =3D "git://github.com/flatp=
-ak/${BPN}.git;protocol=3Dhttps;branch=3Dmain" +SRCREV =3D "13df0b887a7eb7b0=
-f9b14069561a41f62e813155" +S =3D "${WORKDIR}/git" + +inherit meson gtk-doc =
-gobject-introspection features_check + +ANY_OF_DISTRO_FEATURES =3D "${GTK3D=
-ISTROFEATURES}" + +DEPENDS +=3D "glib-2.0 glib-2.0-native gtk+3" + +EXTRA_O=
-EMESON =3D "-Dbackends=3Dgtk3 -Dvapi=3Dfalse"
-> --
-> 2.30.2
->
->
->
+Cheers,
+
+Richard
 
