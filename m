@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEE0CC4708E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0D50C46467
 	for <webhook@archiver.kernel.org>; Fri, 30 Dec 2022 16:45:14 +0000 (UTC)
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
- by mx.groups.io with SMTP id smtpd.web11.22435.1672418714437945510
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web11.22432.1672418711091565250
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Dec 2022 08:45:14 -0800
+ Fri, 30 Dec 2022 08:45:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=t0DCzapj;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.179, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f179.google.com with SMTP id 78so14501113pgb.8
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 08:45:14 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=aGfkvief;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f178.google.com with SMTP id e21so5191809pfl.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 08:45:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=QZXROwtIearvh33UN5WjDzbYhsZ+9twdPxOsftCvoHw=;
-        b=t0DCzapjLFdTIpjSP/WQoFn8Hy0I3R8fw4G8AStjkTzXV049PsqkJHwRi0OZEZKVEV
-         JgKCS2cqwRzwosqnkNAmorBkncyp6G/X57gHTgGLOIK4GCzqAMmXXrDL7e4YBj6yRA1i
-         XqEYcPFdJwi2jKokpAfTYLp+uX+OOdPb+/q9gAzP766nzSYPNMVdOcbYR7ap6xWxsZ9t
-         u3iTCfvPJbEakPsIpmf3cZ9fU4o1sNQtaLi3oKQ+g/GhqdzE++QdH9MRzQl6dYQGyRli
-         pjppex/gmWBzwiHgzDQV0qiy4BlrgFNVy21EQEF7sO0vU4686sJcMKW6IhW1gFjVXW/E
-         eYrg==
+        bh=mMCAJwi+sI0njtoMQRZsAMxGbXp48erpw8P0nWxAqoE=;
+        b=aGfkviefFngqkEJF0PWlN+m8Ch+7DkIroEK79Dw18+KWz2EoVXeZvB20MzCb3+v0dp
+         /EZWDmpaAQhtSDYNIT6QQ1UiTfNu734CbZg+Twz22N1Jm+ZJomsdk2ml4CQ2AqVNqHtJ
+         FYxwQnLibyJmIt11IR3tmV6+V+1lVmm5L5ngY8/S2ctritECSxv0X6Mw1LlFJ49JeZMV
+         U4WzuP9LVyYIflNMiwscs5/f85y+dbx7lF2KHOxLDAfP9rvQK/LL4PtMNfi4jCViR8u6
+         Ir2OCM+6ppiQ3DlQ8xz5ae8jzTVYvkp+TyNGI1B5MRZuszZw4x1PuKqEcp6Hed++o7o7
+         09Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QZXROwtIearvh33UN5WjDzbYhsZ+9twdPxOsftCvoHw=;
-        b=VFpMi3skOYwCgXib2zhtMz6UtuhtwSvqg9jfjwMLlG3FXwh2zcHbEUO2msvcdgHA5M
-         I7V5GHIXrBWKgsaBEMqntwoVltyLx0FN4HfGDd/9cZQ4zd6hvbCT0/FOFH0FopFKs1iL
-         CUdoTfl/PhvZ7Snf/bY7uL8J28kKDumUncT1GSV0qo7v2z4PvfOvd8Mqc8LVVuCUimTe
-         Y9QoVXKdIZJyGKCwJxOfoAlul/Qth5FOLXWPb4AT8NWreqTs/NM/jWFnsZYXF57GeLjP
-         NvK/T7EOTTTiE/dkuix2g1JwtMUksJ7vWNB5lqnFOicLnInJMuB/0VV5n49sEFv9oDr7
-         w91A==
-X-Gm-Message-State: AFqh2koVm3cyurV+AFRv9eVZpJB5DfuepPhwiiU8z9kxQ69Rr16RLvAN
-	rv9XuxT+8bL0D89BmPvmFvmTL/fFM0GJevomXVE=
-X-Google-Smtp-Source: AMrXdXuBBtwhnUscyRMRi9FUjxQc4ch0X6SqAdJJaMTNni8THVkDbPKRGFyNPtj7WNE/LoLjGUVisQ==
-X-Received: by 2002:aa7:8c12:0:b0:581:6979:364 with SMTP id c18-20020aa78c12000000b0058169790364mr13615433pfd.25.1672418713484;
-        Fri, 30 Dec 2022 08:45:13 -0800 (PST)
+        bh=mMCAJwi+sI0njtoMQRZsAMxGbXp48erpw8P0nWxAqoE=;
+        b=zXOfuPb2ODuSX7pG4mkMgjmUyCkclF3c57Dypsj+EKM+Ze0PZrMQpdj844jk4wi1Vh
+         reCwy99yjLuFI5EzjcljI7t2K9j9/4dZAbRP5RyT7q2vF6Z7/8OnuXs2PdSe6dn016+j
+         E41JNOPVD20vXxbZK3E3TqXkQsa6aXpsggBTpvKqAZV9KUmo+oFrWIB8PCzu8WkMcefo
+         RSbVCOaHI86/xu+j7Pqg0DMB9xEWcvqiGoWno9eqrHUbJwhhWt35Kivx5d7ceAQG/cvs
+         MvKh68rGdJNZLCSj3hoeWUkXhFD4Rl8mAPdagxCFYlmP7TK6cPNWQYTMQp2CVlEHVwEa
+         L7zQ==
+X-Gm-Message-State: AFqh2kpzprf6dI+RJYOnE6pIgpWsYSXSylZ0Nw383akF3Avk9EWXdErt
+	IZ7JbItLlWpJrpeiQPUGhuLkiXcPi+YVixQU8Gg=
+X-Google-Smtp-Source: AMrXdXtPAVZXd+z9GbRtDcjG2d2/OWWa9XJlPtZrzlsWIZB9s+sDNDlGLtdRlLdJA46LIsQdhoMF4g==
+X-Received: by 2002:a05:6a00:3491:b0:581:5017:f960 with SMTP id cp17-20020a056a00349100b005815017f960mr15363193pfb.29.1672418710147;
+        Fri, 30 Dec 2022 08:45:10 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-5-74.hawaiiantel.net. [72.253.5.74])
-        by smtp.gmail.com with ESMTPSA id a79-20020a621a52000000b00581ad007a9fsm4413200pfa.153.2022.12.30.08.45.12
+        by smtp.gmail.com with ESMTPSA id a79-20020a621a52000000b00581ad007a9fsm4413200pfa.153.2022.12.30.08.45.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Dec 2022 08:45:13 -0800 (PST)
+        Fri, 30 Dec 2022 08:45:09 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 15/22] libepoxy: remove upstreamed patch
-Date: Fri, 30 Dec 2022 06:44:05 -1000
-Message-Id: <f2541dd3ab276961d3c867014425782d0deda345.1672418540.git.steve@sakoman.com>
+Subject: [OE-core][langdale 13/22] baremetal-image: Avoid overriding qemu variables from IMAGE_CLASSES
+Date: Fri, 30 Dec 2022 06:44:03 -1000
+Message-Id: <58420a64db4e30739768b99c9c30006a7f2ab08d.1672418540.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1672418540.git.steve@sakoman.com>
 References: <cover.1672418540.git.steve@sakoman.com>
@@ -61,70 +61,65 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 16:45:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175156
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175154
 
-From: Ross Burton <ross.burton@arm.com>
+From: Alejandro Hernandez Samaniego <alejandro@enedino.org>
 
-This patch was upstreamed in 6b09a8bc, 1.5.5 onwards.
+Since qemuboot is part of IMAGE_CLASSES via qemu.inc it is being
+inherited before we set the QB_FOO variables.
+Since our variables have conditional definitions and at that point
+they've already been defined by qemuboot, we can no longer define
+them in our class.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Move the IMAGE_CLASSES inherit to execute it after we set the
+QB_FOO variables to fix booting via runqemu.
+
+Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 99b6e1ecb18d595e7b66344de882c1e1db6f35c3)
+(cherry picked from commit 8ed78ec262b2502dc3b673b24a868a3eec616a20)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...atch_common.h-define-also-EGL_NO_X11.patch | 27 -------------------
- .../libepoxy/libepoxy_1.5.10.bb               |  4 +--
- 2 files changed, 1 insertion(+), 30 deletions(-)
- delete mode 100644 meta/recipes-graphics/libepoxy/files/0001-dispatch_common.h-define-also-EGL_NO_X11.patch
+ meta/classes-recipe/baremetal-image.bbclass | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-graphics/libepoxy/files/0001-dispatch_common.h-define-also-EGL_NO_X11.patch b/meta/recipes-graphics/libepoxy/files/0001-dispatch_common.h-define-also-EGL_NO_X11.patch
-deleted file mode 100644
-index 971a3f54e0..0000000000
---- a/meta/recipes-graphics/libepoxy/files/0001-dispatch_common.h-define-also-EGL_NO_X11.patch
-+++ /dev/null
-@@ -1,27 +0,0 @@
--From 7211120d1e2f059d900f3379b9790484dbcf7761 Mon Sep 17 00:00:00 2001
--From: Martin Jansa <Martin.Jansa@gmail.com>
--Date: Fri, 25 Oct 2019 11:09:34 +0000
--Subject: [PATCH] dispatch_common.h: define also EGL_NO_X11
--
--MESA_EGL_NO_X11_HEADERS was renamed to EGL_NO_X11 in:
--https://github.com/mesa3d/mesa/commit/6202a13b71e18dc31ba7e2f4ea915b67eacc1ddb
--
--Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
--Upstream-Status: Pending
--
-----
-- src/dispatch_common.h | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/src/dispatch_common.h b/src/dispatch_common.h
--index a136943..448c9b1 100644
----- a/src/dispatch_common.h
--+++ b/src/dispatch_common.h
--@@ -55,6 +55,7 @@
--  * as EGL_NO_X11
--  */
-- #  define MESA_EGL_NO_X11_HEADERS 1
--+#  define EGL_NO_X11 1
-- # endif
-- #include "epoxy/egl.h"
-- #endif
-diff --git a/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb b/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb
-index d10134568a..384afa6907 100644
---- a/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb
-+++ b/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb
-@@ -9,9 +9,7 @@ SECTION = "libs"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=58ef4c80d401e07bd9ee8b6b58cf464b"
+diff --git a/meta/classes-recipe/baremetal-image.bbclass b/meta/classes-recipe/baremetal-image.bbclass
+index d3377a92fa..513155e9ae 100644
+--- a/meta/classes-recipe/baremetal-image.bbclass
++++ b/meta/classes-recipe/baremetal-image.bbclass
+@@ -15,15 +15,6 @@
+ #
+ # See meta-skeleton for a working example.
  
--SRC_URI = "git://github.com/anholt/libepoxy;branch=master;protocol=https \
--           file://0001-dispatch_common.h-define-also-EGL_NO_X11.patch \
--           "
-+SRC_URI = "git://github.com/anholt/libepoxy;branch=master;protocol=https"
- SRCREV = "c84bc9459357a40e46e2fec0408d04fbdde2c973"
- S = "${WORKDIR}/git"
+-## Emulate image.bbclass
+-# Handle inherits of any of the image classes we need
+-IMAGE_CLASSES ??= ""
+-IMGCLASSES = " ${IMAGE_CLASSES}"
+-inherit ${IMGCLASSES}
+-# Set defaults to satisfy IMAGE_FEATURES check
+-IMAGE_FEATURES ?= ""
+-IMAGE_FEATURES[type] = "list"
+-IMAGE_FEATURES[validitems] += ""
  
+ # Toolchain should be baremetal or newlib based.
+ # TCLIBC="baremetal" or TCLIBC="newlib"
+@@ -110,6 +101,17 @@ QB_OPT_APPEND:append:qemuriscv32 = " -bios none"
+ CFLAGS:append:qemuriscv64 = " -mcmodel=medany"
+ 
+ 
++## Emulate image.bbclass
++# Handle inherits of any of the image classes we need
++IMAGE_CLASSES ??= ""
++IMGCLASSES = " ${IMAGE_CLASSES}"
++inherit ${IMGCLASSES}
++# Set defaults to satisfy IMAGE_FEATURES check
++IMAGE_FEATURES ?= ""
++IMAGE_FEATURES[type] = "list"
++IMAGE_FEATURES[validitems] += ""
++
++
+ # This next part is necessary to trick the build system into thinking
+ # its building an image recipe so it generates the qemuboot.conf
+ addtask do_rootfs before do_image after do_install
 -- 
 2.25.1
 
