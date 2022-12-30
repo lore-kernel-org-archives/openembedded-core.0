@@ -1,103 +1,109 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6568BC4167B
-	for <webhook@archiver.kernel.org>; Fri, 30 Dec 2022 10:37:02 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web10.15779.1672396619749299795
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FC09C4167B
+	for <webhook@archiver.kernel.org>; Fri, 30 Dec 2022 10:41:02 +0000 (UTC)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+ by mx.groups.io with SMTP id smtpd.web11.15891.1672396859697578237
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Dec 2022 02:37:00 -0800
+ Fri, 30 Dec 2022 02:41:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=X2AiBJ86;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id j17so14181960wrr.7
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 02:36:59 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=DUzbsxsq;
+ spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f43.google.com with SMTP id f34so31186930lfv.10
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 02:40:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=rSxkET9fFmDqA2Ih1mNrqUzMppAAx2/kemsrrxGt2lo=;
-        b=X2AiBJ86TaNgCm1J6j0FDCf6KbhLRf3TnlFT6YBZ+rTiY60PR62Nmp85Ic9CfISR2+
-         DJcskgyBawi2Q5FOYp4rXLkeBA4Tj+HLdBUVUi01ONcHxDjOc1aLW45VCzkiObPh40NS
-         +dUgCn8WxbX3DM3EKQZ1Ua08gIyrcJhBjs4Fc=
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=c2B5oCCe5EJF6B70K+mV7H0fdVoqIYF5ApnOzhb4gZA=;
+        b=DUzbsxsq0WhVVMQWQDqx8z0fOhp4KVwMjtzRnIx+rzlDWLN6qGaneGX2TnBeOKyWlR
+         AVUuWqoxNVOhoWrDi/B223wFSXRwbRBpdvajk4FaPBeCIA7em9I1Q21u/tb4Y1XKgg3K
+         xQrORQFfvhWWvq4C2WeT8cMaKcFYpLRXNOvntKEeiKFWOYZ7+2Kcupx7UcijDwfpc+OR
+         A1V1DO6bolIAKA79R+60KJuUU8BdhjjhKLL8MgmQkdC0eH4dgEMcp9hjbHlLch+X+3Cp
+         9/fZk/P6qIrvHDJ08IOa8vsyrXg0/gVqYvNi11Jf7P9kUOB5s9Dc0Zi/scpCp2k5i5Dj
+         mowA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rSxkET9fFmDqA2Ih1mNrqUzMppAAx2/kemsrrxGt2lo=;
-        b=IiXn0vN+fSYYzF03593dV2CD3IjqOeNuzuTRlXy1t1L8Hk5+Um0rCVPPmtwfaCqaIY
-         19pkmjVDpdCaxZzeyn43f1QWXM63K8yfzBKBZJP487KP8V9ifdz5MtXcAOgMlett8tHT
-         2gnPnGszTIH+Wo8P3OAr9hZNXkV2MS1LPAXxBl6Tl9sCt37SXYy7jduYQLNEwnNaRvFF
-         QEe/FNPF9v1Vi9/iOlxT5xzuvwvJfFVyZg+WEnfeTn8JcY8LBEiwulH+SCdNSgV7EHJG
-         p2EemAfmCrsDeD73tA8sTxdZMnWjeN48ETEKAY5meAkqQa6cPpvVesTRpRRMg8b2S/gD
-         xzrQ==
-X-Gm-Message-State: AFqh2kpq0QwmJ+Z/qCL2J6tjtdratCqqkQgYOzyWC7rC0Z8TjkFGhexq
-	VLth4XG3G7T9E0zoySlp1uMWvg==
-X-Google-Smtp-Source: AMrXdXu/m31XuBSi5Nfk9CnCiZbrNqmORWPIMVIoYh12TX7zcbu5Hxsz996FM7jDxSltxAb2jPVLeA==
-X-Received: by 2002:a5d:438e:0:b0:24d:867f:10e6 with SMTP id i14-20020a5d438e000000b0024d867f10e6mr21860669wrq.32.1672396617984;
-        Fri, 30 Dec 2022 02:36:57 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:fd62:db1:ca71:a503? ([2001:8b0:aba:5f3c:fd62:db1:ca71:a503])
-        by smtp.gmail.com with ESMTPSA id b2-20020adff242000000b0023662245d3csm20460187wrp.95.2022.12.30.02.36.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Dec 2022 02:36:57 -0800 (PST)
-Message-ID: <876a1de350c1c096dcc34766c7412e765542dbd2.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 7/7] qemu: update 7.1.0 -> 7.2.0
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, Alexander Kanavin
-	 <alex@linutronix.de>, alex.bennee@linaro.org, berrange@redhat.com
-Date: Fri, 30 Dec 2022 10:36:56 +0000
-In-Reply-To: <CANNYZj__BZwPwMP2SzTWsJSvfzVM2cnJ-XNZzOmqOj2P+_h5Hg@mail.gmail.com>
-References: <20221224165943.1324800-1-alex@linutronix.de>
-	 <20221224165943.1324800-7-alex@linutronix.de>
-	 <6ea0dc08bc4007911090f49ebf4c9d9dee9579fb.camel@linuxfoundation.org>
-	 <173581B798B2479E.21302@lists.openembedded.org>
-	 <CANNYZj__BZwPwMP2SzTWsJSvfzVM2cnJ-XNZzOmqOj2P+_h5Hg@mail.gmail.com>
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=c2B5oCCe5EJF6B70K+mV7H0fdVoqIYF5ApnOzhb4gZA=;
+        b=mxdjdRJGJyFnqOW5J9sfhRTE+vheOs9NEPAaL3kFUifz5wDGqRNlWGOGc/rqyKjyDD
+         sFQ63c7GLaDrpPlfMqfsnig+rU6g3sjcDNwVjv6S4NUNUEi3R233UweExH5FjuXmcbhO
+         u3F9ZdqlHpLAjYI2SqyHcEjYbY0Ht9Ass9bhHBbebxf72NhdR8QgDYCyebhkzC1J2I3X
+         stRQX5X1r99yIoDq5DT6c606+9JIDp6waMwLjPxroWOYGy2IV+uOU5qJ3dHZzclMsT+9
+         WUhG7Yw7kDcfVuiGOaSMO8fvvnKWcyc0Z9gxN471uDpItAT+dRVEcFJJxcW9FNsDNgq3
+         iWuw==
+X-Gm-Message-State: AFqh2kq5n+nPIZLoW1Thhbf2r4ttfbYjIiQitQP7cTYZRUGs50OXFCkB
+	tZTLpIpoTLeWtyALUCd6QTZmGrsF0sgNkYfuw8o=
+X-Google-Smtp-Source: AMrXdXsGYUYa7+7/COcyXxQXeNgRw5kN0OY9EW6iqhO/ABn/Tk8mdeOPNRrfbQBSP5ZmiULX+LAHe+tyKJqfCjAkLLw=
+X-Received: by 2002:a05:6512:1107:b0:4cb:2508:f535 with SMTP id
+ l7-20020a056512110700b004cb2508f535mr171506lfg.131.1672396857512; Fri, 30 Dec
+ 2022 02:40:57 -0800 (PST)
+MIME-Version: 1.0
+References: <20221229160110.255775-1-alex@linutronix.de> <20221229160110.255775-8-alex@linutronix.de>
+ <0DVNNR.Q4CA1GXU22T31@t-online.de>
+In-Reply-To: <0DVNNR.Q4CA1GXU22T31@t-online.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 30 Dec 2022 11:40:46 +0100
+Message-ID: <CANNYZj_DhGX74NeXHEX3mrCSSO8=BSd0Dtx=YnifKOryB9NFtw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 08/10] epiphany: update 42.4 -> 43.0
+To: Markus Volk <f_l_k@t-online.de>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.1-0ubuntu1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 10:37:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175137
+ <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 10:41:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175138
 
-On Fri, 2022-12-30 at 09:06 +0100, Alexander Kanavin wrote:
-> On Fri, 30 Dec 2022 at 08:31, Alexander Kanavin via
-> lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
-> wrote:
-> > > Since I merged this we've been seeing an intermittent qemu ptest
-> > > failure on both arm and x86:
-> > >=20
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/447=
-9/steps/12/logs/stdio
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/427=
-3/steps/12/logs/stdio
-> > >=20
-> > > Not sure what the pattern to trigger it is, not looked into it.
-> >=20
-> > I had filed a bug for this:
-> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14996
->=20
-> The culprit is here:
-> https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D68406d10859385c88da=
-73d0106254a7f47e6652e
->=20
-> Particularly the
->     /* try to avoid a race to create the socket */
->     g_usleep(1000);
->=20
-> bit is not reliable enough, there has to be hard synchronization.
->=20
-> I guess we have to disable the test altogether for now.
+That will be adjusted as well, thanks.
 
-Disabling sounds reasonable, thanks for looking into it.
+Alex
 
-Cheers,
-
-Richard
+On Thu, 29 Dec 2022 at 17:34, Markus Volk <f_l_k@t-online.de> wrote:
+>
+> By adding gtk-icon-cache to the inherit line gtk+3-native could be remove=
+d from DEPENDS.
+>
+> Am Do, 29. Dez 2022 um 17:01:08 +0100 schrieb Alexander Kanavin <alex.kan=
+avin@gmail.com>:
+>
+> soup 2.x support has been removed upstream. libportal is no longer option=
+al. epiphany now also needs some native executables from gtk and desktop-fi=
+le-utils. Signed-off-by: Alexander Kanavin <alex@linutronix.de> --- .../epi=
+phany/{epiphany_42.4.bb =3D> epiphany_43.0.bb} | 12 +++++------- 1 file cha=
+nged, 5 insertions(+), 7 deletions(-) rename meta/recipes-gnome/epiphany/{e=
+piphany_42.4.bb =3D> epiphany_43.0.bb} (78%) diff --git a/meta/recipes-gnom=
+e/epiphany/epiphany_42.4.bb b/meta/recipes-gnome/epiphany/epiphany_43.0.bb =
+similarity index 78% rename from meta/recipes-gnome/epiphany/epiphany_42.4.=
+bb rename to meta/recipes-gnome/epiphany/epiphany_43.0.bb index 0cbe1c9c58.=
+.071be328f3 100644 --- a/meta/recipes-gnome/epiphany/epiphany_42.4.bb +++ b=
+/meta/recipes-gnome/epiphany/epiphany_43.0.bb @@ -15,8 +15,12 @@ DEPENDS =
+=3D " \ libarchive \ libdazzle \ libhandy \ + libportal \ + libsoup \ glib-=
+2.0-native \ coreutils-native \ + gtk+3-native \ + desktop-file-utils-nativ=
+e \ " GNOMEBASEBUILDCLASS =3D "meson" @@ -28,16 +32,10 @@ SRC_URI =3D "${GN=
+OME_MIRROR}/${GNOMEBN}/${@oe.utils.trim_version("${PV}", 1)}/${GN file://mi=
+grator.patch \ file://distributor.patch \ " -SRC_URI[archive.sha256sum] =3D=
+ "370938ad2920eeb28bc2435944776b7ba55a0e2ede65836f79818cfb7e8f0860" - -PACK=
+AGECONFIG_SOUP ?=3D "soup3" -PACKAGECONFIG ??=3D "${PACKAGECONFIG_SOUP}" +S=
+RC_URI[archive.sha256sum] =3D "b66d499f9ee72696d83cf844125377181a954554a4bb=
+3785b73293380ac0c227" # Developer mode enables debugging PACKAGECONFIG[deve=
+loper-mode] =3D "-Ddeveloper_mode=3Dtrue,-Ddeveloper_mode=3Dfalse" -PACKAGE=
+CONFIG[soup2] =3D "-Dsoup2=3Denabled,-Dsoup2=3Ddisabled,libsoup-2.4,,,soup3=
+" -PACKAGECONFIG[soup3] =3D ",,libsoup,,,soup2" -PACKAGECONFIG[libportal] =
+=3D "-Dlibportal=3Denabled,-Dlibportal=3Ddisabled,libportal" FILES:${PN} +=
+=3D "${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers ${datadir}/m=
+etainfo" RDEPENDS:${PN} =3D "iso-codes adwaita-icon-theme gsettings-desktop=
+-schemas"
+> --
+> 2.30.2
+>
+>
+>
 
