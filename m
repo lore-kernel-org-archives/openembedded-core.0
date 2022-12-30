@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D73BCC5479D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB515C4708E
 	for <webhook@archiver.kernel.org>; Fri, 30 Dec 2022 16:44:34 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.22291.1672418666921430113
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web10.22295.1672418671797258117
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Dec 2022 08:44:26 -0800
+ Fri, 30 Dec 2022 08:44:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=wMeycOvj;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9so5626651pll.9
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 08:44:26 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=y2HKsOYg;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f177.google.com with SMTP id c9so9875107pfj.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 08:44:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JEBWFfTeivrAW1ZfEG/ZrdwkuQSCzbPSbpg3UCOdp4s=;
-        b=wMeycOvj4PipHjMZNu3UqGb9+jdJhfciEt6MjBOSm/Co1EQl7/lnIsT3V3lKye3OAh
-         zvUyMkIAaQxBllEVGGvF2h95wDQLt4XklDajUM0zNHjkqha0FBzZm0dCOYI6f2Ce7Ybz
-         pYGyq7ZuT5VrMFYsEwTv/8rAwi4tMx5xfWcwxldLLPtM6uXRTidwHPwoo2ETFEGXe/cP
-         iFfOVqhNMJYXEoamcU6I3xHxsGsWs7WyH35cAktdQOoWj+qiIM8xiPtRWD9iOzq3HQul
-         Rncgi6Rmu3IO0FxX538hyu7ZfoSiRFBgoqX3VHsiwiOxnnvgkR7KtyNZsw0EFsnyuMWB
-         XvFw==
+        bh=kpWOlGCskQgQmDV1duLdogbC1//wHF4vwtKVl247L9U=;
+        b=y2HKsOYgw1Wz/kHS7yFGSx3mUjYMiRxoOxa3sxhIsH7lcw4c08oOOFaOMhmVoeiwdn
+         OYcZnL7J57gDy+I3u5QPBOBkuGvLEBk5wfDGpLo4vfemDuP3GYInAicvn7cO0fy8PBZF
+         nF3TRqTsaCs8MO+l5Ys5C8nFITzoLE2VJAFTb6UqJrU6RSLhhTtz8WSDT6XwpWlfdq6k
+         OVWYBF6E/f21MJL85EF5cWuFl0BfHiC0m7qCe7OkPaOKKXh9Em0RYGEkgtMECKcmAKZd
+         o46NAC1X13b5EermrEhAFKBsXcpS7RfObpw3kbFpfX5gtRF7oAO5w0SYXemPIX/AMdj5
+         x0CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JEBWFfTeivrAW1ZfEG/ZrdwkuQSCzbPSbpg3UCOdp4s=;
-        b=MolGVMcW2xXBnqFi3IpWG2Ds4t5a1tZJk32y9mfNXHUeohyHZVPRAfHhMeE2cgnR20
-         QnzE/Jq4EoCKm9eXvs4FHAdAGDOSVsBUMhVEddwcd2vzqaZ87Q9Y5FF1fHfno+SUtn+6
-         TX+JawVVj9r9EcH+20tuI+YdhudaOXiwqYVbBbmJjaKQG/HfJswTXm7fNGU9yVE0DGmQ
-         D40uEqBm4UeUkcBSipkxwnWYw7mTjq6XxgCroVOlxMcXjXsebHc9/BcFlfu1Rk6Zm+S8
-         Sfff2nVA7vuZto5o1YzIGAlwKFhHqTe2O5nEemaMBTZOIqlfQiToifX2EKwFh2Mxz8CV
-         JSGQ==
-X-Gm-Message-State: AFqh2kqcN2y0tiU+CO6C0/JFEFw+yqOTmQWEtvA5LKJuOHcL5ISI0zdt
-	TaY8WJoEenIxOHCsmFMXueJiuVE+9ncEeatrLAI=
-X-Google-Smtp-Source: AMrXdXumtEqZNYXCIjiRnAeybdh+CLW+jFJrRispDtfDYbPGfBGdNi4iE3wx0nhcwjHziT0ZjJb2KA==
-X-Received: by 2002:a05:6a21:6da7:b0:a3:22f3:27ca with SMTP id wl39-20020a056a216da700b000a322f327camr51158794pzb.56.1672418665980;
-        Fri, 30 Dec 2022 08:44:25 -0800 (PST)
+        bh=kpWOlGCskQgQmDV1duLdogbC1//wHF4vwtKVl247L9U=;
+        b=1w0vzv1JVagkcjZNfC/TNQtKya0v7CfmpZAif+6XzTeRnA9MlzD0HE94S25X/odp/c
+         G7n+D8MXw8o6kuljAO40RCsxuRJcMFz8Ghnyxh8yDB0DVN10E5qYCibOvXvDZ39ZdBPL
+         toAEQa413nelT+F14uFPMz5yxcjYNf9kKnXdrIROTGQ/XxGGqE0E6TqxBD+vBjfxcF3b
+         pgqqo6xZI/TD4OSKuh8CYwaxSYuvkItqrxY7scZ0iV0CBJRtX54DI//oelOzW5621tMB
+         oFJz5H+dW5oLSEf71hHdvtf+6J+2GgzMaHsutf/FR4/0yUfGcmkpfLSg1Nyc0Fy9egNF
+         Cw4A==
+X-Gm-Message-State: AFqh2koiwQyxy+qK264g2oAywsg07NY06P8N1IRkla4kpGZjBOgs7ir2
+	oTg2pG6GbaHb5pNrhEztlKiCscasygLlnOGioak=
+X-Google-Smtp-Source: AMrXdXsozn7M7gD3bMUNx0HEi7Bqugs86ZGxf4ib3eyF1NExtLbaJPFRYWCh11yB8y7k9kBwEEI1wQ==
+X-Received: by 2002:a05:6a00:24cd:b0:581:4260:a650 with SMTP id d13-20020a056a0024cd00b005814260a650mr27886341pfv.33.1672418670808;
+        Fri, 30 Dec 2022 08:44:30 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-5-74.hawaiiantel.net. [72.253.5.74])
-        by smtp.gmail.com with ESMTPSA id a79-20020a621a52000000b00581ad007a9fsm4413200pfa.153.2022.12.30.08.44.25
+        by smtp.gmail.com with ESMTPSA id a79-20020a621a52000000b00581ad007a9fsm4413200pfa.153.2022.12.30.08.44.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Dec 2022 08:44:25 -0800 (PST)
+        Fri, 30 Dec 2022 08:44:30 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 04/22] libpng: upgrade 1.6.38 -> 1.6.39
-Date: Fri, 30 Dec 2022 06:43:54 -1000
-Message-Id: <110ecbb4726f236fba49f9bbfe9c629d45253d0d.1672418540.git.steve@sakoman.com>
+Subject: [OE-core][langdale 07/22] ruby: update 3.1.2 -> 3.1.3
+Date: Fri, 30 Dec 2022 06:43:57 -1000
+Message-Id: <b42b6466f9ec998fbe2131dcf18374c4bd4db631.1672418540.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1672418540.git.steve@sakoman.com>
 References: <cover.1672418540.git.steve@sakoman.com>
@@ -61,48 +61,92 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 16:44:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175145
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175148
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Changelog:
-==========
-*  Changed the error handler of oversized chunks (i.e. larger than
-   PNG_USER_CHUNK_MALLOC_MAX) from png_chunk_error to png_benign_error.
-*  Fixed a buffer overflow error in contrib/tools/pngfix.
-*  Fixed a memory leak (CVE-2019-6129) in contrib/tools/pngcp.
-*  Disabled the ARM Neon optimizations by default in the CMake file,
-   following the default behavior of the configure script.
-*  Allowed configure.ac to work with the trunk version of autoconf.
-*  Removed the support for "install" targets from the legacy makefiles;
-   removed the obsolete makefile.cegcc.
-*  Cleaned up the code and updated the internal documentation.
+This release includes security fixes. Please check the topics below for details.
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+CVE-2022-28738: Double free in Regexp compilation
+CVE-2022-28739: Buffer overrun in String-to-Float conversion
+
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 19799cb50a00561b318cba1c8c20737f20e4a47f)
+(cherry picked from commit 402254a5f841520b132508c21465111d33b6eb1a)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libpng/{libpng_1.6.38.bb => libpng_1.6.39.bb}               | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/libpng/{libpng_1.6.38.bb => libpng_1.6.39.bb} (93%)
+ ...001-Remove-dependency-on-libcapstone.patch | 36 -------------------
+ .../ruby/{ruby_3.1.2.bb => ruby_3.1.3.bb}     |  3 +-
+ 2 files changed, 1 insertion(+), 38 deletions(-)
+ delete mode 100644 meta/recipes-devtools/ruby/ruby/0001-Remove-dependency-on-libcapstone.patch
+ rename meta/recipes-devtools/ruby/{ruby_3.1.2.bb => ruby_3.1.3.bb} (97%)
 
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.38.bb b/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
-similarity index 93%
-rename from meta/recipes-multimedia/libpng/libpng_1.6.38.bb
-rename to meta/recipes-multimedia/libpng/libpng_1.6.39.bb
-index dc627203ef..d9dcf379e9 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.6.38.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.39.bb
-@@ -11,7 +11,7 @@ DEPENDS = "zlib"
- LIBV = "16"
+diff --git a/meta/recipes-devtools/ruby/ruby/0001-Remove-dependency-on-libcapstone.patch b/meta/recipes-devtools/ruby/ruby/0001-Remove-dependency-on-libcapstone.patch
+deleted file mode 100644
+index 5d0f8fcc09..0000000000
+--- a/meta/recipes-devtools/ruby/ruby/0001-Remove-dependency-on-libcapstone.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From 222203297966f312109e8eaa2520f2cf2f59c09d Mon Sep 17 00:00:00 2001
+-From: Alan Wu <XrXr@users.noreply.github.com>
+-Date: Thu, 31 Mar 2022 17:26:28 -0400
+-Subject: [PATCH] Remove dependency on libcapstone
+-
+-We have received reports of build failures due to this configuration
+-check modifying compile flags. Since only YJIT devs use this library
+-we can remove it to make Ruby easier to build for users.
+-
+-See: https://github.com/rbenv/ruby-build/discussions/1933
+-
+-Upstream-Status: Backport
+----
+- configure.ac | 9 ---------
+- 1 file changed, 9 deletions(-)
+-
+-Index: ruby-3.1.2/configure.ac
+-===================================================================
+---- ruby-3.1.2.orig/configure.ac
+-+++ ruby-3.1.2/configure.ac
+-@@ -1244,15 +1244,6 @@ AC_CHECK_LIB(dl, dlopen)	# Dynamic linki
+- AC_CHECK_LIB(dld, shl_load)	# Dynamic linking for HP-UX
+- AC_CHECK_LIB(socket, shutdown)  # SunOS/Solaris
+- 
+--if pkg-config --exists capstone; then
+--   CAPSTONE_CFLAGS=`pkg-config --cflags capstone`
+--   CAPSTONE_LIB_L=`pkg-config --libs-only-L capstone`
+--   LDFLAGS="$LDFLAGS $CAPSTONE_LIB_L"
+--   CFLAGS="$CFLAGS $CAPSTONE_CFLAGS"
+--fi
+--
+--AC_CHECK_LIB(capstone, cs_open) # Capstone disassembler for debugging YJIT
+--
+- dnl Checks for header files.
+- AC_HEADER_DIRENT
+- dnl AC_HEADER_STDC has been checked in AC_USE_SYSTEM_EXTENSIONS
+diff --git a/meta/recipes-devtools/ruby/ruby_3.1.2.bb b/meta/recipes-devtools/ruby/ruby_3.1.3.bb
+similarity index 97%
+rename from meta/recipes-devtools/ruby/ruby_3.1.2.bb
+rename to meta/recipes-devtools/ruby/ruby_3.1.3.bb
+index 0115daf22a..c8454da3a9 100644
+--- a/meta/recipes-devtools/ruby/ruby_3.1.2.bb
++++ b/meta/recipes-devtools/ruby/ruby_3.1.3.bb
+@@ -29,7 +29,6 @@ SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
+            file://0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch \
+            file://0006-Make-gemspecs-reproducible.patch \
+            file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch \
+-           file://0001-Remove-dependency-on-libcapstone.patch \
+            "
+ UPSTREAM_CHECK_URI = "https://www.ruby-lang.org/en/downloads/"
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/${BP}.tar.xz"
--SRC_URI[sha256sum] = "b3683e8b8111ebf6f1ac004ebb6b0c975cd310ec469d98364388e9cedbfa68be"
-+SRC_URI[sha256sum] = "1f4696ce70b4ee5f85f1e1623dc1229b210029fa4b7aee573df3e2ba7b036937"
+@@ -50,7 +49,7 @@ do_configure:prepend() {
  
- MIRRORS += "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/ ${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/older-releases/"
+ DEPENDS:append:libc-musl = " libucontext"
  
+-SRC_URI[sha256sum] = "61843112389f02b735428b53bb64cf988ad9fb81858b8248e22e57336f24a83e"
++SRC_URI[sha256sum] = "5ea498a35f4cd15875200a52dde42b6eb179e1264e17d78732c3a57cd1c6ab9e"
+ 
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
 -- 
 2.25.1
 
