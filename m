@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAFA9C53210
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEB4BC3DA7D
 	for <webhook@archiver.kernel.org>; Fri, 30 Dec 2022 16:45:14 +0000 (UTC)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web11.22431.1672418709451734916
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web10.22317.1672418706677980942
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Dec 2022 08:45:09 -0800
+ Fri, 30 Dec 2022 08:45:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=Pt/CE105;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.46, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f46.google.com with SMTP id 60-20020a17090a0fc200b002264ebad204so516918pjz.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 08:45:09 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=UGZ+Lty2;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.170, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f170.google.com with SMTP id 7so14528873pga.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 08:45:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=PMGDWmg9PAddFOEGVeU0sof0rI6I7p3mI43qD5Jzhbg=;
-        b=Pt/CE105mr8wYtI8SNmnVyRoOfnadL1c6EMxndvdZsXAhUKdAPG+/+2amNMdZXk3Dy
-         CTOzh82wsyiWIA4zOxmBt4cLvqfmgNhnUQfbwnw9QetHyJM7O2ErDlSG65QeSva5ZbuA
-         KKWXDnEH56qfp9aDqgSeC8ILBANQF9ST2CxRFKEFsq1rpuIvmxWX7T48f7kWUuF3s/de
-         LyBoJ3d+iOcpoadPHVp1vUxPwe3RYL0Hu8SI7eD+8ktDLlrUkjveGIyFoTmBTYUJ8T0P
-         p3dhkKF9awxQMgMwjFQTt3B7WSopZtLXDopLBfJ88nE5NALqFvPLK7OTZ10ywFkzZhe1
-         QJKg==
+        bh=CqQALQrahz3FjHsfMgOyUBld6rLyCYJx3ePGqOn+ReY=;
+        b=UGZ+Lty2honwMbFGEf3kf0idON1t86qRT1O47XjyL/JfzRPYVKBv3AisXlneybInuF
+         Qde5veLoqYTygV64lgM57nRV2Kci6taBszvqOtp+I4mqWa/AcmLtXflMAp8u74leB/++
+         G9q9l7JynMEMl6FlZElaq5pqB4nGtnjIttJdXrhdlp826ozhWvi4/7Q0Py4mgWSiESPL
+         ESYTw5XflUeViCpekliwDZlf/aiN4/BOCbJrd+4+tcR7GZkiSjP9M6Y0mz5pUlYmsOFo
+         xKTWu331fvoUn7KL+H5Psu4FJ4yj05J2dEPI31nbkrNB8kF9JOw1cm5ps4EWdp7KXdEQ
+         9i9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PMGDWmg9PAddFOEGVeU0sof0rI6I7p3mI43qD5Jzhbg=;
-        b=09L522v2p9tLrpOJcTpdhwOouf9widSjizehA17GyXSrP5immSOk5gugLp07HBGK0p
-         RXMDIIgqUFuoaa9v8Pv6hx9dFRsucDA4KAk3d6BYqbAHNvo1+s7dJXo+WFOYL85fj+l2
-         TO19IW56rwHdKpjC98EQfRiYhsc7VPHY8p3eCTUN4zaaMPLVXYF3F7gT155kMn6gNq+a
-         ZR5g8dRmBCMtij3qS7RXueXOc+F1OTyhNiwShb9o9Hs89ctGZBYRUV9bqy9++jhBcCRv
-         3/g9jtcucsHDF3AX4Max8Htjg81pFa4gBX/lTc4uz5KVihV2zeBH2jINEPlRHv36fQc0
-         vEiA==
-X-Gm-Message-State: AFqh2krIaG4lehdai2pG7u3Qx0F9pWucHxZL2mqp3JtUZrF6ZUU1WWEh
-	cXuqa7lPzdmZ28/HyvP78WVrElQW1wLe3toqX1A=
-X-Google-Smtp-Source: AMrXdXtq5cgZaD7lywT55gPsgkw4Ky8N/FOTqFWJO6NkWW4bsa8hAax60gCDISPtaODGK3Zs9tBVBQ==
-X-Received: by 2002:a05:6a20:3b13:b0:ae:47a6:e6d9 with SMTP id c19-20020a056a203b1300b000ae47a6e6d9mr35423638pzh.6.1672418708444;
-        Fri, 30 Dec 2022 08:45:08 -0800 (PST)
+        bh=CqQALQrahz3FjHsfMgOyUBld6rLyCYJx3ePGqOn+ReY=;
+        b=yU5cG+lDUd1uPE6JfSjMt6msqFyt4vO9i1rvwfTpli6+G16y+8lL6bMk17rvzxOJ5l
+         phQAs6hFJhvcWnpykOgLPSS6+NJlz71kLFvQITzhd41UirB6SsmOpJeJkQaq3S4Na993
+         uom0TOL+0WAFfcdL3xzap5dByosaI/lKaAUxXFvv5tcpJ9+Xyajbdem3YYm1mu+TumbS
+         5qKSdXcGEr7p6b6DRsw7rSmrIbcOwSaWuNtZ+AGjm8HInga+c65SPoWIfReYUmmdqmwL
+         V3B1Djr+8TEm8Sd8bTZDMJisKTWxPGvu8Uh6iUXom5/MQ7gnEUa+BPsnE1I5Y1h2zETX
+         GLtA==
+X-Gm-Message-State: AFqh2ko3EGEWGQJ12qBsMvmLu7gFULzaVCps7HJjkY5IrBetM/mit5uM
+	KyHC4BjwsA/H24wDAxy3DJQE+aKVm231fDyxNFg=
+X-Google-Smtp-Source: AMrXdXtEIGXt2eL5XhFx1dVaDfIMvKgIOBTfAdL5XfYALL1apc3EU9zzpDFVYT/9IcGaxUa/gsDapA==
+X-Received: by 2002:aa7:8286:0:b0:57e:c106:d50c with SMTP id s6-20020aa78286000000b0057ec106d50cmr36861549pfm.17.1672418705488;
+        Fri, 30 Dec 2022 08:45:05 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-5-74.hawaiiantel.net. [72.253.5.74])
-        by smtp.gmail.com with ESMTPSA id a79-20020a621a52000000b00581ad007a9fsm4413200pfa.153.2022.12.30.08.45.07
+        by smtp.gmail.com with ESMTPSA id a79-20020a621a52000000b00581ad007a9fsm4413200pfa.153.2022.12.30.08.45.04
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Dec 2022 08:45:08 -0800 (PST)
+        Fri, 30 Dec 2022 08:45:05 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 12/22] openssh: remove RRECOMMENDS to rng-tools for sshd package
-Date: Fri, 30 Dec 2022 06:44:02 -1000
-Message-Id: <cdc166e1768efed848154b57e0174831cefb95bb.1672418540.git.steve@sakoman.com>
+Subject: [OE-core][langdale 11/22] gstreamer1.0: upgrade 1.20.4 -> 1.20.5
+Date: Fri, 30 Dec 2022 06:44:01 -1000
+Message-Id: <90aa2e55efa1cdb487b5d7e4dc7d9fc76e3b89d0.1672418540.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1672418540.git.steve@sakoman.com>
 References: <cover.1672418540.git.steve@sakoman.com>
@@ -61,93 +61,249 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 30 Dec 2022 16:45:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175153
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175152
 
-From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-It appears that rngd is not needed as of linux-5.6 and later[1]
-and should not be installed by default since the purpose of rngd
-is to provide additional trusted sources of entropy.
+Changelog:
+===========
+systemclock waiting fixes for certain 32-bit platforms/libcs
+alphacombine: robustness improvements for corner case scenarios
+avfvideosrc: Report latency when doing screen capture
+d3d11videosink: various thread-safety and stability fixes
+decklink: fix performance issue when HDMI signal has been lost for a long time
+flacparse: Fix handling of headers advertising 32 bits per sample
+mpegts: Handle when iconv doesn't support ISO 6937 (e.g. musl libc)
+opengl: fix automatic dispmanx detection for rpi4 and fix usage of eglCreate/DestroyImage
+opusdec: Various channel-related fixes
+textrender: event handling fixes, esp. for GAP event
+subparse: Fix non-closed tag handling
+videoscale: fix handling of unknown buffer metas
+videosink: reverse playback handling fixes
+qtmux: Prefill mode fixes, especially for raw audio
+multiudpsink: allow binding to IPv6 address
+rtspsrc: Fix usage of IPv6 connections in SETUP
+rtspsrc: Only EOS on timeout if all streams are timed out/EOS
+splitmuxsrc: fix playback stall if there are unlinked pads
+v4l2: Fix SIGSEGV on state change during format changes
+wavparse robustness fixes
+Fix static linking on macOS (opengl, vulkan)
+gstreamer-vaapi: fix headless build against mesa >= 22.3.0
+GStreamer Editing Services library: Fix build with tools disabled
+webrtc example/demo fixes
+unit test fixes for aesdec and rtpjitterbuffer
+Cerbero: Fix ios cross-compile with cmake on M1; some recipe updates and other build fixes
+Binary packages: pkg-config file fixes for various recipes (ffmpeg, taglib, gstreamer)
+Binary packages: Enable high bitdepth support for libvpx (VP8/VP9 encoding/decoding)
+Binary packages: ship aes plugin
+Miscellaneous bug fixes, memory leak fixes, and other stability and reliability improvements
+Performance improvements
 
-We did some testing on real hardware, the result seems to support that
-we no longer need rngd by default on kernel v5.6 and later.
-
-Testing result as below:
-
-1. observing the crng init stage.
- the "random: crng init done" always available before fs being mounted.
-
-2. generating random number without rngd.
- testing command: dd if=/dev/random of=/dev/null status=progress
-   on Marvell CN96xx RDB board, speed almost 20.4 MB/s without block
-   on NXP i.mx6q board, speed almost 31.9 MB/s without block
-   on qemu x86-64, speed almost 2.6MB/s without block
-
-3. using rngtest command without rngd
- testing command: rngtest -c 1000 </dev/random
-   on Marvell CN96xx RDB board:
-      rngtest: input channel speed: (min=4.340; avg=135.364; max=146.719)Mibits/s
-      rngtest: FIPS tests speed: (min=8.197; avg=69.020; max=72.800)Mibits/s
-      rngtest: Program run time: 418771 microseconds
-
-   on NXP i.mx6q board:
-      rngtest: input channel speed: (min=96.820; avg=326.769; max=340.598)Mibits/s
-      rngtest: FIPS tests speed: (min=15.090; avg=37.543; max=40.324)Mibits/s
-      rngtest: Program run time: 570229 microseconds
-
-   on qemu x86-64:
-      rngtest: input channel speed: (min=37.769; avg=101.136; max=136.239)Mibits/s
-      rngtest: FIPS tests speed: (min=10.288; avg=30.682; max=40.155)Mibits/s
-      rngtest: Program run time: 836800 microseconds
-
-4. observing sshd service.
-  using "systemctl disable rng-tools" disable service and reboot system.
-  system boot up normal, sshd service also start in normal time without
-  block.
-
-Reference:
-[1] https://github.com/torvalds/linux/commit/30c08efec8884fb106b8e57094baa51bb4c44e32
-
-Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 868dfb46d96a27ec9041cb902fb769330277257d)
+(cherry picked from commit fd8ab6052d88120c58cf84ad7d77d60c12ef3b8a)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-connectivity/openssh/openssh_9.0p1.bb | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+ .../{gst-devtools_1.20.4.bb => gst-devtools_1.20.5.bb}          | 2 +-
+ ...streamer1.0-libav_1.20.4.bb => gstreamer1.0-libav_1.20.5.bb} | 2 +-
+ .../{gstreamer1.0-omx_1.20.4.bb => gstreamer1.0-omx_1.20.5.bb}  | 2 +-
+ ...plugins-bad_1.20.4.bb => gstreamer1.0-plugins-bad_1.20.5.bb} | 2 +-
+ ...ugins-base_1.20.4.bb => gstreamer1.0-plugins-base_1.20.5.bb} | 2 +-
+ ...ugins-good_1.20.4.bb => gstreamer1.0-plugins-good_1.20.5.bb} | 2 +-
+ ...ugins-ugly_1.20.4.bb => gstreamer1.0-plugins-ugly_1.20.5.bb} | 2 +-
+ ...reamer1.0-python_1.20.4.bb => gstreamer1.0-python_1.20.5.bb} | 2 +-
+ ...rtsp-server_1.20.4.bb => gstreamer1.0-rtsp-server_1.20.5.bb} | 2 +-
+ ...streamer1.0-vaapi_1.20.4.bb => gstreamer1.0-vaapi_1.20.5.bb} | 2 +-
+ .../{gstreamer1.0_1.20.4.bb => gstreamer1.0_1.20.5.bb}          | 2 +-
+ 11 files changed, 11 insertions(+), 11 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.20.4.bb => gst-devtools_1.20.5.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.20.4.bb => gstreamer1.0-libav_1.20.5.bb} (91%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.20.4.bb => gstreamer1.0-omx_1.20.5.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.20.4.bb => gstreamer1.0-plugins-bad_1.20.5.bb} (98%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.20.4.bb => gstreamer1.0-plugins-base_1.20.5.bb} (97%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.20.4.bb => gstreamer1.0-plugins-good_1.20.5.bb} (97%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.20.4.bb => gstreamer1.0-plugins-ugly_1.20.5.bb} (94%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.20.4.bb => gstreamer1.0-python_1.20.5.bb} (91%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.20.4.bb => gstreamer1.0-rtsp-server_1.20.5.bb} (90%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.20.4.bb => gstreamer1.0-vaapi_1.20.5.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.20.4.bb => gstreamer1.0_1.20.5.bb} (97%)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh_9.0p1.bb b/meta/recipes-connectivity/openssh/openssh_9.0p1.bb
-index b63ea2b137..689952e857 100644
---- a/meta/recipes-connectivity/openssh/openssh_9.0p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_9.0p1.bb
-@@ -52,15 +52,12 @@ SYSTEMD_SERVICE:${PN}-sshd = "sshd.socket"
+diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.4.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.5.bb
+similarity index 95%
+rename from meta/recipes-multimedia/gstreamer/gst-devtools_1.20.4.bb
+rename to meta/recipes-multimedia/gstreamer/gst-devtools_1.20.5.bb
+index 09b6e5a497..9db31c18e4 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.5.bb
+@@ -12,7 +12,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-${PV}
+            file://0001-connect-has-a-different-signature-on-musl.patch \
+            "
  
- inherit autotools-brokensep ptest
+-SRC_URI[sha256sum] = "82a293600273f4dd3eed567aae510ca0c7d629c3807788b00e6cdbd1d2459a84"
++SRC_URI[sha256sum] = "5684436121b8bae07fd00b74395f95e44b5f26323dce4fa045fa665676807bba"
  
--PACKAGECONFIG ??= "rng-tools"
-+PACKAGECONFIG ??= ""
- PACKAGECONFIG[kerberos] = "--with-kerberos5,--without-kerberos5,krb5"
- PACKAGECONFIG[ldns] = "--with-ldns,--without-ldns,ldns"
- PACKAGECONFIG[libedit] = "--with-libedit,--without-libedit,libedit"
- PACKAGECONFIG[manpages] = "--with-mantype=man,--with-mantype=cat"
+ DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
+ RRECOMMENDS:${PN} = "git"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.5.bb
+similarity index 91%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.5.bb
+index e23cf2e337..e5925c6510 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.5.bb
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770 \
+                     "
  
--# Add RRECOMMENDS to rng-tools for sshd package
--PACKAGECONFIG[rng-tools] = ""
--
- EXTRA_AUTORECONF += "--exclude=aclocal"
+ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "04ccbdd58fb31dd94098da599209834a0e7661638c5703381dd0a862c56fc532"
++SRC_URI[sha256sum] = "b152e3cc49d014899f53c39d8a6224a44e1399b4cf76aa5f9a903fdf9793c3cc"
  
- # login path is hardcoded in sshd
-@@ -160,10 +157,6 @@ FILES:${PN}-keygen = "${bindir}/ssh-keygen"
+ S = "${WORKDIR}/gst-libav-${PV}"
  
- RDEPENDS:${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen ${PN}-sftp-server"
- RDEPENDS:${PN}-sshd += "${PN}-keygen ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-keyinit pam-plugin-loginuid', '', d)}"
--RRECOMMENDS:${PN}-sshd:append:class-target = "\
--    ${@bb.utils.filter('PACKAGECONFIG', 'rng-tools', d)} \
--"
--
- # gdb would make attach-ptrace test pass rather than skip but not worth the build dependencies
- RDEPENDS:${PN}-ptest += "${PN}-sftp ${PN}-misc ${PN}-sftp-server make sed sudo coreutils"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.5.bb
+similarity index 95%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.5.bb
+index 4d63db89a7..ec5efcd408 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.5.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
  
+ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-omx/gst-omx-${PV}.tar.xz"
+ 
+-SRC_URI[sha256sum] = "70ddd485e2dcab79070164d61ad2ff3a63e15a1d7abf9075d86eb77762b0edfd"
++SRC_URI[sha256sum] = "bcccbc02548cdc123fd49944dd44a4f1adc5d107e36f010d320eb526e2107806"
+ 
+ S = "${WORKDIR}/gst-omx-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.5.bb
+similarity index 98%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.5.bb
+index 0eac1322a3..2f1793d1ce 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.5.bb
+@@ -10,7 +10,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
+            file://0002-avoid-including-sys-poll.h-directly.patch \
+            file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
+            "
+-SRC_URI[sha256sum] = "a1a3f53b3604d9a04fdd0bf9a1a616c3d2dab5320489e9ecee1178e81e33a16a"
++SRC_URI[sha256sum] = "f431214b0754d7037adcde93c3195106196588973e5b32dcb24938805f866363"
+ 
+ S = "${WORKDIR}/gst-plugins-bad-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.5.bb
+similarity index 97%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.5.bb
+index a0f238a59d..c37b542c57 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.5.bb
+@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
+            file://0003-viv-fb-Make-sure-config.h-is-included.patch \
+            file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
+            "
+-SRC_URI[sha256sum] = "8d181b7abe4caf23ee9f9ec5b4d3e232640452464e39495bfffb6d776fc97225"
++SRC_URI[sha256sum] = "11f911ef65f3095d7cf698a1ad1fc5242ac3ad6c9270465fb5c9e7f4f9c19b35"
+ 
+ S = "${WORKDIR}/gst-plugins-base-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.5.bb
+similarity index 97%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.5.bb
+index 4a4672992e..80aed01973 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.5.bb
+@@ -8,7 +8,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-go
+            file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "b16130fbe632fa8547c2147a0ef575b0140fb521065c5cb121c72ddbd23b64da"
++SRC_URI[sha256sum] = "e83ab4d12ca24959489bbb0ec4fac9b90e32f741d49cda357cb554b2cb8b97f9"
+ 
+ S = "${WORKDIR}/gst-plugins-good-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.5.bb
+similarity index 94%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.5.bb
+index 94b8c8e2cf..f765e626c9 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.5.bb
+@@ -14,7 +14,7 @@ LICENSE_FLAGS = "commercial"
+ SRC_URI = " \
+             https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
+             "
+-SRC_URI[sha256sum] = "5c9ec6bab96517e438b3f9bae0ceb84d3436f3da9bbe180cf4d28e32a7251b59"
++SRC_URI[sha256sum] = "af67d8ba7cab230f64d0594352112c2c443e2aa36a87c35f9f98a43d11430b87"
+ 
+ S = "${WORKDIR}/gst-plugins-ugly-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.5.bb
+similarity index 91%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.5.bb
+index b514989864..05e9ace276 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.5.bb
+@@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "5eb4136d03e2a495f4499c8b2e6d9d3e7b5e73c5a8b8acf9213d57bc6a7bd3c1"
++SRC_URI[sha256sum] = "27487652318659cfd7dc42784b713c78d29cc7a7df4fb397134c8c125f65e3b2"
+ 
+ DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
+ RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.20.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.20.5.bb
+similarity index 90%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.20.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.20.5.bb
+index 4137b4993b..c9cf42903d 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.20.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.20.5.bb
+@@ -10,7 +10,7 @@ PNREAL = "gst-rtsp-server"
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
+ 
+-SRC_URI[sha256sum] = "88d9ef634e59aeb8cc183ad5ae444557c5a88dd49d833b9072bc6e1fae6a3d7d"
++SRC_URI[sha256sum] = "ba398a7ddd559cce56ef4b91f448d174e0dccad98a493563d2d59c41a2ef39c5"
+ 
+ S = "${WORKDIR}/${PNREAL}-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.5.bb
+similarity index 95%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.5.bb
+index 81ec23d26e..716f50ebe1 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.5.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz"
+ 
+-SRC_URI[sha256sum] = "ab12596144c05506e9782374c5d2cdfb3069fca89908d6de360d947bb77fd06a"
++SRC_URI[sha256sum] = "510c6fb4ff3f676d7946ce1800e04ccf5aabe5a586d4e164d1961808fab8c94b"
+ 
+ S = "${WORKDIR}/${REALPN}-${PV}"
+ DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.5.bb
+similarity index 97%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.5.bb
+index d0ba2919ee..bb4dba3861 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.5.bb
+@@ -23,7 +23,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
+            file://0004-tests-add-helper-script-to-run-the-installed_tests.patch;striplevel=3 \
+            file://0005-tests-remove-gstbin-test_watch_for_state_change-test.patch \
+            "
+-SRC_URI[sha256sum] = "67c1edf8c3c339cda5dde85f4f7b953bb9607c2d13ae970e2491c5c4c055ef5f"
++SRC_URI[sha256sum] = "5a19083faaf361d21fc391124f78ba6d609be55845a82fa8f658230e5fa03dff"
+ 
+ PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
+                    check \
 -- 
 2.25.1
 
