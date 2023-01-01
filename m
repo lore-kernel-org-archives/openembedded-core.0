@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA2D1C678DC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5CC0C678DD
 	for <webhook@archiver.kernel.org>; Sun,  1 Jan 2023 20:46:18 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.20665.1672605967047534732
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.20191.1672605968666811430
  for <openembedded-core@lists.openembedded.org>;
  Sun, 01 Jan 2023 12:46:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=TUZg8UGE;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101856f15a55d-abb94cf1-63c4-431e-ab20-e3eda219b962-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=UBIN1Rk9;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101856f15a734-c531f3b8-4e36-4eac-a970-dafd5a811f17-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1672605967;
+	t=1672605968;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=FoDVFEQBjMq8GRTLHJ5wuR84Cjmm0VeSkasjmbue7wk=;
-	b=TUZg8UGEZLexesfWFA2DR60gSik50MIGY6v3hmtLdJR+UApZWhGUh1Bp6EPxFNZy
-	AAfHkYMFTn1MsnSVGMW3KilwBiEsfTsVzJBMm3rdYgT/vX2iSrklHHfbM9kFnydP26c
-	tp8qRsWQvDkGNVMJ3LHxk7cZXLBKey+survDhcJk=
+	bh=AOoyW6H+y/QuuQmwgo4dyiFqBjDQ7aVj3Sx5ClEBPig=;
+	b=UBIN1Rk99nVEngfjMxhZCUQadrERu+th7X+x2Qt/fg1B3sziBlkly74+FEWHL+3Y
+	gGSBYZg1feNI6uMkKNJzhvdog9nR2HEUp2pDijN8iELF4njUD5S5eYL1EM6NdarXjzS
+	wmdePKXaTJcC0/SpIPl43pfraBWs3Cs0ot+mPo8M=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1672605967;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1672605968;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=FoDVFEQBjMq8GRTLHJ5wuR84Cjmm0VeSkasjmbue7wk=;
-	b=L5uPYRluOF7dRNRr7ApW2w5eE4FkQiSupr2n7lactpNoVwWWogFTgbRkMuqCe1i+
-	a3MxZoGdpwtXDxwlli4Fi4/EUea+tG/rmD+aNN6R7v+yeregqDZiD5GMiT0wB3zoEWD
-	h7Xwwtxk6SaIgZAFVDx6VUriCeJPK91RNuUY/fd0=
-Content-Type: multipart/mixed; boundary="===============5381403568406879750=="
+	bh=AOoyW6H+y/QuuQmwgo4dyiFqBjDQ7aVj3Sx5ClEBPig=;
+	b=I8f8m72gvDHHAeQRrmzRA1y0GjmLKxUkEB/ej8YD6JMbPQ04gr1cExadZT8q7Qha
+	ioZ24DLNWX7uPPiJ3ATFMQf8mW/g1p+C3QouoHAjiwSPryK9MH1+S6S9xY89elryhQ+
+	pQzn5vcoHU+JRuqP7g/WbLvOwituT2bpCYu59tMU=
+Content-Type: multipart/mixed; boundary="===============4924290376338147702=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Carlos Rafael Giani <dv@pseudoterminal.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gobject-introspection: upgrading to 1.74.0 SUCCEEDED
-Message-ID: <010101856f15a55d-abb94cf1-63c4-431e-ab20-e3eda219b962-000000@us-west-2.amazonses.com>
-Date: Sun, 1 Jan 2023 20:46:07 +0000
+Subject: [AUH] kmscube: upgrading to 345111481d654b38a72b5c3629151dc74f7a82bc
+ SUCCEEDED
+Message-ID: <010101856f15a734-c531f3b8-4e36-4eac-a970-dafd5a811f17-000000@us-west-2.amazonses.com>
+Date: Sun, 1 Jan 2023 20:46:08 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.01.01-54.240.27.30
+X-SES-Outgoing: 2023.01.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 Jan 2023 20:46:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175283
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175282
 
---===============5381403568406879750==
+--===============4924290376338147702==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gobject-introspection* to *1.74.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *kmscube* to *345111481d654b38a72b5c3629151dc74f7a82bc* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gobject-introspection-upgrade-1.72.0-1.74.0.patch
+    - apply the patch: git am 0001-kmscube-upgrade-to-latest-revision.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,90 +70,31 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============5381403568406879750==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-dbg: PKGSIZE changed from 1412832 to 1413784 (+0%)
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-dbg: PKGV changed from 1.72.0 [default] to 1.74.0 [default]
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-dbg: PV changed from "1.72.0" to "1.74.0"
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-dev: PKGSIZE changed from 12560702 to 12642508 (+1%)
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-dev: PKGV changed from 1.72.0 [default] to 1.74.0 [default]
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-dev: PV changed from "1.72.0" to "1.74.0"
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-doc: PKGV changed from 1.72.0 [default] to 1.74.0 [default]
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-doc: PV changed from "1.72.0" to "1.74.0"
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-locale: PKGV changed from 1.72.0 [default] to 1.74.0 [default]
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-locale: PV changed from "1.72.0" to "1.74.0"
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-src: PKGSIZE changed from 1464573 to 1469418 (+0%)
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-src: PKGV changed from 1.72.0 [default] to 1.74.0 [default]
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-src: PV changed from "1.72.0" to "1.74.0"
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-staticdev: PKGV changed from 1.72.0 [default] to 1.74.0 [default]
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-staticdev: PV changed from "1.72.0" to "1.74.0"
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection: PKGSIZE changed from 1969578 to 1972164 (+0%)
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection: PKGV changed from 1.72.0 [default] to 1.74.0 [default]
-packages/core2-32-poky-linux/gobject-introspection/gobject-introspection: PV changed from "1.72.0" to "1.74.0"
-packages/core2-32-poky-linux/gobject-introspection: PKGV changed from 1.72.0 [default] to 1.74.0 [default]
-packages/core2-32-poky-linux/gobject-introspection: PV changed from "1.72.0" to "1.74.0"
-packages/core2-32-poky-linux/gobject-introspection: SRC_URI changed from "https://download.gnome.org/sources//gobject-introspection/1.72/gobject-introspection-1.72.0.tar.xz file://0001-g-ir-tool-template.in-fix-girdir-path.patch" to "https://download.gnome.org/sources//gobject-introspection/1.74/gobject-introspection-1.74.0.tar.xz file://0001-g-ir-tool-template.in-fix-girdir-path.patch"
-
---===============5381403568406879750==
+--===============4924290376338147702==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gobject-introspection-upgrade-1.72.0-1.74.0.patch"
+ filename="0001-kmscube-upgrade-to-latest-revision.patch"
 
-RnJvbSA5ZGU5MGNhYWNmNjcxYTE3ZjkyZjg0ZjU4MDc4OTY3MmQ5OGI1NTc1IE1vbiBTZXAgMTcg
+RnJvbSBlNjQzNDgzNjNiYjQ3ZjMwYzE1Zjc4ZTkwZDJjZDdkZDQ2NjM2ZTQxIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMSBKYW4gMjAyMyAxMjo1MDo1NiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdv
-YmplY3QtaW50cm9zcGVjdGlvbjogdXBncmFkZSAxLjcyLjAgLT4gMS43NC4wCgotLS0KIC4uLi1S
-ZWxvY2F0ZS10aGUtcmVwb3NpdG9yeS1kaXJlY3RvcnktZm9yLW5hdGl2ZS1idWlsZHMucGF0Y2gg
-fCA0ICsrLS0KIC4uLm50cm9zcGVjdGlvbl8xLjcyLjAuYmIgPT4gZ29iamVjdC1pbnRyb3NwZWN0
-aW9uXzEuNzQuMC5iYn0gfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwg
-MyBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3Nw
-ZWN0aW9uL3tnb2JqZWN0LWludHJvc3BlY3Rpb25fMS43Mi4wLmJiID0+IGdvYmplY3QtaW50cm9z
-cGVjdGlvbl8xLjc0LjAuYmJ9ICg5OSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdub21l
-L2dvYmplY3QtaW50cm9zcGVjdGlvbi9nb2JqZWN0LWludHJvc3BlY3Rpb24vMDAwMS1SZWxvY2F0
-ZS10aGUtcmVwb3NpdG9yeS1kaXJlY3RvcnktZm9yLW5hdGl2ZS1idWlsZHMucGF0Y2ggYi9tZXRh
-L3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50cm9zcGVjdGlv
-bi8wMDAxLVJlbG9jYXRlLXRoZS1yZXBvc2l0b3J5LWRpcmVjdG9yeS1mb3ItbmF0aXZlLWJ1aWxk
-cy5wYXRjaAppbmRleCBiYTk2NTA5MmUxLi4wMzBmZjE3NjAxIDEwMDY0NAotLS0gYS9tZXRhL3Jl
-Y2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50cm9zcGVjdGlvbi8w
-MDAxLVJlbG9jYXRlLXRoZS1yZXBvc2l0b3J5LWRpcmVjdG9yeS1mb3ItbmF0aXZlLWJ1aWxkcy5w
-YXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmpl
-Y3QtaW50cm9zcGVjdGlvbi8wMDAxLVJlbG9jYXRlLXRoZS1yZXBvc2l0b3J5LWRpcmVjdG9yeS1m
-b3ItbmF0aXZlLWJ1aWxkcy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNzRhMGZlZTg5MjIz
-NWM3MjJhYzYwZGRlYTZlZTc5YmMzZDdhOTNmNSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zy
-b20gZDM5NmU1MTI2NDYxNjMxZTJjNzNjZTk4YmEwMzRmMWU0NDU5OGY2YSBNb24gU2VwIDE3IDAw
-OjAwOjAwIDIwMDEKIEZyb206IFNhc2NoYSBTaWxiZSA8eC15bzE3QHNlLXNpbGJlLmRlPgogRGF0
-ZTogRnJpLCA4IEp1biAyMDE4IDEzOjU1OjEwICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIFJlbG9j
-YXRlIHRoZSByZXBvc2l0b3J5IGRpcmVjdG9yeSBmb3IgbmF0aXZlIGJ1aWxkcwpAQCAtMjEsNyAr
-MjEsNyBAQCBTaWduZWQtb2ZmLWJ5OiBTYXNjaGEgU2lsYmUgPHgteW8xN0BzZS1zaWxiZS5kZT4K
-ICAyIGZpbGVzIGNoYW5nZWQsIDE0IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCiAKIGRp
-ZmYgLS1naXQgYS9naXJlcG9zaXRvcnkvZ2lyZXBvc2l0b3J5LmMgYi9naXJlcG9zaXRvcnkvZ2ly
-ZXBvc2l0b3J5LmMKLWluZGV4IDdkMDM0ODUuLjIwZjQ4MTMgMTAwNjQ0CitpbmRleCBhMDc1NGY0
-Li4yZDQ1NmY5IDEwMDY0NAogLS0tIGEvZ2lyZXBvc2l0b3J5L2dpcmVwb3NpdG9yeS5jCiArKysg
-Yi9naXJlcG9zaXRvcnkvZ2lyZXBvc2l0b3J5LmMKIEBAIC0yMSw2ICsyMSw4IEBACmRpZmYgLS1n
-aXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50
-cm9zcGVjdGlvbl8xLjcyLjAuYmIgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3Nw
-ZWN0aW9uL2dvYmplY3QtaW50cm9zcGVjdGlvbl8xLjc0LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5
-OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdub21lL2dvYmplY3QtaW50cm9zcGVjdGlvbi9n
-b2JqZWN0LWludHJvc3BlY3Rpb25fMS43Mi4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ25v
-bWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50cm9zcGVjdGlvbl8xLjc0LjAuYmIK
-aW5kZXggZDkzNWNiZDkwNS4uYWI5ZDJkMzVkOSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdu
-b21lL2dvYmplY3QtaW50cm9zcGVjdGlvbi9nb2JqZWN0LWludHJvc3BlY3Rpb25fMS43Mi4wLmJi
-CisrKyBiL21ldGEvcmVjaXBlcy1nbm9tZS9nb2JqZWN0LWludHJvc3BlY3Rpb24vZ29iamVjdC1p
-bnRyb3NwZWN0aW9uXzEuNzQuMC5iYgpAQCAtMTcsNyArMTcsNyBAQCBTUkNfVVJJID0gIiR7R05P
-TUVfTUlSUk9SfS8ke0JQTn0vJHtAb2UudXRpbHMudHJpbV92ZXJzaW9uKCIke1BWfSIsIDIpfS8k
-e0JQTn0tJAogICAgICAgICAgICBmaWxlOi8vMDAwMS1nLWlyLXRvb2wtdGVtcGxhdGUuaW4tZml4
-LWdpcmRpci1wYXRoLnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0g
-PSAiMDJmZThlNTkwODYxZDg4ZjgzMDYwZGQzOWNkYTVjY2FhNjBiMmRhMWQyMWQwZjk1NDk5MzAx
-YjE4NmJlYWFiYyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIzNDdiM2E3MTllNjhiYTRjNjlmZjJk
-NTdlZTI2ODkyMzNlYThjMDdmYzQ5MjIwNWU1NzMzODY3NzllNDJkNjUzIgogCiBTUkNfVVJJOmFw
-cGVuZDpjbGFzcy1uYXRpdmUgPSAiIGZpbGU6Ly8wMDAxLVJlbG9jYXRlLXRoZS1yZXBvc2l0b3J5
-LWRpcmVjdG9yeS1mb3ItbmF0aXZlLWJ1aWxkcy5wYXRjaCIKIAotLSAKMi4zNy4zCgo=
+CkRhdGU6IFN1biwgMSBKYW4gMjAyMyAxMzozODoxNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGtt
+c2N1YmU6IHVwZ3JhZGUgdG8gbGF0ZXN0IHJldmlzaW9uCgotLS0KIG1ldGEvcmVjaXBlcy1ncmFw
+aGljcy9rbXNjdWJlL2ttc2N1YmVfZ2l0LmJiIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5z
+ZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBo
+aWNzL2ttc2N1YmUva21zY3ViZV9naXQuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mva21zY3Vi
+ZS9rbXNjdWJlX2dpdC5iYgppbmRleCA2ZWQ5N2RmYWZlLi5iMmMxMGUwOWZiIDEwMDY0NAotLS0g
+YS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mva21zY3ViZS9rbXNjdWJlX2dpdC5iYgorKysgYi9tZXRh
+L3JlY2lwZXMtZ3JhcGhpY3Mva21zY3ViZS9rbXNjdWJlX2dpdC5iYgpAQCAtMTAsNyArMTAsNyBA
+QCBERVBFTkRTID0gInZpcnR1YWwvbGliZ2xlczMgdmlydHVhbC9saWJnbGVzMiB2aXJ0dWFsL2Vn
+bCBsaWJkcm0iCiAKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL2ttc2N1YmUuYztiZWdpbmxp
+bmU9MTtlbmRsaW5lPTIzO21kNT04YjMwOWQ0ZWU2N2I3MzE1ZmY3MzgxMjcwZGQ2MzFmYiIKIAot
+U1JDUkVWID0gIjNiZjZlZTFhMDIzMzQzODZkODdjZmUzNTZjM2JmYjBiMjRlMWZlZDgiCitTUkNS
+RVYgPSAiMzQ1MTExNDgxZDY1NGIzOGE3MmI1YzM2MjkxNTFkYzc0ZjdhODJiYyIKIFNSQ19VUkkg
+PSAiZ2l0Oi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9tZXNhL2ttc2N1YmU7YnJhbmNoPW1hc3Rl
+cjtwcm90b2NvbD1odHRwcyIKIFVQU1RSRUFNX0NIRUNLX0NPTU1JVFMgPSAiMSIKIAotLSAKMi4z
+Ny4zCgo=
 
---===============5381403568406879750==--
+--===============4924290376338147702==--
 
