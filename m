@@ -1,135 +1,80 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C73EFC4332F
-	for <webhook@archiver.kernel.org>; Sat, 31 Dec 2022 17:15:02 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web11.45995.1672506900131301394
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99B0BC4332F
+	for <webhook@archiver.kernel.org>; Sun,  1 Jan 2023 12:03:24 +0000 (UTC)
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web11.9692.1672574600132322354
  for <openembedded-core@lists.openembedded.org>;
- Sat, 31 Dec 2022 09:15:00 -0800
+ Sun, 01 Jan 2023 04:03:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=iYWLpQL3;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id m3so8642194wmq.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 31 Dec 2022 09:14:59 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=PC/mRIBo;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.170, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f170.google.com with SMTP id w203so510626pfc.12
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Jan 2023 04:03:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rXx/O/Gsl259Id0lEwDDrcVXFoS/Px9+n1JpD5dTtfk=;
-        b=iYWLpQL3JfzK9UIgTExoQN4N8QBf7X2Kyw6HKzBW8OtpBBjJELBM7FXHKufnolcQPq
-         DvFqRrf3o0l3s/KmL4iv/APpWiHO4LAGuq0QurVehmZav33G+CC43QOL79Y5YMM5Xb1/
-         LhkMs332t+rVeEPIzP/2JO8jBV9SRrCcpLO40=
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=date:message-id:to:from:subject:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WKPuUa5a1vYz3LxmQxBLCjlSW3uj3u82uRps76uYd3g=;
+        b=PC/mRIBoeghYpUo0PGQNrJPIxP7m76r5cWZ3tb5cLCB9BEEca0T+ryd6ohzIRRbWQ0
+         mruazhKCwsHQ9aUxF84s1ijGcnWyGyUi0i9V5wcFBNjok9NfL3bB5HP7B3e1j7gjRMR8
+         dMZtPHJb+bhbH8RDvkgsFFWykN1CzOIhWO6sjs512jRCqhSdARr13MyzTTcZVGE5tNxa
+         mL44IAvrcjShZ8s56zlap+vzVMKkyoNLuDTMt2BTISrbBscSHbS3k7x8x3G7+dPKx1D9
+         C+X5cMhRd/Na+3ulkW2EeHeD3slGORbcv34ACN/IYDdqhIw9u6j5jQKilDOVAL7IRbHY
+         8o7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=rXx/O/Gsl259Id0lEwDDrcVXFoS/Px9+n1JpD5dTtfk=;
-        b=guEoD6KIf3QlYxlWyb4N4LU1XCnCb9EPKCKX6pNEhrg20IrQPgqDBAGdkYwTZVIwsR
-         IXcGMiN/sbwDmRgNFV4Ca9palHMtk9MINDcb63czr68hmvJZrj0Zm6qNKXZ9Y4lufdIa
-         8enr08mdPjvuKgtbwov8H0jnnk7mmTdgJXvApDODbh5C4X30dzTHzIkRiLPoPk01w0pr
-         G2QEkeLFnkksg5S3D4m8kglq6a3dNm2UBAKypcxaukrBn55m86bJHefCSG3TUIiyrYn+
-         g54oxNlHFcRAyOCnQpv2FCE0AdwPHFEcsIa46+Cv7+KBKHF6SczEBGB//vw8F5MyzmQA
-         MZ9Q==
-X-Gm-Message-State: AFqh2krbnZoUptc+tPO7Mi++OZrOxjt/JbWtLOL1MOF2QIfS7voLneWr
-	jsnD7Yhta5ETHAqt599vd249Pg==
-X-Google-Smtp-Source: AMrXdXtZhaoaIo0KeJKhCZpXNjW8i1YM+B0tldmz3zkNPCeuidIA0B1VfNo1D9/3tgImoi/BQpxR1Q==
-X-Received: by 2002:a05:600c:3d98:b0:3cf:d70d:d5a8 with SMTP id bi24-20020a05600c3d9800b003cfd70dd5a8mr24783887wmb.6.1672506898485;
-        Sat, 31 Dec 2022 09:14:58 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:1a1f:74ee:21ca:3bb? ([2001:8b0:aba:5f3c:1a1f:74ee:21ca:3bb])
-        by smtp.gmail.com with ESMTPSA id j20-20020a05600c191400b003b4fe03c881sm42707766wmq.48.2022.12.31.09.14.57
+        h=date:message-id:to:from:subject:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WKPuUa5a1vYz3LxmQxBLCjlSW3uj3u82uRps76uYd3g=;
+        b=g9xbrl2Ftnvha2mlNGgXClQ7RCBN86elX36dyXUsL5IL1I+IQK4qKHd04y5De6QJ4d
+         S255UHlntIxIg00bONV1jIVHAk54Kti9Sn5Le+FJAnxv0rYzbtrhFE01Guws7U1prRgs
+         oqkUrdEAgCsZOmUN+XnrhexCiL8nlOnonfTUdaf83nIknWqNmPZPjT1mR29bSHVHNFr7
+         eVxMDANsox9mRC8/mYtDuaoIlQCAqDqJFJ92svx9c6MBQrWR5OxnW6/54OJQd5PzWAly
+         juNZ3lJ3fbIotjbEn3u26uS9NnRQgPcU/hLYoaGbiqEZGpG7ss1/jZ2Hcd8O3Jk0iTOZ
+         OnWw==
+X-Gm-Message-State: AFqh2ko6J6DyWwlvhyKCBGvoN4omxwETmNPfRBEGUZkE3fTn/Krah6LM
+	VXsi7nPveAReh3SnddB1bXVro04cv18lvoPX0Gg=
+X-Google-Smtp-Source: AMrXdXtkHAG4fmFhDO0U2vfB1Ju14y3k8lzvbUL59Ea/9vO7dlBsSLsrFTXk/qwhzkwzj+619Ty1NA==
+X-Received: by 2002:aa7:91d9:0:b0:575:2337:17bf with SMTP id z25-20020aa791d9000000b00575233717bfmr46240760pfa.12.1672574598972;
+        Sun, 01 Jan 2023 04:03:18 -0800 (PST)
+Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id i13-20020a62870d000000b00581d7ef91b2sm5673831pfe.20.2023.01.01.04.03.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Dec 2022 09:14:58 -0800 (PST)
-Message-ID: <f75728aa4e2acbf7274889aeaeb6a8f2b5c72533.camel@linuxfoundation.org>
-Subject: Re: [oe-core][PATCH] gsettings-desktop-schemas.pc.in: use
- pc_sysrootdir for prefix
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Markus Volk <f_l_k@t-online.de>, openembedded-core@lists.openembedded.org
-Date: Sat, 31 Dec 2022 17:14:57 +0000
-In-Reply-To: <20221229080810.98961-1-f_l_k@t-online.de>
-References: <20221229080810.98961-1-f_l_k@t-online.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.1-0ubuntu1 
-MIME-Version: 1.0
+        Sun, 01 Jan 2023 04:03:18 -0800 (PST)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id 57FBA960350; Sun,  1 Jan 2023 02:03:16 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 01 Jan 2023 02:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20230101120316.57FBA960350@nuc.router0800d9.com>
+Date: Sun,  1 Jan 2023 02:03:16 -1000 (HST)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 31 Dec 2022 17:15:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175181
+ <openembedded-core@lists.openembedded.org>; Sun, 01 Jan 2023 12:03:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175182
 
-On Thu, 2022-12-29 at 09:08 +0100, Markus Volk wrote:
-> Signed-off-by: Markus Volk <f_l_k@t-online.de>
-> ---
->  ...ktop-schemas.pc.in-use-pc_sysrootdir.patch | 34 +++++++++++++++++++
->  .../gsettings-desktop-schemas_43.0.bb         |  1 +
->  2 files changed, 35 insertions(+)
->  create mode 100644 meta/recipes-gnome/gsettings-desktop-schemas/gsetting=
-s-desktop-schemas/0001-gsettings-desktop-schemas.pc.in-use-pc_sysrootdir.pa=
-tch
->=20
-> diff --git a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-deskt=
-op-schemas/0001-gsettings-desktop-schemas.pc.in-use-pc_sysrootdir.patch b/m=
-eta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas/0001-=
-gsettings-desktop-schemas.pc.in-use-pc_sysrootdir.patch
-> new file mode 100644
-> index 0000000000..4bf38c1987
-> --- /dev/null
-> +++ b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-sche=
-mas/0001-gsettings-desktop-schemas.pc.in-use-pc_sysrootdir.patch
-> @@ -0,0 +1,34 @@
-> +From abd179df28adcdd9fac3d066aaccbd4c4cd135f5 Mon Sep 17 00:00:00 2001
-> +From: Markus Volk <f_l_k@t-online.de>
-> +Date: Thu, 29 Dec 2022 06:39:59 +0100
-> +Subject: [PATCH] gsettings-desktop-schemas.pc.in: use pc_sysrootdir for =
-prefix
-> +
-> +gnome-settings uses pkgconfig to find gdesktop-enums.h
-> +https://github.com/GNOME/gnome-control-center/blob/4648296a706df83af984a=
-918e5f14c3ece42f5fc/panels/background/meson.build#L22
-> +
-> +Adding pc-sysrootdir to prefix would allow to find the file also if we h=
-ave a user defined sysroot.
-> +
-> +This will fix cross compilation of gnome-control-center with yocto/opene=
-mbedded that otherwise fails like this:
-> +
-> +| ../gnome-control-center-43.2/panels/background/meson.build:27:0: ERROR=
-: File /usr/include/gsettings-desktop-schemas/gdesktop-enums.h does not exi=
-st.
-> +
-> +Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/gsettings-des=
-ktop-schemas/-/merge_requests/62]
-> +
-> +Signed-off-by: Markus Volk <f_l_k@t-online.de>
-> +---
-> + gsettings-desktop-schemas.pc.in | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/gsettings-desktop-schemas.pc.in b/gsettings-desktop-schemas=
-.pc.in
-> +index d611dc1..992fa55 100644
-> +--- a/gsettings-desktop-schemas.pc.in
-> ++++ b/gsettings-desktop-schemas.pc.in
-> +@@ -1,4 +1,4 @@
-> +-prefix=3D@prefix@
-> ++prefix=3D${pc_sysrootdir}@prefix@
-> +=20
-> + Name: gsettings-desktop-schemas
-> + Description: Shared GSettings schemas for the desktop, including helper=
- headers
-> +--=20
-> +2.34.1
-> +
+Branch: master
 
-This doesn't look right to me. It would lead to an arms race where
-every .pc file would need to start accounting for the sysroot. The
-sysroot should really be handled at the calling site.
+New this week: 0 CVEs
 
-Cheers,
+Removed this week: 6 CVEs
+CVE-2022-2601 (CVSS3: 8.6 HIGH): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2601 *
+CVE-2022-3872 (CVSS3: 8.6 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3872 *
+CVE-2022-4144 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4144 *
+CVE-2022-41717 (CVSS3: 5.3 MEDIUM): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41717 *
+CVE-2022-41720 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41720 *
+CVE-2022-45061 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-45061 *
 
-Richard
+Full list:  Found 4 unpatched CVEs
+CVE-2022-3996 (CVSS3: 7.5 HIGH): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3996 *
+CVE-2022-4055 (CVSS3: 7.4 HIGH): xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4055 *
+CVE-2022-4603 (CVSS3: 8.8 HIGH): ppp https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4603 *
+CVE-2022-46908 (CVSS3: 7.3 HIGH): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46908 *
+
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
