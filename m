@@ -2,46 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D4D0C678DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA2D1C678DC
 	for <webhook@archiver.kernel.org>; Sun,  1 Jan 2023 20:46:18 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.20681.1672605968860796498
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.20665.1672605967047534732
  for <openembedded-core@lists.openembedded.org>;
  Sun, 01 Jan 2023 12:46:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=YRuy8+a4;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101856f15a700-ac550bd5-0412-4ea1-9587-76c8f58d47e7-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=TUZg8UGE;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101856f15a55d-abb94cf1-63c4-431e-ab20-e3eda219b962-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1672605968;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=dsxti629kwqVeaG1lRhFTXCN+xTyo43wR+13QGty7EU=;
-	b=YRuy8+a4BZHF01WLj4Vo5R+6/SPb3ojY2Q/4SOOpqFe4tpL2Nr0VoLxl5z694XDM
-	GfEefN8ce1KQBKa0eYkdckUq1wJEbE0/GSGD37rrZQv0zx3g3JI/E7vt+qk7ypZAYOF
-	cPJggQc+RYXjL4zvcjDUasVQv7QQOdFRl8xPLTN8=
+	t=1672605967;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=FoDVFEQBjMq8GRTLHJ5wuR84Cjmm0VeSkasjmbue7wk=;
+	b=TUZg8UGEZLexesfWFA2DR60gSik50MIGY6v3hmtLdJR+UApZWhGUh1Bp6EPxFNZy
+	AAfHkYMFTn1MsnSVGMW3KilwBiEsfTsVzJBMm3rdYgT/vX2iSrklHHfbM9kFnydP26c
+	tp8qRsWQvDkGNVMJ3LHxk7cZXLBKey+survDhcJk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1672605968;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=dsxti629kwqVeaG1lRhFTXCN+xTyo43wR+13QGty7EU=;
-	b=OGkmBAMxP7rPb6YewgbEm8EUZenbQybOvMOSdKzV126ykXjDrnS9wm5aqBpuY6sC
-	9WezKBTNC30y2n1w4kTyf2PVRY4qNpuYW6uCepAb3RBVEoevXbCvzaWd2DfXDuJwMbK
-	gdEghXw2m1IR8tknQ8q6YEWt72cqANc1cQwHRr8g=
-Content-Type: multipart/mixed; boundary="===============2075378360704409991=="
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1672605967;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=FoDVFEQBjMq8GRTLHJ5wuR84Cjmm0VeSkasjmbue7wk=;
+	b=L5uPYRluOF7dRNRr7ApW2w5eE4FkQiSupr2n7lactpNoVwWWogFTgbRkMuqCe1i+
+	a3MxZoGdpwtXDxwlli4Fi4/EUea+tG/rmD+aNN6R7v+yeregqDZiD5GMiT0wB3zoEWD
+	h7Xwwtxk6SaIgZAFVDx6VUriCeJPK91RNuUY/fd0=
+Content-Type: multipart/mixed; boundary="===============5381403568406879750=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] xwayland: upgrading to 22.1.7 SUCCEEDED
-Message-ID: <010101856f15a700-ac550bd5-0412-4ea1-9587-76c8f58d47e7-000000@us-west-2.amazonses.com>
-Date: Sun, 1 Jan 2023 20:46:08 +0000
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] gobject-introspection: upgrading to 1.74.0 SUCCEEDED
+Message-ID: <010101856f15a55d-abb94cf1-63c4-431e-ab20-e3eda219b962-000000@us-west-2.amazonses.com>
+Date: Sun, 1 Jan 2023 20:46:07 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.01.01-54.240.27.45
+X-SES-Outgoing: 2023.01.01-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 Jan 2023 20:46:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175287
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175283
 
---===============2075378360704409991==
+--===============5381403568406879750==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -49,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *xwayland* to *22.1.7* has Succeeded.
+that the automatic attempt to upgrade the recipe *gobject-introspection* to *1.74.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-xwayland-upgrade-22.1.5-22.1.7.patch
+    - apply the patch: git am 0001-gobject-introspection-upgrade-1.72.0-1.74.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -68,62 +69,90 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============2075378360704409991==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-xwayland-upgrade-22.1.5-22.1.7.patch"
-
-RnJvbSBhYjRiNjY2ZWY0NzY2ZmNlMzM5OTA5MmZhYTViZjQ2YTgyYWMxMDRiIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMSBKYW4gMjAyMyAxNToxMjozOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHh3
-YXlsYW5kOiB1cGdyYWRlIDIyLjEuNSAtPiAyMi4xLjcKCi0tLQogLi4uL3h3YXlsYW5kL3t4d2F5
-bGFuZF8yMi4xLjUuYmIgPT4geHdheWxhbmRfMjIuMS43LmJifSAgICAgICAgIHwgMiArLQogMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLWdyYXBoaWNzL3h3YXlsYW5kL3t4d2F5bGFuZF8yMi4xLjUuYmIgPT4geHdheWxhbmRf
-MjIuMS43LmJifSAoOTUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94d2F5
-bGFuZC94d2F5bGFuZF8yMi4xLjUuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveHdheWxhbmQv
-eHdheWxhbmRfMjIuMS43LmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEv
-cmVjaXBlcy1ncmFwaGljcy94d2F5bGFuZC94d2F5bGFuZF8yMi4xLjUuYmIKcmVuYW1lIHRvIG1l
-dGEvcmVjaXBlcy1ncmFwaGljcy94d2F5bGFuZC94d2F5bGFuZF8yMi4xLjcuYmIKaW5kZXggNTFk
-ODQ3YTA5My4uZGQzMmJkMDExMSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3h3
-YXlsYW5kL3h3YXlsYW5kXzIyLjEuNS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveHdh
-eWxhbmQveHdheWxhbmRfMjIuMS43LmJiCkBAIC0xMCw3ICsxMCw3IEBAIExJQ0VOU0UgPSAiTUlU
-IgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9NWRmODc5NTBhZjUxYWMy
-YzU4MjIwOTQ1NTNlYTE4ODAiCiAKIFNSQ19VUkkgPSAiaHR0cHM6Ly93d3cueC5vcmcvYXJjaGl2
-ZS9pbmRpdmlkdWFsL3hzZXJ2ZXIveHdheWxhbmQtJHtQVn0udGFyLnh6IgotU1JDX1VSSVtzaGEy
-NTZzdW1dID0gImUzMTdhYzFmMTE5ZjgzMjE2NTQ5MjE3NjE0MjA5MDFlNGFiZDk1NTg1YThjNzYz
-Y2UyNmFmM2IwNDVhYzE2NzIiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZDUzYWZhYzZjNzE5NTNm
-NWNmNjZkMDNkMjg5ZGFjZDg5NjFkYTViZDMwOWMxZGZmMTI1ZDU5NTVkOWRiNWY3NiIKIAogVVBT
-VFJFQU1fQ0hFQ0tfUkVHRVggPSAieHdheWxhbmQtKD9QPHB2ZXI+XGQrKFwuKD8hOTBcZClcZCsp
-KylcLnRhciIKIAotLSAKMi4zNy4zCgo=
-
---===============2075378360704409991==
+--===============5381403568406879750==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/xwayland: PV changed from "22.1.5" to "22.1.7"
-packages/core2-32-poky-linux/xwayland: PKGV changed from 22.1.5 [default] to 22.1.7 [default]
-packages/core2-32-poky-linux/xwayland: SRC_URI changed from "https://www.x.org/archive/individual/xserver/xwayland-22.1.5.tar.xz" to "https://www.x.org/archive/individual/xserver/xwayland-22.1.7.tar.xz"
-packages/core2-32-poky-linux/xwayland/xwayland-dbg: PV changed from "22.1.5" to "22.1.7"
-packages/core2-32-poky-linux/xwayland/xwayland-dbg: PKGSIZE changed from 10281436 to 10281356 (-0%)
-packages/core2-32-poky-linux/xwayland/xwayland-dbg: PKGV changed from 22.1.5 [default] to 22.1.7 [default]
-packages/core2-32-poky-linux/xwayland/xwayland-dev: PV changed from "22.1.5" to "22.1.7"
-packages/core2-32-poky-linux/xwayland/xwayland-dev: PKGV changed from 22.1.5 [default] to 22.1.7 [default]
-packages/core2-32-poky-linux/xwayland/xwayland-doc: PV changed from "22.1.5" to "22.1.7"
-packages/core2-32-poky-linux/xwayland/xwayland-doc: PKGV changed from 22.1.5 [default] to 22.1.7 [default]
-packages/core2-32-poky-linux/xwayland/xwayland-locale: PV changed from "22.1.5" to "22.1.7"
-packages/core2-32-poky-linux/xwayland/xwayland-locale: PKGV changed from 22.1.5 [default] to 22.1.7 [default]
-packages/core2-32-poky-linux/xwayland/xwayland-src: PV changed from "22.1.5" to "22.1.7"
-packages/core2-32-poky-linux/xwayland/xwayland-src: PKGSIZE changed from 8603294 to 8603730 (+0%)
-packages/core2-32-poky-linux/xwayland/xwayland-src: PKGV changed from 22.1.5 [default] to 22.1.7 [default]
-packages/core2-32-poky-linux/xwayland/xwayland-staticdev: PV changed from "22.1.5" to "22.1.7"
-packages/core2-32-poky-linux/xwayland/xwayland-staticdev: PKGV changed from 22.1.5 [default] to 22.1.7 [default]
-packages/core2-32-poky-linux/xwayland/xwayland: PV changed from "22.1.5" to "22.1.7"
-packages/core2-32-poky-linux/xwayland/xwayland: PKGV changed from 22.1.5 [default] to 22.1.7 [default]
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-dbg: PKGSIZE changed from 1412832 to 1413784 (+0%)
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-dbg: PKGV changed from 1.72.0 [default] to 1.74.0 [default]
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-dbg: PV changed from "1.72.0" to "1.74.0"
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-dev: PKGSIZE changed from 12560702 to 12642508 (+1%)
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-dev: PKGV changed from 1.72.0 [default] to 1.74.0 [default]
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-dev: PV changed from "1.72.0" to "1.74.0"
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-doc: PKGV changed from 1.72.0 [default] to 1.74.0 [default]
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-doc: PV changed from "1.72.0" to "1.74.0"
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-locale: PKGV changed from 1.72.0 [default] to 1.74.0 [default]
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-locale: PV changed from "1.72.0" to "1.74.0"
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-src: PKGSIZE changed from 1464573 to 1469418 (+0%)
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-src: PKGV changed from 1.72.0 [default] to 1.74.0 [default]
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-src: PV changed from "1.72.0" to "1.74.0"
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-staticdev: PKGV changed from 1.72.0 [default] to 1.74.0 [default]
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection-staticdev: PV changed from "1.72.0" to "1.74.0"
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection: PKGSIZE changed from 1969578 to 1972164 (+0%)
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection: PKGV changed from 1.72.0 [default] to 1.74.0 [default]
+packages/core2-32-poky-linux/gobject-introspection/gobject-introspection: PV changed from "1.72.0" to "1.74.0"
+packages/core2-32-poky-linux/gobject-introspection: PKGV changed from 1.72.0 [default] to 1.74.0 [default]
+packages/core2-32-poky-linux/gobject-introspection: PV changed from "1.72.0" to "1.74.0"
+packages/core2-32-poky-linux/gobject-introspection: SRC_URI changed from "https://download.gnome.org/sources//gobject-introspection/1.72/gobject-introspection-1.72.0.tar.xz file://0001-g-ir-tool-template.in-fix-girdir-path.patch" to "https://download.gnome.org/sources//gobject-introspection/1.74/gobject-introspection-1.74.0.tar.xz file://0001-g-ir-tool-template.in-fix-girdir-path.patch"
 
---===============2075378360704409991==--
+--===============5381403568406879750==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-gobject-introspection-upgrade-1.72.0-1.74.0.patch"
+
+RnJvbSA5ZGU5MGNhYWNmNjcxYTE3ZjkyZjg0ZjU4MDc4OTY3MmQ5OGI1NTc1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMSBKYW4gMjAyMyAxMjo1MDo1NiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdv
+YmplY3QtaW50cm9zcGVjdGlvbjogdXBncmFkZSAxLjcyLjAgLT4gMS43NC4wCgotLS0KIC4uLi1S
+ZWxvY2F0ZS10aGUtcmVwb3NpdG9yeS1kaXJlY3RvcnktZm9yLW5hdGl2ZS1idWlsZHMucGF0Y2gg
+fCA0ICsrLS0KIC4uLm50cm9zcGVjdGlvbl8xLjcyLjAuYmIgPT4gZ29iamVjdC1pbnRyb3NwZWN0
+aW9uXzEuNzQuMC5iYn0gfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwg
+MyBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3Nw
+ZWN0aW9uL3tnb2JqZWN0LWludHJvc3BlY3Rpb25fMS43Mi4wLmJiID0+IGdvYmplY3QtaW50cm9z
+cGVjdGlvbl8xLjc0LjAuYmJ9ICg5OSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdub21l
+L2dvYmplY3QtaW50cm9zcGVjdGlvbi9nb2JqZWN0LWludHJvc3BlY3Rpb24vMDAwMS1SZWxvY2F0
+ZS10aGUtcmVwb3NpdG9yeS1kaXJlY3RvcnktZm9yLW5hdGl2ZS1idWlsZHMucGF0Y2ggYi9tZXRh
+L3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50cm9zcGVjdGlv
+bi8wMDAxLVJlbG9jYXRlLXRoZS1yZXBvc2l0b3J5LWRpcmVjdG9yeS1mb3ItbmF0aXZlLWJ1aWxk
+cy5wYXRjaAppbmRleCBiYTk2NTA5MmUxLi4wMzBmZjE3NjAxIDEwMDY0NAotLS0gYS9tZXRhL3Jl
+Y2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50cm9zcGVjdGlvbi8w
+MDAxLVJlbG9jYXRlLXRoZS1yZXBvc2l0b3J5LWRpcmVjdG9yeS1mb3ItbmF0aXZlLWJ1aWxkcy5w
+YXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmpl
+Y3QtaW50cm9zcGVjdGlvbi8wMDAxLVJlbG9jYXRlLXRoZS1yZXBvc2l0b3J5LWRpcmVjdG9yeS1m
+b3ItbmF0aXZlLWJ1aWxkcy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNzRhMGZlZTg5MjIz
+NWM3MjJhYzYwZGRlYTZlZTc5YmMzZDdhOTNmNSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zy
+b20gZDM5NmU1MTI2NDYxNjMxZTJjNzNjZTk4YmEwMzRmMWU0NDU5OGY2YSBNb24gU2VwIDE3IDAw
+OjAwOjAwIDIwMDEKIEZyb206IFNhc2NoYSBTaWxiZSA8eC15bzE3QHNlLXNpbGJlLmRlPgogRGF0
+ZTogRnJpLCA4IEp1biAyMDE4IDEzOjU1OjEwICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIFJlbG9j
+YXRlIHRoZSByZXBvc2l0b3J5IGRpcmVjdG9yeSBmb3IgbmF0aXZlIGJ1aWxkcwpAQCAtMjEsNyAr
+MjEsNyBAQCBTaWduZWQtb2ZmLWJ5OiBTYXNjaGEgU2lsYmUgPHgteW8xN0BzZS1zaWxiZS5kZT4K
+ICAyIGZpbGVzIGNoYW5nZWQsIDE0IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCiAKIGRp
+ZmYgLS1naXQgYS9naXJlcG9zaXRvcnkvZ2lyZXBvc2l0b3J5LmMgYi9naXJlcG9zaXRvcnkvZ2ly
+ZXBvc2l0b3J5LmMKLWluZGV4IDdkMDM0ODUuLjIwZjQ4MTMgMTAwNjQ0CitpbmRleCBhMDc1NGY0
+Li4yZDQ1NmY5IDEwMDY0NAogLS0tIGEvZ2lyZXBvc2l0b3J5L2dpcmVwb3NpdG9yeS5jCiArKysg
+Yi9naXJlcG9zaXRvcnkvZ2lyZXBvc2l0b3J5LmMKIEBAIC0yMSw2ICsyMSw4IEBACmRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50
+cm9zcGVjdGlvbl8xLjcyLjAuYmIgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3Nw
+ZWN0aW9uL2dvYmplY3QtaW50cm9zcGVjdGlvbl8xLjc0LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5
+OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdub21lL2dvYmplY3QtaW50cm9zcGVjdGlvbi9n
+b2JqZWN0LWludHJvc3BlY3Rpb25fMS43Mi4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ25v
+bWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50cm9zcGVjdGlvbl8xLjc0LjAuYmIK
+aW5kZXggZDkzNWNiZDkwNS4uYWI5ZDJkMzVkOSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdu
+b21lL2dvYmplY3QtaW50cm9zcGVjdGlvbi9nb2JqZWN0LWludHJvc3BlY3Rpb25fMS43Mi4wLmJi
+CisrKyBiL21ldGEvcmVjaXBlcy1nbm9tZS9nb2JqZWN0LWludHJvc3BlY3Rpb24vZ29iamVjdC1p
+bnRyb3NwZWN0aW9uXzEuNzQuMC5iYgpAQCAtMTcsNyArMTcsNyBAQCBTUkNfVVJJID0gIiR7R05P
+TUVfTUlSUk9SfS8ke0JQTn0vJHtAb2UudXRpbHMudHJpbV92ZXJzaW9uKCIke1BWfSIsIDIpfS8k
+e0JQTn0tJAogICAgICAgICAgICBmaWxlOi8vMDAwMS1nLWlyLXRvb2wtdGVtcGxhdGUuaW4tZml4
+LWdpcmRpci1wYXRoLnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0g
+PSAiMDJmZThlNTkwODYxZDg4ZjgzMDYwZGQzOWNkYTVjY2FhNjBiMmRhMWQyMWQwZjk1NDk5MzAx
+YjE4NmJlYWFiYyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIzNDdiM2E3MTllNjhiYTRjNjlmZjJk
+NTdlZTI2ODkyMzNlYThjMDdmYzQ5MjIwNWU1NzMzODY3NzllNDJkNjUzIgogCiBTUkNfVVJJOmFw
+cGVuZDpjbGFzcy1uYXRpdmUgPSAiIGZpbGU6Ly8wMDAxLVJlbG9jYXRlLXRoZS1yZXBvc2l0b3J5
+LWRpcmVjdG9yeS1mb3ItbmF0aXZlLWJ1aWxkcy5wYXRjaCIKIAotLSAKMi4zNy4zCgo=
+
+--===============5381403568406879750==--
 
