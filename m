@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16B82C4167B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BD81C54EBF
 	for <webhook@archiver.kernel.org>; Sun,  1 Jan 2023 20:46:07 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.20169.1672605965553683693
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.20172.1672605966749946133
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Jan 2023 12:46:05 -0800
+ Sun, 01 Jan 2023 12:46:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=na8EQBF9;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101856f159940-c2a02b80-1139-46b4-8306-3806c84d6fd8-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Jxo3Z+lz;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101856f159e8c-6f428f1f-c335-412b-b06d-e280a9293ade-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1672605964;
+	t=1672605966;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=TGn4PlfaLXHl+LYFjwUvwr8/eHaiQTkQEZqXPQqBW20=;
-	b=na8EQBF9ARJ5CLMiopPVP6IhZ0aZkv4z2X8UQrKGoQ3VMVedCe9RMMjZZvaik1a8
-	8Lwm9M5YXpL57fHOeDEVRbPjV23kDRrPr88b5rym7+g+WXYQh+i0MtrbJjBckh3IIiz
-	FdaOZWRLroAfkKeavDjhIK4M/ZezznZ57yUcdsLY=
+	bh=LLdcv1pawTWuLqeamaOpHQ5z3Y6q/oaSaZS58DFOHt8=;
+	b=Jxo3Z+lzkIxhU12ytaD08gnJcPwI1OJPmW8GDSKBWQSJdIn4iR9r/4CcfurYSgW8
+	N1akna3eGFSY4rzahbO9bPd6DxUToRNXky+31jQExmrF8tmRrfbUythGEpXhMYcVYd8
+	vo/tGFhOrEngPUHp4+u3tqBNDi4Qj0UpqM/6W30w=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1672605964;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1672605966;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=TGn4PlfaLXHl+LYFjwUvwr8/eHaiQTkQEZqXPQqBW20=;
-	b=a09+1lYzAXQDgzQRRPwvK92ENWnO7AFs8DJ8GL7vt2kvPDiAuasle6YAlm7DNdC2
-	ppu7Jb1tusEf/BuoJTZmspyk6AEERXnT7ZbQ8sB//d3LJQymfaxzDh3VhRCLOYWx2Ys
-	xUU0xR8FCsYxPh58V5EQBQHrkiwA2QZYyfrsTGRE=
-Content-Type: multipart/mixed; boundary="===============8218599066188557954=="
+	bh=LLdcv1pawTWuLqeamaOpHQ5z3Y6q/oaSaZS58DFOHt8=;
+	b=K6UsENQn2vdOc954K8jmnfCwbO7eCFqixpnb2yZuUalRldtsRThBhCa1e9xfPV8c
+	FRfVSWIE6QYL6p8Q4sx1QCFV+hdQi0mx83EilX44Ki/97ypkRc7F4+4qSAe9CFDlfsR
+	pjypyvpRsbBxLD/56GdrS9vtoXyZcPktysznRBXk=
+Content-Type: multipart/mixed; boundary="===============4240269801175702113=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libpcap: upgrading to 1.10.2 SUCCEEDED
-Message-ID: <010101856f159940-c2a02b80-1139-46b4-8306-3806c84d6fd8-000000@us-west-2.amazonses.com>
-Date: Sun, 1 Jan 2023 20:46:04 +0000
+Subject: [AUH] python3-dtschema: upgrading to 2022.12 SUCCEEDED
+Message-ID: <010101856f159e8c-6f428f1f-c335-412b-b06d-e280a9293ade-000000@us-west-2.amazonses.com>
+Date: Sun, 1 Jan 2023 20:46:06 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.01.01-54.240.27.31
+X-SES-Outgoing: 2023.01.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 Jan 2023 20:46:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175238
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175249
 
---===============8218599066188557954==
+--===============4240269801175702113==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libpcap* to *1.10.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-dtschema* to *2022.12* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libpcap-upgrade-1.10.1-1.10.2.patch
+    - apply the patch: git am 0001-python3-dtschema-upgrade-2022.11-2022.12.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,91 +69,78 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============8218599066188557954==
+--===============4240269801175702113==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-dtschema-upgrade-2022.11-2022.12.patch"
+
+RnJvbSBhZDhjOGYxODEwMDllMDE3MDEyNTcwMWQ4MWQ0NmQ2Y2Y2YWU3MTZhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMSBKYW4gMjAyMyAwODo0OTozOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtZHRzY2hlbWE6IHVwZ3JhZGUgMjAyMi4xMSAtPiAyMDIyLjEyCgotLS0KIC4uLntweXRo
+b24zLWR0c2NoZW1hXzIwMjIuMTEuYmIgPT4gcHl0aG9uMy1kdHNjaGVtYV8yMDIyLjEyLmJifSB8
+IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
+YW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtZHRzY2hlbWFfMjAyMi4x
+MS5iYiA9PiBweXRob24zLWR0c2NoZW1hXzIwMjIuMTIuYmJ9ICg4MyUpCgpkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWR0c2NoZW1hXzIwMjIuMTEuYmIg
+Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtZHRzY2hlbWFfMjAyMi4xMi5i
+YgpzaW1pbGFyaXR5IGluZGV4IDgzJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtZHRzY2hlbWFfMjAyMi4xMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24zLWR0c2NoZW1hXzIwMjIuMTIuYmIKaW5kZXggZmQ4N2Ri
+MmMyYi4uOWQ4NjAxMTFjMSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
+bi9weXRob24zLWR0c2NoZW1hXzIwMjIuMTEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLWR0c2NoZW1hXzIwMjIuMTIuYmIKQEAgLTcsNyArNyw3IEBAIGluaGVy
+aXQgcHlwaSBzZXR1cHRvb2xzMwogCiBQWVBJX1BBQ0tBR0UgPSAiZHRzY2hlbWEiCiAKLVNSQ19V
+Uklbc2hhMjU2c3VtXSA9ICI4MjVlNTFiOGJiODJhMmQ0ODMzZDE1YzI1ZmYyYjlhM2Y1YTUzYjM2
+YTQ5MGQ3YzRiNmIxMzYwMzdlODIzMzIwIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImY1MzJkNDMz
+YTkxNWU1MDdkNGI0MjZiN2VmNTdhNjczMGQyM2MwOTM4YjY4MmZiNDg2NmY5ZGZhODBhNThlYzYi
+CiAKIERFUEVORFMgKz0gInB5dGhvbjMtc2V0dXB0b29scy1zY20tbmF0aXZlIgogUkRFUEVORFM6
+JHtQTn0gKz0gInB5dGhvbjMtcnVhbWVsLXlhbWwgcHl0aG9uMy1qc29uc2NoZW1hIHB5dGhvbjMt
+cmZjMzk4NyIKLS0gCjIuMzcuMwoK
+
+--===============4240269801175702113==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/libpcap/libpcap-dev: FILELIST: added "/usr/include/pcap-util.h"
-packages/core2-32-poky-linux/libpcap/libpcap: FILELIST: removed "/usr/lib/libpcap.so.1.10.1", added "/usr/lib/libpcap.so.1.10.2"
-Changes to packages/core2-32-poky-linux/libpcap (sysroot):
-  /usr/lib/libpcap.so.1 changed symlink target from libpcap.so.1.10.1 to libpcap.so.1.10.2
-  /usr/lib/libpcap.so.1.10.1 moved to /usr/lib/libpcap.so.1.10.2
-  /usr/include/pcap-util.h was added
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema: FILELIST: directory renamed /usr/lib/python3.11/site-packages/dtschema-2022.11.dist-info -> /usr/lib/python3.11/site-packages/dtschema-2022.12.dist-info, added "/usr/lib/python3.11/site-packages/dtschema/schemas/cache.yaml /usr/lib/python3.11/site-packages/dtschema/schemas/cpu.yaml"
+Changes to packages/core2-32-poky-linux/python3-dtschema (sysroot):
+  /usr/lib/python3.11/site-packages/dtschema-2022.11.dist-info moved to /usr/lib/python3.11/site-packages/dtschema-2022.12.dist-info
+  /usr/lib/python3.11/site-packages/dtschema/schemas/cache.yaml was added
+  /usr/lib/python3.11/site-packages/dtschema/schemas/cpu.yaml was added
 
---===============8218599066188557954==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libpcap-upgrade-1.10.1-1.10.2.patch"
-
-RnJvbSA0MTQ1ZmIzMDFiMGY1NDE0ZDI1ZDE3ZWQ4OWQwYzE5YTY3ZGM5MGM1IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMSBKYW4gMjAyMyAwNjozNjowNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YnBjYXA6IHVwZ3JhZGUgMS4xMC4xIC0+IDEuMTAuMgoKLS0tCiAuLi4vbGlicGNhcC97bGlicGNh
-cF8xLjEwLjEuYmIgPT4gbGlicGNhcF8xLjEwLjIuYmJ9ICAgICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtY29ubmVjdGl2aXR5L2xpYnBjYXAve2xpYnBjYXBfMS4xMC4xLmJiID0+IGxpYnBjYXBf
-MS4xMC4yLmJifSAoOTUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkv
-bGlicGNhcC9saWJwY2FwXzEuMTAuMS5iYiBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbGli
-cGNhcC9saWJwY2FwXzEuMTAuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBt
-ZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2xpYnBjYXAvbGlicGNhcF8xLjEwLjEuYmIKcmVuYW1l
-IHRvIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbGlicGNhcC9saWJwY2FwXzEuMTAuMi5iYgpp
-bmRleCBkYmUyZmQ4MTU3Li40OGM5YmIwOWQzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29u
-bmVjdGl2aXR5L2xpYnBjYXAvbGlicGNhcF8xLjEwLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNv
-bm5lY3Rpdml0eS9saWJwY2FwL2xpYnBjYXBfMS4xMC4yLmJiCkBAIC0xMSw3ICsxMSw3IEBAIExJ
-Q19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTVlYjI4OTIxN2MxNjBlMjkyMGQy
-ZTM1YmRkYzM2NDUzIFwKIERFUEVORFMgPSAiZmxleC1uYXRpdmUgYmlzb24tbmF0aXZlIgogCiBT
-UkNfVVJJID0gImh0dHBzOi8vd3d3LnRjcGR1bXAub3JnL3JlbGVhc2UvJHtCUH0udGFyLmd6Igot
-U1JDX1VSSVtzaGEyNTZzdW1dID0gImVkMjg1ZjRhY2NhZjA1MzQ0ZjkwOTc1NzU3YjNkYmZlNzcy
-YmE0MWQxYzQwMWMyNjQ4YjdmYTQ1YjcxMWJkZDQiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZGI2
-ZDc5ZDRhZDAzYjhiMTVmYjE2YzQyNDQ3ZDA5M2FkMzUyMGMwZWMwYWUzZDMzMTEwNGRjZmIxY2U3
-NzU2MCIKIAogaW5oZXJpdCBhdXRvdG9vbHMgYmluY29uZmlnLWRpc2FibGVkIHBrZ2NvbmZpZwog
-Ci0tIAoyLjM3LjMKCg==
-
---===============8218599066188557954==
+--===============4240269801175702113==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libpcap: SRC_URI changed from "https://www.tcpdump.org/release/libpcap-1.10.1.tar.gz" to "https://www.tcpdump.org/release/libpcap-1.10.2.tar.gz"
-packages/core2-32-poky-linux/libpcap: PKGV changed from 1.10.1 [default] to 1.10.2 [default]
-packages/core2-32-poky-linux/libpcap: PV changed from "1.10.1" to "1.10.2"
-packages/core2-32-poky-linux/libpcap/libpcap-dbg: FILELIST: removed "/usr/lib/.debug/libpcap.so.1.10.1", added "/usr/lib/.debug/libpcap.so.1.10.2"
-packages/core2-32-poky-linux/libpcap/libpcap-dbg: PKGSIZE changed from 784196 to 804472 (+3%)
-packages/core2-32-poky-linux/libpcap/libpcap-dbg: PKGV changed from 1.10.1 [default] to 1.10.2 [default]
-packages/core2-32-poky-linux/libpcap/libpcap-dbg: PV changed from "1.10.1" to "1.10.2"
-packages/core2-32-poky-linux/libpcap/libpcap-dev: FILELIST: added "/usr/include/pcap-util.h"
-packages/core2-32-poky-linux/libpcap/libpcap-dev: PKGSIZE changed from 160600 to 168068 (+5%)
-packages/core2-32-poky-linux/libpcap/libpcap-dev: PKGV changed from 1.10.1 [default] to 1.10.2 [default]
-packages/core2-32-poky-linux/libpcap/libpcap-dev: PV changed from "1.10.1" to "1.10.2"
-packages/core2-32-poky-linux/libpcap/libpcap-doc: PKGSIZE changed from 240494 to 245528 (+2%)
-packages/core2-32-poky-linux/libpcap/libpcap-doc: PKGV changed from 1.10.1 [default] to 1.10.2 [default]
-packages/core2-32-poky-linux/libpcap/libpcap-doc: PV changed from "1.10.1" to "1.10.2"
-packages/core2-32-poky-linux/libpcap/libpcap-locale: PKGV changed from 1.10.1 [default] to 1.10.2 [default]
-packages/core2-32-poky-linux/libpcap/libpcap-locale: PV changed from "1.10.1" to "1.10.2"
-packages/core2-32-poky-linux/libpcap/libpcap-src: FILELIST: directory renamed /usr/src/debug/libpcap/1.10.1-r0/missing -> /usr/src/debug/libpcap/1.10.2-r0/missing, directory renamed /usr/src/debug/libpcap/1.10.1-r0/pcap -> /usr/src/debug/libpcap/1.10.2-r0/pcap, removed "/usr/src/debug/libpcap/1.10.1-r0/pcap-bt-linux.h /usr/src/debug/libpcap/1.10.1-r0/pcap-bt-monitor-linux.c /usr/src/debug/libpcap/1.10.1-r0/savefile.c /usr/src/debug/libpcap/1.10.1-r0/optimize.c /usr/src/debug/libpcap/1.10.1-r0/pcap-bt-linux.c /usr/src/debug/libpcap/1.10.1-r0/pcap-bt-monitor-linux.h /usr/src/debug/libpcap/1.10.1-r0/pcap-linux.c /usr/src/debug/libpcap/1.10.1-r0/fad-getad.c /usr/src/debug/libpcap/1.10.1-r0/pcap-usb-linux.h /usr/src/debug/libpcap/1.10.1-r0/pcap-netfilter-linux.h /usr/src/debug/libpcap/1.10.1-r0/pcap-usb-linux.c /usr/src/debug/libpcap/1.10.1-r0/pcap.c /usr/src/debug/libpcap/1.10.1-r0/pcap-netfilter-linux.c /usr/src/debug/libpcap/1.10.1-r0/pcap-int.h /usr/src/debug/libpcap/1.10.1-r0/sf-pcap
- ng.c /usr/src/debug/libpcap/1.10.1-r0/portability.h /usr/src/debug/libpcap/1.10.1-r0/etherent.c /usr/src/debug/libpcap/1.10.1-r0/sf-pcapng.h /usr/src/debug/libpcap/1.10.1-r0/bpf_dump.c /usr/src/debug/libpcap/1.10.1-r0/fmtutils.h /usr/src/debug/libpcap/1.10.1-r0/fmtutils.c /usr/src/debug/libpcap/1.10.1-r0/nametoaddr.h /usr/src/debug/libpcap/1.10.1-r0/pcap-common.c /usr/src/debug/libpcap/1.10.1-r0/gencode.c /usr/src/debug/libpcap/1.10.1-r0/grammar.c /usr/src/debug/libpcap/1.10.1-r0/scanner.c /usr/src/debug/libpcap/1.10.1-r0/sf-pcap.c /usr/src/debug/libpcap/1.10.1-r0/nametoaddr.c /usr/src/debug/libpcap/1.10.1-r0/scanner.l /usr/src/debug/libpcap/1.10.1-r0/bpf_filter.c /usr/src/debug/libpcap/1.10.1-r0/extract.h /usr/src/debug/libpcap/1.10.1-r0/gencode.h /usr/src/debug/libpcap/1.10.1-r0/grammar.h /usr/src/debug/libpcap/1.10.1-r0/pcap-common.h /usr/src/debug/libpcap/1.10.1-r0/scanner.h /usr/src/debug/libpcap/1.10.1-r0/sf-pcap.h /usr/src/debug/libpcap/1.10.1-r0/bpf_image.c /usr/src/debug/li
- bpcap/1.10.1-r0/grammar.y", added "/usr/src/debug/libpcap/1.10.2-r0/pcap-bt-linux.h /usr/src/debug/libpcap/1.10.2-r0/pcap-bt-monitor-linux.c /usr/src/debug/libpcap/1.10.2-r0/pcap-util.h /usr/src/debug/libpcap/1.10.2-r0/savefile.c /usr/src/debug/libpcap/1.10.2-r0/optimize.c /usr/src/debug/libpcap/1.10.2-r0/pcap-bt-linux.c /usr/src/debug/libpcap/1.10.2-r0/pcap-bt-monitor-linux.h /usr/src/debug/libpcap/1.10.2-r0/pcap-util.c /usr/src/debug/libpcap/1.10.2-r0/pcap-linux.c /usr/src/debug/libpcap/1.10.2-r0/fad-getad.c /usr/src/debug/libpcap/1.10.2-r0/pcap-usb-linux.h /usr/src/debug/libpcap/1.10.2-r0/pcap-usb-linux-common.c /usr/src/debug/libpcap/1.10.2-r0/pcap-netfilter-linux.h /usr/src/debug/libpcap/1.10.2-r0/pcap-usb-linux.c /usr/src/debug/libpcap/1.10.2-r0/pcap.c /usr/src/debug/libpcap/1.10.2-r0/pcap-netfilter-linux.c /usr/src/debug/libpcap/1.10.2-r0/pcap-usb-linux-common.h /usr/src/debug/libpcap/1.10.2-r0/pcap-int.h /usr/src/debug/libpcap/1.10.2-r0/sf-pcapng.c /usr/src/debug/libpcap/1.1
- 0.2-r0/etherent.c /usr/src/debug/libpcap/1.10.2-r0/portability.h /usr/src/debug/libpcap/1.10.2-r0/sf-pcapng.h /usr/src/debug/libpcap/1.10.2-r0/bpf_dump.c /usr/src/debug/libpcap/1.10.2-r0/fmtutils.h /usr/src/debug/libpcap/1.10.2-r0/pflog.h /usr/src/debug/libpcap/1.10.2-r0/fmtutils.c /usr/src/debug/libpcap/1.10.2-r0/nametoaddr.h /usr/src/debug/libpcap/1.10.2-r0/pcap-common.c /usr/src/debug/libpcap/1.10.2-r0/gencode.c /usr/src/debug/libpcap/1.10.2-r0/grammar.c /usr/src/debug/libpcap/1.10.2-r0/scanner.c /usr/src/debug/libpcap/1.10.2-r0/sf-pcap.c /usr/src/debug/libpcap/1.10.2-r0/nametoaddr.c /usr/src/debug/libpcap/1.10.2-r0/scanner.l /usr/src/debug/libpcap/1.10.2-r0/bpf_filter.c /usr/src/debug/libpcap/1.10.2-r0/extract.h /usr/src/debug/libpcap/1.10.2-r0/gencode.h /usr/src/debug/libpcap/1.10.2-r0/grammar.h /usr/src/debug/libpcap/1.10.2-r0/pcap-common.h /usr/src/debug/libpcap/1.10.2-r0/scanner.h /usr/src/debug/libpcap/1.10.2-r0/sf-pcap.h /usr/src/debug/libpcap/1.10.2-r0/bpf_image.c /usr/sr
- c/debug/libpcap/1.10.2-r0/grammar.y"
-packages/core2-32-poky-linux/libpcap/libpcap-src: PKGSIZE changed from 1461153 to 1492416 (+2%)
-packages/core2-32-poky-linux/libpcap/libpcap-src: PKGV changed from 1.10.1 [default] to 1.10.2 [default]
-packages/core2-32-poky-linux/libpcap/libpcap-src: PV changed from "1.10.1" to "1.10.2"
-packages/core2-32-poky-linux/libpcap/libpcap-staticdev: PKGSIZE changed from 1156504 to 1186388 (+3%)
-packages/core2-32-poky-linux/libpcap/libpcap-staticdev: PKGV changed from 1.10.1 [default] to 1.10.2 [default]
-packages/core2-32-poky-linux/libpcap/libpcap-staticdev: PV changed from "1.10.1" to "1.10.2"
-packages/core2-32-poky-linux/libpcap/libpcap: FILELIST: removed "/usr/lib/libpcap.so.1.10.1", added "/usr/lib/libpcap.so.1.10.2"
-packages/core2-32-poky-linux/libpcap/libpcap: PKGSIZE changed from 316965 to 321061 (+1%)
-packages/core2-32-poky-linux/libpcap/libpcap: PKGV changed from 1.10.1 [default] to 1.10.2 [default]
-packages/core2-32-poky-linux/libpcap/libpcap: PV changed from "1.10.1" to "1.10.2"
-Changes to packages/core2-32-poky-linux/libpcap (sysroot):
-  /usr/lib/libpcap.so.1 changed symlink target from libpcap.so.1.10.1 to libpcap.so.1.10.2
-  /usr/lib/libpcap.so.1.10.1 moved to /usr/lib/libpcap.so.1.10.2
-  /usr/include/pcap-util.h was added
+packages/core2-32-poky-linux/python3-dtschema: SRC_URI changed from "https://files.pythonhosted.org/packages/source/d/dtschema/dtschema-2022.11.tar.gz" to "https://files.pythonhosted.org/packages/source/d/dtschema/dtschema-2022.12.tar.gz"
+packages/core2-32-poky-linux/python3-dtschema: PKGV changed from 2022.11 [default] to 2022.12 [default]
+packages/core2-32-poky-linux/python3-dtschema: PV changed from "2022.11" to "2022.12"
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-dbg: PKGV changed from 2022.11 [default] to 2022.12 [default]
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-dbg: PV changed from "2022.11" to "2022.12"
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-dev: PKGV changed from 2022.11 [default] to 2022.12 [default]
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-dev: PV changed from "2022.11" to "2022.12"
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-doc: PKGV changed from 2022.11 [default] to 2022.12 [default]
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-doc: PV changed from "2022.11" to "2022.12"
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-locale: PKGV changed from 2022.11 [default] to 2022.12 [default]
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-locale: PV changed from "2022.11" to "2022.12"
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-src: PKGV changed from 2022.11 [default] to 2022.12 [default]
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-src: PV changed from "2022.11" to "2022.12"
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-staticdev: PKGV changed from 2022.11 [default] to 2022.12 [default]
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-staticdev: PV changed from "2022.11" to "2022.12"
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema: PKGSIZE changed from 290863 to 294053 (+1%)
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema: FILELIST: directory renamed /usr/lib/python3.11/site-packages/dtschema-2022.11.dist-info -> /usr/lib/python3.11/site-packages/dtschema-2022.12.dist-info, added "/usr/lib/python3.11/site-packages/dtschema/schemas/cache.yaml /usr/lib/python3.11/site-packages/dtschema/schemas/cpu.yaml"
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema: PKGV changed from 2022.11 [default] to 2022.12 [default]
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema: PV changed from "2022.11" to "2022.12"
+Changes to packages/core2-32-poky-linux/python3-dtschema (sysroot):
+  /usr/lib/python3.11/site-packages/dtschema-2022.11.dist-info moved to /usr/lib/python3.11/site-packages/dtschema-2022.12.dist-info
+  /usr/lib/python3.11/site-packages/dtschema/schemas/cache.yaml was added
+  /usr/lib/python3.11/site-packages/dtschema/schemas/cpu.yaml was added
 
---===============8218599066188557954==--
+--===============4240269801175702113==--
 
