@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71BCBC63707
-	for <webhook@archiver.kernel.org>; Sun,  1 Jan 2023 20:46:07 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.20174.1672605966781774702
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B42FC4167B
+	for <webhook@archiver.kernel.org>; Sun,  1 Jan 2023 20:46:17 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.20177.1672605967116555623
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Jan 2023 12:46:06 -0800
+ Sun, 01 Jan 2023 12:46:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=O/RuMB/q;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101856f159ddd-b0bf28ac-ea41-48e1-be28-fe8ea95d0a3d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=CIMGD/Wg;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101856f15a0e8-d2ac8ede-d752-487e-9588-f63f05f507b5-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1672605966;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=rv8LnIr7rtValscUte+HcO9GcefBq0RmBIe+DwPoOAY=;
-	b=O/RuMB/qkw4ZDP9B1nAxH/ZjPlh2g4sPZ+tTklrRiBuYnhlusTA7RS3Q1OAB5Xsm
-	ZSfdwDhg7PRJuiNS5+lCK48gWg2V8jqpcc5UmXE9WG3iT7muQKchSgottO93tXZmgap
-	KHyCf9CMhYvqKaAVmksVJctec+FA8jJ3bKPIjNGY=
+	bh=CobcHWL+j2bEluMEpUG4M3s0uOdNADO7GINf3tEjmAo=;
+	b=CIMGD/WgoRYIK6jirmvrC61eQYUDE7nY7IsqZ4EaPih5srLX5SkLbgFuN+Y5Ttwu
+	BakqsFyRq8V7hb9r3KmFiXDQil/ywBd5wW9Vs1kclluspwpoMxHydh5KizlHjVn/1NR
+	zA8UW65h+lKrHzi9Ow4c8XS3MDVb6CTlAv+S+AYE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1672605966;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=rv8LnIr7rtValscUte+HcO9GcefBq0RmBIe+DwPoOAY=;
-	b=G8SqH7RSBZ9+BeZQOy6CMLFA1vQ5vMLmZzOX+Sc7Qvhd5+HgBoq9+oH8uNVT8xDU
-	GAn9KxeGHFqArbdd/S4NTH3/QLGrg/7n90Efwm+4NXktkWcsRjfxpAzDSYgUH6JSeZX
-	VMhTbDUp6luRQcJcXUjopgN/1MA6Id7vb/JiMi54=
-Content-Type: multipart/mixed; boundary="===============0922515087682829048=="
+	bh=CobcHWL+j2bEluMEpUG4M3s0uOdNADO7GINf3tEjmAo=;
+	b=I3F5t/kadIZ0Kwr1TLD2vpjQHDxyrEHyADu4LrGohUSRIUXu1le5zPGK4IILLLQs
+	pVnSgPf0UiE/Ic53YIqWAlCSrp5HHx7cac1jVfHWcCfsBC+jBDrXfo8DymJTxvlBcoT
+	ku9xhHG2r+QN7D922OlKx7rLFj7Bw5eYLZ/VKGhU=
+Content-Type: multipart/mixed; boundary="===============6374586270809511676=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] nasm: upgrading to 2.16.01 FAILED
-Message-ID: <010101856f159ddd-b0bf28ac-ea41-48e1-be28-fe8ea95d0a3d-000000@us-west-2.amazonses.com>
-Date: Sun, 1 Jan 2023 20:46:05 +0000
+Subject: [AUH] python3-mako: upgrading to 1.2.4 SUCCEEDED
+Message-ID: <010101856f15a0e8-d2ac8ede-d752-487e-9588-f63f05f507b5-000000@us-west-2.amazonses.com>
+Date: Sun, 1 Jan 2023 20:46:06 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.01.01-54.240.27.31
+X-SES-Outgoing: 2023.01.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 Jan 2023 20:46:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175251
+ <openembedded-core@lists.openembedded.org>; Sun, 01 Jan 2023 20:46:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175256
 
---===============0922515087682829048==
+--===============6374586270809511676==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,106 +50,89 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *nasm* to *2.16.01* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *python3-mako* to *1.2.4* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-mako-upgrade-1.2.3-1.2.4.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe nasm failed.
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Previous bitbake instance shutting down?, waiting to retry... (07:34:34.240199)
-NOTE: Directory listing: ['conf', 'tmp', 'cache', 'downloads', 'buildhistory', 'sstate-cache', 'workspace', 'upgrade-helper', 'bitbake-cookerdaemon.log']
-NOTE: Retrying server connection (#1)... (07:34:34.409750)
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 893 .bb files complete (0 cached, 893 parsed). 1690 targets, 36 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 WARNING message.
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:5ff8696e0bb0f40056ea07c2beb425c960bec5c0"
-workspace            = "master:c9c2b6b613bbaf7133d9c3435f3aef3fe4e38f59"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1690 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 894 .bb files complete (892 cached, 2 parsed). 1691 targets, 36 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 WARNING message.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:5ff8696e0bb0f40056ea07c2beb425c960bec5c0"
-workspace            = "master:c9c2b6b613bbaf7133d9c3435f3aef3fe4e38f59"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  26% |#########                           | ETA:  0:00:00
-Adding changed files:  52% |##################                  | ETA:  0:00:00
-Adding changed files:  78% |############################        | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching http://www.nasm.us/pub/nasm/releasebuilds/2.16.01/nasm-2.16.01.tar.bz2...
-INFO: Rebasing devtool onto 2ae4ac47f27270d3736b24d6a9351308f37f3bde
-WARNING: Command 'git rebase 2ae4ac47f27270d3736b24d6a9351308f37f3bde' failed:
-Auto-merging Makefile.in
-CONFLICT (content): Merge conflict in Makefile.in
-Auto-merging configure.ac
-Auto-merging include/compiler.h
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Using source tree as build directory since recipe inherits autotools-brokensep
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/nasm
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/nasm/nasm_2.16.01.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============0922515087682829048==--
+--===============6374586270809511676==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-mako-upgrade-1.2.3-1.2.4.patch"
+
+RnJvbSBhZjk1Y2RhNGFjNjU1ZjhlOWI5NWYxNThiYmZmZjZiYjQ0ZmEwNDY1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMSBKYW4gMjAyMyAwOTozNjo1NCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtbWFrbzogdXBncmFkZSAxLjIuMyAtPiAxLjIuNAoKLS0tCiAuLi4vcHl0aG9uL3tweXRo
+b24zLW1ha29fMS4yLjMuYmIgPT4gcHl0aG9uMy1tYWtvXzEuMi40LmJifSAgICAgfCAyICstCiAx
+IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLW1ha29fMS4yLjMuYmIgPT4gcHl0aG9u
+My1tYWtvXzEuMi40LmJifSAoODUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9weXRob24vcHl0aG9uMy1tYWtvXzEuMi4zLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvbi9weXRob24zLW1ha29fMS4yLjQuYmIKc2ltaWxhcml0eSBpbmRleCA4NSUKcmVuYW1lIGZy
+b20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW1ha29fMS4yLjMuYmIKcmVu
+YW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1tYWtvXzEuMi40LmJi
+CmluZGV4IDEyYWNmZWU3NzcuLjk4NjAwNTg3MjMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9weXRob24vcHl0aG9uMy1tYWtvXzEuMi4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9weXRob24vcHl0aG9uMy1tYWtvXzEuMi40LmJiCkBAIC04LDcgKzgsNyBAQCBQWVBJ
+X1BBQ0tBR0UgPSAiTWFrbyIKIAogaW5oZXJpdCBweXBpIHB5dGhvbl9zZXR1cHRvb2xzX2J1aWxk
+X21ldGEKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjdmZGU5NjQ2NmZjZmVlZGIwZWVkOTRmMTg3
+ZjIwYjIzZDg1ZTRjYjQxNDQ0YmUwZTU0MmUyYzhjNjVjMzk2Y2QiCitTUkNfVVJJW3NoYTI1NnN1
+bV0gPSAiZDYwYTM5MDNkYzNiYjAxYTE4YWQ2YTg5Y2RiZTJlNGVhZGM2OWMwYmM4ZWYxZTM3NzNi
+YTUzZDQ0YzNmN2EzNCIKIAogUkRFUEVORFM6JHtQTn0gPSAiJHtQWVRIT05fUE59LWh0bWwgXAog
+ICAgICAgICAgICAgICAgICAgJHtQWVRIT05fUE59LW1hcmt1cHNhZmUgXAotLSAKMi4zNy4zCgo=
+
+--===============6374586270809511676==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-32-poky-linux/python3-mako (sysroot):
+  /usr/lib/python3.11/site-packages/Mako-1.2.3.dist-info moved to /usr/lib/python3.11/site-packages/Mako-1.2.4.dist-info
+
+--===============6374586270809511676==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/python3-mako: PKGV changed from 1.2.3 [default] to 1.2.4 [default]
+packages/core2-32-poky-linux/python3-mako: SRC_URI changed from "https://files.pythonhosted.org/packages/source/M/Mako/Mako-1.2.3.tar.gz" to "https://files.pythonhosted.org/packages/source/M/Mako/Mako-1.2.4.tar.gz"
+packages/core2-32-poky-linux/python3-mako: PV changed from "1.2.3" to "1.2.4"
+packages/core2-32-poky-linux/python3-mako/python3-mako-dbg: PKGV changed from 1.2.3 [default] to 1.2.4 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-dbg: PV changed from "1.2.3" to "1.2.4"
+packages/core2-32-poky-linux/python3-mako/python3-mako-dev: PKGV changed from 1.2.3 [default] to 1.2.4 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-dev: PV changed from "1.2.3" to "1.2.4"
+packages/core2-32-poky-linux/python3-mako/python3-mako-doc: PKGV changed from 1.2.3 [default] to 1.2.4 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-doc: PV changed from "1.2.3" to "1.2.4"
+packages/core2-32-poky-linux/python3-mako/python3-mako-locale: PKGV changed from 1.2.3 [default] to 1.2.4 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-locale: PV changed from "1.2.3" to "1.2.4"
+packages/core2-32-poky-linux/python3-mako/python3-mako-src: PKGV changed from 1.2.3 [default] to 1.2.4 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-src: PV changed from "1.2.3" to "1.2.4"
+packages/core2-32-poky-linux/python3-mako/python3-mako-staticdev: PKGV changed from 1.2.3 [default] to 1.2.4 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-staticdev: PV changed from "1.2.3" to "1.2.4"
+packages/core2-32-poky-linux/python3-mako/python3-mako: PKGV changed from 1.2.3 [default] to 1.2.4 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako: PKGSIZE changed from 663595 to 663878 (+0%)
+packages/core2-32-poky-linux/python3-mako/python3-mako: PV changed from "1.2.3" to "1.2.4"
+Changes to packages/core2-32-poky-linux/python3-mako (sysroot):
+  /usr/lib/python3.11/site-packages/Mako-1.2.3.dist-info moved to /usr/lib/python3.11/site-packages/Mako-1.2.4.dist-info
+
+--===============6374586270809511676==--
 
