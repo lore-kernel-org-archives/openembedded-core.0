@@ -2,47 +2,46 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB901C54E76
-	for <webhook@archiver.kernel.org>; Sun,  1 Jan 2023 20:46:17 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.20197.1672605969262092639
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D6C2C61DB3
+	for <webhook@archiver.kernel.org>; Sun,  1 Jan 2023 20:46:18 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.20193.1672605968866248900
  for <openembedded-core@lists.openembedded.org>;
  Sun, 01 Jan 2023 12:46:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=h70VyDmw;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101856f15a812-9e0cc945-045b-4b9e-862a-c0be3c4b48e0-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Pnp4SnuV;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101856f15a771-5faf083a-07ce-41fe-ab04-01b2567798bf-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1672605968;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=YgbZXWL+ChVz8AoTC4a/tknXnoYU692IpV2B+ueTij4=;
-	b=h70VyDmwa/V81gbyuIOlZIPLljbYwi1N9zeU+WY8icdbqpN/6bei3pbyLXLzw79s
-	EAa6NkpAojaMaWWihGl6qOjrgFeEHXl77DaCA6lJ6VUDv+vsrwvqqDvpGgDgZNWQ23k
-	KTRBl0K+sRClxtJyCflxpAoH3sMX5+Y1qtRlW6+I=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=t3r4RT9sn3WKdN0VmnfVh21vHUB9wFSTW7rfgN7bYoY=;
+	b=Pnp4SnuVlIH1Fb0Fb6cmKvM51lteDgs7vdCZNxwYfTln9uFkcWkc4syaYZGWOs84
+	z4oZIowzandNf3+nAgF/izfb3D1Dg2UHMZ9KP9x3UqurwEu77ZE3+3XgFl38I4LyH52
+	VKBYF+nwETuGUQBaVLPRgqqjoRFeA1YUWBpC/4sk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1672605968;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=YgbZXWL+ChVz8AoTC4a/tknXnoYU692IpV2B+ueTij4=;
-	b=PyGKtEpH7aFXlqiv8aLOF9QBJNTsQwGqabvtg+SUdIy5l1mYH89al5YI0rg1mPtq
-	rN34LT0AKO6TfhszzrBlGJ9UCuqg3CROdY9CdwbR5nUAcPIsRxCHH9W6lIvMoPE3kEj
-	mtICOwWK9Gf0xyz8AVx6wE+MyCKAKNJ3CZuvnjXI=
-Content-Type: multipart/mixed; boundary="===============2557831622392188860=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=t3r4RT9sn3WKdN0VmnfVh21vHUB9wFSTW7rfgN7bYoY=;
+	b=ZOyuxy2BFZyCeIZBP7q3pPvWJy/D65nnxtBsNqusvtt+EvVLFxbNCJRTVwxI8ZlR
+	pnMZewi0m1uNvj/Zijs6An4uonOwLc+BGa2lN0ngWGh87W+7nq6QYgwUtr0r8M5brV7
+	oKD8C/LGW/XYJh+sULHf8Y1r+9LM+KgU9K/WLCl0=
+Content-Type: multipart/mixed; boundary="===============0064188775395567037=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] webkitgtk: upgrading to 2.38.3 SUCCEEDED
-Message-ID: <010101856f15a812-9e0cc945-045b-4b9e-862a-c0be3c4b48e0-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] libsndfile1: upgrading to 1.2.0 SUCCEEDED
+Message-ID: <010101856f15a771-5faf083a-07ce-41fe-ab04-01b2567798bf-000000@us-west-2.amazonses.com>
 Date: Sun, 1 Jan 2023 20:46:08 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.01.01-54.240.27.23
+X-SES-Outgoing: 2023.01.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 Jan 2023 20:46:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175308
+ <openembedded-core@lists.openembedded.org>; Sun, 01 Jan 2023 20:46:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175303
 
---===============2557831622392188860==
+--===============0064188775395567037==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +49,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *webkitgtk* to *2.38.3* has Succeeded.
+that the automatic attempt to upgrade the recipe *libsndfile1* to *1.2.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-webkitgtk-upgrade-2.38.2-2.38.3.patch
+    - apply the patch: git am 0001-libsndfile1-upgrade-1.1.0-1.2.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,18 +68,17 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============2557831622392188860==
+--===============0064188775395567037==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-32-poky-linux/webkitgtk (sysroot):
-  /usr/lib/libjavascriptcoregtk-4.1.so.0 changed symlink target from libjavascriptcoregtk-4.1.so.0.2.5 to libjavascriptcoregtk-4.1.so.0.2.6
-  /usr/lib/libwebkit2gtk-4.1.so.0 changed symlink target from libwebkit2gtk-4.1.so.0.2.5 to libwebkit2gtk-4.1.so.0.2.6
-  /usr/lib/libjavascriptcoregtk-4.1.so.0.2.5 moved to /usr/lib/libjavascriptcoregtk-4.1.so.0.2.6
-  /usr/lib/libwebkit2gtk-4.1.so.0.2.5 moved to /usr/lib/libwebkit2gtk-4.1.so.0.2.6
-packages/core2-32-poky-linux/webkitgtk/webkitgtk: FILELIST: removed "/usr/lib/libwebkit2gtk-4.1.so.0.2.5 /usr/lib/libjavascriptcoregtk-4.1.so.0.2.5", added "/usr/lib/libwebkit2gtk-4.1.so.0.2.6 /usr/lib/libjavascriptcoregtk-4.1.so.0.2.6"
+packages/core2-32-poky-linux/libsndfile1/libsndfile1: FILELIST: removed "/usr/lib/libsndfile.so.1.0.34", added "/usr/lib/libsndfile.so.1.0.35"
+Changes to packages/core2-32-poky-linux/libsndfile1 (sysroot):
+  /usr/lib/libsndfile.so.1 changed symlink target from libsndfile.so.1.0.34 to libsndfile.so.1.0.35
+  /usr/lib/libsndfile.so changed symlink target from libsndfile.so.1.0.34 to libsndfile.so.1.0.35
+  /usr/lib/libsndfile.so.1.0.34 moved to /usr/lib/libsndfile.so.1.0.35
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1435,168 +1433,73 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
 
---===============2557831622392188860==
+--===============0064188775395567037==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-webkitgtk-upgrade-2.38.2-2.38.3.patch"
+ filename="0001-libsndfile1-upgrade-1.1.0-1.2.0.patch"
 
-RnJvbSBlY2Q5ZmIzMzdkNmE5YjMxNTk5MDgwZDMyYzE5YmI5ODIwOWY4ZWMwIE1vbiBTZXAgMTcg
+RnJvbSAyYmY4OTBjZDI3MjIwNjdlNjhjZTQ5MDg3YmY3MzdhZDhlMzcyY2RiIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMSBKYW4gMjAyMyAxODo1ODowNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHdl
-YmtpdGd0azogdXBncmFkZSAyLjM4LjIgLT4gMi4zOC4zCgotLS0KIC4uLi93ZWJraXQve3dlYmtp
-dGd0a18yLjM4LjIuYmIgPT4gd2Via2l0Z3RrXzIuMzguMy5iYn0gICAgICAgICB8IDIgKy0KIDEg
+CkRhdGU6IFN1biwgMSBKYW4gMjAyMyAxNTozNToyMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YnNuZGZpbGUxOiB1cGdyYWRlIDEuMS4wIC0+IDEuMi4wCgotLS0KIC4uLi9saWJzbmRmaWxlL3ts
+aWJzbmRmaWxlMV8xLjEuMC5iYiA9PiBsaWJzbmRmaWxlMV8xLjIuMC5iYn0gICB8IDIgKy0KIDEg
 ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1zYXRvL3dlYmtpdC97d2Via2l0Z3RrXzIuMzguMi5iYiA9PiB3ZWJraXRndGtfMi4z
-OC4zLmJifSAoOTglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zYXRvL3dlYmtpdC93ZWJr
-aXRndGtfMi4zOC4yLmJiIGIvbWV0YS9yZWNpcGVzLXNhdG8vd2Via2l0L3dlYmtpdGd0a18yLjM4
-LjMuYmIKc2ltaWxhcml0eSBpbmRleCA5OCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXNhdG8v
-d2Via2l0L3dlYmtpdGd0a18yLjM4LjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zYXRvL3dl
-YmtpdC93ZWJraXRndGtfMi4zOC4zLmJiCmluZGV4IDYxNjQxNmY2ZGMuLmU4OTAwNzlkYzUgMTAw
-NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zYXRvL3dlYmtpdC93ZWJraXRndGtfMi4zOC4yLmJiCisr
-KyBiL21ldGEvcmVjaXBlcy1zYXRvL3dlYmtpdC93ZWJraXRndGtfMi4zOC4zLmJiCkBAIC0xNSw3
-ICsxNSw3IEBAIFNSQ19VUkkgPSAiaHR0cHM6Ly93d3cud2Via2l0Z3RrLm9yZy9yZWxlYXNlcy8k
-e0JQTn0tJHtQVn0udGFyLnh6IFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtV2hlbi1idWlsZGlu
-Zy1pbnRyb3NwZWN0aW9uLWZpbGVzLWRvLW5vdC1xdW90ZS1DRkxBRy5wYXRjaCBcCiAgICAgICAg
-ICAgIGZpbGU6Ly8wZDMzNDRlMTdkMjU4MTA2NjE3YjBlNmQ3ODNkMDczYjE4OGEyNTQ4LnBhdGNo
-IFwKICAgICAgICAgICAgIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImYzZWI4Mjg5OTY1MWY1ODNi
-NGQ5OWNhY2QxNmFmNzg0YTFhNzcxMGZjZTllN2I2ODA3YmQ2Y2NkZTkwOWZlM2UiCitTUkNfVVJJ
-W3NoYTI1NnN1bV0gPSAiNDFmMDAxZDFlZDQ0OGM2OTM2YjM5NGE5ZjIwZTQ2NDBlZWJmODNhN2Yw
-ODI2MmRmMjg1MDRmNzQxMDYwNGE1YSIKIAogaW5oZXJpdCBjbWFrZSBwa2djb25maWcgZ29iamVj
-dC1pbnRyb3NwZWN0aW9uIHBlcmxuYXRpdmUgZmVhdHVyZXNfY2hlY2sgdXBzdHJlYW0tdmVyc2lv
-bi1pcy1ldmVuIGdpLWRvY2dlbgogCi0tIAoyLjM3LjMKCg==
+cmVjaXBlcy1tdWx0aW1lZGlhL2xpYnNuZGZpbGUve2xpYnNuZGZpbGUxXzEuMS4wLmJiID0+IGxp
+YnNuZGZpbGUxXzEuMi4wLmJifSAoOTIlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0
+aW1lZGlhL2xpYnNuZGZpbGUvbGlic25kZmlsZTFfMS4xLjAuYmIgYi9tZXRhL3JlY2lwZXMtbXVs
+dGltZWRpYS9saWJzbmRmaWxlL2xpYnNuZGZpbGUxXzEuMi4wLmJiCnNpbWlsYXJpdHkgaW5kZXgg
+OTIlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnNuZGZpbGUvbGlic25k
+ZmlsZTFfMS4xLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnNuZGZp
+bGUvbGlic25kZmlsZTFfMS4yLjAuYmIKaW5kZXggMWYxYTQwMTYwZC4uYjgwMDFmNDYxOCAxMDA2
+NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvbGlic25kZmlsZS9saWJzbmRmaWxlMV8x
+LjEuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJzbmRmaWxlL2xpYnNuZGZp
+bGUxXzEuMi4wLmJiCkBAIC0xMyw3ICsxMyw3IEBAIFNSQ19VUkkgPSAiJHtHSVRIVUJfQkFTRV9V
+Ukl9L2Rvd25sb2FkLyR7UFZ9L2xpYnNuZGZpbGUtJHtQVn0udGFyLnh6IFwKICAgICAgICAgICAi
+CiBHSVRIVUJfQkFTRV9VUkkgPSAiaHR0cHM6Ly9naXRodWIuY29tL2xpYnNuZGZpbGUvbGlic25k
+ZmlsZS9yZWxlYXNlcy8iCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIwZjk4ZTEwMWMwZjdjODUw
+YTcxMjI1ZmI1ZmVhZjMzYjEwNjIyN2IzZDMzMTMzM2RkYzliYWNlZTE5MGJjZjQxIgorU1JDX1VS
+SVtzaGEyNTZzdW1dID0gIjBlMzBlNzA3MmY4M2RjODQ4NjNlMmU1NWYyOTkxNzVjN2UwNGE1OTAy
+YWU3OWNmYjk5ZDQyNDllZThmNmQ2MGEiCiAKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NP
+UFlJTkc7bWQ1PWU3N2ZlOTMyMDI3MzZiNDdjMDcwMzU5MTBmNDc5NzRhIgogCi0tIAoyLjM3LjMK
+Cg==
 
---===============2557831622392188860==
+--===============0064188775395567037==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/webkitgtk: SRC_URI changed from "https://www.webkitgtk.org/releases/webkitgtk-2.38.2.tar.xz file://0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch file://reproducibility.patch file://0001-When-building-introspection-files-do-not-quote-CFLAG.patch file://0d3344e17d258106617b0e6d783d073b188a2548.patch" to "https://www.webkitgtk.org/releases/webkitgtk-2.38.3.tar.xz file://0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch file://reproducibility.patch file://0001-When-building-introspection-files-do-not-quote-CFLAG.patch file://0d3344e17d258106617b0e6d783d073b188a2548.patch"
-packages/core2-32-poky-linux/webkitgtk: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-Changes to packages/core2-32-poky-linux/webkitgtk (sysroot):
-  /usr/lib/libjavascriptcoregtk-4.1.so.0 changed symlink target from libjavascriptcoregtk-4.1.so.0.2.5 to libjavascriptcoregtk-4.1.so.0.2.6
-  /usr/lib/libwebkit2gtk-4.1.so.0 changed symlink target from libwebkit2gtk-4.1.so.0.2.5 to libwebkit2gtk-4.1.so.0.2.6
-  /usr/lib/libjavascriptcoregtk-4.1.so.0.2.5 moved to /usr/lib/libjavascriptcoregtk-4.1.so.0.2.6
-  /usr/lib/libwebkit2gtk-4.1.so.0.2.5 moved to /usr/lib/libwebkit2gtk-4.1.so.0.2.6
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-dbg: PKGSIZE changed from 3358915080 to 3358953500 (+0%)
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-dbg: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-dbg: FILELIST: removed "/usr/lib/.debug/libjavascriptcoregtk-4.1.so.0.2.5 /usr/lib/.debug/libwebkit2gtk-4.1.so.0.2.5", added "/usr/lib/.debug/libjavascriptcoregtk-4.1.so.0.2.6 /usr/lib/.debug/libwebkit2gtk-4.1.so.0.2.6"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-dbg: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-dev: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-dev: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-doc: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-doc: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ar: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ar: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-as: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-as: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-bg: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-bg: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ca: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ca: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-cs: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-cs: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-da: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-da: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-de: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-de: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-el: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-el: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-en-ca: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-en-ca: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-en-gb: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-en-gb: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-eo: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-eo: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-es: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-es: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-et: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-et: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-eu: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-eu: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-fi: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-fi: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-fr: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-fr: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-gl: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-gl: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-gu: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-gu: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-he: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-he: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-hi: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-hi: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-hr: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-hr: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-hu: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-hu: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-id: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-id: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-it: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-it: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ja: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ja: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-kn: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-kn: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ko: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ko: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-lt: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-lt: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-lv: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-lv: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ml: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ml: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-mr: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-mr: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-nb: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-nb: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-nl: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-nl: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-or: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-or: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pa: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pa: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pl: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pl: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pt-br: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pt-br: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pt: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pt: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ro: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ro: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ru: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ru: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sl: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sl: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sr+latin: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sr+latin: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sr: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sr: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sv: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sv: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ta: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ta: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-te: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-te: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-tr: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-tr: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-uk: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-uk: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-vi: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-vi: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-zh-cn: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-zh-cn: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-src: PKGSIZE changed from 169714507 to 169718937 (+0%)
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-src: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-src: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-staticdev: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk-staticdev: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
-packages/core2-32-poky-linux/webkitgtk/webkitgtk: PV changed from "2.38.2" to "2.38.3"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk: FILELIST: removed "/usr/lib/libwebkit2gtk-4.1.so.0.2.5 /usr/lib/libjavascriptcoregtk-4.1.so.0.2.5", added "/usr/lib/libwebkit2gtk-4.1.so.0.2.6 /usr/lib/libjavascriptcoregtk-4.1.so.0.2.6"
-packages/core2-32-poky-linux/webkitgtk/webkitgtk: PKGV changed from 2.38.2 [default] to 2.38.3 [default]
+packages/core2-32-poky-linux/libsndfile1: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
+packages/core2-32-poky-linux/libsndfile1: SRC_URI changed from "https://github.com/libsndfile/libsndfile/releases//download/1.1.0/libsndfile-1.1.0.tar.xz file://noopus.patch" to "https://github.com/libsndfile/libsndfile/releases//download/1.2.0/libsndfile-1.2.0.tar.xz file://noopus.patch"
+packages/core2-32-poky-linux/libsndfile1: PV changed from "1.1.0" to "1.2.0"
+packages/core2-32-poky-linux/libsndfile1/libsndfile1-bin: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
+packages/core2-32-poky-linux/libsndfile1/libsndfile1-bin: PV changed from "1.1.0" to "1.2.0"
+packages/core2-32-poky-linux/libsndfile1/libsndfile1-dbg: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
+packages/core2-32-poky-linux/libsndfile1/libsndfile1-dbg: PV changed from "1.1.0" to "1.2.0"
+packages/core2-32-poky-linux/libsndfile1/libsndfile1-dbg: FILELIST: removed "/usr/lib/.debug/libsndfile.so.1.0.34", added "/usr/lib/.debug/libsndfile.so.1.0.35"
+packages/core2-32-poky-linux/libsndfile1/libsndfile1-dbg: PKGSIZE changed from 2006348 to 2007428 (+0%)
+packages/core2-32-poky-linux/libsndfile1/libsndfile1-dev: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
+packages/core2-32-poky-linux/libsndfile1/libsndfile1-dev: PV changed from "1.1.0" to "1.2.0"
+packages/core2-32-poky-linux/libsndfile1/libsndfile1-dev: PKGSIZE changed from 43187 to 43225 (+0%)
+packages/core2-32-poky-linux/libsndfile1/libsndfile1-doc: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
+packages/core2-32-poky-linux/libsndfile1/libsndfile1-doc: PV changed from "1.1.0" to "1.2.0"
+packages/core2-32-poky-linux/libsndfile1/libsndfile1-doc: PKGSIZE changed from 189042 to 189600 (+0%)
+packages/core2-32-poky-linux/libsndfile1/libsndfile1-locale: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
+packages/core2-32-poky-linux/libsndfile1/libsndfile1-locale: PV changed from "1.1.0" to "1.2.0"
+packages/core2-32-poky-linux/libsndfile1/libsndfile1-src: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
+packages/core2-32-poky-linux/libsndfile1/libsndfile1-src: PV changed from "1.1.0" to "1.2.0"
+packages/core2-32-poky-linux/libsndfile1/libsndfile1-src: PKGSIZE changed from 1889168 to 1892417 (+0%)
+packages/core2-32-poky-linux/libsndfile1/libsndfile1-staticdev: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
+packages/core2-32-poky-linux/libsndfile1/libsndfile1-staticdev: PV changed from "1.1.0" to "1.2.0"
+packages/core2-32-poky-linux/libsndfile1/libsndfile1: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
+packages/core2-32-poky-linux/libsndfile1/libsndfile1: PV changed from "1.1.0" to "1.2.0"
+packages/core2-32-poky-linux/libsndfile1/libsndfile1: FILELIST: removed "/usr/lib/libsndfile.so.1.0.34", added "/usr/lib/libsndfile.so.1.0.35"
+Changes to packages/core2-32-poky-linux/libsndfile1 (sysroot):
+  /usr/lib/libsndfile.so.1 changed symlink target from libsndfile.so.1.0.34 to libsndfile.so.1.0.35
+  /usr/lib/libsndfile.so changed symlink target from libsndfile.so.1.0.34 to libsndfile.so.1.0.35
+  /usr/lib/libsndfile.so.1.0.34 moved to /usr/lib/libsndfile.so.1.0.35
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -2951,5 +2854,5 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
 
---===============2557831622392188860==--
+--===============0064188775395567037==--
 
