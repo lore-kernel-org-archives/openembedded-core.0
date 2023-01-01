@@ -2,46 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D6C2C61DB3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 499D2C6379F
 	for <webhook@archiver.kernel.org>; Sun,  1 Jan 2023 20:46:18 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.20193.1672605968866248900
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.20662.1672605966737325340
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Jan 2023 12:46:09 -0800
+ Sun, 01 Jan 2023 12:46:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Pnp4SnuV;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101856f15a771-5faf083a-07ce-41fe-ab04-01b2567798bf-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=IO8vlWpi;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101856f15a7ce-a875b882-2978-4b1b-bcb0-24122e743c27-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1672605968;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=t3r4RT9sn3WKdN0VmnfVh21vHUB9wFSTW7rfgN7bYoY=;
-	b=Pnp4SnuVlIH1Fb0Fb6cmKvM51lteDgs7vdCZNxwYfTln9uFkcWkc4syaYZGWOs84
-	z4oZIowzandNf3+nAgF/izfb3D1Dg2UHMZ9KP9x3UqurwEu77ZE3+3XgFl38I4LyH52
-	VKBYF+nwETuGUQBaVLPRgqqjoRFeA1YUWBpC/4sk=
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=5Ef8FHvyqwV51AM+KlXwTVX7s9zgc7895B3aWrnwxj4=;
+	b=IO8vlWpibw2Atl5LEUHuLUmjC16Ec1L7q/CTKevq6M9YbGbhC8f1AlWJW2JRJCC3
+	KXZNIswQB2S3rtjvvR8qISdQgSP6YyYTDKgF7wG3zTB/I82zJ80/hYiix3/11XSO4jE
+	6wCYsGoPslmuu2KkjOnPa1TXdahsyflFJTwotV4g=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1672605968;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=t3r4RT9sn3WKdN0VmnfVh21vHUB9wFSTW7rfgN7bYoY=;
-	b=ZOyuxy2BFZyCeIZBP7q3pPvWJy/D65nnxtBsNqusvtt+EvVLFxbNCJRTVwxI8ZlR
-	pnMZewi0m1uNvj/Zijs6An4uonOwLc+BGa2lN0ngWGh87W+7nq6QYgwUtr0r8M5brV7
-	oKD8C/LGW/XYJh+sULHf8Y1r+9LM+KgU9K/WLCl0=
-Content-Type: multipart/mixed; boundary="===============0064188775395567037=="
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=5Ef8FHvyqwV51AM+KlXwTVX7s9zgc7895B3aWrnwxj4=;
+	b=AAf38pRtPU1Js5XAWCkmCqWPaVsiqSN8X4Kq2S44IBLvIgZwpIlvxG0BEhI7eZCQ
+	Y5tWf6B697ewFt14FpQCKHyIvyb3sYACYmuhJ+k0KIbrK4F5QmTZUTw9NMR35s72iY7
+	CJX9o77buTnqQ2Fv3bxMvZjbZ/OW7drB4rwcvcEo=
+Content-Type: multipart/mixed; boundary="===============3545436696370733110=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] libsndfile1: upgrading to 1.2.0 SUCCEEDED
-Message-ID: <010101856f15a771-5faf083a-07ce-41fe-ab04-01b2567798bf-000000@us-west-2.amazonses.com>
+To: Robert Joslyn <robert.joslyn@redrectangle.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] curl: upgrading to 7.87.0 SUCCEEDED
+Message-ID: <010101856f15a7ce-a875b882-2978-4b1b-bcb0-24122e743c27-000000@us-west-2.amazonses.com>
 Date: Sun, 1 Jan 2023 20:46:08 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.01.01-54.240.27.192
+X-SES-Outgoing: 2023.01.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 Jan 2023 20:46:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175303
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175299
 
---===============0064188775395567037==
+--===============3545436696370733110==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -49,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libsndfile1* to *1.2.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *curl* to *7.87.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libsndfile1-upgrade-1.1.0-1.2.0.patch
+    - apply the patch: git am 0001-curl-upgrade-7.86.0-7.87.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -68,17 +69,15 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============0064188775395567037==
+--===============3545436696370733110==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/libsndfile1/libsndfile1: FILELIST: removed "/usr/lib/libsndfile.so.1.0.34", added "/usr/lib/libsndfile.so.1.0.35"
-Changes to packages/core2-32-poky-linux/libsndfile1 (sysroot):
-  /usr/lib/libsndfile.so.1 changed symlink target from libsndfile.so.1.0.34 to libsndfile.so.1.0.35
-  /usr/lib/libsndfile.so changed symlink target from libsndfile.so.1.0.34 to libsndfile.so.1.0.35
-  /usr/lib/libsndfile.so.1.0.34 moved to /usr/lib/libsndfile.so.1.0.35
+packages/core2-32-poky-linux/curl/curl-doc: FILELIST: added "/usr/share/man/man3/CURLOPT_CA_CACHE_TIMEOUT.3"
+packages/core2-32-poky-linux/curl/curl-ptest: FILELIST: removed "/usr/lib/curl/ptest/tests/unit/unit1301.c", added "/usr/lib/curl/ptest/tests/libtest/lib2304.c /usr/lib/curl/ptest/tests/data/test1662 /usr/lib/curl/ptest/tests/certs/stunnel-sv.der /usr/lib/curl/ptest/tests/libtest/lib1957.c /usr/lib/curl/ptest/tests/unit/unit3200.c /usr/lib/curl/ptest/tests/libtest/lib1959.c /usr/lib/curl/ptest/tests/data/test416 /usr/lib/curl/ptest/tests/data/test2304 /usr/lib/curl/ptest/tests/data/test3028 /usr/lib/curl/ptest/tests/data/test3029 /usr/lib/curl/ptest/tests/libtest/lib1958.c /usr/lib/curl/ptest/tests/data/test1956 /usr/lib/curl/ptest/tests/certs/stunnel-sv.crt /usr/lib/curl/ptest/tests/data/test1957 /usr/lib/curl/ptest/tests/certs/stunnel-sv.pem /usr/lib/curl/ptest/tests/data/test3200 /usr/lib/curl/ptest/tests/config /usr/lib/curl/ptest/tests/check-deprecated.pl /usr/lib/curl/ptest/tests/data/test1958 /usr/lib/curl/ptest/tests/data/test1959 /usr/lib/curl/ptest/tests/data/test1221 /usr/
+ lib/curl/ptest/tests/data/test1222 /usr/lib/curl/ptest/tests/certs/stunnel-sv.crl /usr/lib/curl/ptest/tests/certs/stunnel-sv.key /usr/lib/curl/ptest/tests/libtest/lib1301.c /usr/lib/curl/ptest/tests/libtest/lib3101.c /usr/lib/curl/ptest/tests/libtest/lib3100.c /usr/lib/curl/ptest/tests/certs/stunnel-sv.dhp /usr/lib/curl/ptest/tests/libtest/lib1956.c /usr/lib/curl/ptest/tests/certs/stunnel-sv.pub.pem /usr/lib/curl/ptest/tests/data/test3030 /usr/lib/curl/ptest/tests/option-check.pl /usr/lib/curl/ptest/tests/data/test3101 /usr/lib/curl/ptest/tests/data/test3100 /usr/lib/curl/ptest/tests/certs/stunnel-sv.csr /usr/lib/curl/ptest/tests/config.in /usr/lib/curl/ptest/tests/data/test2500 /usr/lib/curl/ptest/tests/libtest/lib1662.c /usr/lib/curl/ptest/tests/data/test1276"
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1433,73 +1432,60 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
 
---===============0064188775395567037==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libsndfile1-upgrade-1.1.0-1.2.0.patch"
-
-RnJvbSAyYmY4OTBjZDI3MjIwNjdlNjhjZTQ5MDg3YmY3MzdhZDhlMzcyY2RiIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMSBKYW4gMjAyMyAxNTozNToyMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YnNuZGZpbGUxOiB1cGdyYWRlIDEuMS4wIC0+IDEuMi4wCgotLS0KIC4uLi9saWJzbmRmaWxlL3ts
-aWJzbmRmaWxlMV8xLjEuMC5iYiA9PiBsaWJzbmRmaWxlMV8xLjIuMC5iYn0gICB8IDIgKy0KIDEg
-ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1tdWx0aW1lZGlhL2xpYnNuZGZpbGUve2xpYnNuZGZpbGUxXzEuMS4wLmJiID0+IGxp
-YnNuZGZpbGUxXzEuMi4wLmJifSAoOTIlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0
-aW1lZGlhL2xpYnNuZGZpbGUvbGlic25kZmlsZTFfMS4xLjAuYmIgYi9tZXRhL3JlY2lwZXMtbXVs
-dGltZWRpYS9saWJzbmRmaWxlL2xpYnNuZGZpbGUxXzEuMi4wLmJiCnNpbWlsYXJpdHkgaW5kZXgg
-OTIlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnNuZGZpbGUvbGlic25k
-ZmlsZTFfMS4xLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2xpYnNuZGZp
-bGUvbGlic25kZmlsZTFfMS4yLjAuYmIKaW5kZXggMWYxYTQwMTYwZC4uYjgwMDFmNDYxOCAxMDA2
-NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvbGlic25kZmlsZS9saWJzbmRmaWxlMV8x
-LjEuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9saWJzbmRmaWxlL2xpYnNuZGZp
-bGUxXzEuMi4wLmJiCkBAIC0xMyw3ICsxMyw3IEBAIFNSQ19VUkkgPSAiJHtHSVRIVUJfQkFTRV9V
-Ukl9L2Rvd25sb2FkLyR7UFZ9L2xpYnNuZGZpbGUtJHtQVn0udGFyLnh6IFwKICAgICAgICAgICAi
-CiBHSVRIVUJfQkFTRV9VUkkgPSAiaHR0cHM6Ly9naXRodWIuY29tL2xpYnNuZGZpbGUvbGlic25k
-ZmlsZS9yZWxlYXNlcy8iCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIwZjk4ZTEwMWMwZjdjODUw
-YTcxMjI1ZmI1ZmVhZjMzYjEwNjIyN2IzZDMzMTMzM2RkYzliYWNlZTE5MGJjZjQxIgorU1JDX1VS
-SVtzaGEyNTZzdW1dID0gIjBlMzBlNzA3MmY4M2RjODQ4NjNlMmU1NWYyOTkxNzVjN2UwNGE1OTAy
-YWU3OWNmYjk5ZDQyNDllZThmNmQ2MGEiCiAKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NP
-UFlJTkc7bWQ1PWU3N2ZlOTMyMDI3MzZiNDdjMDcwMzU5MTBmNDc5NzRhIgogCi0tIAoyLjM3LjMK
-Cg==
-
---===============0064188775395567037==
+--===============3545436696370733110==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libsndfile1: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/libsndfile1: SRC_URI changed from "https://github.com/libsndfile/libsndfile/releases//download/1.1.0/libsndfile-1.1.0.tar.xz file://noopus.patch" to "https://github.com/libsndfile/libsndfile/releases//download/1.2.0/libsndfile-1.2.0.tar.xz file://noopus.patch"
-packages/core2-32-poky-linux/libsndfile1: PV changed from "1.1.0" to "1.2.0"
-packages/core2-32-poky-linux/libsndfile1/libsndfile1-bin: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/libsndfile1/libsndfile1-bin: PV changed from "1.1.0" to "1.2.0"
-packages/core2-32-poky-linux/libsndfile1/libsndfile1-dbg: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/libsndfile1/libsndfile1-dbg: PV changed from "1.1.0" to "1.2.0"
-packages/core2-32-poky-linux/libsndfile1/libsndfile1-dbg: FILELIST: removed "/usr/lib/.debug/libsndfile.so.1.0.34", added "/usr/lib/.debug/libsndfile.so.1.0.35"
-packages/core2-32-poky-linux/libsndfile1/libsndfile1-dbg: PKGSIZE changed from 2006348 to 2007428 (+0%)
-packages/core2-32-poky-linux/libsndfile1/libsndfile1-dev: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/libsndfile1/libsndfile1-dev: PV changed from "1.1.0" to "1.2.0"
-packages/core2-32-poky-linux/libsndfile1/libsndfile1-dev: PKGSIZE changed from 43187 to 43225 (+0%)
-packages/core2-32-poky-linux/libsndfile1/libsndfile1-doc: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/libsndfile1/libsndfile1-doc: PV changed from "1.1.0" to "1.2.0"
-packages/core2-32-poky-linux/libsndfile1/libsndfile1-doc: PKGSIZE changed from 189042 to 189600 (+0%)
-packages/core2-32-poky-linux/libsndfile1/libsndfile1-locale: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/libsndfile1/libsndfile1-locale: PV changed from "1.1.0" to "1.2.0"
-packages/core2-32-poky-linux/libsndfile1/libsndfile1-src: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/libsndfile1/libsndfile1-src: PV changed from "1.1.0" to "1.2.0"
-packages/core2-32-poky-linux/libsndfile1/libsndfile1-src: PKGSIZE changed from 1889168 to 1892417 (+0%)
-packages/core2-32-poky-linux/libsndfile1/libsndfile1-staticdev: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/libsndfile1/libsndfile1-staticdev: PV changed from "1.1.0" to "1.2.0"
-packages/core2-32-poky-linux/libsndfile1/libsndfile1: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/libsndfile1/libsndfile1: PV changed from "1.1.0" to "1.2.0"
-packages/core2-32-poky-linux/libsndfile1/libsndfile1: FILELIST: removed "/usr/lib/libsndfile.so.1.0.34", added "/usr/lib/libsndfile.so.1.0.35"
-Changes to packages/core2-32-poky-linux/libsndfile1 (sysroot):
-  /usr/lib/libsndfile.so.1 changed symlink target from libsndfile.so.1.0.34 to libsndfile.so.1.0.35
-  /usr/lib/libsndfile.so changed symlink target from libsndfile.so.1.0.34 to libsndfile.so.1.0.35
-  /usr/lib/libsndfile.so.1.0.34 moved to /usr/lib/libsndfile.so.1.0.35
+packages/core2-32-poky-linux/curl/curl-dbg: PV changed from "7.86.0" to "7.87.0"
+packages/core2-32-poky-linux/curl/curl-dbg: PKGSIZE changed from 3654160 to 3707800 (+1%)
+packages/core2-32-poky-linux/curl/curl-dbg: PKGV changed from 7.86.0 [default] to 7.87.0 [default]
+packages/core2-32-poky-linux/curl/curl-dev: PV changed from "7.86.0" to "7.87.0"
+packages/core2-32-poky-linux/curl/curl-dev: PKGSIZE changed from 245853 to 251811 (+2%)
+packages/core2-32-poky-linux/curl/curl-dev: PKGV changed from 7.86.0 [default] to 7.87.0 [default]
+packages/core2-32-poky-linux/curl/curl-doc: PV changed from "7.86.0" to "7.87.0"
+packages/core2-32-poky-linux/curl/curl-doc: PKGSIZE changed from 1859397 to 1874318 (+1%)
+packages/core2-32-poky-linux/curl/curl-doc: PKGV changed from 7.86.0 [default] to 7.87.0 [default]
+packages/core2-32-poky-linux/curl/curl-doc: FILELIST: added "/usr/share/man/man3/CURLOPT_CA_CACHE_TIMEOUT.3"
+packages/core2-32-poky-linux/curl/curl-locale: PV changed from "7.86.0" to "7.87.0"
+packages/core2-32-poky-linux/curl/curl-locale: PKGV changed from 7.86.0 [default] to 7.87.0 [default]
+packages/core2-32-poky-linux/curl/curl-ptest: PV changed from "7.86.0" to "7.87.0"
+packages/core2-32-poky-linux/curl/curl-ptest: PKGSIZE changed from 8052963 to 8242678 (+2%)
+packages/core2-32-poky-linux/curl/curl-ptest: PKGV changed from 7.86.0 [default] to 7.87.0 [default]
+packages/core2-32-poky-linux/curl/curl-ptest: FILELIST: removed "/usr/lib/curl/ptest/tests/unit/unit1301.c", added "/usr/lib/curl/ptest/tests/certs/stunnel-sv.pem /usr/lib/curl/ptest/tests/data/test2500 /usr/lib/curl/ptest/tests/data/test1958 /usr/lib/curl/ptest/tests/data/test3200 /usr/lib/curl/ptest/tests/certs/stunnel-sv.dhp /usr/lib/curl/ptest/tests/data/test1276 /usr/lib/curl/ptest/tests/certs/stunnel-sv.csr /usr/lib/curl/ptest/tests/check-deprecated.pl /usr/lib/curl/ptest/tests/libtest/lib1957.c /usr/lib/curl/ptest/tests/option-check.pl /usr/lib/curl/ptest/tests/config /usr/lib/curl/ptest/tests/unit/unit3200.c /usr/lib/curl/ptest/tests/libtest/lib1956.c /usr/lib/curl/ptest/tests/data/test3100 /usr/lib/curl/ptest/tests/data/test3101 /usr/lib/curl/ptest/tests/data/test3029 /usr/lib/curl/ptest/tests/data/test3028 /usr/lib/curl/ptest/tests/certs/stunnel-sv.der /usr/lib/curl/ptest/tests/libtest/lib3100.c /usr/lib/curl/ptest/tests/data/test1662 /usr/lib/curl/ptest/tests/config.in /us
+ r/lib/curl/ptest/tests/libtest/lib1958.c /usr/lib/curl/ptest/tests/libtest/lib1959.c /usr/lib/curl/ptest/tests/certs/stunnel-sv.crt /usr/lib/curl/ptest/tests/libtest/lib2304.c /usr/lib/curl/ptest/tests/certs/stunnel-sv.crl /usr/lib/curl/ptest/tests/libtest/lib3101.c /usr/lib/curl/ptest/tests/libtest/lib1301.c /usr/lib/curl/ptest/tests/certs/stunnel-sv.key /usr/lib/curl/ptest/tests/certs/stunnel-sv.pub.pem /usr/lib/curl/ptest/tests/libtest/lib1662.c /usr/lib/curl/ptest/tests/data/test416 /usr/lib/curl/ptest/tests/data/test1221 /usr/lib/curl/ptest/tests/data/test1959 /usr/lib/curl/ptest/tests/data/test1222 /usr/lib/curl/ptest/tests/data/test1957 /usr/lib/curl/ptest/tests/data/test1956 /usr/lib/curl/ptest/tests/data/test3030 /usr/lib/curl/ptest/tests/data/test2304"
+packages/core2-32-poky-linux/curl/curl-src: PV changed from "7.86.0" to "7.87.0"
+packages/core2-32-poky-linux/curl/curl-src: PKGSIZE changed from 3503460 to 3571354 (+2%)
+packages/core2-32-poky-linux/curl/curl-src: PKGV changed from 7.86.0 [default] to 7.87.0 [default]
+packages/core2-32-poky-linux/curl/curl-src: FILELIST: directory renamed /usr/src/debug/curl/7.86.0-r0/lib/vauth -> /usr/src/debug/curl/7.87.0-r0/lib/vauth, directory renamed /usr/src/debug/curl/7.86.0-r0/src -> /usr/src/debug/curl/7.87.0-r0/src, directory renamed /usr/src/debug/curl/7.86.0-r0/lib/vssh -> /usr/src/debug/curl/7.87.0-r0/lib/vssh, directory renamed /usr/src/debug/curl/7.86.0-r0/tests/server -> /usr/src/debug/curl/7.87.0-r0/tests/server, directory renamed /usr/src/debug/curl/7.86.0-r0/include/curl -> /usr/src/debug/curl/7.87.0-r0/include/curl, removed "/usr/src/debug/curl/7.86.0-r0/lib/timeval.h /usr/src/debug/curl/7.86.0-r0/lib/timeval.c /usr/src/debug/curl/7.86.0-r0/lib/http_chunks.h /usr/src/debug/curl/7.86.0-r0/lib/mprintf.c /usr/src/debug/curl/7.86.0-r0/lib/http_chunks.c /usr/src/debug/curl/7.86.0-r0/lib/easy.c /usr/src/debug/curl/7.86.0-r0/lib/multiif.h /usr/src/debug/curl/7.86.0-r0/lib/curl_hmac.h /usr/src/debug/curl/7.86.0-r0/lib/rtsp.h /usr/src/debug/curl/7.86.0-
+ r0/lib/escape.c /usr/src/debug/curl/7.86.0-r0/lib/getenv.c /usr/src/debug/curl/7.86.0-r0/lib/hostip.c /usr/src/debug/curl/7.86.0-r0/lib/base64.c /usr/src/debug/curl/7.86.0-r0/lib/altsvc.c /usr/src/debug/curl/7.86.0-r0/lib/bufref.c /usr/src/debug/curl/7.86.0-r0/lib/cookie.c /usr/src/debug/curl/7.86.0-r0/lib/url.c /usr/src/debug/curl/7.86.0-r0/lib/formdata.h /usr/src/debug/curl/7.86.0-r0/lib/transfer.h /usr/src/debug/curl/7.86.0-r0/lib/formdata.c /usr/src/debug/curl/7.86.0-r0/lib/transfer.c /usr/src/debug/curl/7.86.0-r0/lib/version.c /usr/src/debug/curl/7.86.0-r0/lib/url.h /usr/src/debug/curl/7.86.0-r0/lib/hostip.h /usr/src/debug/curl/7.86.0-r0/lib/rename.h /usr/src/debug/curl/7.86.0-r0/lib/vtls/keylog.c /usr/src/debug/curl/7.86.0-r0/lib/vtls/keylog.h /usr/src/debug/curl/7.86.0-r0/lib/curl_sha256.h /usr/src/debug/curl/7.86.0-r0/lib/curl_setup_once.h /usr/src/debug/curl/7.86.0-r0/lib/nonblock.c /usr/src/debug/curl/7.86.0-r0/lib/nonblock.h /usr/src/debug/curl/7.86.0-r0/lib/smtp.h /usr/s
+ rc/debug/curl/7.86.0-r0/lib/vtls/openssl.h /usr/src/debug/curl/7.86.0-r0/lib/http_ntlm.c /usr/src/debug/curl/7.86.0-r0/lib/vtls/openssl.c /usr/src/debug/curl/7.86.0-r0/lib/http_ntlm.h /usr/src/debug/curl/7.86.0-r0/lib/sigpipe.h /usr/src/debug/curl/7.86.0-r0/lib/strcase.h /usr/src/debug/curl/7.86.0-r0/lib/doh.c /usr/src/debug/curl/7.86.0-r0/lib/doh.h /usr/src/debug/curl/7.86.0-r0/lib/strcase.c /usr/src/debug/curl/7.86.0-r0/lib/http_aws_sigv4.c /usr/src/debug/curl/7.86.0-r0/lib/hostip6.c /usr/src/debug/curl/7.86.0-r0/lib/hash.c /usr/src/debug/curl/7.86.0-r0/lib/parsedate.h /usr/src/debug/curl/7.86.0-r0/lib/strtoofft.h /usr/src/debug/curl/7.86.0-r0/lib/http_aws_sigv4.h /usr/src/debug/curl/7.86.0-r0/lib/parsedate.c /usr/src/debug/curl/7.86.0-r0/lib/hash.h /usr/src/debug/curl/7.86.0-r0/lib/strtoofft.c /usr/src/debug/curl/7.86.0-r0/lib/getinfo.c /usr/src/debug/curl/7.86.0-r0/lib/conncache.c /usr/src/debug/curl/7.86.0-r0/lib/fileinfo.c /usr/src/debug/curl/7.86.0-r0/lib/conncache.h /usr/src
+ /debug/curl/7.86.0-r0/lib/getinfo.h /usr/src/debug/curl/7.86.0-r0/lib/curl_memory.h /usr/src/debug/curl/7.86.0-r0/lib/fileinfo.h /usr/src/debug/curl/7.86.0-r0/lib/file.c /usr/src/debug/curl/7.86.0-r0/lib/curl_fnmatch.h /usr/src/debug/curl/7.86.0-r0/lib/curl_fnmatch.c /usr/src/debug/curl/7.86.0-r0/lib/file.h /usr/src/debug/curl/7.86.0-r0/lib/multihandle.h /usr/src/debug/curl/7.86.0-r0/lib/timediff.c /usr/src/debug/curl/7.86.0-r0/lib/socks.h /usr/src/debug/curl/7.86.0-r0/lib/http_proxy.h /usr/src/debug/curl/7.86.0-r0/lib/speedcheck.c /usr/src/debug/curl/7.86.0-r0/lib/splay.h /usr/src/debug/curl/7.86.0-r0/lib/asyn-thread.c /usr/src/debug/curl/7.86.0-r0/lib/timediff.h /usr/src/debug/curl/7.86.0-r0/lib/http_proxy.c /usr/src/debug/curl/7.86.0-r0/lib/speedcheck.h /usr/src/debug/curl/7.86.0-r0/lib/curl_threads.h /usr/src/debug/curl/7.86.0-r0/lib/curl_ntlm_core.h /usr/src/debug/curl/7.86.0-r0/lib/pingpong.c /usr/src/debug/curl/7.86.0-r0/lib/curl_threads.c /usr/src/debug/curl/7.86.0-r0/lib/cu
+ rl_ntlm_core.c /usr/src/debug/curl/7.86.0-r0/lib/easyoptions.h /usr/src/debug/curl/7.86.0-r0/lib/pingpong.h /usr/src/debug/curl/7.86.0-r0/lib/ftp.c /usr/src/debug/curl/7.86.0-r0/lib/connect.c /usr/src/debug/curl/7.86.0-r0/lib/md4.c /usr/src/debug/curl/7.86.0-r0/lib/easy_lock.h /usr/src/debug/curl/7.86.0-r0/lib/easyoptions.c /usr/src/debug/curl/7.86.0-r0/lib/connect.h /usr/src/debug/curl/7.86.0-r0/lib/ftp.h /usr/src/debug/curl/7.86.0-r0/lib/share.c /usr/src/debug/curl/7.86.0-r0/lib/curl_endian.c /usr/src/debug/curl/7.86.0-r0/lib/http.c /usr/src/debug/curl/7.86.0-r0/lib/curl_memrchr.h /usr/src/debug/curl/7.86.0-r0/lib/curl_range.c /usr/src/debug/curl/7.86.0-r0/lib/ws.c /usr/src/debug/curl/7.86.0-r0/lib/curl_memrchr.c /usr/src/debug/curl/7.86.0-r0/lib/http.h /usr/src/debug/curl/7.86.0-r0/lib/curl_endian.h /usr/src/debug/curl/7.86.0-r0/lib/easygetopt.c /usr/src/debug/curl/7.86.0-r0/lib/curl_range.h /usr/src/debug/curl/7.86.0-r0/lib/curl_gethostname.c /usr/src/debug/curl/7.86.0-r0/lib/ur
+ lapi-int.h /usr/src/debug/curl/7.86.0-r0/lib/curl_md4.h /usr/src/debug/curl/7.86.0-r0/lib/rename.c /usr/src/debug/curl/7.86.0-r0/lib/select.c /usr/src/debug/curl/7.86.0-r0/lib/setopt.c /usr/src/debug/curl/7.86.0-r0/lib/sha256.c /usr/src/debug/curl/7.86.0-r0/lib/strdup.c /usr/src/debug/curl/7.86.0-r0/lib/urlapi.c /usr/src/debug/curl/7.86.0-r0/lib/select.h /usr/src/debug/curl/7.86.0-r0/lib/setopt.h /usr/src/debug/curl/7.86.0-r0/lib/strdup.h /usr/src/debug/curl/7.86.0-r0/lib/dynbuf.c /usr/src/debug/curl/7.86.0-r0/lib/altsvc.h /usr/src/debug/curl/7.86.0-r0/lib/bufref.h /usr/src/debug/curl/7.86.0-r0/lib/cookie.h /usr/src/debug/curl/7.86.0-r0/lib/dynbuf.h /usr/src/debug/curl/7.86.0-r0/lib/escape.h /usr/src/debug/curl/7.86.0-r0/lib/vtls/vtls.h /usr/src/debug/curl/7.86.0-r0/lib/hostasyn.c /usr/src/debug/curl/7.86.0-r0/lib/strerror.h /usr/src/debug/curl/7.86.0-r0/lib/headers.h /usr/src/debug/curl/7.86.0-r0/lib/vtls/vtls.c /usr/src/debug/curl/7.86.0-r0/lib/headers.c /usr/src/debug/curl/7.86.0
+ -r0/lib/strerror.c /usr/src/debug/curl/7.86.0-r0/lib/content_encoding.h /usr/src/debug/curl/7.86.0-r0/lib/progress.h /usr/src/debug/curl/7.86.0-r0/lib/warnless.h /usr/src/debug/curl/7.86.0-r0/lib/content_encoding.c /usr/src/debug/curl/7.86.0-r0/lib/progress.c /usr/src/debug/curl/7.86.0-r0/lib/warnless.c /usr/src/debug/curl/7.86.0-r0/lib/mime.c /usr/src/debug/curl/7.86.0-r0/lib/md5.c /usr/src/debug/curl/7.86.0-r0/lib/mime.h /usr/src/debug/curl/7.86.0-r0/lib/hmac.c /usr/src/debug/curl/7.86.0-r0/lib/curl_addrinfo.c /usr/src/debug/curl/7.86.0-r0/lib/curl_addrinfo.h /usr/src/debug/curl/7.86.0-r0/lib/urldata.h /usr/src/debug/curl/7.86.0-r0/lib/fopen.h /usr/src/debug/curl/7.86.0-r0/lib/if2ip.h /usr/src/debug/curl/7.86.0-r0/lib/vtls/hostcheck.h /usr/src/debug/curl/7.86.0-r0/lib/llist.h /usr/src/debug/curl/7.86.0-r0/lib/netrc.h /usr/src/debug/curl/7.86.0-r0/lib/sendf.h /usr/src/debug/curl/7.86.0-r0/lib/share.h /usr/src/debug/curl/7.86.0-r0/lib/vtls/hostcheck.c /usr/src/debug/curl/7.86.0-r0/l
+ ib/slist.h /usr/src/debug/curl/7.86.0-r0/lib/slist.c /usr/src/debug/curl/7.86.0-r0/lib/socks.c /usr/src/debug/curl/7.86.0-r0/lib/splay.c /usr/src/debug/curl/7.86.0-r0/lib/fopen.c /usr/src/debug/curl/7.86.0-r0/lib/http2.c /usr/src/debug/curl/7.86.0-r0/lib/if2ip.c /usr/src/debug/curl/7.86.0-r0/lib/llist.c /usr/src/debug/curl/7.86.0-r0/lib/multi.c /usr/src/debug/curl/7.86.0-r0/lib/netrc.c /usr/src/debug/curl/7.86.0-r0/lib/sendf.c /usr/src/debug/curl/7.86.0-r0/lib/http_digest.c /usr/src/debug/curl/7.86.0-r0/lib/curl_md5.h /usr/src/debug/curl/7.86.0-r0/lib/http_digest.h /usr/src/debug/curl/7.86.0-r0/lib/curl_base64.h /usr/src/debug/curl/7.86.0-r0/lib/curl_get_line.c /usr/src/debug/curl/7.86.0-r0/lib/curl_get_line.h /usr/src/debug/curl/7.86.0-r0/lib/imap.h /usr/src/debug/curl/7.86.0-r0/lib/ftplistparser.c /usr/src/debug/curl/7.86.0-r0/lib/asyn.h /usr/src/debug/curl/7.86.0-r0/lib/ftplistparser.h /usr/src/debug/curl/7.86.0-r0/lib/mqtt.h /usr/src/debug/curl/7.86.0-r0/lib/rand.h /usr/src/debu
+ g/curl/7.86.0-r0/lib/wildcard.h /usr/src/debug/curl/7.86.0-r0/lib/hsts.h /usr/src/debug/curl/7.86.0-r0/lib/noproxy.c /usr/src/debug/curl/7.86.0-r0/lib/sockaddr.h /usr/src/debug/curl/7.86.0-r0/lib/rand.c /usr/src/debug/curl/7.86.0-r0/lib/noproxy.h /usr/src/debug/curl/7.86.0-r0/lib/pop3.h /usr/src/debug/curl/7.86.0-r0/lib/hsts.c /usr/src/debug/curl/7.86.0-r0/lib/wildcard.c", added "/usr/src/debug/curl/7.87.0-r0/lib/timeval.h /usr/src/debug/curl/7.87.0-r0/lib/timeval.c /usr/src/debug/curl/7.87.0-r0/lib/http_chunks.h /usr/src/debug/curl/7.87.0-r0/lib/mprintf.c /usr/src/debug/curl/7.87.0-r0/lib/http_chunks.c /usr/src/debug/curl/7.87.0-r0/lib/easy.c /usr/src/debug/curl/7.87.0-r0/lib/multiif.h /usr/src/debug/curl/7.87.0-r0/lib/curl_hmac.h /usr/src/debug/curl/7.87.0-r0/lib/rtsp.h /usr/src/debug/curl/7.87.0-r0/lib/escape.c /usr/src/debug/curl/7.87.0-r0/lib/getenv.c /usr/src/debug/curl/7.87.0-r0/lib/hostip.c /usr/src/debug/curl/7.87.0-r0/lib/base64.c /usr/src/debug/curl/7.87.0-r0/lib/altsvc.c
+  /usr/src/debug/curl/7.87.0-r0/lib/bufref.c /usr/src/debug/curl/7.87.0-r0/lib/cookie.c /usr/src/debug/curl/7.87.0-r0/lib/url.c /usr/src/debug/curl/7.87.0-r0/lib/formdata.h /usr/src/debug/curl/7.87.0-r0/lib/transfer.h /usr/src/debug/curl/7.87.0-r0/lib/formdata.c /usr/src/debug/curl/7.87.0-r0/lib/transfer.c /usr/src/debug/curl/7.87.0-r0/lib/version.c /usr/src/debug/curl/7.87.0-r0/lib/url.h /usr/src/debug/curl/7.87.0-r0/lib/hostip.h /usr/src/debug/curl/7.87.0-r0/lib/rename.h /usr/src/debug/curl/7.87.0-r0/lib/vtls/keylog.c /usr/src/debug/curl/7.87.0-r0/lib/vtls/keylog.h /usr/src/debug/curl/7.87.0-r0/lib/curl_sha256.h /usr/src/debug/curl/7.87.0-r0/lib/curl_setup_once.h /usr/src/debug/curl/7.87.0-r0/lib/nonblock.c /usr/src/debug/curl/7.87.0-r0/lib/nonblock.h /usr/src/debug/curl/7.87.0-r0/lib/smtp.h /usr/src/debug/curl/7.87.0-r0/lib/vtls/openssl.h /usr/src/debug/curl/7.87.0-r0/lib/http_ntlm.c /usr/src/debug/curl/7.87.0-r0/lib/vtls/openssl.c /usr/src/debug/curl/7.87.0-r0/lib/http_ntlm.h /us
+ r/src/debug/curl/7.87.0-r0/lib/sigpipe.h /usr/src/debug/curl/7.87.0-r0/lib/strcase.h /usr/src/debug/curl/7.87.0-r0/lib/doh.c /usr/src/debug/curl/7.87.0-r0/lib/doh.h /usr/src/debug/curl/7.87.0-r0/lib/strcase.c /usr/src/debug/curl/7.87.0-r0/lib/http_aws_sigv4.c /usr/src/debug/curl/7.87.0-r0/lib/hostip6.c /usr/src/debug/curl/7.87.0-r0/lib/hash.c /usr/src/debug/curl/7.87.0-r0/lib/parsedate.h /usr/src/debug/curl/7.87.0-r0/lib/strtoofft.h /usr/src/debug/curl/7.87.0-r0/lib/http_aws_sigv4.h /usr/src/debug/curl/7.87.0-r0/lib/parsedate.c /usr/src/debug/curl/7.87.0-r0/lib/hash.h /usr/src/debug/curl/7.87.0-r0/lib/strtoofft.c /usr/src/debug/curl/7.87.0-r0/lib/getinfo.c /usr/src/debug/curl/7.87.0-r0/lib/conncache.c /usr/src/debug/curl/7.87.0-r0/lib/fileinfo.c /usr/src/debug/curl/7.87.0-r0/lib/conncache.h /usr/src/debug/curl/7.87.0-r0/lib/getinfo.h /usr/src/debug/curl/7.87.0-r0/lib/curl_memory.h /usr/src/debug/curl/7.87.0-r0/lib/fileinfo.h /usr/src/debug/curl/7.87.0-r0/lib/file.c /usr/src/debug/cu
+ rl/7.87.0-r0/lib/curl_fnmatch.h /usr/src/debug/curl/7.87.0-r0/lib/curl_fnmatch.c /usr/src/debug/curl/7.87.0-r0/lib/file.h /usr/src/debug/curl/7.87.0-r0/lib/idn.c /usr/src/debug/curl/7.87.0-r0/lib/multihandle.h /usr/src/debug/curl/7.87.0-r0/lib/timediff.c /usr/src/debug/curl/7.87.0-r0/lib/socks.h /usr/src/debug/curl/7.87.0-r0/lib/http_proxy.h /usr/src/debug/curl/7.87.0-r0/lib/speedcheck.c /usr/src/debug/curl/7.87.0-r0/lib/splay.h /usr/src/debug/curl/7.87.0-r0/lib/asyn-thread.c /usr/src/debug/curl/7.87.0-r0/lib/idn.h /usr/src/debug/curl/7.87.0-r0/lib/timediff.h /usr/src/debug/curl/7.87.0-r0/lib/http_proxy.c /usr/src/debug/curl/7.87.0-r0/lib/speedcheck.h /usr/src/debug/curl/7.87.0-r0/lib/curl_threads.h /usr/src/debug/curl/7.87.0-r0/lib/curl_ntlm_core.h /usr/src/debug/curl/7.87.0-r0/lib/pingpong.c /usr/src/debug/curl/7.87.0-r0/lib/curl_threads.c /usr/src/debug/curl/7.87.0-r0/lib/curl_ntlm_core.c /usr/src/debug/curl/7.87.0-r0/lib/easyoptions.h /usr/src/debug/curl/7.87.0-r0/lib/pingpong.h
+  /usr/src/debug/curl/7.87.0-r0/lib/ftp.c /usr/src/debug/curl/7.87.0-r0/lib/connect.c /usr/src/debug/curl/7.87.0-r0/lib/md4.c /usr/src/debug/curl/7.87.0-r0/lib/easy_lock.h /usr/src/debug/curl/7.87.0-r0/lib/easyoptions.c /usr/src/debug/curl/7.87.0-r0/lib/connect.h /usr/src/debug/curl/7.87.0-r0/lib/ftp.h /usr/src/debug/curl/7.87.0-r0/lib/share.c /usr/src/debug/curl/7.87.0-r0/lib/curl_endian.c /usr/src/debug/curl/7.87.0-r0/lib/http.c /usr/src/debug/curl/7.87.0-r0/lib/curl_memrchr.h /usr/src/debug/curl/7.87.0-r0/lib/curl_range.c /usr/src/debug/curl/7.87.0-r0/lib/ws.c /usr/src/debug/curl/7.87.0-r0/lib/curl_memrchr.c /usr/src/debug/curl/7.87.0-r0/lib/http.h /usr/src/debug/curl/7.87.0-r0/lib/curl_endian.h /usr/src/debug/curl/7.87.0-r0/lib/easygetopt.c /usr/src/debug/curl/7.87.0-r0/lib/curl_range.h /usr/src/debug/curl/7.87.0-r0/lib/curl_gethostname.c /usr/src/debug/curl/7.87.0-r0/lib/urlapi-int.h /usr/src/debug/curl/7.87.0-r0/lib/curl_md4.h /usr/src/debug/curl/7.87.0-r0/lib/rename.c /usr/src
+ /debug/curl/7.87.0-r0/lib/select.c /usr/src/debug/curl/7.87.0-r0/lib/setopt.c /usr/src/debug/curl/7.87.0-r0/lib/sha256.c /usr/src/debug/curl/7.87.0-r0/lib/strdup.c /usr/src/debug/curl/7.87.0-r0/lib/urlapi.c /usr/src/debug/curl/7.87.0-r0/lib/select.h /usr/src/debug/curl/7.87.0-r0/lib/setopt.h /usr/src/debug/curl/7.87.0-r0/lib/strdup.h /usr/src/debug/curl/7.87.0-r0/lib/dynbuf.c /usr/src/debug/curl/7.87.0-r0/lib/altsvc.h /usr/src/debug/curl/7.87.0-r0/lib/bufref.h /usr/src/debug/curl/7.87.0-r0/lib/cookie.h /usr/src/debug/curl/7.87.0-r0/lib/dynbuf.h /usr/src/debug/curl/7.87.0-r0/lib/escape.h /usr/src/debug/curl/7.87.0-r0/lib/vtls/vtls.h /usr/src/debug/curl/7.87.0-r0/lib/hostasyn.c /usr/src/debug/curl/7.87.0-r0/lib/strerror.h /usr/src/debug/curl/7.87.0-r0/lib/headers.h /usr/src/debug/curl/7.87.0-r0/lib/vtls/vtls.c /usr/src/debug/curl/7.87.0-r0/lib/headers.c /usr/src/debug/curl/7.87.0-r0/lib/strerror.c /usr/src/debug/curl/7.87.0-r0/lib/content_encoding.h /usr/src/debug/curl/7.87.0-r0/lib/p
+ rogress.h /usr/src/debug/curl/7.87.0-r0/lib/warnless.h /usr/src/debug/curl/7.87.0-r0/lib/content_encoding.c /usr/src/debug/curl/7.87.0-r0/lib/progress.c /usr/src/debug/curl/7.87.0-r0/lib/warnless.c /usr/src/debug/curl/7.87.0-r0/lib/mime.c /usr/src/debug/curl/7.87.0-r0/lib/md5.c /usr/src/debug/curl/7.87.0-r0/lib/mime.h /usr/src/debug/curl/7.87.0-r0/lib/hmac.c /usr/src/debug/curl/7.87.0-r0/lib/curl_addrinfo.c /usr/src/debug/curl/7.87.0-r0/lib/curl_addrinfo.h /usr/src/debug/curl/7.87.0-r0/lib/urldata.h /usr/src/debug/curl/7.87.0-r0/lib/fopen.h /usr/src/debug/curl/7.87.0-r0/lib/if2ip.h /usr/src/debug/curl/7.87.0-r0/lib/vtls/hostcheck.h /usr/src/debug/curl/7.87.0-r0/lib/llist.h /usr/src/debug/curl/7.87.0-r0/lib/netrc.h /usr/src/debug/curl/7.87.0-r0/lib/sendf.h /usr/src/debug/curl/7.87.0-r0/lib/share.h /usr/src/debug/curl/7.87.0-r0/lib/vtls/hostcheck.c /usr/src/debug/curl/7.87.0-r0/lib/slist.h /usr/src/debug/curl/7.87.0-r0/lib/slist.c /usr/src/debug/curl/7.87.0-r0/lib/socks.c /usr/src/deb
+ ug/curl/7.87.0-r0/lib/splay.c /usr/src/debug/curl/7.87.0-r0/lib/fopen.c /usr/src/debug/curl/7.87.0-r0/lib/http2.c /usr/src/debug/curl/7.87.0-r0/lib/if2ip.c /usr/src/debug/curl/7.87.0-r0/lib/llist.c /usr/src/debug/curl/7.87.0-r0/lib/multi.c /usr/src/debug/curl/7.87.0-r0/lib/netrc.c /usr/src/debug/curl/7.87.0-r0/lib/sendf.c /usr/src/debug/curl/7.87.0-r0/lib/http_digest.c /usr/src/debug/curl/7.87.0-r0/lib/curl_md5.h /usr/src/debug/curl/7.87.0-r0/lib/cfilters.h /usr/src/debug/curl/7.87.0-r0/lib/http_digest.h /usr/src/debug/curl/7.87.0-r0/lib/cfilters.c /usr/src/debug/curl/7.87.0-r0/lib/curl_base64.h /usr/src/debug/curl/7.87.0-r0/lib/curl_get_line.c /usr/src/debug/curl/7.87.0-r0/lib/curl_get_line.h /usr/src/debug/curl/7.87.0-r0/lib/imap.h /usr/src/debug/curl/7.87.0-r0/lib/ftplistparser.c /usr/src/debug/curl/7.87.0-r0/lib/asyn.h /usr/src/debug/curl/7.87.0-r0/lib/ftplistparser.h /usr/src/debug/curl/7.87.0-r0/lib/vtls/vtls_int.h /usr/src/debug/curl/7.87.0-r0/lib/mqtt.h /usr/src/debug/curl/7
+ .87.0-r0/lib/rand.h /usr/src/debug/curl/7.87.0-r0/lib/wildcard.h /usr/src/debug/curl/7.87.0-r0/lib/hsts.h /usr/src/debug/curl/7.87.0-r0/lib/noproxy.c /usr/src/debug/curl/7.87.0-r0/lib/sockaddr.h /usr/src/debug/curl/7.87.0-r0/lib/rand.c /usr/src/debug/curl/7.87.0-r0/lib/noproxy.h /usr/src/debug/curl/7.87.0-r0/lib/pop3.h /usr/src/debug/curl/7.87.0-r0/lib/hsts.c /usr/src/debug/curl/7.87.0-r0/lib/wildcard.c"
+packages/core2-32-poky-linux/curl/curl-staticdev: PV changed from "7.86.0" to "7.87.0"
+packages/core2-32-poky-linux/curl/curl-staticdev: PKGV changed from 7.86.0 [default] to 7.87.0 [default]
+packages/core2-32-poky-linux/curl/curl: PV changed from "7.86.0" to "7.87.0"
+packages/core2-32-poky-linux/curl/curl: PKGSIZE changed from 185800 to 185804 (+0%)
+packages/core2-32-poky-linux/curl/curl: PKGV changed from 7.86.0 [default] to 7.87.0 [default]
+packages/core2-32-poky-linux/curl: SRC_URI changed from "https://curl.se/download/curl-7.86.0.tar.xz file://run-ptest file://disable-tests" to "https://curl.se/download/curl-7.87.0.tar.xz file://run-ptest file://disable-tests"
+packages/core2-32-poky-linux/curl: PV changed from "7.86.0" to "7.87.0"
+packages/core2-32-poky-linux/curl: PKGV changed from 7.86.0 [default] to 7.87.0 [default]
+packages/core2-32-poky-linux/curl/libcurl: PV changed from "7.86.0" to "7.87.0"
+packages/core2-32-poky-linux/curl/libcurl: PKGSIZE changed from 584124 to 596448 (+2%)
+packages/core2-32-poky-linux/curl/libcurl: PKGV changed from 7.86.0 [default] to 7.87.0 [default]
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -2854,5 +2840,34 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
 
---===============0064188775395567037==--
+--===============3545436696370733110==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-curl-upgrade-7.86.0-7.87.0.patch"
+
+RnJvbSBiZTI3OTk2N2U3ODI5YzM2YzljMzE4NzRjMzlhYjBmNjJlNDk5ZGIzIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMSBKYW4gMjAyMyAxOTozMToyMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGN1
+cmw6IHVwZ3JhZGUgNy44Ni4wIC0+IDcuODcuMAoKLS0tCiBtZXRhL3JlY2lwZXMtc3VwcG9ydC9j
+dXJsL3tjdXJsXzcuODYuMC5iYiA9PiBjdXJsXzcuODcuMC5iYn0gfCAyICstCiAxIGZpbGUgY2hh
+bmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMt
+c3VwcG9ydC9jdXJsL3tjdXJsXzcuODYuMC5iYiA9PiBjdXJsXzcuODcuMC5iYn0gKDk4JSkKCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9jdXJsL2N1cmxfNy44Ni4wLmJiIGIvbWV0
+YS9yZWNpcGVzLXN1cHBvcnQvY3VybC9jdXJsXzcuODcuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDk4
+JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9jdXJsL2N1cmxfNy44Ni4wLmJiCnJl
+bmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9jdXJsL2N1cmxfNy44Ny4wLmJiCmluZGV4IGY1
+ZTNlNzIzNWQuLmEzYWQ2NmYxYWEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2N1
+cmwvY3VybF83Ljg2LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvY3VybC9jdXJsXzcu
+ODcuMC5iYgpAQCAtMTQsNyArMTQsNyBAQCBTUkNfVVJJID0gIiBcCiAgICAgZmlsZTovL3J1bi1w
+dGVzdCBcCiAgICAgZmlsZTovL2Rpc2FibGUtdGVzdHMgXAogIgotU1JDX1VSSVtzaGEyNTZzdW1d
+ID0gIjJkNjExMTZlNWY0ODU1ODFmNmQ1OTg2NTM3N2RmNDQ2M2YyZTc4ODY3N2FjNDMyMjJiNDk2
+ZDRlNDlmYjYyN2IiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZWU1ZjFhMTk1NWIwZWQ0MTM0MzVl
+Zjc5ZGIyOGI4MzRlYTVmMGZiN2M4Y2ZiMWNlNDcxNzVjYzNiZWUwOGZmZiIKIAogIyBDdXJsIGhh
+cyB1c2VkIG1hbnkgbmFtZXMgb3ZlciB0aGUgeWVhcnMuLi4KIENWRV9QUk9EVUNUID0gImhheHg6
+Y3VybCBoYXh4OmxpYmN1cmwgY3VybDpjdXJsIGN1cmw6bGliY3VybCBsaWJjdXJsOmxpYmN1cmwg
+ZGFuaWVsX3N0ZW5iZXJnOmN1cmwiCi0tIAoyLjM3LjMKCg==
+
+--===============3545436696370733110==--
 
