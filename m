@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18CE0C53210
-	for <webhook@archiver.kernel.org>; Sun,  1 Jan 2023 20:46:07 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.20657.1672605966184846856
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06E36C54EF1
+	for <webhook@archiver.kernel.org>; Sun,  1 Jan 2023 20:46:18 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.20198.1672605969351145227
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Jan 2023 12:46:06 -0800
+ Sun, 01 Jan 2023 12:46:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=PKbx2x3h;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101856f159996-be3b5516-e357-42bf-9273-14f176e42309-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Ia70IBjF;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101856f15a767-ab2af4fc-90b0-441b-ac7e-a10ecd6906b0-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1672605965;
+	t=1672605968;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=PQO+d2DzNCeFLgRejR85l7rJUZ55XtA2MJDs2Mh/RFo=;
-	b=PKbx2x3h1XH5WEawqLCoHYgkmAyPKYybPAecOUsKqyvo4yxMCsTjsgbFr0FTlcQR
-	/bQJn+mtBhyrEhenDp/rXCmL7riSN/DLFzk56/Vtza5Ld8wTXKnFMnEeAwQd3RvPk5E
-	5zqlPWWPyeX9ZtqXkPrZEmgnC/QoT+lbaSr2hQQA=
+	bh=mO4OdvoxIcufmlqmrwNxz/iz697qNGqCgv1naOJ/17Y=;
+	b=Ia70IBjF3Ea1ht7xLH0ZrkKHnxtexyVOsGNvcYt4aPUHEQ7CGDrbsrsERH3d+6lS
+	/CKKjGplA7FLD0N9GkoenslGjgBFrKYz7k9akTAGP25/frbsJPTvAXPGNbnuZOHjZF1
+	Rn4xXTPVpkJM5wYAUF0KaVfMg2qEEbJWpmh3CN60=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1672605965;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1672605968;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=PQO+d2DzNCeFLgRejR85l7rJUZ55XtA2MJDs2Mh/RFo=;
-	b=JOvB2iDU8FUFEfPSAUUCRPmnN+k2Pvsw5ThBW5LIAo+7qHOMRdN94TJ5ZAK0xyku
-	AgmZxpF99KXtrfSM63fAOZ7K/Pea0bmAy9r6JnR6b9PDeCcCDGyRVYCBgMrCwt9QH/X
-	/DxiNGPLwkIi6P/eM0yTZZFJpOozdio2zFbkkAPM=
-Content-Type: multipart/mixed; boundary="===============0222833915398160749=="
+	bh=mO4OdvoxIcufmlqmrwNxz/iz697qNGqCgv1naOJ/17Y=;
+	b=SMBUYJwv5rr68vKPoj8uC8VOkPwhWBSiDr9FEP0pAo2o35W8geiB1IX/6LC6+YGD
+	TKruHfP2dG65V6UfQG2d9ZXm8a8ANuz1gZHg28rQOPMkNek7M4ZBaPUBwLcR/yEzkdM
+	xDELyfH1yIGSMg7EGwWiGO/J+bQ412CNbmZzENRk=
+Content-Type: multipart/mixed; boundary="===============7202609184199586243=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] glib-2.0: upgrading to 2.74.4 FAILED
-Message-ID: <010101856f159996-be3b5516-e357-42bf-9273-14f176e42309-000000@us-west-2.amazonses.com>
-Date: Sun, 1 Jan 2023 20:46:04 +0000
+Subject: [AUH] linux-firmware: upgrading to 20221214 SUCCEEDED
+Message-ID: <010101856f15a767-ab2af4fc-90b0-441b-ac7e-a10ecd6906b0-000000@us-west-2.amazonses.com>
+Date: Sun, 1 Jan 2023 20:46:08 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.01.01-54.240.27.29
+X-SES-Outgoing: 2023.01.01-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 Jan 2023 20:46:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175243
+ <openembedded-core@lists.openembedded.org>; Sun, 01 Jan 2023 20:46:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175302
 
---===============0222833915398160749==
+--===============7202609184199586243==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,16 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *glib-2.0* to *2.74.4* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *linux-firmware* to *20221214* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-glib-2.0-upgrade-2.74.3-2.74.4.patch
+    - apply the patch: git am 0001-linux-firmware-upgrade-20221109-20221214.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,794 +69,546 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============0222833915398160749==
+--===============7202609184199586243==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 893 .bb files complete (0 cached, 893 parsed). 1690 targets, 37 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-32 sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu: FILELIST: added "/lib/firmware/amdgpu/gc_11_0_0_mes1.bin /lib/firmware/amdgpu/sdma_6_0_0.bin /lib/firmware/amdgpu/gc_11_0_0_mec.bin /lib/firmware/amdgpu/aldebaran_sjt_mec.bin /lib/firmware/amdgpu/vcn_4_0_0.bin /lib/firmware/amdgpu/gc_11_0_0_pfp.bin /lib/firmware/amdgpu/psp_13_0_0_sos.bin /lib/firmware/amdgpu/smu_13_0_0.bin /lib/firmware/amdgpu/gc_11_0_0_rlc.bin /lib/firmware/amdgpu/aldebaran_sjt_mec2.bin /lib/firmware/amdgpu/gc_11_0_0_mes.bin /lib/firmware/amdgpu/gc_11_0_0_imu.bin /lib/firmware/amdgpu/dcn_3_2_0_dmcub.bin /lib/firmware/amdgpu/psp_13_0_0_ta.bin /lib/firmware/amdgpu/gc_11_0_0_me.bin"
+packages/all-poky-linux/linux-firmware/linux-firmware-i915: FILELIST: added "/lib/firmware/i915/mtl_dmc_ver2_10.bin /lib/firmware/i915/dg2_dmc_ver2_08.bin"
+packages/all-poky-linux/linux-firmware/linux-firmware-license: FILELIST: added "/lib/firmware/LICENSE.nxp"
+packages/all-poky-linux/linux-firmware/linux-firmware-qca: PKGSIZE changed from 1744896 to 1960217 (+12%)
+packages/all-poky-linux/linux-firmware/linux-firmware-qca: FILELIST: added "/lib/firmware/qca/nvm_usb_00190200.bin /lib/firmware/qca/rampatch_usb_00190200.bin"
+packages/all-poky-linux/linux-firmware/linux-firmware: FILELIST: added "/lib/firmware/mediatek/mt7986_wo_0.bin /lib/firmware/mediatek/mt7986_wo_1.bin /lib/firmware/nxp/sr150_fw.bin"
 
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:26fd00ae1da5d22c76f173e0fac125831328d352"
-workspace            = "master:c9c2b6b613bbaf7133d9c3435f3aef3fe4e38f59"
+--===============7202609184199586243==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-Initialising tasks...done.
-Sstate summary: Wanted 156 Local 97 Mirrors 0 Missed 59 Current 346 (62% match, 88% complete)
-Removing 2 stale sstate objects for arch allarch...done.
-Removing 16 stale sstate objects for arch qemux86...done.
-Removing 16 stale sstate objects for arch core2-32...done.
-Removing 2 stale sstate objects for arch x86_64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 419 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 420 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 424 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 426 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 447 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_252.4.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 463 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 466 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 467 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 469 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 470 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 474 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.37.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 478 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libsm-1_1.2.4-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libice-1_1.1.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe xtrans-1_1.4.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libx11-1_1.8.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libxcb-1.15-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe xkeyboard-config-2.37-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe wayland-1.21.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe xorgproto-2022.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe systemd-1_252.4-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libice-1_1.1.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libx11-1_1.8.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libxcb-1.15-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.11-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe wayland-1.21.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe xkeyboard-config-2.37-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe xorgproto-2022.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe systemd-1_252.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe xtrans-1_1.4.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 930 of 1810 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb:do_fetch)
-NOTE: Running task 983 of 1810 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb:do_write_config)
-NOTE: Running task 999 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb:do_fetch)
-NOTE: Running task 1000 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_fetch)
-NOTE: Running task 1003 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_fetch)
-NOTE: Running task 1057 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb:do_write_config)
-NOTE: Running task 1058 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_write_config)
-NOTE: Running task 1059 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_write_config)
-NOTE: Running task 1069 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_fetch)
-NOTE: Running task 1071 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_fetch)
-NOTE: Running task 1075 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_fetch)
-NOTE: Running task 1100 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.37.bb:do_fetch)
-NOTE: Running task 1124 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_fetch)
-NOTE: Running task 1139 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_252.4.bb:do_fetch)
-NOTE: Running task 1161 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_fetch)
-NOTE: Running task 1173 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.3.bb:do_fetch)
-NOTE: Running task 1174 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_fetch)
-NOTE: Running task 1198 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.4.bb:do_fetch)
-NOTE: Running task 1270 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.37.bb:do_write_config)
-NOTE: Running task 1284 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_write_config)
-NOTE: Running task 1320 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_252.4.bb:do_warn_musl)
-NOTE: Running task 1321 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_252.4.bb:do_write_config)
-NOTE: recipe xorgproto-2022.2-r0: task do_fetch: Started
-NOTE: recipe wayland-1.21.0-r0: task do_fetch: Started
-NOTE: recipe glib-2.0-1_2.74.4-r0: task do_fetch: Started
-NOTE: recipe xorgproto-2022.2-r0: task do_write_config: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_fetch: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_fetch: Started
-NOTE: recipe libxcb-1.15-r0: task do_fetch: Started
-NOTE: recipe xorgproto-2022.2-r0: task do_fetch: Succeeded
-NOTE: Running task 1429 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_unpack)
-NOTE: recipe wayland-1.21.0-r0: task do_write_config: Started
-NOTE: recipe wayland-1.21.0-r0: task do_fetch: Succeeded
-NOTE: recipe xkeyboard-config-2.37-r0: task do_fetch: Started
-NOTE: Running task 1447 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_unpack)
-NOTE: recipe glib-2.0-native-1_2.74.4-r0: task do_fetch: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_fetch: Succeeded
-NOTE: recipe libxau-1_1.0.11-r0: task do_fetch: Succeeded
-NOTE: recipe glib-2.0-1_2.74.4-r0: task do_write_config: Started
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_fetch: Started
-NOTE: recipe libxcb-1.15-r0: task do_fetch: Succeeded
-NOTE: Running task 1488 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_unpack)
-NOTE: Running task 1489 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_unpack)
-NOTE: Running task 1490 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_unpack)
-NOTE: recipe xkeyboard-config-2.37-r0: task do_fetch: Succeeded
-NOTE: recipe libice-1_1.1.1-r0: task do_fetch: Started
-NOTE: recipe glib-2.0-native-1_2.74.4-r0: task do_write_config: Started
-NOTE: recipe libx11-1_1.8.3-r0: task do_fetch: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_fetch: Started
-NOTE: Running task 1520 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.37.bb:do_unpack)
-NOTE: recipe glib-2.0-1_2.74.4-r0: task do_fetch: Succeeded
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1539 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb:do_unpack)
-NOTE: Running task 1553 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_unpack)
-NOTE: recipe libice-1_1.1.1-r0: task do_fetch: Succeeded
-NOTE: recipe glib-2.0-native-1_2.74.4-r0: task do_fetch: Succeeded
-NOTE: recipe xorgproto-2022.2-r0: task do_write_config: Succeeded
-NOTE: recipe libsm-1_1.2.4-r0: task do_fetch: Succeeded
-NOTE: Running task 1572 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_unpack)
-NOTE: Running task 1592 of 1810 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb:do_unpack)
-NOTE: recipe wayland-1.21.0-r0: task do_write_config: Succeeded
-NOTE: recipe libx11-1_1.8.3-r0: task do_fetch: Succeeded
-NOTE: Running task 1593 of 1810 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe xkeyboard-config-2.37-r0: task do_write_config: Started
-NOTE: recipe dbus-1.14.4-r0: task do_fetch: Started
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_write_config: Started
-NOTE: recipe systemd-1_252.4-r0: task do_fetch: Started
-NOTE: Running task 1594 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.3.bb:do_unpack)
-NOTE: Running task 1595 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_unpack)
-NOTE: recipe glib-2.0-1_2.74.4-r0: task do_write_config: Succeeded
-NOTE: recipe glib-2.0-native-1_2.74.4-r0: task do_write_config: Succeeded
-NOTE: recipe dbus-1.14.4-r0: task do_fetch: Succeeded
-NOTE: Running task 1635 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.4.bb:do_unpack)
-NOTE: recipe xorgproto-2022.2-r0: task do_unpack: Started
-NOTE: recipe xkeyboard-config-2.37-r0: task do_write_config: Succeeded
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_write_config: Succeeded
-NOTE: recipe libxcb-1.15-r0: task do_unpack: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_unpack: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_unpack: Started
-NOTE: recipe systemd-1_252.4-r0: task do_warn_musl: Started
-NOTE: recipe wayland-1.21.0-r0: task do_unpack: Started
-NOTE: recipe systemd-1_252.4-r0: task do_warn_musl: Succeeded
-NOTE: recipe systemd-1_252.4-r0: task do_write_config: Started
-NOTE: recipe xkeyboard-config-2.37-r0: task do_unpack: Started
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_unpack: Started
-NOTE: recipe systemd-1_252.4-r0: task do_fetch: Succeeded
-NOTE: recipe libice-1_1.1.1-r0: task do_unpack: Started
-NOTE: Running task 1636 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_252.4.bb:do_unpack)
-NOTE: recipe glib-2.0-1_2.74.4-r0: task do_unpack: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_unpack: Started
-NOTE: recipe libx11-1_1.8.3-r0: task do_unpack: Started
-NOTE: recipe systemd-1_252.4-r0: task do_write_config: Succeeded
-NOTE: recipe glib-2.0-native-1_2.74.4-r0: task do_unpack: Started
-NOTE: recipe dbus-1.14.4-r0: task do_unpack: Started
-NOTE: recipe glib-2.0-native-1_2.74.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_unpack: Succeeded
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_unpack: Succeeded
-NOTE: recipe xorgproto-2022.2-r0: task do_unpack: Succeeded
-NOTE: recipe libxcb-1.15-r0: task do_unpack: Succeeded
-NOTE: Running task 1637 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_patch)
-NOTE: Running task 1638 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_patch)
-NOTE: Running task 1639 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_patch)
-NOTE: Running task 1640 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_patch)
-NOTE: recipe wayland-1.21.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1641 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_patch)
-NOTE: recipe libice-1_1.1.1-r0: task do_unpack: Succeeded
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_unpack: Succeeded
-NOTE: recipe libsm-1_1.2.4-r0: task do_unpack: Succeeded
-NOTE: recipe systemd-1_252.4-r0: task do_unpack: Started
-NOTE: Running task 1642 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_patch)
-NOTE: Running task 1643 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_patch)
-NOTE: Running task 1644 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_patch)
-NOTE: recipe xkeyboard-config-2.37-r0: task do_unpack: Succeeded
-NOTE: Running task 1645 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.37.bb:do_patch)
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_patch: Started
-NOTE: recipe xorgproto-2022.2-r0: task do_patch: Started
-NOTE: recipe libxcb-1.15-r0: task do_patch: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_patch: Started
-NOTE: recipe dbus-1.14.4-r0: task do_unpack: Succeeded
-NOTE: Running task 1646 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.4.bb:do_patch)
-NOTE: recipe wayland-1.21.0-r0: task do_patch: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_patch: Succeeded
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_patch: Started
-NOTE: recipe libxcb-1.15-r0: task do_patch: Succeeded
-NOTE: recipe libice-1_1.1.1-r0: task do_patch: Started
-NOTE: recipe xorgproto-2022.2-r0: task do_patch: Succeeded
-NOTE: recipe libxau-1_1.0.11-r0: task do_patch: Succeeded
-NOTE: recipe libsm-1_1.2.4-r0: task do_patch: Started
-NOTE: recipe xkeyboard-config-2.37-r0: task do_patch: Started
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_patch: Succeeded
-NOTE: recipe libice-1_1.1.1-r0: task do_patch: Succeeded
-NOTE: recipe libx11-1_1.8.3-r0: task do_unpack: Succeeded
-NOTE: Running task 1653 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.3.bb:do_patch)
-NOTE: recipe libsm-1_1.2.4-r0: task do_patch: Succeeded
-NOTE: recipe xkeyboard-config-2.37-r0: task do_patch: Succeeded
-NOTE: recipe wayland-1.21.0-r0: task do_patch: Succeeded
-NOTE: recipe dbus-1.14.4-r0: task do_patch: Started
-NOTE: recipe glib-2.0-native-1_2.74.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libx11-1_1.8.3-r0: task do_patch: Started
-NOTE: recipe dbus-1.14.4-r0: task do_patch: Succeeded
-NOTE: recipe libx11-1_1.8.3-r0: task do_patch: Succeeded
-NOTE: recipe glib-2.0-1_2.74.4-r0: task do_unpack: Succeeded
-NOTE: Running task 1659 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb:do_patch)
-NOTE: recipe glib-2.0-1_2.74.4-r0: task do_patch: Started
-NOTE: recipe glib-2.0-native-1_2.74.4-r0: task do_unpack: Succeeded
-NOTE: Running task 1660 of 1810 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb:do_patch)
-NOTE: recipe glib-2.0-native-1_2.74.4-r0: task do_patch: Started
-NOTE: recipe systemd-1_252.4-r0: task do_unpack: Succeeded
-NOTE: Running task 1661 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_252.4.bb:do_patch)
-NOTE: recipe systemd-1_252.4-r0: task do_patch: Started
-NOTE: recipe glib-2.0-1_2.74.4-r0: task do_patch: Succeeded
-NOTE: Running task 1662 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1663 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb:do_populate_lic)
-NOTE: recipe glib-2.0-1_2.74.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe glib-2.0-1_2.74.4-r0: task do_populate_lic: Started
-NOTE: recipe systemd-1_252.4-r0: task do_patch: Succeeded
-NOTE: recipe glib-2.0-1_2.74.4-r0: task do_populate_lic: Succeeded
-NOTE: recipe glib-2.0-1_2.74.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe glib-2.0-native-1_2.74.4-r0: task do_patch: Succeeded
-NOTE: Running task 1665 of 1810 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb:do_deploy_source_date_epoch)
-NOTE: recipe glib-2.0-native-1_2.74.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe glib-2.0-native-1_2.74.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1666 of 1810 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb:do_configure)
-NOTE: recipe glib-2.0-native-1_2.74.4-r0: task do_configure: Started
-NOTE: recipe glib-2.0-native-1_2.74.4-r0: task do_configure: Succeeded
-NOTE: Running task 1667 of 1810 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb:do_compile)
-NOTE: recipe glib-2.0-native-1_2.74.4-r0: task do_compile: Started
-NOTE: recipe glib-2.0-native-1_2.74.4-r0: task do_compile: Succeeded
-NOTE: Running task 1668 of 1810 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb:do_install)
-NOTE: recipe glib-2.0-native-1_2.74.4-r0: task do_install: Started
-NOTE: recipe glib-2.0-native-1_2.74.4-r0: task do_install: Succeeded
-NOTE: Running task 1669 of 1810 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb:do_populate_sysroot)
-NOTE: recipe glib-2.0-native-1_2.74.4-r0: task do_populate_sysroot: Started
-NOTE: recipe glib-2.0-native-1_2.74.4-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1670 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/qemu/qemu-native_7.2.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1671 of 1810 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_prepare_recipe_sysroot)
-NOTE: recipe qemu-native-7.2.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe shared-mime-info-native-2.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe qemu-native-7.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1672 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/qemu/qemu-native_7.2.0.bb:do_configure)
-NOTE: recipe shared-mime-info-native-2.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1673 of 1810 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_configure)
-NOTE: recipe qemu-native-7.2.0-r0: task do_configure: Started
-NOTE: recipe shared-mime-info-native-2.2-r0: task do_configure: Started
-NOTE: recipe shared-mime-info-native-2.2-r0: task do_configure: Succeeded
-NOTE: Running task 1674 of 1810 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_compile)
-NOTE: recipe shared-mime-info-native-2.2-r0: task do_compile: Started
-NOTE: recipe shared-mime-info-native-2.2-r0: task do_compile: Succeeded
-NOTE: Running task 1675 of 1810 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_install)
-NOTE: recipe shared-mime-info-native-2.2-r0: task do_install: Started
-NOTE: recipe shared-mime-info-native-2.2-r0: task do_install: Succeeded
-NOTE: Running task 1676 of 1810 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_populate_sysroot)
-NOTE: recipe shared-mime-info-native-2.2-r0: task do_populate_sysroot: Started
-NOTE: recipe shared-mime-info-native-2.2-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe qemu-native-7.2.0-r0: task do_configure: Succeeded
-NOTE: Running task 1677 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/qemu/qemu-native_7.2.0.bb:do_compile)
-NOTE: recipe qemu-native-7.2.0-r0: task do_compile: Started
-NOTE: recipe qemu-native-7.2.0-r0: task do_compile: Succeeded
-NOTE: Running task 1678 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/qemu/qemu-native_7.2.0.bb:do_install)
-NOTE: recipe qemu-native-7.2.0-r0: task do_install: Started
-NOTE: recipe qemu-native-7.2.0-r0: task do_install: Succeeded
-NOTE: Running task 1679 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/qemu/qemu-native_7.2.0.bb:do_populate_sysroot)
-NOTE: recipe qemu-native-7.2.0-r0: task do_populate_sysroot: Started
-NOTE: recipe qemu-native-7.2.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1680 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1681 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1682 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1683 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland-protocols_1.31.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1684 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.37.bb:do_prepare_recipe_sysroot)
-NOTE: recipe wayland-protocols-1.31-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe xorgproto-2022.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe wayland-1.21.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe glib-2.0-1_2.74.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe xkeyboard-config-2.37-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe wayland-protocols-1.31-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1685 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland-protocols_1.31.bb:do_configure)
-NOTE: recipe wayland-protocols-1.31-r0: task do_configure: Started
-NOTE: recipe xorgproto-2022.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1686 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_configure)
-NOTE: recipe xkeyboard-config-2.37-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1687 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.37.bb:do_configure)
-NOTE: recipe glib-2.0-1_2.74.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1688 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb:do_configure)
-NOTE: recipe xorgproto-2022.2-r0: task do_configure: Started
-NOTE: recipe xkeyboard-config-2.37-r0: task do_configure: Started
-NOTE: recipe wayland-1.21.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1689 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_configure)
-NOTE: recipe glib-2.0-1_2.74.4-r0: task do_configure: Started
-NOTE: recipe wayland-1.21.0-r0: task do_configure: Started
-NOTE: recipe wayland-protocols-1.31-r0: task do_configure: Succeeded
-NOTE: Running task 1690 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland-protocols_1.31.bb:do_compile)
-NOTE: recipe wayland-protocols-1.31-r0: task do_compile: Started
-NOTE: recipe wayland-protocols-1.31-r0: task do_compile: Succeeded
-NOTE: Running task 1691 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland-protocols_1.31.bb:do_install)
-NOTE: recipe xkeyboard-config-2.37-r0: task do_configure: Succeeded
-NOTE: recipe xorgproto-2022.2-r0: task do_configure: Succeeded
-NOTE: Running task 1692 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_compile)
-NOTE: Running task 1693 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.37.bb:do_compile)
-NOTE: recipe wayland-protocols-1.31-r0: task do_install: Started
-NOTE: recipe xorgproto-2022.2-r0: task do_compile: Started
-NOTE: recipe xkeyboard-config-2.37-r0: task do_compile: Started
-NOTE: recipe xorgproto-2022.2-r0: task do_compile: Succeeded
-NOTE: Running task 1694 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_install)
-NOTE: recipe xorgproto-2022.2-r0: task do_install: Started
-NOTE: recipe xkeyboard-config-2.37-r0: task do_compile: Succeeded
-NOTE: Running task 1695 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.37.bb:do_install)
-NOTE: recipe wayland-protocols-1.31-r0: task do_install: Succeeded
-NOTE: Running task 1696 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland-protocols_1.31.bb:do_populate_sysroot)
-NOTE: Running task 1697 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland-protocols_1.31.bb:do_package)
-NOTE: recipe xkeyboard-config-2.37-r0: task do_install: Started
-NOTE: recipe wayland-protocols-1.31-r0: task do_populate_sysroot: Started
-NOTE: recipe wayland-protocols-1.31-r0: task do_package: Started
-NOTE: recipe wayland-1.21.0-r0: task do_configure: Succeeded
-NOTE: Running task 1698 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_configure_ptest_base)
-NOTE: recipe wayland-1.21.0-r0: task do_configure_ptest_base: Started
-NOTE: recipe wayland-protocols-1.31-r0: task do_populate_sysroot: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland-protocols_1.31.bb:do_populate_sysroot unihash changed to 03b7e7924cf433964b5efdeda43b311b03e62759c89f7cfd1fcd80133f477b63
-NOTE: Setscene tasks completed
-NOTE: recipe wayland-1.21.0-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1699 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_compile)
-NOTE: recipe wayland-1.21.0-r0: task do_compile: Started
-NOTE: recipe xorgproto-2022.2-r0: task do_install: Succeeded
-NOTE: Running task 1700 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_populate_sysroot)
-NOTE: Running task 1701 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_package)
-NOTE: recipe wayland-protocols-1.31-r0: task do_package: Succeeded
-NOTE: recipe xorgproto-2022.2-r0: task do_populate_sysroot: Started
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland-protocols_1.31.bb:do_package unihash changed to d5a8175fa654f3e81492bd58138cdb2d4011e1e80ad2d7ab76c401e665297257
-NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland-protocols_1.31.bb:do_packagedata became valid
-NOTE: recipe xorgproto-2022.2-r0: task do_package: Started
-NOTE: Running setscene task 502 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland-protocols_1.31.bb:do_packagedata_setscene)
-NOTE: recipe wayland-protocols-1.31-r0: task do_packagedata_setscene: Started
-NOTE: recipe wayland-protocols-1.31-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe xkeyboard-config-2.37-r0: task do_install: Succeeded
-NOTE: Running task 1703 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.37.bb:do_populate_sysroot)
-NOTE: Running task 1704 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.37.bb:do_package)
-NOTE: recipe xorgproto-2022.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_populate_sysroot unihash changed to 424edc521fceaf332d617df939b9bcf5ebd1c767f817b3be2a113883897f6cca
-NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_populate_sysroot became valid
-NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_populate_sysroot became valid
-NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_populate_sysroot became valid
-NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.3.bb:do_populate_sysroot became valid
-NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_populate_sysroot became valid
-NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_populate_sysroot became valid
-NOTE: Running setscene task 480 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 483 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe xkeyboard-config-2.37-r0: task do_populate_sysroot: Started
-NOTE: recipe xkeyboard-config-2.37-r0: task do_package: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libx11-1_1.8.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 499 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libx11-1_1.8.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 500 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_populate_sysroot_setscene)
-NOTE: recipe libice-1_1.1.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xkeyboard-config-2.37-r0: task do_populate_sysroot: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.37.bb:do_populate_sysroot unihash changed to 1fbf9c125aca2076d14fdc7c78f9af408aedd30ca1ee980258168a881f6f9dea
-NOTE: recipe libice-1_1.1.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 1705 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 501 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 502 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe wayland-1.21.0-r0: task do_compile: Succeeded
-NOTE: Running task 1706 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_compile_ptest_base)
-NOTE: recipe libice-1_1.1.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe wayland-1.21.0-r0: task do_compile_ptest_base: Started
-NOTE: recipe wayland-1.21.0-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1707 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_install)
-NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 1708 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1709 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe xorgproto-2022.2-r0: task do_package: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_package unihash changed to f54212125b5a39cfe76e445030e272f667f3d4673b40b565b24b14e1cee37166
-NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.3.bb:do_packagedata became valid
-NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_packagedata became valid
-NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.3.bb:do_package became valid
-NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_package became valid
-NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_packagedata became valid
-NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_packagedata became valid
-NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_packagedata became valid
-NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_packagedata became valid
-NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_packagedata became valid
-NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_package became valid
-NOTE: Running setscene task 486 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 487 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.3.bb:do_packagedata_setscene)
-NOTE: recipe libice-1_1.1.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_package became valid
-NOTE: recipe wayland-1.21.0-r0: task do_install: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libx11-1_1.8.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 495 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_packagedata_setscene)
-NOTE: recipe libx11-1_1.8.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 497 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_packagedata_setscene)
-NOTE: recipe libxau-1_1.0.11-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_package became valid
-NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_package became valid
-NOTE: recipe libice-1_1.1.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Started
-NOTE: recipe libice-1_1.1.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 498 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 499 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_packagedata_setscene)
-NOTE: recipe wayland-1.21.0-r0: task do_install: Succeeded
-NOTE: Running task 1719 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_install_ptest_base)
-NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe wayland-1.21.0-r0: task do_install_ptest_base: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 502 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb:do_packagedata_setscene)
-NOTE: recipe wayland-1.21.0-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1738 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_populate_sysroot)
-NOTE: recipe xorgproto-2022.2-r0: task do_packagedata_setscene: Started
-NOTE: Running task 1739 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_package)
-NOTE: recipe wayland-1.21.0-r0: task do_populate_sysroot: Started
-NOTE: recipe xorgproto-2022.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe wayland-1.21.0-r0: task do_package: Started
-NOTE: recipe wayland-1.21.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_populate_sysroot unihash changed to 048a49f38ef06e34b26813a2244b0be01ba631d01ea686b24f325a0f24293125
-NOTE: Setscene tasks completed
-NOTE: Running task 1753 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe xkeyboard-config-2.37-r0: task do_package: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.37.bb:do_package unihash changed to 7eeddab4fb8e13847ae58aa8777edf4f597b82bfa9e058232998270dcb740868
-NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.37.bb:do_packagedata became valid
-NOTE: Running setscene task 496 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.37.bb:do_packagedata_setscene)
-NOTE: recipe xkeyboard-config-2.37-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1754 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_configure)
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_configure: Started
-NOTE: recipe xkeyboard-config-2.37-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe wayland-1.21.0-r0: task do_package: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_package unihash changed to 6fe59e558d4076bb66f8add7dc1263d7e5a664af10f82bba2bcb4bbe8f80956b
-NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_packagedata became valid
-NOTE: Running setscene task 496 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.21.0.bb:do_packagedata_setscene)
-NOTE: recipe wayland-1.21.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe wayland-1.21.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1757 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_compile)
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_compile: Started
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_compile: Succeeded
-NOTE: Running task 1758 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_install)
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_install: Started
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_install: Succeeded
-NOTE: Running task 1759 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_populate_sysroot)
-NOTE: Running task 1760 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_package)
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_populate_sysroot: Started
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_package: Started
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_populate_sysroot unihash changed to 8675e5e0617706d082531db696b66e72887d53d2b862a98798e7e6e7ac1477dd
-NOTE: Setscene tasks completed
-NOTE: Running task 1761 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_252.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe systemd-1_252.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe systemd-1_252.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1762 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_252.4.bb:do_configure)
-NOTE: recipe systemd-1_252.4-r0: task do_configure: Started
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_package: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_package unihash changed to 16e6b86d85a08eaec74acbca4c1a63ee8e3f891df4d53a2e370cc0def6da322a
-NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_packagedata became valid
-NOTE: Running setscene task 498 of 502 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_packagedata_setscene)
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxkbcommon-1.4.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe glib-2.0-1_2.74.4-r0: task do_configure: Succeeded
-NOTE: Running task 1764 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb:do_configure_ptest_base)
-NOTE: recipe glib-2.0-1_2.74.4-r0: task do_configure_ptest_base: Started
-NOTE: recipe glib-2.0-1_2.74.4-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1765 of 1810 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb:do_compile)
-NOTE: recipe glib-2.0-1_2.74.4-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| [1/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poin
- ter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pref
- ix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gprimes.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gprimes.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gprimes.c.o -c ../glib-2.74.4/glib/gprimes.c
-| [2/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poin
- ter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pref
- ix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gatomic.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gatomic.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gatomic.c.o -c ../glib-2.74.4/glib/gatomic.c
-| [3/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poin
- ter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pref
- ix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gbitlock.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gbitlock.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gbitlock.c.o -c ../glib-2.74.4/glib/gbitlock.c
-| FAILED: glib/libglib-2.0.so.0.7400.4.p/gbitlock.c.o
-| i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=pointer-sign 
- -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-prefix-map=/h
- ome/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gbitlock.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gbitlock.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gbitlock.c.o -c ../glib-2.74.4/glib/gbitlock.c
-| In file included from ../glib-2.74.4/glib/gbitlock.c:34:
-| ../glib-2.74.4/glib/gbitlock.c: In function 'g_futex_wait':
-| ../glib-2.74.4/glib/gthreadprivate.h:68:20: error: 'errno' undeclared (first use in this function)
-|    68 |     if (res < 0 && errno == ENOSYS)                                              \
-|       |                    ^~~~~
-| ../glib-2.74.4/glib/gbitlock.c:77:3: note: in expansion of macro 'g_futex_simple'
-|    77 |   g_futex_simple (address, (gsize) FUTEX_WAIT_PRIVATE, (gsize) value, NULL);
-|       |   ^~~~~~~~~~~~~~
-| ../glib-2.74.4/glib/gbitlock.c:35:1: note: 'errno' is defined in header '<errno.h>'; did you forget to '#include <errno.h>'?
-|    34 | #include "gthreadprivate.h"
-|   +++ |+#include <errno.h>
-|    35 |
-| ../glib-2.74.4/glib/gthreadprivate.h:68:20: note: each undeclared identifier is reported only once for each function it appears in
-|    68 |     if (res < 0 && errno == ENOSYS)                                              \
-|       |                    ^~~~~
-| ../glib-2.74.4/glib/gbitlock.c:77:3: note: in expansion of macro 'g_futex_simple'
-|    77 |   g_futex_simple (address, (gsize) FUTEX_WAIT_PRIVATE, (gsize) value, NULL);
-|       |   ^~~~~~~~~~~~~~
-| ../glib-2.74.4/glib/gthreadprivate.h:68:29: error: 'ENOSYS' undeclared (first use in this function)
-|    68 |     if (res < 0 && errno == ENOSYS)                                              \
-|       |                             ^~~~~~
-| ../glib-2.74.4/glib/gbitlock.c:77:3: note: in expansion of macro 'g_futex_simple'
-|    77 |   g_futex_simple (address, (gsize) FUTEX_WAIT_PRIVATE, (gsize) value, NULL);
-|       |   ^~~~~~~~~~~~~~
-| ../glib-2.74.4/glib/gbitlock.c: In function 'g_futex_wake':
-| ../glib-2.74.4/glib/gthreadprivate.h:68:20: error: 'errno' undeclared (first use in this function)
-|    68 |     if (res < 0 && errno == ENOSYS)                                              \
-|       |                    ^~~~~
-| ../glib-2.74.4/glib/gbitlock.c:94:3: note: in expansion of macro 'g_futex_simple'
-|    94 |   g_futex_simple (address, (gsize) FUTEX_WAKE_PRIVATE, (gsize) 1, NULL);
-|       |   ^~~~~~~~~~~~~~
-| ../glib-2.74.4/glib/gthreadprivate.h:68:20: note: 'errno' is defined in header '<errno.h>'; did you forget to '#include <errno.h>'?
-|    68 |     if (res < 0 && errno == ENOSYS)                                              \
-|       |                    ^~~~~
-| ../glib-2.74.4/glib/gbitlock.c:94:3: note: in expansion of macro 'g_futex_simple'
-|    94 |   g_futex_simple (address, (gsize) FUTEX_WAKE_PRIVATE, (gsize) 1, NULL);
-|       |   ^~~~~~~~~~~~~~
-| ../glib-2.74.4/glib/gthreadprivate.h:68:29: error: 'ENOSYS' undeclared (first use in this function)
-|    68 |     if (res < 0 && errno == ENOSYS)                                              \
-|       |                             ^~~~~~
-| ../glib-2.74.4/glib/gbitlock.c:94:3: note: in expansion of macro 'g_futex_simple'
-|    94 |   g_futex_simple (address, (gsize) FUTEX_WAKE_PRIVATE, (gsize) 1, NULL);
-|       |   ^~~~~~~~~~~~~~
-| [4/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poin
- ter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pref
- ix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gpoll.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gpoll.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gpoll.c.o -c ../glib-2.74.4/glib/gpoll.c
-| [5/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poin
- ter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pref
- ix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/deprecated_gallocator.c.o -MF glib/libglib-2.0.so.0.7400.4.p/deprecated_gallocator.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/deprecated_gallocator.c.o -c ../glib-2.74.4/glib/deprecated/gallocator.c
-| [6/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libcharset/libcharset.a.p -Iglib/libcharset -I../glib-2.74.4/glib/libcharset -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-p
- rototypes -Werror=pointer-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe
- -sysroot= -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC '-DGLIB_CHARSETALIAS_DIR="/usr/lib"' -fvisibility=hidden -MD -MQ glib/libcharset/libcharset.a.p/localcharset.c.o -MF glib/libcharset/libcharset.a.p/localcharset.c.o.d -o glib/libcharset/libcharset.a.p/localcharset.c.o -c ../glib-2.74.4/glib/libcharset/localcharset.c
-| [7/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poin
- ter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pref
- ix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/garcbox.c.o -MF glib/libglib-2.0.so.0.7400.4.p/garcbox.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/garcbox.c.o -c ../glib-2.74.4/glib/garcbox.c
-| [8/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poin
- ter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pref
- ix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/glib-private.c.o -MF glib/libglib-2.0.so.0.7400.4.p/glib-private.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/glib-private.c.o -c ../glib-2.74.4/glib/glib-private.c
-| [9/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poin
- ter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pref
- ix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/deprecated_gcache.c.o -MF glib/libglib-2.0.so.0.7400.4.p/deprecated_gcache.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/deprecated_gcache.c.o -c ../glib-2.74.4/glib/deprecated/gcache.c
-| [10/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/grefcount.c.o -MF glib/libglib-2.0.so.0.7400.4.p/grefcount.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/grefcount.c.o -c ../glib-2.74.4/glib/grefcount.c
-| [11/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/grcbox.c.o -MF glib/libglib-2.0.so.0.7400.4.p/grcbox.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/grcbox.c.o -c ../glib-2.74.4/glib/grcbox.c
-| [12/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/glib-init.c.o -MF glib/libglib-2.0.so.0.7400.4.p/glib-init.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/glib-init.c.o -c ../glib-2.74.4/glib/glib-init.c
-| [13/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gqsort.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gqsort.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gqsort.c.o -c ../glib-2.74.4/glib/gqsort.c
-| [14/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gquark.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gquark.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gquark.c.o -c ../glib-2.74.4/glib/gquark.c
-| [15/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/deprecated_gcompletion.c.o -MF glib/libglib-2.0.so.0.7400.4.p/deprecated_gcompletion.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/deprecated_gcompletion.c.o -c ../glib-2.74.4/glib/deprecated/gcompletion.c
-| [16/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/grefstring.c.o -MF glib/libglib-2.0.so.0.7400.4.p/grefstring.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/grefstring.c.o -c ../glib-2.74.4/glib/grefstring.c
-| [17/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gbytes.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gbytes.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gbytes.c.o -c ../glib-2.74.4/glib/gbytes.c
-| [18/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gdir.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gdir.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gdir.c.o -c ../glib-2.74.4/glib/gdir.c
-| [19/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/ghmac.c.o -MF glib/libglib-2.0.so.0.7400.4.p/ghmac.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/ghmac.c.o -c ../glib-2.74.4/glib/ghmac.c
-| [20/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gbase64.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gbase64.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gbase64.c.o -c ../glib-2.74.4/glib/gbase64.c
-| [21/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gmem.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gmem.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gmem.c.o -c ../glib-2.74.4/glib/gmem.c
-| [22/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/ggettext.c.o -MF glib/libglib-2.0.so.0.7400.4.p/ggettext.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/ggettext.c.o -c ../glib-2.74.4/glib/ggettext.c
-| [23/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gbacktrace.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gbacktrace.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gbacktrace.c.o -c ../glib-2.74.4/glib/gbacktrace.c
-| [24/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/deprecated_grel.c.o -MF glib/libglib-2.0.so.0.7400.4.p/deprecated_grel.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/deprecated_grel.c.o -c ../glib-2.74.4/glib/deprecated/grel.c
-| [25/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gerror.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gerror.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gerror.c.o -c ../glib-2.74.4/glib/gerror.c
-| [26/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/genviron.c.o -MF glib/libglib-2.0.so.0.7400.4.p/genviron.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/genviron.c.o -c ../glib-2.74.4/glib/genviron.c
-| [27/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gmappedfile.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gmappedfile.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gmappedfile.c.o -c ../glib-2.74.4/glib/gmappedfile.c
-| [28/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/glist.c.o -MF glib/libglib-2.0.so.0.7400.4.p/glist.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/glist.c.o -c ../glib-2.74.4/glib/glist.c
-| [29/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gshell.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gshell.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gshell.c.o -c ../glib-2.74.4/glib/gshell.c
-| [30/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gasyncqueue.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gasyncqueue.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gasyncqueue.c.o -c ../glib-2.74.4/glib/gasyncqueue.c
-| [31/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/ghook.c.o -MF glib/libglib-2.0.so.0.7400.4.p/ghook.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/ghook.c.o -c ../glib-2.74.4/glib/ghook.c
-| [32/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/grand.c.o -MF glib/libglib-2.0.so.0.7400.4.p/grand.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/grand.c.o -c ../glib-2.74.4/glib/grand.c
-| [33/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gslist.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gslist.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gslist.c.o -c ../glib-2.74.4/glib/gslist.c
-| [34/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/deprecated_gthread-deprecated.c.o -MF glib/libglib-2.0.so.0.7400.4.p/deprecated_gthread-deprecated.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/deprecated_gthread-deprecated.c.o -c ../glib-2.74.4/glib/deprecated/gthread-deprecated.c
-| [35/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gcharset.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gcharset.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gcharset.c.o -c ../glib-2.74.4/glib/gcharset.c
-| [36/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gqueue.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gqueue.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gqueue.c.o -c ../glib-2.74.4/glib/gqueue.c
-| [37/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/ghostutils.c.o -MF glib/libglib-2.0.so.0.7400.4.p/ghostutils.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/ghostutils.c.o -c ../glib-2.74.4/glib/ghostutils.c
-| [38/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gpattern.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gpattern.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gpattern.c.o -c ../glib-2.74.4/glib/gpattern.c
-| [39/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gdataset.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gdataset.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gdataset.c.o -c ../glib-2.74.4/glib/gdataset.c
-| [40/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gnode.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gnode.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gnode.c.o -c ../glib-2.74.4/glib/gnode.c
-| [41/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gfileutils.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gfileutils.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gfileutils.c.o -c ../glib-2.74.4/glib/gfileutils.c
-| [42/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/garray.c.o -MF glib/libglib-2.0.so.0.7400.4.p/garray.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/garray.c.o -c ../glib-2.74.4/glib/garray.c
-| [43/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gconvert.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gconvert.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gconvert.c.o -c ../glib-2.74.4/glib/gconvert.c
-| [44/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/ghash.c.o -MF glib/libglib-2.0.so.0.7400.4.p/ghash.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/ghash.c.o -c ../glib-2.74.4/glib/ghash.c
-| [45/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gslice.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gslice.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gslice.c.o -c ../glib-2.74.4/glib/gslice.c
-| [46/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gmessages.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gmessages.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gmessages.c.o -c ../glib-2.74.4/glib/gmessages.c
-| [47/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gsequence.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gsequence.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gsequence.c.o -c ../glib-2.74.4/glib/gsequence.c
-| [48/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/giochannel.c.o -MF glib/libglib-2.0.so.0.7400.4.p/giochannel.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/giochannel.c.o -c ../glib-2.74.4/glib/giochannel.c
-| [49/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gdate.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gdate.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gdate.c.o -c ../glib-2.74.4/glib/gdate.c
-| [50/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gmarkup.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gmarkup.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gmarkup.c.o -c ../glib-2.74.4/glib/gmarkup.c
-| [51/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gregex.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gregex.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gregex.c.o -c ../glib-2.74.4/glib/gregex.c
-| [52/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gscanner.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gscanner.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gscanner.c.o -c ../glib-2.74.4/glib/gscanner.c
-| [53/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/goption.c.o -MF glib/libglib-2.0.so.0.7400.4.p/goption.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/goption.c.o -c ../glib-2.74.4/glib/goption.c
-| [54/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gdatetime.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gdatetime.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gdatetime.c.o -c ../glib-2.74.4/glib/gdatetime.c
-| [55/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gbookmarkfile.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gbookmarkfile.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gbookmarkfile.c.o -c ../glib-2.74.4/glib/gbookmarkfile.c
-| [56/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gkeyfile.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gkeyfile.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gkeyfile.c.o -c ../glib-2.74.4/glib/gkeyfile.c
-| [57/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gchecksum.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gchecksum.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gchecksum.c.o -c ../glib-2.74.4/glib/gchecksum.c
-| [58/1266] i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot -Iglib/libglib-2.0.so.0.7400.4.p -Iglib -I../glib-2.74.4/glib -I. -I../glib-2.74.4 -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wextra -Wpedantic -std=gnu99 -D_GNU_SOURCE -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wduplicated-branches -Wimplicit-fallthrough -Wmisleading-indentation -Wunused -Wno-unused-parameter -Wno-cast-function-type -Wno-pedantic -Wno-format-zero-length -Wno-variadic-macros -Werror=format=2 -Werror=init-self -Werror=missing-include-dirs -Werror=pointer-arith -Werror=unused-result -Wstrict-prototypes -Wno-bad-function-cast -Werror=declaration-after-statement -Werror=implicit-function-declaration -Werror=missing-prototypes -Werror=poi
- nter-sign -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/glib-2.74.4=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/build=/usr/src/debug/glib-2.0/1_2.74.4-r0 -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot= -fdebug-pre
- fix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native= -fPIC -pthread '-DG_LOG_DOMAIN="GLib"' -DGLIB_COMPILATION -fvisibility=hidden -MD -MQ glib/libglib-2.0.so.0.7400.4.p/gmain.c.o -MF glib/libglib-2.0.so.0.7400.4.p/gmain.c.o.d -o glib/libglib-2.0.so.0.7400.4.p/gmain.c.o -c ../glib-2.74.4/glib/gmain.c
-| ninja: build stopped: subcommand failed.
-| INFO: autodetecting backend as ninja
-| INFO: calculating backend command to run: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/recipe-sysroot-native/usr/bin/ninja -j 56 -v
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/temp/run.do_compile.1525698:184 exit 1 from 'meson compile -v -j 56'
-| WARNING: Backtrace (BB generated script):
-| 	#1: meson_do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/temp/run.do_compile.1525698, line 184
-| 	#2: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/temp/run.do_compile.1525698, line 179
-| 	#3: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/temp/run.do_compile.1525698, line 188
-NOTE: recipe glib-2.0-1_2.74.4-r0: task do_compile: Failed
-NOTE: recipe systemd-1_252.4-r0: task do_configure: Succeeded
-NOTE: Tasks Summary: Attempted 1765 tasks of which 1655 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
+packages/all-poky-linux/linux-firmware: SRC_URI changed from "https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-20221109.tar.xz" to "https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-20221214.tar.xz"
+packages/all-poky-linux/linux-firmware: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-adsp-sst-license: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-adsp-sst-license: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-adsp-sst: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-adsp-sst: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-license: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-license: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu: PKGSIZE changed from 65320058 to 69094574 (+6%)
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu: FILELIST: added "/lib/firmware/amdgpu/psp_13_0_0_sos.bin /lib/firmware/amdgpu/gc_11_0_0_rlc.bin /lib/firmware/amdgpu/aldebaran_sjt_mec.bin /lib/firmware/amdgpu/sdma_6_0_0.bin /lib/firmware/amdgpu/aldebaran_sjt_mec2.bin /lib/firmware/amdgpu/gc_11_0_0_mec.bin /lib/firmware/amdgpu/smu_13_0_0.bin /lib/firmware/amdgpu/gc_11_0_0_mes1.bin /lib/firmware/amdgpu/gc_11_0_0_imu.bin /lib/firmware/amdgpu/psp_13_0_0_ta.bin /lib/firmware/amdgpu/dcn_3_2_0_dmcub.bin /lib/firmware/amdgpu/gc_11_0_0_me.bin /lib/firmware/amdgpu/gc_11_0_0_mes.bin /lib/firmware/amdgpu/vcn_4_0_0.bin /lib/firmware/amdgpu/gc_11_0_0_pfp.bin"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-amlogic-vdec-license: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amlogic-vdec-license: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-amlogic-vdec: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amlogic-vdec: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-ar3k-license: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ar3k-license: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-ar3k: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ar3k: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-ar9170: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ar9170: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k-license: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k-license: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath11k: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath11k: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath3k: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath3k: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath6k: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath6k: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath9k: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath9k: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-atheros-license: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-atheros-license: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm-0bb4-0306: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm-0bb4-0306: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43143: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43143: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43236b: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43236b: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43241b0: PKGSIZE changed from 455745 to 459988 (+1%)
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43241b0: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43241b0: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43241b4: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43241b4: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43241b5: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43241b5: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43242a: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43242a: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4329-fullmac: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4329-fullmac: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4329: PKGSIZE changed from 253748 to 246791 (-3%)
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4329: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4329: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4330: PKGSIZE changed from 223635 to 225090 (+1%)
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4330: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4330: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4334: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4334: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43340: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43340: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4335: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4335: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43362: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43362: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4339: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4339: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43430: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43430: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43430a0: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43430a0: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43455: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43455: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4350: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4350: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4350c2: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4350c2: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4354: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4354: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4356-pcie: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4356-pcie: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4356: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4356: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43569: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43569: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43570: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43570: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4358: PKGSIZE changed from 633817 to 634361 (+0%)
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4358: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4358: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43602: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43602: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4366b: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4366b: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4366c: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4366c: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4371: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4371: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4373: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4373: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43xx-hdr: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43xx-hdr: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43xx: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43xx: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-bnx2-mips: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bnx2-mips: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-broadcom-license: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-broadcom-license: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-carl9170: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-carl9170: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-cypress-license: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-cypress-license: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-dbg: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-dbg: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-dev: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-dev: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-doc: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-doc: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-gplv2-license: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-gplv2-license: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-i915-license: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-i915-license: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-i915: PKGSIZE changed from 25534811 to 25605463 (+0%)
+packages/all-poky-linux/linux-firmware/linux-firmware-i915: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-i915: FILELIST: added "/lib/firmware/i915/dg2_dmc_ver2_08.bin /lib/firmware/i915/mtl_dmc_ver2_10.bin"
+packages/all-poky-linux/linux-firmware/linux-firmware-i915: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-11-5: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-11-5: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-12-16: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-12-16: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-17: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-17: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-20: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-20: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-hw-37-7: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-hw-37-7: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-hw-37-8: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-hw-37-8: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-license: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-license: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-misc: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-misc: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-ice-license: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ice-license: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-ice: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ice: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-imx-sdma-imx6q: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-imx-sdma-imx6q: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-imx-sdma-imx7d: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-imx-sdma-imx7d: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-imx-sdma-license: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-imx-sdma-license: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-135-6: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-135-6: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-10: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-10: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-12: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-12: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-13: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-13: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-16: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-16: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-17: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-17: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-7: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-7: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-8: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-8: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-9: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-9: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000-4: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000-4: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2a-5: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2a-5: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2a-6: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2a-6: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2b-5: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2b-5: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2b-6: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2b-6: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6050-4: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6050-4: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6050-5: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6050-5: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-7260: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-7260: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-7265: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-7265: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-7265d: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-7265d: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-8000c: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-8000c: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-8265: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-8265: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-9000: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-9000: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-license: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-license: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-misc: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-misc: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-license: PKGSIZE changed from 152743 to 157939 (+3%)
+packages/all-poky-linux/linux-firmware/linux-firmware-license: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-license: FILELIST: added "/lib/firmware/LICENSE.nxp"
+packages/all-poky-linux/linux-firmware/linux-firmware-license: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-liquidio: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-liquidio: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-locale: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-locale: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-lontium-license: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-lontium-license: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-lt9611uxc: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-lt9611uxc: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-marvell-license: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-marvell-license: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-mt7601u-license: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-mt7601u-license: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-mt7601u: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-mt7601u: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-netronome-license: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-netronome-license: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-netronome: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-netronome: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-gpu: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-gpu: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-license: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-license: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-tegra-k1: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-tegra-k1: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-tegra: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-tegra: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-pcie8897: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-pcie8897: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-pcie8997: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-pcie8997: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qat-license: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qat-license: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qat: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qat: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qca: PKGSIZE changed from 1744896 to 1960217 (+12%)
+packages/all-poky-linux/linux-firmware/linux-firmware-qca: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qca: FILELIST: added "/lib/firmware/qca/rampatch_usb_00190200.bin /lib/firmware/qca/nvm_usb_00190200.bin"
+packages/all-poky-linux/linux-firmware/linux-firmware-qca: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a2xx: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a2xx: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a3xx: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a3xx: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a4xx: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a4xx: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a530: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a530: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a630: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a630: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a650: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a650: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a660: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a660: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-apq8096-audio: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-apq8096-audio: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-apq8096-modem: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-apq8096-modem: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-license: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-license: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-adreno: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-adreno: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-audio: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-audio: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-compat: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-compat: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-compute: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-compute: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-sensors: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-sensors: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-audio: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-audio: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-compute: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-compute: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-modem: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-modem: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sm8250-audio: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sm8250-audio: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sm8250-compute: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sm8250-compute: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-1.8: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-1.8: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-4.2: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-4.2: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-5.2: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-5.2: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-5.4: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-5.4: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-vpu-1.0: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-vpu-1.0: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-vpu-2.0: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-vpu-2.0: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-radeon-license: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-radeon-license: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-radeon: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-radeon: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-ralink-license: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ralink-license: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-ralink: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ralink: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-rs9113: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rs9113: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-rs9116: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rs9116: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl-license: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl-license: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8168: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8168: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8188: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8188: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8192ce: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8192ce: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8192cu: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8192cu: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8192su: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8192su: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8723: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8723: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8761: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8761: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8821: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8821: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8686: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8686: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8688: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8688: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8787: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8787: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8797: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8797: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8801: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8801: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8887: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8887: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8897: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8897: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8997: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8997: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-src: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-src: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-staticdev: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-staticdev: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-ti-connectivity-license: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ti-connectivity-license: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-usb8997: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-usb8997: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-vt6656-license: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-vt6656-license: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-vt6656: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-vt6656: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-whence-license: PKGSIZE changed from 203715 to 204929 (+1%)
+packages/all-poky-linux/linux-firmware/linux-firmware-whence-license: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-whence-license: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-wl12xx: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-wl12xx: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-wl18xx: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-wl18xx: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware-wlcommon: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-wlcommon: PV changed from "20221109" to "20221214"
+packages/all-poky-linux/linux-firmware/linux-firmware: PKGSIZE changed from 252633154 to 257851634 (+2%)
+packages/all-poky-linux/linux-firmware/linux-firmware: PKGV changed from 20221109 [default] to 20221214 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware: FILELIST: added "/lib/firmware/nxp/sr150_fw.bin /lib/firmware/mediatek/mt7986_wo_0.bin /lib/firmware/mediatek/mt7986_wo_1.bin"
+packages/all-poky-linux/linux-firmware/linux-firmware: PV changed from "20221109" to "20221214"
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb:do_compile
-Summary: There was 1 WARNING message.
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: glib-2.0-1_2.74.4-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/temp/run.do_compile.1525698', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/glib-2.0/1_2.74.4-r0/temp/log.do_compile.1525698
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb:do_compile) failed with exit code '1'
-
---===============0222833915398160749==
+--===============7202609184199586243==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-glib-2.0-upgrade-2.74.3-2.74.4.patch"
+ filename="0001-linux-firmware-upgrade-20221109-20221214.patch"
 
-RnJvbSAwNWIzMjZiZDZkNmNmZWNhOThlMWQxMzY1YmQzNmIxYjRhZDlhYzczIE1vbiBTZXAgMTcg
+RnJvbSA4N2Y1NzBlMjhkZDU1YTkzNTkwZWJiZjQ4MzUwNGY3ZTExNmY3NDVjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMSBKYW4gMjAyMyAwNjo0NDowNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGds
-aWItMi4wOiB1cGdyYWRlIDIuNzQuMyAtPiAyLjc0LjQKCi0tLQogbWV0YS9yZWNpcGVzLWNvcmUv
-Z2xpYi0yLjAvZ2xpYi0yLjAvcmVsb2NhdGUtbW9kdWxlcy5wYXRjaCAgICB8IDQgKystLQogLi4u
-L2dsaWItMi4wL3tnbGliLTIuMF8yLjc0LjMuYmIgPT4gZ2xpYi0yLjBfMi43NC40LmJifSAgICAg
-ICB8IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygt
-KQogcmVuYW1lIG1ldGEvcmVjaXBlcy1jb3JlL2dsaWItMi4wL3tnbGliLTIuMF8yLjc0LjMuYmIg
-PT4gZ2xpYi0yLjBfMi43NC40LmJifSAoOTYlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1j
-b3JlL2dsaWItMi4wL2dsaWItMi4wL3JlbG9jYXRlLW1vZHVsZXMucGF0Y2ggYi9tZXRhL3JlY2lw
-ZXMtY29yZS9nbGliLTIuMC9nbGliLTIuMC9yZWxvY2F0ZS1tb2R1bGVzLnBhdGNoCmluZGV4IDc3
-MjNhYzY2NzIuLjE2OGRjNzMyOTAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2dsaWIt
-Mi4wL2dsaWItMi4wL3JlbG9jYXRlLW1vZHVsZXMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNv
-cmUvZ2xpYi0yLjAvZ2xpYi0yLjAvcmVsb2NhdGUtbW9kdWxlcy5wYXRjaApAQCAtMSw0ICsxLDQg
-QEAKLUZyb20gMGRhMGI2MDhmZGJiMTQ0YzM5MjI1MjMzY2JkZDg5OTk1Yjc2OTA0YiBNb24gU2Vw
-IDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMmFkZmQ0NTg1MDdjOGM4MzI5NTVkNmZmYjk0MDhkNmM1
-NzRiOTRmNiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFJvc3MgQnVydG9uIDxyb3Nz
-LmJ1cnRvbkBpbnRlbC5jb20+CiBEYXRlOiBGcmksIDExIE1hciAyMDE2IDE1OjM1OjU1ICswMDAw
-CiBTdWJqZWN0OiBbUEFUQ0hdIGdsaWItMi4wOiByZWxvY2F0ZSB0aGUgR0lPIG1vZHVsZSBkaXJl
-Y3RvcnkgZm9yIG5hdGl2ZSBidWlsZHMKQEAgLTE5LDcgKzE5LDcgQEAgU2lnbmVkLW9mZi1ieTog
-SnVzc2kgS3Vra29uZW4gPGp1c3NpLmt1a2tvbmVuQGludGVsLmNvbT4KICAxIGZpbGUgY2hhbmdl
-ZCwgMTEgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvZ2lvL2dp
-b21vZHVsZS5jIGIvZ2lvL2dpb21vZHVsZS5jCi1pbmRleCBmNWRiYjQ1NTUuLmM5MjZlNzdhOCAx
-MDA2NDQKK2luZGV4IGY1ZGJiNDUuLmM5MjZlNzcgMTAwNjQ0CiAtLS0gYS9naW8vZ2lvbW9kdWxl
-LmMKICsrKyBiL2dpby9naW9tb2R1bGUuYwogQEAgLTU4LDYgKzU4LDggQEAKZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1jb3JlL2dsaWItMi4wL2dsaWItMi4wXzIuNzQuMy5iYiBiL21ldGEvcmVj
-aXBlcy1jb3JlL2dsaWItMi4wL2dsaWItMi4wXzIuNzQuNC5iYgpzaW1pbGFyaXR5IGluZGV4IDk2
-JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29yZS9nbGliLTIuMC9nbGliLTIuMF8yLjc0LjMu
-YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb3JlL2dsaWItMi4wL2dsaWItMi4wXzIuNzQuNC5i
-YgppbmRleCA4ZjY2ZmQ5NTgxLi40YTc2ODc2MWE0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
-Y29yZS9nbGliLTIuMC9nbGliLTIuMF8yLjc0LjMuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUv
-Z2xpYi0yLjAvZ2xpYi0yLjBfMi43NC40LmJiCkBAIC0yMSw3ICsyMSw3IEBAIFNSQ19VUkkgPSAi
-JHtHTk9NRV9NSVJST1J9L2dsaWIvJHtTSFJUX1ZFUn0vZ2xpYi0ke1BWfS50YXIueHogXAogICAg
-ICAgICAgICAiCiBTUkNfVVJJOmFwcGVuZDpjbGFzcy1uYXRpdmUgPSAiIGZpbGU6Ly9yZWxvY2F0
-ZS1tb2R1bGVzLnBhdGNoIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZTliYzQxZWNkOTY5MGQ5
-YmM2YTk3MGNjNzM4MDExOWI4MjhlNWI2YTRiMTZjMzkzYzYzOGIzZGMyYjg3Y2JjYiIKK1NSQ19V
-Uklbc2hhMjU2c3VtXSA9ICIwZTgyZGE1ZWExMjliNDQ0NDIyN2M3ZTRhOWU1OThmNzI4OGQxOTk0
-YmY2M2YxMjljNDRiOTBjZmQyNDMyMTcyIgogCiAjIEZpbmQgYW55IG1lc29uIGNyb3NzIGZpbGVz
-IGluIEZJTEVTUEFUSCB0aGF0IGFyZSByZWxldmFudCBmb3IgdGhlIGN1cnJlbnQKICMgYnVpbGQg
-KHVzaW5nIHNpdGVpbmZvKSBhbmQgYWRkIHRoZW0gdG8gRVhUUkFfT0VNRVNPTi4KLS0gCjIuMzcu
-MwoK
+CkRhdGU6IFN1biwgMSBKYW4gMjAyMyAxNToyOTozOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+bnV4LWZpcm13YXJlOiB1cGdyYWRlIDIwMjIxMTA5IC0+IDIwMjIxMjE0CgotLS0KIC4uLjIwMjIx
+MTA5LmJiID0+IGxpbnV4LWZpcm13YXJlXzIwMjIxMjE0LmJifSB8IDE4MSArKysrKysrKysrKysr
+KysrKy0KIDEgZmlsZSBjaGFuZ2VkLCAxNzkgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkK
+IHJlbmFtZSBtZXRhL3JlY2lwZXMta2VybmVsL2xpbnV4LWZpcm13YXJlL3tsaW51eC1maXJtd2Fy
+ZV8yMDIyMTEwOS5iYiA9PiBsaW51eC1maXJtd2FyZV8yMDIyMTIxNC5iYn0gKDkwJSkKCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMta2VybmVsL2xpbnV4LWZpcm13YXJlL2xpbnV4LWZpcm13YXJl
+XzIwMjIxMTA5LmJiIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9saW51eC1maXJtd2FyZS9saW51eC1m
+aXJtd2FyZV8yMDIyMTIxNC5iYgpzaW1pbGFyaXR5IGluZGV4IDkwJQpyZW5hbWUgZnJvbSBtZXRh
+L3JlY2lwZXMta2VybmVsL2xpbnV4LWZpcm13YXJlL2xpbnV4LWZpcm13YXJlXzIwMjIxMTA5LmJi
+CnJlbmFtZSB0byBtZXRhL3JlY2lwZXMta2VybmVsL2xpbnV4LWZpcm13YXJlL2xpbnV4LWZpcm13
+YXJlXzIwMjIxMjE0LmJiCmluZGV4IGIwNWI5NjBlYmQuLmRhNDZkZDEwNDEgMTAwNjQ0Ci0tLSBh
+L21ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgtZmlybXdhcmUvbGludXgtZmlybXdhcmVfMjAyMjEx
+MDkuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9saW51eC1maXJtd2FyZS9saW51eC1maXJt
+d2FyZV8yMDIyMTIxNC5iYgpAQCAtMSwzICsxLDE4MCBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxF
+U19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgor
+IyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhl
+IG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYg
+bmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVzc2Fn
+ZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRl
+OiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0t
+IFdIRU5DRQorIyArKysgV0hFTkNFCisjIEBAIC0yNjIyLDYgKzI2MjIsOCBAQAorIyAgRmlsZTog
+YW1kZ3B1L2FsZGViYXJhbl9tZWMuYmluCisjICBGaWxlOiBhbWRncHUvYWxkZWJhcmFuX3JsYy5i
+aW4KKyMgIEZpbGU6IGFtZGdwdS9hbGRlYmFyYW5fc2RtYS5iaW4KKyMgK0ZpbGU6IGFtZGdwdS9h
+bGRlYmFyYW5fc2p0X21lYzIuYmluCisjICtGaWxlOiBhbWRncHUvYWxkZWJhcmFuX3NqdF9tZWMu
+YmluCisjICBGaWxlOiBhbWRncHUvYWxkZWJhcmFuX3NtYy5iaW4KKyMgIEZpbGU6IGFtZGdwdS9h
+bGRlYmFyYW5fc29zLmJpbgorIyAgRmlsZTogYW1kZ3B1L2FsZGViYXJhbl90YS5iaW4KKyMgQEAg
+LTI2MzgsOCArMjY0MCwxOCBAQAorIyAgRmlsZTogYW1kZ3B1L2djXzEwXzNfN19tZWMyLmJpbgor
+IyAgRmlsZTogYW1kZ3B1L2djXzEwXzNfN19wZnAuYmluCisjICBGaWxlOiBhbWRncHUvZ2NfMTBf
+M183X3JsYy5iaW4KKyMgK0ZpbGU6IGFtZGdwdS9nY18xMV8wXzBfaW11LmJpbgorIyArRmlsZTog
+YW1kZ3B1L2djXzExXzBfMF9tZS5iaW4KKyMgK0ZpbGU6IGFtZGdwdS9nY18xMV8wXzBfbWVjLmJp
+bgorIyArRmlsZTogYW1kZ3B1L2djXzExXzBfMF9tZXMxLmJpbgorIyArRmlsZTogYW1kZ3B1L2dj
+XzExXzBfMF9tZXMuYmluCisjICtGaWxlOiBhbWRncHUvZ2NfMTFfMF8wX3BmcC5iaW4KKyMgK0Zp
+bGU6IGFtZGdwdS9nY18xMV8wXzBfcmxjLmJpbgorIyAgRmlsZTogYW1kZ3B1L2Rjbl8zXzFfNV9k
+bWN1Yi5iaW4KKyMgIEZpbGU6IGFtZGdwdS9kY25fM18xXzZfZG1jdWIuYmluCisjICtGaWxlOiBh
+bWRncHUvZGNuXzNfMl8wX2RtY3ViLmJpbgorIyArRmlsZTogYW1kZ3B1L3BzcF8xM18wXzBfc29z
+LmJpbgorIyArRmlsZTogYW1kZ3B1L3BzcF8xM18wXzBfdGEuYmluCisjICBGaWxlOiBhbWRncHUv
+cHNwXzEzXzBfNV9hc2QuYmluCisjICBGaWxlOiBhbWRncHUvcHNwXzEzXzBfNV90YS5iaW4KKyMg
+IEZpbGU6IGFtZGdwdS9wc3BfMTNfMF81X3RvYy5iaW4KKyMgQEAgLTI2NDgsNyArMjY2MCwxMCBA
+QAorIyAgRmlsZTogYW1kZ3B1L3BzcF8xM18wXzhfdG9jLmJpbgorIyAgRmlsZTogYW1kZ3B1L3Nk
+bWFfNV8yXzYuYmluCisjICBGaWxlOiBhbWRncHUvc2RtYV81XzJfNy5iaW4KKyMgK0ZpbGU6IGFt
+ZGdwdS9zZG1hXzZfMF8wLmJpbgorIyArRmlsZTogYW1kZ3B1L3NtdV8xM18wXzAuYmluCisjICBG
+aWxlOiBhbWRncHUvdmNuXzNfMV8yLmJpbgorIyArRmlsZTogYW1kZ3B1L3Zjbl80XzBfMC5iaW4K
+KyMgIAorIyAgTGljZW5jZTogUmVkaXN0cmlidXRhYmxlLiBTZWUgTElDRU5TRS5hbWRncHUgZm9y
+IGRldGFpbHMuCisjICAKKyMgQEAgLTI4NDAsNiArMjg1NSw3IEBACisjICBGaWxlOiBicmNtL2Jy
+Y21mbWFjNDMzMC1zZGlvLmJpbgorIyAgRmlsZTogYnJjbS9icmNtZm1hYzQzMzQtc2Rpby5iaW4K
+KyMgIEZpbGU6IGJyY20vYnJjbWZtYWM0MzM1LXNkaW8uYmluCisjICtGaWxlOiBicmNtL2JyY21m
+bWFjNDMzOS1zZGlvLmJpbgorIyAgRmlsZTogYnJjbS9icmNtZm1hYzQzMjQxYjAtc2Rpby5iaW4K
+KyMgIEZpbGU6IGJyY20vYnJjbWZtYWM0MzI0MWI0LXNkaW8uYmluCisjICBGaWxlOiBicmNtL2Jy
+Y21mbWFjNDMyNDFiNS1zZGlvLmJpbgorIyBAQCAtMjg0OSw3ICsyODY1LDEwIEBACisjICBGaWxl
+OiBicmNtL2JyY21mbWFjNDM0MzBhMC1zZGlvLmJpbgorIyAgRmlsZTogYnJjbS9icmNtZm1hYzQz
+NTBjMi1wY2llLmJpbgorIyAgRmlsZTogYnJjbS9icmNtZm1hYzQzNTAtcGNpZS5iaW4KKyMgK0Zp
+bGU6IGJyY20vYnJjbWZtYWM0MzU0LXNkaW8uYmluCisjICBGaWxlOiBicmNtL2JyY21mbWFjNDM1
+NjkuYmluCisjICtGaWxlOiBicmNtL2JyY21mbWFjNDM1Ni1wY2llLmJpbgorIyArRmlsZTogYnJj
+bS9icmNtZm1hYzQzNTYtc2Rpby5iaW4KKyMgIEZpbGU6IGJyY20vYnJjbWZtYWM0MzU4LXBjaWUu
+YmluCisjICBGaWxlOiBicmNtL2JyY21mbWFjNDM2MDItcGNpZS5iaW4KKyMgIEZpbGU6IGJyY20v
+YnJjbWZtYWM0MzYwMi1wY2llLmFwLmJpbgorIyBAQCAtNDQ0Nyw2ICs0NDY2LDggQEAKKyMgIEZp
+bGU6IHFjYS9udm1fdXNiXzAwMTMwMjAxX2dmXzAxMGEuYmluCisjICBGaWxlOiBxY2EvbnZtX3Vz
+Yl8wMDEzMDIwMV9nZl8wMTBiLmJpbgorIyAgRmlsZTogcWNhL252bV91c2JfMDAxMzAyMDFfZ2Zf
+MDMwMy5iaW4KKyMgK0ZpbGU6IHFjYS9yYW1wYXRjaF91c2JfMDAxOTAyMDAuYmluCisjICtGaWxl
+OiBxY2EvbnZtX3VzYl8wMDE5MDIwMC5iaW4KKyMgIAorIyAgTGljZW5jZTogUmVkaXN0cmlidXRh
+YmxlLiBTZWUgTElDRU5TRS5RdWFsY29tbUF0aGVyb3NfYXRoMTBrIGFuZCBxY2EvTk9USUNFLnR4
+dCBmb3IgZGV0YWlscworIyAgCisjIEBAIC00ODQ2LDYgKzQ4NjcsMTIgQEAKKyMgIAorIyAgRmls
+ZTogaTkxNS9kZzJfZG1jX3ZlcjJfMDcuYmluCisjICBWZXJzaW9uOiBETUMgQVBJL0FQQiB2ZXIg
+MiByZWxlYXNlIDcgZm9yIERHMgorIyArCisjICtGaWxlOiBpOTE1L2RnMl9kbWNfdmVyMl8wOC5i
+aW4KKyMgK1ZlcnNpb246IERNQyBBUEkvQVBCIHZlciAyIHJlbGVhc2UgOCBmb3IgREcyCisjICsK
+KyMgK0ZpbGU6IGk5MTUvbXRsX2RtY192ZXIyXzEwLmJpbgorIyArVmVyc2lvbjogRE1DIEFQSS9B
+UEIgdmVyIDIgcmVsZWFzZSAxMCBmb3IgTWV0ZW9ybGFrZQorIyAgCisjICBMaWNlbnNlOiBSZWRp
+c3RyaWJ1dGFibGUuIFNlZSBMSUNFTlNFLmk5MTUgZm9yIGRldGFpbHMKKyMgIC0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tCisjIEBAIC01NDQzLDM1ICs1NDcwLDM5IEBACisjICBEcml2ZXI6IG10NzkxNWUgLSBN
+ZWRpYVRlayBXaXJlbGVzcyBNQUNzIGZvciBNVDc5MTUvTVQ3OTE2L01UNzk4NgorIyAgCisjICBG
+aWxlOiBtZWRpYXRlay9tdDc5MTVfd20uYmluCisjIC1WZXJzaW9uOiAyMDIxMTIyMjE4NDA1Mgor
+IyArVmVyc2lvbjogMjAyMjA5MjkxMDQxNDUKKyMgIEZpbGU6IG1lZGlhdGVrL210NzkxNV93YS5i
+aW4KKyMgLVZlcnNpb246IDIwMjExMjIyMTg0MTExCisjICtWZXJzaW9uOiAyMDIyMDkyOTEwNDIw
+NQorIyAgRmlsZTogbWVkaWF0ZWsvbXQ3OTE1X3JvbV9wYXRjaC5iaW4KKyMgLVZlcnNpb246IDIw
+MjExMjIyMTg0MDE3YQorIyArVmVyc2lvbjogMjAyMjA5MjkxMDQxMTNhCisjICBGaWxlOiBtZWRp
+YXRlay9tdDc5MTVfZWVwcm9tLmJpbgorIyAgVmVyc2lvbjogMjAyMDA4MjEKKyMgIEZpbGU6IG1l
+ZGlhdGVrL210NzkxNV9lZXByb21fZGJkYy5iaW4KKyMgIFZlcnNpb246IDIwMjAwODIxCisjICAK
+KyMgIEZpbGU6IG1lZGlhdGVrL210NzkxNl93bS5iaW4KKyMgLVZlcnNpb246IDIwMjExMjMwMTM1
+NzIwCisjICtWZXJzaW9uOiAyMDIyMTAzMTE1NDcxMworIyAgRmlsZTogbWVkaWF0ZWsvbXQ3OTE2
+X3dhLmJpbgorIyAtVmVyc2lvbjogMjAyMTEyMzAxMzU4MDgKKyMgK1ZlcnNpb246IDIwMjIxMDMx
+MTU0NzU3CisjICBGaWxlOiBtZWRpYXRlay9tdDc5MTZfcm9tX3BhdGNoLmJpbgorIyAtVmVyc2lv
+bjogMjAyMTEyMzAxMzU2MjBhCisjICtWZXJzaW9uOiAyMDIyMTAzMTE1NDY1MmEKKyMgIEZpbGU6
+IG1lZGlhdGVrL210NzkxNl9lZXByb20uYmluCisjICBWZXJzaW9uOiAyMDIxMTEzMAorIyAgCisj
+ICBGaWxlOiBtZWRpYXRlay9tdDc5ODZfd20uYmluCisjIC1WZXJzaW9uOiAyMDIyMDExMzE2MjY0
+MQorIyArVmVyc2lvbjogMjAyMjEwMTIxNzQ3MjUKKyMgIEZpbGU6IG1lZGlhdGVrL210Nzk4Nl93
+bV9tdDc5NzUuYmluCisjIC1WZXJzaW9uOiAyMDIyMDExMzE2Mjc1NgorIyArVmVyc2lvbjogMjAy
+MjEwMTIxNzQ4MDUKKyMgIEZpbGU6IG1lZGlhdGVrL210Nzk4Nl93YS5iaW4KKyMgLVZlcnNpb246
+IDIwMjIwMTEzMTYzMDM0CisjICtWZXJzaW9uOiAyMDIyMTAxMjE3NDkzNworIyAgRmlsZTogbWVk
+aWF0ZWsvbXQ3OTg2X3JvbV9wYXRjaC5iaW4KKyMgLVZlcnNpb246IDIwMjIwMTEzMTYyNTQzYQor
+IyArVmVyc2lvbjogMjAyMjEwMTIxNzQ2NDhhCisjICBGaWxlOiBtZWRpYXRlay9tdDc5ODZfcm9t
+X3BhdGNoX210Nzk3NS5iaW4KKyMgLVZlcnNpb246IDIwMjIwMTEzMTYyNzAxYQorIyArVmVyc2lv
+bjogMjAyMjEwMTIxNzQ3NDNhCisjICtGaWxlOiBtZWRpYXRlay9tdDc5ODZfd29fMC5iaW4KKyMg
+K1ZlcnNpb246IDIwMjIxMDEyMTc1MDA1CisjICtGaWxlOiBtZWRpYXRlay9tdDc5ODZfd29fMS5i
+aW4KKyMgK1ZlcnNpb246IDIwMjIxMDEyMTc1MDMyCisjICBGaWxlOiBtZWRpYXRlay9tdDc5ODZf
+ZWVwcm9tX210Nzk3Ni5iaW4KKyMgIFZlcnNpb246IDIwMjExMTA1CisjICBGaWxlOiBtZWRpYXRl
+ay9tdDc5ODZfZWVwcm9tX210Nzk3Nl9kYmRjLmJpbgorIyBAQCAtNTQ4OCw5ICs1NTE5LDkgQEAK
+KyMgIERyaXZlcjogbXQ3OTIxIC0gTWVkaWFUZWsgTVQ3OTIxIFdpcmVsZXNzIE1BQ3MKKyMgIAor
+IyAgRmlsZTogbWVkaWF0ZWsvV0lGSV9NVDc5NjFfcGF0Y2hfbWN1XzFfMl9oZHIuYmluCisjIC1W
+ZXJzaW9uOiAyMDIyMDkwODIxMDkxOWEKKyMgK1ZlcnNpb246IDIwMjIxMTA5MTEwOTE4YQorIyAg
+RmlsZTogbWVkaWF0ZWsvV0lGSV9SQU1fQ09ERV9NVDc5NjFfMS5iaW4KKyMgLVZlcnNpb246IDIw
+MjIwOTA4MjExMDIxCisjICtWZXJzaW9uOiAyMDIyMTEwOTExMTAwNQorIyAgCisjICBMaWNlbmNl
+OiBSZWRpc3RyaWJ1dGFibGUuIFNlZSBMSUNFTkNFLm1lZGlhdGVrIGZvciBkZXRhaWxzLgorIyAg
+CisjIEBAIC01NDk5LDcgKzU1MzAsNyBAQAorIyAgRHJpdmVyOiBtdDc5MjEgLSBNZWRpYVRlayBN
+VDc5MjEgYmx1ZXRvb3RoIGNoaXBzZXQKKyMgIAorIyAgRmlsZTogbWVkaWF0ZWsvQlRfUkFNX0NP
+REVfTVQ3OTYxXzFfMl9oZHIuYmluCisjIC1WZXJzaW9uOiAyMDIyMDkwODIxMTIzNAorIyArVmVy
+c2lvbjogMjAyMjExMDkxMTEyMTMKKyMgIAorIyAgTGljZW5jZTogUmVkaXN0cmlidXRhYmxlLiBT
+ZWUgTElDRU5DRS5tZWRpYXRlayBmb3IgZGV0YWlscy4KKyMgIAorIyBAQCAtNjIyMywzICs2MjU0
+LDExIEBACisjICBMaWNlbmNlOiBSZWRpc3RyaWJ1dGFibGUuIFNlZSBMSUNFTkNFLm1lZGlhdGVr
+IGZvciBkZXRhaWxzLgorIyAgCisjICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQorIyArCisjICtEcml2ZXI6
+IG54cC1zcjF4eCAtIE5YUCBVbHRyYSBXaWRlIEJhbmQgZHJpdmVyCisjICtGaWxlOiBueHAvc3Ix
+NTBfZncuYmluCisjICtWZXJzaW9uOiAzNS4wMC4wMworIyArCisjICtMaWNlbmNlOiBSZWRpc3Ry
+aWJ1dGFibGUuIFNlZSBMSUNFTlNFLm54cCBmb3IgZGV0YWlscworIyArT3JpZ2luYXRlcyBmcm9t
+IGh0dHBzOi8vZ2l0aHViLmNvbS9OWFAvdXdiLU5YUFVXQi1GVy5naXQKKyMgKy0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tCisjIAorIworCiBTVU1NQVJZID0gIkZpcm13YXJlIGZpbGVzIGZvciB1c2Ugd2l0aCBM
+aW51eCBrZXJuZWwiCiBIT01FUEFHRSA9ICJodHRwczovL3d3dy5rZXJuZWwub3JnLyIKIERFU0NS
+SVBUSU9OID0gIkxpbnV4IGZpcm13YXJlIGlzIGEgcGFja2FnZSBkaXN0cmlidXRlZCBhbG9uZ3Np
+ZGUgdGhlIExpbnV4IGtlcm5lbCBcCkBAIC0xMjgsNyArMzA1LDcgQEAgTElDX0ZJTEVTX0NIS1NV
+TSA9ICJmaWxlOi8vTElDRU5DRS5BYmlsaXM7bWQ1PWI1ZWUzZjQxMDc4MGU1NjcxMWFkNDhlYWRj
+MjJiOGJjIFwKICAgICAgICAgICAgICAgICAgICAgZmlsZTovL0xJQ0VOQ0UueGM0MDAwO21kNT0w
+ZmY1MWQyZGM0OWZjZTA0ODE0YzkxNTUwODEwOTJmMCBcCiAgICAgICAgICAgICAgICAgICAgIGZp
+bGU6Ly9MSUNFTkNFLnhjNTAwMDttZDU9MWUxNzBjMTMxNzUzMjNjMzJjN2Y0ZDA5OThkNTNmNjYg
+XAogICAgICAgICAgICAgICAgICAgICBmaWxlOi8vTElDRU5DRS54YzUwMDBjO21kNT0xMmIwMmVm
+YTMwNDlkYjY1ZDUyNGFlYjQxOGRkODdjYSBcCi0gICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9X
+SEVOQ0U7bWQ1PSR7V0hFTkNFX0NIS1NVTX0gXAorICAgICAgICAgICAgICAgICAgICBmaWxlOi8v
+V0hFTkNFO21kNT1iZjdjNzE2ZDE2ZTQ4ZmUxMThjNjIwOWY5OWIxMzI1MyBcCiAgICAgICAgICAg
+ICAgICAgICAgICIKICMgV0hFTkNFIGNoZWNrc3VtIGlzIGRlZmluZWQgc2VwYXJhdGVseSB0byBl
+YXNlIG92ZXJyaWRpbmcgaXQgaWYKICMgY2xhc3MtZGV2dXBzdHJlYW0gaXMgc2VsZWN0ZWQuCkBA
+IC0yMDksNyArMzg2LDcgQEAgU1JDX1VSSTpjbGFzcy1kZXZ1cHN0cmVhbSA9ICJnaXQ6Ly9naXQu
+a2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvZmlybXcKICMgUGluIHRoaXMgdG8g
+dGhlIDIwMjIwNTA5IHJlbGVhc2UsIG92ZXJyaWRlIHRoaXMgaW4gbG9jYWwuY29uZgogU1JDUkVW
+OmNsYXNzLWRldnVwc3RyZWFtID89ICJiMTljYmRjYTc4YWIyYWRmZDIxMGM5MWJlMTVhMjI1Njhl
+OGI4Y2FlIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiYzBkZGZmYmJjZjMwZjJlMDE1YmRkZDVj
+NmQzY2UxZjEzOTc2YjkwNmFjZWFiZGE0YTU3ZTNjNDFhMzE5MDcwMSIKK1NSQ19VUklbc2hhMjU2
+c3VtXSA9ICJlNzkzNzgzZTkyYWNiZGU1NDk5NjU1MjE0NjJkMWQxMzI3ODI3MzYwNjY0Y2YyNDJk
+YmRhMDhmMDc1NjU0MzMxIgogCiBpbmhlcml0IGFsbGFyY2gKIAotLSAKMi4zNy4zCgo=
 
---===============0222833915398160749==--
+--===============7202609184199586243==--
 
