@@ -2,37 +2,37 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0BA1C71136
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E88B1C71134
 	for <webhook@archiver.kernel.org>; Sun,  1 Jan 2023 20:46:18 +0000 (UTC)
 Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.20184.1672605967779477443
+ by mx.groups.io with SMTP id smtpd.web11.20183.1672605967764916109
  for <openembedded-core@lists.openembedded.org>;
  Sun, 01 Jan 2023 12:46:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=cmmR7seo;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101856f15a28d-d94f0fc1-a684-4672-a007-32557f6a0dbf-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=n9MxgDKk;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101856f15a2b8-a13a041f-8762-4d98-b4c4-b171bbda6232-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1672605967;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=evaoAYLy/vdXAvLKLT3vnAf3xCghiR+8ozL8V1RuccY=;
-	b=cmmR7seoi2INDy/rhF+lcuzcWvdcj/74XyBL1h53asUv0Tls8uxCMhQWsrkkl6AM
-	HcnGQjLeWAdwRZ070W6IEtcNjAXpSPASLgVZ2KsajeDhkjrWk9Y39w+xTbsXhn0Q787
-	sz+h+yHt1sSjX/cAi0S9C2dsvryA8WIw58FUmqU4=
+	bh=E4GZmBPmhy7JrfS0XX7ANzVYs/u1+mirOwUL6myeQ7M=;
+	b=n9MxgDKkw+sfZlM/I8KqDwXqoS/9ryCm7T7P/cSt9ATKEPnYsY7lR6cS+mAr6umc
+	FQCfpkDNvWjj0jut7jCO7/KQ+Wb/8wASfJPkxhEstnFfhlTvJdl9LBxm9OuYJ9uwjjC
+	OPJbl9MldzUee8eMokfIhxvVJ9I8o/wvhHjmumH0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1672605967;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=evaoAYLy/vdXAvLKLT3vnAf3xCghiR+8ozL8V1RuccY=;
-	b=j4SB+pNe3bJSBwoiRHiNVIv7IlD9TTaCns8MowYGWIXOZRtGCZp3wAZNH8J4Qpe8
-	v6mXpxV77gIh5e1Kkq8Zwun/JE5o/lr1xbTqPoso8GEb742K94qJGjoIQ/efkcvBav8
-	NJVp+bsb9gl+r4Jcc/cpybT4KJWQRtq0uAoro3tA=
-Content-Type: multipart/mixed; boundary="===============0222911577518629454=="
+	bh=E4GZmBPmhy7JrfS0XX7ANzVYs/u1+mirOwUL6myeQ7M=;
+	b=H0Ib1Ps6s9Ytzg428OVbROEIfO6MlMhYRuKdBoGnwxMfOEkXoMDRD9FK6pcihRKf
+	CZfT+aaDb6zRcHfwkqGup/jTuWlB3zJ8ykpTiNsV1Z74f+AKzs/86hP462CEa1TIykZ
+	Av1ZSQNblCYkG7qi79maQzSlKvEJ7R0hSC1eFwiI=
+Content-Type: multipart/mixed; boundary="===============5464322370999258289=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pyrsistent: upgrading to 0.19.3 SUCCEEDED
-Message-ID: <010101856f15a28d-d94f0fc1-a684-4672-a007-32557f6a0dbf-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-zipp: upgrading to 3.11.0 SUCCEEDED
+Message-ID: <010101856f15a2b8-a13a041f-8762-4d98-b4c4-b171bbda6232-000000@us-west-2.amazonses.com>
 Date: Sun, 1 Jan 2023 20:46:07 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2023.01.01-54.240.27.192
@@ -40,9 +40,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 Jan 2023 20:46:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175275
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175274
 
---===============0222911577518629454==
+--===============5464322370999258289==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-pyrsistent* to *0.19.3* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-zipp* to *3.11.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pyrsistent-upgrade-0.19.2-0.19.3.patch
+    - apply the patch: git am 0001-python3-zipp-upgrade-3.10.0-3.11.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,72 +69,72 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============0222911577518629454==
+--===============5464322370999258289==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-32-poky-linux/python3-pyrsistent (sysroot):
-  /usr/lib/python3.11/site-packages/pyrsistent-0.19.2.dist-info moved to /usr/lib/python3.11/site-packages/pyrsistent-0.19.3.dist-info
+packages/core2-32-poky-linux/python3-zipp/python3-zipp: PKGSIZE changed from 31684 to 35974 (+14%)
+Changes to packages/core2-32-poky-linux/python3-zipp (sysroot):
+  /usr/lib/python3.11/site-packages/zipp-3.10.0.dist-info moved to /usr/lib/python3.11/site-packages/zipp-3.11.0.dist-info
 
---===============0222911577518629454==
+--===============5464322370999258289==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-pyrsistent: PKGV changed from 0.19.2 [default] to 0.19.3 [default]
-packages/core2-32-poky-linux/python3-pyrsistent: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pyrsistent/pyrsistent-0.19.2.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pyrsistent/pyrsistent-0.19.3.tar.gz"
-packages/core2-32-poky-linux/python3-pyrsistent: PV changed from "0.19.2" to "0.19.3"
-packages/core2-32-poky-linux/python3-pyrsistent/python3-pyrsistent-dbg: PKGV changed from 0.19.2 [default] to 0.19.3 [default]
-packages/core2-32-poky-linux/python3-pyrsistent/python3-pyrsistent-dbg: PV changed from "0.19.2" to "0.19.3"
-packages/core2-32-poky-linux/python3-pyrsistent/python3-pyrsistent-dev: PKGV changed from 0.19.2 [default] to 0.19.3 [default]
-packages/core2-32-poky-linux/python3-pyrsistent/python3-pyrsistent-dev: PV changed from "0.19.2" to "0.19.3"
-packages/core2-32-poky-linux/python3-pyrsistent/python3-pyrsistent-doc: PKGV changed from 0.19.2 [default] to 0.19.3 [default]
-packages/core2-32-poky-linux/python3-pyrsistent/python3-pyrsistent-doc: PV changed from "0.19.2" to "0.19.3"
-packages/core2-32-poky-linux/python3-pyrsistent/python3-pyrsistent-locale: PKGV changed from 0.19.2 [default] to 0.19.3 [default]
-packages/core2-32-poky-linux/python3-pyrsistent/python3-pyrsistent-locale: PV changed from "0.19.2" to "0.19.3"
-packages/core2-32-poky-linux/python3-pyrsistent/python3-pyrsistent-src: PKGV changed from 0.19.2 [default] to 0.19.3 [default]
-packages/core2-32-poky-linux/python3-pyrsistent/python3-pyrsistent-src: PV changed from "0.19.2" to "0.19.3"
-packages/core2-32-poky-linux/python3-pyrsistent/python3-pyrsistent-staticdev: PKGV changed from 0.19.2 [default] to 0.19.3 [default]
-packages/core2-32-poky-linux/python3-pyrsistent/python3-pyrsistent-staticdev: PV changed from "0.19.2" to "0.19.3"
-packages/core2-32-poky-linux/python3-pyrsistent/python3-pyrsistent: PKGV changed from 0.19.2 [default] to 0.19.3 [default]
-packages/core2-32-poky-linux/python3-pyrsistent/python3-pyrsistent: PV changed from "0.19.2" to "0.19.3"
-packages/core2-32-poky-linux/python3-pyrsistent/python3-pyrsistent: PKGSIZE changed from 441235 to 441251 (+0%)
-Changes to packages/core2-32-poky-linux/python3-pyrsistent (sysroot):
-  /usr/lib/python3.11/site-packages/pyrsistent-0.19.2.dist-info moved to /usr/lib/python3.11/site-packages/pyrsistent-0.19.3.dist-info
+packages/core2-32-poky-linux/python3-zipp: SRC_URI changed from "https://files.pythonhosted.org/packages/source/z/zipp/zipp-3.10.0.tar.gz" to "https://files.pythonhosted.org/packages/source/z/zipp/zipp-3.11.0.tar.gz"
+packages/core2-32-poky-linux/python3-zipp: PV changed from "3.10.0" to "3.11.0"
+packages/core2-32-poky-linux/python3-zipp: PKGV changed from 3.10.0 [default] to 3.11.0 [default]
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-dbg: PV changed from "3.10.0" to "3.11.0"
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-dbg: PKGV changed from 3.10.0 [default] to 3.11.0 [default]
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-dev: PV changed from "3.10.0" to "3.11.0"
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-dev: PKGV changed from 3.10.0 [default] to 3.11.0 [default]
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-doc: PV changed from "3.10.0" to "3.11.0"
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-doc: PKGV changed from 3.10.0 [default] to 3.11.0 [default]
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-locale: PV changed from "3.10.0" to "3.11.0"
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-locale: PKGV changed from 3.10.0 [default] to 3.11.0 [default]
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-src: PV changed from "3.10.0" to "3.11.0"
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-src: PKGV changed from 3.10.0 [default] to 3.11.0 [default]
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-staticdev: PV changed from "3.10.0" to "3.11.0"
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-staticdev: PKGV changed from 3.10.0 [default] to 3.11.0 [default]
+packages/core2-32-poky-linux/python3-zipp/python3-zipp: PKGSIZE changed from 31684 to 35974 (+14%)
+packages/core2-32-poky-linux/python3-zipp/python3-zipp: PV changed from "3.10.0" to "3.11.0"
+packages/core2-32-poky-linux/python3-zipp/python3-zipp: PKGV changed from 3.10.0 [default] to 3.11.0 [default]
+Changes to packages/core2-32-poky-linux/python3-zipp (sysroot):
+  /usr/lib/python3.11/site-packages/zipp-3.10.0.dist-info moved to /usr/lib/python3.11/site-packages/zipp-3.11.0.dist-info
 
---===============0222911577518629454==
+--===============5464322370999258289==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-pyrsistent-upgrade-0.19.2-0.19.3.patch"
+ filename="0001-python3-zipp-upgrade-3.10.0-3.11.0.patch"
 
-RnJvbSAzYWQ2ZDJiMTI2ODkwZTMzZjQwMzc2ZmMyN2NmOGE3OGI0MmVhN2RkIE1vbiBTZXAgMTcg
+RnJvbSAwMTdmYWQxN2U5YzQyNDg4NWIyYTUxOTk2ZmZlNWZlOWMwZDBjNzMwIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMSBKYW4gMjAyMyAxMDoyMzoyMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtcHlyc2lzdGVudDogdXBncmFkZSAwLjE5LjIgLT4gMC4xOS4zCgotLS0KIC4uLnl0aG9u
-My1weXJzaXN0ZW50XzAuMTkuMi5iYiA9PiBweXRob24zLXB5cnNpc3RlbnRfMC4xOS4zLmJifSB8
-IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcHlyc2lzdGVudF8wLjE5
-LjIuYmIgPT4gcHl0aG9uMy1weXJzaXN0ZW50XzAuMTkuMy5iYn0gKDc5JSkKCmRpZmYgLS1naXQg
-YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlyc2lzdGVudF8wLjE5LjIu
-YmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlyc2lzdGVudF8wLjE5
-LjMuYmIKc2ltaWxhcml0eSBpbmRleCA3OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3B5dGhvbi9weXRob24zLXB5cnNpc3RlbnRfMC4xOS4yLmJiCnJlbmFtZSB0byBtZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlyc2lzdGVudF8wLjE5LjMuYmIKaW5kZXgg
-MGIzMDlkZThiMS4uMDU2NTRjMzQ4ZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3B5dGhvbi9weXRob24zLXB5cnNpc3RlbnRfMC4xOS4yLmJiCisrKyBiL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uMy1weXJzaXN0ZW50XzAuMTkuMy5iYgpAQCAtMyw3ICszLDcg
-QEAgSE9NRVBBR0UgPSAiaHR0cHM6Ly9naXRodWIuY29tL3RvYmd1L3B5cnNpc3RlbnQiCiBMSUNF
-TlNFID0gIk1JVCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0UubWl0O21kNT1i
-Njk1ZWI5YzZlN2E2ZmIxYjFiYzJkMTkzYzQyNzc2ZSIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0g
-ImJmYTAzNTFiZTg5YzlmY2JjYjhjOTg3OWI4MjZmNDM1M2JlMTBmNThmOGE2NzdlZmFiMGMwMTdi
-ZjcxMzdlYzIiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMWEyOTk0NzczNzA2YmJiNDk5NWMzMWE5
-N2JjOTRmMTQxODMxNDkyM2JkMTA0OGM2ZDk2NDgzNzA0MDM3NjQ0MCIKIAogaW5oZXJpdCBweXBp
-IHB5dGhvbl9zZXR1cHRvb2xzX2J1aWxkX21ldGEKIAotLSAKMi4zNy4zCgo=
+CkRhdGU6IFN1biwgMSBKYW4gMjAyMyAxMDo0ODo0MSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtemlwcDogdXBncmFkZSAzLjEwLjAgLT4gMy4xMS4wCgotLS0KIC4uLi9weXRob24ve3B5
+dGhvbjMtemlwcF8zLjEwLjAuYmIgPT4gcHl0aG9uMy16aXBwXzMuMTEuMC5iYn0gICB8IDIgKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtemlwcF8zLjEwLjAuYmIgPT4gcHl0
+aG9uMy16aXBwXzMuMTEuMC5iYn0gKDg1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvcHl0aG9uL3B5dGhvbjMtemlwcF8zLjEwLjAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMtemlwcF8zLjExLjAuYmIKc2ltaWxhcml0eSBpbmRleCA4NSUKcmVu
+YW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXppcHBfMy4xMC4w
+LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtemlwcF8z
+LjExLjAuYmIKaW5kZXggNTZkOGU3MDZjOC4uNzBlYmFmYzE2OCAxMDA2NDQKLS0tIGEvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXppcHBfMy4xMC4wLmJiCisrKyBiL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy16aXBwXzMuMTEuMC5iYgpAQCAtMyw3ICsz
+LDcgQEAgSE9NRVBBR0UgPSAiaHR0cHM6Ly9naXRodWIuY29tL2phcmFjby96aXBwIgogTElDRU5T
+RSA9ICJNSVQiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT03YTcxMjZl
+MDY4MjA2MjkwZjNmZTlmOGQ2YzcxM2VhNiIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjdhNzI2
+MmZkOTMwYmQzZTM2YzUwYjlhNjQ4OTdhZWMzZmFmZmYzZGZkZWVjOTYyM2FlMjJiNDBlOTNmOTli
+YjgiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYTdhMjJlMDU5MjkyOTBhNjc0MDE0NDBiMzk2OTBh
+ZTY1NjMyNzliY2VkNWYzMTQ2MDlkOWQwMzc5OGY1Njc2NiIKIAogREVQRU5EUyArPSAiJHtQWVRI
+T05fUE59LXNldHVwdG9vbHMtc2NtLW5hdGl2ZSIKIAotLSAKMi4zNy4zCgo=
 
---===============0222911577518629454==--
+--===============5464322370999258289==--
 
