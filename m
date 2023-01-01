@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D443C7113E
-	for <webhook@archiver.kernel.org>; Sun,  1 Jan 2023 20:46:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0B25C71132
+	for <webhook@archiver.kernel.org>; Sun,  1 Jan 2023 20:46:18 +0000 (UTC)
 Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.20185.1672605968138949701
+ by mx.groups.io with SMTP id smtpd.web10.20676.1672605968380763576
  for <openembedded-core@lists.openembedded.org>;
  Sun, 01 Jan 2023 12:46:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=J78tkTaL;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101856f15a390-5d0b19c1-9052-4ed7-b096-cfab08ce50dd-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=XBb3ORdX;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101856f15a495-36e1f25b-8165-40fb-bad6-6f972de3d478-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1672605967;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=v/0OdCmhJUH0QfNEHUiX0NmN2stdqf1aCO8HhCX66y0=;
-	b=J78tkTaLss2mfSOmKtTPWy4e1ebVyHBcouLEJt+36NnhpwmqpHPmQj0xYBhvjYnD
-	XymFHf2cc6/4FhH8Y2qAOVrQC/t2KkVtAsJ+q1hjLzx0YSu3RsWA5cF3Qd5RnzvuuXi
-	DMaUg3WJvSQAmMcJ/wPzLslrR7k2J447yCMsMtqA=
+	bh=nCU0X7OkklUJsHKqlyoLRlKZs86N1ahxZL9Eha2saGU=;
+	b=XBb3ORdX3nuLXP+ko+QAc8WBW7jTSj/lGfenVBmXrPuHlACrUR8mU/XMQAQdqX0v
+	YMc4RDBgOQ81OLcOkwjlYs/QufG5MlPjoAj796USQNFdurLHwLxLXaZsp+ZZxmaezj6
+	K5y8W1ykYZRg4Yq4+txmRYRreo2R2qbu5iJmKr6E=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1672605967;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=v/0OdCmhJUH0QfNEHUiX0NmN2stdqf1aCO8HhCX66y0=;
-	b=fhHgO5fp13pM9+PRdYIyf4w0qGgPmumEnmkO3J32mg46xo6Mi7jZqN5ciixj/e+m
-	k1cSDuyeTpwb+d7zuzc78YLbE/bMpSQtEfImWeBnvdDkMYBUV6VBUaoRN2MPeN0aQ2K
-	pMYxq8phboH+D2iQv1MzpYtLro+VHemGt40+lSE8=
-Content-Type: multipart/mixed; boundary="===============7252637731701872561=="
+	bh=nCU0X7OkklUJsHKqlyoLRlKZs86N1ahxZL9Eha2saGU=;
+	b=M3B2YJ6sxqv+qo5Xp59hBLvTFaMvgd+5HTDcm49Givbe5I/b8lR90L70BRR0jFRg
+	qcf+zG220Y3B440KaqOf7oYwaLJBpbxf1f7mB88G4LPVpvLBH+TuI8IFVq4mpofkmf3
+	0PiR/efpBim6LEnzLbSY4EStDo7THEzLMPwfeBRs=
+Content-Type: multipart/mixed; boundary="===============3214055610483818354=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-urllib3: upgrading to 1.26.13 SUCCEEDED
-Message-ID: <010101856f15a390-5d0b19c1-9052-4ed7-b096-cfab08ce50dd-000000@us-west-2.amazonses.com>
+Subject: [AUH] strace: upgrading to 6.1 SUCCEEDED
+Message-ID: <010101856f15a495-36e1f25b-8165-40fb-bad6-6f972de3d478-000000@us-west-2.amazonses.com>
 Date: Sun, 1 Jan 2023 20:46:07 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2023.01.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 Jan 2023 20:46:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175271
+ <openembedded-core@lists.openembedded.org>; Sun, 01 Jan 2023 20:46:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175276
 
---===============7252637731701872561==
+--===============3214055610483818354==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-urllib3* to *1.26.13* has Succeeded.
+that the automatic attempt to upgrade the recipe *strace* to *6.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-urllib3-upgrade-1.26.12-1.26.13.patch
+    - apply the patch: git am 0001-strace-upgrade-6.0-6.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,1263 +69,217 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7252637731701872561==
+--===============3214055610483818354==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-32-poky-linux/python3-urllib3 (sysroot):
-  /usr/lib/python3.11/site-packages/urllib3-1.26.12.dist-info moved to /usr/lib/python3.11/site-packages/urllib3-1.26.13.dist-info
+packages/core2-32-poky-linux/strace/strace-ptest: FILELIST: added "/usr/lib/strace/ptest/tests/ioctl_termios.gen.test /usr/lib/strace/ptest/tests/ioctl_termios-v /usr/lib/strace/ptest/tests/ioctl_termios-v.gen.test /usr/lib/strace/ptest/tests/ioctl_termios /usr/lib/strace/ptest/tests/sysctl.gen.test /usr/lib/strace/ptest/tests/ioctl_winsize.gen.test /usr/lib/strace/ptest/tests/sysctl /usr/lib/strace/ptest/tests/ioctl_tiocm.gen.test /usr/lib/strace/ptest/tests/ioctl_tiocm /usr/lib/strace/ptest/tests/ioctl_winsize"
 
---===============7252637731701872561==
+--===============3214055610483818354==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-urllib3-upgrade-1.26.12-1.26.13.patch"
+Content-Disposition: attachment; filename="0001-strace-upgrade-6.0-6.1.patch"
 
-RnJvbSA5NzM5ZmIwYzU5YWQ3MzhlOTk2NGJiOWFiZTliYzdlZThmOWJkYjUxIE1vbiBTZXAgMTcg
+RnJvbSA2M2FjMzdkYmVmZmZmNjc1YzE4MzljMzQ5NjhhMzU3MWYwYTQ1NTI1IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMSBKYW4gMjAyMyAxMDo0NToyNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtdXJsbGliMzogdXBncmFkZSAxLjI2LjEyIC0+IDEuMjYuMTMKCi0tLQogLi4uL3tweXRo
-b24zLXVybGxpYjNfMS4yNi4xMi5iYiA9PiBweXRob24zLXVybGxpYjNfMS4yNi4xMy5iYn0gIHwg
-MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5h
-bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy11cmxsaWIzXzEuMjYuMTIu
-YmIgPT4gcHl0aG9uMy11cmxsaWIzXzEuMjYuMTMuYmJ9ICg4NiUpCgpkaWZmIC0tZ2l0IGEvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXVybGxpYjNfMS4yNi4xMi5iYiBiL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy11cmxsaWIzXzEuMjYuMTMuYmIKc2lt
-aWxhcml0eSBpbmRleCA4NiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
-bi9weXRob24zLXVybGxpYjNfMS4yNi4xMi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3B5dGhvbi9weXRob24zLXVybGxpYjNfMS4yNi4xMy5iYgppbmRleCAxY2Q2OWJjYjEwLi43
-YWY5NTExN2NmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
-bjMtdXJsbGliM18xLjI2LjEyLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
-cHl0aG9uMy11cmxsaWIzXzEuMjYuMTMuYmIKQEAgLTMsNyArMyw3IEBAIEhPTUVQQUdFID0gImh0
-dHBzOi8vZ2l0aHViLmNvbS9zaGF6b3cvdXJsbGliMyIKIExJQ0VOU0UgPSAiTUlUIgogTElDX0ZJ
-TEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRS50eHQ7bWQ1PWMyODIzY2I5OTU0MzljOTg0ZmQ2
-MmE5NzNkNzk4MTVjIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiM2ZhOTZjZjQyM2U2OTg3OTk3
-ZmMzMjZhZThkZjM5NmRiMmE4YjdjNjY3NzQ3ZDQ3ZGRkOGVjYmE5MWY0YTc0ZSIKK1NSQ19VUklb
-c2hhMjU2c3VtXSA9ICJjMDgzZGQwZGNlNjhkYmZiZTExMjlkNTI3MWNiOTBmOTQ0N2RlYTdkNTIw
-OTdjNmUwMTI2MTIwYzUyMWRkZWE4IgogCiBpbmhlcml0IHB5cGkgc2V0dXB0b29sczMKIAotLSAK
-Mi4zNy4zCgo=
+CkRhdGU6IFN1biwgMSBKYW4gMjAyMyAxMTozMDo0MSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHN0
+cmFjZTogdXBncmFkZSA2LjAgLT4gNi4xCgotLS0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJh
+Y2Uve3N0cmFjZV82LjAuYmIgPT4gc3RyYWNlXzYuMS5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdl
+ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvc3RyYWNlL3tzdHJhY2VfNi4wLmJiID0+IHN0cmFjZV82LjEuYmJ9ICg5NiUpCgpkaWZm
+IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2VfNi4wLmJiIGIvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2VfNi4xLmJiCnNpbWlsYXJpdHkgaW5kZXgg
+OTYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uvc3RyYWNlXzYuMC5i
+YgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2VfNi4xLmJiCmlu
+ZGV4IDc2NzkyMzViMDEuLmVjNWMxMGM4MGQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9zdHJhY2Uvc3RyYWNlXzYuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3Ry
+YWNlL3N0cmFjZV82LjEuYmIKQEAgLTE2LDcgKzE2LDcgQEAgU1JDX1VSSSA9ICJodHRwczovL3N0
+cmFjZS5pby9maWxlcy8ke1BWfS9zdHJhY2UtJHtQVn0udGFyLnh6IFwKICAgICAgICAgICAgZmls
+ZTovLzAwMDEtY29uZmlndXJlLVVzZS1hdXRvY29uZi1tYWNyby10by1kZXRlY3QtbGFyZ2VmaWxl
+LXN1cC5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAyLXRlc3RzLVJlcGxhY2Utb2ZmNjRf
+dC13aXRoLW9mZl90LnBhdGNoIFwKICAgICAgICAgICAgIgotU1JDX1VSSVtzaGEyNTZzdW1dID0g
+IjkyZDcyMGE2NjY4NTVlOWYxYzZhMTE1MTJmZDZlOTk2NzRhODJiYmZlMTQ0MjU1NzgxNWYyY2U4
+ZTEyOTMzMzgiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMjU3OWU5Y2VjMzdkYmI3ODZmNmVhMGJl
+YmQxNWY0MGRkNTYxZWYyYmRlMmEyYTJlY2RjZTU5NjNiMDE4NTlmZCIKIAogaW5oZXJpdCBhdXRv
+dG9vbHMgcHRlc3QKIAotLSAKMi4zNy4zCgo=
 
---===============7252637731701872561==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
-
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 893 .bb files complete (0 cached, 893 parsed). 1690 targets, 64 skipped, 0 masked, 0 errors.
-Removing 2 recipes from the mips32r2 sysroot...done.
-Removing 1 recipes from the qemumips sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "mips-poky-linux"
-MACHINE              = "qemumips"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:5d3377a3e6f69c399d37e6b05002a1a94c5688af"
-workspace            = "master:c9c2b6b613bbaf7133d9c3435f3aef3fe4e38f59"
-
-Initialising tasks...done.
-Sstate summary: Wanted 30 Local 8 Mirrors 0 Missed 22 Current 363 (26% match, 94% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 372 of 393 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_38.0.3.bb:do_package_setscene)
-NOTE: Running setscene task 373 of 393 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.57.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 377 of 393 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.6.bb:do_packagedata_setscene)
-NOTE: Running task 1163 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_fetch)
-NOTE: Running task 1165 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_fetch)
-NOTE: Running task 1288 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_compile_ptest_base)
-NOTE: Running task 1395 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_install)
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_fetch: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_fetch: Started
-NOTE: recipe python3-hypothesis-6.57.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-pytz-2022.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_fetch: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_fetch: Succeeded
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_compile_ptest_base: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: recipe python3-hypothesis-6.57.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-pytz-2022.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1397 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_unpack)
-NOTE: Running task 1398 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_unpack)
-NOTE: Running task 1399 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1400 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1401 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_install)
-NOTE: Running task 1432 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.4.bb:do_packagedata)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_unpack: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_unpack: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-cffi-1.15.1-r0: task do_install: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_unpack: Succeeded
-NOTE: Running task 1450 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_patch)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_unpack: Succeeded
-NOTE: recipe python3-cryptography-38.0.3-r0: task do_package_setscene: Started
-NOTE: Running task 1451 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_patch)
-NOTE: recipe python3-psutil-5.9.4-r0: task do_packagedata: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_install: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_patch: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_patch: Started
-NOTE: recipe python3-psutil-5.9.4-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-cryptography-38.0.3-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 393 of 393 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_38.0.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe python3-cffi-1.15.1-r0: task do_install: Succeeded
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_install: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_patch: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_patch: Succeeded
-NOTE: Running task 1452 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1453 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1454 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_populate_lic)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-cryptography-38.0.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: Running task 1455 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_package)
-NOTE: Running task 1456 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_install_ptest_base)
-NOTE: recipe python3-cryptography-38.0.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_populate_lic: Started
-NOTE: Running task 1476 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_install)
-NOTE: Running task 1477 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_38.0.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-cffi-1.15.1-r0: task do_package: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_install_ptest_base: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_populate_lic unihash changed to df73dccbaae41c7bde76bc8bf392fd16fc0639b8ba74183e613e0791103195b1
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Started
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1478 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_configure)
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1479 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_configure)
-NOTE: Running task 1480 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_package)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_configure: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_configure: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_package: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_configure: Succeeded
-NOTE: Running task 1481 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_compile)
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_configure: Succeeded
-NOTE: Running task 1482 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_compile)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_compile: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_compile: Started
-NOTE: Running task 1483 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Started
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1484 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_38.0.3.bb:do_configure)
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_configure: Started
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_configure: Succeeded
-NOTE: Running task 1485 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_38.0.3.bb:do_compile)
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_compile: Started
-NOTE: recipe python3-cffi-1.15.1-r0: task do_package: Succeeded
-NOTE: Running task 1486 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_packagedata)
-NOTE: recipe python3-cffi-1.15.1-r0: task do_packagedata: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_package: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_compile: Succeeded
-NOTE: Running task 1487 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_packagedata)
-NOTE: Running task 1488 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_install)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_compile: Succeeded
-NOTE: Running task 1489 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_install)
-NOTE: recipe python3-cffi-1.15.1-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Succeeded
-NOTE: Running task 1490 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_packagedata)
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_packagedata: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_install: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_install: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 1491 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package_write_rpm)
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_install: Succeeded
-NOTE: Running task 1492 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_package)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_install: Succeeded
-NOTE: Running task 1493 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_package)
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_package: Started
-NOTE: Running task 1494 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_populate_sysroot)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_package: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_package: Succeeded
-NOTE: Running task 1495 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_packagedata)
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_packagedata: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_package: Succeeded
-NOTE: Running task 1496 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_packagedata)
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_packagedata: Failed
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_packagedata: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_compile: Succeeded
-NOTE: Tasks Summary: Attempted 1496 tasks of which 1458 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_packagedata
-Summary: There was 1 WARNING message.
-Summary: There were 8 ERROR messages, returning a non-zero exit code.
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-src went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-dbg went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-staticdev went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-dev went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-doc went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-locale went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/python3-certifi/2022.9.24-r0/temp/log.do_packagedata.2252499
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_packagedata) failed with exit code '1'
-
---===============7252637731701872561==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
-
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 893 .bb files complete (0 cached, 893 parsed). 1691 targets, 48 skipped, 0 masked, 0 errors.
-Removing 24 recipes from the core2-32 sysroot...done.
-Removing 50 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux-musl"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:5d3377a3e6f69c399d37e6b05002a1a94c5688af"
-workspace            = "master:c9c2b6b613bbaf7133d9c3435f3aef3fe4e38f59"
-
-Initialising tasks...done.
-Sstate summary: Wanted 218 Local 197 Mirrors 0 Missed 21 Current 189 (90% match, 94% complete)
-Removing 5 stale sstate objects for arch x86_64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 194 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 197 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 200 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_38.0.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 201 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.57.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 202 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 203 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iso8601_1.1.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 204 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pretend_1.0.9.bb:do_packagedata_setscene)
-NOTE: Running setscene task 205 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 206 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_packagedata_setscene)
-NOTE: Running setscene task 207 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pycparser_2.21.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 209 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest-subtests_0.9.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 210 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.2.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 211 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 212 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 220 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_38.0.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 221 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_38.0.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 222 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 228 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.1.bb:do_package_write_rpm_setscene)
-NOTE: recipe python3-cffi-1.15.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-iso8601-1.1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-idna-3.4-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe python3-hypothesis-6.57.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-pretend-1.0.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-psutil-5.9.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-pycparser-2.21-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-pycparser-2.21-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-pytest-subtests-0.9.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-pytest-7.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-six-1.16.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-pytz-2022.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-cryptography-38.0.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-cryptography-38.0.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-cffi-1.15.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe python3-3.11.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe python3-idna-3.4-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running task 795 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_fetch)
-NOTE: Running task 796 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_fetch)
-NOTE: Running task 800 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_fetch)
-NOTE: Running task 801 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_38.0.3.bb:do_fetch)
-NOTE: Running setscene task 234 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_packagedata_setscene)
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 855 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_fetch)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe python3-iso8601-1.1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 856 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_fetch)
-NOTE: recipe python3-pycparser-2.21-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-pytest-subtests-0.9.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-hypothesis-6.57.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-psutil-5.9.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-pretend-1.0.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-pytest-7.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-six-1.16.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-pytz-2022.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-pycparser-2.21-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_fetch: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_fetch: Started
-NOTE: recipe python3-cryptography-38.0.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-cffi-1.15.1-r0: task do_fetch: Started
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_fetch: Started
-NOTE: recipe python3-idna-3.4-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 253 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_38.0.3.bb:do_package_setscene)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_fetch: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_fetch: Succeeded
-NOTE: recipe python3-cffi-1.15.1-r0: task do_fetch: Succeeded
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_fetch: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_fetch: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_fetch: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-3.11.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe python3-cryptography-38.0.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 254 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_packagedata_setscene)
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_fetch: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 257 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.2.9.bb:do_packagedata_setscene)
-NOTE: Running setscene task 258 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata_setscene)
-NOTE: Running setscene task 259 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 260 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_packagedata_setscene)
-NOTE: Running task 893 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_unpack)
-NOTE: Running task 894 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_unpack)
-NOTE: Running task 896 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_unpack)
-NOTE: Running task 897 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_unpack)
-NOTE: Running task 901 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_unpack)
-NOTE: Running task 902 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_38.0.3.bb:do_unpack)
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_packagedata_setscene: Started
-NOTE: recipe unzip-1_6.0-r5: task do_packagedata_setscene: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_unpack: Started
-NOTE: recipe bash-5.2.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_unpack: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_unpack: Started
-NOTE: recipe python3-cffi-1.15.1-r0: task do_unpack: Started
-NOTE: recipe coreutils-9.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_unpack: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_unpack: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_unpack: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_unpack: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_unpack: Succeeded
-NOTE: Running task 903 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_patch)
-NOTE: Running task 904 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_patch)
-NOTE: Running task 905 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_patch)
-NOTE: recipe python3-cffi-1.15.1-r0: task do_unpack: Succeeded
-NOTE: Running task 906 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_patch)
-NOTE: recipe unzip-1_6.0-r5: task do_packagedata_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_patch: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_patch: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_patch: Started
-NOTE: recipe python3-cffi-1.15.1-r0: task do_patch: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_patch: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_patch: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_patch: Succeeded
-NOTE: Running task 916 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-cffi-1.15.1-r0: task do_patch: Succeeded
-NOTE: Running task 917 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_deploy_source_date_epoch)
-NOTE: Running task 918 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_populate_lic)
-NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bash-5.2.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_populate_lic: Started
-NOTE: recipe coreutils-9.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 271 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 273 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 275 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.66.bb:do_packagedata_setscene)
-NOTE: recipe libcap-2.66-r0: task do_packagedata_setscene: Started
-NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_populate_lic unihash changed to df73dccbaae41c7bde76bc8bf392fd16fc0639b8ba74183e613e0791103195b1
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libcap-2.66-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_unpack: Succeeded
-NOTE: Running setscene task 279 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 284 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_packagedata_setscene)
-NOTE: Running task 944 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_38.0.3.bb:do_patch)
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_unpack: Succeeded
-NOTE: Running task 945 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_patch)
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_patch: Started
-NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-cryptography-38.0.3-r0: task do_package_setscene: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_patch: Started
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_patch: Succeeded
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_patch: Succeeded
-NOTE: Running task 948 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_rust_gen_targets)
-NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_rust_gen_targets: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_rust_gen_targets: Succeeded
-NOTE: recipe python3-cryptography-38.0.3-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 289 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_38.0.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 290 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 291 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 292 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.66.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 293 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.66.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 294 of 407 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.5.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libstd-rs-1.66.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libstd-rs-1.66.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-cryptography-38.0.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-setuptools-rust-native-1.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-3.11.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-3.11.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-cryptography-38.0.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libstd-rs-1.66.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 296 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunwind/libunwind_1.6.2.bb:do_packagedata_setscene)
-NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 298 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 300 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.8.bb:do_packagedata_setscene)
-NOTE: recipe python3-setuptools-rust-native-1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libunwind-1.6.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe cracklib-2.9.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libunwind-1.6.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 304 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libucontext_1.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 305 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_packagedata_setscene)
-NOTE: recipe libstd-rs-1.66.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 307 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunwind/libunwind_1.6.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 308 of 407 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/cargo_1.66.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe python3-3.11.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_packagedata_setscene: Started
-NOTE: recipe libucontext-1.2-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 310 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 311 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 312 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 313 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 314 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 315 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 316 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
-NOTE: Running setscene task 317 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 318 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.40.0.bb:do_packagedata_setscene)
-NOTE: recipe python3-3.11.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 319 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.7.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 320 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 321 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 323 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 324 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 325 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 326 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 327 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 328 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.40.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libunwind-1.6.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cracklib-2.9.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe readline-8.2-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 332 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_packagedata_setscene)
-NOTE: Running setscene task 333 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_populate_sysroot_setscene)
-NOTE: recipe cargo-native-1.66.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe openssl-3.0.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.40.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xz-5.4.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libucontext-1.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe readline-8.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe openssl-3.0.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.40.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xz-5.4.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe readline-8.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 339 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb:do_packagedata_setscene)
-NOTE: Running setscene task 341 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_packagedata_setscene)
-NOTE: recipe libunwind-1.6.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 342 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libucontext_1.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 343 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_populate_sysroot_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.40.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe readline-8.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 348 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 351 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xz-5.4.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.40.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe openssl-3.0.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe ncurses-6.3+20220423-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.0.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xz-5.4.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe cargo-native-1.66.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libucontext-1.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 364 of 407 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.66.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ncurses-6.3+20220423-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe rust-native-1.66.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libucontext-1.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe ncurses-6.3+20220423-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 369 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
-NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe ncurses-6.3+20220423-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 374 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 376 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_packagedata_setscene)
-NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 377 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-runtime-12.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-12.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-12.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 380 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.2.bb:do_packagedata_setscene)
-NOTE: recipe rust-native-1.66.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libgcc-12.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 382 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgcc-12.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 384 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-12.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.3+gitAUTOINC+dc9285ad1d-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 385 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: recipe musl-1.2.3+gitAUTOINC+dc9285ad1d-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 388 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 389 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 390 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.19.bb:do_packagedata_setscene)
-NOTE: recipe musl-1.2.3+gitAUTOINC+dc9285ad1d-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-libc-headers-5.19-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-1.2.3+gitAUTOINC+dc9285ad1d-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 391 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 392 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-libc-headers-5.19-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 401 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 404 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.19.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-5.19-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-5.19-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 405 of 407 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.39.bb:do_populate_sysroot_setscene)
-NOTE: recipe binutils-cross-i686-2.39-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe binutils-cross-i686-2.39-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1357 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1393 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1405 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1406 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1445 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1448 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_38.0.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-cffi-1.15.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1511 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_configure)
-NOTE: Running task 1512 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_configure)
-NOTE: recipe python3-cffi-1.15.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1513 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_configure)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1514 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_configure)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_configure: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_configure: Started
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1515 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_38.0.3.bb:do_configure)
-NOTE: recipe python3-cffi-1.15.1-r0: task do_configure: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_configure: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_configure: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_configure: Succeeded
-NOTE: Running task 1516 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_rust_create_wrappers)
-NOTE: Running task 1517 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_compile)
-NOTE: Running task 1518 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_compile)
-NOTE: recipe python3-cffi-1.15.1-r0: task do_configure: Succeeded
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_configure: Started
-NOTE: Running task 1519 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_compile)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_compile: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_configure: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_compile: Started
-NOTE: Running task 1520 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_compile)
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_rust_create_wrappers: Started
-NOTE: recipe python3-cffi-1.15.1-r0: task do_compile: Started
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_configure: Succeeded
-NOTE: Running task 1521 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_38.0.3.bb:do_compile)
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_rust_create_wrappers: Succeeded
-NOTE: Running task 1522 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_configure)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_compile: Started
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_compile: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_configure: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_configure: Succeeded
-NOTE: Running task 1523 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_configure_ptest_base)
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_configure_ptest_base: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1524 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_compile)
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_compile: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_compile: Succeeded
-NOTE: Running task 1525 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_install)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_compile: Succeeded
-NOTE: Running task 1526 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_install)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_compile: Succeeded
-NOTE: Running task 1527 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_install)
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_install: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_install: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_install: Succeeded
-NOTE: Running task 1528 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_package)
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_package: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Succeeded
-NOTE: Running task 1529 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_install: Succeeded
-NOTE: Running task 1530 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_package)
-NOTE: Running task 1531 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_populate_sysroot)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_package: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_package: Succeeded
-NOTE: Running task 1532 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_packagedata)
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_packagedata: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_package: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_packagedata: Failed
-NOTE: Running task 1533 of 1551 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_packagedata)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-cffi-1.15.1-r0: task do_compile: Succeeded
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_compile: Succeeded
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_compile: Succeeded
-NOTE: Tasks Summary: Attempted 1533 tasks of which 1482 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_packagedata
-Summary: There was 1 WARNING message.
-Summary: There were 8 ERROR messages, returning a non-zero exit code.
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-src went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-dbg went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-staticdev went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-dev went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-doc went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-locale went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/python3-certifi/2022.9.24-r0/temp/log.do_packagedata.2267905
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_packagedata) failed with exit code '1'
-
---===============7252637731701872561==
+--===============3214055610483818354==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-urllib3: PKGV changed from 1.26.12 [default] to 1.26.13 [default]
-packages/core2-32-poky-linux/python3-urllib3: PV changed from "1.26.12" to "1.26.13"
-packages/core2-32-poky-linux/python3-urllib3: SRC_URI changed from "https://files.pythonhosted.org/packages/source/u/urllib3/urllib3-1.26.12.tar.gz" to "https://files.pythonhosted.org/packages/source/u/urllib3/urllib3-1.26.13.tar.gz"
-packages/core2-32-poky-linux/python3-urllib3/python3-urllib3-dbg: PKGV changed from 1.26.12 [default] to 1.26.13 [default]
-packages/core2-32-poky-linux/python3-urllib3/python3-urllib3-dbg: PV changed from "1.26.12" to "1.26.13"
-packages/core2-32-poky-linux/python3-urllib3/python3-urllib3-dev: PKGV changed from 1.26.12 [default] to 1.26.13 [default]
-packages/core2-32-poky-linux/python3-urllib3/python3-urllib3-dev: PV changed from "1.26.12" to "1.26.13"
-packages/core2-32-poky-linux/python3-urllib3/python3-urllib3-doc: PKGV changed from 1.26.12 [default] to 1.26.13 [default]
-packages/core2-32-poky-linux/python3-urllib3/python3-urllib3-doc: PV changed from "1.26.12" to "1.26.13"
-packages/core2-32-poky-linux/python3-urllib3/python3-urllib3-locale: PKGV changed from 1.26.12 [default] to 1.26.13 [default]
-packages/core2-32-poky-linux/python3-urllib3/python3-urllib3-locale: PV changed from "1.26.12" to "1.26.13"
-packages/core2-32-poky-linux/python3-urllib3/python3-urllib3-src: PKGV changed from 1.26.12 [default] to 1.26.13 [default]
-packages/core2-32-poky-linux/python3-urllib3/python3-urllib3-src: PV changed from "1.26.12" to "1.26.13"
-packages/core2-32-poky-linux/python3-urllib3/python3-urllib3-staticdev: PKGV changed from 1.26.12 [default] to 1.26.13 [default]
-packages/core2-32-poky-linux/python3-urllib3/python3-urllib3-staticdev: PV changed from "1.26.12" to "1.26.13"
-packages/core2-32-poky-linux/python3-urllib3/python3-urllib3: PKGV changed from 1.26.12 [default] to 1.26.13 [default]
-packages/core2-32-poky-linux/python3-urllib3/python3-urllib3: PV changed from "1.26.12" to "1.26.13"
-packages/core2-32-poky-linux/python3-urllib3/python3-urllib3: PKGSIZE changed from 899179 to 900718 (+0%)
-Changes to packages/core2-32-poky-linux/python3-urllib3 (sysroot):
-  /usr/lib/python3.11/site-packages/urllib3-1.26.12.dist-info moved to /usr/lib/python3.11/site-packages/urllib3-1.26.13.dist-info
+packages/core2-32-poky-linux/strace: PV changed from "6.0" to "6.1"
+packages/core2-32-poky-linux/strace: PKGV changed from 6.0 [default] to 6.1 [default]
+packages/core2-32-poky-linux/strace: SRC_URI changed from "https://strace.io/files/6.0/strace-6.0.tar.xz file://update-gawk-paths.patch file://Makefile-ptest.patch file://run-ptest file://0001-caps-abbrev.awk-fix-gawk-s-path.patch file://ptest-spacesave.patch file://0001-strace-fix-reproducibilty-issues.patch file://skip-load.patch file://0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch file://0002-tests-Replace-off64_t-with-off_t.patch" to "https://strace.io/files/6.1/strace-6.1.tar.xz file://update-gawk-paths.patch file://Makefile-ptest.patch file://run-ptest file://0001-caps-abbrev.awk-fix-gawk-s-path.patch file://ptest-spacesave.patch file://0001-strace-fix-reproducibilty-issues.patch file://skip-load.patch file://0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch file://0002-tests-Replace-off64_t-with-off_t.patch"
+packages/core2-32-poky-linux/strace/strace-dbg: PV changed from "6.0" to "6.1"
+packages/core2-32-poky-linux/strace/strace-dbg: FILELIST: added "/usr/lib/strace/ptest/tests/.debug/ioctl_winsize /usr/lib/strace/ptest/tests/.debug/sysctl /usr/lib/strace/ptest/tests/.debug/ioctl_tiocm /usr/lib/strace/ptest/tests/.debug/ioctl_termios /usr/lib/strace/ptest/tests/.debug/ioctl_termios-v"
+packages/core2-32-poky-linux/strace/strace-dbg: PKGV changed from 6.0 [default] to 6.1 [default]
+packages/core2-32-poky-linux/strace/strace-dbg: PKGSIZE changed from 49442700 to 49700044 (+1%)
+packages/core2-32-poky-linux/strace/strace-dev: PV changed from "6.0" to "6.1"
+packages/core2-32-poky-linux/strace/strace-dev: PKGV changed from 6.0 [default] to 6.1 [default]
+packages/core2-32-poky-linux/strace/strace-doc: PV changed from "6.0" to "6.1"
+packages/core2-32-poky-linux/strace/strace-doc: PKGV changed from 6.0 [default] to 6.1 [default]
+packages/core2-32-poky-linux/strace/strace-locale: PV changed from "6.0" to "6.1"
+packages/core2-32-poky-linux/strace/strace-locale: PKGV changed from 6.0 [default] to 6.1 [default]
+packages/core2-32-poky-linux/strace/strace-ptest: PV changed from "6.0" to "6.1"
+packages/core2-32-poky-linux/strace/strace-ptest: FILELIST: added "/usr/lib/strace/ptest/tests/ioctl_termios /usr/lib/strace/ptest/tests/ioctl_termios-v /usr/lib/strace/ptest/tests/ioctl_tiocm.gen.test /usr/lib/strace/ptest/tests/ioctl_termios-v.gen.test /usr/lib/strace/ptest/tests/ioctl_termios.gen.test /usr/lib/strace/ptest/tests/ioctl_winsize /usr/lib/strace/ptest/tests/ioctl_tiocm /usr/lib/strace/ptest/tests/ioctl_winsize.gen.test /usr/lib/strace/ptest/tests/sysctl.gen.test /usr/lib/strace/ptest/tests/sysctl"
+packages/core2-32-poky-linux/strace/strace-ptest: PKGV changed from 6.0 [default] to 6.1 [default]
+packages/core2-32-poky-linux/strace/strace-ptest: PKGSIZE changed from 28157647 to 28230084 (+0%)
+packages/core2-32-poky-linux/strace/strace-src: PV changed from "6.0" to "6.1"
+packages/core2-32-poky-linux/strace/strace-src: FILELIST: directory renamed /usr/src/debug/strace/6.0-r0/src/linux/i386 -> /usr/src/debug/strace/6.1-r0/src/linux/i386, directory renamed /usr/src/debug/strace/6.0-r0/bundled/linux/include/uapi/mtd -> /usr/src/debug/strace/6.1-r0/bundled/linux/include/uapi/mtd, directory renamed /usr/src/debug/strace/6.0-r0/bundled/linux/include/uapi/rdma -> /usr/src/debug/strace/6.1-r0/bundled/linux/include/uapi/rdma, directory renamed /usr/src/debug/strace/6.0-r0/bundled/linux/include/uapi/asm -> /usr/src/debug/strace/6.1-r0/bundled/linux/include/uapi/asm, directory renamed /usr/src/debug/strace/6.0-r0/src -> /usr/src/debug/strace/6.1-r0/src, directory renamed /usr/src/debug/strace/6.0-r0/src/linux/x86_64 -> /usr/src/debug/strace/6.1-r0/src/linux/x86_64, directory renamed /usr/src/debug/strace/6.0-r0/src/linux/generic -> /usr/src/debug/strace/6.1-r0/src/linux/generic, directory renamed /usr/src/debug/strace/6.0-r0/bundled/linux/include/uapi/linux/netf
+ ilter -> /usr/src/debug/strace/6.1-r0/bundled/linux/include/uapi/linux/netfilter, directory renamed /usr/src/debug/strace/6.0-r0/src/gen -> /usr/src/debug/strace/6.1-r0/src/gen, directory renamed /usr/src/debug/strace/6.0-r0/bundled/linux/include/uapi/linux/netfilter/ipset -> /usr/src/debug/strace/6.1-r0/bundled/linux/include/uapi/linux/netfilter/ipset, directory renamed /usr/src/debug/strace/6.0-r0/bundled/linux/include/uapi/linux -> /usr/src/debug/strace/6.1-r0/bundled/linux/include/uapi/linux, removed "/usr/src/debug/strace/6.0-r0/tests/status-all.c /usr/src/debug/strace/6.0-r0/src/xlat/sigaltstack_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/close_range_flags.h /usr/src/debug/strace/6.0-r0/tests/nlattr_packet_diag_msg.c /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_ifla_info_data_tun_attrs.h /usr/src/debug/strace/6.0-r0/tests/rt_sigprocmask.c /usr/src/debug/strace/6.0-r0/tests/netlink_netlink_diag.c /usr/src/debug/strace/6.0-r0/src/xlat/uring_register_opcodes.h /usr/src/debug/stra
+ ce/6.0-r0/src/xlat/bpf_prog_flags.h /usr/src/debug/strace/6.0-r0/tests/nfnetlink_nft_compat.c /usr/src/debug/strace/6.0-r0/tests/mq.c /usr/src/debug/strace/6.0-r0/src/xlat/setns_types.h /usr/src/debug/strace/6.0-r0/tests/prctl-tid_address.c /usr/src/debug/strace/6.0-r0/tests/ioctl_kvm_run_auxstr_vcpu.c /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_framesize_types.h /usr/src/debug/strace/6.0-r0/src/xlat/getsock_ip_options.h /usr/src/debug/strace/6.0-r0/src/xlat/setsock_ip_options.h /usr/src/debug/strace/6.0-r0/tests/nlattr_dcbmsg.c /usr/src/debug/strace/6.0-r0/tests/nlattr_ndtmsg.c /usr/src/debug/strace/6.0-r0/tests/nlattr_tcamsg.c /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_input_types.h /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_tuner_types.h /usr/src/debug/strace/6.0-r0/tests/net-tpacket_stats.c /usr/src/debug/strace/6.0-r0/src/xlat/netlink_ack_flags.h /usr/src/debug/strace/6.0-r0/tests/nfnetlink_cttimeout.c /usr/src/debug/strace/6.0-r0/tests/tee.c /usr/src/debug/strace/6.0-r0/tests/n
+ etlink_crypto.c /usr/src/debug/strace/6.0-r0/src/xlat/fsopen_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/sync_file_range_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/bpf_test_run_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/pr_sched_core_pidtypes.h /usr/src/debug/strace/6.0-r0/tests/ioctl_perf-success.c /usr/src/debug/strace/6.0-r0/tests/setpgrp-exec.c /usr/src/debug/strace/6.0-r0/src/xlat/alg_sockaddr_flags.h /usr/src/debug/strace/6.0-r0/tests/s390_sthyi.c /usr/src/debug/strace/6.0-r0/tests/pkey_free.c /usr/src/debug/strace/6.0-r0/tests/pidfd_getfd.c /usr/src/debug/strace/6.0-r0/src/xlat/wait4_options.h /usr/src/debug/strace/6.0-r0/tests/fsync-y.c /usr/src/debug/strace/6.0-r0/tests/zeroargc.c /usr/src/debug/strace/6.0-r0/tests/prctl-arg2-intptr.c /usr/src/debug/strace/6.0-r0/src/xlat/ifstats_xstats_bridge_mcast_indices.h /usr/src/debug/strace/6.0-r0/src/xlat/perf_event_open_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/mpol_modes.h /usr/src/debug/strace/6.0-r0/src/xlat/epollfla
+ gs.h /usr/src/debug/strace/6.0-r0/src/xlat/netlink_new_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/skf_ad.h /usr/src/debug/strace/6.0-r0/src/xlat/key_perms.h /usr/src/debug/strace/6.0-r0/src/xlat/tee_ioctl_max_arg_size.h /usr/src/debug/strace/6.0-r0/tests/nfnetlink_ipset.c /usr/src/debug/strace/6.0-r0/tests/prctl-capbset.c /usr/src/debug/strace/6.0-r0/src/xlat/seccomp_ops.h /usr/src/debug/strace/6.0-r0/tests/faccessat-y--secontext.c /usr/src/debug/strace/6.0-r0/src/xlat/kd_key_ascii_keys.h /usr/src/debug/strace/6.0-r0/tests/userfaultfd.c /usr/src/debug/strace/6.0-r0/src/xlat/mctp_addrs.h /usr/src/debug/strace/6.0-r0/src/xlat/fsmount_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_tc_action_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/kd_key_tables.h /usr/src/debug/strace/6.0-r0/src/xlat/kd_keymap_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/counter_ioctl_component_types.h /usr/src/debug/strace/6.0-r0/src/xlat/unix_diag_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/btrfs_space
+ _info_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/sa_handler_values.h /usr/src/debug/strace/6.0-r0/src/xlat/sock_can_raw_options.h /usr/src/debug/strace/6.0-r0/tests/nlattr_ifla_brport.c /usr/src/debug/strace/6.0-r0/tests/print_user_desc.c /usr/src/debug/strace/6.0-r0/tests/chmod--secontext.c /usr/src/debug/strace/6.0-r0/src/xlat/evdev_ev.h /usr/src/debug/strace/6.0-r0/tests/poke.c /usr/src/debug/strace/6.0-r0/tests/poll.c /usr/src/debug/strace/6.0-r0/tests/swap.c /usr/src/debug/strace/6.0-r0/tests/acct.c /usr/src/debug/strace/6.0-r0/tests/caps.c /usr/src/debug/strace/6.0-r0/tests/dup2.c /usr/src/debug/strace/6.0-r0/tests/dup3.c /usr/src/debug/strace/6.0-r0/tests/iopl.c /usr/src/debug/strace/6.0-r0/tests/kcmp.c /usr/src/debug/strace/6.0-r0/tests/pipe.c /usr/src/debug/strace/6.0-r0/tests/run_expect_termsig.c /usr/src/debug/strace/6.0-r0/src/xlat/priorities.h /usr/src/debug/strace/6.0-r0/src/xlat/fsmagic.h /usr/src/debug/strace/6.0-r0/tests/restart_syscall.c /usr/src/debug/strace/6.
+ 0-r0/tests/readv.c /usr/src/debug/strace/6.0-r0/tests/rmdir.c /usr/src/debug/strace/6.0-r0/src/xlat/bpf_link_create_kprobe_multi_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/key_reqkeys.h /usr/src/debug/strace/6.0-r0/src/xlat/ipc_msg_flags.h /usr/src/debug/strace/6.0-r0/tests/nlattr_ifaddrmsg.c /usr/src/debug/strace/6.0-r0/tests/nlattr_ifinfomsg.c /usr/src/debug/strace/6.0-r0/tests/vhangup.c /usr/src/debug/strace/6.0-r0/tests/ioctl_nsfs.c /usr/src/debug/strace/6.0-r0/tests/file_handle--secontext.c /usr/src/debug/strace/6.0-r0/src/xlat/statx_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/statx_masks.h /usr/src/debug/strace/6.0-r0/tests/prctl-no-args.c /usr/src/debug/strace/6.0-r0/src/xlat/ifstats_xstats_bond_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/tcp_state_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/ptp_extts_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/adjtimex_modes.h /usr/src/debug/strace/6.0-r0/src/xlat/qipcrtr_ports.h /usr/src/debug/strace/6.0-r0/tests/netlink_selinux.
+ c /usr/src/debug/strace/6.0-r0/tests/aio.c /usr/src/debug/strace/6.0-r0/src/xlat/icmpfilterflags.h /usr/src/debug/strace/6.0-r0/tests/remap_file_pages.c /usr/src/debug/strace/6.0-r0/tests/ioctl_kvm_run.c /usr/src/debug/strace/6.0-r0/tests/rt_sigaction.c /usr/src/debug/strace/6.0-r0/src/xlat/pr_sud_cmds.h /usr/src/debug/strace/6.0-r0/tests/newfstatat.c /usr/src/debug/strace/6.0-r0/tests/ioctl_v4l2-success.c /usr/src/debug/strace/6.0-r0/src/xlat/sysctl_net_ipv4_conf.h /usr/src/debug/strace/6.0-r0/tests/set_sigblock.c /usr/src/debug/strace/6.0-r0/src/xlat/sigill_codes.h /usr/src/debug/strace/6.0-r0/tests/sock_filter-v.c /usr/src/debug/strace/6.0-r0/tests/ioctl_dm.c /usr/src/debug/strace/6.0-r0/src/xlat/ifstats_offload_attrs.h /usr/src/debug/strace/6.0-r0/tests/ioctl_perf.c /usr/src/debug/strace/6.0-r0/tests/test_ucopy.c /usr/src/debug/strace/6.0-r0/tests/test_ucopy.h /usr/src/debug/strace/6.0-r0/tests/netlink_kobject_uevent.c /usr/src/debug/strace/6.0-r0/tests/erestartsys.c /usr/src/de
+ bug/strace/6.0-r0/src/xlat/fdflags.h /usr/src/debug/strace/6.0-r0/src/xlat/af_packet_versions.h /usr/src/debug/strace/6.0-r0/tests/semtimedop-ipc.c /usr/src/debug/strace/6.0-r0/src/xlat/sigact_flags.h /usr/src/debug/strace/6.0-r0/tests/hexquote_strndup.c /usr/src/debug/strace/6.0-r0/tests/prctl-unalign.c /usr/src/debug/strace/6.0-r0/src/xlat/pr_sched_core_cmds.h /usr/src/debug/strace/6.0-r0/src/xlat/ifstats_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/pr_pac_enabled_keys.h /usr/src/debug/strace/6.0-r0/src/xlat/mbind_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/inet_diag_ulp_info_mptcp_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/advise.h /usr/src/debug/strace/6.0-r0/src/xlat/netlink_sk_meminfo_indices.h /usr/src/debug/strace/6.0-r0/src/xlat/tee_ioctl_param_attr_types.h /usr/src/debug/strace/6.0-r0/src/xlat/hdio_busstates.h /usr/src/debug/strace/6.0-r0/tests/fadvise64_64.c /usr/src/debug/strace/6.0-r0/tests/clock_nanosleep.c /usr/src/debug/strace/6.0-r0/tests/inject-nf.c /usr/src/
+ debug/strace/6.0-r0/tests/fill_memory.c /usr/src/debug/strace/6.0-r0/tests/nlattr_inet_diag_msg.c /usr/src/debug/strace/6.0-r0/tests/nlattr_unix_diag_msg.c /usr/src/debug/strace/6.0-r0/tests/sched_rr_get_interval.c /usr/src/debug/strace/6.0-r0/src/xlat/can_protocols.h /usr/src/debug/strace/6.0-r0/tests/ioctl_watchdog.c /usr/src/debug/strace/6.0-r0/tests/localtime.c /usr/src/debug/strace/6.0-r0/tests/faccessat--secontext.c /usr/src/debug/strace/6.0-r0/src/xlat/nf_ipset_msg_types.h /usr/src/debug/strace/6.0-r0/tests/ioctl_fs_f.c /usr/src/debug/strace/6.0-r0/tests/pipe2.c /usr/src/debug/strace/6.0-r0/tests/ppoll.c /usr/src/debug/strace/6.0-r0/tests/alarm.c /usr/src/debug/strace/6.0-r0/tests/btrfs.c /usr/src/debug/strace/6.0-r0/tests/delay.c /usr/src/debug/strace/6.0-r0/tests/dirfd.c /usr/src/debug/strace/6.0-r0/src/xlat/fan_init_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/fan_mark_flags.h /usr/src/debug/strace/6.0-r0/tests/ioctl.c /usr/src/debug/strace/6.0-r0/tests/lseek.c /usr/src/d
+ ebug/strace/6.0-r0/src/xlat/ebpf_mode.h /usr/src/debug/strace/6.0-r0/src/xlat/ebpf_regs.h /usr/src/debug/strace/6.0-r0/src/xlat/ebpf_size.h /usr/src/debug/strace/6.0-r0/tests/xettimeofday.c /usr/src/debug/strace/6.0-r0/src/xlat/get_mempolicy_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/gpio_event_flags.h /usr/src/debug/strace/6.0-r0/tests/semop.c /usr/src/debug/strace/6.0-r0/tests/setns.c /usr/src/debug/strace/6.0-r0/src/xlat/uring_enter_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/af_packet_types.h /usr/src/debug/strace/6.0-r0/tests/inotify.c /usr/src/debug/strace/6.0-r0/src/xlat/bpf_map_types.h /usr/src/debug/strace/6.0-r0/tests/qual_fault.c /usr/src/debug/strace/6.0-r0/tests/get_page_size.c /usr/src/debug/strace/6.0-r0/tests/prctl-sme.c /usr/src/debug/strace/6.0-r0/tests/prctl-sve.c /usr/src/debug/strace/6.0-r0/tests/oldselect.c /usr/src/debug/strace/6.0-r0/tests/readlinkat.c /usr/src/debug/strace/6.0-r0/tests/tracer_ppid_pgid_sid.c /usr/src/debug/strace/6.0-r0/src/xlat/fan_eve
+ nt_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/perf_type_id.h /usr/src/debug/strace/6.0-r0/tests/ioctl_evdev.c /usr/src/debug/strace/6.0-r0/src/xlat/keyctl_commands.h /usr/src/debug/strace/6.0-r0/src/xlat/netlink_protocols.h /usr/src/debug/strace/6.0-r0/src/xlat/sysctl_net_ipv6.h /usr/src/debug/strace/6.0-r0/tests/signal_receive.c /usr/src/debug/strace/6.0-r0/src/xlat/xfs_dqblk_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/xfs_quota_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/pr_spec_get_store_bypass_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/pr_spec_set_store_bypass_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/semctl_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/shmctl_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/pollflags.h /usr/src/debug/strace/6.0-r0/src/xlat/ifstats_xstats_type_attrs.h /usr/src/debug/strace/6.0-r0/tests/sockopt-sol_socket.c /usr/src/debug/strace/6.0-r0/src/xlat/ptp_perout_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_tuner_capabilities.h /usr/src/
+ debug/strace/6.0-r0/src/xlat/kd_kbd_modes.h /usr/src/debug/strace/6.0-r0/src/xlat/kd_kbd_types.h /usr/src/debug/strace/6.0-r0/src/xlat/kd_key_types.h /usr/src/debug/strace/6.0-r0/tests/sched_xetparam.c /usr/src/debug/strace/6.0-r0/src/xlat/seccomp_mode.h /usr/src/debug/strace/6.0-r0/src/xlat/bsg_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/msg_flags.h /usr/src/debug/strace/6.0-r0/tests/getgid32.c /usr/src/debug/strace/6.0-r0/tests/getuid32.c /usr/src/debug/strace/6.0-r0/src/xlat/counter_ioctl_scopes.h /usr/src/debug/strace/6.0-r0/src/xlat/nl_sock_diag_types.h /usr/src/debug/strace/6.0-r0/src/xlat/keyctl_move_flags.h /usr/src/debug/strace/6.0-r0/tests/prctl-set-ptracer-success.c /usr/src/debug/strace/6.0-r0/src/xlat/uring_iowq_acct.h /usr/src/debug/strace/6.0-r0/tests/oldselect-efault.c /usr/src/debug/strace/6.0-r0/src/xlat/nf_ctnetlink_exp_msg_types.h /usr/src/debug/strace/6.0-r0/src/xlat/adjtimex_status.h /usr/src/debug/strace/6.0-r0/src/xlat/kexec_file_load_flags.h /usr/src/debug
+ /strace/6.0-r0/tests/ioctl_kvm_run_common.c /usr/src/debug/strace/6.0-r0/tests/pipe_maxfd.c /usr/src/debug/strace/6.0-r0/src/xlat/evdev_autorepeat.h /usr/src/debug/strace/6.0-r0/src/xlat/msgctl_flags.h /usr/src/debug/strace/6.0-r0/tests/seccomp_get_action_avail.c /usr/src/debug/strace/6.0-r0/src/xlat/ubi_volume_props.h /usr/src/debug/strace/6.0-r0/tests/block_reset_raise_run.c /usr/src/debug/strace/6.0-r0/src/xlat/mtd_flags_options.h /usr/src/debug/strace/6.0-r0/tests/create_nl_socket.c /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_neightbl_attrs.h /usr/src/debug/strace/6.0-r0/tests/fchmodat.c /usr/src/debug/strace/6.0-r0/tests/fchmod-y--secontext.c /usr/src/debug/strace/6.0-r0/tests/xgetdents.c /usr/src/debug/strace/6.0-r0/src/xlat/routing_types.h /usr/src/debug/strace/6.0-r0/tests/nfnetlink_osf.c /usr/src/debug/strace/6.0-r0/src/xlat/waitid_types.h /usr/src/debug/strace/6.0-r0/tests/adjtimex.c /usr/src/debug/strace/6.0-r0/tests/unix-pair-send-recv.c /usr/src/debug/strace/6.0-r0/src/x
+ lat/rtnl_addr_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_link_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_nsid_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_rule_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/bpf_prog_types.h /usr/src/debug/strace/6.0-r0/src/xlat/btrfs_dev_replace_cmds.h /usr/src/debug/strace/6.0-r0/tests/sigprocmask.c /usr/src/debug/strace/6.0-r0/tests/so_linger.c /usr/src/debug/strace/6.0-r0/src/xlat/sigfpe_codes.h /usr/src/debug/strace/6.0-r0/src/xlat/fiemap_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/mremap_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/pidfd_open_flags.h /usr/src/debug/strace/6.0-r0/tests/netlink_inet_diag.c /usr/src/debug/strace/6.0-r0/tests/netlink_sock_diag.c /usr/src/debug/strace/6.0-r0/tests/netlink_unix_diag.c /usr/src/debug/strace/6.0-r0/tests/nlattr_ifla.h /usr/src/debug/strace/6.0-r0/tests/strace-n.c /usr/src/debug/strace/6.0-r0/tests/ioperm.c /usr/src/debug/strace/6.0-r0/src/xlat/snmp_icmp6_stats.h /usr/src/debug/s
+ trace/6.0-r0/tests/execveat--secontext.c /usr/src/debug/strace/6.0-r0/src/xlat/fspick_flags.h /usr/src/debug/strace/6.0-r0/tests/ioprio.c /usr/src/debug/strace/6.0-r0/src/xlat/tcp_states.h /usr/src/debug/strace/6.0-r0/tests/prctl-syscall-user-dispatch.c /usr/src/debug/strace/6.0-r0/src/xlat/bpf_miscop.h /usr/src/debug/strace/6.0-r0/src/xlat/bpf_op_alu.h /usr/src/debug/strace/6.0-r0/src/xlat/bpf_op_jmp.h /usr/src/debug/strace/6.0-r0/src/xlat/bpf_class.h /usr/src/debug/strace/6.0-r0/src/xlat/rwf_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_ifla_events.h /usr/src/debug/strace/6.0-r0/src/xlat/seccomp_ret_action.h /usr/src/debug/strace/6.0-r0/src/xlat/mtd_file_mode_options.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_tc_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/seccomp_ioctl_addfd_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/uffd_register_ioctl_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/at_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/dm_flags.h /usr/src/debug/strace/6.0-r0
+ /tests/nlattr_ifla_linkinfo.c /usr/src/debug/strace/6.0-r0/src/xlat/mdb_states.h /usr/src/debug/strace/6.0-r0/tests/unblock_reset_raise.c /usr/src/debug/strace/6.0-r0/tests/setgroups.c /usr/src/debug/strace/6.0-r0/tests/getgroups.c /usr/src/debug/strace/6.0-r0/src/xlat/btrfs_csum_types.h /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_tuner_audmodes.h /usr/src/debug/strace/6.0-r0/tests/net-yy-netlink.c /usr/src/debug/strace/6.0-r0/tests/strace-x.c /usr/src/debug/strace/6.0-r0/tests/ioctl_tee.c /usr/src/debug/strace/6.0-r0/src/xlat/btrfs_balance_state.h /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_streaming_capabilities.h /usr/src/debug/strace/6.0-r0/tests/getcpu.c /usr/src/debug/strace/6.0-r0/src/xlat/arp_hardware_types.h /usr/src/debug/strace/6.0-r0/src/xlat/btrfs_balance_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/nfc_sockaddr_protocols.h /usr/src/debug/strace/6.0-r0/tests/clone_parent.c /usr/src/debug/strace/6.0-r0/tests/clone_ptrace.c /usr/src/debug/strace/6.0-r0/tests/epoll_pwait2.c
+  /usr/src/debug/strace/6.0-r0/src/xlat/netlink_delete_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/ioprio_class.h /usr/src/debug/strace/6.0-r0/tests/ipc_shm.c /usr/src/debug/strace/6.0-r0/src/xlat/memfd_secret_flags.h /usr/src/debug/strace/6.0-r0/tests/unix-pair-sendto-recvfrom.c /usr/src/debug/strace/6.0-r0/src/xlat/ebpf_class.h /usr/src/debug/strace/6.0-r0/src/xlat/fiemap_extent_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/hw_breakpoint_type.h /usr/src/debug/strace/6.0-r0/tests/prctl-seccomp-filter-v.c /usr/src/debug/strace/6.0-r0/src/xlat/kd_key_fn_key_vals.h /usr/src/debug/strace/6.0-r0/tests/s390_pci_mmio_read_write.c /usr/src/debug/strace/6.0-r0/tests/status-successful.c /usr/src/debug/strace/6.0-r0/tests/netlink_netfilter.c /usr/src/debug/strace/6.0-r0/tests/syslog.c /usr/src/debug/strace/6.0-r0/tests/futimesat.c /usr/src/debug/strace/6.0-r0/tests/kernel_old_timex.h /usr/src/debug/strace/6.0-r0/src/xlat/uring_sqe_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/netlink_diag_at
+ trs.h /usr/src/debug/strace/6.0-r0/tests/segv_accerr.c /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_nha_res_group_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/perf_branch_sample_type.h /usr/src/debug/strace/6.0-r0/tests/munlockall.c /usr/src/debug/strace/6.0-r0/tests/getpgrp.c /usr/src/debug/strace/6.0-r0/src/xlat/inet_diag_ulp_info_tls_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/ethernet_protocols.h /usr/src/debug/strace/6.0-r0/tests/nlattr_fib_rule_hdr.c /usr/src/debug/strace/6.0-r0/src/xlat/clone_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_ipmra_msg_types.h /usr/src/debug/strace/6.0-r0/src/xlat/falloc_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_rta_metrics_attrs.h /usr/src/debug/strace/6.0-r0/tests/nlattr_tca_stab.c /usr/src/debug/strace/6.0-r0/src/xlat/keyctl_pkey_ops.h /usr/src/debug/strace/6.0-r0/tests/libsocketcall.c /usr/src/debug/strace/6.0-r0/tests/umovestr-illptr.c /usr/src/debug/strace/6.0-r0/src/xlat/nf_osf_msg_types.h /usr/src/debug/strace/6.0-r0/tests/x
+ et_robust_list.c /usr/src/debug/strace/6.0-r0/src/xlat/sock_ax25_options.h /usr/src/debug/strace/6.0-r0/src/xlat/sock_caif_options.h /usr/src/debug/strace/6.0-r0/src/xlat/sock_dccp_options.h /usr/src/debug/strace/6.0-r0/src/xlat/sock_ipv6_options.h /usr/src/debug/strace/6.0-r0/src/xlat/sock_irda_options.h /usr/src/debug/strace/6.0-r0/src/xlat/snmp_ip_stats.h /usr/src/debug/strace/6.0-r0/src/xlat/sock_iucv_options.h /usr/src/debug/strace/6.0-r0/src/xlat/sock_sctp_options.h /usr/src/debug/strace/6.0-r0/src/xlat/sock_tipc_options.h /usr/src/debug/strace/6.0-r0/tests/error_msg.c /usr/src/debug/strace/6.0-r0/src/xlat/sysctl_root.h /usr/src/debug/strace/6.0-r0/src/xlat/x86_xfeatures.h /usr/src/debug/strace/6.0-r0/tests/xetpriority.c /usr/src/debug/strace/6.0-r0/src/xlat/whence_codes.h /usr/src/debug/strace/6.0-r0/src/xlat/audit_arch.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_tca_stab_attrs.h /usr/src/debug/strace/6.0-r0/tests/so_peercred.c /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_cont
+ rol_ids.h /usr/src/debug/strace/6.0-r0/src/xlat/key_spec.h /usr/src/debug/strace/6.0-r0/tests/open_tree.c /usr/src/debug/strace/6.0-r0/src/xlat/scmvals.h /usr/src/debug/strace/6.0-r0/tests/ioctl_mtd.c /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_tca_act_hw_stats.h /usr/src/debug/strace/6.0-r0/tests/sendfile64.c /usr/src/debug/strace/6.0-r0/tests/mmsg_name.c /usr/src/debug/strace/6.0-r0/tests/looping_threads.c /usr/src/debug/strace/6.0-r0/src/xlat/phonet_protocols.h /usr/src/debug/strace/6.0-r0/tests/renameat2.c /usr/src/debug/strace/6.0-r0/tests/kexec_load.c /usr/src/debug/strace/6.0-r0/src/xlat/ubi_volume_types.h /usr/src/debug/strace/6.0-r0/src/xlat/bluetooth_l2_psm.h /usr/src/debug/strace/6.0-r0/src/xlat/inet_diag_extended_flags.h /usr/src/debug/strace/6.0-r0/tests/qual_inject-signal.c /usr/src/debug/strace/6.0-r0/src/xlat/btrfs_snap_flags_v2.h /usr/src/debug/strace/6.0-r0/tests/inotify_init.c /usr/src/debug/strace/6.0-r0/src/xlat/kcm_protocols.h /usr/src/debug/strace/6.0-r0/src/xl
+ at/sysctl_kern.h /usr/src/debug/strace/6.0-r0/tests/status-none-threads.c /usr/src/debug/strace/6.0-r0/tests/seccomp-filter-v.c /usr/src/debug/strace/6.0-r0/tests/ioctl_fiemap.c /usr/src/debug/strace/6.0-r0/tests/net-packet_mreq.c /usr/src/debug/strace/6.0-r0/tests/nlattr_ifaddrlblmsg.c /usr/src/debug/strace/6.0-r0/tests/nfnetlink_nftables.c /usr/src/debug/strace/6.0-r0/src/xlat/bootflags1.h /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_memories.h /usr/src/debug/strace/6.0-r0/src/xlat/bootflags2.h /usr/src/debug/strace/6.0-r0/src/xlat/bootflags3.h /usr/src/debug/strace/6.0-r0/src/xlat/quotatypes.h /usr/src/debug/strace/6.0-r0/src/xlat/inet_diag_shutdown_flags.h /usr/src/debug/strace/6.0-r0/tests/time_enjoyment.h /usr/src/debug/strace/6.0-r0/tests/nlattr_rtgenmsg.c /usr/src/debug/strace/6.0-r0/src/xlat/unix_diag_show.h /usr/src/debug/strace/6.0-r0/src/xlat/sigtrap_codes.h /usr/src/debug/strace/6.0-r0/src/xlat/sock_pppol2tp_options.h /usr/src/debug/strace/6.0-r0/tests/nfnetlink_queue.c /
+ usr/src/debug/strace/6.0-r0/src/xlat/itimer_which.h /usr/src/debug/strace/6.0-r0/src/xlat/nl_audit_types.h /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_buf_flags_ts_type.h /usr/src/debug/strace/6.0-r0/src/xlat/btrfs_balance_ctl_cmds.h /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_buf_flags_ts_src.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_neigh_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_route_attrs.h /usr/src/debug/strace/6.0-r0/tests/mlock2.c /usr/src/debug/strace/6.0-r0/tests/block_reset_run.c /usr/src/debug/strace/6.0-r0/tests/umovestr_cached_adjacent.c /usr/src/debug/strace/6.0-r0/tests/kill_child.c /usr/src/debug/strace/6.0-r0/tests/pidfd_send_signal.c /usr/src/debug/strace/6.0-r0/src/xlat/pr_tsc.h /usr/src/debug/strace/6.0-r0/src/xlat/btrfs_send_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/perf_ioctl_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/rxrpc_services.h /usr/src/debug/strace/6.0-r0/src/xlat/smc_diag_mode.h /usr/src/debug/strace/6.0-r0/tests/umoven-illptr.c /usr/
+ src/debug/strace/6.0-r0/tests/ioctl_v4l2.c /usr/src/debug/strace/6.0-r0/src/xlat/sigbus_codes.h /usr/src/debug/strace/6.0-r0/tests/status-none.c /usr/src/debug/strace/6.0-r0/src/xlat/btrfs_features_compat_ro.h /usr/src/debug/strace/6.0-r0/tests/poke-sendfile.c /usr/src/debug/strace/6.0-r0/tests/kernel_old_timespec.h /usr/src/debug/strace/6.0-r0/tests/nanosleep.c /usr/src/debug/strace/6.0-r0/src/xlat/efd_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/sfd_flags.h /usr/src/debug/strace/6.0-r0/tests/sched_xetscheduler.c /usr/src/debug/strace/6.0-r0/tests/sxetmask.c /usr/src/debug/strace/6.0-r0/tests/net-yy-inet.c /usr/src/debug/strace/6.0-r0/src/xlat/sock_packet_options.h /usr/src/debug/strace/6.0-r0/src/xlat/open_mode_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/open_tree_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_control_query_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/kd_modes.h /usr/src/debug/strace/6.0-r0/src/xlat/blkpg_ops.h /usr/src/debug/strace/6.0-r0/src/xlat/futexbi
+ tset.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_tca_act_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/ptrace_cmds.h /usr/src/debug/strace/6.0-r0/tests/netlink_generic.c /usr/src/debug/strace/6.0-r0/src/xlat/mtd_mode_options.h /usr/src/debug/strace/6.0-r0/src/xlat/mtd_type_options.h /usr/src/debug/strace/6.0-r0/tests/recv-MSG_TRUNC.c /usr/src/debug/strace/6.0-r0/src/xlat/btrfs_dev_stats_values.h /usr/src/debug/strace/6.0-r0/tests/file_handle.c /usr/src/debug/strace/6.0-r0/src/xlat/kd_default_led_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/lirc_modes.h /usr/src/debug/strace/6.0-r0/src/xlat/sock_options.h /usr/src/debug/strace/6.0-r0/tests/fchmod.c /usr/src/debug/strace/6.0-r0/tests/getcwd.c /usr/src/debug/strace/6.0-r0/tests/getgid.c /usr/src/debug/strace/6.0-r0/src/xlat/uring_op_flags.h /usr/src/debug/strace/6.0-r0/tests/getpid.c /usr/src/debug/strace/6.0-r0/tests/getsid.c /usr/src/debug/strace/6.0-r0/tests/gettid.c /usr/src/debug/strace/6.0-r0/tests/getuid.c /usr/src/debug/strac
+ e/6.0-r0/tests/kexec_file_load.c /usr/src/debug/strace/6.0-r0/tests/waitid.c /usr/src/debug/strace/6.0-r0/tests/landlock_add_rule.c /usr/src/debug/strace/6.0-r0/tests/preadv2-pwritev2.c /usr/src/debug/strace/6.0-r0/src/xlat/netfilter_versions.h /usr/src/debug/strace/6.0-r0/tests/ioctl_seccomp.c /usr/src/debug/strace/6.0-r0/tests/mount_setattr.c /usr/src/debug/strace/6.0-r0/tests/kill.c /usr/src/debug/strace/6.0-r0/tests/link.c /usr/src/debug/strace/6.0-r0/tests/mmap.c /usr/src/debug/strace/6.0-r0/tests/mmsg.c /usr/src/debug/strace/6.0-r0/tests/open.c /usr/src/debug/strace/6.0-r0/tests/sync.c /usr/src/debug/strace/6.0-r0/tests/time.c /usr/src/debug/strace/6.0-r0/tests/ioctl_ptp.c /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_mdba_mdb_entry_attrs.h /usr/src/debug/strace/6.0-r0/tests/sethostname.c /usr/src/debug/strace/6.0-r0/src/xlat/bpf_task_fd_type.h /usr/src/debug/strace/6.0-r0/tests/fflush.c /usr/src/debug/strace/6.0-r0/tests/print_maxfd.c /usr/src/debug/strace/6.0-r0/src/xlat/baud_o
+ ptions.h /usr/src/debug/strace/6.0-r0/tests/semtimedop-syscall.c /usr/src/debug/strace/6.0-r0/src/xlat/memfd_create_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_nexthop_grp_types.h /usr/src/debug/strace/6.0-r0/src/xlat/kd_key_dead_keys.h /usr/src/debug/strace/6.0-r0/src/xlat/neighbor_cache_entry_flags.h /usr/src/debug/strace/6.0-r0/tests/ftruncate64.c /usr/src/debug/strace/6.0-r0/src/xlat/ptp_pin_funcs.h /usr/src/debug/strace/6.0-r0/tests/semtimedop-common.c /usr/src/debug/strace/6.0-r0/tests/answer.c /usr/src/debug/strace/6.0-r0/tests/fchdir.c /usr/src/debug/strace/6.0-r0/tests/landlock_create_ruleset.c /usr/src/debug/strace/6.0-r0/tests/nlattr.c /usr/src/debug/strace/6.0-r0/tests/set_sigign.c /usr/src/debug/strace/6.0-r0/tests/subdir.c /usr/src/debug/strace/6.0-r0/src/xlat/bpf_attach_flags.h /usr/src/debug/strace/6.0-r0/tests/bpf.c /usr/src/debug/strace/6.0-r0/tests/umovestr2.c /usr/src/debug/strace/6.0-r0/src/xlat/uring_setup_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/hc
+ i_channels.h /usr/src/debug/strace/6.0-r0/src/xlat/btrfs_dev_replace_state.h /usr/src/debug/strace/6.0-r0/src/xlat/sock_ip_options.h /usr/src/debug/strace/6.0-r0/tests/sockopt-timestamp.c /usr/src/debug/strace/6.0-r0/src/xlat/lockfcmds.h /usr/src/debug/strace/6.0-r0/src/xlat/socktypes.h /usr/src/debug/strace/6.0-r0/tests/fanotify_mark--secontext.c /usr/src/debug/strace/6.0-r0/tests/preadv.c /usr/src/debug/strace/6.0-r0/src/xlat/btrfs_features_compat.h /usr/src/debug/strace/6.0-r0/src/xlat/pkey_access.h /usr/src/debug/strace/6.0-r0/tests/prctl-pdeathsig.c /usr/src/debug/strace/6.0-r0/tests/siginfo.c /usr/src/debug/strace/6.0-r0/tests/sysinfo.c /usr/src/debug/strace/6.0-r0/tests/nlattr_ndmsg.c /usr/src/debug/strace/6.0-r0/tests/nlattr_nhmsg.c /usr/src/debug/strace/6.0-r0/tests/nlattr_rtmsg.c /usr/src/debug/strace/6.0-r0/tests/redirect-fds.c /usr/src/debug/strace/6.0-r0/tests/nlattr_tcmsg.c /usr/src/debug/strace/6.0-r0/tests/ioctl_fs_x.c /usr/src/debug/strace/6.0-r0/tests/vmsplice.c /u
+ sr/src/debug/strace/6.0-r0/src/xlat/rtnl_ifla_ext_filter_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/btrfs_fs_info_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/delete_module_flags.h /usr/src/debug/strace/6.0-r0/tests/preadv-pwritev.c /usr/src/debug/strace/6.0-r0/src/xlat/mount_attr_propagation.h /usr/src/debug/strace/6.0-r0/src/xlat/smc_diag_extended_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/hdio_drive_cmds.h /usr/src/debug/strace/6.0-r0/tests/sockopt-sol_netlink.c /usr/src/debug/strace/6.0-r0/src/xlat/ip_cmsg_types.h /usr/src/debug/strace/6.0-r0/src/xlat/ptrace_syscall_info_op.h /usr/src/debug/strace/6.0-r0/tests/prctl-dumpable.c /usr/src/debug/strace/6.0-r0/src/xlat/sigsegv_codes.h /usr/src/debug/strace/6.0-r0/src/xlat/semop_flags.h /usr/src/debug/strace/6.0-r0/tests/nlattr_ifla_af_inet6.h /usr/src/debug/strace/6.0-r0/src/xlat/uffd_register_mode_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/aio_iocb_flags.h /usr/src/debug/strace/6.0-r0/tests/xgetrlimit.c /usr/src/debug/stra
+ ce/6.0-r0/src/xlat/bpf_file_mode_flags.h /usr/src/debug/strace/6.0-r0/tests/mlockall.c /usr/src/debug/strace/6.0-r0/src/xlat/syslog_action_type.h /usr/src/debug/strace/6.0-r0/tests/msg_name.c /usr/src/debug/strace/6.0-r0/tests/sockname.c /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_colorspaces.h /usr/src/debug/strace/6.0-r0/tests/old_mmap.c /usr/src/debug/strace/6.0-r0/src/xlat/btrfs_qgroup_status_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/ifstats_xstats_bond_3ad_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/packet_diag_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/ptrace_setoptions_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/sigsys_codes.h /usr/src/debug/strace/6.0-r0/src/xlat/kd_key_shift_keys.h /usr/src/debug/strace/6.0-r0/tests/getrandom.c /usr/src/debug/strace/6.0-r0/src/xlat/evdev_keycode.h /usr/src/debug/strace/6.0-r0/src/xlat/mmap_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/kvm_exit_reason.h /usr/src/debug/strace/6.0-r0/src/xlat/swap_flags.h /usr/src/debug/strace/6.0-r0
+ /tests/s390_guarded_storage.c /usr/src/debug/strace/6.0-r0/tests/pidns-cache.c /usr/src/debug/strace/6.0-r0/tests/ioctl_random.c /usr/src/debug/strace/6.0-r0/src/xlat/tls_info_configs.h /usr/src/debug/strace/6.0-r0/tests/fadvise64.c /usr/src/debug/strace/6.0-r0/tests/pidfd_open.c /usr/src/debug/strace/6.0-r0/src/xlat/if_dqblk_valid.h /usr/src/debug/strace/6.0-r0/tests/qual_inject-error-signal.c /usr/src/debug/strace/6.0-r0/src/xlat/sock_bluetooth_options.h /usr/src/debug/strace/6.0-r0/src/xlat/fs_ioc_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/sched_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/multicast_router_types.h /usr/src/debug/strace/6.0-r0/src/xlat/kcmp_types.h /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_control_id_bases.h /usr/src/debug/strace/6.0-r0/src/xlat/evdev_ff_types.h /usr/src/debug/strace/6.0-r0/tests/getdents64.c /usr/src/debug/strace/6.0-r0/tests/test_printpath.c /usr/src/debug/strace/6.0-r0/src/xlat/sock_rxrpc_options.h /usr/src/debug/strace/6.0-r0/src/xlat/soc
+ k_vsock_options.h /usr/src/debug/strace/6.0-r0/src/xlat/nf_ulog_msg_types.h /usr/src/debug/strace/6.0-r0/src/xlat/landlock_create_ruleset_flags.h /usr/src/debug/strace/6.0-r0/tests/setfsugid.c /usr/src/debug/strace/6.0-r0/tests/setreugid.c /usr/src/debug/strace/6.0-r0/src/xlat/kd_font_ops.h /usr/src/debug/strace/6.0-r0/src/xlat/rename_flags.h /usr/src/debug/strace/6.0-r0/tests/fsconfig.c /usr/src/debug/strace/6.0-r0/src/xlat/inet_diag_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/kd_key_fn_keys.h /usr/src/debug/strace/6.0-r0/tests/check_sigign.c /usr/src/debug/strace/6.0-r0/tests/memfd_secret.c /usr/src/debug/strace/6.0-r0/src/xlat/pr_set_vma.h /usr/src/debug/strace/6.0-r0/src/xlat/nl_netfilter_msg_types.h /usr/src/debug/strace/6.0-r0/tests/symlinkat.c /usr/src/debug/strace/6.0-r0/src/xlat/move_mount_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/move_pages_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/ioctl_dirs.h /usr/src/debug/strace/6.0-r0/src/xlat/btrfs_compress_types.h /usr/src
+ /debug/strace/6.0-r0/src/xlat/bpf_attach_type.h /usr/src/debug/strace/6.0-r0/src/xlat/siginfo_codes.h /usr/src/debug/strace/6.0-r0/tests/stack-fcall.c /usr/src/debug/strace/6.0-r0/tests/stack-fcall.h /usr/src/debug/strace/6.0-r0/src/xlat/lwtunnel_encap_types.h /usr/src/debug/strace/6.0-r0/src/xlat/pr_set_mm.h /usr/src/debug/strace/6.0-r0/src/xlat/neighbor_cache_entry_states.h /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_pix_fmts.h /usr/src/debug/strace/6.0-r0/src/xlat/compat_ptrace_cmds.h /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_sdr_fmts.h /usr/src/debug/strace/6.0-r0/src/xlat/gpio_v2_line_flags.h /usr/src/debug/strace/6.0-r0/tests/process_madvise.c /usr/src/debug/strace/6.0-r0/tests/truncate64.c /usr/src/debug/strace/6.0-r0/tests/fcntl-common.c /usr/src/debug/strace/6.0-r0/tests/semop-common.c /usr/src/debug/strace/6.0-r0/tests/prctl-tsc.c /usr/src/debug/strace/6.0-r0/tests/sockaddr_xlat.c /usr/src/debug/strace/6.0-r0/src/xlat/usagewho.h /usr/src/debug/strace/6.0-r0/tests/status-un
+ finished.c /usr/src/debug/strace/6.0-r0/tests/nfnetlink_cthelper.c /usr/src/debug/strace/6.0-r0/src/xlat/btrfs_qgroup_ctl_cmds.h /usr/src/debug/strace/6.0-r0/src/xlat/mount_flags.h /usr/src/debug/strace/6.0-r0/tests/getresugid.c /usr/src/debug/strace/6.0-r0/tests/setresugid.c /usr/src/debug/strace/6.0-r0/src/xlat/inotify_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/mctl_sync.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_ifla_vfinfo_list_attrs.h /usr/src/debug/strace/6.0-r0/tests/setrlimit.c /usr/src/debug/strace/6.0-r0/src/xlat/uring_restriction_opcodes.h /usr/src/debug/strace/6.0-r0/src/xlat/seccomp_filter_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/btrfs_balance_args.h /usr/src/debug/strace/6.0-r0/src/xlat/inotify_init_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/perf_hw_cache_id.h /usr/src/debug/strace/6.0-r0/src/xlat/fsmount_attr_flags.h /usr/src/debug/strace/6.0-r0/tests/pwritev.c /usr/src/debug/strace/6.0-r0/src/xlat/ieee802154_pan_ids.h /usr/src/debug/strace/6.0-r0/tests/g
+ et_process_reaper.c /usr/src/debug/strace/6.0-r0/tests/nlattr_ifla_proto_down_reason.c /usr/src/debug/strace/6.0-r0/tests/truncate.c /usr/src/debug/strace/6.0-r0/tests/copy_file_range.c /usr/src/debug/strace/6.0-r0/tests/sync_file_range.c /usr/src/debug/strace/6.0-r0/src/xlat/sock_alg_options.h /usr/src/debug/strace/6.0-r0/src/xlat/sock_ipx_options.h /usr/src/debug/strace/6.0-r0/src/xlat/sock_kcm_options.h /usr/src/debug/strace/6.0-r0/src/xlat/sock_llc_options.h /usr/src/debug/strace/6.0-r0/src/xlat/sock_pnp_options.h /usr/src/debug/strace/6.0-r0/src/xlat/sock_raw_options.h /usr/src/debug/strace/6.0-r0/src/xlat/sock_rds_options.h /usr/src/debug/strace/6.0-r0/src/xlat/sock_tcp_options.h /usr/src/debug/strace/6.0-r0/src/xlat/sock_tls_options.h /usr/src/debug/strace/6.0-r0/src/xlat/sock_udp_options.h /usr/src/debug/strace/6.0-r0/src/xlat/landlock_ruleset_access_fs.h /usr/src/debug/strace/6.0-r0/tests/ifindex.c /usr/src/debug/strace/6.0-r0/src/xlat/crypto_nl_attrs.h /usr/src/debug/strac
+ e/6.0-r0/src/xlat/rtnl_ifla_proto_down_reason_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/ebpf_op_jmp.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_ifla_af_spec_mctp_attrs.h /usr/src/debug/strace/6.0-r0/tests/clock_adjtime-common.c /usr/src/debug/strace/6.0-r0/tests/open--secontext.c /usr/src/debug/strace/6.0-r0/tests/arch_prctl.c /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_control_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_control_types.h /usr/src/debug/strace/6.0-r0/tests/sprintrc.c /usr/src/debug/strace/6.0-r0/src/xlat/getsock_ipv6_options.h /usr/src/debug/strace/6.0-r0/src/xlat/setsock_ipv6_options.h /usr/src/debug/strace/6.0-r0/src/xlat/sysctl_vm.h /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_tuner_rxsubchanses.h /usr/src/debug/strace/6.0-r0/src/xlat/umount_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/btrfs_qgroup_limit_flags.h /usr/src/debug/strace/6.0-r0/tests/access--secontext.c /usr/src/debug/strace/6.0-r0/tests/xstatfsx.c /usr/src/debug/strace/6.0-r0/tests/nlattr_tc
+ _stats.c /usr/src/debug/strace/6.0-r0/src/xlat/uring_ops.h /usr/src/debug/strace/6.0-r0/src/xlat/inet_devconf_indices.h /usr/src/debug/strace/6.0-r0/tests/sendfile.c /usr/src/debug/strace/6.0-r0/src/xlat/secbits.h /usr/src/debug/strace/6.0-r0/src/xlat/fib_rule_actions.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_addrlabel_attrs.h /usr/src/debug/strace/6.0-r0/tests/execve--secontext.c /usr/src/debug/strace/6.0-r0/src/xlat/sock_type_flags.h /usr/src/debug/strace/6.0-r0/tests/skip_unavailable.c /usr/src/debug/strace/6.0-r0/tests/print_quoted_string.c /usr/src/debug/strace/6.0-r0/tests/fork-f.c /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_fields.h /usr/src/debug/strace/6.0-r0/src/xlat/resource_flags.h /usr/src/debug/strace/6.0-r0/tests/fallocate.c /usr/src/debug/strace/6.0-r0/tests/ftruncate.c /usr/src/debug/strace/6.0-r0/tests/personality.c /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_mdba_mdb_eattr_attrs.h /usr/src/debug/strace/6.0-r0/tests/net-yy-unix.c /usr/src/debug/strace/6.0-r0/tests
+ /xutimes.c /usr/src/debug/strace/6.0-r0/tests/ioctl_sg_io_v4.c /usr/src/debug/strace/6.0-r0/tests/quotactl.c /usr/src/debug/strace/6.0-r0/tests/quotactl_fd.c /usr/src/debug/strace/6.0-r0/tests/kernel_version.c /usr/src/debug/strace/6.0-r0/tests/nlattr_inet_diag_req_compat.c /usr/src/debug/strace/6.0-r0/tests/quotactl.h /usr/src/debug/strace/6.0-r0/tests/mincore.c /usr/src/debug/strace/6.0-r0/tests/unshare.c /usr/src/debug/strace/6.0-r0/tests/ioctl_hdio.c /usr/src/debug/strace/6.0-r0/tests/rt_sigsuspend.c /usr/src/debug/strace/6.0-r0/src/xlat/nl_route_types.h /usr/src/debug/strace/6.0-r0/src/xlat/loop_crypt_type_options.h /usr/src/debug/strace/6.0-r0/src/xlat/kd_key_slock_keys.h /usr/src/debug/strace/6.0-r0/src/xlat/quota_formats.h /usr/src/debug/strace/6.0-r0/tests/nlattr_mdba_router_port.c /usr/src/debug/strace/6.0-r0/tests/netlink_xfrm.c /usr/src/debug/strace/6.0-r0/src/xlat/pr_spec_cmds.h /usr/src/debug/strace/6.0-r0/src/xlat/gpio_line_flags.h /usr/src/debug/strace/6.0-r0/tests/i
+ octl_inotify.c /usr/src/debug/strace/6.0-r0/tests/fchmod--secontext.c /usr/src/debug/strace/6.0-r0/tests/sync_file_range2.c /usr/src/debug/strace/6.0-r0/src/xlat/perf_event_sample_format.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_ifla_br_boolopt_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/sock_xdp_options.h /usr/src/debug/strace/6.0-r0/src/xlat/fan_classes.h /usr/src/debug/strace/6.0-r0/src/xlat/cap_mask0.h /usr/src/debug/strace/6.0-r0/src/xlat/cap_mask1.h /usr/src/debug/strace/6.0-r0/src/xlat/sg_scsi_reset.h /usr/src/debug/strace/6.0-r0/src/xlat/xdp_flags.h /usr/src/debug/strace/6.0-r0/tests/aio_pgetevents.c /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_neigh_fdb_ext_attrs.h /usr/src/debug/strace/6.0-r0/tests/ioctl_ubi.c /usr/src/debug/strace/6.0-r0/src/xlat/shutdown_modes.h /usr/src/debug/strace/6.0-r0/src/xlat/routing_scopes.h /usr/src/debug/strace/6.0-r0/tests/maybe_switch_current_tcp.c /usr/src/debug/strace/6.0-r0/src/xlat/futex_waiter_flags.h /usr/src/debug/strace/6.0-r0/src/
+ xlat/gpio_handle_flags.h /usr/src/debug/strace/6.0-r0/tests/attach-f-p.c /usr/src/debug/strace/6.0-r0/tests/setdomainname.c /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_ifla_br_boolopts.h /usr/src/debug/strace/6.0-r0/tests/prctl-seccomp-strict.c /usr/src/debug/strace/6.0-r0/tests/ioctl_rtc.c /usr/src/debug/strace/6.0-r0/src/xlat/pr_tagged_addr_mte_tcf.h /usr/src/debug/strace/6.0-r0/tests/fdatasync.c /usr/src/debug/strace/6.0-r0/src/xlat/packet_mreq_type.h /usr/src/debug/strace/6.0-r0/src/xlat/route_nexthop_flags.h /usr/src/debug/strace/6.0-r0/tests/test_nlattr.h /usr/src/debug/strace/6.0-r0/tests/netlink_protocol.c /usr/src/debug/strace/6.0-r0/tests/io_uring_enter.c /usr/src/debug/strace/6.0-r0/tests/prctl-set_vma.c /usr/src/debug/strace/6.0-r0/tests/xattr-strings.c /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_nha_res_bucket_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/mdb_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/shm_resource_flags.h /usr/src/debug/strace/6.0-r0/tests/signalfd4.c 
+ /usr/src/debug/strace/6.0-r0/tests/io_uring_setup.c /usr/src/debug/strace/6.0-r0/tests/attach-p-cmd-cmd.c /usr/src/debug/strace/6.0-r0/src/xlat/kvm_mem_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/tee_ioctl_impl_ids.h /usr/src/debug/strace/6.0-r0/src/xlat/kvm_cpuid_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_mdba_router_pattr_attrs.h /usr/src/debug/strace/6.0-r0/tests/nlattr_nlmsgerr.c /usr/src/debug/strace/6.0-r0/tests/ioctl_block.c /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_ifla_xdp_attrs.h /usr/src/debug/strace/6.0-r0/tests/semop-indirect.c /usr/src/debug/strace/6.0-r0/src/xlat/mq_attr_flags.h /usr/src/debug/strace/6.0-r0/tests/futex_waitv.c /usr/src/debug/strace/6.0-r0/tests/print_time.c /usr/src/debug/strace/6.0-r0/src/xlat/epollevents.h /usr/src/debug/strace/6.0-r0/tests/sched_yield.c /usr/src/debug/strace/6.0-r0/tests/status-failed.c /usr/src/debug/strace/6.0-r0/tests/is_linux_mips_n64.c /usr/src/debug/strace/6.0-r0/tests/status-none-f.c /usr/src/debug/strace/6.0-r0/s
+ rc/xlat/sysctl_net_core.h /usr/src/debug/strace/6.0-r0/tests/nlattr_mdba_mdb_entry.c /usr/src/debug/strace/6.0-r0/tests/sigsuspend.c /usr/src/debug/strace/6.0-r0/src/xlat/if_dqinfo_valid.h /usr/src/debug/strace/6.0-r0/tests/test_printstrn.c /usr/src/debug/strace/6.0-r0/tests/nfnetlink_ulog.c /usr/src/debug/strace/6.0-r0/src/xlat/kd_key_brl_keys.h /usr/src/debug/strace/6.0-r0/src/xlat/kd_key_cur_keys.h /usr/src/debug/strace/6.0-r0/src/xlat/kd_key_pad_keys.h /usr/src/debug/strace/6.0-r0/src/xlat/ifaddrflags.h /usr/src/debug/strace/6.0-r0/src/xlat/pr_unalign_flags.h /usr/src/debug/strace/6.0-r0/tests/readlink.c /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_frameinterval_types.h /usr/src/debug/strace/6.0-r0/tests/process_mrelease.c /usr/src/debug/strace/6.0-r0/tests/recvmmsg-timeout.c /usr/src/debug/strace/6.0-r0/tests/keyctl.c /usr/src/debug/strace/6.0-r0/tests/nlattr_br_port_msg.c /usr/src/debug/strace/6.0-r0/tests/signal.c /usr/src/debug/strace/6.0-r0/tests/tgkill.c /usr/src/debug/strac
+ e/6.0-r0/tests/xet_thread_area_x86.c /usr/src/debug/strace/6.0-r0/tests/quotactl-xfs.c /usr/src/debug/strace/6.0-r0/tests/fsopen.c /usr/src/debug/strace/6.0-r0/tests/modify_ldt.c /usr/src/debug/strace/6.0-r0/src/xlat/mctp_nets.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_mdba_mdb_attrs.h /usr/src/debug/strace/6.0-r0/tests/inotify_init1.c /usr/src/debug/strace/6.0-r0/src/xlat/bdaddr_types.h /usr/src/debug/strace/6.0-r0/src/xlat/ifstats_xstats_bridge_attrs.h /usr/src/debug/strace/6.0-r0/tests/umode_t.c /usr/src/debug/strace/6.0-r0/src/xlat/ieee802154_addr_types.h /usr/src/debug/strace/6.0-r0/tests/socketcall.c /usr/src/debug/strace/6.0-r0/src/xlat/ipccalls.h /usr/src/debug/strace/6.0-r0/src/xlat/keyctl_caps0.h /usr/src/debug/strace/6.0-r0/src/xlat/tun_device_types.h /usr/src/debug/strace/6.0-r0/src/xlat/x86_xfeature_bits.h /usr/src/debug/strace/6.0-r0/tests/close_range.c /usr/src/debug/strace/6.0-r0/tests/sigreturn.c /usr/src/debug/strace/6.0-r0/tests/attach-p-cmd.h /usr/src/debug/str
+ ace/6.0-r0/src/xlat/pr_fp_mode.h /usr/src/debug/strace/6.0-r0/src/xlat/notifyflags.h /usr/src/debug/strace/6.0-r0/src/xlat/uffd_copy_flags.h /usr/src/debug/strace/6.0-r0/tests/init_module.c /usr/src/debug/strace/6.0-r0/src/xlat/rtc_params.h /usr/src/debug/strace/6.0-r0/src/xlat/smc_states.h /usr/src/debug/strace/6.0-r0/tests/net-y-unix.c /usr/src/debug/strace/6.0-r0/src/xlat/perf_attr_size.h /usr/src/debug/strace/6.0-r0/tests/at_fdcwd-pathmax.c /usr/src/debug/strace/6.0-r0/src/xlat/loop_flags_options.h /usr/src/debug/strace/6.0-r0/src/xlat/neighbor_cache_entry_ext_flags.h /usr/src/debug/strace/6.0-r0/tests/xstatx.c /usr/src/debug/strace/6.0-r0/src/xlat/nl_bridge_vlan_flags.h /usr/src/debug/strace/6.0-r0/tests/mmsg-silent.c /usr/src/debug/strace/6.0-r0/tests/umount.c /usr/src/debug/strace/6.0-r0/tests/select.c /usr/src/debug/strace/6.0-r0/tests/accept.c /usr/src/debug/strace/6.0-r0/tests/chroot.c /usr/src/debug/strace/6.0-r0/tests/linkat.c /usr/src/debug/strace/6.0-r0/tests/openat.c 
+ /usr/src/debug/strace/6.0-r0/tests/reboot.c /usr/src/debug/strace/6.0-r0/src/xlat/btrfs_cont_reading_from_srcdev_mode.h /usr/src/debug/strace/6.0-r0/src/xlat/pr_pac_keys.h /usr/src/debug/strace/6.0-r0/src/xlat/tee_ioctl_login_types.h /usr/src/debug/strace/6.0-r0/tests/eventfd.c /usr/src/debug/strace/6.0-r0/src/xlat/smc_diag_attrs.h /usr/src/debug/strace/6.0-r0/tests/mknodat.c /usr/src/debug/strace/6.0-r0/src/xlat/bpf_map_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/ubi_volume_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/keyctl_caps1.h /usr/src/debug/strace/6.0-r0/src/xlat/bluetooth_l2_cid.h /usr/src/debug/strace/6.0-r0/tests/filter_seccomp-flag.c /usr/src/debug/strace/6.0-r0/tests/umovestr3.c /usr/src/debug/strace/6.0-r0/tests/epoll_wait.c /usr/src/debug/strace/6.0-r0/tests/rt_sigtimedwait.c /usr/src/debug/strace/6.0-r0/tests/create_tmpfile.c /usr/src/debug/strace/6.0-r0/tests/xselect.c /usr/src/debug/strace/6.0-r0/tests/shutdown.c /usr/src/debug/strace/6.0-r0/tests/ipc_msg.c /usr
+ /src/debug/strace/6.0-r0/src/xlat/btrfs_dev_stats_flags.h /usr/src/debug/strace/6.0-r0/tests/libmmsg.c /usr/src/debug/strace/6.0-r0/tests/recvmsg.c /usr/src/debug/strace/6.0-r0/tests/printstr.c /usr/src/debug/strace/6.0-r0/tests/umovestr.c /usr/src/debug/strace/6.0-r0/tests/ioctl_uffdio.c /usr/src/debug/strace/6.0-r0/src/xlat/sg_io_info.h /usr/src/debug/strace/6.0-r0/src/xlat/madvise_cmds.h /usr/src/debug/strace/6.0-r0/src/xlat/nl_selinux_types.h /usr/src/debug/strace/6.0-r0/tests/unlinkat.c /usr/src/debug/strace/6.0-r0/tests/linkat--secontext.c /usr/src/debug/strace/6.0-r0/tests/openat--secontext.c /usr/src/debug/strace/6.0-r0/src/xlat/bsg_subprotocol.h /usr/src/debug/strace/6.0-r0/tests/s390_runtime_instr.c /usr/src/debug/strace/6.0-r0/tests/ioctl_scsi.c /usr/src/debug/strace/6.0-r0/src/xlat/bt_protocols.h /usr/src/debug/strace/6.0-r0/tests/times-fail.c /usr/src/debug/strace/6.0-r0/src/xlat/netlink_states.h /usr/src/debug/strace/6.0-r0/src/xlat/sigev_value.h /usr/src/debug/strace/
+ 6.0-r0/src/xlat/tls_info_versions.h /usr/src/debug/strace/6.0-r0/tests/filter-unavailable.c /usr/src/debug/strace/6.0-r0/tests/prctl-pac-reset-keys.c /usr/src/debug/strace/6.0-r0/src/xlat/nfc_saps.h /usr/src/debug/strace/6.0-r0/tests/prctl-sched-core.c /usr/src/debug/strace/6.0-r0/tests/ioctl_gpio.c /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_ifla_vf_vlan_list_attrs.h /usr/src/debug/strace/6.0-r0/tests/getsockname--secontext.c /usr/src/debug/strace/6.0-r0/tests/ioctl_sock_gifconf.c /usr/src/debug/strace/6.0-r0/src/xlat/sg_io_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/prctl_options.h /usr/src/debug/strace/6.0-r0/src/xlat/mount_attr_attr.h /usr/src/debug/strace/6.0-r0/src/xlat/mtd_otp_options.h /usr/src/debug/strace/6.0-r0/src/xlat/rtc_backup_switch_modes.h /usr/src/debug/strace/6.0-r0/src/xlat/evdev_ff_status.h /usr/src/debug/strace/6.0-r0/tests/get_sigset_size.c /usr/src/debug/strace/6.0-r0/src/xlat/kd_key_spec_keys.h /usr/src/debug/strace/6.0-r0/src/xlat/sock_nfcllcp_options.h /u
+ sr/src/debug/strace/6.0-r0/src/xlat/getsock_options.h /usr/src/debug/strace/6.0-r0/src/xlat/setsock_options.h /usr/src/debug/strace/6.0-r0/src/xlat/module_init_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/bpf_map_lookup_elem_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/nf_nft_compat_msg_types.h /usr/src/debug/strace/6.0-r0/src/xlat/qipcrtr_nodes.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_ifla_vf_stats_attrs.h /usr/src/debug/strace/6.0-r0/tests/get_mempolicy.c /usr/src/debug/strace/6.0-r0/tests/set_mempolicy.c /usr/src/debug/strace/6.0-r0/tests/strace-p1-Y-p.c /usr/src/debug/strace/6.0-r0/src/xlat/ifstats_af_spec_mpls_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/in6_addr_gen_mode.h /usr/src/debug/strace/6.0-r0/tests/readahead.c /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_dcb_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_mdb_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/uffd_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/sigpoll_codes.h /usr/src/debug/strace/6.0-r0/src/xlat/si
+ gprof_codes.h /usr/src/debug/strace/6.0-r0/tests/net-icmp_filter.c /usr/src/debug/strace/6.0-r0/tests/uio.c /usr/src/debug/strace/6.0-r0/src/xlat/rtc_features.h /usr/src/debug/strace/6.0-r0/src/xlat/unshare_flags.h /usr/src/debug/strace/6.0-r0/tests/epoll_pwait.c /usr/src/debug/strace/6.0-r0/src/xlat/inet6_if_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/tcflsh_options.h /usr/src/debug/strace/6.0-r0/tests/printstrn-umoven-undumpable.c /usr/src/debug/strace/6.0-r0/src/xlat/inet_diag_ulp_info_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_buf_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_vbi_flags.h /usr/src/debug/strace/6.0-r0/tests/symlink.c /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_ip6mra_creport_attr.h /usr/src/debug/strace/6.0-r0/tests/brk.c /usr/src/debug/strace/6.0-r0/tests/pkey_mprotect.c /usr/src/debug/strace/6.0-r0/tests/getdents.c /usr/src/debug/strace/6.0-r0/tests/qual_inject-retval.c /usr/src/debug/strace/6.0-r0/src/xlat/caif_protocols.h /usr/src/debug/strace/6.
+ 0-r0/tests/clone-flags.c /usr/src/debug/strace/6.0-r0/src/xlat/btrfs_logical_ino_args_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/vsock_cids.h /usr/src/debug/strace/6.0-r0/src/xlat/clockflags.h /usr/src/debug/strace/6.0-r0/src/xlat/bsg_protocol.h /usr/src/debug/strace/6.0-r0/src/xlat/clocknames.h /usr/src/debug/strace/6.0-r0/src/xlat/inet_diag_req_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/kd_led_flags.h /usr/src/debug/strace/6.0-r0/tests/ioctl_evdev-success.c /usr/src/debug/strace/6.0-r0/src/xlat/name_to_handle_at_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/ieee802154_addrs.h /usr/src/debug/strace/6.0-r0/tests/clock_xettime-common.c /usr/src/debug/strace/6.0-r0/tests/move_mount.c /usr/src/debug/strace/6.0-r0/tests/signal2name.c /usr/src/debug/strace/6.0-r0/src/xlat/tee_ioctl_gen_caps.h /usr/src/debug/strace/6.0-r0/tests/printflags.c /usr/src/debug/strace/6.0-r0/src/xlat/tcxonc_options.h /usr/src/debug/strace/6.0-r0/src/xlat/inet_protocols.h /usr/src/debug/strace/6.0-r0/src/x
+ lat/rtnl_ifla_bridge_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/clone3_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/sockopt_txrehash_vals.h /usr/src/debug/strace/6.0-r0/tests/print_ppid_tracerpid.c /usr/src/debug/strace/6.0-r0/tests/check_sigblock.c /usr/src/debug/strace/6.0-r0/src/xlat/personality_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/personality_types.h /usr/src/debug/strace/6.0-r0/src/xlat/ptrace_events.h /usr/src/debug/strace/6.0-r0/tests/prctl-securebits.c /usr/src/debug/strace/6.0-r0/src/xlat/kd_font_flags.h /usr/src/debug/strace/6.0-r0/tests/nfnetlink_acct.c /usr/src/debug/strace/6.0-r0/tests/dup.c /usr/src/debug/strace/6.0-r0/tests/nfnetlink_ctnetlink.c /usr/src/debug/strace/6.0-r0/src/xlat/uffd_api_features.h /usr/src/debug/strace/6.0-r0/tests/nlattr_crypto_user_alg.c /usr/src/debug/strace/6.0-r0/src/xlat/netlink_diag_show.h /usr/src/debug/strace/6.0-r0/tests/nlattr_netlink_diag_msg.c /usr/src/debug/strace/6.0-r0/src/xlat/nl_crypto_types.h /usr/src/debug/strace/
+ 6.0-r0/src/xlat/hdio_ide_nice.h /usr/src/debug/strace/6.0-r0/src/xlat/counter_ioctl_event_types.h /usr/src/debug/strace/6.0-r0/src/xlat/sysctl_net.h /usr/src/debug/strace/6.0-r0/tests/riscv_flush_icache.c /usr/src/debug/strace/6.0-r0/tests/delete_module.c /usr/src/debug/strace/6.0-r0/tests/nlattr_ifla_vfinfo.c /usr/src/debug/strace/6.0-r0/tests/pkey_alloc.c /usr/src/debug/strace/6.0-r0/tests/tail_alloc.c /usr/src/debug/strace/6.0-r0/tests/msg_control.c /usr/src/debug/strace/6.0-r0/src/xlat/bpf_map_update_elem_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/quotacmds.h /usr/src/debug/strace/6.0-r0/tests/pread64-pwrite64.c /usr/src/debug/strace/6.0-r0/tests/readdir.c /usr/src/debug/strace/6.0-r0/tests/inet-cmsg.c /usr/src/debug/strace/6.0-r0/tests/rt_sigpending.c /usr/src/debug/strace/6.0-r0/src/xlat/f_owner_types.h /usr/src/debug/strace/6.0-r0/tests/rt_tgsigqueueinfo.c /usr/src/debug/strace/6.0-r0/tests/nlattr_ifla_xdp.c /usr/src/debug/strace/6.0-r0/tests/nlattr_ifla_port.c /usr/src/de
+ bug/strace/6.0-r0/tests/scm_rights.c /usr/src/debug/strace/6.0-r0/tests/sigaction.c /usr/src/debug/strace/6.0-r0/tests/inode_of_sockfd.c /usr/src/debug/strace/6.0-r0/tests/rt_sigreturn.c /usr/src/debug/strace/6.0-r0/src/xlat/netlink_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/uffd_zeropage_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/addrfams.h /usr/src/debug/strace/6.0-r0/tests/prlimit64.c /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_control_classes.h /usr/src/debug/strace/6.0-r0/tests/netlink_audit.c /usr/src/debug/strace/6.0-r0/tests/prctl-spec-inject.c /usr/src/debug/strace/6.0-r0/tests/add_key.c /usr/src/debug/strace/6.0-r0/tests/netlink_route.c /usr/src/debug/strace/6.0-r0/tests/nlattr_smc_diag_msg.c /usr/src/debug/strace/6.0-r0/tests/membarrier.c /usr/src/debug/strace/6.0-r0/src/xlat/mount_setattr_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/numa_node.h /usr/src/debug/strace/6.0-r0/src/xlat/open_resolve_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/faccessat_flags.h /usr/sr
+ c/debug/strace/6.0-r0/tests/lock_file.c /usr/src/debug/strace/6.0-r0/tests/net-tpacket_req.c /usr/src/debug/strace/6.0-r0/tests/attach-p-cmd-p.c /usr/src/debug/strace/6.0-r0/src/xlat/ebpf_op_alu.h /usr/src/debug/strace/6.0-r0/src/xlat/modem_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/nf_ctnetlink_msg_types.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_netconf_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/bpf_src.h /usr/src/debug/strace/6.0-r0/src/xlat/nt_descriptor_types.h /usr/src/debug/strace/6.0-r0/tests/faccessat.c /usr/src/debug/strace/6.0-r0/src/xlat/pr_mce_kill_policy.h /usr/src/debug/strace/6.0-r0/src/xlat/uring_files_update_fds.h /usr/src/debug/strace/6.0-r0/tests/prctl-cap-ambient.c /usr/src/debug/strace/6.0-r0/tests/semtimedop.c /usr/src/debug/strace/6.0-r0/tests/printpath-umovestr-peekdata.c /usr/src/debug/strace/6.0-r0/src/xlat/sysctl_net_ipv4_route.h /usr/src/debug/strace/6.0-r0/src/xlat/sysctl_net_ipv6_route.h /usr/src/debug/strace/6.0-r0/src/xlat/tee_ioctl_optee_cap
+ s.h /usr/src/debug/strace/6.0-r0/src/xlat/mlockall_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_ifla_af_spec_bridge_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/isdn_protocols.h /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_capture_modes.h /usr/src/debug/strace/6.0-r0/tests/ipc_sem.c /usr/src/debug/strace/6.0-r0/src/xlat/nf_hook_msg_types.h /usr/src/debug/strace/6.0-r0/tests/ipc_msgbuf.c /usr/src/debug/strace/6.0-r0/tests/attach-f-p-cmd.c /usr/src/debug/strace/6.0-r0/tests/list_sigaction_signum.c /usr/src/debug/strace/6.0-r0/tests/printsignal.c /usr/src/debug/strace/6.0-r0/tests/qual_signal.c /usr/src/debug/strace/6.0-r0/src/xlat/aio_cmds.h /usr/src/debug/strace/6.0-r0/tests/tampering-notes.c /usr/src/debug/strace/6.0-r0/src/xlat/sock_shutdown_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/mlock_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/vsock_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/vsock_ports.h /usr/src/debug/strace/6.0-r0/src/xlat/perf_hw_cache_op_result_id.h /usr/src
+ /debug/strace/6.0-r0/tests/nlattr_ifla_af_spec.c /usr/src/debug/strace/6.0-r0/tests/group_req.c /usr/src/debug/strace/6.0-r0/tests/printxval.c /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_buf_types.h /usr/src/debug/strace/6.0-r0/src/xlat/dirent_types.h /usr/src/debug/strace/6.0-r0/src/xlat/kexec_arch_values.h /usr/src/debug/strace/6.0-r0/src/xlat/futexwakecmps.h /usr/src/debug/strace/6.0-r0/tests/nlattr_ifla_protinfo.c /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_sliced_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/fcntlcmds.h /usr/src/debug/strace/6.0-r0/src/xlat/btrfs_qgroup_inherit_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_ifla_info_attrs.h /usr/src/debug/strace/6.0-r0/tests/move_pages.c /usr/src/debug/strace/6.0-r0/src/xlat/open_access_modes.h /usr/src/debug/strace/6.0-r0/tests/openat2.c /usr/src/debug/strace/6.0-r0/tests/umount2.c /usr/src/debug/strace/6.0-r0/tests/trie_test.c /usr/src/debug/strace/6.0-r0/tests/sched_xetaffinity.c /usr/src/debug/strace/6.0-r0/src/xlat/cap.
+ h /usr/src/debug/strace/6.0-r0/src/xlat/socketcalls.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_ifla_port_attrs.h /usr/src/debug/strace/6.0-r0/tests/hexdump_strdup.c /usr/src/debug/strace/6.0-r0/src/xlat/inet_diag_bpf_storage_attrs.h /usr/src/debug/strace/6.0-r0/tests/fchmodat--secontext.c /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_family.h /usr/src/debug/strace/6.0-r0/tests/seccomp-filter.c /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_ifla_vf_info_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_ifla_vf_port_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_tca_stats_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/kexec_load_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/nf_acct_msg_types.h /usr/src/debug/strace/6.0-r0/src/xlat/pr_sme_vl_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/pr_sve_vl_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/tee_ioctl_shm_flags.h /usr/src/debug/strace/6.0-r0/tests/sched_xetattr.c /usr/src/debug/strace/6.0-r0/tests/timer_xettime.c /usr/src/debug/strace/6
+ .0-r0/tests/nlattr_inet_diag_req_v2.c /usr/src/debug/strace/6.0-r0/src/xlat/sg_io_dxfer_direction.h /usr/src/debug/strace/6.0-r0/src/xlat/sysctl_net_unix.h /usr/src/debug/strace/6.0-r0/tests/pc.c /usr/src/debug/strace/6.0-r0/src/xlat/pr_tagged_addr_enable.h /usr/src/debug/strace/6.0-r0/src/xlat/seccomp_ioctl_resp_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/rtc_vl_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/shm_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/tee_ioctl_origins.h /usr/src/debug/strace/6.0-r0/tests/fcntl.c /usr/src/debug/strace/6.0-r0/tests/flock.c /usr/src/debug/strace/6.0-r0/tests/fsync.c /usr/src/debug/strace/6.0-r0/tests/futex.c /usr/src/debug/strace/6.0-r0/tests/ioctl_kd.c /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_ifla_af_spec_inet6_attrs.h /usr/src/debug/strace/6.0-r0/tests/fork--pidns-translation.c /usr/src/debug/strace/6.0-r0/src/xlat/evdev_switch.h /usr/src/debug/strace/6.0-r0/src/xlat/smc_decl_codes.h /usr/src/debug/strace/6.0-r0/src/xlat/bpf_query_flags.h 
+ /usr/src/debug/strace/6.0-r0/tests/xchownx.c /usr/src/debug/strace/6.0-r0/src/xlat/routing_table_ids.h /usr/src/debug/strace/6.0-r0/src/xlat/lirc_features.h /usr/src/debug/strace/6.0-r0/tests/net-sockaddr.c /usr/src/debug/strace/6.0-r0/tests/ioctl_lirc.c /usr/src/debug/strace/6.0-r0/tests/prctl-fp-mode.c /usr/src/debug/strace/6.0-r0/tests/stack-fcall-0.c /usr/src/debug/strace/6.0-r0/tests/stack-fcall-1.c /usr/src/debug/strace/6.0-r0/tests/stack-fcall-2.c /usr/src/debug/strace/6.0-r0/tests/stack-fcall-3.c /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_ipmra_creport_attr.h /usr/src/debug/strace/6.0-r0/src/xlat/flockcmds.h /usr/src/debug/strace/6.0-r0/src/xlat/if_dqinfo_flags.h /usr/src/debug/strace/6.0-r0/tests/prctl-tagged-addr.c /usr/src/debug/strace/6.0-r0/src/xlat/nf_nftables_msg_types.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_ifla_af_spec_inet_attrs.h /usr/src/debug/strace/6.0-r0/tests/epoll_create1.c /usr/src/debug/strace/6.0-r0/tests/ioctl_counter.c /usr/src/debug/strace/6.0-r0/
+ src/xlat/socketlayers.h /usr/src/debug/strace/6.0-r0/src/xlat/kvm_cap.h /usr/src/debug/strace/6.0-r0/src/xlat/statfs_flags.h /usr/src/debug/strace/6.0-r0/tests/execveat.c /usr/src/debug/strace/6.0-r0/tests/renameat.c /usr/src/debug/strace/6.0-r0/src/xlat/futexops.h /usr/src/debug/strace/6.0-r0/src/xlat/adjtimex_state.h /usr/src/debug/strace/6.0-r0/tests/perf_event_open_nonverbose.c /usr/src/debug/strace/6.0-r0/src/xlat/inet6_devconf_indices.h /usr/src/debug/strace/6.0-r0/tests/umovestr_cached.c /usr/src/debug/strace/6.0-r0/src/xlat/mpol_mode_flags.h /usr/src/debug/strace/6.0-r0/tests/fsmount.c /usr/src/debug/strace/6.0-r0/tests/ksysent.c /usr/src/debug/strace/6.0-r0/tests/sigaltstack.c /usr/src/debug/strace/6.0-r0/src/xlat/ioprio_who.h /usr/src/debug/strace/6.0-r0/src/xlat/cap_version.h /usr/src/debug/strace/6.0-r0/tests/rt_sigqueueinfo.c /usr/src/debug/strace/6.0-r0/src/xlat/kd_meta_vals.h /usr/src/debug/strace/6.0-r0/src/xlat/perf_sw_ids.h /usr/src/debug/strace/6.0-r0/tests/read-w
+ rite.c /usr/src/debug/strace/6.0-r0/tests/nlattr_cachereport.c /usr/src/debug/strace/6.0-r0/tests/nlattr_netconfmsg.c /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_ifla_vf_link_states.h /usr/src/debug/strace/6.0-r0/tests/getpeername.c /usr/src/debug/strace/6.0-r0/src/xlat/access_modes.h /usr/src/debug/strace/6.0-r0/src/xlat/resources.h /usr/src/debug/strace/6.0-r0/tests/ioctl_loop.c /usr/src/debug/strace/6.0-r0/tests/ip_mreq.c /usr/src/debug/strace/6.0-r0/tests/fcntl64.c /usr/src/debug/strace/6.0-r0/tests/bpf-obj_get_info_by_fd.c /usr/src/debug/strace/6.0-r0/tests/ioctl_nbd.c /usr/src/debug/strace/6.0-r0/tests/errno2name.c /usr/src/debug/strace/6.0-r0/src/xlat/packet_diag_info_flags.h /usr/src/debug/strace/6.0-r0/tests/faccessat2.c /usr/src/debug/strace/6.0-r0/src/xlat/nf_queue_msg_types.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_ifla_bridge_modes.h /usr/src/debug/strace/6.0-r0/src/xlat/bpf_rval.h /usr/src/debug/strace/6.0-r0/tests/xetitimer.c /usr/src/debug/strace/6.0-r0/tests/set_p
+ tracer_any.c /usr/src/debug/strace/6.0-r0/tests/fadvise.h /usr/src/debug/strace/6.0-r0/tests/sched_get_priority_mxx.c /usr/src/debug/strace/6.0-r0/tests/recvfrom-MSG_TRUNC.c /usr/src/debug/strace/6.0-r0/src/xlat/mtd_nandecc_options.h /usr/src/debug/strace/6.0-r0/src/xlat/mmap_prot.h /usr/src/debug/strace/6.0-r0/tests/madvise.c /usr/src/debug/strace/6.0-r0/src/xlat/evdev_abs.h /usr/src/debug/strace/6.0-r0/src/xlat/evdev_snd.h /usr/src/debug/strace/6.0-r0/src/xlat/modetypes.h /usr/src/debug/strace/6.0-r0/src/xlat/uring_setup_features.h /usr/src/debug/strace/6.0-r0/tests/finit_module.c /usr/src/debug/strace/6.0-r0/tests/prctl_marker.c /usr/src/debug/strace/6.0-r0/src/xlat/ptrace_peeksiginfo_flags.h /usr/src/debug/strace/6.0-r0/tests/request_key.c /usr/src/debug/strace/6.0-r0/tests/fanotify_init.c /usr/src/debug/strace/6.0-r0/tests/fanotify_mark.c /usr/src/debug/strace/6.0-r0/src/xlat/futexwakeops.h /usr/src/debug/strace/6.0-r0/tests/mq_sendrecv.c /usr/src/debug/strace/6.0-r0/src/xlat/s
+ igprocmaskcmds.h /usr/src/debug/strace/6.0-r0/src/xlat/sigchld_codes.h /usr/src/debug/strace/6.0-r0/src/xlat/btrfs_key_types.h /usr/src/debug/strace/6.0-r0/tests/getrusage.c /usr/src/debug/strace/6.0-r0/tests/nsyscalls.c /usr/src/debug/strace/6.0-r0/src/xlat/evdev_leds.h /usr/src/debug/strace/6.0-r0/src/xlat/evdev_misc.h /usr/src/debug/strace/6.0-r0/src/xlat/evdev_prop.h /usr/src/debug/strace/6.0-r0/src/xlat/kd_key_lock_keys.h /usr/src/debug/strace/6.0-r0/src/xlat/uring_register_rsrc_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/ip_type_of_services.h /usr/src/debug/strace/6.0-r0/tests/prctl-mce-kill.c /usr/src/debug/strace/6.0-r0/src/xlat/ipc_private.h /usr/src/debug/strace/6.0-r0/src/xlat/inet_diag_bpf_storages_attrs.h /usr/src/debug/strace/6.0-r0/tests/ioctl_sg_io_v3.c /usr/src/debug/strace/6.0-r0/tests/printpath-umovestr.c /usr/src/debug/strace/6.0-r0/src/xlat/bpf_size.h /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_device_capabilities_flags.h /usr/src/debug/strace/6.0-r0/tests/so_e
+ rror.c /usr/src/debug/strace/6.0-r0/src/xlat/perf_hw_cache_op_id.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_ifla_af_spec_bridge_vlan_tunnel_info_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/routing_flags.h /usr/src/debug/strace/6.0-r0/tests/fchownat.c /usr/src/debug/strace/6.0-r0/src/xlat/netlink_socket_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_ifla_brport_attrs.h /usr/src/debug/strace/6.0-r0/tests/utimensat.c /usr/src/debug/strace/6.0-r0/tests/segv_pkuerr.c /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_format_description_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/v4l2_meta_fmts.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_neightbl_parms_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/getrandom_flags.h /usr/src/debug/strace/6.0-r0/tests/clone3.c /usr/src/debug/strace/6.0-r0/src/xlat/nf_cttimeout_msg_types.h /usr/src/debug/strace/6.0-r0/tests/mbind.c /usr/src/debug/strace/6.0-r0/tests/mknod.c /usr/src/debug/strace/6.0-r0/tests/uname.c /usr/src/debug/strace/6.0-r0/tests/usta
+ t.c /usr/src/debug/strace/6.0-r0/tests/utime.c /usr/src/debug/strace/6.0-r0/tests/umask.c /usr/src/debug/strace/6.0-r0/tests/sleep.c /usr/src/debug/strace/6.0-r0/src/xlat/xdp_sockaddr_flags.h /usr/src/debug/strace/6.0-r0/tests/mlock.c /usr/src/debug/strace/6.0-r0/tests/shmxt.c /usr/src/debug/strace/6.0-r0/src/xlat/btrfs_dev_replace_results.h /usr/src/debug/strace/6.0-r0/src/xlat/pr_mce_kill.h /usr/src/debug/strace/6.0-r0/src/xlat/nlmsgerr_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/fsconfig_cmds.h /usr/src/debug/strace/6.0-r0/src/xlat/nl_xfrm_types.h /usr/src/debug/strace/6.0-r0/tests/landlock_restrict_self.c /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_ifla_xdp_attached_mode.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_ip6mra_msg_types.h /usr/src/debug/strace/6.0-r0/tests/pselect6-common.c /usr/src/debug/strace/6.0-r0/src/xlat/hw_breakpoint_len.h /usr/src/debug/strace/6.0-r0/tests/nfnetlink_ctnetlink_exp.c /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_ifla_info_data_bridge_attrs.h /us
+ r/src/debug/strace/6.0-r0/src/xlat/xattrflags.h /usr/src/debug/strace/6.0-r0/src/xlat/nbd_ioctl_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/bpf_commands.h /usr/src/debug/strace/6.0-r0/src/xlat/btrfs_features_incompat.h /usr/src/debug/strace/6.0-r0/tests/ipc.c /usr/src/debug/strace/6.0-r0/src/xlat/irda_protocols.h /usr/src/debug/strace/6.0-r0/tests/fchownat--secontext.c /usr/src/debug/strace/6.0-r0/tests/printstrn-umoven.c /usr/src/debug/strace/6.0-r0/tests/status-unfinished-threads.c /usr/src/debug/strace/6.0-r0/tests/strace--decode-pids-comm.c /usr/src/debug/strace/6.0-r0/tests/printstrn-umoven-peekdata.c /usr/src/debug/strace/6.0-r0/src/xlat/membarrier_flags.h /usr/src/debug/strace/6.0-r0/tests/ioctl_sock.c /usr/src/debug/strace/6.0-r0/tests/seccomp_get_notif_sizes.c /usr/src/debug/strace/6.0-r0/src/xlat/f_seals.h /usr/src/debug/strace/6.0-r0/src/xlat/mptcp_subflow_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/sock_netlink_options.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_mdb
+ a_router_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/btrfs_scrub_flags.h /usr/src/debug/strace/6.0-r0/tests/recvfrom.c /usr/src/debug/strace/6.0-r0/tests/process_vm_readv_writev.c /usr/src/debug/strace/6.0-r0/src/xlat/membarrier_cmds.h /usr/src/debug/strace/6.0-r0/src/xlat/dcb_commands.h /usr/src/debug/strace/6.0-r0/tests/execve.c /usr/src/debug/strace/6.0-r0/tests/ptrace.c /usr/src/debug/strace/6.0-r0/tests/rename.c /usr/src/debug/strace/6.0-r0/tests/splice.c /usr/src/debug/strace/6.0-r0/src/xlat/syslog_console_levels.h /usr/src/debug/strace/6.0-r0/tests/epoll_create.c /usr/src/debug/strace/6.0-r0/tests/memfd_create.c /usr/src/debug/strace/6.0-r0/tests/timer_create.c /usr/src/debug/strace/6.0-r0/tests/tprintf.c /usr/src/debug/strace/6.0-r0/src/xlat/btrfs_tree_objectids.h /usr/src/debug/strace/6.0-r0/tests/getegid.c /usr/src/debug/strace/6.0-r0/tests/geteuid.c /usr/src/debug/strace/6.0-r0/tests/getppid.c /usr/src/debug/strace/6.0-r0/tests/getxgid.c /usr/src/debug/strace/6.0-r0/tes
+ ts/waitpid.c /usr/src/debug/strace/6.0-r0/tests/xetpgid.c /usr/src/debug/strace/6.0-r0/tests/getxpid.c /usr/src/debug/strace/6.0-r0/tests/getxuid.c /usr/src/debug/strace/6.0-r0/tests/setugid.c /usr/src/debug/strace/6.0-r0/src/xlat/bpf_mode.h /usr/src/debug/strace/6.0-r0/src/xlat/fib_rule_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/gpio_v2_line_attr_ids.h /usr/src/debug/strace/6.0-r0/tests/nlattr_ifstats.c /usr/src/debug/strace/6.0-r0/tests/getsockname.c /usr/src/debug/strace/6.0-r0/src/xlat/smc_link_group_roles.h /usr/src/debug/strace/6.0-r0/src/xlat/ubi_data_types.h /usr/src/debug/strace/6.0-r0/tests/timerfd_xettime.c /usr/src/debug/strace/6.0-r0/tests/pidns.h /usr/src/debug/strace/6.0-r0/tests/tests.h /usr/src/debug/strace/6.0-r0/tests/mount.c /usr/src/debug/strace/6.0-r0/tests/chdir.c /usr/src/debug/strace/6.0-r0/tests/chmod.c /usr/src/debug/strace/6.0-r0/tests/statx.c /usr/src/debug/strace/6.0-r0/tests/pause.c /usr/src/debug/strace/6.0-r0/tests/pidns.c /usr/src/debug/strace/6.
+ 0-r0/tests/xattr.c /usr/src/debug/strace/6.0-r0/tests/times.c /usr/src/debug/strace/6.0-r0/tests/tkill.c /usr/src/debug/strace/6.0-r0/tests/wait4.c /usr/src/debug/strace/6.0-r0/tests/fspick.c /usr/src/debug/strace/6.0-r0/tests/llseek.c /usr/src/debug/strace/6.0-r0/tests/getegid32.c /usr/src/debug/strace/6.0-r0/tests/geteuid32.c /usr/src/debug/strace/6.0-r0/tests/migrate_pages.c /usr/src/debug/strace/6.0-r0/tests/unlink.c /usr/src/debug/strace/6.0-r0/tests/seccomp-strict.c /usr/src/debug/strace/6.0-r0/tests/ptrace_syscall_info.c /usr/src/debug/strace/6.0-r0/src/xlat/pr_dumpable.h /usr/src/debug/strace/6.0-r0/tests/int_0x80.c /usr/src/debug/strace/6.0-r0/src/xlat/btrfs_defrag_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/timerfdflags.h /usr/src/debug/strace/6.0-r0/src/xlat/tls_info_ciphers.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_ifla_br_mcast_querier_attrs.h /usr/src/debug/strace/6.0-r0/src/xlat/ax25_protocols.h /usr/src/debug/strace/6.0-r0/src/xlat/rtnl_nexthop_attrs.h /usr/src/
+ debug/strace/6.0-r0/tests/perf_event_open.c /usr/src/debug/strace/6.0-r0/src/xlat/nf_cthelper_msg_types.h /usr/src/debug/strace/6.0-r0/tests/threads-execve.c /usr/src/debug/strace/6.0-r0/tests/lookup_dcookie.c /usr/src/debug/strace/6.0-r0/src/xlat/fdb_notify_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/splice_flags.h /usr/src/debug/strace/6.0-r0/tests/access.c /usr/src/debug/strace/6.0-r0/tests/status.c /usr/src/debug/strace/6.0-r0/src/xlat/packet_diag_show.h /usr/src/debug/strace/6.0-r0/tests/prctl-pac-enabled-keys.c /usr/src/debug/strace/6.0-r0/tests/set_mempolicy_home_node.c /usr/src/debug/strace/6.0-r0/src/xlat/pr_cap_ambient.h /usr/src/debug/strace/6.0-r0/tests/kern_features.c /usr/src/debug/strace/6.0-r0/tests/osf_utimes.c /usr/src/debug/strace/6.0-r0/src/xlat/routing_protocols.h /usr/src/debug/strace/6.0-r0/src/xlat/netlink_types.h /usr/src/debug/strace/6.0-r0/src/xlat/evdev_mtslots.h /usr/src/debug/strace/6.0-r0/tests/orphaned_process_group.c /usr/src/debug/strace/6.0-r0/sr
+ c/xlat/landlock_rule_types.h /usr/src/debug/strace/6.0-r0/src/xlat/uffd_api_flags.h /usr/src/debug/strace/6.0-r0/tests/secontext.h /usr/src/debug/strace/6.0-r0/src/xlat/sysctl_net_ipv4.h /usr/src/debug/strace/6.0-r0/tests/overflowuid.c /usr/src/debug/strace/6.0-r0/src/xlat/perf_event_read_format.h /usr/src/debug/strace/6.0-r0/src/xlat/iffflags.h /usr/src/debug/strace/6.0-r0/src/xlat/at_statx_sync_types.h /usr/src/debug/strace/6.0-r0/src/xlat/ifstats_attr_flags.h /usr/src/debug/strace/6.0-r0/src/xlat/nfc_protocols.h /usr/src/debug/strace/6.0-r0/src/xlat/schedulers.h /usr/src/debug/strace/6.0-r0/src/xlat/smc_protocols.h /usr/src/debug/strace/6.0-r0/tests/init_delete_module.h /usr/src/debug/strace/6.0-r0/src/xlat/epollctls.h /usr/src/debug/strace/6.0-r0/tests/filter_seccomp-perf.c /usr/src/debug/strace/6.0-r0/src/xlat/archvals.h /usr/src/debug/strace/6.0-r0/src/xlat/fs_xflags.h /usr/src/debug/strace/6.0-r0/tests/dev-yy.c /usr/src/debug/strace/6.0-r0/src/xlat/netlink_get_flags.h /usr/sr
+ c/debug/strace/6.0-r0/src/xlat/perf_hw_id.h /usr/src/debug/strace/6.0-r0/tests/io_uring_register.c /usr/src/debug/strace/6.0-r0/tests/prctl-name.c /usr/src/debug/strace/6.0-r0/tests/epoll_ctl.c /usr/src/debug/strace/6.0-r0/tests/sigpending.c /usr/src/debug/strace/6.0-r0/tests/count-f.c /usr/src/debug/strace/6.0-r0/tests/vfork-f.c /usr/src/debug/strace/6.0-r0/src/xlat/inet_diag_bytecodes.h /usr/src/debug/strace/6.0-r0/src/xlat/evdev_relative_axes.h /usr/src/debug/strace/6.0-r0/tests/clock_t_str.c /usr/src/debug/strace/6.0-r0/tests/printpath-umovestr-undumpable.c /usr/src/debug/strace/6.0-r0/tests/net-accept-connect.c /usr/src/debug/strace/6.0-r0/src/xlat/nl_netfilter_subsys_ids.h", added "/usr/src/debug/strace/6.1-r0/tests/prctl-spec-inject.c /usr/src/debug/strace/6.1-r0/src/xlat/ptp_pin_funcs.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_tc_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/fan_event_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ifla_vf_info_attrs.h /usr/src/debug/st
+ race/6.1-r0/src/xlat/rtnl_ifla_vf_port_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/netlink_states.h /usr/src/debug/strace/6.1-r0/src/xlat/termios_cc.h /usr/src/debug/strace/6.1-r0/src/xlat/btrfs_dev_stats_values.h /usr/src/debug/strace/6.1-r0/src/xlat/v4l2_framesize_types.h /usr/src/debug/strace/6.1-r0/tests/prctl-cap-ambient.c /usr/src/debug/strace/6.1-r0/tests/open_tree.c /usr/src/debug/strace/6.1-r0/tests/fsync.c /usr/src/debug/strace/6.1-r0/tests/times.c /usr/src/debug/strace/6.1-r0/tests/tkill.c /usr/src/debug/strace/6.1-r0/tests/xattr.c /usr/src/debug/strace/6.1-r0/tests/wait4.c /usr/src/debug/strace/6.1-r0/tests/btrfs.c /usr/src/debug/strace/6.1-r0/tests/semop.c /usr/src/debug/strace/6.1-r0/tests/setns.c /usr/src/debug/strace/6.1-r0/tests/shmxt.c /usr/src/debug/strace/6.1-r0/tests/sleep.c /usr/src/debug/strace/6.1-r0/tests/nfnetlink_queue.c /usr/src/debug/strace/6.1-r0/src/xlat/mlockall_flags.h /usr/src/debug/strace/6.1-r0/tests/kill_child.c /usr/src/debug/strace/6.1-r0/src
+ /xlat/inet_devconf_indices.h /usr/src/debug/strace/6.1-r0/tests/ioctl_uffdio.c /usr/src/debug/strace/6.1-r0/src/xlat/perf_attr_size.h /usr/src/debug/strace/6.1-r0/tests/nlattr_ifaddrmsg.c /usr/src/debug/strace/6.1-r0/tests/nlattr_ifinfomsg.c /usr/src/debug/strace/6.1-r0/src/xlat/fan_classes.h /usr/src/debug/strace/6.1-r0/tests/pidfd_open.c /usr/src/debug/strace/6.1-r0/src/xlat/counter_ioctl_event_types.h /usr/src/debug/strace/6.1-r0/src/xlat/bt_protocols.h /usr/src/debug/strace/6.1-r0/src/xlat/keyctl_commands.h /usr/src/debug/strace/6.1-r0/tests/trie_test.c /usr/src/debug/strace/6.1-r0/src/xlat/bpf_rval.h /usr/src/debug/strace/6.1-r0/src/xlat/evdev_ff_status.h /usr/src/debug/strace/6.1-r0/tests/mknod.c /usr/src/debug/strace/6.1-r0/tests/mlock.c /usr/src/debug/strace/6.1-r0/tests/mount.c /usr/src/debug/strace/6.1-r0/tests/modify_ldt.c /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ipmra_creport_attr.h /usr/src/debug/strace/6.1-r0/src/xlat/perf_type_id.h /usr/src/debug/strace/6.1-r0/tests
+ /ioctl_ubi.c /usr/src/debug/strace/6.1-r0/src/xlat/uring_op_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/kd_font_ops.h /usr/src/debug/strace/6.1-r0/tests/tee.c /usr/src/debug/strace/6.1-r0/src/xlat/dirent_types.h /usr/src/debug/strace/6.1-r0/tests/filter-unavailable.c /usr/src/debug/strace/6.1-r0/src/xlat/sigaltstack_flags.h /usr/src/debug/strace/6.1-r0/tests/ioctl_lirc.c /usr/src/debug/strace/6.1-r0/src/xlat/btrfs_features_compat.h /usr/src/debug/strace/6.1-r0/src/xlat/adjtimex_state.h /usr/src/debug/strace/6.1-r0/tests/ioctl_seccomp.c /usr/src/debug/strace/6.1-r0/tests/mount_setattr.c /usr/src/debug/strace/6.1-r0/src/xlat/mlock_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/vsock_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/vsock_ports.h /usr/src/debug/strace/6.1-r0/tests/mknodat.c /usr/src/debug/strace/6.1-r0/src/xlat/tee_ioctl_gen_caps.h /usr/src/debug/strace/6.1-r0/src/xlat/evdev_mtslots.h /usr/src/debug/strace/6.1-r0/tests/printstrn-umoven-undumpable.c /usr/src/debug/strace/6
+ .1-r0/tests/prctl-tsc.c /usr/src/debug/strace/6.1-r0/tests/mmsg_name.c /usr/src/debug/strace/6.1-r0/tests/sigaltstack.c /usr/src/debug/strace/6.1-r0/src/xlat/nf_nftables_msg_types.h /usr/src/debug/strace/6.1-r0/tests/scm_rights.c /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ifla_xdp_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/sock_ax25_options.h /usr/src/debug/strace/6.1-r0/src/xlat/sock_caif_options.h /usr/src/debug/strace/6.1-r0/src/xlat/sock_dccp_options.h /usr/src/debug/strace/6.1-r0/src/xlat/sock_ipv6_options.h /usr/src/debug/strace/6.1-r0/src/xlat/sock_irda_options.h /usr/src/debug/strace/6.1-r0/src/xlat/sock_iucv_options.h /usr/src/debug/strace/6.1-r0/src/xlat/sock_sctp_options.h /usr/src/debug/strace/6.1-r0/src/xlat/sock_tipc_options.h /usr/src/debug/strace/6.1-r0/src/xlat/sigev_value.h /usr/src/debug/strace/6.1-r0/tests/rt_sigpending.c /usr/src/debug/strace/6.1-r0/src/xlat/tcp_states.h /usr/src/debug/strace/6.1-r0/tests/faccessat2.c /usr/src/debug/strace/6.1-r0/tests/unix-p
+ air-send-recv.c /usr/src/debug/strace/6.1-r0/tests/uio.c /usr/src/debug/strace/6.1-r0/src/xlat/btrfs_compress_types.h /usr/src/debug/strace/6.1-r0/src/xlat/getsock_ipv6_options.h /usr/src/debug/strace/6.1-r0/src/xlat/setsock_ipv6_options.h /usr/src/debug/strace/6.1-r0/tests/printstr.c /usr/src/debug/strace/6.1-r0/tests/umovestr.c /usr/src/debug/strace/6.1-r0/src/xlat/term_line_discs.h /usr/src/debug/strace/6.1-r0/src/xlat/kvm_cpuid_flags.h /usr/src/debug/strace/6.1-r0/tests/msg_control.c /usr/src/debug/strace/6.1-r0/tests/sethostname.c /usr/src/debug/strace/6.1-r0/src/xlat/keyctl_caps0.h /usr/src/debug/strace/6.1-r0/src/xlat/bpf_attach_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/mtd_mode_options.h /usr/src/debug/strace/6.1-r0/src/xlat/mtd_type_options.h /usr/src/debug/strace/6.1-r0/src/xlat/tls_info_versions.h /usr/src/debug/strace/6.1-r0/src/xlat/pr_tagged_addr_enable.h /usr/src/debug/strace/6.1-r0/tests/netlink_audit.c /usr/src/debug/strace/6.1-r0/tests/netlink_route.c /usr/src/
+ debug/strace/6.1-r0/tests/clock_adjtime-common.c /usr/src/debug/strace/6.1-r0/src/xlat/bpf_src.h /usr/src/debug/strace/6.1-r0/src/xlat/evdev_keycode.h /usr/src/debug/strace/6.1-r0/tests/unlinkat.c /usr/src/debug/strace/6.1-r0/src/xlat/gpio_line_flags.h /usr/src/debug/strace/6.1-r0/tests/delete_module.c /usr/src/debug/strace/6.1-r0/src/xlat/bpf_class.h /usr/src/debug/strace/6.1-r0/src/xlat/rwf_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/ptrace_cmds.h /usr/src/debug/strace/6.1-r0/tests/test_printstrn.c /usr/src/debug/strace/6.1-r0/tests/sockopt-sol_socket.c /usr/src/debug/strace/6.1-r0/src/xlat/inet6_if_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/kexec_load_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/secbits.h /usr/src/debug/strace/6.1-r0/src/xlat/inet_diag_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/statfs_flags.h /usr/src/debug/strace/6.1-r0/tests/get_page_size.c /usr/src/debug/strace/6.1-r0/src/xlat/fdflags.h /usr/src/debug/strace/6.1-r0/tests/prctl-pac-reset-keys.c /usr/sr
+ c/debug/strace/6.1-r0/src/xlat/bpf_miscop.h /usr/src/debug/strace/6.1-r0/src/xlat/bpf_op_alu.h /usr/src/debug/strace/6.1-r0/src/xlat/bpf_op_jmp.h /usr/src/debug/strace/6.1-r0/src/xlat/wait4_options.h /usr/src/debug/strace/6.1-r0/tests/nlattr_br_port_msg.c /usr/src/debug/strace/6.1-r0/src/xlat/ebpf_class.h /usr/src/debug/strace/6.1-r0/src/xlat/v4l2_fields.h /usr/src/debug/strace/6.1-r0/src/xlat/fs_xflags.h /usr/src/debug/strace/6.1-r0/tests/nlattr_packet_diag_msg.c /usr/src/debug/strace/6.1-r0/tests/seccomp-strict.c /usr/src/debug/strace/6.1-r0/src/xlat/lwtunnel_encap_types.h /usr/src/debug/strace/6.1-r0/src/xlat/counter_ioctl_scopes.h /usr/src/debug/strace/6.1-r0/src/xlat/perf_hw_id.h /usr/src/debug/strace/6.1-r0/tests/prctl-tid_address.c /usr/src/debug/strace/6.1-r0/src/xlat/f_seals.h /usr/src/debug/strace/6.1-r0/src/xlat/btrfs_logical_ino_args_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/resources.h /usr/src/debug/strace/6.1-r0/tests/pkey_alloc.c /usr/src/debug/strace/6.1-r0/test
+ s/tail_alloc.c /usr/src/debug/strace/6.1-r0/src/xlat/netlink_sk_meminfo_indices.h /usr/src/debug/strace/6.1-r0/tests/prctl-unalign.c /usr/src/debug/strace/6.1-r0/tests/fanotify_init.c /usr/src/debug/strace/6.1-r0/tests/fanotify_mark.c /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_addr_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_link_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_nsid_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_rule_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/setns_types.h /usr/src/debug/strace/6.1-r0/src/xlat/kd_default_led_flags.h /usr/src/debug/strace/6.1-r0/tests/readahead.c /usr/src/debug/strace/6.1-r0/src/xlat/btrfs_send_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/perf_ioctl_flags.h /usr/src/debug/strace/6.1-r0/tests/nfnetlink_ipset.c /usr/src/debug/strace/6.1-r0/tests/process_madvise.c /usr/src/debug/strace/6.1-r0/src/xlat/rtc_vl_flags.h /usr/src/debug/strace/6.1-r0/tests/printstrn-umoven.c /usr/src/debug/strace/6.1-r0/src/xlat/ubi_volume_pr
+ ops.h /usr/src/debug/strace/6.1-r0/src/xlat/waitid_types.h /usr/src/debug/strace/6.1-r0/src/xlat/smc_decl_codes.h /usr/src/debug/strace/6.1-r0/src/xlat/inet_diag_ulp_info_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/mptcp_subflow_flags.h /usr/src/debug/strace/6.1-r0/tests/ioctl_tiocm.c /usr/src/debug/strace/6.1-r0/src/xlat/bpf_prog_flags.h /usr/src/debug/strace/6.1-r0/tests/perf_event_open.c /usr/src/debug/strace/6.1-r0/tests/orphaned_process_group.c /usr/src/debug/strace/6.1-r0/src/xlat/prctl_options.h /usr/src/debug/strace/6.1-r0/src/xlat/ptp_perout_flags.h /usr/src/debug/strace/6.1-r0/tests/so_error.c /usr/src/debug/strace/6.1-r0/tests/rt_sigreturn.c /usr/src/debug/strace/6.1-r0/tests/ioctl_sg_io_v3.c /usr/src/debug/strace/6.1-r0/src/xlat/ipc_private.h /usr/src/debug/strace/6.1-r0/tests/ioctl_mtd.c /usr/src/debug/strace/6.1-r0/src/xlat/ebpf_op_jmp.h /usr/src/debug/strace/6.1-r0/src/xlat/memfd_secret_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/uring_setup_features.h /usr/src/de
+ bug/strace/6.1-r0/src/xlat/sock_packet_options.h /usr/src/debug/strace/6.1-r0/src/xlat/bluetooth_l2_psm.h /usr/src/debug/strace/6.1-r0/tests/select.c /usr/src/debug/strace/6.1-r0/tests/accept.c /usr/src/debug/strace/6.1-r0/tests/chroot.c /usr/src/debug/strace/6.1-r0/tests/linkat.c /usr/src/debug/strace/6.1-r0/tests/openat.c /usr/src/debug/strace/6.1-r0/tests/reboot.c /usr/src/debug/strace/6.1-r0/src/xlat/btrfs_cont_reading_from_srcdev_mode.h /usr/src/debug/strace/6.1-r0/tests/umount.c /usr/src/debug/strace/6.1-r0/tests/ioctl_termios.c /usr/src/debug/strace/6.1-r0/src/xlat/modem_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/v4l2_control_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/v4l2_control_types.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ifla_proto_down_reason_attrs.h /usr/src/debug/strace/6.1-r0/tests/inotify_init1.c /usr/src/debug/strace/6.1-r0/tests/ipc_sem.c /usr/src/debug/strace/6.1-r0/src/xlat/key_spec.h /usr/src/debug/strace/6.1-r0/src/xlat/bsg_flags.h /usr/src/debug/st
+ race/6.1-r0/src/xlat/msg_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/ifstats_xstats_type_attrs.h /usr/src/debug/strace/6.1-r0/tests/file_handle.c /usr/src/debug/strace/6.1-r0/tests/ioctl_kvm_run_common.c /usr/src/debug/strace/6.1-r0/tests/strace-p1-Y-p.c /usr/src/debug/strace/6.1-r0/tests/get_mempolicy.c /usr/src/debug/strace/6.1-r0/src/xlat/neighbor_cache_entry_states.h /usr/src/debug/strace/6.1-r0/tests/set_mempolicy.c /usr/src/debug/strace/6.1-r0/src/xlat/ieee802154_addr_types.h /usr/src/debug/strace/6.1-r0/tests/quotactl_fd.c /usr/src/debug/strace/6.1-r0/tests/status-failed.c /usr/src/debug/strace/6.1-r0/src/xlat/audit_arch.h /usr/src/debug/strace/6.1-r0/tests/create_nl_socket.c /usr/src/debug/strace/6.1-r0/tests/status-none-f.c /usr/src/debug/strace/6.1-r0/src/xlat/ieee802154_addrs.h /usr/src/debug/strace/6.1-r0/src/xlat/gpio_event_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/key_perms.h /usr/src/debug/strace/6.1-r0/src/xlat/open_access_modes.h /usr/src/debug/strace/6.1-r0/t
+ ests/xgetdents.c /usr/src/debug/strace/6.1-r0/src/xlat/v4l2_tuner_capabilities.h /usr/src/debug/strace/6.1-r0/tests/netlink_xfrm.c /usr/src/debug/strace/6.1-r0/src/xlat/neighbor_cache_entry_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ifla_events.h /usr/src/debug/strace/6.1-r0/src/xlat/packet_mreq_type.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ifla_info_data_bridge_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/kd_key_spec_keys.h /usr/src/debug/strace/6.1-r0/src/xlat/v4l2_tuner_audmodes.h /usr/src/debug/strace/6.1-r0/src/xlat/counter_ioctl_component_types.h /usr/src/debug/strace/6.1-r0/tests/bpf-obj_get_info_by_fd.c /usr/src/debug/strace/6.1-r0/src/xlat/futexwakecmps.h /usr/src/debug/strace/6.1-r0/src/xlat/syslog_console_levels.h /usr/src/debug/strace/6.1-r0/tests/nlattr_unix_diag_msg.c /usr/src/debug/strace/6.1-r0/tests/nlattr_inet_diag_msg.c /usr/src/debug/strace/6.1-r0/tests/prctl-capbset.c /usr/src/debug/strace/6.1-r0/src/xlat/epollflags.h /usr/src/debug/strace/6.1-r0/sr
+ c/xlat/mpol_modes.h /usr/src/debug/strace/6.1-r0/tests/mq.c /usr/src/debug/strace/6.1-r0/tests/so_linger.c /usr/src/debug/strace/6.1-r0/src/xlat/if_dqblk_valid.h /usr/src/debug/strace/6.1-r0/tests/fork-f.c /usr/src/debug/strace/6.1-r0/src/xlat/netlink_delete_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/btrfs_balance_flags.h /usr/src/debug/strace/6.1-r0/tests/keyctl.c /usr/src/debug/strace/6.1-r0/tests/signal.c /usr/src/debug/strace/6.1-r0/tests/sysctl.c /usr/src/debug/strace/6.1-r0/tests/tgkill.c /usr/src/debug/strace/6.1-r0/src/xlat/falloc_flags.h /usr/src/debug/strace/6.1-r0/tests/check_sigblock.c /usr/src/debug/strace/6.1-r0/tests/fsopen.c /usr/src/debug/strace/6.1-r0/tests/printstrn-umoven-peekdata.c /usr/src/debug/strace/6.1-r0/src/xlat/nl_xfrm_types.h /usr/src/debug/strace/6.1-r0/src/xlat/nf_nft_compat_msg_types.h /usr/src/debug/strace/6.1-r0/tests/landlock_restrict_self.c /usr/src/debug/strace/6.1-r0/tests/fflush.c /usr/src/debug/strace/6.1-r0/tests/is_linux_mips_n64.c /usr/
+ src/debug/strace/6.1-r0/tests/ioctl_random.c /usr/src/debug/strace/6.1-r0/tests/kexec_file_load.c /usr/src/debug/strace/6.1-r0/tests/umovestr2.c /usr/src/debug/strace/6.1-r0/tests/ptrace_syscall_info.c /usr/src/debug/strace/6.1-r0/src/xlat/v4l2_frameinterval_types.h /usr/src/debug/strace/6.1-r0/tests/get_process_reaper.c /usr/src/debug/strace/6.1-r0/src/xlat/caif_protocols.h /usr/src/debug/strace/6.1-r0/src/xlat/packet_diag_info_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/ubi_data_types.h /usr/src/debug/strace/6.1-r0/src/xlat/bpf_query_flags.h /usr/src/debug/strace/6.1-r0/tests/setresugid.c /usr/src/debug/strace/6.1-r0/tests/getresugid.c /usr/src/debug/strace/6.1-r0/tests/recvmsg.c /usr/src/debug/strace/6.1-r0/tests/ipc_msg.c /usr/src/debug/strace/6.1-r0/tests/libmmsg.c /usr/src/debug/strace/6.1-r0/tests/ipc_msgbuf.c /usr/src/debug/strace/6.1-r0/src/xlat/routing_protocols.h /usr/src/debug/strace/6.1-r0/src/xlat/sock_pppol2tp_options.h /usr/src/debug/strace/6.1-r0/src/xlat/nfc_prot
+ ocols.h /usr/src/debug/strace/6.1-r0/src/xlat/smc_protocols.h /usr/src/debug/strace/6.1-r0/tests/semtimedop-syscall.c /usr/src/debug/strace/6.1-r0/src/xlat/bpf_task_fd_type.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ip6mra_msg_types.h /usr/src/debug/strace/6.1-r0/src/xlat/efd_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/sfd_flags.h /usr/src/debug/strace/6.1-r0/tests/ioctl_rtc.c /usr/src/debug/strace/6.1-r0/src/xlat/priorities.h /usr/src/debug/strace/6.1-r0/src/xlat/uring_files_update_fds.h /usr/src/debug/strace/6.1-r0/src/xlat/evdev_relative_axes.h /usr/src/debug/strace/6.1-r0/tests/nfnetlink_nft_compat.c /usr/src/debug/strace/6.1-r0/src/xlat/gpio_v2_line_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/blkpg_ops.h /usr/src/debug/strace/6.1-r0/src/xlat/fsmount_attr_flags.h /usr/src/debug/strace/6.1-r0/tests/mq_sendrecv.c /usr/src/debug/strace/6.1-r0/tests/fork--pidns-translation.c /usr/src/debug/strace/6.1-r0/tests/check_sigign.c /usr/src/debug/strace/6.1-r0/tests/memfd_secret.c /us
+ r/src/debug/strace/6.1-r0/src/xlat/uffd_register_mode_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/ioprio_class.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_nha_res_group_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/routing_table_ids.h /usr/src/debug/strace/6.1-r0/src/xlat/btrfs_dev_stats_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/ifstats_xstats_bond_attrs.h /usr/src/debug/strace/6.1-r0/tests/netlink_inet_diag.c /usr/src/debug/strace/6.1-r0/tests/netlink_sock_diag.c /usr/src/debug/strace/6.1-r0/tests/netlink_unix_diag.c /usr/src/debug/strace/6.1-r0/src/xlat/term_cflags_csize.h /usr/src/debug/strace/6.1-r0/src/xlat/inotify_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/term_oflags_bsdly.h /usr/src/debug/strace/6.1-r0/src/xlat/term_oflags_crdly.h /usr/src/debug/strace/6.1-r0/src/xlat/term_oflags_ffdly.h /usr/src/debug/strace/6.1-r0/src/xlat/term_oflags_nldly.h /usr/src/debug/strace/6.1-r0/src/xlat/term_oflags_vtdly.h /usr/src/debug/strace/6.1-r0/tests/nlattr_ifla_af_inet6.h /usr/s
+ rc/debug/strace/6.1-r0/src/xlat/iffflags.h /usr/src/debug/strace/6.1-r0/src/xlat/fiemap_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/mremap_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/fsmagic.h /usr/src/debug/strace/6.1-r0/tests/test_nlattr.h /usr/src/debug/strace/6.1-r0/tests/sched_xetaffinity.c /usr/src/debug/strace/6.1-r0/tests/old_mmap.c /usr/src/debug/strace/6.1-r0/src/xlat/ifstats_xstats_bridge_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ifla_af_spec_bridge_vlan_tunnel_info_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/sock_bluetooth_options.h /usr/src/debug/strace/6.1-r0/src/xlat/usagewho.h /usr/src/debug/strace/6.1-r0/tests/xet_robust_list.c /usr/src/debug/strace/6.1-r0/src/xlat/ptrace_peeksiginfo_flags.h /usr/src/debug/strace/6.1-r0/tests/prctl-mce-kill.c /usr/src/debug/strace/6.1-r0/tests/fallocate.c /usr/src/debug/strace/6.1-r0/tests/ftruncate.c /usr/src/debug/strace/6.1-r0/src/xlat/pr_pac_keys.h /usr/src/debug/strace/6.1-r0/tests/ioctl_loop.c /usr/src/debug/str
+ ace/6.1-r0/src/xlat/keyctl_pkey_ops.h /usr/src/debug/strace/6.1-r0/src/xlat/nf_queue_msg_types.h /usr/src/debug/strace/6.1-r0/src/xlat/evdev_switch.h /usr/src/debug/strace/6.1-r0/tests/time_enjoyment.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ifla_vfinfo_list_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/multicast_router_types.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ifla_af_spec_inet6_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/packet_diag_show.h /usr/src/debug/strace/6.1-r0/src/xlat/mq_attr_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/btrfs_features_compat_ro.h /usr/src/debug/strace/6.1-r0/src/xlat/tee_ioctl_max_arg_size.h /usr/src/debug/strace/6.1-r0/src/xlat/kd_key_shift_keys.h /usr/src/debug/strace/6.1-r0/src/xlat/bpf_map_types.h /usr/src/debug/strace/6.1-r0/src/xlat/mtd_file_mode_options.h /usr/src/debug/strace/6.1-r0/src/xlat/inotify_init_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/madvise_cmds.h /usr/src/debug/strace/6.1-r0/src/xlat/mtd_flags_options.h /usr/src/de
+ bug/strace/6.1-r0/src/xlat/kd_meta_vals.h /usr/src/debug/strace/6.1-r0/src/xlat/fs_ioc_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/v4l2_tuner_rxsubchanses.h /usr/src/debug/strace/6.1-r0/src/xlat/ethernet_protocols.h /usr/src/debug/strace/6.1-r0/tests/print_maxfd.c /usr/src/debug/strace/6.1-r0/src/xlat/sigtrap_codes.h /usr/src/debug/strace/6.1-r0/src/xlat/ebpf_mode.h /usr/src/debug/strace/6.1-r0/src/xlat/ebpf_regs.h /usr/src/debug/strace/6.1-r0/src/xlat/ebpf_size.h /usr/src/debug/strace/6.1-r0/tests/set_mempolicy_home_node.c /usr/src/debug/strace/6.1-r0/src/xlat/seccomp_mode.h /usr/src/debug/strace/6.1-r0/src/xlat/sock_netlink_options.h /usr/src/debug/strace/6.1-r0/src/xlat/sg_io_flags.h /usr/src/debug/strace/6.1-r0/tests/maybe_switch_current_tcp.c /usr/src/debug/strace/6.1-r0/src/xlat/mount_setattr_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/loop_flags_options.h /usr/src/debug/strace/6.1-r0/tests/xstatfsx.c /usr/src/debug/strace/6.1-r0/tests/ioctl_kvm_run_auxstr_vcpu.c /usr/src/
+ debug/strace/6.1-r0/src/xlat/futex_waiter_flags.h /usr/src/debug/strace/6.1-r0/tests/ioctl_dm.c /usr/src/debug/strace/6.1-r0/src/xlat/aio_cmds.h /usr/src/debug/strace/6.1-r0/tests/rt_sigtimedwait.c /usr/src/debug/strace/6.1-r0/src/xlat/socketcalls.h /usr/src/debug/strace/6.1-r0/tests/nsyscalls.c /usr/src/debug/strace/6.1-r0/tests/prctl-securebits.c /usr/src/debug/strace/6.1-r0/tests/kern_features.c /usr/src/debug/strace/6.1-r0/src/xlat/perf_branch_sample_type.h /usr/src/debug/strace/6.1-r0/tests/perf_event_open_nonverbose.c /usr/src/debug/strace/6.1-r0/src/xlat/mount_attr_attr.h /usr/src/debug/strace/6.1-r0/tests/execveat--secontext.c /usr/src/debug/strace/6.1-r0/tests/ioctl_sg_io_v4.c /usr/src/debug/strace/6.1-r0/tests/finit_module.c /usr/src/debug/strace/6.1-r0/tests/prctl_marker.c /usr/src/debug/strace/6.1-r0/tests/oldselect.c /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_mdba_mdb_eattr_attrs.h /usr/src/debug/strace/6.1-r0/tests/xettimeofday.c /usr/src/debug/strace/6.1-r0/src/xlat/n
+ etlink_new_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/kexec_arch_values.h /usr/src/debug/strace/6.1-r0/src/xlat/getrandom_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_rta_metrics_attrs.h /usr/src/debug/strace/6.1-r0/tests/inotify_init.c /usr/src/debug/strace/6.1-r0/tests/setpgrp-exec.c /usr/src/debug/strace/6.1-r0/src/xlat/name_to_handle_at_flags.h /usr/src/debug/strace/6.1-r0/tests/printxval.c /usr/src/debug/strace/6.1-r0/tests/sockaddr_xlat.c /usr/src/debug/strace/6.1-r0/src/xlat/v4l2_memories.h /usr/src/debug/strace/6.1-r0/tests/execveat.c /usr/src/debug/strace/6.1-r0/tests/quotactl.c /usr/src/debug/strace/6.1-r0/src/xlat/nl_netfilter_subsys_ids.h /usr/src/debug/strace/6.1-r0/tests/renameat.c /usr/src/debug/strace/6.1-r0/tests/quotactl.h /usr/src/debug/strace/6.1-r0/tests/link.c /usr/src/debug/strace/6.1-r0/tests/mmap.c /usr/src/debug/strace/6.1-r0/tests/swap.c /usr/src/debug/strace/6.1-r0/tests/sync.c /usr/src/debug/strace/6.1-r0/tests/time.c /usr/src/debug/strace/6.1-r
+ 0/tests/mmsg.c /usr/src/debug/strace/6.1-r0/tests/open.c /usr/src/debug/strace/6.1-r0/src/xlat/kd_modes.h /usr/src/debug/strace/6.1-r0/src/xlat/sa_handler_values.h /usr/src/debug/strace/6.1-r0/tests/fill_memory.c /usr/src/debug/strace/6.1-r0/src/xlat/fsopen_flags.h /usr/src/debug/strace/6.1-r0/tests/pwritev.c /usr/src/debug/strace/6.1-r0/tests/prctl-seccomp-strict.c /usr/src/debug/strace/6.1-r0/tests/shutdown.c /usr/src/debug/strace/6.1-r0/src/xlat/af_packet_versions.h /usr/src/debug/strace/6.1-r0/src/xlat/timerfdflags.h /usr/src/debug/strace/6.1-r0/tests/ioctl_fiemap.c /usr/src/debug/strace/6.1-r0/src/xlat/bsg_subprotocol.h /usr/src/debug/strace/6.1-r0/tests/recv-MSG_TRUNC.c /usr/src/debug/strace/6.1-r0/tests/move_mount.c /usr/src/debug/strace/6.1-r0/tests/ioctl_v4l2.c /usr/src/debug/strace/6.1-r0/tests/riscv_flush_icache.c /usr/src/debug/strace/6.1-r0/src/xlat/uring_register_opcodes.h /usr/src/debug/strace/6.1-r0/src/xlat/btrfs_scrub_flags.h /usr/src/debug/strace/6.1-r0/tests/filt
+ er_seccomp-perf.c /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_nexthop_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/sigill_codes.h /usr/src/debug/strace/6.1-r0/src/xlat/kd_key_lock_keys.h /usr/src/debug/strace/6.1-r0/tests/ioctl_block.c /usr/src/debug/strace/6.1-r0/src/xlat/pr_cap_ambient.h /usr/src/debug/strace/6.1-r0/tests/signal_receive.c /usr/src/debug/strace/6.1-r0/src/xlat/getsock_options.h /usr/src/debug/strace/6.1-r0/src/xlat/setsock_options.h /usr/src/debug/strace/6.1-r0/src/xlat/ifstats_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/nf_ctnetlink_exp_msg_types.h /usr/src/debug/strace/6.1-r0/tests/readlink.c /usr/src/debug/strace/6.1-r0/src/xlat/hw_breakpoint_type.h /usr/src/debug/strace/6.1-r0/src/xlat/landlock_create_ruleset_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/addrfams.h /usr/src/debug/strace/6.1-r0/src/xlat/xdp_sockaddr_flags.h /usr/src/debug/strace/6.1-r0/tests/status-all.c /usr/src/debug/strace/6.1-r0/src/xlat/netlink_get_flags.h /usr/src/debug/strace/6.1-r0/src
+ /xlat/pr_dumpable.h /usr/src/debug/strace/6.1-r0/tests/prctl-sme.c /usr/src/debug/strace/6.1-r0/tests/seccomp_get_action_avail.c /usr/src/debug/strace/6.1-r0/tests/times-fail.c /usr/src/debug/strace/6.1-r0/tests/printpath-umovestr-peekdata.c /usr/src/debug/strace/6.1-r0/src/xlat/snmp_icmp6_stats.h /usr/src/debug/strace/6.1-r0/src/xlat/v4l2_streaming_capabilities.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_nha_res_bucket_attrs.h /usr/src/debug/strace/6.1-r0/tests/nlattr_inet_diag_req_v2.c /usr/src/debug/strace/6.1-r0/src/xlat/sockopt_txrehash_vals.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_tca_act_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/at_statx_sync_types.h /usr/src/debug/strace/6.1-r0/src/xlat/af_packet_types.h /usr/src/debug/strace/6.1-r0/tests/getgroups.c /usr/src/debug/strace/6.1-r0/tests/setgroups.c /usr/src/debug/strace/6.1-r0/tests/getdents64.c /usr/src/debug/strace/6.1-r0/tests/nlattr_netlink_diag_msg.c /usr/src/debug/strace/6.1-r0/src/xlat/ax25_protocols.h /usr/src
+ /debug/strace/6.1-r0/tests/prctl-sched-core.c /usr/src/debug/strace/6.1-r0/tests/xetpriority.c /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_neightbl_parms_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/routing_scopes.h /usr/src/debug/strace/6.1-r0/tests/netlink_protocol.c /usr/src/debug/strace/6.1-r0/src/xlat/uring_setup_flags.h /usr/src/debug/strace/6.1-r0/tests/pause.c /usr/src/debug/strace/6.1-r0/tests/pidns.c /usr/src/debug/strace/6.1-r0/tests/pipe2.c /usr/src/debug/strace/6.1-r0/src/xlat/rtc_features.h /usr/src/debug/strace/6.1-r0/src/xlat/bdaddr_types.h /usr/src/debug/strace/6.1-r0/src/xlat/kexec_file_load_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_tc_action_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/netlink_diag_show.h /usr/src/debug/strace/6.1-r0/tests/net-sockaddr.c /usr/src/debug/strace/6.1-r0/tests/fsconfig.c /usr/src/debug/strace/6.1-r0/src/xlat/x86_xfeature_bits.h /usr/src/debug/strace/6.1-r0/tests/nfnetlink_acct.c /usr/src/debug/strace/6.1-r0/src/xlat/uring_iow
+ q_acct.h /usr/src/debug/strace/6.1-r0/tests/migrate_pages.c /usr/src/debug/strace/6.1-r0/tests/sched_xetscheduler.c /usr/src/debug/strace/6.1-r0/src/xlat/skf_ad.h /usr/src/debug/strace/6.1-r0/tests/ioctl_inotify.c /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ifla_port_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/xfs_dqblk_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/xfs_quota_flags.h /usr/src/debug/strace/6.1-r0/tests/errno2name.c /usr/src/debug/strace/6.1-r0/tests/pread64-pwrite64.c /usr/src/debug/strace/6.1-r0/src/xlat/hdio_busstates.h /usr/src/debug/strace/6.1-r0/tests/mlock2.c /usr/src/debug/strace/6.1-r0/tests/print_ppid_tracerpid.c /usr/src/debug/strace/6.1-r0/tests/clone_parent.c /usr/src/debug/strace/6.1-r0/tests/clone_ptrace.c /usr/src/debug/strace/6.1-r0/tests/epoll_pwait2.c /usr/src/debug/strace/6.1-r0/tests/prctl-name.c /usr/src/debug/strace/6.1-r0/tests/osf_utimes.c /usr/src/debug/strace/6.1-r0/tests/chmod--secontext.c /usr/src/debug/strace/6.1-r0/src/xlat/lockfcmds.h /
+ usr/src/debug/strace/6.1-r0/src/xlat/socktypes.h /usr/src/debug/strace/6.1-r0/src/xlat/pr_sme_vl_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/pr_sve_vl_flags.h /usr/src/debug/strace/6.1-r0/tests/test_printpath.c /usr/src/debug/strace/6.1-r0/src/xlat/cap_version.h /usr/src/debug/strace/6.1-r0/tests/fchmodat.c /usr/src/debug/strace/6.1-r0/src/xlat/mbind_flags.h /usr/src/debug/strace/6.1-r0/tests/erestartsys.c /usr/src/debug/strace/6.1-r0/tests/nlattr_ifla_protinfo.c /usr/src/debug/strace/6.1-r0/src/xlat/adjtimex_status.h /usr/src/debug/strace/6.1-r0/tests/futimesat.c /usr/src/debug/strace/6.1-r0/src/xlat/v4l2_sliced_flags.h /usr/src/debug/strace/6.1-r0/tests/ftruncate64.c /usr/src/debug/strace/6.1-r0/src/xlat/nl_sock_diag_types.h /usr/src/debug/strace/6.1-r0/tests/nlattr_crypto_user_alg.c /usr/src/debug/strace/6.1-r0/src/xlat/uring_ops.h /usr/src/debug/strace/6.1-r0/tests/prctl-seccomp-filter-v.c /usr/src/debug/strace/6.1-r0/tests/fadvise64_64.c /usr/src/debug/strace/6.1-r0/src/xlat/
+ v4l2_colorspaces.h /usr/src/debug/strace/6.1-r0/tests/net-packet_mreq.c /usr/src/debug/strace/6.1-r0/tests/lock_file.c /usr/src/debug/strace/6.1-r0/src/xlat/inet_diag_ulp_info_mptcp_attrs.h /usr/src/debug/strace/6.1-r0/tests/seccomp_get_notif_sizes.c /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_mdba_router_pattr_attrs.h /usr/src/debug/strace/6.1-r0/tests/personality.c /usr/src/debug/strace/6.1-r0/src/xlat/sigprocmaskcmds.h /usr/src/debug/strace/6.1-r0/src/xlat/futexops.h /usr/src/debug/strace/6.1-r0/src/xlat/ubi_volume_types.h /usr/src/debug/strace/6.1-r0/src/xlat/bpf_commands.h /usr/src/debug/strace/6.1-r0/src/xlat/tls_info_configs.h /usr/src/debug/strace/6.1-r0/tests/xstatx.c /usr/src/debug/strace/6.1-r0/src/xlat/kd_font_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/crypto_nl_attrs.h /usr/src/debug/strace/6.1-r0/tests/copy_file_range.c /usr/src/debug/strace/6.1-r0/tests/sync_file_range.c /usr/src/debug/strace/6.1-r0/src/xlat/unshare_flags.h /usr/src/debug/strace/6.1-r0/tests/so_peer
+ cred.c /usr/src/debug/strace/6.1-r0/tests/nlattr_smc_diag_msg.c /usr/src/debug/strace/6.1-r0/src/xlat/pr_tagged_addr_mte_tcf.h /usr/src/debug/strace/6.1-r0/tests/ioctl_scsi.c /usr/src/debug/strace/6.1-r0/tests/pidfd_getfd.c /usr/src/debug/strace/6.1-r0/tests/group_req.c /usr/src/debug/strace/6.1-r0/src/xlat/if_dqinfo_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/sock_kcm_options.h /usr/src/debug/strace/6.1-r0/src/xlat/sock_llc_options.h /usr/src/debug/strace/6.1-r0/src/xlat/sock_pnp_options.h /usr/src/debug/strace/6.1-r0/src/xlat/sock_raw_options.h /usr/src/debug/strace/6.1-r0/src/xlat/sock_rds_options.h /usr/src/debug/strace/6.1-r0/src/xlat/sock_tcp_options.h /usr/src/debug/strace/6.1-r0/src/xlat/sock_tls_options.h /usr/src/debug/strace/6.1-r0/src/xlat/sock_udp_options.h /usr/src/debug/strace/6.1-r0/src/xlat/sock_xdp_options.h /usr/src/debug/strace/6.1-r0/src/xlat/sock_alg_options.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ifla_xdp_attached_mode.h /usr/src/debug/strace/6.1-r0/src
+ /xlat/btrfs_key_types.h /usr/src/debug/strace/6.1-r0/src/xlat/delete_module_flags.h /usr/src/debug/strace/6.1-r0/tests/attach-f-p-cmd.c /usr/src/debug/strace/6.1-r0/src/xlat/open_resolve_flags.h /usr/src/debug/strace/6.1-r0/tests/prctl-arg2-intptr.c /usr/src/debug/strace/6.1-r0/tests/nlattr_cachereport.c /usr/src/debug/strace/6.1-r0/tests/fchmod.c /usr/src/debug/strace/6.1-r0/tests/getcwd.c /usr/src/debug/strace/6.1-r0/tests/getgid.c /usr/src/debug/strace/6.1-r0/tests/getpid.c /usr/src/debug/strace/6.1-r0/tests/getsid.c /usr/src/debug/strace/6.1-r0/tests/gettid.c /usr/src/debug/strace/6.1-r0/tests/getuid.c /usr/src/debug/strace/6.1-r0/tests/waitid.c /usr/src/debug/strace/6.1-r0/tests/rt_sigprocmask.c /usr/src/debug/strace/6.1-r0/tests/ioctl_v4l2-success.c /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_neigh_fdb_ext_attrs.h /usr/src/debug/strace/6.1-r0/tests/getrandom.c /usr/src/debug/strace/6.1-r0/tests/nlattr_netconfmsg.c /usr/src/debug/strace/6.1-r0/src/xlat/semop_flags.h /usr/src/deb
+ ug/strace/6.1-r0/src/xlat/bootflags1.h /usr/src/debug/strace/6.1-r0/src/xlat/bootflags2.h /usr/src/debug/strace/6.1-r0/tests/fchdir.c /usr/src/debug/strace/6.1-r0/tests/subdir.c /usr/src/debug/strace/6.1-r0/tests/nlattr.c /usr/src/debug/strace/6.1-r0/src/xlat/bootflags3.h /usr/src/debug/strace/6.1-r0/src/xlat/quotatypes.h /usr/src/debug/strace/6.1-r0/tests/answer.c /usr/src/debug/strace/6.1-r0/src/xlat/v4l2_pix_fmts.h /usr/src/debug/strace/6.1-r0/src/xlat/v4l2_sdr_fmts.h /usr/src/debug/strace/6.1-r0/src/xlat/sock_type_flags.h /usr/src/debug/strace/6.1-r0/tests/printpath-umovestr-undumpable.c /usr/src/debug/strace/6.1-r0/src/xlat/sg_scsi_reset.h /usr/src/debug/strace/6.1-r0/tests/clock_xettime-common.c /usr/src/debug/strace/6.1-r0/tests/nlattr_ifstats.c /usr/src/debug/strace/6.1-r0/tests/getsockname--secontext.c /usr/src/debug/strace/6.1-r0/src/xlat/uring_restriction_opcodes.h /usr/src/debug/strace/6.1-r0/tests/preadv.c /usr/src/debug/strace/6.1-r0/src/xlat/btrfs_qgroup_ctl_cmds.h /u
+ sr/src/debug/strace/6.1-r0/src/xlat/ioctl_dirs.h /usr/src/debug/strace/6.1-r0/tests/mincore.c /usr/src/debug/strace/6.1-r0/tests/unshare.c /usr/src/debug/strace/6.1-r0/src/xlat/uffd_register_ioctl_flags.h /usr/src/debug/strace/6.1-r0/tests/status-none.c /usr/src/debug/strace/6.1-r0/tests/aio_pgetevents.c /usr/src/debug/strace/6.1-r0/src/xlat/v4l2_control_query_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/mdb_flags.h /usr/src/debug/strace/6.1-r0/tests/ioperm.c /usr/src/debug/strace/6.1-r0/tests/getsockname.c /usr/src/debug/strace/6.1-r0/src/xlat/baud_options.h /usr/src/debug/strace/6.1-r0/tests/faccessat-y--secontext.c /usr/src/debug/strace/6.1-r0/tests/linkat--secontext.c /usr/src/debug/strace/6.1-r0/src/xlat/loop_crypt_type_options.h /usr/src/debug/strace/6.1-r0/src/xlat/inet_diag_bpf_storages_attrs.h /usr/src/debug/strace/6.1-r0/tests/ioprio.c /usr/src/debug/strace/6.1-r0/tests/openat--secontext.c /usr/src/debug/strace/6.1-r0/tests/pidfd_send_signal.c /usr/src/debug/strace/6.1-r0
+ /src/xlat/get_mempolicy_flags.h /usr/src/debug/strace/6.1-r0/tests/umovestr-illptr.c /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ifla_af_spec_mctp_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/lirc_modes.h /usr/src/debug/strace/6.1-r0/tests/xetitimer.c /usr/src/debug/strace/6.1-r0/tests/set_ptracer_any.c /usr/src/debug/strace/6.1-r0/tests/net-tpacket_stats.c /usr/src/debug/strace/6.1-r0/tests/nlattr_mdba_mdb_entry.c /usr/src/debug/strace/6.1-r0/tests/netlink_selinux.c /usr/src/debug/strace/6.1-r0/src/xlat/v4l2_control_ids.h /usr/src/debug/strace/6.1-r0/tests/print_time.c /usr/src/debug/strace/6.1-r0/tests/inode_of_sockfd.c /usr/src/debug/strace/6.1-r0/src/xlat/uring_enter_flags.h /usr/src/debug/strace/6.1-r0/tests/ioctl_nbd.c /usr/src/debug/strace/6.1-r0/tests/print_user_desc.c /usr/src/debug/strace/6.1-r0/src/xlat/fdb_notify_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/futexwakeops.h /usr/src/debug/strace/6.1-r0/tests/getgid32.c /usr/src/debug/strace/6.1-r0/tests/getuid32.c /usr/sr
+ c/debug/strace/6.1-r0/tests/mlockall.c /usr/src/debug/strace/6.1-r0/tests/net-y-unix.c /usr/src/debug/strace/6.1-r0/tests/symlinkat.c /usr/src/debug/strace/6.1-r0/tests/libsocketcall.c /usr/src/debug/strace/6.1-r0/src/xlat/sg_io_dxfer_direction.h /usr/src/debug/strace/6.1-r0/tests/test_ucopy.h /usr/src/debug/strace/6.1-r0/tests/print_quoted_string.c /usr/src/debug/strace/6.1-r0/tests/test_ucopy.c /usr/src/debug/strace/6.1-r0/src/xlat/rtc_params.h /usr/src/debug/strace/6.1-r0/src/xlat/smc_states.h /usr/src/debug/strace/6.1-r0/tests/netlink_netlink_diag.c /usr/src/debug/strace/6.1-r0/tests/ioctl_nsfs.c /usr/src/debug/strace/6.1-r0/src/xlat/inet6_devconf_indices.h /usr/src/debug/strace/6.1-r0/src/xlat/term_cflags.h /usr/src/debug/strace/6.1-r0/src/xlat/term_iflags.h /usr/src/debug/strace/6.1-r0/src/xlat/term_lflags.h /usr/src/debug/strace/6.1-r0/src/xlat/term_oflags.h /usr/src/debug/strace/6.1-r0/tests/sigaction.c /usr/src/debug/strace/6.1-r0/tests/sched_get_priority_mxx.c /usr/src/deb
+ ug/strace/6.1-r0/src/xlat/kvm_mem_flags.h /usr/src/debug/strace/6.1-r0/tests/qual_fault.c /usr/src/debug/strace/6.1-r0/tests/sched_xetparam.c /usr/src/debug/strace/6.1-r0/src/xlat/sigsegv_codes.h /usr/src/debug/strace/6.1-r0/tests/pc.c /usr/src/debug/strace/6.1-r0/tests/nfnetlink_ctnetlink_exp.c /usr/src/debug/strace/6.1-r0/tests/pkey_free.c /usr/src/debug/strace/6.1-r0/src/xlat/ipccalls.h /usr/src/debug/strace/6.1-r0/tests/nlattr_ifla_port.c /usr/src/debug/strace/6.1-r0/src/xlat/tls_info_ciphers.h /usr/src/debug/strace/6.1-r0/tests/tracer_ppid_pgid_sid.c /usr/src/debug/strace/6.1-r0/src/xlat/ifstats_xstats_bridge_mcast_indices.h /usr/src/debug/strace/6.1-r0/src/xlat/gpio_v2_line_attr_ids.h /usr/src/debug/strace/6.1-r0/src/xlat/nf_ipset_msg_types.h /usr/src/debug/strace/6.1-r0/tests/ioctl_perf-success.c /usr/src/debug/strace/6.1-r0/tests/rt_tgsigqueueinfo.c /usr/src/debug/strace/6.1-r0/src/xlat/isdn_protocols.h /usr/src/debug/strace/6.1-r0/src/xlat/bpf_attach_type.h /usr/src/debug/s
+ trace/6.1-r0/tests/sigpending.c /usr/src/debug/strace/6.1-r0/src/xlat/ptrace_events.h /usr/src/debug/strace/6.1-r0/tests/fchownat.c /usr/src/debug/strace/6.1-r0/src/xlat/fib_rule_flags.h /usr/src/debug/strace/6.1-r0/tests/fadvise.h /usr/src/debug/strace/6.1-r0/src/xlat/routing_types.h /usr/src/debug/strace/6.1-r0/src/xlat/pidfd_open_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/hw_breakpoint_len.h /usr/src/debug/strace/6.1-r0/src/xlat/quota_formats.h /usr/src/debug/strace/6.1-r0/tests/madvise.c /usr/src/debug/strace/6.1-r0/tests/eventfd.c /usr/src/debug/strace/6.1-r0/tests/sched_yield.c /usr/src/debug/strace/6.1-r0/src/xlat/statx_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/statx_masks.h /usr/src/debug/strace/6.1-r0/tests/s390_pci_mmio_read_write.c /usr/src/debug/strace/6.1-r0/src/xlat/semctl_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/shmctl_flags.h /usr/src/debug/strace/6.1-r0/tests/ioctl_sock.c /usr/src/debug/strace/6.1-r0/tests/truncate.c /usr/src/debug/strace/6.1-r0/src/xlat
+ /arp_hardware_types.h /usr/src/debug/strace/6.1-r0/tests/ioctl_tee.c /usr/src/debug/strace/6.1-r0/tests/timerfd_xettime.c /usr/src/debug/strace/6.1-r0/src/xlat/mtd_nandecc_options.h /usr/src/debug/strace/6.1-r0/tests/sendfile64.c /usr/src/debug/strace/6.1-r0/tests/kernel_old_timespec.h /usr/src/debug/strace/6.1-r0/tests/fchmod--secontext.c /usr/src/debug/strace/6.1-r0/tests/prctl-sve.c /usr/src/debug/strace/6.1-r0/src/xlat/tcflsh_options.h /usr/src/debug/strace/6.1-r0/tests/zeroargc.c /usr/src/debug/strace/6.1-r0/tests/net-yy-inet.c /usr/src/debug/strace/6.1-r0/tests/move_pages.c /usr/src/debug/strace/6.1-r0/tests/s390_guarded_storage.c /usr/src/debug/strace/6.1-r0/src/xlat/btrfs_dev_replace_results.h /usr/src/debug/strace/6.1-r0/src/xlat/perf_hw_cache_id.h /usr/src/debug/strace/6.1-r0/tests/readlinkat.c /usr/src/debug/strace/6.1-r0/tests/landlock_create_ruleset.c /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_neightbl_attrs.h /usr/src/debug/strace/6.1-r0/tests/xgetrlimit.c /usr/src/deb
+ ug/strace/6.1-r0/tests/nfnetlink_cthelper.c /usr/src/debug/strace/6.1-r0/src/xlat/irda_protocols.h /usr/src/debug/strace/6.1-r0/tests/at_fdcwd-pathmax.c /usr/src/debug/strace/6.1-r0/src/xlat/btrfs_dev_replace_state.h /usr/src/debug/strace/6.1-r0/src/xlat/v4l2_input_types.h /usr/src/debug/strace/6.1-r0/src/xlat/v4l2_tuner_types.h /usr/src/debug/strace/6.1-r0/tests/sched_xetattr.c /usr/src/debug/strace/6.1-r0/tests/timer_xettime.c /usr/src/debug/strace/6.1-r0/src/xlat/clone_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/rename_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/seccomp_ops.h /usr/src/debug/strace/6.1-r0/tests/status-successful.c /usr/src/debug/strace/6.1-r0/src/xlat/nfc_sockaddr_protocols.h /usr/src/debug/strace/6.1-r0/tests/umoven-illptr.c /usr/src/debug/strace/6.1-r0/tests/ipc_shm.c /usr/src/debug/strace/6.1-r0/src/xlat/sock_shutdown_flags.h /usr/src/debug/strace/6.1-r0/tests/io_uring_register.c /usr/src/debug/strace/6.1-r0/tests/userfaultfd.c /usr/src/debug/strace/6.1-r0/
+ src/xlat/nf_ulog_msg_types.h /usr/src/debug/strace/6.1-r0/tests/getcpu.c /usr/src/debug/strace/6.1-r0/src/xlat/ptp_extts_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/tcp_state_flags.h /usr/src/debug/strace/6.1-r0/tests/prctl-pac-enabled-keys.c /usr/src/debug/strace/6.1-r0/src/xlat/qipcrtr_ports.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_addrlabel_attrs.h /usr/src/debug/strace/6.1-r0/tests/clock_t_str.c /usr/src/debug/strace/6.1-r0/src/xlat/kd_led_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/siginfo_codes.h /usr/src/debug/strace/6.1-r0/src/xlat/perf_event_read_format.h /usr/src/debug/strace/6.1-r0/src/xlat/sigfpe_codes.h /usr/src/debug/strace/6.1-r0/src/xlat/access_modes.h /usr/src/debug/strace/6.1-r0/tests/status-unfinished-threads.c /usr/src/debug/strace/6.1-r0/src/xlat/routing_flags.h /usr/src/debug/strace/6.1-r0/tests/ppoll.c /usr/src/debug/strace/6.1-r0/tests/readv.c /usr/src/debug/strace/6.1-r0/tests/access--secontext.c /usr/src/debug/strace/6.1-r0/tests/rmdir.c /usr/src/de
+ bug/strace/6.1-r0/tests/statx.c /usr/src/debug/strace/6.1-r0/tests/alarm.c /usr/src/debug/strace/6.1-r0/tests/futex.c /usr/src/debug/strace/6.1-r0/tests/ioctl.c /usr/src/debug/strace/6.1-r0/tests/lseek.c /usr/src/debug/strace/6.1-r0/tests/mbind.c /usr/src/debug/strace/6.1-r0/tests/dev-yy.c /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ifla_brport_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/phonet_protocols.h /usr/src/debug/strace/6.1-r0/tests/process_vm_readv_writev.c /usr/src/debug/strace/6.1-r0/tests/epoll_create1.c /usr/src/debug/strace/6.1-r0/tests/ioctl_counter.c /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_mdba_router_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/bpf_map_lookup_elem_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/nf_osf_msg_types.h /usr/src/debug/strace/6.1-r0/src/xlat/smc_diag_mode.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_nexthop_grp_types.h /usr/src/debug/strace/6.1-r0/src/xlat/bpf_map_flags.h /usr/src/debug/strace/6.1-r0/tests/faccessat--secontext.c /usr/src
+ /debug/strace/6.1-r0/src/xlat/nlmsgerr_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/kcmp_types.h /usr/src/debug/strace/6.1-r0/src/xlat/sock_ip_options.h /usr/src/debug/strace/6.1-r0/tests/io_uring_enter.c /usr/src/debug/strace/6.1-r0/tests/open--secontext.c /usr/src/debug/strace/6.1-r0/tests/io_uring_setup.c /usr/src/debug/strace/6.1-r0/tests/ifindex.c /usr/src/debug/strace/6.1-r0/src/xlat/ptrace_syscall_info_op.h /usr/src/debug/strace/6.1-r0/src/xlat/mmap_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/swap_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/fcntlcmds.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_neigh_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_route_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/pr_mce_kill_policy.h /usr/src/debug/strace/6.1-r0/tests/syslog.c /usr/src/debug/strace/6.1-r0/src/xlat/uffd_flags.h /usr/src/debug/strace/6.1-r0/tests/ioctl_kd.c /usr/src/debug/strace/6.1-r0/tests/prctl-syscall-user-dispatch.c /usr/src/debug/strace/6.1-r0/tests/ioctl_fs_f.c
+  /usr/src/debug/strace/6.1-r0/src/xlat/pr_set_mm.h /usr/src/debug/strace/6.1-r0/src/xlat/btrfs_tree_objectids.h /usr/src/debug/strace/6.1-r0/src/xlat/bpf_size.h /usr/src/debug/strace/6.1-r0/src/xlat/archvals.h /usr/src/debug/strace/6.1-r0/tests/nlattr_mdba_router_port.c /usr/src/debug/strace/6.1-r0/src/xlat/hdio_ide_nice.h /usr/src/debug/strace/6.1-r0/tests/init_module.c /usr/src/debug/strace/6.1-r0/tests/semop-indirect.c /usr/src/debug/strace/6.1-r0/src/xlat/tee_ioctl_optee_caps.h /usr/src/debug/strace/6.1-r0/tests/sockopt-sol_netlink.c /usr/src/debug/strace/6.1-r0/tests/execve--secontext.c /usr/src/debug/strace/6.1-r0/src/xlat/uffd_api_features.h /usr/src/debug/strace/6.1-r0/src/xlat/tee_ioctl_shm_flags.h /usr/src/debug/strace/6.1-r0/tests/ioctl_evdev.c /usr/src/debug/strace/6.1-r0/src/xlat/btrfs_fs_info_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/sched_flags.h /usr/src/debug/strace/6.1-r0/tests/list_sigaction_signum.c /usr/src/debug/strace/6.1-r0/src/xlat/v4l2_capture_modes.h /
+ usr/src/debug/strace/6.1-r0/src/xlat/inet_diag_bpf_storage_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/mount_attr_propagation.h /usr/src/debug/strace/6.1-r0/src/xlat/notifyflags.h /usr/src/debug/strace/6.1-r0/tests/unblock_reset_raise.c /usr/src/debug/strace/6.1-r0/src/xlat/pr_spec_cmds.h /usr/src/debug/strace/6.1-r0/src/xlat/ebpf_op_alu.h /usr/src/debug/strace/6.1-r0/src/xlat/nl_audit_types.h /usr/src/debug/strace/6.1-r0/tests/sync_file_range2.c /usr/src/debug/strace/6.1-r0/src/xlat/nfc_saps.h /usr/src/debug/strace/6.1-r0/src/xlat/module_init_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/v4l2_control_id_bases.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_tca_act_hw_stats.h /usr/src/debug/strace/6.1-r0/src/xlat/v4l2_buf_flags_ts_src.h /usr/src/debug/strace/6.1-r0/tests/recvfrom.c /usr/src/debug/strace/6.1-r0/tests/localtime.c /usr/src/debug/strace/6.1-r0/src/xlat/x86_xfeatures.h /usr/src/debug/strace/6.1-r0/src/xlat/mctl_sync.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_tca_stats_a
+ ttrs.h /usr/src/debug/strace/6.1-r0/src/xlat/nt_descriptor_types.h /usr/src/debug/strace/6.1-r0/tests/printpath-umovestr.c /usr/src/debug/strace/6.1-r0/src/xlat/ifstats_af_spec_mpls_attrs.h /usr/src/debug/strace/6.1-r0/tests/error_msg.c /usr/src/debug/strace/6.1-r0/src/xlat/sock_ipx_options.h /usr/src/debug/strace/6.1-r0/src/xlat/futexbitset.h /usr/src/debug/strace/6.1-r0/src/xlat/sock_options.h /usr/src/debug/strace/6.1-r0/src/xlat/ipc_msg_flags.h /usr/src/debug/strace/6.1-r0/tests/prlimit64.c /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_mdba_mdb_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/adjtimex_modes.h /usr/src/debug/strace/6.1-r0/src/xlat/netlink_socket_flags.h /usr/src/debug/strace/6.1-r0/tests/stack-fcall.h /usr/src/debug/strace/6.1-r0/src/xlat/quotacmds.h /usr/src/debug/strace/6.1-r0/tests/stack-fcall.c /usr/src/debug/strace/6.1-r0/tests/clock_nanosleep.c /usr/src/debug/strace/6.1-r0/src/xlat/netlink_types.h /usr/src/debug/strace/6.1-r0/src/xlat/fsconfig_cmds.h /usr/src/deb
+ ug/strace/6.1-r0/tests/fchmodat--secontext.c /usr/src/debug/strace/6.1-r0/src/xlat/kd_keymap_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/term_oflags_tabdly.h /usr/src/debug/strace/6.1-r0/tests/umode_t.c /usr/src/debug/strace/6.1-r0/src/xlat/tcxonc_options.h /usr/src/debug/strace/6.1-r0/src/xlat/perf_sw_ids.h /usr/src/debug/strace/6.1-r0/tests/sxetmask.c /usr/src/debug/strace/6.1-r0/tests/kernel_old_timex.h /usr/src/debug/strace/6.1-r0/tests/ioctl_evdev-success.c /usr/src/debug/strace/6.1-r0/tests/nlattr_tcmsg.c /usr/src/debug/strace/6.1-r0/tests/nlattr_ndmsg.c /usr/src/debug/strace/6.1-r0/tests/nlattr_nhmsg.c /usr/src/debug/strace/6.1-r0/tests/nlattr_rtmsg.c /usr/src/debug/strace/6.1-r0/src/xlat/tee_ioctl_origins.h /usr/src/debug/strace/6.1-r0/src/xlat/sigpoll_codes.h /usr/src/debug/strace/6.1-r0/src/xlat/sigprof_codes.h /usr/src/debug/strace/6.1-r0/src/xlat/sigsys_codes.h /usr/src/debug/strace/6.1-r0/src/xlat/numa_node.h /usr/src/debug/strace/6.1-r0/tests/clone3.c /usr/src/debug/
+ strace/6.1-r0/tests/int_0x80.c /usr/src/debug/strace/6.1-r0/src/xlat/v4l2_control_classes.h /usr/src/debug/strace/6.1-r0/src/xlat/if_dqinfo_valid.h /usr/src/debug/strace/6.1-r0/tests/s390_sthyi.c /usr/src/debug/strace/6.1-r0/tests/semtimedop-ipc.c /usr/src/debug/strace/6.1-r0/src/xlat/smc_diag_extended_flags.h /usr/src/debug/strace/6.1-r0/tests/pipe_maxfd.c /usr/src/debug/strace/6.1-r0/tests/qual_inject-error-signal.c /usr/src/debug/strace/6.1-r0/tests/umovestr_cached_adjacent.c /usr/src/debug/strace/6.1-r0/tests/strace-x.c /usr/src/debug/strace/6.1-r0/tests/sock_filter-v.c /usr/src/debug/strace/6.1-r0/src/xlat/aio_iocb_flags.h /usr/src/debug/strace/6.1-r0/tests/ioctl_gpio.c /usr/src/debug/strace/6.1-r0/src/xlat/umount_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/tun_device_types.h /usr/src/debug/strace/6.1-r0/tests/nfnetlink_osf.c /usr/src/debug/strace/6.1-r0/src/xlat/ip_cmsg_types.h /usr/src/debug/strace/6.1-r0/src/xlat/fiemap_extent_flags.h /usr/src/debug/strace/6.1-r0/tests/att
+ ach-p-cmd-p.c /usr/src/debug/strace/6.1-r0/tests/setrlimit.c /usr/src/debug/strace/6.1-r0/src/xlat/ubi_volume_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/bpf_test_run_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/unix_diag_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/pr_set_vma.h /usr/src/debug/strace/6.1-r0/src/xlat/v4l2_buf_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/v4l2_vbi_flags.h /usr/src/debug/strace/6.1-r0/tests/seccomp-filter-v.c /usr/src/debug/strace/6.1-r0/tests/epoll_wait.c /usr/src/debug/strace/6.1-r0/src/xlat/cap_mask0.h /usr/src/debug/strace/6.1-r0/src/xlat/cap_mask1.h /usr/src/debug/strace/6.1-r0/src/xlat/sigbus_codes.h /usr/src/debug/strace/6.1-r0/src/xlat/xdp_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/cap.h /usr/src/debug/strace/6.1-r0/tests/getrusage.c /usr/src/debug/strace/6.1-r0/tests/unix-pair-sendto-recvfrom.c /usr/src/debug/strace/6.1-r0/tests/nlattr_ifla_xdp.c /usr/src/debug/strace/6.1-r0/tests/aio.c /usr/src/debug/strace/6.1-r0/tests/prctl-set_vma.c
+  /usr/src/debug/strace/6.1-r0/tests/xattr-strings.c /usr/src/debug/strace/6.1-r0/src/xlat/btrfs_features_incompat.h /usr/src/debug/strace/6.1-r0/src/xlat/alg_sockaddr_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/bpf_mode.h /usr/src/debug/strace/6.1-r0/src/xlat/faccessat_flags.h /usr/src/debug/strace/6.1-r0/tests/mmsg-silent.c /usr/src/debug/strace/6.1-r0/tests/getegid32.c /usr/src/debug/strace/6.1-r0/tests/geteuid32.c /usr/src/debug/strace/6.1-r0/src/xlat/evdev_autorepeat.h /usr/src/debug/strace/6.1-r0/tests/sendfile.c /usr/src/debug/strace/6.1-r0/src/xlat/nl_netfilter_msg_types.h /usr/src/debug/strace/6.1-r0/tests/preadv2-pwritev2.c /usr/src/debug/strace/6.1-r0/tests/fsync-y.c /usr/src/debug/strace/6.1-r0/tests/getpeername.c /usr/src/debug/strace/6.1-r0/src/xlat/btrfs_snap_flags_v2.h /usr/src/debug/strace/6.1-r0/src/xlat/seccomp_filter_flags.h /usr/src/debug/strace/6.1-r0/tests/overflowuid.c /usr/src/debug/strace/6.1-r0/tests/segv_pkuerr.c /usr/src/debug/strace/6.1-r0/src/xlat/iti
+ mer_which.h /usr/src/debug/strace/6.1-r0/src/xlat/shm_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/pr_sched_core_pidtypes.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_family.h /usr/src/debug/strace/6.1-r0/src/xlat/membarrier_flags.h /usr/src/debug/strace/6.1-r0/tests/umovestr_cached.c /usr/src/debug/strace/6.1-r0/src/xlat/pr_sud_cmds.h /usr/src/debug/strace/6.1-r0/src/xlat/lirc_features.h /usr/src/debug/strace/6.1-r0/tests/nlattr_dcbmsg.c /usr/src/debug/strace/6.1-r0/tests/nlattr_ndtmsg.c /usr/src/debug/strace/6.1-r0/tests/nlattr_tcamsg.c /usr/src/debug/strace/6.1-r0/src/xlat/v4l2_buf_types.h /usr/src/debug/strace/6.1-r0/src/xlat/neighbor_cache_entry_ext_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/perf_hw_cache_op_id.h /usr/src/debug/strace/6.1-r0/tests/xchownx.c /usr/src/debug/strace/6.1-r0/src/xlat/nl_bridge_vlan_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/perf_event_sample_format.h /usr/src/debug/strace/6.1-r0/tests/stack-fcall-2.c /usr/src/debug/strace/6.1-r0/tests/stack-fc
+ all-3.c /usr/src/debug/strace/6.1-r0/tests/prctl-fp-mode.c /usr/src/debug/strace/6.1-r0/tests/stack-fcall-0.c /usr/src/debug/strace/6.1-r0/tests/stack-fcall-1.c /usr/src/debug/strace/6.1-r0/src/xlat/evdev_ev.h /usr/src/debug/strace/6.1-r0/tests/prctl-pdeathsig.c /usr/src/debug/strace/6.1-r0/tests/adjtimex.c /usr/src/debug/strace/6.1-r0/tests/close_range.c /usr/src/debug/strace/6.1-r0/src/xlat/seccomp_ioctl_addfd_flags.h /usr/src/debug/strace/6.1-r0/tests/count-f.c /usr/src/debug/strace/6.1-r0/tests/vfork-f.c /usr/src/debug/strace/6.1-r0/tests/ioctl_watchdog.c /usr/src/debug/strace/6.1-r0/src/xlat/flockcmds.h /usr/src/debug/strace/6.1-r0/tests/tprintf.c /usr/src/debug/strace/6.1-r0/tests/fcntl64.c /usr/src/debug/strace/6.1-r0/tests/epoll_create.c /usr/src/debug/strace/6.1-r0/tests/memfd_create.c /usr/src/debug/strace/6.1-r0/tests/timer_create.c /usr/src/debug/strace/6.1-r0/src/xlat/netlink_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/kd_kbd_types.h /usr/src/debug/strace/6.1-r0/src/x
+ lat/kd_key_types.h /usr/src/debug/strace/6.1-r0/src/xlat/kd_kbd_modes.h /usr/src/debug/strace/6.1-r0/tests/rt_sigsuspend.c /usr/src/debug/strace/6.1-r0/src/xlat/ioprio_who.h /usr/src/debug/strace/6.1-r0/tests/quotactl-xfs.c /usr/src/debug/strace/6.1-r0/tests/nfnetlink_ctnetlink.c /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ifla_af_spec_bridge_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/mctp_nets.h /usr/src/debug/strace/6.1-r0/src/xlat/personality_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/personality_types.h /usr/src/debug/strace/6.1-r0/tests/membarrier.c /usr/src/debug/strace/6.1-r0/tests/fchownat--secontext.c /usr/src/debug/strace/6.1-r0/src/xlat/shm_resource_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ifla_br_boolopt_flags.h /usr/src/debug/strace/6.1-r0/tests/attach-f-p.c /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_tca_stab_attrs.h /usr/src/debug/strace/6.1-r0/tests/qual_inject-signal.c /usr/src/debug/strace/6.1-r0/tests/semtimedop-common.c /usr/src/debug/strace/6.1-r0/
+ tests/fsmount.c /usr/src/debug/strace/6.1-r0/tests/ksysent.c /usr/src/debug/strace/6.1-r0/tests/nlattr_tca_stab.c /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_dcb_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_mdb_attrs.h /usr/src/debug/strace/6.1-r0/tests/nfnetlink_nftables.c /usr/src/debug/strace/6.1-r0/tests/brk.c /usr/src/debug/strace/6.1-r0/src/xlat/inet_diag_extended_flags.h /usr/src/debug/strace/6.1-r0/tests/pselect6-common.c /usr/src/debug/strace/6.1-r0/tests/nlattr_ifla.h /usr/src/debug/strace/6.1-r0/src/xlat/pr_spec_get_store_bypass_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/pr_spec_set_store_bypass_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/v4l2_device_capabilities_flags.h /usr/src/debug/strace/6.1-r0/tests/net-yy-unix.c /usr/src/debug/strace/6.1-r0/src/xlat/f_owner_types.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ifla_ext_filter_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/sock_rxrpc_options.h /usr/src/debug/strace/6.1-r0/src/xlat/sock_vsock_options.h /usr/src
+ /debug/strace/6.1-r0/tests/fchmod-y--secontext.c /usr/src/debug/strace/6.1-r0/src/xlat/sock_can_raw_options.h /usr/src/debug/strace/6.1-r0/tests/pipe.c /usr/src/debug/strace/6.1-r0/tests/poke.c /usr/src/debug/strace/6.1-r0/tests/poll.c /usr/src/debug/strace/6.1-r0/tests/acct.c /usr/src/debug/strace/6.1-r0/tests/caps.c /usr/src/debug/strace/6.1-r0/tests/dup2.c /usr/src/debug/strace/6.1-r0/tests/dup3.c /usr/src/debug/strace/6.1-r0/tests/iopl.c /usr/src/debug/strace/6.1-r0/tests/kcmp.c /usr/src/debug/strace/6.1-r0/tests/kill.c /usr/src/debug/strace/6.1-r0/tests/ioctl_hdio.c /usr/src/debug/strace/6.1-r0/tests/hexquote_strndup.c /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ifla_br_boolopts.h /usr/src/debug/strace/6.1-r0/tests/futex_waitv.c /usr/src/debug/strace/6.1-r0/tests/symlink.c /usr/src/debug/strace/6.1-r0/tests/looping_threads.c /usr/src/debug/strace/6.1-r0/tests/getdents.c /usr/src/debug/strace/6.1-r0/src/xlat/rtc_backup_switch_modes.h /usr/src/debug/strace/6.1-r0/src/xlat/ifstats_
+ offload_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/evdev_abs.h /usr/src/debug/strace/6.1-r0/src/xlat/evdev_snd.h /usr/src/debug/strace/6.1-r0/src/xlat/modetypes.h /usr/src/debug/strace/6.1-r0/tests/init_delete_module.h /usr/src/debug/strace/6.1-r0/tests/netlink_kobject_uevent.c /usr/src/debug/strace/6.1-r0/tests/skip_unavailable.c /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ifla_info_attrs.h /usr/src/debug/strace/6.1-r0/tests/status-unfinished.c /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_netconf_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/kd_key_tables.h /usr/src/debug/strace/6.1-r0/src/xlat/kd_key_dead_keys.h /usr/src/debug/strace/6.1-r0/src/xlat/kvm_exit_reason.h /usr/src/debug/strace/6.1-r0/src/xlat/splice_flags.h /usr/src/debug/strace/6.1-r0/tests/strace--decode-pids-comm.c /usr/src/debug/strace/6.1-r0/src/xlat/btrfs_csum_types.h /usr/src/debug/strace/6.1-r0/src/xlat/seccomp_ret_action.h /usr/src/debug/strace/6.1-r0/tests/nlattr_nlmsgerr.c /usr/src/debug/strace/6.1-r0/tests/
+ inotify.c /usr/src/debug/strace/6.1-r0/src/xlat/open_mode_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/open_tree_flags.h /usr/src/debug/strace/6.1-r0/tests/epoll_ctl.c /usr/src/debug/strace/6.1-r0/src/xlat/at_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/dm_flags.h /usr/src/debug/strace/6.1-r0/tests/read-write.c /usr/src/debug/strace/6.1-r0/src/xlat/evdev_leds.h /usr/src/debug/strace/6.1-r0/src/xlat/evdev_misc.h /usr/src/debug/strace/6.1-r0/src/xlat/evdev_prop.h /usr/src/debug/strace/6.1-r0/tests/utimensat.c /usr/src/debug/strace/6.1-r0/tests/block_reset_raise_run.c /usr/src/debug/strace/6.1-r0/src/xlat/schedulers.h /usr/src/debug/strace/6.1-r0/tests/nlattr_ifla_af_spec.c /usr/src/debug/strace/6.1-r0/tests/status-none-threads.c /usr/src/debug/strace/6.1-r0/src/xlat/getsock_ip_options.h /usr/src/debug/strace/6.1-r0/src/xlat/setsock_ip_options.h /usr/src/debug/strace/6.1-r0/tests/umovestr3.c /usr/src/debug/strace/6.1-r0/tests/setdomainname.c /usr/src/debug/strace/6.1-r0/tests/epoll_p
+ wait.c /usr/src/debug/strace/6.1-r0/src/xlat/mpol_mode_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/inet_diag_ulp_info_tls_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/fspick_flags.h /usr/src/debug/strace/6.1-r0/tests/inject-nf.c /usr/src/debug/strace/6.1-r0/tests/inet-cmsg.c /usr/src/debug/strace/6.1-r0/src/xlat/in6_addr_gen_mode.h /usr/src/debug/strace/6.1-r0/src/xlat/nbd_ioctl_flags.h /usr/src/debug/strace/6.1-r0/tests/ioctl_kvm_run.c /usr/src/debug/strace/6.1-r0/tests/siginfo.c /usr/src/debug/strace/6.1-r0/tests/sysinfo.c /usr/src/debug/strace/6.1-r0/tests/run_expect_termsig.c /usr/src/debug/strace/6.1-r0/src/xlat/mtd_otp_options.h /usr/src/debug/strace/6.1-r0/src/xlat/ieee802154_pan_ids.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ifla_br_mcast_querier_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/tee_ioctl_impl_ids.h /usr/src/debug/strace/6.1-r0/tests/nlattr_ifla_brport.c /usr/src/debug/strace/6.1-r0/tests/semtimedop.c /usr/src/debug/strace/6.1-r0/src/xlat/xattrflags.h /usr/
+ src/debug/strace/6.1-r0/tests/printflags.c /usr/src/debug/strace/6.1-r0/tests/vmsplice.c /usr/src/debug/strace/6.1-r0/src/xlat/v4l2_meta_fmts.h /usr/src/debug/strace/6.1-r0/src/xlat/uring_sqe_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/perf_hw_cache_op_result_id.h /usr/src/debug/strace/6.1-r0/src/xlat/kcm_protocols.h /usr/src/debug/strace/6.1-r0/src/xlat/whence_codes.h /usr/src/debug/strace/6.1-r0/tests/fspick.c /usr/src/debug/strace/6.1-r0/tests/llseek.c /usr/src/debug/strace/6.1-r0/tests/unlink.c /usr/src/debug/strace/6.1-r0/src/xlat/qipcrtr_nodes.h /usr/src/debug/strace/6.1-r0/tests/prctl-tagged-addr.c /usr/src/debug/strace/6.1-r0/tests/execve.c /usr/src/debug/strace/6.1-r0/src/xlat/key_reqkeys.h /usr/src/debug/strace/6.1-r0/tests/ptrace.c /usr/src/debug/strace/6.1-r0/src/xlat/btrfs_defrag_flags.h /usr/src/debug/strace/6.1-r0/tests/rename.c /usr/src/debug/strace/6.1-r0/tests/splice.c /usr/src/debug/strace/6.1-r0/tests/access.c /usr/src/debug/strace/6.1-r0/tests/status.c /usr/sr
+ c/debug/strace/6.1-r0/src/xlat/btrfs_qgroup_status_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/keyctl_caps1.h /usr/src/debug/strace/6.1-r0/tests/xselect.c /usr/src/debug/strace/6.1-r0/tests/kernel_version.c /usr/src/debug/strace/6.1-r0/src/xlat/pr_fp_mode.h /usr/src/debug/strace/6.1-r0/src/xlat/btrfs_qgroup_limit_flags.h /usr/src/debug/strace/6.1-r0/tests/truncate64.c /usr/src/debug/strace/6.1-r0/src/xlat/seccomp_ioctl_resp_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/bpf_map_update_elem_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/btrfs_space_info_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/unix_diag_show.h /usr/src/debug/strace/6.1-r0/tests/block_reset_run.c /usr/src/debug/strace/6.1-r0/tests/sigreturn.c /usr/src/debug/strace/6.1-r0/src/xlat/kd_key_fn_key_vals.h /usr/src/debug/strace/6.1-r0/tests/get_sigset_size.c /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ifla_bridge_modes.h /usr/src/debug/strace/6.1-r0/tests/netlink_generic.c /usr/src/debug/strace/6.1-r0/src/xlat/rxrpc_ser
+ vices.h /usr/src/debug/strace/6.1-r0/src/xlat/bpf_prog_types.h /usr/src/debug/strace/6.1-r0/tests/netlink_netfilter.c /usr/src/debug/strace/6.1-r0/src/xlat/clockflags.h /usr/src/debug/strace/6.1-r0/src/xlat/clocknames.h /usr/src/debug/strace/6.1-r0/src/xlat/vsock_cids.h /usr/src/debug/strace/6.1-r0/src/xlat/epollevents.h /usr/src/debug/strace/6.1-r0/src/xlat/btrfs_qgroup_inherit_flags.h /usr/src/debug/strace/6.1-r0/tests/sprintrc.c /usr/src/debug/strace/6.1-r0/src/xlat/pkey_access.h /usr/src/debug/strace/6.1-r0/src/xlat/memfd_create_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/sigact_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/btrfs_balance_state.h /usr/src/debug/strace/6.1-r0/src/xlat/gpio_handle_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/inet_diag_req_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/v4l2_format_description_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/snmp_ip_stats.h /usr/src/debug/strace/6.1-r0/src/xlat/perf_event_open_flags.h /usr/src/debug/strace/6.1-r0/src/
+ xlat/pr_mce_kill.h /usr/src/debug/strace/6.1-r0/src/xlat/sg_io_info.h /usr/src/debug/strace/6.1-r0/tests/ioctl_fs_x.c /usr/src/debug/strace/6.1-r0/src/xlat/keyctl_move_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/uffd_copy_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/fib_rule_actions.h /usr/src/debug/strace/6.1-r0/src/xlat/hdio_drive_cmds.h /usr/src/debug/strace/6.1-r0/tests/ioctl_sock_gifconf.c /usr/src/debug/strace/6.1-r0/tests/renameat2.c /usr/src/debug/strace/6.1-r0/tests/tampering-notes.c /usr/src/debug/strace/6.1-r0/src/xlat/netfilter_versions.h /usr/src/debug/strace/6.1-r0/src/xlat/mdb_states.h /usr/src/debug/strace/6.1-r0/tests/bpf.c /usr/src/debug/strace/6.1-r0/tests/request_key.c /usr/src/debug/strace/6.1-r0/src/xlat/kd_key_fn_keys.h /usr/src/debug/strace/6.1-r0/src/xlat/kvm_cap.h /usr/src/debug/strace/6.1-r0/tests/seccomp-filter.c /usr/src/debug/strace/6.1-r0/src/xlat/hci_channels.h /usr/src/debug/strace/6.1-r0/tests/hexdump_strdup.c /usr/src/debug/strace/6.1-r0/tests/n
+ lattr_ifaddrlblmsg.c /usr/src/debug/strace/6.1-r0/tests/attach-p-cmd.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ifla_vf_stats_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ifla_info_data_tun_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/kd_key_ascii_keys.h /usr/src/debug/strace/6.1-r0/src/xlat/sync_file_range_flags.h /usr/src/debug/strace/6.1-r0/tests/set_sigblock.c /usr/src/debug/strace/6.1-r0/src/xlat/epollctls.h /usr/src/debug/strace/6.1-r0/src/xlat/smc_link_group_roles.h /usr/src/debug/strace/6.1-r0/tests/openat2.c /usr/src/debug/strace/6.1-r0/tests/readdir.c /usr/src/debug/strace/6.1-r0/tests/umount2.c /usr/src/debug/strace/6.1-r0/tests/nfnetlink_cttimeout.c /usr/src/debug/strace/6.1-r0/tests/segv_accerr.c /usr/src/debug/strace/6.1-r0/src/xlat/pr_pac_enabled_keys.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ip6mra_creport_attr.h /usr/src/debug/strace/6.1-r0/src/xlat/smc_diag_attrs.h /usr/src/debug/strace/6.1-r0/tests/getxpid.c /usr/src/debug/strace/6.1-r0/tests/waitpid.c
+  /usr/src/debug/strace/6.1-r0/tests/getppid.c /usr/src/debug/strace/6.1-r0/tests/getxgid.c /usr/src/debug/strace/6.1-r0/tests/xetpgid.c /usr/src/debug/strace/6.1-r0/tests/getxuid.c /usr/src/debug/strace/6.1-r0/tests/setugid.c /usr/src/debug/strace/6.1-r0/tests/getegid.c /usr/src/debug/strace/6.1-r0/tests/geteuid.c /usr/src/debug/strace/6.1-r0/src/xlat/fan_init_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/fan_mark_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/nf_cttimeout_msg_types.h /usr/src/debug/strace/6.1-r0/src/xlat/bluetooth_l2_cid.h /usr/src/debug/strace/6.1-r0/tests/landlock_add_rule.c /usr/src/debug/strace/6.1-r0/src/xlat/advise.h /usr/src/debug/strace/6.1-r0/tests/nanosleep.c /usr/src/debug/strace/6.1-r0/tests/nfnetlink_ulog.c /usr/src/debug/strace/6.1-r0/src/xlat/nf_cthelper_msg_types.h /usr/src/debug/strace/6.1-r0/tests/secontext.h /usr/src/debug/strace/6.1-r0/tests/xet_thread_area_x86.c /usr/src/debug/strace/6.1-r0/src/xlat/icmp_filter_flags.h /usr/src/debug/strace/6.1-
+ r0/src/xlat/close_range_flags.h /usr/src/debug/strace/6.1-r0/tests/printsignal.c /usr/src/debug/strace/6.1-r0/tests/qual_signal.c /usr/src/debug/strace/6.1-r0/src/xlat/syslog_action_type.h /usr/src/debug/strace/6.1-r0/tests/munlockall.c /usr/src/debug/strace/6.1-r0/src/xlat/mmap_prot.h /usr/src/debug/strace/6.1-r0/tests/recvmmsg-timeout.c /usr/src/debug/strace/6.1-r0/src/xlat/mount_flags.h /usr/src/debug/strace/6.1-r0/tests/nlattr_ifla_vfinfo.c /usr/src/debug/strace/6.1-r0/tests/strace-n.c /usr/src/debug/strace/6.1-r0/src/xlat/bpf_link_create_kprobe_multi_flags.h /usr/src/debug/strace/6.1-r0/tests/lookup_dcookie.c /usr/src/debug/strace/6.1-r0/tests/redirect-fds.c /usr/src/debug/strace/6.1-r0/tests/nlattr_tc_stats.c /usr/src/debug/strace/6.1-r0/tests/newfstatat.c /usr/src/debug/strace/6.1-r0/tests/arch_prctl.c /usr/src/debug/strace/6.1-r0/tests/nlattr_ifla_proto_down_reason.c /usr/src/debug/strace/6.1-r0/tests/oldselect-efault.c /usr/src/debug/strace/6.1-r0/tests/setfsugid.c /usr/src
+ /debug/strace/6.1-r0/tests/setreugid.c /usr/src/debug/strace/6.1-r0/src/xlat/msgctl_flags.h /usr/src/debug/strace/6.1-r0/tests/poke-sendfile.c /usr/src/debug/strace/6.1-r0/src/xlat/nf_acct_msg_types.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_mdba_mdb_entry_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/bpf_file_mode_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/uring_register_rsrc_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/can_protocols.h /usr/src/debug/strace/6.1-r0/tests/ip_mreq.c /usr/src/debug/strace/6.1-r0/src/xlat/sock_nfcllcp_options.h /usr/src/debug/strace/6.1-r0/tests/xutimes.c /usr/src/debug/strace/6.1-r0/tests/qual_inject-retval.c /usr/src/debug/strace/6.1-r0/src/xlat/nf_ctnetlink_msg_types.h /usr/src/debug/strace/6.1-r0/src/xlat/socketlayers.h /usr/src/debug/strace/6.1-r0/src/xlat/evdev_ff_types.h /usr/src/debug/strace/6.1-r0/tests/process_mrelease.c /usr/src/debug/strace/6.1-r0/tests/net-tpacket_req.c /usr/src/debug/strace/6.1-r0/tests/ipc.c /usr/src/debug/strace/6.
+ 1-r0/tests/ioctl_winsize.c /usr/src/debug/strace/6.1-r0/src/xlat/pollflags.h /usr/src/debug/strace/6.1-r0/tests/pidns-cache.c /usr/src/debug/strace/6.1-r0/src/xlat/mctp_addrs.h /usr/src/debug/strace/6.1-r0/src/xlat/btrfs_balance_ctl_cmds.h /usr/src/debug/strace/6.1-r0/src/xlat/scmvals.h /usr/src/debug/strace/6.1-r0/tests/ioctl_ptp.c /usr/src/debug/strace/6.1-r0/src/xlat/nl_selinux_types.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ifla_af_spec_inet_attrs.h /usr/src/debug/strace/6.1-r0/tests/vhangup.c /usr/src/debug/strace/6.1-r0/src/xlat/bsg_protocol.h /usr/src/debug/strace/6.1-r0/tests/dup.c /usr/src/debug/strace/6.1-r0/src/xlat/inet_protocols.h /usr/src/debug/strace/6.1-r0/tests/net-accept-connect.c /usr/src/debug/strace/6.1-r0/src/xlat/nl_route_types.h /usr/src/debug/strace/6.1-r0/src/xlat/nl_crypto_types.h /usr/src/debug/strace/6.1-r0/src/xlat/tee_ioctl_login_types.h /usr/src/debug/strace/6.1-r0/src/xlat/inet_diag_bytecodes.h /usr/src/debug/strace/6.1-r0/tests/set_sigign.c /usr/
+ src/debug/strace/6.1-r0/src/xlat/landlock_rule_types.h /usr/src/debug/strace/6.1-r0/src/xlat/netlink_ack_flags.h /usr/src/debug/strace/6.1-r0/tests/ioctl_perf.c /usr/src/debug/strace/6.1-r0/src/xlat/btrfs_dev_replace_cmds.h /usr/src/debug/strace/6.1-r0/tests/socketcall.c /usr/src/debug/strace/6.1-r0/tests/preadv-pwritev.c /usr/src/debug/strace/6.1-r0/tests/prctl-dumpable.c /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ifla_bridge_flags.h /usr/src/debug/strace/6.1-r0/tests/pkey_mprotect.c /usr/src/debug/strace/6.1-r0/src/xlat/pr_unalign_flags.h /usr/src/debug/strace/6.1-r0/tests/remap_file_pages.c /usr/src/debug/strace/6.1-r0/tests/nlattr_rtgenmsg.c /usr/src/debug/strace/6.1-r0/tests/recvfrom-MSG_TRUNC.c /usr/src/debug/strace/6.1-r0/tests/faccessat.c /usr/src/debug/strace/6.1-r0/src/xlat/shutdown_modes.h /usr/src/debug/strace/6.1-r0/tests/net-yy-netlink.c /usr/src/debug/strace/6.1-r0/tests/nlattr_ifla_linkinfo.c /usr/src/debug/strace/6.1-r0/tests/prctl-set-ptracer-success.c /usr/src/deb
+ ug/strace/6.1-r0/tests/prctl-no-args.c /usr/src/debug/strace/6.1-r0/tests/restart_syscall.c /usr/src/debug/strace/6.1-r0/src/xlat/v4l2_buf_flags_ts_type.h /usr/src/debug/strace/6.1-r0/tests/nlattr_inet_diag_req_compat.c /usr/src/debug/strace/6.1-r0/tests/getpgrp.c /usr/src/debug/strace/6.1-r0/tests/net-icmp_filter.c /usr/src/debug/strace/6.1-r0/tests/fdatasync.c /usr/src/debug/strace/6.1-r0/tests/clone-flags.c /usr/src/debug/strace/6.1-r0/tests/attach-p-cmd-cmd.c /usr/src/debug/strace/6.1-r0/src/xlat/uffd_zeropage_flags.h /usr/src/debug/strace/6.1-r0/tests/file_handle--secontext.c /usr/src/debug/strace/6.1-r0/tests/filter_seccomp-flag.c /usr/src/debug/strace/6.1-r0/tests/pidns.h /usr/src/debug/strace/6.1-r0/src/xlat/landlock_ruleset_access_fs.h /usr/src/debug/strace/6.1-r0/tests/tests.h /usr/src/debug/strace/6.1-r0/tests/threads-execve.c /usr/src/debug/strace/6.1-r0/tests/umask.c /usr/src/debug/strace/6.1-r0/tests/uname.c /usr/src/debug/strace/6.1-r0/tests/ustat.c /usr/src/debug/str
+ ace/6.1-r0/tests/utime.c /usr/src/debug/strace/6.1-r0/tests/chdir.c /usr/src/debug/strace/6.1-r0/tests/chmod.c /usr/src/debug/strace/6.1-r0/tests/delay.c /usr/src/debug/strace/6.1-r0/tests/dirfd.c /usr/src/debug/strace/6.1-r0/tests/fcntl.c /usr/src/debug/strace/6.1-r0/tests/flock.c /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ifla_vf_vlan_list_attrs.h /usr/src/debug/strace/6.1-r0/tests/netlink_crypto.c /usr/src/debug/strace/6.1-r0/src/xlat/netlink_diag_attrs.h /usr/src/debug/strace/6.1-r0/tests/sched_rr_get_interval.c /usr/src/debug/strace/6.1-r0/src/xlat/kd_key_brl_keys.h /usr/src/debug/strace/6.1-r0/src/xlat/kd_key_cur_keys.h /usr/src/debug/strace/6.1-r0/src/xlat/kd_key_pad_keys.h /usr/src/debug/strace/6.1-r0/tests/fanotify_mark--secontext.c /usr/src/debug/strace/6.1-r0/src/xlat/packet_diag_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/btrfs_balance_args.h /usr/src/debug/strace/6.1-r0/src/xlat/ip_type_of_services.h /usr/src/debug/strace/6.1-r0/tests/sigprocmask.c /usr/src/debug/stra
+ ce/6.1-r0/src/xlat/uffd_api_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/fsmount_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/sigchld_codes.h /usr/src/debug/strace/6.1-r0/src/xlat/move_mount_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/move_pages_flags.h /usr/src/debug/strace/6.1-r0/tests/signalfd4.c /usr/src/debug/strace/6.1-r0/src/xlat/pr_sched_core_cmds.h /usr/src/debug/strace/6.1-r0/tests/rt_sigaction.c /usr/src/debug/strace/6.1-r0/tests/signal2name.c /usr/src/debug/strace/6.1-r0/src/xlat/ifstats_attr_flags.h /usr/src/debug/strace/6.1-r0/tests/nlattr_fib_rule_hdr.c /usr/src/debug/strace/6.1-r0/tests/sockopt-timestamp.c /usr/src/debug/strace/6.1-r0/tests/sigsuspend.c /usr/src/debug/strace/6.1-r0/src/xlat/ifstats_xstats_bond_3ad_attrs.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ipmra_msg_types.h /usr/src/debug/strace/6.1-r0/src/xlat/rtnl_ifla_vf_link_states.h /usr/src/debug/strace/6.1-r0/src/xlat/pr_tsc.h /usr/src/debug/strace/6.1-r0/tests/create_tmpfile.c /usr/src/debug/strac
+ e/6.1-r0/src/xlat/dcb_commands.h /usr/src/debug/strace/6.1-r0/tests/fcntl-common.c /usr/src/debug/strace/6.1-r0/tests/semop-common.c /usr/src/debug/strace/6.1-r0/tests/rt_sigqueueinfo.c /usr/src/debug/strace/6.1-r0/src/xlat/clone3_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/ifaddrflags.h /usr/src/debug/strace/6.1-r0/tests/sockname.c /usr/src/debug/strace/6.1-r0/tests/msg_name.c /usr/src/debug/strace/6.1-r0/src/xlat/tee_ioctl_param_attr_types.h /usr/src/debug/strace/6.1-r0/src/xlat/route_nexthop_flags.h /usr/src/debug/strace/6.1-r0/tests/fadvise64.c /usr/src/debug/strace/6.1-r0/tests/s390_runtime_instr.c /usr/src/debug/strace/6.1-r0/src/xlat/membarrier_cmds.h /usr/src/debug/strace/6.1-r0/src/xlat/ptrace_setoptions_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/resource_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/kd_key_slock_keys.h /usr/src/debug/strace/6.1-r0/tests/add_key.c /usr/src/debug/strace/6.1-r0/src/xlat/nf_hook_msg_types.h /usr/src/debug/strace/6.1-r0/src/xlat/inet_diag_
+ shutdown_flags.h /usr/src/debug/strace/6.1-r0/src/xlat/compat_ptrace_cmds.h /usr/src/debug/strace/6.1-r0/src/xlat/netlink_protocols.h /usr/src/debug/strace/6.1-r0/tests/kexec_load.c"
+packages/core2-32-poky-linux/strace/strace-src: PKGV changed from 6.0 [default] to 6.1 [default]
+packages/core2-32-poky-linux/strace/strace-src: PKGSIZE changed from 10078338 to 9941254 (-1%)
+packages/core2-32-poky-linux/strace/strace-staticdev: PV changed from "6.0" to "6.1"
+packages/core2-32-poky-linux/strace/strace-staticdev: PKGV changed from 6.0 [default] to 6.1 [default]
+packages/core2-32-poky-linux/strace/strace: PV changed from "6.0" to "6.1"
+packages/core2-32-poky-linux/strace/strace: PKGV changed from 6.0 [default] to 6.1 [default]
+packages/core2-32-poky-linux/strace/strace: PKGSIZE changed from 1359241 to 1351049 (-1%)
 
---===============7252637731701872561==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
-
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 893 .bb files complete (0 cached, 893 parsed). 1690 targets, 54 skipped, 0 masked, 0 errors.
-Removing 2 recipes from the cortexa15t2hf-neon sysroot...done.
-Removing 1 recipes from the qemuarm sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "arm-poky-linux-gnueabi"
-MACHINE              = "qemuarm"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
-TARGET_FPU           = "hard"
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:5d3377a3e6f69c399d37e6b05002a1a94c5688af"
-workspace            = "master:c9c2b6b613bbaf7133d9c3435f3aef3fe4e38f59"
-
-Initialising tasks...done.
-Sstate summary: Wanted 30 Local 8 Mirrors 0 Missed 22 Current 363 (26% match, 94% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 372 of 393 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_38.0.3.bb:do_package_setscene)
-NOTE: Running setscene task 373 of 393 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.57.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 377 of 393 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.6.bb:do_packagedata_setscene)
-NOTE: Running task 1163 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_fetch)
-NOTE: Running task 1164 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_fetch)
-NOTE: Running task 1290 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_compile_ptest_base)
-NOTE: Running task 1398 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_install)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_fetch: Started
-NOTE: recipe python3-hypothesis-6.57.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_fetch: Started
-NOTE: recipe python3-pytz-2022.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_fetch: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_fetch: Succeeded
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_compile_ptest_base: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: recipe python3-hypothesis-6.57.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-pytz-2022.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1400 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_unpack)
-NOTE: Running task 1401 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_unpack)
-NOTE: Running task 1402 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1403 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1404 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_install)
-NOTE: Running task 1439 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.4.bb:do_packagedata)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_unpack: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_unpack: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-cffi-1.15.1-r0: task do_install: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_unpack: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_unpack: Succeeded
-NOTE: Running task 1450 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_patch)
-NOTE: recipe python3-cryptography-38.0.3-r0: task do_package_setscene: Started
-NOTE: Running task 1451 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_patch)
-NOTE: recipe python3-psutil-5.9.4-r0: task do_packagedata: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_install: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_patch: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_patch: Started
-NOTE: recipe python3-psutil-5.9.4-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-cryptography-38.0.3-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 393 of 393 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_38.0.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_patch: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_patch: Succeeded
-NOTE: Running task 1452 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1453 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_populate_lic)
-NOTE: Running task 1454 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_install: Succeeded
-NOTE: recipe python3-cffi-1.15.1-r0: task do_install: Succeeded
-NOTE: Running task 1455 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_install_ptest_base)
-NOTE: Running task 1456 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_package)
-NOTE: recipe python3-cryptography-38.0.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_populate_lic: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-cryptography-38.0.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 1476 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_install)
-NOTE: Running task 1477 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_38.0.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-cffi-1.15.1-r0: task do_package: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_install_ptest_base: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_populate_lic unihash changed to df73dccbaae41c7bde76bc8bf392fd16fc0639b8ba74183e613e0791103195b1
-NOTE: Setscene tasks completed
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1478 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_configure)
-NOTE: Running task 1479 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_configure)
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1480 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_package)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_configure: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_configure: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_package: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_configure: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_configure: Succeeded
-NOTE: Running task 1481 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_compile)
-NOTE: Running task 1482 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_compile)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_compile: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_compile: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Succeeded
-NOTE: Running task 1483 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package)
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1484 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_38.0.3.bb:do_configure)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Started
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_configure: Started
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_configure: Succeeded
-NOTE: Running task 1485 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_38.0.3.bb:do_compile)
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_compile: Started
-NOTE: recipe python3-cffi-1.15.1-r0: task do_package: Succeeded
-NOTE: Running task 1486 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_packagedata)
-NOTE: recipe python3-cffi-1.15.1-r0: task do_packagedata: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_compile: Succeeded
-NOTE: Running task 1487 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_install)
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_package: Succeeded
-NOTE: Running task 1488 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_packagedata)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_compile: Succeeded
-NOTE: Running task 1489 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_install)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Succeeded
-NOTE: recipe python3-cffi-1.15.1-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_install: Started
-NOTE: Running task 1490 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_packagedata)
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_packagedata: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_install: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_install: Succeeded
-NOTE: Running task 1491 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_package)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 1492 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package_write_rpm)
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_package: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_install: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package_write_rpm: Started
-NOTE: Running task 1493 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_package)
-NOTE: Running task 1494 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_populate_sysroot)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_package: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_package: Succeeded
-NOTE: Running task 1495 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_packagedata)
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_packagedata: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_package: Succeeded
-NOTE: Running task 1496 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_packagedata)
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_packagedata: Failed
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_packagedata: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_compile: Succeeded
-NOTE: Tasks Summary: Attempted 1496 tasks of which 1458 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_packagedata
-Summary: There was 1 WARNING message.
-Summary: There were 8 ERROR messages, returning a non-zero exit code.
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-src went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-dbg went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-staticdev went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-dev went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-doc went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-locale went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/python3-certifi/2022.9.24-r0/temp/log.do_packagedata.2247015
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_packagedata) failed with exit code '1'
-
---===============7252637731701872561==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 893 .bb files complete (0 cached, 893 parsed). 1690 targets, 36 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:5d3377a3e6f69c399d37e6b05002a1a94c5688af"
-workspace            = "master:c9c2b6b613bbaf7133d9c3435f3aef3fe4e38f59"
-
-Initialising tasks...done.
-Sstate summary: Wanted 33 Local 11 Mirrors 0 Missed 22 Current 360 (33% match, 94% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 369 of 393 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_38.0.3.bb:do_package_setscene)
-NOTE: Running setscene task 370 of 393 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.57.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 374 of 393 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.6.bb:do_packagedata_setscene)
-NOTE: Running task 1121 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_fetch)
-NOTE: Running task 1124 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_fetch)
-NOTE: Running task 1345 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_install)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_fetch: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_fetch: Started
-NOTE: recipe python3-hypothesis-6.57.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-pytz-2022.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_fetch: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_fetch: Succeeded
-NOTE: Running task 1347 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_unpack)
-NOTE: recipe python3-hypothesis-6.57.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-pytz-2022.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1348 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_unpack)
-NOTE: Running task 1349 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1350 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1388 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.4.bb:do_packagedata)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_unpack: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_unpack: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-cffi-1.15.1-r0: task do_install: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_unpack: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_unpack: Succeeded
-NOTE: recipe python3-cryptography-38.0.3-r0: task do_package_setscene: Started
-NOTE: Running task 1400 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_patch)
-NOTE: Running task 1401 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_patch)
-NOTE: recipe python3-psutil-5.9.4-r0: task do_packagedata: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_patch: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_patch: Started
-NOTE: recipe python3-psutil-5.9.4-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-cryptography-38.0.3-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 390 of 393 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_38.0.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 391 of 393 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.5.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_patch: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_patch: Succeeded
-NOTE: recipe python3-cryptography-38.0.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-cffi-1.15.1-r0: task do_install: Succeeded
-NOTE: Running task 1402 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1403 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1404 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_populate_lic)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-setuptools-rust-native-1.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 1405 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_package)
-NOTE: recipe python3-cryptography-38.0.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_populate_lic: Started
-NOTE: recipe python3-cffi-1.15.1-r0: task do_package: Started
-NOTE: recipe python3-setuptools-rust-native-1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 392 of 393 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/cargo_1.66.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_populate_lic unihash changed to df73dccbaae41c7bde76bc8bf392fd16fc0639b8ba74183e613e0791103195b1
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1416 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_configure)
-NOTE: Running task 1417 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_configure)
-NOTE: recipe cargo-native-1.66.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_configure: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_configure: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_configure: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_configure: Succeeded
-NOTE: Running task 1418 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_compile)
-NOTE: recipe cargo-native-1.66.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 393 of 393 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.66.0.bb:do_populate_sysroot_setscene)
-NOTE: Running task 1425 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_compile)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_compile: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_compile: Started
-NOTE: recipe rust-native-1.66.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe rust-native-1.66.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1477 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_install)
-NOTE: Running task 1478 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_compile_ptest_base)
-NOTE: Running task 1479 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_38.0.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Started
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_compile_ptest_base: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1480 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_install)
-NOTE: recipe python3-cffi-1.15.1-r0: task do_package: Succeeded
-NOTE: Running task 1481 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_packagedata)
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_install: Started
-NOTE: recipe python3-cffi-1.15.1-r0: task do_packagedata: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Succeeded
-NOTE: Running task 1482 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package)
-NOTE: recipe python3-cffi-1.15.1-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_compile: Succeeded
-NOTE: Running task 1483 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_38.0.3.bb:do_configure)
-NOTE: Running task 1484 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_install)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_compile: Succeeded
-NOTE: Running task 1485 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_install)
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_configure: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_install: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_install: Succeeded
-NOTE: Running task 1486 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_install_ptest_base)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_install: Started
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_configure: Succeeded
-NOTE: Running task 1487 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_38.0.3.bb:do_compile)
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_install_ptest_base: Started
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_compile: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1488 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_package)
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_install: Succeeded
-NOTE: Running task 1489 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_package)
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_package: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_package: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_install: Succeeded
-NOTE: Running task 1490 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_package)
-NOTE: Running task 1491 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_populate_sysroot)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_package: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Succeeded
-NOTE: Running task 1492 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_packagedata)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 1493 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package_write_rpm)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_package: Succeeded
-NOTE: Running task 1494 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_packagedata)
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_packagedata: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_package: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_package: Succeeded
-NOTE: Running task 1495 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_packagedata)
-NOTE: Running task 1496 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_packagedata)
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_packagedata: Failed
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_packagedata: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_packagedata: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_compile: Succeeded
-NOTE: Tasks Summary: Attempted 1496 tasks of which 1458 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_packagedata
-Summary: There was 1 WARNING message.
-Summary: There were 8 ERROR messages, returning a non-zero exit code.
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-src went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-dbg went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-staticdev went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-dev went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-doc went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-locale went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/python3-certifi/2022.9.24-r0/temp/log.do_packagedata.2241096
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_packagedata) failed with exit code '1'
-
---===============7252637731701872561==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
-
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 893 .bb files complete (0 cached, 893 parsed). 1690 targets, 71 skipped, 0 masked, 0 errors.
-Removing 2 recipes from the ppc7400 sysroot...done.
-Removing 1 recipes from the qemuppc sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "powerpc-poky-linux"
-MACHINE              = "qemuppc"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:5d3377a3e6f69c399d37e6b05002a1a94c5688af"
-workspace            = "master:c9c2b6b613bbaf7133d9c3435f3aef3fe4e38f59"
-
-Initialising tasks...done.
-Sstate summary: Wanted 30 Local 8 Mirrors 0 Missed 22 Current 363 (26% match, 94% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 372 of 393 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_38.0.3.bb:do_package_setscene)
-NOTE: Running setscene task 373 of 393 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-hypothesis_6.57.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 377 of 393 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytz_2022.6.bb:do_packagedata_setscene)
-NOTE: Running task 1163 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_fetch)
-NOTE: Running task 1166 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_fetch)
-NOTE: Running task 1288 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_compile_ptest_base)
-NOTE: Running task 1398 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_install)
-NOTE: recipe python3-hypothesis-6.57.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-pytz-2022.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_fetch: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_fetch: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_fetch: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_fetch: Succeeded
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_compile_ptest_base: Started
-NOTE: Running task 1400 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_unpack)
-NOTE: recipe python3-hypothesis-6.57.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-pytz-2022.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1401 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_unpack)
-NOTE: Running task 1402 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1403 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1404 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_install)
-NOTE: Running task 1438 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-psutil_5.9.4.bb:do_packagedata)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_unpack: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_unpack: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_unpack: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_unpack: Succeeded
-NOTE: Running task 1450 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_patch)
-NOTE: Running task 1451 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_patch)
-NOTE: recipe python3-cffi-1.15.1-r0: task do_install: Started
-NOTE: recipe python3-cryptography-38.0.3-r0: task do_package_setscene: Started
-NOTE: recipe python3-psutil-5.9.4-r0: task do_packagedata: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_install: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_patch: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_patch: Started
-NOTE: recipe python3-psutil-5.9.4-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-cryptography-38.0.3-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 393 of 393 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_38.0.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_patch: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_patch: Succeeded
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_install: Succeeded
-NOTE: Running task 1452 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1453 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1454 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_populate_lic)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-cffi-1.15.1-r0: task do_install: Succeeded
-NOTE: Running task 1455 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_install_ptest_base)
-NOTE: recipe python3-cryptography-38.0.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: Running task 1456 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_package)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_populate_lic: Started
-NOTE: recipe python3-cryptography-38.0.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1476 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_install)
-NOTE: Running task 1477 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_38.0.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-cffi-1.15.1-r0: task do_package: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_install_ptest_base: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_populate_lic unihash changed to df73dccbaae41c7bde76bc8bf392fd16fc0639b8ba74183e613e0791103195b1
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Started
-NOTE: Running task 1478 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_configure)
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1479 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_configure)
-NOTE: Running task 1480 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_package)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_configure: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_configure: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_package: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_configure: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_configure: Succeeded
-NOTE: Running task 1481 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_compile)
-NOTE: Running task 1482 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_compile)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_compile: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_compile: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Succeeded
-NOTE: Running task 1483 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package)
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1484 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_38.0.3.bb:do_configure)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Started
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_configure: Started
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_configure: Succeeded
-NOTE: Running task 1485 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography-vectors_38.0.3.bb:do_compile)
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_compile: Started
-NOTE: recipe python3-cffi-1.15.1-r0: task do_package: Succeeded
-NOTE: Running task 1486 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cffi_1.15.1.bb:do_packagedata)
-NOTE: recipe python3-cffi-1.15.1-r0: task do_packagedata: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_package: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_compile: Succeeded
-NOTE: Running task 1487 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_install)
-NOTE: Running task 1488 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-bcrypt_4.0.1.bb:do_packagedata)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_compile: Succeeded
-NOTE: recipe python3-cffi-1.15.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 1489 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_install)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Succeeded
-NOTE: Running task 1490 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_packagedata)
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_install: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_packagedata: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_install: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Started
-NOTE: recipe python3-bcrypt-4.0.1-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 1491 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package_write_rpm)
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_install: Succeeded
-NOTE: Running task 1492 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_package)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_package: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_install: Succeeded
-NOTE: Running task 1493 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_package)
-NOTE: Running task 1494 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_populate_sysroot)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_package: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_package: Succeeded
-NOTE: Running task 1495 of 1504 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_packagedata)
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_packagedata: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_package: Succeeded
-NOTE: recipe python3-certifi-2022.9.24-r0: task do_packagedata: Failed
-NOTE: recipe python3-cryptography-vectors-38.0.3-r0: task do_compile: Succeeded
-NOTE: Tasks Summary: Attempted 1495 tasks of which 1458 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_packagedata
-Summary: There was 1 WARNING message.
-Summary: There were 8 ERROR messages, returning a non-zero exit code.
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-src went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-dbg went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-staticdev went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-dev went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-doc went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi-locale went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: QA Issue: Package version for package python3-certifi went backwards which would break package feeds (from 0:2022.12.7-r0 to 0:2022.9.24-r0) [version-going-backwards]
-ERROR: python3-certifi-2022.9.24-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/python3-certifi/2022.9.24-r0/temp/log.do_packagedata.2257924
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.9.24.bb:do_packagedata) failed with exit code '1'
-
---===============7252637731701872561==--
+--===============3214055610483818354==--
 
