@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F03FBC46467
-	for <webhook@archiver.kernel.org>; Sun,  1 Jan 2023 17:38:45 +0000 (UTC)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web11.16023.1672594715863712312
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0237FC53210
+	for <webhook@archiver.kernel.org>; Sun,  1 Jan 2023 17:38:46 +0000 (UTC)
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+ by mx.groups.io with SMTP id smtpd.web11.16026.1672594723763662988
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Jan 2023 09:38:35 -0800
+ Sun, 01 Jan 2023 09:38:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=d/gxSsxH;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f182.google.com with SMTP id 82so17177656pgc.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 01 Jan 2023 09:38:35 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=tm4CYsYI;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.180, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f180.google.com with SMTP id e10so3236371pgc.9
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Jan 2023 09:38:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=mRSNgNe6MVpA86A0oD8nPP48YQS6X0VVWZzRSMfM5og=;
-        b=d/gxSsxHtLUrhV6AP2XN0wvJrC326cEOt/ehuHd1aX8+JFleb9C5/5RqkkYykN1LEt
-         Q0dv+RLXbONszHMx6pQHpIazG6BpUSdXUm+kNYBPOnlx/ow9fpbQRQme9Ei/tpnead9k
-         BrcjUo68XnR7I8HE+w8auwwU3aYSeOXsdLQoxxzsIcfC10PPom/q/TnELjlI0Bulecj3
-         OrWnfPGXtuYIVbL7sYpYBn1nDRyTn69KCBezz024JfL+3vJf4ly5u3BWy7YBuPvG8xuY
-         NTQvb1kE69NKeq3tdchaz7qo7r52ndjtcASLfwy8FbHJh7PL7SFmDDx8q83OaZ9Fvyuy
-         kYcw==
+        bh=pDzJ6+R+B+JCd0KP3PRfzxRmxZ5K2DE+I9NKNqk4Uyc=;
+        b=tm4CYsYIOTEQcvMBCwVmmjClu3LqCPuk2StEx+4ZzvlxpM8i+Vtab/1fW71/ZAK/i9
+         XIvtSnQ0gyMkeygRTw9f5TFz/+5LHEnARJNHyC7pD/vYmvB2RIldqVPq14y/BUwpHZX0
+         vZe/HCEiORKpjEnxewxZLdbW2zcGZDaSkbOm90XF9Offlr0LIzqu37W/IvO/I4btdWoK
+         wVmHGYGZB3dohoZxgzaZf4C28Vl3lcwmL5sfsOwMw66n6M3+vo41weGxscAZFydGpeGs
+         DP4BnAtkG967MIJDVHzixjVjoTqIPs2KO18PBQdA5Ta5eAnXtqW/hk47OCpHcJZm7pkL
+         88UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mRSNgNe6MVpA86A0oD8nPP48YQS6X0VVWZzRSMfM5og=;
-        b=35WLLAexbJZQaNyZlOf/lJkVE+uQJ4xunnnvu1NLb4S/h+c+JoVJPgxccXITIKKmnq
-         wRGUOt5z1Z4YpMWPFh/xNpy26TKrm0WtkQcpdHRDBv7cAry+SKLxmwIs0lwja4liw2q8
-         MmweVLbaiuIZ9izcMmdtAFH7ybcoGUxInrf43646CIa3CwiCcbIfCODRqJT4kuquJlEl
-         IcIlcaUGXFCtAgoU4bUBPCHcaNBLxVLi+C11BJtOlGaO250/4g/mS9JQkTswdURDZZAM
-         ohH0TdmTItlH0qdQ4Ei/iZWL6EPzKISmhntzbr5QdX2gdUG1i5fEbsxNdx9P8K1sL0bT
-         9dbw==
-X-Gm-Message-State: AFqh2kpr9Ikqfh/GwLAnkNAmfTeHkOluBCSdH55PmTkG2PnT/T87+Irq
-	BLyL7RH8UkVj5EGlRPCz7ApvwkG70IWXKz/Kt4Y=
-X-Google-Smtp-Source: AMrXdXsK94XM/FOC1Od8bTytjgUEf44YktR+sUw4EPG/oaQBJMMTrnlV1F9X7TFF2eSe4pOYGdFhsw==
-X-Received: by 2002:a05:6a00:3217:b0:580:ffa0:bfcf with SMTP id bm23-20020a056a00321700b00580ffa0bfcfmr25806064pfb.6.1672594714905;
-        Sun, 01 Jan 2023 09:38:34 -0800 (PST)
+        bh=pDzJ6+R+B+JCd0KP3PRfzxRmxZ5K2DE+I9NKNqk4Uyc=;
+        b=to5LueDD96iZbwvYECaKIHh4RMJJaO1Hb8+0S2vCt83MMJb+tsc8YnV4VN2BWKO1DL
+         qbhqf5wEQb91hM1n/8fAK/h7gvmlPFffosVoFnIBR65WDfDRzBOGrv8jrc2KVbjQ3dkR
+         ZfUN3gFKHv7jIbzSE5JMCfS39m80ldBxwG94m3Rnf3iH00pWMc9rOjaxsOY9LWDGXqUi
+         R9zVF5U0UA6UoVGWVI9CFZ9Py+i0NDNY/2oiu65lMDH2DJx4YMMKpOw9ntfQ9cfbDbM2
+         qzAVSPzjwUI1/GmY0TwQK/B93qr2N2GKSGxBgTmw602FJ/BbPl/oliU5h2dGty7JVcu+
+         MKvw==
+X-Gm-Message-State: AFqh2kocBLbD4GZVCj7gOUTB6MwifXx5J/tjGrZFMmT/4np2rp4X3YHx
+	w8McSn6VJ8azYhgLvSmrhzp9WmuH0AK0ZIRYcU4=
+X-Google-Smtp-Source: AMrXdXseU3Mcu3oi7Bm70VOy7yTG1lRxB1GKWbhBCR+7bjg5m4b/iPgY3BV7R4N3ZLaMpZaSSBNSDg==
+X-Received: by 2002:a62:1d57:0:b0:581:6979:5e with SMTP id d84-20020a621d57000000b005816979005emr20997152pfd.15.1672594722683;
+        Sun, 01 Jan 2023 09:38:42 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-5-74.hawaiiantel.net. [72.253.5.74])
-        by smtp.gmail.com with ESMTPSA id v63-20020a626142000000b005828071bf7asm102299pfb.22.2023.01.01.09.38.33
+        by smtp.gmail.com with ESMTPSA id v63-20020a626142000000b005828071bf7asm102299pfb.22.2023.01.01.09.38.41
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Jan 2023 09:38:34 -0800 (PST)
+        Sun, 01 Jan 2023 09:38:42 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 19/29] openssh: remove RRECOMMENDS to rng-tools for sshd package
-Date: Sun,  1 Jan 2023 07:37:41 -1000
-Message-Id: <c4949d2443bcecaf57c1d7f51151ecc10fe5e129.1672594521.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 23/29] classes/create-spdx: Add SPDX_PRETTY option
+Date: Sun,  1 Jan 2023 07:37:45 -1000
+Message-Id: <645b22b51370ab11e31ca2ff84f5211ce2e9af83.1672594521.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1672594521.git.steve@sakoman.com>
 References: <cover.1672594521.git.steve@sakoman.com>
@@ -60,99 +60,125 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 Jan 2023 17:38:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175207
+ <openembedded-core@lists.openembedded.org>; Sun, 01 Jan 2023 17:38:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175211
 
-From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
+From: Joshua Watt <JPEWhacker@gmail.com>
 
-It appears that rngd is not needed as of linux-5.6 and later[1]
-and should not be installed by default since the purpose of rngd
-is to provide additional trusted sources of entropy.
+Adds an option to make the SPDX more human-readable (at the expense of a
+larger files)
 
-We did some testing on real hardware, the result seems to support that
-we no longer need rngd by default on kernel v5.6 and later.
-
-Testing result as below:
-
-1. observing the crng init stage.
- the "random: crng init done" always available before fs being mounted.
-
-2. generating random number without rngd.
- testing command: dd if=/dev/random of=/dev/null status=progress
-   on Marvell CN96xx RDB board, speed almost 20.4 MB/s without block
-   on NXP i.mx6q board, speed almost 31.9 MB/s without block
-   on qemu x86-64, speed almost 2.6MB/s without block
-
-3. using rngtest command without rngd
- testing command: rngtest -c 1000 </dev/random
-   on Marvell CN96xx RDB board:
-      rngtest: input channel speed: (min=4.340; avg=135.364; max=146.719)Mibits/s
-      rngtest: FIPS tests speed: (min=8.197; avg=69.020; max=72.800)Mibits/s
-      rngtest: Program run time: 418771 microseconds
-
-   on NXP i.mx6q board:
-      rngtest: input channel speed: (min=96.820; avg=326.769; max=340.598)Mibits/s
-      rngtest: FIPS tests speed: (min=15.090; avg=37.543; max=40.324)Mibits/s
-      rngtest: Program run time: 570229 microseconds
-
-   on qemu x86-64:
-      rngtest: input channel speed: (min=37.769; avg=101.136; max=136.239)Mibits/s
-      rngtest: FIPS tests speed: (min=10.288; avg=30.682; max=40.155)Mibits/s
-      rngtest: Program run time: 836800 microseconds
-
-4. observing sshd service.
-  using "systemctl disable rng-tools" disable service and reboot system.
-  system boot up normal, sshd service also start in normal time without
-  block.
-
-Reference:
-[1] https://github.com/torvalds/linux/commit/30c08efec8884fb106b8e57094baa51bb4c44e32
-
-Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 868dfb46d96a27ec9041cb902fb769330277257d)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 4799594b26f77ed259dc661bf077519b338390c8)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-connectivity/openssh/openssh_8.9p1.bb | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+ meta/classes/create-spdx.bbclass | 22 ++++++++++++++++------
+ meta/lib/oe/sbom.py              |  4 ++--
+ 2 files changed, 18 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
-index e4446280d9..6057d055f4 100644
---- a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
-@@ -54,15 +54,12 @@ SYSTEMD_SERVICE:${PN}-sshd = "sshd.socket"
+diff --git a/meta/classes/create-spdx.bbclass b/meta/classes/create-spdx.bbclass
+index 212dfe0aa3..349ecfe6ab 100644
+--- a/meta/classes/create-spdx.bbclass
++++ b/meta/classes/create-spdx.bbclass
+@@ -24,6 +24,7 @@ SPDX_ARCHIVE_PACKAGED ??= "0"
  
- inherit autotools-brokensep ptest
+ SPDX_UUID_NAMESPACE ??= "sbom.openembedded.org"
+ SPDX_NAMESPACE_PREFIX ??= "http://spdx.org/spdxdoc"
++SPDX_PRETTY ??= "0"
  
--PACKAGECONFIG ??= "rng-tools"
-+PACKAGECONFIG ??= ""
- PACKAGECONFIG[kerberos] = "--with-kerberos5,--without-kerberos5,krb5"
- PACKAGECONFIG[ldns] = "--with-ldns,--without-ldns,ldns"
- PACKAGECONFIG[libedit] = "--with-libedit,--without-libedit,libedit"
- PACKAGECONFIG[manpages] = "--with-mantype=man,--with-mantype=cat"
+ SPDX_LICENSES ??= "${COREBASE}/meta/files/spdx-licenses.json"
  
--# Add RRECOMMENDS to rng-tools for sshd package
--PACKAGECONFIG[rng-tools] = ""
--
- EXTRA_AUTORECONF += "--exclude=aclocal"
+@@ -75,6 +76,11 @@ def recipe_spdx_is_native(d, recipe):
+ def is_work_shared_spdx(d):
+     return bb.data.inherits_class('kernel', d) or ('work-shared' in d.getVar('WORKDIR'))
  
- # login path is hardcoded in sshd
-@@ -162,15 +159,10 @@ FILES:${PN}-keygen = "${bindir}/ssh-keygen"
++def get_json_indent(d):
++    if d.getVar("SPDX_PRETTY") == "1":
++        return 2
++    return None
++
+ python() {
+     import json
+     if d.getVar("SPDX_LICENSE_DATA"):
+@@ -514,7 +520,7 @@ python do_create_spdx() {
  
- RDEPENDS:${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen ${PN}-sftp-server"
- RDEPENDS:${PN}-sshd += "${PN}-keygen ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-keyinit pam-plugin-loginuid', '', d)}"
--RRECOMMENDS:${PN}-sshd:append:class-target = "\
--    ${@bb.utils.filter('PACKAGECONFIG', 'rng-tools', d)} \
--"
--
- # break dependency on base package for -dev package
- # otherwise SDK fails to build as the main openssh and dropbear packages
- # conflict with each other
- RDEPENDS:${PN}-dev = ""
--
- # gdb would make attach-ptrace test pass rather than skip but not worth the build dependencies
- RDEPENDS:${PN}-ptest += "${PN}-sftp ${PN}-misc ${PN}-sftp-server make sed sudo coreutils"
+     dep_recipes = collect_dep_recipes(d, doc, recipe)
  
+-    doc_sha1 = oe.sbom.write_doc(d, doc, "recipes")
++    doc_sha1 = oe.sbom.write_doc(d, doc, "recipes", indent=get_json_indent(d))
+     dep_recipes.append(oe.sbom.DepRecipe(doc, doc_sha1, recipe))
+ 
+     recipe_ref = oe.spdx.SPDXExternalDocumentRef()
+@@ -579,7 +585,7 @@ python do_create_spdx() {
+ 
+             add_package_sources_from_debug(d, package_doc, spdx_package, package, package_files, sources)
+ 
+-            oe.sbom.write_doc(d, package_doc, "packages")
++            oe.sbom.write_doc(d, package_doc, "packages", indent=get_json_indent(d))
+ }
+ # NOTE: depending on do_unpack is a hack that is necessary to get it's dependencies for archive the source
+ addtask do_create_spdx after do_package do_packagedata do_unpack before do_populate_sdk do_build do_rm_work
+@@ -743,7 +749,7 @@ python do_create_runtime_spdx() {
+                 )
+                 seen_deps.add(dep)
+ 
+-            oe.sbom.write_doc(d, runtime_doc, "runtime", spdx_deploy)
++            oe.sbom.write_doc(d, runtime_doc, "runtime", spdx_deploy, indent=get_json_indent(d))
+ }
+ 
+ addtask do_create_runtime_spdx after do_create_spdx before do_build do_rm_work
+@@ -939,7 +945,7 @@ def combine_spdx(d, rootfs_name, rootfs_deploydir, rootfs_spdxid, packages):
+     image_spdx_path = rootfs_deploydir / (rootfs_name + ".spdx.json")
+ 
+     with image_spdx_path.open("wb") as f:
+-        doc.to_json(f, sort_keys=True)
++        doc.to_json(f, sort_keys=True, indent=get_json_indent(d))
+ 
+     num_threads = int(d.getVar("BB_NUMBER_THREADS"))
+ 
+@@ -997,7 +1003,11 @@ def combine_spdx(d, rootfs_name, rootfs_deploydir, rootfs_spdxid, packages):
+ 
+             index["documents"].sort(key=lambda x: x["filename"])
+ 
+-            index_str = io.BytesIO(json.dumps(index, sort_keys=True).encode("utf-8"))
++            index_str = io.BytesIO(json.dumps(
++                index,
++                sort_keys=True,
++                indent=get_json_indent(d),
++            ).encode("utf-8"))
+ 
+             info = tarfile.TarInfo()
+             info.name = "index.json"
+@@ -1011,4 +1021,4 @@ def combine_spdx(d, rootfs_name, rootfs_deploydir, rootfs_spdxid, packages):
+ 
+     spdx_index_path = rootfs_deploydir / (rootfs_name + ".spdx.index.json")
+     with spdx_index_path.open("w") as f:
+-        json.dump(index, f, sort_keys=True)
++        json.dump(index, f, sort_keys=True, indent=get_json_indent(d))
+diff --git a/meta/lib/oe/sbom.py b/meta/lib/oe/sbom.py
+index 3372f13a9d..52bf51440e 100644
+--- a/meta/lib/oe/sbom.py
++++ b/meta/lib/oe/sbom.py
+@@ -32,7 +32,7 @@ def get_sdk_spdxid(sdk):
+     return "SPDXRef-SDK-%s" % sdk
+ 
+ 
+-def write_doc(d, spdx_doc, subdir, spdx_deploy=None):
++def write_doc(d, spdx_doc, subdir, spdx_deploy=None, indent=None):
+     from pathlib import Path
+ 
+     if spdx_deploy is None:
+@@ -41,7 +41,7 @@ def write_doc(d, spdx_doc, subdir, spdx_deploy=None):
+     dest = spdx_deploy / subdir / (spdx_doc.name + ".spdx.json")
+     dest.parent.mkdir(exist_ok=True, parents=True)
+     with dest.open("wb") as f:
+-        doc_sha1 = spdx_doc.to_json(f, sort_keys=True)
++        doc_sha1 = spdx_doc.to_json(f, sort_keys=True, indent=indent)
+ 
+     l = spdx_deploy / "by-namespace" / spdx_doc.documentNamespace.replace("/", "_")
+     l.parent.mkdir(exist_ok=True, parents=True)
 -- 
 2.25.1
 
