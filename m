@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECED1C7113B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F365CC7113C
 	for <webhook@archiver.kernel.org>; Sun,  1 Jan 2023 20:46:18 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.20186.1672605968223280477
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.20673.1672605967738731570
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Jan 2023 12:46:08 -0800
+ Sun, 01 Jan 2023 12:46:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=HGWoaNl0;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101856f15a517-2d354571-e0a8-4bf2-9a7e-2a0ae57336f7-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=UK57vMeE;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101856f15a291-4ec994d5-066a-4abe-b252-d2cf0c24725a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1672605967;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=qElRvuCN6aBpwdA0y8vbgqc8lL+YRSupkfqHC9sJSMM=;
-	b=HGWoaNl0pNpfv+2i8hktnj8uHeA86PoAQY0YoofUjKJIpnxPugHn4Xou8W/Lpfad
-	rFq8j2h2CpmPE4gJSsoKfuj3DnHOY7sVWLfOpSXuMbqufpo0H2Qmc/6RyEMCTC3uv+/
-	NJr/tMSVvTsLI/UJ577ISkHb8CNaNoIeeM+EvFy0=
+	bh=zQW6/QmCP3/MIME+HinKPw7oHxw8GSr0QIQIXQ0hFUE=;
+	b=UK57vMeEnzDwHLpOZqyvGauoEYFQSogsiS/LlJnI6gXBiU3TvPQyKwMZ243Z+tV3
+	L2A4qsTanH7TnXpmq3qSLXYJfYbCfInCG0Jn40aOXD2pWc0rc83go5EFWVEjreQ/WI9
+	6mE3tAaJWtFoX+kgX+d5nHMRmTtPsOVVMHw22OeM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1672605967;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=qElRvuCN6aBpwdA0y8vbgqc8lL+YRSupkfqHC9sJSMM=;
-	b=PbjeMH5oZzlVmipmSNcFx7SCrpCjXFIUV336EXbV+gcD/Jk2NarElBp9yOICwokh
-	oeF3D1gDfFBgVeLxIMJCtDF0GLoxqY11+zEwGlCWV1cYeXo7imNfii1uQTeQrM0Weir
-	T+unej9Ok8DHEB2QenHwumYhtht+YS5zTi6v2PoI=
-Content-Type: multipart/mixed; boundary="===============5580527191766132594=="
+	bh=zQW6/QmCP3/MIME+HinKPw7oHxw8GSr0QIQIXQ0hFUE=;
+	b=Us9tv5RwgiyWOCF5NOwozYnbKVdIvEk5VQy+sRn6MVvqZmgAh/9nV2JOZPLQ9clw
+	GM8O0LLuwnTGo999eMf+QaaXHNsrE5YAAvFKnxSjQoteub5hoHGWpISMSjSn5Z0IqPJ
+	R+2GWAI4k2/WkShOoNoAjxS+DzOfPnF+++onYzeY=
+Content-Type: multipart/mixed; boundary="===============5572514484206413240=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Markus Volk <f_l_k@t-online.de>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gcr3: upgrading to 4.0.0 FAILED
-Message-ID: <010101856f15a517-2d354571-e0a8-4bf2-9a7e-2a0ae57336f7-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-subunit: upgrading to 1.4.2 SUCCEEDED
+Message-ID: <010101856f15a291-4ec994d5-066a-4abe-b252-d2cf0c24725a-000000@us-west-2.amazonses.com>
 Date: Sun, 1 Jan 2023 20:46:07 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.01.01-54.240.27.31
+X-SES-Outgoing: 2023.01.01-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 Jan 2023 20:46:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175273
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175272
 
---===============5580527191766132594==
+--===============5572514484206413240==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,93 +50,90 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gcr3* to *4.0.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *python3-subunit* to *1.4.2* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-subunit-upgrade-1.4.1-1.4.2.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade gcr3 -V 4.0.0
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Previous bitbake instance shutting down?, waiting to retry... (12:44:23.210151)
-NOTE: Directory listing: ['conf', 'tmp', 'cache', 'downloads', 'buildhistory', 'sstate-cache', 'workspace', 'upgrade-helper', 'bitbake-cookerdaemon.log']
-NOTE: Retrying server connection (#1)... (12:44:23.378778)
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 893 .bb files complete (0 cached, 893 parsed). 1690 targets, 36 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 WARNING message.
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:85cb87002da877749e3692fe0845d6ebd2a5ebb3"
-workspace            = "master:c9c2b6b613bbaf7133d9c3435f3aef3fe4e38f59"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 22 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1690 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 894 .bb files complete (892 cached, 2 parsed). 1691 targets, 36 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 WARNING message.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:85cb87002da877749e3692fe0845d6ebd2a5ebb3"
-workspace            = "master:c9c2b6b613bbaf7133d9c3435f3aef3fe4e38f59"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 18 (0% match, 100% complete)
-NOTE: Executing Tasks
-WARNING: Failed to fetch URL https://download.gnome.org/sources/gcr/3.40/gcr-4.0.0.tar.xz;name=archive, attempting MIRRORS if available
-NOTE: Tasks Summary: Attempted 82 tasks of which 81 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://download.gnome.org/sources/gcr/3.40/gcr-4.0.0.tar.xz;name=archive...
-ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-ov6s1l54/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-ov6s1l54/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-ov6s1l54/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-wor
- ker/auh/build/build/build/tmp/work/recipetool-ov6s1l54/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-ov6s1l54/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-ov6s1l54/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 --passive-ftp -O /home/pokybuild/yocto-worker/auh/build/build/build/downloads/gcr-4.0.0.tar.xz.tmp -P /home/pokybuild/yocto-worker/auh/build/build/build/downloads 'https://download.gnome.org/sources/gcr/3.40/gcr-4.0.0.tar.xz' --progress=dot -v failed with exit code 8, no output
-ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://download.gnome.org/sources/gcr/3.40/gcr-4.0.0.tar.xz;name=archive')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-ov6s1l54/work/temp/log.do_fetch.1416595
-ERROR: Failed to fetch URL https://download.gnome.org/sources/gcr/3.40/gcr-4.0.0.tar.xz;name=archive
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============5580527191766132594==--
+--===============5572514484206413240==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-32-poky-linux/python3-subunit (sysroot):
+  /usr/lib/python3.11/site-packages/python_subunit-1.4.1.dist-info moved to /usr/lib/python3.11/site-packages/python_subunit-1.4.2.dist-info
+
+--===============5572514484206413240==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-subunit-upgrade-1.4.1-1.4.2.patch"
+
+RnJvbSA2YThkYzQ0ZTUzMWM0YTQ1ZTYxZDI2ZGY1NzQzZDYzYzRlMmFjMzQ3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMSBKYW4gMjAyMyAxMDo0MTo1NSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtc3VidW5pdDogdXBncmFkZSAxLjQuMSAtPiAxLjQuMgoKLS0tCiAuLi4ve3B5dGhvbjMt
+c3VidW5pdF8xLjQuMS5iYiA9PiBweXRob24zLXN1YnVuaXRfMS40LjIuYmJ9ICAgICAgfCAyICst
+CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXN1YnVuaXRfMS40LjEuYmIgPT4g
+cHl0aG9uMy1zdWJ1bml0XzEuNC4yLmJifSAoODElKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zdWJ1bml0XzEuNC4xLmJiIGIvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24zLXN1YnVuaXRfMS40LjIuYmIKc2ltaWxhcml0eSBpbmRl
+eCA4MSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXN1
+YnVuaXRfMS40LjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
+aG9uMy1zdWJ1bml0XzEuNC4yLmJiCmluZGV4IGM1ZmFlYWE1MTMuLmEwMThlZjFkYzggMTAwNjQ0
+Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zdWJ1bml0XzEuNC4x
+LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zdWJ1bml0XzEu
+NC4yLmJiCkBAIC02LDcgKzYsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9SRUFETUUu
+cnN0O2JlZ2lubGluZT0xO2VuZGxpbmU9MjA7bWQ1PTkwOWMwOGUyOTE2NDdmZAogCiBQWVBJX1BB
+Q0tBR0UgPSAicHl0aG9uLXN1YnVuaXQiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI1ZmU1Njg2
+OTA0NDI4NTAxMzc2ZTdiMTE1OTMyMjZkMzc2MzhmYmQ5ODFjMWZjOWVkNmFhYzE4MDUyNWQ3OGMx
+IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjI5ODhkMzI0ZDU1ZWMzNWRkMDM3ZTUwMmUzZjc0YWMz
+OGY0ZTQ1N2JkNDRlZTBlZGY1ZTg5OGY3ZWUxMTM0ZDQiCiAKIGluaGVyaXQgcHlwaSBzZXR1cHRv
+b2xzMwogCi0tIAoyLjM3LjMKCg==
+
+--===============5572514484206413240==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/python3-subunit: PV changed from "1.4.1" to "1.4.2"
+packages/core2-32-poky-linux/python3-subunit: PKGV changed from 1.4.1 [default] to 1.4.2 [default]
+packages/core2-32-poky-linux/python3-subunit: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/python-subunit/python-subunit-1.4.1.tar.gz" to "https://files.pythonhosted.org/packages/source/p/python-subunit/python-subunit-1.4.2.tar.gz"
+packages/core2-32-poky-linux/python3-subunit/python3-subunit-dbg: PV changed from "1.4.1" to "1.4.2"
+packages/core2-32-poky-linux/python3-subunit/python3-subunit-dbg: PKGV changed from 1.4.1 [default] to 1.4.2 [default]
+packages/core2-32-poky-linux/python3-subunit/python3-subunit-dev: PV changed from "1.4.1" to "1.4.2"
+packages/core2-32-poky-linux/python3-subunit/python3-subunit-dev: PKGV changed from 1.4.1 [default] to 1.4.2 [default]
+packages/core2-32-poky-linux/python3-subunit/python3-subunit-doc: PV changed from "1.4.1" to "1.4.2"
+packages/core2-32-poky-linux/python3-subunit/python3-subunit-doc: PKGV changed from 1.4.1 [default] to 1.4.2 [default]
+packages/core2-32-poky-linux/python3-subunit/python3-subunit-locale: PV changed from "1.4.1" to "1.4.2"
+packages/core2-32-poky-linux/python3-subunit/python3-subunit-locale: PKGV changed from 1.4.1 [default] to 1.4.2 [default]
+packages/core2-32-poky-linux/python3-subunit/python3-subunit-src: PV changed from "1.4.1" to "1.4.2"
+packages/core2-32-poky-linux/python3-subunit/python3-subunit-src: PKGV changed from 1.4.1 [default] to 1.4.2 [default]
+packages/core2-32-poky-linux/python3-subunit/python3-subunit-staticdev: PV changed from "1.4.1" to "1.4.2"
+packages/core2-32-poky-linux/python3-subunit/python3-subunit-staticdev: PKGV changed from 1.4.1 [default] to 1.4.2 [default]
+packages/core2-32-poky-linux/python3-subunit/python3-subunit: PV changed from "1.4.1" to "1.4.2"
+packages/core2-32-poky-linux/python3-subunit/python3-subunit: PKGSIZE changed from 931269 to 932778 (+0%)
+packages/core2-32-poky-linux/python3-subunit/python3-subunit: PKGV changed from 1.4.1 [default] to 1.4.2 [default]
+Changes to packages/core2-32-poky-linux/python3-subunit (sysroot):
+  /usr/lib/python3.11/site-packages/python_subunit-1.4.1.dist-info moved to /usr/lib/python3.11/site-packages/python_subunit-1.4.2.dist-info
+
+--===============5572514484206413240==--
 
