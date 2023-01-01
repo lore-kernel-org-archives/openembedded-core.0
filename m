@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0A06C3DA7D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDB64C4167B
 	for <webhook@archiver.kernel.org>; Sun,  1 Jan 2023 17:38:55 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web10.16471.1672594727441328625
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web10.16475.1672594733355858495
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Jan 2023 09:38:47 -0800
+ Sun, 01 Jan 2023 09:38:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=nKFV6fu9;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id d15so27154752pls.6
-        for <openembedded-core@lists.openembedded.org>; Sun, 01 Jan 2023 09:38:47 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=hy18LWdz;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f47.google.com with SMTP id u4-20020a17090a518400b00223f7eba2c4so26290459pjh.5
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Jan 2023 09:38:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=QiWnAmZxlD6hh0W7k0eOTdWHprieL+NnOYLyuTsqdZA=;
-        b=nKFV6fu9uvBxA11uALFJWf6wVX3ppMrZ9POQsk96WyXxu5hlQKIM4NwZL6rktg0Iqf
-         Nw0M6xOJwEj9VOJuoI40ytTTfuCY/hZyOTEcZcEecBZIiwgKFLaHWKJZJQsugopxj8RV
-         DFpcXEVkbB0CMYWIyg1/hMsG3Y3F69YK5nQ1YaS4Q+Olg48dr/Vl437i5TszlHZ763/C
-         rV6StQROnZxZhiRXDecQ/vscqqUvDLuaAA0+PF83l/Yx7ngnYlioNtiC756K/HkMZJ6o
-         q/BOCCVAl0e9EpTeL3jbqVhGOukizmx0wX7tsOQWc8JNpItxIN359VKbtjEtKR/ci6OF
-         JdKQ==
+        bh=8ttNAoYAS700k7JmS/iTpWtlsOAmxq9viQc6XGMA/AA=;
+        b=hy18LWdzn/uIyAwDmSEHkoT0uzKM5Do+W9y99Sdpzpgnw4UGzbW17vAJWErUSp/uDm
+         kOQdk7p1xcsUpOk1uzcBs4ymRtl4VJWbZ9oOJTXuGD18cUVr8B6tMBnFNprtsy3eYEDT
+         aTEZncBttNHgZjmjPS78puokHqCFEC449btSQIz1GLnz7TDkTxUaLZ2oN4DVLjslb+vn
+         2/ElOKqDEK8+qRDd1yX0kOX5gGURkNRPmulRynDB+XAzwWUItWsMUoZFU9G+09c1BXO5
+         5b0NWYxr4RaFaAB/O5IEgeL+rT0rSXqu9kvhBJ+XusnRSfrVyXKATZXbCzL//MWR8QPE
+         ATJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QiWnAmZxlD6hh0W7k0eOTdWHprieL+NnOYLyuTsqdZA=;
-        b=1C0IFGbYmR6y1ImCxK/wvm6O2KQE5s/JjA/G0QUGCOiPceSPYT9ejKKjT8jvlSIA8j
-         zLH5IF2V07425Lr/UyLPUBIE55rYLXJGdDZIZ4HOHgARrKBBJKeud8Tqc5eX4kBaBfSd
-         rPJzfP9seCeEKDCzu9y0tUgdQrXLBQMgy/OdpN4f22I20TiE7BrL6pSLpLBGePD28hvX
-         3g3WURi0U0+44gW5oBJwuyYedvWmAVGA35bfgWllMxKeAl7yeYUE5592pcmbr7ZGaMXl
-         DUpRh7iV0MZY5sPzFpM+oLcRMY2MtR0VZYvP5pqv3jhW2cVR8mRULlM0Nww/Q6W2IaXI
-         Cw7Q==
-X-Gm-Message-State: AFqh2krkfZlEVRB/CyXlwHtdRcxxTU70yiJVevwAEmDyQ+MAN3th2hVn
-	cCcypIRxMlfFzJbROooF3h0bkpp12m165tqWQK0=
-X-Google-Smtp-Source: AMrXdXty4W+jUrPL3PXWyWPpFnLwucxEXdpcv9jIqEzNmbV9WFRuP6yfXLzsajDl7lYFz2HpANfcvA==
-X-Received: by 2002:a05:6a20:670a:b0:a7:8b3e:1207 with SMTP id q10-20020a056a20670a00b000a78b3e1207mr58001509pzh.13.1672594726529;
-        Sun, 01 Jan 2023 09:38:46 -0800 (PST)
+        bh=8ttNAoYAS700k7JmS/iTpWtlsOAmxq9viQc6XGMA/AA=;
+        b=C/OPSBrK+jP7Uk180yKoxuIKuWaF4PAsRBfcC/RLJ1oNbFY6Aq/JkCsfZyjrFcwBIE
+         xmL0SdUXJZGbSzEwVGgL+vxhUbIWcMeyJY2xLX6fJX3KeXzWse+PwRVrxx47UlCiSBnW
+         XLFmOOCgIhhvJHpQGN5u4R+mlYL0rs2D5yzZumU17DIZZ/rwoz1HbirjgI2+9nyShD8Z
+         DddioW0VzxewidEtuH1kya7/chPfQfupk2PoEEAbXBQ6OGHrNBx3oUFqA7pYgAT96O6j
+         MGwfkjP0RzSNoiC5fmBuhTMHONwNb5xLg22PPEW92Dmf0KyhNuGdAvWZOQeLKjF7hB5N
+         mlqA==
+X-Gm-Message-State: AFqh2kr1uddZOHR9bnbpoZ/BtfNFkCBAIiUrZqnFsV/RPHqDu7gZOr7t
+	/8pGY+TdIi0qcTSyLGaPGEFV3N7kPeM3ZIyxIjk=
+X-Google-Smtp-Source: AMrXdXvaK8EDbYhiEWUKULtGmPeJnEa37rKdBGF7QpqbBjGaArXv5J3vj4m7DxLtFTPfHV9OOkRecA==
+X-Received: by 2002:a05:6300:8181:b0:a5:6ed:669f with SMTP id bt1-20020a056300818100b000a506ed669fmr63832878pzc.2.1672594732394;
+        Sun, 01 Jan 2023 09:38:52 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-5-74.hawaiiantel.net. [72.253.5.74])
-        by smtp.gmail.com with ESMTPSA id v63-20020a626142000000b005828071bf7asm102299pfb.22.2023.01.01.09.38.45
+        by smtp.gmail.com with ESMTPSA id v63-20020a626142000000b005828071bf7asm102299pfb.22.2023.01.01.09.38.51
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Jan 2023 09:38:46 -0800 (PST)
+        Sun, 01 Jan 2023 09:38:51 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 25/29] kernel.bbclass: remove empty module directories to prevent QA issues
-Date: Sun,  1 Jan 2023 07:37:47 -1000
-Message-Id: <6fc179de3789c87aa661ec90f51c637cb8ed70c1.1672594521.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 28/29] valgrind: skip the boost_thread test on arm
+Date: Sun,  1 Jan 2023 07:37:50 -1000
+Message-Id: <5cb16e38e242eeb234c89b0ebc8e04226a732c09.1672594521.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1672594521.git.steve@sakoman.com>
 References: <cover.1672594521.git.steve@sakoman.com>
@@ -61,45 +61,30 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 Jan 2023 17:38:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175213
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175216
 
-From: Ovidiu Panait <ovidiu.panait@windriver.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
 
-Currently, allyesconfig test runs for x86_64 fail with:
-ERROR: linux-yocto-5.19.17+gitAUTOINC+0cba9aa404_aaf4490d18-r0 do_package:
-QA Issue: linux-yocto: Files/directories were installed but not shipped in any
-package:
-  /lib/modules/5.19.17/kernel/drivers/nvdimm
+This test is failing on the arm workers only so skip there until the issue
+can be worked on and resolved. The bug #14311 will remain open for tracking.
 
-With CONFIG_NVDIMM_TEST_BUILD=m, an empty nvdimm directory is created during
-modules_install, which triggers the QA issue.
-
-Extend kernel_do_install() to also remove inner empty directories that might
-get created by modules_install.
-
-Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 7120b09a33af4c9a18063c0f2e51fb598697e39c)
+Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit d98deec9e4aed9e05343d2758f3a3892e2044616)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/kernel.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/valgrind/valgrind/remove-for-aarch64 | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 3e7264fb98..54b006550d 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -444,8 +444,8 @@ kernel_do_install() {
- 		oe_runmake DEPMOD=echo MODLIB=${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION} INSTALL_FW_PATH=${D}${nonarch_base_libdir}/firmware modules_install
- 		rm "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
- 		rm "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/source"
--		# If the kernel/ directory is empty remove it to prevent QA issues
--		rmdir --ignore-fail-on-non-empty "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/kernel"
-+		# Remove empty module directories to prevent QA issues
-+		find "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/kernel" -type d -empty -delete
- 	else
- 		bbnote "no modules to install"
- 	fi
+diff --git a/meta/recipes-devtools/valgrind/valgrind/remove-for-aarch64 b/meta/recipes-devtools/valgrind/valgrind/remove-for-aarch64
+index a9809e5d8c..4477f39132 100644
+--- a/meta/recipes-devtools/valgrind/valgrind/remove-for-aarch64
++++ b/meta/recipes-devtools/valgrind/valgrind/remove-for-aarch64
+@@ -1,3 +1,4 @@
++drd/tests/boost_thread
+ gdbserver_tests/hgtls
+ memcheck/tests/dw4
+ memcheck/tests/leak_cpp_interior
 -- 
 2.25.1
 
