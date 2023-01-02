@@ -1,94 +1,97 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B8C2C3DA7A
-	for <webhook@archiver.kernel.org>; Mon,  2 Jan 2023 16:40:35 +0000 (UTC)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
- by mx.groups.io with SMTP id smtpd.web10.40251.1672677633910924572
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 382AFC46467
+	for <webhook@archiver.kernel.org>; Mon,  2 Jan 2023 18:55:56 +0000 (UTC)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web10.43969.1672685748863399534
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Jan 2023 08:40:34 -0800
+ Mon, 02 Jan 2023 10:55:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=kr0oT0vg;
- spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-lf1-f50.google.com with SMTP id bt23so25585281lfb.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Jan 2023 08:40:33 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Xsg/VHyw;
+ spf=pass (domain: gmail.com, ip: 209.85.216.48, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f48.google.com with SMTP id hd14-20020a17090b458e00b0021909875bccso26130199pjb.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Jan 2023 10:55:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=cNWPDr+sMCwcSXEuV1wxfcmeq1rOzMb5sEnAyCc3bEQ=;
-        b=kr0oT0vgdldy/wF1GPTSqRlihdLvRupcC1or765my4qHbJAJ3/qFiLDVSFVCSbn2VB
-         B9bYQmSziM3QC2ORfXtOU4HIqPNs5ZV5cbxdHg3WBDxB6Bt2lBYx3MMx1JmyreOZjDfe
-         vO6jzv5EaxaHvoKfKdzN+BSp0JqXgQC3ieNwY0DZBV9tlB6Roi120Zgb45u+04zoOS0C
-         yYobnOxNJK5lusloBPRQ6VP6nzEIlP6Hrak26pwKKoIsjGrXjv6C24EwytQ1qECXGZm7
-         yIthFkzWQdY297rbO3ioHQa5Tdu39EmW6MbOI0ny61nwdXU4qahLSuIKIgHF5cTqBL5h
-         lrdQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cQ57ZgFunvDnZc6QFtz3mLotuKtntcKyWi8bOoyUyq8=;
+        b=Xsg/VHyw+yzkbUOxHNrYQASkCnOi9BAJ/WhsAauiZ66xey+XbGRszCVUDr60hS1JXI
+         cZof3FOQD7hOTAZ3DxfqY8vsID6khFp7pd0adtOEO9dwI1CIq3S2Iyo5RoHpqZaZNlVp
+         waX/blQqG8VcytyStTammP24VnX42zJyVpfDqPDWhXvza8+65nAaZoTCTb5VG6PYVLqa
+         +t+efnZiS1nGseGBJp5yPezqADyFXWE4/5nc9YrAqMRCBDXXvfBPDnCxuBuZvkUHJrcL
+         bCjcknpkSG1K0kgLeYS1W3DkeF8cYeEDsPOL/gsN5AsxWi7PCjX7BkgBAtakJVloNf3F
+         WaXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cNWPDr+sMCwcSXEuV1wxfcmeq1rOzMb5sEnAyCc3bEQ=;
-        b=nYPO1qTrrXkH3cGCA3/0HQS3WYp2SViAYWAdicf22XT6s7lgklBVFJKALXh4AZAHfR
-         Mnk6tdAwoVknPdUWHgAxfYUcOjpfdwneS3Xy8lkDcRkNTQxz+vWiV7Xk/sM/hfJgeZez
-         JVmd5ojw2Hui08mgzl594r3LbQWCAavUXTRzWCHaETEWIhq1akiooLP9P0CdAjoUDfqE
-         NZ0qLmrKyuP24EqnBPysJ5v6/f1L/WcuVHTn31+n/ZE3la0lLVhnzYEVSzexD0Zse3x1
-         Dm11cDQ2QDQaE1gzg0jqpH5+3RNnnTD+Q+8z7fumZg8fQM1FbgzgHGkdnYIUlm0zWkOC
-         1HPQ==
-X-Gm-Message-State: AFqh2kr7QjNisfAj0Z8W3kPLJAHfbscV5+Xz0AaShymzRoSO9DxudVe5
-	dt9YHsxL3+Fp8JzLv8Y1vI9QP5DE12ojLrW88fM=
-X-Google-Smtp-Source: AMrXdXtHXRL1IUm+eoPru6yXaSlym6tYbVlWZkUOOHokg7vBG/bBZXT8X31l5oOMq7qsv04O7nGYiM8+iP7Yqtdp3x8=
-X-Received: by 2002:a05:6512:b1f:b0:4cb:26a:32ab with SMTP id
- w31-20020a0565120b1f00b004cb026a32abmr1215568lfu.569.1672677632150; Mon, 02
- Jan 2023 08:40:32 -0800 (PST)
+        bh=cQ57ZgFunvDnZc6QFtz3mLotuKtntcKyWi8bOoyUyq8=;
+        b=2CKju04jtfYnexuEQgNGRCM8JXxuWjTmZKIGHu/l/TQjr4Tux/hbjJS3RALacX7zra
+         GbsX7g0oFIeuboVtTuUNDPhKgASCsa0+mUBz1ADaI+1fw5MdSSwq8IUV6v7jP3GReQ8i
+         b88ifMnR9D2hHziFp5b1YAHhH7g/CmfCHyrI8SkuzbFpkRtNcj2oSDFx5rJA9Ot0stDJ
+         XK5y4n5gvvBBaGAIrPOCbbqLlXf+3DgIqvV2el5lYnWHuExksIi9d8knHDhTvUuRCvvT
+         dmPiDzWH9KF/6gmW8+K90MAtFmr1Phe57E/a6BLBb02mqj1GDg3OHqc8YB05EnHKrgXw
+         TaDA==
+X-Gm-Message-State: AFqh2kq0kOvrmmfi2fL7WteWCOId0KJsoqXzksJ+RxvBflxWqI/NgC39
+	KSXn5Q73bSrpVW34mYivk9VCJHls7hs=
+X-Google-Smtp-Source: AMrXdXtxn3sqRfZVE+Lv/4lMO2plkMM+TsYGHzuzLt5AMUcg+ohSOBsCIGCL3lceYFCBJ4tV+Ni9Ug==
+X-Received: by 2002:a17:903:2481:b0:189:80d1:9d19 with SMTP id p1-20020a170903248100b0018980d19d19mr47865630plw.26.1672685747780;
+        Mon, 02 Jan 2023 10:55:47 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::bccc])
+        by smtp.gmail.com with ESMTPSA id f12-20020a170902ce8c00b001896522a23bsm20634020plg.39.2023.01.02.10.55.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Jan 2023 10:55:47 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 1/2] time64.conf: Add GLIBC_64BIT_TIME_FLAGS on ppc/x86 as well
+Date: Mon,  2 Jan 2023 10:55:44 -0800
+Message-Id: <20230102185545.1145069-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-References: <CAO5Uq5Toa3pa5Tnb1fuxLNe_PDYSAJUM4eJ5JObdeBOCQWzHVg@mail.gmail.com>
- <528a76b9a3cfebab7d1fc3edc88db756197faa22.camel@linuxfoundation.org>
-In-Reply-To: <528a76b9a3cfebab7d1fc3edc88db756197faa22.camel@linuxfoundation.org>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Mon, 2 Jan 2023 16:40:20 +0000
-Message-ID: <CAO5Uq5QMOz7eAuju_z4iCLK+9uQzNmiGh3u9dtdKaxfEr_A2iQ@mail.gmail.com>
-Subject: Re: [OE-core] C.UTF-8 in glibc
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Jan 2023 16:40:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175323
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Jan 2023 18:55:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175324
 
-On Mon, Jan 2, 2023 at 4:28 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Sun, 2023-01-01 at 18:32 +0000, Alex Kiernan wrote:
-> > glibc got an official C.UTF-8 in 2.35, but we don't appear to install
-> > it by default... if I add "c" to IMAGE_LINGUAS then it gets installed,
-> > but it feels like this ought to be default? Or even stronger and have
-> > it separate from IMAGE_LINGUAS so even if that's set to "" you still
-> > get it?
-> >
-> > I tripped over it because I was trying to get the ostree ptest suite
-> > to pass and it ended up with a time formatting failing a test because
-> > it wasn't running in C.UTF-8.
->
-> Making it even stronger might be tricky given how our variables work
-> but we definitely should have that in the default locales list.
->
+Make mips expression across all 32bit mips architectures
 
-My original thinking on trying to make it stronger was I expect you
-really want this, but given everyone's managed so far without, I guess
-if they need it now they can add it back in if they're overriding
-IMAGE_LINGUAS.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/conf/distro/include/time64.inc | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-Just thinking about this more, we can't specify it for musl, the
-obvious way would be a glibc specific append, which would then mean
-that setting IMAGE_LINGUAS = "" you still get it, which doesn't
-immediately feel right (plus the general wish to avoid append in
-core), which I guess means it needs something with more trickery...
-I'll go play.
-
+diff --git a/meta/conf/distro/include/time64.inc b/meta/conf/distro/include/time64.inc
+index c6a3b682c2..5c53356d4f 100644
+--- a/meta/conf/distro/include/time64.inc
++++ b/meta/conf/distro/include/time64.inc
+@@ -1,9 +1,12 @@
+ GLIBC_64BIT_TIME_FLAGS = "-D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64"
+ 
+-# TODO: Only for 32-bit architectures?
++# Only needed for some 32-bit architectures, some relatively newer
++# architectures do not need it ( e.g. riscv32 )
+ TARGET_CC_ARCH:append:arm = " ${GLIBC_64BIT_TIME_FLAGS}"
+ TARGET_CC_ARCH:append:armeb = " ${GLIBC_64BIT_TIME_FLAGS}"
+-TARGET_CC_ARCH:append:mips32el = " ${GLIBC_64BIT_TIME_FLAGS}"
++TARGET_CC_ARCH:append:mipsarcho32 = " ${GLIBC_64BIT_TIME_FLAGS}"
++TARGET_CC_ARCH:append:powerpc = " ${@bb.utils.contains('TUNE_FEATURES', 'm32', '${GLIBC_64BIT_TIME_FLAGS}', '', d)}"
++TARGET_CC_ARCH:append:x86 = " ${@bb.utils.contains('TUNE_FEATURES', 'm32', '${GLIBC_64BIT_TIME_FLAGS}', '', d)}"
+ 
+ GLIBC_64BIT_TIME_FLAGS:pn-glibc = ""
+ GLIBC_64BIT_TIME_FLAGS:pn-glibc-tests = ""
+@@ -23,4 +26,3 @@ INSANE_SKIP:librsvg[_usr_lib_librsvg-2.so.2.48.0] = "fcntl lstat64 setsockopt se
+ # libpulsedsp.so is a preload-library that hooks libc functions
+ INSANE_SKIP:pulseaudio[_usr_lib_pulseaudio_libpulsedsp.so] = "setsockopt fcntl"
+ 
+-
 -- 
-Alex Kiernan
+2.39.0
+
 
