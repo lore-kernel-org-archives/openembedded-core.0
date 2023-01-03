@@ -1,320 +1,235 @@
-Return-Path: <lukas.funke-oss@weidmueller.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 767B8C46467
-	for <webhook@archiver.kernel.org>; Tue,  3 Jan 2023 16:03:52 +0000 (UTC)
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.40])
- by mx.groups.io with SMTP id smtpd.web10.67629.1672761823329102948
- for <Openembedded-core@lists.openembedded.org>;
- Tue, 03 Jan 2023 08:03:44 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83422C3DA7D
+	for <webhook@archiver.kernel.org>; Tue,  3 Jan 2023 16:30:22 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.75])
+ by mx.groups.io with SMTP id smtpd.web10.68419.1672763416904086063
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 03 Jan 2023 08:30:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@weidmueller.onmicrosoft.com header.s=selector1-weidmueller-onmicrosoft-com header.b=RG3zRs7u;
- spf=pass (domain: weidmueller.com, ip: 40.107.104.40, mailfrom: lukas.funke-oss@weidmueller.com)
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=fkr5zraK;
+ spf=pass (domain: arm.com, ip: 40.107.20.75, mailfrom: ross.burton@arm.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=umEfzVA1pXEZXAIyZhIjZTOKIbAN0PGMd0WQYSHATww=;
+ b=fkr5zraKULgp/09UZKDH3PBiigJ1e0iJ1I4X50mnqvaY7AT1SAmsDpHhVj+L5tVv2vrUYH+ca3xsGvO6jcgnr2AW0un9a2qmRvPPNii0dA+9NOoRhAiJllrxETRsdGg/akdC4skMJPm1xVhO/JAxf6wakIznYIajzX5pJoSHDRQ=
+Received: from AS9PR01CA0002.eurprd01.prod.exchangelabs.com
+ (2603:10a6:20b:540::14) by GV1PR08MB9940.eurprd08.prod.outlook.com
+ (2603:10a6:150:3d::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.9; Tue, 3 Jan
+ 2023 16:30:12 +0000
+Received: from VI1EUR03FT043.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:20b:540:cafe::ea) by AS9PR01CA0002.outlook.office365.com
+ (2603:10a6:20b:540::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5966.19 via Frontend
+ Transport; Tue, 3 Jan 2023 16:30:12 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ VI1EUR03FT043.mail.protection.outlook.com (100.127.145.21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5944.16 via Frontend Transport; Tue, 3 Jan 2023 16:30:11 +0000
+Received: ("Tessian outbound 6e565e48ed4a:v132"); Tue, 03 Jan 2023 16:30:11 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 4048f4fb3403524d
+X-CR-MTA-TID: 64aa7808
+Received: from 3089a8d38aff.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 0413FAD0-0F40-4E57-9A88-BC36EA062934.1;
+	Tue, 03 Jan 2023 16:30:04 +0000
+Received: from EUR03-VI1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 3089a8d38aff.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Tue, 03 Jan 2023 16:30:04 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=esgQzRjphBGAHvwuv1F9QkFs1ue+/t+Yw6DnT1TqgLfYnhHoju1KvRgAWdhKUhvMMd0Nw057cBhD3DP+L231Xw/BkEx/5f5L4z5eRhP4I/RpHGQViYPieKqG4UmI0BYnc2qC8WKNIMNZM3DX25eAzPkHkvWE1ovY4Sd26OtWY7dlGyTeH4foDV3/XbYQQGUutkECnAOgobOBnb+/qlN6Xbhn0iD04rZrBoPj7cug0jIuMH3+A6ma0fPvhGt+FI+X99RBHbF1eFv1t2cvV6r6IvLYPP1XCmgA3aY5TJ61P3xtDCIuzVp8cRZ0gE4m7f7kaEBLE1MnH3Ewh70ZpGlazA==
+ b=oaPoE+AvWfLOSsYY0IHYJpaYjkJYwfa5MDdEVWIons+JtOXUo0wQDMozFf1puzrcWUCQz6RaslXhj3bUd/phGV2c1gdP4pPQV656FoC2BrwpsBHDKuoyiX2LIe/PYUyY9roeUOVOh9+/Aj9gGQ2dXN1HkXNR7NO43ZAAcgYEUFEE/LKVUtMrk+3od3Okjiq+eIFLEYOZ66jiKKpmimXTqgGbgQMMuQKI28bP8wn56o2zFIghy+ua2KiUx65dd+ey9U3cpeMEOmMNZPhTdxJMb6ehMjGFaQjBNqf6KkdAh7b7ZbtCirbOxraE3Op4RdWvJYwQgc/J/hcaEfR8df5Grg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D3zu1LYldjEO2hudBImxh9yoHvE6iyUOcPFFECkYeHg=;
- b=N5otDdTY0u8cBUsWUr3Hh/WN8WwzHC9cOA+8zbWB4LraDhKUy2KxzLPGRdsqccQL9ibBdZgM00J9dSAdW4pLCvhidjqlmUP6roMYFZBbUB0VGzuIJ2NQ/kUmYwjEygnGnWQWm3pp2t3lc073sMyQRaHbShol5rZQ/msYr9HWzSXENba7zJbPCyOn2EhmtwlcPmAhzu7bEnx80funDo8dVnvcHFGy4nSJSLGrisMBJX6I9uofuREeRJ2zlkIY86cdADJ4ZaXP5bSgHhEfVwKWAUicjfGNhcZCXyyKRi5SDgoe03rXl4mDh0JJcQP3S1imdX1z2vuIvM+oofEzCP477g==
+ bh=umEfzVA1pXEZXAIyZhIjZTOKIbAN0PGMd0WQYSHATww=;
+ b=ZY5v0iTf+nBNWQESBj7Fd/Ba4hmqoLdLExtAHCLUb2sMDt+6h33ymvCEY9wHPlgEQPIK5jd+1GXeoCuoB87z0ee6aj5ALpiyKLMiqAbB3ZUmKN55+xn6L7UDSMVd2ryYVUqYGCyZiBzd8G9f2EQQ8jZyBmxq1/N8XZBoPpA1//tlaaYoBZxOK6OUkSW1yxDR/m2h9VjY3JQTwxtm4yL0RBdH+D9XszvCwTXZ/KC+q0cu87LJnvoO9yXkgIHop1vjuOZ57DG8QqaUrpvaT6gaxGv2qOeMplVKhWHxyl9PTUyzgC14CuYEQKOSubN49SNWC6+5xHVLsGcDU1UTPAekLA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=weidmueller.com; dmarc=pass action=none
- header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D3zu1LYldjEO2hudBImxh9yoHvE6iyUOcPFFECkYeHg=;
- b=RG3zRs7ub5Fa+gDdivSLf0L7IzQHjn6/P4hxtmXGqvD95jC0PK3bZVs1IJyUu4WbKpDAhVetDFBwRi0qc6qLWbV5zgqXN5n3v7R4f54f6XsrytE+O+br29l6omeeSaOTb1GGPIEjIf8fCLXUu5rEMpr5gusbQ3miRhSmrF4IEck=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=weidmueller.com;
-Received: from AS2PR08MB8431.eurprd08.prod.outlook.com (2603:10a6:20b:55a::18)
- by VI1PR08MB10148.eurprd08.prod.outlook.com (2603:10a6:800:1bc::10) with
+ bh=umEfzVA1pXEZXAIyZhIjZTOKIbAN0PGMd0WQYSHATww=;
+ b=fkr5zraKULgp/09UZKDH3PBiigJ1e0iJ1I4X50mnqvaY7AT1SAmsDpHhVj+L5tVv2vrUYH+ca3xsGvO6jcgnr2AW0un9a2qmRvPPNii0dA+9NOoRhAiJllrxETRsdGg/akdC4skMJPm1xVhO/JAxf6wakIznYIajzX5pJoSHDRQ=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by AS8PR08MB5912.eurprd08.prod.outlook.com (2603:10a6:20b:29f::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.9; Tue, 3 Jan
- 2023 16:03:38 +0000
-Received: from AS2PR08MB8431.eurprd08.prod.outlook.com
- ([fe80::5d99:289a:ffaa:f545]) by AS2PR08MB8431.eurprd08.prod.outlook.com
- ([fe80::5d99:289a:ffaa:f545%6]) with mapi id 15.20.5986.009; Tue, 3 Jan 2023
- 16:03:38 +0000
-Message-ID: <bce338f8-59bb-8786-87d2-7553f800d176@weidmueller.com>
-Date: Tue, 3 Jan 2023 17:03:35 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-From: Lukas Funke <lukas.funke-oss@weidmueller.com>
-Subject: Re: [OE-core] [langdale][kirkstone][PATCH] go-mod.bbclass: Allow
- network in do_compile
-To: Martin.Jansa@gmail.com, Vyacheslav Yurkov <uvv.mail@gmail.com>,
- stefan.herbrechtsmeier@weidmueller.com, wonsang.ryu@lge.co,
- =?UTF-8?B?66+86rK97KeB?= <dp.min@lge.com>
-CC: Bruce Ashfield <bruce.ashfield@gmail.com>,
- Richard Purdie <richard.purdie@linuxfoundation.org>,
- Openembedded-core@lists.openembedded.org
-References: <20221222150246.91423-1-uvv.mail@gmail.com>
- <0c9483d89d86eae9a84362935108f0e915b31dda.camel@linuxfoundation.org>
- <CADkTA4NnDKC0LybGM5w_otZVpAPy3Gk8+0UR1s1_tn7NVUC0Sg@mail.gmail.com>
- <5910a96e-28a2-4af6-2dc9-bc21e8bee9fb@gmail.com>
- <CA+chaQebMbjndYC_vqjFohnNBzuov8X0p2F4a0AvMcjEFnqjyA@mail.gmail.com>
-In-Reply-To: <CA+chaQebMbjndYC_vqjFohnNBzuov8X0p2F4a0AvMcjEFnqjyA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: FR0P281CA0037.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:48::19) To AS2PR08MB8431.eurprd08.prod.outlook.com
- (2603:10a6:20b:55a::18)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS2PR08MB8431:EE_|VI1PR08MB10148:EE_
-X-MS-Office365-Filtering-Correlation-Id: c1fa405c-3fdb-4918-08c2-08daeda41382
+ 2023 16:30:02 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::2d3c:c53c:86ba:a3b0]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::2d3c:c53c:86ba:a3b0%4]) with mapi id 15.20.5986.014; Tue, 3 Jan 2023
+ 16:30:02 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+CC: Markus Volk <f_l_k@t-online.de>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe-core][PATCH] gsettings-desktop-schemas.pc.in: use
+ pc_sysrootdir for prefix
+Thread-Topic: [oe-core][PATCH] gsettings-desktop-schemas.pc.in: use
+ pc_sysrootdir for prefix
+Thread-Index: AQHZG1zBH9orUU5Cv0OjuhO1oRNeDa6IQBaAgASqZAA=
+Date: Tue, 3 Jan 2023 16:30:01 +0000
+Message-ID: <1D1B209C-6A40-42CB-ABD0-5D695C95923E@arm.com>
+References: <20221229080810.98961-1-f_l_k@t-online.de>
+ <f75728aa4e2acbf7274889aeaeb6a8f2b5c72533.camel@linuxfoundation.org>
+In-Reply-To: 
+ <f75728aa4e2acbf7274889aeaeb6a8f2b5c72533.camel@linuxfoundation.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3731.300.101.1.3)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|AS8PR08MB5912:EE_|VI1EUR03FT043:EE_|GV1PR08MB9940:EE_
+X-MS-Office365-Filtering-Correlation-Id: f472112d-1395-4036-c790-08daeda7c95e
+x-checkrecipientrouted: true
+nodisclaimer: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ RCrHBrX48+3ui7gR2hvjCzXtIFq8hBMZfFdDR+6xOxJdBCZTQVWbuzrdsW0padzZSX+dZrUqYu/hOIcsaW70mBCt6K4s9tfVRpFxRc3Yzl5UGOOOEkB/xKK+5mKh7azu7eO1id8Yj7a/MmoXnhmgs3OlgrrTqPKl+ze956bB5/R3Y8xvBcRPn+2H74SMEPrHfiIVtbnQ0enGMWdh/TG9ITk/goJ3ZAVy992nuOY0u5Peqho684pkxKK0Dyb0/Kh/hlKCTZ1op3HX55GELTG/Ah2zF7tuNqFF5prXRbSbbWoQmcA7k52kBKFNNnFQRl3WrLc1xlnwmGqkHWFvnk2Jy2GbfvdoN7e4+oDyDL9FV5sqTeKL3cYof1+QXeeDTsHcSq418fFQmK6RGgAJ18OoQh7CZo9DEJahqXolpybso00N/K2s84htmyWBCFlLArV3EglO8uDuXobrIOwzAQkarLGZYlsESd9UuwhT1Ll6MATa14iltrmLXf2O0FLTP7GfzMYJs5hcGzNCcaI+4laThjg+YUjknEKhpiMNzK8Q5oZk5pWFxGv02n/gPBBXfN50E9rMTnkvkmw30N2hiatsTVc0kNNwcGC643RvfVLORPyladWcD76jyHfOFWmRDUmWPGsQ9C2EzZrZJIGD2cBfNTOd7QeWoE5vtV1acGOqjrweSgxzxJh3GoGA2J2ol4e0+9ZSS35iLzlj5ZPLayEMqyCdiQO/rcaDCUAD+esLSdZIIpi9/a6LbROkl4iHEH7hnsn8kAN8NcZvGb7ZyQyqpdMZdcbuBkqbwlprJblojYBh4ctcQ3BIUhaRhQ2QZ7WlyXGqALgzhEtbc5GH3FfCSg==
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(136003)(376002)(39860400002)(396003)(346002)(451199015)(6916009)(66946007)(66556008)(8676002)(66446008)(66476007)(33656002)(64756008)(4001150100001)(5660300002)(316002)(91956017)(76116006)(4326008)(966005)(41300700001)(36756003)(54906003)(2906002)(8936002)(83380400001)(6506007)(53546011)(2616005)(6486002)(122000001)(6512007)(71200400001)(86362001)(38100700002)(26005)(186003)(38070700005)(66899015)(478600001)(22166006)(45980500001);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <49524E01980EF542A329DE167B011E24@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB5912
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ VI1EUR03FT043.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	4baabdd2-38be-4a4b-7af4-08daeda7c36c
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	muoYDKhRwchK59CgsVn9Lbo4fNT0xZXYYKqVS8DXc5RO08zYTLQ6TayDNyCySzFMYJ5mnl+Oc5ljlcLgUcef/PxDGdv/VyAnPJyP/CtYKxXG0qZNzYulwuQ/drBHBjhbxMtl8hIjdq+3vQ3LufQcDNB5r+3N4UWIkyiJG2TngMLgPjvQ5tVkREGxnActMRNqPy59vQiboAGET9JoDAPtSyavO7q4Bq7vidZKDfxqK2ugR63sYMkgmE/cnghF2/aeKDvH4bc3dy37qTIYpudoKb0EiIwKjawuRbjJ1Jl6B9awD1Ton4jNN29p2VZRcCG3xq4Mgn3gKQKhQlCuRauucLEiTecEeLR78EV22EcPb38kzA7TITY9Jrxx2hvXXE+tQHGXozsQEpW1Pzk5ossGxCnBzHZyZyq4lwOiDJGk1rLDjeXDsAkdkx52nvqpy7qq6GYdFWXt4qSoiMh/qxbXRHqaktCwoFLGtqzvwilQbLhXxFBJlvwn/K5+0FKm08ZaP6KJCWHWrPQ2AK/pgAE575WlMSWLo2nxNZPV5jocAA0DIjWQojpQUMH5pwaKtzLCevLtCVE/YjOJmClBhC0pgW+0JQf13X/0GPjnfFjPeXxUtABC42VdPRaTvUfabnrxirBjeyoFYb3ZW/nJfF1heBxENaqefueztnPmgzQUMnx70l1NnbDmRg7sE4DoRXILK4OsJTPRiTpbtHLMQQ8zhWUctrD0kaPM3uze6ILGnsONFrVjo1my0Z7F13f1crZrDFcAFjAWFQj52T0ccvEedUQAZJOlxWt8KnqV6V2htXfPW/E8jN5S2Q8mOnbt67Kxh4aly5s+uJ0FEhRVNYPEoJbQ+IpAj3s3qXNvMiD7sE8=
+	BiCKLwSMXWHRvz6/n7wtJgT6SfoFCCuqLZ6BU8iBVLjPENHCz885CsQYw6E90TFhm7J1/R5Z68R/XJxOwp6SNr4MGnIpjeHcl+9/z6UflsIHKXLECbvaQ6bx4idOSfh+MksGgO0tMiEpFYGY/pHWgGyCLDm9Ojw40lcA9jF8IUQtDQ2b10a9NjMD8ZbTBQ4BiEjxgpaCXtKGBD9WDsqHMkeNLspYm5GBEh0ZRHxhJtvQrnui2u2GBTGBiXI/F0GbJR983nxocnLd7xgqCEj36zYHP3HoZq8NusLP++SqBQu7FPxeOtlOllC8uYpvcHMseZD1Bx483Su5AD4w/SzY7vpzDOdSINiQ1xzLE5qhBQ5HJuhxH+gI030Aun5WpeccTLK50BX3Eg4gsdNKIViaC284Pf1lwUeUhWlEUyQUMjAIL3VKnjtZozUo1rRWYsTRqF7gNpMSLSzJl6Ju91tNomwGxzo6otCxw15TnxyJFj3Gnw6QfwAkMzDUIMjd3wqyxfvxONYZBwav+Mlc//Lh/ZS3JjILU3MIoMogBSGoP4At8W5lB16JXewAKZnuMsthoiMOJno4OpVBvSI81yvSUiplLSbkx645U/J96xYq656iGFyX88Im59WdOGRgbX2TIgQoyW502OpczKUrPnTaWfQzkREn9OgYT15zW/xw8iQxDKrjfg7x8ehfudFdzzYiDKu2GMpjjq1l3aim080x4IGmIqj1duRDh80ScbJntFrXrVqEANBAK/Tb8azvFdNRHRQ91gpVhXUVVDch4QvnhiGitFLYrP1wWOK5hP1MGI8=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS2PR08MB8431.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(396003)(39860400002)(376002)(346002)(366004)(451199015)(53546011)(6506007)(36756003)(6666004)(2616005)(66556008)(26005)(5660300002)(38100700002)(186003)(38350700002)(6512007)(110136005)(2906002)(54906003)(966005)(6486002)(86362001)(66946007)(478600001)(31696002)(316002)(52116002)(66476007)(84970400001)(31686004)(66899015)(41300700001)(83380400001)(4326008)(8936002)(8676002)(22166006)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?0vH46FMfTO1iMSUUzPQHdGgWLOI5CxLPYbTqHQOEGp+aI9HwL2vVk7OGOSEq?=
- =?us-ascii?Q?NNKk0R/gWHrciXCTWuZN4XczOC09W+0WxaNFNrmqDJ0YBlX97u5umy33iqA5?=
- =?us-ascii?Q?l2LNA92Jmvyu2EBXCCUn0/cDuDezySVUDjv/gC40/zfbQCRIcTJH/pSAEpOm?=
- =?us-ascii?Q?JmmR9ccrppRrXuGzCbm9/JDADPWNeWEKz4OMMD+NY8OZA0zJdEnnLSnlZkc5?=
- =?us-ascii?Q?8wOH+nvxLNjwLB+I5ANV/rwYKs7wzDitjPmLsaiui0vl+ZEmKx7YQTOrZLnk?=
- =?us-ascii?Q?lWX3VuuI0/P7K5zSW8l+04j8Tto8owRz4w6d2kGx/izTJtrJgwWvt/ofDVwB?=
- =?us-ascii?Q?lf94my3NvQS97xK7+HSWOc2AKTHzNNLWwdA/OQf+pSraZ9qbJiQ7A2zvCLq9?=
- =?us-ascii?Q?i4iuvFkcsSre6dcbAsETHqqx/lrKxJQTz4Urq//jDhTdeEVqlQM7OXN8tbrA?=
- =?us-ascii?Q?11xyiLP5Okj68A/XOSYzWYx8YrrmuefIsqadjo38If8t8WSNhTf7Hr5ZsGgZ?=
- =?us-ascii?Q?4HJCU0VacSbAxlAOWtqTTWoO+rcy+76wweat0ZmDZzcwxR/xM8np7A2bGhhG?=
- =?us-ascii?Q?FUi5yslnWwLi8uP8GZTsqAJv+ZRtCpYSPmITevbK1KLgGssaGLNZqfMmX88R?=
- =?us-ascii?Q?kGRWsmlibpc1zBH5nArfltXd0bi7hUiZTUpPt6pnKmf6ZIwSuAypYKI5maCm?=
- =?us-ascii?Q?GYmPFL43oXN6Jnr6nQqofNSk0bB5xK4ytNBBH3j4J27rrlZu+AX+Slt96YE6?=
- =?us-ascii?Q?Yj1WEenAosX7ac3umvKW209wgFsKHWTcCGlmAvyTE/qQT6PzyG7p8a01jxd+?=
- =?us-ascii?Q?tRwgw8dojm/xma5Lo9lK8skAVz/hRWkUoPxPCynguwqIxtpe+3D1O6PFEAYX?=
- =?us-ascii?Q?w63xf0/h4gwkZ1eeO39UJnt+YSdMTk3BqjTB1IFzfVRlWxPVBY4Tpow8OPpw?=
- =?us-ascii?Q?ZVX3JnbdjPpG3U6bpoBvsP/YM95YwBI5dQWOfVMoVLJvE+1AV5QHS2/g/AhN?=
- =?us-ascii?Q?aQnyWgJWKIK0ekPo+qERgvzGtsWkbcIOkPUEfsRUrqVjWHEoTa6gWmxkjk2S?=
- =?us-ascii?Q?5s2Sk3gSw6gsXdLAE87FWAHpG7giDFPksVf3z+6Hibj+beMYrnuuQwdL8j+E?=
- =?us-ascii?Q?pgZ0wo9dNseyRtKbIw5yPl3aS3rU2KEY3STFQFQTYAopr2/xF7mtU69r6x+S?=
- =?us-ascii?Q?8mIw86FmHBVytHkScXyzO0sYgre4bJYjDtaUlmeIkNUQcGfmE/aaKVdGXstH?=
- =?us-ascii?Q?1xCH7cj9hMdqS8wQ2Fmr6EMk8znoYRR5Lb2E8JySiplvmxBhord/mgkTmY+I?=
- =?us-ascii?Q?jdonhGxgr/pgYdnjpREm+pGQtm8baF0xovC7Fl54Os4pVQENTKrwkdxEIKkL?=
- =?us-ascii?Q?JsZZSfB4F42pvuCgig1spwZuLEhXqP3NNnqUWibHBvZaj8qca0xVF7phKRLW?=
- =?us-ascii?Q?B+6Bw9ArSoEKzp9GOi2SxBfNKpX8Ne5UpdxbG9WXaYWI/zy8R4zpxUD1FdS7?=
- =?us-ascii?Q?Jb6uwLZv833Nb7bWpRWFm4yTlbOYCG6QQOMLdLBd4ygelNnAMibcuy00KCEt?=
- =?us-ascii?Q?MJ2XEqG2jpgFlDs+HBNHqTXzTYlhGLW5q3sYzzVmdms3RQBU3jRu1u3CnLNc?=
- =?us-ascii?Q?Sw=3D=3D?=
-X-OriginatorOrg: weidmueller.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1fa405c-3fdb-4918-08c2-08daeda41382
-X-MS-Exchange-CrossTenant-AuthSource: AS2PR08MB8431.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2023 16:03:38.4992
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230022)(4636009)(396003)(346002)(376002)(39860400002)(136003)(451199015)(46966006)(40470700004)(36840700001)(33656002)(70206006)(81166007)(356005)(82740400003)(36860700001)(70586007)(4326008)(41300700001)(8676002)(54906003)(316002)(40460700003)(4001150100001)(2906002)(83380400001)(40480700001)(8936002)(336012)(2616005)(5660300002)(6862004)(82310400005)(6512007)(478600001)(186003)(966005)(6506007)(26005)(6486002)(47076005)(86362001)(66899015)(36756003)(22166006);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2023 16:30:11.9006
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XGnVDhHho6clkMLfv+/CZVyO1HvDQkndMI3b9RmejbcVEF8RJVyZJNURgt6kOTN0mo4u5wEnZfm6DTYw4W7O9w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB10148
+X-MS-Exchange-CrossTenant-Network-Message-Id: f472112d-1395-4036-c790-08daeda7c95e
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	VI1EUR03FT043.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB9940
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Jan 2023 16:03:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175360
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Jan 2023 16:30:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175361
 
-Martin,
+Agreed, and commented on the MR.
 
-first of all: thank you for testing the patches. As usual the corner=20
-cases are the most tricky ones.
+Ross
 
-tl;dr: I'm working on an updated patch series to address the reported=20
-issues.
-
-
-I've looked into the issues and would like to give some explanation.
-
-1) the first module you mention ('gonum.org/v1/gonum=20
-<http://gonum.org/v1/gonum>') does not obey the go documentation for=20
-resolving the modules source-code repository (see=20
-https://go.dev/ref/mod#go-mod-download , Section 'Version control=20
-systems'). The documentation states that there should be a html page,=20
-queried by "?go-get=3D1", with a <meta>-tag which contains the original=20
-URL to the source-code repository. For 'gonum' there is only a 404-page.=20
-This page contains javascript-code that redirects to the actual gonum=20
-package page. Unnecessary hard to process. I'll open an issue for that.=20
-The second module 'code.cloudfoundry.org/clock=20
-<http://code.cloudfoundry.org/clock>' has a broken certificate. I=20
-already opend an issue on github for this.
-
-I addressed this issue above by maintaining a list of modules and their=20
-actual repo URLs inside the go-recipetool as an absolute fallback. Would=20
-do you think about this solution?
-
-2) yes, my bad :)
-
-3) The problem is that some repositories have a prefix in their tags.=20
-The tags usually only contain the semantic version string. I'm curretly=20
-working on this issue.
-
-Best regards
-
-Lukas
-
-Am 22.12.2022 um 20:08 schrieb Martin Jansa via lists.openembedded.org:
-> On Thu, Dec 22, 2022 at 7:39 PM Vyacheslav Yurkov <uvv.mail@gmail.com>=20
-> wrote:
->
->     On 22.12.2022 17:48, Bruce Ashfield wrote:
->     > On Thu, Dec 22, 2022 at 11:20 AM Richard Purdie
->     > <richard.purdie@linuxfoundation.org> wrote:
->     >> This patch is not in master and is not a backport therefore not
->     >> eligible for kirkstone/langdale.
->
->     My bad, the intention was to have it in all three branches: master,
->     kirkstone, and langdale.
->
->     > 'nor should it go to master.
->     >
->     > If someone wants to allow go to fetch sources during builds, it
->     needs
->     > to be done in their own layers.
->     >
->     > Bruce
->
->     Probably I misunderstood the outcome of the discussion in my first
->     link.
->     Bruce and Richard, you both suggested to have it in go-mod with the
->     warning. I agree that it breaks reproducibility, and is considered
->     a bad
->     practice in general (I'm aware of a few more build systems with
->     the same
->     shortcoming).
->
->     My point is, until a proper solution is in place, it should be at
->     least
->     documented somewhere that this should be done in own layer/recipe.
->     Any
->     suggestions where this can be documented if not in OE-Core?
->
->
-> Have you tried the changes submitted by Lukas/Stefan in:
-> https://lists.openembedded.org/g/openembedded-architecture/message/1539
-> ?
->
-> It's not perfect, I was testing it on=20
-> https://github.com/influxdata/telegraf/blob/master/go.mod and I've=20
-> found some corner cases where it failed.
->
-> But it seems like very good start and we should work with Lukas/Stefan=20
-> to get it merged in master. Then all branches could consume recipes=20
-> created in master and only the exceptions would need to have network=20
-> access (instead of the bbclass enabling it for every go-mod user -=20
-> go-vendor inherits go-mod as well).
->
-> Lukas/Stefan: is there something we can do to help with v2 of your=20
-> patches?
->
-> I wanted to submit better review on submitted patches after more=20
-> debugging, but here it is:
->
-> 1) to resolve 2 deps:
-> {'Path': 'gonum.org/v1/gonum <http://gonum.org/v1/gonum>', 'Version':=20
-> 'v0.12.0'} due to 404 "ERROR: Error while fetching redirect page: HTTP=20
-> Error 404: Not Found"
->
-> {'Path': 'code.cloudfoundry.org/clock=20
-> <http://code.cloudfoundry.org/clock>', 'Version': 'v1.0.0',=20
-> 'Indirect': True} due to this being redirect to github.com=20
-> <http://github.com> and failing with "ERROR: Error while fetching=20
-> redirect page: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED]=20
-> certificate verify failed: Hostname mismatch, certificate is not valid=20
-> for 'code.cloudfoundry.org <http://code.cloudfoundry.org>'. (_ssl.c:996)>=
-"
-> parse
->
-> 2) some issues with LICENSEs:
-> INFO: Please add the following line for=20
-> 'docs/LICENSE_OF_DEPENDENCIES.md' to a 'lib/recipetool/licenses.csv'=20
-> and replace `Unknown` with the license:
-> c4807c5b058a56c02f592207b4e056b1,Unknown
-> Traceback (most recent call last):
-> =C2=A0 File "/OE/build/oe-core/openembedded-core/scripts/recipetool", lin=
-e=20
-> 111, in <module>
-> =C2=A0 =C2=A0 ret =3D main()
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^^^^^^
-> =C2=A0 File "/OE/build/oe-core/openembedded-core/scripts/recipetool", lin=
-e=20
-> 100, in main
-> =C2=A0 =C2=A0 ret =3D args.func(args)
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^^^^^^^^^^^^^^^
-> =C2=A0 File=20
-> "/OE/layers/openembedded-core/scripts/lib/recipetool/create.py", line=20
-> 746, in create_recipe
-> =C2=A0 =C2=A0 handler.process(srctree_use, classes, lines_before, lines_a=
-fter,=20
-> handled, extravalues)
-> =C2=A0 File=20
-> "/OE/layers/openembedded-core/scripts/lib/recipetool/create_go.py",=20
-> line 349, in process
-> =C2=A0 =C2=A0 self._rewrite_lic_uri(lines_before)
-> =C2=A0 File=20
-> "/OE/layers/openembedded-core/scripts/lib/recipetool/create_go.py",=20
-> line 380, in _rewrite_lic_uri
-> =C2=A0 =C2=A0 updated, newlines =3D bb.utils.edit_metadata(lines_before,=
-=20
-> ['LIC_FILES_CHKSUM'], varfunc)
-> ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> =C2=A0 File "/OE/build/oe-core/bitbake/lib/bb/utils.py", line 1382, in=20
-> edit_metadata
-> =C2=A0 =C2=A0 if handle_var_end():
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0^^^^^^^^^^^^^^^^
-> =C2=A0 File "/OE/build/oe-core/bitbake/lib/bb/utils.py", line 1280, in=20
-> handle_var_end
-> =C2=A0 =C2=A0 (newvalue, newop, indent, minbreak) =3D varfunc(in_var, ful=
-l_value,=20
-> op, newlines)
-> ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> =C2=A0 File=20
-> "/OE/layers/openembedded-core/scripts/lib/recipetool/create_go.py",=20
-> line 372, in varfunc
-> =C2=A0 =C2=A0 uri, chksum =3D license.split(';', 1)
-> =C2=A0 =C2=A0 ^^^^^^^^^^^
-> ValueError: not enough values to unpack (expected 2, got 1)
->
-> (the license was just '/')
->
-> 3) some SRCREVs set to None leading to parsing failure:
->
-> =C2=A0 File "/OE/layers/bitbake/lib/bb/fetch2/git.py", line 762, in=20
-> _latest_revision
-> =C2=A0 =C2=A0 raise bb.fetch2.FetchError("Unable to resolve '%s' in upstr=
-eam git=20
-> repository in git ls-remote output for %s" % \
-> bb.data_smart.ExpansionError: Failure expanding variable SRCPV,=20
-> expression was ${@bb.fetch2.get_srcrev(d)} which triggered exception=20
-> FetchError: Fetcher failure: Unable to resolve 'None' in upstream git=20
-> repository in git ls-remote output for=20
-> github.com/googleapis/google-cloud-go=20
-> <http://github.com/googleapis/google-cloud-go>
-> The variable dependency chain for the failure is: SRCPV -> PV -> BP ->=20
-> FILESPATH
->
-> ERROR: Parsing newly created recipe failed, moving recipe to=20
-> /OE/build/oe-core/workspace/recipes/telegraf/telegraf_git.bb.parsefailed=
-=20
-> for reference. If this looks to be caused by the recipe itself, please=20
-> report this error.
->
-> It takes long time to fetch all telegraf dependencies, so I'll create=20
-> some test recipe to more easily debug these 3 issues in isolation.
->
->
+> On 31 Dec 2022, at 17:14, Richard Purdie via lists.openembedded.org <rich=
+ard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
+>=20
+> On Thu, 2022-12-29 at 09:08 +0100, Markus Volk wrote:
+>> Signed-off-by: Markus Volk <f_l_k@t-online.de>
+>> ---
+>> ...ktop-schemas.pc.in-use-pc_sysrootdir.patch | 34 +++++++++++++++++++
+>> .../gsettings-desktop-schemas_43.0.bb         |  1 +
+>> 2 files changed, 35 insertions(+)
+>> create mode 100644 meta/recipes-gnome/gsettings-desktop-schemas/gsetting=
+s-desktop-schemas/0001-gsettings-desktop-schemas.pc.in-use-pc_sysrootdir.pa=
+tch
+>>=20
+>> diff --git a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desk=
+top-schemas/0001-gsettings-desktop-schemas.pc.in-use-pc_sysrootdir.patch b/=
+meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas/0001=
+-gsettings-desktop-schemas.pc.in-use-pc_sysrootdir.patch
+>> new file mode 100644
+>> index 0000000000..4bf38c1987
+>> --- /dev/null
+>> +++ b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-sch=
+emas/0001-gsettings-desktop-schemas.pc.in-use-pc_sysrootdir.patch
+>> @@ -0,0 +1,34 @@
+>> +From abd179df28adcdd9fac3d066aaccbd4c4cd135f5 Mon Sep 17 00:00:00 2001
+>> +From: Markus Volk <f_l_k@t-online.de>
+>> +Date: Thu, 29 Dec 2022 06:39:59 +0100
+>> +Subject: [PATCH] gsettings-desktop-schemas.pc.in: use pc_sysrootdir for=
+ prefix
+>> +
+>> +gnome-settings uses pkgconfig to find gdesktop-enums.h
+>> +https://github.com/GNOME/gnome-control-center/blob/4648296a706df83af984=
+a918e5f14c3ece42f5fc/panels/background/meson.build#L22
+>> +
+>> +Adding pc-sysrootdir to prefix would allow to find the file also if we =
+have a user defined sysroot.
+>> +
+>> +This will fix cross compilation of gnome-control-center with yocto/open=
+embedded that otherwise fails like this:
+>> +
+>> +| ../gnome-control-center-43.2/panels/background/meson.build:27:0: ERRO=
+R: File /usr/include/gsettings-desktop-schemas/gdesktop-enums.h does not ex=
+ist.
+>> +
+>> +Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/gsettings-de=
+sktop-schemas/-/merge_requests/62]
+>> +
+>> +Signed-off-by: Markus Volk <f_l_k@t-online.de>
+>> +---
+>> + gsettings-desktop-schemas.pc.in | 2 +-
+>> + 1 file changed, 1 insertion(+), 1 deletion(-)
+>> +
+>> +diff --git a/gsettings-desktop-schemas.pc.in b/gsettings-desktop-schema=
+s.pc.in
+>> +index d611dc1..992fa55 100644
+>> +--- a/gsettings-desktop-schemas.pc.in
+>> ++++ b/gsettings-desktop-schemas.pc.in
+>> +@@ -1,4 +1,4 @@
+>> +-prefix=3D@prefix@
+>> ++prefix=3D${pc_sysrootdir}@prefix@
+>> +=20
+>> + Name: gsettings-desktop-schemas
+>> + Description: Shared GSettings schemas for the desktop, including helpe=
+r headers
+>> +--=20
+>> +2.34.1
+>> +
+>=20
+> This doesn't look right to me. It would lead to an arms race where
+> every .pc file would need to start accounting for the sysroot. The
+> sysroot should really be handled at the calling site.
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#174971): https://lists.openembedded.org/g/openembedde=
-d-core/message/174971
-> Mute This Topic: https://lists.openembedded.org/mt/95827446/7344993
+> View/Reply Online (#175181): https://lists.openembedded.org/g/openembedde=
+d-core/message/175181
+> Mute This Topic: https://lists.openembedded.org/mt/95933924/6875888
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [lu=
-kas.funke-oss@weidmueller.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ro=
+ss.burton@arm.com]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+>=20
+
 
