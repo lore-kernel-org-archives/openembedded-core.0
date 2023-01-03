@@ -1,98 +1,144 @@
-Return-Path: <chee.yang.lee@intel.com>
+Return-Path: <anton.antonov@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8B60C3DA7D
-	for <webhook@archiver.kernel.org>; Tue,  3 Jan 2023 14:34:11 +0000 (UTC)
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by mx.groups.io with SMTP id smtpd.web10.65016.1672756444127541266
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1E38C3DA7D
+	for <webhook@archiver.kernel.org>; Tue,  3 Jan 2023 14:36:51 +0000 (UTC)
+Received: from cam-smtp0.cambridge.arm.com (cam-smtp0.cambridge.arm.com [217.140.106.53])
+ by mx.groups.io with SMTP id smtpd.web10.65079.1672756604224926813
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Jan 2023 06:34:04 -0800
+ Tue, 03 Jan 2023 06:36:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=JscAORu/;
- spf=pass (domain: intel.com, ip: 192.55.52.43, mailfrom: chee.yang.lee@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1672756444; x=1704292444;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=K//f+dbRj/ywk/v/tcxsZcilB42+VH38bYGFW7W506I=;
-  b=JscAORu/jzt9DhIGjDDekQsFEhnu0guZ2zr/Qi/M+ziZ5bNNvmd/ouRj
-   ewccafzrjoTysgW4Mte78eNACLs08swD/MxoDuftomWUQAN/6xOxLFrgD
-   dhqaCs1ZyaGngF7uMiFkxSuSXQzvYIzzCH2xFP/MQioW48CtytMB57a4q
-   KjZtJF97IhKYUCeFnHbJYEdnyx7e+jR69vWY4ipyzCGUEvraiqO5Q4tfA
-   ZsHkXJcfYzy05fGxp27vrv53LXcilLGVoMSo+N4hmm2o66VhxXQbLqA0T
-   LyLq5Td5wtBT2uLrt9qKOpr+8NFEufMl2KXiRsaBBtcPrRg3+TcTAWLnC
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="407926649"
-X-IronPort-AV: E=Sophos;i="5.96,297,1665471600"; 
-   d="scan'208";a="407926649"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2023 06:34:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="762328462"
-X-IronPort-AV: E=Sophos;i="5.96,297,1665471600"; 
-   d="scan'208";a="762328462"
-Received: from andromeda02.png.intel.com ([10.221.253.198])
-  by fmsmga002.fm.intel.com with ESMTP; 03 Jan 2023 06:34:02 -0800
-From: chee.yang.lee@intel.com
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.106.53, mailfrom: anton.antonov@arm.com)
+Received: from atg-devlab-kelpie.cambridge.arm.com (atg-devlab-kelpie.cambridge.arm.com [10.2.80.92])
+	by cam-smtp0.cambridge.arm.com (8.13.8/8.13.8) with ESMTP id 303EafXN013108;
+	Tue, 3 Jan 2023 14:36:41 GMT
+From: Anton Antonov <Anton.Antonov@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH][langdale] dbus: upgrade 1.14.0 -> 1.14.4
-Date: Tue,  3 Jan 2023 22:33:56 +0800
-Message-Id: <20230103143356.635387-1-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.37.3
+Cc: Anton.Antonov@arm.com
+Subject: [langdale][master][PATCH v4] rust: Do not use default compiler flags defined in CC crate
+Date: Tue,  3 Jan 2023 14:36:39 +0000
+Message-Id: <20230103143639.2730404-1-Anton.Antonov@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Jan 2023 14:34:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175356
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Jan 2023 14:36:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175357
 
-From: wangmy <wangmy@fujitsu.com>
+Rust crates build dependecy C libraries using "CC" crate.
+This crate adds some default compiler parameters depending on target arch.
+For some targets these parameters conflict with the parameters defined by OE.
 
-License-Update: D-Bus changed to dbus.
+Warnings/errors like this can be seen in the case:
 
-(From OE-Core rev: 8c2ab4c014807e2d8ad0fded4188578aa05e8c55)
+cc1: error: switch '-mcpu=cortex-a15' conflicts with switch '-march=armv7-a+fp' [-Werror]
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+Lets use only the OE parameters by exporting CRATE_CC_NO_DEFAULTS.
+https://github.com/rust-lang/cc-rs#external-configuration-via-environment-variables
+
+This patch fixes https://bugzilla.yoctoproject.org/show_bug.cgi?id=14947
+
+Signed-off-by: Anton Antonov <Anton.Antonov@arm.com>
 ---
- meta/recipes-core/dbus/{dbus_1.14.0.bb => dbus_1.14.4.bb} | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
- rename meta/recipes-core/dbus/{dbus_1.14.0.bb => dbus_1.14.4.bb} (96%)
+ meta/classes-recipe/rust-common.bbclass       | 28 +++++++++++++------
+ .../classes-recipe/rust-target-config.bbclass | 16 +++++++++++
+ 2 files changed, 35 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-core/dbus/dbus_1.14.0.bb b/meta/recipes-core/dbus/dbus_1.14.4.bb
-similarity index 96%
-rename from meta/recipes-core/dbus/dbus_1.14.0.bb
-rename to meta/recipes-core/dbus/dbus_1.14.4.bb
-index 863e35faf7..5f91ec2dc1 100644
---- a/meta/recipes-core/dbus/dbus_1.14.0.bb
-+++ b/meta/recipes-core/dbus/dbus_1.14.4.bb
-@@ -6,8 +6,9 @@ SECTION = "base"
- inherit autotools pkgconfig gettext upstream-version-is-even ptest-gnome
+diff --git a/meta/classes-recipe/rust-common.bbclass b/meta/classes-recipe/rust-common.bbclass
+index 0f72e45e8c..e0cedd7aa2 100644
+--- a/meta/classes-recipe/rust-common.bbclass
++++ b/meta/classes-recipe/rust-common.bbclass
+@@ -97,7 +97,7 @@ RUST_BUILD_ARCH = "${@oe.rust.arch_to_rust_arch(d.getVar('BUILD_ARCH'))}"
+ # Rust additionally will use two additional cases:
+ # - undecorated (e.g. CC) - equivalent to TARGET
+ # - triple suffix (e.g. CC:x86_64_unknown_linux_gnu) - both
+-#   see: https://github.com/alexcrichton/gcc-rs
++#   see: https://github.com/rust-lang/cc-rs
+ # The way that Rust's internal triples and Yocto triples are mapped together
+ # its likely best to not use the triple suffix due to potential confusion.
  
- LICENSE = "AFL-2.1 | GPL-2.0-or-later"
--LIC_FILES_CHKSUM = "file://COPYING;md5=10dded3b58148f3f1fd804b26354af3e \
--                    file://dbus/dbus.h;beginline=6;endline=20;md5=866739837ccd835350af94dccd6457d8"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=6423dcd74d7be9715b0db247fd889da3 \
-+                    file://dbus/dbus.h;beginline=6;endline=20;md5=866739837ccd835350af94dccd6457d8 \
-+                    "
+@@ -128,12 +128,22 @@ create_wrapper_rust () {
+ 	shift
+ 	extras="$1"
+ 	shift
++	crate_cc_extras="$1"
++	shift
  
- SRC_URI = "https://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.xz \
-            file://run-ptest \
-@@ -15,7 +16,7 @@ SRC_URI = "https://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.xz \
-            file://dbus-1.init \
- "
+ 	cat <<- EOF > "${file}"
+ 	#!/usr/bin/env python3
+ 	import os, sys
+ 	orig_binary = "$@"
+ 	extras = "${extras}"
++
++	# Apply a required subset of CC crate compiler flags
++	# when we build a target recipe for a non-bare-metal target.
++	# https://github.com/rust-lang/cc-rs/blob/main/src/lib.rs#L1614
++	if "CRATE_CC_NO_DEFAULTS" in os.environ.keys() and \
++	   "TARGET" in os.environ.keys() and not "-none-" in os.environ["TARGET"]:
++	    orig_binary += "${crate_cc_extras}"
++
+ 	binary = orig_binary.split()[0]
+ 	args = orig_binary.split() + sys.argv[1:]
+ 	if extras:
+@@ -157,22 +167,22 @@ do_rust_create_wrappers () {
+ 	mkdir -p "${WRAPPER_DIR}"
  
--SRC_URI[sha256sum] = "ccd7cce37596e0a19558fd6648d1272ab43f011d80c8635aea8fd0bad58aebd4"
-+SRC_URI[sha256sum] = "7c0f9b8e5ec0ff2479383e62c0084a3a29af99edf1514e9f659b81b30d4e353e"
+ 	# Yocto Build / Rust Host C compiler
+-	create_wrapper_rust "${RUST_BUILD_CC}" "" "${BUILD_CC}"
++	create_wrapper_rust "${RUST_BUILD_CC}" "" "${CRATE_CC_FLAGS}" "${BUILD_CC}"
+ 	# Yocto Build / Rust Host C++ compiler
+-	create_wrapper_rust "${RUST_BUILD_CXX}" "" "${BUILD_CXX}"
++	create_wrapper_rust "${RUST_BUILD_CXX}" "" "${CRATE_CC_FLAGS}" "${BUILD_CXX}"
+ 	# Yocto Build / Rust Host linker
+-	create_wrapper_rust "${RUST_BUILD_CCLD}" "" "${BUILD_CCLD}" "${BUILD_LDFLAGS}"
++	create_wrapper_rust "${RUST_BUILD_CCLD}" "" "" "${BUILD_CCLD}" "${BUILD_LDFLAGS}"
+ 	# Yocto Build / Rust Host archiver
+-	create_wrapper_rust "${RUST_BUILD_AR}" "" "${BUILD_AR}"
++	create_wrapper_rust "${RUST_BUILD_AR}" "" "" "${BUILD_AR}"
  
- EXTRA_OECONF = "--disable-xml-docs \
-                 --disable-doxygen-docs \
+ 	# Yocto Target / Rust Target C compiler
+-	create_wrapper_rust "${RUST_TARGET_CC}" "${WRAPPER_TARGET_EXTRALD}" "${WRAPPER_TARGET_CC}" "${WRAPPER_TARGET_LDFLAGS}"
++	create_wrapper_rust "${RUST_TARGET_CC}" "${WRAPPER_TARGET_EXTRALD}" "${CRATE_CC_FLAGS}" "${WRAPPER_TARGET_CC}" "${WRAPPER_TARGET_LDFLAGS}"
+ 	# Yocto Target / Rust Target C++ compiler
+-	create_wrapper_rust "${RUST_TARGET_CXX}" "${WRAPPER_TARGET_EXTRALD}" "${WRAPPER_TARGET_CXX}" "${CXXFLAGS}"
++	create_wrapper_rust "${RUST_TARGET_CXX}" "${WRAPPER_TARGET_EXTRALD}" "${CRATE_CC_FLAGS}" "${WRAPPER_TARGET_CXX}" "${CXXFLAGS}"
+ 	# Yocto Target / Rust Target linker
+-	create_wrapper_rust "${RUST_TARGET_CCLD}" "${WRAPPER_TARGET_EXTRALD}" "${WRAPPER_TARGET_CCLD}" "${WRAPPER_TARGET_LDFLAGS}"
++	create_wrapper_rust "${RUST_TARGET_CCLD}" "${WRAPPER_TARGET_EXTRALD}" "" "${WRAPPER_TARGET_CCLD}" "${WRAPPER_TARGET_LDFLAGS}"
+ 	# Yocto Target / Rust Target archiver
+-	create_wrapper_rust "${RUST_TARGET_AR}" "" "${WRAPPER_TARGET_AR}"
++	create_wrapper_rust "${RUST_TARGET_AR}" "" "" "${WRAPPER_TARGET_AR}"
+ 
+ }
+ 
+diff --git a/meta/classes-recipe/rust-target-config.bbclass b/meta/classes-recipe/rust-target-config.bbclass
+index 7fd7128bcf..939dd13d2f 100644
+--- a/meta/classes-recipe/rust-target-config.bbclass
++++ b/meta/classes-recipe/rust-target-config.bbclass
+@@ -404,3 +404,19 @@ python do_rust_gen_targets () {
+ addtask rust_gen_targets after do_patch before do_compile
+ do_rust_gen_targets[dirs] += "${RUST_TARGETS_DIR}"
+ 
++# For building target C dependecies use only compiler parameters defined in OE
++# and ignore the CC crate defaults which conflicts with OE ones in some cases.
++# https://github.com/rust-lang/cc-rs#external-configuration-via-environment-variables
++# Some CC crate compiler flags are still required.
++# We apply them conditionally in rust wrappers.
++
++CRATE_CC_FLAGS:class-native = ""
++CRATE_CC_FLAGS:class-nativesdk = ""
++CRATE_CC_FLAGS:class-target = " -ffunction-sections -fdata-sections -fPIC"
++
++do_compile:prepend:class-target() {
++    export CRATE_CC_NO_DEFAULTS=1
++}
++do_install:prepend:class-target() {
++    export CRATE_CC_NO_DEFAULTS=1
++}
 -- 
-2.37.3
+2.25.1
 
 
