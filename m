@@ -1,108 +1,103 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1148AC53210
-	for <webhook@archiver.kernel.org>; Tue,  3 Jan 2023 18:50:38 +0000 (UTC)
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
- by mx.groups.io with SMTP id smtpd.web10.1840.1672771835172523905
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5449FC4708D
+	for <webhook@archiver.kernel.org>; Tue,  3 Jan 2023 19:18:08 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+ by mx.groups.io with SMTP id smtpd.web10.2689.1672773482976636391
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Jan 2023 10:50:35 -0800
+ Tue, 03 Jan 2023 11:18:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=O+Plmo4e;
- spf=pass (domain: gmail.com, ip: 209.85.167.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f175.google.com with SMTP id d127so26450138oif.12
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Jan 2023 10:50:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ouwHm1zWrsK4DCtUqoC40JVoKnuVbbUSv782RM22HLc=;
-        b=O+Plmo4eMIM5b5FtBEz4NnZwme/2Mrb1uyo8T98AuC5aIGV530s2cAHQ7I5jQ1esBU
-         IC4Sjb+Bps8DGuxMkWkcQC1hEsWnyG2tbQJE/Cc3eitqJ7zxIEhBYEkSrsvhbQkFuWqz
-         7JpNlQeT3JfSsfkSLp9IyKtqrMnAFcYH8AFB8NHyWeugYb6g9WGqhDSC0R69ZHQTwiV/
-         eZ6CaugjDy+JhW0UdWFD7MiKwQ6u+wCwxw7GIC4Nz/BRmC7oqTVGLHMmLNFG30nz8FVj
-         3+Gn1B0NWSV7AO2PK581x3oewoqHQ0JFTOeh+iA5IAfLzG1wc3+uDcvbnkWJT80qBmg6
-         LNeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ouwHm1zWrsK4DCtUqoC40JVoKnuVbbUSv782RM22HLc=;
-        b=ZvBdgiUFZublLAvacXT0F2XIPTGKmEB3qM0r2JPALscduiNpMXWcX+NBRpF6wh/E+d
-         SkLQ5JT1TJn+o3StJf3pnwqXF+NGnHjpLWttBMm9BW92+t2RIb6X4uD2fH81BJKZENlI
-         nDJ3Kix/hk66cyOfErAHB80+jpYvhK87/32WcyQOhoXZyP9xhLnAPXBQdEe1tnLogpmH
-         7Qa5qZSGGv3J31+UQ+6BptEF8pT/0pecCUcS6o8ZzgBoQp9JWaPFsP5z0hky/F0jLgMt
-         om/+zPCDnJsNZTouX+gp6taP20KUhkmHlCqztH6b5gzFuumc1qnHSN0at0v3i3vJ2+iN
-         OOTQ==
-X-Gm-Message-State: AFqh2koO7epS47aaljOyn3ni5Al1ZYBFEVEXVjiT0tLbRfbmcaaXFd4x
-	GlGnhe/hPLLwzxAc99AjSaFYmm75ABVdSUpYgo0=
-X-Google-Smtp-Source: AMrXdXuYKoRmGTXXqtvoaW55fMpzYqZbfhIOJTpKitcZLNtOeCZk8pj9vVnjcfFIGJSOmzl80DxEJEr/pq5n6YKF9Yc=
-X-Received: by 2002:aca:6085:0:b0:363:240c:bdc7 with SMTP id
- u127-20020aca6085000000b00363240cbdc7mr1764783oib.55.1672771834264; Tue, 03
- Jan 2023 10:50:34 -0800 (PST)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=YkigLTyb;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id BAA6940002;
+	Tue,  3 Jan 2023 19:18:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1672773481;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Xa7BsK1UeYGoS2fK+Uhfiq3+39CagogLawY9600GUcg=;
+	b=YkigLTybQTdaske+ZxIlfHFpk0Zb0n9hJMaw2U7B3i8Kva1YCiTDcE97acmoUVdimccVMT
+	ABC2u2iPP4owW5tHZEn/0peBchUjYjBcRmcwLAAUfEFTPzbZ6rbxUAQjMMEefuNVw8XW1N
+	ZRBz303vYfM+v7VQN3eSd8uWsFNk4QykdGHvYO0Xd1cEgGXMwIl++0AXCApm2FxOMPk3OE
+	tJPWJtGpkeM7WkCC/SF2QoxVx4c1Hry+CJpui3CinS086kmg/HSSeWXFLXAcgf2/XkZrnQ
+	GStldfuAig7BMjjCOlKtboriY6WlY0bYFdeKYYkTPSubee/Voii3mB55Z2dpGA==
+Date: Tue, 3 Jan 2023 20:18:00 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Alex Kiernan <alex.kiernan@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] C.UTF-8 in glibc
+Message-ID: <Y7R/aAbkEXMIKRtC@mail.local>
+References: <CAO5Uq5Toa3pa5Tnb1fuxLNe_PDYSAJUM4eJ5JObdeBOCQWzHVg@mail.gmail.com>
+ <528a76b9a3cfebab7d1fc3edc88db756197faa22.camel@linuxfoundation.org>
+ <CAO5Uq5QMOz7eAuju_z4iCLK+9uQzNmiGh3u9dtdKaxfEr_A2iQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <52dceb5d7867a60a1da6c6f5879f4d949c9be483.camel@linuxfoundation.org>
- <29497.1672753788020339166@lists.openembedded.org> <a801ec1885aee5847acdc047b9fe133d9250d8b2.camel@linuxfoundation.org>
-In-Reply-To: <a801ec1885aee5847acdc047b9fe133d9250d8b2.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 3 Jan 2023 10:50:08 -0800
-Message-ID: <CAMKF1sqe3K6y1=0xsB_B=ZbK4KMoiXteUFpUL==EZvRpbxMSTA@mail.gmail.com>
-Subject: Re: [OE-core] [master][langdale][kirkstone][dunfell][PATCH]
- glibc-version.inc: Use https protocol for fetch task
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAO5Uq5QMOz7eAuju_z4iCLK+9uQzNmiGh3u9dtdKaxfEr_A2iQ@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Jan 2023 18:50:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175364
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Jan 2023 19:18:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175365
 
-On Tue, Jan 3, 2023 at 6:02 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Tue, 2023-01-03 at 05:49 -0800, Ranjitsinh Rathod wrote:
-> > Hi Rechard,
->
-> Whilst that typo doesn't bother me, it does make me wonder about the
-> effort you're putting into these patches and I will judge them
-> accordingly.
+On 02/01/2023 16:40:20+0000, Alex Kiernan wrote:
+> On Mon, Jan 2, 2023 at 4:28 PM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
 > >
-> > Thanks for the input.
-> > But is it okay to change protocol from git to https. I can change the
-> > commit message if it is possible
->
-> If I took this patch, I'd then get a load more changing all the other
-> git protocol usage to https and you'd point out I'd take one so lots of
-> others should be fine too. We've not made any decision to do that and I
-> doubt we could guarantee that they'd all work with https anyway so I'd
-> suggest you sort your network out so git works or have a good source
-> mirror.
+> > On Sun, 2023-01-01 at 18:32 +0000, Alex Kiernan wrote:
+> > > glibc got an official C.UTF-8 in 2.35, but we don't appear to install
+> > > it by default... if I add "c" to IMAGE_LINGUAS then it gets installed,
+> > > but it feels like this ought to be default? Or even stronger and have
+> > > it separate from IMAGE_LINGUAS so even if that's set to "" you still
+> > > get it?
+> > >
+> > > I tripped over it because I was trying to get the ostree ptest suite
+> > > to pass and it ended up with a time formatting failing a test because
+> > > it wasn't running in C.UTF-8.
+> >
+> > Making it even stronger might be tricky given how our variables work
+> > but we definitely should have that in the default locales list.
+> >
+> 
+> My original thinking on trying to make it stronger was I expect you
+> really want this, but given everyone's managed so far without, I guess
+> if they need it now they can add it back in if they're overriding
+> IMAGE_LINGUAS.
+> 
+> Just thinking about this more, we can't specify it for musl, the
+> obvious way would be a glibc specific append, which would then mean
+> that setting IMAGE_LINGUAS = "" you still get it, which doesn't
+> immediately feel right (plus the general wish to avoid append in
+> core), which I guess means it needs something with more trickery...
+> I'll go play.
+> 
 
-Some orgs do not allow anonymous git protocol through their firewalls.
+Maybe:
 
->
-> > I hope it will not harm anything if we change the protocol, right?
->
-> According to your commit message, it wouldn't fix anything either. I
-> don't actually know what issue you're trying to solve as you've not
-> said. I can guess but that isn't really the point.
->
-> Cheers,
->
-> Richard
->
->
->
+IMAGE_LINGUAS_C:libc-glibc = "c"
+IMAGE_LINGUAS = "${IMAGE_LINGUAS_C}"
+
+> -- 
+> Alex Kiernan
+
+> 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#175354): https://lists.openembedded.org/g/openembedded-core/message/175354
-> Mute This Topic: https://lists.openembedded.org/mt/96026992/1997914
+> View/Reply Online (#175323): https://lists.openembedded.org/g/openembedded-core/message/175323
+> Mute This Topic: https://lists.openembedded.org/mt/95993257/3617179
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
->
+> 
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
