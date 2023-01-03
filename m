@@ -1,87 +1,92 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E2C8C3DA7D
-	for <webhook@archiver.kernel.org>; Tue,  3 Jan 2023 06:14:09 +0000 (UTC)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
- by mx.groups.io with SMTP id smtpd.web11.57614.1672726443538288298
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9416C46467
+	for <webhook@archiver.kernel.org>; Tue,  3 Jan 2023 07:31:19 +0000 (UTC)
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web11.58463.1672731075817295463
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Jan 2023 22:14:03 -0800
+ Mon, 02 Jan 2023 23:31:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=X0ARfQ75;
- spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: rybczynska@gmail.com)
-Received: by mail-lj1-f171.google.com with SMTP id q2so30876991ljp.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Jan 2023 22:14:03 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=XXNa8cWl;
+ spf=pass (domain: gmail.com, ip: 209.85.214.177, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f177.google.com with SMTP id d9so15006032pll.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Jan 2023 23:31:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=bwhbzJ8zu1eIYa5l2XkPEKOCjcbido7CmXzvr+jS4z0=;
-        b=X0ARfQ75OCWAj1zcPXAi5VdkpBTOE5p+sTPf/mIZUh+j3iJXjJ/AT9EW5vGoIKGlkl
-         q/S7PpZSKkkyDTGKrq9O+ExT5Gr/1ekVfv6gO/CYvwsv1evp0vzYykbzgzjPorUFgtKL
-         O7563aBmg+8hYhx+XCSX5knV4ekNDma3B9gclxIS1s9Bo6xYXVNlelJBXL9MoUYWo6CF
-         y+LxLJyl2LU9hmNw+0MzLrZuJPgpVYYRl5demOtk/0+cz2FTrN7r1Xg1ckhhkYX30LPN
-         lhMTpbGgNVz/zMwSzG7Z05kaKNESSztGdqZGdaRWfzgkbTNt/gfHsrqp6wDQ7oC6lAzH
-         WHkw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iM9LACiyJ1EfVNzG85wMKHoqE6pIa3kZOYhWNmZcJ+s=;
+        b=XXNa8cWl01RU9by31c10AE/10Fe87+u9GZC+Xe5uoFqST31LTr8NDdAfjLFZrndHi3
+         fKhG9oO6hueIrj8JL1jFB1aXHLoyP27261wytgUv4tPPiZsJ4WTaVe6EuINBhMcvfwSp
+         ckRxuKHQ89iWd8VYVsBIzMJ7Jbyja+Z8OMrP8RJgSNojgnVBICvm6os4ijwcZjuP5yeI
+         /sSzwR8vG1lCICaidbjKJDDpUtcb7pleNeqjuA0hhDqKFF9lm5ANpGc2MnNLGpXUk9lZ
+         4QT7G9DvZ801bWPDBZ8gQ1/oYQqV1z/aMCyk4JY2cLMwS933iEs1sDajbJIcGx1nWdnC
+         Dc7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bwhbzJ8zu1eIYa5l2XkPEKOCjcbido7CmXzvr+jS4z0=;
-        b=sxgkDAyLmOcOSnRmTHWRfZkI25f6eq/BXyzzqOYhObSPIiBuECvyav4tzMKvlBmaJb
-         Pt0Hg8986EAjmXQhtWf5N5vsqY3ccuj3NoxGYIOT6FUOpgGMpCvRX2yVOQ9E2yXQc1WL
-         4vvdUfMTLfHsvHrYFAN06ctCnqT5bfMKShUEGf3aTYBqhquROnX0+ikLGCmpNu76NWOU
-         g6mHsnQ+Tpo6/1i3hnvJruj00eegS4sAv/X0u6e+vQAZKEVsXlLczRGqcgTqKo4OLRtc
-         uinfMokd9o6Jpuq+qLwrcUDShOO4VdYjxKvvYxcnz5X4voKvABkgkTwApdxIjBm6YGxQ
-         swyg==
-X-Gm-Message-State: AFqh2krxghAK8zBRDE0T4/31XFiBx2PFkxSocxf5PXNCX6kyyZvGsPu1
-	QXkZd7coRyNa5Q7na9JqlgDMnaVtsuLKM4QC975r1gp/1hA=
-X-Google-Smtp-Source: AMrXdXvNoUVjQXTC1pLpdDZI0SaVc2tCA+bpgMoukm/sv0s6RxcqvvpswFCowfp3sE8GnjPYb6GiEavwJmT1ntC9SuI=
-X-Received: by 2002:a05:651c:220d:b0:27f:d80a:b7c1 with SMTP id
- y13-20020a05651c220d00b0027fd80ab7c1mr1070654ljq.87.1672726441072; Mon, 02
- Jan 2023 22:14:01 -0800 (PST)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iM9LACiyJ1EfVNzG85wMKHoqE6pIa3kZOYhWNmZcJ+s=;
+        b=3VvGbl74DR9FpYQF2e0kYe1DboiR7S/wS4SK03Wi3HLIIYlEh82sGt+DV771Qa4q+K
+         v9O/MOWh8xKZww9t4nDPbnj7edJSTGvpTjLJAIST4SZWOm0Pn6TFHztMMPEFaCQuXHMz
+         215bMx3L5/oMDRHK2iqsSmDW0PxT9Y1V/WkpR+6dhPLeMwkXBNNwfABnzTT/Idd8APJT
+         4Px37nW9JgFBULN5bGr652eQmOUKhPpaSrTH0YnhxGtO/ZvRY9W/mMuyaeW2+WfkFk8O
+         0+9BdPiTjL11KqzMKgXvJRsJ23Ctl+4MixIw6bcyV4sK9f+OKtzkr6i7im9EmSVN4tBS
+         EFOg==
+X-Gm-Message-State: AFqh2kqtpv/wSIjBEgmCkeJPYMhuQe+rRsGe9SNKeyX5RvLwhvZEoiqQ
+	feoJ6LgG8TepcOzU1tFrXfrdgy9ACHQ=
+X-Google-Smtp-Source: AMrXdXuSkXB1q+eBFd2n2a/yXIvVbj857x0/UGAf/NJB/Nus6LFpumECSqetvEUmhAtC3RkSeYw7mw==
+X-Received: by 2002:a17:903:1014:b0:192:62dd:7cb4 with SMTP id a20-20020a170903101400b0019262dd7cb4mr33103310plb.51.1672731074787;
+        Mon, 02 Jan 2023 23:31:14 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::bccc])
+        by smtp.gmail.com with ESMTPSA id l19-20020a170902f69300b00177efb56475sm21481523plg.85.2023.01.02.23.31.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Jan 2023 23:31:14 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] stress-ng: Do not enforce gold linker
+Date: Mon,  2 Jan 2023 23:31:11 -0800
+Message-Id: <20230103073111.1586416-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Tue, 3 Jan 2023 07:13:49 +0100
-Message-ID: <CAApg2=T6gxWL6W0df=wxBJgGTBPDYof8AdM_MQm1mBtAG1kThg@mail.gmail.com>
-Subject: NVD data format change and cve-check migration
-To: OE-core <openembedded-core@lists.openembedded.org>, 
-	Ross Burton <ross.burton@arm.com>, Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: multipart/alternative; boundary="000000000000539bba05f155f90d"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Jan 2023 06:14:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175333
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Jan 2023 07:31:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175334
 
---000000000000539bba05f155f90d
-Content-Type: text/plain; charset="UTF-8"
+This can then be controlled by yocto environment through LDFLAGS if
+needed since we support multiple linkers and distro policy may want a
+different linker, moreover gold fails on ppc32 to link since its missing
 
-Hello all,
-NVD (which we use for the cve-check database) has been working on the new
-format for some time. What I understand is that they plan to retire old API
-and all the feeds (like the one we use) by september 2023. Has anyone
-started working on migration of the cve-check to this new format?
+Fixes errors like below on ppc/gold + clang
 
-The current timeline: https://nvd.nist.gov/general/news/change-timeline
+/usr/lib/clang/15.0.6/lib/linux/libclang_rt.builtins-powerpc.a(mulsc3.c.o): unsupported -mbss-plt code
 
-Kind regards,
-Marta
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-extended/stress-ng/stress-ng_0.15.01.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
---000000000000539bba05f155f90d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.15.01.bb b/meta/recipes-extended/stress-ng/stress-ng_0.15.01.bb
+index 38fd6698b3..72893e7893 100644
+--- a/meta/recipes-extended/stress-ng/stress-ng_0.15.01.bb
++++ b/meta/recipes-extended/stress-ng/stress-ng_0.15.01.bb
+@@ -23,6 +23,8 @@ EXTRA_OEMAKE = "VERBOSE=1"
+ do_configure() {
+     mkdir -p configs
+     touch configs/HAVE_APPARMOR
++    # Disable forcing gold linker
++    sed -i -e '/LD_GOLD/{N;d;}' ${S}/Makefile.config
+     oe_runmake makeconfig
+ }
+ 
+-- 
+2.39.0
 
-<div dir=3D"ltr"><div>Hello all,</div><div>NVD (which we use for the cve-ch=
-eck database) has been working on the new format for some time. What I unde=
-rstand is that they plan to <span class=3D"ng" style=3D"background:rgba(0,0=
-,0,0) none repeat scroll 0% 0%!important">retire old</span> API and all the=
- feeds (like the one we use) by september 2023. Has anyone started working =
-on migration of the cve-check to this new format?<br></div><div><br></div><=
-div>The current timeline: <a href=3D"https://nvd.nist.gov/general/news/chan=
-ge-timeline">https://nvd.nist.gov/general/news/change-timeline</a></div><di=
-v><br></div><div>Kind regards,</div><div>Marta<br></div></div>
-
---000000000000539bba05f155f90d--
 
