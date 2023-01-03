@@ -1,127 +1,106 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4665C3DA7D
-	for <webhook@archiver.kernel.org>; Tue,  3 Jan 2023 07:46:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3D9AC46467
+	for <webhook@archiver.kernel.org>; Tue,  3 Jan 2023 07:52:29 +0000 (UTC)
 Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
- by mx.groups.io with SMTP id smtpd.web10.59042.1672731960939999742
+ by mx.groups.io with SMTP id smtpd.web10.59094.1672732345544008112
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Jan 2023 23:46:01 -0800
+ Mon, 02 Jan 2023 23:52:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=VCvDLv4Y;
- spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-lj1-f171.google.com with SMTP id e13so28447778ljn.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Jan 2023 23:46:00 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=BeN/oj+l;
+ spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f171.google.com with SMTP id f20so31038467lja.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Jan 2023 23:52:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=i84j8BLfPy4j2hikMAoo7qQ+h/wLA+A4VwnkvGdpGDE=;
-        b=VCvDLv4YqW0IqAxAOJjjMXV+l/Cpz8R4C2N6b1JkGssgcANAaxX7t/fdxp2CR38w4k
-         W5tppOacFtaPDYSP65FzWDR5td+Y8f4t9O3/D/oTpytljSEZWXpVeBSzgabKV0SRJzBs
-         I7cvhEr5mcI2LSdpESjOIE8I3S2noZ+lEhwnOI576RTe8+DE34UQmlZKxIgfUlGojX1j
-         xuLq+TgcCnXo/HqZ1/PdLdFAkw6/fkPlkNsH6yJoUQQ/pV1DfzIZ80BJjwJb1ufaFOs+
-         5fUIcGI/WYAhQ4vQfoxZNZLAUxn8GY7v97+gU8LdmXkDVa97oOf4Z4iDceO9fKslc47F
-         Bq2Q==
+        bh=qgY8xIS/IZltQlqajUdHnxIXShXSlt9BWLdLkwX6Ny4=;
+        b=BeN/oj+lM36MCA2KQeCuR0d4P44Gmz84iEoeai3RhHCwFmVGF28oBC1J9ZBmkF6ap/
+         9TZ0FiKaRESftQ5sYorIkgYhc0Ip2poJyDn9uWaLgoUGnw5PQt2jCpLKCdJHSdFZffW6
+         aYAoglC6NCiFKz74O4hrO7lTbhGo5sXPDB7FtWc8YrK1TehOQ4oBJyfuEo1gCfAZElUV
+         y6It1OIfi7DmK43cdB9Exs+UnDzoH+aRnHXYEmZkvgcVgr9IjPTyG5UfXs8iNE/E/uPD
+         rdebWiKICaXYqIacYOK8H1PXN3ZEoOpBonYEpRA3S9R4W5h4RyBXuIY4pVVaVKfXAolQ
+         mhpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=i84j8BLfPy4j2hikMAoo7qQ+h/wLA+A4VwnkvGdpGDE=;
-        b=zCdvAPc6C91UoX6mlVt5hMdVVPbnfwhbYDfqGvbo4xrilKCTFU/LwHXF4A56fXPSa2
-         0y629/NKp7S9vCfssjptRr4szENeJF0fqoFskobM8S/jJaepbH3pN019Evc3Q/IXqd+d
-         6tgplcWM7X9z8YOeAk2YO9LAFPFSGCaMBSAeDqPMFcmsyv7UowqsOiqm/QFJ8jbo6Kii
-         Us3tl7ujL1SZwVEYokelk0iybEs1cmVV1yt9lKX//Q+ZZ4BUp46J0rxhY9W4d67UPq+a
-         P+3f7e+2VKXR6w90Z1uzMb3sBAJFNnCoRVRKrOLdo30+zm7ElK8q3G4EllmsuBGEAYJJ
-         vMeQ==
-X-Gm-Message-State: AFqh2kpKRCHukb6gxF2n6DJvLVEQoiFNgRmH10p+Tx2GZnhbf/PDd2SH
-	IEh0aRaUccnw2jCGJEW3TNNTGTq1kDTBXPZZQn4=
-X-Google-Smtp-Source: AMrXdXu8Y1XZHmIRkKt9iW0cWtrNJC0sqMAn7VmrgBEDah/OyWw4Z7g7UgniGt4Dya4xEqjcqOqDo+xDHdDk0/Lu2X4=
-X-Received: by 2002:a05:651c:3d0:b0:27f:fdab:5028 with SMTP id
- f16-20020a05651c03d000b0027ffdab5028mr128650ljp.453.1672731959060; Mon, 02
- Jan 2023 23:45:59 -0800 (PST)
+        bh=qgY8xIS/IZltQlqajUdHnxIXShXSlt9BWLdLkwX6Ny4=;
+        b=DIDtBvyDnzudZY5+jLM8T8sNDodbR4gXBZu1RhU5//Fd+ldOuB1zefk6QMJyHCENw0
+         Etzqw9TaPO+l6Hk0xn2FDwdsp+IAjk5msBdSDXuHA3mn4zM6m3trvvE9ie0q1Jb/ja24
+         oncRdVIkhGm5sHhk6cUnPpdNrjOH2EbupNvEH0ssDivQM0Wt/Frpo/jKiIzl41cWpUmC
+         SPIG3FeaT4nhDebQatta6QJTnra0H1MjwdDx9TZIAkKMc2lNwVIa4eY1N75A27DgtgIT
+         YbCLks0N+RWenpRTpBvjp0a0nbnv2/nHBOKPyEw/HeMJ5FDX5rUlKbKggf/IZamV8w8z
+         DR9A==
+X-Gm-Message-State: AFqh2kpFllMROcLBTImh3TDGwZJ8/prIb6qmgthLO6tG22ngyVg0On38
+	4YfGqQShtf3f2HwMx4X74BfOFBsGR5AC/WD+mHg/31B9
+X-Google-Smtp-Source: AMrXdXtdeMDAb1D0AKPPgPQbGQShjr/dxZrFna5fqkKG+9jLBa84ysQ68pXo0+BqdiULSlw65GSc+abibvWizPnk2Zg=
+X-Received: by 2002:a2e:2246:0:b0:279:bf32:34dd with SMTP id
+ i67-20020a2e2246000000b00279bf3234ddmr3592769lji.31.1672732343585; Mon, 02
+ Jan 2023 23:52:23 -0800 (PST)
 MIME-Version: 1.0
-References: <20230102224744.287985-1-alex.kiernan@gmail.com>
- <20230102224744.287985-2-alex.kiernan@gmail.com> <d11d0390a0022a2659a6aa224b7b1d92e290fa7c.camel@linuxfoundation.org>
-In-Reply-To: <d11d0390a0022a2659a6aa224b7b1d92e290fa7c.camel@linuxfoundation.org>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Tue, 3 Jan 2023 07:45:47 +0000
-Message-ID: <CAO5Uq5SecaZGmvKrYadZBmCkCT0d3GXOaWZ4QGT6kXYfyXjKhw@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH 2/2] default-distrovars: Include "c" in
- IMAGE_LINGUAS for glibc
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <20230103073111.1586416-1-raj.khem@gmail.com>
+In-Reply-To: <20230103073111.1586416-1-raj.khem@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 3 Jan 2023 08:52:12 +0100
+Message-ID: <CANNYZj8N3E5J0_R+V24s2Y=_pJZjF=QUJXEbPeDD4Jh0x4mF0A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] stress-ng: Do not enforce gold linker
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Jan 2023 07:46:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175335
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Jan 2023 07:52:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175336
 
-On Mon, Jan 2, 2023 at 11:03 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Mon, 2023-01-02 at 22:47 +0000, Alex Kiernan wrote:
-> > glibc 2.35 introduced C.UTF-8, we should include this by default.
-> >
-> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> > ---
-> >
-> >  meta/conf/distro/include/default-distrovars.inc | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-> > index abf48f79f08a..5324bd543d22 100644
-> > --- a/meta/conf/distro/include/default-distrovars.inc
-> > +++ b/meta/conf/distro/include/default-distrovars.inc
-> > @@ -5,6 +5,8 @@ KERNEL_CONSOLE ?= "ttyS0"
-> >  KEEPUIMAGE ??= "yes"
-> >
-> >  IMAGE_LINGUAS ?= "en-us en-gb"
-> > +IMAGE_LINGUAS:libc-glibc ?= "c en-us en-gb"
-> > +
-> >  ENABLE_BINARY_LOCALE_GENERATION ?= "1"
-> >  LOCALE_UTF8_ONLY ?= "0"
-> >  LOCALE_UTF8_IS_DEFAULT ?= "1"
->
-> I suspect this will catch people out since if someone does:
->
-> IMAGE_LINGUAS = "xxx"
->
-> then it won't work for glibc due to the override. I suspect what we
-> need will be more like:
->
-> DEFAULT_IMAGE_LINGUAS = "en-us en-gb"
-> DEFAULT_IMAGE_LINGUAS:libc-glibc = "c en-us en-gb"
-> IMAGE_LINGUAS ?= "${DEFAULT_IMAGE_LINGUAS}"
->
-> ?
+Can this be made a patch and submitted upstream? Patching like that
+with sed is prone to silent regressions.
 
-I was slightly surprised when it did appear to work,expecting the
-override to win - but I guess that's possibly because I've set it in
-local.conf and not an image recipe:
+Alex
 
-#
-# $IMAGE_LINGUAS [4 operations]
-#   set /home/alexk/poky/build/conf/local.conf:303
-#     ""
-#   set? /home/alexk/poky/meta/conf/distro/include/default-distrovars.inc:7
-#     "en-us en-gb"
-#   set /home/alexk/poky/meta/conf/documentation.conf:218
-#     [doc] "Specifies the list of locales to install into the image
-during the root filesystem construction process."
-#   override[libc-glibc]:set?
-/home/alexk/poky/meta/conf/distro/include/default-distrovars.inc:8
-#     "c en-us en-gb"
-# pre-expansion value:
-#   ""
-IMAGE_LINGUAS=""
-
-But the DEFAULT_IMAGE_LINGUAS is much more obvious and for some reason
-simply didn't occur when I wrote this! I'll send a v2.
-
--- 
-Alex Kiernan
+On Tue, 3 Jan 2023 at 08:31, Khem Raj <raj.khem@gmail.com> wrote:
+>
+> This can then be controlled by yocto environment through LDFLAGS if
+> needed since we support multiple linkers and distro policy may want a
+> different linker, moreover gold fails on ppc32 to link since its missing
+>
+> Fixes errors like below on ppc/gold + clang
+>
+> /usr/lib/clang/15.0.6/lib/linux/libclang_rt.builtins-powerpc.a(mulsc3.c.o): unsupported -mbss-plt code
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-extended/stress-ng/stress-ng_0.15.01.bb | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.15.01.bb b/meta/recipes-extended/stress-ng/stress-ng_0.15.01.bb
+> index 38fd6698b3..72893e7893 100644
+> --- a/meta/recipes-extended/stress-ng/stress-ng_0.15.01.bb
+> +++ b/meta/recipes-extended/stress-ng/stress-ng_0.15.01.bb
+> @@ -23,6 +23,8 @@ EXTRA_OEMAKE = "VERBOSE=1"
+>  do_configure() {
+>      mkdir -p configs
+>      touch configs/HAVE_APPARMOR
+> +    # Disable forcing gold linker
+> +    sed -i -e '/LD_GOLD/{N;d;}' ${S}/Makefile.config
+>      oe_runmake makeconfig
+>  }
+>
+> --
+> 2.39.0
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#175334): https://lists.openembedded.org/g/openembedded-core/message/175334
+> Mute This Topic: https://lists.openembedded.org/mt/96024589/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
