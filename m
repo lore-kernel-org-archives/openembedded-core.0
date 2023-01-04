@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5877DC5479D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DA14C54EBC
 	for <webhook@archiver.kernel.org>; Wed,  4 Jan 2023 11:06:01 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web10.9362.1672830357307718609
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web10.9364.1672830359305673940
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Jan 2023 03:05:57 -0800
+ Wed, 04 Jan 2023 03:05:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=VkGPFR+B;
- spf=pass (domain: gmail.com, ip: 209.85.221.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f47.google.com with SMTP id h16so32516995wrz.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 03:05:57 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=mchzFaNT;
+ spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f45.google.com with SMTP id z8-20020a05600c220800b003d33b0bda11so694466wml.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 03:05:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TdFLGzMb3HnFLgzIAEvGKu8/j8Dc+5FOssMpVpnyGpA=;
-        b=VkGPFR+BTAtYM1kqIWh1G4GU9we9t/KOfEf81s4LSl9gfVZ89mWCQ/rWyYFYSFSlTc
-         s+/e0/zltEiSTA90fcO4yu2Wj6QPOXmK3QLN4j05WfjGK5xjM0kvAYPVM6qbrEbJWHwu
-         lzcUaJW/k9ws7k13pTCrLO3baCaOrhH2RQ51/AlrHI9NFWRQUy5UlbM3WKUN15jMTKbO
-         8g8UXlym9s1WCFSk83BSSAaYz2aSRKKZF4zdO5QvqBm2A8F+Kl8w/UJEudkLy5LJCo1O
-         Jnjo/I8XaKdCKTZorL94pYN97gxSbOYi7cibktoULvBZmez++VLJL7S1whGN1I+Gms3x
-         GkVA==
+        bh=x8+U2Rkc2uxwh09aFJjIVNfh3raZL/sE7DDUP3stmWM=;
+        b=mchzFaNT1OF6kLD1n1odZQbZZ5trrpDZHnOQeUFl8IE4OgidSlsTpHtCJx1GrQDnLm
+         izRHsSgRgj2rVT9UkfZ6/gWDstaYX3nOhnTjmxlzSJ6QXMCnXrmRxCBIFQ3YzkXjuxDa
+         L6Yi/rg0X7PoTIS1WxsSQs5xARD8HPsyBlKOdn3ZuAn3hBvK46kVWJL5ouICQarolLJc
+         sDfrmsUtSGZDKrhej+yWYOMOwVCuCF3x9csYZeeLHnxH2IibWI4CFXUt2/b5qS+od2mg
+         X6lqKh2YhZex3xG7FS543m+Mwsay8OkbyblI1aY9ash1Nyv45VEobV0QfsvahWasANn3
+         hORw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TdFLGzMb3HnFLgzIAEvGKu8/j8Dc+5FOssMpVpnyGpA=;
-        b=RUBJdyWIpMrZWNzagHtK742tlcMGE6LIkncpzaV1070G/Pg5dWl304ICwrB9kAsWal
-         DaCZj9hLPCvXHdAI0ymBFUZSaBYp6uypt2EcRCz4Nvugc++dUtKgTdjgx9IIBj8U8+XD
-         CxsAN9n+Z7xleIvt/bUQ3X09WCBD5X5U9iat/VEPibQWaoJBFJLDcDSD0l9m3f8Mgevt
-         CxhiTSUEqyZdlAI5nLCqa09VkhH3G+a9PqzGljXrQismjvXrELNU3/e0HxFbItuXTEfx
-         fSY2heM/+hs27jq3jJGyDhCcKVEn0eIu4CdNTDB5wZF5hkni2HmYWCcvWf+Wk8OVnMgs
-         TUow==
-X-Gm-Message-State: AFqh2kpmUbeFokMPHiSxhEUCGEXFfDBlX7MkiZDCSUTTu7Cy1+Z485ZH
-	IN1a+U/p+ndS+iZyZkmCZYCMgG+pSzQ=
-X-Google-Smtp-Source: AMrXdXuoYvRpVQrzLKEDIc3+B5QfX90bOQ+8RlQV/gvvfUccovlMP10qdgzl5Wb0UzZaRTuaEUhnyA==
-X-Received: by 2002:a5d:420f:0:b0:287:be8d:a2f with SMTP id n15-20020a5d420f000000b00287be8d0a2fmr17833571wrq.67.1672830355745;
-        Wed, 04 Jan 2023 03:05:55 -0800 (PST)
+        bh=x8+U2Rkc2uxwh09aFJjIVNfh3raZL/sE7DDUP3stmWM=;
+        b=tD0qt5Nysnz4GMrcpQ1eyJrafxoTi4hWYhBD/JgeA+FIaP8NwVrGfjTnMYJllj6XWJ
+         bsasyYZVXe1Dh7D/ijkRVgNJmp404zYN1z3aloHG3hPJWQ+kpRw5LeSlARSiCi97o0yE
+         CFEtmM3HVYl7XxADCBkuPagIrpkDoU+KMFXxztYGFPu6ivwT4DZ1RHVtNy8mdLrneOsC
+         PynJbxs80n4JepP2Iq/+C51FjLUBmk4yw/7JOcRzBg1AjVkAzudwK5YENZaNDEFWkkaF
+         zBV9Ea/Dqv9obHe/P/evpINjIQqxENtBfES4ERchE7wojnrqyOj5Of2PeUTb4oDYISR6
+         XUhA==
+X-Gm-Message-State: AFqh2kqVALdxyQgyALZOzlc0ydhSS0pWz6vwg1XW76M03MLW0+DLlie2
+	2SYqT3f4odSiIfumLK0uWtfSaDHN3M4=
+X-Google-Smtp-Source: AMrXdXvxaV8mdRxcnYRyiX4edeM7RajuFfDk6wmoZOgFTVCRT+914Rtxb0yAlyPaRTvgQFUH1hGqvQ==
+X-Received: by 2002:a05:600c:4fcf:b0:3d1:d396:1ade with SMTP id o15-20020a05600c4fcf00b003d1d3961ademr33341735wmq.9.1672830357673;
+        Wed, 04 Jan 2023 03:05:57 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id h15-20020adfaa8f000000b002421888a011sm34102161wrc.69.2023.01.04.03.05.55
+        by smtp.gmail.com with ESMTPSA id h15-20020adfaa8f000000b002421888a011sm34102161wrc.69.2023.01.04.03.05.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jan 2023 03:05:55 -0800 (PST)
+        Wed, 04 Jan 2023 03:05:56 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 04/77] nasm: update 2.15.05 -> 2.16.01
-Date: Wed,  4 Jan 2023 12:04:35 +0100
-Message-Id: <20230104110548.2537259-4-alex@linutronix.de>
+Subject: [PATCH 06/77] gtk+3: update 3.24.35 -> 3.24.36
+Date: Wed,  4 Jan 2023 12:04:37 +0100
+Message-Id: <20230104110548.2537259-6-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230104110548.2537259-1-alex@linutronix.de>
 References: <20230104110548.2537259-1-alex@linutronix.de>
@@ -62,263 +62,321 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 11:06:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175389
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175391
 
-adjust 0002-Add-debug-prefix-map-option.patch to account for
-https://github.com/netwide-assembler/nasm/commit/f2a6eb4aaca361c1ebe374bf07765790eecf8869
-and add a chunk to it that guarantees source paths not leaking into debug sections
-that list source filenames.
+Drop autotools-specific chunks in opengl.patch.
+
+Drop add-missing-meson.build.patch (.35 tarball issue)
+Drop buildpaths.patch (backport)
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../nasm/nasm/0001-stdlib-Add-strlcat.patch   | 18 ++---
- .../0002-Add-debug-prefix-map-option.patch    | 74 +++++++++++++------
- .../nasm/{nasm_2.15.05.bb => nasm_2.16.01.bb} |  2 +-
- 3 files changed, 63 insertions(+), 31 deletions(-)
- rename meta/recipes-devtools/nasm/{nasm_2.15.05.bb => nasm_2.16.01.bb} (88%)
+ ...d-introspection-according-to-option-.patch | 34 +++++++++++
+ .../gtk+/gtk+3/add-missing-meson.build.patch  | 38 -------------
+ .../recipes-gnome/gtk+/gtk+3/buildpaths.patch | 57 -------------------
+ meta/recipes-gnome/gtk+/gtk+3/opengl.patch    | 48 ++++------------
+ .../{gtk+3_3.24.35.bb => gtk+3_3.24.36.bb}    |  5 +-
+ 5 files changed, 46 insertions(+), 136 deletions(-)
+ create mode 100644 meta/recipes-gnome/gtk+/gtk+3/0001-meson.build-build-introspection-according-to-option-.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+3/add-missing-meson.build.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+3/buildpaths.patch
+ rename meta/recipes-gnome/gtk+/{gtk+3_3.24.35.bb => gtk+3_3.24.36.bb} (76%)
 
-diff --git a/meta/recipes-devtools/nasm/nasm/0001-stdlib-Add-strlcat.patch b/meta/recipes-devtools/nasm/nasm/0001-stdlib-Add-strlcat.patch
-index 0ede8a8328..1b8e947c56 100644
---- a/meta/recipes-devtools/nasm/nasm/0001-stdlib-Add-strlcat.patch
-+++ b/meta/recipes-devtools/nasm/nasm/0001-stdlib-Add-strlcat.patch
-@@ -1,4 +1,4 @@
--From 1c5023002bad3a5b0bbc181fdb324160beace733 Mon Sep 17 00:00:00 2001
-+From 680220e772dfa381829983fa73b915416f676894 Mon Sep 17 00:00:00 2001
- From: Joshua Watt <JPEWhacker@gmail.com>
- Date: Tue, 19 Nov 2019 12:47:30 -0600
- Subject: [PATCH] stdlib: Add strlcat
-@@ -17,23 +17,23 @@ Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-  create mode 100644 stdlib/strlcat.c
- 
- diff --git a/Makefile.in b/Makefile.in
--index bfae1f8..156dc4c 100644
-+index b85ebee..045fabe 100644
- --- a/Makefile.in
- +++ b/Makefile.in
--@@ -101,7 +101,7 @@ NASM =	asm/nasm.$(O)
-- NDISASM = disasm/ndisasm.$(O)
-+@@ -104,7 +104,7 @@ PROGOBJ = $(NASM) $(NDISASM)
-+ PROGS   = nasm$(X) ndisasm$(X)
-  
-- LIBOBJ = stdlib/snprintf.$(O) stdlib/vsnprintf.$(O) stdlib/strlcpy.$(O) \
-+ LIBOBJ_NW = stdlib/snprintf.$(O) stdlib/vsnprintf.$(O) stdlib/strlcpy.$(O) \
- -	stdlib/strnlen.$(O) stdlib/strrchrnul.$(O) \
- +	stdlib/strnlen.$(O) stdlib/strrchrnul.$(O) stdlib/strlcat.$(O) \
-  	\
-  	nasmlib/ver.$(O) \
-  	nasmlib/alloc.$(O) nasmlib/asprintf.$(O) nasmlib/errfile.$(O) \
- diff --git a/configure.ac b/configure.ac
--index 7b72769..14fd033 100644
-+index 42cd198..e206338 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -234,6 +234,7 @@ PA_FUNC_SNPRINTF
-+@@ -236,6 +236,7 @@ PA_FUNC_SNPRINTF
-  PA_FUNC_VSNPRINTF
-  AC_CHECK_FUNCS([strlcpy])
-  AC_CHECK_FUNCS([strrchrnul])
-@@ -41,7 +41,7 @@ index 7b72769..14fd033 100644
-  
-  dnl These types are POSIX-specific, and Windows does it differently...
-  AC_CHECK_TYPES([struct _stati64])
--@@ -253,6 +254,7 @@ AC_CHECK_DECLS(strsep)
-+@@ -255,6 +256,7 @@ AC_CHECK_DECLS(strsep)
-  AC_CHECK_DECLS(strlcpy)
-  AC_CHECK_DECLS(strnlen)
-  AC_CHECK_DECLS(strrchrnul)
-@@ -50,7 +50,7 @@ index 7b72769..14fd033 100644
-  dnl Check for missing types
-  AC_TYPE_UINTPTR_T
- diff --git a/include/compiler.h b/include/compiler.h
--index b4fd3a8..7fb4821 100644
-+index 407c160..b64da6a 100644
- --- a/include/compiler.h
- +++ b/include/compiler.h
- @@ -169,6 +169,10 @@ size_t strlcpy(char *, const char *, size_t);
-diff --git a/meta/recipes-devtools/nasm/nasm/0002-Add-debug-prefix-map-option.patch b/meta/recipes-devtools/nasm/nasm/0002-Add-debug-prefix-map-option.patch
-index 9f4c8dc0bd..84fcca0fe1 100644
---- a/meta/recipes-devtools/nasm/nasm/0002-Add-debug-prefix-map-option.patch
-+++ b/meta/recipes-devtools/nasm/nasm/0002-Add-debug-prefix-map-option.patch
-@@ -1,4 +1,4 @@
--From 81d6519499dcfebe7d21e65e002a8885a4e8d852 Mon Sep 17 00:00:00 2001
-+From e28c8883050d34d18ee2d66dfeece51e13adb6d5 Mon Sep 17 00:00:00 2001
- From: Joshua Watt <JPEWhacker@gmail.com>
- Date: Tue, 19 Nov 2019 13:12:17 -0600
- Subject: [PATCH] Add --debug-prefix-map option
-@@ -17,17 +17,17 @@ Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-  nasmlib/filename.c      | 20 ++++++++++++++++++++
-  output/outas86.c        |  4 +++-
-  output/outcoff.c        |  4 ++--
-- output/outelf.c         |  2 +-
-+ output/outelf.c         | 13 ++++++++-----
-  output/outieee.c        |  2 +-
-  output/outobj.c         |  2 +-
-  stdlib/strlcat.c        |  2 +-
-  test/elfdebugprefix.asm |  6 ++++++
-  test/performtest.pl     | 12 ++++++++++--
-- 12 files changed, 82 insertions(+), 9 deletions(-)
-+ 12 files changed, 89 insertions(+), 13 deletions(-)
-  create mode 100644 test/elfdebugprefix.asm
- 
- diff --git a/asm/nasm.c b/asm/nasm.c
--index e5ae89a..7a7f8b4 100644
-+index 76c70f6..08ff119 100644
- --- a/asm/nasm.c
- +++ b/asm/nasm.c
- @@ -939,6 +939,7 @@ enum text_options {
-@@ -46,7 +46,7 @@ index e5ae89a..7a7f8b4 100644
-      {"reproducible", OPT_REPRODUCIBLE, ARG_NO, 0},
-      {NULL, OPT_BOGUS, ARG_NO, 0}
-  };
--@@ -1337,6 +1339,26 @@ static bool process_arg(char *p, char *q, int pass)
-+@@ -1335,6 +1337,26 @@ static bool process_arg(char *p, char *q, int pass)
-                  case OPT_REPRODUCIBLE:
-                      reproducible = true;
-                      break;
-@@ -73,7 +73,7 @@ index e5ae89a..7a7f8b4 100644
-                  case OPT_HELP:
-                      help(stdout);
-                      exit(0);
--@@ -2304,6 +2326,8 @@ static void help(FILE *out)
-+@@ -2298,6 +2320,8 @@ static void help(FILE *out)
-          "    -w-x          disable warning x (also -Wno-x)\n"
-          "    -w[+-]error   promote all warnings to errors (also -Werror)\n"
-          "    -w[+-]error=x promote warning x to errors (also -Werror=x)\n"
-@@ -83,7 +83,7 @@ index e5ae89a..7a7f8b4 100644
-  
-      fprintf(out, "       %-20s %s\n",
- diff --git a/include/nasmlib.h b/include/nasmlib.h
--index 438178d..4c3e90d 100644
-+index 87a7fc6..a3e5144 100644
- --- a/include/nasmlib.h
- +++ b/include/nasmlib.h
- @@ -250,10 +250,19 @@ int64_t readstrnum(char *str, int length, bool *warn);
-@@ -107,7 +107,7 @@ index 438178d..4c3e90d 100644
-  /*
-   * Utility macros...
- diff --git a/nasm.txt b/nasm.txt
--index cc7fa27..d3485c9 100644
-+index 950c361..784618c 100644
- --- a/nasm.txt
- +++ b/nasm.txt
- @@ -147,6 +147,10 @@ OPTIONS
-@@ -179,10 +179,10 @@ index 54b22f8..c4a412c 100644
-  
-  static void as86_cleanup(void)
- diff --git a/output/outcoff.c b/output/outcoff.c
--index 58fa024..14baf7b 100644
-+index c2b4eb6..e242db2 100644
- --- a/output/outcoff.c
- +++ b/output/outcoff.c
--@@ -1072,14 +1072,14 @@ static void coff_symbol(char *name, int32_t strpos, int32_t value,
-+@@ -1259,7 +1259,7 @@ static void coff_symbol(char *name, int32_t strpos, int32_t value,
-  
-  static void coff_write_symbols(void)
-  {
-@@ -191,29 +191,61 @@ index 58fa024..14baf7b 100644
-      uint32_t i;
-  
-      /*
--      * The `.file' record, and the file name auxiliary record.
--      */
--     coff_symbol(".file", 0L, 0L, -2, 0, 0x67, 1);
---    strncpy(filename, inname, 18);
--+    filename_debug_remap(filename, inname, 19);
-+@@ -1269,7 +1269,7 @@ static void coff_write_symbols(void)
-+     if (reproducible)
-+         memset(filename, 0, 18);
-+     else
-+-        strncpy(filename, inname, 18);
-++        filename_debug_remap(filename, inname, 19);
-      nasm_write(filename, 18, ofile);
-  
-      /*
- diff --git a/output/outelf.c b/output/outelf.c
--index 61af020..1292958 100644
-+index ad8d210..29f1dc1 100644
- --- a/output/outelf.c
- +++ b/output/outelf.c
--@@ -553,7 +553,7 @@ static void elf_init(void)
--     };
-+@@ -546,8 +546,8 @@ static void elf_init(void)
-      const char * const *p;
-+     const char * cur_path = nasm_realpath(inname);
-  
- -    strlcpy(elf_module, inname, sizeof(elf_module));
-+-    strlcpy(elf_dir, nasm_dirname(cur_path), sizeof(elf_dir));
- +    filename_debug_remap(elf_module, inname, sizeof(elf_module));
-++    filename_debug_remap(elf_dir, nasm_dirname(cur_path), sizeof(elf_dir));
-      sects = NULL;
-      nsects = sectlen = 0;
-      syms = saa_init((int32_t)sizeof(struct elf_symbol));
-+@@ -3590,13 +3590,17 @@ static void dwarf_findfile(const char * fname)
-+     if (dwarf_clist && !(strcmp(fname, dwarf_clist->filename)))
-+         return;
+diff --git a/meta/recipes-gnome/gtk+/gtk+3/0001-meson.build-build-introspection-according-to-option-.patch b/meta/recipes-gnome/gtk+/gtk+3/0001-meson.build-build-introspection-according-to-option-.patch
+new file mode 100644
+index 0000000000..11effd421f
+--- /dev/null
++++ b/meta/recipes-gnome/gtk+/gtk+3/0001-meson.build-build-introspection-according-to-option-.patch
+@@ -0,0 +1,34 @@
++From 6e533d5598ef875f30b84d931aae11b768465869 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex@linutronix.de>
++Date: Mon, 2 Jan 2023 15:00:02 +0100
++Subject: [PATCH] meson.build: build introspection according to option only
++
++The way the check is written, if the build is native, then the
++introspection option has no effect.
++
++Particularly yocto project does want to disable introspection in
++native builds and enable it in cross builds (both via the option),
++and without this patch the former is not possible.
++
++Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/5382]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ meson.build | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/meson.build b/meson.build
++index bfc33af0f6..94ffaa7769 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -854,7 +854,7 @@ endif
 + 
-++    char * fname_remapped = nasm_malloc(FILENAME_MAX);
-++    filename_debug_remap(fname_remapped,fname,FILENAME_MAX);
-++
-+     /* search for match */
-+     match = 0;
-+     if (dwarf_flist) {
-+         match = dwarf_flist;
-+         for (finx = 0; finx < dwarf_numfiles; finx++) {
-+-            if (!(strcmp(fname, match->filename))) {
-++            if (!(strcmp(fname_remapped, match->filename))) {
-+                 dwarf_clist = match;
-++                nasm_free(fname_remapped);
-+                 return;
-+             }
-+             match = match->next;
-+@@ -3607,8 +3611,7 @@ static void dwarf_findfile(const char * fname)
-+     dwarf_clist = nasm_malloc(sizeof(struct linelist));
-+     dwarf_numfiles++;
-+     dwarf_clist->line = dwarf_numfiles;
-+-    dwarf_clist->filename = nasm_malloc(strlen(fname) + 1);
-+-    strcpy(dwarf_clist->filename,fname);
-++    dwarf_clist->filename = fname_remapped;
-+     dwarf_clist->next = 0;
-+     if (!dwarf_flist) {     /* if first entry */
-+         dwarf_flist = dwarf_elist = dwarf_clist;
- diff --git a/output/outieee.c b/output/outieee.c
--index 6d6d4b2..cdb8333 100644
-+index 7ba9036..796e5af 100644
- --- a/output/outieee.c
- +++ b/output/outieee.c
- @@ -207,7 +207,7 @@ static void ieee_unqualified_name(char *, char *);
-@@ -226,7 +258,7 @@ index 6d6d4b2..cdb8333 100644
-      fpubhead = NULL;
-      fpubtail = &fpubhead;
- diff --git a/output/outobj.c b/output/outobj.c
--index 56b43f9..fefea94 100644
-+index 281839d..fc336c1 100644
- --- a/output/outobj.c
- +++ b/output/outobj.c
- @@ -644,7 +644,7 @@ static enum directive_result obj_directive(enum directive, char *);
-@@ -264,7 +296,7 @@ index 0000000..a67ba29
- +	  ret
++ # Introspection
++ gir = find_program('g-ir-scanner', required : get_option('introspection'))
++-build_gir = gir.found() and (not meson.is_cross_build() or get_option('introspection'))
+++build_gir = gir.found() and get_option('introspection')
++ 
++ subdir('gdk')
++ subdir('gtk')
++-- 
++2.30.2
++
+diff --git a/meta/recipes-gnome/gtk+/gtk+3/add-missing-meson.build.patch b/meta/recipes-gnome/gtk+/gtk+3/add-missing-meson.build.patch
+deleted file mode 100644
+index ef971ccff4..0000000000
+--- a/meta/recipes-gnome/gtk+/gtk+3/add-missing-meson.build.patch
++++ /dev/null
+@@ -1,38 +0,0 @@
+-From 8a00d0269d547799b598adda364ad6c6ee328e6b Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@arm.com>
+-Date: Tue, 20 Dec 2022 12:09:07 +0000
+-Subject: [PATCH] Add missing meson.build
+-
+-This file was missing from the tarball, but will be in the .36 release.
+-
+-Upstream-Status: Inappropriate
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+-
+----
+- gdk/wayland/cursor/meson.build | 14 ++++++++++++++
+- 1 file changed, 14 insertions(+)
+- create mode 100644 gdk/wayland/cursor/meson.build
+-
+-diff --git a/gdk/wayland/cursor/meson.build b/gdk/wayland/cursor/meson.build
+-new file mode 100644
+-index 0000000..94cf47a
+---- /dev/null
+-+++ b/gdk/wayland/cursor/meson.build
+-@@ -0,0 +1,14 @@
+-+# This file is missing from the 3.24.35 tarball
+-+
+-+wayland_cursor_sources = files([
+-+  'wayland-cursor.c',
+-+  'xcursor.c',
+-+  'os-compatibility.c'
+-+])
+-+
+-+libwayland_cursor = static_library('wayland+cursor',
+-+  sources: wayland_cursor_sources,
+-+  include_directories: [ confinc, ],
+-+  dependencies: [ glib_dep, wlclientdep, ],
+-+  c_args: common_cflags,
+-+)
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-gnome/gtk+/gtk+3/buildpaths.patch b/meta/recipes-gnome/gtk+/gtk+3/buildpaths.patch
+deleted file mode 100644
+index 627d1d4b7e..0000000000
+--- a/meta/recipes-gnome/gtk+/gtk+3/buildpaths.patch
++++ /dev/null
+@@ -1,57 +0,0 @@
+-Use basename not full filename to remove buildpaths from the packages.
+-
+-Upstream-Status: Backport [8eb4e59613a0979757332eb833231b947d61f13d]
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+-
+-diff --git a/gdk/gdkenumtypes.c.template b/gdk/gdkenumtypes.c.template
+-index df9edfefa1..c5104e0e0d 100644
+---- a/gdk/gdkenumtypes.c.template
+-+++ b/gdk/gdkenumtypes.c.template
+-@@ -5,7 +5,7 @@
+- /*** END file-header ***/
+- 
+- /*** BEGIN file-production ***/
+--/* enumerations from "@filename@" */
+-+/* enumerations from "@basename@" */
+- /*** END file-production ***/
+- 
+- /*** BEGIN value-header ***/
+-diff --git a/gtk/gtkprivatetypebuiltins.c.template b/gtk/gtkprivatetypebuiltins.c.template
+-index 2565208bfc..d7961be8ef 100644
+---- a/gtk/gtkprivatetypebuiltins.c.template
+-+++ b/gtk/gtkprivatetypebuiltins.c.template
+-@@ -7,7 +7,7 @@
+- /*** END file-header ***/
+- 
+- /*** BEGIN file-production ***/
+--/* enumerations from "@filename@" */
+-+/* enumerations from "@basename@" */
+- /*** END file-production ***/
+- 
+- /*** BEGIN value-header ***/
+-diff --git a/gtk/gtkprivatetypebuiltins.h.template b/gtk/gtkprivatetypebuiltins.h.template
+-index a21e9aac05..5ecd4d392f 100644
+---- a/gtk/gtkprivatetypebuiltins.h.template
+-+++ b/gtk/gtkprivatetypebuiltins.h.template
+-@@ -14,7 +14,7 @@ G_BEGIN_DECLS
+- 
+- /*** BEGIN file-production ***/
+- 
+--/* enumerations from "@filename@" */
+-+/* enumerations from "@basename@" */
+- /*** END file-production ***/
+- 
+- /*** BEGIN value-header ***/
+-diff --git a/gtk/gtktypebuiltins.c.template b/gtk/gtktypebuiltins.c.template
+-index f4d748b7b9..9a5a360f09 100644
+---- a/gtk/gtktypebuiltins.c.template
+-+++ b/gtk/gtktypebuiltins.c.template
+-@@ -6,7 +6,7 @@
+- /*** END file-header ***/
+- 
+- /*** BEGIN file-production ***/
+--/* enumerations from "@filename@" */
+-+/* enumerations from "@basename@" */
+- /*** END file-production ***/
+- 
+- /*** BEGIN value-header ***/
+diff --git a/meta/recipes-gnome/gtk+/gtk+3/opengl.patch b/meta/recipes-gnome/gtk+/gtk+3/opengl.patch
+index ddec2c72d7..7354265e10 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3/opengl.patch
++++ b/meta/recipes-gnome/gtk+/gtk+3/opengl.patch
+@@ -1,4 +1,4 @@
+-From a6fb8ee9cfd5e0f8c4450d48b582614e2de8201c Mon Sep 17 00:00:00 2001
++From 4a0716f04fb25b51b08e994bd5a900b2e7f7fed5 Mon Sep 17 00:00:00 2001
+ From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ Date: Fri, 16 Oct 2015 16:35:16 +0300
+ Subject: [PATCH] Do not try to initialize GL without libGL
+@@ -16,7 +16,6 @@ before calling epoxy APIs.
+ Upstream-Status: Denied
+ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ ---
+- config.h.meson                   |  2 ++
+  demos/gtk-demo/meson.build       |  5 ++++-
+  docs/tools/meson.build           |  7 +++++--
+  docs/tools/widgets.c             |  6 +++++-
+@@ -26,7 +25,6 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+  gdk/gdkglcontext.c               |  6 ++++++
+  gdk/gdkwindow.c                  | 13 +++++++++++++
+  gdk/meson.build                  |  8 +++++++-
+- gdk/x11/Makefile.am              |  2 --
+  gdk/x11/gdkdisplay-x11.c         |  6 +++++-
+  gdk/x11/gdkvisual-x11.c          |  5 +++++
+  gdk/x11/gdkwindow-x11.c          |  4 ++++
+@@ -39,21 +37,8 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+  meson_options.txt                |  2 ++
+  tests/meson.build                |  9 +++++++--
+  testsuite/gtk/objects-finalize.c |  2 ++
+- 23 files changed, 130 insertions(+), 15 deletions(-)
++ 21 files changed, 128 insertions(+), 13 deletions(-)
+ 
+-diff --git a/config.h.meson b/config.h.meson
+-index b502611cb7..0bf6678d5e 100644
+---- a/config.h.meson
+-+++ b/config.h.meson
+-@@ -20,6 +20,8 @@
+- /* define if we have colord */
+- #mesondefine HAVE_COLORD
+- 
+-+#mesondefine HAVE_OPENGL
+-+
+- /* Define if the GNU dcgettext() function is already present or preinstalled.
+-    */
+- #mesondefine HAVE_DCGETTEXT
+ diff --git a/demos/gtk-demo/meson.build b/demos/gtk-demo/meson.build
+ index 252da16d05..4b57cff6ac 100644
+ --- a/demos/gtk-demo/meson.build
+@@ -367,19 +352,6 @@ index 4bb1bf2b6c..64172b8d3e 100644
+  
+  gdkconfig = configure_file(
+    input  : 'gdkconfig.h.meson',
+-diff --git a/gdk/x11/Makefile.am b/gdk/x11/Makefile.am
+-index 32b1f24434..d73eee604a 100644
+---- a/gdk/x11/Makefile.am
+-+++ b/gdk/x11/Makefile.am
+-@@ -40,8 +40,6 @@ libgdk_x11_la_SOURCES = 	\
+- 	gdkeventtranslator.c	\
+- 	gdkeventtranslator.h	\
+- 	gdkgeometry-x11.c  	\
+--	gdkglcontext-x11.c	\
+--	gdkglcontext-x11.h	\
+- 	gdkkeys-x11.c		\
+- 	gdkmain-x11.c		\
+- 	gdkmonitor-x11.c	\
+ diff --git a/gdk/x11/gdkdisplay-x11.c b/gdk/x11/gdkdisplay-x11.c
+ index 7e08f472cc..30fd7b6089 100644
+ --- a/gdk/x11/gdkdisplay-x11.c
+@@ -642,10 +614,10 @@ index 4fd0c3039c..a8e59ed077 100644
+    if (GDK_IS_WAYLAND_DISPLAY (gdk_display_get_default ()))
+      {
+ diff --git a/meson.build b/meson.build
+-index f2e63a8655..eea5347930 100644
++index aed48fc3f6..bfc33af0f6 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -136,6 +136,7 @@ wayland_enabled        = get_option('wayland_backend')
++@@ -137,6 +137,7 @@ wayland_enabled        = get_option('wayland_backend')
+  broadway_enabled       = get_option('broadway_backend')
+  quartz_enabled         = get_option('quartz_backend')
+  win32_enabled          = get_option('win32_backend')
+@@ -653,7 +625,7 @@ index f2e63a8655..eea5347930 100644
+  
+  os_unix   = false
+  os_linux  = false
+-@@ -450,7 +451,7 @@ pangocairo_dep = dependency('pangocairo', version: cairo_req,
++@@ -430,7 +431,7 @@ pangocairo_dep = dependency('pangocairo', version: cairo_req,
+                              fallback : ['pango', 'libpangocairo_dep'])
+  pixbuf_dep     = dependency('gdk-pixbuf-2.0', version: gdk_pixbuf_req,
+                              fallback : ['gdk-pixbuf', 'gdkpixbuf_dep'])
+@@ -662,7 +634,7 @@ index f2e63a8655..eea5347930 100644
+                              fallback: ['libepoxy', 'libepoxy_dep'])
+  atk_dep        = dependency('atk', version: atk_req,
+                              fallback : ['atk', 'libatk_dep'])
+-@@ -496,6 +497,10 @@ if tracker3_enabled
++@@ -476,6 +477,10 @@ if tracker3_enabled
+    endif
+  endif
+  
+@@ -671,9 +643,9 @@ index f2e63a8655..eea5347930 100644
+ +endif
  +
- diff --git a/test/performtest.pl b/test/performtest.pl
--index f7865b3..096f960 100755
-+index 46b1bdf..2426848 100755
- --- a/test/performtest.pl
- +++ b/test/performtest.pl
- @@ -42,14 +42,22 @@ sub perform {
-diff --git a/meta/recipes-devtools/nasm/nasm_2.15.05.bb b/meta/recipes-devtools/nasm/nasm_2.16.01.bb
-similarity index 88%
-rename from meta/recipes-devtools/nasm/nasm_2.15.05.bb
-rename to meta/recipes-devtools/nasm/nasm_2.16.01.bb
-index edc17aeebf..219cc49360 100644
---- a/meta/recipes-devtools/nasm/nasm_2.15.05.bb
-+++ b/meta/recipes-devtools/nasm/nasm_2.16.01.bb
-@@ -10,7 +10,7 @@ SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 \
-            file://0002-Add-debug-prefix-map-option.patch \
+  if iso_codes_dep.found()
+-   cdata.set_quoted('ISO_CODES_PREFIX', iso_codes_dep.get_pkgconfig_variable('prefix'))
++   cdata.set_quoted('ISO_CODES_PREFIX', iso_codes_dep.get_variable(pkgconfig: 'prefix'))
+  else
+-@@ -926,9 +931,15 @@ else
++@@ -912,9 +917,15 @@ else
+    gio_packages = ['gio-2.0', glib_req]
+  endif
+  
+@@ -690,7 +662,7 @@ index f2e63a8655..eea5347930 100644
+                       ['fribidi', fribidi_req]))
+  
+  gtk_packages = ' '.join([
+-@@ -942,7 +953,7 @@ pkgconf.set('GTK_PACKAGES', gtk_packages)
++@@ -928,7 +939,7 @@ pkgconf.set('GTK_PACKAGES', gtk_packages)
+  # Requires.private
+  pc_gdk_extra_libs += cairo_libs
+  
+@@ -761,5 +733,5 @@ index 24540e313f..e0f863ab6a 100644
+  	  /* Not allowed to finalize a GdkPixbufLoader without calling gdk_pixbuf_loader_close() */
+  	  all_types[i] != GDK_TYPE_PIXBUF_LOADER &&
+ -- 
+-2.34.1
++2.30.2
+ 
+diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.24.35.bb b/meta/recipes-gnome/gtk+/gtk+3_3.24.36.bb
+similarity index 76%
+rename from meta/recipes-gnome/gtk+/gtk+3_3.24.35.bb
+rename to meta/recipes-gnome/gtk+/gtk+3_3.24.36.bb
+index a467c0e9e9..41c189d7f1 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3_3.24.35.bb
++++ b/meta/recipes-gnome/gtk+/gtk+3_3.24.36.bb
+@@ -3,11 +3,10 @@ require gtk+3.inc
+ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+ 
+ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar.xz \
+-           file://add-missing-meson.build.patch \
+-           file://buildpaths.patch \
+            file://opengl.patch \
++           file://0001-meson.build-build-introspection-according-to-option-.patch \
             "
+-SRC_URI[sha256sum] = "ec10fe6d712ef0b3c63b5f932639c9d1ae99fce94f500f6f06965629fef60bd1"
++SRC_URI[sha256sum] = "27a6ef157743350c807ffea59baa1d70226dbede82a5e953ffd58ea6059fe691"
  
--SRC_URI[sha256sum] = "3c4b8339e5ab54b1bcb2316101f8985a5da50a3f9e504d43fa6f35668bee2fd0"
-+SRC_URI[sha256sum] = "35b6ad2ee048d41c4779f073f3efca7762a822b7d2d4ef4e8df24cf65747bb2e"
- 
- EXTRA_AUTORECONF:append = " -I autoconf/m4"
+ S = "${WORKDIR}/gtk+-${PV}"
  
 -- 
 2.30.2
