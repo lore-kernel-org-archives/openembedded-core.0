@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DFF9C5479D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CD0DC54EBC
 	for <webhook@archiver.kernel.org>; Wed,  4 Jan 2023 11:06:52 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web11.9362.1672830366643340608
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web10.9378.1672830369815591871
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Jan 2023 03:06:49 -0800
+ Wed, 04 Jan 2023 03:06:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=m0cg8T1m;
- spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f42.google.com with SMTP id d4so24593674wrw.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 03:06:48 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=GeRwaQ3C;
+ spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f49.google.com with SMTP id bs20so30464763wrb.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 03:06:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=X/SPkBIqOEILDduaSxJftswVmB0J1P2XKvjuvDGYQgc=;
-        b=m0cg8T1ma5UDIjSPeVR+juZPP98W0pKgwZFSbVvXW4s4xWKOmjYgZaQsGAKOVf2Q2B
-         sJfg8YVoxndgDOdAgmNQ2elsoIWLtdXtMP9s1Fq1qCaZ1pTAKhxOcyHHAUw8wOapCks4
-         iowtAAVvT41gpdxHeHdWHU9IC6FHaDzqVX/locVFGHNM7EAdK/rx9osR19TwEdRNw/5C
-         m9RMQZEEgGtftvFl8gWtiTJzCatlQ7vOxHNHmU0kRsnxLXyfPpvv4xPmNkpZMrYGkKqR
-         l6MakouhREQWFurTeUtN35BG3rJ28GxvwRlg/T099p24ZWCqA6ruP01nPoaQo+RPQROE
-         E7HA==
+        bh=4mOql6FD44ov3GKpLvst//2ANSQolLR1/Y/u1uV9FXQ=;
+        b=GeRwaQ3CH5RWsD5ZLJXZ9kuxY10d6SWx+Ix9Z4Q3RknJDji+OXSbu6dZ6rgd9Qz9h/
+         xgbymEyIsiQSH2ld9iXEhv9pWINmljz0DL1tcPMF8LvAGBRM6We6Ybu8Gx8Z+K9r2k/Q
+         rdF3XH8e5vZq1iF+hVmrXMNfvObEWFgjLuZ43bqbK1yUoc6xBgOSoOVfwuGEQBlsd4zq
+         ZsA3ShOrqIcfIzuTSAnOLdSVAHmlrj7NQxNkMHDLaUOCVsKZppIrW3n2uPi+ZMhyX2ul
+         780TYSqcXVDwa9u4WtXkYwieSyckn8nTZcpw3CcaJZ26nJHxxFN0E+qjr7mhXLR0KA0+
+         d8pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=X/SPkBIqOEILDduaSxJftswVmB0J1P2XKvjuvDGYQgc=;
-        b=cpKzR82XtGrb9uUMXSr2GRM8KvqJm2+PdUEQ4qgbNobBjNhuD3LeECiTFZKNE1bUci
-         xE4yIMkLeseJuXvgxxC3ACRHjvTnxiikmsMu7UXJBbgux4O0DddIzdmiGEpRLWVlxh2z
-         ynrNVN9bZs6ngMvBEToyvp7sDN7vxQL/EE65GTwpJ1i9NeBNEUHVni2ETW3AYzyOpB6y
-         un2t/8WmqheliODPXkuW9Ilc58KKVkCmflbKbY6cl3AzcLugZfjG2XaZCXKIOy5skQFQ
-         59fjcnxK+p1s2NYT55bmHwBS9+vT4ky+aH0EKShY/UA25rB3m1+q9pgym9cit+fBJ5Eh
-         KxXg==
-X-Gm-Message-State: AFqh2kofaI9ZFv+sZpl3elB58vsQBYcV4OevY4ltZwznf33AAaGtKlnG
-	GbtKH8TzN29tx6OJbAB8zEYnIs8al8Y=
-X-Google-Smtp-Source: AMrXdXs/oN9aOeiH6csyPav0KIrGnw+wcJITs34861ljre9Q76yv5RVzFuGwEshvgo8a1D+QS8+aWw==
-X-Received: by 2002:a5d:444d:0:b0:242:7089:ab90 with SMTP id x13-20020a5d444d000000b002427089ab90mr27443005wrr.69.1672830408343;
-        Wed, 04 Jan 2023 03:06:48 -0800 (PST)
+        bh=4mOql6FD44ov3GKpLvst//2ANSQolLR1/Y/u1uV9FXQ=;
+        b=wY8Q/fVSPtp3osaQMuqp+4896hrpXy0lo6+HKuCjoXOCE/PmLl+vGu3DpoPVH8cWmF
+         o6bqTXkbBRHLwk2s5PXwhiiERma0WTXA+FPPIcBviHVysp1ECC7KeJaiLnOe5n0y/5Uq
+         jC/CRIc11pYDl8ygAV8dxE7mBUH6F0z4NVqgF5+6Nt8AoOg0AvNgqj9hxBY68qRoUP7q
+         1PxCzh1yr0mGXXBRXwzIIH4R4wnEtAtxzUHVqJHDcYzXIb+cklN52kzzAvmkJ8jrIpHz
+         42R6unekVC1FScOVf8Db28qeVDOLwh/6uf15vOvRjbjOyFB4gCBVHkLAtjmwO5RZucDh
+         OAXA==
+X-Gm-Message-State: AFqh2koJKiwNw6i0AqtEqPegOJQbNwKUFzRl3/P43g4og/nTU/CrJJZ7
+	FbHcrA0r7c9TDimyrVKbXRplKdl0o7A=
+X-Google-Smtp-Source: AMrXdXuNHxmQnbq3xHZoTjKe9iWWZtMeRMRl816c+njr4FhqJSu3YRKxaT4E38TENkrylLHQ1bvTJA==
+X-Received: by 2002:a5d:5645:0:b0:289:552f:ed1b with SMTP id j5-20020a5d5645000000b00289552fed1bmr17552143wrw.63.1672830403150;
+        Wed, 04 Jan 2023 03:06:43 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id h15-20020adfaa8f000000b002421888a011sm34102161wrc.69.2023.01.04.03.06.47
+        by smtp.gmail.com with ESMTPSA id h15-20020adfaa8f000000b002421888a011sm34102161wrc.69.2023.01.04.03.06.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jan 2023 03:06:48 -0800 (PST)
+        Wed, 04 Jan 2023 03:06:42 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 73/77] python3-jsonschema: depend on rfc3339-validator in all cases
-Date: Wed,  4 Jan 2023 12:05:44 +0100
-Message-Id: <20230104110548.2537259-73-alex@linutronix.de>
+Subject: [PATCH 66/77] nghttp2: upgrade 1.50.0 -> 1.51.0
+Date: Wed,  4 Jan 2023 12:05:37 +0100
+Message-Id: <20230104110548.2537259-66-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230104110548.2537259-1-alex@linutronix.de>
 References: <20230104110548.2537259-1-alex@linutronix.de>
@@ -62,29 +62,30 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 11:06:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175458
-
-This has been the case since
-https://github.com/python-jsonschema/jsonschema/commit/622c7b276e01d24b5569ab27cfefb692ae91012e
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175451
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb | 2 +-
+ .../nghttp2/{nghttp2_1.50.0.bb => nghttp2_1.51.0.bb}            | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/nghttp2/{nghttp2_1.50.0.bb => nghttp2_1.51.0.bb} (92%)
 
-diff --git a/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb b/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb
-index 392b9584a3..24cde3711c 100644
---- a/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb
-+++ b/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb
-@@ -19,7 +19,7 @@ PACKAGECONFIG[format] = ",,,\
-     ${PYTHON_PN}-jsonpointer \
-     ${PYTHON_PN}-webcolors \
-     ${PYTHON_PN}-rfc3987 \
--    ${PYTHON_PN}-strict-rfc3339 \
-+    ${PYTHON_PN}-rfc3339-validator \
+diff --git a/meta/recipes-support/nghttp2/nghttp2_1.50.0.bb b/meta/recipes-support/nghttp2/nghttp2_1.51.0.bb
+similarity index 92%
+rename from meta/recipes-support/nghttp2/nghttp2_1.50.0.bb
+rename to meta/recipes-support/nghttp2/nghttp2_1.51.0.bb
+index 66311b2edf..fc1a592200 100644
+--- a/meta/recipes-support/nghttp2/nghttp2_1.50.0.bb
++++ b/meta/recipes-support/nghttp2/nghttp2_1.51.0.bb
+@@ -8,7 +8,7 @@ SRC_URI = "\
+     ${GITHUB_BASE_URI}/download/v${PV}/nghttp2-${PV}.tar.xz \
+     file://0001-fetch-ocsp-response-use-python3.patch \
  "
- PACKAGECONFIG[nongpl] = ",,,\
-     ${PYTHON_PN}-idna \
+-SRC_URI[sha256sum] = "af24007e34c18c782393a1dc3685f8fd5b50283e90a9191d25488eb50aa2c825"
++SRC_URI[sha256sum] = "66aa76d97c143f42295405a31413e5e7d157968dad9f957bb4b015b598882e6b"
+ 
+ inherit cmake manpages python3native github-releases
+ PACKAGECONFIG[manpages] = ""
 -- 
 2.30.2
 
