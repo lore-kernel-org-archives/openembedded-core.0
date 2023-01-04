@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 104C3C54EBD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B3D6C54EF1
 	for <webhook@archiver.kernel.org>; Wed,  4 Jan 2023 11:06:32 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web10.9388.1672830376764924673
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web11.9369.1672830383650624393
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Jan 2023 03:06:27 -0800
+ Wed, 04 Jan 2023 03:06:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ZS9ufMFc;
- spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f43.google.com with SMTP id az7so8167442wrb.5
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 03:06:27 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=XY1YSBvK;
+ spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f54.google.com with SMTP id h16so32518065wrz.12
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 03:06:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8uoNY30Eil2Jyw5VFxMQlOlAdJC1culizCobLzO+3mk=;
-        b=ZS9ufMFcUI0vs1xCk/bFLGBA+dxeCaO29Xc/ciMcrTjaxTDnZj59LHaVMyTOC274Ib
-         ptQj8ilxoUcx3lRNhHxa/LNr9ln0Nhj1Ee+Y+ayYbBoepjFEW1sWIBSR9pCeOkL1Js2c
-         vKXy0BfTUSbOpO+/I1LpcmY3JyE/JGdv4eHlMZcDlauuv6emBlYNwGOLDrq0+OVThz86
-         OBpsSPa22ZHRlQOFN8LolzD53qhfE5GDyBRz/BpD9kM4WUXeZ3FH6exUp5Krj0U+k7nc
-         IIrTnazEgyEXfh1KQy76EayxmXrS3d0b+Hv05ZN0q9zM6GODatab6NYniiaUg2WXgdsv
-         OoQA==
+        bh=8WxHbVGlllkN13h65EXPiij7v17vC5gKbjCtpw2CwlE=;
+        b=XY1YSBvKch0xv4ow1vPrQt2YLFNYPnNNn3RBjZhZEWzG5Y+LL/8QiDmmkVhd2UTjSK
+         mtbt21sksK76qHIWaQSOPLEpGYMEfhil/NDelSsBmSPtdMLhSGgvQbSXHx4xpByLRJRN
+         qVqzhgNLlt5FGmnoQr5w3VbM/lnMSiPpZ357/dVVTvGlI9C/uoG+3jPikcHt3Qkp94gl
+         OnCgTqBERkNMsMRvtkwEC45svfJP+G7ceIDabLBJuE9qXhmLjvzYCiORMJfIRY3XJDJQ
+         9Pmdgu0P3EPO+txGwdg16aYp85f7msTxr3tTR+U1kbDRtAtGIXjcovZlx8rD2WI0e+6o
+         MQsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8uoNY30Eil2Jyw5VFxMQlOlAdJC1culizCobLzO+3mk=;
-        b=wikk1VfUJpjb4qqDzsaKnSTKR72teDM6eTYe4ctwkUDWk2saidHuHvJ+9n/qdLOpO0
-         GwiZDLF7FZB444lQXphPCU3ll2jrJ5Hox2dT20g96uLumjLpgwVtmbowr9AIG+Lgh4kI
-         0hN9tkplu2jej8acRD1lRw1vExgq4gLvNJLYE0ZtCJQB1bOt1qtB4s4oAlky6xYqkmvf
-         OpREfy9owgWjLB3Qmgpo4SOvNXDTDRtcAp2bEEu/YocFmE2rIjKwQVwp8aY/KPkeKIU8
-         WWHOGYvvxcsGaaN8uQeDNsUd25D05X7bQBewHFav9UIursreIIvfZX1W+PRiaVLjtTiA
-         VaRQ==
-X-Gm-Message-State: AFqh2koYlH7S0hobZ2/jzhCiD6Z/z30JCjZuMhfv9z5JrFhKMsxDgXrt
-	nHRGhVPqMvd50Aq6On7/0ASKbkPUdw0=
-X-Google-Smtp-Source: AMrXdXuKRonSEdHeYEXzfbDOvYmHYArKujcCUTMtUGThdSOiGhuPtiXJ5BIeeXqe0xdn5Y8FcHrzOw==
-X-Received: by 2002:a05:6000:697:b0:28d:be60:9d1a with SMTP id bo23-20020a056000069700b0028dbe609d1amr13695612wrb.71.1672830386898;
-        Wed, 04 Jan 2023 03:06:26 -0800 (PST)
+        bh=8WxHbVGlllkN13h65EXPiij7v17vC5gKbjCtpw2CwlE=;
+        b=ZswLLDDGlccluvCxdPKUD5w3j+8HBbSNsy1C5nAVRPipemz4t+Dt3vHeL4taGXspBL
+         PJ0hwLIoE/Ua3cZ0Vmb3QWyEs8Jk8u5TsbFaEdNeTnXwzYihg8c5mzN14U2oRYy8/BJo
+         EbMM9u5/1YBeRmj+fbswQjAco3iOCqeSUd/dTvRFphXMta0z7QpPbf20wWRYpX5WoMiF
+         XoetGTow7EQ5gGf7m0hhqH4KoZjkKQHndJTsD5TpgwK/gcPY3hBj43OLxiV6o9vKwWEp
+         xkTQaZ7lyZBuLHpSTVpVLi/2cLWmylckUa2jzizrlRP5fBp1oIOZlKrcV2QI/0jHuBf4
+         GJHg==
+X-Gm-Message-State: AFqh2kqaPHbDLxEgM2Pq1rHV2fAz3NLAA7DE2cXiUWz6h71wyAEbt8YE
+	Kyuw+u+Wkhf6NBdOQSn7WjO0vKogNjk=
+X-Google-Smtp-Source: AMrXdXudcimGaptW5f6JyoxIEboHHHV5LNP6hRxY9zc/WLg2s5OwsXpUJF5O8qToG63dm7VwIh3mcg==
+X-Received: by 2002:a5d:554e:0:b0:271:fbdb:73d2 with SMTP id g14-20020a5d554e000000b00271fbdb73d2mr26016775wrw.12.1672830382142;
+        Wed, 04 Jan 2023 03:06:22 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id h15-20020adfaa8f000000b002421888a011sm34102161wrc.69.2023.01.04.03.06.26
+        by smtp.gmail.com with ESMTPSA id h15-20020adfaa8f000000b002421888a011sm34102161wrc.69.2023.01.04.03.06.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jan 2023 03:06:26 -0800 (PST)
+        Wed, 04 Jan 2023 03:06:21 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 45/77] python3-setuptools: upgrade 65.5.1 -> 65.6.3
-Date: Wed,  4 Jan 2023 12:05:16 +0100
-Message-Id: <20230104110548.2537259-45-alex@linutronix.de>
+Subject: [PATCH 39/77] libpsl: upgrade 0.21.1 -> 0.21.2
+Date: Wed,  4 Jan 2023 12:05:10 +0100
+Message-Id: <20230104110548.2537259-39-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230104110548.2537259-1-alex@linutronix.de>
 References: <20230104110548.2537259-1-alex@linutronix.de>
@@ -62,40 +62,39 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 11:06:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175430
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175425
+
+License-Update: copyright years
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../0001-conditionally-do-not-fetch-code-by-easy_install.patch  | 2 +-
- ...ython3-setuptools_65.5.1.bb => python3-setuptools_65.6.3.bb} | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-setuptools_65.5.1.bb => python3-setuptools_65.6.3.bb} (95%)
+ .../libpsl/{libpsl_0.21.1.bb => libpsl_0.21.2.bb}          | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/libpsl/{libpsl_0.21.1.bb => libpsl_0.21.2.bb} (77%)
 
-diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch b/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
-index 1b5f9c7577..2110c4a877 100644
---- a/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
-+++ b/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
-@@ -1,4 +1,4 @@
--From a0e0873a8ee6674d43e604d66bf66d94fc8eeb6f Mon Sep 17 00:00:00 2001
-+From 2e57369593ede5336f947e7b9903ebc673f98fef Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Tue, 17 Jul 2018 10:13:38 +0800
- Subject: [PATCH] conditionally do not fetch code by easy_install
-diff --git a/meta/recipes-devtools/python/python3-setuptools_65.5.1.bb b/meta/recipes-devtools/python/python3-setuptools_65.6.3.bb
-similarity index 95%
-rename from meta/recipes-devtools/python/python3-setuptools_65.5.1.bb
-rename to meta/recipes-devtools/python/python3-setuptools_65.6.3.bb
-index 8dc724e55a..a8bcb3a602 100644
---- a/meta/recipes-devtools/python/python3-setuptools_65.5.1.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools_65.6.3.bb
-@@ -11,7 +11,7 @@ SRC_URI:append:class-native = " file://0001-conditionally-do-not-fetch-code-by-e
- SRC_URI += "file://0001-change-shebang-to-python3.patch \
-             file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
+diff --git a/meta/recipes-support/libpsl/libpsl_0.21.1.bb b/meta/recipes-support/libpsl/libpsl_0.21.2.bb
+similarity index 77%
+rename from meta/recipes-support/libpsl/libpsl_0.21.1.bb
+rename to meta/recipes-support/libpsl/libpsl_0.21.2.bb
+index 58f56c145e..3bbbc0e521 100644
+--- a/meta/recipes-support/libpsl/libpsl_0.21.1.bb
++++ b/meta/recipes-support/libpsl/libpsl_0.21.2.bb
+@@ -7,12 +7,13 @@ HOMEPAGE = "https://rockdaboot.github.io/libpsl/"
+ BUGTRACKER = "https://github.com/rockdaboot/libpsl/issues"
  
--SRC_URI[sha256sum] = "e197a19aa8ec9722928f2206f8de752def0e4c9fc6953527360d1c36d94ddb2f"
-+SRC_URI[sha256sum] = "a7620757bf984b58deaf32fc8a4577a9bbc0850cf92c20e1ce41c38c19e5fb75"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=5437030d9e4fbe7267ced058ddb8a7f5 \
+-                    file://COPYING;md5=f41d10997a12da5ee3c24ceeb0148d18"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=6f40ab7fcf5ff18f3ff7f4b0860493fa \
++                    file://COPYING;md5=6f40ab7fcf5ff18f3ff7f4b0860493fa \
++                    "
  
- DEPENDS += "${PYTHON_PN}"
+ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.gz \
+            "
+-SRC_URI[sha256sum] = "ac6ce1e1fbd4d0254c4ddb9d37f1fa99dec83619c1253328155206b896210d4c"
++SRC_URI[sha256sum] = "e35991b6e17001afa2c0ca3b10c357650602b92596209b7492802f3768a6285f"
+ 
+ GITHUB_BASE_URI = "https://github.com/rockdaboot/libpsl/releases"
  
 -- 
 2.30.2
