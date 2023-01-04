@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6376C61DB3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DABFCC54EF1
 	for <webhook@archiver.kernel.org>; Wed,  4 Jan 2023 11:06:21 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web10.9378.1672830369815591871
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web10.9368.1672830362190792853
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Jan 2023 03:06:14 -0800
+ Wed, 04 Jan 2023 03:06:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=FuuJdYnC;
- spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f49.google.com with SMTP id bs20so30463566wrb.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 03:06:14 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=bLsRE8z4;
+ spf=pass (domain: gmail.com, ip: 209.85.221.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f47.google.com with SMTP id d17so12823981wrs.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 03:06:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+d40zxSSpeo0GPEZRbxdEtW1UHi81uGY74+DGs4DAT8=;
-        b=FuuJdYnCXTzFUyikqgnN1/JFapiIeip2LjAEcyaROomS+/O60/lITssQu4v/QYVTIe
-         orA6p9Qzdr/m0vVglKt6b12KiYmH0vtTODGTulxK9TvZYQ/0WMMoCMxZzlw+ZdTTdGSt
-         Q78cq3/6fYzY6V9+d5Uvo9FxJNNMeBXN6DS0Uu1KRuClNyqXJUjK7z9rWL8Vyh9EOSqW
-         gY9u+V6/q6n84cVAqm+JkE63yP+wFNZgHOaJEk+p8RiEP8dEYuMskhCu7610RcJb+C1G
-         DZUZHo8idS52uXTt82wdxGV4Eumpb0GuQ9umattky4AdihIELKhRLBRjKM+O9+IqnFkX
-         5mpA==
+        bh=lKJESiaZp4w65Vh/DatBAGD7N0+vJEC9UsDUG3ZUDJo=;
+        b=bLsRE8z4jF6CvXMZOeg53V0GxqEtJU9wazI4BBawjlZazmwxN+tqCDuqK/T5leaZbh
+         lcNF5LwA58FgGsAvg4+L668pezVOAJJqeT2Z/Q6J1dPZuNdvpZ0mjv9wskO3pOetX/NJ
+         0UgX07NNwSbwZMQvM+kinjJKfN4oe/qGHDR3KgdsHoa7EhIZv5HgaA/CQ7EaLr2PTuVI
+         gfhPk8WGFwwett1ec09jH9274EKwDyUMzxCoLLfujyTqeCiBxfgW3Om7uAG1ZN6t1JYK
+         FuEhVSMtPrW+1KHSJuawXhqnLvK+G8DR24iwQxLF8Ea8t/PEBmhu9KwAP7X2pHqpaL+A
+         FHqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+d40zxSSpeo0GPEZRbxdEtW1UHi81uGY74+DGs4DAT8=;
-        b=WJY9bz6VcsAnpcK2bYMFX9nAE/8EK58VIrSoKFz/EH+EefbEIUnUUsQoelbZZ9mqMo
-         uGbGLDm7Nq0i35YYfZCekomwIJMP01UkCZpAF+vr79kICvf2DXv9iajnatAXRehndHyv
-         pF1zI/KYjubgSnIeolLHrYMc78IlFjYw68VD0Tp+To9BCrfaN2Y9I1ZLFQ4OUX+v+dId
-         TM07g+6gqQn1fE4orvmswNKG2LJuJr5EPJK8kbG/hUBhrUfb6u/XBxdwPgH4Z+egpf6Z
-         9HJheHMHAM6j88zoyyCGSssXy5PFnFOXmgyxvAaF9lsS3E+6f9o64KJC1Jfx52pTWrKF
-         3jag==
-X-Gm-Message-State: AFqh2kruR6qvCbPdEelBg06EErSJiJLueLS63OmvSTRRgMQrq/hbCxks
-	k74f2jTdLWmib/xV52R48S+4FBdLKWY=
-X-Google-Smtp-Source: AMrXdXvgrk7chfES3GtR/C1MJ7LhKkqbzbfGbtAeekiUimjJVC0TWDY4QVL7yaE9QymKlEgzMwwylw==
-X-Received: by 2002:a05:6000:4002:b0:298:4baf:ac8a with SMTP id cy2-20020a056000400200b002984bafac8amr6493323wrb.44.1672830373799;
-        Wed, 04 Jan 2023 03:06:13 -0800 (PST)
+        bh=lKJESiaZp4w65Vh/DatBAGD7N0+vJEC9UsDUG3ZUDJo=;
+        b=AizuLWtQvRaY2Mh31EPyZH7KUCzStGSiVs9IdIe5Em4kSyzGgkkhX4SVDhDbMwlVRG
+         v2sD7/g+uoY2MDQPwcmaBiPzKSFCbUPtN69bfljtnSEkp3uA+uqNByrSZIMK3swhdBxq
+         l3W6kuWjSIYJsBMnUChwildJN19+iB2MksYfPwpgCTLhuMYUVz4rXt9/ZfvBkG9l6ARg
+         cMXzK6ChuJC1POUW8Ap9VlLCpAeXu2xjvxZ+oBqLIt5ftjXM1p80gUVk5j4AUrXWjPc8
+         YGXN6Br0JDJvEJfKXXnZRtWR1x2LFU44mOPBQ2YjL1Dwf97S6G61c623vZkF6k4cdu47
+         c7PQ==
+X-Gm-Message-State: AFqh2kpNnavg7aVlrDVeIymgRM1kNxjNiN01KyD6oy8QPvr+kRhu+1Z6
+	eb9SEYqbHrE0o8miJR5EejHOwHoawCY=
+X-Google-Smtp-Source: AMrXdXvLGpe49yAglx9LTDpXEVSJG/I++lhgQgUlcOz+GmVDhfEw1IWOJUlWqMh1bTV4kp+KE7+FhQ==
+X-Received: by 2002:a5d:5649:0:b0:276:ef1:db9c with SMTP id j9-20020a5d5649000000b002760ef1db9cmr22640131wrw.30.1672830378073;
+        Wed, 04 Jan 2023 03:06:18 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id h15-20020adfaa8f000000b002421888a011sm34102161wrc.69.2023.01.04.03.06.13
+        by smtp.gmail.com with ESMTPSA id h15-20020adfaa8f000000b002421888a011sm34102161wrc.69.2023.01.04.03.06.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jan 2023 03:06:13 -0800 (PST)
+        Wed, 04 Jan 2023 03:06:17 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 27/77] python3-pyrsistent: upgrade 0.19.2 -> 0.19.3
-Date: Wed,  4 Jan 2023 12:04:58 +0100
-Message-Id: <20230104110548.2537259-27-alex@linutronix.de>
+Subject: [PATCH 33/77] logrotate: upgrade 3.20.1 -> 3.21.0
+Date: Wed,  4 Jan 2023 12:05:04 +0100
+Message-Id: <20230104110548.2537259-33-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230104110548.2537259-1-alex@linutronix.de>
 References: <20230104110548.2537259-1-alex@linutronix.de>
@@ -62,30 +62,30 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 11:06:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175412
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175418
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...ython3-pyrsistent_0.19.2.bb => python3-pyrsistent_0.19.3.bb} | 2 +-
+ .../logrotate/{logrotate_3.20.1.bb => logrotate_3.21.0.bb}      | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pyrsistent_0.19.2.bb => python3-pyrsistent_0.19.3.bb} (79%)
+ rename meta/recipes-extended/logrotate/{logrotate_3.20.1.bb => logrotate_3.21.0.bb} (97%)
 
-diff --git a/meta/recipes-devtools/python/python3-pyrsistent_0.19.2.bb b/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb
-similarity index 79%
-rename from meta/recipes-devtools/python/python3-pyrsistent_0.19.2.bb
-rename to meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb
-index 0b309de8b1..05654c348d 100644
---- a/meta/recipes-devtools/python/python3-pyrsistent_0.19.2.bb
-+++ b/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/tobgu/pyrsistent"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE.mit;md5=b695eb9c6e7a6fb1b1bc2d193c42776e"
+diff --git a/meta/recipes-extended/logrotate/logrotate_3.20.1.bb b/meta/recipes-extended/logrotate/logrotate_3.21.0.bb
+similarity index 97%
+rename from meta/recipes-extended/logrotate/logrotate_3.20.1.bb
+rename to meta/recipes-extended/logrotate/logrotate_3.21.0.bb
+index 034c37b429..4e4ea10628 100644
+--- a/meta/recipes-extended/logrotate/logrotate_3.20.1.bb
++++ b/meta/recipes-extended/logrotate/logrotate_3.21.0.bb
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
  
--SRC_URI[sha256sum] = "bfa0351be89c9fcbcb8c9879b826f4353be10f58f8a677efab0c017bf7137ec2"
-+SRC_URI[sha256sum] = "1a2994773706bbb4995c31a97bc94f1418314923bd1048c6d964837040376440"
+ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.xz"
  
- inherit pypi python_setuptools_build_meta
+-SRC_URI[sha256sum] = "742f6d6e18eceffa49a4bacd933686d3e42931cfccfb694d7f6369b704e5d094"
++SRC_URI[sha256sum] = "8fa12015e3b8415c121fc9c0ca53aa872f7b0702f543afda7e32b6c4900f6516"
  
+ # These CVEs are debian, gentoo or SUSE specific on the way logrotate was installed/used
+ CVE_CHECK_IGNORE += "CVE-2011-1548 CVE-2011-1549 CVE-2011-1550"
 -- 
 2.30.2
 
