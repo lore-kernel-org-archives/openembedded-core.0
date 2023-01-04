@@ -1,153 +1,153 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83FA9C46467
-	for <webhook@archiver.kernel.org>; Wed,  4 Jan 2023 14:01:03 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web10.12605.1672840861496303830
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6FADC46467
+	for <webhook@archiver.kernel.org>; Wed,  4 Jan 2023 14:34:23 +0000 (UTC)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web11.13442.1672842858317785135
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Jan 2023 06:01:01 -0800
+ Wed, 04 Jan 2023 06:34:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Mio+hWls;
- spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wr1-f49.google.com with SMTP id j17so27694238wrr.7
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 06:01:01 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=02CQxQcH;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f49.google.com with SMTP id j8-20020a17090a3e0800b00225fdd5007fso24845544pjc.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 06:34:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BEpI56LcSnqRl5+l86AlW3h0OwQOPdysytIVUYEgT9Q=;
-        b=Mio+hWls7j6zUTIkJeLMmCmXXHXfUN99ppK7w2bmXf3YmchsxL7DFM7gpDLy/8Aytn
-         SKVv3MvBTk3C2GqXDG7u/KzSINyeAUDxts/C5ubFT1x1i/npUHL9uMhBTt80VhhYq3Nw
-         BMK1DMxpLAUbqtB68uryArwm0u2Sj8GgCT3cgLcWOncbv4DalWGpXq70UnFyNseKUr3o
-         tsdk6b2Tcpu0QmOgROwYlFdz9x8ojKU/N3HZYY3X40WuVpSDigzarC7RKmn6SnVfHFkK
-         Lwm0iIeWR+h+7WkclBA/EwQaLSYYU9+O7hQYXYC0qfgOZUbk0r4PlsPPnTGgdcnWbpdv
-         hG6A==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YCHizy3X8siH68MyL0FkgM9stHicKF5PJT6+7VToVFc=;
+        b=02CQxQcH01PQJ/qdXtryxFG8Q+SRvBzKALl64+S6ryIvwI/oc9pzqbCp+MmRLaDWJo
+         oTuOrnmSP50c+8usdfmTS7/gNJqLUqMzUA4dJZTU5eYqCFKQomZRCI6d/z4SiUIz/XQi
+         1WfxJXHnYENggpUzLjt8vhlyRBmtmaNDZZY1Zjm261g/1u2LFbnEBkVPw/69IKZ+8Diw
+         YuvRJbDftP9my9NafFfCs5SYXvGfsgpIArnCB+6AgM7XHwGuiEcmPDbZ74ERTYw0oD7S
+         XUQikwMpAix6rsJewFGA22rtbxq+p7lU9mCIp1z8VZcuBwbgwuMPOd5IWfWMh1mbyghR
+         I2oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BEpI56LcSnqRl5+l86AlW3h0OwQOPdysytIVUYEgT9Q=;
-        b=mR9YmcB2erMUObuxBa+Kba9nxe4TCBjYVnzoLxy0tJ22KcMoOyRTQwzEKmdNF05XxD
-         Z4f1i1rHBt0kOxhWOa0FiFA3Wkbs95KTbEG4IuId3tmySJu+9xQ5wwnDTfcdAza0YLeZ
-         LEqyDZEpE3PvdUQCIDyRL1zjMDASaG3IFgSe1q9eoYmbT2/6iM+uuzB2oAmYOY+ZESgN
-         e0LdKMSnZC6EezzOoUbbtSVOrk+dpAElKhP+t9T/LjQ3PjGT+D/y+DLNqCHF4VtjbwqG
-         vGIUwc0TBo2dRsfDHSrSHS+r+rnGJN7OQrhu3Zb7DOolPWVBtvaliyAlgOCuuYi7D0mv
-         gkDg==
-X-Gm-Message-State: AFqh2kr6lJAtUF8WXTyhOZJ53D/bM9QW9B+nmfSmNVEtbMvw0HCWWpCa
-	/9+SQppOxkfPkes/BhUgDr9h01TsdDk=
-X-Google-Smtp-Source: AMrXdXvvihisaCvAElatinbuaLdo0sPYDygHmsg9ZLDXM7vjh7iPxXcOMFavBAW+Wm6o3SyrjDTEyQ==
-X-Received: by 2002:adf:e80e:0:b0:242:368:7665 with SMTP id o14-20020adfe80e000000b0024203687665mr30750143wrm.60.1672840859645;
-        Wed, 04 Jan 2023 06:00:59 -0800 (PST)
-Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net. [91.135.6.246])
-        by smtp.gmail.com with ESMTPSA id z8-20020a056000110800b00241dd5de644sm33244715wrw.97.2023.01.04.06.00.58
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YCHizy3X8siH68MyL0FkgM9stHicKF5PJT6+7VToVFc=;
+        b=VNNxwWBHHCVAZIEwcbNkDdbHhB/2aLW53jQMKrBFZsIUkQQnOXZa7qxtOhsE4QoNzL
+         f3BRDpe6L5dYHRhwIearjehPV7w77oKCNPjLJTwWqvfU+DoaR2Zyj92MX2N2aU30CBdT
+         SK09oXeCJgGw5g9kKscdME32Uc9BBUerLC8wZQhbh9VIiIDDSLCYdQyIbODQp8ajuC1i
+         khvXjIxEl1kG46t4ZAvugnWKRWLjMS//RxHAkB1WKJDulrAgYjmGyPVVwRtzbJETKs+p
+         x9XO8kSWKhfCJx9eQShN7YKRcU4jKEt8Q4o46fNa90kY7IwTLvAJAEcYOZof1mA0oxUQ
+         ECoQ==
+X-Gm-Message-State: AFqh2kqafcV+iSZIfqRvGlYA6LLMXE4ZpdM29IoA0vgy0xz5vKAkPW1+
+	Dcmte8GxQsMkgJ8V7fjjlzVuLEUreIBZuWqGkAk=
+X-Google-Smtp-Source: AMrXdXvQmST3/pGlQ2bb+gVSe33+e3jgSIWD4S810X0dhh1CD3sv96lQleS+SFT/APTMCpVFJzDPRA==
+X-Received: by 2002:a17:903:2283:b0:192:8b51:a9f5 with SMTP id b3-20020a170903228300b001928b51a9f5mr47312071plh.68.1672842856950;
+        Wed, 04 Jan 2023 06:34:16 -0800 (PST)
+Received: from hexa.router0800d9.com (dhcp-72-253-5-74.hawaiiantel.net. [72.253.5.74])
+        by smtp.gmail.com with ESMTPSA id x14-20020a170902a38e00b00176ab6a0d5fsm24250982pla.54.2023.01.04.06.34.15
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jan 2023 06:00:58 -0800 (PST)
-From: Alex Kiernan <alex.kiernan@gmail.com>
+        Wed, 04 Jan 2023 06:34:16 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [OE-Core][PATCH] rust: Merge all rustc-source patches into rust-source.inc
-Date: Wed,  4 Jan 2023 14:00:50 +0000
-Message-Id: <20230104140051.631056-1-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.39.0
+Subject: [OE-core][dunfell 00/18] Pull request (cover letter only)
+Date: Wed,  4 Jan 2023 04:34:10 -1000
+Message-Id: <cover.1672842789.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 14:01:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175478
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 14:34:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175479
 
-With the dim-sum approach to patching we had the same patch applied in
-many places, but not all, so that there were no guarantees that we were
-actually building agaginst the same thing in all recipes.
+The following changes since commit cc8ec63310f9a936371ea1070cb257c926808755:
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
----
-I've no actual evidence, but I wonder if this might help with
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=14975
+  oeqa/selftest/tinfoil: Add test for separate config_data with recipe_parse_file() (2022-12-14 16:34:29 -1000)
 
- meta/recipes-devtools/rust/cargo_1.66.0.bb    |  8 --------
- .../rust/{rust => files}/hardcodepaths.patch  |  0
- meta/recipes-devtools/rust/rust-source.inc    | 20 +++++++++----------
- meta/recipes-devtools/rust/rust_1.66.0.bb     |  3 ---
- 4 files changed, 9 insertions(+), 22 deletions(-)
- rename meta/recipes-devtools/rust/{rust => files}/hardcodepaths.patch (100%)
+are available in the Git repository at:
 
-diff --git a/meta/recipes-devtools/rust/cargo_1.66.0.bb b/meta/recipes-devtools/rust/cargo_1.66.0.bb
-index f45f8f1e12d7..2b2394e898b5 100644
---- a/meta/recipes-devtools/rust/cargo_1.66.0.bb
-+++ b/meta/recipes-devtools/rust/cargo_1.66.0.bb
-@@ -14,14 +14,6 @@ LIC_FILES_CHKSUM = " \
- require rust-source.inc
- require rust-snapshot.inc
- 
--SRC_URI:append:class-target = "\
--    file://crossbeam_atomic.patch;patchdir=${RUSTSRC} \
--    file://getrandom-open64.patch;patchdir=${RUSTSRC} \                          
--"
--
--# Used by crossbeam_atomic.patch
--export TARGET_VENDOR
--
- S = "${RUSTSRC}/src/tools/cargo"
- CARGO_VENDORING_DIRECTORY = "${RUSTSRC}/vendor"
- 
-diff --git a/meta/recipes-devtools/rust/rust/hardcodepaths.patch b/meta/recipes-devtools/rust/files/hardcodepaths.patch
-similarity index 100%
-rename from meta/recipes-devtools/rust/rust/hardcodepaths.patch
-rename to meta/recipes-devtools/rust/files/hardcodepaths.patch
-diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
-index 643494b37e75..9182d50c4cef 100644
---- a/meta/recipes-devtools/rust/rust-source.inc
-+++ b/meta/recipes-devtools/rust/rust-source.inc
-@@ -1,20 +1,18 @@
- RUST_VERSION ?= "${@d.getVar('PV').split('-')[0]}"
--SRC_URI += "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;name=rust"
--SRC_URI[rust.sha256sum] = "0dc176e34fae9871f855a6ba4cb30fa19d69c5b4428d29281a07419c4950715c"
- 
--SRC_URI:append:class-target:pn-libstd-rs = "\
--    file://0001-Do-not-use-LFS64-on-linux-with-musl.patch;patchdir=../.. \
-+SRC_URI += "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;name=rust \
-+            file://crossbeam_atomic.patch;patchdir=${RUSTSRC} \
-+            file://hardcodepaths.patch;patchdir=${RUSTSRC} \
-+            file://getrandom-open64.patch;patchdir=${RUSTSRC} \
-+            file://0001-Do-not-use-LFS64-on-linux-with-musl.patch;patchdir=${RUSTSRC} \
- "
--
--SRC_URI:append:class-target:pn-rust = " \
--    file://getrandom-open64.patch \
--    file://0001-Do-not-use-LFS64-on-linux-with-musl.patch \
--    file://hardcodepaths.patch \
--    file://crossbeam_atomic.patch"
--SRC_URI:append:class-nativesdk:pn-nativesdk-rust = " file://hardcodepaths.patch"
-+SRC_URI[rust.sha256sum] = "0dc176e34fae9871f855a6ba4cb30fa19d69c5b4428d29281a07419c4950715c"
- 
- RUSTSRC = "${WORKDIR}/rustc-${RUST_VERSION}-src"
- 
-+# Used by crossbeam_atomic.patch
-+export TARGET_VENDOR
-+
- UPSTREAM_CHECK_URI = "https://forge.rust-lang.org/infra/other-installation-methods.html"
- UPSTREAM_CHECK_REGEX = "rustc-(?P<pver>\d+(\.\d+)+)-src"
- 
-diff --git a/meta/recipes-devtools/rust/rust_1.66.0.bb b/meta/recipes-devtools/rust/rust_1.66.0.bb
-index f1ec769aef48..eba933ddeda4 100644
---- a/meta/recipes-devtools/rust/rust_1.66.0.bb
-+++ b/meta/recipes-devtools/rust/rust_1.66.0.bb
-@@ -218,9 +218,6 @@ FILES:${PN} += "${libdir}/rustlib"
- FILES:${PN} += "${libdir}/*.so"
- FILES:${PN}-dev = ""
- 
--# Used by crossbeam_atomic.patch
--export TARGET_VENDOR
--
- do_compile () {
-     rust_runx build --stage 2
- }
+  https://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+
+Alexander Kanavin (1):
+  tzdata: update 2022d -> 2022g
+
+Bruce Ashfield (4):
+  linux-yocto/5.4: update to v5.4.221
+  linux-yocto/5.4: update to v5.4.224
+  linux-yocto/5.4: update to v5.4.225
+  linux-yocto/5.4: update to v5.4.228
+
+Chen Qi (1):
+  bc: extend to nativesdk
+
+Hitendra Prajapati (1):
+  grub2: CVE-2022-28735 shim_lock verifier allows non-kernel files to be
+    loaded
+
+Jagadeesh Krishnanjanappa (1):
+  qemuboot.bbclass: make sure runqemu boots bundled initramfs kernel
+    image
+
+Joshua Watt (1):
+  sudo: Use specific BSD license variant
+
+Minjae Kim (1):
+  ppp: fix CVE-2022-4603
+
+Peter Marko (1):
+  externalsrc: fix lookup for .gitmodules
+
+Quentin Schulz (1):
+  cairo: update patch for CVE-2019-6461 with upstream solution
+
+Robert Andersson (1):
+  go-crosssdk: avoid host contamination by GOCACHE
+
+Ross Burton (1):
+  lib/buildstats: fix parsing of trees with reduced_proc_pressure
+    directories
+
+Vivek Kumbhar (4):
+  go: fix CVE-2022-41717 Excessive memory use in got server
+  rsync: fix CVE-2022-29154 remote arbitrary files write inside the
+    directories of connecting peers
+  libx11: fix CVE-2022-3555 memory leak in _XFreeX11XCBStructure() of
+    xcb_disp.c
+  qemu: fix CVE-2021-3507 fdc heap buffer overflow in DMA read data
+    transfers
+
+ meta/classes/externalsrc.bbclass              |   2 +-
+ meta/classes/qemuboot.bbclass                 |   3 +-
+ .../grub/files/CVE-2022-28735.patch           | 271 ++++++++++++++
+ meta/recipes-bsp/grub/grub2.inc               |   1 +
+ .../ppp/ppp/CVE-2022-4603.patch               |  50 +++
+ meta/recipes-connectivity/ppp/ppp_2.4.7.bb    |   1 +
+ meta/recipes-devtools/go/go-1.14.inc          |   1 +
+ .../go/go-1.14/CVE-2022-41717.patch           |  75 ++++
+ meta/recipes-devtools/go/go-crosssdk.inc      |   2 +
+ meta/recipes-devtools/qemu/qemu.inc           |   1 +
+ .../qemu/qemu/CVE-2021-3507.patch             |  87 +++++
+ .../rsync/files/CVE-2022-29154.patch          | 334 ++++++++++++++++++
+ meta/recipes-devtools/rsync/rsync_3.1.3.bb    |   1 +
+ meta/recipes-extended/bc/bc_1.07.1.bb         |   2 +-
+ meta/recipes-extended/sudo/sudo.inc           |   2 +-
+ meta/recipes-extended/timezone/timezone.inc   |   7 +-
+ .../cairo/cairo/CVE-2019-6461.patch           |  35 +-
+ .../xorg-lib/libx11/CVE-2022-3555.patch       |  38 ++
+ .../recipes-graphics/xorg-lib/libx11_1.6.9.bb |   1 +
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
+ scripts/lib/buildstats.py                     |   4 +-
+ 23 files changed, 919 insertions(+), 35 deletions(-)
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2022-28735.patch
+ create mode 100644 meta/recipes-connectivity/ppp/ppp/CVE-2022-4603.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2022-41717.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3507.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2022-29154.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11/CVE-2022-3555.patch
+
 -- 
-2.39.0
+2.25.1
 
 
