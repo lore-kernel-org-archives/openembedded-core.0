@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EBB1C54EF1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53763C63707
 	for <webhook@archiver.kernel.org>; Wed,  4 Jan 2023 11:06:42 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web11.9363.1672830368120524387
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web10.9388.1672830376764924673
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Jan 2023 03:06:35 -0800
+ Wed, 04 Jan 2023 03:06:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=I9Sx6BH3;
- spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id z16so16085711wrw.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 03:06:34 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=XdivRrLJ;
+ spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f43.google.com with SMTP id az7so8167772wrb.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 03:06:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Cb9GYtPV/FzOazRovU623tk4KW6zjopDVzbWszb0nQI=;
-        b=I9Sx6BH3TdZfw4YtVJrqrswwLwPOSTXVEDXQQ19orrwhScSgSKGhhXGsTQShujzcjz
-         OFYZ0e0sjUyDzvJgUm7lgYc54lcS5g5fytDBf9FVrR/SD/CaZexbuLw9981GmBU6xfbY
-         Zny7N+xP8tFkgOQILoDW0Z4MwbzkFXJZ7bifdBv13Ei/5uPl5kTO29UlMin7xF/4o79a
-         2VvuXNU2R3/+LnpkHayN9Mlrqn6AtEDj6y3wQyp9HSB3HMMs/OkEb/RYkpThtlqG74Vg
-         v2VOmx8m/HwSzyRI+tLPBTLqaGLMUbtEVdq7/yc8O3rzF048UFWUGJWVE5/O7ZIJJVxd
-         LBCw==
+        bh=MsGMGIThuX4WVc+JSm+RjGQ8ly8cLvKPVlSPR7NAN7k=;
+        b=XdivRrLJRg7WBz1GIK5VJtxIUy6hPkv3fY7Nr9OvbDiJiibLl8z4QufuxIV7Jq0NZG
+         HfXUkPix4j2ePfzRzhL2mxjtFh7LHZDcLRprS5oZ4lGGposzmY55F7m5QGas/VXp0Ky2
+         t4oaZiQYaQJj4QS0Rrl+utvZ0/EDIenf20pk2XAKrbwGjZ33XiQ9WdyAicf6jurBl9Ps
+         wPBgkUcj/0OkLHkntPH5K+9ci+mtH2PbnXPH6XhZf6GLLVmbQv21tnU8Ef0Yvg5Bwn92
+         OHbFQ6jrOtL+rKaD1H9z9s20XzispygUod4q5ghyHojUgrBpuf+KmqrgKkFqDYpmP2IZ
+         AQmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Cb9GYtPV/FzOazRovU623tk4KW6zjopDVzbWszb0nQI=;
-        b=cega4bQKRN1jjZO8riScJz9Eyaf1oeFEjltjpRLSWAEDYB5vpQCvefNuHlpu90bVeJ
-         trTa5aGFSdfQvuojwxfyEdvuqxVg3yzKCvLuGAui8DcXyyhKgxM8pLkCOTMRSJ13eSpb
-         mpVooVkC1nwUq+9EaYVvvQ3bxxfFyGfK/i5S2Gk5SMfowxw2K5KHN6mIK9zF1tcJ8+6f
-         Mxvh6oliz4NYr1g2t3GPj1bogqVt78RZ3eN1H8hG9YOQTSi83u67/3UmdhC5digWxKu2
-         xJNmHkiWvbaXi473hBybm01lrXXUOO9tUgjHieo8wZqWfh1N3tpjf77bAZ/c1UoLSuWc
-         yI3A==
-X-Gm-Message-State: AFqh2kpuLZxZkfeXJmjPTzjVpdvymC9b5T6y0+N5J6dMquKNRxgqliiu
-	VbNupZn7f/EiEWb6qIi7RJ0Wkbyywg4=
-X-Google-Smtp-Source: AMrXdXvv0xtSYwAdQ/s5XoWdxd/2+DE/75IIccdPPF6tYIMTh5TdEUnhs00PzOxmz+dgYZ0MixC8oA==
-X-Received: by 2002:a5d:4f05:0:b0:28c:6430:c1bc with SMTP id c5-20020a5d4f05000000b0028c6430c1bcmr12542654wru.3.1672830394549;
-        Wed, 04 Jan 2023 03:06:34 -0800 (PST)
+        bh=MsGMGIThuX4WVc+JSm+RjGQ8ly8cLvKPVlSPR7NAN7k=;
+        b=1sKxNiqPe4IAaoPmHh1UCXoqTj34ZCHzfqJqr/nNHQXUTYwXAFM1DDgpHEfhk8CDWy
+         AgA4aJrbhZHWjpCrO3b+OM4INf64YHUm3DrEQv3PghqXrgBNkUgwsPCgMdnnhJaTcbqX
+         Cx4OKc1uVx8ypklATo1lnKqjLPzBSdcb2+j5Y81IDevWmxlXhNW1pTKyHjVxO4ZQYLKs
+         nRZ/p7yyqIzMsium0EN0zcUuqlLNAyaYp4pFL7GFnZ9sy4aX05xLNOwzuNRfd0YiOhf4
+         pJ7YaALY/PpHO7a91deNo+LATD3fFkuEVrZhVYdTt9obUD9PlaEUDs4aDJ9PC9d5ZJv/
+         dMYQ==
+X-Gm-Message-State: AFqh2kpMXG3/GQZ3LsjR1efs5BhsJfnjfN0iPJDsYsQWNWvDPxx73YuR
+	3GGQ9s9j52xpviZ3DZZxUG3w6Pk+BIw=
+X-Google-Smtp-Source: AMrXdXtnD23HryvkiOGaxxWdW1fx784G6eR8IGGmW9USRVLZEnSquQhdWK2gQhbxKbyzQ+2wMwcUBg==
+X-Received: by 2002:a5d:5c0e:0:b0:269:70f0:8142 with SMTP id cc14-20020a5d5c0e000000b0026970f08142mr31527160wrb.56.1672830395498;
+        Wed, 04 Jan 2023 03:06:35 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id h15-20020adfaa8f000000b002421888a011sm34102161wrc.69.2023.01.04.03.06.33
+        by smtp.gmail.com with ESMTPSA id h15-20020adfaa8f000000b002421888a011sm34102161wrc.69.2023.01.04.03.06.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 04 Jan 2023 03:06:34 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 55/77] python3-lxml: upgrade 4.9.1 -> 4.9.2
-Date: Wed,  4 Jan 2023 12:05:26 +0100
-Message-Id: <20230104110548.2537259-55-alex@linutronix.de>
+Subject: [PATCH 56/77] python3-git: upgrade 3.1.29 -> 3.1.30
+Date: Wed,  4 Jan 2023 12:05:27 +0100
+Message-Id: <20230104110548.2537259-56-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230104110548.2537259-1-alex@linutronix.de>
 References: <20230104110548.2537259-1-alex@linutronix.de>
@@ -62,30 +62,30 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 11:06:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175440
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175441
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../python/{python3-lxml_4.9.1.bb => python3-lxml_4.9.2.bb}     | 2 +-
+ .../python/{python3-git_3.1.29.bb => python3-git_3.1.30.bb}     | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-lxml_4.9.1.bb => python3-lxml_4.9.2.bb} (95%)
+ rename meta/recipes-devtools/python/{python3-git_3.1.29.bb => python3-git_3.1.30.bb} (92%)
 
-diff --git a/meta/recipes-devtools/python/python3-lxml_4.9.1.bb b/meta/recipes-devtools/python/python3-lxml_4.9.2.bb
-similarity index 95%
-rename from meta/recipes-devtools/python/python3-lxml_4.9.1.bb
-rename to meta/recipes-devtools/python/python3-lxml_4.9.2.bb
-index 92a30f7907..c7f1e1fc3c 100644
---- a/meta/recipes-devtools/python/python3-lxml_4.9.1.bb
-+++ b/meta/recipes-devtools/python/python3-lxml_4.9.2.bb
-@@ -18,7 +18,7 @@ LIC_FILES_CHKSUM = "file://LICENSES.txt;md5=e4c045ebad958ead4b48008f70838403 \
+diff --git a/meta/recipes-devtools/python/python3-git_3.1.29.bb b/meta/recipes-devtools/python/python3-git_3.1.30.bb
+similarity index 92%
+rename from meta/recipes-devtools/python/python3-git_3.1.29.bb
+rename to meta/recipes-devtools/python/python3-git_3.1.30.bb
+index e75f8b4e3f..80f50019b1 100644
+--- a/meta/recipes-devtools/python/python3-git_3.1.29.bb
++++ b/meta/recipes-devtools/python/python3-git_3.1.30.bb
+@@ -12,7 +12,7 @@ PYPI_PACKAGE = "GitPython"
  
- DEPENDS += "libxml2 libxslt"
+ inherit pypi python_setuptools_build_meta
  
--SRC_URI[sha256sum] = "fe749b052bb7233fe5d072fcb549221a8cb1a16725c47c37e42b0b9cb3ff2c3f"
-+SRC_URI[sha256sum] = "2455cfaeb7ac70338b3257f41e21f0724f4b5b0c0e7702da67ee6c3640835b67"
+-SRC_URI[sha256sum] = "cc36bfc4a3f913e66805a28e84703e419d9c264c1077e537b54f0e1af85dbefd"
++SRC_URI[sha256sum] = "769c2d83e13f5d938b7688479da374c4e3d49f71549aaf462b646db9602ea6f8"
  
- SRC_URI += "${PYPI_SRC_URI}"
- inherit pkgconfig pypi setuptools3
+ DEPENDS += " ${PYTHON_PN}-gitdb"
+ 
 -- 
 2.30.2
 
