@@ -1,98 +1,191 @@
-Return-Path: <toertel@gmail.com>
+Return-Path: <kubiznak@2n.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5611C4332F
-	for <webhook@archiver.kernel.org>; Wed,  4 Jan 2023 12:18:42 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web11.10525.1672834715183963889
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E12B5C4332F
+	for <webhook@archiver.kernel.org>; Wed,  4 Jan 2023 12:24:22 +0000 (UTC)
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web11.10645.1672835059873427047
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Jan 2023 04:18:35 -0800
+ Wed, 04 Jan 2023 04:24:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=eboIiaqQ;
- spf=pass (domain: gmail.com, ip: 209.85.221.53, mailfrom: toertel@gmail.com)
-Received: by mail-wr1-f53.google.com with SMTP id bk16so19540945wrb.11
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 04:18:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UbHV1Co9g1YDYCom1Vxshi+hV9Ubn39ifN+K3n76azY=;
-        b=eboIiaqQc7CsAn8mslCzd5neim0rKZtZx/jEHX2Giv6QDpyhusBxxAivIDtyoOzinJ
-         GpA3AqXFlLag/xziPEU8Kq4oSDeK2fvCRXW7TUum48oeMAdruUu19qowIfOIaQUvIVd7
-         3AjoH6XNXvC4MU1npnEUe7St30KT5fbi87dJ/WXFkHKjnQnm7cPAIq1xgUzxXuDYERoQ
-         KNnaoRzGxOO+UoWjRcgaqqnqSwhvUmfmaKqp+oCZg0K//fDXk0Xu4m9IZIQW13f+jgQM
-         0JKBFvOcBEFsxnvUr1CVDTW1QufoNu95+GQ2M18M8iNzXVa1vIPqyvQH8Ax768d48acd
-         KqQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UbHV1Co9g1YDYCom1Vxshi+hV9Ubn39ifN+K3n76azY=;
-        b=cdkKHCcwlbWtdsb+IFpensQzvyeHUZQODMzQd6J77pJQK5Pvy5S+1mm+Q3WRj1rSuM
-         MEyiYT7pSEyUGdpZI6CTioXAphTfKkBPyus0E/a8VqxvzvmNOmIP1eXB0JmC3+RzcCcS
-         /NfTMIffKN+65dWkTpgXFJzgQGdA/7PFqtdanG/+MWO9ALOTQmkhGy5A/7ntUvsvLn5/
-         f7/ixeh9AQ/sRQbLDoXT+qDOQOHNy/F1ib3YUdPDQkED0vEmorNcIHhHm+I4FTN/UqpD
-         ogz96VE6ZF5J2HbD8+pFvdDtm1ZrVJ4KsIcp4/N+zXDkcwTth+3iti9Xru0Ra3lFou+l
-         eLIw==
-X-Gm-Message-State: AFqh2koAGecAtVMor/STKooiBWTAXZGpYkm4vyEwo5bxFSK/5BnQfi16
-	EFigRpGeFSHzQOVjd1R7AFZ+3tmZAM8=
-X-Google-Smtp-Source: AMrXdXuQqoRy2OMbagMRug7roE5wo9TjcIJs2qsp+EYxvKngog5Ao+odmpyr1xqGNXwgpXV1avdo4Q==
-X-Received: by 2002:adf:fec6:0:b0:26a:ed4c:e3af with SMTP id q6-20020adffec6000000b0026aed4ce3afmr37046056wrs.49.1672834713319;
-        Wed, 04 Jan 2023 04:18:33 -0800 (PST)
-Received: from ThinkCentre.fritz.box (p200300cfaf4b81003e9287465d6a8a6d.dip0.t-ipconnect.de. [2003:cf:af4b:8100:3e92:8746:5d6a:8a6d])
-        by smtp.gmail.com with ESMTPSA id d11-20020adffd8b000000b00236545edc91sm33564176wrr.76.2023.01.04.04.18.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jan 2023 04:18:33 -0800 (PST)
-From: toertel@gmail.com
-To: openembedded-core@lists.openembedded.org,
-	michael.opdenacker@bootlin.com,
-	richard.purdie@linuxfoundation.org
-Cc: Mark Jonas <toertel@gmail.com>
-Subject: [PATCH 2/2] linux-yocto: Autoload sound driver on QEMU x86
-Date: Wed,  4 Jan 2023 13:18:08 +0100
-Message-Id: <20230104121808.1065203-3-toertel@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230104121808.1065203-1-toertel@gmail.com>
-References: <20230104121808.1065203-1-toertel@gmail.com>
+ dkim=missing; spf=pass (domain: 2n.com, ip: 195.60.68.17, mailfrom: kubiznak@2n.com)
+From: =?iso-8859-2?Q?Petr_Kubiz=F2=E1k_-_2N?= <Kubiznak@2n.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][PATCH 1/2] gobject-introspection: check for
+ GI_DATA_ENABLED
+Thread-Topic: [OE-core][PATCH 1/2] gobject-introspection: check for
+ GI_DATA_ENABLED
+Thread-Index: AQHZIDIvVR7HPOD4Nkm3C4IeSj1LKa6OJ86sgAACnh8=
+Date: Wed, 4 Jan 2023 12:24:17 +0000
+Message-ID: <35848697143b4b3a8612c027d8852575@2n.com>
+References: <20230104114555.575278-1-kubiznak@2n.com>
+ <17371904FDF90491.29426@lists.openembedded.org>,<CANNYZj8Qfcs+X8yGRiHZJygZ0RH4n=KDsKXkXO-+duY=ycRS5A@mail.gmail.com>
+In-Reply-To: <CANNYZj8Qfcs+X8yGRiHZJygZ0RH4n=KDsKXkXO-+duY=ycRS5A@mail.gmail.com>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: multipart/alternative;
+	boundary="_000_35848697143b4b3a8612c027d88525752ncom_"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 12:18:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175471
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 12:24:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175472
 
-From: Mark Jonas <toertel@gmail.com>
+--_000_35848697143b4b3a8612c027d88525752ncom_
+Content-Type: text/plain; charset="iso-8859-2"
+Content-Transfer-Encoding: quoted-printable
 
-If DISTRO_FEATURES includes ALSA then automatically load the
-snd-intel8x0 kernel module on qemux86 and qemux86-64. This matches the
-machine configurations conf/machine/qemux86.conf and qemux86-64.conf.
+Hi Alex,
 
-Signed-off-by: Mark Jonas <toertel@gmail.com>
----
- meta/recipes-kernel/linux/linux-yocto.inc | 5 +++++
- 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-index 091003ed82..c8a9b0a1e3 100644
---- a/meta/recipes-kernel/linux/linux-yocto.inc
-+++ b/meta/recipes-kernel/linux/linux-yocto.inc
-@@ -37,6 +37,11 @@ KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'efi', 'cfg/
- KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'numa', 'features/numa/numa.scc', '', d)}"
- KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'vfat', 'cfg/fs/vfat.scc', '', d)}"
- 
-+# sound driver recommended by conf/machine/qemux86*.conf
-+ALSA_MODULES = "${@bb.utils.contains("DISTRO_FEATURES", "alsa", "snd-intel8x0", "", d)}"
-+KERNEL_MODULE_AUTOLOAD:qemux86 += "${ALSA_MODULES}"
-+KERNEL_MODULE_AUTOLOAD:qemux86-64 += "${ALSA_MODULES}"
-+
- # A KMACHINE is the mapping of a yocto $MACHINE to what is built
- # by the kernel. This is typically the branch that should be built,
- # and it can be specific to the machine or shared
--- 
-2.34.1
+Yes, that's exactly the reason. I'm particularly concerned about dependency=
+ on glib, but other dependencies are unnecessary, too.
 
+
+This change was sufficient to remove the dependency from the target. I am n=
+ot aware of potential consequences of removing the -native dependencies, bu=
+t if you think it should also be done, I'm happy to update the patch. Pleas=
+e let me know.
+
+
+Petr
+
+________________________________
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Sent: Wednesday, January 4, 2023 12:59:58 PM
+To: alex.kanavin@gmail.com
+Cc: Petr Kubiz=F2=E1k - 2N; openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core][PATCH 1/2] gobject-introspection: check for GI_DATA_=
+ENABLED
+
+I mean, if you want to do this to reduce dependency chains, then
+depending on qemu-native and g-i-native isn't necessary either. But
+the patch as it is seems like going halfway.
+
+Alex
+
+On Wed, 4 Jan 2023 at 12:54, Alexander Kanavin via
+lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
+wrote:
+>
+> On Wed, 4 Jan 2023 at 12:46, Petr Kubiz=F2=E1k <kubiznak@2n.com> wrote:
+> > When GI_DATA_ENABLED is 'False' (e.g. because
+> > 'gobject-introspection-data' is not in DISTRO_FEATURES),
+> > gobject-introspection should not be added to DEPENDS.
+>
+> Why?
+>
+> Alex
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#175467): https://lists.openembedded.org/g/openembedde=
+d-core/message/175467
+> Mute This Topic: https://lists.openembedded.org/mt/96048399/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+
+--_000_35848697143b4b3a8612c027d88525752ncom_
+Content-Type: text/html; charset="iso-8859-2"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+2">
+<style type=3D"text/css" style=3D"display:none;"><!-- P {margin-top:0;margi=
+n-bottom:0;} --></style>
+</head>
+<body dir=3D"ltr">
+<div id=3D"divtagdefaultwrapper" dir=3D"ltr" style=3D"font-size: 12pt; colo=
+r: rgb(0, 0, 0); font-family: Calibri, Helvetica, sans-serif, EmojiFont, &q=
+uot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, NotoColorEmoji, &q=
+uot;Segoe UI Symbol&quot;, &quot;Android Emoji&quot;, EmojiSymbols;">
+<p>Hi Alex,</p>
+<div dir=3D"ltr">
+<div id=3D"x_divtagdefaultwrapper" dir=3D"ltr" style=3D"font-size:12pt; col=
+or:rgb(0,0,0); font-family:Calibri,Helvetica,sans-serif,EmojiFont,&quot;App=
+le Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,NotoColorEmoji,&quot;Segoe =
+UI Symbol&quot;,&quot;Android Emoji&quot;,EmojiSymbols">
+<p><br>
+</p>
+<p>Yes, that's exactly the reason. I'm particularly concerned about depende=
+ncy on&nbsp;glib, but other dependencies are unnecessary, too.</p>
+<p><br>
+</p>
+<p>This change was sufficient to remove the dependency from the target. I a=
+m not aware of potential consequences of removing the -native dependencies,=
+ but if you think it should also&nbsp;be done, I'm happy to update the patc=
+h. Please let me know.</p>
+<p><br>
+</p>
+<p>Petr</p>
+</div>
+<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
+<div id=3D"x_divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" =
+color=3D"#000000" style=3D"font-size:11pt"><b>From:</b> Alexander Kanavin &=
+lt;alex.kanavin@gmail.com&gt;<br>
+<b>Sent:</b> Wednesday, January 4, 2023 12:59:58 PM<br>
+<b>To:</b> alex.kanavin@gmail.com<br>
+<b>Cc:</b> Petr Kubiz=F2=E1k - 2N; openembedded-core@lists.openembedded.org=
+<br>
+<b>Subject:</b> Re: [OE-core][PATCH 1/2] gobject-introspection: check for G=
+I_DATA_ENABLED</font>
+<div>&nbsp;</div>
+</div>
+</div>
+<font size=3D"2"><span style=3D"font-size:10pt">
+<div class=3D"PlainText">I mean, if you want to do this to reduce dependenc=
+y chains, then<br>
+depending on qemu-native and g-i-native isn't necessary either. But<br>
+the patch as it is seems like going halfway.<br>
+<br>
+Alex<br>
+<br>
+On Wed, 4 Jan 2023 at 12:54, Alexander Kanavin via<br>
+lists.openembedded.org &lt;alex.kanavin=3Dgmail.com@lists.openembedded.org&=
+gt;<br>
+wrote:<br>
+&gt;<br>
+&gt; On Wed, 4 Jan 2023 at 12:46, Petr Kubiz=F2=E1k &lt;kubiznak@2n.com&gt;=
+ wrote:<br>
+&gt; &gt; When GI_DATA_ENABLED is 'False' (e.g. because<br>
+&gt; &gt; 'gobject-introspection-data' is not in DISTRO_FEATURES),<br>
+&gt; &gt; gobject-introspection should not be added to DEPENDS.<br>
+&gt;<br>
+&gt; Why?<br>
+&gt;<br>
+&gt; Alex<br>
+&gt;<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; Links: You receive all messages sent to this group.<br>
+&gt; View/Reply Online (#175467): <a href=3D"https://lists.openembedded.org=
+/g/openembedded-core/message/175467" id=3D"LPlnk126645" previewremoved=3D"t=
+rue">
+https://lists.openembedded.org/g/openembedded-core/message/175467</a><br>
+&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/96048399=
+/1686489" id=3D"LPlnk525646" previewremoved=3D"true">
+https://lists.openembedded.org/mt/96048399/1686489</a><br>
+&gt; Group Owner: openembedded-core&#43;owner@lists.openembedded.org<br>
+&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
+core/unsub" id=3D"LPlnk918967" previewremoved=3D"true">
+https://lists.openembedded.org/g/openembedded-core/unsub</a> [alex.kanavin@=
+gmail.com]<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;<br>
+</div>
+</span></font></div>
+</body>
+</html>
+
+--_000_35848697143b4b3a8612c027d88525752ncom_--
 
