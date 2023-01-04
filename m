@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CB4AC63705
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BEE9C61DB3
 	for <webhook@archiver.kernel.org>; Wed,  4 Jan 2023 11:06:52 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web10.9361.1672830356464596205
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web10.9388.1672830376764924673
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Jan 2023 03:06:52 -0800
+ Wed, 04 Jan 2023 03:06:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=QPG4mB8T;
- spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f49.google.com with SMTP id z16so16086358wrw.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 03:06:51 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=aAVHVWyG;
+ spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f43.google.com with SMTP id az7so8168119wrb.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 03:06:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+50VMDTVLqAP3cTSpVkS1OVOQvZDOk5LVqt2W7my0to=;
-        b=QPG4mB8T6/cAc/1EgzjUQMwuUhG4kjhSr+146Q1CQ6JpD7RuBSEGGaDgmAJl78N03x
-         q8uTO0eedNWQr/M8hb0Vj0cN2X3MxPzuWogHHP0Ttj8EoIstkuws2z7lB3cUMmAJ3+CH
-         8EcXBXULMqF2/ihOUsdWHInxplHgMkRz8ZbUPM/ref+PmAt1QwATplFRssKg1Hq3xUdb
-         DfAQ+rmkJQ8g/W+YNdgMCk1gU9u566Hj3sw+vqTJF8y24VY4xL31CgHmYLUsoHF9iZ1a
-         wB9StjSbTJdEipk+8uZuV/4YATOOW0ijLY2a7ZQriCK39ZGa5F2e+g+MmfT6T0fM5/iV
-         Pe8g==
+        bh=Q+xZ6AK3MpwOHg4SCQJu2GJluSA9wPpLrtmRgIcdlyA=;
+        b=aAVHVWyGJb4mUruthsUFxcZ1MzuNAHkAozW+39bFoqMSLURrhuUdUMn23b7DJpKAIt
+         3Vy28aHn1OtdguwkgDnaWhqD+NA+GICgqwnRqKUgpB2bc/61OKRu12D8wlfFF5au4rxS
+         iRAPku1/oQdwF2haiH/T9173qX4xKcOQP1gwwQaGj36wGgphj8pjpb2IT2UoOWHKNKjm
+         h6E0JVCq1ov8/CjnJ9/I159Bbw+dqG5FoDtgIJ0LsaDNdM5bzNuAAX6/++ST/URF0x7N
+         5O50qDH33p+PDHcEKGDFHqf0lHcQYTw1vyw2oivp6vpFI+6sQI6KrFeMugT9L2EU7y3S
+         6mVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+50VMDTVLqAP3cTSpVkS1OVOQvZDOk5LVqt2W7my0to=;
-        b=bbNn60Q22pke0ZvTg7BxCTFQEUL4AELdABrtoZfwPUs4luj67t7zU26vVnnuE/vLhj
-         rMgjp+fNgEzOrW/+73N0xxihvKD4x/kZ1HIngIevR4tx6gpjbgOR3Nsn1SF080uy+89g
-         uPTy1f4vbFoAQ2OhVTSYkOUejMoPE1mgbnV90Pg/G4vivlJMoC1iJdNPzCNbh9Ureeus
-         CDwoFgG0/hd+mRrvykuh5cO9sruFfGJCWoLSkn57nBSPZNvZot8UWPYe59bh9K9sCZ+v
-         mSOvOSC0rt2SamxvXgvnythPgnpOBWwBW944ZAL8LvdL3/c3b8WQJAEoRhvel1dyZPdU
-         UtIA==
-X-Gm-Message-State: AFqh2kpBb7BxqgiEEPJvo9RsXXkXgxH68x7eHuYgak5SLlmZ78wdLZxJ
-	bly2DBayLlicBYBM5gvioXvwokniBuo=
-X-Google-Smtp-Source: AMrXdXu39e3b6H5Sv28OE0PTb/TOxPNSaugNtILgyGfMyKtRDBWLRgrJtX9emOGj212wwJQeIeW1UA==
-X-Received: by 2002:a5d:6509:0:b0:27c:73d7:775d with SMTP id x9-20020a5d6509000000b0027c73d7775dmr23128688wru.60.1672830411227;
-        Wed, 04 Jan 2023 03:06:51 -0800 (PST)
+        bh=Q+xZ6AK3MpwOHg4SCQJu2GJluSA9wPpLrtmRgIcdlyA=;
+        b=f3w3yDwDMZ8ytOtAHMaGoJNTCBb5Wx+mTIEbqBIE8tBrf7p5uNI2ME9byReoxjtjDN
+         7onMMhkCDXBuete0J48FkN30EG9/CbiPmhd3/rjtJ07QApMJ39ZWZkLcdSv8PXtiHTID
+         bXZ2PjwrZdgUh2n7Zh2Uq+SnUr4G9iEnYpHlHPpAhrZaDGQn7D0yXReN7FEupVhE+IHw
+         OEgsaEoHEbVEA6f+QNDe2ersCknZdcyNskd1t+ACF9IVYNrCn6O1Ew8x4SPmmUBUdHdp
+         uCbScEFcxKQSwzoT93+7EJgAIwg5KG4IFlCP7zg72S+SSnpuZi9QTlS1CMklLY0/jI9Y
+         lbnQ==
+X-Gm-Message-State: AFqh2kpzg/A2YexLypsToltHh91Til5MmVsMBOZNJzfiGm1feSPzxXsb
+	GNKPFdeOnF0g4zH+bRcZhUrEIEdY7lA=
+X-Google-Smtp-Source: AMrXdXtxNW/EsVIbKmkQaddPMw+6gaHrcQ51DgNCIo8AMSay57MIypK6527EItIyTLDQimbWLjANaw==
+X-Received: by 2002:a05:6000:18c3:b0:288:ca2e:7d74 with SMTP id w3-20020a05600018c300b00288ca2e7d74mr14071272wrq.14.1672830404857;
+        Wed, 04 Jan 2023 03:06:44 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id h15-20020adfaa8f000000b002421888a011sm34102161wrc.69.2023.01.04.03.06.50
+        by smtp.gmail.com with ESMTPSA id h15-20020adfaa8f000000b002421888a011sm34102161wrc.69.2023.01.04.03.06.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jan 2023 03:06:50 -0800 (PST)
+        Wed, 04 Jan 2023 03:06:44 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 77/77] ncruses: restore version check as it's now again working due to release of 6.4
-Date: Wed,  4 Jan 2023 12:05:48 +0100
-Message-Id: <20230104110548.2537259-77-alex@linutronix.de>
+Subject: [PATCH 68/77] btrfs-tools: upgrade 6.0.2 -> 6.1
+Date: Wed,  4 Jan 2023 12:05:39 +0100
+Message-Id: <20230104110548.2537259-68-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230104110548.2537259-1-alex@linutronix.de>
 References: <20230104110548.2537259-1-alex@linutronix.de>
@@ -62,25 +62,30 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 11:06:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175462
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175453
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-core/ncurses/ncurses_6.3+20220423.bb | 1 -
- 1 file changed, 1 deletion(-)
+ .../btrfs-tools/{btrfs-tools_6.0.2.bb => btrfs-tools_6.1.bb}    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_6.0.2.bb => btrfs-tools_6.1.bb} (98%)
 
-diff --git a/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb b/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb
-index ca5fa32572..fb8c11582b 100644
---- a/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb
-+++ b/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb
-@@ -10,7 +10,6 @@ SRCREV = "20db1fb41ec91cd8a1f528e770362092c5403378"
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.1.bb
+similarity index 98%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_6.1.bb
+index aa48422080..44ec2e1f16 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.0.2.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.1.bb
+@@ -19,7 +19,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git;b
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
+            file://0001-Use-pread-pwrite-ftruncate-stat-instead-of-64bit-equ.patch \
+            "
+-SRCREV = "ff964ba6aef98bd1bafe8ff9b0088501b30bdd27"
++SRCREV = "cde5faa6787e6fa720c99d2f10caa187a493c13f"
  S = "${WORKDIR}/git"
- EXTRA_OECONF += "--with-abi-version=5"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)$"
--UPSTREAM_VERSION_UNKNOWN = "1"
  
- # This is needed when using patchlevel versions like 6.1+20181013
- CVE_VERSION = "${@d.getVar("PV").split('+')[0]}.${@d.getVar("PV").split('+')[1]}"
+ PACKAGECONFIG ??= " \
 -- 
 2.30.2
 
