@@ -1,311 +1,171 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <jan.kircher@leica-microsystems.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C5ADC4332F
-	for <webhook@archiver.kernel.org>; Wed,  4 Jan 2023 12:47:03 +0000 (UTC)
-Received: from mailout08.t-online.de (mailout08.t-online.de [194.25.134.20])
- by mx.groups.io with SMTP id smtpd.web10.11083.1672836418540089863
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C354C5479D
+	for <webhook@archiver.kernel.org>; Wed,  4 Jan 2023 12:52:23 +0000 (UTC)
+Received: from mx0b-001d2f03.pphosted.com (mx0b-001d2f03.pphosted.com [148.163.140.40])
+ by mx.groups.io with SMTP id smtpd.web11.11153.1672836736444843234
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Jan 2023 04:46:59 -0800
+ Wed, 04 Jan 2023 04:52:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.20, mailfrom: f_l_k@t-online.de)
-Received: from fwd73.dcpf.telekom.de (fwd73.aul.t-online.de [10.223.144.99])
-	by mailout08.t-online.de (Postfix) with SMTP id D4EAE17790
-	for <openembedded-core@lists.openembedded.org>; Wed,  4 Jan 2023 13:46:55 +0100 (CET)
-Received: from flk-MS-7C91.fritz.box ([79.219.225.80]) by fwd73.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1pD3AU-0GLrJx0; Wed, 4 Jan 2023 13:46:54 +0100
-From: Markus Volk <f_l_k@t-online.de>
+ dkim=pass header.i=@leica-microsystems.com header.s=s1pps20200728 header.b=UUtkFiNg;
+ spf=pass (domain: leica-microsystems.com, ip: 148.163.140.40, mailfrom: prvs=536801cd08=jan.kircher@leica-microsystems.com)
+Received: from pps.filterd (m0161804.ppops.net [127.0.0.1])
+	by mx0b-001d2f03.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 304CbBTe001793
+	for <openembedded-core@lists.openembedded.org>; Wed, 4 Jan 2023 12:52:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=leica-microsystems.com; h=from : to
+ : cc : subject : date : message-id : mime-version :
+ content-transfer-encoding : content-type; s=s1pps20200728;
+ bh=3+eyETR5UYrNqUaAaD0Ec0EUF/LDDzvX6nEng9Ckgx0=;
+ b=UUtkFiNgo7GX79/mCWmX5rFA30iLp5AV1yXAM2oWNCuMGjLayT0SI8plEj/pjPkXUJP2
+ 0FUdrvIItVWfzYYdVJtPkKG9ohRgeX23zXD25UJ61rmv7VsVsVjFh2r1uRR4Hy7u/ixI
+ Mzf0A4fVnXQZa/K7CdC92Mu5K58uCfZ9+jStTkp8VaetbESqjxtj+tkGrM2dG0J+qfQv
+ gGfRE0wS540I0uAVfz0UzPG0W+rZelJEY8BrN433KchwXYIUZa5sX7+mdRWrB4wn0SWZ
+ QNW9Ovr1oayT9L/WxnYSSBgrki+3+wrINBt6vPsP2oa9tMCIsrXzqYAI0UdGeHha15Qg Gg== 
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2171.outbound.protection.outlook.com [104.47.57.171])
+	by mx0b-001d2f03.pphosted.com (PPS) with ESMTPS id 3mu9aym5gu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 12:52:15 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lbKhGTWXaPhheNRgedDItS+cKFdJPWKaC77NmXhFjedQjtMWT3EZQj5WqAsYfNk83xyvIkAHGSUsxMKPkzzbfZxzKWzDTCcIRNmmusj+uo9jV+HEC6U3TzDEja87e0djJ6eHk47QrAdfoQomy0BdrHopKHrCFqyc7mt1DFjSNqOKMlqtA0MbZK6kfF/kqpXYswnug7RXN+yy/l5FOpYuIehDeXAhM8YlVZ34t93G29YJgBCIrlqStAD0LahXTID7iySCrejo+JRr7jW7G/oLjMah5FS6KHrsRqUf/+4A4Z+7x0XI2HJVSfv/StCrFK9Mpj2apnsmr09aMhE+RJZsEw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3+eyETR5UYrNqUaAaD0Ec0EUF/LDDzvX6nEng9Ckgx0=;
+ b=V9HGfmRR6yxgNxHBKp36Z+tqG9oE3W+eHxvfzLrDFeuvoYDnTkXe3xUeShRxicycFMHDDStuBsA8cQDOzyAnM4wkkf0DQrz1mwEYiF6XwSdmbfGucaYrCOwPxl7WY2cazZyfWV9cfXnlQV8mrGqywqvkdxIZG+wzBgWKnD2mix2Y0I+dHsPxSQoT56lLwecGnuU6OrbOKCaVP52w7r2tmVowBnM7BaX5plgNgxRKNe1br9MYE0Ld/qTPUuVrtVAnEA7MKL3GYoY0JNVN2nesZmFhpO2+umpAg/xUxPSbdXMUWYxeWWu6NhoXsO2jlTMqdJByvjQoOdIMbhJPitVRIw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 64.90.113.24) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=leica-microsystems.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=leica-microsystems.com; dkim=none (message not
+ signed); arc=none
+Received: from BN8PR04CA0054.namprd04.prod.outlook.com (2603:10b6:408:d4::28)
+ by PH0P222MB0223.NAMP222.PROD.OUTLOOK.COM (2603:10b6:510:de::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Wed, 4 Jan
+ 2023 12:52:13 +0000
+Received: from BN7NAM10FT076.eop-nam10.prod.protection.outlook.com
+ (2603:10b6:408:d4:cafe::9c) by BN8PR04CA0054.outlook.office365.com
+ (2603:10b6:408:d4::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.14 via Frontend
+ Transport; Wed, 4 Jan 2023 12:52:13 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 64.90.113.24)
+ smtp.mailfrom=leica-microsystems.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=leica-microsystems.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ leica-microsystems.com discourages use of 64.90.113.24 as permitted sender)
+Received: from dhriadsvdzpa01.danahermail.com (64.90.113.24) by
+ BN7NAM10FT076.mail.protection.outlook.com (10.13.157.164) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5966.17 via Frontend Transport; Wed, 4 Jan 2023 12:52:13 +0000
+Received: from pps.filterd (dhriadsvdzpa01.danahermail.com [127.0.0.1])
+	by dhriadsvdzpa01.danahermail.com (8.17.1.19/8.17.1.5) with ESMTP id 3049b7tI016788
+	for <openembedded-core@lists.openembedded.org>; Wed, 4 Jan 2023 12:22:38 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by dhriadsvdzpa01.danahermail.com (PPS) with ESMTPS id 3mvy4wun2v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 12:22:38 +0000
+Received: from dhriadsvdzpa01.danahermail.com (dhriadsvdzpa01.danahermail.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 304CMcT7028446
+	for <openembedded-core@lists.openembedded.org>; Wed, 4 Jan 2023 12:22:38 GMT
+Received: from dhriadsvpaob01.danaher.org ([172.28.3.211])
+	by dhriadsvdzpa01.danahermail.com (PPS) with ESMTPS id 3mvy4wun2s-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 04 Jan 2023 12:22:38 +0000
+Received: from lmsman-rndws01.europe.leicams.com ([10.221.25.5])
+	by dhriadsvpaob01.danaher.org (8.16.1.2/8.16.1.2) with ESMTP id 304CMaSt016266;
+	Wed, 4 Jan 2023 12:22:37 GMT
+From: Jan Kircher <jan.kircher@leica-microsystems.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Markus Volk <f_l_k@t-online.de>
-Subject: [meta-oe][PATCHv2] gcr3: update 3.40.0 -> 3.41.1
-Date: Wed,  4 Jan 2023 13:46:47 +0100
-Message-Id: <20230104124647.566841-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.34.1
+Cc: Jan Kircher <jan.kircher@leica-microsystems.com>
+Subject: [PATCH] toolchain-scripts: compatibility with unbound variable protection
+Date: Wed,  4 Jan 2023 13:21:11 +0100
+Message-Id: <20230104122110.3469042-1-jan.kircher@leica-microsystems.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1672836414-16FEE98D-957369DB/0/0 CLEAN NORMAL
-X-TOI-MSGID: 9e1df05b-c1f5-4edc-985f-444e43c572c0
 Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.545,18.0.923
+ definitions=2023-01-04_06:2023-01-04,2023-01-04 signatures=0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-04_06,2023-01-04_02,2022-06-22_01
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN7NAM10FT076:EE_|PH0P222MB0223:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 2ca23daf-c65b-44e9-6c28-08daee528029
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	zYExhTh5eN1BDQ21tVVoncVuanKXHuzMi/uDjHqKXDeTTwKiFutE5xUky7Ed6amrhn8FkxTSfFPyN7WcyLnfMVE2GvylH7b1ew0sUFPv2dU7cXLPg+NnDNvTJTncMeZmuKfVX9ewuoJpDG/bQHCvwRzGRzT4n52525uSlGQvVqdMN+ShUlLB2vAdaBmAXyKhNkFGDUVc+JSSj8kKYhk7tdgNcUg8ehZ8IJNJHr4Btr9tgGdRoFPI2xVks2gAKkt/QW6j0TI5KeNCnGD4AVX9UXxjsb4xohpq1G89Vllai0nVXah+p3q8ihD6Qa8ZmviGX1o6nFB8Ox+VbDn4SXQFSAMXd0VJ2Gvcw+T3hGkG2ftm80eMdVhi+5o5bJH/vdvo6LIUKYEfsYhWXSRr+udEq510KJ+eYp8KEnnaHrdxIed5TZzl7DqYcNO5SI6bp/FZjPBSdzgjhmmItvRtMkmbxp4/rP0V5eAfUzcUUPKRJUJqXwtRzecv1xxBWJBvoNiUEmClcj1veXJq+GYPQG92rry9oNhecMdNxLrvmWe3bTmc9zKmZydK5gKwiEwMrfzN4HCa0vs6pUAdQ1vyfKpRi51nw/2fqssZkWvhVyOehQnty8OA/eex/BQiJxNfgwRo73Tt+HImQ/66A68DHK/PBdxcCPSePnX7O/nxdApMS99i22LTser0VpkKA5Mib/BEmVKl1dJ3Ooo7ini8P2Zghz/Pz/fZa633tVal3mAXZL4=
+X-Forefront-Antispam-Report: 
+	CIP:64.90.113.24;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:dhriadsvdzpa01.danahermail.com;PTR:na-access.danahermail.com;CAT:NONE;SFS:(13230022)(4636009)(346002)(376002)(396003)(39860400002)(136003)(209900001)(451199015)(40470700004)(46966006)(36840700001)(966005)(107886003)(6666004)(478600001)(26005)(186003)(66899015)(4326008)(2616005)(1076003)(86362001)(40480700001)(316002)(70206006)(8676002)(6916009)(41300700001)(82740400003)(47076005)(336012)(36860700001)(83380400001)(8936002)(44832011)(5660300002)(40460700003)(36756003)(82310400005)(356005)(2906002)(7636003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	eQmuukyTv8zRnImyyuCUaevnY94ficgXU3e8+gPxdurQopRErzxrFw7JNYcvabHdEANr/8wgR9CSlW3xUg2XPw0YIlsY4u4hNPvO8QCOPRC7WiSnmp6jH5zTxu6F8sD0lNIJ+0y1xjhXqnBvujGO2lYtoyGSOhFnQDKxIBAHtn7P2cxbfI3qcsqQ5ux2HjY47wUZl+JKzpI76KytljngKInDbS9FhBYkDJzkCNxUxMDmw9qxi+ir1AugnWvz7xv72Huv92phyRbb+foll6gMnCgFKOf1QA9BN+ZEBWeUn1QUSUoq0gTByEkLjjQOp92IO/0k17ncM45lqDTBhCftyvnxLuINmA14V6kj4nKV/n99dLnF6GsZdumJSWqMUv1Q3JbiW9saTTgLPGvIIo+xblCtl127EBCr067PhXPjEmjkU/86ca7kaOyL1U6sLUoeHu9aNzB1JHa80OP184D2nF5YNVjlKocXasGA9akCBCkQO+n27Kb+0OtQKEoI1yDTLLNTgC2Gyd9ROyPLEeijpiumnphcIUPUJGNhpSraNINEHz1j3q5eKhJEFH1UI2IAK29Zbb7WC3g+DHhfJ1AgKFIbwFyjFZzumk7wx0kj3Qr+5c/n5AGa8v11KDROUG/WNX7i3TTbwtuInm0N232xpkmeX5jVfI8/zrZX+xMLN2zmx5Qk04YOLOYQ/cjtuOrYyfKB8NLM4Q5cUUkDe1yQ5oLyRW/Zq1Cy7S+S2PJsDKaS40YZUkwHrwEtbldeGANsO7R7XlQ00W9oEW9iVzQQjF+IMIQ1pQcSBrwapgZIULvQ/6UFi3OU2NNeWmv8LRbZM0iNQhz86S6Uek0vdEx7jQ==
+X-OriginatorOrg: leica-microsystems.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jan 2023 12:52:13.1117
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ca23daf-c65b-44e9-6c28-08daee528029
+X-MS-Exchange-CrossTenant-Id: 771c9c47-7f24-44dc-958e-34f8713a8394
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=771c9c47-7f24-44dc-958e-34f8713a8394;Ip=[64.90.113.24];Helo=[dhriadsvdzpa01.danahermail.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BN7NAM10FT076.eop-nam10.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0P222MB0223
+X-Proofpoint-ORIG-GUID: ASOW-1u3qwDDSPmpIp_K92NXHG8LWjQ3
+X-Proofpoint-GUID: ASOW-1u3qwDDSPmpIp_K92NXHG8LWjQ3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-04_07,2023-01-04_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=664 priorityscore=1501
+ clxscore=1015 adultscore=0 mlxscore=0 lowpriorityscore=0 bulkscore=0
+ spamscore=0 suspectscore=0 impostorscore=0 phishscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2301040108
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 12:47:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175476
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 12:52:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175477
 
- - remove unneded backport patches
- - partly import the patch to fix ssh_agent option from gcr4 recipe
- - convert from gtk-doc to gi-docgen
+Fixed an error when Bash's unbound variable protection is enabled (set -u) =
+and variable LD_LIBRARY_PATH does not exist.
 
-gcr 3.41.1:
-- meson: Fix unknown kw argument in gnome.generate_gir [GNOME/gcr!68]
-- gcr: Add G_SPAWN_CLOEXEC_PIPES flag to all the g_spawn commands
-- docs: Port from gtk-doc to gi-docgen [GNOME/gcr!76]
-- Unbreak build without systemd [GNOME/gcr!75]
-- Several CI fixes
-- Updated translations
-
-gcr 3.41.0:
-- Port ssh-agent from gnome-keyring [GNOME/gcr!67]
-- build: Fix parallel build failure due to missing marshal dependency [GN=
-OME/gcr!68]
-- Fix warnings by dropping `volatile` for g_once_init_inter locations [GN=
-OME/gcr!69]
-- tests: More robust against GTask unref race condition [GNOME/gcr!72,GNO=
-ME/gcr#84]
-- Updated translations
-
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
+Signed-off-by: Jan Kircher <jan.kircher@leica-microsystems.com>
 ---
- ...build-fix-one-parallel-build-failure.patch | 37 -----------
- ...ectly-handle-disabled-ssh_agent-opti.patch | 36 +++++++++++
- ...1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch | 61 -------------------
- .../gcr/{gcr3_3.40.0.bb =3D> gcr3_3.41.1.bb}    | 19 +++---
- 4 files changed, 48 insertions(+), 105 deletions(-)
- delete mode 100644 meta/recipes-gnome/gcr/gcr3/0001-gcr-meson.build-fix-=
-one-parallel-build-failure.patch
- create mode 100644 meta/recipes-gnome/gcr/gcr3/0001-meson.build-correctl=
-y-handle-disabled-ssh_agent-opti.patch
- delete mode 100644 meta/recipes-gnome/gcr/gcr3/b3ca1d02bb0148ca787ac4aea=
-d164d7c8ce2c4d8.patch
- rename meta/recipes-gnome/gcr/{gcr3_3.40.0.bb =3D> gcr3_3.41.1.bb} (63%)
+ meta/classes-recipe/toolchain-scripts.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-gnome/gcr/gcr3/0001-gcr-meson.build-fix-one-par=
-allel-build-failure.patch b/meta/recipes-gnome/gcr/gcr3/0001-gcr-meson.bu=
-ild-fix-one-parallel-build-failure.patch
-deleted file mode 100644
-index 81c4bdbbcc..0000000000
---- a/meta/recipes-gnome/gcr/gcr3/0001-gcr-meson.build-fix-one-parallel-b=
-uild-failure.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--From cb3708bad88e713e4ccf705cb8c14c5996cd9d06 Mon Sep 17 00:00:00 2001
--From: Changqing Li <changqing.li@windriver.com>
--Date: Fri, 23 Apr 2021 16:32:38 +0800
--Subject: [PATCH] gcr/meson.build: fix one parallel build failure
--
--ui/gcr-live-search.c includes gcr/gcr-marshal.h. Because missing
--dependency, following error occurred intermittently during doing paralle=
-l
--build:
--
-- -o ui/libgcr-ui-3.so.1.0.0.p/gcr-live-search.c.o -c ../gcr-3.38.1/ui/gc=
-r-live-search.c
--../gcr-3.38.1/ui/gcr-live-search.c:32:10: fatal error: gcr/gcr-marshal.h=
-: No such file or directory
--   32 | #include "gcr/gcr-marshal.h"
--      |          ^~~~~~~~~~~~~~~~~~~
--compilation terminated.
--
--Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/gcr/-/merge_r=
-equests/68/diffs]
--
--Signed-off-by: Changqing Li <changqing.li@windriver.com>
-----
-- gcr/meson.build | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/gcr/meson.build b/gcr/meson.build
--index 06c3a63..d9d4b8f 100644
----- a/gcr/meson.build
--+++ b/gcr/meson.build
--@@ -181,6 +181,7 @@ gcr_base_dep =3D declare_dependency(
--   sources: [
--     gcr_enums_gen[1],
--     gcr_oids[1],
--+    gcr_marshal_gen[1],
--   ],
-- )
--=20
----=20
--2.17.1
--
-diff --git a/meta/recipes-gnome/gcr/gcr3/0001-meson.build-correctly-handl=
-e-disabled-ssh_agent-opti.patch b/meta/recipes-gnome/gcr/gcr3/0001-meson.=
-build-correctly-handle-disabled-ssh_agent-opti.patch
-new file mode 100644
-index 0000000000..d3c26d97ae
---- /dev/null
-+++ b/meta/recipes-gnome/gcr/gcr3/0001-meson.build-correctly-handle-disab=
-led-ssh_agent-opti.patch
-@@ -0,0 +1,36 @@
-+From 9b67bb18d8409e0e693cc6000507acbd73a30eab Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Wed, 16 Nov 2022 11:27:24 +0100
-+Subject: [PATCH 1/2] meson.build: correctly handle disabled ssh_agent op=
-tion
-+
-+Existing code produces these errors:
-+| gcr/meson.build:61:0: ERROR: Unable to get the path of a not-found ext=
-ernal program
-+| gcr/meson.build:101:5: ERROR: Unknown variable "ssh_add_path".
-+
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+
-+Upstream-Status: Backport [ https://gitlab.gnome.org/GNOME/gcr/-/commit/=
-9b67bb18d8409e0e693cc6000507acbd73a30eab ]
-+---
-+ meson.build | 12 ++++++++----
-+ 1 file changed, 8 insertions(+), 4 deletions(-)
-+
-+diff --git a/meson.build b/meson.build
-+index 3f35173..11d7fa7 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -96,8 +98,10 @@ conf.set('HAVE_TIMEGM', cc.has_function('timegm'))
-+ conf.set('HAVE_MLOCK', cc.has_function('mlock'))
-+ conf.set_quoted('GPG_EXECUTABLE', gpg_path)
-+ conf.set_quoted('LIBGCRYPT_VERSION', libgcrypt_dep.version())
-+-conf.set_quoted('SSH_ADD_EXECUTABLE', ssh_add_path)
-+-conf.set_quoted('SSH_AGENT_EXECUTABLE', ssh_agent_path)
-++if get_option('ssh_agent')
-++  conf.set_quoted('SSH_ADD_EXECUTABLE', ssh_add_path)
-++  conf.set_quoted('SSH_AGENT_EXECUTABLE', ssh_agent_path)
-++endif
-+ conf.set10('WITH_SYSTEMD', with_systemd)
-+ config_file =3D configure_file(
-+   output: 'config.h',
-+--=20
-+2.34.1
-+
-diff --git a/meta/recipes-gnome/gcr/gcr3/b3ca1d02bb0148ca787ac4aead164d7c=
-8ce2c4d8.patch b/meta/recipes-gnome/gcr/gcr3/b3ca1d02bb0148ca787ac4aead16=
-4d7c8ce2c4d8.patch
-deleted file mode 100644
-index ae4e2ac1eb..0000000000
---- a/meta/recipes-gnome/gcr/gcr3/b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d=
-8.patch
-+++ /dev/null
-@@ -1,61 +0,0 @@
--From b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8 Mon Sep 17 00:00:00 2001
--From: Jakub Jirutka <jakub@jirutka.cz>
--Date: Wed, 12 Jan 2022 00:24:20 +0100
--Subject: [PATCH] meson: Fix unknown kw argument in gnome.generate_gir
--
--This argument has been removed in Meson 0.61.0:
--
--    gck/meson.build:130:2: ERROR: gnome.generate_gir got unknown keyword=
- arguments "packages"
--
--https://github.com/mesonbuild/meson/commit/f8fc5cb860465718fe7c79a1bf1fe=
-00659f138de:
--
--> The packages argument to gnome.generate_gir was allowed, but never did=
- anything, so stop passing it.
--
--Fixes #89
--Upstream-Status: Backport
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- gck/meson.build | 1 -
-- gcr/meson.build | 1 -
-- ui/meson.build  | 1 -
-- 3 files changed, 3 deletions(-)
--
--diff --git a/gck/meson.build b/gck/meson.build
--index 756b486..a21a1e9 100644
----- a/gck/meson.build
--+++ b/gck/meson.build
--@@ -131,7 +131,6 @@ if get_option('introspection')
--     sources: gck_gir_sources,
--     namespace: 'Gck',
--     nsversion: '@0@'.format(gck_major_version),
---    packages: gck_deps,
--     export_packages: 'gck-@0@'.format(gck_major_version),
--     includes: [ 'GObject-2.0', 'Gio-2.0' ],
--     header: 'gck/gck.h',
--diff --git a/gcr/meson.build b/gcr/meson.build
--index 2233a44..c83641b 100644
----- a/gcr/meson.build
--+++ b/gcr/meson.build
--@@ -190,7 +190,6 @@ if get_option('introspection')
--     sources: [ gcr_base_public_sources, gcr_base_headers ],
--     namespace: 'Gcr',
--     nsversion: '@0@'.format(gcr_major_version),
---    packages: gcr_base_deps,
--     export_packages: 'gcr-base-@0@'.format(gcr_major_version),
--     includes: [
--       'GObject-2.0',
--diff --git a/ui/meson.build b/ui/meson.build
--index e656ea2..32ee057 100644
----- a/ui/meson.build
--+++ b/ui/meson.build
--@@ -152,7 +152,6 @@ if get_option('introspection')
--     export_packages: 'gcr-ui-@0@'.format(gcr_major_version),
--     identifier_prefix: 'Gcr',
--     symbol_prefix: 'gcr',
---    packages: gcr_ui_deps,
--     includes: [
--       'GObject-2.0',
--       'Gio-2.0',
----=20
--GitLab
--
-diff --git a/meta/recipes-gnome/gcr/gcr3_3.40.0.bb b/meta/recipes-gnome/g=
-cr/gcr3_3.41.1.bb
-similarity index 63%
-rename from meta/recipes-gnome/gcr/gcr3_3.40.0.bb
-rename to meta/recipes-gnome/gcr/gcr3_3.41.1.bb
-index 5318768db6..6cbf8671f5 100644
---- a/meta/recipes-gnome/gcr/gcr3_3.40.0.bb
-+++ b/meta/recipes-gnome/gcr/gcr3_3.41.1.bb
-@@ -17,27 +17,30 @@ CFLAGS +=3D "-D_GNU_SOURCE"
-=20
- GNOMEBASEBUILDCLASS =3D "meson"
- GTKDOC_MESON_OPTION =3D "gtk_doc"
--inherit gnomebase gtk-icon-cache gtk-doc features_check upstream-version=
--is-even vala gobject-introspection gettext mime mime-xdg
-+inherit gnomebase gtk-icon-cache gi-docgen features_check upstream-versi=
-on-is-even vala gobject-introspection gettext mime mime-xdg
- UPSTREAM_CHECK_REGEX =3D "[^\d\.](?P<pver>\d+\.(?!9\d+)(\d*[02468])+(\.\=
-d+)+)\.tar"
-=20
--SRC_URI =3D " \
--	https://download.gnome.org/sources/gcr/3.40/gcr-${PV}.tar.xz;name=3Darc=
-hive \
--	file://0001-gcr-meson.build-fix-one-parallel-build-failure.patch \
--	file://b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch"
--
--SRC_URI[archive.sha256sum] =3D "b9d3645a5fd953a54285cc64d4fc046736463dbd=
-4dcc25caf5c7b59bed3027f5"
-+SRC_URI =3D "https://download.gnome.org/sources/gcr/3.41/gcr-${PV}.tar.x=
-z;name=3Darchive"
-+SRC_URI +=3D "file://0001-meson.build-correctly-handle-disabled-ssh_agen=
-t-opti.patch"
-+SRC_URI[archive.sha256sum] =3D "bb7128a3c2febbfee9c03b90d77d498d0ceb237b=
-0789802d60185c71c4bea24f"
-=20
- S =3D "${WORKDIR}/gcr-${PV}"
-=20
- PACKAGECONFIG ??=3D " \
-+	${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
- 	${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'gtk', '', d)} \
- 	${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'gtk', '', d)} \
- "
- PACKAGECONFIG[gtk] =3D "-Dgtk=3Dtrue,-Dgtk=3Dfalse,gtk+3"
-+PACKAGECONFIG[ssh_agent] =3D "-Dssh_agent=3Dtrue,-Dssh_agent=3Dfalse,lib=
-secret,openssh"
-+#'Use systemd socket activation for server programs'
-+PACKAGECONFIG[systemd] =3D "-Dsystemd=3Denabled,-Dsystemd=3Ddisabled,sys=
-temd"
-=20
- FILES:${PN} +=3D " \
-     ${datadir}/dbus-1 \
-     ${datadir}/gcr-3 \
-+    ${systemd_user_unitdir}/gcr-ssh-agent.socket \
-+    ${systemd_user_unitdir}/gcr-ssh-agent.service \
- "
-=20
- # http://errors.yoctoproject.org/Errors/Details/20229/
-@@ -50,5 +53,7 @@ do_write_config:append() {
-     cat >${WORKDIR}/meson-${PN}.cross <<EOF
- [binaries]
- gpg2 =3D '${bindir}/gpg2'
-+ssh-add =3D '${bindir}/ssh-add'
-+ssh-agent =3D '${bindir}/ssh-agent'
- EOF
- }
---=20
-2.34.1
+diff --git a/meta/classes-recipe/toolchain-scripts.bbclass b/meta/classes-r=
+ecipe/toolchain-scripts.bbclass
+index 3cc823fe63..fa658a6596 100644
+--- a/meta/classes-recipe/toolchain-scripts.bbclass
++++ b/meta/classes-recipe/toolchain-scripts.bbclass
+@@ -37,7 +37,7 @@ toolchain_create_sdk_env_script () {
+        echo '# http://tldp.org/HOWTO/Program-Library-HOWTO/shared-librarie=
+s.html#AEN80' >> $script
+        echo '# http://xahlee.info/UnixResource_dir/_/ldpath.html' >> $scri=
+pt
+        echo '# Only disable this check if you are absolutely know what you=
+ are doing!' >> $script
+-       echo 'if [ ! -z "$LD_LIBRARY_PATH" ]; then' >> $script
++       echo 'if [ ! -z "${LD_LIBRARY_PATH:-}" ]; then' >> $script
+        echo "    echo \"Your environment is misconfigured, you probably ne=
+ed to 'unset LD_LIBRARY_PATH'\"" >> $script
+        echo "    echo \"but please check why this was set in the first pla=
+ce and that it's safe to unset.\"" >> $script
+        echo '    echo "The SDK will not operate correctly in most cases wh=
+en LD_LIBRARY_PATH is set."' >> $script
+--
+2.38.1
 
+Please be advised that this email may contain confidential information. If =
+you are not the intended recipient, please notify us by email by replying t=
+o the sender and delete this message. The sender disclaims that the content=
+ of this email constitutes an offer to enter into, or the acceptance of, an=
+y agreement; provided that the foregoing does not invalidate the binding ef=
+fect of any digital or other electronic reproduction of a manual signature =
+that is included in any attachment.
 
