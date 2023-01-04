@@ -1,140 +1,140 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <michael.opdenacker@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1D00C4332F
-	for <webhook@archiver.kernel.org>; Wed,  4 Jan 2023 15:28:23 +0000 (UTC)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
- by mx.groups.io with SMTP id smtpd.web10.14849.1672846099687767367
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA78FC4332F
+	for <webhook@archiver.kernel.org>; Wed,  4 Jan 2023 15:30:13 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+ by mx.groups.io with SMTP id smtpd.web11.14968.1672846204097915216
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Jan 2023 07:28:20 -0800
+ Wed, 04 Jan 2023 07:30:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=R20PcMq3;
- spf=pass (domain: gmail.com, ip: 209.85.208.179, mailfrom: rybczynska@gmail.com)
-Received: by mail-lj1-f179.google.com with SMTP id v23so25615294ljj.9
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 07:28:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=QX0w5HDTQeMUF9nsm360Fj7tEJP1bnw6dcfnaywUaLA=;
-        b=R20PcMq3M3VKpvS2wBlAsh1dDwKuo86bVmX32nZSU9z4/K8UKjSKZ6eAOusEE+h3I4
-         kl5eMjiUPll+rS0W8WeFlXqqxAdzzbO8azFtVqGwY9sJqOb2x2B2Dh/1hWEMqavPKa0G
-         dMIBGxpdDgTA8gWSW1xre1x041siMGg23JZAFNgeRDoTZS9k7+okeIBJPltr0ZnCL36G
-         CBP9ybtgoYcXQ86KtYo9aO1dno7/x7hLXAPY/PxK58Q+TWdtdL5lEabwYh07n/Kz/WqG
-         GaJoq/v6i4R0wCDT84q25LfmKb1PIpoVYofZF4q4Ko1p7QWU+/PrjOTn88ljiphA/Esw
-         Zkcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QX0w5HDTQeMUF9nsm360Fj7tEJP1bnw6dcfnaywUaLA=;
-        b=iF9B6LLRvPDyakvcSfmdaIDvq4BLLrycuWMFhhw+Lo5kMp9WVkDUwedCo37uoxd/a3
-         w44CTBfoAokbsFaP3eJrTs4sjcVpek7iPnZJfdKUz0faGLi/Hje+S2tpsJE8UC0tVjb1
-         PCZeXQjB0tmfEuOLwMZ9tQSNZPos9g4dx2gDDZanJdqpV2FJbERZqMuiZiKgGynHtUHC
-         DDhk8eWlkpzCJg8S8Bmq0aX6pY+hlT5wgw2WrYJGHb/Ie93TB8W/uGEU71//7qCEVbIc
-         QrkXTZE017sYyGUd7/SQu9kzgi/5IOVhZ9QaVqeznc7UKhNWiVTmxpgJRKpNEFbc1nQQ
-         DK7w==
-X-Gm-Message-State: AFqh2kpkNN7d3BtUiK1P288HbGZw/aXNuBEEyBM7ZR+YVXATYbq7+ibU
-	mcFvChZZxpTuiVW8bXc9J8gAWaQO9Hk3KpA6v7w=
-X-Google-Smtp-Source: AMrXdXt2fho0PPOlkjGm/1CeCjyj5m411caLBPLRLYr7pFsmLBNXtp7uesDsuYMhU5MnwPDz7WB86/fXv8a7JxrAL8s=
-X-Received: by 2002:a2e:bc83:0:b0:27f:df8c:fee9 with SMTP id
- h3-20020a2ebc83000000b0027fdf8cfee9mr861231ljf.228.1672846097858; Wed, 04 Jan
- 2023 07:28:17 -0800 (PST)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=nGXWPVi6;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: michael.opdenacker@bootlin.com)
+Received: (Authenticated sender: michael.opdenacker@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 62C4440007;
+	Wed,  4 Jan 2023 15:30:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1672846201;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=vrnJswstvWpfRMl9We6SGG7G32N9iVwvEBP2EmgaBQY=;
+	b=nGXWPVi6g7I2x1KJjaOTkpP9VAXCqx7ewz/jMm0yDaWJsCFaofVeBQtFbjgeIAM7T5KqDg
+	uRwA1ejIYbME55V2QWniQ7aoo2IgaUvKULGs0sQWIk/2JwZtzoRrRhoaNY9T0gnMRKRaIw
+	ifEcKU2zt0pjEOk86SHtSCWxM8vYs9B3zD4sjIFf3Q0SmMJkyehg7tDESicZgpF1pOoQES
+	/NlgZGt+TNBVGkF7OXzCUJdjejm05nXwvi7JYTkZnSpKxTgLbrspdCELSCIP3VFMhE+JZv
+	snbrryOIU2LrI2Kx0d7zHc0dJhAuYINpEQo9ohJQEAdzmdM5z+/KjXs+TXgCdQ==
+From: michael.opdenacker@bootlin.com
+To: openembedded-core@lists.openembedded.org
+Cc: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Subject: [PATCH] meta/classes-global: remove package_tar.bbclass
+Date: Wed,  4 Jan 2023 16:29:58 +0100
+Message-Id: <20230104152958.13559-1-michael.opdenacker@bootlin.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-References: <20230102070327.55373-1-rybczynska@gmail.com> <20230102070327.55373-2-rybczynska@gmail.com>
- <CANPvuRkzZFCYEFXpECrf3d1ea3tcCajMdQmz0r=x7-PyBgXNCA@mail.gmail.com>
- <CAApg2=RLRmbnMzYR6O+L=ob7Jp1d1uDXVrGo1Se9dEMzPq=QTA@mail.gmail.com>
- <CANPvuRk51aAcDyXkeN28fkpbb8XHPEJYRoAihEBM=_oYTggW_w@mail.gmail.com> <1736CC316B4E1D03.4716@lists.openembedded.org>
-In-Reply-To: <1736CC316B4E1D03.4716@lists.openembedded.org>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Wed, 4 Jan 2023 16:28:06 +0100
-Message-ID: <CAApg2=Rck5Q4qhmacAJvkBE9eG_RKhpRpU-qvsswz5uGBdSx8w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] cve-update-db-native: avoid partial updates
-To: rybczynska@gmail.com
-Cc: Jose Quaresma <quaresma.jose@gmail.com>, openembedded-core@lists.openembedded.org, 
-	Alberto Pianon <alberto@pianon.eu>, Marta Rybczynska <marta.rybczynska@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000006d458e05f171d56a"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 15:28:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175486
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 15:30:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175487
 
---0000000000006d458e05f171d56a
-Content-Type: text/plain; charset="UTF-8"
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
 
->
->
->>>
->>> Hi Jose,
->>> Thanks for looking into that. The function is not a total duplicate: the
->>> difference is that
->>> the it always removes the db_tmp_file, not only if the journal file
->>> exists (Python code
->>> formatting!).
->>>
->>
->> Don't see on the first time that the db_tmp_file is always removed, I
->> need new glasses :)
->>
->>
->>>
->>> I was hesitating on this part a bit, because with the old path could be
->>> taken only in some
->>> specific situations: at the code update and if you share the DL_DIR and
->>> some of the builds
->>> use the old code, some the new version. I think we should keep both for
->>> now for safety.
->>>
->>
->> makes sense, thanks for your explanation.
->>
->>
-> Well... I'll submit a v2 with comments to make sure nobody tries to
-> optimize that piece :)
->
+Remove package_tar.bbclass, which is no longer in use in oe-core
+and meta-oe, and which the document reports as broken and unsupported.
 
-And here it is (with a minor title change):
-https://lists.openembedded.org/g/openembedded-core/message/175355
+Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
+---
+ meta/classes-global/package_tar.bbclass | 77 -------------------------
+ 1 file changed, 77 deletions(-)
+ delete mode 100644 meta/classes-global/package_tar.bbclass
 
-Regards,
-Marta
+diff --git a/meta/classes-global/package_tar.bbclass b/meta/classes-global/package_tar.bbclass
+deleted file mode 100644
+index de995f9747..0000000000
+--- a/meta/classes-global/package_tar.bbclass
++++ /dev/null
+@@ -1,77 +0,0 @@
+-#
+-# Copyright OpenEmbedded Contributors
+-#
+-# SPDX-License-Identifier: MIT
+-#
+-
+-inherit package
+-
+-IMAGE_PKGTYPE ?= "tar"
+-
+-python do_package_tar () {
+-    import subprocess
+-
+-    oldcwd = os.getcwd()
+-
+-    workdir = d.getVar('WORKDIR')
+-    if not workdir:
+-        bb.error("WORKDIR not defined, unable to package")
+-        return
+-
+-    outdir = d.getVar('DEPLOY_DIR_TAR')
+-    if not outdir:
+-        bb.error("DEPLOY_DIR_TAR not defined, unable to package")
+-        return
+-
+-    dvar = d.getVar('D')
+-    if not dvar:
+-        bb.error("D not defined, unable to package")
+-        return
+-
+-    packages = d.getVar('PACKAGES')
+-    if not packages:
+-        bb.debug(1, "PACKAGES not defined, nothing to package")
+-        return
+-
+-    pkgdest = d.getVar('PKGDEST')
+-
+-    bb.utils.mkdirhier(outdir)
+-    bb.utils.mkdirhier(dvar)
+-
+-    for pkg in packages.split():
+-        localdata = bb.data.createCopy(d)
+-        root = "%s/%s" % (pkgdest, pkg)
+-
+-        overrides = localdata.getVar('OVERRIDES', False)
+-        localdata.setVar('OVERRIDES', '%s:%s' % (overrides, pkg))
+-
+-        bb.utils.mkdirhier(root)
+-        basedir = os.path.dirname(root)
+-        tarfn = localdata.expand("${DEPLOY_DIR_TAR}/${PKG}-${PKGV}-${PKGR}.tar.gz")
+-        os.chdir(root)
+-        dlist = os.listdir(root)
+-        if not dlist:
+-            bb.note("Not creating empty archive for %s-%s-%s" % (pkg, localdata.getVar('PKGV'), localdata.getVar('PKGR')))
+-            continue
+-        args = "tar -cz --exclude=CONTROL --exclude=DEBIAN -f".split()
+-        ret = subprocess.call(args + [tarfn] + dlist)
+-        if ret != 0:
+-            bb.error("Creation of tar %s failed." % tarfn)
+-
+-    os.chdir(oldcwd)
+-}
+-
+-python () {
+-    if d.getVar('PACKAGES') != '':
+-        deps = ' tar-native:do_populate_sysroot virtual/fakeroot-native:do_populate_sysroot'
+-        d.appendVarFlag('do_package_write_tar', 'depends', deps)
+-        d.setVarFlag('do_package_write_tar', 'fakeroot', "1")
+-}
+-
+-
+-python do_package_write_tar () {
+-    bb.build.exec_func("read_subpackage_metadata", d)
+-    bb.build.exec_func("do_package_tar", d)
+-}
+-do_package_write_tar[dirs] = "${D}"
+-addtask package_write_tar before do_build after do_packagedata do_package
+-- 
+2.37.2
 
---0000000000006d458e05f171d56a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><blockquote =
-class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
-id rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_=
-quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
-border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><=
-div class=3D"gmail_quote"><br><div><br></div><div>Hi Jose,</div><div>Thanks=
- for looking into that. The function is not a total duplicate: the differen=
-ce is that</div><div><span style=3D"background:rgba(0,0,0,0) none repeat sc=
-roll 0% 0%">the it</span> always removes the db_tmp_file, not only if the j=
-ournal file exists (Python code</div><div>formatting!).<br></div></div></di=
-v></blockquote><div><br></div><div>Don&#39;t see on the first time that the=
- db_tmp_file is always=C2=A0removed,=C2=A0I need new glasses :)</div><div>=
-=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"l=
-tr"><div class=3D"gmail_quote"><div></div><div><br></div><div>I was hesitat=
-ing on this part a bit, because with the old path could be taken only in so=
-me</div><div>specific situations: at the code update and if you share the D=
-L_DIR and some of the builds</div><div>use the old code, some the new versi=
-on. I think we should keep both for now for safety.=C2=A0</div></div></div>=
-</blockquote><div><br>makes sense, thanks for your explanation.<br><br></di=
-v></div></div></blockquote><div><br></div><div>Well... I&#39;ll submit a v2=
- with comments to make sure nobody tries to optimize that piece :)</div></d=
-iv></div></blockquote><div><br></div><div>And here it is (with a minor titl=
-e change): <a href=3D"https://lists.openembedded.org/g/openembedded-core/me=
-ssage/175355">https://lists.openembedded.org/g/openembedded-core/message/17=
-5355</a></div><div><br></div><div>Regards,</div><div>Marta<br></div></div><=
-/div>
-
---0000000000006d458e05f171d56a--
 
