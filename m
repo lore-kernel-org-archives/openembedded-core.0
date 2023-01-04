@@ -1,124 +1,97 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63A5DC4332F
-	for <webhook@archiver.kernel.org>; Wed,  4 Jan 2023 16:08:04 +0000 (UTC)
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
- by mx.groups.io with SMTP id smtpd.web10.16041.1672848478613735637
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ED25C4708D
+	for <webhook@archiver.kernel.org>; Wed,  4 Jan 2023 16:25:34 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web11.16772.1672849525981845124
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Jan 2023 08:07:58 -0800
+ Wed, 04 Jan 2023 08:25:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Zy8x/lAp;
- spf=pass (domain: gmail.com, ip: 209.85.166.182, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-il1-f182.google.com with SMTP id o13so19669175ilc.7
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 08:07:58 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=N7kOL8L4;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id z16so17065713wrw.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 08:25:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=iuguMKDauhFK7ckcAGz4pEzMVZvdgj23yDKPTD99U2w=;
-        b=Zy8x/lApq69G/CcZzT6uDUvSkk+jrt/qp/nU7FDeqhJHhqo61/xiZzmIWuWNEhcs06
-         04yE4LNQJnTBASJuyg03b7yjGm1Ig9BY+WoJRqcayazckaPT2FJEqcjKZi7gKXIqWdvM
-         A+mn3tjLSr4Hax6DkHeqipOHov2z7hjdZbKwR0PvAIR5CtAv2ZvXB33YrzyQ5aNAxHCG
-         ydvzIcsuPeLI67c3WafhSJpO7TP+q/3dqcVcYcBfcWzV1FMEZdyZrRrTjaWSwWe7qAp/
-         tUBSytRqRhlYoaXoGPvYndIyoLhAGlOJm9Hoat0MeMuTOEP5ZO31izNDRUGxmQvC3yNL
-         4USw==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zCGwBJ20622N9k0EHfWC2liK261zWyJAPRQ9EBntCjA=;
+        b=N7kOL8L4sw4sYJ1Rsv52nKD8Lz0e5okVaVIXdHSLFHfUUY6GXWhbxPSYahA89mT9m7
+         bUO/Nwr7pimEL7xFqkFf93a1sMhyiT7SIn6aW5eL7QtMi7VAUX0vTViEdWLxFpOw4xlW
+         VZ5MMt/8uO2annerPs+Y9u31r1OPH7BGFZL6U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iuguMKDauhFK7ckcAGz4pEzMVZvdgj23yDKPTD99U2w=;
-        b=WsP83ucbiMrhy9HW4LJ5iH6C1JxWp5NjEESx4R0BykJXNZNJ04NKkUGO4uoBI1On3Y
-         GaskV6Ven1Zuk+rc0oGokC9y+YE8U9gJ1iX0ot41xcq2KsifhbcHa44v2QGvSHmvEGT+
-         5/Z4my0gnUWw2WnkPJbgDbRoI6qMvyVdTsoNXN71NEJ+7CLQtrJKuVz06zMrtm5KBCFo
-         NfnJBcPGYNK8SJQd8/5NlnEbJSqGSUUTfA3Bqg+bkJGIqJk4dhM/xLgbD/jz09zDeI/5
-         42F92sYh2rFShKRk5QoGXR/hINX7c4UN7RMNNcyDj0as05NGK4/PLGCppN6ArRL6DdcR
-         L2Bw==
-X-Gm-Message-State: AFqh2kp2rcFyoDHKNJWo/p19zYpdnL3BGCd3U64Yap5GKVPQjg3PgPMB
-	mDo9otypt1tQmb+pIeB7JUGoSes0xzqoR4M2ueQ=
-X-Google-Smtp-Source: AMrXdXvcdPp5i1TDccvYX1ylpHNmyl5Avar84Ue4HuS8ZhZPJQiNlQntfF7dfshEAGin36bKa+yma8GCZVld6NNxHoU=
-X-Received: by 2002:a92:cda1:0:b0:30c:21d5:5ce0 with SMTP id
- g1-20020a92cda1000000b0030c21d55ce0mr2623342ild.28.1672848477920; Wed, 04 Jan
- 2023 08:07:57 -0800 (PST)
-MIME-Version: 1.0
-References: <20230104121808.1065203-1-toertel@gmail.com> <20230104121808.1065203-3-toertel@gmail.com>
-In-Reply-To: <20230104121808.1065203-3-toertel@gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 4 Jan 2023 11:07:46 -0500
-Message-ID: <CADkTA4OBb1J9Ld19rzvuQntdj04rRUdH9sP=cPSKwvO=U1s-Tw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] linux-yocto: Autoload sound driver on QEMU x86
-To: Mark Jonas <toertel@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, michael.opdenacker@bootlin.com, 
-	richard.purdie@linuxfoundation.org
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=zCGwBJ20622N9k0EHfWC2liK261zWyJAPRQ9EBntCjA=;
+        b=BWmb13UAROntQg7Trj6TiOS09JvrYb9ImK1p0ylk6bQCssbD3AC5QxskB2zSfcysYn
+         hm/w0GebFbYIWJuVG34MlH06PMAuy26iXIPRqhX5auzublT/GggO8LqD9ae26/NiYwZT
+         +NxfbakimIYB/IgldG/OQ8vYyj9uWfQZ2hgWVGoVM+1pTiSvrO0nq2SxNHBzWDFWLtgq
+         yvLVPmOB+dyBWwEimkyTwUSXz+UrZjRgIhZ7elr68mV4ERPZSeSnKKTyJue2YxH1KIaP
+         btGqrcI+PcrVtLY11KclkDj7ObKvKyPjCaWkiiZLfTOjDawQ6ZskSxCFL/y3iWCxwpWu
+         Pl6A==
+X-Gm-Message-State: AFqh2kpEmyDIxojQOwe8pO2JAwiC8qu762LQ1qOK7qdclYVqY/MJD06h
+	x5ACOONymNm7ZTZ3xC6piqSj07agJxMpo6aM
+X-Google-Smtp-Source: AMrXdXv1znrg558q8qn5BgWfvDzdCvQFpS4d+Nc/lm6qOdrcGzFYuwelLKU7dkA8RuP5WdauTzCiBQ==
+X-Received: by 2002:adf:f107:0:b0:284:5050:5e59 with SMTP id r7-20020adff107000000b0028450505e59mr18848468wro.29.1672849523958;
+        Wed, 04 Jan 2023 08:25:23 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:fcc2:4e85:26d2:6527? ([2001:8b0:aba:5f3c:fcc2:4e85:26d2:6527])
+        by smtp.gmail.com with ESMTPSA id p11-20020adfe60b000000b002366e3f1497sm35012800wrm.6.2023.01.04.08.25.23
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Jan 2023 08:25:23 -0800 (PST)
+Message-ID: <4a8cbda140f676a63cff3e13678bcd8407ef50dd.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 01/10] package: Move fixup_perms function to
+ bb function library
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 04 Jan 2023 16:25:23 +0000
+In-Reply-To: <173725B379431FBC.11747@lists.openembedded.org>
+References: <173725B379431FBC.11747@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 16:08:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175499
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 16:25:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175500
 
-On Wed, Jan 4, 2023 at 7:18 AM Mark Jonas <toertel@gmail.com> wrote:
->
-> From: Mark Jonas <toertel@gmail.com>
->
-> If DISTRO_FEATURES includes ALSA then automatically load the
-> snd-intel8x0 kernel module on qemux86 and qemux86-64. This matches the
-> machine configurations conf/machine/qemux86.conf and qemux86-64.conf.
->
-> Signed-off-by: Mark Jonas <toertel@gmail.com>
-> ---
->  meta/recipes-kernel/linux/linux-yocto.inc | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-> index 091003ed82..c8a9b0a1e3 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto.inc
-> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
-> @@ -37,6 +37,11 @@ KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'efi', 'cfg/
->  KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'numa', 'features/numa/numa.scc', '', d)}"
->  KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'vfat', 'cfg/fs/vfat.scc', '', d)}"
->
-> +# sound driver recommended by conf/machine/qemux86*.conf
-> +ALSA_MODULES = "${@bb.utils.contains("DISTRO_FEATURES", "alsa", "snd-intel8x0", "", d)}"
-> +KERNEL_MODULE_AUTOLOAD:qemux86 += "${ALSA_MODULES}"
-> +KERNEL_MODULE_AUTOLOAD:qemux86-64 += "${ALSA_MODULES}"
+I'd guess people might be curious on the actual parsing/cache impacts
+of this series.
 
-This gets us most of the way, but if we are going to do this we should
-complete the job.
+To be honest I'm having trouble isolating a parsing time change for it,
+which is quite sad. Someone with a slower system or limiting it to a
+small set of cores might get some better results. I can see slight
+reductions in the generate_dependencies function times. I was also
+profiling the "bitbake -S" cache mode, better results might be obtained
+without enabling that.
 
-We really need to make sure there's a configuration fragment that
-explicitly enables
-the modules we need (and not count on defaults, or other selects). That would go
-into the kernel-cache.
+It does reduce the overall "bitbake -S none" cache file size by around
+420k (on a 74MB file). Much more significantly, it also reduces the
+do_package sigdata file from 224k to 159k uncompressed or 54k -> 36k
+compressed (which the files are).
 
-It would then be something we'd add to the KERNEL_FEATRES triggered off the
-distro feature. Just like we are doing with numa and vfat that is visible in the
-context of the patch.
+Whilst those improvements don't sound much, this is a significant
+reduction in the amount of data bitbake is chucking around pipes
+internally and the reduction in size of the sigdata will mount up over
+many recipes/tasks in an sstate share.
 
-Bruce
+I do think we can end up with cleaner more understandable/maintainable
+code if we do this correctly so whilst I had hoped for more, I still
+think this direction is the right one and the changes are worth
+pursuing.
 
-> +
->  # A KMACHINE is the mapping of a yocto $MACHINE to what is built
->  # by the kernel. This is typically the branch that should be built,
->  # and it can be specific to the machine or shared
-> --
-> 2.34.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#175471): https://lists.openembedded.org/g/openembedded-core/message/175471
-> Mute This Topic: https://lists.openembedded.org/mt/96048827/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Cheers,
+
+Richard
 
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+
+
 
