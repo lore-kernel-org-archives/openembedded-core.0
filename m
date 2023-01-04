@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66338C4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C681C5479D
 	for <webhook@archiver.kernel.org>; Wed,  4 Jan 2023 11:06:11 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web10.9370.1672830362981472240
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web11.9357.1672830362235773377
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Jan 2023 03:06:09 -0800
+ Wed, 04 Jan 2023 03:06:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=BjKC9Gj5;
- spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f50.google.com with SMTP id t15so23700276wro.9
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 03:06:09 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=FO+WRkez;
+ spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f43.google.com with SMTP id t15so23700216wro.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 03:06:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8dT92rhaO8Ux+6CqgVUI1plEPTFmRa/z4p2h9YJ5+IY=;
-        b=BjKC9Gj5MNCX8GhhT2V3SvclDMU7mQwHtmIGU9r1qWGuwgtfTbvqN3mdAb4lcf++MG
-         yGnzPRGk8zap7qVKtdn1y3X1znyhB9jmDVY3UnSntXopuTEVDliDJDEg7vQp71eoduXs
-         xhhCG6sumZmjIghrfQ8rXQgNKsmHi4A6tZLYd9OaDl+g5hfus97kiesyXcrf9GbJ1bTA
-         eZRbl3T36sYt7gLdYoSdT6EBDRGOgo+zunNm7QZnZBvpUmHhLkSL9Jq5o6Nj5qkYyHz1
-         y1Tf1sfQWka2VxP6EiaWnid4hnnB4yV5cvZmXnKwq4f3Nv2A23vbkeb4AW45SkgeujaV
-         Z1Ww==
+        bh=gUzMBiCjmQiYWES6faD64guumCcbeem/4vKqx6TiMqg=;
+        b=FO+WRkez+av2mshFR2NsFFb2RfFD2/CD3BfJhZKuu90O+N9lzWGATklYh7HmlTQOFH
+         OnU3fC41OWg0tMJZwltJsFNVWp3uAges+WxHzFdSeBUyZsFn5v0alq2JnIPwI2ePbQ+q
+         1G5P6YNSWZSPzVqlnsJNjBFA6s0vGN+GU7XKx9GbkRu8MCKg1YtfoBMr0UCC026G9ScX
+         Jm0GHMrvLVwurTTaQ3O2m5/mPGT7UZiqyk1zkyDG5yu9G18qn2PuT6FFStCcB4YaRdos
+         hpvBEw92kJUT4u4UH1auwInk3864Bhsnebu+CzB+oclatYSbUQHEEV9381UEXHJAM5ry
+         nzSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8dT92rhaO8Ux+6CqgVUI1plEPTFmRa/z4p2h9YJ5+IY=;
-        b=6dP1bSGB3hExcGLqo8qn5zl+1pB4A4nMxpjGI+NTO2mrL/RIgPykVeOaTgqO3Vp4DO
-         vkTKnN6CoSFjnBtBWg8TcMGRQML4+24thNmeAUXzluJlOOmZKdm8/v2U5dZOAehN0NIT
-         BrGD1O3yy+qNFW7u+Ypn0AUjt1osEgyFIWjqta/eg2u8db+wY/TA/SHJE3loQEvFkjeQ
-         if2Y9JaCJcJbUofofGuVKeVgmdP5Up/CmSdZTsYMwBvE8BxJc+9DiDBKebgWwSXNRw2p
-         vfI/aNRAEz/DSYLjbT/F+LtF0fQ+xw4cqk09bA7eFXL0/jVWiit8EAcZv1OxFUZzzJ6H
-         HBGw==
-X-Gm-Message-State: AFqh2kqISQv4GiwOo1NqaOYYennUjxl6dCU2b3Ke29F0+seMtWM80i+m
-	iGfwMm75Ub4YNHr5RIYi0aSyXtD2n6U=
-X-Google-Smtp-Source: AMrXdXs7/pig9JfdDtIkSAUKx6Q5YqQt4C8XEuOs2BOtg5F3HVkDbY03alTwHXAkQVnAmgejYIlDwA==
-X-Received: by 2002:a5d:4911:0:b0:242:4bbe:2d20 with SMTP id x17-20020a5d4911000000b002424bbe2d20mr28786000wrq.42.1672830369002;
-        Wed, 04 Jan 2023 03:06:09 -0800 (PST)
+        bh=gUzMBiCjmQiYWES6faD64guumCcbeem/4vKqx6TiMqg=;
+        b=FH1JeeSh91IIUptxlpHzbhxlCibzckzKt3IxUH+486/lCGNcRm6VysZ5ncntgSrdD3
+         vQOEFMRkYmK9XlHLpJ28w7jG2m56pwoYgkUyt/gRFXoJVXEY6lizR25B3209nuMSkVWP
+         UVZ4dnsHklKDFT6SR7cSioWpSYU6lH3zuf47/bCEUnKROE1CkjVR2AMqywUAHQVTKxRZ
+         vW5IlIdDTBJxYa2eD7tDBUA7sas1cOmRVoGTgirWmEs3dzpR2DvlLQfuNqscgxcJCJds
+         CaaszQVyg0ICbc18n5NrjOqPxwoobg3c+osTpT2W87aPF/KB9UP8qz2mrj8pvwquXVzc
+         R3sQ==
+X-Gm-Message-State: AFqh2kq/lE30lBOHaV+zUVHUDKi2BVnDtEtT5AOmSjLLw/0j6yGGWcem
+	yUwqcN8NLa4XzTJLAqe6ezoJCAvFPCU=
+X-Google-Smtp-Source: AMrXdXvVZDr9kh2wpcCCK7oV6ZUC/1Wd7vT0gn899LHtntWxAYEu5r/xFVnon/yZEXIm28Sp4ZA/pg==
+X-Received: by 2002:adf:dd83:0:b0:27c:3042:9dc2 with SMTP id x3-20020adfdd83000000b0027c30429dc2mr21102299wrl.29.1672830367431;
+        Wed, 04 Jan 2023 03:06:07 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id h15-20020adfaa8f000000b002421888a011sm34102161wrc.69.2023.01.04.03.06.08
+        by smtp.gmail.com with ESMTPSA id h15-20020adfaa8f000000b002421888a011sm34102161wrc.69.2023.01.04.03.06.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jan 2023 03:06:08 -0800 (PST)
+        Wed, 04 Jan 2023 03:06:06 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 21/77] harfbuzz: upgrade 5.3.1 -> 6.0.0
-Date: Wed,  4 Jan 2023 12:04:52 +0100
-Message-Id: <20230104110548.2537259-21-alex@linutronix.de>
+Subject: [PATCH 19/77] webkitgtk: upgrade 2.38.2 -> 2.38.3
+Date: Wed,  4 Jan 2023 12:04:50 +0100
+Message-Id: <20230104110548.2537259-19-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230104110548.2537259-1-alex@linutronix.de>
 References: <20230104110548.2537259-1-alex@linutronix.de>
@@ -62,29 +62,29 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 11:06:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175405
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175403
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../harfbuzz/{harfbuzz_5.3.1.bb => harfbuzz_6.0.0.bb}           | 2 +-
+ .../webkit/{webkitgtk_2.38.2.bb => webkitgtk_2.38.3.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_5.3.1.bb => harfbuzz_6.0.0.bb} (95%)
+ rename meta/recipes-sato/webkit/{webkitgtk_2.38.2.bb => webkitgtk_2.38.3.bb} (98%)
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_6.0.0.bb
-similarity index 95%
-rename from meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb
-rename to meta/recipes-graphics/harfbuzz/harfbuzz_6.0.0.bb
-index f56403d428..46ab6a4ca8 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_5.3.1.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_6.0.0.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6ee0f16281694fb6aa689cca1e0fb3da \
-                     "
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.38.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.38.3.bb
+similarity index 98%
+rename from meta/recipes-sato/webkit/webkitgtk_2.38.2.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.38.3.bb
+index 616416f6dc..e890079dc5 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.38.2.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.38.3.bb
+@@ -15,7 +15,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://0001-When-building-introspection-files-do-not-quote-CFLAG.patch \
+            file://0d3344e17d258106617b0e6d783d073b188a2548.patch \
+            "
+-SRC_URI[sha256sum] = "f3eb82899651f583b4d99cacd16af784a1a7710fce9e7b6807bd6ccde909fe3e"
++SRC_URI[sha256sum] = "41f001d1ed448c6936b394a9f20e4640eebf83a7f08262df28504f7410604a5a"
  
- SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "4a6ce097b75a8121facc4ba83b5b083bfec657f45b003cd5a3424f2ae6b4434d"
-+SRC_URI[sha256sum] = "1d1010a1751d076d5291e433c138502a794d679a7498d1268ee21e2d4a140eb4"
- 
- inherit meson pkgconfig lib_package gtk-doc gobject-introspection github-releases
+ inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gi-docgen
  
 -- 
 2.30.2
