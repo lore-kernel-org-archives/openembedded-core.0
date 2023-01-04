@@ -2,38 +2,38 @@ Return-Path: <sandeep.gundlupet-raju@amd.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 633F6C46467
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63472C53210
 	for <webhook@archiver.kernel.org>; Wed,  4 Jan 2023 22:07:44 +0000 (UTC)
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (NAM12-MW2-obe.outbound.protection.outlook.com [40.107.244.73])
- by mx.groups.io with SMTP id smtpd.web10.4873.1672870060333648225
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (NAM11-BN8-obe.outbound.protection.outlook.com [40.107.236.41])
+ by mx.groups.io with SMTP id smtpd.web10.4874.1672870061285658727
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Jan 2023 14:07:40 -0800
+ Wed, 04 Jan 2023 14:07:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@amd.com header.s=selector1 header.b=RtMiAFHT;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: amd.com, ip: 40.107.244.73, mailfrom: sandeep.gundlupet-raju@amd.com)
+ dkim=fail reason="body hash did not verify" header.i=@amd.com header.s=selector1 header.b=TEeyq7jW;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: amd.com, ip: 40.107.236.41, mailfrom: sandeep.gundlupet-raju@amd.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MJccIQ0sTdDm5Cgn7eu+/Kb7C7NUBWZC5Q05rROXv5xSFiiqgUJbz6bTZMunV98t+OlcdxFcBLUb3hMy2RoFjEfFrBkc+4X0DRk20GGMuvcLhsi626cItbIIj5QXuJMDVeqNb4K0CpAI1VAyRiogcEcgCpW790HNCj48RaYQA+27/yHwlZVpoY8bMGZooO1LfTgHW+w+o2mvSrc67++3L3qbFtAt5ydtRE/ypC4J6UzOudbUKpZRlYOJm7KqTrCm0NV1eNeh9tCfgd5Wg+b1dFfzKrE5MJjfm5lg319Jb2tSuWXDm/XdksR/nAPiSximdV7NDv9pbgitGkPzNSN/jA==
+ b=gCIhYJm4jiJgUFCVdsKd8P+3FE9JwUofvJmFnpxMbKf6gWG9vnygsOMED2TJ2dhCSa0Cp9xwKJ1XPKNWD52rRjhn89zeWaop+/P59dpaHk69rQdoEPdRmDAtRIfpRtX1LVOcpLhaX7CyBafYHyMn0TN8V523wpBmNNCM9lqWGy72qxtsLoexgF2+EnOnLFmFlR2WBK7/W0ZiQkOn2/ZAu3UN6KsZmVU6JzwiKof9k9+IiT41sqf6F97wBwryn/PUy8/0YrZlFqpxIqn/y3lXEUkxTRN97FrzkCJMadyNTU6JZdVlA/CutFmHCJXetQf4A58dXImyemqHDeod22U4Rg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IYZGDel3yjoii+f7tL1Q/7FPBFQ+vMgLS39HcLiRl1M=;
- b=F3D99ulXNBoN9TPPb+AnkpoHGYHEDFyn+gwoB7PthdLNYpN4rmrPNe4jonIVl1VaWxegb6Y/Hh2rGufsQnvrTDBEyBoXcZ/v02Sx6jLQJaViPi5P88PkmZ+LE0aMdSLlpQ/npyiEC9CCsUZ/SNnUiVdcnGtb3hmHbAEk7jtHfzwrl/K8l3CmciHQZXYrcH3fw7yU+xG928p+BORnzQrIx9iBPW3vQ5uInT+4RLp45xfY3p2UmYJqvLoZZqZHV8KlK4RUeuNNgqGUmBPQhBYosclLfUk/+1LODR4A3KYP0Y0ifdyV7Bgo3NUBMPkbmWPqScASjG2gkoDyKRgm4H3cNQ==
+ bh=MWaEBn+q4b37VTYLbyUE8rG8SIhTBxYgWF47Ssq+d+U=;
+ b=hFiuPz2DtPgpOsYvg9j35UDOY4s9NWhBSHdZx5xPVzR5zPHusvp+AaoDKC6z7AxZSyA43c1VV+MnXYXF7PsgzwXNDmMLZtSpPLIQmp9tFTPginmtWuQ0IP56udhNMvqUXdiMz7jl4qDiF/HN7ymJFliB5koziGcz2YRI21DfKOt4HCe5+AzZQjCrmCM4MIDeYa+19UfPIRIaKkrz9cbhV42GhKLPOYEGjZl8N9kiASaD32JfE8Zz06oiU/tpxDuOrabwXkD3uT4WRp4e4m6rz6BkFr5Ka4njNjR5W+NBfftgGImSRWJPPy/TxnXE3JIPZFo94uX3dUXE8j2Y4hF3+Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.openembedded.org
  smtp.mailfrom=amd.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
  action=none header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IYZGDel3yjoii+f7tL1Q/7FPBFQ+vMgLS39HcLiRl1M=;
- b=RtMiAFHT/Y35s8cd1+PQFFdg6etb6cxfLvqQlW/k2wsxAQKTkNfDgX6yPttxznXpiJwyLsMuid+20hrsTvB9rweRVMH6OtowaFnmVZhFxkTnVPOEyZRhIjV+esSJWfS87i0qlPISqfdsEpqmTS9+HQ24dXvAsHcCTaZEYpSX4q0=
-Received: from BN0PR07CA0011.namprd07.prod.outlook.com (2603:10b6:408:141::32)
- by CH3PR12MB8258.namprd12.prod.outlook.com (2603:10b6:610:128::18) with
+ bh=MWaEBn+q4b37VTYLbyUE8rG8SIhTBxYgWF47Ssq+d+U=;
+ b=TEeyq7jWUX6krU+RWhmVEuEfu6ZTDcJdV3K3x7QQCN1pD2hCxyJPymc685YG2G1iZLZYdxOtYDBYQDeCr5Mh0EUM/CB1rUtNsJvJjR23FdR0J/+Rux5VDrdueEwxB1gHBv6mHXZc0JrgNWPGDHfFt8DGdXuECvVS0LWan5StLX4=
+Received: from BN0PR07CA0014.namprd07.prod.outlook.com (2603:10b6:408:141::7)
+ by PH7PR12MB5807.namprd12.prod.outlook.com (2603:10b6:510:1d3::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Wed, 4 Jan
  2023 22:07:38 +0000
 Received: from BN8NAM11FT056.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:141:cafe::59) by BN0PR07CA0011.outlook.office365.com
- (2603:10b6:408:141::32) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:408:141:cafe::94) by BN0PR07CA0014.outlook.office365.com
+ (2603:10b6:408:141::7) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.14 via Frontend
  Transport; Wed, 4 Jan 2023 22:07:38 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
@@ -49,7 +49,7 @@ Received: from SATLEXMB04.amd.com (165.204.84.17) by
 Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 4 Jan
- 2023 16:07:37 -0600
+ 2023 16:07:38 -0600
 Received: from xcoapps69.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
  Transport; Wed, 4 Jan 2023 16:07:37 -0600
@@ -57,86 +57,114 @@ From: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
 To: <openembedded-core@lists.openembedded.org>, <bruce.ashfield@gmail.com>
 CC: <mark.hatle@kernel.crashing.org>, Sandeep Gundlupet Raju
 	<sandeep.gundlupet-raju@amd.com>
-Subject: [OE-Core][langdale][PATCH v2 1/2] kernel-fitimage: Adjust order of dtb/dtbo files
-Date: Wed, 4 Jan 2023 15:07:34 -0700
-Message-ID: <20230104220735.1529381-1-sandeep.gundlupet-raju@amd.com>
+Subject: [OE-Core][langdale][PATCH v2 2/2] kernel-fitimage: Allow user to select dtb when multiple dtb exists
+Date: Wed, 4 Jan 2023 15:07:35 -0700
+Message-ID: <20230104220735.1529381-2-sandeep.gundlupet-raju@amd.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230104220735.1529381-1-sandeep.gundlupet-raju@amd.com>
+References: <20230104220735.1529381-1-sandeep.gundlupet-raju@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT056:EE_|CH3PR12MB8258:EE_
-X-MS-Office365-Filtering-Correlation-Id: edec4524-4319-4ef5-0c0b-08daeea0176f
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT056:EE_|PH7PR12MB5807:EE_
+X-MS-Office365-Filtering-Correlation-Id: 539d308d-177e-4e06-55c1-08daeea017bb
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	psA1/nAVKPhc46yfEuApKsvG8yOaCicputv+MB91LTAWANrrmyF8D01FRIGrwZEW308lzF840Zpz76nvBSObyYaP/iJ4xUy+ldBF5z4MAIIRBebqW8GerNjYjtwvl9tJY4g2HEkm+1u2gZhUPM/MZRstMtvpQT6kSACmOIfJbXk6VLvvKlkqO0a8OtYGg8j2kIQACHqizg60wPY7qHmKHXz2vsTfhsO0oF5njiELqlfFD0stNxUkeM4SdwN0+Zi6xcGKEsy8P6XA/kXAD5052EJ/r14Ns9rN9BgwnRjFwdiSpFgSmH0xGeS0vHYdewKaBm06O5EhFpu4cCOIpd8r0fUCfjWiY/4KROwPkFtRX19XGQKmVDDBHE+8WDBbXecMvmRI4xl2mev7zAh9SA4Fct88nk8zfOX/ibOHBwc0uMMpYoYhbXxM8WtIaeCkJ+cWObCnlMpsqJ8aMEy0lm0nQaOMdDgHTHW8K5TxXzaCkQsALCLOHhJ5m5Mc9bl5+9b7ucHBDxfx7DyzhFpNBDRGJwNO8LinNYmk9Oa2+AuO6lha+4l0vHoHFyeWSgk9rL5vcFTaUS5apubftQC9HiYenyfj4dqsz3WAuKt37xB09tQDj0J6VZiyMwgNN/IkI0J37vmxHn53bcKYlZAJbGeoEoQ8XnxB2QaiKIqmOUT0p5JA1vjO/NynIYPy6jfIPnO4Tb9ydyA3wwzXsgqglYWTqci8aFkqdik/O9LAW27RhOc=
+	ZMX+u3+8kkOZM+Nv7ixMjQ3uDUnjoCZDnyDSZsLFHAWV5zXEMWBXMzJoeTq8AtDAP8YrgKns3UiMRKRpj1snjW+vPsSdPYnwCRpdnoSUjQAbmGtHVqU1QEJum0q6486x8R2ADlbenzS5GmlTV/aDG8rnWKfyW7Vq1k4EWv4aCKqbfxpCXF6PJbrJRMgt1rNStrp1RXkViAMagbw5lrxhdzLZg9TPGBSRs1vBTFB3ZWfxkYkzM7pwJDYypq3i3W/Pi/n9iSov+GMqxIhiDBMqm91VIruRPIfT7p8Wisqw6g9WxS27XYYJjE3ScqYhNOAOvN6byAymo9nC3/wtb29xlq30gg1rSEuKRNRGrTS9XHeqZFAveT2hkpRbvYQeC0NChEPfaoE/JjC9ryZMPztXLywStV9PJHtOYHBSKCcZS07G9adl2gSqSWPqU+QkMfDQi/SddiNaj2k9DYCThETQqZhPJCGSFQuIhS+NJedfblWkr8GnDZ7WkmxZRDK8rT47f/RKqnoYAfAcdK7qK5qCWA7aPHoRbxNk+TGs9tVCEEF+gmC0aGHhFuqj5TM3UdQu5ffRqHMB3gWPcZ6Hl/tEoT1Gew6OQLqmkEoaA7+LNh4iU755GUxvM8nklPgjV36Qgr65imkKxByfWrr5Tnr0ODbQj6txN1lmFCMHaO6XVICuZ/BZFYmnKeS/N34idw4EeQOJwNMX5LeBBImIw8nJR4/GoqXIILb8mjCrcaXwfDQ=
 X-Forefront-Antispam-Report: 
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(136003)(376002)(396003)(346002)(451199015)(46966006)(36840700001)(40470700004)(316002)(356005)(2616005)(186003)(40480700001)(81166007)(26005)(478600001)(36756003)(40460700003)(86362001)(82310400005)(54906003)(110136005)(336012)(6666004)(41300700001)(8936002)(2906002)(426003)(47076005)(70206006)(8676002)(83380400001)(5660300002)(4326008)(70586007)(82740400003)(1076003)(36860700001)(36900700001);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(376002)(346002)(136003)(396003)(39860400002)(451199015)(36840700001)(46966006)(40470700004)(26005)(186003)(83380400001)(2616005)(336012)(47076005)(1076003)(426003)(40480700001)(86362001)(82310400005)(40460700003)(36860700001)(36756003)(356005)(81166007)(82740400003)(478600001)(54906003)(316002)(2906002)(110136005)(4326008)(41300700001)(8936002)(5660300002)(70586007)(70206006)(8676002)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jan 2023 22:07:38.1209
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jan 2023 22:07:38.6365
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: edec4524-4319-4ef5-0c0b-08daeea0176f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 539d308d-177e-4e06-55c1-08daeea017bb
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
 	BN8NAM11FT056.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8258
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5807
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 22:07:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175507
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175508
 
-The dtb files must be before the dtbo files, otherwise the overlays may
-not be applied correctly.
+Allow user to select the default DTB for FIT image when multiple
+dtb's exists.
 
-From Bruce Ashfield:
+From machine.conf or local.conf user can specify the default dtb
+for FIT image as shown below.
 
-  We can split between dtbs and dtbos, they just need to be sorted
-  for reproducibility reasons.
+FIT_CONF_DEFAULT_DTB =3D "board-default.dtb"
 
-  Of course, this was only working by luck previously (before the
-  sort), since it has always been gathering dtbs and dtbo's with
-  find, depending on filesystem ordering for the order in the
-  fitimage).
+Also fallback to avaialable dtb when FIT_CONF_DEFAULT_DTB doesn't
+exits or empty.
 
 Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
 ---
 
 Changes in v2:
- - Remove 2 loops and use single loop for dtb and dtbo with same logic.
+ - Add check condition if FIT_CONF_DEFAULT_DTB file doesn't exists
+   and fallback to avaialable dtb in EXTERNAL_KERNEL_DEVICETREE
+   path.=20
 
 ---
- meta/classes-recipe/kernel-fitimage.bbclass | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ meta/classes-recipe/kernel-fitimage.bbclass | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/meta/classes-recipe/kernel-fitimage.bbclass b/meta/classes-rec=
 ipe/kernel-fitimage.bbclass
-index 8ddebf8dd8..06cdc4f1ec 100644
+index 06cdc4f1ec..f6d82ce061 100644
 --- a/meta/classes-recipe/kernel-fitimage.bbclass
 +++ b/meta/classes-recipe/kernel-fitimage.bbclass
-@@ -546,10 +546,11 @@ fitimage_assemble() {
+@@ -73,6 +73,9 @@ FIT_CONF_PREFIX[doc] =3D "Prefix to use for FIT configura=
+tion node name"
 =20
- 	if [ -n "${EXTERNAL_KERNEL_DEVICETREE}" ]; then
- 		dtbcount=3D1
--		for DTB in $(find "${EXTERNAL_KERNEL_DEVICETREE}" \( -name '*.dtb' -o -n=
-ame '*.dtbo' \) -printf '%P\n' | sort); do
-+		for DTB in $(find "${EXTERNAL_KERNEL_DEVICETREE}" -name '*.dtb' -printf =
-'%P\n' | sort) \
-+		$(find "${EXTERNAL_KERNEL_DEVICETREE}" -name '*.dtbo' -printf '%P\n' | s=
-ort); do
- 			DTB=3D$(echo "$DTB" | tr '/' '_')
+ FIT_SUPPORTED_INITRAMFS_FSTYPES ?=3D "cpio.lz4 cpio.lzo cpio.lzma cpio.xz =
+cpio.zst cpio.gz ext2.gz cpio"
 =20
--			# Skip DTB if we've picked it up previously
-+			# Skip DTB/DTBO if we've picked it up previously
- 			echo "$DTBS" | tr ' ' '\n' | grep -xq "$DTB" && continue
++# Allow user to select the default DTB for FIT image when multiple dtb's e=
+xists.
++FIT_CONF_DEFAULT_DTB ?=3D ""
++
+ # Keys used to sign individually image nodes.
+ # The keys to sign image nodes must be different from those used to sign
+ # configuration nodes, otherwise the "required" property, from
+@@ -375,6 +378,7 @@ fitimage_emit_section_config() {
+ 	bootscr_line=3D""
+ 	setup_line=3D""
+ 	default_line=3D""
++	default_dtb_image=3D"${FIT_CONF_DEFAULT_DTB}"
 =20
- 			DTBS=3D"$DTBS $DTB"
+ 	# conf node name is selected based on dtb ID if it is present,
+ 	# otherwise its selected based on kernel ID
+@@ -417,7 +421,17 @@ fitimage_emit_section_config() {
+ 		# default node is selected based on dtb ID if it is present,
+ 		# otherwise its selected based on kernel ID
+ 		if [ -n "$dtb_image" ]; then
+-			default_line=3D"default =3D \"${FIT_CONF_PREFIX}$dtb_image\";"
++		        # Select default node as user specified dtb when
++		        # multiple dtb exists.
++		        if [ -n "$default_dtb_image" ]; then
++			        if [ -s "${EXTERNAL_KERNEL_DEVICETREE}/$default_dtb_image" ]; t=
+hen
++			                default_line=3D"default =3D \"${FIT_CONF_PREFIX}$defaul=
+t_dtb_image\";"
++			        else
++			                bbwarn "Couldn't find a valid user specified dtb in ${E=
+XTERNAL_KERNEL_DEVICETREE}/$default_dtb_image"
++			        fi
++		        else
++			        default_line=3D"default =3D \"${FIT_CONF_PREFIX}$dtb_image\";"
++		        fi
+ 		else
+ 			default_line=3D"default =3D \"${FIT_CONF_PREFIX}$kernel_id\";"
+ 		fi
 --=20
 2.25.1
 
