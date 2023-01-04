@@ -2,53 +2,53 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DB32C4708E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37CCCC53210
 	for <webhook@archiver.kernel.org>; Wed,  4 Jan 2023 15:47:24 +0000 (UTC)
 Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web11.15527.1672847238552390024
+ by mx.groups.io with SMTP id smtpd.web10.15377.1672847240031413440
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Jan 2023 07:47:23 -0800
+ Wed, 04 Jan 2023 07:47:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VbwE8yYe;
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=K9dXw5Ue;
  spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f46.google.com with SMTP id bk16so20209696wrb.11
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 07:47:22 -0800 (PST)
+Received: by mail-wr1-f46.google.com with SMTP id d9so4843652wrp.10
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 07:47:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gWnD3gyDeX37uhk82yfzy2No04rwaIzddPLJ8d18DK0=;
-        b=VbwE8yYeCNBkCSXOI9tJuiwe90JwQY+h1729msSN1RyA5yfdWlLdK521O8jUDKwAyC
-         7N/N46H62DCYXlx/2fI+ppj+vXAxLSLIC4+GN9PO2bQQX8GpkaVwcU5A7i7V52nSwso9
-         q1iTy63UJZGxyc8WBI6CNF0aMhwqxxcyX0OfU=
+        bh=zZurcP8raGMksJL4jCEZMb6wMDTuvWVtIv6qPB8G1sE=;
+        b=K9dXw5UejJ8WOhCyhHBcX9Vu0NAgTrT+MaK+xnqgwQQNmxn4ghFShFOxSg78ZbyFxy
+         ovt9JBRAxLIx4zMbwIjBYPphqYZfFUqh1c5QqSCYACqnrosNwOQJrZAIZFijEvW6otQ5
+         w6B3iq/+DRf41pT5xhQ9gHl+M268KhfBfZ85I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gWnD3gyDeX37uhk82yfzy2No04rwaIzddPLJ8d18DK0=;
-        b=PT+Zi3sX4eTYSJwrVMWwQ7bGDTfDB5ONPBy58jeZh4ejGkrG/jCvOaH3BDJGD521C5
-         VWDD0AKp35aMNe73WwsJA9lMJxq5Sb7Ao2c2E/vcB4tKgil40T8ZJRSP68URpuRAsGeR
-         GouZZbR7lxbg8K5YuwG04NDaShuv5GvtrLv0XbXfbut8ajjpZgXWoozmswaHuI/QiRtI
-         skfiTODBnLV22KpchocHM4NdFoWtxAoplI5Dkuu5YoGcsLDCoVBZisa6EwY3aFVZd78H
-         ZKwvywA+UHQMF9Y9oUYYFIIhem/I/w1+x6HYG1GK7Q7wxE6c/gkkxE5Kz8l5g/979tWr
-         f2/w==
-X-Gm-Message-State: AFqh2kru+R6V7eDDUb2ZuE0nOroTC5lySmK7yLJelkOgjc22sJ0tcNWG
-	U4/BBqaafJXe89yBnNNkyvK7RD8trY9ZFS2g
-X-Google-Smtp-Source: AMrXdXv6uWZIM6FAr9okIIZx2aYGFg+sdZKljJ7xCHZtEkas2gFzwmI4DgHkK1CexnlYMayc+V3Y3Q==
-X-Received: by 2002:a5d:5405:0:b0:284:8a24:59e6 with SMTP id g5-20020a5d5405000000b002848a2459e6mr17247143wrv.3.1672847242120;
-        Wed, 04 Jan 2023 07:47:22 -0800 (PST)
+        bh=zZurcP8raGMksJL4jCEZMb6wMDTuvWVtIv6qPB8G1sE=;
+        b=t1mBK+nGSM1nteFzUorrg6bT//0d1QpPeCxspea87JiQUfgQmxCVdvz75CBE2VLBx5
+         FafIDEdbAvxS0AvXinCcHrvag2M/EPuTLS1IUOmYPyUx1nDibUO5bBK2tzgelsclpaSt
+         LvNs3eVXRl1vXUCm1zuGVY0SvchIcdyDy7q0+Q29HQ+l6IRm3gUuAOBuU/z/WVmWcT+z
+         NLW5V2xYqDgMK+MG9yQFVFjWcLnmJ5jn6rUIi3vPayPNXFUsy5XGFDcfFX03iAhWQWad
+         mxX7AG1rkkMRZ/X7lZRsTfw6BBwiZ9qqBg/bDlK3A+Ee7tGUVA9OcLV8XyuSFFxlRmub
+         jJIg==
+X-Gm-Message-State: AFqh2kr7d/GyCcjAnlSRHQFnu0yXqPcSCqisXAngmD1EV3CEpsm5DoWa
+	BAP4b/ohuMxTA7Y1ZIHn6nJ7wVqe23WDdQ1D
+X-Google-Smtp-Source: AMrXdXv5JLT4nT+WCrs9lQXHf90FJf2SIFzKDiHqYvkKNvOvVuT9uZVyjWvnt/EGbFwJ2MJavbMIWA==
+X-Received: by 2002:a05:6000:136b:b0:27f:85ce:bc9e with SMTP id q11-20020a056000136b00b0027f85cebc9emr24758543wrz.24.1672847238199;
+        Wed, 04 Jan 2023 07:47:18 -0800 (PST)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:fcc2:4e85:26d2:6527])
-        by smtp.gmail.com with ESMTPSA id u3-20020adff883000000b002423edd7e50sm34812560wrp.32.2023.01.04.07.47.21
+        by smtp.gmail.com with ESMTPSA id u3-20020adff883000000b002423edd7e50sm34812560wrp.32.2023.01.04.07.47.17
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jan 2023 07:47:21 -0800 (PST)
+        Wed, 04 Jan 2023 07:47:17 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 10/10] recipes/classes: Drop prepend/append usage with PACKAGESPLITFUNCS
-Date: Wed,  4 Jan 2023 15:47:14 +0000
-Message-Id: <20230104154714.1168535-10-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 04/10] package: Move emit_pkgdata to packagedata.py
+Date: Wed,  4 Jan 2023 15:47:08 +0000
+Message-Id: <20230104154714.1168535-4-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230104154714.1168535-1-richard.purdie@linuxfoundation.org>
 References: <20230104154714.1168535-1-richard.purdie@linuxfoundation.org>
@@ -58,168 +58,412 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 15:47:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175497
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175492
 
-As far as I can tell, none of these uses of PACKAGESPLITFUNCS need append/prepend
-operators, the standard += and =+ can work just fine. Since OE-Core is copied a lot,
-use the preferred syntax which is also simpler to parse and change.
+Move one of the PACKAGEFUNCS from the package bbclass to packagedata
+library code for parsing efficiency.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes-recipe/kernel-module-split.bbclass               | 2 +-
- meta/classes-recipe/kernel.bbclass                            | 2 +-
- meta/classes-recipe/systemd.bbclass                           | 2 +-
- meta/classes-recipe/update-alternatives.bbclass               | 2 +-
- meta/classes-recipe/update-rc.d.bbclass                       | 2 +-
- .../wpa-supplicant/wpa-supplicant_2.10.bb                     | 2 +-
- meta/recipes-devtools/perl/perl_5.36.0.bb                     | 2 +-
- meta/recipes-graphics/mesa/mesa.inc                           | 2 +-
- .../gstreamer/gstreamer1.0-plugins-license.inc                | 2 +-
- .../gstreamer/gstreamer1.0-plugins-packaging.inc              | 4 ++--
- meta/recipes-support/libevent/libevent_2.1.12.bb              | 2 +-
- 11 files changed, 12 insertions(+), 12 deletions(-)
+ meta/classes-global/package.bbclass | 179 +---------------------------
+ meta/conf/bitbake.conf              |   1 +
+ meta/lib/oe/packagedata.py          | 178 +++++++++++++++++++++++++++
+ 3 files changed, 181 insertions(+), 177 deletions(-)
 
-diff --git a/meta/classes-recipe/kernel-module-split.bbclass b/meta/classes-recipe/kernel-module-split.bbclass
-index 08c2e54e860..49437174878 100644
---- a/meta/classes-recipe/kernel-module-split.bbclass
-+++ b/meta/classes-recipe/kernel-module-split.bbclass
-@@ -35,7 +35,7 @@ do_install:append() {
+diff --git a/meta/classes-global/package.bbclass b/meta/classes-global/package.bbclass
+index 72e39f69149..389c8578040 100644
+--- a/meta/classes-global/package.bbclass
++++ b/meta/classes-global/package.bbclass
+@@ -1232,185 +1232,10 @@ PKGDESTWORK = "${WORKDIR}/pkgdata"
+ PKGDATA_VARS = "PN PE PV PR PKGE PKGV PKGR LICENSE DESCRIPTION SUMMARY RDEPENDS RPROVIDES RRECOMMENDS RSUGGESTS RREPLACES RCONFLICTS SECTION PKG ALLOW_EMPTY FILES CONFFILES FILES_INFO PACKAGE_ADD_METADATA pkg_postinst pkg_postrm pkg_preinst pkg_prerm"
+ 
+ python emit_pkgdata() {
+-    from glob import glob
+-    import json
+-    import bb.compress.zstd
+-
+-    def process_postinst_on_target(pkg, mlprefix):
+-        pkgval = d.getVar('PKG:%s' % pkg)
+-        if pkgval is None:
+-            pkgval = pkg
+-
+-        defer_fragment = """
+-if [ -n "$D" ]; then
+-    $INTERCEPT_DIR/postinst_intercept delay_to_first_boot %s mlprefix=%s
+-    exit 0
+-fi
+-""" % (pkgval, mlprefix)
+-
+-        postinst = d.getVar('pkg_postinst:%s' % pkg)
+-        postinst_ontarget = d.getVar('pkg_postinst_ontarget:%s' % pkg)
+-
+-        if postinst_ontarget:
+-            bb.debug(1, 'adding deferred pkg_postinst_ontarget() to pkg_postinst() for %s' % pkg)
+-            if not postinst:
+-                postinst = '#!/bin/sh\n'
+-            postinst += defer_fragment
+-            postinst += postinst_ontarget
+-            d.setVar('pkg_postinst:%s' % pkg, postinst)
+-
+-    def add_set_e_to_scriptlets(pkg):
+-        for scriptlet_name in ('pkg_preinst', 'pkg_postinst', 'pkg_prerm', 'pkg_postrm'):
+-            scriptlet = d.getVar('%s:%s' % (scriptlet_name, pkg))
+-            if scriptlet:
+-                scriptlet_split = scriptlet.split('\n')
+-                if scriptlet_split[0].startswith("#!"):
+-                    scriptlet = scriptlet_split[0] + "\nset -e\n" + "\n".join(scriptlet_split[1:])
+-                else:
+-                    scriptlet = "set -e\n" + "\n".join(scriptlet_split[0:])
+-            d.setVar('%s:%s' % (scriptlet_name, pkg), scriptlet)
+-
+-    def write_if_exists(f, pkg, var):
+-        def encode(str):
+-            import codecs
+-            c = codecs.getencoder("unicode_escape")
+-            return c(str)[0].decode("latin1")
+-
+-        val = d.getVar('%s:%s' % (var, pkg))
+-        if val:
+-            f.write('%s:%s: %s\n' % (var, pkg, encode(val)))
+-            return val
+-        val = d.getVar('%s' % (var))
+-        if val:
+-            f.write('%s: %s\n' % (var, encode(val)))
+-        return val
+-
+-    def write_extra_pkgs(variants, pn, packages, pkgdatadir):
+-        for variant in variants:
+-            with open("%s/%s-%s" % (pkgdatadir, variant, pn), 'w') as fd:
+-                fd.write("PACKAGES: %s\n" % ' '.join(
+-                            map(lambda pkg: '%s-%s' % (variant, pkg), packages.split())))
+-
+-    def write_extra_runtime_pkgs(variants, packages, pkgdatadir):
+-        for variant in variants:
+-            for pkg in packages.split():
+-                ml_pkg = "%s-%s" % (variant, pkg)
+-                subdata_file = "%s/runtime/%s" % (pkgdatadir, ml_pkg)
+-                with open(subdata_file, 'w') as fd:
+-                    fd.write("PKG:%s: %s" % (ml_pkg, pkg))
+-
+-    packages = d.getVar('PACKAGES')
+-    pkgdest = d.getVar('PKGDEST')
+-    pkgdatadir = d.getVar('PKGDESTWORK')
+-
+-    data_file = pkgdatadir + d.expand("/${PN}")
+-    with open(data_file, 'w') as fd:
+-        fd.write("PACKAGES: %s\n" % packages)
+-
+-    pkgdebugsource = d.getVar("PKGDEBUGSOURCES") or []
+-
+-    pn = d.getVar('PN')
+-    global_variants = (d.getVar('MULTILIB_GLOBAL_VARIANTS') or "").split()
+-    variants = (d.getVar('MULTILIB_VARIANTS') or "").split()
+-
+-    if bb.data.inherits_class('kernel', d) or bb.data.inherits_class('module-base', d):
+-        write_extra_pkgs(variants, pn, packages, pkgdatadir)
+-
+-    if bb.data.inherits_class('allarch', d) and not variants \
+-        and not bb.data.inherits_class('packagegroup', d):
+-        write_extra_pkgs(global_variants, pn, packages, pkgdatadir)
+-
+-    workdir = d.getVar('WORKDIR')
+-
+-    for pkg in packages.split():
+-        pkgval = d.getVar('PKG:%s' % pkg)
+-        if pkgval is None:
+-            pkgval = pkg
+-            d.setVar('PKG:%s' % pkg, pkg)
+-
+-        extended_data = {
+-            "files_info": {}
+-        }
+-
+-        pkgdestpkg = os.path.join(pkgdest, pkg)
+-        files = {}
+-        files_extra = {}
+-        total_size = 0
+-        seen = set()
+-        for f in pkgfiles[pkg]:
+-            fpath = os.sep + os.path.relpath(f, pkgdestpkg)
+-
+-            fstat = os.lstat(f)
+-            files[fpath] = fstat.st_size
+-
+-            extended_data["files_info"].setdefault(fpath, {})
+-            extended_data["files_info"][fpath]['size'] = fstat.st_size
+-
+-            if fstat.st_ino not in seen:
+-                seen.add(fstat.st_ino)
+-                total_size += fstat.st_size
+-
+-            if fpath in pkgdebugsource:
+-                extended_data["files_info"][fpath]['debugsrc'] = pkgdebugsource[fpath]
+-                del pkgdebugsource[fpath]
+-
+-        d.setVar('FILES_INFO:' + pkg , json.dumps(files, sort_keys=True))
+-
+-        process_postinst_on_target(pkg, d.getVar("MLPREFIX"))
+-        add_set_e_to_scriptlets(pkg)
+-
+-        subdata_file = pkgdatadir + "/runtime/%s" % pkg
+-        with open(subdata_file, 'w') as sf:
+-            for var in (d.getVar('PKGDATA_VARS') or "").split():
+-                val = write_if_exists(sf, pkg, var)
+-
+-            write_if_exists(sf, pkg, 'FILERPROVIDESFLIST')
+-            for dfile in sorted((d.getVar('FILERPROVIDESFLIST:' + pkg) or "").split()):
+-                write_if_exists(sf, pkg, 'FILERPROVIDES:' + dfile)
+-
+-            write_if_exists(sf, pkg, 'FILERDEPENDSFLIST')
+-            for dfile in sorted((d.getVar('FILERDEPENDSFLIST:' + pkg) or "").split()):
+-                write_if_exists(sf, pkg, 'FILERDEPENDS:' + dfile)
+-
+-            sf.write('%s:%s: %d\n' % ('PKGSIZE', pkg, total_size))
+-
+-        subdata_extended_file = pkgdatadir + "/extended/%s.json.zstd" % pkg
+-        num_threads = int(d.getVar("BB_NUMBER_THREADS"))
+-        with bb.compress.zstd.open(subdata_extended_file, "wt", encoding="utf-8", num_threads=num_threads) as f:
+-            json.dump(extended_data, f, sort_keys=True, separators=(",", ":"))
+-
+-        # Symlinks needed for rprovides lookup
+-        rprov = d.getVar('RPROVIDES:%s' % pkg) or d.getVar('RPROVIDES')
+-        if rprov:
+-            for p in bb.utils.explode_deps(rprov):
+-                subdata_sym = pkgdatadir + "/runtime-rprovides/%s/%s" % (p, pkg)
+-                bb.utils.mkdirhier(os.path.dirname(subdata_sym))
+-                oe.path.symlink("../../runtime/%s" % pkg, subdata_sym, True)
+-
+-        allow_empty = d.getVar('ALLOW_EMPTY:%s' % pkg)
+-        if not allow_empty:
+-            allow_empty = d.getVar('ALLOW_EMPTY')
+-        root = "%s/%s" % (pkgdest, pkg)
+-        os.chdir(root)
+-        g = glob('*')
+-        if g or allow_empty == "1":
+-            # Symlinks needed for reverse lookups (from the final package name)
+-            subdata_sym = pkgdatadir + "/runtime-reverse/%s" % pkgval
+-            oe.path.symlink("../runtime/%s" % pkg, subdata_sym, True)
+-
+-            packagedfile = pkgdatadir + '/runtime/%s.packaged' % pkg
+-            open(packagedfile, 'w').close()
+-
+-    if bb.data.inherits_class('kernel', d) or bb.data.inherits_class('module-base', d):
+-        write_extra_runtime_pkgs(variants, packages, pkgdatadir)
+-
+-    if bb.data.inherits_class('allarch', d) and not variants \
+-        and not bb.data.inherits_class('packagegroup', d):
+-        write_extra_runtime_pkgs(global_variants, packages, pkgdatadir)
+-
++    import oe.packagedata
++    oe.packagedata.emit_pkgdata(pkgfiles, d)
  }
+ emit_pkgdata[dirs] = "${PKGDESTWORK}/runtime ${PKGDESTWORK}/runtime-reverse ${PKGDESTWORK}/runtime-rprovides ${PKGDESTWORK}/extended"
+-emit_pkgdata[vardepsexclude] = "BB_NUMBER_THREADS"
  
- KERNEL_SPLIT_MODULES ?= "1"
--PACKAGESPLITFUNCS:prepend = "split_kernel_module_packages "
-+PACKAGESPLITFUNCS =+ "split_kernel_module_packages "
+ ldconfig_postinst_fragment() {
+ if [ x"$D" = "x" ]; then
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index bfa28d3bc9b..05d5a844de2 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -973,3 +973,4 @@ oe.sstatesig.find_sstate_manifest[vardepsexclude] = "BBEXTENDCURR BBEXTENDVARIAN
+ oe.utils.get_multilib_datastore[vardepsexclude] = "DEFAULTTUNE_MULTILIB_ORIGINAL OVERRIDES"
+ oe.path.format_display[vardepsexclude] = "TOPDIR"
+ oe.utils.multiprocess_launch[vardepsexclude] = "BB_NUMBER_THREADS"
++oe.packagedata.emit_pkgdata[vardepsexclude] = "BB_NUMBER_THREADS"
+diff --git a/meta/lib/oe/packagedata.py b/meta/lib/oe/packagedata.py
+index ff260f405ca..efa600ddcd3 100644
+--- a/meta/lib/oe/packagedata.py
++++ b/meta/lib/oe/packagedata.py
+@@ -6,6 +6,11 @@
  
- KERNEL_MODULES_META_PACKAGE ?= "${@ d.getVar("KERNEL_PACKAGE_NAME") or "kernel" }-modules"
+ import codecs
+ import os
++import json
++import bb.compress.zstd
++import oe.path
++
++from glob import glob
  
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
-index 553e17bb4ea..c36632b0a7e 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -705,7 +705,7 @@ pkg_postinst:${KERNEL_PACKAGE_NAME}-base () {
- 	fi
- }
+ def packaged(pkg, d):
+     return os.access(get_subpkgedata_fn(pkg, d) + '.packaged', os.R_OK)
+@@ -162,4 +167,177 @@ def runtime_mapping_rename(varname, pkg, d):
  
--PACKAGESPLITFUNCS:prepend = "split_kernel_packages "
-+PACKAGESPLITFUNCS =+ "split_kernel_packages "
+     #bb.note("%s after: %s" % (varname, d.getVar(varname)))
  
- python split_kernel_packages () {
-     do_split_packages(d, root='${nonarch_base_libdir}/firmware', file_regex=r'^(.*)\.(bin|fw|cis|csp|dsp)$', output_pattern='${KERNEL_PACKAGE_NAME}-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
-diff --git a/meta/classes-recipe/systemd.bbclass b/meta/classes-recipe/systemd.bbclass
-index f6564c2b310..ae98043d299 100644
---- a/meta/classes-recipe/systemd.bbclass
-+++ b/meta/classes-recipe/systemd.bbclass
-@@ -205,7 +205,7 @@ python systemd_populate_packages() {
-         systemd_check_services()
- }
- 
--PACKAGESPLITFUNCS:prepend = "systemd_populate_packages "
-+PACKAGESPLITFUNCS =+ "systemd_populate_packages "
- 
- python rm_systemd_unitdir (){
-     import shutil
-diff --git a/meta/classes-recipe/update-alternatives.bbclass b/meta/classes-recipe/update-alternatives.bbclass
-index 970d9bcd450..ec81763c897 100644
---- a/meta/classes-recipe/update-alternatives.bbclass
-+++ b/meta/classes-recipe/update-alternatives.bbclass
-@@ -265,7 +265,7 @@ def update_alternatives_alt_targets(d, pkg):
- 
-     return updates
- 
--PACKAGESPLITFUNCS:prepend = "populate_packages_updatealternatives "
-+PACKAGESPLITFUNCS =+ "populate_packages_updatealternatives "
- 
- python populate_packages_updatealternatives () {
-     if not update_alternatives_enabled(d):
-diff --git a/meta/classes-recipe/update-rc.d.bbclass b/meta/classes-recipe/update-rc.d.bbclass
-index cb2aaba57c7..a61d2c62ab4 100644
---- a/meta/classes-recipe/update-rc.d.bbclass
-+++ b/meta/classes-recipe/update-rc.d.bbclass
-@@ -68,7 +68,7 @@ python __anonymous() {
-     update_rc_after_parse(d)
- }
- 
--PACKAGESPLITFUNCS:prepend = "${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'populate_packages_updatercd ', '', d)}"
-+PACKAGESPLITFUNCS =+ "${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'populate_packages_updatercd ', '', d)}"
- PACKAGESPLITFUNCS:remove:class-nativesdk = "populate_packages_updatercd "
- 
- populate_packages_updatercd[vardeps] += "updatercd_prerm updatercd_postrm updatercd_postinst"
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
-index 4e27b92bc69..254cfd3f0c3 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
-@@ -134,4 +134,4 @@ python split_wpa_supplicant_libs () {
-         d.setVar('RRECOMMENDS:' + pn + '-plugins', ' '.join(split_packages))
-         d.appendVar('RRECOMMENDS:' + pn + '-dbg', ' ' + ' '.join(split_dbg_packages))
- }
--PACKAGESPLITFUNCS:prepend = "split_wpa_supplicant_libs "
-+PACKAGESPLITFUNCS += "split_wpa_supplicant_libs "
-diff --git a/meta/recipes-devtools/perl/perl_5.36.0.bb b/meta/recipes-devtools/perl/perl_5.36.0.bb
-index 2dc558aaa5f..3458e6a5b05 100644
---- a/meta/recipes-devtools/perl/perl_5.36.0.bb
-+++ b/meta/recipes-devtools/perl/perl_5.36.0.bb
-@@ -302,7 +302,7 @@ ALTERNATIVE_LINK_NAME[Thread.3] = "${mandir}/man3/Thread.3"
- ALLOW_EMPTY:${PN}-modules = "1"
- PACKAGES += "${PN}-modules "
- 
--PACKAGESPLITFUNCS:prepend = "split_perl_packages "
-+PACKAGESPLITFUNCS =+ "split_perl_packages "
- 
- python split_perl_packages () {
-     libdir = d.expand('${libdir}/perl5/${PV}')
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 93b3b59a914..2535dd403da 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -291,7 +291,7 @@ python mesa_populate_packages() {
-     do_split_packages(d, pipe_drivers_root, r'^pipe_(.*)\.so$', 'mesa-driver-pipe-%s', 'Mesa %s pipe driver', extra_depends='')
- }
- 
--PACKAGESPLITFUNCS:prepend = "mesa_populate_packages "
-+PACKAGESPLITFUNCS =+ "mesa_populate_packages "
- 
- PACKAGES_DYNAMIC += "^mesa-driver-.*"
- PACKAGES_DYNAMIC:class-native = "^mesa-driver-.*-native"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-license.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-license.inc
-index 6638f135404..03595e7d32a 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-license.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-license.inc
-@@ -1,7 +1,7 @@
- # This .inc file contains functionality for automatically setting
- # the the license of all plugins according to the GSTREAMER_GPL.
- 
--PACKAGESPLITFUNCS:append = " set_gstreamer_license "
-+PACKAGESPLITFUNCS += " set_gstreamer_license "
- 
- python set_gstreamer_license () {
-     import oe.utils
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-packaging.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-packaging.inc
-index afc7be40c8d..837d5a1a627 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-packaging.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-packaging.inc
-@@ -9,8 +9,8 @@
- # Dynamically generate packages for all enabled plugins
- PACKAGES_DYNAMIC = "^${PN}-.* ^libgst.*"
- 
--PACKAGESPLITFUNCS:prepend = " split_gstreamer10_packages "
--PACKAGESPLITFUNCS:append = " set_gstreamer10_metapkg_rdepends "
-+PACKAGESPLITFUNCS =+ " split_gstreamer10_packages "
-+PACKAGESPLITFUNCS += " set_gstreamer10_metapkg_rdepends "
- 
- python split_gstreamer10_packages () {
-     gst_libdir = d.expand('${libdir}/gstreamer-1.0')
-diff --git a/meta/recipes-support/libevent/libevent_2.1.12.bb b/meta/recipes-support/libevent/libevent_2.1.12.bb
-index 55a65e6c081..88b81fd56e0 100644
---- a/meta/recipes-support/libevent/libevent_2.1.12.bb
-+++ b/meta/recipes-support/libevent/libevent_2.1.12.bb
-@@ -41,7 +41,7 @@ PACKAGES_DYNAMIC = "^${PN}-.*$"
- python split_libevent_libs () {
-     do_split_packages(d, '${libdir}', r'^libevent_([a-z]*)-.*\.so\..*', '${PN}-%s', '${SUMMARY} (%s)', prepend=True, allow_links=True)
- }
--PACKAGESPLITFUNCS:prepend = "split_libevent_libs "
-+PACKAGESPLITFUNCS =+ "split_libevent_libs "
- 
- BBCLASSEXTEND = "native nativesdk"
++def emit_pkgdata(pkgfiles, d):
++    def process_postinst_on_target(pkg, mlprefix):
++        pkgval = d.getVar('PKG:%s' % pkg)
++        if pkgval is None:
++            pkgval = pkg
++
++        defer_fragment = """
++if [ -n "$D" ]; then
++    $INTERCEPT_DIR/postinst_intercept delay_to_first_boot %s mlprefix=%s
++    exit 0
++fi
++""" % (pkgval, mlprefix)
++
++        postinst = d.getVar('pkg_postinst:%s' % pkg)
++        postinst_ontarget = d.getVar('pkg_postinst_ontarget:%s' % pkg)
++
++        if postinst_ontarget:
++            bb.debug(1, 'adding deferred pkg_postinst_ontarget() to pkg_postinst() for %s' % pkg)
++            if not postinst:
++                postinst = '#!/bin/sh\n'
++            postinst += defer_fragment
++            postinst += postinst_ontarget
++            d.setVar('pkg_postinst:%s' % pkg, postinst)
++
++    def add_set_e_to_scriptlets(pkg):
++        for scriptlet_name in ('pkg_preinst', 'pkg_postinst', 'pkg_prerm', 'pkg_postrm'):
++            scriptlet = d.getVar('%s:%s' % (scriptlet_name, pkg))
++            if scriptlet:
++                scriptlet_split = scriptlet.split('\n')
++                if scriptlet_split[0].startswith("#!"):
++                    scriptlet = scriptlet_split[0] + "\nset -e\n" + "\n".join(scriptlet_split[1:])
++                else:
++                    scriptlet = "set -e\n" + "\n".join(scriptlet_split[0:])
++            d.setVar('%s:%s' % (scriptlet_name, pkg), scriptlet)
++
++    def write_if_exists(f, pkg, var):
++        def encode(str):
++            import codecs
++            c = codecs.getencoder("unicode_escape")
++            return c(str)[0].decode("latin1")
++
++        val = d.getVar('%s:%s' % (var, pkg))
++        if val:
++            f.write('%s:%s: %s\n' % (var, pkg, encode(val)))
++            return val
++        val = d.getVar('%s' % (var))
++        if val:
++            f.write('%s: %s\n' % (var, encode(val)))
++        return val
++
++    def write_extra_pkgs(variants, pn, packages, pkgdatadir):
++        for variant in variants:
++            with open("%s/%s-%s" % (pkgdatadir, variant, pn), 'w') as fd:
++                fd.write("PACKAGES: %s\n" % ' '.join(
++                            map(lambda pkg: '%s-%s' % (variant, pkg), packages.split())))
++
++    def write_extra_runtime_pkgs(variants, packages, pkgdatadir):
++        for variant in variants:
++            for pkg in packages.split():
++                ml_pkg = "%s-%s" % (variant, pkg)
++                subdata_file = "%s/runtime/%s" % (pkgdatadir, ml_pkg)
++                with open(subdata_file, 'w') as fd:
++                    fd.write("PKG:%s: %s" % (ml_pkg, pkg))
++
++    packages = d.getVar('PACKAGES')
++    pkgdest = d.getVar('PKGDEST')
++    pkgdatadir = d.getVar('PKGDESTWORK')
++
++    data_file = pkgdatadir + d.expand("/${PN}")
++    with open(data_file, 'w') as fd:
++        fd.write("PACKAGES: %s\n" % packages)
++
++    pkgdebugsource = d.getVar("PKGDEBUGSOURCES") or []
++
++    pn = d.getVar('PN')
++    global_variants = (d.getVar('MULTILIB_GLOBAL_VARIANTS') or "").split()
++    variants = (d.getVar('MULTILIB_VARIANTS') or "").split()
++
++    if bb.data.inherits_class('kernel', d) or bb.data.inherits_class('module-base', d):
++        write_extra_pkgs(variants, pn, packages, pkgdatadir)
++
++    if bb.data.inherits_class('allarch', d) and not variants \
++        and not bb.data.inherits_class('packagegroup', d):
++        write_extra_pkgs(global_variants, pn, packages, pkgdatadir)
++
++    workdir = d.getVar('WORKDIR')
++
++    for pkg in packages.split():
++        pkgval = d.getVar('PKG:%s' % pkg)
++        if pkgval is None:
++            pkgval = pkg
++            d.setVar('PKG:%s' % pkg, pkg)
++
++        extended_data = {
++            "files_info": {}
++        }
++
++        pkgdestpkg = os.path.join(pkgdest, pkg)
++        files = {}
++        files_extra = {}
++        total_size = 0
++        seen = set()
++        for f in pkgfiles[pkg]:
++            fpath = os.sep + os.path.relpath(f, pkgdestpkg)
++
++            fstat = os.lstat(f)
++            files[fpath] = fstat.st_size
++
++            extended_data["files_info"].setdefault(fpath, {})
++            extended_data["files_info"][fpath]['size'] = fstat.st_size
++
++            if fstat.st_ino not in seen:
++                seen.add(fstat.st_ino)
++                total_size += fstat.st_size
++
++            if fpath in pkgdebugsource:
++                extended_data["files_info"][fpath]['debugsrc'] = pkgdebugsource[fpath]
++                del pkgdebugsource[fpath]
++
++        d.setVar('FILES_INFO:' + pkg , json.dumps(files, sort_keys=True))
++
++        process_postinst_on_target(pkg, d.getVar("MLPREFIX"))
++        add_set_e_to_scriptlets(pkg)
++
++        subdata_file = pkgdatadir + "/runtime/%s" % pkg
++        with open(subdata_file, 'w') as sf:
++            for var in (d.getVar('PKGDATA_VARS') or "").split():
++                val = write_if_exists(sf, pkg, var)
++
++            write_if_exists(sf, pkg, 'FILERPROVIDESFLIST')
++            for dfile in sorted((d.getVar('FILERPROVIDESFLIST:' + pkg) or "").split()):
++                write_if_exists(sf, pkg, 'FILERPROVIDES:' + dfile)
++
++            write_if_exists(sf, pkg, 'FILERDEPENDSFLIST')
++            for dfile in sorted((d.getVar('FILERDEPENDSFLIST:' + pkg) or "").split()):
++                write_if_exists(sf, pkg, 'FILERDEPENDS:' + dfile)
++
++            sf.write('%s:%s: %d\n' % ('PKGSIZE', pkg, total_size))
++
++        subdata_extended_file = pkgdatadir + "/extended/%s.json.zstd" % pkg
++        num_threads = int(d.getVar("BB_NUMBER_THREADS"))
++        with bb.compress.zstd.open(subdata_extended_file, "wt", encoding="utf-8", num_threads=num_threads) as f:
++            json.dump(extended_data, f, sort_keys=True, separators=(",", ":"))
++
++        # Symlinks needed for rprovides lookup
++        rprov = d.getVar('RPROVIDES:%s' % pkg) or d.getVar('RPROVIDES')
++        if rprov:
++            for p in bb.utils.explode_deps(rprov):
++                subdata_sym = pkgdatadir + "/runtime-rprovides/%s/%s" % (p, pkg)
++                bb.utils.mkdirhier(os.path.dirname(subdata_sym))
++                oe.path.symlink("../../runtime/%s" % pkg, subdata_sym, True)
++
++        allow_empty = d.getVar('ALLOW_EMPTY:%s' % pkg)
++        if not allow_empty:
++            allow_empty = d.getVar('ALLOW_EMPTY')
++        root = "%s/%s" % (pkgdest, pkg)
++        os.chdir(root)
++        g = glob('*')
++        if g or allow_empty == "1":
++            # Symlinks needed for reverse lookups (from the final package name)
++            subdata_sym = pkgdatadir + "/runtime-reverse/%s" % pkgval
++            oe.path.symlink("../runtime/%s" % pkg, subdata_sym, True)
++
++            packagedfile = pkgdatadir + '/runtime/%s.packaged' % pkg
++            open(packagedfile, 'w').close()
++
++    if bb.data.inherits_class('kernel', d) or bb.data.inherits_class('module-base', d):
++        write_extra_runtime_pkgs(variants, packages, pkgdatadir)
++
++    if bb.data.inherits_class('allarch', d) and not variants \
++        and not bb.data.inherits_class('packagegroup', d):
++        write_extra_runtime_pkgs(global_variants, packages, pkgdatadir)
++
  
 -- 
 2.37.2
