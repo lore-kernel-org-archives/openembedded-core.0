@@ -1,94 +1,101 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <toertel@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D86A4C46467
-	for <webhook@archiver.kernel.org>; Wed,  4 Jan 2023 12:00:12 +0000 (UTC)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.web11.10251.1672833611988468051
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4F41C4332F
+	for <webhook@archiver.kernel.org>; Wed,  4 Jan 2023 12:18:32 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web10.10593.1672834710014360687
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Jan 2023 04:00:12 -0800
+ Wed, 04 Jan 2023 04:18:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=QmeGOWrB;
- spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f169.google.com with SMTP id bn6so25266171ljb.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 04:00:11 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=AYBdBf5d;
+ spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: toertel@gmail.com)
+Received: by mail-wr1-f51.google.com with SMTP id t15so23879823wro.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 04:18:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qu9dYT2SCBUPCZNE9Ndxcd9z25cYaJb6w8bxAmTIm1g=;
-        b=QmeGOWrBuaAvQKXOx61iNalIBizmHZZQiiQr4Pul517sOYyC6V6ICczwLgOkxgOu1O
-         L/0AstLGIse/llvlF4Yev7wMZUP+A16nDdD0o1y/QgFyJgH6vCo0/eug0kcRpBgkONwf
-         F0nhhSbIqaqxwvdCDCIkSXPfxl026vIC1TECHO2o9C90VsQ4FKKjGCl46XbjgKRUGWiY
-         tgI8jcX0QwFfcSADX4OjgQOzRbdatY8wM8dpzaVeG7AUcTVGigzI5iXyvYf1fnws/8Rl
-         9CK2IAslMLTMa2p7vl/UyxKbijKw0n6HLuNeFDd9GYJD/LLJdZYeRTSwaL1eIfkzRmRU
-         bYyg==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PmUAweyJP+wPuTRpluHc4jQLAidZfsZEQAyxjn/sC2c=;
+        b=AYBdBf5d6yZhNZUd/L28O5Wmlk7OAK1azirmC4U4m6nmIuZgYPVk59m3mDpDGkAjnA
+         xdYYCTy0t0+hWaiB5UZPbvw202JRNfvmu11EJy5fQmlxGNW58FynFhlyWx1JwDyI0P2R
+         Z2A0YQhCOUu10+E3dTL2eESqczg9wrf25kM2/HMRBXSAZdRHW0DAij6Epclug0DXjQct
+         SajyjLez4vxDAQE3MNNUm3Bh/qz/6mLCn87pzFvub3rEVrTx2iEC559O74S+JlQuHTcO
+         vTucb/p2IRfuAFNEmgq440fnvr02KMTYuhbWx4XKIBOrPrDsjoHGab9P4pg0Ww8wjhqI
+         kErw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qu9dYT2SCBUPCZNE9Ndxcd9z25cYaJb6w8bxAmTIm1g=;
-        b=JcV91fxzQRkNR/zjiOgi4Q9rWzxyOGpLZkEHW/P9wpI0mAKumqMtmyMfjo1YwepvZn
-         02gHIhtDZ0bmnt3sFXm9+UbCEvFGm2XKwvB/za2RQX/hGBPHw8WULvII/ZQqHCqTRmr4
-         EoaIrmvKIWWD8HJ00n568R/UTj2UbP/7RQf0MgcCbaA8a34u2a2L7GxG7eD8C7mYGmpS
-         QyEnS1jfy5OSixmY8AFMhEVp9NUgu3e6s/mpvNMJSBuHc5RydvoLz8N4YL0SFq10B/qg
-         6+uELdztvVaBfi7D54wM17Yjxp0OGk84DjeMbXLBZ4Ex5cpejt9QgNAIWAZ89X1x7fyj
-         d0Iw==
-X-Gm-Message-State: AFqh2kr2++sfuQJPw5fQILNkhK1qvmL4QL1hlJViofO/yneuAwI3VVA/
-	02OWogwI8K0V++FA9NI5x5PfoYNovnsHpsJS4Hw=
-X-Google-Smtp-Source: AMrXdXvCh7aQG/8bOXZcSkgwAL4WuNzyVMK0TQY/zJUwzJYtzfO5H5a48Jw3130zyenyHK+V0NPr0mNF5iyDqEKmkcc=
-X-Received: by 2002:a05:651c:1426:b0:27f:dea6:3d2a with SMTP id
- u38-20020a05651c142600b0027fdea63d2amr1540668lje.45.1672833609842; Wed, 04
- Jan 2023 04:00:09 -0800 (PST)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PmUAweyJP+wPuTRpluHc4jQLAidZfsZEQAyxjn/sC2c=;
+        b=4TQNsJGPUNJznNvZZBvILIURCe15zQ5vEzjmIk10xvjajql6LR9NWLMhLlbUkuICrH
+         RThDmuV1acFOwQNjnpzpptUOal6wCxxazbQ5Ypb62Wax/rtVLpZ/rkK3lS8pWzHmVQH2
+         /6HAuuLKTMTfnJSJDqy1JXXYbAx8BlydS/DJ/KT1C2233I9bprG2QGFyxvU5wOW7FZKT
+         uY+UnqCN9JBnORFg49qYxNNq8kxAa5kOD+fcMcW3XnwMl8nFzVGWCBDQnAmsvylnrYsm
+         TLfmqAv2/V8dCtx/NYtxswq8KG4+iY9YvYHyABsNuCVkuQk/Kcaif0NZaw32VKPmD/7p
+         s1XQ==
+X-Gm-Message-State: AFqh2krj1pFI4ZBpkjW2xfsIkbvzvZ0hD9Sjl7avEVotxSEz2UGlKy5x
+	rKbHorC5LFJHfqvjIkdcFz+DXF3aMBU=
+X-Google-Smtp-Source: AMrXdXvf2a/TvpJPk4d9wqA72kGIwn7ixWzq4QBVRd5QBysJnSC8K1AZBd6bcQM214twRt/LGOLidQ==
+X-Received: by 2002:adf:cc81:0:b0:275:ae5c:d448 with SMTP id p1-20020adfcc81000000b00275ae5cd448mr28326197wrj.13.1672834708209;
+        Wed, 04 Jan 2023 04:18:28 -0800 (PST)
+Received: from ThinkCentre.fritz.box (p200300cfaf4b81003e9287465d6a8a6d.dip0.t-ipconnect.de. [2003:cf:af4b:8100:3e92:8746:5d6a:8a6d])
+        by smtp.gmail.com with ESMTPSA id d11-20020adffd8b000000b00236545edc91sm33564176wrr.76.2023.01.04.04.18.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Jan 2023 04:18:27 -0800 (PST)
+From: toertel@gmail.com
+To: openembedded-core@lists.openembedded.org,
+	michael.opdenacker@bootlin.com,
+	richard.purdie@linuxfoundation.org
+Cc: Mark Jonas <toertel@gmail.com>
+Subject: [PATCH 0/2] Load proper sound drivers for QEMU x86
+Date: Wed,  4 Jan 2023 13:18:06 +0100
+Message-Id: <20230104121808.1065203-1-toertel@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230104114555.575278-1-kubiznak@2n.com> <17371904FDF90491.29426@lists.openembedded.org>
-In-Reply-To: <17371904FDF90491.29426@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 4 Jan 2023 12:59:58 +0100
-Message-ID: <CANNYZj8Qfcs+X8yGRiHZJygZ0RH4n=KDsKXkXO-+duY=ycRS5A@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 1/2] gobject-introspection: check for GI_DATA_ENABLED
-To: alex.kanavin@gmail.com
-Cc: =?UTF-8?B?UGV0ciBLdWJpesWIw6Fr?= <kubiznak@2n.com>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 12:00:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175468
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 12:18:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175469
 
-I mean, if you want to do this to reduce dependency chains, then
-depending on qemu-native and g-i-native isn't necessary either. But
-the patch as it is seems like going halfway.
+From: Mark Jonas <toertel@gmail.com>
 
-Alex
+The patch series fixes a regression where images built for QEMU x86 and
+x86-64 did not contain sound drivers matching the QEMU device emulation
+configuration. Additionally, the right drivers are now also auto-loaded
+when starting the image.
 
-On Wed, 4 Jan 2023 at 12:54, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
-wrote:
->
-> On Wed, 4 Jan 2023 at 12:46, Petr Kubiz=C5=88=C3=A1k <kubiznak@2n.com> wr=
-ote:
-> > When GI_DATA_ENABLED is 'False' (e.g. because
-> > 'gobject-introspection-data' is not in DISTRO_FEATURES),
-> > gobject-introspection should not be added to DEPENDS.
->
-> Why?
->
-> Alex
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#175467): https://lists.openembedded.org/g/openembedde=
-d-core/message/175467
-> Mute This Topic: https://lists.openembedded.org/mt/96048399/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+root@qemux86:~# uname -a
+Linux qemux86 5.19.17-yocto-standard #1 SMP PREEMPT_DYNAMIC Fri Nov 18 21:13:18 UTC 2022 i686 GNU/Linux
+
+root@qemux86:~# lsmod
+Module                  Size  Used by
+bnep                   20480  2
+snd_intel8x0           32768  0
+snd_ac97_codec        114688  1 snd_intel8x0
+ac97_bus               16384  1 snd_ac97_codec
+snd_pcm                86016  2 snd_ac97_codec,snd_intel8x0
+snd_timer              28672  1 snd_pcm
+snd                    57344  4 snd_ac97_codec,snd_timer,snd_intel8x0,snd_pcm
+soundcore              16384  1 snd
+
+root@qemux86:~# cat /proc/asound/cards
+ 0 [I82801AAICH    ]: ICH - Intel 82801AA-ICH
+                      Intel 82801AA-ICH with STAC9700,83,84 at irq 10
+
+Mark Jonas (2):
+  conf/machine: Match QEMU x86 sound kernel module
+  linux-yocto: Autoload sound driver on QEMU x86
+
+ meta/conf/machine/qemux86-64.conf         | 3 ++-
+ meta/conf/machine/qemux86.conf            | 3 ++-
+ meta/recipes-kernel/linux/linux-yocto.inc | 5 +++++
+ 3 files changed, 9 insertions(+), 2 deletions(-)
+
+--
+2.34.1
 
