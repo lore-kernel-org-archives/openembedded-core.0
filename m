@@ -1,163 +1,163 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1A3DC3DA7D
-	for <webhook@archiver.kernel.org>; Thu,  5 Jan 2023 14:57:51 +0000 (UTC)
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
- by mx.groups.io with SMTP id smtpd.web10.14711.1672930670057557894
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0BC1C3DA7A
+	for <webhook@archiver.kernel.org>; Thu,  5 Jan 2023 15:00:41 +0000 (UTC)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+ by mx.groups.io with SMTP id smtpd.web10.14791.1672930836799157701
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Jan 2023 06:57:50 -0800
+ Thu, 05 Jan 2023 07:00:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=kx6wbm8j;
- spf=pass (domain: gmail.com, ip: 209.85.166.50, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f50.google.com with SMTP id g20so19620009iob.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Jan 2023 06:57:49 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=n2XrnpvW;
+ spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f169.google.com with SMTP id f20so38910875lja.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Jan 2023 07:00:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3hI1B8GkIDLgkaCEs2wlAli7fGwAUtS0nAbQ9A1vAqs=;
-        b=kx6wbm8jmCqJFB2T+WKggBgRxZyoWyiaPbvOIHh0kD3ehXL5K9UNfHbbQRFVSIYf7t
-         QKtTHBDbXcNi3bg7UWhUQQbOExv3MTevi7gGem2rOFfF/EUWYDeJm8K1jzPenC/tqT9F
-         o4TU/YmmqTonJR26edfQAikKDIT/cWB7lfolAlJGDrg9oFJzBKK0wZDEeJ7sil+P1KlV
-         Bs6nLsX0Oqwu4CeIAGExTuTwA+PZlwpLAyr4bhXB1Yze2Fk44N6GbUbTsBGFx/bX/faM
-         iW4E7SXuvLBfcWYn408PeTblTDskydTBBL56oSOYadm8oWimaoquPeC2rch6buf+Grv0
-         n6qA==
+        bh=QDjUfdbrfdcjDeSayCDJpqX3wiPXv9XxR9rmkzA3CIQ=;
+        b=n2XrnpvWpF90nn+uOGgEPUAUYVsZNG5iN5+GnrVvyzKsqhLs1zZNkr/COHA5m1Qni3
+         JIslL2L+wEnfgcBjHRdAqW+4nRWz0oR+xKghoLmNhlGnIj1bgQlu92hZyVDuYtqbt2VO
+         7dsVgCanavLWZ6ZaTiQRcsGnvpW6FsYn2KvjWbEKoFduIOesQEvLIciAcUauMPjgYqpT
+         DXlyZlJbFwyD1n6gTtx5qr9O262zQhOX4iA8io55EgLqzAq+evN3xAs9xoW09z5ewbZf
+         cMB72vhBy7xF86mXnoKhbQaFxA5wrIR/eJPKlQjSNY+Zol+hvaFkzjPPoTqIwn6Qm7AT
+         8G4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3hI1B8GkIDLgkaCEs2wlAli7fGwAUtS0nAbQ9A1vAqs=;
-        b=TbNbdkokGvQ8+X8znIZlS5vqJIyS/mXtoTxsWgB331/uLXfaSKe5lnsQxWCBjI6Fro
-         aUdkZGBgBBKwJukDKrucW3pDP68v4bakqmZfyCQYPYQWxZGXw8sbbx891vu2OBu+ZQjN
-         wbSnI0XCXMHWZu5JDhhTlgOFGQV0F+rqQZE/wcnchOUca/GYSdvK09FhyEVWbqlpMrJh
-         tWLO1vm9+IWAz0T9wCWia/gPCQgXmIeSpX3hW1os8/LlAh5FcyW6tXNamMxzT0+SEqbl
-         TOuGJw1DrSqS+jnvtqpqZXM/9sPlCk9wZ2T9gWcdNU8nXoAqa82TOnTr9gE3gRaLGEB+
-         CdOg==
-X-Gm-Message-State: AFqh2kpFcYJnBM5vCSQO3cpxBnKuigw24A/t3Shh7V/x4FVUaEZQHFzh
-	7GyEW64SjKo496K9iFhueZYYqPhMpdpaMkEqeOM=
-X-Google-Smtp-Source: AMrXdXtHmR6xRJ3lckpGsZeBTGIHTGxzwfgqDLQJHY0P5m4IoX2d0rjAfqeKJvFrlaKt6pBkYnSXCEllbGjwowzRUWM=
-X-Received: by 2002:a05:6638:1a1:b0:38a:7f45:a5ff with SMTP id
- b1-20020a05663801a100b0038a7f45a5ffmr4269887jaq.9.1672930669320; Thu, 05 Jan
- 2023 06:57:49 -0800 (PST)
+        bh=QDjUfdbrfdcjDeSayCDJpqX3wiPXv9XxR9rmkzA3CIQ=;
+        b=HUZTnxu00cN7jQ6kUFqrMm+3I88KgvwQuhan4Gx2xTXTV3UHxiMDGzKhsXZTP9O7gX
+         t3j3DJKzHOy8vNm2Lbw9BRlUMQJw2fjkHwhtZRt5/WpOHPUjzQxugGcXyGj5RCCek3Sm
+         TyQXKRR+ge4Z4DPCWWFtiXWbrbXhhpqjyARpOpKSwjI35/yeDb/KCcm+VSRvpj+ZU2iy
+         iBh2U0jWx8hgPD/4xfnqHfTYl5CkFRbtNHgeyeFJEj5t5a1bTZLXsLUYOTTEgt1VrAkh
+         j+3NhKATtGOggx2ifyvVjOPhMQTxa7eVa6UyDwinBFQarr1Gm9NTLw/UMg7AQ/hZE9qm
+         0NEg==
+X-Gm-Message-State: AFqh2kounTqd3RurNUM6hfrgpomvIGyjkoxh5ZjtD8N1KQ9WqWvqjwYr
+	zY8pVjs+mCHXx8lN0Dl1+L8VXPELmP0+9586Qzk=
+X-Google-Smtp-Source: AMrXdXuBVwnp0IQYZPw3AcqTs6i62W7NN8FkoCrM+TLnE2h2YeGB2urpVQCUkWfTw+fMbeXlBgw3hdwygYMC5sO9HQ4=
+X-Received: by 2002:a05:651c:1426:b0:27f:dea6:3d2a with SMTP id
+ u38-20020a05651c142600b0027fdea63d2amr1903741lje.45.1672930834998; Thu, 05
+ Jan 2023 07:00:34 -0800 (PST)
 MIME-Version: 1.0
-References: <20230104121808.1065203-1-toertel@gmail.com> <20230104121808.1065203-3-toertel@gmail.com>
- <CADkTA4OBb1J9Ld19rzvuQntdj04rRUdH9sP=cPSKwvO=U1s-Tw@mail.gmail.com> <CAEE5dN1jL4KYpYMz9En=NqiEE-Bu8HsCXhTSUgECekktmjr78A@mail.gmail.com>
-In-Reply-To: <CAEE5dN1jL4KYpYMz9En=NqiEE-Bu8HsCXhTSUgECekktmjr78A@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 5 Jan 2023 09:57:38 -0500
-Message-ID: <CADkTA4NhVxONZONVWd9yP4g735Mr5cVThLPcWRUv0vBYkXmc3A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] linux-yocto: Autoload sound driver on QEMU x86
-To: Mark Jonas <toertel@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, michael.opdenacker@bootlin.com, 
-	richard.purdie@linuxfoundation.org
+References: <20230104110548.2537259-1-alex@linutronix.de> <20230104110548.2537259-45-alex@linutronix.de>
+ <CAMKF1spQg77ziLGXKtB7GaNp1FBFWgf+RrGgHe7ZUVr0NcSiMQ@mail.gmail.com>
+In-Reply-To: <CAMKF1spQg77ziLGXKtB7GaNp1FBFWgf+RrGgHe7ZUVr0NcSiMQ@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 5 Jan 2023 16:00:23 +0100
+Message-ID: <CANNYZj_kH9NbG8TEbi9S48Ghg9sKx5n=_ScFhgYsnhKQWPWqhg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 45/77] python3-setuptools: upgrade 65.5.1 -> 65.6.3
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Alexandre BELLONI <alexandre.belloni@bootlin.com>, openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Jan 2023 14:57:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175535
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Jan 2023 15:00:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175536
 
-On Thu, Jan 5, 2023 at 8:42 AM Mark Jonas <toertel@gmail.com> wrote:
+I sent a patch for that to oe-devel.
+
+Alex
+
+On Thu, 5 Jan 2023 at 04:45, Khem Raj <raj.khem@gmail.com> wrote:
 >
-> Hi Bruce,
+> This setuptools upgrade is regressing nftables build
 >
-> On Wed, Jan 4, 2023 at 5:07 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+> | make[2]: Entering directory
+> '/mnt/b/yoe/master/build/tmp/work/cortexa72-cortexa53-crypto-yoe-linux/nftables/1.0.6-r0/build/py'
+> | cd ../../nftables-1.0.6/py && \
+> |       /mnt/b/yoe/master/build/tmp/work/cortexa72-cortexa53-crypto-yoe-linux/nftables/1.0.6-r0/recipe-sysroot-native/usr/bin/python3-native/python3
+> setup.py build --build-base /mnt/b/yoe/master/build/tmp/work/cort
+> exa72-cortexa53-crypto-yoe-linux/nftables/1.0.6-r0/build/py
+> | Traceback (most recent call last):
+> |   File "/mnt/b/yoe/master/build/tmp/work/cortexa72-cortexa53-crypto-yoe-linux/nftables/1.0.6-r0/nftables-1.0.6/py/setup.py",
+> line 5, in <module>
+> |     setup(name='nftables',
+> |   File "/mnt/b/yoe/master/build/tmp/work/cortexa72-cortexa53-crypto-yoe-linux/nftables/1.0.6-r0/recipe-sysroot-native/usr/lib/python3.11/site-packages/setuptools/_distutils/core.py",
+> line 185, in setup
+> |     return run_commands(dist)
+> |            ^^^^^^^^^^^^^^^^^^
+> |   File "/mnt/b/yoe/master/build/tmp/work/cortexa72-cortexa53-crypto-yoe-linux/nftables/1.0.6-r0/recipe-sysroot-native/usr/lib/python3.11/site-packages/setuptools/_distutils/core.py",
+> line 201, in run_commands
+> |     dist.run_commands()
+> |   File "/mnt/b/yoe/master/build/tmp/work/cortexa72-cortexa53-crypto-yoe-linux/nftables/1.0.6-r0/recipe-sysroot-native/usr/lib/python3.11/site-packages/setuptools/_distutils/dist.py",
+> line 969, in run_commands
+> |     self.run_command(cmd)
+> |   File "/mnt/b/yoe/master/build/tmp/work/cortexa72-cortexa53-crypto-yoe-linux/nftables/1.0.6-r0/recipe-sysroot-native/usr/lib/python3.11/site-packages/setuptools/_distutils/dist.py",
+> line 986, in run_command
+> |     cmd_obj = self.get_command_obj(command)
+> |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> |   File "/mnt/b/yoe/master/build/tmp/work/cortexa72-cortexa53-crypto-yoe-linux/nftables/1.0.6-r0/recipe-sysroot-native/usr/lib/python3.11/site-packages/setuptools/_distutils/dist.py",
+> line 861, in get_command_obj
+> |     cmd_obj = self.command_obj[command] = klass(self)
+> |                                           ^^^^^^^^^^^
+> |   File "/mnt/b/yoe/master/build/tmp/work/cortexa72-cortexa53-crypto-yoe-linux/nftables/1.0.6-r0/recipe-sysroot-native/usr/lib/python3.11/site-packages/setuptools/__init__.py",
+> line 158, in __init__
+> |     super().__init__(dist)
+> |   File "/mnt/b/yoe/master/build/tmp/work/cortexa72-cortexa53-crypto-yoe-linux/nftables/1.0.6-r0/recipe-sysroot-native/usr/lib/python3.11/site-packages/setuptools/_distutils/cmd.py",
+> line 61, in __init__
+> |     raise TypeError("dist must be a Distribution instance")
+> | TypeError: dist must be a Distribution instance
+> | make[2]: *** [Makefile:455: all-local] Error 1
+> | make[2]: Leaving directory
+> '/mnt/b/yoe/master/build/tmp/work/cortexa72-cortexa53-crypto-yoe-linux/nftables/1.0.6-r0/build/py'
+> | make[1]: *** [Makefile:478: all-recursive] Error 1
+> | make[1]: Leaving directory
+> '/mnt/b/yoe/master/build/tmp/work/cortexa72-cortexa53-crypto-yoe-linux/nftables/1.0.6-r0/build'
+> | make: *** [Makefile:387: all] Error 2
+>
+>
+>
+> On Wed, Jan 4, 2023 at 3:06 AM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
 > >
-> > On Wed, Jan 4, 2023 at 7:18 AM Mark Jonas <toertel@gmail.com> wrote:
-> > >
-> > > From: Mark Jonas <toertel@gmail.com>
-> > >
-> > > If DISTRO_FEATURES includes ALSA then automatically load the
-> > > snd-intel8x0 kernel module on qemux86 and qemux86-64. This matches the
-> > > machine configurations conf/machine/qemux86.conf and qemux86-64.conf.
-> > >
-> > > Signed-off-by: Mark Jonas <toertel@gmail.com>
-> > > ---
-> > >  meta/recipes-kernel/linux/linux-yocto.inc | 5 +++++
-> > >  1 file changed, 5 insertions(+)
-> > >
-> > > diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-> > > index 091003ed82..c8a9b0a1e3 100644
-> > > --- a/meta/recipes-kernel/linux/linux-yocto.inc
-> > > +++ b/meta/recipes-kernel/linux/linux-yocto.inc
-> > > @@ -37,6 +37,11 @@ KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'efi', 'cfg/
-> > >  KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'numa', 'features/numa/numa.scc', '', d)}"
-> > >  KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'vfat', 'cfg/fs/vfat.scc', '', d)}"
-> > >
-> > > +# sound driver recommended by conf/machine/qemux86*.conf
-> > > +ALSA_MODULES = "${@bb.utils.contains("DISTRO_FEATURES", "alsa", "snd-intel8x0", "", d)}"
-> > > +KERNEL_MODULE_AUTOLOAD:qemux86 += "${ALSA_MODULES}"
-> > > +KERNEL_MODULE_AUTOLOAD:qemux86-64 += "${ALSA_MODULES}"
+> > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> > ---
+> >  .../0001-conditionally-do-not-fetch-code-by-easy_install.patch  | 2 +-
+> >  ...ython3-setuptools_65.5.1.bb => python3-setuptools_65.6.3.bb} | 2 +-
+> >  2 files changed, 2 insertions(+), 2 deletions(-)
+> >  rename meta/recipes-devtools/python/{python3-setuptools_65.5.1.bb => python3-setuptools_65.6.3.bb} (95%)
 > >
-> > This gets us most of the way, but if we are going to do this we should
-> > complete the job.
+> > diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch b/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+> > index 1b5f9c7577..2110c4a877 100644
+> > --- a/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+> > +++ b/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+> > @@ -1,4 +1,4 @@
+> > -From a0e0873a8ee6674d43e604d66bf66d94fc8eeb6f Mon Sep 17 00:00:00 2001
+> > +From 2e57369593ede5336f947e7b9903ebc673f98fef Mon Sep 17 00:00:00 2001
+> >  From: Hongxu Jia <hongxu.jia@windriver.com>
+> >  Date: Tue, 17 Jul 2018 10:13:38 +0800
+> >  Subject: [PATCH] conditionally do not fetch code by easy_install
+> > diff --git a/meta/recipes-devtools/python/python3-setuptools_65.5.1.bb b/meta/recipes-devtools/python/python3-setuptools_65.6.3.bb
+> > similarity index 95%
+> > rename from meta/recipes-devtools/python/python3-setuptools_65.5.1.bb
+> > rename to meta/recipes-devtools/python/python3-setuptools_65.6.3.bb
+> > index 8dc724e55a..a8bcb3a602 100644
+> > --- a/meta/recipes-devtools/python/python3-setuptools_65.5.1.bb
+> > +++ b/meta/recipes-devtools/python/python3-setuptools_65.6.3.bb
+> > @@ -11,7 +11,7 @@ SRC_URI:append:class-native = " file://0001-conditionally-do-not-fetch-code-by-e
+> >  SRC_URI += "file://0001-change-shebang-to-python3.patch \
+> >              file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
 > >
-> > We really need to make sure there's a configuration fragment that
-> > explicitly enables
-> > the modules we need (and not count on defaults, or other selects). That would go
-> > into the kernel-cache.
+> > -SRC_URI[sha256sum] = "e197a19aa8ec9722928f2206f8de752def0e4c9fc6953527360d1c36d94ddb2f"
+> > +SRC_URI[sha256sum] = "a7620757bf984b58deaf32fc8a4577a9bbc0850cf92c20e1ce41c38c19e5fb75"
 > >
-> > It would then be something we'd add to the KERNEL_FEATRES triggered off the
-> > distro feature. Just like we are doing with numa and vfat that is visible in the
-> > context of the patch.
->
-> In my understanding this is already the case. See for example
-> linux-yocto_5.19.bb which contains the following lines.
->
-> KERNEL_FEATURES:append:qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
-> KERNEL_FEATURES:append:qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
->
-> Does that maybe mean I should better add the KERNEL_MODULE_AUTOLOAD
-> into the same file where the corresponding configuration fragment is
-> added? But that would mean to duplicate the lines over five recipes.
->
-> Alternatively I could move the cfg/sound.scc out of the recipes into
-> the linux-yocto.inc. But then linux-yocto-tiny_*.bb recipes would also
-> get it.
-
-I definitely wasn't clear. Sorry about that, I'm still partially on
-holidays and didn't have enough coffee when I wrote that.
-
-That is close to what I meant. It is one thing to define the options
-in our generic sound "buckets" and another to put a specific module
-into the autoload.
-
-If we are going to autoload a module, the option really should be
-pulled out of the generic bucket, and put into something smaller /
-specific to what we are trying to do, and trigger the inclusion of
-that fragment only when the appropriate distro feature is set. The
-machine conf files specifying specific modules isn't ideal, since it
-is largely "aspirational" unless it is coupled with a KERNEL_FEATURE
-that is set based on a machine or distro feature.
-
-If you search the mailing list archives, you'll see me musing about
-how I need to change those unconditional appends of option to qemu, as
-it makes defining a new qemu machine problematic (if the options are
-causing issues). The tweak I'm describing is a small step in that
-direction.
-
-One new question comes to mind, what init system were you testing with
-(default poky and sysvinit ?) ? If we now have the proper init system,
-are no events being triggered to load the modules now that the proper
-ones are in the machine files ?
-
-Bruce
-
->
-> Cheers,
-> Mark
-
-
-
-
-
-
-
---
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+> >  DEPENDS += "${PYTHON_PN}"
+> >
+> > --
+> > 2.30.2
+> >
+> >
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#175430): https://lists.openembedded.org/g/openembedded-core/message/175430
+> > Mute This Topic: https://lists.openembedded.org/mt/96047915/1997914
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> >
 
