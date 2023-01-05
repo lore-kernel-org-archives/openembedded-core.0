@@ -1,300 +1,404 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFCA0C54EBC
-	for <webhook@archiver.kernel.org>; Wed,  4 Jan 2023 22:55:24 +0000 (UTC)
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
- by mx.groups.io with SMTP id smtpd.web10.6142.1672872920174953348
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62BE2C46467
+	for <webhook@archiver.kernel.org>; Thu,  5 Jan 2023 02:10:38 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.3606.1672884632728817364
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Jan 2023 14:55:20 -0800
+ Wed, 04 Jan 2023 18:10:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=gvquu6yf;
- spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 17C66240004;
-	Wed,  4 Jan 2023 22:55:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1672872918;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nrTiVQbz7lLapD86NR69gy2Vk0IJPRBQRMazhuVo1/w=;
-	b=gvquu6yf05ies5eq9/W7bTb56aDhssZrTWLKAwcxRYuI5bM0uieTt0kOTj/iPT8zvsCZas
-	s852Vs1s5NuNMw9aIiyPe1pnnGFZiLyqJrRXY/jjqwC4BOxVBcrp3FKpdYpztbn5DsKe7o
-	mmPOgsVVDCCiHvbz32ly4Zha3YTn2b3FOujmOWuDAaRZbtUxmoRBYeSmIY/1Yr5nQmzhx3
-	HbMJjX+UULM68x3HGcdCvCLXNjdH2JT6Rw7ufjAn3BmBkr7DU7851rsveF/e65YHD2DrMh
-	fh/cv9IZUwlOqVV7ILWUJ2XNlNSwS+eBDOYQzSdGX9Vouh2WXanCU5immBXQDg==
-Date: Wed, 4 Jan 2023 23:55:17 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Markus Volk <f_l_k@t-online.de>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe-core][PATCH] gcr3: update 3.40.0 -> 3.41.1
-Message-ID: <Y7YD1ZgSe7b+UIBt@mail.local>
-References: <20230101142414.463881-1-f_l_k@t-online.de>
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=PI8BS3Yn;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=0369ab31eb=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3051n0D9007176
+	for <openembedded-core@lists.openembedded.org>; Wed, 4 Jan 2023 18:10:32 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ mime-version; s=PPS06212021;
+ bh=k4UuiDNN15WWuSNO8IBNmcHdS5sr8RyNo+ShiHq34Fc=;
+ b=PI8BS3YnDeaxp0bO7FI0QDGByLInmUBySItUFFbQGZsAIh6eaQimrYED+mEQ45wtktUl
+ KthmhgvEKibyqzbleh2HYGVAhGBdXNgbxpcsvaQGombpKmmeKjEbfLyeegKO8KV4Guua
+ k6JzuuvvccRHnFv7Y2M7+Sdx5e3x5xLm/0nSPP6vC4h7uwHvx5/TbPBnCZc52mrN8zzw
+ TlJq3Cfkt3BVUjbTuA+ALtUdeVXPvvNYxc+89HusiyE/kNq3RfPXMz4laRjOU5QqOXZM
+ XwTHvl2HX8xJDH4YrQo5Hv7kvZ0Zh2dhPen9Auw8UlRYTe1lMIsfy9ekyXcIMzKFjMJC PQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3mth87ttgr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 18:10:31 -0800
+Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3052AVB5026346
+	for <openembedded-core@lists.openembedded.org>; Wed, 4 Jan 2023 18:10:31 -0800
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2100.outbound.protection.outlook.com [104.47.70.100])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3mth87ttgp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 04 Jan 2023 18:10:31 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YP3mfcPdgUsUzsI9B3EP4SQ92UpTEMucuUiux++UrDD90CzJW096NlMYsZPMoLuMkSGj842zSWcVYuERmPLHzfCRN3dHVg8feYKLgL41PxJFAIRb3vzfkC3/sI+TrZrx3qwSCuvl8nXWe9VuNuu0eZUfB/BpoWzu6pEl2R+cGTzNIJS90zV4ghzZiG4+rw9xBcGYzRMNpdc0PzIklfm4Pos3Peey2R0MQTvPlO2aeCH6n5yFDtBYOXL63dFJnO/4WZoI2unKIOfMBHqKaDEJUksYXR77i8Y9O6nwJjsyxhdrMfauVsR+ZCKJfbAK5K1FDg/MvW0WD5TZ8MsrS3BliA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=k4UuiDNN15WWuSNO8IBNmcHdS5sr8RyNo+ShiHq34Fc=;
+ b=ejM2UZ6tEu1SUgoaCVI9K1ln1ZDX6n0eVMsSnsBWxAsqvxJMxgXcGLGz6OOvFYAPFF9D0lHrgiEIaTECBJIwVNWVem2FdMhCRvlYpWazu44kM1BouBUjBBa6Wfa59R/CMM/RJAAia1vxtdVeS4noBbm2xKlosApo4BptkX23CPofqqz0Vra0OEpz0ntBa3GYXgrzTEfVmHlPQ3GgkKtnCvs/s1t4MsjNJuw4jBg9oZBWm+H74rggqs0XqKMfvuafCeeHL9j92lGISwlyG4IflEALLOGP750E36AXXSBKWRlsWwE1kPq3aK2iq7AA2ED80X/HZO2fK9ku3sejdXar+Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO1PR11MB5009.namprd11.prod.outlook.com (2603:10b6:303:9e::11)
+ by CH3PR11MB7673.namprd11.prod.outlook.com (2603:10b6:610:126::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Thu, 5 Jan
+ 2023 02:10:27 +0000
+Received: from CO1PR11MB5009.namprd11.prod.outlook.com
+ ([fe80::c0fd:6b71:8808:4c21]) by CO1PR11MB5009.namprd11.prod.outlook.com
+ ([fe80::c0fd:6b71:8808:4c21%7]) with mapi id 15.20.5944.019; Thu, 5 Jan 2023
+ 02:10:27 +0000
+From: "Yu, Mingli" <Mingli.Yu@windriver.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] gcr: add opengl to REQUIRED_DISTRO_FEATURES
+Thread-Topic: [OE-core] [PATCH] gcr: add opengl to REQUIRED_DISTRO_FEATURES
+Thread-Index: AQHZFrL/QuopzLqlx0mtgN/wjaOY+66PJ8/N
+Date: Thu, 5 Jan 2023 02:10:27 +0000
+Message-ID: 
+ <CO1PR11MB50090C2DFF0949D0B90ED483F1FA9@CO1PR11MB5009.namprd11.prod.outlook.com>
+References: <20221223093229.823322-1-mingli.yu@eng.windriver.com>
+ <CANNYZj-iY82hN76qV6DZSfMHobF30hM7rKRXkVwFUYGDV1AkJw@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj-iY82hN76qV6DZSfMHobF30hM7rKRXkVwFUYGDV1AkJw@mail.gmail.com>
+Accept-Language: en-US, en-AS, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CO1PR11MB5009:EE_|CH3PR11MB7673:EE_
+x-ms-office365-filtering-correlation-id: d0833bb3-e06a-4188-b5e6-08daeec20347
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ g0QdKrzG1ufy4XE9eSAizXd3tWnWDAXKcYSUtxheHA/DzGe6pdWYnD156uF/6hdMHKcPv8E+4805NA6nW1O2TUa8onCKPzDPYJv9/uJFBnCmMG5qHfTrYhYpucNJ+Hn72Q8lhB/9XpF4FyOUaOdE/25HTzY0XeGy0jHkxzJgDRzwtan4Zhzz+uG1WX/QhhPnD6Bef+PsY+RA9CXgENFFxxzE7iyqX04OIm9t8Dd6EIzPHEUCGoQRRDWdIt+ALGbtJZfwy3S7Rg+DkMmRnYQGRc8sORKDegRgr5ko5NoPzObWgG7qakZ/4M/ZJxy4bWDbN/ESDklRKdu0I/vQAx0mmt3q6rEbbnzk2ypvsAoKvz88eNEyFEvkmk1dCWwQnAiN3TNrYBM9jEZPPFAwAHVv8cefctdDun5Pt0+9Ij6YLWq+ocy+ppPluU+AAM45DqzXu4WQ3L6wM6io5pD2abOPevRKvm8YJwyWNpuC8xXiMUPjidP2ipjLqWWe54GDeEe8ZMYrIYh2JmqSP8Af5ZltqxJA++M5FN8lm2xRVvyy+42xXEkKfZZQ3k1zm7wQw8B0fw5IaCWE1S76mQqJQlHCUjiBX0S1f/x8CZyk3Dai0yyLUvf9J+7YORHautUfvPyGhXAl6xN/a7kImKnuLOEVdJL090lnJeDfp0FnR0TpFnIQ7HGvU6B9ZVSiO0dVUg5/cO0LqHRxCeKHaYQ1QTJLaTmuSj+aBzVtvG3Is192nzqNZ2OLZ6grjpAbkNAsJf7agyp/v2vlZS8eQpGL0a1usw==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5009.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(376002)(346002)(396003)(39850400004)(366004)(451199015)(33656002)(83380400001)(186003)(26005)(166002)(38070700005)(38100700002)(55016003)(86362001)(122000001)(66899015)(9686003)(2906002)(6916009)(76116006)(19627405001)(66556008)(5660300002)(91956017)(66446008)(66476007)(8936002)(64756008)(66946007)(8676002)(4326008)(52536014)(316002)(53546011)(41300700001)(6506007)(966005)(478600001)(7696005)(71200400001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?Vgj2iBy7isPXshahBfzndY4T3tLUp41eJJ+02KgYkyfNrNKMI7v0vybSd5vK?=
+ =?us-ascii?Q?XCadJKKV3FPSR+tPfE9cYG4wqUZtbENHnSUhZSFf1wm7+O6dE0ThBdq2nFPa?=
+ =?us-ascii?Q?JdXEHNHdKYG4zAicUj4W+ZgHyxQhUXo4o0m7Ja22R4PTulddIkFRBC1YistX?=
+ =?us-ascii?Q?BCkDctZPqAPMbML6d/tWCFME0WhviIJEL/OG/mrHsIczTFyRX6BgEDZkHkh6?=
+ =?us-ascii?Q?gmOaEMYzW272HWiHr3pkv79Vy1AmYihOXMsclrs98esNI22VQnRa9dZco5op?=
+ =?us-ascii?Q?ZZ2Zud3aaCNj2IOZbErMCxLqzMacM3lTex+2qy3Z/zMKd/dySdTeRXK779i1?=
+ =?us-ascii?Q?62kQj3QXhluPdLVZ8qoIrKxUV7pPGIuVQbLLHvMwsz2OfAY8OAkspx8s+WHE?=
+ =?us-ascii?Q?T1zTNgkcggYHnBrzGOdZxoNhqGduzZ3UCMNa8vo3zOUsWQATVsM9kgKpS6GD?=
+ =?us-ascii?Q?E/jn/dM/+rPbcz7AU5S8AA+GkT6X4EGXg6+8in0Ufm+3kjZ/OAr6CdzQvO0b?=
+ =?us-ascii?Q?p5y7WdY2Jm8B5LeNUSy17O65HDU2h0JqcPvr8cNVCMcH8xPbwsPN4EhIymmn?=
+ =?us-ascii?Q?TiMOygHdJF8I2SIjJ1xY4YBj/B+OQv62MH/yNeAJ7VO6AdITwv6gmSIUNE2j?=
+ =?us-ascii?Q?1neQxpvLjsFB6UoqKLEiukT4lUKhAOx4RpkF3Qvveqf003h6WuNDfNJJOiPA?=
+ =?us-ascii?Q?jLNxZs7Zylwqp5wQTPNnFqm3VKRlCQ1bTZOt4JlcDdXWi9/IT8VhEVq2s9gN?=
+ =?us-ascii?Q?diYrZv6qETPAF9ga5uGZrOQPTJTnJQ5mTQRjjQC/Nys4uYbLe+QSKSVCE+Aa?=
+ =?us-ascii?Q?v47gDfl7+/tjR9UUH3TSPut3lsTGP6Gr0LT/UOYv7F3m8iiFRcERjbh3nWZ9?=
+ =?us-ascii?Q?bTDdH8OXrobaieynNyiLrw0VN7oeelBU8RGZXGBFMrUUIwrX38rpXjl0dFw9?=
+ =?us-ascii?Q?0fiDelHCs8QiLLjrboJPvnsTVBtu56OIiuVOz6OEdHvg7xZadr/O3vy/w6af?=
+ =?us-ascii?Q?W95mHxZuAjvwSRoq12nORdsd+fpqJuvilyrgj0M87FzIXo49gfSiFmrWktbm?=
+ =?us-ascii?Q?Oa2wRcU7Wesow084nkeyBSnMCXkbpKDrkwrF4NmPb+r09Qn/iwnyOSq97fGw?=
+ =?us-ascii?Q?8H/m94o14bJWTvXHpatLgE36oGHKBolpGb9vs7fzrGWqPa/TZJtI097QKNer?=
+ =?us-ascii?Q?2YL6+6cpUmeba0UsvQX+Y3Mpbdmo8RR0/xsmZEUhxN8ebb1/WVg8VSGwlI0B?=
+ =?us-ascii?Q?vvivxLlX/VLc7jiz1NQETZlat1y3i4rgUlPQGzzzGAtu957sCXP0eXUQbJqw?=
+ =?us-ascii?Q?rqXncXcXXbs3F3qCEI2o7k5LgxR/R5Pj7dufwu+56VQ6Tdmy/L4kZs71PdMy?=
+ =?us-ascii?Q?3wYjX8TFs3ByLSPHfn1MMPMicSE+1xCJzzIOsiyuvNzxapnMMJxFvaJOVhXa?=
+ =?us-ascii?Q?2wVn0Pd9mnYFyrbG82CF/Xn5nEiAqvy3Q7NcE4b5I42UxQZLd395HnJl7hjq?=
+ =?us-ascii?Q?nh8ROrR+pyBp3bHFVo1SJfNuCWouYxpivR6MtuPA+H2XJ3NwJ9q+sYu7ZQJt?=
+ =?us-ascii?Q?tZiQ2EyIuZzyMH5n+7j0p4E87XPc7mg6GZZzGXr9?=
+Content-Type: multipart/alternative;
+	boundary="_000_CO1PR11MB50090C2DFF0949D0B90ED483F1FA9CO1PR11MB5009namp_"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230101142414.463881-1-f_l_k@t-online.de>
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5009.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d0833bb3-e06a-4188-b5e6-08daeec20347
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jan 2023 02:10:27.1992
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: wCJknRpWjFGk6j7j4yyPgsv0nN2p/3Si80RRMFXC3gwVD/S1B7jF1UKgNIycLoe1xvsYfNUH5ScL/9wnA3J1tQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7673
+X-Proofpoint-ORIG-GUID: 4fxQO69akpm-RbaWa1NyK8ZDVjB96-pm
+X-Proofpoint-GUID: -kK-kBuJVGm2n3Ynm0rpXDoXwXmR4Ruy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-04_07,2023-01-04_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 adultscore=0
+ malwarescore=0 bulkscore=0 lowpriorityscore=0 impostorscore=0
+ priorityscore=1501 clxscore=1011 mlxscore=0 suspectscore=0 phishscore=0
+ mlxlogscore=959 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301050016
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 22:55:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175511
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Jan 2023 02:10:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175512
 
-This failed on the AB:
+--_000_CO1PR11MB50090C2DFF0949D0B90ED483F1FA9CO1PR11MB5009namp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/3976/steps/11/logs/stdio
+Hi Alex,
 
-On 01/01/2023 15:24:14+0100, Markus Volk wrote:
->  - remove unneded backport patches
->  - partly import the patch to fix ssh_agent option from gcr4 recipe
-> 
-> gcr 3.41.1:
-> - meson: Fix unknown kw argument in gnome.generate_gir [GNOME/gcr!68]
-> - gcr: Add G_SPAWN_CLOEXEC_PIPES flag to all the g_spawn commands
-> - docs: Port from gtk-doc to gi-docgen [GNOME/gcr!76]
-> - Unbreak build without systemd [GNOME/gcr!75]
-> - Several CI fixes
-> - Updated translations
-> 
-> gcr 3.41.0:
-> - Port ssh-agent from gnome-keyring [GNOME/gcr!67]
-> - build: Fix parallel build failure due to missing marshal dependency [GNOME/gcr!68]
-> - Fix warnings by dropping `volatile` for g_once_init_inter locations [GNOME/gcr!69]
-> - tests: More robust against GTask unref race condition [GNOME/gcr!72,GNOME/gcr#84]
-> - Updated translations
-> 
-> Signed-off-by: Markus Volk <f_l_k@t-online.de>
-> ---
->  ...build-fix-one-parallel-build-failure.patch | 37 -----------
->  ...ectly-handle-disabled-ssh_agent-opti.patch | 36 +++++++++++
->  ...1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch | 61 -------------------
->  .../gcr/{gcr3_3.40.0.bb => gcr3_3.41.1.bb}    | 17 ++++--
->  4 files changed, 47 insertions(+), 104 deletions(-)
->  delete mode 100644 meta/recipes-gnome/gcr/gcr3/0001-gcr-meson.build-fix-one-parallel-build-failure.patch
->  create mode 100644 meta/recipes-gnome/gcr/gcr3/0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patch
->  delete mode 100644 meta/recipes-gnome/gcr/gcr3/b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch
->  rename meta/recipes-gnome/gcr/{gcr3_3.40.0.bb => gcr3_3.41.1.bb} (69%)
-> 
-> diff --git a/meta/recipes-gnome/gcr/gcr3/0001-gcr-meson.build-fix-one-parallel-build-failure.patch b/meta/recipes-gnome/gcr/gcr3/0001-gcr-meson.build-fix-one-parallel-build-failure.patch
-> deleted file mode 100644
-> index 81c4bdbbcc..0000000000
-> --- a/meta/recipes-gnome/gcr/gcr3/0001-gcr-meson.build-fix-one-parallel-build-failure.patch
-> +++ /dev/null
-> @@ -1,37 +0,0 @@
-> -From cb3708bad88e713e4ccf705cb8c14c5996cd9d06 Mon Sep 17 00:00:00 2001
-> -From: Changqing Li <changqing.li@windriver.com>
-> -Date: Fri, 23 Apr 2021 16:32:38 +0800
-> -Subject: [PATCH] gcr/meson.build: fix one parallel build failure
-> -
-> -ui/gcr-live-search.c includes gcr/gcr-marshal.h. Because missing
-> -dependency, following error occurred intermittently during doing parallel
-> -build:
-> -
-> - -o ui/libgcr-ui-3.so.1.0.0.p/gcr-live-search.c.o -c ../gcr-3.38.1/ui/gcr-live-search.c
-> -../gcr-3.38.1/ui/gcr-live-search.c:32:10: fatal error: gcr/gcr-marshal.h: No such file or directory
-> -   32 | #include "gcr/gcr-marshal.h"
-> -      |          ^~~~~~~~~~~~~~~~~~~
-> -compilation terminated.
-> -
-> -Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/gcr/-/merge_requests/68/diffs]
-> -
-> -Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ----
-> - gcr/meson.build | 1 +
-> - 1 file changed, 1 insertion(+)
-> -
-> -diff --git a/gcr/meson.build b/gcr/meson.build
-> -index 06c3a63..d9d4b8f 100644
-> ---- a/gcr/meson.build
-> -+++ b/gcr/meson.build
-> -@@ -181,6 +181,7 @@ gcr_base_dep = declare_dependency(
-> -   sources: [
-> -     gcr_enums_gen[1],
-> -     gcr_oids[1],
-> -+    gcr_marshal_gen[1],
-> -   ],
-> - )
-> - 
-> --- 
-> -2.17.1
-> -
-> diff --git a/meta/recipes-gnome/gcr/gcr3/0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patch b/meta/recipes-gnome/gcr/gcr3/0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patch
-> new file mode 100644
-> index 0000000000..d3c26d97ae
-> --- /dev/null
-> +++ b/meta/recipes-gnome/gcr/gcr3/0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patch
-> @@ -0,0 +1,36 @@
-> +From 9b67bb18d8409e0e693cc6000507acbd73a30eab Mon Sep 17 00:00:00 2001
-> +From: Alexander Kanavin <alex@linutronix.de>
-> +Date: Wed, 16 Nov 2022 11:27:24 +0100
-> +Subject: [PATCH 1/2] meson.build: correctly handle disabled ssh_agent option
-> +
-> +Existing code produces these errors:
-> +| gcr/meson.build:61:0: ERROR: Unable to get the path of a not-found external program
-> +| gcr/meson.build:101:5: ERROR: Unknown variable "ssh_add_path".
-> +
-> +Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> +
-> +Upstream-Status: Backport [ https://gitlab.gnome.org/GNOME/gcr/-/commit/9b67bb18d8409e0e693cc6000507acbd73a30eab ]
-> +---
-> + meson.build | 12 ++++++++----
-> + 1 file changed, 8 insertions(+), 4 deletions(-)
-> +
-> +diff --git a/meson.build b/meson.build
-> +index 3f35173..11d7fa7 100644
-> +--- a/meson.build
-> ++++ b/meson.build
-> +@@ -96,8 +98,10 @@ conf.set('HAVE_TIMEGM', cc.has_function('timegm'))
-> + conf.set('HAVE_MLOCK', cc.has_function('mlock'))
-> + conf.set_quoted('GPG_EXECUTABLE', gpg_path)
-> + conf.set_quoted('LIBGCRYPT_VERSION', libgcrypt_dep.version())
-> +-conf.set_quoted('SSH_ADD_EXECUTABLE', ssh_add_path)
-> +-conf.set_quoted('SSH_AGENT_EXECUTABLE', ssh_agent_path)
-> ++if get_option('ssh_agent')
-> ++  conf.set_quoted('SSH_ADD_EXECUTABLE', ssh_add_path)
-> ++  conf.set_quoted('SSH_AGENT_EXECUTABLE', ssh_agent_path)
-> ++endif
-> + conf.set10('WITH_SYSTEMD', with_systemd)
-> + config_file = configure_file(
-> +   output: 'config.h',
-> +-- 
-> +2.34.1
-> +
-> diff --git a/meta/recipes-gnome/gcr/gcr3/b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch b/meta/recipes-gnome/gcr/gcr3/b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch
-> deleted file mode 100644
-> index ae4e2ac1eb..0000000000
-> --- a/meta/recipes-gnome/gcr/gcr3/b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch
-> +++ /dev/null
-> @@ -1,61 +0,0 @@
-> -From b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8 Mon Sep 17 00:00:00 2001
-> -From: Jakub Jirutka <jakub@jirutka.cz>
-> -Date: Wed, 12 Jan 2022 00:24:20 +0100
-> -Subject: [PATCH] meson: Fix unknown kw argument in gnome.generate_gir
-> -
-> -This argument has been removed in Meson 0.61.0:
-> -
-> -    gck/meson.build:130:2: ERROR: gnome.generate_gir got unknown keyword arguments "packages"
-> -
-> -https://github.com/mesonbuild/meson/commit/f8fc5cb860465718fe7c79a1bf1fe00659f138de:
-> -
-> -> The packages argument to gnome.generate_gir was allowed, but never did anything, so stop passing it.
-> -
-> -Fixes #89
-> -Upstream-Status: Backport
-> -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ----
-> - gck/meson.build | 1 -
-> - gcr/meson.build | 1 -
-> - ui/meson.build  | 1 -
-> - 3 files changed, 3 deletions(-)
-> -
-> -diff --git a/gck/meson.build b/gck/meson.build
-> -index 756b486..a21a1e9 100644
-> ---- a/gck/meson.build
-> -+++ b/gck/meson.build
-> -@@ -131,7 +131,6 @@ if get_option('introspection')
-> -     sources: gck_gir_sources,
-> -     namespace: 'Gck',
-> -     nsversion: '@0@'.format(gck_major_version),
-> --    packages: gck_deps,
-> -     export_packages: 'gck-@0@'.format(gck_major_version),
-> -     includes: [ 'GObject-2.0', 'Gio-2.0' ],
-> -     header: 'gck/gck.h',
-> -diff --git a/gcr/meson.build b/gcr/meson.build
-> -index 2233a44..c83641b 100644
-> ---- a/gcr/meson.build
-> -+++ b/gcr/meson.build
-> -@@ -190,7 +190,6 @@ if get_option('introspection')
-> -     sources: [ gcr_base_public_sources, gcr_base_headers ],
-> -     namespace: 'Gcr',
-> -     nsversion: '@0@'.format(gcr_major_version),
-> --    packages: gcr_base_deps,
-> -     export_packages: 'gcr-base-@0@'.format(gcr_major_version),
-> -     includes: [
-> -       'GObject-2.0',
-> -diff --git a/ui/meson.build b/ui/meson.build
-> -index e656ea2..32ee057 100644
-> ---- a/ui/meson.build
-> -+++ b/ui/meson.build
-> -@@ -152,7 +152,6 @@ if get_option('introspection')
-> -     export_packages: 'gcr-ui-@0@'.format(gcr_major_version),
-> -     identifier_prefix: 'Gcr',
-> -     symbol_prefix: 'gcr',
-> --    packages: gcr_ui_deps,
-> -     includes: [
-> -       'GObject-2.0',
-> -       'Gio-2.0',
-> --- 
-> -GitLab
-> -
-> diff --git a/meta/recipes-gnome/gcr/gcr3_3.40.0.bb b/meta/recipes-gnome/gcr/gcr3_3.41.1.bb
-> similarity index 69%
-> rename from meta/recipes-gnome/gcr/gcr3_3.40.0.bb
-> rename to meta/recipes-gnome/gcr/gcr3_3.41.1.bb
-> index 5318768db6..273728f6c8 100644
-> --- a/meta/recipes-gnome/gcr/gcr3_3.40.0.bb
-> +++ b/meta/recipes-gnome/gcr/gcr3_3.41.1.bb
-> @@ -20,24 +20,27 @@ GTKDOC_MESON_OPTION = "gtk_doc"
->  inherit gnomebase gtk-icon-cache gtk-doc features_check upstream-version-is-even vala gobject-introspection gettext mime mime-xdg
->  UPSTREAM_CHECK_REGEX = "[^\d\.](?P<pver>\d+\.(?!9\d+)(\d*[02468])+(\.\d+)+)\.tar"
->  
-> -SRC_URI = " \
-> -	https://download.gnome.org/sources/gcr/3.40/gcr-${PV}.tar.xz;name=archive \
-> -	file://0001-gcr-meson.build-fix-one-parallel-build-failure.patch \
-> -	file://b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch"
-> -
-> -SRC_URI[archive.sha256sum] = "b9d3645a5fd953a54285cc64d4fc046736463dbd4dcc25caf5c7b59bed3027f5"
-> +SRC_URI = "https://download.gnome.org/sources/gcr/3.41/gcr-${PV}.tar.xz;name=archive"
-> +SRC_URI += "file://0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patch"
-> +SRC_URI[archive.sha256sum] = "bb7128a3c2febbfee9c03b90d77d498d0ceb237b0789802d60185c71c4bea24f"
->  
->  S = "${WORKDIR}/gcr-${PV}"
->  
->  PACKAGECONFIG ??= " \
-> +	${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
->  	${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'gtk', '', d)} \
->  	${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'gtk', '', d)} \
->  "
->  PACKAGECONFIG[gtk] = "-Dgtk=true,-Dgtk=false,gtk+3"
-> +PACKAGECONFIG[ssh_agent] = "-Dssh_agent=true,-Dssh_agent=false,libsecret,openssh"
-> +#'Use systemd socket activation for server programs'
-> +PACKAGECONFIG[systemd] = "-Dsystemd=enabled,-Dsystemd=disabled,systemd"
->  
->  FILES:${PN} += " \
->      ${datadir}/dbus-1 \
->      ${datadir}/gcr-3 \
-> +    ${systemd_user_unitdir}/gcr-ssh-agent.socket \
-> +    ${systemd_user_unitdir}/gcr-ssh-agent.service \
->  "
->  
->  # http://errors.yoctoproject.org/Errors/Details/20229/
-> @@ -50,5 +53,7 @@ do_write_config:append() {
->      cat >${WORKDIR}/meson-${PN}.cross <<EOF
->  [binaries]
->  gpg2 = '${bindir}/gpg2'
-> +ssh-add = '${bindir}/ssh-add'
-> +ssh-agent = '${bindir}/ssh-agent'
->  EOF
->  }
-> -- 
-> 2.34.1
-> 
+Yes,  The setting REQUIRED_DISTRO_FEATURES =3D "opengl" is in gtk4 recipe. =
+Apart from that, gtk4 depends on libepoxy which also needs opengl distro.
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#175187): https://lists.openembedded.org/g/openembedded-core/message/175187
-> Mute This Topic: https://lists.openembedded.org/mt/95988912/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Thanks,
+________________________________
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Sent: Friday, December 23, 2022 17:43
+To: Yu, Mingli <Mingli.Yu@windriver.com>
+Cc: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
+mbedded.org>
+Subject: Re: [OE-core] [PATCH] gcr: add opengl to REQUIRED_DISTRO_FEATURES
+
+CAUTION: This email comes from a non Wind River email account!
+Do not click links or open attachments unless you recognize the sender and =
+know the content is safe.
+Is OpenGL really mandatory for gtk4?
+
+Alex
+
+On Fri 23. Dec 2022 at 10.32, Yu, Mingli <mingli.yu@eng.windriver.com<mailt=
+o:mingli.yu@eng.windriver.com>> wrote:
+From: Mingli Yu <mingli.yu@windriver.com<mailto:mingli.yu@windriver.com>>
+
+Fixes:
+  $ bitbake gcr
+  ERROR: Nothing PROVIDES 'gtk4' (but /build/layers/oe-core/meta/recipes-gn=
+ome/gcr/gcr_4.0.0.bb<https://urldefense.com/v3/__http://gcr_4.0.0.bb__;!!Aj=
+veYdw8EvQ!aAHHBL_XF2Kj8Qx6nJlx-VEmLcYaA6O2xpfAAnzq3_mgKI4R6JBzXRulca1gkiY5E=
+t5Kwi6bPycXwXHb4CuXgAucUmL4$> DEPENDS on or otherwise requires it)
+gtk4 was skipped: missing required distro feature 'opengl' (not in DISTRO_F=
+EATURES)
+  ERROR: Required build target 'gcr' has no buildable providers.
+  Missing or unbuildable dependency chain was: ['gcr', 'gtk4']
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com<mailto:mingli.yu@windrive=
+r.com>>
+---
+ meta/recipes-gnome/gcr/gcr_4.0.0.bb<https://urldefense.com/v3/__http://gcr=
+_4.0.0.bb__;!!AjveYdw8EvQ!aAHHBL_XF2Kj8Qx6nJlx-VEmLcYaA6O2xpfAAnzq3_mgKI4R6=
+JBzXRulca1gkiY5Et5Kwi6bPycXwXHb4CuXgAucUmL4$> | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-gnome/gcr/gcr_4.0.0.bb<https://urldefense.com/v3/=
+__http://gcr_4.0.0.bb__;!!AjveYdw8EvQ!aAHHBL_XF2Kj8Qx6nJlx-VEmLcYaA6O2xpfAA=
+nzq3_mgKI4R6JBzXRulca1gkiY5Et5Kwi6bPycXwXHb4CuXgAucUmL4$> b/meta/recipes-gn=
+ome/gcr/gcr_4.0.0.bb<https://urldefense.com/v3/__http://gcr_4.0.0.bb__;!!Aj=
+veYdw8EvQ!aAHHBL_XF2Kj8Qx6nJlx-VEmLcYaA6O2xpfAAnzq3_mgKI4R6JBzXRulca1gkiY5E=
+t5Kwi6bPycXwXHb4CuXgAucUmL4$>
+index 264069ffd1..22edd386fc 100644
+--- a/meta/recipes-gnome/gcr/gcr_4.0.0.bb<https://urldefense.com/v3/__http:=
+//gcr_4.0.0.bb__;!!AjveYdw8EvQ!aAHHBL_XF2Kj8Qx6nJlx-VEmLcYaA6O2xpfAAnzq3_mg=
+KI4R6JBzXRulca1gkiY5Et5Kwi6bPycXwXHb4CuXgAucUmL4$>
++++ b/meta/recipes-gnome/gcr/gcr_4.0.0.bb<https://urldefense.com/v3/__http:=
+//gcr_4.0.0.bb__;!!AjveYdw8EvQ!aAHHBL_XF2Kj8Qx6nJlx-VEmLcYaA6O2xpfAAnzq3_mg=
+KI4R6JBzXRulca1gkiY5Et5Kwi6bPycXwXHb4CuXgAucUmL4$>
+@@ -20,6 +20,8 @@ GTKDOC_MESON_OPTION =3D "gtk_doc"
+ inherit gnomebase gtk-icon-cache gi-docgen features_check upstream-version=
+-is-even vala gobject-introspection gettext mime mime-xdg
+ UPSTREAM_CHECK_REGEX =3D "gcr-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)\.tar.xz=
+"
+
++REQUIRED_DISTRO_FEATURES =3D "${@bb.utils.contains('DISTRO_FEATURES', 'x11=
+', 'opengl', '', d)}"
++
+ SRC_URI +=3D "file://0001-meson.build-correctly-handle-disabled-ssh_agent-=
+opti.patch"
+ SRC_URI[archive.sha256sum] =3D "c45855924f0ee7bab43e2dd38bfafd2ac815c6e986=
+4341c0161e171173dcec7c"
+
+--
+2.25.1
 
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+Links: You receive all messages sent to this group.
+View/Reply Online (#174976): https://lists.openembedded.org/g/openembedded-=
+core/message/174976<https://urldefense.com/v3/__https://lists.openembedded.=
+org/g/openembedded-core/message/174976__;!!AjveYdw8EvQ!aAHHBL_XF2Kj8Qx6nJlx=
+-VEmLcYaA6O2xpfAAnzq3_mgKI4R6JBzXRulca1gkiY5Et5Kwi6bPycXwXHb4CuXgJaHBHwR$>
+Mute This Topic: https://lists.openembedded.org/mt/95842308/1686489<https:/=
+/urldefense.com/v3/__https://lists.openembedded.org/mt/95842308/1686489__;!=
+!AjveYdw8EvQ!aAHHBL_XF2Kj8Qx6nJlx-VEmLcYaA6O2xpfAAnzq3_mgKI4R6JBzXRulca1gki=
+Y5Et5Kwi6bPycXwXHb4CuXgFA08ADx$>
+Group Owner: openembedded-core+owner@lists.openembedded.org<mailto:openembe=
+dded-core%2Bowner@lists.openembedded.org>
+Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub<https=
+://urldefense.com/v3/__https://lists.openembedded.org/g/openembedded-core/u=
+nsub__;!!AjveYdw8EvQ!aAHHBL_XF2Kj8Qx6nJlx-VEmLcYaA6O2xpfAAnzq3_mgKI4R6JBzXR=
+ulca1gkiY5Et5Kwi6bPycXwXHb4CuXgMLu9URo$> [alex.kanavin@gmail.com<mailto:ale=
+x.kanavin@gmail.com>]
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+
+
+--_000_CO1PR11MB50090C2DFF0949D0B90ED483F1FA9CO1PR11MB5009namp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div class=3D"elementToProof"><span style=3D"font-family: Calibri, Arial, H=
+elvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0); background-colo=
+r: rgb(255, 255, 255);" class=3D"elementToProof">Hi Alex,</span></div>
+<div class=3D"elementToProof"><span style=3D"font-family: Calibri, Arial, H=
+elvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0); background-colo=
+r: rgb(255, 255, 255);" class=3D"elementToProof"><br>
+</span></div>
+<div class=3D"elementToProof"><span style=3D"font-family: Calibri, Arial, H=
+elvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0); background-colo=
+r: rgb(255, 255, 255);" class=3D"elementToProof ContentPasted0 ContentPaste=
+d1">Yes,&nbsp; The setting REQUIRED_DISTRO_FEATURES
+ =3D &quot;opengl&quot; is in gtk4 recipe. Apart from that, gtk4 depends on=
+&nbsp;libepoxy which also needs opengl distro.</span></div>
+<div class=3D"elementToProof"><span style=3D"font-family: Calibri, Arial, H=
+elvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0); background-colo=
+r: rgb(255, 255, 255);" class=3D"elementToProof ContentPasted0 ContentPaste=
+d1"><br>
+</span></div>
+<div class=3D"elementToProof"><span style=3D"font-family: Calibri, Arial, H=
+elvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0); background-colo=
+r: rgb(255, 255, 255);" class=3D"elementToProof ContentPasted0 ContentPaste=
+d1">Thanks,</span></div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Alexander Kanavin &lt=
+;alex.kanavin@gmail.com&gt;<br>
+<b>Sent:</b> Friday, December 23, 2022 17:43<br>
+<b>To:</b> Yu, Mingli &lt;Mingli.Yu@windriver.com&gt;<br>
+<b>Cc:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
+ists.openembedded.org&gt;<br>
+<b>Subject:</b> Re: [OE-core] [PATCH] gcr: add opengl to REQUIRED_DISTRO_FE=
+ATURES</font>
+<div>&nbsp;</div>
+</div>
+<div><strong>
+<div style=3D"border:solid #9c6500 1pt; padding:2pt; background:#fcfc03"><s=
+pan style=3D"font-size:11pt; color:#000">CAUTION: This email comes from a n=
+on Wind River email account!</span></strong><br>
+<span style=3D"font-size:10pt; color:#000">Do not click links or open attac=
+hments unless you recognize the sender and know the content is safe.</span>=
+<br>
+</div>
+<div>
+<div dir=3D"auto">Is OpenGL really mandatory for gtk4?</div>
+<div dir=3D"auto"><br>
+</div>
+<div dir=3D"auto">Alex</div>
+<div><br>
+<div class=3D"x_gmail_quote">
+<div dir=3D"ltr" class=3D"x_gmail_attr">On Fri 23. Dec 2022 at 10.32, Yu, M=
+ingli &lt;<a href=3D"mailto:mingli.yu@eng.windriver.com">mingli.yu@eng.wind=
+river.com</a>&gt; wrote:<br>
+</div>
+<blockquote class=3D"x_gmail_quote" style=3D"margin:0px 0px 0px 0.8ex; bord=
+er-left-width:1px; border-left-style:solid; padding-left:1ex; border-left-c=
+olor:rgb(204,204,204)">
+From: Mingli Yu &lt;<a href=3D"mailto:mingli.yu@windriver.com" target=3D"_b=
+lank">mingli.yu@windriver.com</a>&gt;<br>
+<br>
+Fixes:<br>
+&nbsp; $ bitbake gcr<br>
+&nbsp; ERROR: Nothing PROVIDES 'gtk4' (but /build/layers/oe-core/meta/recip=
+es-gnome/gcr/<a href=3D"https://urldefense.com/v3/__http://gcr_4.0.0.bb__;!=
+!AjveYdw8EvQ!aAHHBL_XF2Kj8Qx6nJlx-VEmLcYaA6O2xpfAAnzq3_mgKI4R6JBzXRulca1gki=
+Y5Et5Kwi6bPycXwXHb4CuXgAucUmL4$" rel=3D"noreferrer" target=3D"_blank">gcr_4=
+.0.0.bb</a>
+ DEPENDS on or otherwise requires it)<br>
+gtk4 was skipped: missing required distro feature 'opengl' (not in DISTRO_F=
+EATURES)<br>
+&nbsp; ERROR: Required build target 'gcr' has no buildable providers.<br>
+&nbsp; Missing or unbuildable dependency chain was: ['gcr', 'gtk4']<br>
+<br>
+Signed-off-by: Mingli Yu &lt;<a href=3D"mailto:mingli.yu@windriver.com" tar=
+get=3D"_blank">mingli.yu@windriver.com</a>&gt;<br>
+---<br>
+&nbsp;meta/recipes-gnome/gcr/<a href=3D"https://urldefense.com/v3/__http://=
+gcr_4.0.0.bb__;!!AjveYdw8EvQ!aAHHBL_XF2Kj8Qx6nJlx-VEmLcYaA6O2xpfAAnzq3_mgKI=
+4R6JBzXRulca1gkiY5Et5Kwi6bPycXwXHb4CuXgAucUmL4$" rel=3D"noreferrer" target=
+=3D"_blank">gcr_4.0.0.bb</a> | 2 ++<br>
+&nbsp;1 file changed, 2 insertions(+)<br>
+<br>
+diff --git a/meta/recipes-gnome/gcr/<a href=3D"https://urldefense.com/v3/__=
+http://gcr_4.0.0.bb__;!!AjveYdw8EvQ!aAHHBL_XF2Kj8Qx6nJlx-VEmLcYaA6O2xpfAAnz=
+q3_mgKI4R6JBzXRulca1gkiY5Et5Kwi6bPycXwXHb4CuXgAucUmL4$" rel=3D"noreferrer" =
+target=3D"_blank">gcr_4.0.0.bb</a> b/meta/recipes-gnome/gcr/<a href=3D"http=
+s://urldefense.com/v3/__http://gcr_4.0.0.bb__;!!AjveYdw8EvQ!aAHHBL_XF2Kj8Qx=
+6nJlx-VEmLcYaA6O2xpfAAnzq3_mgKI4R6JBzXRulca1gkiY5Et5Kwi6bPycXwXHb4CuXgAucUm=
+L4$" rel=3D"noreferrer" target=3D"_blank">gcr_4.0.0.bb</a><br>
+index 264069ffd1..22edd386fc 100644<br>
+--- a/meta/recipes-gnome/gcr/<a href=3D"https://urldefense.com/v3/__http://=
+gcr_4.0.0.bb__;!!AjveYdw8EvQ!aAHHBL_XF2Kj8Qx6nJlx-VEmLcYaA6O2xpfAAnzq3_mgKI=
+4R6JBzXRulca1gkiY5Et5Kwi6bPycXwXHb4CuXgAucUmL4$" rel=3D"noreferrer" target=
+=3D"_blank">gcr_4.0.0.bb</a><br>
++++ b/meta/recipes-gnome/gcr/<a href=3D"https://urldefense.com/v3/__http://=
+gcr_4.0.0.bb__;!!AjveYdw8EvQ!aAHHBL_XF2Kj8Qx6nJlx-VEmLcYaA6O2xpfAAnzq3_mgKI=
+4R6JBzXRulca1gkiY5Et5Kwi6bPycXwXHb4CuXgAucUmL4$" rel=3D"noreferrer" target=
+=3D"_blank">gcr_4.0.0.bb</a><br>
+@@ -20,6 +20,8 @@ GTKDOC_MESON_OPTION =3D &quot;gtk_doc&quot;<br>
+&nbsp;inherit gnomebase gtk-icon-cache gi-docgen features_check upstream-ve=
+rsion-is-even vala gobject-introspection gettext mime mime-xdg<br>
+&nbsp;UPSTREAM_CHECK_REGEX =3D &quot;gcr-(?P&lt;pver&gt;\d+\.(\d*[02468])+(=
+\.\d+)+)\.tar.xz&quot;<br>
+<br>
++REQUIRED_DISTRO_FEATURES =3D &quot;${@bb.utils.contains('DISTRO_FEATURES',=
+ 'x11', 'opengl', '', d)}&quot;<br>
++<br>
+&nbsp;SRC_URI +=3D &quot;file://0001-meson.build-correctly-handle-disabled-=
+ssh_agent-opti.patch&quot;<br>
+&nbsp;SRC_URI[archive.sha256sum] =3D &quot;c45855924f0ee7bab43e2dd38bfafd2a=
+c815c6e9864341c0161e171173dcec7c&quot;<br>
+<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#174976): <a href=3D"https://urldefense.com/v3/__https:/=
+/lists.openembedded.org/g/openembedded-core/message/174976__;!!AjveYdw8EvQ!=
+aAHHBL_XF2Kj8Qx6nJlx-VEmLcYaA6O2xpfAAnzq3_mgKI4R6JBzXRulca1gkiY5Et5Kwi6bPyc=
+XwXHb4CuXgJaHBHwR$" rel=3D"noreferrer" target=3D"_blank">
+https://lists.openembedded.org/g/openembedded-core/message/174976</a><br>
+Mute This Topic: <a href=3D"https://urldefense.com/v3/__https://lists.opene=
+mbedded.org/mt/95842308/1686489__;!!AjveYdw8EvQ!aAHHBL_XF2Kj8Qx6nJlx-VEmLcY=
+aA6O2xpfAAnzq3_mgKI4R6JBzXRulca1gkiY5Et5Kwi6bPycXwXHb4CuXgFA08ADx$" rel=3D"=
+noreferrer" target=3D"_blank">
+https://lists.openembedded.org/mt/95842308/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">
+openembedded-core+owner@lists.openembedded.org</a><br>
+Unsubscribe: <a href=3D"https://urldefense.com/v3/__https://lists.openembed=
+ded.org/g/openembedded-core/unsub__;!!AjveYdw8EvQ!aAHHBL_XF2Kj8Qx6nJlx-VEmL=
+cYaA6O2xpfAAnzq3_mgKI4R6JBzXRulca1gkiY5Et5Kwi6bPycXwXHb4CuXgMLu9URo$" rel=
+=3D"noreferrer" target=3D"_blank">
+https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a href=3D"ma=
+ilto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>]<=
+br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
+
+--_000_CO1PR11MB50090C2DFF0949D0B90ED483F1FA9CO1PR11MB5009namp_--
 
