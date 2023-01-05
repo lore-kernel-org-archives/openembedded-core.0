@@ -1,121 +1,154 @@
-Return-Path: <toertel@gmail.com>
+Return-Path: <chee.yang.lee@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1D01C3DA7A
-	for <webhook@archiver.kernel.org>; Thu,  5 Jan 2023 13:43:01 +0000 (UTC)
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
- by mx.groups.io with SMTP id smtpd.web10.12957.1672926176053450491
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFF1CC3DA7A
+	for <webhook@archiver.kernel.org>; Thu,  5 Jan 2023 14:03:11 +0000 (UTC)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by mx.groups.io with SMTP id smtpd.web10.13379.1672927389175236430
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Jan 2023 05:42:56 -0800
+ Thu, 05 Jan 2023 06:03:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Cor8XuHi;
- spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: toertel@gmail.com)
-Received: by mail-qv1-f46.google.com with SMTP id y8so1531900qvn.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Jan 2023 05:42:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y/V1oqxll8CMOa40CgOMbqLJxcTYdOpD66Nta4Bbin0=;
-        b=Cor8XuHicPDadt1+Rg5huJ70Betj13T9MPn6L+zy67GqmqvPb2LIlDYXQrGg15Llaf
-         NFeEAmdltGALMrV/YcWSe2fhcD94hrwbKuT9UE669qBGhVX+aqT774FueUxDGKPR+00u
-         v+VZCbMUQkI2h4EGjG1osWCWZJVd8E4liqaMwnDcQbkQXbossj04HwkZTHkuuneJNSIU
-         s8KKGTVIpAc4VA2OtoU9/qCvE9QA56jcgvMv1BcU3U8tBI90We6hNGUrL1QIHFkjpf35
-         NUGan8dEa/yzIAf+1fq/Quue7icPMi0Q56bE/h9LIxz93mdRUNPmCX6Wzfi7CHTlhN30
-         narg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Y/V1oqxll8CMOa40CgOMbqLJxcTYdOpD66Nta4Bbin0=;
-        b=vIVX1wr9BZe7iUFSLwSCZynM5URNnv7xHUnQlXKAUGpcJhvj23r7ZYurpAqwSmo/OI
-         zy03dJV+9mlw9d7XqxCXE8htYtUp3uRzx40YlaAbIlNsMdStQ9J97lP3XvgZTcYfkXR9
-         WO7DjgeL5axvWKVk651KmXYoTC6xfp0tIRdzqrAFu6ewsaiLr7ufI6zoj6uxC9wMvMSe
-         2baWTVAaxGNVPW+DtChpW5shWjqlxmgQ9CcSU0rJNiYE8EsElSeD6xniUfb/0ZmN2lB1
-         mjNWC/iUK1T822RumhxDPpU2cFCwLXHdcCVC/lnnmOrT4lzXtZ/aB6dFjnkiBK555Z7f
-         DDGg==
-X-Gm-Message-State: AFqh2kpI1ZtSlAKBpBJEi5VP3Qdmw9hUOgqt/vMZkBqfAZ0pCNrVVu+F
-	NT/8aDde9JpImJ1Ff3YoXHpTrgorrF6mfOGjxwM=
-X-Google-Smtp-Source: AMrXdXuLEBOJ3WEpHUPOZyr6jE57uI/Jy42wlSZQ521kANPLy2NK6OD9BT30faBxgBIvjXhZpXu4LSijjlRksaJ+ubA=
-X-Received: by 2002:a05:6214:3904:b0:525:1e7e:ae46 with SMTP id
- nh4-20020a056214390400b005251e7eae46mr2864213qvb.49.1672926175011; Thu, 05
- Jan 2023 05:42:55 -0800 (PST)
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=BTRcCBTl;
+ spf=pass (domain: intel.com, ip: 134.134.136.126, mailfrom: chee.yang.lee@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1672927389; x=1704463389;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Grl3oyqAJ0APlNo2HyRcpkR90fp/uts5UBxKUO6XNdg=;
+  b=BTRcCBTl2yAaSiXURgcewyvAdJE3TicJabGM6BELphkVa4ivsUOV5DRn
+   hsOKGy3ZzZPNf/m27CrS/x/4AyLRrBVDGycI1PSMZNAQOuAgpen0f2s72
+   NK2WDh6K/0u5zIVlUWsIEXWbFtnfssq1R27lcI7k3vY1XuvxSbWSkUc2b
+   E6XM9Af9y6TvsofmqGB2Fmn912bJqOH75cGXovFskxm9DQSfb3Xfe9Kjj
+   r+Joy1m7bZ10Vj3qDGo3Opb8VFIu9xVeRHH/WoNU8rzGS3QlxkIxw4YB+
+   Qwo1whyTKjeqszrM674u8/1fDumWPQGbQIlCBOZ5Eamt+rlOS7iuAejvq
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="305711314"
+X-IronPort-AV: E=Sophos;i="5.96,303,1665471600"; 
+   d="scan'208";a="305711314"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2023 06:03:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10580"; a="829562822"
+X-IronPort-AV: E=Sophos;i="5.96,303,1665471600"; 
+   d="scan'208";a="829562822"
+Received: from andromeda02.png.intel.com ([10.221.253.198])
+  by orsmga005.jf.intel.com with ESMTP; 05 Jan 2023 06:03:06 -0800
+From: chee.yang.lee@intel.com
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH][dunfell] libksba: fix CVE-2022-47629
+Date: Thu,  5 Jan 2023 22:03:00 +0800
+Message-Id: <20230105140300.3879963-1-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-References: <20230104121808.1065203-1-toertel@gmail.com> <20230104121808.1065203-3-toertel@gmail.com>
- <CADkTA4OBb1J9Ld19rzvuQntdj04rRUdH9sP=cPSKwvO=U1s-Tw@mail.gmail.com>
-In-Reply-To: <CADkTA4OBb1J9Ld19rzvuQntdj04rRUdH9sP=cPSKwvO=U1s-Tw@mail.gmail.com>
-From: Mark Jonas <toertel@gmail.com>
-Date: Thu, 5 Jan 2023 14:42:44 +0100
-Message-ID: <CAEE5dN1jL4KYpYMz9En=NqiEE-Bu8HsCXhTSUgECekktmjr78A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] linux-yocto: Autoload sound driver on QEMU x86
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, michael.opdenacker@bootlin.com, 
-	richard.purdie@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Jan 2023 13:43:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175526
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Jan 2023 14:03:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175527
 
-Hi Bruce,
+From: Chee Yang Lee <chee.yang.lee@intel.com>
 
-On Wed, Jan 4, 2023 at 5:07 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
->
-> On Wed, Jan 4, 2023 at 7:18 AM Mark Jonas <toertel@gmail.com> wrote:
-> >
-> > From: Mark Jonas <toertel@gmail.com>
-> >
-> > If DISTRO_FEATURES includes ALSA then automatically load the
-> > snd-intel8x0 kernel module on qemux86 and qemux86-64. This matches the
-> > machine configurations conf/machine/qemux86.conf and qemux86-64.conf.
-> >
-> > Signed-off-by: Mark Jonas <toertel@gmail.com>
-> > ---
-> >  meta/recipes-kernel/linux/linux-yocto.inc | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> >
-> > diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-> > index 091003ed82..c8a9b0a1e3 100644
-> > --- a/meta/recipes-kernel/linux/linux-yocto.inc
-> > +++ b/meta/recipes-kernel/linux/linux-yocto.inc
-> > @@ -37,6 +37,11 @@ KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'efi', 'cfg/
-> >  KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'numa', 'features/numa/numa.scc', '', d)}"
-> >  KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'vfat', 'cfg/fs/vfat.scc', '', d)}"
-> >
-> > +# sound driver recommended by conf/machine/qemux86*.conf
-> > +ALSA_MODULES = "${@bb.utils.contains("DISTRO_FEATURES", "alsa", "snd-intel8x0", "", d)}"
-> > +KERNEL_MODULE_AUTOLOAD:qemux86 += "${ALSA_MODULES}"
-> > +KERNEL_MODULE_AUTOLOAD:qemux86-64 += "${ALSA_MODULES}"
->
-> This gets us most of the way, but if we are going to do this we should
-> complete the job.
->
-> We really need to make sure there's a configuration fragment that
-> explicitly enables
-> the modules we need (and not count on defaults, or other selects). That would go
-> into the kernel-cache.
->
-> It would then be something we'd add to the KERNEL_FEATRES triggered off the
-> distro feature. Just like we are doing with numa and vfat that is visible in the
-> context of the patch.
+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+---
+ .../libksba/libksba/CVE-2022-47629.patch      | 69 +++++++++++++++++++
+ meta/recipes-support/libksba/libksba_1.3.5.bb |  4 +-
+ 2 files changed, 72 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/libksba/libksba/CVE-2022-47629.patch
 
-In my understanding this is already the case. See for example
-linux-yocto_5.19.bb which contains the following lines.
+diff --git a/meta/recipes-support/libksba/libksba/CVE-2022-47629.patch b/meta/recipes-support/libksba/libksba/CVE-2022-47629.patch
+new file mode 100644
+index 0000000000..b09d0eb557
+--- /dev/null
++++ b/meta/recipes-support/libksba/libksba/CVE-2022-47629.patch
+@@ -0,0 +1,69 @@
++From b17444b3c47e32c77a3ba5335ae30ccbadcba3cf Mon Sep 17 00:00:00 2001
++From: Werner Koch <wk@gnupg.org>
++Date: Tue, 22 Nov 2022 16:36:46 +0100
++Subject: [PATCH] Fix an integer overflow in the CRL signature parser.
++
++* src/crl.c (parse_signature): N+N2 now checked for overflow.
++
++* src/ocsp.c (parse_response_extensions): Do not accept too large
++values.
++(parse_single_extensions): Ditto.
++--
++
++The second patch is an extra safegourd not related to the reported
++bug.
++
++GnuPG-bug-id: 6284
++Reported-by: Joseph Surin, elttam
++CVE: CVE-2022-47629
++https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libksba.git;a=commit;h=f61a5ea4e0f6a80fd4b28ef0174bee77793cf070
++Upstream-Status: Backport
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++---
++ src/crl.c  |  2 +-
++ src/ocsp.c | 12 ++++++++++++
++ 2 files changed, 13 insertions(+), 1 deletion(-)
++
++diff --git a/src/crl.c b/src/crl.c
++index 87a3fa3..9d3028e 100644
++--- a/src/crl.c
+++++ b/src/crl.c
++@@ -1434,7 +1434,7 @@ parse_signature (ksba_crl_t crl)
++          && !ti.is_constructed) )
++     return gpg_error (GPG_ERR_INV_CRL_OBJ);
++   n2 = ti.nhdr + ti.length;
++-  if (n + n2 >= DIM(tmpbuf))
+++  if (n + n2 >= DIM(tmpbuf) || (n + n2) < n)
++     return gpg_error (GPG_ERR_TOO_LARGE);
++   memcpy (tmpbuf+n, ti.buf, ti.nhdr);
++   err = read_buffer (crl->reader, tmpbuf+n+ti.nhdr, ti.length);
++diff --git a/src/ocsp.c b/src/ocsp.c
++index 4b26f8d..c41234e 100644
++--- a/src/ocsp.c
+++++ b/src/ocsp.c
++@@ -912,6 +912,12 @@ parse_response_extensions (ksba_ocsp_t ocsp,
++           else
++             ocsp->good_nonce = 1;
++         }
+++      if (ti.length > (1<<24))
+++        {
+++          /* Bail out on much too large objects.  */
+++          err = gpg_error (GPG_ERR_BAD_BER);
+++          goto leave;
+++        }
++       ex = xtrymalloc (sizeof *ex + strlen (oid) + ti.length);
++       if (!ex)
++         {
++@@ -979,6 +985,12 @@ parse_single_extensions (struct ocsp_reqitem_s *ri,
++       err = parse_octet_string (&data, &datalen, &ti);
++       if (err)
++         goto leave;
+++      if (ti.length > (1<<24))
+++        {
+++          /* Bail out on much too large objects.  */
+++          err = gpg_error (GPG_ERR_BAD_BER);
+++          goto leave;
+++        }
++       ex = xtrymalloc (sizeof *ex + strlen (oid) + ti.length);
++       if (!ex)
++         {
+diff --git a/meta/recipes-support/libksba/libksba_1.3.5.bb b/meta/recipes-support/libksba/libksba_1.3.5.bb
+index 7f9ab4f5fc..841830efa8 100644
+--- a/meta/recipes-support/libksba/libksba_1.3.5.bb
++++ b/meta/recipes-support/libksba/libksba_1.3.5.bb
+@@ -22,7 +22,9 @@ inherit autotools binconfig-disabled pkgconfig texinfo
+ 
+ UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
+ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+-           file://ksba-add-pkgconfig-support.patch"
++           file://ksba-add-pkgconfig-support.patch \
++           file://CVE-2022-47629.patch \
++"
+ 
+ SRC_URI[md5sum] = "8302a3e263a7c630aa7dea7d341f07a2"
+ SRC_URI[sha256sum] = "41444fd7a6ff73a79ad9728f985e71c9ba8cd3e5e53358e70d5f066d35c1a340"
+-- 
+2.37.3
 
-KERNEL_FEATURES:append:qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
-KERNEL_FEATURES:append:qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
-
-Does that maybe mean I should better add the KERNEL_MODULE_AUTOLOAD
-into the same file where the corresponding configuration fragment is
-added? But that would mean to duplicate the lines over five recipes.
-
-Alternatively I could move the cfg/sound.scc out of the recipes into
-the linux-yocto.inc. But then linux-yocto-tiny_*.bb recipes would also
-get it.
-
-Cheers,
-Mark
 
