@@ -1,141 +1,163 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C366C53210
-	for <webhook@archiver.kernel.org>; Thu,  5 Jan 2023 14:57:22 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web10.14696.1672930636243130160
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1A3DC3DA7D
+	for <webhook@archiver.kernel.org>; Thu,  5 Jan 2023 14:57:51 +0000 (UTC)
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
+ by mx.groups.io with SMTP id smtpd.web10.14711.1672930670057557894
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Jan 2023 06:57:16 -0800
+ Thu, 05 Jan 2023 06:57:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=K8OETjaE;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id p1-20020a05600c1d8100b003d8c9b191e0so1503930wms.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Jan 2023 06:57:15 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=kx6wbm8j;
+ spf=pass (domain: gmail.com, ip: 209.85.166.50, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f50.google.com with SMTP id g20so19620009iob.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Jan 2023 06:57:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=BktDNt8mwryv5/uN3Fhw8L2EpYLUMq+PwFLIwyATbM4=;
-        b=K8OETjaEBa4gOhWXPONwGrIxnsT3d5mLjWzUsTdmvkH60aJkenWokLhkN+IFWlxUIh
-         nfYRB5+3l3CfT0vg5aJfA3iRGXHoF+mZNYCqx+6ZKg9wEIlzZj+pt8gHbF16HUCGHIkm
-         A5KgoymYV66x0S8EKELRIKQcRmxPSTVX4JafA=
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3hI1B8GkIDLgkaCEs2wlAli7fGwAUtS0nAbQ9A1vAqs=;
+        b=kx6wbm8jmCqJFB2T+WKggBgRxZyoWyiaPbvOIHh0kD3ehXL5K9UNfHbbQRFVSIYf7t
+         QKtTHBDbXcNi3bg7UWhUQQbOExv3MTevi7gGem2rOFfF/EUWYDeJm8K1jzPenC/tqT9F
+         o4TU/YmmqTonJR26edfQAikKDIT/cWB7lfolAlJGDrg9oFJzBKK0wZDEeJ7sil+P1KlV
+         Bs6nLsX0Oqwu4CeIAGExTuTwA+PZlwpLAyr4bhXB1Yze2Fk44N6GbUbTsBGFx/bX/faM
+         iW4E7SXuvLBfcWYn408PeTblTDskydTBBL56oSOYadm8oWimaoquPeC2rch6buf+Grv0
+         n6qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BktDNt8mwryv5/uN3Fhw8L2EpYLUMq+PwFLIwyATbM4=;
-        b=62hJgI1PxLzDesUQpUnXzQNuSrghl9oYu7WLoIGFsKZV917pcWzO+mZEh4k7nF4G0A
-         z1vWFADKPom3o71oTL2g97MCLJbwey6O+mbZj0ojK35OXO+04+UcfN4s3kslFXWT5t5U
-         vd9PJ+JwfNQNtT398IznNy7WUCSuOxabyp2vjNtpUsX1JEykzvmb55OwnpCr1Q08Y3/m
-         ODzYex0Cv32ZS+6yj+xyJ7mYgA1QSvwC8g09OMssb0JicWgjz37oF39xNzQBjUHS0WvR
-         1tTgQeDQY8O4lBU9439umLYwZm+DVfQtqy7Pkxyfl+sEbN2Ws8SS4sbXP+CvGEpD55nK
-         SvwQ==
-X-Gm-Message-State: AFqh2kp0Ma7F7ykeuuYQJAvkWLBkEHnIBGvnDYaHzlEjgdXGHnkcFl9x
-	YnyMoPmR2WeRzpTXvnk2W4lO5A==
-X-Google-Smtp-Source: AMrXdXsyYcEMXpyAcNADOYj7Ju8ncOfvsm5V1exu5UBf6kxjjL20MHGbNz2OjugbeDvPFxpXcP8cpg==
-X-Received: by 2002:a05:600c:3d86:b0:3cf:9ac8:c537 with SMTP id bi6-20020a05600c3d8600b003cf9ac8c537mr37848595wmb.14.1672930634496;
-        Thu, 05 Jan 2023 06:57:14 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:990c:167e:ef8f:7586? ([2001:8b0:aba:5f3c:990c:167e:ef8f:7586])
-        by smtp.gmail.com with ESMTPSA id p12-20020a05600c358c00b003d237d60318sm3045964wmq.2.2023.01.05.06.57.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Jan 2023 06:57:14 -0800 (PST)
-Message-ID: <d92b4751144e16c0d97823b7eef1b88b3a20b760.camel@linuxfoundation.org>
-Subject: Re: [OE-core] is "poky" distro defined to use "sysvinit" as
- INIT_MANAGER?
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>, Khem
- Raj <raj.khem@gmail.com>, "Robert P. J. Day" <rpjday@crashcourse.ca>, YP
- docs mailing list <docs@lists.yoctoproject.org>
-Date: Thu, 05 Jan 2023 14:57:13 +0000
-In-Reply-To: <b725dbd2-3825-1eb7-3f71-a19a17c2ef7f@bootlin.com>
-References: <2893205d-57e1-e63e-5c12-c57c7bbcb924@crashcourse.ca>
-	 <CAMKF1spKw-X-JTvdicfBBNNGk93EPL=gqD3jixvJkb7YfT1P0g@mail.gmail.com>
-	 <1736D38C7177CA6A.6604@lists.openembedded.org>
-	 <b725dbd2-3825-1eb7-3f71-a19a17c2ef7f@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.1-0ubuntu1 
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3hI1B8GkIDLgkaCEs2wlAli7fGwAUtS0nAbQ9A1vAqs=;
+        b=TbNbdkokGvQ8+X8znIZlS5vqJIyS/mXtoTxsWgB331/uLXfaSKe5lnsQxWCBjI6Fro
+         aUdkZGBgBBKwJukDKrucW3pDP68v4bakqmZfyCQYPYQWxZGXw8sbbx891vu2OBu+ZQjN
+         wbSnI0XCXMHWZu5JDhhTlgOFGQV0F+rqQZE/wcnchOUca/GYSdvK09FhyEVWbqlpMrJh
+         tWLO1vm9+IWAz0T9wCWia/gPCQgXmIeSpX3hW1os8/LlAh5FcyW6tXNamMxzT0+SEqbl
+         TOuGJw1DrSqS+jnvtqpqZXM/9sPlCk9wZ2T9gWcdNU8nXoAqa82TOnTr9gE3gRaLGEB+
+         CdOg==
+X-Gm-Message-State: AFqh2kpFcYJnBM5vCSQO3cpxBnKuigw24A/t3Shh7V/x4FVUaEZQHFzh
+	7GyEW64SjKo496K9iFhueZYYqPhMpdpaMkEqeOM=
+X-Google-Smtp-Source: AMrXdXtHmR6xRJ3lckpGsZeBTGIHTGxzwfgqDLQJHY0P5m4IoX2d0rjAfqeKJvFrlaKt6pBkYnSXCEllbGjwowzRUWM=
+X-Received: by 2002:a05:6638:1a1:b0:38a:7f45:a5ff with SMTP id
+ b1-20020a05663801a100b0038a7f45a5ffmr4269887jaq.9.1672930669320; Thu, 05 Jan
+ 2023 06:57:49 -0800 (PST)
 MIME-Version: 1.0
+References: <20230104121808.1065203-1-toertel@gmail.com> <20230104121808.1065203-3-toertel@gmail.com>
+ <CADkTA4OBb1J9Ld19rzvuQntdj04rRUdH9sP=cPSKwvO=U1s-Tw@mail.gmail.com> <CAEE5dN1jL4KYpYMz9En=NqiEE-Bu8HsCXhTSUgECekktmjr78A@mail.gmail.com>
+In-Reply-To: <CAEE5dN1jL4KYpYMz9En=NqiEE-Bu8HsCXhTSUgECekktmjr78A@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 5 Jan 2023 09:57:38 -0500
+Message-ID: <CADkTA4NhVxONZONVWd9yP4g735Mr5cVThLPcWRUv0vBYkXmc3A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] linux-yocto: Autoload sound driver on QEMU x86
+To: Mark Jonas <toertel@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, michael.opdenacker@bootlin.com, 
+	richard.purdie@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Jan 2023 14:57:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175534
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Jan 2023 14:57:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175535
 
-On Thu, 2023-01-05 at 15:23 +0100, Michael Opdenacker wrote:
-> Am 03.01.23 um 15:41 schrieb Michael Opdenacker via lists.openembedded.or=
-g:
-> > Hello Richard,
-> >=20
-> > Trying to improve the documentation about the selection of the init=20
-> > system, I'm jumping back to this old conversation, following a change=
-=20
-> > that you made (https://lists.yoctoproject.org/g/poky/message/12760).
-> >=20
-> > Am 06.07.22 um 18:40 schrieb Khem Raj:
-> > > On Wed, Jul 6, 2022 at 12:38 PM Robert P. J. Day=20
-> > > <rpjday@crashcourse.ca> wrote:
-> > > >=20
-> > > > =C2=A0=C2=A0 not sure why i never noticed this before, but i starte=
-d a new
-> > > > project from the poky layer (not OE), and realized that poky.conf
-> > > > explicitly sets:
-> > > >=20
-> > > > =C2=A0=C2=A0 INIT_MANAGER =3D "sysvinit"
-> > > >=20
-> > > > which can't be overridden in my local.conf. if i want systemd, i gu=
-ess
-> > > > i can initialize my project from the OE layer, and i also notice th=
-at
-> > > > i could use poky-altcfg.conf.
-> > > >=20
-> > > > =C2=A0=C2=A0 but is there a reason that the default poky-based proj=
-ect fixes
-> > > > INIT_MANAGER to "sysvinit". perhaps just for simplicity?
-> > > >=20
-> > > poky defaults to sysvinit.
-> > > poky has poky-alt distro fi you want to use say systemd
-> >=20
-> > But why not setting INIT_MANAGER with "?=3D" instead of "=3D" in poky.c=
-onf?
-> >=20
-> > This way, we could just override INIT_MANAGER from local.conf.
-> >=20
-> > I checked that the generated system works. This would make things=20
-> > easier to document, unless I'm missing other reasons.
->=20
->=20
-> Richard told me on IRC that, from memory, this was set because of=20
-> interference poky-altcfg (if I understood correctly).
->=20
-> I understand one recommended way to have systemd instead of sysvinit in=
-=20
-> Poky is to use "poky-altcfg" instead of "poky" as distro.
->=20
-> Similarly, I guess I should use "poky-tiny" if I want to use=20
-> "mdev-busybox" as INIT_MANAGER.
->=20
-> Then, I guess I'll document something like this:
->=20
->   * With the OpenEmbedded build system, you can choose your init system
->     by setting INIT_MANAGER to "sysvinit", "systemd", "busybox-mdev" or
->     "none"
->   * BUT if you're using Poky, that won't work, so your options will be
->     to use either "poky" (sysvinit), "poky-altcfg" (systemd) or
->     "poky-tiny" (mdev-busybox).
->=20
-> Does this sound like the right way to document this?
+On Thu, Jan 5, 2023 at 8:42 AM Mark Jonas <toertel@gmail.com> wrote:
+>
+> Hi Bruce,
+>
+> On Wed, Jan 4, 2023 at 5:07 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+> >
+> > On Wed, Jan 4, 2023 at 7:18 AM Mark Jonas <toertel@gmail.com> wrote:
+> > >
+> > > From: Mark Jonas <toertel@gmail.com>
+> > >
+> > > If DISTRO_FEATURES includes ALSA then automatically load the
+> > > snd-intel8x0 kernel module on qemux86 and qemux86-64. This matches the
+> > > machine configurations conf/machine/qemux86.conf and qemux86-64.conf.
+> > >
+> > > Signed-off-by: Mark Jonas <toertel@gmail.com>
+> > > ---
+> > >  meta/recipes-kernel/linux/linux-yocto.inc | 5 +++++
+> > >  1 file changed, 5 insertions(+)
+> > >
+> > > diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+> > > index 091003ed82..c8a9b0a1e3 100644
+> > > --- a/meta/recipes-kernel/linux/linux-yocto.inc
+> > > +++ b/meta/recipes-kernel/linux/linux-yocto.inc
+> > > @@ -37,6 +37,11 @@ KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'efi', 'cfg/
+> > >  KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'numa', 'features/numa/numa.scc', '', d)}"
+> > >  KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'vfat', 'cfg/fs/vfat.scc', '', d)}"
+> > >
+> > > +# sound driver recommended by conf/machine/qemux86*.conf
+> > > +ALSA_MODULES = "${@bb.utils.contains("DISTRO_FEATURES", "alsa", "snd-intel8x0", "", d)}"
+> > > +KERNEL_MODULE_AUTOLOAD:qemux86 += "${ALSA_MODULES}"
+> > > +KERNEL_MODULE_AUTOLOAD:qemux86-64 += "${ALSA_MODULES}"
+> >
+> > This gets us most of the way, but if we are going to do this we should
+> > complete the job.
+> >
+> > We really need to make sure there's a configuration fragment that
+> > explicitly enables
+> > the modules we need (and not count on defaults, or other selects). That would go
+> > into the kernel-cache.
+> >
+> > It would then be something we'd add to the KERNEL_FEATRES triggered off the
+> > distro feature. Just like we are doing with numa and vfat that is visible in the
+> > context of the patch.
+>
+> In my understanding this is already the case. See for example
+> linux-yocto_5.19.bb which contains the following lines.
+>
+> KERNEL_FEATURES:append:qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
+> KERNEL_FEATURES:append:qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
+>
+> Does that maybe mean I should better add the KERNEL_MODULE_AUTOLOAD
+> into the same file where the corresponding configuration fragment is
+> added? But that would mean to duplicate the lines over five recipes.
+>
+> Alternatively I could move the cfg/sound.scc out of the recipes into
+> the linux-yocto.inc. But then linux-yocto-tiny_*.bb recipes would also
+> get it.
 
-We should really fix poky so this works correctly. I just have a memory
-of trying to fix it and it not being as straightforward it first
-appears. I'd then have got distracted by the next problem :/
+I definitely wasn't clear. Sorry about that, I'm still partially on
+holidays and didn't have enough coffee when I wrote that.
 
-Cheers,
+That is close to what I meant. It is one thing to define the options
+in our generic sound "buckets" and another to put a specific module
+into the autoload.
 
-Richard
+If we are going to autoload a module, the option really should be
+pulled out of the generic bucket, and put into something smaller /
+specific to what we are trying to do, and trigger the inclusion of
+that fragment only when the appropriate distro feature is set. The
+machine conf files specifying specific modules isn't ideal, since it
+is largely "aspirational" unless it is coupled with a KERNEL_FEATURE
+that is set based on a machine or distro feature.
+
+If you search the mailing list archives, you'll see me musing about
+how I need to change those unconditional appends of option to qemu, as
+it makes defining a new qemu machine problematic (if the options are
+causing issues). The tweak I'm describing is a small step in that
+direction.
+
+One new question comes to mind, what init system were you testing with
+(default poky and sysvinit ?) ? If we now have the proper init system,
+are no events being triggered to load the modules now that the proper
+ones are in the machine files ?
+
+Bruce
+
+>
+> Cheers,
+> Mark
+
+
+
+
+
+
+
+--
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
