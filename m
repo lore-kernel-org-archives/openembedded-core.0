@@ -1,528 +1,140 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <ceggers@arri.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71E8FC3DA7A
-	for <webhook@archiver.kernel.org>; Thu,  5 Jan 2023 12:56:41 +0000 (UTC)
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
- by mx.groups.io with SMTP id smtpd.web10.12091.1672923392680499424
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D054C3DA7D
+	for <webhook@archiver.kernel.org>; Thu,  5 Jan 2023 13:09:41 +0000 (UTC)
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.104])
+ by mx.groups.io with SMTP id smtpd.web10.12308.1672924175219643900
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Jan 2023 04:56:32 -0800
+ Thu, 05 Jan 2023 05:09:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=CMWjucnO;
- spf=pass (domain: gmail.com, ip: 209.85.217.47, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-vs1-f47.google.com with SMTP id k4so33885732vsc.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Jan 2023 04:56:32 -0800 (PST)
+ dkim=fail reason="body hash did not verify" header.i=@arrigroup.onmicrosoft.com header.s=selector1-arrigroup-onmicrosoft-com header.b=QYTXyLEy;
+ spf=pass (domain: arri.de, ip: 40.107.7.104, mailfrom: ceggers@arri.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Tnxt9psiRFFfNEeoa9E30W/ImjmVBPMNblWT3mHeh9l8mJpcWj+jEx5g4zZ/6J2SVIFPzrJpdD06voVOSv4ofM5EdjB6sx86AP3h12UpuE4D7WI+1pMh4uWfxnXOM53vRScEox8ndQwBYUwxSRPjMMUppEq0RFZj2kg1Vl5ezV+swu/7/fsGq2Fq/EQccqs0UNqmUIIJa+3t1/zayoJHqwxV3XPpIddg1KUE0lhRBuf0C69yMoYwGCW4cuK7gdOHDEKbZY0BzoFhJeAoCwRSXcMXP2gfiPYcnksd/cMCIdOi4YwPdZeS4WcZI6Nl5URtRpfJP3xj//hJbRARXKUNKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=O6+MvOtJX/6ikMGZgoH//7FNB8TOEd/zxR9AzZAXkjM=;
+ b=fW2qqNwtsWH266HdA/h3I1Cacw8IpWj7ghHOP5SzV4WRvjF0zpes3HDS7fdeTJ9/qEicQrpWXensrdFRdmHH5GNqMq7m1zgJqxSJJuB/vfCVirDILgj74eME8lFNZEjfbSZeFeXcoB18Cg+yd/AyaG6LNnBn5XJnsGp8TkEN5okq1fakobAy0kOZJbWW7poLTZATsmR3pbzYuF8fPjTDplJAzwcal5OJLSScm7J3LJTchYG10/q+2oCzQTcXz9bNk2XqbtHAokRIXKLS+9/KehrYOflyyRDmZ3umsYz2UNnz3HTSX/Y5pruxOkaNsAfXQEn+S/mVEuRlRXHJjH85aA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 217.111.95.7) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arri.de;
+ dmarc=none action=none header.from=arri.de; dkim=none (message not signed);
+ arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=53CI6usA/AeqTGMUNVPKSEBafRCDqEefNgv7iPtlBWE=;
-        b=CMWjucnOJ1V6ATnxRDpnXgxih7CAFhFrlO4XzwsnmwnkOvHcRI9AVx1l1we8G4b9Aj
-         5CnQ95Mm4t2F6j1ZjX8bMK/P6U45OgE+2+V+Sq0MdnwYvsMc0pQ37uB9vCjEVWasBbQM
-         7DfBMJzihmDhq1UyMXy+wDQBGZgZtclgvRnGr/SfbLj2HdH9NFDDCQE8zqD17Zcw92yn
-         7rACrUlrBzJrtn68WyTrLAwC3VGUgwVr8kJ4jMWdPK5dh2O1VPA/24U1N0VopyHqvmO1
-         jk7K0pK5LQiC0e4k7C7sgFn1Jqf7NH/GR9RTNhqYWtOtd/DyCqrgL3IaugeFUe6lGED8
-         0CNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=53CI6usA/AeqTGMUNVPKSEBafRCDqEefNgv7iPtlBWE=;
-        b=S+GrLPm/ekdK9LnCXlyKVU2pyaG01L/ORzFi6YA9TITxHMEl/EI1nE/cgdBOwYmGpY
-         9TaRVK9j1wJxkE4mmSEz82Hn4fy08PihG6ho4Sxb9PGN8ElqFz9qe1Co+zR5FcOPJDAf
-         C2RwB3T6cp226WxAlYRuYAaifEpBm+nbElIuP399KOcRr6odD7EbkF0pbuhiOqUpoNHC
-         U2j74J/VjsL1eQDrA887cSB+L6565f3yRzBJsBbLERwviXD2F4iehJR554r+ZikkmGFw
-         pptZhqqPbvbnkRImX69C58aHENEcvpteDXcnUKEesWNHDqsHz5ckSiTWdN6atqBDB4SC
-         akCg==
-X-Gm-Message-State: AFqh2koN0KWYkOaBfzW4SOvNx3qnnjU5dtHwqYBZ7gchptd4sdlpLyu5
-	/NYuDXq7KIpy8rH8+CGLJlz4Q4qF6P+BiGanOf0=
-X-Google-Smtp-Source: AMrXdXuQCJ7muKfG8fqaxezHdGgrQqRrxWqOHtcpkf0jW03muL3m9ey1lMPOk9XalI6QospxndQye+/cITZEz+bqHRw=
-X-Received: by 2002:a05:6102:22fb:b0:3cb:ba4:3831 with SMTP id
- b27-20020a05610222fb00b003cb0ba43831mr3920456vsh.87.1672923391615; Thu, 05
- Jan 2023 04:56:31 -0800 (PST)
+ d=arrigroup.onmicrosoft.com; s=selector1-arrigroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=O6+MvOtJX/6ikMGZgoH//7FNB8TOEd/zxR9AzZAXkjM=;
+ b=QYTXyLEytlHKqwMlTAiFFIJXqmh8tOab6ezZFKXUjSOslWTo3+1JjNdz7iJyfH3TGCjrKUcDgf3DSckmi6ntAMCdxfccdWBcNYdQQ6rtK9O/va6Wu/Z9QlKehzSefo9CqNQzVlREhef10VVIlOAgY7pdKbviOMPf4jP6HkcwlFI=
+Received: from AM6P195CA0009.EURP195.PROD.OUTLOOK.COM (2603:10a6:209:81::22)
+ by AS2PR07MB9279.eurprd07.prod.outlook.com (2603:10a6:20b:60d::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Thu, 5 Jan
+ 2023 13:09:31 +0000
+Received: from AM0EUR02FT005.eop-EUR02.prod.protection.outlook.com
+ (2603:10a6:209:81:cafe::5f) by AM6P195CA0009.outlook.office365.com
+ (2603:10a6:209:81::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.14 via Frontend
+ Transport; Thu, 5 Jan 2023 13:09:31 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 217.111.95.7)
+ smtp.mailfrom=arri.de; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arri.de;
+Received-SPF: Fail (protection.outlook.com: domain of arri.de does not
+ designate 217.111.95.7 as permitted sender) receiver=protection.outlook.com;
+ client-ip=217.111.95.7; helo=mta.arri.de;
+Received: from mta.arri.de (217.111.95.7) by
+ AM0EUR02FT005.mail.protection.outlook.com (10.13.54.71) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5986.14 via Frontend Transport; Thu, 5 Jan 2023 13:09:31 +0000
+Received: from N95HX1G2.arri.de (10.30.5.13) by mta.arri.de (10.10.18.5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 5 Jan
+ 2023 14:09:30 +0100
+From: Christian Eggers <ceggers@arri.de>
+To: <openembedded-core@lists.openembedded.org>
+CC: Christian Eggers <ceggers@arri.de>
+Subject: [meta-oe][PATCH] boost-url: remove recipe
+Date: Thu, 5 Jan 2023 14:08:59 +0100
+Message-ID: <20230105130858.29883-1-ceggers@arri.de>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-References: <172C139C5D52718E.368@lists.openembedded.org> <c949cf5a-fe8f-c842-514b-75a016e8e111@ti.com>
-In-Reply-To: <c949cf5a-fe8f-c842-514b-75a016e8e111@ti.com>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Thu, 5 Jan 2023 12:56:20 +0000
-Message-ID: <CANPvuRkie7KMPgw87JN894ZeRxaKTCpkux26MM+h77gEK=Ai1Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3][master] go: Update reproducibility patch to
- fix panic errors
-To: reatmon@ti.com
-Cc: raj.khem@gmail.com, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000007e6a4e05f183d42f"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [10.30.5.13]
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM0EUR02FT005:EE_|AS2PR07MB9279:EE_
+X-MS-Office365-Filtering-Correlation-Id: 88d2cc6c-2338-4d51-10cf-08daef1e154c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	EXVmGIxcyyt5Y0vOrLcYSUmhu7IKwOMmlPOFzqNh9p1Bzm8W5TgZjfnvz+H7C7zhNr5K8cm8+HzQrrcd3lQDTZj34iXsr7bn/eBJnwo5fhUqq97OnpTXp5f0GzNT4LMdUB3TUDu4SCIBFEtPKNyUA1lAmn0G9oRO8XvQMvcM1bj3UShNIZbxOdziDbOUuYi/9KBc7Vj3BGMR/LKMqsh7Vnaf4IxeNwBoBDJ7J5ETl/wySushTK/m0N3H0gX0uTtVWhueu3taekowxoSO8yOrr3Q+RIyB0IiXoVMECWpgpTPH/WlTnqNKIyZDtOoiAGlxZX7dzLpJe7BtHYfkV5NKXFvD3aVyNfw387C//IEOcU6TDH4WfTS3akVMshj1yI7a64D1h97gszuNSFA1PMVjFH14mEyDYSracrfIiVy1bas7mDTz2PYlpwVaO0Yw5r92AyDlK9zmDUYg/8cYaH32wDEp2E1XWFdevz/7auW1PrzpuFdxcOw2ucR6oDWYnCD+NJLZ0ZoKvw162gAUy6rAd8qeZ9hAYpDn/h+kDvpETfI6zZiMAZoqRuQAKaiYKj8AnZBzLRsFIYGVBrgiae1BUlb4AqCQ/tPAv12G327VrNLd6XDv8J8S8xl15N4zDNof/mXVLBNRsI8P45+PWavCYB+kTbFmVqYOrwQwgLogupf9T88bikkrCqzLIgutC2zlDHauMuOyhtRcu0B1UeB1yho6NrJxh5oWxl/aVe71kXE=
+X-Forefront-Antispam-Report: 
+	CIP:217.111.95.7;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mta.arri.de;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(346002)(39850400004)(376002)(136003)(396003)(451199015)(46966006)(36840700001)(1076003)(336012)(36860700001)(2616005)(83380400001)(47076005)(426003)(40480700001)(86362001)(82310400005)(81166007)(82740400003)(356005)(36756003)(6916009)(2906002)(41300700001)(5660300002)(4326008)(8676002)(70586007)(8936002)(316002)(186003)(26005)(478600001)(107886003)(16526019)(70206006)(6666004)(7696005)(36900700001);DIR:OUT;SFP:1102;
+X-OriginatorOrg: arri.de
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2023 13:09:31.1397
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 88d2cc6c-2338-4d51-10cf-08daef1e154c
+X-MS-Exchange-CrossTenant-Id: e6a73a5a-614d-4c51-b3e3-53b660a9433a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e6a73a5a-614d-4c51-b3e3-53b660a9433a;Ip=[217.111.95.7];Helo=[mta.arri.de]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AM0EUR02FT005.eop-EUR02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR07MB9279
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Jan 2023 12:56:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175521
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Jan 2023 13:09:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175522
 
---0000000000007e6a4e05f183d42f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The boost recipe in oe-core has recently been updated to boost-1.81.0.
+Starting with this release, boost-url is included in the boost
+distribution.
 
-Hi Ryan,
+As a prerequisite for creating the -url sub package from the boost
+recipe, the boost-url recipe should be removed in order to avoid
+conflicts with installed files.
 
-I am building with this patch and it fixes the problem in my machines,
-riscv and am6xxx.
+Signed-off-by: Christian Eggers <ceggers@arri.de>
+---
+ .../boost-url/boost-url_git.bb                | 20 -------------------
+ 1 file changed, 20 deletions(-)
+ delete mode 100644 meta-oe/recipes-devtools/boost-url/boost-url_git.bb
 
-Thanks for fixing this issue.
-
-Jose
-
-Ryan Eatmon via lists.openembedded.org <reatmon=3D
-ti.com@lists.openembedded.org> escreveu no dia segunda, 5/12/2022 =C3=A0(s)
-19:49:
-
->
-> This might have gotten lost in the fun of the YPS and the many
-> discussions around the previous versions of then patch.  Was there any
-> more feedback or changes that folks want me to make for this patch, or
-> is it good to go?  Just curious if there was more that you needed from me=
-?
->
->
-> On 11/29/2022 8:12, Ryan Eatmon via lists.openembedded.org wrote:
-> > Based on a discussion on the mailing list [1], there are panic
-> > errors that occur on a few platforms caused by the patch.  We
-> > cannot simply remove the original patch due to the
-> > reproducibility issues that it addresses, so this patch on the
-> > original patch fixes the cause of the panic errors.
-> >
-> > The previous version of this patch was a little too aggressive
-> > in cleaning up the environment.  Some of the variables impacted
-> > by the filerCompilerFlags() function require at least one value
-> > to remain in the array.  In this case, the values for ccExe,
-> > cxxExe, and fcExe require a value or later code that access
-> > them result in a panic related to accessing a value out of range.
-> >
-> > This updated patch adds a flag that requires keeping the first
-> > value so that at least one thing remains and the assignments
-> > for the Exes set that flag to true.  The first item in the
-> > array should be the executable name, so leaving it should be
-> > safe.
-> >
-> > I have run the oe-selftest and everything passed in my setup.
-> >
-> > There is a bug report [2] filed for the issue that this patch
-> > addresses.
-> >
-> > [YOCTO #14976]
-> >
-> > [1] https://lists.openembedded.org/g/openembedded-core/topic/94022663
-> > [2] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14976
-> >
-> > Signed-off-by: Ryan Eatmon <reatmon@ti.com>
-> > ---
-> > v3: Added [YOCTO #14976] to commit message.
-> > v2: Added more background and bug report link to commit message.
-> >
-> >   ...ent-based-hash-generation-less-pedan.patch | 30 ++++++++++--------=
+diff --git a/meta-oe/recipes-devtools/boost-url/boost-url_git.bb b/meta-oe/=
+recipes-devtools/boost-url/boost-url_git.bb
+deleted file mode 100644
+index 14da3ca3f1af..000000000000
+--- a/meta-oe/recipes-devtools/boost-url/boost-url_git.bb
++++ /dev/null
+@@ -1,20 +0,0 @@
+-DESCRIPTION =3D "Boost.URL is a library for manipulating Uniform Resource =
+Identifiers (URI) and Locators (URL)"
+-HOMEPAGE =3D "https://github.com/CPPAlliance/url"
+-SECTION =3D "libs"
+-LICENSE =3D "BSL-1.0"
+-LIC_FILES_CHKSUM =3D "file://LICENSE_1_0.txt;md5=3De4224ccaecb14d942c71d31=
+bef20d78c"
 -
-> >   1 file changed, 16 insertions(+), 14 deletions(-)
-> >
-> > diff --git
-> a/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generat=
-ion-less-pedan.patch
-> b/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generat=
-ion-less-pedan.patch
-> > index 17fa9d9831..43be5cd2e8 100644
-> > ---
-> a/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generat=
-ion-less-pedan.patch
-> > +++
-> b/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generat=
-ion-less-pedan.patch
-> > @@ -74,7 +74,7 @@ index c88b315..a06455c 100644
-> >   +           cppflags, cflags, cxxflags, fflags, ldflags, _ :=3D
-> b.CFlags(p, true)
-> >
-> >   -           ccExe :=3D b.ccExe()
-> > -+            ccExe :=3D filterCompilerFlags(b.ccExe())
-> > ++            ccExe :=3D filterCompilerFlags(b.ccExe(), true)
-> >               fmt.Fprintf(h, "CC=3D%q %q %q %q\n", ccExe, cppflags,
-> cflags, ldflags)
-> >               // Include the C compiler tool ID so that if the C
-> >               // compiler changes we rebuild the package.
-> > @@ -83,7 +83,7 @@ index c88b315..a06455c 100644
-> >               }
-> >               if len(p.CXXFiles)+len(p.SwigCXXFiles) > 0 {
-> >   -                   cxxExe :=3D b.cxxExe()
-> > -+                    cxxExe :=3D filterCompilerFlags(b.cxxExe())
-> > ++                    cxxExe :=3D filterCompilerFlags(b.cxxExe(), true)
-> >                       fmt.Fprintf(h, "CXX=3D%q %q\n", cxxExe, cxxflags)
-> >                       if cxxID, err :=3D b.gccToolID(cxxExe[0], "c++");
-> err =3D=3D nil {
-> >                               fmt.Fprintf(h, "CXX ID=3D%q\n", cxxID)
-> > @@ -91,7 +91,7 @@ index c88b315..a06455c 100644
-> >               }
-> >               if len(p.FFiles) > 0 {
-> >   -                   fcExe :=3D b.fcExe()
-> > -+                    fcExe :=3D filterCompilerFlags(b.fcExe())
-> > ++                    fcExe :=3D filterCompilerFlags(b.fcExe(), true)
-> >                       fmt.Fprintf(h, "FC=3D%q %q\n", fcExe, fflags)
-> >                       if fcID, err :=3D b.gccToolID(fcExe[0], "f95"); e=
-rr
-> =3D=3D nil {
-> >                               fmt.Fprintf(h, "FC ID=3D%q\n", fcID)
-> > @@ -104,20 +104,22 @@ index c88b315..a06455c 100644
-> >       }
-> >
-> >       // Configuration specific to compiler toolchain.
-> > -@@ -2705,8 +2707,23 @@ func envList(key, def string) []string {
-> > +@@ -2705,8 +2707,25 @@ func envList(key, def string) []string {
-> >       return args
-> >    }
-> >
-> >   +var filterFlags =3D os.Getenv("CGO_PEDANTIC") =3D=3D ""
-> >   +
-> > -+func filterCompilerFlags(flags []string) []string {
-> > ++func filterCompilerFlags(flags []string, keepfirst bool) []string {
-> >   +   var newflags []string
-> > ++   var realkeepfirst bool =3D keepfirst
-> >   +   if !filterFlags {
-> >   +           return flags
-> >   +   }
-> >   +   for _, flag :=3D range flags {
-> > -+            if strings.HasPrefix(flag, "-m") {
-> > ++            if strings.HasPrefix(flag, "-m") || realkeepfirst {
-> >   +                   newflags =3D append(newflags, flag)
-> > ++           realkeepfirst =3D false
-> >   +           }
-> >   +   }
-> >   +   return newflags
-> > @@ -129,21 +131,21 @@ index c88b315..a06455c 100644
-> >       defaults :=3D "-g -O2"
-> >
-> >       if cppflags, err =3D buildFlags("CPPFLAGS", "", p.CgoCPPFLAGS,
-> checkCompilerFlags); err !=3D nil {
-> > -@@ -2724,6 +2741,13 @@ func (b *Builder) CFlags(p *load.Package)
-> (cppflags, cflags, cxxflags, fflags, l
-> > +@@ -2724,6 +2743,13 @@ func (b *Builder) CFlags(p *load.Package)
-> (cppflags, cflags, cxxflags, fflags, l
-> >       if ldflags, err =3D buildFlags("LDFLAGS", defaults, p.CgoLDFLAGS,
-> checkLinkerFlags); err !=3D nil {
-> >               return
-> >       }
-> >   +   if filtered {
-> > -+            cppflags =3D filterCompilerFlags(cppflags)
-> > -+            cflags =3D filterCompilerFlags(cflags)
-> > -+            cxxflags =3D filterCompilerFlags(cxxflags)
-> > -+            fflags =3D filterCompilerFlags(fflags)
-> > -+            ldflags =3D filterCompilerFlags(ldflags)
-> > ++            cppflags =3D filterCompilerFlags(cppflags, false)
-> > ++            cflags =3D filterCompilerFlags(cflags, false)
-> > ++            cxxflags =3D filterCompilerFlags(cxxflags, false)
-> > ++            fflags =3D filterCompilerFlags(fflags, false)
-> > ++            ldflags =3D filterCompilerFlags(ldflags, false)
-> >   +   }
-> >
-> >       return
-> >    }
-> > -@@ -2739,7 +2763,7 @@ var cgoRe =3D lazyregexp.New(`[/\\:]`)
-> > +@@ -2739,7 +2765,7 @@ var cgoRe =3D lazyregexp.New(`[/\\:]`)
-> >
-> >    func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS,
-> pcLDFLAGS, cgofiles, gccfiles, gxxfiles, mfiles, ffiles []string) (outGo,
-> outObj []string, err error) {
-> >       p :=3D a.Package
-> > @@ -152,7 +154,7 @@ index c88b315..a06455c 100644
-> >       if err !=3D nil {
-> >               return nil, nil, err
-> >       }
-> > -@@ -3246,7 +3270,7 @@ func (b *Builder) swigIntSize(objdir string)
-> (intsize string, err error) {
-> > +@@ -3246,7 +3272,7 @@ func (b *Builder) swigIntSize(objdir string)
-> (intsize string, err error) {
-> >
-> >    // Run SWIG on one SWIG input file.
-> >    func (b *Builder) swigOne(a *Action, p *load.Package, file, objdir
-> string, pcCFLAGS []string, cxx bool, intgosize string) (outGo, outC strin=
-g,
-> err error) {
-> >
-> >
-> >
-> >
-> >
->
-> --
-> Ryan Eatmon                reatmon@ti.com
-> -----------------------------------------
-> Texas Instruments, Inc.  -  LCPD  -  MGTS
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#174301):
-> https://lists.openembedded.org/g/openembedded-core/message/174301
-> Mute This Topic: https://lists.openembedded.org/mt/95334740/5052612
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
+-SRC_URI =3D "git://github.com/CPPAlliance/url.git;branch=3Ddevelop;protoco=
+l=3Dhttps"
+-
+-SRCREV =3D "d740a92d38e3a8f4d5b2153f53b82f1c98e312ab"
+-
+-S =3D "${WORKDIR}/git"
+-
+-DEPENDS =3D "boost"
+-
+-BBCLASSEXTEND =3D "native nativesdk"
+-
+-do_install() {
+-    mkdir -p ${D}/${includedir}
+-    cp -r ${S}/include/** ${D}/${includedir}/
+-}
 --=20
-Best regards,
+2.35.3
 
-Jos=C3=A9 Quaresma
-
---0000000000007e6a4e05f183d42f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi Ryan,<br><br>I am building with this patch and it fixes=
-=C2=A0the problem in my machines, riscv and am6xxx.<br><br>Thanks for fixin=
-g this issue.<br><br>Jose</div><br><div class=3D"gmail_quote"><div dir=3D"l=
-tr" class=3D"gmail_attr">Ryan Eatmon via <a href=3D"http://lists.openembedd=
-ed.org">lists.openembedded.org</a> &lt;reatmon=3D<a href=3D"mailto:ti.com@l=
-ists.openembedded.org">ti.com@lists.openembedded.org</a>&gt; escreveu no di=
-a segunda, 5/12/2022 =C3=A0(s) 19:49:<br></div><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
-04);padding-left:1ex"><br>
-This might have gotten lost in the fun of the YPS and the many <br>
-discussions around the previous versions of then patch.=C2=A0 Was there any=
- <br>
-more feedback or changes that folks want me to make for this patch, or <br>
-is it good to go?=C2=A0 Just curious if there was more that you needed from=
- me?<br>
-<br>
-<br>
-On 11/29/2022 8:12, Ryan Eatmon via <a href=3D"http://lists.openembedded.or=
-g" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> wrote:<b=
-r>
-&gt; Based on a discussion on the mailing list [1], there are panic<br>
-&gt; errors that occur on a few platforms caused by the patch.=C2=A0 We<br>
-&gt; cannot simply remove the original patch due to the<br>
-&gt; reproducibility issues that it addresses, so this patch on the<br>
-&gt; original patch fixes the cause of the panic errors.<br>
-&gt; <br>
-&gt; The previous version of this patch was a little too aggressive<br>
-&gt; in cleaning up the environment.=C2=A0 Some of the variables impacted<b=
-r>
-&gt; by the filerCompilerFlags() function require at least one value<br>
-&gt; to remain in the array.=C2=A0 In this case, the values for ccExe,<br>
-&gt; cxxExe, and fcExe require a value or later code that access<br>
-&gt; them result in a panic related to accessing a value out of range.<br>
-&gt; <br>
-&gt; This updated patch adds a flag that requires keeping the first<br>
-&gt; value so that at least one thing remains and the assignments<br>
-&gt; for the Exes set that flag to true.=C2=A0 The first item in the<br>
-&gt; array should be the executable name, so leaving it should be<br>
-&gt; safe.<br>
-&gt; <br>
-&gt; I have run the oe-selftest and everything passed in my setup.<br>
-&gt; <br>
-&gt; There is a bug report [2] filed for the issue that this patch<br>
-&gt; addresses.<br>
-&gt; <br>
-&gt; [YOCTO #14976]<br>
-&gt; <br>
-&gt; [1] <a href=3D"https://lists.openembedded.org/g/openembedded-core/topi=
-c/94022663" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
-.org/g/openembedded-core/topic/94022663</a><br>
-&gt; [2] <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D149=
-76" rel=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoproject.org/=
-show_bug.cgi?id=3D14976</a><br>
-&gt; <br>
-&gt; Signed-off-by: Ryan Eatmon &lt;<a href=3D"mailto:reatmon@ti.com" targe=
-t=3D"_blank">reatmon@ti.com</a>&gt;<br>
-&gt; ---<br>
-&gt; v3: Added [YOCTO #14976] to commit message.<br>
-&gt; v2: Added more background and bug report link to commit message.<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0...ent-based-hash-generation-less-pedan.patch | 30 +++++++=
-+++---------<br>
-&gt;=C2=A0 =C2=A01 file changed, 16 insertions(+), 14 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/meta/recipes-devtools/go/go/0001-cmd-go-make-content-base=
-d-hash-generation-less-pedan.patch b/meta/recipes-devtools/go/go/0001-cmd-g=
-o-make-content-based-hash-generation-less-pedan.patch<br>
-&gt; index 17fa9d9831..43be5cd2e8 100644<br>
-&gt; --- a/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-=
-generation-less-pedan.patch<br>
-&gt; +++ b/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-=
-generation-less-pedan.patch<br>
-&gt; @@ -74,7 +74,7 @@ index c88b315..a06455c 100644<br>
-&gt;=C2=A0 =C2=A0+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cppflags, cflags=
-, cxxflags, fflags, ldflags, _ :=3D b.CFlags(p, true)<br>
-&gt;=C2=A0 =C2=A0 <br>
-&gt;=C2=A0 =C2=A0-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ccExe :=3D b.ccE=
-xe()<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ccExe :=3D filterCompilerF=
-lags(b.ccExe())<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ccExe :=3D filterCompilerF=
-lags(b.ccExe(), true)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fmt.Fprintf(h, &=
-quot;CC=3D%q %q %q %q\n&quot;, ccExe, cppflags, cflags, ldflags)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// Include the C=
- compiler tool ID so that if the C<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// compiler chan=
-ges we rebuild the package.<br>
-&gt; @@ -83,7 +83,7 @@ index c88b315..a06455c 100644<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if len(p.CXXFile=
-s)+len(p.SwigCXXFiles) &gt; 0 {<br>
-&gt;=C2=A0 =C2=A0-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0cxxExe :=3D b.cxxExe()<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 cxxExe :=3D filterCompilerFlags(b.cxxExe())<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 cxxExe :=3D filterCompilerFlags(b.cxxExe(), true)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0fmt.Fprintf(h, &quot;CXX=3D%q %q\n&quot;, cxxExe, cxxflags)<br=
->
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0if cxxID, err :=3D b.gccToolID(cxxExe[0], &quot;c++&quot;); er=
-r =3D=3D nil {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fmt.Fprintf(h, &quot;CXX ID=3D%q\n=
-&quot;, cxxID)<br>
-&gt; @@ -91,7 +91,7 @@ index c88b315..a06455c 100644<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if len(p.FFiles)=
- &gt; 0 {<br>
-&gt;=C2=A0 =C2=A0-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0fcExe :=3D b.fcExe()<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 fcExe :=3D filterCompilerFlags(b.fcExe())<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 fcExe :=3D filterCompilerFlags(b.fcExe(), true)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0fmt.Fprintf(h, &quot;FC=3D%q %q\n&quot;, fcExe, fflags)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0if fcID, err :=3D b.gccToolID(fcExe[0], &quot;f95&quot;); err =
-=3D=3D nil {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fmt.Fprintf(h, &quot;FC ID=3D%q\n&=
-quot;, fcID)<br>
-&gt; @@ -104,20 +104,22 @@ index c88b315..a06455c 100644<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0// Configuration specific to compiler toolch=
-ain.<br>
-&gt; -@@ -2705,8 +2707,23 @@ func envList(key, def string) []string {<br>
-&gt; +@@ -2705,8 +2707,25 @@ func envList(key, def string) []string {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return args<br>
-&gt;=C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 =C2=A0 <br>
-&gt;=C2=A0 =C2=A0+var filterFlags =3D os.Getenv(&quot;CGO_PEDANTIC&quot;) =
-=3D=3D &quot;&quot;<br>
-&gt;=C2=A0 =C2=A0+<br>
-&gt; -+func filterCompilerFlags(flags []string) []string {<br>
-&gt; ++func filterCompilerFlags(flags []string, keepfirst bool) []string {<=
-br>
-&gt;=C2=A0 =C2=A0+=C2=A0 =C2=A0var newflags []string<br>
-&gt; ++=C2=A0 =C2=A0var realkeepfirst bool =3D keepfirst<br>
-&gt;=C2=A0 =C2=A0+=C2=A0 =C2=A0if !filterFlags {<br>
-&gt;=C2=A0 =C2=A0+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return flags<br>
-&gt;=C2=A0 =C2=A0+=C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0+=C2=A0 =C2=A0for _, flag :=3D range flags {<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if strings.HasPrefix(flag,=
- &quot;-m&quot;) {<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if strings.HasPrefix(flag,=
- &quot;-m&quot;) || realkeepfirst {<br>
-&gt;=C2=A0 =C2=A0+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0newflags =3D append(newflags, flag)<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0realkeepfirst =3D false<br>
-&gt;=C2=A0 =C2=A0+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0+=C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0+=C2=A0 =C2=A0return newflags<br>
-&gt; @@ -129,21 +131,21 @@ index c88b315..a06455c 100644<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0defaults :=3D &quot;-g -O2&quot;<br>
-&gt;=C2=A0 =C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if cppflags, err =3D buildFlags(&quot;CPPFLA=
-GS&quot;, &quot;&quot;, p.CgoCPPFLAGS, checkCompilerFlags); err !=3D nil {<=
-br>
-&gt; -@@ -2724,6 +2741,13 @@ func (b *Builder) CFlags(p *load.Package) (cpp=
-flags, cflags, cxxflags, fflags, l<br>
-&gt; +@@ -2724,6 +2743,13 @@ func (b *Builder) CFlags(p *load.Package) (cpp=
-flags, cflags, cxxflags, fflags, l<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if ldflags, err =3D buildFlags(&quot;LDFLAGS=
-&quot;, defaults, p.CgoLDFLAGS, checkLinkerFlags); err !=3D nil {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0+=C2=A0 =C2=A0if filtered {<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cppflags =3D filterCompile=
-rFlags(cppflags)<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cflags =3D filterCompilerF=
-lags(cflags)<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cxxflags =3D filterCompile=
-rFlags(cxxflags)<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fflags =3D filterCompilerF=
-lags(fflags)<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ldflags =3D filterCompiler=
-Flags(ldflags)<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cppflags =3D filterCompile=
-rFlags(cppflags, false)<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cflags =3D filterCompilerF=
-lags(cflags, false)<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cxxflags =3D filterCompile=
-rFlags(cxxflags, false)<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fflags =3D filterCompilerF=
-lags(fflags, false)<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ldflags =3D filterCompiler=
-Flags(ldflags, false)<br>
-&gt;=C2=A0 =C2=A0+=C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return<br>
-&gt;=C2=A0 =C2=A0 }<br>
-&gt; -@@ -2739,7 +2763,7 @@ var cgoRe =3D lazyregexp.New(`[/\\:]`)<br>
-&gt; +@@ -2739,7 +2765,7 @@ var cgoRe =3D lazyregexp.New(`[/\\:]`)<br>
-&gt;=C2=A0 =C2=A0 <br>
-&gt;=C2=A0 =C2=A0 func (b *Builder) cgo(a *Action, cgoExe, objdir string, p=
-cCFLAGS, pcLDFLAGS, cgofiles, gccfiles, gxxfiles, mfiles, ffiles []string) =
-(outGo, outObj []string, err error) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0p :=3D a.Package<br>
-&gt; @@ -152,7 +154,7 @@ index c88b315..a06455c 100644<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if err !=3D nil {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return nil, nil,=
- err<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; -@@ -3246,7 +3270,7 @@ func (b *Builder) swigIntSize(objdir string) (i=
-ntsize string, err error) {<br>
-&gt; +@@ -3246,7 +3272,7 @@ func (b *Builder) swigIntSize(objdir string) (i=
-ntsize string, err error) {<br>
-&gt;=C2=A0 =C2=A0 <br>
-&gt;=C2=A0 =C2=A0 // Run SWIG on one SWIG input file.<br>
-&gt;=C2=A0 =C2=A0 func (b *Builder) swigOne(a *Action, p *load.Package, fil=
-e, objdir string, pcCFLAGS []string, cxx bool, intgosize string) (outGo, ou=
-tC string, err error) {<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-<br>
--- <br>
-Ryan Eatmon=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=
-=3D"mailto:reatmon@ti.com" target=3D"_blank">reatmon@ti.com</a><br>
------------------------------------------<br>
-Texas Instruments, Inc.=C2=A0 -=C2=A0 LCPD=C2=A0 -=C2=A0 MGTS<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#174301): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/174301" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/174301</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/95334740/5052=
-612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/95334740/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
- Quaresma</div></div></div>
-
---0000000000007e6a4e05f183d42f--
 
