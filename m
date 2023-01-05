@@ -1,419 +1,358 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 951B3C3DA7A
-	for <webhook@archiver.kernel.org>; Thu,  5 Jan 2023 06:25:39 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web11.7328.1672899933691497548
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEEF8C3DA7A
+	for <webhook@archiver.kernel.org>; Thu,  5 Jan 2023 06:56:09 +0000 (UTC)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+ by mx.groups.io with SMTP id smtpd.web11.7613.1672901759721416054
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Jan 2023 22:25:33 -0800
+ Wed, 04 Jan 2023 22:56:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=Owxu/5Jg;
- spf=pass (domain: mvista.com, ip: 209.85.214.171, mailfrom: hprajapati@mvista.com)
-Received: by mail-pl1-f171.google.com with SMTP id jl4so32157334plb.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 22:25:33 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=bQko2ns7;
+ spf=pass (domain: gmail.com, ip: 209.85.208.179, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f179.google.com with SMTP id x11so13423197ljh.12
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 22:55:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1+qERWqGfAYJQc+pdFuIB25zkQ7G5BlovZBMBvxOjms=;
-        b=Owxu/5JgvZl/kIekl+YlpCjH7XyhV1N5Yc50nwWsCEVDzLvhcVXy3Y+hZ1HGao1UnS
-         XuANUZFSyrc1ABEQLAV+7lWyn6mqeezFM4ApkQ//twVU7MsAPPndSfJhZPfs/Mt84hML
-         7Nhohq07PG3UMj4dpjzfnQFq5INfZ86QyYJcA=
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=VSFTVlB3Wo/BStJ+3i6PdTgPKx05IB/E2d/9/zNPTA8=;
+        b=bQko2ns7DAMZMJVk6YDpwqqXOmWR4gfNXhWvIjVwM4Zv1PGaocFEoEMdlhKWsXPltC
+         TsAzUHnwuvoTrHf1NKI5iVWu09/OSsLfPWxyUztFyS4LxpYXC2pBd78Tc1xroPn4iXt8
+         fGnvQgtgQZ+X6S7R04jzGy8pJuihE/b/pdzLiLNqM2QfllfXF2UOOPZCWAOBjG7IGXG6
+         cXkosePAYk8TttNxGEn/+v8S/BHIoStmr89dPCJfs0qKwsh6BN6UcgmvzeV/46g8kVGv
+         A8QlxfRp3Far4ld8iqYIs4zDlpxDgQAtHEXpx6EbpJm0TfkP6LWLs2N45il04iN3eXBO
+         rpbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=1+qERWqGfAYJQc+pdFuIB25zkQ7G5BlovZBMBvxOjms=;
-        b=Y4z4Gqd5J8rlR49C63ULElN2s3KpuzCAsk9RD/6FHo8ZzYt0B1oVP//xd5CQvWRqmj
-         2TMRGh9oRrjehHeJCii4+H5vcnp2S5HVul48sw9hJsDTrUbeSbq++ctO+wABoN8trgNK
-         RWuqEEnsWkXu+YIw0V0EbYgiBaCXjpB4y0PmZA0ocnVOmbXmJmkMDISrtXnHj+NAiZUI
-         5iJAWVz7es10QTHMEZ4LH1MdIPjcxPBjVdFnzf1kvafhutUipcNMt/DYcUotmQod3Wdp
-         kmUCijqJqQXjS1A2mj5yc4s6r7CfdimorAxYGDNZskgMJc/y1Q/ltSlySaOLNbNvbkFh
-         50Qg==
-X-Gm-Message-State: AFqh2kqdvYRl8htO/bzis++v4XPpwikU4bmrrKbZzKsadBhpQGosQKcY
-	ws8yPhexhqApylLbileyyTVmWFjDh4WQwak+
-X-Google-Smtp-Source: AMrXdXtOowp7vLZ4LG/f+jn5h0NaadEQCKrFkNedJ9v7v59kc1JqavUtoAMCkYSIdidRHxSuPU+p1w==
-X-Received: by 2002:a17:903:41c7:b0:189:ea22:6d6a with SMTP id u7-20020a17090341c700b00189ea226d6amr71815815ple.60.1672899932741;
-        Wed, 04 Jan 2023 22:25:32 -0800 (PST)
-Received: from MVIN00024 ([103.250.136.224])
-        by smtp.gmail.com with ESMTPSA id b5-20020a170902650500b00187197c499asm427722plk.164.2023.01.04.22.25.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jan 2023 22:25:32 -0800 (PST)
-Received: by MVIN00024 (sSMTP sendmail emulation); Thu, 05 Jan 2023 11:55:27 +0530
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [dunfell][PATCH] grub2: Fix CVE-2022-2601 & CVE-2022-3775
-Date: Thu,  5 Jan 2023 11:55:25 +0530
-Message-Id: <20230105062525.63166-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.25.1
+        bh=VSFTVlB3Wo/BStJ+3i6PdTgPKx05IB/E2d/9/zNPTA8=;
+        b=zNyIye8OGKQg/5FMIt84XInzLyTrnJE0Gdhcz5Dr0otNS/Qtsn23kKy26U2RY3sB9M
+         6nNtU2ZnqBjxBH467XcH9XtCOFhoJy48wFSYkDFt/5oYatH604oe+U1tESx2hmXBSC/y
+         CfKB4K9P+rSd8Kr++zcUQzNnxV1pCaFabfeWFVJ6OkUdbwkG9+FO/Fimw9TOwGCb1wet
+         t/TwPsguN2gV2y7Lou1m+R2IC858iAs7MsXEeuWtPuMvnmTjBsOf6f/Er9ci7AuNeFYT
+         P3tL+72BxZeyv2uFK/nTqjhWp2U5PuGlAh1OOftQ219LtSRbL3GShPoTDvG/m1SPtkKD
+         OGuA==
+X-Gm-Message-State: AFqh2krGneLDlUxLSzVdTqRVbYRUHPlSMgsCAiRU+zIw1sS69JiVPoA9
+	c6OwEcVfsQZQE/WSYGpgqNM7b0YAyo7jFQS5VTM=
+X-Google-Smtp-Source: AMrXdXsho+qqPpBrwpznJQoDbZAPW31DbcjKK2l43tHNhPvfRi0WI/VUegIdL9NCaKrT4z1ssmmMa5djE+ZhKpsUECs=
+X-Received: by 2002:a2e:a4b3:0:b0:27f:ed42:72c5 with SMTP id
+ g19-20020a2ea4b3000000b0027fed4272c5mr1170281ljm.217.1672901757697; Wed, 04
+ Jan 2023 22:55:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20221223093229.823322-1-mingli.yu@eng.windriver.com>
+ <CANNYZj-iY82hN76qV6DZSfMHobF30hM7rKRXkVwFUYGDV1AkJw@mail.gmail.com> <CO1PR11MB50090C2DFF0949D0B90ED483F1FA9@CO1PR11MB5009.namprd11.prod.outlook.com>
+In-Reply-To: <CO1PR11MB50090C2DFF0949D0B90ED483F1FA9@CO1PR11MB5009.namprd11.prod.outlook.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 5 Jan 2023 07:55:42 +0100
+Message-ID: <CANNYZj9GAPNapBr3PyxAmj-JaiGRV=EnR1YqZnPXA5Yuf+_02A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] gcr: add opengl to REQUIRED_DISTRO_FEATURES
+To: "Yu, Mingli" <Mingli.Yu@windriver.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000000304a505f17ecb0f"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Jan 2023 06:25:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175514
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Jan 2023 06:56:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175515
 
-Backport patch from upstream to solve CVE-2022-2601 CVE-2022-3775 dependency:
+--0000000000000304a505f17ecb0f
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-font: Fix size overflow in grub_font_get_glyph_internal()
-Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?id=9c76ec09ae08155df27cd237eaea150b4f02f532
+But does this mean we now have to insert required distro features statement
+into everything that depends on gtk4? That doesn=E2=80=99t seem useful; it =
+should
+be enough to say that only in the recipe where the requirement originates.
 
-CVE-2022-2601: font: Fix several integer overflows in grub_font_construct_glyph()
-Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?id=768e1ef2fc159f6e14e7246e4be09363708ac39e
+Alex
 
-CVE-2022-3775: font: Fix an integer underflow in blit_comb()
-Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?id=992c06191babc1e109caf40d6a07ec6fdef427af
+On Thu 5. Jan 2023 at 3.10, Yu, Mingli <Mingli.Yu@windriver.com> wrote:
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- .../grub/files/CVE-2022-2601.patch            |  87 +++++++++++++
- .../grub/files/CVE-2022-3775.patch            |  97 +++++++++++++++
- ...erflow-in-grub_font_get_glyph_intern.patch | 117 ++++++++++++++++++
- meta/recipes-bsp/grub/grub2.inc               |   3 +
- 4 files changed, 304 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2022-2601.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2022-3775.patch
- create mode 100644 meta/recipes-bsp/grub/files/font-Fix-size-overflow-in-grub_font_get_glyph_intern.patch
+> Hi Alex,
+>
+> Yes,  The setting REQUIRED_DISTRO_FEATURES =3D "opengl" is in gtk4 recipe=
+.
+> Apart from that, gtk4 depends on libepoxy which also needs opengl distro.
+>
+> Thanks,
+> ------------------------------
+> *From:* Alexander Kanavin <alex.kanavin@gmail.com>
+> *Sent:* Friday, December 23, 2022 17:43
+> *To:* Yu, Mingli <Mingli.Yu@windriver.com>
+> *Cc:* openembedded-core@lists.openembedded.org <
+> openembedded-core@lists.openembedded.org>
+> *Subject:* Re: [OE-core] [PATCH] gcr: add opengl to
+> REQUIRED_DISTRO_FEATURES
+>
+> * CAUTION: This email comes from a non Wind River email account!*
+> Do not click links or open attachments unless you recognize the sender an=
+d
+> know the content is safe.
+> Is OpenGL really mandatory for gtk4?
+>
+> Alex
+>
+> On Fri 23. Dec 2022 at 10.32, Yu, Mingli <mingli.yu@eng.windriver.com>
+> wrote:
+>
+> From: Mingli Yu <mingli.yu@windriver.com>
+>
+> Fixes:
+>   $ bitbake gcr
+>   ERROR: Nothing PROVIDES 'gtk4' (but
+> /build/layers/oe-core/meta/recipes-gnome/gcr/gcr_4.0.0.bb
+> <https://urldefense.com/v3/__http://gcr_4.0.0.bb__;!!AjveYdw8EvQ!aAHHBL_X=
+F2Kj8Qx6nJlx-VEmLcYaA6O2xpfAAnzq3_mgKI4R6JBzXRulca1gkiY5Et5Kwi6bPycXwXHb4Cu=
+XgAucUmL4$>
+> DEPENDS on or otherwise requires it)
+> gtk4 was skipped: missing required distro feature 'opengl' (not in
+> DISTRO_FEATURES)
+>   ERROR: Required build target 'gcr' has no buildable providers.
+>   Missing or unbuildable dependency chain was: ['gcr', 'gtk4']
+>
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> ---
+>  meta/recipes-gnome/gcr/gcr_4.0.0.bb
+> <https://urldefense.com/v3/__http://gcr_4.0.0.bb__;!!AjveYdw8EvQ!aAHHBL_X=
+F2Kj8Qx6nJlx-VEmLcYaA6O2xpfAAnzq3_mgKI4R6JBzXRulca1gkiY5Et5Kwi6bPycXwXHb4Cu=
+XgAucUmL4$>
+> | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/recipes-gnome/gcr/gcr_4.0.0.bb
+> <https://urldefense.com/v3/__http://gcr_4.0.0.bb__;!!AjveYdw8EvQ!aAHHBL_X=
+F2Kj8Qx6nJlx-VEmLcYaA6O2xpfAAnzq3_mgKI4R6JBzXRulca1gkiY5Et5Kwi6bPycXwXHb4Cu=
+XgAucUmL4$>
+> b/meta/recipes-gnome/gcr/gcr_4.0.0.bb
+> <https://urldefense.com/v3/__http://gcr_4.0.0.bb__;!!AjveYdw8EvQ!aAHHBL_X=
+F2Kj8Qx6nJlx-VEmLcYaA6O2xpfAAnzq3_mgKI4R6JBzXRulca1gkiY5Et5Kwi6bPycXwXHb4Cu=
+XgAucUmL4$>
+> index 264069ffd1..22edd386fc 100644
+> --- a/meta/recipes-gnome/gcr/gcr_4.0.0.bb
+> <https://urldefense.com/v3/__http://gcr_4.0.0.bb__;!!AjveYdw8EvQ!aAHHBL_X=
+F2Kj8Qx6nJlx-VEmLcYaA6O2xpfAAnzq3_mgKI4R6JBzXRulca1gkiY5Et5Kwi6bPycXwXHb4Cu=
+XgAucUmL4$>
+> +++ b/meta/recipes-gnome/gcr/gcr_4.0.0.bb
+> <https://urldefense.com/v3/__http://gcr_4.0.0.bb__;!!AjveYdw8EvQ!aAHHBL_X=
+F2Kj8Qx6nJlx-VEmLcYaA6O2xpfAAnzq3_mgKI4R6JBzXRulca1gkiY5Et5Kwi6bPycXwXHb4Cu=
+XgAucUmL4$>
+> @@ -20,6 +20,8 @@ GTKDOC_MESON_OPTION =3D "gtk_doc"
+>  inherit gnomebase gtk-icon-cache gi-docgen features_check
+> upstream-version-is-even vala gobject-introspection gettext mime mime-xdg
+>  UPSTREAM_CHECK_REGEX =3D "gcr-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)\.tar.=
+xz"
+>
+> +REQUIRED_DISTRO_FEATURES =3D "${@bb.utils.contains('DISTRO_FEATURES',
+> 'x11', 'opengl', '', d)}"
+> +
+>  SRC_URI +=3D
+> "file://0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patch"
+>  SRC_URI[archive.sha256sum] =3D
+> "c45855924f0ee7bab43e2dd38bfafd2ac815c6e9864341c0161e171173dcec7c"
+>
+> --
+> 2.25.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#174976):
+> https://lists.openembedded.org/g/openembedded-core/message/174976
+> <https://urldefense.com/v3/__https://lists.openembedded.org/g/openembedde=
+d-core/message/174976__;!!AjveYdw8EvQ!aAHHBL_XF2Kj8Qx6nJlx-VEmLcYaA6O2xpfAA=
+nzq3_mgKI4R6JBzXRulca1gkiY5Et5Kwi6bPycXwXHb4CuXgJaHBHwR$>
+> Mute This Topic: https://lists.openembedded.org/mt/95842308/1686489
+> <https://urldefense.com/v3/__https://lists.openembedded.org/mt/95842308/1=
+686489__;!!AjveYdw8EvQ!aAHHBL_XF2Kj8Qx6nJlx-VEmLcYaA6O2xpfAAnzq3_mgKI4R6JBz=
+XRulca1gkiY5Et5Kwi6bPycXwXHb4CuXgFA08ADx$>
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
+> <https://urldefense.com/v3/__https://lists.openembedded.org/g/openembedde=
+d-core/unsub__;!!AjveYdw8EvQ!aAHHBL_XF2Kj8Qx6nJlx-VEmLcYaA6O2xpfAAnzq3_mgKI=
+4R6JBzXRulca1gkiY5Et5Kwi6bPycXwXHb4CuXgMLu9URo$>
+> [alex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-diff --git a/meta/recipes-bsp/grub/files/CVE-2022-2601.patch b/meta/recipes-bsp/grub/files/CVE-2022-2601.patch
-new file mode 100644
-index 0000000000..090f693be3
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2022-2601.patch
-@@ -0,0 +1,87 @@
-+From e8060722acf0bcca037982d7fb29472363ccdfd4 Mon Sep 17 00:00:00 2001
-+From: Zhang Boyang <zhangboyang.id@gmail.com>
-+Date: Fri, 5 Aug 2022 01:58:27 +0800
-+Subject: [PATCH] font: Fix several integer overflows in
-+ grub_font_construct_glyph()
-+
-+This patch fixes several integer overflows in grub_font_construct_glyph().
-+Glyphs of invalid size, zero or leading to an overflow, are rejected.
-+The inconsistency between "glyph" and "max_glyph_size" when grub_malloc()
-+returns NULL is fixed too.
-+
-+Fixes: CVE-2022-2601
-+
-+Reported-by: Zhang Boyang <zhangboyang.id@gmail.com>
-+Signed-off-by: Zhang Boyang <zhangboyang.id@gmail.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-+
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=768e1ef2fc159f6e14e7246e4be09363708ac39e]
-+CVE: CVE-2022-2601
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ grub-core/font/font.c | 29 +++++++++++++++++------------
-+ 1 file changed, 17 insertions(+), 12 deletions(-)
-+
-+diff --git a/grub-core/font/font.c b/grub-core/font/font.c
-+index df17dba..f110db9 100644
-+--- a/grub-core/font/font.c
-++++ b/grub-core/font/font.c
-+@@ -1509,6 +1509,7 @@ grub_font_construct_glyph (grub_font_t hinted_font,
-+   struct grub_video_signed_rect bounds;
-+   static struct grub_font_glyph *glyph = 0;
-+   static grub_size_t max_glyph_size = 0;
-++  grub_size_t cur_glyph_size;
-+ 
-+   ensure_comb_space (glyph_id);
-+ 
-+@@ -1525,29 +1526,33 @@ grub_font_construct_glyph (grub_font_t hinted_font,
-+   if (!glyph_id->ncomb && !glyph_id->attributes)
-+     return main_glyph;
-+ 
-+-  if (max_glyph_size < sizeof (*glyph) + (bounds.width * bounds.height + GRUB_CHAR_BIT - 1) / GRUB_CHAR_BIT)
-++  if (grub_video_bitmap_calc_1bpp_bufsz (bounds.width, bounds.height, &cur_glyph_size) ||
-++      grub_add (sizeof (*glyph), cur_glyph_size, &cur_glyph_size))
-++    return main_glyph;
-++
-++  if (max_glyph_size < cur_glyph_size)
-+     {
-+       grub_free (glyph);
-+-      max_glyph_size = (sizeof (*glyph) + (bounds.width * bounds.height + GRUB_CHAR_BIT - 1) / GRUB_CHAR_BIT) * 2;
-+-      if (max_glyph_size < 8)
-+-	max_glyph_size = 8;
-+-      glyph = grub_malloc (max_glyph_size);
-++      if (grub_mul (cur_glyph_size, 2, &max_glyph_size))
-++	max_glyph_size = 0;
-++      glyph = max_glyph_size > 0 ? grub_malloc (max_glyph_size) : NULL;
-+     }
-+   if (!glyph)
-+     {
-++      max_glyph_size = 0;
-+       grub_errno = GRUB_ERR_NONE;
-+       return main_glyph;
-+     }
-+ 
-+-  grub_memset (glyph, 0, sizeof (*glyph)
-+-	       + (bounds.width * bounds.height
-+-		  + GRUB_CHAR_BIT - 1) / GRUB_CHAR_BIT);
-++  grub_memset (glyph, 0, cur_glyph_size);
-+ 
-+   glyph->font = main_glyph->font;
-+-  glyph->width = bounds.width;
-+-  glyph->height = bounds.height;
-+-  glyph->offset_x = bounds.x;
-+-  glyph->offset_y = bounds.y;
-++  if (bounds.width == 0 || bounds.height == 0 ||
-++      grub_cast (bounds.width, &glyph->width) ||
-++      grub_cast (bounds.height, &glyph->height) ||
-++      grub_cast (bounds.x, &glyph->offset_x) ||
-++      grub_cast (bounds.y, &glyph->offset_y))
-++    return main_glyph;
-+ 
-+   if (glyph_id->attributes & GRUB_UNICODE_GLYPH_ATTRIBUTE_MIRROR)
-+     grub_font_blit_glyph_mirror (glyph, main_glyph,
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-bsp/grub/files/CVE-2022-3775.patch b/meta/recipes-bsp/grub/files/CVE-2022-3775.patch
-new file mode 100644
-index 0000000000..e2e3f35584
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2022-3775.patch
-@@ -0,0 +1,97 @@
-+From fdbe7209152ad6f09a1166f64f162017f2145ba3 Mon Sep 17 00:00:00 2001
-+From: Zhang Boyang <zhangboyang.id@gmail.com>
-+Date: Mon, 24 Oct 2022 08:05:35 +0800
-+Subject: [PATCH] font: Fix an integer underflow in blit_comb()
-+
-+The expression (ctx.bounds.height - combining_glyphs[i]->height) / 2 may
-+evaluate to a very big invalid value even if both ctx.bounds.height and
-+combining_glyphs[i]->height are small integers. For example, if
-+ctx.bounds.height is 10 and combining_glyphs[i]->height is 12, this
-+expression evaluates to 2147483647 (expected -1). This is because
-+coordinates are allowed to be negative but ctx.bounds.height is an
-+unsigned int. So, the subtraction operates on unsigned ints and
-+underflows to a very big value. The division makes things even worse.
-+The quotient is still an invalid value even if converted back to int.
-+
-+This patch fixes the problem by casting ctx.bounds.height to int. As
-+a result the subtraction will operate on int and grub_uint16_t which
-+will be promoted to an int. So, the underflow will no longer happen. Other
-+uses of ctx.bounds.height (and ctx.bounds.width) are also casted to int,
-+to ensure coordinates are always calculated on signed integers.
-+
-+Fixes: CVE-2022-3775
-+
-+Reported-by: Daniel Axtens <dja@axtens.net>
-+Signed-off-by: Zhang Boyang <zhangboyang.id@gmail.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-+
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=992c06191babc1e109caf40d6a07ec6fdef427af]
-+CVE: CVE-2022-3775
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ grub-core/font/font.c | 16 ++++++++--------
-+ 1 file changed, 8 insertions(+), 8 deletions(-)
-+
-+diff --git a/grub-core/font/font.c b/grub-core/font/font.c
-+index f110db9..3b76b22 100644
-+--- a/grub-core/font/font.c
-++++ b/grub-core/font/font.c
-+@@ -1200,12 +1200,12 @@ blit_comb (const struct grub_unicode_glyph *glyph_id,
-+   ctx.bounds.height = main_glyph->height;
-+ 
-+   above_rightx = main_glyph->offset_x + main_glyph->width;
-+-  above_righty = ctx.bounds.y + ctx.bounds.height;
-++  above_righty = ctx.bounds.y + (int) ctx.bounds.height;
-+ 
-+   above_leftx = main_glyph->offset_x;
-+-  above_lefty = ctx.bounds.y + ctx.bounds.height;
-++  above_lefty = ctx.bounds.y + (int) ctx.bounds.height;
-+ 
-+-  below_rightx = ctx.bounds.x + ctx.bounds.width;
-++  below_rightx = ctx.bounds.x + (int) ctx.bounds.width;
-+   below_righty = ctx.bounds.y;
-+ 
-+   comb = grub_unicode_get_comb (glyph_id);
-+@@ -1218,7 +1218,7 @@ blit_comb (const struct grub_unicode_glyph *glyph_id,
-+ 
-+       if (!combining_glyphs[i])
-+ 	continue;
-+-      targetx = (ctx.bounds.width - combining_glyphs[i]->width) / 2 + ctx.bounds.x;
-++      targetx = ((int) ctx.bounds.width - combining_glyphs[i]->width) / 2 + ctx.bounds.x;
-+       /* CGJ is to avoid diacritics reordering. */
-+       if (comb[i].code
-+ 	  == GRUB_UNICODE_COMBINING_GRAPHEME_JOINER)
-+@@ -1228,8 +1228,8 @@ blit_comb (const struct grub_unicode_glyph *glyph_id,
-+ 	case GRUB_UNICODE_COMB_OVERLAY:
-+ 	  do_blit (combining_glyphs[i],
-+ 		   targetx,
-+-		   (ctx.bounds.height - combining_glyphs[i]->height) / 2
-+-		   - (ctx.bounds.height + ctx.bounds.y), &ctx);
-++		   ((int) ctx.bounds.height - combining_glyphs[i]->height) / 2
-++		   - ((int) ctx.bounds.height + ctx.bounds.y), &ctx);
-+ 	  if (min_devwidth < combining_glyphs[i]->width)
-+ 	    min_devwidth = combining_glyphs[i]->width;
-+ 	  break;
-+@@ -1302,7 +1302,7 @@ blit_comb (const struct grub_unicode_glyph *glyph_id,
-+ 	  /* Fallthrough.  */
-+ 	case GRUB_UNICODE_STACK_ATTACHED_ABOVE:
-+ 	  do_blit (combining_glyphs[i], targetx,
-+-		   -(ctx.bounds.height + ctx.bounds.y + space
-++		   -((int) ctx.bounds.height + ctx.bounds.y + space
-+ 		     + combining_glyphs[i]->height), &ctx);
-+ 	  if (min_devwidth < combining_glyphs[i]->width)
-+ 	    min_devwidth = combining_glyphs[i]->width;
-+@@ -1310,7 +1310,7 @@ blit_comb (const struct grub_unicode_glyph *glyph_id,
-+ 
-+ 	case GRUB_UNICODE_COMB_HEBREW_DAGESH:
-+ 	  do_blit (combining_glyphs[i], targetx,
-+-		   -(ctx.bounds.height / 2 + ctx.bounds.y
-++		   -((int) ctx.bounds.height / 2 + ctx.bounds.y
-+ 		     + combining_glyphs[i]->height / 2), &ctx);
-+ 	  if (min_devwidth < combining_glyphs[i]->width)
-+ 	    min_devwidth = combining_glyphs[i]->width;
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-bsp/grub/files/font-Fix-size-overflow-in-grub_font_get_glyph_intern.patch b/meta/recipes-bsp/grub/files/font-Fix-size-overflow-in-grub_font_get_glyph_intern.patch
-new file mode 100644
-index 0000000000..d4ba3cafc5
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/font-Fix-size-overflow-in-grub_font_get_glyph_intern.patch
-@@ -0,0 +1,117 @@
-+From 1f511ae054fe42dce7aedfbfe0f234fa1e0a7a3e Mon Sep 17 00:00:00 2001
-+From: Zhang Boyang <zhangboyang.id@gmail.com>
-+Date: Fri, 5 Aug 2022 00:51:20 +0800
-+Subject: [PATCH] font: Fix size overflow in grub_font_get_glyph_internal()
-+
-+The length of memory allocation and file read may overflow. This patch
-+fixes the problem by using safemath macros.
-+
-+There is a lot of code repetition like "(x * y + 7) / 8". It is unsafe
-+if overflow happens. This patch introduces grub_video_bitmap_calc_1bpp_bufsz().
-+It is safe replacement for such code. It has safemath-like prototype.
-+
-+This patch also introduces grub_cast(value, pointer), it casts value to
-+typeof(*pointer) then store the value to *pointer. It returns true when
-+overflow occurs or false if there is no overflow. The semantics of arguments
-+and return value are designed to be consistent with other safemath macros.
-+
-+Signed-off-by: Zhang Boyang <zhangboyang.id@gmail.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=9c76ec09ae08155df27cd237eaea150b4f02f532]
-+
-+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ grub-core/font/font.c   | 17 +++++++++++++----
-+ include/grub/bitmap.h   | 18 ++++++++++++++++++
-+ include/grub/safemath.h |  2 ++
-+ 3 files changed, 33 insertions(+), 4 deletions(-)
-+
-+diff --git a/grub-core/font/font.c b/grub-core/font/font.c
-+index 5edb477..df17dba 100644
-+--- a/grub-core/font/font.c
-++++ b/grub-core/font/font.c
-+@@ -733,7 +733,8 @@ grub_font_get_glyph_internal (grub_font_t font, grub_uint32_t code)
-+       grub_int16_t xoff;
-+       grub_int16_t yoff;
-+       grub_int16_t dwidth;
-+-      int len;
-++      grub_ssize_t len;
-++      grub_size_t sz;
-+ 
-+       if (index_entry->glyph)
-+ 	/* Return cached glyph.  */
-+@@ -760,9 +761,17 @@ grub_font_get_glyph_internal (grub_font_t font, grub_uint32_t code)
-+ 	  return 0;
-+ 	}
-+ 
-+-      len = (width * height + 7) / 8;
-+-      glyph = grub_malloc (sizeof (struct grub_font_glyph) + len);
-+-      if (!glyph)
-++      /* Calculate real struct size of current glyph. */
-++      if (grub_video_bitmap_calc_1bpp_bufsz (width, height, &len) ||
-++	  grub_add (sizeof (struct grub_font_glyph), len, &sz))
-++	{
-++	  remove_font (font);
-++	  return 0;
-++	}
-++
-++      /* Allocate and initialize the glyph struct. */
-++      glyph = grub_malloc (sz);
-++      if (glyph == NULL)
-+ 	{
-+ 	  remove_font (font);
-+ 	  return 0;
-+diff --git a/include/grub/bitmap.h b/include/grub/bitmap.h
-+index 5728f8c..0d9603f 100644
-+--- a/include/grub/bitmap.h
-++++ b/include/grub/bitmap.h
-+@@ -23,6 +23,7 @@
-+ #include <grub/symbol.h>
-+ #include <grub/types.h>
-+ #include <grub/video.h>
-++#include <grub/safemath.h>
-+ 
-+ struct grub_video_bitmap
-+ {
-+@@ -79,6 +80,23 @@ grub_video_bitmap_get_height (struct grub_video_bitmap *bitmap)
-+   return bitmap->mode_info.height;
-+ }
-+ 
-++/*
-++ * Calculate and store the size of data buffer of 1bit bitmap in result.
-++ * Equivalent to "*result = (width * height + 7) / 8" if no overflow occurs.
-++ * Return true when overflow occurs or false if there is no overflow.
-++ * This function is intentionally implemented as a macro instead of
-++ * an inline function. Although a bit awkward, it preserves data types for
-++ * safemath macros and reduces macro side effects as much as possible.
-++ *
-++ * XXX: Will report false overflow if width * height > UINT64_MAX.
-++ */
-++#define grub_video_bitmap_calc_1bpp_bufsz(width, height, result) \
-++({ \
-++  grub_uint64_t _bitmap_pixels; \
-++  grub_mul ((width), (height), &_bitmap_pixels) ? 1 : \
-++    grub_cast (_bitmap_pixels / GRUB_CHAR_BIT + !!(_bitmap_pixels % GRUB_CHAR_BIT), (result)); \
-++})
-++
-+ void EXPORT_FUNC (grub_video_bitmap_get_mode_info) (struct grub_video_bitmap *bitmap,
-+ 						    struct grub_video_mode_info *mode_info);
-+ 
-+diff --git a/include/grub/safemath.h b/include/grub/safemath.h
-+index c17b89b..bb0f826 100644
-+--- a/include/grub/safemath.h
-++++ b/include/grub/safemath.h
-+@@ -30,6 +30,8 @@
-+ #define grub_sub(a, b, res)	__builtin_sub_overflow(a, b, res)
-+ #define grub_mul(a, b, res)	__builtin_mul_overflow(a, b, res)
-+ 
-++#define grub_cast(a, res)	grub_add ((a), 0, (res))
-++
-+ #else
-+ #error gcc 5.1 or newer or clang 3.8 or newer is required
-+ #endif
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index a248af0073..e0faa46a74 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -102,6 +102,9 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://CVE-2022-28733.patch \
-            file://CVE-2022-28734.patch \
-            file://CVE-2022-28736.patch \
-+           file://font-Fix-size-overflow-in-grub_font_get_glyph_intern.patch \
-+           file://CVE-2022-2601.patch \
-+           file://CVE-2022-3775.patch \
-            "
- SRC_URI[md5sum] = "5ce674ca6b2612d8939b9e6abed32934"
- SRC_URI[sha256sum] = "f10c85ae3e204dbaec39ae22fa3c5e99f0665417e91c2cb49b7e5031658ba6ea"
--- 
-2.25.1
+--0000000000000304a505f17ecb0f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"auto">But does this mean we now have to insert required distro =
+features statement into everything that depends on gtk4? That doesn=E2=80=
+=99t seem useful; it should be enough to say that only in the recipe where =
+the requirement originates.</div><div dir=3D"auto"><br></div><div dir=3D"au=
+to">Alex=C2=A0</div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cl=
+ass=3D"gmail_attr">On Thu 5. Jan 2023 at 3.10, Yu, Mingli &lt;<a href=3D"ma=
+ilto:Mingli.Yu@windriver.com">Mingli.Yu@windriver.com</a>&gt; wrote:<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left-width:1px;border-left-style:solid;padding-left:1ex;border-left-colo=
+r:rgb(204,204,204)">
+
+
+
+
+<div dir=3D"ltr">
+<div><span style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-siz=
+e:12pt;background-color:rgb(255,255,255);color:rgb(0,0,0)">Hi Alex,</span><=
+/div>
+<div><span style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-siz=
+e:12pt;background-color:rgb(255,255,255);color:rgb(0,0,0)"><br>
+</span></div>
+<div><span style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-siz=
+e:12pt;background-color:rgb(255,255,255);color:rgb(0,0,0)">Yes,=C2=A0 The s=
+etting REQUIRED_DISTRO_FEATURES
+ =3D &quot;opengl&quot; is in gtk4 recipe. Apart from that, gtk4 depends on=
+=C2=A0libepoxy which also needs opengl distro.</span></div>
+<div><span style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-siz=
+e:12pt;background-color:rgb(255,255,255);color:rgb(0,0,0)"><br>
+</span></div>
+<div><span style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-siz=
+e:12pt;background-color:rgb(255,255,255);color:rgb(0,0,0)">Thanks,</span></=
+div>
+<div id=3D"m_-7193453025957777169appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%">
+<div id=3D"m_-7193453025957777169divRplyFwdMsg" dir=3D"ltr"><font face=3D"C=
+alibri, sans-serif" style=3D"font-size:11pt;font-family:Calibri,sans-serif;=
+color:rgb(0,0,0)"><b style=3D"font-family:Calibri,sans-serif">From:</b> Ale=
+xander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_bla=
+nk" style=3D"font-family:Calibri,sans-serif">alex.kanavin@gmail.com</a>&gt;=
+<br>
+<b style=3D"font-family:Calibri,sans-serif">Sent:</b> Friday, December 23, =
+2022 17:43<br>
+<b style=3D"font-family:Calibri,sans-serif">To:</b> Yu, Mingli &lt;<a href=
+=3D"mailto:Mingli.Yu@windriver.com" target=3D"_blank" style=3D"font-family:=
+Calibri,sans-serif">Mingli.Yu@windriver.com</a>&gt;<br>
+<b style=3D"font-family:Calibri,sans-serif">Cc:</b> <a href=3D"mailto:opene=
+mbedded-core@lists.openembedded.org" target=3D"_blank" style=3D"font-family=
+:Calibri,sans-serif">openembedded-core@lists.openembedded.org</a> &lt;<a hr=
+ef=3D"mailto:openembedded-core@lists.openembedded.org" target=3D"_blank" st=
+yle=3D"font-family:Calibri,sans-serif">openembedded-core@lists.openembedded=
+.org</a>&gt;<br>
+<b style=3D"font-family:Calibri,sans-serif">Subject:</b> Re: [OE-core] [PAT=
+CH] gcr: add opengl to REQUIRED_DISTRO_FEATURES</font>
+<div>=C2=A0</div>
+</div>
+<div><strong>
+<div style=3D"border:1pt solid rgb(156,101,0);padding:2pt;background-color:=
+rgb(252,252,3)"><span style=3D"font-size:11pt;color:rgb(0,0,0)">CAUTION: Th=
+is email comes from a non Wind River email account!</span></div></strong><b=
+r>
+<span style=3D"font-size:10pt;color:rgb(0,0,0)">Do not click links or open =
+attachments unless you recognize the sender and know the content is safe.</=
+span><br>
+</div></div><div dir=3D"ltr">
+<div>
+<div dir=3D"auto">Is OpenGL really mandatory for gtk4?</div>
+<div dir=3D"auto"><br>
+</div>
+<div dir=3D"auto">Alex</div>
+<div><br>
+<div>
+<div dir=3D"ltr">On Fri 23. Dec 2022 at 10.32, Yu, Mingli &lt;<a href=3D"ma=
+ilto:mingli.yu@eng.windriver.com" target=3D"_blank">mingli.yu@eng.windriver=
+.com</a>&gt; wrote:<br>
+</div>
+<blockquote style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-=
+left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)">
+From: Mingli Yu &lt;<a href=3D"mailto:mingli.yu@windriver.com" target=3D"_b=
+lank">mingli.yu@windriver.com</a>&gt;<br>
+<br>
+Fixes:<br>
+=C2=A0 $ bitbake gcr<br>
+=C2=A0 ERROR: Nothing PROVIDES &#39;gtk4&#39; (but /build/layers/oe-core/me=
+ta/recipes-gnome/gcr/<a href=3D"https://urldefense.com/v3/__http://gcr_4.0.=
+0.bb__;!!AjveYdw8EvQ!aAHHBL_XF2Kj8Qx6nJlx-VEmLcYaA6O2xpfAAnzq3_mgKI4R6JBzXR=
+ulca1gkiY5Et5Kwi6bPycXwXHb4CuXgAucUmL4$" rel=3D"noreferrer" target=3D"_blan=
+k">gcr_4.0.0.bb</a>
+ DEPENDS on or otherwise requires it)<br>
+gtk4 was skipped: missing required distro feature &#39;opengl&#39; (not in =
+DISTRO_FEATURES)<br>
+=C2=A0 ERROR: Required build target &#39;gcr&#39; has no buildable provider=
+s.<br>
+=C2=A0 Missing or unbuildable dependency chain was: [&#39;gcr&#39;, &#39;gt=
+k4&#39;]<br>
+<br>
+Signed-off-by: Mingli Yu &lt;<a href=3D"mailto:mingli.yu@windriver.com" tar=
+get=3D"_blank">mingli.yu@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-gnome/gcr/<a href=3D"https://urldefense.com/v3/__http://=
+gcr_4.0.0.bb__;!!AjveYdw8EvQ!aAHHBL_XF2Kj8Qx6nJlx-VEmLcYaA6O2xpfAAnzq3_mgKI=
+4R6JBzXRulca1gkiY5Et5Kwi6bPycXwXHb4CuXgAucUmL4$" rel=3D"noreferrer" target=
+=3D"_blank">gcr_4.0.0.bb</a> | 2 ++<br>
+=C2=A01 file changed, 2 insertions(+)<br>
+<br>
+diff --git a/meta/recipes-gnome/gcr/<a href=3D"https://urldefense.com/v3/__=
+http://gcr_4.0.0.bb__;!!AjveYdw8EvQ!aAHHBL_XF2Kj8Qx6nJlx-VEmLcYaA6O2xpfAAnz=
+q3_mgKI4R6JBzXRulca1gkiY5Et5Kwi6bPycXwXHb4CuXgAucUmL4$" rel=3D"noreferrer" =
+target=3D"_blank">gcr_4.0.0.bb</a> b/meta/recipes-gnome/gcr/<a href=3D"http=
+s://urldefense.com/v3/__http://gcr_4.0.0.bb__;!!AjveYdw8EvQ!aAHHBL_XF2Kj8Qx=
+6nJlx-VEmLcYaA6O2xpfAAnzq3_mgKI4R6JBzXRulca1gkiY5Et5Kwi6bPycXwXHb4CuXgAucUm=
+L4$" rel=3D"noreferrer" target=3D"_blank">gcr_4.0.0.bb</a><br>
+index 264069ffd1..22edd386fc 100644<br>
+--- a/meta/recipes-gnome/gcr/<a href=3D"https://urldefense.com/v3/__http://=
+gcr_4.0.0.bb__;!!AjveYdw8EvQ!aAHHBL_XF2Kj8Qx6nJlx-VEmLcYaA6O2xpfAAnzq3_mgKI=
+4R6JBzXRulca1gkiY5Et5Kwi6bPycXwXHb4CuXgAucUmL4$" rel=3D"noreferrer" target=
+=3D"_blank">gcr_4.0.0.bb</a><br>
++++ b/meta/recipes-gnome/gcr/<a href=3D"https://urldefense.com/v3/__http://=
+gcr_4.0.0.bb__;!!AjveYdw8EvQ!aAHHBL_XF2Kj8Qx6nJlx-VEmLcYaA6O2xpfAAnzq3_mgKI=
+4R6JBzXRulca1gkiY5Et5Kwi6bPycXwXHb4CuXgAucUmL4$" rel=3D"noreferrer" target=
+=3D"_blank">gcr_4.0.0.bb</a><br>
+@@ -20,6 +20,8 @@ GTKDOC_MESON_OPTION =3D &quot;gtk_doc&quot;<br>
+=C2=A0inherit gnomebase gtk-icon-cache gi-docgen features_check upstream-ve=
+rsion-is-even vala gobject-introspection gettext mime mime-xdg<br>
+=C2=A0UPSTREAM_CHECK_REGEX =3D &quot;gcr-(?P&lt;pver&gt;\d+\.(\d*[02468])+(=
+\.\d+)+)\.tar.xz&quot;<br>
+<br>
++REQUIRED_DISTRO_FEATURES =3D &quot;${@bb.utils.contains(&#39;DISTRO_FEATUR=
+ES&#39;, &#39;x11&#39;, &#39;opengl&#39;, &#39;&#39;, d)}&quot;<br>
++<br>
+=C2=A0SRC_URI +=3D &quot;file://0001-meson.build-correctly-handle-disabled-=
+ssh_agent-opti.patch&quot;<br>
+=C2=A0SRC_URI[archive.sha256sum] =3D &quot;c45855924f0ee7bab43e2dd38bfafd2a=
+c815c6e9864341c0161e171173dcec7c&quot;<br>
+<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#174976): <a href=3D"https://urldefense.com/v3/__https:/=
+/lists.openembedded.org/g/openembedded-core/message/174976__;!!AjveYdw8EvQ!=
+aAHHBL_XF2Kj8Qx6nJlx-VEmLcYaA6O2xpfAAnzq3_mgKI4R6JBzXRulca1gkiY5Et5Kwi6bPyc=
+XwXHb4CuXgJaHBHwR$" rel=3D"noreferrer" target=3D"_blank">
+https://lists.openembedded.org/g/openembedded-core/message/174976</a><br>
+Mute This Topic: <a href=3D"https://urldefense.com/v3/__https://lists.opene=
+mbedded.org/mt/95842308/1686489__;!!AjveYdw8EvQ!aAHHBL_XF2Kj8Qx6nJlx-VEmLcY=
+aA6O2xpfAAnzq3_mgKI4R6JBzXRulca1gkiY5Et5Kwi6bPycXwXHb4CuXgFA08ADx$" rel=3D"=
+noreferrer" target=3D"_blank">
+https://lists.openembedded.org/mt/95842308/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">
+openembedded-core+owner@lists.openembedded.org</a><br>
+Unsubscribe: <a href=3D"https://urldefense.com/v3/__https://lists.openembed=
+ded.org/g/openembedded-core/unsub__;!!AjveYdw8EvQ!aAHHBL_XF2Kj8Qx6nJlx-VEmL=
+cYaA6O2xpfAAnzq3_mgKI4R6JBzXRulca1gkiY5Et5Kwi6bPycXwXHb4CuXgMLu9URo$" rel=
+=3D"noreferrer" target=3D"_blank">
+https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a href=3D"ma=
+ilto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>]<=
+br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote>
+</div>
+</div>
+</div>
+</div>
+
+
+</blockquote></div></div>
+
+--0000000000000304a505f17ecb0f--
 
