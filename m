@@ -1,157 +1,419 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1962C4708D
-	for <webhook@archiver.kernel.org>; Thu,  5 Jan 2023 03:45:18 +0000 (UTC)
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
- by mx.groups.io with SMTP id smtpd.web11.5321.1672890316264447501
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 951B3C3DA7A
+	for <webhook@archiver.kernel.org>; Thu,  5 Jan 2023 06:25:39 +0000 (UTC)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web11.7328.1672899933691497548
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Jan 2023 19:45:16 -0800
+ Wed, 04 Jan 2023 22:25:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=JJWGuTqJ;
- spf=pass (domain: gmail.com, ip: 209.85.167.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f170.google.com with SMTP id d127so29762301oif.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 19:45:16 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=Owxu/5Jg;
+ spf=pass (domain: mvista.com, ip: 209.85.214.171, mailfrom: hprajapati@mvista.com)
+Received: by mail-pl1-f171.google.com with SMTP id jl4so32157334plb.8
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Jan 2023 22:25:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+yOhFMdHzBQMlMPBP1CzwAK7Z29mGXptoK4QnclMUzA=;
-        b=JJWGuTqJf0+b0zf/cfxH5zNseI++GEyL+FBFD6db64U9FNRGoxQDtPIO9qIb9T5FVC
-         p0dEfkvJa49flS85F1teWm/Rcv+w6/tHzLqNLdJrQIvVBfT8476DWGYfps5jsy8jj6cO
-         eAwc2FnDIq4OMPaa2yIYX/z015ScJi8aOAwfmDeZ4NGUFiDjrT1bO67b78iOx2O90ZqT
-         uUxIztu+7uwDRZs7CGgm2LExP2yWA8FRJJbK5WMtYtJ+V9/RU6KO729zlbiEXzaO73m6
-         ie3WfhTRr97Vp+7afBar4JagH5BYSofaIB5MUobwdH6a8hsy/Eo6wyyZBXRHQjxLW4u7
-         xsYw==
+        d=mvista.com; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1+qERWqGfAYJQc+pdFuIB25zkQ7G5BlovZBMBvxOjms=;
+        b=Owxu/5JgvZl/kIekl+YlpCjH7XyhV1N5Yc50nwWsCEVDzLvhcVXy3Y+hZ1HGao1UnS
+         XuANUZFSyrc1ABEQLAV+7lWyn6mqeezFM4ApkQ//twVU7MsAPPndSfJhZPfs/Mt84hML
+         7Nhohq07PG3UMj4dpjzfnQFq5INfZ86QyYJcA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+yOhFMdHzBQMlMPBP1CzwAK7Z29mGXptoK4QnclMUzA=;
-        b=oG8tvxEyHt9Dy/3nbaa/8B+JA49GoKZQ7pQzQCVnlcl3PPhPPsyFBSmuKbhLKvxxpU
-         NXa/neYwU3MHUGVR1ZHl2B4rKt7huFaqAJmp3yeDGbiG5dBZjEAtaA10ZMgTnwkTLsVQ
-         QFBLN/1xBIuIewNX36h24TbqXEUE/DxPkivafE7KJiTEVWfea6Po+kCXDlXabnwDciMG
-         UsEKgzm4Ka2wKxRlPCiLniGZjBX/eofK6yrFL6mqMrt803Pzt4NxEFdol1V3MdiClPu2
-         22ApXLYIU9OemLIerXuSufAqs0PWkWVQ6VvrEG6Y9wl+0+UfqpHlicAJIbbI/nxiH54G
-         qqbw==
-X-Gm-Message-State: AFqh2kp1lrTB0Ix2vm2G8cpwR2fp4WGiaC3XtbgHY/4zi1mc8HhTOXqe
-	jXnrQqpDGaS/BRwVsADH273ODDNQxBWXQklJM3c=
-X-Google-Smtp-Source: AMrXdXvDPrVY0VEccEmdHBuwppRCwNqtAz2Dmb/IkShZ7GCYs4kPBFVrZdmqSwR/A458g6u/v3ILRXpUGjn24QIXdYE=
-X-Received: by 2002:aca:3855:0:b0:35c:53a9:5513 with SMTP id
- f82-20020aca3855000000b0035c53a95513mr2761245oia.262.1672890315342; Wed, 04
- Jan 2023 19:45:15 -0800 (PST)
+        bh=1+qERWqGfAYJQc+pdFuIB25zkQ7G5BlovZBMBvxOjms=;
+        b=Y4z4Gqd5J8rlR49C63ULElN2s3KpuzCAsk9RD/6FHo8ZzYt0B1oVP//xd5CQvWRqmj
+         2TMRGh9oRrjehHeJCii4+H5vcnp2S5HVul48sw9hJsDTrUbeSbq++ctO+wABoN8trgNK
+         RWuqEEnsWkXu+YIw0V0EbYgiBaCXjpB4y0PmZA0ocnVOmbXmJmkMDISrtXnHj+NAiZUI
+         5iJAWVz7es10QTHMEZ4LH1MdIPjcxPBjVdFnzf1kvafhutUipcNMt/DYcUotmQod3Wdp
+         kmUCijqJqQXjS1A2mj5yc4s6r7CfdimorAxYGDNZskgMJc/y1Q/ltSlySaOLNbNvbkFh
+         50Qg==
+X-Gm-Message-State: AFqh2kqdvYRl8htO/bzis++v4XPpwikU4bmrrKbZzKsadBhpQGosQKcY
+	ws8yPhexhqApylLbileyyTVmWFjDh4WQwak+
+X-Google-Smtp-Source: AMrXdXtOowp7vLZ4LG/f+jn5h0NaadEQCKrFkNedJ9v7v59kc1JqavUtoAMCkYSIdidRHxSuPU+p1w==
+X-Received: by 2002:a17:903:41c7:b0:189:ea22:6d6a with SMTP id u7-20020a17090341c700b00189ea226d6amr71815815ple.60.1672899932741;
+        Wed, 04 Jan 2023 22:25:32 -0800 (PST)
+Received: from MVIN00024 ([103.250.136.224])
+        by smtp.gmail.com with ESMTPSA id b5-20020a170902650500b00187197c499asm427722plk.164.2023.01.04.22.25.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Jan 2023 22:25:32 -0800 (PST)
+Received: by MVIN00024 (sSMTP sendmail emulation); Thu, 05 Jan 2023 11:55:27 +0530
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [dunfell][PATCH] grub2: Fix CVE-2022-2601 & CVE-2022-3775
+Date: Thu,  5 Jan 2023 11:55:25 +0530
+Message-Id: <20230105062525.63166-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230104110548.2537259-1-alex@linutronix.de> <20230104110548.2537259-45-alex@linutronix.de>
-In-Reply-To: <20230104110548.2537259-45-alex@linutronix.de>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 4 Jan 2023 19:44:49 -0800
-Message-ID: <CAMKF1spQg77ziLGXKtB7GaNp1FBFWgf+RrGgHe7ZUVr0NcSiMQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 45/77] python3-setuptools: upgrade 65.5.1 -> 65.6.3
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	Alexandre BELLONI <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Jan 2023 03:45:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175513
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Jan 2023 06:25:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175514
 
-This setuptools upgrade is regressing nftables build
+Backport patch from upstream to solve CVE-2022-2601 CVE-2022-3775 dependency:
 
-| make[2]: Entering directory
-'/mnt/b/yoe/master/build/tmp/work/cortexa72-cortexa53-crypto-yoe-linux/nftables/1.0.6-r0/build/py'
-| cd ../../nftables-1.0.6/py && \
-|       /mnt/b/yoe/master/build/tmp/work/cortexa72-cortexa53-crypto-yoe-linux/nftables/1.0.6-r0/recipe-sysroot-native/usr/bin/python3-native/python3
-setup.py build --build-base /mnt/b/yoe/master/build/tmp/work/cort
-exa72-cortexa53-crypto-yoe-linux/nftables/1.0.6-r0/build/py
-| Traceback (most recent call last):
-|   File "/mnt/b/yoe/master/build/tmp/work/cortexa72-cortexa53-crypto-yoe-linux/nftables/1.0.6-r0/nftables-1.0.6/py/setup.py",
-line 5, in <module>
-|     setup(name='nftables',
-|   File "/mnt/b/yoe/master/build/tmp/work/cortexa72-cortexa53-crypto-yoe-linux/nftables/1.0.6-r0/recipe-sysroot-native/usr/lib/python3.11/site-packages/setuptools/_distutils/core.py",
-line 185, in setup
-|     return run_commands(dist)
-|            ^^^^^^^^^^^^^^^^^^
-|   File "/mnt/b/yoe/master/build/tmp/work/cortexa72-cortexa53-crypto-yoe-linux/nftables/1.0.6-r0/recipe-sysroot-native/usr/lib/python3.11/site-packages/setuptools/_distutils/core.py",
-line 201, in run_commands
-|     dist.run_commands()
-|   File "/mnt/b/yoe/master/build/tmp/work/cortexa72-cortexa53-crypto-yoe-linux/nftables/1.0.6-r0/recipe-sysroot-native/usr/lib/python3.11/site-packages/setuptools/_distutils/dist.py",
-line 969, in run_commands
-|     self.run_command(cmd)
-|   File "/mnt/b/yoe/master/build/tmp/work/cortexa72-cortexa53-crypto-yoe-linux/nftables/1.0.6-r0/recipe-sysroot-native/usr/lib/python3.11/site-packages/setuptools/_distutils/dist.py",
-line 986, in run_command
-|     cmd_obj = self.get_command_obj(command)
-|               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-|   File "/mnt/b/yoe/master/build/tmp/work/cortexa72-cortexa53-crypto-yoe-linux/nftables/1.0.6-r0/recipe-sysroot-native/usr/lib/python3.11/site-packages/setuptools/_distutils/dist.py",
-line 861, in get_command_obj
-|     cmd_obj = self.command_obj[command] = klass(self)
-|                                           ^^^^^^^^^^^
-|   File "/mnt/b/yoe/master/build/tmp/work/cortexa72-cortexa53-crypto-yoe-linux/nftables/1.0.6-r0/recipe-sysroot-native/usr/lib/python3.11/site-packages/setuptools/__init__.py",
-line 158, in __init__
-|     super().__init__(dist)
-|   File "/mnt/b/yoe/master/build/tmp/work/cortexa72-cortexa53-crypto-yoe-linux/nftables/1.0.6-r0/recipe-sysroot-native/usr/lib/python3.11/site-packages/setuptools/_distutils/cmd.py",
-line 61, in __init__
-|     raise TypeError("dist must be a Distribution instance")
-| TypeError: dist must be a Distribution instance
-| make[2]: *** [Makefile:455: all-local] Error 1
-| make[2]: Leaving directory
-'/mnt/b/yoe/master/build/tmp/work/cortexa72-cortexa53-crypto-yoe-linux/nftables/1.0.6-r0/build/py'
-| make[1]: *** [Makefile:478: all-recursive] Error 1
-| make[1]: Leaving directory
-'/mnt/b/yoe/master/build/tmp/work/cortexa72-cortexa53-crypto-yoe-linux/nftables/1.0.6-r0/build'
-| make: *** [Makefile:387: all] Error 2
+font: Fix size overflow in grub_font_get_glyph_internal()
+Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?id=9c76ec09ae08155df27cd237eaea150b4f02f532
 
+CVE-2022-2601: font: Fix several integer overflows in grub_font_construct_glyph()
+Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?id=768e1ef2fc159f6e14e7246e4be09363708ac39e
 
+CVE-2022-3775: font: Fix an integer underflow in blit_comb()
+Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?id=992c06191babc1e109caf40d6a07ec6fdef427af
 
-On Wed, Jan 4, 2023 at 3:06 AM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  .../0001-conditionally-do-not-fetch-code-by-easy_install.patch  | 2 +-
->  ...ython3-setuptools_65.5.1.bb => python3-setuptools_65.6.3.bb} | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-devtools/python/{python3-setuptools_65.5.1.bb => python3-setuptools_65.6.3.bb} (95%)
->
-> diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch b/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
-> index 1b5f9c7577..2110c4a877 100644
-> --- a/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
-> +++ b/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
-> @@ -1,4 +1,4 @@
-> -From a0e0873a8ee6674d43e604d66bf66d94fc8eeb6f Mon Sep 17 00:00:00 2001
-> +From 2e57369593ede5336f947e7b9903ebc673f98fef Mon Sep 17 00:00:00 2001
->  From: Hongxu Jia <hongxu.jia@windriver.com>
->  Date: Tue, 17 Jul 2018 10:13:38 +0800
->  Subject: [PATCH] conditionally do not fetch code by easy_install
-> diff --git a/meta/recipes-devtools/python/python3-setuptools_65.5.1.bb b/meta/recipes-devtools/python/python3-setuptools_65.6.3.bb
-> similarity index 95%
-> rename from meta/recipes-devtools/python/python3-setuptools_65.5.1.bb
-> rename to meta/recipes-devtools/python/python3-setuptools_65.6.3.bb
-> index 8dc724e55a..a8bcb3a602 100644
-> --- a/meta/recipes-devtools/python/python3-setuptools_65.5.1.bb
-> +++ b/meta/recipes-devtools/python/python3-setuptools_65.6.3.bb
-> @@ -11,7 +11,7 @@ SRC_URI:append:class-native = " file://0001-conditionally-do-not-fetch-code-by-e
->  SRC_URI += "file://0001-change-shebang-to-python3.patch \
->              file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
->
-> -SRC_URI[sha256sum] = "e197a19aa8ec9722928f2206f8de752def0e4c9fc6953527360d1c36d94ddb2f"
-> +SRC_URI[sha256sum] = "a7620757bf984b58deaf32fc8a4577a9bbc0850cf92c20e1ce41c38c19e5fb75"
->
->  DEPENDS += "${PYTHON_PN}"
->
-> --
-> 2.30.2
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#175430): https://lists.openembedded.org/g/openembedded-core/message/175430
-> Mute This Topic: https://lists.openembedded.org/mt/96047915/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+---
+ .../grub/files/CVE-2022-2601.patch            |  87 +++++++++++++
+ .../grub/files/CVE-2022-3775.patch            |  97 +++++++++++++++
+ ...erflow-in-grub_font_get_glyph_intern.patch | 117 ++++++++++++++++++
+ meta/recipes-bsp/grub/grub2.inc               |   3 +
+ 4 files changed, 304 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2022-2601.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2022-3775.patch
+ create mode 100644 meta/recipes-bsp/grub/files/font-Fix-size-overflow-in-grub_font_get_glyph_intern.patch
+
+diff --git a/meta/recipes-bsp/grub/files/CVE-2022-2601.patch b/meta/recipes-bsp/grub/files/CVE-2022-2601.patch
+new file mode 100644
+index 0000000000..090f693be3
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2022-2601.patch
+@@ -0,0 +1,87 @@
++From e8060722acf0bcca037982d7fb29472363ccdfd4 Mon Sep 17 00:00:00 2001
++From: Zhang Boyang <zhangboyang.id@gmail.com>
++Date: Fri, 5 Aug 2022 01:58:27 +0800
++Subject: [PATCH] font: Fix several integer overflows in
++ grub_font_construct_glyph()
++
++This patch fixes several integer overflows in grub_font_construct_glyph().
++Glyphs of invalid size, zero or leading to an overflow, are rejected.
++The inconsistency between "glyph" and "max_glyph_size" when grub_malloc()
++returns NULL is fixed too.
++
++Fixes: CVE-2022-2601
++
++Reported-by: Zhang Boyang <zhangboyang.id@gmail.com>
++Signed-off-by: Zhang Boyang <zhangboyang.id@gmail.com>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++
++Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
++
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=768e1ef2fc159f6e14e7246e4be09363708ac39e]
++CVE: CVE-2022-2601
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ grub-core/font/font.c | 29 +++++++++++++++++------------
++ 1 file changed, 17 insertions(+), 12 deletions(-)
++
++diff --git a/grub-core/font/font.c b/grub-core/font/font.c
++index df17dba..f110db9 100644
++--- a/grub-core/font/font.c
+++++ b/grub-core/font/font.c
++@@ -1509,6 +1509,7 @@ grub_font_construct_glyph (grub_font_t hinted_font,
++   struct grub_video_signed_rect bounds;
++   static struct grub_font_glyph *glyph = 0;
++   static grub_size_t max_glyph_size = 0;
+++  grub_size_t cur_glyph_size;
++ 
++   ensure_comb_space (glyph_id);
++ 
++@@ -1525,29 +1526,33 @@ grub_font_construct_glyph (grub_font_t hinted_font,
++   if (!glyph_id->ncomb && !glyph_id->attributes)
++     return main_glyph;
++ 
++-  if (max_glyph_size < sizeof (*glyph) + (bounds.width * bounds.height + GRUB_CHAR_BIT - 1) / GRUB_CHAR_BIT)
+++  if (grub_video_bitmap_calc_1bpp_bufsz (bounds.width, bounds.height, &cur_glyph_size) ||
+++      grub_add (sizeof (*glyph), cur_glyph_size, &cur_glyph_size))
+++    return main_glyph;
+++
+++  if (max_glyph_size < cur_glyph_size)
++     {
++       grub_free (glyph);
++-      max_glyph_size = (sizeof (*glyph) + (bounds.width * bounds.height + GRUB_CHAR_BIT - 1) / GRUB_CHAR_BIT) * 2;
++-      if (max_glyph_size < 8)
++-	max_glyph_size = 8;
++-      glyph = grub_malloc (max_glyph_size);
+++      if (grub_mul (cur_glyph_size, 2, &max_glyph_size))
+++	max_glyph_size = 0;
+++      glyph = max_glyph_size > 0 ? grub_malloc (max_glyph_size) : NULL;
++     }
++   if (!glyph)
++     {
+++      max_glyph_size = 0;
++       grub_errno = GRUB_ERR_NONE;
++       return main_glyph;
++     }
++ 
++-  grub_memset (glyph, 0, sizeof (*glyph)
++-	       + (bounds.width * bounds.height
++-		  + GRUB_CHAR_BIT - 1) / GRUB_CHAR_BIT);
+++  grub_memset (glyph, 0, cur_glyph_size);
++ 
++   glyph->font = main_glyph->font;
++-  glyph->width = bounds.width;
++-  glyph->height = bounds.height;
++-  glyph->offset_x = bounds.x;
++-  glyph->offset_y = bounds.y;
+++  if (bounds.width == 0 || bounds.height == 0 ||
+++      grub_cast (bounds.width, &glyph->width) ||
+++      grub_cast (bounds.height, &glyph->height) ||
+++      grub_cast (bounds.x, &glyph->offset_x) ||
+++      grub_cast (bounds.y, &glyph->offset_y))
+++    return main_glyph;
++ 
++   if (glyph_id->attributes & GRUB_UNICODE_GLYPH_ATTRIBUTE_MIRROR)
++     grub_font_blit_glyph_mirror (glyph, main_glyph,
++-- 
++2.25.1
++
+diff --git a/meta/recipes-bsp/grub/files/CVE-2022-3775.patch b/meta/recipes-bsp/grub/files/CVE-2022-3775.patch
+new file mode 100644
+index 0000000000..e2e3f35584
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2022-3775.patch
+@@ -0,0 +1,97 @@
++From fdbe7209152ad6f09a1166f64f162017f2145ba3 Mon Sep 17 00:00:00 2001
++From: Zhang Boyang <zhangboyang.id@gmail.com>
++Date: Mon, 24 Oct 2022 08:05:35 +0800
++Subject: [PATCH] font: Fix an integer underflow in blit_comb()
++
++The expression (ctx.bounds.height - combining_glyphs[i]->height) / 2 may
++evaluate to a very big invalid value even if both ctx.bounds.height and
++combining_glyphs[i]->height are small integers. For example, if
++ctx.bounds.height is 10 and combining_glyphs[i]->height is 12, this
++expression evaluates to 2147483647 (expected -1). This is because
++coordinates are allowed to be negative but ctx.bounds.height is an
++unsigned int. So, the subtraction operates on unsigned ints and
++underflows to a very big value. The division makes things even worse.
++The quotient is still an invalid value even if converted back to int.
++
++This patch fixes the problem by casting ctx.bounds.height to int. As
++a result the subtraction will operate on int and grub_uint16_t which
++will be promoted to an int. So, the underflow will no longer happen. Other
++uses of ctx.bounds.height (and ctx.bounds.width) are also casted to int,
++to ensure coordinates are always calculated on signed integers.
++
++Fixes: CVE-2022-3775
++
++Reported-by: Daniel Axtens <dja@axtens.net>
++Signed-off-by: Zhang Boyang <zhangboyang.id@gmail.com>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++
++Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
++
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=992c06191babc1e109caf40d6a07ec6fdef427af]
++CVE: CVE-2022-3775
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ grub-core/font/font.c | 16 ++++++++--------
++ 1 file changed, 8 insertions(+), 8 deletions(-)
++
++diff --git a/grub-core/font/font.c b/grub-core/font/font.c
++index f110db9..3b76b22 100644
++--- a/grub-core/font/font.c
+++++ b/grub-core/font/font.c
++@@ -1200,12 +1200,12 @@ blit_comb (const struct grub_unicode_glyph *glyph_id,
++   ctx.bounds.height = main_glyph->height;
++ 
++   above_rightx = main_glyph->offset_x + main_glyph->width;
++-  above_righty = ctx.bounds.y + ctx.bounds.height;
+++  above_righty = ctx.bounds.y + (int) ctx.bounds.height;
++ 
++   above_leftx = main_glyph->offset_x;
++-  above_lefty = ctx.bounds.y + ctx.bounds.height;
+++  above_lefty = ctx.bounds.y + (int) ctx.bounds.height;
++ 
++-  below_rightx = ctx.bounds.x + ctx.bounds.width;
+++  below_rightx = ctx.bounds.x + (int) ctx.bounds.width;
++   below_righty = ctx.bounds.y;
++ 
++   comb = grub_unicode_get_comb (glyph_id);
++@@ -1218,7 +1218,7 @@ blit_comb (const struct grub_unicode_glyph *glyph_id,
++ 
++       if (!combining_glyphs[i])
++ 	continue;
++-      targetx = (ctx.bounds.width - combining_glyphs[i]->width) / 2 + ctx.bounds.x;
+++      targetx = ((int) ctx.bounds.width - combining_glyphs[i]->width) / 2 + ctx.bounds.x;
++       /* CGJ is to avoid diacritics reordering. */
++       if (comb[i].code
++ 	  == GRUB_UNICODE_COMBINING_GRAPHEME_JOINER)
++@@ -1228,8 +1228,8 @@ blit_comb (const struct grub_unicode_glyph *glyph_id,
++ 	case GRUB_UNICODE_COMB_OVERLAY:
++ 	  do_blit (combining_glyphs[i],
++ 		   targetx,
++-		   (ctx.bounds.height - combining_glyphs[i]->height) / 2
++-		   - (ctx.bounds.height + ctx.bounds.y), &ctx);
+++		   ((int) ctx.bounds.height - combining_glyphs[i]->height) / 2
+++		   - ((int) ctx.bounds.height + ctx.bounds.y), &ctx);
++ 	  if (min_devwidth < combining_glyphs[i]->width)
++ 	    min_devwidth = combining_glyphs[i]->width;
++ 	  break;
++@@ -1302,7 +1302,7 @@ blit_comb (const struct grub_unicode_glyph *glyph_id,
++ 	  /* Fallthrough.  */
++ 	case GRUB_UNICODE_STACK_ATTACHED_ABOVE:
++ 	  do_blit (combining_glyphs[i], targetx,
++-		   -(ctx.bounds.height + ctx.bounds.y + space
+++		   -((int) ctx.bounds.height + ctx.bounds.y + space
++ 		     + combining_glyphs[i]->height), &ctx);
++ 	  if (min_devwidth < combining_glyphs[i]->width)
++ 	    min_devwidth = combining_glyphs[i]->width;
++@@ -1310,7 +1310,7 @@ blit_comb (const struct grub_unicode_glyph *glyph_id,
++ 
++ 	case GRUB_UNICODE_COMB_HEBREW_DAGESH:
++ 	  do_blit (combining_glyphs[i], targetx,
++-		   -(ctx.bounds.height / 2 + ctx.bounds.y
+++		   -((int) ctx.bounds.height / 2 + ctx.bounds.y
++ 		     + combining_glyphs[i]->height / 2), &ctx);
++ 	  if (min_devwidth < combining_glyphs[i]->width)
++ 	    min_devwidth = combining_glyphs[i]->width;
++-- 
++2.25.1
++
+diff --git a/meta/recipes-bsp/grub/files/font-Fix-size-overflow-in-grub_font_get_glyph_intern.patch b/meta/recipes-bsp/grub/files/font-Fix-size-overflow-in-grub_font_get_glyph_intern.patch
+new file mode 100644
+index 0000000000..d4ba3cafc5
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/font-Fix-size-overflow-in-grub_font_get_glyph_intern.patch
+@@ -0,0 +1,117 @@
++From 1f511ae054fe42dce7aedfbfe0f234fa1e0a7a3e Mon Sep 17 00:00:00 2001
++From: Zhang Boyang <zhangboyang.id@gmail.com>
++Date: Fri, 5 Aug 2022 00:51:20 +0800
++Subject: [PATCH] font: Fix size overflow in grub_font_get_glyph_internal()
++
++The length of memory allocation and file read may overflow. This patch
++fixes the problem by using safemath macros.
++
++There is a lot of code repetition like "(x * y + 7) / 8". It is unsafe
++if overflow happens. This patch introduces grub_video_bitmap_calc_1bpp_bufsz().
++It is safe replacement for such code. It has safemath-like prototype.
++
++This patch also introduces grub_cast(value, pointer), it casts value to
++typeof(*pointer) then store the value to *pointer. It returns true when
++overflow occurs or false if there is no overflow. The semantics of arguments
++and return value are designed to be consistent with other safemath macros.
++
++Signed-off-by: Zhang Boyang <zhangboyang.id@gmail.com>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=9c76ec09ae08155df27cd237eaea150b4f02f532]
++
++Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ grub-core/font/font.c   | 17 +++++++++++++----
++ include/grub/bitmap.h   | 18 ++++++++++++++++++
++ include/grub/safemath.h |  2 ++
++ 3 files changed, 33 insertions(+), 4 deletions(-)
++
++diff --git a/grub-core/font/font.c b/grub-core/font/font.c
++index 5edb477..df17dba 100644
++--- a/grub-core/font/font.c
+++++ b/grub-core/font/font.c
++@@ -733,7 +733,8 @@ grub_font_get_glyph_internal (grub_font_t font, grub_uint32_t code)
++       grub_int16_t xoff;
++       grub_int16_t yoff;
++       grub_int16_t dwidth;
++-      int len;
+++      grub_ssize_t len;
+++      grub_size_t sz;
++ 
++       if (index_entry->glyph)
++ 	/* Return cached glyph.  */
++@@ -760,9 +761,17 @@ grub_font_get_glyph_internal (grub_font_t font, grub_uint32_t code)
++ 	  return 0;
++ 	}
++ 
++-      len = (width * height + 7) / 8;
++-      glyph = grub_malloc (sizeof (struct grub_font_glyph) + len);
++-      if (!glyph)
+++      /* Calculate real struct size of current glyph. */
+++      if (grub_video_bitmap_calc_1bpp_bufsz (width, height, &len) ||
+++	  grub_add (sizeof (struct grub_font_glyph), len, &sz))
+++	{
+++	  remove_font (font);
+++	  return 0;
+++	}
+++
+++      /* Allocate and initialize the glyph struct. */
+++      glyph = grub_malloc (sz);
+++      if (glyph == NULL)
++ 	{
++ 	  remove_font (font);
++ 	  return 0;
++diff --git a/include/grub/bitmap.h b/include/grub/bitmap.h
++index 5728f8c..0d9603f 100644
++--- a/include/grub/bitmap.h
+++++ b/include/grub/bitmap.h
++@@ -23,6 +23,7 @@
++ #include <grub/symbol.h>
++ #include <grub/types.h>
++ #include <grub/video.h>
+++#include <grub/safemath.h>
++ 
++ struct grub_video_bitmap
++ {
++@@ -79,6 +80,23 @@ grub_video_bitmap_get_height (struct grub_video_bitmap *bitmap)
++   return bitmap->mode_info.height;
++ }
++ 
+++/*
+++ * Calculate and store the size of data buffer of 1bit bitmap in result.
+++ * Equivalent to "*result = (width * height + 7) / 8" if no overflow occurs.
+++ * Return true when overflow occurs or false if there is no overflow.
+++ * This function is intentionally implemented as a macro instead of
+++ * an inline function. Although a bit awkward, it preserves data types for
+++ * safemath macros and reduces macro side effects as much as possible.
+++ *
+++ * XXX: Will report false overflow if width * height > UINT64_MAX.
+++ */
+++#define grub_video_bitmap_calc_1bpp_bufsz(width, height, result) \
+++({ \
+++  grub_uint64_t _bitmap_pixels; \
+++  grub_mul ((width), (height), &_bitmap_pixels) ? 1 : \
+++    grub_cast (_bitmap_pixels / GRUB_CHAR_BIT + !!(_bitmap_pixels % GRUB_CHAR_BIT), (result)); \
+++})
+++
++ void EXPORT_FUNC (grub_video_bitmap_get_mode_info) (struct grub_video_bitmap *bitmap,
++ 						    struct grub_video_mode_info *mode_info);
++ 
++diff --git a/include/grub/safemath.h b/include/grub/safemath.h
++index c17b89b..bb0f826 100644
++--- a/include/grub/safemath.h
+++++ b/include/grub/safemath.h
++@@ -30,6 +30,8 @@
++ #define grub_sub(a, b, res)	__builtin_sub_overflow(a, b, res)
++ #define grub_mul(a, b, res)	__builtin_mul_overflow(a, b, res)
++ 
+++#define grub_cast(a, res)	grub_add ((a), 0, (res))
+++
++ #else
++ #error gcc 5.1 or newer or clang 3.8 or newer is required
++ #endif
++-- 
++2.25.1
++
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index a248af0073..e0faa46a74 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -102,6 +102,9 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
+            file://CVE-2022-28733.patch \
+            file://CVE-2022-28734.patch \
+            file://CVE-2022-28736.patch \
++           file://font-Fix-size-overflow-in-grub_font_get_glyph_intern.patch \
++           file://CVE-2022-2601.patch \
++           file://CVE-2022-3775.patch \
+            "
+ SRC_URI[md5sum] = "5ce674ca6b2612d8939b9e6abed32934"
+ SRC_URI[sha256sum] = "f10c85ae3e204dbaec39ae22fa3c5e99f0665417e91c2cb49b7e5031658ba6ea"
+-- 
+2.25.1
+
 
