@@ -1,184 +1,639 @@
-Return-Path: <sandeep.gundlupet-raju@amd.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A5B8C3DA7A
-	for <webhook@archiver.kernel.org>; Thu,  5 Jan 2023 15:12:22 +0000 (UTC)
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (NAM10-BN7-obe.outbound.protection.outlook.com [40.107.92.88])
- by mx.groups.io with SMTP id smtpd.web10.15136.1672931538723037605
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49BA4C53210
+	for <webhook@archiver.kernel.org>; Thu,  5 Jan 2023 15:42:32 +0000 (UTC)
+Received: from mailout07.t-online.de (mailout07.t-online.de [194.25.134.83])
+ by mx.groups.io with SMTP id smtpd.web11.15847.1672933342005476455
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Jan 2023 07:12:19 -0800
+ Thu, 05 Jan 2023 07:42:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@amd.com header.s=selector1 header.b=zOT1KX8w;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: amd.com, ip: 40.107.92.88, mailfrom: sandeep.gundlupet-raju@amd.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=URun8Q19GEyAb5hYDsO0F+GHxmFOSJeAeR7OpP+jJr7/t66GU3bNF2atM2GmmWPslwqbIr+5i/gYzrK9MI5wSetGLLDtzsMCAhfXjqVeU0oU+Ze+AIvfISifXElAaScq3XHKoon4lFZpLeYr0KIrQGZGIUb7DatvAchBV5xkXeMb5N+uDDHQr1rtoMn8lWAwxqEfIUCDFPhTmPll2KNTccI0oOJO+7kpE4cupozaVaYxQsAPUjL9yn5rEIU087BxgW7PCGC6jG9uTkT0Uuk/YUn/TTJkIHMgNvgEB86nybvTVzMkFjhaFCxeJ0ACnHnVhHgKvoU1b2Wd6KFviWQU+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=m3JfU+qXSDvztiqM+RuUAdVf1Jm+bscIXfB9D2xOJGM=;
- b=JbqhX5jE/51C7V8v+xwjwuRYGlFpb8AcY4O+AHf/0qmN8dHSZwBbLSnzxsC5+bpKREtFHklRjiG12RChIajRE0633BGbd+u5Hz0eDD9XhxcMYdwnEp4yKURO8sFNKD0LrQ+7hW3TDZVwPpzFgrMRQ1eJoFFPuqrZpGKA/csi926S17fI2AvQU+dStmm3f9sSncD87zqI4Tz+5gR8eoCF1JvnLxwnJOCNGnBUr9Z7fnlm3/bXtasWkwBnjNXCi6rlQftcEKOmm3xNhKVFdJYPCuJMfzSBa41cKMsp9wvfveoyYeUyQa5pFT24Cp2tiIvvj9DWc1YObhw7uQYyJrmFqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=m3JfU+qXSDvztiqM+RuUAdVf1Jm+bscIXfB9D2xOJGM=;
- b=zOT1KX8wOUdq8INtR90rXYFnzgOgMmmfkGX+0Qc3kLJDYR88id2zXgxf7h+aZhNZtci1wURlcAYpA21SB4sMiBg9pbzL0Hw92f3KSCK12EB/hNEXhOEu2svG+BYz9Ll+tJL5w+BS6cILB/sj8zJlLNxNYr16iKs8qkb577SkBtU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from SA0PR12MB4367.namprd12.prod.outlook.com (2603:10b6:806:94::13)
- by MW3PR12MB4443.namprd12.prod.outlook.com (2603:10b6:303:2d::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Thu, 5 Jan
- 2023 15:12:15 +0000
-Received: from SA0PR12MB4367.namprd12.prod.outlook.com
- ([fe80::675a:ba6d:12bc:752]) by SA0PR12MB4367.namprd12.prod.outlook.com
- ([fe80::675a:ba6d:12bc:752%5]) with mapi id 15.20.5944.019; Thu, 5 Jan 2023
- 15:12:15 +0000
-Message-ID: <8554af7b-b111-d5f6-de6d-135c0fbeecb7@amd.com>
-Date: Thu, 5 Jan 2023 08:12:12 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [OE-core][PATCH v2 1/2] kernel-fitimage: Adjust order of dtb/dtbo
- files
-Content-Language: en-US
-To: Michael Opdenacker <michael.opdenacker@bootlin.com>
-CC: "mark.hatle@kernel.crashing.org" <mark.hatle@kernel.crashing.org>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>,
- "bruce.ashfield@gmail.com" <bruce.ashfield@gmail.com>
-References: <20230104220902.1530659-1-sandeep.gundlupet-raju@amd.com>
- <6ade9c89-7e12-2f1c-c9d4-0d7beb4f3853@bootlin.com>
-From: "Gundlupet Raju, Sandeep" <sandeep.gundlupet-raju@amd.com>
-In-Reply-To: <6ade9c89-7e12-2f1c-c9d4-0d7beb4f3853@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: BY5PR13CA0036.namprd13.prod.outlook.com
- (2603:10b6:a03:180::49) To SA0PR12MB4367.namprd12.prod.outlook.com
- (2603:10b6:806:94::13)
+ dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.83, mailfrom: f_l_k@t-online.de)
+Received: from fwd86.dcpf.telekom.de (fwd86.aul.t-online.de [10.223.144.112])
+	by mailout07.t-online.de (Postfix) with SMTP id 6301BBA06;
+	Thu,  5 Jan 2023 16:42:20 +0100 (CET)
+Received: from [192.168.178.83] ([79.219.228.197]) by fwd86.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1pDSNn-2DPmIS0; Thu, 5 Jan 2023 16:42:19 +0100
+Date: Thu, 05 Jan 2023 16:42:13 +0100
+From: Markus Volk <f_l_k@t-online.de>
+Subject: Re: [oe-core][PATCH] gcr3: update 3.40.0 -> 3.41.1
+To: alexandre.belloni@bootlin.com
+Cc: openembedded-core@lists.openembedded.org
+Message-Id: <DMR0OR.Q1D80VIV2M3N1@t-online.de>
+In-Reply-To: <Y7YD1ZgSe7b+UIBt@mail.local>
+References: <20230101142414.463881-1-f_l_k@t-online.de>
+	<Y7YD1ZgSe7b+UIBt@mail.local>
+X-Mailer: geary/40.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4367:EE_|MW3PR12MB4443:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8687fc4a-d818-4314-6911-08daef2f3ad7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	Z7iPt/kZJZoeMWBinZQEPumrrJ0N6DDuEFpIVzmtDf2CqzZdsF8p9npaE+3V3Dnugv4aLS3cndteyCe8hlS8hRm3JGfo/Re79F7GbM4Z94+EBEZaIa+2g3o8OP95eiiXU2iksVAKgsyjz3z+QLflT3Lbczi4ww9RmugnzOczlONs7IZIiHVuVEu+VIYCe3hdveCLL9zCIPba6NWl1hhAkQ7TrU2uN+6jIFDbSzmd5ga4Ocn9WAmwSvrqbmoULrKks8avCNbEQutCFUL7FMMQGJaesnmXU7WOSLOoH6d6+9hIVyx0HrAMK4psUjDJYFoUX1ZIQiAU5qtjYGemRRBNVeLAWBTqhvbUtQDdL5qqAiTVCcSX6vQKM3MdpgHSSa/C5a5A/n1hEAD8sJjWNcLFir5KyIyNVFi3o3LzQlRAPQwJ6q5E9Pl+ITnGbBXF6crQ0qkw35LYwwq7zmyzTB3wSY0nTEvCISUXYJyzXSuZ3KKOAZzOHmOUb1QWa7oL7fn8DM6U9i4C9/DYvZvYoh81bwBvoQ50xiiJI+5E03FMcE1eWZmo8Hmkt0tHjrlxuWjg3J1FEFyzvrvMQgNc2zRwDdnbLKtqcyZzBbnb+sw2xMxBCURQpCobvU7YXwkZkuSKG+4s7/5VwwKN/qQgvtnW9ptkZLMnv+lBQr9cGEqkLcMrkapUEpiY2BgveXUxpONF7wT/bJ+WXThs5JLg7/oF0J9hFRHJEKo/6uZbM+RsQEXP2UYl02Cwmm3pXdli5w10
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR12MB4367.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(366004)(376002)(136003)(396003)(39860400002)(451199015)(186003)(83380400001)(26005)(6512007)(2616005)(31696002)(86362001)(36756003)(38100700002)(54906003)(2906002)(6916009)(31686004)(4326008)(8676002)(66946007)(41300700001)(8936002)(5660300002)(316002)(66476007)(6666004)(478600001)(6486002)(66556008)(53546011)(966005)(6506007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?o3blswViO6O1rjYBTdo7lvdkE5unbqBY0HFAtxDQctS6IqQ0a54wFYzXbuee?=
- =?us-ascii?Q?q+spKj2du0wPps1NRdv+seoDzrWLuvpsiQXCr037BatZQ7cHDyKwPzYYihgA?=
- =?us-ascii?Q?zY/p8HZ4nu8Abk1yvs5K8g4gLdvBZPPtHEuW9u32R7sx4S2rB8olUunmpDdn?=
- =?us-ascii?Q?h68vM6ylDXTR3TpWK0mN8ZQqDtaw8CDxOEy3M/l0bFV9JjDjY3tW33Q3KQr2?=
- =?us-ascii?Q?nOV0ocY6OA4ZDnmuGDzWekRY9oGUGG3Nsl9g5xtB4ZC6MNAd1ZzeLaX17csC?=
- =?us-ascii?Q?rcrtNcD8RYejpQEus+KsBI4sGK8aOiknkPmhLMuiTb0LO7wFQ55jVCzIlBIN?=
- =?us-ascii?Q?GntusNh1Fx5SfxpaEHLtRq6ZcbjyXsLmZ9pwengjNF6D+1xKepCn7J/gw5MT?=
- =?us-ascii?Q?3ctNW7HNzRf4yjP2ptmLC4CakjZRO4002zeC/okGJMQogz5RQdjvXhZOGkYl?=
- =?us-ascii?Q?q3zhZ5GYeH7KOh1ywoqLGHjehVUNwo2CEP1nHuhawxgO8sMRXRmUh7m9ryzV?=
- =?us-ascii?Q?2uh6+IuRQTRLDE06RTkiAdNqpihvH+CHv3d4s9sI6qlk0Rxu7kgO2OUJh8s5?=
- =?us-ascii?Q?+SVdpIq5c0I3uk5NrDvWKEoTWikhOf4isxYTV2CM0WQXHgkcJDzVuVn37EoS?=
- =?us-ascii?Q?1xVhX927vuX6oWM11X9ssxoD8idRpJmXnFgag/LbKWWaawCEAQ5+LO5cFFLl?=
- =?us-ascii?Q?n6akQyQZYC1m2UdRDMe0fMWMabty5jGY9Ve5IHTMbLFdRqjt67QDWLYRCf9t?=
- =?us-ascii?Q?8h+g6qTXHzufvQgb9lXOLX0E5il9bwSdsrsfznr0vn+dZenZV5MD67JVdQof?=
- =?us-ascii?Q?melXTxLFam9ItLtUimII4w2j+nOmU9tun1nMGNMDvEn46OQRBn5YigZ9yH5B?=
- =?us-ascii?Q?eZ4qD8yWdLjf53UF30ZOKnn8QXyia6EeyDne/HrZWh72OrQK8rCnZ+9e2ScP?=
- =?us-ascii?Q?97Ej8PvFahTsE5SX+jQVZrX1MdgxWixEmZLrHwmmG7kfWBC4zZeNNGznb+wj?=
- =?us-ascii?Q?YsJDr3qyYqhVXnUupzct2RzkJtrcij6tQMb88s1fz1mqkQKdfGV+tlnQDSMA?=
- =?us-ascii?Q?8XZOSle6LVMgqDQBWlNys4rjJiogX5KVeEUtV2oF9iWUasxr/1MHGebpVUwX?=
- =?us-ascii?Q?Rs4s8oNl42Xjz+1u6FK7Gtgpf6itGAaUY7YhcjMpAnjid4IS7BgjYfvOOu7Q?=
- =?us-ascii?Q?VA1sX5ZgaupO0OF1d5NNCCOvfkOgRpCO9s5wWa1OJ886Y9uhLVol1tzY2Xt6?=
- =?us-ascii?Q?aUTkY52nDVjyxNNeSem2p4syJx/765ROmTNNhbMJBixjWKiMZVDvnxhLwuAy?=
- =?us-ascii?Q?GtYHlmdAQpD5Y0stwc2hmTTImQXaxEYy6uS2SLd6Lro+rZBtOZfAFRDbRLGP?=
- =?us-ascii?Q?mZ50EYw/WepFYP0S4eX5zSLILqeE0Lg99hc31T28eDa5MlVMqFf+EJYC+rMV?=
- =?us-ascii?Q?bJgAoqka7UMsjru14ujIOOcV+OYSYZdLdHzeUhO6m6m+U0dswQ4TB8Pp9ZYG?=
- =?us-ascii?Q?PDjslPcnvwJuE7vEUe5MuSErcKKV3PHjWPKKDHjeRKbgTp3Est4O4A0gzIu9?=
- =?us-ascii?Q?REHt0V2fQHT6HNsGtymwQxdXIObng1Waphpm+Pli?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8687fc4a-d818-4314-6911-08daef2f3ad7
-X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4367.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2023 15:12:15.8074
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QC2fBkXC/52Cisz4Pl6GIi6lVVHb2hhtDxQPrjVf6k+KUoz1c9hmKMzDqgzM8XXjq0lTAeIq+VALVpz+Lpp6VQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4443
+Content-Type: multipart/alternative; boundary="=-KnwJBlGIYsELqlEA7tAq"
+X-TOI-EXPURGATEID: 150726::1672933339-D924D9D3-2996FEB8/0/0 CLEAN NORMAL
+X-TOI-MSGID: 26d27c9e-e5f0-4144-b5ea-84760da63f79
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Jan 2023 15:12:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175539
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Jan 2023 15:42:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175540
 
-Hi Michael,
+--=-KnwJBlGIYsELqlEA7tAq
+Content-Type: text/plain; charset=us-ascii; format=flowed
 
-On 1/5/2023 2:12 AM, Michael Opdenacker wrote:
-> Hi Sandeep
->
-> Am 04.01.23 um 23:09 schrieb Sandeep Gundlupet Raju via
-> lists.openembedded.org:
->> The dtb files must be before the dtbo files, otherwise the overlays may
->> not be applied correctly.
-> ...
->
-> Thanks for the patch updates!
->
-> There's a problem with the way your patches are received on the Yocto
-> Project mailing lists though. I used to have it too.
->
-> If I apply your patch through "git am", the author of the commit will be:
-> Sandeep Gundlupet Raju via lists.openembedded.org
-> <sandeep.gundlupet-raju=3Damd.com@lists.openembedded.org>
-> instead of
-> Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+I can't see much in the log. I'll take a closer look when I get a 
+chance, but so far I can't reproduce the problem. But I think there is 
+no pressure for the update
 
-[Sandeep]: Even I was wondering why I'm receiving multiple copy of patch=20
-when I sent, Interesting I didn't face this issue with other mailing list.
+Am Mi, 4. Jan 2023 um 23:55:17 +0100 schrieb Alexandre Belloni via 
+lists.openembedded.org 
+<alexandre.belloni=bootlin.com@lists.openembedded.org>:
+> This failed on the AB:
+> 
+> <https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/3976/steps/11/logs/stdio>
+> 
+> On 01/01/2023 15:24:14+0100, Markus Volk wrote:
+>>   - remove unneded backport patches
+>>   - partly import the patch to fix ssh_agent option from gcr4 recipe
+>> 
+>>  gcr 3.41.1:
+>>  - meson: Fix unknown kw argument in gnome.generate_gir 
+>> [GNOME/gcr!68]
+>>  - gcr: Add G_SPAWN_CLOEXEC_PIPES flag to all the g_spawn commands
+>>  - docs: Port from gtk-doc to gi-docgen [GNOME/gcr!76]
+>>  - Unbreak build without systemd [GNOME/gcr!75]
+>>  - Several CI fixes
+>>  - Updated translations
+>> 
+>>  gcr 3.41.0:
+>>  - Port ssh-agent from gnome-keyring [GNOME/gcr!67]
+>>  - build: Fix parallel build failure due to missing marshal 
+>> dependency [GNOME/gcr!68]
+>>  - Fix warnings by dropping `volatile` for g_once_init_inter 
+>> locations [GNOME/gcr!69]
+>>  - tests: More robust against GTask unref race condition 
+>> [GNOME/gcr!72,GNOME/gcr#84]
+>>  - Updated translations
+>> 
+>>  Signed-off-by: Markus Volk <f_l_k@t-online.de 
+>> <mailto:f_l_k@t-online.de>>
+>>  ---
+>>   ...build-fix-one-parallel-build-failure.patch | 37 -----------
+>>   ...ectly-handle-disabled-ssh_agent-opti.patch | 36 +++++++++++
+>>   ...1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch | 61 
+>> -------------------
+>>   .../gcr/{gcr3_3.40.0.bb => gcr3_3.41.1.bb}    | 17 ++++--
+>>   4 files changed, 47 insertions(+), 104 deletions(-)
+>>   delete mode 100644 
+>> meta/recipes-gnome/gcr/gcr3/0001-gcr-meson.build-fix-one-parallel-build-failure.patch
+>>   create mode 100644 
+>> meta/recipes-gnome/gcr/gcr3/0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patch
+>>   delete mode 100644 
+>> meta/recipes-gnome/gcr/gcr3/b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch
+>>   rename meta/recipes-gnome/gcr/{gcr3_3.40.0.bb => gcr3_3.41.1.bb} 
+>> (69%)
+>> 
+>>  diff --git 
+>> a/meta/recipes-gnome/gcr/gcr3/0001-gcr-meson.build-fix-one-parallel-build-failure.patch 
+>> b/meta/recipes-gnome/gcr/gcr3/0001-gcr-meson.build-fix-one-parallel-build-failure.patch
+>>  deleted file mode 100644
+>>  index 81c4bdbbcc..0000000000
+>>  --- 
+>> a/meta/recipes-gnome/gcr/gcr3/0001-gcr-meson.build-fix-one-parallel-build-failure.patch
+>>  +++ /dev/null
+>>  @@ -1,37 +0,0 @@
+>>  -From cb3708bad88e713e4ccf705cb8c14c5996cd9d06 Mon Sep 17 00:00:00 
+>> 2001
+>>  -From: Changqing Li <changqing.li@windriver.com 
+>> <mailto:changqing.li@windriver.com>>
+>>  -Date: Fri, 23 Apr 2021 16:32:38 +0800
+>>  -Subject: [PATCH] gcr/meson.build: fix one parallel build failure
+>>  -
+>>  -ui/gcr-live-search.c includes gcr/gcr-marshal.h. Because missing
+>>  -dependency, following error occurred intermittently during doing 
+>> parallel
+>>  -build:
+>>  -
+>>  - -o ui/libgcr-ui-3.so.1.0.0.p/gcr-live-search.c.o -c 
+>> ../gcr-3.38.1/ui/gcr-live-search.c
+>>  -../gcr-3.38.1/ui/gcr-live-search.c:32:10: fatal error: 
+>> gcr/gcr-marshal.h: No such file or directory
+>>  -   32 | #include "gcr/gcr-marshal.h"
+>>  -      |          ^~~~~~~~~~~~~~~~~~~
+>>  -compilation terminated.
+>>  -
+>>  -Upstream-Status: Submitted 
+>> [<https://gitlab.gnome.org/GNOME/gcr/-/merge_requests/68/diffs>]
+>>  -
+>>  -Signed-off-by: Changqing Li <changqing.li@windriver.com 
+>> <mailto:changqing.li@windriver.com>>
+>>  ----
+>>  - gcr/meson.build | 1 +
+>>  - 1 file changed, 1 insertion(+)
+>>  -
+>>  -diff --git a/gcr/meson.build b/gcr/meson.build
+>>  -index 06c3a63..d9d4b8f 100644
+>>  ---- a/gcr/meson.build
+>>  -+++ b/gcr/meson.build
+>>  -@@ -181,6 +181,7 @@ gcr_base_dep = declare_dependency(
+>>  -   sources: [
+>>  -     gcr_enums_gen[1],
+>>  -     gcr_oids[1],
+>>  -+    gcr_marshal_gen[1],
+>>  -   ],
+>>  - )
+>>  -
+>>  ---
+>>  -2.17.1
+>>  -
+>>  diff --git 
+>> a/meta/recipes-gnome/gcr/gcr3/0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patch 
+>> b/meta/recipes-gnome/gcr/gcr3/0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patch
+>>  new file mode 100644
+>>  index 0000000000..d3c26d97ae
+>>  --- /dev/null
+>>  +++ 
+>> b/meta/recipes-gnome/gcr/gcr3/0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patch
+>>  @@ -0,0 +1,36 @@
+>>  +From 9b67bb18d8409e0e693cc6000507acbd73a30eab Mon Sep 17 00:00:00 
+>> 2001
+>>  +From: Alexander Kanavin <alex@linutronix.de 
+>> <mailto:alex@linutronix.de>>
+>>  +Date: Wed, 16 Nov 2022 11:27:24 +0100
+>>  +Subject: [PATCH 1/2] meson.build: correctly handle disabled 
+>> ssh_agent option
+>>  +
+>>  +Existing code produces these errors:
+>>  +| gcr/meson.build:61:0: ERROR: Unable to get the path of a 
+>> not-found external program
+>>  +| gcr/meson.build:101:5: ERROR: Unknown variable "ssh_add_path".
+>>  +
+>>  +Signed-off-by: Alexander Kanavin <alex@linutronix.de 
+>> <mailto:alex@linutronix.de>>
+>>  +
+>>  +Upstream-Status: Backport [ 
+>> <https://gitlab.gnome.org/GNOME/gcr/-/commit/9b67bb18d8409e0e693cc6000507acbd73a30eab> 
+>> ]
+>>  +---
+>>  + meson.build | 12 ++++++++----
+>>  + 1 file changed, 8 insertions(+), 4 deletions(-)
+>>  +
+>>  +diff --git a/meson.build b/meson.build
+>>  +index 3f35173..11d7fa7 100644
+>>  +--- a/meson.build
+>>  ++++ b/meson.build
+>>  +@@ -96,8 +98,10 @@ conf.set('HAVE_TIMEGM', 
+>> cc.has_function('timegm'))
+>>  + conf.set('HAVE_MLOCK', cc.has_function('mlock'))
+>>  + conf.set_quoted('GPG_EXECUTABLE', gpg_path)
+>>  + conf.set_quoted('LIBGCRYPT_VERSION', libgcrypt_dep.version())
+>>  +-conf.set_quoted('SSH_ADD_EXECUTABLE', ssh_add_path)
+>>  +-conf.set_quoted('SSH_AGENT_EXECUTABLE', ssh_agent_path)
+>>  ++if get_option('ssh_agent')
+>>  ++  conf.set_quoted('SSH_ADD_EXECUTABLE', ssh_add_path)
+>>  ++  conf.set_quoted('SSH_AGENT_EXECUTABLE', ssh_agent_path)
+>>  ++endif
+>>  + conf.set10('WITH_SYSTEMD', with_systemd)
+>>  + config_file = configure_file(
+>>  +   output: 'config.h',
+>>  +--
+>>  +2.34.1
+>>  +
+>>  diff --git 
+>> a/meta/recipes-gnome/gcr/gcr3/b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch 
+>> b/meta/recipes-gnome/gcr/gcr3/b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch
+>>  deleted file mode 100644
+>>  index ae4e2ac1eb..0000000000
+>>  --- 
+>> a/meta/recipes-gnome/gcr/gcr3/b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch
+>>  +++ /dev/null
+>>  @@ -1,61 +0,0 @@
+>>  -From b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8 Mon Sep 17 00:00:00 
+>> 2001
+>>  -From: Jakub Jirutka <jakub@jirutka.cz <mailto:jakub@jirutka.cz>>
+>>  -Date: Wed, 12 Jan 2022 00:24:20 +0100
+>>  -Subject: [PATCH] meson: Fix unknown kw argument in 
+>> gnome.generate_gir
+>>  -
+>>  -This argument has been removed in Meson 0.61.0:
+>>  -
+>>  -    gck/meson.build:130:2: ERROR: gnome.generate_gir got unknown 
+>> keyword arguments "packages"
+>>  -
+>>  
+>> -<https://github.com/mesonbuild/meson/commit/f8fc5cb860465718fe7c79a1bf1fe00659f138de>:
+>>  -
+>>  -> The packages argument to gnome.generate_gir was allowed, but 
+>> never did anything, so stop passing it.
+>>  -
+>>  -Fixes #89
+>>  -Upstream-Status: Backport
+>>  -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com 
+>> <mailto:alex.kanavin@gmail.com>>
+>>  ----
+>>  - gck/meson.build | 1 -
+>>  - gcr/meson.build | 1 -
+>>  - ui/meson.build  | 1 -
+>>  - 3 files changed, 3 deletions(-)
+>>  -
+>>  -diff --git a/gck/meson.build b/gck/meson.build
+>>  -index 756b486..a21a1e9 100644
+>>  ---- a/gck/meson.build
+>>  -+++ b/gck/meson.build
+>>  -@@ -131,7 +131,6 @@ if get_option('introspection')
+>>  -     sources: gck_gir_sources,
+>>  -     namespace: 'Gck',
+>>  -     nsversion: '@0@'.format(gck_major_version),
+>>  --    packages: gck_deps,
+>>  -     export_packages: 'gck-@0@'.format(gck_major_version),
+>>  -     includes: [ 'GObject-2.0', 'Gio-2.0' ],
+>>  -     header: 'gck/gck.h',
+>>  -diff --git a/gcr/meson.build b/gcr/meson.build
+>>  -index 2233a44..c83641b 100644
+>>  ---- a/gcr/meson.build
+>>  -+++ b/gcr/meson.build
+>>  -@@ -190,7 +190,6 @@ if get_option('introspection')
+>>  -     sources: [ gcr_base_public_sources, gcr_base_headers ],
+>>  -     namespace: 'Gcr',
+>>  -     nsversion: '@0@'.format(gcr_major_version),
+>>  --    packages: gcr_base_deps,
+>>  -     export_packages: 'gcr-base-@0@'.format(gcr_major_version),
+>>  -     includes: [
+>>  -       'GObject-2.0',
+>>  -diff --git a/ui/meson.build b/ui/meson.build
+>>  -index e656ea2..32ee057 100644
+>>  ---- a/ui/meson.build
+>>  -+++ b/ui/meson.build
+>>  -@@ -152,7 +152,6 @@ if get_option('introspection')
+>>  -     export_packages: 'gcr-ui-@0@'.format(gcr_major_version),
+>>  -     identifier_prefix: 'Gcr',
+>>  -     symbol_prefix: 'gcr',
+>>  --    packages: gcr_ui_deps,
+>>  -     includes: [
+>>  -       'GObject-2.0',
+>>  -       'Gio-2.0',
+>>  ---
+>>  -GitLab
+>>  -
+>>  diff --git a/meta/recipes-gnome/gcr/gcr3_3.40.0.bb 
+>> b/meta/recipes-gnome/gcr/gcr3_3.41.1.bb
+>>  similarity index 69%
+>>  rename from meta/recipes-gnome/gcr/gcr3_3.40.0.bb
+>>  rename to meta/recipes-gnome/gcr/gcr3_3.41.1.bb
+>>  index 5318768db6..273728f6c8 100644
+>>  --- a/meta/recipes-gnome/gcr/gcr3_3.40.0.bb
+>>  +++ b/meta/recipes-gnome/gcr/gcr3_3.41.1.bb
+>>  @@ -20,24 +20,27 @@ GTKDOC_MESON_OPTION = "gtk_doc"
+>>   inherit gnomebase gtk-icon-cache gtk-doc features_check 
+>> upstream-version-is-even vala gobject-introspection gettext mime 
+>> mime-xdg
+>>   UPSTREAM_CHECK_REGEX = 
+>> "[^\d\.](?P<pver>\d+\.(?!9\d+)(\d*[02468])+(\.\d+)+)\.tar"
+>> 
+>>  -SRC_URI = " \
+>>  
+>> -	https://download.gnome.org/sources/gcr/3.40/gcr-${PV}.tar.xz;name=archive 
+>> <https://download.gnome.org/sources/gcr/3.40/gcr-$%7BPV%7D.tar.xz;name=archive> 
+>> \
+>>  -	file://0001-gcr-meson.build-fix-one-parallel-build-failure.patch 
+>> <file://0001-gcr-meson.build-fix-one-parallel-build-failure.patch/> \
+>>  -	file://b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch" 
+>> <file://b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch/>
+>>  -
+>>  -SRC_URI[archive.sha256sum] = 
+>> "b9d3645a5fd953a54285cc64d4fc046736463dbd4dcc25caf5c7b59bed3027f5"
+>>  +SRC_URI = 
+>> "https://download.gnome.org/sources/gcr/3.41/gcr-${PV}.tar.xz;name=archive 
+>> <https://download.gnome.org/sources/gcr/3.41/gcr-$%7BPV%7D.tar.xz;name=archive>"
+>>  +SRC_URI += 
+>> "file://0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patch" 
+>> <file://0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patch/>
+>>  +SRC_URI[archive.sha256sum] = 
+>> "bb7128a3c2febbfee9c03b90d77d498d0ceb237b0789802d60185c71c4bea24f"
+>> 
+>>   S = "${WORKDIR}/gcr-${PV}"
+>> 
+>>   PACKAGECONFIG ??= " \
+>>  +	${@bb.utils.filter <mailto:${@bb.utils.filter>('DISTRO_FEATURES', 
+>> 'systemd', d)} \
+>>   	${@bb.utils.contains 
+>> <mailto:${@bb.utils.contains>('DISTRO_FEATURES', 'x11', 'gtk', '', 
+>> d)} \
+>>   	${@bb.utils.contains 
+>> <mailto:${@bb.utils.contains>('DISTRO_FEATURES', 'wayland', 'gtk', 
+>> '', d)} \
+>>   "
+>>   PACKAGECONFIG[gtk] = "-Dgtk=true,-Dgtk=false,gtk+3"
+>>  +PACKAGECONFIG[ssh_agent] = 
+>> "-Dssh_agent=true,-Dssh_agent=false,libsecret,openssh"
+>>  +#'Use systemd socket activation for server programs'
+>>  +PACKAGECONFIG[systemd] = 
+>> "-Dsystemd=enabled,-Dsystemd=disabled,systemd"
+>> 
+>>   FILES:${PN} += " \
+>>       ${datadir}/dbus-1 \
+>>       ${datadir}/gcr-3 \
+>>  +    ${systemd_user_unitdir}/gcr-ssh-agent.socket \
+>>  +    ${systemd_user_unitdir}/gcr-ssh-agent.service \
+>>   "
+>> 
+>>   # <http://errors.yoctoproject.org/Errors/Details/20229/>
+>>  @@ -50,5 +53,7 @@ do_write_config:append() {
+>>       cat >${WORKDIR}/meson-${PN}.cross <<EOF
+>>   [binaries]
+>>   gpg2 = '${bindir}/gpg2'
+>>  +ssh-add = '${bindir}/ssh-add'
+>>  +ssh-agent = '${bindir}/ssh-agent'
+>>   EOF
+>>   }
+>>  --
+>>  2.34.1
+>> 
+> 
+>> 
+>> 
+>> 
+> 
+> 
+> --
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com <https://bootlin.com/>
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#175511): 
+> <https://lists.openembedded.org/g/openembedded-core/message/175511>
+> Mute This Topic: <https://lists.openembedded.org/mt/95988912/3618223>
+> Group Owner: openembedded-core+owner@lists.openembedded.org 
+> <mailto:openembedded-core+owner@lists.openembedded.org>
+> Unsubscribe: 
+> <https://lists.openembedded.org/g/openembedded-core/unsub> 
+> [f_l_k@t-online.de <mailto:f_l_k@t-online.de>]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
-MAIL FROM:<sandeep.gundlupet-raju@amd.com>
-RCPT TO:<openembedded-core@lists.openembedded.org>
-RCPT TO:<bruce.ashfield@gmail.com>
-RCPT TO:<mark.hatle@kernel.crashing.org>
-RCPT TO:<sandeep.gundlupet-raju@amd.com>
-From: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
-To: openembedded-core@lists.openembedded.org,
- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bruce.ashfield@gmail.com
-Cc: mark.hatle@kernel.crashing.org,
- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Sandeep Gundlupet Raju <sandeep=
-.gundlupet-raju@amd.com>
-Subject: [OE-core][PATCH v2 1/2] kernel-fitimage: Adjust order of=20
-dtb/dtbo files
-Date: Wed,=C2=A0 4 Jan 2023 15:09:01 -0700
-Message-Id: <20230104220902.1530659-1-sandeep.gundlupet-raju@amd.com>
 
-> That's because of the configuration of the Yocto Project mailing lists,
-> if I understood correctly.
->
-> Because of this issue, the maintainer has to manually fix this field
-> when accepting your patch. Worse, if he doesn't catch this, that's
-> harder to fix afterwards.
->
-> You should be able to fix this by running:
-> git config --global sendemail.from "sandeep.gundlupet-raju@amd.com"
-[Sandeep]: I just checked with ~/.gitconfig and it was still using my=20
-xilinx id sandeep.gundlupet-raju@xilinx.com, Now I've fixed it.
->
-> This should add a "From" field to the sent patch which "git am" should
-> be able to match with your name.
-> At least this worked for me. See
-> https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded#S=
-ending_using_git-send-email
->
-> Could you try to send an update (don't hesitate to send a private one to
-> me first)?
-[Sandeep]: Sure I sent a private one, if everything looks ok then will=20
-send it to mailing list.
->
-> Thanks in advance
-> Michael.
->
+--=-KnwJBlGIYsELqlEA7tAq
+Content-Type: text/html; charset=us-ascii
+
+<div id="geary-body" dir="auto"><div><pre class="tw-data-text tw-text-large tw-ta" data-placeholder="bersetzung" id="tw-target-text" dir="ltr"><span class="Y2IQFc" lang="en">I can't see much in the log. I'll take a closer look when I get a chance, but so far I can't reproduce the problem. But I think there is no pressure for the update</span></pre></div></div><div id="geary-quote" dir="auto"><br>Am Mi, 4. Jan 2023 um 23:55:17 +0100 schrieb Alexandre Belloni via lists.openembedded.org &lt;alexandre.belloni=bootlin.com@lists.openembedded.org&gt;:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">This failed on the AB:
+
+<a href="https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/3976/steps/11/logs/stdio">https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/3976/steps/11/logs/stdio</a>
+
+On 01/01/2023 15:24:14+0100, Markus Volk wrote:
+<blockquote>  - remove unneded backport patches
+  - partly import the patch to fix ssh_agent option from gcr4 recipe
+ 
+ gcr 3.41.1:
+ - meson: Fix unknown kw argument in gnome.generate_gir [GNOME/gcr!68]
+ - gcr: Add G_SPAWN_CLOEXEC_PIPES flag to all the g_spawn commands
+ - docs: Port from gtk-doc to gi-docgen [GNOME/gcr!76]
+ - Unbreak build without systemd [GNOME/gcr!75]
+ - Several CI fixes
+ - Updated translations
+ 
+ gcr 3.41.0:
+ - Port ssh-agent from gnome-keyring [GNOME/gcr!67]
+ - build: Fix parallel build failure due to missing marshal dependency [GNOME/gcr!68]
+ - Fix warnings by dropping `volatile` for g_once_init_inter locations [GNOME/gcr!69]
+ - tests: More robust against GTask unref race condition [GNOME/gcr!72,GNOME/gcr#84]
+ - Updated translations
+ 
+ Signed-off-by: Markus Volk &lt;<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>&gt;
+ ---
+  ...build-fix-one-parallel-build-failure.patch | 37 -----------
+  ...ectly-handle-disabled-ssh_agent-opti.patch | 36 +++++++++++
+  ...1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch | 61 -------------------
+  .../gcr/{gcr3_3.40.0.bb =&gt; gcr3_3.41.1.bb}    | 17 ++++--
+  4 files changed, 47 insertions(+), 104 deletions(-)
+  delete mode 100644 meta/recipes-gnome/gcr/gcr3/0001-gcr-meson.build-fix-one-parallel-build-failure.patch
+  create mode 100644 meta/recipes-gnome/gcr/gcr3/0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patch
+  delete mode 100644 meta/recipes-gnome/gcr/gcr3/b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch
+  rename meta/recipes-gnome/gcr/{gcr3_3.40.0.bb =&gt; gcr3_3.41.1.bb} (69%)
+ 
+ diff --git a/meta/recipes-gnome/gcr/gcr3/0001-gcr-meson.build-fix-one-parallel-build-failure.patch b/meta/recipes-gnome/gcr/gcr3/0001-gcr-meson.build-fix-one-parallel-build-failure.patch
+ deleted file mode 100644
+ index 81c4bdbbcc..0000000000
+ --- a/meta/recipes-gnome/gcr/gcr3/0001-gcr-meson.build-fix-one-parallel-build-failure.patch
+ +++ /dev/null
+ @@ -1,37 +0,0 @@
+ -From cb3708bad88e713e4ccf705cb8c14c5996cd9d06 Mon Sep 17 00:00:00 2001
+ -From: Changqing Li &lt;<a href="mailto:changqing.li@windriver.com">changqing.li@windriver.com</a>&gt;
+ -Date: Fri, 23 Apr 2021 16:32:38 +0800
+ -Subject: [PATCH] gcr/meson.build: fix one parallel build failure
+ -
+ -ui/gcr-live-search.c includes gcr/gcr-marshal.h. Because missing
+ -dependency, following error occurred intermittently during doing parallel
+ -build:
+ -
+ - -o ui/libgcr-ui-3.so.1.0.0.p/gcr-live-search.c.o -c ../gcr-3.38.1/ui/gcr-live-search.c
+ -../gcr-3.38.1/ui/gcr-live-search.c:32:10: fatal error: gcr/gcr-marshal.h: No such file or directory
+ -   32 | #include "gcr/gcr-marshal.h"
+ -      |          ^~~~~~~~~~~~~~~~~~~
+ -compilation terminated.
+ -
+ -Upstream-Status: Submitted [<a href="https://gitlab.gnome.org/GNOME/gcr/-/merge_requests/68/diffs">https://gitlab.gnome.org/GNOME/gcr/-/merge_requests/68/diffs</a>]
+ -
+ -Signed-off-by: Changqing Li &lt;<a href="mailto:changqing.li@windriver.com">changqing.li@windriver.com</a>&gt;
+ ----
+ - gcr/meson.build | 1 +
+ - 1 file changed, 1 insertion(+)
+ -
+ -diff --git a/gcr/meson.build b/gcr/meson.build
+ -index 06c3a63..d9d4b8f 100644
+ ---- a/gcr/meson.build
+ -+++ b/gcr/meson.build
+ -@@ -181,6 +181,7 @@ gcr_base_dep = declare_dependency(
+ -   sources: [
+ -     gcr_enums_gen[1],
+ -     gcr_oids[1],
+ -+    gcr_marshal_gen[1],
+ -   ],
+ - )
+ - 
+ --- 
+ -2.17.1
+ -
+ diff --git a/meta/recipes-gnome/gcr/gcr3/0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patch b/meta/recipes-gnome/gcr/gcr3/0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patch
+ new file mode 100644
+ index 0000000000..d3c26d97ae
+ --- /dev/null
+ +++ b/meta/recipes-gnome/gcr/gcr3/0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patch
+ @@ -0,0 +1,36 @@
+ +From 9b67bb18d8409e0e693cc6000507acbd73a30eab Mon Sep 17 00:00:00 2001
+ +From: Alexander Kanavin &lt;<a href="mailto:alex@linutronix.de">alex@linutronix.de</a>&gt;
+ +Date: Wed, 16 Nov 2022 11:27:24 +0100
+ +Subject: [PATCH 1/2] meson.build: correctly handle disabled ssh_agent option
+ +
+ +Existing code produces these errors:
+ +| gcr/meson.build:61:0: ERROR: Unable to get the path of a not-found external program
+ +| gcr/meson.build:101:5: ERROR: Unknown variable "ssh_add_path".
+ +
+ +Signed-off-by: Alexander Kanavin &lt;<a href="mailto:alex@linutronix.de">alex@linutronix.de</a>&gt;
+ +
+ +Upstream-Status: Backport [ <a href="https://gitlab.gnome.org/GNOME/gcr/-/commit/9b67bb18d8409e0e693cc6000507acbd73a30eab">https://gitlab.gnome.org/GNOME/gcr/-/commit/9b67bb18d8409e0e693cc6000507acbd73a30eab</a> ]
+ +---
+ + meson.build | 12 ++++++++----
+ + 1 file changed, 8 insertions(+), 4 deletions(-)
+ +
+ +diff --git a/meson.build b/meson.build
+ +index 3f35173..11d7fa7 100644
+ +--- a/meson.build
+ ++++ b/meson.build
+ +@@ -96,8 +98,10 @@ conf.set('HAVE_TIMEGM', cc.has_function('timegm'))
+ + conf.set('HAVE_MLOCK', cc.has_function('mlock'))
+ + conf.set_quoted('GPG_EXECUTABLE', gpg_path)
+ + conf.set_quoted('LIBGCRYPT_VERSION', libgcrypt_dep.version())
+ +-conf.set_quoted('SSH_ADD_EXECUTABLE', ssh_add_path)
+ +-conf.set_quoted('SSH_AGENT_EXECUTABLE', ssh_agent_path)
+ ++if get_option('ssh_agent')
+ ++  conf.set_quoted('SSH_ADD_EXECUTABLE', ssh_add_path)
+ ++  conf.set_quoted('SSH_AGENT_EXECUTABLE', ssh_agent_path)
+ ++endif
+ + conf.set10('WITH_SYSTEMD', with_systemd)
+ + config_file = configure_file(
+ +   output: 'config.h',
+ +-- 
+ +2.34.1
+ +
+ diff --git a/meta/recipes-gnome/gcr/gcr3/b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch b/meta/recipes-gnome/gcr/gcr3/b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch
+ deleted file mode 100644
+ index ae4e2ac1eb..0000000000
+ --- a/meta/recipes-gnome/gcr/gcr3/b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch
+ +++ /dev/null
+ @@ -1,61 +0,0 @@
+ -From b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8 Mon Sep 17 00:00:00 2001
+ -From: Jakub Jirutka &lt;<a href="mailto:jakub@jirutka.cz">jakub@jirutka.cz</a>&gt;
+ -Date: Wed, 12 Jan 2022 00:24:20 +0100
+ -Subject: [PATCH] meson: Fix unknown kw argument in gnome.generate_gir
+ -
+ -This argument has been removed in Meson 0.61.0:
+ -
+ -    gck/meson.build:130:2: ERROR: gnome.generate_gir got unknown keyword arguments "packages"
+ -
+ -<a href="https://github.com/mesonbuild/meson/commit/f8fc5cb860465718fe7c79a1bf1fe00659f138de">https://github.com/mesonbuild/meson/commit/f8fc5cb860465718fe7c79a1bf1fe00659f138de</a>:
+ -
+ -&gt; The packages argument to gnome.generate_gir was allowed, but never did anything, so stop passing it.
+ -
+ -Fixes #89
+ -Upstream-Status: Backport
+ -Signed-off-by: Alexander Kanavin &lt;<a href="mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt;
+ ----
+ - gck/meson.build | 1 -
+ - gcr/meson.build | 1 -
+ - ui/meson.build  | 1 -
+ - 3 files changed, 3 deletions(-)
+ -
+ -diff --git a/gck/meson.build b/gck/meson.build
+ -index 756b486..a21a1e9 100644
+ ---- a/gck/meson.build
+ -+++ b/gck/meson.build
+ -@@ -131,7 +131,6 @@ if get_option('introspection')
+ -     sources: gck_gir_sources,
+ -     namespace: 'Gck',
+ -     nsversion: '@0@'.format(gck_major_version),
+ --    packages: gck_deps,
+ -     export_packages: 'gck-@0@'.format(gck_major_version),
+ -     includes: [ 'GObject-2.0', 'Gio-2.0' ],
+ -     header: 'gck/gck.h',
+ -diff --git a/gcr/meson.build b/gcr/meson.build
+ -index 2233a44..c83641b 100644
+ ---- a/gcr/meson.build
+ -+++ b/gcr/meson.build
+ -@@ -190,7 +190,6 @@ if get_option('introspection')
+ -     sources: [ gcr_base_public_sources, gcr_base_headers ],
+ -     namespace: 'Gcr',
+ -     nsversion: '@0@'.format(gcr_major_version),
+ --    packages: gcr_base_deps,
+ -     export_packages: 'gcr-base-@0@'.format(gcr_major_version),
+ -     includes: [
+ -       'GObject-2.0',
+ -diff --git a/ui/meson.build b/ui/meson.build
+ -index e656ea2..32ee057 100644
+ ---- a/ui/meson.build
+ -+++ b/ui/meson.build
+ -@@ -152,7 +152,6 @@ if get_option('introspection')
+ -     export_packages: 'gcr-ui-@0@'.format(gcr_major_version),
+ -     identifier_prefix: 'Gcr',
+ -     symbol_prefix: 'gcr',
+ --    packages: gcr_ui_deps,
+ -     includes: [
+ -       'GObject-2.0',
+ -       'Gio-2.0',
+ --- 
+ -GitLab
+ -
+ diff --git a/meta/recipes-gnome/gcr/gcr3_3.40.0.bb b/meta/recipes-gnome/gcr/gcr3_3.41.1.bb
+ similarity index 69%
+ rename from meta/recipes-gnome/gcr/gcr3_3.40.0.bb
+ rename to meta/recipes-gnome/gcr/gcr3_3.41.1.bb
+ index 5318768db6..273728f6c8 100644
+ --- a/meta/recipes-gnome/gcr/gcr3_3.40.0.bb
+ +++ b/meta/recipes-gnome/gcr/gcr3_3.41.1.bb
+ @@ -20,24 +20,27 @@ GTKDOC_MESON_OPTION = "gtk_doc"
+  inherit gnomebase gtk-icon-cache gtk-doc features_check upstream-version-is-even vala gobject-introspection gettext mime mime-xdg
+  UPSTREAM_CHECK_REGEX = "[^\d\.](?P&lt;pver&gt;\d+\.(?!9\d+)(\d*[02468])+(\.\d+)+)\.tar"
+  
+ -SRC_URI = " \
+ -	<a href="https://download.gnome.org/sources/gcr/3.40/gcr-${PV}.tar.xz;name=archive">https://download.gnome.org/sources/gcr/3.40/gcr-${PV}.tar.xz;name=archive</a> \
+ -	<a href="file://0001-gcr-meson.build-fix-one-parallel-build-failure.patch">file://0001-gcr-meson.build-fix-one-parallel-build-failure.patch</a> \
+ -	<a href="file://b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch" "="">file://b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch"</a>
+ -
+ -SRC_URI[archive.sha256sum] = "b9d3645a5fd953a54285cc64d4fc046736463dbd4dcc25caf5c7b59bed3027f5"
+ +SRC_URI = "<a href="https://download.gnome.org/sources/gcr/3.41/gcr-${PV}.tar.xz;name=archive">https://download.gnome.org/sources/gcr/3.41/gcr-${PV}.tar.xz;name=archive</a>"
+ +SRC_URI += "<a href="file://0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patch" "="">file://0001-meson.build-correctly-handle-disabled-ssh_agent-opti.patch"</a>
+ +SRC_URI[archive.sha256sum] = "bb7128a3c2febbfee9c03b90d77d498d0ceb237b0789802d60185c71c4bea24f"
+  
+  S = "${WORKDIR}/gcr-${PV}"
+  
+  PACKAGECONFIG ??= " \
+ +	<a href="mailto:${@bb.utils.filter">${@bb.utils.filter</a>('DISTRO_FEATURES', 'systemd', d)} \
+  	<a href="mailto:${@bb.utils.contains">${@bb.utils.contains</a>('DISTRO_FEATURES', 'x11', 'gtk', '', d)} \
+  	<a href="mailto:${@bb.utils.contains">${@bb.utils.contains</a>('DISTRO_FEATURES', 'wayland', 'gtk', '', d)} \
+  "
+  PACKAGECONFIG[gtk] = "-Dgtk=true,-Dgtk=false,gtk+3"
+ +PACKAGECONFIG[ssh_agent] = "-Dssh_agent=true,-Dssh_agent=false,libsecret,openssh"
+ +#'Use systemd socket activation for server programs'
+ +PACKAGECONFIG[systemd] = "-Dsystemd=enabled,-Dsystemd=disabled,systemd"
+  
+  FILES:${PN} += " \
+      ${datadir}/dbus-1 \
+      ${datadir}/gcr-3 \
+ +    ${systemd_user_unitdir}/gcr-ssh-agent.socket \
+ +    ${systemd_user_unitdir}/gcr-ssh-agent.service \
+  "
+  
+  # <a href="http://errors.yoctoproject.org/Errors/Details/20229/">http://errors.yoctoproject.org/Errors/Details/20229/</a>
+ @@ -50,5 +53,7 @@ do_write_config:append() {
+      cat &gt;${WORKDIR}/meson-${PN}.cross &lt;&lt;EOF
+  [binaries]
+  gpg2 = '${bindir}/gpg2'
+ +ssh-add = '${bindir}/ssh-add'
+ +ssh-agent = '${bindir}/ssh-agent'
+  EOF
+  }
+ -- 
+ 2.34.1
+ 
+</blockquote>
+<blockquote> 
+ 
+ 
+</blockquote>
+
+<div>-- 
+</div>Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+<a href="https://bootlin.com">https://bootlin.com</a>
+</div><div class="plaintext" style="white-space: break-spaces;">
+-=-=-=-=-=-=-=-=-=-=-=-
+Links: You receive all messages sent to this group.
+View/Reply Online (#175511): <a href="https://lists.openembedded.org/g/openembedded-core/message/175511">https://lists.openembedded.org/g/openembedded-core/message/175511</a>
+Mute This Topic: <a href="https://lists.openembedded.org/mt/95988912/3618223">https://lists.openembedded.org/mt/95988912/3618223</a>
+Group Owner: <a href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>]
+-=-=-=-=-=-=-=-=-=-=-=-
+
+</div></blockquote></div>
+--=-KnwJBlGIYsELqlEA7tAq--
+
 
