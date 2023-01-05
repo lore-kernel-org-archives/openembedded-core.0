@@ -2,204 +2,131 @@ Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF296C3DA7A
-	for <webhook@archiver.kernel.org>; Thu,  5 Jan 2023 21:06:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D404BC54EBC
+	for <webhook@archiver.kernel.org>; Thu,  5 Jan 2023 21:46:36 +0000 (UTC)
 Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web10.1440.1672952757645356922
+ by mx.groups.io with SMTP id smtpd.web10.2530.1672955192183480668
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Jan 2023 13:05:58 -0800
+ Thu, 05 Jan 2023 13:46:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=ohZF2pCM;
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=XP1gwNj0;
  spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1672952758;
-  x=1704488758;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=LtQ6sLpfIoJqYsw11GsXc/tDm1MNCAHfg/i31Y84x6M=;
-  b=ohZF2pCMyVOqUQ7r6jzWP8riMlZYMzQqElOQn6vTehui39gFrpHkE10V
-   +LGlEbXYP32mw8/vRFhaoBLuKc/jUMQbq2OX9Gfh6kaSFrwIHOyzM4IjN
-   2VtwimOWArYq2upucrHMRBXxqgja6KWzzhacu/7pMwIqnwQyJNnl+4L8E
-   D7vpqcS18garB8eidZPmYY0nRvpH94aPpVDUTzK/xrU2v4eJTgxd6Dv1r
-   jQ4tJpA5U4zFm2fjA6COFRjPaNvk7VTD35cNHM4lFc0JGjm9bqYdDjN2k
-   hjc6MpO3FfWlqhadB+BUszlJwqcEH09WQFrdqhjDbUMOS4mQh/RyKYdlq
-   Q==;
-From: Peter Kjellerstedt <pkj@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] recipes, classes: Avoid adding extra whitespace to PACKAGESPLITFUNCS
-Date: Thu, 5 Jan 2023 22:05:46 +0100
-Message-ID: <20230105210546.2928658-1-pkj@axis.com>
-X-Mailer: git-send-email 2.38.1
+  d=axis.com; q=dns/txt; s=axis-central1; t=1672955192;
+  x=1704491192;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=ghw6j5vuGkZDaAmt8SbJFvMONWB6dHO6/tb3mGyIkcE=;
+  b=XP1gwNj0O3RAAoWZtXMhK6Q1FU2vg5Q2pnv37EpOYUvkjIL2bKTxpjKL
+   L8aGVWdvvIdNiAyIAgKxbFg1Vu7EY35vuFJE9HMC05w3nWG8Fo3BcoEST
+   rcubTsBEAgr8OBhmHrUfvhhYCIn8NUYNjBYkMf5lCijxEFOh9s1V6wn3q
+   4/AAOAuujQv579pIla1NrN/+Hz18Vg0G+unTB+6ClKwupSLq/D89BIs/j
+   TzKN09p8XNk6HfitateoNxkQFU8uKRC7pzvTSEn88+sVFYeY3JaKLgpIc
+   7l4s2cLgo76dzrF8SOwUF+ydSIoUmX/W0hnXiRVxBoEWsuLG5fpVhWQ/0
+   g==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Michael Opdenacker
+	<michael.opdenacker@bootlin.com>
+CC: OE Core mailing list <openembedded-core@lists.openembedded.org>, Khem Raj
+	<raj.khem@gmail.com>, "Robert P. J. Day" <rpjday@crashcourse.ca>, "YP docs
+ mailing list" <docs@lists.yoctoproject.org>
+Subject: RE: [docs] [OE-core] is "poky" distro defined to use "sysvinit" as
+ INIT_MANAGER?
+Thread-Topic: [docs] [OE-core] is "poky" distro defined to use "sysvinit" as
+ INIT_MANAGER?
+Thread-Index: AQHYkVbi0oJ8W2ObPEi8RsyfTWhiBq1xah2AgR+VvpL///iwgIAAfVQg
+Date: Thu, 5 Jan 2023 21:46:29 +0000
+Message-ID: <c4d5aede6530434a8276511941747bdc@axis.com>
+References: <2893205d-57e1-e63e-5c12-c57c7bbcb924@crashcourse.ca>
+	 <CAMKF1spKw-X-JTvdicfBBNNGk93EPL=gqD3jixvJkb7YfT1P0g@mail.gmail.com>
+	 <1736D38C7177CA6A.6604@lists.openembedded.org>
+	 <b725dbd2-3825-1eb7-3f71-a19a17c2ef7f@bootlin.com>
+ <d92b4751144e16c0d97823b7eef1b88b3a20b760.camel@linuxfoundation.org>
+In-Reply-To: <d92b4751144e16c0d97823b7eef1b88b3a20b760.camel@linuxfoundation.org>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Jan 2023 21:06:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175550
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Jan 2023 21:46:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175551
 
-This is a follow-up to commit 846ff49465 to remove the extra whitespace
-that is no longer needed after converting :append and :prepend to += and
-=+.
-
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/classes-recipe/kernel-module-split.bbclass               | 2 +-
- meta/classes-recipe/kernel.bbclass                            | 2 +-
- meta/classes-recipe/systemd.bbclass                           | 2 +-
- meta/classes-recipe/update-alternatives.bbclass               | 2 +-
- meta/classes-recipe/update-rc.d.bbclass                       | 4 ++--
- .../wpa-supplicant/wpa-supplicant_2.10.bb                     | 2 +-
- meta/recipes-devtools/perl/perl_5.36.0.bb                     | 2 +-
- meta/recipes-graphics/mesa/mesa.inc                           | 2 +-
- .../gstreamer/gstreamer1.0-plugins-license.inc                | 2 +-
- .../gstreamer/gstreamer1.0-plugins-packaging.inc              | 4 ++--
- meta/recipes-support/libevent/libevent_2.1.12.bb              | 2 +-
- 11 files changed, 13 insertions(+), 13 deletions(-)
-
-diff --git a/meta/classes-recipe/kernel-module-split.bbclass b/meta/classes-recipe/kernel-module-split.bbclass
-index 4943717487..50882c31a7 100644
---- a/meta/classes-recipe/kernel-module-split.bbclass
-+++ b/meta/classes-recipe/kernel-module-split.bbclass
-@@ -35,7 +35,7 @@ do_install:append() {
- }
- 
- KERNEL_SPLIT_MODULES ?= "1"
--PACKAGESPLITFUNCS =+ "split_kernel_module_packages "
-+PACKAGESPLITFUNCS =+ "split_kernel_module_packages"
- 
- KERNEL_MODULES_META_PACKAGE ?= "${@ d.getVar("KERNEL_PACKAGE_NAME") or "kernel" }-modules"
- 
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
-index c36632b0a7..bd3b6471c6 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -705,7 +705,7 @@ pkg_postinst:${KERNEL_PACKAGE_NAME}-base () {
- 	fi
- }
- 
--PACKAGESPLITFUNCS =+ "split_kernel_packages "
-+PACKAGESPLITFUNCS =+ "split_kernel_packages"
- 
- python split_kernel_packages () {
-     do_split_packages(d, root='${nonarch_base_libdir}/firmware', file_regex=r'^(.*)\.(bin|fw|cis|csp|dsp)$', output_pattern='${KERNEL_PACKAGE_NAME}-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
-diff --git a/meta/classes-recipe/systemd.bbclass b/meta/classes-recipe/systemd.bbclass
-index ae98043d29..f9c92e6c2a 100644
---- a/meta/classes-recipe/systemd.bbclass
-+++ b/meta/classes-recipe/systemd.bbclass
-@@ -205,7 +205,7 @@ python systemd_populate_packages() {
-         systemd_check_services()
- }
- 
--PACKAGESPLITFUNCS =+ "systemd_populate_packages "
-+PACKAGESPLITFUNCS =+ "systemd_populate_packages"
- 
- python rm_systemd_unitdir (){
-     import shutil
-diff --git a/meta/classes-recipe/update-alternatives.bbclass b/meta/classes-recipe/update-alternatives.bbclass
-index ec81763c89..55e0b954d6 100644
---- a/meta/classes-recipe/update-alternatives.bbclass
-+++ b/meta/classes-recipe/update-alternatives.bbclass
-@@ -265,7 +265,7 @@ def update_alternatives_alt_targets(d, pkg):
- 
-     return updates
- 
--PACKAGESPLITFUNCS =+ "populate_packages_updatealternatives "
-+PACKAGESPLITFUNCS =+ "populate_packages_updatealternatives"
- 
- python populate_packages_updatealternatives () {
-     if not update_alternatives_enabled(d):
-diff --git a/meta/classes-recipe/update-rc.d.bbclass b/meta/classes-recipe/update-rc.d.bbclass
-index a61d2c62ab..a19e704741 100644
---- a/meta/classes-recipe/update-rc.d.bbclass
-+++ b/meta/classes-recipe/update-rc.d.bbclass
-@@ -68,8 +68,8 @@ python __anonymous() {
-     update_rc_after_parse(d)
- }
- 
--PACKAGESPLITFUNCS =+ "${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'populate_packages_updatercd ', '', d)}"
--PACKAGESPLITFUNCS:remove:class-nativesdk = "populate_packages_updatercd "
-+PACKAGESPLITFUNCS =+ "${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'populate_packages_updatercd', '', d)}"
-+PACKAGESPLITFUNCS:remove:class-nativesdk = "populate_packages_updatercd"
- 
- populate_packages_updatercd[vardeps] += "updatercd_prerm updatercd_postrm updatercd_postinst"
- populate_packages_updatercd[vardepsexclude] += "OVERRIDES"
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
-index 254cfd3f0c..46604045da 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
-@@ -134,4 +134,4 @@ python split_wpa_supplicant_libs () {
-         d.setVar('RRECOMMENDS:' + pn + '-plugins', ' '.join(split_packages))
-         d.appendVar('RRECOMMENDS:' + pn + '-dbg', ' ' + ' '.join(split_dbg_packages))
- }
--PACKAGESPLITFUNCS += "split_wpa_supplicant_libs "
-+PACKAGESPLITFUNCS += "split_wpa_supplicant_libs"
-diff --git a/meta/recipes-devtools/perl/perl_5.36.0.bb b/meta/recipes-devtools/perl/perl_5.36.0.bb
-index 3458e6a5b0..4d8a919d1e 100644
---- a/meta/recipes-devtools/perl/perl_5.36.0.bb
-+++ b/meta/recipes-devtools/perl/perl_5.36.0.bb
-@@ -302,7 +302,7 @@ ALTERNATIVE_LINK_NAME[Thread.3] = "${mandir}/man3/Thread.3"
- ALLOW_EMPTY:${PN}-modules = "1"
- PACKAGES += "${PN}-modules "
- 
--PACKAGESPLITFUNCS =+ "split_perl_packages "
-+PACKAGESPLITFUNCS =+ "split_perl_packages"
- 
- python split_perl_packages () {
-     libdir = d.expand('${libdir}/perl5/${PV}')
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 2535dd403d..77aa97069a 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -291,7 +291,7 @@ python mesa_populate_packages() {
-     do_split_packages(d, pipe_drivers_root, r'^pipe_(.*)\.so$', 'mesa-driver-pipe-%s', 'Mesa %s pipe driver', extra_depends='')
- }
- 
--PACKAGESPLITFUNCS =+ "mesa_populate_packages "
-+PACKAGESPLITFUNCS =+ "mesa_populate_packages"
- 
- PACKAGES_DYNAMIC += "^mesa-driver-.*"
- PACKAGES_DYNAMIC:class-native = "^mesa-driver-.*-native"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-license.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-license.inc
-index 03595e7d32..8b1c001111 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-license.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-license.inc
-@@ -1,7 +1,7 @@
- # This .inc file contains functionality for automatically setting
- # the the license of all plugins according to the GSTREAMER_GPL.
- 
--PACKAGESPLITFUNCS += " set_gstreamer_license "
-+PACKAGESPLITFUNCS += "set_gstreamer_license"
- 
- python set_gstreamer_license () {
-     import oe.utils
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-packaging.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-packaging.inc
-index 837d5a1a62..d77aeed8a2 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-packaging.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-packaging.inc
-@@ -9,8 +9,8 @@
- # Dynamically generate packages for all enabled plugins
- PACKAGES_DYNAMIC = "^${PN}-.* ^libgst.*"
- 
--PACKAGESPLITFUNCS =+ " split_gstreamer10_packages "
--PACKAGESPLITFUNCS += " set_gstreamer10_metapkg_rdepends "
-+PACKAGESPLITFUNCS =+ "split_gstreamer10_packages"
-+PACKAGESPLITFUNCS += "set_gstreamer10_metapkg_rdepends"
- 
- python split_gstreamer10_packages () {
-     gst_libdir = d.expand('${libdir}/gstreamer-1.0')
-diff --git a/meta/recipes-support/libevent/libevent_2.1.12.bb b/meta/recipes-support/libevent/libevent_2.1.12.bb
-index 88b81fd56e..25388fb4d7 100644
---- a/meta/recipes-support/libevent/libevent_2.1.12.bb
-+++ b/meta/recipes-support/libevent/libevent_2.1.12.bb
-@@ -41,7 +41,7 @@ PACKAGES_DYNAMIC = "^${PN}-.*$"
- python split_libevent_libs () {
-     do_split_packages(d, '${libdir}', r'^libevent_([a-z]*)-.*\.so\..*', '${PN}-%s', '${SUMMARY} (%s)', prepend=True, allow_links=True)
- }
--PACKAGESPLITFUNCS =+ "split_libevent_libs "
-+PACKAGESPLITFUNCS =+ "split_libevent_libs"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBkb2NzQGxpc3RzLnlvY3RvcHJv
+amVjdC5vcmcgPGRvY3NAbGlzdHMueW9jdG9wcm9qZWN0Lm9yZz4gT24gQmVoYWxmDQo+IE9mIFJp
+Y2hhcmQgUHVyZGllDQo+IFNlbnQ6IGRlbiA1IGphbnVhcmkgMjAyMyAxNTo1Nw0KPiBUbzogTWlj
+aGFlbCBPcGRlbmFja2VyIDxtaWNoYWVsLm9wZGVuYWNrZXJAYm9vdGxpbi5jb20+DQo+IENjOiBP
+RSBDb3JlIG1haWxpbmcgbGlzdCA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZz47IEtoZW0NCj4gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+OyBSb2JlcnQgUC4gSi4gRGF5
+IDxycGpkYXlAY3Jhc2hjb3Vyc2UuY2E+OyBZUA0KPiBkb2NzIG1haWxpbmcgbGlzdCA8ZG9jc0Bs
+aXN0cy55b2N0b3Byb2plY3Qub3JnPg0KPiBTdWJqZWN0OiBSZTogW2RvY3NdIFtPRS1jb3JlXSBp
+cyAicG9reSIgZGlzdHJvIGRlZmluZWQgdG8gdXNlICJzeXN2aW5pdCINCj4gYXMgSU5JVF9NQU5B
+R0VSPw0KPiANCj4gT24gVGh1LCAyMDIzLTAxLTA1IGF0IDE1OjIzICswMTAwLCBNaWNoYWVsIE9w
+ZGVuYWNrZXIgd3JvdGU6DQo+ID4gQW0gMDMuMDEuMjMgdW0gMTU6NDEgc2NocmllYiBNaWNoYWVs
+IE9wZGVuYWNrZXIgdmlhDQo+IGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc6DQo+ID4gPiBIZWxsbyBS
+aWNoYXJkLA0KPiA+ID4NCj4gPiA+IFRyeWluZyB0byBpbXByb3ZlIHRoZSBkb2N1bWVudGF0aW9u
+IGFib3V0IHRoZSBzZWxlY3Rpb24gb2YgdGhlIGluaXQNCj4gPiA+IHN5c3RlbSwgSSdtIGp1bXBp
+bmcgYmFjayB0byB0aGlzIG9sZCBjb252ZXJzYXRpb24sIGZvbGxvd2luZyBhIGNoYW5nZQ0KPiA+
+ID4gdGhhdCB5b3UgbWFkZSAoaHR0cHM6Ly9saXN0cy55b2N0b3Byb2plY3Qub3JnL2cvcG9reS9t
+ZXNzYWdlLzEyNzYwKS4NCj4gPiA+DQo+ID4gPiBBbSAwNi4wNy4yMiB1bSAxODo0MCBzY2hyaWVi
+IEtoZW0gUmFqOg0KPiA+ID4gPiBPbiBXZWQsIEp1bCA2LCAyMDIyIGF0IDEyOjM4IFBNIFJvYmVy
+dCBQLiBKLiBEYXkNCj4gPiA+ID4gPHJwamRheUBjcmFzaGNvdXJzZS5jYT4gd3JvdGU6DQo+ID4g
+PiA+ID4NCj4gPiA+ID4gPiDCoMKgIG5vdCBzdXJlIHdoeSBpIG5ldmVyIG5vdGljZWQgdGhpcyBi
+ZWZvcmUsIGJ1dCBpIHN0YXJ0ZWQgYSBuZXcNCj4gPiA+ID4gPiBwcm9qZWN0IGZyb20gdGhlIHBv
+a3kgbGF5ZXIgKG5vdCBPRSksIGFuZCByZWFsaXplZCB0aGF0IHBva3kuY29uZg0KPiA+ID4gPiA+
+IGV4cGxpY2l0bHkgc2V0czoNCj4gPiA+ID4gPg0KPiA+ID4gPiA+IMKgwqAgSU5JVF9NQU5BR0VS
+ID0gInN5c3Zpbml0Ig0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gd2hpY2ggY2FuJ3QgYmUgb3ZlcnJp
+ZGRlbiBpbiBteSBsb2NhbC5jb25mLiBpZiBpIHdhbnQgc3lzdGVtZCwgaSBndWVzcw0KPiA+ID4g
+PiA+IGkgY2FuIGluaXRpYWxpemUgbXkgcHJvamVjdCBmcm9tIHRoZSBPRSBsYXllciwgYW5kIGkg
+YWxzbyBub3RpY2UgdGhhdA0KPiA+ID4gPiA+IGkgY291bGQgdXNlIHBva3ktYWx0Y2ZnLmNvbmYu
+DQo+ID4gPiA+ID4NCj4gPiA+ID4gPiDCoMKgIGJ1dCBpcyB0aGVyZSBhIHJlYXNvbiB0aGF0IHRo
+ZSBkZWZhdWx0IHBva3ktYmFzZWQgcHJvamVjdCBmaXhlcw0KPiA+ID4gPiA+IElOSVRfTUFOQUdF
+UiB0byAic3lzdmluaXQiLiBwZXJoYXBzIGp1c3QgZm9yIHNpbXBsaWNpdHk/DQo+ID4gPiA+ID4N
+Cj4gPiA+ID4gcG9reSBkZWZhdWx0cyB0byBzeXN2aW5pdC4NCj4gPiA+ID4gcG9reSBoYXMgcG9r
+eS1hbHQgZGlzdHJvIGZpIHlvdSB3YW50IHRvIHVzZSBzYXkgc3lzdGVtZA0KPiA+ID4NCj4gPiA+
+IEJ1dCB3aHkgbm90IHNldHRpbmcgSU5JVF9NQU5BR0VSIHdpdGggIj89IiBpbnN0ZWFkIG9mICI9
+IiBpbiBwb2t5LmNvbmY/DQo+ID4gPg0KPiA+ID4gVGhpcyB3YXksIHdlIGNvdWxkIGp1c3Qgb3Zl
+cnJpZGUgSU5JVF9NQU5BR0VSIGZyb20gbG9jYWwuY29uZi4NCj4gPiA+DQo+ID4gPiBJIGNoZWNr
+ZWQgdGhhdCB0aGUgZ2VuZXJhdGVkIHN5c3RlbSB3b3Jrcy4gVGhpcyB3b3VsZCBtYWtlIHRoaW5n
+cw0KPiA+ID4gZWFzaWVyIHRvIGRvY3VtZW50LCB1bmxlc3MgSSdtIG1pc3Npbmcgb3RoZXIgcmVh
+c29ucy4NCj4gPg0KPiA+DQo+ID4gUmljaGFyZCB0b2xkIG1lIG9uIElSQyB0aGF0LCBmcm9tIG1l
+bW9yeSwgdGhpcyB3YXMgc2V0IGJlY2F1c2Ugb2YNCj4gPiBpbnRlcmZlcmVuY2UgcG9reS1hbHRj
+ZmcgKGlmIEkgdW5kZXJzdG9vZCBjb3JyZWN0bHkpLg0KPiA+DQo+ID4gSSB1bmRlcnN0YW5kIG9u
+ZSByZWNvbW1lbmRlZCB3YXkgdG8gaGF2ZSBzeXN0ZW1kIGluc3RlYWQgb2Ygc3lzdmluaXQgaW4N
+Cj4gPiBQb2t5IGlzIHRvIHVzZSAicG9reS1hbHRjZmciIGluc3RlYWQgb2YgInBva3kiIGFzIGRp
+c3Ryby4NCg0KSSBhbSBub3Qgc3VyZSB1c2luZyBwb2t5LWFsdGNmZyBhcyBhbiBhbHRlcm5hdGl2
+ZSB0byB1c2luZyBwb2t5ICsgc3lzdGVtZCANCmlzIGEgZ29vZCBzdWdnZXN0aW9uIHNpbmNlIHBv
+a3ktYWx0Y2ZnIGNoYW5nZXMgYSBjb3VwbGUgb2Ygb3RoZXIgc2V0dGluZ3MgYXMgDQp3ZWxsIChz
+ZWUgbWV0YS1wb2t5L2NvbmYvZGlzdHJvL2luY2x1ZGUvcG9reS1kaXN0cm8tYWx0LXRlc3QtY29u
+ZmlnLmluYykuDQoNCj4gPg0KPiA+IFNpbWlsYXJseSwgSSBndWVzcyBJIHNob3VsZCB1c2UgInBv
+a3ktdGlueSIgaWYgSSB3YW50IHRvIHVzZQ0KPiA+ICJtZGV2LWJ1c3lib3giIGFzIElOSVRfTUFO
+QUdFUi4NCj4gPg0KPiA+IFRoZW4sIEkgZ3Vlc3MgSSdsbCBkb2N1bWVudCBzb21ldGhpbmcgbGlr
+ZSB0aGlzOg0KPiA+DQo+ID4gICAqIFdpdGggdGhlIE9wZW5FbWJlZGRlZCBidWlsZCBzeXN0ZW0s
+IHlvdSBjYW4gY2hvb3NlIHlvdXIgaW5pdCBzeXN0ZW0NCj4gPiAgICAgYnkgc2V0dGluZyBJTklU
+X01BTkFHRVIgdG8gInN5c3Zpbml0IiwgInN5c3RlbWQiLCAiYnVzeWJveC1tZGV2IiBvcg0KPiA+
+ICAgICAibm9uZSINCj4gPiAgICogQlVUIGlmIHlvdSdyZSB1c2luZyBQb2t5LCB0aGF0IHdvbid0
+IHdvcmssIHNvIHlvdXIgb3B0aW9ucyB3aWxsIGJlDQo+ID4gICAgIHRvIHVzZSBlaXRoZXIgInBv
+a3kiIChzeXN2aW5pdCksICJwb2t5LWFsdGNmZyIgKHN5c3RlbWQpIG9yDQo+ID4gICAgICJwb2t5
+LXRpbnkiIChtZGV2LWJ1c3lib3gpLg0KPiA+DQo+ID4gRG9lcyB0aGlzIHNvdW5kIGxpa2UgdGhl
+IHJpZ2h0IHdheSB0byBkb2N1bWVudCB0aGlzPw0KPiANCj4gV2Ugc2hvdWxkIHJlYWxseSBmaXgg
+cG9reSBzbyB0aGlzIHdvcmtzIGNvcnJlY3RseS4gSSBqdXN0IGhhdmUgYSBtZW1vcnkNCj4gb2Yg
+dHJ5aW5nIHRvIGZpeCBpdCBhbmQgaXQgbm90IGJlaW5nIGFzIHN0cmFpZ2h0Zm9yd2FyZCBpdCBm
+aXJzdA0KPiBhcHBlYXJzLiBJJ2QgdGhlbiBoYXZlIGdvdCBkaXN0cmFjdGVkIGJ5IHRoZSBuZXh0
+IHByb2JsZW0gOi8NCj4gDQo+IENoZWVycywNCj4gDQo+IFJpY2hhcmQNCg0KWW91IGNhbiBvZiBj
+b3Vyc2Ugb3ZlcnJpZGUgaXQgaW4geW91ciBsb2NhbC5jb25mLCBidXQgaXQgcmVxdWlyZXMgdG8g
+dXNlIGFuIA0Kb3ZlcnJpZGUsIGUuZy4sIElOSVRfTUFOQUdFUjpwb2t5ID0gInN5c3RlbWQiIHNo
+b3VsZCB3b3JrIGlmIHlvdSBhcmUgaW4gZmFjdCANCnVzaW5nIHRoZSBwb2t5IGRpc3Ryby4NCg0K
+SG93ZXZlciwgc2luY2UgdGhlIHJlY29tbWVuZGF0aW9uIHR5cGljYWxseSBpcyB0byB1c2UgeW91
+ciBvd24gZGlzdHJvIGlmIHlvdSANCmFyZSBkb2luZyBtb3JlIHNlcmlvdXMgY2hhbmdlcyAobGlr
+ZSwgZS5nLiwgdXNpbmcgYW5vdGhlciBpbml0IG1hbmFnZXIgdGhhbiANCnRoZSBkZWZhdWx0IG9u
+ZSksIHRoaXMgc2hvdWxkIG5vcm1hbGx5IG5vdCBiZSBhIHByb2JsZW0uIEluIHRoZSBzaW1wbGVz
+dCBjYXNlIA0KeW91IGNhbiBjcmVhdGUgYSBkaXN0cm8gbGlrZToNCg0KcmVxdWlyZSBjb25mL2Rp
+c3Ryby9wb2t5LmNvbmYNCg0KSU5JVF9NQU5BR0VSID0gInN5c3RlbWQiDQoNCmFuZCB5b3UgYXJl
+IHRoZW4gYmV0dGVyIG9mZiB0aGFuIGRvaW5nIHRoaXMga2luZCBvZiBjaGFuZ2VzIGluIHlvdXIg
+DQpsb2NhbC5jb25mLg0KDQovL1BldGVyDQoNCg==
 
