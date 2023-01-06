@@ -1,132 +1,234 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D404BC54EBC
-	for <webhook@archiver.kernel.org>; Thu,  5 Jan 2023 21:46:36 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web10.2530.1672955192183480668
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAEA8C3DA7A
+	for <webhook@archiver.kernel.org>; Fri,  6 Jan 2023 00:45:36 +0000 (UTC)
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+ by mx.groups.io with SMTP id smtpd.web11.2384.1672965927740006337
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Jan 2023 13:46:32 -0800
+ Thu, 05 Jan 2023 16:45:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=XP1gwNj0;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=cEae1YTl;
+ spf=pass (domain: gmail.com, ip: 209.85.160.49, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-14fb3809eaeso312390fac.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Jan 2023 16:45:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1672955192;
-  x=1704491192;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=ghw6j5vuGkZDaAmt8SbJFvMONWB6dHO6/tb3mGyIkcE=;
-  b=XP1gwNj0O3RAAoWZtXMhK6Q1FU2vg5Q2pnv37EpOYUvkjIL2bKTxpjKL
-   L8aGVWdvvIdNiAyIAgKxbFg1Vu7EY35vuFJE9HMC05w3nWG8Fo3BcoEST
-   rcubTsBEAgr8OBhmHrUfvhhYCIn8NUYNjBYkMf5lCijxEFOh9s1V6wn3q
-   4/AAOAuujQv579pIla1NrN/+Hz18Vg0G+unTB+6ClKwupSLq/D89BIs/j
-   TzKN09p8XNk6HfitateoNxkQFU8uKRC7pzvTSEn88+sVFYeY3JaKLgpIc
-   7l4s2cLgo76dzrF8SOwUF+ydSIoUmX/W0hnXiRVxBoEWsuLG5fpVhWQ/0
-   g==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Michael Opdenacker
-	<michael.opdenacker@bootlin.com>
-CC: OE Core mailing list <openembedded-core@lists.openembedded.org>, Khem Raj
-	<raj.khem@gmail.com>, "Robert P. J. Day" <rpjday@crashcourse.ca>, "YP docs
- mailing list" <docs@lists.yoctoproject.org>
-Subject: RE: [docs] [OE-core] is "poky" distro defined to use "sysvinit" as
- INIT_MANAGER?
-Thread-Topic: [docs] [OE-core] is "poky" distro defined to use "sysvinit" as
- INIT_MANAGER?
-Thread-Index: AQHYkVbi0oJ8W2ObPEi8RsyfTWhiBq1xah2AgR+VvpL///iwgIAAfVQg
-Date: Thu, 5 Jan 2023 21:46:29 +0000
-Message-ID: <c4d5aede6530434a8276511941747bdc@axis.com>
-References: <2893205d-57e1-e63e-5c12-c57c7bbcb924@crashcourse.ca>
-	 <CAMKF1spKw-X-JTvdicfBBNNGk93EPL=gqD3jixvJkb7YfT1P0g@mail.gmail.com>
-	 <1736D38C7177CA6A.6604@lists.openembedded.org>
-	 <b725dbd2-3825-1eb7-3f71-a19a17c2ef7f@bootlin.com>
- <d92b4751144e16c0d97823b7eef1b88b3a20b760.camel@linuxfoundation.org>
-In-Reply-To: <d92b4751144e16c0d97823b7eef1b88b3a20b760.camel@linuxfoundation.org>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y2XemLY1KnTHRaEaNyZaWM7TDTvoay0kIXHeRj1FH/o=;
+        b=cEae1YTlY9ZJYDsbpK46EKnKCt2gW1tUJrVlPkfUtORc5zXfkzJ0jcyIEQ4HhHlIvX
+         te3/2V2jFG8golyyE+gCdVecbjTYuWCFXb7V5Ed00pt3dpQwQ9WWX39fCRMeCkBvuJ1Y
+         qXP9qAf5TVOgUg50C9nxBRw3bcN4Iv5CxaFPG79eKauQXVl8WjGQAY2h9w7w8zknsnGf
+         ZdHxe/dvE1HCR2rgqNzXk0nRyCp0NBzLJX8NT/qXZ64YLjuHD0lQUTTaYB4q+4Qqk6Sv
+         HA72CA97Dhe8NhlPYrSaRNNdMhWiTjfLCEjKFOvvb8rVp6YYQSC72hhTw5LS/KOPqJmU
+         B5cA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=y2XemLY1KnTHRaEaNyZaWM7TDTvoay0kIXHeRj1FH/o=;
+        b=kPdbom/b2miwGKsA0YCtGTdOPWEOokmFm5JtrEcLEnLx2J7xIB86uOlt/bBY5Ye7pf
+         qFMwxJ0HiQTgcUuPGw151+2g5zBtpzRzfxdA0KzMoOH8NW5eOyV8Wb8KoSHjbtWwbMzt
+         wfvL0cDCyiBoFuJfqr9naIt2ab9POjr/XJwSaPYdLTSPwEupQgEEfPxR73H0mnpBwBjm
+         zOEblrxFLDKv1XB/TYK5mAYyCdFL4NCKvqE8d/upVQSyGrgUOngnvjdWTdw0G3CeCeTz
+         fe6TA9CLu1MCxaCi47s8+J43d4O4KOf0jhV52urE4fHDwhmArhk8ditaXKi2Ju3WK1Ty
+         AH5w==
+X-Gm-Message-State: AFqh2kp2ZVOwV+WsU99PB4mnUu5AlrgQ24hFsAkFq0pj64IZ/eY/YPG6
+	mp4b4JwlQZZy7cg2reHm9aHT2Fg3Pjzn6ng+cL4=
+X-Google-Smtp-Source: AMrXdXtVNBs5dWvMHVOwC5jj6Qp08I5jCOs7twICbstDT7P2AlcOc/IxYQ4YOlVXJjimFgn/Ct4FcQg62Bh9Z69TYoI=
+X-Received: by 2002:a05:6871:4049:b0:150:ab7d:7012 with SMTP id
+ ky9-20020a056871404900b00150ab7d7012mr1004853oab.55.1672965926973; Thu, 05
+ Jan 2023 16:45:26 -0800 (PST)
 MIME-Version: 1.0
+References: <20221229071310.4111511-1-raj.khem@gmail.com> <8b9837c04e2f9bb684aa290761e00e9d072e3dba.camel@linuxfoundation.org>
+ <CAMKF1sq-Nw9Mdzkg2c-rbmFfcVr4BG=ZikEs4pRr=Kn4URCh5g@mail.gmail.com> <CAP71WjwpPDqD5Ro7QH4d7xdPCuArsXz4HEX9RiAD-h19M31L3g@mail.gmail.com>
+In-Reply-To: <CAP71WjwpPDqD5Ro7QH4d7xdPCuArsXz4HEX9RiAD-h19M31L3g@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 5 Jan 2023 16:45:01 -0800
+Message-ID: <CAMKF1sq+yps+26k-Xg0DEELRkfrYrU41FkEpvhRxB_iNPNT67Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] musl: Update to latest on tip of trunk
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Jan 2023 21:46:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175551
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Jan 2023 00:45:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175552
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBkb2NzQGxpc3RzLnlvY3RvcHJv
-amVjdC5vcmcgPGRvY3NAbGlzdHMueW9jdG9wcm9qZWN0Lm9yZz4gT24gQmVoYWxmDQo+IE9mIFJp
-Y2hhcmQgUHVyZGllDQo+IFNlbnQ6IGRlbiA1IGphbnVhcmkgMjAyMyAxNTo1Nw0KPiBUbzogTWlj
-aGFlbCBPcGRlbmFja2VyIDxtaWNoYWVsLm9wZGVuYWNrZXJAYm9vdGxpbi5jb20+DQo+IENjOiBP
-RSBDb3JlIG1haWxpbmcgbGlzdCA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVk
-Lm9yZz47IEtoZW0NCj4gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+OyBSb2JlcnQgUC4gSi4gRGF5
-IDxycGpkYXlAY3Jhc2hjb3Vyc2UuY2E+OyBZUA0KPiBkb2NzIG1haWxpbmcgbGlzdCA8ZG9jc0Bs
-aXN0cy55b2N0b3Byb2plY3Qub3JnPg0KPiBTdWJqZWN0OiBSZTogW2RvY3NdIFtPRS1jb3JlXSBp
-cyAicG9reSIgZGlzdHJvIGRlZmluZWQgdG8gdXNlICJzeXN2aW5pdCINCj4gYXMgSU5JVF9NQU5B
-R0VSPw0KPiANCj4gT24gVGh1LCAyMDIzLTAxLTA1IGF0IDE1OjIzICswMTAwLCBNaWNoYWVsIE9w
-ZGVuYWNrZXIgd3JvdGU6DQo+ID4gQW0gMDMuMDEuMjMgdW0gMTU6NDEgc2NocmllYiBNaWNoYWVs
-IE9wZGVuYWNrZXIgdmlhDQo+IGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc6DQo+ID4gPiBIZWxsbyBS
-aWNoYXJkLA0KPiA+ID4NCj4gPiA+IFRyeWluZyB0byBpbXByb3ZlIHRoZSBkb2N1bWVudGF0aW9u
-IGFib3V0IHRoZSBzZWxlY3Rpb24gb2YgdGhlIGluaXQNCj4gPiA+IHN5c3RlbSwgSSdtIGp1bXBp
-bmcgYmFjayB0byB0aGlzIG9sZCBjb252ZXJzYXRpb24sIGZvbGxvd2luZyBhIGNoYW5nZQ0KPiA+
-ID4gdGhhdCB5b3UgbWFkZSAoaHR0cHM6Ly9saXN0cy55b2N0b3Byb2plY3Qub3JnL2cvcG9reS9t
-ZXNzYWdlLzEyNzYwKS4NCj4gPiA+DQo+ID4gPiBBbSAwNi4wNy4yMiB1bSAxODo0MCBzY2hyaWVi
-IEtoZW0gUmFqOg0KPiA+ID4gPiBPbiBXZWQsIEp1bCA2LCAyMDIyIGF0IDEyOjM4IFBNIFJvYmVy
-dCBQLiBKLiBEYXkNCj4gPiA+ID4gPHJwamRheUBjcmFzaGNvdXJzZS5jYT4gd3JvdGU6DQo+ID4g
-PiA+ID4NCj4gPiA+ID4gPiDCoMKgIG5vdCBzdXJlIHdoeSBpIG5ldmVyIG5vdGljZWQgdGhpcyBi
-ZWZvcmUsIGJ1dCBpIHN0YXJ0ZWQgYSBuZXcNCj4gPiA+ID4gPiBwcm9qZWN0IGZyb20gdGhlIHBv
-a3kgbGF5ZXIgKG5vdCBPRSksIGFuZCByZWFsaXplZCB0aGF0IHBva3kuY29uZg0KPiA+ID4gPiA+
-IGV4cGxpY2l0bHkgc2V0czoNCj4gPiA+ID4gPg0KPiA+ID4gPiA+IMKgwqAgSU5JVF9NQU5BR0VS
-ID0gInN5c3Zpbml0Ig0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gd2hpY2ggY2FuJ3QgYmUgb3ZlcnJp
-ZGRlbiBpbiBteSBsb2NhbC5jb25mLiBpZiBpIHdhbnQgc3lzdGVtZCwgaSBndWVzcw0KPiA+ID4g
-PiA+IGkgY2FuIGluaXRpYWxpemUgbXkgcHJvamVjdCBmcm9tIHRoZSBPRSBsYXllciwgYW5kIGkg
-YWxzbyBub3RpY2UgdGhhdA0KPiA+ID4gPiA+IGkgY291bGQgdXNlIHBva3ktYWx0Y2ZnLmNvbmYu
-DQo+ID4gPiA+ID4NCj4gPiA+ID4gPiDCoMKgIGJ1dCBpcyB0aGVyZSBhIHJlYXNvbiB0aGF0IHRo
-ZSBkZWZhdWx0IHBva3ktYmFzZWQgcHJvamVjdCBmaXhlcw0KPiA+ID4gPiA+IElOSVRfTUFOQUdF
-UiB0byAic3lzdmluaXQiLiBwZXJoYXBzIGp1c3QgZm9yIHNpbXBsaWNpdHk/DQo+ID4gPiA+ID4N
-Cj4gPiA+ID4gcG9reSBkZWZhdWx0cyB0byBzeXN2aW5pdC4NCj4gPiA+ID4gcG9reSBoYXMgcG9r
-eS1hbHQgZGlzdHJvIGZpIHlvdSB3YW50IHRvIHVzZSBzYXkgc3lzdGVtZA0KPiA+ID4NCj4gPiA+
-IEJ1dCB3aHkgbm90IHNldHRpbmcgSU5JVF9NQU5BR0VSIHdpdGggIj89IiBpbnN0ZWFkIG9mICI9
-IiBpbiBwb2t5LmNvbmY/DQo+ID4gPg0KPiA+ID4gVGhpcyB3YXksIHdlIGNvdWxkIGp1c3Qgb3Zl
-cnJpZGUgSU5JVF9NQU5BR0VSIGZyb20gbG9jYWwuY29uZi4NCj4gPiA+DQo+ID4gPiBJIGNoZWNr
-ZWQgdGhhdCB0aGUgZ2VuZXJhdGVkIHN5c3RlbSB3b3Jrcy4gVGhpcyB3b3VsZCBtYWtlIHRoaW5n
-cw0KPiA+ID4gZWFzaWVyIHRvIGRvY3VtZW50LCB1bmxlc3MgSSdtIG1pc3Npbmcgb3RoZXIgcmVh
-c29ucy4NCj4gPg0KPiA+DQo+ID4gUmljaGFyZCB0b2xkIG1lIG9uIElSQyB0aGF0LCBmcm9tIG1l
-bW9yeSwgdGhpcyB3YXMgc2V0IGJlY2F1c2Ugb2YNCj4gPiBpbnRlcmZlcmVuY2UgcG9reS1hbHRj
-ZmcgKGlmIEkgdW5kZXJzdG9vZCBjb3JyZWN0bHkpLg0KPiA+DQo+ID4gSSB1bmRlcnN0YW5kIG9u
-ZSByZWNvbW1lbmRlZCB3YXkgdG8gaGF2ZSBzeXN0ZW1kIGluc3RlYWQgb2Ygc3lzdmluaXQgaW4N
-Cj4gPiBQb2t5IGlzIHRvIHVzZSAicG9reS1hbHRjZmciIGluc3RlYWQgb2YgInBva3kiIGFzIGRp
-c3Ryby4NCg0KSSBhbSBub3Qgc3VyZSB1c2luZyBwb2t5LWFsdGNmZyBhcyBhbiBhbHRlcm5hdGl2
-ZSB0byB1c2luZyBwb2t5ICsgc3lzdGVtZCANCmlzIGEgZ29vZCBzdWdnZXN0aW9uIHNpbmNlIHBv
-a3ktYWx0Y2ZnIGNoYW5nZXMgYSBjb3VwbGUgb2Ygb3RoZXIgc2V0dGluZ3MgYXMgDQp3ZWxsIChz
-ZWUgbWV0YS1wb2t5L2NvbmYvZGlzdHJvL2luY2x1ZGUvcG9reS1kaXN0cm8tYWx0LXRlc3QtY29u
-ZmlnLmluYykuDQoNCj4gPg0KPiA+IFNpbWlsYXJseSwgSSBndWVzcyBJIHNob3VsZCB1c2UgInBv
-a3ktdGlueSIgaWYgSSB3YW50IHRvIHVzZQ0KPiA+ICJtZGV2LWJ1c3lib3giIGFzIElOSVRfTUFO
-QUdFUi4NCj4gPg0KPiA+IFRoZW4sIEkgZ3Vlc3MgSSdsbCBkb2N1bWVudCBzb21ldGhpbmcgbGlr
-ZSB0aGlzOg0KPiA+DQo+ID4gICAqIFdpdGggdGhlIE9wZW5FbWJlZGRlZCBidWlsZCBzeXN0ZW0s
-IHlvdSBjYW4gY2hvb3NlIHlvdXIgaW5pdCBzeXN0ZW0NCj4gPiAgICAgYnkgc2V0dGluZyBJTklU
-X01BTkFHRVIgdG8gInN5c3Zpbml0IiwgInN5c3RlbWQiLCAiYnVzeWJveC1tZGV2IiBvcg0KPiA+
-ICAgICAibm9uZSINCj4gPiAgICogQlVUIGlmIHlvdSdyZSB1c2luZyBQb2t5LCB0aGF0IHdvbid0
-IHdvcmssIHNvIHlvdXIgb3B0aW9ucyB3aWxsIGJlDQo+ID4gICAgIHRvIHVzZSBlaXRoZXIgInBv
-a3kiIChzeXN2aW5pdCksICJwb2t5LWFsdGNmZyIgKHN5c3RlbWQpIG9yDQo+ID4gICAgICJwb2t5
-LXRpbnkiIChtZGV2LWJ1c3lib3gpLg0KPiA+DQo+ID4gRG9lcyB0aGlzIHNvdW5kIGxpa2UgdGhl
-IHJpZ2h0IHdheSB0byBkb2N1bWVudCB0aGlzPw0KPiANCj4gV2Ugc2hvdWxkIHJlYWxseSBmaXgg
-cG9reSBzbyB0aGlzIHdvcmtzIGNvcnJlY3RseS4gSSBqdXN0IGhhdmUgYSBtZW1vcnkNCj4gb2Yg
-dHJ5aW5nIHRvIGZpeCBpdCBhbmQgaXQgbm90IGJlaW5nIGFzIHN0cmFpZ2h0Zm9yd2FyZCBpdCBm
-aXJzdA0KPiBhcHBlYXJzLiBJJ2QgdGhlbiBoYXZlIGdvdCBkaXN0cmFjdGVkIGJ5IHRoZSBuZXh0
-IHByb2JsZW0gOi8NCj4gDQo+IENoZWVycywNCj4gDQo+IFJpY2hhcmQNCg0KWW91IGNhbiBvZiBj
-b3Vyc2Ugb3ZlcnJpZGUgaXQgaW4geW91ciBsb2NhbC5jb25mLCBidXQgaXQgcmVxdWlyZXMgdG8g
-dXNlIGFuIA0Kb3ZlcnJpZGUsIGUuZy4sIElOSVRfTUFOQUdFUjpwb2t5ID0gInN5c3RlbWQiIHNo
-b3VsZCB3b3JrIGlmIHlvdSBhcmUgaW4gZmFjdCANCnVzaW5nIHRoZSBwb2t5IGRpc3Ryby4NCg0K
-SG93ZXZlciwgc2luY2UgdGhlIHJlY29tbWVuZGF0aW9uIHR5cGljYWxseSBpcyB0byB1c2UgeW91
-ciBvd24gZGlzdHJvIGlmIHlvdSANCmFyZSBkb2luZyBtb3JlIHNlcmlvdXMgY2hhbmdlcyAobGlr
-ZSwgZS5nLiwgdXNpbmcgYW5vdGhlciBpbml0IG1hbmFnZXIgdGhhbiANCnRoZSBkZWZhdWx0IG9u
-ZSksIHRoaXMgc2hvdWxkIG5vcm1hbGx5IG5vdCBiZSBhIHByb2JsZW0uIEluIHRoZSBzaW1wbGVz
-dCBjYXNlIA0KeW91IGNhbiBjcmVhdGUgYSBkaXN0cm8gbGlrZToNCg0KcmVxdWlyZSBjb25mL2Rp
-c3Ryby9wb2t5LmNvbmYNCg0KSU5JVF9NQU5BR0VSID0gInN5c3RlbWQiDQoNCmFuZCB5b3UgYXJl
-IHRoZW4gYmV0dGVyIG9mZiB0aGFuIGRvaW5nIHRoaXMga2luZCBvZiBjaGFuZ2VzIGluIHlvdXIg
-DQpsb2NhbC5jb25mLg0KDQovL1BldGVyDQoNCg==
+On Wed, Jan 4, 2023 at 11:57 PM Nicolas Dechesne
+<nicolas.dechesne@linaro.org> wrote:
+>
+>
+>
+> On Fri, Dec 30, 2022 at 10:14 PM Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> On Thu, Dec 29, 2022 at 3:10 PM Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>> >
+>> > On Wed, 2022-12-28 at 23:13 -0800, Khem Raj wrote:
+>> > > Brings following changes
+>> > >
+>> > > * f47a8cdd ldso: fix invalid early references to extern-linkage libc=
+.page_size
+>> > > * 377218cb pthread_atfork: fix return value on malloc failure
+>> > > * 29e43191 fix double-processing of DT_RELR relocations in ldso relo=
+cating itself
+>> > > * b50eb8c3 fix strverscmp comparison of digit sequence with non-digi=
+ts
+>> > > * ad5dcd39 fix async thread cancellation stack alignment
+>> > > * 8f925945 fix return value of gethostby{name[2],addr} with no resul=
+t but no error
+>> > > * 63402be2 clean up dns_parse_callback
+>> > > * 0a7b4323 dns response handling: don't treat too many addresses as =
+an error
+>> > > * 41603c77 dns response handling: ignore presence of wrong-type RRs
+>> > > * cf76df0e fix missing synchronization of pthread TSD keys with MT-f=
+ork
+>> > > * 5ff3eea9 fgets: avoid arithmetic overflow when n=3D=3DINT_MIN is p=
+assed
+>> > > * d8f35e29 fix AS-safety of close when aio is in use and fd map is e=
+xpanded
+>> > > * 26c76a90 fix use of uninitialized dummy_fut in aio_suspend
+>> > > * aebd6a36 fix potential deadlock between multithreaded fork and aio
+>> > > * d64148a8 fix potential unsynchronized access to killlock state at =
+thread exit
+>> > > * 36b72cd6 fix potential deadlock in dlerror buffer handling at thre=
+ad exit
+>> > > * 833a4691 configure: disable TBAA optimization because most compile=
+rs are buggy
+>> > > * e6e82132 disable MADV_FREE usage in mallocng
+>> > > * 25e6fee2 remove LFS64 programming interfaces (macro-only) from _GN=
+U_SOURCE
+>> > > * 246f1c81 remove LFS64 symbol aliases; replace with dynamic linker =
+remapping
+>> > > * dec8f0a4 dns query core: detect udp truncation at recv time
+>> > > * 8c408937 getaddrinfo dns lookup: use larger answer buffer to handl=
+e long CNAMEs
+>> > > * 759bf785 arpa/nameser.h: update RR types list
+>> > > * 51d4669f dns: implement tcp fallback in __res_msend query core
+>> > > * e2e95176 res_send: use a temp buffer if caller's buffer is under 5=
+12 bytes
+>> > > * c87d75f2 adapt res_msend DNS query core for working with multiple =
+sockets
+>> > > * 85050ac5 getaddrinfo: add EAI_NODATA error code to distinguish NOD=
+ATA vs NxDomain
+>> > >
+>> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> > > ---
+>> > >  meta/recipes-core/musl/musl_git.bb | 2 +-
+>> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+>> > >
+>> > > diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/=
+musl/musl_git.bb
+>> > > index a72d87ea6f..7749495ec6 100644
+>> > > --- a/meta/recipes-core/musl/musl_git.bb
+>> > > +++ b/meta/recipes-core/musl/musl_git.bb
+>> > > @@ -4,7 +4,7 @@
+>> > >  require musl.inc
+>> > >  inherit linuxloader
+>> > >
+>> > > -SRCREV =3D "dc9285ad1dc19349c407072cc48ba70dab86de45"
+>> > > +SRCREV =3D "f47a8cdd250d9163fcfb39bf4e9d813957c0b187"
+>> > >
+>> > >  BASEVER =3D "1.2.3"
+>> > >
+>> >
+>> > I tested this with your 3 musl patches and it showed a few issues:
+>> >
+>> > https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/6421
+>> > https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/6439
+>> >
+>>
+>> I have sent fixes for all the build failures seen in these two builds.
+>
+>
+> I am getting other failures since this patch was merged (https://github.c=
+om/ndechesne/meta-qcom/actions/workflows/daily.yml). When building e2fsprog=
+ for arm 32 bit targets. A snippet of the build log is:
+>
+> | arm-poky-linux-musleabi-gcc  -mthumb -mfpu=3Dneon-vfpv4 -mfloat-abi=3Dh=
+ard -mcpu=3Dcortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=3D2 =
+-Wformat -Wformat-security -Werror=3Dformat-security --sysroot=3D/oe/build/=
+tmp/work/cortexa15t2hf-neon-vfpv4-poky-linux-musleabi/e2fsprogs/1.46.5-r0/r=
+ecipe-sysroot -I. -I../../lib -I../../../git/lib  -O2 -pipe -g -feliminate-=
+unused-debug-types -fmacro-prefix-map=3D/oe/build/tmp/work/cortexa15t2hf-ne=
+on-vfpv4-poky-linux-musleabi/e2fsprogs/1.46.5-r0/git=3D/usr/src/debug/e2fsp=
+rogs/1.46.5-r0  -fdebug-prefix-map=3D/oe/build/tmp/work/cortexa15t2hf-neon-=
+vfpv4-poky-linux-musleabi/e2fsprogs/1.46.5-r0/git=3D/usr/src/debug/e2fsprog=
+s/1.46.5-r0  -fmacro-prefix-map=3D/oe/build/tmp/work/cortexa15t2hf-neon-vfp=
+v4-poky-linux-musleabi/e2fsprogs/1.46.5-r0/build=3D/usr/src/debug/e2fsprogs=
+/1.46.5-r0  -fdebug-prefix-map=3D/oe/build/tmp/work/cortexa15t2hf-neon-vfpv=
+4-poky-linux-musleabi/e2fsprogs/1.46.5-r0/build=3D/usr/src/debug/e2fsprogs/=
+1.46.5-r0  -fdebug-prefix-map=3D/oe/build/tmp/work/cortexa15t2hf-neon-vfpv4=
+-poky-linux-musleabi/e2fsprogs/1.46.5-r0/recipe-sysroot=3D  -fmacro-prefix-=
+map=3D/oe/build/tmp/work/cortexa15t2hf-neon-vfpv4-poky-linux-musleabi/e2fsp=
+rogs/1.46.5-r0/recipe-sysroot=3D  -fdebug-prefix-map=3D/oe/build/tmp/work/c=
+ortexa15t2hf-neon-vfpv4-poky-linux-musleabi/e2fsprogs/1.46.5-r0/recipe-sysr=
+oot-native=3D  -pthread  -DHAVE_CONFIG_H  -c ../../../git/lib/ext2fs/lookup=
+.c -o lookup.o
+> | ../../../git/lib/ext2fs/llseek.c:70:22: error: expected declaration spe=
+cifiers or '...' before '_llseek'
+> |    70 | static _syscall5(int,_llseek,unsigned int,fd,unsigned long,offs=
+et_high,
+> |       |                      ^~~~~~~
+> | ../../../git/lib/ext2fs/llseek.c:70:43: error: unknown type name 'fd'
+> |    70 | static _syscall5(int,_llseek,unsigned int,fd,unsigned long,offs=
+et_high,
+> |       |                                           ^~
+> | ../../../git/lib/ext2fs/llseek.c:70:60: error: unknown type name 'offse=
+t_high'
+> |    70 | static _syscall5(int,_llseek,unsigned int,fd,unsigned long,offs=
+et_high,
+> |       |                                                            ^~~~=
+~~~~~~~
+> | ../../../git/lib/ext2fs/llseek.c:71:33: error: unknown type name 'offse=
+t_low'; did you mean 'offsetof'?
+> |    71 |                  unsigned long, offset_low,ext2_loff_t *,result=
+,
+> |       |                                 ^~~~~~~~~~
+> |       |                                 offsetof
+> | ../../../git/lib/ext2fs/llseek.c:71:58: error: unknown type name 'resul=
+t'
+> |    71 |                  unsigned long, offset_low,ext2_loff_t *,result=
+,
+> |       |                                                          ^~~~~~
+> | ../../../git/lib/ext2fs/llseek.c:72:32: error: unknown type name 'origi=
+n'
+> |    72 |                  unsigned int, origin);
+> |       |                                ^~~~~~
+> | ../../../git/lib/ext2fs/llseek.c:67:12: warning: '_llseek' used but nev=
+er defined
+> |    67 | static int _llseek (unsigned int, unsigned long,
+> |       |            ^~~~~~~
+> | make[2]: *** [Makefile:689: llseek.o] Error 1
+>
+> The last known good build was with acef849931c5ab14ede40c2ea01a22027e34a3=
+35, first failure was caught with 64625155eca8399f403b992ec536897f75956baa =
+(both are Poky tree sha).
+>
+
+Interesting, it compiled ok for qemuarm and also for rpi4(32bit), I
+will try to reproduce it here.
+
+>>
+>> Thanks
+>> -Khem
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#175178): https://lists.openembedded.org/g/openembedd=
+ed-core/message/175178
+>> Mute This Topic: https://lists.openembedded.org/mt/95933622/1279857
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [n=
+icolas.dechesne@linaro.org]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
 
