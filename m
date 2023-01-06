@@ -1,487 +1,1914 @@
-Return-Path: <nicolas.dechesne@linaro.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C110BC54E76
-	for <webhook@archiver.kernel.org>; Fri,  6 Jan 2023 07:32:28 +0000 (UTC)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
- by mx.groups.io with SMTP id smtpd.web10.8835.1672990346823209694
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1460DC5479D
+	for <webhook@archiver.kernel.org>; Fri,  6 Jan 2023 08:14:09 +0000 (UTC)
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+ by mx.groups.io with SMTP id smtpd.web10.9243.1672992848159373027
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Jan 2023 23:32:27 -0800
+ Fri, 06 Jan 2023 00:14:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=mLokcdrG;
- spf=pass (domain: linaro.org, ip: 209.85.219.171, mailfrom: nicolas.dechesne@linaro.org)
-Received: by mail-yb1-f171.google.com with SMTP id 192so1033652ybt.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Jan 2023 23:32:26 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=K79Pinzd;
+ spf=pass (domain: gmail.com, ip: 209.85.167.169, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f169.google.com with SMTP id o66so553072oia.6
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Jan 2023 00:14:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ut/sVTKJ9AEkoKFGi7L1rDQ90x4jQeDkhr0AHiTTyaI=;
-        b=mLokcdrGyGC1//SQ2CsC5WlHvHs3hePvWFDhvxQLY+8Uo+ghXUfbBc1tCU16UxWPFn
-         1DYW99td3vuZC4XAASe7c5lC1+jj7yR0Lqx0k69SPRyQ1j6Ew5Vl+3Nw5sp/t6Rfcotj
-         OP6rpm4cPGgeNZmL+4muqpKpFF6qdeKQd8aio7/QX1T1lnvb7ucLXVCTgRLz0DCnc7dl
-         /pSC0nMsXESlya7KEKCt/Vo4t6eswM0A5AX7ZKo6Ldy9Tbx7rcFmPsmCkyRQA3U1unSn
-         Wn8L/+wWItEj6wSU57EmJ4hL12PrvMg+BNPaJ8MCdujmOY189MMKBWoDuY8j5quQPlrR
-         NAjw==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iih0ZSnMUDAxvGLjfNbBZO2iPW8deAqHBHqCq78YJo0=;
+        b=K79PinzdVKiE4tM0mNZJdSmUv1CIKB6ceenVNIB5iPRpGZvXm+i5FePhi5futXXhIr
+         f6CB+P25XR7U747L43FpIX7Vwy6UeeMEe/DUPq4U2DlzE8AgFp1b2OqqZ+QJTPOMZMWD
+         QQo0sqt+i121yQBJekLGTf9u8z6bqus2qbdDYnl6/Lzr98T8DQRJSi1vT/jXIq//bOvw
+         deubrG28HTpBrnCFhsXNafq2yLYeioYeemLHb/osME/XxUTdxl6XdWI6cgl6I9bpWmgN
+         dk04bWCETiXAJWfXGYQzj1fzwARw4hkYKliwPi+x43hiGdSX/L23iHuH40eZ5lfTtLYD
+         Jthg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ut/sVTKJ9AEkoKFGi7L1rDQ90x4jQeDkhr0AHiTTyaI=;
-        b=xh+H49+axzYduccpbIuxcNEUNc0EpJALCSotAKg4NKBuzRu/8REA0pTM2z40ZDWCPd
-         t/hIQRbG2BCZNjCmkR9IEqP2VkhnOg92w+revLoLPmtzvXvpumAe3TYvH14xTAKgoe29
-         rznjWkkwoPBkvTK222Sud1oyBQmi2TQ+COWuJgfiz3SWaZIlGCgjydkzM/zluPZkVoID
-         mTFFoOfbWtIIUCn7ajyKy0fvTrFcsfVV8PefFTvdjYN73Wzct4/aFRMTiluATarmGhg2
-         DnkzkhbVRRDoX2dlYqzOxzUvhRcQGzN3LUgjRe+Lh3n7d0NXHAyQWrMxesJ5aCjcw+za
-         ynuA==
-X-Gm-Message-State: AFqh2kq2+1MX5zGtjlrQMGrocx64wMSEEkW/BYzBCgx7C220TM7mno06
-	3nL635SszWNQngE2FW8UTrWpG0NSK0udsa732iyeZA==
-X-Google-Smtp-Source: AMrXdXsHWgG5xafCu6l1a0r0z7CYDNKy6BAe9hy7g3AjQ26YOF8x/CDgJTW4JhRMZhqK5CDXfKHi27UjrtPD6dtzF7s=
-X-Received: by 2002:a25:9209:0:b0:756:3e38:765f with SMTP id
- b9-20020a259209000000b007563e38765fmr4455013ybo.428.1672990345813; Thu, 05
- Jan 2023 23:32:25 -0800 (PST)
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iih0ZSnMUDAxvGLjfNbBZO2iPW8deAqHBHqCq78YJo0=;
+        b=5IG+pIPwtuEZu/g7cSUPYf0Sh5f9U2uqQOypFyOjBNzfwxB6whKIxmHMPQeYMwWd1q
+         SvjaIurr2u3SQP8VctzbxshbTERSvzw//lRaag9uAAcZR0c+CqMP26AvFrZIdvSwysLg
+         aOceptcQYCGz07jELQCv6fNUHGCBMyYSlIn28H+jhgWcDDwxBRiQc9xBZxpFJULdTyzr
+         qlcMMEPZ3TFpYjHhvFifu6dtcR4yGzqY/6GPCdpyQ7P0rCO7Wk8esAZlG4n3LlX7Ld7p
+         AvceiNMDPErnM5Pv5xmqDZEz7d0EbudW/catlL8F4TtX9WT3PlhTB0q+D5CSU04es40L
+         J44A==
+X-Gm-Message-State: AFqh2kqEpcdvQpbR6vl4CeS70QIMlxRdda3TRT6gOUXNCb4ePTY6q31i
+	wTVx8omxFovsmpBRIl2Xqy1xNgTWLHv1zOrhLpA=
+X-Google-Smtp-Source: AMrXdXsj7zWo9i1Fwg2CClXmcO8Hd0X1y/GT6Mt782v5/zW+OCag+qPLOFwhO1injKmJuY4WbQBnj/jaNWW0iAMZA2M=
+X-Received: by 2002:aca:6085:0:b0:363:240c:bdc7 with SMTP id
+ u127-20020aca6085000000b00363240cbdc7mr2259575oib.55.1672992846638; Fri, 06
+ Jan 2023 00:14:06 -0800 (PST)
 MIME-Version: 1.0
-References: <20221229071310.4111511-1-raj.khem@gmail.com> <8b9837c04e2f9bb684aa290761e00e9d072e3dba.camel@linuxfoundation.org>
- <CAMKF1sq-Nw9Mdzkg2c-rbmFfcVr4BG=ZikEs4pRr=Kn4URCh5g@mail.gmail.com>
- <CAP71WjwpPDqD5Ro7QH4d7xdPCuArsXz4HEX9RiAD-h19M31L3g@mail.gmail.com> <CAMKF1sq+yps+26k-Xg0DEELRkfrYrU41FkEpvhRxB_iNPNT67Q@mail.gmail.com>
-In-Reply-To: <CAMKF1sq+yps+26k-Xg0DEELRkfrYrU41FkEpvhRxB_iNPNT67Q@mail.gmail.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Fri, 6 Jan 2023 08:32:14 +0100
-Message-ID: <CAP71WjwmACg3NX9fEKhm0y+AdK3hbKPeQA1P9fn5_t8-vz_F4g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] musl: Update to latest on tip of trunk
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000004682d505f1936b9f"
+References: <20230104110548.2537259-1-alex@linutronix.de> <20230104110548.2537259-9-alex@linutronix.de>
+ <CAMKF1sp3WWgXgJiZzxNKrT_G6nOadFYc3R7zYaq9thALVE9B3Q@mail.gmail.com> <CANNYZj9vDvj7xCBVEpzJrW54AYVGVQdcijLdDwrujTZ5xU4M_g@mail.gmail.com>
+In-Reply-To: <CANNYZj9vDvj7xCBVEpzJrW54AYVGVQdcijLdDwrujTZ5xU4M_g@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 6 Jan 2023 00:13:40 -0800
+Message-ID: <CAMKF1sqMwpGnpTt7S_Xbf0X07vtPib_W_PiUDwm0sv41UxW3+g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 09/77] tiff: update 4.4.0 -> 4.5.0
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Jan 2023 07:32:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175558
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Jan 2023 08:14:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175559
 
---0000000000004682d505f1936b9f
-Content-Type: text/plain; charset="UTF-8"
-
-On Fri, Jan 6, 2023 at 1:45 AM Khem Raj <raj.khem@gmail.com> wrote:
-
-> On Wed, Jan 4, 2023 at 11:57 PM Nicolas Dechesne
-> <nicolas.dechesne@linaro.org> wrote:
-> >
-> >
-> >
-> > On Fri, Dec 30, 2022 at 10:14 PM Khem Raj <raj.khem@gmail.com> wrote:
-> >>
-> >> On Thu, Dec 29, 2022 at 3:10 PM Richard Purdie
-> >> <richard.purdie@linuxfoundation.org> wrote:
-> >> >
-> >> > On Wed, 2022-12-28 at 23:13 -0800, Khem Raj wrote:
-> >> > > Brings following changes
-> >> > >
-> >> > > * f47a8cdd ldso: fix invalid early references to extern-linkage
-> libc.page_size
-> >> > > * 377218cb pthread_atfork: fix return value on malloc failure
-> >> > > * 29e43191 fix double-processing of DT_RELR relocations in ldso
-> relocating itself
-> >> > > * b50eb8c3 fix strverscmp comparison of digit sequence with
-> non-digits
-> >> > > * ad5dcd39 fix async thread cancellation stack alignment
-> >> > > * 8f925945 fix return value of gethostby{name[2],addr} with no
-> result but no error
-> >> > > * 63402be2 clean up dns_parse_callback
-> >> > > * 0a7b4323 dns response handling: don't treat too many addresses as
-> an error
-> >> > > * 41603c77 dns response handling: ignore presence of wrong-type RRs
-> >> > > * cf76df0e fix missing synchronization of pthread TSD keys with
-> MT-fork
-> >> > > * 5ff3eea9 fgets: avoid arithmetic overflow when n==INT_MIN is
-> passed
-> >> > > * d8f35e29 fix AS-safety of close when aio is in use and fd map is
-> expanded
-> >> > > * 26c76a90 fix use of uninitialized dummy_fut in aio_suspend
-> >> > > * aebd6a36 fix potential deadlock between multithreaded fork and aio
-> >> > > * d64148a8 fix potential unsynchronized access to killlock state at
-> thread exit
-> >> > > * 36b72cd6 fix potential deadlock in dlerror buffer handling at
-> thread exit
-> >> > > * 833a4691 configure: disable TBAA optimization because most
-> compilers are buggy
-> >> > > * e6e82132 disable MADV_FREE usage in mallocng
-> >> > > * 25e6fee2 remove LFS64 programming interfaces (macro-only) from
-> _GNU_SOURCE
-> >> > > * 246f1c81 remove LFS64 symbol aliases; replace with dynamic linker
-> remapping
-> >> > > * dec8f0a4 dns query core: detect udp truncation at recv time
-> >> > > * 8c408937 getaddrinfo dns lookup: use larger answer buffer to
-> handle long CNAMEs
-> >> > > * 759bf785 arpa/nameser.h: update RR types list
-> >> > > * 51d4669f dns: implement tcp fallback in __res_msend query core
-> >> > > * e2e95176 res_send: use a temp buffer if caller's buffer is under
-> 512 bytes
-> >> > > * c87d75f2 adapt res_msend DNS query core for working with multiple
-> sockets
-> >> > > * 85050ac5 getaddrinfo: add EAI_NODATA error code to distinguish
-> NODATA vs NxDomain
-> >> > >
-> >> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >> > > ---
-> >> > >  meta/recipes-core/musl/musl_git.bb | 2 +-
-> >> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >> > >
-> >> > > diff --git a/meta/recipes-core/musl/musl_git.bb
-> b/meta/recipes-core/musl/musl_git.bb
-> >> > > index a72d87ea6f..7749495ec6 100644
-> >> > > --- a/meta/recipes-core/musl/musl_git.bb
-> >> > > +++ b/meta/recipes-core/musl/musl_git.bb
-> >> > > @@ -4,7 +4,7 @@
-> >> > >  require musl.inc
-> >> > >  inherit linuxloader
-> >> > >
-> >> > > -SRCREV = "dc9285ad1dc19349c407072cc48ba70dab86de45"
-> >> > > +SRCREV = "f47a8cdd250d9163fcfb39bf4e9d813957c0b187"
-> >> > >
-> >> > >  BASEVER = "1.2.3"
-> >> > >
-> >> >
-> >> > I tested this with your 3 musl patches and it showed a few issues:
-> >> >
-> >> >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/6421
-> >> >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/6439
-> >> >
-> >>
-> >> I have sent fixes for all the build failures seen in these two builds.
-> >
-> >
-> > I am getting other failures since this patch was merged (
-> https://github.com/ndechesne/meta-qcom/actions/workflows/daily.yml). When
-> building e2fsprog for arm 32 bit targets. A snippet of the build log is:
-> >
-> > | arm-poky-linux-musleabi-gcc  -mthumb -mfpu=neon-vfpv4 -mfloat-abi=hard
-> -mcpu=cortex-a15 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat
-> -Wformat-security -Werror=format-security
-> --sysroot=/oe/build/tmp/work/cortexa15t2hf-neon-vfpv4-poky-linux-musleabi/e2fsprogs/1.46.5-r0/recipe-sysroot
-> -I. -I../../lib -I../../../git/lib  -O2 -pipe -g
-> -feliminate-unused-debug-types
-> -fmacro-prefix-map=/oe/build/tmp/work/cortexa15t2hf-neon-vfpv4-poky-linux-musleabi/e2fsprogs/1.46.5-r0/git=/usr/src/debug/e2fsprogs/1.46.5-r0
-> -fdebug-prefix-map=/oe/build/tmp/work/cortexa15t2hf-neon-vfpv4-poky-linux-musleabi/e2fsprogs/1.46.5-r0/git=/usr/src/debug/e2fsprogs/1.46.5-r0
-> -fmacro-prefix-map=/oe/build/tmp/work/cortexa15t2hf-neon-vfpv4-poky-linux-musleabi/e2fsprogs/1.46.5-r0/build=/usr/src/debug/e2fsprogs/1.46.5-r0
-> -fdebug-prefix-map=/oe/build/tmp/work/cortexa15t2hf-neon-vfpv4-poky-linux-musleabi/e2fsprogs/1.46.5-r0/build=/usr/src/debug/e2fsprogs/1.46.5-r0
-> -fdebug-prefix-map=/oe/build/tmp/work/cortexa15t2hf-neon-vfpv4-poky-linux-musleabi/e2fsprogs/1.46.5-r0/recipe-sysroot=
-> -fmacro-prefix-map=/oe/build/tmp/work/cortexa15t2hf-neon-vfpv4-poky-linux-musleabi/e2fsprogs/1.46.5-r0/recipe-sysroot=
-> -fdebug-prefix-map=/oe/build/tmp/work/cortexa15t2hf-neon-vfpv4-poky-linux-musleabi/e2fsprogs/1.46.5-r0/recipe-sysroot-native=
-> -pthread  -DHAVE_CONFIG_H  -c ../../../git/lib/ext2fs/lookup.c -o lookup.o
-> > | ../../../git/lib/ext2fs/llseek.c:70:22: error: expected declaration
-> specifiers or '...' before '_llseek'
-> > |    70 | static _syscall5(int,_llseek,unsigned int,fd,unsigned
-> long,offset_high,
-> > |       |                      ^~~~~~~
-> > | ../../../git/lib/ext2fs/llseek.c:70:43: error: unknown type name 'fd'
-> > |    70 | static _syscall5(int,_llseek,unsigned int,fd,unsigned
-> long,offset_high,
-> > |       |                                           ^~
-> > | ../../../git/lib/ext2fs/llseek.c:70:60: error: unknown type name
-> 'offset_high'
-> > |    70 | static _syscall5(int,_llseek,unsigned int,fd,unsigned
-> long,offset_high,
-> > |       |
-> ^~~~~~~~~~~
-> > | ../../../git/lib/ext2fs/llseek.c:71:33: error: unknown type name
-> 'offset_low'; did you mean 'offsetof'?
-> > |    71 |                  unsigned long, offset_low,ext2_loff_t
-> *,result,
-> > |       |                                 ^~~~~~~~~~
-> > |       |                                 offsetof
-> > | ../../../git/lib/ext2fs/llseek.c:71:58: error: unknown type name
-> 'result'
-> > |    71 |                  unsigned long, offset_low,ext2_loff_t
-> *,result,
-> > |       |                                                          ^~~~~~
-> > | ../../../git/lib/ext2fs/llseek.c:72:32: error: unknown type name
-> 'origin'
-> > |    72 |                  unsigned int, origin);
-> > |       |                                ^~~~~~
-> > | ../../../git/lib/ext2fs/llseek.c:67:12: warning: '_llseek' used but
-> never defined
-> > |    67 | static int _llseek (unsigned int, unsigned long,
-> > |       |            ^~~~~~~
-> > | make[2]: *** [Makefile:689: llseek.o] Error 1
-> >
-> > The last known good build was with
-> acef849931c5ab14ede40c2ea01a22027e34a335, first failure was caught with
-> 64625155eca8399f403b992ec536897f75956baa (both are Poky tree sha).
-> >
+On Thu, Jan 5, 2023 at 10:17 PM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
 >
-> Interesting, it compiled ok for qemuarm and also for rpi4(32bit), I
-> will try to reproduce it here.
+> The regression seems local to your setup. On poky, gtk4-native builds fin=
+e:
 >
+> Run-time dependency libtiff-4 found: YES 4.5.0
+>
+> Or it's caused by something else still.
 
-I am seeing the same problem in my poky/qemuarm CI:
-https://ci.linaro.org/job/lt-qcom-poky-master/604/DISTRO=poky,MACHINE=qemuarm,TCLIBC=musl/console
-
-Note that both meta-qcom and poky/qemu are using the Linaro Tux cloud
-infrastructure to build.. I will try a local build as well.
-
+debian folks are also seeing problem
+https://www.mail-archive.com/debian-bugs-dist@lists.debian.org/msg1886646.h=
+tml
 
 >
-> >>
-> >> Thanks
-> >> -Khem
-> >>
-> >> -=-=-=-=-=-=-=-=-=-=-=-
-> >> Links: You receive all messages sent to this group.
-> >> View/Reply Online (#175178):
-> https://lists.openembedded.org/g/openembedded-core/message/175178
-> >> Mute This Topic: https://lists.openembedded.org/mt/95933622/1279857
-> >> Group Owner: openembedded-core+owner@lists.openembedded.org
-> >> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> nicolas.dechesne@linaro.org]
-> >> -=-=-=-=-=-=-=-=-=-=-=-
-> >>
+> Alex
 >
-
---0000000000004682d505f1936b9f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jan 6, 2023 at 1:45 AM Khem R=
-aj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wro=
-te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed, Jan =
-4, 2023 at 11:57 PM Nicolas Dechesne<br>
-&lt;<a href=3D"mailto:nicolas.dechesne@linaro.org" target=3D"_blank">nicola=
-s.dechesne@linaro.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; On Fri, Dec 30, 2022 at 10:14 PM Khem Raj &lt;<a href=3D"mailto:raj.kh=
-em@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; On Thu, Dec 29, 2022 at 3:10 PM Richard Purdie<br>
-&gt;&gt; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=
-=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; On Wed, 2022-12-28 at 23:13 -0800, Khem Raj wrote:<br>
-&gt;&gt; &gt; &gt; Brings following changes<br>
-&gt;&gt; &gt; &gt;<br>
-&gt;&gt; &gt; &gt; * f47a8cdd ldso: fix invalid early references to extern-=
-linkage libc.page_size<br>
-&gt;&gt; &gt; &gt; * 377218cb pthread_atfork: fix return value on malloc fa=
-ilure<br>
-&gt;&gt; &gt; &gt; * 29e43191 fix double-processing of DT_RELR relocations =
-in ldso relocating itself<br>
-&gt;&gt; &gt; &gt; * b50eb8c3 fix strverscmp comparison of digit sequence w=
-ith non-digits<br>
-&gt;&gt; &gt; &gt; * ad5dcd39 fix async thread cancellation stack alignment=
-<br>
-&gt;&gt; &gt; &gt; * 8f925945 fix return value of gethostby{name[2],addr} w=
-ith no result but no error<br>
-&gt;&gt; &gt; &gt; * 63402be2 clean up dns_parse_callback<br>
-&gt;&gt; &gt; &gt; * 0a7b4323 dns response handling: don&#39;t treat too ma=
-ny addresses as an error<br>
-&gt;&gt; &gt; &gt; * 41603c77 dns response handling: ignore presence of wro=
-ng-type RRs<br>
-&gt;&gt; &gt; &gt; * cf76df0e fix missing synchronization of pthread TSD ke=
-ys with MT-fork<br>
-&gt;&gt; &gt; &gt; * 5ff3eea9 fgets: avoid arithmetic overflow when n=3D=3D=
-INT_MIN is passed<br>
-&gt;&gt; &gt; &gt; * d8f35e29 fix AS-safety of close when aio is in use and=
- fd map is expanded<br>
-&gt;&gt; &gt; &gt; * 26c76a90 fix use of uninitialized dummy_fut in aio_sus=
-pend<br>
-&gt;&gt; &gt; &gt; * aebd6a36 fix potential deadlock between multithreaded =
-fork and aio<br>
-&gt;&gt; &gt; &gt; * d64148a8 fix potential unsynchronized access to killlo=
-ck state at thread exit<br>
-&gt;&gt; &gt; &gt; * 36b72cd6 fix potential deadlock in dlerror buffer hand=
-ling at thread exit<br>
-&gt;&gt; &gt; &gt; * 833a4691 configure: disable TBAA optimization because =
-most compilers are buggy<br>
-&gt;&gt; &gt; &gt; * e6e82132 disable MADV_FREE usage in mallocng<br>
-&gt;&gt; &gt; &gt; * 25e6fee2 remove LFS64 programming interfaces (macro-on=
-ly) from _GNU_SOURCE<br>
-&gt;&gt; &gt; &gt; * 246f1c81 remove LFS64 symbol aliases; replace with dyn=
-amic linker remapping<br>
-&gt;&gt; &gt; &gt; * dec8f0a4 dns query core: detect udp truncation at recv=
- time<br>
-&gt;&gt; &gt; &gt; * 8c408937 getaddrinfo dns lookup: use larger answer buf=
-fer to handle long CNAMEs<br>
-&gt;&gt; &gt; &gt; * 759bf785 arpa/nameser.h: update RR types list<br>
-&gt;&gt; &gt; &gt; * 51d4669f dns: implement tcp fallback in __res_msend qu=
-ery core<br>
-&gt;&gt; &gt; &gt; * e2e95176 res_send: use a temp buffer if caller&#39;s b=
-uffer is under 512 bytes<br>
-&gt;&gt; &gt; &gt; * c87d75f2 adapt res_msend DNS query core for working wi=
-th multiple sockets<br>
-&gt;&gt; &gt; &gt; * 85050ac5 getaddrinfo: add EAI_NODATA error code to dis=
-tinguish NODATA vs NxDomain<br>
-&gt;&gt; &gt; &gt;<br>
-&gt;&gt; &gt; &gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@g=
-mail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
-&gt;&gt; &gt; &gt; ---<br>
-&gt;&gt; &gt; &gt;=C2=A0 meta/recipes-core/musl/<a href=3D"http://musl_git.=
-bb" rel=3D"noreferrer" target=3D"_blank">musl_git.bb</a> | 2 +-<br>
-&gt;&gt; &gt; &gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt;&gt; &gt; &gt;<br>
-&gt;&gt; &gt; &gt; diff --git a/meta/recipes-core/musl/<a href=3D"http://mu=
-sl_git.bb" rel=3D"noreferrer" target=3D"_blank">musl_git.bb</a> b/meta/reci=
-pes-core/musl/<a href=3D"http://musl_git.bb" rel=3D"noreferrer" target=3D"_=
-blank">musl_git.bb</a><br>
-&gt;&gt; &gt; &gt; index a72d87ea6f..7749495ec6 100644<br>
-&gt;&gt; &gt; &gt; --- a/meta/recipes-core/musl/<a href=3D"http://musl_git.=
-bb" rel=3D"noreferrer" target=3D"_blank">musl_git.bb</a><br>
-&gt;&gt; &gt; &gt; +++ b/meta/recipes-core/musl/<a href=3D"http://musl_git.=
-bb" rel=3D"noreferrer" target=3D"_blank">musl_git.bb</a><br>
-&gt;&gt; &gt; &gt; @@ -4,7 +4,7 @@<br>
-&gt;&gt; &gt; &gt;=C2=A0 require musl.inc<br>
-&gt;&gt; &gt; &gt;=C2=A0 inherit linuxloader<br>
-&gt;&gt; &gt; &gt;<br>
-&gt;&gt; &gt; &gt; -SRCREV =3D &quot;dc9285ad1dc19349c407072cc48ba70dab86de=
-45&quot;<br>
-&gt;&gt; &gt; &gt; +SRCREV =3D &quot;f47a8cdd250d9163fcfb39bf4e9d813957c0b1=
-87&quot;<br>
-&gt;&gt; &gt; &gt;<br>
-&gt;&gt; &gt; &gt;=C2=A0 BASEVER =3D &quot;1.2.3&quot;<br>
-&gt;&gt; &gt; &gt;<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; I tested this with your 3 musl patches and it showed a few is=
-sues:<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/bui=
-lders/64/builds/6421" rel=3D"noreferrer" target=3D"_blank">https://autobuil=
-der.yoctoproject.org/typhoon/#/builders/64/builds/6421</a><br>
-&gt;&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/bui=
-lders/45/builds/6439" rel=3D"noreferrer" target=3D"_blank">https://autobuil=
-der.yoctoproject.org/typhoon/#/builders/45/builds/6439</a><br>
-&gt;&gt; &gt;<br>
-&gt;&gt;<br>
-&gt;&gt; I have sent fixes for all the build failures seen in these two bui=
-lds.<br>
-&gt;<br>
-&gt;<br>
-&gt; I am getting other failures since this patch was merged (<a href=3D"ht=
-tps://github.com/ndechesne/meta-qcom/actions/workflows/daily.yml" rel=3D"no=
-referrer" target=3D"_blank">https://github.com/ndechesne/meta-qcom/actions/=
-workflows/daily.yml</a>). When building e2fsprog for arm 32 bit targets. A =
-snippet of the build log is:<br>
-&gt;<br>
-&gt; | arm-poky-linux-musleabi-gcc=C2=A0 -mthumb -mfpu=3Dneon-vfpv4 -mfloat=
--abi=3Dhard -mcpu=3Dcortex-a15 -fstack-protector-strong=C2=A0 -O2 -D_FORTIF=
-Y_SOURCE=3D2 -Wformat -Wformat-security -Werror=3Dformat-security --sysroot=
-=3D/oe/build/tmp/work/cortexa15t2hf-neon-vfpv4-poky-linux-musleabi/e2fsprog=
-s/1.46.5-r0/recipe-sysroot -I. -I../../lib -I../../../git/lib=C2=A0 -O2 -pi=
-pe -g -feliminate-unused-debug-types -fmacro-prefix-map=3D/oe/build/tmp/wor=
-k/cortexa15t2hf-neon-vfpv4-poky-linux-musleabi/e2fsprogs/1.46.5-r0/git=3D/u=
-sr/src/debug/e2fsprogs/1.46.5-r0=C2=A0 -fdebug-prefix-map=3D/oe/build/tmp/w=
-ork/cortexa15t2hf-neon-vfpv4-poky-linux-musleabi/e2fsprogs/1.46.5-r0/git=3D=
-/usr/src/debug/e2fsprogs/1.46.5-r0=C2=A0 -fmacro-prefix-map=3D/oe/build/tmp=
-/work/cortexa15t2hf-neon-vfpv4-poky-linux-musleabi/e2fsprogs/1.46.5-r0/buil=
-d=3D/usr/src/debug/e2fsprogs/1.46.5-r0=C2=A0 -fdebug-prefix-map=3D/oe/build=
-/tmp/work/cortexa15t2hf-neon-vfpv4-poky-linux-musleabi/e2fsprogs/1.46.5-r0/=
-build=3D/usr/src/debug/e2fsprogs/1.46.5-r0=C2=A0 -fdebug-prefix-map=3D/oe/b=
-uild/tmp/work/cortexa15t2hf-neon-vfpv4-poky-linux-musleabi/e2fsprogs/1.46.5=
--r0/recipe-sysroot=3D=C2=A0 -fmacro-prefix-map=3D/oe/build/tmp/work/cortexa=
-15t2hf-neon-vfpv4-poky-linux-musleabi/e2fsprogs/1.46.5-r0/recipe-sysroot=3D=
-=C2=A0 -fdebug-prefix-map=3D/oe/build/tmp/work/cortexa15t2hf-neon-vfpv4-pok=
-y-linux-musleabi/e2fsprogs/1.46.5-r0/recipe-sysroot-native=3D=C2=A0 -pthrea=
-d=C2=A0 -DHAVE_CONFIG_H=C2=A0 -c ../../../git/lib/ext2fs/lookup.c -o lookup=
-.o<br>
-&gt; | ../../../git/lib/ext2fs/llseek.c:70:22: error: expected declaration =
-specifiers or &#39;...&#39; before &#39;_llseek&#39;<br>
-&gt; |=C2=A0 =C2=A0 70 | static _syscall5(int,_llseek,unsigned int,fd,unsig=
-ned long,offset_high,<br>
-&gt; |=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^~~~~~~<br>
-&gt; | ../../../git/lib/ext2fs/llseek.c:70:43: error: unknown type name &#3=
-9;fd&#39;<br>
-&gt; |=C2=A0 =C2=A0 70 | static _syscall5(int,_llseek,unsigned int,fd,unsig=
-ned long,offset_high,<br>
-&gt; |=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^~<br>
-&gt; | ../../../git/lib/ext2fs/llseek.c:70:60: error: unknown type name &#3=
-9;offset_high&#39;<br>
-&gt; |=C2=A0 =C2=A0 70 | static _syscall5(int,_llseek,unsigned int,fd,unsig=
-ned long,offset_high,<br>
-&gt; |=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 ^~~~~~~~~~~<br>
-&gt; | ../../../git/lib/ext2fs/llseek.c:71:33: error: unknown type name &#3=
-9;offset_low&#39;; did you mean &#39;offsetof&#39;?<br>
-&gt; |=C2=A0 =C2=A0 71 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 unsigned long, offset_low,ext2_loff_t *,result,<br>
-&gt; |=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0^~~~~~~~~~<br>
-&gt; |=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0offsetof<br>
-&gt; | ../../../git/lib/ext2fs/llseek.c:71:58: error: unknown type name &#3=
-9;result&#39;<br>
-&gt; |=C2=A0 =C2=A0 71 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 unsigned long, offset_low,ext2_loff_t *,result,<br>
-&gt; |=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 ^~~~~~<br>
-&gt; | ../../../git/lib/ext2fs/llseek.c:72:32: error: unknown type name &#3=
-9;origin&#39;<br>
-&gt; |=C2=A0 =C2=A0 72 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 unsigned int, origin);<br>
-&gt; |=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^~~~=
-~~<br>
-&gt; | ../../../git/lib/ext2fs/llseek.c:67:12: warning: &#39;_llseek&#39; u=
-sed but never defined<br>
-&gt; |=C2=A0 =C2=A0 67 | static int _llseek (unsigned int, unsigned long,<b=
-r>
-&gt; |=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- ^~~~~~~<br>
-&gt; | make[2]: *** [Makefile:689: llseek.o] Error 1<br>
-&gt;<br>
-&gt; The last known good build was with acef849931c5ab14ede40c2ea01a22027e3=
-4a335, first failure was caught with 64625155eca8399f403b992ec536897f75956b=
-aa (both are Poky tree sha).<br>
-&gt;<br>
-<br>
-Interesting, it compiled ok for qemuarm and also for rpi4(32bit), I<br>
-will try to reproduce it here.<br></blockquote><div><br></div><div>I am see=
-ing the same problem in my poky/qemuarm CI:</div><div><a href=3D"https://ci=
-.linaro.org/job/lt-qcom-poky-master/604/DISTRO=3Dpoky,MACHINE=3Dqemuarm,TCL=
-IBC=3Dmusl/console">https://ci.linaro.org/job/lt-qcom-poky-master/604/DISTR=
-O=3Dpoky,MACHINE=3Dqemuarm,TCLIBC=3Dmusl/console</a></div><div><br></div><d=
-iv>Note that both meta-qcom and poky/qemu are using the Linaro Tux cloud in=
-frastructure to build.. I will try a local build as well.=C2=A0</div><div>=
-=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-&gt;&gt;<br>
-&gt;&gt; Thanks<br>
-&gt;&gt; -Khem<br>
-&gt;&gt;<br>
-&gt;&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;&gt; Links: You receive all messages sent to this group.<br>
-&gt;&gt; View/Reply Online (#175178): <a href=3D"https://lists.openembedded=
-.org/g/openembedded-core/message/175178" rel=3D"noreferrer" target=3D"_blan=
-k">https://lists.openembedded.org/g/openembedded-core/message/175178</a><br=
->
-&gt;&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/9593=
-3622/1279857" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedd=
-ed.org/mt/95933622/1279857</a><br>
-&gt;&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.ope=
-nembedded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded=
-.org</a><br>
-&gt;&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembed=
-ded-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembe=
-dded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:nicolas.dechesne@=
-linaro.org" target=3D"_blank">nicolas.dechesne@linaro.org</a>]<br>
-&gt;&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;&gt;<br>
-</blockquote></div></div>
-
---0000000000004682d505f1936b9f--
+> On Fri, 6 Jan 2023 at 04:12, Khem Raj <raj.khem@gmail.com> wrote:
+> >
+> > This regresses building gtk4-native. meson/configure fails
+> >
+> > Found CMake: /mnt/b/yoe/master/build/tmp/work/x86_64-linux/gtk4-native/=
+4.8.2-r0/recipe-sysroot-native/usr/bin/cmake
+> > (3.25.1)
+> > Run-time dependency libtiff-4 found: NO (tried pkgconfig and cmake)
+> > Looking for a fallback subproject for the dependency libtiff-4
+> >
+> > ../gtk-4.8.2/meson.build:427:0: ERROR: Automatic wrap-based subproject
+> > downloading is disabled
+> >
+> > On Wed, Jan 4, 2023 at 3:06 AM Alexander Kanavin <alex.kanavin@gmail.co=
+m> wrote:
+> > >
+> > > Drop all CVE backports.
+> > >
+> > > License-Update: formatting
+> > >
+> > > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> > > ---
+> > >  ...-of-TIFFTAG_INKNAMES-and-related-TIF.patch | 266 -------
+> > >  ...-the-FPE-in-tiffcrop-415-427-and-428.patch | 184 -----
+> > >  ...fcrop-S-option-Make-decision-simpler.patch |  36 -
+> > >  ...-incompatibility-of-Z-X-Y-z-options-.patch |  59 --
+> > >  ...ines-require-a-larger-buffer-fixes-2.patch | 653 ----------------=
+--
+> > >  .../libtiff/files/CVE-2022-2953.patch         |  86 ---
+> > >  .../libtiff/files/CVE-2022-34526.patch        |  32 -
+> > >  .../libtiff/files/CVE-2022-3970.patch         |  39 --
+> > >  .../libtiff/{tiff_4.4.0.bb =3D> tiff_4.5.0.bb}  |  17 +-
+> > >  9 files changed, 4 insertions(+), 1368 deletions(-)
+> > >  delete mode 100644 meta/recipes-multimedia/libtiff/files/0001-Revise=
+d-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch
+> > >  delete mode 100644 meta/recipes-multimedia/libtiff/files/0001-fix-th=
+e-FPE-in-tiffcrop-415-427-and-428.patch
+> > >  delete mode 100644 meta/recipes-multimedia/libtiff/files/0001-tiffcr=
+op-S-option-Make-decision-simpler.patch
+> > >  delete mode 100644 meta/recipes-multimedia/libtiff/files/0001-tiffcr=
+op-disable-incompatibility-of-Z-X-Y-z-options-.patch
+> > >  delete mode 100644 meta/recipes-multimedia/libtiff/files/0001-tiffcr=
+op-subroutines-require-a-larger-buffer-fixes-2.patch
+> > >  delete mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2022-29=
+53.patch
+> > >  delete mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2022-34=
+526.patch
+> > >  delete mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2022-39=
+70.patch
+> > >  rename meta/recipes-multimedia/libtiff/{tiff_4.4.0.bb =3D> tiff_4.5.=
+0.bb} (75%)
+> > >
+> > > diff --git a/meta/recipes-multimedia/libtiff/files/0001-Revised-handl=
+ing-of-TIFFTAG_INKNAMES-and-related-TIF.patch b/meta/recipes-multimedia/lib=
+tiff/files/0001-Revised-handling-of-TIFFTAG_INKNAMES-and-related-TIF.patch
+> > > deleted file mode 100644
+> > > index ce72c86120..0000000000
+> > > --- a/meta/recipes-multimedia/libtiff/files/0001-Revised-handling-of-=
+TIFFTAG_INKNAMES-and-related-TIF.patch
+> > > +++ /dev/null
+> > > @@ -1,266 +0,0 @@
+> > > -CVE: CVE-2022-3599
+> > > -Upstream-Status: Backport
+> > > -Signed-off-by: Ross Burton <ross.burton@arm.com>
+> > > -
+> > > -From f00484b9519df933723deb38fff943dc291a793d Mon Sep 17 00:00:00 20=
+01
+> > > -From: Su_Laus <sulau@freenet.de>
+> > > -Date: Tue, 30 Aug 2022 16:56:48 +0200
+> > > -Subject: [PATCH] Revised handling of TIFFTAG_INKNAMES and related
+> > > - TIFFTAG_NUMBEROFINKS value
+> > > -
+> > > -In order to solve the buffer overflow issues related to TIFFTAG_INKN=
+AMES and related TIFFTAG_NUMBEROFINKS value, a revised handling of those ta=
+gs within LibTiff is proposed:
+> > > -
+> > > -Behaviour for writing:
+> > > -    `NumberOfInks`  MUST fit to the number of inks in the `InkNames`=
+ string.
+> > > -    `NumberOfInks` is automatically set when `InkNames` is set.
+> > > -    If `NumberOfInks` is different to the number of inks within `Ink=
+Names` string, that will be corrected and a warning is issued.
+> > > -    If `NumberOfInks` is not equal to samplesperpixel only a warning=
+ will be issued.
+> > > -
+> > > -Behaviour for reading:
+> > > -    When reading `InkNames` from a TIFF file, the `NumberOfInks` wil=
+l be set automatically to the number of inks in `InkNames` string.
+> > > -    If `NumberOfInks` is different to the number of inks within `Ink=
+Names` string, that will be corrected and a warning is issued.
+> > > -    If  `NumberOfInks` is not equal to samplesperpixel only a warnin=
+g will be issued.
+> > > -
+> > > -This allows the safe use of the NumberOfInks value to read out the I=
+nkNames without buffer overflow
+> > > -
+> > > -This MR will close the following issues:  #149, #150, #152, #168 (to=
+ be checked), #250, #269, #398 and #456.
+> > > -
+> > > -It also fixes the old bug at http://bugzilla.maptools.org/show_bug.c=
+gi?id=3D2599, for which the limitation of `NumberOfInks =3D SPP` was introd=
+uced, which is in my opinion not necessary and does not solve the general i=
+ssue.
+> > > ----
+> > > - libtiff/tif_dir.c      | 119 ++++++++++++++++++++++++--------------=
+---
+> > > - libtiff/tif_dir.h      |   2 +
+> > > - libtiff/tif_dirinfo.c  |   2 +-
+> > > - libtiff/tif_dirwrite.c |   5 ++
+> > > - libtiff/tif_print.c    |   4 ++
+> > > - 5 files changed, 82 insertions(+), 50 deletions(-)
+> > > -
+> > > -diff --git a/libtiff/tif_dir.c b/libtiff/tif_dir.c
+> > > -index 793e8a79..816f7756 100644
+> > > ---- a/libtiff/tif_dir.c
+> > > -+++ b/libtiff/tif_dir.c
+> > > -@@ -136,32 +136,30 @@ setExtraSamples(TIFF* tif, va_list ap, uint32_=
+t* v)
+> > > - }
+> > > -
+> > > - /*
+> > > -- * Confirm we have "samplesperpixel" ink names separated by \0.  Re=
+turns
+> > > -+ * Count ink names separated by \0.  Returns
+> > > -  * zero if the ink names are not as expected.
+> > > -  */
+> > > --static uint32_t
+> > > --checkInkNamesString(TIFF* tif, uint32_t slen, const char* s)
+> > > -+static uint16_t
+> > > -+countInkNamesString(TIFF *tif, uint32_t slen, const char *s)
+> > > - {
+> > > --      TIFFDirectory* td =3D &tif->tif_dir;
+> > > --      uint16_t i =3D td->td_samplesperpixel;
+> > > -+      uint16_t i =3D 0;
+> > > -+      const char *ep =3D s + slen;
+> > > -+      const char *cp =3D s;
+> > > -
+> > > -       if (slen > 0) {
+> > > --              const char* ep =3D s+slen;
+> > > --              const char* cp =3D s;
+> > > --              for (; i > 0; i--) {
+> > > -+              do {
+> > > -                       for (; cp < ep && *cp !=3D '\0'; cp++) {}
+> > > -                       if (cp >=3D ep)
+> > > -                               goto bad;
+> > > -                       cp++;                           /* skip \0 */
+> > > --              }
+> > > --              return ((uint32_t)(cp - s));
+> > > -+                      i++;
+> > > -+              } while (cp < ep);
+> > > -+              return (i);
+> > > -       }
+> > > - bad:
+> > > -       TIFFErrorExt(tif->tif_clientdata, "TIFFSetField",
+> > > --          "%s: Invalid InkNames value; expecting %"PRIu16" names, f=
+ound %"PRIu16,
+> > > --          tif->tif_name,
+> > > --          td->td_samplesperpixel,
+> > > --          (uint16_t)(td->td_samplesperpixel-i));
+> > > -+              "%s: Invalid InkNames value; no NUL at given buffer e=
+nd location %"PRIu32", after %"PRIu16" ink",
+> > > -+              tif->tif_name, slen, i);
+> > > -       return (0);
+> > > - }
+> > > -
+> > > -@@ -478,13 +476,61 @@ _TIFFVSetField(TIFF* tif, uint32_t tag, va_lis=
+t ap)
+> > > -               _TIFFsetFloatArray(&td->td_refblackwhite, va_arg(ap, =
+float*), 6);
+> > > -               break;
+> > > -       case TIFFTAG_INKNAMES:
+> > > --              v =3D (uint16_t) va_arg(ap, uint16_vap);
+> > > --              s =3D va_arg(ap, char*);
+> > > --              v =3D checkInkNamesString(tif, v, s);
+> > > --              status =3D v > 0;
+> > > --              if( v > 0 ) {
+> > > --                      _TIFFsetNString(&td->td_inknames, s, v);
+> > > --                      td->td_inknameslen =3D v;
+> > > -+              {
+> > > -+                      v =3D (uint16_t) va_arg(ap, uint16_vap);
+> > > -+                      s =3D va_arg(ap, char*);
+> > > -+                      uint16_t ninksinstring;
+> > > -+                      ninksinstring =3D countInkNamesString(tif, v,=
+ s);
+> > > -+                      status =3D ninksinstring > 0;
+> > > -+                      if(ninksinstring > 0 ) {
+> > > -+                              _TIFFsetNString(&td->td_inknames, s, =
+v);
+> > > -+                              td->td_inknameslen =3D v;
+> > > -+                              /* Set NumberOfInks to the value nink=
+sinstring */
+> > > -+                              if (TIFFFieldSet(tif, FIELD_NUMBEROFI=
+NKS))
+> > > -+                              {
+> > > -+                                      if (td->td_numberofinks !=3D =
+ninksinstring) {
+> > > -+                                              TIFFErrorExt(tif->tif=
+_clientdata, module,
+> > > -+                                                      "Warning %s; =
+Tag %s:\n  Value %"PRIu16" of NumberOfInks is different from the number of =
+inks %"PRIu16".\n  -> NumberOfInks value adapted to %"PRIu16"",
+> > > -+                                                      tif->tif_name=
+, fip->field_name, td->td_numberofinks, ninksinstring, ninksinstring);
+> > > -+                                              td->td_numberofinks =
+=3D ninksinstring;
+> > > -+                                      }
+> > > -+                              } else {
+> > > -+                                      td->td_numberofinks =3D ninks=
+instring;
+> > > -+                                      TIFFSetFieldBit(tif, FIELD_NU=
+MBEROFINKS);
+> > > -+                              }
+> > > -+                              if (TIFFFieldSet(tif, FIELD_SAMPLESPE=
+RPIXEL))
+> > > -+                              {
+> > > -+                                      if (td->td_numberofinks !=3D =
+td->td_samplesperpixel) {
+> > > -+                                              TIFFErrorExt(tif->tif=
+_clientdata, module,
+> > > -+                                                      "Warning %s; =
+Tag %s:\n  Value %"PRIu16" of NumberOfInks is different from the SamplesPer=
+Pixel value %"PRIu16"",
+> > > -+                                                      tif->tif_name=
+, fip->field_name, td->td_numberofinks, td->td_samplesperpixel);
+> > > -+                                      }
+> > > -+                              }
+> > > -+                      }
+> > > -+              }
+> > > -+              break;
+> > > -+      case TIFFTAG_NUMBEROFINKS:
+> > > -+              v =3D (uint16_t)va_arg(ap, uint16_vap);
+> > > -+              /* If InkNames already set also NumberOfInks is set a=
+ccordingly and should be equal */
+> > > -+              if (TIFFFieldSet(tif, FIELD_INKNAMES))
+> > > -+              {
+> > > -+                      if (v !=3D td->td_numberofinks) {
+> > > -+                              TIFFErrorExt(tif->tif_clientdata, mod=
+ule,
+> > > -+                                      "Error %s; Tag %s:\n  It is n=
+ot possible to set the value %"PRIu32" for NumberOfInks\n  which is differe=
+nt from the number of inks in the InkNames tag (%"PRIu16")",
+> > > -+                                      tif->tif_name, fip->field_nam=
+e, v, td->td_numberofinks);
+> > > -+                              /* Do not set / overwrite number of i=
+nks already set by InkNames case accordingly. */
+> > > -+                              status =3D 0;
+> > > -+                      }
+> > > -+              } else {
+> > > -+                      td->td_numberofinks =3D (uint16_t)v;
+> > > -+                      if (TIFFFieldSet(tif, FIELD_SAMPLESPERPIXEL))
+> > > -+                      {
+> > > -+                              if (td->td_numberofinks !=3D td->td_s=
+amplesperpixel) {
+> > > -+                                      TIFFErrorExt(tif->tif_clientd=
+ata, module,
+> > > -+                                              "Warning %s; Tag %s:\=
+n  Value %"PRIu32" of NumberOfInks is different from the SamplesPerPixel va=
+lue %"PRIu16"",
+> > > -+                                              tif->tif_name, fip->f=
+ield_name, v, td->td_samplesperpixel);
+> > > -+                              }
+> > > -+                      }
+> > > -               }
+> > > -               break;
+> > > -       case TIFFTAG_PERSAMPLE:
+> > > -@@ -986,34 +1032,6 @@ _TIFFVGetField(TIFF* tif, uint32_t tag, va_lis=
+t ap)
+> > > -       if (fip->field_bit =3D=3D FIELD_CUSTOM) {
+> > > -               standard_tag =3D 0;
+> > > -       }
+> > > --
+> > > --        if( standard_tag =3D=3D TIFFTAG_NUMBEROFINKS )
+> > > --        {
+> > > --            int i;
+> > > --            for (i =3D 0; i < td->td_customValueCount; i++) {
+> > > --                uint16_t val;
+> > > --                TIFFTagValue *tv =3D td->td_customValues + i;
+> > > --                if (tv->info->field_tag !=3D standard_tag)
+> > > --                    continue;
+> > > --                if( tv->value =3D=3D NULL )
+> > > --                    return 0;
+> > > --                val =3D *(uint16_t *)tv->value;
+> > > --                /* Truncate to SamplesPerPixel, since the */
+> > > --                /* setting code for INKNAMES assume that there are =
+SamplesPerPixel */
+> > > --                /* inknames. */
+> > > --                /* Fixes http://bugzilla.maptools.org/show_bug.cgi?=
+id=3D2599 */
+> > > --                if( val > td->td_samplesperpixel )
+> > > --                {
+> > > --                    TIFFWarningExt(tif->tif_clientdata,"_TIFFVGetFi=
+eld",
+> > > --                                   "Truncating NumberOfInks from %u=
+ to %"PRIu16,
+> > > --                                   val, td->td_samplesperpixel);
+> > > --                    val =3D td->td_samplesperpixel;
+> > > --                }
+> > > --                *va_arg(ap, uint16_t*) =3D val;
+> > > --                return 1;
+> > > --            }
+> > > --            return 0;
+> > > --        }
+> > > -
+> > > -       switch (standard_tag) {
+> > > -               case TIFFTAG_SUBFILETYPE:
+> > > -@@ -1195,6 +1213,9 @@ _TIFFVGetField(TIFF* tif, uint32_t tag, va_lis=
+t ap)
+> > > -               case TIFFTAG_INKNAMES:
+> > > -                       *va_arg(ap, const char**) =3D td->td_inknames=
+;
+> > > -                       break;
+> > > -+              case TIFFTAG_NUMBEROFINKS:
+> > > -+                      *va_arg(ap, uint16_t *) =3D td->td_numberofin=
+ks;
+> > > -+                      break;
+> > > -               default:
+> > > -                       {
+> > > -                               int i;
+> > > -diff --git a/libtiff/tif_dir.h b/libtiff/tif_dir.h
+> > > -index 09065648..0c251c9e 100644
+> > > ---- a/libtiff/tif_dir.h
+> > > -+++ b/libtiff/tif_dir.h
+> > > -@@ -117,6 +117,7 @@ typedef struct {
+> > > -       /* CMYK parameters */
+> > > -       int     td_inknameslen;
+> > > -       char*   td_inknames;
+> > > -+      uint16_t td_numberofinks;                 /* number of inks i=
+n InkNames string */
+> > > -
+> > > -       int     td_customValueCount;
+> > > -         TIFFTagValue *td_customValues;
+> > > -@@ -174,6 +175,7 @@ typedef struct {
+> > > - #define FIELD_TRANSFERFUNCTION         44
+> > > - #define FIELD_INKNAMES                 46
+> > > - #define FIELD_SUBIFD                   49
+> > > -+#define FIELD_NUMBEROFINKS             50
+> > > - /*      FIELD_CUSTOM (see tiffio.h)    65 */
+> > > - /* end of support for well-known tags; codec-private tags follow */
+> > > - #define FIELD_CODEC                    66  /* base of codec-private=
+ tags */
+> > > -diff --git a/libtiff/tif_dirinfo.c b/libtiff/tif_dirinfo.c
+> > > -index 3371cb5c..3b4bcd33 100644
+> > > ---- a/libtiff/tif_dirinfo.c
+> > > -+++ b/libtiff/tif_dirinfo.c
+> > > -@@ -114,7 +114,7 @@ tiffFields[] =3D {
+> > > -       { TIFFTAG_SUBIFD, -1, -1, TIFF_IFD8, 0, TIFF_SETGET_C16_IFD8,=
+ TIFF_SETGET_UNDEFINED, FIELD_SUBIFD, 1, 1, "SubIFD", (TIFFFieldArray*) &ti=
+ffFieldArray },
+> > > -       { TIFFTAG_INKSET, 1, 1, TIFF_SHORT, 0, TIFF_SETGET_UINT16, TI=
+FF_SETGET_UNDEFINED, FIELD_CUSTOM, 0, 0, "InkSet", NULL },
+> > > -       { TIFFTAG_INKNAMES, -1, -1, TIFF_ASCII, 0, TIFF_SETGET_C16_AS=
+CII, TIFF_SETGET_UNDEFINED, FIELD_INKNAMES, 1, 1, "InkNames", NULL },
+> > > --      { TIFFTAG_NUMBEROFINKS, 1, 1, TIFF_SHORT, 0, TIFF_SETGET_UINT=
+16, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 0, "NumberOfInks", NULL },
+> > > -+      { TIFFTAG_NUMBEROFINKS, 1, 1, TIFF_SHORT, 0, TIFF_SETGET_UINT=
+16, TIFF_SETGET_UNDEFINED, FIELD_NUMBEROFINKS, 1, 0, "NumberOfInks", NULL }=
+,
+> > > -       { TIFFTAG_DOTRANGE, 2, 2, TIFF_SHORT, 0, TIFF_SETGET_UINT16_P=
+AIR, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 0, 0, "DotRange", NULL },
+> > > -       { TIFFTAG_TARGETPRINTER, -1, -1, TIFF_ASCII, 0, TIFF_SETGET_A=
+SCII, TIFF_SETGET_UNDEFINED, FIELD_CUSTOM, 1, 0, "TargetPrinter", NULL },
+> > > -       { TIFFTAG_EXTRASAMPLES, -1, -1, TIFF_SHORT, 0, TIFF_SETGET_C1=
+6_UINT16, TIFF_SETGET_UNDEFINED, FIELD_EXTRASAMPLES, 0, 1, "ExtraSamples", =
+NULL },
+> > > -diff --git a/libtiff/tif_dirwrite.c b/libtiff/tif_dirwrite.c
+> > > -index 6c86fdca..062e4610 100644
+> > > ---- a/libtiff/tif_dirwrite.c
+> > > -+++ b/libtiff/tif_dirwrite.c
+> > > -@@ -626,6 +626,11 @@ TIFFWriteDirectorySec(TIFF* tif, int isimage, i=
+nt imagedone, uint64_t* pdiroff)
+> > > -                               if (!TIFFWriteDirectoryTagAscii(tif,&=
+ndir,dir,TIFFTAG_INKNAMES,tif->tif_dir.td_inknameslen,tif->tif_dir.td_inkna=
+mes))
+> > > -                                       goto bad;
+> > > -                       }
+> > > -+                      if (TIFFFieldSet(tif, FIELD_NUMBEROFINKS))
+> > > -+                      {
+> > > -+                              if (!TIFFWriteDirectoryTagShort(tif, =
+&ndir, dir, TIFFTAG_NUMBEROFINKS, tif->tif_dir.td_numberofinks))
+> > > -+                                      goto bad;
+> > > -+                      }
+> > > -                       if (TIFFFieldSet(tif,FIELD_SUBIFD))
+> > > -                       {
+> > > -                               if (!TIFFWriteDirectoryTagSubifd(tif,=
+&ndir,dir))
+> > > -diff --git a/libtiff/tif_print.c b/libtiff/tif_print.c
+> > > -index 16ce5780..a91b9e7b 100644
+> > > ---- a/libtiff/tif_print.c
+> > > -+++ b/libtiff/tif_print.c
+> > > -@@ -397,6 +397,10 @@ TIFFPrintDirectory(TIFF* tif, FILE* fd, long fl=
+ags)
+> > > -               }
+> > > -                 fputs("\n", fd);
+> > > -       }
+> > > -+      if (TIFFFieldSet(tif, FIELD_NUMBEROFINKS)) {
+> > > -+              fprintf(fd, "  NumberOfInks: %d\n",
+> > > -+                      td->td_numberofinks);
+> > > -+      }
+> > > -       if (TIFFFieldSet(tif,FIELD_THRESHHOLDING)) {
+> > > -               fprintf(fd, "  Thresholding: ");
+> > > -               switch (td->td_threshholding) {
+> > > ---
+> > > -2.34.1
+> > > -
+> > > diff --git a/meta/recipes-multimedia/libtiff/files/0001-fix-the-FPE-i=
+n-tiffcrop-415-427-and-428.patch b/meta/recipes-multimedia/libtiff/files/00=
+01-fix-the-FPE-in-tiffcrop-415-427-and-428.patch
+> > > deleted file mode 100644
+> > > index c7c5f616ed..0000000000
+> > > --- a/meta/recipes-multimedia/libtiff/files/0001-fix-the-FPE-in-tiffc=
+rop-415-427-and-428.patch
+> > > +++ /dev/null
+> > > @@ -1,184 +0,0 @@
+> > > -CVE: CVE-2022-2056 CVE-2022-2057 CVE-2022-2058
+> > > -Upstream-Status: Backport
+> > > -Signed-off-by: Ross Burton <ross.burton@arm.com>
+> > > -
+> > > -From 22a205da86ca2d038d0066e1d70752d117258fb4 Mon Sep 17 00:00:00 20=
+01
+> > > -From: 4ugustus <wangdw.augustus@qq.com>
+> > > -Date: Sat, 11 Jun 2022 09:31:43 +0000
+> > > -Subject: [PATCH] fix the FPE in tiffcrop (#415, #427, and #428)
+> > > -
+> > > ----
+> > > - libtiff/tif_aux.c |  9 +++++++
+> > > - libtiff/tiffiop.h |  1 +
+> > > - tools/tiffcrop.c  | 62 ++++++++++++++++++++++++++------------------=
+---
+> > > - 3 files changed, 44 insertions(+), 28 deletions(-)
+> > > -
+> > > -diff --git a/libtiff/tif_aux.c b/libtiff/tif_aux.c
+> > > -index 140f26c7..5b88c8d0 100644
+> > > ---- a/libtiff/tif_aux.c
+> > > -+++ b/libtiff/tif_aux.c
+> > > -@@ -402,6 +402,15 @@ float _TIFFClampDoubleToFloat( double val )
+> > > -     return (float)val;
+> > > - }
+> > > -
+> > > -+uint32_t _TIFFClampDoubleToUInt32(double val)
+> > > -+{
+> > > -+    if( val < 0 )
+> > > -+        return 0;
+> > > -+    if( val > 0xFFFFFFFFU || val !=3D val )
+> > > -+        return 0xFFFFFFFFU;
+> > > -+    return (uint32_t)val;
+> > > -+}
+> > > -+
+> > > - int _TIFFSeekOK(TIFF* tif, toff_t off)
+> > > - {
+> > > -     /* Huge offsets, especially -1 / UINT64_MAX, can cause issues *=
+/
+> > > -diff --git a/libtiff/tiffiop.h b/libtiff/tiffiop.h
+> > > -index e3af461d..4e8bdac2 100644
+> > > ---- a/libtiff/tiffiop.h
+> > > -+++ b/libtiff/tiffiop.h
+> > > -@@ -365,6 +365,7 @@ extern double _TIFFUInt64ToDouble(uint64_t);
+> > > - extern float _TIFFUInt64ToFloat(uint64_t);
+> > > -
+> > > - extern float _TIFFClampDoubleToFloat(double);
+> > > -+extern uint32_t _TIFFClampDoubleToUInt32(double);
+> > > -
+> > > - extern tmsize_t
+> > > - _TIFFReadEncodedStripAndAllocBuffer(TIFF* tif, uint32_t strip,
+> > > -diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
+> > > -index 1f827b2b..90286a5e 100644
+> > > ---- a/tools/tiffcrop.c
+> > > -+++ b/tools/tiffcrop.c
+> > > -@@ -5268,17 +5268,17 @@ computeInputPixelOffsets(struct crop_mask *c=
+rop, struct image_data *image,
+> > > -       {
+> > > -       if ((crop->res_unit =3D=3D RESUNIT_INCH) || (crop->res_unit =
+=3D=3D RESUNIT_CENTIMETER))
+> > > -         {
+> > > --      x1 =3D (uint32_t) (crop->corners[i].X1 * scale * xres);
+> > > --      x2 =3D (uint32_t) (crop->corners[i].X2 * scale * xres);
+> > > --      y1 =3D (uint32_t) (crop->corners[i].Y1 * scale * yres);
+> > > --      y2 =3D (uint32_t) (crop->corners[i].Y2 * scale * yres);
+> > > -+      x1 =3D _TIFFClampDoubleToUInt32(crop->corners[i].X1 * scale *=
+ xres);
+> > > -+      x2 =3D _TIFFClampDoubleToUInt32(crop->corners[i].X2 * scale *=
+ xres);
+> > > -+      y1 =3D _TIFFClampDoubleToUInt32(crop->corners[i].Y1 * scale *=
+ yres);
+> > > -+      y2 =3D _TIFFClampDoubleToUInt32(crop->corners[i].Y2 * scale *=
+ yres);
+> > > -         }
+> > > -       else
+> > > -         {
+> > > --      x1 =3D (uint32_t) (crop->corners[i].X1);
+> > > --      x2 =3D (uint32_t) (crop->corners[i].X2);
+> > > --      y1 =3D (uint32_t) (crop->corners[i].Y1);
+> > > --      y2 =3D (uint32_t) (crop->corners[i].Y2);
+> > > -+      x1 =3D _TIFFClampDoubleToUInt32(crop->corners[i].X1);
+> > > -+      x2 =3D _TIFFClampDoubleToUInt32(crop->corners[i].X2);
+> > > -+      y1 =3D _TIFFClampDoubleToUInt32(crop->corners[i].Y1);
+> > > -+      y2 =3D _TIFFClampDoubleToUInt32(crop->corners[i].Y2);
+> > > -       }
+> > > -       /* a) Region needs to be within image sizes 0.. width-1; 0..l=
+ength-1
+> > > -        * b) Corners are expected to be submitted as top-left to bot=
+tom-right.
+> > > -@@ -5357,17 +5357,17 @@ computeInputPixelOffsets(struct crop_mask *c=
+rop, struct image_data *image,
+> > > -     {
+> > > -     if (crop->res_unit !=3D RESUNIT_INCH && crop->res_unit !=3D RES=
+UNIT_CENTIMETER)
+> > > -       { /* User has specified pixels as reference unit */
+> > > --      tmargin =3D (uint32_t)(crop->margins[0]);
+> > > --      lmargin =3D (uint32_t)(crop->margins[1]);
+> > > --      bmargin =3D (uint32_t)(crop->margins[2]);
+> > > --      rmargin =3D (uint32_t)(crop->margins[3]);
+> > > -+      tmargin =3D _TIFFClampDoubleToUInt32(crop->margins[0]);
+> > > -+      lmargin =3D _TIFFClampDoubleToUInt32(crop->margins[1]);
+> > > -+      bmargin =3D _TIFFClampDoubleToUInt32(crop->margins[2]);
+> > > -+      rmargin =3D _TIFFClampDoubleToUInt32(crop->margins[3]);
+> > > -       }
+> > > -     else
+> > > -       { /* inches or centimeters specified */
+> > > --      tmargin =3D (uint32_t)(crop->margins[0] * scale * yres);
+> > > --      lmargin =3D (uint32_t)(crop->margins[1] * scale * xres);
+> > > --      bmargin =3D (uint32_t)(crop->margins[2] * scale * yres);
+> > > --      rmargin =3D (uint32_t)(crop->margins[3] * scale * xres);
+> > > -+      tmargin =3D _TIFFClampDoubleToUInt32(crop->margins[0] * scale=
+ * yres);
+> > > -+      lmargin =3D _TIFFClampDoubleToUInt32(crop->margins[1] * scale=
+ * xres);
+> > > -+      bmargin =3D _TIFFClampDoubleToUInt32(crop->margins[2] * scale=
+ * yres);
+> > > -+      rmargin =3D _TIFFClampDoubleToUInt32(crop->margins[3] * scale=
+ * xres);
+> > > -       }
+> > > -
+> > > -     if ((lmargin + rmargin) > image->width)
+> > > -@@ -5397,24 +5397,24 @@ computeInputPixelOffsets(struct crop_mask *c=
+rop, struct image_data *image,
+> > > -   if (crop->res_unit !=3D RESUNIT_INCH && crop->res_unit !=3D RESUN=
+IT_CENTIMETER)
+> > > -     {
+> > > -     if (crop->crop_mode & CROP_WIDTH)
+> > > --      width =3D (uint32_t)crop->width;
+> > > -+      width =3D _TIFFClampDoubleToUInt32(crop->width);
+> > > -     else
+> > > -       width =3D image->width - lmargin - rmargin;
+> > > -
+> > > -     if (crop->crop_mode & CROP_LENGTH)
+> > > --      length  =3D (uint32_t)crop->length;
+> > > -+      length  =3D _TIFFClampDoubleToUInt32(crop->length);
+> > > -     else
+> > > -       length =3D image->length - tmargin - bmargin;
+> > > -     }
+> > > -   else
+> > > -     {
+> > > -     if (crop->crop_mode & CROP_WIDTH)
+> > > --      width =3D (uint32_t)(crop->width * scale * image->xres);
+> > > -+      width =3D _TIFFClampDoubleToUInt32(crop->width * scale * imag=
+e->xres);
+> > > -     else
+> > > -       width =3D image->width - lmargin - rmargin;
+> > > -
+> > > -     if (crop->crop_mode & CROP_LENGTH)
+> > > --      length  =3D (uint32_t)(crop->length * scale * image->yres);
+> > > -+      length  =3D _TIFFClampDoubleToUInt32(crop->length * scale * i=
+mage->yres);
+> > > -     else
+> > > -       length =3D image->length - tmargin - bmargin;
+> > > -     }
+> > > -@@ -5868,13 +5868,13 @@ computeOutputPixelOffsets (struct crop_mask =
+*crop, struct image_data *image,
+> > > -     {
+> > > -     if (page->res_unit =3D=3D RESUNIT_INCH || page->res_unit =3D=3D=
+ RESUNIT_CENTIMETER)
+> > > -       { /* inches or centimeters specified */
+> > > --      hmargin =3D (uint32_t)(page->hmargin * scale * page->hres * (=
+(image->bps + 7) / 8));
+> > > --      vmargin =3D (uint32_t)(page->vmargin * scale * page->vres * (=
+(image->bps + 7) / 8));
+> > > -+      hmargin =3D _TIFFClampDoubleToUInt32(page->hmargin * scale * =
+page->hres * ((image->bps + 7) / 8));
+> > > -+      vmargin =3D _TIFFClampDoubleToUInt32(page->vmargin * scale * =
+page->vres * ((image->bps + 7) / 8));
+> > > -       }
+> > > -     else
+> > > -       { /* Otherwise user has specified pixels as reference unit */
+> > > --      hmargin =3D (uint32_t)(page->hmargin * scale * ((image->bps +=
+ 7) / 8));
+> > > --      vmargin =3D (uint32_t)(page->vmargin * scale * ((image->bps +=
+ 7) / 8));
+> > > -+      hmargin =3D _TIFFClampDoubleToUInt32(page->hmargin * scale * =
+((image->bps + 7) / 8));
+> > > -+      vmargin =3D _TIFFClampDoubleToUInt32(page->vmargin * scale * =
+((image->bps + 7) / 8));
+> > > -       }
+> > > -
+> > > -     if ((hmargin * 2.0) > (pwidth * page->hres))
+> > > -@@ -5912,13 +5912,13 @@ computeOutputPixelOffsets (struct crop_mask =
+*crop, struct image_data *image,
+> > > -     {
+> > > -     if (page->mode & PAGE_MODE_PAPERSIZE )
+> > > -       {
+> > > --      owidth  =3D (uint32_t)((pwidth * page->hres) - (hmargin * 2))=
+;
+> > > --      olength =3D (uint32_t)((plength * page->vres) - (vmargin * 2)=
+);
+> > > -+      owidth  =3D _TIFFClampDoubleToUInt32((pwidth * page->hres) - =
+(hmargin * 2));
+> > > -+      olength =3D _TIFFClampDoubleToUInt32((plength * page->vres) -=
+ (vmargin * 2));
+> > > -       }
+> > > -     else
+> > > -       {
+> > > --      owidth =3D (uint32_t)(iwidth - (hmargin * 2 * page->hres));
+> > > --      olength =3D (uint32_t)(ilength - (vmargin * 2 * page->vres));
+> > > -+      owidth =3D _TIFFClampDoubleToUInt32(iwidth - (hmargin * 2 * p=
+age->hres));
+> > > -+      olength =3D _TIFFClampDoubleToUInt32(ilength - (vmargin * 2 *=
+ page->vres));
+> > > -       }
+> > > -     }
+> > > -
+> > > -@@ -5927,6 +5927,12 @@ computeOutputPixelOffsets (struct crop_mask *=
+crop, struct image_data *image,
+> > > -   if (olength > ilength)
+> > > -     olength =3D ilength;
+> > > -
+> > > -+  if (owidth =3D=3D 0 || olength =3D=3D 0)
+> > > -+  {
+> > > -+    TIFFError("computeOutputPixelOffsets", "Integer overflow when c=
+alculating the number of pages");
+> > > -+    exit(EXIT_FAILURE);
+> > > -+  }
+> > > -+
+> > > -   /* Compute the number of pages required for Portrait or Landscape=
+ */
+> > > -   switch (page->orient)
+> > > -     {
+> > > ---
+> > > -2.34.1
+> > > -
+> > > diff --git a/meta/recipes-multimedia/libtiff/files/0001-tiffcrop-S-op=
+tion-Make-decision-simpler.patch b/meta/recipes-multimedia/libtiff/files/00=
+01-tiffcrop-S-option-Make-decision-simpler.patch
+> > > deleted file mode 100644
+> > > index 02642ecfbc..0000000000
+> > > --- a/meta/recipes-multimedia/libtiff/files/0001-tiffcrop-S-option-Ma=
+ke-decision-simpler.patch
+> > > +++ /dev/null
+> > > @@ -1,36 +0,0 @@
+> > > -Upstream-Status: Backport
+> > > -Signed-off-by: Ross Burton <ross.burton@arm.com>
+> > > -
+> > > -From bad48e90b410df32172006c7876da449ba62cdba Mon Sep 17 00:00:00 20=
+01
+> > > -From: Su_Laus <sulau@freenet.de>
+> > > -Date: Sat, 20 Aug 2022 23:35:26 +0200
+> > > -Subject: [PATCH] tiffcrop -S option: Make decision simpler.
+> > > -
+> > > ----
+> > > - tools/tiffcrop.c | 10 +++++-----
+> > > - 1 file changed, 5 insertions(+), 5 deletions(-)
+> > > -
+> > > -diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
+> > > -index c3b758ec..8fd856dc 100644
+> > > ---- a/tools/tiffcrop.c
+> > > -+++ b/tools/tiffcrop.c
+> > > -@@ -2133,11 +2133,11 @@ void  process_command_opts (int argc, char *=
+argv[], char *mp, char *mode, uint32
+> > > -     }
+> > > -     /*-- Check for not allowed combinations (e.g. -X, -Y and -Z, -z=
+ and -S are mutually exclusive) --*/
+> > > -     char XY, Z, R, S;
+> > > --    XY =3D ((crop_data->crop_mode & CROP_WIDTH) || (crop_data->crop=
+_mode & CROP_LENGTH));
+> > > --    Z =3D (crop_data->crop_mode & CROP_ZONES);
+> > > --    R =3D (crop_data->crop_mode & CROP_REGIONS);
+> > > --    S =3D (page->mode & PAGE_MODE_ROWSCOLS);
+> > > --    if ((XY && Z) || (XY && R) || (XY && S) || (Z && R) || (Z && S)=
+ || (R && S)) {
+> > > -+    XY =3D ((crop_data->crop_mode & CROP_WIDTH) || (crop_data->crop=
+_mode & CROP_LENGTH)) ? 1 : 0;
+> > > -+    Z =3D (crop_data->crop_mode & CROP_ZONES) ? 1 : 0;
+> > > -+    R =3D (crop_data->crop_mode & CROP_REGIONS) ? 1 : 0;
+> > > -+    S =3D (page->mode & PAGE_MODE_ROWSCOLS) ? 1 : 0;
+> > > -+    if (XY + Z + R + S > 1) {
+> > > -         TIFFError("tiffcrop input error", "The crop options(-X|-Y),=
+ -Z, -z and -S are mutually exclusive.->Exit");
+> > > -         exit(EXIT_FAILURE);
+> > > -     }
+> > > ---
+> > > -2.34.1
+> > > -
+> > > diff --git a/meta/recipes-multimedia/libtiff/files/0001-tiffcrop-disa=
+ble-incompatibility-of-Z-X-Y-z-options-.patch b/meta/recipes-multimedia/lib=
+tiff/files/0001-tiffcrop-disable-incompatibility-of-Z-X-Y-z-options-.patch
+> > > deleted file mode 100644
+> > > index 3e33f4adea..0000000000
+> > > --- a/meta/recipes-multimedia/libtiff/files/0001-tiffcrop-disable-inc=
+ompatibility-of-Z-X-Y-z-options-.patch
+> > > +++ /dev/null
+> > > @@ -1,59 +0,0 @@
+> > > -CVE: CVE-2022-3597 CVE-2022-3626 CVE-2022-3627
+> > > -Upstream-Status: Backport
+> > > -Signed-off-by: Ross Burton <ross.burton@arm.com>
+> > > -
+> > > -From 4746f16253b784287bc8a5003990c1c3b9a03a62 Mon Sep 17 00:00:00 20=
+01
+> > > -From: Su_Laus <sulau@freenet.de>
+> > > -Date: Thu, 25 Aug 2022 16:11:41 +0200
+> > > -Subject: [PATCH] tiffcrop: disable incompatibility of -Z, -X, -Y, -z=
+ options
+> > > - with any PAGE_MODE_x option (fixes #411 and #413)
+> > > -MIME-Version: 1.0
+> > > -Content-Type: text/plain; charset=3DUTF-8
+> > > -Content-Transfer-Encoding: 8bit
+> > > -
+> > > -tiffcrop does not support =E2=80=93Z, -z, -X and =E2=80=93Y options =
+together with any other PAGE_MODE_x options like  -H, -V, -P, -J, -K or =E2=
+=80=93S.
+> > > -
+> > > -Code analysis:
+> > > -
+> > > -With the options =E2=80=93Z, -z, the crop.selections are set to a va=
+lue > 0. Within main(), this triggers the call of processCropSelections(), =
+which copies the sections from the read_buff into seg_buffs[].
+> > > -In the following code in main(), the only supported step, where that=
+ seg_buffs are further handled are within an if-clause with  if (page.mode =
+=3D=3D PAGE_MODE_NONE) .
+> > > -
+> > > -Execution of the else-clause often leads to buffer-overflows.
+> > > -
+> > > -Therefore, the above option combination is not supported and will be=
+ disabled to prevent those buffer-overflows.
+> > > -
+> > > -The MR solves issues #411 and #413.
+> > > ----
+> > > - doc/tools/tiffcrop.rst |  8 ++++++++
+> > > - tools/tiffcrop.c       | 32 +++++++++++++++++++++++++-------
+> > > - 2 files changed, 33 insertions(+), 7 deletions(-)
+> > > -
+> > > -diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
+> > > -index 8fd856dc..41a2ea36 100644
+> > > ---- a/tools/tiffcrop.c
+> > > -+++ b/tools/tiffcrop.c
+> > > -@@ -2138,9 +2143,20 @@ void  process_command_opts (int argc, char *a=
+rgv[], char *mp, char *mode, uint32
+> > > -     R =3D (crop_data->crop_mode & CROP_REGIONS) ? 1 : 0;
+> > > -     S =3D (page->mode & PAGE_MODE_ROWSCOLS) ? 1 : 0;
+> > > -     if (XY + Z + R + S > 1) {
+> > > --        TIFFError("tiffcrop input error", "The crop options(-X|-Y),=
+ -Z, -z and -S are mutually exclusive.->Exit");
+> > > -+        TIFFError("tiffcrop input error", "The crop options(-X|-Y),=
+ -Z, -z and -S are mutually exclusive.->exit");
+> > > -         exit(EXIT_FAILURE);
+> > > -     }
+> > > -+
+> > > -+    /* Check for not allowed combination:
+> > > -+     * Any of the -X, -Y, -Z and -z options together with other PAG=
+E_MODE_x options
+> > > -+     * such as -H, -V, -P, -J or -K are not supported and may cause=
+ buffer overflows.
+> > > -+.    */
+> > > -+    if ((XY + Z + R > 0) && page->mode !=3D PAGE_MODE_NONE) {
+> > > -+        TIFFError("tiffcrop input error",
+> > > -+            "Any of the crop options -X, -Y, -Z and -z together wit=
+h other PAGE_MODE_x options such as - H, -V, -P, -J or -K is not supported =
+and may cause buffer overflows..->exit");
+> > > -+        exit(EXIT_FAILURE);
+> > > -+    }
+> > > -+
+> > > -   }  /* end process_command_opts */
+> > > -
+> > > - /* Start a new output file if one has not been previously opened or
+> > > ---
+> > > -2.34.1
+> > > -
+> > > diff --git a/meta/recipes-multimedia/libtiff/files/0001-tiffcrop-subr=
+outines-require-a-larger-buffer-fixes-2.patch b/meta/recipes-multimedia/lib=
+tiff/files/0001-tiffcrop-subroutines-require-a-larger-buffer-fixes-2.patch
+> > > deleted file mode 100644
+> > > index e44b9bc57c..0000000000
+> > > --- a/meta/recipes-multimedia/libtiff/files/0001-tiffcrop-subroutines=
+-require-a-larger-buffer-fixes-2.patch
+> > > +++ /dev/null
+> > > @@ -1,653 +0,0 @@
+> > > -CVE: CVE-2022-3570 CVE-2022-3598
+> > > -Upstream-Status: Backport
+> > > -Signed-off-by: Ross Burton <ross.burton@arm.com>
+> > > -
+> > > -From afd7086090dafd3949afd172822cbcec4ed17d56 Mon Sep 17 00:00:00 20=
+01
+> > > -From: Su Laus <sulau@freenet.de>
+> > > -Date: Thu, 13 Oct 2022 14:33:27 +0000
+> > > -Subject: [PATCH] tiffcrop subroutines require a larger buffer (fixes=
+ #271,
+> > > - #381, #386, #388, #389, #435)
+> > > -
+> > > ----
+> > > - tools/tiffcrop.c | 209 ++++++++++++++++++++++++++------------------=
+---
+> > > - 1 file changed, 118 insertions(+), 91 deletions(-)
+> > > -
+> > > -diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
+> > > -index 41a2ea36..deab5feb 100644
+> > > ---- a/tools/tiffcrop.c
+> > > -+++ b/tools/tiffcrop.c
+> > > -@@ -212,6 +212,10 @@ static   char tiffcrop_rev_date[] =3D "26-08-20=
+22";
+> > > -
+> > > - #define TIFF_DIR_MAX  65534
+> > > -
+> > > -+/* Some conversion subroutines require image buffers, which are at =
+least 3 bytes
+> > > -+ * larger than the necessary size for the image itself. */
+> > > -+#define NUM_BUFF_OVERSIZE_BYTES   3
+> > > -+
+> > > - /* Offsets into buffer for margins and fixed width and length segme=
+nts */
+> > > - struct offset {
+> > > -   uint32_t  tmargin;
+> > > -@@ -233,7 +237,7 @@ struct offset {
+> > > -  */
+> > > -
+> > > - struct  buffinfo {
+> > > --  uint32_t size;           /* size of this buffer */
+> > > -+  size_t size;           /* size of this buffer */
+> > > -   unsigned char *buffer; /* address of the allocated buffer */
+> > > - };
+> > > -
+> > > -@@ -810,8 +814,8 @@ static int readContigTilesIntoBuffer (TIFF* in, =
+uint8_t* buf,
+> > > -   uint32_t dst_rowsize, shift_width;
+> > > -   uint32_t bytes_per_sample, bytes_per_pixel;
+> > > -   uint32_t trailing_bits, prev_trailing_bits;
+> > > --  uint32_t tile_rowsize  =3D TIFFTileRowSize(in);
+> > > --  uint32_t src_offset, dst_offset;
+> > > -+  tmsize_t tile_rowsize  =3D TIFFTileRowSize(in);
+> > > -+  tmsize_t src_offset, dst_offset;
+> > > -   uint32_t row_offset, col_offset;
+> > > -   uint8_t *bufp =3D (uint8_t*) buf;
+> > > -   unsigned char *src =3D NULL;
+> > > -@@ -861,7 +865,7 @@ static int readContigTilesIntoBuffer (TIFF* in, =
+uint8_t* buf,
+> > > -       TIFFError("readContigTilesIntoBuffer", "Integer overflow when=
+ calculating buffer size.");
+> > > -       exit(EXIT_FAILURE);
+> > > -   }
+> > > --  tilebuf =3D limitMalloc(tile_buffsize + 3);
+> > > -+  tilebuf =3D limitMalloc(tile_buffsize + NUM_BUFF_OVERSIZE_BYTES);
+> > > -   if (tilebuf =3D=3D 0)
+> > > -     return 0;
+> > > -   tilebuf[tile_buffsize] =3D 0;
+> > > -@@ -1024,7 +1028,7 @@ static int  readSeparateTilesIntoBuffer (TIFF*=
+ in, uint8_t *obuf,
+> > > -   for (sample =3D 0; (sample < spp) && (sample < MAX_SAMPLES); samp=
+le++)
+> > > -     {
+> > > -     srcbuffs[sample] =3D NULL;
+> > > --    tbuff =3D (unsigned char *)limitMalloc(tilesize + 8);
+> > > -+    tbuff =3D (unsigned char *)limitMalloc(tilesize + NUM_BUFF_OVER=
+SIZE_BYTES);
+> > > -     if (!tbuff)
+> > > -       {
+> > > -       TIFFError ("readSeparateTilesIntoBuffer",
+> > > -@@ -1217,7 +1221,8 @@ writeBufferToSeparateStrips (TIFF* out, uint8_=
+t* buf,
+> > > -   }
+> > > -   rowstripsize =3D rowsperstrip * bytes_per_sample * (width + 1);
+> > > -
+> > > --  obuf =3D limitMalloc (rowstripsize);
+> > > -+  /* Add 3 padding bytes for extractContigSamples32bits */
+> > > -+  obuf =3D limitMalloc (rowstripsize + NUM_BUFF_OVERSIZE_BYTES);
+> > > -   if (obuf =3D=3D NULL)
+> > > -     return 1;
+> > > -
+> > > -@@ -1229,7 +1234,7 @@ writeBufferToSeparateStrips (TIFF* out, uint8_=
+t* buf,
+> > > -
+> > > -       stripsize =3D TIFFVStripSize(out, nrows);
+> > > -       src =3D buf + (row * rowsize);
+> > > --      memset (obuf, '\0', rowstripsize);
+> > > -+      memset (obuf, '\0',rowstripsize + NUM_BUFF_OVERSIZE_BYTES);
+> > > -       if (extractContigSamplesToBuffer(obuf, src, nrows, width, s, =
+spp, bps, dump))
+> > > -         {
+> > > -         _TIFFfree(obuf);
+> > > -@@ -1237,10 +1242,15 @@ writeBufferToSeparateStrips (TIFF* out, uint=
+8_t* buf,
+> > > -       }
+> > > -       if ((dump->outfile !=3D NULL) && (dump->level =3D=3D 1))
+> > > -         {
+> > > --        dump_info(dump->outfile, dump->format,"",
+> > > -+          if (scanlinesize > 0x0ffffffffULL) {
+> > > -+              dump_info(dump->infile, dump->format, "loadImage",
+> > > -+                  "Attention: scanlinesize %"PRIu64" is larger than=
+ UINT32_MAX.\nFollowing dump might be wrong.",
+> > > -+                  scanlinesize);
+> > > -+          }
+> > > -+          dump_info(dump->outfile, dump->format,"",
+> > > -                   "Sample %2d, Strip: %2d, bytes: %4d, Row %4d, byt=
+es: %4d, Input offset: %6d",
+> > > --                  s + 1, strip + 1, stripsize, row + 1, scanlinesiz=
+e, src - buf);
+> > > --        dump_buffer(dump->outfile, dump->format, nrows, scanlinesiz=
+e, row, obuf);
+> > > -+                  s + 1, strip + 1, stripsize, row + 1, (uint32_t)s=
+canlinesize, src - buf);
+> > > -+        dump_buffer(dump->outfile, dump->format, nrows, (uint32_t)s=
+canlinesize, row, obuf);
+> > > -       }
+> > > -
+> > > -       if (TIFFWriteEncodedStrip(out, strip++, obuf, stripsize) < 0)
+> > > -@@ -1267,7 +1277,7 @@ static int writeBufferToContigTiles (TIFF* out=
+, uint8_t* buf, uint32_t imageleng
+> > > -   uint32_t tl, tw;
+> > > -   uint32_t row, col, nrow, ncol;
+> > > -   uint32_t src_rowsize, col_offset;
+> > > --  uint32_t tile_rowsize  =3D TIFFTileRowSize(out);
+> > > -+  tmsize_t tile_rowsize  =3D TIFFTileRowSize(out);
+> > > -   uint8_t* bufp =3D (uint8_t*) buf;
+> > > -   tsize_t tile_buffsize =3D 0;
+> > > -   tsize_t tilesize =3D TIFFTileSize(out);
+> > > -@@ -1310,9 +1320,11 @@ static int writeBufferToContigTiles (TIFF* ou=
+t, uint8_t* buf, uint32_t imageleng
+> > > -   }
+> > > -   src_rowsize =3D ((imagewidth * spp * bps) + 7U) / 8;
+> > > -
+> > > --  tilebuf =3D limitMalloc(tile_buffsize);
+> > > -+  /* Add 3 padding bytes for extractContigSamples32bits */
+> > > -+  tilebuf =3D limitMalloc(tile_buffsize + NUM_BUFF_OVERSIZE_BYTES);
+> > > -   if (tilebuf =3D=3D 0)
+> > > -     return 1;
+> > > -+  memset(tilebuf, 0, tile_buffsize + NUM_BUFF_OVERSIZE_BYTES);
+> > > -   for (row =3D 0; row < imagelength; row +=3D tl)
+> > > -     {
+> > > -     nrow =3D (row + tl > imagelength) ? imagelength - row : tl;
+> > > -@@ -1358,7 +1370,8 @@ static int writeBufferToSeparateTiles (TIFF* o=
+ut, uint8_t* buf, uint32_t imagele
+> > > -                                        uint32_t imagewidth, tsample=
+_t spp,
+> > > -                                        struct dump_opts * dump)
+> > > -   {
+> > > --  tdata_t obuf =3D limitMalloc(TIFFTileSize(out));
+> > > -+  /* Add 3 padding bytes for extractContigSamples32bits */
+> > > -+  tdata_t obuf =3D limitMalloc(TIFFTileSize(out) + NUM_BUFF_OVERSIZ=
+E_BYTES);
+> > > -   uint32_t tl, tw;
+> > > -   uint32_t row, col, nrow, ncol;
+> > > -   uint32_t src_rowsize, col_offset;
+> > > -@@ -1368,6 +1381,7 @@ static int writeBufferToSeparateTiles (TIFF* o=
+ut, uint8_t* buf, uint32_t imagele
+> > > -
+> > > -   if (obuf =3D=3D NULL)
+> > > -     return 1;
+> > > -+  memset(obuf, 0, TIFFTileSize(out) + NUM_BUFF_OVERSIZE_BYTES);
+> > > -
+> > > -   if( !TIFFGetField(out, TIFFTAG_TILELENGTH, &tl) ||
+> > > -       !TIFFGetField(out, TIFFTAG_TILEWIDTH, &tw) ||
+> > > -@@ -1793,14 +1807,14 @@ void  process_command_opts (int argc, char *=
+argv[], char *mp, char *mode, uint32
+> > > -
+> > > -                     *opt_offset =3D '\0';
+> > > -                     /* convert option to lowercase */
+> > > --                    end =3D strlen (opt_ptr);
+> > > -+                    end =3D (unsigned int)strlen (opt_ptr);
+> > > -                     for (i =3D 0; i < end; i++)
+> > > -                       *(opt_ptr + i) =3D tolower((int) *(opt_ptr + =
+i));
+> > > -                     /* Look for dump format specification */
+> > > -                     if (strncmp(opt_ptr, "for", 3) =3D=3D 0)
+> > > -                       {
+> > > -                     /* convert value to lowercase */
+> > > --                      end =3D strlen (opt_offset + 1);
+> > > -+                      end =3D (unsigned int)strlen (opt_offset + 1)=
+;
+> > > -                       for (i =3D 1; i <=3D end; i++)
+> > > -                         *(opt_offset + i) =3D tolower((int) *(opt_o=
+ffset + i));
+> > > -                       /* check dump format value */
+> > > -@@ -2273,6 +2287,8 @@ main(int argc, char* argv[])
+> > > -   size_t length;
+> > > -   char   temp_filename[PATH_MAX + 16]; /* Extra space keeps the com=
+piler from complaining */
+> > > -
+> > > -+  assert(NUM_BUFF_OVERSIZE_BYTES >=3D 3);
+> > > -+
+> > > -   little_endian =3D *((unsigned char *)&little_endian) & '1';
+> > > -
+> > > -   initImageData(&image);
+> > > -@@ -3227,13 +3243,13 @@ extractContigSamples32bits (uint8_t *in, uin=
+t8_t *out, uint32_t cols,
+> > > -       /* If we have a full buffer's worth, write it out */
+> > > -       if (ready_bits >=3D 32)
+> > > -         {
+> > > --        bytebuff1 =3D (buff2 >> 56);
+> > > -+        bytebuff1 =3D (uint8_t)(buff2 >> 56);
+> > > -         *dst++ =3D bytebuff1;
+> > > --        bytebuff2 =3D (buff2 >> 48);
+> > > -+        bytebuff2 =3D (uint8_t)(buff2 >> 48);
+> > > -         *dst++ =3D bytebuff2;
+> > > --        bytebuff3 =3D (buff2 >> 40);
+> > > -+        bytebuff3 =3D (uint8_t)(buff2 >> 40);
+> > > -         *dst++ =3D bytebuff3;
+> > > --        bytebuff4 =3D (buff2 >> 32);
+> > > -+        bytebuff4 =3D (uint8_t)(buff2 >> 32);
+> > > -         *dst++ =3D bytebuff4;
+> > > -         ready_bits -=3D 32;
+> > > -
+> > > -@@ -3642,13 +3658,13 @@ extractContigSamplesShifted32bits (uint8_t *=
+in, uint8_t *out, uint32_t cols,
+> > > -         }
+> > > -       else  /* If we have a full buffer's worth, write it out */
+> > > -         {
+> > > --        bytebuff1 =3D (buff2 >> 56);
+> > > -+        bytebuff1 =3D (uint8_t)(buff2 >> 56);
+> > > -         *dst++ =3D bytebuff1;
+> > > --        bytebuff2 =3D (buff2 >> 48);
+> > > -+        bytebuff2 =3D (uint8_t)(buff2 >> 48);
+> > > -         *dst++ =3D bytebuff2;
+> > > --        bytebuff3 =3D (buff2 >> 40);
+> > > -+        bytebuff3 =3D (uint8_t)(buff2 >> 40);
+> > > -         *dst++ =3D bytebuff3;
+> > > --        bytebuff4 =3D (buff2 >> 32);
+> > > -+        bytebuff4 =3D (uint8_t)(buff2 >> 32);
+> > > -         *dst++ =3D bytebuff4;
+> > > -         ready_bits -=3D 32;
+> > > -
+> > > -@@ -3825,10 +3841,10 @@ extractContigSamplesToTileBuffer(uint8_t *ou=
+t, uint8_t *in, uint32_t rows, uint3
+> > > - static int readContigStripsIntoBuffer (TIFF* in, uint8_t* buf)
+> > > - {
+> > > -         uint8_t* bufp =3D buf;
+> > > --        int32_t  bytes_read =3D 0;
+> > > -+        tmsize_t  bytes_read =3D 0;
+> > > -         uint32_t strip, nstrips   =3D TIFFNumberOfStrips(in);
+> > > --        uint32_t stripsize =3D TIFFStripSize(in);
+> > > --        uint32_t rows =3D 0;
+> > > -+        tmsize_t stripsize =3D TIFFStripSize(in);
+> > > -+        tmsize_t rows =3D 0;
+> > > -         uint32_t rps =3D TIFFGetFieldDefaulted(in, TIFFTAG_ROWSPERS=
+TRIP, &rps);
+> > > -         tsize_t scanline_size =3D TIFFScanlineSize(in);
+> > > -
+> > > -@@ -3841,11 +3857,11 @@ static int readContigStripsIntoBuffer (TIFF*=
+ in, uint8_t* buf)
+> > > -                 bytes_read =3D TIFFReadEncodedStrip (in, strip, buf=
+p, -1);
+> > > -                 rows =3D bytes_read / scanline_size;
+> > > -                 if ((strip < (nstrips - 1)) && (bytes_read !=3D (in=
+t32_t)stripsize))
+> > > --                        TIFFError("", "Strip %"PRIu32": read %"PRId=
+32" bytes, strip size %"PRIu32,
+> > > -+                        TIFFError("", "Strip %"PRIu32": read %"PRId=
+64" bytes, strip size %"PRIu64,
+> > > -                                   strip + 1, bytes_read, stripsize)=
+;
+> > > -
+> > > -                 if (bytes_read < 0 && !ignore) {
+> > > --                        TIFFError("", "Error reading strip %"PRIu32=
+" after %"PRIu32" rows",
+> > > -+                        TIFFError("", "Error reading strip %"PRIu32=
+" after %"PRIu64" rows",
+> > > -                                   strip, rows);
+> > > -                         return 0;
+> > > -                 }
+> > > -@@ -4310,13 +4326,13 @@ combineSeparateSamples32bits (uint8_t *in[],=
+ uint8_t *out, uint32_t cols,
+> > > -       /* If we have a full buffer's worth, write it out */
+> > > -       if (ready_bits >=3D 32)
+> > > -         {
+> > > --        bytebuff1 =3D (buff2 >> 56);
+> > > -+        bytebuff1 =3D (uint8_t)(buff2 >> 56);
+> > > -         *dst++ =3D bytebuff1;
+> > > --        bytebuff2 =3D (buff2 >> 48);
+> > > -+        bytebuff2 =3D (uint8_t)(buff2 >> 48);
+> > > -         *dst++ =3D bytebuff2;
+> > > --        bytebuff3 =3D (buff2 >> 40);
+> > > -+        bytebuff3 =3D (uint8_t)(buff2 >> 40);
+> > > -         *dst++ =3D bytebuff3;
+> > > --        bytebuff4 =3D (buff2 >> 32);
+> > > -+        bytebuff4 =3D (uint8_t)(buff2 >> 32);
+> > > -         *dst++ =3D bytebuff4;
+> > > -         ready_bits -=3D 32;
+> > > -
+> > > -@@ -4359,10 +4375,10 @@ combineSeparateSamples32bits (uint8_t *in[],=
+ uint8_t *out, uint32_t cols,
+> > > -                "Row %3d, Col %3d, Src byte offset %3d  bit offset %=
+2d  Dst offset %3d",
+> > > -                row + 1, col + 1, src_byte, src_bit, dst - out);
+> > > -
+> > > --      dump_long (dumpfile, format, "Match bits ", matchbits);
+> > > -+      dump_wide (dumpfile, format, "Match bits ", matchbits);
+> > > -       dump_data (dumpfile, format, "Src   bits ", src, 4);
+> > > --      dump_long (dumpfile, format, "Buff1 bits ", buff1);
+> > > --      dump_long (dumpfile, format, "Buff2 bits ", buff2);
+> > > -+      dump_wide (dumpfile, format, "Buff1 bits ", buff1);
+> > > -+      dump_wide (dumpfile, format, "Buff2 bits ", buff2);
+> > > -       dump_byte (dumpfile, format, "Write bits1", bytebuff1);
+> > > -       dump_byte (dumpfile, format, "Write bits2", bytebuff2);
+> > > -       dump_info (dumpfile, format, "", "Ready bits:  %2d", ready_bi=
+ts);
+> > > -@@ -4835,13 +4851,13 @@ combineSeparateTileSamples32bits (uint8_t *i=
+n[], uint8_t *out, uint32_t cols,
+> > > -       /* If we have a full buffer's worth, write it out */
+> > > -       if (ready_bits >=3D 32)
+> > > -         {
+> > > --        bytebuff1 =3D (buff2 >> 56);
+> > > -+        bytebuff1 =3D (uint8_t)(buff2 >> 56);
+> > > -         *dst++ =3D bytebuff1;
+> > > --        bytebuff2 =3D (buff2 >> 48);
+> > > -+        bytebuff2 =3D (uint8_t)(buff2 >> 48);
+> > > -         *dst++ =3D bytebuff2;
+> > > --        bytebuff3 =3D (buff2 >> 40);
+> > > -+        bytebuff3 =3D (uint8_t)(buff2 >> 40);
+> > > -         *dst++ =3D bytebuff3;
+> > > --        bytebuff4 =3D (buff2 >> 32);
+> > > -+        bytebuff4 =3D (uint8_t)(buff2 >> 32);
+> > > -         *dst++ =3D bytebuff4;
+> > > -         ready_bits -=3D 32;
+> > > -
+> > > -@@ -4884,10 +4900,10 @@ combineSeparateTileSamples32bits (uint8_t *i=
+n[], uint8_t *out, uint32_t cols,
+> > > -                "Row %3d, Col %3d, Src byte offset %3d  bit offset %=
+2d  Dst offset %3d",
+> > > -                row + 1, col + 1, src_byte, src_bit, dst - out);
+> > > -
+> > > --      dump_long (dumpfile, format, "Match bits ", matchbits);
+> > > -+      dump_wide (dumpfile, format, "Match bits ", matchbits);
+> > > -       dump_data (dumpfile, format, "Src   bits ", src, 4);
+> > > --      dump_long (dumpfile, format, "Buff1 bits ", buff1);
+> > > --      dump_long (dumpfile, format, "Buff2 bits ", buff2);
+> > > -+      dump_wide (dumpfile, format, "Buff1 bits ", buff1);
+> > > -+      dump_wide (dumpfile, format, "Buff2 bits ", buff2);
+> > > -       dump_byte (dumpfile, format, "Write bits1", bytebuff1);
+> > > -       dump_byte (dumpfile, format, "Write bits2", bytebuff2);
+> > > -       dump_info (dumpfile, format, "", "Ready bits:  %2d", ready_bi=
+ts);
+> > > -@@ -4910,7 +4926,7 @@ static int readSeparateStripsIntoBuffer (TIFF =
+*in, uint8_t *obuf, uint32_t lengt
+> > > -   {
+> > > -   int i, bytes_per_sample, bytes_per_pixel, shift_width, result =3D=
+ 1;
+> > > -   uint32_t j;
+> > > --  int32_t  bytes_read =3D 0;
+> > > -+  tmsize_t  bytes_read =3D 0;
+> > > -   uint16_t bps =3D 0, planar;
+> > > -   uint32_t nstrips;
+> > > -   uint32_t strips_per_sample;
+> > > -@@ -4976,7 +4992,7 @@ static int readSeparateStripsIntoBuffer (TIFF =
+*in, uint8_t *obuf, uint32_t lengt
+> > > -   for (s =3D 0; (s < spp) && (s < MAX_SAMPLES); s++)
+> > > -     {
+> > > -     srcbuffs[s] =3D NULL;
+> > > --    buff =3D limitMalloc(stripsize + 3);
+> > > -+    buff =3D limitMalloc(stripsize + NUM_BUFF_OVERSIZE_BYTES);
+> > > -     if (!buff)
+> > > -       {
+> > > -       TIFFError ("readSeparateStripsIntoBuffer",
+> > > -@@ -4999,7 +5015,7 @@ static int readSeparateStripsIntoBuffer (TIFF =
+*in, uint8_t *obuf, uint32_t lengt
+> > > -       buff =3D srcbuffs[s];
+> > > -       strip =3D (s * strips_per_sample) + j;
+> > > -       bytes_read =3D TIFFReadEncodedStrip (in, strip, buff, stripsi=
+ze);
+> > > --      rows_this_strip =3D bytes_read / src_rowsize;
+> > > -+      rows_this_strip =3D (uint32_t)(bytes_read / src_rowsize);
+> > > -       if (bytes_read < 0 && !ignore)
+> > > -         {
+> > > -         TIFFError(TIFFFileName(in),
+> > > -@@ -6062,13 +6078,14 @@ loadImage(TIFF* in, struct image_data *image=
+, struct dump_opts *dump, unsigned c
+> > > -   uint16_t   input_compression =3D 0, input_photometric =3D 0;
+> > > -   uint16_t   subsampling_horiz, subsampling_vert;
+> > > -   uint32_t   width =3D 0, length =3D 0;
+> > > --  uint32_t   stsize =3D 0, tlsize =3D 0, buffsize =3D 0, scanlinesi=
+ze =3D 0;
+> > > -+  tmsize_t   stsize =3D 0, tlsize =3D 0, buffsize =3D 0;
+> > > -+  tmsize_t   scanlinesize =3D 0;
+> > > -   uint32_t   tw =3D 0, tl =3D 0;       /* Tile width and length */
+> > > --  uint32_t   tile_rowsize =3D 0;
+> > > -+  tmsize_t   tile_rowsize =3D 0;
+> > > -   unsigned char *read_buff =3D NULL;
+> > > -   unsigned char *new_buff  =3D NULL;
+> > > -   int      readunit =3D 0;
+> > > --  static   uint32_t  prev_readsize =3D 0;
+> > > -+  static   tmsize_t  prev_readsize =3D 0;
+> > > -
+> > > -   TIFFGetFieldDefaulted(in, TIFFTAG_BITSPERSAMPLE, &bps);
+> > > -   TIFFGetFieldDefaulted(in, TIFFTAG_SAMPLESPERPIXEL, &spp);
+> > > -@@ -6325,6 +6342,8 @@ loadImage(TIFF* in, struct image_data *image, =
+struct dump_opts *dump, unsigned c
+> > > -     /* The buffsize_check and the possible adaptation of buffsize
+> > > -      * has to account also for padding of each line to a byte bound=
+ary.
+> > > -      * This is assumed by mirrorImage() and rotateImage().
+> > > -+     * Furthermore, functions like extractContigSamplesShifted32bit=
+s()
+> > > -+     * need a buffer, which is at least 3 bytes larger than the act=
+ual image.
+> > > -      * Otherwise buffer-overflow might occur there.
+> > > -      */
+> > > -     buffsize_check =3D length * (uint32_t)(((width * spp * bps) + 7=
+) / 8);
+> > > -@@ -6376,7 +6395,7 @@ loadImage(TIFF* in, struct image_data *image, =
+struct dump_opts *dump, unsigned c
+> > > -         TIFFError("loadImage", "Unable to allocate/reallocate read =
+buffer");
+> > > -         return (-1);
+> > > -     }
+> > > --    read_buff =3D (unsigned char *)limitMalloc(buffsize+3);
+> > > -+    read_buff =3D (unsigned char *)limitMalloc(buffsize + NUM_BUFF_=
+OVERSIZE_BYTES);
+> > > -   }
+> > > -   else
+> > > -     {
+> > > -@@ -6387,11 +6406,11 @@ loadImage(TIFF* in, struct image_data *image=
+, struct dump_opts *dump, unsigned c
+> > > -           TIFFError("loadImage", "Unable to allocate/reallocate rea=
+d buffer");
+> > > -           return (-1);
+> > > -       }
+> > > --      new_buff =3D _TIFFrealloc(read_buff, buffsize+3);
+> > > -+      new_buff =3D _TIFFrealloc(read_buff, buffsize + NUM_BUFF_OVER=
+SIZE_BYTES);
+> > > -       if (!new_buff)
+> > > -         {
+> > > -       free (read_buff);
+> > > --        read_buff =3D (unsigned char *)limitMalloc(buffsize+3);
+> > > -+        read_buff =3D (unsigned char *)limitMalloc(buffsize + NUM_B=
+UFF_OVERSIZE_BYTES);
+> > > -         }
+> > > -       else
+> > > -         read_buff =3D new_buff;
+> > > -@@ -6464,8 +6483,13 @@ loadImage(TIFF* in, struct image_data *image,=
+ struct dump_opts *dump, unsigned c
+> > > -     dump_info  (dump->infile, dump->format, "",
+> > > -                 "Bits per sample %"PRIu16", Samples per pixel %"PRI=
+u16, bps, spp);
+> > > -
+> > > -+    if (scanlinesize > 0x0ffffffffULL) {
+> > > -+        dump_info(dump->infile, dump->format, "loadImage",
+> > > -+            "Attention: scanlinesize %"PRIu64" is larger than UINT3=
+2_MAX.\nFollowing dump might be wrong.",
+> > > -+            scanlinesize);
+> > > -+    }
+> > > -     for (i =3D 0; i < length; i++)
+> > > --      dump_buffer(dump->infile, dump->format, 1, scanlinesize,
+> > > -+      dump_buffer(dump->infile, dump->format, 1, (uint32_t)scanline=
+size,
+> > > -                   i, read_buff + (i * scanlinesize));
+> > > -     }
+> > > -   return (0);
+> > > -@@ -7485,13 +7509,13 @@ writeSingleSection(TIFF *in, TIFF *out, stru=
+ct image_data *image,
+> > > -      if (TIFFGetField(in, TIFFTAG_NUMBEROFINKS, &ninks)) {
+> > > -        TIFFSetField(out, TIFFTAG_NUMBEROFINKS, ninks);
+> > > -        if (TIFFGetField(in, TIFFTAG_INKNAMES, &inknames)) {
+> > > --       int inknameslen =3D strlen(inknames) + 1;
+> > > -+       int inknameslen =3D (int)strlen(inknames) + 1;
+> > > -        const char* cp =3D inknames;
+> > > -        while (ninks > 1) {
+> > > -          cp =3D strchr(cp, '\0');
+> > > -          if (cp) {
+> > > -            cp++;
+> > > --           inknameslen +=3D (strlen(cp) + 1);
+> > > -+           inknameslen +=3D ((int)strlen(cp) + 1);
+> > > -          }
+> > > -          ninks--;
+> > > -          }
+> > > -@@ -7554,23 +7578,23 @@ createImageSection(uint32_t sectsize, unsign=
+ed char **sect_buff_ptr)
+> > > -
+> > > -   if (!sect_buff)
+> > > -     {
+> > > --    sect_buff =3D (unsigned char *)limitMalloc(sectsize);
+> > > -+    sect_buff =3D (unsigned char *)limitMalloc(sectsize + NUM_BUFF_=
+OVERSIZE_BYTES);
+> > > -     if (!sect_buff)
+> > > -     {
+> > > -         TIFFError("createImageSection", "Unable to allocate/realloc=
+ate section buffer");
+> > > -         return (-1);
+> > > -     }
+> > > --    _TIFFmemset(sect_buff, 0, sectsize);
+> > > -+    _TIFFmemset(sect_buff, 0, sectsize + NUM_BUFF_OVERSIZE_BYTES);
+> > > -     }
+> > > -   else
+> > > -     {
+> > > -     if (prev_sectsize < sectsize)
+> > > -       {
+> > > --      new_buff =3D _TIFFrealloc(sect_buff, sectsize);
+> > > -+      new_buff =3D _TIFFrealloc(sect_buff, sectsize + NUM_BUFF_OVER=
+SIZE_BYTES);
+> > > -       if (!new_buff)
+> > > -         {
+> > > -           _TIFFfree (sect_buff);
+> > > --        sect_buff =3D (unsigned char *)limitMalloc(sectsize);
+> > > -+        sect_buff =3D (unsigned char *)limitMalloc(sectsize + NUM_B=
+UFF_OVERSIZE_BYTES);
+> > > -         }
+> > > -       else
+> > > -         sect_buff =3D new_buff;
+> > > -@@ -7580,7 +7604,7 @@ createImageSection(uint32_t sectsize, unsigned=
+ char **sect_buff_ptr)
+> > > -           TIFFError("createImageSection", "Unable to allocate/reall=
+ocate section buffer");
+> > > -           return (-1);
+> > > -       }
+> > > --      _TIFFmemset(sect_buff, 0, sectsize);
+> > > -+      _TIFFmemset(sect_buff, 0, sectsize + NUM_BUFF_OVERSIZE_BYTES)=
+;
+> > > -       }
+> > > -     }
+> > > -
+> > > -@@ -7611,17 +7635,17 @@ processCropSelections(struct image_data *ima=
+ge, struct crop_mask *crop,
+> > > -     cropsize =3D crop->bufftotal;
+> > > -     crop_buff =3D seg_buffs[0].buffer;
+> > > -     if (!crop_buff)
+> > > --      crop_buff =3D (unsigned char *)limitMalloc(cropsize);
+> > > -+      crop_buff =3D (unsigned char *)limitMalloc(cropsize + NUM_BUF=
+F_OVERSIZE_BYTES);
+> > > -     else
+> > > -       {
+> > > -       prev_cropsize =3D seg_buffs[0].size;
+> > > -       if (prev_cropsize < cropsize)
+> > > -         {
+> > > --        next_buff =3D _TIFFrealloc(crop_buff, cropsize);
+> > > -+        next_buff =3D _TIFFrealloc(crop_buff, cropsize + NUM_BUFF_O=
+VERSIZE_BYTES);
+> > > -         if (! next_buff)
+> > > -           {
+> > > -           _TIFFfree (crop_buff);
+> > > --          crop_buff =3D (unsigned char *)limitMalloc(cropsize);
+> > > -+          crop_buff =3D (unsigned char *)limitMalloc(cropsize + NUM=
+_BUFF_OVERSIZE_BYTES);
+> > > -           }
+> > > -         else
+> > > -           crop_buff =3D next_buff;
+> > > -@@ -7634,7 +7658,7 @@ processCropSelections(struct image_data *image=
+, struct crop_mask *crop,
+> > > -       return (-1);
+> > > -       }
+> > > -
+> > > --    _TIFFmemset(crop_buff, 0, cropsize);
+> > > -+    _TIFFmemset(crop_buff, 0, cropsize + NUM_BUFF_OVERSIZE_BYTES);
+> > > -     seg_buffs[0].buffer =3D crop_buff;
+> > > -     seg_buffs[0].size =3D cropsize;
+> > > -
+> > > -@@ -7714,17 +7738,17 @@ processCropSelections(struct image_data *ima=
+ge, struct crop_mask *crop,
+> > > -         cropsize =3D crop->bufftotal;
+> > > -       crop_buff =3D seg_buffs[i].buffer;
+> > > -       if (!crop_buff)
+> > > --        crop_buff =3D (unsigned char *)limitMalloc(cropsize);
+> > > -+        crop_buff =3D (unsigned char *)limitMalloc(cropsize + NUM_B=
+UFF_OVERSIZE_BYTES);
+> > > -       else
+> > > -         {
+> > > -         prev_cropsize =3D seg_buffs[0].size;
+> > > -         if (prev_cropsize < cropsize)
+> > > -           {
+> > > --          next_buff =3D _TIFFrealloc(crop_buff, cropsize);
+> > > -+          next_buff =3D _TIFFrealloc(crop_buff, cropsize + NUM_BUFF=
+_OVERSIZE_BYTES);
+> > > -           if (! next_buff)
+> > > -             {
+> > > -             _TIFFfree (crop_buff);
+> > > --            crop_buff =3D (unsigned char *)limitMalloc(cropsize);
+> > > -+            crop_buff =3D (unsigned char *)limitMalloc(cropsize + N=
+UM_BUFF_OVERSIZE_BYTES);
+> > > -             }
+> > > -           else
+> > > -             crop_buff =3D next_buff;
+> > > -@@ -7737,7 +7761,7 @@ processCropSelections(struct image_data *image=
+, struct crop_mask *crop,
+> > > -         return (-1);
+> > > -         }
+> > > -
+> > > --      _TIFFmemset(crop_buff, 0, cropsize);
+> > > -+      _TIFFmemset(crop_buff, 0, cropsize + NUM_BUFF_OVERSIZE_BYTES)=
+;
+> > > -       seg_buffs[i].buffer =3D crop_buff;
+> > > -       seg_buffs[i].size =3D cropsize;
+> > > -
+> > > -@@ -7853,24 +7877,24 @@ createCroppedImage(struct image_data *image,=
+ struct crop_mask *crop,
+> > > -   crop_buff =3D *crop_buff_ptr;
+> > > -   if (!crop_buff)
+> > > -     {
+> > > --    crop_buff =3D (unsigned char *)limitMalloc(cropsize);
+> > > -+    crop_buff =3D (unsigned char *)limitMalloc(cropsize + NUM_BUFF_=
+OVERSIZE_BYTES);
+> > > -     if (!crop_buff)
+> > > -     {
+> > > -         TIFFError("createCroppedImage", "Unable to allocate/realloc=
+ate crop buffer");
+> > > -         return (-1);
+> > > -     }
+> > > --    _TIFFmemset(crop_buff, 0, cropsize);
+> > > -+    _TIFFmemset(crop_buff, 0, cropsize + NUM_BUFF_OVERSIZE_BYTES);
+> > > -     prev_cropsize =3D cropsize;
+> > > -     }
+> > > -   else
+> > > -     {
+> > > -     if (prev_cropsize < cropsize)
+> > > -       {
+> > > --      new_buff =3D _TIFFrealloc(crop_buff, cropsize);
+> > > -+      new_buff =3D _TIFFrealloc(crop_buff, cropsize + NUM_BUFF_OVER=
+SIZE_BYTES);
+> > > -       if (!new_buff)
+> > > -         {
+> > > -       free (crop_buff);
+> > > --        crop_buff =3D (unsigned char *)limitMalloc(cropsize);
+> > > -+        crop_buff =3D (unsigned char *)limitMalloc(cropsize + NUM_B=
+UFF_OVERSIZE_BYTES);
+> > > -         }
+> > > -       else
+> > > -         crop_buff =3D new_buff;
+> > > -@@ -7879,7 +7903,7 @@ createCroppedImage(struct image_data *image, s=
+truct crop_mask *crop,
+> > > -           TIFFError("createCroppedImage", "Unable to allocate/reall=
+ocate crop buffer");
+> > > -           return (-1);
+> > > -       }
+> > > --      _TIFFmemset(crop_buff, 0, cropsize);
+> > > -+      _TIFFmemset(crop_buff, 0, cropsize + NUM_BUFF_OVERSIZE_BYTES)=
+;
+> > > -       }
+> > > -     }
+> > > -
+> > > -@@ -8177,13 +8201,13 @@ writeCroppedImage(TIFF *in, TIFF *out, struc=
+t image_data *image,
+> > > -      if (TIFFGetField(in, TIFFTAG_NUMBEROFINKS, &ninks)) {
+> > > -        TIFFSetField(out, TIFFTAG_NUMBEROFINKS, ninks);
+> > > -        if (TIFFGetField(in, TIFFTAG_INKNAMES, &inknames)) {
+> > > --       int inknameslen =3D strlen(inknames) + 1;
+> > > -+       int inknameslen =3D (int)strlen(inknames) + 1;
+> > > -        const char* cp =3D inknames;
+> > > -        while (ninks > 1) {
+> > > -          cp =3D strchr(cp, '\0');
+> > > -          if (cp) {
+> > > -            cp++;
+> > > --           inknameslen +=3D (strlen(cp) + 1);
+> > > -+           inknameslen +=3D ((int)strlen(cp) + 1);
+> > > -          }
+> > > -          ninks--;
+> > > -          }
+> > > -@@ -8568,13 +8592,13 @@ rotateContigSamples32bits(uint16_t rotation,=
+ uint16_t spp, uint16_t bps, uint32_
+> > > -         }
+> > > -       else /* If we have a full buffer's worth, write it out */
+> > > -         {
+> > > --        bytebuff1 =3D (buff2 >> 56);
+> > > -+        bytebuff1 =3D (uint8_t)(buff2 >> 56);
+> > > -         *dst++ =3D bytebuff1;
+> > > --        bytebuff2 =3D (buff2 >> 48);
+> > > -+        bytebuff2 =3D (uint8_t)(buff2 >> 48);
+> > > -         *dst++ =3D bytebuff2;
+> > > --        bytebuff3 =3D (buff2 >> 40);
+> > > -+        bytebuff3 =3D (uint8_t)(buff2 >> 40);
+> > > -         *dst++ =3D bytebuff3;
+> > > --        bytebuff4 =3D (buff2 >> 32);
+> > > -+        bytebuff4 =3D (uint8_t)(buff2 >> 32);
+> > > -         *dst++ =3D bytebuff4;
+> > > -         ready_bits -=3D 32;
+> > > -
+> > > -@@ -8643,12 +8667,13 @@ rotateImage(uint16_t rotation, struct image_=
+data *image, uint32_t *img_width,
+> > > -               return (-1);
+> > > -     }
+> > > -
+> > > --  if (!(rbuff =3D (unsigned char *)limitMalloc(buffsize)))
+> > > -+  /* Add 3 padding bytes for extractContigSamplesShifted32bits */
+> > > -+  if (!(rbuff =3D (unsigned char *)limitMalloc(buffsize + NUM_BUFF_=
+OVERSIZE_BYTES)))
+> > > -     {
+> > > --    TIFFError("rotateImage", "Unable to allocate rotation buffer of=
+ %1u bytes", buffsize);
+> > > -+    TIFFError("rotateImage", "Unable to allocate rotation buffer of=
+ %1u bytes", buffsize + NUM_BUFF_OVERSIZE_BYTES);
+> > > -     return (-1);
+> > > -     }
+> > > --  _TIFFmemset(rbuff, '\0', buffsize);
+> > > -+  _TIFFmemset(rbuff, '\0', buffsize + NUM_BUFF_OVERSIZE_BYTES);
+> > > -
+> > > -   ibuff =3D *ibuff_ptr;
+> > > -   switch (rotation)
+> > > -@@ -9176,13 +9201,13 @@ reverseSamples32bits (uint16_t spp, uint16_t=
+ bps, uint32_t width,
+> > > -         }
+> > > -       else /* If we have a full buffer's worth, write it out */
+> > > -         {
+> > > --        bytebuff1 =3D (buff2 >> 56);
+> > > -+        bytebuff1 =3D (uint8_t)(buff2 >> 56);
+> > > -         *dst++ =3D bytebuff1;
+> > > --        bytebuff2 =3D (buff2 >> 48);
+> > > -+        bytebuff2 =3D (uint8_t)(buff2 >> 48);
+> > > -         *dst++ =3D bytebuff2;
+> > > --        bytebuff3 =3D (buff2 >> 40);
+> > > -+        bytebuff3 =3D (uint8_t)(buff2 >> 40);
+> > > -         *dst++ =3D bytebuff3;
+> > > --        bytebuff4 =3D (buff2 >> 32);
+> > > -+        bytebuff4 =3D (uint8_t)(buff2 >> 32);
+> > > -         *dst++ =3D bytebuff4;
+> > > -         ready_bits -=3D 32;
+> > > -
+> > > -@@ -9273,12 +9298,13 @@ mirrorImage(uint16_t spp, uint16_t bps, uint=
+16_t mirror, uint32_t width, uint32_
+> > > -     {
+> > > -     case MIRROR_BOTH:
+> > > -     case MIRROR_VERT:
+> > > --             line_buff =3D (unsigned char *)limitMalloc(rowsize);
+> > > -+             line_buff =3D (unsigned char *)limitMalloc(rowsize + N=
+UM_BUFF_OVERSIZE_BYTES);
+> > > -              if (line_buff =3D=3D NULL)
+> > > -                {
+> > > --             TIFFError ("mirrorImage", "Unable to allocate mirror l=
+ine buffer of %1u bytes", rowsize);
+> > > -+             TIFFError ("mirrorImage", "Unable to allocate mirror l=
+ine buffer of %1u bytes", rowsize + NUM_BUFF_OVERSIZE_BYTES);
+> > > -                return (-1);
+> > > -                }
+> > > -+             _TIFFmemset(line_buff, '\0', rowsize + NUM_BUFF_OVERSI=
+ZE_BYTES);
+> > > -
+> > > -              dst =3D ibuff + (rowsize * (length - 1));
+> > > -              for (row =3D 0; row < length / 2; row++)
+> > > -@@ -9310,11 +9336,12 @@ mirrorImage(uint16_t spp, uint16_t bps, uint=
+16_t mirror, uint32_t width, uint32_
+> > > -               }
+> > > -             else
+> > > -                 { /* non 8 bit per sample  data */
+> > > --                if (!(line_buff =3D (unsigned char *)limitMalloc(ro=
+wsize + 1)))
+> > > -+                if (!(line_buff =3D (unsigned char *)limitMalloc(ro=
+wsize + NUM_BUFF_OVERSIZE_BYTES)))
+> > > -                   {
+> > > -                   TIFFError("mirrorImage", "Unable to allocate mirr=
+or line buffer");
+> > > -                   return (-1);
+> > > -                   }
+> > > -+                _TIFFmemset(line_buff, '\0', rowsize + NUM_BUFF_OVE=
+RSIZE_BYTES);
+> > > -                 bytes_per_sample =3D (bps + 7) / 8;
+> > > -                 bytes_per_pixel  =3D ((bps * spp) + 7) / 8;
+> > > -                 if (bytes_per_pixel < (bytes_per_sample + 1))
+> > > -@@ -9326,7 +9353,7 @@ mirrorImage(uint16_t spp, uint16_t bps, uint16=
+_t mirror, uint32_t width, uint32_
+> > > -                   {
+> > > -                 row_offset =3D row * rowsize;
+> > > -                   src =3D ibuff + row_offset;
+> > > --                  _TIFFmemset (line_buff, '\0', rowsize);
+> > > -+                  _TIFFmemset (line_buff, '\0', rowsize + NUM_BUFF_=
+OVERSIZE_BYTES);
+> > > -                   switch (shift_width)
+> > > -                     {
+> > > -                     case 1: if (reverseSamples16bits(spp, bps, widt=
+h, src, line_buff))
+> > > ---
+> > > -2.34.1
+> > > -
+> > > diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2022-2953.patc=
+h b/meta/recipes-multimedia/libtiff/files/CVE-2022-2953.patch
+> > > deleted file mode 100644
+> > > index e673945fa3..0000000000
+> > > --- a/meta/recipes-multimedia/libtiff/files/CVE-2022-2953.patch
+> > > +++ /dev/null
+> > > @@ -1,86 +0,0 @@
+> > > -CVE: CVE-2022-2953
+> > > -Upstream-Status: Backport
+> > > -Signed-off-by: Ross Burton <ross.burton@arm.com>
+> > > -
+> > > -From 8fe3735942ea1d90d8cef843b55b3efe8ab6feaf Mon Sep 17 00:00:00 20=
+01
+> > > -From: Su_Laus <sulau@freenet.de>
+> > > -Date: Mon, 15 Aug 2022 22:11:03 +0200
+> > > -Subject: [PATCH] =3D?UTF-8?q?According=3D20to=3D20Richard=3D20Nolde=
+=3D20https://gitl?=3D
+> > > - =3D?UTF-8?q?ab.com/libtiff/libtiff/-/issues/401#note=3D5F877637400=
+=3D20the=3D20ti?=3D
+> > > - =3D?UTF-8?q?ffcrop=3D20option=3D20=3DE2=3D80=3D9E-S=3DE2=3D80=3D9C=
+=3D20is=3D20also=3D20mutually?=3D
+> > > - =3D?UTF-8?q?=3D20exclusive=3D20to=3D20the=3D20other=3D20crop=3D20op=
+tions=3D20(-X|-Y),=3D20-?=3D
+> > > - =3D?UTF-8?q?Z=3D20and=3D20-z.?=3D
+> > > -MIME-Version: 1.0
+> > > -Content-Type: text/plain; charset=3DUTF-8
+> > > -Content-Transfer-Encoding: 8bit
+> > > -
+> > > -This is now checked and ends tiffcrop if those arguments are not mut=
+ually exclusive.
+> > > -
+> > > -This MR will fix the following tiffcrop issues: #349, #414, #422, #4=
+23, #424
+> > > ----
+> > > - tools/tiffcrop.c | 31 ++++++++++++++++---------------
+> > > - 1 file changed, 16 insertions(+), 15 deletions(-)
+> > > -
+> > > -diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
+> > > -index 90286a5e..c3b758ec 100644
+> > > ---- a/tools/tiffcrop.c
+> > > -+++ b/tools/tiffcrop.c
+> > > -@@ -173,12 +173,12 @@ static   char tiffcrop_rev_date[] =3D "02-09-2=
+022";
+> > > - #define ROTATECW_270 32
+> > > - #define ROTATE_ANY (ROTATECW_90 | ROTATECW_180 | ROTATECW_270)
+> > > -
+> > > --#define CROP_NONE     0
+> > > --#define CROP_MARGINS  1
+> > > --#define CROP_WIDTH    2
+> > > --#define CROP_LENGTH   4
+> > > --#define CROP_ZONES    8
+> > > --#define CROP_REGIONS 16
+> > > -+#define CROP_NONE     0     /* "-S" -> Page_MODE_ROWSCOLS and page-=
+>rows/->cols !=3D 0 */
+> > > -+#define CROP_MARGINS  1     /* "-m" */
+> > > -+#define CROP_WIDTH    2     /* "-X" */
+> > > -+#define CROP_LENGTH   4     /* "-Y" */
+> > > -+#define CROP_ZONES    8     /* "-Z" */
+> > > -+#define CROP_REGIONS 16     /* "-z" */
+> > > - #define CROP_ROTATE  32
+> > > - #define CROP_MIRROR  64
+> > > - #define CROP_INVERT 128
+> > > -@@ -316,7 +316,7 @@ struct crop_mask {
+> > > - #define PAGE_MODE_RESOLUTION   1
+> > > - #define PAGE_MODE_PAPERSIZE    2
+> > > - #define PAGE_MODE_MARGINS      4
+> > > --#define PAGE_MODE_ROWSCOLS     8
+> > > -+#define PAGE_MODE_ROWSCOLS     8    /* for -S option */
+> > > -
+> > > - #define INVERT_DATA_ONLY      10
+> > > - #define INVERT_DATA_AND_TAG   11
+> > > -@@ -781,7 +781,7 @@ static const char usage_info[] =3D
+> > > - "             The four debug/dump options are independent, though i=
+t makes little sense to\n"
+> > > - "             specify a dump file without specifying a detail level=
+.\n"
+> > > - "\n"
+> > > --"Note:        The (-X|-Y), -Z and -z options are mutually exclusive=
+.\n"
+> > > -+"Note:        The (-X|-Y), -Z, -z and -S options are mutually exclu=
+sive.\n"
+> > > - "             In no case should the options be applied to a given s=
+election successively.\n"
+> > > - "\n"
+> > > - ;
+> > > -@@ -2131,13 +2131,14 @@ void  process_command_opts (int argc, char *=
+argv[], char *mp, char *mode, uint32
+> > > -               /*NOTREACHED*/
+> > > -       }
+> > > -     }
+> > > --    /*-- Check for not allowed combinations (e.g. -X, -Y and -Z and=
+ -z are mutually exclusive) --*/
+> > > --    char XY, Z, R;
+> > > -+    /*-- Check for not allowed combinations (e.g. -X, -Y and -Z, -z=
+ and -S are mutually exclusive) --*/
+> > > -+    char XY, Z, R, S;
+> > > -     XY =3D ((crop_data->crop_mode & CROP_WIDTH) || (crop_data->crop=
+_mode & CROP_LENGTH));
+> > > -     Z =3D (crop_data->crop_mode & CROP_ZONES);
+> > > -     R =3D (crop_data->crop_mode & CROP_REGIONS);
+> > > --    if ((XY && Z) || (XY && R) || (Z && R)) {
+> > > --        TIFFError("tiffcrop input error", "The crop options(-X|-Y),=
+ -Z and -z are mutually exclusive.->Exit");
+> > > -+    S =3D (page->mode & PAGE_MODE_ROWSCOLS);
+> > > -+    if ((XY && Z) || (XY && R) || (XY && S) || (Z && R) || (Z && S)=
+ || (R && S)) {
+> > > -+        TIFFError("tiffcrop input error", "The crop options(-X|-Y),=
+ -Z, -z and -S are mutually exclusive.->Exit");
+> > > -         exit(EXIT_FAILURE);
+> > > -     }
+> > > -   }  /* end process_command_opts */
+> > > ---
+> > > -2.34.1
+> > > -
+> > > diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2022-34526.pat=
+ch b/meta/recipes-multimedia/libtiff/files/CVE-2022-34526.patch
+> > > deleted file mode 100644
+> > > index 54c3345746..0000000000
+> > > --- a/meta/recipes-multimedia/libtiff/files/CVE-2022-34526.patch
+> > > +++ /dev/null
+> > > @@ -1,32 +0,0 @@
+> > > -From 275735d0354e39c0ac1dc3c0db2120d6f31d1990 Mon Sep 17 00:00:00 20=
+01
+> > > -From: Even Rouault <even.rouault@spatialys.com>
+> > > -Date: Mon, 27 Jun 2022 16:09:43 +0200
+> > > -Subject: [PATCH] _TIFFCheckFieldIsValidForCodec(): return FALSE when=
+ passed a
+> > > - codec-specific tag and the codec is not configured (fixes #433)
+> > > -
+> > > -This avoids crashes when querying such tags
+> > > -
+> > > -CVE: CVE-2022-34526
+> > > -Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/comm=
+it/275735d0354e39c0ac1dc3c0db2120d6f31d1990]
+> > > -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > > ----
+> > > - libtiff/tif_dirinfo.c | 3 +++
+> > > - 1 file changed, 3 insertions(+)
+> > > -
+> > > -diff --git a/libtiff/tif_dirinfo.c b/libtiff/tif_dirinfo.c
+> > > -index c30f569b..3371cb5c 100644
+> > > ---- a/libtiff/tif_dirinfo.c
+> > > -+++ b/libtiff/tif_dirinfo.c
+> > > -@@ -1191,6 +1191,9 @@ _TIFFCheckFieldIsValidForCodec(TIFF *tif, ttag=
+_t tag)
+> > > -           default:
+> > > -               return 1;
+> > > -       }
+> > > -+      if( !TIFFIsCODECConfigured(tif->tif_dir.td_compression) ) {
+> > > -+              return 0;
+> > > -+      }
+> > > -       /* Check if codec specific tags are allowed for the current
+> > > -        * compression scheme (codec) */
+> > > -       switch (tif->tif_dir.td_compression) {
+> > > ---
+> > > -GitLab
+> > > -
+> > > diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2022-3970.patc=
+h b/meta/recipes-multimedia/libtiff/files/CVE-2022-3970.patch
+> > > deleted file mode 100644
+> > > index b3352ba8ab..0000000000
+> > > --- a/meta/recipes-multimedia/libtiff/files/CVE-2022-3970.patch
+> > > +++ /dev/null
+> > > @@ -1,39 +0,0 @@
+> > > -From 227500897dfb07fb7d27f7aa570050e62617e3be Mon Sep 17 00:00:00 20=
+01
+> > > -From: Even Rouault <even.rouault@spatialys.com>
+> > > -Date: Tue, 8 Nov 2022 15:16:58 +0100
+> > > -Subject: [PATCH] TIFFReadRGBATileExt(): fix (unsigned) integer overf=
+low on
+> > > - strips/tiles > 2 GB
+> > > -
+> > > -Fixes https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=3D53137
+> > > -Upstream-Status: Accepted
+> > > ----
+> > > - libtiff/tif_getimage.c | 8 ++++----
+> > > - 1 file changed, 4 insertions(+), 4 deletions(-)
+> > > -
+> > > -diff --git a/libtiff/tif_getimage.c b/libtiff/tif_getimage.c
+> > > -index a4d0c1d6..60b94d8e 100644
+> > > ---- a/libtiff/tif_getimage.c
+> > > -+++ b/libtiff/tif_getimage.c
+> > > -@@ -3016,15 +3016,15 @@ TIFFReadRGBATileExt(TIFF* tif, uint32_t col,=
+ uint32_t row, uint32_t * raster, in
+> > > -         return( ok );
+> > > -
+> > > -     for( i_row =3D 0; i_row < read_ysize; i_row++ ) {
+> > > --        memmove( raster + (tile_ysize - i_row - 1) * tile_xsize,
+> > > --                 raster + (read_ysize - i_row - 1) * read_xsize,
+> > > -+        memmove( raster + (size_t)(tile_ysize - i_row - 1) * tile_x=
+size,
+> > > -+                 raster + (size_t)(read_ysize - i_row - 1) * read_x=
+size,
+> > > -                  read_xsize * sizeof(uint32_t) );
+> > > --        _TIFFmemset( raster + (tile_ysize - i_row - 1) * tile_xsize=
++read_xsize,
+> > > -+        _TIFFmemset( raster + (size_t)(tile_ysize - i_row - 1) * ti=
+le_xsize+read_xsize,
+> > > -                      0, sizeof(uint32_t) * (tile_xsize - read_xsize=
+) );
+> > > -     }
+> > > -
+> > > -     for( i_row =3D read_ysize; i_row < tile_ysize; i_row++ ) {
+> > > --        _TIFFmemset( raster + (tile_ysize - i_row - 1) * tile_xsize=
+,
+> > > -+        _TIFFmemset( raster + (size_t)(tile_ysize - i_row - 1) * ti=
+le_xsize,
+> > > -                      0, sizeof(uint32_t) * tile_xsize );
+> > > -     }
+> > > -
+> > > ---
+> > > -2.33.0
+> > > -
+> > > diff --git a/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb b/meta/rec=
+ipes-multimedia/libtiff/tiff_4.5.0.bb
+> > > similarity index 75%
+> > > rename from meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
+> > > rename to meta/recipes-multimedia/libtiff/tiff_4.5.0.bb
+> > > index 970aab5433..2ed70f7500 100644
+> > > --- a/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
+> > > +++ b/meta/recipes-multimedia/libtiff/tiff_4.5.0.bb
+> > > @@ -4,22 +4,13 @@ DESCRIPTION =3D "Library provides support for the T=
+ag Image File Format \
+> > >  provide means to easily access and create TIFF image files."
+> > >  HOMEPAGE =3D "http://www.libtiff.org/"
+> > >  LICENSE =3D "BSD-2-Clause"
+> > > -LIC_FILES_CHKSUM =3D "file://COPYRIGHT;md5=3D34da3db46fab7501992f961=
+5d7e158cf"
+> > > +LIC_FILES_CHKSUM =3D "file://LICENSE.md;md5=3Da3e32d664d6db1386b4689=
+c8121531c3"
+> > >
+> > >  CVE_PRODUCT =3D "libtiff"
+> > >
+> > > -SRC_URI =3D "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+> > > -           file://0001-fix-the-FPE-in-tiffcrop-415-427-and-428.patch=
+ \
+> > > -           file://CVE-2022-34526.patch \
+> > > -           file://CVE-2022-2953.patch \
+> > > -           file://CVE-2022-3970.patch \
+> > > -           file://0001-Revised-handling-of-TIFFTAG_INKNAMES-and-rela=
+ted-TIF.patch \
+> > > -           file://0001-tiffcrop-S-option-Make-decision-simpler.patch=
+ \
+> > > -           file://0001-tiffcrop-disable-incompatibility-of-Z-X-Y-z-o=
+ptions-.patch \
+> > > -           file://0001-tiffcrop-subroutines-require-a-larger-buffer-=
+fixes-2.patch \
+> > > -           "
+> > > -
+> > > -SRC_URI[sha256sum] =3D "917223b37538959aca3b790d2d73aa6e626b688e02dc=
+da272aec24c2f498abed"
+> > > +SRC_URI =3D "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz"
+> > > +
+> > > +SRC_URI[sha256sum] =3D "c7a1d9296649233979fa3eacffef3fa024d73d05d589=
+cb622727b5b08c423464"
+> > >
+> > >  # exclude betas
+> > >  UPSTREAM_CHECK_REGEX =3D "tiff-(?P<pver>\d+(\.\d+)+).tar"
+> > > --
+> > > 2.30.2
+> > >
+> > >
+> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > Links: You receive all messages sent to this group.
+> > > View/Reply Online (#175395): https://lists.openembedded.org/g/openemb=
+edded-core/message/175395
+> > > Mute This Topic: https://lists.openembedded.org/mt/96047877/1997914
+> > > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=
+ [raj.khem@gmail.com]
+> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > >
 
