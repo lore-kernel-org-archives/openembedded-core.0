@@ -1,206 +1,252 @@
-Return-Path: <henning.schild@siemens.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E2D1C4708D
-	for <webhook@archiver.kernel.org>; Fri,  6 Jan 2023 16:14:21 +0000 (UTC)
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com (EUR01-DB5-obe.outbound.protection.outlook.com [40.107.15.83])
- by mx.groups.io with SMTP id smtpd.web11.17682.1673021656190303617
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63546C3DA7A
+	for <webhook@archiver.kernel.org>; Fri,  6 Jan 2023 16:16:01 +0000 (UTC)
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
+ by mx.groups.io with SMTP id smtpd.web11.17738.1673021759810822714
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Jan 2023 08:14:16 -0800
+ Fri, 06 Jan 2023 08:15:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=ku6t5bBM;
- spf=pass (domain: siemens.com, ip: 40.107.15.83, mailfrom: henning.schild@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F4drKqpILCi7uQDF5RMTL7LrbMLrwnNjF8a/qFSg2H81Rxrpq7/u05Li37s9yav7F8R75kMFHSNewXdNofh2tKgggEyzl3HcoICw0mWUqlF/5YERSqSjDq7FRatu38tWHiIdOWzxhdm9NYIZZxnCUKqhf7xB4qMU2nc/3pqdFu5rJSobGfrV0u8n/EL5MzumSKI5QodY0YKZtzejOjmWQWt+KX/5InjAJraP0knYHqO1ax8h1s238gEA0CyT6f1qxILElD3ZZD6OxN+Ttsyikq/TO/jLqsjtNSDZLdDFrksz4apSMMIq6H2FBT/Y3LDdP/PoD9ZzhIrCw24zynReUA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VLWOtobFRbNvW7edSt9tzeUousB12N2R5xU0FnzHg7w=;
- b=D8DvmWtf5R28y/xkxp35NzV9cVrZ3uG7+OeiSZtifXWZ+D/HaSFPp4EhqrkAfS9EM+ohuRS53JOkZet3Ujh/1E31QhxDQKRN7fqq3e3phxrZNNwx7R5hUlG+FcjBNY1ryiOVpuKWkFF/0ieB6LlbqclsTNZqkPkHHqal1hLnQl4T3gFFQ3fYzKjdodjdbFjSwrF2VnIoyBRd3Qtg5q6nY3Jx1eanh3CDkGgD3VBMUGXXAb6N8B45TV9zo6kCDO9dhf+SDSjnzjNITGtCUEbAXci7r+383/lFUwU0c9sqwlijMrNkV4cbfxHD5sWxNJjLGdoROzRyeNq5VOxmdsGCUg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VLWOtobFRbNvW7edSt9tzeUousB12N2R5xU0FnzHg7w=;
- b=ku6t5bBMKJ6LRZ5KSbDSu71JMhhQ5/3NfDxmwajVgwJ3Eg+NoklPJXeGACgbMA8LP9c7iaKn7a86WBx5V2u0/A6A6xFO8AXQzCcTviTviBYqEWWtk7mvDqDRsy4nFiYfayRkVpkQRW2aqVmg0NvZS2kjD+jNO4ZF3B0d2aceTZgRxnchE3DrSXZ5VnZ7dcm8kvz6/R7Vi5DmDUH6QjJwMrxKO03/FXfWvGi4+CNISVNANGUOqkWmMRQqw8OWOz0zJcDNurXfLHPNugkUHyX2dc09TrQOANN0OxN9wr4IblHMzSccRunf7uWrI7eerdI98lyzxeafBOeCq5jKGF9/RQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-Received: from PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:269::8)
- by DB4PR10MB6119.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:38c::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Fri, 6 Jan
- 2023 16:14:13 +0000
-Received: from PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::bdf0:fdeb:f955:bc79]) by PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::bdf0:fdeb:f955:bc79%3]) with mapi id 15.20.5944.019; Fri, 6 Jan 2023
- 16:14:13 +0000
-Date: Fri, 6 Jan 2023 17:14:09 +0100
-From: Henning Schild <henning.schild@siemens.com>
-To: Florian Bezdeka <florian.bezdeka@siemens.com>
-Cc: Felix Moessbauer <felix.moessbauer@siemens.com>,
- openembedded-core@lists.openembedded.org, ross.burton@arm.com,
- alexandre.belloni@bootlin.com, richard.purdie@linuxfoundation.org,
- luca.ceresoli@bootlin.com
-Subject: Re: [OE-core][PATCH 1/2] wic/plugins/images/direct: replace fstab
- entries
-Message-ID: <20230106171409.5d6fe31f@md1za8fc.ad001.siemens.net>
-In-Reply-To: <9e1cddbf-1214-0571-3826-bea0c182a7a7@siemens.com>
-References: <20230105125223.398216-1-felix.moessbauer@siemens.com>
-	<20230105125223.398216-2-felix.moessbauer@siemens.com>
-	<20230105142439.42b893f6@md1za8fc.ad001.siemens.net>
-	<9e1cddbf-1214-0571-3826-bea0c182a7a7@siemens.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.35; x86_64-pc-linux-gnu)
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0105.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a1::6) To PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:102:269::8)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=TmWdwmdW;
+ spf=pass (domain: gmail.com, ip: 209.85.166.173, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-il1-f173.google.com with SMTP id d10so1177220ilc.12
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Jan 2023 08:15:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=vnCwIYb6kigIcIivyeAQMIWX95g9BnBdpZNmiTNesTA=;
+        b=TmWdwmdWcxJMh6YAjInZPvHCISpO8HIwy4hW2hmqLyZPd/73MFTouNdTT5YTfvowmk
+         qnBRiQe8OwzeOVgQgI301I22KE1Dp5ozRtFOncilyNJxgOiqcZdrVoJWK7H53DxdQ9f9
+         2fjvsK0a9UnBCbXfjAiDE/WdBysRElpXgKj1UZhEpxmPY0TkaI/JCe9eDjB7gtTssTAY
+         TIhMdgek/rx4vtMQzmtiQ39YW2bN49MYNF9FwgDF6/Qq9O+XNU/bu+osVDjIwLmN+MEw
+         Mu58NKi7FSY/sjZg7DC/0rRcSKTwTDmhuxwzJdCnBvKjnALfqrUZS0GTqXWwTW8Cmt/M
+         WASg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vnCwIYb6kigIcIivyeAQMIWX95g9BnBdpZNmiTNesTA=;
+        b=nAEbtprc4KBFWPlftSu5SSQh3sXgI1M552sKvkoal2OBVkbHui1zSaPr5SEh1ZQArX
+         VFJo/tPXBZJnb7sJo11mBqAlvhe1gtqjQvNlceWOWuM8viPm50SNRUxQz/QnIJCO+eej
+         lBQkFCRksEWc9mv8ICDECZOgWCmKNS1IPL2lBUVnVUoKBhXy99SAIK5k2cJ9SPf/j/R7
+         Yk8H5iQSMUXF+RVJNagYPU0yz3tG3azOsQXhz2uYzfia+3fLFAi3b1g51e19xokcmPXK
+         IoA86JjH8cT5nsTwrjig8H/gGvma21sMdNWiD9aceLH77fgoA+x3TDpJwY7j8HYxSluH
+         S6Sw==
+X-Gm-Message-State: AFqh2ko0TmE0ttYzw40Ckg913D2cAANw8PAZMDuNx7B1H5bZLP1Ujk9I
+	AstlI1GwcMm3Ur+lktXTH5mWnlhkJR7+WBcbPTA=
+X-Google-Smtp-Source: AMrXdXuQMdZdwH/7pI5tkS4NpGMpi/rM/zQ1a6v3dkCo0Q4SbNI+SrvWe7D+1nnKc2zdBzyi3tgSFsqOePtvriKZ3gE=
+X-Received: by 2002:a05:6e02:2192:b0:30d:6f95:41c4 with SMTP id
+ j18-20020a056e02219200b0030d6f9541c4mr1402897ila.107.1673021759115; Fri, 06
+ Jan 2023 08:15:59 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR10MB5780:EE_|DB4PR10MB6119:EE_
-X-MS-Office365-Filtering-Correlation-Id: a087b893-eda5-4791-131e-08daf0010caf
-X-LD-Processed: 38ae3bcd-9579-4fd4-adda-b42e1495d55a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	KTB5QohbPWBmj1ZDzIaQPl75hx/GUxNIF+Ce88Bs8jZ5iSfgu8uIehRcJQfnr5bZ/HZoo0mM3q57AMxFTag1YBTTp71nsi8ZfciggMWkv+kHN/DluPzJGWTKWxvehVodzMrWg6li49jSk3+hCz+SUBdVuZ+sovuq5fdqvVOwNFNa9CD35AR/tmWvxXsj4ShYy3t1QNnWcWh4J7TC0MEX3jkJ5rtcYWbuJ+Rl6FX5+ejI6I+T21qUck83sqnzxkFUTIwwfcK41OOR7Q8N3Zr5rei7wtul1tOIP/eJ86kkK3EzmvkoAwfU/01AjH776vfs9od6wpQoOeOy0DgmqHaYNdL3q3Vk6NgCPvcpg7uZyaZI4nXYTmo7N5qluxeGRLId4VjGHnuU0+o1ghO77181fybfxrju7DSmhwc3RjhM9uAjHMeygZAJ5hP/7EcfWirhw+vkR4wtHf0B0J4gdzwO0g9zOqm1Tj3iDeGWZLOjUGGQXSTErZfP+PUMkJMj+VLeiVsO8AP2ZQE2jpmnO3oQ6skwunKmxglROrjN23FQMrvW0aTlC0G0qDZoFUw0hNsRDRuJrS3CCq/tDoJFE+U6Qadr13vGHvie40K2gYAVTkpJn29qzbY3R0L3NPL/2TB8A/KZD5GKRggMF9r5les5Hg==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(136003)(346002)(39860400002)(366004)(396003)(451199015)(6666004)(6486002)(186003)(6636002)(66946007)(66476007)(1076003)(8676002)(9686003)(478600001)(66556008)(6512007)(41300700001)(6862004)(44832011)(5660300002)(83380400001)(8936002)(2906002)(4326008)(316002)(82960400001)(38100700002)(86362001)(53546011)(6506007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?b4oUEVi6O/HUU9yny32EP/HXiX9vYPsXjC72gSzw2z4gB7JB7xuR6uDExMZc?=
- =?us-ascii?Q?xhr5LFbhSZ+jF5VkJgYDcmx8p9e5r2CpZMhK7YZta3mIH4TYnC6/ewk33E1e?=
- =?us-ascii?Q?zKGe5RReQl2PCfoip6Likz8mo2KpQ11cxfZ/ZC77e/cFvZq6NusgkMg/sWhe?=
- =?us-ascii?Q?xEXSrfrQDWFEshfQfb0LrwqQUfBxjsHx3WpI8CXlD7r6zC5qg7a7zk7aewTd?=
- =?us-ascii?Q?vK/TEWGHgJ2bZD/wezeBvUVp68RvOGhnNJy//mMwNkbL6qmAOgj0JF2zyNQN?=
- =?us-ascii?Q?W4RS422Z4WOZMJNaH3+/DCMC4T+hSHDPVPSkgkXcdazezZI68FPK7oDervAF?=
- =?us-ascii?Q?nWCxULHT+PI8MiDpNt4Nkk9nwgWnP6C3UxGtZCrfZ7U2K1hxe9fne1TyJoVb?=
- =?us-ascii?Q?JB0UkVTtQASUB7KjNvr1aEzv3EqeT1yAX8pNsSbiuyiAHEVaaxWapLgvKDwp?=
- =?us-ascii?Q?gWLrkajb9KuUKMN4RH4DOezw8qXvBFG5X5VpTu16WTjcvaOOkIOQj8C3sVDE?=
- =?us-ascii?Q?/WaDGzQsRvbK0chZu2VRKBzb0PXRjVqu/ss4v7iL8RdBj6vS1ImBtJ9UB1TH?=
- =?us-ascii?Q?33K5QaQ47DO2E3aOxXHVd0+YlLHyYBq2Lb2/2buQfVAvfjAg9Fj8Kp+Y2KYR?=
- =?us-ascii?Q?pZkrfZZiq6Q4lE8bmZJZr1CF4PYK2LxV/hMA1himNAzmUN1Oz8tODe36cycY?=
- =?us-ascii?Q?8WjBWGJZiydzarrewwChOhGvUI52MZPCcqmsVWeF7LcNbFSX7BZO3opXqsqb?=
- =?us-ascii?Q?oRkX06LJrT6twsFwAHC99d0J1gcAkYpk14KrhHUj4IL68IwZ2auw25BzBtjp?=
- =?us-ascii?Q?rcoMLoT7g5Tjpf/OKnYyZBVkGPZ4l3xHlAVCkOkcmjJz7P/fCuUspMr5cAdT?=
- =?us-ascii?Q?Ta6Lp+akzEbbUPIu5het+j0pfJkeGRaHAuw/bJzM6CKHlzsAilTDyMcbX5pK?=
- =?us-ascii?Q?eHjMkbWr3lgU8qWvKCARaGIJkfbcTwHNxCkgmkyPJgXr+lF1ZVvgwxpzYSoe?=
- =?us-ascii?Q?KNmOQGqymZxLCQEc1r/iMPvGjFGOd3GtKdpSe9Sojl5/tgHtqcSyKad2Jaca?=
- =?us-ascii?Q?WAq/E0Z8saPhVRCveaDfg4SDaZ+pZK8j9yKY+e2DhfkAwGNouKGOjWWXysQ3?=
- =?us-ascii?Q?1y21cn2oRnen1eX6hoJ/0e65kxMPsr2eq9zSx6/4xTUnXUyRpTvQWhZqdmDI?=
- =?us-ascii?Q?lRBjvYsk2YNYFqUIld2C7zVHD/BtgFlyiybM1d0oqcbwbnAGAvBXV5G7fjKF?=
- =?us-ascii?Q?9wPc6mk4fNFIkZmHYI2GUx8sl4qw9OVwH2rEoOxtN8RQN2l8ze3mATNo2XXS?=
- =?us-ascii?Q?xUYtdd1mYOM2s7+Tz/gFVGAh+PPyJcsxcbhSa2ebaY7Jva74csqYd36pU4NX?=
- =?us-ascii?Q?WbwfbVjMO1gswa/cV69r1BwJV4LQdqIC6qoueZi6TfnAtdGhJKPVTXm8rNTy?=
- =?us-ascii?Q?0sr25wtZ61r5KxZcywLmSjw0i0Ne4vAU5cM/mi7qZgZ1gZOrGBu2HK5VoqOr?=
- =?us-ascii?Q?IyMSrNkaaAQEchKiJhEDbNGKFuQEl+GAOnCNUJA7eY0HkTsQQ7HKBRirWfa1?=
- =?us-ascii?Q?Old0B/mClPV4fuJm2feu8EYx2nd64dsrdwVLhupy3ITl7+PMSggBKOBAFFlA?=
- =?us-ascii?Q?QlXePf1RX3aT0Tm3nIXxQY5WVvxgVFM0olo9cF7hutjrrh3zg3yn6f73gFx7?=
- =?us-ascii?Q?mrT1MQ=3D=3D?=
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a087b893-eda5-4791-131e-08daf0010caf
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2023 16:14:12.6811
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: U/d9NB8naD+gVRfaUBNDzSXELNV/Htfg77rkxJWnfe0Do0JbubJU07X3v+BdslovyjmfgrGeFgUsTVlwp8YZ8HJhpDzSHdc3A05bMG605z4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4PR10MB6119
+References: <20230104121808.1065203-1-toertel@gmail.com> <20230104121808.1065203-3-toertel@gmail.com>
+ <CADkTA4OBb1J9Ld19rzvuQntdj04rRUdH9sP=cPSKwvO=U1s-Tw@mail.gmail.com>
+ <CAEE5dN1jL4KYpYMz9En=NqiEE-Bu8HsCXhTSUgECekktmjr78A@mail.gmail.com>
+ <CADkTA4NhVxONZONVWd9yP4g735Mr5cVThLPcWRUv0vBYkXmc3A@mail.gmail.com>
+ <CAEE5dN09OUTNQXNaDBBmVmrC9N2+r96chz4Q8NhtsF7vqZkMcg@mail.gmail.com> <a305ae31f8b440d79f66e63b38d1c42c8c6960b6.camel@linuxfoundation.org>
+In-Reply-To: <a305ae31f8b440d79f66e63b38d1c42c8c6960b6.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 6 Jan 2023 11:15:47 -0500
+Message-ID: <CADkTA4PY+MGpNJqSre5yTvLMPsMdN-nhNEoS3u3Li7jUrqcRCg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] linux-yocto: Autoload sound driver on QEMU x86
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Mark Jonas <toertel@gmail.com>, openembedded-core@lists.openembedded.org, 
+	michael.opdenacker@bootlin.com
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Jan 2023 16:14:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175596
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Jan 2023 16:16:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175597
 
-Am Fri, 6 Jan 2023 09:56:01 +0100
-schrieb Florian Bezdeka <florian.bezdeka@siemens.com>:
+On Fri, Jan 6, 2023 at 6:27 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Fri, 2023-01-06 at 11:13 +0100, Mark Jonas wrote:
+> > Hi Bruce,
+> >
+> > On Thu, Jan 5, 2023 at 3:57 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+> > >
+> > > On Thu, Jan 5, 2023 at 8:42 AM Mark Jonas <toertel@gmail.com> wrote:
+> > > >
+> > > > Hi Bruce,
+> > > >
+> > > > On Wed, Jan 4, 2023 at 5:07 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+> > > > >
+> > > > > On Wed, Jan 4, 2023 at 7:18 AM Mark Jonas <toertel@gmail.com> wrote:
+> > > > > >
+> > > > > > From: Mark Jonas <toertel@gmail.com>
+> > > > > >
+> > > > > > If DISTRO_FEATURES includes ALSA then automatically load the
+> > > > > > snd-intel8x0 kernel module on qemux86 and qemux86-64. This matches the
+> > > > > > machine configurations conf/machine/qemux86.conf and qemux86-64.conf.
+> > > > > >
+> > > > > > Signed-off-by: Mark Jonas <toertel@gmail.com>
+> > > > > > ---
+> > > > > >  meta/recipes-kernel/linux/linux-yocto.inc | 5 +++++
+> > > > > >  1 file changed, 5 insertions(+)
+> > > > > >
+> > > > > > diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+> > > > > > index 091003ed82..c8a9b0a1e3 100644
+> > > > > > --- a/meta/recipes-kernel/linux/linux-yocto.inc
+> > > > > > +++ b/meta/recipes-kernel/linux/linux-yocto.inc
+> > > > > > @@ -37,6 +37,11 @@ KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'efi', 'cfg/
+> > > > > >  KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'numa', 'features/numa/numa.scc', '', d)}"
+> > > > > >  KERNEL_FEATURES:append = " ${@bb.utils.contains('MACHINE_FEATURES', 'vfat', 'cfg/fs/vfat.scc', '', d)}"
+> > > > > >
+> > > > > > +# sound driver recommended by conf/machine/qemux86*.conf
+> > > > > > +ALSA_MODULES = "${@bb.utils.contains("DISTRO_FEATURES", "alsa", "snd-intel8x0", "", d)}"
+> > > > > > +KERNEL_MODULE_AUTOLOAD:qemux86 += "${ALSA_MODULES}"
+> > > > > > +KERNEL_MODULE_AUTOLOAD:qemux86-64 += "${ALSA_MODULES}"
+> > > > >
+> > > > > This gets us most of the way, but if we are going to do this we should
+> > > > > complete the job.
+> > > > >
+> > > > > We really need to make sure there's a configuration fragment that
+> > > > > explicitly enables
+> > > > > the modules we need (and not count on defaults, or other selects). That would go
+> > > > > into the kernel-cache.
+> > > > >
+> > > > > It would then be something we'd add to the KERNEL_FEATRES triggered off the
+> > > > > distro feature. Just like we are doing with numa and vfat that is visible in the
+> > > > > context of the patch.
+> > > >
+> > > > In my understanding this is already the case. See for example
+> > > > linux-yocto_5.19.bb which contains the following lines.
+> > > >
+> > > > KERNEL_FEATURES:append:qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
+> > > > KERNEL_FEATURES:append:qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
+> > > >
+> > > > Does that maybe mean I should better add the KERNEL_MODULE_AUTOLOAD
+> > > > into the same file where the corresponding configuration fragment is
+> > > > added? But that would mean to duplicate the lines over five recipes.
+> > > >
+> > > > Alternatively I could move the cfg/sound.scc out of the recipes into
+> > > > the linux-yocto.inc. But then linux-yocto-tiny_*.bb recipes would also
+> > > > get it.
+> > >
+> > > I definitely wasn't clear. Sorry about that, I'm still partially on
+> > > holidays and didn't have enough coffee when I wrote that.
+> > >
+> > > That is close to what I meant. It is one thing to define the options
+> > > in our generic sound "buckets" and another to put a specific module
+> > > into the autoload.
+> > >
+> > > If we are going to autoload a module, the option really should be
+> > > pulled out of the generic bucket, and put into something smaller /
+> > > specific to what we are trying to do, and trigger the inclusion of
+> > > that fragment only when the appropriate distro feature is set. The
+> > > machine conf files specifying specific modules isn't ideal, since it
+> > > is largely "aspirational" unless it is coupled with a KERNEL_FEATURE
+> > > that is set based on a machine or distro feature.
+> >
+> > I have to admit that I feel a bit lost. I am not really sure I
+> > understood what you meant.
+> >
+> > Is the "generic bucket" cfg/sound.scc? But why should we break that
+> > up? A module only ends up in an image if the module is installed. And
+> > the installation is controlled e.g. by MACHINE_EXTRA_RRECOMMENDS in
+> > the machine file.
+>
+> I might also be misunderstanding but I think what Bruce is asking is
+> that the qemux86 sound pieces be broken out of cfg/sound.scc. In case
+> you didn't find them, the files are here:
+>
+> https://git.yoctoproject.org/yocto-kernel-cache/tree/cfg/sound.scc
+> https://git.yoctoproject.org/yocto-kernel-cache/tree/cfg/sound.cfg
+>
+> and the question is which of the options in sound.cfg are the drivers
+> which qemu needs on x86.
+>
+> I think Bruce would like a patch which splits those items out and
+> triggers them on qemux86 specifically.
+>
+> This means if things change in future, we know exactly which module
+> options we need for sound on qemux86.
+>
+> Bruce can correct me if I misunderstand! :)
 
-> On 05.01.23 14:24, Henning Schild wrote:
-> > Am Thu,  5 Jan 2023 12:52:22 +0000
-> > schrieb Felix Moessbauer <felix.moessbauer@siemens.com>:
-> >   
-> >> This patch extends the imager direct class to check if the
-> >> mountpoint of a to-be-added entry in the fstab is already there.
-> >> If it is, the old entry is removed and the new entry is appended.
-> >>
-> >> This solves issues with duplicated entries that come from the
-> >> rootfs itself. One example where this happens is when generating
-> >> images for both direct kernel boot and EFI. In this case, the
-> >> rootfs mountpoint needs to be in the fstab of the rootfs and needs
-> >> to be replaced in WIC.
-> >>
-> >> With this logic, the reverted commit 20d43a2 can be included again.
-> >>
-> >> Reviewed-by: Florian Bezdeka <florian.bezdeka@siemens.com>
-> >> Signed-off-by: Felix Moessbauer <felix.moessbauer@siemens.com>
-> >> ---
-> >>  scripts/lib/wic/plugins/imager/direct.py | 10 ++++++++++
-> >>  1 file changed, 10 insertions(+)
-> >>
-> >> diff --git a/scripts/lib/wic/plugins/imager/direct.py
-> >> b/scripts/lib/wic/plugins/imager/direct.py index
-> >> dfaa901567..085bf8b463 100644 ---
-> >> a/scripts/lib/wic/plugins/imager/direct.py +++
-> >> b/scripts/lib/wic/plugins/imager/direct.py @@ -104,6 +104,14 @@
-> >> class DirectPlugin(ImagerPlugin): 
-> >>      def update_fstab(self, image_rootfs):
-> >>          """Assume partition order same as in wks"""
-> >> +
-> >> +        def _get_mountpoint(line):
-> >> +            """return the mount point of an fstab entry or None"""
-> >> +            parts = line.split()
-> >> +            if line.startswith('#') or len(parts) != 6:
-> >> +                return None
-> >> +            return parts[1]
-> >> +
-> >>          if not image_rootfs:
-> >>              return
-> >>  
-> >> @@ -142,6 +150,8 @@ class DirectPlugin(ImagerPlugin):
-> >>              line = "\t".join([device_name, part.mountpoint,
-> >> part.fstype, opts, "0", passno]) + "\n"
-> >>  
-> >> +            # if this mountpoint is already in the fstab, replace
-> >> it
-> >> +            fstab_lines = [item for item in fstab_lines if
-> >> _get_mountpoint(item) != part.mountpoint] fstab_lines.append(line)
-> >>  
-> > 
-> > please bbwarn here, while this seems ok it indicates that two places
-> > write different things and users might want to drop the offending
-> > line from their template  
-> 
-> That is the expected behavior. wic has to update the entry for / and
-> that is what it does. I can't find a reason why we should warn here.
+That is correct!
 
-maybe because we turned "auto" to "ext4" and "1 1" to "0 0" ... see
-cover letter. And all pretty much without leaving a trace how that
-could happen.
+Something like sonud-intel.scc/cfg or sound-qemu.scc/cfg that just contains
+what we need for those particular drivers, as they have a well defined
+use case, and there's no need for ALL the other drivers to be enabled,
+built and packaged if you really know your target machine.
 
-We see that wic messing with fstab / is useful but can have fun
-effects, that is why that initial patch was reverted.
+The KERNEL_FEATURES append would then be something like:
 
-I say we only bring it back in a way that uses can not again see fun
-effects, maybe by warning them and or requiring them to be explicit by
-introducing a new arg for part.
+SOUND_FEATURES="${@bb.utils.contains('MACHINE_FEATURES', 'alsa',
+'cfg/sound-intel.scc', '', d)}"
+KERNEL_FEATURES:append:qemux86=" ${SOUND_FEATURES} cfg/paravirt_kvm.scc"
 
-Otherwise we might just be adding the next patch to revert later, and
-we have to poll again because we are not on CC for that revert.
+Or it could all be done in the single append, etc, but having it in a
+variable might
+give us more flexibility for other qemu or target machines to re-use it.
 
-Henning
+My example keeps the machine specific enablement in the KERNEL_FEATURES
+append, but there are any number of ways to do it (since my proposed
+configuration
+fragment has "intel" in it, it could be confusing :))
 
-> > 
-> > Henning
-> >   
-> >>              updated = True
-> >>    
-> >   
-> 
+Bruce
 
+>
+> > > If you search the mailing list archives, you'll see me musing about
+> > > how I need to change those unconditional appends of option to qemu, as
+> > > it makes defining a new qemu machine problematic (if the options are
+> > > causing issues). The tweak I'm describing is a small step in that
+> > > direction.
+> >
+> > What I understood is that you propose to change the existing
+> >
+> > KERNEL_FEATURES:append:qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
+> > KERNEL_FEATURES:append:qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
+> >
+> > in e.g. linux-yocto_5.19.bb to (remove cfg/sound.scc)
+> >
+> > KERNEL_FEATURES:append:qemux86=" cfg/paravirt_kvm.scc"
+> > KERNEL_FEATURES:append:qemux86-64=" cfg/paravirt_kvm.scc"
+> >
+> > and add (move) the following into linux-yocto.inc
+> >
+> > KERNEL_FEATURES:append:qemuall="
+> > ${@bb.utils.contains('MACHINE_FEATURES', 'alsa', 'cfg/sound.scc', '',
+> > d)}"
+> >
+> > That is, instead of coupling the compilation of QEMU sound driver
+> > modules based on machine name qemux86 and qemux86-64 we activate it
+> > for all QEMU machines which also have alsa as a MACHINE_FEATURE. And
+> > that is set in machine/include/qemu.inc.
+> >
+> > > One new question comes to mind, what init system were you testing with
+> > > (default poky and sysvinit ?) ? If we now have the proper init system,
+> > > are no events being triggered to load the modules now that the proper
+> > > ones are in the machine files ?
+> >
+> > I was testing on Poky with the default init system i.e, sysvinit.
+> > Without the KERNEL_MODULE_AUTOLOAD line the snd-intel8x0 module is not
+> > loaded.
+> >
+> > And it seems you are right: The KERNEL_MODULE_AUTOLOAD is superfluous.
+> > Even when I remove the second patch the modules are still loaded. I am
+> > a little puzzled why it originally seemed to me that it was necessary.
+>
+> I'm not sure on that. The kernel will try and autoprobe for drivers for
+> hardware it has present where it can though.
+>
+> Cheers,
+>
+> Richard
+>
+>
+
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
