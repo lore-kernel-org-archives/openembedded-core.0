@@ -1,77 +1,124 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98489C3DA7A
-	for <webhook@archiver.kernel.org>; Fri,  6 Jan 2023 17:43:19 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web11.321.1673026990921612432
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3187C54EBD
+	for <webhook@archiver.kernel.org>; Fri,  6 Jan 2023 18:10:48 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web10.322.1673028647798895114
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Jan 2023 09:43:11 -0800
+ Fri, 06 Jan 2023 10:10:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SbksdzHC;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id bs20so1950317wrb.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Jan 2023 09:43:10 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=k1rAdcWP;
+ spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f50.google.com with SMTP id f34so3044197lfv.10
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Jan 2023 10:10:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vj8JgvyGY6PCiLNayfrmHlL2dkU41jqGHeAGq88tZN4=;
-        b=SbksdzHCr3rsc+vCVP4EudlMVhAobH2cqgak39ngGMSDbJijhH0Wy/AClJU+wMxdTJ
-         cOosXcXYuWMvRtRBA4o62BdfSveik1fq4InG/9k186T4Ci7bEqQzDjouDVJxI+lsJuQ5
-         99d669i8eRYhccrASi1QhQXT7z8kpH25MhIxw=
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=pNfp+lG/fkBUmCyRvXMXyyYjx6tM9iehWMCrug96dKI=;
+        b=k1rAdcWPfcHLhdn0e0pcRQtLsUMAR5q8g/SNumOc5eZN5lcjjaixRLC/dx9+ty6FT9
+         lhAIs+Zp0KdgyzOWAg27LLbm+B8HXpCixu2uOeKFbpz5QebrCBdpBbl8MRjZKkgUah2d
+         L/G0hBDUID1IU4sHC37RQhl5ZyMGql+5HMT1XipCF7kZee/Umdduk7twtYwfwZZstHT+
+         gs3SL3USsD9bH8jIwlHY7tYgVj0OObiyQkuQOix2bcoNPLnepKDEik4T8NDTqKhr1G1p
+         npTdkHFBPOb9A7nAxItqZaRjopl7zHGssVqj+YTRadn1xmNo9ZsOayuqG6xjTIt8tLpI
+         cNew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=vj8JgvyGY6PCiLNayfrmHlL2dkU41jqGHeAGq88tZN4=;
-        b=bDaL162aGJHnZ4J8kpoWdTwmoFMUs6KZJTfPMQ6wIQTa3Ul9DvAXRZSEtyQE4DtOyd
-         r/2q4Sf57EsQKVKSmf3mhfTR8RARhGzruImDRmxcNnlWRZ4Z18QC3Z07M6OY7yEnKuoS
-         VCS9zGETbqn6fpJqQpLQ4MRx9FPc/wPieQ7QL7XpP6T2b1tHidm9qMzXRGOMQgUHJ/W/
-         PfVgpHI7x7T+EulLFUNyx2YOG/5UrkbWK4WhZDx2r6xyS7CiBj42Std89Oa2ACFZwN+z
-         nVr9IIjQN67742E+/ptZ0fIeaEJd1E2EXn4yn+8OIoVV7+kE4ScNxolV9weLZ1kXS6ej
-         5nOg==
-X-Gm-Message-State: AFqh2kqpYlJrwPsovaXHl7haX4DtP5shMmvgl2zeXuc9672inwmWzPgq
-	b/G1o3Lh1Z/0uTajBkbnoOizfpiRta9vjCze
-X-Google-Smtp-Source: AMrXdXvAb+eVj8dkMO5B7IUIiycGzX+BPg+sXDCrRJyIxwO77otWzUakxcM9SPwfzfD2kghN9miEZQ==
-X-Received: by 2002:adf:dd88:0:b0:242:ac4:4a0c with SMTP id x8-20020adfdd88000000b002420ac44a0cmr42352548wrl.32.1673026989380;
-        Fri, 06 Jan 2023 09:43:09 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:49cf:c46d:e32d:e951? ([2001:8b0:aba:5f3c:49cf:c46d:e32d:e951])
-        by smtp.gmail.com with ESMTPSA id a11-20020a5d508b000000b002779dab8d85sm1731826wrt.8.2023.01.06.09.43.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Jan 2023 09:43:08 -0800 (PST)
-Message-ID: <fe3e76df0154434f52285cfcf813b06e277352e5.camel@linuxfoundation.org>
-Subject: Re: [OE-core][langdale 00/22] Pull request (cover letter only)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Steve Sakoman <steve@sakoman.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 06 Jan 2023 17:43:08 +0000
-In-Reply-To: <CAOSpxdYmgB33V_TcvRkqXSrB-4SzoDqyYNwMjZuujOdzZCokyg@mail.gmail.com>
-References: <cover.1672843046.git.steve@sakoman.com>
-	 <CAOSpxdYmgB33V_TcvRkqXSrB-4SzoDqyYNwMjZuujOdzZCokyg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.1-0ubuntu1 
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pNfp+lG/fkBUmCyRvXMXyyYjx6tM9iehWMCrug96dKI=;
+        b=jzqnuH7qLg722HJvQXSZh9b5SGPsXXx6MKCjvcoC2ifY12aBeBd7D15yTSVOYBSRb8
+         Koz10WaDTyoy44MAwKfseRlL2nR3WFPLwUlfcGrG2oXpoAqbkW3ycudtYFMSP/gxKWc5
+         GuX056A+Xz5GI1o5nr6/bnlVi7cLcjnXoTPvF22npJJocgB/n4Nop82udssvT8DPidB+
+         9MTn5CG8d8IvQJzhDLCeX0XR5jfEpvSYFlKmt2DmQxOJhd75i0cuZAO/0D7Xr4yAkbUR
+         OiUU9thdq4CtFdy61Po+Xr+e6R0C7t2OODn9GIVyAvgavjOV411+xYu3TjS2P4Q60o6M
+         NQMQ==
+X-Gm-Message-State: AFqh2krGAW8087pTWotdP656cvdSAVvztGn+D0b+82x058pViCrU+tFn
+	Uoa3KowRh92207ntLKbgLWWpsxOXdqj1PESN2NM=
+X-Google-Smtp-Source: AMrXdXt/aGswfbJIfUriYZL+L0JVonDOuyAkO9B6VZO9S/VxdiimLCVnGeB7l6pZ1aKp+j/8oIDzPEdi91EuB+CKF2c=
+X-Received: by 2002:a05:6512:261f:b0:4ca:fd2a:d984 with SMTP id
+ bt31-20020a056512261f00b004cafd2ad984mr1995928lfb.445.1673028645760; Fri, 06
+ Jan 2023 10:10:45 -0800 (PST)
 MIME-Version: 1.0
+References: <20230106161621.1288055-1-ross.burton@arm.com> <1737C75520A6A960.7095@lists.openembedded.org>
+In-Reply-To: <1737C75520A6A960.7095@lists.openembedded.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 6 Jan 2023 19:10:34 +0100
+Message-ID: <CANNYZj-3bjdP5Ta1qEJZ4WAp=h_ZWYU4QEfydYMDVboxjxk19Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] elfutils: disable deprecation errors in all
+ builds, not just native
+To: alex.kanavin@gmail.com, Khem Raj <raj.khem@gmail.com>
+Cc: Ross Burton <ross.burton@arm.com>, openembedded-core@lists.openembedded.org, 
+	nd@arm.com
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Jan 2023 17:43:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175608
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Jan 2023 18:10:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175609
 
-On Fri, 2023-01-06 at 04:33 -1000, Steve Sakoman wrote:
-> I neglected to add a comment that this is the final pull request for
-> the langdale 4.1.2 build on Monday.
->=20
+Curl marks deprecated API with this macro:
 
-Thanks. I think I've pulled in all the right pieces and I pushed a ba
-bump too so we're hopefully ready to build. I'll check with Michael on
-when we can best run that.
+#define CURL_DEPRECATED(version, message) \
+    __attribute__((deprecated("since " # version ". " message)))
 
-Cheers,
+For some reason, our target gcc 12.x does not interpret it as a
+'deprecation' and stays silent - no warnings, no errors. But other
+compilers do take it as an issue.
 
-Richard
+Any hints?
+
+Alex
+
+
+
+On Fri, 6 Jan 2023 at 18:09, Alexander Kanavin via
+lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
+wrote:
+>
+> But how did this make it through all the builds? Something doesn't compute here.
+>
+> Alex
+>
+> On Fri, 6 Jan 2023 at 17:16, Ross Burton <ross.burton@arm.com> wrote:
+> >
+> > The curl-related deprecation errors affect all builds not just native,
+> > so set CFLAGS instead of BUILD_CFLAGS.
+> >
+> > Signed-off-by: Ross Burton <ross.burton@arm.com>
+> > ---
+> >  meta/recipes-devtools/elfutils/elfutils_0.188.bb | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-devtools/elfutils/elfutils_0.188.bb b/meta/recipes-devtools/elfutils/elfutils_0.188.bb
+> > index c94e36071cd..084908a38c0 100644
+> > --- a/meta/recipes-devtools/elfutils/elfutils_0.188.bb
+> > +++ b/meta/recipes-devtools/elfutils/elfutils_0.188.bb
+> > @@ -34,7 +34,7 @@ EXTRA_OECONF = "--program-prefix=eu-"
+> >
+> >  BUILD_CFLAGS += "-Wno-error=stringop-overflow"
+> >  # compatibility with curl 7.87; can be removed when elfutils upstream fixes the deprecation fails
+> > -BUILD_CFLAGS += "-Wno-error=deprecated-declarations"
+> > +CFLAGS:append = " -Wno-error=deprecated-declarations"
+> >
+> >  DEPENDS_BZIP2 = "bzip2-replacement-native"
+> >  DEPENDS_BZIP2:class-target = "bzip2"
+> > --
+> > 2.34.1
+> >
+> >
+> >
+> >
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#175602): https://lists.openembedded.org/g/openembedded-core/message/175602
+> Mute This Topic: https://lists.openembedded.org/mt/96096249/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
