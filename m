@@ -2,55 +2,57 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87568C3DA7A
-	for <webhook@archiver.kernel.org>; Fri,  6 Jan 2023 17:12:11 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.19551.1673025124616351128
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A99ACC3DA7A
+	for <webhook@archiver.kernel.org>; Fri,  6 Jan 2023 17:15:01 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web10.19658.1673025292109997389
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Jan 2023 09:12:04 -0800
+ Fri, 06 Jan 2023 09:14:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aKC5Gql3;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id h16so1840850wrz.12
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Jan 2023 09:12:04 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Nia/3iYw;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id bg13-20020a05600c3c8d00b003d9712b29d2so4022748wmb.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Jan 2023 09:14:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oIKjIVIAJoGFYJRsvyRPonQejwbKqPh2CZUJgjl0aPY=;
-        b=aKC5Gql3HXF7fNaEqBAYWH6llsgAmADZc/3fBzs+OBkI8KOKZ1OUBN8pTzOhUYXIF4
-         C2MjZhTdLrX9ASZzeZDXV29zYp6OvqggLNWENfHtPr1IYReyP2Gmsn6NQqCeKxw8XgTl
-         cGciPWP8HvIrQM7Ctzh7DU4p5C6Gf+X3XDXsw=
+        bh=RvHnIa0QO/Ypv5DeFokyz+Da6h+yGnxOaVOZnfVS4wE=;
+        b=Nia/3iYwvyFU8yWo9rtMdP51UnDzKAvwdnCbqQgrbDUDueRL09JEIeah41mUI0uqw+
+         3BHT9FP0fPuQDpz1aJfPB4GdUvSuApHyWOq91SL3sP/PsvmDDtrWJeZ8sNWJw2fLYrBA
+         CydratgMi20s2NbVmDzdPA/uriBozAoe36lBU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=oIKjIVIAJoGFYJRsvyRPonQejwbKqPh2CZUJgjl0aPY=;
-        b=8MvmaCAmIF7A7YVw8RR3lfG68Sq0cIGXOXOQm5o7ss1249ObMHTqsdPuSp1HOu7sAs
-         vpjpJTg1fOSP6Fl6EFfXvQ+AWziYsNsWYVicQVCdkdwwZoY/2nbrrNKGFTRIwqIptHyA
-         zr/pznxm90mj+QB1T1maGPKptaQ1AJ3936iNpW9g7bi/LdzzejGCjQobNhkZs/QkJIJk
-         GF5Cl3B2dgd4wqACtXDR0RWfByHo048AYfGjgGLF0atRpdYgSkTEZCTKZd5gv8U6gWxf
-         ox6tjcKEeq/QsUL+M72bSGTGoicZSJKINWcfalxKUCsfrjyeb+jfwGItVb04eaSekmhG
-         O2mA==
-X-Gm-Message-State: AFqh2krHUbKdIXB9kGo/Md0ldZ+V+Vhzi1RbuBmODPdFML+ILIOIFDH5
-	dcTyOQop4diUusVZfvwyZ7VhEA==
-X-Google-Smtp-Source: AMrXdXuEopUy1PRE4l+LwaefsJibklSwAMmLiDV9A97yWVzpkxJP2gb2vtEVvFd2yyfHKfr1QYy6rQ==
-X-Received: by 2002:a05:6000:12ca:b0:273:10f7:5c43 with SMTP id l10-20020a05600012ca00b0027310f75c43mr32396323wrx.50.1673025122916;
-        Fri, 06 Jan 2023 09:12:02 -0800 (PST)
+        bh=RvHnIa0QO/Ypv5DeFokyz+Da6h+yGnxOaVOZnfVS4wE=;
+        b=07wrxgK75MKjBo/d+IcX3079oRcKq/qeGCKP6rTQfq1oQ20183SCyFdfyw7vPxKEJ9
+         EyVTi38sSyXHUp+vIAuB+1X/iKdGCbiCCOazXgY83NbkgtqnZeQhWFgGWCLtG+DRSbA/
+         cXQweQCtIXmx6cP74kWaLwjHy57RJim5PfHguVN0AcSh2O8Ra97DtFgK0f/AlDeGb7Ex
+         iqMfu/ig01gI9kFvjZTfEGDqJG6qxT9p0uv8Q3gk0rIcIEJzAkdzd2FtYWb3f1lJET6S
+         CbbefMd8ZN8toK80/7+5lsLVFCn/JyRCOKDiQKt+X3muxkNaS3Y7GR02p2s5+hvLaEib
+         GsJQ==
+X-Gm-Message-State: AFqh2kosiKwS/W1YEA6SZv/1QqpMrrDk3gUgrqnHHy0l2Ba7y0K1zpFt
+	sxgWM8w+mSMNDNpYk/JevMwcWQ==
+X-Google-Smtp-Source: AMrXdXuyJ8UrwaJ/012+E7v1XDqjzVgAzgJXPtM8cHnGOGKa5Gz1gyePcPtMazC/CIMoz7Irnv+JTQ==
+X-Received: by 2002:a05:600c:1509:b0:3d2:17a5:17fe with SMTP id b9-20020a05600c150900b003d217a517femr40085614wmg.18.1673025290345;
+        Fri, 06 Jan 2023 09:14:50 -0800 (PST)
 Received: from ?IPv6:2001:8b0:aba:5f3c:49cf:c46d:e32d:e951? ([2001:8b0:aba:5f3c:49cf:c46d:e32d:e951])
-        by smtp.gmail.com with ESMTPSA id a11-20020a5d508b000000b002779dab8d85sm1666445wrt.8.2023.01.06.09.12.02
+        by smtp.gmail.com with ESMTPSA id r7-20020a05600c458700b003d974076f13sm2688276wmo.3.2023.01.06.09.14.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Jan 2023 09:12:02 -0800 (PST)
-Message-ID: <8f5570c166d038c15e06417fd6ecb4dfbd3f99cf.camel@linuxfoundation.org>
-Subject: Re: [PATCH 1/2] busybox: save a copy of autoconf.h before compiling
+        Fri, 06 Jan 2023 09:14:49 -0800 (PST)
+Message-ID: <d23c3d94a126fa25bd82d5c7dd9e5a0565008068.camel@linuxfoundation.org>
+Subject: Re: [PATCH 2/2] busybox: rm temporary files if do_compile was
+ interrupted
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Antonin Godard <antoningodard@pm.me>, 
 	openembedded-core@lists.openembedded.org
-Date: Fri, 06 Jan 2023 17:12:01 +0000
-In-Reply-To: <20230106170048.2662828-1-antoningodard@pm.me>
+Date: Fri, 06 Jan 2023 17:14:49 +0000
+In-Reply-To: <20230106170048.2662828-2-antoningodard@pm.me>
 References: <20230106170048.2662828-1-antoningodard@pm.me>
+	 <20230106170048.2662828-2-antoningodard@pm.me>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.1-0ubuntu1 
@@ -58,122 +60,36 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Jan 2023 17:12:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175603
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Jan 2023 17:15:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175604
 
-On Fri, 2023-01-06 at 17:01 +0000, Antonin Godard wrote:
-> Busybox's compiling process alters autoconf.h. When compiling a second
-> time (e.g. with `compile -f`), busybox uses this altered file for
-> compiling, which ultimately produces different binaries.
+On Fri, 2023-01-06 at 17:02 +0000, Antonin Godard wrote:
+> To avoid working with undeterministic config files, remove all the
+> temporary files to start from scratch.
 >=20
-> This can produce errors like this one:
+> Signed-off-by: Antonin Godard <antoningodard@pm.me>
+> ---
+>  meta/recipes-core/busybox/busybox.inc | 2 ++
+>  1 file changed, 2 insertions(+)
 >=20
-> ERROR: busybox-1.35.0-r0 do_package: Error executing a python function in=
- exec_func_python() autogenerated:
-> The stack trace of python calls that resulted in this exception/failure w=
-as:
-> File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
->      0001:
->  *** 0002:ptest_update_alternatives(d)
->      0003:
-> File: '=E2=80=A6/poky/meta/classes/ptest.bbclass', lineno: 100, function:=
- ptest_update_alternatives
->      0096:        for alt_name, alt_link, alt_target, _ in alternatives:
->      0097:            # Some alternatives are for man pages,
->      0098:            # check if the alternative is in PATH
->      0099:            if os.path.dirname(alt_link) in bin_paths:
->  *** 0100:                os.symlink(alt_target, os.path.join(ptest_bindi=
-r, alt_name))
->      0101:}
->      0102:
->      0103:do_configure_ptest_base[dirs] =3D "${B}"
->      0104:do_compile_ptest_base[dirs] =3D "${B}"
-> Exception: FileExistsError: [Errno 17] File exists: '/bin/busybox.suid' -=
-> '=E2=80=A6/busybox/1.35.0-r0/package/usr/lib/busybox/ptest/bin/login'
->=20
-> This happens because ALTERNATIVE:busybox contains `/bin/login` twice,
-> initially that's because `/bin/login` is present in both
-> busybox.links.suid and busybox.links.nosuid. The reason for that is
-> because of the altered autoconf.h.
->=20
-> Steps to reproduce above error:
->=20
-> <add ptest to distro configs>
-> bitbake busybox -c clean
-> bitbake busybox -c package -f
-> bitbake busybox -c compile -f
-> bitbake busybox -c package -f
+> diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/bu=
+sybox/busybox.inc
+> index 5dd783aa24..126afb522e 100644
+> --- a/meta/recipes-core/busybox/busybox.inc
+> +++ b/meta/recipes-core/busybox/busybox.inc
+> @@ -155,7 +155,9 @@ do_compile() {
+>  		# split the .config into two parts, and make two busybox binaries
+>  		if [ -e .config.orig ]; then
+>  			# Need to guard again an interrupted do_compile - restore any backup
+> +			# and remove temporary files.
+>  			cp .config.orig .config
+> +			rm -f .config.app.suid .config.app.nosuid .config.disable.apps .confi=
+g.nonapps
 
-Thanks. This patch looks much better and is on the right list.
-
-I did now also confirm that the ptest in/out of DISTRO_FEATURES doesn't
-matter. You just need:
-
-bitbake busybox -c compile -f
-bitbake busybox -c package -f
-bitbake busybox -c compile -f
-bitbake busybox -c package -f
-
-This means it is just a re-run of do_compile problem and the issue is
-the timestamps on .config and include/autoconf.h need to match.
-
-I can see a whole load of potential bugs here so I was wondering if you
-could tweak your patch to:
-
-a) at the end of do_configure, always copy .config and
-include/autoconf.h to ".orig" copies.
-
-b) Always restore clean copies at the start of do_compile
-
-c) At the end of the do_compile function, .config is restored, we
-should also restore a matching autoconf.h
-
-d) Add a comment about the timestamps of .config and autoconf.h needing
-to match.
-
-This should mean that a compile doesn't reuse an obsolete .orig file if
-configure was rerun and ensure that the right copy of autoconf.h is
-restored at the end of do_compile.
+These latter list of files can probably be removed unconditionally?
 
 Cheers,
 
 Richard
-
-
-
->=20
-> This patch replaces include/autoconf.h by the original if it was
-> previously saved.
->=20
-> Signed-off-by: Antonin Godard <antoningodard@pm.me>
-> ---
->  meta/recipes-core/busybox/busybox.inc | 7 +++++++
->  1 file changed, 7 insertions(+)
->=20
-> diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/bu=
-sybox/busybox.inc
-> index 5f1c473d5e..5dd783aa24 100644
-> --- a/meta/recipes-core/busybox/busybox.inc
-> +++ b/meta/recipes-core/busybox/busybox.inc
-> @@ -145,6 +145,13 @@ do_compile() {
->  	export KCONFIG_NOTIMESTAMP=3D1
->=20
->  	if [ "${BUSYBOX_SPLIT_SUID}" =3D "1" -a x`grep "CONFIG_FEATURE_INDIVIDU=
-AL=3Dy" .config` =3D x ]; then
-> +		# Restore or save original autoconf.h to start from a clean
-> +		# state since the compiling process modifies this file.
-> +		if [ -f include/autoconf.h.orig ]; then
-> +			cp include/autoconf.h.orig include/autoconf.h
-> +		else
-> +			cp include/autoconf.h include/autoconf.h.orig
-> +		fi
->  		# split the .config into two parts, and make two busybox binaries
->  		if [ -e .config.orig ]; then
->  			# Need to guard again an interrupted do_compile - restore any backup
-> --
-> 2.25.1
->=20
->=20
->=20
 
 
