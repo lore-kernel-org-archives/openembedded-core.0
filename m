@@ -2,230 +2,192 @@ Return-Path: <florian.bezdeka@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32529C5479D
-	for <webhook@archiver.kernel.org>; Fri,  6 Jan 2023 08:48:29 +0000 (UTC)
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.51])
- by mx.groups.io with SMTP id smtpd.web11.9442.1672994899983807226
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23C8EC54E76
+	for <webhook@archiver.kernel.org>; Fri,  6 Jan 2023 08:56:09 +0000 (UTC)
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com (EUR01-HE1-obe.outbound.protection.outlook.com [40.107.13.85])
+ by mx.groups.io with SMTP id smtpd.web10.9749.1672995367407297423
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Jan 2023 00:48:20 -0800
+ Fri, 06 Jan 2023 00:56:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=A6cfcSD/;
- spf=pass (domain: siemens.com, ip: 40.107.7.51, mailfrom: florian.bezdeka@siemens.com)
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=Wg4nb0QU;
+ spf=pass (domain: siemens.com, ip: 40.107.13.85, mailfrom: florian.bezdeka@siemens.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e8CEwMVeqqDVl8RydrvWqcX4GR7VD+Ra8EGEyouKQqxlLsk247s0xIJmwt3CJHjfOYjtmaryfrKVDLSOKZtrVzGCXess30jt5PgxJ748uldytd5cyXji9o08ySPMEH7QCHv8fVOxWrO7oViECvhIbq1VxdfVjVa5erZzjKLXKgK1c16fepvfH/AhpC50XZrGom1dAtrxBe5SKirTaajb6PiWyBqUyykJojqk9c3RBYD41sSSOMRg4BUwx68iT+s7KSe/HlyJQ16UGWSm3JPdABUkYQo9bsmNDbzwWJ7inasmSaZP03Xzk9KBbApK/gDcLzusKf3ASf0RqeCSGbp+Ug==
+ b=Qr0dahOgJBnIiKr7JIB0mjgjt7eK464NCN6y6nxb18QecWDH8NxWBBfA4LCUeO0vO2Ehv/2nIRAQ34w4Asnxy6vgX4FRdxNoAO0WR/HMAURbvnRr6sHGtN6qHSW8bTIMryoVZ2GDvZmawsHQjHY4HLquue6Z50yhGUThr0CQ8dj4PAfyOyG346grrs+eBbUipGIBfShqAx2X+gunYARxX2lHnfIjSl+c74odrLJTJkUscsjs1avTi/jffyIY8CApSAvq4lDCw4u8vQxWXSEZPpqh7u9osuVlL+C18rB68fzgpqGwGjsIKckxvfkgTo0eGFPZvND7AEZC9lZGFEaaPQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lftrHt6BsgSACeDfDgNrQwIAqSGL/tMDwR+wsG6NOVs=;
- b=Vzz3myTCLyDaUHzAcO9+fp0gl+6U5/9tENeteBdJNoT5VCSybqSQfy2Uak8hHI3c3bNKZoVYFrADCr7ffgm65BvpmSpkjYNitR8FLf0QH7ifAG5hFZtOe7fTYR4jFSPE5D9s4nblPTS24AFcoug5vld6Co5UEBG4ewTxUQqv09vhKtx0XZopN36PIHhbZTwIASgkKmG5ImOggIqtm3vHue9TWwld26JRY0GxdkvGXrGNs1sd8hUjkXD1SKulXmiOaI1MY9EODgAVcUBbqOPKMTvHGSFTXC8Po8bBuI/6s9GeBNIZGcIMFy6d4Q/2wIxmrAVXyO4Th+AtoGecByAOnA==
+ bh=USn8FHXa6nuRWgz7LAXyDVZo/5y7qszgomreniAji40=;
+ b=n4t47I4bBtNELkbmtQg/fXg5Ts9Wbi+dX3QWxU5nVBgiLeKxq4QDUeS+1UPw1XUWmR0p/fDPtWeo1JKRJlfV0gEvtv6hXXb+A3tjMXL3TgVcXLCQ6h+DzNw5y0UMoBq7Z04OGJzenQT24XlzHhO8HVnJ+Pyli7RsfShwSH1W1zGe+z9vMAsQaTb6ULaEKKdfyaCW3Cexmq1U8tcVS/dURhLab6qQXwofywHHBQNoD76vK8lqHyUNflnQubp+RG9PUZnsw/FWzHpxdTsfzV61upH5YWWS+CszSZVlcSKqo2S/yehndUTeoiIB5S0UnIBhVmaeTa2x33qN7z1YWufpSw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
  dkim=pass header.d=siemens.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lftrHt6BsgSACeDfDgNrQwIAqSGL/tMDwR+wsG6NOVs=;
- b=A6cfcSD/P28XWQ+FueEqQ4+djv7MMDJwH/y1KmF1crajNm9SwHEknMaisgub+G4fL60HapcwXhLccQarDceHnaxQyLNA0EJGlzO5+cWeQCL8P3xY3W+7x8xjR5egSVNmyaSyT/IpVQYokKA2lq/4aUwxKEe5ZQ/HCDONb8BFp/jbp4LuNT2yKWKJcIitzYBfVyX0UiDW9fGKbFocih2KvmbLwwqoEfX1WezLIoXLjzWQAwlupYEuIKxPSX4AtsmPmErZAp+fzbuXxpypKOquKxkOL9F0w8IFKeXHAioyyU4YwX96ewa2/4E/JbNAWNyg+Acy/s5UXscSrvcorhevYg==
+ bh=USn8FHXa6nuRWgz7LAXyDVZo/5y7qszgomreniAji40=;
+ b=Wg4nb0QUtnzrH6lxhVekPq4bwupnJXny58IJ95NoP8JngfrqkpOuF7r6/n6g+GJruz7qlUtyMJmwhHGpc7V40z1L+d/c2XRjbmu81LQgsA9KssvVgrX5sKwnLz/pycJKK7opShGpzQ/tlMu+svyiNiI/SI0oojFyBrZn8VDhflS072BTy7nAM0yNk7d4dEA6FUoQcJk3qARAh8IT5xZH/BjlJ0Ptw2DqVKxrDiFlhUVvgoPfwL792h1HOWQHpAJdA6Bzi7Yzxp2M4VMI8DHJjXiFPXK1UjoZrr+lcWJOhkxdi2IO4VMDg3vgLvhQ/KHd4wLvwB8oFkYJNsVuXtNsnA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=siemens.com;
 Received: from PAXPR10MB5712.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:248::14)
- by DU0PR10MB5430.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:329::17) with
+ by PAVPR10MB7282.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:31d::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.19; Fri, 6 Jan
- 2023 08:48:16 +0000
+ 2023 08:56:04 +0000
 Received: from PAXPR10MB5712.EURPRD10.PROD.OUTLOOK.COM
  ([fe80::13db:8a1:709a:4671]) by PAXPR10MB5712.EURPRD10.PROD.OUTLOOK.COM
  ([fe80::13db:8a1:709a:4671%5]) with mapi id 15.20.5944.019; Fri, 6 Jan 2023
- 08:48:16 +0000
-Message-ID: <be26914f-98dd-81d7-09a4-edadb888fcf2@siemens.com>
-Date: Fri, 6 Jan 2023 09:48:12 +0100
+ 08:56:04 +0000
+Message-ID: <9e1cddbf-1214-0571-3826-bea0c182a7a7@siemens.com>
+Date: Fri, 6 Jan 2023 09:56:01 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [OE-core][PATCH 0/2] wic/plugins/images/direct: replace fstab
+Subject: Re: [OE-core][PATCH 1/2] wic/plugins/images/direct: replace fstab
  entries
 Content-Language: en-US
-To: henning.schild@siemens.com,
+To: Henning Schild <henning.schild@siemens.com>,
  Felix Moessbauer <felix.moessbauer@siemens.com>
 Cc: openembedded-core@lists.openembedded.org, ross.burton@arm.com,
  alexandre.belloni@bootlin.com, richard.purdie@linuxfoundation.org,
- tobiasschmidl@siemens.com, luca.ceresoli@bootlin.com
+ luca.ceresoli@bootlin.com
 References: <20230105125223.398216-1-felix.moessbauer@siemens.com>
- <20230105142224.7743db91@md1za8fc.ad001.siemens.net>
+ <20230105125223.398216-2-felix.moessbauer@siemens.com>
+ <20230105142439.42b893f6@md1za8fc.ad001.siemens.net>
 From: Florian Bezdeka <florian.bezdeka@siemens.com>
-In-Reply-To: <20230105142224.7743db91@md1za8fc.ad001.siemens.net>
+In-Reply-To: <20230105142439.42b893f6@md1za8fc.ad001.siemens.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0115.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a8::14) To PAXPR10MB5712.EURPRD10.PROD.OUTLOOK.COM
+X-ClientProxiedBy: FR2P281CA0096.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9b::19) To PAXPR10MB5712.EURPRD10.PROD.OUTLOOK.COM
  (2603:10a6:102:248::14)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR10MB5712:EE_|DU0PR10MB5430:EE_
-X-MS-Office365-Filtering-Correlation-Id: cd927158-1327-4a13-1e1e-08daefc2c0be
+X-MS-TrafficTypeDiagnostic: PAXPR10MB5712:EE_|PAVPR10MB7282:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6f771c3c-2665-4438-985c-08daefc3d79d
 X-LD-Processed: 38ae3bcd-9579-4fd4-adda-b42e1495d55a,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	cYbijX0bceHMTkW7PuL32qfdU6HwH2Ost/eFcwTE5Vb/x6eDrpQqaVkPIsg4oTEyU59xFUuHV2D2NzMUFFxviB1fszcLZNj7V5+OFCJHSVATfY4MVVggHZmqfnhRTTItoqbuW1qqsn75QSlDsaJ/nEkBuusWECtubywTzxovAMwct4+4pH8U+4k06SF+b5Djhe75vFXa+XoBiDX19Nsw0b3DklrCapAD48AYdYeWZNZ0E6FAdHA+2+wihTA1nDskad+GXdqHrsCFXob5JSC6IEmcrg00gMezIgtbV2OX1zFpiOWUUBXwcFdWluwgiQ0TdmWJ+15YOjuxny1D7ywxdWXRGVrgl0stNyn38neL1HOVwGRlvK0m1npCR/Pguy6XJ8l8KfJXf0g/fTYblMO6Zpp2Ge814cTdWcCBp0AG2qMyH0ndl5JG8ICHELMM253j4hzX9toNuUwxvgEsVFrI3zikvkppiLUQHHshL+uMsLRG0yNx2SMGjhYVnqsBgGP14yZu9CN3Z3y5q/13TgQYdpRJICxYp2viAt/FTWV21dBK2nBHcKblhRC+cU6vmzb728pA58WY859U+5jSPDDziKdRP2tG9M6uRe8vPJ92ueEG30JlbL3uF+XAnxgq7xRvVDqkdVTZZB+VV0zxEi1s0V0eJLirh19W2+UCu1Xe8tuEq4q+8U+KbzhOqkTgS9yRmk2c5wZtL+FNEZxS1eyE7VA7oBh4PDvTUtg6ri7cYLTFrhmRRIUldi54bhYGPjH9nh/Nx4ZbM4RyWJFcWwrU1hJyxL5yz/B9WoRkfcWocKIVstaSEH9Ks3gm3y/437pF
+	in32PRoiDC2NVFNlPmC4sJLsPHz9EZC8RVy5UD6DhYPbsZVpzDr0Mx9rnW3+ngEqCFLjJW75rbknQh6sx4Xxo70QkdojqDokoET4uZkJZ73/LV7O0RghK/UFrQHPuArCXnprdp9OKLVY9xXetDN2NA+FprGX7XocAGe5/kfZQtUtS+fNgNbUTEHusvCXuRpDh3aY5xUDFdUaiGX5ofUrHHarJlMvYeMypDAvY1sR+UMMKsXrBh7noN+YNuodmrGc8WkY8xEue8fl773nSWQozVqrd9VdzQL6FeTbI1EGwmUzesNvn+8BY4nbRSQPPg0wT++NhFkXNfwFGaBBIuBwiZa4MPPZtt68nTYMzG9reb8LnIOYrsFqcej72cGsHyesqMbL5TNdmjwptha8cJ0SHHkf4BlyOI0Jc1Dm5WtRwQZ0K36r+CZCQYjfZ4m9GfbyWy5ozTMhaVTUTXXRKe48gWytnPk3pT7XRVHoU0RCINe3yQMx8sqaaMCgE8Ikod7QQImB2f/BGtfOWpcPVyc3TjuDEyKGPii41o4HM+boyXa/WghmZM4aQHg6hQbPFyHLEYrjkTlOGCW3tUbLskya7qhYWGzpD5sIx1fKqFCJ9z9a2elhEkZJP+LV/6+AwVVp1QASldfLS5Rweq9mRnwy5ejrSXD2QdnUcRYCHVbScZrhsBDUwIJX5ZHc3MM3vClnAqPnAnFNEzOcGMAGrT2qiOTpKXIQWm/HOCEQVTsFrWM=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR10MB5712.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(39860400002)(366004)(136003)(376002)(346002)(451199015)(83380400001)(86362001)(31696002)(8936002)(44832011)(2906002)(38100700002)(5660300002)(41300700001)(6666004)(478600001)(2616005)(8676002)(186003)(6512007)(53546011)(316002)(6506007)(66476007)(4326008)(26005)(966005)(66946007)(6486002)(66556008)(6862004)(6636002)(37006003)(66899015)(31686004)(82960400001)(36756003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR10MB5712.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(136003)(39860400002)(346002)(366004)(376002)(451199015)(110136005)(6666004)(6486002)(31686004)(26005)(6636002)(186003)(66946007)(66476007)(2616005)(8676002)(478600001)(6512007)(66556008)(41300700001)(5660300002)(44832011)(83380400001)(8936002)(2906002)(4326008)(316002)(82960400001)(38100700002)(86362001)(53546011)(6506007)(36756003)(31696002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?cWdHV2xsWWo3KzlBdVFnNFFwZ1ljNU5wSVJNdVRpTzRRdVRvWGVWOWhPcmtZ?=
- =?utf-8?B?c1JXRFF1ZGJqRTdwaFgzOUp6K3d6RFcwMTZXLzJXQVQ5Y1BTcVR5Q2JWWm5m?=
- =?utf-8?B?TWJ5VTNnU28ranZtaTd5bERIdjJnQ2JyK3FCL2xjRFJTUFdZTDMweUdtKzZ5?=
- =?utf-8?B?Sm1VeFNqcmJheUFIV2xsVDZQZlc3U1Y1dHZsT2dDUFlacG03czJWVFI5blBX?=
- =?utf-8?B?N0s3cnBVc2ErWGdLTHVVRDBVOStnbDJJcEpmL3lDaVU0TVlUN01zQ003Z0ZW?=
- =?utf-8?B?U2hWRlAyM2lJbGRQMHh0SDZ6N1RFMmxFRTFuZXo3NW1PTnVLRDFOallNL0NB?=
- =?utf-8?B?RzE1dElZenR6RnowVkp3QlgrUlVQcEcyQWVoM0dJOXRCOEwxWXBWb0o5aGZy?=
- =?utf-8?B?VjJrMDBBQktsdktZeFlnYXNCbXVUMzU4VmdWM0hNRlQxTXZQK1FNRG1zSFRL?=
- =?utf-8?B?WTJKZlRoZlpqNDBHWGcwQjlGa0tGd1k4eXFUeUpDU3hVSGhLR2pZeWdaekJF?=
- =?utf-8?B?Q1RWR1MrRVZqdzdobS9vTmxPVzd1MjFwaUh4WHdSeUo4bkdOajFTbE1ISjIr?=
- =?utf-8?B?NVFaUjRlTWNrNTlTeHRXa0NHK3hoNTBDL3FGdDY2dHpKcitURWZUZ1h4cEN6?=
- =?utf-8?B?UmRHNXNJbnkrYlhyblozNjg3aXBHa3haVndrVThSS1laUlhyMGN3bXVOdk53?=
- =?utf-8?B?M0VlaUxuWVlpVER5enRpR090T3M5cmcrdytYSEpNMFZXOWhieVgrMUtkeVNj?=
- =?utf-8?B?RHZvVlRqRmNRazVKRmlMU3ZTSFpMS3hBWG13R2NsMFE5R0t5ZWppOVNtTWRW?=
- =?utf-8?B?YzFacCtvZm9DLysvNlNMaVl6NnNJeEpibjJ1dWhOT1orMS9yUVhOcW5wRnI3?=
- =?utf-8?B?TEI3SUhBalZKTmNEZEJub2hPVnZXZ0FnbFNnb25yTVYyQXdjK2VFSTRWc1o1?=
- =?utf-8?B?MVZib2NVQy82cys3dGlCUVhwRkFPamd5OVZ2UzlrZHZaNkxxTHgzSmRWU2lJ?=
- =?utf-8?B?bHBKSkJaNVlvMWVXcWNKL2ZCWnNyMG5ReDdsUm8rOWFnNVY2TUczRkMwQjBN?=
- =?utf-8?B?OFVXRmJLYzJZWEQ2SW1MR0pheU5kWGFoWlg3ME1IM3lNa2plNlpURXpzeFNL?=
- =?utf-8?B?QjIvNTZ2ZUlSMCtCMjdQcmJwNzhHbWlCZ0JlbkExalZaZndDbFgySmZ1Y2o4?=
- =?utf-8?B?RlhrOUFidnBPOWxVbG1uRldyVm1aK1NlTHhXR1dZYXZ5a3lzek82bktZc041?=
- =?utf-8?B?STI0a0k1Nnlwc2lZOGhWeUEvTGR6UHlyUGFQUEk5NkhVYTZSSEhFMkJ3cVRG?=
- =?utf-8?B?T2pSamFIUm1LZ3VHa3hnRVpWWjVwOVdQRDJzWTAxRzdUdHlUVkluaU9QQjZ4?=
- =?utf-8?B?TEdBZVlGZHZibnJwRWthaHM4MGxpQ21SYSsvNUFzOFBjTWkvcktuZllHWHk4?=
- =?utf-8?B?V29BckF0R3l5L0xHMEJtZFhUaEZTY0c2TFBVKzBWUDJlbUVwRG1SeEM5dGdQ?=
- =?utf-8?B?ekpvMEM2bEFCMTIrYlJHSjNRMTJFY25kVDZPQjVMK3FIT3ZMYXdYTHFTQWJn?=
- =?utf-8?B?elhUTjNrWnlyOU1nTkVrekVPczlqc25yTEx3RVNCbnBqeEVBaW14QWtBbHNS?=
- =?utf-8?B?WUhUNW5VVVg2RFFmUzdBVVVHbnlmZzZWUjdPQmJ5RlFiT0hDSnlVejZNZmw2?=
- =?utf-8?B?Wm5CZ1YxdDZ3VU4yUHJJdDM3WXNZZmlUU2ZpdWk1b1RXb1JEVEZISzlCc0Z3?=
- =?utf-8?B?Uk8rSy9odmRQTnd4a1BrMEUzUnBKMXBPT1dBbTcxWFlWeTk3bEhMZGU4TThZ?=
- =?utf-8?B?dFd5emFVMkhFbUpmRWFhL2JmMGZhM01NOWcvNkdsamxibm1XNjRqZWprd1pm?=
- =?utf-8?B?RUh4ODVLaWFRQkdjTHVVR05BaXd2MTIzR1FCdmFaNGs3VzJQYitvNTFXNVpq?=
- =?utf-8?B?WnRFWk9KWkJLN0Vua04wQVFPVTdnTnpsRHdBR2kvaTZqVDdBQktWV1F4ZHpu?=
- =?utf-8?B?dmNIUVhvWURSUDIzU2xrbXJxN1FaenNRNTR6dExTUzBidUo2TzRDTGRUaHVI?=
- =?utf-8?B?LzNRZkZEWFZydld5R1V2a2MvYjM2N0VGTGwyY282L1NQZFFvelQ1WmNOSFcw?=
- =?utf-8?B?cVFoRUtsb3liQ05yV3EvSFlqVzVhdVhjSjd2YWdta3AyWkEzL20rSFJLWWdK?=
- =?utf-8?B?Q3c9PQ==?=
+	=?utf-8?B?THJFWDRibW83UzBRWlIzODZvVUdhZFcxVFYyK0F4WWhhTG8wc0ZtMjFwdkRH?=
+ =?utf-8?B?OG9ZVWRDendMUUt3Z1ZKdHRPWTgrUlRQUkNSVWJhMjZZUVR5dXptb1JBUE9G?=
+ =?utf-8?B?eDdWUE9Oa0RMTE5mdGc1b0djb2xrQldvQUhTTjY2SzdTWUpYTHdvL1YyL2lj?=
+ =?utf-8?B?KzA2UklUbncrWkhySkZTZERWbVBzeitSNklmSUNxR0xCa28vZlhVSXF2U013?=
+ =?utf-8?B?MkNlRzV2YVA5RXFjZU45bUwvYkZwTDBZRUwrZnlRWUtDUmY3TEgyMng2M01j?=
+ =?utf-8?B?VjZMWlV1N0lLVi9rSHlJRWtjYzd1cldHMUFEb2pTeFJ0dWJXU3RGWXYwMEdN?=
+ =?utf-8?B?ai84ejFZMDk1SWdjZnhyRG5VcmZReERTSzZFd1RiKzkwNGFHbnRYbnFRS3kr?=
+ =?utf-8?B?Z1ZZTExvU09zc1ZGSVlySDh3V3hWT3dFTEUzVzM2UlV5cHROMHBaNm9MU1hD?=
+ =?utf-8?B?Z0FESWZlL3VGa1M3a2prdWg4NWZBNVZBRWVyanlVblBIMjZrdDl2YnloZmJs?=
+ =?utf-8?B?cWxEcjV0ay9INnk5QTNxRFJCcUovMStzRXBaVFExVHBvNm1rSTF0NkVhNXZz?=
+ =?utf-8?B?eDQvNW5VSjBtZ1NJKy95aGZXREZDUEV6QTcyNWZpa3JQb3M4QTlkaHhzWSs2?=
+ =?utf-8?B?RnlYYUV0Q2Z3MndmbWMxblI5S3dTR1hSZDdCTlZDSVYxenlRMExuc003SDNx?=
+ =?utf-8?B?d2VLdURLVk4zclB5Slh1aER1MkIxakE2QjFCcVVVelBhdnRNT3JPakJseDRB?=
+ =?utf-8?B?MEVBVWVraU1LYTk3N0tEN295OGxUVkxEUkllSG4zTFR1T2JyKzQ0Nk5JSDZV?=
+ =?utf-8?B?QlZUOXRBemRCZW8rTVJsZ1F2YTVZS091bHJ3WFdsNHhYNUViVEd2SHF0aFNt?=
+ =?utf-8?B?cVlOSkpZS0YxN3JJZTFYaDB6anh3THZVeG53K3lnY21UMVJINEhwU1V3UWdG?=
+ =?utf-8?B?SCtPc2h5Y0ZvZE40NGNBdFRyM015WUZrUXY2VFcwQU9BdnJsa3REUmEyay9M?=
+ =?utf-8?B?YnU2OG9PZnJCYkVhb0EyNHRxcERubTB2bGhXQXJIWVRlbkpkekwrdVFhRlFl?=
+ =?utf-8?B?SkF1ZlFQRFpNWHRVM0lIYTNWeHFwMDZUY2dhQ0tBaHlPY3FrUjNrYzNkYXhB?=
+ =?utf-8?B?STBZcitKTjltNEo0QVFyeVRreUdRa3J5aFd6UkRhU3lFWUg1N3BUZjBHaHZN?=
+ =?utf-8?B?YlRVeDFpdjJSYlpJVGFjNXJFUzZ2UWRBeEd5c0tFSTF1bHBmTDVDRTZxV3J4?=
+ =?utf-8?B?S1I3MDVBT2llZWFubVY4ZCtXRFRJUExOV2xaVHpIS25BSCtNLzNSb1ZKbXpm?=
+ =?utf-8?B?RkRkQkNnZDk4enlFQUVIZzlkZmdMZE80ZUFMdDRUK3JwbzNEVk1CSmJmS1dn?=
+ =?utf-8?B?QTFrVmtvcEc1dGIzeEZxY1krV21WaGo2aFRrYUV0bGEwZ1lFWXRjTnpDNEN6?=
+ =?utf-8?B?L3UyRFhuT20zMjlTY1RVUy9WSW9ETVBHZno4VVBJOExnaUE1enNGMEVPaEdj?=
+ =?utf-8?B?ZDVKZXZjWVRsTG5UMUpOMTZzbFQvR2xFNmtLWlhCSHlHV0JNN2o0bWpmamI3?=
+ =?utf-8?B?bjRiWko5MVZJZGdNbGIvVzhvanZOeGdGWlZ3RThsbFFkOWlXN0pXZkMyVWdE?=
+ =?utf-8?B?R1JHUG1ZYWVOaUUvMEkvQ296eEVOZWZQQXZHblFiSXB6OHNvZmR0UURzVVUw?=
+ =?utf-8?B?RXFjTFIvVnpsSk4xYSs5cWE3cnFSNWhoLzJnZ1Y3WUxzclYvcGF4KzBPMXh5?=
+ =?utf-8?B?TkxsenZ3YjR1dldkQThabGlKT0k4VHAwT1ozNGRhYStMSUxxUVdRWU8zYmhG?=
+ =?utf-8?B?QU50Q0RWYTU5UHAxK3A4Q2cvNFg4UEI5TEhDc0dUeGtsTlROTzQvR3JjcmZC?=
+ =?utf-8?B?SWYzaGZXZVNuK2RiM2lTS2w4ZGFROVZGUjgwUmtIRllxSG9RdDNSRC9NdElZ?=
+ =?utf-8?B?WUFzcDVrVGpMc01iMDEyckliM1JUUUF5MCtRMHZOM2w0Q24vRy9zcFU4b3ZS?=
+ =?utf-8?B?QlF4Z0tlbCtBVFRuUU5HNmJscHVIRzltdTRsSmNvYmNqd1NseXpsZnk1K1F1?=
+ =?utf-8?B?ZE5FQ2NEK0VMMURFdXlZeW4vZ1BoWUoxZVhOaFcyR2pycmd5cHBVRTMwT3lj?=
+ =?utf-8?B?WUVnM1RNQmRDYlMzQWp1K0FkQ1ZWNDlYcVAvTjlTZzA5a2NmQ3VSSU5lRDdV?=
+ =?utf-8?B?UlE9PQ==?=
 X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cd927158-1327-4a13-1e1e-08daefc2c0be
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6f771c3c-2665-4438-985c-08daefc3d79d
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR10MB5712.EURPRD10.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2023 08:48:16.4756
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2023 08:56:04.2687
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NQfEReX/wSqKVhcGvcOAqwJBXi4RhwZ/BSVutRZojw7V6xaOcfK1xaiFwu+V+MsXeY0KlYrLl/BAus0dJqX39mB4Fq8I+k90CLY4wbYp5l8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB5430
+X-MS-Exchange-CrossTenant-UserPrincipalName: pPJ36zmpEYE9U4swnReMGqtuZcWU6jo95Co8CvfzmIbCvnONvas5KCe7PLvhDrcmTzQLL4vPwVPcGc4gPfWTNrU54BRSpXrtrUAHwe7r6J0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR10MB7282
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Jan 2023 08:48:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175561
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Jan 2023 08:56:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175562
 
-On 05.01.23 14:22, Henning Schild via lists.openembedded.org wrote:
-> Am Thu,  5 Jan 2023 12:52:21 +0000
+On 05.01.23 14:24, Henning Schild wrote:
+> Am Thu,  5 Jan 2023 12:52:22 +0000
 > schrieb Felix Moessbauer <felix.moessbauer@siemens.com>:
 > 
->> For comparison, here the fstab files for the ext4 and the wic version
->> of the core-image-minimal (see below).
+>> This patch extends the imager direct class to check if the mountpoint
+>> of a to-be-added entry in the fstab is already there. If it is, the
+>> old entry is removed and the new entry is appended.
+>>
+>> This solves issues with duplicated entries that come from the rootfs
+>> itself. One example where this happens is when generating images for
+>> both direct kernel boot and EFI. In this case, the rootfs mountpoint
+>> needs to be in the fstab of the rootfs and needs to be replaced in
+>> WIC.
+>>
+>> With this logic, the reverted commit 20d43a2 can be included again.
+>>
+>> Reviewed-by: Florian Bezdeka <florian.bezdeka@siemens.com>
+>> Signed-off-by: Felix Moessbauer <felix.moessbauer@siemens.com>
+>> ---
+>>  scripts/lib/wic/plugins/imager/direct.py | 10 ++++++++++
+>>  1 file changed, 10 insertions(+)
+>>
+>> diff --git a/scripts/lib/wic/plugins/imager/direct.py
+>> b/scripts/lib/wic/plugins/imager/direct.py index
+>> dfaa901567..085bf8b463 100644 ---
+>> a/scripts/lib/wic/plugins/imager/direct.py +++
+>> b/scripts/lib/wic/plugins/imager/direct.py @@ -104,6 +104,14 @@ class
+>> DirectPlugin(ImagerPlugin): 
+>>      def update_fstab(self, image_rootfs):
+>>          """Assume partition order same as in wks"""
+>> +
+>> +        def _get_mountpoint(line):
+>> +            """return the mount point of an fstab entry or None"""
+>> +            parts = line.split()
+>> +            if line.startswith('#') or len(parts) != 6:
+>> +                return None
+>> +            return parts[1]
+>> +
+>>          if not image_rootfs:
+>>              return
+>>  
+>> @@ -142,6 +150,8 @@ class DirectPlugin(ImagerPlugin):
+>>              line = "\t".join([device_name, part.mountpoint,
+>> part.fstype, opts, "0", passno]) + "\n"
+>>  
+>> +            # if this mountpoint is already in the fstab, replace it
+>> +            fstab_lines = [item for item in fstab_lines if
+>> _get_mountpoint(item) != part.mountpoint] fstab_lines.append(line)
 > 
-> In fact one probably really wants no fstab / line at all, unless it is
-> ever somehow explicitly asked for.
-> The bootloader and kernel need to know that, in the rootfs it only
-> makes some sense if you have "special needs". Having it in the rootfs
-> just means that your rootfs is kind of device specific ... say you want
-> to use the same rootfs for nfs and nvme, or same content but in ext4 vs
-> btrfs
+> please bbwarn here, while this seems ok it indicates that two places
+> write different things and users might want to drop the offending line
+> from their template
 
-Henning, for now we're not trying to introduce any architectural or
-fundamental change. We simply fix a bug (duplicate / entry in fstab).
+That is the expected behavior. wic has to update the entry for / and
+that is what it does. I can't find a reason why we should warn here.
 
-The duplicate entry was not a problem in the past but that changed with
-newer systemd versions. That was the reason why the initial
-implementation was reverted.
-
-If necessary wic can now replace the entry for the rootfs if it has to,
-e.g. for adding a correct UUID. In addition the image stays consistent
-when wic is not used as imager (like for ext4 images).
-
-> 
-> I think the best way would be to drop / from the template first. Later
-> allow wic to edit and add it like proposed here. But only when that is
-> explicit ... --root-fstab-update
-> 
-> Or in the end people can decide what to do about their own template,
-> but i suggest making this explicit for this special mountpoint
-> with something like --root-fstab-update
 > 
 > Henning
 > 
->> Putting all persons in CC who have been involved in the first try and
->> in the revert.
->>
->> Best regards,
->> Felix Moessbauer
->> Siemens AG
->>
->> .ext4
->> ```
->> # stock fstab - you probably want to override this with a machine
->> specific one
->>
->> /dev/root            /                    auto       defaults
->>      1  1 proc                 /proc                proc
->> defaults              0  0 devpts               /dev/pts
->> devpts     mode=0620,ptmxmode=0666,gid=5      0  0 tmpfs
->>   /run                 tmpfs      mode=0755,nodev,nosuid,strictatime
->> 0  0 tmpfs                /var/volatile        tmpfs      defaults
->>           0  0
->>
->> # uncomment this if your device has a SD/MMC/Transflash slot
->> #/dev/mmcblk0p1       /media/card          auto
->> defaults,sync,noauto  0  0 ```
->>
->> .wic
->> ```
->> # stock fstab - you probably want to override this with a machine
->> specific one
->>
->> proc                 /proc                proc       defaults
->>      0  0 devpts               /dev/pts             devpts
->> mode=0620,ptmxmode=0666,gid=5      0  0 tmpfs                /run
->>             tmpfs      mode=0755,nodev,nosuid,strictatime 0  0 tmpfs
->>               /var/volatile        tmpfs      defaults              0
->>  0
->>
->> # uncomment this if your device has a SD/MMC/Transflash slot
->> #/dev/mmcblk0p1       /media/card          auto
->> defaults,sync,noauto  0  0
->>
->> /dev/sda1       /boot   vfat    defaults        0       0
->> UUID=c53e2046-48db-4533-8083-b997d9976fbf       /       ext4
->> defaults        0       0 ```
->>
->>
->> Felix Moessbauer (2):
->>   wic/plugins/images/direct: replace fstab entries
->>   Revert "Revert "wic/plugins/images/direct: Allow changes in fstab on
->>     rootfs""
->>
->>  scripts/lib/wic/plugins/imager/direct.py | 12 +++++++++++-
->>  1 file changed, 11 insertions(+), 1 deletion(-)
->>
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#175524): https://lists.openembedded.org/g/openembedded-core/message/175524
-> Mute This Topic: https://lists.openembedded.org/mt/96070800/5792637
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [florian.bezdeka@siemens.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+>>              updated = True
+>>  
 > 
 
 
