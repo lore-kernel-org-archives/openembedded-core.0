@@ -1,130 +1,198 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C95BBC3DA7A
-	for <webhook@archiver.kernel.org>; Fri,  6 Jan 2023 14:10:00 +0000 (UTC)
-Received: from mailout10.t-online.de (mailout10.t-online.de [194.25.134.21])
- by mx.groups.io with SMTP id smtpd.web10.14198.1673014192280692665
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D13B5C3DA7A
+	for <webhook@archiver.kernel.org>; Fri,  6 Jan 2023 14:33:40 +0000 (UTC)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web11.14716.1673015617306316553
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Jan 2023 06:09:52 -0800
+ Fri, 06 Jan 2023 06:33:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.21, mailfrom: f_l_k@t-online.de)
-Received: from fwd76.dcpf.telekom.de (fwd76.aul.t-online.de [10.223.144.102])
-	by mailout10.t-online.de (Postfix) with SMTP id 7D10810518;
-	Fri,  6 Jan 2023 15:09:49 +0100 (CET)
-Received: from [192.168.178.83] ([79.219.229.129]) by fwd76.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1pDnPp-3jWM0u0; Fri, 6 Jan 2023 15:09:49 +0100
-Date: Fri, 06 Jan 2023 15:09:43 +0100
-From: Markus Volk <f_l_k@t-online.de>
-Subject: Re: [OE-core] [PATCH] libportal: add opengl to
- REQUIRED_DISTRO_FEATURES
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: "Yu, Mingli" <mingli.yu@eng.windriver.com>,
-	openembedded-core@lists.openembedded.org
-Message-Id: <70I2OR.1GRVLP9YUW9F@t-online.de>
-In-Reply-To: 
-	<CANNYZj_cxDBBbe3mz3R5qiiqeSaiQp-Q6Sj_druYWbXcxeFDVQ@mail.gmail.com>
-References: <20230106100806.838732-1-mingli.yu@eng.windriver.com>
-	<CANNYZj_cxDBBbe3mz3R5qiiqeSaiQp-Q6Sj_druYWbXcxeFDVQ@mail.gmail.com>
-X-Mailer: geary/40.0
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=skDwJZ5H;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.47, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f47.google.com with SMTP id vm8so3868001ejc.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Jan 2023 06:33:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JY4LPeviceK4oNMOYh4bUOdDB97A7BVItkOpT7mVn+8=;
+        b=skDwJZ5HEqrkujbJRUjjvhpqxeBZBWPv6Rx4JBa1JwgSRp+EC4GU0IR4kqwxBr65UN
+         i0WPSGmf6Ru1nnuTCXJpwhE5WgzrvIBAK547fpechtxrJezJUeZdB22kHaWpQ0Z8J3ht
+         fqyID02eewiSFsZ5uJ6Skt/L7/3YMI4DChmVe9Z3/6ISEuR5IgFZJvLjpmAi32m5b3Bu
+         wxO0xl8OdibM8njNKdrmpKyNQ/Uzp2hIY6CznXblA4PisAPDBA6ns7YpGXNHCSYwUsX9
+         vZboqAvcUNTDLwuig8cH+58uFILN1f+amPajoX4XULAke6rL7C5e8r40zjtRVxHZKmgT
+         GFBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JY4LPeviceK4oNMOYh4bUOdDB97A7BVItkOpT7mVn+8=;
+        b=JAKeAxDAfpoQ4yL6Via6/BVwXyWQHHEB6V5XaKo8f0aO++RKdx8mxlyFiP+vWzWH2R
+         VqO3DoWTgECiDBwkKtaXKDz0pkKFD0by2n14MPpo4xPgELSQWSnGa2pmeHfSK01Jr8H5
+         sl1dHtbZO8jVBdfIO7qs4rHblkGCt46rxjY6j1/a7NKIM6GXYtnwDYBRKxLJFJr8FShZ
+         GjoqDjFmKaylJKf9dgOe7Csan1aFkmawwEkK/DnZJsqF9FNlqj+fqJmzFhk1OAreBNFy
+         H6PS0LCqa23uTA8mDASdHYaHUrPt2h1MU2A2dGKkiBdo3KQc9Z03uU7yiUEQj7o77YtP
+         iozg==
+X-Gm-Message-State: AFqh2kptheViBVkrW/kAJJM/DUv+2owrtAPli978TdEfhg3mPu1TU1m8
+	mQaIE7HkS/ur7vda3/+B3zleGDOik13dVs5BfsoeKkkG7+C8nq8A
+X-Google-Smtp-Source: AMrXdXswc4MfNXk5ElRMC05IGlvPcvNYpkPMDumy6cFrrqeFWBN8qjl35jq+oU7qFB6YbPAj0xS+Zi4kYneu9WEiSM8=
+X-Received: by 2002:a17:907:d48a:b0:7c1:10b6:3ea0 with SMTP id
+ vj10-20020a170907d48a00b007c110b63ea0mr4908280ejc.132.1673015615423; Fri, 06
+ Jan 2023 06:33:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-uoWhIlSusJmIXcbqcahI"
-X-TOI-EXPURGATEID: 150726::1673014189-EDFF0A26-9ABE7806/0/0 CLEAN NORMAL
-X-TOI-MSGID: aa903bfe-cc9d-4ba1-b498-7bfdc3b49010
+References: <cover.1672843046.git.steve@sakoman.com>
+In-Reply-To: <cover.1672843046.git.steve@sakoman.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Fri, 6 Jan 2023 04:33:23 -1000
+Message-ID: <CAOSpxdYmgB33V_TcvRkqXSrB-4SzoDqyYNwMjZuujOdzZCokyg@mail.gmail.com>
+Subject: Re: [OE-core][langdale 00/22] Pull request (cover letter only)
+To: openembedded-core@lists.openembedded.org, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Jan 2023 14:10:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175592
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Jan 2023 14:33:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175593
 
---=-uoWhIlSusJmIXcbqcahI
-Content-Type: text/plain; charset=us-ascii; format=flowed
+I neglected to add a comment that this is the final pull request for
+the langdale 4.1.2 build on Monday.
 
-Maybe the REQUIRED_DISTRO_FEATURES = "opengl" line should just be 
-removed from gtk4.bb ?
+Steve
 
-Am Fr, 6. Jan 2023 um 11:31:30 +0100 schrieb Alexander Kanavin 
-<alex.kanavin@gmail.com>:
-> Please stop. What problem does adding this solve?
-> 
-> Alex
-> 
-> On Fri 6. Jan 2023 at 11.08, Yu, Mingli <mingli.yu@eng.windriver.com 
-> <mailto:mingli.yu@eng.windriver.com>> wrote:
->> From: Mingli Yu <mingli.yu@windriver.com 
->> <mailto:mingli.yu@windriver.com>>
->> 
->>  libportal depends on gtk4 which needs opengl DISTRO_FEATURES, so
->>  add opengl DISTRO_FEATURES requirement for libportal too.
->> 
->>  Signed-off-by: Mingli Yu <mingli.yu@windriver.com 
->> <mailto:mingli.yu@windriver.com>>
->>  ---
->>   meta/recipes-gnome/libportal/libportal_0.6.bb 
->> <http://libportal_0.6.bb/> | 1 +
->>   1 file changed, 1 insertion(+)
->> 
->>  diff --git a/meta/recipes-gnome/libportal/libportal_0.6.bb 
->> <http://libportal_0.6.bb/> 
->> b/meta/recipes-gnome/libportal/libportal_0.6.bb 
->> <http://libportal_0.6.bb/>
->>  index ca58ef4138..cb3c5631d9 100644
->>  --- a/meta/recipes-gnome/libportal/libportal_0.6.bb 
->> <http://libportal_0.6.bb/>
->>  +++ b/meta/recipes-gnome/libportal/libportal_0.6.bb 
->> <http://libportal_0.6.bb/>
->>  @@ -14,6 +14,7 @@ inherit meson gi-docgen gobject-introspection 
->> vala features_check pkgconfig
->>   GIDOCGEN_MESON_OPTION = 'docs'
->> 
->>   ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
->>  +REQUIRED_DISTRO_FEATURES = "opengl"
->> 
->>   DEPENDS += "glib-2.0 glib-2.0-native gtk+3 gtk4"
->> 
->>  --
->>  2.25.1
->> 
->> 
->> 
->> 
-
-
---=-uoWhIlSusJmIXcbqcahI
-Content-Type: text/html; charset=us-ascii
-
-<div id="geary-body" dir="auto"><div>Maybe the&nbsp;REQUIRED_DISTRO_FEATURES = "opengl" line should just be removed from gtk4.bb ?</div></div><div id="geary-quote" dir="auto"><br>Am Fr, 6. Jan 2023 um 11:31:30 +0100 schrieb Alexander Kanavin &lt;alex.kanavin@gmail.com&gt;:<br><blockquote type="cite"><div dir="auto">Please stop. What problem does adding this solve?</div><div dir="auto"><br></div><div dir="auto">Alex</div><div><br><div class="gmail_quote"><div dir="ltr" class="gmail_attr">On Fri 6. Jan 2023 at 11.08, Yu, Mingli &lt;<a href="mailto:mingli.yu@eng.windriver.com">mingli.yu@eng.windriver.com</a>&gt; wrote:<br></div><blockquote class="gmail_quote" style="margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)">From: Mingli Yu &lt;<a href="mailto:mingli.yu@windriver.com" target="_blank">mingli.yu@windriver.com</a>&gt;<br>
-<br>
-libportal depends on gtk4 which needs opengl DISTRO_FEATURES, so<br>
-add opengl DISTRO_FEATURES requirement for libportal too.<br>
-<br>
-Signed-off-by: Mingli Yu &lt;<a href="mailto:mingli.yu@windriver.com" target="_blank">mingli.yu@windriver.com</a>&gt;<br>
----<br>
-&nbsp;meta/recipes-gnome/libportal/<a href="http://libportal_0.6.bb" rel="noreferrer" target="_blank">libportal_0.6.bb</a> | 1 +<br>
-&nbsp;1 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/meta/recipes-gnome/libportal/<a href="http://libportal_0.6.bb" rel="noreferrer" target="_blank">libportal_0.6.bb</a> b/meta/recipes-gnome/libportal/<a href="http://libportal_0.6.bb" rel="noreferrer" target="_blank">libportal_0.6.bb</a><br>
-index ca58ef4138..cb3c5631d9 100644<br>
---- a/meta/recipes-gnome/libportal/<a href="http://libportal_0.6.bb" rel="noreferrer" target="_blank">libportal_0.6.bb</a><br>
-+++ b/meta/recipes-gnome/libportal/<a href="http://libportal_0.6.bb" rel="noreferrer" target="_blank">libportal_0.6.bb</a><br>
-@@ -14,6 +14,7 @@ inherit meson gi-docgen gobject-introspection vala features_check pkgconfig<br>
-&nbsp;GIDOCGEN_MESON_OPTION = 'docs'<br>
-<br>
-&nbsp;ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"<br>
-+REQUIRED_DISTRO_FEATURES = "opengl"<br>
-<br>
-&nbsp;DEPENDS += "glib-2.0 glib-2.0-native gtk+3 gtk4"<br>
-<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div></div>
-</blockquote></div>
---=-uoWhIlSusJmIXcbqcahI--
-
+On Wed, Jan 4, 2023 at 4:38 AM Steve Sakoman <steve@sakoman.com> wrote:
+>
+> The following changes since commit 4efc5ec83bc97e5731284ef3879f89fda4b8ef0b:
+>
+>   yocto-check-layer: Allow OE-Core to be tested (2022-12-23 23:04:58 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://git.openembedded.org/openembedded-core-contrib stable/langdale-next
+>   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/langdale-next
+>
+> Alejandro Hernandez Samaniego (1):
+>   baremetal-image: Avoid overriding qemu variables from IMAGE_CLASSES
+>
+> Alex Stewart (1):
+>   opkg: upgrade to version 0.6.1
+>
+> Alexander Kanavin (6):
+>   libnewt: update 0.52.21 -> 0.52.23
+>   ruby: merge .inc into .bb
+>   ruby: update 3.1.2 -> 3.1.3
+>   tzdata: update 2022d -> 2022g
+>   cmake: update 3.24.0 -> 3.24.2
+>   devtool/upgrade: correctly handle recipes where S is a subdir of
+>     upstream tree
+>
+> Jagadeesh Krishnanjanappa (1):
+>   qemuboot.bbclass: make sure runqemu boots bundled initramfs kernel
+>     image
+>
+> Marek Vasut (1):
+>   systemd: Make importd depend on glib-2.0 again
+>
+> Martin Jansa (1):
+>   libxml2: fix test data checksums
+>
+> Quentin Schulz (1):
+>   cairo: update patch for CVE-2019-6461 with upstream solution
+>
+> Randy MacLeod (1):
+>   valgrind: skip the boost_thread test on arm
+>
+> Ranjitsinh Rathod (1):
+>   curl: Correct LICENSE from MIT-open-group to curl
+>
+> Richard Purdie (1):
+>   oeqa/concurrencytest: Add number of failures to summary output
+>
+> Robert Andersson (1):
+>   go-crosssdk: avoid host contamination by GOCACHE
+>
+> Ross Burton (1):
+>   libepoxy: remove upstreamed patch
+>
+> Wang Mingyu (3):
+>   libpng: upgrade 1.6.38 -> 1.6.39
+>   help2man: upgrade 1.49.2 -> 1.49.3
+>   gstreamer1.0: upgrade 1.20.4 -> 1.20.5
+>
+> Xiangyu Chen (1):
+>   openssh: remove RRECOMMENDS to rng-tools for sshd package
+>
+> pgowda (1):
+>   binutils: Add patch to fix CVE-2022-4285
+>
+>  meta/classes-recipe/baremetal-image.bbclass   | 20 ++++----
+>  meta/classes-recipe/qemuboot.bbclass          |  3 +-
+>  meta/lib/oeqa/core/utils/concurrencytest.py   |  4 +-
+>  .../openssh/openssh_9.0p1.bb                  |  9 +---
+>  meta/recipes-core/libxml/libxml2_2.9.14.bb    |  4 +-
+>  meta/recipes-core/systemd/systemd_251.8.bb    |  2 +-
+>  .../binutils/binutils-2.39.inc                |  1 +
+>  .../binutils/0015-CVE-2022-4285.patch         | 37 ++++++++++++++
+>  ...ative_3.24.0.bb => cmake-native_3.24.2.bb} |  0
+>  meta/recipes-devtools/cmake/cmake.inc         |  2 +-
+>  .../{cmake_3.24.0.bb => cmake_3.24.2.bb}      |  0
+>  meta/recipes-devtools/go/go-crosssdk.inc      |  2 +
+>  ...{help2man_1.49.2.bb => help2man_1.49.3.bb} |  2 +-
+>  .../opkg/{opkg_0.6.0.bb => opkg_0.6.1.bb}     |  2 +-
+>  meta/recipes-devtools/ruby/ruby.inc           | 39 ---------------
+>  ...001-Remove-dependency-on-libcapstone.patch | 36 --------------
+>  .../ruby/{ruby_3.1.2.bb => ruby_3.1.3.bb}     | 48 ++++++++++++++++---
+>  .../valgrind/valgrind/remove-for-aarch64      |  1 +
+>  .../0001-detect-gold-as-GNU-linker-too.patch  | 14 +++---
+>  ...-t-ignore-CFLAGS-when-building-snack.patch | 29 -----------
+>  ...{libnewt_0.52.21.bb => libnewt_0.52.23.bb} |  4 +-
+>  meta/recipes-extended/timezone/timezone.inc   |  7 ++-
+>  .../cairo/cairo/CVE-2019-6461.patch           | 35 +++++++++++---
+>  ...atch_common.h-define-also-EGL_NO_X11.patch | 27 -----------
+>  .../libepoxy/libepoxy_1.5.10.bb               |  4 +-
+>  ...tools_1.20.4.bb => gst-devtools_1.20.5.bb} |  2 +-
+>  ...1.20.4.bb => gstreamer1.0-libav_1.20.5.bb} |  2 +-
+>  ...x_1.20.4.bb => gstreamer1.0-omx_1.20.5.bb} |  2 +-
+>  ....bb => gstreamer1.0-plugins-bad_1.20.5.bb} |  2 +-
+>  ...bb => gstreamer1.0-plugins-base_1.20.5.bb} |  2 +-
+>  ...bb => gstreamer1.0-plugins-good_1.20.5.bb} |  2 +-
+>  ...bb => gstreamer1.0-plugins-ugly_1.20.5.bb} |  2 +-
+>  ....20.4.bb => gstreamer1.0-python_1.20.5.bb} |  2 +-
+>  ....bb => gstreamer1.0-rtsp-server_1.20.5.bb} |  2 +-
+>  ...1.20.4.bb => gstreamer1.0-vaapi_1.20.5.bb} |  2 +-
+>  ...er1.0_1.20.4.bb => gstreamer1.0_1.20.5.bb} |  2 +-
+>  .../{libpng_1.6.38.bb => libpng_1.6.39.bb}    |  2 +-
+>  meta/recipes-support/curl/curl_7.85.0.bb      |  2 +-
+>  scripts/lib/devtool/standard.py               | 19 ++++----
+>  scripts/lib/devtool/upgrade.py                | 18 ++++---
+>  40 files changed, 176 insertions(+), 219 deletions(-)
+>  create mode 100644 meta/recipes-devtools/binutils/binutils/0015-CVE-2022-4285.patch
+>  rename meta/recipes-devtools/cmake/{cmake-native_3.24.0.bb => cmake-native_3.24.2.bb} (100%)
+>  rename meta/recipes-devtools/cmake/{cmake_3.24.0.bb => cmake_3.24.2.bb} (100%)
+>  rename meta/recipes-devtools/help2man/{help2man_1.49.2.bb => help2man_1.49.3.bb} (89%)
+>  rename meta/recipes-devtools/opkg/{opkg_0.6.0.bb => opkg_0.6.1.bb} (97%)
+>  delete mode 100644 meta/recipes-devtools/ruby/ruby.inc
+>  delete mode 100644 meta/recipes-devtools/ruby/ruby/0001-Remove-dependency-on-libcapstone.patch
+>  rename meta/recipes-devtools/ruby/{ruby_3.1.2.bb => ruby_3.1.3.bb} (68%)
+>  delete mode 100644 meta/recipes-extended/newt/files/0002-don-t-ignore-CFLAGS-when-building-snack.patch
+>  rename meta/recipes-extended/newt/{libnewt_0.52.21.bb => libnewt_0.52.23.bb} (87%)
+>  delete mode 100644 meta/recipes-graphics/libepoxy/files/0001-dispatch_common.h-define-also-EGL_NO_X11.patch
+>  rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.20.4.bb => gst-devtools_1.20.5.bb} (95%)
+>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.20.4.bb => gstreamer1.0-libav_1.20.5.bb} (91%)
+>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.20.4.bb => gstreamer1.0-omx_1.20.5.bb} (95%)
+>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.20.4.bb => gstreamer1.0-plugins-bad_1.20.5.bb} (98%)
+>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.20.4.bb => gstreamer1.0-plugins-base_1.20.5.bb} (97%)
+>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.20.4.bb => gstreamer1.0-plugins-good_1.20.5.bb} (97%)
+>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.20.4.bb => gstreamer1.0-plugins-ugly_1.20.5.bb} (94%)
+>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.20.4.bb => gstreamer1.0-python_1.20.5.bb} (91%)
+>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.20.4.bb => gstreamer1.0-rtsp-server_1.20.5.bb} (90%)
+>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.20.4.bb => gstreamer1.0-vaapi_1.20.5.bb} (95%)
+>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.20.4.bb => gstreamer1.0_1.20.5.bb} (97%)
+>  rename meta/recipes-multimedia/libpng/{libpng_1.6.38.bb => libpng_1.6.39.bb} (93%)
+>
+> --
+> 2.25.1
+>
 
