@@ -1,101 +1,179 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5343C3DA7A
-	for <webhook@archiver.kernel.org>; Fri,  6 Jan 2023 17:09:21 +0000 (UTC)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
- by mx.groups.io with SMTP id smtpd.web11.19454.1673024954431445530
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87568C3DA7A
+	for <webhook@archiver.kernel.org>; Fri,  6 Jan 2023 17:12:11 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web11.19551.1673025124616351128
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Jan 2023 09:09:14 -0800
+ Fri, 06 Jan 2023 09:12:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ArFngYDV;
- spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f171.google.com with SMTP id s22so2077634ljp.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Jan 2023 09:09:14 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aKC5Gql3;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f48.google.com with SMTP id h16so1840850wrz.12
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Jan 2023 09:12:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=wrOL77uxH5rbIVjxqe/iQkRZGRmZCQdoD3+ez1XDhIc=;
-        b=ArFngYDVo8yPur+GRcTLM9lOgxQlOOW95cJcnZar7ZBzA2zkTq8yLyZ0upLO3OWRty
-         bhQD6MALKkpE0fif7jARue27WLbef/4LsltQulpTSS9Qyk/P8A9vuPO9ag5LGe6chfm0
-         cTJgaF/YH9mR/5uLqyTD4yX5IqYUdb48GZDz4ByiFyCHtNUWMvWw/wmFnxFN7WRKgQa+
-         SXc2azbNCM6ImsibTSTMQFlHqLqA7KrjarLt58fOArOBFeauwOpBsHd/pCDsgz5tTWSH
-         lg6hcIG9ijCCioFAEBGT/uNH0u2BZ4YkRlmX0u68CINiTEbBb0RkhBDqwaJlVnGMOuya
-         2Row==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oIKjIVIAJoGFYJRsvyRPonQejwbKqPh2CZUJgjl0aPY=;
+        b=aKC5Gql3HXF7fNaEqBAYWH6llsgAmADZc/3fBzs+OBkI8KOKZ1OUBN8pTzOhUYXIF4
+         C2MjZhTdLrX9ASZzeZDXV29zYp6OvqggLNWENfHtPr1IYReyP2Gmsn6NQqCeKxw8XgTl
+         cGciPWP8HvIrQM7Ctzh7DU4p5C6Gf+X3XDXsw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wrOL77uxH5rbIVjxqe/iQkRZGRmZCQdoD3+ez1XDhIc=;
-        b=OkiKO2SzoW+98caNoBtK7KNA8av2dL5bDoXYIK7UzOM4rZgFJ65IoheAgqgyBus+4l
-         S6IVNsFbLKkAxmlaub43TPHacEAmeAjb4fHET8qYRmRuYMeFs4UoEE6PDqpjqEls+JDi
-         7qYc15SxjAy+4jbsbTuWebDBzw18u7YSe6QdO9+noDpwtwn9gXYYZZPwXrpMperMg6Yc
-         ij8Ek1Ycru1wVdwEydlKeY9EjXGPKI2rtKB/DnuoI5k+n3hrgEnkF6RXy+6LOROTspdS
-         AG/xBnt0Ap59lA3tWjBUkCHqvI7oo2pLbA8SSmfjE56Z7yQD6TnOh4QUGPJI603spzcx
-         RkSA==
-X-Gm-Message-State: AFqh2krEAyV+tR+FUeifz63bKn6GIhHtQT0mzH7trfe/hWo6Rb8+pe/E
-	KVoqvcXGD4KelSYwNco7lzGDY8sMaCvYwViyvQI=
-X-Google-Smtp-Source: AMrXdXt6vGl0hxJutbpP8TWNhEvnN5XqcEAbaqE2KZNWTMJ+9sdAwBXhqZLd2Rq4kl78NH/0JRKh5Y4utfbjQFf9MFk=
-X-Received: by 2002:a2e:b4a5:0:b0:282:5f2d:62dc with SMTP id
- q5-20020a2eb4a5000000b002825f2d62dcmr95745ljm.217.1673024952637; Fri, 06 Jan
- 2023 09:09:12 -0800 (PST)
-MIME-Version: 1.0
-References: <20230106161621.1288055-1-ross.burton@arm.com>
-In-Reply-To: <20230106161621.1288055-1-ross.burton@arm.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 6 Jan 2023 18:09:01 +0100
-Message-ID: <CANNYZj8dcuCD8qoVBxbbgAKD_ROvHQezVD-kRghObFXMnto=kg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] elfutils: disable deprecation errors in all
- builds, not just native
-To: Ross Burton <ross.burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org, nd@arm.com
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=oIKjIVIAJoGFYJRsvyRPonQejwbKqPh2CZUJgjl0aPY=;
+        b=8MvmaCAmIF7A7YVw8RR3lfG68Sq0cIGXOXOQm5o7ss1249ObMHTqsdPuSp1HOu7sAs
+         vpjpJTg1fOSP6Fl6EFfXvQ+AWziYsNsWYVicQVCdkdwwZoY/2nbrrNKGFTRIwqIptHyA
+         zr/pznxm90mj+QB1T1maGPKptaQ1AJ3936iNpW9g7bi/LdzzejGCjQobNhkZs/QkJIJk
+         GF5Cl3B2dgd4wqACtXDR0RWfByHo048AYfGjgGLF0atRpdYgSkTEZCTKZd5gv8U6gWxf
+         ox6tjcKEeq/QsUL+M72bSGTGoicZSJKINWcfalxKUCsfrjyeb+jfwGItVb04eaSekmhG
+         O2mA==
+X-Gm-Message-State: AFqh2krHUbKdIXB9kGo/Md0ldZ+V+Vhzi1RbuBmODPdFML+ILIOIFDH5
+	dcTyOQop4diUusVZfvwyZ7VhEA==
+X-Google-Smtp-Source: AMrXdXuEopUy1PRE4l+LwaefsJibklSwAMmLiDV9A97yWVzpkxJP2gb2vtEVvFd2yyfHKfr1QYy6rQ==
+X-Received: by 2002:a05:6000:12ca:b0:273:10f7:5c43 with SMTP id l10-20020a05600012ca00b0027310f75c43mr32396323wrx.50.1673025122916;
+        Fri, 06 Jan 2023 09:12:02 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:49cf:c46d:e32d:e951? ([2001:8b0:aba:5f3c:49cf:c46d:e32d:e951])
+        by smtp.gmail.com with ESMTPSA id a11-20020a5d508b000000b002779dab8d85sm1666445wrt.8.2023.01.06.09.12.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Jan 2023 09:12:02 -0800 (PST)
+Message-ID: <8f5570c166d038c15e06417fd6ecb4dfbd3f99cf.camel@linuxfoundation.org>
+Subject: Re: [PATCH 1/2] busybox: save a copy of autoconf.h before compiling
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Antonin Godard <antoningodard@pm.me>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 06 Jan 2023 17:12:01 +0000
+In-Reply-To: <20230106170048.2662828-1-antoningodard@pm.me>
+References: <20230106170048.2662828-1-antoningodard@pm.me>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Jan 2023 17:09:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175602
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Jan 2023 17:12:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175603
 
-But how did this make it through all the builds? Something doesn't compute here.
+On Fri, 2023-01-06 at 17:01 +0000, Antonin Godard wrote:
+> Busybox's compiling process alters autoconf.h. When compiling a second
+> time (e.g. with `compile -f`), busybox uses this altered file for
+> compiling, which ultimately produces different binaries.
+>=20
+> This can produce errors like this one:
+>=20
+> ERROR: busybox-1.35.0-r0 do_package: Error executing a python function in=
+ exec_func_python() autogenerated:
+> The stack trace of python calls that resulted in this exception/failure w=
+as:
+> File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+>      0001:
+>  *** 0002:ptest_update_alternatives(d)
+>      0003:
+> File: '=E2=80=A6/poky/meta/classes/ptest.bbclass', lineno: 100, function:=
+ ptest_update_alternatives
+>      0096:        for alt_name, alt_link, alt_target, _ in alternatives:
+>      0097:            # Some alternatives are for man pages,
+>      0098:            # check if the alternative is in PATH
+>      0099:            if os.path.dirname(alt_link) in bin_paths:
+>  *** 0100:                os.symlink(alt_target, os.path.join(ptest_bindi=
+r, alt_name))
+>      0101:}
+>      0102:
+>      0103:do_configure_ptest_base[dirs] =3D "${B}"
+>      0104:do_compile_ptest_base[dirs] =3D "${B}"
+> Exception: FileExistsError: [Errno 17] File exists: '/bin/busybox.suid' -=
+> '=E2=80=A6/busybox/1.35.0-r0/package/usr/lib/busybox/ptest/bin/login'
+>=20
+> This happens because ALTERNATIVE:busybox contains `/bin/login` twice,
+> initially that's because `/bin/login` is present in both
+> busybox.links.suid and busybox.links.nosuid. The reason for that is
+> because of the altered autoconf.h.
+>=20
+> Steps to reproduce above error:
+>=20
+> <add ptest to distro configs>
+> bitbake busybox -c clean
+> bitbake busybox -c package -f
+> bitbake busybox -c compile -f
+> bitbake busybox -c package -f
 
-Alex
+Thanks. This patch looks much better and is on the right list.
 
-On Fri, 6 Jan 2023 at 17:16, Ross Burton <ross.burton@arm.com> wrote:
->
-> The curl-related deprecation errors affect all builds not just native,
-> so set CFLAGS instead of BUILD_CFLAGS.
->
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
+I did now also confirm that the ptest in/out of DISTRO_FEATURES doesn't
+matter. You just need:
+
+bitbake busybox -c compile -f
+bitbake busybox -c package -f
+bitbake busybox -c compile -f
+bitbake busybox -c package -f
+
+This means it is just a re-run of do_compile problem and the issue is
+the timestamps on .config and include/autoconf.h need to match.
+
+I can see a whole load of potential bugs here so I was wondering if you
+could tweak your patch to:
+
+a) at the end of do_configure, always copy .config and
+include/autoconf.h to ".orig" copies.
+
+b) Always restore clean copies at the start of do_compile
+
+c) At the end of the do_compile function, .config is restored, we
+should also restore a matching autoconf.h
+
+d) Add a comment about the timestamps of .config and autoconf.h needing
+to match.
+
+This should mean that a compile doesn't reuse an obsolete .orig file if
+configure was rerun and ensure that the right copy of autoconf.h is
+restored at the end of do_compile.
+
+Cheers,
+
+Richard
+
+
+
+>=20
+> This patch replaces include/autoconf.h by the original if it was
+> previously saved.
+>=20
+> Signed-off-by: Antonin Godard <antoningodard@pm.me>
 > ---
->  meta/recipes-devtools/elfutils/elfutils_0.188.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/elfutils/elfutils_0.188.bb b/meta/recipes-devtools/elfutils/elfutils_0.188.bb
-> index c94e36071cd..084908a38c0 100644
-> --- a/meta/recipes-devtools/elfutils/elfutils_0.188.bb
-> +++ b/meta/recipes-devtools/elfutils/elfutils_0.188.bb
-> @@ -34,7 +34,7 @@ EXTRA_OECONF = "--program-prefix=eu-"
->
->  BUILD_CFLAGS += "-Wno-error=stringop-overflow"
->  # compatibility with curl 7.87; can be removed when elfutils upstream fixes the deprecation fails
-> -BUILD_CFLAGS += "-Wno-error=deprecated-declarations"
-> +CFLAGS:append = " -Wno-error=deprecated-declarations"
->
->  DEPENDS_BZIP2 = "bzip2-replacement-native"
->  DEPENDS_BZIP2:class-target = "bzip2"
+>  meta/recipes-core/busybox/busybox.inc | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>=20
+> diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/bu=
+sybox/busybox.inc
+> index 5f1c473d5e..5dd783aa24 100644
+> --- a/meta/recipes-core/busybox/busybox.inc
+> +++ b/meta/recipes-core/busybox/busybox.inc
+> @@ -145,6 +145,13 @@ do_compile() {
+>  	export KCONFIG_NOTIMESTAMP=3D1
+>=20
+>  	if [ "${BUSYBOX_SPLIT_SUID}" =3D "1" -a x`grep "CONFIG_FEATURE_INDIVIDU=
+AL=3Dy" .config` =3D x ]; then
+> +		# Restore or save original autoconf.h to start from a clean
+> +		# state since the compiling process modifies this file.
+> +		if [ -f include/autoconf.h.orig ]; then
+> +			cp include/autoconf.h.orig include/autoconf.h
+> +		else
+> +			cp include/autoconf.h include/autoconf.h.orig
+> +		fi
+>  		# split the .config into two parts, and make two busybox binaries
+>  		if [ -e .config.orig ]; then
+>  			# Need to guard again an interrupted do_compile - restore any backup
 > --
-> 2.34.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#175598): https://lists.openembedded.org/g/openembedded-core/message/175598
-> Mute This Topic: https://lists.openembedded.org/mt/96096249/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+> 2.25.1
+>=20
+>=20
+>=20
+
 
