@@ -1,150 +1,165 @@
-Return-Path: <nicolas.dechesne@linaro.org>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8642C54EBE
-	for <webhook@archiver.kernel.org>; Sat,  7 Jan 2023 07:24:32 +0000 (UTC)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
- by mx.groups.io with SMTP id smtpd.web11.16027.1673076266430978305
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77A4DC61DB3
+	for <webhook@archiver.kernel.org>; Sat,  7 Jan 2023 09:49:03 +0000 (UTC)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+ by mx.groups.io with SMTP id smtpd.web10.17328.1673084933276117825
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Jan 2023 23:24:26 -0800
+ Sat, 07 Jan 2023 01:48:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=CQ+diHmD;
- spf=pass (domain: linaro.org, ip: 209.85.128.175, mailfrom: nicolas.dechesne@linaro.org)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-482363a1232so50599697b3.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Jan 2023 23:24:26 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=NrloSnrd;
+ spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-ed1-f42.google.com with SMTP id x10so2503007edd.10
+        for <openembedded-core@lists.openembedded.org>; Sat, 07 Jan 2023 01:48:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=pi2hS810EWRvCCJMGjQybwrraXEwtd3MfwM4KcnafUI=;
-        b=CQ+diHmDJIKM0LW3hJ+yHzS34clW1JGYlsMf2CrRAFJWoWLLC/RfqOwRMNZAZvuY56
-         qJlMUBXIquVlL4nGx0B3d568nTcRySa7ht9O68cPxX63EUQBTECNBpaQ1/IG+6q5Z5ak
-         njxWR0VDQHAPfC8ndhJ5iQZXjD6d8RFsAUz6R4P7lqes0HpvsU+R+UtcWjDbx8v+UEML
-         9br5A51D6xs2yBxBI4tSqkPTQYnwXxYhAkvGsB1d31wZqmb0IXUACnJIiErnVGW6pk5r
-         DMMffmGhU7/AOBfSVsVqECZR2ox9TBTYkiQkfwGM8np/TJnU70+jp0JHFxEDMNrJAApH
-         3mJw==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GL+uUPAvJDzrOXifvOkTzkiYuofZbdP407YM84YrcUk=;
+        b=NrloSnrdPEWVxnFBLmJKZNgrWb1MPCUnKLZdLnjHqADKvhy3B9zwKAfqFdj8Fio2MS
+         BkUCzXC/AoRdgWq/gU2Hy/T+924J9GgNGJEY5N4PpCz0I1dzYhCXgjCgPEAm/XUwIqFL
+         KN83NXsiW1Tc8EHCWpCGeFdqgga/SXHvLq2SRIHdY25lkBaV8ZyDfSBx7o8dirqqZBBK
+         913pT1C8jsu16/K9YDj38gJ5JQrB1R4Ogj0WO9SZDseh4ycbt6yC4gcHYuoG+S12EskU
+         8RCDtLvBYvbooiIfIII6fPmoiJrIiOWpAX3Q81DDBubxoK07HJoC3SgNL827AHdmEp06
+         oYUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=pi2hS810EWRvCCJMGjQybwrraXEwtd3MfwM4KcnafUI=;
-        b=f4XTySg3JTM5IO0cweZ23Lw1BUBi9r3GTDmQPycSPSW2NihdhetkAdtLJKlhOo4ifV
-         08Jq+wSiPfOEwttw1U1qynf5TIkuMvcSvsl/f9NlkTCRDoLkVmYklPycv+rcP/XUvf9G
-         2bqCHwuCT94SrId13Lm0wgWFP63aa2ix6Eqlr7OlJJDQEwDBRbz7upkZZ2OOpKPGlPjG
-         nz1KKIxsloQ/RzKzk0hDc6gqYrJ4ABWXE7SfUYcTIJG+FlJcJlVoJVKW7kMAi/aCUFJw
-         /0fTcirTK3hkgto2101BANg4PaCuRLnPeAVqPgpRTDYHJs4ltIysLjScIuoCsWntIrd4
-         C97w==
-X-Gm-Message-State: AFqh2krSfEhrfBnwNMUS0Ow0TpsIC2Az0nuJXfbl82DmY/a0oFC+rcJB
-	+Dp8kTQ2ewtsve0ChDCT61BzLiwEwZSLTkcQvi0hyQ==
-X-Google-Smtp-Source: AMrXdXsc0k6BfBE3L7BBrCPLSu6P6ThjUU+jad9oZvHgLO7s9WsquF7sHof6TvIPGztefcmeJk7ey8HyXg16agBQvwA=
-X-Received: by 2002:a0d:d4d3:0:b0:4bc:f544:1034 with SMTP id
- w202-20020a0dd4d3000000b004bcf5441034mr1381023ywd.30.1673076265392; Fri, 06
- Jan 2023 23:24:25 -0800 (PST)
+        bh=GL+uUPAvJDzrOXifvOkTzkiYuofZbdP407YM84YrcUk=;
+        b=HQep4pSmOEMKvJ/JZ5jgGPnAnsubgTb9S1qQZGPwSEQNE/APhCTdHW5or79AP0hksO
+         kDaNsZqLMzs7eMSMRnQX9eJPLMudoJRNojEMYxlOFCZ6UTJwQckDCxmM98N2BUmKr4Wc
+         d8KmxKG7p5QFDIfHkU5WsLYM9ebE0P/YUzwej9/bhKtJY7NQ/Q3wHSTy1RogsYlRpchb
+         jBWqAqpjeW0/nw+8GSyJRMbFigT/HgOxVSa5H8LOEQYQ7HJKovJ5f5J+ALrZHhcxTma9
+         nZGu6EPUh1iCsG/mRH2rWD/VvHttRvlTLePu1GV7UXK7rNwaD7scAVJxT67/BE4WoEbx
+         Q74Q==
+X-Gm-Message-State: AFqh2kpVizWYjsyhbTOiuUXMTaO4WLUBhxa0uN5UfmH+cBjp7EqbQwyn
+	FMvGQ9Glqe1LinZQ7FicmMFJ/CuwtQI=
+X-Google-Smtp-Source: AMrXdXt76SfaWo+GbNGHw3t+azMnZNYvQYe0+xafG+2dOrzd9J0hx9E2OvIN3Qv/V/Pvao/hMqoDtA==
+X-Received: by 2002:a05:6402:2907:b0:497:1787:13af with SMTP id ee7-20020a056402290700b00497178713afmr3363918edb.32.1673084931400;
+        Sat, 07 Jan 2023 01:48:51 -0800 (PST)
+Received: from localhost.localdomain ([80.209.166.248])
+        by smtp.gmail.com with ESMTPSA id v19-20020a509553000000b0046cbcc86bdesm1329889eda.7.2023.01.07.01.48.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Jan 2023 01:48:50 -0800 (PST)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alex Kiernan <alex.kiernan@gmail.com>
+Subject: [OE-Core][PATCH v2] rust: Merge all rustc-source patches into rust-source.inc
+Date: Sat,  7 Jan 2023 09:48:39 +0000
+Message-Id: <20230107094839.26387-1-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-References: <20230107000831.1253334-1-raj.khem@gmail.com>
-In-Reply-To: <20230107000831.1253334-1-raj.khem@gmail.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Sat, 7 Jan 2023 08:24:13 +0100
-Message-ID: <CAP71WjzfmnWf-Fiwe+m-avbs1=Z68L-7cUsW+ovgnMr06tqxdA@mail.gmail.com>
-Subject: Re: [PATCH] site/common-musl: Set ac_cv_sys_file_offset_bits default
- to 64
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000007b300f05f1a76cd0"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 07 Jan 2023 07:24:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175616
+ <openembedded-core@lists.openembedded.org>; Sat, 07 Jan 2023 09:49:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175617
 
---0000000000007b300f05f1a76cd0
-Content-Type: text/plain; charset="UTF-8"
+With the dim-sum approach to patching we had the same patch applied in
+many places, but not all, so that there were no guarantees that we were
+actually building agaginst the same thing in all recipes.
 
-On Sat, Jan 7, 2023 at 1:08 AM Khem Raj <raj.khem@gmail.com> wrote:
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+---
+I've no actual evidence, but I wonder if this might help with
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=14975 as I tripped
+over this whilst doing these changes.
 
-> off_t is always 64bit on musl regardless of 32bit or 64bit
-> architectures. autoconf has AC_SYS_LARGEFILE to detect correct off_t
-> size but it only work with glibc since it defines feature macros
-> _FILE_OFFSET_BITS=64 and _LARGEFILE_SOURCE but these macros are
-> not used on musl headers.
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
->
+Changes in v2:
+- Rebased
 
-Thanks. It fixes the build issue in e2fsprog I reported earlier.
+ meta/recipes-devtools/rust/cargo_1.66.0.bb    |  8 -------
+ .../rust/{rust => files}/hardcodepaths.patch  |  0
+ .../rust/{rust => files}/zlib-off64_t.patch   |  0
+ meta/recipes-devtools/rust/rust-source.inc    | 22 +++++++++----------
+ meta/recipes-devtools/rust/rust_1.66.0.bb     |  3 ---
+ 5 files changed, 10 insertions(+), 23 deletions(-)
+ rename meta/recipes-devtools/rust/{rust => files}/hardcodepaths.patch (100%)
+ rename meta/recipes-devtools/rust/{rust => files}/zlib-off64_t.patch (100%)
 
+diff --git a/meta/recipes-devtools/rust/cargo_1.66.0.bb b/meta/recipes-devtools/rust/cargo_1.66.0.bb
+index f45f8f1e12d7..2b2394e898b5 100644
+--- a/meta/recipes-devtools/rust/cargo_1.66.0.bb
++++ b/meta/recipes-devtools/rust/cargo_1.66.0.bb
+@@ -14,14 +14,6 @@ LIC_FILES_CHKSUM = " \
+ require rust-source.inc
+ require rust-snapshot.inc
+ 
+-SRC_URI:append:class-target = "\
+-    file://crossbeam_atomic.patch;patchdir=${RUSTSRC} \
+-    file://getrandom-open64.patch;patchdir=${RUSTSRC} \                          
+-"
+-
+-# Used by crossbeam_atomic.patch
+-export TARGET_VENDOR
+-
+ S = "${RUSTSRC}/src/tools/cargo"
+ CARGO_VENDORING_DIRECTORY = "${RUSTSRC}/vendor"
+ 
+diff --git a/meta/recipes-devtools/rust/rust/hardcodepaths.patch b/meta/recipes-devtools/rust/files/hardcodepaths.patch
+similarity index 100%
+rename from meta/recipes-devtools/rust/rust/hardcodepaths.patch
+rename to meta/recipes-devtools/rust/files/hardcodepaths.patch
+diff --git a/meta/recipes-devtools/rust/rust/zlib-off64_t.patch b/meta/recipes-devtools/rust/files/zlib-off64_t.patch
+similarity index 100%
+rename from meta/recipes-devtools/rust/rust/zlib-off64_t.patch
+rename to meta/recipes-devtools/rust/files/zlib-off64_t.patch
+diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
+index bfb625fb363d..6f1df4561b29 100644
+--- a/meta/recipes-devtools/rust/rust-source.inc
++++ b/meta/recipes-devtools/rust/rust-source.inc
+@@ -1,21 +1,19 @@
+ RUST_VERSION ?= "${@d.getVar('PV').split('-')[0]}"
+-SRC_URI += "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;name=rust"
+-SRC_URI[rust.sha256sum] = "0dc176e34fae9871f855a6ba4cb30fa19d69c5b4428d29281a07419c4950715c"
+ 
+-SRC_URI:append:class-target:pn-libstd-rs = "\
+-    file://0001-Do-not-use-LFS64-on-linux-with-musl.patch;patchdir=../.. \
++SRC_URI += "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;name=rust \
++            file://crossbeam_atomic.patch;patchdir=${RUSTSRC} \
++            file://hardcodepaths.patch;patchdir=${RUSTSRC} \
++            file://getrandom-open64.patch;patchdir=${RUSTSRC} \
++            file://0001-Do-not-use-LFS64-on-linux-with-musl.patch;patchdir=${RUSTSRC} \
++            file://zlib-off64_t.patch;patchdir=${RUSTSRC} \
+ "
+-
+-SRC_URI:append:class-target:pn-rust = " \
+-    file://getrandom-open64.patch \
+-    file://0001-Do-not-use-LFS64-on-linux-with-musl.patch \
+-    file://zlib-off64_t.patch \
+-    file://hardcodepaths.patch \
+-    file://crossbeam_atomic.patch"
+-SRC_URI:append:class-nativesdk:pn-nativesdk-rust = " file://hardcodepaths.patch"
++SRC_URI[rust.sha256sum] = "0dc176e34fae9871f855a6ba4cb30fa19d69c5b4428d29281a07419c4950715c"
+ 
+ RUSTSRC = "${WORKDIR}/rustc-${RUST_VERSION}-src"
+ 
++# Used by crossbeam_atomic.patch
++export TARGET_VENDOR
++
+ UPSTREAM_CHECK_URI = "https://forge.rust-lang.org/infra/other-installation-methods.html"
+ UPSTREAM_CHECK_REGEX = "rustc-(?P<pver>\d+(\.\d+)+)-src"
+ 
+diff --git a/meta/recipes-devtools/rust/rust_1.66.0.bb b/meta/recipes-devtools/rust/rust_1.66.0.bb
+index f1ec769aef48..eba933ddeda4 100644
+--- a/meta/recipes-devtools/rust/rust_1.66.0.bb
++++ b/meta/recipes-devtools/rust/rust_1.66.0.bb
+@@ -218,9 +218,6 @@ FILES:${PN} += "${libdir}/rustlib"
+ FILES:${PN} += "${libdir}/*.so"
+ FILES:${PN}-dev = ""
+ 
+-# Used by crossbeam_atomic.patch
+-export TARGET_VENDOR
+-
+ do_compile () {
+     rust_runx build --stage 2
+ }
+-- 
+2.39.0
 
-> ---
->  meta/site/common-musl | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/meta/site/common-musl b/meta/site/common-musl
-> index 86aed4a38c..23e50ef749 100644
-> --- a/meta/site/common-musl
-> +++ b/meta/site/common-musl
-> @@ -15,6 +15,8 @@
-> ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
->  ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
->  ac_cv_func_mmap_fixed_mapped=${ac_cv_func_mmap_fixed_mapped=yes}
->  ac_cv_func_strtod=${ac_cv_func_strtod=yes}
-> +# off_t is always 64bit on musl systems
-> +ac_cv_sys_file_offset_bits=${ac_cv_sys_file_offset_bits=64}
->
->  # glib
->  glib_cv_strlcpy=${glib_cv_strlcpy=no}
-> --
-> 2.39.0
->
->
-
---0000000000007b300f05f1a76cd0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sat, Jan 7, 2023 at 1:08 AM Khem R=
-aj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wro=
-te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">off_t is alw=
-ays 64bit on musl regardless of 32bit or 64bit<br>
-architectures. autoconf has AC_SYS_LARGEFILE to detect correct off_t<br>
-size but it only work with glibc since it defines feature macros<br>
-_FILE_OFFSET_BITS=3D64 and _LARGEFILE_SOURCE but these macros are<br>
-not used on musl headers.<br>
-<br>
-Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D=
-"_blank">raj.khem@gmail.com</a>&gt;<br>
-Cc: Nicolas Dechesne &lt;<a href=3D"mailto:nicolas.dechesne@linaro.org" tar=
-get=3D"_blank">nicolas.dechesne@linaro.org</a>&gt;<br></blockquote><div><br=
-></div><div>Thanks. It fixes the build issue in e2fsprog I reported earlier=
-.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0meta/site/common-musl | 2 ++<br>
-=C2=A01 file changed, 2 insertions(+)<br>
-<br>
-diff --git a/meta/site/common-musl b/meta/site/common-musl<br>
-index 86aed4a38c..23e50ef749 100644<br>
---- a/meta/site/common-musl<br>
-+++ b/meta/site/common-musl<br>
-@@ -15,6 +15,8 @@ ac_cv_func_posix_getgrgid_r=3D${ac_cv_func_posix_getgrgid=
-_r=3Dyes}<br>
-=C2=A0ac_cv_func_getaddrinfo=3D${ac_cv_func_getaddrinfo=3Dyes}<br>
-=C2=A0ac_cv_func_mmap_fixed_mapped=3D${ac_cv_func_mmap_fixed_mapped=3Dyes}<=
-br>
-=C2=A0ac_cv_func_strtod=3D${ac_cv_func_strtod=3Dyes}<br>
-+# off_t is always 64bit on musl systems<br>
-+ac_cv_sys_file_offset_bits=3D${ac_cv_sys_file_offset_bits=3D64}<br>
-<br>
-=C2=A0# glib<br>
-=C2=A0glib_cv_strlcpy=3D${glib_cv_strlcpy=3Dno}<br>
--- <br>
-2.39.0<br>
-<br>
-</blockquote></div></div>
-
---0000000000007b300f05f1a76cd0--
 
