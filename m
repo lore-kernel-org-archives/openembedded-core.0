@@ -1,115 +1,115 @@
-Return-Path: <tyrocjl@gmail.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB83DC54EBC
-	for <webhook@archiver.kernel.org>; Sat,  7 Jan 2023 10:53:33 +0000 (UTC)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web10.17927.1673088813003186172
- for <Openembedded-core@lists.openembedded.org>;
- Sat, 07 Jan 2023 02:53:33 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1D5AC46467
+	for <webhook@archiver.kernel.org>; Sat,  7 Jan 2023 14:41:24 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web11.21353.1673102481267277887
+ for <openembedded-core@lists.openembedded.org>;
+ Sat, 07 Jan 2023 06:41:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=gYapJO0P;
- spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: tyrocjl@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id fy8so8755449ejc.13
-        for <Openembedded-core@lists.openembedded.org>; Sat, 07 Jan 2023 02:53:32 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=DVRmY2AP;
+ spf=pass (domain: gmail.com, ip: 209.85.221.53, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f53.google.com with SMTP id bk16so3745527wrb.11
+        for <openembedded-core@lists.openembedded.org>; Sat, 07 Jan 2023 06:41:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=7K9YYqxIP55BNaXzdQI9STNi7Cs9HZQCQxYRnJP2awI=;
-        b=gYapJO0PVXzVcTbJ/K7VDH/eiLYpwDAlFN20YZ8FM6jJFEIvGzqbZDp7mjAuAqmBxz
-         yzXij+QXlflXBfeS6lBoynQ8k01OnCAI+WU77kdBh/58HTCh0RJ3lebehvmIUxsObSmj
-         uFpGjeXGr9fG05g5nE+LyO3yzEOqvHq3ff3KWrqb5esPaIdRm0/kybQoAw6M1YO1f3b2
-         sFedo97Eb8Cib88DMmZqxhDzzbNeH8anYmjSYd4n5CFUZJqTHcFvq+np/88ipbOooIhV
-         C1VGagz2LLc7Gul5xX4dx74l6yMvLLzV6yzuF5SaYNHGN9ohPYW7ZikOu62NvVK3rsTX
-         RPYQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gAOUpGfo6ATp/rrZlYCaiQMMr7I6XznC8l7ka+idTh4=;
+        b=DVRmY2AP5Wjim7Dtgrvz5pvpSSsqX3puOVlxdwPV1rxEL1Y5Pp9rjmqtmAMUGSrzzF
+         xbwkAGq831hSoohJcDk5kAAeUCoiET0xQ/ETsXVRJam8JfMxSUp2PG3cn+UbGxMbkKP/
+         PpBmg0H56K8ba2r4DgUh+PqQkbhtoJxluY8eOlIX1vXPmcwuxuJtxYJGrB8zccpJLNQv
+         V+H6g9gElzxsI2eukVb9klce3uFHVaZUcalKzixb1hy7aEz5Qb2uvIvuKMPQFVcw3Jtd
+         KCfA1xJTWIo+aqeeiJJs7PPWXzt3uIdSsx4C5uMH8/bb4f6e+Tb6hNoiAqLyc5fu4SeR
+         nawQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7K9YYqxIP55BNaXzdQI9STNi7Cs9HZQCQxYRnJP2awI=;
-        b=yJh+L9ne0xf2jbCeveh19EVnfYeI3AS2HH63B6wuhxBBVlZvaqCE1pO4/PFSfLliKS
-         B6k9GQsaoTcqAYVZyDc+h5aWIcwisMutm/wVUIAmYEV7x/w+s85lKV416AlpKs6MklSn
-         1qUp110/k5m36gztOjy+DzOTu+dxYd2vp/11Y5m5vkmZb2vyuMVrx8A0njKm5loeDmzG
-         rhujFaPOpGU6qz5KGAttywb5dwEc33JO/gWmOKbnvKhtUQ0N3pqjzZH+sh5x8a3MVIEZ
-         Wv6ZUMq47fjI2NwPel0tDK16wuv9Veyf7YYHf+KmntuUF9HDObv/GhFgvFl2b31+wo4w
-         Sxsg==
-X-Gm-Message-State: AFqh2kpswi3/nVe0WkK325jE/bnSkKPr/Lt3d3i4C0N3RDVVRGQ6m/i4
-	Zl2luMLvigOd1jqLGUqdmEarp8piFtRtU/gPKGuukxMVWqoczw==
-X-Google-Smtp-Source: AMrXdXuP1B9QeEWbSBPd6afDAxRm7RkMf8YeBbli4t+ZguJ/KZWRxfwfR348+hkeoNjZ6jlGA8ysYTUlCGTAiAuGObw=
-X-Received: by 2002:a17:906:2297:b0:7c0:eafd:9ad5 with SMTP id
- p23-20020a170906229700b007c0eafd9ad5mr4744053eja.532.1673088811126; Sat, 07
- Jan 2023 02:53:31 -0800 (PST)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gAOUpGfo6ATp/rrZlYCaiQMMr7I6XznC8l7ka+idTh4=;
+        b=kb20O1DIigK3mtlCwYfjCXrwECactm4FFPw5ZbYE235ZPA++GFP0RnVCIw+9xi+nwQ
+         4aYUBxFnziFmzJR1z2MJNqgIm6k6rllRar0PVD00jemHlENQZ6KBTVhh/Fdq7E0Vzzok
+         El793V4Urm8b6Qm5QGWAyQX7g85fhx/bmVnkS3kDm+qGX7VNk07mRmmUgv/hcnHQ+LUv
+         eGNku2EzPUfw4WJxMeK8ttk27uwDlEAgipWIexmWFOcxAfmVzXDni2CnaPyMeukexcUX
+         GFLNwfTD+faBj37vQ5XNCP9CgdZxjzhl1FgmBG79rwdYKTHsjKs4PmIKrQlqacckh0kY
+         /JHw==
+X-Gm-Message-State: AFqh2kqkqagzdZfz1DQ1i/ygOP3tw9KmuQzqZ8aJdXyxQznVb9pgmJhj
+	4H818G5xSjQ2kthiTOikgbq8Lx88iKw=
+X-Google-Smtp-Source: AMrXdXtBTVZ+LD3kDiEMqezwZgCUx8FvOwQO8sd/qjAEC/TvuZ+UCkJbh9Ye/k1R3SQjiFpBRf0Nzw==
+X-Received: by 2002:adf:ce86:0:b0:242:43f3:8950 with SMTP id r6-20020adfce86000000b0024243f38950mr34886733wrn.22.1673102479546;
+        Sat, 07 Jan 2023 06:41:19 -0800 (PST)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id t14-20020adfe44e000000b0028663fc8f4csm3971248wrm.30.2023.01.07.06.41.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Jan 2023 06:41:18 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [PATCH] tune-x86-64-v3.inc: set QEMU_EXTRAOPTIONS like other tune-* files
+Date: Sat,  7 Jan 2023 15:41:09 +0100
+Message-Id: <20230107144109.316339-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-From: =?UTF-8?B?6JSh57qq6Imv?= <tyrocjl@gmail.com>
-Date: Sat, 7 Jan 2023 18:54:09 +0800
-Message-ID: <CANzPQ-CLqpi4ML7kLOmWq4+3QLWx-CH8FrEg8QJD7ZGC_4iRXQ@mail.gmail.com>
-Subject: [kirkstone][PATCH] Let the KCONFIG_MODE alldefconfig mode take effect
-To: Openembedded-core@lists.openembedded.org, bruce.ashfield@gmail.com
-Cc: richard.purdie@linuxfoundation.org, randy.macleod@windriver.com
-Content-Type: multipart/mixed; boundary="00000000000044242505f1aa583f"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 07 Jan 2023 10:53:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175618
+ <openembedded-core@lists.openembedded.org>; Sat, 07 Jan 2023 14:41:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175619
 
---00000000000044242505f1aa583f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+* use Skylake-Client to match QB_CPU_KVM as changed in:
+  https://git.openembedded.org/openembedded-core/commit/?id=6f2af1e5d1537b4d31e14946292bf58f0fd76fc9
 
-When building kernel using in-tree defconfig, set KBUILD_DEFCONFIG, but the
-KCONFIG_MODE is not what the documentation says set to alldefconfig.
+* explicitly set -cpu instead of letting qemu to choose based
+  on host cpu
 
-The documentation says:
-    An =E2=80=9Cin-tree=E2=80=9D defconfig file will be handled in alldefco=
-nfig mode, a
-defconfig file placed in ${WORKDIR} through a meta-layer will be handled
-in allnoconfig mode"
+* check=false is still useful as e.g. on on AMD Threadripper 3970X:
+  orc/0.4.33-r0 $ PSEUDO_UNLOAD=1 qemu-x86_64 -r 3.2.0 -cpu Skylake-Client  -L recipe-sysroot -E LD_LIBRARY_PATH=recipe-sysroot//usr/lib:recipe-sysroot//lib
+  orc/0.4.33-r0/build/meson-private/sanitycheckc_cross.exe
+  qemu-x86_64: warning: TCG doesn't support requested feature: CPUID.01H:ECX.pcid [bit 17]
+  qemu-x86_64: warning: TCG doesn't support requested feature: CPUID.01H:ECX.x2apic [bit 21]
+  qemu-x86_64: warning: TCG doesn't support requested feature: CPUID.01H:ECX.tsc-deadline [bit 24]
+  qemu-x86_64: warning: TCG doesn't support requested feature: CPUID.07H:EBX.hle [bit 4]
+  qemu-x86_64: warning: TCG doesn't support requested feature: CPUID.07H:EBX.invpcid [bit 10]
+  qemu-x86_64: warning: TCG doesn't support requested feature: CPUID.07H:EBX.rtm [bit 11]
+  qemu-x86_64: warning: TCG doesn't support requested feature: CPUID.07H:EBX.rdseed [bit 18]
+  qemu-x86_64: warning: TCG doesn't support requested feature: CPUID.80000001H:ECX.3dnowprefetch [bit 8]
+  qemu-x86_64: warning: TCG doesn't support requested feature: CPUID.0DH:EAX.xsavec [bit 1]
 
-    https://docs.yoctoproject.org/4.0.6/ref-manual/variables.html#term-KCON=
-FIG_MODE
+* if this still doesn't work for you on your host, you might need to downgrade
+  DEFAULTTUNE to e.g. corei7-64 (all all the way back to core2-64), for
+  more details see:
+  https://www.openembedded.org/pipermail/openembedded-core/2018-April/150178.html
 
-So I made a patch fix it.
-Thanks.
+* the leading space shouldn't be needed, I've kept it for consistency
+  with other QEMU_EXTRAOPTIONS
 
---00000000000044242505f1aa583f
-Content-Type: application/octet-stream; 
-	name="0001-Let-the-KCONFIG_MODE-alldefconfig-mode-take-effect.patch"
-Content-Disposition: attachment; 
-	filename="0001-Let-the-KCONFIG_MODE-alldefconfig-mode-take-effect.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_lcltkgbg0>
-X-Attachment-Id: f_lcltkgbg0
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/conf/machine/include/x86/tune-x86-64-v3.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-RnJvbSBkYTlkM2E0ODMyZTIzNjEyZGY3ODBkNzViYjVjMDNhNzk5ZWU1N2Q1IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiAiamlsaWFuZy5jYWkiIDx0eXJvY2psQGdtYWlsLmNvbT4KRGF0
-ZTogU2F0LCA3IEphbiAyMDIzIDE3OjUxOjMyICswODAwClN1YmplY3Q6IFtraXJrc3RvbmVdW1BB
-VENIXSBMZXQgdGhlIEtDT05GSUdfTU9ERSBhbGxkZWZjb25maWcgbW9kZSB0YWtlIGVmZmVjdApN
-SU1FLVZlcnNpb246IDEuMApDb250ZW50LVR5cGU6IHRleHQvcGxhaW47IGNoYXJzZXQ9VVRGLTgK
-Q29udGVudC1UcmFuc2Zlci1FbmNvZGluZzogOGJpdAoKV2hlbiBidWlsZCBrZXJuZWwgdXNpbmcg
-aW4tdHJlZSBkZWZjb25maWcsIHNldCBLQlVJTERfREVGQ09ORklHLCBidXQgdGhlCktDT05GSUdf
-TU9ERSBpcyBub3Qgd2hhdCB0aGUgZG9jdW1lbnRhdGlvbiBzYXlzIHNldCB0byBhbGxkZWZjb25m
-aWcuCgpUaGUgZG9jdW1lbnRhdGlvbiBzYXlzOgogICAgQW4g4oCcaW4tdHJlZeKAnSBkZWZjb25m
-aWcgZmlsZSB3aWxsIGJlIGhhbmRsZWQgaW4gYWxsZGVmY29uZmlnIG1vZGUsIGEKZGVmY29uZmln
-IGZpbGUgcGxhY2VkIGluICR7V09SS0RJUn0gdGhyb3VnaCBhIG1ldGEtbGF5ZXIgd2lsbCBiZSBo
-YW5kbGVkCmluIGFsbG5vY29uZmlnIG1vZGUiCgogICAgaHR0cHM6Ly9kb2NzLnlvY3RvcHJvamVj
-dC5vcmcvNC4wLjYvcmVmLW1hbnVhbC92YXJpYWJsZXMuaHRtbCN0ZXJtLUtDT05GSUdfTU9ERQoK
-U2lnbmVkLW9mZi1ieTogamlsaWFuZy5jYWkgPHR5cm9jamxAZ21haWwuY29tPgotLS0KIG1ldGEv
-Y2xhc3Nlcy9rZXJuZWwteW9jdG8uYmJjbGFzcyB8IDUgKysrKysKIDEgZmlsZSBjaGFuZ2VkLCA1
-IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMva2VybmVsLXlvY3RvLmJi
-Y2xhc3MgYi9tZXRhL2NsYXNzZXMva2VybmVsLXlvY3RvLmJiY2xhc3MKaW5kZXggODJlNzkyMzUx
-Zi4uMmM2ZjgxOWQ3OCAxMDA2NDQKLS0tIGEvbWV0YS9jbGFzc2VzL2tlcm5lbC15b2N0by5iYmNs
-YXNzCisrKyBiL21ldGEvY2xhc3Nlcy9rZXJuZWwteW9jdG8uYmJjbGFzcwpAQCAtNzE4LDYgKzcx
-OCwxMSBAQCBweXRob24gKCkgewogICAgICAgICAjIElmIHdlIGRlbHRhc2sgZG9fcGF0Y2gsIGRv
-X2tlcm5lbF9jb25maWdtZSBpcyBsZWZ0IHdpdGhvdXQKICAgICAgICAgIyBkZXBlbmRlbmNpZXMg
-YW5kIHJ1bnMgdG9vIGVhcmx5CiAgICAgICAgIGQuc2V0VmFyRmxhZygnZG9fa2VybmVsX2NvbmZp
-Z21lJywgJ2RlcHMnLCAoZC5nZXRWYXJGbGFnKCdkb19rZXJuZWxfY29uZmlnbWUnLCAnZGVwcycs
-IEZhbHNlKSBvciBbXSkgKyBbJ2RvX3VucGFjayddKQorCisgICAgIyBBbiDigJxpbi10cmVl4oCd
-IGRlZmNvbmZpZyBmaWxlIHdpbGwgYmUgaGFuZGxlZCBpbiBhbGxkZWZjb25maWcgbW9kZQorICAg
-IGtidWlsZF9kZWZjb25maWcgPSBkLmdldFZhcigiS0JVSUxEX0RFRkNPTkZJRyIpIG9yICIiCisg
-ICAgaWYga2J1aWxkX2RlZmNvbmZpZzoKKyAgICAgICAgZC5zZXRWYXIoIktDT05GSUdfTU9ERSIs
-ICJhbGxkZWZjb25maWciKQogfQogCiAjIGV4dHJhIHRhc2tzCi0tIAoyLjI1LjEKCg==
---00000000000044242505f1aa583f--
+diff --git a/meta/conf/machine/include/x86/tune-x86-64-v3.inc b/meta/conf/machine/include/x86/tune-x86-64-v3.inc
+index 267c12ff50..254f03c590 100644
+--- a/meta/conf/machine/include/x86/tune-x86-64-v3.inc
++++ b/meta/conf/machine/include/x86/tune-x86-64-v3.inc
+@@ -21,9 +21,11 @@ TUNE_FEATURES:tune-x86-64-v3 = "${TUNE_FEATURES:tune-x86-64} x86-64-v3"
+ BASE_LIB:tune-x86-64-v3 = "lib64"
+ TUNE_PKGARCH:tune-x86-64-v3 = "x86-64-v3"
+ PACKAGE_EXTRA_ARCHS:tune-x86-64-v3 = "${PACKAGE_EXTRA_ARCHS:tune-corei7-64} x86-64-v3"
++QEMU_EXTRAOPTIONS_x86-64-v3 = " -cpu Skylake-Client,check=false"
+ 
+ AVAILTUNES += "x86-64-v3-x32"
+ TUNE_FEATURES:tune-x86-64-v3-x32 = "${TUNE_FEATURES:tune-x86-64-x32} x86-64-v3"
+ BASE_LIB:tune-x86-64-v3-x32 = "libx32"
+ TUNE_PKGARCH:tune-x86-64-v3-x32 = "x86-64-v3-x32"
+ PACKAGE_EXTRA_ARCHS:tune-x86-64-v3-x32 = "${PACKAGE_EXTRA_ARCHS:tune-corei7-64-x32} x86-64-v3-x32"
++QEMU_EXTRAOPTIONS_x86-64-v3-x32 = " -cpu Skylake-Client,check=false"
+-- 
+2.39.0
+
 
