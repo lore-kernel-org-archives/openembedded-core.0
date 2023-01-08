@@ -2,101 +2,85 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D25BC54EBC
-	for <webhook@archiver.kernel.org>; Sun,  8 Jan 2023 02:08:58 +0000 (UTC)
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
- by mx.groups.io with SMTP id smtpd.web11.36728.1673143734881518842
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52284C46467
+	for <webhook@archiver.kernel.org>; Sun,  8 Jan 2023 02:30:58 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web10.36956.1673145051028189007
  for <openembedded-core@lists.openembedded.org>;
- Sat, 07 Jan 2023 18:08:55 -0800
+ Sat, 07 Jan 2023 18:30:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=d7Mfo4y5;
- spf=pass (domain: gmail.com, ip: 209.85.167.172, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f172.google.com with SMTP id n8so4416622oih.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 07 Jan 2023 18:08:54 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=qGHExnj3;
+ spf=pass (domain: gmail.com, ip: 209.85.210.179, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f179.google.com with SMTP id d83so1778365pfd.7
+        for <openembedded-core@lists.openembedded.org>; Sat, 07 Jan 2023 18:30:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9vCFCzsSo91WjgLvO2np4Va7fwZVTPE/Lr6q/ts9d4Y=;
-        b=d7Mfo4y5f0KBi4BQJXAuba16MwklRXVA7H81ByJY1RRyyhMqtGfk/rgbm/EoWENMxW
-         Q3OgSecFAjFE6QgPUFyO2GCQ+2Fc/aeF2Xru4FND9999wktgdxnsXx61t9D6nUVsXMoI
-         6XSejVbwDh3NEKS8rW2t9eFrxnDsCU1091aDhsVlVf3ZAHEE7bMU1VTFiXfJW1jDw8YY
-         Ih7cirXUmyGISmr587kcTPUvCwuiBmkUYUpAmS9VZ2hxyq3Iw/Xj9HirjGTdBevfMhNN
-         EXGS6eXDWQDtEgWsjz/nqdXRcTT/7WAfS4WgJP3Xv8Ef4II30gYGSmkjjGro5X+3FrFb
-         mE4Q==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qsij72e+wo0kcdgg3Cktq6mQJSPpxh5rjOcASB9yQOc=;
+        b=qGHExnj3gbCtnD1yn2OwwB6t9Jbz0myL7wGzpzzCINTxsIVxC8DCicL3PAAayJD4xB
+         LeEjLyD4riOj/H1cLt7sXado8vLJWPQ8MVIv3UxSNZ2uViXsnkM30FAJo+/72qVsfopR
+         JYS6ud++v0wZDMBcnPqsKnF56PJfCB6AKEC7xvQSSW7DVrU6EHsQ5axmrqpK4TT1WJ4P
+         lHnIv88ROePwwM9NnX3EyWE7jZZ5OS4gylYcOQmUFf6vPWn9NttuUfVx02yCKPM5N79H
+         K/vV5ZgtrbfeQCnk3YMONC3LNo8Yb9lYgxGKENUidgwmBQFfIT0qpbVDOsuenxHWwIzi
+         +VTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9vCFCzsSo91WjgLvO2np4Va7fwZVTPE/Lr6q/ts9d4Y=;
-        b=1Yfkja63qDTU6571AoRVXY1ti3KILuzQ90F4y3prQaLvwA+9mUtTygUDbs61idn+BC
-         PYO/lxxVoar23WK9aOrwiNhhq+CXrMgDPNDXog9myLW1Yb4nRqQvrKN0B7y99HTOxNjc
-         GBIEC97P403lba66A0lrtvMEuYQrIAFq98xJ9XAgMaQWgy1nDVy8yyCOcUwOtMOzEXps
-         lqHLwlCLuOc35tJ1ifUjvXbdUj3pHVqs8ezsDRFxSR3xK8uFhQwRO/WjBu0vkg49Irxj
-         FKAG7vNFJRmB4hAc/aeMvd5luaczRDQRWq/kyNy+yDy+rMLuFnvNd6cVzr4rWlkXap8U
-         hA6w==
-X-Gm-Message-State: AFqh2kr9497O3G6yLK+kbt9/sw2IpEVO1MlyTOCaN2GxAEKVBsttcjqn
-	s19Hr8s89twEftNgfokeaPrbdQ34d2D5q0Lp7u0=
-X-Google-Smtp-Source: AMrXdXviHepQyI2pT0a4WP2nJ7IPvV80211DXl4oHXvoGALDXZokVY5D3Urmu+Q3zkhe4y8ahk+6Gagbfi4zKTOjgG4=
-X-Received: by 2002:aca:3855:0:b0:35c:53a9:5513 with SMTP id
- f82-20020aca3855000000b0035c53a95513mr3464241oia.262.1673143733889; Sat, 07
- Jan 2023 18:08:53 -0800 (PST)
-MIME-Version: 1.0
-References: <20230107000831.1253334-1-raj.khem@gmail.com> <cb42a161e6768fccfbe86308791f3e19bd8a19ef.camel@linuxfoundation.org>
-In-Reply-To: <cb42a161e6768fccfbe86308791f3e19bd8a19ef.camel@linuxfoundation.org>
+        bh=qsij72e+wo0kcdgg3Cktq6mQJSPpxh5rjOcASB9yQOc=;
+        b=7er8qRyHU31qYtt0jMaCN+ngNbOYltaNDXJBWGAkfuoL+cCaGzIvBse1bBTzo50ySK
+         8AnnnOYz3N/3f4kfQ/Rk7qGwxg3+Ev52fSKqHLbBPPqmbzpZzOZtj/mVfzEqjePUuIXI
+         CrJbeVntfwEaDevooD/joV9MsnVcnv/I87BLwsIMWG7pT1IMGs7yK66+0mdmlMsM1sha
+         pPt9skWfJix0Z8QHIUNBhN1UTic+v9jSTdDTjZ4Vvi0r9od98GGqoxiFfElbepQ86/Xc
+         mz5o+gYCQKSiwv8kbosIECeJi2Ms09tJwvyIrHTRYP7cUcrF/+cs0/N5u/o7gZ732P6b
+         c4pQ==
+X-Gm-Message-State: AFqh2kqXdT+YuMa99R+v/7R0L5ysTLXdqn2R31U9eExpBLDdvmtv8Gwn
+	x0J5Wj+b8bxnLyvO0JqJica4SxLlnbjWMA==
+X-Google-Smtp-Source: AMrXdXu2FHdHHmz8jIj75JR2QqKl73zhJQnuB9wwxa0xs9GvRhOxZoO/Lu7GMcu16EEjUz/XCdcjMw==
+X-Received: by 2002:aa7:8f8e:0:b0:581:c0ee:3a5e with SMTP id t14-20020aa78f8e000000b00581c0ee3a5emr33718936pfs.20.1673145050201;
+        Sat, 07 Jan 2023 18:30:50 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::ee35])
+        by smtp.gmail.com with ESMTPSA id y186-20020a6232c3000000b00571cdbd0771sm3434040pfy.102.2023.01.07.18.30.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Jan 2023 18:30:49 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 7 Jan 2023 18:08:27 -0800
-Message-ID: <CAMKF1sr_w_YB+S3t1ggtdGA2UR_EaT-EJhP8VBhfFmucVJKZZA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] site/common-musl: Set ac_cv_sys_file_offset_bits
- default to 64
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] mpg123: Enable largefile support
+Date: Sat,  7 Jan 2023 18:30:47 -0800
+Message-Id: <20230108023047.1465271-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.39.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 08 Jan 2023 02:08:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175623
+ <openembedded-core@lists.openembedded.org>; Sun, 08 Jan 2023 02:30:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175624
 
-On Sat, Jan 7, 2023 at 12:13 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Fri, 2023-01-06 at 16:08 -0800, Khem Raj wrote:
-> > off_t is always 64bit on musl regardless of 32bit or 64bit
-> > architectures. autoconf has AC_SYS_LARGEFILE to detect correct off_t
-> > size but it only work with glibc since it defines feature macros
-> > _FILE_OFFSET_BITS=64 and _LARGEFILE_SOURCE but these macros are
-> > not used on musl headers.
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-> > ---
-> >  meta/site/common-musl | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/meta/site/common-musl b/meta/site/common-musl
-> > index 86aed4a38c..23e50ef749 100644
-> > --- a/meta/site/common-musl
-> > +++ b/meta/site/common-musl
-> > @@ -15,6 +15,8 @@ ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
-> >  ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
-> >  ac_cv_func_mmap_fixed_mapped=${ac_cv_func_mmap_fixed_mapped=yes}
-> >  ac_cv_func_strtod=${ac_cv_func_strtod=yes}
-> > +# off_t is always 64bit on musl systems
-> > +ac_cv_sys_file_offset_bits=${ac_cv_sys_file_offset_bits=64}
-> >
->
-> Not sure if this failure might be related to this change:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/6496/steps/12/logs/stdio
->
+Disable lfs aliases since they are not needed when LFS is enabled
 
-Yes its a side effect of this. We should have added
---disable-lfs-alias always. sending a patch for this package
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-multimedia/mpg123/mpg123_1.31.1.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> Cheers,
->
-> Richard
+diff --git a/meta/recipes-multimedia/mpg123/mpg123_1.31.1.bb b/meta/recipes-multimedia/mpg123/mpg123_1.31.1.bb
+index 11ff5dea92..a8a2377bd4 100644
+--- a/meta/recipes-multimedia/mpg123/mpg123_1.31.1.bb
++++ b/meta/recipes-multimedia/mpg123/mpg123_1.31.1.bb
+@@ -37,6 +37,8 @@ AUDIOMODS += "${@bb.utils.contains('PACKAGECONFIG', 'pulseaudio', 'pulse', '', d
+ 
+ EXTRA_OECONF = " \
+     --enable-shared \
++    --enable-largefile \
++    --disable-lfs-alias \
+     --with-audio='${AUDIOMODS}' \
+     ${@bb.utils.contains('TUNE_FEATURES', 'neon', '--with-cpu=neon', '', d)} \
+     ${@bb.utils.contains('TUNE_FEATURES', 'altivec', '--with-cpu=altivec', '', d)} \
+-- 
+2.39.0
+
 
