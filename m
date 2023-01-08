@@ -1,95 +1,471 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C1D2C53210
-	for <webhook@archiver.kernel.org>; Sun,  8 Jan 2023 13:33:31 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web11.44651.1673184810319660001
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9DF5C53210
+	for <webhook@archiver.kernel.org>; Sun,  8 Jan 2023 14:34:51 +0000 (UTC)
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+ by mx.groups.io with SMTP id smtpd.web10.45798.1673188488638077107
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 Jan 2023 05:33:30 -0800
+ Sun, 08 Jan 2023 06:34:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=y7D25XSZ;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.44, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f44.google.com with SMTP id cp9-20020a17090afb8900b00226a934e0e5so9124195pjb.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 08 Jan 2023 05:33:30 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=DxpKx3q5;
+ spf=pass (domain: gmail.com, ip: 209.85.167.171, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f171.google.com with SMTP id v70so5114086oie.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 08 Jan 2023 06:34:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=date:message-id:to:from:subject:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FWZXi6FHA2BXeV21La0ZU34fpMmCviKiQQ8nbnLS3AU=;
-        b=y7D25XSZc9Vj7YQ0JAEZMidF3e8HIT4WGwEjE14P3kysit5Nod1KjUeA4ez5zPwwAN
-         cDfwUs13Pihd1ZoWEGiwOIQ4ZjMKyArI61tlUJDtHZxWu4noE/EF5ONuoKvIUBshBYqR
-         ZPTEtuFq/h6SVGrpxhpK6VOMabIYM+agFO47L3ywWYjkLnyahK+zKjM9SukaYayyJT/M
-         KXcZs8xow4S/V2+kt2QOLaAmLpO2DYbtWGU9kZB75Lgisf8iySrKOFccy8tqJaaxhV/L
-         HWbMEH/R4wqVKZhEm9ADhNqd1yQYMeOSQDJtlps0bTMNfHPSoZ3zt9IowRtfuTftjh6M
-         tnRQ==
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=CcVP0peuPej/7nYqvLgXhpfmDNEDlb7RReZsZGr2vQ8=;
+        b=DxpKx3q528PkuMLL/owkQy83X2XKhMe59D41TnNcNZi5agcdbi6saisgtNGWl4sUvd
+         E+0MpJe0IOhwFckMl4+/t9O0L1E8UMHLi3XGr3sk3axqIWP3tsxiibRS3WUWGQdv2r+0
+         H/1PQgJ0ZvG4Jyeg0Svnt1t8d08CKJ7VUT5N5TERt4oZCjB+rtFd5YAFsiqPUVSgypGj
+         FxWyzEH1lSXQtf0NEFwGyDyGlPQc41DQnpE8ftqlWRw15tsBzjm5VAUX7fe+vuIxvfW8
+         zop/WFLXZLEh68rfGaqFqnQviJbZ44iFm6iNzfGKW3BuW17sfob+GQ//trWu+jW4vS5N
+         omnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=date:message-id:to:from:subject:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FWZXi6FHA2BXeV21La0ZU34fpMmCviKiQQ8nbnLS3AU=;
-        b=3q5w/K/bRrOs78u1qLTHNJUE+//cRettIL2IHwATpDtDQGSbmrI8Tvr0AzoQkamKv+
-         dLQhJrvpFPdSsVzwEkXWt1Zgb440QAZFdpWFu2LLN7MbiMAMpoQl3HkxAkR8PyD+/x+O
-         ZdGLo3UTG7UCe7Jgesh5hYwxITqA8gws2gXKDIYvMIo1qNuE20XZllEEaJkNxFurntrG
-         guqbWq7SxRxXg3oYsTfGEt9eadgx6NXRI+j68kosTtm7VoyqR+NLguW+/iU7MjkZIyol
-         1q8dPZ1r62R832fv/E7PCiwPL5lgs0Quc5D+DqYn/onfLZhuHLzxCdWAc+Eymoyc9oHT
-         U9Qw==
-X-Gm-Message-State: AFqh2kpC9fh/ZrNpqMDBu4VjDQctm8bJy24lPGGdqORGTl1yoYg7eP/L
-	icutGibsKB6op6ujdc5sywr2ANN9SyiTUqNLQ10=
-X-Google-Smtp-Source: AMrXdXup6py2+yleywbVe+lUr4DzSm4Hts+D9T8NfBgaA0olUw16KvnIwYxRsD67cCty0HZ/Op9GaA==
-X-Received: by 2002:a17:90a:fa89:b0:226:a4bc:c4d8 with SMTP id cu9-20020a17090afa8900b00226a4bcc4d8mr17984637pjb.4.1673184808833;
-        Sun, 08 Jan 2023 05:33:28 -0800 (PST)
-Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id ms19-20020a17090b235300b002132f3e71c6sm3796852pjb.52.2023.01.08.05.33.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Jan 2023 05:33:28 -0800 (PST)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id 70F419602D3; Sun,  8 Jan 2023 03:33:24 -1000 (HST)
-Subject: OE-core CVE metrics for langdale on Sun 08 Jan 2023 03:30:01 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20230108133324.70F419602D3@nuc.router0800d9.com>
-Date: Sun,  8 Jan 2023 03:33:24 -1000 (HST)
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CcVP0peuPej/7nYqvLgXhpfmDNEDlb7RReZsZGr2vQ8=;
+        b=e9vUS1eiJ67FYsPxU0XicDjW8VZh7AsV8Xw6HK8lfLERv4ChZyvRoRzeuEtpfclyzX
+         SvUx6EcTj6WyatGFJ/gJaqKU2qZIJYLM/ba/NRLhIU8kXykAcRMH5fADdxpvwG8J95wt
+         /bu9jaW+Iem1g77g/zDhwYzuW0/sfCgMRyu/b4IKgIW35FPVol340SP4Bm0sNpnOZSFH
+         EJXfx74jRwxZfLbjdF5NBPfAj65TUMKd4qWaQI/l2nSAIEoODtUN7gkfoz3ZMl+ftdLF
+         6P8dWrx6q9X+NiL98Rtb4BsOolVOyHKP/l9zFRJ0ppbfst1xTYb6ibZHHhWbGsMMDxJJ
+         F5TQ==
+X-Gm-Message-State: AFqh2kpLkPGDLdDFnHaCdYqx4lU2GrM+FdYrA70DC5fxH+hLw90l7/vW
+	J6Mdac/1KTX0M9X+/LXz0GigPBUzN/vXBwe/Q0c=
+X-Google-Smtp-Source: AMrXdXuRaupHCXT0/HPzhM9bZYi9NQ2Erg86hpVKIMYafNKqUl1KYWw49qyIl+zoyXX+Yg+xGu+hiwhFfduqiSVNavU=
+X-Received: by 2002:aca:3855:0:b0:35c:53a9:5513 with SMTP id
+ f82-20020aca3855000000b0035c53a95513mr3575005oia.262.1673188487645; Sun, 08
+ Jan 2023 06:34:47 -0800 (PST)
+MIME-Version: 1.0
+References: <20230106110505.443726-1-andrej.valek@siemens.com>
+ <CAMKF1spuAN0wQE-GXk2rVz6rAEA=GHYH=cFWfqqAd_7K-jO1Aw@mail.gmail.com> <bac31b0c98f9b57995ba6e9994122a3a850683e7.camel@siemens.com>
+In-Reply-To: <bac31b0c98f9b57995ba6e9994122a3a850683e7.camel@siemens.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 8 Jan 2023 06:34:21 -0800
+Message-ID: <CAMKF1srXWuUrsEy9zzrCJArs7HjBoSrQsGKj6j7VW0rLgkKWCA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] busybox: 1.35.0 -> 1.36.0
+To: "Valek, Andrej" <andrej.valek@siemens.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 08 Jan 2023 13:33:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175629
+ <openembedded-core@lists.openembedded.org>; Sun, 08 Jan 2023 14:34:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175630
 
-Branch: langdale
+On Sun, Jan 8, 2023 at 5:17 AM Valek, Andrej <andrej.valek@siemens.com> wrote:
+>
+> Hello Raj,
+>
+> Which applets have the problem, klogd and syslogd, or? I see there some
+> kind of libc segmentation.
+>
+> Maybe we should unset the CONFIG_STATIC_LIBGCC=y which could be an
+> improvement at all.
 
-New this week: 2 CVEs
-CVE-2022-43551 (CVSS3: 7.5 HIGH): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-43551 *
-CVE-2022-47629 (CVSS3: 9.8 CRITICAL): libksba:libksba-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-47629 *
+so far its klogd, syslogd and sh
 
-Removed this week: 0 CVEs
-
-Full list:  Found 23 unpatched CVEs
-CVE-2022-2601 (CVSS3: 8.6 HIGH): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2601 *
-CVE-2022-37454 (CVSS3: 9.8 CRITICAL): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-37454 *
-CVE-2022-3775 (CVSS3: 7.1 HIGH): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3775 *
-CVE-2022-3872 (CVSS3: 8.6 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3872 *
-CVE-2022-39253 (CVSS3: 5.5 MEDIUM): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-39253 *
-CVE-2022-39260 (CVSS3: 8.8 HIGH): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-39260 *
-CVE-2022-3996 (CVSS3: 7.5 HIGH): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3996 *
-CVE-2022-40303 (CVSS3: 7.5 HIGH): libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40303 *
-CVE-2022-40304 (CVSS3: 7.8 HIGH): libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40304 *
-CVE-2022-4055 (CVSS3: 7.4 HIGH): xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4055 *
-CVE-2022-40897 (CVSS3: 5.9 MEDIUM): python3-setuptools:python3-setuptools-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40897 *
-CVE-2022-4144 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4144 *
-CVE-2022-41717 (CVSS3: 5.3 MEDIUM): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41717 *
-CVE-2022-41720 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41720 *
-CVE-2022-42010 (CVSS3: 6.5 MEDIUM): dbus:dbus-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-42010 *
-CVE-2022-42011 (CVSS3: 6.5 MEDIUM): dbus:dbus-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-42011 *
-CVE-2022-42012 (CVSS3: 6.5 MEDIUM): dbus:dbus-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-42012 *
-CVE-2022-42919 (CVSS3: 7.8 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-42919 *
-CVE-2022-43551 (CVSS3: 7.5 HIGH): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-43551 *
-CVE-2022-45061 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-45061 *
-CVE-2022-4603 (CVSS3: 8.8 HIGH): ppp https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4603 *
-CVE-2022-46908 (CVSS3: 7.3 HIGH): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46908 *
-CVE-2022-47629 (CVSS3: 9.8 CRITICAL): libksba:libksba-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-47629 *
-
-For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
+>
+> Regards,
+> Andrej
+>
+> On Fri, 2023-01-06 at 22:23 -0800, Khem Raj wrote:
+> > some applets are segfaulting on qemux86/musl
+> >
+> > [    2.754687] klogd[202]: segfault at 56da7e ip b7f4d668 sp bfdb0300
+> > error 7 in libc.so[b7eda000+76000]
+> > [    2.759018] syslogd[203]: segfault at 506a7e ip b7f74668 sp
+> > bf997dd0 error 7 in libc.so[b7f01000+76000]
+> > [   61.264333] sh[279]: segfault at 4d4a7e ip b7f5d668 sp bfff6610
+> > error 7 in libc.so[b7eea000+76000]
+> >
+> > and it bails out logging in.
+> >
+> > On Fri, Jan 6, 2023 at 3:05 AM Andrej Valek
+> > <andrej.valek@siemens.com> wrote:
+> > >
+> > > - update to next (un)stable version 1.36.0
+> > > - refresh defconfig
+> > >  - disable new applets (tree, tsort, seedrng)
+> > >  - use hw-accel for sha1/256 sums when available
+> > > - remove and refresh already merged patches
+> > >
+> > > Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+> > > ---
+> > >  ...ab_1.35.0.bb => busybox-inittab_1.36.0.bb} |   0
+> > >  .../0001-devmem-add-128-bit-width.patch       | 128 --------------
+> > > ----
+> > >  .../busybox/busybox/CVE-2022-30065.patch      |  29 ----
+> > >  meta/recipes-core/busybox/busybox/defconfig   |  10 +-
+> > >  .../busybox/busybox/recognize_connmand.patch  |  10 +-
+> > >  meta/recipes-core/busybox/busybox/sha1sum.cfg |   2 +
+> > >  .../busybox/busybox/sha256sum.cfg             |   1 +
+> > >  .../{busybox_1.35.0.bb => busybox_1.36.0.bb}  |   4 +-
+> > >  8 files changed, 17 insertions(+), 167 deletions(-)
+> > >  rename meta/recipes-core/busybox/{busybox-inittab_1.35.0.bb =>
+> > > busybox-inittab_1.36.0.bb} (100%)
+> > >  delete mode 100644 meta/recipes-core/busybox/busybox/0001-devmem-
+> > > add-128-bit-width.patch
+> > >  delete mode 100644 meta/recipes-core/busybox/busybox/CVE-2022-
+> > > 30065.patch
+> > >  rename meta/recipes-core/busybox/{busybox_1.35.0.bb =>
+> > > busybox_1.36.0.bb} (92%)
+> > >
+> > > diff --git a/meta/recipes-core/busybox/busybox-inittab_1.35.0.bb
+> > > b/meta/recipes-core/busybox/busybox-inittab_1.36.0.bb
+> > > similarity index 100%
+> > > rename from meta/recipes-core/busybox/busybox-inittab_1.35.0.bb
+> > > rename to meta/recipes-core/busybox/busybox-inittab_1.36.0.bb
+> > > diff --git a/meta/recipes-core/busybox/busybox/0001-devmem-add-128-
+> > > bit-width.patch b/meta/recipes-core/busybox/busybox/0001-devmem-
+> > > add-128-bit-width.patch
+> > > deleted file mode 100644
+> > > index 985e2bf1d9..0000000000
+> > > --- a/meta/recipes-core/busybox/busybox/0001-devmem-add-128-bit-
+> > > width.patch
+> > > +++ /dev/null
+> > > @@ -1,128 +0,0 @@
+> > > -From d432049f288c9acdc4a7caa729c68ceba3c5dca1 Mon Sep 17 00:00:00
+> > > 2001
+> > > -From: Aaro Koskinen <aaro.koskinen@nokia.com>
+> > > -Date: Thu, 25 Aug 2022 18:47:02 +0300
+> > > -Subject: [PATCH] devmem: add 128-bit width
+> > > -
+> > > -Add 128-bit width if the compiler provides the needed type.
+> > > -
+> > > -function                                             old     new
+> > > delta
+> > > -devmem_main                                          405
+> > > 464     +59
+> > > -.rodata                                           109025
+> > > 109043     +18
+> > > -------------------------------------------------------------------
+> > > ------------
+> > > -(add/remove: 0/0 grow/shrink: 2/0 up/down: 77/0)
+> > > Total: 77 bytes
+> > > -
+> > > -Upstream-Status: Backport
+> > > [https://git.busybox.net/busybox/commit/?id=d432049f288c9acdc4a7caa729c68ceba3c5dca1
+> > > ]
+> > > -
+> > > -Signed-off-by: Aaro Koskinen <aaro.koskinen@nokia.com>
+> > > -Signed-off-by: Aaro Koskinen <aaro.koskinen@iki.fi>
+> > > -Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
+> > > -Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> > > ----
+> > > - miscutils/devmem.c | 68 ++++++++++++++++++++++++++++++-----------
+> > > -----
+> > > - 1 file changed, 44 insertions(+), 24 deletions(-)
+> > > -
+> > > -diff --git a/miscutils/devmem.c b/miscutils/devmem.c
+> > > -index f9f0276bc..f21621bd6 100644
+> > > ---- a/miscutils/devmem.c
+> > > -+++ b/miscutils/devmem.c
+> > > -@@ -29,7 +29,6 @@ int devmem_main(int argc UNUSED_PARAM, char
+> > > **argv)
+> > > - {
+> > > -       void *map_base, *virt_addr;
+> > > -       uint64_t read_result;
+> > > --      uint64_t writeval = writeval; /* for compiler */
+> > > -       off_t target;
+> > > -       unsigned page_size, mapped_size, offset_in_page;
+> > > -       int fd;
+> > > -@@ -64,9 +63,6 @@ int devmem_main(int argc UNUSED_PARAM, char
+> > > **argv)
+> > > -                       width = strchrnul(bhwl, (argv[2][0] |
+> > > 0x20)) - bhwl;
+> > > -                       width = sizes[width];
+> > > -               }
+> > > --              /* VALUE */
+> > > --              if (argv[3])
+> > > --                      writeval = bb_strtoull(argv[3], NULL, 0);
+> > > -       } else { /* argv[2] == NULL */
+> > > -               /* make argv[3] to be a valid thing to fetch */
+> > > -               argv--;
+> > > -@@ -96,28 +92,46 @@ int devmem_main(int argc UNUSED_PARAM, char
+> > > **argv)
+> > > -       virt_addr = (char*)map_base + offset_in_page;
+> > > -
+> > > -       if (!argv[3]) {
+> > > --              switch (width) {
+> > > --              case 8:
+> > > --                      read_result = *(volatile
+> > > uint8_t*)virt_addr;
+> > > --                      break;
+> > > --              case 16:
+> > > --                      read_result = *(volatile
+> > > uint16_t*)virt_addr;
+> > > --                      break;
+> > > --              case 32:
+> > > --                      read_result = *(volatile
+> > > uint32_t*)virt_addr;
+> > > --                      break;
+> > > --              case 64:
+> > > --                      read_result = *(volatile
+> > > uint64_t*)virt_addr;
+> > > --                      break;
+> > > --              default:
+> > > --                      bb_simple_error_msg_and_die("bad width");
+> > > -+#ifdef __SIZEOF_INT128__
+> > > -+              if (width == 128) {
+> > > -+                      unsigned __int128 rd =
+> > > -+                              *(volatile unsigned __int128
+> > > *)virt_addr;
+> > > -+                      printf("0x%016llX%016llX\n",
+> > > -+                              (unsigned long long)(uint64_t)(rd
+> > > >> 64),
+> > > -+                              (unsigned long long)(uint64_t)rd
+> > > -+                      );
+> > > -+              } else
+> > > -+#endif
+> > > -+              {
+> > > -+                      switch (width) {
+> > > -+                      case 8:
+> > > -+                              read_result = *(volatile
+> > > uint8_t*)virt_addr;
+> > > -+                              break;
+> > > -+                      case 16:
+> > > -+                              read_result = *(volatile
+> > > uint16_t*)virt_addr;
+> > > -+                              break;
+> > > -+                      case 32:
+> > > -+                              read_result = *(volatile
+> > > uint32_t*)virt_addr;
+> > > -+                              break;
+> > > -+                      case 64:
+> > > -+                              read_result = *(volatile
+> > > uint64_t*)virt_addr;
+> > > -+                              break;
+> > > -+                      default:
+> > > -+                              bb_simple_error_msg_and_die("bad
+> > > width");
+> > > -+                      }
+> > > -+//                    printf("Value at address 0x%"OFF_FMT"X
+> > > (%p): 0x%llX\n",
+> > > -+//                            target, virt_addr,
+> > > -+//                            (unsigned long long)read_result);
+> > > -+                      /* Zero-padded output shows the width of
+> > > access just done */
+> > > -+                      printf("0x%0*llX\n", (width >> 2),
+> > > (unsigned long long)read_result);
+> > > -               }
+> > > --//            printf("Value at address 0x%"OFF_FMT"X (%p):
+> > > 0x%llX\n",
+> > > --//                    target, virt_addr,
+> > > --//                    (unsigned long long)read_result);
+> > > --              /* Zero-padded output shows the width of access
+> > > just done */
+> > > --              printf("0x%0*llX\n", (width >> 2), (unsigned long
+> > > long)read_result);
+> > > -       } else {
+> > > -+              /* parse VALUE */
+> > > -+#ifdef __SIZEOF_INT128__
+> > > -+              unsigned __int128 writeval = strtoumax(argv[3],
+> > > NULL, 0);
+> > > -+#else
+> > > -+              uint64_t writeval = bb_strtoull(argv[3], NULL, 0);
+> > > -+#endif
+> > > -               switch (width) {
+> > > -               case 8:
+> > > -                       *(volatile uint8_t*)virt_addr = writeval;
+> > > -@@ -135,6 +149,12 @@ int devmem_main(int argc UNUSED_PARAM, char
+> > > **argv)
+> > > -                       *(volatile uint64_t*)virt_addr = writeval;
+> > > - //                    read_result = *(volatile
+> > > uint64_t*)virt_addr;
+> > > -                       break;
+> > > -+#ifdef __SIZEOF_INT128__
+> > > -+              case 128:
+> > > -+                      *(volatile unsigned __int128 *)virt_addr =
+> > > writeval;
+> > > -+//                    read_result = *(volatile
+> > > uint64_t*)virt_addr;
+> > > -+                      break;
+> > > -+#endif
+> > > -               default:
+> > > -                       bb_simple_error_msg_and_die("bad width");
+> > > -               }
+> > > ---
+> > > -2.25.1
+> > > -
+> > > diff --git a/meta/recipes-core/busybox/busybox/CVE-2022-30065.patch
+> > > b/meta/recipes-core/busybox/busybox/CVE-2022-30065.patch
+> > > deleted file mode 100644
+> > > index 25ad653b25..0000000000
+> > > --- a/meta/recipes-core/busybox/busybox/CVE-2022-30065.patch
+> > > +++ /dev/null
+> > > @@ -1,29 +0,0 @@
+> > > -Fix use-after-free in awk.
+> > > -
+> > > -CVE: CVE-2022-30065
+> > > -Upstream-Status: Submitted
+> > > [http://lists.busybox.net/pipermail/busybox/2022-June/089768.html]
+> > > -Signed-off-by: Ross Burton <ross.burton@arm.com>
+> > > -
+> > > -fixes https://bugs.busybox.net/show_bug.cgi?id=14781
+> > > -
+> > > -Signed-off-by: Natanael Copa <ncopa at alpinelinux.org>
+> > > ----
+> > > - editors/awk.c | 3 +++
+> > > - 1 file changed, 3 insertions(+)
+> > > -
+> > > -diff --git a/editors/awk.c b/editors/awk.c
+> > > -index 079d0bde5..728ee8685 100644
+> > > ---- a/editors/awk.c
+> > > -+++ b/editors/awk.c
+> > > -@@ -3128,6 +3128,9 @@ static var *evaluate(node *op, var *res)
+> > > -
+> > > -               case XC( OC_MOVE ):
+> > > -                       debug_printf_eval("MOVE\n");
+> > > -+                      /* make sure that we never return a temp
+> > > var */
+> > > -+                      if (L.v == TMPVAR0)
+> > > -+                              L.v = res;
+> > > -                       /* if source is a temporary string, jusk
+> > > relink it to dest */
+> > > -                       if (R.v == TMPVAR1
+> > > -                        && !(R.v->type & VF_NUMBER)
+> > > ---
+> > > -2.36.1
+> > > diff --git a/meta/recipes-core/busybox/busybox/defconfig
+> > > b/meta/recipes-core/busybox/busybox/defconfig
+> > > index 5e1e1f5638..3d36447c63 100644
+> > > --- a/meta/recipes-core/busybox/busybox/defconfig
+> > > +++ b/meta/recipes-core/busybox/busybox/defconfig
+> > > @@ -1,7 +1,7 @@
+> > >  #
+> > >  # Automatically generated make config: don't edit
+> > > -# Busybox version: 1.35.0
+> > > -# Sun Dec 26 16:55:55 2021
+> > > +# Busybox version: 1.36.0
+> > > +# Tue Jan  3 14:17:01 2023
+> > >  #
+> > >  CONFIG_HAVE_DOT_CONFIG=y
+> > >
+> > > @@ -123,6 +123,9 @@ CONFIG_UNICODE_WIDE_WCHARS=y
+> > >  # CONFIG_UNICODE_BIDI_SUPPORT is not set
+> > >  # CONFIG_UNICODE_NEUTRAL_TABLE is not set
+> > >  # CONFIG_UNICODE_PRESERVE_BROKEN is not set
+> > > +# CONFIG_LOOP_CONFIGURE is not set
+> > > +# CONFIG_NO_LOOP_CONFIGURE is not set
+> > > +CONFIG_TRY_LOOP_CONFIGURE=y
+> > >
+> > >  #
+> > >  # Applets
+> > > @@ -338,6 +341,7 @@ CONFIG_FEATURE_TR_CLASSES=y
+> > >  # CONFIG_FEATURE_TR_EQUIV is not set
+> > >  CONFIG_TRUE=y
+> > >  # CONFIG_TRUNCATE is not set
+> > > +# CONFIG_TSORT is not set
+> > >  CONFIG_TTY=y
+> > >  CONFIG_UNAME=y
+> > >  CONFIG_UNAME_OSNAME="GNU/Linux"
+> > > @@ -831,10 +835,12 @@ CONFIG_MICROCOM=y
+> > >  CONFIG_RFKILL=y
+> > >  # CONFIG_RUNLEVEL is not set
+> > >  # CONFIG_RX is not set
+> > > +# CONFIG_SEEDRNG is not set
+> > >  # CONFIG_SETFATTR is not set
+> > >  # CONFIG_SETSERIAL is not set
+> > >  CONFIG_STRINGS=y
+> > >  CONFIG_TIME=y
+> > > +# CONFIG_TREE is not set
+> > >  CONFIG_TS=y
+> > >  # CONFIG_TTYSIZE is not set
+> > >  # CONFIG_UBIATTACH is not set
+> > > diff --git a/meta/recipes-
+> > > core/busybox/busybox/recognize_connmand.patch b/meta/recipes-
+> > > core/busybox/busybox/recognize_connmand.patch
+> > > index f42c74caad..4f28beb556 100644
+> > > --- a/meta/recipes-core/busybox/busybox/recognize_connmand.patch
+> > > +++ b/meta/recipes-core/busybox/busybox/recognize_connmand.patch
+> > > @@ -4,14 +4,14 @@ Upstream-Status: Inappropriate [OE-Core]
+> > >
+> > >  Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> > >
+> > > -Index: busybox-1.22.1/networking/ifupdown.c
+> > > +Index: busybox-1.36.0/networking/ifupdown.c
+> > >  ==================================================================
+> > > =
+> > > ---- busybox-1.22.1.orig/networking/ifupdown.c
+> > > -+++ busybox-1.22.1/networking/ifupdown.c
+> > > -@@ -521,6 +521,10 @@ struct dhcp_client_t {
+> > > +--- busybox-1.36.0.orig/networking/ifupdown.c
+> > > ++++ busybox-1.36.0/networking/ifupdown.c
+> > > +@@ -628,6 +628,10 @@ struct dhcp_client_t {
+> > >   };
+> > >
+> > > - static const struct dhcp_client_t ext_dhcp_clients[] = {
+> > > + static const struct dhcp_client_t ext_dhcp_clients[] ALIGN_PTR =
+> > > {
+> > >  +      { "connmand",
+> > >  +              "true",
+> > >  +              "true",
+> > > diff --git a/meta/recipes-core/busybox/busybox/sha1sum.cfg
+> > > b/meta/recipes-core/busybox/busybox/sha1sum.cfg
+> > > index 20e72d9263..01137a2486 100644
+> > > --- a/meta/recipes-core/busybox/busybox/sha1sum.cfg
+> > > +++ b/meta/recipes-core/busybox/busybox/sha1sum.cfg
+> > > @@ -1 +1,3 @@
+> > >  CONFIG_SHA1SUM=y
+> > > +CONFIG_SHA1_SMALL=3
+> > > +CONFIG_SHA1_HWACCEL=y
+> > > diff --git a/meta/recipes-core/busybox/busybox/sha256sum.cfg
+> > > b/meta/recipes-core/busybox/busybox/sha256sum.cfg
+> > > index ce652ae4c6..a5b0ab22d1 100644
+> > > --- a/meta/recipes-core/busybox/busybox/sha256sum.cfg
+> > > +++ b/meta/recipes-core/busybox/busybox/sha256sum.cfg
+> > > @@ -1 +1,2 @@
+> > >  CONFIG_SHA256SUM=y
+> > > +CONFIG_SHA256_HWACCEL=y
+> > > diff --git a/meta/recipes-core/busybox/busybox_1.35.0.bb
+> > > b/meta/recipes-core/busybox/busybox_1.36.0.bb
+> > > similarity index 92%
+> > > rename from meta/recipes-core/busybox/busybox_1.35.0.bb
+> > > rename to meta/recipes-core/busybox/busybox_1.36.0.bb
+> > > index e9ca6fdb1a..e46d43e681 100644
+> > > --- a/meta/recipes-core/busybox/busybox_1.35.0.bb
+> > > +++ b/meta/recipes-core/busybox/busybox_1.36.0.bb
+> > > @@ -49,9 +49,7 @@ SRC_URI =
+> > > "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+> > >
+> > > file://0001-sysctl-ignore-EIO-of-stable_secret-below-proc-sys-ne.patch
+> > >  \
+> > >
+> > > file://0001-libbb-sockaddr2str-ensure-only-printable-characters-.patch
+> > >  \
+> > >
+> > > file://0002-nslookup-sanitize-all-printed-strings-with-printable.patch
+> > >  \
+> > > -           file://CVE-2022-30065.patch \
+> > > -           file://0001-devmem-add-128-bit-width.patch \
+> > >             "
+> > >  SRC_URI:append:libc-musl = " file://musl.cfg "
+> > >
+> > > -SRC_URI[tarball.sha256sum] =
+> > > "faeeb244c35a348a334f4a59e44626ee870fb07b6884d68c10ae8bc19f83a694"
+> > > +SRC_URI[tarball.sha256sum] =
+> > > "542750c8af7cb2630e201780b4f99f3dcceeb06f505b479ec68241c1e6af61a5"
+> > > --
+> > > 2.34.3
+> > >
+> > >
+> > > -=-=-=-=-=-=-=-=-=-=-=-
+> > > Links: You receive all messages sent to this group.
+> > > View/Reply Online (#175575):
+> > > https://lists.openembedded.org/g/openembedded-core/message/175575
+> > > Mute This Topic: https://lists.openembedded.org/mt/96091213/1997914
+> > > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > > Unsubscribe:
+> > > https://lists.openembedded.org/g/openembedded-core/unsub [
+> > > raj.khem@gmail.com]
+> > > -=-=-=-=-=-=-=-=-=-=-=-
+> > >
+>
 
