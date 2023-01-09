@@ -1,68 +1,88 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85FA5C54EBD
-	for <webhook@archiver.kernel.org>; Mon,  9 Jan 2023 13:35:38 +0000 (UTC)
-Received: from mailout05.t-online.de (mailout05.t-online.de [194.25.134.82])
- by mx.groups.io with SMTP id smtpd.web10.71558.1673271330446883667
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C216CC5479D
+	for <webhook@archiver.kernel.org>; Mon,  9 Jan 2023 13:49:38 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web11.72107.1673272174193295538
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Jan 2023 05:35:30 -0800
+ Mon, 09 Jan 2023 05:49:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.82, mailfrom: f_l_k@t-online.de)
-Received: from fwd73.dcpf.telekom.de (fwd73.aul.t-online.de [10.223.144.99])
-	by mailout05.t-online.de (Postfix) with SMTP id 3D03429D8
-	for <openembedded-core@lists.openembedded.org>; Mon,  9 Jan 2023 14:34:48 +0100 (CET)
-Received: from flk-MS-7C91.fritz.box ([84.154.169.211]) by fwd73.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1pEsIY-1tC8KP0; Mon, 9 Jan 2023 14:34:46 +0100
-From: Markus Volk <f_l_k@t-online.de>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bIdxTN3M;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f42.google.com with SMTP id s9so8207370wru.13
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Jan 2023 05:49:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5HvCr462qfC7ZTICo3j9ZoOGVmioApZ7raM+z7UItRI=;
+        b=bIdxTN3MJy99HrydkalHh/YnZeDOV5OJ8G82kp79yHkyWxoDj9NCQoU7lHdUOS5gyR
+         ofCVfrKCpz1VhLpdVfYsOgldwb1c7JtFo/StRr0ZBuUp9OYxIbr1fMABbqmGFRSa5UmP
+         lSq0uT1DzsW3o/iZF11rVg2mnCOO8N7he3w8g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5HvCr462qfC7ZTICo3j9ZoOGVmioApZ7raM+z7UItRI=;
+        b=ErHJrnSlGcbfLmIBS55+hDCVt5husfL10PXroQGwVSFZfBAlS8UIPlfOARmh8P0S1/
+         OWFx0tMCX1PwIhRscvSk6kde4Pdan7G+uvMy+33ioAeD0IB3IRyrpX++xNo5F+tJX9TN
+         iExCgT0ddnBAiGJV2E9l/bDgu6/TNvSvFH6msPw37SHP6YecjWOzRDbTxbTeXLxI/VFr
+         FjxByJTE7Wspi1PJpJtlsQs7aEfM1d9ltk52q5Sl2GYC6X/xTjYtFCjKWBf20l2JLzeW
+         UpRUM51aLBhGi89BbqaBDrIDJOqfa/PYCk7BdPaC2LoU0o+B8TPl7sRrIr2T0/0YL+tx
+         Ez7g==
+X-Gm-Message-State: AFqh2koMUschZzifM+Zch6ai8gSsvZUwvynKEyvX4Ozy09/lHgPZtRov
+	FF+fa8WbsqAYTLJgm7HOBwVYE6jB7LtEZF9k
+X-Google-Smtp-Source: AMrXdXtGDXWc/iIHfB1BFoJVVruOyTsBn9gNvG4ttQPkOHrhVasu0VQGPW3i3uCka6RrJjGLa/TEvA==
+X-Received: by 2002:a5d:4d91:0:b0:2bb:eb1d:bba8 with SMTP id b17-20020a5d4d91000000b002bbeb1dbba8mr3034907wru.3.1673272171991;
+        Mon, 09 Jan 2023 05:49:31 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:bf05:daf1:cc08:7166])
+        by smtp.gmail.com with ESMTPSA id s2-20020adff802000000b00241bd7a7165sm8559649wrp.82.2023.01.09.05.49.31
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Jan 2023 05:49:31 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Markus Volk <f_l_k@t-online.de>
-Subject: [oe-core][PATCH] librsvg: enable vapi build
-Date: Mon,  9 Jan 2023 14:34:37 +0100
-Message-Id: <20230109133437.84684-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.34.1
+Subject: [PATCH] uninative-tarball: Add libgcc
+Date: Mon,  9 Jan 2023 13:49:30 +0000
+Message-Id: <20230109134930.1409270-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1673271286-177E998D-B7648238/0/0 CLEAN NORMAL
-X-TOI-MSGID: 07633935-78ff-49f2-aaf0-915c52eb0372
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 09 Jan 2023 13:35:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175683
+ <openembedded-core@lists.openembedded.org>; Mon, 09 Jan 2023 13:49:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175684
 
-Otherwise gnome-chess will fail like this:
+We ship libpthread with uninative. when uninative is active we're seeing
+failures like:
 
-| error: Package `librsvg-2.0' not found in specified Vala API directorie=
-s or GObject-Introspection GIR directories
-| Compilation failed: 1 error(s), 0 warning(s)
+   libgcc_s.so.1 must be installed for pthread_cancel to work
+   Aborted
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
+which is since we don't have a libgcc that matches libpthread. Add libgcc
+to avoid these errors.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-gnome/librsvg/librsvg_2.54.5.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-core/meta/uninative-tarball.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-gnome/librsvg/librsvg_2.54.5.bb b/meta/recipes-=
-gnome/librsvg/librsvg_2.54.5.bb
-index fc52ae61c5..b2e93a2684 100644
---- a/meta/recipes-gnome/librsvg/librsvg_2.54.5.bb
-+++ b/meta/recipes-gnome/librsvg/librsvg_2.54.5.bb
-@@ -42,6 +42,8 @@ do_configure[postfuncs] +=3D "cargo_common_do_configure=
-"
-=20
- inherit rust-target-config
-=20
-+EXTRA_OECONF:class-target =3D "--enable-vala"
-+
- # rust-cross writes the target linker binary into target json definition=
- without any flags.
- # This breaks here because the linker isn't going to work without at lea=
-st knowing where
- # the sysroot is. So copy the json to workdir, and patch in the path to =
-wrapper from rust class
---=20
-2.34.1
+diff --git a/meta/recipes-core/meta/uninative-tarball.bb b/meta/recipes-core/meta/uninative-tarball.bb
+index a21d08b591c..4aecf39b890 100644
+--- a/meta/recipes-core/meta/uninative-tarball.bb
++++ b/meta/recipes-core/meta/uninative-tarball.bb
+@@ -20,6 +20,7 @@ TOOLCHAIN_HOST_TASK = "\
+     nativesdk-libxcrypt-compat \
+     nativesdk-libnss-nis \
+     nativesdk-sdk-provides-dummy \
++    nativesdk-libgcc \
+     "
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+-- 
+2.37.2
 
 
