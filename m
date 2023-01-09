@@ -1,95 +1,196 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <bindudaniel1996@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54F89C54EBD
-	for <webhook@archiver.kernel.org>; Mon,  9 Jan 2023 09:20:47 +0000 (UTC)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
- by mx.groups.io with SMTP id smtpd.web11.67343.1673256041599457920
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67885C5479D
+	for <webhook@archiver.kernel.org>; Mon,  9 Jan 2023 09:33:17 +0000 (UTC)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web10.67457.1673256796896856305
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Jan 2023 01:20:41 -0800
+ Mon, 09 Jan 2023 01:33:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=foimGN0y;
- spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f174.google.com with SMTP id y18so4680557ljk.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Jan 2023 01:20:41 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=bItfl7+p;
+ spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: bindudaniel1996@gmail.com)
+Received: by mail-pl1-f171.google.com with SMTP id c6so8892107pls.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Jan 2023 01:33:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0c3ON79ZejYi2R9awV9KEBFRFrumuBvEcdh9n3+NZGY=;
-        b=foimGN0yzxa0toWMcJlkmZum0U7PXDYg+Nk596wh3o6FNG8Gezd/dhyJMWEeQHtVPF
-         3sTcZQxt2prl0T/GAU0WQH0RqrlnKfRXyjFlnX7iqTqBcUcBlwEPxd5AsjWi7+ORa70M
-         4JNWT1DRm3lpu8j1IKWhREjsNaE+t8Zrq+JDh+lWQT5ryOhZk/ShdKin1RtHIEr6tywv
-         EnqJaH2s9HkD5pMbK1L7JbTGatg0RXyWywjy5HlyYGaSfYj0EoBWLHetyPpImO719YHb
-         2uoJEx2cNNaxsRcM7D+F5OSsJtoB1zdYCnTWOiO/yJdap3yDTiy8EV/U0/Veq5oDgHKn
-         CCjg==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=O6pxP4ENynLw8viUBwOATniKXbndEOMgbuAVlqAwLug=;
+        b=bItfl7+pPJ3eTKuCmycgeRWe1eC8JuZbzh1E1JRdQFnFlwdXNx3NHpW4X5/Q//Kex0
+         d8GEbUEitR0mJWYojipw5jkSJZNAfXIvoCLw6paD1THf67Eb3kdK7uBmlSO85dWas5Db
+         mJAUC8r5Zs4hSj4XsY78hnxwaA2vdJ9hVq3vuYTpKu9yseNAkQ3c2kWA0SWLHspr+plC
+         s8NwarrMBt/Ixlu0TXQCeKuTm+DhZGpv3ne5jGCylkotHCVLESgx44nYMahKY4g0Be/M
+         EfnHVvgkx6wCCSFPbffgDnqezqtUAFNI/WxRR3gqn6dntk+XwJraPnKZd13tDnz1IV6F
+         zYeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0c3ON79ZejYi2R9awV9KEBFRFrumuBvEcdh9n3+NZGY=;
-        b=OeDTKFQT55FyIEwMf/Y6wnzc0HPVu+WVQiiMVx2Jv3w0I4HW6HnRtIe3WZO79apAHn
-         VaZtePEPIns9y2PQkKFucanN14xKheOCVBJEeWLnuFufn0dncQ1X8dFhG8EnRn6iPsBN
-         zMlxA3uSpIxEc4X072imn1E4U4GdT597zLy3knUHFeXKJLiIPtpyFATcuR488suKFT9U
-         0K+L7RETMYFAhWmSxCLWpwoz4j3C3qiRk7sBCARYhjq/vT/oAKDnusStwjDTTxd4h5Dx
-         sf2kUoxn6BKDapGvMN0DwR583DCSPxjKlbVEOkfj/Q7cwTX5vdjzwR7sprmIr/V5JQTJ
-         WYFQ==
-X-Gm-Message-State: AFqh2koQUVVJuc8NB5W34BdpPIwCeWSfQ2UD//pqJ+GiBZx0T1eR1qxF
-	VzIIf8YufXgxiGLudHW98nqDYT6i7xATLaOSYNA=
-X-Google-Smtp-Source: AMrXdXu2OJ3whB5/7962naJXSVlHsqzhVIKzBg19Ekm5JtKF4n1MuJ67m6dGOYFZvDpWy3WKV8Aav3olwzSduy+BOmU=
-X-Received: by 2002:a05:651c:1426:b0:27f:dea6:3d2a with SMTP id
- u38-20020a05651c142600b0027fdea63d2amr2923695lje.45.1673256039511; Mon, 09
- Jan 2023 01:20:39 -0800 (PST)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=O6pxP4ENynLw8viUBwOATniKXbndEOMgbuAVlqAwLug=;
+        b=If1Tk/04zKCo+VuAiBdlXhvM3MRFis/yCL9xLX2d2/uPZ+HTOu25+4IsH3CPgsU4Yj
+         pH1MNqG+FCJUG0YXV+bqeWctdwbMC21PmdsX1fmORmqVV8C5ewkqVXA8uKAHHSZ/rj6R
+         cFz1wjcv9ZUKGCi4tFEe5vwHuT4+9faARXNE7na+X637S/G3vCOqOdzQKaCguN09assM
+         guVCO6P+wZyX/BMaizm/Ki5P1mjOzExzqekVpZw3uDuNfLtn/+Eju43qdg59aaliPYG0
+         PQ2Z6w3X7roLMlaxUUDicCR4yd1LA4snvcHW8UQY2nTIiovnf4s5QD8ixGi0AupWXbX9
+         2l1g==
+X-Gm-Message-State: AFqh2kpLqmNuVPzu1ek1iXnfcj72vJel7Qk7kOagaU8GWkEFEEYGIsGx
+	2bouIFLcNBu4vWaa7GQXLtC+6l+YZeQ=
+X-Google-Smtp-Source: AMrXdXvhATVVh96glrlxF6qHvjN2oOwFI/K4NMlmueK8k2SyNx8e/JKY9xWE09SqC2+eSG1yCIAHPw==
+X-Received: by 2002:a17:902:8d87:b0:192:d58f:e5ff with SMTP id v7-20020a1709028d8700b00192d58fe5ffmr22281246plo.16.1673256795848;
+        Mon, 09 Jan 2023 01:33:15 -0800 (PST)
+Received: from localhost.localdomain ([2401:4900:1f26:140d:d8:3ab7:cd4:8b50])
+        by smtp.gmail.com with ESMTPSA id d17-20020a170902ced100b00168dadc7354sm5669807plg.78.2023.01.09.01.33.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Jan 2023 01:33:15 -0800 (PST)
+From: Bhabu Bindu <bindudaniel1996@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	bhabu.bindu@kpit.com
+Cc: ranjitsinh.rathod@kpit.com
+Subject: [OE-core][kirkstone][PATCH] qemu: Fix CVE-2022-4144
+Date: Mon,  9 Jan 2023 15:02:41 +0530
+Message-Id: <20230109093241.19105-1-bindudaniel1996@gmail.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20230104114555.575278-1-kubiznak@2n.com> <17371904FDF90491.29426@lists.openembedded.org>
- <CANNYZj8Qfcs+X8yGRiHZJygZ0RH4n=KDsKXkXO-+duY=ycRS5A@mail.gmail.com>
- <35848697143b4b3a8612c027d8852575@2n.com> <CANNYZj9eVWdxkuSVgur0WvTd3xNLECWS5mZ1nZg+q=WPO8PBGQ@mail.gmail.com>
- <6351b082f6b748b7bf01d4313c648861@2n.com> <CANNYZj9sEYON_ymHC8-8hyu8kq4jspCHDEF2TyxU1qCcOu3+kQ@mail.gmail.com>
- <e46977d84bbc4fd6ba7966b02937e8e9@2n.com>
-In-Reply-To: <e46977d84bbc4fd6ba7966b02937e8e9@2n.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 9 Jan 2023 10:20:28 +0100
-Message-ID: <CANNYZj8LTq_oXKzZUGYjjU0AU=Q8rXvaM0ne0xvz_CaNAV0NjQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 1/2] gobject-introspection: check for GI_DATA_ENABLED
-To: =?UTF-8?B?UGV0ciBLdWJpesWIw6Fr?= <kubiznak@2n.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=y
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 09 Jan 2023 09:20:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175673
+ <openembedded-core@lists.openembedded.org>; Mon, 09 Jan 2023 09:33:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175674
 
-On Fri, 6 Jan 2023 at 19:52, Petr Kubiz=C5=88=C3=A1k <kubiznak@2n.com> wrot=
-e:
-> When the patch is _applied_ and g-i is _disabled_, graphene does build, b=
-ut some other packages don't:
+Add patch to fix CVE-2022-4144
 
-...
+Link: https://security-tracker.debian.org/tracker/CVE-2022-4144
 
-> This shows that these packages depend on gobject-introspection and/or its=
- dependencies no matter whether introspection is enabled or disabled. I don=
-'t know these packages so I don't think I'm able to patch them properly. On=
- the other hand, I still believe it is incorrect to pull in the unnecessary=
- dependencies when g-i is disabled. What do you think?
->
+Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2022-4144.patch             | 99 +++++++++++++++++++
+ 2 files changed, 100 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2022-4144.patch
 
-This is what I was worried about. It uncovers a whole list of
-failures, and creates a new maintenance burden going forward, as
-fixing them will be an ongoing activity in the absence of an
-unconditional g-i dependecy..
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index cc9681fb4b..b68be447f1 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -92,6 +92,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://0020-target-ppc-move-xs-n-madd-am-ds-p-xs-n-msub-am-ds-p-.patch \
+            file://0021-target-ppc-implement-xs-n-maddqp-o-xs-n-msubqp-o.patch \
+            file://CVE-2022-3165.patch \
++           file://CVE-2022-4144.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2022-4144.patch b/meta/recipes-devtools/qemu/qemu/CVE-2022-4144.patch
+new file mode 100644
+index 0000000000..96052a19e8
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2022-4144.patch
+@@ -0,0 +1,99 @@
++From 6dbbf055148c6f1b7d8a3251a65bd6f3d1e1f622 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
++Date: Mon, 28 Nov 2022 21:27:40 +0100
++Subject: [PATCH] hw/display/qxl: Avoid buffer overrun in qxl_phys2virt
++ (CVE-2022-4144)
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Have qxl_get_check_slot_offset() return false if the requested
++buffer size does not fit within the slot memory region.
++
++Similarly qxl_phys2virt() now returns NULL in such case, and
++qxl_dirty_one_surface() aborts.
++
++This avoids buffer overrun in the host pointer returned by
++memory_region_get_ram_ptr().
++
++Fixes: CVE-2022-4144 (out-of-bounds read)
++Reported-by: Wenxu Yin (@awxylitol)
++Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1336
++
++CVE: CVE-2022-4144
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/6dbbf055148c6f1b7d8a3251a65bd6f3d1e1f622]
++Comments: Deleted patch hunk in qxl.h,as it contains change
++in comments which is not present in current version of qemu
++
++Signed-off-by: Philippe Mathieu-DaudÃ© <philmd@linaro.org>
++Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
++Message-Id: <20221128202741.4945-5-philmd@linaro.org>
++Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
++---
++ hw/display/qxl.c | 27 +++++++++++++++++++++++----
++ 1 files changed, 23 insertions(+), 4 deletions(-)
++
++diff --git a/hw/display/qxl.c b/hw/display/qxl.c
++index 231d733250..0b21626aad 100644
++--- a/hw/display/qxl.c
+++++ b/hw/display/qxl.c
++@@ -1424,11 +1424,13 @@ static void qxl_reset_surfaces(PCIQXLDevice *d)
++ 
++ /* can be also called from spice server thread context */
++ static bool qxl_get_check_slot_offset(PCIQXLDevice *qxl, QXLPHYSICAL pqxl,
++-                                      uint32_t *s, uint64_t *o)
+++                                      uint32_t *s, uint64_t *o,
+++                                      size_t size_requested)
++ {
++     uint64_t phys   = le64_to_cpu(pqxl);
++     uint32_t slot   = (phys >> (64 -  8)) & 0xff;
++     uint64_t offset = phys & 0xffffffffffff;
+++    uint64_t size_available;
++ 
++     if (slot >= NUM_MEMSLOTS) {
++         qxl_set_guest_bug(qxl, "slot too large %d >= %d", slot,
++@@ -1452,6 +1454,23 @@ static bool qxl_get_check_slot_offset(PCIQXLDevice *qxl, QXLPHYSICAL pqxl,
++                           slot, offset, qxl->guest_slots[slot].size);
++         return false;
++     }
+++    size_available = memory_region_size(qxl->guest_slots[slot].mr);
+++    if (qxl->guest_slots[slot].offset + offset >= size_available) {
+++        qxl_set_guest_bug(qxl,
+++                          "slot %d offset %"PRIu64" > region size %"PRIu64"\n",
+++                          slot, qxl->guest_slots[slot].offset + offset,
+++                          size_available);
+++        return false;
+++    }
+++    size_available -= qxl->guest_slots[slot].offset + offset;
+++    if (size_requested > size_available) {
+++        qxl_set_guest_bug(qxl,
+++                          "slot %d offset %"PRIu64" size %zu: "
+++                          "overrun by %"PRIu64" bytes\n",
+++                          slot, offset, size_requested,
+++                          size_requested - size_available);
+++        return false;
+++    }
++ 
++     *s = slot;
++     *o = offset;
++@@ -1471,7 +1490,7 @@ void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL pqxl, int group_id,
++         offset = le64_to_cpu(pqxl) & 0xffffffffffff;
++         return (void *)(intptr_t)offset;
++     case MEMSLOT_GROUP_GUEST:
++-        if (!qxl_get_check_slot_offset(qxl, pqxl, &slot, &offset)) {
+++        if (!qxl_get_check_slot_offset(qxl, pqxl, &slot, &offset, size)) {
++             return NULL;
++         }
++         ptr = memory_region_get_ram_ptr(qxl->guest_slots[slot].mr);
++@@ -1937,9 +1956,9 @@ static void qxl_dirty_one_surface(PCIQXLDevice *qxl, QXLPHYSICAL pqxl,
++     uint32_t slot;
++     bool rc;
++ 
++-    rc = qxl_get_check_slot_offset(qxl, pqxl, &slot, &offset);
++-    assert(rc == true);
++     size = (uint64_t)height * abs(stride);
+++    rc = qxl_get_check_slot_offset(qxl, pqxl, &slot, &offset, size);
+++    assert(rc == true);
++     trace_qxl_surfaces_dirty(qxl->id, offset, size);
++     qxl_set_dirty(qxl->guest_slots[slot].mr,
++                   qxl->guest_slots[slot].offset + offset,
+-- 
+2.17.1
 
-If you have a bit of time, I'd suggest that you check the failures one
-by one. Some of it, like missing glib-* executables seems like a
-trivial missing dependency which was previously pulled in indirectly.
-Others, like python3-pygobject probably have a hard dependency on g-i.
-
-It does require navigating your way around unfamiliar source code,
-which is a useful skill in yocto regardless.
-
-Alex
 
