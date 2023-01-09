@@ -2,65 +2,65 @@ Return-Path: <bindudaniel1996@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67885C5479D
-	for <webhook@archiver.kernel.org>; Mon,  9 Jan 2023 09:33:17 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web10.67457.1673256796896856305
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77D0BC54EBD
+	for <webhook@archiver.kernel.org>; Mon,  9 Jan 2023 09:35:47 +0000 (UTC)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web10.67486.1673256939256370262
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Jan 2023 01:33:16 -0800
+ Mon, 09 Jan 2023 01:35:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=bItfl7+p;
- spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: bindudaniel1996@gmail.com)
-Received: by mail-pl1-f171.google.com with SMTP id c6so8892107pls.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Jan 2023 01:33:16 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=DZoy7tJS;
+ spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: bindudaniel1996@gmail.com)
+Received: by mail-pf1-f169.google.com with SMTP id a184so5645324pfa.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Jan 2023 01:35:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=O6pxP4ENynLw8viUBwOATniKXbndEOMgbuAVlqAwLug=;
-        b=bItfl7+pPJ3eTKuCmycgeRWe1eC8JuZbzh1E1JRdQFnFlwdXNx3NHpW4X5/Q//Kex0
-         d8GEbUEitR0mJWYojipw5jkSJZNAfXIvoCLw6paD1THf67Eb3kdK7uBmlSO85dWas5Db
-         mJAUC8r5Zs4hSj4XsY78hnxwaA2vdJ9hVq3vuYTpKu9yseNAkQ3c2kWA0SWLHspr+plC
-         s8NwarrMBt/Ixlu0TXQCeKuTm+DhZGpv3ne5jGCylkotHCVLESgx44nYMahKY4g0Be/M
-         EfnHVvgkx6wCCSFPbffgDnqezqtUAFNI/WxRR3gqn6dntk+XwJraPnKZd13tDnz1IV6F
-         zYeQ==
+        b=DZoy7tJSP+k+HHCzqj5eVdGEKRT0DsfrHrp4xi3Bn1IGphTJs22aBD63RGm8SFJbkS
+         kC/7fSbA5Tw1+962VRohLsWL68e/cwpz2IS/5wsrevYLtiwnSpeHOTf93VgjeLI69UzD
+         KNtzopJJ37h1QjIra/zarYES315E8tcu1q2+wSkhdu6aQIUFefNLPqvDfNNTDnRx7cIw
+         gInuI8YNw2mcXPzCl3zaaoECK1Sk6BtLNmFPC8CU18iR/7je7lxtW/7aBf5HPCDPOhG/
+         sq5+gaey+r8FtYQbs1OcRy2+KmCavMQCTV64d/auGbeXZmzMkuRoVCluzi9AbDxya5ON
+         aGmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
         bh=O6pxP4ENynLw8viUBwOATniKXbndEOMgbuAVlqAwLug=;
-        b=If1Tk/04zKCo+VuAiBdlXhvM3MRFis/yCL9xLX2d2/uPZ+HTOu25+4IsH3CPgsU4Yj
-         pH1MNqG+FCJUG0YXV+bqeWctdwbMC21PmdsX1fmORmqVV8C5ewkqVXA8uKAHHSZ/rj6R
-         cFz1wjcv9ZUKGCi4tFEe5vwHuT4+9faARXNE7na+X637S/G3vCOqOdzQKaCguN09assM
-         guVCO6P+wZyX/BMaizm/Ki5P1mjOzExzqekVpZw3uDuNfLtn/+Eju43qdg59aaliPYG0
-         PQ2Z6w3X7roLMlaxUUDicCR4yd1LA4snvcHW8UQY2nTIiovnf4s5QD8ixGi0AupWXbX9
-         2l1g==
-X-Gm-Message-State: AFqh2kpLqmNuVPzu1ek1iXnfcj72vJel7Qk7kOagaU8GWkEFEEYGIsGx
-	2bouIFLcNBu4vWaa7GQXLtC+6l+YZeQ=
-X-Google-Smtp-Source: AMrXdXvhATVVh96glrlxF6qHvjN2oOwFI/K4NMlmueK8k2SyNx8e/JKY9xWE09SqC2+eSG1yCIAHPw==
-X-Received: by 2002:a17:902:8d87:b0:192:d58f:e5ff with SMTP id v7-20020a1709028d8700b00192d58fe5ffmr22281246plo.16.1673256795848;
-        Mon, 09 Jan 2023 01:33:15 -0800 (PST)
+        b=dSoCSptzZq/feTe0+KLTjUBmuaDI3DTIqpkct1R5k+wZbRoFYgrdl0Mz/CQVe5ebgN
+         VWUXG49PkF79EzmPgXXCYSEMbCn7h0xHC+9W0EKvQx/+6GmGcqHustCTx9zVcKUGMhmr
+         LyZ2l75QfYWOqAbLkGV4SenMzZEy7R+k8Ox5wBLkLkRY6fQtSvysr/nSsfckeh0ftBGw
+         WJDj8P/WGYezh74pDO2I06bDnUqpUTxt6mX+xprKoIjPOD+E5PK4Qj0trnjs1Ch9coCF
+         fCrENnXZY8pLvTSnURxdYxWhGLmoRVnHMjKogZMulZt66bwJ01c0Ou//3dMsvtiYlE+W
+         GM8g==
+X-Gm-Message-State: AFqh2kpsepXWkcexVmKA8g7rUyRDrTgLBMkGIXPtSldKK3CVltAiqj5a
+	T6M47PwRGZPXRk+lkdCTiw3hzmSmdc0=
+X-Google-Smtp-Source: AMrXdXu20nkAOyU03BfK/j/GM/3MH+lN40wqAGJIEPAbZFWM2dO9bOy8HRi37YSrkjzzbLrBQ+I5pA==
+X-Received: by 2002:a05:6a00:27a6:b0:583:b214:3e08 with SMTP id bd38-20020a056a0027a600b00583b2143e08mr9817404pfb.7.1673256938391;
+        Mon, 09 Jan 2023 01:35:38 -0800 (PST)
 Received: from localhost.localdomain ([2401:4900:1f26:140d:d8:3ab7:cd4:8b50])
-        by smtp.gmail.com with ESMTPSA id d17-20020a170902ced100b00168dadc7354sm5669807plg.78.2023.01.09.01.33.14
+        by smtp.gmail.com with ESMTPSA id x189-20020a6263c6000000b00576259507c0sm5606666pfb.100.2023.01.09.01.35.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jan 2023 01:33:15 -0800 (PST)
+        Mon, 09 Jan 2023 01:35:38 -0800 (PST)
 From: Bhabu Bindu <bindudaniel1996@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	bhabu.bindu@kpit.com
 Cc: ranjitsinh.rathod@kpit.com
 Subject: [OE-core][kirkstone][PATCH] qemu: Fix CVE-2022-4144
-Date: Mon,  9 Jan 2023 15:02:41 +0530
-Message-Id: <20230109093241.19105-1-bindudaniel1996@gmail.com>
+Date: Mon,  9 Jan 2023 15:05:18 +0530
+Message-Id: <20230109093518.19631-1-bindudaniel1996@gmail.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 09 Jan 2023 09:33:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175674
+ <openembedded-core@lists.openembedded.org>; Mon, 09 Jan 2023 09:35:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175675
 
 Add patch to fix CVE-2022-4144
 
