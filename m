@@ -1,132 +1,362 @@
-Return-Path: <narpat.mali@windriver.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FBCBC46467
-	for <webhook@archiver.kernel.org>; Tue, 10 Jan 2023 08:18:54 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.98813.1673338729565873064
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 708FDC54EBE
+	for <webhook@archiver.kernel.org>; Tue, 10 Jan 2023 09:02:14 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web10.99400.1673341327255963776
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Jan 2023 00:18:49 -0800
+ Tue, 10 Jan 2023 01:02:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=Cv8jcfA4;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=0374712f91=narpat.mali@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30A898xM030758
-	for <openembedded-core@lists.openembedded.org>; Tue, 10 Jan 2023 00:18:49 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=PPS06212021;
- bh=HMrHdn1uCMjOs/v21V4eGtssuytaLip6/5vcDWA02QI=;
- b=Cv8jcfA4fLz5a6VlSfeMvQ93ZfqM1HXvcqZhydGsPDBeH1Q8mL/t7CYikyFNjne9HngL
- Eq4GiDxwPI8D8X7XU11w2AfO9KY1UQtJzlf+eZU+Uz6uB/GQfI2O/WKtfaONozxT/u8Y
- fF2J/S6DxHlsnQWaQdOCYTlHooFvyR2hHpXvJ8Nx3yeU+sLE6jvvzj2S+DtgLBYFYf3+
- qID/O28W2Bo/lRI8FnYUp8KsNToSAQfJngCBINGrgF5pq0MV5P9UEdunUhNsyvMDrB7X
- HljgspViH7lOBcP7NUClEljWtjMENIs91c83wB2a86PtV1846i0KSLICiXnAwverpFuh tQ== 
-Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3my4w8td3t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 10 Jan 2023 00:18:49 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Tue, 10 Jan 2023 00:18:48 -0800
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.16 via Frontend Transport; Tue, 10 Jan 2023 00:18:46 -0800
-From: Narpat Mali <narpat.mali@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <archana.polampalli@windriver.com>, <hari.gpillai@windriver.com>,
-        "Narpat
- Mali" <narpat.mali@windriver.com>
-Subject: [OE-core][kirkstone][PATCH 1/1] python3-setuptools: fix for CVE-2022-40897
-Date: Tue, 10 Jan 2023 08:18:05 +0000
-Message-ID: <20230110081805.2793377-1-narpat.mali@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=TnqqTf9E;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id r2so10971311wrv.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Jan 2023 01:02:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TFheZ4mEZAUPa1t6ZNozCZfJqIMrkiH9rbPYNGkWk5s=;
+        b=TnqqTf9EkXTEEoeX2dCRiA71VcxI8EjNuxk4Qh7BhrYrjI6y+L34JtkXnJzgIkAfaH
+         RvGlYO9VM1nzXZROJMdRgyORZihtexC5Ka7LH44hOWCcA+NFWvY2l5Tvx01+Z//DInZV
+         quqKMhaytIck/VcF/e46sJyKKsQyxCLxfpPtygln95nuRJU2Ke0rpohUYOxfPk42g09p
+         B+vsh64H3eMXg1vICUffxUky75cUYq8ZFoglZ9zQniAKhBZPJVcJ3rglz5amf3DBuWaX
+         aBw5ZvkrR8HHZmVXlhCagQA5MWBMc4FMoTxy37TI5E/IiYkxyonVTNZcLYH2jpgL/O4V
+         b5IQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TFheZ4mEZAUPa1t6ZNozCZfJqIMrkiH9rbPYNGkWk5s=;
+        b=YDRDl1rNGvzJMrrbpUY6A6ndB9egxbLc8PYttUtGvmbj8PhjD/75T0sn34toFEtDzJ
+         aJZOa/7QVzssjkq6TKNhOODIwn29oElNYwLi/jvO0aQA1U3K1nkX+DVWYZC6fZGLTChI
+         lmV2fMrT3JZbtd05xRi54TMu9xuSH+jaRVcX9zz5OdFk1cC26a2AfN1ghV/FypZXtkpZ
+         qrq/nFJKp9lniH24T40siWj4yNlDz7BNOpX/4lfYth60jGYwfEVLTvVSlrjzRnpysaqq
+         5WPK2xj/tPegZ4kVtLdxhO/USqe6ljCb45rLp3rRw9E5QuC3c8r16hOP6quqkhxU6gzf
+         dn7w==
+X-Gm-Message-State: AFqh2kriULBCiWCXqUD51gmAuzS+ocHx8eaY4b/4zNPCAKnVfjZqpqez
+	QwQWviwjEiUm19D2Mk4wazYmH3vJvkU=
+X-Google-Smtp-Source: AMrXdXuYJhvhKCe2+YBXErVugoqqKaoMy7scIB4jsbc08d9rvrFQncYwceQnWdYcIMlkY6p8VRQdgg==
+X-Received: by 2002:a05:6000:18ca:b0:244:48b3:d138 with SMTP id w10-20020a05600018ca00b0024448b3d138mr39064578wrq.54.1673341325435;
+        Tue, 10 Jan 2023 01:02:05 -0800 (PST)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id l6-20020a5d4bc6000000b0027323b19ecesm10678329wrt.16.2023.01.10.01.02.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Jan 2023 01:02:04 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH] gdk-pixbuf: remove ptest support
+Date: Tue, 10 Jan 2023 10:02:00 +0100
+Message-Id: <20230110090200.461673-1-alex@linutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: vJ5HnYA0K9rZaS21JiG0BF1fwQKtH67Z
-X-Proofpoint-GUID: vJ5HnYA0K9rZaS21JiG0BF1fwQKtH67Z
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-10_02,2023-01-09_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
- bulkscore=0 spamscore=0 priorityscore=1501 malwarescore=0 clxscore=1015
- lowpriorityscore=0 impostorscore=0 adultscore=0 phishscore=0
- mlxlogscore=959 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301100050
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Jan 2023 08:18:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175708
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Jan 2023 09:02:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175709
 
-Python Packaging Authority (PyPA) setuptools before 65.5.1 allows remote attackers
-to cause a denial of service via HTML in a crafted package or custom PackageIndex
-page. There is a Regular Expression Denial of Service (ReDoS) in package_index.py.
+Moving to x86-64-v3 instructions revealed that the recipe was doing an entirely
+incorrect thing: running native gdk-pixbuf-query-loaders executable against the target set
+of loader .so binaries. This worked, but only by coincidence, and no longer
+works on build hosts that do not support v3 instructions.
 
-CVE: CVE-2022-40897
+Re-enabling installed tests in a cross compile scenario requires a complete
+re-think (against the need to run gdk-pixbuf executables to produce the tests),
+and is best done upstream, so sadly the cross-testing has to be dropped
+for now.
 
-Upstream-Status: Backport [https://github.com/pypa/setuptools/commit/43a9c9bfa6aa626ec2a22540bea28d2ca77964be]
-
-Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...-of-whitespace-to-search-backtrack.-.patch | 31 +++++++++++++++++++
- .../python/python3-setuptools_59.5.0.bb       |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-setuptools/0001-Limit-the-amount-of-whitespace-to-search-backtrack.-.patch
+ .../distro/include/ptest-packagelists.inc     |   1 -
+ .../0001-Add-use_prebuilt_tools-option.patch  | 173 ------------------
+ .../gdk-pixbuf/gdk-pixbuf_2.42.10.bb          |  30 +--
+ 3 files changed, 3 insertions(+), 201 deletions(-)
+ delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Add-use_prebuilt_tools-option.patch
 
-diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-Limit-the-amount-of-whitespace-to-search-backtrack.-.patch b/meta/recipes-devtools/python/python3-setuptools/0001-Limit-the-amount-of-whitespace-to-search-backtrack.-.patch
-new file mode 100644
-index 0000000000..20a13da7bc
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-setuptools/0001-Limit-the-amount-of-whitespace-to-search-backtrack.-.patch
-@@ -0,0 +1,31 @@
-+From 9e9f617a83f6593b476669030b0347d48e831c3f Mon Sep 17 00:00:00 2001
-+From: Narpat Mali <narpat.mali@windriver.com>
-+Date: Mon, 9 Jan 2023 14:45:05 +0000
-+Subject: [PATCH] Limit the amount of whitespace to search/backtrack. Fixes
-+ #3659.
-+
-+CVE: CVE-2022-40897
-+
-+Upstream-Status: Backport [https://github.com/pypa/setuptools/commit/43a9c9bfa6aa626ec2a22540bea28d2ca77964be]
-+
-+Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
-+---
-+ setuptools/package_index.py | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/setuptools/package_index.py b/setuptools/package_index.py
-+index 270e7f3..e93fcc6 100644
-+--- a/setuptools/package_index.py
-++++ b/setuptools/package_index.py
-+@@ -197,7 +197,7 @@ def unique_values(func):
-+     return wrapper
-+ 
-+ 
-+-REL = re.compile(r"""<([^>]*\srel\s*=\s*['"]?([^'">]+)[^>]*)>""", re.I)
-++REL = re.compile(r"""<([^>]*\srel\s{0,10}=\s{0,10}['"]?([^'" >]+)[^>]*)>""", re.I)
-+ # this line is here to fix emacs' cruddy broken syntax highlighting
-+ 
-+ 
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb b/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb
-index f2810e18d3..5f2676a04a 100644
---- a/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb
-@@ -11,6 +11,7 @@ SRC_URI:append:class-native = " file://0001-conditionally-do-not-fetch-code-by-e
- SRC_URI += "\
-     file://0001-change-shebang-to-python3.patch \
-     file://0001-_distutils-sysconfig-append-STAGING_LIBDIR-python-sy.patch \
-+    file://0001-Limit-the-amount-of-whitespace-to-search-backtrack.-.patch \
- "
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index 48dec07577..32c341a9bc 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -20,7 +20,6 @@ PTESTS_FAST = "\
+     flex-ptest \
+     gawk-ptest \
+     gdbm-ptest \
+-    gdk-pixbuf-ptest \
+     glib-networking-ptest \
+     gzip-ptest \
+     json-c-ptest \
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Add-use_prebuilt_tools-option.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Add-use_prebuilt_tools-option.patch
+deleted file mode 100644
+index 02cc9a2a70..0000000000
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Add-use_prebuilt_tools-option.patch
++++ /dev/null
+@@ -1,173 +0,0 @@
+-From f81b60ebcbbfd9548c8aa1e388662c429068d1e3 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Sat, 8 May 2021 21:58:54 +0200
+-Subject: [PATCH] Add use_prebuilt_tools option
+-
+-This allows using the gdk-pixbuf tools from the host to
+-build and install tests in a cross-compile scenarion.
+-
+-Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/merge_requests/119]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
+----
+- gdk-pixbuf/meson.build  | 11 +++++++++--
+- meson.build             |  6 +++---
+- meson_options.txt       |  4 ++++
+- tests/meson.build       | 16 ++++++++--------
+- thumbnailer/meson.build | 24 ++++++++++++++++++------
+- 5 files changed, 42 insertions(+), 19 deletions(-)
+-
+-diff --git a/gdk-pixbuf/meson.build b/gdk-pixbuf/meson.build
+-index 54ff9dd..2e321cf 100644
+---- a/gdk-pixbuf/meson.build
+-+++ b/gdk-pixbuf/meson.build
+-@@ -342,13 +342,20 @@ foreach bin: gdkpixbuf_bin
+-                    include_directories: [ root_inc, gdk_pixbuf_inc ],
+-                    c_args: common_cflags + gdk_pixbuf_cflags,
+-                    install: true)
+--  meson.override_find_program(bin_name, bin)
+-+  if not get_option('use_prebuilt_tools')
+-+      meson.override_find_program(bin_name, bin)
+-+  endif
+- 
+-   # Used in tests
+-   set_variable(bin_name.underscorify(), bin)
+- endforeach
+- 
+--if not meson.is_cross_build()
+-+if get_option('use_prebuilt_tools')
+-+    gdk_pixbuf_query_loaders = find_program('gdk-pixbuf-query-loaders', required: true)
+-+    gdk_pixbuf_pixdata = find_program('gdk-pixbuf-pixdata', required: true)
+-+endif
+-+
+-+if not meson.is_cross_build() or get_option('use_prebuilt_tools')
+-   # The 'loaders.cache' used for testing, so we don't accidentally
+-   # load the installed cache; we always build it by default
+-   loaders_cache = custom_target('loaders.cache',
+-diff --git a/meson.build b/meson.build
+-index 813bd43..a93e6f7 100644
+---- a/meson.build
+-+++ b/meson.build
+-@@ -369,18 +369,18 @@ subdir('gdk-pixbuf')
+- # i18n
+- subdir('po')
+- 
+--if not meson.is_cross_build()
+-+if not meson.is_cross_build() or get_option('use_prebuilt_tools')
+-   if get_option('tests')
+-     subdir('tests')
+-   endif
+--  subdir('thumbnailer')
+- endif
+-+subdir('thumbnailer')
+- 
+- # Documentation
+- build_docs = get_option('gtk_doc') or get_option('docs')
+- subdir('docs')
+- 
+--if not meson.is_cross_build()
+-+if not meson.is_cross_build() or get_option('use_prebuilt_tools')
+-   meson.add_install_script('build-aux/post-install.py',
+-     gdk_pixbuf_bindir,
+-     gdk_pixbuf_libdir,
+-diff --git a/meson_options.txt b/meson_options.txt
+-index d198d99..1c899e9 100644
+---- a/meson_options.txt
+-+++ b/meson_options.txt
+-@@ -53,4 +53,8 @@ option('gio_sniffing',
+-        description: 'Perform file type detection using GIO (Unused on MacOS and Windows)',
+-        type: 'boolean',
+-        value: true)
+-+option('use_prebuilt_tools',
+-+       description: 'Use prebuilt gdk-pixbuf tools from the host for cross-compilation',
+-+       type: 'boolean',
+-+       value: false)
+- 
+-diff --git a/tests/meson.build b/tests/meson.build
+-index 28c2525..d97c02d 100644
+---- a/tests/meson.build
+-+++ b/tests/meson.build
+-@@ -5,6 +5,12 @@
+- # $PATH. Ideally we should use gnome.compile_resources() and let Meson deal with
+- # this problem: See https://github.com/mesonbuild/meson/issues/8266.
+- if enabled_loaders.contains('png') and host_system != 'windows'
+-+
+-+  resources_deps = [loaders_cache,]
+-+  if not get_option('use_prebuilt_tools')
+-+    resources_deps += [gdk_pixbuf_pixdata,]
+-+  endif
+-+
+-   # Resources; we cannot use gnome.compile_resources() here, because we need to
+-   # override the environment in order to use the utilities we just built instead
+-   # of the system ones
+-@@ -21,10 +27,7 @@ if enabled_loaders.contains('png') and host_system != 'windows'
+-       '@INPUT@',
+-       '@OUTPUT@',
+-     ],
+--    depends: [
+--      gdk_pixbuf_pixdata,
+--      loaders_cache,
+--    ],
+-+    depends: resources_deps,
+-   )
+- 
+-   resources_h = custom_target('resources.h',
+-@@ -40,10 +43,7 @@ if enabled_loaders.contains('png') and host_system != 'windows'
+-       '@INPUT@',
+-       '@OUTPUT@',
+-     ],
+--    depends: [
+--      gdk_pixbuf_pixdata,
+--      loaders_cache,
+--    ],
+-+    depends: resources_deps,
+-   )
+-   no_resources = false
+- else
+-diff --git a/thumbnailer/meson.build b/thumbnailer/meson.build
+-index b6a206d..9336c21 100644
+---- a/thumbnailer/meson.build
+-+++ b/thumbnailer/meson.build
+-@@ -6,13 +6,29 @@ bin = executable('gdk-pixbuf-thumbnailer',
+-            ],
+-            dependencies: gdk_pixbuf_deps + [ gdkpixbuf_dep ],
+-            install: true)
+--meson.override_find_program('gdk-pixbuf-thumbnailer', bin)
+-+if not get_option('use_prebuilt_tools')
+-+    meson.override_find_program('gdk-pixbuf-thumbnailer', bin)
+-+endif
+- 
+- gdk_pixbuf_print_mime_types = executable('gdk-pixbuf-print-mime-types',
+-                                          'gdk-pixbuf-print-mime-types.c',
+-+                                         install: true,
+-                                          c_args: common_cflags,
+-                                          dependencies: gdk_pixbuf_deps + [ gdkpixbuf_dep ])
+- 
+-+if get_option('use_prebuilt_tools')
+-+    gdk_pixbuf_print_mime_types = find_program('gdk-pixbuf-print-mime-types', required: true)
+-+endif
+-+
+-+thumbnailer_deps = [loaders_cache,]
+-+
+-+if not get_option('use_prebuilt_tools')
+-+    thumbnailer_deps += [
+-+        gdk_pixbuf_print_mime_types,
+-+        gdk_pixbuf_pixdata,
+-+    ]
+-+endif
+-+
+- custom_target('thumbnailer',
+-               input: 'gdk-pixbuf-thumbnailer.thumbnailer.in',
+-               output: 'gdk-pixbuf-thumbnailer.thumbnailer',
+-@@ -25,10 +41,6 @@ custom_target('thumbnailer',
+-                 '@INPUT@',
+-                 '@OUTPUT@',
+-               ],
+--              depends: [
+--                gdk_pixbuf_print_mime_types,
+--                gdk_pixbuf_pixdata,
+--                loaders_cache,
+--              ],
+-+              depends: thumbnailer_deps,
+-               install: true,
+-               install_dir: join_paths(gdk_pixbuf_datadir, 'thumbnailers'))
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb
+index aa44515fbb..9f1114c7d0 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb
+@@ -12,20 +12,18 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
  
- SRC_URI[sha256sum] = "d144f85102f999444d06f9c0e8c737fd0194f10f2f7e5fdb77573f6e2fa4fad0"
+ SECTION = "libs"
+ 
+-DEPENDS = "glib-2.0 gdk-pixbuf-native shared-mime-info"
++DEPENDS = "glib-2.0 shared-mime-info"
+ DEPENDS:remove:class-native = "gdk-pixbuf-native"
+ 
+ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+ 
+ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+-           file://run-ptest \
+            file://fatal-loader.patch \
+-           file://0001-Add-use_prebuilt_tools-option.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "ee9b6c75d13ba096907a2e3c6b27b61bcd17f5c7ebeab5a5b439d2f2e39fe44b"
+ 
+-inherit meson pkgconfig gettext pixbufcache ptest-gnome upstream-version-is-even gobject-introspection gi-docgen lib_package
++inherit meson pkgconfig gettext pixbufcache upstream-version-is-even gobject-introspection gi-docgen lib_package
+ 
+ GIR_MESON_OPTION = 'introspection'
+ GIR_MESON_ENABLE_FLAG = "enabled"
+@@ -36,7 +34,7 @@ LIBV = "2.10.0"
+ GDK_PIXBUF_LOADERS ?= "png jpeg"
+ 
+ PACKAGECONFIG = "${GDK_PIXBUF_LOADERS} \
+-                 ${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)}"
++                "
+ PACKAGECONFIG:class-native = "${GDK_PIXBUF_LOADERS}"
+ 
+ PACKAGECONFIG[png] = "-Dpng=enabled,-Dpng=disabled,libpng"
+@@ -46,14 +44,6 @@ PACKAGECONFIG[tests] = "-Dinstalled_tests=true,-Dinstalled_tests=false"
+ 
+ EXTRA_OEMESON = "-Dman=false"
+ 
+-EXTRA_OEMESON:append:class-target = " \
+-    -Duse_prebuilt_tools=true \
+-"
+-
+-EXTRA_OEMESON:append:class-nativesdk = " \
+-    -Duse_prebuilt_tools=true \
+-"
+-
+ PACKAGES =+ "${PN}-xlib"
+ 
+ # For GIO image type sniffing
+@@ -85,9 +75,6 @@ python populate_packages:prepend () {
+     packages = ' '.join(do_split_packages(d, loaders_root, r'^libpixbufloader-(.*)\.so$', 'gdk-pixbuf-loader-%s', 'GDK pixbuf loader for %s'))
+     d.setVar('PIXBUF_PACKAGES', packages)
+ 
+-    # The test suite exercises all the loaders, so ensure they are all
+-    # dependencies of the ptest package.
+-    d.appendVar("RDEPENDS:%s-ptest" % d.getVar('PN'), " " + packages)
+ }
+ 
+ do_install:append() {
+@@ -97,13 +84,6 @@ do_install:append() {
+ 
+ }
+ 
+-do_install_ptest() {
+-        # Remove a bad fuzzing attempt that sporadically fails without a way to reproduce
+-	rm ${D}/${datadir}/installed-tests/gdk-pixbuf/pixbuf-randomly-modified.test
+-        # https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/issues/215
+-	rm ${D}/${datadir}/installed-tests/gdk-pixbuf/pixbuf-jpeg.test
+-}
+-
+ do_install:append:class-native() {
+ 	find ${D}${libdir} -name "libpixbufloader-*.la" -exec rm \{\} \;
+ 
+@@ -115,10 +95,6 @@ do_install:append:class-native() {
+ 		XDG_DATA_DIRS=${STAGING_DATADIR} \
+ 		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache
+ 
+-	create_wrapper ${D}/${bindir}/gdk-pixbuf-print-mime-types \
+-		XDG_DATA_DIRS=${STAGING_DATADIR} \
+-		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache
+-
+ 	create_wrapper ${D}/${libdir}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders \
+ 		XDG_DATA_DIRS=${STAGING_DATADIR} \
+ 		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache \
 -- 
-2.32.0
+2.30.2
 
 
