@@ -1,167 +1,194 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CCDFC54EBC
-	for <webhook@archiver.kernel.org>; Tue, 10 Jan 2023 16:20:46 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.108347.1673367640668681085
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3ECBC46467
+	for <webhook@archiver.kernel.org>; Tue, 10 Jan 2023 16:49:46 +0000 (UTC)
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+ by mx.groups.io with SMTP id smtpd.web10.109052.1673369383737550441
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Jan 2023 08:20:40 -0800
+ Tue, 10 Jan 2023 08:49:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3BEAB2F4;
-	Tue, 10 Jan 2023 08:21:22 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BE96E3F67D;
-	Tue, 10 Jan 2023 08:20:39 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: nd@arm.com
-Subject: [PATCH] oeqa/selftest/debuginfod: improve testcase
-Date: Tue, 10 Jan 2023 16:20:37 +0000
-Message-Id: <20230110162037.3524842-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=niGZpd98;
+ spf=pass (domain: gmail.com, ip: 209.85.210.46, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f46.google.com with SMTP id x25-20020a056830115900b00670932eff32so7313440otq.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Jan 2023 08:49:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=36Q3OzZGAxHPPd016MLAoGdqUn09bQfZnBZrB9uNyAg=;
+        b=niGZpd98pi9BFEXqHMdZa11dp1UTi/C3UAhGGW3kGy5KOkKHJlWSNEBc/PV0Lkywrw
+         fAoXkhJxR1WWDFIEjjUPrmZn5KLYEXbEGK9E52CfyOfsAAN28yYJHfL0ADsfzv9Q2BfC
+         RoX4a9O4UlhvCtSyOCv8eFrowKbcYV7foYwgj1vm2JfEGVPl2jZIm4dwE/Ot3C9onA38
+         dE09Myz7MW6w+j7az1h5J3L36z4JwQFNGdJHhvllCkyh+/mOl4SifA6zxmEB0KqLPUQB
+         9bttvRxy3FdZsM59IkJLYwJNobThQCw0iCfcPkhrxZ+SKFSPqJTBoMHMYDfQO5zroXLt
+         slAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=36Q3OzZGAxHPPd016MLAoGdqUn09bQfZnBZrB9uNyAg=;
+        b=Hg72jZyjYnVeqKdiLSnLm9xLeGLDRxbIparK4bJefw35EuLS+ZHp4GBXP6AVBaimXD
+         Qn/5lhAAUUerKstcu9MFsQGBIYiw0ajNuILFtxHZ0BBcsokcaVnhhdXeBbtityZkfaG5
+         QQ9iZ0hWSApcM7HRbLB8ivLqJ2vp72Qq0KdYHH9Rtk/qPN2rbhnrAR8pyatDgbna0DKV
+         ufZ3J2MEuvnkM95+nxi9lH/kU9Y3IioP5N1Wa1VHIZjP86Uhl0Br6qxBNtBc/S3PipHC
+         JtW7w8ibVu2ELUB7f/xBphqoT2eE8eZeRIp48PHX0f0H586dP0AdL0bNLY2ysAHyUUU2
+         5vPQ==
+X-Gm-Message-State: AFqh2kq8MhxSGQn1hjpHH5acvQWJMJQhpMzkWqTaYv/umwMpkcya5i0r
+	cpSA72kCGZqbzVFUw6XZ/FeEGTnWzqZUDojpCzE=
+X-Google-Smtp-Source: AMrXdXsrOFiQi4RPtrBlw/FnKx76jy4ZbWSdazDV9fblFUEmewwrC4cMIOU9RD2c1jqc93suA5uuabmfVKHwg4Rm4G4=
+X-Received: by 2002:a9d:5cc5:0:b0:676:92ca:f7f4 with SMTP id
+ r5-20020a9d5cc5000000b0067692caf7f4mr3761560oti.55.1673369382759; Tue, 10 Jan
+ 2023 08:49:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <20221229023442.2520067-1-changqing.li@windriver.com>
+ <20221229023442.2520067-2-changqing.li@windriver.com> <CAMKF1soyU8OdM8zWSP353ifsvXLn3yAQ3wgheOgYa-wm=MH=7A@mail.gmail.com>
+ <cd8d5ccc-09ab-f68b-59e1-7d608c766a93@windriver.com>
+In-Reply-To: <cd8d5ccc-09ab-f68b-59e1-7d608c766a93@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 10 Jan 2023 08:49:16 -0800
+Message-ID: <CAMKF1sq6hHcXCbi1SWZF09UpcZb-mmDAWoQ9DWkqUhTd_15-3w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] curl: enable nghttp2 for support HTTP2
+To: Changqing Li <changqing.li@windriver.com>
+Cc: Changqing Li <changqing.li@eng.windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Jan 2023 16:20:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175721
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Jan 2023 16:49:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175722
 
-Primarily, before running the debuginfod-find tool, check that the
-debuginfod server has finished sweeping the deploy directory.  If we
-make the request too soon then there's a rare chance that we run the
-client before it has scanned the right packages, and the log gets
-swamped with warnings from sqlite due to a race.
+On Tue, Jan 10, 2023 at 1:32 AM Changqing Li <changqing.li@windriver.com> wrote:
+>
+>
+> On 1/5/23 03:17, Khem Raj wrote:
+> > CAUTION: This email comes from a non Wind River email account!
+> > Do not click links or open attachments unless you recognize the sender and know the content is safe.
+> >
+> > nghttp2-native fails to build which is exposed by this change
+> >
+> > ERROR: nghttp2-native-1.50.0-r0 do_compile:
+> > ExecutionError('/mnt/b/yoe/master/build/tmp/work/x86_64-linux/nghttp2-native/1.50.0-r0/temp/run.do_compile.1646093',
+> > 1, None, None)
+> > ERROR: Logfile of failure stored in:
+> > /mnt/b/yoe/master/build/tmp/work/x86_64-linux/nghttp2-native/1.50.0-r0/temp/log.do_compile.1646093
+> > Log data follows:
+> > | DEBUG: Executing shell function do_compile
+> > | NOTE: cmake --build
+> > /mnt/b/yoe/master/build/tmp/work/x86_64-linux/nghttp2-native/1.50.0-r0/build
+> > --target all --
+> > | [1/1] cd /mnt/b/yoe/master/build/tmp/work/x86_64-linux/nghttp2-native/1.50.0-r0/build/python
+> > && /mnt/b/yoe/master/build/tmp/work/x86_64-linux/nghttp2-native/1.50.0-r0/recipe-sysroot-native/usr/bin/python3-native/
+> > python3 setup.py build
+> > | FAILED: python/CMakeFiles/python
+> > /mnt/b/yoe/master/build/tmp/work/x86_64-linux/nghttp2-native/1.50.0-r0/build/python/CMakeFiles/python
+> > | cd /mnt/b/yoe/master/build/tmp/work/x86_64-linux/nghttp2-native/1.50.0-r0/build/python
+> > && /mnt/b/yoe/master/build/tmp/work/x86_64-linux/nghttp2-native/1.50.0-r0/recipe-sysroot-native/usr/bin/python3-native/python
+> > 3 setup.py build
+> > | Traceback (most recent call last):
+> > |   File "/mnt/b/yoe/master/build/tmp/work/x86_64-linux/nghttp2-native/1.50.0-r0/build/python/setup.py",
+> > line 24, in <module>
+> > |     from setuptools import setup, Extension
+> > | ModuleNotFoundError: No module named 'setuptools'
+> > | ninja: build stopped: subcommand failed.
+> > | WARNING: /mnt/b/yoe/master/build/tmp/work/x86_64-linux/nghttp2-native/1.50.0-r0/temp/run.do_compile.1646093:161
+> > exit 1 from 'eval ${DESTDIR:+DESTDIR=${DESTDIR} } cmake --build
+> > '/mnt/b/yoe/master/build/tmp/work/x8
+> > 6_64-linux/nghttp2-native/1.50.0-r0/build' "$@" -- ${EXTRA_OECMAKE_BUILD}'
+> > | WARNING: Backtrace (BB generated script):
+> > |       #1: cmake_runcmake_build,
+> > /mnt/b/yoe/master/build/tmp/work/x86_64-linux/nghttp2-native/1.50.0-r0/temp/run.do_compile.1646093,
+> > line 161
+> > |       #2: cmake_do_compile,
+> > /mnt/b/yoe/master/build/tmp/work/x86_64-linux/nghttp2-native/1.50.0-r0/temp/run.do_compile.1646093,
+> > line 155
+> > |       #3: do_compile,
+> > /mnt/b/yoe/master/build/tmp/work/x86_64-linux/nghttp2-native/1.50.0-r0/temp/run.do_compile.1646093,
+> > line 150
+> > |       #4: main,
+> > /mnt/b/yoe/master/build/tmp/work/x86_64-linux/nghttp2-native/1.50.0-r0/temp/run.do_compile.1646093,
+> > line 174
+> > ERROR: Task (virtual:native:/mnt/b/yoe/master/sources/poky/meta/recipes-support/nghttp2/nghttp2_1.50.0.bb:do_compile)
+> > failed with exit code '1'
+>
+> Hi, Khem
+>
+> I think autobuilder reproduced  this issue since on this machine, cython
+> and PythonLibs is found so ENABLE_PYTHON_BINDINGS is set to ON,
+>
+> but on my build host,  it will be OFF, so python subdir will not be
+> compiled. I plan to just disable ENABLE_PYTHON_BINDINGS directly to make
+>
+> deterministic build, and send V2 later.
 
-Also:
-- unset DEBUGINFOD_URLS so the debuginfod doesn't proxy to an upstream
-  server provided by the host distro
-- Lower concurrency to reduce system load and handle systems with lower
-  maximum open file counts but lots of cores (as the concurrency means
-  cores*2*2 open files)
-- Set the refresh times to 0 so we never rescan during the test
-- Only scan the packages for the format which the image is using
-- Log the commands that are being invoked
+Thanks for root causing the following up.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/lib/oeqa/selftest/cases/debuginfod.py | 67 +++++++++++++++++++---
- 1 file changed, 59 insertions(+), 8 deletions(-)
-
-diff --git a/meta/lib/oeqa/selftest/cases/debuginfod.py b/meta/lib/oeqa/s=
-elftest/cases/debuginfod.py
-index 3c401192829..37f51760fbc 100644
---- a/meta/lib/oeqa/selftest/cases/debuginfod.py
-+++ b/meta/lib/oeqa/selftest/cases/debuginfod.py
-@@ -12,6 +12,36 @@ from oeqa.utils.commands import bitbake, get_bb_var, r=
-unqemu
-=20
-=20
- class Debuginfod(OESelftestTestCase):
-+
-+    def wait_for_debuginfod(self, port):
-+        """
-+        debuginfod takes time to scan the packages and requesting too ea=
-rly may
-+        result in a test failure if the right packages haven't been scan=
-ned yet.
-+
-+        Request the metrics endpoint periodically and wait for there to =
-be no
-+        busy scanning threads.
-+
-+        Returns True if debuginfod is ready, False if we timed out
-+        """
-+        import time, urllib
-+
-+        # Wait a minute
-+        countdown =3D 6
-+        delay =3D 10
-+
-+        while countdown:
-+            time.sleep(delay)
-+            try:
-+                with urllib.request.urlopen("http://localhost:%d/metrics=
-" % port) as f:
-+                    lines =3D f.read().decode("ascii").splitlines()
-+                    if "thread_busy{role=3D\"scan\"} 0" in lines:
-+                        return True
-+            except urllib.error.URLError as e:
-+                self.logger.error(e)
-+            countdown -=3D 1
-+        return False
-+
-+
-     def test_debuginfod(self):
-         self.write_config(
-             """
-@@ -25,29 +55,50 @@ CORE_IMAGE_EXTRA_INSTALL +=3D "elfutils"
-         cmd =3D [
-             os.path.join(native_sysroot, "usr", "bin", "debuginfod"),
-             "--verbose",
-+            # In-memory database, this is a one-shot test
-             "--database=3D:memory:",
-+            # Don't use all the host cores
-+            "--concurrency=3D8",
-+            "--connection-pool=3D8",
-+            # Disable rescanning, this is a one-shot test
-+            "--rescan-time=3D0",
-+            "--groom-time=3D0",
-             get_bb_var("DEPLOY_DIR"),
-         ]
--        for format in get_bb_var("PACKAGE_CLASSES").split():
--            if format =3D=3D "package_deb":
--                cmd.append("--scan-deb-dir")
--            elif format =3D=3D "package_ipk":
--                cmd.append("--scan-deb-dir")
--            elif format =3D=3D "package_rpm":
--                cmd.append("--scan-rpm-dir")
-+
-+        format =3D get_bb_var("PACKAGE_CLASSES").split()[0]
-+        if format =3D=3D "package_deb":
-+            cmd.append("--scan-deb-dir")
-+        elif format =3D=3D "package_ipk":
-+            cmd.append("--scan-deb-dir")
-+        elif format =3D=3D "package_rpm":
-+            cmd.append("--scan-rpm-dir")
-+        else:
-+            self.fail("Unknown package class %s" % format)
-+
-         # Find a free port
-         with socketserver.TCPServer(("localhost", 0), None) as s:
-             port =3D s.server_address[1]
-             cmd.append("--port=3D%d" % port)
-=20
-         try:
--            debuginfod =3D subprocess.Popen(cmd)
-+            # Remove DEBUGINFOD_URLS from the environment so we don't tr=
-y
-+            # looking in the distro debuginfod
-+            env =3D os.environ.copy()
-+            if "DEBUGINFOD_URLS" in env:
-+                del env["DEBUGINFOD_URLS"]
-+
-+            self.logger.info(f"Starting server {cmd}")
-+            debuginfod =3D subprocess.Popen(cmd, env=3Denv)
-=20
-             with runqemu("core-image-minimal", runqemuparams=3D"nographi=
-c") as qemu:
-+                self.assertTrue(self.wait_for_debuginfod(port))
-+
-                 cmd =3D (
-                     "DEBUGINFOD_URLS=3Dhttp://%s:%d/ debuginfod-find deb=
-uginfo /usr/bin/debuginfod"
-                     % (qemu.server_ip, port)
-                 )
-+                self.logger.info(f"Starting client {cmd}")
-                 status, output =3D qemu.run_serial(cmd)
-                 # This should be more comprehensive
-                 self.assertIn("/.cache/debuginfod_client/", output)
---=20
-2.34.1
-
+>
+>
+> Refer part of the CMakeList.txt
+>
+> find_package(Cython)
+>
+> find_package(PythonLibs)
+>
+> if(CYTHON_FOUND AND PYTHONLIBS_FOUND)
+>
+> set(ENABLE_PYTHON_BINDINGS_DEFAULT ON)
+>
+> else()
+>
+> set(ENABLE_PYTHON_BINDINGS_DEFAULT OFF)
+>
+> endif()
+>
+> >
+> > On Wed, Dec 28, 2022 at 6:34 PM Changqing Li
+> > <changqing.li@eng.windriver.com> wrote:
+> >> From: Changqing Li <changqing.li@windriver.com>
+> >>
+> >> After commit `ostree: replace libsoup-2.4 by curl`, ostree depends on
+> >> libcurl, but it needs http2 support, otherwise it will fail with
+> >> error:
+> >> OSTree:ERROR:../git/src/libostree/ostree-fetcher-curl.c:886:initiate_next_curl_request: assertion failed (rc == CURLM_OK): (1 == 0)
+> >> | Bail out! OSTree:ERROR:../git/src/libostree/ostree-fetcher-curl.c:886:initiate_next_curl_request: assertion failed (rc == CURLM_OK): (1 == 0)
+> >>
+> >> Enable nghttp2 to fix above error.
+> >>
+> >> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> >> ---
+> >>   meta/recipes-support/curl/curl_7.86.0.bb | 6 +++---
+> >>   1 file changed, 3 insertions(+), 3 deletions(-)
+> >>
+> >> diff --git a/meta/recipes-support/curl/curl_7.86.0.bb b/meta/recipes-support/curl/curl_7.86.0.bb
+> >> index f5e3e7235d..6cee548f35 100644
+> >> --- a/meta/recipes-support/curl/curl_7.86.0.bb
+> >> +++ b/meta/recipes-support/curl/curl_7.86.0.bb
+> >> @@ -24,9 +24,9 @@ inherit autotools pkgconfig binconfig multilib_header ptest
+> >>   # Entropy source for random PACKAGECONFIG option
+> >>   RANDOM ?= "/dev/urandom"
+> >>
+> >> -PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} libidn openssl proxy random threaded-resolver verbose zlib"
+> >> -PACKAGECONFIG:class-native = "ipv6 openssl proxy random threaded-resolver verbose zlib"
+> >> -PACKAGECONFIG:class-nativesdk = "ipv6 openssl proxy random threaded-resolver verbose zlib"
+> >> +PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} libidn openssl proxy random threaded-resolver verbose zlib nghttp2"
+> >> +PACKAGECONFIG:class-native = "ipv6 openssl proxy random threaded-resolver verbose zlib nghttp2"
+> >> +PACKAGECONFIG:class-nativesdk = "ipv6 openssl proxy random threaded-resolver verbose zlib nghttp2"
+> >>
+> >>   # 'ares' and 'threaded-resolver' are mutually exclusive
+> >>   PACKAGECONFIG[ares] = "--enable-ares,--disable-ares,c-ares,,,threaded-resolver"
+> >> --
+> >> 2.25.1
+> >>
+> >>
+> >> -=-=-=-=-=-=-=-=-=-=-=-
+> >> Links: You receive all messages sent to this group.
+> >> View/Reply Online (#175090): https://lists.openembedded.org/g/openembedded-core/message/175090
+> >> Mute This Topic: https://lists.openembedded.org/mt/95931602/1997914
+> >> Group Owner: openembedded-core+owner@lists.openembedded.org
+> >> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> >> -=-=-=-=-=-=-=-=-=-=-=-
+> >>
 
