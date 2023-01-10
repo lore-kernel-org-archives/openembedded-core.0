@@ -1,362 +1,146 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 708FDC54EBE
-	for <webhook@archiver.kernel.org>; Tue, 10 Jan 2023 09:02:14 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web10.99400.1673341327255963776
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83111C46467
+	for <webhook@archiver.kernel.org>; Tue, 10 Jan 2023 09:24:24 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.100034.1673342654657721936
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Jan 2023 01:02:07 -0800
+ Tue, 10 Jan 2023 01:24:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=TnqqTf9E;
- spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f41.google.com with SMTP id r2so10971311wrv.7
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Jan 2023 01:02:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TFheZ4mEZAUPa1t6ZNozCZfJqIMrkiH9rbPYNGkWk5s=;
-        b=TnqqTf9EkXTEEoeX2dCRiA71VcxI8EjNuxk4Qh7BhrYrjI6y+L34JtkXnJzgIkAfaH
-         RvGlYO9VM1nzXZROJMdRgyORZihtexC5Ka7LH44hOWCcA+NFWvY2l5Tvx01+Z//DInZV
-         quqKMhaytIck/VcF/e46sJyKKsQyxCLxfpPtygln95nuRJU2Ke0rpohUYOxfPk42g09p
-         B+vsh64H3eMXg1vICUffxUky75cUYq8ZFoglZ9zQniAKhBZPJVcJ3rglz5amf3DBuWaX
-         aBw5ZvkrR8HHZmVXlhCagQA5MWBMc4FMoTxy37TI5E/IiYkxyonVTNZcLYH2jpgL/O4V
-         b5IQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TFheZ4mEZAUPa1t6ZNozCZfJqIMrkiH9rbPYNGkWk5s=;
-        b=YDRDl1rNGvzJMrrbpUY6A6ndB9egxbLc8PYttUtGvmbj8PhjD/75T0sn34toFEtDzJ
-         aJZOa/7QVzssjkq6TKNhOODIwn29oElNYwLi/jvO0aQA1U3K1nkX+DVWYZC6fZGLTChI
-         lmV2fMrT3JZbtd05xRi54TMu9xuSH+jaRVcX9zz5OdFk1cC26a2AfN1ghV/FypZXtkpZ
-         qrq/nFJKp9lniH24T40siWj4yNlDz7BNOpX/4lfYth60jGYwfEVLTvVSlrjzRnpysaqq
-         5WPK2xj/tPegZ4kVtLdxhO/USqe6ljCb45rLp3rRw9E5QuC3c8r16hOP6quqkhxU6gzf
-         dn7w==
-X-Gm-Message-State: AFqh2kriULBCiWCXqUD51gmAuzS+ocHx8eaY4b/4zNPCAKnVfjZqpqez
-	QwQWviwjEiUm19D2Mk4wazYmH3vJvkU=
-X-Google-Smtp-Source: AMrXdXuYJhvhKCe2+YBXErVugoqqKaoMy7scIB4jsbc08d9rvrFQncYwceQnWdYcIMlkY6p8VRQdgg==
-X-Received: by 2002:a05:6000:18ca:b0:244:48b3:d138 with SMTP id w10-20020a05600018ca00b0024448b3d138mr39064578wrq.54.1673341325435;
-        Tue, 10 Jan 2023 01:02:05 -0800 (PST)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id l6-20020a5d4bc6000000b0027323b19ecesm10678329wrt.16.2023.01.10.01.02.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Jan 2023 01:02:04 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=Qk9xNwiL;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=03748902d1=qi.chen@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30A7Q5gL012844
+	for <openembedded-core@lists.openembedded.org>; Tue, 10 Jan 2023 01:24:14 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
+ subject : date : message-id : content-type : mime-version; s=PPS06212021;
+ bh=R8M9VEpf/7aR8uWNeMxlCHngVDm1ytPhK2f1y2Xh8bk=;
+ b=Qk9xNwiLskkjqBTCPKidnx65RUnRnm8269zhOvVJaRzs7tqBnVTAVyGEVSbAJqj2j6i9
+ tdOEq8CSZoDGt9aBD9yj6LSv45+E5V53ggo+0NqBH7xCS2zB8ExMs4nLPyh0xY/Ka0ru
+ gQ/nm0twb5VxTVjRlbrPegVJ2owiduL6QA/TZh1wp8BYT8FrOVWMGEUs6xPSegDzsbPp
+ +5PENz+i1jl0hpXBLROTbneAuWiBxWXu3DZgns65yMBsrIC1qsqJ4QpBsbmQKFuH+r0Z
+ pstwrtmjfeMQRdAzTh4pRNsnYVbJYAjWB7q66OugZyg7lTg7e6Tbxqc72ljrzVnX01lp JQ== 
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2106.outbound.protection.outlook.com [104.47.58.106])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3my94s29sc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 10 Jan 2023 01:24:13 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dZZNgzbTe+NDzbTGfbq2cbQmbkwa5XXTX3JdFw009L1oNpfTAqdr5NatO8XHDtLgNZHSZdvsyAqDGhJlpkxaQRZ4mr7HWL/4GTtGcMDT33UOG1ZTUHcJVYl49txDmeaUP8Vx+mgAKXBJo25atiMev9dn5wxMD02CGw59Eovso4OK2/ipZS7L+tqu8HOO3IEAKHDx5GTqPpScVybnzsVrV8e5lZD0dEXlcSxegrgPc6ilwn343r6AiKjUXSruLt0zs7wuBJlGEmvTt222RBqOOzopZ0HULwduDv3lPjtyE4giUaPK5RbABePEeaSokDA4llnWlbHdwMxNSGJ9p2GBtg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=R8M9VEpf/7aR8uWNeMxlCHngVDm1ytPhK2f1y2Xh8bk=;
+ b=Hstrbu89Y15TDerhP/xfD3cJw869v/aqGLKKltgndX5nmwK6Aih8EEPrAbOopMsreunJbL87DD6iI0sn3RG8hDCFqGh6vvsiRrNzkiLEuDX4lRX2+BINvlESNOSIBScGOdP0ywqvhPL7RO2pt4LUZvFeWIGBgxpH+tVqrUhHrxdSVcN5/xZjVQjlFPJGztoznb0x7d1dgnQ9NGkq7nMZAybFyFYZhS9yipKTCCdMisRffIRbg7m1F+EzDNqq1y8TD/tqCCBKsgPHb3DlujIVkudD+JnuS4G/bk5E/72kKZpmViuLpJlY4++S0DE7QSGhiXkwS89yLw44xJmlQyUrtw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by BN9PR11MB5545.namprd11.prod.outlook.com (2603:10b6:408:102::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Tue, 10 Jan
+ 2023 09:24:10 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::3b28:4c3d:1225:fff7]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::3b28:4c3d:1225:fff7%9]) with mapi id 15.20.5986.018; Tue, 10 Jan 2023
+ 09:24:09 +0000
+From: Chen Qi <Qi.Chen@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH] gdk-pixbuf: remove ptest support
-Date: Tue, 10 Jan 2023 10:02:00 +0100
-Message-Id: <20230110090200.461673-1-alex@linutronix.de>
-X-Mailer: git-send-email 2.30.2
+Subject: [OE-core][PATCH] libseccomp: fix typo in DESCRIPTION
+Date: Tue, 10 Jan 2023 17:23:46 +0800
+Message-Id: <20230110092346.30506-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR06CA0205.apcprd06.prod.outlook.com
+ (2603:1096:4:68::13) To CO6PR11MB5602.namprd11.prod.outlook.com
+ (2603:10b6:303:13a::5)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|BN9PR11MB5545:EE_
+X-MS-Office365-Filtering-Correlation-Id: 39fe3aa0-3087-4206-54d0-08daf2ec6dc0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	U5TvwngwR0Qcbc93cVK3Rm4OqqVKBgGWvyWsztj4l2I+ypf6uNgQ1YmLpdYDiIwJrvy1pajG7qQpnHxHJG25XiegikudbZl2KtN9rx1kok3g3AVPYaf8p5QOu7NzmrCKsnzYZRtmGPAFhTL8zvBD8DddWz7ufiAoQEW1wnfGWp9LF057TB0UJamcyfZ+6xmNTdcJxVppFIRL+X8pGMQahCQsHoFmNfSvlmCBMvgMA029U4XRNXWVOcQZPFGvoOo96XfEx5YzA/G0oC/uzL0aLkvcr918bhlKR0kDQp9vnOBtccJj+dlxiLPpNr8zNzaGYoccr9CM9X2Z9Ii10CEukm6mb24VgpneRHMbF+BUKoCDNNV/SRnDnSSi9dL7ZjKjdjL/Kd8FAyWpfjwFFZ13athohTV6jNI4L5e1+jilnhh0H9xYBUnnEf34+EGQ6faMSGUNB1VaSvyFZQcQVjulDZXFiirPYpvfPjEGTHW5c5CN/0f3e6898ncVLCWWO4kNfV0A6XHE44NN9eXmCcU0S0tQulDp/zc4A1ESGl9G5k82rQhIAL23utwiwolHgHUTlht01tc4lIjKAcvULQCOvV43LRpUqd01KpcBQVwbI4H5AuNSTJ9McwB7G2icf8GN9OVjpuC1RbpirXqjRT7DRjH/hhIAlf90VxNwgt3Lh3WVlthNVE7JmCRpYiRDo9X0TM7RW52oKEK0czbNnpFaaPpQGNrYkdW0VZU0OgeY2qU=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39850400004)(396003)(366004)(376002)(346002)(136003)(451199015)(66476007)(8676002)(6916009)(66946007)(316002)(66556008)(52116002)(4744005)(2906002)(8936002)(5660300002)(41300700001)(86362001)(478600001)(83380400001)(6666004)(6486002)(6506007)(1076003)(38100700002)(26005)(2616005)(6512007)(186003)(38350700002)(36756003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?xZb2hEEUUInMwZfb1hCaTztTOWEJ1Z4KTRFmo/dGK6/sXcxzdncNKTkepbGO?=
+ =?us-ascii?Q?Td6f0vDix83XMHdcMgZMngZ4ApLTEJG5yyEVK6R14AI4DOgwAtnWOlj3VvLV?=
+ =?us-ascii?Q?ZcSQtYKVJ29gqgrbKUe4Jhe3f/lL92XSDbV+N4bVXnJHkJHe0lYgzcDApZVE?=
+ =?us-ascii?Q?2O0l1e8rcO3kRfUF93GpBIgR/QLURaxwdfpmr2anAlUBvnFxlEUPivSEgD0O?=
+ =?us-ascii?Q?6nackQQq6Xl+Nm4qW+r82iXhRXwuQkYfUYuFm/F3MI3ttotPK0cka4H4OB06?=
+ =?us-ascii?Q?kTjI4/v5t0y90kSNbUZ+gCXFcR4SOORjirf6OMIfROvS1v1WUlEMPLy7fMm4?=
+ =?us-ascii?Q?aT2fdmfOCaoWDL5nGEfLURejFwglN3lO3ZT7FPzqcNdHGVCA1Bp6fs8neXZX?=
+ =?us-ascii?Q?2q/gAidjitCGy0Ht3Qhv0tci5LzHr0He6aSTH6icBzXJvnsc+dpSyygJ/fn3?=
+ =?us-ascii?Q?YzCrX7/5CmtB7e5b/WOFF5dgMKTgJKfgmF/MJ8Rhh2GGJxC2Z/+5Ql2p6d4Y?=
+ =?us-ascii?Q?HWilpDMjcppKOv/HzRPdQjWk0M6Y2SeoRCLFBf90qq/1iznRgkv/ILk2Y6Jc?=
+ =?us-ascii?Q?IG1uEyRTWZtofnS6YOctCdVNa8OtuIhsvrisfC8seRtBaFVwpEvfBJzU+oHA?=
+ =?us-ascii?Q?R+63Fa4zc7w8mMALNIExsoyYtBRGgdCN63+YLKmZthSmUK22Mgb6s7iRHwok?=
+ =?us-ascii?Q?UDW1u0lgEp+IyGIjwvLpqYPk0RTcTOtrr9+XXJPLMyT7u+ZbNP9dMlK5i0kP?=
+ =?us-ascii?Q?b8SY2NRE2JgG45jNupD3cOOncjN5jbOXHY6IHZwi2mJY79rlXzxuCxJWQ4JA?=
+ =?us-ascii?Q?/B61KPy6G3YnGZGOISGq0Z9LAURPWrAfPwf2q/zjXjTOqDaOn0Qeihw3NVo6?=
+ =?us-ascii?Q?HQrSa+aaOeP/A83y13vAGpjeRUDNG7xo+C7ij+7hO3T6P5MdKJx3phm30ZnZ?=
+ =?us-ascii?Q?5GDz5wZ0FVH+B+CdAAROOvAeUHNxnrOoSlEoX6XcRi6UpU8hKoqijP45aKg2?=
+ =?us-ascii?Q?n287BJYaZju4kUJZPnw0DF4fji658L2WAI+b9btz+V+VCW+KCjfCspZmCyA2?=
+ =?us-ascii?Q?S6jxldKt4zvzSf1azHDdu5c5H4ZyCtfTPbtPMG/E4DVmkAOIaq3+8Jhys2to?=
+ =?us-ascii?Q?XCYMs1b/yRp4M/ip9XxD7KHoH8fpTaB+Wm5Q4oxBekkDSSkfdAdwK5rAQ4cU?=
+ =?us-ascii?Q?XLkRW2tPRoXFjp4JU1MUHacdZN9Vr/Sq2GqBAk6vBI5S6190OsrgTbJ8ftam?=
+ =?us-ascii?Q?op36/+opGnyuXcC6d2Lt1TI81jhWpSO2zl8SwOunxtiA5lmKnxuFUQD62Mnh?=
+ =?us-ascii?Q?2+Q43kQg7Vy6XYAnJswSAKtiW5jDX0zF1/AFW2vFhPc/V13RvqsfWVKN27Od?=
+ =?us-ascii?Q?5ZQYrGRBr2BVev5/4RbyMzP101vyAPNTYMXxbUPKDP197FwWT4w8syUhbNL7?=
+ =?us-ascii?Q?yYhpBPM/zbHfFAS85/RwAg0HKt8Yj6c6iOqQTYtNHkru8u5TBM7e5OjY0ins?=
+ =?us-ascii?Q?V46u01MXBV0tfisdhlJshQ5uGkSZ5ovHDl5ZF8SsazzkXfpAExdFHAW7pST6?=
+ =?us-ascii?Q?IE2zEGPffe1aDfE56Bq2AmWx/l6OgwnEJhiRGLla?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 39fe3aa0-3087-4206-54d0-08daf2ec6dc0
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2023 09:24:09.6996
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HYWA6D+oT6nDW6fsHTkT3WSGjxOMW8woplIIwfRu8DsKNkDKSCBMesjcWT5G3O3+XUJDEWjC9FVIDId1rWtnCQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5545
+X-Proofpoint-GUID: wrfy3mr_WHHKvwPoYfyJNMQKb15D9Tiy
+X-Proofpoint-ORIG-GUID: wrfy3mr_WHHKvwPoYfyJNMQKb15D9Tiy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2023-01-10_02,2023-01-09_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ mlxlogscore=709 clxscore=1015 lowpriorityscore=0 phishscore=0
+ malwarescore=0 mlxscore=0 bulkscore=0 spamscore=0 adultscore=0
+ priorityscore=1501 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2301100055
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Jan 2023 09:02:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175709
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Jan 2023 09:24:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175710
 
-Moving to x86-64-v3 instructions revealed that the recipe was doing an entirely
-incorrect thing: running native gdk-pixbuf-query-loaders executable against the target set
-of loader .so binaries. This worked, but only by coincidence, and no longer
-works on build hosts that do not support v3 instructions.
+Fix typo in DESCRIPTION: and -> an.
 
-Re-enabling installed tests in a cross compile scenario requires a complete
-re-think (against the need to run gdk-pixbuf executables to produce the tests),
-and is best done upstream, so sadly the cross-testing has to be dropped
-for now.
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../distro/include/ptest-packagelists.inc     |   1 -
- .../0001-Add-use_prebuilt_tools-option.patch  | 173 ------------------
- .../gdk-pixbuf/gdk-pixbuf_2.42.10.bb          |  30 +--
- 3 files changed, 3 insertions(+), 201 deletions(-)
- delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Add-use_prebuilt_tools-option.patch
+ meta/recipes-support/libseccomp/libseccomp_2.5.4.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 48dec07577..32c341a9bc 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -20,7 +20,6 @@ PTESTS_FAST = "\
-     flex-ptest \
-     gawk-ptest \
-     gdbm-ptest \
--    gdk-pixbuf-ptest \
-     glib-networking-ptest \
-     gzip-ptest \
-     json-c-ptest \
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Add-use_prebuilt_tools-option.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Add-use_prebuilt_tools-option.patch
-deleted file mode 100644
-index 02cc9a2a70..0000000000
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Add-use_prebuilt_tools-option.patch
-+++ /dev/null
-@@ -1,173 +0,0 @@
--From f81b60ebcbbfd9548c8aa1e388662c429068d1e3 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Sat, 8 May 2021 21:58:54 +0200
--Subject: [PATCH] Add use_prebuilt_tools option
--
--This allows using the gdk-pixbuf tools from the host to
--build and install tests in a cross-compile scenarion.
--
--Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/merge_requests/119]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
--
-----
-- gdk-pixbuf/meson.build  | 11 +++++++++--
-- meson.build             |  6 +++---
-- meson_options.txt       |  4 ++++
-- tests/meson.build       | 16 ++++++++--------
-- thumbnailer/meson.build | 24 ++++++++++++++++++------
-- 5 files changed, 42 insertions(+), 19 deletions(-)
--
--diff --git a/gdk-pixbuf/meson.build b/gdk-pixbuf/meson.build
--index 54ff9dd..2e321cf 100644
----- a/gdk-pixbuf/meson.build
--+++ b/gdk-pixbuf/meson.build
--@@ -342,13 +342,20 @@ foreach bin: gdkpixbuf_bin
--                    include_directories: [ root_inc, gdk_pixbuf_inc ],
--                    c_args: common_cflags + gdk_pixbuf_cflags,
--                    install: true)
---  meson.override_find_program(bin_name, bin)
--+  if not get_option('use_prebuilt_tools')
--+      meson.override_find_program(bin_name, bin)
--+  endif
-- 
--   # Used in tests
--   set_variable(bin_name.underscorify(), bin)
-- endforeach
-- 
---if not meson.is_cross_build()
--+if get_option('use_prebuilt_tools')
--+    gdk_pixbuf_query_loaders = find_program('gdk-pixbuf-query-loaders', required: true)
--+    gdk_pixbuf_pixdata = find_program('gdk-pixbuf-pixdata', required: true)
--+endif
--+
--+if not meson.is_cross_build() or get_option('use_prebuilt_tools')
--   # The 'loaders.cache' used for testing, so we don't accidentally
--   # load the installed cache; we always build it by default
--   loaders_cache = custom_target('loaders.cache',
--diff --git a/meson.build b/meson.build
--index 813bd43..a93e6f7 100644
----- a/meson.build
--+++ b/meson.build
--@@ -369,18 +369,18 @@ subdir('gdk-pixbuf')
-- # i18n
-- subdir('po')
-- 
---if not meson.is_cross_build()
--+if not meson.is_cross_build() or get_option('use_prebuilt_tools')
--   if get_option('tests')
--     subdir('tests')
--   endif
---  subdir('thumbnailer')
-- endif
--+subdir('thumbnailer')
-- 
-- # Documentation
-- build_docs = get_option('gtk_doc') or get_option('docs')
-- subdir('docs')
-- 
---if not meson.is_cross_build()
--+if not meson.is_cross_build() or get_option('use_prebuilt_tools')
--   meson.add_install_script('build-aux/post-install.py',
--     gdk_pixbuf_bindir,
--     gdk_pixbuf_libdir,
--diff --git a/meson_options.txt b/meson_options.txt
--index d198d99..1c899e9 100644
----- a/meson_options.txt
--+++ b/meson_options.txt
--@@ -53,4 +53,8 @@ option('gio_sniffing',
--        description: 'Perform file type detection using GIO (Unused on MacOS and Windows)',
--        type: 'boolean',
--        value: true)
--+option('use_prebuilt_tools',
--+       description: 'Use prebuilt gdk-pixbuf tools from the host for cross-compilation',
--+       type: 'boolean',
--+       value: false)
-- 
--diff --git a/tests/meson.build b/tests/meson.build
--index 28c2525..d97c02d 100644
----- a/tests/meson.build
--+++ b/tests/meson.build
--@@ -5,6 +5,12 @@
-- # $PATH. Ideally we should use gnome.compile_resources() and let Meson deal with
-- # this problem: See https://github.com/mesonbuild/meson/issues/8266.
-- if enabled_loaders.contains('png') and host_system != 'windows'
--+
--+  resources_deps = [loaders_cache,]
--+  if not get_option('use_prebuilt_tools')
--+    resources_deps += [gdk_pixbuf_pixdata,]
--+  endif
--+
--   # Resources; we cannot use gnome.compile_resources() here, because we need to
--   # override the environment in order to use the utilities we just built instead
--   # of the system ones
--@@ -21,10 +27,7 @@ if enabled_loaders.contains('png') and host_system != 'windows'
--       '@INPUT@',
--       '@OUTPUT@',
--     ],
---    depends: [
---      gdk_pixbuf_pixdata,
---      loaders_cache,
---    ],
--+    depends: resources_deps,
--   )
-- 
--   resources_h = custom_target('resources.h',
--@@ -40,10 +43,7 @@ if enabled_loaders.contains('png') and host_system != 'windows'
--       '@INPUT@',
--       '@OUTPUT@',
--     ],
---    depends: [
---      gdk_pixbuf_pixdata,
---      loaders_cache,
---    ],
--+    depends: resources_deps,
--   )
--   no_resources = false
-- else
--diff --git a/thumbnailer/meson.build b/thumbnailer/meson.build
--index b6a206d..9336c21 100644
----- a/thumbnailer/meson.build
--+++ b/thumbnailer/meson.build
--@@ -6,13 +6,29 @@ bin = executable('gdk-pixbuf-thumbnailer',
--            ],
--            dependencies: gdk_pixbuf_deps + [ gdkpixbuf_dep ],
--            install: true)
---meson.override_find_program('gdk-pixbuf-thumbnailer', bin)
--+if not get_option('use_prebuilt_tools')
--+    meson.override_find_program('gdk-pixbuf-thumbnailer', bin)
--+endif
-- 
-- gdk_pixbuf_print_mime_types = executable('gdk-pixbuf-print-mime-types',
--                                          'gdk-pixbuf-print-mime-types.c',
--+                                         install: true,
--                                          c_args: common_cflags,
--                                          dependencies: gdk_pixbuf_deps + [ gdkpixbuf_dep ])
-- 
--+if get_option('use_prebuilt_tools')
--+    gdk_pixbuf_print_mime_types = find_program('gdk-pixbuf-print-mime-types', required: true)
--+endif
--+
--+thumbnailer_deps = [loaders_cache,]
--+
--+if not get_option('use_prebuilt_tools')
--+    thumbnailer_deps += [
--+        gdk_pixbuf_print_mime_types,
--+        gdk_pixbuf_pixdata,
--+    ]
--+endif
--+
-- custom_target('thumbnailer',
--               input: 'gdk-pixbuf-thumbnailer.thumbnailer.in',
--               output: 'gdk-pixbuf-thumbnailer.thumbnailer',
--@@ -25,10 +41,6 @@ custom_target('thumbnailer',
--                 '@INPUT@',
--                 '@OUTPUT@',
--               ],
---              depends: [
---                gdk_pixbuf_print_mime_types,
---                gdk_pixbuf_pixdata,
---                loaders_cache,
---              ],
--+              depends: thumbnailer_deps,
--               install: true,
--               install_dir: join_paths(gdk_pixbuf_datadir, 'thumbnailers'))
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb
-index aa44515fbb..9f1114c7d0 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb
-@@ -12,20 +12,18 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
- 
- SECTION = "libs"
- 
--DEPENDS = "glib-2.0 gdk-pixbuf-native shared-mime-info"
-+DEPENDS = "glib-2.0 shared-mime-info"
- DEPENDS:remove:class-native = "gdk-pixbuf-native"
- 
- MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
- 
- SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
--           file://run-ptest \
-            file://fatal-loader.patch \
--           file://0001-Add-use_prebuilt_tools-option.patch \
-            "
- 
- SRC_URI[sha256sum] = "ee9b6c75d13ba096907a2e3c6b27b61bcd17f5c7ebeab5a5b439d2f2e39fe44b"
- 
--inherit meson pkgconfig gettext pixbufcache ptest-gnome upstream-version-is-even gobject-introspection gi-docgen lib_package
-+inherit meson pkgconfig gettext pixbufcache upstream-version-is-even gobject-introspection gi-docgen lib_package
- 
- GIR_MESON_OPTION = 'introspection'
- GIR_MESON_ENABLE_FLAG = "enabled"
-@@ -36,7 +34,7 @@ LIBV = "2.10.0"
- GDK_PIXBUF_LOADERS ?= "png jpeg"
- 
- PACKAGECONFIG = "${GDK_PIXBUF_LOADERS} \
--                 ${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)}"
-+                "
- PACKAGECONFIG:class-native = "${GDK_PIXBUF_LOADERS}"
- 
- PACKAGECONFIG[png] = "-Dpng=enabled,-Dpng=disabled,libpng"
-@@ -46,14 +44,6 @@ PACKAGECONFIG[tests] = "-Dinstalled_tests=true,-Dinstalled_tests=false"
- 
- EXTRA_OEMESON = "-Dman=false"
- 
--EXTRA_OEMESON:append:class-target = " \
--    -Duse_prebuilt_tools=true \
--"
--
--EXTRA_OEMESON:append:class-nativesdk = " \
--    -Duse_prebuilt_tools=true \
--"
--
- PACKAGES =+ "${PN}-xlib"
- 
- # For GIO image type sniffing
-@@ -85,9 +75,6 @@ python populate_packages:prepend () {
-     packages = ' '.join(do_split_packages(d, loaders_root, r'^libpixbufloader-(.*)\.so$', 'gdk-pixbuf-loader-%s', 'GDK pixbuf loader for %s'))
-     d.setVar('PIXBUF_PACKAGES', packages)
- 
--    # The test suite exercises all the loaders, so ensure they are all
--    # dependencies of the ptest package.
--    d.appendVar("RDEPENDS:%s-ptest" % d.getVar('PN'), " " + packages)
- }
- 
- do_install:append() {
-@@ -97,13 +84,6 @@ do_install:append() {
- 
- }
- 
--do_install_ptest() {
--        # Remove a bad fuzzing attempt that sporadically fails without a way to reproduce
--	rm ${D}/${datadir}/installed-tests/gdk-pixbuf/pixbuf-randomly-modified.test
--        # https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/issues/215
--	rm ${D}/${datadir}/installed-tests/gdk-pixbuf/pixbuf-jpeg.test
--}
--
- do_install:append:class-native() {
- 	find ${D}${libdir} -name "libpixbufloader-*.la" -exec rm \{\} \;
- 
-@@ -115,10 +95,6 @@ do_install:append:class-native() {
- 		XDG_DATA_DIRS=${STAGING_DATADIR} \
- 		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache
- 
--	create_wrapper ${D}/${bindir}/gdk-pixbuf-print-mime-types \
--		XDG_DATA_DIRS=${STAGING_DATADIR} \
--		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache
--
- 	create_wrapper ${D}/${libdir}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders \
- 		XDG_DATA_DIRS=${STAGING_DATADIR} \
- 		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache \
+diff --git a/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb b/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb
+index e89b8f7f4b..505c21917b 100644
+--- a/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb
++++ b/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb
+@@ -1,5 +1,5 @@
+ SUMMARY = "interface to seccomp filtering mechanism"
+-DESCRIPTION = "The libseccomp library provides and easy to use, platform independent,interface to the Linux Kernel's syscall filtering mechanism: seccomp."
++DESCRIPTION = "The libseccomp library provides an easy to use, platform independent, interface to the Linux Kernel's syscall filtering mechanism: seccomp."
+ HOMEPAGE = "https://github.com/seccomp/libseccomp"
+ SECTION = "security"
+ LICENSE = "LGPL-2.1-only"
 -- 
-2.30.2
+2.17.1
 
 
