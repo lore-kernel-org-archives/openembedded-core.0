@@ -2,226 +2,217 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65AD9C54EBC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 623DCC46467
 	for <webhook@archiver.kernel.org>; Wed, 11 Jan 2023 16:21:51 +0000 (UTC)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web10.28305.1673454109844185819
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web10.28304.1673454108093519621
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Jan 2023 08:21:49 -0800
+ Wed, 11 Jan 2023 08:21:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=xaK6+Q3J;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.42, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f42.google.com with SMTP id h7-20020a17090aa88700b00225f3e4c992so20599101pjq.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Jan 2023 08:21:49 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=I8INJrc5;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.54, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f54.google.com with SMTP id cp9-20020a17090afb8900b00226a934e0e5so3944868pjb.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Jan 2023 08:21:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=pkBsQgwR9cWLUnpAS/YImF1Bil4JCxg0ZN5OCUSNsZE=;
-        b=xaK6+Q3Jjt3FXcDmPaCVB9pCMvRXDiqfAqHZ78El5XFwV4sVM85U9DEvjhnlfNDdTR
-         X4Q7Vaxe7+HH5+gMX2D4fg8ZaaVAhkYl6GDXB6go3hnmCRq2uI8XfRuFiMoNWO6ejO8c
-         HP7ZCXchYACx7qyxJQAm79iePgFcgPUPme2cW1ucg9eVYAIFUzqXw+ih76nAJzc9Cr5y
-         fUQTVQiw9ysM99oyPl9n7UA/FAil7mfp/Pb1hz7Se4JT5tCyMsgX3M6j4AbZby76J6ZB
-         1e7qT6nneYqvr/zqUgduSbiWriWqaC98VkDu5wW9Qkd5lQC0h2HMPvX/QIocjDf9+/T7
-         /jNQ==
+        bh=DuJem7wFQEp5IvvKeOTOXkSupruUKIA0uGCHRmOZjC8=;
+        b=I8INJrc5LHBVVWzpI4rRG//pbmzpi2d0K7aDFoA+oja1LXNdvb5fI15LWiqSBa6FEU
+         qIQxMgsF1rKGzvb9XS28lurZCYv9/Rop7xNDBH41tCOfi579PgPg07MCudd3fCLiX1db
+         3TKsu8yOOZaBfvALLNK6eKgvCra0wStTCSEGZoTojqIpp0wroUQ0Ad04y8Rdp/Hc98j6
+         t5OMhTsOBCVPCTZisamFmNEwcsXdm5wL6lgVFduMy7U9kKlH6FGXeOKKM49DBBlbIx3Z
+         8BcbfWwnQJYnW6+syA7lRMITcnJU/GmBHUAaWMGlOm/UCM29STzRdN2euhXVW7Rb7cRQ
+         7wsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pkBsQgwR9cWLUnpAS/YImF1Bil4JCxg0ZN5OCUSNsZE=;
-        b=wpJTbSUBdBeNkkKhOAd2623XtGT+yEjTJurxVhC9uPn5RqzoCx8GG+OZms50+YiGCF
-         Iq57p0Eae6L8vElkVmLBv4w6vVc+mUDYoj85nJ9YJR93J6ak7uwczvC/GtAochCMuB4w
-         xI6uNXiVHc3jV0TiZEWdaXkGbw9Ri8cOlIp3uT1NK9JAqNeY9g2nt0KLOD2YqEGaP9AC
-         dBYR2RZvUsMdjzps0Q5qn9CkS8jJPU2VZPrfQRWB33iMWhPAuONC6aZAYEFvCTdGfoKS
-         Q8Z08daSnW5h/6wSixbU5lwVRt4iGzHxJ5SZmUhrJw/ZXuwtTkeLhMcVPHRLaNXZgzlQ
-         38OQ==
-X-Gm-Message-State: AFqh2kr0eLRnamMYpMUMfnIn7rocVIBYTp743H+0Zu0x1jpJdxLSesM5
-	IN8S9s9qZC8JwcodNT46qwa61IPjt6/bGKWN+t8=
-X-Google-Smtp-Source: AMrXdXsQ/3O9v6SWIedpvRZ9Es9PPVWLB8osBqtnSe9Qx4zC2nccCBMUvfY5OmZUZWZ7Adtsfjxs+A==
-X-Received: by 2002:a05:6a21:86a8:b0:ad:6305:a4 with SMTP id ox40-20020a056a2186a800b000ad630500a4mr71637547pzb.48.1673454108782;
-        Wed, 11 Jan 2023 08:21:48 -0800 (PST)
+        bh=DuJem7wFQEp5IvvKeOTOXkSupruUKIA0uGCHRmOZjC8=;
+        b=MpTCLRgB/AEygKWltReukLPcFXQziQvuwE/zaDZ7JLEmRCe6wNYO6JyODpIIsEZpeF
+         S9dwyMk6dfGJKOZWp1fjgvo66/6oN4KSmFBG50dPFHW5DRG6sYhh7dVf7poTkTd3JwuL
+         kUFW+UENEspVYKJ08R+uy7Z6MBtBdM7c2zvxYbUjGNJNbojemzr8Zf6ZnapIsWFRnsrG
+         B6VEGuHhUSU72iVmEv1EX3M8rsERFCN/Tht1Puy2mdla1fTZ6yRP4g9e76RXZxJAlq7C
+         uSe6WoHC4SQHCdWo6YLgFJFlJV0F41so5QUKVInpcYejNO9eagbI/nqsqyaiZT/p5t7g
+         SAuw==
+X-Gm-Message-State: AFqh2krzE5jeSlKbNaq9LxTyw3xVA+jhX8KIbJeBaGJUevjmluWug/MK
+	mfiAwZC1ASjmvDp7vx9q31pJhL5MBwD8bObK3Us=
+X-Google-Smtp-Source: AMrXdXus2mxoIeCuBf+e6XzUpr2MICtXdhkd3HIqIMynv5PL0aS1XKFkucAgUs1BicX8UkIVQ4S2/g==
+X-Received: by 2002:a05:6a20:a888:b0:af:758e:5923 with SMTP id ca8-20020a056a20a88800b000af758e5923mr81583790pzb.21.1673454106926;
+        Wed, 11 Jan 2023 08:21:46 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-5-74.hawaiiantel.net. [72.253.5.74])
-        by smtp.gmail.com with ESMTPSA id u14-20020a63ef0e000000b0046feca0883fsm8685384pgh.64.2023.01.11.08.21.47
+        by smtp.gmail.com with ESMTPSA id u14-20020a63ef0e000000b0046feca0883fsm8685384pgh.64.2023.01.11.08.21.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Jan 2023 08:21:48 -0800 (PST)
+        Wed, 11 Jan 2023 08:21:46 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 03/11] libarchive: upgrade 3.6.1 -> 3.6.2
-Date: Wed, 11 Jan 2023 06:21:29 -1000
-Message-Id: <4dd785cc05fd57f6cce8838cca7379c6e0bfd15c.1673453368.git.steve@sakoman.com>
+Subject: [OE-core][langdale 02/11] dbus: upgrade 1.14.0 -> 1.14.4
+Date: Wed, 11 Jan 2023 06:21:28 -1000
+Message-Id: <fbf8ea03aeb04e1efdc9693a66d618275bddc172.1673453368.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1673453368.git.steve@sakoman.com>
 References: <cover.1673453368.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 11 Jan 2023 16:21:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175759
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175758
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: wangmy <wangmy@fujitsu.com>
 
-Libarchive 3.6.2 is a bugfix and security release.
+dbus 1.14.4 (2022-10-05)
+========================
 
-Important security fixes:
+This is a security update for the dbus 1.14.x stable branch, fixing
+denial-of-service issues (CVE-2022-42010, -42011, -42012) and applying
+security hardening (dbus#416).
 
-NULL pointer dereference vulnerability in archive_write.c (#1754, #1759, CVE-2022-36227)
+Behaviour changes:
 
-Important bug fixes:
+• On Linux, dbus-daemon and other uses of DBusServer now create a
+  path-based Unix socket, unix:path=..., when asked to listen on a
+  unix:tmpdir=... address. This makes unix:tmpdir=... equivalent to
+  unix:dir=... on all platforms.
+  Previous versions would have created an abstract socket, unix:abstract=...,
+  in this situation.
+  This change primarily affects the well-known session bus when run via
+  dbus-launch(1) or dbus-run-session(1). The user bus, enabled by configuring
+  dbus with --enable-user-session and running it on a systemd system,
+  already used path-based Unix sockets and is unaffected by this change.
+  This behaviour change prevents a sandbox escape via the session bus socket
+  in sandboxing frameworks that can share the network namespace with the host
+  system, such as Flatpak.
+  This change might cause a regression in situations where the abstract socket
+  is intentionally shared between the host system and a chroot or container,
+  such as some use-cases of schroot(1). That regression can be resolved by
+  using a bind-mount to share either the D-Bus socket, or the whole /tmp
+  directory, with the chroot or container.
+  (dbus#416, Simon McVittie)
 
-include ZSTD in Windows builds (#1688)
-SSL fixes on Windows (#1714, #1723, #1724)
-rar5 reader: fix possible garbled output with bsdtar -O (#1745)
-mtree reader: support reading mtree files with tabs (#1783)
-various small fixes for issues found by CodeQL
+Denial of service fixes:
 
-Use --without-iconv as otherwise autotools write a bogus iconv
-dependency into .pc file.
+Evgeny Vereshchagin discovered several ways in which an authenticated
+local attacker could cause a crash (denial of service) in
+dbus-daemon --system or a custom DBusServer. In uncommon configurations
+these could potentially be carried out by an authenticated remote attacker.
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit edce1bce81fe2f47fb2c5e2b94ebda73f95cbaea)
+• An invalid array of fixed-length elements where the length of the array
+  is not a multiple of the length of the element would cause an assertion
+  failure in debug builds or an out-of-bounds read in production builds.
+  This was a regression in version 1.3.0.
+  (dbus#413, CVE-2022-42011; Simon McVittie)
+
+• A syntactically invalid type signature with incorrectly nested parentheses
+  and curly brackets would cause an assertion failure in debug builds.
+  Similar messages could potentially result in a crash or incorrect message
+  processing in a production build, although we are not aware of a practical
+  example. (dbus#418, CVE-2022-42010; Simon McVittie)
+
+• A message in non-native endianness with out-of-band Unix file descriptors
+  would cause a use-after-free and possible memory corruption in production
+  builds, or an assertion failure in debug builds. This was a regression in
+  version 1.3.0. (dbus#417, CVE-2022-42012; Simon McVittie)
+
+dbus 1.14.2 (2022-09-26)
+========================
+
+Fixes:
+
+• Fix build failure on FreeBSD (dbus!277, Alex Richardson)
+
+• Fix build failure on macOS with launchd enabled
+  (dbus!287, Dawid Wróbel)
+
+• Preserve errno on failure to open /proc/self/oom_score_adj
+  (dbus!285, Gentoo#834725; Mike Gilbert)
+
+• On Linux, don't log warnings if oom_score_adj is read-only but does not
+  need to be changed (dbus!291, Simon McVittie)
+
+• Slightly improve error-handling for inotify
+  (dbus!235, Simon McVittie)
+
+• Don't crash if dbus-daemon is asked to watch more than 128 directories
+  for changes (dbus!302, Jan Tojnar)
+
+• Autotools build system fixes:
+  · Don't treat --with-x or --with-x=yes as a request to disable X11,
+    fixing a regression in 1.13.20. Instead, require X11 libraries and
+    fail if they cannot be detected. (dbus!263, Lars Wendler)
+  · When a CMake project uses an Autotools-built libdbus in a
+    non-standard prefix, find dbus-arch-deps.h successfully
+    (dbus#314, Simon McVittie)
+  · Don't include generated XML catalog in source releases
+    (dbus!317, Jan Tojnar)
+  · Improve robustness of detecting gcc __sync atomic builtins
+    (dbus!320, Alex Richardson)
+
+• CMake build system fixes:
+  · Detect endianness correctly, fixing interoperability with other D-Bus
+    implementations on big-endian systems (dbus#375, Ralf Habacker)
+  · When building for Unix, install session and system bus setup
+    in the intended locations
+    (dbus!267, dbus!297; Ralf Habacker, Alex Richardson)
+  · Detect setresuid() and getresuid() (dbus!319, Alex Richardson)
+  · Detect backtrace() on FreeBSD (dbus!281, Alex Richardson)
+  · Don't include headers from parent directory (dbus!282, Alex Richardson)
+  · Distinguish between host and target TMPDIR when cross-compiling
+    (dbus!279, Alex Richardson)
+  · Fix detection of atomic operations (dbus!306, Alex Richardson)
+
+Tests and CI enhancements:
+
+• On Unix, skip tests that switch uid if run in a container that is
+  unable to do so, instead of failing (dbus#407, Simon McVittie)
+
+• Use the latest MSYS2 packages for CI
+  (Ralf Habacker, Simon McVittie)
+
+License-Update: D-Bus changed to dbus.
+
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit 8c2ab4c014807e2d8ad0fded4188578aa05e8c55)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...t-include-sys-mount.h-when-linux-fs..patch | 47 -------------------
- .../libarchive/CVE-2022-36227.patch           | 42 -----------------
- ...ibarchive_3.6.1.bb => libarchive_3.6.2.bb} |  9 ++--
- 3 files changed, 3 insertions(+), 95 deletions(-)
- delete mode 100644 meta/recipes-extended/libarchive/libarchive/0001-libarchive-Do-not-include-sys-mount.h-when-linux-fs..patch
- delete mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2022-36227.patch
- rename meta/recipes-extended/libarchive/{libarchive_3.6.1.bb => libarchive_3.6.2.bb} (89%)
+ meta/recipes-core/dbus/{dbus_1.14.0.bb => dbus_1.14.4.bb} | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+ rename meta/recipes-core/dbus/{dbus_1.14.0.bb => dbus_1.14.4.bb} (96%)
 
-diff --git a/meta/recipes-extended/libarchive/libarchive/0001-libarchive-Do-not-include-sys-mount.h-when-linux-fs..patch b/meta/recipes-extended/libarchive/libarchive/0001-libarchive-Do-not-include-sys-mount.h-when-linux-fs..patch
-deleted file mode 100644
-index 0d21799682..0000000000
---- a/meta/recipes-extended/libarchive/libarchive/0001-libarchive-Do-not-include-sys-mount.h-when-linux-fs..patch
-+++ /dev/null
-@@ -1,47 +0,0 @@
--From a2f68263a1da5ad227bcb9cd8fa91b93c8b6c99f Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Mon, 25 Jul 2022 10:56:53 -0700
--Subject: [PATCH] libarchive: Do not include sys/mount.h when linux/fs.h is
-- present
--
--These headers are in conflict and only one is needed by
--archive_read_disk_posix.c therefore include linux/fs.h if it exists
--otherwise include sys/mount.h
--
--It also helps compiling with glibc 2.36
--where sys/mount.h conflicts with linux/mount.h see [1]
--
--[1] https://sourceware.org/glibc/wiki/Release/2.36
--
--Upstream-Status: Submitted [https://github.com/libarchive/libarchive/pull/1761]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- libarchive/archive_read_disk_posix.c | 5 ++---
-- 1 file changed, 2 insertions(+), 3 deletions(-)
--
--diff --git a/libarchive/archive_read_disk_posix.c b/libarchive/archive_read_disk_posix.c
--index 2b39e672..a96008db 100644
----- a/libarchive/archive_read_disk_posix.c
--+++ b/libarchive/archive_read_disk_posix.c
--@@ -34,9 +34,6 @@ __FBSDID("$FreeBSD$");
-- #ifdef HAVE_SYS_PARAM_H
-- #include <sys/param.h>
-- #endif
---#ifdef HAVE_SYS_MOUNT_H
---#include <sys/mount.h>
---#endif
-- #ifdef HAVE_SYS_STAT_H
-- #include <sys/stat.h>
-- #endif
--@@ -54,6 +51,8 @@ __FBSDID("$FreeBSD$");
-- #endif
-- #ifdef HAVE_LINUX_FS_H
-- #include <linux/fs.h>
--+#elif HAVE_SYS_MOUNT_H
--+#include <sys/mount.h>
-- #endif
-- /*
--  * Some Linux distributions have both linux/ext2_fs.h and ext2fs/ext2_fs.h.
---- 
--2.25.1
--
-diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2022-36227.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2022-36227.patch
-deleted file mode 100644
-index d0d143710c..0000000000
---- a/meta/recipes-extended/libarchive/libarchive/CVE-2022-36227.patch
-+++ /dev/null
-@@ -1,42 +0,0 @@
--From b5332ed6d59ba5113a0a2c67fd82b69fcd5cde68 Mon Sep 17 00:00:00 2001
--From: obiwac <obiwac@gmail.com>
--Date: Fri, 22 Jul 2022 22:41:10 +0200
--Subject: [PATCH] libarchive: CVE-2022-36227 Handle a `calloc` returning NULL
-- (fixes #1754)
--
--Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/bff38efe8c110469c5080d387bec62a6ca15b1a5]
--CVE: CVE-2022-36227
--Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com
-----
-- libarchive/archive_write.c | 8 ++++++++
-- 1 file changed, 8 insertions(+)
--
--diff --git a/libarchive/archive_write.c b/libarchive/archive_write.c
--index 66592e8..27626b5 100644
----- a/libarchive/archive_write.c
--+++ b/libarchive/archive_write.c
--@@ -201,6 +201,10 @@ __archive_write_allocate_filter(struct archive *_a)
-- 	struct archive_write_filter *f;
-- 
-- 	f = calloc(1, sizeof(*f));
--+
--+	if (f == NULL)
--+		return (NULL);
--+
-- 	f->archive = _a;
-- 	f->state = ARCHIVE_WRITE_FILTER_STATE_NEW;
-- 	if (a->filter_first == NULL)
--@@ -548,6 +552,10 @@ archive_write_open2(struct archive *_a, void *client_data,
-- 	a->client_data = client_data;
-- 
-- 	client_filter = __archive_write_allocate_filter(_a);
--+
--+	if (client_filter == NULL)
--+		return (ARCHIVE_FATAL);
--+
-- 	client_filter->open = archive_write_client_open;
-- 	client_filter->write = archive_write_client_write;
-- 	client_filter->close = archive_write_client_close;
---- 
--2.25.1
--
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.6.1.bb b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
-similarity index 89%
-rename from meta/recipes-extended/libarchive/libarchive_3.6.1.bb
-rename to meta/recipes-extended/libarchive/libarchive_3.6.2.bb
-index 79e13e514f..f447035b67 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.6.1.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
-@@ -30,15 +30,12 @@ PACKAGECONFIG[lz4] = "--with-lz4,--without-lz4,lz4,"
- PACKAGECONFIG[mbedtls] = "--with-mbedtls,--without-mbedtls,mbedtls,"
- PACKAGECONFIG[zstd] = "--with-zstd,--without-zstd,zstd,"
+diff --git a/meta/recipes-core/dbus/dbus_1.14.0.bb b/meta/recipes-core/dbus/dbus_1.14.4.bb
+similarity index 96%
+rename from meta/recipes-core/dbus/dbus_1.14.0.bb
+rename to meta/recipes-core/dbus/dbus_1.14.4.bb
+index 863e35faf7..5f91ec2dc1 100644
+--- a/meta/recipes-core/dbus/dbus_1.14.0.bb
++++ b/meta/recipes-core/dbus/dbus_1.14.4.bb
+@@ -6,8 +6,9 @@ SECTION = "base"
+ inherit autotools pkgconfig gettext upstream-version-is-even ptest-gnome
  
--EXTRA_OECONF += "--enable-largefile"
-+EXTRA_OECONF += "--enable-largefile --without-iconv"
+ LICENSE = "AFL-2.1 | GPL-2.0-or-later"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=10dded3b58148f3f1fd804b26354af3e \
+-                    file://dbus/dbus.h;beginline=6;endline=20;md5=866739837ccd835350af94dccd6457d8"
++LIC_FILES_CHKSUM = "file://COPYING;md5=6423dcd74d7be9715b0db247fd889da3 \
++                    file://dbus/dbus.h;beginline=6;endline=20;md5=866739837ccd835350af94dccd6457d8 \
++                    "
  
--SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
--           file://0001-libarchive-Do-not-include-sys-mount.h-when-linux-fs..patch \
--           file://CVE-2022-36227.patch \
--	   "
-+SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz"
- UPSTREAM_CHECK_URI = "http://libarchive.org/"
+ SRC_URI = "https://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.xz \
+            file://run-ptest \
+@@ -15,7 +16,7 @@ SRC_URI = "https://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.xz \
+            file://dbus-1.init \
+ "
  
--SRC_URI[sha256sum] = "c676146577d989189940f1959d9e3980d28513d74eedfbc6b7f15ea45fe54ee2"
-+SRC_URI[sha256sum] = "ba6d02f15ba04aba9c23fd5f236bb234eab9d5209e95d1c4df85c44d5f19b9b3"
+-SRC_URI[sha256sum] = "ccd7cce37596e0a19558fd6648d1272ab43f011d80c8635aea8fd0bad58aebd4"
++SRC_URI[sha256sum] = "7c0f9b8e5ec0ff2479383e62c0084a3a29af99edf1514e9f659b81b30d4e353e"
  
- inherit autotools update-alternatives pkgconfig
- 
+ EXTRA_OECONF = "--disable-xml-docs \
+                 --disable-doxygen-docs \
 -- 
 2.25.1
 
