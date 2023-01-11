@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DB50C54EBC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D85FC677F1
 	for <webhook@archiver.kernel.org>; Wed, 11 Jan 2023 16:22:01 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web10.28308.1673454111734448976
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web10.28316.1673454119058532657
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Jan 2023 08:21:51 -0800
+ Wed, 11 Jan 2023 08:21:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=FTA5l5oH;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.53, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f53.google.com with SMTP id n12so16393173pjp.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Jan 2023 08:21:51 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=iJg7xpFa;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f49.google.com with SMTP id z1-20020a17090a66c100b00226f05b9595so2657883pjl.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Jan 2023 08:21:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ho3aiLEwdE2wC7Id8k5qUbKLKsLB0LE/mTYZa7YrUns=;
-        b=FTA5l5oHgcA9z4BKMPXLAdf2CeeXIBzoLP4vzlUchNka8NFii0+onjnbT4T6Q8mgVy
-         dip90m04jKlrPYFnBf6SpS4GroIqb0QVxX/w75xL2q/5SaiCivNfwdHdTRs8GrfmFtY0
-         S5edaiXHtgRtQo6KiOQCQ64YZa1j7cXQzL8GMjz9holHjCVjmHT7ZGH2rX7RwX/yCWnT
-         UDzUn9De5pdP9uo84owO0kU59EYfMOCPOL49k6rgcmg73OWw32e5Libfh37buIVpO4Jj
-         y2JCKbucrlTPEExzWntZ9N3yVNXCd7+jIAfwSTC4mioqefzVGAdj8EXaju8L1LKjOoYW
-         IiIQ==
+        bh=8j9VfP4ErpODbwk/8DTnL4XJJs2P8QxEvwBNxPAwKsc=;
+        b=iJg7xpFauHxovlnhJC+qZz2sDmAwD85OTqQGTCLiUtffpMofjGLQUi3N4saHDvg4nA
+         JnsiFK2KX9ZGcOy/AgyZQSpo50bA7NIteBRzCll4+m7TX2ZpIsdhmHRQhUa8fyY0+hlB
+         SU8N2i32o6q4+s0WrtKaPoGQwoEIyiJs/2q8VynLSJplvBDOLOLVBXvu20rNJgfhtE/o
+         TC86zNsNxmbUIRb9cZZHHf0Tr0OqyX9uKdN5td/JET765ZIyU8dOTvFxjbOCvwXCHFQl
+         ySf+CN/u25aMtnAGssgMQcEi9+Xw6Dn8/t1elvSIYHdLkp32TGMR8V74EyPN4vYWnfxd
+         Y5DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ho3aiLEwdE2wC7Id8k5qUbKLKsLB0LE/mTYZa7YrUns=;
-        b=DwnUsQ1tNZTW5mYgl4ugzBMvVNf7aLL/G5Zgb6nhxghc7JDgmODb5SwAeKqbDXYrWW
-         z4MFTZjKfwONB+PrKGKDCOzR52wdqBo8XrOddagcHaFcPz+MW/shORgBs4cq67JaqbnV
-         cVqmGt5k0iuOVQBiIiFKx+mjgRyTdffHujcGi4VdEAc3Bh+BS+ZwwAAEYlqusQD3gH80
-         c1ne/QZUFdFti4WIgRwgwDgUf81zXBt5tv7xQnAabK5iZtvPszNX+TtESq57PqtUo8nE
-         K8+3oqvVioMFx7fzf5dDF+/6keA76s7raCL00Aw/4fzael3lMD7M3HGBluHJ1K0kBHPb
-         JhdQ==
-X-Gm-Message-State: AFqh2krNxOtF2oUESQ4WB16owGMxxq2oCwmvUlQOfcrIJQPv5TRz0siv
-	UNz6rf6j/t64zp9A9N2l6BcmHr5hiTNTC9XDOz4=
-X-Google-Smtp-Source: AMrXdXuiPvuMDc+nkCafkRlFIHd58CwxPLDaJk8AP4s7UBr+mh6bxUkmutcFu+oQ4tZdkzF5GQCf8g==
-X-Received: by 2002:a05:6a20:b047:b0:ac:10:adfe with SMTP id dx7-20020a056a20b04700b000ac0010adfemr67754759pzb.30.1673454110624;
-        Wed, 11 Jan 2023 08:21:50 -0800 (PST)
+        bh=8j9VfP4ErpODbwk/8DTnL4XJJs2P8QxEvwBNxPAwKsc=;
+        b=487FlDV0nuLY+fS395p6DBAt4DXe8q/9cyAs4iEHao0JRudiKB/dRMz/h3uuGMRLlp
+         KG3ssJW+11qm7ChFZZ+2mnHq7SDxrbiD5ch7DB2igi29GalMiFFdVrEMT48OWvxfHhMU
+         zy3fmJmA7doDtFQ5N+E0cnv5/4HeiRpXi76fDJiIzYidOusQfvC2vcM3tYmkV34nhlIo
+         C5p51OxXrVTo2UK/CKPFRj5O36vkxSb5Wmlo9Ms2RhjSRnFWT9OlzmiDoLu0p0sEWDWe
+         MlSdhzKJa9l15bYBQy06JYtDQkpPFDK6L7hBrxPd3z+yHhW+vgg2eR7GOUDwobl1GQCO
+         IF0Q==
+X-Gm-Message-State: AFqh2krCnDBqjT+xFskFaTVzC79Hu7hqJ35CtXRMy3LWfbaob7m2xkQW
+	GU2v+F8vBdbAJ8JoaAn9avj5k3rlyg7gnIuvCeA=
+X-Google-Smtp-Source: AMrXdXuB311bpimH1NVwgyTRm2VbnyjomLte4jh5wNPJHTJBO3MmSAt4feBA/RVoHKfNa0YF/JRebA==
+X-Received: by 2002:a17:90a:a884:b0:226:7ec6:8a53 with SMTP id h4-20020a17090aa88400b002267ec68a53mr32270398pjq.14.1673454118133;
+        Wed, 11 Jan 2023 08:21:58 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-5-74.hawaiiantel.net. [72.253.5.74])
-        by smtp.gmail.com with ESMTPSA id u14-20020a63ef0e000000b0046feca0883fsm8685384pgh.64.2023.01.11.08.21.49
+        by smtp.gmail.com with ESMTPSA id u14-20020a63ef0e000000b0046feca0883fsm8685384pgh.64.2023.01.11.08.21.57
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Jan 2023 08:21:50 -0800 (PST)
+        Wed, 11 Jan 2023 08:21:57 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 04/11] bind: upgrade 9.18.9 -> 9.18.10
-Date: Wed, 11 Jan 2023 06:21:30 -1000
-Message-Id: <6c2b904f22a629880681a26550022764c170541a.1673453368.git.steve@sakoman.com>
+Subject: [OE-core][langdale 08/11] oeqa/rpm.py: Increase timeout and add debug output
+Date: Wed, 11 Jan 2023 06:21:34 -1000
+Message-Id: <ed2c94ae744331a1e977dd4e02005390a84cd5be.1673453368.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1673453368.git.steve@sakoman.com>
 References: <cover.1673453368.git.steve@sakoman.com>
@@ -61,138 +61,66 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 11 Jan 2023 16:22:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175760
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175764
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Pavel Zhukov <pavel@zhukoff.net>
 
-Changelog:
-==========
-The key file IO locks objects would never get deleted from the hashtable due to
-off-by-one error.
+[Yocto #14346]
+Systemd may be slow in killing pam session sometimes [1][2]. It may cause rpm
+test to fail because there's process (sd_pam) running and own by "test1" user
+after timeout.
+Increasing timeout to 2 mins and assert earlier with debug output if
+there's such process(es). If increasing of timeout doesn't help we may
+want to force deletion of the user as [2] suggests.
 
-ANY responses could sometimes have the wrong TTL.
+[1] https://github.com/systemd/systemd/issues/8598
+[2] https://access.redhat.com/solutions/6969188
 
-Speed up the named shutdown time by explicitly canceling all recursing ns_client
-objects for
-
-Removing a catalog zone from catalog-zones without also removing the referenced
-zone could leave a dangling pointer. [GL #3683]
-
-nslookup and host were not honoring the selected port in TCP mode. [GL #3721]
-
-Deprecate alt-transfer-source, alt-transfer-source-v6 and
-use-alt-transfer-source. [GL #3694]
-
-Move the "final reference detached" log message from dns_zone unit to the
-DEBUG(1) log level.
-
-Fix assertion failure in isc_http API used by statschannel if the read callback
-would be called on HTTP request that has been already closed.
-
-Deduplicate time unit conversion factors.
-
-Copy TLS identifier when setting up primaries for catalog member zones.
-
-Deprecate 'auto-dnssec'. [GL #3667]
-
-The decompression implementation in dns_name_fromwire() is now smaller and
-faster. [GL #3655]
-
-Use the current domain name when checking answers from a dual-stack-server.
-
-Ensure 'named-checkconf -z' respects the check-wildcard option when loading a
-zone.  [GL #1905]
-
-Deprecate 'coresize', 'datasize', 'files', and 'stacksize' named.conf options.
-
-The view's zone table was not locked when it should have been leading to race
-conditions when external extensions that manipulate the zone table where in use.
-
-Some browsers (Firefox) send more than 10 HTTP headers.  Bump the number of
-allowed HTTP headers to 100. [GL #3670]
-
-NXDOMAIN cache records are no longer retained in the cache after expiry,
-even when serve-stale is in use. [GL #3386]
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Pavel Zhukov <pavel@zhukoff.net>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1c093c38e247b522f279f616d16373795a4cdf89)
+(cherry picked from commit 972fcc0ed1e0d36c3470071a9c667c5327c1ef78)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../0001-avoid-start-failure-with-bind-user.patch               | 0
- .../0001-named-lwresd-V-and-start-log-hide-build-options.patch  | 0
- .../bind-ensure-searching-for-json-headers-searches-sysr.patch  | 0
- .../bind/{bind-9.18.9 => bind-9.18.10}/bind9                    | 0
- .../bind/{bind-9.18.9 => bind-9.18.10}/conf.patch               | 0
- .../bind/{bind-9.18.9 => bind-9.18.10}/generate-rndc-key.sh     | 0
- .../init.d-add-support-for-read-only-rootfs.patch               | 0
- .../make-etc-initd-bind-stop-work.patch                         | 0
- .../bind/{bind-9.18.9 => bind-9.18.10}/named.service            | 0
- .../bind/{bind_9.18.9.bb => bind_9.18.10.bb}                    | 2 +-
- 10 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/bind/{bind-9.18.9 => bind-9.18.10}/0001-avoid-start-failure-with-bind-user.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.9 => bind-9.18.10}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.9 => bind-9.18.10}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.9 => bind-9.18.10}/bind9 (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.9 => bind-9.18.10}/conf.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.9 => bind-9.18.10}/generate-rndc-key.sh (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.9 => bind-9.18.10}/init.d-add-support-for-read-only-rootfs.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.9 => bind-9.18.10}/make-etc-initd-bind-stop-work.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.9 => bind-9.18.10}/named.service (100%)
- rename meta/recipes-connectivity/bind/{bind_9.18.9.bb => bind_9.18.10.bb} (97%)
+ meta/lib/oeqa/runtime/cases/rpm.py | 23 +++++++++++------------
+ 1 file changed, 11 insertions(+), 12 deletions(-)
 
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.9/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.18.10/0001-avoid-start-failure-with-bind-user.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.9/0001-avoid-start-failure-with-bind-user.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.10/0001-avoid-start-failure-with-bind-user.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.9/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.18.10/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.9/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.10/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.9/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.18.10/bind-ensure-searching-for-json-headers-searches-sysr.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.9/bind-ensure-searching-for-json-headers-searches-sysr.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.10/bind-ensure-searching-for-json-headers-searches-sysr.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.9/bind9 b/meta/recipes-connectivity/bind/bind-9.18.10/bind9
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.9/bind9
-rename to meta/recipes-connectivity/bind/bind-9.18.10/bind9
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.9/conf.patch b/meta/recipes-connectivity/bind/bind-9.18.10/conf.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.9/conf.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.10/conf.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.9/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.18.10/generate-rndc-key.sh
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.9/generate-rndc-key.sh
-rename to meta/recipes-connectivity/bind/bind-9.18.10/generate-rndc-key.sh
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.9/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.18.10/init.d-add-support-for-read-only-rootfs.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.9/init.d-add-support-for-read-only-rootfs.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.10/init.d-add-support-for-read-only-rootfs.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.9/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.18.10/make-etc-initd-bind-stop-work.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.9/make-etc-initd-bind-stop-work.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.10/make-etc-initd-bind-stop-work.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.9/named.service b/meta/recipes-connectivity/bind/bind-9.18.10/named.service
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.9/named.service
-rename to meta/recipes-connectivity/bind/bind-9.18.10/named.service
-diff --git a/meta/recipes-connectivity/bind/bind_9.18.9.bb b/meta/recipes-connectivity/bind/bind_9.18.10.bb
-similarity index 97%
-rename from meta/recipes-connectivity/bind/bind_9.18.9.bb
-rename to meta/recipes-connectivity/bind/bind_9.18.10.bb
-index 160986eb53..cb0e251d51 100644
---- a/meta/recipes-connectivity/bind/bind_9.18.9.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.18.10.bb
-@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://0001-avoid-start-failure-with-bind-user.patch \
-            "
+diff --git a/meta/lib/oeqa/runtime/cases/rpm.py b/meta/lib/oeqa/runtime/cases/rpm.py
+index e3cd818b2b..fa86eb0537 100644
+--- a/meta/lib/oeqa/runtime/cases/rpm.py
++++ b/meta/lib/oeqa/runtime/cases/rpm.py
+@@ -51,21 +51,20 @@ class RpmBasicTest(OERuntimeTestCase):
+             msg = 'status: %s. Cannot run rpm -qa: %s' % (status, output)
+             self.assertEqual(status, 0, msg=msg)
  
--SRC_URI[sha256sum] = "6a9665998d568604460df0918fc8ccfad7d29388d4d842560c056cc211cbb243"
-+SRC_URI[sha256sum] = "f415a92feb62568b50854a063cb231e257351f8672186d0ab031a49b3de2cac6"
+-        def check_no_process_for_user(u):
+-            _, output = self.target.run(self.tc.target_cmds['ps'])
+-            if u + ' ' in output:
+-                return False
+-            else:
+-                return True
++        def wait_for_no_process_for_user(u, timeout = 120):
++            timeout_at = time.time() + timeout
++            while time.time() < timeout_at:
++                _, output = self.target.run(self.tc.target_cmds['ps'])
++                if u + ' ' not in output:
++                    return
++                time.sleep(1)
++            user_pss = [ps for ps in output.split("\n") if u + ' ' in ps]
++            msg = "There're %s 's process(es) still running: %s".format(u, "\n".join(user_pss))
++            assertTrue(True, msg=msg)
  
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # follow the ESV versions divisible by 2
+         def unset_up_test_user(u):
+             # ensure no test1 process in running
+-            timeout = time.time() + 30
+-            while time.time() < timeout:
+-                if check_no_process_for_user(u):
+-                    break
+-                else:
+-                    time.sleep(1)
++            wait_for_no_process_for_user(u)
+             status, output = self.target.run('userdel -r %s' % u)
+             msg = 'Failed to erase user: %s' % output
+             self.assertTrue(status == 0, msg=msg)
 -- 
 2.25.1
 
