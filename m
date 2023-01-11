@@ -1,120 +1,109 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <jacob.kroon@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA38FC46467
-	for <webhook@archiver.kernel.org>; Wed, 11 Jan 2023 11:21:29 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
- by mx.groups.io with SMTP id smtpd.web11.21311.1673436083039364555
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE270C5479D
+	for <webhook@archiver.kernel.org>; Wed, 11 Jan 2023 11:25:09 +0000 (UTC)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web11.21361.1673436300717677147
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Jan 2023 03:21:23 -0800
+ Wed, 11 Jan 2023 03:25:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=IzSvQ9i3;
- spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 6B24020012;
-	Wed, 11 Jan 2023 11:21:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1673436080;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3KeHfElBz1tifjvtLXVAsW9CJxX8SfEsjaUkK6OYfTQ=;
-	b=IzSvQ9i3Ti8vLh2IVo0QtLnDjswiMriwRppGexKggWUIYViAt6y9ULxqWy2XnfgrjTGiX6
-	mpp1xTel4/H2O6N4BTH/oTbld5L8tzt/hSM/bAWgC2xPoaAJGJSfUN9EWg98xxIcm+dEyk
-	e7dw3GBV4NcWpmzEJ73xLe20+uUPR0VMhLDFXxhtuHfWIrrrR+cB9JLirtgUMqmU84rfbM
-	RGNEuPwvWUJuli2/Y2jFclFrwZsQI7pF074P996IAWJv2EJI0JPf6u6GCZqnHVugxQ/Urj
-	PkS8AYltz13AQAxIhrr02sYY846LMgIVEXPvoxXJQ/QmhVPys5TBlFl2ON1YDg==
-Date: Wed, 11 Jan 2023 12:21:20 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Luca Bocassi <luca.boccassi@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 2/2] systemd: ship pcrphase/measure tools and
- units in systemd-extra-utils
-Message-ID: <Y76bsFZfkoctrpuB@mail.local>
-References: <20230110222227.314983-1-luca.boccassi@gmail.com>
- <20230110222227.314983-2-luca.boccassi@gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=TcMduaSa;
+ spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: jacob.kroon@gmail.com)
+Received: by mail-lj1-f172.google.com with SMTP id e13so15734636ljn.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Jan 2023 03:25:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zqKFm4sq7+Vl5AdPIGAa1DRb0hwYJ0nQSFCaWjdXQ+g=;
+        b=TcMduaSa+DApfyJ26RCTItWDiKQRAyM1Em4pgCODieauo32PtABvVNV4zA1FLKQari
+         5opobjz8mH4gFfg/xStilmKZe6htYIM+WacJokiZXm3v4ta2Zs/CV7VsvRCVwzTHSMDt
+         O1djYjZn84DQRiu0E1Et8yfcl0341ZumFy0x2qWkgi+l2cmjo0ChgW1yYsx17tw6m7ZG
+         1uLU4sERFj4+29etvRqigH0eTASQXuZoev0RUlmY7cdvkXSlFeamUD7+AyAPkqnz8ZDS
+         DUhDBnOUjuSmJ3dGoLBbiOOyNPkkcry8QnzeRLvfFmkWsbMYZ9NTntD/1TsfzbtKClVI
+         1wBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zqKFm4sq7+Vl5AdPIGAa1DRb0hwYJ0nQSFCaWjdXQ+g=;
+        b=xthC/LQt4cpko3Y7rObeaghnl2+96gQh9Prcg++QITMGD3wePHBKOd8If8QlpngBRD
+         2lwV5LpX04X8TKjfVcpCTltrkvdfELkCzxa+gYlQeXeUbxPyFWb+eWYz0Ut3mwUCa2OV
+         HNUCOE5q3U4fL4iw0dVASU0mqbGYMG6o2/Uu0QbN2WTJfTU6dag1UW+7GMABU7MbBFJs
+         Zs6SUytKQRkMAvHnQTQ9ksHQHVFTg+KZq57mUI2Zm29xgnG0af2XuBDGl/z6d/fBcNB/
+         IO8kgckvt7jmlnsYZodIBcfeyxZl+cXBogJXXv54prCVfZIlUhplAABMbpEMVQvjPlZQ
+         3+1A==
+X-Gm-Message-State: AFqh2krbBoZr15/u+Ku2QLwJEvx5qbJ61xCDAl2Oc4PTDyZkKgfkp8j9
+	6uau9Sr9znhtqRiNsBXw1g8=
+X-Google-Smtp-Source: AMrXdXs7ErCk2xh2LiIhk/tInHinZxumDJdWRYXzYOri3ClHLN5qHgm+LsQDvcxEt8NszlfMEaE4Bg==
+X-Received: by 2002:a2e:bd0c:0:b0:27f:aa2b:61da with SMTP id n12-20020a2ebd0c000000b0027faa2b61damr18271300ljq.14.1673436298670;
+        Wed, 11 Jan 2023 03:24:58 -0800 (PST)
+Received: from [192.168.10.102] (89-253-118-72.customers.ownit.se. [89.253.118.72])
+        by smtp.gmail.com with ESMTPSA id q18-20020a2e8752000000b00279d206a43bsm1684263ljj.34.2023.01.11.03.24.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Jan 2023 03:24:57 -0800 (PST)
+Message-ID: <94a9b8a6-f4c5-cb3a-6f6f-467e24086b19@gmail.com>
+Date: Wed, 11 Jan 2023 12:24:55 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230110222227.314983-2-luca.boccassi@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [OE-core] [PATCH] elfutils: disable deprecation errors in all
+ builds, not just native
+To: Ross Burton <ross.burton@arm.com>,
+ openembedded-core@lists.openembedded.org
+Cc: nd@arm.com
+References: <20230106161621.1288055-1-ross.burton@arm.com>
+Content-Language: en-US
+From: Jacob Kroon <jacob.kroon@gmail.com>
+In-Reply-To: <20230106161621.1288055-1-ross.burton@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Jan 2023 11:21:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175732
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Jan 2023 11:25:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175733
 
-Hello,
-
-This doesn't apply on master because of 5ace3ada5c54 ("systemd:
-'${systemd_unitdir}/system' => '${systemd_system_unitdir}'"), can you
-rebase?
-
-On 10/01/2023 22:22:27+0000, Luca Bocassi wrote:
-> From: Luca Boccassi <luca.boccassi@microsoft.com>
+On 1/6/23 17:16, Ross Burton wrote:
+> The curl-related deprecation errors affect all builds not just native,
+> so set CFLAGS instead of BUILD_CFLAGS.
 > 
-> New tooling related to signed TPM policies introduced in v252
-> 
-> Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
 > ---
->  meta/recipes-core/systemd/systemd_252.4.bb | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>   meta/recipes-devtools/elfutils/elfutils_0.188.bb | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/meta/recipes-core/systemd/systemd_252.4.bb b/meta/recipes-core/systemd/systemd_252.4.bb
-> index d745d60fe6..fa9c709293 100644
-> --- a/meta/recipes-core/systemd/systemd_252.4.bb
-> +++ b/meta/recipes-core/systemd/systemd_252.4.bb
-> @@ -527,12 +527,15 @@ FILES_${PN}-extra-utils = "\
->                          ${bindir}/systemd-stdio-bridge \
->                          ${base_bindir}/systemd-ask-password \
->                          ${base_bindir}/systemd-tty-ask-password-agent \
-> +                        ${systemd_unitdir}/system/initrd.target.wants/systemd-pcrphase-initrd.path \
->                          ${systemd_unitdir}/system/systemd-ask-password-console.path \
->                          ${systemd_unitdir}/system/systemd-ask-password-console.service \
->                          ${systemd_unitdir}/system/systemd-ask-password-wall.path \
->                          ${systemd_unitdir}/system/systemd-ask-password-wall.service \
->                          ${systemd_unitdir}/system/sysinit.target.wants/systemd-ask-password-console.path \
->                          ${systemd_unitdir}/system/sysinit.target.wants/systemd-ask-password-wall.path \
-> +                        ${systemd_unitdir}/system/sysinit.target.wants/systemd-pcrphase.path \
-> +                        ${systemd_unitdir}/system/sysinit.target.wants/systemd-pcrphase-sysinit.path \
->                          ${systemd_unitdir}/system/multi-user.target.wants/systemd-ask-password-wall.path \
->                          ${rootlibexecdir}/systemd/systemd-resolve-host \
->                          ${rootlibexecdir}/systemd/systemd-ac-power \
-> @@ -540,12 +543,17 @@ FILES_${PN}-extra-utils = "\
->                          ${rootlibexecdir}/systemd/systemd-bus-proxyd \
->                          ${systemd_unitdir}/system/systemd-bus-proxyd.service \
->                          ${systemd_unitdir}/system/systemd-bus-proxyd.socket \
-> +                        ${rootlibexecdir}/systemd/systemd-measure \
-> +                        ${rootlibexecdir}/systemd/systemd-pcrphase \
->                          ${rootlibexecdir}/systemd/systemd-socket-proxyd \
->                          ${rootlibexecdir}/systemd/systemd-reply-password \
->                          ${rootlibexecdir}/systemd/systemd-sleep \
->                          ${rootlibexecdir}/systemd/system-sleep \
->                          ${systemd_unitdir}/system/systemd-hibernate.service \
->                          ${systemd_unitdir}/system/systemd-hybrid-sleep.service \
-> +                        ${systemd_unitdir}/system/systemd-pcrphase-initrd.service \
-> +                        ${systemd_unitdir}/system/systemd-pcrphase.service \
-> +                        ${systemd_unitdir}/system/systemd-pcrphase-sysinit.service \
->                          ${systemd_unitdir}/system/systemd-suspend.service \
->                          ${systemd_unitdir}/system/sleep.target \
->                          ${rootlibexecdir}/systemd/systemd-initctl \
-> -- 
-> 2.34.1
-> 
+> diff --git a/meta/recipes-devtools/elfutils/elfutils_0.188.bb b/meta/recipes-devtools/elfutils/elfutils_0.188.bb
+> index c94e36071cd..084908a38c0 100644
+> --- a/meta/recipes-devtools/elfutils/elfutils_0.188.bb
+> +++ b/meta/recipes-devtools/elfutils/elfutils_0.188.bb
+> @@ -34,7 +34,7 @@ EXTRA_OECONF = "--program-prefix=eu-"
+>   
+>   BUILD_CFLAGS += "-Wno-error=stringop-overflow"
+>   # compatibility with curl 7.87; can be removed when elfutils upstream fixes the deprecation fails
+> -BUILD_CFLAGS += "-Wno-error=deprecated-declarations"
+> +CFLAGS:append = " -Wno-error=deprecated-declarations"
+>   
 
+Why use ":append" and not "+=" ? I thought the general idea is that "+=" 
+is preferred, since it is easier to remove the snippet in a .bbappend, 
+so core should avoid :append when possible ?
+
+>   DEPENDS_BZIP2 = "bzip2-replacement-native"
+>   DEPENDS_BZIP2:class-target = "bzip2"
+> 
+> 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#175725): https://lists.openembedded.org/g/openembedded-core/message/175725
-> Mute This Topic: https://lists.openembedded.org/mt/96188492/3617179
+> View/Reply Online (#175598): https://lists.openembedded.org/g/openembedded-core/message/175598
+> Mute This Topic: https://lists.openembedded.org/mt/96096249/4454410
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [jacob.kroon@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
 > 
-
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
