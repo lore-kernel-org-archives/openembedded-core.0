@@ -2,65 +2,63 @@ Return-Path: <festevam@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07BAFC5479D
-	for <webhook@archiver.kernel.org>; Wed, 11 Jan 2023 18:07:12 +0000 (UTC)
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
- by mx.groups.io with SMTP id smtpd.web11.31654.1673460422160557288
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31B4BC46467
+	for <webhook@archiver.kernel.org>; Wed, 11 Jan 2023 18:44:22 +0000 (UTC)
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+ by mx.groups.io with SMTP id smtpd.web10.32696.1673462655611233428
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Jan 2023 10:07:02 -0800
+ Wed, 11 Jan 2023 10:44:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ioP7yHfS;
- spf=pass (domain: gmail.com, ip: 209.85.167.170, mailfrom: festevam@gmail.com)
-Received: by mail-oi1-f170.google.com with SMTP id h185so13383521oif.5
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Jan 2023 10:07:02 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=XHhVX5mw;
+ spf=pass (domain: gmail.com, ip: 209.85.160.53, mailfrom: festevam@gmail.com)
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-150debe2b7cso16568698fac.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Jan 2023 10:44:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=oUg8hBuK/vxGatPjEpPWWRk58WP1S/J996Rk+8Z8kHo=;
-        b=ioP7yHfSJnd1dNLUpjpxPIeeIjDCMAfYLMUplKMSwQvRD6U3rreA4nOVORxHHZMiMe
-         4uR3A6cmjF1BZ5Xu8+Cr88uVlUX1smcZv6byYZfEbjwt9HInLbYRrkmIuijQaRju7bxg
-         vRhT24a32xBUUnuvJN6rJtmWhct6L22fBrC4uQ6PewHN9pkrVxka6i9S1qnQnSMTBQmy
-         NzglRwJaeAJjRG1rXofC0DPgKor9AmZIWbe2v0u8T3xLomJV4njqK7teEGaIfB+4af7H
-         U7IBbktAnS4NRa9Xi4RE2MdVfK5Qwsh8sYMfy8hhLHGHK3FW6suzYGxfE9laz7Xw9K0i
-         VplA==
+        bh=RrXedFYXuYj8SkOlQuoSsZeCtWftTn8OF9MfRrDI50w=;
+        b=XHhVX5mw++M+aKLcXvLMVH2NOpK8wLKkgNYh5yHcjr9mDJ5AQ0HBGhBoVW3YB6OweD
+         ERb90aUQRiCM/r/a1VM8S77EWyEUyxpq4seHe3bNu6FCTJi8dpVQoDPqnIeCMzLCRHmu
+         WdNIvsm26p5xvyc3WgunEwqcDHuOO895GKJQGcJrAPMxicFJcvKsBisaqsKa6gaMgJSF
+         PobpaiSKvlBCt5r4UTSwMEEZR2DoXr8xmvivCI5fcldCqZ09NvO4zemgGxEy8maF+fWD
+         06RaPntNlPlC2qDVoPhd4JkQYZZlTAVXHUBjz1J3jLIyfH3T1sEpHPM01wtbz/HnInol
+         4EeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=oUg8hBuK/vxGatPjEpPWWRk58WP1S/J996Rk+8Z8kHo=;
-        b=nc5ycZR6HgbGD9UQN1hf2y7H1PRTIWEokbSNTZ0fzNcUhLaz3EFexuoNPkkPWVCAD1
-         f5jdExWHso1nmfQoknv6fs63cSjCYpAUKU1rOwNyRtQXSEaPC1qSOwzHht5Gzjmev3kj
-         ml2G6Hpimf+NSiX9N6xiDNi0iZyNdI4uzMJYNv4dBF71fa+D5Mal8mzu8KTRI3WO4buT
-         9OLjDEK8ZZmmPeak/N3E4Cw5hKGn5J+ooui3rrkzhLUv3LuCs0ZDEvSnxxtNGR8eVSsq
-         u4ykGuEH/DOGjoA3axqn8Gdtb0YxwO2LHaBRJmjcgLnSRqJcCs/X2ntQEiZAH1ih2nem
-         aRfg==
-X-Gm-Message-State: AFqh2kriiyVFoJy4z8oZkVGEQOqzIlqXDruzS7RcTUdRKQy964lPvwOq
-	mpbGiOsGEZgM8Y1c0dpXPKU5vewTFZY=
-X-Google-Smtp-Source: AMrXdXv3X71YevYBLYhtRhNgWDGgmuj8imZLTw+I5jd3+7Sw8nKQg8YnZAv2/FR+TDAfryrUR4JufQ==
-X-Received: by 2002:a05:6808:682:b0:360:e20a:35e4 with SMTP id k2-20020a056808068200b00360e20a35e4mr31544243oig.5.1673460421122;
-        Wed, 11 Jan 2023 10:07:01 -0800 (PST)
+        bh=RrXedFYXuYj8SkOlQuoSsZeCtWftTn8OF9MfRrDI50w=;
+        b=oHEpimaLcnlUUGVX9x5y9LTCaaWZblwJYMg4qxPKaukMGnUnT2wbDY8ipf+zTjY57N
+         GRmiO2R5aYnKbzcEDvOrjip6l9roYyXn37W+X9+H5FRE+eS+f7iF2J5BJrtGbmZddaQA
+         Lq/CErMuQtQtuaQh0Kmf1s90k9FxCiJ0uDlF06I0nj4kxs6zUGHD6QLizm+Pg8WJxZ5v
+         D+GuD0j3TsoMwJXTdJGpw4dHC1Sqvfl0uy4jQW1h0nPrVdu/zr4V0I+puvVqbAp/zGim
+         ST1YQ+sI4eNWnBfZF6/DtL7I5ApUUg6ApCq98jt5VS78jPd7X07vxPafIKgn4zlbNh5s
+         WdoQ==
+X-Gm-Message-State: AFqh2kpqAZ28b1f2/A2ENBQdY8z6xx0eRtfmVoAN+WxeNmcOdXBaj7Bi
+	0FIZV3HXLqKusGpFBnTvtBRHVfyCm7c=
+X-Google-Smtp-Source: AMrXdXuBFEMOwsdaruzEUaYeS6qjpNjp03Qb2w8L1QbR6uo15hU4HfFBdDG8nIPEF/Pqp4jwruZPnA==
+X-Received: by 2002:a05:6871:4084:b0:151:89b:a657 with SMTP id kz4-20020a056871408400b00151089ba657mr2039653oab.19.1673462654618;
+        Wed, 11 Jan 2023 10:44:14 -0800 (PST)
 Received: from localhost.localdomain ([2804:14c:485:4b69:6c77:e680:86e1:548e])
-        by smtp.gmail.com with ESMTPSA id i16-20020a056808031000b00360bf540072sm6927733oie.0.2023.01.11.10.06.59
+        by smtp.gmail.com with ESMTPSA id k8-20020a056870d0c800b0015b64f8ff2bsm5028566oaa.52.2023.01.11.10.44.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Jan 2023 10:07:00 -0800 (PST)
+        Wed, 11 Jan 2023 10:44:14 -0800 (PST)
 From: Fabio Estevam <festevam@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Fabio Estevam <festevam@denx.de>
-Subject: [PATCH] u-boot: Upgrade to 2023.01
-Date: Wed, 11 Jan 2023 15:06:54 -0300
-Message-Id: <20230111180654.1710208-1-festevam@gmail.com>
+Cc: Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH v2] u-boot: Upgrade to 2023.01
+Date: Wed, 11 Jan 2023 15:44:04 -0300
+Message-Id: <20230111184405.1717298-1-festevam@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Jan 2023 18:07:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175769
-
-From: Fabio Estevam <festevam@denx.de>
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Jan 2023 18:44:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175770
 
 Upgrade to U-Boot 2023.01.
 
@@ -69,22 +67,27 @@ Remove the two patches that are now upstream:
 e67f34f778ba ("riscv: support building double-float modules")
 1dde977518f1 ("riscv: Fix build against binutils 2.38")
 
-Signed-off-by: Fabio Estevam <festevam@denx.de>
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
 ---
+Changes since v1:
+- Rename u-boot-tools_2022.10.bb to u-boot-tools_2023.01.bb
+
  ...1-riscv-fix-build-with-binutils-2.38.patch | 40 -----------------
  ...iscv32-Use-double-float-ABI-for-rv32.patch | 44 -------------------
  meta/recipes-bsp/u-boot/u-boot-common.inc     |  2 +-
+ ...ols_2022.10.bb => u-boot-tools_2023.01.bb} |  0
  meta/recipes-bsp/u-boot/u-boot_2022.10.bb     |  9 ----
  meta/recipes-bsp/u-boot/u-boot_2023.01.bb     |  4 ++
- 5 files changed, 5 insertions(+), 94 deletions(-)
+ 6 files changed, 5 insertions(+), 94 deletions(-)
  delete mode 100644 meta/recipes-bsp/u-boot/files/0001-riscv-fix-build-with-binutils-2.38.patch
  delete mode 100644 meta/recipes-bsp/u-boot/files/0001-riscv32-Use-double-float-ABI-for-rv32.patch
+ rename meta/recipes-bsp/u-boot/{u-boot-tools_2022.10.bb => u-boot-tools_2023.01.bb} (100%)
  delete mode 100644 meta/recipes-bsp/u-boot/u-boot_2022.10.bb
  create mode 100644 meta/recipes-bsp/u-boot/u-boot_2023.01.bb
 
 diff --git a/meta/recipes-bsp/u-boot/files/0001-riscv-fix-build-with-binutils-2.38.patch b/meta/recipes-bsp/u-boot/files/0001-riscv-fix-build-with-binutils-2.38.patch
 deleted file mode 100644
-index 3598329b99..0000000000
+index 3598329b99d9..000000000000
 --- a/meta/recipes-bsp/u-boot/files/0001-riscv-fix-build-with-binutils-2.38.patch
 +++ /dev/null
 @@ -1,40 +0,0 @@
@@ -130,7 +133,7 @@ index 3598329b99..0000000000
 - PLATFORM_CPPFLAGS	+= $(ARCH_FLAGS)
 diff --git a/meta/recipes-bsp/u-boot/files/0001-riscv32-Use-double-float-ABI-for-rv32.patch b/meta/recipes-bsp/u-boot/files/0001-riscv32-Use-double-float-ABI-for-rv32.patch
 deleted file mode 100644
-index 0bf1bef2c9..0000000000
+index 0bf1bef2c99c..000000000000
 --- a/meta/recipes-bsp/u-boot/files/0001-riscv32-Use-double-float-ABI-for-rv32.patch
 +++ /dev/null
 @@ -1,44 +0,0 @@
@@ -179,7 +182,7 @@ index 0bf1bef2c9..0000000000
 - 
 - PLATFORM_CPPFLAGS	+= $(ARCH_FLAGS)
 diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
-index 60c77cbec4..22adad80ff 100644
+index 60c77cbec4c6..22adad80ff2c 100644
 --- a/meta/recipes-bsp/u-boot/u-boot-common.inc
 +++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
 @@ -12,7 +12,7 @@ PE = "1"
@@ -191,9 +194,13 @@ index 60c77cbec4..22adad80ff 100644
  
  SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master"
  
+diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2022.10.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2023.01.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot-tools_2022.10.bb
+rename to meta/recipes-bsp/u-boot/u-boot-tools_2023.01.bb
 diff --git a/meta/recipes-bsp/u-boot/u-boot_2022.10.bb b/meta/recipes-bsp/u-boot/u-boot_2022.10.bb
 deleted file mode 100644
-index 1ae575790c..0000000000
+index 1ae575790c01..000000000000
 --- a/meta/recipes-bsp/u-boot/u-boot_2022.10.bb
 +++ /dev/null
 @@ -1,9 +0,0 @@
@@ -208,7 +215,7 @@ index 1ae575790c..0000000000
 -
 diff --git a/meta/recipes-bsp/u-boot/u-boot_2023.01.bb b/meta/recipes-bsp/u-boot/u-boot_2023.01.bb
 new file mode 100644
-index 0000000000..2eef1e900e
+index 000000000000..2eef1e900eb3
 --- /dev/null
 +++ b/meta/recipes-bsp/u-boot/u-boot_2023.01.bb
 @@ -0,0 +1,4 @@
