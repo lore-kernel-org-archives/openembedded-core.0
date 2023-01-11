@@ -1,399 +1,156 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D657C46467
-	for <webhook@archiver.kernel.org>; Wed, 11 Jan 2023 16:22:11 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web10.28308.1673454111734448976
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F04FDC5479D
+	for <webhook@archiver.kernel.org>; Wed, 11 Jan 2023 18:04:21 +0000 (UTC)
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.47])
+ by mx.groups.io with SMTP id smtpd.web10.31511.1673460251358783204
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Jan 2023 08:22:03 -0800
+ Wed, 11 Jan 2023 10:04:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=FSWVeIpZ;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.53, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f53.google.com with SMTP id n12so16393679pjp.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Jan 2023 08:22:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xlzSJTjLdEuRh5c6si/BUKP9ll9uBpnMfbW3OAg/WpQ=;
-        b=FSWVeIpZOezd2HTei41ugTIxgrLQBbQJjccr4qdP2PiO3+kAQPWIdIFRZid3EuD5MB
-         KKHVovCmJ5fE4i/0c2ZCchkcIWy8Fj+uQJQBqjP35nC14O4MYBMPAQ0jCbFWGmlDR7aP
-         0aA+9VyaRUlEkzOWIQX5epEA/QvnY7bXylTPqKuFQbweMI/DWrJgDWt9iU9B0uCkqzCm
-         70G8CelFpDOo985BnTiI5U4kqaWx7j5I5juauyDhOjKBhPk/fZ3+nlCY12UpwDjN4XN9
-         4w0zrBVsXVhVWOeRuNPXCfyX4G63PSMWoCcBPg+PDzb/xvSXSAh2VS0C4NYFS56KLfw2
-         hIxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xlzSJTjLdEuRh5c6si/BUKP9ll9uBpnMfbW3OAg/WpQ=;
-        b=y3IPsa/GNbMArRTdmNGwsIuFsNG9Rrk1LsiGwvD9nWoHVDilPMvAjU26XDIHnAyx12
-         LBNAsnancRAeFUdgDxM8pAv5rR0jIKYanOGzb95g9+0W9x/fET6NB4wAO+JwXkI21pim
-         hRqU1jK8cnIPqRWihw4KnvEYKIqx6l77DY4o/7Dy72ti8sOY31rtMePd04j0U3kMN5n1
-         NEt24xElOQV1LewMAILv0RBhnqqZdlyY68dFNpNY+tSJGVePJJTwQddpIJzch2fl9KB8
-         aZjDujICdpa1ZNsMINbtPGlvcout+fuETl1B7Q3dKCbcIMS2KM3A7NJLRfKnriIcT2MO
-         nUBg==
-X-Gm-Message-State: AFqh2ko0qFzoysTHnZaPZA6zY8wxZ7jApRjJwzAskwqsYC33uvq3dHgi
-	OA+HerpFIkNvq0PQHCxh00+9WbC8EGk39YIFQpQ=
-X-Google-Smtp-Source: AMrXdXtmwq/A7ZIaNfPMVFR9qVQNQhwozaYL+HLaOUdETgrpYxxP/Nf3Rn4dL2mMIwH98RHwfqiXaA==
-X-Received: by 2002:a17:90a:5904:b0:227:e10:9a93 with SMTP id k4-20020a17090a590400b002270e109a93mr12392136pji.20.1673454122180;
-        Wed, 11 Jan 2023 08:22:02 -0800 (PST)
-Received: from hexa.router0800d9.com (dhcp-72-253-5-74.hawaiiantel.net. [72.253.5.74])
-        by smtp.gmail.com with ESMTPSA id u14-20020a63ef0e000000b0046feca0883fsm8685384pgh.64.2023.01.11.08.22.01
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Jan 2023 08:22:01 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 10/11] gstreamer1.0: Fix race conditions in gstbin tests
-Date: Wed, 11 Jan 2023 06:21:36 -1000
-Message-Id: <dab90e4b278f6b12a21348aecf3ad70a8b6b76f7.1673453368.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1673453368.git.steve@sakoman.com>
-References: <cover.1673453368.git.steve@sakoman.com>
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=YO8cSBt5;
+ spf=pass (domain: arm.com, ip: 40.107.104.47, mailfrom: ross.burton@arm.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9TsQ4bVkTzOEWtz+5ZXhEt3XtbCi4WWgQ5Au3dlEhh4=;
+ b=YO8cSBt5gvexnMYJSB+hF3bv0PrzsNGTQHQjajys/cpzDM9g5atb8LyyVyIN8sZx+VmBlQRuKpJ1FTP+BHpYZ8ugnJfNAMtxJqywyzQ3e88oONhocioNW4KfiFXU4gBTksv43EG5aP1XEf62AH6GHNaAki291ExmuTViaWuU94o=
+Received: from DBBPR09CA0035.eurprd09.prod.outlook.com (2603:10a6:10:d4::23)
+ by AS4PR08MB7757.eurprd08.prod.outlook.com (2603:10a6:20b:514::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Wed, 11 Jan
+ 2023 18:04:08 +0000
+Received: from DBAEUR03FT010.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:10:d4:cafe::50) by DBBPR09CA0035.outlook.office365.com
+ (2603:10a6:10:d4::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18 via Frontend
+ Transport; Wed, 11 Jan 2023 18:04:08 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DBAEUR03FT010.mail.protection.outlook.com (100.127.142.78) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6002.13 via Frontend Transport; Wed, 11 Jan 2023 18:04:08 +0000
+Received: ("Tessian outbound b1d3ffe56e73:v132"); Wed, 11 Jan 2023 18:04:08 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 0a5e76cd7ad30276
+X-CR-MTA-TID: 64aa7808
+Received: from c856ac8512eb.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 347D056C-4DF4-4239-BF02-AED92BBAD0A9.1;
+	Wed, 11 Jan 2023 18:04:02 +0000
+Received: from EUR02-VI1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id c856ac8512eb.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Wed, 11 Jan 2023 18:04:02 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cCb2VRhFegGUKB6yTPbfACk52wVoZ/+rCzZU1btOwVFR4OQ5I4flEBj8v5QYBTU8owln9+PXm78bFwrRoPQfktxdv4eE0moKcICDLSXY/nand9oFrU66dwUzSUyWuHg74g6J+cuLLNeE6Yq9c1GKoeBdn3CgYXOJysHSaQIrgKjWS2OK3AQpsIdo4uox1KL2IJo++Q9g7qVusAS7pLpg0+6CkEA56Wfm0t3jbkcs7F97GNYR64jEr/cAmpiAAr/n9635Y17u/ouC++AYfduViU9EV0tpB1574i3gtv0T9XDyyEl02amKjvkFiyMxr0b+41MbBl7gpqsHNvuhL3eKnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9TsQ4bVkTzOEWtz+5ZXhEt3XtbCi4WWgQ5Au3dlEhh4=;
+ b=OVSR9qkzWYZs8bbBFMVwSFuxuW573VbMoDcDlS5oCOpEMF/IxYW36WnrULEqrTVheVlYKQuwzuVbQtXC64yi+0vtadMnXM5FAWe43pH1tHIDlJZ0kK6gDhcDKlUPs6JwOmZcWqhMxl0R70kiDMdu3MupxPjJ3qvlYhy203+xQo30tRgWVbIjrhD88vaiTNucUix8VSfqOQ39qZk2LDy2TOqz3NXAwSSE+UYdhcyM6ajf9zyqOwqRZwAKJStyjyx6BlV8cgI+IED5FDXUrWlMik0uqT0wYkveeNb1A2dBmDK5BzE+u4fJWygVFbJoODAjaZbuyS8F5o2tALshAzyT9w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9TsQ4bVkTzOEWtz+5ZXhEt3XtbCi4WWgQ5Au3dlEhh4=;
+ b=YO8cSBt5gvexnMYJSB+hF3bv0PrzsNGTQHQjajys/cpzDM9g5atb8LyyVyIN8sZx+VmBlQRuKpJ1FTP+BHpYZ8ugnJfNAMtxJqywyzQ3e88oONhocioNW4KfiFXU4gBTksv43EG5aP1XEf62AH6GHNaAki291ExmuTViaWuU94o=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by PAXPR08MB7669.eurprd08.prod.outlook.com (2603:10a6:102:243::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Wed, 11 Jan
+ 2023 18:04:00 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::2d3c:c53c:86ba:a3b0]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::2d3c:c53c:86ba:a3b0%4]) with mapi id 15.20.5986.018; Wed, 11 Jan 2023
+ 18:04:00 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+CC: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] curl: don't enable debug builds
+Thread-Topic: [OE-core] [PATCH] curl: don't enable debug builds
+Thread-Index: AQHZJceK3uKpsOfgrE+i1RPX5p3CTq6ZS3UAgAA3GIA=
+Date: Wed, 11 Jan 2023 18:03:59 +0000
+Message-ID: <174900B3-819F-45D1-892F-1B43B0372B7B@arm.com>
+References: <20230111141753.1249071-1-ross.burton@arm.com>
+ <81eb17da-946c-2f81-4176-d4202b6357e0@theobroma-systems.com>
+In-Reply-To: <81eb17da-946c-2f81-4176-d4202b6357e0@theobroma-systems.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3731.300.101.1.3)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|PAXPR08MB7669:EE_|DBAEUR03FT010:EE_|AS4PR08MB7757:EE_
+X-MS-Office365-Filtering-Correlation-Id: ff5ad5b7-7db7-4733-29e7-08daf3fe3c36
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ D91aQS7X2ayyJDXVldcZ1VCZaMY8Oa3qWZft9afrL+/Nh1AEACDLcK94NmDzBE3KEbUI7hRUrSMINlXEz+FAtkAXrlR83i2NyfeVhBijz7NyhyY71kN1akjvQ5DHZ8XclAkGj1Oa4gI5xi54pY5+gvcJ69sz6cmbWfYY/HG8HXCWIJLwD+cfwmnZUc847jQCRfmVbG4FrTK1Ie4AvGA36XJSdZKWZ8vXHw26Fu1SU2Wfg5zxCMsy69TRKUnPqXkYcqW+U1dsiK66mvkhJ34z7WJpmJFE37FktDYbw1VXZcZJVEbYqFTCh2rlHm5CMUhQ9vS2/KKwVXYUO1cEi8ljeIEyDhn6fKaN6G9XyfyeuiPVNJHmto1TRamP1HxrTnM6OdaHZ8Oi8l60K1Ry10adWRgyXXZ7jY3obT9OS63xDsGBCkrB2re7SmsGk/HIaysZRx6joZiVJVaGkJKln/zPx/e6NquHnZpq8Pq3LjrI9UNYiOOXHLM38xQ/6e4Kzhq2grLjoGOh3l1wD4VeNaqPFcasW3eTksHoxPPcPsfOBTXttZTW8fvjvEYSD+yCkVWxx4NpPHWVMJWv9IPiJs8NvpBHgHyFiKx734zPo9yEzDaqm+/mYCqLZ3b0XGwISYwQHYVAZD7PLT9laod39K7nYxIPcJqas5a3pbmdCoy8UWLJzI/qbCjROV6PDgf0YbLSAIY+Q5nJ/FOIShPrhNPkQhCPQKwSuP+DbMNJNrlzAuQ=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(396003)(366004)(346002)(376002)(39860400002)(451199015)(38100700002)(122000001)(66446008)(86362001)(66476007)(64756008)(8676002)(38070700005)(4326008)(66556008)(41300700001)(66946007)(91956017)(6916009)(76116006)(33656002)(8936002)(316002)(2906002)(5660300002)(4744005)(6512007)(2616005)(83380400001)(6486002)(6506007)(186003)(53546011)(26005)(71200400001)(478600001)(36756003)(45980500001);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <08452A1C02E02C4A81A640BAFE4BE29B@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB7669
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DBAEUR03FT010.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	110c6adf-f595-40e2-ca90-08daf3fe3716
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	KVLAtOWZ4ip1kvXKfluUEqRuuEUew1dhKi85+m36wxJne0gmqKfwD+4PvMLAe36+IqQjGB3BrQLoRnuYOqdx0cdqtzyxKk60yOm00hoIovxkhXFRyiK3oqL5RMMLiOdhYfBMnUaHYnT299Hvt3FGUb3ujtARoUlSt1Tr5+58KIhfWKpl3SWyAt6CaF+K4hhCKLODiW19JkY2/YOOZi/lu00a+zZ2DPEt4zTt1+f2llt8GqdGaYo7S1QziPCZeH9R+D3PhfRLCKqBTKRWSUCaYKkq/tuw8LocMcK9aj1S9Zd5ky9f6Xw6HgXzxBcWJZkorZ7B9brg1OpTTPeQJdiM00cn8j0sZ6LoTx5JExuboCeuetDk3qeIVR2srKXlkSeYzdHwTbvl5+TpjUtsDcnWSWwTcCLAY1a6R+bt5frjOdiN11hpSC7ytOvtHWFz8JwGicLNMB/qaJegRiUQkJLKTAxnHmNg0z49PTRRk2gZO/gfmsEMldr/tjq2OfolPqtqeHeAj9Yl7l4WrTa8oh+cvmwf9c/EtWy/xn7PGp/j9mXNw6U83mBtncLSjvehueNRS9/jkO9ZXrQl3ql/FtpJu7YZakU9M467UwJeBbSKDPDsVCVzPSErlX8tN/GQqPG1ZiPzH8b4y+KGQXcpuFawpeo8JqJ4j85NfonDmXeaZYpibjQWAX+Z4t8rkxJ19cq4QAMAIOH6SO30zLIsbGJNyA==
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(376002)(396003)(136003)(346002)(451199015)(36840700001)(40470700004)(46966006)(36756003)(356005)(82740400003)(81166007)(4326008)(6862004)(8676002)(70206006)(5660300002)(8936002)(70586007)(83380400001)(33656002)(86362001)(36860700001)(6486002)(336012)(40460700003)(4744005)(2906002)(316002)(40480700001)(82310400005)(47076005)(478600001)(2616005)(41300700001)(53546011)(26005)(186003)(6506007)(6512007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2023 18:04:08.3771
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ff5ad5b7-7db7-4733-29e7-08daf3fe3c36
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DBAEUR03FT010.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR08MB7757
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Jan 2023 16:22:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175766
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Jan 2023 18:04:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175768
 
-From: Jose Quaresma <quaresma.jose@gmail.com>
+On 11 Jan 2023, at 14:46, Quentin Schulz <quentin.schulz@theobroma-systems.=
+com> wrote:
+> Should we have --disable-curldebug in the enable path here? I see you rem=
+ove it further down but it's not here.
 
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b57df3fe9c1623ba2f5a9a0e11a85dcdc77e76a5)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- ...005-bin-Fix-race-conditions-in-tests.patch | 300 ++++++++++++++++++
- .../gstreamer/gstreamer1.0_1.20.5.bb          |   1 +
- 2 files changed, 301 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-bin-Fix-race-conditions-in-tests.patch
+No need:
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-bin-Fix-race-conditions-in-tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-bin-Fix-race-conditions-in-tests.patch
-new file mode 100644
-index 0000000000..f1fac2df57
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-bin-Fix-race-conditions-in-tests.patch
-@@ -0,0 +1,300 @@
-+From e1e2d8d58c1e09e065849cdb1f6466c0537a7c51 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Tue, 21 Jun 2022 11:51:35 +0300
-+Subject: [PATCH] bin: Fix race conditions in tests
-+
-+The latency messages are non-deterministic and can arrive before/after
-+async-done or during state-changes as they are posted by e.g. sinks from
-+their streaming thread but bins are finishing asynchronous state changes
-+from a secondary helper thread.
-+
-+To solve this, expect latency messages at any time and assert that we
-+receive one at some point during the test.
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/2643>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/2643]
-+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-+---
-+ .../gstreamer/tests/check/gst/gstbin.c        | 132 ++++++++++++------
-+ 1 file changed, 92 insertions(+), 40 deletions(-)
-+
-+diff --git a/subprojects/gstreamer/tests/check/gst/gstbin.c b/subprojects/gstreamer/tests/check/gst/gstbin.c
-+index e366d5fe20f..88ff44db0c3 100644
-+--- a/subprojects/gstreamer/tests/check/gst/gstbin.c
-++++ b/subprojects/gstreamer/tests/check/gst/gstbin.c
-+@@ -27,50 +27,95 @@
-+ #include <gst/base/gstbasesrc.h>
-+ 
-+ static void
-+-pop_async_done (GstBus * bus)
-++pop_async_done (GstBus * bus, gboolean * had_latency)
-+ {
-+   GstMessage *message;
-++  GstMessageType types = GST_MESSAGE_ASYNC_DONE;
-++
-++  if (!*had_latency)
-++    types |= GST_MESSAGE_LATENCY;
-+ 
-+   GST_DEBUG ("popping async-done message");
-+-  message = gst_bus_poll (bus, GST_MESSAGE_ASYNC_DONE, -1);
-+ 
-+-  fail_unless (message && GST_MESSAGE_TYPE (message)
-+-      == GST_MESSAGE_ASYNC_DONE, "did not get GST_MESSAGE_ASYNC_DONE");
-++  do {
-++    message = gst_bus_poll (bus, types, -1);
-+ 
-+-  gst_message_unref (message);
-+-  GST_DEBUG ("popped message");
-++    fail_unless (message);
-++    GST_DEBUG ("popped message %s",
-++        gst_message_type_get_name (GST_MESSAGE_TYPE (message)));
-++
-++    if (GST_MESSAGE_TYPE (message) == GST_MESSAGE_LATENCY) {
-++      fail_unless (*had_latency == FALSE);
-++      *had_latency = TRUE;
-++      gst_clear_message (&message);
-++      types &= ~GST_MESSAGE_LATENCY;
-++      continue;
-++    }
-++
-++    fail_unless (GST_MESSAGE_TYPE (message)
-++        == GST_MESSAGE_ASYNC_DONE, "did not get GST_MESSAGE_ASYNC_DONE");
-++
-++    gst_clear_message (&message);
-++    break;
-++  } while (TRUE);
-+ }
-+ 
-+ static void
-+-pop_latency (GstBus * bus)
-++pop_latency (GstBus * bus, gboolean * had_latency)
-+ {
-+   GstMessage *message;
-+ 
-+-  GST_DEBUG ("popping async-done message");
-++  if (*had_latency)
-++    return;
-++
-++  GST_DEBUG ("popping latency message");
-+   message = gst_bus_poll (bus, GST_MESSAGE_LATENCY, -1);
-+ 
-+-  fail_unless (message && GST_MESSAGE_TYPE (message)
-++  fail_unless (message);
-++  fail_unless (GST_MESSAGE_TYPE (message)
-+       == GST_MESSAGE_LATENCY, "did not get GST_MESSAGE_LATENCY");
-+ 
-+-  gst_message_unref (message);
-+-  GST_DEBUG ("popped message");
-++  GST_DEBUG ("popped message %s",
-++      gst_message_type_get_name (GST_MESSAGE_TYPE (message)));
-++  gst_clear_message (&message);
-++
-++  *had_latency = TRUE;
-+ }
-+ 
-+ static void
-+-pop_state_changed (GstBus * bus, int count)
-++pop_state_changed (GstBus * bus, int count, gboolean * had_latency)
-+ {
-+   GstMessage *message;
-+-
-++  GstMessageType types = GST_MESSAGE_STATE_CHANGED;
-+   int i;
-+ 
-++  if (!*had_latency)
-++    types |= GST_MESSAGE_LATENCY;
-++
-+   GST_DEBUG ("popping %d messages", count);
-+   for (i = 0; i < count; ++i) {
-+-    message = gst_bus_poll (bus, GST_MESSAGE_STATE_CHANGED, -1);
-+-
-+-    fail_unless (message && GST_MESSAGE_TYPE (message)
-+-        == GST_MESSAGE_STATE_CHANGED, "did not get GST_MESSAGE_STATE_CHANGED");
-+-
-+-    gst_message_unref (message);
-++    do {
-++      message = gst_bus_poll (bus, types, -1);
-++
-++      fail_unless (message);
-++      GST_DEBUG ("popped message %s",
-++          gst_message_type_get_name (GST_MESSAGE_TYPE (message)));
-++
-++      if (GST_MESSAGE_TYPE (message) == GST_MESSAGE_LATENCY) {
-++        fail_unless (*had_latency == FALSE);
-++        *had_latency = TRUE;
-++        gst_clear_message (&message);
-++        types &= ~GST_MESSAGE_LATENCY;
-++        continue;
-++      }
-++
-++      fail_unless (GST_MESSAGE_TYPE (message)
-++          == GST_MESSAGE_STATE_CHANGED,
-++          "did not get GST_MESSAGE_STATE_CHANGED");
-++
-++      gst_message_unref (message);
-++      break;
-++    } while (TRUE);
-+   }
-+   GST_DEBUG ("popped %d messages", count);
-+ }
-+@@ -538,6 +583,7 @@ GST_START_TEST (test_message_state_changed_children)
-+   GstBus *bus;
-+   GstStateChangeReturn ret;
-+   GstState current, pending;
-++  gboolean had_latency = FALSE;
-+ 
-+   pipeline = GST_PIPELINE (gst_pipeline_new (NULL));
-+   fail_unless (pipeline != NULL, "Could not create pipeline");
-+@@ -576,7 +622,7 @@ GST_START_TEST (test_message_state_changed_children)
-+   ASSERT_OBJECT_REFCOUNT (sink, "sink", 2);
-+   ASSERT_OBJECT_REFCOUNT (pipeline, "pipeline", 2);
-+ 
-+-  pop_state_changed (bus, 3);
-++  pop_state_changed (bus, 3, &had_latency);
-+   fail_if (gst_bus_have_pending (bus), "unexpected pending messages");
-+ 
-+   ASSERT_OBJECT_REFCOUNT (bus, "bus", 2);
-+@@ -619,9 +665,9 @@ GST_START_TEST (test_message_state_changed_children)
-+    * its state_change message */
-+   ASSERT_OBJECT_REFCOUNT_BETWEEN (pipeline, "pipeline", 3, 4);
-+ 
-+-  pop_state_changed (bus, 3);
-+-  pop_async_done (bus);
-+-  pop_latency (bus);
-++  pop_state_changed (bus, 3, &had_latency);
-++  pop_async_done (bus, &had_latency);
-++  pop_latency (bus, &had_latency);
-+   fail_if ((gst_bus_pop (bus)) != NULL);
-+ 
-+   ASSERT_OBJECT_REFCOUNT_BETWEEN (bus, "bus", 2, 3);
-+@@ -648,7 +694,7 @@ GST_START_TEST (test_message_state_changed_children)
-+   ASSERT_OBJECT_REFCOUNT_BETWEEN (sink, "sink", 2, 4);
-+   ASSERT_OBJECT_REFCOUNT (pipeline, "pipeline", 3);
-+ 
-+-  pop_state_changed (bus, 3);
-++  pop_state_changed (bus, 3, &had_latency);
-+   fail_if ((gst_bus_pop (bus)) != NULL);
-+ 
-+   ASSERT_OBJECT_REFCOUNT (bus, "bus", 2);
-+@@ -669,7 +715,7 @@ GST_START_TEST (test_message_state_changed_children)
-+   ASSERT_OBJECT_REFCOUNT_BETWEEN (sink, "sink", 3, 4);
-+   ASSERT_OBJECT_REFCOUNT (pipeline, "pipeline", 3);
-+ 
-+-  pop_state_changed (bus, 6);
-++  pop_state_changed (bus, 6, &had_latency);
-+   fail_if ((gst_bus_pop (bus)) != NULL);
-+ 
-+   ASSERT_OBJECT_REFCOUNT (src, "src", 1);
-+@@ -696,6 +742,7 @@ GST_START_TEST (test_watch_for_state_change)
-+   GstElement *src, *sink, *bin;
-+   GstBus *bus;
-+   GstStateChangeReturn ret;
-++  gboolean had_latency = FALSE;
-+ 
-+   bin = gst_element_factory_make ("bin", NULL);
-+   fail_unless (bin != NULL, "Could not create bin");
-+@@ -722,9 +769,9 @@ GST_START_TEST (test_watch_for_state_change)
-+       GST_CLOCK_TIME_NONE);
-+   fail_unless (ret == GST_STATE_CHANGE_SUCCESS);
-+ 
-+-  pop_state_changed (bus, 6);
-+-  pop_async_done (bus);
-+-  pop_latency (bus);
-++  pop_state_changed (bus, 6, &had_latency);
-++  pop_async_done (bus, &had_latency);
-++  pop_latency (bus, &had_latency);
-+ 
-+   fail_unless (gst_bus_have_pending (bus) == FALSE,
-+       "Unexpected messages on bus");
-+@@ -732,16 +779,17 @@ GST_START_TEST (test_watch_for_state_change)
-+   ret = gst_element_set_state (GST_ELEMENT (bin), GST_STATE_PLAYING);
-+   fail_unless (ret == GST_STATE_CHANGE_SUCCESS);
-+ 
-+-  pop_state_changed (bus, 3);
-++  pop_state_changed (bus, 3, &had_latency);
-+ 
-++  had_latency = FALSE;
-+   /* this one might return either SUCCESS or ASYNC, likely SUCCESS */
-+   ret = gst_element_set_state (GST_ELEMENT (bin), GST_STATE_PAUSED);
-+   gst_element_get_state (GST_ELEMENT (bin), NULL, NULL, GST_CLOCK_TIME_NONE);
-+ 
-+-  pop_state_changed (bus, 3);
-++  pop_state_changed (bus, 3, &had_latency);
-+   if (ret == GST_STATE_CHANGE_ASYNC) {
-+-    pop_async_done (bus);
-+-    pop_latency (bus);
-++    pop_async_done (bus, &had_latency);
-++    pop_latency (bus, &had_latency);
-+   }
-+ 
-+   fail_unless (gst_bus_have_pending (bus) == FALSE,
-+@@ -898,6 +946,7 @@ GST_START_TEST (test_children_state_change_order_flagged_sink)
-+   GstStateChangeReturn ret;
-+   GstState current, pending;
-+   GstBus *bus;
-++  gboolean had_latency = FALSE;
-+ 
-+   pipeline = gst_pipeline_new (NULL);
-+   fail_unless (pipeline != NULL, "Could not create pipeline");
-+@@ -951,10 +1000,11 @@ GST_START_TEST (test_children_state_change_order_flagged_sink)
-+   ASSERT_STATE_CHANGE_MSG (bus, sink, GST_STATE_READY, GST_STATE_PAUSED, 107);
-+ #else
-+ 
-+-  pop_state_changed (bus, 2);   /* pop remaining ready => paused messages off the bus */
-++  pop_state_changed (bus, 2, &had_latency);     /* pop remaining ready => paused messages off the bus */
-+   ASSERT_STATE_CHANGE_MSG (bus, pipeline, GST_STATE_READY, GST_STATE_PAUSED,
-+       108);
-+-  pop_async_done (bus);
-++  pop_async_done (bus, &had_latency);
-++  pop_latency (bus, &had_latency);
-+ #endif
-+   /* PAUSED => PLAYING */
-+   GST_DEBUG ("popping PAUSED -> PLAYING messages");
-+@@ -972,8 +1022,8 @@ GST_START_TEST (test_children_state_change_order_flagged_sink)
-+   fail_if (ret != GST_STATE_CHANGE_SUCCESS, "State change to READY failed");
-+ 
-+   /* TODO: do we need to check downwards state change order as well? */
-+-  pop_state_changed (bus, 4);   /* pop playing => paused messages off the bus */
-+-  pop_state_changed (bus, 4);   /* pop paused => ready messages off the bus */
-++  pop_state_changed (bus, 4, &had_latency);     /* pop playing => paused messages off the bus */
-++  pop_state_changed (bus, 4, &had_latency);     /* pop paused => ready messages off the bus */
-+ 
-+   while (GST_OBJECT_REFCOUNT_VALUE (pipeline) > 1)
-+     THREAD_SWITCH ();
-+@@ -1002,6 +1052,7 @@ GST_START_TEST (test_children_state_change_order_semi_sink)
-+   GstStateChangeReturn ret;
-+   GstState current, pending;
-+   GstBus *bus;
-++  gboolean had_latency = FALSE;
-+ 
-+   /* (2) Now again, but check other code path where we don't have
-+    *     a proper sink correctly flagged as such, but a 'semi-sink' */
-+@@ -1056,10 +1107,11 @@ GST_START_TEST (test_children_state_change_order_semi_sink)
-+   ASSERT_STATE_CHANGE_MSG (bus, src, GST_STATE_READY, GST_STATE_PAUSED, 206);
-+   ASSERT_STATE_CHANGE_MSG (bus, sink, GST_STATE_READY, GST_STATE_PAUSED, 207);
-+ #else
-+-  pop_state_changed (bus, 2);   /* pop remaining ready => paused messages off the bus */
-++  pop_state_changed (bus, 2, &had_latency);     /* pop remaining ready => paused messages off the bus */
-+   ASSERT_STATE_CHANGE_MSG (bus, pipeline, GST_STATE_READY, GST_STATE_PAUSED,
-+       208);
-+-  pop_async_done (bus);
-++  pop_async_done (bus, &had_latency);
-++  pop_latency (bus, &had_latency);
-+ 
-+   /* PAUSED => PLAYING */
-+   GST_DEBUG ("popping PAUSED -> PLAYING messages");
-+@@ -1076,8 +1128,8 @@ GST_START_TEST (test_children_state_change_order_semi_sink)
-+   fail_if (ret != GST_STATE_CHANGE_SUCCESS, "State change to READY failed");
-+ 
-+   /* TODO: do we need to check downwards state change order as well? */
-+-  pop_state_changed (bus, 4);   /* pop playing => paused messages off the bus */
-+-  pop_state_changed (bus, 4);   /* pop paused => ready messages off the bus */
-++  pop_state_changed (bus, 4, &had_latency);     /* pop playing => paused messages off the bus */
-++  pop_state_changed (bus, 4, &had_latency);     /* pop paused => ready messages off the bus */
-+ 
-+   GST_DEBUG ("waiting for pipeline to reach refcount 1");
-+   while (GST_OBJECT_REFCOUNT_VALUE (pipeline) > 1)
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.5.bb
-index 5a96764780..ce9c1c116f 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.5.bb
-@@ -21,6 +21,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
-            file://0002-tests-add-support-for-install-the-tests.patch;striplevel=3 \
-            file://0003-tests-use-a-dictionaries-for-environment.patch;striplevel=3 \
-            file://0004-tests-add-helper-script-to-run-the-installed_tests.patch;striplevel=3 \
-+           file://0005-bin-Fix-race-conditions-in-tests.patch;striplevel=3 \
-            "
- SRC_URI[sha256sum] = "5a19083faaf361d21fc391124f78ba6d609be55845a82fa8f658230e5fa03dff"
- 
--- 
-2.25.1
+    default)
+      dnl configure's curldebug option not specified. Initially we will
+      dnl handle this as a request to use the same setting as option
+      dnl --enable-debug. IOW, initially, for debug-enabled builds
+      dnl this will be handled as a request to enable curldebug if
+      dnl possible, and for debug-disabled builds this will be handled
+      dnl as a request to disable curldebug.
 
+Ross=
 
