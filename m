@@ -2,168 +2,126 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE349C54EBC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9058C5479D
 	for <webhook@archiver.kernel.org>; Wed, 11 Jan 2023 14:35:00 +0000 (UTC)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web11.25217.1673447695666956102
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web11.25216.1673447691305246476
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Jan 2023 06:34:57 -0800
+ Wed, 11 Jan 2023 06:34:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=m3sZjveu;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.180, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f180.google.com with SMTP id f3so10656938pgc.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Jan 2023 06:34:57 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=YwgUcHeh;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f180.google.com with SMTP id 200so5373056pfx.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Jan 2023 06:34:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MxgZTgRaSAEmTMrT/iiYlM8Eb0B63+ebDmavKd5pLGY=;
-        b=m3sZjveuFUBMFdbgi3vqilJ+KunKJU/aTuVidzga87bralqeAi9EnecSXnPAWOmzJP
-         6Sxn93fy+TbxY2aBwGdrPYusGRBrRU58gY4rBsKxYnqBSpTfXdCBxgFFlp02YxIrZVRn
-         H2gTGMXSLM37iXk062sRMFrtACY6cw1w+CLuRRpze2NpthoMjq19hnvJ5HVv312IBw6k
-         OEZEqXbNGm+N2c+b2zhNjQejFn4F28M4e008mtEm/RNRoOSTFXf3EluwwXffPOSdihlR
-         sb7eb26XVGlCXOpFEwOML6geXoncAsqdWZgdm5ejjddLq6fHRd4CxBTCDfAv+0MmXld9
-         cCKQ==
+        bh=mX1H2uMdo39097YTW9nt9z2JNKEtp4KV8FMoLhng3HY=;
+        b=YwgUcHeh8jjmmcUGuW6WOSKBjSQs3t5Yk6FOrWW8NrWYVzCw/VzCorEOSeXv82TBXc
+         plXo7BvxFmtf5YCzb0Rbx2fclyS1xi/rDpZAQ9o+H6wjksmchs+iF1rP9PpIaJbvyQDz
+         SYOubSz/Nn2iXon5n99laZqCGFNprfj9ish71WLNFcOCVTmg6p3zv+LFJIK6E8Fri56g
+         8ItqNzYgDnphEtF47eA3Q47Qqqeu90BDb5PvkZcVlsSic5gh2Exz5iGoUzSmFtQC06pj
+         44dl+wNLJFhcTYJTSDkcyxKxMV3q4iY/G3Nd/dtvUVDuX9SMLUAWfsz+AoURPymCX0rW
+         8VYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MxgZTgRaSAEmTMrT/iiYlM8Eb0B63+ebDmavKd5pLGY=;
-        b=sfrDSwbDL/2otDjnL/nxJfDytvrA3+rk1RfovWdRmSx8FAp/wDcQAgAoqYDNxrKgCM
-         TCr9UkPj+vrMhowLnDpJZRgKJwaTgumQFfsvwGqxbjVAULFntm9IFQBw8cGX+V3rTYvq
-         WmitlA9dsxJawG3UK20WhylXZWuO3qAoOinlYdLeHS0LCna8qgShqjSz5D3dmvpcEPCV
-         Ln45ZwcSRk5KhXtpgB96zoRnvnMGw+liX3AjyHJJLgCMkufNS68cNcViVdhDr133IEb0
-         E7llG5SYM244TbVdw6EHOEzw1WtM3y5vjvgZpXzrhCO3r7eEebBvm0C8FY8Zd32AcelG
-         o9Sw==
-X-Gm-Message-State: AFqh2ko0pedbJ9jYgUZpRwY7XoAowhmN26gnOTFDKj9x+qgXOwXIan1z
-	01C1u1AowANQkrUEbLIsiVgaO0OvbhOyqsrUgtM=
-X-Google-Smtp-Source: AMrXdXvoxLWPd/8Zj70ruuaztK3vH6vqujHABnZGfj7OWqv+YRkvsaDyxosH9D+lD0koZo0JqoTUbQ==
-X-Received: by 2002:a62:3883:0:b0:580:b942:e85 with SMTP id f125-20020a623883000000b00580b9420e85mr61325454pfa.16.1673447696541;
-        Wed, 11 Jan 2023 06:34:56 -0800 (PST)
+        bh=mX1H2uMdo39097YTW9nt9z2JNKEtp4KV8FMoLhng3HY=;
+        b=T7cclMGhxikHlNoY5UF3156dbBhFLSm+jJCJwX2cd/tVxswwJLHOQodF63zZGOZoSA
+         lgFlzCipvqv4EnzxN8EfHb61b+MJLBIkiH+ISkswKEoUsr7EAyJCWA3+Vo0J5CpGrO1I
+         GOzMh5B2u/N3wvy70LTei808tPM1i1AdpF1CnNXt+tpBiz8x2woUE/cGWp2QjRB40KbO
+         2b1V3jmB+a0Cd3TUo+6XPyzDLZfwyLtASvGzaq/2DRB5grqrZW9TctedUlj5vizxI3Bw
+         Dv0bOZPFOxj8oTfTRmgWda/EHYUf170eL3nMAe0Y/ddvFI3ZGN0z7E6teuaxI7ECQWrE
+         zHrA==
+X-Gm-Message-State: AFqh2kpCYM0WSR1/gIilWTb9mMTCbi8j+c8z7AlG7naxo0Ydzi4ZBfb8
+	tE+XMfD/qfw+xIaEp67FmSLDs566oIt6sEYQ4UE=
+X-Google-Smtp-Source: AMrXdXtW6WSAsHY2urtubBpqEUYNmWPjOPrv7o5+NuFq+49JI+gkGPBtsLqFm9NfcR8xq7hGyg+rdw==
+X-Received: by 2002:aa7:8a41:0:b0:585:fc75:c544 with SMTP id n1-20020aa78a41000000b00585fc75c544mr2679550pfa.15.1673447690310;
+        Wed, 11 Jan 2023 06:34:50 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-5-74.hawaiiantel.net. [72.253.5.74])
-        by smtp.gmail.com with ESMTPSA id y29-20020aa793dd000000b0056c2e497b02sm10381288pff.173.2023.01.11.06.34.55
+        by smtp.gmail.com with ESMTPSA id y29-20020aa793dd000000b0056c2e497b02sm10381288pff.173.2023.01.11.06.34.49
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Jan 2023 06:34:56 -0800 (PST)
+        Wed, 11 Jan 2023 06:34:49 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 8/8] ovmf: fix gcc12 warning for device path handling
-Date: Wed, 11 Jan 2023 04:34:30 -1000
-Message-Id: <a33abd759e2e9f41e056f87024de3b333e9b948b.1673447528.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 5/8] oeqa/rpm.py: Increase timeout and add debug output
+Date: Wed, 11 Jan 2023 04:34:27 -1000
+Message-Id: <e4d2351a2b5aa0c4d900abc5d75ab5da9b5e1f8a.1673447528.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1673447528.git.steve@sakoman.com>
 References: <cover.1673447528.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 11 Jan 2023 14:35:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175749
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175746
 
-Backport [https://github.com/tianocore/edk2/commit/22130dcd98b4d4b76ac8d922=
-adb4a2dbc86fa52c]
+From: Pavel Zhukov <pavel@zhukoff.net>
 
-Fixes:
+[Yocto #14346]
+Systemd may be slow in killing pam session sometimes [1][2]. It may cause rpm
+test to fail because there's process (sd_pam) running and own by "test1" user
+after timeout.
+Increasing timeout to 2 mins and assert earlier with debug output if
+there's such process(es). If increasing of timeout doesn't help we may
+want to force deletion of the user as [2] suggests.
 
-In function ?SetDevicePathEndNode?,
-    inlined from ?FileDevicePath? at DevicePathUtilities.c:857:5:
-DevicePathUtilities.c:321:3: error: writing 4 bytes into a region of size 1=
- [-Werror=3Dstringop-overflow=3D]
-  321 |   memcpy (Node, &mUefiDevicePathLibEndDevicePath, sizeof (mUefiDevi=
-cePathLibEndDevicePath));
-      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~
-In file included from UefiDevicePathLib.h:22,
-                 from DevicePathUtilities.c:16:
-../Include/Protocol/DevicePath.h: In function ?FileDevicePath?:
-../Include/Protocol/DevicePath.h:51:9: note: destination object ?Type? of s=
-ize 1
-   51 |   UINT8 Type;       ///< 0x01 Hardware Device Path.
-      |         ^~~~
+[1] https://github.com/systemd/systemd/issues/8598
+[2] https://access.redhat.com/solutions/6969188
 
+Signed-off-by: Pavel Zhukov <pavel@zhukoff.net>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 972fcc0ed1e0d36c3470071a9c667c5327c1ef78)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...001-Basetools-turn-off-gcc12-warning.patch | 41 +++++++++++++++++++
- meta/recipes-core/ovmf/ovmf_git.bb            |  1 +
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-core/ovmf/ovmf/0001-Basetools-turn-off-gcc=
-12-warning.patch
+ meta/lib/oeqa/runtime/cases/rpm.py | 23 +++++++++++------------
+ 1 file changed, 11 insertions(+), 12 deletions(-)
 
-diff --git a/meta/recipes-core/ovmf/ovmf/0001-Basetools-turn-off-gcc12-warn=
-ing.patch b/meta/recipes-core/ovmf/ovmf/0001-Basetools-turn-off-gcc12-warni=
-ng.patch
-new file mode 100644
-index 0000000000..73a432684c
---- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/0001-Basetools-turn-off-gcc12-warning.pat=
-ch
-@@ -0,0 +1,41 @@
-+From 22130dcd98b4d4b76ac8d922adb4a2dbc86fa52c Mon Sep 17 00:00:00 2001
-+From: Gerd Hoffmann <kraxel@redhat.com>
-+Date: Thu, 24 Mar 2022 20:04:36 +0800
-+Subject: [PATCH] Basetools: turn off gcc12 warning
-+
-+In function ?SetDevicePathEndNode?,
-+    inlined from ?FileDevicePath? at DevicePathUtilities.c:857:5:
-+DevicePathUtilities.c:321:3: error: writing 4 bytes into a region of size =
-1 [-Werror=3Dstringop-overflow=3D]
-+  321 |   memcpy (Node, &mUefiDevicePathLibEndDevicePath, sizeof (mUefiDev=
-icePathLibEndDevicePath));
-+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~
-+In file included from UefiDevicePathLib.h:22,
-+                 from DevicePathUtilities.c:16:
-+../Include/Protocol/DevicePath.h: In function ?FileDevicePath?:
-+../Include/Protocol/DevicePath.h:51:9: note: destination object ?Type? of =
-size 1
-+   51 |   UINT8 Type;       ///< 0x01 Hardware Device Path.
-+      |         ^~~~
-+
-+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-+Reviewed-by: Bob Feng <bob.c.feng@intel.com>
-+
-+Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/22130d=
-cd98b4d4b76ac8d922adb4a2dbc86fa52c]
-+Signed-off-by: Steve Sakoman <steve@sakoman.com>
-+
-+---
-+ BaseTools/Source/C/DevicePath/GNUmakefile | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/BaseTools/Source/C/DevicePath/GNUmakefile b/BaseTools/Source/=
-C/DevicePath/GNUmakefile
-+index 7ca08af9662d..b05d2bddfa68 100644
-+--- a/BaseTools/Source/C/DevicePath/GNUmakefile
-++++ b/BaseTools/Source/C/DevicePath/GNUmakefile
-+@@ -13,6 +13,9 @@ OBJECTS =3D DevicePath.o UefiDevicePathLib.o DevicePathF=
-romText.o  DevicePathUtili
-+ =0D
-+ include $(MAKEROOT)/Makefiles/app.makefile=0D
-+ =0D
-++# gcc 12 trips over device path handling=0D
-++BUILD_CFLAGS +=3D -Wno-error=3Dstringop-overflow=0D
-++=0D
-+ LIBS =3D -lCommon=0D
-+ ifeq ($(CYGWIN), CYGWIN)=0D
-+   LIBS +=3D -L/lib/e2fsprogs -luuid=0D
-diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ov=
-mf_git.bb
-index ddadbac4b7..a487f77e3c 100644
---- a/meta/recipes-core/ovmf/ovmf_git.bb
-+++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -20,6 +20,7 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
-=3Dmaster;protocol=3Dhttps \
-            file://0001-Fix-VLA-parameter-warning.patch \
-            file://0001-Basetools-genffs-fix-gcc12-warning.patch \
-            file://0001-Basetools-lzmaenc-fix-gcc12-warning.patch \
-+           file://0001-Basetools-turn-off-gcc12-warning.patch \
-            "
-=20
- PV =3D "edk2-stable202008"
---=20
+diff --git a/meta/lib/oeqa/runtime/cases/rpm.py b/meta/lib/oeqa/runtime/cases/rpm.py
+index 7a9d62c003..2b6cfe5ff2 100644
+--- a/meta/lib/oeqa/runtime/cases/rpm.py
++++ b/meta/lib/oeqa/runtime/cases/rpm.py
+@@ -49,21 +49,20 @@ class RpmBasicTest(OERuntimeTestCase):
+             msg = 'status: %s. Cannot run rpm -qa: %s' % (status, output)
+             self.assertEqual(status, 0, msg=msg)
+ 
+-        def check_no_process_for_user(u):
+-            _, output = self.target.run(self.tc.target_cmds['ps'])
+-            if u + ' ' in output:
+-                return False
+-            else:
+-                return True
++        def wait_for_no_process_for_user(u, timeout = 120):
++            timeout_at = time.time() + timeout
++            while time.time() < timeout_at:
++                _, output = self.target.run(self.tc.target_cmds['ps'])
++                if u + ' ' not in output:
++                    return
++                time.sleep(1)
++            user_pss = [ps for ps in output.split("\n") if u + ' ' in ps]
++            msg = "There're %s 's process(es) still running: %s".format(u, "\n".join(user_pss))
++            assertTrue(True, msg=msg)
+ 
+         def unset_up_test_user(u):
+             # ensure no test1 process in running
+-            timeout = time.time() + 30
+-            while time.time() < timeout:
+-                if check_no_process_for_user(u):
+-                    break
+-                else:
+-                    time.sleep(1)
++            wait_for_no_process_for_user(u)
+             status, output = self.target.run('userdel -r %s' % u)
+             msg = 'Failed to erase user: %s' % output
+             self.assertTrue(status == 0, msg=msg)
+-- 
 2.25.1
 
 
