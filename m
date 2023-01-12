@@ -1,136 +1,264 @@
-Return-Path: <narpat.mali@windriver.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB7C0C54EBD
-	for <webhook@archiver.kernel.org>; Thu, 12 Jan 2023 14:56:08 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.56935.1673535361933872351
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D5F5C54EBD
+	for <webhook@archiver.kernel.org>; Thu, 12 Jan 2023 14:57:58 +0000 (UTC)
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web11.57313.1673535471572569478
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Jan 2023 06:56:02 -0800
+ Thu, 12 Jan 2023 06:57:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=rzIm6a2/;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=03766437ad=narpat.mali@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30CCmNTS016293
-	for <openembedded-core@lists.openembedded.org>; Thu, 12 Jan 2023 06:56:01 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=PPS06212021;
- bh=9IxNq1J0uLc4z5CIpzupzPAp2HtRZswXJvtLTqfvw3s=;
- b=rzIm6a2/gNj7Ci9nScjwR3bwB/WFRu21QtmGDbaZt3+lePS8EYdoaGrzS1iLc74zGBaP
- YkB5brHOAHNY02LDmWPhnt/ulc/lQaAQ7zwa1j5M4sHLaaF5fKO146jkslz8q2aPu5so
- rpOTkn2hOuTYnfsaRkt5/Ar2JnebZGi1RRJ2LHMI0gnK0APdLRtIEXm8YrJnhEGKlY7x
- 39BBh0Xs071EtJAJDJnPvL/zYk8INRxp8mcxhbrea0Mm1VdaJ1pFvHzNDJSXecwAAcWe
- uWYpkjWbK3bE1kuwAoWSloE3dLnJK01nvFsccu02NnCMkJodR7hYm+k+dSlVfMUWwTLP Qg== 
-Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3n1k5the5w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 12 Jan 2023 06:56:01 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 12 Jan 2023 06:56:00 -0800
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.16 via Frontend Transport; Thu, 12 Jan 2023 06:55:59 -0800
-From: Narpat Mali <narpat.mali@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <archana.polampalli@windriver.com>, <hari.gpillai@windriver.com>,
-        "Narpat
- Mali" <narpat.mali@windriver.com>
-Subject: [OE-core][kirkstone][PATCH 1/1] python3-wheel: fix for CVE-2022-40898
-Date: Thu, 12 Jan 2023 14:55:32 +0000
-Message-ID: <20230112145532.3686926-1-narpat.mali@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=X/9XFUHA;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1673535472;
+  x=1705071472;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=PBdoUIejfS8H6cUkt7cosbPORappqXosOPzdc8vS9lY=;
+  b=X/9XFUHAJ2UK8/NKCZhrUcFoMxqsw0k8o/tWPt6zrk2v4wwfDnHG8BCK
+   PUh+3z+Wb+8kGwAWJvnUJH+F9fvI0f3rD7bbbBxeKpKPnCRYpGfP5VBjh
+   a75gMM/9wStwSLRQ1Z8/8cSDBe1NIgQ+ptsomLIuJZn1/w2hc6XdVieeL
+   ocMmOuHAodNyfNoR0TOD5EgtCJ0Ul9TtrCEP/9aBvttO0aNGEd9AcLewk
+   x9TFtnuO22LN4lgkJg/lrFDGa1jgpvGMtEFFSHIDDOZqNQ6aptPJRc0J0
+   iuTnOEpNss7JMWFkIDgP9Qly2C+CpKE8djlJ3CbPMq5NXS2octEEPY3g3
+   w==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH] recipes, classes: Avoid adding extra whitespace
+ to PACKAGESPLITFUNCS
+Thread-Topic: [OE-core] [PATCH] recipes, classes: Avoid adding extra
+ whitespace to PACKAGESPLITFUNCS
+Thread-Index: AQHZIUmGZUKePJ0fgk22qoPosK0cOq6a6dGQ
+Date: Thu, 12 Jan 2023 14:57:48 +0000
+Message-ID: <5cbe7b87dc2345daad1cc4cdd5bcece8@axis.com>
+References: <173785AB93CB2417.1583@lists.openembedded.org>
+In-Reply-To: <173785AB93CB2417.1583@lists.openembedded.org>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: eU73LUbUuNTqKAvHiRRGJh93ayWZcr6o
-X-Proofpoint-ORIG-GUID: eU73LUbUuNTqKAvHiRRGJh93ayWZcr6o
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2023-01-12_08,2023-01-12_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- malwarescore=0 mlxscore=0 clxscore=1015 adultscore=0 priorityscore=1501
- lowpriorityscore=0 spamscore=0 bulkscore=0 mlxlogscore=999 phishscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301120109
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Jan 2023 14:56:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175797
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Jan 2023 14:57:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175798
 
-An issue discovered in Python Packaging Authority (PyPA) Wheel 0.37.1
-and earlier allows remote attackers to cause a denial of service via
-attacker controlled input to wheel cli.
+*ping*
 
-CVE: CVE-2022-40898
+//Peter
 
-Upstream-Status: Backport [https://github.com/pypa/wheel/commit/88f02bc335d5404991e532e7f3b0fc80437bf4e0]
-
-Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
----
- ...tential-DoS-attack-via-WHEEL_INFO_RE.patch | 32 +++++++++++++++++++
- .../python/python3-wheel_0.37.1.bb            |  4 ++-
- 2 files changed, 35 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/python/python3-wheel/0001-Fixed-potential-DoS-attack-via-WHEEL_INFO_RE.patch
-
-diff --git a/meta/recipes-devtools/python/python3-wheel/0001-Fixed-potential-DoS-attack-via-WHEEL_INFO_RE.patch b/meta/recipes-devtools/python/python3-wheel/0001-Fixed-potential-DoS-attack-via-WHEEL_INFO_RE.patch
-new file mode 100644
-index 0000000000..bdaae7dd10
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-wheel/0001-Fixed-potential-DoS-attack-via-WHEEL_INFO_RE.patch
-@@ -0,0 +1,32 @@
-+From a9a0d67a663f20b69903751c23851dd4cd6b49d4 Mon Sep 17 00:00:00 2001
-+From: Narpat Mali <narpat.mali@windriver.com>
-+Date: Wed, 11 Jan 2023 07:45:57 +0000
-+Subject: [PATCH] Fixed potential DoS attack via WHEEL_INFO_RE
-+
-+CVE: CVE-2022-40898
-+
-+Upstream-Status: Backport [https://github.com/pypa/wheel/commit/88f02bc335d5404991e532e7f3b0fc80437bf4e0]
-+
-+Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
-+---
-+ src/wheel/wheelfile.py | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/wheel/wheelfile.py b/src/wheel/wheelfile.py
-+index 21e7361..ff06edf 100644
-+--- a/src/wheel/wheelfile.py
-++++ b/src/wheel/wheelfile.py
-+@@ -27,8 +27,8 @@ else:
-+ # Non-greedy matching of an optional build number may be too clever (more
-+ # invalid wheel filenames will match). Separate regex for .dist-info?
-+ WHEEL_INFO_RE = re.compile(
-+-    r"""^(?P<namever>(?P<name>.+?)-(?P<ver>.+?))(-(?P<build>\d[^-]*))?
-+-     -(?P<pyver>.+?)-(?P<abi>.+?)-(?P<plat>.+?)\.whl$""",
-++    r"""^(?P<namever>(?P<name>[^-]+?)-(?P<ver>[^-]+?))(-(?P<build>\d[^-]*))?
-++     -(?P<pyver>[^-]+?)-(?P<abi>[^-]+?)-(?P<plat>[^.]+?)\.whl$""",
-+     re.VERBOSE)
-+ 
-+ 
-+-- 
-+2.32.0
-+
-diff --git a/meta/recipes-devtools/python/python3-wheel_0.37.1.bb b/meta/recipes-devtools/python/python3-wheel_0.37.1.bb
-index 2f7dd122ba..3ee03ddd36 100644
---- a/meta/recipes-devtools/python/python3-wheel_0.37.1.bb
-+++ b/meta/recipes-devtools/python/python3-wheel_0.37.1.bb
-@@ -8,7 +8,9 @@ SRC_URI[sha256sum] = "e9a504e793efbca1b8e0e9cb979a249cf4a0a7b5b8c9e8b65a5e39d495
- 
- inherit python_flit_core pypi
- 
--SRC_URI += " file://0001-Backport-pyproject.toml-from-flit-backend-branch.patch"
-+SRC_URI += "file://0001-Backport-pyproject.toml-from-flit-backend-branch.patch \
-+            file://0001-Fixed-potential-DoS-attack-via-WHEEL_INFO_RE.patch \
-+           "
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--- 
-2.34.1
-
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-
+> core@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
+> Sent: den 5 januari 2023 22:06
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH] recipes, classes: Avoid adding extra whitespac=
+e
+> to PACKAGESPLITFUNCS
+>=20
+> This is a follow-up to commit 846ff49465 to remove the extra whitespace
+> that is no longer needed after converting :append and :prepend to +=3D an=
+d
+> =3D+.
+>=20
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> ---
+>  meta/classes-recipe/kernel-module-split.bbclass               | 2 +-
+>  meta/classes-recipe/kernel.bbclass                            | 2 +-
+>  meta/classes-recipe/systemd.bbclass                           | 2 +-
+>  meta/classes-recipe/update-alternatives.bbclass               | 2 +-
+>  meta/classes-recipe/update-rc.d.bbclass                       | 4 ++--
+>  .../wpa-supplicant/wpa-supplicant_2.10.bb                     | 2 +-
+>  meta/recipes-devtools/perl/perl_5.36.0.bb                     | 2 +-
+>  meta/recipes-graphics/mesa/mesa.inc                           | 2 +-
+>  .../gstreamer/gstreamer1.0-plugins-license.inc                | 2 +-
+>  .../gstreamer/gstreamer1.0-plugins-packaging.inc              | 4 ++--
+>  meta/recipes-support/libevent/libevent_2.1.12.bb              | 2 +-
+>  11 files changed, 13 insertions(+), 13 deletions(-)
+>=20
+> diff --git a/meta/classes-recipe/kernel-module-split.bbclass
+> b/meta/classes-recipe/kernel-module-split.bbclass
+> index 4943717487..50882c31a7 100644
+> --- a/meta/classes-recipe/kernel-module-split.bbclass
+> +++ b/meta/classes-recipe/kernel-module-split.bbclass
+> @@ -35,7 +35,7 @@ do_install:append() {
+>  }
+>=20
+>  KERNEL_SPLIT_MODULES ?=3D "1"
+> -PACKAGESPLITFUNCS =3D+ "split_kernel_module_packages "
+> +PACKAGESPLITFUNCS =3D+ "split_kernel_module_packages"
+>=20
+>  KERNEL_MODULES_META_PACKAGE ?=3D "${@ d.getVar("KERNEL_PACKAGE_NAME") or
+> "kernel" }-modules"
+>=20
+> diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-
+> recipe/kernel.bbclass
+> index c36632b0a7..bd3b6471c6 100644
+> --- a/meta/classes-recipe/kernel.bbclass
+> +++ b/meta/classes-recipe/kernel.bbclass
+> @@ -705,7 +705,7 @@ pkg_postinst:${KERNEL_PACKAGE_NAME}-base () {
+>  	fi
+>  }
+>=20
+> -PACKAGESPLITFUNCS =3D+ "split_kernel_packages "
+> +PACKAGESPLITFUNCS =3D+ "split_kernel_packages"
+>=20
+>  python split_kernel_packages () {
+>      do_split_packages(d, root=3D'${nonarch_base_libdir}/firmware',
+> file_regex=3Dr'^(.*)\.(bin|fw|cis|csp|dsp)$',
+> output_pattern=3D'${KERNEL_PACKAGE_NAME}-firmware-%s', description=3D'Fir=
+mware
+> for %s', recursive=3DTrue, extra_depends=3D'')
+> diff --git a/meta/classes-recipe/systemd.bbclass b/meta/classes-
+> recipe/systemd.bbclass
+> index ae98043d29..f9c92e6c2a 100644
+> --- a/meta/classes-recipe/systemd.bbclass
+> +++ b/meta/classes-recipe/systemd.bbclass
+> @@ -205,7 +205,7 @@ python systemd_populate_packages() {
+>          systemd_check_services()
+>  }
+>=20
+> -PACKAGESPLITFUNCS =3D+ "systemd_populate_packages "
+> +PACKAGESPLITFUNCS =3D+ "systemd_populate_packages"
+>=20
+>  python rm_systemd_unitdir (){
+>      import shutil
+> diff --git a/meta/classes-recipe/update-alternatives.bbclass
+> b/meta/classes-recipe/update-alternatives.bbclass
+> index ec81763c89..55e0b954d6 100644
+> --- a/meta/classes-recipe/update-alternatives.bbclass
+> +++ b/meta/classes-recipe/update-alternatives.bbclass
+> @@ -265,7 +265,7 @@ def update_alternatives_alt_targets(d, pkg):
+>=20
+>      return updates
+>=20
+> -PACKAGESPLITFUNCS =3D+ "populate_packages_updatealternatives "
+> +PACKAGESPLITFUNCS =3D+ "populate_packages_updatealternatives"
+>=20
+>  python populate_packages_updatealternatives () {
+>      if not update_alternatives_enabled(d):
+> diff --git a/meta/classes-recipe/update-rc.d.bbclass b/meta/classes-
+> recipe/update-rc.d.bbclass
+> index a61d2c62ab..a19e704741 100644
+> --- a/meta/classes-recipe/update-rc.d.bbclass
+> +++ b/meta/classes-recipe/update-rc.d.bbclass
+> @@ -68,8 +68,8 @@ python __anonymous() {
+>      update_rc_after_parse(d)
+>  }
+>=20
+> -PACKAGESPLITFUNCS =3D+ "${@bb.utils.contains('DISTRO_FEATURES', 'sysvini=
+t',
+> 'populate_packages_updatercd ', '', d)}"
+> -PACKAGESPLITFUNCS:remove:class-nativesdk =3D "populate_packages_updaterc=
+d "
+> +PACKAGESPLITFUNCS =3D+ "${@bb.utils.contains('DISTRO_FEATURES', 'sysvini=
+t',
+> 'populate_packages_updatercd', '', d)}"
+> +PACKAGESPLITFUNCS:remove:class-nativesdk =3D "populate_packages_updaterc=
+d"
+>=20
+>  populate_packages_updatercd[vardeps] +=3D "updatercd_prerm updatercd_pos=
+trm
+> updatercd_postinst"
+>  populate_packages_updatercd[vardepsexclude] +=3D "OVERRIDES"
+> diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-
+> supplicant_2.10.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-
+> supplicant_2.10.bb
+> index 254cfd3f0c..46604045da 100644
+> --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
+> +++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
+> @@ -134,4 +134,4 @@ python split_wpa_supplicant_libs () {
+>          d.setVar('RRECOMMENDS:' + pn + '-plugins', '
+> '.join(split_packages))
+>          d.appendVar('RRECOMMENDS:' + pn + '-dbg', ' ' + '
+> '.join(split_dbg_packages))
+>  }
+> -PACKAGESPLITFUNCS +=3D "split_wpa_supplicant_libs "
+> +PACKAGESPLITFUNCS +=3D "split_wpa_supplicant_libs"
+> diff --git a/meta/recipes-devtools/perl/perl_5.36.0.bb b/meta/recipes-
+> devtools/perl/perl_5.36.0.bb
+> index 3458e6a5b0..4d8a919d1e 100644
+> --- a/meta/recipes-devtools/perl/perl_5.36.0.bb
+> +++ b/meta/recipes-devtools/perl/perl_5.36.0.bb
+> @@ -302,7 +302,7 @@ ALTERNATIVE_LINK_NAME[Thread.3] =3D
+> "${mandir}/man3/Thread.3"
+>  ALLOW_EMPTY:${PN}-modules =3D "1"
+>  PACKAGES +=3D "${PN}-modules "
+>=20
+> -PACKAGESPLITFUNCS =3D+ "split_perl_packages "
+> +PACKAGESPLITFUNCS =3D+ "split_perl_packages"
+>=20
+>  python split_perl_packages () {
+>      libdir =3D d.expand('${libdir}/perl5/${PV}')
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-
+> graphics/mesa/mesa.inc
+> index 2535dd403d..77aa97069a 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -291,7 +291,7 @@ python mesa_populate_packages() {
+>      do_split_packages(d, pipe_drivers_root, r'^pipe_(.*)\.so$', 'mesa-
+> driver-pipe-%s', 'Mesa %s pipe driver', extra_depends=3D'')
+>  }
+>=20
+> -PACKAGESPLITFUNCS =3D+ "mesa_populate_packages "
+> +PACKAGESPLITFUNCS =3D+ "mesa_populate_packages"
+>=20
+>  PACKAGES_DYNAMIC +=3D "^mesa-driver-.*"
+>  PACKAGES_DYNAMIC:class-native =3D "^mesa-driver-.*-native"
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-
+> license.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-
+> license.inc
+> index 03595e7d32..8b1c001111 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-license.inc
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-license.inc
+> @@ -1,7 +1,7 @@
+>  # This .inc file contains functionality for automatically setting
+>  # the the license of all plugins according to the GSTREAMER_GPL.
+>=20
+> -PACKAGESPLITFUNCS +=3D " set_gstreamer_license "
+> +PACKAGESPLITFUNCS +=3D "set_gstreamer_license"
+>=20
+>  python set_gstreamer_license () {
+>      import oe.utils
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-
+> packaging.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-
+> packaging.inc
+> index 837d5a1a62..d77aeed8a2 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-packaging.in=
+c
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-packaging.in=
+c
+> @@ -9,8 +9,8 @@
+>  # Dynamically generate packages for all enabled plugins
+>  PACKAGES_DYNAMIC =3D "^${PN}-.* ^libgst.*"
+>=20
+> -PACKAGESPLITFUNCS =3D+ " split_gstreamer10_packages "
+> -PACKAGESPLITFUNCS +=3D " set_gstreamer10_metapkg_rdepends "
+> +PACKAGESPLITFUNCS =3D+ "split_gstreamer10_packages"
+> +PACKAGESPLITFUNCS +=3D "set_gstreamer10_metapkg_rdepends"
+>=20
+>  python split_gstreamer10_packages () {
+>      gst_libdir =3D d.expand('${libdir}/gstreamer-1.0')
+> diff --git a/meta/recipes-support/libevent/libevent_2.1.12.bb
+> b/meta/recipes-support/libevent/libevent_2.1.12.bb
+> index 88b81fd56e..25388fb4d7 100644
+> --- a/meta/recipes-support/libevent/libevent_2.1.12.bb
+> +++ b/meta/recipes-support/libevent/libevent_2.1.12.bb
+> @@ -41,7 +41,7 @@ PACKAGES_DYNAMIC =3D "^${PN}-.*$"
+>  python split_libevent_libs () {
+>      do_split_packages(d, '${libdir}', r'^libevent_([a-z]*)-.*\.so\..*',
+> '${PN}-%s', '${SUMMARY} (%s)', prepend=3DTrue, allow_links=3DTrue)
+>  }
+> -PACKAGESPLITFUNCS =3D+ "split_libevent_libs "
+> +PACKAGESPLITFUNCS =3D+ "split_libevent_libs"
+>=20
+>  BBCLASSEXTEND =3D "native nativesdk"
+>=20
 
