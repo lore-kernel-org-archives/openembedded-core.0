@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80F05C63797
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D01FC5479D
 	for <webhook@archiver.kernel.org>; Thu, 12 Jan 2023 02:33:44 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web11.45242.1673490820064774024
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.45236.1673490806146226232
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Jan 2023 18:33:40 -0800
+ Wed, 11 Jan 2023 18:33:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=GJPOYzaJ;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.41, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f41.google.com with SMTP id o13so14245009pjg.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Jan 2023 18:33:40 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=29m0ct0/;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f180.google.com with SMTP id jn22so18769493plb.13
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Jan 2023 18:33:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Ul7LwdV60gybaykpx0E+SMqsSYsxLLt3eChOaxMH+zk=;
-        b=GJPOYzaJyI5pqfY16jClbacWLWXxsJVZi02tOvmL+kzKbsxUvvQAttkCPo7EOOa7in
-         9FxFnKlGbw1Gr/cJOtaFDFDWBIL4CzP1yFkK18wGwFx/RD1AB26ByB79kCt3TxtaMFSq
-         gG80mQqsaKH2U87U/xi3nOWUtbQnVQ/zHeOQVg9rHTa6fqyY1v/cMBA7anqb3HnkCex8
-         w3h3JnnsU4xUnPLrrUWhvpHKizsmOx2Ym7vZqmPoe3HYSC7arueOlPenX2PgIIdV6wcf
-         PGoNa/bM96t0DknM4DOOTXRYQfJeSMZwsmfGI7nxOl+ad48F13hAYdSXPtHCYQ9LJ6wn
-         hP0Q==
+        bh=NuRFmRLn/MSSa14UUti0pBrxhByfafb/HNEmMma+FBQ=;
+        b=29m0ct0/3PehpCyjxPyQ+9n1HMj2BZLvkpVm0pwaCIV8U/SIPlWPLNDvWV65JLmYOz
+         XyKZ0H9mF8uHcex9Vnhi+Ue/LQO0rFfJtobYf1sWXelvshemwvK3Wzf54zb+GaU7AZcW
+         Jfmf24ZQ6DKHtznI/EjxCLQ9txcF9ApOt1bA7DFoNCWoFxn16w51csqtzvqfI0OiLNvK
+         FPviompQ7CGZVmsLHFeq9JiEoyAGL5XtNfaWXMiLyxrxW8RWnbs3OZQxljasiUSOYmTw
+         VeopzAO+IwZZ1m0yZCsl1JcfvHksXP4h0fz3GwQhe+QlvEo8wWwhnuO79NQ5Zael+mg1
+         nu2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ul7LwdV60gybaykpx0E+SMqsSYsxLLt3eChOaxMH+zk=;
-        b=Q3WJoel2dZEr78fsyYRe/7EYUu5L8eq2iCR+0jCevPi/MHcc0jDAh3Th9vT44agIpE
-         OKBfvPJsMTakvqQZzGHr3Um++WrhML6wA3Jln93TZmFKHiHiLGbDgBKVDX8lvHKyPKiZ
-         25NX3ykDVJIyMrah6J0+ysPdCxSXN30L7bJmtKTdGnCu3vbu+OIjh0G2q2rUebNTxZHE
-         YM95MMx2/X5bI6mmMzKbl03g9O12Zc3KpIj7S8u1XzFtqWItQQhc8qCVJEMWXBbp7hBu
-         rdng32eqmh2UvqstL8cEq0u1/FkyuakoFEwUUqKE3qSCbkXefcuQQ/M/Li0axLFyKsqP
-         JaRw==
-X-Gm-Message-State: AFqh2koM2AMLZ+0oQDo36LqTLC4HV7Bx3nQWRq/BChCDXRnVB9nVA70z
-	dQezXsX8qyPrnJ05r8ijhtFDB9tD2zlIBUGFi7E=
-X-Google-Smtp-Source: AMrXdXv/zmMeX0t+cEBnF325RTRWYyRx58iuI4ylXo2in+j532vTstNvgVYU5fEJzCiCxWuHW0+/hg==
-X-Received: by 2002:a17:902:7601:b0:192:8e8b:bcf with SMTP id k1-20020a170902760100b001928e8b0bcfmr51683333pll.56.1673490819018;
-        Wed, 11 Jan 2023 18:33:39 -0800 (PST)
+        bh=NuRFmRLn/MSSa14UUti0pBrxhByfafb/HNEmMma+FBQ=;
+        b=0x6B7WZspW/s/IIC6zAX7f1ErvMJ9SGcqMnAsLOU3mZ5kZ4CB35zMgHh+r69m06eIk
+         GowRX21HgUjtsjjPHSuGaBNQ7KiqAwihRy2DUKVwHOpB90yb4IXz3cKVwcmb4wlShizH
+         hHW2VL0D+PK7LIuFGqc0rvCKliCN9hDxK9q8wwcmq8ACUSRY0bF4WgYBAqZA4n58M3wo
+         ZJpyJLy98oXJAyaOyDULACpeyM6rcbB8dohH+so8AqFhV5wl9mhzK3XbMkJnTwBOikB7
+         4ljtmLoUgNb8rxdMMCA4iiixPo8nwZbpYBDFN/MKZ1CcV++iCHgfj8QR3/hG0LNQvtIv
+         7x1Q==
+X-Gm-Message-State: AFqh2kotmL7QOcP7jhx2QMbvFfnkUdScVweDRVYv/FymcjWhKfqi+frX
+	iIQNFaYTNomCj3GcSSyx8EmG3YaJ6DwcqX4QUeY=
+X-Google-Smtp-Source: AMrXdXvvIwwCqxd95VC5R9e8JJvx5HISHS1OEEEAC03Gk67MRRH0r+BuQrayKoJf70Nw5Ap0FZb3hQ==
+X-Received: by 2002:a17:903:32c2:b0:192:b0cb:2e23 with SMTP id i2-20020a17090332c200b00192b0cb2e23mr57414309plr.46.1673490816973;
+        Wed, 11 Jan 2023 18:33:36 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-5-74.hawaiiantel.net. [72.253.5.74])
-        by smtp.gmail.com with ESMTPSA id d11-20020a170902cecb00b00192d389db91sm11006719plg.75.2023.01.11.18.33.37
+        by smtp.gmail.com with ESMTPSA id d11-20020a170902cecb00b00192d389db91sm11006719plg.75.2023.01.11.18.33.35
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Jan 2023 18:33:38 -0800 (PST)
+        Wed, 11 Jan 2023 18:33:36 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 09/11] Revert "gstreamer1.0: disable flaky gstbin:test_watch_for_state_change test"
-Date: Wed, 11 Jan 2023 16:33:10 -1000
-Message-Id: <dffca759c7b280282197650f5cd783664789898c.1673490673.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 08/11] oeqa/rpm.py: Increase timeout and add debug output
+Date: Wed, 11 Jan 2023 16:33:09 -1000
+Message-Id: <46b5bb52e029e435357f4cf3f37d0c8770f9154b.1673490673.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1673490673.git.steve@sakoman.com>
 References: <cover.1673490673.git.steve@sakoman.com>
@@ -61,150 +61,66 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 12 Jan 2023 02:33:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175782
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175781
 
-From: Jose Quaresma <quaresma.jose@gmail.com>
+From: Pavel Zhukov <pavel@zhukoff.net>
 
-This reverts commit 220a527d269f146bdabd66040b5bee7de9e3fd3f.
+[Yocto #14346]
+Systemd may be slow in killing pam session sometimes [1][2]. It may cause rpm
+test to fail because there's process (sd_pam) running and own by "test1" user
+after timeout.
+Increasing timeout to 2 mins and assert earlier with debug output if
+there's such process(es). If increasing of timeout doesn't help we may
+want to force deletion of the user as [2] suggests.
 
-- Drop this patch and use the upstream solution
-  https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/2643
+[1] https://github.com/systemd/systemd/issues/8598
+[2] https://access.redhat.com/solutions/6969188
 
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+Signed-off-by: Pavel Zhukov <pavel@zhukoff.net>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 9660045d07a2b492ac48a1f1b08aa4288b45d64a)
+(cherry picked from commit 972fcc0ed1e0d36c3470071a9c667c5327c1ef78)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...bin-test_watch_for_state_change-test.patch | 107 ------------------
- .../gstreamer/gstreamer1.0_1.20.5.bb          |   1 -
- 2 files changed, 108 deletions(-)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-tests-remove-gstbin-test_watch_for_state_change-test.patch
+ meta/lib/oeqa/runtime/cases/rpm.py | 23 +++++++++++------------
+ 1 file changed, 11 insertions(+), 12 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-tests-remove-gstbin-test_watch_for_state_change-test.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-tests-remove-gstbin-test_watch_for_state_change-test.patch
-deleted file mode 100644
-index f51df6d20b..0000000000
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-tests-remove-gstbin-test_watch_for_state_change-test.patch
-+++ /dev/null
-@@ -1,107 +0,0 @@
--From b935abba3d8fa3ea1ce384c08e650afd8c20b78a Mon Sep 17 00:00:00 2001
--From: Claudius Heine <ch@denx.de>
--Date: Wed, 2 Feb 2022 13:47:02 +0100
--Subject: [PATCH] tests: remove gstbin:test_watch_for_state_change testcase
--
--This testcase seems to be flaky, and upstream marked it as such:
--https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/778
--
--This patch removes the testcase to avoid it interfering with out ptest.
--
--Signed-off-by: Claudius Heine <ch@denx.de>
--
--Upstream-Status: Inappropriate [needs proper upstream fix]
-----
-- tests/check/gst/gstbin.c        | 69 -------------------
-- 1 file changed, 69 deletions(-)
--
--diff --git a/tests/check/gst/gstbin.c b/tests/check/gst/gstbin.c
--index e366d5fe20..ac29d81474 100644
----- a/tests/check/gst/gstbin.c
--+++ b/tests/check/gst/gstbin.c
--@@ -691,74 +691,6 @@ GST_START_TEST (test_message_state_changed_children)
-- 
-- GST_END_TEST;
-- 
---GST_START_TEST (test_watch_for_state_change)
---{
---  GstElement *src, *sink, *bin;
---  GstBus *bus;
---  GstStateChangeReturn ret;
---
---  bin = gst_element_factory_make ("bin", NULL);
---  fail_unless (bin != NULL, "Could not create bin");
---
---  bus = g_object_new (gst_bus_get_type (), NULL);
---  gst_object_ref_sink (bus);
---  gst_element_set_bus (GST_ELEMENT_CAST (bin), bus);
---
---  src = gst_element_factory_make ("fakesrc", NULL);
---  fail_if (src == NULL, "Could not create fakesrc");
---  sink = gst_element_factory_make ("fakesink", NULL);
---  fail_if (sink == NULL, "Could not create fakesink");
---
---  gst_bin_add (GST_BIN (bin), sink);
---  gst_bin_add (GST_BIN (bin), src);
---
---  fail_unless (gst_element_link (src, sink), "could not link src and sink");
---
---  /* change state, spawning two times three messages */
---  ret = gst_element_set_state (GST_ELEMENT (bin), GST_STATE_PAUSED);
---  fail_unless (ret == GST_STATE_CHANGE_ASYNC);
---  ret =
---      gst_element_get_state (GST_ELEMENT (bin), NULL, NULL,
---      GST_CLOCK_TIME_NONE);
---  fail_unless (ret == GST_STATE_CHANGE_SUCCESS);
---
---  pop_state_changed (bus, 6);
---  pop_async_done (bus);
---  pop_latency (bus);
---
---  fail_unless (gst_bus_have_pending (bus) == FALSE,
---      "Unexpected messages on bus");
---
---  ret = gst_element_set_state (GST_ELEMENT (bin), GST_STATE_PLAYING);
---  fail_unless (ret == GST_STATE_CHANGE_SUCCESS);
---
---  pop_state_changed (bus, 3);
---
---  /* this one might return either SUCCESS or ASYNC, likely SUCCESS */
---  ret = gst_element_set_state (GST_ELEMENT (bin), GST_STATE_PAUSED);
---  gst_element_get_state (GST_ELEMENT (bin), NULL, NULL, GST_CLOCK_TIME_NONE);
---
---  pop_state_changed (bus, 3);
---  if (ret == GST_STATE_CHANGE_ASYNC) {
---    pop_async_done (bus);
---    pop_latency (bus);
---  }
---
---  fail_unless (gst_bus_have_pending (bus) == FALSE,
---      "Unexpected messages on bus");
---
---  gst_bus_set_flushing (bus, TRUE);
---
---  ret = gst_element_set_state (GST_ELEMENT (bin), GST_STATE_NULL);
---  fail_unless (ret == GST_STATE_CHANGE_SUCCESS);
---
---  /* clean up */
---  gst_object_unref (bus);
---  gst_object_unref (bin);
---}
---
---GST_END_TEST;
---
-- GST_START_TEST (test_state_change_error_message)
-- {
--   GstElement *src, *sink, *bin;
--@@ -1956,7 +1888,6 @@ gst_bin_suite (void)
--   tcase_add_test (tc_chain, test_message_state_changed);
--   tcase_add_test (tc_chain, test_message_state_changed_child);
--   tcase_add_test (tc_chain, test_message_state_changed_children);
---  tcase_add_test (tc_chain, test_watch_for_state_change);
--   tcase_add_test (tc_chain, test_state_change_error_message);
--   tcase_add_test (tc_chain, test_add_linked);
--   tcase_add_test (tc_chain, test_add_self);
---- 
--2.33.1
--
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.5.bb
-index bb4dba3861..5a96764780 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.5.bb
-@@ -21,7 +21,6 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
-            file://0002-tests-add-support-for-install-the-tests.patch;striplevel=3 \
-            file://0003-tests-use-a-dictionaries-for-environment.patch;striplevel=3 \
-            file://0004-tests-add-helper-script-to-run-the-installed_tests.patch;striplevel=3 \
--           file://0005-tests-remove-gstbin-test_watch_for_state_change-test.patch \
-            "
- SRC_URI[sha256sum] = "5a19083faaf361d21fc391124f78ba6d609be55845a82fa8f658230e5fa03dff"
+diff --git a/meta/lib/oeqa/runtime/cases/rpm.py b/meta/lib/oeqa/runtime/cases/rpm.py
+index a4339116bf..5bdce3d522 100644
+--- a/meta/lib/oeqa/runtime/cases/rpm.py
++++ b/meta/lib/oeqa/runtime/cases/rpm.py
+@@ -49,21 +49,20 @@ class RpmBasicTest(OERuntimeTestCase):
+             msg = 'status: %s. Cannot run rpm -qa: %s' % (status, output)
+             self.assertEqual(status, 0, msg=msg)
  
+-        def check_no_process_for_user(u):
+-            _, output = self.target.run(self.tc.target_cmds['ps'])
+-            if u + ' ' in output:
+-                return False
+-            else:
+-                return True
++        def wait_for_no_process_for_user(u, timeout = 120):
++            timeout_at = time.time() + timeout
++            while time.time() < timeout_at:
++                _, output = self.target.run(self.tc.target_cmds['ps'])
++                if u + ' ' not in output:
++                    return
++                time.sleep(1)
++            user_pss = [ps for ps in output.split("\n") if u + ' ' in ps]
++            msg = "There're %s 's process(es) still running: %s".format(u, "\n".join(user_pss))
++            assertTrue(True, msg=msg)
+ 
+         def unset_up_test_user(u):
+             # ensure no test1 process in running
+-            timeout = time.time() + 30
+-            while time.time() < timeout:
+-                if check_no_process_for_user(u):
+-                    break
+-                else:
+-                    time.sleep(1)
++            wait_for_no_process_for_user(u)
+             status, output = self.target.run('userdel -r %s' % u)
+             msg = 'Failed to erase user: %s' % output
+             self.assertTrue(status == 0, msg=msg)
 -- 
 2.25.1
 
