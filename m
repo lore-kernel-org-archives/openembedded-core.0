@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 771E4C5479D
-	for <webhook@archiver.kernel.org>; Thu, 12 Jan 2023 02:33:34 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web11.45239.1673490810496202293
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CB84C54EBC
+	for <webhook@archiver.kernel.org>; Thu, 12 Jan 2023 02:33:44 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.45241.1673490814240706503
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Jan 2023 18:33:30 -0800
+ Wed, 11 Jan 2023 18:33:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=qbCPq36C;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f49.google.com with SMTP id s13-20020a17090a6e4d00b0022900843652so553189pjm.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Jan 2023 18:33:30 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=4jXn7XEP;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f180.google.com with SMTP id y1so18813571plb.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Jan 2023 18:33:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GilXtXd4dNBh+KQyS+oHjDCX32YmT5G4NSmqSb3eScY=;
-        b=qbCPq36C/UFB2U1hTp+dieS5d+D3IyHDhyiC+3EFgrQxSldL+q8QuIDCBuRd7kCZLW
-         Wlatkpjpk8bpWtHosebiAQHF6gz4MWJJo6WfKfnMNDLAp+vZbLyqRPSBQEk+m+ZeNQdn
-         a23ccDFVVHyx1yZCqtptPx7LXAE4yqSrXEyzcq/W1aHPkRsIXktMKXCelwsyo9QUXl/W
-         sJPihHWx0upCpXMO0UsB3Je2rMKgCMdKzs/vIiJIan6lJ+QgL3/6EPA7lSDCy0JgpkY6
-         MgzJw4c01+93ZS7lPPVuDLEmGviyhWraZWEgaS+3yFdGFMFk462hRa0PagEPAzgzVrg5
-         GKmA==
+        bh=RWoQ7ZdID0852oC1UT3BKqalSRewBsNwDifkjs3CYPA=;
+        b=4jXn7XEP3RRQAdFCHtTMPxH3NtErxMapVzTOHMjjXubsbADNTQXFmfCq7XdPJi9kxC
+         5n7J8uUvIrjFI43TcTApWP2oCnhrPivDzbdQzAxLP6zwu5Am5da2373lk1DWmRYk0H3w
+         Q+oZr3fZvQaMdL5zVMExUlDdMJZgnjHer4O3VrFUau8mrvMWWRiL916OFTfZGuI66fSK
+         HawpMjyIhB6msK0D9xziAJsy3MP70auqpnv00STPUt0btp8wOykIb7c4wR208tnbTErN
+         lqfY1bbtQVWg2YSrlpnRbm26DCBNEDM+9OekrPtfmP/L+ba4oGjZaSJEd3RWR5z2Ost1
+         Y8xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GilXtXd4dNBh+KQyS+oHjDCX32YmT5G4NSmqSb3eScY=;
-        b=zRse/ydss7V6cfzZhxklkY5xedTwKS0KoEtuiVdb2ij/81kT3nsUgtJxGtQil7jTxZ
-         iIZtn7FBnYWnOOMD3s1q5jKSY4Ak3AG/Yrr+2sZ03Ev4joNaYgVLu83xtiTuH7rrNTZ4
-         4ckJPw7rvTsZ1AufHkjhcfm3td05eOzqAOxVPKSB0ZbcPjdzqxSCI5aRUbRsY0U+kk8l
-         BHl7SIzIuZ+8lJQTQwTqLFlENj/J79XNfKaqFwwRTuSZjdWBPXntsUKVVA1GEq8VcJVY
-         HCW77elIB4o7P8cI68VTzwP4qnzA8nT40ArV+AJrn8xuPei8+rsIMEmdhuvg9NOwiCVm
-         I2xg==
-X-Gm-Message-State: AFqh2kq7bPNLI+8uTX7B9aJlbFMCbPaPiLReDFd4G7xZ4Id55BY7oGM3
-	6lKSepY1QZdnZpmExJvsO4J+jNF/6fI1wKYpU5Y=
-X-Google-Smtp-Source: AMrXdXsqjgJAfQSMI4gHLn+rWahCE08nCFg9E+/WJyjPgekEoml5E36vrGKDryvLt4rpGe0FsFaMaw==
-X-Received: by 2002:a17:903:12cf:b0:194:5178:1135 with SMTP id io15-20020a17090312cf00b0019451781135mr3142959plb.30.1673490809419;
-        Wed, 11 Jan 2023 18:33:29 -0800 (PST)
+        bh=RWoQ7ZdID0852oC1UT3BKqalSRewBsNwDifkjs3CYPA=;
+        b=775mokco1m9s3jrGZXAgryvzQXb3qsSuGQTpRXkixSn0f7CzWVYn/ZSh6Fxgr4Socb
+         ymWByxgrb1PpUYF2Ggp+cFGegzU4mX4lmEFuPRGYF/8wy5Od2s1/0+1Q6XIyEaVUalZ6
+         ugwPbZok4HATpKwIkS9I8r3NyV68aSBmdPIZubyV0Z1ktgzKUrWf659XP0+H5q+Tq7ee
+         TK0lmuG5p8CjXhzGJXcgaq1JqI6fJMUZRfQmiizeQbbQjt9vg8dGYECwUt0scZJyNmAF
+         6Ny7gxmai2rRcWa5rKrEJ/0wzxXM6C7illMaCcym8QuMvSsovuDeUjTUIB168r490i3n
+         WeXw==
+X-Gm-Message-State: AFqh2koIKG+Q3BxVzn3VC/jyI33X95MH4rjgXZadifYAivuzoY26nETP
+	TPZ+ohIuz+nPNiZ4rjzAFxJQtYqHoPhVSbIba9c=
+X-Google-Smtp-Source: AMrXdXsVVMrqEdADaw3OaX6ularg9cm2OWqist58AcgVU81iFKntauQ98DTo3JF/9yqghiRqiJl00A==
+X-Received: by 2002:a17:902:b085:b0:192:d5dc:c84b with SMTP id p5-20020a170902b08500b00192d5dcc84bmr31543755plr.50.1673490815135;
+        Wed, 11 Jan 2023 18:33:35 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-5-74.hawaiiantel.net. [72.253.5.74])
-        by smtp.gmail.com with ESMTPSA id d11-20020a170902cecb00b00192d389db91sm11006719plg.75.2023.01.11.18.33.28
+        by smtp.gmail.com with ESMTPSA id d11-20020a170902cecb00b00192d389db91sm11006719plg.75.2023.01.11.18.33.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Jan 2023 18:33:28 -0800 (PST)
+        Wed, 11 Jan 2023 18:33:34 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 04/11] libarchive: upgrade 3.6.1 -> 3.6.2
-Date: Wed, 11 Jan 2023 16:33:05 -1000
-Message-Id: <58417a8f1d9981a181aa93354b743d8815f4444e.1673490673.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 07/11] rm_work.bbclass: use HOSTTOOLS 'rm' binary exclusively
+Date: Wed, 11 Jan 2023 16:33:08 -1000
+Message-Id: <a3f26247aede1595b15a126322cadd584102f0c6.1673490673.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1673490673.git.steve@sakoman.com>
 References: <cover.1673490673.git.steve@sakoman.com>
@@ -60,114 +60,77 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Jan 2023 02:33:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175777
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Jan 2023 02:33:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175780
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Luis <luis.pinto.martins@gmail.com>
 
-Libarchive 3.6.2 is a bugfix and security release.
+The do_rm_work() task is using the first available 'rm' binary
+available in PATH to remove files and folders.
+However, depending on the PATH setup and RECIPE_SYSROOT_NATIVE
+contents, the function can be using the 'rm' binary available
+in RECIPE_SYSROOT_NATIVE, a folder that will get removed.
+This causes a sporadic race-condition when trying to access the
+'rm' binary of a folder already deleted.
+Solve this by exclusively using the HOSTTOOLS 'rm' binary, as
+this folder will not get removed.
 
-Important security fixes:
-
-NULL pointer dereference vulnerability in archive_write.c (#1754, #1759, CVE-2022-36227)
-
-Important bug fixes:
-
-include ZSTD in Windows builds (#1688)
-SSL fixes on Windows (#1714, #1723, #1724)
-rar5 reader: fix possible garbled output with bsdtar -O (#1745)
-mtree reader: support reading mtree files with tabs (#1783)
-various small fixes for issues found by CodeQL
-
-Use --without-iconv as otherwise autotools write a bogus iconv
-dependency into .pc file.
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Luis Martins <luis.pinto.martins@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit edce1bce81fe2f47fb2c5e2b94ebda73f95cbaea)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
-(cherry picked from commit 93b972845a28b62ea01ee0f4a1e043bd58fc0892)
+(cherry picked from commit edcd9ad333bc4e504594e8af83e8cb7007d2e35c)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libarchive/CVE-2022-36227.patch           | 42 -------------------
- ...ibarchive_3.6.1.bb => libarchive_3.6.2.bb} |  8 ++--
- 2 files changed, 3 insertions(+), 47 deletions(-)
- delete mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2022-36227.patch
- rename meta/recipes-extended/libarchive/{libarchive_3.6.1.bb => libarchive_3.6.2.bb} (92%)
+ meta/classes/rm_work.bbclass | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2022-36227.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2022-36227.patch
-deleted file mode 100644
-index d0d143710c..0000000000
---- a/meta/recipes-extended/libarchive/libarchive/CVE-2022-36227.patch
-+++ /dev/null
-@@ -1,42 +0,0 @@
--From b5332ed6d59ba5113a0a2c67fd82b69fcd5cde68 Mon Sep 17 00:00:00 2001
--From: obiwac <obiwac@gmail.com>
--Date: Fri, 22 Jul 2022 22:41:10 +0200
--Subject: [PATCH] libarchive: CVE-2022-36227 Handle a `calloc` returning NULL
-- (fixes #1754)
--
--Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/bff38efe8c110469c5080d387bec62a6ca15b1a5]
--CVE: CVE-2022-36227
--Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com
-----
-- libarchive/archive_write.c | 8 ++++++++
-- 1 file changed, 8 insertions(+)
--
--diff --git a/libarchive/archive_write.c b/libarchive/archive_write.c
--index 66592e8..27626b5 100644
----- a/libarchive/archive_write.c
--+++ b/libarchive/archive_write.c
--@@ -201,6 +201,10 @@ __archive_write_allocate_filter(struct archive *_a)
-- 	struct archive_write_filter *f;
-- 
-- 	f = calloc(1, sizeof(*f));
--+
--+	if (f == NULL)
--+		return (NULL);
--+
-- 	f->archive = _a;
-- 	f->state = ARCHIVE_WRITE_FILTER_STATE_NEW;
-- 	if (a->filter_first == NULL)
--@@ -548,6 +552,10 @@ archive_write_open2(struct archive *_a, void *client_data,
-- 	a->client_data = client_data;
-- 
-- 	client_filter = __archive_write_allocate_filter(_a);
--+
--+	if (client_filter == NULL)
--+		return (ARCHIVE_FATAL);
--+
-- 	client_filter->open = archive_write_client_open;
-- 	client_filter->write = archive_write_client_write;
-- 	client_filter->close = archive_write_client_close;
---- 
--2.25.1
--
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.6.1.bb b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
-similarity index 92%
-rename from meta/recipes-extended/libarchive/libarchive_3.6.1.bb
-rename to meta/recipes-extended/libarchive/libarchive_3.6.2.bb
-index df9df5e0a6..acc84de9da 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.6.1.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
-@@ -30,14 +30,12 @@ PACKAGECONFIG[lz4] = "--with-lz4,--without-lz4,lz4,"
- PACKAGECONFIG[mbedtls] = "--with-mbedtls,--without-mbedtls,mbedtls,"
- PACKAGECONFIG[zstd] = "--with-zstd,--without-zstd,zstd,"
+diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
+index 8979714e62..f7ededff26 100644
+--- a/meta/classes/rm_work.bbclass
++++ b/meta/classes/rm_work.bbclass
+@@ -27,6 +27,13 @@ BB_SCHEDULER ?= "completion"
+ BB_TASK_IONICE_LEVEL:task-rm_work = "3.0"
  
--EXTRA_OECONF += "--enable-largefile"
-+EXTRA_OECONF += "--enable-largefile --without-iconv"
+ do_rm_work () {
++    # Force using the HOSTTOOLS 'rm' - otherwise the SYSROOT_NATIVE 'rm' can be selected depending on PATH
++    # Avoids race-condition accessing 'rm' when deleting WORKDIR folders at the end of this function
++    RM_BIN="$(PATH=${HOSTTOOLS_DIR} command -v rm)"
++    if [ -z "${RM_BIN}" ]; then
++        bbfatal "Binary 'rm' not found in HOSTTOOLS_DIR, cannot remove WORKDIR data."
++    fi
++
+     # If the recipe name is in the RM_WORK_EXCLUDE, skip the recipe.
+     for p in ${RM_WORK_EXCLUDE}; do
+         if [ "$p" = "${PN}" ]; then
+@@ -73,7 +80,7 @@ do_rm_work () {
+             # sstate version since otherwise we'd need to leave 'plaindirs' around
+             # such as 'packages' and 'packages-split' and these can be large. No end
+             # of chain tasks depend directly on do_package anymore.
+-            rm -f -- $i;
++            "${RM_BIN}" -f -- $i;
+             ;;
+         *_setscene*)
+             # Skip stamps which are already setscene versions
+@@ -90,7 +97,7 @@ do_rm_work () {
+                     ;;
+                 esac
+             done
+-            rm -f -- $i
++            "${RM_BIN}" -f -- $i
+         esac
+     done
  
--SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
--           file://CVE-2022-36227.patch \
--	   "
-+SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz"
- UPSTREAM_CHECK_URI = "http://libarchive.org/"
- 
--SRC_URI[sha256sum] = "c676146577d989189940f1959d9e3980d28513d74eedfbc6b7f15ea45fe54ee2"
-+SRC_URI[sha256sum] = "ba6d02f15ba04aba9c23fd5f236bb234eab9d5209e95d1c4df85c44d5f19b9b3"
- 
- inherit autotools update-alternatives pkgconfig
- 
+@@ -100,9 +107,9 @@ do_rm_work () {
+         # Retain only logs and other files in temp, safely ignore
+         # failures of removing pseudo folers on NFS2/3 server.
+         if [ $dir = 'pseudo' ]; then
+-            rm -rf -- $dir 2> /dev/null || true
++            "${RM_BIN}" -rf -- $dir 2> /dev/null || true
+         elif ! echo "$excludes" | grep -q -w "$dir"; then
+-            rm -rf -- $dir
++            "${RM_BIN}" -rf -- $dir
+         fi
+     done
+ }
 -- 
 2.25.1
 
