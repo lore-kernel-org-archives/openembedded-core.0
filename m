@@ -1,395 +1,223 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72915C46467
-	for <webhook@archiver.kernel.org>; Wed, 11 Jan 2023 19:34:32 +0000 (UTC)
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
- by mx.groups.io with SMTP id smtpd.web11.34212.1673465666558784666
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92168C46467
+	for <webhook@archiver.kernel.org>; Thu, 12 Jan 2023 02:33:24 +0000 (UTC)
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web11.45234.1673490804175441355
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Jan 2023 11:34:26 -0800
+ Wed, 11 Jan 2023 18:33:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=D5gz3/nk;
- spf=pass (domain: gmail.com, ip: 209.85.210.52, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f52.google.com with SMTP id cc13-20020a05683061cd00b00684b8cf2f4dso1181476otb.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Jan 2023 11:34:26 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=N0dZ8PdP;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f52.google.com with SMTP id z4-20020a17090a170400b00226d331390cso19298388pjd.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Jan 2023 18:33:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=rmVKiD1sMMkmNqwdMso3ZF9gQnuOu9kxWiwcmS/wP2c=;
-        b=D5gz3/nkUj1yIhb+j/KRk/Oztq/ila3xPNkz4E31cWOlRz5Bq1He2DCfgYEVvHCGYG
-         IZE9py5SDO2fVHltEeEJKr696WEumH1xC7Beo7Rt2L0KAnKUlE9DxviGj9L2sj4UyFsN
-         XyEiNpgrceDmxRSXtBx4sLrfCHWg5wOlDhK9DKoQ7fI2NZgkw+1uRr1CCVktVa4hEzH3
-         JrYBhdNeE1uGl6S23gjQdtTvr0q6+2ltCKADuBMVApetMYLL6Bf87M98Qtl54WfvXCuv
-         zvBTX6pycMBmrsDOKPXj7MrUEGjDcZ+PsK8PgUZvI/ijAKuBGgsq4r4Eerj6YBXQ4Zhy
-         9oHQ==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Kiykc5uxO4M+9TzKTFLEN5f9DeyIUH7HGGqgfna2p1E=;
+        b=N0dZ8PdPxlq20gmGWpw6MHnf0Leuo/tz+hZz7D0KS2wVDOdgGce0ldyhhZxrg7xeQx
+         ItPInc+ekYCJmSElIerKRQ9FW0Yu05oqCX/Bwrn1eM1dZ89gOSdFmlGpFPDiXYsg6kEO
+         rfsGiRWGg5TTrgi5eT0sc8Evl0Prg4i7XDDwhU+Xdp702iX7Dt1j20Tf0YHHCFsMbvZ2
+         EYsCgQRmBZRQvgQPB2sz0ILuHI6GAIjSc56wTGzKh8Yo38n3DQ1Po5FXYugqo4ctoq4U
+         PRhYaNpr9mj7Hsu2oKa9U2A6yYyrhsMqewdNdqhT6seZ09p5nOFVJr4EdVvnECRc7uYD
+         knaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rmVKiD1sMMkmNqwdMso3ZF9gQnuOu9kxWiwcmS/wP2c=;
-        b=eHNrfAmUsIHIBhLG+8g69GK/p+GlyMsD4P9RoNfzekatTDCodu+82umm7W5SaibapM
-         iL5/imYnxRG2NCHRGySCGml4qOB6Z+3u7xk8ZMDQdd74OXnzR8g3ha24jdafLH3b6CVY
-         0mcS4mpA1+WGwPMBvP6BKk48l1dlnWObEActXUcEvnYpWk2xQqVBV15FUgBXJoiOJ/Ae
-         4yNq/kKl6pn0sA8dwKu0dv+bDm8M/NYwvBBNN+GUXKdGt0kXECQDIHp0KvVVfApq81Oh
-         dF6Lvyq1yjdoQVIWp43T3/dHtHK08BLQmPu6RuSHu2UdGG/mtrKR1BdWdUBTG9ktORVW
-         j5Sw==
-X-Gm-Message-State: AFqh2kqVg+Eg3VnWlzMSSqc+rBWCDObao1MvDE+eqfMeZeqf4g8r1OwY
-	gtTkWRNCEwag8M+c94z/m33eBVvFDBJqv52Jd+o=
-X-Google-Smtp-Source: AMrXdXvxNRwnShrxcjZpQlHvU2ZIQGVtoPjkTHrEB/qGG1IOLNmH3rUpunQgug1NSc6DOY+Hn3MI5iBMk/Cr0Q/hwuA=
-X-Received: by 2002:a9d:1984:0:b0:670:9d62:667f with SMTP id
- k4-20020a9d1984000000b006709d62667fmr4528889otk.111.1673465665567; Wed, 11
- Jan 2023 11:34:25 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Kiykc5uxO4M+9TzKTFLEN5f9DeyIUH7HGGqgfna2p1E=;
+        b=1RougQjgKb2cKZdFEMcNBRS0R8HJoh2dOGQ72FoEP8hzQCmql5Zy4e35HvYs+Vus1u
+         1LsLPNQayhmR52XNAuawzTmd4+jvzFFULCVMNO8R8FHeya2335VVd9NcguCkk4zcIGoX
+         zu+lStG9kQZzM5UFHPJio8g7YCdHcu2qXr4YBztfYrD0Ey122pHvN4MmVsjQ+9DdG8Z9
+         e8EdQuILRluJKvp9JPfLnXmx3dW2rd8dV4j39snh2vSCY+BwX4dBCC5UZNLCAyELXc3U
+         SrA1KVvjZhYTJ37EA/tRl7Lrs+f+F+I0Cw0T1BOlrq3p2if0MQb9M7UiR232udEFh7KR
+         V2Cg==
+X-Gm-Message-State: AFqh2kq44baMwZ88Ly8f+F91z2oF0cxRCdw0psWtEeEJLrxHVI3aGqpO
+	HpEcBOk6rrq5qXOmORZnPgj/BhWp2fCGURndHwo=
+X-Google-Smtp-Source: AMrXdXuSGaGS3V84Z7SnPu6vOrVf6kAV2JpsDAj/JmIcu9XfXBXikepnFh+h8/3zBBLzN3FX4rmV1w==
+X-Received: by 2002:a17:902:8e86:b0:192:b43e:272 with SMTP id bg6-20020a1709028e8600b00192b43e0272mr40568169plb.53.1673490803115;
+        Wed, 11 Jan 2023 18:33:23 -0800 (PST)
+Received: from hexa.router0800d9.com (dhcp-72-253-5-74.hawaiiantel.net. [72.253.5.74])
+        by smtp.gmail.com with ESMTPSA id d11-20020a170902cecb00b00192d389db91sm11006719plg.75.2023.01.11.18.33.22
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Jan 2023 18:33:22 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 01/11] systemd: CVE-2022-45873 deadlock in systemd-coredump via a crash with a long backtrace
+Date: Wed, 11 Jan 2023 16:33:02 -1000
+Message-Id: <aa547f62262e2b41ef590843aaa9555c8403a758.1673490673.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1673490673.git.steve@sakoman.com>
+References: <cover.1673490673.git.steve@sakoman.com>
 MIME-Version: 1.0
-References: <20230106110505.443726-1-andrej.valek@siemens.com> <Y76VSuZevS+O23sv@mail.local>
-In-Reply-To: <Y76VSuZevS+O23sv@mail.local>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 11 Jan 2023 11:33:59 -0800
-Message-ID: <CAMKF1soGRsyZ2gK6Rj6mA4PR40X3bvOqDW4Lihk1Yb_ZM0+xTw@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] busybox: 1.35.0 -> 1.36.0
-To: alexandre.belloni@bootlin.com
-Cc: Andrej Valek <andrej.valek@siemens.com>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Jan 2023 19:34:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175772
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Jan 2023 02:33:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175774
 
-On Wed, Jan 11, 2023 at 2:54 AM Alexandre Belloni via
-lists.openembedded.org
-<alexandre.belloni=bootlin.com@lists.openembedded.org> wrote:
->
-> This generates a warning:
->
-> WARNING: busybox-1.36.0-r0 do_package_qa: QA Issue: busybox: ELF binary /bin/busybox.nosuid has relocations in .text [textrel]
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/48/builds/6507/steps/11/logs/stdio
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-hmmm yes. I think texrels is the fundamental problem originally. I
-will take a look and see if this one is harmless
+Upstream-Status: Backport from https://github.com/systemd/systemd/commit/076b807be472630692c5348c60d0c2b7b28ad437
 
->
-> On 06/01/2023 12:05:05+0100, Andrej Valek wrote:
-> > - update to next (un)stable version 1.36.0
-> > - refresh defconfig
-> >  - disable new applets (tree, tsort, seedrng)
-> >  - use hw-accel for sha1/256 sums when available
-> > - remove and refresh already merged patches
-> >
-> > Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-> > ---
-> >  ...ab_1.35.0.bb => busybox-inittab_1.36.0.bb} |   0
-> >  .../0001-devmem-add-128-bit-width.patch       | 128 ------------------
-> >  .../busybox/busybox/CVE-2022-30065.patch      |  29 ----
-> >  meta/recipes-core/busybox/busybox/defconfig   |  10 +-
-> >  .../busybox/busybox/recognize_connmand.patch  |  10 +-
-> >  meta/recipes-core/busybox/busybox/sha1sum.cfg |   2 +
-> >  .../busybox/busybox/sha256sum.cfg             |   1 +
-> >  .../{busybox_1.35.0.bb => busybox_1.36.0.bb}  |   4 +-
-> >  8 files changed, 17 insertions(+), 167 deletions(-)
-> >  rename meta/recipes-core/busybox/{busybox-inittab_1.35.0.bb => busybox-inittab_1.36.0.bb} (100%)
-> >  delete mode 100644 meta/recipes-core/busybox/busybox/0001-devmem-add-128-bit-width.patch
-> >  delete mode 100644 meta/recipes-core/busybox/busybox/CVE-2022-30065.patch
-> >  rename meta/recipes-core/busybox/{busybox_1.35.0.bb => busybox_1.36.0.bb} (92%)
-> >
-> > diff --git a/meta/recipes-core/busybox/busybox-inittab_1.35.0.bb b/meta/recipes-core/busybox/busybox-inittab_1.36.0.bb
-> > similarity index 100%
-> > rename from meta/recipes-core/busybox/busybox-inittab_1.35.0.bb
-> > rename to meta/recipes-core/busybox/busybox-inittab_1.36.0.bb
-> > diff --git a/meta/recipes-core/busybox/busybox/0001-devmem-add-128-bit-width.patch b/meta/recipes-core/busybox/busybox/0001-devmem-add-128-bit-width.patch
-> > deleted file mode 100644
-> > index 985e2bf1d9..0000000000
-> > --- a/meta/recipes-core/busybox/busybox/0001-devmem-add-128-bit-width.patch
-> > +++ /dev/null
-> > @@ -1,128 +0,0 @@
-> > -From d432049f288c9acdc4a7caa729c68ceba3c5dca1 Mon Sep 17 00:00:00 2001
-> > -From: Aaro Koskinen <aaro.koskinen@nokia.com>
-> > -Date: Thu, 25 Aug 2022 18:47:02 +0300
-> > -Subject: [PATCH] devmem: add 128-bit width
-> > -
-> > -Add 128-bit width if the compiler provides the needed type.
-> > -
-> > -function                                             old     new   delta
-> > -devmem_main                                          405     464     +59
-> > -.rodata                                           109025  109043     +18
-> > -------------------------------------------------------------------------------
-> > -(add/remove: 0/0 grow/shrink: 2/0 up/down: 77/0)               Total: 77 bytes
-> > -
-> > -Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=d432049f288c9acdc4a7caa729c68ceba3c5dca1]
-> > -
-> > -Signed-off-by: Aaro Koskinen <aaro.koskinen@nokia.com>
-> > -Signed-off-by: Aaro Koskinen <aaro.koskinen@iki.fi>
-> > -Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
-> > -Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> > ----
-> > - miscutils/devmem.c | 68 ++++++++++++++++++++++++++++++----------------
-> > - 1 file changed, 44 insertions(+), 24 deletions(-)
-> > -
-> > -diff --git a/miscutils/devmem.c b/miscutils/devmem.c
-> > -index f9f0276bc..f21621bd6 100644
-> > ---- a/miscutils/devmem.c
-> > -+++ b/miscutils/devmem.c
-> > -@@ -29,7 +29,6 @@ int devmem_main(int argc UNUSED_PARAM, char **argv)
-> > - {
-> > -     void *map_base, *virt_addr;
-> > -     uint64_t read_result;
-> > --    uint64_t writeval = writeval; /* for compiler */
-> > -     off_t target;
-> > -     unsigned page_size, mapped_size, offset_in_page;
-> > -     int fd;
-> > -@@ -64,9 +63,6 @@ int devmem_main(int argc UNUSED_PARAM, char **argv)
-> > -                     width = strchrnul(bhwl, (argv[2][0] | 0x20)) - bhwl;
-> > -                     width = sizes[width];
-> > -             }
-> > --            /* VALUE */
-> > --            if (argv[3])
-> > --                    writeval = bb_strtoull(argv[3], NULL, 0);
-> > -     } else { /* argv[2] == NULL */
-> > -             /* make argv[3] to be a valid thing to fetch */
-> > -             argv--;
-> > -@@ -96,28 +92,46 @@ int devmem_main(int argc UNUSED_PARAM, char **argv)
-> > -     virt_addr = (char*)map_base + offset_in_page;
-> > -
-> > -     if (!argv[3]) {
-> > --            switch (width) {
-> > --            case 8:
-> > --                    read_result = *(volatile uint8_t*)virt_addr;
-> > --                    break;
-> > --            case 16:
-> > --                    read_result = *(volatile uint16_t*)virt_addr;
-> > --                    break;
-> > --            case 32:
-> > --                    read_result = *(volatile uint32_t*)virt_addr;
-> > --                    break;
-> > --            case 64:
-> > --                    read_result = *(volatile uint64_t*)virt_addr;
-> > --                    break;
-> > --            default:
-> > --                    bb_simple_error_msg_and_die("bad width");
-> > -+#ifdef __SIZEOF_INT128__
-> > -+            if (width == 128) {
-> > -+                    unsigned __int128 rd =
-> > -+                            *(volatile unsigned __int128 *)virt_addr;
-> > -+                    printf("0x%016llX%016llX\n",
-> > -+                            (unsigned long long)(uint64_t)(rd >> 64),
-> > -+                            (unsigned long long)(uint64_t)rd
-> > -+                    );
-> > -+            } else
-> > -+#endif
-> > -+            {
-> > -+                    switch (width) {
-> > -+                    case 8:
-> > -+                            read_result = *(volatile uint8_t*)virt_addr;
-> > -+                            break;
-> > -+                    case 16:
-> > -+                            read_result = *(volatile uint16_t*)virt_addr;
-> > -+                            break;
-> > -+                    case 32:
-> > -+                            read_result = *(volatile uint32_t*)virt_addr;
-> > -+                            break;
-> > -+                    case 64:
-> > -+                            read_result = *(volatile uint64_t*)virt_addr;
-> > -+                            break;
-> > -+                    default:
-> > -+                            bb_simple_error_msg_and_die("bad width");
-> > -+                    }
-> > -+//                  printf("Value at address 0x%"OFF_FMT"X (%p): 0x%llX\n",
-> > -+//                          target, virt_addr,
-> > -+//                          (unsigned long long)read_result);
-> > -+                    /* Zero-padded output shows the width of access just done */
-> > -+                    printf("0x%0*llX\n", (width >> 2), (unsigned long long)read_result);
-> > -             }
-> > --//          printf("Value at address 0x%"OFF_FMT"X (%p): 0x%llX\n",
-> > --//                  target, virt_addr,
-> > --//                  (unsigned long long)read_result);
-> > --            /* Zero-padded output shows the width of access just done */
-> > --            printf("0x%0*llX\n", (width >> 2), (unsigned long long)read_result);
-> > -     } else {
-> > -+            /* parse VALUE */
-> > -+#ifdef __SIZEOF_INT128__
-> > -+            unsigned __int128 writeval = strtoumax(argv[3], NULL, 0);
-> > -+#else
-> > -+            uint64_t writeval = bb_strtoull(argv[3], NULL, 0);
-> > -+#endif
-> > -             switch (width) {
-> > -             case 8:
-> > -                     *(volatile uint8_t*)virt_addr = writeval;
-> > -@@ -135,6 +149,12 @@ int devmem_main(int argc UNUSED_PARAM, char **argv)
-> > -                     *(volatile uint64_t*)virt_addr = writeval;
-> > - //                  read_result = *(volatile uint64_t*)virt_addr;
-> > -                     break;
-> > -+#ifdef __SIZEOF_INT128__
-> > -+            case 128:
-> > -+                    *(volatile unsigned __int128 *)virt_addr = writeval;
-> > -+//                  read_result = *(volatile uint64_t*)virt_addr;
-> > -+                    break;
-> > -+#endif
-> > -             default:
-> > -                     bb_simple_error_msg_and_die("bad width");
-> > -             }
-> > ---
-> > -2.25.1
-> > -
-> > diff --git a/meta/recipes-core/busybox/busybox/CVE-2022-30065.patch b/meta/recipes-core/busybox/busybox/CVE-2022-30065.patch
-> > deleted file mode 100644
-> > index 25ad653b25..0000000000
-> > --- a/meta/recipes-core/busybox/busybox/CVE-2022-30065.patch
-> > +++ /dev/null
-> > @@ -1,29 +0,0 @@
-> > -Fix use-after-free in awk.
-> > -
-> > -CVE: CVE-2022-30065
-> > -Upstream-Status: Submitted [http://lists.busybox.net/pipermail/busybox/2022-June/089768.html]
-> > -Signed-off-by: Ross Burton <ross.burton@arm.com>
-> > -
-> > -fixes https://bugs.busybox.net/show_bug.cgi?id=14781
-> > -
-> > -Signed-off-by: Natanael Copa <ncopa at alpinelinux.org>
-> > ----
-> > - editors/awk.c | 3 +++
-> > - 1 file changed, 3 insertions(+)
-> > -
-> > -diff --git a/editors/awk.c b/editors/awk.c
-> > -index 079d0bde5..728ee8685 100644
-> > ---- a/editors/awk.c
-> > -+++ b/editors/awk.c
-> > -@@ -3128,6 +3128,9 @@ static var *evaluate(node *op, var *res)
-> > -
-> > -             case XC( OC_MOVE ):
-> > -                     debug_printf_eval("MOVE\n");
-> > -+                    /* make sure that we never return a temp var */
-> > -+                    if (L.v == TMPVAR0)
-> > -+                            L.v = res;
-> > -                     /* if source is a temporary string, jusk relink it to dest */
-> > -                     if (R.v == TMPVAR1
-> > -                      && !(R.v->type & VF_NUMBER)
-> > ---
-> > -2.36.1
-> > diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
-> > index 5e1e1f5638..3d36447c63 100644
-> > --- a/meta/recipes-core/busybox/busybox/defconfig
-> > +++ b/meta/recipes-core/busybox/busybox/defconfig
-> > @@ -1,7 +1,7 @@
-> >  #
-> >  # Automatically generated make config: don't edit
-> > -# Busybox version: 1.35.0
-> > -# Sun Dec 26 16:55:55 2021
-> > +# Busybox version: 1.36.0
-> > +# Tue Jan  3 14:17:01 2023
-> >  #
-> >  CONFIG_HAVE_DOT_CONFIG=y
-> >
-> > @@ -123,6 +123,9 @@ CONFIG_UNICODE_WIDE_WCHARS=y
-> >  # CONFIG_UNICODE_BIDI_SUPPORT is not set
-> >  # CONFIG_UNICODE_NEUTRAL_TABLE is not set
-> >  # CONFIG_UNICODE_PRESERVE_BROKEN is not set
-> > +# CONFIG_LOOP_CONFIGURE is not set
-> > +# CONFIG_NO_LOOP_CONFIGURE is not set
-> > +CONFIG_TRY_LOOP_CONFIGURE=y
-> >
-> >  #
-> >  # Applets
-> > @@ -338,6 +341,7 @@ CONFIG_FEATURE_TR_CLASSES=y
-> >  # CONFIG_FEATURE_TR_EQUIV is not set
-> >  CONFIG_TRUE=y
-> >  # CONFIG_TRUNCATE is not set
-> > +# CONFIG_TSORT is not set
-> >  CONFIG_TTY=y
-> >  CONFIG_UNAME=y
-> >  CONFIG_UNAME_OSNAME="GNU/Linux"
-> > @@ -831,10 +835,12 @@ CONFIG_MICROCOM=y
-> >  CONFIG_RFKILL=y
-> >  # CONFIG_RUNLEVEL is not set
-> >  # CONFIG_RX is not set
-> > +# CONFIG_SEEDRNG is not set
-> >  # CONFIG_SETFATTR is not set
-> >  # CONFIG_SETSERIAL is not set
-> >  CONFIG_STRINGS=y
-> >  CONFIG_TIME=y
-> > +# CONFIG_TREE is not set
-> >  CONFIG_TS=y
-> >  # CONFIG_TTYSIZE is not set
-> >  # CONFIG_UBIATTACH is not set
-> > diff --git a/meta/recipes-core/busybox/busybox/recognize_connmand.patch b/meta/recipes-core/busybox/busybox/recognize_connmand.patch
-> > index f42c74caad..4f28beb556 100644
-> > --- a/meta/recipes-core/busybox/busybox/recognize_connmand.patch
-> > +++ b/meta/recipes-core/busybox/busybox/recognize_connmand.patch
-> > @@ -4,14 +4,14 @@ Upstream-Status: Inappropriate [OE-Core]
-> >
-> >  Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> >
-> > -Index: busybox-1.22.1/networking/ifupdown.c
-> > +Index: busybox-1.36.0/networking/ifupdown.c
-> >  ===================================================================
-> > ---- busybox-1.22.1.orig/networking/ifupdown.c
-> > -+++ busybox-1.22.1/networking/ifupdown.c
-> > -@@ -521,6 +521,10 @@ struct dhcp_client_t {
-> > +--- busybox-1.36.0.orig/networking/ifupdown.c
-> > ++++ busybox-1.36.0/networking/ifupdown.c
-> > +@@ -628,6 +628,10 @@ struct dhcp_client_t {
-> >   };
-> >
-> > - static const struct dhcp_client_t ext_dhcp_clients[] = {
-> > + static const struct dhcp_client_t ext_dhcp_clients[] ALIGN_PTR = {
-> >  +    { "connmand",
-> >  +            "true",
-> >  +            "true",
-> > diff --git a/meta/recipes-core/busybox/busybox/sha1sum.cfg b/meta/recipes-core/busybox/busybox/sha1sum.cfg
-> > index 20e72d9263..01137a2486 100644
-> > --- a/meta/recipes-core/busybox/busybox/sha1sum.cfg
-> > +++ b/meta/recipes-core/busybox/busybox/sha1sum.cfg
-> > @@ -1 +1,3 @@
-> >  CONFIG_SHA1SUM=y
-> > +CONFIG_SHA1_SMALL=3
-> > +CONFIG_SHA1_HWACCEL=y
-> > diff --git a/meta/recipes-core/busybox/busybox/sha256sum.cfg b/meta/recipes-core/busybox/busybox/sha256sum.cfg
-> > index ce652ae4c6..a5b0ab22d1 100644
-> > --- a/meta/recipes-core/busybox/busybox/sha256sum.cfg
-> > +++ b/meta/recipes-core/busybox/busybox/sha256sum.cfg
-> > @@ -1 +1,2 @@
-> >  CONFIG_SHA256SUM=y
-> > +CONFIG_SHA256_HWACCEL=y
-> > diff --git a/meta/recipes-core/busybox/busybox_1.35.0.bb b/meta/recipes-core/busybox/busybox_1.36.0.bb
-> > similarity index 92%
-> > rename from meta/recipes-core/busybox/busybox_1.35.0.bb
-> > rename to meta/recipes-core/busybox/busybox_1.36.0.bb
-> > index e9ca6fdb1a..e46d43e681 100644
-> > --- a/meta/recipes-core/busybox/busybox_1.35.0.bb
-> > +++ b/meta/recipes-core/busybox/busybox_1.36.0.bb
-> > @@ -49,9 +49,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-> >             file://0001-sysctl-ignore-EIO-of-stable_secret-below-proc-sys-ne.patch \
-> >             file://0001-libbb-sockaddr2str-ensure-only-printable-characters-.patch \
-> >             file://0002-nslookup-sanitize-all-printed-strings-with-printable.patch \
-> > -           file://CVE-2022-30065.patch \
-> > -           file://0001-devmem-add-128-bit-width.patch \
-> >             "
-> >  SRC_URI:append:libc-musl = " file://musl.cfg "
-> >
-> > -SRC_URI[tarball.sha256sum] = "faeeb244c35a348a334f4a59e44626ee870fb07b6884d68c10ae8bc19f83a694"
-> > +SRC_URI[tarball.sha256sum] = "542750c8af7cb2630e201780b4f99f3dcceeb06f505b479ec68241c1e6af61a5"
-> > --
-> > 2.34.3
-> >
->
-> >
-> >
-> >
->
->
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#175728): https://lists.openembedded.org/g/openembedded-core/message/175728
-> Mute This Topic: https://lists.openembedded.org/mt/96091213/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../systemd/systemd/CVE-2022-45873.patch      | 124 ++++++++++++++++++
+ meta/recipes-core/systemd/systemd_250.5.bb    |   1 +
+ 2 files changed, 125 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/CVE-2022-45873.patch
+
+diff --git a/meta/recipes-core/systemd/systemd/CVE-2022-45873.patch b/meta/recipes-core/systemd/systemd/CVE-2022-45873.patch
+new file mode 100644
+index 0000000000..94bd22ca43
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/CVE-2022-45873.patch
+@@ -0,0 +1,124 @@
++From 076b807be472630692c5348c60d0c2b7b28ad437 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Zbigniew=20J=C4=99drzejewski-Szmek?= <zbyszek@in.waw.pl>
++Date: Tue, 18 Oct 2022 18:23:53 +0200
++Subject: [PATCH] coredump: avoid deadlock when passing processed backtrace
++ data
++
++We would deadlock when passing the data back from the forked-off process that
++was doing backtrace generation back to the coredump parent. This is because we
++fork the child and wait for it to exit. The child tries to write too much data
++to the output pipe, and and after the first 64k blocks on the parent because
++the pipe is full. The bug surfaced in Fedora because of a combination of four
++factors:
++- 87707784c70dc9894ec613df0a6e75e732a362a3 was backported to v251.5, which
++  allowed coredump processing to be successful.
++- 1a0281a3ebf4f8c16d40aa9e63103f16cd23bb2a was NOT backported, so the output
++  was very verbose.
++- Fedora has the ELF package metadata available, so a lot of output can be
++  generated. Most other distros just don't have the information.
++- gnome-calendar crashes and has a bazillion modules and 69596 bytes of output
++  are generated for it.
++
++Fixes https://bugzilla.redhat.com/show_bug.cgi?id=2135778.
++
++The code is changed to try to write data opportunistically. If we get partial
++information, that is still logged. In is generally better to log partial
++backtrace information than nothing at all.
++
++Upstream-Status: Backport [https://github.com/systemd/systemd/commit/076b807be472630692c5348c60d0c2b7b28ad437]
++CVE: CVE-2022-45873
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ src/shared/elf-util.c | 37 +++++++++++++++++++++++++++++++------
++ 1 file changed, 31 insertions(+), 6 deletions(-)
++
++diff --git a/src/shared/elf-util.c b/src/shared/elf-util.c
++index 6d9fcfbbf2..bd27507346 100644
++--- a/src/shared/elf-util.c
+++++ b/src/shared/elf-util.c
++@@ -30,6 +30,9 @@
++ #define THREADS_MAX 64
++ #define ELF_PACKAGE_METADATA_ID 0xcafe1a7e
++ 
+++/* The amount of data we're willing to write to each of the output pipes. */
+++#define COREDUMP_PIPE_MAX (1024*1024U)
+++
++ static void *dw_dl = NULL;
++ static void *elf_dl = NULL;
++ 
++@@ -700,13 +703,13 @@ int parse_elf_object(int fd, const char *executable, bool fork_disable_dump, cha
++                 return r;
++ 
++         if (ret) {
++-                r = RET_NERRNO(pipe2(return_pipe, O_CLOEXEC));
+++                r = RET_NERRNO(pipe2(return_pipe, O_CLOEXEC|O_NONBLOCK));
++                 if (r < 0)
++                         return r;
++         }
++ 
++         if (ret_package_metadata) {
++-                r = RET_NERRNO(pipe2(json_pipe, O_CLOEXEC));
+++                r = RET_NERRNO(pipe2(json_pipe, O_CLOEXEC|O_NONBLOCK));
++                 if (r < 0)
++                         return r;
++         }
++@@ -750,8 +753,24 @@ int parse_elf_object(int fd, const char *executable, bool fork_disable_dump, cha
++                         goto child_fail;
++ 
++                 if (buf) {
++-                        r = loop_write(return_pipe[1], buf, strlen(buf), false);
++-                        if (r < 0)
+++                        size_t len = strlen(buf);
+++
+++                        if (len > COREDUMP_PIPE_MAX) {
+++                                /* This is iffy. A backtrace can be a few hundred kilobytes, but too much is
+++                                 * too much. Let's log a warning and ignore the rest. */
+++                                log_warning("Generated backtrace is %zu bytes (more than the limit of %u bytes), backtrace will be truncated.",
+++                                            len, COREDUMP_PIPE_MAX);
+++                                len = COREDUMP_PIPE_MAX;
+++                        }
+++
+++                        /* Bump the space for the returned string.
+++                         * Failure is ignored, because partial output is still useful. */
+++                        (void) fcntl(return_pipe[1], F_SETPIPE_SZ, len);
+++
+++                        r = loop_write(return_pipe[1], buf, len, false);
+++                        if (r == -EAGAIN)
+++                                log_warning("Write failed, backtrace will be truncated.");
+++                        else if (r < 0)
++                                 goto child_fail;
++ 
++                         return_pipe[1] = safe_close(return_pipe[1]);
++@@ -760,13 +779,19 @@ int parse_elf_object(int fd, const char *executable, bool fork_disable_dump, cha
++                 if (package_metadata) {
++                         _cleanup_fclose_ FILE *json_out = NULL;
++ 
+++                        /* Bump the space for the returned string. We don't know how much space we'll need in
+++                         * advance, so we'll just try to write as much as possible and maybe fail later. */
+++                        (void) fcntl(json_pipe[1], F_SETPIPE_SZ, COREDUMP_PIPE_MAX);
+++
++                         json_out = take_fdopen(&json_pipe[1], "w");
++                         if (!json_out) {
++                                 r = -errno;
++                                 goto child_fail;
++                         }
++ 
++-                        json_variant_dump(package_metadata, JSON_FORMAT_FLUSH, json_out, NULL);
+++                        r = json_variant_dump(package_metadata, JSON_FORMAT_FLUSH, json_out, NULL);
+++                        if (r < 0)
+++                                log_warning_errno(r, "Failed to write JSON package metadata, ignoring: %m");
++                 }
++ 
++                 _exit(EXIT_SUCCESS);
++@@ -801,7 +826,7 @@ int parse_elf_object(int fd, const char *executable, bool fork_disable_dump, cha
++ 
++                 r = json_parse_file(json_in, NULL, 0, &package_metadata, NULL, NULL);
++                 if (r < 0 && r != -EINVAL) /* EINVAL: json was empty, so we got nothing, but that's ok */
++-                        return r;
+++                        log_warning_errno(r, "Failed to read or parse json metadata, ignoring: %m");
++         }
++ 
++         if (ret)
++-- 
++2.25.1
++
+diff --git a/meta/recipes-core/systemd/systemd_250.5.bb b/meta/recipes-core/systemd/systemd_250.5.bb
+index ab349b7307..acca49c3cb 100644
+--- a/meta/recipes-core/systemd/systemd_250.5.bb
++++ b/meta/recipes-core/systemd/systemd_250.5.bb
+@@ -26,6 +26,7 @@ SRC_URI += "file://touchscreen.rules \
+            file://0001-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch \
+            file://0001-resolve-Use-sockaddr-pointer-type-for-bind.patch \
+            file://CVE-2022-3821.patch \
++           file://CVE-2022-45873.patch \
+            "
+ 
+ # patches needed by musl
+-- 
+2.25.1
+
 
