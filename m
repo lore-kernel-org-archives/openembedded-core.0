@@ -1,109 +1,72 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 013DCC54EBC
-	for <webhook@archiver.kernel.org>; Thu, 12 Jan 2023 09:44:17 +0000 (UTC)
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
- by mx.groups.io with SMTP id smtpd.web10.50968.1673516647581506531
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EB60C54EBC
+	for <webhook@archiver.kernel.org>; Thu, 12 Jan 2023 10:21:07 +0000 (UTC)
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.web10.51429.1673518856824811051
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Jan 2023 01:44:08 -0800
+ Thu, 12 Jan 2023 02:20:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=E6vI5DTk;
- spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 2DED9240002;
-	Thu, 12 Jan 2023 09:44:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1673516645;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=w2Z+p8ptqQD33d7xHCf6aS+9J1Vj1e4CMYYo+P1MCGE=;
-	b=E6vI5DTkzLSdZFRa3hmfLzb4f9eU9IkElRu1zf2F4GqfrfqfRGUUAYd1M6vmPpI6UYz5Fq
-	b659gq9kNTuK8u0+AC5T8ZwPV+KGWPwEn6q+PWt1xPGxCmTU4chMjmZUVviaaFLnRV/3j+
-	52Mckt1b5YExumQVrozG0sVFF8UnSFKhF2MCK1VObGdt3v3jP6w689V9pu5/2oHCP7S75I
-	rMk8cyBFqeCNWUlME7riX7iCHBHXS6jDZY2DtDyt2zmCcS0ywR65Rjpqu7+V3AvC9J7idM
-	c9toWMqFrHbzKNnJHzwOM5XhTa6y5M388il/yCD6ZWYPrtf7vncsCSA3f4IR+A==
-Date: Thu, 12 Jan 2023 10:44:04 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Alejandro Hernandez Samaniego <alejandro@enedino.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 2/3] baremetal-helloworld: Move from skeleton
- to recipes-extended matching what rust-hello-world is doing
-Message-ID: <Y7/WZCgHCr+/neFu@mail.local>
-References: <20230112043444.900323-1-alejandro@enedino.org>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=ECHMv3Yd;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-202301121020527aa01cb72695845227-3kitkt@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 202301121020527aa01cb72695845227
+        for <openembedded-core@lists.openembedded.org>;
+        Thu, 12 Jan 2023 11:20:52 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=b/n4WUxbDLjEE2TTPwjtWizfrEDz+vY803ZNwbCI8Hk=;
+ b=ECHMv3Yd36DxQFrEfK9GIhr/7yrzy7qA/7tg3XidmtBzhNFJ5HeoyHV5EQlKUgWJoA5zQB
+ TI+wOF5f7GqzhaBXkGC8TuB6GYMusn2eQAVIm/4XSRnk2YbNcAa3kCBhr0z8dLbVk3RzhTQ4
+ A+9f63J5S7Zs4J7Nr4dktc/V4XHJc=;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][PATCH] iproute2: separate routel and add python dependency
+Date: Thu, 12 Jan 2023 11:19:52 +0100
+Message-Id: <20230112101952.78181-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230112043444.900323-1-alejandro@enedino.org>
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Jan 2023 09:44:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175789
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Jan 2023 10:21:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175790
 
-Hello,
+This script was migrated from shell to python3 in recent versions.
 
-I'm taking that one but please:
- - version your patches properly, this should be v2
- - resend the whole series everytime, else I need to go back and fish
-   out the previous patches. This is error prone and time consuming.
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ meta/recipes-connectivity/iproute2/iproute2_6.1.0.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Thanks!
-
-On 11/01/2023 21:34:44-0700, Alejandro Hernandez Samaniego wrote:
-> Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
-> ---
->  meta/conf/distro/include/maintainers.inc                         | 1 +
->  .../baremetal-example}/baremetal-helloworld_git.bb               | 1 +
->  2 files changed, 2 insertions(+)
->  rename {meta-skeleton/recipes-baremetal/baremetal-examples => meta/recipes-extended/baremetal-example}/baremetal-helloworld_git.bb (99%)
-> 
-> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-> index 508d10e091..8c2201c91b 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -54,6 +54,7 @@ RECIPE_MAINTAINER:pn-automake = "Robert Yang <liezhi.yang@windriver.com>"
->  RECIPE_MAINTAINER:pn-avahi = "Yi Zhao <yi.zhao@windriver.com>"
->  RECIPE_MAINTAINER:pn-babeltrace = "Alexander Kanavin <alex.kanavin@gmail.com>"
->  RECIPE_MAINTAINER:pn-babeltrace2 = "Alexander Kanavin <alex.kanavin@gmail.com>"
-> +RECIPE_MAINTAINER:pn-baremetal-helloworld = "Alejandro Hernandez <alejandro@enedino.org>"
->  RECIPE_MAINTAINER:pn-base-files = "Anuj Mittal <anuj.mittal@intel.com>"
->  RECIPE_MAINTAINER:pn-base-passwd = "Anuj Mittal <anuj.mittal@intel.com>"
->  RECIPE_MAINTAINER:pn-bash = "Hongxu Jia <hongxu.jia@windriver.com>"
-> diff --git a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb b/meta/recipes-extended/baremetal-example/baremetal-helloworld_git.bb
-> similarity index 99%
-> rename from meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
-> rename to meta/recipes-extended/baremetal-example/baremetal-helloworld_git.bb
-> index fede17b0f0..82b2901d51 100644
-> --- a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
-> +++ b/meta/recipes-extended/baremetal-example/baremetal-helloworld_git.bb
-> @@ -8,6 +8,7 @@ SRCREV = "22016ecbb9fb6c5f3a7a06698aea7ff8a701c166"
->  PV = "0.1+git${SRCPV}"
->  
->  SRC_URI = "git://github.com/aehs29/baremetal-helloqemu.git;protocol=https;branch=master"
-> +UPSTREAM_VERSION_UNKNOWN="1"
->  
->  S = "${WORKDIR}/git"
->  
-> -- 
-> 2.34.1
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#175785): https://lists.openembedded.org/g/openembedded-core/message/175785
-> Mute This Topic: https://lists.openembedded.org/mt/96137379/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
+diff --git a/meta/recipes-connectivity/iproute2/iproute2_6.1.0.bb b/meta/recipes-connectivity/iproute2/iproute2_6.1.0.bb
+index 4c6dd1f7f4..7272e8f147 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2_6.1.0.bb
++++ b/meta/recipes-connectivity/iproute2/iproute2_6.1.0.bb
+@@ -64,6 +64,7 @@ IPROUTE2_PACKAGES =+ "\
+     ${PN}-ip \
+     ${PN}-lnstat \
+     ${PN}-nstat \
++    ${PN}-routel \
+     ${PN}-rtacct \
+     ${PN}-ss \
+     ${PN}-tc \
+@@ -88,6 +89,9 @@ FILES:${PN}-ss = "${base_sbindir}/ss"
+ FILES:${PN}-tipc = "${base_sbindir}/tipc"
+ FILES:${PN}-devlink = "${base_sbindir}/devlink"
+ FILES:${PN}-rdma = "${base_sbindir}/rdma"
++FILES:${PN}-routel = "${base_sbindir}/routel"
++
++RDEPENDS:${PN}-routel = "python3-core"
+ 
+ ALTERNATIVE:${PN}-ip = "ip"
+ ALTERNATIVE_TARGET[ip] = "${base_sbindir}/ip.${BPN}"
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.30.2
+
 
