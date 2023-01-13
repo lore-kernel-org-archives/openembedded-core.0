@@ -1,112 +1,95 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B69EFC54EBE
-	for <webhook@archiver.kernel.org>; Fri, 13 Jan 2023 16:57:16 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.93259.1673629026464340999
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3BEBC3DA78
+	for <webhook@archiver.kernel.org>; Fri, 13 Jan 2023 17:06:26 +0000 (UTC)
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
+ by mx.groups.io with SMTP id smtpd.web11.93572.1673629583619900569
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Jan 2023 08:57:06 -0800
+ Fri, 13 Jan 2023 09:06:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 77BB5106F;
-	Fri, 13 Jan 2023 08:57:47 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D6A993F67D;
-	Fri, 13 Jan 2023 08:57:04 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: nd@arm.com
-Subject: [PATCH 2/2] quilt: fix intermittent failure in faildiff.test
-Date: Fri, 13 Jan 2023 16:57:02 +0000
-Message-Id: <20230113165702.1312882-2-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230113165702.1312882-1-ross.burton@arm.com>
-References: <20230113165702.1312882-1-ross.burton@arm.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=QUqq+8uF;
+ spf=pass (domain: gmail.com, ip: 209.85.166.179, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-il1-f179.google.com with SMTP id u8so11080385ilg.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 13 Jan 2023 09:06:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZyPASVxNlWCtPkYeVXFr4prPvoWXqNmzTgoGjeOZrOY=;
+        b=QUqq+8uFJ0wKT9Zl45TqRa41BpYgG3Nxd8JAvAnLeUZ1jX8mo/rqSnfvmhVb9nNZrL
+         YwwXPDTM0eoRbS0alXp+vN+KQc6zMR6SjRme0yQfr/hiS9iqGQWmoKB/V0PefQJ6zIW/
+         PAOhsVF94uA3YUE4I1/gMH1eHqZXXULG9dnfr9bsN4jSdMW0SL7/shqXA0S4UqVk/nSS
+         +5kyNOQLumkMxcg8eImJN0TXsUxSGK9MjS0VYa8C9Gz0gWNrBB0tkE78g66UbRtdZXSF
+         naBPfXWRtdGgt+9Eay94zV9khPhUlanAjMUtYUqJigCCU9u7THgyh2lH6BBmEMeTGd8n
+         UuTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZyPASVxNlWCtPkYeVXFr4prPvoWXqNmzTgoGjeOZrOY=;
+        b=zKUelm3FooIWiRT99MyJLh95bg77Nak/j303OetquU9mc2465uCPyYH+SFNqBARNve
+         IPhLS8XshS2VEJNhLqaB2aBMG4tNrJ5SQrVrAsSikdT185OgzIcqtyoWIqoQBbqmMkSy
+         korHTw353/XpldWSuZxpGuyW1YYPFQA0HHcEzkrKgpUM/GdcGlxFftae3GcKX0tmwWlT
+         rxU9AEWhng7eRIBskrS36Xz7J79u2E7nQhAFztHmkB8bZ4R3MPUqkTP35Tdb+Bo8JP3l
+         djPCiWpm5yci8ziuTAd71HrA2z9qzvWeOGVpxEVdmjTzPuuJRwZoeO41wHrC0haFSz/q
+         00mA==
+X-Gm-Message-State: AFqh2kow3dOGch2V7UN74sdoRJ4VJW6L6Og1nKHvkojJp6p2JIftJEDo
+	Hww5c/ronzuV38ZCkVXjcWy8kifHUQMgpXZQt4w=
+X-Google-Smtp-Source: AMrXdXtOI7vyY3EuJbuH8ktyuA1Nt6l+AnNSL0aoOF8RjZw4PSCOPh9D1FUkbNh/NnTQz6zCP457cLtWzguS2HZSGFs=
+X-Received: by 2002:a92:cda9:0:b0:30e:e796:23b7 with SMTP id
+ g9-20020a92cda9000000b0030ee79623b7mr131906ild.23.1673629582877; Fri, 13 Jan
+ 2023 09:06:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <da703100-dd85-8ede-3a3d-f7e57d6a4ee7@bootlin.com>
+In-Reply-To: <da703100-dd85-8ede-3a3d-f7e57d6a4ee7@bootlin.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Fri, 13 Jan 2023 17:06:11 +0000
+Message-ID: <CAO5Uq5T3Mc5pEFK+4GODftM4kzwkJo8RnpgrQvFX-ewskpAWbA@mail.gmail.com>
+Subject: Re: [OE-core] Is rust-bin.bbclass still in use?
+To: michael.opdenacker@bootlin.com
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 Jan 2023 16:57:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175841
+ <openembedded-core@lists.openembedded.org>; Fri, 13 Jan 2023 17:06:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175842
 
-This test assumes that if a child process writes one line to stderr and
-then another line to stdout, and stderr is redirected to stdout, that
-the order the lines will be read is stable.
+Nothing I know of - I suspect it wants deleting.
 
-This isn't the case and occasionally the lines will be read in a
-different order.  Change the test to ignore line ordering.
+On Fri, Jan 13, 2023 at 4:55 PM Michael Opdenacker via
+lists.openembedded.org
+<michael.opdenacker=bootlin.com@lists.openembedded.org> wrote:
+>
+> Greetings,
+>
+> I can't find any use of the rust-bin class, neither in oe-core, nor in
+> Poky, nor in meta-oe?
+>
+> Is it still in use anywhere?
+>
+> Cheers
+> Michael.
+>
+> --
+> Michael Opdenacker, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#175839): https://lists.openembedded.org/g/openembedded-core/message/175839
+> Mute This Topic: https://lists.openembedded.org/mt/96250144/3618097
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kiernan@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
-[ YOCTO #14469 ]
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/recipes-devtools/quilt/quilt.inc         |  1 +
- .../quilt/quilt/faildiff-order.patch          | 28 +++++++++++++++++++
- 2 files changed, 29 insertions(+)
- create mode 100644 meta/recipes-devtools/quilt/quilt/faildiff-order.patc=
-h
-
-diff --git a/meta/recipes-devtools/quilt/quilt.inc b/meta/recipes-devtool=
-s/quilt/quilt.inc
-index b4284dcafb3..f7ff958103e 100644
---- a/meta/recipes-devtools/quilt/quilt.inc
-+++ b/meta/recipes-devtools/quilt/quilt.inc
-@@ -12,6 +12,7 @@ SRC_URI =3D "${SAVANNAH_GNU_MIRROR}/quilt/quilt-${PV}.t=
-ar.gz \
-         file://test.sh \
-         file://0001-tests-Allow-different-output-from-mv.patch \
-         file://fix-grep-3.8.patch \
-+        file://faildiff-order.patch \
- "
-=20
- SRC_URI:append:class-target =3D " file://gnu_patch_test_fix_target.patch=
-"
-diff --git a/meta/recipes-devtools/quilt/quilt/faildiff-order.patch b/met=
-a/recipes-devtools/quilt/quilt/faildiff-order.patch
-new file mode 100644
-index 00000000000..40f3c2636a5
---- /dev/null
-+++ b/meta/recipes-devtools/quilt/quilt/faildiff-order.patch
-@@ -0,0 +1,28 @@
-+This test assumes that two lines that are output on different streams (s=
-tdout
-+and stderr) will be read in the same order, but thanks to buffering that=
- may not
-+be the case.
-+
-+Change the expected lines to be regexs that each match both expected lin=
-es, so
-+the test always works no matter the actual order the lines are read in.
-+
-+Bug filed at https://savannah.nongnu.org/bugs/index.php?63651 to discuss=
- a
-+proper solution.
-+
-+Upstream-Status: Inappropriate
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+diff --git a/test/faildiff.test b/test/faildiff.test
-+index 5afb8e3..5f32f71 100644
-+--- a/test/faildiff.test
-++++ b/test/faildiff.test
-+@@ -28,8 +28,8 @@ What happens on binary files?
-+=20
-+ 	$ printf "\\003\\000\\001" > test.bin
-+ 	$ quilt diff -pab --no-index
-+-	>~ (Files|Binary files) a/test\.bin and b/test\.bin differ
-+-	> Diff failed on file 'test.bin', aborting
-++	>~ (.*[Ff]iles a/test\.bin and b/test\.bin differ|Diff failed on file =
-'test.bin', aborting)
-++	>~ (.*[Ff]iles a/test\.bin and b/test\.bin differ|Diff failed on file =
-'test.bin', aborting)
-+ 	$ echo %{?}
-+ 	> 1
-+=20
---=20
-2.34.1
-
+-- 
+Alex Kiernan
 
