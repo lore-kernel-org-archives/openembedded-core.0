@@ -1,132 +1,118 @@
-Return-Path: <chee.yang.lee@intel.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5EBAC54EBD
-	for <webhook@archiver.kernel.org>; Fri, 13 Jan 2023 13:51:25 +0000 (UTC)
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by mx.groups.io with SMTP id smtpd.web10.86434.1673617881636079741
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D2DEC54EBE
+	for <webhook@archiver.kernel.org>; Fri, 13 Jan 2023 14:41:06 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web10.88244.1673620860074008162
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Jan 2023 05:51:21 -0800
+ Fri, 13 Jan 2023 06:41:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=O5cgXFJq;
- spf=pass (domain: intel.com, ip: 134.134.136.24, mailfrom: chee.yang.lee@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1673617881; x=1705153881;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=4PQcZZMOZLJZH9xguV5Cl/wUZnvjZl/ZhHHR0ZfrxpA=;
-  b=O5cgXFJq0tKeNqXok6zsPWuqRlWc8Zu/ecBOIWdJIrgys+TEvz2Fmt4M
-   RH2AFwXK6iYNfmwV4pc7+Z2BwSxa6fpd83R1WT+1gBogHIlRxls4y3hHy
-   AbS6nsWFrWjm2nQ8z5hgse+rc3PtCUsneUxBOvFizORrkvAFp3G2GEtPZ
-   0Rg9ibpc2vRm/1EUQIUcN9kG6p9aQftZETrgd84Vq4BU3+9UNhASLdoH+
-   n/TbDm4XiAtrssVy+AuMWyWlMdyFn5gOBvssSrJVlLo5tTvizCQl9yDid
-   tDPaMkdBIHRBdDXJlFaZHxYEwbuKUxP35DpFk6zSMLXw05TM9IIfM5wEt
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10589"; a="325252020"
-X-IronPort-AV: E=Sophos;i="5.97,214,1669104000"; 
-   d="scan'208";a="325252020"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2023 05:51:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10589"; a="658228124"
-X-IronPort-AV: E=Sophos;i="5.97,214,1669104000"; 
-   d="scan'208";a="658228124"
-Received: from andromeda02.png.intel.com ([10.221.253.198])
-  by orsmga002.jf.intel.com with ESMTP; 13 Jan 2023 05:51:19 -0800
-From: chee.yang.lee@intel.com
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=JsVyIXbg;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id d15so23629219pls.6
+        for <openembedded-core@lists.openembedded.org>; Fri, 13 Jan 2023 06:40:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AxENJgdWB197WUrDEM9NUryGOreGqAc2Vp28/jtbtSw=;
+        b=JsVyIXbgDqfnF2U1/TYshs+wsASxNi47i1sMW1Sh69E9JZ52Us7ENw2OCSKKs3rdI6
+         8sSvPSfKRRo7wMluduM/RRZw+lVkbes7YmPTsrjBclkZNTYdUfuG7vt1aEj+plwmY/O4
+         +2PPGiIdX5jF55BocFBMUPelFs3oxAXglZQasTglge6gw/B28ftjoq8ggodld7Mx7RB0
+         sBm+bOa550+oMSX7XSNXGonXLiYPbxUPeMF/hU4bG1cl295NazN0zvsNXNAmWg0a3hNl
+         ifb+yvPtJcZx42nTxIh3paHK++rv/tyf5y9WiNTrtuX7kOnIcEeq1O/VcGrSvxItU7D9
+         bOvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AxENJgdWB197WUrDEM9NUryGOreGqAc2Vp28/jtbtSw=;
+        b=oejRrbgk+J9mV7INFh4r+cF6exzeYmItpy/CqndY7vGe34wgB8Sm9ytW7/ws5Pwu84
+         fspHweSGRc5TfZXgHI+nGcW7mwOTgMFo6TvAbUEvXEmo5yRuWF+2j5yCyEXk2vhVBwgN
+         LhNfja5yalJSefCu7gOzBnLnEykNnJAks85p1LRnwhE++K9HiixvVDIqkg55oWhJWPZO
+         QvwABzevpO+tuR6R22l//d1BJZcZH1ZwF/RRMmKeHjFPc1ANdqTslK69YtEvJRpN+eGx
+         W7r0k0juqKQnsmJO3zLt8zMe3Z/AbacXRQb+08bNFxLtfu4w7IKbYHDn2zGvqPz4f+M+
+         RTqg==
+X-Gm-Message-State: AFqh2koVkCJrUznqqg8tfOQ0R8H5lYWs0Gy1satUEkQzZpRM8OoPd+6C
+	OHfghWr5JZGL+pVoIImQvSvsryGwVDIE7OUBJnk=
+X-Google-Smtp-Source: AMrXdXvt1jMc49J4ESYg62fr8tqbevnF15T2F1BlrbNbWfZtmZnVfD6nUU3D5MAVYuPJh2uFtGHygQ==
+X-Received: by 2002:a17:902:b710:b0:192:6429:440e with SMTP id d16-20020a170902b71000b001926429440emr69834172pls.34.1673620858705;
+        Fri, 13 Jan 2023 06:40:58 -0800 (PST)
+Received: from hexa.router0800d9.com (dhcp-72-253-5-74.hawaiiantel.net. [72.253.5.74])
+        by smtp.gmail.com with ESMTPSA id y17-20020a17090322d100b00186f0f59c85sm14244346plg.235.2023.01.13.06.40.57
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Jan 2023 06:40:58 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [master][langdale][kirkstone][patch] ppp: fix CVE-2022-4603
-Date: Fri, 13 Jan 2023 21:51:12 +0800
-Message-Id: <20230113135112.2848659-1-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.37.3
+Subject: [OE-core][dunfell 0/8] Pull request (cover letter only)
+Date: Fri, 13 Jan 2023 04:40:53 -1000
+Message-Id: <cover.1673620619.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 Jan 2023 13:51:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175826
+ <openembedded-core@lists.openembedded.org>; Fri, 13 Jan 2023 14:41:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175827
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+This is the final pull request for the 3.1.22 release build on Monday.
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
----
- .../ppp/ppp/CVE-2022-4603.patch               | 50 +++++++++++++++++++
- meta/recipes-connectivity/ppp/ppp_2.4.9.bb    |  1 +
- 2 files changed, 51 insertions(+)
- create mode 100644 meta/recipes-connectivity/ppp/ppp/CVE-2022-4603.patch
+The following changes since commit deb919a693e4371ace649680ca06ca6b6e3da4e2:
 
-diff --git a/meta/recipes-connectivity/ppp/ppp/CVE-2022-4603.patch b/meta/recipes-connectivity/ppp/ppp/CVE-2022-4603.patch
-new file mode 100644
-index 0000000000..2b63422cc1
---- /dev/null
-+++ b/meta/recipes-connectivity/ppp/ppp/CVE-2022-4603.patch
-@@ -0,0 +1,50 @@
-+From a75fb7b198eed50d769c80c36629f38346882cbf Mon Sep 17 00:00:00 2001
-+From: Paul Mackerras <paulus@ozlabs.org>
-+Date: Thu, 4 Aug 2022 12:23:08 +1000
-+Subject: [PATCH] pppdump: Avoid out-of-range access to packet buffer
-+
-+This fixes a potential vulnerability where data is written to spkt.buf
-+and rpkt.buf without a check on the array index.  To fix this, we
-+check the array index (pkt->cnt) before storing the byte or
-+incrementing the count.  This also means we no longer have a potential
-+signed integer overflow on the increment of pkt->cnt.
-+
-+Fortunately, pppdump is not used in the normal process of setting up a
-+PPP connection, is not installed setuid-root, and is not invoked
-+automatically in any scenario that I am aware of.
-+
-+Signed-off-by: Paul Mackerras <paulus@ozlabs.org>
-+
-+CVE: CVE-2022-4603
-+https://github.com/ppp-project/ppp/commit/a75fb7b198eed50d769c80c36629f38346882cbf
-+Upstream-Status: Backport
-+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-+---
-+ pppdump/pppdump.c | 7 ++++++-
-+ 1 file changed, 6 insertions(+), 1 deletion(-)
-+
-+diff --git a/pppdump/pppdump.c b/pppdump/pppdump.c
-+index 2b815fc9..b85a8627 100644
-+--- a/pppdump/pppdump.c
-++++ b/pppdump/pppdump.c
-+@@ -297,6 +297,10 @@ dumpppp(f)
-+ 			    printf("%s aborted packet:\n     ", dir);
-+ 			    q = "    ";
-+ 			}
-++			if (pkt->cnt >= sizeof(pkt->buf)) {
-++			    printf("%s over-long packet truncated:\n     ", dir);
-++			    q = "    ";
-++			}
-+ 			nb = pkt->cnt;
-+ 			p = pkt->buf;
-+ 			pkt->cnt = 0;
-+@@ -400,7 +404,8 @@ dumpppp(f)
-+ 			c ^= 0x20;
-+ 			pkt->esc = 0;
-+ 		    }
-+-		    pkt->buf[pkt->cnt++] = c;
-++		    if (pkt->cnt < sizeof(pkt->buf))
-++			pkt->buf[pkt->cnt++] = c;
-+ 		    break;
-+ 		}
-+ 	    }
-diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.9.bb b/meta/recipes-connectivity/ppp/ppp_2.4.9.bb
-index 700ece61dc..7e3ae43b58 100644
---- a/meta/recipes-connectivity/ppp/ppp_2.4.9.bb
-+++ b/meta/recipes-connectivity/ppp/ppp_2.4.9.bb
-@@ -25,6 +25,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/${BP}.tar.gz \
-            file://provider \
-            file://ppp@.service \
-            file://0001-ppp-fix-build-against-5.15-headers.patch \
-+           file://CVE-2022-4603.patch \
-            "
- 
- SRC_URI[sha256sum] = "f938b35eccde533ea800b15a7445b2f1137da7f88e32a16898d02dee8adc058d"
+  lib/buildstats: fix parsing of trees with reduced_proc_pressure directories (2023-01-06 17:34:50 +0000)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+
+Changqing Li (1):
+  base.bbclass: Fix way to check ccache path
+
+Chee Yang Lee (1):
+  libksba: fix CVE-2022-47629
+
+Hitendra Prajapati (1):
+  grub2: Fix CVE-2022-2601 & CVE-2022-3775
+
+Luis (1):
+  rm_work.bbclass: use HOSTTOOLS 'rm' binary exclusively
+
+Pavel Zhukov (1):
+  oeqa/rpm.py: Increase timeout and add debug output
+
+Steve Sakoman (3):
+  ovmf: fix gcc12 warning in GenFfs
+  ovmf: fix gcc12 warning in LzmaEnc
+  ovmf: fix gcc12 warning for device path handling
+
+ meta/classes/base.bbclass                     |   2 +-
+ meta/classes/rm_work.bbclass                  |  15 ++-
+ meta/lib/oeqa/runtime/cases/rpm.py            |  23 ++--
+ .../grub/files/CVE-2022-2601.patch            |  87 +++++++++++++
+ .../grub/files/CVE-2022-3775.patch            |  97 +++++++++++++++
+ ...erflow-in-grub_font_get_glyph_intern.patch | 117 ++++++++++++++++++
+ meta/recipes-bsp/grub/grub2.inc               |   3 +
+ ...1-Basetools-genffs-fix-gcc12-warning.patch |  49 ++++++++
+ ...-Basetools-lzmaenc-fix-gcc12-warning.patch |  53 ++++++++
+ ...001-Basetools-turn-off-gcc12-warning.patch |  41 ++++++
+ meta/recipes-core/ovmf/ovmf_git.bb            |   3 +
+ .../libksba/libksba/CVE-2022-47629.patch      |  69 +++++++++++
+ meta/recipes-support/libksba/libksba_1.3.5.bb |   4 +-
+ 13 files changed, 545 insertions(+), 18 deletions(-)
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2022-2601.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2022-3775.patch
+ create mode 100644 meta/recipes-bsp/grub/files/font-Fix-size-overflow-in-grub_font_get_glyph_intern.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf/0001-Basetools-genffs-fix-gcc12-warning.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf/0001-Basetools-lzmaenc-fix-gcc12-warning.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf/0001-Basetools-turn-off-gcc12-warning.patch
+ create mode 100644 meta/recipes-support/libksba/libksba/CVE-2022-47629.patch
+
 -- 
-2.37.3
+2.25.1
 
 
