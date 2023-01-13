@@ -1,66 +1,70 @@
-Return-Path: <michael.opdenacker@bootlin.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9CA4C3DA78
-	for <webhook@archiver.kernel.org>; Fri, 13 Jan 2023 17:09:16 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
- by mx.groups.io with SMTP id smtpd.web11.93672.1673629755441410984
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E33F6C3DA78
+	for <webhook@archiver.kernel.org>; Fri, 13 Jan 2023 17:14:56 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.93859.1673630088707918905
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Jan 2023 09:09:15 -0800
+ Fri, 13 Jan 2023 09:14:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=l2EVPU+g;
- spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: michael.opdenacker@bootlin.com)
-Received: (Authenticated sender: michael.opdenacker@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id EC57AE0008;
-	Fri, 13 Jan 2023 17:09:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1673629753;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O1y82iX6WlsRQFcNtibageQJRU14EiQ6WHp+36E+RPU=;
-	b=l2EVPU+gkKKOV3kQb4V6DVQCdU/qAjPoMybZpvhMJAL8W8cj5YvFgxUEvpnQUq987HiNiJ
-	4AQ64451Chl7vdPJASCqiuhNqaciSYUQPA7WocVkoWxTr7gGpgZieb4m7Mkg074Yi1Xnqs
-	jjJnBTZLF1ucLU0VzS5AQzfOswJw2LgdsM523Q34ZCeWUMU33RLHTyPB+82WjO3PAd3n1p
-	tk6//zkxVsb5olUno4HMdTzIpHAVGCY+od9e5zjrDkJRsqsyiRAW7QL6szVjXMIn+gFtHv
-	ARrW1bQP0EIJ27RWeU+wAy03HMAVXBX9ZJwj8SumQuEznIzdBiP6aNdMwgb53A==
-Message-ID: <a2b3f9de-f3b7-ae06-b3c9-230689de3b02@bootlin.com>
-Date: Fri, 13 Jan 2023 18:09:12 +0100
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7ED55FEC;
+	Fri, 13 Jan 2023 09:15:30 -0800 (PST)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DD5AE3F67D;
+	Fri, 13 Jan 2023 09:14:47 -0800 (PST)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: nd@arm.com
+Subject: [PATCH] cve-update-db-native: show IP on failure
+Date: Fri, 13 Jan 2023 17:14:31 +0000
+Message-Id: <20230113171431.1315869-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Cc: michael.opdenacker@bootlin.com,
- OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] Is rust-bin.bbclass still in use?
-Content-Language: en-US
-To: Alex Kiernan <alex.kiernan@gmail.com>
-References: <da703100-dd85-8ede-3a3d-f7e57d6a4ee7@bootlin.com>
- <CAO5Uq5T3Mc5pEFK+4GODftM4kzwkJo8RnpgrQvFX-ewskpAWbA@mail.gmail.com>
-From: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Organization: Bootlin
-In-Reply-To: <CAO5Uq5T3Mc5pEFK+4GODftM4kzwkJo8RnpgrQvFX-ewskpAWbA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 Jan 2023 17:09:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175843
+ <openembedded-core@lists.openembedded.org>; Fri, 13 Jan 2023 17:14:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175844
 
+We get random SSL failures when fetching the CVE database, and it's
+notable that the NVD server is behind a DNS round-robin or geographically
+diverse servers.
 
-On 13.01.23 at 18:06, Alex Kiernan wrote:
-> Nothing I know of - I suspect it wants deleting.
+On a hunch that there is one misconfigured server, dump the IP that we
+connected to.
 
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/recipes-core/meta/cve-update-db-native.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Thanks for the quick answer. I'll send such a patch.
-Cheers
-Michael.
-
--- 
-Michael Opdenacker, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipe=
+s-core/meta/cve-update-db-native.bb
+index 079f062f79b..e042e67b09a 100644
+--- a/meta/recipes-core/meta/cve-update-db-native.bb
++++ b/meta/recipes-core/meta/cve-update-db-native.bb
+@@ -130,7 +130,10 @@ def update_db_file(db_tmp_file, d):
+                 response =3D urllib.request.urlopen(meta_url, timeout=3D=
+cve_socket_timeout)
+             except urllib.error.URLError as e:
+                 cve_f.write('Warning: CVE db update error, Unable to fet=
+ch CVE data.\n\n')
+-                bb.warn("Failed to fetch CVE data (%s)" % e.reason)
++                bb.warn("Failed to fetch CVE data (%s)" % e)
++                import socket
++                result =3D socket.getaddrinfo("nvd.nist.gov", 443, proto=
+=3Dsocket.IPPROTO_TCP)
++                bb.warn("Host IPs are %s" % (", ".join(t[4][0] for t in =
+result)))
+                 return False
+=20
+             if response:
+--=20
+2.34.1
 
 
