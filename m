@@ -1,118 +1,99 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D2DEC54EBE
-	for <webhook@archiver.kernel.org>; Fri, 13 Jan 2023 14:41:06 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web10.88244.1673620860074008162
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CA5CC54EBD
+	for <webhook@archiver.kernel.org>; Fri, 13 Jan 2023 14:57:16 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.88826.1673621831707185630
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Jan 2023 06:41:00 -0800
+ Fri, 13 Jan 2023 06:57:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=JsVyIXbg;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f173.google.com with SMTP id d15so23629219pls.6
-        for <openembedded-core@lists.openembedded.org>; Fri, 13 Jan 2023 06:40:59 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=fWX+7Fb8;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id m8-20020a05600c3b0800b003d96f801c48so18953139wms.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 13 Jan 2023 06:57:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AxENJgdWB197WUrDEM9NUryGOreGqAc2Vp28/jtbtSw=;
-        b=JsVyIXbgDqfnF2U1/TYshs+wsASxNi47i1sMW1Sh69E9JZ52Us7ENw2OCSKKs3rdI6
-         8sSvPSfKRRo7wMluduM/RRZw+lVkbes7YmPTsrjBclkZNTYdUfuG7vt1aEj+plwmY/O4
-         +2PPGiIdX5jF55BocFBMUPelFs3oxAXglZQasTglge6gw/B28ftjoq8ggodld7Mx7RB0
-         sBm+bOa550+oMSX7XSNXGonXLiYPbxUPeMF/hU4bG1cl295NazN0zvsNXNAmWg0a3hNl
-         ifb+yvPtJcZx42nTxIh3paHK++rv/tyf5y9WiNTrtuX7kOnIcEeq1O/VcGrSvxItU7D9
-         bOvQ==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ss9BUCSzK1t0BYLnXI3iWX+m7uYac+v1NhhqMB5KrYQ=;
+        b=fWX+7Fb8yn0OxhkbGQ+mYbeRRxKkAgNVxnUDXo7Mh4GDggVXsBUMEmV9ZljY3PumCj
+         mVe8sbwlUdSWBf5d92qIPohsTA/j9VG1BaGQmcEMlLGQ+jFnxN9yhBZbXBxWaqG7ZOS5
+         BjiQgBOzUm74PbLPJYC6ZcnzpZaBM4OE1RUIRnp6Nq1vIX2HSuyI3TCyodk14VXAcxOk
+         muY4CdIDakK/uIbQSOlDeoF4PjFvf+CRD9syUkM/eK24VVLQ+fPeNyMJBe9MOxEWgN9j
+         +3bDGadjc1Twsh8XuJ7ZbpucFFlhsZQRzlX/TA+jKAkfJNMfjihu5rK4BCKXRYcUbnHL
+         YGhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AxENJgdWB197WUrDEM9NUryGOreGqAc2Vp28/jtbtSw=;
-        b=oejRrbgk+J9mV7INFh4r+cF6exzeYmItpy/CqndY7vGe34wgB8Sm9ytW7/ws5Pwu84
-         fspHweSGRc5TfZXgHI+nGcW7mwOTgMFo6TvAbUEvXEmo5yRuWF+2j5yCyEXk2vhVBwgN
-         LhNfja5yalJSefCu7gOzBnLnEykNnJAks85p1LRnwhE++K9HiixvVDIqkg55oWhJWPZO
-         QvwABzevpO+tuR6R22l//d1BJZcZH1ZwF/RRMmKeHjFPc1ANdqTslK69YtEvJRpN+eGx
-         W7r0k0juqKQnsmJO3zLt8zMe3Z/AbacXRQb+08bNFxLtfu4w7IKbYHDn2zGvqPz4f+M+
-         RTqg==
-X-Gm-Message-State: AFqh2koVkCJrUznqqg8tfOQ0R8H5lYWs0Gy1satUEkQzZpRM8OoPd+6C
-	OHfghWr5JZGL+pVoIImQvSvsryGwVDIE7OUBJnk=
-X-Google-Smtp-Source: AMrXdXvt1jMc49J4ESYg62fr8tqbevnF15T2F1BlrbNbWfZtmZnVfD6nUU3D5MAVYuPJh2uFtGHygQ==
-X-Received: by 2002:a17:902:b710:b0:192:6429:440e with SMTP id d16-20020a170902b71000b001926429440emr69834172pls.34.1673620858705;
-        Fri, 13 Jan 2023 06:40:58 -0800 (PST)
-Received: from hexa.router0800d9.com (dhcp-72-253-5-74.hawaiiantel.net. [72.253.5.74])
-        by smtp.gmail.com with ESMTPSA id y17-20020a17090322d100b00186f0f59c85sm14244346plg.235.2023.01.13.06.40.57
-        for <openembedded-core@lists.openembedded.org>
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ss9BUCSzK1t0BYLnXI3iWX+m7uYac+v1NhhqMB5KrYQ=;
+        b=ljEaP3Kq5furPu/63OGZF1XEgX5v1R0hAU+kwjiyYadKbGSFGWMTGiJtxODGBeW+Om
+         6k+15XoaejPckad8AEyQ6Gk8aE4cEeG1+SP6i35iHmgRQBArjQkYTNp7r1PBv8YIIkrG
+         xAHYfhRTugkOeeH/gS8DzyW62gn4UC3f1x5/34txfoxTdLGaaoE5t3aIHOprsyGLNmg+
+         jtaMRXVb0GhyoyG8pZXBGf1NI2odMkHzB1FHkRgdvcXrGO9ZqThhDR+tYObkR8xpL16M
+         FgCgvIms1/T42mOu7Wug+MKiIDZ4Ivqa+2XkT0Ox+vE9mjHQc4ELDYX5K2z6lhKH61ls
+         0STw==
+X-Gm-Message-State: AFqh2krB8J7rLib12/pXUzk8KNmgAB7z8pPvJevr9S6V3geR7cuez+S1
+	/7psiy2fOqniuMV7wdDyuQFMdPHOh4U=
+X-Google-Smtp-Source: AMrXdXs5GY2oBWYktzysjeJRynkra2VGF6z4iqQ/GxNrcKA8OhXduXXlwdstsgXYw5H16JFsQoCnZA==
+X-Received: by 2002:a05:600c:540a:b0:3d9:ebf9:7004 with SMTP id he10-20020a05600c540a00b003d9ebf97004mr16349993wmb.29.1673621830059;
+        Fri, 13 Jan 2023 06:57:10 -0800 (PST)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id d20-20020adfa354000000b002bc50ba3d06sm15808417wrb.9.2023.01.13.06.57.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Jan 2023 06:40:58 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
+        Fri, 13 Jan 2023 06:57:09 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 0/8] Pull request (cover letter only)
-Date: Fri, 13 Jan 2023 04:40:53 -1000
-Message-Id: <cover.1673620619.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 7/7] selftest/virgl: use pkg-config from the host
+Date: Fri, 13 Jan 2023 15:57:00 +0100
+Message-Id: <20230113145700.2773771-7-alex@linutronix.de>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230113145700.2773771-1-alex@linutronix.de>
+References: <20230113145700.2773771-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 Jan 2023 14:41:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175827
+ <openembedded-core@lists.openembedded.org>; Fri, 13 Jan 2023 14:57:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175834
 
-This is the final pull request for the 3.1.22 release build on Monday.
+The check needs to report dri location on the host machine,
+so pkg-config binary needs to be capable of finding the needed
+dri.pc file on the host, and therefore needs to know where
+host .pc files are located.
 
-The following changes since commit deb919a693e4371ace649680ca06ca6b6e3da4e2:
+This may not be the case when using pkg-config from buildtools,
+so this forces usage of host pkg-config.
 
-  lib/buildstats: fix parsing of trees with reduced_proc_pressure directories (2023-01-06 17:34:50 +0000)
+runqemu already does the same PATH tweak, so this simply brings
+the two in sync.
 
-are available in the Git repository at:
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/lib/oeqa/selftest/cases/runtime_test.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  https://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
-
-Changqing Li (1):
-  base.bbclass: Fix way to check ccache path
-
-Chee Yang Lee (1):
-  libksba: fix CVE-2022-47629
-
-Hitendra Prajapati (1):
-  grub2: Fix CVE-2022-2601 & CVE-2022-3775
-
-Luis (1):
-  rm_work.bbclass: use HOSTTOOLS 'rm' binary exclusively
-
-Pavel Zhukov (1):
-  oeqa/rpm.py: Increase timeout and add debug output
-
-Steve Sakoman (3):
-  ovmf: fix gcc12 warning in GenFfs
-  ovmf: fix gcc12 warning in LzmaEnc
-  ovmf: fix gcc12 warning for device path handling
-
- meta/classes/base.bbclass                     |   2 +-
- meta/classes/rm_work.bbclass                  |  15 ++-
- meta/lib/oeqa/runtime/cases/rpm.py            |  23 ++--
- .../grub/files/CVE-2022-2601.patch            |  87 +++++++++++++
- .../grub/files/CVE-2022-3775.patch            |  97 +++++++++++++++
- ...erflow-in-grub_font_get_glyph_intern.patch | 117 ++++++++++++++++++
- meta/recipes-bsp/grub/grub2.inc               |   3 +
- ...1-Basetools-genffs-fix-gcc12-warning.patch |  49 ++++++++
- ...-Basetools-lzmaenc-fix-gcc12-warning.patch |  53 ++++++++
- ...001-Basetools-turn-off-gcc12-warning.patch |  41 ++++++
- meta/recipes-core/ovmf/ovmf_git.bb            |   3 +
- .../libksba/libksba/CVE-2022-47629.patch      |  69 +++++++++++
- meta/recipes-support/libksba/libksba_1.3.5.bb |   4 +-
- 13 files changed, 545 insertions(+), 18 deletions(-)
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2022-2601.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2022-3775.patch
- create mode 100644 meta/recipes-bsp/grub/files/font-Fix-size-overflow-in-grub_font_get_glyph_intern.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/0001-Basetools-genffs-fix-gcc12-warning.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/0001-Basetools-lzmaenc-fix-gcc12-warning.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/0001-Basetools-turn-off-gcc12-warning.patch
- create mode 100644 meta/recipes-support/libksba/libksba/CVE-2022-47629.patch
-
+diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
+index ae79724956..7d99c158e5 100644
+--- a/meta/lib/oeqa/selftest/cases/runtime_test.py
++++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
+@@ -268,7 +268,7 @@ class TestImage(OESelftestTestCase):
+         except FileNotFoundError:
+             self.fail("/dev/dri directory does not exist; no render nodes available on this machine. %s" %(render_hint))
+         try:
+-            dripath = subprocess.check_output("pkg-config --variable=dridriverdir dri", shell=True)
++            dripath = subprocess.check_output("PATH=/bin:/usr/bin:$PATH pkg-config --variable=dridriverdir dri", shell=True)
+         except subprocess.CalledProcessError as e:
+             self.fail("Could not determine the path to dri drivers on the host via pkg-config.\nPlease install Mesa development files (particularly, dri.pc) on the host machine.")
+         qemu_distrofeatures = get_bb_var('DISTRO_FEATURES', 'qemu-system-native')
 -- 
-2.25.1
+2.30.2
 
 
