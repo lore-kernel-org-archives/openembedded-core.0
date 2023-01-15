@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00E8DC7115A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05F03C73C66
 	for <webhook@archiver.kernel.org>; Sun, 15 Jan 2023 18:02:32 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.145719.1673805743817699384
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.145718.1673805743737748321
  for <openembedded-core@lists.openembedded.org>;
  Sun, 15 Jan 2023 10:02:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=DKCA7DT2;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010185b698c46d-fe2d3b6a-1cf0-4c44-a31a-e3a4ffd055f9-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=V4OMzS1n;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010185b698c1f0-6251565e-a2e0-4608-a850-3fd141404714-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1673805743;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=quVf+0Tq/oc2ntpAIC1fvtZE8eNT//h+T9yWhXBDA2M=;
-	b=DKCA7DT2sV64ib8eOeW00tkn3sVLng9c6XVJN5FIYvJEXj36LOtlxYNWwYvbYo7x
-	86Kd8VbJggizBfPA56Rn9G6axtPvpSoQV8qEJcMUkgAfMwRvbXitHeiTRXQDP5dotza
-	hXq9ENBjw0EslJ322ILGpt6VuzP03+5hoDMkBMoE=
+	bh=s+Dfl+WBa/0Aj4SLHb32l7+t3jXE5htEwo3pd2GbXRQ=;
+	b=V4OMzS1neo288mI9bwMerfWWjNbBuWQipBxDCdNpTaMSnguTMRzaiC07JJncNoPf
+	68wFVDEKIgqSOk9V0QC5ZFDmLWtkqnw/O9J0NCwZ67UBZSdcOwCVF4ghhil7IxAcCVU
+	NYtib5JeaE04CT87gwKhE1JMtjfr54Z1+7/afDDQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1673805743;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=quVf+0Tq/oc2ntpAIC1fvtZE8eNT//h+T9yWhXBDA2M=;
-	b=RGXtS2SHsNQmYuY+f3ksv1ij8idV4KQcv9H7X1WCfH4yi1DMi7L8kMXOKi0ojldJ
-	kEbfTWiFandIXHIq9c3HGYNr6qjKzml+1NK/ByrmI0DrajONyuDsO3b3WKftKKvKF8A
-	W5x1OF686UiKL40g3ne4CjgXcIq2IJW/vUd3dCVU=
-Content-Type: multipart/mixed; boundary="===============3925502228223215065=="
+	bh=s+Dfl+WBa/0Aj4SLHb32l7+t3jXE5htEwo3pd2GbXRQ=;
+	b=H55GuyYLw38YeSfnE6mPbYLVXJE8L4TlGYtKTPAi6AwcDE1cCltZ9D5C3eUNg+Fn
+	2VytGu0fivJKx0hi/HmwK4k3cTACaDm++LCKY2Io+ACoghPCh68XPKuQPRxV0EUnG5O
+	/kNrNJbAnwu3jOz/3nQDN2y1O7kvSPONxuNoATd8=
+Content-Type: multipart/mixed; boundary="===============0426892506905877500=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-packaging: upgrading to 23.0 SUCCEEDED
-Message-ID: <01010185b698c46d-fe2d3b6a-1cf0-4c44-a31a-e3a4ffd055f9-000000@us-west-2.amazonses.com>
-Date: Sun, 15 Jan 2023 18:02:23 +0000
+Subject: [AUH] patchelf: upgrading to 0.17.2 SUCCEEDED
+Message-ID: <01010185b698c1f0-6251565e-a2e0-4608-a850-3fd141404714-000000@us-west-2.amazonses.com>
+Date: Sun, 15 Jan 2023 18:02:22 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.01.15-54.240.27.31
+X-SES-Outgoing: 2023.01.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 18:02:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175908
+ <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 18:02:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175907
 
---===============3925502228223215065==
+--===============0426892506905877500==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-packaging* to *23.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *patchelf* to *0.17.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-packaging-upgrade-22.0-23.0.patch
+    - apply the patch: git am 0001-patchelf-upgrade-0.17.0-0.17.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,86 +69,158 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3925502228223215065==
+--===============0426892506905877500==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-packaging: PKGV changed from 22.0 [default] to 23.0 [default]
-packages/core2-32-poky-linux/python3-packaging: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/packaging/packaging-22.0.tar.gz" to "https://files.pythonhosted.org/packages/source/p/packaging/packaging-23.0.tar.gz"
-packages/core2-32-poky-linux/python3-packaging: PV changed from "22.0" to "23.0"
-packages/core2-32-poky-linux/python3-packaging/python3-packaging-dbg: PKGV changed from 22.0 [default] to 23.0 [default]
-packages/core2-32-poky-linux/python3-packaging/python3-packaging-dbg: PV changed from "22.0" to "23.0"
-packages/core2-32-poky-linux/python3-packaging/python3-packaging-dev: PKGV changed from 22.0 [default] to 23.0 [default]
-packages/core2-32-poky-linux/python3-packaging/python3-packaging-dev: PV changed from "22.0" to "23.0"
-packages/core2-32-poky-linux/python3-packaging/python3-packaging-doc: PKGV changed from 22.0 [default] to 23.0 [default]
-packages/core2-32-poky-linux/python3-packaging/python3-packaging-doc: PV changed from "22.0" to "23.0"
-packages/core2-32-poky-linux/python3-packaging/python3-packaging-locale: PKGV changed from 22.0 [default] to 23.0 [default]
-packages/core2-32-poky-linux/python3-packaging/python3-packaging-locale: PV changed from "22.0" to "23.0"
-packages/core2-32-poky-linux/python3-packaging/python3-packaging-src: PKGV changed from 22.0 [default] to 23.0 [default]
-packages/core2-32-poky-linux/python3-packaging/python3-packaging-src: PV changed from "22.0" to "23.0"
-packages/core2-32-poky-linux/python3-packaging/python3-packaging-staticdev: PKGV changed from 22.0 [default] to 23.0 [default]
-packages/core2-32-poky-linux/python3-packaging/python3-packaging-staticdev: PV changed from "22.0" to "23.0"
-packages/core2-32-poky-linux/python3-packaging/python3-packaging: PKGV changed from 22.0 [default] to 23.0 [default]
-packages/core2-32-poky-linux/python3-packaging/python3-packaging: PV changed from "22.0" to "23.0"
-packages/core2-32-poky-linux/python3-packaging/python3-packaging: FILELIST: directory renamed /usr/lib/python3.11/site-packages/packaging-22.0.dist-info -> /usr/lib/python3.11/site-packages/packaging-23.0.dist-info, removed "/usr/lib/python3.11/site-packages/packaging/__about__.py /usr/lib/python3.11/site-packages/packaging/__pycache__/__about__.cpython-311.pyc"
-packages/core2-32-poky-linux/python3-packaging/python3-packaging: PKGSIZE changed from 292566 to 294633 (+1%)
-Changes to packages/core2-32-poky-linux/python3-packaging (sysroot):
-  /usr/lib/python3.11/site-packages/packaging-22.0.dist-info moved to /usr/lib/python3.11/site-packages/packaging-23.0.dist-info
-  /usr/lib/python3.11/site-packages/packaging/__about__.py was removed
-  /usr/lib/python3.11/site-packages/packaging/__pycache__/__about__.cpython-311.pyc was removed
-Changes to packages/x86_64-linux/python3-packaging-native (sysroot):
-  /usr/lib/python3.11/site-packages/packaging-22.0.dist-info moved to /usr/lib/python3.11/site-packages/packaging-23.0.dist-info
-  /usr/lib/python3.11/site-packages/packaging/__about__.py was removed
-  /usr/lib/python3.11/site-packages/packaging/__pycache__/__about__.cpython-311.pyc was removed
+packages/core2-32-poky-linux/patchelf: PKGV changed from 0.17.0 [default] to 0.17.2 [default]
+packages/core2-32-poky-linux/patchelf: SRC_URI changed from "git://github.com/NixOS/patchelf;protocol=https;branch=master file://8d2cb4f9ab8d564904c292099a022ffb3cccd52d.patch" to "git://github.com/NixOS/patchelf;protocol=https;branch=master"
+packages/core2-32-poky-linux/patchelf: PV changed from "0.17.0" to "0.17.2"
+packages/core2-32-poky-linux/patchelf/patchelf-dbg: PKGV changed from 0.17.0 [default] to 0.17.2 [default]
+packages/core2-32-poky-linux/patchelf/patchelf-dbg: PKGSIZE changed from 2398696 to 2398024 (-0%)
+packages/core2-32-poky-linux/patchelf/patchelf-dbg: PV changed from "0.17.0" to "0.17.2"
+packages/core2-32-poky-linux/patchelf/patchelf-dev: PKGV changed from 0.17.0 [default] to 0.17.2 [default]
+packages/core2-32-poky-linux/patchelf/patchelf-dev: PV changed from "0.17.0" to "0.17.2"
+packages/core2-32-poky-linux/patchelf/patchelf-doc: PKGV changed from 0.17.0 [default] to 0.17.2 [default]
+packages/core2-32-poky-linux/patchelf/patchelf-doc: PV changed from "0.17.0" to "0.17.2"
+packages/core2-32-poky-linux/patchelf/patchelf-locale: PKGV changed from 0.17.0 [default] to 0.17.2 [default]
+packages/core2-32-poky-linux/patchelf/patchelf-locale: PV changed from "0.17.0" to "0.17.2"
+packages/core2-32-poky-linux/patchelf/patchelf-src: PKGV changed from 0.17.0 [default] to 0.17.2 [default]
+packages/core2-32-poky-linux/patchelf/patchelf-src: PKGSIZE changed from 271771 to 271841 (+0%)
+packages/core2-32-poky-linux/patchelf/patchelf-src: PV changed from "0.17.0" to "0.17.2"
+packages/core2-32-poky-linux/patchelf/patchelf-staticdev: PKGV changed from 0.17.0 [default] to 0.17.2 [default]
+packages/core2-32-poky-linux/patchelf/patchelf-staticdev: PV changed from "0.17.0" to "0.17.2"
+packages/core2-32-poky-linux/patchelf/patchelf: PKGV changed from 0.17.0 [default] to 0.17.2 [default]
+packages/core2-32-poky-linux/patchelf/patchelf: PV changed from "0.17.0" to "0.17.2"
 
---===============3925502228223215065==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/python3-packaging/python3-packaging: FILELIST: directory renamed /usr/lib/python3.11/site-packages/packaging-22.0.dist-info -> /usr/lib/python3.11/site-packages/packaging-23.0.dist-info, removed "/usr/lib/python3.11/site-packages/packaging/__pycache__/__about__.cpython-311.pyc /usr/lib/python3.11/site-packages/packaging/__about__.py"
-Changes to packages/core2-32-poky-linux/python3-packaging (sysroot):
-  /usr/lib/python3.11/site-packages/packaging-22.0.dist-info moved to /usr/lib/python3.11/site-packages/packaging-23.0.dist-info
-  /usr/lib/python3.11/site-packages/packaging/__about__.py was removed
-  /usr/lib/python3.11/site-packages/packaging/__pycache__/__about__.cpython-311.pyc was removed
-Changes to packages/x86_64-linux/python3-packaging-native (sysroot):
-  /usr/lib/python3.11/site-packages/packaging-22.0.dist-info moved to /usr/lib/python3.11/site-packages/packaging-23.0.dist-info
-  /usr/lib/python3.11/site-packages/packaging/__about__.py was removed
-  /usr/lib/python3.11/site-packages/packaging/__pycache__/__about__.cpython-311.pyc was removed
-
---===============3925502228223215065==
+--===============0426892506905877500==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-packaging-upgrade-22.0-23.0.patch"
+ filename="0001-patchelf-upgrade-0.17.0-0.17.2.patch"
 
-RnJvbSA2NGI5MTJjNzI2MWE0N2YwY2IyMDgzYjE1Y2E1MTg1ZmM3Y2NjNjIyIE1vbiBTZXAgMTcg
+RnJvbSBlMzE2NWEwYzBmZDI1M2M2OWIyNTcxNzExNzBlOTJkNWQ3N2ZmZjc3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMTUgSmFuIDIwMjMgMTI6MDU6MTMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXBhY2thZ2luZzogdXBncmFkZSAyMi4wIC0+IDIzLjAKCi0tLQogLi4uL3tweXRob24z
-LXBhY2thZ2luZ18yMi4wLmJiID0+IHB5dGhvbjMtcGFja2FnaW5nXzIzLjAuYmJ9ICAgIHwgMiAr
-LQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUg
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1wYWNrYWdpbmdfMjIuMC5iYiA9
-PiBweXRob24zLXBhY2thZ2luZ18yMy4wLmJifSAoODIlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wYWNrYWdpbmdfMjIuMC5iYiBiL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wYWNrYWdpbmdfMjMuMC5iYgpzaW1pbGFyaXR5
-IGluZGV4IDgyJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
-bjMtcGFja2FnaW5nXzIyLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRo
-b24vcHl0aG9uMy1wYWNrYWdpbmdfMjMuMC5iYgppbmRleCAyMmYwNjY0MTZiLi43YjY5Yzg4MGMx
-IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGFja2Fn
-aW5nXzIyLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBh
-Y2thZ2luZ18yMy4wLmJiCkBAIC0zLDcgKzMsNyBAQCBIT01FUEFHRSA9ICJodHRwczovL2dpdGh1
-Yi5jb20vcHlwYS9wYWNrYWdpbmciCiBMSUNFTlNFID0gIkFwYWNoZS0yLjAgfCBCU0QtMi1DbGF1
-c2UiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT1mYWFkYWVkY2E5MjUx
-YTkwYjIwNWM5MTY3NTc4Y2U5MSIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjIxOThlYzIwYmQ0
-YzAxN2I4Zjk3MTdlMDBmMGM4NzE0MDc2ZmMyZmQ5MzgxNjc1MGFiNDhlMmM0MWRlMmNmZDMiCitT
-UkNfVVJJW3NoYTI1NnN1bV0gPSAiYjZhZDI5N2Y4OTA3ZGUwZmEyZmUxY2NiZDI2ZmRhZjM4N2Y1
-ZjQ3YzcyNzVmZWRmOGNjZTg5Zjk5NDQ2Y2Y5NyIKIAogaW5oZXJpdCBweXBpIHB5dGhvbl9mbGl0
-X2NvcmUKIAotLSAKMi4zNy4zCgo=
+CkRhdGU6IFN1biwgMTUgSmFuIDIwMjMgMDk6NDQ6MjAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+YXRjaGVsZjogdXBncmFkZSAwLjE3LjAgLT4gMC4xNy4yCgotLS0KIC4uLmI0ZjlhYjhkNTY0OTA0
+YzI5MjA5OWEwMjJmZmIzY2NjZDUyZC5wYXRjaCB8IDEwNCAtLS0tLS0tLS0tLS0tLS0tLS0KIC4u
+LntwYXRjaGVsZl8wLjE3LjAuYmIgPT4gcGF0Y2hlbGZfMC4xNy4yLmJifSB8ICAgNiArLQogMiBm
+aWxlcyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDEwOCBkZWxldGlvbnMoLSkKIGRlbGV0ZSBt
+b2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcGF0Y2hlbGYvcGF0Y2hlbGYvOGQyY2I0
+ZjlhYjhkNTY0OTA0YzI5MjA5OWEwMjJmZmIzY2NjZDUyZC5wYXRjaAogcmVuYW1lIG1ldGEvcmVj
+aXBlcy1kZXZ0b29scy9wYXRjaGVsZi97cGF0Y2hlbGZfMC4xNy4wLmJiID0+IHBhdGNoZWxmXzAu
+MTcuMi5iYn0gKDc2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcGF0Y2hl
+bGYvcGF0Y2hlbGYvOGQyY2I0ZjlhYjhkNTY0OTA0YzI5MjA5OWEwMjJmZmIzY2NjZDUyZC5wYXRj
+aCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9wYXRjaGVsZi9wYXRjaGVsZi84ZDJjYjRmOWFiOGQ1
+NjQ5MDRjMjkyMDk5YTAyMmZmYjNjY2NkNTJkLnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0
+NAppbmRleCA2Mjk2ZjBlNDRiLi4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9wYXRjaGVsZi9wYXRjaGVsZi84ZDJjYjRmOWFiOGQ1NjQ5MDRjMjkyMDk5YTAyMmZmYjNjY2Nk
+NTJkLnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEsMTA0ICswLDAgQEAKLUZyb20gOGQyY2I0Zjlh
+YjhkNTY0OTA0YzI5MjA5OWEwMjJmZmIzY2NjZDUyZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
+LUZyb206IEphc29uIDxvdGhlcmphc29uQG5vZG9tYWluLmNvbT4KLURhdGU6IEZyaSwgMiBEZWMg
+MjAyMiAxMDowMTo0MSAtMDUwMAotU3ViamVjdDogW1BBVENIXSBGaXggYnVnIGluIGZpbGUgc2hp
+ZnRpbmcgdGhhdCBjb3VsZCBjYXVzZSBjb25mbGljdGluZyBQVF9MT0FECi0gc2VnbWVudHMKLQot
+V2hlbiBhIHNlY3Rpb24gaW4gdGhlIGZpbGUgbmVlZHMgdG8gYmUgZW5sYXJnZWQgKGUuZy4gdG8g
+YWNjb21tb2RhdGUKLXNldHRpbmcgYSBsYXJnZXIgUlBBVEgpLCBzaGlmdEZpbGUoKSBpcyB1c2Vk
+IHRvIHNoaWZ0IGFsbCBjb250ZW50Ci1mb2xsb3dpbmcgdGhlIGdyb3dpbmcgc2VjdGlvbiB0byBh
+IGxhdGVyIHBvc2l0aW9uIGluIHRoZSBmaWxlLgotCi1Db21taXQgMTA5Yjc3MWY1M2VlM2QzN2Vk
+ZThjMGYxNjU2NjU2MDUxODNjMDk3NSBpbnRyb2R1Y2VkIGxvZ2ljIHRvCi1lbnN1cmUgdGhhdCwg
+YWZ0ZXIgdGhlIHNlZ21lbnQgc3BsaXQsIG5vIHNlY3Rpb25zIHNwYW4gbXVsdGlwbGUKLXNlZ21l
+bnRzLiBUaGlzIGlzIGRvbmUgYnkgc2xpZGluZyB0aGUgcG9ydGlvbiBvZiB0aGUgc2VnbWVudCBh
+ZnRlciB0aGUKLXNwbGl0IHBvaW50IGxhdGVyIGluIHRoZSBmaWxlLCB0aGVuIGFkZGluZyBhIG5l
+dyBQVF9MT0FEIHNlZ21lbnQgdGhhdAotY29udGFpbnMgdGhlIHByZWNlZGluZyBkYXRhIHBsdXMg
+dGhlIGV4dHJhIHJvb20gdGhhdCBpcyBiZWluZyBhZGRlZC4gVGhlCi1leGlzdGluZyBpbXBsZW1l
+bnRhdGlvbiBkb2VzIHRoaXMgYnkgc2ltcGx5IGFkZGluZwotYGV4dHJhUGFnZXMqZ2V0UGFnZVNp
+emUoKWAgYnl0ZXMgdG8gdGhlIG51bWJlciBvZiBieXRlcyBhaGVhZCBvZiB0aGUKLXNwbGl0IHBv
+aW50IGluIHRoZSBzZWdtZW50LgotCi1Ib3dldmVyLCB0aGlzIGFwcHJvYWNoIGNhbiByZXN1bHQg
+aW4gdHdvIFBUX0xPQUQgc2VnbWVudHMgdGhhdCBvdmVybGFwCi13aGVuIHBhZ2UgYm91bmRhcmll
+cyBhcmUgdGFrZW4gaW50byBhY2NvdW50LiBBcyBhbiBleGFtcGxlLCB0aGlzIFBUX0xPQUQKLXNl
+Y3Rpb24gKHRha2VuIGZyb20gYSBQeXRob24gMy4xMCBiaW5hcnkpOgotCi1MT0FEICAgICAgICAg
+ICAweDAwMDAwMDAwMDAwMDAwMDAgMHgwMDAwMDAwMDAwNDAwMDAwIDB4MDAwMDAwMDAwMDQwMDAw
+MAotICAgICAgICAgICAgICAgMHgwMDAwMDAwMDAwMDAwOTQ4IDB4MDAwMDAwMDAwMDAwMDk0OCAg
+UiBFICAgIDB4MjAwMDAwCi0KLWlzIHNwbGl0IGludG8gdGhlIGZvbGxvd2luZyB0d28gc2VjdGlv
+bnM6Ci0KLUxPQUQgICAgICAgICAgIDB4MDAwMDAwMDAwMDAwMDAwMCAweDAwMDAwMDAwMDAzZmYw
+MDAgMHgwMDAwMDAwMDAwM2ZmMDAwCi0gICAgICAgICAgICAgICAweDAwMDAwMDAwMDAwMDE1OTQg
+MHgwMDAwMDAwMDAwMDAxNTk0ICBSIEUgICAgMHgxMDAwCi1MT0FEICAgICAgICAgICAweDAwMDAw
+MDAwMDAwMDE1OTQgMHgwMDAwMDAwMDAwNDAwNTk0IDB4MDAwMDAwMDAwMDQwMDU5NAotICAgICAg
+ICAgICAgICAgMHgwMDAwMDAwMDAwMDAwM2I0IDB4MDAwMDAwMDAwMDAwMDNiNCAgUiBFICAgIDB4
+MTAwMAotCi1Ob3RlIHRoYXQgdGhlIHR3byBQVF9MT0FEIHNlY3Rpb25zIGJvdGggY29udGFpbiB0
+aGUgbWVtb3J5IHBhZ2UgYXQKLWFkZHJlc3MgMHg0MDAwMDAuIFRoZSBMaW51eCBrZXJuZWwncyBF
+TEYgbG9hZGVyIChhdCBsZWFzdCBhcyBvZiB2NC4xOCkKLWRvZXMgbm90IGFjY2VwdCB0aGlzIGFz
+IGEgdmFsaWQgRUxGIGV4ZWN1dGFibGUsIHRyaWdnZXJpbmcgYSBzZWdmYXVsdAotd2l0aCBzaV9j
+b2RlPVNJX0tFUk5FTCBpbW1lZGlhdGVseSB3aGVuIHRoZSBiaW5hcnkgaXMgZXhlY3V0ZWQuCi0K
+LVRoZSBmaXggaGVyZSBpcyB0byBzZXQgdGhlIGxlbmd0aCBvZiB0aGUgc2VnbWVudCB0aGF0IGNv
+bWVzIGJlZm9yZSB0aGUKLXNwbGl0IHBvaW50IG1vcmUgY2FyZWZ1bGx5OyBpbnN0ZWFkIG9mIGFk
+ZGluZyBgZXh0cmFQYWdlcypnZXRQYWdlU2l6ZSgpYAotYnl0ZXMgdG8gdGhlIHBvcnRpb24gb2Yg
+dGhlIHNlZ21lbnQgdGhhdCBjYW1lIGJlZm9yZSB0aGUgc3BsaXQsIHRoZQotYWN0dWFsIG51bWJl
+ciBvZiBwYWRkaW5nIGJ5dGVzIHRoYXQgd2VyZSBuZWVkZWQgKGJlZm9yZSByb3VuZGluZyB1cCB0
+bwotdGhlIG5leHQgbXVsdGlwbGUgb2YgdGhlIHBhZ2Ugc2l6ZSkgYXJlIHVzZWQuIFRoaXMgYXZv
+aWRzIHRoZSBvdmVybGFwCi1pbiB0aGUgUFRfTE9BRCBzZWdtZW50cyBhbmQgbWFrZXMgdGhlIG91
+dHB1dCBmaWxlcyBleGVjdXRhYmxlIGFnYWluLgotLS0tCi0gc3JjL3BhdGNoZWxmLmNjIHwgMTAg
+KysrKysrLS0tLQotIHNyYy9wYXRjaGVsZi5oICB8ICAyICstCi0gMiBmaWxlcyBjaGFuZ2VkLCA3
+IGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pCi0KLVVwc3RyZWFtLVN0YXR1czogU3VibWl0
+dGVkIFtodHRwczovL2dpdGh1Yi5jb20vTml4T1MvcGF0Y2hlbGYvcHVsbC80NDddCi1TaWduZWQt
+b2ZmLWJ5OiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9y
+Zz4KLQotSW5kZXg6IGdpdC9zcmMvcGF0Y2hlbGYuY2MKLT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KLS0tLSBnaXQub3Jp
+Zy9zcmMvcGF0Y2hlbGYuY2MKLSsrKyBnaXQvc3JjL3BhdGNoZWxmLmNjCi1AQCAtNDMyLDcgKzQz
+Miw3IEBAIHN0YXRpYyB1aW50NjRfdCByb3VuZFVwKHVpbnQ2NF90IG4sIHVpbnQKLSAKLSAKLSB0
+ZW1wbGF0ZTxFbGZGaWxlUGFyYW1zPgotLXZvaWQgRWxmRmlsZTxFbGZGaWxlUGFyYW1OYW1lcz46
+OnNoaWZ0RmlsZSh1bnNpZ25lZCBpbnQgZXh0cmFQYWdlcywgc2l6ZV90IHN0YXJ0T2Zmc2V0KQot
+K3ZvaWQgRWxmRmlsZTxFbGZGaWxlUGFyYW1OYW1lcz46OnNoaWZ0RmlsZSh1bnNpZ25lZCBpbnQg
+ZXh0cmFQYWdlcywgc2l6ZV90IHN0YXJ0T2Zmc2V0LCBzaXplX3QgZXh0cmFCeXRlcykKLSB7Ci0g
+ICAgIGFzc2VydChzdGFydE9mZnNldCA+PSBzaXplb2YoRWxmX0VoZHIpKTsKLSAKLUBAIC01MDgs
+NyArNTA4LDcgQEAgdm9pZCBFbGZGaWxlPEVsZkZpbGVQYXJhbU5hbWVzPjo6c2hpZnRGaQotICAg
+ICB3cmkocGhkci5wX29mZnNldCwgcGhkcnMuYXQoc3BsaXRJbmRleCkucF9vZmZzZXQgLSBzcGxp
+dFNoaWZ0IC0gc2hpZnQpOwotICAgICB3cmkocGhkci5wX3BhZGRyLCBwaGRycy5hdChzcGxpdElu
+ZGV4KS5wX3BhZGRyIC0gc3BsaXRTaGlmdCAtIHNoaWZ0KTsKLSAgICAgd3JpKHBoZHIucF92YWRk
+ciwgcGhkcnMuYXQoc3BsaXRJbmRleCkucF92YWRkciAtIHNwbGl0U2hpZnQgLSBzaGlmdCk7Ci0t
+ICAgIHdyaShwaGRyLnBfZmlsZXN6LCB3cmkocGhkci5wX21lbXN6LCBzcGxpdFNoaWZ0ICsgc2hp
+ZnQpKTsKLSsgICAgd3JpKHBoZHIucF9maWxlc3osIHdyaShwaGRyLnBfbWVtc3osIHNwbGl0U2hp
+ZnQgKyBleHRyYUJ5dGVzKSk7Ci0gICAgIHdyaShwaGRyLnBfZmxhZ3MsIFBGX1IgfCBQRl9XKTsK
+LSAgICAgd3JpKHBoZHIucF9hbGlnbiwgZ2V0UGFnZVNpemUoKSk7Ci0gfQotQEAgLTg5OCwxMiAr
+ODk4LDE0IEBAIHZvaWQgRWxmRmlsZTxFbGZGaWxlUGFyYW1OYW1lcz46OnJld3JpdGUKLSAgICAg
+ICAgIG5lZWRlZFNwYWNlICs9IHNpemVvZihFbGZfUGhkcik7Ci0gICAgICAgICBkZWJ1ZygibmVl
+ZGVkIHNwYWNlIGlzICVkXG4iLCBuZWVkZWRTcGFjZSk7Ci0gCi0tICAgICAgICB1bnNpZ25lZCBp
+bnQgbmVlZGVkUGFnZXMgPSByb3VuZFVwKG5lZWRlZFNwYWNlIC0gc3RhcnRPZmZzZXQsIGdldFBh
+Z2VTaXplKCkpIC8gZ2V0UGFnZVNpemUoKTsKLSsgICAgICAgIC8qIENhbGN1bGF0ZSBob3cgbWFu
+eSBieXRlcyBhcmUgbmVlZGVkIG91dCBvZiB0aGUgYWRkaXRpb25hbCBwYWdlcy4gKi8KLSsgICAg
+ICAgIHNpemVfdCBleHRyYVNwYWNlID0gbmVlZGVkU3BhY2UgLSBzdGFydE9mZnNldDsgCi0rICAg
+ICAgICB1bnNpZ25lZCBpbnQgbmVlZGVkUGFnZXMgPSByb3VuZFVwKGV4dHJhU3BhY2UsIGdldFBh
+Z2VTaXplKCkpIC8gZ2V0UGFnZVNpemUoKTsKLSAgICAgICAgIGRlYnVnKCJuZWVkZWQgcGFnZXMg
+aXMgJWRcbiIsIG5lZWRlZFBhZ2VzKTsKLSAgICAgICAgIGlmIChuZWVkZWRQYWdlcyAqIGdldFBh
+Z2VTaXplKCkgPiBmaXJzdFBhZ2UpCi0gICAgICAgICAgICAgZXJyb3IoInZpcnR1YWwgYWRkcmVz
+cyBzcGFjZSB1bmRlcnJ1biEiKTsKLSAKLS0gICAgICAgIHNoaWZ0RmlsZShuZWVkZWRQYWdlcywg
+c3RhcnRPZmZzZXQpOwotKyAgICAgICAgc2hpZnRGaWxlKG5lZWRlZFBhZ2VzLCBzdGFydE9mZnNl
+dCwgZXh0cmFTcGFjZSk7Ci0gCi0gICAgICAgICBmaXJzdFBhZ2UgLT0gbmVlZGVkUGFnZXMgKiBn
+ZXRQYWdlU2l6ZSgpOwotICAgICAgICAgc3RhcnRPZmZzZXQgKz0gbmVlZGVkUGFnZXMgKiBnZXRQ
+YWdlU2l6ZSgpOwotSW5kZXg6IGdpdC9zcmMvcGF0Y2hlbGYuaAotPT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQotLS0tIGdp
+dC5vcmlnL3NyYy9wYXRjaGVsZi5oCi0rKysgZ2l0L3NyYy9wYXRjaGVsZi5oCi1AQCAtNzcsNyAr
+NzcsNyBAQCBwcml2YXRlOgotIAotICAgICB2b2lkIHNvcnRTaGRycygpOwotIAotLSAgICB2b2lk
+IHNoaWZ0RmlsZSh1bnNpZ25lZCBpbnQgZXh0cmFQYWdlcywgc2l6ZV90IHNpemVPZmZzZXQpOwot
+KyAgICB2b2lkIHNoaWZ0RmlsZSh1bnNpZ25lZCBpbnQgZXh0cmFQYWdlcywgc2l6ZV90IHNpemVP
+ZmZzZXQsIHNpemVfdCBleHRyYUJ5dGVzKTsKLSAKLSAgICAgc3RkOjpzdHJpbmcgZ2V0U2VjdGlv
+bk5hbWUoY29uc3QgRWxmX1NoZHIgJiBzaGRyKSBjb25zdDsKLSAKZGlmZiAtLWdpdCBhL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9wYXRjaGVsZi9wYXRjaGVsZl8wLjE3LjAuYmIgYi9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcGF0Y2hlbGYvcGF0Y2hlbGZfMC4xNy4yLmJiCnNpbWlsYXJpdHkgaW5kZXgg
+NzYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9wYXRjaGVsZi9wYXRjaGVsZl8w
+LjE3LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9wYXRjaGVsZi9wYXRjaGVs
+Zl8wLjE3LjIuYmIKaW5kZXggYjMyYWJjN2I4Ny4uYTk1ODM0MTllOCAxMDA2NDQKLS0tIGEvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3BhdGNoZWxmL3BhdGNoZWxmXzAuMTcuMC5iYgorKysgYi9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcGF0Y2hlbGYvcGF0Y2hlbGZfMC4xNy4yLmJiCkBAIC00LDEwICs0
+LDggQEAgSE9NRVBBR0UgPSAiaHR0cHM6Ly9naXRodWIuY29tL05peE9TL3BhdGNoZWxmIgogCiBM
+SUNFTlNFID0gIkdQTC0zLjAtb25seSIKIAotU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL05p
+eE9TL3BhdGNoZWxmO3Byb3RvY29sPWh0dHBzO2JyYW5jaD1tYXN0ZXIgXAotICAgICAgICAgICBm
+aWxlOi8vOGQyY2I0ZjlhYjhkNTY0OTA0YzI5MjA5OWEwMjJmZmIzY2NjZDUyZC5wYXRjaCBcCi0g
+ICAgICAgICAgICIKLVNSQ1JFViA9ICJhZDAyNjU2NjhmMTJlZmY1OTAyNzI1OTM0NWZlZDRiMGYz
+MTUzMzZhIgorU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL05peE9TL3BhdGNoZWxmO3Byb3Rv
+Y29sPWh0dHBzO2JyYW5jaD1tYXN0ZXIiCitTUkNSRVYgPSAiNTkwOGUxNmNkNTYyYmNiMTkwOWJl
+NGRlMDQwOWM0OTEyYThhZmM1MiIKIAogUyA9ICIke1dPUktESVJ9L2dpdCIKIAotLSAKMi4zNy4z
+Cgo=
 
---===============3925502228223215065==--
+--===============0426892506905877500==--
 
