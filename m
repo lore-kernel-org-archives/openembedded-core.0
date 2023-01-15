@@ -2,71 +2,68 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26929C3DA78
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2597FC63797
 	for <webhook@archiver.kernel.org>; Sun, 15 Jan 2023 05:23:17 +0000 (UTC)
-Received: from mail3.bemta32.messagelabs.com (mail3.bemta32.messagelabs.com [195.245.230.18])
- by mx.groups.io with SMTP id smtpd.web10.134782.1673760193716168080
+Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com [85.158.142.1])
+ by mx.groups.io with SMTP id smtpd.web11.134739.1673760191776433733
  for <openembedded-core@lists.openembedded.org>;
- Sat, 14 Jan 2023 21:23:14 -0800
+ Sat, 14 Jan 2023 21:23:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=QpavH/dg;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.18, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=QxQmeSWm;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.1, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1673760191; i=@fujitsu.com;
-	bh=MaXn/nBpfu0O2a3N8CY5x33+Fi9g2DIKvuiYJfrgkYk=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=QpavH/dgc941gqpxpQ2yC1fbWzCNnGEuxc9f5gD8RDnW783mSRKJIo6yOkmWE0Hpu
-	 rnR50rCEpG7LThyktx5wcCrxMnbxuB2hgECBzRdBlooedNkNvMZRvRQi4uMfDqjMZx
-	 ynbVgJLBJdn+DCQz8mSu4H4LgMPCZA+t55HbrpUimUImgo0wme1+usxxIjHaGhyFIO
-	 X6OI0UQPJsg1ZZzALweM9h7lYE2Mc/fNouyvkn2oTaThlVp/ZnnBvuUDkM9YCRUh/7
-	 1c5yEORtlr/OZY4FpLy9aqApIEhvvxZOprqNDaVyYvF9rTW3+0lNiw9RXYAuEOi4Vk
-	 eYL7DK/adriyQ==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrPIsWRWlGSWpSXmKPExsViZ8ORpLuv93C
-  ywZU3ChZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aL1nXMBV0cFdt2v2NuYFzN3sXIySEk8IBR
-  4u/y+C5GLiD7MpPElykHWCGcvYwSPQ+2MIFUsQlISdy4/5+ti5GDQ0RAT+LqP1GQMLOAisSL3
-  z1gg4QF7CTmXb/LBmKzCKhK7Js8nRGknFfAUeLdtEyQsISAgsSUh++ZQWxOASeJ7vs7WSFucJ
-  TYdqQfbAyvgKDEyZlPWCDGS0gcfPGCGaJXUWL25WYWCLtSovXDLyhbTeLquU3MExgFZyFpn4W
-  kfQEj0ypG0+LUorLUIl1TvaSizPSMktzEzBy9xCrdRL3UUt3y1OISXUO9xPJivdTiYr3iytzk
-  nBS9vNSSTYzAsE0pZizbwdi97I/eIUZJDiYlUd7Ib4eShfiS8lMqMxKLM+KLSnNSiw8xynBwK
-  Enwbmg8nCwkWJSanlqRlpkDjCGYtAQHj5IIr3YHUJq3uCAxtzgzHSJ1ilGX4+qVK3uZhVjy8v
-  NSpcR5X/QAFQmAFGWU5sGNgMXzJUZZKWFeRgYGBiGegtSi3MwSVPlXjOIcjErCvE9BpvBk5pX
-  AbXoFdAQT0BEh9QdBjihJREhJNTBVHL3E1HapYZbgFdvft3ISFsyP33whdJqI/4atPjtKdHKL
-  pm5dU3lateLD3n6hwK339zbwSvodOb46cHJEkfXGT0mTZHMFni3vrMtWSvPbXaM/T/Wt8FH7z
-  wcWaXwIbDjylcuD88DGKomyjdqL9F0Z1C7cPJ2iwbzhhAHHk1h5lsX3/5/3uDZrhbuj8y3xWd
-  af+125Jt1NntT7yET3vJ6G1PU6oXKtAt0Ks62hq252Sed5dKd2PXEK+ZvhHz27wn+dfcCc9Sa
-  /Vvh49bzPPmi3xT6Mc2p3r8y247MVJfgz/txecd+h1PTv1DhTXh+rysP5D1/9yX1/nc/3yqxr
-  ny5OO6iXorynbIHhBJY5po+UWIozEg21mIuKEwElqDAoYgMAAA==
+	s=170520fj; t=1673760189; i=@fujitsu.com;
+	bh=j/DucdrqIhdHJ0EF32Vnb5qD4ivEtNMXlUX7MwRZO5c=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=QxQmeSWmPykXF2v7XvC9eo54Cs/iS78D69co1/Bua1vYGdiSDpJj1IwpPbPDTswra
+	 yh9xAgKmH9uKigaDRVlURs4FDPp7ifTHsd5m/1TSrkOC94NtBUlOjbcO1pfzA8Zqok
+	 z0hPOMw4/+l7wDVAW3WMQTR6HIJ6XeuIXV168XyIlKZRqc3D/4mn9IsiTA2AKnWR99
+	 y2kwL8T55YZApk3EVohOeGmNhLJEE+ECg15vOQJxOI9uhNkfA2EsSEDhS81YAOqs7s
+	 pS6gOALun+/eYEEBQOElbmoZWPy1dHqBqZQ7DoOglF/UstchgZoqnC7pduGtlNT6g0
+	 tr3/SiKqw9Acg==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrNIsWRWlGSWpSXmKPExsViZ8OxWXd37+F
+  kgyvfTS3u/HzH7sDocW7jCsYAxijWzLyk/IoE1ozNx9tZC3YIVmycp9jAeJavi5GTQ0jgAaPE
+  vS92XYxcQPZlJontB/ezQTh7GSWmtTxiAqliE5CSuHH/P1CCg0NEQE/i6j9RkDCzgIrEi9897
+  CC2sICxxLf2B2DlLAKqEnta9zGClPMKOEo0LpACCUsIKEhMefieGcTmFRCUODnzCQvEGAmJgy
+  9eMEPUKErMvtzMAmFXSrR++AVlq0lcPbeJeQIj/ywk7bOQtC9gZFrFaFacWlSWWqRrqJdUlJm
+  eUZKbmJmjl1ilm6iXWqqbl19UkgGUSiwv1kstLtYrrsxNzknRy0st2cQIDMOU4mT2HYxvlvzR
+  O8QoycGkJMob+e1QshBfUn5KZUZicUZ8UWlOavEhRhkODiUJ3g2Nh5OFBItS01Mr0jJzgDEBk
+  5bg4FES4dXuAErzFhck5hZnpkOkTjEqSonzvugBSgiAJDJK8+DaYHF4iVFWSpiXkYGBQYinIL
+  UoN7MEVf4VozgHo5Iw71OQKTyZeSVw018BLWYCWhxSfxBkcUkiQkqqgansj5Gz5DoXfx6NX6t
+  2rdYWF3zsnqVZsV70Ov91adPFL356bZU9zLJ4tiLP43dWRqvmFPfzm3yNXde9/kNwdp6V96/v
+  qlZrXp45cHDzx/r9wVaLJU/vOsHjeMxJZ4KU5zoX9rvvE0WWv/93as0NkQ1yGQ8Zmk0+rkpQ/
+  9ccGvdvSrEns5GYXKjmtVdtwns8JN+ZiCktWC4dUXnK9tLWjJ0tj9jDNvvUcotM/MeaeGyu7L
+  L0ApWt8x7J6NaYrt+s9Tio+IpR0e10/iVGptz/q9wXbz5yqnL7l9lhQvaWzY9F5jEHhFZZ1yl
+  8a1YOmhQo9KfCOib21AsVt2zOrIWqS1cvWtWzxv+JJYeost/+n0osxRmJhlrMRcWJAOBdzx4+
+  AwAA
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-23.tower-585.messagelabs.com!1673760190!237941!1
-X-Originating-IP: [62.60.8.98]
+X-Msg-Ref: server-5.tower-745.messagelabs.com!1673760187!229611!1
+X-Originating-IP: [62.60.8.179]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.102.1; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 8515 invoked from network); 15 Jan 2023 05:23:10 -0000
-Received: from unknown (HELO n03ukasimr03.n03.fujitsu.local) (62.60.8.98)
-  by server-23.tower-585.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 15 Jan 2023 05:23:10 -0000
-Received: from n03ukasimr03.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTP id 2C0331AF
-	for <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 05:23:10 +0000 (GMT)
+Received: (qmail 13807 invoked from network); 15 Jan 2023 05:23:07 -0000
+Received: from unknown (HELO n03ukasimr04.n03.fujitsu.local) (62.60.8.179)
+  by server-5.tower-745.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 15 Jan 2023 05:23:07 -0000
+Received: from n03ukasimr04.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTP id 5C717150
+	for <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 05:23:07 +0000 (GMT)
 Received: from R01UKEXCASM223.r01.fujitsu.local (R01UKEXCASM223 [10.182.185.121])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTPS id 205847B
-	for <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 05:23:10 +0000 (GMT)
+	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTPS id 50B9D73
+	for <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 05:23:07 +0000 (GMT)
 Received: from localhost.localdomain (10.167.225.33) by
  R01UKEXCASM223.r01.fujitsu.local (10.182.185.121) with Microsoft SMTP Server
- (TLS) id 15.0.1497.42; Sun, 15 Jan 2023 05:23:08 +0000
+ (TLS) id 15.0.1497.42; Sun, 15 Jan 2023 05:23:05 +0000
 From: <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] gi-docgen: upgrade 2022.2 -> 2023.1
-Date: Sun, 15 Jan 2023 13:22:52 +0800
-Message-ID: <1673760175-2523-2-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] ed: upgrade 1.18 -> 1.19
+Date: Sun, 15 Jan 2023 13:22:51 +0800
+Message-ID: <1673760175-2523-1-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1673760175-2523-1-git-send-email-wangmy@fujitsu.com>
-References: <1673760175-2523-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.167.225.33]
@@ -77,32 +74,58 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 05:23:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175868
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175867
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
+Changelog:
+==========
+ * main_loop.c (exec_command): Fix commands 'e', 'E'; they did set
+   the 'modified' flag if file not found. (Reported by Harry Graf).
+   (main_loop): Print script error line to stdout instead of stderr.
+ * Change long name of option '-s' to '--script'.
+   (Suggested by Andrew L. Moore).
+ * Assign short name '-q' to options '--quiet' and '--silent'.
+ * main.c (show_strerror) Use '!quiet' to enable diagnostics.
+ * Do not process file names for backslash escapes.
+   (Suggested by Andrew L. Moore).
+ * ed.texi: Document 0 as starting point for searches '0;/RE/'.
+   Document how to achieve the effect of ex style '!' filtering.
+
+License-Update: Copyright year updated to 2023.
+
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../gi-docgen/{gi-docgen_git.bb => gi-docgen_2023.1.bb}        | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-gnome/gi-docgen/{gi-docgen_git.bb => gi-docgen_2023.1.bb} (93%)
+ meta/recipes-extended/ed/{ed_1.18.bb => ed_1.19.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/ed/{ed_1.18.bb => ed_1.19.bb} (80%)
 
-diff --git a/meta/recipes-gnome/gi-docgen/gi-docgen_git.bb b/meta/recipes-gnome/gi-docgen/gi-docgen_2023.1.bb
-similarity index 93%
-rename from meta/recipes-gnome/gi-docgen/gi-docgen_git.bb
-rename to meta/recipes-gnome/gi-docgen/gi-docgen_2023.1.bb
-index fa41f2ccd2..7722ebda8f 100644
---- a/meta/recipes-gnome/gi-docgen/gi-docgen_git.bb
-+++ b/meta/recipes-gnome/gi-docgen/gi-docgen_2023.1.bb
-@@ -10,8 +10,7 @@ LIC_FILES_CHKSUM = "file://gi-docgen.py;beginline=1;endline=5;md5=2dc0f1f0120247
+diff --git a/meta/recipes-extended/ed/ed_1.18.bb b/meta/recipes-extended/ed/ed_1.19.bb
+similarity index 80%
+rename from meta/recipes-extended/ed/ed_1.18.bb
+rename to meta/recipes-extended/ed/ed_1.19.bb
+index e1548df15f..d01b7486d9 100644
+--- a/meta/recipes-extended/ed/ed_1.18.bb
++++ b/meta/recipes-extended/ed/ed_1.19.bb
+@@ -4,8 +4,8 @@ DESCRIPTION = "GNU ed is a line-oriented text editor. It is used to create, disp
  
- SRC_URI = "git://gitlab.gnome.org/GNOME/gi-docgen.git;protocol=https;branch=main"
+ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=76d6e300ffd8fb9d18bd9b136a9bba13 \
+-                    file://ed.h;endline=20;md5=6e6a818b0593f937fc63ba08d5e314bf \
+-                    file://main.c;endline=17;md5=8419a08bb12936f32384a0d1c0f9e74c \
++                    file://ed.h;endline=20;md5=504a90a78b045972e2fd2f3fc418c195 \
++                    file://main.c;endline=17;md5=cf9d322b0ac4445ca2299c61ee175365 \
+                     "
  
--PV = "2022.2"
--SRCREV = "bddd024b08650efdd24704c670f586eb12cec9c9"
-+SRCREV = "63b4fad4181e793f34b7777a89e5cb58fe8ac7e6"
+ SECTION = "base"
+@@ -19,7 +19,7 @@ bindir = "${base_bindir}"
+ SRC_URI = "${GNU_MIRROR}/ed/${BP}.tar.lz"
+ UPSTREAM_CHECK_URI = "${GNU_MIRROR}/ed/"
  
- S = "${WORKDIR}/git"
+-SRC_URI[sha256sum] = "aca8efad9800c587724a20b97aa8fc47e6b5a47df81606feaba831b074462b4f"
++SRC_URI[sha256sum] = "ce2f2e5c424790aa96d09dacb93d9bbfdc0b7eb6249c9cb7538452e8ec77cd48"
+ 
+ EXTRA_OEMAKE = "-e MAKEFLAGS="
  
 -- 
 2.25.1
