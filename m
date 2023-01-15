@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA46EC71159
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC809C7115D
 	for <webhook@archiver.kernel.org>; Sun, 15 Jan 2023 18:02:31 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.145711.1673805743381013069
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.145720.1673805743871948688
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Jan 2023 10:02:24 -0800
+ Sun, 15 Jan 2023 10:02:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=dWToRfQg;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010185b698c7fa-88756fa3-8fb9-4732-87ef-f4beb6b30881-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=JAlVnAoa;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010185b698c473-b7876354-0949-4bc2-b35d-7b4f1f128aa0-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1673805744;
+	t=1673805743;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=aHMwwhV3oRptp+bSaX/h+rPe8l26u2lxHc8hOUmgeRM=;
-	b=dWToRfQglYKPB7W0UulQg1umm8+P5MZhXea0KQhf9Y43iGKJgUkKc2+5PwQH7pc4
-	M/LMwx4wRXqQb14PlugQoEucNcvHoKhhH+ZFNOoYoA1PwD8j3fM2CcXsXOVkxWymKr+
-	oLqaS++reXrscDsia1YOuWPjoqlIw+mvUi8Qp7Do=
+	bh=8jozdyloanRI/1lmfGKvQhZP7l5dSI/BZ0zxSNXunXI=;
+	b=JAlVnAoaQB1XChs4HKk2j63+LBL1PqCG7oBDjo+sugPPfN+ggm/9HtV/+FXgU7Mi
+	S4scgYDYx5TKbHzvGaHCDdoJszI4WPVVd6yNOipBLC0L+aRTN+h/kxeHSNDC9BtgTih
+	XJ4ziV8wWRiLc7pSZ3uFIGADjCz2bnRfckn26A+Q=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1673805744;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1673805743;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=aHMwwhV3oRptp+bSaX/h+rPe8l26u2lxHc8hOUmgeRM=;
-	b=FOgC3KwVXAYrgxHBynWqhjsgx2bHg7O7oYCPvLMEEpdrEIiBaD5X0Gz985HAnoSN
-	BBEwBlYtWv71PUl4MYSXalmnk/DiQeQxLdDayi4jUPiNaAhmEFfzwuvEMjVwhEe5/Tm
-	gVBmdWvCyhJ30Ynvcw5b9uNbzBGBAe6WEKp0gZsk=
-Content-Type: multipart/mixed; boundary="===============5511707481007717475=="
+	bh=8jozdyloanRI/1lmfGKvQhZP7l5dSI/BZ0zxSNXunXI=;
+	b=FxAoXWFY33tvsdLYEqNaypyU3cvWB1GHVXzC9z0Di7Nek7JPxI8sdZfaGQfPA1sL
+	CQJb3/K3LE/4yXV03proMieaj9gU7cobOPEgOF2damj0v+rwjggdwzJ/e3UsACvDXZf
+	KkyQ6LGmwpiPHufLwXHLGwIXNMcEBjIec8oziVDI=
+Content-Type: multipart/mixed; boundary="===============5816492283426311309=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] mc: upgrading to 4.8.29 FAILED
-Message-ID: <01010185b698c7fa-88756fa3-8fb9-4732-87ef-f4beb6b30881-000000@us-west-2.amazonses.com>
-Date: Sun, 15 Jan 2023 18:02:24 +0000
+Subject: [AUH] python3-importlib-metadata: upgrading to 6.0.0 SUCCEEDED
+Message-ID: <01010185b698c473-b7876354-0949-4bc2-b35d-7b4f1f128aa0-000000@us-west-2.amazonses.com>
+Date: Sun, 15 Jan 2023 18:02:23 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.01.15-54.240.27.31
+X-SES-Outgoing: 2023.01.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 18:02:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175910
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175909
 
---===============5511707481007717475==
+--===============5816492283426311309==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,90 +50,92 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *mc* to *4.8.29* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *python3-importlib-metadata* to *6.0.0* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-importlib-metadata-upgrade-5.2.0-6.0.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade mc -V 4.8.29
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)... (14:05:43.780195)
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1696 entries from dependency cache.
-
-Summary: There was 1 WARNING message.
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:af415e2b97f6323a8209c1f258c9cc996225515c"
-workspace            = "master:11698e027d71967153b272bf34996bee8f3908e5"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1696 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 899 .bb files complete (897 cached, 2 parsed). 1697 targets, 40 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 WARNING message.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:af415e2b97f6323a8209c1f258c9cc996225515c"
-workspace            = "master:11698e027d71967153b272bf34996bee8f3908e5"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-WARNING: Failed to fetch URL http://www.midnight-commander.org/downloads/mc-4.8.29.tar.bz2, attempting MIRRORS if available
-NOTE: Tasks Summary: Attempted 1 tasks of which 0 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching http://www.midnight-commander.org/downloads/mc-4.8.29.tar.bz2...
-ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-5yq4dtzh/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-5yq4dtzh/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-5yq4dtzh/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-wor
- ker/auh/build/build/build/tmp/work/recipetool-5yq4dtzh/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-5yq4dtzh/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-5yq4dtzh/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 --passive-ftp -O /home/pokybuild/yocto-worker/auh/build/build/build/downloads/mc-4.8.29.tar.bz2.tmp -P /home/pokybuild/yocto-worker/auh/build/build/build/downloads 'http://www.midnight-commander.org/downloads/mc-4.8.29.tar.bz2' --progress=dot -v failed with exit code 8, no output
-ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'http://www.midnight-commander.org/downloads/mc-4.8.29.tar.bz2')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-5yq4dtzh/work/temp/log.do_fetch.553995
-ERROR: Failed to fetch URL http://www.midnight-commander.org/downloads/mc-4.8.29.tar.bz2
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============5511707481007717475==--
+--===============5816492283426311309==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/python3-importlib-metadata: PKGV changed from 5.2.0 [default] to 6.0.0 [default]
+packages/core2-32-poky-linux/python3-importlib-metadata: PV changed from "5.2.0" to "6.0.0"
+packages/core2-32-poky-linux/python3-importlib-metadata: SRC_URI changed from "https://files.pythonhosted.org/packages/source/i/importlib_metadata/importlib_metadata-5.2.0.tar.gz" to "https://files.pythonhosted.org/packages/source/i/importlib_metadata/importlib_metadata-6.0.0.tar.gz"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dbg: PKGV changed from 5.2.0 [default] to 6.0.0 [default]
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dbg: PV changed from "5.2.0" to "6.0.0"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dev: PKGV changed from 5.2.0 [default] to 6.0.0 [default]
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dev: PV changed from "5.2.0" to "6.0.0"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-doc: PKGV changed from 5.2.0 [default] to 6.0.0 [default]
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-doc: PV changed from "5.2.0" to "6.0.0"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-locale: PKGV changed from 5.2.0 [default] to 6.0.0 [default]
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-locale: PV changed from "5.2.0" to "6.0.0"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-src: PKGV changed from 5.2.0 [default] to 6.0.0 [default]
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-src: PV changed from "5.2.0" to "6.0.0"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-staticdev: PKGV changed from 5.2.0 [default] to 6.0.0 [default]
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata-staticdev: PV changed from "5.2.0" to "6.0.0"
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata: PKGV changed from 5.2.0 [default] to 6.0.0 [default]
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata: PKGSIZE changed from 133615 to 133685 (+0%)
+packages/core2-32-poky-linux/python3-importlib-metadata/python3-importlib-metadata: PV changed from "5.2.0" to "6.0.0"
+Changes to packages/core2-32-poky-linux/python3-importlib-metadata (sysroot):
+  /usr/lib/python3.11/site-packages/importlib_metadata-5.2.0.dist-info moved to /usr/lib/python3.11/site-packages/importlib_metadata-6.0.0.dist-info
+
+--===============5816492283426311309==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-32-poky-linux/python3-importlib-metadata (sysroot):
+  /usr/lib/python3.11/site-packages/importlib_metadata-5.2.0.dist-info moved to /usr/lib/python3.11/site-packages/importlib_metadata-6.0.0.dist-info
+
+--===============5816492283426311309==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-importlib-metadata-upgrade-5.2.0-6.0.0.patch"
+
+RnJvbSA3ZTQ0ZWJmNWFlZGJmMmFjNzM3NzUwNTlkZjI2ODFmYjcyZTJkYzgwIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMTUgSmFuIDIwMjMgMTE6NTk6MzcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWltcG9ydGxpYi1tZXRhZGF0YTogdXBncmFkZSA1LjIuMCAtPiA2LjAuMAoKLS0tCiAu
+Li5pYi1tZXRhZGF0YV81LjIuMC5iYiA9PiBweXRob24zLWltcG9ydGxpYi1tZXRhZGF0YV82LjAu
+MC5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
+LSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWltcG9ydGxp
+Yi1tZXRhZGF0YV81LjIuMC5iYiA9PiBweXRob24zLWltcG9ydGxpYi1tZXRhZGF0YV82LjAuMC5i
+Yn0gKDg4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
+bjMtaW1wb3J0bGliLW1ldGFkYXRhXzUuMi4wLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvbi9weXRob24zLWltcG9ydGxpYi1tZXRhZGF0YV82LjAuMC5iYgpzaW1pbGFyaXR5IGluZGV4
+IDg4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaW1w
+b3J0bGliLW1ldGFkYXRhXzUuMi4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtaW1wb3J0bGliLW1ldGFkYXRhXzYuMC4wLmJiCmluZGV4IDg5M2M2M2Q3
+ZTUuLmIzM2ExYjU4NTggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
+cHl0aG9uMy1pbXBvcnRsaWItbWV0YWRhdGFfNS4yLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLWltcG9ydGxpYi1tZXRhZGF0YV82LjAuMC5iYgpAQCAtOCw3
+ICs4LDcgQEAgaW5oZXJpdCBweXBpIHB5dGhvbl9zZXR1cHRvb2xzX2J1aWxkX21ldGEKIFBZUElf
+UEFDS0FHRSA9ICJpbXBvcnRsaWJfbWV0YWRhdGEiCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICIv
+aW1wb3J0bGliLW1ldGFkYXRhLyg/UDxwdmVyPihcZCtbXC5cLV9dKikrKS8iCiAKLVNSQ19VUklb
+c2hhMjU2c3VtXSA9ICI0MDRkNDhkNjJiYmEwYjdhNzdmZjlkNDA1ZWZkOTE1MDFiZWYyZTY3ZmY0
+YWNlMGJlZDQwYTBjZjI4YzNjN2NkIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImUzNTRiZWRlYjYw
+ZWZhNmFmZmRjYzhhZTEyMWI3MzU0NGE3YWE3NDE1NmQwNDczMTE5NDhmNmQ3MTFjZDM3OGQiCiAK
+IFMgPSAiJHtXT1JLRElSfS9pbXBvcnRsaWJfbWV0YWRhdGEtJHtQVn0iCiAKLS0gCjIuMzcuMwoK
+
+--===============5816492283426311309==--
 
