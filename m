@@ -2,71 +2,71 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 183B3C3DA78
-	for <webhook@archiver.kernel.org>; Sun, 15 Jan 2023 05:21:47 +0000 (UTC)
-Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com [195.245.230.1])
- by mx.groups.io with SMTP id smtpd.web10.134763.1673760104893926608
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26929C3DA78
+	for <webhook@archiver.kernel.org>; Sun, 15 Jan 2023 05:23:17 +0000 (UTC)
+Received: from mail3.bemta32.messagelabs.com (mail3.bemta32.messagelabs.com [195.245.230.18])
+ by mx.groups.io with SMTP id smtpd.web10.134782.1673760193716168080
  for <openembedded-core@lists.openembedded.org>;
- Sat, 14 Jan 2023 21:21:45 -0800
+ Sat, 14 Jan 2023 21:23:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=bDMWvecM;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.1, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=QpavH/dg;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.18, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1673760103; i=@fujitsu.com;
-	bh=RYkw09LTa4ogeBNvHlSSp1OJGWcJznZ7LHclD7/0NkE=;
+	s=170520fj; t=1673760191; i=@fujitsu.com;
+	bh=MaXn/nBpfu0O2a3N8CY5x33+Fi9g2DIKvuiYJfrgkYk=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
 	 MIME-Version:Content-Type;
-	b=bDMWvecMp3Wgo4sJ34Y8Cws+H3ahE6W6XwYPdD8WoFTkj064ieRdrK80T0Ya0+Vq1
-	 GL+9ML2yIzKtneTPV7h/avBvSvkciWM8jTAMUHL2xY1AVD2PP3oQWCpfuxJEvPXQh1
-	 WpUddUEwnkBxckz7cgVDRa+wz9PPqZApLnUE78mIvT2ZA+FZIuZLjwt73wZoSdhDRP
-	 nC5UzQGI3EYuNmOBqWVRj/xewrU+J+eueqlVI5n5qD2hJmKROmUFqWXMjDBVAYB8gT
-	 kwQlEg2rpMYSEu3uOTyvKgVpd1p4cWNTQsLqRiCdKw9mH6s0ACi9vJi6UEMtumW88g
-	 exb+Q1OhvNatA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrKIsWRWlGSWpSXmKPExsViZ8MxSTet93C
-  ywfpLJhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8a9ozNZC57xVsybd5algfEjdxcjF4eQwGNG
-  ib//f7NDONeZJE7sWAXl7GWUOL/gM2sXIycHm4CUxI37/9m6GDk4RAT0JK7+EwUJMwuoSLz43
-  cMOYgsLWEvM+vWPDcRmEVCVODllLjOIzSvgKHFwxjuwuISAgsSUh+/B4pwCThILe2aA9QoB1R
-  x7+YkNol5Q4uTMJywQ8yUkDr54wQzRqygx+3IzC4RdKdH64ReUrSZx9dwm5gmMgrOQtM9C0r6
-  AkWkVo2lxalFZapGuiV5SUWZ6RkluYmaOXmKVbqJeaqlueWpxia6hXmJ5sV5qcbFecWVuck6K
-  Xl5qySZGYOimFLP57GD8t/SP3iFGSQ4mJVHeyG+HkoX4kvJTKjMSizPii0pzUosPMcpwcChJ8
-  G5oPJwsJFiUmp5akZaZA4wjmLQEB4+SCK92B1Cat7ggMbc4Mx0idYpRUUqct7IHKCEAksgozY
-  Nrg8XuJUZZKWFeRgYGBiGegtSi3MwSVPlXjOIcjErCvE9BpvBk5pXATX8FtJgJaHFI/UGQxSW
-  JCCmpBiZuiZVhj93WXt1y2EUk7P6rhOfp9s9z5UXbDQ6dLk98fII58GnKh9yy4nDv1R8trM8E
-  7NzSfunWs+Uvcs4w75ERD3YNZV1Qw3hDxDlQbKeSy46foeE1uvv+1h02shNzjrt9bR/7c3kLQ
-  aHnHA/vTGkQeJnCNf3C/tJ1p4/u+ySq/6H92YrlDW87dly5rn/+zoobalqVM/b+tfGQmBNy8w
-  Dz3bOWT3433Vl+8MfuOY9Df8/P2SDrzFfrq/FQ7MD6a0291oerOPWi5HaFyobGlJ3OmmaeKH7
-  m+70LFhybAm5ueSDf+OG3Rq8li6nU8Trz2wL5ErL5h3bevLzFvXdJk9GiU3M6cr1u1jH9u/eZ
-  bVeHEktxRqKhFnNRcSIA2aVZdFgDAAA=
+	b=QpavH/dgc941gqpxpQ2yC1fbWzCNnGEuxc9f5gD8RDnW783mSRKJIo6yOkmWE0Hpu
+	 rnR50rCEpG7LThyktx5wcCrxMnbxuB2hgECBzRdBlooedNkNvMZRvRQi4uMfDqjMZx
+	 ynbVgJLBJdn+DCQz8mSu4H4LgMPCZA+t55HbrpUimUImgo0wme1+usxxIjHaGhyFIO
+	 X6OI0UQPJsg1ZZzALweM9h7lYE2Mc/fNouyvkn2oTaThlVp/ZnnBvuUDkM9YCRUh/7
+	 1c5yEORtlr/OZY4FpLy9aqApIEhvvxZOprqNDaVyYvF9rTW3+0lNiw9RXYAuEOi4Vk
+	 eYL7DK/adriyQ==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrPIsWRWlGSWpSXmKPExsViZ8ORpLuv93C
+  ywZU3ChZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aL1nXMBV0cFdt2v2NuYFzN3sXIySEk8IBR
+  4u/y+C5GLiD7MpPElykHWCGcvYwSPQ+2MIFUsQlISdy4/5+ti5GDQ0RAT+LqP1GQMLOAisSL3
+  z1gg4QF7CTmXb/LBmKzCKhK7Js8nRGknFfAUeLdtEyQsISAgsSUh++ZQWxOASeJ7vs7WSFucJ
+  TYdqQfbAyvgKDEyZlPWCDGS0gcfPGCGaJXUWL25WYWCLtSovXDLyhbTeLquU3MExgFZyFpn4W
+  kfQEj0ypG0+LUorLUIl1TvaSizPSMktzEzBy9xCrdRL3UUt3y1OISXUO9xPJivdTiYr3iytzk
+  nBS9vNSSTYzAsE0pZizbwdi97I/eIUZJDiYlUd7Ib4eShfiS8lMqMxKLM+KLSnNSiw8xynBwK
+  Enwbmg8nCwkWJSanlqRlpkDjCGYtAQHj5IIr3YHUJq3uCAxtzgzHSJ1ilGX4+qVK3uZhVjy8v
+  NSpcR5X/QAFQmAFGWU5sGNgMXzJUZZKWFeRgYGBiGegtSi3MwSVPlXjOIcjErCvE9BpvBk5pX
+  AbXoFdAQT0BEh9QdBjihJREhJNTBVHL3E1HapYZbgFdvft3ISFsyP33whdJqI/4atPjtKdHKL
+  pm5dU3lateLD3n6hwK339zbwSvodOb46cHJEkfXGT0mTZHMFni3vrMtWSvPbXaM/T/Wt8FH7z
+  wcWaXwIbDjylcuD88DGKomyjdqL9F0Z1C7cPJ2iwbzhhAHHk1h5lsX3/5/3uDZrhbuj8y3xWd
+  af+125Jt1NntT7yET3vJ6G1PU6oXKtAt0Ks62hq252Sed5dKd2PXEK+ZvhHz27wn+dfcCc9Sa
+  /Vvh49bzPPmi3xT6Mc2p3r8y247MVJfgz/txecd+h1PTv1DhTXh+rysP5D1/9yX1/nc/3yqxr
+  ny5OO6iXorynbIHhBJY5po+UWIozEg21mIuKEwElqDAoYgMAAA==
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-21.tower-587.messagelabs.com!1673760102!233646!1
-X-Originating-IP: [62.60.8.146]
+X-Msg-Ref: server-23.tower-585.messagelabs.com!1673760190!237941!1
+X-Originating-IP: [62.60.8.98]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.102.1; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 15139 invoked from network); 15 Jan 2023 05:21:42 -0000
-Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
-  by server-21.tower-587.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 15 Jan 2023 05:21:42 -0000
-Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 7B16D1000D2
-	for <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 05:21:42 +0000 (GMT)
+Received: (qmail 8515 invoked from network); 15 Jan 2023 05:23:10 -0000
+Received: from unknown (HELO n03ukasimr03.n03.fujitsu.local) (62.60.8.98)
+  by server-23.tower-585.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 15 Jan 2023 05:23:10 -0000
+Received: from n03ukasimr03.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTP id 2C0331AF
+	for <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 05:23:10 +0000 (GMT)
 Received: from R01UKEXCASM223.r01.fujitsu.local (R01UKEXCASM223 [10.182.185.121])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 6F1C31000C1
-	for <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 05:21:42 +0000 (GMT)
+	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTPS id 205847B
+	for <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 05:23:10 +0000 (GMT)
 Received: from localhost.localdomain (10.167.225.33) by
  R01UKEXCASM223.r01.fujitsu.local (10.182.185.121) with Microsoft SMTP Server
- (TLS) id 15.0.1497.42; Sun, 15 Jan 2023 05:21:40 +0000
+ (TLS) id 15.0.1497.42; Sun, 15 Jan 2023 05:23:08 +0000
 From: <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] dpkg: upgrade 1.21.17 -> 1.21.18
-Date: Sun, 15 Jan 2023 13:20:55 +0800
-Message-ID: <1673760055-2483-5-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] gi-docgen: upgrade 2022.2 -> 2023.1
+Date: Sun, 15 Jan 2023 13:22:52 +0800
+Message-ID: <1673760175-2523-2-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1673760055-2483-1-git-send-email-wangmy@fujitsu.com>
-References: <1673760055-2483-1-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <1673760175-2523-1-git-send-email-wangmy@fujitsu.com>
+References: <1673760175-2523-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.167.225.33]
@@ -76,52 +76,34 @@ X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 05:21:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175866
+ <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 05:23:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175868
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
-Changelog:
-==========
- * Perl modules:
-    - Dpkg::BuildFlags: Fix strip method to always work with duplicates.
-  * Documentation:
-    - man: Add a note to dpkg-fsys-usrunmess(8) about Debian support.
-  * Code internals:
-    - libdpkg: Move compression level max bound check from dpkg-deb.
-    - libdpkg: Switch dpkg_lzma_strerror() to use struct io_lzma.
-    - libdpkg: Split compression filter operation tracking from its status.
-    - libdpkg: Generalize compression stream action handling.
-    - libdpkg: Abstract compression stream status tracking.
-    - libdpkg: Add zstd support for .deb archives. Closes: #892664
-  * Build system:
-    - Update .mailmap mappings.
-  * Packaging:
-    - Update copyright years.
-  * Test suite:
-    - Add dpkg-deb build and extract tests.
-
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/recipes-devtools/dpkg/{dpkg_1.21.17.bb => dpkg_1.21.18.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/dpkg/{dpkg_1.21.17.bb => dpkg_1.21.18.bb} (95%)
+ .../gi-docgen/{gi-docgen_git.bb => gi-docgen_2023.1.bb}        | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-gnome/gi-docgen/{gi-docgen_git.bb => gi-docgen_2023.1.bb} (93%)
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.21.17.bb b/meta/recipes-devtools/dpkg/dpkg_1.21.18.bb
-similarity index 95%
-rename from meta/recipes-devtools/dpkg/dpkg_1.21.17.bb
-rename to meta/recipes-devtools/dpkg/dpkg_1.21.18.bb
-index f6687671f0..3bb84a433a 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.21.17.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.21.18.bb
-@@ -18,6 +18,6 @@ SRC_URI = "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=https;branch=main
+diff --git a/meta/recipes-gnome/gi-docgen/gi-docgen_git.bb b/meta/recipes-gnome/gi-docgen/gi-docgen_2023.1.bb
+similarity index 93%
+rename from meta/recipes-gnome/gi-docgen/gi-docgen_git.bb
+rename to meta/recipes-gnome/gi-docgen/gi-docgen_2023.1.bb
+index fa41f2ccd2..7722ebda8f 100644
+--- a/meta/recipes-gnome/gi-docgen/gi-docgen_git.bb
++++ b/meta/recipes-gnome/gi-docgen/gi-docgen_2023.1.bb
+@@ -10,8 +10,7 @@ LIC_FILES_CHKSUM = "file://gi-docgen.py;beginline=1;endline=5;md5=2dc0f1f0120247
  
- SRC_URI:append:class-native = " file://0001-build.c-ignore-return-of-1-from-tar-cf.patch"
+ SRC_URI = "git://gitlab.gnome.org/GNOME/gi-docgen.git;protocol=https;branch=main"
  
--SRCREV = "e91be752ecfc3d4f5514835c79609804940d4b97"
-+SRCREV = "ebc2c3def335ac391b010323ab65a302648f3ec7"
+-PV = "2022.2"
+-SRCREV = "bddd024b08650efdd24704c670f586eb12cec9c9"
++SRCREV = "63b4fad4181e793f34b7777a89e5cb58fe8ac7e6"
  
  S = "${WORKDIR}/git"
+ 
 -- 
 2.25.1
 
