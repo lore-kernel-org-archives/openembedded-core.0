@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 039A9C67871
-	for <webhook@archiver.kernel.org>; Sun, 15 Jan 2023 18:02:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E249CC678D7
+	for <webhook@archiver.kernel.org>; Sun, 15 Jan 2023 18:02:30 +0000 (UTC)
 Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.145842.1673805745284686271
+ by mx.groups.io with SMTP id smtpd.web11.145731.1673805745368749521
  for <openembedded-core@lists.openembedded.org>;
  Sun, 15 Jan 2023 10:02:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=UNi247vG;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010185b698c9d9-288c7244-d195-4814-b81b-0ce83a0d3b46-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=n4leFPp4;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010185b698c985-e1befbe6-a959-4fd3-b7f9-0c26591ff674-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1673805744;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=gIE0afWmcjEL0wlPW4gk1ljVOFJF4E0yNauBreVBbtw=;
-	b=UNi247vGP40RBPe3hoXkDTp4+PoXtGEATQ4fQfdXKOX9aAcrH8c4WkJw5k/tf+ci
-	EHCxEiwyuP8DF85qHNwZBg5kBMAP2Gn4UtAbxCl3pg8vyJWvy9A7eqk2NW0eapeBese
-	Sy7FrFlf6WECo3sMn1p/FeMTFu2aUWuCq73Km+ls=
+	bh=mkfXrrkGDXUjNQPGiwM3ZIWsDs2120zYOZhv+uPkIWY=;
+	b=n4leFPp4vhTuU6UFMtA7YOVYjaGMmWiiaGoR2wkaXZwk8C8eKdLeLSdmbxtYVWMl
+	VKQ4ZXkZagh1LXdAXbpqzMMzqzGskOXf66W8ige8tBpk6P/YdG/C/O1/XD74vh5JuTY
+	WROP+3zlxEtilzuxP0KVKPpFsVCEc3Fr+WT6C3aY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1673805744;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=gIE0afWmcjEL0wlPW4gk1ljVOFJF4E0yNauBreVBbtw=;
-	b=a65BClaZinpXRa2/GrpOAr3yPOv8DgY03xp1t9CE0cPlQL+3l8BTQsoY6nkUoHPw
-	MSgyO7FLKpwS2hX0bAzlo9N/3gMmoSyJlZnpMZoOnDWMo6hdMdMhkCvLWzxHTj4OX0N
-	WLm3s0nkSEQoIJdKDnI76VaHedaOJhBTd3Yzgk3w=
-Content-Type: multipart/mixed; boundary="===============6151450382494381334=="
+	bh=mkfXrrkGDXUjNQPGiwM3ZIWsDs2120zYOZhv+uPkIWY=;
+	b=euSLLaCNeVNSx2OaLGv/sIpjY1NSVPt6m565MWVp2GhXAl8aSdOSkU/gejqdVjdD
+	ONY7n7kxHVnqESeMayj8R1VTivuLwglf1v7xEjZGuWP20vLl2KW2HEuvfkoUB5F12vh
+	AvDfRjlU4nBFUw4Ze2Mc5CSomHlBY8RCI8hxP+fw=
+Content-Type: multipart/mixed; boundary="===============4360499927294270092=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Joshua Watt <JPEWhacker@gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] diffoscope: upgrading to 232 SUCCEEDED
-Message-ID: <01010185b698c9d9-288c7244-d195-4814-b81b-0ce83a0d3b46-000000@us-west-2.amazonses.com>
+Subject: [AUH] libwebp: upgrading to 1.3.0 SUCCEEDED
+Message-ID: <01010185b698c985-e1befbe6-a959-4fd3-b7f9-0c26591ff674-000000@us-west-2.amazonses.com>
 Date: Sun, 15 Jan 2023 18:02:24 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2023.01.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 18:02:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175942
+ <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 18:02:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175943
 
---===============6151450382494381334==
+--===============4360499927294270092==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *diffoscope* to *232* has Succeeded.
+that the automatic attempt to upgrade the recipe *libwebp* to *1.3.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-diffoscope-upgrade-230-232.patch
+    - apply the patch: git am 0001-libwebp-upgrade-1.2.4-1.3.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,89 +69,114 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============6151450382494381334==
+--===============4360499927294270092==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/diffoscope/diffoscope-dbg: PKGV changed from 230 [default] to 232 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-dbg: PV changed from "230" to "232"
-packages/core2-32-poky-linux/diffoscope/diffoscope-dev: PKGV changed from 230 [default] to 232 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-dev: PV changed from "230" to "232"
-packages/core2-32-poky-linux/diffoscope/diffoscope-doc: PKGV changed from 230 [default] to 232 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-doc: PV changed from "230" to "232"
-packages/core2-32-poky-linux/diffoscope/diffoscope-locale: PKGV changed from 230 [default] to 232 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-locale: PV changed from "230" to "232"
-packages/core2-32-poky-linux/diffoscope/diffoscope-src: PKGV changed from 230 [default] to 232 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-src: PV changed from "230" to "232"
-packages/core2-32-poky-linux/diffoscope/diffoscope-staticdev: PKGV changed from 230 [default] to 232 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-staticdev: PV changed from "230" to "232"
-packages/core2-32-poky-linux/diffoscope/diffoscope: PKGSIZE changed from 1388149 to 1389544 (+0%)
-packages/core2-32-poky-linux/diffoscope/diffoscope: PKGV changed from 230 [default] to 232 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope: PV changed from "230" to "232"
-packages/core2-32-poky-linux/diffoscope: PKGV changed from 230 [default] to 232 [default]
-packages/core2-32-poky-linux/diffoscope: SRC_URI changed from "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-230.tar.gz" to "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-232.tar.gz"
-packages/core2-32-poky-linux/diffoscope: PV changed from "230" to "232"
-Changes to packages/core2-32-poky-linux/diffoscope (sysroot):
-  /usr/lib/python3.11/site-packages/diffoscope-230.dist-info moved to /usr/lib/python3.11/site-packages/diffoscope-232.dist-info
+packages/core2-32-poky-linux/libwebp: PKGV changed from 1.2.4 [default] to 1.3.0 [default]
+packages/core2-32-poky-linux/libwebp: PV changed from "1.2.4" to "1.3.0"
+packages/core2-32-poky-linux/libwebp: SRC_URI changed from "http://downloads.webmproject.org/releases/webp/libwebp-1.2.4.tar.gz" to "http://downloads.webmproject.org/releases/webp/libwebp-1.3.0.tar.gz"
+packages/core2-32-poky-linux/libwebp/libwebp-bin: PV changed from "1.2.4" to "1.3.0"
+packages/core2-32-poky-linux/libwebp/libwebp-bin: PKGV changed from 1.2.4 [default] to 1.3.0 [default]
+packages/core2-32-poky-linux/libwebp/libwebp-dbg: FILELIST: removed "/usr/lib/.debug/libwebpmux.so.3.0.10 /usr/lib/.debug/libwebp.so.7.1.5 /usr/lib/.debug/libwebpdemux.so.2.0.11", added "/usr/lib/.debug/libsharpyuv.so.0.0.0 /usr/lib/.debug/libwebpdemux.so.2.0.12 /usr/lib/.debug/libwebpmux.so.3.0.11 /usr/lib/.debug/libwebp.so.7.1.6"
+packages/core2-32-poky-linux/libwebp/libwebp-dbg: PKGSIZE changed from 3196960 to 3223460 (+1%)
+packages/core2-32-poky-linux/libwebp/libwebp-dbg: PV changed from "1.2.4" to "1.3.0"
+packages/core2-32-poky-linux/libwebp/libwebp-dbg: PKGV changed from 1.2.4 [default] to 1.3.0 [default]
+packages/core2-32-poky-linux/libwebp/libwebp-dev: FILELIST: added "/usr/lib/libsharpyuv.so /usr/include/webp/sharpyuv/sharpyuv_csp.h /usr/lib/pkgconfig/libsharpyuv.pc /usr/include/webp/sharpyuv/sharpyuv.h"
+packages/core2-32-poky-linux/libwebp/libwebp-dev: PKGSIZE changed from 96256 to 103055 (+7%)
+packages/core2-32-poky-linux/libwebp/libwebp-dev: PV changed from "1.2.4" to "1.3.0"
+packages/core2-32-poky-linux/libwebp/libwebp-dev: PKGV changed from 1.2.4 [default] to 1.3.0 [default]
+packages/core2-32-poky-linux/libwebp/libwebp-doc: PV changed from "1.2.4" to "1.3.0"
+packages/core2-32-poky-linux/libwebp/libwebp-doc: PKGV changed from 1.2.4 [default] to 1.3.0 [default]
+packages/core2-32-poky-linux/libwebp/libwebp-gif2webp: PV changed from "1.2.4" to "1.3.0"
+packages/core2-32-poky-linux/libwebp/libwebp-gif2webp: PKGV changed from 1.2.4 [default] to 1.3.0 [default]
+packages/core2-32-poky-linux/libwebp/libwebp-locale: PV changed from "1.2.4" to "1.3.0"
+packages/core2-32-poky-linux/libwebp/libwebp-locale: PKGV changed from 1.2.4 [default] to 1.3.0 [default]
+packages/core2-32-poky-linux/libwebp/libwebp-src: PKGSIZE changed from 2896022 to 2899068 (+0%)
+packages/core2-32-poky-linux/libwebp/libwebp-src: PV changed from "1.2.4" to "1.3.0"
+packages/core2-32-poky-linux/libwebp/libwebp-src: PKGV changed from 1.2.4 [default] to 1.3.0 [default]
+packages/core2-32-poky-linux/libwebp/libwebp-staticdev: PV changed from "1.2.4" to "1.3.0"
+packages/core2-32-poky-linux/libwebp/libwebp-staticdev: PKGV changed from 1.2.4 [default] to 1.3.0 [default]
+packages/core2-32-poky-linux/libwebp/libwebp: FILELIST: removed "/usr/lib/libwebpdemux.so.2.0.11 /usr/lib/libwebpmux.so.3.0.10 /usr/lib/libwebp.so.7.1.5", added "/usr/lib/libsharpyuv.so.0.0.0 /usr/lib/libwebpmux.so.3.0.11 /usr/lib/libwebp.so.7.1.6 /usr/lib/libwebpdemux.so.2.0.12 /usr/lib/libsharpyuv.so.0"
+packages/core2-32-poky-linux/libwebp/libwebp: PKGSIZE changed from 569434 to 583058 (+2%)
+packages/core2-32-poky-linux/libwebp/libwebp: PV changed from "1.2.4" to "1.3.0"
+packages/core2-32-poky-linux/libwebp/libwebp: PKGV changed from 1.2.4 [default] to 1.3.0 [default]
+Changes to packages/core2-32-poky-linux/libwebp (sysroot):
+  /usr/lib/libwebpdemux.so.2 changed symlink target from libwebpdemux.so.2.0.11 to libwebpdemux.so.2.0.12
+  /usr/lib/libwebpdemux.so changed symlink target from libwebpdemux.so.2.0.11 to libwebpdemux.so.2.0.12
+  /usr/lib/libwebpmux.so.3 changed symlink target from libwebpmux.so.3.0.10 to libwebpmux.so.3.0.11
+  /usr/lib/libwebpmux.so changed symlink target from libwebpmux.so.3.0.10 to libwebpmux.so.3.0.11
+  /usr/lib/libwebp.so.7 changed symlink target from libwebp.so.7.1.5 to libwebp.so.7.1.6
+  /usr/lib/libwebp.so changed symlink target from libwebp.so.7.1.5 to libwebp.so.7.1.6
+  /usr/lib/libwebpdemux.so.2.0.11 moved to /usr/lib/libwebpdemux.so.2.0.12
+  /usr/lib/libwebpmux.so.3.0.10 moved to /usr/lib/libwebpmux.so.3.0.11
+  /usr/lib/libwebp.so.7.1.5 moved to /usr/lib/libwebp.so.7.1.6
+  /usr/include/webp/sharpyuv was added
+  /usr/include/webp/sharpyuv/sharpyuv_csp.h was added
+  /usr/include/webp/sharpyuv/sharpyuv.h was added
+  /usr/lib/libsharpyuv.so.0.0.0 was added
+  /usr/lib/libsharpyuv.so.0 was added
+  /usr/lib/libsharpyuv.so was added
+  /usr/lib/pkgconfig/libsharpyuv.pc was added
 
---===============6151450382494381334==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-diffoscope-upgrade-230-232.patch"
-
-RnJvbSA2NTA4MDgxZjU1ZDViY2U4OTI5NzY5MmVlODNkMzUwOWU4NzA3NzhlIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMTUgSmFuIDIwMjMgMTg6MDA6NTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBk
-aWZmb3Njb3BlOiB1cGdyYWRlIDIzMCAtPiAyMzIKCi0tLQogLi4uL2RpZmZvc2NvcGUve2RpZmZv
-c2NvcGVfMjMwLmJiID0+IGRpZmZvc2NvcGVfMjMyLmJifSAgICAgICAgIHwgMiArLQogMSBmaWxl
-IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvZGlmZm9zY29wZS97ZGlmZm9zY29wZV8yMzAuYmIgPT4gZGlmZm9zY29wZV8y
-MzIuYmJ9ICg5MiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZGlmZm9zY29w
-ZS9kaWZmb3Njb3BlXzIzMC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2RpZmZvc2NvcGUvZGlm
-Zm9zY29wZV8yMzIuYmIKc2ltaWxhcml0eSBpbmRleCA5MiUKcmVuYW1lIGZyb20gbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvZGlmZm9zY29wZS9kaWZmb3Njb3BlXzIzMC5iYgpyZW5hbWUgdG8gbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvZGlmZm9zY29wZS9kaWZmb3Njb3BlXzIzMi5iYgppbmRleCA0OTZlZDll
-NjAyLi5lMDdjZTlkYTc0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9kaWZmb3Nj
-b3BlL2RpZmZvc2NvcGVfMjMwLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2RpZmZvc2Nv
-cGUvZGlmZm9zY29wZV8yMzIuYmIKQEAgLTEyLDcgKzEyLDcgQEAgUFlQSV9QQUNLQUdFID0gImRp
-ZmZvc2NvcGUiCiAKIGluaGVyaXQgcHlwaSBzZXR1cHRvb2xzMwogCi1TUkNfVVJJW3NoYTI1NnN1
-bV0gPSAiYTM1OTA4YzE1YmIwMDYwNThmNzRjMmQ0ZjJiZTNiMWFjN2NmNjJjODcyY2ZiZDI5NTAx
-MTRhOGE3MDVkODEwOCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIxZmQxMGI0NjVkMzU2NmU2ZjY1
-YmRjMDBiNmE4MTRmZjEyOTkwMGEyZjRmOWY0YmFlOTIyMDY5NDY3MjE0MDgyIgogCiBSREVQRU5E
-Uzoke1BOfSArPSAiYmludXRpbHMgdmltIHNxdWFzaGZzLXRvb2xzIHB5dGhvbjMtbGliYXJjaGl2
-ZS1jIHB5dGhvbjMtbWFnaWMgcHl0aG9uMy1ycG0iCiAKLS0gCjIuMzcuMwoK
-
---===============6151450382494381334==
+--===============4360499927294270092==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-32-poky-linux/diffoscope (sysroot):
-  /usr/lib/python3.11/site-packages/diffoscope-230.dist-info moved to /usr/lib/python3.11/site-packages/diffoscope-232.dist-info
+packages/core2-32-poky-linux/libwebp/libwebp-dev: FILELIST: added "/usr/lib/pkgconfig/libsharpyuv.pc /usr/include/webp/sharpyuv/sharpyuv.h /usr/include/webp/sharpyuv/sharpyuv_csp.h /usr/lib/libsharpyuv.so"
+packages/core2-32-poky-linux/libwebp/libwebp: FILELIST: removed "/usr/lib/libwebp.so.7.1.5 /usr/lib/libwebpdemux.so.2.0.11 /usr/lib/libwebpmux.so.3.0.10", added "/usr/lib/libwebpmux.so.3.0.11 /usr/lib/libwebpdemux.so.2.0.12 /usr/lib/libsharpyuv.so.0 /usr/lib/libwebp.so.7.1.6 /usr/lib/libsharpyuv.so.0.0.0"
+Changes to packages/core2-32-poky-linux/libwebp (sysroot):
+  /usr/lib/libwebpdemux.so.2 changed symlink target from libwebpdemux.so.2.0.11 to libwebpdemux.so.2.0.12
+  /usr/lib/libwebpdemux.so changed symlink target from libwebpdemux.so.2.0.11 to libwebpdemux.so.2.0.12
+  /usr/lib/libwebpmux.so.3 changed symlink target from libwebpmux.so.3.0.10 to libwebpmux.so.3.0.11
+  /usr/lib/libwebpmux.so changed symlink target from libwebpmux.so.3.0.10 to libwebpmux.so.3.0.11
+  /usr/lib/libwebp.so.7 changed symlink target from libwebp.so.7.1.5 to libwebp.so.7.1.6
+  /usr/lib/libwebp.so changed symlink target from libwebp.so.7.1.5 to libwebp.so.7.1.6
+  /usr/lib/libwebpdemux.so.2.0.11 moved to /usr/lib/libwebpdemux.so.2.0.12
+  /usr/lib/libwebpmux.so.3.0.10 moved to /usr/lib/libwebpmux.so.3.0.11
+  /usr/lib/libwebp.so.7.1.5 moved to /usr/lib/libwebp.so.7.1.6
+  /usr/include/webp/sharpyuv was added
+  /usr/include/webp/sharpyuv/sharpyuv_csp.h was added
+  /usr/include/webp/sharpyuv/sharpyuv.h was added
+  /usr/lib/libsharpyuv.so.0.0.0 was added
+  /usr/lib/libsharpyuv.so.0 was added
+  /usr/lib/libsharpyuv.so was added
+  /usr/lib/pkgconfig/libsharpyuv.pc was added
 
---===============6151450382494381334==
-Content-Type: text/plain; charset="us-ascii"
+--===============4360499927294270092==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libwebp-upgrade-1.2.4-1.3.0.patch"
 
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 898 .bb files complete (0 cached, 898 parsed). 1697 targets, 52 skipped, 0 masked, 0 errors.
-Removing 115 recipes from the core2-32 sysroot...done.
-Removing 121 recipes from the qemux86 sysroot...done.
+RnJvbSAyZDQ5MTYzNzU1NTM4ZTAyZGU3ZTEyMzdjMmI0ZjNhOTY4MjMzMmM5IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMTUgSmFuIDIwMjMgMTY6NDg6MTggKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJ3ZWJwOiB1cGdyYWRlIDEuMi40IC0+IDEuMy4wCgotLS0KIC4uLi93ZWJwL3tsaWJ3ZWJwXzEu
+Mi40LmJiID0+IGxpYndlYnBfMS4zLjAuYmJ9ICAgICAgICAgICAgICAgICB8IDIgKy0KIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
+aXBlcy1tdWx0aW1lZGlhL3dlYnAve2xpYndlYnBfMS4yLjQuYmIgPT4gbGlid2VicF8xLjMuMC5i
+Yn0gKDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS93ZWJwL2xpYndl
+YnBfMS4yLjQuYmIgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS93ZWJwL2xpYndlYnBfMS4zLjAu
+YmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLW11bHRpbWVk
+aWEvd2VicC9saWJ3ZWJwXzEuMi40LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGltZWRp
+YS93ZWJwL2xpYndlYnBfMS4zLjAuYmIKaW5kZXggMjYzNTg5ODQ2YS4uN2I0ZDEzOGQyYyAxMDA2
+NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvd2VicC9saWJ3ZWJwXzEuMi40LmJiCisr
+KyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL3dlYnAvbGlid2VicF8xLjMuMC5iYgpAQCAtMTQs
+NyArMTQsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT02ZThkZWU5
+MzJjMjZmMmRhYjUwM2FiZjcwYzk2ZDhiYiBcCiAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9Q
+QVRFTlRTO21kNT1jNjkyNmQwY2IwN2QyOTZmODg2YWI2ZTBjYzVhODViNyIKIAogU1JDX1VSSSA9
+ICJodHRwOi8vZG93bmxvYWRzLndlYm1wcm9qZWN0Lm9yZy9yZWxlYXNlcy93ZWJwLyR7QlB9LnRh
+ci5neiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI3YmY1YThhMjhjYzY5YmNmYThjYjIxNGYyYzMw
+OTU3MDNjNmI3M2FjNWZiYTRkNTQ4MGMyMDUzMzFkOTQ5NGRmIgorU1JDX1VSSVtzaGEyNTZzdW1d
+ID0gIjY0YWM0NjE0ZGIyOTJhZThjNWFhMjZkZTAyOTViZjE2MjNkYmIzOTg1MDU0Y2I2NTZjNTVl
+Njc0MzFkZWYxN2MiCiAKIFVQU1RSRUFNX0NIRUNLX1VSSSA9ICJodHRwOi8vZG93bmxvYWRzLndl
+Ym1wcm9qZWN0Lm9yZy9yZWxlYXNlcy93ZWJwL2luZGV4Lmh0bWwiCiAKLS0gCjIuMzcuMwoK
 
-Summary: There was 1 WARNING message.
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: Nothing PROVIDES 'diffoscope'
-diffoscope was skipped: incompatible with host i686-poky-linux-musl (not in COMPATIBLE_HOST)
-
---===============6151450382494381334==--
+--===============4360499927294270092==--
 
