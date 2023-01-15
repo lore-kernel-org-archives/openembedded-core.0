@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D04CC77B61
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FF58C77B60
 	for <webhook@archiver.kernel.org>; Sun, 15 Jan 2023 18:02:32 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.145712.1673805743392184105
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.145709.1673805743065565087
  for <openembedded-core@lists.openembedded.org>;
  Sun, 15 Jan 2023 10:02:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=dRiSUYVV;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010185b698c2f1-ccf19545-afeb-4ed8-be93-75adcae75308-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=YRM/BZyi;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010185b698bfae-aa34f8ec-9e0c-4c23-a0c0-6b3a83135545-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1673805743;
+	t=1673805742;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=k5Y7qM+xnkcpyaVanx9lOADre1mtnysVfCGXLflduSo=;
-	b=dRiSUYVViCbQpFxeRyXEK5YE6JsJZfR4wf/3d9BvBjXwhU6wrIbYC4c6fMUzC8z3
-	KN2O0UpkrtESD+MzTUhp2RkB4GLatyCESaT7Pp76SlbN1rpfE6xaxdrvdpFk8nmLSjI
-	2OolM4+7Rmya73M15gSC/r/h7XwncTTotv53l39Q=
+	bh=h96B4iYtHXNWptStyDjuxRzvO1GvJgfOfYV1X0fGV1Q=;
+	b=YRM/BZyi/lMuwka0fjZZcQR6XDcMoxvh+fthoN7iv1qKF4iiJkN22UkbqM2TgEE9
+	4xnYkJkqNH5f+G5fGXBs1Iy/UZg1PnZ/8nyFBR58cBLUiFiYPM8sXdVXd1vFq07AuMQ
+	2YI82NLMMdX7dc92VwFSwJqlzumzGY/XAxeJCoKw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1673805743;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1673805742;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=k5Y7qM+xnkcpyaVanx9lOADre1mtnysVfCGXLflduSo=;
-	b=HjwVjhfnJ/OUeqI53yf2f6K9plFgZ2YD3CB0/OrjMo+kWTGI16Sf2WePMwuSDOV9
-	BB58NrQKr6d+8fYQCKUqFPuRiUy6kATMvesGR3wr2dyZ3AOaPcsODswSBuhZa5Jul2M
-	uoALF/tQQid1XxUkBZXdn2Lt7dtPLEFVnAI6yLns=
-Content-Type: multipart/mixed; boundary="===============0434582095346110466=="
+	bh=h96B4iYtHXNWptStyDjuxRzvO1GvJgfOfYV1X0fGV1Q=;
+	b=c1H1uDPvDiQJglHBoo9c6HFHi+v6NDLIeiVXDO7ExH+UGtMg/0cAUULwCIuM4ZgO
+	pqZb4gNpl0hAqUt7vDfRAPxwilp7LZ7+X7+B54hmX4TTIPtrZUv1jPJNx3y6OHi2LCH
+	xWv5clU1tA0N4BtQiaYl7RWHL9aC1ZG/NjBcOtjQ=
+Content-Type: multipart/mixed; boundary="===============0278164255296187227=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Andrej Valek <andrej.valek@siemens.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-alabaster: upgrading to 0.7.13 SUCCEEDED
-Message-ID: <01010185b698c2f1-ccf19545-afeb-4ed8-be93-75adcae75308-000000@us-west-2.amazonses.com>
+Subject: [AUH] busybox: upgrading to 1.36.0 FAILED
+Message-ID: <01010185b698bfae-aa34f8ec-9e0c-4c23-a0c0-6b3a83135545-000000@us-west-2.amazonses.com>
 Date: Sun, 15 Jan 2023 18:02:22 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.01.15-54.240.27.33
+X-SES-Outgoing: 2023.01.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 18:02:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175895
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175893
 
---===============0434582095346110466==
+--===============0278164255296187227==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,106 +50,107 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-alabaster* to *0.7.13* has Succeeded.
+that the automatic attempt to upgrade the recipe *busybox* to *1.36.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-python3-alabaster-upgrade-0.7.12-0.7.13.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe busybox failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)... (06:42:25.027790)
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1696 entries from dependency cache.
+
+Summary: There was 1 WARNING message.
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:51bb8599acdb9d15c4b31f986403a33f4bcc0607"
+workspace            = "master:11698e027d71967153b272bf34996bee8f3908e5"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1696 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 899 .bb files complete (897 cached, 2 parsed). 1697 targets, 40 skipped, 0 masked, 0 errors.
+
+Summary: There was 1 WARNING message.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:51bb8599acdb9d15c4b31f986403a33f4bcc0607"
+workspace            = "master:11698e027d71967153b272bf34996bee8f3908e5"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  49% |#################                   | ETA:  0:00:00
+Adding changed files:  99% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+INFO: Extracting current version source...
+INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
+INFO: Adding local source files to srctree...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://busybox.net/downloads/busybox-1.36.0.tar.bz2;name=tarball...
+INFO: Rebasing devtool onto c266bc94d2aa1b51745d66e298c6b716f25c646b
+WARNING: Command 'git rebase c266bc94d2aa1b51745d66e298c6b716f25c646b' failed:
+Auto-merging networking/ifupdown.c
+CONFLICT (content): Merge conflict in networking/ifupdown.c
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Rebasing devtool-override-libc-musl onto c266bc94d2aa1b51745d66e298c6b716f25c646b
+WARNING: Command 'git rebase c266bc94d2aa1b51745d66e298c6b716f25c646b' failed:
+Auto-merging networking/ifupdown.c
+CONFLICT (content): Merge conflict in networking/ifupdown.c
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Using source tree as build directory since that would be the default for this recipe
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/busybox
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/busybox/busybox_1.36.0.bb
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============0434582095346110466==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/python3-alabaster: PKGV changed from 0.7.12 [default] to 0.7.13 [default]
-packages/core2-32-poky-linux/python3-alabaster: SRC_URI changed from "https://files.pythonhosted.org/packages/source/a/alabaster/alabaster-0.7.12.tar.gz" to "https://files.pythonhosted.org/packages/source/a/alabaster/alabaster-0.7.13.tar.gz"
-packages/core2-32-poky-linux/python3-alabaster: PV changed from "0.7.12" to "0.7.13"
-packages/core2-32-poky-linux/python3-alabaster/python3-alabaster-dbg: PKGV changed from 0.7.12 [default] to 0.7.13 [default]
-packages/core2-32-poky-linux/python3-alabaster/python3-alabaster-dbg: PV changed from "0.7.12" to "0.7.13"
-packages/core2-32-poky-linux/python3-alabaster/python3-alabaster-dev: PKGV changed from 0.7.12 [default] to 0.7.13 [default]
-packages/core2-32-poky-linux/python3-alabaster/python3-alabaster-dev: PV changed from "0.7.12" to "0.7.13"
-packages/core2-32-poky-linux/python3-alabaster/python3-alabaster-doc: PKGV changed from 0.7.12 [default] to 0.7.13 [default]
-packages/core2-32-poky-linux/python3-alabaster/python3-alabaster-doc: PV changed from "0.7.12" to "0.7.13"
-packages/core2-32-poky-linux/python3-alabaster/python3-alabaster-locale: PKGV changed from 0.7.12 [default] to 0.7.13 [default]
-packages/core2-32-poky-linux/python3-alabaster/python3-alabaster-locale: PV changed from "0.7.12" to "0.7.13"
-packages/core2-32-poky-linux/python3-alabaster/python3-alabaster-src: PKGV changed from 0.7.12 [default] to 0.7.13 [default]
-packages/core2-32-poky-linux/python3-alabaster/python3-alabaster-src: PV changed from "0.7.12" to "0.7.13"
-packages/core2-32-poky-linux/python3-alabaster/python3-alabaster-staticdev: PKGV changed from 0.7.12 [default] to 0.7.13 [default]
-packages/core2-32-poky-linux/python3-alabaster/python3-alabaster-staticdev: PV changed from "0.7.12" to "0.7.13"
-packages/core2-32-poky-linux/python3-alabaster/python3-alabaster: PKGV changed from 0.7.12 [default] to 0.7.13 [default]
-packages/core2-32-poky-linux/python3-alabaster/python3-alabaster: PKGSIZE changed from 41215 to 42187 (+2%)
-packages/core2-32-poky-linux/python3-alabaster/python3-alabaster: PV changed from "0.7.12" to "0.7.13"
-Changes to packages/core2-32-poky-linux/python3-alabaster (sysroot):
-  /usr/lib/python3.11/site-packages/alabaster-0.7.12.dist-info moved to /usr/lib/python3.11/site-packages/alabaster-0.7.13.dist-info
-
---===============0434582095346110466==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-32-poky-linux/python3-alabaster (sysroot):
-  /usr/lib/python3.11/site-packages/alabaster-0.7.12.dist-info moved to /usr/lib/python3.11/site-packages/alabaster-0.7.13.dist-info
-
---===============0434582095346110466==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-alabaster-upgrade-0.7.12-0.7.13.patch"
-
-RnJvbSA4M2Y1YzZhNDljN2M4ZmUyZjE2MzJiOTY2OGQyN2U3MGU3MTZmMzA2IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMTUgSmFuIDIwMjMgMDk6NTA6MDUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWFsYWJhc3RlcjogdXBncmFkZSAwLjcuMTIgLT4gMC43LjEzCgotLS0KIC4uLl8wLjcu
-MTIuYmIgPT4gcHl0aG9uMy1hbGFiYXN0ZXJfMC43LjEzLmJifSB8IDIzICsrKysrKysrKysrKysr
-KysrLS0KIDEgZmlsZSBjaGFuZ2VkLCAyMSBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtYWxhYmFzdGVyXzAu
-Ny4xMi5iYiA9PiBweXRob24zLWFsYWJhc3Rlcl8wLjcuMTMuYmJ9ICgyOSUpCgpkaWZmIC0tZ2l0
-IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWFsYWJhc3Rlcl8wLjcuMTIu
-YmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtYWxhYmFzdGVyXzAuNy4x
-My5iYgpzaW1pbGFyaXR5IGluZGV4IDI5JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcHl0aG9uL3B5dGhvbjMtYWxhYmFzdGVyXzAuNy4xMi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWFsYWJhc3Rlcl8wLjcuMTMuYmIKaW5kZXggMzM4
-MWNlOTU2OC4uOTQ5ZDUyZDY1ZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLWFsYWJhc3Rlcl8wLjcuMTIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3B5dGhvbi9weXRob24zLWFsYWJhc3Rlcl8wLjcuMTMuYmIKQEAgLTEsMTAgKzEsMjkgQEAK
-KyMgRklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4gdXBkYXRlZCBi
-eSAnZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUgZGlmZmVyZW5jZSBi
-ZXR3ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVhc2UgdXBkYXRl
-IHRoZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUgY2hhbmdlcyBp
-bgorIyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTonIHRhZy4KKyMgKGV4
-YW1wbGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0ZWQuJykKKyMKKyMg
-VGhlIGNoYW5nZXM6CisjCisjIC0tLSBMSUNFTlNFCisjICsrKyBMSUNFTlNFCisjIEBAIC0xLDQg
-KzEsNCBAQAorIyAtQ29weXJpZ2h0IChjKSAyMDE4IEplZmYgRm9yY2llci4KKyMgK0NvcHlyaWdo
-dCAoYykgMjAyMCBKZWZmIEZvcmNpZXIuCisjICAKKyMgIEJhc2VkIG9uIG9yaWdpbmFsIHdvcmsg
-Y29weXJpZ2h0IChjKSAyMDExIEtlbm5ldGggUmVpdHogYW5kIGNvcHlyaWdodCAoYykgMjAxMAor
-IyAgQXJtaW4gUm9uYWNoZXIuCisjIAorIworCiBERVNDUklQVElPTiA9ICJBbGFiYXN0ZXIgaXMg
-YSB2aXN1YWxseSAoYylsZWFuLCByZXNwb25zaXZlLCBjb25maWd1cmFibGUgdGhlbWUgZm9yIHRo
-ZSBTcGhpbnggZG9jdW1lbnRhdGlvbiBzeXN0ZW0uIEl0IGlzIFB5dGhvbiAyKzMgY29tcGF0aWJs
-ZS4iCiBIT01FUEFHRSA9ICJodHRwczovL2FsYWJhc3Rlci5yZWFkdGhlZG9jcy5pby9lbi9sYXRl
-c3QvIgogU0VDVElPTiA9ICJkZXZlbC9weXRob24iCiBMSUNFTlNFID0gIkJTRC0zLUNsYXVzZSIK
-LUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PWRhMDUzNjgzZDY2ZDU0Mzgx
-M2E3MjdlOGEzMGM5NmNhIgorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9
-MjE4NjBmZGI4MDViZjRlMGJmYWY5NGI1NjZiNzQ3ZmEiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9
-ICJhNjYxZDcyZDU4ZTZlYThhNTdmN2E4NmUzN2Q4NjcxNjg2M2VlNWU5Mjc4ODM5ODUyNmQ1OGIy
-NmE0ZTRkYzAyIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImEyN2E0YTA4NGQ1ZTY5MGUxNmUwMWUw
-M2FkMmIyZTU1MmM2MWE2NTQ2OTQxOWI5MDcyNDMxOTNkZTFhODRhZTIiCiAKIGluaGVyaXQgc2V0
-dXB0b29sczMgcHlwaQogCi0tIAoyLjM3LjMKCg==
-
---===============0434582095346110466==--
+--===============0278164255296187227==--
 
