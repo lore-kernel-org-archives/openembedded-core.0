@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CF69C761AF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 467DBC761A6
 	for <webhook@archiver.kernel.org>; Sun, 15 Jan 2023 18:02:32 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.145711.1673805743381013069
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.145827.1673805743415100124
  for <openembedded-core@lists.openembedded.org>;
  Sun, 15 Jan 2023 10:02:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=IXQVCbd3;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010185b698c191-193cef60-2ad9-459d-9ac8-952172c2cc25-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=SOR4/NCr;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010185b698c335-cdcee04d-62ef-49a7-ad49-a80f3e1fbec4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1673805742;
+	t=1673805743;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=TlwGOJJIRB92R4bT5nztzypwAz9hmvNZfGebNGpAmgo=;
-	b=IXQVCbd385nvqceSk8GIOmy8iStOPadwOwktn/Mx7VZTlqj0rviXZYpg9uz8BjkK
-	mEHws/crlOCKg20oKxDvajyc8PlOt6f8IilJbXM4+RDMXASd9+ID5zgfT2LdsoQcauq
-	MJEAbfldmH8AwXZIKLYRo66zbchdfSoFHLnYNICA=
+	bh=wVACPDNZYPNIXhUhJ8xudg3WmMaGpNtMYVJGrAOwXfw=;
+	b=SOR4/NCrVWs798cJBTw2uQ9QbE8UUyvIhN+0mm3YxZeZIIZm4zy3eBzAApzJfL4V
+	54tlTUqz2YXq7PjRLnFqtAKRpYQE8iTfOn03TFdBNY8QdfvuNDwofUTLT3CPxJ8LnUI
+	qTCQd+Na6QNjAVROP6cgwaz8Ha1bNW3pdVjir3C0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1673805742;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1673805743;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=TlwGOJJIRB92R4bT5nztzypwAz9hmvNZfGebNGpAmgo=;
-	b=APzT2fdxje3MdFum3j35Jg1pZkKsLZYD28XK7+nWdxxLdUAu4TE4x8raXqbvY8ug
-	MsomXZQo/dMio5Qv5WFyLCA9bOf3MrEVmuh90BQlknXoKN3cCDdDIePoU0ASkjvGAN2
-	5d2h3vQRZrDZvfMTBxLfkEyWqJt8xHx394en3shE=
-Content-Type: multipart/mixed; boundary="===============7248013946297768687=="
+	bh=wVACPDNZYPNIXhUhJ8xudg3WmMaGpNtMYVJGrAOwXfw=;
+	b=B+dnPgbrTVLJdScQ5NggGWPFQsPwMxpG8WOo5RHGAoJ2GS0EHN/RRKerp8TYst4L
+	t7KomVOBVnRWGF+FSe28h+G/5KceJUtAwqYpktd4v7dGqxVxIbAI1dKZLQk4AWeh9XR
+	LhYVCQ6PBB0FlAEqvpL+Eq2PNa7W3hbn/ft+wXkU=
+Content-Type: multipart/mixed; boundary="===============9020221744967397765=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] go: upgrading to 1.19.5 FAILED
-Message-ID: <01010185b698c191-193cef60-2ad9-459d-9ac8-952172c2cc25-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-cython: upgrading to 0.29.33 SUCCEEDED
+Message-ID: <01010185b698c335-cdcee04d-62ef-49a7-ad49-a80f3e1fbec4-000000@us-west-2.amazonses.com>
 Date: Sun, 15 Jan 2023 18:02:22 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.01.15-54.240.27.31
+X-SES-Outgoing: 2023.01.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 18:02:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175894
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175896
 
---===============7248013946297768687==
+--===============9020221744967397765==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,16 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *go* to *1.19.5* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *python3-cython* to *0.29.33* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-go-upgrade-1.19.4-1.19.5.patch
+    - apply the patch: git am 0001-python3-cython-upgrade-0.29.32-0.29.33.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,54 +69,77 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7248013946297768687==
+--===============9020221744967397765==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1696 entries from dependency cache.
-Parsing recipes...
-Summary: There was 1 WARNING message.
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: ParseError at /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/go/go-native_1.19.4.bb:4: Could not include required file go-1.19.4.inc
-ERROR: Parsing halted due to errors, see error messages above
+packages/core2-32-poky-linux/python3-cython: PV changed from "0.29.32" to "0.29.33"
+packages/core2-32-poky-linux/python3-cython: SRC_URI changed from "https://files.pythonhosted.org/packages/source/C/Cython/Cython-0.29.32.tar.gz" to "https://files.pythonhosted.org/packages/source/C/Cython/Cython-0.29.33.tar.gz"
+packages/core2-32-poky-linux/python3-cython: PKGV changed from 0.29.32 [default] to 0.29.33 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-dbg: PKGSIZE changed from 7606636 to 7607060 (+0%)
+packages/core2-32-poky-linux/python3-cython/python3-cython-dbg: PV changed from "0.29.32" to "0.29.33"
+packages/core2-32-poky-linux/python3-cython/python3-cython-dbg: PKGV changed from 0.29.32 [default] to 0.29.33 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-dev: PV changed from "0.29.32" to "0.29.33"
+packages/core2-32-poky-linux/python3-cython/python3-cython-dev: PKGV changed from 0.29.32 [default] to 0.29.33 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-doc: PV changed from "0.29.32" to "0.29.33"
+packages/core2-32-poky-linux/python3-cython/python3-cython-doc: PKGV changed from 0.29.32 [default] to 0.29.33 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-locale: PV changed from "0.29.32" to "0.29.33"
+packages/core2-32-poky-linux/python3-cython/python3-cython-locale: PKGV changed from 0.29.32 [default] to 0.29.33 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-src: PKGSIZE changed from 8571668 to 8572978 (+0%)
+packages/core2-32-poky-linux/python3-cython/python3-cython-src: PV changed from "0.29.32" to "0.29.33"
+packages/core2-32-poky-linux/python3-cython/python3-cython-src: PKGV changed from 0.29.32 [default] to 0.29.33 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-staticdev: PV changed from "0.29.32" to "0.29.33"
+packages/core2-32-poky-linux/python3-cython/python3-cython-staticdev: PKGV changed from 0.29.32 [default] to 0.29.33 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython: PKGSIZE changed from 10308483 to 10313136 (+0%)
+packages/core2-32-poky-linux/python3-cython/python3-cython: PV changed from "0.29.32" to "0.29.33"
+packages/core2-32-poky-linux/python3-cython/python3-cython: PKGV changed from 0.29.32 [default] to 0.29.33 [default]
+Changes to packages/core2-32-poky-linux/python3-cython (sysroot):
+  /usr/lib/python3.11/site-packages/Cython-0.29.32.dist-info moved to /usr/lib/python3.11/site-packages/Cython-0.29.33.dist-info
 
---===============7248013946297768687==
+--===============9020221744967397765==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-32-poky-linux/python3-cython (sysroot):
+  /usr/lib/python3.11/site-packages/Cython-0.29.32.dist-info moved to /usr/lib/python3.11/site-packages/Cython-0.29.33.dist-info
+
+--===============9020221744967397765==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-go-upgrade-1.19.4-1.19.5.patch"
+ filename="0001-python3-cython-upgrade-0.29.32-0.29.33.patch"
 
-RnJvbSBhN2M2OTA4OTZiZjRiY2EyMDgyMDQ0MzViNDI5YzJmOGIwZmY4ZmYyIE1vbiBTZXAgMTcg
+RnJvbSA3ZWJhYmQ4NGFjMDg3ZDljYWRkZTZlYjA5MDM5ZGNiMjEzNmQ5OTdlIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMTUgSmFuIDIwMjMgMDg6MDA6NDcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-bzogdXBncmFkZSAxLjE5LjQgLT4gMS4xOS41CgotLS0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9n
-by97Z28tMS4xOS40LmluYyA9PiBnby0xLjE5LjUuaW5jfSB8IDIgKy0KIG1ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9nby97Z29fMS4xOS40LmJiID0+IGdvXzEuMTkuNS5iYn0gICB8IDAKIDIgZmlsZXMg
-Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvZ28ve2dvLTEuMTkuNC5pbmMgPT4gZ28tMS4xOS41LmluY30gKDg5JSkKIHJl
-bmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ28ve2dvXzEuMTkuNC5iYiA9PiBnb18xLjE5LjUu
-YmJ9ICgxMDAlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nby0xLjE5
-LjQuaW5jIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dvL2dvLTEuMTkuNS5pbmMKc2ltaWxhcml0
-eSBpbmRleCA4OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dvL2dvLTEuMTku
-NC5pbmMKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nby0xLjE5LjUuaW5jCmlu
-ZGV4IDQ5MzQ5YmE2ZWMuLjI3YWYwMGJjMDAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9nby9nby0xLjE5LjQuaW5jCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nby0x
-LjE5LjUuaW5jCkBAIC0xNSw0ICsxNSw0IEBAIFNSQ19VUkkgKz0gIlwKICAgICBmaWxlOi8vMDAw
-MS1zcmMtY21kLWRpc3QtYnVpbGRnby5nby1kby1ub3QtaGFyZGNvZGUtaG9zdC1jb21waWxlLnBh
-dGNoIFwKICAgICBmaWxlOi8vZmlsdGVyLWJ1aWxkLXBhdGhzLnBhdGNoIFwKICIKLVNSQ19VUklb
-bWFpbi5zaGEyNTZzdW1dID0gImVkYTc0ZGI0YWM0OTQ4MDBhM2U2NmVlNzg0ZTQ5NWJmYmI5Yjhl
-NTM1ZGY5MjRhOGIwMWIxYTgwMjhiN2YzNjgiCitTUkNfVVJJW21haW4uc2hhMjU2c3VtXSA9ICI4
-ZTQ4NmU4ZTg1YTI4MWZjNWNlM2YwYmVkYzViOWQyZGJmNjI3NmQ3ZGIwYjI1ZDNlYzAzNGYzMTNk
-YTAzNzVmIgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dvL2dvXzEuMTkuNC5i
-YiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nb18xLjE5LjUuYmIKc2ltaWxhcml0eSBpbmRl
-eCAxMDAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nb18xLjE5LjQuYmIK
-cmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9nby9nb18xLjE5LjUuYmIKLS0gCjIuMzcu
-MwoK
+CkRhdGU6IFN1biwgMTUgSmFuIDIwMjMgMTE6MTY6NDAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWN5dGhvbjogdXBncmFkZSAwLjI5LjMyIC0+IDAuMjkuMzMKCi0tLQogbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24tY3l0aG9uLmluYyAgICAgICAgICAgICAgICAgIHwg
+MiArLQogLi4uL3tweXRob24zLWN5dGhvbl8wLjI5LjMyLmJiID0+IHB5dGhvbjMtY3l0aG9uXzAu
+MjkuMzMuYmJ9ICAgIHwgMAogMiBmaWxlcyBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxl
+dGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtY3l0
+aG9uXzAuMjkuMzIuYmIgPT4gcHl0aG9uMy1jeXRob25fMC4yOS4zMy5iYn0gKDEwMCUpCgpkaWZm
+IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24tY3l0aG9uLmluYyBi
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uLWN5dGhvbi5pbmMKaW5kZXggNzUw
+Y2NmZDdhZS4uMzBkMWIzOTQ2NyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvbi9weXRob24tY3l0aG9uLmluYworKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
+L3B5dGhvbi1jeXRob24uaW5jCkBAIC05LDcgKzksNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZp
+bGU6Ly9MSUNFTlNFLnR4dDttZDU9ZTIzZmFkZDZjZWVmOGM2MThmYzFjNjUxOTFkODQ2ZmEiCiBQ
+WVBJX1BBQ0tBR0UgPSAiQ3l0aG9uIgogQkJDTEFTU0VYVEVORCA9ICJuYXRpdmUgbmF0aXZlc2Rr
+IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiODczM2NmNDc1OGI3OTMwNGYyYTRlMzllYmZhYzVl
+OTIzNDFiY2U0N2JjY2ViMjZjMTI1NDM5OGIyZjhjMWFmNyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9
+ICI1MDQwNzY0YzRhNGQyY2U5NjRhMzk1ZGEyNGYwZDFhZTU4MTQ0OTk1ZGFiOTJjNmI5NmY0NGMz
+ZjRkNzIyODZhIgogVVBTVFJFQU1fQ0hFQ0tfUkVHRVggPSAiQ3l0aG9uLSg/UDxwdmVyPi4qKVwu
+dGFyIgogCiBpbmhlcml0IHB5cGkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9w
+eXRob24vcHl0aG9uMy1jeXRob25fMC4yOS4zMi5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9w
+eXRob24vcHl0aG9uMy1jeXRob25fMC4yOS4zMy5iYgpzaW1pbGFyaXR5IGluZGV4IDEwMCUKcmVu
+YW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWN5dGhvbl8wLjI5
+LjMyLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY3l0
+aG9uXzAuMjkuMzMuYmIKLS0gCjIuMzcuMwoK
 
---===============7248013946297768687==--
+--===============9020221744967397765==--
 
