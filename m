@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E10FC7113B
-	for <webhook@archiver.kernel.org>; Sun, 15 Jan 2023 18:02:31 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.145835.1673805744513963018
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E888C77B6C
+	for <webhook@archiver.kernel.org>; Sun, 15 Jan 2023 18:02:32 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.145822.1673805742529754417
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Jan 2023 10:02:24 -0800
+ Sun, 15 Jan 2023 10:02:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=fM5jUgB6;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010185b698c607-c7d73fb6-c52d-4318-8e0d-9a0cf4f5bf8e-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=FklhvWUF;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010185b698bd7d-e895babb-b734-4aef-bf51-f9706da04d06-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1673805743;
+	t=1673805741;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=iRvxEQk269ikYJ0Fm2UpD8WA9jRQ5u6l+ZfFrX/z5Yg=;
-	b=fM5jUgB6hILtvEMc534LDjqn2yOmpGOryyi5xHYLxbwuxu0BrV4maWEzKyhW7YBh
-	f/5oErcssVLsvEhCLeaRgu2i+awNPGPwnMEURHxVZO0VJJbCCm44zisy6yQcHxvW7fE
-	4Veae9nBr0of5x7W0fEPK5ay+v3q8cd8G/lgFyW0=
+	bh=QXQdG83qiAHse6keC3jfoSni00w0rPbZFrfONNAS1MA=;
+	b=FklhvWUFXn9M/UUE/dTn2CEN0em25w++WjDrqPbMePz4dSys6w38V58LpmU7avuW
+	dcH3z3MB1rb9UgQC+2avWOdBmnFBl/0gJZiLyJdDfTt/dXjfPstvIqHxz0bmUzqdcq6
+	KTtB0jfgPWxKvS6HZT1WPwcK/0R/sPvExv9fy0E4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1673805743;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1673805741;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=iRvxEQk269ikYJ0Fm2UpD8WA9jRQ5u6l+ZfFrX/z5Yg=;
-	b=JPZpbuCBbAWBzsQflokVpK/radt/SNw/JqVCvY3fV48Rx5+SL2W0fwYgarAT5qTT
-	I3s0KvhK9AEMKnJNCYv35r846rfW3883hqn32+0E469cQ4PtBQlFMCu2b50PFe6m6pR
-	jlbzw6XWZdg8+7cDxuzH6m/eDBAOg04kycid2EQ0=
-Content-Type: multipart/mixed; boundary="===============4861840705290568926=="
+	bh=QXQdG83qiAHse6keC3jfoSni00w0rPbZFrfONNAS1MA=;
+	b=UpYb2z7D4XyIVu1QJBPDeNF47l5n81LXhQEi2xrfiPJzXG+pxlAiuOs0dAOhEbyS
+	G1CczTwfIe0rBFwpoLbWmrqIrg8HtJvT8RqfLCMddZpTvuD8A8IjEgKh2+LoVRwPGWK
+	fKKD602oPEg1XrDPQ+1+oxSnlQRHhi65Tke6GbYk=
+Content-Type: multipart/mixed; boundary="===============2202943727212269288=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Marek Vasut <marek.vasut@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-requests: upgrading to 2.28.2 SUCCEEDED
-Message-ID: <01010185b698c607-c7d73fb6-c52d-4318-8e0d-9a0cf4f5bf8e-000000@us-west-2.amazonses.com>
-Date: Sun, 15 Jan 2023 18:02:23 +0000
+Subject: [AUH] u-boot-tools: upgrading to 2023.01 FAILED
+Message-ID: <01010185b698bd7d-e895babb-b734-4aef-bf51-f9706da04d06-000000@us-west-2.amazonses.com>
+Date: Sun, 15 Jan 2023 18:02:21 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.01.15-54.240.27.31
+X-SES-Outgoing: 2023.01.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 18:02:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175929
+ <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 18:02:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175892
 
---===============4861840705290568926==
+--===============2202943727212269288==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-requests* to *2.28.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *u-boot-tools* to *2023.01* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-python3-requests-upgrade-2.28.1-2.28.2.patch
+    - apply the patch: git am 0001-u-boot-tools-upgrade-2022.10-2023.01.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,425 +75,26 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============4861840705290568926==
+--===============2202943727212269288==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/python3-requests: PKGV changed from 2.28.1 [default] to 2.28.2 [default]
-packages/core2-32-poky-linux/python3-requests: SRC_URI changed from "https://files.pythonhosted.org/packages/source/r/requests/requests-2.28.1.tar.gz" to "https://files.pythonhosted.org/packages/source/r/requests/requests-2.28.2.tar.gz"
-packages/core2-32-poky-linux/python3-requests: PV changed from "2.28.1" to "2.28.2"
-packages/core2-32-poky-linux/python3-requests/python3-requests-dbg: PKGV changed from 2.28.1 [default] to 2.28.2 [default]
-packages/core2-32-poky-linux/python3-requests/python3-requests-dbg: PV changed from "2.28.1" to "2.28.2"
-packages/core2-32-poky-linux/python3-requests/python3-requests-dev: PKGV changed from 2.28.1 [default] to 2.28.2 [default]
-packages/core2-32-poky-linux/python3-requests/python3-requests-dev: PV changed from "2.28.1" to "2.28.2"
-packages/core2-32-poky-linux/python3-requests/python3-requests-doc: PKGV changed from 2.28.1 [default] to 2.28.2 [default]
-packages/core2-32-poky-linux/python3-requests/python3-requests-doc: PV changed from "2.28.1" to "2.28.2"
-packages/core2-32-poky-linux/python3-requests/python3-requests-locale: PKGV changed from 2.28.1 [default] to 2.28.2 [default]
-packages/core2-32-poky-linux/python3-requests/python3-requests-locale: PV changed from "2.28.1" to "2.28.2"
-packages/core2-32-poky-linux/python3-requests/python3-requests-src: PKGV changed from 2.28.1 [default] to 2.28.2 [default]
-packages/core2-32-poky-linux/python3-requests/python3-requests-src: PV changed from "2.28.1" to "2.28.2"
-packages/core2-32-poky-linux/python3-requests/python3-requests-staticdev: PKGV changed from 2.28.1 [default] to 2.28.2 [default]
-packages/core2-32-poky-linux/python3-requests/python3-requests-staticdev: PV changed from "2.28.1" to "2.28.2"
-packages/core2-32-poky-linux/python3-requests/python3-requests: PKGV changed from 2.28.1 [default] to 2.28.2 [default]
-packages/core2-32-poky-linux/python3-requests/python3-requests: PV changed from "2.28.1" to "2.28.2"
-packages/core2-32-poky-linux/python3-requests/python3-requests: PKGSIZE changed from 418573 to 418565 (-0%)
-Changes to packages/core2-32-poky-linux/python3-requests (sysroot):
-  /usr/lib/python3.11/site-packages/requests-2.28.1.dist-info moved to /usr/lib/python3.11/site-packages/requests-2.28.2.dist-info
-
---===============4861840705290568926==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-requests-upgrade-2.28.1-2.28.2.patch"
-
-RnJvbSAwMjJlN2U4MjhlOGE1YzZkZWExYzNmODFhYmQzNmEwOTNhMzQ2NmQ5IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMTUgSmFuIDIwMjMgMTI6MzA6MzQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXJlcXVlc3RzOiB1cGdyYWRlIDIuMjguMSAtPiAyLjI4LjIKCi0tLQogLi4uL3tweXRo
-b24zLXJlcXVlc3RzXzIuMjguMS5iYiA9PiBweXRob24zLXJlcXVlc3RzXzIuMjguMi5iYn0gIHwg
-MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5h
-bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1yZXF1ZXN0c18yLjI4LjEu
-YmIgPT4gcHl0aG9uMy1yZXF1ZXN0c18yLjI4LjIuYmJ9ICg4NyUpCgpkaWZmIC0tZ2l0IGEvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJlcXVlc3RzXzIuMjguMS5iYiBiL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1yZXF1ZXN0c18yLjI4LjIuYmIKc2lt
-aWxhcml0eSBpbmRleCA4NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
-bi9weXRob24zLXJlcXVlc3RzXzIuMjguMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3B5dGhvbi9weXRob24zLXJlcXVlc3RzXzIuMjguMi5iYgppbmRleCA4ZGUwOGQyNjIwLi4y
-ZjM5N2RkYWFkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
-bjMtcmVxdWVzdHNfMi4yOC4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
-cHl0aG9uMy1yZXF1ZXN0c18yLjI4LjIuYmIKQEAgLTMsNyArMyw3IEBAIEhPTUVQQUdFID0gImh0
-dHA6Ly9weXRob24tcmVxdWVzdHMub3JnIgogTElDRU5TRSA9ICJBcGFjaGUtMi4wIgogTElDX0ZJ
-TEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9MzQ0MDBiNjgwNzJkNzEwZmVjZDBhMjk0
-MGEwZDE2NTgiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI3YzU1OTliMTAyZmVkZGFhNjYxYzgy
-NmM1NmFiNGZlZTI4YmZkMTdmNWFiY2ExZWJiZTNlN2YxOWQ3Yzk3OTgzIgorU1JDX1VSSVtzaGEy
-NTZzdW1dID0gIjk4YjFiMjc4MmUzYzZjNDkwNDkzOGI4NGMwZWI5MzI3MjEwNjlkZmRiOTEzNDMx
-M2JlZmY3YzgzYzJkZjI0YmYiCiAKIGluaGVyaXQgcHlwaSBzZXR1cHRvb2xzMwogCi0tIAoyLjM3
-LjMKCg==
-
---===============4861840705290568926==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-32-poky-linux/python3-requests (sysroot):
-  /usr/lib/python3.11/site-packages/requests-2.28.1.dist-info moved to /usr/lib/python3.11/site-packages/requests-2.28.2.dist-info
-
---===============4861840705290568926==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1698 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 898 .bb files complete (897 cached, 1 parsed). 1696 targets, 40 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:de4577b39a90a8182c22083edf87350ca1dae691"
-workspace            = "master:11698e027d71967153b272bf34996bee8f3908e5"
-
-Initialising tasks...done.
-Sstate summary: Wanted 46 Local 6 Mirrors 0 Missed 40 Current 338 (13% match, 89% complete)
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 1072 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_fetch)
-NOTE: Running task 1156 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_fetch)
-NOTE: Running task 1177 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_fetch)
-NOTE: Running task 1178 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_fetch)
-NOTE: Running task 1182 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_fetch)
-NOTE: Running task 1183 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_fetch)
-NOTE: Running task 1184 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_fetch)
-NOTE: Running task 1185 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_fetch)
-NOTE: Running task 1243 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_fetch)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_fetch: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_fetch: Started
-NOTE: recipe python3-idna-3.4-r0: task do_fetch: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_fetch: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_fetch: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_fetch: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_fetch: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_fetch: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_fetch: Succeeded
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_fetch: Started
-NOTE: Running task 1362 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_unpack)
-NOTE: Running task 1363 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_fetch: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_fetch: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_fetch: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_fetch: Succeeded
-NOTE: recipe python3-chardet-5.1.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_fetch: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_fetch: Succeeded
-NOTE: Running task 1364 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_unpack)
-NOTE: Running task 1365 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1366 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_unpack)
-NOTE: Running task 1367 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_unpack)
-NOTE: Running task 1368 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_unpack)
-NOTE: Running task 1369 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_unpack)
-NOTE: Running task 1370 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_unpack)
-NOTE: Running task 1371 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_unpack)
-NOTE: Running task 1372 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1373 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_unpack: Started
-NOTE: Running task 1374 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1375 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1376 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1377 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_patch)
-NOTE: Running task 1378 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_unpack)
-NOTE: Running task 1379 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_unpack: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_unpack: Started
-NOTE: recipe python3-idna-3.4-r0: task do_unpack: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_unpack: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_unpack: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_unpack: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_unpack: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_unpack: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1380 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_patch)
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1381 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_patch)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1382 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_patch)
-NOTE: recipe python3-idna-3.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1383 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_patch)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_unpack: Succeeded
-NOTE: recipe python3-chardet-5.1.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_unpack: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_unpack: Succeeded
-NOTE: Running task 1384 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_patch)
-NOTE: Running task 1385 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_patch)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_patch: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_unpack: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-idna-3.4-r0: task do_patch: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_patch: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_unpack: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_patch: Started
-NOTE: Running task 1386 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_patch)
-NOTE: recipe python3-chardet-5.1.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1387 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_patch)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_patch: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_patch: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_patch: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_patch: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_patch: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_patch: Succeeded
-NOTE: Running task 1388 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_patch: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_patch: Succeeded
-NOTE: Running task 1389 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1390 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_patch: Succeeded
-NOTE: Running task 1391 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_patch: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_patch: Succeeded
-NOTE: Running task 1392 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1393 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1394 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_populate_lic)
-NOTE: recipe python3-idna-3.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-chardet-5.1.0-r0: task do_patch: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_patch: Succeeded
-NOTE: Running task 1395 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1396 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_patch: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 1397 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_populate_lic: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_populate_lic: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_populate_lic unihash changed to 20518e843486918395a62ce0297bbc3bede8a6099abe5f7c7fec9dc70ddee56b
-NOTE: Running task 1398 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_configure)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1399 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_configure)
-NOTE: recipe python3-idna-3.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-chardet-5.1.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_configure: Started
-NOTE: Running task 1400 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_configure)
-NOTE: Running task 1401 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_configure)
-NOTE: Running task 1402 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_configure)
-NOTE: Running task 1403 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_configure)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_configure: Succeeded
-NOTE: Running task 1404 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_configure)
-NOTE: Running task 1405 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_compile)
-NOTE: Running task 1406 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_configure)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_configure: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_configure: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_configure: Started
-NOTE: recipe python3-idna-3.4-r0: task do_configure: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_configure: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_configure: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_compile: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_configure: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_configure: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_configure: Succeeded
-NOTE: Running task 1407 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_compile)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_configure: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_configure: Succeeded
-NOTE: Running task 1408 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_configure_ptest_base)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_configure: Succeeded
-NOTE: Running task 1409 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_compile)
-NOTE: recipe python3-chardet-5.1.0-r0: task do_configure: Succeeded
-NOTE: Running task 1410 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_compile)
-NOTE: Running task 1411 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_compile)
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_configure: Succeeded
-NOTE: Running task 1412 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_compile)
-NOTE: Running task 1413 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_compile)
-NOTE: recipe python3-requests-2.28.2-r0: task do_compile: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_configure_ptest_base: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_compile: Started
-NOTE: recipe python3-idna-3.4-r0: task do_compile: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_compile: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_compile: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_configure_ptest_base: Succeeded
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_compile: Started
-NOTE: Running task 1414 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_compile)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_compile: Started
-NOTE: recipe python3-idna-3.4-r0: task do_compile: Succeeded
-NOTE: Running task 1415 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_install)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_compile: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_compile: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_compile: Succeeded
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_compile: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_compile: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_compile: Succeeded
-NOTE: Running task 1416 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_compile_ptest_base)
-NOTE: Running task 1417 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_install)
-NOTE: Running task 1418 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_install)
-NOTE: Running task 1419 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_install)
-NOTE: Running task 1420 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_install)
-NOTE: Running task 1421 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_install)
-NOTE: recipe python3-idna-3.4-r0: task do_install: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_compile_ptest_base: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_compile_ptest_base: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_install: Started
-NOTE: Running task 1422 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_install)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_install: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_install: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_install: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_install: Started
-NOTE: recipe python3-idna-3.4-r0: task do_install: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_install: Succeeded
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_install: Succeeded
-NOTE: Running task 1423 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_install: Succeeded
-NOTE: Running task 1424 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_package)
-NOTE: Running task 1425 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_package)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_install: Succeeded
-NOTE: Running task 1426 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_populate_sysroot)
-NOTE: Running task 1427 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_package)
-NOTE: Running task 1428 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_package)
-NOTE: Running task 1429 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_package)
-NOTE: Running task 1430 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_populate_sysroot)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Started
-NOTE: recipe python3-idna-3.4-r0: task do_package: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_package: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_package: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_package: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_package: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_install: Succeeded
-NOTE: Running task 1431 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_install_ptest_base)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_install_ptest_base: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_install_ptest_base: Succeeded
-NOTE: recipe python3-chardet-5.1.0-r0: task do_compile: Succeeded
-NOTE: Running task 1432 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_package)
-NOTE: Running task 1433 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_populate_sysroot)
-NOTE: Running task 1434 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_install)
-NOTE: recipe python3-requests-2.28.2-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_package: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_install: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1435 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_package: Succeeded
-NOTE: Running task 1436 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_packagedata)
-NOTE: recipe python3-idna-3.4-r0: task do_package: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_package: Succeeded
-NOTE: Running task 1437 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_packagedata)
-NOTE: Running task 1438 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_packagedata)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_package: Succeeded
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_packagedata: Started
-NOTE: Running task 1439 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_packagedata)
-NOTE: recipe python3-idna-3.4-r0: task do_packagedata: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_packagedata: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_package: Succeeded
-NOTE: Running task 1440 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_packagedata)
-NOTE: Running task 1441 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_packagedata)
-NOTE: recipe python3-chardet-5.1.0-r0: task do_install: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_packagedata: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_packagedata: Succeeded
-NOTE: Running task 1442 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_package)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Started
-NOTE: recipe python3-idna-3.4-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_packagedata: Started
-NOTE: Running task 1443 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_configure)
-NOTE: recipe python3-requests-2.28.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 1444 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_package_write_rpm)
-NOTE: recipe python3-chardet-5.1.0-r0: task do_package: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_configure: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_package_write_rpm: Started
-NOTE: Running task 1445 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_package_write_rpm)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Failed
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_configure: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_package: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-chardet-5.1.0-r0: task do_package: Succeeded
-NOTE: Tasks Summary: Attempted 1445 tasks of which 1352 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_packagedata
-Summary: There was 1 WARNING message.
-Summary: There were 9 ERROR messages, returning a non-zero exit code.
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-src went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-dbg went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-tests went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-staticdev went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-dev went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-doc went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-locale went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/python3-pyopenssl/22.1.0-r0/temp/log.do_packagedata.3583411
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_packagedata) failed with exit code '1'
-
---===============4861840705290568926==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
 
 WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 898 .bb files complete (0 cached, 898 parsed). 1697 targets, 52 skipped, 0 masked, 0 errors.
-Removing 30 recipes from the core2-32 sysroot...done.
-Removing 45 recipes from the qemux86 sysroot...done.
+Parsing of 898 .bb files complete (0 cached, 898 parsed). 1696 targets, 41 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
 BB_VERSION           = "2.2.0"
 BUILD_SYS            = "x86_64-linux"
 NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux-musl"
+TARGET_SYS           = "i686-poky-linux"
 MACHINE              = "qemux86"
 DISTRO               = "poky"
 DISTRO_VERSION       = "4.1"
@@ -495,1510 +102,245 @@ TUNE_FEATURES        = "m32 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:de4577b39a90a8182c22083edf87350ca1dae691"
+meta-yocto-bsp       = "tmp-auh-upgrades:11698e027d71967153b272bf34996bee8f3908e5"
 workspace            = "master:11698e027d71967153b272bf34996bee8f3908e5"
 
 Initialising tasks...done.
-Sstate summary: Wanted 204 Local 164 Mirrors 0 Missed 40 Current 194 (80% match, 89% complete)
-Removing 2 stale sstate objects for arch x86_64...done.
+Sstate summary: Wanted 21 Local 14 Mirrors 0 Missed 7 Current 251 (66% match, 97% complete)
 NOTE: Executing Tasks
-NOTE: Running setscene task 201 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pytest_7.2.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 223 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 233 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_38.0.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 234 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-cryptography_38.0.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 239 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.1.bb:do_package_write_rpm_setscene)
-NOTE: Running task 788 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_fetch)
-NOTE: Running task 805 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_fetch)
-NOTE: Running task 806 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_fetch)
-NOTE: Running task 807 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_fetch)
-NOTE: Running task 810 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_fetch)
-NOTE: Running task 811 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_fetch)
-NOTE: Running task 812 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_fetch)
-NOTE: Running task 813 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_fetch)
-NOTE: Running task 830 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_fetch)
-NOTE: recipe python3-six-1.16.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-pytest-7.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_fetch: Started
-NOTE: recipe python3-idna-3.4-r0: task do_fetch: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_fetch: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_fetch: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_fetch: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_fetch: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_fetch: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_fetch: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_fetch: Started
-NOTE: recipe python3-cryptography-38.0.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_fetch: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_fetch: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_fetch: Succeeded
-NOTE: recipe python3-cryptography-38.0.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 869 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_unpack)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_fetch: Succeeded
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_fetch: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_fetch: Succeeded
-NOTE: recipe python3-chardet-5.1.0-r0: task do_fetch: Succeeded
-NOTE: Running task 870 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_unpack)
-NOTE: Running task 871 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_unpack)
-NOTE: Running task 872 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_unpack)
-NOTE: Running task 873 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_unpack)
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_fetch: Succeeded
-NOTE: Running task 874 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_unpack)
-NOTE: Running task 875 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_unpack)
-NOTE: Running task 876 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_unpack)
-NOTE: Running task 877 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_unpack)
-NOTE: recipe python3-3.11.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe python3-six-1.16.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_unpack: Started
-NOTE: recipe python3-pytest-7.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_unpack: Started
-NOTE: recipe python3-idna-3.4-r0: task do_unpack: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_unpack: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_unpack: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_unpack: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_unpack: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_unpack: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_unpack: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_unpack: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_unpack: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_unpack: Succeeded
-NOTE: Running task 886 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_patch)
-NOTE: Running task 887 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_patch)
-NOTE: Running task 888 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_patch)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_unpack: Succeeded
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_unpack: Succeeded
-NOTE: recipe python3-cryptography-38.0.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_unpack: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_unpack: Succeeded
-NOTE: Running task 889 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_patch)
-NOTE: Running setscene task 247 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.66.0.bb:do_packagedata_setscene)
-NOTE: Running task 890 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_patch)
-NOTE: Running task 891 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_patch)
-NOTE: Running task 892 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_patch)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_unpack: Succeeded
-NOTE: recipe python3-cryptography-38.0.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 893 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_patch)
-NOTE: Running setscene task 249 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 250 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.66.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe python3-chardet-5.1.0-r0: task do_unpack: Succeeded
-NOTE: Running task 904 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_patch)
-NOTE: recipe python3-idna-3.4-r0: task do_patch: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_patch: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_patch: Started
-NOTE: recipe python3-3.11.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_patch: Started
-NOTE: Running setscene task 252 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 253 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 254 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.2.15.bb:do_packagedata_setscene)
-NOTE: Running setscene task 255 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata_setscene)
-NOTE: Running setscene task 256 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 257 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_packagedata_setscene)
-NOTE: recipe libstd-rs-1.66.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_patch: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_patch: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_patch: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_patch: Started
-NOTE: recipe libstd-rs-1.66.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_patch: Started
-NOTE: recipe python3-idna-3.4-r0: task do_patch: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_patch: Succeeded
-NOTE: Running task 905 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_deploy_source_date_epoch)
-NOTE: Running task 906 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_patch: Succeeded
-NOTE: recipe unzip-1_6.0-r5: task do_packagedata_setscene: Started
-NOTE: Running task 907 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_populate_lic)
-NOTE: Running task 908 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-3.11.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-5.2.15-r0: task do_packagedata_setscene: Started
-NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe coreutils-9.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_patch: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_patch: Succeeded
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_patch: Succeeded
-NOTE: Running task 909 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_patch: Succeeded
-NOTE: Running task 910 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_deploy_source_date_epoch)
-NOTE: Running task 911 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_deploy_source_date_epoch)
-NOTE: Running task 912 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-3.11.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libstd-rs-1.66.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-chardet-5.1.0-r0: task do_patch: Succeeded
-NOTE: Running setscene task 259 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunwind/libunwind_1.6.2.bb:do_packagedata_setscene)
-NOTE: Running task 913 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-idna-3.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_populate_lic: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_patch: Succeeded
-NOTE: recipe unzip-1_6.0-r5: task do_packagedata_setscene: Succeeded
-NOTE: Running task 914 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libunwind-1.6.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_populate_lic unihash changed to 20518e843486918395a62ce0297bbc3bede8a6099abe5f7c7fec9dc70ddee56b
-NOTE: recipe python3-idna-3.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bash-5.2.15-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libunwind-1.6.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 269 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libucontext_1.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 270 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_packagedata_setscene)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-chardet-5.1.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe coreutils-9.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 273 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 275 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 277 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.66.bb:do_packagedata_setscene)
-NOTE: recipe libstd-rs-1.66.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 280 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunwind/libunwind_1.6.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libucontext-1.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-3.11.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libcap-2.66-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-3.11.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 284 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.7.bb:do_packagedata_setscene)
-NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 285 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.7.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 286 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 287 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 288 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 289 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 291 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 292 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 293 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 294 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 295 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 296 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 297 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
-NOTE: Running setscene task 298 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 299 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 300 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 301 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.40.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 302 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.40.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libunwind-1.6.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libucontext-1.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe readline-8.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe readline-8.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe openssl-3.0.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe openssl-3.0.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.4.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.40.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.4.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libcap-2.66-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 308 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_packagedata_setscene)
-NOTE: recipe libunwind-1.6.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.40.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 311 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libucontext_1.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 312 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.14.bb:do_populate_sysroot_setscene)
-NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 316 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_packagedata_setscene)
-NOTE: recipe readline-8.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 319 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb:do_packagedata_setscene)
-NOTE: recipe readline-8.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 321 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 326 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 327 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe sqlite3-3_3.40.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xz-5.4.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe openssl-3.0.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libucontext-1.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.40.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe ncurses-6.3+20220423-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.0.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.4.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ncurses-6.3+20220423-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libatomic-ops-7.6.14-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libucontext-1.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe ncurses-6.3+20220423-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 347 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
-NOTE: recipe ncurses-6.3+20220423-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 349 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 353 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 355 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.8.bb:do_packagedata_setscene)
-NOTE: recipe cracklib-2.9.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe cracklib-2.9.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 361 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_packagedata_setscene)
-NOTE: Running setscene task 362 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_populate_sysroot_setscene)
-NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 367 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_packagedata_setscene)
-NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 369 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-runtime-12.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-12.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-12.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 371 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.2.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-12.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 373 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgcc-12.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-12.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 375 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe musl-1.2.3+gitAUTOINC+f47a8cdd25-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 376 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: recipe musl-1.2.3+gitAUTOINC+f47a8cdd25-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 379 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 380 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 381 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_packagedata_setscene)
-NOTE: recipe musl-1.2.3+gitAUTOINC+f47a8cdd25-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-libc-headers-6.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-1.2.3+gitAUTOINC+f47a8cdd25-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 382 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 383 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 391 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 395 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-6.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 396 of 398 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.39.bb:do_populate_sysroot_setscene)
-NOTE: recipe binutils-cross-i686-2.39-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe binutils-cross-i686-2.39-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 1307 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1348 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1379 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1380 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1387 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1388 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1389 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1409 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-idna-3.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-idna-3.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1445 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_configure)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1446 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_configure)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1447 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_configure)
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1448 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_configure)
-NOTE: recipe python3-chardet-5.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1449 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_configure)
-NOTE: Running task 1450 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_configure)
-NOTE: Running task 1451 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_configure)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_configure: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_configure: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_configure: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_configure: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_configure: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_configure: Started
-NOTE: recipe python3-idna-3.4-r0: task do_configure: Succeeded
-NOTE: Running task 1452 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_configure)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_configure: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_configure: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_configure: Succeeded
-NOTE: Running task 1453 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_configure_ptest_base)
-NOTE: Running task 1454 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_compile)
-NOTE: Running task 1455 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_compile)
-NOTE: Running task 1456 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_compile)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_configure: Succeeded
-NOTE: Running task 1457 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_compile)
-NOTE: recipe python3-chardet-5.1.0-r0: task do_configure: Succeeded
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_configure: Started
-NOTE: Running task 1458 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_compile)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_configure: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_configure_ptest_base: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_compile: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_compile: Started
-NOTE: recipe python3-idna-3.4-r0: task do_compile: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1459 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_compile)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_compile: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_compile: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_configure: Succeeded
-NOTE: Running task 1460 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_compile)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_configure: Succeeded
-NOTE: Running task 1461 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_compile)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_compile: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_compile: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_compile: Started
-NOTE: recipe python3-idna-3.4-r0: task do_compile: Succeeded
-NOTE: Running task 1462 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_install)
-NOTE: recipe python3-requests-2.28.2-r0: task do_compile: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_compile: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_compile: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_compile: Succeeded
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_compile: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_compile: Succeeded
-NOTE: Running task 1463 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_compile_ptest_base)
-NOTE: Running task 1464 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_install)
-NOTE: Running task 1465 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_install)
-NOTE: Running task 1466 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_install)
-NOTE: Running task 1467 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_install)
-NOTE: Running task 1468 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_install)
-NOTE: recipe python3-idna-3.4-r0: task do_install: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_install: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_compile_ptest_base: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_install: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_install: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_install: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1469 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_install)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_install: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_install: Succeeded
-NOTE: Running task 1470 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_package)
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_install: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_install: Succeeded
-NOTE: Running task 1471 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_package)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Succeeded
-NOTE: Running task 1472 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_package)
-NOTE: recipe python3-idna-3.4-r0: task do_install: Succeeded
-NOTE: Running task 1473 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_populate_sysroot)
-NOTE: Running task 1474 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package)
-NOTE: Running task 1475 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_package)
-NOTE: Running task 1476 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_populate_sysroot)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_install: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_package: Started
-NOTE: Running task 1477 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_package)
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_package: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_package: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Started
-NOTE: recipe python3-idna-3.4-r0: task do_package: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_package: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_install: Succeeded
-NOTE: Running task 1478 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_install_ptest_base)
-NOTE: recipe python3-chardet-5.1.0-r0: task do_compile: Succeeded
-NOTE: Running task 1479 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_install)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_install_ptest_base: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_install: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1480 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_package)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1481 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_populate_sysroot)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_package: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1482 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-chardet-5.1.0-r0: task do_install: Succeeded
-NOTE: Running task 1483 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_package)
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_package: Succeeded
-NOTE: recipe python3-chardet-5.1.0-r0: task do_package: Started
-NOTE: Running task 1484 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_packagedata)
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_package: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_package: Succeeded
-NOTE: Running task 1485 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_packagedata)
-NOTE: Running task 1486 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_packagedata)
-NOTE: recipe python3-requests-2.28.2-r0: task do_package: Succeeded
-NOTE: Running task 1487 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_packagedata)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_packagedata: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Succeeded
-NOTE: Running task 1488 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_packagedata)
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_packagedata: Started
-NOTE: recipe python3-idna-3.4-r0: task do_packagedata: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_packagedata: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_package: Succeeded
-NOTE: Running task 1489 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_packagedata)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_packagedata: Succeeded
-NOTE: Running task 1490 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_package_write_rpm)
-NOTE: recipe python3-idna-3.4-r0: task do_packagedata: Succeeded
-NOTE: Running task 1491 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_package_write_rpm)
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1492 of 1506 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_configure)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_packagedata: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_configure: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Failed
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-idna-3.4-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_configure: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_package: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-chardet-5.1.0-r0: task do_package: Succeeded
-NOTE: Tasks Summary: Attempted 1492 tasks of which 1399 didn't need to be rerun and 1 failed.
+NOTE: Running task 924 of 1058 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-bsp/u-boot/u-boot-tools_2023.01.bb:do_fetch)
+NOTE: recipe u-boot-tools-1_2023.01-r0: task do_fetch: Started
+NOTE: recipe u-boot-tools-1_2023.01-r0: task do_fetch: Succeeded
+NOTE: Running task 1045 of 1058 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-bsp/u-boot/u-boot-tools_2023.01.bb:do_unpack)
+NOTE: Running task 1046 of 1058 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-bsp/u-boot/u-boot-tools_2023.01.bb:do_prepare_recipe_sysroot)
+NOTE: recipe u-boot-tools-1_2023.01-r0: task do_unpack: Started
+NOTE: recipe u-boot-tools-1_2023.01-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe u-boot-tools-1_2023.01-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe u-boot-tools-1_2023.01-r0: task do_unpack: Succeeded
+NOTE: Running task 1047 of 1058 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-bsp/u-boot/u-boot-tools_2023.01.bb:do_patch)
+NOTE: recipe u-boot-tools-1_2023.01-r0: task do_patch: Started
+NOTE: recipe u-boot-tools-1_2023.01-r0: task do_patch: Succeeded
+NOTE: Running task 1048 of 1058 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-bsp/u-boot/u-boot-tools_2023.01.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1049 of 1058 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-bsp/u-boot/u-boot-tools_2023.01.bb:do_populate_lic)
+NOTE: recipe u-boot-tools-1_2023.01-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe u-boot-tools-1_2023.01-r0: task do_populate_lic: Started
+NOTE: recipe u-boot-tools-1_2023.01-r0: task do_populate_lic: Succeeded
+NOTE: recipe u-boot-tools-1_2023.01-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1050 of 1058 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-bsp/u-boot/u-boot-tools_2023.01.bb:do_configure)
+NOTE: recipe u-boot-tools-1_2023.01-r0: task do_configure: Started
+NOTE: recipe u-boot-tools-1_2023.01-r0: task do_configure: Succeeded
+NOTE: Running task 1051 of 1058 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-bsp/u-boot/u-boot-tools_2023.01.bb:do_compile)
+NOTE: recipe u-boot-tools-1_2023.01-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| NOTE: make -j 56 CROSS_COMPILE=i686-poky-linux- CC=i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/co
+ re2-32-poky-linux/u-boot-tools/1_2023.01-r0/build=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
+ 32-poky-linux/u-boot-tools/1_2023.01-r0/build=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now HOSTCC=gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recip
+ e-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=
+ /home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 STRIP=true V=1 -C /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git tools-only_defconfig O=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build
+| make: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git'
+| make -C /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build KBUILD_SRC=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git \
+| -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/Makefile tools-only_defconfig
+| make[1]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build'
+| make -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/Makefile.build obj=scripts/basic
+| ln -fsn /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git source
+| /bin/sh /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/mkmakefile /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git
+|   GEN     Makefile
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -Wp,-MD,scripts/basic/.fixdep.d -Iscripts/basic -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11   -o scripts/basic/fixdep /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/basic/fixdep.c
+| rm -f .tmp_quiet_recordmcount
+| make -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/Makefile.build obj=scripts/kconfig tools-only_defconfig
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -Wp,-MD,scripts/kconfig/.conf.o.d -Iscripts/kconfig -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -c -o scripts/kconfig/conf.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/kconfig/conf.c
+|   bison -oscripts/kconfig/zconf.tab.c -t -l /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/kconfig/zconf.y
+|   flex -oscripts/kconfig/zconf.lex.c -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/kconfig/zconf.l
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -Wp,-MD,scripts/kconfig/.zconf.tab.o.d -Iscripts/kconfig -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/kconfig -c -o scripts/kconfig/zconf.tab.o scripts/kconfig/zconf.tab.c
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2   -o scripts/kconfig/conf scripts/kconfig/conf.o scripts/kconfig/zconf.tab.o
+| scripts/kconfig/conf  --defconfig=arch/../configs/tools-only_defconfig Kconfig
+| #
+| # configuration written to .config
+| #
+| make[1]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build'
+| make: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git'
+| NOTE: make -j 56 CROSS_COMPILE=i686-poky-linux- CC=i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/co
+ re2-32-poky-linux/u-boot-tools/1_2023.01-r0/build=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
+ 32-poky-linux/u-boot-tools/1_2023.01-r0/build=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now HOSTCC=gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recip
+ e-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=
+ /home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 STRIP=true V=1 -C /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git cross_tools NO_SDL=1 O=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build
+| make: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git'
+| make -C /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build KBUILD_SRC=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git \
+| -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/Makefile cross_tools
+| make[1]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build'
+| make -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/Makefile syncconfig
+| make -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/Makefile.build obj=scripts/basic
+| ln -fsn /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git source
+| /bin/sh /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/mkmakefile /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git
+| rm -f .tmp_quiet_recordmcount
+|   GEN     Makefile
+| make -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/Makefile.build obj=scripts/kconfig syncconfig
+| scripts/kconfig/conf  --syncconfig Kconfig
+| make -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/Makefile.autoconf || \
+| 	{ rm -f include/config/auto.conf; false; }
+| set -e; mkdir -p include/; 	(echo "/* Automatically generated - do not edit */"; echo \#define CONFIG_BOARDDIR board/sandbox; echo \#include \<config_uncmd_spl.h\>; echo \#include \<configs/"sandbox".h\>; echo \#include \<asm/config.h\>; echo \#include \<linux/kconfig.h\>; echo \#include \<config_fallbacks.h\>;) < /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/Makefile.autoconf > include/config.h.tmp; if [ -r include/config.h ] && cmp -s include/config.h include/config.h.tmp; then rm -f include/config.h.tmp; else : '  UPD     include/config.h'; mv -f include/config.h.tmp include/config.h; fi
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build
+ =/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build=/us
+ r/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -E -Wall -Wstrict-prototypes -Wno-format-security -fno-builtin -ffreestanding -std=gnu11 -fshort-wchar -fno-strict-aliasing -fno-PIE -fno-stack-protector -fno-delete-null-pointer-checks -Wno-pointer-sign -Wno-stringop-truncation -Wno-zero-length-bounds -Wno-array-bounds -Wno-stringop-overflow -Wno-maybe-uninitialized -fmacro-prefi
+ x-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/= -g -fstack-usage -Wno-format-nonliteral -Wno-address-of-packed-member -Wno-unused-but-set-variable -Werror=date-time -Wno-packed-not-aligned  -D__KERNEL__ -D__UBOOT__ -D__SANDBOX__ -U_FORTIFY_SOURCE -fPIC -DSANDBOX_NO_SDL -pipe -Iinclude  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/arch/sandbox/include -include /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/include/linux/kconfig.h -nostdinc -isystem /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include  -DDO_DEPS_O
+ NLY -dM /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/include/common.h > u-boot.cfg.tmp && { grep 'define CONFIG_' u-boot.cfg.tmp | sed '/define CONFIG_IS_ENABLED(/d;/define CONFIG_IF_ENABLED_INT(/d;/define CONFIG_VAL(/d;' > u-boot.cfg; rm u-boot.cfg.tmp; } || { rm u-boot.cfg.tmp; false; }
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build
+ =/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build=/us
+ r/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -x c -DDO_DEPS_ONLY -M -MP -Wall -Wstrict-prototypes -Wno-format-security -fno-builtin -ffreestanding -std=gnu11 -fshort-wchar -fno-strict-aliasing -fno-PIE -fno-stack-protector -fno-delete-null-pointer-checks -Wno-pointer-sign -Wno-stringop-truncation -Wno-zero-length-bounds -Wno-array-bounds -Wno-stringop-overflow -Wno-maybe-uni
+ nitialized -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/= -g -fstack-usage -Wno-format-nonliteral -Wno-address-of-packed-member -Wno-unused-but-set-variable -Werror=date-time -Wno-packed-not-aligned  -D__KERNEL__ -D__UBOOT__ -D__SANDBOX__ -U_FORTIFY_SOURCE -fPIC -DSANDBOX_NO_SDL -pipe -Iinclude  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/arch/sandbox/include -include /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/include/linux/kconfig.h -nostdinc -isystem /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../lib/i686-poky-linux/gcc/i686-poky-linux/12.
+ 2.0/include -MQ include/config/auto.conf /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/include/common.h > include/autoconf.mk.dep || { rm include/autoconf.mk.dep; false; }
+|   sed -n -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/tools/scripts/define2mk.sed u-boot.cfg | while read line; do if [ -n "" ] || ! grep -q "${line%=*}=" include/config/auto.conf; then echo "$line"; fi; done > include/autoconf.mk
+| touch include/config/auto.conf
+| set -e; mkdir -p include/config/; 	echo "2023.01$(/bin/sh /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/setlocalversion /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git)" < include/config/auto.conf > include/config/uboot.release.tmp; if [ -r include/config/uboot.release ] && cmp -s include/config/uboot.release include/config/uboot.release.tmp; then rm -f include/config/uboot.release.tmp; else : '  UPD     include/config/uboot.release'; mv -f include/config/uboot.release.tmp include/config/uboot.release; fi
+| ln -fsn /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git source
+| set -e; mkdir -p include/generated/; 	(if test -n "${SOURCE_DATE_EPOCH}"; then SOURCE_DATE="@${SOURCE_DATE_EPOCH}"; DATE=""; for date in gdate date.gnu date; do ${date} -u -d "${SOURCE_DATE}" >/dev/null 2>&1 && DATE="${date}"; done; if test -n "${DATE}"; then LC_ALL=C ${DATE} -u -d "${SOURCE_DATE}" +'#define U_BOOT_DATE "%b %d %C%y"'; LC_ALL=C ${DATE} -u -d "${SOURCE_DATE}" +'#define U_BOOT_TIME "%T"'; LC_ALL=C ${DATE} -u -d "${SOURCE_DATE}" +'#define U_BOOT_TZ "%z"'; LC_ALL=C ${DATE} -u -d "${SOURCE_DATE}" +'#define U_BOOT_EPOCH %s'; else return 42; fi; else LC_ALL=C date +'#define U_BOOT_DATE "%b %d %C%y"'; LC_ALL=C date +'#define U_BOOT_TIME "%T"'; LC_ALL=C date +'#define U_BOOT_TZ "%z"'; LC_ALL=C date +'#define U_BOOT_EPOCH %s'; fi) < /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/Makefile > include/generated/timestamp_autogenerated.h.tmp; if [ -r include/generated/timestamp_autogenerated.h ] && cmp -s include/gener
+ ated/timestamp_autogenerated.h include/generated/timestamp_autogenerated.h.tmp; then rm -f include/generated/timestamp_autogenerated.h.tmp; else : '  UPD     include/generated/timestamp_autogenerated.h'; mv -f include/generated/timestamp_autogenerated.h.tmp include/generated/timestamp_autogenerated.h; fi
+| /bin/sh /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/mkmakefile /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git
+| set -e; mkdir -p include/generated/; 	(if test -n "${DEVICE_TREE}"; then echo \#define DEVICE_TREE \"\"; else echo \#define DEVICE_TREE CONFIG_DEFAULT_DEVICE_TREE; fi) < /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/Makefile > include/generated/dt.h.tmp; if [ -r include/generated/dt.h ] && cmp -s include/generated/dt.h include/generated/dt.h.tmp; then rm -f include/generated/dt.h.tmp; else : '  UPD     include/generated/dt.h'; mv -f include/generated/dt.h.tmp include/generated/dt.h; fi
+|   GEN     Makefile
+| make -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/Makefile.build obj=scripts/basic
+|   if [ -f "/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/board/sandbox/sandbox.env" ]; then cat /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/board/sandbox/sandbox.env > include/generated/env.txt; elif [ -n "" ]; then echo "Missing file /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/board/sandbox/.env"; else touch include/generated/env.txt ; fi
+| rm -f .tmp_quiet_recordmcount
+|   if [ -s "/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/board/sandbox/sandbox.env" ]; then i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build=/usr/src/debug/u-b
+ oot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-
+ tools/1_2023.01-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -E -P  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/gi
+ t=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native=  -x 
+ assembler-with-cpp -D__ASSEMBLY__ -D__UBOOT_CONFIG__ -I . -I include -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/include -include linux/kconfig.h -include include/config.h -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/arch/sandbox/include include/generated/env.txt -o include/generated/env.in; else rm -f include/generated/env.in; touch include/generated/env.in ; fi
+| which: no dtc in (./scripts/dtc)
+| if test "./scripts/dtc/dtc" = "./scripts/dtc/dtc"; then \
+| 	make -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/Makefile.build obj=scripts/dtc; \
+| else \
+| 	if ! ./scripts/dtc/dtc -v >/dev/null; then \
+| 		echo '*** Failed to check dtc version: ./scripts/dtc/dtc'; \
+| 		false; \
+| 	else \
+| 		if test "Error: Cannot find dtc: ./scripts/dtc/dtc" -lt 010406; then \
+| 			echo '*** Your dtc is too old, please upgrade to dtc 010406 or newer'; \
+| 			false; \
+| 		else \
+| 			if [ -n "y" ]; then \
+| 				if ! echo "import libfdt" | python3 2>/dev/null; then \
+| 					echo '*** pylibfdt does not seem to be available with python3'; \
+| 					false; \
+| 				fi; \
+| 			fi; \
+| 		fi; \
+| 	fi; \
+| fi
+|   awk -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/env2string.awk include/generated/env.in >include/generated/environment.h
+| make -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/Makefile.build obj=scripts/dtc/pylibfdt
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -Wp,-MD,scripts/dtc/.dtc.o.d -Iscripts/dtc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/libfdt -c -o scripts/dtc/dtc.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/dtc.c
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -Wp,-MD,scripts/dtc/.flattree.o.d -Iscripts/dtc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/libfdt -c -o scripts/dtc/flattree.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/flattree.c
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -Wp,-MD,scripts/dtc/.fstree.o.d -Iscripts/dtc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/libfdt -c -o scripts/dtc/fstree.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/fstree.c
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -Wp,-MD,scripts/dtc/.data.o.d -Iscripts/dtc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/libfdt -c -o scripts/dtc/data.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/data.c
+|   cat /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/pylibfdt/libfdt.i_shipped > scripts/dtc/pylibfdt/libfdt.i
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -Wp,-MD,scripts/dtc/.livetree.o.d -Iscripts/dtc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/libfdt -c -o scripts/dtc/livetree.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/livetree.c
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -Wp,-MD,scripts/dtc/.treesource.o.d -Iscripts/dtc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/libfdt -c -o scripts/dtc/treesource.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/treesource.c
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -Wp,-MD,scripts/dtc/.srcpos.o.d -Iscripts/dtc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/libfdt -c -o scripts/dtc/srcpos.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/srcpos.c
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -Wp,-MD,scripts/dtc/.checks.o.d -Iscripts/dtc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/libfdt -c -o scripts/dtc/checks.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/checks.c
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -Wp,-MD,scripts/dtc/.util.o.d -Iscripts/dtc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/libfdt -c -o scripts/dtc/util.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/util.c
+|   flex -oscripts/dtc/dtc-lexer.lex.c -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/dtc-lexer.l
+|   bison -o/dev/null --defines=scripts/dtc/dtc-parser.tab.h -t -l /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/dtc-parser.y
+|   bison -oscripts/dtc/dtc-parser.tab.c -t -l /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/dtc-parser.y
+|   unset CROSS_COMPILE; unset CFLAGS; CC="gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
+ 32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2" LDSHARED="gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/poky
+ build/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -shared " LDFLAGS="" VERSION="2023.01" CPPFLAGS=" -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/script
+ s/dtc/libfdt" OBJDIR=scripts/dtc/pylibfdt SOURCES="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/libfdt/fdt.c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/libfdt/fdt_ro.c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/libfdt/fdt_wip.c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/libfdt/fdt_sw.c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/libfdt/fdt_rw.c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/libfdt/fdt_strerror.c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scri
+ pts/dtc/libfdt/fdt_empty_tree.c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/libfdt/fdt_addresses.c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/libfdt/fdt_overlay.c scripts/dtc/pylibfdt/libfdt.i" SWIG_OPTS="-I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/libfdt -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/libfdt/.." python3 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/pylibfdt/setup.py --quiet build_ext --inplace
+| Traceback (most recent call last):
+|   File "/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/pylibfdt/setup.py", line 23, in <module>
+|     from setuptools import setup, Extension
+| ModuleNotFoundError: No module named 'setuptools'
+| make[3]: *** [/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/dtc/pylibfdt/Makefile:33: rebuild] Error 1
+| make[2]: *** [/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/Makefile.build:398: scripts/dtc/pylibfdt] Error 2
+| make[2]: *** Waiting for unfinished jobs....
+| if [ -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/.config -o -d /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/include/config ]; then \
+| 	echo >&2 "  /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git is not clean, please run 'make mrproper'"; \
+| 	echo >&2 "  in the '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git' directory.";\
+| 	/bin/false; \
+| fi;
+| set -e; mkdir -p include/generated/; 	(echo \#define PLAIN_VERSION \"2023.01\"; echo \#define U_BOOT_VERSION \"U-Boot \" PLAIN_VERSION; echo \#define U_BOOT_VERSION_NUM 2023; echo \#define U_BOOT_VERSION_NUM_PATCH $(echo 01 | sed -e "s/^0*//"); echo \#define CC_VERSION_STRING \"$(LC_ALL=C i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fmacro-prefix-
+ map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-ma
+ p=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now --version | head -n 1)\"; echo \#define LD_V
+ ERSION_STRING \"$(LC_ALL=C i686-poky-linux-ld.bfd --version | head -n 1)\"; ) < include/config/uboot.release > include/generated/version_autogenerated.h.tmp; if [ -r include/generated/version_autogenerated.h ] && cmp -s include/generated/version_autogenerated.h include/generated/version_autogenerated.h.tmp; then rm -f include/generated/version_autogenerated.h.tmp; else : '  UPD     include/generated/version_autogenerated.h'; mv -f include/generated/version_autogenerated.h.tmp include/generated/version_autogenerated.h; fi
+| make -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/scripts/Makefile.build obj=.
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build
+ =/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build=/us
+ r/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build=/usr/src/debug/u-boot-tools/1_2023.01-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,lib/.asm-offsets.s.d -nostdinc -isystem /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../lib/i686-poky-linux/gcc/i686-poky-linux/12.2.0/include -Iinclude  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/wor
+ k/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/arch/sandbox/include -include /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/include/linux/kconfig.h  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/. -I. -D__KERNEL__ -D__UBOOT__ -Wall -Wstrict-prototypes -Wno-format-security -fno-builtin -ffreestanding -std=gnu11 -fshort-wchar -fno-strict-aliasing -fno-PIE -Os -fno-stack-protector -fno-delete-null-pointer-checks -Wno-pointer-sign -Wno-stringop-truncation -Wno-zero-length-bounds -Wno-array-bounds -Wno-stringop-overflow -Wno-maybe-uninitialized -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/= -g -fstack-usage -Wno-format-nonliteral -Wno-address-of-packed-me
+ mber -Wno-unused-but-set-variable -Werror=date-time -Wno-packed-not-aligned -D__SANDBOX__ -U_FORTIFY_SOURCE -fPIC -DSANDBOX_NO_SDL -pipe -DDO_DEPS_ONLY    -DKBUILD_BASENAME='"asm_offsets"'  -DKBUILD_MODNAME='"asm_offsets"'  -fverbose-asm -S -o lib/asm-offsets.s /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/lib/asm-offsets.c
+| set -e; mkdir -p include/generated/; 	(set -e; echo "#ifndef __GENERIC_ASM_OFFSETS_H__"; echo "#define __GENERIC_ASM_OFFSETS_H__"; echo "/*"; echo " * DO NOT MODIFY."; echo " *"; echo " * This file was generated by Kbuild"; echo " */"; echo ""; sed -ne 	"s:[[:space:]]*\.ascii[[:space:]]*\"\(.*\)\":\1:; /^->/{s:->#\(.*\):/* \1 */:; s:^->\([^ ]*\) [\$#]*\([-0-9]*\) \(.*\):#define \1 \2 /* \3 */:; s:^->\([^ ]*\) [\$#]*\([^ ]*\) \(.*\):#define \1 \2 /* \3 */:; s:->::; p;}"; echo ""; echo "#endif" ) < lib/asm-offsets.s > include/generated/generic-asm-offsets.h.tmp; if [ -r include/generated/generic-asm-offsets.h ] && cmp -s include/generated/generic-asm-offsets.h include/generated/generic-asm-offsets.h.tmp; then rm -f include/generated/generic-asm-offsets.h.tmp; else : '  UPD     include/generated/generic-asm-offsets.h'; mv -f include/generated/generic-asm-offsets.h.tmp include/generated/generic-asm-offsets.h; fi
+| make[1]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/build'
+| make[1]: *** [/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git/Makefile:2031: scripts_dtc] Error 2
+| make: *** [Makefile:177: sub-make] Error 2
+| make: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/git'
+| ERROR: oe_runmake failed
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/temp/run.do_compile.4124486:195 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/temp/run.do_compile.4124486, line 195
+| 	#2: die, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/temp/run.do_compile.4124486, line 179
+| 	#3: oe_runmake, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/temp/run.do_compile.4124486, line 174
+| 	#4: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/temp/run.do_compile.4124486, line 169
+| 	#5: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/temp/run.do_compile.4124486, line 208
+NOTE: recipe u-boot-tools-1_2023.01-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 1051 tasks of which 1043 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
+NOTE: Writing buildhistory took: 1 seconds
 
 Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_packagedata
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-bsp/u-boot/u-boot-tools_2023.01.bb:do_compile
 Summary: There was 1 WARNING message.
-Summary: There were 9 ERROR messages, returning a non-zero exit code.
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-src went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-dbg went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-tests went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-staticdev went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-dev went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-doc went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-locale went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/python3-pyopenssl/22.1.0-r0/temp/log.do_packagedata.3651983
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_packagedata) failed with exit code '1'
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: u-boot-tools-1_2023.01-r0 do_compile: oe_runmake failed
+ERROR: u-boot-tools-1_2023.01-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/temp/run.do_compile.4124486', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2023.01-r0/temp/log.do_compile.4124486
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-bsp/u-boot/u-boot-tools_2023.01.bb:do_compile) failed with exit code '1'
 
---===============4861840705290568926==
-Content-Type: text/plain; charset="us-ascii"
+--===============2202943727212269288==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-u-boot-tools-upgrade-2022.10-2023.01.patch"
 
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 898 .bb files complete (0 cached, 898 parsed). 1696 targets, 68 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the mips32r2 sysroot...done.
-Removing 1 recipes from the qemumips sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+RnJvbSBhZTJlMWQ3NjFhY2MyYzFmNTJkY2I2MjQ0Y2IxMDVmYjc5MGMwNDY2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMTUgSmFuIDIwMjMgMDU6NTc6MDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSB1
+LWJvb3QtdG9vbHM6IHVwZ3JhZGUgMjAyMi4xMCAtPiAyMDIzLjAxCgotLS0KIG1ldGEvcmVjaXBl
+cy1ic3AvdS1ib290L3UtYm9vdC1jb21tb24uaW5jICAgICAgICAgICAgICAgICAgICAgICB8IDIg
+Ky0KIC4uLi91LWJvb3Qve3UtYm9vdC10b29sc18yMDIyLjEwLmJiID0+IHUtYm9vdC10b29sc18y
+MDIzLjAxLmJifSB8IDAKIDIgZmlsZXMgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRp
+b24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtYnNwL3UtYm9vdC97dS1ib290LXRvb2xzXzIwMjIu
+MTAuYmIgPT4gdS1ib290LXRvb2xzXzIwMjMuMDEuYmJ9ICgxMDAlKQoKZGlmZiAtLWdpdCBhL21l
+dGEvcmVjaXBlcy1ic3AvdS1ib290L3UtYm9vdC1jb21tb24uaW5jIGIvbWV0YS9yZWNpcGVzLWJz
+cC91LWJvb3QvdS1ib290LWNvbW1vbi5pbmMKaW5kZXggNjBjNzdjYmVjNC4uMjJhZGFkODBmZiAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvdS1ib290LWNvbW1vbi5pbmMKKysr
+IGIvbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvdS1ib290LWNvbW1vbi5pbmMKQEAgLTEyLDcgKzEy
+LDcgQEAgUEUgPSAiMSIKIAogIyBXZSB1c2UgdGhlIHJldmlzaW9uIGluIG9yZGVyIHRvIGF2b2lk
+IGhhdmluZyB0byBmZXRjaCBpdCBmcm9tIHRoZQogIyByZXBvIGR1cmluZyBwYXJzZQotU1JDUkVW
+ID0gIjRkZWJjNTdhM2RhNmMzZjRkM2Y4OWE2MzdlOTkyMDZmNGNlYTBhOTYiCitTUkNSRVYgPSAi
+NjJlMmFkMWNlYWZiZmRmMmM0NGQzZGMxYjZlZmM4MWU3NjhhOTZiOSIKIAogU1JDX1VSSSA9ICJn
+aXQ6Ly9zb3VyY2UuZGVueC5kZS91LWJvb3QvdS1ib290LmdpdDtwcm90b2NvbD1odHRwczticmFu
+Y2g9bWFzdGVyIgogCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtYnNwL3UtYm9vdC91LWJvb3Qt
+dG9vbHNfMjAyMi4xMC5iYiBiL21ldGEvcmVjaXBlcy1ic3AvdS1ib290L3UtYm9vdC10b29sc18y
+MDIzLjAxLmJiCnNpbWlsYXJpdHkgaW5kZXggMTAwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMt
+YnNwL3UtYm9vdC91LWJvb3QtdG9vbHNfMjAyMi4xMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
+LWJzcC91LWJvb3QvdS1ib290LXRvb2xzXzIwMjMuMDEuYmIKLS0gCjIuMzcuMwoK
 
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "mips-poky-linux"
-MACHINE              = "qemumips"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:de4577b39a90a8182c22083edf87350ca1dae691"
-workspace            = "master:11698e027d71967153b272bf34996bee8f3908e5"
-
-Initialising tasks...done.
-Sstate summary: Wanted 46 Local 6 Mirrors 0 Missed 40 Current 338 (13% match, 89% complete)
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 1072 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_fetch)
-NOTE: Running task 1156 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_fetch)
-NOTE: Running task 1177 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_fetch)
-NOTE: Running task 1178 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_fetch)
-NOTE: Running task 1182 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_fetch)
-NOTE: Running task 1183 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_fetch)
-NOTE: Running task 1184 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_fetch)
-NOTE: Running task 1185 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_fetch)
-NOTE: Running task 1241 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_fetch)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_fetch: Started
-NOTE: recipe python3-idna-3.4-r0: task do_fetch: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_fetch: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_fetch: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_fetch: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_fetch: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_fetch: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_fetch: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_fetch: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_fetch: Succeeded
-NOTE: Running task 1362 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_unpack)
-NOTE: Running task 1363 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_fetch: Succeeded
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_fetch: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_fetch: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_fetch: Succeeded
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_fetch: Succeeded
-NOTE: Running task 1364 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_unpack)
-NOTE: Running task 1365 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1366 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_unpack)
-NOTE: Running task 1367 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_unpack)
-NOTE: Running task 1368 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_unpack)
-NOTE: Running task 1369 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_unpack)
-NOTE: Running task 1370 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_unpack)
-NOTE: Running task 1371 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-chardet-5.1.0-r0: task do_fetch: Started
-NOTE: Running task 1372 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-chardet-5.1.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1373 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1374 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_unpack)
-NOTE: Running task 1375 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1376 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_unpack: Started
-NOTE: Running task 1377 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_unpack)
-NOTE: Running task 1378 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_unpack: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_unpack: Started
-NOTE: recipe python3-idna-3.4-r0: task do_unpack: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_unpack: Started
-NOTE: Running task 1379 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_patch)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_unpack: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_unpack: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-idna-3.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_unpack: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_unpack: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_unpack: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1380 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_patch)
-NOTE: Running task 1381 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_patch)
-NOTE: Running task 1382 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_patch)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_unpack: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_unpack: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_unpack: Started
-NOTE: Running task 1383 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_patch)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1384 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_patch)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1385 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_patch)
-NOTE: recipe python3-chardet-5.1.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_unpack: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_unpack: Succeeded
-NOTE: Running task 1386 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_patch)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_patch: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1387 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_patch)
-NOTE: recipe python3-requests-2.28.2-r0: task do_patch: Started
-NOTE: recipe python3-idna-3.4-r0: task do_patch: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_patch: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_patch: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_patch: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_patch: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_patch: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_patch: Succeeded
-NOTE: Running task 1388 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-chardet-5.1.0-r0: task do_patch: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_patch: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_patch: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1389 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1390 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1391 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_populate_lic)
-NOTE: recipe python3-requests-2.28.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_patch: Succeeded
-NOTE: Running task 1392 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_patch: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1393 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_patch: Succeeded
-NOTE: Running task 1394 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_patch: Succeeded
-NOTE: Running task 1395 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-chardet-5.1.0-r0: task do_patch: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_patch: Succeeded
-NOTE: Running task 1396 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1397 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-chardet-5.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_populate_lic: Started
-NOTE: recipe python3-idna-3.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_populate_lic unihash changed to 20518e843486918395a62ce0297bbc3bede8a6099abe5f7c7fec9dc70ddee56b
-NOTE: recipe python3-idna-3.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1398 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_configure)
-NOTE: recipe python3-requests-2.28.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1399 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_configure)
-NOTE: Running task 1400 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_configure)
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1401 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_configure)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-chardet-5.1.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1402 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_configure)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1403 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_configure)
-NOTE: recipe python3-idna-3.4-r0: task do_configure: Started
-NOTE: Running task 1404 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_configure)
-NOTE: recipe python3-requests-2.28.2-r0: task do_configure: Started
-NOTE: Running task 1405 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_configure)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_configure: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_configure: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_configure: Started
-NOTE: recipe python3-idna-3.4-r0: task do_configure: Succeeded
-NOTE: Running task 1406 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_compile)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_configure: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_configure: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_configure: Started
-NOTE: Running task 1407 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_compile)
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_configure: Succeeded
-NOTE: recipe python3-chardet-5.1.0-r0: task do_configure: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_configure: Succeeded
-NOTE: Running task 1408 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_compile)
-NOTE: Running task 1409 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_compile)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_configure: Succeeded
-NOTE: Running task 1410 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_compile)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_configure: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_configure: Succeeded
-NOTE: recipe python3-chardet-5.1.0-r0: task do_configure: Succeeded
-NOTE: Running task 1411 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_configure_ptest_base)
-NOTE: recipe python3-idna-3.4-r0: task do_compile: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_compile: Started
-NOTE: Running task 1412 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_compile)
-NOTE: Running task 1413 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_compile)
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_compile: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_compile: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_compile: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_configure_ptest_base: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_compile: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_compile: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1414 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_compile)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_compile: Started
-NOTE: recipe python3-idna-3.4-r0: task do_compile: Succeeded
-NOTE: Running task 1415 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_install)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_compile: Succeeded
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_compile: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_compile: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_compile: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_compile: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_compile: Succeeded
-NOTE: Running task 1416 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_compile_ptest_base)
-NOTE: Running task 1417 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_install)
-NOTE: Running task 1418 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_install)
-NOTE: Running task 1419 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_install)
-NOTE: Running task 1420 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_install)
-NOTE: Running task 1421 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_install)
-NOTE: recipe python3-idna-3.4-r0: task do_install: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_compile_ptest_base: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_install: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_install: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_compile_ptest_base: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_install: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_install: Started
-NOTE: Running task 1422 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_install)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_install: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_install: Succeeded
-NOTE: Running task 1423 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_package)
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_install: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Succeeded
-NOTE: Running task 1424 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_package)
-NOTE: Running task 1425 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package)
-NOTE: Running task 1426 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_populate_sysroot)
-NOTE: recipe python3-requests-2.28.2-r0: task do_install: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_install: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_package: Started
-NOTE: Running task 1427 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_package)
-NOTE: Running task 1428 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_package)
-NOTE: Running task 1429 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_populate_sysroot)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_install: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_package: Started
-NOTE: Running task 1430 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_package)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_package: Started
-NOTE: recipe python3-idna-3.4-r0: task do_package: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_install: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_package: Started
-NOTE: Running task 1431 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_install_ptest_base)
-NOTE: recipe python3-chardet-5.1.0-r0: task do_compile: Succeeded
-NOTE: Running task 1432 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_install)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_install_ptest_base: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_install: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1433 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_package)
-NOTE: Running task 1434 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_populate_sysroot)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_package: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_package: Succeeded
-NOTE: Running task 1435 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_packagedata)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1436 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-chardet-5.1.0-r0: task do_install: Succeeded
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_package: Succeeded
-NOTE: Running task 1437 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_package)
-NOTE: Running task 1438 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_packagedata)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_packagedata: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-idna-3.4-r0: task do_package: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Succeeded
-NOTE: Running task 1439 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_packagedata)
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_packagedata: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_package: Succeeded
-NOTE: Running task 1440 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_packagedata)
-NOTE: recipe python3-chardet-5.1.0-r0: task do_package: Started
-NOTE: Running task 1441 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_packagedata)
-NOTE: recipe python3-idna-3.4-r0: task do_packagedata: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_packagedata: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 1442 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_package_write_rpm)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_package: Succeeded
-NOTE: Running task 1443 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_packagedata)
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_packagedata: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-idna-3.4-r0: task do_packagedata: Succeeded
-NOTE: Running task 1444 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_package_write_rpm)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Failed
-NOTE: recipe python3-requests-2.28.2-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_package: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-chardet-5.1.0-r0: task do_package: Succeeded
-NOTE: Tasks Summary: Attempted 1444 tasks of which 1352 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_packagedata
-Summary: There was 1 WARNING message.
-Summary: There were 9 ERROR messages, returning a non-zero exit code.
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-src went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-dbg went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-tests went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-staticdev went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-dev went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-doc went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-locale went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/python3-pyopenssl/22.1.0-r0/temp/log.do_packagedata.3608402
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_packagedata) failed with exit code '1'
-
---===============4861840705290568926==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
-
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 898 .bb files complete (0 cached, 898 parsed). 1696 targets, 58 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the cortexa15t2hf-neon sysroot...done.
-Removing 1 recipes from the qemuarm sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "arm-poky-linux-gnueabi"
-MACHINE              = "qemuarm"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
-TARGET_FPU           = "hard"
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:de4577b39a90a8182c22083edf87350ca1dae691"
-workspace            = "master:11698e027d71967153b272bf34996bee8f3908e5"
-
-Initialising tasks...done.
-Sstate summary: Wanted 46 Local 6 Mirrors 0 Missed 40 Current 338 (13% match, 89% complete)
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 1072 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_fetch)
-NOTE: Running task 1156 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_fetch)
-NOTE: Running task 1177 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_fetch)
-NOTE: Running task 1178 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_fetch)
-NOTE: Running task 1182 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_fetch)
-NOTE: Running task 1183 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_fetch)
-NOTE: Running task 1184 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_fetch)
-NOTE: Running task 1185 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_fetch)
-NOTE: Running task 1243 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_fetch)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_fetch: Started
-NOTE: recipe python3-idna-3.4-r0: task do_fetch: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_fetch: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_fetch: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_fetch: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_fetch: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_fetch: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_fetch: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_fetch: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_fetch: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_fetch: Succeeded
-NOTE: recipe python3-chardet-5.1.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1362 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_unpack)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1363 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_unpack)
-NOTE: Running task 1364 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_fetch: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_fetch: Succeeded
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_fetch: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_fetch: Succeeded
-NOTE: Running task 1365 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_unpack)
-NOTE: Running task 1366 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1367 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_unpack)
-NOTE: Running task 1368 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_unpack)
-NOTE: Running task 1369 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_unpack)
-NOTE: Running task 1370 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_unpack)
-NOTE: Running task 1371 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_unpack)
-NOTE: Running task 1372 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1373 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1374 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1375 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1376 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-requests-2.28.2-r0: task do_unpack: Started
-NOTE: Running task 1377 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_unpack)
-NOTE: Running task 1378 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_unpack: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_unpack: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_unpack: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1379 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_patch)
-NOTE: recipe python3-chardet-5.1.0-r0: task do_unpack: Started
-NOTE: recipe python3-idna-3.4-r0: task do_unpack: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_unpack: Started
-NOTE: Running task 1380 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_patch)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_unpack: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_unpack: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-idna-3.4-r0: task do_unpack: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1381 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_patch)
-NOTE: Running task 1382 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_patch)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_unpack: Succeeded
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_unpack: Succeeded
-NOTE: recipe python3-chardet-5.1.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1383 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_patch)
-NOTE: Running task 1384 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_patch)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_unpack: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1385 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_patch)
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_unpack: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1386 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_patch)
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_unpack: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_patch: Started
-NOTE: Running task 1387 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_patch)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_patch: Started
-NOTE: recipe python3-idna-3.4-r0: task do_patch: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_patch: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_patch: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_patch: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_patch: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_patch: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_patch: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_patch: Succeeded
-NOTE: Running task 1388 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_patch: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_patch: Succeeded
-NOTE: Running task 1389 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1390 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1391 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_populate_lic)
-NOTE: recipe python3-requests-2.28.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_patch: Succeeded
-NOTE: Running task 1392 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-chardet-5.1.0-r0: task do_patch: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_patch: Succeeded
-NOTE: Running task 1393 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1394 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_patch: Succeeded
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_patch: Succeeded
-NOTE: Running task 1395 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-idna-3.4-r0: task do_patch: Succeeded
-NOTE: Running task 1396 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-chardet-5.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1397 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-idna-3.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_populate_lic: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-idna-3.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_populate_lic: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1398 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_configure)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_populate_lic unihash changed to 20518e843486918395a62ce0297bbc3bede8a6099abe5f7c7fec9dc70ddee56b
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-chardet-5.1.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1399 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_configure)
-NOTE: recipe python3-idna-3.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1400 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_configure)
-NOTE: Running task 1401 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_configure)
-NOTE: Running task 1402 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_configure)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1403 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_configure)
-NOTE: Running task 1404 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_configure)
-NOTE: Running task 1405 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_configure)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_configure: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_configure: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_configure: Started
-NOTE: recipe python3-idna-3.4-r0: task do_configure: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_configure: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_configure: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_configure: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_configure: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_configure: Succeeded
-NOTE: Running task 1406 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_compile)
-NOTE: recipe python3-requests-2.28.2-r0: task do_configure: Succeeded
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_configure: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_configure: Succeeded
-NOTE: Running task 1407 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_compile)
-NOTE: recipe python3-chardet-5.1.0-r0: task do_configure: Succeeded
-NOTE: Running task 1408 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_compile)
-NOTE: Running task 1409 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_compile)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_configure: Succeeded
-NOTE: Running task 1410 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_compile)
-NOTE: Running task 1411 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_compile)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_configure: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_configure: Succeeded
-NOTE: Running task 1412 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_configure_ptest_base)
-NOTE: Running task 1413 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_compile)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_compile: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_compile: Started
-NOTE: recipe python3-idna-3.4-r0: task do_compile: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_compile: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_compile: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_compile: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_configure_ptest_base: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_compile: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1414 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_compile)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_compile: Started
-NOTE: recipe python3-idna-3.4-r0: task do_compile: Succeeded
-NOTE: Running task 1415 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_install)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_compile: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_compile: Succeeded
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_compile: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_compile: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_compile: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_compile: Succeeded
-NOTE: Running task 1416 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_compile_ptest_base)
-NOTE: Running task 1417 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_install)
-NOTE: Running task 1418 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_install)
-NOTE: Running task 1419 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_install)
-NOTE: Running task 1420 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_install)
-NOTE: Running task 1421 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_install)
-NOTE: recipe python3-idna-3.4-r0: task do_install: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_compile_ptest_base: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_install: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_compile_ptest_base: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_install: Started
-NOTE: Running task 1422 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_install)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_install: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_install: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_install: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_install: Succeeded
-NOTE: Running task 1423 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_package)
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_install: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_install: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_install: Succeeded
-NOTE: Running task 1424 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package)
-NOTE: Running task 1425 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_package)
-NOTE: Running task 1426 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_package)
-NOTE: Running task 1427 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_populate_sysroot)
-NOTE: Running task 1428 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_package)
-NOTE: Running task 1429 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_populate_sysroot)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_install: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_package: Started
-NOTE: Running task 1430 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_package)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Started
-NOTE: recipe python3-idna-3.4-r0: task do_package: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_compile: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_package: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_sysroot: Started
-NOTE: Running task 1431 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_install)
-NOTE: recipe python3-requests-2.28.2-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_package: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_install: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_package: Started
-NOTE: Running task 1432 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_install_ptest_base)
-NOTE: recipe python3-chardet-5.1.0-r0: task do_install: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_install_ptest_base: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1433 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_package)
-NOTE: Running task 1434 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_populate_sysroot)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_package: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_install: Succeeded
-NOTE: Running task 1435 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_package)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1436 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-chardet-5.1.0-r0: task do_package: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_package: Succeeded
-NOTE: Running task 1437 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_packagedata)
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_package: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_package: Succeeded
-NOTE: Running task 1438 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_packagedata)
-NOTE: recipe python3-requests-2.28.2-r0: task do_package: Succeeded
-NOTE: Running task 1439 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_packagedata)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_packagedata: Started
-NOTE: Running task 1440 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_packagedata)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Succeeded
-NOTE: Running task 1441 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_packagedata)
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_packagedata: Started
-NOTE: recipe python3-idna-3.4-r0: task do_packagedata: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_packagedata: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_package: Succeeded
-NOTE: Running task 1442 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_package_write_rpm)
-NOTE: Running task 1443 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_packagedata)
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_packagedata: Succeeded
-NOTE: Running task 1444 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_package_write_rpm)
-NOTE: recipe python3-requests-2.28.2-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_packagedata: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_package_write_rpm: Started
-NOTE: Running task 1445 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_configure)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Failed
-NOTE: recipe python3-idna-3.4-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_configure: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_configure: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_package: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-chardet-5.1.0-r0: task do_package: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_package_write_rpm: Succeeded
-NOTE: Tasks Summary: Attempted 1445 tasks of which 1352 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_packagedata
-Summary: There was 1 WARNING message.
-Summary: There were 9 ERROR messages, returning a non-zero exit code.
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-src went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-dbg went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-tests went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-staticdev went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-dev went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-doc went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-locale went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/python3-pyopenssl/22.1.0-r0/temp/log.do_packagedata.3599339
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_packagedata) failed with exit code '1'
-
---===============4861840705290568926==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
-
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 898 .bb files complete (0 cached, 898 parsed). 1696 targets, 75 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the ppc7400 sysroot...done.
-Removing 1 recipes from the qemuppc sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "powerpc-poky-linux"
-MACHINE              = "qemuppc"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:de4577b39a90a8182c22083edf87350ca1dae691"
-workspace            = "master:11698e027d71967153b272bf34996bee8f3908e5"
-
-Initialising tasks...done.
-Sstate summary: Wanted 46 Local 6 Mirrors 0 Missed 40 Current 338 (13% match, 89% complete)
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 1072 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_fetch)
-NOTE: Running task 1156 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_fetch)
-NOTE: Running task 1177 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_fetch)
-NOTE: Running task 1178 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_fetch)
-NOTE: Running task 1182 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_fetch)
-NOTE: Running task 1183 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_fetch)
-NOTE: Running task 1184 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_fetch)
-NOTE: Running task 1185 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_fetch)
-NOTE: Running task 1242 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_fetch)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_fetch: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_fetch: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_fetch: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_fetch: Started
-NOTE: recipe python3-idna-3.4-r0: task do_fetch: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_fetch: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_fetch: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_fetch: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_fetch: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_fetch: Succeeded
-NOTE: Running task 1362 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_unpack)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1363 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_fetch: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_fetch: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_fetch: Succeeded
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_fetch: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_fetch: Succeeded
-NOTE: recipe python3-chardet-5.1.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1364 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_unpack)
-NOTE: Running task 1365 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1366 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_unpack)
-NOTE: Running task 1367 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_unpack)
-NOTE: Running task 1368 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_unpack)
-NOTE: Running task 1369 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_unpack)
-NOTE: Running task 1370 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_unpack)
-NOTE: Running task 1371 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_unpack)
-NOTE: Running task 1372 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1373 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1374 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_unpack: Started
-NOTE: Running task 1375 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1376 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_unpack: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_unpack: Started
-NOTE: Running task 1377 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_unpack)
-NOTE: Running task 1378 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_unpack: Started
-NOTE: recipe python3-idna-3.4-r0: task do_unpack: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_unpack: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_unpack: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_unpack: Started
-NOTE: Running task 1379 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_patch)
-NOTE: recipe python3-chardet-5.1.0-r0: task do_unpack: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_unpack: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_unpack: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1380 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_patch)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1381 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_patch)
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_unpack: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_unpack: Succeeded
-NOTE: Running task 1382 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_patch)
-NOTE: Running task 1383 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_patch)
-NOTE: Running task 1384 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_patch)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_unpack: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1385 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_patch)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_unpack: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_unpack: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_patch: Started
-NOTE: Running task 1386 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_patch)
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_unpack: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_patch: Started
-NOTE: recipe python3-idna-3.4-r0: task do_patch: Started
-NOTE: Running task 1387 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_patch)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_patch: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_patch: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_patch: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_patch: Started
-NOTE: recipe python3-idna-3.4-r0: task do_patch: Succeeded
-NOTE: Running task 1388 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_patch: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_patch: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_patch: Succeeded
-NOTE: Running task 1389 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_patch: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 1390 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-chardet-5.1.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-idna-3.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_patch: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_patch: Succeeded
-NOTE: Running task 1391 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1392 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-requests-2.28.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1393 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_populate_lic)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_patch: Succeeded
-NOTE: Running task 1394 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_patch: Succeeded
-NOTE: recipe python3-chardet-5.1.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1395 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_patch: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1396 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_patch: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1397 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_populate_lic: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_populate_lic: Succeeded
-NOTE: recipe python3-chardet-5.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_populate_lic unihash changed to 20518e843486918395a62ce0297bbc3bede8a6099abe5f7c7fec9dc70ddee56b
-NOTE: Running task 1398 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_configure)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1399 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_configure)
-NOTE: recipe python3-requests-2.28.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1400 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_configure)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1401 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_configure)
-NOTE: Running task 1402 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_configure)
-NOTE: recipe python3-idna-3.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-chardet-5.1.0-r0: task do_configure: Started
-NOTE: Running task 1403 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_configure)
-NOTE: Running task 1404 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_configure)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_configure: Started
-NOTE: Running task 1405 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_configure)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_configure: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_configure: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_configure: Started
-NOTE: recipe python3-idna-3.4-r0: task do_configure: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_configure: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_configure: Started
-NOTE: Running task 1406 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_compile)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_configure: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_configure: Succeeded
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_configure: Started
-NOTE: Running task 1407 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_compile)
-NOTE: recipe python3-requests-2.28.2-r0: task do_configure: Succeeded
-NOTE: Running task 1408 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_configure_ptest_base)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_configure: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_configure: Succeeded
-NOTE: Running task 1409 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_compile)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_configure: Succeeded
-NOTE: Running task 1410 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_compile)
-NOTE: recipe python3-chardet-5.1.0-r0: task do_compile: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_configure: Succeeded
-NOTE: Running task 1411 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_compile)
-NOTE: Running task 1412 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_compile)
-NOTE: Running task 1413 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_compile)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_compile: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_configure_ptest_base: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_compile: Started
-NOTE: recipe python3-idna-3.4-r0: task do_compile: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1414 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_compile)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_compile: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_compile: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_compile: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_compile: Started
-NOTE: recipe python3-idna-3.4-r0: task do_compile: Succeeded
-NOTE: Running task 1415 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_install)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_compile: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_compile: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_compile: Succeeded
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_compile: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_compile: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_compile: Succeeded
-NOTE: Running task 1416 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_compile_ptest_base)
-NOTE: Running task 1417 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_install)
-NOTE: Running task 1418 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_install)
-NOTE: Running task 1419 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_install)
-NOTE: Running task 1420 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_install)
-NOTE: Running task 1421 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_install)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_compile_ptest_base: Started
-NOTE: recipe python3-idna-3.4-r0: task do_install: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_install: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_compile_ptest_base: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_install: Started
-NOTE: Running task 1422 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_install)
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_install: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_install: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_install: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_install: Succeeded
-NOTE: Running task 1423 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_package)
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_install: Succeeded
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_install: Succeeded
-NOTE: Running task 1424 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_package)
-NOTE: Running task 1425 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_package)
-NOTE: recipe python3-requests-2.28.2-r0: task do_install: Succeeded
-NOTE: Running task 1426 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_populate_sysroot)
-NOTE: recipe python3-chardet-5.1.0-r0: task do_compile: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_install: Succeeded
-NOTE: Running task 1427 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_package)
-NOTE: Running task 1428 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_install)
-NOTE: Running task 1429 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_package)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_package: Started
-NOTE: Running task 1430 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_populate_sysroot)
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_install: Succeeded
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_package: Started
-NOTE: Running task 1431 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_package)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_package: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-idna-3.4-r0: task do_package: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_install: Succeeded
-NOTE: recipe python3-chardet-5.1.0-r0: task do_install: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_package: Started
-NOTE: Running task 1432 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_install_ptest_base)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_install_ptest_base: Started
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_install_ptest_base: Succeeded
-NOTE: recipe python3-requests-2.28.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1433 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_package)
-NOTE: Running task 1434 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb:do_populate_sysroot)
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_package: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_install: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1435 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1436 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-chardet_5.1.0.bb:do_package)
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-chardet-5.1.0-r0: task do_package: Started
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_package: Succeeded
-NOTE: Running task 1437 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_packagedata)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_package: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_package: Succeeded
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_package: Succeeded
-NOTE: Running task 1438 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_packagedata)
-NOTE: recipe python3-requests-2.28.2-r0: task do_package: Succeeded
-NOTE: Running task 1439 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_packagedata)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_packagedata: Started
-NOTE: Running task 1440 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-certifi_2022.12.7.bb:do_packagedata)
-NOTE: Running task 1441 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-requests_2.28.2.bb:do_packagedata)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Started
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_packagedata: Started
-NOTE: recipe python3-idna-3.4-r0: task do_packagedata: Started
-NOTE: recipe python3-requests-2.28.2-r0: task do_packagedata: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_package: Succeeded
-NOTE: Running task 1442 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb:do_packagedata)
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 1443 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb:do_package_write_rpm)
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_packagedata: Started
-NOTE: Running task 1444 of 1459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ndg-httpsclient_0.5.1.bb:do_configure)
-NOTE: recipe python3-pyopenssl-22.1.0-r0: task do_packagedata: Failed
-NOTE: recipe python3-requests-2.28.2-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-idna-3.4-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-certifi-2022.12.7-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_configure: Started
-NOTE: recipe python3-urllib3-1.26.13-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-ndg-httpsclient-0.5.1-r0: task do_configure: Succeeded
-NOTE: recipe python3-pyasn1-0.4.8-r0: task do_package: Succeeded
-NOTE: recipe python3-pysocks-1.7.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-chardet-5.1.0-r0: task do_package: Succeeded
-NOTE: Tasks Summary: Attempted 1444 tasks of which 1352 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_packagedata
-Summary: There was 1 WARNING message.
-Summary: There were 9 ERROR messages, returning a non-zero exit code.
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-src went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-dbg went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-tests went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-staticdev went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-dev went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-doc went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl-locale went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: QA Issue: Package version for package python3-pyopenssl went backwards which would break package feeds (from 0:23.0.0-r0 to 0:22.1.0-r0) [version-going-backwards]
-ERROR: python3-pyopenssl-22.1.0-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/python3-pyopenssl/22.1.0-r0/temp/log.do_packagedata.3627897
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb:do_packagedata) failed with exit code '1'
-
---===============4861840705290568926==--
+--===============2202943727212269288==--
 
