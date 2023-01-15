@@ -1,187 +1,221 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D385BC678D9
-	for <webhook@archiver.kernel.org>; Sun, 15 Jan 2023 18:52:02 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.147209.1673808717675495114
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25833C3DA78
+	for <webhook@archiver.kernel.org>; Sun, 15 Jan 2023 20:06:03 +0000 (UTC)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web11.148925.1673813156769027428
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Jan 2023 10:51:57 -0800
+ Sun, 15 Jan 2023 12:05:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=UtcM6spN;
- spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f175.google.com with SMTP id k18so4206818pll.5
-        for <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 10:51:57 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=eQ+968l+;
+ spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f172.google.com with SMTP id s25so28033485lji.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 12:05:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vViIPr9Wfz1GDkzyMAdQEpaAVwTP6pOBz6mq8OFAW3U=;
-        b=UtcM6spNmIIhC2ZuRFIEQPsIARqdcQhIN+9yJ2nTSL3XpfuI0jHzQgYw4Y9Kp6rhQp
-         vfTLSmRc5KbjX4Z71Tcu4u1nfVcpxnYKmG5ZuJjQarR19L3l+GLQxFBhEa14QGUBqrL7
-         bferCcAXysLVF5ag0OOu5p0HILw6HQstfFct4rvkd/x3OdK5CLWCMuGR2e0i5hWGFmDU
-         PtPxtEGa2AiI1wwVhrXXSUBsUlFahD1MAv1iv6l1WlM3AFGFLzTQGx4XIS+/OpXFzHf/
-         ql0WgvMit/mlDypiybJLq6yqkVHWOhN1Ml0m7QdAqLJRnmqzumvGTxQINAmHmuEBkWwF
-         X8xA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=m96BicU9vwFzfRKgBLCb412yozHDtZPIIgDqk64SRto=;
+        b=eQ+968l+hN6R6wveM/onSTEeNmEa+b8tcu4q8/ABXISF3ntyh+oaDhJlTuThNYGNq+
+         QXMmttuppGpAKny2Det0hyEuDiZynznQQz4+udaZkzukTV0EAGfnbzsfJKwRJ6jbo0hE
+         OAVYAdamaHbEOcW0nh0JoBxDev5ad2mJcMVtPFv6bV9EjgWUcxcmEokf9tV5ZVd8KIJE
+         EANYm4szgdsqpJR8SJ9TeDR9WbTRkUDIszbCy8PS+DaR4heVgsHkOBhBihiHpHldeUV3
+         dl+v7E1Nj3EKPKOdu5rCYrz8lPcwe7GEMAuskiZay2yCZ5H6YD4nJodLRCz+20FbHCVY
+         R5dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vViIPr9Wfz1GDkzyMAdQEpaAVwTP6pOBz6mq8OFAW3U=;
-        b=utVg+W10HkSuL6SxaAiyUXa8rVvJGZCu0NzrJBEwp0NeFjPIW/zK4nGXuMKnLP7Iq4
-         ejjY0BVu+jrEtmJchd2jkPAl4BF5t7v19HQB6TJhKxcRJ2Diu+lK04n68TPg95F3apij
-         R7ofGUDXs38hDLHmLYVydhjvS0LtS4/r2L24XcmbLfCgKoXxxWJe6Lo8mjciSLETs5dl
-         7Lkjpi+A67LxYsFZ0XCOfXV/dzBgvBs6fYEypHrXrNb6+kfXs4HwwCCDV32FWfoUmiL3
-         B10wykmBnzHrmGw/bZi+ROxKYqBatvk10mHWt6CzSK0cIbIreFx+6xd1BtzippeIpn9L
-         br/g==
-X-Gm-Message-State: AFqh2krz9vhv1ULEbzatqF+cwbTJOFCnfh0tRJ7Q95PALuBL04bPGuUE
-	BCcL23iAkJ2E3Xw99KI1/1E96XIW9fV/5A==
-X-Google-Smtp-Source: AMrXdXviWlFYlOikABnvn3nuqSG27Xt3tOjE720V1U7oq0QKGJ5iZ516pvrkebLpQ2Vbr04PkgABEA==
-X-Received: by 2002:a17:902:bb8f:b0:194:620c:9216 with SMTP id m15-20020a170902bb8f00b00194620c9216mr14285190pls.21.1673808716790;
-        Sun, 15 Jan 2023 10:51:56 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::b940])
-        by smtp.gmail.com with ESMTPSA id 6-20020a170902c20600b0019468fe44d3sm5417127pll.25.2023.01.15.10.51.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Jan 2023 10:51:56 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 2/6] glib-2.0: Switch to using C11 std
-Date: Sun, 15 Jan 2023 10:51:49 -0800
-Message-Id: <20230115185153.2277534-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230115185153.2277534-1-raj.khem@gmail.com>
-References: <20230115185153.2277534-1-raj.khem@gmail.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=m96BicU9vwFzfRKgBLCb412yozHDtZPIIgDqk64SRto=;
+        b=uHc0LzNlc7IeT2AeDVnszdnLaRlKSSTUla1dmsueIA8iwcChD5/wtYTs9SbPszm2zJ
+         /ehr1uL/0y6ocRyxTJyDesVk2Chg5wX5+enMp6V5feLhYduaYo8OR3JWiAFUUSfW0MWe
+         eNXLLaY6NOOl9xsTOz6F+iY/gWx6z6aIhO3oH+l4WqbQlQwpAQ7V++GDgSJhwqmrxNdY
+         pc6bNxFikjfjC5C6T2KpLg2PsVLrwdvyM96oD9DXXxs+ifnTTXUlc0nFOhUJCRUOTCp5
+         eHoUBatqckUt9xB4bmKNY17fljQi8R7F6+KycqN6mnOmQI5rpQ8czj426ip9oHYlLx3r
+         0Tcw==
+X-Gm-Message-State: AFqh2kpjcICREHznmtjmxqefJh/yPirfacyAiHHqpEDE53or/S4NkAcU
+	CEvVvjwY/F0DFBpoRj49VCIYkVpaMK8QT0wUvWo=
+X-Google-Smtp-Source: AMrXdXuiG+UuT6S715C9tr15Md4J3sCw0Vx594eyIvxblgjvZaavz2hnIWLMiUm3jNMN8MAkyUgUB56t38No1wlfwTI=
+X-Received: by 2002:a2e:b4a5:0:b0:282:5f2d:62dc with SMTP id
+ q5-20020a2eb4a5000000b002825f2d62dcmr2566937ljm.217.1673813154463; Sun, 15
+ Jan 2023 12:05:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1673744037-3484-1-git-send-email-chuck.wolber@boeing.com>
+In-Reply-To: <1673744037-3484-1-git-send-email-chuck.wolber@boeing.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sun, 15 Jan 2023 21:05:42 +0100
+Message-ID: <CANNYZj8QFcejeTh_3NFhLpdFSQxcHh6MZKiz9=G4YU6MSU24tw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] Make oe-setup-layers efficiently idempotent
+To: Chuck Wolber <chuck.wolber@boeing.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 18:52:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175951
+ <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 20:06:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175956
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...0001-Switch-from-C99-to-C11-standard.patch | 40 +++++++++++++++++
- ...efine-check_alignof-for-std-c11-and-.patch | 44 +++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb |  2 +
- 3 files changed, 86 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-Switch-from-C99-to-C11-standard.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-tests-macros.c-Define-check_alignof-for-std-c11-and-.patch
+Thanks. Do you think the tests for the script should as well be
+adjusted so that they fail without the change, and pass with it?
+(test_bitbakelayers_setup in meta/lib/oeqa/selftest/cases/bblayers.py)
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Switch-from-C99-to-C11-standard.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Switch-from-C99-to-C11-standard.patch
-new file mode 100644
-index 0000000000..4ddf49a9df
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Switch-from-C99-to-C11-standard.patch
-@@ -0,0 +1,40 @@
-+From 59f4bdaedccb14802810e2f28646cc039a92f3d3 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 14 Jan 2023 12:15:29 -0800
-+Subject: [PATCH] Switch from C99 to C11 standard
-+
-+We need to start using _Alignof consistently as the fallback
-+implementation which uses types within offsetof is UB as per WG14 N2350
-+[1], moreover newer compilers like clang 16+ have started to error on
-+such use.
-+
-+Fixes errors like below with clang 16+
-+
-+| ../glib-2.74.4/glib/ghash.c:299:18: error: 'struct (unnamed at ../glib-2.74.4/glib/ghash.c:299:1)' cannot be defined in '__builtin_offsetof'
-+| G_STATIC_ASSERT (G_ALIGNOF (GHashTableIter) >= G_ALIGNOF (RealIter));
-+
-+[1] https://www.open-std.org/jtc1/sc22/wg14/www/docs/n2350.htm
-+[2] https://reviews.llvm.org/D133574
-+
-+Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/glib/-/merge_requests/3202]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ meson.build | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/meson.build b/meson.build
-+index 8d3500ad7..87662fa47 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -5,7 +5,7 @@ project('glib', 'c',
-+   default_options : [
-+     'buildtype=debugoptimized',
-+     'warning_level=3',
-+-    'c_std=gnu99'
-++    'c_std=gnu11'
-+   ]
-+ )
-+ 
-+-- 
-+2.39.0
-+
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-tests-macros.c-Define-check_alignof-for-std-c11-and-.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-tests-macros.c-Define-check_alignof-for-std-c11-and-.patch
-new file mode 100644
-index 0000000000..c6f2ee1948
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-tests-macros.c-Define-check_alignof-for-std-c11-and-.patch
-@@ -0,0 +1,44 @@
-+From 3a86bfadd67983267e5d89b1a7e3a637041e599b Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 14 Jan 2023 10:54:28 -0800
-+Subject: [PATCH] tests/macros.c: Define check_alignof for std=c11 and newer
-+
-+WG14 N2350 made very clear that it is an UB having type definitions
-+within "offsetof" [1]. This patch changes the implementation of macro
-+check_alignof to builtin "_Alignof" to avoid undefined behavior.
-+
-+clang 16+ has started to diagnose this [2]
-+
-+Fixes build when using -std >= gnu11 and using clang16+
-+
-+[1] https://www.open-std.org/jtc1/sc22/wg14/www/docs/n2350.htm
-+[2] https://reviews.llvm.org/D133574
-+
-+Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/glib/-/merge_requests/3201]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ glib/tests/macros.c | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
-+
-+diff --git a/glib/tests/macros.c b/glib/tests/macros.c
-+index efe632b..17b1646 100644
-+--- a/glib/tests/macros.c
-++++ b/glib/tests/macros.c
-+@@ -42,9 +42,13 @@ test_assert_static (void)
-+ static void
-+ test_alignof_fallback (void)
-+ {
-++#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 201112L && !defined(__cplusplus)
-++#define check_alignof(type) \
-++  g_assert_cmpint (G_ALIGNOF (type), ==, _Alignof (type))
-++#else
-+ #define check_alignof(type) \
-+   g_assert_cmpint (G_ALIGNOF (type), ==, G_STRUCT_OFFSET (struct { char a; type b; }, b))
-+-
-++#endif
-+   check_alignof (char);
-+   check_alignof (int);
-+   check_alignof (float);
-+-- 
-+2.39.0
-+
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb
-index e5279e946c..de3f55e865 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb
-@@ -19,6 +19,8 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://cpp-null.patch \
-            file://cpp-null2.patch \
-            file://fix-errno.patch \
-+           file://0001-tests-macros.c-Define-check_alignof-for-std-c11-and-.patch \
-+           file://0001-Switch-from-C99-to-C11-standard.patch \
-            "
- SRC_URI:append:class-native = " file://relocate-modules.patch"
- 
--- 
-2.39.0
+This is clearly fixing a problem you saw in local testing, and it
+would be good to ensure the problem does not silently reoccur in the
+future.
 
+Alex
+
+On Sun, 15 Jan 2023 at 01:54, Chuck Wolber <chuck.wolber@boeing.com> wrote:
+>
+> The effect of subsequent setup-layers executions is now either a NOOP
+> or the minimal set of changes required to ensure layers precisely match
+> the JSON configuration.
+>
+> This change allows setup-layers to be incorporated into a team's
+> configuration management strategy. In particular, the configuration
+> JSON manages a "pinning policy" that documents the oversight of sources
+> of change (a requirement for embedded development in highly regulated
+> industries).
+>
+> One model for this strategy would work as follows. Team level policy is
+> developed to regularly review upstream commits that occur between the
+> current upstream HEAD and the previously pinned revision. The JSON
+> configuration is periodically updated after a review, test, and approval
+> process. In the rare instance that an upstream change is considered
+> problematic, the bbappend mechanism can be used to make relevant
+> changes in the team's project repository. This approach also requires
+> that team developers regularly run the project repository copy of
+> setup-layers. This is most easily accomplished by including setup-layers
+> in a wrapper script that all team developers use to interact with the
+> bitbake tool suite (e.g. "bb bitbake foo-image"). Project level policy
+> and oversight is effectively "contained" within this wrapper script,
+> thereby reducing a significant source of human error.
+>
+> It is also worth noting that, where project level policy cannot be
+> asserted on layers with the bbappend mechanism (e.g. bbclass files), a
+> patch set can be checked in to the project repository and automatically
+> managed by the wrapper script. Patch management against local layer
+> clones would be superficial in nature (not pushed upstream). This
+> enables projects to "pull in" functionality and manage bug fixes on an
+> as-needed basis.
+>
+> Left unstated, but acknowledged here, are a number of nuances required
+> to successfully implement this strategy e.g. setup-layers does not work
+> so well if your layer clone is dirty from locally applied patches, etc.
+> The details are out of scope for this explanation. What should be
+> clear is that a larger configuration management strategy can now benefit
+> from the utility provided by setup-layers.
+>
+> Note: Neither the above configuration management strategy example nor
+> the change itself is intended to alter the original intent to use
+> "bitbake-layers create-layers-setup destdir" to keep pace with upstream
+> activity for those who wish to use it that way.
+>
+> Signed-off-by: Chuck Wolber <chuck.wolber@boeing.com>
+> ---
+>  scripts/oe-setup-layers | 55 +++++++++++++++++++++++++++++++++++++++++--------
+>  1 file changed, 46 insertions(+), 9 deletions(-)
+>
+> diff --git a/scripts/oe-setup-layers b/scripts/oe-setup-layers
+> index 7fe250c..a042a6c 100755
+> --- a/scripts/oe-setup-layers
+> +++ b/scripts/oe-setup-layers
+> @@ -10,12 +10,42 @@
+>  # bitbake-layers create-layers-setup destdir
+>  #
+>  # It is recommended that you do not modify this file directly, but rather re-run the above command to get the freshest upstream copy.
+> +#
+> +# This script is idempotent. Subsequent runs only change what is necessary to
+> +# ensure your layers match your configuration.
+>
+>  import argparse
+>  import json
+>  import os
+>  import subprocess
+>
+> +def _is_layer_git_repo(layerdir):
+> +    git_dir = os.path.join(layerdir, ".git")
+> +    if not os.access(git_dir, os.R_OK):
+> +        return False
+> +    try:
+> +        return subprocess.check_output("git -C %s rev-parse --is-inside-git-dir" % git_dir, shell=True, stderr=subprocess.DEVNULL)
+> +    except subprocess.CalledProcessError:
+> +        return False
+> +
+> +def _is_layer_at_rev(layerdir, rev):
+> +    try:
+> +        curr_rev = subprocess.check_output("git -C %s rev-parse HEAD" % layerdir, shell=True, stderr=subprocess.DEVNULL)
+> +        if curr_rev.strip().decode("utf-8") == rev:
+> +            return True
+> +    except subprocess.CalledProcessError:
+> +        pass
+> +    return False
+> +
+> +def _is_layer_at_remote_uri(layerdir, remote, uri):
+> +    try:
+> +        curr_uri = subprocess.check_output("git -C %s remote get-url %s" % (layerdir, remote), shell=True, stderr=subprocess.DEVNULL)
+> +        if curr_uri.strip().decode("utf-8") == uri:
+> +            return True
+> +    except subprocess.CalledProcessError:
+> +        pass
+> +    return False
+> +
+>  def _do_checkout(args, json):
+>      oesetupbuild = None
+>      layers = json['sources']
+> @@ -37,23 +67,30 @@ def _do_checkout(args, json):
+>          remotes = l_remote['remotes']
+>
+>          print('\nSetting up source {}, revision {}, branch {}'.format(l_name, desc, branch))
+> -        cmd = 'git init -q {}'.format(layerdir)
+> -        print("Running '{}'".format(cmd))
+> -        subprocess.check_output(cmd, shell=True)
+> +        if not _is_layer_git_repo(layerdir):
+> +            cmd = 'git init -q {}'.format(layerdir)
+> +            print("Running '{}'".format(cmd))
+> +            subprocess.check_output(cmd, shell=True)
+>
+>          for remote in remotes:
+> -            cmd = "git remote remove {} > /dev/null 2>&1; git remote add {} {}".format(remote, remote, remotes[remote]['uri'])
+> +            if not _is_layer_at_remote_uri(layerdir, remote, remotes[remote]['uri']):
+> +                cmd = "git remote remove {} > /dev/null 2>&1; git remote add {} {}".format(remote, remote, remotes[remote]['uri'])
+> +                print("Running '{}' in {}".format(cmd, layerdir))
+> +                subprocess.check_output(cmd, shell=True, cwd=layerdir)
+> +
+> +                cmd = "git fetch -q {} || true".format(remote)
+> +                print("Running '{}' in {}".format(cmd, layerdir))
+> +                subprocess.check_output(cmd, shell=True, cwd=layerdir)
+> +
+> +        if not _is_layer_at_rev(layerdir, rev):
+> +            cmd = "git fetch -q --all || true"
+>              print("Running '{}' in {}".format(cmd, layerdir))
+>              subprocess.check_output(cmd, shell=True, cwd=layerdir)
+>
+> -            cmd = "git fetch -q {} || true".format(remote)
+> +            cmd = 'git checkout -q {}'.format(rev)
+>              print("Running '{}' in {}".format(cmd, layerdir))
+>              subprocess.check_output(cmd, shell=True, cwd=layerdir)
+>
+> -        cmd = 'git checkout -q {}'.format(rev)
+> -        print("Running '{}' in {}".format(cmd, layerdir))
+> -        subprocess.check_output(cmd, shell=True, cwd=layerdir)
+> -
+>          if os.path.exists(os.path.join(layerdir, 'scripts/oe-setup-build')):
+>              oesetupbuild = os.path.join(layerdir, 'scripts/oe-setup-build')
+>
+> --
+> 1.8.3.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#175861): https://lists.openembedded.org/g/openembedded-core/message/175861
+> Mute This Topic: https://lists.openembedded.org/mt/96278464/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
