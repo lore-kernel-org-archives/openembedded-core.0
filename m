@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66458C71132
-	for <webhook@archiver.kernel.org>; Sun, 15 Jan 2023 18:02:31 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.145836.1673805744530458153
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56DCBC77B62
+	for <webhook@archiver.kernel.org>; Sun, 15 Jan 2023 18:02:32 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.145824.1673805742953582716
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Jan 2023 10:02:24 -0800
+ Sun, 15 Jan 2023 10:02:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=SciVhp2X;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010185b698c71b-b0749c5c-fd3d-49f6-8b29-8032b879b403-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=UWx6xWhU;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010185b698bfce-c54ee0cc-033d-47ae-991e-6a3b2771aa4f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1673805744;
+	t=1673805742;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=V2v0y2ZkuBNaHRO0pPz3/4BZz0O70OsP3JxBhxNCfOU=;
-	b=SciVhp2XUqoiTcFDkZZjtl5fFf5t4pUMsEDQyR83vIOchgxdHEhVEuLNkcuKSW3k
-	H3v/qBxf19M2Wmzgz/teGOFidqP9U0L/12LyVqJn41LNjTOAbKF4mXjse7GxB1RN4Al
-	CO5GnfsA5YxYyFI/XuDF0hH+1GrkrrNPcVt1CGlk=
+	bh=95/W25QNYusjW3pxkR5UknVaoacBEe7BstzqdTFC+aI=;
+	b=UWx6xWhUtXvCcR+UXM7TQSdNsqK7O1Ltt1AyCVDat6Yh113bc+/x93p1/n6DIj0a
+	aZ4B67bOAeZ+1MAUV4nagWB54YcsBdejC4HsAfnZf1v2sEdCgBFiNvxlv4y/1pG6xTd
+	VuzNe1tout8Fx/otoJbLFNwC1PTo3bu+oz19JCOY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1673805744;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1673805742;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=V2v0y2ZkuBNaHRO0pPz3/4BZz0O70OsP3JxBhxNCfOU=;
-	b=cqObj959DvofqoYePbPJncej8YVQ3AoH1FGy5qFPBSDKaDE7pU5+zULH5dRpTC7+
-	R2xRNoG0NjgdWq3wI34DIVgYZO+fa3UZi0BIwBcttyKkf/7W5Uc1ENBdqmsI7fz0iNa
-	oSm95E9OvrO4BYXQmycnSDLM4eho2N7NmfTAJJ3U=
-Content-Type: multipart/mixed; boundary="===============0829617160689972612=="
+	bh=95/W25QNYusjW3pxkR5UknVaoacBEe7BstzqdTFC+aI=;
+	b=IDzee8054jy03dndh2p2TCPKt6s8ej3U3qnBy2doqa6v/tVaQhjv3OIvdYbWzPSs
+	BArlBIGEmTylNSyxS2n7gP0MTomgDG4r2IMpJ4rvj8Xv/nu00EpbPSkOfMS9oRmyprR
+	V3Po2cuaznj2x3XPkI5U3qNXfSkDK4bwC2FBWsvU=
+Content-Type: multipart/mixed; boundary="===============3325971301703982438=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Changhyeok Bae <changhyeok.bae@gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ethtool: upgrading to 6.1 FAILED
-Message-ID: <01010185b698c71b-b0749c5c-fd3d-49f6-8b29-8032b879b403-000000@us-west-2.amazonses.com>
-Date: Sun, 15 Jan 2023 18:02:23 +0000
+Subject: [AUH] ncurses: upgrading to 6.4 SUCCEEDED
+Message-ID: <01010185b698bfce-c54ee0cc-033d-47ae-991e-6a3b2771aa4f-000000@us-west-2.amazonses.com>
+Date: Sun, 15 Jan 2023 18:02:22 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.01.15-54.240.27.33
+X-SES-Outgoing: 2023.01.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 18:02:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175932
+ <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 18:02:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175891
 
---===============0829617160689972612==
+--===============3325971301703982438==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,16 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *ethtool* to *6.1* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *ncurses* to *6.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-ethtool-upgrade-6.0-6.1.patch
+    - apply the patch: git am 0001-ncurses-upgrade-6.3-20220423-6.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,498 +69,128 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============0829617160689972612==
+--===============3325971301703982438==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/ethtool/ethtool-bash-completion: PKGV changed from 6.0 [default] to 6.1 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-bash-completion: PV changed from "6.0" to "6.1"
-packages/core2-32-poky-linux/ethtool/ethtool-dbg: PKGV changed from 6.0 [default] to 6.1 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-dbg: PV changed from "6.0" to "6.1"
-packages/core2-32-poky-linux/ethtool/ethtool-dbg: PKGSIZE changed from 3455360 to 3538788 (+2%)
-packages/core2-32-poky-linux/ethtool/ethtool-dev: PKGV changed from 6.0 [default] to 6.1 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-dev: PV changed from "6.0" to "6.1"
-packages/core2-32-poky-linux/ethtool/ethtool-doc: PKGV changed from 6.0 [default] to 6.1 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-doc: PV changed from "6.0" to "6.1"
-packages/core2-32-poky-linux/ethtool/ethtool-doc: PKGSIZE changed from 39648 to 39687 (+0%)
-packages/core2-32-poky-linux/ethtool/ethtool-locale: PKGV changed from 6.0 [default] to 6.1 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-locale: PV changed from "6.0" to "6.1"
-packages/core2-32-poky-linux/ethtool/ethtool-ptest: PKGV changed from 6.0 [default] to 6.1 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-ptest: PV changed from "6.0" to "6.1"
-packages/core2-32-poky-linux/ethtool/ethtool-ptest: PKGSIZE changed from 1482706 to 1523707 (+3%)
-packages/core2-32-poky-linux/ethtool/ethtool-src: FILELIST: directory renamed /usr/src/debug/ethtool/6.0-r0/uapi/linux -> /usr/src/debug/ethtool/6.1-r0/uapi/linux, directory renamed /usr/src/debug/ethtool/6.0-r0/netlink -> /usr/src/debug/ethtool/6.1-r0/netlink, removed "/usr/src/debug/ethtool/6.0-r0/json_writer.h /usr/src/debug/ethtool/6.0-r0/natsemi.c /usr/src/debug/ethtool/6.0-r0/igb.c /usr/src/debug/ethtool/6.0-r0/internal.h /usr/src/debug/ethtool/6.0-r0/at76c50x-usb.c /usr/src/debug/ethtool/6.0-r0/amd8111e.c /usr/src/debug/ethtool/6.0-r0/dsa.c /usr/src/debug/ethtool/6.0-r0/json_writer.c /usr/src/debug/ethtool/6.0-r0/lan743x.c /usr/src/debug/ethtool/6.0-r0/json_print.c /usr/src/debug/ethtool/6.0-r0/sfpid.c /usr/src/debug/ethtool/6.0-r0/rxclass.c /usr/src/debug/ethtool/6.0-r0/json_print.h /usr/src/debug/ethtool/6.0-r0/bnxt.c /usr/src/debug/ethtool/6.0-r0/ixgbe.c /usr/src/debug/ethtool/6.0-r0/sfpdiag.c /usr/src/debug/ethtool/6.0-r0/ixgbevf.c /usr/src/debug/ethtool/6.0-r0/lan78xx.c /
- usr/src/debug/ethtool/6.0-r0/common.h /usr/src/debug/ethtool/6.0-r0/de2104x.c /usr/src/debug/ethtool/6.0-r0/common.c /usr/src/debug/ethtool/6.0-r0/marvell.c /usr/src/debug/ethtool/6.0-r0/cmis.h /usr/src/debug/ethtool/6.0-r0/smsc911x.c /usr/src/debug/ethtool/6.0-r0/qsfp.c /usr/src/debug/ethtool/6.0-r0/pcnet32.c /usr/src/debug/ethtool/6.0-r0/test-cmdline.c /usr/src/debug/ethtool/6.0-r0/tg3.c /usr/src/debug/ethtool/6.0-r0/cmis.c /usr/src/debug/ethtool/6.0-r0/test-common.c /usr/src/debug/ethtool/6.0-r0/ixgb.c /usr/src/debug/ethtool/6.0-r0/ethtool.c /usr/src/debug/ethtool/6.0-r0/vioc.c /usr/src/debug/ethtool/6.0-r0/vmxnet3.c /usr/src/debug/ethtool/6.0-r0/cpsw.c /usr/src/debug/ethtool/6.0-r0/sfc.c /usr/src/debug/ethtool/6.0-r0/realtek.c /usr/src/debug/ethtool/6.0-r0/sff-common.h /usr/src/debug/ethtool/6.0-r0/list.h /usr/src/debug/ethtool/6.0-r0/fec.c /usr/src/debug/ethtool/6.0-r0/ibm_emac.c /usr/src/debug/ethtool/6.0-r0/e1000.c /usr/src/debug/ethtool/6.0-r0/sff-common.c /usr/src/debug/eth
- tool/6.0-r0/fjes.c /usr/src/debug/ethtool/6.0-r0/stmmac.c /usr/src/debug/ethtool/6.0-r0/e100.c /usr/src/debug/ethtool/6.0-r0/tse.c /usr/src/debug/ethtool/6.0-r0/igc.c /usr/src/debug/ethtool/6.0-r0/fec_8xx.c /usr/src/debug/ethtool/6.0-r0/et131x.c", added "/usr/src/debug/ethtool/6.1-r0/json_writer.h /usr/src/debug/ethtool/6.1-r0/natsemi.c /usr/src/debug/ethtool/6.1-r0/igb.c /usr/src/debug/ethtool/6.1-r0/internal.h /usr/src/debug/ethtool/6.1-r0/at76c50x-usb.c /usr/src/debug/ethtool/6.1-r0/amd8111e.c /usr/src/debug/ethtool/6.1-r0/dsa.c /usr/src/debug/ethtool/6.1-r0/json_writer.c /usr/src/debug/ethtool/6.1-r0/lan743x.c /usr/src/debug/ethtool/6.1-r0/json_print.c /usr/src/debug/ethtool/6.1-r0/sfpid.c /usr/src/debug/ethtool/6.1-r0/sfc.c /usr/src/debug/ethtool/6.1-r0/fec.c /usr/src/debug/ethtool/6.1-r0/rxclass.c /usr/src/debug/ethtool/6.1-r0/json_print.h /usr/src/debug/ethtool/6.1-r0/bnxt.c /usr/src/debug/ethtool/6.1-r0/ixgbe.c /usr/src/debug/ethtool/6.1-r0/sfpdiag.c /usr/src/debug/ethtool/6
- .1-r0/fsl_enetc.c /usr/src/debug/ethtool/6.1-r0/ixgbevf.c /usr/src/debug/ethtool/6.1-r0/lan78xx.c /usr/src/debug/ethtool/6.1-r0/common.h /usr/src/debug/ethtool/6.1-r0/de2104x.c /usr/src/debug/ethtool/6.1-r0/common.c /usr/src/debug/ethtool/6.1-r0/marvell.c /usr/src/debug/ethtool/6.1-r0/cmis.h /usr/src/debug/ethtool/6.1-r0/smsc911x.c /usr/src/debug/ethtool/6.1-r0/qsfp.c /usr/src/debug/ethtool/6.1-r0/pcnet32.c /usr/src/debug/ethtool/6.1-r0/test-cmdline.c /usr/src/debug/ethtool/6.1-r0/tg3.c /usr/src/debug/ethtool/6.1-r0/cmis.c /usr/src/debug/ethtool/6.1-r0/test-common.c /usr/src/debug/ethtool/6.1-r0/ixgb.c /usr/src/debug/ethtool/6.1-r0/ethtool.c /usr/src/debug/ethtool/6.1-r0/vioc.c /usr/src/debug/ethtool/6.1-r0/vmxnet3.c /usr/src/debug/ethtool/6.1-r0/cpsw.c /usr/src/debug/ethtool/6.1-r0/realtek.c /usr/src/debug/ethtool/6.1-r0/sff-common.h /usr/src/debug/ethtool/6.1-r0/list.h /usr/src/debug/ethtool/6.1-r0/ibm_emac.c /usr/src/debug/ethtool/6.1-r0/e1000.c /usr/src/debug/ethtool/6.1-r0/sff-
- common.c /usr/src/debug/ethtool/6.1-r0/fjes.c /usr/src/debug/ethtool/6.1-r0/stmmac.c /usr/src/debug/ethtool/6.1-r0/e100.c /usr/src/debug/ethtool/6.1-r0/tse.c /usr/src/debug/ethtool/6.1-r0/igc.c /usr/src/debug/ethtool/6.1-r0/fec_8xx.c /usr/src/debug/ethtool/6.1-r0/et131x.c"
-packages/core2-32-poky-linux/ethtool/ethtool-src: PKGV changed from 6.0 [default] to 6.1 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-src: PV changed from "6.0" to "6.1"
-packages/core2-32-poky-linux/ethtool/ethtool-src: PKGSIZE changed from 1292597 to 1308580 (+1%)
-packages/core2-32-poky-linux/ethtool/ethtool-staticdev: PKGV changed from 6.0 [default] to 6.1 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-staticdev: PV changed from "6.0" to "6.1"
-packages/core2-32-poky-linux/ethtool/ethtool: PKGV changed from 6.0 [default] to 6.1 [default]
-packages/core2-32-poky-linux/ethtool/ethtool: PV changed from "6.0" to "6.1"
-packages/core2-32-poky-linux/ethtool/ethtool: PKGSIZE changed from 572048 to 592624 (+4%)
-packages/core2-32-poky-linux/ethtool: PKGV changed from 6.0 [default] to 6.1 [default]
-packages/core2-32-poky-linux/ethtool: PV changed from "6.0" to "6.1"
-packages/core2-32-poky-linux/ethtool: SRC_URI changed from "https://cdn.kernel.org/pub/software/network/ethtool/ethtool-6.0.tar.gz file://run-ptest file://avoid_parallel_tests.patch" to "https://cdn.kernel.org/pub/software/network/ethtool/ethtool-6.1.tar.gz file://run-ptest file://avoid_parallel_tests.patch"
+packages/core2-32-poky-linux/ncurses: PKGV changed from 6.3+20220423 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ncurses: PV changed from "6.3+20220423" to "6.4"
+packages/core2-32-poky-linux/ncurses/ncurses-dbg: PKGV changed from 6.3+20220423 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ncurses/ncurses-dbg: PKGSIZE changed from 3427536 to 3438048 (+0%)
+packages/core2-32-poky-linux/ncurses/ncurses-dbg: PV changed from "6.3+20220423" to "6.4"
+packages/core2-32-poky-linux/ncurses/ncurses-dev: PKGV changed from 6.3+20220423 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ncurses/ncurses-dev: PKGSIZE changed from 357139 to 357799 (+0%)
+packages/core2-32-poky-linux/ncurses/ncurses-dev: PV changed from "6.3+20220423" to "6.4"
+packages/core2-32-poky-linux/ncurses/ncurses-doc: PKGV changed from 6.3+20220423 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ncurses/ncurses-doc: PKGSIZE changed from 1124197 to 1128722 (+0%)
+packages/core2-32-poky-linux/ncurses/ncurses-doc: PV changed from "6.3+20220423" to "6.4"
+packages/core2-32-poky-linux/ncurses/ncurses-libform: PKGV changed from 6.3+20220423 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ncurses/ncurses-libform: PV changed from "6.3+20220423" to "6.4"
+packages/core2-32-poky-linux/ncurses/ncurses-libformw: PKGV changed from 6.3+20220423 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ncurses/ncurses-libformw: PV changed from "6.3+20220423" to "6.4"
+packages/core2-32-poky-linux/ncurses/ncurses-libmenu: PKGV changed from 6.3+20220423 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ncurses/ncurses-libmenu: PV changed from "6.3+20220423" to "6.4"
+packages/core2-32-poky-linux/ncurses/ncurses-libmenuw: PKGV changed from 6.3+20220423 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ncurses/ncurses-libmenuw: PV changed from "6.3+20220423" to "6.4"
+packages/core2-32-poky-linux/ncurses/ncurses-libncurses: PKGV changed from 6.3+20220423 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ncurses/ncurses-libncurses: PV changed from "6.3+20220423" to "6.4"
+packages/core2-32-poky-linux/ncurses/ncurses-libncursesw: PKGV changed from 6.3+20220423 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ncurses/ncurses-libncursesw: PV changed from "6.3+20220423" to "6.4"
+packages/core2-32-poky-linux/ncurses/ncurses-libpanel: PKGV changed from 6.3+20220423 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ncurses/ncurses-libpanel: PV changed from "6.3+20220423" to "6.4"
+packages/core2-32-poky-linux/ncurses/ncurses-libpanelw: PKGV changed from 6.3+20220423 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ncurses/ncurses-libpanelw: PV changed from "6.3+20220423" to "6.4"
+packages/core2-32-poky-linux/ncurses/ncurses-libtic: PKGV changed from 6.3+20220423 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ncurses/ncurses-libtic: PV changed from "6.3+20220423" to "6.4"
+packages/core2-32-poky-linux/ncurses/ncurses-libticw: PKGV changed from 6.3+20220423 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ncurses/ncurses-libticw: PV changed from "6.3+20220423" to "6.4"
+packages/core2-32-poky-linux/ncurses/ncurses-libtinfo: PKGV changed from 6.3+20220423 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ncurses/ncurses-libtinfo: PKGSIZE changed from 157687 to 161783 (+3%)
+packages/core2-32-poky-linux/ncurses/ncurses-libtinfo: PV changed from "6.3+20220423" to "6.4"
+packages/core2-32-poky-linux/ncurses/ncurses-locale: PKGV changed from 6.3+20220423 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ncurses/ncurses-locale: PV changed from "6.3+20220423" to "6.4"
+packages/core2-32-poky-linux/ncurses/ncurses-src: PKGV changed from 6.3+20220423 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ncurses/ncurses-src: PKGSIZE changed from 3274066 to 3290046 (+0%)
+packages/core2-32-poky-linux/ncurses/ncurses-src: PV changed from "6.3+20220423" to "6.4"
+packages/core2-32-poky-linux/ncurses/ncurses-staticdev: PKGV changed from 6.3+20220423 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ncurses/ncurses-staticdev: PKGSIZE changed from 798580 to 798412 (-0%)
+packages/core2-32-poky-linux/ncurses/ncurses-staticdev: PV changed from "6.3+20220423" to "6.4"
+packages/core2-32-poky-linux/ncurses/ncurses-terminfo-base: PKGV changed from 6.3+20220423 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ncurses/ncurses-terminfo-base: PKGSIZE changed from 22351 to 22561 (+1%)
+packages/core2-32-poky-linux/ncurses/ncurses-terminfo-base: PV changed from "6.3+20220423" to "6.4"
+packages/core2-32-poky-linux/ncurses/ncurses-terminfo: PKGV changed from 6.3+20220423 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ncurses/ncurses-terminfo: PKGSIZE changed from 2101992 to 2132814 (+1%)
+packages/core2-32-poky-linux/ncurses/ncurses-terminfo: PV changed from "6.3+20220423" to "6.4"
+packages/core2-32-poky-linux/ncurses/ncurses-terminfo: FILELIST: removed "/usr/share/terminfo/t/tt505-22", added "/usr/share/terminfo/x/xterm-p371 /usr/share/terminfo/d/decid+cpr /usr/share/terminfo/n/no+brackets /usr/share/terminfo/a/ansi+cpr /usr/share/terminfo/x/xterm+alt47 /usr/share/terminfo/a/att505-22 /usr/share/terminfo/a/apollo+vt132 /usr/share/terminfo/x/xterm+focus /usr/share/terminfo/b/bracketed+paste /usr/share/terminfo/n/nsterm-build440 /usr/share/terminfo/s/screen-base"
+packages/core2-32-poky-linux/ncurses/ncurses-tools: PKGV changed from 6.3+20220423 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ncurses/ncurses-tools: PKGSIZE changed from 203766 to 207862 (+2%)
+packages/core2-32-poky-linux/ncurses/ncurses-tools: PV changed from "6.3+20220423" to "6.4"
+packages/core2-32-poky-linux/ncurses/ncurses: PKGV changed from 6.3+20220423 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ncurses/ncurses: PV changed from "6.3+20220423" to "6.4"
 
---===============0829617160689972612==
+--===============3325971301703982438==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 898 .bb files complete (0 cached, 898 parsed). 1697 targets, 52 skipped, 0 masked, 0 errors.
-Removing 10 recipes from the core2-32 sysroot...done.
-Removing 13 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/core2-32-poky-linux/ncurses/ncurses-terminfo: FILELIST: removed "/usr/share/terminfo/t/tt505-22", added "/usr/share/terminfo/x/xterm-p371 /usr/share/terminfo/n/nsterm-build440 /usr/share/terminfo/n/no+brackets /usr/share/terminfo/a/ansi+cpr /usr/share/terminfo/s/screen-base /usr/share/terminfo/d/decid+cpr /usr/share/terminfo/b/bracketed+paste /usr/share/terminfo/a/apollo+vt132 /usr/share/terminfo/x/xterm+alt47 /usr/share/terminfo/x/xterm+focus /usr/share/terminfo/a/att505-22"
 
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux-musl"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:174ea1fdba116e06da8ac7799886a55d342c9016"
-workspace            = "master:11698e027d71967153b272bf34996bee8f3908e5"
-
-Initialising tasks...done.
-Sstate summary: Wanted 72 Local 56 Mirrors 0 Missed 16 Current 122 (77% match, 91% complete)
-Removing 2 stale sstate objects for arch x86_64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 139 of 194 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.2.15.bb:do_packagedata_setscene)
-NOTE: Running setscene task 140 of 194 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 141 of 194 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 142 of 194 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_package_write_rpm_setscene)
-NOTE: Running task 541 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_fetch)
-NOTE: Running task 542 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/ethtool/ethtool_6.1.bb:do_fetch)
-NOTE: Running task 552 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/make/make_4.4.bb:do_fetch)
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_fetch: Started
-NOTE: recipe make-4.4-r0: task do_fetch: Started
-NOTE: recipe bash-5.2.15-r0: task do_packagedata_setscene: Started
-NOTE: recipe ethtool-6.1-r0: task do_fetch: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_fetch: Succeeded
-NOTE: recipe make-4.4-r0: task do_fetch: Succeeded
-NOTE: recipe ethtool-6.1-r0: task do_fetch: Succeeded
-NOTE: Running task 553 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_unpack)
-NOTE: Running task 554 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/ethtool/ethtool_6.1.bb:do_unpack)
-NOTE: Running task 555 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/make/make_4.4.bb:do_unpack)
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 144 of 194 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/psmisc/psmisc_23.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 145 of 194 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_packagedata_setscene)
-NOTE: recipe libmnl-1.0.5-r0: task do_unpack: Started
-NOTE: recipe make-4.4-r0: task do_unpack: Started
-NOTE: recipe ethtool-6.1-r0: task do_unpack: Started
-NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 146 of 194 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_package_setscene)
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_packagedata_setscene: Started
-NOTE: recipe psmisc-23.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe ethtool-6.1-r0: task do_unpack: Succeeded
-NOTE: recipe libmnl-1.0.5-r0: task do_unpack: Succeeded
-NOTE: recipe make-4.4-r0: task do_unpack: Succeeded
-NOTE: Running task 556 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_patch)
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bash-5.2.15-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 557 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/ethtool/ethtool_6.1.bb:do_patch)
-NOTE: Running task 564 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/make/make_4.4.bb:do_patch)
-NOTE: recipe psmisc-23.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 152 of 194 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb:do_packagedata_setscene)
-NOTE: recipe libmnl-1.0.5-r0: task do_patch: Started
-NOTE: recipe make-4.4-r0: task do_patch: Started
-NOTE: recipe ethtool-6.1-r0: task do_patch: Started
-NOTE: recipe ncurses-6.3+20220423-r0: task do_packagedata_setscene: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_patch: Succeeded
-NOTE: Running task 571 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_deploy_source_date_epoch)
-NOTE: recipe ethtool-6.1-r0: task do_patch: Succeeded
-NOTE: Running task 572 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/ethtool/ethtool_6.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 573 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/ethtool/ethtool_6.1.bb:do_populate_lic)
-NOTE: recipe libmnl-1.0.5-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe make-4.4-r0: task do_patch: Succeeded
-NOTE: Running task 574 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/make/make_4.4.bb:do_deploy_source_date_epoch)
-NOTE: recipe ncurses-6.3+20220423-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 157 of 194 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
-NOTE: recipe ethtool-6.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe ethtool-6.1-r0: task do_populate_lic: Started
-NOTE: recipe make-4.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe ethtool-6.1-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/ethtool/ethtool_6.1.bb:do_populate_lic unihash changed to 89ecdd25197956859f929685eea75b8a2041fd92d2090bc2e8d87ba209891f99
-NOTE: recipe ethtool-6.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe make-4.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe bash-completion-2.11-r0: task do_package_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 161 of 194 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 162 of 194 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 163 of 194 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe gcc-runtime-12.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 164 of 194 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-runtime-12.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 167 of 194 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.2.bb:do_packagedata_setscene)
-NOTE: recipe gcc-runtime-12.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-12.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-12.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 169 of 194 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe musl-1.2.3+gitAUTOINC+f47a8cdd25-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 171 of 194 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgcc-12.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.3+gitAUTOINC+f47a8cdd25-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 173 of 194 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 174 of 194 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 175 of 194 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_packagedata_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-libc-headers-6.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 176 of 194 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: recipe musl-1.2.3+gitAUTOINC+f47a8cdd25-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.3+gitAUTOINC+f47a8cdd25-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 181 of 194 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 182 of 194 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 188 of 194 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 191 of 194 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-6.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 192 of 194 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.39.bb:do_populate_sysroot_setscene)
-NOTE: recipe binutils-cross-i686-2.39-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe binutils-cross-i686-2.39-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 691 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 715 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/make/make_4.4.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 736 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_package_write_rpm)
-NOTE: recipe libmnl-1.0.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe make-4.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe bash-completion-2.11-r0: task do_package_write_rpm: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe make-4.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 737 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_configure)
-NOTE: Running task 738 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/make/make_4.4.bb:do_configure)
-NOTE: recipe libmnl-1.0.5-r0: task do_configure: Started
-NOTE: recipe make-4.4-r0: task do_configure: Started
-NOTE: recipe bash-completion-2.11-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libmnl-1.0.5-r0: task do_configure: Succeeded
-NOTE: Running task 739 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_compile)
-NOTE: recipe libmnl-1.0.5-r0: task do_compile: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_compile: Succeeded
-NOTE: Running task 740 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_install)
-NOTE: recipe libmnl-1.0.5-r0: task do_install: Started
-NOTE: recipe make-4.4-r0: task do_configure: Succeeded
-NOTE: Running task 741 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/make/make_4.4.bb:do_compile)
-NOTE: recipe make-4.4-r0: task do_compile: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_install: Succeeded
-NOTE: Running task 742 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_populate_sysroot)
-NOTE: Running task 743 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_package)
-NOTE: recipe libmnl-1.0.5-r0: task do_populate_sysroot: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_package: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 744 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/ethtool/ethtool_6.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe ethtool-6.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe ethtool-6.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 745 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/ethtool/ethtool_6.1.bb:do_configure)
-NOTE: recipe ethtool-6.1-r0: task do_configure: Started
-NOTE: recipe make-4.4-r0: task do_compile: Succeeded
-NOTE: Running task 746 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/make/make_4.4.bb:do_install)
-NOTE: recipe make-4.4-r0: task do_install: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_package: Succeeded
-NOTE: Running task 747 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_packagedata)
-NOTE: recipe libmnl-1.0.5-r0: task do_packagedata: Started
-NOTE: recipe make-4.4-r0: task do_install: Succeeded
-NOTE: Running task 748 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/make/make_4.4.bb:do_package)
-NOTE: recipe libmnl-1.0.5-r0: task do_packagedata: Succeeded
-NOTE: recipe make-4.4-r0: task do_package: Started
-NOTE: recipe make-4.4-r0: task do_package: Succeeded
-NOTE: Running task 749 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/make/make_4.4.bb:do_packagedata)
-NOTE: recipe ethtool-6.1-r0: task do_configure: Succeeded
-NOTE: recipe make-4.4-r0: task do_packagedata: Started
-NOTE: Running task 750 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/ethtool/ethtool_6.1.bb:do_configure_ptest_base)
-NOTE: recipe ethtool-6.1-r0: task do_configure_ptest_base: Started
-NOTE: recipe ethtool-6.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 751 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/ethtool/ethtool_6.1.bb:do_compile)
-NOTE: recipe ethtool-6.1-r0: task do_compile: Started
-NOTE: recipe make-4.4-r0: task do_packagedata: Succeeded
-NOTE: Running task 752 of 761 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/make/make_4.4.bb:do_package_write_rpm)
-NOTE: recipe make-4.4-r0: task do_package_write_rpm: Started
-Log data follows:
-| DEBUG: Executing python function autotools_aclocals
-| DEBUG: SITE files ['endian-little', 'bit-32', 'ix86-common', 'common-linux', 'common-musl', 'i686-linux-musl', 'common']
-| DEBUG: Python function autotools_aclocals finished
-| DEBUG: Executing shell function do_compile
-| NOTE: make -j 56
-| make  all-am
-| make[1]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build'
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o ethtool.o ../ethtool-6.1/ethtool.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o rxclass.o ../ethtool-6.1/rxclass.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o common.o ../ethtool-6.1/common.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o json_writer.o ../ethtool-6.1/json_writer.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o json_print.o ../ethtool-6.1/json_print.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o amd8111e.o ../ethtool-6.1/amd8111e.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o de2104x.o ../ethtool-6.1/de2104x.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o dsa.o ../ethtool-6.1/dsa.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o e100.o ../ethtool-6.1/e100.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o e1000.o ../ethtool-6.1/e1000.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o et131x.o ../ethtool-6.1/et131x.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o igb.o ../ethtool-6.1/igb.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o fec.o ../ethtool-6.1/fec.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o fec_8xx.o ../ethtool-6.1/fec_8xx.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o fsl_enetc.o ../ethtool-6.1/fsl_enetc.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o ibm_emac.o ../ethtool-6.1/ibm_emac.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o ixgb.o ../ethtool-6.1/ixgb.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o ixgbe.o ../ethtool-6.1/ixgbe.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o natsemi.o ../ethtool-6.1/natsemi.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o pcnet32.o ../ethtool-6.1/pcnet32.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o realtek.o ../ethtool-6.1/realtek.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o tg3.o ../ethtool-6.1/tg3.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o marvell.o ../ethtool-6.1/marvell.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o vioc.o ../ethtool-6.1/vioc.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o smsc911x.o ../ethtool-6.1/smsc911x.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o at76c50x-usb.o ../ethtool-6.1/at76c50x-usb.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o sfc.o ../ethtool-6.1/sfc.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o stmmac.o ../ethtool-6.1/stmmac.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o sff-common.o ../ethtool-6.1/sff-common.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o sfpid.o ../ethtool-6.1/sfpid.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o sfpdiag.o ../ethtool-6.1/sfpdiag.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o ixgbevf.o ../ethtool-6.1/ixgbevf.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o tse.o ../ethtool-6.1/tse.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o vmxnet3.o ../ethtool-6.1/vmxnet3.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o qsfp.o ../ethtool-6.1/qsfp.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o fjes.o ../ethtool-6.1/fjes.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o lan78xx.o ../ethtool-6.1/lan78xx.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o igc.o ../ethtool-6.1/igc.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o cmis.o ../ethtool-6.1/cmis.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o bnxt.o ../ethtool-6.1/bnxt.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o cpsw.o ../ethtool-6.1/cpsw.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o lan743x.o ../ethtool-6.1/lan743x.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o netlink/netlink.o ../ethtool-6.1/netlink/netlink.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o netlink/msgbuff.o ../ethtool-6.1/netlink/msgbuff.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o netlink/nlsock.o ../ethtool-6.1/netlink/nlsock.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o netlink/strset.o ../ethtool-6.1/netlink/strset.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o netlink/monitor.o ../ethtool-6.1/netlink/monitor.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o netlink/bitset.o ../ethtool-6.1/netlink/bitset.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o netlink/settings.o ../ethtool-6.1/netlink/settings.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o netlink/parser.o ../ethtool-6.1/netlink/parser.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o netlink/permaddr.o ../ethtool-6.1/netlink/permaddr.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o netlink/prettymsg.o ../ethtool-6.1/netlink/prettymsg.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o netlink/features.o ../ethtool-6.1/netlink/features.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o netlink/privflags.o ../ethtool-6.1/netlink/privflags.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o netlink/rings.o ../ethtool-6.1/netlink/rings.c
-| i686-poky-linux-musl-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot -DHAVE_CONFIG_H -I. -I../ethtool-6.1  -I../ethtool-6.1/uapi   -Wall -Wextra -D_POSIX_C_SOURCE=200809L -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/ethtool-6.1=/usr/src/debug/ethtool/6.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build=/usr/src/debug/ethtool/6.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/recipe-sysroot-native=  -c -o netlink/channels.o ../ethtool-6.1/netlink/channels.c
-| ../ethtool-6.1/marvell.c: In function 'dump_queue':
-| ../ethtool-6.1/marvell.c:34:17: error: unknown type name 'u_int32_t'
-|    34 |                 u_int32_t               ctl;
-|       |                 ^~~~~~~~~
-| ../ethtool-6.1/marvell.c:35:17: error: unknown type name 'u_int32_t'
-|    35 |                 u_int32_t               next;
-|       |                 ^~~~~~~~~
-| ../ethtool-6.1/marvell.c:36:17: error: unknown type name 'u_int32_t'
-|    36 |                 u_int32_t               data_lo;
-|       |                 ^~~~~~~~~
-| ../ethtool-6.1/marvell.c:37:17: error: unknown type name 'u_int32_t'
-|    37 |                 u_int32_t               data_hi;
-|       |                 ^~~~~~~~~
-| ../ethtool-6.1/marvell.c:38:17: error: unknown type name 'u_int32_t'
-|    38 |                 u_int32_t               status;
-|       |                 ^~~~~~~~~
-| ../ethtool-6.1/marvell.c:39:17: error: unknown type name 'u_int32_t'
-|    39 |                 u_int32_t               timestamp;
-|       |                 ^~~~~~~~~
-| ../ethtool-6.1/marvell.c:40:17: error: unknown type name 'u_int16_t'
-|    40 |                 u_int16_t               csum2;
-|       |                 ^~~~~~~~~
-| ../ethtool-6.1/marvell.c:41:17: error: unknown type name 'u_int16_t'
-|    41 |                 u_int16_t               csum1;
-|       |                 ^~~~~~~~~
-| ../ethtool-6.1/marvell.c:42:17: error: unknown type name 'u_int16_t'
-|    42 |                 u_int16_t               csum2_start;
-|       |                 ^~~~~~~~~
-| ../ethtool-6.1/marvell.c:43:17: error: unknown type name 'u_int16_t'
-|    43 |                 u_int16_t               csum1_start;
-|       |                 ^~~~~~~~~
-| ../ethtool-6.1/marvell.c:44:17: error: unknown type name 'u_int32_t'
-|    44 |                 u_int32_t               addr_lo;
-|       |                 ^~~~~~~~~
-| ../ethtool-6.1/marvell.c:45:17: error: unknown type name 'u_int32_t'
-|    45 |                 u_int32_t               addr_hi;
-|       |                 ^~~~~~~~~
-| ../ethtool-6.1/marvell.c:46:17: error: unknown type name 'u_int32_t'
-|    46 |                 u_int32_t               count_lo;
-|       |                 ^~~~~~~~~
-| ../ethtool-6.1/marvell.c:47:17: error: unknown type name 'u_int32_t'
-|    47 |                 u_int32_t               count_hi;
-|       |                 ^~~~~~~~~
-| ../ethtool-6.1/marvell.c:48:17: error: unknown type name 'u_int32_t'
-|    48 |                 u_int32_t               byte_count;
-|       |                 ^~~~~~~~~
-| ../ethtool-6.1/marvell.c:49:17: error: unknown type name 'u_int32_t'
-|    49 |                 u_int32_t               csr;
-|       |                 ^~~~~~~~~
-| ../ethtool-6.1/marvell.c:50:17: error: unknown type name 'u_int32_t'
-|    50 |                 u_int32_t               flag;
-|       |                 ^~~~~~~~~
-| make[1]: *** [Makefile:1377: marvell.o] Error 1
-| make[1]: *** Waiting for unfinished jobs....
-| make[1]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/build'
-| make: *** [Makefile:864: all] Error 2
-| ERROR: oe_runmake failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/temp/run.do_compile.134329:182 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/temp/run.do_compile.134329, line 182
-| 	#2: die, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/temp/run.do_compile.134329, line 166
-| 	#3: oe_runmake, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/temp/run.do_compile.134329, line 161
-| 	#4: autotools_do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/temp/run.do_compile.134329, line 156
-| 	#5: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/temp/run.do_compile.134329, line 151
-| 	#6: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/temp/run.do_compile.134329, line 195
-NOTE: recipe ethtool-6.1-r0: task do_compile: Failed
-NOTE: recipe make-4.4-r0: task do_package_write_rpm: Succeeded
-NOTE: Tasks Summary: Attempted 752 tasks of which 720 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/ethtool/ethtool_6.1.bb:do_compile
-Summary: There was 1 WARNING message.
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: ethtool-6.1-r0 do_compile: oe_runmake failed
-ERROR: ethtool-6.1-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/temp/run.do_compile.134329', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/ethtool/6.1-r0/temp/log.do_compile.134329
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/ethtool/ethtool_6.1.bb:do_compile) failed with exit code '1'
-
---===============0829617160689972612==
+--===============3325971301703982438==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-ethtool-upgrade-6.0-6.1.patch"
+Content-Disposition: attachment;
+ filename="0001-ncurses-upgrade-6.3-20220423-6.4.patch"
 
-RnJvbSA3MTdkMjQ1NzEzZDNhYzkxYWJhZjliZjQxNjU1YjA1MGM1MTEyZjBkIE1vbiBTZXAgMTcg
+RnJvbSA5OWRiMDQ4ODA3NjI0MmEwNDFkYTQ4YmMwZTJlYjFiNWUwMjNiOTExIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMTUgSmFuIDIwMjMgMTM6NDY6MTUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBl
-dGh0b29sOiB1cGdyYWRlIDYuMCAtPiA2LjEKCi0tLQogLi4uL2V0aHRvb2wvZXRodG9vbC9hdm9p
-ZF9wYXJhbGxlbF90ZXN0cy5wYXRjaCAgICAgICAgICAgICAgfCA2ICsrKy0tLQogLi4uL2V0aHRv
-b2wve2V0aHRvb2xfNi4wLmJiID0+IGV0aHRvb2xfNi4xLmJifSAgICAgICAgICAgICAgfCAyICst
-CiAyIGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKIHJlbmFt
-ZSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZXRodG9vbC97ZXRodG9vbF82LjAuYmIgPT4gZXRodG9v
-bF82LjEuYmJ9ICg5MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2V0aHRv
-b2wvZXRodG9vbC9hdm9pZF9wYXJhbGxlbF90ZXN0cy5wYXRjaCBiL21ldGEvcmVjaXBlcy1leHRl
-bmRlZC9ldGh0b29sL2V0aHRvb2wvYXZvaWRfcGFyYWxsZWxfdGVzdHMucGF0Y2gKaW5kZXggYzNj
-ZWZiYjVlNi4uMDE0MjE5OWIyMiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2V0
-aHRvb2wvZXRodG9vbC9hdm9pZF9wYXJhbGxlbF90ZXN0cy5wYXRjaAorKysgYi9tZXRhL3JlY2lw
-ZXMtZXh0ZW5kZWQvZXRodG9vbC9ldGh0b29sL2F2b2lkX3BhcmFsbGVsX3Rlc3RzLnBhdGNoCkBA
-IC0xLDQgKzEsNCBAQAotRnJvbSBkZWE5MGFiNzExYWNhZDI1MWI1ZDg1MzZjNTM0NDA5OTc5ZWE4
-YmU0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBkOGE5Y2Q1MmJmNGMzMTEwODJlOWVj
-NDc2YTc3Yzg1Mzg4ZWU0YWMzIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogVHVkb3Ig
-RmxvcmVhIDx0dWRvci5mbG9yZWFAZW5lYS5jb20+CiBEYXRlOiBXZWQsIDI4IE1heSAyMDE0IDE4
-OjU5OjU0ICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIGV0aHRvb2w6IHVzZSBzZXJpYWwtdGVzdHMg
-Y29uZmlnIG5lZWRlZCBieSBwdGVzdC4KQEAgLTE1LDExICsxNSwxMSBAQCBVcHN0cmVhbS1TdGF0
-dXM6IEluYXBwcm9wcmlhdGUKICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVs
-ZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL2NvbmZpZ3VyZS5hYyBiL2NvbmZpZ3VyZS5hYwotaW5k
-ZXggODlkMGU3MC4uYWIyYmU5YyAxMDA2NDQKK2luZGV4IDNlYjRlN2IuLmVlNWM3MmYgMTAwNjQ0
-CiAtLS0gYS9jb25maWd1cmUuYWMKICsrKyBiL2NvbmZpZ3VyZS5hYwogQEAgLTIsNyArMiw3IEBA
-IGRubCBQcm9jZXNzIHRoaXMgZmlsZSB3aXRoIGF1dG9jb25mIHRvIHByb2R1Y2UgYSBjb25maWd1
-cmUgc2NyaXB0LgotIEFDX0lOSVQoZXRodG9vbCwgNi4wLCBuZXRkZXZAdmdlci5rZXJuZWwub3Jn
-KQorIEFDX0lOSVQoZXRodG9vbCwgNi4xLCBuZXRkZXZAdmdlci5rZXJuZWwub3JnKQogIEFDX1BS
-RVJFUSgyLjUyKQogIEFDX0NPTkZJR19TUkNESVIoW2V0aHRvb2wuY10pCiAtQU1fSU5JVF9BVVRP
-TUFLRShbZ251IHN1YmRpci1vYmplY3RzXSkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRl
-bmRlZC9ldGh0b29sL2V0aHRvb2xfNi4wLmJiIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2V0aHRv
-b2wvZXRodG9vbF82LjEuYmIKc2ltaWxhcml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9y
-ZWNpcGVzLWV4dGVuZGVkL2V0aHRvb2wvZXRodG9vbF82LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVj
-aXBlcy1leHRlbmRlZC9ldGh0b29sL2V0aHRvb2xfNi4xLmJiCmluZGV4IDhmMzY1MjBiMDAuLjYz
-YTM1MGMyZTcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9ldGh0b29sL2V0aHRv
-b2xfNi4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9ldGh0b29sL2V0aHRvb2xfNi4x
-LmJiCkBAIC0xMSw3ICsxMSw3IEBAIFNSQ19VUkkgPSAiJHtLRVJORUxPUkdfTUlSUk9SfS9zb2Z0
-d2FyZS9uZXR3b3JrL2V0aHRvb2wvZXRodG9vbC0ke1BWfS50YXIuZ3ogXAogICAgICAgICAgICBm
-aWxlOi8vYXZvaWRfcGFyYWxsZWxfdGVzdHMucGF0Y2ggXAogICAgICAgICAgICAiCiAKLVNSQ19V
-Uklbc2hhMjU2c3VtXSA9ICJmMjE2OGUyYjQ1ZDdlNThlZDViNzZlNTUzM2ZkNjA3Y2EwNzIwYzll
-NjMxZjQyNzFiZmU5OTdiZjcyMzMwNzk2IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjFkMDNmMWNl
-MzI0ZmJkOTU1OTExOTFjNDJhYzBjNGM5Y2M3MjFlMDY3YjkyOTA4M2EyMGE0NmM0YjQ3MzE0MzYi
-CiAKIFVQU1RSRUFNX0NIRUNLX1VSSSA9ICJodHRwczovL3d3dy5rZXJuZWwub3JnL3B1Yi9zb2Z0
-d2FyZS9uZXR3b3JrL2V0aHRvb2wvIgogCi0tIAoyLjM3LjMKCg==
+CkRhdGU6IFN1biwgMTUgSmFuIDIwMjMgMDY6NTg6MDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBu
+Y3Vyc2VzOiB1cGdyYWRlIDYuMysyMDIyMDQyMyAtPiA2LjQKCi0tLQogLi4uL25jdXJzZXMvZmls
+ZXMvZXhpdF9wcm90b3R5cGUucGF0Y2ggICAgICAgICB8IDE4ICsrKysrKysrKysrKysrLS0tLQog
+Li4ue25jdXJzZXNfNi4zKzIwMjIwNDIzLmJiID0+IG5jdXJzZXNfNi40LmJifSB8ICAyICstCiAy
+IGZpbGVzIGNoYW5nZWQsIDE1IGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pCiByZW5hbWUg
+bWV0YS9yZWNpcGVzLWNvcmUvbmN1cnNlcy97bmN1cnNlc182LjMrMjAyMjA0MjMuYmIgPT4gbmN1
+cnNlc182LjQuYmJ9ICg5MSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvbmN1cnNl
+cy9maWxlcy9leGl0X3Byb3RvdHlwZS5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb3JlL25jdXJzZXMv
+ZmlsZXMvZXhpdF9wcm90b3R5cGUucGF0Y2gKaW5kZXggNzkxNDIxYTMzOC4uZTViNTZlNTk4OCAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvbmN1cnNlcy9maWxlcy9leGl0X3Byb3RvdHlw
+ZS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9uY3Vyc2VzL2ZpbGVzL2V4aXRfcHJvdG90
+eXBlLnBhdGNoCkBAIC0xLDE4ICsxLDI4IEBACi1BZGQgbmVlZGVkIGhlYWRlcnMgZm9yIGluY2x1
+ZGluZyBtYnN0YXRlX3QgYW5kIGV4aXQoKQorRnJvbSA0YmMyZGU3ZDgwOTI1ZDc0MzY5YjY1MDRl
+YjAwNTg1YTZjZWQwN2JkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbTogS2hlbSBSYWog
+PHJhai5raGVtQGdtYWlsLmNvbT4KK0RhdGU6IFR1ZSwgMzAgQXVnIDIwMjIgMTU6NTg6MzIgLTA3
+MDAKK1N1YmplY3Q6IFtQQVRDSF0gQWRkIG5lZWRlZCBoZWFkZXJzIGZvciBpbmNsdWRpbmcgbWJz
+dGF0ZV90IGFuZCBleGl0KCkKIAogVXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJvcHJpYXRlIFtSZWNv
+bmZpZ3VyZSB3aWxsIHNvbHZlIGl0XQogU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVt
+QGdtYWlsLmNvbT4KKworLS0tCisgY29uZmlndXJlIHwgMiArKworIDEgZmlsZSBjaGFuZ2VkLCAy
+IGluc2VydGlvbnMoKykKKworZGlmZiAtLWdpdCBhL2NvbmZpZ3VyZSBiL2NvbmZpZ3VyZQoraW5k
+ZXggZjM3N2Y1NTEuLjE2M2Y4ODk5IDEwMDc1NQogLS0tIGEvY29uZmlndXJlCiArKysgYi9jb25m
+aWd1cmUKLUBAIC0zNDIyLDYgKzM0MjIsNyBAQCBybSAtZiAiY29uZnRlc3QuJGFjX29iamV4dCIg
+ImNvbmZ0ZXN0LiRhCitAQCAtMzQyMyw2ICszNDIzLDcgQEAgcm0gLWYgImNvbmZ0ZXN0LiRhY19v
+YmpleHQiICJjb25mdGVzdC4kYWNfZXh0IgogICAgY2F0ID4iY29uZnRlc3QuJGFjX2V4dCIgPDxf
+QUNFT0YKLSAjbGluZSAzNDIzICJjb25maWd1cmUiCisgI2xpbmUgMzQyNCAiY29uZmlndXJlIgog
+ICNpbmNsdWRlICJjb25mZGVmcy5oIgogKyNpbmNsdWRlIDxzdGRsaWIuaD4KICAkYWNfZGVjbGFy
+YXRpb24KICBpbnQKICBtYWluICh2b2lkKQotQEAgLTEyOTk3LDYgKzEyOTk4LDcgQEAgY2F0ID4i
+Y29uZnRlc3QuJGFjX2V4dCIgPDxfQUNFT0YKK0BAIC0xMzExMSw2ICsxMzExMiw3IEBAIGNhdCA+
+ImNvbmZ0ZXN0LiRhY19leHQiIDw8X0FDRU9GCiAgI2luY2x1ZGUgPHN0ZGxpYi5oPgogICNpbmNs
+dWRlIDxzdGRhcmcuaD4KICAjaW5jbHVkZSA8c3RkaW8uaD4KZGlmZiAtLWdpdCBhL21ldGEvcmVj
+aXBlcy1jb3JlL25jdXJzZXMvbmN1cnNlc182LjMrMjAyMjA0MjMuYmIgYi9tZXRhL3JlY2lwZXMt
+Y29yZS9uY3Vyc2VzL25jdXJzZXNfNi40LmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBm
+cm9tIG1ldGEvcmVjaXBlcy1jb3JlL25jdXJzZXMvbmN1cnNlc182LjMrMjAyMjA0MjMuYmIKcmVu
+YW1lIHRvIG1ldGEvcmVjaXBlcy1jb3JlL25jdXJzZXMvbmN1cnNlc182LjQuYmIKaW5kZXggZmI4
+YzExNTgyYi4uMjBmZDJkYWRkYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvbmN1cnNl
+cy9uY3Vyc2VzXzYuMysyMDIyMDQyMy5iYgorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9uY3Vyc2Vz
+L25jdXJzZXNfNi40LmJiCkBAIC02LDcgKzYsNyBAQCBTUkNfVVJJICs9ICJmaWxlOi8vMDAwMS10
+aWMtaGFuZy5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly9leGl0X3Byb3RvdHlwZS5wYXRjaCBc
+CiAgICAgICAgICAgICIKICMgY29tbWl0IGlkIGNvcnJlc3BvbmRzIHRvIHRoZSByZXZpc2lvbiBp
+biBwYWNrYWdlIHZlcnNpb24KLVNSQ1JFViA9ICIyMGRiMWZiNDFlYzkxY2Q4YTFmNTI4ZTc3MDM2
+MjA5MmM1NDAzMzc4IgorU1JDUkVWID0gIjc5YjkwNzFmMmJlMjBhMjRjN2JlMDMxNjU1YTU2Mzhm
+NjAzMmYyOWYiCiBTID0gIiR7V09SS0RJUn0vZ2l0IgogRVhUUkFfT0VDT05GICs9ICItLXdpdGgt
+YWJpLXZlcnNpb249NSIKIFVQU1RSRUFNX0NIRUNLX0dJVFRBR1JFR0VYID0gIig/UDxwdmVyPlxk
+KyhcLlxkKykrKSQiCi0tIAoyLjM3LjMKCg==
 
---===============0829617160689972612==--
+--===============3325971301703982438==--
 
