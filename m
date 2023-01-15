@@ -2,37 +2,37 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 467DBC761A6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D04CC77B61
 	for <webhook@archiver.kernel.org>; Sun, 15 Jan 2023 18:02:32 +0000 (UTC)
 Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.145827.1673805743415100124
+ by mx.groups.io with SMTP id smtpd.web11.145712.1673805743392184105
  for <openembedded-core@lists.openembedded.org>;
  Sun, 15 Jan 2023 10:02:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=SOR4/NCr;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010185b698c335-cdcee04d-62ef-49a7-ad49-a80f3e1fbec4-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=dRiSUYVV;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010185b698c2f1-ccf19545-afeb-4ed8-be93-75adcae75308-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1673805743;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=wVACPDNZYPNIXhUhJ8xudg3WmMaGpNtMYVJGrAOwXfw=;
-	b=SOR4/NCrVWs798cJBTw2uQ9QbE8UUyvIhN+0mm3YxZeZIIZm4zy3eBzAApzJfL4V
-	54tlTUqz2YXq7PjRLnFqtAKRpYQE8iTfOn03TFdBNY8QdfvuNDwofUTLT3CPxJ8LnUI
-	qTCQd+Na6QNjAVROP6cgwaz8Ha1bNW3pdVjir3C0=
+	bh=k5Y7qM+xnkcpyaVanx9lOADre1mtnysVfCGXLflduSo=;
+	b=dRiSUYVViCbQpFxeRyXEK5YE6JsJZfR4wf/3d9BvBjXwhU6wrIbYC4c6fMUzC8z3
+	KN2O0UpkrtESD+MzTUhp2RkB4GLatyCESaT7Pp76SlbN1rpfE6xaxdrvdpFk8nmLSjI
+	2OolM4+7Rmya73M15gSC/r/h7XwncTTotv53l39Q=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1673805743;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=wVACPDNZYPNIXhUhJ8xudg3WmMaGpNtMYVJGrAOwXfw=;
-	b=B+dnPgbrTVLJdScQ5NggGWPFQsPwMxpG8WOo5RHGAoJ2GS0EHN/RRKerp8TYst4L
-	t7KomVOBVnRWGF+FSe28h+G/5KceJUtAwqYpktd4v7dGqxVxIbAI1dKZLQk4AWeh9XR
-	LhYVCQ6PBB0FlAEqvpL+Eq2PNa7W3hbn/ft+wXkU=
-Content-Type: multipart/mixed; boundary="===============9020221744967397765=="
+	bh=k5Y7qM+xnkcpyaVanx9lOADre1mtnysVfCGXLflduSo=;
+	b=HjwVjhfnJ/OUeqI53yf2f6K9plFgZ2YD3CB0/OrjMo+kWTGI16Sf2WePMwuSDOV9
+	BB58NrQKr6d+8fYQCKUqFPuRiUy6kATMvesGR3wr2dyZ3AOaPcsODswSBuhZa5Jul2M
+	uoALF/tQQid1XxUkBZXdn2Lt7dtPLEFVnAI6yLns=
+Content-Type: multipart/mixed; boundary="===============0434582095346110466=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-cython: upgrading to 0.29.33 SUCCEEDED
-Message-ID: <01010185b698c335-cdcee04d-62ef-49a7-ad49-a80f3e1fbec4-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-alabaster: upgrading to 0.7.13 SUCCEEDED
+Message-ID: <01010185b698c2f1-ccf19545-afeb-4ed8-be93-75adcae75308-000000@us-west-2.amazonses.com>
 Date: Sun, 15 Jan 2023 18:02:22 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2023.01.15-54.240.27.33
@@ -40,9 +40,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 18:02:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175896
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175895
 
---===============9020221744967397765==
+--===============0434582095346110466==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-cython* to *0.29.33* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-alabaster* to *0.7.13* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-cython-upgrade-0.29.32-0.29.33.patch
+    - apply the patch: git am 0001-python3-alabaster-upgrade-0.7.12-0.7.13.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,77 +69,87 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============9020221744967397765==
+--===============0434582095346110466==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-cython: PV changed from "0.29.32" to "0.29.33"
-packages/core2-32-poky-linux/python3-cython: SRC_URI changed from "https://files.pythonhosted.org/packages/source/C/Cython/Cython-0.29.32.tar.gz" to "https://files.pythonhosted.org/packages/source/C/Cython/Cython-0.29.33.tar.gz"
-packages/core2-32-poky-linux/python3-cython: PKGV changed from 0.29.32 [default] to 0.29.33 [default]
-packages/core2-32-poky-linux/python3-cython/python3-cython-dbg: PKGSIZE changed from 7606636 to 7607060 (+0%)
-packages/core2-32-poky-linux/python3-cython/python3-cython-dbg: PV changed from "0.29.32" to "0.29.33"
-packages/core2-32-poky-linux/python3-cython/python3-cython-dbg: PKGV changed from 0.29.32 [default] to 0.29.33 [default]
-packages/core2-32-poky-linux/python3-cython/python3-cython-dev: PV changed from "0.29.32" to "0.29.33"
-packages/core2-32-poky-linux/python3-cython/python3-cython-dev: PKGV changed from 0.29.32 [default] to 0.29.33 [default]
-packages/core2-32-poky-linux/python3-cython/python3-cython-doc: PV changed from "0.29.32" to "0.29.33"
-packages/core2-32-poky-linux/python3-cython/python3-cython-doc: PKGV changed from 0.29.32 [default] to 0.29.33 [default]
-packages/core2-32-poky-linux/python3-cython/python3-cython-locale: PV changed from "0.29.32" to "0.29.33"
-packages/core2-32-poky-linux/python3-cython/python3-cython-locale: PKGV changed from 0.29.32 [default] to 0.29.33 [default]
-packages/core2-32-poky-linux/python3-cython/python3-cython-src: PKGSIZE changed from 8571668 to 8572978 (+0%)
-packages/core2-32-poky-linux/python3-cython/python3-cython-src: PV changed from "0.29.32" to "0.29.33"
-packages/core2-32-poky-linux/python3-cython/python3-cython-src: PKGV changed from 0.29.32 [default] to 0.29.33 [default]
-packages/core2-32-poky-linux/python3-cython/python3-cython-staticdev: PV changed from "0.29.32" to "0.29.33"
-packages/core2-32-poky-linux/python3-cython/python3-cython-staticdev: PKGV changed from 0.29.32 [default] to 0.29.33 [default]
-packages/core2-32-poky-linux/python3-cython/python3-cython: PKGSIZE changed from 10308483 to 10313136 (+0%)
-packages/core2-32-poky-linux/python3-cython/python3-cython: PV changed from "0.29.32" to "0.29.33"
-packages/core2-32-poky-linux/python3-cython/python3-cython: PKGV changed from 0.29.32 [default] to 0.29.33 [default]
-Changes to packages/core2-32-poky-linux/python3-cython (sysroot):
-  /usr/lib/python3.11/site-packages/Cython-0.29.32.dist-info moved to /usr/lib/python3.11/site-packages/Cython-0.29.33.dist-info
+packages/core2-32-poky-linux/python3-alabaster: PKGV changed from 0.7.12 [default] to 0.7.13 [default]
+packages/core2-32-poky-linux/python3-alabaster: SRC_URI changed from "https://files.pythonhosted.org/packages/source/a/alabaster/alabaster-0.7.12.tar.gz" to "https://files.pythonhosted.org/packages/source/a/alabaster/alabaster-0.7.13.tar.gz"
+packages/core2-32-poky-linux/python3-alabaster: PV changed from "0.7.12" to "0.7.13"
+packages/core2-32-poky-linux/python3-alabaster/python3-alabaster-dbg: PKGV changed from 0.7.12 [default] to 0.7.13 [default]
+packages/core2-32-poky-linux/python3-alabaster/python3-alabaster-dbg: PV changed from "0.7.12" to "0.7.13"
+packages/core2-32-poky-linux/python3-alabaster/python3-alabaster-dev: PKGV changed from 0.7.12 [default] to 0.7.13 [default]
+packages/core2-32-poky-linux/python3-alabaster/python3-alabaster-dev: PV changed from "0.7.12" to "0.7.13"
+packages/core2-32-poky-linux/python3-alabaster/python3-alabaster-doc: PKGV changed from 0.7.12 [default] to 0.7.13 [default]
+packages/core2-32-poky-linux/python3-alabaster/python3-alabaster-doc: PV changed from "0.7.12" to "0.7.13"
+packages/core2-32-poky-linux/python3-alabaster/python3-alabaster-locale: PKGV changed from 0.7.12 [default] to 0.7.13 [default]
+packages/core2-32-poky-linux/python3-alabaster/python3-alabaster-locale: PV changed from "0.7.12" to "0.7.13"
+packages/core2-32-poky-linux/python3-alabaster/python3-alabaster-src: PKGV changed from 0.7.12 [default] to 0.7.13 [default]
+packages/core2-32-poky-linux/python3-alabaster/python3-alabaster-src: PV changed from "0.7.12" to "0.7.13"
+packages/core2-32-poky-linux/python3-alabaster/python3-alabaster-staticdev: PKGV changed from 0.7.12 [default] to 0.7.13 [default]
+packages/core2-32-poky-linux/python3-alabaster/python3-alabaster-staticdev: PV changed from "0.7.12" to "0.7.13"
+packages/core2-32-poky-linux/python3-alabaster/python3-alabaster: PKGV changed from 0.7.12 [default] to 0.7.13 [default]
+packages/core2-32-poky-linux/python3-alabaster/python3-alabaster: PKGSIZE changed from 41215 to 42187 (+2%)
+packages/core2-32-poky-linux/python3-alabaster/python3-alabaster: PV changed from "0.7.12" to "0.7.13"
+Changes to packages/core2-32-poky-linux/python3-alabaster (sysroot):
+  /usr/lib/python3.11/site-packages/alabaster-0.7.12.dist-info moved to /usr/lib/python3.11/site-packages/alabaster-0.7.13.dist-info
 
---===============9020221744967397765==
+--===============0434582095346110466==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-32-poky-linux/python3-cython (sysroot):
-  /usr/lib/python3.11/site-packages/Cython-0.29.32.dist-info moved to /usr/lib/python3.11/site-packages/Cython-0.29.33.dist-info
+Changes to packages/core2-32-poky-linux/python3-alabaster (sysroot):
+  /usr/lib/python3.11/site-packages/alabaster-0.7.12.dist-info moved to /usr/lib/python3.11/site-packages/alabaster-0.7.13.dist-info
 
---===============9020221744967397765==
+--===============0434582095346110466==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-cython-upgrade-0.29.32-0.29.33.patch"
+ filename="0001-python3-alabaster-upgrade-0.7.12-0.7.13.patch"
 
-RnJvbSA3ZWJhYmQ4NGFjMDg3ZDljYWRkZTZlYjA5MDM5ZGNiMjEzNmQ5OTdlIE1vbiBTZXAgMTcg
+RnJvbSA4M2Y1YzZhNDljN2M4ZmUyZjE2MzJiOTY2OGQyN2U3MGU3MTZmMzA2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMTUgSmFuIDIwMjMgMTE6MTY6NDAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWN5dGhvbjogdXBncmFkZSAwLjI5LjMyIC0+IDAuMjkuMzMKCi0tLQogbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24tY3l0aG9uLmluYyAgICAgICAgICAgICAgICAgIHwg
-MiArLQogLi4uL3tweXRob24zLWN5dGhvbl8wLjI5LjMyLmJiID0+IHB5dGhvbjMtY3l0aG9uXzAu
-MjkuMzMuYmJ9ICAgIHwgMAogMiBmaWxlcyBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxl
-dGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtY3l0
-aG9uXzAuMjkuMzIuYmIgPT4gcHl0aG9uMy1jeXRob25fMC4yOS4zMy5iYn0gKDEwMCUpCgpkaWZm
-IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24tY3l0aG9uLmluYyBi
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uLWN5dGhvbi5pbmMKaW5kZXggNzUw
-Y2NmZDdhZS4uMzBkMWIzOTQ2NyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24tY3l0aG9uLmluYworKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
-L3B5dGhvbi1jeXRob24uaW5jCkBAIC05LDcgKzksNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZp
-bGU6Ly9MSUNFTlNFLnR4dDttZDU9ZTIzZmFkZDZjZWVmOGM2MThmYzFjNjUxOTFkODQ2ZmEiCiBQ
-WVBJX1BBQ0tBR0UgPSAiQ3l0aG9uIgogQkJDTEFTU0VYVEVORCA9ICJuYXRpdmUgbmF0aXZlc2Rr
-IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiODczM2NmNDc1OGI3OTMwNGYyYTRlMzllYmZhYzVl
-OTIzNDFiY2U0N2JjY2ViMjZjMTI1NDM5OGIyZjhjMWFmNyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9
-ICI1MDQwNzY0YzRhNGQyY2U5NjRhMzk1ZGEyNGYwZDFhZTU4MTQ0OTk1ZGFiOTJjNmI5NmY0NGMz
-ZjRkNzIyODZhIgogVVBTVFJFQU1fQ0hFQ0tfUkVHRVggPSAiQ3l0aG9uLSg/UDxwdmVyPi4qKVwu
-dGFyIgogCiBpbmhlcml0IHB5cGkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9w
-eXRob24vcHl0aG9uMy1jeXRob25fMC4yOS4zMi5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9w
-eXRob24vcHl0aG9uMy1jeXRob25fMC4yOS4zMy5iYgpzaW1pbGFyaXR5IGluZGV4IDEwMCUKcmVu
-YW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWN5dGhvbl8wLjI5
-LjMyLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY3l0
-aG9uXzAuMjkuMzMuYmIKLS0gCjIuMzcuMwoK
+CkRhdGU6IFN1biwgMTUgSmFuIDIwMjMgMDk6NTA6MDUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWFsYWJhc3RlcjogdXBncmFkZSAwLjcuMTIgLT4gMC43LjEzCgotLS0KIC4uLl8wLjcu
+MTIuYmIgPT4gcHl0aG9uMy1hbGFiYXN0ZXJfMC43LjEzLmJifSB8IDIzICsrKysrKysrKysrKysr
+KysrLS0KIDEgZmlsZSBjaGFuZ2VkLCAyMSBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQog
+cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtYWxhYmFzdGVyXzAu
+Ny4xMi5iYiA9PiBweXRob24zLWFsYWJhc3Rlcl8wLjcuMTMuYmJ9ICgyOSUpCgpkaWZmIC0tZ2l0
+IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWFsYWJhc3Rlcl8wLjcuMTIu
+YmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtYWxhYmFzdGVyXzAuNy4x
+My5iYgpzaW1pbGFyaXR5IGluZGV4IDI5JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMtYWxhYmFzdGVyXzAuNy4xMi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWFsYWJhc3Rlcl8wLjcuMTMuYmIKaW5kZXggMzM4
+MWNlOTU2OC4uOTQ5ZDUyZDY1ZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvbi9weXRob24zLWFsYWJhc3Rlcl8wLjcuMTIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3B5dGhvbi9weXRob24zLWFsYWJhc3Rlcl8wLjcuMTMuYmIKQEAgLTEsMTAgKzEsMjkgQEAK
+KyMgRklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4gdXBkYXRlZCBi
+eSAnZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUgZGlmZmVyZW5jZSBi
+ZXR3ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVhc2UgdXBkYXRl
+IHRoZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUgY2hhbmdlcyBp
+bgorIyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTonIHRhZy4KKyMgKGV4
+YW1wbGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0ZWQuJykKKyMKKyMg
+VGhlIGNoYW5nZXM6CisjCisjIC0tLSBMSUNFTlNFCisjICsrKyBMSUNFTlNFCisjIEBAIC0xLDQg
+KzEsNCBAQAorIyAtQ29weXJpZ2h0IChjKSAyMDE4IEplZmYgRm9yY2llci4KKyMgK0NvcHlyaWdo
+dCAoYykgMjAyMCBKZWZmIEZvcmNpZXIuCisjICAKKyMgIEJhc2VkIG9uIG9yaWdpbmFsIHdvcmsg
+Y29weXJpZ2h0IChjKSAyMDExIEtlbm5ldGggUmVpdHogYW5kIGNvcHlyaWdodCAoYykgMjAxMAor
+IyAgQXJtaW4gUm9uYWNoZXIuCisjIAorIworCiBERVNDUklQVElPTiA9ICJBbGFiYXN0ZXIgaXMg
+YSB2aXN1YWxseSAoYylsZWFuLCByZXNwb25zaXZlLCBjb25maWd1cmFibGUgdGhlbWUgZm9yIHRo
+ZSBTcGhpbnggZG9jdW1lbnRhdGlvbiBzeXN0ZW0uIEl0IGlzIFB5dGhvbiAyKzMgY29tcGF0aWJs
+ZS4iCiBIT01FUEFHRSA9ICJodHRwczovL2FsYWJhc3Rlci5yZWFkdGhlZG9jcy5pby9lbi9sYXRl
+c3QvIgogU0VDVElPTiA9ICJkZXZlbC9weXRob24iCiBMSUNFTlNFID0gIkJTRC0zLUNsYXVzZSIK
+LUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PWRhMDUzNjgzZDY2ZDU0Mzgx
+M2E3MjdlOGEzMGM5NmNhIgorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9
+MjE4NjBmZGI4MDViZjRlMGJmYWY5NGI1NjZiNzQ3ZmEiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9
+ICJhNjYxZDcyZDU4ZTZlYThhNTdmN2E4NmUzN2Q4NjcxNjg2M2VlNWU5Mjc4ODM5ODUyNmQ1OGIy
+NmE0ZTRkYzAyIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImEyN2E0YTA4NGQ1ZTY5MGUxNmUwMWUw
+M2FkMmIyZTU1MmM2MWE2NTQ2OTQxOWI5MDcyNDMxOTNkZTFhODRhZTIiCiAKIGluaGVyaXQgc2V0
+dXB0b29sczMgcHlwaQogCi0tIAoyLjM3LjMKCg==
 
---===============9020221744967397765==--
+--===============0434582095346110466==--
 
