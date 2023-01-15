@@ -1,109 +1,86 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13E4CC3DA78
-	for <webhook@archiver.kernel.org>; Sun, 15 Jan 2023 05:26:37 +0000 (UTC)
-Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com [195.245.230.65])
- by mx.groups.io with SMTP id smtpd.web10.134832.1673760389893736293
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DD6DC3DA78
+	for <webhook@archiver.kernel.org>; Sun, 15 Jan 2023 12:02:59 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web11.138526.1673784173358872189
  for <openembedded-core@lists.openembedded.org>;
- Sat, 14 Jan 2023 21:26:30 -0800
+ Sun, 15 Jan 2023 04:02:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=aMnxBG7a;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.65, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1673760388; i=@fujitsu.com;
-	bh=hawC9CkOCt2zGFrbpD8chfmekDuU1YFU5jbp614VYaQ=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=aMnxBG7ag0GNdxATylO+VPglajCrNm7YKLT9g4jQlmnMHvJJEcsoFmDUVd76MALbr
-	 aufqF773+M/bAZP/PPTf5ScL3/llGhf3VbZmtyKCrHZGZhrrxT3PPW2OQxtiXQSBcn
-	 h36/dOPcqeFNaPBIDHKxkxepnmxk65ZB99DQrg4/7S9vIgBoLKs8bEMgWs4Xiz/sGm
-	 mXMGLww91Pi6TMQoBJKYmo+CljAXH5eYksFlrXA0ZWBNF6WH/fDwQSPsHsQaXyWFlH
-	 EM+/UBLaurImlyqJmUvVBRftYaQQgU3A/h6PXCHWCKbGIoY1zjE60XQmbq1kB/lAQv
-	 xl0umbiSzBTIw==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrKIsWRWlGSWpSXmKPExsViZ8ORqFvadzj
-  ZYP9rVos7P9+xOzB6nNu4gjGAMYo1My8pvyKBNeP7t0bmgn7OiuOTf7I0MK7g6GLk4hASeMwo
-  MX3DbyYI5zqTxIrZG1kgnL2MErum7mTtYuTkYBOQkrhx/z9bFyMHh4iAnsTVf6IgYWYBFYkXv
-  3vYQWxhAQeJVf1XmUFsFgFViedbD4C18go4Sux7NhksLiGgIDHl4Xswm1PASeLw9k9gNUJANb
-  OmrmOHqBeUODnzCQvEfAmJgy9eQPUqSsy+3MwCYVdKtH74BWWrSVw9t4l5AqPgLCTts5C0L2B
-  kWsVoWpxaVJZapGupl1SUmZ5RkpuYmaOXWKWbqJdaqlueWlyia6iXWF6sl1pcrFdcmZuck6KX
-  l1qyiREYuinFbL93MJ5f9kfvEKMkB5OSKG/kt0PJQnxJ+SmVGYnFGfFFpTmpxYcYZTg4lCR4N
-  zQeThYSLEpNT61Iy8wBxhFMWoKDR0mEV7sDKM1bXJCYW5yZDpE6xagoJc77ogcoIQCSyCjNg2
-  uDxe4lRlkpYV5GBgYGIZ6C1KLczBJU+VeM4hyMSsK8T0Gm8GTmlcBNfwW0mAlocUj9QZDFJYk
-  IKakGpoxpEYL1cRHfDVcci9x/pnHHjVWsU8KvyIooMHrwTE5t+skoxft3tpmy85qWtWEsv2Nf
-  3lOIVZ6kZR18SMRufvcBiQ41s9O7Cib+mX/P7ZJn27S7e18vOMdv5bvr+pQd6vxMMzN+hiwXt
-  Flu67K7n29uv2RWvdr5uHzm32ujzs9ZIOG7xjewK1JCWrJvScnRNYKNUzSTuXp/pSUcvMImxX
-  Rj2c8Val/UV85ZWSTZ0e87ub3NecPxZAmX/cqBdboyHAaC0693WNU7vZvoEpPMmqPUyPJSO23
-  ubLY9ax/NsJp5aYmQeAH3l6LzTSFCG1oZHiV8d40taq+vC395VXErn55mq8rVd/Eadfdefr6s
-  xFKckWioxVxUnAgAryI2XlgDAAA=
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-14.tower-591.messagelabs.com!1673760372!232228!1
-X-Originating-IP: [62.60.8.97]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.102.1; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 7511 invoked from network); 15 Jan 2023 05:26:13 -0000
-Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
-  by server-14.tower-591.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 15 Jan 2023 05:26:13 -0000
-Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id B0A60100182
-	for <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 05:26:12 +0000 (GMT)
-Received: from R01UKEXCASM223.r01.fujitsu.local (R01UKEXCASM223 [10.182.185.121])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id A3DC1100043
-	for <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 05:26:12 +0000 (GMT)
-Received: from localhost.localdomain (10.167.225.33) by
- R01UKEXCASM223.r01.fujitsu.local (10.182.185.121) with Microsoft SMTP Server
- (TLS) id 15.0.1497.42; Sun, 15 Jan 2023 05:26:10 +0000
-From: <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] stress-ng: upgrade 0.15.01 -> 0.15.02
-Date: Sun, 15 Jan 2023 13:25:40 +0800
-Message-ID: <1673760341-2623-4-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1673760341-2623-1-git-send-email-wangmy@fujitsu.com>
-References: <1673760341-2623-1-git-send-email-wangmy@fujitsu.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
- R01UKEXCASM223.r01.fujitsu.local (10.182.185.121)
-X-Virus-Scanned: ClamAV using ClamSMTP
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=WhGQRAUt;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f181.google.com with SMTP id d15so27709515pls.6
+        for <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 04:02:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=date:message-id:to:from:subject:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oW8wlv3XYuwCSIhSvtbDepvb/UcfB8DsRgfYBXfgOQY=;
+        b=WhGQRAUtU3lPs141WBBi7L+hoiG50R7vB0BKT1tNiQSD3XPW5nS5UDK2FICMycJdqh
+         P69qhWg6aOiJ9TrzB7y642QeFnXOgxNmvh7SILoyx5s3pWGH/eSG2gbXMIvWxp8rZeYI
+         OAvfFoh/LR+R7irKis8L2QWqRicyfLb0ulk5cI5rXiBZU+pGsRP3Nw99j1xQFd4qDMuM
+         PnswzAq9lYDyN+FixXagJSTF2zKH0O/erPCjIJ9avT2KnnDHKfxa1RvvXVawenQk5hpS
+         uSMSHfA3M4jDkihDT7fZ32hUkB4+fJxX0vTt/OlZ3LlanoBJLeYGfNUAN9hbEBpcEF+Y
+         E9SQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=date:message-id:to:from:subject:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oW8wlv3XYuwCSIhSvtbDepvb/UcfB8DsRgfYBXfgOQY=;
+        b=k2gIPYLLZneGT1IQKVf/9dqfhhuaFBr38mtbh8D2dqv2sqGyLEIFtpVs8kqLgkciNz
+         TjBSkwQqPJ1QrJRs8Clo6gQ35CCMeWWElERT3PmKKi9waxON0jz44StWVhJvhFOzMKPq
+         x/QLbJWGZntSRCidmYpgLF4boUe+8WrTXfVdw5AxzgjPICEWQvx94YqKEt3SQa3EgJk8
+         M1xE6JFHwYC68sIk/r36+duBgC6kYiT72nNL008sFNiGq9GinlT4tfT9rWnzgkZjl+EL
+         sSMRKbrFV8pFeQdZgawp1fghVCUQUfAHnEhwlIFJL7RJTdalQLNvCKZfT7+Jy2wFg0em
+         UlMg==
+X-Gm-Message-State: AFqh2krwdqwbEZJrrlcagKTxWfleqwmXxcdI1Ey3NPJCHl/QF9qGq7El
+	Ac+/d0ewq7m8AQPysn4RT/Cbu9Hl19lnK6WJCMk=
+X-Google-Smtp-Source: AMrXdXtDi/P/Xvp5RHEE/EtRmqm3x26yBu2rQj6PZT3+gmG3oI39yURwokzW+eCFPUU9hQ91gGE3uA==
+X-Received: by 2002:a17:902:7488:b0:194:67e5:3d07 with SMTP id h8-20020a170902748800b0019467e53d07mr11604328pll.53.1673784171986;
+        Sun, 15 Jan 2023 04:02:51 -0800 (PST)
+Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id n10-20020a170902e54a00b0018971fba556sm17238921plf.139.2023.01.15.04.02.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Jan 2023 04:02:51 -0800 (PST)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id 712619602D3; Sun, 15 Jan 2023 02:02:49 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 15 Jan 2023 02:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20230115120249.712619602D3@nuc.router0800d9.com>
+Date: Sun, 15 Jan 2023 02:02:49 -1000 (HST)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 05:26:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175881
+ <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 12:02:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175882
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+Branch: master
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- .../stress-ng/{stress-ng_0.15.01.bb => stress-ng_0.15.02.bb}    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/stress-ng/{stress-ng_0.15.01.bb => stress-ng_0.15.02.bb} (94%)
+New this week: 5 CVEs
+CVE-2022-46456 (CVSS3: 7.8 HIGH): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46456 *
+CVE-2022-46457 (CVSS3: 5.5 MEDIUM): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46457 *
+CVE-2023-0049 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0049 *
+CVE-2023-0051 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0051 *
+CVE-2023-0054 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0054 *
 
-diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.15.01.bb b/meta/recipes-extended/stress-ng/stress-ng_0.15.02.bb
-similarity index 94%
-rename from meta/recipes-extended/stress-ng/stress-ng_0.15.01.bb
-rename to meta/recipes-extended/stress-ng/stress-ng_0.15.02.bb
-index 0d95cad69f..c554bb403e 100644
---- a/meta/recipes-extended/stress-ng/stress-ng_0.15.01.bb
-+++ b/meta/recipes-extended/stress-ng/stress-ng_0.15.02.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
- SRC_URI = "git://github.com/ColinIanKing/stress-ng.git;protocol=https;branch=master \
-            file://0001-Pass-LD_GOLD-1-via-makefile-to-enable-gold-linker.patch"
--SRCREV = "8c7c3d95555c50148470553b55477db895a4f1ad"
-+SRCREV = "4164f6842c712c2d9a13619c3c70fd35d8d02cdb"
- S = "${WORKDIR}/git"
- 
- DEPENDS = "coreutils-native libbsd"
--- 
-2.25.1
+Removed this week: 1 CVEs
+CVE-2022-3970 (CVSS3: 8.8 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3970 *
 
+Full list:  Found 10 unpatched CVEs
+CVE-2022-3550 (CVSS3: 8.8 HIGH): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3550 *
+CVE-2022-3551 (CVSS3: 6.5 MEDIUM): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3551 *
+CVE-2022-3996 (CVSS3: 7.5 HIGH): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3996 *
+CVE-2022-4055 (CVSS3: 7.4 HIGH): xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4055 *
+CVE-2022-4603 (CVSS3: 8.8 HIGH): ppp https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4603 *
+CVE-2022-46456 (CVSS3: 7.8 HIGH): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46456 *
+CVE-2022-46457 (CVSS3: 5.5 MEDIUM): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46457 *
+CVE-2023-0049 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0049 *
+CVE-2023-0051 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0051 *
+CVE-2023-0054 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0054 *
+
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
