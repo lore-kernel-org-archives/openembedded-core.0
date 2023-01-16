@@ -1,746 +1,238 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEEA4C46467
-	for <webhook@archiver.kernel.org>; Mon, 16 Jan 2023 19:19:59 +0000 (UTC)
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
- by mx.groups.io with SMTP id smtpd.web11.176919.1673896797274162939
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D967C54EBE
+	for <webhook@archiver.kernel.org>; Mon, 16 Jan 2023 19:21:29 +0000 (UTC)
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
+ by mx.groups.io with SMTP id smtpd.web11.176966.1673896887631166222
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Jan 2023 11:19:57 -0800
+ Mon, 16 Jan 2023 11:21:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=nKReejuc;
- spf=pass (domain: gmail.com, ip: 209.85.167.176, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f176.google.com with SMTP id n8so24194082oih.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 11:19:57 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=HkUECfNr;
+ spf=pass (domain: gmail.com, ip: 209.85.217.45, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-vs1-f45.google.com with SMTP id n190so26105435vsc.11
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 11:21:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=h6QvYk0JQyi+BFa2L0ikeK6go568cPwx5Mt+h3G4kwA=;
-        b=nKReejuclyks58HMtKahCNY+0U+ryUQTYzRh5f3BVw2eBp93NuyUmTHvJAkEKmt0ZS
-         xVdG4FtHQjfcfkZ81quIW1gC8FMZT3MaaVBDckiABVxqAd9WRVYXf6SGZ6fo5XtJAhnM
-         yheVQrAOX5AVlifYVQS5SLsRvg6J5nFDABV7qH9Rn7cnIFQPhL0f0BpT2weTLSwm2dtV
-         OYfdiXhsXZFKtDIpnCAUBZa5WyARVn6hGMjdOBYFjR1+rW7ORD0XXl2XTDhR+lBVhz/9
-         5tEe3vX9tMzlJ3SHHc22SO2l0T+zqwFRs13UoyVyucVlShClDMAUsrRgFzVDO79yenh6
-         g8Ng==
+        bh=uhiyn9NxbGlrUrC+BaEmuByxQkbQCPFuPQhZSjIPD/0=;
+        b=HkUECfNrWnkmRTQDjd0H7nKtFoWm2TN4N/3kQqgUK5qybAAGjnT7WTRyVYXNrHDP4Y
+         139/MpQxTjiOopkcdmswhti3MBs1ngRjISPw5nRi3ROPhSTjU7xqXgekpTSfsR727yJS
+         YFGLLq44V2mB/6uUK0+Zz4JdZZKqc9+LY/0B2uYLI2m1fzCnqRoZocYA9xvcvznVW/o7
+         sr8qs7BzTZwl8nbQqNd6Q2p0yhh8N7rVT1Ms4Ygwp7YoMu+zXp82TM/E4DYL2W02x9NO
+         Hs5vSCoPAifjimFZXq6vAq9gm36TqH0GuEVth87duRFpFkMpOL1XvGXhM0lX72ZtOwhT
+         UPYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=h6QvYk0JQyi+BFa2L0ikeK6go568cPwx5Mt+h3G4kwA=;
-        b=09LaQrqYM4qME0SgfSFPhD/hJ6YVEP11fFP1RG4jDoNoPJJZbC7q56C/zqUQRuD8vL
-         m1PoVNNl9QxbsFenukYu1VsRbZVrX5/UJjfJiA4X+EW3F29YzMW3RC93ncIM9t7Ygc/1
-         nvYQaTVDQfLPbFBX09ab03vLls1RvalQ5QGo+o6Jt2uDZM3y77HFLiOdbJpkWziVpWXe
-         ht0XZd62fGpNMaxtL6Tz6ebghSV7OcSn+3U2wK4AmpvQR6ybD2aZCYTOv+QhOKmPBz8J
-         JGl7GFg5BIb0x+ItCa5F1ajeLLern+gN+TdZzHZkqk/+2jUlgRkRtGQynKmVo8SU/L82
-         Qy1w==
-X-Gm-Message-State: AFqh2kprD4Aj2/juz9kZELqjoHOebLM07vHHg6YThBd382J612GEbcVZ
-	sYkIy80xK9SWOxmUkzRZgZKdHyyd3ua/dOAfe1I=
-X-Google-Smtp-Source: AMrXdXuyPitdjY5b/fJJCu4rkM4jz/bwuAf2kRtEcqCjtYgNgNLMPIBGzhTxdxDX1Ou1wPvWmbLE0vzykD9fXcoGLZc=
-X-Received: by 2002:a05:6808:608f:b0:363:240c:bdc7 with SMTP id
- de15-20020a056808608f00b00363240cbdc7mr23228oib.55.1673896796186; Mon, 16 Jan
- 2023 11:19:56 -0800 (PST)
+        bh=uhiyn9NxbGlrUrC+BaEmuByxQkbQCPFuPQhZSjIPD/0=;
+        b=ZItwZONNE2vwkEnwIFyJ+6C3dufm6RLJyJluOGDaMSrs6+vejfmCGdXVEqZ+Y0qH+1
+         g8/ACo4u+2W8cGbqOwFQ0Gxoup0ZdGQpD19Rv+vytAe5PczuHmKo+/0VUMrdxpEy15Tr
+         oDAKx4efbCOedUyDQzFMBfcw38ya/kHVFCTv5MY0Ko+aZxxXPypUYTK894PuPKmb+WkS
+         jy9CjxGhg8EOwy+FU4taJfa+SdStoQN/jjsVIaUK/rH5W7LNNrFPzBj5Ej5u/4IUgCfH
+         /Qt+lNTb3cdDBFjhFbWoWandSs9g+KqmIOL8MtKnH7Qg+61+tktOHbTbsrars862gzUd
+         8M8A==
+X-Gm-Message-State: AFqh2kqfAMv/0v/iLRsGpnEO0GIcHavbLWZ1+8YA2PKXDreg3euOOeqT
+	IJIXyWwJFi8jhR5ia4ZgQNutbCok2TODKnXutBc=
+X-Google-Smtp-Source: AMrXdXs5gQrWgjy7VYQVEVMkztRVDjauIPqaSlOLC9SwBUhApIdLYwnLoRUF4H1CCmGdRJxD02RG+1+hXFmdviBMQSw=
+X-Received: by 2002:a67:f611:0:b0:3d3:e612:b19e with SMTP id
+ k17-20020a67f611000000b003d3e612b19emr17117vso.2.1673896886595; Mon, 16 Jan
+ 2023 11:21:26 -0800 (PST)
 MIME-Version: 1.0
-References: <20230116075602.28926-1-pavel@zhukoff.net> <20230116075602.28926-2-pavel@zhukoff.net>
- <CAMKF1soF13cjQyaVCSMmBQFTP08=JPZBY2FHRp5QoVQ0WKZgcQ@mail.gmail.com>
-In-Reply-To: <CAMKF1soF13cjQyaVCSMmBQFTP08=JPZBY2FHRp5QoVQ0WKZgcQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 16 Jan 2023 11:19:29 -0800
-Message-ID: <CAMKF1srsKYWtg6jG9SLa_DcJJ9zYLuK10hUWEKM+xg5aATUHVg@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone][PATCH 1/1] gcc: Refactor linker patches and
- fix linker on arm with usrmerge
-To: Pavel Zhukov <pavel@zhukoff.net>
-Cc: openembedded-core@lists.openembedded.org, steve@sakoman.com
-Content-Type: text/plain; charset="UTF-8"
+References: <20230109134930.1409270-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20230109134930.1409270-1-richard.purdie@linuxfoundation.org>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Mon, 16 Jan 2023 19:21:15 +0000
+Message-ID: <CANPvuRmQiEXiZ7+9_N5O=FmKcMPcjhqBU-Fn8bJ-KYirNg0Z3g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] uninative-tarball: Add libgcc
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000050f48805f2667d09"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 19:19:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176012
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 19:21:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176013
 
-On Mon, Jan 16, 2023 at 7:32 AM Khem Raj <raj.khem@gmail.com> wrote:
->
->
->
-> On Sun, Jan 15, 2023 at 11:56 PM Pavel Zhukov <pavel@zhukoff.net> wrote:
->>
->> Backport fix from master to allow gcc to use proper linker path for
->> musl [Yocto #14977].
->
->
-> Lgtm
+--00000000000050f48805f2667d09
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Of the two, I think this seems to be closer to master and perhaps
-easier to maintain in long run. So lets use this one.
+Hi Richard,
 
+I am seeing some build errors like this at the end of the build whre bibake
+segment fault.
+My problem is this happens on a build that doesn't use uninative,
+does bitbake require uninative to build on master?
+
+This is my build log where bitbake crash at the end:
+
+INFO: Build completion summary:
+INFO:   do_populate_sysroot: 100.0% sstate reuse(387 setscene, 0 scratch)
+INFO:   do_deploy_source_date_epoch: 100.0% sstate reuse(5 setscene, 0
+scratch)
+INFO:   do_deploy_archives: 100.0% sstate reuse(400 setscene, 0 scratch)
+INFO:   do_create_spdx: 100.0% sstate reuse(364 setscene, 0 scratch)
+INFO:   do_create_runtime_spdx: 100.0% sstate reuse(342 setscene, 0 scratch=
+)
+INFO:   do_package_qa: 100.0% sstate reuse(243 setscene, 0 scratch)
+INFO:   do_package: 100.0% sstate reuse(26 setscene, 0 scratch)
+INFO:   do_packagedata: 100.0% sstate reuse(243 setscene, 0 scratch)
+INFO:   do_package_write_ipk: 100.0% sstate reuse(243 setscene, 0 scratch)
+INFO:   do_populate_lic: 100.0% sstate reuse(395 setscene, 0 scratch)
+INFO: Writing buildhistory
+INFO: Writing buildhistory took: 10 seconds
+libgcc_s.so.1 must be installed for pthread_cancel to work
+/lmp/bb-build.sh: line 24: 91770 Aborted                 (core dumped)
+bitbake -D ...
+
+Jose
+
+
+Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
+segunda, 9/01/2023 =C3=A0(s) 13:49:
+
+> We ship libpthread with uninative. when uninative is active we're seeing
+> failures like:
 >
->>
->>
->> Fixes:
->> | qemu-arm: Could not open '/lib/ld-musl-armhf.so.1': No such file or directory
->>
->> Signed-off-by: Pavel Zhukov <pavel@zhukoff.net>
->> ---
->>  meta/recipes-devtools/gcc/gcc-11.3.inc        |   1 -
->>  ...rm-add-armv9-a-architecture-to-march.patch |  89 +++---
->>  ...AMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch | 269 +++++++++++++-----
->>  ...s-fix-v4bx-to-linker-to-support-EABI.patch |  10 +-
->>  ...019-nios2-Define-MUSL_DYNAMIC_LINKER.patch |  25 --
->>  5 files changed, 245 insertions(+), 149 deletions(-)
->>  delete mode 100644 meta/recipes-devtools/gcc/gcc/0019-nios2-Define-MUSL_DYNAMIC_LINKER.patch
->>
->> diff --git a/meta/recipes-devtools/gcc/gcc-11.3.inc b/meta/recipes-devtools/gcc/gcc-11.3.inc
->> index 27074a06ae..ab2ece3cce 100644
->> --- a/meta/recipes-devtools/gcc/gcc-11.3.inc
->> +++ b/meta/recipes-devtools/gcc/gcc-11.3.inc
->> @@ -48,7 +48,6 @@ SRC_URI = "\
->>             file://0016-If-CXXFLAGS-contains-something-unsupported-by-the-bu.patch \
->>             file://0017-handle-sysroot-support-for-nativesdk-gcc.patch \
->>             file://0018-Search-target-sysroot-gcc-version-specific-dirs-with.patch \
->> -           file://0019-nios2-Define-MUSL_DYNAMIC_LINKER.patch \
->>             file://0020-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch \
->>             file://0021-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch \
->>             file://0022-sync-gcc-stddef.h-with-musl.patch \
->> diff --git a/meta/recipes-devtools/gcc/gcc/0004-arm-add-armv9-a-architecture-to-march.patch b/meta/recipes-devtools/gcc/gcc/0004-arm-add-armv9-a-architecture-to-march.patch
->> index c38d1b9119..864c8b3017 100644
->> --- a/meta/recipes-devtools/gcc/gcc/0004-arm-add-armv9-a-architecture-to-march.patch
->> +++ b/meta/recipes-devtools/gcc/gcc/0004-arm-add-armv9-a-architecture-to-march.patch
->> @@ -43,10 +43,10 @@ Signed-off-by: Ruiqiang Hao <Ruiqiang.Hao@windriver.com>
->>   gcc/testsuite/lib/target-supports.exp     |  3 ++-
->>   9 files changed, 79 insertions(+), 8 deletions(-)
->>
->> -diff --git a/gcc/config/arm/arm-cpus.in b/gcc/config/arm/arm-cpus.in
->> -index bcc9ebe9f..58d83829c 100644
->> ---- a/gcc/config/arm/arm-cpus.in
->> -+++ b/gcc/config/arm/arm-cpus.in
->> +Index: gcc-11.3.0/gcc/config/arm/arm-cpus.in
->> +===================================================================
->> +--- gcc-11.3.0.orig/gcc/config/arm/arm-cpus.in
->> ++++ gcc-11.3.0/gcc/config/arm/arm-cpus.in
->>  @@ -132,6 +132,9 @@ define feature cmse
->>   # Architecture rel 8.1-M.
->>   define feature armv8_1m_main
->> @@ -57,7 +57,7 @@ index bcc9ebe9f..58d83829c 100644
->>   # Floating point and Neon extensions.
->>   # VFPv1 is not supported in GCC.
->>
->> -@@ -293,6 +296,7 @@ define fgroup ARMv8m_base ARMv6m armv8 cmse tdiv
->> +@@ -293,6 +296,7 @@ define fgroup ARMv8m_base ARMv6m armv8 c
->>   define fgroup ARMv8m_main ARMv7m armv8 cmse
->>   define fgroup ARMv8r      ARMv8a
->>   define fgroup ARMv8_1m_main ARMv8m_main armv8_1m_main
->> @@ -87,10 +87,10 @@ index bcc9ebe9f..58d83829c 100644
->>   begin arch iwmmxt
->>    tune for iwmmxt
->>    tune flags LDSCHED STRONG XSCALE
->> -diff --git a/gcc/config/arm/arm-tables.opt b/gcc/config/arm/arm-tables.opt
->> -index 5692d4fb7..ae3dd9414 100644
->> ---- a/gcc/config/arm/arm-tables.opt
->> -+++ b/gcc/config/arm/arm-tables.opt
->> +Index: gcc-11.3.0/gcc/config/arm/arm-tables.opt
->> +===================================================================
->> +--- gcc-11.3.0.orig/gcc/config/arm/arm-tables.opt
->> ++++ gcc-11.3.0/gcc/config/arm/arm-tables.opt
->>  @@ -380,10 +380,13 @@ EnumValue
->>   Enum(arm_arch) String(armv8.1-m.main) Value(30)
->>
->> @@ -107,10 +107,10 @@ index 5692d4fb7..ae3dd9414 100644
->>
->>   Enum
->>   Name(arm_fpu) Type(enum fpu_type)
->> -diff --git a/gcc/config/arm/arm.h b/gcc/config/arm/arm.h
->> -index 47c13a9e5..088c7725c 100644
->> ---- a/gcc/config/arm/arm.h
->> -+++ b/gcc/config/arm/arm.h
->> +Index: gcc-11.3.0/gcc/config/arm/arm.h
->> +===================================================================
->> +--- gcc-11.3.0.orig/gcc/config/arm/arm.h
->> ++++ gcc-11.3.0/gcc/config/arm/arm.h
->>  @@ -456,7 +456,8 @@ enum base_architecture
->>     BASE_ARCH_8A = 8,
->>     BASE_ARCH_8M_BASE = 8,
->> @@ -121,10 +121,10 @@ index 47c13a9e5..088c7725c 100644
->>   };
->>
->>   /* The major revision number of the ARM Architecture implemented by the target.  */
->> -diff --git a/gcc/config/arm/t-aprofile b/gcc/config/arm/t-aprofile
->> -index 8574ac3e2..68e2251c7 100644
->> ---- a/gcc/config/arm/t-aprofile
->> -+++ b/gcc/config/arm/t-aprofile
->> +Index: gcc-11.3.0/gcc/config/arm/t-aprofile
->> +===================================================================
->> +--- gcc-11.3.0.orig/gcc/config/arm/t-aprofile
->> ++++ gcc-11.3.0/gcc/config/arm/t-aprofile
->>  @@ -26,8 +26,8 @@
->>
->>   # Arch and FPU variants to build libraries with
->> @@ -136,7 +136,7 @@ index 8574ac3e2..68e2251c7 100644
->>
->>   # ARMv7-A - build nofp, fp-d16 and SIMD variants
->>
->> -@@ -46,6 +46,11 @@ MULTILIB_REQUIRED   += mthumb/march=armv8-a/mfloat-abi=soft
->> +@@ -46,6 +46,11 @@ MULTILIB_REQUIRED   += mthumb/march=armv8-
->>   MULTILIB_REQUIRED     += mthumb/march=armv8-a+simd/mfloat-abi=hard
->>   MULTILIB_REQUIRED     += mthumb/march=armv8-a+simd/mfloat-abi=softfp
->>
->> @@ -148,7 +148,7 @@ index 8574ac3e2..68e2251c7 100644
->>   # Matches
->>
->>   # Arch Matches
->> -@@ -129,17 +134,29 @@ MULTILIB_MATCHES += march?armv8-a=march?armv8.6-a
->> +@@ -129,17 +134,29 @@ MULTILIB_MATCHES += march?armv8-a=march?
->>   MULTILIB_MATCHES      += $(foreach ARCH, $(v8_6_a_simd_variants), \
->>                              march?armv8-a+simd=march?armv8.6-a$(ARCH))
->>
->> @@ -180,11 +180,11 @@ index 8574ac3e2..68e2251c7 100644
->>  -                           $(foreach ARCH, armv7-a armv8-a, \
->>  +                           $(foreach ARCH, armv7-a armv8-a armv9-a, \
->>                                mthumb/march.$(ARCH)/mfloat-abi.soft=m$(MODE)/march.$(ARCH)/mfloat-abi.softfp))
->> -diff --git a/gcc/config/arm/t-arm-elf b/gcc/config/arm/t-arm-elf
->> -index d68def308..b3a900e8c 100644
->> ---- a/gcc/config/arm/t-arm-elf
->> -+++ b/gcc/config/arm/t-arm-elf
->> -@@ -38,6 +38,8 @@ v7ve_fps     := vfpv3-d16 vfpv3 vfpv3-d16-fp16 vfpv3-fp16 vfpv4 neon \
->> +Index: gcc-11.3.0/gcc/config/arm/t-arm-elf
->> +===================================================================
->> +--- gcc-11.3.0.orig/gcc/config/arm/t-arm-elf
->> ++++ gcc-11.3.0/gcc/config/arm/t-arm-elf
->> +@@ -38,6 +38,8 @@ v7ve_fps     := vfpv3-d16 vfpv3 vfpv3-d16-fp
->>   # it seems to work ok.
->>   v8_fps                := simd fp16 crypto fp16+crypto dotprod fp16fml
->>
->> @@ -202,7 +202,7 @@ index d68def308..b3a900e8c 100644
->>   # No floating point variants, require thumb1 softfp
->>   all_nofp_t    := armv6-m armv6s-m armv8-m.base
->>
->> -@@ -110,6 +114,11 @@ MULTILIB_MATCHES     += $(foreach ARCH, $(all_v8_archs), \
->> +@@ -110,6 +114,11 @@ MULTILIB_MATCHES     += $(foreach ARCH,
->>                           $(foreach FPARCH, $(v8_fps), \
->>                             march?armv7+fp=march?$(ARCH)+$(FPARCH)))
->>
->> @@ -214,11 +214,11 @@ index d68def308..b3a900e8c 100644
->>   MULTILIB_MATCHES     += $(foreach ARCH, armv7e-m armv8-m.mainline, \
->>                           march?armv7+fp=march?$(ARCH)+fp.dp)
->>
->> -diff --git a/gcc/config/arm/t-multilib b/gcc/config/arm/t-multilib
->> -index ddc5033bf..d789b86ee 100644
->> ---- a/gcc/config/arm/t-multilib
->> -+++ b/gcc/config/arm/t-multilib
->> -@@ -78,6 +78,8 @@ v8_4_a_simd_variants := $(call all_feat_combs, simd fp16 crypto i8mm bf16)
->> +Index: gcc-11.3.0/gcc/config/arm/t-multilib
->> +===================================================================
->> +--- gcc-11.3.0.orig/gcc/config/arm/t-multilib
->> ++++ gcc-11.3.0/gcc/config/arm/t-multilib
->> +@@ -78,6 +78,8 @@ v8_4_a_simd_variants := $(call all_feat_
->>   v8_5_a_simd_variants  := $(call all_feat_combs, simd fp16 crypto i8mm bf16)
->>   v8_6_a_simd_variants  := $(call all_feat_combs, simd fp16 crypto i8mm bf16)
->>   v8_r_nosimd_variants  := +crc
->> @@ -227,7 +227,7 @@ index ddc5033bf..d789b86ee 100644
->>
->>   ifneq (,$(HAS_APROFILE))
->>   include $(srcdir)/config/arm/t-aprofile
->> -@@ -202,6 +204,16 @@ MULTILIB_MATCHES  += march?armv7=march?armv8.6-a
->> +@@ -202,6 +204,16 @@ MULTILIB_MATCHES  += march?armv7=march?ar
->>   MULTILIB_MATCHES      += $(foreach ARCH, $(v8_6_a_simd_variants), \
->>                              march?armv7+fp=march?armv8.6-a$(ARCH))
->>
->> @@ -244,10 +244,10 @@ index ddc5033bf..d789b86ee 100644
->>   endif         # Not APROFILE.
->>
->>   # Use Thumb libraries for everything.
->> -diff --git a/gcc/doc/invoke.texi b/gcc/doc/invoke.texi
->> -index 7184a62d0..9a712c0d6 100644
->> ---- a/gcc/doc/invoke.texi
->> -+++ b/gcc/doc/invoke.texi
->> +Index: gcc-11.3.0/gcc/doc/invoke.texi
->> +===================================================================
->> +--- gcc-11.3.0.orig/gcc/doc/invoke.texi
->> ++++ gcc-11.3.0/gcc/doc/invoke.texi
->>  @@ -19701,6 +19701,7 @@ Permissible names are:
->>   @samp{armv7-m}, @samp{armv7e-m},
->>   @samp{armv8-m.base}, @samp{armv8-m.main},
->> @@ -256,10 +256,10 @@ index 7184a62d0..9a712c0d6 100644
->>   @samp{iwmmxt} and @samp{iwmmxt2}.
->>
->>   Additionally, the following architectures, which lack support for the
->> -diff --git a/gcc/testsuite/gcc.target/arm/multilib.exp b/gcc/testsuite/gcc.target/arm/multilib.exp
->> -index 4b30025db..e3f06c316 100644
->> ---- a/gcc/testsuite/gcc.target/arm/multilib.exp
->> -+++ b/gcc/testsuite/gcc.target/arm/multilib.exp
->> +Index: gcc-11.3.0/gcc/testsuite/gcc.target/arm/multilib.exp
->> +===================================================================
->> +--- gcc-11.3.0.orig/gcc/testsuite/gcc.target/arm/multilib.exp
->> ++++ gcc-11.3.0/gcc/testsuite/gcc.target/arm/multilib.exp
->>  @@ -135,6 +135,14 @@ if {[multilib_config "aprofile"] } {
->>         {-march=armv8.6-a+simd+fp16 -mfloat-abi=softfp} "thumb/v8-a+simd/softfp"
->>         {-march=armv8.6-a+simd+fp16+nofp -mfloat-abi=softfp} "thumb/v8-a/nofp"
->> @@ -275,10 +275,10 @@ index 4b30025db..e3f06c316 100644
->>         {-mcpu=cortex-a53+crypto -mfloat-abi=hard} "thumb/v8-a+simd/hard"
->>         {-mcpu=cortex-a53+nofp -mfloat-abi=softfp} "thumb/v8-a/nofp"
->>         {-march=armv8-a+crc -mfloat-abi=hard -mfpu=vfp} "thumb/v8-a+simd/hard"
->> -diff --git a/gcc/testsuite/lib/target-supports.exp b/gcc/testsuite/lib/target-supports.exp
->> -index 857e57218..52e043917 100644
->> ---- a/gcc/testsuite/lib/target-supports.exp
->> -+++ b/gcc/testsuite/lib/target-supports.exp
->> +Index: gcc-11.3.0/gcc/testsuite/lib/target-supports.exp
->> +===================================================================
->> +--- gcc-11.3.0.orig/gcc/testsuite/lib/target-supports.exp
->> ++++ gcc-11.3.0/gcc/testsuite/lib/target-supports.exp
->>  @@ -4820,7 +4820,8 @@ foreach { armfunc armflag armdefs } {
->>         v8m_base "-march=armv8-m.base -mthumb -mfloat-abi=soft"
->>                 __ARM_ARCH_8M_BASE__
->> @@ -289,6 +289,3 @@ index 857e57218..52e043917 100644
->>       eval [string map [list FUNC $armfunc FLAG $armflag DEFS $armdefs ] {
->>         proc check_effective_target_arm_arch_FUNC_ok { } {
->>             return [check_no_compiler_messages arm_arch_FUNC_ok assembly {
->> ---
->> -2.34.1
->> -
->> diff --git a/meta/recipes-devtools/gcc/gcc/0006-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch b/meta/recipes-devtools/gcc/gcc/0006-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
->> index ef19eef822..b3515c9734 100644
->> --- a/meta/recipes-devtools/gcc/gcc/0006-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
->> +++ b/meta/recipes-devtools/gcc/gcc/0006-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
->> @@ -1,4 +1,4 @@
->> -From 84dd8ea4c982fc2c82af642293d29e9c1880de5b Mon Sep 17 00:00:00 2001
->> +From 4de00af67b57b5440bdf61ab364ad959ad0aeee7 Mon Sep 17 00:00:00 2001
->>  From: Khem Raj <raj.khem@gmail.com>
->>  Date: Fri, 29 Mar 2013 09:24:50 +0400
->>  Subject: [PATCH] Define GLIBC_DYNAMIC_LINKER and UCLIBC_DYNAMIC_LINKER
->> @@ -12,28 +12,37 @@ SH, sparc, alpha for possible future support (if any)
->>
->>  Removes the do_headerfix task in metadata
->>
->> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> +
->>  Upstream-Status: Inappropriate [OE configuration]
->>  Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> +
->> +Refresh patch from master to deduplicate patches and fix arm linker
->> +Signed-off-by: Pavel Zhukov <pavel@zhukoff.net>
->>  ---
->>   gcc/config/aarch64/aarch64-linux.h |  4 ++--
->>   gcc/config/alpha/linux-elf.h       |  4 ++--
->> - gcc/config/arm/linux-eabi.h        |  4 ++--
->> + gcc/config/arm/linux-eabi.h        |  6 +++---
->>   gcc/config/arm/linux-elf.h         |  2 +-
->> - gcc/config/i386/linux.h            |  2 +-
->> - gcc/config/i386/linux64.h          |  6 +++---
->> + gcc/config/i386/linux.h            |  4 ++--
->> + gcc/config/i386/linux64.h          | 12 ++++++------
->>   gcc/config/linux.h                 |  8 ++++----
->> - gcc/config/mips/linux.h            | 12 ++++++------
->> - gcc/config/riscv/linux.h           |  2 +-
->> + gcc/config/microblaze/linux.h      |  4 ++--
->> + gcc/config/mips/linux.h            | 18 +++++++++---------
->> + gcc/config/nios2/linux.h           |  4 ++--
->> + gcc/config/riscv/linux.h           |  4 ++--
->>   gcc/config/rs6000/linux64.h        | 15 +++++----------
->> - gcc/config/sh/linux.h              |  2 +-
->> + gcc/config/rs6000/sysv4.h          |  4 ++--
->> + gcc/config/s390/linux.h            |  8 ++++----
->> + gcc/config/sh/linux.h              |  4 ++--
->>   gcc/config/sparc/linux.h           |  2 +-
->>   gcc/config/sparc/linux64.h         |  4 ++--
->> - 13 files changed, 31 insertions(+), 36 deletions(-)
->> + 17 files changed, 53 insertions(+), 58 deletions(-)
->>
->> -diff --git a/gcc/config/aarch64/aarch64-linux.h b/gcc/config/aarch64/aarch64-linux.h
->> -index 7f2529a2a1d..4bcae7f3110 100644
->> ---- a/gcc/config/aarch64/aarch64-linux.h
->> -+++ b/gcc/config/aarch64/aarch64-linux.h
->> +Index: gcc-11.3.0/gcc/config/aarch64/aarch64-linux.h
->> +===================================================================
->> +--- gcc-11.3.0.orig/gcc/config/aarch64/aarch64-linux.h
->> ++++ gcc-11.3.0/gcc/config/aarch64/aarch64-linux.h
->>  @@ -21,10 +21,10 @@
->>   #ifndef GCC_AARCH64_LINUX_H
->>   #define GCC_AARCH64_LINUX_H
->> @@ -47,11 +56,11 @@ index 7f2529a2a1d..4bcae7f3110 100644
->>
->>   #undef  ASAN_CC1_SPEC
->>   #define ASAN_CC1_SPEC "%{%:sanitize(address):-funwind-tables}"
->> -diff --git a/gcc/config/alpha/linux-elf.h b/gcc/config/alpha/linux-elf.h
->> -index c1dae8ca2cf..3ce2b76c1a4 100644
->> ---- a/gcc/config/alpha/linux-elf.h
->> -+++ b/gcc/config/alpha/linux-elf.h
->> -@@ -23,8 +23,8 @@ along with GCC; see the file COPYING3.  If not see
->> +Index: gcc-11.3.0/gcc/config/alpha/linux-elf.h
->> +===================================================================
->> +--- gcc-11.3.0.orig/gcc/config/alpha/linux-elf.h
->> ++++ gcc-11.3.0/gcc/config/alpha/linux-elf.h
->> +@@ -23,8 +23,8 @@ along with GCC; see the file COPYING3.
->>   #define EXTRA_SPECS \
->>   { "elf_dynamic_linker", ELF_DYNAMIC_LINKER },
->>
->> @@ -62,10 +71,10 @@ index c1dae8ca2cf..3ce2b76c1a4 100644
->>   #if DEFAULT_LIBC == LIBC_UCLIBC
->>   #define CHOOSE_DYNAMIC_LINKER(G, U) "%{mglibc:" G ";:" U "}"
->>   #elif DEFAULT_LIBC == LIBC_GLIBC
->> -diff --git a/gcc/config/arm/linux-eabi.h b/gcc/config/arm/linux-eabi.h
->> -index 85d0136e76e..6bd95855827 100644
->> ---- a/gcc/config/arm/linux-eabi.h
->> -+++ b/gcc/config/arm/linux-eabi.h
->> +Index: gcc-11.3.0/gcc/config/arm/linux-eabi.h
->> +===================================================================
->> +--- gcc-11.3.0.orig/gcc/config/arm/linux-eabi.h
->> ++++ gcc-11.3.0/gcc/config/arm/linux-eabi.h
->>  @@ -65,8 +65,8 @@
->>      GLIBC_DYNAMIC_LINKER_DEFAULT and TARGET_DEFAULT_FLOAT_ABI.  */
->>
->> @@ -77,10 +86,19 @@ index 85d0136e76e..6bd95855827 100644
->>   #define GLIBC_DYNAMIC_LINKER_DEFAULT GLIBC_DYNAMIC_LINKER_SOFT_FLOAT
->>
->>   #define GLIBC_DYNAMIC_LINKER \
->> -diff --git a/gcc/config/arm/linux-elf.h b/gcc/config/arm/linux-elf.h
->> -index 0c1c4e70b6b..6bd643ade11 100644
->> ---- a/gcc/config/arm/linux-elf.h
->> -+++ b/gcc/config/arm/linux-elf.h
->> +@@ -89,7 +89,7 @@
->> + #define MUSL_DYNAMIC_LINKER_E "%{mbig-endian:eb}"
->> + #endif
->> + #define MUSL_DYNAMIC_LINKER \
->> +-  "/lib/ld-musl-arm" MUSL_DYNAMIC_LINKER_E "%{mfloat-abi=hard:hf}%{mfdpic:-fdpic}.so.1"
->> ++  SYSTEMLIBS_DIR "ld-musl-arm" MUSL_DYNAMIC_LINKER_E "%{mfloat-abi=hard:hf}%{mfdpic:-fdpic}.so.1"
->> +
->> + /* At this point, bpabi.h will have clobbered LINK_SPEC.  We want to
->> +    use the GNU/Linux version, not the generic BPABI version.  */
->> +Index: gcc-11.3.0/gcc/config/arm/linux-elf.h
->> +===================================================================
->> +--- gcc-11.3.0.orig/gcc/config/arm/linux-elf.h
->> ++++ gcc-11.3.0/gcc/config/arm/linux-elf.h
->>  @@ -60,7 +60,7 @@
->>
->>   #define LIBGCC_SPEC "%{mfloat-abi=soft*:-lfloat} -lgcc"
->> @@ -90,11 +108,11 @@ index 0c1c4e70b6b..6bd643ade11 100644
->>
->>   #define LINUX_TARGET_LINK_SPEC  "%{h*} \
->>      %{static:-Bstatic} \
->> -diff --git a/gcc/config/i386/linux.h b/gcc/config/i386/linux.h
->> -index 04b274f1654..7aafcf3ac2d 100644
->> ---- a/gcc/config/i386/linux.h
->> -+++ b/gcc/config/i386/linux.h
->> -@@ -20,7 +20,7 @@ along with GCC; see the file COPYING3.  If not see
->> +Index: gcc-11.3.0/gcc/config/i386/linux.h
->> +===================================================================
->> +--- gcc-11.3.0.orig/gcc/config/i386/linux.h
->> ++++ gcc-11.3.0/gcc/config/i386/linux.h
->> +@@ -20,7 +20,7 @@ along with GCC; see the file COPYING3.
->>   <http://www.gnu.org/licenses/>.  */
->>
->>   #define GNU_USER_LINK_EMULATION "elf_i386"
->> @@ -102,12 +120,13 @@ index 04b274f1654..7aafcf3ac2d 100644
->>  +#define GLIBC_DYNAMIC_LINKER SYSTEMLIBS_DIR "ld-linux.so.2"
->>
->>   #undef MUSL_DYNAMIC_LINKER
->> - #define MUSL_DYNAMIC_LINKER "/lib/ld-musl-i386.so.1"
->> -diff --git a/gcc/config/i386/linux64.h b/gcc/config/i386/linux64.h
->> -index b3822ced528..92d303e80d6 100644
->> ---- a/gcc/config/i386/linux64.h
->> -+++ b/gcc/config/i386/linux64.h
->> -@@ -27,9 +27,9 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
->> +-#define MUSL_DYNAMIC_LINKER "/lib/ld-musl-i386.so.1"
->> ++#define MUSL_DYNAMIC_LINKER SYSTEMLIBS_DIR "ld-musl-i386.so.1"
->> +Index: gcc-11.3.0/gcc/config/i386/linux64.h
->> +===================================================================
->> +--- gcc-11.3.0.orig/gcc/config/i386/linux64.h
->> ++++ gcc-11.3.0/gcc/config/i386/linux64.h
->> +@@ -27,13 +27,13 @@ see the files COPYING3 and COPYING.RUNTI
->>   #define GNU_USER_LINK_EMULATION64 "elf_x86_64"
->>   #define GNU_USER_LINK_EMULATIONX32 "elf32_x86_64"
->>
->> @@ -119,12 +138,19 @@ index b3822ced528..92d303e80d6 100644
->>  +#define GLIBC_DYNAMIC_LINKERX32 SYSTEMLIBS_DIR "ld-linux-x32.so.2"
->>
->>   #undef MUSL_DYNAMIC_LINKER32
->> - #define MUSL_DYNAMIC_LINKER32 "/lib/ld-musl-i386.so.1"
->> -diff --git a/gcc/config/linux.h b/gcc/config/linux.h
->> -index 4e1db60fced..87efc5f69fe 100644
->> ---- a/gcc/config/linux.h
->> -+++ b/gcc/config/linux.h
->> -@@ -94,10 +94,10 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
->> +-#define MUSL_DYNAMIC_LINKER32 "/lib/ld-musl-i386.so.1"
->> ++#define MUSL_DYNAMIC_LINKER32 SYSTEMLIBS_DIR "ld-musl-i386.so.1"
->> + #undef MUSL_DYNAMIC_LINKER64
->> +-#define MUSL_DYNAMIC_LINKER64 "/lib/ld-musl-x86_64.so.1"
->> ++#define MUSL_DYNAMIC_LINKER64 SYSTEMLIBS_DIR "ld-musl-x86_64.so.1"
->> + #undef MUSL_DYNAMIC_LINKERX32
->> +-#define MUSL_DYNAMIC_LINKERX32 "/lib/ld-musl-x32.so.1"
->> ++#define MUSL_DYNAMIC_LINKERX32 SYSTEMLIBS_DIR "ld-musl-x32.so.1"
->> +Index: gcc-11.3.0/gcc/config/linux.h
->> +===================================================================
->> +--- gcc-11.3.0.orig/gcc/config/linux.h
->> ++++ gcc-11.3.0/gcc/config/linux.h
->> +@@ -94,10 +94,10 @@ see the files COPYING3 and COPYING.RUNTI
->>      GLIBC_DYNAMIC_LINKER must be defined for each target using them, or
->>      GLIBC_DYNAMIC_LINKER32 and GLIBC_DYNAMIC_LINKER64 for targets
->>      supporting both 32-bit and 64-bit compilation.  */
->> @@ -139,11 +165,33 @@ index 4e1db60fced..87efc5f69fe 100644
->>   #define BIONIC_DYNAMIC_LINKER "/system/bin/linker"
->>   #define BIONIC_DYNAMIC_LINKER32 "/system/bin/linker"
->>   #define BIONIC_DYNAMIC_LINKER64 "/system/bin/linker64"
->> -diff --git a/gcc/config/mips/linux.h b/gcc/config/mips/linux.h
->> -index 44a85e410d9..8d41b5574f6 100644
->> ---- a/gcc/config/mips/linux.h
->> -+++ b/gcc/config/mips/linux.h
->> -@@ -22,20 +22,20 @@ along with GCC; see the file COPYING3.  If not see
->> +Index: gcc-11.3.0/gcc/config/microblaze/linux.h
->> +===================================================================
->> +--- gcc-11.3.0.orig/gcc/config/microblaze/linux.h
->> ++++ gcc-11.3.0/gcc/config/microblaze/linux.h
->> +@@ -28,7 +28,7 @@
->> + #undef TLS_NEEDS_GOT
->> + #define TLS_NEEDS_GOT 1
->> +
->> +-#define GLIBC_DYNAMIC_LINKER "/lib/ld.so.1"
->> ++#define GLIBC_DYNAMIC_LINKER SYSTEMLIBS_DIR "/ld.so.1"
->> + #define UCLIBC_DYNAMIC_LINKER "/lib/ld-uClibc.so.0"
->> +
->> + #if TARGET_BIG_ENDIAN_DEFAULT == 0 /* LE */
->> +@@ -38,7 +38,7 @@
->> + #endif
->> +
->> + #undef MUSL_DYNAMIC_LINKER
->> +-#define MUSL_DYNAMIC_LINKER "/lib/ld-musl-microblaze" MUSL_DYNAMIC_LINKER_E ".so.1"
->> ++#define MUSL_DYNAMIC_LINKER SYSTEMLIBS_DIR "ld-musl-microblaze" MUSL_DYNAMIC_LINKER_E ".so.1"
->> +
->> + #undef  SUBTARGET_EXTRA_SPECS
->> + #define SUBTARGET_EXTRA_SPECS \
->> +Index: gcc-11.3.0/gcc/config/mips/linux.h
->> +===================================================================
->> +--- gcc-11.3.0.orig/gcc/config/mips/linux.h
->> ++++ gcc-11.3.0/gcc/config/mips/linux.h
->> +@@ -22,29 +22,29 @@ along with GCC; see the file COPYING3.
->>   #define GNU_USER_LINK_EMULATIONN32 "elf32%{EB:b}%{EL:l}tsmipn32"
->>
->>   #define GLIBC_DYNAMIC_LINKER32 \
->> @@ -170,11 +218,36 @@ index 44a85e410d9..8d41b5574f6 100644
->>
->>   #undef MUSL_DYNAMIC_LINKER32
->>   #define MUSL_DYNAMIC_LINKER32 \
->> -diff --git a/gcc/config/riscv/linux.h b/gcc/config/riscv/linux.h
->> -index fce5b896e6e..03aa55cb5ab 100644
->> ---- a/gcc/config/riscv/linux.h
->> -+++ b/gcc/config/riscv/linux.h
->> -@@ -22,7 +22,7 @@ along with GCC; see the file COPYING3.  If not see
->> +-  "/lib/ld-musl-mips%{mips32r6|mips64r6:r6}%{EL:el}%{msoft-float:-sf}.so.1"
->> ++  SYSTEMLIBS_DIR "ld-musl-mips%{mips32r6|mips64r6:r6}%{EL:el}%{msoft-float:-sf}.so.1"
->> + #undef MUSL_DYNAMIC_LINKER64
->> + #define MUSL_DYNAMIC_LINKER64 \
->> +-  "/lib/ld-musl-mips64%{mips64r6:r6}%{EL:el}%{msoft-float:-sf}.so.1"
->> ++  SYSTEMLIBS_DIR "ld-musl-mips64%{mips64r6:r6}%{EL:el}%{msoft-float:-sf}.so.1"
->> + #define MUSL_DYNAMIC_LINKERN32 \
->> +-  "/lib/ld-musl-mipsn32%{mips64r6:r6}%{EL:el}%{msoft-float:-sf}.so.1"
->> ++  SYSTEMLIBS_DIR "ld-musl-mipsn32%{mips64r6:r6}%{EL:el}%{msoft-float:-sf}.so.1"
->> +
->> + #define BIONIC_DYNAMIC_LINKERN32 "/system/bin/linker32"
->> + #define GNU_USER_DYNAMIC_LINKERN32 \
->> +Index: gcc-11.3.0/gcc/config/nios2/linux.h
->> +===================================================================
->> +--- gcc-11.3.0.orig/gcc/config/nios2/linux.h
->> ++++ gcc-11.3.0/gcc/config/nios2/linux.h
->> +@@ -29,7 +29,7 @@
->> + #undef CPP_SPEC
->> + #define CPP_SPEC "%{posix:-D_POSIX_SOURCE} %{pthread:-D_REENTRANT}"
->> +
->> +-#define GLIBC_DYNAMIC_LINKER "/lib/ld-linux-nios2.so.1"
->> ++#define GLIBC_DYNAMIC_LINKER SYSTEMLIBS_DIR "ld-linux-nios2.so.1"
->> +
->> + #undef LINK_SPEC
->> + #define LINK_SPEC LINK_SPEC_ENDIAN \
->> +Index: gcc-11.3.0/gcc/config/riscv/linux.h
->> +===================================================================
->> +--- gcc-11.3.0.orig/gcc/config/riscv/linux.h
->> ++++ gcc-11.3.0/gcc/config/riscv/linux.h
->> +@@ -22,7 +22,7 @@ along with GCC; see the file COPYING3.
->>       GNU_USER_TARGET_OS_CPP_BUILTINS();                                \
->>     } while (0)
->>
->> @@ -183,10 +256,19 @@ index fce5b896e6e..03aa55cb5ab 100644
->>
->>   #define MUSL_ABI_SUFFIX \
->>     "%{mabi=ilp32:-sf}" \
->> -diff --git a/gcc/config/rs6000/linux64.h b/gcc/config/rs6000/linux64.h
->> -index e3f2cd254f6..a11e01faa3d 100644
->> ---- a/gcc/config/rs6000/linux64.h
->> -+++ b/gcc/config/rs6000/linux64.h
->> +@@ -33,7 +33,7 @@ along with GCC; see the file COPYING3.
->> +   "%{mabi=lp64d:}"
->> +
->> + #undef MUSL_DYNAMIC_LINKER
->> +-#define MUSL_DYNAMIC_LINKER "/lib/ld-musl-riscv" XLEN_SPEC MUSL_ABI_SUFFIX ".so.1"
->> ++#define MUSL_DYNAMIC_LINKER SYSTEMLIBS_DIR "ld-musl-riscv" XLEN_SPEC MUSL_ABI_SUFFIX ".so.1"
->> +
->> + /* Because RISC-V only has word-sized atomics, it requries libatomic where
->> +    others do not.  So link libatomic by default, as needed.  */
->> +Index: gcc-11.3.0/gcc/config/rs6000/linux64.h
->> +===================================================================
->> +--- gcc-11.3.0.orig/gcc/config/rs6000/linux64.h
->> ++++ gcc-11.3.0/gcc/config/rs6000/linux64.h
->>  @@ -336,24 +336,19 @@ extern int dot_symbols;
->>   #undef        LINK_OS_DEFAULT_SPEC
->>   #define LINK_OS_DEFAULT_SPEC "%(link_os_linux)"
->> @@ -217,12 +299,55 @@ index e3f2cd254f6..a11e01faa3d 100644
->>
->>   #undef  DEFAULT_ASM_ENDIAN
->>   #if (TARGET_DEFAULT & MASK_LITTLE_ENDIAN)
->> -diff --git a/gcc/config/sh/linux.h b/gcc/config/sh/linux.h
->> -index 7558d2f7195..3aaa6c3a078 100644
->> ---- a/gcc/config/sh/linux.h
->> -+++ b/gcc/config/sh/linux.h
->> -@@ -64,7 +64,7 @@ along with GCC; see the file COPYING3.  If not see
->> -   "/lib/ld-musl-sh" MUSL_DYNAMIC_LINKER_E MUSL_DYNAMIC_LINKER_FP \
->> +Index: gcc-11.3.0/gcc/config/rs6000/sysv4.h
->> +===================================================================
->> +--- gcc-11.3.0.orig/gcc/config/rs6000/sysv4.h
->> ++++ gcc-11.3.0/gcc/config/rs6000/sysv4.h
->> +@@ -780,10 +780,10 @@ GNU_USER_TARGET_CC1_SPEC
->> +
->> + #define MUSL_DYNAMIC_LINKER_E ENDIAN_SELECT("","le","")
->> +
->> +-#define GLIBC_DYNAMIC_LINKER "/lib/ld.so.1"
->> ++#define GLIBC_DYNAMIC_LINKER SYSTEMLIBS_DIR "ld.so.1"
->> + #undef MUSL_DYNAMIC_LINKER
->> + #define MUSL_DYNAMIC_LINKER \
->> +-  "/lib/ld-musl-powerpc" MUSL_DYNAMIC_LINKER_E "%{msoft-float:-sf}.so.1"
->> ++  SYSTEMLIBS_DIR "ld-musl-powerpc" MUSL_DYNAMIC_LINKER_E "%{msoft-float:-sf}.so.1"
->> +
->> + #ifndef GNU_USER_DYNAMIC_LINKER
->> + #define GNU_USER_DYNAMIC_LINKER GLIBC_DYNAMIC_LINKER
->> +Index: gcc-11.3.0/gcc/config/s390/linux.h
->> +===================================================================
->> +--- gcc-11.3.0.orig/gcc/config/s390/linux.h
->> ++++ gcc-11.3.0/gcc/config/s390/linux.h
->> +@@ -72,13 +72,13 @@ along with GCC; see the file COPYING3.
->> + #define MULTILIB_DEFAULTS { "m31" }
->> + #endif
->> +
->> +-#define GLIBC_DYNAMIC_LINKER32 "/lib/ld.so.1"
->> +-#define GLIBC_DYNAMIC_LINKER64 "/lib/ld64.so.1"
->> ++#define GLIBC_DYNAMIC_LINKER32 SYSTEMLIBS_DIR "ld.so.1"
->> ++#define GLIBC_DYNAMIC_LINKER64 SYSTEMLIBS_DIR "ld64.so.1"
->> +
->> + #undef MUSL_DYNAMIC_LINKER32
->> +-#define MUSL_DYNAMIC_LINKER32 "/lib/ld-musl-s390.so.1"
->> ++#define MUSL_DYNAMIC_LINKER32 SYSTEMLIBS_DIR "ld-musl-s390.so.1"
->> + #undef MUSL_DYNAMIC_LINKER64
->> +-#define MUSL_DYNAMIC_LINKER64 "/lib/ld-musl-s390x.so.1"
->> ++#define MUSL_DYNAMIC_LINKER64 SYSTEMLIBS_DIR "ld-musl-s390x.so.1"
->> +
->> + #undef  LINK_SPEC
->> + #define LINK_SPEC \
->> +Index: gcc-11.3.0/gcc/config/sh/linux.h
->> +===================================================================
->> +--- gcc-11.3.0.orig/gcc/config/sh/linux.h
->> ++++ gcc-11.3.0/gcc/config/sh/linux.h
->> +@@ -61,10 +61,10 @@ along with GCC; see the file COPYING3.
->> +
->> + #undef MUSL_DYNAMIC_LINKER
->> + #define MUSL_DYNAMIC_LINKER \
->> +-  "/lib/ld-musl-sh" MUSL_DYNAMIC_LINKER_E MUSL_DYNAMIC_LINKER_FP \
->> ++  SYSTEMLIBS_DIR "ld-musl-sh" MUSL_DYNAMIC_LINKER_E MUSL_DYNAMIC_LINKER_FP \
->>     "%{mfdpic:-fdpic}.so.1"
->>
->>  -#define GLIBC_DYNAMIC_LINKER "/lib/ld-linux.so.2"
->> @@ -230,11 +355,11 @@ index 7558d2f7195..3aaa6c3a078 100644
->>
->>   #undef SUBTARGET_LINK_EMUL_SUFFIX
->>   #define SUBTARGET_LINK_EMUL_SUFFIX "%{mfdpic:_fd;:_linux}"
->> -diff --git a/gcc/config/sparc/linux.h b/gcc/config/sparc/linux.h
->> -index 2550d7ee8f0..a94f4cd8ba2 100644
->> ---- a/gcc/config/sparc/linux.h
->> -+++ b/gcc/config/sparc/linux.h
->> -@@ -78,7 +78,7 @@ extern const char *host_detect_local_cpu (int argc, const char **argv);
->> +Index: gcc-11.3.0/gcc/config/sparc/linux.h
->> +===================================================================
->> +--- gcc-11.3.0.orig/gcc/config/sparc/linux.h
->> ++++ gcc-11.3.0/gcc/config/sparc/linux.h
->> +@@ -78,7 +78,7 @@ extern const char *host_detect_local_cpu
->>      When the -shared link option is used a final link is not being
->>      done.  */
->>
->> @@ -243,11 +368,11 @@ index 2550d7ee8f0..a94f4cd8ba2 100644
->>
->>   #undef  LINK_SPEC
->>   #define LINK_SPEC "-m elf32_sparc %{shared:-shared} \
->> -diff --git a/gcc/config/sparc/linux64.h b/gcc/config/sparc/linux64.h
->> -index 95af8afa9b5..63127afb074 100644
->> ---- a/gcc/config/sparc/linux64.h
->> -+++ b/gcc/config/sparc/linux64.h
->> -@@ -78,8 +78,8 @@ along with GCC; see the file COPYING3.  If not see
->> +Index: gcc-11.3.0/gcc/config/sparc/linux64.h
->> +===================================================================
->> +--- gcc-11.3.0.orig/gcc/config/sparc/linux64.h
->> ++++ gcc-11.3.0/gcc/config/sparc/linux64.h
->> +@@ -78,8 +78,8 @@ along with GCC; see the file COPYING3.
->>      When the -shared link option is used a final link is not being
->>      done.  */
->>
->> diff --git a/meta/recipes-devtools/gcc/gcc/0009-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch b/meta/recipes-devtools/gcc/gcc/0009-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch
->> index ac139542f1..0f94936140 100644
->> --- a/meta/recipes-devtools/gcc/gcc/0009-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch
->> +++ b/meta/recipes-devtools/gcc/gcc/0009-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch
->> @@ -18,13 +18,13 @@ Upstream-Status: Pending
->>   gcc/config/arm/linux-eabi.h | 6 +++++-
->>   1 file changed, 5 insertions(+), 1 deletion(-)
->>
->> -diff --git a/gcc/config/arm/linux-eabi.h b/gcc/config/arm/linux-eabi.h
->> -index 6bd95855827..77befab5da8 100644
->> ---- a/gcc/config/arm/linux-eabi.h
->> -+++ b/gcc/config/arm/linux-eabi.h
->> +Index: gcc-11.3.0/gcc/config/arm/linux-eabi.h
->> +===================================================================
->> +--- gcc-11.3.0.orig/gcc/config/arm/linux-eabi.h
->> ++++ gcc-11.3.0/gcc/config/arm/linux-eabi.h
->>  @@ -91,10 +91,14 @@
->>   #define MUSL_DYNAMIC_LINKER \
->> -   "/lib/ld-musl-arm" MUSL_DYNAMIC_LINKER_E "%{mfloat-abi=hard:hf}%{mfdpic:-fdpic}.so.1"
->> +   SYSTEMLIBS_DIR "ld-musl-arm" MUSL_DYNAMIC_LINKER_E "%{mfloat-abi=hard:hf}%{mfdpic:-fdpic}.so.1"
->>
->>  +/* For armv4 we pass --fix-v4bx to linker to support EABI */
->>  +#undef TARGET_FIX_V4BX_SPEC
->> diff --git a/meta/recipes-devtools/gcc/gcc/0019-nios2-Define-MUSL_DYNAMIC_LINKER.patch b/meta/recipes-devtools/gcc/gcc/0019-nios2-Define-MUSL_DYNAMIC_LINKER.patch
->> deleted file mode 100644
->> index 76ebfd7f77..0000000000
->> --- a/meta/recipes-devtools/gcc/gcc/0019-nios2-Define-MUSL_DYNAMIC_LINKER.patch
->> +++ /dev/null
->> @@ -1,25 +0,0 @@
->> -From 9ec4db8e910d9a51ae43f6b20d4bf1dac2d8cca8 Mon Sep 17 00:00:00 2001
->> -From: Khem Raj <raj.khem@gmail.com>
->> -Date: Tue, 2 Feb 2016 10:26:10 -0800
->> -Subject: [PATCH] nios2: Define MUSL_DYNAMIC_LINKER
->> -
->> -Upstream-Status: Backport [https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=e5ddbbf992b909d8e38851bd3179d29389e6ac97]
->> -
->> -Signed-off-by: Marek Vasut <marex@denx.de>
->> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ----
->> - gcc/config/nios2/linux.h | 1 +
->> - 1 file changed, 1 insertion(+)
->> -
->> -diff --git a/gcc/config/nios2/linux.h b/gcc/config/nios2/linux.h
->> -index 08edf1521f6..15696d86241 100644
->> ---- a/gcc/config/nios2/linux.h
->> -+++ b/gcc/config/nios2/linux.h
->> -@@ -30,6 +30,7 @@
->> - #define CPP_SPEC "%{posix:-D_POSIX_SOURCE} %{pthread:-D_REENTRANT}"
->> -
->> - #define GLIBC_DYNAMIC_LINKER "/lib/ld-linux-nios2.so.1"
->> -+#define MUSL_DYNAMIC_LINKER  "/lib/ld-musl-nios2.so.1"
->> -
->> - #undef LINK_SPEC
->> - #define LINK_SPEC LINK_SPEC_ENDIAN \
->> --
->> 2.39.0
->>
->>
->> -=-=-=-=-=-=-=-=-=-=-=-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#175962): https://lists.openembedded.org/g/openembedded-core/message/175962
->> Mute This Topic: https://lists.openembedded.org/mt/96302818/1997914
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
->> -=-=-=-=-=-=-=-=-=-=-=-
->>
+>    libgcc_s.so.1 must be installed for pthread_cancel to work
+>    Aborted
+>
+> which is since we don't have a libgcc that matches libpthread. Add libgcc
+> to avoid these errors.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/recipes-core/meta/uninative-tarball.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-core/meta/uninative-tarball.bb
+> b/meta/recipes-core/meta/uninative-tarball.bb
+> index a21d08b591c..4aecf39b890 100644
+> --- a/meta/recipes-core/meta/uninative-tarball.bb
+> +++ b/meta/recipes-core/meta/uninative-tarball.bb
+> @@ -20,6 +20,7 @@ TOOLCHAIN_HOST_TASK =3D "\
+>      nativesdk-libxcrypt-compat \
+>      nativesdk-libnss-nis \
+>      nativesdk-sdk-provides-dummy \
+> +    nativesdk-libgcc \
+>      "
+>
+>  INHIBIT_DEFAULT_DEPS =3D "1"
+> --
+> 2.37.2
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#175684):
+> https://lists.openembedded.org/g/openembedded-core/message/175684
+> Mute This Topic: https://lists.openembedded.org/mt/96152280/5052612
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> quaresma.jose@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
+
+--00000000000050f48805f2667d09
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi=C2=A0Richard,<br><br>I am seeing some build errors=C2=
+=A0like this at the end of the build whre bibake segment fault.<br>My probl=
+em is this happens on a build that doesn&#39;t=C2=A0use uninative,<div>does=
+ bitbake require uninative to build on master?<div><div><br>This is my buil=
+d log where=C2=A0bitbake crash at the end:<br><br>INFO: Build completion su=
+mmary:<br>INFO: =C2=A0 do_populate_sysroot: 100.0% sstate reuse(387 setscen=
+e, 0 scratch)<br>INFO: =C2=A0 do_deploy_source_date_epoch: 100.0% sstate re=
+use(5 setscene, 0 scratch)<br>INFO: =C2=A0 do_deploy_archives: 100.0% sstat=
+e reuse(400 setscene, 0 scratch)<br>INFO: =C2=A0 do_create_spdx: 100.0% sst=
+ate reuse(364 setscene, 0 scratch)<br>INFO: =C2=A0 do_create_runtime_spdx: =
+100.0% sstate reuse(342 setscene, 0 scratch)<br>INFO: =C2=A0 do_package_qa:=
+ 100.0% sstate reuse(243 setscene, 0 scratch)<br>INFO: =C2=A0 do_package: 1=
+00.0% sstate reuse(26 setscene, 0 scratch)<br>INFO: =C2=A0 do_packagedata: =
+100.0% sstate reuse(243 setscene, 0 scratch)<br>INFO: =C2=A0 do_package_wri=
+te_ipk: 100.0% sstate reuse(243 setscene, 0 scratch)<br>INFO: =C2=A0 do_pop=
+ulate_lic: 100.0% sstate reuse(395 setscene, 0 scratch)<br>INFO: Writing bu=
+ildhistory<br>INFO: Writing buildhistory took: 10 seconds<br>libgcc_s.so.1 =
+must be installed for pthread_cancel to work<br>/lmp/bb-build.sh: line 24: =
+91770 Aborted =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (core=
+ dumped) bitbake -D ...<div><br></div><div>Jose<br><br></div></div></div></=
+div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_at=
+tr">Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org=
+" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt; escreveu no =
+dia segunda, 9/01/2023 =C3=A0(s) 13:49:<br></div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
+,204);padding-left:1ex">We ship libpthread with uninative. when uninative i=
+s active we&#39;re seeing<br>
+failures like:<br>
+<br>
+=C2=A0 =C2=A0libgcc_s.so.1 must be installed for pthread_cancel to work<br>
+=C2=A0 =C2=A0Aborted<br>
+<br>
+which is since we don&#39;t have a libgcc that matches libpthread. Add libg=
+cc<br>
+to avoid these errors.<br>
+<br>
+Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
+ndation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<b=
+r>
+---<br>
+=C2=A0meta/recipes-core/meta/<a href=3D"http://uninative-tarball.bb" rel=3D=
+"noreferrer" target=3D"_blank">uninative-tarball.bb</a> | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
+<br>
+diff --git a/meta/recipes-core/meta/<a href=3D"http://uninative-tarball.bb"=
+ rel=3D"noreferrer" target=3D"_blank">uninative-tarball.bb</a> b/meta/recip=
+es-core/meta/<a href=3D"http://uninative-tarball.bb" rel=3D"noreferrer" tar=
+get=3D"_blank">uninative-tarball.bb</a><br>
+index a21d08b591c..4aecf39b890 100644<br>
+--- a/meta/recipes-core/meta/<a href=3D"http://uninative-tarball.bb" rel=3D=
+"noreferrer" target=3D"_blank">uninative-tarball.bb</a><br>
++++ b/meta/recipes-core/meta/<a href=3D"http://uninative-tarball.bb" rel=3D=
+"noreferrer" target=3D"_blank">uninative-tarball.bb</a><br>
+@@ -20,6 +20,7 @@ TOOLCHAIN_HOST_TASK =3D &quot;\<br>
+=C2=A0 =C2=A0 =C2=A0nativesdk-libxcrypt-compat \<br>
+=C2=A0 =C2=A0 =C2=A0nativesdk-libnss-nis \<br>
+=C2=A0 =C2=A0 =C2=A0nativesdk-sdk-provides-dummy \<br>
++=C2=A0 =C2=A0 nativesdk-libgcc \<br>
+=C2=A0 =C2=A0 =C2=A0&quot;<br>
+<br>
+=C2=A0INHIBIT_DEFAULT_DEPS =3D &quot;1&quot;<br>
+-- <br>
+2.37.2<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#175684): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/175684" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/175684</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/96152280/5052=
+612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/96152280/5052612</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
+arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div=
+>
+
+--00000000000050f48805f2667d09--
 
