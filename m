@@ -1,140 +1,136 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8AEDC46467
-	for <webhook@archiver.kernel.org>; Mon, 16 Jan 2023 16:31:38 +0000 (UTC)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web10.171306.1673886693853599225
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C485AC46467
+	for <webhook@archiver.kernel.org>; Mon, 16 Jan 2023 16:31:48 +0000 (UTC)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+ by mx.groups.io with SMTP id smtpd.web11.171537.1673886698461778090
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Jan 2023 08:31:34 -0800
+ Mon, 16 Jan 2023 08:31:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=Q12PpFO9;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.45, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f45.google.com with SMTP id mp20so22736041ejc.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 08:31:33 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Gtxb0cSY;
+ spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f41.google.com with SMTP id a11so3332541lfg.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 08:31:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=m3SdTDeDtuBQc7PJ9VnimarYIp5MD1YnsIwd5pOsu70=;
-        b=Q12PpFO9ApSDIcGxS4Woy8PcyKVhyYuxsAeFEn/dSnsnXKaF2BY0FC4441rzzprOS3
-         p1VGUO1nV2gNZ7BqLK2bppZMUYQmwXhvLwF46T82xxWzz8+abdsD9qwAlTjlKORE1SQ9
-         qY5iRDDgQjZ2SipOZ3Iy7MynG823/NzwMW9wmqp/L1wjqEnCJ/LAiUX2ophMI+G/If/q
-         ZrytOGZYrq1QMz7zW/aPpIbPLDYqNDNa+5aXxTbxNlTKcCZcUBYrYFrA9bJGm8wyV1is
-         8CLWUGRpLUife9tK/MOZZtmB7bXQWF0rhUMayh60fX2caD+RWPQWQEBmhykzKNdnllB2
-         x9FA==
+        bh=g8ViEdwyZkq6CoOA+8+PcjhosYt81zcjycCobfDd150=;
+        b=Gtxb0cSYDJMblC9HVxsCRxsB5HbKhJseJ/24+oBBjJGtSbUIZIpN+vgHTRepRvq5D9
+         1pJ5NJ3Uc0c3UXFzpm8sSG4h7UWdep8Yen9SOMZ9dgdUt6Pe2K61Nj9wLGraNSTx4KMV
+         UwUlfANU49Wvkn9IGRVRNS9ZznaqGGo65v50LAsQqjDGcHPF2eF/cFH4lq5oR75oCKHc
+         M5o8zYV/2MPnePpTEBGXeH5ws8l6yE3iujkmcsaRNezi8MdJ/IJklWbpSLDFN9bDAzlA
+         GKQE6hYNxEZuFmBEC6RX/IR/8QpCeI0R2cP9V63V9KPJ5N2IiIRFVhSxrPTbRujBvc90
+         evOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=m3SdTDeDtuBQc7PJ9VnimarYIp5MD1YnsIwd5pOsu70=;
-        b=eAeIEjMZUEPXr3J22KD4r2AR8C0WTGWkPo/3WAD87kcF3iDhLd+wjmUMtc2ElVIEYw
-         huWdUBofWUPjkhZYfS4uAi6QYfhghnpxDeZoPmB7vWfJ2j5Wj2j8ZS087WZEL7jaQQRt
-         o4yEHYCMsjU9Tlb1ZP/waJnaA4aOfdxIzgAsqia72Tvvn8iTOylZcd4qxY16yPVzloBT
-         Ke/HdalIN+vx3slFp+5W34Ea4Mr4eYwULPfsc6ArGNbG4+f3EBld4K+hexoOsEmrs4PO
-         7ZlL2SSugA4idR8RJ+kKKy1q++mFF/yisiP0ZSe6JBubtFBJzm5F4Bg+NAnutb6Yh/BG
-         cIrg==
-X-Gm-Message-State: AFqh2kopiwXIpuxSKUDUYQkKbICxn5DdtyK5nQumtpOwr3EhdGxuTzFQ
-	YXbqiIFMpIVL6+ZGiq8hu1eRJxRFX3sAGc4VjJhRnw==
-X-Google-Smtp-Source: AMrXdXu4CftlDwU4NN7Q8Ym2h7VN4yyc54ACE2DK7yenv9zM0DvXrP6mHdh8+wxOsRHI25kH7P5UUrK62Rw3lqFVKHM=
-X-Received: by 2002:a17:906:914b:b0:865:d677:1f6c with SMTP id
- y11-20020a170906914b00b00865d6771f6cmr1756912ejw.584.1673886692034; Mon, 16
- Jan 2023 08:31:32 -0800 (PST)
+        bh=g8ViEdwyZkq6CoOA+8+PcjhosYt81zcjycCobfDd150=;
+        b=bONfEIOL6sj8QhuT0yZ62sqA2sEUK3s7p/gOKKlHdsNCvZa/7cFQkxCRJXl8tWuchq
+         HWCmDkNpmR6Zcz37nqFBC56HLHOlV83kH8AkBC4iaqRT04eHN9KFf/V6xVfUyNRQztEJ
+         Ao9mXR7bBCM9if57QvKp5QECSTjgeqsmjY4Kg7+6uY24FMbLjYuv52AC2u3J6c29cCD1
+         U2V8msYsSVyZQzdApa8sEG3SK0Xn/HyDyRphfWji2k6RFjGOhmoLgnWL2PsU5ZI0B8T3
+         8B3DIsvc56OOipmiKIluIK6+8CvDELBW1HP6PDWjeQ1pKZDccZ9EZEdmbYUGvq9ACYAi
+         rgwA==
+X-Gm-Message-State: AFqh2kq3ZQYyZhIm8scRP9/BeY28kjISUhrfG2npUjgfkZA/TkO8aIJ1
+	tywEHkdlhShQsnAXm+H9A5JnmloQoVB8rQRYRDQ=
+X-Google-Smtp-Source: AMrXdXsrJsqHkhO9qZLi2u0DzpdD3Xd1Cl54aDewS78g+iSt9jvBLKEp8jQcDsonqqGZ4dYN2m2Od/85uS/FlZgZdEk=
+X-Received: by 2002:a05:6512:1107:b0:4cb:2508:f535 with SMTP id
+ l7-20020a056512110700b004cb2508f535mr4973669lfg.131.1673886696660; Mon, 16
+ Jan 2023 08:31:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20230116065843.19446-1-pavel@zhukoff.net> <CAMKF1sr6zMSx1JDt7Pmcw+BJbDeg-VUGvRGpCCoRwYmwN9nNmA@mail.gmail.com>
-In-Reply-To: <CAMKF1sr6zMSx1JDt7Pmcw+BJbDeg-VUGvRGpCCoRwYmwN9nNmA@mail.gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Mon, 16 Jan 2023 06:31:20 -1000
-Message-ID: <CAOSpxdZA6UG21u0iKibzndy_SYYNSBqm-0P=dieDWduneZfu1Q@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone][PATCH] gcc: Fix build with musl and
- usrmerge on arm
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Pavel Zhukov <pavel@zhukoff.net>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+References: <20230113145700.2773771-1-alex@linutronix.de> <20230113145700.2773771-6-alex@linutronix.de>
+ <BB6FF62C-5B13-435A-B707-B26ABE094FF9@arm.com>
+In-Reply-To: <BB6FF62C-5B13-435A-B707-B26ABE094FF9@arm.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 16 Jan 2023 17:31:25 +0100
+Message-ID: <CANNYZj_bibmoOX4ya0scYUkCjEjf6Rzr1uQN3KnbhgFiHDJcDw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 6/7] gdk-pixbuf: remove ptest support
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: Alexander Kanavin <alex@linutronix.de>, OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000f2e06605f2641d3f"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 16:31:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176001
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 16:31:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176002
 
-On Mon, Jan 16, 2023 at 5:31 AM Khem Raj <raj.khem@gmail.com> wrote:
->
->
->
-> On Sun, Jan 15, 2023 at 10:59 PM Pavel Zhukov <pavel@zhukoff.net> wrote:
->>
->> Backport fix from master to allow gcc to use proper linker path for
->> musl [Yocto #14977]
->
->
-> Lgtm
+--000000000000f2e06605f2641d3f
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Khem,
+On Mon 16. Jan 2023 at 17.10, Ross Burton <Ross.Burton@arm.com> wrote:
 
-Which of the two versions of the fix do you prefer that I take?
-
-Thanks!
-
-Steve
-
->> Fixes:
->> | qemu-arm: Could not open '/lib/ld-musl-armhf.so.1': No such file or directory
->>
->> Signed-off-by: Pavel Zhukov <pavel@zhukoff.net>
->> ---
->>  meta/recipes-devtools/gcc/gcc-11.3.inc         |  1 +
->>  .../gcc/0031-fix-musl-arm-with-usrmerge.patch  | 18 ++++++++++++++++++
->>  2 files changed, 19 insertions(+)
->>  create mode 100644 meta/recipes-devtools/gcc/gcc/0031-fix-musl-arm-with-usrmerge.patch
->>
->> diff --git a/meta/recipes-devtools/gcc/gcc-11.3.inc b/meta/recipes-devtools/gcc/gcc-11.3.inc
->> index 27074a06ae..2adb21ed84 100644
->> --- a/meta/recipes-devtools/gcc/gcc-11.3.inc
->> +++ b/meta/recipes-devtools/gcc/gcc-11.3.inc
->> @@ -60,6 +60,7 @@ SRC_URI = "\
->>             file://0028-debug-101473-apply-debug-prefix-maps-before-checksum.patch \
->>             file://0029-Fix-install-path-of-linux64.h.patch \
->>             file://0030-rust-recursion-limit.patch \
->> +           file://0031-fix-musl-arm-with-usrmerge.patch \
->>             file://0001-CVE-2021-42574.patch \
->>             file://0002-CVE-2021-42574.patch \
->>             file://0003-CVE-2021-42574.patch \
->> diff --git a/meta/recipes-devtools/gcc/gcc/0031-fix-musl-arm-with-usrmerge.patch b/meta/recipes-devtools/gcc/gcc/0031-fix-musl-arm-with-usrmerge.patch
->> new file mode 100644
->> index 0000000000..1408b65c64
->> --- /dev/null
->> +++ b/meta/recipes-devtools/gcc/gcc/0031-fix-musl-arm-with-usrmerge.patch
->> @@ -0,0 +1,18 @@
->> +Upstream-Status: Inappropriate [bugfix]
->> +
->> +The fix has been picked from OE-core ustream:
->> + 0007-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
->> +
->> +Index: gcc-11.3.0/gcc/config/arm/linux-eabi.h
->> +===================================================================
->> +--- gcc-11.3.0.orig/gcc/config/arm/linux-eabi.h
->> ++++ gcc-11.3.0/gcc/config/arm/linux-eabi.h
->> +@@ -89,7 +89,7 @@
->> + #define MUSL_DYNAMIC_LINKER_E "%{mbig-endian:eb}"
->> + #endif
->> + #define MUSL_DYNAMIC_LINKER \
->> +-  "/lib/ld-musl-arm" MUSL_DYNAMIC_LINKER_E "%{mfloat-abi=hard:hf}%{mfdpic:-fdpic}.so.1"
->> ++  SYSTEMLIBS_DIR "ld-musl-arm" MUSL_DYNAMIC_LINKER_E "%{mfloat-abi=hard:hf}%{mfdpic:-fdpic}.so.1"
->> +
->> + /* For armv4 we pass --fix-v4bx to linker to support EABI */
->> + #undef TARGET_FIX_V4BX_SPEC
->> --
->> 2.39.0
->>
+> On 13 Jan 2023, at 14:56, Alexander Kanavin via lists.openembedded.org
+> <alex.kanavin=3Dgmail.com@lists.openembedded.org> wrote:
+> >
+> > Moving to x86-64-v3 instructions revealed that the recipe was doing an
+> entirely
+> > incorrect thing: running native gdk-pixbuf-query-loaders executable
+> against the target set
+> > of loader .so binaries. This worked, but only by coincidence, and no
+> longer
+> > works on build hosts that do not support v3 instructions.
+> >
+> > Re-enabling installed tests in a cross compile scenario requires a
+> complete
+> > re-think (against the need to run gdk-pixbuf executables to produce the
+> tests),
+> > and is best done upstream, so sadly the cross-testing has to be dropped
+> > for now.
 >
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#175997): https://lists.openembedded.org/g/openembedded-core/message/175997
-> Mute This Topic: https://lists.openembedded.org/mt/96302404/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+> So what happened in a proper cross environment where the native tools
+> can=E2=80=99t open the target .so?
+
+
+The tool prints failure to load messages, concludes that no loaders are
+available and writes out an empty cache file.
+
+Alex
+
+--000000000000f2e06605f2641d3f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>On Mon 16. Jan 2023 at 17.10, Ross Burton &lt;<a href=3D"mailto:Ross.B=
+urton@arm.com">Ross.Burton@arm.com</a>&gt; wrote:<br></div><div><div class=
+=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;bo=
+rder-left-color:rgb(204,204,204)" dir=3D"auto">On 13 Jan 2023, at 14:56, Al=
+exander Kanavin via <a href=3D"http://lists.openembedded.org" rel=3D"norefe=
+rrer" target=3D"_blank">lists.openembedded.org</a> &lt;alex.kanavin=3D<a hr=
+ef=3D"mailto:gmail.com@lists.openembedded.org" target=3D"_blank">gmail.com@=
+lists.openembedded.org</a>&gt; wrote:<br>
+&gt; <br>
+&gt; Moving to x86-64-v3 instructions revealed that the recipe was doing an=
+ entirely<br>
+&gt; incorrect thing: running native gdk-pixbuf-query-loaders executable ag=
+ainst the target set<br>
+&gt; of loader .so binaries. This worked, but only by coincidence, and no l=
+onger<br>
+&gt; works on build hosts that do not support v3 instructions.<br>
+&gt; <br>
+&gt; Re-enabling installed tests in a cross compile scenario requires a com=
+plete<br>
+&gt; re-think (against the need to run gdk-pixbuf executables to produce th=
+e tests),<br>
+&gt; and is best done upstream, so sadly the cross-testing has to be droppe=
+d<br>
+&gt; for now.<br>
+<br>
+So what happened in a proper cross environment where the native tools can=
+=E2=80=99t open the target .so?</blockquote><div dir=3D"auto"><br></div><di=
+v dir=3D"auto">The tool prints failure to load messages, concludes that no =
+loaders are available and writes out an empty cache file.</div><div dir=3D"=
+auto"><br></div><div dir=3D"auto">Alex</div><div dir=3D"auto"><br></div><di=
+v dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-lef=
+t:1ex;border-left-color:rgb(204,204,204)" dir=3D"auto"></blockquote></div><=
+/div>
+
+--000000000000f2e06605f2641d3f--
 
