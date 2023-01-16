@@ -1,132 +1,175 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC745C54EBE
-	for <webhook@archiver.kernel.org>; Mon, 16 Jan 2023 09:36:26 +0000 (UTC)
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
- by mx.groups.io with SMTP id smtpd.web11.162814.1673861781412378971
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D9A1C63797
+	for <webhook@archiver.kernel.org>; Mon, 16 Jan 2023 10:33:57 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web10.163492.1673865236471771388
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Jan 2023 01:36:21 -0800
+ Mon, 16 Jan 2023 02:33:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=j0DKPoQl;
- spf=pass (domain: gmail.com, ip: 209.85.208.176, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f176.google.com with SMTP id x37so29385978ljq.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 01:36:21 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=hG4xGtzS;
+ spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f45.google.com with SMTP id j34-20020a05600c1c2200b003da1b054057so7546515wms.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 02:33:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BvHAtGv5MSCHqJUYNJnsWEz8ygo2faZUTeqSJknp22s=;
-        b=j0DKPoQlHz4NPwx/l1N5tCyOgP2c1AczeNQLa/ZnZlMxj50IbHixpH9dzAQi2f658P
-         gpdnpfxjTUiMEDXiYZ96bANEjvaOBTZOULWp+auS4zcTsSmVBf0KSQfQA+mRYUfJSXvh
-         Iy5CcyCHMQ4CfeHwcMwBUHDbwqjZOO24YF9c31erNcV3hbs7boci0kvhOrbaUwrosjlO
-         73Z2tnexqemgZKValiJwQPEwX+ErOoyDzR/MUSXQ69mc4E04BE9ivTWBJxpNYesH4CXe
-         VC5itzbiJ5eY26I6QlQ8Bi7RoQfT7M2gQ1cwRGH0RsRAhL5twDhlZY24Fr/GcT/CPLv2
-         ZYdw==
+        bh=8pqGoJ9qK9saYMRUtmRFHbdPXfP2KbuFcBlgpRmfdq0=;
+        b=hG4xGtzSGaOrW8HutNJ6rk9p55gIyRXhJOS199QaWaC5GOT+g4K64763IzyPQDc/fg
+         a+hIJC69RheK6Hk3vrh/FxfKXWD0LvMxYXkXkpFIkkouCw2NF/YffkbHRVPhGWndwSBs
+         cWMRzIKcnMN93TwNjMIbsa4kkStgLdjSlOykc/udTcC4W/ioMnCvCyaQNs2C4LgCO+E/
+         SJfQmHEJjLewAPlhhUTDPlLGiBveZXj0eGgvgNbeblrE2LXTV8VWjc3BOaAtspjwovxm
+         kJ+hRYcNx9fc04UxXEH+X8f8B9H0lqLAElhvaQRrYzsZtUHXyyQiNLanzK3jd8PqCogS
+         rmpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BvHAtGv5MSCHqJUYNJnsWEz8ygo2faZUTeqSJknp22s=;
-        b=DwjkHntHRjDu92oAP+5xkP/BJcpfQq8jv9VgERte9PZr6gY7fPTbrnsHRvFbMrKUv8
-         /4H6JK01dWXhgNGfpSkv+4siLH5XkEa7fRcgyql4hoVaxhEEmFzPD3wzJjWuvf1ICuz/
-         IcNsVFNrClgyNiRXfNr0Nbu7AdyziKGF1m83l6F6hbtJk2KUhE2DR2DnaFyqcNRJFKRK
-         zdl+RO+s8xNs1lauX3ZKXtGUxehjPFflvDCOo1gJcgHD+Pne/Wk5SUmK68g/N+fVVDIH
-         6K2s3mBdRHARu4UVb1QzZx2LV+UTeqtrYNtf32XEflwd2wd/x2ZL+MHfFyluew8Zzr+D
-         zB7w==
-X-Gm-Message-State: AFqh2kppr/XRPTe5sJ7A6arM6NkoHzfZJ4n5t8aHTHoTI/m8dkPeQ8p3
-	7LlLg+7Hudj9OaIpz5t+LcTQcRjQ/UGDRsHAjBpt9yBj
-X-Google-Smtp-Source: AMrXdXsE6t0395S3GPqlJY/s6otCXa4Sq7LaKOGTGlCsf0oL+q4mw2Zn4KuwfH/xvnOTSKkqexjYvKAfOB1g0R7Y6k4=
-X-Received: by 2002:a2e:a26c:0:b0:28b:8da3:57b0 with SMTP id
- k12-20020a2ea26c000000b0028b8da357b0mr144219ljm.403.1673861779134; Mon, 16
- Jan 2023 01:36:19 -0800 (PST)
+        bh=8pqGoJ9qK9saYMRUtmRFHbdPXfP2KbuFcBlgpRmfdq0=;
+        b=bUFfDFwjh48ILK9dK5C7hrE0s4Skproie9s7o2+0zGsDEToRjng42pWzz5NyfIYPWI
+         HO0xmLUiTFtK2cvdpI0FshPD2UYt5WAsXSa/Junsju9lgX5A1Yx5n47iEL0ZNFWa+m/8
+         By5tu1KbWGxCZ/CTYuA0WJ4H0wNRa0nWx08z6o9aomM7IyJXO4y87a6zifZufIaaK0u5
+         ZFp78Vu9/nR9K6YT+xw2NaOEfRmlt4YB7VFNOboAMTCS3nqCX1FMcG9k0BpOIC/Z/Dj0
+         P35T28qRfNuFA21y1ioNwJH524LqRIzikWp+I0+sJxPWtqZ8LliXEan2V5gt7DLsXsQk
+         sKZQ==
+X-Gm-Message-State: AFqh2kroHUe04jfDgqcIhdLH8ANW/I0FGaOOBfrj+hnEFEh0HxCbD+jB
+	/PRx6SO2f4GXxmnLoLLj1i6ZWHgXcvZ6JrsJiAs=
+X-Google-Smtp-Source: AMrXdXt3Dj8vdSMcdosIIsXhKBuVRtykiqY+ZXaoArbm27uP+RC/2geqdJsumNWf0PFoFUrLFdR27mskm5ErWUKwFI4=
+X-Received: by 2002:a05:600c:310f:b0:3da:dbb:5ee0 with SMTP id
+ g15-20020a05600c310f00b003da0dbb5ee0mr1096802wmo.2.1673865234446; Mon, 16 Jan
+ 2023 02:33:54 -0800 (PST)
 MIME-Version: 1.0
-References: <20230116084809.16470-1-Qi.Chen@windriver.com> <CANNYZj9h_X1dKVuPfC+OpL4VOA-=nRy54eZHvrDfieW6AM4vWA@mail.gmail.com>
- <CO6PR11MB560292113F663792C30B79DFEDC19@CO6PR11MB5602.namprd11.prod.outlook.com>
-In-Reply-To: <CO6PR11MB560292113F663792C30B79DFEDC19@CO6PR11MB5602.namprd11.prod.outlook.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 16 Jan 2023 10:36:07 +0100
-Message-ID: <CANNYZj-_JUSs8gTBF5YgVpFrj5xPx322KPA0QXnhWxqEF2JCBg@mail.gmail.com>
+References: <20230116084809.16470-1-Qi.Chen@windriver.com>
+In-Reply-To: <20230116084809.16470-1-Qi.Chen@windriver.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 16 Jan 2023 11:33:42 +0100
+Message-ID: <CA+chaQe990PE-tB_r-VEvRjAoDhP1pZgNmhUrdouo7686XjYvQ@mail.gmail.com>
 Subject: Re: [OE-core][PATCH] rpm: make nativesdk-rpm rdepend on nativesdk-file
-To: "Chen, Qi" <Qi.Chen@windriver.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000b3803105f25f1e96"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 09:36:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175968
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 10:33:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175969
 
-Thanks, it's fine then.
+--000000000000b3803105f25f1e96
+Content-Type: text/plain; charset="UTF-8"
 
-Alex
+Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
 
-On Mon, 16 Jan 2023 at 10:26, Chen, Qi <Qi.Chen@windriver.com> wrote:
+On Mon, Jan 16, 2023 at 9:48 AM Chen Qi <Qi.Chen@windriver.com> wrote:
+
+> For now, running `file' inside SDK errors out.
+>   file: could not find any valid magic files!
 >
-> This is because the MAGIC var is pointing a file that does not exist. And the file is provided by nativesdk-file.
+> This is because nativesdk-rpm exports MAGIC. So let's
+> make nativesdk-rpm depend on file for better user
+> experiences.
 >
-> Some of the strace output:
-> openat(AT_FDCWD, "/buildarea2/chenqi/builds/build-poky-sysvinit/sdkinst/sysroots/x86_64-pokysdk-linux/usr/share/misc/magic.mgc", O_RDONLY) = -1 ENOENT (No such file or directory)
-> stat("/buildarea2/chenqi/builds/build-poky-sysvinit/sdkinst/sysroots/x86_64-pokysdk-linux/usr/share/misc/magic.mgc", 0x7ffcddb11330) = -1 ENOENT (No such file or directory)
-> openat(AT_FDCWD, "/buildarea2/chenqi/builds/build-poky-sysvinit/sdkinst/sysroots/x86_64-pokysdk-linux/usr/share/misc/magic.mgc", O_RDONLY) = -1 ENOENT (No such file or directory)
-> write(2, "file: could not find any valid m"..., 44) = 44
-> exit_group(1)                           = ?
-> +++ exited with 1 +++
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/recipes-devtools/rpm/rpm_4.18.0.bb | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> Regards,
-> Qi
+> diff --git a/meta/recipes-devtools/rpm/rpm_4.18.0.bb
+> b/meta/recipes-devtools/rpm/rpm_4.18.0.bb
+> index 8eb0ab207e..3b7d4d640a 100644
+> --- a/meta/recipes-devtools/rpm/rpm_4.18.0.bb
+> +++ b/meta/recipes-devtools/rpm/rpm_4.18.0.bb
+> @@ -188,6 +188,7 @@ PROVIDES += "python3-rpm"
+>  FILES:python3-rpm = "${PYTHON_SITEPACKAGES_DIR}/rpm/*"
 >
-> -----Original Message-----
-> From: Alexander Kanavin <alex.kanavin@gmail.com>
-> Sent: Monday, January 16, 2023 5:18 PM
-> To: Chen, Qi <Qi.Chen@windriver.com>
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core][PATCH] rpm: make nativesdk-rpm rdepend on nativesdk-file
+>  RDEPENDS:${PN}-build = "bash perl python3-core"
+> +RDEPENDS:nativesdk-rpm += "nativesdk-file"
 >
-> I'm not sure I understand the issue. Why isn't file from the host working properly in the presence of the MAGIC env var?
+>  PACKAGE_PREPROCESS_FUNCS += "rpm_package_preprocess"
 >
-> Alex
+> --
+> 2.17.1
 >
-> On Mon, 16 Jan 2023 at 09:48, Chen Qi <Qi.Chen@windriver.com> wrote:
-> >
-> > For now, running `file' inside SDK errors out.
-> >   file: could not find any valid magic files!
-> >
-> > This is because nativesdk-rpm exports MAGIC. So let's make
-> > nativesdk-rpm depend on file for better user experiences.
-> >
-> > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> > ---
-> >  meta/recipes-devtools/rpm/rpm_4.18.0.bb | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/meta/recipes-devtools/rpm/rpm_4.18.0.bb
-> > b/meta/recipes-devtools/rpm/rpm_4.18.0.bb
-> > index 8eb0ab207e..3b7d4d640a 100644
-> > --- a/meta/recipes-devtools/rpm/rpm_4.18.0.bb
-> > +++ b/meta/recipes-devtools/rpm/rpm_4.18.0.bb
-> > @@ -188,6 +188,7 @@ PROVIDES += "python3-rpm"
-> >  FILES:python3-rpm = "${PYTHON_SITEPACKAGES_DIR}/rpm/*"
-> >
-> >  RDEPENDS:${PN}-build = "bash perl python3-core"
-> > +RDEPENDS:nativesdk-rpm += "nativesdk-file"
-> >
-> >  PACKAGE_PREPROCESS_FUNCS += "rpm_package_preprocess"
-> >
-> > --
-> > 2.17.1
-> >
-> >
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#175963):
-> > https://lists.openembedded.org/g/openembedded-core/message/175963
-> > Mute This Topic: https://lists.openembedded.org/mt/96303256/1686489
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
-> > [alex.kanavin@gmail.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> >
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#175963):
+> https://lists.openembedded.org/g/openembedded-core/message/175963
+> Mute This Topic: https://lists.openembedded.org/mt/96303256/3617156
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> Martin.Jansa@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--000000000000b3803105f25f1e96
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Acked-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@=
+gmail.com">Martin.Jansa@gmail.com</a>&gt;<br></div><br><div class=3D"gmail_=
+quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jan 16, 2023 at 9:48 A=
+M Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com">Qi.Chen@windriver.co=
+m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+>For now, running `file&#39; inside SDK errors out.<br>
+=C2=A0 file: could not find any valid magic files!<br>
+<br>
+This is because nativesdk-rpm exports MAGIC. So let&#39;s<br>
+make nativesdk-rpm depend on file for better user<br>
+experiences.<br>
+<br>
+Signed-off-by: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com" target=
+=3D"_blank">Qi.Chen@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-devtools/rpm/<a href=3D"http://rpm_4.18.0.bb" rel=3D"nor=
+eferrer" target=3D"_blank">rpm_4.18.0.bb</a> | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
+<br>
+diff --git a/meta/recipes-devtools/rpm/<a href=3D"http://rpm_4.18.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">rpm_4.18.0.bb</a> b/meta/recipes-devtools=
+/rpm/<a href=3D"http://rpm_4.18.0.bb" rel=3D"noreferrer" target=3D"_blank">=
+rpm_4.18.0.bb</a><br>
+index 8eb0ab207e..3b7d4d640a 100644<br>
+--- a/meta/recipes-devtools/rpm/<a href=3D"http://rpm_4.18.0.bb" rel=3D"nor=
+eferrer" target=3D"_blank">rpm_4.18.0.bb</a><br>
++++ b/meta/recipes-devtools/rpm/<a href=3D"http://rpm_4.18.0.bb" rel=3D"nor=
+eferrer" target=3D"_blank">rpm_4.18.0.bb</a><br>
+@@ -188,6 +188,7 @@ PROVIDES +=3D &quot;python3-rpm&quot;<br>
+=C2=A0FILES:python3-rpm =3D &quot;${PYTHON_SITEPACKAGES_DIR}/rpm/*&quot;<br=
+>
+<br>
+=C2=A0RDEPENDS:${PN}-build =3D &quot;bash perl python3-core&quot;<br>
++RDEPENDS:nativesdk-rpm +=3D &quot;nativesdk-file&quot;<br>
+<br>
+=C2=A0PACKAGE_PREPROCESS_FUNCS +=3D &quot;rpm_package_preprocess&quot;<br>
+<br>
+-- <br>
+2.17.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#175963): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/175963" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/175963</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/96303256/3617=
+156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/96303256/3617156</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:Martin.Jansa@gmail.com" ta=
+rget=3D"_blank">Martin.Jansa@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--000000000000b3803105f25f1e96--
 
