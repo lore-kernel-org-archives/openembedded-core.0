@@ -1,200 +1,273 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0213C46467
-	for <webhook@archiver.kernel.org>; Mon, 16 Jan 2023 12:48:07 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.165518.1673873279781780178
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0E31C54EBE
+	for <webhook@archiver.kernel.org>; Mon, 16 Jan 2023 12:56:37 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web11.165673.1673873791961195184
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Jan 2023 04:48:00 -0800
+ Mon, 16 Jan 2023 04:56:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=jkXUEC75;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=03803bb0c9=qi.chen@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30GAxBxe009052
-	for <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 12:47:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=PPS06212021;
- bh=xw8QzKjPBfGbtit175f9xbRP+58o/Qb3CDdE/F+dje0=;
- b=jkXUEC75WWVQd2vKzZgiKHvknJYgJTWVpCi9oixZFqXrc6Oyfxl+tYq/P/s8EBK0b4C7
- o7SMXHK17DA/J89/PBGGv7ZDV8dy6wNVezVkt80Sago5lw1Dx2oteRJzn0DDdZi+ClsC
- fhxZheLGlxT6YBJBLlFMQKzyQDDAMnc2l6MabPCzWt0PoN68nfjcEYQHj/JmVJ72y9ho
- Fk61VdPJk7jix7MMKLB0fxM/H87k4UHkSZaGONOFhGTKetFHfvf5qttg4uf9RZFnDe95
- LuxWOtJrdvk/MP0L5KihSZf49kJz3Ki8r7UlsvXhCbv445ifsPcWPMdXOXQXVq8f08aJ uA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3n3kc89wyr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 12:47:58 +0000
-Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30GCjbZj012754
-	for <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 12:47:58 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2170.outbound.protection.outlook.com [104.47.59.170])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3n3kc89wyq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 16 Jan 2023 12:47:58 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Xv0osVh1i9PILyNxLEHa84uOO+UJaezn1SHuD938+kty/G1Kqto54KrH6V7GBQmxAArS/CADxMKjfiSyM6TgujehB5toDsAmEw5A+TZn1epGEK5B6dEkqipvj1+pPQW6KyNcL7BvQgJhL80YYod1aP7QD7JJbe+0WN84HM2BHhGpo1m6rrXywZE7lnQUFqwkVNplUP0dzsPeP5clrjFv428CXDTjqLAKppNdhkbIYp/CL29+WSuZ34W1zd0W7XjMuUtYrTbYNETyBy+76+36fpOhOEuH9JU//bBGH1DnXx46PMzm0u/DZel1dH2kHpazVz1o9KclNouDmZVAbOqfrQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xw8QzKjPBfGbtit175f9xbRP+58o/Qb3CDdE/F+dje0=;
- b=XTsPvbP68KeoGDrQVTKPTLzYQQXVkh2FbeBjEu7SgRZYCf7K8ShTh9jaJmDDos8KFLCc4iIqIg4pvODVhYecmMq4icHadYr6urI9FTW3l1fO4zWwhKcK2YX07OCocZSFwE8YC7cs/n/+pqLbsLvBHRZ7rIaWb+PYHycLU43nSDx2wjvzXZ7Co/+WJc7opoKmawG9/XRS4cFBVrlZL5kUs6WgelPew/4Kj5BbIuQLHVqPeuwhP+7zmjWlpFoVcV5oPjHeeWG6lGOIrUq5maEP6es8bqipAM48tLGU9EIUKybeQiYJprwSgo/xpmzmlBOnF5q+QAGQ580WsCtFqiX/Ig==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by CH3PR11MB7370.namprd11.prod.outlook.com (2603:10b6:610:14e::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.21; Mon, 16 Jan
- 2023 12:47:56 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::3b28:4c3d:1225:fff7]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::3b28:4c3d:1225:fff7%9]) with mapi id 15.20.6002.013; Mon, 16 Jan 2023
- 12:47:56 +0000
-From: "Chen, Qi" <Qi.Chen@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-        "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-        Martin Jansa
-	<martin.jansa@gmail.com>
-Subject: RE: [OE-core][PATCH] rpm: make nativesdk-rpm rdepend on
- nativesdk-file
-Thread-Topic: [OE-core][PATCH] rpm: make nativesdk-rpm rdepend on
- nativesdk-file
-Thread-Index: AQHZKYdLXC5S7rwzmUaAsaE+qYJX066g5FWkgAAZTxA=
-Date: Mon, 16 Jan 2023 12:47:56 +0000
-Message-ID: 
- <CO6PR11MB560236EA3C3AD9FAAB0B70CCEDC19@CO6PR11MB5602.namprd11.prod.outlook.com>
-References: <20230116084809.16470-1-Qi.Chen@windriver.com>
-	 <173AC3E18715B47D.23170@lists.openembedded.org>
- <729210c666036a1fe57866f8b10326a9768873a9.camel@linuxfoundation.org>
-In-Reply-To: 
- <729210c666036a1fe57866f8b10326a9768873a9.camel@linuxfoundation.org>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CO6PR11MB5602:EE_|CH3PR11MB7370:EE_
-x-ms-office365-filtering-correlation-id: d140bddb-9b09-4d55-328e-08daf7bfe41f
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- jXTfXMRCFptvkydQlWiRGwptbyiE50kkUaiKhh3iVC70bkhYcPr99N1YS6gcN8XHGNv4uxP9RPqnuqSbj2vH2Gd8t0d04tor0KuNBga+kIajK+GSEKhOLQT5v6bCi1c50UjBzZtsjDsDsF/M4F6n5PnW5l91dZzh+E2YbiuAMeLN+Xvcl8XgEkXwkbnkeNQUDwrsFrignMnaRtEV8/cg2xsHOhmcnFqGg36fqAjsmHBetaXsyLqxiMCAo8vhGegtrEbrvlkZiy/Gfac0GNXzvxKwzDO8l7B6d5CDWXoyWyfhmMk16/C+R8O0aR1Vy+6xhF8VNV/3Se3VbYOL9IEWyRTr4WLmHmX3bcrrBrvEqp6WkQvjuLFO9yzDzgAj4NHK579cK31tEdTQt2+aVQOcJEzCmfHnC2wkyjUmozAnM3qEDzdt41wTdWOYOH86rW1XV4RZ2HrtCryO5zgMvRmg17nLBaxmPDmUqmfktQmdCRkjtixpCJVpWqIlQJo/P4qowevNcMYepynAhAmWKCwrJKwR8qNmljoyHf+177iyftNVYGWTzo9nhPgdjcE2wx4ZBcqYePqILjr8ty2EmUnR9ych0kOUPMWjsJS0EJ4kCFUyZSV1kFlmIGeVAHlarrrW8RUsyWCTBG6CwnRxhFo6PFcBNAVW0wxvlQ98ohIJ2dkx0kHSGHkaMHyWSZ0+UEPHHcljJ3l1+tfzo+uafA8NFw==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(396003)(136003)(366004)(346002)(39850400004)(451199015)(316002)(110136005)(33656002)(71200400001)(41300700001)(8676002)(86362001)(66946007)(76116006)(66556008)(66476007)(66446008)(64756008)(83380400001)(38070700005)(38100700002)(122000001)(478600001)(55016003)(186003)(26005)(7696005)(9686003)(6506007)(53546011)(2906002)(8936002)(52536014)(5660300002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?ajk5eXB1N3JGZHpJV2Q1WWxiK1hENm1OWUc0MDEySFgxd0tFaHpHaDZBMDlv?=
- =?utf-8?B?ZWFLTWxSM3ZwekxUMUF4dnpLRUs1M2d0ajRxeGxKTWNSbkgzTTkvKzAwUnpY?=
- =?utf-8?B?WlZVdWhUUXlPMXg5TkkwTGkwVVd4Y0szU29GbG5TMTVYdTY1dkYrS09VWVdo?=
- =?utf-8?B?bk1CakZWUzNtQmhyZ0FQYlZrT0luTUYxcXk5SkwwOHNVL2tEUGlJYXlyaU95?=
- =?utf-8?B?Yk5PeXdLOEFmaHVTUnF5ZVhzSFRUeWFhVTM5L25zMUtWZFFVRFhLUkJxckp1?=
- =?utf-8?B?VVRWS3RDMk9BOUMzY2xHUjg2ZWpsRzVNaTAvM3F5SEs5NHl1eDcrQTlFTlho?=
- =?utf-8?B?UzhVRW1Zb0ZrRkovYmROWU0xKzhPZm96T091NjdQd2RNbjRPandYbFUwNTU2?=
- =?utf-8?B?R2pVbUR6RjU3MVBuN242OXppOTVKSEJxdzZVbFFnSnFtcXFianF2RkZZWUpB?=
- =?utf-8?B?b3BwalBRNVkwUUhVMUlPY0swWmFpK3d6N1dwZm1QcTQySzJJbVA4OTNwY1lK?=
- =?utf-8?B?OUtBenZBN2ZqcmVSNEpEYnMzMitVYXBaU0ozdUZnM04rV1lLb0M2eEtXbmVM?=
- =?utf-8?B?ekdyUmFDQnpjajg2cEpwdTV1TW50NEdsNGJLWlVJNlFWeXFSeUkvbGpPNzBz?=
- =?utf-8?B?S3grZU10QVQvRWJ6TWNUckd5YlI3dXdEb01pY01Ocy94TWsxSGJhUXVWSTVW?=
- =?utf-8?B?OC94K2hqMU55YkpDNURXV0pmYWVIeUFZSzF3dVJRSFdTaXF4YWdBenMwZy83?=
- =?utf-8?B?MkNoeHJVQW5TallDdFQwcGREOCszcSs1WUdFNG5YWjY5VGJudEVRMGVlUHhy?=
- =?utf-8?B?YXhNQXNtNElBUk1WS2Znb3J3eUZmTDdrQ2o5eE1tQXdHazMyaTZ3M0pWZUFV?=
- =?utf-8?B?bVJZZTRJRUFqVlptc1VkRGdQY2lEb0YvOGROdjdoWG9QZVJ4eE16NzVhZ0pa?=
- =?utf-8?B?RkNVc0JmaTR2azYzWXFBY21HUW94ckk2QU1KQjJaVUYzNHpEVkVUY1ZINUl4?=
- =?utf-8?B?YjVSUE5meEpBY25kZE91V29VYkhNTFhJd2owYWd2YVpZWURzMFJNSCtTVGVo?=
- =?utf-8?B?dDM1V0d1dDNrbSsyeGFHOTZDZDJkKzYwQkJ2b044QTI4NXNFejZTQTN2VDdj?=
- =?utf-8?B?eFUxTFgrYjl3d1k1emRxdWhmUUgzQTZWbUcydzdtQUY3eFNTRTAzMk5wREtC?=
- =?utf-8?B?K25sa3R3clpwVXFLU2RCYWxLSm1UNWZ1TVZ2anViMXlYc3JvRlUwMzE2R2Jz?=
- =?utf-8?B?ei9OUlE3WGMwSm1aUkRYdndwTmtobGRkR2x6T05Fa0ViSmNqdU45SUg1dHJV?=
- =?utf-8?B?V1ZHempuaHdVMXRPSEdqWGJNOVB5bE1VT2lxWmNTY0xlNTQ4SzBTRldkMmpZ?=
- =?utf-8?B?Y3d3azFwbE93MXQ4eHJnL1hFWWlFb01rdEJlRUJ6RDMrL2E5Z0YrM05wTlZ1?=
- =?utf-8?B?VWZ2clVQckRIMXAzc21QbzdqNWRKZ3hwaW42blFxMGZuejlnelRUQ2RMNGlK?=
- =?utf-8?B?a3EvODRoa0hkaHhlWGNDK3F6d0E1M1FFMnFuVDVpckVRWnFITU82cGhnTy9w?=
- =?utf-8?B?UnRGRGlQREcvWWtWYzU2WUpPdm5IVmdhQ2xNejNsdGR1a3hBOUdMdExyR1VK?=
- =?utf-8?B?VXFuUVA5SkxYdExNZG10ek03bVVkd1VuVFNuNEg3TmJsbm9uQ3d5dlRRL3c3?=
- =?utf-8?B?eDJJWlVYV3ZxdmRWTkdJVEdFWEg1WE5qMEJicmJFZ3h4dVRKd1FtR2VTSWlY?=
- =?utf-8?B?T0FMcXlISnZ2c2hJV0NOdCsrZTJPY09vZlFGYlFhTk9zVVYySG5YS1pleXdl?=
- =?utf-8?B?NXZnNmdPelAvRGc4bzA3MDM0TTEvcTRydHhYTzJCY0ZlbXh5cVNMWjFaakM3?=
- =?utf-8?B?U1hDRzRmbnFVUTk4MzdYZTZvRkFyL2c2Mnp1dFpIUnp4Q1NkNlgzb2NhNkdu?=
- =?utf-8?B?bzVibkNxbWRmVk1LUzRWdVVtbDVBN0djSlgwdDV1Y3oxcHdVVFZDTUhTZE4w?=
- =?utf-8?B?SlMyYTEyU3RzWWIvNk12QWJYb0hBZDhPaFQ1ZG5zRlFVWEE3ejNPdnJFQWgz?=
- =?utf-8?B?Z3QwVE8weGRvR2RTZWlQTzgzR3ZXV2VBV2dEYmRRS3hmQ3QxSHovR29DWXNz?=
- =?utf-8?Q?CvEgqsCGGh6ZcuhPRsFiV7aWh?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=hMk6YHpk;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id bg13-20020a05600c3c8d00b003d9712b29d2so23555197wmb.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 04:56:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=FEcyvYqdIGjUxv1cRwwoTcUCh7eeY2x1c6CVap+YjRE=;
+        b=hMk6YHpk/JFUxc8DM4CnTZn1/PR/NwJIkYvHYbnX45j6tZT5mREWkBwZV3YV5qWXIb
+         bX8JFPj9VvHDPT7qnCSC+WM+t7P5qUlVQOSSwQVKStaYsoHoTh7yfhGTAdSTxwNP84o2
+         K7io3d6Ls9S11n73i3GqXEXeEcewS5EQJDuEA4BBhzUcWNkDkdK/9SWDutP063b3g2yX
+         rsu8UoJK7xcbUmssAgBe6ALcZrHrKsru3FjZT7fffk0PPianf2TG1OtvK+ZWinsGF0r+
+         o1WxMvkXTxIigwk2+X1boygGWBPu9mnd4g4Vh0LuuQXLFXt+FmSl8nvLqXJxvH+S8l56
+         SXVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FEcyvYqdIGjUxv1cRwwoTcUCh7eeY2x1c6CVap+YjRE=;
+        b=0rdo1m9WBdCIzAFG3cygqM3ZUtIp6Oq+o4a+FtbI+htsMEgszjWNaPH4o/ymZxSkiN
+         q7fcUP1KuVdnyn+6ltJz+99iLTf4r1uOPvuUN2yhZdphMLplTkq+2k+IyZ+paWwCPB3q
+         NFdQSyKrhujlAqMLWoqQn0TxpERZY4C2uD2beqSiSuNzGoIv2JqYnTYnM92un6R4Rid5
+         4vMjhVWiZlqamDpu09BaaILs/jzbbGnyET/Ll6MrUt5QZ+FHLg1Cyx/Q61QLoP92CqtI
+         38QujdORQA5fRtLQxqfedUICCyW5Kir5wMoVaSNaoRs01R9PqR2dryny5heGfHvoJrC0
+         KCzA==
+X-Gm-Message-State: AFqh2krD7ydxfF1hxiTh0iLWfnKSz3cYeCC5775+foQQ/7iY7k4RVFSs
+	rO3kT+5pinfaSVOyOy0U39SF5iEa/eEsTSn5nLc=
+X-Google-Smtp-Source: AMrXdXvHGUT18+yk+udbfYJg3tTqKSrH5nbaTkLE17J2DuqphEFEAm5lesqLqLJE33kTQYGfE5SxvHu3tafSHhcGKaY=
+X-Received: by 2002:a7b:c8d9:0:b0:3da:26ab:a38 with SMTP id
+ f25-20020a7bc8d9000000b003da26ab0a38mr530386wml.102.1673873790162; Mon, 16
+ Jan 2023 04:56:30 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d140bddb-9b09-4d55-328e-08daf7bfe41f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jan 2023 12:47:56.3785
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: oIxbVwc4vzaB2q2RLOQIA1S9SvIvC6j/aTN7UaGaYCkaFqBOg03b/PBPgy79kqqaWZtmuXAYdaycVaz55GP6NQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7370
-X-Proofpoint-GUID: z26GYK0V0KKNucgPbnSYTd0tw6tHjHy1
-X-Proofpoint-ORIG-GUID: QjMm-z1D4s5aCi3H9EnpZfFwvaizsQWi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-16_09,2023-01-13_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
- spamscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501 phishscore=0
- clxscore=1015 adultscore=0 malwarescore=0 impostorscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2301160095
+References: <20230116084809.16470-1-Qi.Chen@windriver.com> <173AC3E18715B47D.23170@lists.openembedded.org>
+ <729210c666036a1fe57866f8b10326a9768873a9.camel@linuxfoundation.org> <CO6PR11MB560236EA3C3AD9FAAB0B70CCEDC19@CO6PR11MB5602.namprd11.prod.outlook.com>
+In-Reply-To: <CO6PR11MB560236EA3C3AD9FAAB0B70CCEDC19@CO6PR11MB5602.namprd11.prod.outlook.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 16 Jan 2023 13:56:18 +0100
+Message-ID: <CA+chaQe8yUH0YzF1cDFXORmBUofpuXezwjK6rs9hfKSenK0KhA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] rpm: make nativesdk-rpm rdepend on nativesdk-file
+To: "Chen, Qi" <Qi.Chen@windriver.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000a95aaf05f2611ca4"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 12:48:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175981
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 12:56:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175982
 
-UmljaGFyZCwgSSdtIGdvaW5nIHRvIGNoZWNrIGhvdyBycG0gdXNlcyAnZmlsZScgYW5kIHdpbGwg
-Y29tZSB1cCB3aXRoIGEgYmV0dGVyIHNvbHV0aW9uLg0KTWFydGluLCBjb3VsZCB5b3UgcGxlYXNl
-IHRlbGwgbWUgeW91ciB1c2UgY2FzZSwgaWYgY29udmVuaWVudD8gSSB3aWxsIGVuc3VyZSBJIGRv
-bid0IGJyZWFrIGl0Lg0KDQpSZWdhcmRzLA0KUWkNCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0t
-LS0NCkZyb206IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24u
-b3JnPiANClNlbnQ6IE1vbmRheSwgSmFudWFyeSAxNiwgMjAyMyA3OjE0IFBNDQpUbzogQ2hlbiwg
-UWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT47IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5l
-bWJlZGRlZC5vcmcNClN1YmplY3Q6IFJlOiBbT0UtY29yZV1bUEFUQ0hdIHJwbTogbWFrZSBuYXRp
-dmVzZGstcnBtIHJkZXBlbmQgb24gbmF0aXZlc2RrLWZpbGUNCg0KT24gTW9uLCAyMDIzLTAxLTE2
-IGF0IDEwOjM5ICswMDAwLCBSaWNoYXJkIFB1cmRpZSB2aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9y
-ZyB3cm90ZToNCj4gT24gTW9uLCAyMDIzLTAxLTE2IGF0IDE2OjQ4ICswODAwLCBDaGVuIFFpIHdy
-b3RlOg0KPiA+IEZvciBub3csIHJ1bm5pbmcgYGZpbGUnIGluc2lkZSBTREsgZXJyb3JzIG91dC4N
-Cj4gPiAgIGZpbGU6IGNvdWxkIG5vdCBmaW5kIGFueSB2YWxpZCBtYWdpYyBmaWxlcyENCj4gPiAN
-Cj4gPiBUaGlzIGlzIGJlY2F1c2UgbmF0aXZlc2RrLXJwbSBleHBvcnRzIE1BR0lDLiBTbyBsZXQn
-cyBtYWtlIA0KPiA+IG5hdGl2ZXNkay1ycG0gZGVwZW5kIG9uIGZpbGUgZm9yIGJldHRlciB1c2Vy
-IGV4cGVyaWVuY2VzLg0KPiA+IA0KPiA+IFNpZ25lZC1vZmYtYnk6IENoZW4gUWkgPFFpLkNoZW5A
-d2luZHJpdmVyLmNvbT4NCj4gPiAtLS0NCj4gPiAgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JwbS9y
-cG1fNC4xOC4wLmJiIHwgMSArDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQ0K
-PiA+IA0KPiA+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnBtL3JwbV80LjE4
-LjAuYmIgDQo+ID4gYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcnBtL3JwbV80LjE4LjAuYmINCj4g
-PiBpbmRleCA4ZWIwYWIyMDdlLi4zYjdkNGQ2NDBhIDEwMDY0NA0KPiA+IC0tLSBhL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9ycG0vcnBtXzQuMTguMC5iYg0KPiA+ICsrKyBiL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9ycG0vcnBtXzQuMTguMC5iYg0KPiA+IEBAIC0xODgsNiArMTg4LDcgQEAgUFJPVklE
-RVMgKz0gInB5dGhvbjMtcnBtIg0KPiA+ICBGSUxFUzpweXRob24zLXJwbSA9ICIke1BZVEhPTl9T
-SVRFUEFDS0FHRVNfRElSfS9ycG0vKiINCj4gPiAgDQo+ID4gIFJERVBFTkRTOiR7UE59LWJ1aWxk
-ID0gImJhc2ggcGVybCBweXRob24zLWNvcmUiDQo+ID4gK1JERVBFTkRTOm5hdGl2ZXNkay1ycG0g
-Kz0gIm5hdGl2ZXNkay1maWxlIg0KPiANCj4gU2hvdWxkIHdlIGJlIGFkZGluZyBmaWxlIHRvICR7
-UE59LWJ1aWxkIGluc3RlYWQ/ICBXaGljaCBycG0gY29tbWFuZCANCj4gd2FzIHRoaXMgd2l0aD8g
-RG9lcyBhbnl3aGVyZSBlbHNlIGluIHJwbSBoYXZlL25lZWQgdGhpcyBkZXBlbmRlbmN5Pw0KDQpU
-byBhbnN3ZXIgbXkgcXVlc3Rpb24sIHRoZSBwcm9ibGVtIGlzIHRoYXQgYXMgd2VsbCBhcyB0aGUg
-cnBtIHdyYXBwZXJzLCB0aGUgY29kZSBhbHNvIHNldHMgTUFHSUM9IGZyb20gYW4gZW52aXJvbm1l
-bnQgc2V0dXAgZmlsZS4NCg0KQXQgdGhlIHZlcnkgbGVhc3QsIHRoZSBSREVQRU5EUyBuZWVkcyBh
-IGNsYXNzLW5hdGl2ZXNkayBvdmVycmlkZSBpbiB0aGVyZSBhcyBvdGhlcndpc2UgaXQgaXMgZmxv
-YXRpbmcgYXJvdW5kIHVuY29uZGl0aW9uYWxseS4NCg0KSSBkb24ndCByZWFsbHkgbGlrZSBhZGRp
-bmcgd29ya2Fyb3VuZHMgbGlrZSB0aGlzIHNpbmNlIHdlIHdvbid0IHVuZGVyc3RhbmQgdGhlbSBh
-dCBzb21lIGZ1dHVyZSBkYXRlLg0KDQpPdGhlciBzb2x1dGlvbnMgbWlnaHQgaW5jbHVkZToNCg0K
-YSkgcGF0Y2hpbmcgUlBNIHRvIHVzZSBSUE1fRklMRU1BR0lDIGluc3RlYWQgb2YgTUFHSUMgc28g
-d2UgY2FuIHNldCBpdCBpbiBhIG1vcmUgZ3JhbnVsYXIgd2F5DQpiKSBtb3ZpbmcgdGhlIGVudmly
-b25tZW50IHNldHVwIHBpZWNlIGZvciBNQUdJQyB0byBuYXRpdmVzZGstZmlsZSBzbyBpdCBpcyBv
-bmx5IHVzZWQgaWYgZmlsZSBpcyBpbnN0YWxsZWQgaW4gdGhlIFNESw0KYykgZml4aW5nIHJwbSAo
-b3IgZmlsZT8pIHRvIGR5bmFtaWNhbGx5IHJlbG9jYXRlIHRoZSBwYXRocyBpdCBpcyB1c2luZw0K
-DQpDYW4gd2Ugc2VlIGlmIHRoZXJlIGlzIGEgYmV0dGVyIHNvbHV0aW9uIHdlIGNhbiBzd2l0Y2gg
-dG8gcGxlYXNlPw0KDQpDaGVlcnMsDQoNClJpY2hhcmQNCg0KDQoNCg0KDQo=
+--000000000000a95aaf05f2611ca4
+Content-Type: text/plain; charset="UTF-8"
+
+The use case I was fixing in:
+https://git.openembedded.org/openembedded-core/commit/?id=f40a2658f5be6739c5dddab7f9f11e1f85a17102
+was just about rpmdeps not being able to find rpmrc due to wrong path in
+the wrapper.
+
+MAGIC was moved to environment-setup.d/rpm.sh just to set all variables
+(which used to be set in the wrappers) in the same place and to be able to
+remove the wrappers completely in the next commit.
+
+It might be cleaner to set MAGIC variable in separate
+environment-setup.d/file.sh installed by nativesdk-file to make sure that
+it's set only together when corresponding magic.mgc is installed in SDK
+(but we'll still need to depend on file where needed). MAGIC variable was
+added in
+https://git.openembedded.org/openembedded-core/commit/?id=760103cdaed3e820888d8984ec0b76cfc831d534
+but commit doesn't say why.
+
+Regards,
+
+On Mon, Jan 16, 2023 at 1:47 PM Chen, Qi <Qi.Chen@windriver.com> wrote:
+
+> Richard, I'm going to check how rpm uses 'file' and will come up with a
+> better solution.
+> Martin, could you please tell me your use case, if convenient? I will
+> ensure I don't break it.
+>
+> Regards,
+> Qi
+>
+> -----Original Message-----
+> From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Sent: Monday, January 16, 2023 7:14 PM
+> To: Chen, Qi <Qi.Chen@windriver.com>;
+> openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core][PATCH] rpm: make nativesdk-rpm rdepend on
+> nativesdk-file
+>
+> On Mon, 2023-01-16 at 10:39 +0000, Richard Purdie via
+> lists.openembedded.org wrote:
+> > On Mon, 2023-01-16 at 16:48 +0800, Chen Qi wrote:
+> > > For now, running `file' inside SDK errors out.
+> > >   file: could not find any valid magic files!
+> > >
+> > > This is because nativesdk-rpm exports MAGIC. So let's make
+> > > nativesdk-rpm depend on file for better user experiences.
+> > >
+> > > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> > > ---
+> > >  meta/recipes-devtools/rpm/rpm_4.18.0.bb | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> > > diff --git a/meta/recipes-devtools/rpm/rpm_4.18.0.bb
+> > > b/meta/recipes-devtools/rpm/rpm_4.18.0.bb
+> > > index 8eb0ab207e..3b7d4d640a 100644
+> > > --- a/meta/recipes-devtools/rpm/rpm_4.18.0.bb
+> > > +++ b/meta/recipes-devtools/rpm/rpm_4.18.0.bb
+> > > @@ -188,6 +188,7 @@ PROVIDES += "python3-rpm"
+> > >  FILES:python3-rpm = "${PYTHON_SITEPACKAGES_DIR}/rpm/*"
+> > >
+> > >  RDEPENDS:${PN}-build = "bash perl python3-core"
+> > > +RDEPENDS:nativesdk-rpm += "nativesdk-file"
+> >
+> > Should we be adding file to ${PN}-build instead?  Which rpm command
+> > was this with? Does anywhere else in rpm have/need this dependency?
+>
+> To answer my question, the problem is that as well as the rpm wrappers,
+> the code also sets MAGIC= from an environment setup file.
+>
+> At the very least, the RDEPENDS needs a class-nativesdk override in there
+> as otherwise it is floating around unconditionally.
+>
+> I don't really like adding workarounds like this since we won't understand
+> them at some future date.
+>
+> Other solutions might include:
+>
+> a) patching RPM to use RPM_FILEMAGIC instead of MAGIC so we can set it in
+> a more granular way
+> b) moving the environment setup piece for MAGIC to nativesdk-file so it is
+> only used if file is installed in the SDK
+> c) fixing rpm (or file?) to dynamically relocate the paths it is using
+>
+> Can we see if there is a better solution we can switch to please?
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
+>
+>
+
+--000000000000a95aaf05f2611ca4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">The use case I was fixing in:<div><a href=3D"https://git.o=
+penembedded.org/openembedded-core/commit/?id=3Df40a2658f5be6739c5dddab7f9f1=
+1e1f85a17102">https://git.openembedded.org/openembedded-core/commit/?id=3Df=
+40a2658f5be6739c5dddab7f9f11e1f85a17102</a><br></div><div>was just about rp=
+mdeps not being able to find rpmrc due to wrong path in the wrapper.</div><=
+div><br></div><div>MAGIC was moved to=C2=A0environment-setup.d/rpm.sh just =
+to set all variables (which used to be set in the wrappers) in the same pla=
+ce and to be able to remove the wrappers completely in the next commit.</di=
+v><div><br></div><div>It might be cleaner to set MAGIC variable in separate=
+ environment-setup.d/file.sh installed by nativesdk-file to make sure that =
+it&#39;s set only together when corresponding=C2=A0magic.mgc is installed i=
+n SDK (but we&#39;ll still need to depend on file where needed). MAGIC vari=
+able was added in=C2=A0<a href=3D"https://git.openembedded.org/openembedded=
+-core/commit/?id=3D760103cdaed3e820888d8984ec0b76cfc831d534">https://git.op=
+enembedded.org/openembedded-core/commit/?id=3D760103cdaed3e820888d8984ec0b7=
+6cfc831d534</a> but commit doesn&#39;t say why.</div><div><br></div><div>Re=
+gards,</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"=
+gmail_attr">On Mon, Jan 16, 2023 at 1:47 PM Chen, Qi &lt;<a href=3D"mailto:=
+Qi.Chen@windriver.com">Qi.Chen@windriver.com</a>&gt; wrote:<br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex">Richard, I&#39;m going to check=
+ how rpm uses &#39;file&#39; and will come up with a better solution.<br>
+Martin, could you please tell me your use case, if convenient? I will ensur=
+e I don&#39;t break it.<br>
+<br>
+Regards,<br>
+Qi<br>
+<br>
+-----Original Message-----<br>
+From: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.o=
+rg" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt; <br>
+Sent: Monday, January 16, 2023 7:14 PM<br>
+To: Chen, Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com" target=3D"_blank"=
+>Qi.Chen@windriver.com</a>&gt;; <a href=3D"mailto:openembedded-core@lists.o=
+penembedded.org" target=3D"_blank">openembedded-core@lists.openembedded.org=
+</a><br>
+Subject: Re: [OE-core][PATCH] rpm: make nativesdk-rpm rdepend on nativesdk-=
+file<br>
+<br>
+On Mon, 2023-01-16 at 10:39 +0000, Richard Purdie via <a href=3D"http://lis=
+ts.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedde=
+d.org</a> wrote:<br>
+&gt; On Mon, 2023-01-16 at 16:48 +0800, Chen Qi wrote:<br>
+&gt; &gt; For now, running `file&#39; inside SDK errors out.<br>
+&gt; &gt;=C2=A0 =C2=A0file: could not find any valid magic files!<br>
+&gt; &gt; <br>
+&gt; &gt; This is because nativesdk-rpm exports MAGIC. So let&#39;s make <b=
+r>
+&gt; &gt; nativesdk-rpm depend on file for better user experiences.<br>
+&gt; &gt; <br>
+&gt; &gt; Signed-off-by: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.co=
+m" target=3D"_blank">Qi.Chen@windriver.com</a>&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt;=C2=A0 meta/recipes-devtools/rpm/<a href=3D"http://rpm_4.18.0.bb" =
+rel=3D"noreferrer" target=3D"_blank">rpm_4.18.0.bb</a> | 1 +<br>
+&gt; &gt;=C2=A0 1 file changed, 1 insertion(+)<br>
+&gt; &gt; <br>
+&gt; &gt; diff --git a/meta/recipes-devtools/rpm/<a href=3D"http://rpm_4.18=
+.0.bb" rel=3D"noreferrer" target=3D"_blank">rpm_4.18.0.bb</a> <br>
+&gt; &gt; b/meta/recipes-devtools/rpm/<a href=3D"http://rpm_4.18.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">rpm_4.18.0.bb</a><br>
+&gt; &gt; index 8eb0ab207e..3b7d4d640a 100644<br>
+&gt; &gt; --- a/meta/recipes-devtools/rpm/<a href=3D"http://rpm_4.18.0.bb" =
+rel=3D"noreferrer" target=3D"_blank">rpm_4.18.0.bb</a><br>
+&gt; &gt; +++ b/meta/recipes-devtools/rpm/<a href=3D"http://rpm_4.18.0.bb" =
+rel=3D"noreferrer" target=3D"_blank">rpm_4.18.0.bb</a><br>
+&gt; &gt; @@ -188,6 +188,7 @@ PROVIDES +=3D &quot;python3-rpm&quot;<br>
+&gt; &gt;=C2=A0 FILES:python3-rpm =3D &quot;${PYTHON_SITEPACKAGES_DIR}/rpm/=
+*&quot;<br>
+&gt; &gt;=C2=A0 <br>
+&gt; &gt;=C2=A0 RDEPENDS:${PN}-build =3D &quot;bash perl python3-core&quot;=
+<br>
+&gt; &gt; +RDEPENDS:nativesdk-rpm +=3D &quot;nativesdk-file&quot;<br>
+&gt; <br>
+&gt; Should we be adding file to ${PN}-build instead?=C2=A0 Which rpm comma=
+nd <br>
+&gt; was this with? Does anywhere else in rpm have/need this dependency?<br=
+>
+<br>
+To answer my question, the problem is that as well as the rpm wrappers, the=
+ code also sets MAGIC=3D from an environment setup file.<br>
+<br>
+At the very least, the RDEPENDS needs a class-nativesdk override in there a=
+s otherwise it is floating around unconditionally.<br>
+<br>
+I don&#39;t really like adding workarounds like this since we won&#39;t und=
+erstand them at some future date.<br>
+<br>
+Other solutions might include:<br>
+<br>
+a) patching RPM to use RPM_FILEMAGIC instead of MAGIC so we can set it in a=
+ more granular way<br>
+b) moving the environment setup piece for MAGIC to nativesdk-file so it is =
+only used if file is installed in the SDK<br>
+c) fixing rpm (or file?) to dynamically relocate the paths it is using<br>
+<br>
+Can we see if there is a better solution we can switch to please?<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
+
+--000000000000a95aaf05f2611ca4--
 
