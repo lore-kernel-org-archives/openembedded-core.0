@@ -1,186 +1,123 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D1A7C54EBE
-	for <webhook@archiver.kernel.org>; Mon, 16 Jan 2023 21:06:50 +0000 (UTC)
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
- by mx.groups.io with SMTP id smtpd.web11.180006.1673903207192584831
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0A22C46467
+	for <webhook@archiver.kernel.org>; Mon, 16 Jan 2023 23:42:30 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web11.184005.1673912540983562687
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Jan 2023 13:06:47 -0800
+ Mon, 16 Jan 2023 15:42:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=FXClxeBL;
- spf=pass (domain: gmail.com, ip: 209.85.160.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-15eec491b40so9113329fac.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 13:06:47 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=budkYrW+;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f49.google.com with SMTP id z5so27851301wrt.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 15:42:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kgmy/Kr2Q9XMiv+Z4pu8ZsolWDFrtKwUApI/1kTpP9U=;
-        b=FXClxeBL5ZnzhPX2VySjqlJjWpC65rWt5SD9OkywxXyxO4NexnpRLpOkLbQoIkHX2V
-         UGuA7UHsJs4cp/ROBMk1Pc4Wdc0f+DI7Hu2K/Os3/6OvCdjxu4QemM8SZlcE+Ojj861P
-         Zqq2ZLTDtBQppXqeqH7rdcL84V7wX4V7d3G6MRKftVBkdbMZugTzdMoUWUm8EFZqp3Yr
-         BPmyf5Yp83VWqF5fRcxZMdWT2bE+OMnlmtYVj0NYB7l7PtOQdHgneP+QRGflaVr0ptF0
-         h2qN7JX8CmT+j0Owsw1XIvrzKyhXSXrnlh0Ab6PzI90OD6qdaGpcw4uyzKRgrpNFIesw
-         eGew==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=U+ApfsDV/thHCZfyjDLx3IFo9YT6e2BCQ0u2ZK/CP1c=;
+        b=budkYrW+iQdZOZGrngpQ3iLUB+axl6zGGjTbPqbRADgvkZZxjMsXvLbiKG8ByAFqsO
+         v39e6bT+rGD+vBdNxeT4TdI0SQ2/DjL/Sz6BTv1XM5M/N2+o22V9OVuP1CxMVjpdathT
+         KpMYdNjP5mIThhMdwrBKDz6gqBM7IQ4JpFVxM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kgmy/Kr2Q9XMiv+Z4pu8ZsolWDFrtKwUApI/1kTpP9U=;
-        b=GjPEppPeKbaD7Qq3JFkKOgRv+t1+CCT8Gl9yaRayRvQ0fS/8+PoXOEXaRa6CsdiGmJ
-         g6FIGx6Rtv6voyfNUP92UL0+gcvlLqSJ6UMLTen2lQJzK8JFmaxbJlCrQn3JIzp9VrSG
-         UhlIcJwEMy2f3B03UlLL4Ckh9W93NFbKD6ufuA8mqNP9SXQxzeJqBhJk/9mP9F43gbGs
-         PYqK+EHXWeXGLZrGVxLkXDXuxWkOcY/oAu4wb94VTG6XdbbHII8Z1h07Tj8eElc5fbPR
-         FHPTUN8ClkA5JC7go/kaL3/JR9HoE8za8YdB6zalCGqBTEyeRnilivsTxSyIniZ2AYaY
-         uTeA==
-X-Gm-Message-State: AFqh2koEfYSv5T/OVK2Yr16tzDvSC24nLTpzo9/xof8G9TERHb2YzJPn
-	+UToLnD+4aqxTgpoxRr+zSZ9KNGFnvEfxNJ4q5Mhkw03em0=
-X-Google-Smtp-Source: AMrXdXtZtNcfcXVeF4Kr3Sdobn/VqcDGqKXiDI3fQ/IutwwQWwxJfePhlPscXRqL13WMQHtn9F89m1zG2Ewcd+GVtdA=
-X-Received: by 2002:a05:6870:514a:b0:15e:d5b1:33df with SMTP id
- z10-20020a056870514a00b0015ed5b133dfmr78589oak.55.1673903206128; Mon, 16 Jan
- 2023 13:06:46 -0800 (PST)
-MIME-Version: 1.0
-References: <20230115185153.2277534-1-raj.khem@gmail.com> <20230115185153.2277534-2-raj.khem@gmail.com>
-In-Reply-To: <20230115185153.2277534-2-raj.khem@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 16 Jan 2023 13:06:20 -0800
-Message-ID: <CAMKF1sqAcsA-hcm_BZTaAZ12z6DvDiHMUcWmL6UvB94x8ZuqbQ@mail.gmail.com>
-Subject: Re: [PATCH 2/6] glib-2.0: Switch to using C11 std
-To: openembedded-core@lists.openembedded.org, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=U+ApfsDV/thHCZfyjDLx3IFo9YT6e2BCQ0u2ZK/CP1c=;
+        b=YpViVIWZQbFpqB5M+jaHN/F+POSw0X0aHQ2znuCfFC/Bol6rmvp0JzLeaR75Nicw+B
+         Tq1jjaLq0qcasY9IwqQsMMRmKLhuofNhdCXMe0QGc3IN8xJkIeKNiWn7vWsv1K2NUQzD
+         KHTnh4rq1ImEdBR+864eUFHZ45w0Ue9LflfBbTgHWf9ejUx/Lt1Ut2vrW1P+MUWc8kpC
+         37twiwwq4z1PT3efHoQfjfW8Oj8TBCsgHJbYFIvheg1rq6dh/wa5A1CVLH2c/wGhff7c
+         J4UOP3kCBIz9WpT+qbNVPntMPNcPQ+iSCGH6sq60N0o1stdVaqr5pvOu9ye49nWxo9f5
+         LddQ==
+X-Gm-Message-State: AFqh2kpD7P/oH3yQ7gT8sAEvFn18+C9ZNTFLoRcUu6v0kS0wq5ufnrXr
+	25uSKc9Dz4Qpmqw4+anM24H0tA==
+X-Google-Smtp-Source: AMrXdXtMI0q5npvtFOXbGxckbDCBRvrHI5mVSDcLhrnwy6+jYU6M2dYFXPP+Nlvsplrt3jOAwD6sbQ==
+X-Received: by 2002:adf:cf0f:0:b0:242:5d8e:6c35 with SMTP id o15-20020adfcf0f000000b002425d8e6c35mr1049901wrj.28.1673912538730;
+        Mon, 16 Jan 2023 15:42:18 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:b2e7:7f75:b78d:7617? ([2001:8b0:aba:5f3c:b2e7:7f75:b78d:7617])
+        by smtp.gmail.com with ESMTPSA id bx11-20020a5d5b0b000000b002366f9bd717sm33869642wrb.45.2023.01.16.15.42.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Jan 2023 15:42:18 -0800 (PST)
+Message-ID: <60471b4cad9af5016e08174e3e7d7878be89d5a1.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] uninative-tarball: Add libgcc
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 16 Jan 2023 23:42:16 +0000
+In-Reply-To: <CANPvuRmQiEXiZ7+9_N5O=FmKcMPcjhqBU-Fn8bJ-KYirNg0Z3g@mail.gmail.com>
+References: <20230109134930.1409270-1-richard.purdie@linuxfoundation.org>
+	 <CANPvuRmQiEXiZ7+9_N5O=FmKcMPcjhqBU-Fn8bJ-KYirNg0Z3g@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 21:06:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176014
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 23:42:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176015
 
-upstream glib-2,0 has not accepted these patches so lets hold on to
-them for now.
+On Mon, 2023-01-16 at 19:21 +0000, Jose Quaresma wrote:
+> Hi=C2=A0Richard,
+>=20
+> I am seeing some build errors=C2=A0like this at the end of the build whre=
+ bibake segment fault.
+> My problem is this happens on a build that doesn't=C2=A0use uninative,
+> does bitbake require uninative to build on master?
 
-On Sun, Jan 15, 2023 at 10:51 AM Khem Raj <raj.khem@gmail.com> wrote:
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  ...0001-Switch-from-C99-to-C11-standard.patch | 40 +++++++++++++++++
->  ...efine-check_alignof-for-std-c11-and-.patch | 44 +++++++++++++++++++
->  meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb |  2 +
->  3 files changed, 86 insertions(+)
->  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-Switch-from-C99-to-C11-standard.patch
->  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-tests-macros.c-Define-check_alignof-for-std-c11-and-.patch
->
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Switch-from-C99-to-C11-standard.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Switch-from-C99-to-C11-standard.patch
-> new file mode 100644
-> index 0000000000..4ddf49a9df
-> --- /dev/null
-> +++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Switch-from-C99-to-C11-standard.patch
-> @@ -0,0 +1,40 @@
-> +From 59f4bdaedccb14802810e2f28646cc039a92f3d3 Mon Sep 17 00:00:00 2001
-> +From: Khem Raj <raj.khem@gmail.com>
-> +Date: Sat, 14 Jan 2023 12:15:29 -0800
-> +Subject: [PATCH] Switch from C99 to C11 standard
-> +
-> +We need to start using _Alignof consistently as the fallback
-> +implementation which uses types within offsetof is UB as per WG14 N2350
-> +[1], moreover newer compilers like clang 16+ have started to error on
-> +such use.
-> +
-> +Fixes errors like below with clang 16+
-> +
-> +| ../glib-2.74.4/glib/ghash.c:299:18: error: 'struct (unnamed at ../glib-2.74.4/glib/ghash.c:299:1)' cannot be defined in '__builtin_offsetof'
-> +| G_STATIC_ASSERT (G_ALIGNOF (GHashTableIter) >= G_ALIGNOF (RealIter));
-> +
-> +[1] https://www.open-std.org/jtc1/sc22/wg14/www/docs/n2350.htm
-> +[2] https://reviews.llvm.org/D133574
-> +
-> +Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/glib/-/merge_requests/3202]
-> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> +---
-> + meson.build | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/meson.build b/meson.build
-> +index 8d3500ad7..87662fa47 100644
-> +--- a/meson.build
-> ++++ b/meson.build
-> +@@ -5,7 +5,7 @@ project('glib', 'c',
-> +   default_options : [
-> +     'buildtype=debugoptimized',
-> +     'warning_level=3',
-> +-    'c_std=gnu99'
-> ++    'c_std=gnu11'
-> +   ]
-> + )
-> +
-> +--
-> +2.39.0
-> +
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-tests-macros.c-Define-check_alignof-for-std-c11-and-.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-tests-macros.c-Define-check_alignof-for-std-c11-and-.patch
-> new file mode 100644
-> index 0000000000..c6f2ee1948
-> --- /dev/null
-> +++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-tests-macros.c-Define-check_alignof-for-std-c11-and-.patch
-> @@ -0,0 +1,44 @@
-> +From 3a86bfadd67983267e5d89b1a7e3a637041e599b Mon Sep 17 00:00:00 2001
-> +From: Khem Raj <raj.khem@gmail.com>
-> +Date: Sat, 14 Jan 2023 10:54:28 -0800
-> +Subject: [PATCH] tests/macros.c: Define check_alignof for std=c11 and newer
-> +
-> +WG14 N2350 made very clear that it is an UB having type definitions
-> +within "offsetof" [1]. This patch changes the implementation of macro
-> +check_alignof to builtin "_Alignof" to avoid undefined behavior.
-> +
-> +clang 16+ has started to diagnose this [2]
-> +
-> +Fixes build when using -std >= gnu11 and using clang16+
-> +
-> +[1] https://www.open-std.org/jtc1/sc22/wg14/www/docs/n2350.htm
-> +[2] https://reviews.llvm.org/D133574
-> +
-> +Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/glib/-/merge_requests/3201]
-> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> +---
-> + glib/tests/macros.c | 6 +++++-
-> + 1 file changed, 5 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/glib/tests/macros.c b/glib/tests/macros.c
-> +index efe632b..17b1646 100644
-> +--- a/glib/tests/macros.c
-> ++++ b/glib/tests/macros.c
-> +@@ -42,9 +42,13 @@ test_assert_static (void)
-> + static void
-> + test_alignof_fallback (void)
-> + {
-> ++#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 201112L && !defined(__cplusplus)
-> ++#define check_alignof(type) \
-> ++  g_assert_cmpint (G_ALIGNOF (type), ==, _Alignof (type))
-> ++#else
-> + #define check_alignof(type) \
-> +   g_assert_cmpint (G_ALIGNOF (type), ==, G_STRUCT_OFFSET (struct { char a; type b; }, b))
-> +-
-> ++#endif
-> +   check_alignof (char);
-> +   check_alignof (int);
-> +   check_alignof (float);
-> +--
-> +2.39.0
-> +
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb
-> index e5279e946c..de3f55e865 100644
-> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb
-> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb
-> @@ -19,6 +19,8 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
->             file://cpp-null.patch \
->             file://cpp-null2.patch \
->             file://fix-errno.patch \
-> +           file://0001-tests-macros.c-Define-check_alignof-for-std-c11-and-.patch \
-> +           file://0001-Switch-from-C99-to-C11-standard.patch \
->             "
->  SRC_URI:append:class-native = " file://relocate-modules.patch"
->
-> --
-> 2.39.0
->
+No, it doesn't.
+
+My worry was that uninative didn't contain libgcc which meant that
+builds could fail like this if it wasn't present. The reason for the
+change is threading in bitbake itself and the thread.join() calls which
+seem to trigger pthread_cancel() calls under some circumstances. Having
+libgcc present in uninative seemed like a good idea so I've ensured
+that.=C2=A0I wasn't entirely convinced it would solve it, I half expected t=
+o
+see a new/different error replacing it.
+
+Is libgcc present on your build system? It would seem strange for it
+not to be but that is what the error message suggests.
+
+I've also seem mention of issues with this in some versions of python
+but I've not seen any errors on the autobuilder since I ensured it was
+present in uninative.
+
+> This is my build log where=C2=A0bitbake crash at the end:
+>=20
+> INFO: Build completion summary:
+> INFO: =C2=A0 do_populate_sysroot: 100.0% sstate reuse(387 setscene, 0 scr=
+atch)
+> INFO: =C2=A0 do_deploy_source_date_epoch: 100.0% sstate reuse(5 setscene,=
+ 0 scratch)
+> INFO: =C2=A0 do_deploy_archives: 100.0% sstate reuse(400 setscene, 0 scra=
+tch)
+> INFO: =C2=A0 do_create_spdx: 100.0% sstate reuse(364 setscene, 0 scratch)
+> INFO: =C2=A0 do_create_runtime_spdx: 100.0% sstate reuse(342 setscene, 0 =
+scratch)
+> INFO: =C2=A0 do_package_qa: 100.0% sstate reuse(243 setscene, 0 scratch)
+> INFO: =C2=A0 do_package: 100.0% sstate reuse(26 setscene, 0 scratch)
+> INFO: =C2=A0 do_packagedata: 100.0% sstate reuse(243 setscene, 0 scratch)
+> INFO: =C2=A0 do_package_write_ipk: 100.0% sstate reuse(243 setscene, 0 sc=
+ratch)
+> INFO: =C2=A0 do_populate_lic: 100.0% sstate reuse(395 setscene, 0 scratch=
+)
+> INFO: Writing buildhistory
+> INFO: Writing buildhistory took: 10 seconds
+> libgcc_s.so.1 must be installed for pthread_cancel to work
+> /lmp/bb-build.sh: line 24: 91770 Aborted =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 (core dumped) bitbake -D ...
+
+This is the build system's python saying it can't find libgcc_s.so.1 so
+I'd start by checking it is there. I'm assuming you're not using
+buildtools?
+
+Cheers,
+
+Richard
 
