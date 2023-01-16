@@ -1,194 +1,85 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CF6EC54EBE
-	for <webhook@archiver.kernel.org>; Mon, 16 Jan 2023 17:47:49 +0000 (UTC)
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
- by mx.groups.io with SMTP id smtpd.web10.173938.1673891261385675539
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FF78C46467
+	for <webhook@archiver.kernel.org>; Mon, 16 Jan 2023 17:56:29 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web11.174424.1673891785187692097
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Jan 2023 09:47:41 -0800
+ Mon, 16 Jan 2023 09:56:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=g6OTF7Tr;
- spf=pass (domain: gmail.com, ip: 209.85.221.170, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-vk1-f170.google.com with SMTP id b81so13643439vkf.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 09:47:41 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MAkLpfKF;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f45.google.com with SMTP id l41-20020a05600c1d2900b003daf986faaeso2865755wms.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 09:56:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5FODYiKLjijj8p7vUaCPBvtyXfsCiIAq+Av7N3uQ1yU=;
-        b=g6OTF7Tr1ein4MOAFw9lf+xlVNlLIB9Vw845pw4KBaKdnHF3khMEilyAMQtZSJ0MJk
-         loREOF4MODHRN2NCQJuiirLK+f4BHOhacHfp9pLXS/498DypC/4f+5t0gtqfvfMZe31x
-         BBI0ihgtSPoBU/43RpwlkGgYcLRZnkdXJD84osw3rHjnlFD8yqqTFzOTbk6Dy+FiYDXk
-         pHeDC57qdIKP/eMrsXY5PLFkG/Hj6hqxiFKxAha06zu6Gkd8/WLPbXLyvV9K3ZAHbMrj
-         0qCnaPtumrvfD7KBNJvzY56XSyQ8Kp8ZNOd+wdMGXtC3AXcxtNwAZWEFf9jiDBovfCvq
-         l9PA==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=EEuHprCPixbwNOrMLlmTYLF4ppO0dL6iQidupboEeX0=;
+        b=MAkLpfKFNsmKPBV0IPZKLJncmJv3JYQaouRHAcIh4E0tuAhUOqeqePeHQNq/qPXkDW
+         r6fyhhMH1rmICDdFJto1itzQ5XcM6HDXw2H5uEHgIRpQdrLf3CQrFFSU4ZXCsYzzMevu
+         7rWwKFKwpCL7QFegNhLcLAopJuseRIDf3TB/E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5FODYiKLjijj8p7vUaCPBvtyXfsCiIAq+Av7N3uQ1yU=;
-        b=S/L8drDITTUX/x1g4KxpCmvXN+xcbI6eO3Nj33x2HOxzgeK3AQRtW3k9MqLAsm0UXh
-         L2T8va/ZGIIwGo+6ucRhA3fsGI4RJrA3/mQ5EmbJlq3prP3DW0//AW570baQ5wtrcqLP
-         9Xgg3j59yzVWLC3xkUOe18S4BWt4NZFD9jVqQMBOsgRiUB+jNM04vIM3K1NsrLG2f2tK
-         KSVgmkjQPo4tXUAfS12yAvN9sDclV6IUWrunbp9U8HJ/h4UxKbVxAVt1bnAYAqix34lE
-         QvdnTWHsTFdZ/FpfUPjn1u8fADedquo0fH5QY6LCaO22Pc228Z/VbSITl1xF+tBH/D4v
-         X6ZQ==
-X-Gm-Message-State: AFqh2ko8aPSKd+P5cayTJMpsEBF55nqS12A0g5+s0PdYZ+nl4p5S/JLy
-	JjaGGONkLDuU4Gs3lMEjMpt+LM0FSjXjC70ZJmY=
-X-Google-Smtp-Source: AMrXdXt34uykvuQQ/QEtSG4zHlYbKonaEspX+ZNLhuarA6iykR60rW6h+wGyVnPIm6PpYEaf5S7rsHAPlvGGTxksClU=
-X-Received: by 2002:a1f:d605:0:b0:3dd:fce2:8505 with SMTP id
- n5-20020a1fd605000000b003ddfce28505mr22576vkg.40.1673891260409; Mon, 16 Jan
- 2023 09:47:40 -0800 (PST)
-MIME-Version: 1.0
-References: <20230116164325.289867-1-f_l_k@t-online.de> <ca881583fdf1906bb5828607c19a11113cbd895d.camel@linuxfoundation.org>
- <838LOR.7MMYBGDJNPM51@t-online.de> <74d632633cef4a52f0833ee6eeb1141403ecbff4.camel@linuxfoundation.org>
- <II9LOR.Y1Q7EACQVKAA1@t-online.de>
-In-Reply-To: <II9LOR.Y1Q7EACQVKAA1@t-online.de>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Mon, 16 Jan 2023 17:47:29 +0000
-Message-ID: <CANPvuRn=T-7Lzo8Ywz5xpZ0X620DNANN4kbELhEMJyikbE6BgQ@mail.gmail.com>
-Subject: Re: [oe-core][PATCH] neard: dont pull in wpa-supplicant unconditionally
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EEuHprCPixbwNOrMLlmTYLF4ppO0dL6iQidupboEeX0=;
+        b=NHQj518zfch0kl5Xfy9GYpy4nIM66OcfB02Udm8Lb8zb4jOH5aVJpfGJjA9NqPiGQU
+         toPqRTrRH2TSIPU64FJ5r78G1ilUyEPRzY4T75JrpElNiT/8Imob0fsImkJ53vzhcrTR
+         P+Wwo33TEYs9EaaEUFRVb8PQE9PLV5zP/FOTOiMiOsVhi5KiBDxMzPQY4U5xoXwjkEV6
+         QGQoac+ZSLzDsw8JCQz6ejCtSk5mg52W4hKsIqibl9wtNuZ4Q59oJaPVM02H0h+fA/+s
+         ZPSADw8h93NqavU2pkkS3Vf4KiVIr9ZP6aWvxEsI9fjnPuzz3z98nwmmBkxcKMO2ATRr
+         CwTA==
+X-Gm-Message-State: AFqh2kr/x12q3FO+ASdrBxq5r4Pc7eXxfhyh2+cHmQMgoYOwz/uDkY0u
+	Y14ZOqVFEqnXd7zW2P4tJZfMlw==
+X-Google-Smtp-Source: AMrXdXv3qx8N5XJCVqA6Az66zdGnIJkkX5JvJChTa8PkCJu2rBjdnm1n1MiDaVBclUcVstvZAfnx8g==
+X-Received: by 2002:a05:600c:4928:b0:3cf:a41d:844b with SMTP id f40-20020a05600c492800b003cfa41d844bmr367258wmp.5.1673891783320;
+        Mon, 16 Jan 2023 09:56:23 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:2a31:564c:3393:642? ([2001:8b0:aba:5f3c:2a31:564c:3393:642])
+        by smtp.gmail.com with ESMTPSA id t9-20020a05600c198900b003d9e74dd9b2sm33165376wmq.9.2023.01.16.09.56.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Jan 2023 09:56:22 -0800 (PST)
+Message-ID: <b5b5df9998b2a854bc7d4d9f038428638c05fdbf.camel@linuxfoundation.org>
+Subject: Re: [oe-core][PATCH] neard: dont pull in wpa-supplicant
+ unconditionally
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Markus Volk <f_l_k@t-online.de>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000f82c7e05f2652de3"
+Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 16 Jan 2023 17:56:22 +0000
+In-Reply-To: <II9LOR.Y1Q7EACQVKAA1@t-online.de>
+References: <20230116164325.289867-1-f_l_k@t-online.de>
+	 <ca881583fdf1906bb5828607c19a11113cbd895d.camel@linuxfoundation.org>
+	 <838LOR.7MMYBGDJNPM51@t-online.de>
+	 <74d632633cef4a52f0833ee6eeb1141403ecbff4.camel@linuxfoundation.org>
+	 <II9LOR.Y1Q7EACQVKAA1@t-online.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 17:47:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176010
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 17:56:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176011
 
---000000000000f82c7e05f2652de3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Mon, 2023-01-16 at 18:20 +0100, Markus Volk wrote:
+> Yes, that's right, of course. What would be the preferred way to deal
+> with this. The dependency on wpa-supplicant is a bit annoying. Should
+> I use a bbappend to remove it, or is the RRECOMMEND on wpa-supplicant
+> perhaps removable from the neard recipe?
 
-Hi Markus,
+It might be time to add something to meta/conf/distro/includes/default-
+providers.inc along the lines of:
 
-Markus Volk <f_l_k@t-online.de> escreveu no dia segunda, 16/01/2023 =C3=A0(=
-s)
-17:20:
+VIRTUAL-RUNTIME_wireless-daemon ?=3D "wpa-supplicant"
 
-> Yes, that's right, of course. What would be the preferred way to deal wit=
-h
-> this. The dependency on wpa-supplicant is a bit annoying. Should I use a
-> bbappend to remove it, or is the RRECOMMEND on wpa-supplicant perhaps
-> removable from the neard recipe?
->
-
-I think we can set on the recipe the default value of the WIRELESS_DAEMON
-like on the patch you pointed out
-so that globally changing WIRELESS_DAEMON will take effect everywhere where
-it is used.
-
- WIRELESS_DAEMON ??=3D "wpa-supplicant"
-
-Jose
-
-
-> Am Mo, 16. Jan 2023 um 17:03:09 +0000 schrieb Richard Purdie <
-> richard.purdie@linuxfoundation.org>:
->
-> On Mon, 2023-01-16 at 17:49 +0100, Markus Volk wrote:
->
-> > That isn't going to work as there is no default value for >
-> WIRELESS_DAEMON ? > We have it set here
-> https://git.yoctoproject.org/poky/commit/?id=3D1eaf64fbe16d2ceb472623c65c=
-961b36aee33608
->
-> Sure, but the neard recipe can't see in the packagegroup-base recipe
-> scope? Cheers, Richard
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#176009):
-> https://lists.openembedded.org/g/openembedded-core/message/176009
-> Mute This Topic: https://lists.openembedded.org/mt/96310274/5052612
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---000000000000f82c7e05f2652de3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi=C2=A0<span style=3D"white-space:break-spaces">Mark=
-us,</span></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gm=
-ail_attr">Markus Volk &lt;<a href=3D"mailto:f_l_k@t-online.de">f_l_k@t-onli=
-ne.de</a>&gt; escreveu no dia segunda, 16/01/2023 =C3=A0(s) 17:20:<br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left:1px solid rgb(204,204,204);padding-left:1ex"><div id=3D"m_99676994028=
-1472188geary-body" dir=3D"auto"><div>Yes, that&#39;s right, of course. What=
- would be the preferred way to deal with this. The dependency on wpa-suppli=
-cant is a bit annoying. Should I use a bbappend to remove it, or is the RRE=
-COMMEND on wpa-supplicant perhaps removable from the neard recipe?</div></d=
-iv></blockquote><div><br>I think we can set on the recipe the default value=
- of the WIRELESS_DAEMON like on the patch you=C2=A0pointed out</div><div>so=
- that globally changing=C2=A0WIRELESS_DAEMON will take effect=C2=A0everywhe=
-re=C2=A0where it is used.</div><div><br>=C2=A0WIRELESS_DAEMON ??=3D &quot;w=
-pa-supplicant&quot;<br><br>Jose<br><br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex"><div id=3D"m_996769940281472188geary-quote" dir=3D"auto=
-"><br>Am Mo, 16. Jan 2023 um 17:03:09 +0000 schrieb Richard Purdie &lt;<a h=
-ref=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard=
-.purdie@linuxfoundation.org</a>&gt;:<br><blockquote type=3D"cite"><div styl=
-e=3D"white-space:break-spaces">On Mon, 2023-01-16 at 17:49 +0100, Markus Vo=
-lk wrote:
-
-<blockquote> &gt; That isn&#39;t going to work as there is no default value=
- for
- &gt; WIRELESS_DAEMON ?
- &gt;=20
-
- We have it set here
-=20
- <a href=3D"https://git.yoctoproject.org/poky/commit/?id=3D1eaf64fbe16d2ceb=
-472623c65c961b36aee33608" target=3D"_blank">https://git.yoctoproject.org/po=
-ky/commit/?id=3D1eaf64fbe16d2ceb472623c65c961b36aee33608</a>
-=20
-</blockquote>
-Sure, but the neard recipe can&#39;t see in the packagegroup-base recipe
-scope?
+I don't like these but probably need something more central/standard...
 
 Cheers,
 
 Richard
-</div><div style=3D"white-space:break-spaces">
-
-
-</div></blockquote></div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#176009): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/176009" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/176009</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/96310274/5052=
-612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/96310274/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
- Quaresma</div></div></div></div>
-
---000000000000f82c7e05f2652de3--
 
