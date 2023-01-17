@@ -1,181 +1,160 @@
-Return-Path: <chuck.wolber@boeing.com>
+Return-Path: <xiangyu.chen@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75BE8C54EBE
-	for <webhook@archiver.kernel.org>; Tue, 17 Jan 2023 01:59:51 +0000 (UTC)
-Received: from clt-mbsout-02.mbs.boeing.net (clt-mbsout-02.mbs.boeing.net [130.76.144.163])
- by mx.groups.io with SMTP id smtpd.web11.186883.1673920787476680797
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 748AEC54EBE
+	for <webhook@archiver.kernel.org>; Tue, 17 Jan 2023 02:05:51 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.187006.1673921149306706540
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Jan 2023 17:59:48 -0800
+ Mon, 16 Jan 2023 18:05:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@boeing.com header.s=boeing-s1912 header.b=cabZSE+k;
- spf=pass (domain: boeing.com, ip: 130.76.144.163, mailfrom: chuck.wolber@boeing.com)
-Received: from localhost (localhost [127.0.0.1])
-	by clt-mbsout-02.mbs.boeing.net (8.15.2/8.15.2/DOWNSTREAM_MBSOUT) with SMTP id 30H1xkNP022926;
-	Mon, 16 Jan 2023 20:59:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=boeing.com;
-	s=boeing-s1912; t=1673920786;
-	bh=hxjFoYHZabRhzHcETdGG2OsUWlDbOp0plw0W/rAfV+o=;
-	h=From:To:Cc:Subject:Date:From;
-	b=cabZSE+k4OnPuZUgrB3dHi+QA1jvrWqBjsM9USdHBcm/pgZcRVUIHtA7q/aI8jQGp
-	 WtK6UlPYwXANIRm3g/aHh6lWS01wAaZg/om94TbVxK4rYm9VLDKnOxMEY6v0weWFV/
-	 DLcmaDmL8BvlL/gCMSJLTXU1wXzI2tw/BgCKWMMmR2u1g/RVU96RakwZ8Lot2AI0nM
-	 6CNtqgrIJ14MGqhyBZxf+HYV4lehlXnmMUKzH8YxHa266XJBIgEWH0o8/fj2Se+7XW
-	 3AZT3dXTgz6nFYRnLxp0+zZeEq6pH/PDJ1bSK59JufX9na05xAkds4tDiVeFaWy69m
-	 ixOkD4hhCTsHg==
-Received: from clt-av-01.mbs.boeing.net (clt-av-01.mbs.boeing.net [144.115.64.247])
-	by clt-mbsout-02.mbs.boeing.net (8.15.2/8.15.2/8.15.2/UPSTREAM_MBSOUT) with ESMTPS id 30H1xfrh022902
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 20:59:41 -0500
-Received: from localhost (localhost [127.0.0.1])
-	by clt-av-01.mbs.boeing.net (8.15.2/8.15.2/DOWNSTREAM_RELAY) with SMTP id 30H1xdWU002613;
-	Mon, 16 Jan 2023 20:59:39 -0500
-Received: from onsbuild1.cbb.boeing.com (onsbuild1.cbb.boeing.com [132.224.17.88])
-	by clt-av-01.mbs.boeing.net (8.15.2/8.15.2/UPSTREAM_RELAY) with ESMTP id 30H1xarh002496;
-	Mon, 16 Jan 2023 20:59:36 -0500
-From: Chuck Wolber <chuck.wolber@boeing.com>
+ dkim=missing; spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=03811263df=xiangyu.chen@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 30H23GNP028266
+	for <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 18:05:49 -0800
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2171.outbound.protection.outlook.com [104.47.56.171])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3n3vsqa36x-3
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 16 Jan 2023 18:05:49 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FtT0bwu8eZBWthBkt9iOxkDa/2hnT+VuQkUiZlkcIvCAsZATTQ35IINgScuayGWqFZsnI3/KLOsGN7i/DDN74H7oawF8r7il/TajebcrCzpOjkpodvgS/eWG5tr8Lk8xHeipZimomhsP//xvBCKaq/undYOk5MIXuGXvtrBospLoh5FqjnINE1XcZO9QUht4rnZkT6v72pjC+r08o0HCl14uSW3rMtJsMdEkxlr5kvR8zKAR4ZaclW0y309HK7nplUEsX6QTmzXN45IuBVRthC18u2Pbrs5U4V4ppyQwGhR3gVNO8sqxk7jTkrVd3HdE6CtFMxi5nJw44Of0p4rlkA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7CBD8yB8mVd1nM/EAHxaBUjgIPYw/NWa6BCjjcDE3QQ=;
+ b=eZ1E/dgavJlqJVcCM1h78149p24Oc1pdQi5A7xwZ35t5RsO2XYwlAXBnUV9+PUI/W3IsS9cX7WFXio8VOm3IY1L6Pqk3wHiNk/joP7ogcJi7lv4BFPHfSJdOdpp6+fJpx24U/zZUVTBWHYaehfsREjiInZ8/iRcHiWpEWTXKJigwJyuomqTRJxmt2AAydXDJ4tQMfrhzac/Gx8F8fpSA4R7HpKS9y3Qg/x4j3XzE/xIOdDcP9QSrAGvUyc8dYwByF4CPu2pL7uRiK1T4PPCtHtHGWx0sIojPFB7xHV9WYV3KgtkJFfAB+MGTQAAlCLOLbyWB9mfK57CjeAUr2/Sd/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
+Received: from MW4PR11MB5824.namprd11.prod.outlook.com (2603:10b6:303:187::19)
+ by SA0PR11MB4623.namprd11.prod.outlook.com (2603:10b6:806:95::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.13; Tue, 17 Jan
+ 2023 02:05:47 +0000
+Received: from MW4PR11MB5824.namprd11.prod.outlook.com
+ ([fe80::39df:478e:d974:335a]) by MW4PR11MB5824.namprd11.prod.outlook.com
+ ([fe80::39df:478e:d974:335a%8]) with mapi id 15.20.5986.023; Tue, 17 Jan 2023
+ 02:05:47 +0000
+From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Chuck Wolber <chuck.wolber@boeing.com>
-Subject: [PATCH v2] scripts/oe-setup-layers: Make efficiently idempotent
-Date: Mon, 16 Jan 2023 17:59:30 -0800
-Message-Id: <1673920770-31378-1-git-send-email-chuck.wolber@boeing.com>
-X-Mailer: git-send-email 1.8.3.1
-X-TM-AS-GCONF: 00
+Subject: [OE-Core][PATCH 2/3] runqemu: add process of option QB_NFSROOTFS_EXTRA_OPT
+Date: Tue, 17 Jan 2023 10:05:03 +0800
+Message-Id: <20230117020504.697181-3-xiangyu.chen@eng.windriver.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230117020504.697181-1-xiangyu.chen@eng.windriver.com>
+References: <20230117020504.697181-1-xiangyu.chen@eng.windriver.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR03CA0072.namprd03.prod.outlook.com
+ (2603:10b6:a03:331::17) To MW4PR11MB5824.namprd11.prod.outlook.com
+ (2603:10b6:303:187::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW4PR11MB5824:EE_|SA0PR11MB4623:EE_
+X-MS-Office365-Filtering-Correlation-Id: a76b0a3d-b9fe-4c6c-804c-08daf82f5952
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	ByF9xsXAg0w72ffdEIdnmNubYMU8gZUFDe3QdGmxIWhAWMrkiDw5B3aRgCbQ4CFKLJlL/l2ivcB7pmCiFkjVpy8PxkZmF9Hq+E+bQVfHUqkHSt86cvU88W/Xxq5LUaheoGFCiBAuZUH/9GqEt3+qn3MsF+RoZrfpUC5qiU8ibTKyYWVglmSyVIq2YHoBXVtXcglqoW1W2mgydjRJHgX5I2SPVzvRvUF5pa9gBh9VovO2iIcp9hN0zWgjA93OeHnJVn+/CEOZ2jj05TVET+rB634jIzN/8NUCesE8uXxTQcekHQ8csAvToxjUQ7DmP6fJeKzhyBnXX7J1Tcg/gi4WeX0atAHoIFGoABVwkKVTSV5K+g2tB100GaB9ENKop9bS+SFhA+LrckxPrI86wt28m5xGXHUWE+bhlfbTRf7Shxr6Ttm5Q7b10PPqBxRSvadGtzEwMeRodI17eoXtYUUbuyWONK8cx5hUkqAIUkG1uCiiBgssbrgfWaCzir4INf8RS0QPj3Dru5FsJMlZRJoaIWhl/rxi82GFzX/EfOJHM3blAoX70yL6wKSk5mNg9uc8sJW/FjQZKWR9bVQhZ1ADvJRVZjH1hCti0/uOIcD6jLSayN4V7X8hpTDfF42nhHdArGW5KV8R4yVmvF7fgvqmF1K9Bi6Vc5BZhZlhI976a8J+rYjfCscim7CrPbZgJWmFEPwyzCZzadMdDuKkgfO2kA==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR11MB5824.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39850400004)(136003)(346002)(396003)(376002)(366004)(451199015)(6486002)(478600001)(8936002)(44832011)(5660300002)(6916009)(41300700001)(66556008)(66476007)(26005)(66946007)(8676002)(2906002)(316002)(83170400001)(52116002)(38100700002)(38350700002)(6506007)(6666004)(1076003)(6512007)(186003)(2616005)(83380400001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?CRSWX5B3TteTl4GWvmkXxD7ou4FS8+hdg90tmSJu5WULUVzegIPbZ+gwBtNg?=
+ =?us-ascii?Q?CHUa8MqIYZSiPQFP1akf95d/AfwpuwOe4OzOsESQU5TvcyemPs52MJ3H5+Eb?=
+ =?us-ascii?Q?jQwRGo4FvMZ1/t73fIHpu47hor8IxcWmPMIz/qSqSPG5y0QaijCQoJOx6DPs?=
+ =?us-ascii?Q?JGADZ6WSSmh5ienT6fR6NzaJ1GEd1069JvtK7x67ap8sEQj+OV2h5Ke38xnl?=
+ =?us-ascii?Q?I91140u7dVNMWbm2/y9fR5TOmAXhBFvdo8onEwn72MriBIwE/gTwvCvfguGX?=
+ =?us-ascii?Q?3JC7Igv8D7Rtz0Yh5kPx3awXOEq2Rw45tXbtcBguzzg2kHvQ3VR7Fmo5Udka?=
+ =?us-ascii?Q?nnr7BZJVDgNeKxGs/sI/cEXYULCK8s9klFJIx+ac4ICQ3hWtxOYiWhGutBBv?=
+ =?us-ascii?Q?DJnGMXGjA0fezK/hEy5xdlxXNzwwA2bka0oaZYslwK3HkTNkMS28NnXcAswi?=
+ =?us-ascii?Q?ABBwYK9Q99mAbVMoziRk6iAg9IEe8UwBi1gJYJ3Uzsz1eBY80BysXr/j78vc?=
+ =?us-ascii?Q?y9StZF99czwOcVK9pj29Jy/QiF4Or0XsClIDcwdMrfdGBIMsV2NcfsuFxOMM?=
+ =?us-ascii?Q?FcUX3f5n4LSIkWgyW9Uy6Mhqm6qBR/O4VGoT5iHBTdAnNfKERVj0Gi/JKTd5?=
+ =?us-ascii?Q?xXFsgdDrCug7YaS4WbfPbsS6SFLliBY2f9DfnGZ6cOMnAE0X6iX2l5MEVXoD?=
+ =?us-ascii?Q?2HdGEwFgFY2RfVZ5XTGXRxfi+D2xCSEcllUlMwQ6Jsl1m7PbgJpStZkmlJq6?=
+ =?us-ascii?Q?2kKr/yU/Kt0Dp6KUrqYxlNFuH4AvvaJWf/DDTHCPAdZoITKw0jIdCdRUWsVn?=
+ =?us-ascii?Q?qrauB8sqrstJzIzEnUeVrna/r4j9BtXmL2hXnL2aog9I+NFyEj/vIGVve2SM?=
+ =?us-ascii?Q?e7e0Q+tPjGdG52+e8URDYXHPbnZQN4qKGWxsp++QcCUTE9Pa9G5iJKguvysL?=
+ =?us-ascii?Q?v+m3O3+FKr8rqVFts2V4FH52PWJHRg6pEOpH9Nnonqdoj9f9zEsIsxv3kqhp?=
+ =?us-ascii?Q?sSo6uPveUNJ/CyqzcIh1MDyma3h+eQnN38lwIFApe/J3PtraD+73ceCR0OFv?=
+ =?us-ascii?Q?sLRfryk5HiyGt9+NekNEvZl3yWA4/b86BEyq8DJ24nSi6SeWgnzIbldy6xnP?=
+ =?us-ascii?Q?ahnG132QFQfJO5TbC/vXOtHIjRLrVHVxGFGjmz89aUdIITI0JHCgMOVbgGta?=
+ =?us-ascii?Q?O56aEU7+5d+iF07InymYdv0Q0ZdR1s7emB8rWVZvDjSeI96V89eVji4wK2/S?=
+ =?us-ascii?Q?o29pgjmuy8AxZ6SDrtR0rAH5rP1SnQ3pUSJbi7NyF4FnXSbeuFaPLWcaEkXR?=
+ =?us-ascii?Q?yY8x00RGXHx+weOQav6/mIjHdeRxv0eyog2czSAK9hoLDFR+ogF73k5oBSKa?=
+ =?us-ascii?Q?J1E54ZqSwCsHeDZXpCwSswqyQWNnNCzW+ueQU29zpPMeG5lX4n7u1yk6vvWS?=
+ =?us-ascii?Q?q5eV/sABwZ3aBcTuJW+sov5CmIjKVJjWF1PEZEGVZmq+Xufj+A3dn9aNEPRD?=
+ =?us-ascii?Q?O1oJfyrk/xLpVsXVYhup6sPxovCiHO1GXxrKxCYa2WHjkR6l2dIqSpfN2qSK?=
+ =?us-ascii?Q?O4oQ6S+CyrSmRk3VkEEuVasjs5BolT8sr+lZnILBb+IZRxj7vibFP51HjUkU?=
+ =?us-ascii?Q?vQ=3D=3D?=
+X-OriginatorOrg: eng.windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a76b0a3d-b9fe-4c6c-804c-08daf82f5952
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB5824.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2023 02:05:47.4732
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1VWJSldJ+OZTwxO5pNpSohx97xreZnwGoW83T3RP8ZzlqrwWsUaKeYIe65Vzb9oiBb25OwczkDWKMhUJklEIWNfWvQFEirSpTRuxUncrpxw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4623
+X-Proofpoint-GUID: WxwOSBgL38aVZECAd4896RvfyHjvaHwG
+X-Proofpoint-ORIG-GUID: WxwOSBgL38aVZECAd4896RvfyHjvaHwG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.923,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-16_18,2023-01-13_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ priorityscore=1501 mlxlogscore=921 adultscore=0 impostorscore=0
+ lowpriorityscore=0 spamscore=0 suspectscore=0 mlxscore=0 bulkscore=0
+ phishscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2301170012
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Jan 2023 01:59:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176019
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Jan 2023 02:05:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176022
 
-The effect of subsequent setup-layers executions is now either a NOOP
-or the minimal set of changes required to ensure layers precisely match
-the JSON configuration.
+From: Xiangyu Chen <xiangyu.chen@windriver.com>
 
-This change allows setup-layers to be incorporated into a team's
-configuration management strategy. In particular, the configuration
-JSON manages a "pinning policy" that documents the oversight of sources
-of change (a requirement for embedded development in highly regulated
-industries).
+This extra options to be appended to the nfs rootfs options in kernel
+boot arg.
 
-One model for this strategy would work as follows. Team level policy is
-developed to regularly review upstream commits that occur between the
-current upstream HEAD and the previously pinned revision. The JSON
-configuration is periodically updated after a review, test, and approval
-process. In the rare instance that an upstream change is considered
-problematic, the bbappend mechanism can be used to make relevant
-changes in the team's project repository. This approach also requires
-that team developers regularly run the project repository copy of
-setup-layers. This is most easily accomplished by including setup-layers
-in a wrapper script that all team developers use to interact with the
-bitbake tool suite (e.g. "bb bitbake foo-image"). Project level policy
-and oversight is effectively "contained" within this wrapper script,
-thereby reducing a significant source of human error.
+Example config with qemuppc64 in machine config:
 
-Left unstated, but acknowledged here, are a number of nuances required
-to successfully implement the above strategy.  The details are out of
-scope for this explanation. What should be clear is that a larger
-configuration management strategy can now benefit from the utility
-provided by setup-layers.
+add r/w size in the nfs rootfs extra option:
+QB_NFSROOTFS_EXTRA_OPT = "wsize=524288,rsize=524288"
 
-Note: Neither the above configuration management strategy example nor
-the change itself is intended to alter the original intent to use
-"bitbake-layers create-layers-setup destdir" to keep pace with upstream
-activity for those who wish to use it that way.
+re-build and runqemu with nfs again, we can observe the kernel command
+line added our defined value in QB_NFSROOTFS_EXTRA_OPT:
 
-Signed-off-by: Chuck Wolber <chuck.wolber@boeing.com>
+Kernel command line: root=/dev/nfs nfsroot=10.0.2.2:/home/xchen5/testing/build/tmp-glibc/deploy/images/qemuppc64/testnfs,nfsvers=3,port=3049,tcp,mountport=3048,wsize=524288,rsize=524288 rw  mem=256M ip=dhcp console=hvc0 console=hvc0 nohugevmalloc
+
+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
 ---
- scripts/oe-setup-layers | 55 +++++++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 46 insertions(+), 9 deletions(-)
+ scripts/runqemu | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/oe-setup-layers b/scripts/oe-setup-layers
-index 6ecaffe..d0bc9f1 100755
---- a/scripts/oe-setup-layers
-+++ b/scripts/oe-setup-layers
-@@ -10,12 +10,42 @@
- # bitbake-layers create-layers-setup destdir
- #
- # It is recommended that you do not modify this file directly, but rather re-run the above command to get the freshest upstream copy.
-+#
-+# This script is idempotent. Subsequent runs only change what is necessary to
-+# ensure your layers match your configuration.
+diff --git a/scripts/runqemu b/scripts/runqemu
+index ccc557f308..5907390573 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -1022,7 +1022,11 @@ class BaseConfig(object):
+             # Use '%s' since they are integers
+             os.putenv(k, '%s' % v)
  
- import argparse
- import json
- import os
- import subprocess
- 
-+def _is_layer_git_repo(layerdir):
-+    git_dir = os.path.join(layerdir, ".git")
-+    if not os.access(git_dir, os.R_OK):
-+        return False
-+    try:
-+        return subprocess.check_output("git -C %s rev-parse --is-inside-git-dir" % git_dir, shell=True, stderr=subprocess.DEVNULL)
-+    except subprocess.CalledProcessError:
-+        return False
+-        self.unfs_opts="nfsvers=3,port=%s,tcp,mountport=%s" % (nfsd_port, mountd_port)
++        qb_nfsrootfs_extra_opt = self.get("QB_NFSROOTFS_EXTRA_OPT")
++        if qb_nfsrootfs_extra_opt and not qb_nfsrootfs_extra_opt.startswith(","):
++            qb_nfsrootfs_extra_opt = "," + qb_nfsrootfs_extra_opt
 +
-+def _is_layer_at_rev(layerdir, rev):
-+    try:
-+        curr_rev = subprocess.check_output("git -C %s rev-parse HEAD" % layerdir, shell=True, stderr=subprocess.DEVNULL)
-+        if curr_rev.strip().decode("utf-8") == rev:
-+            return True
-+    except subprocess.CalledProcessError:
-+        pass
-+    return False
-+
-+def _is_layer_at_remote_uri(layerdir, remote, uri):
-+    try:
-+        curr_uri = subprocess.check_output("git -C %s remote get-url %s" % (layerdir, remote), shell=True, stderr=subprocess.DEVNULL)
-+        if curr_uri.strip().decode("utf-8") == uri:
-+            return True
-+    except subprocess.CalledProcessError:
-+        pass
-+    return False
-+
- def _do_checkout(args, json):
-     layers = json['sources']
-     for l_name in layers:
-@@ -36,23 +66,30 @@ def _do_checkout(args, json):
-         remotes = l_remote['remotes']
++        self.unfs_opts="nfsvers=3,port=%s,tcp,mountport=%s%s" % (nfsd_port, mountd_port, qb_nfsrootfs_extra_opt)
  
-         print('\nSetting up source {}, revision {}, branch {}'.format(l_name, desc, branch))
--        cmd = 'git init -q {}'.format(layerdir)
--        print("Running '{}'".format(cmd))
--        subprocess.check_output(cmd, shell=True)
-+        if not _is_layer_git_repo(layerdir):
-+            cmd = 'git init -q {}'.format(layerdir)
-+            print("Running '{}'".format(cmd))
-+            subprocess.check_output(cmd, shell=True)
- 
-         for remote in remotes:
--            cmd = "git remote remove {} > /dev/null 2>&1; git remote add {} {}".format(remote, remote, remotes[remote]['uri'])
-+            if not _is_layer_at_remote_uri(layerdir, remote, remotes[remote]['uri']):
-+                cmd = "git remote remove {} > /dev/null 2>&1; git remote add {} {}".format(remote, remote, remotes[remote]['uri'])
-+                print("Running '{}' in {}".format(cmd, layerdir))
-+                subprocess.check_output(cmd, shell=True, cwd=layerdir)
-+
-+                cmd = "git fetch -q {} || true".format(remote)
-+                print("Running '{}' in {}".format(cmd, layerdir))
-+                subprocess.check_output(cmd, shell=True, cwd=layerdir)
-+
-+        if not _is_layer_at_rev(layerdir, rev):
-+            cmd = "git fetch -q --all || true"
-             print("Running '{}' in {}".format(cmd, layerdir))
-             subprocess.check_output(cmd, shell=True, cwd=layerdir)
- 
--            cmd = "git fetch -q {} || true".format(remote)
-+            cmd = 'git checkout -q {}'.format(rev)
-             print("Running '{}' in {}".format(cmd, layerdir))
-             subprocess.check_output(cmd, shell=True, cwd=layerdir)
- 
--        cmd = 'git checkout -q {}'.format(rev)
--        print("Running '{}' in {}".format(cmd, layerdir))
--        subprocess.check_output(cmd, shell=True, cwd=layerdir)
--
- parser = argparse.ArgumentParser(description="A self contained python script that fetches all the needed layers and sets them to correct revisions using data in a json format from a separate file. The json data can be created from an active build directory with 'bitbake-layers create-layers-setup destdir' and there's a sample file and a schema in meta/files/")
- 
- parser.add_argument('--force-bootstraplayer-checkout', action='store_true',
+         # Extract .tar.bz2 or .tar.bz if no nfs dir
+         if not (self.rootfs and os.path.isdir(self.rootfs)):
 -- 
-1.8.3.1
+2.34.1
 
 
