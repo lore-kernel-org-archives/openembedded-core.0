@@ -1,98 +1,107 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <luca.ceresoli@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4503C6379F
-	for <webhook@archiver.kernel.org>; Tue, 17 Jan 2023 16:51:05 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web10.201932.1673974261903620493
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4E10C3DA78
+	for <webhook@archiver.kernel.org>; Tue, 17 Jan 2023 17:03:15 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+ by mx.groups.io with SMTP id smtpd.web10.202318.1673974991390547084
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Jan 2023 08:51:02 -0800
+ Tue, 17 Jan 2023 09:03:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ACkU+irF;
- spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f172.google.com with SMTP id o7so33415015ljj.8
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Jan 2023 08:51:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9JGBuRpeLAcAYmqWxuFE9M7KuobLnwkodLFUK5Zp/pY=;
-        b=ACkU+irFaYpgqWmyUQ4IR3jCnQssi5jb2SsfcAw0Eb3+Il6YR7o2aSFxZOEgTSv2pF
-         jmvOwNmgdG7H/sixs56HqYx+WtGGXWi4LzKI3dn8zMn+I0drLI1b6eV+HVJvsS/xMJR/
-         inFCW1z+EgPOSJvXVL2t3PRXz5HZp/hSUGOzNkOe8WXiWCaOxs2vqiSDO8uEK+2DNVFN
-         WktjyuxSA2aR/M4/f4DwP1fnl7j35S3pDaP6je8N7RDVTaLm3KRKD80+1p6VYU06x6EY
-         lLKAXHSY8S3UrxnxNFSopMhCcyVIJUO4XgpBIYCjQUmGVgBAv0iYIE+a/F2MkR+7/+yY
-         qKVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9JGBuRpeLAcAYmqWxuFE9M7KuobLnwkodLFUK5Zp/pY=;
-        b=JkYPb1FLNFwflbQaxsoBxeeZDyIqLEPTq/SwHMJh0gTUzyiuwXrOJ/aAIoAxYAhb82
-         dUV0c/0+5gIBd6dps+3JvQW4VYJG2KTfrW4HKmxowVf9ebnBW4wWGhVYxnNGJd4jrhAj
-         ulUTNfRJgDweHOtKIQNdqvcWcd9QTnXlX02Vkcav8KQqHn4+0k0mQaMJiIm3mulqvybK
-         AbLb99itWT8Ydw/ZK8l9oSMOTKgHq7aC9/qxzvx7m5aLft7xFhNITMhLV/sGHn+BdJtL
-         c2Dub3wp+x1oxYU77ugVAOhC8hNHK9RLQniYnZ+roVHIfk/suQfMbW60eqAmdaCHd1W8
-         9HSg==
-X-Gm-Message-State: AFqh2kqDshbbdvVz09Jdv4gcqqWD6SLI5V6Qe9hYFJ8laZnvVANk0kIn
-	VeTCm6HGIaGYHd/9kq8ZalZOhu2Ruu7PtYVWm94=
-X-Google-Smtp-Source: AMrXdXvbWuQy1Ck62QfoNCtfvDVj1CrFVdl0yNqawY+GnsaTzqTIpkcVek5++nUSxpKAW65i4YfTEstIbLc3r/UjQrQ=
-X-Received: by 2002:a2e:7311:0:b0:28b:6407:3cf3 with SMTP id
- o17-20020a2e7311000000b0028b64073cf3mr223392ljc.222.1673974260101; Tue, 17
- Jan 2023 08:51:00 -0800 (PST)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=XLZAjjH/;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: luca.ceresoli@bootlin.com)
+Received: from booty (unknown [77.244.183.192])
+	(Authenticated sender: luca.ceresoli@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id E981D1BF204;
+	Tue, 17 Jan 2023 17:03:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1673974989;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=R61D9lpuD9+sMF1FcBT/2S4y1FVcyN7/jjoLLDL6MVM=;
+	b=XLZAjjH/pUk2Cnj1GXZ8hJvv9vSciL63gflZcparpdXU6fEShwM2MRjJUV5r+Nb5BXfZt0
+	s1GZeDJAXJ6zxOcCkIeiX9CsxF5dJ24s9s07JI+RWjrR2Clo6PH1bjRbc4dvFgCmeQIvIv
+	ncDgHVv5HRt9EIqRmJW2GKGDvb/WBl1rfciO1GR5Rmeiw1oM1JImlH+ld10THrCmY6JCX2
+	wBwmdKcmwUpO3QEtjNJI3V29Cd46Q9q/afkv/txyn3+6nt8DCYIJjs4UjoJVD8wyiL1SFL
+	CLIEMLUwLUzVhev3levyfUFJhVUWWbRWjLVoZfLVbrST0ZQ701U1yYekvSXUvA==
+Date: Tue, 17 Jan 2023 18:03:07 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: "Chuck Wolber" <chuck.wolber@boeing.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v2] scripts/oe-setup-layers: Make efficiently
+ idempotent
+Message-ID: <20230117180307.52fdcce0@booty>
+In-Reply-To: <1673920770-31378-1-git-send-email-chuck.wolber@boeing.com>
+References: <1673920770-31378-1-git-send-email-chuck.wolber@boeing.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20230104114555.575278-1-kubiznak@2n.com> <17371904FDF90491.29426@lists.openembedded.org>
- <CANNYZj8Qfcs+X8yGRiHZJygZ0RH4n=KDsKXkXO-+duY=ycRS5A@mail.gmail.com>
- <35848697143b4b3a8612c027d8852575@2n.com> <CANNYZj9eVWdxkuSVgur0WvTd3xNLECWS5mZ1nZg+q=WPO8PBGQ@mail.gmail.com>
- <6351b082f6b748b7bf01d4313c648861@2n.com> <CANNYZj9sEYON_ymHC8-8hyu8kq4jspCHDEF2TyxU1qCcOu3+kQ@mail.gmail.com>
- <e46977d84bbc4fd6ba7966b02937e8e9@2n.com> <CANNYZj8LTq_oXKzZUGYjjU0AU=Q8rXvaM0ne0xvz_CaNAV0NjQ@mail.gmail.com>
- <DB4PR02MB10030E1A4CEFF3F064DF2F2EBE2FD9@DB4PR02MB10030.eurprd02.prod.outlook.com>
-In-Reply-To: <DB4PR02MB10030E1A4CEFF3F064DF2F2EBE2FD9@DB4PR02MB10030.eurprd02.prod.outlook.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 17 Jan 2023 17:50:48 +0100
-Message-ID: <CANNYZj-24WyZK=1vG7rbuoi9mquxkB3uGTkyTTA2R0F=R=x=5A@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 1/2] gobject-introspection: check for GI_DATA_ENABLED
-To: =?UTF-8?B?UGV0ciBLdWJpesWIw6Fr?= <kubiznak@2n.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Jan 2023 16:51:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176055
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Jan 2023 17:03:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176056
 
-On Tue, 17 Jan 2023 at 11:57, Petr Kubiz=C5=88=C3=A1k <kubiznak@2n.com> wro=
-te:
-> I'm slowly progressing with the patch but always end up at the principal =
-issue of hard dependency on g-i being enabled.
->
-> For example, graphene recipe does not reflect on "gobject-introspection-d=
-ata" being/not being in distro features, claiming gtk4 requires build with =
-introspection. Graphene can be patched to be buildable under both circumsta=
-nces but gtk4 then (unsurprisingly) fails in do_configure step due to missi=
-ng graphene-gobject-1.0 if g-i is disabled.
->
-> I don't think gtk4 can be patched to build with g-i disabled, do you?
->
-> If you agree with me, how can we proceed with the fact that some packages=
- (namely gtk4) basically cannot be built without the feature, while still a=
-llowing to disable that feature? Is it really necessary to have everything =
-buildable with g-i disabled? Apparently, it's not buildable now.
+Hello Chuck,
 
-It helps if you show the errors you are getting, and source code lines
-they are coming from, so I do not have to guess what is happening or
-dig around source code.
+On Mon, 16 Jan 2023 17:59:30 -0800
+"Chuck Wolber" <chuck.wolber@boeing.com> wrote:
 
-The way I read gtk4 and graphene source code, what the recipe claims
-is not true: you can disable introspection in graphene, and it would
-still build and install graphene-gobject.pc which is what gtk4 is
-looking for. If the needed piece is not installed, then you need to
-get to the bottom of why, e.g. specific source code lines where that
-decision is made.
+> The effect of subsequent setup-layers executions is now either a NOOP
+> or the minimal set of changes required to ensure layers precisely match
+> the JSON configuration.
+> 
+> This change allows setup-layers to be incorporated into a team's
+> configuration management strategy. In particular, the configuration
+> JSON manages a "pinning policy" that documents the oversight of sources
+> of change (a requirement for embedded development in highly regulated
+> industries).
+> 
+> One model for this strategy would work as follows. Team level policy is
+> developed to regularly review upstream commits that occur between the
+> current upstream HEAD and the previously pinned revision. The JSON
+> configuration is periodically updated after a review, test, and approval
+> process. In the rare instance that an upstream change is considered
+> problematic, the bbappend mechanism can be used to make relevant
+> changes in the team's project repository. This approach also requires
+> that team developers regularly run the project repository copy of
+> setup-layers. This is most easily accomplished by including setup-layers
+> in a wrapper script that all team developers use to interact with the
+> bitbake tool suite (e.g. "bb bitbake foo-image"). Project level policy
+> and oversight is effectively "contained" within this wrapper script,
+> thereby reducing a significant source of human error.
+> 
+> Left unstated, but acknowledged here, are a number of nuances required
+> to successfully implement the above strategy.  The details are out of
+> scope for this explanation. What should be clear is that a larger
+> configuration management strategy can now benefit from the utility
+> provided by setup-layers.
+> 
+> Note: Neither the above configuration management strategy example nor
+> the change itself is intended to alter the original intent to use
+> "bitbake-layers create-layers-setup destdir" to keep pace with upstream
+> activity for those who wish to use it that way.
+> 
+> Signed-off-by: Chuck Wolber <chuck.wolber@boeing.com>
 
-Alex
+I'm afraind I am unable to apply this patch on my testing branch as it
+conflicts with another patch ("oe-setup-build: add a tool for
+discovering config templates and setting up builds" by Alexander
+Kanavin) which is already on my branch.
+
+You might want to rework your patch on top of Alex's, or just wait for
+it to be on master and then send a v3.
+
+Kind regards,
+Luca
+
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
