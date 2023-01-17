@@ -1,148 +1,143 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4937C38142
-	for <webhook@archiver.kernel.org>; Tue, 17 Jan 2023 22:37:39 +0000 (UTC)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web10.1298.1673995055259022542
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11964C00A5A
+	for <webhook@archiver.kernel.org>; Tue, 17 Jan 2023 23:19:00 +0000 (UTC)
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+ by mx.groups.io with SMTP id smtpd.web11.2329.1673997536201441152
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Jan 2023 14:37:35 -0800
+ Tue, 17 Jan 2023 15:18:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=AM4Bky8G;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.42, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f42.google.com with SMTP id mp20so32349681ejc.7
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Jan 2023 14:37:34 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=TRpzk9mw;
+ spf=pass (domain: gmail.com, ip: 209.85.215.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f178.google.com with SMTP id v3so23213890pgh.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Jan 2023 15:18:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=RY6vZW8+lXcnmE+weNKXAHQqkLiWcHmnVR3mqHDqk0Q=;
-        b=AM4Bky8GCsbl0q07Qv6oluKke6/6AjSHzTm5DQmh/E+a3TCMZ2WkLBVNe8sQc+ODJE
-         rS2oqVsn3bYHc1suNhldGKUmveNbcDL0Ggn0h1z3DuN0pFcwRl9yRygi3C+HFIe5WKtp
-         9ry9cmQRej5R4Wo0qgrK1O1/k0GZXzJVXd3Gx0eZQbpFuRjEalqzIX7Vb01tefl8uA4J
-         z4+6Ry8uY1nSSEoLuA0VRD3u50QkXl0xtOFep6ZRcL9CN7W84cgaXupMQT6DCvJaQiKQ
-         +E9wT0vnB612BgQmCTjBWCDvk06IhDvfKkTfsrUXTiSKBPd/QorE4h0mYPgl71sPHK+F
-         KW9g==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=52afRuTBFIeZi9VjyqaZIFifJU0ajOBYsOLlBGSzMAw=;
+        b=TRpzk9mw6Wh0lb/zaXNPFpeLNoefgkw1Uqn+pVNVpmjlsdR43dHfcLtFKk+ux2RwM4
+         Nbgm2oKRk+1zk/qbjA8exrgEnnmrVgzqrKYCEG7wUm3fXgME3+Cmed0fQzbLTPKqPTC1
+         n099ZfH1Sc5drdyVUkxCF7NcgSEdcQ0Gig/NwheAszY2WvMGzYe+CDoHjPSm1KdEGLk0
+         WCSbqtb7PM41LiDBP4359/m3eZFHDMMuVvUsbaagVeo0dU7iKZosTsHqtQzFdcSgv39l
+         ss9J3Z46ROsjeLQe0bgZlcrHlAIJQ4G6EQC8rOY3gSkUE5KLReyZZTOnV/DIfLXt0ObH
+         7tQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RY6vZW8+lXcnmE+weNKXAHQqkLiWcHmnVR3mqHDqk0Q=;
-        b=xbMlMw2t+rl/ZJJOcxfEV/ecJoIcLqPFxmfPJNCT7maSOXDmRM2chAEm/3iJYozwg5
-         acbqG2SPONLFfVr4gdOzCxhMTt6/CoKAfT+4S0tGsyOo8U5zqwSUpSf5afHPcxxT4I26
-         05eaam34OWGGHbzogv30/01zx5tQDzG1GqDVQ8VtDTpRITR/Msd4OnrW4VGggsD308Ca
-         dGwFRFuoBW6n0OMONY/t9y61CV3Y19DUnOUzZZ3Km1Z9PahXdV+1WZeAy/XnHAkDVrqU
-         U4dUg0u8GVjyYEhQIlShWmOcZxhzvTfDk/Zv6/orQjdnS0wrz05jbdQtHfOsPTP1m4eN
-         /zsg==
-X-Gm-Message-State: AFqh2kpmtkpuQ9LOthMr86OCksbJfVCZap0Grzd0DEGXggl16JzUhSXO
-	Qq98tTMkHk5eKF/ja6p+XrpH/WrqICV2zsonlT99uw==
-X-Google-Smtp-Source: AMrXdXvQclkYR1kFEKXM8KI1Znc5T3wyiKE/6neJ8K832mWXKAVVFkJiIb+q6S0+zNELMKNl976ryNpZfqnQrW3OnK4=
-X-Received: by 2002:a17:906:4308:b0:865:d677:1f6c with SMTP id
- j8-20020a170906430800b00865d6771f6cmr525535ejm.584.1673995053400; Tue, 17 Jan
- 2023 14:37:33 -0800 (PST)
+        bh=52afRuTBFIeZi9VjyqaZIFifJU0ajOBYsOLlBGSzMAw=;
+        b=2I8uXco7xULcmIM9Hn5o28XW1tZJgXZhzHyiaSDH20Xj8838lS/SOMep7L0u2zwDet
+         MVggJdh1LVtL+m2uZxdMlYBF0OaWcqgnXdIZnjeO5YglRLNmEVilUpF3MC56yPQYcDh1
+         Iab3lVGpkIjuvT89IpPBFuhRjkblk7PuxPvHWJModFjp8zo9ITE7F8hua6aBFvGWAZlm
+         sJAvv6sY8p5iqlJ/LRzbVgwvYg4lZckbavrNly2XcdW1HPtbdfx7qLWecuQ9EXMFJwQE
+         RIZkPrgIbeZQjnq9FJnJZ4lfw8I9zwDzpyvseVZ5/8q05Dtu4eT3LsoGDqIQi3v0OyHd
+         xqJg==
+X-Gm-Message-State: AFqh2kp4ntFGWgeCThCJmoole37wc3hPJ2sW1fcxodRmvwC+XknLHAeh
+	mDUOrvRYk1xtXOF05rNRngAAHof2f6osWw==
+X-Google-Smtp-Source: AMrXdXsE3IYnsz27ebYRCu73NBiQeIfglyQORgaGFG+CA8qovYSet25yqTnGj25R1R6SgAT9MFMoPw==
+X-Received: by 2002:aa7:92d4:0:b0:58d:bb59:7112 with SMTP id k20-20020aa792d4000000b0058dbb597112mr3801899pfa.22.1673997535195;
+        Tue, 17 Jan 2023 15:18:55 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::b940])
+        by smtp.gmail.com with ESMTPSA id y15-20020aa7942f000000b0058d92d6e4ddsm5445717pfo.5.2023.01.17.15.18.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Jan 2023 15:18:54 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 1/4] mdadm: Define alignof using _Alignof when using C11 or newer
+Date: Tue, 17 Jan 2023 15:18:50 -0800
+Message-Id: <20230117231853.1511529-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-References: <17490.1673869297796319682@lists.openembedded.org>
- <17490.1673882452401971192@lists.openembedded.org> <d74652b6-1342-491f-b949-320cf9f63012@windriver.com>
- <41add1d8b8a0f94c13e6599bd4c400dee7c611d1.camel@linuxfoundation.org>
- <49909f0e-9fc9-cb74-66f4-e6feec95f8d0@windriver.com> <CANNYZj_UxfHNdOyT0t1S=gov7DXDVnNdCOQ4i8-cXfK9VGw0GQ@mail.gmail.com>
-In-Reply-To: <CANNYZj_UxfHNdOyT0t1S=gov7DXDVnNdCOQ4i8-cXfK9VGw0GQ@mail.gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Tue, 17 Jan 2023 12:37:22 -1000
-Message-ID: <CAOSpxda3VsmobDFyVCmNH6cqGd+MZahO=g=yf_6XNY0sJAwcLg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] rust: Upgrade 1.66.0 -> 1.66.1
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Randy MacLeod <randy.macleod@windriver.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, sundeep.kokkonda@windriver.com, 
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Jan 2023 22:37:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176065
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Jan 2023 23:19:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176066
 
-On Tue, Jan 17, 2023 at 12:00 PM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> Option 1 looks like a new policy too. If we can upgrade rust across
-> many major versions in a stable release, then why not other items?
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...sing-_Alignof-when-using-C11-or-newe.patch | 52 +++++++++++++++++++
+ meta/recipes-extended/mdadm/mdadm_4.2.bb      |  1 +
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch
 
-According to the stable release "rules" option 1 would require an
-exception granted by the TSC.  Otherwise it is a no go.
+diff --git a/meta/recipes-extended/mdadm/files/0001-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch b/meta/recipes-extended/mdadm/files/0001-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch
+new file mode 100644
+index 0000000000..1c472886b3
+--- /dev/null
++++ b/meta/recipes-extended/mdadm/files/0001-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch
+@@ -0,0 +1,52 @@
++From 82c893bb9e01f914a6bdef1bef943af746cfc3e1 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sun, 15 Jan 2023 12:42:18 -0800
++Subject: [PATCH] Define alignof using _Alignof when using C11 or newer
++
++WG14 N2350 made very clear that it is an UB having type definitions
++within "offsetof" [1]. This patch enhances the implementation of macro
++alignof_slot to use builtin "_Alignof" to avoid undefined behavior on
++when using std=c11 or newer
++
++clang 16+ has started to flag this [2]
++
++Fixes build when using -std >= gnu11 and using clang16+
++
++Older compilers gcc < 4.9 or clang < 8 has buggy _Alignof even though it
++may support C11, exclude those compilers too
++
++[1] https://www.open-std.org/jtc1/sc22/wg14/www/docs/n2350.htm
++[2] https://reviews.llvm.org/D133574
++
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ sha1.c | 12 +++++++++++-
++ 1 file changed, 11 insertions(+), 1 deletion(-)
++
++diff --git a/sha1.c b/sha1.c
++index 89b32f4..1e4ad5d 100644
++--- a/sha1.c
+++++ b/sha1.c
++@@ -229,7 +229,17 @@ sha1_process_bytes (const void *buffer, size_t len, struct sha1_ctx *ctx)
++   if (len >= 64)
++     {
++ #if !_STRING_ARCH_unaligned
++-# define alignof(type) offsetof (struct { char c; type x; }, x)
+++/* GCC releases before GCC 4.9 had a bug in _Alignof.  See GCC bug 52023
+++   <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=52023>.
+++   clang versions < 8.0.0 have the same bug.  */
+++# if (!defined __STDC_VERSION__ || __STDC_VERSION__ < 201112 \
+++      || (defined __GNUC__ && __GNUC__ < 4 + (__GNUC_MINOR__ < 9) \
+++   && !defined __clang__) \
+++      || (defined __clang__ && __clang_major__ < 8))
+++#  define alignof(type) offsetof (struct { char c; type x; }, x)
+++# else
+++#  define alignof(type) _Alignof(type)
+++# endif
++ # define UNALIGNED_P(p) (((size_t) p) % alignof (sha1_uint32) != 0)
++       if (UNALIGNED_P (buffer))
++ 	while (len > 64)
++-- 
++2.39.0
++
+diff --git a/meta/recipes-extended/mdadm/mdadm_4.2.bb b/meta/recipes-extended/mdadm/mdadm_4.2.bb
+index 7298860241..1c4397509b 100644
+--- a/meta/recipes-extended/mdadm/mdadm_4.2.bb
++++ b/meta/recipes-extended/mdadm/mdadm_4.2.bb
+@@ -25,6 +25,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
+            file://0001-Fix-parsing-of-r-in-monitor-manager-mode.patch \
+            file://0001-Makefile-install-mdcheck.patch \
+            file://0001-restripe.c-Use-_FILE_OFFSET_BITS-to-enable-largefile.patch \
++           file://0001-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "461c215670864bb74a4d1a3620684aa2b2f8296dffa06743f26dda5557acf01d"
+-- 
+2.39.0
 
-So it seems to me that this is a classic case for using a mix-in layer.
-
-Steve
-
-> On Tue, 17 Jan 2023 at 22:57, Randy MacLeod <randy.macleod@windriver.com> wrote:
-> >
-> > On 2023-01-17 16:54, Richard Purdie wrote:
-> > > On Tue, 2023-01-17 at 15:29 -0500, Randy MacLeod wrote:
-> > >> On 2023-01-16 10:20, Kokkonda, Sundeep via lists.openembedded.org
-> > >> wrote:
-> > >>
-> > >>>   Rust community said the security fixes are only for the current
-> > >>> stable relases.
-> > >>>
-> > >>> https://internals.rust-lang.org/t/cargo-cve-2022-46176-fix-for-older
-> > >>> -releases/18152/3?u=sundeep-kokkonda
-> > >>>   For old release we've to backport the patches ourselves.
-> > >> The other alternatives are
-> > >> 1. upgrade to 1.66.1 on older branches,
-> > >> 2. add 1.66.1, which will be the PREFERRED_VERSION but keep the older
-> > >> version for those who are risk averse,
-> > >> 3. add a mix-in layer (1) with the upgrade to 1.66.1.
-> > >>   For langdale, we'd update from 1.63 and for kirkstone, we'd update
-> > >> from 1.59
-> > >> See the link above for a discussion about what Fedora/RHEL and other
-> > >> distros are doing
-> > >>   and a description of the rust / crates.io test system known as
-> > >> crater that builds the
-> > >>   world for any significant rust change.
-> > >>
-> > >> Is there any objection to doing 2 and if we don't see any problems
-> > >> after some time,
-> > >>   then removing the older version?
-> > >> Sundeep,
-> > >> If no one object, please update kirkstone and see if librsvg or
-> > >> python-cryptography or
-> > >>   anything else encounters a problem.
-> > >
-> > > I'm afraid I don't like option 2. We don't do this for anything else so
-> > > we're now inventing some new policy. Either the upgrade is what we
-> > > decide is right or it isn't, I don't really like the idea of hedging
-> > > our bets and providing two versions, one of which nobody will use until
-> > > they're forced. It will also make security scans tricky as is the issue
-> > > dealt with or not?
-> > >
-> > > Just for context, going back in time OE used to be awash with many
-> > > version of recipes and I'm reluctant to go back there as it was
-> > > horrible. They were added for exactly this kind of reasoning, which at
-> > > first seemed like a good idea.
-> >
-> > Okay, make sense, option 1 it is!
-> >
-> > ../Randy
-> > >
-> > > Cheers,
-> > >
-> > > Richard
-> > >
-> > >
-> >
-> > --
-> > # Randy MacLeod
-> > # Wind River Linux
-> >
-> >
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#176063): https://lists.openembedded.org/g/openembedded-core/message/176063
-> > Mute This Topic: https://lists.openembedded.org/mt/96218038/1686489
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> >
 
