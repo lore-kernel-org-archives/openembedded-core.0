@@ -1,250 +1,206 @@
-Return-Path: <samuli.piippo@gmail.com>
+Return-Path: <sandeep.gundlupet-raju@amd.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 838BAC677F1
-	for <webhook@archiver.kernel.org>; Tue, 17 Jan 2023 15:50:35 +0000 (UTC)
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
- by mx.groups.io with SMTP id smtpd.web11.200165.1673970632276267087
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A10CCC677F1
+	for <webhook@archiver.kernel.org>; Tue, 17 Jan 2023 16:35:55 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (NAM11-CO1-obe.outbound.protection.outlook.com [40.107.220.71])
+ by mx.groups.io with SMTP id smtpd.web11.201520.1673973346088942664
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Jan 2023 07:50:32 -0800
+ Tue, 17 Jan 2023 08:35:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=iluiKDci;
- spf=pass (domain: gmail.com, ip: 209.85.217.41, mailfrom: samuli.piippo@gmail.com)
-Received: by mail-vs1-f41.google.com with SMTP id d66so20184607vsd.9
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Jan 2023 07:50:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=4DMzAkGwchaW8h7HiipP9Gr3wXI5ew6azyUHfjSvWeY=;
-        b=iluiKDciWe13M2DcROQM/O5XnY+P+jb735cB+M2Ss84hz1kcfZIKwC/Snu5vpc7jPt
-         CvzSXaUxKagrQgxTkQq1UKce4oE/Z1BC4rYTaleDKwvHXzn/6hHDrCgW9URtiiFrFXbk
-         5FuZxe/icUyGRcoeTfiY7xa38sLbpCabMYBRV4s3nP6FRah7d0WNoBVWOihwQ/drkxWL
-         SzgB3I3TgP7Cbdr3jiIlAIEgxw1f63KWqtbwyhLUNEC/p+Q+Hv8bce1/yiBhJ8f/B3nv
-         QJAXlAA+BRs0lwe2+FlijQQurARP5v4syI8AdeCBx5mpKdf+NB5zrMp2fCN3rRkxTnwz
-         fzCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4DMzAkGwchaW8h7HiipP9Gr3wXI5ew6azyUHfjSvWeY=;
-        b=IZ8BM2gcYNaRu5g04iDyifnyhqWesTLaA8YuGIMu2EsIy9VCSIlFb/N7/XH3golznu
-         RE5/HJ+YXZ1PcufdmI6SexWzbDksqQIxhh6IisDUtAuGxAyJjS70YeygxXhTNM0gsMPP
-         Xyfs5JYiRos8r+Fyny92oUQpiOvngeBbG7b12PVgSO6vsFI39sSdJ9jnf46ev/oN6OrV
-         CI9RJc6/n6nnGbhrLkWXA3UPl0WI/kl2OCA9qOXbjPnlslRr0RCQkJzvNjxDHV4zRptc
-         1r7Y4NHM2JmXtMKbTAWIK47VX/u0ew7Q3oXU+/sDJEhtxJKFnz/QkPQyIphoAClApZ43
-         eObQ==
-X-Gm-Message-State: AFqh2ko63UqjlILczVT/o92WzzUH2tK7Laa36jZb6EhKmbL2+h9Ar3kt
-	Hd/ISeqlZKMmuyWGRh21A6EmFOqkK0GHHmdJx18=
-X-Google-Smtp-Source: AMrXdXvOeq341W7pyqLwQ7qy+fBhYW7pVR/NzD48o29EEPHakUggPTDIks+WrDcwdrPCxmhKuQn06tLk4Q6jX0LT5Yo=
-X-Received: by 2002:a05:6102:50a4:b0:3d0:a4bf:8c9c with SMTP id
- bl36-20020a05610250a400b003d0a4bf8c9cmr463235vsb.15.1673970631256; Tue, 17
- Jan 2023 07:50:31 -0800 (PST)
+ dkim=fail reason="body hash did not verify" header.i=@amd.com header.s=selector1 header.b=KYpd1hrA;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: amd.com, ip: 40.107.220.71, mailfrom: sandeep.gundlupet-raju@amd.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GBUOz7xhTWOW3gTdBJG13xp+RpzBQ/BRg+LTNxNHwDCZ9iIqt3164WNycvRmnwwvMI3EoWRfP9x++Gk9QR3u2luywNvw+IJiRcXeix8AAmcepKzOHjlGFKynIgs6cb9BtIFt78qcmCe/x1GT2NPYj35ysLxMfqJtPhkwoijcRVgKEbhafIBsDlJlYvpULdfZvd9nYFal6yuQPtyjDiR3qMoDiPysysvaoAMmx52ad9CSaq76YKSMiU5KBQPn+5YTbmNeolvlc3BlEjFnE0PvOAdwerfKRzm0bADPgCIOhJ7xV/LPq3TWHaIaMS8ORrsXUgcbs/gc4s1MkgY87VhzVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=16iiTnbsHKD0bYCXQC5eJmim7aG0LgDR8Hpu5lq0H/M=;
+ b=kamG+f4EHDXHwAXYoOSDOzy7FvmycCJ2Gu7pHle0I7/j45sSb49w13irVOLD35ieSnqz+TEmd1uRGq+Jpwsw01l6aAaRNA/xMG2FICgvvmev+7g3SoEPMumQh4iF1PQKQwx0Jv4DkVs+DqgYnYxYgulcpLjoRnHO8fg1eObAKHIgqSZIWo9klZolWNk0+ikLYcgDzxsvaIJFTx43OCYQZJSQLMH5FzlpOLk34sHcmvvwshjUEdOzDpCymSuKFPIXQoqnmnWpJUCWSp/nzU4je/OAZRAKRAWN3PdYTlJX9sE95RPzy1gFjzqOuaKmwW3px8Iq5O+cXJwSuGRPqPBTYw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=16iiTnbsHKD0bYCXQC5eJmim7aG0LgDR8Hpu5lq0H/M=;
+ b=KYpd1hrAHhW+yovc+gMM/kYFA9P5X32E286MMaZnzC+3ykMwLNtDy72KuSknaSSE6rDuLbI39womhL7XgxEgG3ja/eCBXO7xoUDgqf2CrjuDpAsGaa1MNjiDzdK3KEX2X3mq2F8nKO4bV45lLMtfhflC80tmk1zu8SITEufle74=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SA0PR12MB4367.namprd12.prod.outlook.com (2603:10b6:806:94::13)
+ by PH7PR12MB8594.namprd12.prod.outlook.com (2603:10b6:510:1b3::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.23; Tue, 17 Jan
+ 2023 16:35:42 +0000
+Received: from SA0PR12MB4367.namprd12.prod.outlook.com
+ ([fe80::675a:ba6d:12bc:752]) by SA0PR12MB4367.namprd12.prod.outlook.com
+ ([fe80::675a:ba6d:12bc:752%5]) with mapi id 15.20.6002.013; Tue, 17 Jan 2023
+ 16:35:42 +0000
+Message-ID: <49792f50-c378-bad8-0d68-9160166ef103@amd.com>
+Date: Tue, 17 Jan 2023 09:35:38 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [OE-Core][langdale][PATCH v2 1/2] kernel-fitimage: Adjust order
+ of dtb/dtbo files
+Content-Language: en-US
+From: "Gundlupet Raju, Sandeep" <sandeep.gundlupet-raju@amd.com>
+To: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>,
+ "michael.opdenacker@bootlin.com" <michael.opdenacker@bootlin.com>,
+ "bruce.ashfield@gmail.com" <bruce.ashfield@gmail.com>,
+ richard.purdie@linuxfoundation.org
+CC: "mark.hatle@kernel.crashing.org" <mark.hatle@kernel.crashing.org>
+References: <20230108172535.2366114-1-sandeep.gundlupet-raju@amd.com>
+ <89dd40da-14b3-7535-0177-acce59fa087c@amd.com>
+ <f8fc990a-fac9-3cab-95e8-19c62c05f907@amd.com>
+In-Reply-To: <f8fc990a-fac9-3cab-95e8-19c62c05f907@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: BYAPR21CA0017.namprd21.prod.outlook.com
+ (2603:10b6:a03:114::27) To SA0PR12MB4367.namprd12.prod.outlook.com
+ (2603:10b6:806:94::13)
 MIME-Version: 1.0
-References: <20221201173942.1218836-1-f_l_k@t-online.de> <CAMKF1srCn0tDWAxxpVCYhTZmow3uwy0tGqLXy2VDX0qBHDx2ZA@mail.gmail.com>
- <NMLEMR.NA7JF86LUFN83@t-online.de> <CAP9ODKopgRpWZNiFHjFtw34dYhRHKH188p2_AAs_=Ptyti-ESA@mail.gmail.com>
- <CA+chaQcCzmqKquXstrcBBQGD8vJ5gDVuUJDNoN7uVNEbpjm+AA@mail.gmail.com>
- <AM4PR0201MB20975667EA5BA27E0326E3BEE91D9@AM4PR0201MB2097.eurprd02.prod.outlook.com>
- <172EC24C7596EDC7.3782@lists.openembedded.org> <CA+chaQeOeCGm=ZPV7JzNNOQTbkKFfZWU8dbU0JQu6CLY_wboDQ@mail.gmail.com>
-In-Reply-To: <CA+chaQeOeCGm=ZPV7JzNNOQTbkKFfZWU8dbU0JQu6CLY_wboDQ@mail.gmail.com>
-From: Samuli Piippo <samuli.piippo@gmail.com>
-Date: Tue, 17 Jan 2023 17:50:19 +0200
-Message-ID: <CABXoSoWCK0EJdQ49eVn=t8cpLusXG_sGECCRyJc8Yvg+4-xc4w@mail.gmail.com>
-Subject: Re: [oe-core][PATCH] mesa: update 22.2.3 -> 22.3.0
-To: Martin Jansa <Martin.Jansa@gmail.com>
-Cc: Samuli Piippo <samuli.piippo@qt.io>, Otavio Salvador <otavio.salvador@ossystems.com.br>, 
-	Markus Volk <f_l_k@t-online.de>, Khem Raj <raj.khem@gmail.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000d72d3305f277a8b9"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4367:EE_|PH7PR12MB8594:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0bdea71b-5550-496b-390b-08daf8a8dfbf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	0/qnD989oBLU4tBdAFxoa3qbtiAl58/1OfJ96GN7lp2mYKAUS4sESJHZkkbn6fPsYI7TpORn0d4HENkezDPGpm66YfmfIGuRxrMh/GTFcSpqvKnZJhRflf/d3JHPKe3OHLw4ljAH2PHKiMepBG+y6nvy6dFB4IssGzOTqsdwagQFdZPiMO/ss3xygnlEGBwdmiyK7lIeNd6BBWSZ5Uo1/GgjgXRtN9fSEhXvmYj4CoPTaBZFJnCELfQKTo8XeOU764xPqDp0XXzIovrxDwI+KnbpC0j3E+/lQVNEfOVB/G0OAvLU8S9/7p9wjMGOst1j7Ldoox8knKwt2xsMk1R3mAL/4PBmY9JFYhokwsNsdEcaKflQcmXtTQi1RLnfasmPIvqY2/jhMrQhzqmdFmqJRyyWWM9MhTeXlEifKp1zyqTBg+xpM0u7mJd0tZSRyqAEEmPONy8wyICTvQGD4bvWk+luhTReXjrzJMWyjBjVzeuguzC+R2uvZO4wbXKqc9giRpiuCvw9e0RP3tmY/Ja1kZ7OyXZJZb5uGOGFDt8WvKO5XNVM50q9DI9LJzbfpZnEiIsfHWnt/h/2M9uEE8XqZYXgt9BqKjUztMbSNo0e27b+1icqYGUGjNee20bx1IdokjHD577EF1QVtgLKDs6pR6uK8wfTX6FnaJuEZWRcojEhKROQ6QSfQkPmBOuguMsEc28UWw1tFoZFLjbQE1gKSUFjRCooJzxMJN/lhppM+3c=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR12MB4367.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(396003)(376002)(366004)(346002)(39860400002)(451199015)(31686004)(478600001)(8936002)(6486002)(4326008)(53546011)(66556008)(41300700001)(36756003)(8676002)(66476007)(5660300002)(26005)(66946007)(2906002)(316002)(31696002)(86362001)(110136005)(38100700002)(6666004)(6506007)(6512007)(186003)(2616005)(83380400001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?BeH9a1lVMCvtIJRwFehrFZJkAMhve7Zm1DvamB9ekLOXgsfIeFYF8mZulGpT?=
+ =?us-ascii?Q?kr5A0Rb8Wv81a4cZ/nXACTkqxmdA/haAnUn0mmxbmN3d8tAtSVBn5FhwNqyC?=
+ =?us-ascii?Q?sAg7GwTvK4xlQYJ8HuK/M8wMZKfel/eZdMejfxPO541/aPk6waG15tFvEjrQ?=
+ =?us-ascii?Q?84+GHu5YTcsbrT4n3cuoMrKa62ZSN0VoVddc173Laz5QtSw0DqIzHWYVhvGJ?=
+ =?us-ascii?Q?+sveclP6sf+WTwyIH1G/Uw8fIJEtDl4E4/nEtwSEkAiD5+vj+XYmtmLAdYV0?=
+ =?us-ascii?Q?lAFS/9IdwoCthPs9uPp7xA/s6bW8o8AU6hY1mDl/GCa9JEBxHriYzduYQ628?=
+ =?us-ascii?Q?wT0xMs1HnNBLIy4shDPSJz9/Pl8sFxZIzrT9kz7KA/X37FAkL1z1//lq07VF?=
+ =?us-ascii?Q?Q7SRnGWDJYcedqCvv4yqKE7F3VEnn/YkT4XI380+xpCanbG3tmsFp1SkVwUx?=
+ =?us-ascii?Q?+Vo0gIlmmwfgB6GoBh1iXTP52YhZ2xTP4mRakiiV7JDL3ElJ7wmCQihbOdsz?=
+ =?us-ascii?Q?7nghF7H8hFfeUyLkHmKFjxB+J6sbQup9Y7i0viCu4FhQ+l/V03ZTitIv+iQh?=
+ =?us-ascii?Q?eEuMXvt/CTNR881zmo7Bc93moP02FJOCxfUcG4CK8wiUlAPGxdbfPQhn9quL?=
+ =?us-ascii?Q?Y2X0EAOoZXuQqq8TqUG+q+PvTPj43mEg1YyVC8IwZRvD3r3kBFaf/W8mb3JZ?=
+ =?us-ascii?Q?gCxpAcDCrKSVL2xK4ucLS6F+b6dJfEVUVkCYppJ+zQJGRFQyFgSzgf6T0B+M?=
+ =?us-ascii?Q?tUWcWaDrcQ6Z4BFL/8ngGg8ee9eDeekGl1ozq5d/znhnAenXGCpIMczQNrI9?=
+ =?us-ascii?Q?QExkcuXEQBHSyo/UO82Y8hdf5c9H51nMfE4KK1Q5dVKMqI8LvGPbm2XspLM+?=
+ =?us-ascii?Q?olsXViT9k4FDxQi5qfsLuyFkQqgo/jvLCIBS0YMXhFlvXe919vFHWbewNrs2?=
+ =?us-ascii?Q?ERyAwSuWTfvpqaYQvBG2OFHakhZQbzuAKYTcysn1p3hZ8CfQqJLNiED7ZHoa?=
+ =?us-ascii?Q?w84si5IuAfYiVQGeg29CTdAvoPGfK2RXvpTjVqtDOfbQNiu+JOU2cLkJZDDv?=
+ =?us-ascii?Q?pxUqkZufmbafSBuHYbeoUPMmGePY33zb5HJO+NGf+Dqjbo240o9//ekWhAYO?=
+ =?us-ascii?Q?XSQ1arXGuDUyyTb+yVVWbHFmr+Ges5LrsYpcN42T+6wBCuohC8eOIGsCVOdN?=
+ =?us-ascii?Q?1sGcI9bESvOEPK6L9yMqDumWY03BjHO56MW/MNE94lcHBztYXd7rPtLGZ0CW?=
+ =?us-ascii?Q?nyxHZlaVQqdSwkeLSrF4j7H+5QflxcSfpEzony9phZezbMl41TtN6SCwA0QU?=
+ =?us-ascii?Q?apE/Kv/7c7RNS7rmDL3vkEBpWZk3Wx0uxFiYFt+uIA9CsL4UHDY+E1TvaJmV?=
+ =?us-ascii?Q?et4H7iGG2t4SYJtqJDWDlboBvMQPp+WKPoH2wmx2/DkyYN6wYa9KZ9IyLv+6?=
+ =?us-ascii?Q?11rNBs4PC2JeUYaJIVHjWDIXZWbWjqRGVx+uwGgjchcWHqwW+484SI+x65bC?=
+ =?us-ascii?Q?ZKuANHWJc/44EVOWKyKoe5KdIezBeTvE3hbrPFt0KqrJqRZG7+HQHv9sik+S?=
+ =?us-ascii?Q?FLUosAHXnLyShw26mvceK5CaXMhbMOlEWo3HD09e?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0bdea71b-5550-496b-390b-08daf8a8dfbf
+X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4367.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2023 16:35:42.1216
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WRswJymK/fRNtVVpSHcZYcUT6OgJ9z98Ky7vVjdCbNpsf10hWotSF2tNBJ7wligiogQ1tsFtX/VsAORtbNaLBg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8594
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Jan 2023 15:50:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176052
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Jan 2023 16:35:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176053
 
---000000000000d72d3305f277a8b9
-Content-Type: text/plain; charset="UTF-8"
+Hi All,
 
-I think this is now a webos specific issue since they have disabled xlib
-feature (
-https://github.com/shr-project/meta-webosose/blob/c96010fe4df28397a33e447bde650932a3463a9e/meta-webos/recipes-qt/qt6/qtbase_git.bbappend#L56
-)
-While the qtbase cmake configuration could be improved to better handle
-situation where x11 dependencies are found but shouldn't be used, I think
-the simplest solution would be to disable egl on X11 in the webos bbappend
-(-DFEATURE_egl_x11=OFF)
+Can someone merge these patches to langdale branch?
 
--samuli
+Thanks,
 
-On Tue, 17 Jan 2023 at 13:01, Martin Jansa <Martin.Jansa@gmail.com> wrote:
+Sandeep
 
-> Samuli:
+On 1/13/2023 9:51 AM, Gundlupet Raju, Sandeep wrote:
+> Hi Richard, Alex,
 >
-> Similar mesa upgrade was merged recently:
+> Thanks for merging the patches in master. Can you merge these patches=20
+> to langdale release as well?
 >
-> https://git.openembedded.org/openembedded-core/commit/?id=3bf4341ef6a681574a1c6f393bf241f412e26eac
+> Thanks,
 >
-> qtbase still fails the same, more details in:
+> Sandeep
 >
-> https://github.com/shr-project/meta-webosose/commit/c96010fe4df28397a33e447bde650932a3463a9e
->
-> The change you've mentioned is the one which actually breaks some
-> PACKAGECONFIG combinations, hopefully now you'll be able to reproduce it.
->
-> Regards,
->
-> On Thu, Dec 8, 2022 at 8:55 AM Martin Jansa via lists.openembedded.org
-> <Martin.Jansa=gmail.com@lists.openembedded.org> wrote:
->
->> On Thu, Dec 8, 2022 at 8:42 AM Samuli Piippo <samuli.piippo@qt.io> wrote:
+> On 1/12/2023 7:19 PM, Gundlupet Raju, Sandeep wrote:
+>> Hi Michael,
 >>
->>> Qt6 should handle this already with
->>> https://codereview.qt-project.org/c/qt/qtbase/+/371780 in place.
->>> I tried test build with the mesa upgrade and didn't catch any build
->>> errors.
+>> Any updates on patch merge?
+>>
+>> Thanks,
+>>
+>> Sandeep
+>>
+>> On 1/8/2023 10:25 AM, sandeep.gundlupet-raju@amd.com wrote:
+>>> From: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
 >>>
->>
->> I've tried qemux86-64 build with 6.4.1 and 6.5.0 from yesterday's dev
->> branch and both failed after including this mesa upgrade with:
->> | In file included from
->> qtbase/6.4.1-r0/recipe-sysroot/usr/include/EGL/egl.h:20,
->> |                  from
->> qtbase/6.4.1-r0/build/include/QtGui/6.4.1/QtGui/private/../../../../../../git/src/gui/opengl/platform/egl/qt_egl_p.h:43,
->> |                  from
->> qtbase/6.4.1-r0/build/include/QtGui/6.4.1/QtGui/private/qt_egl_p.h:1,
->> |                  from
->> qtbase/6.4.1-r0/git/src/gui/opengl/platform/egl/qeglstreamconvenience_p.h:20,
->> |                  from
->> qtbase/6.4.1-r0/git/src/gui/opengl/platform/egl/qeglstreamconvenience.cpp:4:
->> | qtbase/6.4.1-r0/recipe-sysroot/usr/include/EGL/eglplatform.h:109:10:
->> fatal error: X11/Xlib.h: No such file or directory
->> |   109 | #include <X11/Xlib.h>
->> |       |          ^~~~~~~~~~~~
->> | compilation terminated.
->>
+>>> The dtb files must be before the dtbo files, otherwise the overlays may
+>>> not be applied correctly.
 >>>
->>
->>
->>
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#176031):
-> https://lists.openembedded.org/g/openembedded-core/message/176031
-> Mute This Topic: https://lists.openembedded.org/mt/95388063/3617605
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> samuli.piippo@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
-
---000000000000d72d3305f277a8b9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div></div><div dir=3D"ltr"><div>I think this is now a web=
-os specific issue since they have disabled xlib feature (<a href=3D"https:/=
-/github.com/shr-project/meta-webosose/blob/c96010fe4df28397a33e447bde650932=
-a3463a9e/meta-webos/recipes-qt/qt6/qtbase_git.bbappend#L56">https://github.=
-com/shr-project/meta-webosose/blob/c96010fe4df28397a33e447bde650932a3463a9e=
-/meta-webos/recipes-qt/qt6/qtbase_git.bbappend#L56</a>)</div><div>While the=
- qtbase cmake configuration could be improved to better handle situation wh=
-ere x11 dependencies are found but shouldn&#39;t be used, I think the simpl=
-est solution would be to disable egl on X11 in the webos bbappend (-DFEATUR=
-E_egl_x11=3DOFF)</div></div><div><br></div><div>-samuli<br></div><div><br><=
-/div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tu=
-e, 17 Jan 2023 at 13:01, Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gm=
-ail.com">Martin.Jansa@gmail.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex"><div dir=3D"ltr">Samuli:<div><br></div><di=
-v>Similar mesa upgrade was merged recently:</div><div><a href=3D"https://gi=
-t.openembedded.org/openembedded-core/commit/?id=3D3bf4341ef6a681574a1c6f393=
-bf241f412e26eac" target=3D"_blank">https://git.openembedded.org/openembedde=
-d-core/commit/?id=3D3bf4341ef6a681574a1c6f393bf241f412e26eac</a><br></div><=
-div><br></div><div>qtbase still fails the same, more details in:</div><div>=
-<a href=3D"https://github.com/shr-project/meta-webosose/commit/c96010fe4df2=
-8397a33e447bde650932a3463a9e" target=3D"_blank">https://github.com/shr-proj=
-ect/meta-webosose/commit/c96010fe4df28397a33e447bde650932a3463a9e</a><br></=
-div><div><br></div><div>The change you&#39;ve mentioned is the one which ac=
-tually breaks some PACKAGECONFIG combinations, hopefully now you&#39;ll be =
-able to reproduce it.</div><div><br></div><div>Regards,</div></div><br><div=
- class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Dec 8,=
- 2022 at 8:55 AM Martin Jansa via <a href=3D"http://lists.openembedded.org"=
- target=3D"_blank">lists.openembedded.org</a> &lt;Martin.Jansa=3D<a href=3D=
-"mailto:gmail.com@lists.openembedded.org" target=3D"_blank">gmail.com@lists=
-.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr">On Thu, Dec 8, 2022 at 8=
-:42 AM Samuli Piippo &lt;<a href=3D"mailto:samuli.piippo@qt.io" target=3D"_=
-blank">samuli.piippo@qt.io</a>&gt; wrote:<br></div><div class=3D"gmail_quot=
-e"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
-er-left:1px solid rgb(204,204,204);padding-left:1ex"><div>
-
-
-
-
-<div dir=3D"ltr">
-<div><span style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-siz=
-e:12pt;color:rgb(0,0,0);background-color:rgb(255,255,255)">Qt6 should handl=
-e this already with
-<a href=3D"https://codereview.qt-project.org/c/qt/qtbase/+/371780" id=3D"m_=
--4802139656687153021m_-2196537923583286084m_-2294924994488092156LPlnk780937=
-" target=3D"_blank">
-https://codereview.qt-project.org/c/qt/qtbase/+/371780</a> in place.</span>=
-</div>
-<div><span style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-siz=
-e:12pt;color:rgb(0,0,0);background-color:rgb(255,255,255)">I tried test bui=
-ld with the mesa upgrade and didn&#39;t catch any build
- errors.</span></div></div></div></blockquote><div><br></div><div>I&#39;ve =
-tried qemux86-64 build with 6.4.1 and 6.5.0 from yesterday&#39;s dev branch=
- and both failed after including this mesa upgrade with:</div><div>| In fil=
-e included from qtbase/6.4.1-r0/recipe-sysroot/usr/include/EGL/egl.h:20,<br=
->| =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from qtbas=
-e/6.4.1-r0/build/include/QtGui/6.4.1/QtGui/private/../../../../../../git/sr=
-c/gui/opengl/platform/egl/qt_egl_p.h:43,<br>| =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from qtbase/6.4.1-r0/build/include/QtGui/=
-6.4.1/QtGui/private/qt_egl_p.h:1,<br>| =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0from qtbase/6.4.1-r0/git/src/gui/opengl/platform=
-/egl/qeglstreamconvenience_p.h:20,<br>| =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0from qtbase/6.4.1-r0/git/src/gui/opengl/platform=
-/egl/qeglstreamconvenience.cpp:4:<br>| qtbase/6.4.1-r0/recipe-sysroot/usr/i=
-nclude/EGL/eglplatform.h:109:10: fatal error: X11/Xlib.h: No such file or d=
-irectory<br>| =C2=A0 109 | #include &lt;X11/Xlib.h&gt;<br>| =C2=A0 =C2=A0 =
-=C2=A0 | =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^~~~~~~~~~~~<br>| compilation te=
-rminated.<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div><=
-div dir=3D"ltr"><div><div dir=3D"ltr"><div>
-</div>
-</div>
-</div>
-</div>
-
-</div></blockquote></div></div>
-<br>
-<br>
-<br>
-</blockquote></div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#176031): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/176031" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/176031</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/95388063/3617=
-605" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/95388063/3617605</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:samuli.piippo@gmail.com" t=
-arget=3D"_blank">samuli.piippo@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---000000000000d72d3305f277a8b9--
+>>> =C2=A0From Bruce Ashfield:
+>>>
+>>> =C2=A0=C2=A0 We can split between dtbs and dtbos, they just need to be =
+sorted
+>>> =C2=A0=C2=A0 for reproducibility reasons.
+>>>
+>>> =C2=A0=C2=A0 Of course, this was only working by luck previously (befor=
+e the
+>>> =C2=A0=C2=A0 sort), since it has always been gathering dtbs and dtbo's =
+with
+>>> =C2=A0=C2=A0 find, depending on filesystem ordering for the order in th=
+e
+>>> =C2=A0=C2=A0 fitimage).
+>>>
+>>> Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+>>> ---
+>>>
+>>> Changes in v2:
+>>> =C2=A0 - Remove 2 loops and use single loop for dtb and dtbo with same=
+=20
+>>> logic.
+>>>
+>>> ---
+>>> =C2=A0 meta/classes-recipe/kernel-fitimage.bbclass | 5 +++--
+>>> =C2=A0 1 file changed, 3 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/meta/classes-recipe/kernel-fitimage.bbclass=20
+>>> b/meta/classes-recipe/kernel-fitimage.bbclass
+>>> index 8ddebf8dd8..06cdc4f1ec 100644
+>>> --- a/meta/classes-recipe/kernel-fitimage.bbclass
+>>> +++ b/meta/classes-recipe/kernel-fitimage.bbclass
+>>> @@ -546,10 +546,11 @@ fitimage_assemble() {
+>>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if [ -n "${EXTERNAL_KERNEL_DEVICE=
+TREE}" ]; then
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dtbcount=3D1
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for DTB in $(find "${EXTERN=
+AL_KERNEL_DEVICETREE}" \( -name=20
+>>> '*.dtb' -o -name '*.dtbo' \) -printf '%P\n' | sort); do
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for DTB in $(find "${EXTERN=
+AL_KERNEL_DEVICETREE}" -name=20
+>>> '*.dtb' -printf '%P\n' | sort) \
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 $(find "${EXTERNAL_KERNEL_D=
+EVICETREE}" -name '*.dtbo'=20
+>>> -printf '%P\n' | sort); do
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 DTB=3D$(echo "$DTB" | tr '/' '_')
+>>> =C2=A0 -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 # Skip DTB if we've picked it up previously
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # S=
+kip DTB/DTBO if we've picked it up previously
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 echo "$DTBS" | tr ' ' '\n' | grep -xq "$DTB" && continue
+>>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 DTBS=3D"$DTBS $DTB"
 
