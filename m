@@ -1,263 +1,155 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59BC6C32793
-	for <webhook@archiver.kernel.org>; Wed, 18 Jan 2023 14:44:54 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web11.17080.1674053084230333022
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D05AC32793
+	for <webhook@archiver.kernel.org>; Wed, 18 Jan 2023 14:47:04 +0000 (UTC)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web10.16890.1674053222293405359
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Jan 2023 06:44:45 -0800
+ Wed, 18 Jan 2023 06:47:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=KHFqbZnG;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=UcaQpJNV;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.49, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f49.google.com with SMTP id mp20so37200432ejc.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Jan 2023 06:47:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1674053084;
-  x=1705589084;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:mime-version;
-  bh=cy1pwSKTbvp4cOkmGs6Fzwwkj+6bBDIHqIlQkJVD34s=;
-  b=KHFqbZnGSrUvWJABOOuAdt+Hys+dc+5kq3VKQDTuU9lDNSFzM3yQtxvF
-   qCJgJMZGfPSc1Rvv0XcKCDrnYyNigPY5QLMjJ43SJelu31lvGbdvuJzTy
-   zL24sVfp/nEf8IjOxthZT3SFQZRlRuf36phZaT0nzyf+g0dj6b9ovN7UC
-   ad3r67EVlhSwVin8JmkK8Uq9CiZJ18q2GNAFUSeO+1riP6F4ezqWKJQEs
-   K9qSCIIXEtxuLKn//XNWn9yJPcLqPzGrLHgqMsBVFuBqokkik3IYMd2bB
-   b4/SyzxUZtNEVqLTzFpI5CKnMiI1NywxHpgatDiE8anrL5DecpHXaM0s/
-   A==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Jose Quaresma <quaresma.jose@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH] librsvg: Only enable the Vala bindings if
- GObject Introspection is enabled
-Thread-Topic: [OE-core] [PATCH] librsvg: Only enable the Vala bindings if
- GObject Introspection is enabled
-Thread-Index: AQHZKzY2yi5+VDsjPU235XwjSSfBWK6kPwaw
-Date: Wed, 18 Jan 2023 14:44:41 +0000
-Message-ID: <a86b3682b19044999bb994a4e968ca9a@axis.com>
-References: <20230118112759.3909741-1-pkj@axis.com>
- <CANPvuR=bjdvOdg9teOVuePmYAhHBdsL9u07=fmTRw2fgXZxU2w@mail.gmail.com>
-In-Reply-To: <CANPvuR=bjdvOdg9teOVuePmYAhHBdsL9u07=fmTRw2fgXZxU2w@mail.gmail.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: multipart/alternative;
-	boundary="_000_a86b3682b19044999bb994a4e968ca9aaxiscom_"
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=pXH9IASSMeAnhuoMAimEHwPs6Fbif81xg6Xw9qZX+5k=;
+        b=UcaQpJNV8wtDiri5m+Z+ptOiMN6EIevhoz0Yg1xFbJiGmxq4g3yfO3lIrOxiKRQiDG
+         e9aEQthUmeN3/wmxo608BuG/2qcgFNSmNmL1rrn4fvh13e0ddBcAfxw5WykGTXW+D1OG
+         DOGqWmaGqaMqsiLF9IWJJsL0YUjhCRqI5Aslozz/SuVZWzvl8NC2ej63MOLpTSxhxcdW
+         +S/k7s0w44fT5/wXvuZKkiLJX2sDedeRmo7djBhVLI4iXt3czWUA2V6AEy4lpTquSIDO
+         IZCQpAxUufCyPiZUVk/hnAMHJchZ8pQh4HIhdolP/C6o7RooxUaykHhWACYEOygiG+rd
+         G3mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pXH9IASSMeAnhuoMAimEHwPs6Fbif81xg6Xw9qZX+5k=;
+        b=DLiNAt4Lq2SDMCTaup5ba9XzDU0/du5FCgUOfbmwML69PhkuWgOO7MXKYUyl/qfF71
+         2NaWXG6lJAjamc2VL9JV02zT2/xrqZhrEq5FOF2LoXRWOjA4iYrwbhokK2fnBkQS6/J6
+         lTr1umI6ppBF8Yohm8tQQdSpElz6I+trzx2tkBW5p5RTrEMtNm5EvbBc/Q9ATqj7eGIi
+         HlL1cgPwRS9QlnXqmQuIK/e8PqTcN80TA9qGZsWcBuh7sPxe/iw+u8Ep5aeU0gGpm5IO
+         DYj2kQKST7qWFduO0IcZtR1mquK3yA5CBDYl1+y1NcTWaC/EQH8ViasbohpscwWlTtHt
+         Bzdg==
+X-Gm-Message-State: AFqh2kpdfmc7c4uKU2dg9McsTAf20gZBbUSslWEBM0MRoWscOsplqxEa
+	DA/6HuX1D+S6qxTrPpCmyJlwijwcPby1vOY8yjhuCA==
+X-Google-Smtp-Source: AMrXdXvFsyQH1jyJ7OqDmP0X3c0oL3k3uy7KkcRFfeLu1ttKVjbIqG8xY6laVq/H2K1yBKkDolub8wyr91p1nxBWNm8=
+X-Received: by 2002:a17:906:3a5b:b0:870:baa6:676c with SMTP id
+ a27-20020a1709063a5b00b00870baa6676cmr721930ejf.132.1674053220370; Wed, 18
+ Jan 2023 06:47:00 -0800 (PST)
 MIME-Version: 1.0
+References: <20230108172535.2366114-1-sandeep.gundlupet-raju@amd.com>
+ <89dd40da-14b3-7535-0177-acce59fa087c@amd.com> <f8fc990a-fac9-3cab-95e8-19c62c05f907@amd.com>
+ <49792f50-c378-bad8-0d68-9160166ef103@amd.com>
+In-Reply-To: <49792f50-c378-bad8-0d68-9160166ef103@amd.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Wed, 18 Jan 2023 04:46:49 -1000
+Message-ID: <CAOSpxdYrTx4HRbDcJ+G=-Zq6ffcCXyqh6DbUkfCQj=Y6HPjaXg@mail.gmail.com>
+Subject: Re: [OE-Core][langdale][PATCH v2 1/2] kernel-fitimage: Adjust order
+ of dtb/dtbo files
+To: sandeep.gundlupet-raju@amd.com
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"michael.opdenacker@bootlin.com" <michael.opdenacker@bootlin.com>, 
+	"bruce.ashfield@gmail.com" <bruce.ashfield@gmail.com>, richard.purdie@linuxfoundation.org, 
+	"mark.hatle@kernel.crashing.org" <mark.hatle@kernel.crashing.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 18 Jan 2023 14:44:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176101
+ <openembedded-core@lists.openembedded.org>; Wed, 18 Jan 2023 14:47:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176102
 
---_000_a86b3682b19044999bb994a4e968ca9aaxiscom_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On Tue, Jan 17, 2023 at 6:35 AM Sandeep Gundlupet Raju via
+lists.openembedded.org
+<sandeep.gundlupet-raju=amd.com@lists.openembedded.org> wrote:
+>
+> Hi All,
+>
+> Can someone merge these patches to langdale branch?
 
-Z29iamVjdC1pbnN0cm9zcGVjdGlvbiBpcyBub3QgZW5hYmxlZCBieSBkZWZhdWx0IGluIERJU1RS
-T19GRUFUVVJFU19OQVRJVkUgYW5kIERJU1RST19GRUFUVVJFU19OQVRJVkVTREsgc28gdW5sZXNz
-IHlvdSBleHBsaWNpdGx5IGVuYWJsZSBpdCB5b3Vyc2VsZiAod2hpY2ggc2VlbXMgdW5saWtlbHkg
-dG8gbWUpLCBpdCB3aWxsIG5vdCBiZSBlbmFibGVkIGluIHRoZSBuYXRpdmUvbmF0aXZlc2RrIGNh
-c2VzLg0KDQovL1BldGVyDQoNCkZyb206IEpvc2UgUXVhcmVzbWEgPHF1YXJlc21hLmpvc2VAZ21h
-aWwuY29tPg0KU2VudDogZGVuIDE4IGphbnVhcmkgMjAyMyAxMzoxMw0KVG86IFBldGVyIEtqZWxs
-ZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPg0KQ2M6IG9wZW5lbWJlZGRlZC1j
-b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENI
-XSBsaWJyc3ZnOiBPbmx5IGVuYWJsZSB0aGUgVmFsYSBiaW5kaW5ncyBpZiBHT2JqZWN0IEludHJv
-c3BlY3Rpb24gaXMgZW5hYmxlZA0KDQpIaSBQZXRlciwNCg0KUGV0ZXIgS2plbGxlcnN0ZWR0IDxw
-ZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb208bWFpbHRvOnBldGVyLmtqZWxsZXJzdGVkdEBheGlz
-LmNvbT4+IGVzY3JldmV1IG5vIGRpYSBxdWFydGEsIDE4LzAxLzIwMjMgw6AocykgMTE6Mjg6DQpU
-aGlzIGF2b2lkcyB0aGUgZm9sbG93aW5nIGVycm9yOg0KDQogIGNvbmZpZ3VyZTogZXJyb3I6IFZh
-bGEgYmluZGluZ3MgcmVxdWlyZSBHT2JqZWN0IEludHJvc3BlY3Rpb24NCg0KU2lnbmVkLW9mZi1i
-eTogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb208bWFpbHRv
-OnBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4+DQotLS0NCiBtZXRhL3JlY2lwZXMtZ25vbWUv
-bGlicnN2Zy9saWJyc3ZnXzIuNTQuNS5iYjxodHRwOi8vbGlicnN2Z18yLjU0LjUuYmI+IHwgNSAr
-Ky0tLQ0KIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pDQoN
-CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvbGlicnN2Zy9saWJyc3ZnXzIuNTQuNS5i
-YjxodHRwOi8vbGlicnN2Z18yLjU0LjUuYmI+IGIvbWV0YS9yZWNpcGVzLWdub21lL2xpYnJzdmcv
-bGlicnN2Z18yLjU0LjUuYmI8aHR0cDovL2xpYnJzdmdfMi41NC41LmJiPg0KaW5kZXggYjJlOTNh
-MjY4NC4uYzU1YWEyNTBlOSAxMDA2NDQNCi0tLSBhL21ldGEvcmVjaXBlcy1nbm9tZS9saWJyc3Zn
-L2xpYnJzdmdfMi41NC41LmJiPGh0dHA6Ly9saWJyc3ZnXzIuNTQuNS5iYj4NCisrKyBiL21ldGEv
-cmVjaXBlcy1nbm9tZS9saWJyc3ZnL2xpYnJzdmdfMi41NC41LmJiPGh0dHA6Ly9saWJyc3ZnXzIu
-NTQuNS5iYj4NCkBAIC00Miw4ICs0Miw2IEBAIGRvX2NvbmZpZ3VyZVtwb3N0ZnVuY3NdICs9ICJj
-YXJnb19jb21tb25fZG9fY29uZmlndXJlIg0KDQogaW5oZXJpdCBydXN0LXRhcmdldC1jb25maWcN
-Cg0KLUVYVFJBX09FQ09ORjpjbGFzcy10YXJnZXQgPSAiLS1lbmFibGUtdmFsYSINCi0NCiAjIHJ1
-c3QtY3Jvc3Mgd3JpdGVzIHRoZSB0YXJnZXQgbGlua2VyIGJpbmFyeSBpbnRvIHRhcmdldCBqc29u
-IGRlZmluaXRpb24gd2l0aG91dCBhbnkgZmxhZ3MuDQogIyBUaGlzIGJyZWFrcyBoZXJlIGJlY2F1
-c2UgdGhlIGxpbmtlciBpc24ndCBnb2luZyB0byB3b3JrIHdpdGhvdXQgYXQgbGVhc3Qga25vd2lu
-ZyB3aGVyZQ0KICMgdGhlIHN5c3Jvb3QgaXMuIFNvIGNvcHkgdGhlIGpzb24gdG8gd29ya2Rpciwg
-YW5kIHBhdGNoIGluIHRoZSBwYXRoIHRvIHdyYXBwZXIgZnJvbSBydXN0IGNsYXNzDQpAQCAtNTcs
-OSArNTUsMTAgQEAgQ1ZFX0NIRUNLX0lHTk9SRSArPSAiQ1ZFLTIwMTgtMTAwMDA0MSINCg0KIENB
-Q0hFRF9DT05GSUdVUkVWQVJTID0gImFjX2N2X3BhdGhfR0RLX1BJWEJVRl9RVUVSWUxPQURFUlM9
-JHtTVEFHSU5HX0xJQkRJUl9OQVRJVkV9L2dkay1waXhidWYtMi4wL2dkay1waXhidWYtcXVlcnkt
-bG9hZGVycyINCg0KLVBBQ0tBR0VDT05GSUcgPz89ICJnZGtwaXhidWYiDQorUEFDS0FHRUNPTkZJ
-RyA/Pz0gImdka3BpeGJ1ZiAke0BiYi51dGlscy5jb250YWlucygnR0lfREFUQV9FTkFCTEVEPG1h
-aWx0bzokJTdiQGJiLnV0aWxzLmNvbnRhaW5zKCdHSV9EQVRBX0VOQUJMRUQ+JywgJ1RydWUnLCAn
-dmFsYScsICcnLCBkKX0iDQogIyBUaGUgZ2RrLXBpeGJ1ZiBsb2FkZXINCiBQQUNLQUdFQ09ORklH
-W2dka3BpeGJ1Zl0gPSAiLS1lbmFibGUtcGl4YnVmLWxvYWRlciwtLWRpc2FibGUtcGl4YnVmLWxv
-YWRlcixnZGstcGl4YnVmLW5hdGl2ZSINCitQQUNLQUdFQ09ORklHW3ZhbGFdID0gIi0tZW5hYmxl
-LXZhbGEsLS1kaXNhYmxlLXZhbGEiDQoNClRoaXMgd2lsbCBiZSBlbmFibGVkIGluIHRoZSBuYXRp
-dmUgYnVpbGRzIHRvbyBhbmQgYmVmb3JlIGl0IGlzIG9ubHkgZGVmaW5lZCBmb3IgdGFyZ2V0Lg0K
-DQpKb3NlDQoNCg0KIGRvX2luc3RhbGw6YXBwZW5kKCkgew0KICAgICAgICAjIExvYWRhYmxlIG1v
-ZHVsZXMgZG9uJ3QgbmVlZCAuYSBvciAubGEgb24gTGludXgNCg0KLT0tPS09LT0tPS09LT0tPS09
-LT0tPS0NCkxpbmtzOiBZb3UgcmVjZWl2ZSBhbGwgbWVzc2FnZXMgc2VudCB0byB0aGlzIGdyb3Vw
-Lg0KVmlldy9SZXBseSBPbmxpbmUgKCMxNzYwODYpOiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRl
-ZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS9tZXNzYWdlLzE3NjA4Ng0KTXV0ZSBUaGlzIFRvcGlj
-OiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbXQvOTYzNTE2NDUvNTA1MjYxMg0KR3Jv
-dXAgT3duZXI6IG9wZW5lbWJlZGRlZC1jb3JlK293bmVyQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8
-bWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlJTJCb3duZXJAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4N
-ClVuc3Vic2NyaWJlOiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRk
-ZWQtY29yZS91bnN1YiBbcXVhcmVzbWEuam9zZUBnbWFpbC5jb208bWFpbHRvOnF1YXJlc21hLmpv
-c2VAZ21haWwuY29tPl0NCi09LT0tPS09LT0tPS09LT0tPS09LT0tDQoNCg0KLS0NCkJlc3QgcmVn
-YXJkcywNCg0KSm9zw6kgUXVhcmVzbWENCg==
+I already have them in my current test queue, which you can monitor at:
 
---_000_a86b3682b19044999bb994a4e968ca9aaxiscom_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/langdale-nut
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpDb25zb2xhczsNCglwYW5vc2UtMToyIDEx
-IDYgOSAyIDIgNCAzIDIgNDt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWws
-IGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGNtOw0KCWZvbnQtc2l6ZTox
-MS4wcHQ7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7fQ0KYTpsaW5rLCBzcGFu
-Lk1zb0h5cGVybGluaw0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6Ymx1ZTsNCgl0
-ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE5DQoJe21zby1zdHls
-ZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlm
-Ow0KCWNvbG9yOiM5NDM2MzQ7DQoJZm9udC13ZWlnaHQ6bm9ybWFsOw0KCWZvbnQtc3R5bGU6bm9y
-bWFsO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZv
-bnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCW1zby1mYXJlYXN0LWxhbmd1YWdlOkVO
-LVVTO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBwdDsNCgltYXJn
-aW46NzAuODVwdCA3MC44NXB0IDcwLjg1cHQgNzAuODVwdDt9DQpkaXYuV29yZFNlY3Rpb24xDQoJ
-e3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+
-DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+
-PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4
-dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFwZWxh
-eW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9IlNWIiBsaW5rPSJi
-bHVlIiB2bGluaz0icHVycGxlIiBzdHlsZT0id29yZC13cmFwOmJyZWFrLXdvcmQiPg0KPGRpdiBj
-bGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVO
-LVVTIiBzdHlsZT0iZm9udC1mYW1pbHk6Q29uc29sYXM7Y29sb3I6Izk0MzYzNDttc28tZmFyZWFz
-dC1sYW5ndWFnZTpFTi1VUyI+Z29iamVjdC1pbnN0cm9zcGVjdGlvbjwvc3Bhbj48c3BhbiBsYW5n
-PSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMi
-PiBpcyBub3QgZW5hYmxlZCBieSBkZWZhdWx0IGluDQo8L3NwYW4+PHNwYW4gbGFuZz0iRU4tVVMi
-IHN0eWxlPSJmb250LWZhbWlseTpDb25zb2xhcztjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxh
-bmd1YWdlOkVOLVVTIj5ESVNUUk9fRkVBVFVSRVNfTkFUSVZFPC9zcGFuPjxzcGFuIGxhbmc9IkVO
-LVVTIiBzdHlsZT0iY29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+IGFu
-ZA0KPC9zcGFuPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1mYW1pbHk6Q29uc29sYXM7
-Y29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+RElTVFJPX0ZFQVRVUkVT
-X05BVElWRVNESzwvc3Bhbj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2MzQ7
-bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPiBzbyB1bmxlc3MgeW91IGV4cGxpY2l0bHkgZW5h
-YmxlIGl0IHlvdXJzZWxmICh3aGljaCBzZWVtcyB1bmxpa2VseQ0KIHRvIG1lKSwgaXQgd2lsbCBu
-b3QgYmUgZW5hYmxlZCBpbiB0aGUgbmF0aXZlL25hdGl2ZXNkayBjYXNlcy48bzpwPjwvbzpwPjwv
-c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9
-ImNvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPjxvOnA+Jm5ic3A7PC9v
-OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBz
-dHlsZT0iY29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+Ly9QZXRlcjxv
-OnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVO
-LVVTIiBzdHlsZT0iY29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+PG86
-cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVy
-LWxlZnQ6c29saWQgYmx1ZSAxLjVwdDtwYWRkaW5nOjBjbSAwY20gMGNtIDQuMHB0Ij4NCjxkaXY+
-DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItdG9wOnNvbGlkICNFMUUxRTEgMS4wcHQ7
-cGFkZGluZzozLjBwdCAwY20gMGNtIDBjbSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3Bh
-biBsYW5nPSJFTi1VUyI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIGxhbmc9IkVOLVVTIj4gSm9zZSBR
-dWFyZXNtYSAmbHQ7cXVhcmVzbWEuam9zZUBnbWFpbC5jb20mZ3Q7DQo8YnI+DQo8Yj5TZW50Ojwv
-Yj4gZGVuIDE4IGphbnVhcmkgMjAyMyAxMzoxMzxicj4NCjxiPlRvOjwvYj4gUGV0ZXIgS2plbGxl
-cnN0ZWR0ICZsdDtwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20mZ3Q7PGJyPg0KPGI+Q2M6PC9i
-PiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPGJyPg0KPGI+U3ViamVj
-dDo8L2I+IFJlOiBbT0UtY29yZV0gW1BBVENIXSBsaWJyc3ZnOiBPbmx5IGVuYWJsZSB0aGUgVmFs
-YSBiaW5kaW5ncyBpZiBHT2JqZWN0IEludHJvc3BlY3Rpb24gaXMgZW5hYmxlZDxvOnA+PC9vOnA+
-PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZu
-YnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+SGkgUGV0
-ZXIsPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5i
-c3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5QZXRlciBL
-amVsbGVyc3RlZHQgJmx0OzxhIGhyZWY9Im1haWx0bzpwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5j
-b20iPnBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbTwvYT4mZ3Q7IGVzY3JldmV1IG5vIGRpYSBx
-dWFydGEsIDE4LzAxLzIwMjMgw6AocykgMTE6Mjg6PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxi
-bG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEu
-MHB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJp
-Z2h0OjBjbSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5UaGlzIGF2b2lkcyB0aGUgZm9sbG93aW5n
-IGVycm9yOjxicj4NCjxicj4NCiZuYnNwOyBjb25maWd1cmU6IGVycm9yOiBWYWxhIGJpbmRpbmdz
-IHJlcXVpcmUgR09iamVjdCBJbnRyb3NwZWN0aW9uPGJyPg0KPGJyPg0KU2lnbmVkLW9mZi1ieTog
-UGV0ZXIgS2plbGxlcnN0ZWR0ICZsdDs8YSBocmVmPSJtYWlsdG86cGV0ZXIua2plbGxlcnN0ZWR0
-QGF4aXMuY29tIiB0YXJnZXQ9Il9ibGFuayI+cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPC9h
-PiZndDs8YnI+DQotLS08YnI+DQombmJzcDttZXRhL3JlY2lwZXMtZ25vbWUvbGlicnN2Zy88YSBo
-cmVmPSJodHRwOi8vbGlicnN2Z18yLjU0LjUuYmIiIHRhcmdldD0iX2JsYW5rIj5saWJyc3ZnXzIu
-NTQuNS5iYjwvYT4gfCA1ICYjNDM7JiM0MzstLS08YnI+DQombmJzcDsxIGZpbGUgY2hhbmdlZCwg
-MiBpbnNlcnRpb25zKCYjNDM7KSwgMyBkZWxldGlvbnMoLSk8YnI+DQo8YnI+DQpkaWZmIC0tZ2l0
-IGEvbWV0YS9yZWNpcGVzLWdub21lL2xpYnJzdmcvPGEgaHJlZj0iaHR0cDovL2xpYnJzdmdfMi41
-NC41LmJiIiB0YXJnZXQ9Il9ibGFuayI+bGlicnN2Z18yLjU0LjUuYmI8L2E+IGIvbWV0YS9yZWNp
-cGVzLWdub21lL2xpYnJzdmcvPGEgaHJlZj0iaHR0cDovL2xpYnJzdmdfMi41NC41LmJiIiB0YXJn
-ZXQ9Il9ibGFuayI+bGlicnN2Z18yLjU0LjUuYmI8L2E+PGJyPg0KaW5kZXggYjJlOTNhMjY4NC4u
-YzU1YWEyNTBlOSAxMDA2NDQ8YnI+DQotLS0gYS9tZXRhL3JlY2lwZXMtZ25vbWUvbGlicnN2Zy88
-YSBocmVmPSJodHRwOi8vbGlicnN2Z18yLjU0LjUuYmIiIHRhcmdldD0iX2JsYW5rIj5saWJyc3Zn
-XzIuNTQuNS5iYjwvYT48YnI+DQomIzQzOyYjNDM7JiM0MzsgYi9tZXRhL3JlY2lwZXMtZ25vbWUv
-bGlicnN2Zy88YSBocmVmPSJodHRwOi8vbGlicnN2Z18yLjU0LjUuYmIiIHRhcmdldD0iX2JsYW5r
-Ij5saWJyc3ZnXzIuNTQuNS5iYjwvYT48YnI+DQpAQCAtNDIsOCAmIzQzOzQyLDYgQEAgZG9fY29u
-ZmlndXJlW3Bvc3RmdW5jc10gJiM0Mzs9ICZxdW90O2NhcmdvX2NvbW1vbl9kb19jb25maWd1cmUm
-cXVvdDs8YnI+DQo8YnI+DQombmJzcDtpbmhlcml0IHJ1c3QtdGFyZ2V0LWNvbmZpZzxicj4NCjxi
-cj4NCi1FWFRSQV9PRUNPTkY6Y2xhc3MtdGFyZ2V0ID0gJnF1b3Q7LS1lbmFibGUtdmFsYSZxdW90
-Ozxicj4NCi08YnI+DQombmJzcDsjIHJ1c3QtY3Jvc3Mgd3JpdGVzIHRoZSB0YXJnZXQgbGlua2Vy
-IGJpbmFyeSBpbnRvIHRhcmdldCBqc29uIGRlZmluaXRpb24gd2l0aG91dCBhbnkgZmxhZ3MuPGJy
-Pg0KJm5ic3A7IyBUaGlzIGJyZWFrcyBoZXJlIGJlY2F1c2UgdGhlIGxpbmtlciBpc24ndCBnb2lu
-ZyB0byB3b3JrIHdpdGhvdXQgYXQgbGVhc3Qga25vd2luZyB3aGVyZTxicj4NCiZuYnNwOyMgdGhl
-IHN5c3Jvb3QgaXMuIFNvIGNvcHkgdGhlIGpzb24gdG8gd29ya2RpciwgYW5kIHBhdGNoIGluIHRo
-ZSBwYXRoIHRvIHdyYXBwZXIgZnJvbSBydXN0IGNsYXNzPGJyPg0KQEAgLTU3LDkgJiM0Mzs1NSwx
-MCBAQCBDVkVfQ0hFQ0tfSUdOT1JFICYjNDM7PSAmcXVvdDtDVkUtMjAxOC0xMDAwMDQxJnF1b3Q7
-PGJyPg0KPGJyPg0KJm5ic3A7Q0FDSEVEX0NPTkZJR1VSRVZBUlMgPSAmcXVvdDthY19jdl9wYXRo
-X0dES19QSVhCVUZfUVVFUllMT0FERVJTPSR7U1RBR0lOR19MSUJESVJfTkFUSVZFfS9nZGstcGl4
-YnVmLTIuMC9nZGstcGl4YnVmLXF1ZXJ5LWxvYWRlcnMmcXVvdDs8YnI+DQo8YnI+DQotUEFDS0FH
-RUNPTkZJRyA/Pz0gJnF1b3Q7Z2RrcGl4YnVmJnF1b3Q7PGJyPg0KJiM0MztQQUNLQUdFQ09ORklH
-ID8/PSAmcXVvdDtnZGtwaXhidWYgPGEgaHJlZj0ibWFpbHRvOiQlN2JAYmIudXRpbHMuY29udGFp
-bnMoJ0dJX0RBVEFfRU5BQkxFRCI+DQoke0BiYi51dGlscy5jb250YWlucygnR0lfREFUQV9FTkFC
-TEVEPC9hPicsICdUcnVlJywgJ3ZhbGEnLCAnJywgZCl9JnF1b3Q7PGJyPg0KJm5ic3A7IyBUaGUg
-Z2RrLXBpeGJ1ZiBsb2FkZXI8YnI+DQombmJzcDtQQUNLQUdFQ09ORklHW2dka3BpeGJ1Zl0gPSAm
-cXVvdDstLWVuYWJsZS1waXhidWYtbG9hZGVyLC0tZGlzYWJsZS1waXhidWYtbG9hZGVyLGdkay1w
-aXhidWYtbmF0aXZlJnF1b3Q7PGJyPg0KJiM0MztQQUNLQUdFQ09ORklHW3ZhbGFdID0gJnF1b3Q7
-LS1lbmFibGUtdmFsYSwtLWRpc2FibGUtdmFsYSZxdW90OzxvOnA+PC9vOnA+PC9wPg0KPC9ibG9j
-a3F1b3RlPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9w
-Pg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+VGhpcyB3aWxsIGJlIGVuYWJs
-ZWQgaW4gdGhlIG5hdGl2ZSBidWlsZHMgdG9vIGFuZCBiZWZvcmUgaXQgaXMgb25seSBkZWZpbmVk
-IGZvciB0YXJnZXQuPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJN
-c29Ob3JtYWwiPkpvc2UmbmJzcDs8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNs
-YXNzPSJNc29Ob3JtYWwiPiZuYnNwOzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8YmxvY2txdW90
-ZSBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBwdDtwYWRk
-aW5nOjBjbSAwY20gMGNtIDYuMHB0O21hcmdpbi1sZWZ0OjQuOHB0O21hcmdpbi1yaWdodDowY20i
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1ib3R0b206MTIuMHB0Ij48YnI+
-DQombmJzcDtkb19pbnN0YWxsOmFwcGVuZCgpIHs8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAm
-bmJzcDsgIyBMb2FkYWJsZSBtb2R1bGVzIGRvbid0IG5lZWQgLmEgb3IgLmxhIG9uIExpbnV4PGJy
-Pg0KPGJyPg0KLT0tPS09LT0tPS09LT0tPS09LT0tPS08YnI+DQpMaW5rczogWW91IHJlY2VpdmUg
-YWxsIG1lc3NhZ2VzIHNlbnQgdG8gdGhpcyBncm91cC48YnI+DQpWaWV3L1JlcGx5IE9ubGluZSAo
-IzE3NjA4Nik6IDxhIGhyZWY9Imh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5l
-bWJlZGRlZC1jb3JlL21lc3NhZ2UvMTc2MDg2IiB0YXJnZXQ9Il9ibGFuayI+DQpodHRwczovL2xp
-c3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS9tZXNzYWdlLzE3NjA4Njwv
-YT48YnI+DQpNdXRlIFRoaXMgVG9waWM6IDxhIGhyZWY9Imh0dHBzOi8vbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZy9tdC85NjM1MTY0NS81MDUyNjEyIiB0YXJnZXQ9Il9ibGFuayI+DQpodHRwczovL2xp
-c3RzLm9wZW5lbWJlZGRlZC5vcmcvbXQvOTYzNTE2NDUvNTA1MjYxMjwvYT48YnI+DQpHcm91cCBP
-d25lcjogPGEgaHJlZj0ibWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlJTJCb3duZXJAbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZyIgdGFyZ2V0PSJfYmxhbmsiPg0Kb3BlbmVtYmVkZGVkLWNvcmUmIzQzO293
-bmVyQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8L2E+PGJyPg0KVW5zdWJzY3JpYmU6IDxhIGhyZWY9
-Imh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL3Vuc3Vi
-IiB0YXJnZXQ9Il9ibGFuayI+DQpodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVu
-ZW1iZWRkZWQtY29yZS91bnN1YjwvYT4gWzxhIGhyZWY9Im1haWx0bzpxdWFyZXNtYS5qb3NlQGdt
-YWlsLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPnF1YXJlc21hLmpvc2VAZ21haWwuY29tPC9hPl08YnI+
-DQotPS09LT0tPS09LT0tPS09LT0tPS09LTxvOnA+PC9vOnA+PC9wPg0KPC9ibG9ja3F1b3RlPg0K
-PC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YnIgY2xlYXI9ImFsbCI+DQo8bzpwPjwvbzpw
-PjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4N
-CjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+LS0gPG86cD48L286cD48L3A+DQo8ZGl2Pg0K
-PGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkJlc3QgcmVnYXJkcyw8bzpwPjwvbzpwPjwvcD4N
-CjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YnI+DQpKb3PDqSBRdWFyZXNtYTxvOnA+PC9v
-OnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0K
-PC9ib2R5Pg0KPC9odG1sPg0K
+Steve
 
---_000_a86b3682b19044999bb994a4e968ca9aaxiscom_--
+> On 1/13/2023 9:51 AM, Gundlupet Raju, Sandeep wrote:
+> > Hi Richard, Alex,
+> >
+> > Thanks for merging the patches in master. Can you merge these patches
+> > to langdale release as well?
+> >
+> > Thanks,
+> >
+> > Sandeep
+> >
+> > On 1/12/2023 7:19 PM, Gundlupet Raju, Sandeep wrote:
+> >> Hi Michael,
+> >>
+> >> Any updates on patch merge?
+> >>
+> >> Thanks,
+> >>
+> >> Sandeep
+> >>
+> >> On 1/8/2023 10:25 AM, sandeep.gundlupet-raju@amd.com wrote:
+> >>> From: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+> >>>
+> >>> The dtb files must be before the dtbo files, otherwise the overlays may
+> >>> not be applied correctly.
+> >>>
+> >>>  From Bruce Ashfield:
+> >>>
+> >>>    We can split between dtbs and dtbos, they just need to be sorted
+> >>>    for reproducibility reasons.
+> >>>
+> >>>    Of course, this was only working by luck previously (before the
+> >>>    sort), since it has always been gathering dtbs and dtbo's with
+> >>>    find, depending on filesystem ordering for the order in the
+> >>>    fitimage).
+> >>>
+> >>> Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+> >>> ---
+> >>>
+> >>> Changes in v2:
+> >>>   - Remove 2 loops and use single loop for dtb and dtbo with same
+> >>> logic.
+> >>>
+> >>> ---
+> >>>   meta/classes-recipe/kernel-fitimage.bbclass | 5 +++--
+> >>>   1 file changed, 3 insertions(+), 2 deletions(-)
+> >>>
+> >>> diff --git a/meta/classes-recipe/kernel-fitimage.bbclass
+> >>> b/meta/classes-recipe/kernel-fitimage.bbclass
+> >>> index 8ddebf8dd8..06cdc4f1ec 100644
+> >>> --- a/meta/classes-recipe/kernel-fitimage.bbclass
+> >>> +++ b/meta/classes-recipe/kernel-fitimage.bbclass
+> >>> @@ -546,10 +546,11 @@ fitimage_assemble() {
+> >>>         if [ -n "${EXTERNAL_KERNEL_DEVICETREE}" ]; then
+> >>>           dtbcount=1
+> >>> -        for DTB in $(find "${EXTERNAL_KERNEL_DEVICETREE}" \( -name
+> >>> '*.dtb' -o -name '*.dtbo' \) -printf '%P\n' | sort); do
+> >>> +        for DTB in $(find "${EXTERNAL_KERNEL_DEVICETREE}" -name
+> >>> '*.dtb' -printf '%P\n' | sort) \
+> >>> +        $(find "${EXTERNAL_KERNEL_DEVICETREE}" -name '*.dtbo'
+> >>> -printf '%P\n' | sort); do
+> >>>               DTB=$(echo "$DTB" | tr '/' '_')
+> >>>   -            # Skip DTB if we've picked it up previously
+> >>> +            # Skip DTB/DTBO if we've picked it up previously
+> >>>               echo "$DTBS" | tr ' ' '\n' | grep -xq "$DTB" && continue
+> >>>                 DTBS="$DTBS $DTB"
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#176053): https://lists.openembedded.org/g/openembedded-core/message/176053
+> Mute This Topic: https://lists.openembedded.org/mt/96134986/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
