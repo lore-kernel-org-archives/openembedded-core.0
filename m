@@ -1,89 +1,120 @@
-Return-Path: <rpurdie@rpsys.net>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3700AC00A5A
-	for <webhook@archiver.kernel.org>; Thu, 19 Jan 2023 13:00:41 +0000 (UTC)
-Received: from dan.rpsys.net (dan.rpsys.net [217.169.23.60])
- by mx.groups.io with SMTP id smtpd.web11.44609.1674133234249745633
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 614BDC00A5A
+	for <webhook@archiver.kernel.org>; Thu, 19 Jan 2023 13:20:01 +0000 (UTC)
+Received: from mailout03.t-online.de (mailout03.t-online.de [194.25.134.81])
+ by mx.groups.io with SMTP id smtpd.web11.44988.1674134400221236938
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Jan 2023 05:00:35 -0800
+ Thu, 19 Jan 2023 05:20:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="crypto/rsa: verification error" header.i=@rpsys.net header.s=default header.b=XF105XS9;
- spf=pass (domain: rpsys.net, ip: 217.169.23.60, mailfrom: rpurdie@rpsys.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=rpsys.net; s=default;
-	t=1674133231; bh=qMhzjGZMr4Jf8axYNxA8GnX3OXBi9vyGuOlSB08GLnE=;
-	h=Subject:From:To:Date:In-Reply-To:References:From;
-	b=XF105XS96GpEiPUZA8FFMH8VB0G4RapGWwqUoKq+uWi/th4U2oQk1uvEZNWYuWSl6
-	 SoScNvWt3CgTNoW7ANUqAMNLvz4ujz1vGFYq3wLsmsbsCaTtNm1NUbdkY7DyuJe2Xc
-	 BhnaXoeIeogTtzjenRKjk8pgsoQwFSQljhS7TgaLQ7hsW9WzDFFRYkTP9W9VJ+uKIe
-	 /tTUZZQF0pMk1wx1OCzQCQeTtbaIDrRBvmG4zL2QagErEkhT3vzpsUX1zPrYDWXUO1
-	 eFv9XzITesJMvRTtIED7EoThCf9+FMgDTeFIPgshkxSx8NR2Kh3zbRbCMOutRwPd+0
-	 BDroRy0gtRlrw==
-Received: from [192.168.1.7] ([192.168.1.7])
-	(authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-22ubuntu3) with ESMTPSA id 30JD0Uq7701110
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 19 Jan 2023 13:00:31 GMT
-Message-ID: <f38a5e71b766eabeec8c1297105c51290a3d4a92.camel@rpsys.net>
-Subject: Re: [OE-core] [PATCH] meson: use TRANSLATED_TARGET_ARCH in cross
- builds
-From: Richard Purdie <rpurdie@rpsys.net>
-To: Sergey Zhmylev <s.zhmylev@yadro.com>,
-        openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jan 2023 13:00:30 +0000
-In-Reply-To: <20230119121002.15819-1-s.zhmylev@yadro.com>
-References: <20230119121002.15819-1-s.zhmylev@yadro.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.1-0ubuntu1 
+ dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.81, mailfrom: f_l_k@t-online.de)
+Received: from fwd72.dcpf.telekom.de (fwd72.aul.t-online.de [10.223.144.98])
+	by mailout03.t-online.de (Postfix) with SMTP id 59C50E8A3
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Jan 2023 14:19:02 +0100 (CET)
+Received: from flk-MS-7C91.fritz.box ([79.219.226.208]) by fwd72.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1pIUom-0qzDIP0; Thu, 19 Jan 2023 14:19:00 +0100
+From: Markus Volk <f_l_k@t-online.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Markus Volk <f_l_k@t-online.de>
+Subject: [oe-core][PATCH] gptfdisk: add follow-up patch to fix with current popt
+Date: Thu, 19 Jan 2023 14:18:53 +0100
+Message-Id: <20230119131853.27372-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.103.6 at dan
-X-Virus-Status: Clean
+X-TOI-EXPURGATEID: 150726::1674134340-81AEBD99-D549DDFD/0/0 CLEAN NORMAL
+X-TOI-MSGID: 7325c3ff-c02e-4092-8499-08499767d694
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Jan 2023 13:00:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176137
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Jan 2023 13:20:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176138
 
-On Thu, 2023-01-19 at 15:10 +0300, Sergey Zhmylev wrote:
-> From: Sergei Zhmylev <s.zhmylev@yadro.com>
->=20
-> TARGET_ARCH for most of x86_64 machines sets additional
-> -march parameter in meson configuration, which is not supported
-> during build and several meson recipes fail.  The patch makes
-> meson.bbclass use TRANSLATED_TARGET_ARCH instead of TARGET_ARCH
-> in order to properly set -march for cross builds.
->=20
-> Signed-off-by: Sergei Zhmylev <s.zhmylev@yadro.com>
-> ---
->  meta/classes-recipe/meson.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes-recipe/meson.bbclass b/meta/classes-recipe/meso=
-n.bbclass
-> index 48688bed75..65fd80fc7e 100644
-> --- a/meta/classes-recipe/meson.bbclass
-> +++ b/meta/classes-recipe/meson.bbclass
-> @@ -97,7 +97,7 @@ endian =3D '${@meson_endian('HOST', d)}'
->  [target_machine]
->  system =3D '${@meson_operating_system('TARGET_OS', d)}'
->  cpu_family =3D '${@meson_cpu_family('TARGET_ARCH', d)}'
-> -cpu =3D '${TARGET_ARCH}'
-> +cpu =3D '${TRANSLATED_TARGET_ARCH}'
->  endian =3D '${@meson_endian('TARGET', d)}'
->  EOF
+sgdisk still segfaults for some tasks (e.g 'sgdisk -v', 'sgdisk -V')
 
-This doesn't sounds correct to me.
+Add a follow-up patch that fixes the issue. It was taken from Archlinux
 
-TRANSLATED_TARGET_ARCH is TARGET_ARCH with "_" mapped to "-", there
-isn't any march change. As such, this commit message doesn't sound
-right.
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
+---
+ .../fdisk/gptfdisk/popt-1.19-follow-up.patch  | 42 +++++++++++++++++++
+ meta/recipes-devtools/fdisk/gptfdisk_1.0.9.bb |  1 +
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-devtools/fdisk/gptfdisk/popt-1.19-follow=
+-up.patch
 
-Can you give a bit more detail about the problem you're solving and how
-this solves it please?
+diff --git a/meta/recipes-devtools/fdisk/gptfdisk/popt-1.19-follow-up.pat=
+ch b/meta/recipes-devtools/fdisk/gptfdisk/popt-1.19-follow-up.patch
+new file mode 100644
+index 0000000000..a5ccd2385a
+--- /dev/null
++++ b/meta/recipes-devtools/fdisk/gptfdisk/popt-1.19-follow-up.patch
+@@ -0,0 +1,42 @@
++From f5de3401b974ce103ffd93af8f9d43505a04aaf9 Mon Sep 17 00:00:00 2001
++From: Damian Kurek <starfire24680@gmail.com>
++Date: Thu, 7 Jul 2022 03:39:16 +0000
++Subject: [PATCH] Fix NULL dereference when duplicating string argument
++
++poptGetArg can return NULL if there are no additional arguments, which
++makes strdup dereference NULL on strlen
++
++Upstream-Status: Backport [https://github.com/archlinux/svntogit-package=
+s/tree/packages/gptfdisk/trunk]
++
++Unsure if this patch is really a backport yet. It was taken from Archlin=
+ux
++---
++ gptcl.cc | 6 ++++--
++ 1 file changed, 4 insertions(+), 2 deletions(-)
++
++diff --git a/gptcl.cc b/gptcl.cc
++index 0d578eb..ab95239 100644
++--- a/gptcl.cc
+++++ b/gptcl.cc
++@@ -155,10 +155,11 @@ int GPTDataCL::DoOptions(int argc, char* argv[]) {
++    } // while
++=20
++    // Assume first non-option argument is the device filename....
++-   device =3D strdup((char*) poptGetArg(poptCon));
++-   poptResetContext(poptCon);
+++   device =3D (char*) poptGetArg(poptCon);
++=20
++    if (device !=3D NULL) {
+++      device =3D strdup(device);
+++      poptResetContext(poptCon);
++       JustLooking(); // reset as necessary
++       BeQuiet(); // Tell called functions to be less verbose & interact=
+ive
++       if (LoadPartitions((string) device)) {
++@@ -498,6 +499,7 @@ int GPTDataCL::DoOptions(int argc, char* argv[]) {
++          cerr << "Error encountered; not saving changes.\n";
++          retval =3D 4;
++       } // if
+++      free(device);
++    } // if (device !=3D NULL)
++    poptFreeContext(poptCon);
++    return retval;
++
+diff --git a/meta/recipes-devtools/fdisk/gptfdisk_1.0.9.bb b/meta/recipes=
+-devtools/fdisk/gptfdisk_1.0.9.bb
+index 66935b7fbb..cf0a60a1a9 100644
+--- a/meta/recipes-devtools/fdisk/gptfdisk_1.0.9.bb
++++ b/meta/recipes-devtools/fdisk/gptfdisk_1.0.9.bb
+@@ -12,6 +12,7 @@ SRC_URI =3D "${SOURCEFORGE_MIRROR}/${BPN}/${PV}/${BP}.t=
+ar.gz \
+            file://0001-Updated-guid.cc-to-deal-with-minor-change-in-libu=
+uid.patch \
+            file://0001-Fix-failure-crash-of-sgdisk-when-compiled-with-la=
+tes.patch \
+            file://0001-Use-64bit-time_t-on-linux-as-well.patch \
++           file://popt-1.19-follow-up.patch \
+            "
+ SRC_URI[sha256sum] =3D "dafead2693faeb8e8b97832b23407f6ed5b3219bc1784f48=
+2dd855774e2d50c2"
+=20
+--=20
+2.34.1
 
-Thanks,
-
-Richard
 
