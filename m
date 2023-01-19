@@ -1,67 +1,74 @@
 Return-Path: <raj.khem@gmail.com>
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C980FC678D7
-	for <webhook@archiver.kernel.org>; Sun, 15 Jan 2023 18:44:12 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web10.147000.1673808244014532188
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE731C678DB
+	for <webhook@archiver.kernel.org>; Thu, 19 Jan 2023 04:27:38 +0000 (UTC)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web10.38159.1674102450786476562
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Jan 2023 10:44:04 -0800
+ Wed, 18 Jan 2023 20:27:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=P+FfEh/2;
- spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f173.google.com with SMTP id y5so19518575pfe.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 10:44:03 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=o6iWfGXW;
+ spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f171.google.com with SMTP id k18so1200020pll.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Jan 2023 20:27:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=06INMdAG9U6ydkRUGyUrhmG/T2HumkHyuTf5OcFM+2o=;
-        b=P+FfEh/2rLeWS+TV/GcigMrn/tWfXnSebuwAzJBweJqL7G4TKT/GgKbYtbA6tXydaQ
-         S+3Hclru06tBapN+mffvwnWhhodmAe8eImbavQcvKLSt6jyPcMNRiTsmajmw/LuFqiLH
-         a5FBDt56XT5hQTPHaGgWuuvfk2wbclWFTwg3Kwiz/BPVYgI3LKUcsr0PsmW89ZUt9xqh
-         t0I8OychxS4jls+zjh4CTJlwN9GksVCS60ZKaijGCCq2zTErh9+3qKsZMpTNIYo42stI
-         iib3G2JE/GdVxpdYVO81OaXCRywzJv2p3ckxI/UAFDgCf8Z0Vt4fu7wNyN87LgP3S47Q
-         PFrg==
+        bh=wQ37LUU3qS/ufwkF8Dit0hTOOlCAgt9BxyYA3Kad2kQ=;
+        b=o6iWfGXWBZlanU2E13VA+rCdId000YdBK1IGVV7BLk2+MXYZOLazlhvhZ1m1oWZUe6
+         yQb854tHKc0Lelsx466MIisK6PvD/jhxVnljqv/NgHhTBQZXKhtF00LG8rK1+lHEVsPk
+         msU/jx8aIktOzixblGpiAsHcEoZ391FHkfcxOBX6gmO6+yGOOmyS2Np1ROiI/zY5esD6
+         ASJcl2Sx7+06Y+LANTqA9jHcKJm8wcbzuY8dQFzAsTKPqp9Ra/KtfKC97KNpMSvfI6kZ
+         PsIYk0iKS0PLyKHUwusypAjC/JqYZ9eFcZJzNWXMAa0bh/HPN7d7m1HvUZhMxjXEztPy
+         cuzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=06INMdAG9U6ydkRUGyUrhmG/T2HumkHyuTf5OcFM+2o=;
-        b=4s4U2ljrynXgUtUBejDd59f+pXCW1Tl7Kz+5NpnrYRqn2bWKbTCcDpGJD93Hds8Rae
-         YSO8y5PBU4ZV0LOCJ4d+uS4VhrKPgzzcNdIKQrkPKrx2rwyvDJyGO8LkTZOvmMCGQeLH
-         Tw+UA8SX2ov24dLeSZKTpdp3FDSj3TgoJ7ZrzIxp+giiEpHRIMYAhGmAzcNEFcjo1W7H
-         oEa8MxC4xcf81dzgg3yhvcSfnoN3qvlDWx6chbZx06FxfgP2PMYbRxByHcSNZxEhDkmf
-         9g/EVwYeeoN+diirTtuiQWPmyhMvPAox9f9jBRPxRGm2/b5jty01X2Se9TcgMRGAzR4J
-         66BA==
-X-Gm-Message-State: AFqh2koFD4xgEAE57gYrHBHHrGuY8gx8MVAFBwWu9tTJ8dkn5ApNNUqZ
-	JfDnoaHzJjKMkUBcog9vmA1+0JkEPrEByg==
-X-Google-Smtp-Source: AMrXdXsreeJ8ISLr+oPcQgh6AmobMMbWrU1a6b4DvXs21dQ6DKuSXuIOwpTuDcTLMY95uPjJtlIlKQ==
-X-Received: by 2002:a62:d117:0:b0:58b:c873:54e4 with SMTP id z23-20020a62d117000000b0058bc87354e4mr5440376pfg.34.1673808241950;
-        Sun, 15 Jan 2023 10:44:01 -0800 (PST)
+        bh=wQ37LUU3qS/ufwkF8Dit0hTOOlCAgt9BxyYA3Kad2kQ=;
+        b=R/TqMrqYaL28kNt7DYnRZ1K9YlBbXXYSaK+C7FCQQHPrIvB959aYefLKHt7DYyImA1
+         M80u6iBGrKkz84P3UrYmYFQLBJtY1WGn8ZvLHyC2OnPlRPK+a00971OpMU2qcMJp1MW1
+         m7gwYBydAJZUC7jOffOKbn1NEMwmFML0gD92O/G3jHa+E24FwS1HAVwxT941lmuxINmd
+         zEuex2ifcwpK+DknsIX/DRCdvREZxpMaemFPlUN7QnlHKEFDo6t7PeXHazFjvCOpmwD1
+         10EjRM/FL5VGuSx1np45vxSyrdEZ/k7LkDrsq0ZqZD0qSWD0JXmpYsx3RQ+52Xf35rjh
+         WlnA==
+X-Gm-Message-State: AFqh2kpn3ky3WVeu+O/f9GAh3da+PUKqJNOszGQ+rOCRiAk0B09c62rn
+	iNu9Lh1RQNFE6xjiuOWHbG89AbRPT5ZtFQ==
+X-Google-Smtp-Source: AMrXdXsHsEGvNKQO9Ybf8t0VWK2fNwa6NGdUwd5caw1Rll5uHQOPmhrgSMpdx3AlUoi1FezX2VdgDg==
+X-Received: by 2002:a17:902:f304:b0:194:6e8d:89af with SMTP id c4-20020a170902f30400b001946e8d89afmr8724478ple.27.1674102448601;
+        Wed, 18 Jan 2023 20:27:28 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::b940])
-        by smtp.gmail.com with ESMTPSA id x27-20020aa79a5b000000b0058bc7453285sm2665436pfj.217.2023.01.15.10.43.59
+        by smtp.gmail.com with ESMTPSA id l14-20020a170903120e00b0017849a2b56asm24001775plh.46.2023.01.18.20.27.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Jan 2023 10:44:00 -0800 (PST)
+        Wed, 18 Jan 2023 20:27:27 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/3] binutils: Upgrade to 2.40 release
-Date: Sun, 15 Jan 2023 10:43:55 -0800
-Message-Id: <20230115184358.2276696-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.39.0
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Alejandro Hernandez <aehs29@gmail.com>,
+	Richard Purdie <rpurdie@rpsys.net>,
+	Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2 1/3] binutils: Upgrade to 2.40 release
+Date: Wed, 18 Jan 2023 20:27:22 -0800
+Message-Id: <20230119042724.1413857-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 15 Jan 2023 18:44:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/175948
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Jan 2023 04:27:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176118
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
+v1 -> v2:
+- Fix build on mingw
+- Backport fix to build with --disable-gdb
+
  meta/conf/distro/include/tcmode-default.inc   |     2 +-
- .../{binutils-2.39.inc => binutils-2.40.inc}  |    20 +-
+ .../{binutils-2.39.inc => binutils-2.40.inc}  |    22 +-
  ....39.bb => binutils-cross-canadian_2.40.bb} |     0
  ...39.bb => binutils-cross-testsuite_2.40.bb} |     0
  ...s-cross_2.39.bb => binutils-cross_2.40.bb} |     0
@@ -83,9 +90,11 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
  .../binutils/0014-CVE-2022-38128-1.patch      |   350 -
  .../binutils/0014-CVE-2022-38128-2.patch      |   536 -
  .../binutils/0014-CVE-2022-38128-3.patch      |    95 -
+ ...-dependencies-on-gmp-and-mpfr-when-g.patch |    56 +
  .../binutils/0015-CVE-2022-4285.patch         |    37 -
+ ...-pe-dll.o-entry-deom-targ_extra_ofil.patch |    41 +
  .../{binutils_2.39.bb => binutils_2.40.bb}    |     0
- 25 files changed, 11721 insertions(+), 8773 deletions(-)
+ 27 files changed, 11820 insertions(+), 8773 deletions(-)
  rename meta/recipes-devtools/binutils/{binutils-2.39.inc => binutils-2.40.inc} (71%)
  rename meta/recipes-devtools/binutils/{binutils-cross-canadian_2.39.bb => binutils-cross-canadian_2.40.bb} (100%)
  rename meta/recipes-devtools/binutils/{binutils-cross-testsuite_2.39.bb => binutils-cross-testsuite_2.40.bb} (100%)
@@ -96,7 +105,9 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
  delete mode 100644 meta/recipes-devtools/binutils/binutils/0014-CVE-2022-38128-1.patch
  delete mode 100644 meta/recipes-devtools/binutils/binutils/0014-CVE-2022-38128-2.patch
  delete mode 100644 meta/recipes-devtools/binutils/binutils/0014-CVE-2022-38128-3.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0014-configure-remove-dependencies-on-gmp-and-mpfr-when-g.patch
  delete mode 100644 meta/recipes-devtools/binutils/binutils/0015-CVE-2022-4285.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0015-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofil.patch
  rename meta/recipes-devtools/binutils/{binutils_2.39.bb => binutils_2.40.bb} (100%)
 
 diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
@@ -116,7 +127,7 @@ diff --git a/meta/recipes-devtools/binutils/binutils-2.39.inc b/meta/recipes-dev
 similarity index 71%
 rename from meta/recipes-devtools/binutils/binutils-2.39.inc
 rename to meta/recipes-devtools/binutils/binutils-2.40.inc
-index 419571d56c..fe2da374f2 100644
+index 419571d56c..c2b926bb32 100644
 --- a/meta/recipes-devtools/binutils/binutils-2.39.inc
 +++ b/meta/recipes-devtools/binutils/binutils-2.40.inc
 @@ -10,15 +10,15 @@ LIC_FILES_CHKSUM="\
@@ -136,11 +147,11 @@ index 419571d56c..fe2da374f2 100644
  UPSTREAM_CHECK_GITTAGREGEX = "binutils-(?P<pver>\d+_(\d_?)*)"
  
 -SRCREV ?= "f89058434f13382c85b8729464192bc7763d88a4"
-+SRCREV ?= "a2b1e3c0d125f848435fc96603d58e013962f664"
++SRCREV ?= "ffb83e32fc11f36b7b82b876c14888f82cd983b3"
  BINUTILS_GIT_URI ?= "git://sourceware.org/git/binutils-gdb.git;branch=${SRCBRANCH};protocol=git"
  SRC_URI = "\
       ${BINUTILS_GIT_URI} \
-@@ -31,14 +31,6 @@ SRC_URI = "\
+@@ -31,14 +31,8 @@ SRC_URI = "\
       file://0010-sync-with-OE-libtool-changes.patch \
       file://0011-Check-for-clang-before-checking-gcc-version.patch \
       file://0012-Only-generate-an-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch \
@@ -150,6 +161,8 @@ index 419571d56c..fe2da374f2 100644
 -     file://0014-CVE-2022-38128-3.patch \
 -     file://0015-CVE-2022-4285.patch \
 +     file://0013-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch \
++     file://0014-configure-remove-dependencies-on-gmp-and-mpfr-when-g.patch \
++     file://0015-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofil.patch \
  "
  S  = "${WORKDIR}/git"
 -# Already in 2.39 branch
@@ -173,12 +186,12 @@ similarity index 100%
 rename from meta/recipes-devtools/binutils/binutils-crosssdk_2.39.bb
 rename to meta/recipes-devtools/binutils/binutils-crosssdk_2.40.bb
 diff --git a/meta/recipes-devtools/binutils/binutils/0001-binutils-crosssdk-Generate-relocatable-SDKs.patch b/meta/recipes-devtools/binutils/binutils/0001-binutils-crosssdk-Generate-relocatable-SDKs.patch
-index 9a7ee494c8..ef6e4415a6 100644
+index 9a7ee494c8..7fffa81724 100644
 --- a/meta/recipes-devtools/binutils/binutils/0001-binutils-crosssdk-Generate-relocatable-SDKs.patch
 +++ b/meta/recipes-devtools/binutils/binutils/0001-binutils-crosssdk-Generate-relocatable-SDKs.patch
 @@ -1,4 +1,4 @@
 -From a0ac147aec127c66c9e38292faa50bb56d3c2a19 Mon Sep 17 00:00:00 2001
-+From 8ce4966b13b500451e39511ef4751ba00e5af0f8 Mon Sep 17 00:00:00 2001
++From 25e715730ddcca37021fa4876aed4fa91d5dea25 Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Mon, 2 Mar 2015 01:58:54 +0000
  Subject: [PATCH] binutils-crosssdk: Generate relocatable SDKs
@@ -214,12 +227,12 @@ index 9a7ee494c8..ef6e4415a6 100644
  +++ b/ld/scripttempl/elf.sc
  @@ -148,8 +148,8 @@ if test -z "$DATA_SEGMENT_ALIGN"; then
 diff --git a/meta/recipes-devtools/binutils/binutils/0002-binutils-cross-Do-not-generate-linker-script-directo.patch b/meta/recipes-devtools/binutils/binutils/0002-binutils-cross-Do-not-generate-linker-script-directo.patch
-index cab9c0ed89..5f785355e2 100644
+index cab9c0ed89..87a19c9ec3 100644
 --- a/meta/recipes-devtools/binutils/binutils/0002-binutils-cross-Do-not-generate-linker-script-directo.patch
 +++ b/meta/recipes-devtools/binutils/binutils/0002-binutils-cross-Do-not-generate-linker-script-directo.patch
 @@ -1,4 +1,4 @@
 -From fd7065bfd20364679e3c3f329b19059bbc51ab02 Mon Sep 17 00:00:00 2001
-+From d242645e099672e71ff5102ffedf54b526d8a6b8 Mon Sep 17 00:00:00 2001
++From 080a8eafc5961f78222d84aaa816d0933441b7ab Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Mon, 6 Mar 2017 23:37:05 -0800
  Subject: [PATCH] binutils-cross: Do not generate linker script directories
@@ -233,12 +246,12 @@ index cab9c0ed89..5f785355e2 100644
  +++ b/ld/genscripts.sh
  @@ -235,31 +235,6 @@ append_to_lib_path()
 diff --git a/meta/recipes-devtools/binutils/binutils/0003-binutils-nativesdk-Search-for-alternative-ld.so.conf.patch b/meta/recipes-devtools/binutils/binutils/0003-binutils-nativesdk-Search-for-alternative-ld.so.conf.patch
-index 4fe5520010..abe164e5fd 100644
+index 4fe5520010..8e5e2be81d 100644
 --- a/meta/recipes-devtools/binutils/binutils/0003-binutils-nativesdk-Search-for-alternative-ld.so.conf.patch
 +++ b/meta/recipes-devtools/binutils/binutils/0003-binutils-nativesdk-Search-for-alternative-ld.so.conf.patch
 @@ -1,4 +1,4 @@
 -From 67735b3647f98ce0f010ff8b4f9b5c5da576cb17 Mon Sep 17 00:00:00 2001
-+From fe04e0b33fc770e26a39959cc82e97b91d32fc5c Mon Sep 17 00:00:00 2001
++From 90d1bb804033a74b54f64cd5d3127c004c266af8 Mon Sep 17 00:00:00 2001
  From: Richard Purdie <richard.purdie@linuxfoundation.org>
  Date: Wed, 19 Feb 2020 09:51:16 -0800
  Subject: [PATCH] binutils-nativesdk: Search for alternative ld.so.conf in SDK
@@ -299,12 +312,12 @@ index 4fe5520010..abe164e5fd 100644
  +++ b/ld/ldmain.h
  @@ -23,6 +23,7 @@
 diff --git a/meta/recipes-devtools/binutils/binutils/0004-Point-scripts-location-to-libdir.patch b/meta/recipes-devtools/binutils/binutils/0004-Point-scripts-location-to-libdir.patch
-index 5b0f2ee308..7c3440ab3b 100644
+index 5b0f2ee308..90abd50498 100644
 --- a/meta/recipes-devtools/binutils/binutils/0004-Point-scripts-location-to-libdir.patch
 +++ b/meta/recipes-devtools/binutils/binutils/0004-Point-scripts-location-to-libdir.patch
 @@ -1,4 +1,4 @@
 -From 2158e5bd4c6ea4db89e33d46ef25428e37bfc3a6 Mon Sep 17 00:00:00 2001
-+From 4d3055cddba18fff5bb157aebcc07847b7142cc6 Mon Sep 17 00:00:00 2001
++From a7c988d60f11c8279453c2d9edeede001cce7c9e Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Mon, 2 Mar 2015 01:09:58 +0000
  Subject: [PATCH] Point scripts location to libdir
@@ -335,12 +348,12 @@ index 5b0f2ee308..7c3440ab3b 100644
   # We can't put the scripts in $(datadir) because the SEARCH_DIR
   # directives need to be different for native and cross linkers.
 diff --git a/meta/recipes-devtools/binutils/binutils/0005-don-t-let-the-distro-compiler-point-to-the-wrong-ins.patch b/meta/recipes-devtools/binutils/binutils/0005-don-t-let-the-distro-compiler-point-to-the-wrong-ins.patch
-index 2495079508..29163cc9d5 100644
+index 2495079508..9557e871db 100644
 --- a/meta/recipes-devtools/binutils/binutils/0005-don-t-let-the-distro-compiler-point-to-the-wrong-ins.patch
 +++ b/meta/recipes-devtools/binutils/binutils/0005-don-t-let-the-distro-compiler-point-to-the-wrong-ins.patch
 @@ -1,4 +1,4 @@
 -From e74d765a1a95253c9247228bd7ccbcabecdd8f7e Mon Sep 17 00:00:00 2001
-+From 2468298036c72bfe3236ffa2480541b7b975a702 Mon Sep 17 00:00:00 2001
++From fc39b9c332a346910695817274d55d0c20dc717a Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Mon, 2 Mar 2015 01:39:01 +0000
  Subject: [PATCH] don't let the distro compiler point to the wrong installation
@@ -354,12 +367,12 @@ index 2495079508..29163cc9d5 100644
  +++ b/libiberty/Makefile.in
  @@ -385,7 +385,8 @@ install-strip: install
 diff --git a/meta/recipes-devtools/binutils/binutils/0006-warn-for-uses-of-system-directories-when-cross-linki.patch b/meta/recipes-devtools/binutils/binutils/0006-warn-for-uses-of-system-directories-when-cross-linki.patch
-index 00fb5aad1b..31ccab77f5 100644
+index 00fb5aad1b..0ca55d4095 100644
 --- a/meta/recipes-devtools/binutils/binutils/0006-warn-for-uses-of-system-directories-when-cross-linki.patch
 +++ b/meta/recipes-devtools/binutils/binutils/0006-warn-for-uses-of-system-directories-when-cross-linki.patch
 @@ -1,4 +1,4 @@
 -From 2c43b1357db6b09d1645704afd3f45be6de0cf4d Mon Sep 17 00:00:00 2001
-+From 856c2f2bf3972dc813b503acc599ab5446c8030a Mon Sep 17 00:00:00 2001
++From b9af05e87ac8eb4fa18a75939edb661056246c30 Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Fri, 15 Jan 2016 06:31:09 +0000
  Subject: [PATCH] warn for uses of system directories when cross linking
@@ -381,7 +394,7 @@ index 00fb5aad1b..31ccab77f5 100644
   
  diff --git a/ld/configure b/ld/configure
 -index e58fb7f3a35..d0a467ac101 100755
-+index 43b44be1dc6..50720f0d6b7 100755
++index 49936a0cb2a..5f5dad6d67c 100755
  --- a/ld/configure
  +++ b/ld/configure
 -@@ -836,6 +836,7 @@ with_lib_path
@@ -518,12 +531,12 @@ index 00fb5aad1b..31ccab77f5 100644
   	  break;
   
 diff --git a/meta/recipes-devtools/binutils/binutils/0007-fix-the-incorrect-assembling-for-ppc-wait-mnemonic.patch b/meta/recipes-devtools/binutils/binutils/0007-fix-the-incorrect-assembling-for-ppc-wait-mnemonic.patch
-index 4ae1580102..8e130b315f 100644
+index 4ae1580102..502ce82928 100644
 --- a/meta/recipes-devtools/binutils/binutils/0007-fix-the-incorrect-assembling-for-ppc-wait-mnemonic.patch
 +++ b/meta/recipes-devtools/binutils/binutils/0007-fix-the-incorrect-assembling-for-ppc-wait-mnemonic.patch
 @@ -1,4 +1,4 @@
 -From 883b6c0930410f8553b3bce0dd98131bc1694fa6 Mon Sep 17 00:00:00 2001
-+From 5d3c00a12c19f010b925f1cacf69c662f8a6326e Mon Sep 17 00:00:00 2001
++From ef9aa69324a209e546956a2f674462717ec5af0f Mon Sep 17 00:00:00 2001
  From: Zhenhua Luo <zhenhua.luo@nxp.com>
  Date: Sat, 11 Jun 2016 22:08:29 -0500
  Subject: [PATCH] fix the incorrect assembling for ppc wait mnemonic
@@ -550,12 +563,12 @@ index 4ae1580102..8e130b315f 100644
   {"waitrsv",	X(31,62)|(1<<21), 0xffffffff, E500MC|PPCA2, EXT,	{0}},
   {"waitimpl",	X(31,62)|(2<<21), 0xffffffff, E500MC|PPCA2, EXT,	{0}},
 diff --git a/meta/recipes-devtools/binutils/binutils/0008-Use-libtool-2.4.patch b/meta/recipes-devtools/binutils/binutils/0008-Use-libtool-2.4.patch
-index 21e2c4fd70..88e9f4a9a7 100644
+index 21e2c4fd70..7e7c2579b3 100644
 --- a/meta/recipes-devtools/binutils/binutils/0008-Use-libtool-2.4.patch
 +++ b/meta/recipes-devtools/binutils/binutils/0008-Use-libtool-2.4.patch
 @@ -1,4 +1,4 @@
 -From 0f45262ef0d656c576adbb0b0f42b8f417895008 Mon Sep 17 00:00:00 2001
-+From a11b56eb97624922a136a2f56a6bd7a2b153a2b1 Mon Sep 17 00:00:00 2001
++From 0ad92af822bb6f58de3f3889d0adc0b2ef9d477f Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Sun, 14 Feb 2016 17:04:07 +0000
  Subject: [PATCH] Use libtool 2.4
@@ -1323,7 +1336,7 @@ index 21e2c4fd70..88e9f4a9a7 100644
   am__include = @am__include@
  diff --git a/binutils/configure b/binutils/configure
 -index 149815542f9..43952bde405 100755
-+index 1367c88f52d..98247a93748 100755
++index 3cb797c2b8d..5578150c1d9 100755
  --- a/binutils/configure
  +++ b/binutils/configure
 -@@ -698,8 +698,11 @@ OTOOL
@@ -2652,7 +2665,7 @@ index 21e2c4fd70..88e9f4a9a7 100644
   am__include = @am__include@
  diff --git a/gprof/configure b/gprof/configure
 -index 5a59f1c1d0e..2506887d3b0 100755
-+index b45f07931c6..116d64b16cf 100755
++index 3e8edd112cb..5b320c60f50 100755
  --- a/gprof/configure
  +++ b/gprof/configure
  @@ -663,8 +663,11 @@ OTOOL
@@ -2805,7 +2818,7 @@ index 21e2c4fd70..88e9f4a9a7 100644
   NMEDIT = @NMEDIT@
  diff --git a/gprofng/configure b/gprofng/configure
 -index ac14d126ac0..f8d7685a72e 100755
-+index e9bf9337d9f..107782bc3d1 100755
++index 2afc9a381a6..1e57b41ffa4 100755
  --- a/gprofng/configure
  +++ b/gprofng/configure
  @@ -672,6 +672,8 @@ OTOOL
@@ -3048,7 +3061,7 @@ index 21e2c4fd70..88e9f4a9a7 100644
   NMEDIT = @NMEDIT@
  diff --git a/gprofng/libcollector/configure b/gprofng/libcollector/configure
 -index ec38721ced2..d9daed11e3f 100755
-+index 20309f5757c..d17c87ca105 100755
++index e92fbfc2242..09e93f878ae 100755
  --- a/gprofng/libcollector/configure
  +++ b/gprofng/libcollector/configure
  @@ -641,6 +641,8 @@ OTOOL
@@ -3097,7 +3110,7 @@ index 21e2c4fd70..88e9f4a9a7 100644
   ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
  diff --git a/ld/configure b/ld/configure
 -index d0a467ac101..45b20013a45 100755
-+index 50720f0d6b7..18e7c5df5cc 100755
++index 5f5dad6d67c..18150633570 100755
  --- a/ld/configure
  +++ b/ld/configure
  @@ -700,8 +700,11 @@ OTOOL
@@ -4109,7 +4122,7 @@ index 21e2c4fd70..88e9f4a9a7 100644
   NMEDIT = @NMEDIT@
  diff --git a/libctf/configure b/libctf/configure
 -index 8704bc215f4..c1bf438bda6 100755
-+index 17463a74cca..4afdcc705a2 100755
++index b347b292195..d6d6e341887 100755
  --- a/libctf/configure
  +++ b/libctf/configure
  @@ -669,6 +669,8 @@ OTOOL
@@ -24055,32 +24068,32 @@ index 21e2c4fd70..88e9f4a9a7 100644
     # text mode, it properly converts lines to CR/LF.  This bash problem
     # is reportedly fixed, but why not run on old versions too?
 diff --git a/meta/recipes-devtools/binutils/binutils/0009-Fix-rpath-in-libtool-when-sysroot-is-enabled.patch b/meta/recipes-devtools/binutils/binutils/0009-Fix-rpath-in-libtool-when-sysroot-is-enabled.patch
-index 2c4ffec4e6..f0a673334d 100644
+index 2c4ffec4e6..ce795b7522 100644
 --- a/meta/recipes-devtools/binutils/binutils/0009-Fix-rpath-in-libtool-when-sysroot-is-enabled.patch
 +++ b/meta/recipes-devtools/binutils/binutils/0009-Fix-rpath-in-libtool-when-sysroot-is-enabled.patch
 @@ -1,4 +1,4 @@
 -From 98410efc334e31ccfbdc0080fb293b0e06885454 Mon Sep 17 00:00:00 2001
-+From bb14001df389e10ea5d0ffd48dfcecc3d3e6d71c Mon Sep 17 00:00:00 2001
++From d6f4f62fda4fde10b805b06d5e61792ee821449c Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Mon, 2 Mar 2015 01:42:38 +0000
  Subject: [PATCH] Fix rpath in libtool when sysroot is enabled
 diff --git a/meta/recipes-devtools/binutils/binutils/0010-sync-with-OE-libtool-changes.patch b/meta/recipes-devtools/binutils/binutils/0010-sync-with-OE-libtool-changes.patch
-index 199aafcaee..25997807b8 100644
+index 199aafcaee..910bd38694 100644
 --- a/meta/recipes-devtools/binutils/binutils/0010-sync-with-OE-libtool-changes.patch
 +++ b/meta/recipes-devtools/binutils/binutils/0010-sync-with-OE-libtool-changes.patch
 @@ -1,4 +1,4 @@
 -From 84fc4ceafcbfad4c6ddc9d65f6a425bd62dd062e Mon Sep 17 00:00:00 2001
-+From 7de3cdbf30d3e24eeb39a645f6c0ef8c393a5b6a Mon Sep 17 00:00:00 2001
++From 654b4ea9e28aad037e788672ca0d9ba450b3285e Mon Sep 17 00:00:00 2001
  From: Ross Burton <ross.burton@intel.com>
  Date: Mon, 6 Mar 2017 23:33:27 -0800
  Subject: [PATCH] sync with OE libtool changes
 diff --git a/meta/recipes-devtools/binutils/binutils/0011-Check-for-clang-before-checking-gcc-version.patch b/meta/recipes-devtools/binutils/binutils/0011-Check-for-clang-before-checking-gcc-version.patch
-index f75ec2ee9d..b90432a489 100644
+index f75ec2ee9d..a825f9c842 100644
 --- a/meta/recipes-devtools/binutils/binutils/0011-Check-for-clang-before-checking-gcc-version.patch
 +++ b/meta/recipes-devtools/binutils/binutils/0011-Check-for-clang-before-checking-gcc-version.patch
 @@ -1,4 +1,4 @@
 -From 628c10087e6e11a7bc748437c5b695835b704aaf Mon Sep 17 00:00:00 2001
-+From 883cdf0932014562c2dfb60e2769bf4c6dd0fb08 Mon Sep 17 00:00:00 2001
++From 9d35ab04de550f1db5d2e74d37fdeab4ca436148 Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Wed, 15 Apr 2020 14:17:20 -0700
  Subject: [PATCH] Check for clang before checking gcc version
@@ -24111,12 +24124,12 @@ index f75ec2ee9d..b90432a489 100644
     AC_LANG_PUSH(C++)
     AC_LINK_IFELSE([AC_LANG_SOURCE([
 diff --git a/meta/recipes-devtools/binutils/binutils/0012-Only-generate-an-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch b/meta/recipes-devtools/binutils/binutils/0012-Only-generate-an-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch
-index c4b4198910..228b5bff07 100644
+index c4b4198910..1871fbc799 100644
 --- a/meta/recipes-devtools/binutils/binutils/0012-Only-generate-an-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch
 +++ b/meta/recipes-devtools/binutils/binutils/0012-Only-generate-an-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch
 @@ -1,4 +1,4 @@
 -From 63157cb403b6aa13147840c036a8555c4ea9c166 Mon Sep 17 00:00:00 2001
-+From 8e4c0052370d49379aba30d1ee765b2d80da906b Mon Sep 17 00:00:00 2001
++From 9a296e537708296d32c07c1dc681f59de3d1acf9 Mon Sep 17 00:00:00 2001
  From: Khem Raj <raj.khem@gmail.com>
  Date: Thu, 10 Mar 2022 21:21:33 -0800
  Subject: [PATCH] Only generate an RPATH entry if LD_RUN_PATH is not empty
@@ -24173,18 +24186,18 @@ index 5d9ac2cb1f..0000000000
 - 	BFD_ASSERT (rec == recend);
 diff --git a/meta/recipes-devtools/binutils/binutils/0013-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch b/meta/recipes-devtools/binutils/binutils/0013-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch
 new file mode 100644
-index 0000000000..a6c78eda83
+index 0000000000..91ac606f78
 --- /dev/null
 +++ b/meta/recipes-devtools/binutils/binutils/0013-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch
 @@ -0,0 +1,48 @@
-+From 9f38138b3ce52f9f646f642fb0668d5bf3523c12 Mon Sep 17 00:00:00 2001
++From 5fb47367d885a4a32625f09138b306d36ec3769f Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
 +Date: Sun, 15 Jan 2023 00:16:25 -0800
 +Subject: [PATCH] Define alignof using _Alignof when using C11 or newer
 +
 +WG14 N2350 made very clear that it is an UB having type definitions
 +within "offsetof" [1]. This patch enhances the implementation of macro
-+alignof_slot to use builtin "_Alignof" to avoid undefined behavior on
++alignof to use builtin "_Alignof" to avoid undefined behavior on
 +when using std=c11 or newer
 +
 +clang 16+ has started to flag this [2]
@@ -25224,6 +25237,68 @@ index 04d06ed6b6..0000000000
 -       if (free_list)
 - 	*free_list = list;
 -     }
+diff --git a/meta/recipes-devtools/binutils/binutils/0014-configure-remove-dependencies-on-gmp-and-mpfr-when-g.patch b/meta/recipes-devtools/binutils/binutils/0014-configure-remove-dependencies-on-gmp-and-mpfr-when-g.patch
+new file mode 100644
+index 0000000000..04c1310cbe
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0014-configure-remove-dependencies-on-gmp-and-mpfr-when-g.patch
+@@ -0,0 +1,56 @@
++From 518c167116ab7aa6bb84a97200aeda2c4289e064 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Cl=C3=A9ment=20Chigot?= <chigot@adacore.com>
++Date: Tue, 3 Jan 2023 14:24:43 +0100
++Subject: [PATCH] configure: remove dependencies on gmp and mpfr when gdb is
++ disabled
++
++Since 991180627851801f1999d1ebbc0e569a17e47c74, the configure checks
++about GMP and MPFR for gdb builds have been moved to the toplevel
++configure.
++However, it doesn't take into account the --disable-gdb option. Meaning
++that a build without gdb will require these libraries even if not
++needed.
++
++ChangeLog:
++
++	* configure.ac: Skip GMP and MPFR when --disable-gdb is
++	provided.
++	* configure: Regenerate.
++
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=5fb0e308577143ceb313fde5538dc9ecb038f29f]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ configure    | 4 +++-
++ configure.ac | 4 +++-
++ 2 files changed, 6 insertions(+), 2 deletions(-)
++
++diff --git a/configure b/configure
++index bdc3583215f..b63b5cd3de0 100755
++--- a/configure
+++++ b/configure
++@@ -8032,7 +8032,9 @@ if test -d ${srcdir}/gcc ; then
++   require_mpc=yes
++ fi
++ if test -d ${srcdir}/gdb ; then
++-  require_gmp=yes
+++  if test "x$enable_gdb" != xno; then
+++   require_gmp=yes
+++  fi
++ fi
++ 
++ gmplibs="-lmpfr -lgmp"
++diff --git a/configure.ac b/configure.ac
++index 1c00b9aec42..2df870b86af 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -1585,7 +1585,9 @@ if test -d ${srcdir}/gcc ; then
++   require_mpc=yes
++ fi
++ if test -d ${srcdir}/gdb ; then
++-  require_gmp=yes
+++  if test "x$enable_gdb" != xno; then
+++   require_gmp=yes
+++  fi
++ fi
++ 
++ gmplibs="-lmpfr -lgmp"
 diff --git a/meta/recipes-devtools/binutils/binutils/0015-CVE-2022-4285.patch b/meta/recipes-devtools/binutils/binutils/0015-CVE-2022-4285.patch
 deleted file mode 100644
 index 46ec0b15a3..0000000000
@@ -25267,11 +25342,58 @@ index 46ec0b15a3..0000000000
 --- 
 -2.31.1
 -
+diff --git a/meta/recipes-devtools/binutils/binutils/0015-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofil.patch b/meta/recipes-devtools/binutils/binutils/0015-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofil.patch
+new file mode 100644
+index 0000000000..d549d537e7
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0015-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofil.patch
+@@ -0,0 +1,41 @@
++From 9599d7d48913fca4c2bf0d0012f9655353ca6f6c Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Wed, 18 Jan 2023 19:35:07 -0800
++Subject: [PATCH] Remove duplicate pe-dll.o entry deom targ_extra_ofiles
++
++Commit c60b3806799abf1d7f6cf5108a1b0e733a950b13 added support for
++aarch64-pe which introduced wrapper over pep-dll.c for x86_64 as well as
++aarch64, on x86_64 it was added but the old object pe-dll.o needs to be
++removed too, otherwise build fails with duplicate symbols from pe-dll.o
++and pep-dll-x86_64.o
++
++Upstream-Status: Submitted [https://sourceware.org/pipermail/binutils/2023-January/125739.html]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Cc: Jedidiah Thompson <wej22007@outlook.com>
++Cc: Zac Walker <zac.walker@linaro.org>
++---
++ ld/configure.tgt | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/ld/configure.tgt b/ld/configure.tgt
++index de04a44b812..f80c84ab13c 100644
++--- a/ld/configure.tgt
+++++ b/ld/configure.tgt
++@@ -1047,7 +1047,7 @@ x86_64-*-freebsd* | x86_64-*-kfreebsd*-gnu)
++ 			;;
++ x86_64-*-pe | x86_64-*-pep) targ_emul=i386pep ;
++ 			targ_extra_emuls=i386pe ;
++-			targ_extra_ofiles="deffilep.o pdb.o pep-dll-x86_64.o pe-dll.o"
+++			targ_extra_ofiles="deffilep.o pdb.o pep-dll-x86_64.o"
++ 			;;
++ x86_64-*-cygwin)	targ_emul=i386pep ;
++ 			targ_extra_emuls=i386pe
++@@ -1056,7 +1056,7 @@ x86_64-*-cygwin)	targ_emul=i386pep ;
++ 			;;
++ x86_64-*-mingw*)	targ_emul=i386pep ;
++ 			targ_extra_emuls=i386pe
++-			targ_extra_ofiles="deffilep.o pdb.o pep-dll.o pe-dll.o"
+++			targ_extra_ofiles="deffilep.o pdb.o pe-dll.o"
++ 			;;
++ x86_64-*-gnu*)		targ_emul=elf_x86_64
++ 			targ_extra_emuls="elf32_x86_64 elf_iamcu elf_i386"
 diff --git a/meta/recipes-devtools/binutils/binutils_2.39.bb b/meta/recipes-devtools/binutils/binutils_2.40.bb
 similarity index 100%
 rename from meta/recipes-devtools/binutils/binutils_2.39.bb
 rename to meta/recipes-devtools/binutils/binutils_2.40.bb
 -- 
-2.39.0
+2.39.1
 
 
