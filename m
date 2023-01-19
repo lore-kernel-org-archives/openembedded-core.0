@@ -2,197 +2,128 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41E72C6379F
-	for <webhook@archiver.kernel.org>; Thu, 19 Jan 2023 23:51:54 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web10.61945.1674172308288652974
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42254C46467
+	for <webhook@archiver.kernel.org>; Thu, 19 Jan 2023 23:52:54 +0000 (UTC)
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+ by mx.groups.io with SMTP id smtpd.web11.62009.1674172372770799005
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Jan 2023 15:51:48 -0800
+ Thu, 19 Jan 2023 15:52:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=FkrpWQOF;
- spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f50.google.com with SMTP id o13so4047488pjg.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Jan 2023 15:51:48 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=WuTI3A3j;
+ spf=pass (domain: gmail.com, ip: 209.85.210.53, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f53.google.com with SMTP id cm26-20020a056830651a00b00684e5c0108dso2176538otb.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Jan 2023 15:52:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=U2KH5FFRdlRAZxXbd9T42+WzQMJOyXFrMBzxJvJcY6E=;
-        b=FkrpWQOFKKmd8tRSTZ34mP9/pWxIhEURWOraDuZnHuMHixH9txUMFoVqiMLy8dJ8KD
-         l+a2uMUpd9SitisGUTfL4Muh97TChtFtMBNT3+hjZa5ZADOwc9XfXFUQlml4gSO+h2gv
-         Xib7B1Sc/AnyVJ1KnvwJjBd1BFl0TRPbPcS7LxB3nPpStv4op4TgtHrcf0pR/hlnlN5e
-         4qudea2hntbowH7ntHYB1lo8CmJ64eKQ3yCl81UCVNv2P1o0rGJQhXt0RQX7kLBDtQ0u
-         S4grRQXREYdu+QE1e9YNxTxI4l7vZTLMIcK/xcw4uM1/XYE3m2jg4oLvmu4G2g5qPlQ7
-         UUlQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=c4Dcjjaja9hqS+OWM+u9DE2gz16DhU8pLmkdLKBwy+Y=;
+        b=WuTI3A3jJXcbKX+UmltCB/IvCXBsWHKqM68HjTgjtAggnLP308DPROt8jDZ1pXBUiF
+         23gfL5rqnjb3mllUodxJ1+1zzJ5b9iYcWsxEhjlsKVEKkwQy4PeBtqs+m1Cm1Dti0Pjs
+         nZkzml229wBsaXK1sifM4L5KMj+L8htbuR1j7GyvejSTdgqSWvdBujT9qTjxfNEgu8h3
+         ppJUqgwP8uMBQ3oVnWk53mrj0ONb0l2Opmw6oDuYxLzLHs45Dl0I+UWxI2PiBmX5F5uM
+         jhub/7A+IoKiA+Piuvnju9CfwDPqReqE4T+SCntkjxsuFvXB+3gA9sDRzzEIbKStHH9E
+         EbPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=U2KH5FFRdlRAZxXbd9T42+WzQMJOyXFrMBzxJvJcY6E=;
-        b=H0jdWBIOU/+5COFehgITxhNygPli3cK475uvoDDfQp12cTtsRG1iTkeHUpEYMxXOYt
-         slacYBSMjLLj+2+x7p9AvubgqjYc26yqc5PCpV4VeGVApY18+4xv3D+zvhPsJFwIm3mg
-         pa416nngJO9wqrMrYVanE2g6ATC9ec3JojLqs+JmU6oX/MpmCkx2Zd/Xd01XLLdX0Peh
-         //RAsG93MgD9hA9iZyhxKIuvPZWDM/KJOiXbBHsQGlZiK4Nvbdk8Va86HZYClBNefERW
-         4vwLGg4dmpJqLAyMdKsE4/6oMNeDyWi0EMg522kB6GsKBo/Jtrna6xkUX5YspdxMd8YZ
-         3FOg==
-X-Gm-Message-State: AFqh2kphTp8akTiGKkrkKKdc/vix19O9Ch32jiyLMlOUIshM0n4iQdTS
-	gp7QN3Dcm/s7kS3jC2Y+Z6lFktOBa9nP4A==
-X-Google-Smtp-Source: AMrXdXtqMd/nmnB0jopd/3HY9mNaBnFCcnwIq9fI8oZts0S4l5JO/JBjXhtL4E1tqPpKfOEzThw4EA==
-X-Received: by 2002:a17:902:a614:b0:192:fe0a:11c8 with SMTP id u20-20020a170902a61400b00192fe0a11c8mr12839462plq.46.1674172307298;
-        Thu, 19 Jan 2023 15:51:47 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::b940])
-        by smtp.gmail.com with ESMTPSA id u2-20020a1709026e0200b001948d2ef5b4sm9236555plk.75.2023.01.19.15.51.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jan 2023 15:51:46 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v3 3/3] elfutils: Fix build with libcurl >= 7.87
-Date: Thu, 19 Jan 2023 15:51:41 -0800
-Message-Id: <20230119235141.1603399-3-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230119235141.1603399-1-raj.khem@gmail.com>
-References: <20230119235141.1603399-1-raj.khem@gmail.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=c4Dcjjaja9hqS+OWM+u9DE2gz16DhU8pLmkdLKBwy+Y=;
+        b=qn3QqQZQJcO57vSzOaJEwTxyC9zkATEPIHEpweIUErP4IxR82m+goGjyhX0zj5AmAp
+         kuvFINbivgdVaaPVvn1mSI0OWwaR5BGohwmTWpvuUEXZ0gqrIvzjUymoB5QVV+g4VL9c
+         vlKiWO7fnnP5545pA7V+KH1D5YMfwMlyF8Bw+ykYB+isEuFHcK/+E3833bzRTIWQH+L7
+         A+5nvWG4jV5SlWgbB/ntIZ96Cs0y1Ljl1whEsa/m6qMrmqIw7dsNkacAqHAhPsFFN1TZ
+         4j9fknTx6ntb6spz+zjU2RmT6YViZl6TiR+0jJdK7K4kjXtlEQFS6RnrxE/E1okCYQEa
+         Bfug==
+X-Gm-Message-State: AFqh2ko49mB9Cb14fO7SJtce0EHuSaK0ETg0eXSsjpyf1hYrpUXnrH1k
+	CYgbdFf2gSPxG5DL6D/VW2jbcp+ha1aRE8pIntY=
+X-Google-Smtp-Source: AMrXdXvJaKy/e4jVAHya6BG7wtndOFbSrFt5LSpnP5onWxqBInrkZ+q85rS3bjCsZ0Cot8S5kzDY5J52o9T8PLpVVPA=
+X-Received: by 2002:a05:6830:6382:b0:686:4bf5:e675 with SMTP id
+ ch2-20020a056830638200b006864bf5e675mr650296otb.111.1674172371906; Thu, 19
+ Jan 2023 15:52:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230119042724.1413857-1-raj.khem@gmail.com> <20230119104413.0afa6711@booty>
+ <CAMKF1sr=HFFJJ-HNe2r3rn0zeD4Fw5Fxn69jde9EE_ZBFvJtEA@mail.gmail.com> <20230119235827.20e6f4cb@booty>
+In-Reply-To: <20230119235827.20e6f4cb@booty>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 19 Jan 2023 15:52:25 -0800
+Message-ID: <CAMKF1sp2F=16yeLQ7iB8ZmQQDR_ryBSJKMdX+g1sMdpb9Tb+Rg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 1/3] binutils: Upgrade to 2.40 release
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alejandro Hernandez <aehs29@gmail.com>, Richard Purdie <rpurdie@rpsys.net>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Jan 2023 23:51:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176175
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Jan 2023 23:52:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176176
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2 -> v3:
-- rebase
+On Thu, Jan 19, 2023 at 2:58 PM Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+>
+> Hi Khem,
+>
+> On Thu, 19 Jan 2023 08:52:09 -0800
+> "Khem Raj" <raj.khem@gmail.com> wrote:
+>
+> > On Thu, Jan 19, 2023 at 1:44 AM Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+> > >
+> > > Hi Khem,
+> > >
+> > > On Wed, 18 Jan 2023 20:27:22 -0800
+> > > "Khem Raj" <raj.khem@gmail.com> wrote:
+> > >
+> > > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>
+> This version is failing too:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/6592/steps/14/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/122/builds/2263/steps/12/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/6521/steps/14/logs/stdio
+>
 
- .../elfutils/elfutils_0.188.bb                |  4 +-
- ...od-Fix-usage-of-deprecated-CURLINFO_.patch | 49 +++++++++++++++++++
- ...t-Use-CURLOPT_PROTOCOLS_STR-for-libc.patch | 34 +++++++++++++
- 3 files changed, 85 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/elfutils/files/0001-PR29926-debuginfod-Fix-usage-of-deprecated-CURLINFO_.patch
- create mode 100644 meta/recipes-devtools/elfutils/files/0002-debuginfod-client-Use-CURLOPT_PROTOCOLS_STR-for-libc.patch
+my bad. I have fixed the mingw32 patch and sent v3. Please try that
+patchset out.
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.188.bb b/meta/recipes-devtools/elfutils/elfutils_0.188.bb
-index 084908a38c..65cae868c7 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.188.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.188.bb
-@@ -21,6 +21,8 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
-            file://0001-skip-the-test-when-gcc-not-deployed.patch \
-            file://ptest.patch \
-            file://0001-tests-Makefile.am-compile-test_nlist-with-standard-C.patch \
-+           file://0001-PR29926-debuginfod-Fix-usage-of-deprecated-CURLINFO_.patch \
-+           file://0002-debuginfod-client-Use-CURLOPT_PROTOCOLS_STR-for-libc.patch \
-            "
- SRC_URI:append:libc-musl = " \
-            file://0003-musl-utils.patch \
-@@ -33,8 +35,6 @@ inherit autotools gettext ptest pkgconfig
- EXTRA_OECONF = "--program-prefix=eu-"
- 
- BUILD_CFLAGS += "-Wno-error=stringop-overflow"
--# compatibility with curl 7.87; can be removed when elfutils upstream fixes the deprecation fails
--CFLAGS:append = " -Wno-error=deprecated-declarations"
- 
- DEPENDS_BZIP2 = "bzip2-replacement-native"
- DEPENDS_BZIP2:class-target = "bzip2"
-diff --git a/meta/recipes-devtools/elfutils/files/0001-PR29926-debuginfod-Fix-usage-of-deprecated-CURLINFO_.patch b/meta/recipes-devtools/elfutils/files/0001-PR29926-debuginfod-Fix-usage-of-deprecated-CURLINFO_.patch
-new file mode 100644
-index 0000000000..ee192e3581
---- /dev/null
-+++ b/meta/recipes-devtools/elfutils/files/0001-PR29926-debuginfod-Fix-usage-of-deprecated-CURLINFO_.patch
-@@ -0,0 +1,49 @@
-+From d2bf497b12fbd49b4996ccf0744303ffd67735b1 Mon Sep 17 00:00:00 2001
-+From: Andrew Paprocki <andrew@ishiboo.com>
-+Date: Wed, 21 Dec 2022 11:15:00 -0500
-+Subject: [PATCH] PR29926: debuginfod: Fix usage of deprecated CURLINFO_*
-+
-+The `CURLINFO_SIZE_DOWNLOAD_T` and `CURLINFO_CONTENT_LENGTH_DOWNLOAD_T`
-+identifiers are `enum`s, not pre-processor definitions, so the current
-+`#ifdef` logic is not selecting the newer API.  This results in the
-+older identifiers being used and they now generate errors when compiled
-+against Curl 7.87, which has silently deprecated them, causing GCC to
-+emit `-Werror=deprecated-declarations`.
-+
-+Instead, the newer identifiers were added in Curl 7.55, so explicitly
-+check for `CURL_AT_LEAST_VERSION(7, 55, 0)` instead of the current
-+logic.  This eliminates the error when compiling against Curl 7.87.
-+
-+Ref: https://github.com/curl/curl/pull/1511
-+
-+Upstream-Status: Backport [https://sourceware.org/git/?p=elfutils.git;a=commit;h=d2bf497b12fbd49b4996ccf0744303ffd67735b1]
-+Signed-off-by: Andrew Paprocki <andrew@ishiboo.com>
-+---
-+ debuginfod/debuginfod-client.c | 4 ++--
-+ 2 files changed, 6 insertions(+), 2 deletions(-)
-+
-+diff --git a/debuginfod/debuginfod-client.c b/debuginfod/debuginfod-client.c
-+index 8873fcc8..692aecce 100644
-+--- a/debuginfod/debuginfod-client.c
-++++ b/debuginfod/debuginfod-client.c
-+@@ -1456,7 +1456,7 @@ debuginfod_query_server (debuginfod_client *c,
-+              deflate-compressing proxies, this number is likely to be
-+              unavailable, so -1 may show. */
-+           CURLcode curl_res;
-+-#ifdef CURLINFO_CONTENT_LENGTH_DOWNLOAD_T
-++#if CURL_AT_LEAST_VERSION(7, 55, 0)
-+           curl_off_t cl;
-+           curl_res = curl_easy_getinfo(target_handle,
-+                                        CURLINFO_CONTENT_LENGTH_DOWNLOAD_T,
-+@@ -1491,7 +1491,7 @@ debuginfod_query_server (debuginfod_client *c,
-+           if (target_handle) /* we've committed to a server; report its download progress */
-+             {
-+               CURLcode curl_res;
-+-#ifdef CURLINFO_SIZE_DOWNLOAD_T
-++#if CURL_AT_LEAST_VERSION(7, 55, 0)
-+               curl_off_t dl;
-+               curl_res = curl_easy_getinfo(target_handle,
-+                                            CURLINFO_SIZE_DOWNLOAD_T,
-+-- 
-+2.39.1
-+
-diff --git a/meta/recipes-devtools/elfutils/files/0002-debuginfod-client-Use-CURLOPT_PROTOCOLS_STR-for-libc.patch b/meta/recipes-devtools/elfutils/files/0002-debuginfod-client-Use-CURLOPT_PROTOCOLS_STR-for-libc.patch
-new file mode 100644
-index 0000000000..2d4c912e82
---- /dev/null
-+++ b/meta/recipes-devtools/elfutils/files/0002-debuginfod-client-Use-CURLOPT_PROTOCOLS_STR-for-libc.patch
-@@ -0,0 +1,34 @@
-+From 6560fb26a62ef135a804357ef4f15a47de3e49b3 Mon Sep 17 00:00:00 2001
-+From: Mark Wielaard <mark@klomp.org>
-+Date: Tue, 10 Jan 2023 23:20:41 +0100
-+Subject: [PATCH] debuginfod-client: Use CURLOPT_PROTOCOLS_STR for libcurl >= 7.85.0
-+
-+https://sourceware.org/bugzilla/show_bug.cgi?id=29926
-+
-+Upstream-Status: Backport [https://sourceware.org/git/?p=elfutils.git;a=commit;h=6560fb26a62ef135a804357ef4f15a47de3e49b3]
-+Signed-off-by: Mark Wielaard <mark@klomp.org>
-+---
-+ debuginfod/debuginfod-client.c | 5 +++++
-+ 2 files changed, 10 insertions(+)
-+
-+diff --git a/debuginfod/debuginfod-client.c b/debuginfod/debuginfod-client.c
-+index a16165bd..1ce45632 100644
-+--- a/debuginfod/debuginfod-client.c
-++++ b/debuginfod/debuginfod-client.c
-+@@ -1336,8 +1336,13 @@ debuginfod_query_server (debuginfod_client *c,
-+ 
-+       /* Only allow http:// + https:// + file:// so we aren't being
-+ 	 redirected to some unsupported protocol.  */
-++#if CURL_AT_LEAST_VERSION(7, 85, 0)
-++      curl_easy_setopt_ck(data[i].handle, CURLOPT_PROTOCOLS_STR,
-++			  "http,https,file");
-++#else
-+       curl_easy_setopt_ck(data[i].handle, CURLOPT_PROTOCOLS,
-+ 			  (CURLPROTO_HTTP | CURLPROTO_HTTPS | CURLPROTO_FILE));
-++#endif
-+       curl_easy_setopt_ck(data[i].handle, CURLOPT_URL, data[i].url);
-+       if (vfd >= 0)
-+ 	curl_easy_setopt_ck(data[i].handle, CURLOPT_ERRORBUFFER,
-+-- 
-+2.39.1
-+
--- 
-2.39.1
-
+> ...
+>
+> > > > diff --git a/meta/conf/distro/include/tcmode-default.inc
+> b/meta/conf/distro/include/tcmode-default.inc
+> > > > index 4d4929529a..bcc5f7ce1f 100644
+> > > > --- a/meta/conf/distro/include/tcmode-default.inc
+> > > > +++ b/meta/conf/distro/include/tcmode-default.inc
+> > > > @@ -18,7 +18,7 @@ PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
+> > > >
+> > > >  GCCVERSION ?= "12.%"
+> > > >  SDKGCCVERSION ?= "${GCCVERSION}"
+> > > > -BINUVERSION ?= "2.39%"
+> > > > +BINUVERSION ?= "2.40%"
+> > > >  GDBVERSION ?= "12.%"
+> > > >  GLIBCVERSION ?= "2.37"
+> > > >  LINUXLIBCVERSION ?= "6.1%"
+> > >
+> > > Applying this patch on an oe-core repository fails with 'git am':
+> > >
+> > > error: sha1 information is lacking or useless (meta/conf/distro/include/tcmode-default.inc).
+> > > error: could not build fake ancestor
+> > > Patch failed at 0001 binutils: Upgrade to 2.40 release
+> > >
+> > > And also with 'git apply'
+> > >
+> > > error: patch failed: meta/conf/distro/include/tcmode-default.inc:18
+> > > error: meta/conf/distro/include/tcmode-default.inc: patch does not apply
+> >
+> > It might be due to glibc 2.37 upgrade which I have in my local tree
+> > staged as well.
+> > you might edit it locally. If you want I can push it to a dedicated branch
+>
+> Hm, maybe. I will try with your v3 I guess. :)
+>
+> Not a big problem so far, but an annoyance.
+>
+> --
+> Luca Ceresoli, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
