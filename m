@@ -2,166 +2,144 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B570C46467
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20D7AC678D4
 	for <webhook@archiver.kernel.org>; Thu, 19 Jan 2023 23:18:34 +0000 (UTC)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web10.61172.1674170304728064966
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web11.61267.1674170305940217990
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Jan 2023 15:18:24 -0800
+ Thu, 19 Jan 2023 15:18:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=QTTuZs13;
- spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f42.google.com with SMTP id z1-20020a17090a66c100b00226f05b9595so3328394pjl.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Jan 2023 15:18:24 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=O3IHND4S;
+ spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f175.google.com with SMTP id 127so2730299pfe.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Jan 2023 15:18:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sSQ+oYssLJXad7WC3RqovIP+xhWp0G67pBK2C4qwnC4=;
-        b=QTTuZs13Uvhc0QwkBTrILWDmm0lIT7iLJn6Fq/4ybAQbpTn6SGMqUaLBYdxtl1LyGW
-         SepaAXzOOYGXxrMTJfqqiZN1Spbjp9RLtQJHXLjzHq/Z3SFuGZ6TEU2n7K24lFp35lWj
-         tkmGcJ4/xO1dBCzEBJ3bey+ypVwgZTT/IiKHYmHoceOksNir3yAL3lmh2A+sKuEa5w9F
-         JGnmFUXikbiErYLmpvzaLQ+zLPd1IRKdlQzWa07CEG44B4HjvP2YZk49htl7Bmb6AezV
-         Xo2ekl1Hrg7GK8zQSVrYX/MOwxmcNTD5KjYnyJYE+qXBPUEej/UAAawO553ajWxk8FgM
-         k8vw==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lHxcvOGC/5Si+B0bZxsJO+OA7o4ESzO0drLnXoPks1w=;
+        b=O3IHND4Syp93So6w6PEjVwgQm2tZPto0h+YzPPPBrQwuDNvHgA21ITM84XIUXsXCs9
+         wYySSvyv5Y7n51us+Sy1UmxwcewMS8E+HxcL/SiAlr4jPIybZ3kwgd7hR1JUidH5rhYV
+         3le8v2hJyAk1ueD5LOhsjfgLzKjCNXHSfvFPre7IUlyIZ6V3Gd21oYXUxTLYtaqI8py1
+         zxyHTVAnbYV9ITVdi5fk/J5h7/hmmGrsf4ye5j7q8rsoUYJa7X3oXrDmIfl7lesKpEis
+         9akWvkUPqyCgBaiiYsO/4bNT4Tki09kCSY9QKRbv8dQgqa2KgjP4cHCt8ccigIAMwYLW
+         ZhNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sSQ+oYssLJXad7WC3RqovIP+xhWp0G67pBK2C4qwnC4=;
-        b=VUqIFRG467wqCtPmlWprHc6YCJXGPfmbvGDlVX3uYnpYcGYWPel+DlS4nLjN+rS+Ie
-         zkXQ4X9ZHo21M7lfWz4SR71CyVFNIVuNqwxWveXlv3N2eRUmD2hrCUjjM3eEPdewQXd0
-         wF61jleqnZJYTria4nlnD3xKFrX0XTn+959r2ACg4aynxS8oOcYmIZAPePUy61Dj/In/
-         U7XaYDUlOKl7n07PUXeVh7xhWsBIp1tk6CtLVPEVPQDVlaTqgyJrv21VJcs5isEPbLsO
-         xu8ZrLMiBBKBZEjE3D4qyh7D8BajUcQt+yzUGeCRxVqMlW/s1dvI+SGHUylEfchrnGXo
-         kI+Q==
-X-Gm-Message-State: AFqh2kpI9nSb133kNMwVmvi+4R/i0ybUecDvTb0id7rJ9ndqDsb/0qZk
-	OaPfcxvYa86ekyLzxJkiNY6w40sm0sbyUg==
-X-Google-Smtp-Source: AMrXdXt7RIP4yAuvFe+AVudFRB8TUxyUb2YXoLkYuD3J5fF8XGcH2DJBqQVbOwcHRb6ycOevmluuuw==
-X-Received: by 2002:a05:6a20:d80e:b0:b8:71b7:b903 with SMTP id iv14-20020a056a20d80e00b000b871b7b903mr11984874pzb.31.1674170303573;
-        Thu, 19 Jan 2023 15:18:23 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lHxcvOGC/5Si+B0bZxsJO+OA7o4ESzO0drLnXoPks1w=;
+        b=E3JGL1TeBr+SKmHjZ7FE1rkL7ZqwCJJjo41Wl0d0GlDdAeQ7KY4BDpt1Z5f4MAobQg
+         xcIdi/vsZZGOCVz6+GojSfhiZivWeVjx7qq730P4OzvQshHL2G429ZaOsykn+PszZhpl
+         ZiN+p+Q6ySSxRQgEloBFfIfJdN3CNWql16i11m/+Ucr045XR98RY02Km6HQez3ikDxNB
+         F7dpSq69GulsOYphyORShVX3/pKIvazLiGGvyyzggQM7FYX+cyxlu/bhTfUE+Px7PPKr
+         9YamYkJGIxVfOcyZU4oFQ6ilcFv4W3SziwXyAAW8DqOSPBozWWLxIdhqQw/1ti8MZ4qH
+         l9zA==
+X-Gm-Message-State: AFqh2kpjUkXZH1Ro7cVr1WWQQXmONmjpP5Jmhsyp7mV4JgFADpYPHqMN
+	/mAoh/o4gj7iRPK5ua5xtcINgbrr0W7Fog==
+X-Google-Smtp-Source: AMrXdXus3O0/K5yTNH0gvWUSwOOm2qpJrK+Fa3IBt8EZi8R07YH/1ovroQ4NdLYSrGBRhv0Goj1EEw==
+X-Received: by 2002:aa7:85d5:0:b0:582:6732:ee0b with SMTP id z21-20020aa785d5000000b005826732ee0bmr34974469pfn.28.1674170305102;
+        Thu, 19 Jan 2023 15:18:25 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::b940])
-        by smtp.gmail.com with ESMTPSA id 8-20020a621608000000b0058a3d8eab6asm18382507pfw.134.2023.01.19.15.18.22
+        by smtp.gmail.com with ESMTPSA id 8-20020a621608000000b0058a3d8eab6asm18382507pfw.134.2023.01.19.15.18.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jan 2023 15:18:23 -0800 (PST)
+        Thu, 19 Jan 2023 15:18:24 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/3] lttng-tools: Switch to alternative upstream submitted patch
-Date: Thu, 19 Jan 2023 15:18:15 -0800
-Message-Id: <20230119231817.1187300-1-raj.khem@gmail.com>
+Subject: [PATCH 3/3] ruby: Use C11 _Alignof to define ALIGN_OF when possible
+Date: Thu, 19 Jan 2023 15:18:17 -0800
+Message-Id: <20230119231817.1187300-3-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230119231817.1187300-1-raj.khem@gmail.com>
+References: <20230119231817.1187300-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 19 Jan 2023 23:18:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176169
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176171
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...pat-Define-off64_t-as-off_t-on-linux.patch | 75 ++++++++++++++-----
- 1 file changed, 56 insertions(+), 19 deletions(-)
+ ...Alignof-to-define-ALIGN_OF-when-poss.patch | 52 +++++++++++++++++++
+ meta/recipes-devtools/ruby/ruby_3.2.0.bb      |  1 +
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-devtools/ruby/ruby/0001-fiddle-Use-C11-_Alignof-to-define-ALIGN_OF-when-poss.patch
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/0001-compat-Define-off64_t-as-off_t-on-linux.patch b/meta/recipes-kernel/lttng/lttng-tools/0001-compat-Define-off64_t-as-off_t-on-linux.patch
-index e3d421f730..ef81703bc3 100644
---- a/meta/recipes-kernel/lttng/lttng-tools/0001-compat-Define-off64_t-as-off_t-on-linux.patch
-+++ b/meta/recipes-kernel/lttng/lttng-tools/0001-compat-Define-off64_t-as-off_t-on-linux.patch
-@@ -1,35 +1,72 @@
--From cc3e1abaa1e7ad85c6a299fe30a36e0cb732e1c8 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Thu, 15 Dec 2022 14:51:20 -0800
--Subject: [PATCH] compat: Define off64_t as off_t on linux
-+From 74b3844737b03492756b4f896c938b504b069f14 Mon Sep 17 00:00:00 2001
-+From: Jérémie Galarneau <jeremie.galarneau@efficios.com>
-+Date: Tue, 17 Jan 2023 16:57:35 -0500
-+Subject: [PATCH] compat: off64_t is not defined by musl
- 
--This helps compile with latest musl, where off64_t is not defined
--unless _LARGEFILE64_SOURCE is defined, on glibc _LARGEFILE64_SOURCE is
--defined if _GNU_SOURCE is defined, so the problem is only seen with musl
-+This helps compile with latest musl, where off64_t is not defined unless
-+_LARGEFILE64_SOURCE is defined. On glibc, _LARGEFILE64_SOURCE is defined
-+if _GNU_SOURCE is defined, so the problem is only seen with musl.
- 
--Upstream-Status: Submitted [https://github.com/lttng/lttng-tools/pull/164]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Since the project uses AC_SYS_LARGEFILE, which from the autoconf doc:
-+"arrange for 64-bit file offsets, known as large-file support."
+diff --git a/meta/recipes-devtools/ruby/ruby/0001-fiddle-Use-C11-_Alignof-to-define-ALIGN_OF-when-poss.patch b/meta/recipes-devtools/ruby/ruby/0001-fiddle-Use-C11-_Alignof-to-define-ALIGN_OF-when-poss.patch
+new file mode 100644
+index 0000000000..30caf2c2de
+--- /dev/null
++++ b/meta/recipes-devtools/ruby/ruby/0001-fiddle-Use-C11-_Alignof-to-define-ALIGN_OF-when-poss.patch
+@@ -0,0 +1,52 @@
++From 6b3c202b46b9312c5bb0789145f13d8086e70948 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sun, 15 Jan 2023 02:34:17 -0800
++Subject: [PATCH] fiddle: Use C11 _Alignof to define ALIGN_OF when possible
 +
-+As such, it is safe to assume off_t is 64-bit wide. This is checked by a
-+static_assert to catch any platform where autoconf would let a 32-bit
-+off_t slip.
++WG14 N2350 made very clear that it is an UB having type definitions
++within "offsetof" [1]. This patch enhances the implementation of macro
++ALIGN_OF to use builtin "_Alignof" to avoid undefined behavior
++when using std=c11 or newer
 +
-+Upstream-Status: Submitted [https://review.lttng.org/c/lttng-tools/+/9268]
-+Reported-by: Khem Raj <raj.khem@gmail.com>
-+Signed-off-by: Jérémie Galarneau <jeremie.galarneau@efficios.com>
-+Change-Id: If2c6007a8c85bc3f3065002af8a7538b882fb4a8
- ---
-- src/common/compat/fcntl.h | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
++clang 16+ has started to flag this [2]
++
++Fixes build when using -std >= gnu11 and using clang16+
++
++Older compilers gcc < 4.9 or clang < 8 has buggy _Alignof even though it
++may support C11, exclude those compiler versions
++
++[1] https://www.open-std.org/jtc1/sc22/wg14/www/docs/n2350.htm
++[2] https://reviews.llvm.org/D133574
++
++Upstream-Status: Submitted [https://ml.ruby-lang.org/mailman3/hyperkitty/list/ruby-core@ml.ruby-lang.org/thread/DLES4EPPXSPCHQMWJPPWMWXXS42AVPFA/]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ ext/fiddle/fiddle.h | 12 +++++++++++-
++ 1 file changed, 11 insertions(+), 1 deletion(-)
++
++diff --git a/ext/fiddle/fiddle.h b/ext/fiddle/fiddle.h
++index 10eb9ce..ffb395e 100644
++--- a/ext/fiddle/fiddle.h
+++++ b/ext/fiddle/fiddle.h
++@@ -196,7 +196,17 @@
++ #endif
++ #define TYPE_UINTPTR_T (-TYPE_INTPTR_T)
++ 
++-#define ALIGN_OF(type) offsetof(struct {char align_c; type align_x;}, align_x)
+++/* GCC releases before GCC 4.9 had a bug in _Alignof.  See GCC bug 52023
+++   <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=52023>.
+++   clang versions < 8.0.0 have the same bug.  */
+++#if (!defined __STDC_VERSION__ || __STDC_VERSION__ < 201112 \
+++     || (defined __GNUC__ && __GNUC__ < 4 + (__GNUC_MINOR__ < 9) \
+++         && !defined __clang__) \
+++     || (defined __clang__ && __clang_major__ < 8))
+++# define ALIGN_OF(type) offsetof(struct {char align_c; type align_x;}, align_x)
+++#else
+++# define ALIGN_OF(type) _Alignof(type)
+++#endif
++ 
++ #define ALIGN_VOIDP  ALIGN_OF(void*)
++ #define ALIGN_CHAR   ALIGN_OF(char)
++-- 
++2.39.0
++
+diff --git a/meta/recipes-devtools/ruby/ruby_3.2.0.bb b/meta/recipes-devtools/ruby/ruby_3.2.0.bb
+index 1981a7524c..0e1336f5b0 100644
+--- a/meta/recipes-devtools/ruby/ruby_3.2.0.bb
++++ b/meta/recipes-devtools/ruby/ruby_3.2.0.bb
+@@ -30,6 +30,7 @@ SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
+            file://0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch \
+            file://0006-Make-gemspecs-reproducible.patch \
+            file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch \
++           file://0001-fiddle-Use-C11-_Alignof-to-define-ALIGN_OF-when-poss.patch \
+            "
+ UPSTREAM_CHECK_URI = "https://www.ruby-lang.org/en/downloads/"
  
--diff --git a/src/common/compat/fcntl.h b/src/common/compat/fcntl.h
--index 5e566e50..d19a6ece 100644
-+--- a/src/common/compat/compat-fcntl.c
-++++ b/src/common/compat/compat-fcntl.c
-+@@ -13,7 +13,7 @@
-+ #ifdef __linux__
-+ 
-+ LTTNG_HIDDEN
-+-int compat_sync_file_range(int fd, off64_t offset, off64_t nbytes,
-++int compat_sync_file_range(int fd, off_t offset, off_t nbytes,
-+ 		unsigned int flags)
-+ {
-+ #ifdef HAVE_SYNC_FILE_RANGE
- --- a/src/common/compat/fcntl.h
- +++ b/src/common/compat/fcntl.h
--@@ -7,7 +7,6 @@
-- 
-+@@ -8,21 +8,21 @@
-  #ifndef _COMPAT_FCNTL_H
-  #define _COMPAT_FCNTL_H
---
-+ 
-++#include <assert.h>
-  #include <fcntl.h>
-  #include <sys/types.h>
-  
--@@ -22,6 +21,7 @@ typedef off64_t loff_t;
-+ #include <common/compat/errno.h>
-+ 
-+-#if (defined(__CYGWIN__))
-+-typedef long long off64_t;
-+-#endif
-++static_assert(sizeof(off_t) == sizeof(int64_t),
-++	      "Build system is misconfigured, off_t must be 64-bit wide");
-+ 
-+ #if (defined(__FreeBSD__) || defined(__sun__))
-+ typedef off64_t loff_t;
-  #endif
-  
-  #ifdef __linux__
--+typedef off_t off64_t;
-- extern int compat_sync_file_range(int fd, off64_t offset, off64_t nbytes,
-+-extern int compat_sync_file_range(int fd, off64_t offset, off64_t nbytes,
-++extern int compat_sync_file_range(int fd, off_t offset, off_t nbytes,
-  		unsigned int flags);
-  #define lttng_sync_file_range(fd, offset, nbytes, flags) \
-+ 	compat_sync_file_range(fd, offset, nbytes, flags)
-+@@ -37,8 +37,8 @@ extern int compat_sync_file_range(int fd
-+ #define SYNC_FILE_RANGE_WAIT_BEFORE   0
-+ #define SYNC_FILE_RANGE_WRITE         0
-+ 
-+-static inline int lttng_sync_file_range(int fd, off64_t offset,
-+-		off64_t nbytes, unsigned int flags)
-++static inline int lttng_sync_file_range(int fd, off_t offset,
-++		off_t nbytes, unsigned int flags)
-+ {
-+ 	return -ENOSYS;
-+ }
 -- 
 2.39.1
 
