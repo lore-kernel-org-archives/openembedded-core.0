@@ -2,94 +2,138 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7D66C678D6
-	for <webhook@archiver.kernel.org>; Thu, 19 Jan 2023 04:27:38 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web10.38158.1674102450658653799
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7B13C00A5A
+	for <webhook@archiver.kernel.org>; Thu, 19 Jan 2023 04:32:48 +0000 (UTC)
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+ by mx.groups.io with SMTP id smtpd.web11.38577.1674102763601887832
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Jan 2023 20:27:30 -0800
+ Wed, 18 Jan 2023 20:32:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=je7SKJvc;
- spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f176.google.com with SMTP id 20so1211526plo.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Jan 2023 20:27:30 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=IQ5AHw5c;
+ spf=pass (domain: gmail.com, ip: 209.85.160.54, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-15ebfdf69adso1400102fac.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Jan 2023 20:32:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Jwtz5zHGIpws9b114XxGgP7fhTwkxvLMOOUPoRh7Q5k=;
-        b=je7SKJvcAbA/PNw2tPWWs22aWOuJKqtiWX29mPGuLg0gmDKWM0IvrJwVswMHLliKDm
-         YaXM4MRdPw96tTQILQFbUieR+kZYxK/EDPdrQqwiyTiR+iMG98KL87cJqXsQv+68CmTG
-         3b/WKgXhSqa7agP9CcRBJ+p1/rGqTlczGNPUXwgKCMFYSEO2Nb2aMiSODvD0V72O3wnX
-         pqqUREJFU6oYFM4YvQWuuaaq+yIpBAvx6+Z9BlDgGJqBKCk4vE11UyYt98+RePpz7c2r
-         /Rq3VEfCZ045TWFtZ0MUbVNlAV7xRQxPjFkOuRe/dsrCog2iT79bTExxUGUmd2z8wC5N
-         0gpw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=0R+Ab9Gw4v3bIIXu186MMbIhthqZl4tUSklZIndM0GA=;
+        b=IQ5AHw5cz9/g9EI9JsqGn9MiCcqntYXN4IwAgXag7MqjBtlWFQLOI/WB7DM6bLDhUa
+         l7NV5Ktefqeecw0+kthuKUFUBVCZ5qNDwFpFapSEJsJF2HatieZrhTrIpxlrgX/JvM3z
+         +JbdPr9iEC0MBpQzH60W4vrsxxsr051RW4ZnAzYuTBFl2pvljlQViRdYGRGkRpAG+7rZ
+         nXkRapZAjGAPIC+6Gb9MGwKQpGUHfJD4uZzc3VjkuBG50CJGQVhQRA21+/dE6lOFD3Fv
+         i9QLtufXwBIazL3NYMFGR42/5hdSQfBwLY7hvEhInlkcAXnpzt9WVYCB+cbI1SlL2DFA
+         TYGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Jwtz5zHGIpws9b114XxGgP7fhTwkxvLMOOUPoRh7Q5k=;
-        b=KmfKW3xrKs0p15pjqjdjmUFTUs29wRF5iEX0Aug0ZsSeYe2hiaN4BFhU8K49/kXgJ7
-         9FEJGFFW7WgrR6yyHW6NlTDY3CCzVC+uNW2AqesKlFnDwBaBdhGv6qQTJWt7D08uwsS5
-         5mjTYLNXw1zoQ+jMeInPGYv4K9af76uPVr72EN6MLS3O2rmip46DvZZ0XfC9RoQDuAeb
-         QFuGxIbQEfm+vZSykTdHWQ9Y4+3TNULhiuepCOoAhXH3sxyq6FKQpMytNqvDpZuthEB/
-         OjvdVTNY+edMacYah7YaRWjmI0MxJI2LK/VdMAOaI+goVmbzYbXTBWVUeZo0AzY5i04m
-         C3RA==
-X-Gm-Message-State: AFqh2kpoWAgwiseA1UzPInuUEYpJ6GhqzUFY0o81sIwkhFPSclKsqjKy
-	thI0/wmNkcr8ggEamiIjyv6Dq6vSgkJloA==
-X-Google-Smtp-Source: AMrXdXvFM8qfBln1R07UpavU9JqUJb6AtOFSyQxSspd5+kdL42ykNHcM3k6BzuG0CiEvRxyq1j7lVA==
-X-Received: by 2002:a17:902:7c15:b0:191:3ec0:9166 with SMTP id x21-20020a1709027c1500b001913ec09166mr9492996pll.6.1674102449929;
-        Wed, 18 Jan 2023 20:27:29 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::b940])
-        by smtp.gmail.com with ESMTPSA id l14-20020a170903120e00b0017849a2b56asm24001775plh.46.2023.01.18.20.27.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jan 2023 20:27:29 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Alejandro Hernandez <aehs29@gmail.com>,
-	Richard Purdie <rpurdie@rpsys.net>,
-	Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2 2/3] binutils: Package libsframe
-Date: Wed, 18 Jan 2023 20:27:23 -0800
-Message-Id: <20230119042724.1413857-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230119042724.1413857-1-raj.khem@gmail.com>
-References: <20230119042724.1413857-1-raj.khem@gmail.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0R+Ab9Gw4v3bIIXu186MMbIhthqZl4tUSklZIndM0GA=;
+        b=yiXOsCGM7j/fSH78a3f18Udt38pDqZvF9HwwP0HGrdfqXF9gBo0IVPmAXvWeI7lf1L
+         mFJsgggEKdsQPZFUAnbZHMWerqu4BxkzchWur0ForI4cwNKzMaIgw3k9USPYKPn4jNsN
+         ie7laSZdunbtdpvG8d87ncts6rpJew11g9qkRBMqoFuY/ebJyJ/yds+Wu7YDtn2EJnRv
+         FlmUcDlcrJ+vUfwdgHe8nWdeVuq1r5KFWlmdeX8QawYILx5Gu876nN7M8sCPpt/Wp3MO
+         mHBhph+RC5C+GveLuO5Db9wHwgCGE7riZjjwMGrpSpoCPaRzDFGoSPpD1iZ782qogCLM
+         tKmQ==
+X-Gm-Message-State: AFqh2kpvNYCIkHbvg4FTa3PpZEx8Mc1Q+CDFYdaAo/RLuLRtjVdOfVRU
+	A9k6X00WAFCR36TjlK+MgSUwLsxfR4fr1pVfb1k=
+X-Google-Smtp-Source: AMrXdXsTXZDmBSFghspm3vtzYAC8RoDfpn7CLWuPYjBnBInR4gY6q+WwekEAIJqVb1tFJyGQk9dCTJAAEkzToPB0NBQ=
+X-Received: by 2002:a05:6870:ebc3:b0:144:e1eb:419 with SMTP id
+ cr3-20020a056870ebc300b00144e1eb0419mr814837oab.262.1674102761972; Wed, 18
+ Jan 2023 20:32:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230103200553.52973-1-raj.khem@gmail.com> <20230103200553.52973-5-raj.khem@gmail.com>
+ <c58cf7b3d2cc4e4d552529b89c20f9a85a6e7b00.camel@linuxfoundation.org>
+In-Reply-To: <c58cf7b3d2cc4e4d552529b89c20f9a85a6e7b00.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 18 Jan 2023 20:32:16 -0800
+Message-ID: <CAMKF1sqTAFzJCXJ29F6r5xy0GoOSv=qSYBw_wcOh6jcmk=Td=A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 5/5] defaultsetup: Enable largefile and 64bit
+ time_t support systemwide
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Jan 2023 04:27:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176117
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Jan 2023 04:32:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176120
 
-libsframe is newly added in binutils 2.40
+On Wed, Jan 18, 2023 at 7:59 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Tue, 2023-01-03 at 12:05 -0800, Khem Raj wrote:
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  meta/conf/distro/defaultsetup.conf | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/conf/distro/defaultsetup.conf b/meta/conf/distro/defaultsetup.conf
+> > index f6894f3ab5..1abb509629 100644
+> > --- a/meta/conf/distro/defaultsetup.conf
+> > +++ b/meta/conf/distro/defaultsetup.conf
+> > @@ -2,7 +2,7 @@ include conf/distro/include/default-providers.inc
+> >  include conf/distro/include/default-versions.inc
+> >  include conf/distro/include/default-distrovars.inc
+> >  include conf/distro/include/maintainers.inc
+> > -
+> > +include conf/distro/include/time64.inc
+> >  require conf/distro/include/tcmode-${TCMODE}.inc
+> >  require conf/distro/include/tclibc-${TCLIBC}.inc
+> >
+>
+>
+> I tried this as requested. I saw:
+>
+> x86 binutils do_compile failure:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/48/builds/6562/steps/11/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/103/builds/5424/steps/12/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/6572/steps/12/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/76/builds/6493/steps/11/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/61/builds/6528/steps/11/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/59/builds/6481/steps/13/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/101/builds/5304/steps/13/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/6437/steps/11/logs/stdio
+>
+> lib32-binutils do_compile failure:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/6437/steps/11/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/4042/steps/12/logs/stdio
+>
+> mingw binutils do_compile:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/89/builds/6562/steps/13/logs/stdio
+>
+> meta-virt xen-tools do_compile:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/128/builds/1166/steps/20/logs/stdio
+>
+> qemuarm glibc-testsuite issue:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/53/builds/6539/steps/19/logs/stdio
+>
+> qemumips glibc-testsuite issue:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/6500/steps/20/logs/stdio
+>
+> qemux86 glibc-testsuite issue:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/59/builds/6481/steps/20/logs/stdio
+>
+> Close, but not quite there!
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v1 -> v2:
-- Rebase
+Thanks for trying it out. I did realize that we will be better off
+trying with upcoming glibc 2.37
+I have a patch for the upgrade on the yoe/mut  poky-contrib branch. cherry-pick
 
- meta/recipes-devtools/binutils/binutils_2.40.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[WIP] glibc: Upgrade to 2.37
 
-diff --git a/meta/recipes-devtools/binutils/binutils_2.40.bb b/meta/recipes-devtools/binutils/binutils_2.40.bb
-index 67240383f7..9087af87c5 100644
---- a/meta/recipes-devtools/binutils/binutils_2.40.bb
-+++ b/meta/recipes-devtools/binutils/binutils_2.40.bb
-@@ -66,7 +66,7 @@ PACKAGE_BEFORE_PN += "libbfd libopcodes gprofng"
- FILES:libbfd = "${libdir}/libbfd-*.so.* ${libdir}/libbfd-*.so"
- FILES:libopcodes = "${libdir}/libopcodes-*.so.* ${libdir}/libopcodes-*.so"
- FILES:gprofng = "${sysconfdir}/gprofng.rc ${libdir}/gprofng/libgp-*.so ${libdir}/gprofng/libgprofng.so.* ${bindir}/gp-* ${bindir}/gprofng"
--FILES:${PN}-dev += "${libdir}/gprofng/libgprofng.so"
-+FILES:${PN}-dev += "${libdir}/gprofng/libgprofng.so ${libdir}/libsframe.so"
- SRC_URI:append:class-nativesdk =  " file://0003-binutils-nativesdk-Search-for-alternative-ld.so.conf.patch "
- 
- USE_ALTERNATIVES_FOR:class-nativesdk = ""
--- 
-2.39.1
+on
 
+https://git.yoctoproject.org/poky-contrib/log/?h=yoe/mut
+
+as is with glibc upgrade, there might be other gotchas e.g. uninative
+generation etc. but
+meta-oe AB job has been using this glibc for some time now.
+
+>
+>
+> Cheers,
+>
+> Richard
 
