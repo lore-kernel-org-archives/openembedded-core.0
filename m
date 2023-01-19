@@ -1,96 +1,109 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <luca.ceresoli@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1C7FC004D4
-	for <webhook@archiver.kernel.org>; Thu, 19 Jan 2023 09:18:09 +0000 (UTC)
-Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
- by mx.groups.io with SMTP id smtpd.web10.41415.1674119885579787749
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 416F1C00A5A
+	for <webhook@archiver.kernel.org>; Thu, 19 Jan 2023 09:24:30 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+ by mx.groups.io with SMTP id smtpd.web11.41750.1674120267877346237
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Jan 2023 01:18:05 -0800
+ Thu, 19 Jan 2023 01:24:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=lZr56jWW;
- spf=pass (domain: gmail.com, ip: 209.85.166.49, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-io1-f49.google.com with SMTP id j1so707463iob.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Jan 2023 01:18:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=tQXo8aHgvLTdBqqAF1N84YKOM/bSjlTO+qv6f7NiJaE=;
-        b=lZr56jWWP7a/n4ISs5GmKzCkQqtzPp27NQLGAQCyZclfYF/Fqb/lk/LNh3q1iwyK11
-         PTpZLZXt1G0HUOfw/9zlShqDC/rGUEMB5KRu1IRsp1ATQh7J6t+A4uDN+28ez5nB9bTn
-         FpIJ3KngdkEFxnxPBO2CefMEc5r7rqT45phwIcnJBopDaLSl7EUsZWowgqLnVgQOoFPR
-         fA2kGoqrtsy2fDx91xcEWLLq9gNkIeiEhOLvx2TTGsxTb+uhQMgvDJsWhZJDHepeBpQ3
-         P1cYnZIa25yC/p+Hj+PNQGe5hEJRRQbWF3p/wp44h+CdgV613Z6AEFF8jbZRAsCVAGRZ
-         lEXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tQXo8aHgvLTdBqqAF1N84YKOM/bSjlTO+qv6f7NiJaE=;
-        b=kZqRdDM2Jt5VTPPieQug7+ZUqoeTGbTK/3Li9s2wbIF76BZ4P0HhOoArUNqfuPLmI2
-         qe62E2Vg22uRDRUt4vnJ/jSU8YsccrAExV8d1XePTs8Mm6P0pvgMPCGjDcFAkZFojNJU
-         1XlCDrxBXWyNKyNBnhI6M9P0ocodMxZiiYqOrfSRvvD2s8rhFb1FFve9nh08BL7LeV/E
-         seSLi17QXZHLhU3f1s5cNyd9OS498fdICKYNVgKBZxxbatH35JNujBz6k2aOZwAMi/wb
-         kBSKZ88PoS0BtC/ujBrt8JB+aBvjfcBjXlFgGEM5HQc5yQ05VCsjGTFgIcGbUlpsT7xQ
-         mqLw==
-X-Gm-Message-State: AFqh2kpzGVkfQkBZk4212CtZZWrVFqybI4VBNPMVZWX2GiuOIRGG9H55
-	efs8iLzF9y8ks5e5IygHSGpsnma0QePJyDK8Veo=
-X-Google-Smtp-Source: AMrXdXvU2gmMeIL5yp3znQXTjB/G3Ltrrh+n//ohTgIyn3g3Y2hXseA3/LOflZCu4gLZ7x3ZaPtBZUy48eHIEvmxUNo=
-X-Received: by 2002:a02:3407:0:b0:39e:a16b:99c6 with SMTP id
- x7-20020a023407000000b0039ea16b99c6mr837867jae.167.1674119884791; Thu, 19 Jan
- 2023 01:18:04 -0800 (PST)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=acrI80zr;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: luca.ceresoli@bootlin.com)
+Received: from booty (unknown [77.244.183.192])
+	(Authenticated sender: luca.ceresoli@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id E26841BF206;
+	Thu, 19 Jan 2023 09:24:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1674120265;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JyWKwvHh6XLkDk4kENFauhYmdcTeRmJ3/BImAXxxJR4=;
+	b=acrI80zrqDIa/Qbjx1/yq6uvqwAjmAxN1PSzykmlbPMzhw3yfeC2tFyADsjz+krBou8PQG
+	0BHJ0qax1HIaTuIYN2yJeZhCwBO6eNfZWAR/NQHMhbawWYeRk2hLckz0KtTfpue/LQVSDQ
+	bhvhEwZ9Vym84XPKUsmwmdnqD065O++FyW4gkcrl+/j0gyb/WmHmffO9DeWMAdrL/Aj2Uh
+	19i7ZlQ5zFDldbW6Wh3o+2QYQtmjB2+uBPJ4XQNMmnpirrFDq0tCalq6QW3bZyYS9D6iXN
+	I+JHLTf5ZdLVh3dcKpdsqxifX6PUOK0saZ0i9nHIjaYqTjzOjg/R+PTJCLpqww==
+Date: Thu, 19 Jan 2023 10:24:23 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: "Richard Purdie" <richard.purdie@linuxfoundation.org>, Jan-Simon
+ =?UTF-8?Q?M=C3=B6ller?= <jsmoeller@linuxfoundation.org>, Anuj Mittal
+ <anuj.mittal@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 1/3] insane: Improve patch warning/error
+ handling
+Message-ID: <20230119102423.3493565d@booty>
+In-Reply-To: <20230118142221.1926666-1-richard.purdie@linuxfoundation.org>
+References: <20230118142221.1926666-1-richard.purdie@linuxfoundation.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <CAO5Uq5RftGpqzF1=6NUhQChCqCyp2D-ud8KUB69u6+9=N1VkAg@mail.gmail.com>
- <CANNYZj_9rpnJrSLp_oRvXsRzAXhA=W3ybEmQxrUtdcJtNq18rA@mail.gmail.com>
-In-Reply-To: <CANNYZj_9rpnJrSLp_oRvXsRzAXhA=W3ybEmQxrUtdcJtNq18rA@mail.gmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Thu, 19 Jan 2023 09:17:52 +0000
-Message-ID: <CAO5Uq5QF72RR1GV56GiZ3KtCqTf4UZsjDyACbTvoqLgaOq8Geg@mail.gmail.com>
-Subject: Re: [OE-core] Rust crate checksums
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Jan 2023 09:18:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176127
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Jan 2023 09:24:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176128
 
-On Thu, Jan 19, 2023 at 8:53 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> I think Cargo.lock contains those checksums and that forces cargo to
-> verify them? Can you check that verification happens and fails when it
-> should by e.g. patching it to have bogus checksums?
->
+Hello Richard,
 
-Ah, yes... I'll check.
+On Wed, 18 Jan 2023 14:22:19 +0000
+"Richard Purdie" <richard.purdie@linuxfoundation.org> wrote:
 
-> Alex
->
-> On Thu, 19 Jan 2023 at 08:15, Alex Kiernan <alex.kiernan@gmail.com> wrote:
-> >
-> > Unless I'm missing something, I just realised that we're not
-> > validating downloaded crate checksums when we fetch them with crate://
-> > - Surely we should be?
-> >
-> > --
-> > Alex Kiernan
-> >
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#176125): https://lists.openembedded.org/g/openembedded-core/message/176125
-> > Mute This Topic: https://lists.openembedded.org/mt/96373035/1686489
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> >
+> Currently, whilst patch errors or warnings are shown, the errors don't stop builds.
+> The configuration isn't very configurable from WARN_QA and ERROR_QA either.
+> 
+> This patch:
+>  * Uses the standard mechanisms to handle the patch fuzz warnings/errors
+>  * Makes Upstream-Status checking configurable from WARN/ERROR_QA
+>  * Allows that checking to be used with non-core layers
+>  * Makes patch-fuzz an error by default
+>  * Enables warnings for missing Upstream-Status in non-core layer patches by default
+> 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/classes-global/insane.bbclass | 27 ++++++++++++++++++---------
+>  1 file changed, 18 insertions(+), 9 deletions(-)
+> 
+> diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insane.bbclass
+> index ada8a7ef4e4..e1295f85392 100644
+> --- a/meta/classes-global/insane.bbclass
+> +++ b/meta/classes-global/insane.bbclass
+> @@ -29,11 +29,12 @@
+>  WARN_QA ?= " libdir xorg-driver-abi buildpaths \
+>              textrel incompatible-license files-invalid \
+>              infodir build-deps src-uri-bad symlink-to-sysroot multilib \
+> -            invalid-packageconfig host-user-contaminated uppercase-pn patch-fuzz \
+> +            invalid-packageconfig host-user-contaminated uppercase-pn \
+>              mime mime-xdg unlisted-pkg-lics unhandled-features-check \
+>              missing-update-alternatives native-last missing-ptest \
+>              license-exists license-no-generic license-syntax license-format \
+>              license-incompatible license-file-missing obsolete-license \
+> +            patch-status-noncore \
 
+AB testing with this patch applied revealed a few Upstream-Status
+warnings:
 
+- 5 in meta-agl-core:
+  https://autobuilder.yoctoproject.org/typhoon/#/builders/120/builds/2272/steps/13/logs/stdio
+
+- 3 in meta-intel:
+  https://autobuilder.yoctoproject.org/typhoon/#/builders/100/builds/3968/steps/13/logs/stdio
+
+Jan-Simon, Anuj, can you look at those patches and maybe fix the Upstream-Status?
+
+Richard, this patch didn't trigger any problems in my test branch. Now
+I'm going to remove it from my testing branch in order to avoid
+warnings on issues we already know, unless you prefer me too keep it
+and ignore the above mentioned warnings until they are fixed in the
+respective layers.
 
 -- 
-Alex Kiernan
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
