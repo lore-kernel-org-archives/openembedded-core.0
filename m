@@ -1,148 +1,124 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <otavio.salvador@ossystems.com.br>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3130C46467
-	for <webhook@archiver.kernel.org>; Thu, 19 Jan 2023 18:47:52 +0000 (UTC)
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
- by mx.groups.io with SMTP id smtpd.web10.53853.1674154065399317302
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D832C004D4
+	for <webhook@archiver.kernel.org>; Thu, 19 Jan 2023 19:17:53 +0000 (UTC)
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+ by mx.groups.io with SMTP id smtpd.web11.54870.1674155871143746411
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Jan 2023 10:47:45 -0800
+ Thu, 19 Jan 2023 11:17:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=hvpJhxp9;
- spf=pass (domain: gmail.com, ip: 209.85.160.42, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-12c8312131fso3625015fac.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Jan 2023 10:47:45 -0800 (PST)
+ dkim=pass header.i=@ossystems-com-br.20210112.gappssmtp.com header.s=20210112 header.b=e+vC2xeU;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.161.45, mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-oo1-f45.google.com with SMTP id c145-20020a4a4f97000000b004f505540a20so673681oob.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Jan 2023 11:17:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=lXCYHAISKt+n2uJiIiVDpvGxnXJg/3eqLe9/sGwRdhc=;
-        b=hvpJhxp9HOXLaMMlG1P6dLP3z4aaZaMGc4bFfMbvGse3cbLkOWVKa43JBkfDH2qpK9
-         u9DZeOIaMGIzRUNMsCGS7sjnBpnivAZlsiW1LGJ62CAPwgiLMCoGruSpKLpYjgr9RZLZ
-         Ml65k8Fw6WVh/9ng8uoofzu+Y1PHjiqKx7bgobYl+7r9pTEz7jKWsj40IIEKSnVwKEWD
-         Y5iF+MJS2yHHSUDpkYj36IF4XUTl37+rwW0TaIRNPtfQx8pmiRl1pBXdzZj1duEsDwqB
-         rFmJxbE4KKn53BOnBL4snmt/PB1oDepwFKwrIaqrx+uqL01ER6fE6CHFTcJ42Cp1+YWh
-         YTqA==
+        d=ossystems-com-br.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:in-reply-to:references:mime-version
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CM9yIKT0SF+O8+g8WMrDxRjQGemV6RXJnKRdS1o2iK4=;
+        b=e+vC2xeU9IO5xaW30tYgyKKmPIvSXRTwhNUDFOPnR2N3pRQmH32VmexqsGE13o8yUe
+         xkPBucEBjNdwQnIZ2JSTSxzA7MFVTQ4ckcKz8HTb3VlDg1pXpjMpW5glSXYQg5dTm6hz
+         UTCdgVQum8/B/QUbr2bv8Zqr1zJM8kyiGnuguQWWm7fgEHxa0Xn/O0JXHPKIxmIxUh2S
+         ncUyyYIhK8y8hi3QBlgNsdP7VOz15r6KNyE+gtMyn1O6pBY9ZZ5zJq8o+IrD0Tcnj7Oi
+         tyViD6bU1h9zp0IO3PzVkEPZ9R4BumoaX4nla0iykFjhepdjEg62jY0Xs2EUH50t/3Bf
+         TyMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lXCYHAISKt+n2uJiIiVDpvGxnXJg/3eqLe9/sGwRdhc=;
-        b=nCRXEs+ymIiBAaTFyJatjE5Ktjln/MAU6rhRz1N9hGePOxEOvYTmzcAUvGeW7M3MNr
-         BxYQhnNPoc7tAM4wMPi7lYri3+Z7KNSKKR3H2piXF80ZZuL8axfwr1h/Aymgdt8HHUBr
-         ZbFKDdJ4H0qhDTnt9HBufqB1ZOMmc+Fe/0HPgXQUS/ZCe0eEDEg5YsQw6Wm2+8A1QvsC
-         v2dUCNCLcU2VW6/GNQi6IQGC7Gy93GdSFkCEIHMXBFIYVjGxUmZtzbBrWWx48fmPafiz
-         lU3sNp+cy9Lea3pH/lnSDFB9b+I8yg2JlNUxReokcFThRIRoPee5wcR1Hu8RgaKNNxcL
-         GTdg==
-X-Gm-Message-State: AFqh2krpMiI4D3X79MztZAT/O8h+U02pTS4kvp+/DVXcKGxdmHTOybEW
-	aINNPuGrXk0vvCjDXlfXjCX330ocLYyReTac1To=
-X-Google-Smtp-Source: AMrXdXuJkfvT4gLRS5l1TPIS+TiBuxhLyp2IqKKZAE6xzC1KcMzkJaOaWt6SOFPVTe2kKjny4MtTuEvJm6zPD8yQvVs=
-X-Received: by 2002:a05:6870:ebc3:b0:144:e1eb:419 with SMTP id
- cr3-20020a056870ebc300b00144e1eb0419mr1017629oab.262.1674154064534; Thu, 19
- Jan 2023 10:47:44 -0800 (PST)
+        h=cc:to:subject:message-id:date:in-reply-to:references:mime-version
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CM9yIKT0SF+O8+g8WMrDxRjQGemV6RXJnKRdS1o2iK4=;
+        b=ff6TUote3sGSLVg5v8hJ1NhuzK6eavWj+slAe/AQgFzrIjOaGmiS8yJ4B9kPh+SEVK
+         JCReU3FkfS/kXNQhi/uP8hqq1vrBKpixmqHHESEVlWhkWrH2PqmsPBT4lcaJzGIuwDQM
+         B44recEmeiHfWV++wq63v6gqMKavrk3ff7bMU7H8wmdHWssTwlJ7PnN2jICqUOd+3aKz
+         0BLc3BX0fDPn5ag3hFt5dcXGOuzBiViNkUMPj52HFFlq6zRhLKVczyV+uGE3Dstzq+OV
+         gMmn8kptKcfoqc4CZd3k1N2NTosxOC+US1WlXafRQNnPVlOj/UCAa7vrTfpZMFG919bU
+         Wk8w==
+X-Gm-Message-State: AFqh2kpdnAkdg5Lj5DV7NF+l2VicGlSqM+0vFpvhLwNhyZevawHVRdqd
+	vmGMhBECqXmaYCGv0dJ6kK9ABug+O1gFkiNDcGk=
+X-Google-Smtp-Source: AMrXdXsSYUDwq8ZcOcgvmzS8TX5cZtQFjhLqw8qF3H48GB3EHOeIbL4YmbduYIeCtw9jx2EBy6hdMQ==
+X-Received: by 2002:a4a:b2c9:0:b0:4a2:5f2:37c1 with SMTP id l9-20020a4ab2c9000000b004a205f237c1mr5057486ooo.9.1674155869971;
+        Thu, 19 Jan 2023 11:17:49 -0800 (PST)
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com. [209.85.167.169])
+        by smtp.gmail.com with ESMTPSA id d144-20020a4a5296000000b004f269f9b8f3sm10998059oob.25.2023.01.19.11.17.49
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Jan 2023 11:17:49 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi1-f169.google.com with SMTP id d188so2531791oia.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Jan 2023 11:17:49 -0800 (PST)
+X-Received: by 2002:a05:6808:b34:b0:36c:cc25:8bb9 with SMTP id
+ t20-20020a0568080b3400b0036ccc258bb9mr337999oij.288.1674155868991; Thu, 19
+ Jan 2023 11:17:48 -0800 (PST)
 MIME-Version: 1.0
-References: <20230119042724.1413857-1-raj.khem@gmail.com> <a42ac89e-a844-6790-ad68-d5f7852b4e87@ventanamicro.com>
-In-Reply-To: <a42ac89e-a844-6790-ad68-d5f7852b4e87@ventanamicro.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 19 Jan 2023 10:47:34 -0800
-Message-ID: <CAMKF1srw_61ryc88dZReenaut1JkijQTo1798cjVGV+qG8WnjA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 1/3] binutils: Upgrade to 2.40 release
-To: Jeff Law <jlaw@ventanamicro.com>
-Cc: Alejandro Hernandez <aehs29@gmail.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Nelson Chu <nelson@rivosinc.com>, Richard Purdie <rpurdie@rpsys.net>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000050e1cc05f2a25eeb"
+References: <20230119182643.1243247-1-festevam@gmail.com>
+In-Reply-To: <20230119182643.1243247-1-festevam@gmail.com>
+Date: Thu, 19 Jan 2023 16:17:37 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKocJpTvpeZOrQJpzidS+RTmgvQ=mayxP2u3ijV90pQ-CA@mail.gmail.com>
+Message-ID: <CAP9ODKocJpTvpeZOrQJpzidS+RTmgvQ=mayxP2u3ijV90pQ-CA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3] u-boot: Upgrade to 2023.01
+To: Fabio Estevam <festevam@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, Fabio Estevam <festevam@denx.de>
+Content-Type: multipart/alternative; boundary="000000000000deb81605f2a2c9ef"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Jan 2023 18:47:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176161
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Jan 2023 19:17:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176162
 
---00000000000050e1cc05f2a25eeb
+--000000000000deb81605f2a2c9ef
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 19, 2023 at 9:25 AM Jeff Law <jlaw@ventanamicro.com> wrote:
+Em qui., 19 de jan. de 2023 =C3=A0s 15:26, Fabio Estevam <festevam@gmail.co=
+m>
+escreveu:
 
->
->
-> On 1/18/23 21:27, Khem Raj wrote:
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> > v1 -> v2:
-> > - Fix build on mingw
-> > - Backport fix to build with --disable-gdb
-> [ ... ]
-> Note I think this is going to run afoul of grub2 mkimage.
->
-
-Yes I am seeing that in local builds for both rv32 and rv64
-
-
-> In binutils-2.40 the assembler for risc-v was changed to use CALL_PLT
-> relocations rather than CALL relocations.  grub2 does not handle
-> CALL_PLT relocations which in turn will cause a failure when
-> grub2-mkimage is used on risc-v.
->
-> As far as I can tell, the assembler change literally just changes the
-> relocation number, they are otherwise treated the same.  So I think
-> grub2 can be fixed by just treating R_RISCV_CALL_PLT just like
-> R_RISCV_CALL in kern/riscv/dl.c.
-
-
-I will try this and let you know
-
-
->
-> Nelson, can you confirm that all your assembler change did was change
-> the relocation used in the resultant object?
->
-> Jeff
+> +++ b/meta/recipes-bsp/u-boot/u-boot_2023.01.bb
+> @@ -0,0 +1,5 @@
+> +require u-boot-common.inc
+> +require u-boot.inc
+> +
+> +DEPENDS +=3D "bc-native dtc-native python3-setuptools-native"
+> +
 >
 
---00000000000050e1cc05f2a25eeb
+python3-setuptools-native has been included in the common.inc so this
+depends can be removed.
+
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+
+--000000000000deb81605f2a2c9ef
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Thu, Jan 19, 2023 at 9:25 AM Jeff Law &lt;<a href=3D"mai=
-lto:jlaw@ventanamicro.com">jlaw@ventanamicro.com</a>&gt; wrote:<br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
-#ccc solid;padding-left:1ex"><br>
-<br>
-On 1/18/23 21:27, Khem Raj wrote:<br>
-&gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" targ=
-et=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt; v1 -&gt; v2:<br>
-&gt; - Fix build on mingw<br>
-&gt; - Backport fix to build with --disable-gdb<br>
-[ ... ]<br>
-Note I think this is going to run afoul of grub2 mkimage.<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Yes I am seeing =
-that in local builds for both rv32 and rv64</div><div dir=3D"auto"><br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex"><br>
-In binutils-2.40 the assembler for risc-v was changed to use CALL_PLT <br>
-relocations rather than CALL relocations.=C2=A0 grub2 does not handle <br>
-CALL_PLT relocations which in turn will cause a failure when <br>
-grub2-mkimage is used on risc-v.<br>
-<br>
-As far as I can tell, the assembler change literally just changes the <br>
-relocation number, they are otherwise treated the same.=C2=A0 So I think <b=
-r>
-grub2 can be fixed by just treating R_RISCV_CALL_PLT just like <br>
-R_RISCV_CALL in kern/riscv/dl.c.</blockquote><div dir=3D"auto"><br></div><d=
-iv dir=3D"auto">I will try this and let you know=C2=A0</div><div dir=3D"aut=
-o"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex" dir=3D"auto"><br>
-<br>
-Nelson, can you confirm that all your assembler change did was change <br>
-the relocation used in the resultant object?<br>
-<br>
-Jeff<br>
-</blockquote></div></div>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Em qui., 19 de jan. de 2023 =C3=A0s 1=
+5:26, Fabio Estevam &lt;<a href=3D"mailto:festevam@gmail.com">festevam@gmai=
+l.com</a>&gt; escreveu:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">+++ b/meta/recipes-bsp/u-boot/<a href=3D"http://u-boot_2023.01.bb" =
+rel=3D"noreferrer" target=3D"_blank">u-boot_2023.01.bb</a><br>
+@@ -0,0 +1,5 @@<br>
++require u-boot-common.inc<br>
++require u-boot.inc<br>
++<br>
++DEPENDS +=3D &quot;bc-native dtc-native python3-setuptools-native&quot;<br=
+>
++<br></blockquote><div><br></div><div>python3-setuptools-native has been in=
+cluded in the common.inc so this depends can be removed.<br></div></div><di=
+v><br></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Otavio Salvad=
+or =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 O.S. Systems<br><a href=3D"http://www.ossystems=
+.com.br" target=3D"_blank">http://www.ossystems.com.br</a> =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0<a href=3D"http://code.ossystems.com.br" target=3D"_blank">htt=
+p://code.ossystems.com.br</a><br>Mobile: +55 (53) 9 9981-7854 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0Mobile: +1 (347) 903-9750</div></div>
 
---00000000000050e1cc05f2a25eeb--
+--000000000000deb81605f2a2c9ef--
 
