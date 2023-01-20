@@ -2,232 +2,236 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31E19C52D11
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22732C38159
 	for <webhook@archiver.kernel.org>; Fri, 20 Jan 2023 18:11:10 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web10.82043.1674238266670787536
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.web10.82042.1674238264471038461
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Jan 2023 10:11:06 -0800
+ Fri, 20 Jan 2023 10:11:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=VixoPuBS;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f175.google.com with SMTP id i65so4614866pfc.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Jan 2023 10:11:06 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=Z/uMl57y;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f174.google.com with SMTP id q9so4742355pgq.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Jan 2023 10:11:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jvWOkLsRh8N+pBD/Yi6OzMgR4IqWoU5ANkgAdi/EuQM=;
-        b=VixoPuBS3aQDA/9/wcWuo5bINxvCqkQCNj2r6uDYibDKChQeY4nwSQAAcwbMnUGGM1
-         KjNJqJueO7MzVvQ5mF11p5fEAcDY7/ozmzYJDBYzF1zmQ5Slm0ecdC1UdfDdNLJ4l3zD
-         j1+hrFY8hjxpoZiLqzUS2UXSkM4WGYO3Hs1Gc7o/pFTylBYjffe4eLLCAE65OMHfunuH
-         Lb1YJPY9aooXYBqidaZyPM5TvnFji2X4IqNDR7XwJGfOtO5aoDbzkpF61n0+2jOl0MLN
-         wm/bbkAhkw9NrwplYMhBU1f2hu6EgEWLGEduN/6fxAQ3/GjLfsZuD6ouVzCh3SAxLD5/
-         lJFQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MvuEldEdVD0pm3TWYeoXOI9VY6BlsHmSiQ8UeoDqKzw=;
+        b=Z/uMl57yXI5NmU7AgZ0iS0GdmTjHPQiepgaRXnGP0GXjLRH8renRjz6f6raILPwcCt
+         Y8iiqv8U2pDZi3hxBe1QRSwlBivQ+D2x/y5+RvrzKHC+q706SQMz/pwwH2A8NcAXyDf/
+         bbHzrJvaHLSzVUha9rwMr2QTbGYzzE71EpS7itjpr8y/n11mC1YpuZ5qeKLi37YH5oxn
+         fupZCW9+UuP241kl/4guj/+l/Cv+WJGaQbRcgxbgisgH+H520bpypr4cCZncbPilsw5i
+         o06KmrXsxIvSl0v4LobXc6kySS+K5aIKAXQH+PpscKUpMkIyM+MwJcZeRpOaSdOlsBUs
+         De8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jvWOkLsRh8N+pBD/Yi6OzMgR4IqWoU5ANkgAdi/EuQM=;
-        b=23bzEkbx3gkBW3fsDsC/KuXjosJHWjSNbZeTiRkZR/qm17h++Ytk1MXP/lI63UGiLm
-         qiFeTuCh5kIRo3tIsi42gDDfLzo8KyqGfSwLXoWix14z5xshy5FoJprVm32UxkkgDRaT
-         HOzBjjZayIj5imL1LZjQTDExn8LOH0QEb99pvvs7L1nSpKrc/wbp/jqeFXqrA06DaYUW
-         9N4VmK/f0MnmcwWcTvKe1II7sWfCgTQYJz5YaBhkQTe+hggJrUey7wTgJ/mF/PXCQRrV
-         NNazi76DoAVH2X9BvFZWuF2HjnfASQxJUdIhxn6FmyyoZyUAGfPgzh9q4GmqeNSjIcqA
-         QN9Q==
-X-Gm-Message-State: AFqh2ko4p6IpZr8GIVZBJWJAebbk54PaJvt5zYAsF4sA0toRUz2OLUD1
-	b/uFph5W4vqep6hmKFO+YgMfRVL58hnFAjD9nMw=
-X-Google-Smtp-Source: AMrXdXuybAhnUwKfYkd3lHJEfowNzmY9pQ5lP8VzlAMFQhC08zQj239w78F5GR4a+XbuPkndelEQcA==
-X-Received: by 2002:aa7:972e:0:b0:58d:b330:6e7d with SMTP id k14-20020aa7972e000000b0058db3306e7dmr18176470pfg.26.1674238265678;
-        Fri, 20 Jan 2023 10:11:05 -0800 (PST)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MvuEldEdVD0pm3TWYeoXOI9VY6BlsHmSiQ8UeoDqKzw=;
+        b=76MR6ezu567V6c+HgH7UkNSJFEKh3jV5jrLW1yBlT8tQVGtLuSTadfCBX3DVERqLRO
+         3qQDHb5vJIt1silH8ZtneCSTo3Y1Axd2M0fqb40g7P3JZR/0SD5wblQIGf6/3ARiAQ23
+         rgz+I+j9pB0Ky2iSudB1jQSGLJB+EH+BVcqaj/YgDx4wYbjkmdYwKC7JvjXKI0qxBHcy
+         LtKdDcslrJD103ajM6EKmf3uK5PS6G4nmgJ/yqiATPV7FKy4ytd7oba8FQwnwlB87j6k
+         Kt5IqEcoXtw8+UnIsPlDDHNn5DBTAxQjjvCqkhhXI1m9+10ckEtNS1QJA9+EFGqYTwYP
+         kqyQ==
+X-Gm-Message-State: AFqh2kqqDYfJE/hYfgBQPHDnjNzttmvPyKZotBydtYEE34jU1N2tKRYc
+	wEayUV5QeBLvvlaPaokyWvjB+iEUQxKlUY8HiqM=
+X-Google-Smtp-Source: AMrXdXsL0XMNCKg6zIztd6y9m2QbvS534imhHHNw46RjIDQvFM4Hgh3tONZ9Y7yzVz3cfOBMw+4tVw==
+X-Received: by 2002:a05:6a00:4291:b0:573:f869:2115 with SMTP id bx17-20020a056a00429100b00573f8692115mr16335435pfb.9.1674238262924;
+        Fri, 20 Jan 2023 10:11:02 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-5-74.hawaiiantel.net. [72.253.5.74])
-        by smtp.gmail.com with ESMTPSA id i128-20020a626d86000000b0058db8f8bce8sm8990396pfc.166.2023.01.20.10.11.04
+        by smtp.gmail.com with ESMTPSA id i128-20020a626d86000000b0058db8f8bce8sm8990396pfc.166.2023.01.20.10.11.01
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jan 2023 10:11:05 -0800 (PST)
+        Fri, 20 Jan 2023 10:11:02 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 01/41] cve-update-db-native: avoid incomplete updates
-Date: Fri, 20 Jan 2023 08:10:18 -1000
-Message-Id: <66aa05be4c237d24295d5e02de6e2dbef43af6dc.1674238148.git.steve@sakoman.com>
+Subject: [OE-core][langdale 00/41] Patch review
+Date: Fri, 20 Jan 2023 08:10:17 -1000
+Message-Id: <cover.1674238148.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1674238148.git.steve@sakoman.com>
-References: <cover.1674238148.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 20 Jan 2023 18:11:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176207
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176206
 
-From: Marta Rybczynska <rybczynska@gmail.com>
+Please review this set of patches for langdale and have comments back by
+end of day Tuesday.
 
-The database update has been done on the original file. In case of
-network connection issues, temporary outage of the NVD server or
-a similar situation, the function could exit with incomplete data
-in the database. This patch solves the issue by performing the update
-on a copy of the database. It replaces the main one only if the whole
-update was successful.
+Passed a-full on autobuilder:
 
-See https://bugzilla.yoctoproject.org/show_bug.cgi?id=14929
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/4817
 
-Reported-by: Alberto Pianon <alberto@pianon.eu>
-Signed-off-by: Marta Rybczynska <marta.rybczynska@linaro.org>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 8efe99214d8b005f0ecac690ce5ba17b31758f92)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../recipes-core/meta/cve-update-db-native.bb | 83 ++++++++++++++-----
- 1 file changed, 61 insertions(+), 22 deletions(-)
+The following changes since commit b2dfb2fe86de887d0239078ded0a4f9e8c677d83:
 
-diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
-index 9b9dbbd75f..079f062f79 100644
---- a/meta/recipes-core/meta/cve-update-db-native.bb
-+++ b/meta/recipes-core/meta/cve-update-db-native.bb
-@@ -21,6 +21,8 @@ CVE_DB_UPDATE_INTERVAL ?= "86400"
- # Timeout for blocking socket operations, such as the connection attempt.
- CVE_SOCKET_TIMEOUT ?= "60"
- 
-+CVE_DB_TEMP_FILE ?= "${CVE_CHECK_DB_DIR}/temp_nvdcve_1.1.db"
-+
- python () {
-     if not bb.data.inherits_class("cve-check", d):
-         raise bb.parse.SkipRecipe("Skip recipe when cve-check class is not loaded.")
-@@ -32,25 +34,15 @@ python do_fetch() {
-     """
-     import bb.utils
-     import bb.progress
--    import sqlite3, urllib, urllib.parse, gzip
--    from datetime import date
-+    import shutil
- 
-     bb.utils.export_proxies(d)
- 
--    YEAR_START = 2002
--
-     db_file = d.getVar("CVE_CHECK_DB_FILE")
-     db_dir = os.path.dirname(db_file)
-+    db_tmp_file = d.getVar("CVE_DB_TEMP_FILE")
- 
--    cve_socket_timeout = int(d.getVar("CVE_SOCKET_TIMEOUT"))
--
--    if os.path.exists("{0}-journal".format(db_file)):
--        # If a journal is present the last update might have been interrupted. In that case,
--        # just wipe any leftovers and force the DB to be recreated.
--        os.remove("{0}-journal".format(db_file))
--
--        if os.path.exists(db_file):
--            os.remove(db_file)
-+    cleanup_db_download(db_file, db_tmp_file)
- 
-     # The NVD database changes once a day, so no need to update more frequently
-     # Allow the user to force-update
-@@ -68,9 +60,60 @@ python do_fetch() {
-         pass
- 
-     bb.utils.mkdirhier(db_dir)
-+    if os.path.exists(db_file):
-+        shutil.copy2(db_file, db_tmp_file)
-+
-+    if update_db_file(db_tmp_file, d) == True:
-+        # Update downloaded correctly, can swap files
-+        shutil.move(db_tmp_file, db_file)
-+    else:
-+        # Update failed, do not modify the database
-+        bb.note("CVE database update failed")
-+        os.remove(db_tmp_file)
-+}
-+
-+do_fetch[lockfiles] += "${CVE_CHECK_DB_FILE_LOCK}"
-+do_fetch[file-checksums] = ""
-+do_fetch[vardeps] = ""
-+
-+def cleanup_db_download(db_file, db_tmp_file):
-+    """
-+    Cleanup the download space from possible failed downloads
-+    """
-+
-+    # Clean up the updates done on the main file
-+    # Remove it only if a journal file exists - it means a complete re-download
-+    if os.path.exists("{0}-journal".format(db_file)):
-+        # If a journal is present the last update might have been interrupted. In that case,
-+        # just wipe any leftovers and force the DB to be recreated.
-+        os.remove("{0}-journal".format(db_file))
-+
-+        if os.path.exists(db_file):
-+            os.remove(db_file)
-+
-+    # Clean-up the temporary file downloads, we can remove both journal
-+    # and the temporary database
-+    if os.path.exists("{0}-journal".format(db_tmp_file)):
-+        # If a journal is present the last update might have been interrupted. In that case,
-+        # just wipe any leftovers and force the DB to be recreated.
-+        os.remove("{0}-journal".format(db_tmp_file))
-+
-+    if os.path.exists(db_tmp_file):
-+        os.remove(db_tmp_file)
-+
-+def update_db_file(db_tmp_file, d):
-+    """
-+    Update the given database file
-+    """
-+    import bb.utils, bb.progress
-+    from datetime import date
-+    import urllib, gzip, sqlite3
-+
-+    YEAR_START = 2002
-+    cve_socket_timeout = int(d.getVar("CVE_SOCKET_TIMEOUT"))
- 
-     # Connect to database
--    conn = sqlite3.connect(db_file)
-+    conn = sqlite3.connect(db_tmp_file)
-     initialize_db(conn)
- 
-     with bb.progress.ProgressHandler(d) as ph, open(os.path.join(d.getVar("TMPDIR"), 'cve_check'), 'a') as cve_f:
-@@ -88,7 +131,7 @@ python do_fetch() {
-             except urllib.error.URLError as e:
-                 cve_f.write('Warning: CVE db update error, Unable to fetch CVE data.\n\n')
-                 bb.warn("Failed to fetch CVE data (%s)" % e.reason)
--                return
-+                return False
- 
-             if response:
-                 for l in response.read().decode("utf-8").splitlines():
-@@ -98,7 +141,7 @@ python do_fetch() {
-                         break
-                 else:
-                     bb.warn("Cannot parse CVE metadata, update failed")
--                    return
-+                    return False
- 
-             # Compare with current db last modified date
-             cursor = conn.execute("select DATE from META where YEAR = ?", (year,))
-@@ -119,7 +162,7 @@ python do_fetch() {
-                 except urllib.error.URLError as e:
-                     cve_f.write('Warning: CVE db update error, CVE data is outdated.\n\n')
-                     bb.warn("Cannot parse CVE data (%s), update failed" % e.reason)
--                    return
-+                    return False
-             else:
-                 bb.debug(2, "Already up to date (last modified %s)" % last_modified)
-             # Update success, set the date to cve_check file.
-@@ -128,11 +171,7 @@ python do_fetch() {
- 
-         conn.commit()
-         conn.close()
--}
--
--do_fetch[lockfiles] += "${CVE_CHECK_DB_FILE_LOCK}"
--do_fetch[file-checksums] = ""
--do_fetch[vardeps] = ""
-+        return True
- 
- def initialize_db(conn):
-     with conn:
+  devtool: process local files only for the main branch (2023-01-11 06:07:36 -1000)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/langdale-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/langdale-nut
+
+Alex Kiernan (1):
+  classes: image: Set empty weak default IMAGE_LINGUAS
+
+Alexander Kanavin (5):
+  libksba: update 1.6.2 -> 1.6.3
+  linux-firmware: upgrade 20221109 -> 20221214
+  xwayland: upgrade 22.1.5 -> 22.1.7
+  xserver-xorg: upgrade 21.1.4 -> 21.1.6
+  selftest/virgl: use pkg-config from the host
+
+Anton Antonov (1):
+  rust: Do not use default compiler flags defined in CC crate
+
+Antonin Godard (2):
+  busybox: always start do_compile with orig config files
+  busybox: rm temporary files if do_compile was interrupted
+
+Benoît Mauduit (1):
+  lib/oe/reproducible: Use git log without gpg signature
+
+Bruce Ashfield (7):
+  linux-yocto/5.19: fix perf build with clang
+  linux-yocto/5.15: ltp and squashfs fixes
+  linux-yocto/5.15: fix perf build with clang
+  linux-yocto/5.15: libbpf: Fix build warning on ref_ctr_off
+  linux-yocto/5.15: update to v5.15.84
+  linux-yocto/5.15: powerpc: Fix reschedule bug in KUAP-unlocked user
+    copy
+  linux-yocto/5.19: powerpc: Fix reschedule bug in KUAP-unlocked user
+    copy
+
+Carlos Alberto Lopez Perez (1):
+  mesa-gl: gallium is required when enabling x11
+
+Charlie Johnston (1):
+  opkg: ensure opkg uses private gpg.conf when applying keys.
+
+Chen Qi (2):
+  dhcpcd: backport two patches to fix runtime error
+  libseccomp: fix typo in DESCRIPTION
+
+Enguerrand de Ribaucourt (1):
+  bitbake-layers: fix a typo
+
+Jan Kircher (1):
+  toolchain-scripts: compatibility with unbound variable protection
+
+Jermain Horsman (1):
+  cve-check: write the cve manifest to IMGDEPLOYDIR
+
+Khem Raj (1):
+  tiff: Add packageconfig knob for webp
+
+Lee Chee Yang (1):
+  git: Upgrade to 2.37.4
+
+Markus Volk (1):
+  librsvg: enable vapi build
+
+Marta Rybczynska (1):
+  cve-update-db-native: avoid incomplete updates
+
+Michael Halstead (1):
+  uninative: Upgrade to 3.8.1 to include libgcc
+
+Petr Kubizňák (1):
+  harfbuzz: remove bindir only if it exists
+
+Quentin Schulz (1):
+  cairo: fix CVE patches assigned wrong CVE number
+
+Randy MacLeod (1):
+  vim: upgrade 9.0.0947 -> 9.0.1211
+
+Robert Joslyn (1):
+  curl: Fix CVE-2022-43551 and CVE-2022-43552
+
+Ross Burton (4):
+  cve-update-db-native: show IP on failure
+  pango: upgrade 1.50.11 -> 1.50.12
+  oeqa/selftest/debuginfod: improve testcase
+  curl: don't enable debug builds
+
+Sandeep Gundlupet Raju (2):
+  kernel-fitimage: Adjust order of dtb/dtbo files
+  kernel-fitimage: Allow user to select dtb when multiple dtb exists
+
+Saul Wold (1):
+  at: Change when files are copied
+
+leimaohui (1):
+  libpng: Enable NEON for aarch64 to enensure consistency with arm32.
+
+ meta/classes-recipe/image.bbclass             |  3 +-
+ meta/classes-recipe/kernel-fitimage.bbclass   | 21 ++++-
+ meta/classes-recipe/rust-common.bbclass       | 28 ++++--
+ .../classes-recipe/rust-target-config.bbclass | 16 ++++
+ meta/classes-recipe/toolchain-scripts.bbclass |  2 +-
+ meta/classes/cve-check.bbclass                |  6 +-
+ meta/conf/distro/include/yocto-uninative.inc  |  8 +-
+ meta/lib/bblayers/makesetup.py                |  2 +-
+ meta/lib/oe/reproducible.py                   |  3 +-
+ meta/lib/oeqa/selftest/cases/debuginfod.py    | 67 ++++++++++++--
+ meta/lib/oeqa/selftest/cases/runtime_test.py  |  2 +-
+ .../dhcpcd/dhcpcd_9.4.1.bb                    |  2 +
+ ...low-getrandom-sysctl-for-newer-glibc.patch | 30 +++++++
+ ...sep-Allow-newfstatat-syscall-as-well.patch | 31 +++++++
+ meta/recipes-core/busybox/busybox.inc         | 26 ++++--
+ .../recipes-core/meta/cve-update-db-native.bb | 88 ++++++++++++++-----
+ .../git/{git_2.37.3.bb => git_2.37.4.bb}      |  2 +-
+ ...emove-no-options-flag-from-gpg-calls.patch | 34 +++++++
+ meta/recipes-devtools/opkg/opkg_0.6.1.bb      |  1 +
+ meta/recipes-extended/at/at_3.2.5.bb          |  6 +-
+ meta/recipes-gnome/librsvg/librsvg_2.54.5.bb  |  2 +
+ .../cairo/cairo/CVE-2019-6461.patch           | 46 +++-------
+ .../cairo/cairo/CVE-2019-6462.patch           | 46 +++++++---
+ .../harfbuzz/harfbuzz_5.1.0.bb                |  6 +-
+ meta/recipes-graphics/mesa/mesa-gl_22.2.3.bb  |  4 +-
+ ...d-install-nofonts-fonts.conf-as-it-i.patch | 35 --------
+ .../{pango_1.50.11.bb => pango_1.50.12.bb}    |  3 +-
+ ...possible-memleaks-in-XkbGetKbdByName.patch | 63 -------------
+ ...ntedString-against-request-length-at.patch | 38 --------
+ ...-xorg_21.1.4.bb => xserver-xorg_21.1.6.bb} |  4 +-
+ ...{xwayland_22.1.5.bb => xwayland_22.1.7.bb} |  2 +-
+ ...20221109.bb => linux-firmware_20221214.bb} |  4 +-
+ .../linux/linux-yocto-rt_5.15.bb              |  6 +-
+ .../linux/linux-yocto-rt_5.19.bb              |  4 +-
+ .../linux/linux-yocto-tiny_5.15.bb            |  6 +-
+ .../linux/linux-yocto-tiny_5.19.bb            |  4 +-
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb | 26 +++---
+ meta/recipes-kernel/linux/linux-yocto_5.19.bb | 22 ++---
+ .../libpng/libpng_1.6.39.bb                   |  4 +-
+ meta/recipes-multimedia/libtiff/tiff_4.4.0.bb |  1 +
+ .../curl/curl/CVE-2022-43551.patch            | 32 +++++++
+ .../curl/curl/CVE-2022-43552.patch            | 78 ++++++++++++++++
+ meta/recipes-support/curl/curl_7.85.0.bb      |  6 +-
+ .../libksba/ksba-add-pkgconfig-support.patch  |  6 +-
+ .../{libksba_1.6.2.bb => libksba_1.6.3.bb}    |  2 +-
+ .../libseccomp/libseccomp_2.5.4.bb            |  2 +-
+ meta/recipes-support/vim/vim.inc              |  4 +-
+ 47 files changed, 528 insertions(+), 306 deletions(-)
+ create mode 100644 meta/recipes-connectivity/dhcpcd/files/0001-privsep-Allow-getrandom-sysctl-for-newer-glibc.patch
+ create mode 100644 meta/recipes-connectivity/dhcpcd/files/0002-privsep-Allow-newfstatat-syscall-as-well.patch
+ rename meta/recipes-devtools/git/{git_2.37.3.bb => git_2.37.4.bb} (98%)
+ create mode 100644 meta/recipes-devtools/opkg/opkg/0002-opkg-key-remove-no-options-flag-from-gpg-calls.patch
+ delete mode 100644 meta/recipes-graphics/pango/pango/0001-tests-meson.build-install-nofonts-fonts.conf-as-it-i.patch
+ rename meta/recipes-graphics/pango/{pango_1.50.11.bb => pango_1.50.12.bb} (90%)
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xkb-fix-some-possible-memleaks-in-XkbGetKbdByName.patch
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xkb-proof-GetCountedString-against-request-length-at.patch
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.4.bb => xserver-xorg_21.1.6.bb} (80%)
+ rename meta/recipes-graphics/xwayland/{xwayland_22.1.5.bb => xwayland_22.1.7.bb} (95%)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20221109.bb => linux-firmware_20221214.bb} (99%)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2022-43551.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2022-43552.patch
+ rename meta/recipes-support/libksba/{libksba_1.6.2.bb => libksba_1.6.3.bb} (94%)
+
 -- 
 2.25.1
 
