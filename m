@@ -1,99 +1,79 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13171C38A23
-	for <webhook@archiver.kernel.org>; Fri, 20 Jan 2023 18:12:20 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web11.82193.1674238337957449331
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 652D9C25B4E
+	for <webhook@archiver.kernel.org>; Fri, 20 Jan 2023 19:10:30 +0000 (UTC)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+ by mx.groups.io with SMTP id smtpd.web10.83784.1674241828205918773
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Jan 2023 10:12:18 -0800
+ Fri, 20 Jan 2023 11:10:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=BmESSGY4;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f182.google.com with SMTP id z31so1476101pfw.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Jan 2023 10:12:17 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=PkOCGLfa;
+ spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f171.google.com with SMTP id z7so6545343ljz.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Jan 2023 11:10:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PFddCWv98KrixbiDx5i3p7H+g+JZiEprfhtXMDS1BF8=;
-        b=BmESSGY4ZpLMFgAYm/cwm3OFlJxf8uwE1raTjx+kt4xYvLyFxLOIrdw2g5LdL6ByF2
-         5LiCSaVAdtkM0VrdjhfD8mSjM+v8uI2gR2nixWBwWI8yc4Z+g1FwX8Ojie4SAd9yjoeR
-         RWsZh201HBNPOkDEBK/Y3BVe8nCIZfrBvqa1+W7XHBfcajE8sJkbNTt2rxmupKHMB6ri
-         033spdpM4PFsTeoQGUxDsP0XwgO7/zjPLpqcWyzYZFjGnN4mv6nWR18zx45sNe7ZW7+4
-         KPy6BGKx8V/4Ac4tG/GZ6eZ8vf4+SnczpOZdrC511ccIwEfpRQ3R0a8fuTXvrlbfRYQe
-         UHLA==
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z/dTdUJpQytQDi3TEcBqX5Uz4L/lQlmZ77QfXWT/iFA=;
+        b=PkOCGLfaDGa6cVJaYLTPVLCJebfbiDbmuz9HXU59fCTKcMgxeB7Z+HsFFf60nRkIMI
+         qWXdnZhGUPvfY7WX6EUQbvAULQa2FC70w/LUww0+U3WZtXH8KwfmsC1m5T3sh5cjfJrY
+         Qq7uwhqVyhmZHzD9A6evqzOCYfLHrSccPlDvZG8XJ9eN8TXgLnmXREYFZo6jklT9316n
+         K1U/PBlJ1QbSS+wtNbFBJ3c4JqdPuyxH3KNmExNkFiwCG0B6e8sBVQtU9bfeMGu0WjeA
+         fvKkwM/f5jfEFv7lpOyJXHLvgFSF+y3TXuYJIn17S/5F6LvHySf42BSOi7Dg7sHhgNbR
+         G6Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PFddCWv98KrixbiDx5i3p7H+g+JZiEprfhtXMDS1BF8=;
-        b=NfpoVZ8MbeVcr/X1VUlxZlKc1LGitTFw0XttLhHEWWOF6AhQszI1pjLDxkKfmn/Bq3
-         5ezYJhEYYOGq2fnbM67nmugBb0yic0JDgAK9MQ7epEG9k3OV1Qr/azn83V1eYBL+rzPN
-         +ltNdJNGWH20khg6aggR9So7XyV7Y7/ryETz7gqaMcEoeV1P4evQPMe5XlMDG77Dd510
-         9i/6eoUi9NYQocJJPBkFTWxwujqtPZehUF6RJa5HFj/3p2CyL8iemFMW2tCEMGOgValV
-         JUl/2PkvJsyJy9sInN/ig8iHY/7FbeU3r6MsrU1YqXwqoJLXyDmXHtdAF5bijWsFYdwT
-         g1fA==
-X-Gm-Message-State: AFqh2koWTLVYv4SKXd3MugRfQIBjlYsQAdU1uCRhwUSw5wW/JAz8UbLc
-	3xxtRRzZKHXzeMPIfqqmAhB+AbgmC1lyBhLjIiA=
-X-Google-Smtp-Source: AMrXdXtI44RL9Q98exTeyFz7sEqNIWJfHT3oZGtOaurQRywSyAz5D1FAx7XNApNlP2EztcosK/UBzQ==
-X-Received: by 2002:a62:e80e:0:b0:576:1c37:5720 with SMTP id c14-20020a62e80e000000b005761c375720mr17708953pfi.4.1674238337064;
-        Fri, 20 Jan 2023 10:12:17 -0800 (PST)
-Received: from hexa.router0800d9.com (dhcp-72-253-5-74.hawaiiantel.net. [72.253.5.74])
-        by smtp.gmail.com with ESMTPSA id i128-20020a626d86000000b0058db8f8bce8sm8990396pfc.166.2023.01.20.10.12.16
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jan 2023 10:12:16 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 40/41] lib/oe/reproducible: Use git log without gpg signature
-Date: Fri, 20 Jan 2023 08:10:57 -1000
-Message-Id: <1075cdeae6af392acddb8c975ac4facc91a5ccde.1674238148.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1674238148.git.steve@sakoman.com>
-References: <cover.1674238148.git.steve@sakoman.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Z/dTdUJpQytQDi3TEcBqX5Uz4L/lQlmZ77QfXWT/iFA=;
+        b=455kDhfylwKg+VhnPMZfrw5h4phdGP2+8jURWHVcB4EZLVQyTOXivu6vJjAwqLt+rf
+         jQ7kcgQX4sUquMvtkD7xeRPVvDv64URWGlDKpLk8ud1fv6eWFWBfYE7CFQylQE5SV85G
+         chTJe1pif6QV4t7njSZYFNASkcMcPhdIKi96TI9tdpKv0V8tmoFUQcuOAQWe1/hz0+oR
+         LVx4yp7f5k7ePh38jHXMmHoaSBzU6dpKyDARQ0vUnyORk8rp/BVh/qXbpygLL3v5ocTS
+         VbVMOLFuoOS2VEgAB37lifzUB9iqoUqV4Ypy1dC6vWNg8tJFvd1mzVdzeD1wITKLEzfM
+         ARcg==
+X-Gm-Message-State: AFqh2kqj5CT4DSM/jaLxG2Nead/Wb1Gt26Ihzcf7atZnRIxYxMyGn8MA
+	V3A+j/l1XgzAnTLQ2qMXg+6/FFm4sJz2BEuvrbQ=
+X-Google-Smtp-Source: AMrXdXv6FkeCbuvjcNcBCBz7eLNDvXGXA1qMqjn/eic7W9Akw0qm6sXfmYc+WMinB5m6QZgzDQF3ngI1NqBPU9ICIFs=
+X-Received: by 2002:a2e:b042:0:b0:28b:6d42:c63a with SMTP id
+ d2-20020a2eb042000000b0028b6d42c63amr1496207ljl.45.1674241826090; Fri, 20 Jan
+ 2023 11:10:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20230118142221.1926666-1-richard.purdie@linuxfoundation.org>
+ <20230119102423.3493565d@booty> <81854d8c638c80866a3bbdd6fe0776de245c3acb.camel@linuxfoundation.org>
+ <CADkTA4PZ4p7H2cKh3+zab8-bs8nznW=v+3Cd5KZEMdkeBTZivw@mail.gmail.com>
+ <CA6755AF-3664-435C-8078-E730AF0F57C2@arm.com> <CADkTA4OFa9oKKHUYNcpXY2Rfvs_kyJOCbiWMDMDb2Y=84KHPJQ@mail.gmail.com>
+In-Reply-To: <CADkTA4OFa9oKKHUYNcpXY2Rfvs_kyJOCbiWMDMDb2Y=84KHPJQ@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 20 Jan 2023 20:10:14 +0100
+Message-ID: <CANNYZj_C7-U=a-TohJtcEVOYyaj0sYNnV_2EBnA55wT2QHT0Jw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/3] insane: Improve patch warning/error handling
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Ross Burton <Ross.Burton@arm.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Jan 2023 18:12:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176247
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Jan 2023 19:10:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176249
 
-From: Benoît Mauduit <bmauduit@beneth.fr>
+On Fri, 20 Jan 2023 at 15:26, Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+> but again, I won't insist that everyone does that
+> on submission, so not having the warning/error disabled is just an
+> extra load placed on me.
 
-Previously, if "showSignature" is present in user gitconfig, parsing
-of the timestamp will fail.
+I'm not sure I understand this. If the appropriate upstream-status is
+enforced by bitbake, then any contributor has to get it right before
+actually sending for review. Or otherwise it means they never built
+what they're sending.
 
-Ideally we should replace this command with a git plumbing command.
+Where is the extra load happening?
 
-Signed-off-by: Benoît Mauduit <bmauduit@beneth.fr>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 3bd6f78f79b3d3e87d8db1e11f58d8021f929843)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/lib/oe/reproducible.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/meta/lib/oe/reproducible.py b/meta/lib/oe/reproducible.py
-index 04a1810d4f..9ac75c02e3 100644
---- a/meta/lib/oe/reproducible.py
-+++ b/meta/lib/oe/reproducible.py
-@@ -115,7 +115,8 @@ def get_source_date_epoch_from_git(d, sourcedir):
-         return None
- 
-     bb.debug(1, "git repository: %s" % gitpath)
--    p = subprocess.run(['git', '--git-dir', gitpath, 'log', '-1', '--pretty=%ct'], check=True, stdout=subprocess.PIPE)
-+    p = subprocess.run(['git', '-c', 'log.showSignature=false', '--git-dir', gitpath, 'log', '-1', '--pretty=%ct'],
-+                       check=True, stdout=subprocess.PIPE)
-     return int(p.stdout.decode('utf-8'))
- 
- def get_source_date_epoch_from_youngest_file(d, sourcedir):
--- 
-2.25.1
-
+Alex
 
