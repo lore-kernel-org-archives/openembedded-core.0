@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00BD0C38141
-	for <webhook@archiver.kernel.org>; Fri, 20 Jan 2023 18:12:00 +0000 (UTC)
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.web10.82076.1674238314528266940
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF54CC05027
+	for <webhook@archiver.kernel.org>; Fri, 20 Jan 2023 18:11:59 +0000 (UTC)
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web11.82175.1674238310877392295
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Jan 2023 10:11:54 -0800
+ Fri, 20 Jan 2023 10:11:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=2AhNAkYE;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f174.google.com with SMTP id v3so4751220pgh.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Jan 2023 10:11:54 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=cn/fmw+g;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f52.google.com with SMTP id u1-20020a17090a450100b0022936a63a21so9810496pjg.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Jan 2023 10:11:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Gh813h5cftB1CuIO7OSeJeVfR0fI+DH4kYWPF/rT654=;
-        b=2AhNAkYE5u/hxb9WnyOg+D2pDDuWjNx1W49Qx/TXKNcsaS5gnsUI2vUuhwf/xw6S/Y
-         2k8r1oh5gPd5lUyxh+4T+cQswpuHcOl2L9SqR+w0ch4xsGiBGnk7KsMJIU8fyoTAG3mz
-         QBvChAyIdAz/lO5jQBJXczdAzEPJ/693S9Qo7JMPLwQCI5pKzWbe48Sd6NNlBNz7piKD
-         vTuz+P9oNmC/q4S0aKWWW8BEbJDCFd7nNMrPLioIsDRqAhjeor6r75YXEEk5vKTVggrc
-         oKukX3u7bS/Tsm1hRJg42r5GubMRVDE10R0DP3OWwIU5ctPMaU3yJge+hB7ypjJOXwDw
-         RDWg==
+        bh=7/H5Xlm9gGwxSkdWN+IOKnneyW90GPw8Al2FdBlzfII=;
+        b=cn/fmw+gyBIwkU42Vf1ImIYf5pM06dlBRMtrgYd+dx5hvZgMwXzxFjbpUe+Ir+b6Si
+         VEiIfYAxqGfKlNAasKklS9kQzQKFb715mlg2JxZIS+IVxcwyWtQNrcnd1ahfb+WFRxWv
+         wRfNbaHLPwK4rCLYsZiWwa/O2xzZVci4+dushUj4Mtt38Fy0uTrUEM7g78yzhRu1nc1U
+         IWGktYN0YH7TsTwWJ3FyC/H2f5evoBkaGS5l6VYk1cRtjiUu3Ge8GUmkrlJOzFg3XJSW
+         epPgueCEy55RJs+TzXENsEbfApRSZ3E3YmqIg2KXW0jY3TGuOoBGWjnq+wz3F3KFqXzG
+         Lmvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Gh813h5cftB1CuIO7OSeJeVfR0fI+DH4kYWPF/rT654=;
-        b=JyUJhPGhZ98rGkyH/VxLJvAXNaWAsrV8ItO3+v5L9LM7M/ve/lksAMRhpy2c8NmyzA
-         z+0uNfMo48F5974YmjFJoETFzJDBFtsASH8pB8RJMWGVvI3U/LiR8jABpWow5Ij4niJG
-         7zjcydRMe5iU3b4TJfb7qAizKRRYnzMLNh//ipGVnD4ymA6FI2I0azP83c8Vx16Rf8G6
-         e4VLb2VmhOUhbNAypoWgNT0SwDQuwqikPw15pSDicVjZdMn8+YZ3PxGV3XMFE+ygSq0l
-         5rKGeqtqad93p5gYnPbrBlaldx6CanU97D2zWRM/LlfBE2yjCN+uxOUQjnRY6ADiwVN2
-         JuCg==
-X-Gm-Message-State: AFqh2kpqPw9EsxUjIB2fITI+qhw1hIxptizU3SkTgLVEmqwnY+V73vSY
-	dFgYYKKST8rNM0+gunT4zJzPDxKdUeWtRPBKXeg=
-X-Google-Smtp-Source: AMrXdXucmt3mIV3Cz9iIHHBYHBE6/OAOVGhcYzjqhdXxD3rxtw8dVLcySqdNESamuieGXKTAkZJy+g==
-X-Received: by 2002:a62:1cce:0:b0:58d:c617:8e9f with SMTP id c197-20020a621cce000000b0058dc6178e9fmr16701084pfc.3.1674238313482;
-        Fri, 20 Jan 2023 10:11:53 -0800 (PST)
+        bh=7/H5Xlm9gGwxSkdWN+IOKnneyW90GPw8Al2FdBlzfII=;
+        b=bPOuZZ8UlJmoDnteeHhS8vBHWflfo1Lz13EXSlfYijiIyyvqDrImFjnWvW7g7C41B2
+         +yYcZTk3BzwUO7RgLQiCtnKpCZlZmEfIGOvKx9M/b9P1azVU8GNQqTK8KTAh0OfQNbT7
+         NdGCzfxjJfb9YR1EcydAkjkOZHIIq/cBurh7ZyEaG6WTcCRcVOBnfLWqF/xjtwJrYtUy
+         DriB1RNXgv9xuwNbE5VmJIQNfkFGgliDXV7XM9+4Nl6k1DnVu5Zs0TVw1dZu76d0jEsu
+         lLaZCMM+AJ6UGU/X5F6FNq500XIruAezQIRfpc14ti5b5+4attLxvZwbbqjJOPPoODP0
+         iE1g==
+X-Gm-Message-State: AFqh2kqwL6dYm2xJou0DEMmgIvJKLZIWvjr1ydeAOhuWYznJtJz8Z4ur
+	ewL70egKXmS/0OPPOT5exPmNw3XVkJepdGHpSsE=
+X-Google-Smtp-Source: AMrXdXtJuhRmjeIBaTgmiX5TQSB2LZ+q/gf8m+QXT/s8BdeGXPqUmrePBY8bD2cE9+omkMaJMbedkQ==
+X-Received: by 2002:a05:6a21:99a7:b0:b5:d781:ca7 with SMTP id ve39-20020a056a2199a700b000b5d7810ca7mr21994985pzb.3.1674238309902;
+        Fri, 20 Jan 2023 10:11:49 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-5-74.hawaiiantel.net. [72.253.5.74])
-        by smtp.gmail.com with ESMTPSA id i128-20020a626d86000000b0058db8f8bce8sm8990396pfc.166.2023.01.20.10.11.52
+        by smtp.gmail.com with ESMTPSA id i128-20020a626d86000000b0058db8f8bce8sm8990396pfc.166.2023.01.20.10.11.48
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jan 2023 10:11:53 -0800 (PST)
+        Fri, 20 Jan 2023 10:11:49 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 27/41] kernel-fitimage: Allow user to select dtb when multiple dtb exists
-Date: Fri, 20 Jan 2023 08:10:44 -1000
-Message-Id: <43926dfc527d865f1051299b2dd688770e149b23.1674238148.git.steve@sakoman.com>
+Subject: [OE-core][langdale 25/41] busybox: rm temporary files if do_compile was interrupted
+Date: Fri, 20 Jan 2023 08:10:42 -1000
+Message-Id: <30cf3640bf18c8ec48d69c566938b38d8561d368.1674238148.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1674238148.git.steve@sakoman.com>
 References: <cover.1674238148.git.steve@sakoman.com>
@@ -61,68 +61,34 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 20 Jan 2023 18:11:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176234
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176232
 
-From: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+From: Antonin Godard <antoningodard@pm.me>
 
-Allow user to select the default DTB for FIT image when multiple
-dtb's exists.
+To avoid working with undeterministic config files, remove all the
+temporary files to start from scratch.
 
-From machine.conf or local.conf user can specify the default dtb
-for FIT image as shown below.
-
-FIT_CONF_DEFAULT_DTB = "board-default.dtb"
-
-Also fallback to avaialable dtb when FIT_CONF_DEFAULT_DTB doesn't
-exits or empty.
-
-Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 74cd440c4e3df0ed3b81cf5c60a3f92e0dd3fe6c)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-recipe/kernel-fitimage.bbclass | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+ meta/recipes-core/busybox/busybox.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/classes-recipe/kernel-fitimage.bbclass b/meta/classes-recipe/kernel-fitimage.bbclass
-index 06cdc4f1ec..f6d82ce061 100644
---- a/meta/classes-recipe/kernel-fitimage.bbclass
-+++ b/meta/classes-recipe/kernel-fitimage.bbclass
-@@ -73,6 +73,9 @@ FIT_CONF_PREFIX[doc] = "Prefix to use for FIT configuration node name"
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index dff4a5dec9..62dc839245 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -154,6 +154,9 @@ do_compile() {
+ 	cp include/autoconf.h.orig include/autoconf.h
  
- FIT_SUPPORTED_INITRAMFS_FSTYPES ?= "cpio.lz4 cpio.lzo cpio.lzma cpio.xz cpio.zst cpio.gz ext2.gz cpio"
- 
-+# Allow user to select the default DTB for FIT image when multiple dtb's exists.
-+FIT_CONF_DEFAULT_DTB ?= ""
+ 	if [ "${BUSYBOX_SPLIT_SUID}" = "1" -a x`grep "CONFIG_FEATURE_INDIVIDUAL=y" .config` = x ]; then
++		# Guard againt interrupted do_compile: clean temporary files.
++		rm -f .config.app.suid .config.app.nosuid .config.disable.apps .config.nonapps
 +
- # Keys used to sign individually image nodes.
- # The keys to sign image nodes must be different from those used to sign
- # configuration nodes, otherwise the "required" property, from
-@@ -375,6 +378,7 @@ fitimage_emit_section_config() {
- 	bootscr_line=""
- 	setup_line=""
- 	default_line=""
-+	default_dtb_image="${FIT_CONF_DEFAULT_DTB}"
- 
- 	# conf node name is selected based on dtb ID if it is present,
- 	# otherwise its selected based on kernel ID
-@@ -417,7 +421,17 @@ fitimage_emit_section_config() {
- 		# default node is selected based on dtb ID if it is present,
- 		# otherwise its selected based on kernel ID
- 		if [ -n "$dtb_image" ]; then
--			default_line="default = \"${FIT_CONF_PREFIX}$dtb_image\";"
-+		        # Select default node as user specified dtb when
-+		        # multiple dtb exists.
-+		        if [ -n "$default_dtb_image" ]; then
-+			        if [ -s "${EXTERNAL_KERNEL_DEVICETREE}/$default_dtb_image" ]; then
-+			                default_line="default = \"${FIT_CONF_PREFIX}$default_dtb_image\";"
-+			        else
-+			                bbwarn "Couldn't find a valid user specified dtb in ${EXTERNAL_KERNEL_DEVICETREE}/$default_dtb_image"
-+			        fi
-+		        else
-+			        default_line="default = \"${FIT_CONF_PREFIX}$dtb_image\";"
-+		        fi
- 		else
- 			default_line="default = \"${FIT_CONF_PREFIX}$kernel_id\";"
- 		fi
+ 		# split the .config into two parts, and make two busybox binaries
+ 		oe_runmake busybox.cfg.suid
+ 		oe_runmake busybox.cfg.nosuid
 -- 
 2.25.1
 
