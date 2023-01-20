@@ -1,112 +1,146 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F08CC05027
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F0BFC25B4E
 	for <webhook@archiver.kernel.org>; Fri, 20 Jan 2023 12:53:28 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.73261.1674219204432524102
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web10.73164.1674219206637369077
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Jan 2023 04:53:24 -0800
+ Fri, 20 Jan 2023 04:53:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7E44614BF;
-	Fri, 20 Jan 2023 04:54:05 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 755AF3F71A;
-	Fri, 20 Jan 2023 04:53:23 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: nd@arm.com
-Subject: [PATCH] quilt: use upstreamed faildiff.test fix
-Date: Fri, 20 Jan 2023 12:53:13 +0000
-Message-Id: <20230120125313.1045537-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.37.3
-MIME-Version: 1.0
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=HNOfGUJ5;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1674219207;
+  x=1705755207;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=EIb5rDgqq9REcvTkmQGxXHe1nAXiB22H5o7SoDUBtlM=;
+  b=HNOfGUJ5wJfgVmXH35h2V612FP/RVdF8gVTHglpuqYWN5zAjscjCDplt
+   lk3XpzV+dE6mEoVzD4QB4WuHfC1q04o2rqwM5oWV7ZW5SdHKTyXoKKNzp
+   LkzIF0YYbT/wo/Iq1rXVBixbRG1veMFJhdm1sPX4b7La2GG0ICo+C3Ne1
+   yNAFR47omPq2tp221C2n7g/ylH1MHc6vtRFewSwIfwQ3xFUwy7W1prSca
+   8SKy+/6iodWMlzbrBqvhXPc6GTkl73X6eB9pjLd3oT9PAaptwgkODlOlU
+   N0OiHlN840rsgLznmfmtGVY0oVJ+H8k+eTLDNxnpnmnUZaq98TTtVNcu+
+   g==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>, "Luca Ceresoli via
+ lists.openembedded.org" <luca.ceresoli=bootlin.com@lists.openembedded.org>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+Subject: RE: [OE-core] [PATCH] librsvg: Only enable the Vala bindings if
+ GObject Introspection is enabled
+Thread-Topic: [OE-core] [PATCH] librsvg: Only enable the Vala bindings if
+ GObject Introspection is enabled
+Thread-Index: AQHZK1kNyi5+VDsjPU235XwjSSfBWK6kvxEwgAGgWcCAAOVboA==
+Date: Fri, 20 Jan 2023 12:53:24 +0000
+Message-ID: <f639c09d5171480aac693fbbdacaceee@axis.com>
+References: <20230118112759.3909741-1-pkj@axis.com>
+	<20230118172227.28bdb930@booty>	<2c4678f5a769445f90b4759a6d6dd259@axis.com>
+	<173BABCA291B8E2A.14781@lists.openembedded.org>
+ <20230120000913.3cec96a7@booty>
+In-Reply-To: <20230120000913.3cec96a7@booty>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 20 Jan 2023 12:53:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176186
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176187
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- .../quilt/quilt/faildiff-order.patch          | 47 ++++++++++++-------
- 1 file changed, 30 insertions(+), 17 deletions(-)
+> -----Original Message-----
+> From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> Sent: den 20 januari 2023 00:09
+> To: Luca Ceresoli via lists.openembedded.org
+> <luca.ceresoli=3Dbootlin.com@lists.openembedded.org>
+> Cc: luca.ceresoli@bootlin.com; Peter Kjellerstedt
+> <peter.kjellerstedt@axis.com>; openembedded-core@lists.openembedded.org;
+> Richard Purdie <richard.purdie@linuxfoundation.org>
+> Subject: Re: [OE-core] [PATCH] librsvg: Only enable the Vala bindings if
+> GObject Introspection is enabled
+>=20
+> Hi Peter,
+>=20
+> On Thu, 19 Jan 2023 10:29:26 +0100
+> "Luca Ceresoli via lists.openembedded.org"
+> <luca.ceresoli=3Dbootlin.com@lists.openembedded.org> wrote:
+>=20
+> > Hello Peter,
+> >
+> > On Wed, 18 Jan 2023 22:22:22 +0000
+> > "Peter Kjellerstedt" <peter.kjellerstedt@axis.com> wrote:
+> >
+> > > > -----Original Message-----
+> > > > From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > > > Sent: den 18 januari 2023 17:22
+> > > > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> > > > Cc: openembedded-core@lists.openembedded.org; Richard Purdie
+> > > > <richard.purdie@linuxfoundation.org>
+> > > > Subject: Re: [OE-core] [PATCH] librsvg: Only enable the Vala
+> bindings if
+> > > > GObject Introspection is enabled
+> > > >
+> > > > Hello Peter,
+> > > >
+> > > > On Wed, 18 Jan 2023 12:27:59 +0100
+> > > > "Peter Kjellerstedt" <peter.kjellerstedt@axis.com> wrote:
+> > > >
+> > > > > This avoids the following error:
+> > > > >
+> > > > >   configure: error: Vala bindings require GObject Introspection
+> > > > >
+> > > > > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> > > >
+> > > > A different patch [0] to address the same bug is already in my test=
+ing
+> > > > branch and is possibly being merged soon on master by Richard. Can =
+you
+> > > > please check whether your think your patch is better and let us kno=
+w?
+> > >
+> > > I had not seen that patch when I sent mine. I think mine is a little =
+better
+> > > since it defines and uses a PACKAGECONFIG for the vala support, which=
+ should
+> > > make it easier for anyone wanting to, e.g., disable the vala support =
+even if
+> > > it is enabled by default.
+> >
+> > Indeed. I'm replacing Alex's patch with yours in my testing branch in
+> > order to have both tested. None is on master at the moment.
+>=20
+> I'm afraid testing with this patch applied caused lots of autobuilder
+> failures:
+>=20
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/62/builds/6553/st=
+eps/12/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/6551/st=
+eps/11/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/6443/st=
+eps/12/logs/stdio
+> ...and more
+>=20
+> So I removed it from my testing branch and got the patch by Alex again.
+> You'd be welcome to send a fixed version of your patch.
 
-diff --git a/meta/recipes-devtools/quilt/quilt/faildiff-order.patch b/met=
-a/recipes-devtools/quilt/quilt/faildiff-order.patch
-index 40f3c2636a5..f22065a2507 100644
---- a/meta/recipes-devtools/quilt/quilt/faildiff-order.patch
-+++ b/meta/recipes-devtools/quilt/quilt/faildiff-order.patch
-@@ -1,28 +1,41 @@
--This test assumes that two lines that are output on different streams (s=
-tdout
--and stderr) will be read in the same order, but thanks to buffering that=
- may not
--be the case.
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-=20
--Change the expected lines to be regexs that each match both expected lin=
-es, so
--the test always works no matter the actual order the lines are read in.
-+From 4dfe7f9e702c85243a71e4de267a13e434b6d6c2 Mon Sep 17 00:00:00 2001
-+From: Jean Delvare <jdelvare@suse.de>
-+Date: Fri, 20 Jan 2023 12:56:08 +0100
-+Subject: [PATCH] test: Fix a race condition
-=20
--Bug filed at https://savannah.nongnu.org/bugs/index.php?63651 to discuss=
- a
--proper solution.
-+The test suite does not differentiate between stdout and stderr. When
-+messages are printed to both, the order in which they will reach us
-+is apparently not guaranteed. Ideally this would be deterministic, but
-+until then, explicitly test stdout and stderr separately in the test
-+case itself. Otherwise the test suite fails randomly, which is a pain
-+for distribution package maintainers.
-=20
--Upstream-Status: Inappropriate
--Signed-off-by: Ross Burton <ross.burton@arm.com>
-+This fixes bug #63651 reported by Ross Burton:
-+https://savannah.nongnu.org/bugs/index.php?63651
-+
-+Signed-off-by: Jean Delvare <jdelvare@suse.de>
-+---
-+ test/faildiff.test | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-=20
- diff --git a/test/faildiff.test b/test/faildiff.test
--index 5afb8e3..5f32f71 100644
-+index 5afb8e3..0444c15 100644
- --- a/test/faildiff.test
- +++ b/test/faildiff.test
--@@ -28,8 +28,8 @@ What happens on binary files?
-+@@ -27,8 +27,9 @@ What happens on binary files?
-+ 	> File test.bin added to patch %{P}test.diff
- =20
-  	$ printf "\\003\\000\\001" > test.bin
-- 	$ quilt diff -pab --no-index
---	>~ (Files|Binary files) a/test\.bin and b/test\.bin differ
---	> Diff failed on file 'test.bin', aborting
--+	>~ (.*[Ff]iles a/test\.bin and b/test\.bin differ|Diff failed on file =
-'test.bin', aborting)
--+	>~ (.*[Ff]iles a/test\.bin and b/test\.bin differ|Diff failed on file =
-'test.bin', aborting)
-+-	$ quilt diff -pab --no-index
-++	$ quilt diff -pab --no-index 2>/dev/null
-+ 	>~ (Files|Binary files) a/test\.bin and b/test\.bin differ
-++	$ quilt diff -pab --no-index >/dev/null
-+ 	> Diff failed on file 'test.bin', aborting
-  	$ echo %{?}
-  	> 1
--=20
-+--=20
-+2.34.1
-+
---=20
-2.37.3
+Meh. After having taken a closer look at gobject-introspection.bbclass,=20
+it appears it only adds --enable-introspection for target, so my patch=20
+needs to do the same. I'll send a v2.
+
+>=20
+> --
+> Luca Ceresoli, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+
+//Peter
 
 
