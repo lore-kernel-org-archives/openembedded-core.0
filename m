@@ -2,28 +2,28 @@ Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09F26C05027
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C519C54ED7
 	for <webhook@archiver.kernel.org>; Fri, 20 Jan 2023 14:45:09 +0000 (UTC)
 Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
- by mx.groups.io with SMTP id smtpd.web10.75899.1674225906191776692
+ by mx.groups.io with SMTP id smtpd.web10.75895.1674225904346143894
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Jan 2023 06:45:06 -0800
+ Fri, 20 Jan 2023 06:45:04 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
 Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
 	by mail.kapsi.fi with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1pIsdc-006KXS-7M; Fri, 20 Jan 2023 16:45:04 +0200
+	id 1pIsda-006KWS-Fd; Fri, 20 Jan 2023 16:45:02 +0200
 Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.94.2)
 	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1pIsdb-00CEn0-MA; Fri, 20 Jan 2023 16:45:03 +0200
+	id 1pIsda-00CEeA-5M; Fri, 20 Jan 2023 16:45:02 +0200
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH 14/14] oeqa qemurunner.py: improve logging in run_serial()
-Date: Fri, 20 Jan 2023 16:44:50 +0200
-Message-Id: <20230120144450.2913935-15-mikko.rapeli@linaro.org>
+Subject: [PATCH 11/14] oeqa qemurunner.py: add timeout to QMP calls
+Date: Fri, 20 Jan 2023 16:44:47 +0200
+Message-Id: <20230120144450.2913935-12-mikko.rapeli@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230120144450.2913935-1-mikko.rapeli@linaro.org>
 References: <20230120144450.2913935-1-mikko.rapeli@linaro.org>
@@ -50,7 +50,7 @@ X-Rspam-Report: Action: no action
  Symbol: FROM_NEQ_ENVFROM(0.00)
  Symbol: BAYES_HAM(-3.00)
  Symbol: RCVD_COUNT_TWO(0.00)
- Message-ID: 20230120144450.2913935-15-mikko.rapeli@linaro.org
+ Message-ID: 20230120144450.2913935-12-mikko.rapeli@linaro.org
 X-SA-Exim-Connect-IP: 2001:67c:1be8::11
 X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
@@ -58,40 +58,45 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 20 Jan 2023 14:45:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176205
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176202
 
-When serial communication times outs, write note also to bitbake
-task output.
+When a qemu machine hangs, the QMP calls can hang for ever
+too, and when this happens any failing test commands from ssh
+runner may be followed by dump_monitor() calls which
+then also hang. Hangs followed by hangs.
 
-Then add a small sleep to collect more output to avoid
-reading data one character at a time. This makes logs
-much more readable.
+Use runqemutime at setup and run_monitor() specific timeout
+for later calls.
 
 Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 ---
- meta/lib/oeqa/utils/qemurunner.py | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/lib/oeqa/utils/qemurunner.py | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 0e720ef5f0..b1c6ab8ce7 100644
+index ed44036758..7f5d87fe70 100644
 --- a/meta/lib/oeqa/utils/qemurunner.py
 +++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -670,12 +670,15 @@ class QemuRunner:
-             now = time.time()
-             if now >= end:
-                 data += "<<< run_serial(): command timed out after %d seconds without output >>>\r\n\r\n" % timeout
-+                self.logger.debug("run_serial(): command timed out after %d seconds without output" % timeout)
-                 break
+@@ -350,6 +350,9 @@ class QemuRunner:
+                     return False
+ 
              try:
-                 sread, _, _ = select.select([self.server_socket],[],[], end - now)
-             except InterruptedError:
-                 continue
-             if sread:
-+                # try to avoid reading single character at a time, makes logs readable
-+                time.sleep(0.1)
-                 answer = self.server_socket.recv(1024)
-                 if answer:
-                     data += answer.decode('utf-8')
++                # set timeout value for all QMP calls
++                self.logger.info("QMP setting timeout to %d" % (self.runqemutime))
++                self.qmp.settimeout(self.runqemutime)
+                 self.qmp.connect()
+                 connect_time = time.time()
+                 self.logger.info("QMP connected to QEMU at %s and took %s seconds" %
+@@ -633,7 +636,9 @@ class QemuRunner:
+         return False
+ 
+     def run_monitor(self, command, args=None, timeout=60):
++        self.logger.debug("run_monitor() called: command = %s, args = %s, timeout = %d" % (command, args, timeout))
+         if hasattr(self, 'qmp') and self.qmp:
++            self.qmp.settimeout(timeout)
+             if args is not None:
+                 return self.qmp.cmd(command, args)
+             else:
 -- 
 2.34.1
 
