@@ -2,10 +2,10 @@ Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C179EC38141
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C19D5C38A23
 	for <webhook@archiver.kernel.org>; Fri, 20 Jan 2023 14:45:08 +0000 (UTC)
 Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
- by mx.groups.io with SMTP id smtpd.web10.75890.1674225899787294524
+ by mx.groups.io with SMTP id smtpd.web11.75991.1674225900228690739
  for <openembedded-core@lists.openembedded.org>;
  Fri, 20 Jan 2023 06:45:00 -0800
 Authentication-Results: mx.groups.io;
@@ -14,17 +14,19 @@ Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
 	by mail.kapsi.fi with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1pIsdT-006KU8-GB; Fri, 20 Jan 2023 16:44:55 +0200
+	id 1pIsdV-006KUi-Tw; Fri, 20 Jan 2023 16:44:58 +0200
 Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.94.2)
 	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1pIsdT-00CEHj-6c; Fri, 20 Jan 2023 16:44:55 +0200
+	id 1pIsdV-00CEPa-KC; Fri, 20 Jan 2023 16:44:57 +0200
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH 00/14] oeqa runtime tests when qemu hangs
-Date: Fri, 20 Jan 2023 16:44:36 +0200
-Message-Id: <20230120144450.2913935-1-mikko.rapeli@linaro.org>
+Subject: [PATCH 02/14] oeqa ssh.py: fix hangs in run() and add debug prints
+Date: Fri, 20 Jan 2023 16:44:38 +0200
+Message-Id: <20230120144450.2913935-3-mikko.rapeli@linaro.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230120144450.2913935-1-mikko.rapeli@linaro.org>
+References: <20230120144450.2913935-1-mikko.rapeli@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Rspam-Score: -1.2 (-)
@@ -48,7 +50,7 @@ X-Rspam-Report: Action: no action
  Symbol: FROM_NEQ_ENVFROM(0.00)
  Symbol: BAYES_HAM(-3.00)
  Symbol: RCVD_COUNT_TWO(0.00)
- Message-ID: 20230120144450.2913935-1-mikko.rapeli@linaro.org
+ Message-ID: 20230120144450.2913935-3-mikko.rapeli@linaro.org
 X-SA-Exim-Connect-IP: 2001:67c:1be8::11
 X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
@@ -56,45 +58,139 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 20 Jan 2023 14:45:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176192
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176193
 
-I get a qemu hang on kirkstone, swtpm and optee. One of the
-optee-test/xtest hangs the qemu machine in some kind of deadlock.
-While this needs to be debugged and tested, the oeqa runtime tests
-also hanged and never returned. Thus this patch set. With these changes
-qemu deadlock is detected and with do_testimage() task eventually exits
-with all correct tests failing and the hangin qemu system killed.
-There are a lot of debug prints added by this patch set but I don't of
-any other way to debug complex python code. strace output from the hang
-doesn't tell where the deadlock happened.
+When qemu machine hangs, the ssh commands done by tests
+are not timing out. do_testimage() task has last logs like this:
 
-Tested on kirkstone and cherry-picked to master. If something blows up
-I'll do more testing on master branch based setup.
+DEBUG: time: 1673531086.3155053, endtime: 1673531686.315502
 
-Mikko Rapeli (14):
-  oeqa ssh.py: move output prints to new line
-  oeqa ssh.py: fix hangs in run() and add debug prints
-  oeqa ssh.py: clarify timeout API and add more debug prints to run()
-  oeqa ssh.py: add connection keep alive options to ssh client
-  testimage.bbclass: add debug prints for major state changes
-  oeqa dump.py: add error counter and stop after 5 failures
-  oeqa qemurunner.py: use os.set_blocking() instead of fcntl()
-  oeqa qemurunner: read more data at a time from serial and log all of
-    it
-  oeqa qemurunner.py: increase boot failure warning log from 25 to 100
-    lines
-  oeqa qemurunner.py: add debug prints to stop()
-  oeqa qemurunner.py: add timeout to QMP calls
-  oeqa qemurunner.py: kill qemu if it hangs
-  oeqa qemurunner.py: add debug output to run_serial()
-  oeqa qemurunner.py: improve logging in run_serial()
+The test process is stuck for hours, or for ever if the
+executing command or test case did not set a timeout correctly.
+The default 300 second timeout is not working when target hangs.
+Note that timeout is really a "inactive timeout" since data returned
+by the process will reset the timeout.
 
- meta/classes-recipe/testimage.bbclass |  8 ++++
- meta/lib/oeqa/core/target/ssh.py      | 63 +++++++++++++++++++++------
- meta/lib/oeqa/utils/dump.py           | 23 +++++++++-
- meta/lib/oeqa/utils/qemurunner.py     | 41 ++++++++++++++---
- 4 files changed, 113 insertions(+), 22 deletions(-)
+Added debug prints help to identify which calls are hanging and
+not timing out.
 
+Make the process stdout non-blocking so read() will always return
+right away using os.set_blocking() available in python 3.5 and later.
+
+Then change from python codec reader to plain read() and make
+the ssh subprocess stdout non-blocking. Even with select()
+making sure the file had input to be read, the codec reader was
+trying to find more stuff and blocking for ever when process hangs.
+
+While at it, add a small timeout to read data in larger chunks if
+possible. This avoids reading data one or few characters at a time
+and makes the debug logs more readable.
+
+close() the stdout file in all cases after read loop is complete.
+
+Then make sure to wait or kill the ssh subprocess in all cases.
+Just reading the output stream and receiving EOF there does not mean
+that the process exited, and wait() needs a timeout if the process
+is hanging. In the end kill the process and return the return value
+and captured output utf-8 encoded, just like before these changes.
+
+This fixes ssh run() related deadlocks when a qemu target hangs
+completely.
+
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+---
+ meta/lib/oeqa/core/target/ssh.py | 42 ++++++++++++++++++++++++++------
+ 1 file changed, 35 insertions(+), 7 deletions(-)
+
+diff --git a/meta/lib/oeqa/core/target/ssh.py b/meta/lib/oeqa/core/target/ssh.py
+index 13fd5b2a49..11f4ec6de0 100644
+--- a/meta/lib/oeqa/core/target/ssh.py
++++ b/meta/lib/oeqa/core/target/ssh.py
+@@ -229,29 +229,41 @@ def SSHCall(command, logger, timeout=None, **opts):
+         if timeout:
+             endtime = starttime + timeout
+             eof = False
++            os.set_blocking(process.stdout.fileno(), False)
+             while time.time() < endtime and not eof:
+-                logger.debug('time: %s, endtime: %s' % (time.time(), endtime))
+                 try:
++                    logger.debug('Waiting for process output: time: %s, endtime: %s' % (time.time(), endtime))
+                     if select.select([process.stdout], [], [], 5)[0] != []:
+-                        reader = codecs.getreader('utf-8')(process.stdout, 'ignore')
+-                        data = reader.read(1024, 4096)
++                        # wait a bit for more data, tries to avoid reading single characters
++                        time.sleep(0.2)
++                        logger.debug('Reading from process stdout')
++                        data = process.stdout.read()
+                         if not data:
+-                            process.stdout.close()
++                            logger.debug('End of file from process stdout')
+                             eof = True
+                         else:
+-                            output += data
+-                            logger.debug('Partial data from SSH call:\n%s' % data)
++                            # ignore errors to capture as much as possible
++                            string = data.decode('utf-8', errors='ignore')
++                            output += string
++                            logger.debug('Partial data from SSH call:\n%s' % string)
+                             endtime = time.time() + timeout
+                 except InterruptedError:
++                    logger.debug('InterruptedError')
+                     continue
+ 
++            logger.debug('Closing process stdout')
++            process.stdout.close()
++
+             # process hasn't returned yet
+             if not eof:
++                logger.debug('Terminating process')
+                 process.terminate()
+                 time.sleep(5)
+                 try:
++                    logger.debug('Killing process')
+                     process.kill()
+                 except OSError:
++                    logger.debug('OSError when killing process')
+                     pass
+                 endtime = time.time() - starttime
+                 lastline = ("\nProcess killed - no output for %d seconds. Total"
+@@ -263,6 +275,19 @@ def SSHCall(command, logger, timeout=None, **opts):
+             output = process.communicate()[0].decode('utf-8', errors='ignore')
+             logger.debug('Data from SSH call:\n%s' % output.rstrip())
+ 
++        # timout or not, make sure process exits and is not hanging
++        if process.returncode == None:
++            try:
++                logger.debug('Process still running, waiting for it to end')
++                process.wait(timeout=5)
++            except TimeoutExpired:
++                try:
++                    logger.debug('Timeout, killing process')
++                    process.kill()
++                except OSError:
++                    logger.debug('OSError')
++                    pass
++
+     options = {
+         "stdout": subprocess.PIPE,
+         "stderr": subprocess.STDOUT,
+@@ -282,12 +307,15 @@ def SSHCall(command, logger, timeout=None, **opts):
+     options['env'] = env
+ 
+     try:
++        logger.debug('run')
+         run()
+     except:
++        logger.debug('except from run()')
+         # Need to guard against a SystemExit or other exception ocurring
+         # whilst running and ensure we don't leave a process behind.
+         if process.poll() is None:
+             process.kill()
+         logger.debug('Something went wrong, killing SSH process')
+         raise
+-    return (process.wait(), output.rstrip())
++
++    return (process.returncode, output.rstrip())
 -- 
 2.34.1
 
