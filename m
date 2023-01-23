@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B857C25B4E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90C50C27C76
 	for <webhook@archiver.kernel.org>; Mon, 23 Jan 2023 02:22:06 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web11.34074.1674440502628422957
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.web10.33731.1674440522822859447
  for <openembedded-core@lists.openembedded.org>;
- Sun, 22 Jan 2023 18:21:56 -0800
+ Sun, 22 Jan 2023 18:22:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=0k8ubKO5;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f178.google.com with SMTP id g205so7758156pfb.6
-        for <openembedded-core@lists.openembedded.org>; Sun, 22 Jan 2023 18:21:56 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=veyF0dhZ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.175, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f175.google.com with SMTP id 78so7954091pgb.8
+        for <openembedded-core@lists.openembedded.org>; Sun, 22 Jan 2023 18:22:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=z4RqeAsD3J4Ir7ufBMWfgjwoZFSnQeVEQ6Axm3+IeYs=;
-        b=0k8ubKO5ZcTZLJPG0YYbJhYkcUpMzjQb2ddl/kRVvyjqbzhbyTWDhWq0P9XFXvKBe1
-         WvP5REzOaTNn01clhsjpvKm0Uc5eYbwipq6MZCoeJetZjeaOKQlUHkKmPtyFAnOekkVQ
-         nakiFhHaZjVkY/WECGkeM7HKZUFGO9HEf+2fGI7RjGTKGkANTdELf1pBQlajTyv0nTu2
-         11DqnX46w7gCfCyxnKxOSvC0/qmhSih+zf3/Oys46jtG1z4nEUqrDiAmxPUqbAozbwSS
-         XLnCjqGcBo3atFtW/ZajmxpPuBkCjbVvJeykBWCmFn0hdGCWe7zCA90i/VYKi+DqqSVk
-         Pm5Q==
+        bh=l+Xjh6iU8x66C49jS0iNM5Nep7Ik4Wuw5UpHZtQ9cjs=;
+        b=veyF0dhZqeZRBt7scayvPATg5zzgXIiCJ3pQ+kJzC/FrGOzNXuPGKPEB2zXMddag1c
+         Mnwh1CJS8GA/O7JrUujopothHtuRbWT+7T3gUFxwaMT+VL7DxQ1D1sIWmfad01Aa+qkI
+         WLtPUk/pLyWujAyZMQugpTwXeshiD9JTG/0bmGj6iC0Qu91tDOuWcDt4FhaekPK2G1rM
+         3g4p4zFqvGdVv5FTJ63geZZ3CpsGng2dr92qHg6PdDj2dW544qQDIc5SMJBdW59Ds7no
+         GIADh1Y6C6bMJuNrW7jysSlzmgNajdG4sgV4fyQ/MRK01ToorxNBEbY2yWhKSBEX3SHd
+         tO9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=z4RqeAsD3J4Ir7ufBMWfgjwoZFSnQeVEQ6Axm3+IeYs=;
-        b=41XIv00x3SIrlulGcl+yX8fMr2eNchrjc4UMoMt0LXkjXgHuowOT9bEJYDNSnuKsFP
-         eSpgs8liYSk59IcvkdHkURlEf5tMh3et1orzAl99ELwF9PX4p3n32jloFhm1zL72VVWN
-         XxxB38R5zBXa7TljoGo+TZxXT3yJJBVm8zuPcv0zzrjo5/WAYdzuJH5DPX3SdJVS9NtI
-         PzhkzyCvwmkdeu1v68r/UYh3MnIvO+MarJHjDbPCgUyyDBovzKH0gqAXVE1TeXAmAxhN
-         hBlM6UvWE90Fu+x8mWDhjbQ4vZGdU3sKwgUV1hYIMMTFzOojOFD6NhC6GDL49zKvdokp
-         SgtA==
-X-Gm-Message-State: AFqh2krlc6L38YhoRWVM3Qb9EIW1idNGi538NyBWGzr2YlTOxvqbUIEg
-	lPvG4eAiFif+rSM1Eo03mPXX9FPLcREtBZNxC9A=
-X-Google-Smtp-Source: AMrXdXu3YGltMj+6HyStBnmzhM+J9aG59BvzMV/QzdLkm+jnupAuvOiz8Hq2UgOFP0NfppopMPAIGA==
-X-Received: by 2002:aa7:9805:0:b0:58d:f609:76a7 with SMTP id e5-20020aa79805000000b0058df60976a7mr18708530pfl.32.1674440515637;
-        Sun, 22 Jan 2023 18:21:55 -0800 (PST)
+        bh=l+Xjh6iU8x66C49jS0iNM5Nep7Ik4Wuw5UpHZtQ9cjs=;
+        b=rpadqWF7VWAI/sdmvDCthBILFY42aCtgGkE2zboFBBP8pCs+fSikWz/H5okTDvYyQ0
+         Kv4NeT7QkTFlT5bUv6b3VqirBcPNNw4MDKHeIcnyU/pSFt6rJ//6VVza670VI3q50S+9
+         EqI7/3Pey9F5i9MGcfwm2edaRrHfv8xQ/q9UsXcLNnB+ctEEVgzUjmnOTVCRc4a0C5a0
+         +YFQEWk7jllAJU1wKoWKFcN4ONudrmTN4hM36DOMdiZ8NjshmBOk2j395YKyP3LyJIqb
+         xojZMWFhSAkEtOYNqziNVWKtJ2sb5CI1Wje6ZT8dwi3RpfhKFSg5lh4D8Ma85NItPpvJ
+         7lJQ==
+X-Gm-Message-State: AFqh2kqpyLLSNTwPK2Uw4YABI9pnZxzwqZmzXnIBgfLDdD1LMfEjwsoQ
+	BfOEjm2nL5vRS2KsAJYlMAEPPvRidJhb5TtXytc=
+X-Google-Smtp-Source: AMrXdXt3PWOjUDoQkD3J7EheCnrQ2ah16EH9SMMXpOVlPsgqL+LPvvWil7U30VnPBW8iV1XV6Loo/A==
+X-Received: by 2002:a05:6a00:4088:b0:58b:af27:dcda with SMTP id bw8-20020a056a00408800b0058baf27dcdamr25502063pfb.14.1674440521878;
+        Sun, 22 Jan 2023 18:22:01 -0800 (PST)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id h11-20020a056a00000b00b0058dd9c46a8csm10384222pfk.64.2023.01.22.18.21.54
+        by smtp.gmail.com with ESMTPSA id h11-20020a056a00000b00b0058dd9c46a8csm10384222pfk.64.2023.01.22.18.22.00
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Jan 2023 18:21:55 -0800 (PST)
+        Sun, 22 Jan 2023 18:22:01 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 07/32] lttng-modules: update 2.13.7 -> 2.13.8
-Date: Sun, 22 Jan 2023 16:21:01 -1000
-Message-Id: <39ef525391d2d39a3431d319a20a5b5fc9a916a3.1674440376.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 10/32] linux-firmware: upgrade 20221109 -> 20221214
+Date: Sun, 22 Jan 2023 16:21:04 -1000
+Message-Id: <5386df31f130b1da4203102c9b830f611dc31219.1674440376.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1674440376.git.steve@sakoman.com>
 References: <cover.1674440376.git.steve@sakoman.com>
@@ -61,32 +61,46 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 23 Jan 2023 02:22:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176271
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176274
 
-From: He Zhe <zhe.he@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
+License-Update: additional files
+
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 15f3a9f6c4406ddc00f7dc0ca7e1beafe9c71a9f)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../lttng/{lttng-modules_2.13.7.bb => lttng-modules_2.13.8.bb}  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-kernel/lttng/{lttng-modules_2.13.7.bb => lttng-modules_2.13.8.bb} (94%)
+ ...{linux-firmware_20221109.bb => linux-firmware_20221214.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20221109.bb => linux-firmware_20221214.bb} (99%)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.13.7.bb b/meta/recipes-kernel/lttng/lttng-modules_2.13.8.bb
-similarity index 94%
-rename from meta/recipes-kernel/lttng/lttng-modules_2.13.7.bb
-rename to meta/recipes-kernel/lttng/lttng-modules_2.13.8.bb
-index 49c584dff4..542f42ae19 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.13.7.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.13.8.bb
-@@ -16,7 +16,7 @@ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
- # Use :append here so that the patch is applied also when using devupstream
- SRC_URI:append = " file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch"
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20221109.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20221214.bb
+similarity index 99%
+rename from meta/recipes-kernel/linux-firmware/linux-firmware_20221109.bb
+rename to meta/recipes-kernel/linux-firmware/linux-firmware_20221214.bb
+index b05b960ebd..c2354e627f 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20221109.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20221214.bb
+@@ -132,7 +132,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     "
+ # WHENCE checksum is defined separately to ease overriding it if
+ # class-devupstream is selected.
+-WHENCE_CHKSUM  = "ab4ba608dc4b757716871f9be033f0f1"
++WHENCE_CHKSUM  = "bf7c716d16e48fe118c6209f99b13253"
  
--SRC_URI[sha256sum] = "5a99679df7903160cbde3918fee5af90ffafc90fc96ccdefaa57cf230492b234"
-+SRC_URI[sha256sum] = "f525d3d48ea3a475cb535339c201666d0e4c75ec8c46d29837bcf381ea02cb19"
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+ # so that the license files will be copied from fetched source
+@@ -209,7 +209,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
+ # Pin this to the 20220509 release, override this in local.conf
+ SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
  
- export INSTALL_MOD_DIR="kernel/lttng-modules"
+-SRC_URI[sha256sum] = "c0ddffbbcf30f2e015bddd5c6d3ce1f13976b906aceabda4a57e3c41a3190701"
++SRC_URI[sha256sum] = "e793783e92acbde549965521462d1d1327827360664cf242dbda08f075654331"
+ 
+ inherit allarch
  
 -- 
 2.25.1
