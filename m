@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91493C54EB4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B939C54EAA
 	for <webhook@archiver.kernel.org>; Mon, 23 Jan 2023 02:22:36 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web11.34100.1674440548033292861
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web10.33747.1674440551918814516
  for <openembedded-core@lists.openembedded.org>;
- Sun, 22 Jan 2023 18:22:28 -0800
+ Sun, 22 Jan 2023 18:22:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=1x2bnV7K;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id w2so7729961pfc.11
-        for <openembedded-core@lists.openembedded.org>; Sun, 22 Jan 2023 18:22:27 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=FbIXnogX;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.170, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f170.google.com with SMTP id v3so7963259pgh.4
+        for <openembedded-core@lists.openembedded.org>; Sun, 22 Jan 2023 18:22:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7/H5Xlm9gGwxSkdWN+IOKnneyW90GPw8Al2FdBlzfII=;
-        b=1x2bnV7KP42V+LvdI40CIJFBMjGnVzcy1OUFNob6sZvzIsKrl0RB2c/qJntdHDuKYh
-         Bi1qLPYN43O1Xr+Vi5G7kvD7WqGzKhf8acDSz00jojLdcEgNZedI8wLEQ/bxxcz4CbDS
-         WuTjhVvV4VXtsUcCB0TLCGhwgzOzwOm6uFL5qJ9blquKECXsNgd+5f6Jb++pn+dRqpTk
-         TSjsIJ61GTfMybIKMSrSRp+zpZMUDcs4cqcFqEVVIFGSPZ9adexl7rE8ZiYSTkhsxWB6
-         W7bZDKVC8OfA8V0kYL/XFk6zZLeOUG/ZrxGyAe8Y+thSV3MO847KjyMB6TDuKqTWg5Qt
-         JgJg==
+        bh=uJM9jovykKVLW6PfsvwW3MzbO9JEPsFDbaWFiBRh1mI=;
+        b=FbIXnogXlI+syvJOBgg9Dd4MWLygrWPpvogfT3VaillHqkGFDoD5i0xuAluda1Cz2p
+         iEWQMrEqR4SOejdMH9iD3E17oWtkb6Hl7ma5yhmgqdjsjQhoMVxlnED2khEudV8QxKa4
+         NSZq/BDjJT1NfBEtwQQfi97mY0F19IOJvatFBO6xpxPoLM/jjUXZzQya0uu8tFHz7ANE
+         K3xR9EPjBqY/h3tTDKAUJuickFWjZ/iH4eU+610WYABbxuQBiPOKKWb7LNTG4cl12yo/
+         jQSxXXtocZrJxRvG69zJvv3ukJcHzZp8Ibyo6Rx0e7TsRa4aPVl/5cTXgQKd+CvGWCPA
+         Et6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7/H5Xlm9gGwxSkdWN+IOKnneyW90GPw8Al2FdBlzfII=;
-        b=5cUE57zcDhsaHwo9e3KSQEQmus2XA2mUicWnAIOxGCh0QgeUyyhSFVuQ//1erp1AUc
-         FO83nOw+MSoMVLxuhICHA9HnC/vjLNN1k3ZK9jmlQ0KQRCRNVWP5BgXHyboiEX3J7Nrt
-         6khEM66DASSaauzeNfI+TKjuSy9iOZKSCTudTPqXwDB1S8s89JZiLl/rMDkSUeb+0xE2
-         hf5YVV/kTmcSqjgdqtBozR4uxO4ZhaKxM1QdJ9SWh8K/MyIaGELV1sGJuAWPEXFQoOsV
-         q1EK+SXcgAoUUqHYASB65/Jpe9/5r9YNHbz3A50mDwI2RZufON0L0pTWjO5YKadKkYI0
-         i9+w==
-X-Gm-Message-State: AFqh2krPGfpb59FTpEbulgEJmD6yB4JiAiOAe6/cz+RWlinOx7DSQgMG
-	3Jw2klmakXSwLf4SV9hr2Q0Ci0MXN/Nh9q9XeJI=
-X-Google-Smtp-Source: AMrXdXtq5teezfFnpoOZM4KeLTKWgqJllqauYSSeFmoH+mlVFf8g9AkUpRx/65En4oQuALneDaQMcA==
-X-Received: by 2002:a05:6a00:2191:b0:581:19ed:78b9 with SMTP id h17-20020a056a00219100b0058119ed78b9mr30917020pfi.2.1674440547125;
-        Sun, 22 Jan 2023 18:22:27 -0800 (PST)
+        bh=uJM9jovykKVLW6PfsvwW3MzbO9JEPsFDbaWFiBRh1mI=;
+        b=m6qTzHTNFoukaCN/cD8aRvNvK5R75YSCxhUk315y14WB9f47DnCTtvQN04YVxj1DmX
+         JN/xRii9S3w1R/BvNKxqM/Cp5pQBtkfTMjHwfrPS+JpzXpkI6yWkPWLFqDzgOP86N1Yz
+         etnDwxMn+Ud87+HicPoH3AcyUM3RzC2vRmjSqHXUqJjJU06YdOCkZXLWbuRxykeYhnag
+         RgOqUq0IuNM8JFfo0ZAqgxsQoGFDD87zaZCJaYIaqIsz0eSIMgbsatWmIxyqO4hcJLWd
+         fyWqjhhCVz+d6jpfKdK2t9aniPV20vrfzCPdJM04G19t7jGUQuPPG37BVNpu0ykXKkFk
+         LqNg==
+X-Gm-Message-State: AFqh2kpZf4bnPL2c08kEdJ+QWUeK2IeyuxbDSbW6vA5la2kQktBXZ2kl
+	wVhQON18lZFuSHKbOxNs8U839x6Z3hrHSJ8vwj0=
+X-Google-Smtp-Source: AMrXdXu/akdJPsnjL9YMsELCcz7+aZFZ76lemXAhgVCyJt8i/InCsrC5T5/D2diC0fZAIRxEV4l0XA==
+X-Received: by 2002:aa7:8f11:0:b0:58e:2112:bc2d with SMTP id x17-20020aa78f11000000b0058e2112bc2dmr9741465pfr.6.1674440550944;
+        Sun, 22 Jan 2023 18:22:30 -0800 (PST)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id h11-20020a056a00000b00b0058dd9c46a8csm10384222pfk.64.2023.01.22.18.22.26
+        by smtp.gmail.com with ESMTPSA id h11-20020a056a00000b00b0058dd9c46a8csm10384222pfk.64.2023.01.22.18.22.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Jan 2023 18:22:26 -0800 (PST)
+        Sun, 22 Jan 2023 18:22:30 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 22/32] busybox: rm temporary files if do_compile was interrupted
-Date: Sun, 22 Jan 2023 16:21:16 -1000
-Message-Id: <a1cd0c804b974ae100cfe8cb34ddd400e3c8206b.1674440376.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 24/32] kernel-fitimage: Allow user to select dtb when multiple dtb exists
+Date: Sun, 22 Jan 2023 16:21:18 -1000
+Message-Id: <678ad9458a17d9feebb2ea897be4b9bc0daf3391.1674440376.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1674440376.git.steve@sakoman.com>
 References: <cover.1674440376.git.steve@sakoman.com>
@@ -61,34 +61,70 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 23 Jan 2023 02:22:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176286
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176288
 
-From: Antonin Godard <antoningodard@pm.me>
+From: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
 
-To avoid working with undeterministic config files, remove all the
-temporary files to start from scratch.
+Allow user to select the default DTB for FIT image when multiple
+dtb's exists.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 74cd440c4e3df0ed3b81cf5c60a3f92e0dd3fe6c)
+From machine.conf or local.conf user can specify the default dtb
+for FIT image as shown below.
+
+FIT_CONF_DEFAULT_DTB = "board-default.dtb"
+
+Also fallback to avaialable dtb when FIT_CONF_DEFAULT_DTB doesn't
+exits or empty.
+
+Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+(cherry picked from commit cd397284fa5f17de7e0a0d4b6b26fb8b56c3cd48)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/busybox/busybox.inc | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/classes/kernel-fitimage.bbclass | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index dff4a5dec9..62dc839245 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -154,6 +154,9 @@ do_compile() {
- 	cp include/autoconf.h.orig include/autoconf.h
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index 3cd4a45bbe..27e17db951 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -67,6 +67,9 @@ FIT_CONF_PREFIX[doc] = "Prefix to use for FIT configuration node name"
  
- 	if [ "${BUSYBOX_SPLIT_SUID}" = "1" -a x`grep "CONFIG_FEATURE_INDIVIDUAL=y" .config` = x ]; then
-+		# Guard againt interrupted do_compile: clean temporary files.
-+		rm -f .config.app.suid .config.app.nosuid .config.disable.apps .config.nonapps
+ FIT_SUPPORTED_INITRAMFS_FSTYPES ?= "cpio.lz4 cpio.lzo cpio.lzma cpio.xz cpio.zst cpio.gz ext2.gz cpio"
+ 
++# Allow user to select the default DTB for FIT image when multiple dtb's exists.
++FIT_CONF_DEFAULT_DTB ?= ""
 +
- 		# split the .config into two parts, and make two busybox binaries
- 		oe_runmake busybox.cfg.suid
- 		oe_runmake busybox.cfg.nosuid
+ # Keys used to sign individually image nodes.
+ # The keys to sign image nodes must be different from those used to sign
+ # configuration nodes, otherwise the "required" property, from
+@@ -369,6 +372,7 @@ fitimage_emit_section_config() {
+ 	bootscr_line=""
+ 	setup_line=""
+ 	default_line=""
++	default_dtb_image="${FIT_CONF_DEFAULT_DTB}"
+ 
+ 	# conf node name is selected based on dtb ID if it is present,
+ 	# otherwise its selected based on kernel ID
+@@ -411,7 +415,17 @@ fitimage_emit_section_config() {
+ 		# default node is selected based on dtb ID if it is present,
+ 		# otherwise its selected based on kernel ID
+ 		if [ -n "$dtb_image" ]; then
+-			default_line="default = \"${FIT_CONF_PREFIX}$dtb_image\";"
++		        # Select default node as user specified dtb when
++		        # multiple dtb exists.
++		        if [ -n "$default_dtb_image" ]; then
++			        if [ -s "${EXTERNAL_KERNEL_DEVICETREE}/$default_dtb_image" ]; then
++			                default_line="default = \"${FIT_CONF_PREFIX}$default_dtb_image\";"
++			        else
++			                bbwarn "Couldn't find a valid user specified dtb in ${EXTERNAL_KERNEL_DEVICETREE}/$default_dtb_image"
++			        fi
++		        else
++			        default_line="default = \"${FIT_CONF_PREFIX}$dtb_image\";"
++		        fi
+ 		else
+ 			default_line="default = \"${FIT_CONF_PREFIX}$kernel_id\";"
+ 		fi
 -- 
 2.25.1
 
