@@ -1,43 +1,59 @@
-Return-Path: <rpurdie@rpsys.net>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA549C38142
-	for <webhook@archiver.kernel.org>; Mon, 23 Jan 2023 13:35:19 +0000 (UTC)
-Received: from dan.rpsys.net (dan.rpsys.net [217.169.23.60])
- by mx.groups.io with SMTP id smtpd.web11.42366.1674480913614467011
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5272C54E94
+	for <webhook@archiver.kernel.org>; Mon, 23 Jan 2023 13:35:49 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web11.42374.1674480940872205367
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Jan 2023 05:35:14 -0800
+ Mon, 23 Jan 2023 05:35:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="crypto/rsa: verification error" header.i=@rpsys.net header.s=default header.b=KO8MIX5Q;
- spf=pass (domain: rpsys.net, ip: 217.169.23.60, mailfrom: rpurdie@rpsys.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=rpsys.net; s=default;
-	t=1674480904; bh=ABGjCkUrkJxFufF6aNwXQW7CCj2pRUkR6OXkLIEer94=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=KO8MIX5QcNhhyyewClngNNrgWvTEFI2lAfEP0pHh6Is0PS1DuveUDiqgMFMo54i3h
-	 XKrA+gRNpCdWJwzrbGWJvqhe7412jEqNBYVD8cj6bfzQZWK4hsrPGsZezOS6YnIWdB
-	 uwvsNuH8QSShpWkEzeiCigVqt2oIGMKm4JZiAbo8pBK71tVtBVqXlaeR9WWB0ayjy3
-	 zlOZ1RSPTjQw1kloYtJO4nkREeJmfukGqtYBx9bUkQ0fjjB3pz5czi8KFXeAs+D8F3
-	 neyU6AZA6plEg1zfjrtc+Z6uH8XTikf7ChbPAACX8wJyWDQzLg+vPp15xeR5D4tQl/
-	 zCUZ/GTkXVmGw==
-Received: from [192.168.1.7] ([192.168.1.7])
-	(authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-22ubuntu3) with ESMTPSA id 30NDZ3Kp1007140
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 23 Jan 2023 13:35:04 GMT
-Message-ID: <86a778f909863ac4b1d622c47b6fc91533ca03aa.camel@rpsys.net>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OsnHNEPv;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id l41-20020a05600c1d2900b003daf986faaeso8571870wms.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Jan 2023 05:35:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ABGjCkUrkJxFufF6aNwXQW7CCj2pRUkR6OXkLIEer94=;
+        b=OsnHNEPvWEBE/j7nQHeSRgaclnisX1GLaqj6vPx6xXfvXlhzoXZ2jrinQXUSDTK0nE
+         f7LeE/QypxL2s+oUGSMdj6FM1k5gsEOX1vHOWbavLFiNPZlpvYX4ns5co5+h/Ul2CifC
+         8t7taZgfWJ3AfoVCTEpq30iHheZ5AZKVgdTa8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ABGjCkUrkJxFufF6aNwXQW7CCj2pRUkR6OXkLIEer94=;
+        b=l2hQzQ+8O0FoqbJ2f5ocUH8ykXlZcu+sYg01nN6ylbR1c094ieOAgRXENmQeX1fOUX
+         m9plZS+Us6oSdnpwqFsm/FHRSVo8GFVPJZ4oq7erQOlEhJW52/tJjOM5yvOEN8ia/NSM
+         tQAbFNm4pCT5Gb2CLelBsrQPTXhpcyPNUT1toO9f/WgSZ4c6iaMCIo4An1abQl9lSSVo
+         /Ah8BR9ONDjcy6cajHHfX+HCnsBw27yuS0or2uXkk/eoLaXoN+lawXRY2mpJqXafAwUs
+         NRL3uOuzhx30AcjHZT/2h+JgfVKjEek0+OJQ6aop6gKlNAfucOKCfvHz32lAuEPUuPCE
+         SBKQ==
+X-Gm-Message-State: AFqh2krEBo3rFCdpF4DTOOxJ/1Xem19yZ56hCWoESGwHvCJiohKC4p7i
+	h8Gev4DcZBJlZTLHNrSbIFiGWA==
+X-Google-Smtp-Source: AMrXdXvFnV1eYlyFJvry93I+4q1dcBB/I12RRLoCsZSKCTdiXJ9i0g0pNcYi4gtsITibf1waw3CEmA==
+X-Received: by 2002:a1c:6a10:0:b0:3da:f665:5b66 with SMTP id f16-20020a1c6a10000000b003daf6655b66mr24391681wmc.6.1674480939195;
+        Mon, 23 Jan 2023 05:35:39 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:9195:b014:a064:8114? ([2001:8b0:aba:5f3c:9195:b014:a064:8114])
+        by smtp.gmail.com with ESMTPSA id m9-20020a7bca49000000b003c65c9a36dfsm10465298wml.48.2023.01.23.05.35.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Jan 2023 05:35:38 -0800 (PST)
+Message-ID: <eac9dcd2a8b0f0916fd373da9f2c3ee198d437ba.camel@linuxfoundation.org>
 Subject: Re: [yocto-security] [OE-core] OE-core CVE metrics for master on
  Sun 22 Jan 2023 02:00:01 AM HST
-From: Richard Purdie <rpurdie@rpsys.net>
-To: Ross Burton <ross.burton@arm.com>,
-        Alexander Kanavin
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ross Burton <ross.burton@arm.com>, Alexander Kanavin
 	 <alex.kanavin@gmail.com>
-Cc: "steve@sakoman.com" <steve@sakoman.com>,
-        OE-core
-	 <openembedded-core@lists.openembedded.org>,
-        "yocto-security@lists.yoctoproject.org"
+Cc: "steve@sakoman.com" <steve@sakoman.com>, OE-core
+	 <openembedded-core@lists.openembedded.org>, 
+	"yocto-security@lists.yoctoproject.org"
 	 <yocto-security@lists.yoctoproject.org>
-Date: Mon, 23 Jan 2023 13:35:03 +0000
+Date: Mon, 23 Jan 2023 13:35:38 +0000
 In-Reply-To: <37CCF635-CA4E-4300-A49C-0F31D9472B6A@arm.com>
 References: <20230122120427.D9CF696035B@nuc.router0800d9.com>
 	 <D5C2125C-6245-4E41-9029-6EF99E4AE623@arm.com>
@@ -47,13 +63,11 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.1-0ubuntu1 
 MIME-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.103.6 at dan
-X-Virus-Status: Clean
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Jan 2023 13:35:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176307
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Jan 2023 13:35:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176308
 
 On Mon, 2023-01-23 at 13:29 +0000, Ross Burton wrote:
 > On 23 Jan 2023, at 12:42, Alexander Kanavin <alex.kanavin@gmail.com> wrot=
@@ -88,4 +102,5 @@ of data spread over two wikis and a few READMEs...
 Cheers,
 
 Richard
+
 
