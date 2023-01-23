@@ -2,146 +2,176 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98405C25B4E
-	for <webhook@archiver.kernel.org>; Mon, 23 Jan 2023 02:22:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 909FEC54EAA
+	for <webhook@archiver.kernel.org>; Mon, 23 Jan 2023 02:22:26 +0000 (UTC)
 Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web11.34079.1674440514739677708
+ by mx.groups.io with SMTP id smtpd.web10.33741.1674440544348107924
  for <openembedded-core@lists.openembedded.org>;
- Sun, 22 Jan 2023 18:22:11 -0800
+ Sun, 22 Jan 2023 18:22:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=sGT8ec8l;
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=TRUv4oaR;
  spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f172.google.com with SMTP id r18so7938082pgr.12
-        for <openembedded-core@lists.openembedded.org>; Sun, 22 Jan 2023 18:22:11 -0800 (PST)
+Received: by mail-pg1-f172.google.com with SMTP id 7so7963712pga.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 22 Jan 2023 18:22:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=nI4uP1NEjxAVdyfD0n6EL4sAFLcpdoUDWpnURSJsalg=;
-        b=sGT8ec8l0309gp0EgPXlCKLRqX8FoCBFWP1x2sv4JX+gxlz+3WtmKwDjo181ILm+z2
-         01CNkJsFtwXVo9T0/NbnYc3p7hxsYfnk9ZBYN4lsvBxO8K2ZMqqpMheHpKOhGGCR5oj0
-         0q5OEihJts0T4c2cH8aLkHHK7yACfO2K8WEPjDMw2g7CEWLucNis/TgbTWKZCUz3qqSG
-         /84X/7s5Wyz7ck/bwBXMv55CCdeMhiBbuRX+QoI7k45O8aJOoK5iCL8xmHWNRas1Mt9V
-         e/9+5SpchwOFRpS/oGoT9YqTz1rN8BTwsiSgEg6xZbCGrcy+CR+T2fueCQDmAUECWmuv
-         xujQ==
+        bh=wwdCy/pawgWl0xkc6kuw3HjFWm2sgBMxcCOwBgOjufs=;
+        b=TRUv4oaR+F9g++NpyjU8Ob9u4l5KLjqZLQaDYzanQAo9d2slbmzgtuy2mDsemfbfTz
+         HU2zcvrcmlCrxmbeb9nEbNi7/0IwUX7FgyGCuyIWNQSsn3wECHClDAI3PcBaGsc1l+z4
+         tpWGk2pS+jyWk2gIbNoAOnkcGVpZDXnVszwOSVA/YAk9XtAoeWznLrpmpAE6AD6fT1Ay
+         PL26pF6y06WEHFE2nXNIefSuZFI35YzFy7jWIYqABt1AVxDKQKqFVXD1FU/EyJ3oyCwE
+         bsalrWGvQytQJE4HhEUctDO//IkO+9DTp52HPG3xUsMzlih66t8ZZ72TF1hUGwCR4Ib+
+         7VRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nI4uP1NEjxAVdyfD0n6EL4sAFLcpdoUDWpnURSJsalg=;
-        b=8C09GNBhcQO38Caas1PzKBKADBrtb930sus5DdFpL2HjMdWu5BZuJ94UzvjyldO+SM
-         glYelkQkSqZf16neT8tFiP73kP7Cqk6kJJUk4D7eOq7Vi083ryyI2dBpTxxGAr2med/A
-         sjCg6I16Nt4PLcGyfwf1rjgZ59ZcGKSZVwyLp6kHnZ49mtX1cXc+nc4/k6TxmVUharmD
-         h++3HrAWeK28MH8XzkXOJTwL7Y/RLrIpIhXmhFj/FunTkkK00ORV2mZ3ViZIXUw7MnMb
-         gkXHQXclpmm1TKH8RtfYoHNcHnWRmYNMokFqWBxuU1S89OGtmkR0b5HQJa/VisG+Lt20
-         4xoA==
-X-Gm-Message-State: AFqh2kohGJa2/WOWR39w8SlhI+UAs8MipC9+GhEanpDkJZc2p7zv6oUc
-	38urYY6tEO+IAwTpkj8XLcG1XACRaeSIhzNGhjo=
-X-Google-Smtp-Source: AMrXdXspwc+bpJWVQ3GbZ++UL8CAYAQyYQgFqgYoi8ZSQ90PwSrikGkQIxXvxpTyhbybLHfmLSySsg==
-X-Received: by 2002:a05:6a00:1887:b0:588:cb81:9274 with SMTP id x7-20020a056a00188700b00588cb819274mr34614117pfh.32.1674440530513;
-        Sun, 22 Jan 2023 18:22:10 -0800 (PST)
+        bh=wwdCy/pawgWl0xkc6kuw3HjFWm2sgBMxcCOwBgOjufs=;
+        b=GXd7Ea07nffzo+5GeJyqMB4zUezy3tJp4USosktIzqfCpq2zw0t6hlWYfanbQCTKbx
+         fiZQt8S1HaUZ7bxnB1z97j8aMU41wYNNz2TGFbE7IqCXepr/+q6hwhUE9SmkwidvBYFf
+         vqvzs9ZgfXk/RnSqkykezI8wIlf/MsYTKVlQORm1fYTxCTZmQeS9lck+s0fCGkO3pRXv
+         tqjt9FWy+hARMP/x4GTrmxtUJ211vvwXregdOyIa0P2zYQPFNqgNYUw/B09JWCPOWXtM
+         BChcwrdiwhWhWVVONxIX+Qr0QYvQzFo9oDPqRv1Qhx6OHo99Co+Ce7b9z5KNK8n3gwFq
+         M6mg==
+X-Gm-Message-State: AFqh2kqoKNm2ezF7vWR2FeLkvSkKSAs3tVmSwKxrG2tz3zZqo9AVE/MW
+	ewbWT7ODIewv11a9Ujf5l0G9qwdii2NXOoM82Ro=
+X-Google-Smtp-Source: AMrXdXsBHkSdwYmoz0G4NTND1erDQumODQ0MJUhHnOndgXlDJEmi0DWeTaUnHaEkSWkYpH6DZLQi7w==
+X-Received: by 2002:a05:6a00:430a:b0:574:35fd:379e with SMTP id cb10-20020a056a00430a00b0057435fd379emr22294651pfb.2.1674440545186;
+        Sun, 22 Jan 2023 18:22:25 -0800 (PST)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id h11-20020a056a00000b00b0058dd9c46a8csm10384222pfk.64.2023.01.22.18.22.09
+        by smtp.gmail.com with ESMTPSA id h11-20020a056a00000b00b0058dd9c46a8csm10384222pfk.64.2023.01.22.18.22.24
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Jan 2023 18:22:10 -0800 (PST)
+        Sun, 22 Jan 2023 18:22:24 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 14/32] linux-yocto/5.15: fix perf build with clang
-Date: Sun, 22 Jan 2023 16:21:08 -1000
-Message-Id: <9125916666e1d160b10edcb31f4306d20ce9cdd3.1674440376.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 21/32] busybox: always start do_compile with orig config files
+Date: Sun, 22 Jan 2023 16:21:15 -1000
+Message-Id: <7e94d0563fadb858aca60d1b1cc3a23e995a500d.1674440376.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1674440376.git.steve@sakoman.com>
 References: <cover.1674440376.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Jan 2023 02:22:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176278
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Jan 2023 02:22:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176285
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Antonin Godard <antoningodard@pm.me>
 
-Integrating the following commit(s) to linux-yocto/5.15:
+When compiling busybox a second time (e.g. with `compile -f`), busybox
+can use an altered autoconf.h file for compiling, which can ultimately
+produces different and unwanted binaries.
 
-    4c5a089621a8 perf python: Account for multiple words in CC
+This can produce errors like this one:
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+ERROR: busybox-1.35.0-r0 do_package: Error executing a python function in exec_func_python() autogenerated:
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:ptest_update_alternatives(d)
+     0003:
+File: '…/poky/meta/classes/ptest.bbclass', lineno: 100, function: ptest_update_alternatives
+     0096:        for alt_name, alt_link, alt_target, _ in alternatives:
+     0097:            # Some alternatives are for man pages,
+     0098:            # check if the alternative is in PATH
+     0099:            if os.path.dirname(alt_link) in bin_paths:
+ *** 0100:                os.symlink(alt_target, os.path.join(ptest_bindir, alt_name))
+     0101:}
+     0102:
+     0103:do_configure_ptest_base[dirs] = "${B}"
+     0104:do_compile_ptest_base[dirs] = "${B}"
+Exception: FileExistsError: [Errno 17] File exists: '/bin/busybox.suid' -> '…/busybox/1.35.0-r0/package/usr/lib/busybox/ptest/bin/login'
+
+This happens because ALTERNATIVE:busybox contains `/bin/login` twice,
+initially that's because `/bin/login` is present in both
+busybox.links.suid and busybox.links.nosuid. The reason for that is
+because of the altered autoconf.h.
+
+Steps to reproduce above error:
+
+<add ptest to distro configs>
+bitbake busybox -c clean
+bitbake busybox -c package -f
+bitbake busybox -c compile -f
+bitbake busybox -c package -f
+
+This patch guards against potential bugs by:
+
+- making a backup of .config and autoconf.h that have matching
+  timestamps.
+- make sure do_compile always starts with these files.
+- restore .config and autoconf.h at the end of do_compile.
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1cf78a856beb42a2d68e6c49bfdbc33fea68ebb5)
+(cherry picked from commit 6b4a0f063edcfe0a5a4f418842e86ac0c46d9cad)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../linux/linux-yocto-rt_5.15.bb              |  4 ++--
- .../linux/linux-yocto-tiny_5.15.bb            |  4 ++--
- meta/recipes-kernel/linux/linux-yocto_5.15.bb | 22 +++++++++----------
- 3 files changed, 15 insertions(+), 15 deletions(-)
+ meta/recipes-core/busybox/busybox.inc | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-index bd57d7c47e..63294f5bb6 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-@@ -11,8 +11,8 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index 5f1c473d5e..dff4a5dec9 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -138,19 +138,23 @@ do_configure () {
+ 	do_prepare_config
+ 	merge_config.sh -m .config ${@" ".join(find_cfgs(d))}
+ 	cml1_do_configure
++
++	# Save a copy of .config and autoconf.h.
++	cp .config .config.orig
++	cp include/autoconf.h include/autoconf.h.orig
  }
  
--SRCREV_machine ?= "9860fe27332e09dd4f0f3b303e40377de083be9a"
--SRCREV_meta ?= "c2d64b008142d2a2bc9c8cca8a3d579a62275122"
-+SRCREV_machine ?= "dcd3b533c5f6bc4698d5b09aa83ce9a4695df3b0"
-+SRCREV_meta ?= "66de7a6f2687cdaf5169ce5b57dd35f508be1682"
+ do_compile() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+ 	export KCONFIG_NOTIMESTAMP=1
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-index 8b83b5a8de..12e462228f 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-@@ -14,8 +14,8 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
++	# Ensure we start do_compile with the original .config and autoconf.h.
++	# These files should always have matching timestamps.
++	cp .config.orig .config
++	cp include/autoconf.h.orig include/autoconf.h
++
+ 	if [ "${BUSYBOX_SPLIT_SUID}" = "1" -a x`grep "CONFIG_FEATURE_INDIVIDUAL=y" .config` = x ]; then
+ 		# split the .config into two parts, and make two busybox binaries
+-		if [ -e .config.orig ]; then
+-			# Need to guard again an interrupted do_compile - restore any backup
+-			cp .config.orig .config
+-		fi
+-		cp .config .config.orig
+ 		oe_runmake busybox.cfg.suid
+ 		oe_runmake busybox.cfg.nosuid
  
--SRCREV_machine ?= "86627fc3da74aefec1338724a597356e6b8ad88b"
--SRCREV_meta ?= "c2d64b008142d2a2bc9c8cca8a3d579a62275122"
-+SRCREV_machine ?= "c7e10f06a33a546bcdd0b2e2909459b7572b5443"
-+SRCREV_meta ?= "66de7a6f2687cdaf5169ce5b57dd35f508be1682"
+@@ -187,15 +191,18 @@ do_compile() {
+ 			bbfatal "busybox suid binary incorrectly provides /bin/sh"
+ 		fi
  
- PV = "${LINUX_VERSION}+git${SRCPV}"
+-		# copy .config.orig back to .config, because the install process may check this file
+-		cp .config.orig .config
+ 		# cleanup
+-		rm .config.orig .config.app.suid .config.app.nosuid .config.disable.apps .config.nonapps
++		rm .config.app.suid .config.app.nosuid .config.disable.apps .config.nonapps
+ 	else
+ 		oe_runmake busybox_unstripped
+ 		cp busybox_unstripped busybox
+ 		oe_runmake busybox.links
+ 	fi
++
++	# restore original .config and autoconf.h, because the install process
++	# may check these files
++	cp .config.orig .config
++	cp include/autoconf.h.orig include/autoconf.h
+ }
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.15.bb b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-index 0b373c40fe..4e341713f6 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-@@ -13,17 +13,17 @@ KBRANCH:qemux86  ?= "v5.15/standard/base"
- KBRANCH:qemux86-64 ?= "v5.15/standard/base"
- KBRANCH:qemumips64 ?= "v5.15/standard/mti-malta64"
- 
--SRCREV_machine:qemuarm ?= "4915b05912ee7d15224eb9064ca63678f0bc6815"
--SRCREV_machine:qemuarm64 ?= "660bf605998f60fd77f24d3316b95b14ef2fa035"
--SRCREV_machine:qemumips ?= "38bf282c052b70c1c6dd79dc6ae49da1ec1c7de8"
--SRCREV_machine:qemuppc ?= "ac4a5d99364cede21dc1838213f7fb29e1735969"
--SRCREV_machine:qemuriscv64 ?= "1c5699ee85d4ffe1be2bea17f4587375bf3877f6"
--SRCREV_machine:qemuriscv32 ?= "1c5699ee85d4ffe1be2bea17f4587375bf3877f6"
--SRCREV_machine:qemux86 ?= "1c5699ee85d4ffe1be2bea17f4587375bf3877f6"
--SRCREV_machine:qemux86-64 ?= "1c5699ee85d4ffe1be2bea17f4587375bf3877f6"
--SRCREV_machine:qemumips64 ?= "2923c39cc815e2109c9bfc0985adcd8d342fc415"
--SRCREV_machine ?= "1c5699ee85d4ffe1be2bea17f4587375bf3877f6"
--SRCREV_meta ?= "c2d64b008142d2a2bc9c8cca8a3d579a62275122"
-+SRCREV_machine:qemuarm ?= "e5f2cf3560139bbaad54796c323d60e66cc19374"
-+SRCREV_machine:qemuarm64 ?= "d8835a4d4e9d4ea835316cd1843d62e30c5fef33"
-+SRCREV_machine:qemumips ?= "0f802d6525c21abe586c833074fece3e665a9ed9"
-+SRCREV_machine:qemuppc ?= "84f529230ca9f2ec20517821f7422d62e43ab808"
-+SRCREV_machine:qemuriscv64 ?= "4c5a089621a8f395f020f6c2f4c578aafa155011"
-+SRCREV_machine:qemuriscv32 ?= "4c5a089621a8f395f020f6c2f4c578aafa155011"
-+SRCREV_machine:qemux86 ?= "4c5a089621a8f395f020f6c2f4c578aafa155011"
-+SRCREV_machine:qemux86-64 ?= "4c5a089621a8f395f020f6c2f4c578aafa155011"
-+SRCREV_machine:qemumips64 ?= "ea2140a5f0cf7b8351982f60d3b30a4657ab0919"
-+SRCREV_machine ?= "4c5a089621a8f395f020f6c2f4c578aafa155011"
-+SRCREV_meta ?= "66de7a6f2687cdaf5169ce5b57dd35f508be1682"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
+ do_install () {
 -- 
 2.25.1
 
