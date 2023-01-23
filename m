@@ -2,60 +2,60 @@ Return-Path: <vkumbhar@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACF7EC05027
-	for <webhook@archiver.kernel.org>; Mon, 23 Jan 2023 16:33:40 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web10.46875.1674491617760787481
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE009C05027
+	for <webhook@archiver.kernel.org>; Mon, 23 Jan 2023 16:34:20 +0000 (UTC)
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.web10.46894.1674491652907852643
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Jan 2023 08:33:39 -0800
+ Mon, 23 Jan 2023 08:34:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=AIFw9Bmz;
- spf=pass (domain: mvista.com, ip: 209.85.214.181, mailfrom: vkumbhar@mvista.com)
-Received: by mail-pl1-f181.google.com with SMTP id k13so11999779plg.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Jan 2023 08:33:37 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=g10rYvDu;
+ spf=pass (domain: mvista.com, ip: 209.85.216.42, mailfrom: vkumbhar@mvista.com)
+Received: by mail-pj1-f42.google.com with SMTP id lp10so8742123pjb.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Jan 2023 08:34:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=mvista.com; s=google;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=GJ322m7RyjHcZosRBfb2/k1+hoDLSK20ayTZAV7Bb6U=;
-        b=AIFw9Bmz8bOiRtm6nQ05SNeVNDBTjTjxUi6vZgGzdrt+UNVHCIi88RDEY4K+iov5+/
-         8Jmhz/7gdhLmZjSBJB/rbdM8zW+j0AKvX2mh6yC5hJ4HiLJPYPX+01G3ThI8+tf8txBI
-         o3VWM8BUDD1ZSVyRcOx0lmdPAt1UY+LXGysEI=
+        b=g10rYvDuMZgJGzE+aZQUNeycqcfxgTkY4QpcQjqqAPv6NwFx62K//ASNTn8FN2nzOH
+         xfDE0uqAvAhYGFzPwiQ4CnBlcEd3v+rB9EKdhJnorFypQ1FOPLc7lxi+slOp3b3vIbrM
+         m5vbvMLWR8GD+GZM3meeVl8OkhShaY6KTAmFk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
         bh=GJ322m7RyjHcZosRBfb2/k1+hoDLSK20ayTZAV7Bb6U=;
-        b=ruiLokXM72f0dAVTRZTGBAviv6AXQHBw+Qz/VRgF6eN+x4R18BOLV6i3VOJJIrJGMi
-         l9fgJTtlpmNd73yDqOBEXE/CHy0M8byNPWskBdSsv7OAI9JAZBitI80iuCS4NtRTzBGY
-         KsjYWm5JEkXrMYfB5bTHrvcoUXYlnQd1oP5Xn3N9KUSqq+TDTLvdLv8b5JAg/maMge1e
-         SUtnTvNlMQc2eGEvJababBidRvstM6MKvSaIW8DX3ZY7FXxp49cBxFkIWxfiZdTlfnQi
-         BflnSmjEXexXmausTeiBviFqovXuaEaNijnNtsAo5p9HQ+UZOqcOL5djhQ7hR5Z9CDR7
-         LjHg==
-X-Gm-Message-State: AFqh2koGJ30dZJmbYBGNslnoBc1msIvTbF5Lt/JqUkiZwWUokNYUwbpQ
-	nr1YKAozIJOpBGa1IfnD9CtFX3RNUVOZ7lpf
-X-Google-Smtp-Source: AMrXdXsGtoHfITSj5fy7duqcjeoGJPEQzUQtCs3f6lYaVZhEXeeSC3PPHMDQEK060Ma6qJJDHKSU2Q==
-X-Received: by 2002:a05:6a20:9f90:b0:b6:597f:66a1 with SMTP id mm16-20020a056a209f9000b000b6597f66a1mr26763528pzb.60.1674491616744;
-        Mon, 23 Jan 2023 08:33:36 -0800 (PST)
+        b=1Cr9cXUa4MB3gcRdMM/+8rC10cyKem+646zTSMRWKSfVawI0WNfQ5W6HrSp6BsYNUg
+         PEQzptnVsbJVuWNJeVspKlXPgFEyaNUecgvIM3at+Wc6iyaGBz3JV0PF1XjBPlLpuUll
+         DjFhEGfDNIWyeFy+UE/jzNXWbd7R9PROr4AIwq0cL2j50z9oMqshO9BA8oM+D36SaraI
+         Pr/U0EAAS5CgqJTt2xfNOndu+cQp8lKP6n3ZKBTlurFHBIYtXz3EbNX/BmfE5EUEPH3G
+         Es3zKMJB+SUtXh9UYkfKN+rpzFSsZIjk31Z/amFVvlth+2BTkYYtNc5KNhNT6jao7dm4
+         bzPw==
+X-Gm-Message-State: AFqh2kr0rwBlkPzAoz4kaJMjp9DdNZjHmWUQZULZ8s7T/R86ccjAeEOw
+	bOxfKI9NAisiWlV3LD3cxHQDfRWS66fHIKxl
+X-Google-Smtp-Source: AMrXdXv7VY8XXn94ShejqTWH3QxlRjBnnWgAulBYa4W/MnE5ei3bX7dCEzQTEOvyd9FA/y+s++MHIw==
+X-Received: by 2002:a17:902:e811:b0:194:98ef:a40e with SMTP id u17-20020a170902e81100b0019498efa40emr28671831plg.31.1674491651947;
+        Mon, 23 Jan 2023 08:34:11 -0800 (PST)
 Received: from localhost.localdomain ([115.96.174.194])
-        by smtp.gmail.com with ESMTPSA id d8-20020a170903230800b001948107490csm17527084plh.19.2023.01.23.08.33.34
+        by smtp.gmail.com with ESMTPSA id a4-20020a170902710400b0018bc4493005sm17969710pll.269.2023.01.23.08.34.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jan 2023 08:33:36 -0800 (PST)
+        Mon, 23 Jan 2023 08:34:11 -0800 (PST)
 From: vkumbhar@mvista.com
 To: openembedded-core@lists.openembedded.org
 Cc: Vivek Kumbhar <vkumbhar@mvista.com>
 Subject: [OE-core][langdale][PATCH] openssl: fix CVE-2022-3996 double locking leads to denial of service
-Date: Mon, 23 Jan 2023 22:03:29 +0530
-Message-Id: <20230123163329.2725075-1-vkumbhar@mvista.com>
+Date: Mon, 23 Jan 2023 22:04:04 +0530
+Message-Id: <20230123163404.2725145-1-vkumbhar@mvista.com>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Jan 2023 16:33:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176310
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Jan 2023 16:34:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176311
 
 From: Vivek Kumbhar <vkumbhar@mvista.com>
 
