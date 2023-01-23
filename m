@@ -2,176 +2,96 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 909FEC54EAA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D74BC25B4E
 	for <webhook@archiver.kernel.org>; Mon, 23 Jan 2023 02:22:26 +0000 (UTC)
 Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
  by mx.groups.io with SMTP id smtpd.web10.33741.1674440544348107924
  for <openembedded-core@lists.openembedded.org>;
- Sun, 22 Jan 2023 18:22:26 -0800
+ Sun, 22 Jan 2023 18:22:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=TRUv4oaR;
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=fHPyAmho;
  spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f172.google.com with SMTP id 7so7963712pga.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 22 Jan 2023 18:22:25 -0800 (PST)
+Received: by mail-pg1-f172.google.com with SMTP id 7so7963687pga.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 22 Jan 2023 18:22:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=wwdCy/pawgWl0xkc6kuw3HjFWm2sgBMxcCOwBgOjufs=;
-        b=TRUv4oaR+F9g++NpyjU8Ob9u4l5KLjqZLQaDYzanQAo9d2slbmzgtuy2mDsemfbfTz
-         HU2zcvrcmlCrxmbeb9nEbNi7/0IwUX7FgyGCuyIWNQSsn3wECHClDAI3PcBaGsc1l+z4
-         tpWGk2pS+jyWk2gIbNoAOnkcGVpZDXnVszwOSVA/YAk9XtAoeWznLrpmpAE6AD6fT1Ay
-         PL26pF6y06WEHFE2nXNIefSuZFI35YzFy7jWIYqABt1AVxDKQKqFVXD1FU/EyJ3oyCwE
-         bsalrWGvQytQJE4HhEUctDO//IkO+9DTp52HPG3xUsMzlih66t8ZZ72TF1hUGwCR4Ib+
-         7VRQ==
+        bh=5OtUkFxVDIh3IKm4XFBHn1afnu3WoRyMlMFvxmlP72s=;
+        b=fHPyAmhofaJaby+5HVDXgCjrlhOpZFFr0aEgeZqc32cGFR05lQauMi80sGC8S1xpYX
+         /5HSk8pA8/1PdjD/6E+xG+1bi0CP/MHPv9CQnb/dBjsnUK518ycSlWQBCMRLq8OZjYTY
+         8XRqy9lXmhtPJiUbTgVscsptEVJNc5kSXf3REiKvlAmqSOJQVtTyulF4dTRfOB1DQVzc
+         Dk8GZOLllxU07kSkjOqrh9w3lQbQqlHz6OIjTahvy8+8EKtuol19s+OsOLqDRUXjAEn+
+         /40iVT/b87ZihYmiaI3WYRlTo4pVQekQ/8VXlzOdTwnXTMqt68lrzhPpYESn57E5ecQi
+         Uu5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wwdCy/pawgWl0xkc6kuw3HjFWm2sgBMxcCOwBgOjufs=;
-        b=GXd7Ea07nffzo+5GeJyqMB4zUezy3tJp4USosktIzqfCpq2zw0t6hlWYfanbQCTKbx
-         fiZQt8S1HaUZ7bxnB1z97j8aMU41wYNNz2TGFbE7IqCXepr/+q6hwhUE9SmkwidvBYFf
-         vqvzs9ZgfXk/RnSqkykezI8wIlf/MsYTKVlQORm1fYTxCTZmQeS9lck+s0fCGkO3pRXv
-         tqjt9FWy+hARMP/x4GTrmxtUJ211vvwXregdOyIa0P2zYQPFNqgNYUw/B09JWCPOWXtM
-         BChcwrdiwhWhWVVONxIX+Qr0QYvQzFo9oDPqRv1Qhx6OHo99Co+Ce7b9z5KNK8n3gwFq
-         M6mg==
-X-Gm-Message-State: AFqh2kqoKNm2ezF7vWR2FeLkvSkKSAs3tVmSwKxrG2tz3zZqo9AVE/MW
-	ewbWT7ODIewv11a9Ujf5l0G9qwdii2NXOoM82Ro=
-X-Google-Smtp-Source: AMrXdXsBHkSdwYmoz0G4NTND1erDQumODQ0MJUhHnOndgXlDJEmi0DWeTaUnHaEkSWkYpH6DZLQi7w==
-X-Received: by 2002:a05:6a00:430a:b0:574:35fd:379e with SMTP id cb10-20020a056a00430a00b0057435fd379emr22294651pfb.2.1674440545186;
-        Sun, 22 Jan 2023 18:22:25 -0800 (PST)
+        bh=5OtUkFxVDIh3IKm4XFBHn1afnu3WoRyMlMFvxmlP72s=;
+        b=zZSxx+KK64KZ9tA1bB0UNe4Bo8VFBwP3qsh9PYIbvJhHLNX3kq3H6cGBdHf+YtveeK
+         5uNMb2nW8TQmZT/81w3d8OEa8fdPRx3DwZkiXXLAVT6adMfsslBg3s7ssx8wP5udTt63
+         gcjYFewhjtxAEr/nadGHaBUqDKNi7RiTmLTUmqoMFA+4o3TzjatVZeKQ4V2k8fAmZH9h
+         55XDLiyKIZShRuoJKF9kR/CUYLfOY/UCZ4uDU0iR/+sE9cXSKLdLEEjsw0+qOtYRpg05
+         O7pdKBo5bPgBMG0FIENlHUHx2xRZ9rHIK6Ede+m2qWoQhMZSHaNBDMlyo4yc6Cwpti18
+         mSQw==
+X-Gm-Message-State: AFqh2koToDh3+ww2iqHArERfvzqKhty2hQ1tklBDTfXU9NaXDaSurIy3
+	gxXaRRK+DhyZtIH4XL0IFt3pwtO4eT34KixSj+4=
+X-Google-Smtp-Source: AMrXdXsqrQAyn2EnnotR/z/Eq2gYkfsoId7UrW4sYyWN5GDgjr4a6n9N7X/B4cKKrieU6S4wHtLzZg==
+X-Received: by 2002:aa7:9467:0:b0:58b:aaaa:82a9 with SMTP id t7-20020aa79467000000b0058baaaa82a9mr23669168pfq.25.1674440543387;
+        Sun, 22 Jan 2023 18:22:23 -0800 (PST)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id h11-20020a056a00000b00b0058dd9c46a8csm10384222pfk.64.2023.01.22.18.22.24
+        by smtp.gmail.com with ESMTPSA id h11-20020a056a00000b00b0058dd9c46a8csm10384222pfk.64.2023.01.22.18.22.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Jan 2023 18:22:24 -0800 (PST)
+        Sun, 22 Jan 2023 18:22:23 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 21/32] busybox: always start do_compile with orig config files
-Date: Sun, 22 Jan 2023 16:21:15 -1000
-Message-Id: <7e94d0563fadb858aca60d1b1cc3a23e995a500d.1674440376.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 20/32] classes: image: Set empty weak default IMAGE_LINGUAS
+Date: Sun, 22 Jan 2023 16:21:14 -1000
+Message-Id: <bc620b0e241f9e1592cdb89e87d49a247bc69767.1674440376.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1674440376.git.steve@sakoman.com>
 References: <cover.1674440376.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 23 Jan 2023 02:22:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176285
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176284
 
-From: Antonin Godard <antoningodard@pm.me>
+From: Alex Kiernan <alex.kiernan@gmail.com>
 
-When compiling busybox a second time (e.g. with `compile -f`), busybox
-can use an altered autoconf.h file for compiling, which can ultimately
-produces different and unwanted binaries.
+This is already set in default-distrovars.inc and so this assignment
+will almost never succeed. Rather than leaving it to confuse, set an
+empty weak default.
 
-This can produce errors like this one:
-
-ERROR: busybox-1.35.0-r0 do_package: Error executing a python function in exec_func_python() autogenerated:
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:ptest_update_alternatives(d)
-     0003:
-File: '…/poky/meta/classes/ptest.bbclass', lineno: 100, function: ptest_update_alternatives
-     0096:        for alt_name, alt_link, alt_target, _ in alternatives:
-     0097:            # Some alternatives are for man pages,
-     0098:            # check if the alternative is in PATH
-     0099:            if os.path.dirname(alt_link) in bin_paths:
- *** 0100:                os.symlink(alt_target, os.path.join(ptest_bindir, alt_name))
-     0101:}
-     0102:
-     0103:do_configure_ptest_base[dirs] = "${B}"
-     0104:do_compile_ptest_base[dirs] = "${B}"
-Exception: FileExistsError: [Errno 17] File exists: '/bin/busybox.suid' -> '…/busybox/1.35.0-r0/package/usr/lib/busybox/ptest/bin/login'
-
-This happens because ALTERNATIVE:busybox contains `/bin/login` twice,
-initially that's because `/bin/login` is present in both
-busybox.links.suid and busybox.links.nosuid. The reason for that is
-because of the altered autoconf.h.
-
-Steps to reproduce above error:
-
-<add ptest to distro configs>
-bitbake busybox -c clean
-bitbake busybox -c package -f
-bitbake busybox -c compile -f
-bitbake busybox -c package -f
-
-This patch guards against potential bugs by:
-
-- making a backup of .config and autoconf.h that have matching
-  timestamps.
-- make sure do_compile always starts with these files.
-- restore .config and autoconf.h at the end of do_compile.
-
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6b4a0f063edcfe0a5a4f418842e86ac0c46d9cad)
+(cherry picked from commit eb402948158659da7de0fbbb1bb403c8dad06e2b)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/busybox/busybox.inc | 23 +++++++++++++++--------
- 1 file changed, 15 insertions(+), 8 deletions(-)
+ meta/classes/image.bbclass | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 5f1c473d5e..dff4a5dec9 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -138,19 +138,23 @@ do_configure () {
- 	do_prepare_config
- 	merge_config.sh -m .config ${@" ".join(find_cfgs(d))}
- 	cml1_do_configure
-+
-+	# Save a copy of .config and autoconf.h.
-+	cp .config .config.orig
-+	cp include/autoconf.h include/autoconf.h.orig
- }
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 2139a7e576..c424c4c41d 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -177,8 +177,7 @@ python () {
  
- do_compile() {
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
- 	export KCONFIG_NOTIMESTAMP=1
+ IMAGE_POSTPROCESS_COMMAND ?= ""
  
-+	# Ensure we start do_compile with the original .config and autoconf.h.
-+	# These files should always have matching timestamps.
-+	cp .config.orig .config
-+	cp include/autoconf.h.orig include/autoconf.h
-+
- 	if [ "${BUSYBOX_SPLIT_SUID}" = "1" -a x`grep "CONFIG_FEATURE_INDIVIDUAL=y" .config` = x ]; then
- 		# split the .config into two parts, and make two busybox binaries
--		if [ -e .config.orig ]; then
--			# Need to guard again an interrupted do_compile - restore any backup
--			cp .config.orig .config
--		fi
--		cp .config .config.orig
- 		oe_runmake busybox.cfg.suid
- 		oe_runmake busybox.cfg.nosuid
+-# some default locales
+-IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
++IMAGE_LINGUAS ??= ""
  
-@@ -187,15 +191,18 @@ do_compile() {
- 			bbfatal "busybox suid binary incorrectly provides /bin/sh"
- 		fi
+ LINGUAS_INSTALL ?= "${@" ".join(map(lambda s: "locale-base-%s" % s, d.getVar('IMAGE_LINGUAS').split()))}"
  
--		# copy .config.orig back to .config, because the install process may check this file
--		cp .config.orig .config
- 		# cleanup
--		rm .config.orig .config.app.suid .config.app.nosuid .config.disable.apps .config.nonapps
-+		rm .config.app.suid .config.app.nosuid .config.disable.apps .config.nonapps
- 	else
- 		oe_runmake busybox_unstripped
- 		cp busybox_unstripped busybox
- 		oe_runmake busybox.links
- 	fi
-+
-+	# restore original .config and autoconf.h, because the install process
-+	# may check these files
-+	cp .config.orig .config
-+	cp include/autoconf.h.orig include/autoconf.h
- }
- 
- do_install () {
 -- 
 2.25.1
 
