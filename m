@@ -1,103 +1,97 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 915DBC25B4E
-	for <webhook@archiver.kernel.org>; Mon, 23 Jan 2023 02:22:56 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web11.34113.1674440568003298467
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B916C54EAA
+	for <webhook@archiver.kernel.org>; Mon, 23 Jan 2023 08:08:28 +0000 (UTC)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.web10.37625.1674461306816121007
  for <openembedded-core@lists.openembedded.org>;
- Sun, 22 Jan 2023 18:22:48 -0800
+ Mon, 23 Jan 2023 00:08:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=OoGss/iP;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.170, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f170.google.com with SMTP id a184so7742325pfa.9
-        for <openembedded-core@lists.openembedded.org>; Sun, 22 Jan 2023 18:22:47 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=XqqHgMaE;
+ spf=pass (domain: linaro.org, ip: 209.85.218.46, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-ej1-f46.google.com with SMTP id u19so28243870ejm.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Jan 2023 00:08:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WowLmVc4UJdITjRnU6DI14Rgsd9L9jXGyHrsTiRW9EE=;
-        b=OoGss/iP1a9L7GF5R70qP7BmZXAkIUei2mAlZkyf8HJobEET9m7zLo2jWtE+nAD3Q1
-         tROxgMmVEErS3J4SZW9xcAI3XdS+xn/ufT93N2RkSjHnMJt6VfoJSUjJJJiy+WRbV6kK
-         qPxfspxbhFdtYa7gPk/7R/7Be6cW6EhLinyzl+FUr6yn2RZLbdAAzjIn8Vv3w5GR4J/e
-         YgI089BzsZhTdTwJhJqQlrTtE8jXUEf9FehOCV+DzE7nxYgOKvNiYubKn2oVjx4WHaP7
-         50UUcczLLHO7jFftuPOZ02oico7dfzqI9V68G4QsCWeb/mkSCxeZPuPpXT1vaOruW30Z
-         xNVg==
+        d=linaro.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=To21hmBM1DhG+Qlm0s7//R+MFaUvzTDfV/vLIcCoMKA=;
+        b=XqqHgMaEirjVsKrMCdqt2KjWNZz2rnOlarA3e1GEKnGjDfkdYXVqN+QIhinQSWqKW4
+         w8gpeJ0kTtWIcXiLZAB/1SMtk/LSfowXwRWK+Mh8q/U2oN14MV54xEYoRfd+/xchVI4G
+         Ly5UbwJSXFRKlQWkj2r6xoSTHEsViv9yEynjBqM1ffzUsIDhhXqqd/GywfQXgk7DQC/c
+         EkU/rcZOimkEO3o2ZpNVxOGCaPi7uI4iqFg6WehYvoPhZp56iSQAq8K9JfO8v7O2kQVv
+         8R89o7LfNIraTsn0qiPAojmqKuMNdYyDDRhf95dRjKgimJ5CGqz1NavITjIb42wGsciV
+         Y4Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WowLmVc4UJdITjRnU6DI14Rgsd9L9jXGyHrsTiRW9EE=;
-        b=sGzUNyYmJZCnpU/By5lwT6ina3LmXbccg7tga+pGOUlRBdNhCw9ss4HvD72S6iTEHD
-         D2A2XQCYYApm1aCjAJi6rrdEJVIA9gZepvXhWuXZKaQ4kraJCuZHEFJUy5Aukukadh4J
-         1NB1JdswwhUCtSCekVMzx0RBDcucFFOZUcVgDgQ1yXqi1R7haUQ3HbIDi+XdGSVbrXMk
-         lgJEchWGJAqvwHiPan8uJsqOXHqUAmoayrcp5yzfJ87ALQ96zvBj537npa8+fYR3uaYy
-         k90TaWzJUIUiyHe0+50CDwwZM7rOv4mlDhQHpJQO2Rij8+W9Yky2+Zzr62/fzpPnpicb
-         /xFA==
-X-Gm-Message-State: AFqh2kpKIXK/dVZAORH5EEngqsa/cUbNqOMCinJi/QBB3SZYHtcJMFzf
-	OGT/2uSWm/HhLs38VfMWcyjjxZxSCa7o2J3Z1tw=
-X-Google-Smtp-Source: AMrXdXtRMwH3eimJxE/AqGpvyC6p07Siz/bBgganZLQ2tytALeqjES9NAzTibA0oRcOEjTvUmvhG1w==
-X-Received: by 2002:a62:79d2:0:b0:582:b089:d9be with SMTP id u201-20020a6279d2000000b00582b089d9bemr24424977pfc.13.1674440567041;
-        Sun, 22 Jan 2023 18:22:47 -0800 (PST)
-Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id h11-20020a056a00000b00b0058dd9c46a8csm10384222pfk.64.2023.01.22.18.22.46
-        for <openembedded-core@lists.openembedded.org>
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=To21hmBM1DhG+Qlm0s7//R+MFaUvzTDfV/vLIcCoMKA=;
+        b=bvLBsr0wm+qh7F/CjHdrgHhAgc205tZVe1hbxPN+9PSU7k/m66Z0FU5np144miYZO+
+         3PZ6gXBVZP044JFPFs5PnyjKqe/JTDRS090fbuYEJOgUHIOYxyFaHtfOfeC2nsZAKc/Y
+         MDbVLGv8afT7ColXANFrbiTQOL07JEIKdVC85LHW/i8t1+K8sCfRlOS4bsSuBQKvS8ei
+         M/QhtouW58I/31/3edUv2toCOVsP4kBLn/jp7KvAiAqzYAvYc1oWhFnp91Bwuoio1rwv
+         DDWraCXQoJlIyEIhpXaAeZadzqGrHVT8q+HSuLBplljwmhNwCK2jxc7vjn3xyeGQg3yH
+         ZMVA==
+X-Gm-Message-State: AFqh2kpC8EgelHBMkcZnA7oZCpC+HZQNqc+OMcQq8r8r2G6oB8uAj8yH
+	kdGXwm/2mqPVwaCoPWTLS/zIaQ==
+X-Google-Smtp-Source: AMrXdXv9TCArJadYKvJfVBN5zdGaLGGD8IjgV4OlXRXIQ4oaoExl6yh1EhvfvdJejZcVmnsU8zsjOA==
+X-Received: by 2002:a17:906:8d08:b0:86f:e30c:72c1 with SMTP id rv8-20020a1709068d0800b0086fe30c72c1mr27035270ejc.8.1674461305109;
+        Mon, 23 Jan 2023 00:08:25 -0800 (PST)
+Received: from nuoska (dsl-olubng11-54f814-94.dhcp.inet.fi. [84.248.20.94])
+        by smtp.gmail.com with ESMTPSA id o12-20020a170906768c00b0085ff3202ce7sm16052261ejm.219.2023.01.23.00.08.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Jan 2023 18:22:46 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 32/32] selftest/virgl: use pkg-config from the host
-Date: Sun, 22 Jan 2023 16:21:26 -1000
-Message-Id: <07a1df271d47306a41cef8810db4dfb0646866e3.1674440376.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1674440376.git.steve@sakoman.com>
-References: <cover.1674440376.git.steve@sakoman.com>
+        Mon, 23 Jan 2023 00:08:24 -0800 (PST)
+Date: Mon, 23 Jan 2023 10:08:14 +0200
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	Alexander Kanavin <alex.kanavin@gmail.com>,
+	Bruce Ashfield <bruce.ashfield@gmail.com>,
+	Ross Burton <Ross.Burton@arm.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 1/3] insane: Improve patch warning/error
+ handling
+Message-ID: <Y85AbhShAXaXZP4U@nuoska>
+References: <81854d8c638c80866a3bbdd6fe0776de245c3acb.camel@linuxfoundation.org>
+ <CADkTA4PZ4p7H2cKh3+zab8-bs8nznW=v+3Cd5KZEMdkeBTZivw@mail.gmail.com>
+ <CA6755AF-3664-435C-8078-E730AF0F57C2@arm.com>
+ <CADkTA4OFa9oKKHUYNcpXY2Rfvs_kyJOCbiWMDMDb2Y=84KHPJQ@mail.gmail.com>
+ <CANNYZj_C7-U=a-TohJtcEVOYyaj0sYNnV_2EBnA55wT2QHT0Jw@mail.gmail.com>
+ <CADkTA4Nq=X6d9qz1a+Q0mEpb=ob0_+TsoHdkGn2nycd8+FOz=g@mail.gmail.com>
+ <CANNYZj9yXjUFiAkoGnefvoKzCTut8BMgR-y4y7zu+=0vom9TKA@mail.gmail.com>
+ <3b311ccc982ae39cc72c428ddc97386fe8d653e7.camel@linuxfoundation.org>
+ <b354270257b047d5bcfcc73a7ac13270@axis.com>
+ <1cfa5fc2c0edda2cd9990de4839d130e3f7b5be9.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1cfa5fc2c0edda2cd9990de4839d130e3f7b5be9.camel@linuxfoundation.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Jan 2023 02:22:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176296
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Jan 2023 08:08:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176297
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+Hi,
 
-The check needs to report dri location on the host machine,
-so pkg-config binary needs to be capable of finding the needed
-dri.pc file on the host, and therefore needs to know where
-host .pc files are located.
+On Sun, Jan 22, 2023 at 10:19:29PM +0000, Richard Purdie wrote:
+> I was hoping something simpler would suffice. I don't think I have a
+> lot of interest in going beyond this, particularly given the likely
+> impacts, both code wise and socially. If people don't want to do this I
+> am really running low on the energy to try and push it forward. Making
+> changes is hard, the socialising acceptance of a patch is the piece
+> many people overlook and it isn't here in this case.
 
-This may not be the case when using pkg-config from buildtools,
-so this forces usage of host pkg-config.
+I'm requesting Upstream-Status to be filled to every patch file in
+reviews. There is a lot of value in this information when maintaining
+layers for a longer time. I want this. Everyone I speak with understands
+how important this information is and that it's better to figure things
+out or at least trigger discussion with upstream projects before
+accepting patches.
 
-runqemu already does the same PATH tweak, so this simply brings
-the two in sync.
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit f0521f8a3ba7e15482756529ee7b0a95b3d53e7d)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/lib/oeqa/selftest/cases/runtime_test.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 857737f730..858f12ec90 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -263,7 +263,7 @@ class TestImage(OESelftestTestCase):
-         except FileNotFoundError:
-             self.fail("/dev/dri directory does not exist; no render nodes available on this machine. %s" %(render_hint))
-         try:
--            dripath = subprocess.check_output("pkg-config --variable=dridriverdir dri", shell=True)
-+            dripath = subprocess.check_output("PATH=/bin:/usr/bin:$PATH pkg-config --variable=dridriverdir dri", shell=True)
-         except subprocess.CalledProcessError as e:
-             self.fail("Could not determine the path to dri drivers on the host via pkg-config.\nPlease install Mesa development files (particularly, dri.pc) on the host machine.")
-         qemu_distrofeatures = get_bb_var('DISTRO_FEATURES', 'qemu-system-native')
--- 
-2.25.1
-
+-Mikko
 
