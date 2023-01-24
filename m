@@ -1,86 +1,111 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01EDBC25B4E
-	for <webhook@archiver.kernel.org>; Tue, 24 Jan 2023 17:46:11 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web10.22192.1674582365098086069
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92396C25B4E
+	for <webhook@archiver.kernel.org>; Tue, 24 Jan 2023 19:43:31 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web11.25903.1674589400543321827
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Jan 2023 09:46:05 -0800
+ Tue, 24 Jan 2023 11:43:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=jxBa+/KW;
- spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f170.google.com with SMTP id v23so15486347plo.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Jan 2023 09:46:05 -0800 (PST)
+ dkim=pass header.i=@smile-fr.20210112.gappssmtp.com header.s=20210112 header.b=MEouD0DZ;
+ spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f45.google.com with SMTP id h12so10964182wrv.10
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Jan 2023 11:43:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=smile-fr.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XXHgXDEuakhSv2YzsVZ4an4sqf53ZIEZ5SpImdG2izo=;
-        b=jxBa+/KWrlvZKpSqo4vIoZ+c2RZMBk4pos9upSdvApQ18URLWbTptsNfO4ix6SsppJ
-         E31qNZuWPylFmifw7qZh2NAwxR1msi0h3clMUk5thF4YKEkCjzLcyUb6e5CMCK2I1OgW
-         3yAmIHiKzmmlDQxeLf6t4EoADC+7Q7AtWPAOBdnOGHD+VcM3MfwzMg4q95L3H0/deevk
-         hfWeauhKy9AzDyS/WHUcsl5Sn+lkwU7q9Fh0a5AfGk3sZuiWI9KG3EQLeZvqx5qWfeLS
-         YqxpEk18MRfWYlhgPjScQXg99Jz5yVj/CXnueF+mF46nyHcW5JoZITkkSJsXd7y0eSnc
-         mWoA==
+        bh=rkfDIiJ9LGzp/pz1wLu4gie4l+84el/wAWhzPW+PARA=;
+        b=MEouD0DZrLGjsHf+eA9VfVp8cjq/TB3QV6HqBmHV9sq5m89ALnFv8551oy5klaWVqb
+         Hlr5HLgcNjkmz1Eqj7YXbD6U+r6X5rZbxmJiX7sp03ur0lDVRYakdqPDPIzl6PpVxq06
+         lGepcjNTPP1qKi6SKDaW+70FpZKVpOb3YpzyETRqI82U4RqDui2S8yYELHPO6Cb/ONr1
+         lwI28dh/7TRhQR2TJc8RyPaxKzeooIEayjw0NUHK/yteABZUXYdBcpugOkwNw//6wWxo
+         cws91s57PBpNvCcGEMnvBd1aeRDze0y4h5nO4+1GmeT9lUdcXuiavJwgEHlqzdoaDwkv
+         yP3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XXHgXDEuakhSv2YzsVZ4an4sqf53ZIEZ5SpImdG2izo=;
-        b=EumrxJD6HZEuo+RWaKbJy/AOQ9iYDJMgQRnwKFfiru5VwHz+x47E2Gx6mhOrNJ0o2V
-         ZpCjEvG3VrFbElqp8BxRCAQr3SPOp8h1IaPo+IAh2ZGVqykoDyRTRA+IN6Eg0RRY8vi6
-         tf9tWrWX442LxgMPQPqELgMPadl7wyT9xtbvhM2RGUdKybgYVcC4bRFu47wLZ1mwO+Jk
-         oUNtOt1uR3DzRAOGSJefE0Io66pNu2OLq7fEROxUW3EzYZyHpxQyflCIPPQ/KqwtwRYq
-         +gvW3BverN+WDmfm8nHF48T6HTYLIVg/S/fA19FGcphHzLNZ7fcJTapbN0XhYQ285UW2
-         qzDw==
-X-Gm-Message-State: AFqh2kqbnkFYZxlOaWGCoSsSKFRmgikjIfHGzKXBbHgOWoB4PqAJU3Km
-	o+NXM14CwlHIVg9dWsCg72zqYRggrQtL/Q==
-X-Google-Smtp-Source: AMrXdXsmPSoIeYJNSz5H8vWzcMA72nzYmxbLeWEGqBTACkN0XFKz5Osccs8bLDESkXBdrPEBBjUbtQ==
-X-Received: by 2002:a17:903:32cb:b0:194:dd83:613d with SMTP id i11-20020a17090332cb00b00194dd83613dmr24931815plr.21.1674582364212;
-        Tue, 24 Jan 2023 09:46:04 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::aee3])
-        by smtp.gmail.com with ESMTPSA id f3-20020a170902e98300b0019494681c12sm1976537plb.86.2023.01.24.09.46.03
+        bh=rkfDIiJ9LGzp/pz1wLu4gie4l+84el/wAWhzPW+PARA=;
+        b=kiaa7YFmq357XAj9j/XEglRYbHDBgR1ctL2frP0GDvvp8Aifn1whC7Wf4iiXQk8UYs
+         16V2/fZ5Bovpqik+NhPMdJ0+vPEueVl32Nom0XPvKpIXTnZP2dwbsgdg5Q5eg755qB0D
+         G5CJwYEtx+0dU9RZ8e+WvhGfliYk5a3CfwA+gWSfvKXqwmpo1gYV8Qskfdr2Di8o7syW
+         i+NRma8f7WxUd7UqcMkG7NegW9MxNuPH71LIXWSW+JH4fC+FtdMCd/ULtjRcYVcKcx/n
+         qcqdtZx05Z0PNfbHwTtqEOjylmCS6LzhKNUXQCEE2HUW7cETuNcm6kZW0VS4ZZoP03PP
+         SeBQ==
+X-Gm-Message-State: AFqh2krnV5LYI4EaApGi8ZtrOeBbFecwievKwHdF5ylcLfgcORJyiyut
+	BrtIz3brIRbPBrR21gMF3HRfMqgfw+V6CqWU
+X-Google-Smtp-Source: AMrXdXtQO8rwxBRcVh12DmezI0Jt+bBMteF9gbJBCc3p95m8j/sulKbb/V9dT9JywelUI2qiJSpqDA==
+X-Received: by 2002:a5d:424a:0:b0:2bb:9106:d10 with SMTP id s10-20020a5d424a000000b002bb91060d10mr25231919wrr.10.1674589398473;
+        Tue, 24 Jan 2023 11:43:18 -0800 (PST)
+Received: from P-ASN-ECS-830T8C3.numericable.fr (89-159-1-53.rev.numericable.fr. [89.159.1.53])
+        by smtp.gmail.com with ESMTPSA id p15-20020a5d4e0f000000b002bdc39849d1sm2575731wrt.44.2023.01.24.11.43.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jan 2023 09:46:03 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+        Tue, 24 Jan 2023 11:43:18 -0800 (PST)
+From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] ruby: Update the patch status
-Date: Tue, 24 Jan 2023 09:46:01 -0800
-Message-Id: <20230124174601.3450362-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.39.1
+Cc: Yoann Congal <yoann.congal@smile.fr>
+Subject: [PATCH] sanity: Fix small typos
+Date: Tue, 24 Jan 2023 20:42:42 +0100
+Message-Id: <20230124194242.1828056-1-yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Jan 2023 17:46:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176329
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Jan 2023 19:43:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176330
 
-It has been submitted to github as requested by ruby ml
+* reproducibile -> reproducible
+* distrubution -> distribution
+* Joined lines gone awry
+* and and -> and
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- ...1-fiddle-Use-C11-_Alignof-to-define-ALIGN_OF-when-poss.patch | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes-global/sanity.bbclass | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/ruby/ruby/0001-fiddle-Use-C11-_Alignof-to-define-ALIGN_OF-when-poss.patch b/meta/recipes-devtools/ruby/ruby/0001-fiddle-Use-C11-_Alignof-to-define-ALIGN_OF-when-poss.patch
-index 30caf2c2de..1dff9c0f8c 100644
---- a/meta/recipes-devtools/ruby/ruby/0001-fiddle-Use-C11-_Alignof-to-define-ALIGN_OF-when-poss.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0001-fiddle-Use-C11-_Alignof-to-define-ALIGN_OF-when-poss.patch
-@@ -18,7 +18,7 @@ may support C11, exclude those compiler versions
- [1] https://www.open-std.org/jtc1/sc22/wg14/www/docs/n2350.htm
- [2] https://reviews.llvm.org/D133574
+diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/sanity.bbclass
+index 8dfd59f457..2d1ff7072c 100644
+--- a/meta/classes-global/sanity.bbclass
++++ b/meta/classes-global/sanity.bbclass
+@@ -494,7 +494,7 @@ def check_gcc_version(sanity_data):
  
--Upstream-Status: Submitted [https://ml.ruby-lang.org/mailman3/hyperkitty/list/ruby-core@ml.ruby-lang.org/thread/DLES4EPPXSPCHQMWJPPWMWXXS42AVPFA/]
-+Upstream-Status: Submitted [https://github.com/ruby/fiddle/pull/120]
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- ---
-  ext/fiddle/fiddle.h | 12 +++++++++++-
+ # Tar version 1.24 and onwards handle overwriting symlinks correctly
+ # but earlier versions do not; this needs to work properly for sstate
+-# Version 1.28 is needed so opkg-build works correctly when reproducibile builds are enabled
++# Version 1.28 is needed so opkg-build works correctly when reproducible builds are enabled
+ def check_tar_version(sanity_data):
+     import subprocess
+     try:
+@@ -622,10 +622,10 @@ def check_sanity_sstate_dir_change(sstate_dir, data):
+ def check_sanity_version_change(status, d):
+     # Sanity checks to be done when SANITY_VERSION or NATIVELSBSTRING changes
+     # In other words, these tests run once in a given build directory and then 
+-    # never again until the sanity version or host distrubution id/version changes.
++    # never again until the sanity version or host distribution id/version changes.
+ 
+     # Check the python install is complete. Examples that are often removed in
+-    # minimal installations: glib-2.0-natives requries # xml.parsers.expat
++    # minimal installations: glib-2.0-natives requires xml.parsers.expat
+     try:
+         import xml.parsers.expat
+     except ImportError as e:
+@@ -682,7 +682,7 @@ def check_sanity_version_change(status, d):
+         if i and workdir.startswith(i):
+             status.addresult("You are building in a path included in PSEUDO_IGNORE_PATHS " + str(i) + " please locate the build outside this path.\n")
+ 
+-    # Check if PSEUDO_IGNORE_PATHS and and paths under pseudo control overlap
++    # Check if PSEUDO_IGNORE_PATHS and paths under pseudo control overlap
+     pseudoignorepaths = d.getVar('PSEUDO_IGNORE_PATHS', expand=True).split(",")
+     pseudo_control_dir = "${D},${PKGD},${PKGDEST},${IMAGEROOTFS},${SDK_OUTPUT}"
+     pseudocontroldir = d.expand(pseudo_control_dir).split(",")
 -- 
-2.39.1
+2.30.2
 
 
