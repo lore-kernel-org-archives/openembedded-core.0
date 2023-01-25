@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 341ABC27C76
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 341DEC54E94
 	for <webhook@archiver.kernel.org>; Wed, 25 Jan 2023 14:42:27 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web10.46654.1674657746634631299
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web11.46708.1674657738208683198
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Jan 2023 06:42:26 -0800
+ Wed, 25 Jan 2023 06:42:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=3LrWU6as;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f52.google.com with SMTP id x2-20020a17090a46c200b002295ca9855aso2249898pjg.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Jan 2023 06:42:26 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=H8sqTfTe;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.170, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f170.google.com with SMTP id n2so198470pfo.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Jan 2023 06:42:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zAHIIOldCcvGfY4edpHBaLZ+nINO/yg5dj0XGcQ245M=;
-        b=3LrWU6asWXy5NbQ/VL4d8IqoTWe+dv01dqPqzMXk/2s6iwz4CorOXQX9ctNxiQCHau
-         aNmprciJ8gIpzbw4QXBx0JXOK1kw3AzlDbQkFm2W5lkThPdmPLIwoKTbZkLam6DFU5jz
-         o4mWcv40IV4vPfKin4oPAqfYXCrpi6M/bFwvUUOVZTnWMvt+HLzDRSZTyNlpu/aJeLjG
-         Xn12bKrgO7Ia542c3ZLud0Z7BsQKeGD5f8HxLPigiNsJhAu4Y1gEr3SF3++Wnogyy7Ys
-         kLMMAhOfndwoOKXCh1fk2lUyQaxHnLwjUjn18S5pZ5iZYyyTsRQbYryEjFem8zPPzLbu
-         IYRA==
+        bh=fu2jxwjnbBNvjgssPJZykZk5DYyM7ZeC8PG8LR+LcrU=;
+        b=H8sqTfTev8OEdidzlfRlRKjt10vLDiw/KhW1Y7ITQJZ2olis9OCildOq+av9m2k1Hr
+         3KJK3icYwjlQSaofZP+edXSwTT94Ajw62rnSUX6wc5uwrjHUEBz79nD+bpjuL1niavjd
+         WrmhgCHKYiAdqp+74g/DKqH1fOEUOojRQo1BIagHSkJfUuWnW1DgSCLC6vGGpC7hpwcp
+         zzCfIeAopJsAebvdYEuKexI837Y+O8TcejWYA/LdJFmrJX2Yk2l7NYGLhg6AKCdtoyIB
+         Rc0Y9jRIUCIC52LYRWyQFa7pSOfH1ByVA9dqXcVGBcc5o22E5DrXjj5+zszWu0HyYujW
+         S2Eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zAHIIOldCcvGfY4edpHBaLZ+nINO/yg5dj0XGcQ245M=;
-        b=IDiJ/81jFwcm3Ob2jZW07/HLJtKKJDFTyNU3TSogNMoDym7iyAJvE1vhFA/HYqTi2s
-         Jh72o8eeJXGTAQk0hj3v/dYNjFJcrHfqXuFCHauxw2Idmh1VRSKFaoSTSgGiH9Trsm2l
-         WLAf4pYB6yfkC38T+2zcJwqDw0oZPwymBoj/uXtKJEVmGNSqiXsWCi/bP4fqfnAMc3po
-         a43cZLezE3qMDVXDo3mKOXGf2lEgCrM8Y8siHP7wYhyANPxI4hSj02ZNeWkcY8/R4AT4
-         fF8fJA3LmbBB81WM/9+jfHkFkB2Ej3+rSSPdtC4xcWH3edItrT00VC2ICyByQzO3Fvv6
-         GAxQ==
-X-Gm-Message-State: AFqh2kozRjTCoYlrzJIqA0/5tis+4dUUqFX4THlDIuybNkABfkPhHVVI
-	uVff/pOzBg7mfUUk4qlwUjzIaH2kqEqkCVaV0sE=
-X-Google-Smtp-Source: AMrXdXtHIvgXGGATcx7P1mCxiDNO9Ub+yIzLeMo2hblDtrRtvPX5XBDOUugjUpBSac0m0+UMU/+Mww==
-X-Received: by 2002:a05:6a20:1b28:b0:b8:ca34:fd5a with SMTP id ch40-20020a056a201b2800b000b8ca34fd5amr31112175pzb.47.1674657745481;
-        Wed, 25 Jan 2023 06:42:25 -0800 (PST)
+        bh=fu2jxwjnbBNvjgssPJZykZk5DYyM7ZeC8PG8LR+LcrU=;
+        b=wULyVJKFShNCzmDZqMEgK5MieUuS2ZJMkKeSpuPNBHSl5a3poAv1IsbOMFIhuok/MS
+         npMvMGDK+1OzcWtzG+s0FsWRGLzE4R/3EJlcIq7h/KBaKBMUIsY7aRc2Wg0/EX3CovHz
+         9Ts6CHRvUvpMpdsMMrUL9p7YzPV7HNsOgGIzsZRZv4ThsKtzQsHfRFWysCwbawCPHGHz
+         BBd2lsLt/8fNugfSUa1Ld2alGfzCfLjHMH9JZ21kIfVRR3l/IV6WAvRqqo7hTmuuyJ70
+         l8CDI64QrH9TkzfM7gfbl1dEGLNL19SMWVuE/nEEn4SbNnGrlS6qLIKcftr2gTsFuxqj
+         46wQ==
+X-Gm-Message-State: AO0yUKVKhdp65CghHQ6jcpuCyaguksNQhjl6t+g07+wPKx2rlHd0Qns/
+	0xgG2U5nIKQe6RMqroYhqwt/DCmtug5saHBS5Vg=
+X-Google-Smtp-Source: AK7set91PHD8eufRfhhfsuBwEh7rxMadMYLhsGnvieNy58cn7OU2hM7txaDShjVr6z50NkO2O7gnFw==
+X-Received: by 2002:aa7:95b9:0:b0:590:63d3:260 with SMTP id a25-20020aa795b9000000b0059063d30260mr1469111pfk.19.1674657737123;
+        Wed, 25 Jan 2023 06:42:17 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id d2-20020aa78142000000b005810c4286d6sm3723703pfn.0.2023.01.25.06.42.24
+        by smtp.gmail.com with ESMTPSA id d2-20020aa78142000000b005810c4286d6sm3723703pfn.0.2023.01.25.06.42.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jan 2023 06:42:24 -0800 (PST)
+        Wed, 25 Jan 2023 06:42:16 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 10/16] linux-firmware: upgrade 20221109 -> 20221214
-Date: Wed, 25 Jan 2023 04:41:53 -1000
-Message-Id: <b18b005eea839af8e38377f3d279a7d45d02571d.1674657501.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 06/16] cairo: fix CVE patches assigned wrong CVE number
+Date: Wed, 25 Jan 2023 04:41:49 -1000
+Message-Id: <8b1f40639c16286937f04b9b50cef3d759bf442e.1674657501.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1674657501.git.steve@sakoman.com>
 References: <cover.1674657501.git.steve@sakoman.com>
@@ -61,47 +61,144 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 25 Jan 2023 14:42:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176361
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176357
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
 
-License-Update: additional files
+CVE-2019-6461 and CVE-2019-6462 are fixed, but the reporting is
+incorrect as the patch for CVE-2019-6461 is actually for CVE-2019-6462
+and vice-versa.
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+This swaps both files and edit the CVE field to report the correct
+identifier.
+
+Cc: Quentin Schulz <foss+yocto@0leil.net>
+Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 15f3a9f6c4406ddc00f7dc0ca7e1beafe9c71a9f)
+(cherry picked from commit f12c2a5ac94cb29f473f3c7e335463c7fb6d8a6e)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...{linux-firmware_20221109.bb => linux-firmware_20221214.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20221109.bb => linux-firmware_20221214.bb} (99%)
+ .../cairo/cairo/CVE-2019-6461.patch           | 46 ++++++-------------
+ .../cairo/cairo/CVE-2019-6462.patch           | 46 +++++++++++++------
+ 2 files changed, 46 insertions(+), 46 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20221109.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20221214.bb
-similarity index 99%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20221109.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20221214.bb
-index 8c132c8f34..e3105053c7 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20221109.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20221214.bb
-@@ -132,7 +132,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     "
- # WHENCE checksum is defined separately to ease overriding it if
- # class-devupstream is selected.
--WHENCE_CHKSUM  = "ab4ba608dc4b757716871f9be033f0f1"
-+WHENCE_CHKSUM  = "bf7c716d16e48fe118c6209f99b13253"
+diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch b/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
+index 0b7d9a0c36..a2dba6cb20 100644
+--- a/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
++++ b/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
+@@ -1,40 +1,20 @@
+-CVE: CVE-2019-6461
+-Upstream-Status: Backport
+-Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+-
+-From ab2c5ee21e5f3d3ee4b3f67cfcd5811a4f99c3a0 Mon Sep 17 00:00:00 2001
+-From: Heiko Lewin <hlewin@gmx.de>
+-Date: Sun, 1 Aug 2021 11:16:03 +0000
+-Subject: [PATCH] _arc_max_angle_for_tolerance_normalized: fix infinite loop
++There is an assertion in function _cairo_arc_in_direction().
  
- # These are not common licenses, set NO_GENERIC_LICENSE for them
- # so that the license files will be copied from fetched source
-@@ -209,7 +209,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
- # Pin this to the 20220509 release, override this in local.conf
- SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
+----
+- src/cairo-arc.c | 4 +++-
+- 1 file changed, 3 insertions(+), 1 deletion(-)
++CVE: CVE-2019-6461
++Upstream-Status: Pending
++Signed-off-by: Ross Burton <ross.burton@intel.com>
  
--SRC_URI[sha256sum] = "c0ddffbbcf30f2e015bddd5c6d3ce1f13976b906aceabda4a57e3c41a3190701"
-+SRC_URI[sha256sum] = "e793783e92acbde549965521462d1d1327827360664cf242dbda08f075654331"
+ diff --git a/src/cairo-arc.c b/src/cairo-arc.c
+-index 390397bae..1c891d1a0 100644
++index 390397bae..1bde774a4 100644
+ --- a/src/cairo-arc.c
+ +++ b/src/cairo-arc.c
+-@@ -90,16 +90,18 @@ _arc_max_angle_for_tolerance_normalized (double tolerance)
+- 	{ M_PI / 11.0,  9.81410988043554039085e-09 },
+-     };
+-     int table_size = ARRAY_LENGTH (table);
+-+    const int max_segments = 1000; /* this value is chosen arbitrarily. this gives an error of about 1.74909e-20 */
++@@ -186,7 +186,8 @@ _cairo_arc_in_direction (cairo_t	  *cr,
++     if (cairo_status (cr))
++         return;
+  
+-     for (i = 0; i < table_size; i++)
+- 	if (table[i].error < tolerance)
+- 	    return table[i].angle;
++-    assert (angle_max >= angle_min);
+++    if (angle_max < angle_min)
+++       return;
+  
+-     ++i;
+-+
+-     do {
+- 	angle = M_PI / i++;
+- 	error = _arc_error_normalized (angle);
+--    } while (error > tolerance);
+-+    } while (error > tolerance && i < max_segments);
+- 
+-     return angle;
+- }
+--- 
+-2.38.1
+-
++     if (angle_max - angle_min > 2 * M_PI * MAX_FULL_CIRCLES) {
++ 	angle_max = fmod (angle_max - angle_min, 2 * M_PI);
+diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch b/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
+index 4e4598c5b5..7c3209291b 100644
+--- a/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
++++ b/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
+@@ -1,20 +1,40 @@
+-There is an assertion in function _cairo_arc_in_direction().
+-
+ CVE: CVE-2019-6462
+-Upstream-Status: Pending
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
++Upstream-Status: Backport
++Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
++
++From ab2c5ee21e5f3d3ee4b3f67cfcd5811a4f99c3a0 Mon Sep 17 00:00:00 2001
++From: Heiko Lewin <hlewin@gmx.de>
++Date: Sun, 1 Aug 2021 11:16:03 +0000
++Subject: [PATCH] _arc_max_angle_for_tolerance_normalized: fix infinite loop
++
++---
++ src/cairo-arc.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
  
- inherit allarch
- 
+ diff --git a/src/cairo-arc.c b/src/cairo-arc.c
+-index 390397bae..1bde774a4 100644
++index 390397bae..1c891d1a0 100644
+ --- a/src/cairo-arc.c
+ +++ b/src/cairo-arc.c
+-@@ -186,7 +186,8 @@ _cairo_arc_in_direction (cairo_t	  *cr,
+-     if (cairo_status (cr))
+-         return;
++@@ -90,16 +90,18 @@ _arc_max_angle_for_tolerance_normalized (double tolerance)
++ 	{ M_PI / 11.0,  9.81410988043554039085e-09 },
++     };
++     int table_size = ARRAY_LENGTH (table);
+++    const int max_segments = 1000; /* this value is chosen arbitrarily. this gives an error of about 1.74909e-20 */
+  
+--    assert (angle_max >= angle_min);
+-+    if (angle_max < angle_min)
+-+       return;
++     for (i = 0; i < table_size; i++)
++ 	if (table[i].error < tolerance)
++ 	    return table[i].angle;
+  
+-     if (angle_max - angle_min > 2 * M_PI * MAX_FULL_CIRCLES) {
+- 	angle_max = fmod (angle_max - angle_min, 2 * M_PI);
++     ++i;
+++
++     do {
++ 	angle = M_PI / i++;
++ 	error = _arc_error_normalized (angle);
++-    } while (error > tolerance);
+++    } while (error > tolerance && i < max_segments);
++ 
++     return angle;
++ }
++-- 
++2.38.1
++
 -- 
 2.25.1
 
