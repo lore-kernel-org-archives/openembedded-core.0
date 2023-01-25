@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 341DEC54E94
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42349C61D9D
 	for <webhook@archiver.kernel.org>; Wed, 25 Jan 2023 14:42:27 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web11.46708.1674657738208683198
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.web10.46648.1674657742295117794
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Jan 2023 06:42:18 -0800
+ Wed, 25 Jan 2023 06:42:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=H8sqTfTe;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.170, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f170.google.com with SMTP id n2so198470pfo.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Jan 2023 06:42:18 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=tW3facUc;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.181, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f181.google.com with SMTP id r18so13505429pgr.12
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Jan 2023 06:42:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fu2jxwjnbBNvjgssPJZykZk5DYyM7ZeC8PG8LR+LcrU=;
-        b=H8sqTfTev8OEdidzlfRlRKjt10vLDiw/KhW1Y7ITQJZ2olis9OCildOq+av9m2k1Hr
-         3KJK3icYwjlQSaofZP+edXSwTT94Ajw62rnSUX6wc5uwrjHUEBz79nD+bpjuL1niavjd
-         WrmhgCHKYiAdqp+74g/DKqH1fOEUOojRQo1BIagHSkJfUuWnW1DgSCLC6vGGpC7hpwcp
-         zzCfIeAopJsAebvdYEuKexI837Y+O8TcejWYA/LdJFmrJX2Yk2l7NYGLhg6AKCdtoyIB
-         Rc0Y9jRIUCIC52LYRWyQFa7pSOfH1ByVA9dqXcVGBcc5o22E5DrXjj5+zszWu0HyYujW
-         S2Eg==
+        bh=jh+SmlUbXGGq7Ay5wurrHigFEShalXtI2xtEz33QvYs=;
+        b=tW3facUcx0s7qKShkMnUc1bWc8+1C7k54vtut/+YuyaNAAewJprYQR07t+68hDTkRU
+         /zFX4Buz5tkdKmUKkHjHXY17Ag2T8NPLFd0E/a9nAwxOm5bxdUuFtKhKO73urxpCCGd4
+         E7pKZhxOqSuup8RtpCfl1VV8E7vfa9OjpP4J3VsIHr6zc/80HfwxKDcVBY5mOI7VgKCB
+         i+ZOzKmEsI+RVxnvkPWxoXYjS2qusUA/rnOHm/M5rsf0/6FGhsklaxEL+edsx6go18+b
+         9axmSbIRD3Ldi/ZCFaioSsgmZk3q4hoZBVW2Wbk/jzGbNYDpkgVsCsj6hkgLxpY3NUn+
+         oFDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fu2jxwjnbBNvjgssPJZykZk5DYyM7ZeC8PG8LR+LcrU=;
-        b=wULyVJKFShNCzmDZqMEgK5MieUuS2ZJMkKeSpuPNBHSl5a3poAv1IsbOMFIhuok/MS
-         npMvMGDK+1OzcWtzG+s0FsWRGLzE4R/3EJlcIq7h/KBaKBMUIsY7aRc2Wg0/EX3CovHz
-         9Ts6CHRvUvpMpdsMMrUL9p7YzPV7HNsOgGIzsZRZv4ThsKtzQsHfRFWysCwbawCPHGHz
-         BBd2lsLt/8fNugfSUa1Ld2alGfzCfLjHMH9JZ21kIfVRR3l/IV6WAvRqqo7hTmuuyJ70
-         l8CDI64QrH9TkzfM7gfbl1dEGLNL19SMWVuE/nEEn4SbNnGrlS6qLIKcftr2gTsFuxqj
-         46wQ==
-X-Gm-Message-State: AO0yUKVKhdp65CghHQ6jcpuCyaguksNQhjl6t+g07+wPKx2rlHd0Qns/
-	0xgG2U5nIKQe6RMqroYhqwt/DCmtug5saHBS5Vg=
-X-Google-Smtp-Source: AK7set91PHD8eufRfhhfsuBwEh7rxMadMYLhsGnvieNy58cn7OU2hM7txaDShjVr6z50NkO2O7gnFw==
-X-Received: by 2002:aa7:95b9:0:b0:590:63d3:260 with SMTP id a25-20020aa795b9000000b0059063d30260mr1469111pfk.19.1674657737123;
-        Wed, 25 Jan 2023 06:42:17 -0800 (PST)
+        bh=jh+SmlUbXGGq7Ay5wurrHigFEShalXtI2xtEz33QvYs=;
+        b=Gr9uvi3imh8jGk5srgFTeGylzftMDTHjFZcl4G/Jy7OA/tHhKIJxtGQpH4UYv+oq9r
+         qdJsJvcN8c9FcCEBe8mBxMukuaFFJyuKGA3ZUBqy/na1uOG5SbPouDcEJ0fsrPx5TgGs
+         ebOfL0acFFddqWfR7jtytAI6gTGQtmXB+qccwH2x8va11Y78asVbTvEiv05tjrwl0uC3
+         H+hQp/MHD8ys2RfK5WQRnDh8WKS76OAwsMsy1zolBT/PEX+7KRRWU7FmkKubzmVgWo7a
+         NlnP7dbjFX8BWjF7GHFtoUrqcG/X8k/8UTPgKvQTH3Rrs59xQt4O06WLJIIenAh6+q3+
+         Wa7Q==
+X-Gm-Message-State: AO0yUKWPF84NlbQ7HLShvKZCD3vJChJhxReuACI0jE1iaKGRa+O5ZYSV
+	I+md1qz3x3zTPmWpqogfg0WgWoorc2ig06zdQqM=
+X-Google-Smtp-Source: AK7set9sKhpaCm0o2scZsAc/GL70QWZJjoTf+1MoAV/v+P5SBwa3AbPQzNUwyQN1YluYXuqGdEyfew==
+X-Received: by 2002:a05:6a00:21d2:b0:590:752f:3c54 with SMTP id t18-20020a056a0021d200b00590752f3c54mr574482pfj.14.1674657741332;
+        Wed, 25 Jan 2023 06:42:21 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id d2-20020aa78142000000b005810c4286d6sm3723703pfn.0.2023.01.25.06.42.16
+        by smtp.gmail.com with ESMTPSA id d2-20020aa78142000000b005810c4286d6sm3723703pfn.0.2023.01.25.06.42.20
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jan 2023 06:42:16 -0800 (PST)
+        Wed, 25 Jan 2023 06:42:20 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 06/16] cairo: fix CVE patches assigned wrong CVE number
-Date: Wed, 25 Jan 2023 04:41:49 -1000
-Message-Id: <8b1f40639c16286937f04b9b50cef3d759bf442e.1674657501.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 08/16] ffmpeg: Fix CVE-2022-3109
+Date: Wed, 25 Jan 2023 04:41:51 -1000
+Message-Id: <a613a3d33f98770306161a3e9f3147f155ee0457.1674657501.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1674657501.git.steve@sakoman.com>
 References: <cover.1674657501.git.steve@sakoman.com>
@@ -61,144 +61,81 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 25 Jan 2023 14:42:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176357
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176359
 
-From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+From: Bhabu Bindu <bhabu.bindu@kpit.com>
 
-CVE-2019-6461 and CVE-2019-6462 are fixed, but the reporting is
-incorrect as the patch for CVE-2019-6461 is actually for CVE-2019-6462
-and vice-versa.
+Add patch to fix CVE-2022-3109
 
-This swaps both files and edit the CVE field to report the correct
-identifier.
+Link: https://github.com/FFmpeg/FFmpeg/commit/656cb0450aeb73b25d7d26980af342b37ac4c568
 
-Cc: Quentin Schulz <foss+yocto@0leil.net>
-Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f12c2a5ac94cb29f473f3c7e335463c7fb6d8a6e)
+Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../cairo/cairo/CVE-2019-6461.patch           | 46 ++++++-------------
- .../cairo/cairo/CVE-2019-6462.patch           | 46 +++++++++++++------
- 2 files changed, 46 insertions(+), 46 deletions(-)
+ .../ffmpeg/ffmpeg/CVE-2022-3109.patch         | 41 +++++++++++++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb |  1 +
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2022-3109.patch
 
-diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch b/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
-index 0b7d9a0c36..a2dba6cb20 100644
---- a/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
-+++ b/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
-@@ -1,40 +1,20 @@
--CVE: CVE-2019-6461
--Upstream-Status: Backport
--Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
--
--From ab2c5ee21e5f3d3ee4b3f67cfcd5811a4f99c3a0 Mon Sep 17 00:00:00 2001
--From: Heiko Lewin <hlewin@gmx.de>
--Date: Sun, 1 Aug 2021 11:16:03 +0000
--Subject: [PATCH] _arc_max_angle_for_tolerance_normalized: fix infinite loop
-+There is an assertion in function _cairo_arc_in_direction().
- 
-----
-- src/cairo-arc.c | 4 +++-
-- 1 file changed, 3 insertions(+), 1 deletion(-)
-+CVE: CVE-2019-6461
-+Upstream-Status: Pending
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
- 
- diff --git a/src/cairo-arc.c b/src/cairo-arc.c
--index 390397bae..1c891d1a0 100644
-+index 390397bae..1bde774a4 100644
- --- a/src/cairo-arc.c
- +++ b/src/cairo-arc.c
--@@ -90,16 +90,18 @@ _arc_max_angle_for_tolerance_normalized (double tolerance)
-- 	{ M_PI / 11.0,  9.81410988043554039085e-09 },
--     };
--     int table_size = ARRAY_LENGTH (table);
--+    const int max_segments = 1000; /* this value is chosen arbitrarily. this gives an error of about 1.74909e-20 */
-+@@ -186,7 +186,8 @@ _cairo_arc_in_direction (cairo_t	  *cr,
-+     if (cairo_status (cr))
-+         return;
-  
--     for (i = 0; i < table_size; i++)
-- 	if (table[i].error < tolerance)
-- 	    return table[i].angle;
-+-    assert (angle_max >= angle_min);
-++    if (angle_max < angle_min)
-++       return;
-  
--     ++i;
--+
--     do {
-- 	angle = M_PI / i++;
-- 	error = _arc_error_normalized (angle);
---    } while (error > tolerance);
--+    } while (error > tolerance && i < max_segments);
-- 
--     return angle;
-- }
---- 
--2.38.1
--
-+     if (angle_max - angle_min > 2 * M_PI * MAX_FULL_CIRCLES) {
-+ 	angle_max = fmod (angle_max - angle_min, 2 * M_PI);
-diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch b/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
-index 4e4598c5b5..7c3209291b 100644
---- a/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
-+++ b/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
-@@ -1,20 +1,40 @@
--There is an assertion in function _cairo_arc_in_direction().
--
- CVE: CVE-2019-6462
--Upstream-Status: Pending
--Signed-off-by: Ross Burton <ross.burton@intel.com>
-+Upstream-Status: Backport
-+Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2022-3109.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2022-3109.patch
+new file mode 100644
+index 0000000000..febf49cff2
+--- /dev/null
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2022-3109.patch
+@@ -0,0 +1,41 @@
++From 656cb0450aeb73b25d7d26980af342b37ac4c568 Mon Sep 17 00:00:00 2001
++From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
++Date: Tue, 15 Feb 2022 17:58:08 +0800
++Subject: [PATCH] avcodec/vp3: Add missing check for av_malloc
 +
-+From ab2c5ee21e5f3d3ee4b3f67cfcd5811a4f99c3a0 Mon Sep 17 00:00:00 2001
-+From: Heiko Lewin <hlewin@gmx.de>
-+Date: Sun, 1 Aug 2021 11:16:03 +0000
-+Subject: [PATCH] _arc_max_angle_for_tolerance_normalized: fix infinite loop
++Since the av_malloc() may fail and return NULL pointer,
++it is needed that the 's->edge_emu_buffer' should be checked
++whether the new allocation is success.
 +
++Fixes: d14723861b ("VP3: fix decoding of videos with stride > 2048")
++
++CVE: CVE-2022-3109
++Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/656cb0450aeb73b25d7d26980af342b37ac4c568]
++Comments: Refreshed hunk
++
++Reviewed-by: Peter Ross <pross@xvid.org>
++Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
++Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
 +---
-+ src/cairo-arc.c | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
- 
- diff --git a/src/cairo-arc.c b/src/cairo-arc.c
--index 390397bae..1bde774a4 100644
-+index 390397bae..1c891d1a0 100644
- --- a/src/cairo-arc.c
- +++ b/src/cairo-arc.c
--@@ -186,7 +186,8 @@ _cairo_arc_in_direction (cairo_t	  *cr,
--     if (cairo_status (cr))
--         return;
-+@@ -90,16 +90,18 @@ _arc_max_angle_for_tolerance_normalized (double tolerance)
-+ 	{ M_PI / 11.0,  9.81410988043554039085e-09 },
-+     };
-+     int table_size = ARRAY_LENGTH (table);
-++    const int max_segments = 1000; /* this value is chosen arbitrarily. this gives an error of about 1.74909e-20 */
-  
---    assert (angle_max >= angle_min);
--+    if (angle_max < angle_min)
--+       return;
-+     for (i = 0; i < table_size; i++)
-+ 	if (table[i].error < tolerance)
-+ 	    return table[i].angle;
-  
--     if (angle_max - angle_min > 2 * M_PI * MAX_FULL_CIRCLES) {
-- 	angle_max = fmod (angle_max - angle_min, 2 * M_PI);
-+     ++i;
-++
-+     do {
-+ 	angle = M_PI / i++;
-+ 	error = _arc_error_normalized (angle);
-+-    } while (error > tolerance);
-++    } while (error > tolerance && i < max_segments);
-+ 
-+     return angle;
-+ }
-+-- 
-+2.38.1
++ libavcodec/vp3.c | 7 ++++++-
++ 1 file changed, 6 insertions(+), 1 deletion(-)
 +
++diff --git a/libavcodec/vp3.c b/libavcodec/vp3.c
++index e9ab54d73677..e2418eb6fa04 100644
++--- a/libavcodec/vp3.c
+++++ b/libavcodec/vp3.c
++@@ -2740,8 +2740,13 @@
++     if (ff_thread_get_buffer(avctx, &s->current_frame, AV_GET_BUFFER_FLAG_REF) < 0)
++         goto error;
++ 
++-    if (!s->edge_emu_buffer)
+++    if (!s->edge_emu_buffer) {
++         s->edge_emu_buffer = av_malloc(9 * FFABS(s->current_frame.f->linesize[0]));
+++        if (!s->edge_emu_buffer) {
+++            ret = AVERROR(ENOMEM);
+++            goto error;
+++        }
+++    }
++ 
++     if (s->keyframe) {
++         if (!s->theora) {
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
+index cbfdbf0563..ffeec92e0e 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
+@@ -30,6 +30,7 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://CVE-2021-3566.patch \
+            file://CVE-2021-38291.patch \
+            file://CVE-2022-1475.patch \
++           file://CVE-2022-3109.patch \
+           "
+ SRC_URI[md5sum] = "348956fc2faa57a2f79bbb84ded9fbc3"
+ SRC_URI[sha256sum] = "cb754255ab0ee2ea5f66f8850e1bd6ad5cac1cd855d0a2f4990fb8c668b0d29c"
 -- 
 2.25.1
 
