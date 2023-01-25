@@ -2,75 +2,80 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 267B0C27C76
-	for <webhook@archiver.kernel.org>; Wed, 25 Jan 2023 21:02:39 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web11.58031.1674680555405297923
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3110DC27C76
+	for <webhook@archiver.kernel.org>; Wed, 25 Jan 2023 21:11:09 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web10.58299.1674681063837798992
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Jan 2023 13:02:35 -0800
+ Wed, 25 Jan 2023 13:11:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=DCC1xYSf;
- spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f41.google.com with SMTP id bp15so30985497lfb.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Jan 2023 13:02:35 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=EIdHcyIT;
+ spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f50.google.com with SMTP id o20so31093511lfk.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Jan 2023 13:11:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=WDMgpT0vCZsJw4zKWymKTRkINpdIoI5jj6z+n6IexZk=;
-        b=DCC1xYSfkp5gy0poYht4n7fOeFQMbGyx//kXMJ+wqgcB94zakbOCRczfyFy5MA6aZ2
-         KY+wJdKlM6F55t7XV7y2Pa2QE8EZZiXTdLNjSqI9pIorAyvi1w52TUxKbor3fJJ6FRqB
-         x9U/H+qZdwCDxHtcWcn34eONm02cIcBkl0Et8YljqkDQ4g7Yscmn+sCj57OqojQU1NgW
-         Mrlmopd94GBVT64Z/ZgIfD8VONLjV5q1nQMoNnfQh/hC8vXwgjTIuc84JD5a+jd8ftKH
-         PNnOve4ZniFpqF2dAq6WBrcOFFjkkM4nkCJrqTOvarGNwgRCkbTX3F3Hhc+rJiS0rwMe
-         FKZQ==
+        bh=FZhHZtMZr+xky+DrL09AMWftrldwFQiQ8f11Qdp6k+E=;
+        b=EIdHcyITZoNsJpYY/Iy2HCBLdFdcJn5gJQ7CYTt2xyP0Y0BHuDT1PYK/ONtnSKop71
+         tbWg2QEXDdID/egGRTdI2F3pUyOPrElxZvdjF+AumryDHc6YPk4BKTdORUT6GDnyGCsw
+         RZ8TAJa+V3Y+he0RgqkWTZ4RXvIft4LZgPnfdCoZTZBSWe2nTeeYWYpEEG+KBa4csN7+
+         E3rkG3MyKVf6MiYA8Aqo4n2VnnorHEjVx7q57BRPf2HU1ups3x2fqB0V6H7x5kHNPU/l
+         sVWB5iU1HyADYCKcI2qJJdlqUA2txA5JUq0dTYuW54DCM6bV1eqQ7FGHvM5sajrJGiHh
+         If/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WDMgpT0vCZsJw4zKWymKTRkINpdIoI5jj6z+n6IexZk=;
-        b=cisiu3sQFTBcNHZjzF0AXner+puFSBnR6npfXYhCY+eB0h6yrB1yn5k+0HNPWJ85EF
-         +l8JUBZJb10jEGweZNcV63xq9l2a4TEEDWjGk2BjaEA3v4I0o6GfSEmgN2Dj4T0uRpoc
-         SZUol1EX9uzZBxnw7fewWRMw6cC9h3pOa8RkO6cdPIxw1+AHn8pIx4Dkrf0fuDJX+28f
-         yASII2A4SJSsRuCx20tuEa+qlcAgzyrtr3bhxlonxXDuYsjAwvRVaQaq4nSSrIVURVS4
-         qQiHRsjnbTuYqhHPVxbAMW0H6Xiu5zzGWgxf2SSZBitA0tPjmfTWjiRnxMlApOorX1xk
-         GI6A==
-X-Gm-Message-State: AFqh2krkE9f3XT0wfMLQ2p60O1pCCkFk3z9+h30KvOziEiZQ7fSwpmiq
-	WDNcv7o+1UXQlQcVEQwnQyyKNpt4MiPzUD8ieow=
-X-Google-Smtp-Source: AMrXdXubxW94Q1KPE97DyL3hpSzh4H8eAZz66UO210lgGluYXgVaEIbX4tZ5leePP78HmmNr7/i2hnZ0GiOeWMqwiYs=
-X-Received: by 2002:ac2:548a:0:b0:4cb:6bcb:de45 with SMTP id
- t10-20020ac2548a000000b004cb6bcbde45mr3798006lfk.272.1674680553424; Wed, 25
- Jan 2023 13:02:33 -0800 (PST)
+        bh=FZhHZtMZr+xky+DrL09AMWftrldwFQiQ8f11Qdp6k+E=;
+        b=gZZqQ6Qi/N8Z8Fw0ozp3zT/oXz23BBhbHgHXrQdSSovgk44unqOubaRh/duHQlKyh3
+         F10HaeNHO52VRA4xtlVSvpQOu5fo4qKcEZiwmvtuaglllWmnpLrpZqoJfHlugosxMAGF
+         GlTfePJ/6FbAXa56TjQSFV6dgENfkcjnThfuZoSs0jI5glwy0n0e0L4mhCWU+QASW4Dz
+         m9nkY/xfSxXgXJZLAnpOIwBL3ZC19Ev19X1ewqBwqCAt+6iW0TO4NChMXceVYiyzocu0
+         9h9pm6NoqSjfi5ye7IkIVE/AeZIZSOl1v2fhW8IHuvNA/XZtHh5lmDnxWFzVcpCAQ33T
+         tW5w==
+X-Gm-Message-State: AFqh2kpYYRkxzs3LBUK+X+lv1cU3K4SRHylkruteKtED2rU/DTzeJmZX
+	egKE0mUGJvDpe0wvTpOybmUQiiKncSan5IfvvpkfKdGJ
+X-Google-Smtp-Source: AMrXdXuWgJoEAZVq6l3VJv0f0J8B0yFMR1Y6fO3+12oGy8b1d/VW+FCofGYIS7HDIJePcg5kOvlGZh1MCzPJRNHVvmE=
+X-Received: by 2002:ac2:48b9:0:b0:4d3:b528:99e8 with SMTP id
+ u25-20020ac248b9000000b004d3b52899e8mr3797881lfg.2.1674681062023; Wed, 25 Jan
+ 2023 13:11:02 -0800 (PST)
 MIME-Version: 1.0
-References: <20230123081621.7517-1-ravineet.a.singh@est.tech>
- <CANNYZj8pETWuN8FuyAke2rZ9d2TH6_Ly0goWMnYHuZaYj7xetw@mail.gmail.com> <20230125142035.u3ogfurrd5vomuiy@serber-ng.hemma>
-In-Reply-To: <20230125142035.u3ogfurrd5vomuiy@serber-ng.hemma>
+References: <173C0B9603DBAB46.24231@lists.openembedded.org>
+ <Y9DgI+HyBTGNmiFa@nuoska> <CANNYZj-Qq8rOob5y2mkdLczFzwNx3Hr_CHKbn370fe3CVa7EQQ@mail.gmail.com>
+ <Y9EhcnpE3gtLKAOR@nuoska>
+In-Reply-To: <Y9EhcnpE3gtLKAOR@nuoska>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 25 Jan 2023 22:02:22 +0100
-Message-ID: <CANNYZj-CYSqWju0RbpDkDnpZ18k3qit8r2czQ1e3JoWLx2=1hw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] gnutls: add initial ptest support
-To: Ravineet Singh <ravineet.a.singh@est.tech>
+Date: Wed, 25 Jan 2023 22:10:50 +0100
+Message-ID: <CANNYZj8DrpJci-7qAb_QkC1kvayMnfRk04jqxvSTjHFiWH9k6w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 00/14] oeqa runtime tests when qemu hangs
+To: Mikko Rapeli <mikko.rapeli@linaro.org>
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Jan 2023 21:02:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176376
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Jan 2023 21:11:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176377
 
-On Wed, 25 Jan 2023 at 15:20, Ravineet Singh <ravineet.a.singh@est.tech> wrote:
->
-> On Wed, Jan 25, 2023 at 03:02:27PM +0100, Alexander Kanavin wrote:
-> > Thanks! Before this can be added I'd like to clarify two things:
-> > - is execution time of 184 with or without kvm?
-> It is with kvm.
-> > - depending on that, you need to add the test to fast or slow list in
-> > ptest-packagelists.inc, so it's actually executed in yocto CI.
-> I'll add it in the slow list in ptest-packagelists.inc, I assume that is OK.
+On Wed, 25 Jan 2023 at 13:32, Mikko Rapeli <mikko.rapeli@linaro.org> wrote:
 
-Also the newly added patch is missing Upstream-Status. Aren't you
-getting a build failure with that?
+> Major difference is that with the series full boot log is do_testimage
+> task debug output. It's not in bitbake output though, that remains
+> unchanged. Now if there are any hangs, timeouts or other problems, the
+> do_testimage logs with the patch series will contain information where
+> exactly the failure happened. And without this patch series, a hang in
+> qemu goes undetected and whole test execution hangs, and in multiple
+> locations: first in test ssh command output select() read() loop for
+> every command executed on target and then in the QMP debug output
+> for every ssh command which fails with return value 255.
+
+Unfortunately I tend to agree with RP: if everything works normally,
+and even if the tests themselves fail, this amount of output is
+excessive, and is just noise. If you are experiencing hangs, then the
+verbosity needs to be conditionally enabled, and off by default.
 
 Alex
 
