@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 342AAC61D97
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40C80C61D9D
 	for <webhook@archiver.kernel.org>; Wed, 25 Jan 2023 14:42:17 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web10.46643.1674657736048551622
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.web11.46700.1674657730495147498
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Jan 2023 06:42:16 -0800
+ Wed, 25 Jan 2023 06:42:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=cOJIKyLp;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id f11so950501pfc.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Jan 2023 06:42:16 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=KCy1Kx7/;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.175, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f175.google.com with SMTP id 36so13503905pgp.10
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Jan 2023 06:42:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ke0vkRgtkG4au6LjK8pJ7AbFg9pyBAoM9wSWmTf22LU=;
-        b=cOJIKyLpNeRxZJGvD8jiVfij0LJ0MgCv1ef+NbVQlGqYtcdoz9cJWnPvufei01JEA3
-         zhJaIbdAhSOjPOQnK56CKIyTBnpq9Q4M5tbAUT7iAIFSRubJ/nYq2x01crvPcAUm49V6
-         isZE21KO4sYm8n7Mcl4aU18N2Ne/adNrSjPFqBDUes0QlmjK8LJd1c5/MXddV5opuIly
-         1OC+FzEP6OCs2KxUUXc0qw03QuyT0dpfh8JfadpZUom+LP/m14fREpGXuPb7m+K38h5v
-         pCllioOPc7tglg248cxA2WyRr/WAckab4MgcxV+VbEhanC2UQWCHlvGzaSPkIbVr18At
-         u6Zg==
+        bh=Urs+MdjWSoG/sVGpyHZfZbyUUD3zDh3ZXk9qq7crb5o=;
+        b=KCy1Kx7/qFZOQnmMMWE+5ra7tzFcV4fcFCpbi35sNpx9+EQ1B2ytaILbn1JwyS02PO
+         qjjJT1k545CRJuoKDAZlQ6QDtF6YPyPvwI3mqwn7g5vUiAzA8Rptx0erInFbBCfGuXcH
+         CxqlgxgrC0aoV2LPwhuX25kRsX3VzgMnZOncd8aCsz+rHwAhVOlbiY5t7981hxNMqkt7
+         cZubnp9R55eDOBAHwjSzR+P7Ir9PCkjbhNCyVSA1hGNkq+NmRdEGrFCNPw+zb8cXCZKu
+         9G+vegrly7bHUSmZzm5hf3RP9K62KGqoMYAv/XD85B3l3bnBn/3BGafLfZ28jFGRKuev
+         DP7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ke0vkRgtkG4au6LjK8pJ7AbFg9pyBAoM9wSWmTf22LU=;
-        b=BBVqrY+6bVE0IFb266MXudxYFyQXs18pvXzpBAERLLfQ4StxvBDW57WlTlzoSKoSZb
-         wBLSOKTJjZ1+IeA9u8R+h0FFlX7ZBuxfsNLk+kChcaU9wZaqOEqUSRtcFrHk5NRKINXR
-         Dtb2wkXLl8nbXHw2/9m0VV4cLqH7GzGBgUjsQUiXlvuLudB4YDGIELFWmLU8xde6nbLk
-         46icgGkALhbEmFgac3M/3y9ltuGTKQCIwXzibasOnCML1yv1A1gOonhFj55ey7pNuVj4
-         MBW2DqJgOuP49VKOMhAxrkqcUWrfYjJXbGSTfrclKCM7PLCg43X4OBcihPCkyEpzacNu
-         z/xQ==
-X-Gm-Message-State: AO0yUKWKUudGsflx0ShXlkhZKAOhRFS2puS6qjGEvZeREoPOLIrrQvC0
-	dYChJ+5LaiG1kFwut07tvx5qfkd2OxmuK0iFxoo=
-X-Google-Smtp-Source: AK7set8y8sihXK/lxl3DsNS4mXWlk1Jw0nCgqN0OlZ4G0Ufjjbri6s5I/Qys8pVJbZgE0CqevNBk8Q==
-X-Received: by 2002:a62:1790:0:b0:590:67e8:f2f5 with SMTP id 138-20020a621790000000b0059067e8f2f5mr1352074pfx.23.1674657735127;
-        Wed, 25 Jan 2023 06:42:15 -0800 (PST)
+        bh=Urs+MdjWSoG/sVGpyHZfZbyUUD3zDh3ZXk9qq7crb5o=;
+        b=0PWfO0LZrlJsnm9/aEh6Edfhk/NwKC3QCiFpDeUZtx2v+AqFOSrD668SwH2lm1HgaG
+         yH0+PkU/WOqZdIRc0xCHblQ/r9ahCg5Im4FqedKyAyKlRnvNsqDCZ29kKwS2i903IF8M
+         rfod2zk/EuawEbUJ0v6Xv36byLMyIETqUo8V/torBjWLyOU8dv3XWC3hmjIeO9Hb5pgB
+         Jmtlsj+OD8POLbd6Cs1pBe/JdskkOZxmgBotQojxdkWjXzNm6kqKlUtlPLDZKZFtIchk
+         /KMlF9615F4Aubka4oz7jtVA4Si3ijAlCv2Ui3FVbJSITAqN2hSZf2L++/SCiFeTsHut
+         Mqbg==
+X-Gm-Message-State: AFqh2kqkncTspDISOiPV+YjHOI1KoGXyB5L6vmD2m3PzEWEvWZEDAqm5
+	MbVJcwfqBmY/moCan6STylqI5nvh6ETKnVnmEPI=
+X-Google-Smtp-Source: AMrXdXuJshgOMCxp37i/bcb9s70+DLnI3taD4XLc8wgLsKZJPvDm5ZiwP0XBYhCx59PPajP3TRnjjg==
+X-Received: by 2002:aa7:9634:0:b0:57d:56f1:6ae7 with SMTP id r20-20020aa79634000000b0057d56f16ae7mr32201470pfg.33.1674657729537;
+        Wed, 25 Jan 2023 06:42:09 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id d2-20020aa78142000000b005810c4286d6sm3723703pfn.0.2023.01.25.06.42.14
+        by smtp.gmail.com with ESMTPSA id d2-20020aa78142000000b005810c4286d6sm3723703pfn.0.2023.01.25.06.42.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jan 2023 06:42:14 -0800 (PST)
+        Wed, 25 Jan 2023 06:42:09 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 05/16] cve-check: write the cve manifest to IMGDEPLOYDIR
-Date: Wed, 25 Jan 2023 04:41:48 -1000
-Message-Id: <c25a5c5f6fede29893a2ac1502216e9deccfa6c3.1674657501.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 02/16] cve-update-db-native: add more logging when fetching
+Date: Wed, 25 Jan 2023 04:41:45 -1000
+Message-Id: <60fa8135437ab1e2bc7cead5f838ac787c8dab26.1674657501.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1674657501.git.steve@sakoman.com>
 References: <cover.1674657501.git.steve@sakoman.com>
@@ -61,51 +61,50 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 25 Jan 2023 14:42:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176356
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176353
 
-From: Jermain Horsman <jermain.horsman@nedap.com>
+From: Ross Burton <ross@burtonini.com>
 
-When building an image cve_check_write_rootfs_manifest() would sometimes fail
-with a FileNotFoundError when writing the manifest.cve due to the parent
-directory (DEPLOY_DIR_IMAGE) not (yet) existing.
+Add some debug logging when fetching the CVE data.
 
-The image task will provide the manifest in the deploy directory afterwards,
-so other recipes depending on the manifest being in DEPLOY_DIR_IMAGE should
-continue to function properly.
-
-Signed-off-by: Jermain Horsman <jermain.horsman@nedap.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 00fb2aae22ce0d7ff5f3f8766fa770eeb4e73483)
+(cherry picked from commit 9b230584664873af2ab453b8153b1ad276d3b0af)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/cve-check.bbclass | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-core/meta/cve-update-db-native.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 4fc4e545e4..87a59d5c6d 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -42,8 +42,8 @@ CVE_CHECK_LOG_JSON ?= "${T}/cve.json"
- CVE_CHECK_DIR ??= "${DEPLOY_DIR}/cve"
- CVE_CHECK_RECIPE_FILE ?= "${CVE_CHECK_DIR}/${PN}"
- CVE_CHECK_RECIPE_FILE_JSON ?= "${CVE_CHECK_DIR}/${PN}_cve.json"
--CVE_CHECK_MANIFEST ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cve"
--CVE_CHECK_MANIFEST_JSON ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.json"
-+CVE_CHECK_MANIFEST ?= "${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cve"
-+CVE_CHECK_MANIFEST_JSON ?= "${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.json"
- CVE_CHECK_COPY_FILES ??= "1"
- CVE_CHECK_CREATE_MANIFEST ??= "1"
+diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
+index 355ee2a2a3..e267671628 100644
+--- a/meta/recipes-core/meta/cve-update-db-native.bb
++++ b/meta/recipes-core/meta/cve-update-db-native.bb
+@@ -75,6 +75,7 @@ python do_fetch() {
+     with bb.progress.ProgressHandler(d) as ph, open(os.path.join(d.getVar("TMPDIR"), 'cve_check'), 'a') as cve_f:
+         total_years = date.today().year + 1 - YEAR_START
+         for i, year in enumerate(range(YEAR_START, date.today().year + 1)):
++            bb.debug(2, "Updating %d" % year)
+             ph.update((float(i + 1) / total_years) * 100)
+             year_url = (d.getVar('NVDCVE_URL')) + str(year)
+             meta_url = year_url + ".meta"
+@@ -104,6 +105,7 @@ python do_fetch() {
+             cursor.close()
  
-@@ -195,7 +195,7 @@ python cve_check_write_rootfs_manifest () {
-         recipies.add(pkg_data["PN"])
+             if not meta or meta[0] != last_modified:
++                bb.debug(2, "Updating entries")
+                 # Clear products table entries corresponding to current year
+                 conn.execute("delete from PRODUCTS where ID like ?", ('CVE-%d%%' % year,)).close()
  
-     bb.note("Writing rootfs CVE manifest")
--    deploy_dir = d.getVar("DEPLOY_DIR_IMAGE")
-+    deploy_dir = d.getVar("IMGDEPLOYDIR")
-     link_name = d.getVar("IMAGE_LINK_NAME")
- 
-     json_data = {"version":"1", "package": []}
+@@ -117,7 +119,8 @@ python do_fetch() {
+                     cve_f.write('Warning: CVE db update error, CVE data is outdated.\n\n')
+                     bb.warn("Cannot parse CVE data (%s), update failed" % e.reason)
+                     return
+-
++            else:
++                bb.debug(2, "Already up to date (last modified %s)" % last_modified)
+             # Update success, set the date to cve_check file.
+             if year == date.today().year:
+                 cve_f.write('CVE database update : %s\n\n' % date.today())
 -- 
 2.25.1
 
