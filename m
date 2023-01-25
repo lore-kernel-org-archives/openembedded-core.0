@@ -1,250 +1,137 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 194B3C61D97
-	for <webhook@archiver.kernel.org>; Tue, 24 Jan 2023 22:00:02 +0000 (UTC)
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
- by mx.groups.io with SMTP id smtpd.web10.29641.1674597592213612662
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19148C54E94
+	for <webhook@archiver.kernel.org>; Wed, 25 Jan 2023 01:28:13 +0000 (UTC)
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+ by mx.groups.io with SMTP id smtpd.web11.34848.1674610087638996607
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Jan 2023 13:59:52 -0800
+ Tue, 24 Jan 2023 17:28:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=kJW2248p;
- spf=pass (domain: gmail.com, ip: 209.85.160.175, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f175.google.com with SMTP id g16so12371909qtu.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Jan 2023 13:59:52 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=VXjVAM3z;
+ spf=pass (domain: gmail.com, ip: 209.85.160.47, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-12c8312131fso19784745fac.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Jan 2023 17:28:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ua0445TAH7KfB47oQnh4Jmp9pw9fQJSi6nSnOeZLGqc=;
-        b=kJW2248pOdlj1N0gfj0bv4MDehytcjmXMSznY7Fvi3ISED4OcoC2dBOG8UZsYc3P/+
-         7YI8i5KlBuqu4PpXhjHXrzL2aPLjH2A/6cczolqRfWDNPE32cLkAyvm0MMqVRYcyPW/y
-         j+Pt2MLWfAk1hcAzMRhh7CuO687O/KODQt7p0EYz3oKlzI6piuXK3+NFFgBamTSb09oS
-         Faf9cT3ARtOE+znpMJ0fp9wDVSbl4t9B4l1eNfGBSCG7ss5DRVpzoz8krb2VPM5nKPUo
-         W8kGBFkPHsxkwv93bWB9LrbI+nE2rWUk/t+usb3MLr2o/eursy/5SrBGuLH9gJb91UXN
-         9SkQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=kAKTHXHdDpTrzYC7FcKDfGfoi+WkpcpfWfr2wRMSemg=;
+        b=VXjVAM3z47K4nwFBr2jrTuloC0w724WMn6Dz31ieCNDuDiL9m/aSSLIWopS7caK8+i
+         KQAD7WirXS4KJZw63yhNKRIaGo1x6ymNEqm064xzNsBoZSpPyFx3ffcffSWENcjk9Eyo
+         +OCUlcP4gZMaeSjaiy/PiyOJX+u4+SHCo/ZJCKaTgQAkOPKwBbKo2WjgzAVycJcLs+8y
+         eHTE7GNFEwT3w5lgXsOyM80Ru8cIdZ+6WqVm0URU35L++ZY6o8M8ZpXn0v+wB1X76TsC
+         pLPeYx7xkn3h2eURdYBDeF3+ZxmxNz4i9PuTd2mdH0nXJEjMC0mcL2jZCjCcpNfRyK5H
+         qU4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ua0445TAH7KfB47oQnh4Jmp9pw9fQJSi6nSnOeZLGqc=;
-        b=qi9AXfnFnpIqTnKTAgBV+FdEtV5PuNtG+wBHww8PkLog9P9GmhEGnSEzHxcE7IF2D6
-         YmnscRxVWWZtsUR28s3deSYKBjPLZQH2n4QmJsiq0FDA8xY3xpE0SdQWjT6NLMQ3B7eV
-         5qOhygFCGxda7cj05bEsmy6m8Tuq3fn3u/tQzMSIxxcf2MryTjD/rH/1AaW7xs+zRU5k
-         03bpAOIrAAO6mI27TsswHzwF0F70tHjstl0Ngw2fPXNLuWThsu+w6YAM86VDq57bTQrL
-         dVOYurPoo3w64YuudSvkWEWi7G8NUYBcooxM/y9tsS0J2RVY1MFUkFIoHJwcCLsOHf9t
-         zltA==
-X-Gm-Message-State: AFqh2koSJ7W8esoPHBJ4UVi2qE1sL2KYfPSsGLG95lxnWOFtf4SsxB56
-	4Ksc0N0UGaMqgrRKQENFGpQlb69xEehX5A==
-X-Google-Smtp-Source: AMrXdXtoigvPL6tW2LzUJAJf3mEN6hKxlXVQ3xd8xDeCS1BA2tNlAyiWJPbQc3xhad89LTHZ8YiG+Q==
-X-Received: by 2002:ac8:724c:0:b0:3a8:1617:bdac with SMTP id l12-20020ac8724c000000b003a81617bdacmr43663082qtp.5.1674597591016;
-        Tue, 24 Jan 2023 13:59:51 -0800 (PST)
-Received: from build.lan (cpe7c9a54441c1f-cm7c9a54441c1d.cpe.net.cable.rogers.com. [173.34.238.88])
-        by smtp.gmail.com with ESMTPSA id f12-20020ac8014c000000b003b0766cd169sm2049813qtg.2.2023.01.24.13.59.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jan 2023 13:59:50 -0800 (PST)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] linux-yocto/5.19: drop recipes
-Date: Tue, 24 Jan 2023 16:59:46 -0500
-Message-Id: <873b13e64c6a078fa6ce9b633592d29d69713334.1674597466.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1674597466.git.bruce.ashfield@gmail.com>
-References: <cover.1674597466.git.bruce.ashfield@gmail.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kAKTHXHdDpTrzYC7FcKDfGfoi+WkpcpfWfr2wRMSemg=;
+        b=arkjz1Euf/HXMZTyv+69KtrCXrNDz5FP+dImhQlHoDIzPE21gVM1bkR5+labEXBDzS
+         uir2bnhaTQibrdvIP/pmRav+hbn75gmptVXNrIfMMU55gI6etNYT5qMJLOTlB+X5uVBk
+         x44OHkpuiSrLloK5snpZ/qquUYM66Lno5e2hBOGmRUJL6wcXgnofrxG6xJ5zT7l9JiXw
+         WsCCTJk3JSgMA5LSWkYDhKNMdjV1hIr31byndLIQQIGA6xKm7gl4+dzkw0Gt2EKkYpgz
+         ZNnJbb+d/hTtVDui2oHO60m6Nd0Uh06Q9U3vQk8XFPo6dBYGV3bk1ZpYcn6PtLM0Asth
+         BRIA==
+X-Gm-Message-State: AO0yUKW6X5FCbuzk9Rsnsfgp2yEIK7Y8tcsYvPEfIVN/5POMcn+TB8Tv
+	eKdrYJjFwiJi/uf62tF3SvOSPkZ4g3RDsy19PA8=
+X-Google-Smtp-Source: AK7set+fcGcgsBzLP7zwt/b025LhIw2Lu5ekqSCAdRCCGxAgX7O8q8LOhvdj3mync5XczZTp/UNhEPoosebOp3SK8bM=
+X-Received: by 2002:a05:6870:c34a:b0:161:d899:6ee0 with SMTP id
+ e10-20020a056870c34a00b00161d8996ee0mr388297oak.262.1674610086777; Tue, 24
+ Jan 2023 17:28:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230119235141.1603399-1-raj.khem@gmail.com> <20230120124754.14c0e5d3@booty>
+ <CAMKF1soVuu3kOksuFZEzQKW2BsSqrZ9FSOF3Yg=oJvNfPCf_Kw@mail.gmail.com> <Y8+drDtXX6bdBdFm@mail.local>
+In-Reply-To: <Y8+drDtXX6bdBdFm@mail.local>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 24 Jan 2023 17:27:40 -0800
+Message-ID: <CAMKF1sp4JzVYGKdai8TKcbM5Q-jWObd+7XXtzS-H9t8nv2GjFQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 1/3] binutils: Upgrade to 2.40 release
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Jan 2023 22:00:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176333
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Jan 2023 01:28:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176335
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+On Tue, Jan 24, 2023 at 12:58 AM Alexandre Belloni
+<alexandre.belloni@bootlin.com> wrote:
+>
+> Hello,
+>
+> I guess this is the cause of this ptest failure:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/4587/steps/12/logs/stdio
+>
+> AssertionError: Failed ptests:
+> {'elfutils': ['run-native-test.sh']}
+>
+>
+> /usr/lib/elfutils/ptest/tests/funcretval: dwfl_module_return_value_location: cannot handle DWARF type description
+> FAIL: run-native-test.sh
 
-5.19 is no longer getting upstream -stable support, and we've replaced
-it with 6.1 as the latest (and default) version. Removing the recipes
-to make this clear.
+I have looked into this a bit and it looks like a problem in
+elfutils/libdw not being able to handle  DW_TAG_unspecified_type DIE
+which is newly generated by assembler from binutils 2.40 release.
+These DIEs are present in objects made out of assembly files
+in glibc which are used during linking. So they also get into binaries
+but libdw from elfutils is not able to handle them and thats why
+we get this test failure. I have filed a bug for upstream elfutils [1]
 
-Released branches will still get bugfixes as appropriate.
+We can wait for this to be resolved or exclude this test case for now
+from ptests and move ahead. I am fine either way.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- .../linux/linux-yocto-rt_5.19.bb              | 45 ------------
- .../linux/linux-yocto-tiny_5.19.bb            | 30 --------
- meta/recipes-kernel/linux/linux-yocto_5.19.bb | 70 -------------------
- 3 files changed, 145 deletions(-)
- delete mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_5.19.bb
- delete mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_5.19.bb
- delete mode 100644 meta/recipes-kernel/linux/linux-yocto_5.19.bb
+[1] https://sourceware.org/bugzilla/show_bug.cgi?id=30047
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.19.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.19.bb
-deleted file mode 100644
-index f4d205e613..0000000000
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.19.bb
-+++ /dev/null
-@@ -1,45 +0,0 @@
--KBRANCH ?= "v5.19/standard/preempt-rt/base"
--
--require recipes-kernel/linux/linux-yocto.inc
--
--# Skip processing of this recipe if it is not explicitly specified as the
--# PREFERRED_PROVIDER for virtual/kernel. This avoids errors when trying
--# to build multiple virtual/kernel providers, e.g. as dependency of
--# core-image-rt-sdk, core-image-rt.
--python () {
--    if d.getVar("KERNEL_PACKAGE_NAME") == "kernel" and d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
--        raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
--}
--
--SRCREV_machine ?= "3101c367eab8952721086b545ad37c301b2a7452"
--SRCREV_meta ?= "239a6c0d3c3b046971909f1e066380465b0c331d"
--
--SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
--           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.19;destsuffix=${KMETA}"
--
--LINUX_VERSION ?= "5.19.17"
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--
--DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
--DEPENDS += "openssl-native util-linux-native"
--
--PV = "${LINUX_VERSION}+git${SRCPV}"
--
--KMETA = "kernel-meta"
--KCONF_BSP_AUDIT_LEVEL = "1"
--
--LINUX_KERNEL_TYPE = "preempt-rt"
--
--COMPATIBLE_MACHINE = "^(qemux86|qemux86-64|qemuarm|qemuarmv5|qemuarm64|qemuppc|qemumips)$"
--
--KERNEL_DEVICETREE:qemuarmv5 = "versatile-pb.dtb"
--
--# Functionality flags
--KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
--KERNEL_FEATURES:append = " ${KERNEL_EXTRA_FEATURES}"
--KERNEL_FEATURES:append:qemuall=" cfg/virtio.scc features/drm-bochs/drm-bochs.scc"
--KERNEL_FEATURES:append:qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
--KERNEL_FEATURES:append:qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
--KERNEL_FEATURES:append = "${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/scsi/scsi-debug.scc", "", d)}"
--KERNEL_FEATURES:append = "${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/gpio/mockup.scc", "", d)}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.19.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.19.bb
-deleted file mode 100644
-index 95a8a46bbc..0000000000
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.19.bb
-+++ /dev/null
-@@ -1,30 +0,0 @@
--KBRANCH ?= "v5.19/standard/tiny/base"
--
--LINUX_KERNEL_TYPE = "tiny"
--KCONFIG_MODE = "--allnoconfig"
--
--require recipes-kernel/linux/linux-yocto.inc
--
--LINUX_VERSION ?= "5.19.17"
--LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--
--DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
--DEPENDS += "openssl-native util-linux-native"
--
--KMETA = "kernel-meta"
--KCONF_BSP_AUDIT_LEVEL = "2"
--
--SRCREV_machine ?= "84f2f8e7a625aae0fa9e7027a2e774b99b646cf7"
--SRCREV_meta ?= "239a6c0d3c3b046971909f1e066380465b0c331d"
--
--PV = "${LINUX_VERSION}+git${SRCPV}"
--
--SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
--           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.19;destsuffix=${KMETA}"
--
--COMPATIBLE_MACHINE = "^(qemux86|qemux86-64|qemuarm64|qemuarm|qemuarmv5)$"
--
--# Functionality flags
--KERNEL_FEATURES = ""
--
--KERNEL_DEVICETREE:qemuarmv5 = "versatile-pb.dtb"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.19.bb b/meta/recipes-kernel/linux/linux-yocto_5.19.bb
-deleted file mode 100644
-index 5baa0c1130..0000000000
---- a/meta/recipes-kernel/linux/linux-yocto_5.19.bb
-+++ /dev/null
-@@ -1,70 +0,0 @@
--KBRANCH ?= "v5.19/standard/base"
--
--require recipes-kernel/linux/linux-yocto.inc
--
--# board specific branches
--KBRANCH:qemuarm  ?= "v5.19/standard/arm-versatile-926ejs"
--KBRANCH:qemuarm64 ?= "v5.19/standard/qemuarm64"
--KBRANCH:qemumips ?= "v5.19/standard/mti-malta32"
--KBRANCH:qemuppc  ?= "v5.19/standard/qemuppc"
--KBRANCH:qemuriscv64  ?= "v5.19/standard/base"
--KBRANCH:qemuriscv32  ?= "v5.19/standard/base"
--KBRANCH:qemux86  ?= "v5.19/standard/base"
--KBRANCH:qemux86-64 ?= "v5.19/standard/base"
--KBRANCH:qemumips64 ?= "v5.19/standard/mti-malta64"
--
--SRCREV_machine:qemuarm ?= "f30404d233fc4cc461a0800fd635f4e9650a20a5"
--SRCREV_machine:qemuarm64 ?= "84f2f8e7a625aae0fa9e7027a2e774b99b646cf7"
--SRCREV_machine:qemumips ?= "ceaf2134635845794c24b750f15004096a597256"
--SRCREV_machine:qemuppc ?= "84f2f8e7a625aae0fa9e7027a2e774b99b646cf7"
--SRCREV_machine:qemuriscv64 ?= "84f2f8e7a625aae0fa9e7027a2e774b99b646cf7"
--SRCREV_machine:qemuriscv32 ?= "84f2f8e7a625aae0fa9e7027a2e774b99b646cf7"
--SRCREV_machine:qemux86 ?= "84f2f8e7a625aae0fa9e7027a2e774b99b646cf7"
--SRCREV_machine:qemux86-64 ?= "84f2f8e7a625aae0fa9e7027a2e774b99b646cf7"
--SRCREV_machine:qemumips64 ?= "acf9ebb1e7d1ceb61a89ec33ca4cc3613287630b"
--SRCREV_machine ?= "84f2f8e7a625aae0fa9e7027a2e774b99b646cf7"
--SRCREV_meta ?= "239a6c0d3c3b046971909f1e066380465b0c331d"
--
--# set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
--# get the <version>/base branch, which is pure upstream -stable, and the same
--# meta SRCREV as the linux-yocto-standard builds. Select your version using the
--# normal PREFERRED_VERSION settings.
--BBCLASSEXTEND = "devupstream:target"
--SRCREV_machine:class-devupstream ?= "2b525314c7b57eac29fe8b77a6589428e4a4f6dd"
--PN:class-devupstream = "linux-yocto-upstream"
--KBRANCH:class-devupstream = "v5.19/base"
--
--SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
--           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.19;destsuffix=${KMETA}"
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "5.19.17"
--
--DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
--DEPENDS += "openssl-native util-linux-native"
--DEPENDS += "gmp-native libmpc-native"
--
--PV = "${LINUX_VERSION}+git${SRCPV}"
--
--KMETA = "kernel-meta"
--KCONF_BSP_AUDIT_LEVEL = "1"
--
--KERNEL_DEVICETREE:qemuarmv5 = "versatile-pb.dtb"
--
--COMPATIBLE_MACHINE = "^(qemuarm|qemuarmv5|qemuarm64|qemux86|qemuppc|qemuppc64|qemumips|qemumips64|qemux86-64|qemuriscv64|qemuriscv32)$"
--
--# Functionality flags
--KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
--KERNEL_FEATURES:append = " ${KERNEL_EXTRA_FEATURES}"
--KERNEL_FEATURES:append:qemuall=" cfg/virtio.scc features/drm-bochs/drm-bochs.scc cfg/net/mdio.scc"
--KERNEL_FEATURES:append:qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
--KERNEL_FEATURES:append:qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
--KERNEL_FEATURES:append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "", d)}"
--KERNEL_FEATURES:append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/scsi/scsi-debug.scc", "", d)}"
--KERNEL_FEATURES:append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/gpio/mockup.scc", "", d)}"
--KERNEL_FEATURES:append:powerpc =" arch/powerpc/powerpc-debug.scc"
--KERNEL_FEATURES:append:powerpc64 =" arch/powerpc/powerpc-debug.scc"
--KERNEL_FEATURES:append:powerpc64le =" arch/powerpc/powerpc-debug.scc"
--
--INSANE_SKIP:kernel-vmlinux:qemuppc64 = "textrel"
--
--- 
-2.34.1
-
+>
+>
+> On 20/01/2023 10:11:12-0800, Khem Raj wrote:
+> > On Fri, Jan 20, 2023 at 3:47 AM Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+> > >
+> > > Hi Khem,
+> > >
+> > > On Thu, 19 Jan 2023 15:51:39 -0800
+> > > "Khem Raj" <raj.khem@gmail.com> wrote:
+> > >
+> > > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > >
+> > > I'm afraid this time the patch does _really_ not apply, and the simple
+> > > sorcery I did for v1 and v2 is not working anymore. If you could
+> > > recreate the patches based on a clean oe-core master branch that would
+> > > be good.
+> >
+> > I have pushed the related patchset to a branch on poky-contrib here
+> >
+> > https://git.yoctoproject.org/poky-contrib/log/?h=kraj/binutils-2.40
+> >
+> > Let me know how it goes.
+> >
+> > >
+> > > Thank you!
+> > >
+> > > --
+> > > Luca Ceresoli, Bootlin
+> > > Embedded Linux and Kernel engineering
+> > > https://bootlin.com
+>
+> >
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#176225): https://lists.openembedded.org/g/openembedded-core/message/176225
+> > Mute This Topic: https://lists.openembedded.org/mt/96390083/3617179
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> >
+>
+>
+> --
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
