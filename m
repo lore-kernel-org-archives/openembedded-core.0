@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33BDBC27C76
-	for <webhook@archiver.kernel.org>; Wed, 25 Jan 2023 14:42:17 +0000 (UTC)
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.web10.46637.1674657728352168468
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 341ABC27C76
+	for <webhook@archiver.kernel.org>; Wed, 25 Jan 2023 14:42:27 +0000 (UTC)
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web10.46654.1674657746634631299
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Jan 2023 06:42:08 -0800
+ Wed, 25 Jan 2023 06:42:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=EF4KzdEu;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.169, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f169.google.com with SMTP id 78so13521195pgb.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Jan 2023 06:42:08 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=3LrWU6as;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f52.google.com with SMTP id x2-20020a17090a46c200b002295ca9855aso2249898pjg.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Jan 2023 06:42:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=eJLhPxiwMRQKbV+ODKRAHwAw5tlFWpuqnImEEV7T8QI=;
-        b=EF4KzdEuMvndnM3F2J72+lWPh2WPjRr9MI5rgvw/Gl97lWLMTgchIp9tXnhxvywfra
-         +CWK9L99we2CfSliobAAK85P93bUURj5YBZH5qeINNYLXS7TQ9uPDub/OwsjxTAMBsTq
-         KRC9fXrmUr4DUq3WE/ttK9PbPlqT163mgR6l8BzMA+kgamWNvEG/HEHLdRu+EL8QksJk
-         2OYzrDl4ssMz+KqH67AXLZqdKEK7f7tyF2DUKEm/2hVrHpN96olLaZWnLsGapPcF+fvY
-         2YUJxavW2jlM6YYPFJRJAaxt2zxCUFn3+J1c2qloTDkTGIQDrZxBzXk5DtOcEfMxrd2s
-         dOfw==
+        bh=zAHIIOldCcvGfY4edpHBaLZ+nINO/yg5dj0XGcQ245M=;
+        b=3LrWU6asWXy5NbQ/VL4d8IqoTWe+dv01dqPqzMXk/2s6iwz4CorOXQX9ctNxiQCHau
+         aNmprciJ8gIpzbw4QXBx0JXOK1kw3AzlDbQkFm2W5lkThPdmPLIwoKTbZkLam6DFU5jz
+         o4mWcv40IV4vPfKin4oPAqfYXCrpi6M/bFwvUUOVZTnWMvt+HLzDRSZTyNlpu/aJeLjG
+         Xn12bKrgO7Ia542c3ZLud0Z7BsQKeGD5f8HxLPigiNsJhAu4Y1gEr3SF3++Wnogyy7Ys
+         kLMMAhOfndwoOKXCh1fk2lUyQaxHnLwjUjn18S5pZ5iZYyyTsRQbYryEjFem8zPPzLbu
+         IYRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eJLhPxiwMRQKbV+ODKRAHwAw5tlFWpuqnImEEV7T8QI=;
-        b=k+pcbsfIPcF6mlkKZw2TUkvBCSpj+dt2XWZzHKBZEvTMI8q9FeP6t3C+sU8AHTgWUq
-         clmy/nh6XwVHkL1XcopBoNFpvH2K//Ni+ZmZDIDzUonW3nkLqs/ZoKu9Z60EP+1ZnkhD
-         zB0+LGuhMgb/Qo5IjrBLz+Y0a6TeXlHGK7BDwQ4Ro9wcUPVgiDzmBarYR3RlFxuqOmHe
-         Dz1pfUB6cQO6rYIGdV+9FvAko6lo1tiyKX7MaREkZAx4EFq35/XZuYqxy05V0qjJfyOS
-         WVj0UwaiKwaYdsvTiWiQUgCYI5quIJlY0Ok/ZaZbXxT8EOop1QUh+F0gfbyXbTYl1kGa
-         OltA==
-X-Gm-Message-State: AO0yUKXo55GpHEGKRQe3foAo5m33Sq1YSOOzY3MGq0EcVzZ/ayLobLZd
-	+JfRG9jbCXAw/nnwrVQr8HuRD6d1K317EjuSdyE=
-X-Google-Smtp-Source: AK7set+6qo4/C55Wu9V7z1gNeERbRDoYklCrlqAbuXfwse2k90W1e5bXkBDkN//qWxDIA/uLle1cFg==
-X-Received: by 2002:a62:db01:0:b0:590:630d:a8e1 with SMTP id f1-20020a62db01000000b00590630da8e1mr1424177pfg.11.1674657727397;
-        Wed, 25 Jan 2023 06:42:07 -0800 (PST)
+        bh=zAHIIOldCcvGfY4edpHBaLZ+nINO/yg5dj0XGcQ245M=;
+        b=IDiJ/81jFwcm3Ob2jZW07/HLJtKKJDFTyNU3TSogNMoDym7iyAJvE1vhFA/HYqTi2s
+         Jh72o8eeJXGTAQk0hj3v/dYNjFJcrHfqXuFCHauxw2Idmh1VRSKFaoSTSgGiH9Trsm2l
+         WLAf4pYB6yfkC38T+2zcJwqDw0oZPwymBoj/uXtKJEVmGNSqiXsWCi/bP4fqfnAMc3po
+         a43cZLezE3qMDVXDo3mKOXGf2lEgCrM8Y8siHP7wYhyANPxI4hSj02ZNeWkcY8/R4AT4
+         fF8fJA3LmbBB81WM/9+jfHkFkB2Ej3+rSSPdtC4xcWH3edItrT00VC2ICyByQzO3Fvv6
+         GAxQ==
+X-Gm-Message-State: AFqh2kozRjTCoYlrzJIqA0/5tis+4dUUqFX4THlDIuybNkABfkPhHVVI
+	uVff/pOzBg7mfUUk4qlwUjzIaH2kqEqkCVaV0sE=
+X-Google-Smtp-Source: AMrXdXtHIvgXGGATcx7P1mCxiDNO9Ub+yIzLeMo2hblDtrRtvPX5XBDOUugjUpBSac0m0+UMU/+Mww==
+X-Received: by 2002:a05:6a20:1b28:b0:b8:ca34:fd5a with SMTP id ch40-20020a056a201b2800b000b8ca34fd5amr31112175pzb.47.1674657745481;
+        Wed, 25 Jan 2023 06:42:25 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id d2-20020aa78142000000b005810c4286d6sm3723703pfn.0.2023.01.25.06.42.06
+        by smtp.gmail.com with ESMTPSA id d2-20020aa78142000000b005810c4286d6sm3723703pfn.0.2023.01.25.06.42.24
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jan 2023 06:42:06 -0800 (PST)
+        Wed, 25 Jan 2023 06:42:24 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 01/16] cve-update-db-native: Allow to overrule the URL in a bbappend.
-Date: Wed, 25 Jan 2023 04:41:44 -1000
-Message-Id: <7290b3217c31cec7dd9985cbf5a003a9c368fa54.1674657501.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 10/16] linux-firmware: upgrade 20221109 -> 20221214
+Date: Wed, 25 Jan 2023 04:41:53 -1000
+Message-Id: <b18b005eea839af8e38377f3d279a7d45d02571d.1674657501.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1674657501.git.steve@sakoman.com>
 References: <cover.1674657501.git.steve@sakoman.com>
@@ -60,50 +60,47 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Jan 2023 14:42:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176352
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Jan 2023 14:42:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176361
 
-From: jan <jan.vermaete@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-With this small patch, it's possible to overrule the public
-URL with a local mirror for those without Internet access.
+License-Update: additional files
 
-Signed-off-by: Jan Vermaete <jan.vermaete@gmail.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2d903126e8bbece3a5171c3488c3deae1f0aa3ee)
+(cherry picked from commit 15f3a9f6c4406ddc00f7dc0ca7e1beafe9c71a9f)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/meta/cve-update-db-native.bb | 4 ++--
+ ...{linux-firmware_20221109.bb => linux-firmware_20221214.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20221109.bb => linux-firmware_20221214.bb} (99%)
 
-diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
-index 59e7d7dc2c..355ee2a2a3 100644
---- a/meta/recipes-core/meta/cve-update-db-native.bb
-+++ b/meta/recipes-core/meta/cve-update-db-native.bb
-@@ -19,6 +19,7 @@ CVE_DB_UPDATE_INTERVAL ?= "86400"
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20221109.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20221214.bb
+similarity index 99%
+rename from meta/recipes-kernel/linux-firmware/linux-firmware_20221109.bb
+rename to meta/recipes-kernel/linux-firmware/linux-firmware_20221214.bb
+index 8c132c8f34..e3105053c7 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20221109.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20221214.bb
+@@ -132,7 +132,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     "
+ # WHENCE checksum is defined separately to ease overriding it if
+ # class-devupstream is selected.
+-WHENCE_CHKSUM  = "ab4ba608dc4b757716871f9be033f0f1"
++WHENCE_CHKSUM  = "bf7c716d16e48fe118c6209f99b13253"
  
- # Timeout for blocking socket operations, such as the connection attempt.
- CVE_SOCKET_TIMEOUT ?= "60"
-+NVDCVE_URL ?= "https://nvd.nist.gov/feeds/json/cve/1.1/nvdcve-1.1-"
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+ # so that the license files will be copied from fetched source
+@@ -209,7 +209,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
+ # Pin this to the 20220509 release, override this in local.conf
+ SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
  
- python () {
-     if not bb.data.inherits_class("cve-check", d):
-@@ -36,7 +37,6 @@ python do_fetch() {
+-SRC_URI[sha256sum] = "c0ddffbbcf30f2e015bddd5c6d3ce1f13976b906aceabda4a57e3c41a3190701"
++SRC_URI[sha256sum] = "e793783e92acbde549965521462d1d1327827360664cf242dbda08f075654331"
  
-     bb.utils.export_proxies(d)
- 
--    BASE_URL = "https://nvd.nist.gov/feeds/json/cve/1.1/nvdcve-1.1-"
-     YEAR_START = 2002
- 
-     db_file = d.getVar("CVE_CHECK_DB_FILE")
-@@ -76,7 +76,7 @@ python do_fetch() {
-         total_years = date.today().year + 1 - YEAR_START
-         for i, year in enumerate(range(YEAR_START, date.today().year + 1)):
-             ph.update((float(i + 1) / total_years) * 100)
--            year_url = BASE_URL + str(year)
-+            year_url = (d.getVar('NVDCVE_URL')) + str(year)
-             meta_url = year_url + ".meta"
-             json_url = year_url + ".json.gz"
+ inherit allarch
  
 -- 
 2.25.1
