@@ -1,171 +1,166 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D6F5C54E94
-	for <webhook@archiver.kernel.org>; Wed, 25 Jan 2023 14:24:47 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.46129.1674656682358681043
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C7E7C54E94
+	for <webhook@archiver.kernel.org>; Wed, 25 Jan 2023 14:42:07 +0000 (UTC)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web10.46635.1674657726281230072
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Jan 2023 06:24:42 -0800
+ Wed, 25 Jan 2023 06:42:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Qgj+fidr;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id bg13-20020a05600c3c8d00b003d9712b29d2so1342134wmb.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Jan 2023 06:24:42 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=HZBiI8r5;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f172.google.com with SMTP id jl3so18052462plb.8
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Jan 2023 06:42:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Gh0kLcgh/PqB5HF6pShYtOzTHY6bniPHcwMG0WaVZ8Y=;
-        b=Qgj+fidrCBpgtrUpxKSwWfuWDg/caBUn0I5Th0zI2FGQ40+nUU6OQQlj3LaNb79rCd
-         woPlQoxCU7ercZzBD1+yVAsNlbBaXOvKFXu5/Hl9k+tzabyyTgYKvJRUv3i53qWoy67a
-         nvqOdHyYjqpLQaNlxMdEsIBbcE2ISTdYKJkxc=
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rEnwYEMW7ZK1EqL+xHZFfzQtX5xgk/XeGJI9rXxI5ko=;
+        b=HZBiI8r5KcdcnggIppiiO3iu+b8BbTtkai74Wj/nwGJlm1uSQVAlL8spAUR0QxwicK
+         ojoOseCaWuYdHLur/3ry0+8VfpZk6ETfRdSnjCi40bKPk+nv+Vgi8InqzvEl5A55jUB/
+         Crgfa8/EorgUiXA/GxWLQJE1llBTwXqKW/Jcw/5BvIePhnVvPXy+IwKDK6iTPnxe47oK
+         yDRpD2uRc82wJIkx+hPev/7A/HJ2k5xnlP9CngPScrZZg83VIKerLXA62HTksbXkk/wv
+         NGLw6fAS+iAjTDs7izijyCFpFi5NyJF4KO6218nuELC3paBUNyYNClDPRZ6cQMYl/FoP
+         bujQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Gh0kLcgh/PqB5HF6pShYtOzTHY6bniPHcwMG0WaVZ8Y=;
-        b=JBncez7JPLcPBlqw6Fs/tljStkm3PxJfa36m6hzrfPLKHI8DCmpSE6N76b7oYlcZJO
-         SLfcX87718faBTU7+YsmnBFh56MPVgwkV8EVaChybliEwXo7OAiv/WuJ3xaum9kV2Nea
-         /qv/EKJHUZUQyTdMmW9I24ILKhXKGQnysb+DOoysMfCQ4exipUz/6f/u9V+nt0pQxYCS
-         LiXicjLtW9+AWJ4sTsFyJazyg30C+DMlcMWgnSr6VucZ6fkoKjASpo6o5lWRWKm+G/kv
-         zvcPdAdxAG312O5S92YAtg5NXBzpx7OZhvNt86kZkz/pT/YnMSR332EDas+DeVKrU/xv
-         IEEA==
-X-Gm-Message-State: AFqh2koEv7Rznf5dFVI0K5BnjA7qGMWMAGcr61R4SsZTFY6WXDjJDFQk
-	i0oeMXYA6TeebhBICBs8Haurxg==
-X-Google-Smtp-Source: AMrXdXv1nODZ/JduhPLsKNKffLgumqnk+KQ/9QudtDDrN7Ng+OXA9k/E3hL05MW98nDFS3atTHdvgA==
-X-Received: by 2002:a05:600c:2052:b0:3da:f9e8:9809 with SMTP id p18-20020a05600c205200b003daf9e89809mr31760050wmg.35.1674656680786;
-        Wed, 25 Jan 2023 06:24:40 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:3356:3b1f:dd00:4e1a? ([2001:8b0:aba:5f3c:3356:3b1f:dd00:4e1a])
-        by smtp.gmail.com with ESMTPSA id u36-20020a05600c4d2400b003daf681d05dsm1996191wmp.26.2023.01.25.06.24.40
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rEnwYEMW7ZK1EqL+xHZFfzQtX5xgk/XeGJI9rXxI5ko=;
+        b=pgeVa+dHo7BTEL3HGKCv0KgNms9++pBwGkHlHekB6tLPeDCT0iyOEVljDYXRAjoJyP
+         +0D0tSkWxcGV3mv0vq1TRb8hjP0wxnUaZCsGsjWTKQqWxvWr5tnhAB7iUaWUEwt/NsMo
+         hvHHhBfFV99J5CyEMEXwWVe2Fd376fFRq0/C6kbNDiVszOzZqfm13schn6iv/KWCRZv/
+         rRLiNSeNXR5i1FwvOtfeGjqIlr6xFtX9K6maYqEHONuW5OWO+sVwiRCxPnuWC+oeZf/D
+         Cto+tFosQcyLizMEyuuKpOSAH3V3WWk0bObgF1whbx3mBNkEoah/wzrNorZ3mCeOS+/s
+         h3+Q==
+X-Gm-Message-State: AFqh2kpAlm0mKKE5MYt7twnUNI7nCeYJMBk+4Zh9K+CucTdSCgPFXDIn
+	cO1P7LxeF9ppoTSci+6oQaFaZYdbrowHtejCzaY=
+X-Google-Smtp-Source: AMrXdXtopKGTZ06wdqOBIAJ0KfEiqGxdqi3tt2xD3NaY6dSQTJSNzRESuMPNO2frPoM0S8Ba8HZQZw==
+X-Received: by 2002:a05:6a21:339a:b0:b6:4270:6dfc with SMTP id yy26-20020a056a21339a00b000b642706dfcmr41922220pzb.6.1674657725029;
+        Wed, 25 Jan 2023 06:42:05 -0800 (PST)
+Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
+        by smtp.gmail.com with ESMTPSA id d2-20020aa78142000000b005810c4286d6sm3723703pfn.0.2023.01.25.06.42.03
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jan 2023 06:24:40 -0800 (PST)
-Message-ID: <9ab1d0034d3d20fcc42a544f5899f7072cac7c71.camel@linuxfoundation.org>
-Subject: Re: [oe-core][PATCH] gtk4: add PACKAGECONFIG for cloudproviders
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Markus Volk <f_l_k@t-online.de>, openembedded-core@lists.openembedded.org
-Date: Wed, 25 Jan 2023 14:24:39 +0000
-In-Reply-To: <20230122070632.756193-1-f_l_k@t-online.de>
-References: <20230122070632.756193-1-f_l_k@t-online.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.1-0ubuntu1 
+        Wed, 25 Jan 2023 06:42:04 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/16] Patch review
+Date: Wed, 25 Jan 2023 04:41:43 -1000
+Message-Id: <cover.1674657501.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Jan 2023 14:24:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176350
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Jan 2023 14:42:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176351
 
-On Sun, 2023-01-22 at 08:06 +0100, Markus Volk wrote:
-> - Add missing cups runtime dependency
-> - Create packages for the printbackends only for target
->   This fixes:
->=20
->   NOTE: Multiple providers are available for runtime gtk4-printbackend-cu=
-ps (gtk4, gtk4-native)
->   Consider defining a PREFERRED_RPROVIDER entry to match gtk4-printbacken=
-d-cups
->   NOTE: Multiple providers are available for runtime gtk4-printbackend-fi=
-le (gtk4, gtk4-native)
->   Consider defining a PREFERRED_RPROVIDER entry to match gtk4-printbacken=
-d-file
->=20
-> Signed-off-by: Markus Volk <f_l_k@t-online.de>
-> ---
->  meta/recipes-gnome/gtk+/gtk4_4.8.3.bb | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-gnome/gtk+/gtk4_4.8.3.bb b/meta/recipes-gnome/g=
-tk+/gtk4_4.8.3.bb
-> index 6101905128..5112d3b38b 100644
-> --- a/meta/recipes-gnome/gtk+/gtk4_4.8.3.bb
-> +++ b/meta/recipes-gnome/gtk+/gtk4_4.8.3.bb
-> @@ -65,7 +65,8 @@ PACKAGECONFIG:class-nativesdk =3D "${@bb.utils.filter('=
-DISTRO_FEATURES', 'x11', d)
-> =20
->  PACKAGECONFIG[x11] =3D "-Dx11-backend=3Dtrue,-Dx11-backend=3Dfalse,at-sp=
-i2-atk fontconfig libx11 libxext libxcursor libxi libxdamage libxrandr libx=
-render libxcomposite libxfixes xinerama"
->  PACKAGECONFIG[wayland] =3D "-Dwayland-backend=3Dtrue,-Dwayland-backend=
-=3Dfalse,wayland wayland-protocols virtual/egl virtual/libgles2 wayland-nat=
-ive"
-> -PACKAGECONFIG[cups] =3D "-Dprint-cups=3Denabled,-Dprint-cups=3Ddisabled,=
-cups"
-> +PACKAGECONFIG[cloudproviders] =3D "-Dcloudproviders=3Denabled,-Dcloudpro=
-viders=3Ddisabled,libcloudproviders"
-> +PACKAGECONFIG[cups] =3D "-Dprint-cups=3Denabled,-Dprint-cups=3Ddisabled,=
-cups,cups"
->  PACKAGECONFIG[colord] =3D "-Dcolord=3Denabled,-Dcolord=3Ddisabled,colord=
-"
->  PACKAGECONFIG[iso-codes] =3D ",,iso-codes,iso-codes"
->  PACKAGECONFIG[ffmpeg] =3D "-Dmedia-ffmpeg=3Denabled,-Dmedia-ffmpeg=3Ddis=
-abled,ffmpeg"
+Please review this set of patches for dunfell and have comments back by
+end of day Friday.
 
-This bit is fine.
+Passed a-full on autobuilder:
 
-> @@ -114,7 +115,7 @@ RRECOMMENDS:${PN} =3D "${GTKBASE_RRECOMMENDS}"
->  RRECOMMENDS:${PN}:libc-glibc =3D "${GTKGLIBC_RRECOMMENDS}"
->  RDEPENDS:${PN}-dev +=3D "${@bb.utils.contains("PACKAGECONFIG", "wayland"=
-, "wayland-protocols", "", d)}"
-> =20
-> -PACKAGES_DYNAMIC +=3D "^gtk4-printbackend-.*"
-> +PACKAGES_DYNAMIC:class-target +=3D "^gtk4-printbackend-.*"
->  python populate_packages:prepend () {
->      import os.path
->=20
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/4828
 
-This bit is really a bug in the native.bbclass class extension code and
-I'd really prefer to fix that rather than needing every recipe with a
-BBCLASSEXTEND native to handle PACKAGES_DYNAMIC specially.
+with the exception of a known autobuilder intermittent issue on qemuppc:
 
-You'll see that nativesdk.bbclass does:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=14824
 
-    clsextend.map_regexp_variable("PACKAGES_DYNAMIC")
+which passed on subsequent re-test:
 
-but native.bbclass doesn't do anything with PACKAGES_DYANAMIC which is
-the issue. Could you see if the patch below helps please?
+https://autobuilder.yoctoproject.org/typhoon/#/builders/63/builds/6517
 
-diff --git a/meta/classes-recipe/native.bbclass b/meta/classes-recipe/nativ=
-e.bbclass
-index 1e94585f3e3..cfd299d0c8c 100644
---- a/meta/classes-recipe/native.bbclass
-+++ b/meta/classes-recipe/native.bbclass
-@@ -139,7 +139,7 @@ python native_virtclass_handler () {
-     if "native" not in classextend:
-         return
-=20
--    def map_dependencies(varname, d, suffix =3D "", selfref=3DTrue):
-+    def map_dependencies(varname, d, suffix =3D "", selfref=3DTrue, regex=
-=3DFalse):
-         if suffix:
-             varname =3D varname + ":" + suffix
-         deps =3D d.getVar(varname)
-@@ -148,7 +148,9 @@ python native_virtclass_handler () {
-         deps =3D bb.utils.explode_deps(deps)
-         newdeps =3D []
-         for dep in deps:
--            if dep =3D=3D pn:
-+            if regex and dep.startswith("^") and dep.endswith("$"):
-+                newdeps.append(dep[:-1].replace(pn, bpn) + "-native$")
-+            elif dep =3D=3D pn:
-                 if not selfref:
-                     continue
-                 newdeps.append(dep)
-@@ -171,6 +173,7 @@ python native_virtclass_handler () {
-         map_dependencies("RPROVIDES", e.data, pkg)
-         map_dependencies("RREPLACES", e.data, pkg)
-     map_dependencies("PACKAGES", e.data)
-+    map_dependencies("PACKAGES_DYNAMIC", e.data, regex=3DTrue)
-=20
-     provides =3D e.data.getVar("PROVIDES")
-     nprovides =3D []
+The following changes since commit db81e3c7e7f1d4d9eba52ac35ac97627d0240b63:
 
+  build-appliance-image: Update to dunfell head revision (2023-01-13 18:11:40 +0000)
 
-Cheers,
+are available in the Git repository at:
 
-Richard
+  https://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Alexander Kanavin (2):
+  linux-firmware: upgrade 20221109 -> 20221214
+  selftest/virgl: use pkg-config from the host
+
+Benoît Mauduit (1):
+  lib/oe/reproducible: Use git log without gpg signature
+
+Bhabu Bindu (1):
+  ffmpeg: Fix CVE-2022-3109
+
+Hitendra Prajapati (2):
+  QEMU: CVE-2022-4144 QXL: qxl_phys2virt unsafe address translation can
+    lead to out-of-bounds read
+  xserver-xorg: Fix Multiple CVEs
+
+Jan Kircher (1):
+  toolchain-scripts: compatibility with unbound variable protection
+
+Jermain Horsman (1):
+  cve-check: write the cve manifest to IMGDEPLOYDIR
+
+Marta Rybczynska (1):
+  cve-update-db-native: avoid incomplete updates
+
+Niko Mauno (1):
+  systemd: Consider PACKAGECONFIG in RRECOMMENDS
+
+Quentin Schulz (1):
+  cairo: fix CVE patches assigned wrong CVE number
+
+Randy MacLeod (1):
+  vim: upgrade 9.0.0947 -> 9.0.1211
+
+Ross Burton (2):
+  cve-update-db-native: add more logging when fetching
+  cve-update-db-native: show IP on failure
+
+Steve Sakoman (1):
+  python3: fix packaging of Windows distutils installer stubs
+
+jan (1):
+  cve-update-db-native: Allow to overrule the URL in a bbappend.
+
+ meta/classes/cve-check.bbclass                |   6 +-
+ meta/classes/toolchain-scripts.bbclass        |   2 +-
+ meta/lib/oe/reproducible.py                   |   3 +-
+ meta/lib/oeqa/selftest/cases/runtime_test.py  |   2 +-
+ .../recipes-core/meta/cve-update-db-native.bb |  97 ++++++++++++-----
+ meta/recipes-core/systemd/systemd_244.5.bb    |   4 +-
+ .../python/python3/python3-manifest.json      |   4 +-
+ meta/recipes-devtools/qemu/qemu.inc           |   1 +
+ .../qemu/qemu/CVE-2022-4144.patch             | 103 ++++++++++++++++++
+ .../cairo/cairo/CVE-2019-6461.patch           |  46 +++-----
+ .../cairo/cairo/CVE-2019-6462.patch           |  46 +++++---
+ .../xserver-xorg/CVE-2022-4283.patch          |  39 +++++++
+ .../xserver-xorg/CVE-2022-46340.patch         |  55 ++++++++++
+ .../xserver-xorg/CVE-2022-46341.patch         |  86 +++++++++++++++
+ .../xserver-xorg/CVE-2022-46342.patch         |  78 +++++++++++++
+ .../xserver-xorg/CVE-2022-46343.patch         |  51 +++++++++
+ .../xserver-xorg/CVE-2022-46344.patch         |  75 +++++++++++++
+ .../xorg-xserver/xserver-xorg_1.20.14.bb      |   8 +-
+ ...20221109.bb => linux-firmware_20221214.bb} |   4 +-
+ .../ffmpeg/ffmpeg/CVE-2022-3109.patch         |  41 +++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb |   1 +
+ meta/recipes-support/vim/vim.inc              |   4 +-
+ 22 files changed, 670 insertions(+), 86 deletions(-)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2022-4144.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-4283.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-46340.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-46341.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-46342.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-46343.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2022-46344.patch
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20221109.bb => linux-firmware_20221214.bb} (99%)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2022-3109.patch
+
+-- 
+2.25.1
+
 
