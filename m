@@ -1,391 +1,430 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B24D4C54EAA
-	for <webhook@archiver.kernel.org>; Thu, 26 Jan 2023 20:27:55 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web10.85305.1674764870601888979
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF354C05027
+	for <webhook@archiver.kernel.org>; Thu, 26 Jan 2023 20:40:35 +0000 (UTC)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+ by mx.groups.io with SMTP id smtpd.web11.85769.1674765634773786381
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Jan 2023 12:27:50 -0800
+ Thu, 26 Jan 2023 12:40:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=PLrqXgPG;
- spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f49.google.com with SMTP id b7so3039194wrt.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Jan 2023 12:27:50 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=CYd52Psp;
+ spf=pass (domain: gmail.com, ip: 209.85.219.179, mailfrom: ticotimo@gmail.com)
+Received: by mail-yb1-f179.google.com with SMTP id d8so1604590ybe.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Jan 2023 12:40:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IMUbhUY2O5uwKKlSRTP9ewUEismnEUlEnaBW7B2tqUI=;
-        b=PLrqXgPGmxDFBffWYNXxLPh4cP4my+hVbzrXH1y2pKaIkKXYqrFRumIUHScsaJIw8w
-         SgTEGmXlZXdPiztKDjb+GHrIUZyJ6Exmmg8+U4Aq/3c1b96C9glO5f4UeFiiJiqT/u5s
-         raB46nDS/VCnIzoa/bXmknWR398LYP41gTaFiwr+fODFNet9rXup0B1Qwn27T2mOm+oI
-         nGNsol1fIU/vGHWpxb/1nVJUykP7mX2dZwMWNiUCTv+2FP/UFAc+rqCqHAdlZFXCRAvy
-         oLn+Q5wU6+DbTphsZAAffYfBhv9NFoPahpI0VfG5SkPi4SJBhsUWeQTQOSYgn9V9uzos
-         WY7A==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ohBZVE4UEW64+1+jToJUyyFCqQdvNk6APpHCfFjna5k=;
+        b=CYd52PspgrRUmKF4Q7n5DOzfLGJx/UCRDf+1lw5MZza0nD02RZXf5VIqH139Iwhu/2
+         oxqCKWZfy6+dNlU15Od7MXWY0tI1Jy7hUH1SkGA63P559r1GMW0gG73okAd7BTvmKuIA
+         xTfi9FyHvwmkaTVjVy6PJP0GRjOg3z9YSOxuAmz6eFCn3x3qAPJk/q522G4s5/qRnBN/
+         vns7qAg6GSNvIOwZTShmuxOPq5S3KSbw09xeqDCteRtE9MrqBpp9bE6ibEVZXrG8JJ9l
+         ORRSHZxZA4PQXEvUXfQrHNQMZk6ICkekF3mr/q5uIVRVuCJTbcjP6zmQbAVGbKRCEQlK
+         MKRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=IMUbhUY2O5uwKKlSRTP9ewUEismnEUlEnaBW7B2tqUI=;
-        b=rEW1rUwriAdrNxsTTY76GCU3cs1+toOl8vvhMN+MicMkkUOv8wNoG8fPcf1YMKMsc1
-         0DYyrdAY+dSNVbtRRFxERf5MCCKSAbewCA/dc6tTM6KzXtVIgBKfnVxhs/b61As7iSab
-         6bASisgymCb2CyN0rl6gBWs+X8IGO448DzoZTb2Yi3pzezel7mXni0qBTjyy1ZKtAcet
-         SkgxFoALzy3rNJKXd2vGhtxMyWY7UWKHCYlfin1y+hCXed9ny73rbGX47M9+GB0qg0Dm
-         j/52dylmz1ZiswfCodapta7gbH9+THkNcDo0glG8/o4yKfVp0Rr8Caz1R9zJ91gPerIC
-         AnJw==
-X-Gm-Message-State: AO0yUKWAZdMJVyjEo6jePLE5ARrcR6/HLtWmWOKFzucO9Lp1nXtZ9gfe
-	abM0XXBOfsqQwAo+JsWdp7CUtFtqHDA=
-X-Google-Smtp-Source: AK7set9ezfxCI8HyRiaASGaX3NkBaOp9ynSoj6fQToLKCxmfkNsNXSZcubQPWe8J2jpNsnt9pu54bg==
-X-Received: by 2002:a05:6000:1105:b0:2bf:b77c:df72 with SMTP id z5-20020a056000110500b002bfb77cdf72mr6539777wrw.25.1674764868787;
-        Thu, 26 Jan 2023 12:27:48 -0800 (PST)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id d1-20020adfe2c1000000b002bfba730b0fsm2156856wrj.65.2023.01.26.12.27.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Jan 2023 12:27:47 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH] gdk-pixbuf: do not use tools from gdk-pixbuf-native when building tests
-Date: Thu, 26 Jan 2023 21:27:36 +0100
-Message-Id: <20230126202736.838046-1-alex@linutronix.de>
-X-Mailer: git-send-email 2.30.2
+        bh=ohBZVE4UEW64+1+jToJUyyFCqQdvNk6APpHCfFjna5k=;
+        b=gp9GyomGYo9NeghbF+NF1GQh+lr+HM436JuOCTPj8TryDQFXcdwuYCY5z1aWp0ttxW
+         DRx+UnfgBQnK5dUF0D9zK3Ct9eN/PIcVxW3YD3lOhldtwAygSFGjuXZr67Zq4ktsrGfA
+         8h1ZLFXeo0Wv9DW6hGCaH2Cyw+bbAyStTnl/IOd9wCetS0sGh8+6qKctGC5+6TwH+G++
+         kUTb9M43Z4BFGA51QNGoWUlH14XO8EZ1cj1U6KkmwhiQqy+PXZpJDBDlj1/m0cxBpDQs
+         wkxc/I2cTs8yg3Y03FmOA9rWo74Iq1q219lg+Uy3e8dJzYNHgrkq42X/s5DB3YdN9jWO
+         2m2g==
+X-Gm-Message-State: AO0yUKWKm/W7dahxAT9qlWE9iMCD2TkmC9L6c+6pZ6+kX0Rn2PN3FZOg
+	WeQtO0K1R6On6Q/obNJOy621o/+AS5ih+8SvaVs=
+X-Google-Smtp-Source: AK7set+DmVlkitEu7sH/ooi+2vQyGY5eYgqHjDNOZvuq7v36KEm8qOG8rwDL5dUT7jbjEK1+NIOKoaZEtRz5Jdf36bU=
+X-Received: by 2002:a25:86c2:0:b0:80b:7e2e:f94 with SMTP id
+ y2-20020a2586c2000000b0080b7e2e0f94mr1069269ybm.273.1674765633776; Thu, 26
+ Jan 2023 12:40:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cccfbf0c-5bb9-45f2-db6d-4d2692a7b729@amd.com>
+In-Reply-To: <cccfbf0c-5bb9-45f2-db6d-4d2692a7b729@amd.com>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Thu, 26 Jan 2023 12:40:22 -0800
+Message-ID: <CANx9H-BuquWnmXAcRmzDdpwgxtKE_-+BbdvEKHnEXvmEsHrOPA@mail.gmail.com>
+Subject: Re: python3-bqplot build issues
+To: "Gundlupet Raju, Sandeep" <sandeep.gundlupet-raju@amd.com>
+Cc: Openembedded Core <openembedded-core@lists.openembedded.org>, 
+	"Hatle, Mark" <mark.hatle@amd.com>
+Content-Type: multipart/alternative; boundary="000000000000aef14605f330c244"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Jan 2023 20:27:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176422
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Jan 2023 20:40:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176423
 
-The patch that allows to do so has not been accepted upstream, and wasn't correctly
-working as it was running a native executable (gdk-pixbuf-query-loaders) with target .so plugins.
+--000000000000aef14605f330c244
+Content-Type: text/plain; charset="UTF-8"
 
-On the other hand, out of 20+ (currently 23) tests only three require
-running binaries at build time to produce special test-specific input data:
+On Wed, Jan 25, 2023 at 11:17 AM Gundlupet Raju, Sandeep <
+sandeep.gundlupet-raju@amd.com> wrote:
 
-cve-2015-4491
-pixbuf-pixdata
-pixbuf-resource
+> Hello,
+>
+> I'm upgrading python3-bqplot from honister to langdale in meta-jupyter,
+> I've migrated the recipe version from 0.12.31 ->0.12.36 but I'm running
+> into build missing dependencies issues. Even if I use 0.12.31 issues
+> exists in kirkstone and langdale.
+>
+> Any help from community will be much appreciated.
+>
+>
+> https://github.com/Xilinx/meta-jupyter/blob/langdale/recipes-python/python3-bqplot_0.12.31.bb
+>
+> ============
+>
+> Source repo:
+>
+> ============
+>
+> https://github.com/bqplot/bqplot/tree/0.12.36
+>
+> ================================================================
+>
+> 0001-pyproject.toml-Allow-jupyter-packaging-to-be-greater.patch:
+>
+> ================================================================
+>
+>  From c4681f95099516e96b1c7be757da6e0f302f50fe Mon Sep 17 00:00:00 2001
+> From: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+> Date: Tue, 13 Dec 2022 15:41:18 -0700
+> Subject: [PATCH] pyproject.toml: Allow jupyter packaging to be greater than
+>   0.7
+>
+> Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+> ---
+>   pyproject.toml | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/pyproject.toml b/pyproject.toml
+> index ba04c53f..7a3cc3a9 100644
+> --- a/pyproject.toml
+> +++ b/pyproject.toml
+> @@ -1,3 +1,3 @@
+>   [build-system]
+> -requires = ["jupyter_packaging~=0.7.9", "jupyterlab~=3.0",
+> "setuptools>=40.8.0", "wheel"]
+> +requires = ["jupyter_packaging~=0.9,<2", "jupyterlab~=3.0,<4",
 
-So let's simply omit these from the build: this can be done with a far
-less invasive patch which has a chance of being accepted upstream.
+These are build time dependencies so they need to be in DEPENDS, not
+RDEPENDS.
 
-gdk-pixbuf-print-mime-types is no longer installed
-(the replaced patch was doing that).
+>
+> "setuptools", "wheel"]
+>   build-backend = "setuptools.build_meta"
+> --
+> 2.17.1
+>
+> =================================
+>
+> python3-bqplot_0.12.36.bb recipe:
+>
+> =================================
+>
+> SUMMARY = "Interactive plotting for the Jupyter notebook, using d3.js and \
+>         ipywidgets."
+> LICENSE = "Apache-2.0"
+> LIC_FILES_CHKSUM = "file://LICENSE;md5=822b4ff4dd277d70fc2b796617ae1bf7"
+>
+> PYPI_PACKAGE = "bqplot"
+> inherit pypi python_setuptools_build_meta
+>
+> SRC_URI[sha256sum] =
+> "6a553e55fdbcc4f62e05679bd74b2549d1efbe43e120ad3b0bcb03a65c7921af"
+> SRC_URI += "\
+> file://0001-pyproject.toml-Allow-jupyter-packaging-to-be-greater.patch \
+>      "
+>
+> In the prior 0.12.31 ecipe, you had
+ DEPENDS += " \
+${PYTHON_PN}-jupyter-packaging-native \
+"
+So according to the "requires =" in [build-system], you should also need
+python3-jupyterlab-native
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- .../0001-Add-use_prebuilt_tools-option.patch  | 173 ------------------
- ...w-a-subset-of-tests-in-cross-compile.patch |  66 +++++++
- .../gdk-pixbuf/gdk-pixbuf_2.42.10.bb          |  17 +-
- 3 files changed, 68 insertions(+), 188 deletions(-)
- delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Add-use_prebuilt_tools-option.patch
- create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-meson.build-allow-a-subset-of-tests-in-cross-compile.patch
+RDEPENDS:${PN} += " \
+>      ${PYTHON_PN}-jupyter-packaging \
+>      ${PYTHON_PN}-jupyterlab \
+>      ${PYTHON_PN}-ipywidgets \
+>      ${PYTHON_PN}-traitlets \
+>      ${PYTHON_PN}-traittypes \
+>      ${PYTHON_PN}-numpy \
+>      ${PYTHON_PN}-pandas \
+>      "
+>
+> do_install:append() {
+>      # this files will be installed by python3-json5
+>      rm -f
+> ${D}${PYTHON_SITEPACKAGES_DIR}/tests/__pycache__/__init__.cpython-37.pyc
+> }
+>
+> FILES:${PN} += "${datadir}/*"
+>
+> =================
+>
+> Build error logs:
+>
+> =================
+>
+> NOTE: Executing Tasks
+> ERROR: python3-bqplot-0.12.36-r0 do_compile:
+> ExecutionError('/tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xilinx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile.3777058',
+>
+> 1, None, None)
+> ERROR: Logfile of failure stored in:
+>
+> /tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xilinx-linux/python3-bqplot/0.12.36-r0/temp/log.do_compile.3777058
+> Log data follows:
+> | DEBUG: Executing shell function do_compile
+> | Missing build dependencies:
+> | - jupyter_packaging~=0.9,<2
+> | - jupyterlab~=3.0,<4
+> | WARNING:
+> /tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xilinx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile.3777058:157
+>
+> exit 1 from 'nativepython3 -m picobuild --source
+> /tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xilinx-linux/python3-bqplot/0.12.36-r0/bqplot-0.12.36
+>
+> --dest
+> /tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xilinx-linux/python3-bqplot/0.12.36-r0/dist
+>
+> --wheel'
+> | WARNING: Backtrace (BB generated script):
+> |       #1: python_pep517_do_compile,
+> /tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xilinx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile.3777058,
+>
+> line 157
+> |       #2: do_compile,
+> /tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xilinx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile.3777058,
+>
+> line 152
+> |       #3: main,
+> /tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xilinx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile.3777058,
+>
+> line 161
+> ERROR: Task
+>
+> (/group/bcapps/sandeepg/yocto/2023.1/yp-dev/sources/poky/../meta-jupyter/recipes-python/python3-bqplot_0.12.36.bb:do_compile)
+>
+> failed with exit code '1'
+> NOTE: Tasks Summary: Attempted 2249 tasks of which 2241 didn't need to
+> be rerun and 1 failed.
+>
+> Summary: 1 task failed:
+>
+> /group/bcapps/sandeepg/yocto/2023.1/yp-dev/sources/poky/../meta-jupyter/recipes-python/python3-bqplot_0.12.36.bb:
+> do_compile
+> Summary: There was 1 WARNING message.
+> Summary: There was 1 ERROR message, returning a non-zero exit code.
+>
+> Thanks,
+>
+> Sandeep
+>
+>
+>
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Add-use_prebuilt_tools-option.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Add-use_prebuilt_tools-option.patch
-deleted file mode 100644
-index 02cc9a2a70..0000000000
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Add-use_prebuilt_tools-option.patch
-+++ /dev/null
-@@ -1,173 +0,0 @@
--From f81b60ebcbbfd9548c8aa1e388662c429068d1e3 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Sat, 8 May 2021 21:58:54 +0200
--Subject: [PATCH] Add use_prebuilt_tools option
--
--This allows using the gdk-pixbuf tools from the host to
--build and install tests in a cross-compile scenarion.
--
--Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/merge_requests/119]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
--
-----
-- gdk-pixbuf/meson.build  | 11 +++++++++--
-- meson.build             |  6 +++---
-- meson_options.txt       |  4 ++++
-- tests/meson.build       | 16 ++++++++--------
-- thumbnailer/meson.build | 24 ++++++++++++++++++------
-- 5 files changed, 42 insertions(+), 19 deletions(-)
--
--diff --git a/gdk-pixbuf/meson.build b/gdk-pixbuf/meson.build
--index 54ff9dd..2e321cf 100644
----- a/gdk-pixbuf/meson.build
--+++ b/gdk-pixbuf/meson.build
--@@ -342,13 +342,20 @@ foreach bin: gdkpixbuf_bin
--                    include_directories: [ root_inc, gdk_pixbuf_inc ],
--                    c_args: common_cflags + gdk_pixbuf_cflags,
--                    install: true)
---  meson.override_find_program(bin_name, bin)
--+  if not get_option('use_prebuilt_tools')
--+      meson.override_find_program(bin_name, bin)
--+  endif
-- 
--   # Used in tests
--   set_variable(bin_name.underscorify(), bin)
-- endforeach
-- 
---if not meson.is_cross_build()
--+if get_option('use_prebuilt_tools')
--+    gdk_pixbuf_query_loaders = find_program('gdk-pixbuf-query-loaders', required: true)
--+    gdk_pixbuf_pixdata = find_program('gdk-pixbuf-pixdata', required: true)
--+endif
--+
--+if not meson.is_cross_build() or get_option('use_prebuilt_tools')
--   # The 'loaders.cache' used for testing, so we don't accidentally
--   # load the installed cache; we always build it by default
--   loaders_cache = custom_target('loaders.cache',
--diff --git a/meson.build b/meson.build
--index 813bd43..a93e6f7 100644
----- a/meson.build
--+++ b/meson.build
--@@ -369,18 +369,18 @@ subdir('gdk-pixbuf')
-- # i18n
-- subdir('po')
-- 
---if not meson.is_cross_build()
--+if not meson.is_cross_build() or get_option('use_prebuilt_tools')
--   if get_option('tests')
--     subdir('tests')
--   endif
---  subdir('thumbnailer')
-- endif
--+subdir('thumbnailer')
-- 
-- # Documentation
-- build_docs = get_option('gtk_doc') or get_option('docs')
-- subdir('docs')
-- 
---if not meson.is_cross_build()
--+if not meson.is_cross_build() or get_option('use_prebuilt_tools')
--   meson.add_install_script('build-aux/post-install.py',
--     gdk_pixbuf_bindir,
--     gdk_pixbuf_libdir,
--diff --git a/meson_options.txt b/meson_options.txt
--index d198d99..1c899e9 100644
----- a/meson_options.txt
--+++ b/meson_options.txt
--@@ -53,4 +53,8 @@ option('gio_sniffing',
--        description: 'Perform file type detection using GIO (Unused on MacOS and Windows)',
--        type: 'boolean',
--        value: true)
--+option('use_prebuilt_tools',
--+       description: 'Use prebuilt gdk-pixbuf tools from the host for cross-compilation',
--+       type: 'boolean',
--+       value: false)
-- 
--diff --git a/tests/meson.build b/tests/meson.build
--index 28c2525..d97c02d 100644
----- a/tests/meson.build
--+++ b/tests/meson.build
--@@ -5,6 +5,12 @@
-- # $PATH. Ideally we should use gnome.compile_resources() and let Meson deal with
-- # this problem: See https://github.com/mesonbuild/meson/issues/8266.
-- if enabled_loaders.contains('png') and host_system != 'windows'
--+
--+  resources_deps = [loaders_cache,]
--+  if not get_option('use_prebuilt_tools')
--+    resources_deps += [gdk_pixbuf_pixdata,]
--+  endif
--+
--   # Resources; we cannot use gnome.compile_resources() here, because we need to
--   # override the environment in order to use the utilities we just built instead
--   # of the system ones
--@@ -21,10 +27,7 @@ if enabled_loaders.contains('png') and host_system != 'windows'
--       '@INPUT@',
--       '@OUTPUT@',
--     ],
---    depends: [
---      gdk_pixbuf_pixdata,
---      loaders_cache,
---    ],
--+    depends: resources_deps,
--   )
-- 
--   resources_h = custom_target('resources.h',
--@@ -40,10 +43,7 @@ if enabled_loaders.contains('png') and host_system != 'windows'
--       '@INPUT@',
--       '@OUTPUT@',
--     ],
---    depends: [
---      gdk_pixbuf_pixdata,
---      loaders_cache,
---    ],
--+    depends: resources_deps,
--   )
--   no_resources = false
-- else
--diff --git a/thumbnailer/meson.build b/thumbnailer/meson.build
--index b6a206d..9336c21 100644
----- a/thumbnailer/meson.build
--+++ b/thumbnailer/meson.build
--@@ -6,13 +6,29 @@ bin = executable('gdk-pixbuf-thumbnailer',
--            ],
--            dependencies: gdk_pixbuf_deps + [ gdkpixbuf_dep ],
--            install: true)
---meson.override_find_program('gdk-pixbuf-thumbnailer', bin)
--+if not get_option('use_prebuilt_tools')
--+    meson.override_find_program('gdk-pixbuf-thumbnailer', bin)
--+endif
-- 
-- gdk_pixbuf_print_mime_types = executable('gdk-pixbuf-print-mime-types',
--                                          'gdk-pixbuf-print-mime-types.c',
--+                                         install: true,
--                                          c_args: common_cflags,
--                                          dependencies: gdk_pixbuf_deps + [ gdkpixbuf_dep ])
-- 
--+if get_option('use_prebuilt_tools')
--+    gdk_pixbuf_print_mime_types = find_program('gdk-pixbuf-print-mime-types', required: true)
--+endif
--+
--+thumbnailer_deps = [loaders_cache,]
--+
--+if not get_option('use_prebuilt_tools')
--+    thumbnailer_deps += [
--+        gdk_pixbuf_print_mime_types,
--+        gdk_pixbuf_pixdata,
--+    ]
--+endif
--+
-- custom_target('thumbnailer',
--               input: 'gdk-pixbuf-thumbnailer.thumbnailer.in',
--               output: 'gdk-pixbuf-thumbnailer.thumbnailer',
--@@ -25,10 +41,6 @@ custom_target('thumbnailer',
--                 '@INPUT@',
--                 '@OUTPUT@',
--               ],
---              depends: [
---                gdk_pixbuf_print_mime_types,
---                gdk_pixbuf_pixdata,
---                loaders_cache,
---              ],
--+              depends: thumbnailer_deps,
--               install: true,
--               install_dir: join_paths(gdk_pixbuf_datadir, 'thumbnailers'))
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-meson.build-allow-a-subset-of-tests-in-cross-compile.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-meson.build-allow-a-subset-of-tests-in-cross-compile.patch
-new file mode 100644
-index 0000000000..7250fa3f62
---- /dev/null
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-meson.build-allow-a-subset-of-tests-in-cross-compile.patch
-@@ -0,0 +1,66 @@
-+From 9d3b374e75692da3d1d05344a1693c85a3098f47 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Thu, 26 Jan 2023 20:29:46 +0100
-+Subject: [PATCH] meson.build: allow (a subset of) tests in cross compile
-+ settings
-+
-+There is no need to completely disable tests: most of them
-+do not require running target executables at build time,
-+and so can be built and installed.
-+
-+This requires inserting a couple of specific guards around
-+items that do require running target executables.
-+
-+Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/merge_requests/150]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ meson.build       |  6 +++---
-+ tests/meson.build | 10 ++++++----
-+ 2 files changed, 9 insertions(+), 7 deletions(-)
-+
-+diff --git a/meson.build b/meson.build
-+index 8a16c8f..7c8b20f 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -369,10 +369,10 @@ subdir('gdk-pixbuf')
-+ # i18n
-+ subdir('po')
-+ 
-++if get_option('tests')
-++  subdir('tests')
-++endif
-+ if not meson.is_cross_build()
-+-  if get_option('tests')
-+-    subdir('tests')
-+-  endif
-+   subdir('thumbnailer')
-+ endif
-+ 
-+diff --git a/tests/meson.build b/tests/meson.build
-+index 28c2525..c45e765 100644
-+--- a/tests/meson.build
-++++ b/tests/meson.build
-+@@ -4,7 +4,7 @@
-+ # gdk-pixbuf-pixdata from build directory because it needs all DLL locations in
-+ # $PATH. Ideally we should use gnome.compile_resources() and let Meson deal with
-+ # this problem: See https://github.com/mesonbuild/meson/issues/8266.
-+-if enabled_loaders.contains('png') and host_system != 'windows'
-++if enabled_loaders.contains('png') and host_system != 'windows' and not meson.is_cross_build()
-+   # Resources; we cannot use gnome.compile_resources() here, because we need to
-+   # override the environment in order to use the utilities we just built instead
-+   # of the system ones
-+@@ -166,9 +166,11 @@ endif
-+ test_deps = gdk_pixbuf_deps + [ gdkpixbuf_dep, ]
-+ test_args = [ '-k' ]
-+ test_env = environment()
-+-test_env.set('G_TEST_SRCDIR', meson.current_source_dir())
-+-test_env.set('G_TEST_BUILDDIR', meson.current_build_dir())
-+-test_env.set('GDK_PIXBUF_MODULE_FILE', loaders_cache.full_path())
-++if not meson.is_cross_build()
-++  test_env.set('G_TEST_SRCDIR', meson.current_source_dir())
-++  test_env.set('G_TEST_BUILDDIR', meson.current_build_dir())
-++  test_env.set('GDK_PIXBUF_MODULE_FILE', loaders_cache.full_path())
-++endif
-+ 
-+ foreach test_name, test_data: installed_tests
-+   test_sources = [ test_name + '.c', 'test-common.c' ]
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb
-index aa44515fbb..cca89a9059 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb
-@@ -12,15 +12,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
- 
- SECTION = "libs"
- 
--DEPENDS = "glib-2.0 gdk-pixbuf-native shared-mime-info"
--DEPENDS:remove:class-native = "gdk-pixbuf-native"
-+DEPENDS = "glib-2.0 shared-mime-info"
- 
- MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
- 
- SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-            file://run-ptest \
-            file://fatal-loader.patch \
--           file://0001-Add-use_prebuilt_tools-option.patch \
-+           file://0001-meson.build-allow-a-subset-of-tests-in-cross-compile.patch \
-            "
- 
- SRC_URI[sha256sum] = "ee9b6c75d13ba096907a2e3c6b27b61bcd17f5c7ebeab5a5b439d2f2e39fe44b"
-@@ -46,14 +45,6 @@ PACKAGECONFIG[tests] = "-Dinstalled_tests=true,-Dinstalled_tests=false"
- 
- EXTRA_OEMESON = "-Dman=false"
- 
--EXTRA_OEMESON:append:class-target = " \
--    -Duse_prebuilt_tools=true \
--"
--
--EXTRA_OEMESON:append:class-nativesdk = " \
--    -Duse_prebuilt_tools=true \
--"
--
- PACKAGES =+ "${PN}-xlib"
- 
- # For GIO image type sniffing
-@@ -115,10 +106,6 @@ do_install:append:class-native() {
- 		XDG_DATA_DIRS=${STAGING_DATADIR} \
- 		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache
- 
--	create_wrapper ${D}/${bindir}/gdk-pixbuf-print-mime-types \
--		XDG_DATA_DIRS=${STAGING_DATADIR} \
--		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache
--
- 	create_wrapper ${D}/${libdir}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders \
- 		XDG_DATA_DIRS=${STAGING_DATADIR} \
- 		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache \
--- 
-2.30.2
+--000000000000aef14605f330c244
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jan 25, 2023 at 11:17 AM Gund=
+lupet Raju, Sandeep &lt;<a href=3D"mailto:sandeep.gundlupet-raju@amd.com">s=
+andeep.gundlupet-raju@amd.com</a>&gt; wrote:<br></div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">Hello,<br>
+<br>
+I&#39;m upgrading python3-bqplot from honister to langdale in meta-jupyter,=
+ <br>
+I&#39;ve migrated the recipe version from 0.12.31 -&gt;0.12.36 but I&#39;m =
+running <br>
+into build missing dependencies issues. Even if I use 0.12.31 issues <br>
+exists in kirkstone and langdale.<br>
+<br>
+Any help from community will be much appreciated.<br>
+<br>
+<a href=3D"https://github.com/Xilinx/meta-jupyter/blob/langdale/recipes-pyt=
+hon/python3-bqplot_0.12.31.bb" rel=3D"noreferrer" target=3D"_blank">https:/=
+/github.com/Xilinx/meta-jupyter/blob/langdale/recipes-python/python3-bqplot=
+_0.12.31.bb</a><br>
+<br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+<br>
+Source repo:<br>
+<br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+<br>
+<a href=3D"https://github.com/bqplot/bqplot/tree/0.12.36" rel=3D"noreferrer=
+" target=3D"_blank">https://github.com/bqplot/bqplot/tree/0.12.36</a><br>
+<br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+<br>
+0001-pyproject.toml-Allow-jupyter-packaging-to-be-greater.patch:<br>
+<br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+<br>
+=C2=A0From c4681f95099516e96b1c7be757da6e0f302f50fe Mon Sep 17 00:00:00 200=
+1<br>
+From: Sandeep Gundlupet Raju &lt;<a href=3D"mailto:sandeep.gundlupet-raju@a=
+md.com" target=3D"_blank">sandeep.gundlupet-raju@amd.com</a>&gt;<br>
+Date: Tue, 13 Dec 2022 15:41:18 -0700<br>
+Subject: [PATCH] pyproject.toml: Allow jupyter packaging to be greater than=
+<br>
+=C2=A0=C2=A00.7<br>
+<br>
+Signed-off-by: Sandeep Gundlupet Raju &lt;<a href=3D"mailto:sandeep.gundlup=
+et-raju@amd.com" target=3D"_blank">sandeep.gundlupet-raju@amd.com</a>&gt;<b=
+r>
+---<br>
+=C2=A0=C2=A0pyproject.toml | 2 +-<br>
+=C2=A0=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/pyproject.toml b/pyproject.toml<br>
+index ba04c53f..7a3cc3a9 100644<br>
+--- a/pyproject.toml<br>
++++ b/pyproject.toml<br>
+@@ -1,3 +1,3 @@<br>
+=C2=A0=C2=A0[build-system]<br>
+-requires =3D [&quot;jupyter_packaging~=3D0.7.9&quot;, &quot;jupyterlab~=3D=
+3.0&quot;, <br>
+&quot;setuptools&gt;=3D40.8.0&quot;, &quot;wheel&quot;]<br>
++requires =3D [&quot;jupyter_packaging~=3D0.9,&lt;2&quot;, &quot;jupyterlab=
+~=3D3.0,&lt;4&quot;,</blockquote><div>These are build time dependencies so =
+they need to be in DEPENDS, not RDEPENDS.=C2=A0</div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex"> <br>
+&quot;setuptools&quot;, &quot;wheel&quot;]<br>
+=C2=A0=C2=A0build-backend =3D &quot;setuptools.build_meta&quot;<br>
+-- <br>
+2.17.1<br>
+<br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D<br>
+<br>
+<a href=3D"http://python3-bqplot_0.12.36.bb" rel=3D"noreferrer" target=3D"_=
+blank">python3-bqplot_0.12.36.bb</a> recipe:<br>
+<br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D<br>
+<br>
+SUMMARY =3D &quot;Interactive plotting for the Jupyter notebook, using d3.j=
+s and \<br>
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 ipywidgets.&quot;<br>
+LICENSE =3D &quot;Apache-2.0&quot;<br>
+LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D822b4ff4dd277d70fc2b796617a=
+e1bf7&quot;<br>
+<br>
+PYPI_PACKAGE =3D &quot;bqplot&quot;<br>
+inherit pypi python_setuptools_build_meta<br>
+<br>
+SRC_URI[sha256sum] =3D <br>
+&quot;6a553e55fdbcc4f62e05679bd74b2549d1efbe43e120ad3b0bcb03a65c7921af&quot=
+;<br>
+SRC_URI +=3D &quot;\<br>
+file://0001-pyproject.toml-Allow-jupyter-packaging-to-be-greater.patch \<br=
+>
+=C2=A0=C2=A0=C2=A0=C2=A0 &quot;<br>
+<br></blockquote><div>In the prior 0.12.31 ecipe, you had</div><div>=C2=A0D=
+EPENDS +=3D &quot; \</div>	${PYTHON_PN}-jupyter-packaging-native \<br>&quot=
+;</div><div class=3D"gmail_quote">So according to the &quot;requires =3D&qu=
+ot; in [build-system], you should also need python3-jupyterlab-native</div>=
+<div class=3D"gmail_quote"><br><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">
+RDEPENDS:${PN} +=3D &quot; \<br>
+=C2=A0=C2=A0=C2=A0 =C2=A0${PYTHON_PN}-jupyter-packaging \<br>
+=C2=A0=C2=A0=C2=A0 =C2=A0${PYTHON_PN}-jupyterlab \<br>
+=C2=A0=C2=A0=C2=A0 =C2=A0${PYTHON_PN}-ipywidgets \<br>
+=C2=A0=C2=A0=C2=A0 =C2=A0${PYTHON_PN}-traitlets \<br>
+=C2=A0=C2=A0=C2=A0 =C2=A0${PYTHON_PN}-traittypes \<br>
+=C2=A0=C2=A0=C2=A0 =C2=A0${PYTHON_PN}-numpy \<br>
+=C2=A0=C2=A0=C2=A0 =C2=A0${PYTHON_PN}-pandas \<br>
+=C2=A0=C2=A0=C2=A0 =C2=A0&quot;<br>
+<br>
+do_install:append() {<br>
+=C2=A0=C2=A0=C2=A0 =C2=A0# this files will be installed by python3-json5<br=
+>
+=C2=A0=C2=A0=C2=A0 =C2=A0rm -f <br>
+${D}${PYTHON_SITEPACKAGES_DIR}/tests/__pycache__/__init__.cpython-37.pyc<br=
+>
+}<br>
+<br>
+FILES:${PN} +=3D &quot;${datadir}/*&quot;<br>
+<br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+<br>
+Build error logs:<br>
+<br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+<br>
+NOTE: Executing Tasks<br>
+ERROR: python3-bqplot-0.12.36-r0 do_compile: <br>
+ExecutionError(&#39;/tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cor=
+texa72-cortexa53-xilinx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile=
+.3777058&#39;, <br>
+1, None, None)<br>
+ERROR: Logfile of failure stored in: <br>
+/tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xil=
+inx-linux/python3-bqplot/0.12.36-r0/temp/log.do_compile.3777058<br>
+Log data follows:<br>
+| DEBUG: Executing shell function do_compile<br>
+| Missing build dependencies:<br>
+| - jupyter_packaging~=3D0.9,&lt;2<br>
+| - jupyterlab~=3D3.0,&lt;4<br>
+| WARNING: <br>
+/tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xil=
+inx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile.3777058:157 <br>
+exit 1 from &#39;nativepython3 -m picobuild --source <br>
+/tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xil=
+inx-linux/python3-bqplot/0.12.36-r0/bqplot-0.12.36 <br>
+--dest <br>
+/tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xil=
+inx-linux/python3-bqplot/0.12.36-r0/dist <br>
+--wheel&#39;<br>
+| WARNING: Backtrace (BB generated script):<br>
+|=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #1: python_pep517_do_compile, <br>
+/tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xil=
+inx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile.3777058, <br>
+line 157<br>
+|=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #2: do_compile, <br>
+/tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xil=
+inx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile.3777058, <br>
+line 152<br>
+|=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #3: main, <br>
+/tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xil=
+inx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile.3777058, <br>
+line 161<br>
+ERROR: Task <br>
+(/group/bcapps/sandeepg/yocto/2023.1/yp-dev/sources/poky/../meta-jupyter/re=
+cipes-python/python3-bqplot_0.12.36.bb:do_compile) <br>
+failed with exit code &#39;1&#39;<br>
+NOTE: Tasks Summary: Attempted 2249 tasks of which 2241 didn&#39;t need to =
+<br>
+be rerun and 1 failed.<br>
+<br>
+Summary: 1 task failed:<br>
+/group/bcapps/sandeepg/yocto/2023.1/yp-dev/sources/poky/../meta-jupyter/rec=
+ipes-python/python3-bqplot_0.12.36.bb:do_compile<br>
+Summary: There was 1 WARNING message.<br>
+Summary: There was 1 ERROR message, returning a non-zero exit code.<br>
+<br>
+Thanks,<br>
+<br>
+Sandeep<br>
+<br>
+<br>
+</blockquote></div></div>
+
+--000000000000aef14605f330c244--
 
