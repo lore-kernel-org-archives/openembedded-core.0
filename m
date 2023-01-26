@@ -1,215 +1,126 @@
-Return-Path: <akuster808@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08CF7C05027
-	for <webhook@archiver.kernel.org>; Thu, 26 Jan 2023 21:35:26 +0000 (UTC)
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
- by mx.groups.io with SMTP id smtpd.web11.87273.1674768925100370726
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DF0AC05027
+	for <webhook@archiver.kernel.org>; Thu, 26 Jan 2023 21:46:56 +0000 (UTC)
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web11.87535.1674769610533966928
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Jan 2023 13:35:25 -0800
+ Thu, 26 Jan 2023 13:46:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=c3vncgSl;
- spf=pass (domain: gmail.com, ip: 209.85.219.53, mailfrom: akuster808@gmail.com)
-Received: by mail-qv1-f53.google.com with SMTP id w15so2451316qvs.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Jan 2023 13:35:24 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=NuywzH0i;
+ spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f43.google.com with SMTP id h5-20020a17090a9c0500b0022bb85eb35dso3031346pjp.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Jan 2023 13:46:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pWHKPZLiFesUAHZeB7+lVf7PPeqLEL0hwL92mHqVlZ4=;
-        b=c3vncgSlYGSziTsnE7pnB3C/+nWXAtaVy202K+yQ23Mf2ooBbzmKqhYjdb/jtr0Ofa
-         cayDEI77Mf8/PIDQIEtMblzVOVj6tODk3OjnH867TqOLgGOOLg8cZnO27BOIJvmDGJij
-         Hnb62pIlqvqAsPCEs34B8vAdCFRS5HpXL4yWgXDx2FTcitLtK1vASsn0P24DCcGCxVi8
-         OEtICRCOPrv/IlSqn89XFZIL1g5CpWFpTHQVVIrkJSRaurWPsQp0logYISn5P/8D2ISx
-         v4SAvboNHioL5CM86jbOksmMx4yw/aIOTW18ShJ5DcfwJ4EdCV8Ea1pMkM+Xx6QDAi+u
-         v2cA==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uhVwHd3qgqZ9T1RPk7XtYd6axZ4tJiWqeVsUph3+2ec=;
+        b=NuywzH0is4YjiADtSpizqAkvlof6S2jhPPzoXeLsupj0fxWC4yhNfM3GkOmqDYz+O1
+         nO1JcrXVlFT/bw0OCYd5ugeMoXq+7ztbQ5YNx/Bal09q9MnYN7GhYf9JzkaotTnVS7vt
+         ZMbSjhxdPI7zMdNJkR1wOnftUPMZSFr0weHl6Q2yxdm9keXFBdi1bqQHK4rm92MGzr0f
+         Nyl6Rj/dKmIGm+lFharnJsQfNUQX+G+qzzdEjMr12bb94sHizpSb4uGPYaxCZeITCqSk
+         WCEUDEhDgIdbo9ou2YrKuTFtxfSA7rTVsOAyebAdenPf9/4ZNBOjP0P16rhvwIzTG6bE
+         +KTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pWHKPZLiFesUAHZeB7+lVf7PPeqLEL0hwL92mHqVlZ4=;
-        b=yhQxA0X8MlLC6VCWqAteBuqwipkgIu9bKUKjSxLuRVonqgx+9qR671GCc3EdJ7+jU1
-         xFI/bf9PUgi79yMmMPc7LRJ8Wuv7YCMK1AqyxMNqfRv1H5SL7aKsQeh3dSlPSUYKUINo
-         mRYgqm7HzLVIgZFqGcPps/yIU+xrRtg+y9hOf3X+Jpw2NhYsP20aq8WD6jBjHHua+syT
-         p6PPwwxqocyMKR2P0xtpjFjQ1HPLy73vCxTDPKm9fwt834pbJmrju96szhzDrzL9DNYk
-         ULAnoZjMOSAxBm6a0pSsezHODlls1Jflpsf9Y4nGk22Ktt+q6I5ZApuUluy9T8lOF432
-         aFcg==
-X-Gm-Message-State: AFqh2koXkP0RStRpiyFj/6J41soIfdNu/OOVme07PtgwOVfGlGnrWIwt
-	XO9EO4ZkKmx1TTtzc/TpFrlgYboKhU0=
-X-Google-Smtp-Source: AMrXdXu/o2YiG9SlsqOoNikWheGJ9aQ8LRJabfnPLV879oO9WKPqPd22D15xBLm0vojmsjY0JywOvw==
-X-Received: by 2002:a05:6214:2f01:b0:4c6:e395:b702 with SMTP id od1-20020a0562142f0100b004c6e395b702mr63624612qvb.34.1674768923879;
-        Thu, 26 Jan 2023 13:35:23 -0800 (PST)
-Received: from mvwork.mvista.com (99-157-111-72.lightspeed.tukrga.sbcglobal.net. [99.157.111.72])
-        by smtp.gmail.com with ESMTPSA id q1-20020ae9e401000000b006fc2f74ad12sm1643553qkc.92.2023.01.26.13.35.23
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uhVwHd3qgqZ9T1RPk7XtYd6axZ4tJiWqeVsUph3+2ec=;
+        b=tW9TwNa6dPVatwVJIb2dKLMIaOIAAEaSEY2dRTSgD6Ng+rdsO1MyMui14+XgzGO/4S
+         /m+oHu9xM303S0ULROmpjkvzTDVNvI0Slhhovf9gtTmB/WFWuktOv8YUY8SbxbP598Qh
+         gNhkxP7mEEL2PgXR3lc8KY3jrMJ31y7R9gjyKodITbLyaqGeMqwHIW6IndcRDYZ8JLdg
+         hIEEPAlVH6C/M0xn/VqPVXJa3fgsFE3fA8YHehrrieeXupgQwevIuE8u4KpiBGtnWF9j
+         4vmYYPMoHRH7cAKycvhpfWwwPOBufSov+NagnGytGgTajBebZcbQK+tdhqeXv0OrF4um
+         gaoA==
+X-Gm-Message-State: AFqh2koM03slVNJpaxcaUQbuim9GwRaiW9Q9CbSg8EeK7WHuAqAx3bIF
+	iRbQ3HOFkId1OWj92Iw85/TJE6sFmLJhbQ==
+X-Google-Smtp-Source: AMrXdXsmR6gOUV7SZAYz3XIfOIzqXzhu1B94/vVC0DBT5JE77IOKwAR1F2o5xDEWYDYTrQoqkwvRGg==
+X-Received: by 2002:a17:903:1cb:b0:194:d8b2:7a1b with SMTP id e11-20020a17090301cb00b00194d8b27a1bmr34823498plh.68.1674769609606;
+        Thu, 26 Jan 2023 13:46:49 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::aee3])
+        by smtp.gmail.com with ESMTPSA id z1-20020a1709028f8100b001888cadf8f6sm1444496plo.49.2023.01.26.13.46.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Jan 2023 13:35:23 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
+        Thu, 26 Jan 2023 13:46:49 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Armin Kuster <akuster@mvista.com>
-Subject: [PATCH] lttng-modules: Fix for 5.10.163 kernel version
-Date: Thu, 26 Jan 2023 16:33:22 -0500
-Message-Id: <20230126213322.2175754-1-akuster808@gmail.com>
-X-Mailer: git-send-email 2.37.3
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Andrej Valek <andrej.valek@siemens.com>
+Subject: [PATCH 2/2] busybox: Make provisions to disable sha256/sha1 accelaration on x86
+Date: Thu, 26 Jan 2023 13:46:46 -0800
+Message-Id: <20230126214646.3279607-2-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230126214646.3279607-1-raj.khem@gmail.com>
+References: <20230126214646.3279607-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Jan 2023 21:35:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176427
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Jan 2023 21:46:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176429
 
-From: Armin Kuster <akuster@mvista.com>
+busybox 1.36 has an ongoing regression on musl/i386 [1] we see same on
+glibc systems too.
+therefore avoid the affected code by disabling sha256/sha1 sum accelaration
+meanwhile
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+CONFIG_SHA256_HWACCEL and CONFIG_SHA1_HWACCEL are enabled by default
+
+[1] http://lists.busybox.net/pipermail/busybox/2023-January/090078.html
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Andrej Valek <andrej.valek@siemens.com>
 ---
- .../fix-jbd2-upper-bound-for-v5.10.163.patch  | 52 ++++++++++++++++
- ...e-the-correct-print-format-v5.10.163.patch | 61 +++++++++++++++++++
- .../lttng/lttng-modules_2.13.8.bb             |  2 +
- 3 files changed, 115 insertions(+)
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/fix-jbd2-upper-bound-for-v5.10.163.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/fix-jbd2-use-the-correct-print-format-v5.10.163.patch
+v2: Disable sha accels on glibc/x86 as well
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/fix-jbd2-upper-bound-for-v5.10.163.patch b/meta/recipes-kernel/lttng/lttng-modules/fix-jbd2-upper-bound-for-v5.10.163.patch
+ meta/recipes-core/busybox/busybox/sha1sum.cfg   | 1 -
+ meta/recipes-core/busybox/busybox/sha256sum.cfg | 1 -
+ meta/recipes-core/busybox/busybox/sha_accel.cfg | 2 ++
+ meta/recipes-core/busybox/busybox_1.36.0.bb     | 3 ++-
+ 4 files changed, 4 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-core/busybox/busybox/sha_accel.cfg
+
+diff --git a/meta/recipes-core/busybox/busybox/sha1sum.cfg b/meta/recipes-core/busybox/busybox/sha1sum.cfg
+index 01137a2486..afd4da4ea1 100644
+--- a/meta/recipes-core/busybox/busybox/sha1sum.cfg
++++ b/meta/recipes-core/busybox/busybox/sha1sum.cfg
+@@ -1,3 +1,2 @@
+ CONFIG_SHA1SUM=y
+ CONFIG_SHA1_SMALL=3
+-CONFIG_SHA1_HWACCEL=y
+diff --git a/meta/recipes-core/busybox/busybox/sha256sum.cfg b/meta/recipes-core/busybox/busybox/sha256sum.cfg
+index a5b0ab22d1..ce652ae4c6 100644
+--- a/meta/recipes-core/busybox/busybox/sha256sum.cfg
++++ b/meta/recipes-core/busybox/busybox/sha256sum.cfg
+@@ -1,2 +1 @@
+ CONFIG_SHA256SUM=y
+-CONFIG_SHA256_HWACCEL=y
+diff --git a/meta/recipes-core/busybox/busybox/sha_accel.cfg b/meta/recipes-core/busybox/busybox/sha_accel.cfg
 new file mode 100644
-index 0000000000..bfc49294b0
+index 0000000000..8900305a11
 --- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-modules/fix-jbd2-upper-bound-for-v5.10.163.patch
-@@ -0,0 +1,52 @@
-+From 4fd2615b87b3cac0fd5bdc5fc82db05f6fcfdecf Mon Sep 17 00:00:00 2001
-+From: Michael Jeanson <mjeanson@efficios.com>
-+Date: Tue, 17 Jan 2023 12:16:04 -0500
-+Subject: [PATCH] fix: jbd2 upper bound for v5.10.163
-+
-+Use the correct upper bound of 5,11,0.
-+
-+Change-Id: I435b44b940c7346ed8c3ef0d445365ed156702d0
-+Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
-+Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-+
-+Upstream-Status: Backport
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ include/instrumentation/events/jbd2.h | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/include/instrumentation/events/jbd2.h b/include/instrumentation/events/jbd2.h
-+index f7993511..9b77ab92 100644
-+--- a/include/instrumentation/events/jbd2.h
-++++ b/include/instrumentation/events/jbd2.h
-+@@ -28,7 +28,7 @@ LTTNG_TRACEPOINT_EVENT(jbd2_checkpoint,
-+ )
-+ 
-+ #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,2,0) \
-+-	|| LTTNG_KERNEL_RANGE(5,10,163, 6,0,0) \
-++	|| LTTNG_KERNEL_RANGE(5,10,163, 5,11,0) \
-+ 	|| LTTNG_KERNEL_RANGE(5,15,87, 5,16,0) \
-+ 	|| LTTNG_KERNEL_RANGE(6,0,18, 6,1,0) \
-+ 	|| LTTNG_KERNEL_RANGE(6,1,4, 6,2,0))
-+@@ -97,7 +97,7 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(jbd2_commit, jbd2_drop_transaction,
-+ #endif
-+ 
-+ #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,2,0) \
-+-	|| LTTNG_KERNEL_RANGE(5,10,163, 6,0,0) \
-++	|| LTTNG_KERNEL_RANGE(5,10,163, 5,11,0) \
-+ 	|| LTTNG_KERNEL_RANGE(5,15,87, 5,16,0) \
-+ 	|| LTTNG_KERNEL_RANGE(6,0,18, 6,1,0) \
-+ 	|| LTTNG_KERNEL_RANGE(6,1,4, 6,2,0))
-+@@ -140,7 +140,7 @@ LTTNG_TRACEPOINT_EVENT(jbd2_submit_inode_data,
-+ )
-+ 
-+ #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,2,0) \
-+-	|| LTTNG_KERNEL_RANGE(5,10,163, 6,0,0) \
-++	|| LTTNG_KERNEL_RANGE(5,10,163, 5,11,0) \
-+ 	|| LTTNG_KERNEL_RANGE(5,15,87, 5,16,0) \
-+ 	|| LTTNG_KERNEL_RANGE(6,0,18, 6,1,0) \
-+ 	|| LTTNG_KERNEL_RANGE(6,1,4, 6,2,0))
-+-- 
-+2.35.4
-+
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/fix-jbd2-use-the-correct-print-format-v5.10.163.patch b/meta/recipes-kernel/lttng/lttng-modules/fix-jbd2-use-the-correct-print-format-v5.10.163.patch
-new file mode 100644
-index 0000000000..8067cffaab
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-modules/fix-jbd2-use-the-correct-print-format-v5.10.163.patch
-@@ -0,0 +1,61 @@
-+From dd7be14bd04c1de309ba267097b03a308da87dae Mon Sep 17 00:00:00 2001
-+From: Michael Jeanson <mjeanson@efficios.com>
-+Date: Tue, 17 Jan 2023 11:03:12 -0500
-+Subject: [PATCH] fix: jbd2: use the correct print format (v5.10.163)
-+
-+See upstream commit :
-+
-+  commit d87a7b4c77a997d5388566dd511ca8e6b8e8a0a8
-+  Author: Bixuan Cui <cuibixuan@linux.alibaba.com>
-+  Date:   Tue Oct 11 19:33:44 2022 +0800
-+
-+    jbd2: use the correct print format
-+
-+    The print format error was found when using ftrace event:
-+        <...>-1406 [000] .... 23599442.895823: jbd2_end_commit: dev 252,8 transaction -1866216965 sync 0 head -1866217368
-+        <...>-1406 [000] .... 23599442.896299: jbd2_start_commit: dev 252,8 transaction -1866216964 sync 0
-+
-+    Use the correct print format for transaction, head and tid.
-+
-+Change-Id: I7601f5cbb86495c2607be7b11e02724c90b3ebf9
-+Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
-+Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-+
-+Upstream-Status: Backport
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ include/instrumentation/events/jbd2.h | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/include/instrumentation/events/jbd2.h b/include/instrumentation/events/jbd2.h
-+index d5d8ea0c..f7993511 100644
-+--- a/include/instrumentation/events/jbd2.h
-++++ b/include/instrumentation/events/jbd2.h
-+@@ -28,6 +28,7 @@ LTTNG_TRACEPOINT_EVENT(jbd2_checkpoint,
-+ )
-+ 
-+ #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,2,0) \
-++	|| LTTNG_KERNEL_RANGE(5,10,163, 6,0,0) \
-+ 	|| LTTNG_KERNEL_RANGE(5,15,87, 5,16,0) \
-+ 	|| LTTNG_KERNEL_RANGE(6,0,18, 6,1,0) \
-+ 	|| LTTNG_KERNEL_RANGE(6,1,4, 6,2,0))
-+@@ -96,6 +97,7 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(jbd2_commit, jbd2_drop_transaction,
-+ #endif
-+ 
-+ #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,2,0) \
-++	|| LTTNG_KERNEL_RANGE(5,10,163, 6,0,0) \
-+ 	|| LTTNG_KERNEL_RANGE(5,15,87, 5,16,0) \
-+ 	|| LTTNG_KERNEL_RANGE(6,0,18, 6,1,0) \
-+ 	|| LTTNG_KERNEL_RANGE(6,1,4, 6,2,0))
-+@@ -138,6 +140,7 @@ LTTNG_TRACEPOINT_EVENT(jbd2_submit_inode_data,
-+ )
-+ 
-+ #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,2,0) \
-++	|| LTTNG_KERNEL_RANGE(5,10,163, 6,0,0) \
-+ 	|| LTTNG_KERNEL_RANGE(5,15,87, 5,16,0) \
-+ 	|| LTTNG_KERNEL_RANGE(6,0,18, 6,1,0) \
-+ 	|| LTTNG_KERNEL_RANGE(6,1,4, 6,2,0))
-+-- 
-+2.35.4
-+
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.13.8.bb b/meta/recipes-kernel/lttng/lttng-modules_2.13.8.bb
-index 542f42ae19..3cfc1bc58e 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.13.8.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.13.8.bb
-@@ -11,6 +11,8 @@ include lttng-platforms.inc
- 
- SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0009-Rename-genhd-wrapper-to-blkdev.patch \
-+           file://fix-jbd2-use-the-correct-print-format-v5.10.163.patch \
-+           file://fix-jbd2-upper-bound-for-v5.10.163.patch \
++++ b/meta/recipes-core/busybox/busybox/sha_accel.cfg
+@@ -0,0 +1,2 @@
++# CONFIG_SHA256_HWACCEL is not set
++# CONFIG_SHA1_HWACCEL is not set
+diff --git a/meta/recipes-core/busybox/busybox_1.36.0.bb b/meta/recipes-core/busybox/busybox_1.36.0.bb
+index e46d43e681..8014a5c7bf 100644
+--- a/meta/recipes-core/busybox/busybox_1.36.0.bb
++++ b/meta/recipes-core/busybox/busybox_1.36.0.bb
+@@ -51,5 +51,6 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://0002-nslookup-sanitize-all-printed-strings-with-printable.patch \
             "
- 
- # Use :append here so that the patch is applied also when using devupstream
+ SRC_URI:append:libc-musl = " file://musl.cfg "
+-
++# TODO http://lists.busybox.net/pipermail/busybox/2023-January/090078.html
++SRC_URI:append:x86 = " file://sha_accel.cfg"
+ SRC_URI[tarball.sha256sum] = "542750c8af7cb2630e201780b4f99f3dcceeb06f505b479ec68241c1e6af61a5"
 -- 
-2.37.3
+2.39.1
 
 
