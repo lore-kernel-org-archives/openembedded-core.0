@@ -1,176 +1,106 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCC21C05027
-	for <webhook@archiver.kernel.org>; Thu, 26 Jan 2023 10:15:22 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web11.70573.1674728112101315759
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19BD5C05027
+	for <webhook@archiver.kernel.org>; Thu, 26 Jan 2023 10:49:43 +0000 (UTC)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+ by mx.groups.io with SMTP id smtpd.web10.70842.1674730173787265809
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Jan 2023 02:15:12 -0800
+ Thu, 26 Jan 2023 02:49:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=a57+kWtM;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f44.google.com with SMTP id b7so1249110wrt.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Jan 2023 02:15:11 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=mWaBfA26;
+ spf=pass (domain: gmail.com, ip: 209.85.208.181, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f181.google.com with SMTP id a37so1517472ljq.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Jan 2023 02:49:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oJkT79mooLl4AZszwRwClOz+9q+MvSsdfq2g4jBdhFI=;
-        b=a57+kWtMekqND/VBjwz2XKOnVPtQ+JTyiToxCfdQZcCP8pFO7W9Gjdghkt9j0upFKc
-         5qJUaz2FOqii4K52AHF0cOAarednvE4n35q2QE1wCmEZ0qp9Ll4tpu2IC48Fs6phgNiw
-         ii3oFa7DPIb/mvuPSNOcxFfU3I459yiopx4GI=
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=0gxlIky053J21ZtBLp3GMSRgKpLjEtr16O+3FJ+aQPA=;
+        b=mWaBfA26llbd4+LPpZj1y3J7txRf1lHZBQWtekZLv2FN7ld7weyQBK3z1J7fZthWOv
+         Bj9RAIYapc5cm6Uw07OI0AgQnkjkq2jXwimCcRwL7AY2IFIE2iNAryCJvrKCA9npA4os
+         piTROqdC/sizt7IXrbiS1qGB6gkCNv8zpYngwBGEBUYaIh+RvtLHArOlGqOWmm+kXzMS
+         MHeWERJqHOhqvurO0droWHKLiWvJpd5LjNaXmoTyI1dg2ji6HF4heFuwMfj5fVvXmYDS
+         AJ357KSdFxfLi7QkbqKUbIC5ac6LWSh23A/w0Q0c8mMOj/Uah+5P4c4VHTId2fkZDGjR
+         ZsvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=oJkT79mooLl4AZszwRwClOz+9q+MvSsdfq2g4jBdhFI=;
-        b=fzh97RKunZtlJUpxNtwGbUjUXK+zn039N8L6/oYzZSwSIVBjmEkel3omHOLXwMbi7Q
-         SgW5SlTPShDGDSU7pATgQF6Tx0jjjjER/fzUYFLWx+8wuQd8CsuXOGU+XFBhw2fJs3d1
-         XNYItwWG1lv5vw6ahilVPF4q4IHFHa8MitRS4FSWPVMwBDSEWOO6Z27B+Xf6w5Ibq6gH
-         eniejo9HmKX4gQGBKYDJFer/Bw+qXY6KHdqi3TrRb6bI5tpjiztt8RhvxJ4tvmHCKh9q
-         l/wLSjsc/f9B86NydhKqitNJ4Q7uVdgai52Tv0/11aoa/4in6e0gujWNP4adkVFgucPI
-         9BIg==
-X-Gm-Message-State: AFqh2kpcL0ssvSq2yBSlaapR8wlNa1ppAbIp7lH80Hono+D3j6JAgQyP
-	8YpbrK2pvx4UVF+Nj0+DruZPq20t35Yx9dS0
-X-Google-Smtp-Source: AMrXdXvjRUc4PjX966aOkWVfATGh5DrRna6se6iud7G3Rjw35K1BIv8qrDdZ58rICJgmYP07RKgK/A==
-X-Received: by 2002:a05:6000:16ce:b0:2be:d04:3667 with SMTP id h14-20020a05600016ce00b002be0d043667mr37422456wrf.26.1674728110216;
-        Thu, 26 Jan 2023 02:15:10 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:f2d7:e330:f537:35d8? ([2001:8b0:aba:5f3c:f2d7:e330:f537:35d8])
-        by smtp.gmail.com with ESMTPSA id e2-20020adfe382000000b002bfae43109fsm860199wrm.93.2023.01.26.02.15.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Jan 2023 02:15:09 -0800 (PST)
-Message-ID: <de1cd98004d72f55e48fb4185bc24828e2195820.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] oeqa/selftest/locales: Create selftest for
- locales generation
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Louis Rannou <lrannou@baylibre.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 26 Jan 2023 10:15:09 +0000
-In-Reply-To: <4479c710-1384-dd7b-ad6b-be756025e3bb@baylibre.com>
-References: <20230125083127.53988-1-lrannou@baylibre.com>
-	 <f39b351e96ff00039f526290e7ff68c7fa3c7271.camel@linuxfoundation.org>
-	 <4479c710-1384-dd7b-ad6b-be756025e3bb@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.1-0ubuntu1 
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0gxlIky053J21ZtBLp3GMSRgKpLjEtr16O+3FJ+aQPA=;
+        b=l/KP0B9W1ig2bn3SQN6CGdn1Ks7Yt9xCIaOTQtBG+7HsOwhNbcktUAI/REmVLFOVzg
+         4zXsqJfwVPO+Ty044+Th55wh9rzzapS/COQAisJ+ZRrrsxgsk6GGaiAY7XogPm6KVI1R
+         FS58cCHub369EClw5i+pHwes654MeIv4MAP8m7oAq32ZQoejPV4/5YsIR5ISQVxsWo2O
+         SYm9JxnnngWD7V4mBebakhJc6cct+0t5wDjd1yYDLrv7Nf05dXF3e/JOQJgW71g5HMlO
+         aNSsZcszEjmre7A7E4+T1dx1yZs4xfFZpAhuG87hsshTWU2fFMxMeqEzi2/z08UJHn2/
+         vLLA==
+X-Gm-Message-State: AFqh2kokwy1OXH+NaAjq0mst6bI2LBNEAfKkWOPnJhb7NN5INO2HaHMo
+	dq7A5SetmJWjniZRRietcNRmfQHq2bJcbfDIfws=
+X-Google-Smtp-Source: AMrXdXvW5Fst9mcrTphW/vxk4B13lrjA8xohD7pj7O29ZggkxuNHbA0A+VwkoaY0whjvtV5BlNir+JeZbFG6pP0EQPs=
+X-Received: by 2002:a05:651c:544:b0:280:4ef:3cde with SMTP id
+ q4-20020a05651c054400b0028004ef3cdemr3210992ljp.78.1674730171881; Thu, 26 Jan
+ 2023 02:49:31 -0800 (PST)
 MIME-Version: 1.0
+References: <20221110092433.2874130-1-alex@linutronix.de> <eaf6331bec173b7d5b7c758659223e34b71226dc.camel@linuxfoundation.org>
+In-Reply-To: <eaf6331bec173b7d5b7c758659223e34b71226dc.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 26 Jan 2023 11:49:20 +0100
+Message-ID: <CANNYZj9vpEPYDw1z0tNyv9D5V8T8XF03VR_PqfKmS0GxcsB65w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] oe-setup-build: add a tool for discovering
+ config templates and setting up builds
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Jan 2023 10:15:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176390
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Jan 2023 10:49:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176391
 
-On Thu, 2023-01-26 at 11:09 +0100, Louis Rannou wrote:
-> On 26/01/2023 11:02, Richard Purdie wrote:
-> > On Wed, 2023-01-25 at 09:31 +0100, Louis Rannou wrote:
-> > > From: Louis Rannou <lrannou@baylibre.com>
-> > >=20
-> > > [YOCTO #9070]
-> > >=20
-> > > Add a new selftest to validate the locales generation. This selftest =
-builds a
-> > > complete target with GLIBC_GENERATE_LOCALES, IMAGE_LINGUAS,
-> > > ENABLE_BINARY_LOCALE_GENERATION set. The locales are tested through a=
- ssh
-> > > connection in three manners: checks if the locales exist in the local=
-e-archive,
-> > > if it does exist for the glibc and if it can be generated.
-> > >=20
-> > > Signed-off-by: Louis Rannou <lrannou@baylibre.com>
-> > > ---
-> > >   meta/lib/oeqa/selftest/cases/locales.py | 54 ++++++++++++++++++++++=
-+++
-> > >   1 file changed, 54 insertions(+)
-> > >   create mode 100644 meta/lib/oeqa/selftest/cases/locales.py
-> > >=20
-> > > diff --git a/meta/lib/oeqa/selftest/cases/locales.py b/meta/lib/oeqa/=
-selftest/cases/locales.py
-> > > new file mode 100644
-> > > index 0000000000..089ca594a1
-> > > --- /dev/null
-> > > +++ b/meta/lib/oeqa/selftest/cases/locales.py
-> > > @@ -0,0 +1,54 @@
-> > > +#
-> > > +# SPDX-License-Identifier: MIT
-> > > +#
-> > > +
-> > > +from oeqa.selftest.case import OESelftestTestCase
-> > > +from oeqa.core.decorator import OETestTag
-> > > +from oeqa.utils.commands import bitbake, runqemu
-> > > +from oeqa.utils.sshcontrol import SSHControl
-> > > +
-> > > +class LocalesTest(OESelftestTestCase):
-> > > +
-> > > +    @OETestTag("runqemu")
-> > > +    def test_locales(self):
-> > > +        """
-> > > +        Summary: Test the locales through a ssh connection
-> > > +        Expected: 1. Check the locale exist in the locale-archive
-> > > +                  2. Check it the locale exist for the glibc
-> > > +                  3. Check the locale can be generated
-> > > +        Product: oe-core
-> > > +        Author: Louis Rannou <lrannou@baylibre.com>
-> > > +        AutomatedBy: Louis Rannou <lrannou@baylibre.com>
-> > > +        """
-> > > +
-> > > +        features =3D []
-> > > +        features.append('EXTRA_IMAGE_FEATURES =3D "ssh-server-openss=
-h empty-root-password allow-empty-password allow-root-login"')
-> > > +        features.append('IMAGE_INSTALL:append =3D " glibc-utils loca=
-ledef"')
-> > > +        features.append('GLIBC_GENERATE_LOCALES =3D "en_US.UTF-8 fr_=
-FR.UTF-8"')
-> > > +        features.append('IMAGE_LINGUAS:append =3D " en-us fr-fr"')
-> > > +        features.append('ENABLE_BINARY_LOCALE_GENERATION =3D "1"')
-> > > +        self.write_config("\n".join(features))
-> > > +
-> > > +        # Build a core-image-minimal
-> > > +        bitbake('core-image-minimal')
-> > > +
-> > > +        with runqemu("core-image-minimal") as qemu:
-> > > +            # Attempt to ssh with each user into qemu with empty pas=
-sword
-> > > +            ssh =3D SSHControl(ip=3Dqemu.ip, logfile=3Dqemu.sshlog, =
-user=3D'root')
-> >=20
-> > Thanks for this, in general this looks good and it would be great to
-> > get a test for this enabled so I'm very happy to see the patch.
-> >=20
-> > I did have one question about the above line. I think you can just use
-> > qemu.run() to run commands over ssh and I suspect the above might
-> > create a second ssh connection which might then have lifecycle issues.
-> > Did you try qemu.run() and have issues? I noticed a lot of our tests
-> > use run_serial() which I hadn't realised until I looked!
-> Hello, I haven't tried qemu as the bugzilla said to use a ssh=20
-> connection. But I guess this was different in 2013. I agree, it might be=
-=20
-> better to avoid the ssh connection.
+On Mon, 16 Jan 2023 at 14:30, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> There is also an implied challenge here of the different stages of
+> "checkout the repos", "document those checkouts in bblayers.conf" and
+> "here is a separate build directory". The layer config file is where
+> information from the two are mixed but I suspect there is something
+> different we could do.
+>
+> For example, if the config fragment says "I need layers X, Y" but the
+> layer setup json might define Z as well. We'd need a markup for "layers
+> X, Y, Z are available" from oe-setup-layers. oe-setup-build could then
+> iterate the layers, show the configs, then generate a setup for configX
+> which only needed layers Y and Z configured.
 
-To be clear, qemu.run() should run the command over an ssh connection
-to qemu if I remember the code paths correctly. It is just abstracted
-in the runqemu code so the test doesn't need to worry about it.
+What I would like to try is have oe-setup-layers first clone/checkout
+the layer repositories (according to what is in the supplied json),
+then walk the resulting directories looking for conf/layer.conf, e.g.
+determine what actual layers are in the checkout and where they are.
 
-> Also, the bugzilla asks to make a primary test with=20
-> ENABLE_BINARY_LOCALE_GENERATION=3D"0" to check the locales are not gener.=
-=20
-> This means a complete regeneration of the image, so I thought it is not=
-=20
-> very relevant. Is this fine ?
+Then this list would be written out to a file in the top level
+directory containing the layer repos for further usage by other tools.
+E.g.:
 
-Ideally we'd have two tests, one for binary locales enabled and one
-with it not enabled. That will mean a little more build time but would
-completely test the different options so is probably worth doing. I'd
-be happy for *any* automated locale tests at this point though!
+/path/to/setup-layers --destdir path/to/checkout/
 
-We shouldn't close the bug until we have both tests.
+would write a path/to/checkout/oe-layers.txt (final filename TBD)
+containing layer paths relative to the file itself, e.g. (final format also TBD)
 
-Cheers,
+meta-intel
+meta-arm
+meta-openembedded/meta-oe
+meta-openembedded/meta-networking
 
-Richard
+and the location of oe-setup-build into a runnable shell script
+path/to/checkout/setup-build.sh:
+#!/bin/sh
+poky/scripts/oe-setup-build --layers-list ./oe-layers.txt $*
 
+This leaves bblayers.conf(.sample) unchanged and exactly as it was - a
+template/build item consumed by bitbake only and used to list layers
+active in a specific build.
 
+Alex
 
