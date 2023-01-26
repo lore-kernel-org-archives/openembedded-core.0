@@ -2,55 +2,55 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB0A7C52D11
-	for <webhook@archiver.kernel.org>; Thu, 26 Jan 2023 16:58:04 +0000 (UTC)
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
- by mx.groups.io with SMTP id smtpd.web10.79119.1674752283969071308
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C54A1C05027
+	for <webhook@archiver.kernel.org>; Thu, 26 Jan 2023 17:08:14 +0000 (UTC)
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
+ by mx.groups.io with SMTP id smtpd.web10.79419.1674752890287661394
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Jan 2023 08:58:04 -0800
+ Thu, 26 Jan 2023 09:08:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=b7bKg4SU;
- spf=pass (domain: gmail.com, ip: 209.85.166.53, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f53.google.com with SMTP id h184so808507iof.9
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Jan 2023 08:58:03 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=o/JaY8C9;
+ spf=pass (domain: gmail.com, ip: 209.85.166.46, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f46.google.com with SMTP id y69so830706iof.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Jan 2023 09:08:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aylaMhNkoISDT49dPg/4rk2HFABlyjcaNyMxCIPWuDY=;
-        b=b7bKg4SUtkS/Lgjv/XwpIFM5gaTrLMf/dC9PcHB37m6Nak5D0E5U59cJ8N0zrm0Bfc
-         JbFpg5ADAfIf+b8GsRXytkmsU9rmIx0+/rDg7auMVAMxWw5H001BuFC/sY4Jd/S5uPbg
-         53V+2rILE34+ZeMKDHyhpqqAVG6PElYSTOh1s/DKuTLm9EiB1lekF3C/6WSbNDRlAlXG
-         ZESjbt9Btq9NyIZI5bgQUaQoAYhfHEVcF+sEqZcpPXW0Z8uTN1Cs/b8zkRXx3QZtd5Hj
-         C2zRRQ2LdK3K8uTuPxslHYMf2NldIDNDn1k8k3fhZjFODJcd+SkOqf7pjJThnoNzFZir
-         cKtA==
+        bh=50gQ8rNGJBXN8DroHmFBsJZnb2utXX2HIQTFWUmdU9M=;
+        b=o/JaY8C9wAdJO/j34Q30DJ5+wMoatOTnWV7t4lliN0jp825MrvtMejYcLclIWsB0FV
+         z0UxqglD0+1NizFI4jBsHD6y3sMS+QnbkD2fS6ajyT+1LuxAaiNcqengyPY45utVpi5a
+         njOgXvE3n/yuK6clAbBvNEYbqJ8/JNkZEJatrVyzaUMG1l4123amavaXi3CyzoIBymdH
+         DUwhIfotSALJB7VI7ckhooLxfoNTkYehLL/mEfey7SaTz0vS4RP7slRDzrka7mLZE2M4
+         ozOIxjt71C+nXSCgalDBA8L2lURKpXYRkJ/Yr0iLJVtH5xL57LcIyv+JrjAP0zED4RVH
+         dtbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=aylaMhNkoISDT49dPg/4rk2HFABlyjcaNyMxCIPWuDY=;
-        b=5RXCzMA5R0ziZrp5NDkFWQTRFEHiy+RLNzWQQ0WVpaxfAGkEWwrMh20QN5A7t27SGa
-         wAilvvBH42hRx9Pjm9We8xJE2leahCuogcqzCoqbFR5VJ6ktoMcbMXKoqMYNgxvjHmEf
-         JP6b6d8yF/dBx6oYQwGpXimY1iJ35aFIEpySzPxNkGd3EydGxtU8h2ZAYrXwsjiRoNa/
-         T96ld4JqxQ9pFR5yRo93lUKhmwtN3oT6iTy0X0moRgTP41xddiOCI3qENsZAiA0jzk+9
-         y3J1NC7qd+RkC7JvXA1GdkD4l7UPeH2Vy/0B232z6vHuP+6ozTpfxhZKl9CIK+D+07GS
-         vYMg==
-X-Gm-Message-State: AFqh2krqiMsINJjlG+lW3nVHx1PJG4QLiC/24EqPgdK4JqcOFNpif1ST
-	qK2SNcg7pbtLlMCh7YPNsWB9z0CXExfuJZAxuqM=
-X-Google-Smtp-Source: AMrXdXuV6ntBSZA04hygCogQyO7WhTA5tXoaFtjS/2ZqsK760wnym9sHFTEcyORIKztSxDlADAZaCeYFHVhY0+ZvEmA=
-X-Received: by 2002:a5e:8619:0:b0:704:c353:7f98 with SMTP id
- z25-20020a5e8619000000b00704c3537f98mr2919461ioj.61.1674752283285; Thu, 26
- Jan 2023 08:58:03 -0800 (PST)
+        bh=50gQ8rNGJBXN8DroHmFBsJZnb2utXX2HIQTFWUmdU9M=;
+        b=fQRmJVEpau+KZpe5i9psNXBgmdNCQahnbkoEoFm/0CHfvaxs8gp8LMo397R3NkGZcm
+         G/rK9tnonqIjMW8hjH8TbedVYQnIBjkB5Zi/EL7BtHrAvkbO3QWFSp1bLylfGra48432
+         0xAaAwWTCIjVRKo6Q52e32i3PjyvLnRJIQQxHwyXXeP90/EcigwqapwFX4+ukGH4lvMI
+         UXH1a9zRprtRmaZSbU5pua6GNDJA84bO0WyV/EHTW8/SpukDH79E36ACQxhAZbjGk5ZF
+         lxuwhIxTiDtGggzXV1Jf1c5QJdp1POU+n0HZHm7hg63KErZgp438CLsHNYXpMkJbiIkp
+         PLYg==
+X-Gm-Message-State: AFqh2krWTUwlhRP4Y4kJ5k81eySvbJuec8UP0uVquZco0g2PJJhunz4N
+	ruUJF966RoPotKjNZTczFNAysVaZa53wKL/byPU=
+X-Google-Smtp-Source: AMrXdXsIMrw5vQdA0WS8kWZj3MMtkrdlr34gXQ0n0YgGU+kqcRH6OjJq9GjyT0yhLPMVoHf0zuAu56IW2Eyf1Vyo+VQ=
+X-Received: by 2002:a02:cc96:0:b0:39e:5dc6:eba5 with SMTP id
+ s22-20020a02cc96000000b0039e5dc6eba5mr4112487jap.115.1674752889455; Thu, 26
+ Jan 2023 09:08:09 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1674597466.git.bruce.ashfield@gmail.com>
  <030b78056586e38cbaca26055da1af61a9786e0d.camel@linuxfoundation.org>
  <Y9Kol1jla2OQMzOa@mail.local> <a5a031e840a8af1b5c6f71c5747898ea420457e5.camel@linuxfoundation.org>
 In-Reply-To: <a5a031e840a8af1b5c6f71c5747898ea420457e5.camel@linuxfoundation.org>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 26 Jan 2023 11:57:52 -0500
-Message-ID: <CADkTA4Mb5t1Favh9Zkq3GX-9vh48DVVn_cHDrwx4Pt8DhQvxHA@mail.gmail.com>
+Date: Thu, 26 Jan 2023 12:07:58 -0500
+Message-ID: <CADkTA4OBwOEc5ubqWb+zdk=ESv=eLXo1_X8hEfyX9o2GX4XcEg@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH 0/2] kernel-yocto: drop 5.19 recipes and make
  6.1 default
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
@@ -60,8 +60,8 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Jan 2023 16:58:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176409
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Jan 2023 17:08:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176410
 
 On Thu, Jan 26, 2023 at 11:36 AM Richard Purdie
 <richard.purdie@linuxfoundation.org> wrote:
@@ -121,19 +121,25 @@ o8v/packages/diff-html/
 >
 > Bruce: Any idea if we can set that to some specific value?
 >
+> We probably should start by fixing that and then see if that improves
+> things...
 
-My perf build just finished and I was just starting to poke into it.
+Interesting. In my local builds:
 
-I'll have a look now.
+#define LINUX_COMPILE_HOST      "oe-host"
 
-Let me know if you come up with anything in the meantime, I'll do the same.
+I'm building 6.1.7, but that shouldn't be the difference.
 
-At the worst, I imagine we can sed the value to something consistent.
+The value comes from: classes-recipe/kernel.bbclass:export
+KBUILD_BUILD_HOST ?=3D "oe-host",
+and has been that way for a while.
+
+I'm also grepping for other BUILDPATHS references, but the QA test
+should have caught
+those if that was the issue.
 
 Bruce
 
-> We probably should start by fixing that and then see if that improves
-> things...
 >
 > Cheers,
 >
