@@ -1,102 +1,84 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 300E5C61DA3
-	for <webhook@archiver.kernel.org>; Thu, 26 Jan 2023 18:30:35 +0000 (UTC)
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
- by mx.groups.io with SMTP id smtpd.web10.81949.1674757834072036630
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A81CEC05027
+	for <webhook@archiver.kernel.org>; Thu, 26 Jan 2023 20:03:05 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web10.84653.1674763378227004424
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Jan 2023 10:30:34 -0800
+ Thu, 26 Jan 2023 12:02:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=FiGDaFyW;
- spf=pass (domain: gmail.com, ip: 209.85.160.54, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-142b72a728fso3451658fac.9
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Jan 2023 10:30:34 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=k8c5Zcdw;
+ spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f49.google.com with SMTP id b3so4782393lfv.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Jan 2023 12:02:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=DExyoILb7UD776+DzJfLmogj5b6PrmmMrV/5HChPvgg=;
-        b=FiGDaFyWX4zJT2QhNlRb1D+Hh/beEZlB/7ZCcS2RACYYRjhxnAUJpgcrS0XkC3KINS
-         hTgeBgKMM42+Rv+S9CbOewIItvNUPH/WNjlJCFkPQipyhBjQKYAyuG/Q3Km8PmpWyHYG
-         dZgHshtrTVUstRvPIEn5Hvc6ZCcXYECVGP3TRhBFo5vUtLJLlyF9B9C3nP0hNJMwH31Q
-         Zefakr+rxUM26yK7ZR1E06aZo8OuSPtX/0nZerF5zaWpsD0q4BEmFSLIKTZTDJV9FT6R
-         Aob5OOjVU4kA87Cp2fUV+KuB4rOZH1OnzSj7tnb03DuKnvZrxcml4+D8lcFkt1UOlXZt
-         l8Gg==
+        bh=lEGNt4+j+7Oq1tZZGz6aL0h4DnpFY8p245QCcAwSL7g=;
+        b=k8c5ZcdwbG59xMKUm9RA21xxzqOOj9NkCn/6XM+yD5GhQUPft7uobYNsd3b69v0qGK
+         Pgt/rSgubNo3MbOK9JmQwDgkzT/ayDpz02m1hbSvJHqoPFtB49S6fc6C9RSMrgseL1f3
+         F1xE4GCdIxxn6EsDQsGHoAvWXnhjY9Y56L37pYu4UY5wO1wZ7tdDRrByYpE64TZDo5j0
+         vnbFy9Ty+fMRNLmwFfGOipnMXbkTBb4HcpJIeekEGK4CdBthP6Ujt84NmR942AcW/11f
+         +r5xEl12mf0PQZyFa+tJPAOVUQ5qi/T2Sd1WapNBkHQvoEP+E1i+Hjx1wIe7N4AV0WGq
+         zy6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DExyoILb7UD776+DzJfLmogj5b6PrmmMrV/5HChPvgg=;
-        b=8FW0Mgu2kkzIxCF/GRA81lWT/dUHkYSTdMJVa0HyEm1+DD5XfPl4fVlF6czjhrKupc
-         z0xKULFJAp4QumjwTaziVMW8F1bUs12rsU3RWWo2S0AufiAlyAQ9TGutYU23A56IpSUE
-         /aOwR+sSBRLnDC/xJbkqh+zUalAtiRnob3w7+ynZDdOVhNksss0BfkA4HhqfSYvDMzrG
-         xvqQmaUibMddz1+fQekj07ww9MFTSru9HiOk4546zhAVUsPUX8WZvh/S3JWECB0KcrQo
-         vSXq3mSqhCMKtNVpUWxeuf8iPwQl+XWF4XJw3CcmMvnw+YrMK1fT6V6noc880cSAOzam
-         FgaA==
-X-Gm-Message-State: AO0yUKW/aWSOK/MirVtXhWW5cEsUZdIin3EPLyAHI479L91ddNEcXJvP
-	mmoBHQb3PdGp9QecA7je2rFfqSlkV01Ep7NAtDs=
-X-Google-Smtp-Source: AK7set9fk0/ELu2GVSLT8wG1ne/0+tsH3ZbLEU9xAlAuYGwoisASLeFebiEyKL/TgSqlEYkbIUPGgx95M6QbZkwUgEc=
-X-Received: by 2002:a05:6870:6488:b0:163:573b:3eca with SMTP id
- cz8-20020a056870648800b00163573b3ecamr201535oab.55.1674757833279; Thu, 26 Jan
- 2023 10:30:33 -0800 (PST)
+        bh=lEGNt4+j+7Oq1tZZGz6aL0h4DnpFY8p245QCcAwSL7g=;
+        b=GiM/X3F8GbeC5JQ0lHPvJZPg4iMZ3RcTCDkqGTY+70iUiovy/GRfdST0Z2SooO8vDJ
+         85SN/Nv6OpyvACvXIE6iWDejpwBDy+cAwWEv5IySAbke9quOk4rCsZgLFzcJfdSA0UeS
+         pD6JwMQl0gkQdpVECZqaR9NyXqdYRLo/QDXgUbN0zxcWW/k2Lzk5LkMqe6QgQTZl/A1r
+         pnl06IgPoDbdrllcRxg0xguzoRZHTJy02r8l/OUR5qBHajjGwYWjIvzZZtxdw0Bk5qCP
+         ItR9C1kczWDnpc14pNONRRWV/qUuk+mapBj4tJtvbbZ+ZPiZqlpJcD9uQVQP00ISjJO8
+         uxXQ==
+X-Gm-Message-State: AFqh2koUSiISRHQN3lgSsxAfJ3bzHCx131TkAfYQy5NBRuV+N/+M61p0
+	1oqPnC9xUSSBTIfuwlhmPV6qPPpnDnklamMV0So=
+X-Google-Smtp-Source: AMrXdXtd9rJEDEX8c4qbB5Dcwtcw7WCiF7VZqMjjYwO97O73E90yv6IEbuIz2FPOuqC3YUKVzz0mGcUX/DyleCHQMKc=
+X-Received: by 2002:ac2:548a:0:b0:4cb:6bcb:de45 with SMTP id
+ t10-20020ac2548a000000b004cb6bcbde45mr4397998lfk.272.1674763375938; Thu, 26
+ Jan 2023 12:02:55 -0800 (PST)
 MIME-Version: 1.0
-References: <20230126171648.2527833-1-richard.purdie@linuxfoundation.org> <20230126171648.2527833-2-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20230126171648.2527833-2-richard.purdie@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 26 Jan 2023 10:30:07 -0800
-Message-ID: <CAMKF1sq-LMDrh+j+9MFQ7MajUdgnSyvU0RNJYTFUC5Ped-1cFg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] wic/efi-bootdisk.wks: Fix for 6.1 kernel versions
+References: <20230126083752.151940-1-alex@linutronix.de> <2986f2e9ac85049402a858526b6989028e451a8c.camel@linuxfoundation.org>
+ <CANNYZj-cnpyE7cbGuX+Ou465BikgwNinjAgHtOzqy-854kZ5kA@mail.gmail.com>
+ <0bbeba753327c9348177349032e03f366c38d5dd.camel@linuxfoundation.org>
+ <CANNYZj8FVr7_ASbMswYxWthAM_a7sS_9iF1uyP8hb-QwsU2N4g@mail.gmail.com> <fc0315e12584aabee597f70a223c67a01de5fd91.camel@linuxfoundation.org>
+In-Reply-To: <fc0315e12584aabee597f70a223c67a01de5fd91.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 26 Jan 2023 21:02:44 +0100
+Message-ID: <CANNYZj_bcuLsy39M5M9Z4Ju4s0A9w_-k1ZpDojUxUT_HDVB+rw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] gdk-pixbuf: remove ptest support
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Jan 2023 18:30:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176420
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Jan 2023 20:03:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176421
 
-On Thu, Jan 26, 2023 at 9:16 AM Richard Purdie
+On Thu, 26 Jan 2023 at 15:54, Richard Purdie
 <richard.purdie@linuxfoundation.org> wrote:
+> Lets just patch it. I'd rather keep tests, the patch isn't going to be
+> complicated or that difficult to maintain.
 >
-> oe-selftest efibootpartition.GenericEFITest.test_boot_efi was failing for 6.1 kernels with:
->
-> | ERROR: _exec_cmd: export PATH=[...] mcopy -i [...]/rootfs_boot.1.vfat -s [...]/rootfs1/* ::/ returned '1' instead of 0
-> | output: Disk full
->
-> I believe we hit a file boundary size and having "0" overhead in the image meant
-> the files couldn't be installed. Allow a small amount of overhead to avoid
-> the error.
+> We might even just be able to force a file into the right place at the
+> end of do_install?
 
-Just curious. how big is 6.1 size compared to 5.19 ?
+I checked. Out of 23 tests only three require data generated at build
+time by running target executables - I wrote a patch instead that
+omits those three tests in cross builds, which should be acceptable
+upstream.
 
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  scripts/lib/wic/canned-wks/efi-bootdisk.wks.in | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/lib/wic/canned-wks/efi-bootdisk.wks.in b/scripts/lib/wic/canned-wks/efi-bootdisk.wks.in
-> index 7300e65e32d..2fd286ff982 100644
-> --- a/scripts/lib/wic/canned-wks/efi-bootdisk.wks.in
-> +++ b/scripts/lib/wic/canned-wks/efi-bootdisk.wks.in
-> @@ -1,3 +1,3 @@
->  bootloader --ptable gpt
-> -part /boot --source rootfs --rootfs-dir=${IMAGE_ROOTFS}/boot --fstype=vfat --label boot --active --align 1024 --use-uuid --overhead-factor 1.0
-> +part /boot --source rootfs --rootfs-dir=${IMAGE_ROOTFS}/boot --fstype=vfat --label boot --active --align 1024 --use-uuid --overhead-factor 1.1
->  part / --source rootfs --fstype=ext4 --label root --align 1024 --exclude-path boot/
-> --
-> 2.37.2
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#176412): https://lists.openembedded.org/g/openembedded-core/message/176412
-> Mute This Topic: https://lists.openembedded.org/mt/96547775/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Generating those data files in a native build and injecting them into
+the target build tree can be done, but runs a risk of native vs.
+target mismatch in the content, and most likely won't be liked by
+upstream.
+
+Alex
 
