@@ -1,362 +1,169 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62414C54EED
-	for <webhook@archiver.kernel.org>; Thu, 26 Jan 2023 08:38:02 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web11.69431.1674722278274410206
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5D65C05027
+	for <webhook@archiver.kernel.org>; Thu, 26 Jan 2023 10:02:42 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web11.70433.1674727355799153375
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Jan 2023 00:37:58 -0800
+ Thu, 26 Jan 2023 02:02:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=cuSEEnX7;
- spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f50.google.com with SMTP id q10-20020a1cf30a000000b003db0edfdb74so3552978wmq.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Jan 2023 00:37:58 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=D3m1QAEu;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id c10-20020a05600c0a4a00b003db0636ff84so779490wmq.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Jan 2023 02:02:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TFheZ4mEZAUPa1t6ZNozCZfJqIMrkiH9rbPYNGkWk5s=;
-        b=cuSEEnX7OtocI8glEDOFCBqvQ30Wb4pD27K+lwFgTXKC5LCmLF7eyIo/QVCbdH+FyZ
-         QhfGcAUXZoE4Aj1SX1fCzmfedAYr5pJLQJ+NfiBpMtMa7yDKtVPvMNerS4rwQKiQQuaL
-         uYgPiCAXdSrPzyplRmruw5/7SQV7Lm0vSiRLqIg8WD4Z7th0x39Y4dOn0Y7XHNVCP0Bk
-         HhBKB0aaBfd9uAko33X4gZhMQTTb4qkF60fEdUobiwe5PFb6xN3jBqzdv7OKtxF1gnvb
-         d/EYi6HRswi6hEWY7Ra5xpaHScLdsEYwwJiNeam+gR+yTxjTBQo+0/cCodZHAxlohn1F
-         DORA==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K74+/2j24NfkTT0RKwcZ3896A73yDEQk/QH9W23JobA=;
+        b=D3m1QAEuJ1Hy73vxhO4ZxrdXBbB0enMGyyOjo7pskeiPq1jRgocsrbHYRPdmhiGJxh
+         l5NaXOGDm7CyqBnI84f4TbnjTX8nQCJ4fHFseFkYbxD91Z04uSFjAFYWmNa3UkzkpW8S
+         8mXo1Z13GaQ1Us9BqcG+kTP/Z61IHo9GhRMfc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TFheZ4mEZAUPa1t6ZNozCZfJqIMrkiH9rbPYNGkWk5s=;
-        b=I0DlHA0tSccas17PKXyKwZppwOwGKkd4FyaCEh6uATdLio7y8kPQssT1SfcLkAFerW
-         B0rShbTK6Y67kL6WeT3IKHNE3NLfyHApdSdXM3elb6r2x7V1Xtx5la7EefzWxk1R+afW
-         IF1aMBqKp3nuep17Nc/MUHLnXADf3q8bXwe5LHb+S1EUHmRJeRFrFc/V+VTlrhfPsfl+
-         sPW3prCHzlSXw3HQ53IM6vJW1kqv+2Z2LKhdd/3kMLMoSxdZYR+9IpyX66EhArrA76lH
-         bCvTtM9PE+achDp3VlpZLgypR62V4OmBPYCg+O+BR74K/wbZrsIG71RSef4mmRh4WjT3
-         3g8Q==
-X-Gm-Message-State: AFqh2krv6LQlo5mT7qnoNyyJJvWNAkLakUFuI3FV5xLgI5KOoQQ7M5Qh
-	Es6pm8exPhOtLkI60bu/TIF/JhP3rFU=
-X-Google-Smtp-Source: AMrXdXuNDAOfXZDGcZNFwBw/lJ74Ra8huz0Wvr5fUOQOykudqLQuxmAsmqURjcYFG6tg0qfw6766mg==
-X-Received: by 2002:a05:600c:1d12:b0:3da:ff82:f627 with SMTP id l18-20020a05600c1d1200b003daff82f627mr36162391wms.25.1674722276542;
-        Thu, 26 Jan 2023 00:37:56 -0800 (PST)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id u32-20020a05600c4d2000b003db0659c454sm957721wmp.32.2023.01.26.00.37.55
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=K74+/2j24NfkTT0RKwcZ3896A73yDEQk/QH9W23JobA=;
+        b=Xyq29NLN3IxDZsdWJ6kBXiC10OPEbstEaFS/ZqTuabByA4cKnlH2eHfFTxd8qpZCie
+         /8V2DWGtQO/u135xF4bUFs/4dkNXz7OLpl3LUAoFpdBP7B3EvG0410vtp5EwxXKw122A
+         5aaTEEtTqa3Geblm/93equ9b8Zgw2cnrPkzwu7ezMeWEZDWJKHd+uB1iG5fcJuDT31tr
+         yIzttFU+hoXaEatl1YnK4aklQC6G/qDN6vFPll4lUUOQDMvIR5BqqyFfRGSKoDqIRreD
+         b3ATtAn7rAvxmGjZVPixFJ3quL+zoQ3PSyfyG2PyO3TJloGkm+ThPPOI0IW2TpyT7uEg
+         qX0g==
+X-Gm-Message-State: AFqh2kpht01zEgzHPSlH5B/96HkN5NUG1+VQIIahWqHvajfzKltrLLBf
+	MK0iUJgqlEJ0nm118P8GU6dNPw==
+X-Google-Smtp-Source: AMrXdXugLJCO74Z+lNZwkzjUXKYpePkXhIiC1QolbfZLnyPEXd53wQamdwtMWETZUMgSBxfFkddlfA==
+X-Received: by 2002:a05:600c:1d8e:b0:3d9:efe8:a42d with SMTP id p14-20020a05600c1d8e00b003d9efe8a42dmr34725790wms.21.1674727354003;
+        Thu, 26 Jan 2023 02:02:34 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:f2d7:e330:f537:35d8? ([2001:8b0:aba:5f3c:f2d7:e330:f537:35d8])
+        by smtp.gmail.com with ESMTPSA id e19-20020a05600c439300b003cfd4e6400csm1025981wmn.19.2023.01.26.02.02.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Jan 2023 00:37:56 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 1/2] gdk-pixbuf: remove ptest support
-Date: Thu, 26 Jan 2023 09:37:51 +0100
-Message-Id: <20230126083752.151940-1-alex@linutronix.de>
-X-Mailer: git-send-email 2.30.2
+        Thu, 26 Jan 2023 02:02:33 -0800 (PST)
+Message-ID: <f39b351e96ff00039f526290e7ff68c7fa3c7271.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] oeqa/selftest/locales: Create selftest for
+ locales generation
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Louis Rannou <lrannou@baylibre.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 26 Jan 2023 10:02:32 +0000
+In-Reply-To: <20230125083127.53988-1-lrannou@baylibre.com>
+References: <20230125083127.53988-1-lrannou@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Jan 2023 08:38:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176386
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Jan 2023 10:02:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176388
 
-Moving to x86-64-v3 instructions revealed that the recipe was doing an entirely
-incorrect thing: running native gdk-pixbuf-query-loaders executable against the target set
-of loader .so binaries. This worked, but only by coincidence, and no longer
-works on build hosts that do not support v3 instructions.
+On Wed, 2023-01-25 at 09:31 +0100, Louis Rannou wrote:
+> From: Louis Rannou <lrannou@baylibre.com>
+>=20
+> [YOCTO #9070]
+>=20
+> Add a new selftest to validate the locales generation. This selftest buil=
+ds a
+> complete target with GLIBC_GENERATE_LOCALES, IMAGE_LINGUAS,
+> ENABLE_BINARY_LOCALE_GENERATION set. The locales are tested through a ssh
+> connection in three manners: checks if the locales exist in the locale-ar=
+chive,
+> if it does exist for the glibc and if it can be generated.
+>=20
+> Signed-off-by: Louis Rannou <lrannou@baylibre.com>
+> ---
+>  meta/lib/oeqa/selftest/cases/locales.py | 54 +++++++++++++++++++++++++
+>  1 file changed, 54 insertions(+)
+>  create mode 100644 meta/lib/oeqa/selftest/cases/locales.py
+>=20
+> diff --git a/meta/lib/oeqa/selftest/cases/locales.py b/meta/lib/oeqa/self=
+test/cases/locales.py
+> new file mode 100644
+> index 0000000000..089ca594a1
+> --- /dev/null
+> +++ b/meta/lib/oeqa/selftest/cases/locales.py
+> @@ -0,0 +1,54 @@
+> +#
+> +# SPDX-License-Identifier: MIT
+> +#
+> +
+> +from oeqa.selftest.case import OESelftestTestCase
+> +from oeqa.core.decorator import OETestTag
+> +from oeqa.utils.commands import bitbake, runqemu
+> +from oeqa.utils.sshcontrol import SSHControl
+> +
+> +class LocalesTest(OESelftestTestCase):
+> +
+> +    @OETestTag("runqemu")
+> +    def test_locales(self):
+> +        """
+> +        Summary: Test the locales through a ssh connection
+> +        Expected: 1. Check the locale exist in the locale-archive
+> +                  2. Check it the locale exist for the glibc
+> +                  3. Check the locale can be generated
+> +        Product: oe-core
+> +        Author: Louis Rannou <lrannou@baylibre.com>
+> +        AutomatedBy: Louis Rannou <lrannou@baylibre.com>
+> +        """
+> +
+> +        features =3D []
+> +        features.append('EXTRA_IMAGE_FEATURES =3D "ssh-server-openssh em=
+pty-root-password allow-empty-password allow-root-login"')
+> +        features.append('IMAGE_INSTALL:append =3D " glibc-utils localede=
+f"')
+> +        features.append('GLIBC_GENERATE_LOCALES =3D "en_US.UTF-8 fr_FR.U=
+TF-8"')
+> +        features.append('IMAGE_LINGUAS:append =3D " en-us fr-fr"')
+> +        features.append('ENABLE_BINARY_LOCALE_GENERATION =3D "1"')
+> +        self.write_config("\n".join(features))
+> +
+> +        # Build a core-image-minimal
+> +        bitbake('core-image-minimal')
+> +
+> +        with runqemu("core-image-minimal") as qemu:
+> +            # Attempt to ssh with each user into qemu with empty passwor=
+d
+> +            ssh =3D SSHControl(ip=3Dqemu.ip, logfile=3Dqemu.sshlog, user=
+=3D'root')
 
-Re-enabling installed tests in a cross compile scenario requires a complete
-re-think (against the need to run gdk-pixbuf executables to produce the tests),
-and is best done upstream, so sadly the cross-testing has to be dropped
-for now.
+Thanks for this, in general this looks good and it would be great to
+get a test for this enabled so I'm very happy to see the patch.
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- .../distro/include/ptest-packagelists.inc     |   1 -
- .../0001-Add-use_prebuilt_tools-option.patch  | 173 ------------------
- .../gdk-pixbuf/gdk-pixbuf_2.42.10.bb          |  30 +--
- 3 files changed, 3 insertions(+), 201 deletions(-)
- delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Add-use_prebuilt_tools-option.patch
+I did have one question about the above line. I think you can just use
+qemu.run() to run commands over ssh and I suspect the above might
+create a second ssh connection which might then have lifecycle issues.
+Did you try qemu.run() and have issues? I noticed a lot of our tests
+use run_serial() which I hadn't realised until I looked!
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 48dec07577..32c341a9bc 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -20,7 +20,6 @@ PTESTS_FAST = "\
-     flex-ptest \
-     gawk-ptest \
-     gdbm-ptest \
--    gdk-pixbuf-ptest \
-     glib-networking-ptest \
-     gzip-ptest \
-     json-c-ptest \
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Add-use_prebuilt_tools-option.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Add-use_prebuilt_tools-option.patch
-deleted file mode 100644
-index 02cc9a2a70..0000000000
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Add-use_prebuilt_tools-option.patch
-+++ /dev/null
-@@ -1,173 +0,0 @@
--From f81b60ebcbbfd9548c8aa1e388662c429068d1e3 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Sat, 8 May 2021 21:58:54 +0200
--Subject: [PATCH] Add use_prebuilt_tools option
--
--This allows using the gdk-pixbuf tools from the host to
--build and install tests in a cross-compile scenarion.
--
--Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/merge_requests/119]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
--
-----
-- gdk-pixbuf/meson.build  | 11 +++++++++--
-- meson.build             |  6 +++---
-- meson_options.txt       |  4 ++++
-- tests/meson.build       | 16 ++++++++--------
-- thumbnailer/meson.build | 24 ++++++++++++++++++------
-- 5 files changed, 42 insertions(+), 19 deletions(-)
--
--diff --git a/gdk-pixbuf/meson.build b/gdk-pixbuf/meson.build
--index 54ff9dd..2e321cf 100644
----- a/gdk-pixbuf/meson.build
--+++ b/gdk-pixbuf/meson.build
--@@ -342,13 +342,20 @@ foreach bin: gdkpixbuf_bin
--                    include_directories: [ root_inc, gdk_pixbuf_inc ],
--                    c_args: common_cflags + gdk_pixbuf_cflags,
--                    install: true)
---  meson.override_find_program(bin_name, bin)
--+  if not get_option('use_prebuilt_tools')
--+      meson.override_find_program(bin_name, bin)
--+  endif
-- 
--   # Used in tests
--   set_variable(bin_name.underscorify(), bin)
-- endforeach
-- 
---if not meson.is_cross_build()
--+if get_option('use_prebuilt_tools')
--+    gdk_pixbuf_query_loaders = find_program('gdk-pixbuf-query-loaders', required: true)
--+    gdk_pixbuf_pixdata = find_program('gdk-pixbuf-pixdata', required: true)
--+endif
--+
--+if not meson.is_cross_build() or get_option('use_prebuilt_tools')
--   # The 'loaders.cache' used for testing, so we don't accidentally
--   # load the installed cache; we always build it by default
--   loaders_cache = custom_target('loaders.cache',
--diff --git a/meson.build b/meson.build
--index 813bd43..a93e6f7 100644
----- a/meson.build
--+++ b/meson.build
--@@ -369,18 +369,18 @@ subdir('gdk-pixbuf')
-- # i18n
-- subdir('po')
-- 
---if not meson.is_cross_build()
--+if not meson.is_cross_build() or get_option('use_prebuilt_tools')
--   if get_option('tests')
--     subdir('tests')
--   endif
---  subdir('thumbnailer')
-- endif
--+subdir('thumbnailer')
-- 
-- # Documentation
-- build_docs = get_option('gtk_doc') or get_option('docs')
-- subdir('docs')
-- 
---if not meson.is_cross_build()
--+if not meson.is_cross_build() or get_option('use_prebuilt_tools')
--   meson.add_install_script('build-aux/post-install.py',
--     gdk_pixbuf_bindir,
--     gdk_pixbuf_libdir,
--diff --git a/meson_options.txt b/meson_options.txt
--index d198d99..1c899e9 100644
----- a/meson_options.txt
--+++ b/meson_options.txt
--@@ -53,4 +53,8 @@ option('gio_sniffing',
--        description: 'Perform file type detection using GIO (Unused on MacOS and Windows)',
--        type: 'boolean',
--        value: true)
--+option('use_prebuilt_tools',
--+       description: 'Use prebuilt gdk-pixbuf tools from the host for cross-compilation',
--+       type: 'boolean',
--+       value: false)
-- 
--diff --git a/tests/meson.build b/tests/meson.build
--index 28c2525..d97c02d 100644
----- a/tests/meson.build
--+++ b/tests/meson.build
--@@ -5,6 +5,12 @@
-- # $PATH. Ideally we should use gnome.compile_resources() and let Meson deal with
-- # this problem: See https://github.com/mesonbuild/meson/issues/8266.
-- if enabled_loaders.contains('png') and host_system != 'windows'
--+
--+  resources_deps = [loaders_cache,]
--+  if not get_option('use_prebuilt_tools')
--+    resources_deps += [gdk_pixbuf_pixdata,]
--+  endif
--+
--   # Resources; we cannot use gnome.compile_resources() here, because we need to
--   # override the environment in order to use the utilities we just built instead
--   # of the system ones
--@@ -21,10 +27,7 @@ if enabled_loaders.contains('png') and host_system != 'windows'
--       '@INPUT@',
--       '@OUTPUT@',
--     ],
---    depends: [
---      gdk_pixbuf_pixdata,
---      loaders_cache,
---    ],
--+    depends: resources_deps,
--   )
-- 
--   resources_h = custom_target('resources.h',
--@@ -40,10 +43,7 @@ if enabled_loaders.contains('png') and host_system != 'windows'
--       '@INPUT@',
--       '@OUTPUT@',
--     ],
---    depends: [
---      gdk_pixbuf_pixdata,
---      loaders_cache,
---    ],
--+    depends: resources_deps,
--   )
--   no_resources = false
-- else
--diff --git a/thumbnailer/meson.build b/thumbnailer/meson.build
--index b6a206d..9336c21 100644
----- a/thumbnailer/meson.build
--+++ b/thumbnailer/meson.build
--@@ -6,13 +6,29 @@ bin = executable('gdk-pixbuf-thumbnailer',
--            ],
--            dependencies: gdk_pixbuf_deps + [ gdkpixbuf_dep ],
--            install: true)
---meson.override_find_program('gdk-pixbuf-thumbnailer', bin)
--+if not get_option('use_prebuilt_tools')
--+    meson.override_find_program('gdk-pixbuf-thumbnailer', bin)
--+endif
-- 
-- gdk_pixbuf_print_mime_types = executable('gdk-pixbuf-print-mime-types',
--                                          'gdk-pixbuf-print-mime-types.c',
--+                                         install: true,
--                                          c_args: common_cflags,
--                                          dependencies: gdk_pixbuf_deps + [ gdkpixbuf_dep ])
-- 
--+if get_option('use_prebuilt_tools')
--+    gdk_pixbuf_print_mime_types = find_program('gdk-pixbuf-print-mime-types', required: true)
--+endif
--+
--+thumbnailer_deps = [loaders_cache,]
--+
--+if not get_option('use_prebuilt_tools')
--+    thumbnailer_deps += [
--+        gdk_pixbuf_print_mime_types,
--+        gdk_pixbuf_pixdata,
--+    ]
--+endif
--+
-- custom_target('thumbnailer',
--               input: 'gdk-pixbuf-thumbnailer.thumbnailer.in',
--               output: 'gdk-pixbuf-thumbnailer.thumbnailer',
--@@ -25,10 +41,6 @@ custom_target('thumbnailer',
--                 '@INPUT@',
--                 '@OUTPUT@',
--               ],
---              depends: [
---                gdk_pixbuf_print_mime_types,
---                gdk_pixbuf_pixdata,
---                loaders_cache,
---              ],
--+              depends: thumbnailer_deps,
--               install: true,
--               install_dir: join_paths(gdk_pixbuf_datadir, 'thumbnailers'))
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb
-index aa44515fbb..9f1114c7d0 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb
-@@ -12,20 +12,18 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
- 
- SECTION = "libs"
- 
--DEPENDS = "glib-2.0 gdk-pixbuf-native shared-mime-info"
-+DEPENDS = "glib-2.0 shared-mime-info"
- DEPENDS:remove:class-native = "gdk-pixbuf-native"
- 
- MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
- 
- SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
--           file://run-ptest \
-            file://fatal-loader.patch \
--           file://0001-Add-use_prebuilt_tools-option.patch \
-            "
- 
- SRC_URI[sha256sum] = "ee9b6c75d13ba096907a2e3c6b27b61bcd17f5c7ebeab5a5b439d2f2e39fe44b"
- 
--inherit meson pkgconfig gettext pixbufcache ptest-gnome upstream-version-is-even gobject-introspection gi-docgen lib_package
-+inherit meson pkgconfig gettext pixbufcache upstream-version-is-even gobject-introspection gi-docgen lib_package
- 
- GIR_MESON_OPTION = 'introspection'
- GIR_MESON_ENABLE_FLAG = "enabled"
-@@ -36,7 +34,7 @@ LIBV = "2.10.0"
- GDK_PIXBUF_LOADERS ?= "png jpeg"
- 
- PACKAGECONFIG = "${GDK_PIXBUF_LOADERS} \
--                 ${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)}"
-+                "
- PACKAGECONFIG:class-native = "${GDK_PIXBUF_LOADERS}"
- 
- PACKAGECONFIG[png] = "-Dpng=enabled,-Dpng=disabled,libpng"
-@@ -46,14 +44,6 @@ PACKAGECONFIG[tests] = "-Dinstalled_tests=true,-Dinstalled_tests=false"
- 
- EXTRA_OEMESON = "-Dman=false"
- 
--EXTRA_OEMESON:append:class-target = " \
--    -Duse_prebuilt_tools=true \
--"
--
--EXTRA_OEMESON:append:class-nativesdk = " \
--    -Duse_prebuilt_tools=true \
--"
--
- PACKAGES =+ "${PN}-xlib"
- 
- # For GIO image type sniffing
-@@ -85,9 +75,6 @@ python populate_packages:prepend () {
-     packages = ' '.join(do_split_packages(d, loaders_root, r'^libpixbufloader-(.*)\.so$', 'gdk-pixbuf-loader-%s', 'GDK pixbuf loader for %s'))
-     d.setVar('PIXBUF_PACKAGES', packages)
- 
--    # The test suite exercises all the loaders, so ensure they are all
--    # dependencies of the ptest package.
--    d.appendVar("RDEPENDS:%s-ptest" % d.getVar('PN'), " " + packages)
- }
- 
- do_install:append() {
-@@ -97,13 +84,6 @@ do_install:append() {
- 
- }
- 
--do_install_ptest() {
--        # Remove a bad fuzzing attempt that sporadically fails without a way to reproduce
--	rm ${D}/${datadir}/installed-tests/gdk-pixbuf/pixbuf-randomly-modified.test
--        # https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/issues/215
--	rm ${D}/${datadir}/installed-tests/gdk-pixbuf/pixbuf-jpeg.test
--}
--
- do_install:append:class-native() {
- 	find ${D}${libdir} -name "libpixbufloader-*.la" -exec rm \{\} \;
- 
-@@ -115,10 +95,6 @@ do_install:append:class-native() {
- 		XDG_DATA_DIRS=${STAGING_DATADIR} \
- 		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache
- 
--	create_wrapper ${D}/${bindir}/gdk-pixbuf-print-mime-types \
--		XDG_DATA_DIRS=${STAGING_DATADIR} \
--		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache
--
- 	create_wrapper ${D}/${libdir}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders \
- 		XDG_DATA_DIRS=${STAGING_DATADIR} \
- 		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache \
--- 
-2.30.2
+Cheers,
+
+Richard
+
+> +            cmd =3D "locale -a"
+> +            status, output =3D ssh.run(cmd)
+> +            # output must includes fr_FR or fr_FR.UTF-8
+> +            self.assertEqual(status, 0, msg=3D'locale -a test failed: %s=
+' % output)
+> +            self.assertIn("fr_FR", output, msg=3D'Incorrect output: %s' =
+% output)
+> +
+> +            cmd =3D "localedef --list-archive -v | grep fr_FR.utf8"
+> +            status, output =3D ssh.run(cmd)
+> +            # output must includes fr_FR.utf8
+> +            self.assertEqual(status, 0, msg=3D'localedef test failed: %s=
+' % output)
+> +
+> +            cmd =3D "LANG=3Dfr_FR.UTF-8 locale"
+> +            status, output =3D ssh.run(cmd)
+> +            # output must includes fr_FR.UTF-8
+> +            self.assertEqual(status, 0, msg=3D'locale test failed: %s' %=
+ output)
+> +            self.assertIn("LANG=3Dfr_FR.UTF-8", output,
+> +                          msg=3D'Incorrect output: %s' % output)
 
 
