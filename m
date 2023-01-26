@@ -1,89 +1,113 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC835C52D11
-	for <webhook@archiver.kernel.org>; Thu, 26 Jan 2023 17:16:54 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web11.79712.1674753412584712530
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF61CC52D11
+	for <webhook@archiver.kernel.org>; Thu, 26 Jan 2023 17:31:04 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.80233.1674754254768631772
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Jan 2023 09:16:52 -0800
+ Thu, 26 Jan 2023 09:30:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XHtuMMpb;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f41.google.com with SMTP id b7so2494634wrt.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Jan 2023 09:16:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=m8BuaoJjqbf5NzX0hOvpH+DrZ3/BG9IcyOKBlONSbxA=;
-        b=XHtuMMpbZF5FoTpcOSgwt164ihuPCpBjdxyCw009gzCLV82Bym2W9b5i622YyG64dZ
-         vDPgMGzQ9cmtlle0HFMJMDIC6MboqRcrOgPe/94SNl+Sx8F4CoCqrXELmLEpguQ+2si2
-         Rogb3JS38br9rUTx0p+nL0UL2RzTP3eDyWPZI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=m8BuaoJjqbf5NzX0hOvpH+DrZ3/BG9IcyOKBlONSbxA=;
-        b=ZDb2Vu7cgpQs8I/eSkj/hYZD76w9ibHiLsvViNT1ygrGzjprcQwgLU0KIapRZRrpkU
-         GsBMCwGugSRRSKO5EdsfNhnVuj+pnSMHqOGH4X6CTLWd3oYhYVngfKc2fDvyQnXXmp6V
-         IkSj4czZawP277VfKPI8wYbxZxKSXbo3+TwoMX1hpQPtuMMDIpZhGRi/QpkVlUL/HpaE
-         5JZ/VL64j9uORVtmrS6YPs8hjVHH/uZBEwXM/KD/hpIiaEftUfrkZHDVpmI2piBXTc+O
-         Bqt5w63GKUBC23XHd7x0bbmNhM945Y5pDXltC+VVTpenS7i7sVpTfNHtURyEPZATOJaS
-         Bl3A==
-X-Gm-Message-State: AFqh2kq/SLr5dvsLdvvoZz+QeLR/zpq8GDKlGw2GgyDNVZxENtF4uioZ
-	ICyWTkULNqUFaeUeFbcAsvPVdirUnZbt78Et
-X-Google-Smtp-Source: AMrXdXsgGdj6Q6pqKVcDKo8wKaSdKHKKZ2ptaRTn895bWgqpQODmbGzckt23Ktb7BTZqhynUEdH9RQ==
-X-Received: by 2002:a5d:6581:0:b0:2bb:dad4:9525 with SMTP id q1-20020a5d6581000000b002bbdad49525mr30832711wru.10.1674753410826;
-        Thu, 26 Jan 2023 09:16:50 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:f2d7:e330:f537:35d8])
-        by smtp.gmail.com with ESMTPSA id l7-20020adffe87000000b002bfbe30e8f8sm1724685wrr.98.2023.01.26.09.16.50
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Jan 2023 09:16:50 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CB3154B3;
+	Thu, 26 Jan 2023 09:31:35 -0800 (PST)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8002A3F64C;
+	Thu, 26 Jan 2023 09:30:53 -0800 (PST)
+From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] wic/efi-bootdisk.wks: Fix for 6.1 kernel versions
-Date: Thu, 26 Jan 2023 17:16:48 +0000
-Message-Id: <20230126171648.2527833-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230126171648.2527833-1-richard.purdie@linuxfoundation.org>
-References: <20230126171648.2527833-1-richard.purdie@linuxfoundation.org>
+Cc: nd@arm.com
+Subject: [PATCH] oeqa/utils/httpserver: connect up the request logging
+Date: Thu, 26 Jan 2023 17:30:48 +0000
+Message-Id: <20230126173048.1534444-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Jan 2023 17:16:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176412
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Jan 2023 17:31:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176413
 
-oe-selftest efibootpartition.GenericEFITest.test_boot_efi was failing for 6.1 kernels with:
+Call logger.info() in the log_message handler so that we get request
+logging, and hopefully even error messages.
 
-| ERROR: _exec_cmd: export PATH=[...] mcopy -i [...]/rootfs_boot.1.vfat -s [...]/rootfs1/* ::/ returned '1' instead of 0
-| output: Disk full
+Create a child logger to be neat and compartmentalise the logging.
 
-I believe we hit a file boundary size and having "0" overhead in the image meant
-the files couldn't be installed. Allow a small amount of overhead to avoid
-the error.
+Add a __main__ entrypoint so this class can be exercised outside of oeqa.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Remove unused traceback import.
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- scripts/lib/wic/canned-wks/efi-bootdisk.wks.in | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/utils/httpserver.py | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-diff --git a/scripts/lib/wic/canned-wks/efi-bootdisk.wks.in b/scripts/lib/wic/canned-wks/efi-bootdisk.wks.in
-index 7300e65e32d..2fd286ff982 100644
---- a/scripts/lib/wic/canned-wks/efi-bootdisk.wks.in
-+++ b/scripts/lib/wic/canned-wks/efi-bootdisk.wks.in
-@@ -1,3 +1,3 @@
- bootloader --ptable gpt
--part /boot --source rootfs --rootfs-dir=${IMAGE_ROOTFS}/boot --fstype=vfat --label boot --active --align 1024 --use-uuid --overhead-factor 1.0
-+part /boot --source rootfs --rootfs-dir=${IMAGE_ROOTFS}/boot --fstype=vfat --label boot --active --align 1024 --use-uuid --overhead-factor 1.1
- part / --source rootfs --fstype=ext4 --label root --align 1024 --exclude-path boot/
--- 
-2.37.2
+diff --git a/meta/lib/oeqa/utils/httpserver.py b/meta/lib/oeqa/utils/http=
+server.py
+index 8ce1dd42f49..b478172ed76 100644
+--- a/meta/lib/oeqa/utils/httpserver.py
++++ b/meta/lib/oeqa/utils/httpserver.py
+@@ -7,7 +7,6 @@
+ import http.server
+ import multiprocessing
+ import os
+-import traceback
+ import signal
+ from socketserver import ThreadingMixIn
+=20
+@@ -15,20 +14,21 @@ class HTTPServer(ThreadingMixIn, http.server.HTTPServ=
+er):
+=20
+     def server_start(self, root_dir, logger):
+         os.chdir(root_dir)
++        self.logger =3D logger
+         self.serve_forever()
+=20
+ class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
+=20
+     def log_message(self, format_str, *args):
+-        pass
++        self.server.logger.info(format_str, *args)
+=20
+-class HTTPService(object):
++class HTTPService:
+=20
+     def __init__(self, root_dir, host=3D'', port=3D0, logger=3DNone):
+         self.root_dir =3D root_dir
+         self.host =3D host
+         self.port =3D port
+-        self.logger =3D logger
++        self.logger =3D logger.getChild("HTTPService")
+=20
+     def start(self):
+         if not os.path.exists(self.root_dir):
+@@ -49,7 +49,7 @@ class HTTPService(object):
+         signal.signal(signal.SIGTERM, orig)
+=20
+         if self.logger:
+-            self.logger.info("Started HTTPService on %s:%s" % (self.host=
+, self.port))
++            self.logger.info("Started HTTPService for %s on %s:%s" % (se=
+lf.root_dir, self.host, self.port))
+=20
+=20
+     def stop(self):
+@@ -61,3 +61,10 @@ class HTTPService(object):
+         if self.logger:
+             self.logger.info("Stopped HTTPService on %s:%s" % (self.host=
+, self.port))
+=20
++if __name__ =3D=3D "__main__":
++    import sys, logging
++
++    logger =3D logging.getLogger(__name__)
++    logging.basicConfig(level=3Dlogging.DEBUG)
++    httpd =3D HTTPService(sys.argv[1], port=3D8888, logger=3Dlogger)
++    httpd.start()
+--=20
+2.34.1
 
 
