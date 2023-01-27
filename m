@@ -1,148 +1,89 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <tobias.hagelborn@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB84DC54EAA
-	for <webhook@archiver.kernel.org>; Fri, 27 Jan 2023 11:21:39 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web11.99854.1674818491242821119
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECB6CC54EAA
+	for <webhook@archiver.kernel.org>; Fri, 27 Jan 2023 11:40:39 +0000 (UTC)
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web11.100075.1674819632138358395
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Jan 2023 03:21:31 -0800
+ Fri, 27 Jan 2023 03:40:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ncRNLWCQ;
- spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f46.google.com with SMTP id x40so7601954lfu.12
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Jan 2023 03:21:30 -0800 (PST)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=TDpDgy/9;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: tobias.hagelborn@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=WHdtcIbU29mwxfchiS3QZFoRaN5u7TBH6xDtpXbKwog=;
-        b=ncRNLWCQDnuLcB958P33oWKTGn8VvUDx0/TJj4kJtfImKQMO0vgTU+kHJ5HI7BNZMU
-         EfHPZI4iWOQAo16XRzp3mtQA/aZsZqH/aM+uVk5KvBexnQST9BZyW8RHSh52AO4z9Anz
-         tFsknYZaTjzDWq2TurzcXi77Th4Tyc3l78qFNEqynxpFcRJBraXKpWc8bhXg/hRNubQp
-         /sigZ4qaSfQt2RsrEdyFT9N/xb5rSmQ2z6J6A0WjXzxtUpc1TdMRTQ39XKUJF/dfLD1R
-         DYNncbyISOjo3UuJ2oId/8Xaq/QqfyZBoRVsMZG/ZXrUknLkoXoywsZ/gJcXVAFI3KXG
-         HjHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WHdtcIbU29mwxfchiS3QZFoRaN5u7TBH6xDtpXbKwog=;
-        b=eZrQ7peGr5XwWPrWRO91UtWVf1JVOLZbmUVDF93JybErFsinV+V68nV7A3cYRAW/CI
-         nTdZ04a9BRLo+BULtvjePvigkvHLGYxBiOmRJLhER06vhGpyemg8225FaXJjw00Iqf91
-         +kIxaYVjfV4+Q2Cni8bUSG/b7npW1H/drXAK+El+/QLCRMxE7tl7y+4eP7Q53frI+o7E
-         QhOULrgFXT8iMvk8tJxsxG+fG+rvss1WR0fvwuXNXYG/yE3LBY8PezPmK+DkvYZ3vOEK
-         DPmDi9EluBAyiNQ0JmI6oZAh/PrTzrm46ylJFIpzd61kUmANAUEnibvgxrkMRFf9uUjk
-         CLag==
-X-Gm-Message-State: AFqh2kpoiMgTqMMRvnrFOxaF0642BK9U8YKaQIDZ2KZ43lpSkJ5nh4mi
-	s/fwZ4w71keVOaJOfHyWGoTxDt0ToFxIjs9tNkU=
-X-Google-Smtp-Source: AMrXdXsvOAslOVjAdmUlrDB1w3/2Jv2UN4P3Ewm61Ar6VVaoOasJkZp8gXVcMEC4NjpeYyVY/1md9fNHrL1Zd6jyKIw=
-X-Received: by 2002:ac2:48b9:0:b0:4d3:b528:99e8 with SMTP id
- u25-20020ac248b9000000b004d3b52899e8mr4773204lfg.2.1674818489410; Fri, 27 Jan
- 2023 03:21:29 -0800 (PST)
+  d=axis.com; q=dns/txt; s=axis-central1; t=1674819632;
+  x=1706355632;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=qkP+1Nzctifr4RcKAo6sNYpu4yzLyzTxoZhUxsd3glM=;
+  b=TDpDgy/9mONX+k2ChuHqB1UvMxZ2mEAj9mL2r7FH0qT4fagPVjhQvk9I
+   d1TggNfshttjVM93LhpC+prHEP70hEg9a2GQltt+QktU5/6NKIm9I81oj
+   MTHaGe05fyrY2PcKt0r8uYCJVplvyjVLVLUBTv1bn3QiI6FNt2RcmIvbA
+   ZtfjRtR73iRkma4Hv4bpGCLKjOv88QII9+OFmDkfpwTaGzbxdoWqQfLdF
+   IW/LpJugApVj+L7Qyp6cEncgHSbc6JwOYT8SIVV5S9KYj6XS0ctcfxeuh
+   tvJF76xyIfYN5yzjo2BNwOVAIyvVwqasmrxFVgkGNvms8htNFherpHvst
+   w==;
+From: Tobias Hagelborn <tobiasha@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] sstate.bbclass: Fetch non-existing local .sig files if needed
+Date: Fri, 27 Jan 2023 12:40:12 +0100
+Message-ID: <20230127114012.30108-1-tobiasha@axis.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <173DE02DC4E595DC.21537@lists.openembedded.org>
+References: <173DE02DC4E595DC.21537@lists.openembedded.org>
 MIME-Version: 1.0
-References: <CANNYZj82XYYS6b_iEo1SiyBNckAskZuFHfjF_0beLansgO+pAA@mail.gmail.com>
- <20057.1674818345646306595@lists.openembedded.org>
-In-Reply-To: <20057.1674818345646306595@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 27 Jan 2023 12:21:18 +0100
-Message-ID: <CANNYZj-tWBQL=37FBcS+8Bq523LUD+zDdmOrp=9VmpE3w_pmNg@mail.gmail.com>
-Subject: Re: [OE-core] Proposal to add recipe for varlink library #poky
-To: adinath.mhatre@philips.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000001feae905f33d11b0"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.0.5.60]
+X-ClientProxiedBy: se-mail04w.axis.com (10.20.40.10) To se-mail01w.axis.com
+ (10.20.40.7)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Jan 2023 11:21:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176440
+ <openembedded-core@lists.openembedded.org>; Fri, 27 Jan 2023 11:40:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176441
 
---0000000000001feae905f33d11b0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+For the case of a global shared state cache and a local sstate cache
+with a mix of signed and un-signed entries, there is a case where
+a .sig is missing locally, but may exist in the global sstate cache.
 
-Meta-oe is probably better then. It doesn=E2=80=99t meet the criteria for c=
-ore.
+For this case, do not just fail sstate fetch, but rather backfill
+the .sig file from the global sstate cache.
 
-Alex
+If this case is detected, re-run the fetch operation to get the
+global .sig file (if it exists).
 
-On Fri 27. Jan 2023 at 12.19, adinath.mhatre via lists.openembedded.org
-<adinath.mhatre=3Dphilips.com@lists.openembedded.org> wrote:
+Signed-off-by: Tobias Hagelborn <tobias.hagelborn@axis.com>
+---
+ meta/classes-global/sstate.bbclass | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-> Since Varlink is an IPC alternative to dbus and its doesn=E2=80=99t have
-> dependency on wayland .
->
-> So, we don=E2=80=99t want to include meta-wayland as we don=E2=80=99t nee=
-d.
->
-> We have asked meta-wayland author regarding same and he is ok with moving
-> varlink outside of meta-wayland.
-> Upstream libvarlink recipe to poky/meta-oe =C2=B7 Issue #4 =C2=B7
-> MarkusVolk/meta-wayland (github.com)
-> <https://github.com/MarkusVolk/meta-wayland/issues/4>
->
-> Regards,
-> Adinath
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#176439):
-> https://lists.openembedded.org/g/openembedded-core/message/176439
-> Mute This Topic: https://lists.openembedded.org/mt/96563314/1686489
-> Mute #poky:
-> https://lists.openembedded.org/g/openembedded-core/mutehashtag/poky
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
+index 77e3ea34e1..7f0240b434 100644
+--- a/meta/classes-global/sstate.bbclass
++++ b/meta/classes-global/sstate.bbclass
+@@ -365,8 +365,9 @@ def sstate_installpkg(ss, d):
+     d.setVar("SSTATE_CURRTASK", ss['task'])
+     sstatefetch = d.getVar('SSTATE_PKGNAME')
+     sstatepkg = d.getVar('SSTATE_PKG')
++    verify_sig = bb.utils.to_boolean(d.getVar("SSTATE_VERIFY_SIG"), False)
+ 
+-    if not os.path.exists(sstatepkg):
++    if not os.path.exists(sstatepkg) or (verify_sig and not os.path.isfile(sstatepkg + '.sig')):
+         pstaging_fetch(sstatefetch, d)
+ 
+     if not os.path.isfile(sstatepkg):
+@@ -377,7 +378,7 @@ def sstate_installpkg(ss, d):
+ 
+     d.setVar('SSTATE_INSTDIR', sstateinst)
+ 
+-    if bb.utils.to_boolean(d.getVar("SSTATE_VERIFY_SIG"), False):
++    if verify_sig:
+         if not os.path.isfile(sstatepkg + '.sig'):
+             bb.warn("No signature file for sstate package %s, skipping acceleration..." % sstatepkg)
+             return False
+-- 
+2.30.2
 
---0000000000001feae905f33d11b0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Meta-oe is probably better then. It doesn=E2=80=99t meet =
-the criteria for core.</div><div dir=3D"auto"><br></div><div dir=3D"auto">A=
-lex</div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmai=
-l_attr">On Fri 27. Jan 2023 at 12.19, adinath.mhatre via <a href=3D"http://=
-lists.openembedded.org">lists.openembedded.org</a> &lt;adinath.mhatre=3D<a =
-href=3D"mailto:philips.com@lists.openembedded.org">philips.com@lists.openem=
-bedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;=
-padding-left:1ex;border-left-color:rgb(204,204,204)"><p style=3D"margin-bot=
-tom:1em">Since Varlink is an IPC alternative to dbus and its doesn=E2=80=99=
-t have dependency on wayland .</p>
-<p style=3D"margin-bottom:1em">So, we don=E2=80=99t want to include meta-wa=
-yland as we don=E2=80=99t need.<br><br>We have asked meta-wayland author re=
-garding same and he is ok with moving varlink outside of meta-wayland.<br><=
-a href=3D"https://github.com/MarkusVolk/meta-wayland/issues/4" target=3D"_b=
-lank">Upstream libvarlink recipe to poky/meta-oe =C2=B7 Issue #4 =C2=B7 Mar=
-kusVolk/meta-wayland (github.com)</a><br><br>Regards,<br>Adinath</p>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#176439): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/176439" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/176439</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/96563314/1686=
-489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/96563314/1686489</a><br>
-Mute #poky:<a href=3D"https://lists.openembedded.org/g/openembedded-core/mu=
-tehashtag/poky" rel=3D"noreferrer" target=3D"_blank">https://lists.openembe=
-dded.org/g/openembedded-core/mutehashtag/poky</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---0000000000001feae905f33d11b0--
 
