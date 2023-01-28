@@ -1,309 +1,802 @@
-Return-Path: <alejandro@enedino.org>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E5AFC61DA4
-	for <webhook@archiver.kernel.org>; Fri, 27 Jan 2023 19:43:52 +0000 (UTC)
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.web10.112301.1674848624032213330
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B7FCC54EAA
+	for <webhook@archiver.kernel.org>; Sat, 28 Jan 2023 01:27:02 +0000 (UTC)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+ by mx.groups.io with SMTP id smtpd.web10.4450.1674869215296407497
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Jan 2023 11:43:44 -0800
+ Fri, 27 Jan 2023 17:26:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: enedino.org, ip: 13.77.154.182, mailfrom: alejandro@enedino.org)
-Received: from alsamon-xub.lan (cpe-68-201-55-29.elp.res.rr.com [68.201.55.29])
-	by linux.microsoft.com (Postfix) with ESMTPSA id ED50920E67D9;
-	Fri, 27 Jan 2023 11:43:42 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com ED50920E67D9
-From: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
-Subject: [PATCH] newlib: Upgrade 4.2.0 -> 4.3.0
-Date: Fri, 27 Jan 2023 12:43:30 -0700
-Message-Id: <20230127194330.419782-1-alejandro@enedino.org>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=qEpXSXo8;
+ spf=pass (domain: gmail.com, ip: 209.85.128.170, mailfrom: ticotimo@gmail.com)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-506609635cbso89882437b3.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Jan 2023 17:26:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=6nanehHFsysyJ6txlPkNpDhcrSu7EjajpioGHCXasp4=;
+        b=qEpXSXo87N9kIdKBK03ZXDSmnmqrJcXmQ+jXvsqTSTpP+kum3DcQBRNCVBoSkdWFDn
+         EHfWqYoMaRGcOMCX0DowDUB/XwVx+bquqGWJcDcDM2eqRDMA7dZs9wEahDDz7KBx2ZJQ
+         0LV3Nboe6CC+n3BdtaIBPZGdLZFfZI8AS/QOpCDGBSxFis06Mm+202FHgOkAZ/q6ophS
+         ofMXD/ODfYVVMPq2evlmAfh40j4cpK/1vU7ghi3l5bENz8MvJplXH2fXgGS8dCMBxI00
+         bIjHTuhuv6JYlpfJX57SdHMxqFGS19z/mIf0+C8IwOqwJiol72tDCK7MbnpWe7n1fSQz
+         GJjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6nanehHFsysyJ6txlPkNpDhcrSu7EjajpioGHCXasp4=;
+        b=iB3OtzXReekRcrokpGvawvkbZhXL5hCSUms8UYkbRZutDwvPwkbm/50zDLqpYlzPhZ
+         eTPScLHjpEsSrbu+HqqFY4L6crVJLhavRBi+UCQMxW4GuK5ISxpErSXptglVh2Rqa2MY
+         19IzB43Cez6i9rqCBVv4Ou2PSGmriT2EgNg5luHx9Zn0QlvmbShm2+0eI7lkVSsPn31s
+         dtY3kQsL9SYmIioeHD6PDFQ1uopKx2+frtmIDSCvuT1zIbU94yiENu+MRKowbGDXndj4
+         7QjFJ8WO5bic29g1CfiHjqdHh4uniuNVgZWKt7nguPYU5lxbXoGkdfPAOFNgAkgfPgWO
+         CRHg==
+X-Gm-Message-State: AFqh2koElrVuIWQ7mJ/Fm1/xD4jCxwhj0sYUX3ro4DL2wBbqAlhzkqEh
+	dkICNJPnkJGpHfR44IWBcRkhjWJJaQF5vhVr9u3EQA94
+X-Google-Smtp-Source: AMrXdXuRTNQRtIGQF8XmyEyFtzXOXjWOFFy5vCDhIiIV9nbXqPtXHA+nPi5Ro+fUlVyF4T202j6iQtZ7T/4XabORCpE=
+X-Received: by 2002:a81:5a46:0:b0:4fc:962d:7dc1 with SMTP id
+ o67-20020a815a46000000b004fc962d7dc1mr3232919ywb.301.1674869214285; Fri, 27
+ Jan 2023 17:26:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <cccfbf0c-5bb9-45f2-db6d-4d2692a7b729@amd.com> <CANx9H-BuquWnmXAcRmzDdpwgxtKE_-+BbdvEKHnEXvmEsHrOPA@mail.gmail.com>
+ <10b31bd2-c183-122f-fa53-292ca5c5db6c@amd.com>
+In-Reply-To: <10b31bd2-c183-122f-fa53-292ca5c5db6c@amd.com>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Fri, 27 Jan 2023 17:26:43 -0800
+Message-ID: <CANx9H-AuMKCpjs9FmWXfs_TsXXcz4Qq9LcWcZV2UrErsGtLNmw@mail.gmail.com>
+Subject: Re: python3-bqplot build issues
+To: "Gundlupet Raju, Sandeep" <sandeep.gundlupet-raju@amd.com>
+Cc: "Hatle, Mark" <mark.hatle@amd.com>, 
+	Openembedded Core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000090135805f348e0de"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Jan 2023 19:43:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176454
+ <openembedded-core@lists.openembedded.org>; Sat, 28 Jan 2023 01:27:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176455
 
-- Rebased fix-rs6000-crt0.patch
-- Patch fix_makefile_include_arm_h.patch is no longer required, the newli=
-b
-  header dependency has been fixed upstream at 26f9cfd7
-- LICENSE checksum change due to:
-  - Adding SPDX identifier
-  - Deleted Phoenix Systems from License and updated each licenses
-  numbers accordingly.
-- Add a dummy limits.h header, to make the improved preprocessor
-  checks happy during configure.
-- Add a patch for libgloss to maintain current behavior of TCLIBC=3Dnewli=
-b
-  by making libgloss DEPEND on newlib and use its installed headers.
-- Switch to git fetcher to simplify fetching the sources and avoid future
-  issues due to the way newlib release snapshots were being published.
+--00000000000090135805f348e0de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.o=
-rg>
----
- meta/conf/distro/include/maintainers.inc      |  4 +--
- .../newlib/libgloss/fix-rs6000-crt0.patch     | 24 +++++++++------
- .../libgloss-build-without-nostdinc.patch     | 30 +++++++++++++++++++
- .../{libgloss_4.2.0.bb =3D> libgloss_4.3.0.bb}  |  5 +++-
- meta/recipes-core/newlib/newlib.inc           | 23 +++++++-------
- .../newlib/{newlib_4.2.0.bb =3D> newlib_git.bb} |  0
- 6 files changed, 63 insertions(+), 23 deletions(-)
- create mode 100644 meta/recipes-core/newlib/libgloss/libgloss-build-with=
-out-nostdinc.patch
- rename meta/recipes-core/newlib/{libgloss_4.2.0.bb =3D> libgloss_4.3.0.b=
-b} (75%)
- rename meta/recipes-core/newlib/{newlib_4.2.0.bb =3D> newlib_git.bb} (10=
-0%)
+On Thu, Jan 26, 2023 at 8:28 PM Gundlupet Raju, Sandeep <
+sandeep.gundlupet-raju@amd.com> wrote:
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
-include/maintainers.inc
-index 23c2e02d0d..ec7ea90d16 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -339,7 +339,7 @@ RECIPE_MAINTAINER:pn-libgcc-initial =3D "Khem Raj <ra=
-j.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-libgcrypt =3D "Hongxu Jia <hongxu.jia@windriver.com=
->"
- RECIPE_MAINTAINER:pn-libgfortran =3D "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-libgit2 =3D "Unassigned <unassigned@yoctoproject.or=
-g>"
--RECIPE_MAINTAINER:pn-libgloss =3D "Alejandro Hernandez <aehs29@gmail.com=
->"
-+RECIPE_MAINTAINER:pn-libgloss =3D "Alejandro Hernandez <alejandro@enedin=
-o.org>"
- RECIPE_MAINTAINER:pn-libglu =3D "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-libgpg-error =3D "Hongxu Jia <hongxu.jia@windriver.=
-com>"
- RECIPE_MAINTAINER:pn-libgudev =3D "Ross Burton <ross.burton@arm.com>"
-@@ -535,7 +535,7 @@ RECIPE_MAINTAINER:pn-nativesdk-libtool =3D "Richard P=
-urdie <richard.purdie@linuxfo
- RECIPE_MAINTAINER:pn-nativesdk-packagegroup-sdk-host =3D "Ross Burton <r=
-oss.burton@arm.com>"
- RECIPE_MAINTAINER:pn-nativesdk-qemu-helper =3D "Richard Purdie <richard.=
-purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER:pn-nativesdk-sdk-provides-dummy =3D "Richard Purdie <r=
-ichard.purdie@linuxfoundation.org>"
--RECIPE_MAINTAINER:pn-newlib =3D "Alejandro Hernandez <aehs29@gmail.com>"
-+RECIPE_MAINTAINER:pn-newlib =3D "Alejandro Hernandez <alejandro@enedino.=
-org>"
- RECIPE_MAINTAINER:pn-ncurses =3D "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER:pn-neard =3D "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER:pn-net-tools =3D "Unassigned <unassigned@yoctoproject.=
-org>"
-diff --git a/meta/recipes-core/newlib/libgloss/fix-rs6000-crt0.patch b/me=
-ta/recipes-core/newlib/libgloss/fix-rs6000-crt0.patch
-index c220fb8437..8c29fea8cf 100644
---- a/meta/recipes-core/newlib/libgloss/fix-rs6000-crt0.patch
-+++ b/meta/recipes-core/newlib/libgloss/fix-rs6000-crt0.patch
-@@ -5,35 +5,41 @@ name for crt0 in specific, so performing all of them re=
-sults in an error during
- do_install, we simply modify the name of the objects so the installation=
- can proceed
- and leave it to the user to select which object files to use.
-=20
--Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.co=
-m>
-=20
--Index: newlib-3.0.0/libgloss/rs6000/Makefile.in
-+01/2023: Rebased for libgloss 4.3.0
-+
-+Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.=
-org>
-+
-+
-+Index: git/libgloss/rs6000/Makefile.in
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+> Thanks Tim for your help.
+> On 1/26/2023 1:40 PM, Tim Orling wrote:
+>
+>
+>
+> On Wed, Jan 25, 2023 at 11:17 AM Gundlupet Raju, Sandeep <
+> sandeep.gundlupet-raju@amd.com> wrote:
+>
+>> Hello,
+>>
+>> I'm upgrading python3-bqplot from honister to langdale in meta-jupyter,
+>> I've migrated the recipe version from 0.12.31 ->0.12.36 but I'm running
+>> into build missing dependencies issues. Even if I use 0.12.31 issues
+>> exists in kirkstone and langdale.
+>>
+>> Any help from community will be much appreciated.
+>>
+>>
+>> https://github.com/Xilinx/meta-jupyter/blob/langdale/recipes-python/pyth=
+on3-bqplot_0.12.31.bb
+>>
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>
+>> Source repo:
+>>
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>
+>> https://github.com/bqplot/bqplot/tree/0.12.36
+>>
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
----- newlib-3.0.0.orig/libgloss/rs6000/Makefile.in
--+++ newlib-3.0.0/libgloss/rs6000/Makefile.in
--@@ -358,7 +358,7 @@ install-sim:
-- 	set -e; for x in ${SIM_CRT0} ${SIM_BSP} ${SIM_SCRIPTS}; do ${INSTALL_D=
-ATA} $$x $(DESTDIR)${tooldir}/lib${MULTISUBDIR}/$$x; done
-+--- git.orig/libgloss/rs6000/Makefile.in
-++++ git/libgloss/rs6000/Makefile.in
-+@@ -362,7 +362,7 @@ install-sim:
- =20
-  install-mvme:
-+ 	${mkinstalldirs} ${DESTDIR}${tooldir}/lib${MULTISUBDIR}
- -	set -e; for x in ${MVME_CRT0} ${MVME_BSP} ${MVME_SCRIPTS}; do ${INSTAL=
-L_DATA} $$x $(DESTDIR)${tooldir}/lib${MULTISUBDIR}/$$x; done
- +	set -e; for x in ${MVME_CRT0} ${MVME_BSP} ${MVME_SCRIPTS}; do ${INSTAL=
-L_DATA} $$x $(DESTDIR)${tooldir}/lib${MULTISUBDIR}/mvme-$$x; done
- =20
-  install-solaris:
-- 	set -e; for x in ${SOLARIS_CRT0} ${SOLARIS_BSP} ${SOLARIS_SCRIPTS}; do=
- ${INSTALL_DATA} $$x $(DESTDIR)${tooldir}/lib${MULTISUBDIR}/$$x; done
--@@ -367,15 +367,15 @@ install-linux:
-- 	set -e; for x in ${LINUX_CRT0} ${LINUX_BSP} ${LINUX_SCRIPTS}; do ${INS=
-TALL_DATA} $$x $(DESTDIR)${tooldir}/lib${MULTISUBDIR}/$$x; done
-+ 	${mkinstalldirs} ${DESTDIR}${tooldir}/lib${MULTISUBDIR}
-+@@ -374,17 +374,17 @@ install-linux:
- =20
-  install-yellowknife:
-+ 	${mkinstalldirs} ${DESTDIR}${tooldir}/lib${MULTISUBDIR}
- -	set -e; for x in ${YELLOWKNIFE_CRT0} ${YELLOWKNIFE_BSP}; do ${INSTALL_=
-DATA} $$x $(DESTDIR)${tooldir}/lib${MULTISUBDIR}/$$x; done
- +	set -e; for x in ${YELLOWKNIFE_CRT0} ${YELLOWKNIFE_BSP}; do ${INSTALL_=
-DATA} $$x $(DESTDIR)${tooldir}/lib${MULTISUBDIR}/yellowknife-$$x; done
-  	set -e; for x in ${YELLOWKNIFE_SCRIPTS}; do ${INSTALL_DATA} $(srcdir)/=
-$$x $(DESTDIR)${tooldir}/lib${MULTISUBDIR}/$$x; done
- =20
-  install-ads:
-+ 	${mkinstalldirs} ${DESTDIR}${tooldir}/lib${MULTISUBDIR}
- -	set -e; for x in ${ADS_CRT0} ${ADS_BSP}; do ${INSTALL_DATA} $$x $(DEST=
-DIR)${tooldir}/lib${MULTISUBDIR}/$$x; done
- +	set -e; for x in ${ADS_CRT0} ${ADS_BSP}; do ${INSTALL_DATA} $$x $(DEST=
-DIR)${tooldir}/lib${MULTISUBDIR}/ads-$$x; done
-  	set -e; for x in ${ADS_SCRIPTS}; do ${INSTALL_DATA} $(srcdir)/$$x $(DE=
-STDIR)${tooldir}/lib${MULTISUBDIR}/$$x; done
- =20
-  install-mbx:
-+ 	${mkinstalldirs} ${DESTDIR}${tooldir}/lib${MULTISUBDIR}
- -	set -e; for x in ${MBX_CRT0} ${MBX_BSP}; do ${INSTALL_DATA} $$x $(DEST=
-DIR)${tooldir}/lib${MULTISUBDIR}/$$x; done
- +	set -e; for x in ${MBX_CRT0} ${MBX_BSP}; do ${INSTALL_DATA} $$x $(DEST=
-DIR)${tooldir}/lib${MULTISUBDIR}/mbx-$$x; done
-  	set -e; for x in ${MBX_SCRIPTS} ${MBX_SPECS}; do ${INSTALL_DATA} $(src=
-dir)/$$x $(DESTDIR)${tooldir}/lib${MULTISUBDIR}/$$x; done
-diff --git a/meta/recipes-core/newlib/libgloss/libgloss-build-without-nos=
-tdinc.patch b/meta/recipes-core/newlib/libgloss/libgloss-build-without-no=
-stdinc.patch
-new file mode 100644
-index 0000000000..2b66155eea
---- /dev/null
-+++ b/meta/recipes-core/newlib/libgloss/libgloss-build-without-nostdinc.p=
-atch
-@@ -0,0 +1,30 @@
-+Upstream-Status: Inappropriate  [OE-Specific]
-+
-+Since commit e0c0ad82 libgloss started passing the -nostdinc to CC.
-+
-+They dont want to build against C library headers that are already in
-+the system to avoid pollution, however, we purposely build libgloss
-+against the newly built newlib C library, thats why we keep newlib
-+and libgloss in separate recipes and create a dependency between them.
-+
-+This causes an issue where bitbake stops finding newlib headers while
-+libgloss is being built.
-+
-+Do not pass -nostdinc to CC to maintain current behavior of
-+TCLIBC=3Dnewlib
-+
-+
-+Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.=
-org>
-+Index: newlib-3.0.0/libgloss/configure
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>
+>> 0001-pyproject.toml-Allow-jupyter-packaging-to-be-greater.patch:
+>>
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+--- newlib-3.0.0.orig/libgloss/configure
-++++ newlib-3.0.0/libgloss/configure
-+@@ -5106,7 +5106,7 @@ fi
-+ fi
-+ { $as_echo "$as_me:${as_lineno-$LINENO}: result: $libc_cv_compiler_isys=
-tem" >&5
-+ $as_echo "$libc_cv_compiler_isystem" >&6; }
-+-CC=3D"$CC -nostdinc $libc_cv_compiler_isystem"
-++CC=3D"$CC $libc_cv_compiler_isystem"
-+=20
-+ host_makefile_frag_path=3D$host_makefile_frag
-+=20
-diff --git a/meta/recipes-core/newlib/libgloss_4.2.0.bb b/meta/recipes-co=
-re/newlib/libgloss_4.3.0.bb
-similarity index 75%
-rename from meta/recipes-core/newlib/libgloss_4.2.0.bb
-rename to meta/recipes-core/newlib/libgloss_4.3.0.bb
-index 8c8ee91395..7e34e33c7a 100644
---- a/meta/recipes-core/newlib/libgloss_4.2.0.bb
-+++ b/meta/recipes-core/newlib/libgloss_4.3.0.bb
-@@ -4,8 +4,9 @@ DEPENDS +=3D "newlib"
-=20
- FILESEXTRAPATHS:prepend :=3D "${THISDIR}/libgloss:"
-=20
-+SRC_URI:append =3D " file://libgloss-build-without-nostdinc.patch"
- SRC_URI:append:powerpc =3D " file://fix-rs6000-crt0.patch"
--SRC_URI:append:arm =3D " file://fix_makefile_include_arm_h.patch"
-+SRC_URI:append:powerpc =3D " file://fix-rs6000-cflags.patch"
-=20
- do_configure() {
- 	${S}/libgloss/configure ${EXTRA_OECONF}
-@@ -28,6 +29,8 @@ do_install:append() {
- # Split packages correctly
- FILES:${PN} +=3D "${libdir}/*.ld ${libdir}/*.specs"
- FILES:${PN}-dev +=3D "${libdir}/cpu-init/*"
-+# RiscV installation moved the syscall header to this location
-+FILES:${PN}-dev +=3D "${prefix}/${TARGET_SYS}/include/machine/*.h"
-=20
- INHIBIT_PACKAGE_STRIP =3D "1"
- INHIBIT_PACKAGE_DEBUG_SPLIT =3D "1"
-diff --git a/meta/recipes-core/newlib/newlib.inc b/meta/recipes-core/newl=
-ib/newlib.inc
-index 27b52a43af..5351a9f991 100644
---- a/meta/recipes-core/newlib/newlib.inc
-+++ b/meta/recipes-core/newlib/newlib.inc
-@@ -10,24 +10,19 @@ LIC_FILES_CHKSUM =3D " \
- 		file://COPYING3;md5=3Dd32239bcb673463ab874e80d47fae504 \
- 		file://COPYING.LIBGLOSS;md5=3Dc0469b6ebb847a75781066be515f032d \
- 		file://COPYING.LIB;md5=3D2d5025d4aa3495befef8f17206a5b0a1 \
--		file://COPYING.NEWLIB;md5=3D8bb75595dbcc7d45e5c0d116d7bdf6ce \
-+		file://COPYING.NEWLIB;md5=3D5a9d477b5f4eab20dccf655a77107a6e \
- 		file://newlib/libc/posix/COPYRIGHT;md5=3D103468ff1982be840fdf4ee9f8b51=
-bbf \
--		file://newlib/libc/sys/linux/linuxthreads/LICENSE;md5=3D73640207fbc79b=
-198c7ffd4ad4d97aa0 \
- 		"
-=20
--# Newlib maintainers sometimes publish the source
--# from a specific snapshot, after an upgrade we can
--# delete the following line and keep the empty default
--NEWLIB_SNAPSHOT =3D ".20211231"
--NEWLIB_SNAPSHOT ?=3D ""
--SRC_URI =3D "https://sourceware.org/pub/newlib/newlib-${PV}${NEWLIB_SNAP=
-SHOT}.tar.gz"
--SRC_URI[sha256sum] =3D "c3a0e8b63bc3bef1aeee4ca3906b53b3b86c8d1398676073=
-69cb2915ffc54435"
--
-+BASEVER =3D "4.3.0"
-+PV =3D "${BASEVER}+git${SRCPV}"
-+SRC_URI =3D "git://sourceware.org/git/newlib-cygwin.git;protocol=3Dhttps=
-;branch=3Dmain"
-+SRCREV=3D"9e09d6ed83cce4777a5950412647ccc603040409"
-=20
- INHIBIT_DEFAULT_DEPS =3D "1"
- DEPENDS =3D "virtual/${TARGET_PREFIX}gcc"
-=20
--S =3D "${WORKDIR}/newlib-${PV}${NEWLIB_SNAPSHOT}"
-+S =3D "${WORKDIR}/git"
- B =3D "${WORKDIR}/build"
-=20
- ## disable stdlib
-@@ -52,6 +47,12 @@ EXTRA_OECONF =3D " \
-=20
- do_configure[cleandirs] =3D "${B}"
-=20
-+# We need a dummy limits.h to pass preprocessor checks
-+do_configure:append(){
-+    install -d ${STAGING_INCDIR}
-+    touch  ${STAGING_INCDIR}/limits.h
-+}
-+
- do_install() {
- 	oe_runmake install DESTDIR=3D'${D}'
- }
-diff --git a/meta/recipes-core/newlib/newlib_4.2.0.bb b/meta/recipes-core=
-/newlib/newlib_git.bb
-similarity index 100%
-rename from meta/recipes-core/newlib/newlib_4.2.0.bb
-rename to meta/recipes-core/newlib/newlib_git.bb
---=20
-2.34.1
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>
+>>  From c4681f95099516e96b1c7be757da6e0f302f50fe Mon Sep 17 00:00:00 2001
+>> From: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+>> Date: Tue, 13 Dec 2022 15:41:18 -0700
+>> Subject: [PATCH] pyproject.toml: Allow jupyter packaging to be greater
+>> than
+>>   0.7
+>>
+>> Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+>> ---
+>>   pyproject.toml | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/pyproject.toml b/pyproject.toml
+>> index ba04c53f..7a3cc3a9 100644
+>> --- a/pyproject.toml
+>> +++ b/pyproject.toml
+>> @@ -1,3 +1,3 @@
+>>   [build-system]
+>> -requires =3D ["jupyter_packaging~=3D0.7.9", "jupyterlab~=3D3.0",
+>> "setuptools>=3D40.8.0", "wheel"]
+>> +requires =3D ["jupyter_packaging~=3D0.9,<2", "jupyterlab~=3D3.0,<4",
+>
+> These are build time dependencies so they need to be in DEPENDS, not
+> RDEPENDS.
+>
+>>
+>> "setuptools", "wheel"]
+>>   build-backend =3D "setuptools.build_meta"
+>> --
+>> 2.17.1
+>>
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>
+>> python3-bqplot_0.12.36.bb recipe:
+>>
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>
+>> SUMMARY =3D "Interactive plotting for the Jupyter notebook, using d3.js =
+and
+>> \
+>>         ipywidgets."
+>> LICENSE =3D "Apache-2.0"
+>> LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D822b4ff4dd277d70fc2b796617ae1=
+bf7"
+>>
+>> PYPI_PACKAGE =3D "bqplot"
+>> inherit pypi python_setuptools_build_meta
+>>
+>> SRC_URI[sha256sum] =3D
+>> "6a553e55fdbcc4f62e05679bd74b2549d1efbe43e120ad3b0bcb03a65c7921af"
+>> SRC_URI +=3D "\
+>> file://0001-pyproject.toml-Allow-jupyter-packaging-to-be-greater.patch \
+>>      "
+>>
+>> In the prior 0.12.31 ecipe, you had
+>  DEPENDS +=3D " \
+> ${PYTHON_PN}-jupyter-packaging-native \
+> "
+> So according to the "requires =3D" in [build-system], you should also nee=
+d
+> python3-jupyterlab-native
+>
+> [Sandeep]: I tried this still same issue. But I can build all the
+> jupyter-packaging and jupyterlab packages.
+>
+>
+Did you build the -native versions? I think there are some missing -native
+dependencies (some recipes need BBCLASSEXTEND =3D =E2=80=9Cnative=E2=80=9D.=
+ After that, it
+looks like bqplot wants to call yarn or npm. Not a well behaved python
+library.
 
+=3D=3D=3D=3D=3D=3D=3D
+>
+> recipe:
+>
+> =3D=3D=3D=3D=3D=3D
+>
+> SUMMARY =3D "Interactive plotting for the Jupyter notebook, using d3.js a=
+nd \
+>            ipywidgets."
+> LICENSE =3D "Apache-2.0"
+> LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D822b4ff4dd277d70fc2b796617ae1b=
+f7"
+>
+> PYPI_PACKAGE =3D "bqplot"
+> inherit pypi python_setuptools_build_meta
+>
+> SRC_URI[sha256sum] =3D
+> "6a553e55fdbcc4f62e05679bd74b2549d1efbe43e120ad3b0bcb03a65c7921af"
+> SRC_URI +=3D "\
+>     file://0001-pyproject.toml-Allow-jupyter-packaging-to-be-greater.patc=
+h
+> \
+>     "
+> DEPENDS +=3D " \
+>         ${PYTHON_PN}-jupyter-packaging-native \
+>         ${PYTHON_PN}-jupyterlab-native \
+>         "
+>
+> RDEPENDS:${PN} +=3D " \
+>         ${PYTHON_PN}-ipywidgets \
+>         ${PYTHON_PN}-traitlets \
+>         ${PYTHON_PN}-traittypes \
+>         ${PYTHON_PN}-numpy \
+>         ${PYTHON_PN}-pandas \
+>         "
+>
+> do_install:append() {
+>         # this files will be installed by python3-json5
+>         rm -f
+> ${D}${PYTHON_SITEPACKAGES_DIR}/tests/__pycache__/__init__.cpython-37.pyc
+> }
+>
+> FILES:${PN} +=3D "${datadir}/*"
+>
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> bootlogs:
+>
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> ERROR: python3-bqplot-0.12.36-r0 do_compile:
+> ExecutionError('/tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/corte=
+xa72-cortexa53-xilinx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile.3=
+184642',
+> 1, None, None)
+> ERROR: Logfile of failure stored in:
+> /tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-x=
+ilinx-linux/python3-bqplot/0.12.36-r0/temp/log.do_compile.3184642
+> Log data follows:
+> | DEBUG: Executing shell function do_compile
+> | Missing build dependencies:
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyter_packaging~=3D0.7.9,<2
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | - jupyterlab~=3D3.0,<4
+> | WARNING:
+> /tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-x=
+ilinx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile.3184642:157
+> exit 1 from 'nativepython3 -m picobuild --source
+> /tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-x=
+ilinx-linux/python3-bqplot/0.12.36-r0/bqplot-0.12.36
+> --dest
+> /tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-x=
+ilinx-linux/python3-bqplot/0.12.36-r0/dist
+> --wheel'
+> | WARNING: Backtrace (BB generated script):
+> |       #1: python_pep517_do_compile,
+> /tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-x=
+ilinx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile.3184642,
+> line 157
+> |       #2: do_compile,
+> /tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-x=
+ilinx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile.3184642,
+> line 152
+> |       #3: main,
+> /tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-x=
+ilinx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile.3184642,
+> line 161
+>
+>
+> ERROR: Task
+> (/group/bcapps/sandeepg/yocto/2023.1/yp-dev/sources/poky/../meta-jupyter/=
+recipes-python/python3-bqplot_0.12.36.bb:do_compile)
+> failed with exit code '1
+>
+>
+> RDEPENDS:${PN} +=3D " \
+>>      ${PYTHON_PN}-jupyter-packaging \
+>>      ${PYTHON_PN}-jupyterlab \
+>>      ${PYTHON_PN}-ipywidgets \
+>>      ${PYTHON_PN}-traitlets \
+>>      ${PYTHON_PN}-traittypes \
+>>      ${PYTHON_PN}-numpy \
+>>      ${PYTHON_PN}-pandas \
+>>      "
+>>
+>> do_install:append() {
+>>      # this files will be installed by python3-json5
+>>      rm -f
+>> ${D}${PYTHON_SITEPACKAGES_DIR}/tests/__pycache__/__init__.cpython-37.pyc
+>> }
+>>
+>> FILES:${PN} +=3D "${datadir}/*"
+>>
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>
+>> Build error logs:
+>>
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>
+>> NOTE: Executing Tasks
+>> ERROR: python3-bqplot-0.12.36-r0 do_compile:
+>> ExecutionError('/tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cort=
+exa72-cortexa53-xilinx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile.=
+3777058',
+>>
+>> 1, None, None)
+>> ERROR: Logfile of failure stored in:
+>>
+>> /tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-=
+xilinx-linux/python3-bqplot/0.12.36-r0/temp/log.do_compile.3777058
+>> Log data follows:
+>> | DEBUG: Executing shell function do_compile
+>> | Missing build dependencies:
+>> | - jupyter_packaging~=3D0.9,<2
+>> | - jupyterlab~=3D3.0,<4
+>> | WARNING:
+>> /tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-=
+xilinx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile.3777058:157
+>>
+>> exit 1 from 'nativepython3 -m picobuild --source
+>> /tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-=
+xilinx-linux/python3-bqplot/0.12.36-r0/bqplot-0.12.36
+>>
+>> --dest
+>> /tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-=
+xilinx-linux/python3-bqplot/0.12.36-r0/dist
+>>
+>> --wheel'
+>> | WARNING: Backtrace (BB generated script):
+>> |       #1: python_pep517_do_compile,
+>> /tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-=
+xilinx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile.3777058,
+>>
+>> line 157
+>> |       #2: do_compile,
+>> /tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-=
+xilinx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile.3777058,
+>>
+>> line 152
+>> |       #3: main,
+>> /tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-=
+xilinx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile.3777058,
+>>
+>> line 161
+>> ERROR: Task
+>>
+>> (/group/bcapps/sandeepg/yocto/2023.1/yp-dev/sources/poky/../meta-jupyter=
+/recipes-python/python3-bqplot_0.12.36.bb:do_compile)
+>>
+>> failed with exit code '1'
+>> NOTE: Tasks Summary: Attempted 2249 tasks of which 2241 didn't need to
+>> be rerun and 1 failed.
+>>
+>> Summary: 1 task failed:
+>>
+>> /group/bcapps/sandeepg/yocto/2023.1/yp-dev/sources/poky/../meta-jupyter/=
+recipes-python/python3-bqplot_0.12.36.bb:
+>> do_compile
+>> Summary: There was 1 WARNING message.
+>> Summary: There was 1 ERROR message, returning a non-zero exit code.
+>>
+>> Thanks,
+>>
+>> Sandeep
+>>
+>>
+>>
+
+--00000000000090135805f348e0de
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Thu, Jan 26, 2023 at 8:28 PM Gundlupet Raju, Sandeep &lt=
+;<a href=3D"mailto:sandeep.gundlupet-raju@amd.com">sandeep.gundlupet-raju@a=
+md.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+
+ =20
+  <div>
+    <p>Thanks Tim for your help.<br>
+    </p></div><div>
+    <div>On 1/26/2023 1:40 PM, Tim Orling wrote:<br>
+    </div>
+    <blockquote type=3D"cite">
+     =20
+      <div dir=3D"ltr">
+        <div dir=3D"ltr"><br>
+        </div>
+        <br>
+        <div class=3D"gmail_quote">
+          <div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jan 25, 2023 at
+            11:17 AM Gundlupet Raju, Sandeep &lt;<a href=3D"mailto:sandeep.=
+gundlupet-raju@amd.com" target=3D"_blank">sandeep.gundlupet-raju@amd.com</a=
+>&gt;
+            wrote:<br>
+          </div>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+            Hello,<br>
+            <br>
+            I&#39;m upgrading python3-bqplot from honister to langdale in
+            meta-jupyter, <br>
+            I&#39;ve migrated the recipe version from 0.12.31 -&gt;0.12.36
+            but I&#39;m running <br>
+            into build missing dependencies issues. Even if I use
+            0.12.31 issues <br>
+            exists in kirkstone and langdale.<br>
+            <br>
+            Any help from community will be much appreciated.<br>
+            <br>
+            <a href=3D"https://github.com/Xilinx/meta-jupyter/blob/langdale=
+/recipes-python/python3-bqplot_0.12.31.bb" rel=3D"noreferrer" target=3D"_bl=
+ank">https://github.com/Xilinx/meta-jupyter/blob/langdale/recipes-python/py=
+thon3-bqplot_0.12.31.bb</a><br>
+            <br>
+            =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+            <br>
+            Source repo:<br>
+            <br>
+            =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+            <br>
+            <a href=3D"https://github.com/bqplot/bqplot/tree/0.12.36" rel=
+=3D"noreferrer" target=3D"_blank">https://github.com/bqplot/bqplot/tree/0.1=
+2.36</a><br>
+            <br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+            <br>
+0001-pyproject.toml-Allow-jupyter-packaging-to-be-greater.patch:<br>
+            <br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+            <br>
+            =C2=A0From c4681f95099516e96b1c7be757da6e0f302f50fe Mon Sep 17
+            00:00:00 2001<br>
+            From: Sandeep Gundlupet Raju &lt;<a href=3D"mailto:sandeep.gund=
+lupet-raju@amd.com" target=3D"_blank">sandeep.gundlupet-raju@amd.com</a>&gt=
+;<br>
+            Date: Tue, 13 Dec 2022 15:41:18 -0700<br>
+            Subject: [PATCH] pyproject.toml: Allow jupyter packaging to
+            be greater than<br>
+            =C2=A0=C2=A00.7<br>
+            <br>
+            Signed-off-by: Sandeep Gundlupet Raju &lt;<a href=3D"mailto:san=
+deep.gundlupet-raju@amd.com" target=3D"_blank">sandeep.gundlupet-raju@amd.c=
+om</a>&gt;<br>
+            ---<br>
+            =C2=A0=C2=A0pyproject.toml | 2 +-<br>
+            =C2=A0=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+            <br>
+            diff --git a/pyproject.toml b/pyproject.toml<br>
+            index ba04c53f..7a3cc3a9 100644<br>
+            --- a/pyproject.toml<br>
+            +++ b/pyproject.toml<br>
+            @@ -1,3 +1,3 @@<br>
+            =C2=A0=C2=A0[build-system]<br>
+            -requires =3D [&quot;jupyter_packaging~=3D0.7.9&quot;, &quot;ju=
+pyterlab~=3D3.0&quot;,
+            <br>
+            &quot;setuptools&gt;=3D40.8.0&quot;, &quot;wheel&quot;]<br>
+            +requires =3D [&quot;jupyter_packaging~=3D0.9,&lt;2&quot;,
+            &quot;jupyterlab~=3D3.0,&lt;4&quot;,</blockquote>
+          <div>These are build time dependencies so they need to be in
+            DEPENDS, not RDEPENDS.=C2=A0</div>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+            <br>
+            &quot;setuptools&quot;, &quot;wheel&quot;]<br>
+            =C2=A0=C2=A0build-backend =3D &quot;setuptools.build_meta&quot;=
+<br>
+            -- <br>
+            2.17.1<br>
+            <br>
+            =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+            <br>
+            <a href=3D"http://python3-bqplot_0.12.36.bb" rel=3D"noreferrer"=
+ target=3D"_blank">python3-bqplot_0.12.36.bb</a>
+            recipe:<br>
+            <br>
+            =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+            <br>
+            SUMMARY =3D &quot;Interactive plotting for the Jupyter notebook=
+,
+            using d3.js and \<br>
+            =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 ipywidgets.&quot;<br>
+            LICENSE =3D &quot;Apache-2.0&quot;<br>
+            LIC_FILES_CHKSUM =3D
+            <a>&quot;file://LICENSE;md5=3D822b4ff4dd277d70fc2b796617ae1bf7&=
+quot;</a><br>
+            <br>
+            PYPI_PACKAGE =3D &quot;bqplot&quot;<br>
+            inherit pypi python_setuptools_build_meta<br>
+            <br>
+            SRC_URI[sha256sum] =3D <br>
+&quot;6a553e55fdbcc4f62e05679bd74b2549d1efbe43e120ad3b0bcb03a65c7921af&quot=
+;<br>
+            SRC_URI +=3D &quot;\<br>
+<a>file://0001-pyproject.toml-Allow-jupyter-packaging-to-be-greater.patch</=
+a> \<br>
+            =C2=A0=C2=A0=C2=A0=C2=A0 &quot;<br>
+            <br>
+          </blockquote>
+          <div>In the prior 0.12.31 ecipe, you had</div>
+          <div>=C2=A0DEPENDS +=3D &quot; \</div>
+          ${PYTHON_PN}-jupyter-packaging-native \<br>
+          &quot;</div>
+        <div class=3D"gmail_quote">So according to the &quot;requires =3D&q=
+uot; in
+          [build-system], you should also need python3-jupyterlab-native</d=
+iv>
+      </div>
+    </blockquote>
+    </div><div><p>[Sandeep]: I tried this still same issue. But I can build=
+ all the
+      jupyter-packaging and jupyterlab packages.<br>
+    </p>
+    <p></p></div></blockquote><div dir=3D"auto"><br></div><div dir=3D"auto"=
+>Did you build the -native versions? I think there are some missing -native=
+ dependencies (some recipes need BBCLASSEXTEND =3D =E2=80=9Cnative=E2=80=9D=
+. After that, it looks like bqplot wants to call yarn or npm. Not a well be=
+haved python library.</div><div dir=3D"auto"><br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding=
+-left:1ex"><div><p dir=3D"auto">=3D=3D=3D=3D=3D=3D=3D<br>
+    </p>
+    <p>recipe:</p>
+    <p>=3D=3D=3D=3D=3D=3D<br>
+    </p>
+    <p>SUMMARY =3D &quot;Interactive plotting for the Jupyter notebook, usi=
+ng
+      d3.js and \<br>
+      =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ipywidge=
+ts.&quot;<br>
+      LICENSE =3D &quot;Apache-2.0&quot;<br>
+      LIC_FILES_CHKSUM =3D
+      <a>&quot;file://LICENSE;md5=3D822b4ff4dd277d70fc2b796617ae1bf7&quot;<=
+/a><br>
+      <br>
+      PYPI_PACKAGE =3D &quot;bqplot&quot;<br>
+      inherit pypi python_setuptools_build_meta<br>
+      <br>
+      SRC_URI[sha256sum] =3D
+      &quot;6a553e55fdbcc4f62e05679bd74b2549d1efbe43e120ad3b0bcb03a65c7921a=
+f&quot;<br>
+      SRC_URI +=3D &quot;\<br>
+      =C2=A0=C2=A0=C2=A0
+      <a>file://0001-pyproject.toml-Allow-jupyter-packaging-to-be-greater.p=
+atch</a>
+      \<br>
+      =C2=A0=C2=A0=C2=A0 &quot;<br>
+      DEPENDS +=3D &quot; \<br>
+      =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${PYTHON_PN}-jupyter-packa=
+ging-native \<br>
+      =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${PYTHON_PN}-jupyterlab-na=
+tive \<br>
+      =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &quot;<br>
+      <br>
+      RDEPENDS:${PN} +=3D &quot; \<br>
+      =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${PYTHON_PN}-ipywidgets \<=
+br>
+      =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${PYTHON_PN}-traitlets \<b=
+r>
+      =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${PYTHON_PN}-traittypes \<=
+br>
+      =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${PYTHON_PN}-numpy \<br>
+      =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${PYTHON_PN}-pandas \<br>
+      =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &quot;<br>
+      <br>
+      do_install:append() {<br>
+      =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # this files will be insta=
+lled by python3-json5<br>
+      =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rm -f
+      ${D}${PYTHON_SITEPACKAGES_DIR}/tests/__pycache__/__init__.cpython-37.=
+pyc<br>
+      }<br>
+      <br>
+      FILES:${PN} +=3D &quot;${datadir}/*&quot;</p>
+    <p>=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+    </p>
+    <p>bootlogs:</p>
+    <p>=3D=3D=3D=3D=3D=3D=3D=3D=3D</p>
+    <p>ERROR: python3-bqplot-0.12.36-r0 do_compile:
+ExecutionError(&#39;/tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cor=
+texa72-cortexa53-xilinx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile=
+.3184642&#39;,
+      1, None, None)<br>
+      ERROR: Logfile of failure stored in:
+/tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xil=
+inx-linux/python3-bqplot/0.12.36-r0/temp/log.do_compile.3184642<br>
+      Log data follows:<br>
+      | DEBUG: Executing shell function do_compile<br>
+      | Missing build dependencies:<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyter_packaging~=3D0.7.9,&lt;2<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | - jupyterlab~=3D3.0,&lt;4<br>
+      | WARNING:
+/tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xil=
+inx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile.3184642:157
+      exit 1 from &#39;nativepython3 -m picobuild --source
+/tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xil=
+inx-linux/python3-bqplot/0.12.36-r0/bqplot-0.12.36
+      --dest
+/tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xil=
+inx-linux/python3-bqplot/0.12.36-r0/dist
+      --wheel&#39;<br>
+      | WARNING: Backtrace (BB generated script):<br>
+      |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #1: python_pep517_do_compile,
+/tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xil=
+inx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile.3184642,
+      line 157<br>
+      |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #2: do_compile,
+/tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xil=
+inx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile.3184642,
+      line 152<br>
+      |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #3: main,
+/tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xil=
+inx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile.3184642,
+      line 161</p></div><div><p><br>
+      ERROR: Task
+(/group/bcapps/sandeepg/yocto/2023.1/yp-dev/sources/poky/../meta-jupyter/re=
+cipes-python/python3-bqplot_0.12.36.bb:do_compile)
+      failed with exit code &#39;1<br>
+    </p>
+    <blockquote type=3D"cite">
+      <div dir=3D"ltr">
+        <div class=3D"gmail_quote"><br>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+            RDEPENDS:${PN} +=3D &quot; \<br>
+            =C2=A0=C2=A0=C2=A0 =C2=A0${PYTHON_PN}-jupyter-packaging \<br>
+            =C2=A0=C2=A0=C2=A0 =C2=A0${PYTHON_PN}-jupyterlab \<br>
+            =C2=A0=C2=A0=C2=A0 =C2=A0${PYTHON_PN}-ipywidgets \<br>
+            =C2=A0=C2=A0=C2=A0 =C2=A0${PYTHON_PN}-traitlets \<br>
+            =C2=A0=C2=A0=C2=A0 =C2=A0${PYTHON_PN}-traittypes \<br>
+            =C2=A0=C2=A0=C2=A0 =C2=A0${PYTHON_PN}-numpy \<br>
+            =C2=A0=C2=A0=C2=A0 =C2=A0${PYTHON_PN}-pandas \<br>
+            =C2=A0=C2=A0=C2=A0 =C2=A0&quot;<br>
+            <br>
+            do_install:append() {<br>
+            =C2=A0=C2=A0=C2=A0 =C2=A0# this files will be installed by pyth=
+on3-json5<br>
+            =C2=A0=C2=A0=C2=A0 =C2=A0rm -f <br>
+${D}${PYTHON_SITEPACKAGES_DIR}/tests/__pycache__/__init__.cpython-37.pyc<br=
+>
+            }<br>
+            <br>
+            FILES:${PN} +=3D &quot;${datadir}/*&quot;<br>
+            <br>
+            =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+            <br>
+            Build error logs:<br>
+            <br>
+            =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+            <br>
+            NOTE: Executing Tasks<br>
+            ERROR: python3-bqplot-0.12.36-r0 do_compile: <br>
+ExecutionError(&#39;/tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cor=
+texa72-cortexa53-xilinx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile=
+.3777058&#39;,
+            <br>
+            1, None, None)<br>
+            ERROR: Logfile of failure stored in: <br>
+/tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xil=
+inx-linux/python3-bqplot/0.12.36-r0/temp/log.do_compile.3777058<br>
+            Log data follows:<br>
+            | DEBUG: Executing shell function do_compile<br>
+            | Missing build dependencies:<br>
+            | - jupyter_packaging~=3D0.9,&lt;2<br>
+            | - jupyterlab~=3D3.0,&lt;4<br>
+            | WARNING: <br>
+/tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xil=
+inx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile.3777058:157
+            <br>
+            exit 1 from &#39;nativepython3 -m picobuild --source <br>
+/tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xil=
+inx-linux/python3-bqplot/0.12.36-r0/bqplot-0.12.36
+            <br>
+            --dest <br>
+/tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xil=
+inx-linux/python3-bqplot/0.12.36-r0/dist
+            <br>
+            --wheel&#39;<br>
+            | WARNING: Backtrace (BB generated script):<br>
+            |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #1: python_pep517_do_comp=
+ile, <br>
+/tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xil=
+inx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile.3777058,
+            <br>
+            line 157<br>
+            |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #2: do_compile, <br>
+/tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xil=
+inx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile.3777058,
+            <br>
+            line 152<br>
+            |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #3: main, <br>
+/tmp/sandeepg/yocto/2023.1/build-jupyter-kr260/work/cortexa72-cortexa53-xil=
+inx-linux/python3-bqplot/0.12.36-r0/temp/run.do_compile.3777058,
+            <br>
+            line 161<br>
+            ERROR: Task <br>
+(/group/bcapps/sandeepg/yocto/2023.1/yp-dev/sources/poky/../meta-jupyter/re=
+cipes-python/python3-bqplot_0.12.36.bb:do_compile)
+            <br>
+            failed with exit code &#39;1&#39;<br>
+            NOTE: Tasks Summary: Attempted 2249 tasks of which 2241
+            didn&#39;t need to <br>
+            be rerun and 1 failed.<br>
+            <br>
+            Summary: 1 task failed:<br>
+/group/bcapps/sandeepg/yocto/2023.1/yp-dev/sources/poky/../meta-jupyter/rec=
+ipes-python/python3-bqplot_0.12.36.bb:do_compile<br>
+            Summary: There was 1 WARNING message.<br>
+            Summary: There was 1 ERROR message, returning a non-zero
+            exit code.<br>
+            <br>
+            Thanks,<br>
+            <br>
+            Sandeep<br>
+            <br>
+            <br>
+          </blockquote>
+        </div>
+      </div>
+    </blockquote>
+  </div>
+
+</blockquote></div></div>
+
+--00000000000090135805f348e0de--
 
