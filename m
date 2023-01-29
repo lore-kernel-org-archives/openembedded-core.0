@@ -1,106 +1,239 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D059C05027
-	for <webhook@archiver.kernel.org>; Sun, 29 Jan 2023 13:33:41 +0000 (UTC)
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.web10.15768.1674999215203832561
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE4C4C05027
+	for <webhook@archiver.kernel.org>; Sun, 29 Jan 2023 15:41:11 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web10.18052.1675006866351549464
  for <openembedded-core@lists.openembedded.org>;
- Sun, 29 Jan 2023 05:33:35 -0800
+ Sun, 29 Jan 2023 07:41:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=I6GRjVAB;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f174.google.com with SMTP id 143so5941833pgg.6
-        for <openembedded-core@lists.openembedded.org>; Sun, 29 Jan 2023 05:33:34 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FQjR3QDm;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id o36so455058wms.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 29 Jan 2023 07:41:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=date:message-id:to:from:subject:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=StBeoO+tqr7aJTI9wReWWEA9762z2dJbm4u59pfHXFM=;
-        b=I6GRjVABMMBgyrmMf/SuHSWwJJFvAwUFZtG47Nzp2wqeXSm7KurPHATF9E8aJ96lgU
-         xeNdBtjiobT8LWItrABeeOb0LddIN+gEv7kbFODvLmtkzCDlGF1VeJH7d53Mr36arHbI
-         Bm+MTMAacjGxzCBc4sdsgCbPc+h+VHRuQ9dGMGwLhP9GoWypi/F+9BTE2qM5tq6yICLS
-         GggBPlREXpc7H5Ri4WXPt1bdA5wspH9T9uI78xcUVHy8+MtPs3qSNYfNDMsMuDWks7+7
-         mtjqolLpYifpNhFIsIAnx5sFol3BJICYA12LFj6uegKZtcm9l5FVV1bJejJT41Up7Lut
-         cJXg==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:date:cc:to:from
+         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=rgsvFYU2N1gODHme1ibbzzAqqfnP6Y4jWJnDsMuGgUk=;
+        b=FQjR3QDmDZqkF2TW3UkmbS40OmQA5XExg8VpF8GgPqn4tNvU2TgPDQhK0XEqHb88Be
+         MjSnFYboGprpnmIuDz06ajXx8CJDdV0LxKgNIUAPHGcw5weCDfCTWvlLSVBMOF/fWD13
+         Nn/EjlhWSKfut/swZjMKaJhJPtNy0fSJrKx4A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=date:message-id:to:from:subject:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=StBeoO+tqr7aJTI9wReWWEA9762z2dJbm4u59pfHXFM=;
-        b=QgbZEyXZq1yQTo6Diw6/AWyDEKFpOMpsYwJr5vm1LkLGkmKzEJi7iOAjCf30U/rww3
-         aKAYkdyrghZ4ByKx+IXlL8UtntS6OExGCbl0C7lraPVNttQE83V4KqOBrbtKM+tum816
-         1u4um1uyhbkYIx5kz369bytBIaM4+hsY/WQLfeHXrtq1syBKdhUovbAIehYKQOqV32BE
-         bIqYAjyfj0W6/r4yb5Fyc5kobAJTcz0/WYM3VjSn+Xf46z9nzcKtMzzqI4fMClNRTjJ9
-         bOAy0ED35SI8na42rNA7EOv0EJGAZPp9kirLyiSH/hfuZH4SA0AWaYSiE6gipn3Gtj3Y
-         x85g==
-X-Gm-Message-State: AFqh2kobrov2GagUsJ0QJSbk7u73jD2RLmNuCgZeQ0IgV0U6lkKAz/MW
-	gi5kHKdEPuzyXe0gm8Ct0Nqmasr9y2sagOLpdOk=
-X-Google-Smtp-Source: AMrXdXsVl+QvORdhyFzzOUGOWZD4pPgUeFNuZePJPeuk/gJyfxOTpRsIDBSrXkmguTpxWiZZm8lZQw==
-X-Received: by 2002:a62:6144:0:b0:583:9b05:d1f0 with SMTP id v65-20020a626144000000b005839b05d1f0mr41153940pfb.33.1674999213866;
-        Sun, 29 Jan 2023 05:33:33 -0800 (PST)
-Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id x2-20020aa793a2000000b00592591d1634sm5065860pff.97.2023.01.29.05.33.32
+        h=mime-version:user-agent:content-transfer-encoding:date:cc:to:from
+         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rgsvFYU2N1gODHme1ibbzzAqqfnP6Y4jWJnDsMuGgUk=;
+        b=EMmAopFfe23bmvA108d8tuAhYc1+SQEfS0pPK/2zhZPl6IDO+F+F8LlQfLOBUWuwCI
+         iiCLpOOwDtWlOw2Dp92+uV3y5dzx3F8hU2ama0qbnv8NBpfWujuBAiZmsKggl8Vc+zk1
+         Utg0JJuK9YoXj87wzUoEubIunecSamN0DWjsuBjQnVRELSo6BHvsW/2hGqj0LxJM+nnh
+         baSKwDCEHKzKtLPf+BTZ3ErouahweFUKzy0qDjWLVyjdbXhjLWfgVoCI3vSTj2g5ki3R
+         dmrEfuwpFKZxquoxC5IHYY7oG2+7LHNhiyKwA8HIC5vTjy6D5gXAU/aiZP/BnSs73B0b
+         AvaA==
+X-Gm-Message-State: AFqh2ko5tE4XWGjyY9gxszv0SAzaKNl2378FzpAtazgl3inDMSiYJtPG
+	B1IbAiEuaI2wS9YxuHIck6gIPW6rcuXt7gno
+X-Google-Smtp-Source: AMrXdXtQV/fBiM8H+WoAJiabjyu3cMszXdevKEn2HG5IFLWz/biAFxvlQmXuiG16ynhS0wgiHj6fUg==
+X-Received: by 2002:a05:600c:1c8e:b0:3d9:e5f9:984c with SMTP id k14-20020a05600c1c8e00b003d9e5f9984cmr48634507wms.2.1675006864357;
+        Sun, 29 Jan 2023 07:41:04 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:f380:b6b4:14ae:a3d0? ([2001:8b0:aba:5f3c:f380:b6b4:14ae:a3d0])
+        by smtp.gmail.com with ESMTPSA id bg6-20020a05600c3c8600b003db06493ee7sm15389865wmb.47.2023.01.29.07.41.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Jan 2023 05:33:33 -0800 (PST)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id 48B4A960377; Sun, 29 Jan 2023 03:33:31 -1000 (HST)
-Subject: OE-core CVE metrics for langdale on Sun 29 Jan 2023 03:30:01 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20230129133331.48B4A960377@nuc.router0800d9.com>
-Date: Sun, 29 Jan 2023 03:33:31 -1000 (HST)
+        Sun, 29 Jan 2023 07:41:03 -0800 (PST)
+Message-ID: <aba59b60b8eb52c2963aaaafa0308fbbf80443db.camel@linuxfoundation.org>
+Subject: Current QA failure challenges (perf, QA http-server, asyncio
+ prserv, bitbake runCommand timeout, unfsd test issue)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>, Joshua Watt
+	 <JPEWhacker@gmail.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>
+Date: Sun, 29 Jan 2023 15:41:03 +0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 29 Jan 2023 13:33:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176475
+ <openembedded-core@lists.openembedded.org>; Sun, 29 Jan 2023 15:41:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176476
 
-Branch: langdale
+Hi All,
 
-New this week: 7 CVEs
-CVE-2022-23521 (CVSS3: 9.8 CRITICAL): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23521 *
-CVE-2022-3515 (CVSS3: 9.8 CRITICAL): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3515 *
-CVE-2022-3550 (CVSS3: 8.8 HIGH): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3550 *
-CVE-2022-3551 (CVSS3: 6.5 MEDIUM): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3551 *
-CVE-2022-41903 (CVSS3: 9.8 CRITICAL): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41903 *
-CVE-2022-41953 (CVSS3: 7.8 HIGH): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41953 *
-CVE-2022-4743 (CVSS3: 7.5 HIGH): libsdl2:libsdl2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4743 *
+I've going to be a distracted this next week with other project related
+things and the autobuilder is showing a number of problems. I've spent
+part of my weekend trying to stabilise things so I could not have the
+distraction and whilst I've had partial success, things aren't
+resolved. I'm sending this out in the hope others may be able to
+help/assist. The issues:
 
-Removed this week: 9 CVEs
-CVE-2022-3515 (CVSS3: 9.8 CRITICAL): gnupg:gnupg-native:libksba:libksba-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3515 *
-CVE-2022-39253 (CVSS3: 5.5 MEDIUM): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-39253 *
-CVE-2022-39260 (CVSS3: 8.8 HIGH): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-39260 *
-CVE-2022-43551 (CVSS3: 7.5 HIGH): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-43551 *
-CVE-2022-47629 (CVSS3: 9.8 CRITICAL): libksba:libksba-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-47629 *
-CVE-2023-0049 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0049 *
-CVE-2023-0051 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0051 *
-CVE-2023-0054 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0054 *
-CVE-2023-0288 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0288 *
+Kernel 6.1 reproducibility issue in perf
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-Full list:  Found 20 unpatched CVEs
-CVE-2020-10735 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-10735 *
-CVE-2022-23521 (CVSS3: 9.8 CRITICAL): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23521 *
-CVE-2022-3515 (CVSS3: 9.8 CRITICAL): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3515 *
-CVE-2022-3550 (CVSS3: 8.8 HIGH): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3550 *
-CVE-2022-3551 (CVSS3: 6.5 MEDIUM): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3551 *
-CVE-2022-37454 (CVSS3: 9.8 CRITICAL): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-37454 *
-CVE-2022-3872 (CVSS3: 8.6 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3872 *
-CVE-2022-3996 (CVSS3: 7.5 HIGH): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3996 *
-CVE-2022-40303 (CVSS3: 7.5 HIGH): libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40303 *
-CVE-2022-40304 (CVSS3: 7.8 HIGH): libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40304 *
-CVE-2022-4055 (CVSS3: 7.4 HIGH): xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4055 *
-CVE-2022-40897 (CVSS3: 5.9 MEDIUM): python3-setuptools:python3-setuptools-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40897 *
-CVE-2022-4144 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4144 *
-CVE-2022-41903 (CVSS3: 9.8 CRITICAL): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41903 *
-CVE-2022-41953 (CVSS3: 7.8 HIGH): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41953 *
-CVE-2022-42919 (CVSS3: 7.8 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-42919 *
-CVE-2022-45061 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-45061 *
-CVE-2022-4603 (CVSS3: 8.8 HIGH): ppp https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4603 *
-CVE-2022-46908 (CVSS3: 7.3 HIGH): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46908 *
-CVE-2022-4743 (CVSS3: 7.5 HIGH): libsdl2:libsdl2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4743 *
+We've had two fixes which do seem to have fixed the kernel-devsrc issue
+but not the perf one. The diffoscope:
 
-For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
+http://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20230129-8bp_1b_=
+z/packages/diff-html/
+
+The autobuilder failure:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/2314/ste=
+ps/13/logs/stdio
+
+Part of the issue is this seems to be host contamination, so you do
+need to build on a different host. The first time the test runs, it
+does so on the same host and the output is unchanged which is why we've
+had green builds but then failures.
+
+I did try removing the sstate for perf, the issue came back, so it
+isn't a cache contamination issue afaik.
+
+
+bitbake timeout on sending commands
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+Bitbake runCommand appears to be able to hang in the send since
+there is no timeout set there. This can cause things to block. We need
+to put a worse case timeout/exit in there.
+
+
+unfs tests leave nfs server running
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+After the unfs NFS test runs, we seem to leave an unfs server hanging
+around after the builds are long gone. These build up on the
+autobuilder workers.
+
+
+http-server in dnf tests breaking
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
+
+We've started seeing a lot of short packets with the http-server used
+by the dnf package manager tests. dnf retries and succeeds leaving a
+failure in the logs which parse_logs picks up.
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/53/builds/6592/step=
+s/14/logs/stdio
+Central error: 2023-01-29T11:43:32+0000 INFO Error during transfer: Curl er=
+ror (18): Transferred a partial file for http://192.168.7.1:36183/cortexa15=
+t2hf_neon/libc6-2.36-r0.cortexa15t2hf_neon.rpm [transfer closed with 15758 =
+bytes remaining to read]
+https://autobuilder.yoctoproject.org/typhoon/#/builders/59/builds/6592/step=
+s/14/logs/stdio
+Central error: 2023-01-29T11:07:31+0000 INFO Error during transfer: Curl er=
+ror (18): Transferred a partial file for http://192.168.7.3:42417/core2_32/=
+busybox-1.35.0-r0.core2_32.rpm [transfer closed with 14627 bytes remaining =
+to read]
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/6598/step=
+s/13/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/59/builds/6532
+
+and a load more. Why the sudden increase in frequency, not sure. Could
+be 6.1 kernel related.
+
+
+asyncio issues with PR Serv
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+
+I've found at least one bug with what the code was doing and fixing
+that should help some of the test failures we've seen. When looking
+into that I found more problems though.
+
+If you run "oe-selftest -r prservice -j 3 -K" and then look at the
+bitbake-cookerdaemon.log, it shows a load of python asyncio issues. The
+first one is:
+
+/usr/lib/python3.10/asyncio/base_events.py:685: ResourceWarning:
+unclosed event loop <_UnixSelectorEventLoop running=3DFalse closed=3DFalse
+debug=3DFalse>
+  _warn(f"unclosed event loop {self!r}", ResourceWarning, source=3Dself)
+
+showing connections to the PR service aren't being cleaned up.
+
+Also:
+
+/home/pokybuild/yocto-worker/oe-selftest-
+debian/build/bitbake/lib/bb/codeparser.py:472: ResourceWarning:
+unclosed <socket.socket fd=3D15, family=3DAddressFamily.AF_INET,
+type=3DSocketKind.SOCK_STREAM, proto=3D6, laddr=3D('127.0.0.1', 47910),
+raddr=3D('127.0.0.1', 40751)>
+  self.process_tokens(more_tokens)
+
+but the codeparser reference isn't accurate, it is just from the
+garbage collection point.
+
+The second issue is that in running the selftests, a PR Service process
+often seems to be left behind without bitbake running. It suggests some
+kind of lifecycle issue somewhere. It might only be happening in
+failure cases, not sure.
+
+The third issue seems to be around event loop shutdown. On debian11
+with py 3.9, when bitbake is shutting down we're seeing:
+
+412934 07:12:26.081334 Exiting (socket: True)
+/usr/lib/python3.9/signal.py:30: ResourceWarning: unclosed
+<socket.socket fd=3D22, family=3DAddressFamily.AF_INET,
+type=3DSocketKind.SOCK_STREAM, proto=3D6, laddr=3D('127.0.0.1', 36287), r
+addr=3D('127.0.0.1', 36422)>
+  return enum_klass(value)
+ResourceWarning: Enable tracemalloc to get the object allocation
+traceback
+/usr/lib/python3.9/asyncio/selector_events.py:704: ResourceWarning:
+unclosed transport <_SelectorSocketTransport fd=3D22>
+  _warn(f"unclosed transport {self!r}", ResourceWarning, source=3Dself)
+ResourceWarning: Enable tracemalloc to get the object allocation
+traceback
+Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/oe-selftest-
+debian/build/bitbake/lib/bb/asyncrpc/serv.py", line 71, in
+process_requests
+    d =3D await self.read_message()
+GeneratorExit
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/oe-selftest-
+debian/build/bitbake/lib/bb/asyncrpc/serv.py", line 201, in
+handle_client
+    await client.process_requests()
+  File "/home/pokybuild/yocto-worker/oe-selftest-
+debian/build/bitbake/lib/bb/asyncrpc/serv.py", line 79, in
+process_requests
+    self.writer.close()
+  File "/usr/lib/python3.9/asyncio/streams.py", line 353, in close
+    return self._transport.close()
+  File "/usr/lib/python3.9/asyncio/selector_events.py", line 700, in
+close
+    self._loop.call_soon(self._call_connection_lost, None)
+  File "/usr/lib/python3.9/asyncio/base_events.py", line 746, in
+call_soon
+    self._check_closed()
+  File "/usr/lib/python3.9/asyncio/base_events.py", line 510, in
+_check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+Task was destroyed but it is pending!
+task: <Task pending name=3D'Task-2540' coro=3D<AsyncServer.h
+
+
+If anyone can help with any of these please reply to the email. We
+probably need to transfer some into bugzilla, I just wanted to at least
+get something written down.
+
+Cheers,
+
+Richard
+
+
+
 
