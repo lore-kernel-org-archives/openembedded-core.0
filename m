@@ -2,94 +2,101 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDC1CC54EAA
-	for <webhook@archiver.kernel.org>; Mon, 30 Jan 2023 20:30:47 +0000 (UTC)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web11.5699.1675110640530678330
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CF8FC54EAA
+	for <webhook@archiver.kernel.org>; Mon, 30 Jan 2023 22:11:58 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web10.8488.1675116715443099521
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Jan 2023 12:30:40 -0800
+ Mon, 30 Jan 2023 14:11:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=AxWVFg4d;
- spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f44.google.com with SMTP id h24so20906133lfv.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Jan 2023 12:30:40 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Rw26OEEH;
+ spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f49.google.com with SMTP id hn2-20020a05600ca38200b003dc5cb96d46so2159174wmb.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Jan 2023 14:11:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=TBB0i4MUx0osS5XGQE3qdIh+AUxPAkjbbQuco+jw/nI=;
-        b=AxWVFg4dPikOTLOMVLtBoKIuO0V2b0aln53wl246umeub9Vvy7d++6F9rCIGfFlnhy
-         IgzPGAQNiYB77w0UX/c7TD05v5FnDh1a819lMo18lOJcPOt7AM+ZTi1KNCWa7YlHLxE1
-         CQgsevESv2iIRTrplVgYAvHbX/9aAq9KT2VTWV/uvXD9P1nfsh2fxCWEEVY7LDX65kEJ
-         X+864dCRn8wEJxR4Y2tvaXLcJliaJ1v3F7cvEpPgnSozL3NX+ymgCV/pulGTZc4A46Rb
-         ZBHSNqTfmSDiXr0/H861n8ozeEb1XQ8Ln7i0TurhCd9PH2oV4hhjQ+NA4V+L3G4WMbQf
-         F5AA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bN3dGEJxSN97lPEmJpGPo93gDyfp8uBqmeeHWKwFxQc=;
+        b=Rw26OEEHQFsqiV1Yn/ymYhhPWbgJAf+xlEKY4z6RlE9pSSicnmqCZTu4Vo9fxv8s+m
+         uyC3LNjlBPEb1l1hDEfO57gTFgA9BjO5gvE4Pwl1/XgyFfoXmo92RtbYqQiJVQcC/U8d
+         i61fNvOwtCZv9E1pB1eQK/F52Gwx0rbLVanUj/sgEk0tNqYV3WjJuX/HLiF6bJAavgVV
+         4//k5f1xnF6daYcavGLZ8+HnjCU0LDpxhH8qRWBc+rK28IoKE5cri4wgfatyBomuJzlf
+         2Cn6W6yva1r2QxoJSnRbJ3/pT7ZQFi8BjOPEGrrs1yV8BNvGffsfT6QKzXUS7Y7HPzUA
+         1YGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TBB0i4MUx0osS5XGQE3qdIh+AUxPAkjbbQuco+jw/nI=;
-        b=O8fQJ0VmuiSasY3YSsWumMJ4Xpa+5qY7bL4eb1RA8UFpj1DAhTxJVvMfrUY5Rbp4be
-         MY3MZOz6HivzCxyPO+FBedJ4+5AHb2/KcaSh3wkReM35gxuOdlV/VDefETsoOlVo3I+J
-         gqFtvHDe4WdEdLlBp1HR76WJy5lLLTIXmrMH3+n0TXKlCiLhH5oUBqOx8yEeZYLNrlOI
-         PVaXnLVhCAhN2V4gR06f2EO+nPUVvHfB4tieQsxiX0GpqS40pEbebY8RWJoUop27o6A/
-         9dn6oJrhoGCMjPWEUzrM+f2dhjXvKqYTzKJKKt6LgDot7yIhlKOpI8VSWuSbgGEnN8wr
-         I7UA==
-X-Gm-Message-State: AFqh2kpeJAisWWBSXflRJVri8z5Q2IwcJAd3WGTZYAEFPz0Ch81+ZTs9
-	5yz4v59ghCKEPwchiyGOuLUww0ui5Gc1vSbwI9U=
-X-Google-Smtp-Source: AMrXdXvIwMXcuR6WuBWZXeRdQfZIAYJffDNm/kxJaFpzA68wrrBiys435kDUZ4tXMv6jmzrVESLFYVICQDRiHI0OA94=
-X-Received: by 2002:a05:6512:1322:b0:4b6:f2a8:884e with SMTP id
- x34-20020a056512132200b004b6f2a8884emr6207660lfu.191.1675110638782; Mon, 30
- Jan 2023 12:30:38 -0800 (PST)
-MIME-Version: 1.0
-References: <aba59b60b8eb52c2963aaaafa0308fbbf80443db.camel@linuxfoundation.org>
-In-Reply-To: <aba59b60b8eb52c2963aaaafa0308fbbf80443db.camel@linuxfoundation.org>
+        bh=bN3dGEJxSN97lPEmJpGPo93gDyfp8uBqmeeHWKwFxQc=;
+        b=r0vS7GAxGdifW+mK7nWnwVUW4y7RzzkQ8xa7lAXneuebv07uVJbEhzwmVap+CFDhqc
+         DY4EBnGOdXLtHUJXGAgye+BtMWF/M7LDiY/RGrHvk1WMcJEzaUM+VYg9pAeZEFjUskJV
+         HZUNn20+yAJPFphk+K3Fka252SXFvB/mqWcDo8Z/4hMdzQze1F0n20RsO/frcCXc1zV2
+         uRguHsFmKcPLUu2g9yiDnZ6Ibpxg4id5hYMwaWVMlPuHMxJXjEdpVQzWW1UzqNFVEsww
+         oQv6XX1gqdj4CPSD+FnWPlmSJVC/u+JNmHSp4HwU7FUc0Uto17X5kSV2BVW9dX4bMCI0
+         hPlg==
+X-Gm-Message-State: AO0yUKXqZLoCF7s7vH43f68WtmEhv9Ln+u15mUpY6IWQWR1jh8RGwtC0
+	LJKEHYN29Nv6gIfaWrJfTe80FOWqAG8=
+X-Google-Smtp-Source: AK7set+jJwqVJw47aNJqRczbsny7cytB1H9cDzY2lPSNPfmWGbwEYwNxG6ZA6kXR3V8V3PotJL1kFg==
+X-Received: by 2002:a05:600c:4f12:b0:3dc:5300:90a9 with SMTP id l18-20020a05600c4f1200b003dc530090a9mr7213240wmq.28.1675116713599;
+        Mon, 30 Jan 2023 14:11:53 -0800 (PST)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id p7-20020a1c5447000000b003dc433355aasm10407330wmi.18.2023.01.30.14.11.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Jan 2023 14:11:52 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 30 Jan 2023 21:30:27 +0100
-Message-ID: <CANNYZj9KK3UX9+HPCafp1QEYFDekBkcqEe+Ht8bUhPm3v=3RfA@mail.gmail.com>
-Subject: Re: [OE-core] Current QA failure challenges (perf, QA http-server,
- asyncio prserv, bitbake runCommand timeout, unfsd test issue)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>, 
-	Bruce Ashfield <bruce.ashfield@gmail.com>, Joshua Watt <JPEWhacker@gmail.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH] oeqa/qemurunner: do not use Popen.poll() when terminating runqemu with a signal
+Date: Mon, 30 Jan 2023 23:11:25 +0100
+Message-Id: <20230130221125.2299244-1-alex@linutronix.de>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 30 Jan 2023 20:30:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176501
+ <openembedded-core@lists.openembedded.org>; Mon, 30 Jan 2023 22:11:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176502
 
-On Sun, 29 Jan 2023 at 16:41, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> unfs tests leave nfs server running
-> ===================================
->
-> After the unfs NFS test runs, we seem to leave an unfs server hanging
-> around after the builds are long gone. These build up on the
-> autobuilder workers.
+This does not actually guarantee that the child runqemu process has completely exited:
+poll() may return prematurely while the SIGTERM handler in runqemu is still running.
+This thwarts the rest of the processing, and may terminate the handler before
+it completes.
 
-I'm going slightly mad. The trouble occurs in stop() method in
-meta/lib/oeqa/utils/qemurunner.py. The method sends SIGTERM to runqemu
-proces, then runs Popen.poll() in a loop until it is not None [1]
-(internally this poll() thing seems to be using waitpid()).
+Use Popen.communicate() instead: this is what python documentation recommends as well:
+https://docs.python.org/3/library/subprocess.html#subprocess.Popen.communicate
 
-Runqemu needs to do significant processing in SIGTERM handler
-(bringing down the nfs server cleanly), so it takes a few seconds. On
-the other hand, poll() returns -15 earlier than SIGTERM hander
-completes (!) and then SIGTERM handler itself seems
-to be interrupted in the middle of it, leaving dangling nfsd processes behind.
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/lib/oeqa/utils/qemurunner.py | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-The 'slightly mad' part is that assuming Popen.poll()/waitpid() do not
-wait for the signal handler to complete, how to ensure that the child
-process had truly exited before proceeding in the parent? Am I
-completely wrong about what's happening and how to use these things
-correctly, and sending me to a beginner's Unix class is in order? I'd
-like to write a simple replicator showing incorrect behavior, but not
-today.
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index b5fed6c9fe..8b893601d4 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -543,10 +543,13 @@ class QemuRunner:
+                 except OSError as e:
+                     if e.errno != errno.ESRCH:
+                         raise
+-            endtime = time.time() + self.runqemutime
+-            while self.runqemu.poll() is None and time.time() < endtime:
+-                time.sleep(1)
+-            if self.runqemu.poll() is None:
++            try:
++                outs, errs = self.runqemu.communicate(timeout = self.runqemutime)
++                if outs:
++                    self.logger.info("Output from runqemu:\n%s", outs.decode("utf-8"))
++                if errs:
++                    self.logger.info("Stderr from runqemu:\n%s", errs.decode("utf-8"))
++            except TimeoutExpired:
+                 self.logger.debug("Sending SIGKILL to runqemu")
+                 os.killpg(os.getpgid(self.runqemu.pid), signal.SIGKILL)
+             if not self.runqemu.stdout.closed:
+-- 
+2.30.2
 
-[1] https://docs.python.org/3/library/subprocess.html#subprocess.Popen.poll
-
-Alex
 
