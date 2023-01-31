@@ -2,88 +2,103 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C98F1C38142
-	for <webhook@archiver.kernel.org>; Tue, 31 Jan 2023 15:14:34 +0000 (UTC)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web10.14590.1675178066048198905
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC802C63797
+	for <webhook@archiver.kernel.org>; Tue, 31 Jan 2023 15:19:24 +0000 (UTC)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.web11.15046.1675178359259648686
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Jan 2023 07:14:26 -0800
+ Tue, 31 Jan 2023 07:19:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ZPMSQah1;
- spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f51.google.com with SMTP id bk15so42503626ejb.9
-        for <openembedded-core@lists.openembedded.org>; Tue, 31 Jan 2023 07:14:25 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=b+gNmFnr;
+ spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f44.google.com with SMTP id k4so37112216eje.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 31 Jan 2023 07:19:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zL62Oi8gi5o39MYVBpt6UmseluyOj8wS+13cIuRlzTE=;
-        b=ZPMSQah15t0EynwW7RmbLjW2d5oDGZW5OiPnH7/iyrnfGc3Rg/RRBU0OaUBOzcB3tf
-         SmGHl8j+ZYian4vX+wAE/VTBhlVn/Tw2laaJWCTQvH0N6+aBDUG+QXnSvb3NjuU1Vy+x
-         K5/W6XOLtCDPkNEaFLnhqixP1V3EKE8hGsJ81GY7I37AbU4J6MLGmOSXUMBAiugvpYYk
-         nI1OKZcyTJSEQmjCh4fDs02DbTjstbstEKt2xEHETAJF8/E2M7E9N8rLpM7pBrh0ippr
-         xYcI+IiJhVZv+EYvLqvzo2HsbN43LvPpDu3BOzmqOEGNDjSXT9Qjw6TDZ1SjFzlsqPLB
-         Ck6g==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eLxEwTRkTsYyHOEOmiuQ7C6Rz9qlDtG5re0LInPpkRk=;
+        b=b+gNmFnrFy1vbwOeaY5hY2NlyR/CGtdU9m1QSLMOoXzq9ATjk06OQTnB8dQpaBQnfh
+         K7nn4oJZDTVluZcuLfk68zdTwmdaFfhDD9/PgfuGquhus+eVd7HIpV4A+/50SINtdPV6
+         VxVhKnKZVq3Mp0zif0ElAePeivI9hGDq3OcZkSMB16F+npaJATotrKVSCnPu+LZ5fEF9
+         Mgv0k0AchRR/Wj8PwJGjoC6EAkpHe+NGVTdNiRNHDNanMeumH51AHX5LcXdKViPWJQl8
+         wGGB1LOwxjYU4t/oJll4iMl4Pk+pkX4A1JM7AzYipJTtxxN9RMU3p/0uoaPMYW/vc0nL
+         2Zcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zL62Oi8gi5o39MYVBpt6UmseluyOj8wS+13cIuRlzTE=;
-        b=gMXdidnxlTe9y6aTmJd7KgLMi5MYDG+wJfdOEs3LLleUhDV+jRwOklUFHTalYiLEGO
-         Cu/okNap9IRo2eKmHLffaDuvjNVATrQeBbbs/X13GTf3IwskitH1bnBiWIqXJSNX014X
-         YkS3toIcWPfjTyYAcTR2luVzfWqZdCDQavSjJBWR2P5WbqjSAkzBSIVlx11Rtf6SeTQs
-         tJnMB96IiCllVKMvGzsUOQA2xIu6qRLQH+SvWOVPIp+LuQAIA1hOY58/glW1Wg3FNVDD
-         iS4nN1FUHMCjP7gxSrpLncEnue7gmx4XZ2Je1OTV2XiS0FQkx8SFzc2SLW0iP5n9Fq/d
-         pKtg==
-X-Gm-Message-State: AO0yUKU+ro1EkoiJ0CE93Q1TOqYbuzQMOJwRcRAjoqk3QIvSfWUYC0x0
-	wbn9bag1xLOLRsEWXHclFytcCL2QyInvqJBnelk=
-X-Google-Smtp-Source: AK7set8zJG1d/L2LLlg2j2zJS9B8SR9pukhEg6R9vHZuWTqdkE1+XSL2xb9YWmBWGLiZxD478TmoBejhv865KnK6AYk=
-X-Received: by 2002:a17:906:768e:b0:88a:bec0:11df with SMTP id
- o14-20020a170906768e00b0088abec011dfmr1760348ejm.178.1675178064358; Tue, 31
- Jan 2023 07:14:24 -0800 (PST)
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eLxEwTRkTsYyHOEOmiuQ7C6Rz9qlDtG5re0LInPpkRk=;
+        b=ki7lLJ3x5t/EyP/jT9fHnyS+eLsv5sfXRaS9+Nv5FWGs3C1NKuWygNxkQHAoaiZBUf
+         g4yf8NJFSu/N56bXy7OHQIqxqKmcbFTCN8uSTftbjUUY/9Bia+0mXYu1OuViEGZEWA+q
+         +NuSMFoDva0vI9wBS+MFFwLzactBSfv4UNt1NN0giu8B+pax2RqXIac4vl6yU86h7TV8
+         Ero7lc3YaPZofnoFTmf1d2kRP6OW2tmIZFTQRaQnn6/aVkcPfb1t6zAgckQApM73v8h7
+         S3NmMH+bG3nGUZSkecRHu8xeBmQQgBhEnauGRHXCELY1kdvc+XUuxMNePLvMMhbmfSeQ
+         cawg==
+X-Gm-Message-State: AFqh2kpucsSShpWdZQ1ZWHDpYufT59HBcbfI15Nmp5+7/ftUIeMQJpMX
+	0Tn6D/OXJaJfNWc2i231H44zIbNY6M6St09vV5tElq9srPY=
+X-Google-Smtp-Source: AMrXdXvaE/5sHEFBOKMZn2aPcx5K0IQ9nCWmIB5pFq4jjL9t6UgqsugSSP5Jx5zlcZZ5ia8yxGcNnivKhbhm3Z9mveI=
+X-Received: by 2002:a17:907:c928:b0:85e:4218:c011 with SMTP id
+ ui40-20020a170907c92800b0085e4218c011mr8435009ejc.258.1675178357344; Tue, 31
+ Jan 2023 07:19:17 -0800 (PST)
 MIME-Version: 1.0
-References: <aba59b60b8eb52c2963aaaafa0308fbbf80443db.camel@linuxfoundation.org>
-In-Reply-To: <aba59b60b8eb52c2963aaaafa0308fbbf80443db.camel@linuxfoundation.org>
+References: <0dbb01d9357e$5e847230$1b8d5690$@gmail.com>
+In-Reply-To: <0dbb01d9357e$5e847230$1b8d5690$@gmail.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 31 Jan 2023 16:14:12 +0100
-Message-ID: <CANNYZj-o537KRKz8J9zn5EspbakeK-SxbCEPpKKad1xkCgRVCQ@mail.gmail.com>
-Subject: Re: [OE-core] Current QA failure challenges (perf, QA http-server,
- asyncio prserv, bitbake runCommand timeout, unfsd test issue)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>, 
-	Bruce Ashfield <bruce.ashfield@gmail.com>, Joshua Watt <JPEWhacker@gmail.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Date: Tue, 31 Jan 2023 16:19:05 +0100
+Message-ID: <CANNYZj99OYt9uCw34eX_d+73cZcJaCutQqjQ32kiPs64_xz=JQ@mail.gmail.com>
+Subject: Re: [OE-core] Yocto Project Status 31 January 2023 (WW05)
+To: Stephen Jolley <sjolley.yp.pm@gmail.com>
+Cc: yocto@lists.yoctoproject.org, openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 31 Jan 2023 15:14:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176521
+ <openembedded-core@lists.openembedded.org>; Tue, 31 Jan 2023 15:19:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176522
 
-On Sun, 29 Jan 2023 at 16:41, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> http-server in dnf tests breaking
-> =================================
+On Tue, 31 Jan 2023 at 15:14, Stephen Jolley <sjolley.yp.pm@gmail.com> wrot=
+e:
+> Key Status/Updates:
 >
-> We've started seeing a lot of short packets with the http-server used
-> by the dnf package manager tests. dnf retries and succeeds leaving a
-> failure in the logs which parse_logs picks up.
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/53/builds/6592/steps/14/logs/stdio
-> Central error: 2023-01-29T11:43:32+0000 INFO Error during transfer: Curl error (18): Transferred a partial file for http://192.168.7.1:36183/cortexa15t2hf_neon/libc6-2.36-r0.cortexa15t2hf_neon.rpm [transfer closed with 15758 bytes remaining to read]
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/59/builds/6592/steps/14/logs/stdio
-> Central error: 2023-01-29T11:07:31+0000 INFO Error during transfer: Curl error (18): Transferred a partial file for http://192.168.7.3:42417/core2_32/busybox-1.35.0-r0.core2_32.rpm [transfer closed with 14627 bytes remaining to read]
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/6598/steps/13/logs/stdio
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/59/builds/6532
->
-> and a load more. Why the sudden increase in frequency, not sure. Could
-> be 6.1 kernel related.
+> YP 4.0.7 and YP 4.2 M2 are in QA
+> We switched to the 6.1 kernel by default for M2. Unfortunately there are =
+a couple of intermittent issues that seem to have crept in. One is a reprod=
+ucibility issue in perf, likely with some host component causing it as it o=
+nly occurs on second builds. The second appears to be an intermittent netwo=
+rking issue accessing a python http-server for testing dnf which appeared a=
+fter the kernel version change.
+> We are continuing to see other intermittent failures which are limiting h=
+ow quickly we can merge changes. A summary of some of the key issues was se=
+nt to the mailing list: https://lists.openembedded.org/g/openembedded-core/=
+message/176476
+> There have been changes to the way the codeparser cache in bitbake stores=
+ data which should reduce cache size, reduce the times data needs to be wri=
+tten out and generally help performance.
+> CVE levels in master are still high but there are patches in progress for=
+ most issues as I understand it.
+> We have a growing number of bugs in bugzilla, any help with them is appre=
+ciated.
 
+Please do notice there's a new public article by RP:
+https://www.linux.com/audience/maintainer-confidential-opportunities-and-ch=
+allenges-of-the-ubiquitous-but-under-resourced-yocto-project/
 
-I ran this locally three times with master and it wouldn't reproduce.
-Probably build host has something to do with it too?
+"Maintainer confidential: Opportunities and challenges of the
+ubiquitous but under-resourced Yocto Project.
+Maintainers are an important topic of discussion. I=E2=80=99ve read a few
+perspectives, but I=E2=80=99d like to share mine as one of the lesser-known
+maintainers in the open source world."
+
+LWN has picked it up as well:
+https://lwn.net/Articles/921646
+(many of the comments are the usual 'yocto is hard' fare, which should
+be treated like the weather - inevitable)
+
+Alex
 
 Alex
 
