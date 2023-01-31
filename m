@@ -1,121 +1,115 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <zarkakareem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4385C636D3
-	for <webhook@archiver.kernel.org>; Tue, 31 Jan 2023 11:50:03 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.10211.1675165798236377020
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C11DCC38142
+	for <webhook@archiver.kernel.org>; Tue, 31 Jan 2023 12:05:23 +0000 (UTC)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web11.10439.1675166718596807336
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Jan 2023 03:49:58 -0800
+ Tue, 31 Jan 2023 04:05:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A0AA21713;
-	Tue, 31 Jan 2023 03:50:39 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 254FE3F71E;
-	Tue, 31 Jan 2023 03:49:57 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=HhTleWkG;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: zarkakareem@gmail.com)
+Received: by mail-ej1-f50.google.com with SMTP id mc11so18431122ejb.10
+        for <openembedded-core@lists.openembedded.org>; Tue, 31 Jan 2023 04:05:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JA5rAavUWL9nmDTtYojiGH9DhDqgk+ZT1gh3sBapI40=;
+        b=HhTleWkGdC+xSr1skzzTe2RKX5Etp7OnvGW4OL2hKM7UMZFf/7+sylXbsfhByIL4we
+         2504jxuIbNm0PpH+vN8n3For6Omik+2nNzfbri8QAroEJzhPwVJJloUoid50zpZmKUVm
+         3ZibSF8rlhzKtF9n3q2bymTM7YsJDXmP20Wz69qvxpyfneoRw/ji4eIuVHfXMEGapcnX
+         LchxdEjIBKKLl6Dio1ei0HhA2ve2NCteTR/QB7bmOtuE5KQuq2Hi8Xoaflrn4Ed3Xq9z
+         2NeM3Zoaiv6pwNLtzsJfIwAK1g0Kj2HcapUC8xvYxu+lhCEa0J1VZfoZHEaxK5Fs6nes
+         BTvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JA5rAavUWL9nmDTtYojiGH9DhDqgk+ZT1gh3sBapI40=;
+        b=N3qysuOp49AjLcadQ8AjOYmh/JtdZLMrXn0GcNT4KeQAryTzaqwhWPDiIL6vNZlCae
+         dphD1O/06In1QG2VFXbdQ7wFyaXArG1f6N5zyyPCeknvEZ02YPwFF4djj3kSr/gc0OUf
+         /8KJGxaayW5HonjEmP4D8W8SsJVNX6Foi/ZEWY7+OM7NBjOQYPbDDqlTa9+fs7+R4ymo
+         mKUYEzdZxAKgN5ZTnJFrQxwM2MT/eKs9A3P+vN0YiLP3SREa6C4WniBL3z4s/HawsGBQ
+         ijPL0Qa0tTDZrXMQ+0gKY6gLQQl5UFewqc/h2zpHdXqiS94A6H9EIMszN20fXgVMAExP
+         fkxQ==
+X-Gm-Message-State: AO0yUKUyivgKPQGRCOyUUsXLgpL+Y+J8MPVviGUc7FG7MDMj087RkXD4
+	OYVsLIyupWtyUMWo1sYSSpBoAyctS+Nvgrs9
+X-Google-Smtp-Source: AK7set/WXOnlJ31aA5iGCCqR9leg1nJGfSMUBKYIaG6VlQfbQB1eKFsrL2I0htlg85+U6viMYwDJYg==
+X-Received: by 2002:a17:906:94c5:b0:87b:d2b3:67ca with SMTP id d5-20020a17090694c500b0087bd2b367camr15699583ejy.75.1675166716710;
+        Tue, 31 Jan 2023 04:05:16 -0800 (PST)
+Received: from kareem-XPS-13-9370.wind3.hub ([151.60.13.132])
+        by smtp.gmail.com with ESMTPSA id jt18-20020a170906ca1200b00889a9444e29sm2529351ejb.14.2023.01.31.04.05.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Jan 2023 04:05:16 -0800 (PST)
+From: Kareem Zarka <zarkakareem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: nd@arm.com
-Subject: [PATCH v2 2/2] oeqa/utils/httpserver: connect up the request logging
-Date: Tue, 31 Jan 2023 11:49:54 +0000
-Message-Id: <20230131114954.2579029-2-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230131114954.2579029-1-ross.burton@arm.com>
-References: <20230131114954.2579029-1-ross.burton@arm.com>
+Cc: Kareem Zarka <kareem.zarka@huawei.com>,
+	Stefan Schmidt <stefan.schmidt@huawei.com>,
+	Andrei Gherzan <andrei.gherzan@huawei.com>,
+	Zygmunt Krynicki <zygmunt.krynicki@huawei.com>
+Subject: [PATCH] bootimg-efi.py: Skip installing kernel-image into boot partition for rootfs-reliant systems.
+Date: Tue, 31 Jan 2023 13:04:55 +0100
+Message-Id: <20230131120455.2966241-1-zarkakareem@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 31 Jan 2023 11:50:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176516
+ <openembedded-core@lists.openembedded.org>; Tue, 31 Jan 2023 12:05:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176517
 
-Call logger.info() in the log_message handler so that we get request
-logging, and hopefully even error messages.
+From: Kareem Zarka <kareem.zarka@huawei.com>
 
-Create a child logger to be neat and compartmentalise the logging.
+The issue with installing the kernel-image to both rootfs
+and boot partition is that some systems rely on the kernel-image in
+rootfs and not in the boot partition.
+This leads to duplication of the kernel-image, which can cause
+unnecessary storage usage and potential compatibility issues.
 
-Add a __main__ entrypoint so this class can be exercised outside of oeqa.
+This patch provides a solution to this problem by adding a new
+parameter "skip-kernel-install" to the wic kickstart file, which can
+be passed to the plugin.
+If the parameter is provided, the plugin will skip installing the
+kernel-image to the boot partition, avoiding duplication and potential
+issues.
 
-Remove unused traceback import.
+By adding this new parameter, we give the users the option to install
+the kernel-image only in rootfs, or to install it in both rootfs and
+boot partition, depending on their needs and preferences.
+This will help to improve the system's storage usage and compatibility.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Kareem Zarka <kareem.zarka@huawei.com>
 ---
- meta/lib/oeqa/utils/httpserver.py | 21 ++++++++++++++++-----
- 1 file changed, 16 insertions(+), 5 deletions(-)
+ scripts/lib/wic/plugins/source/bootimg-efi.py | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oeqa/utils/httpserver.py b/meta/lib/oeqa/utils/http=
-server.py
-index 8ce1dd42f49..2aa172bf799 100644
---- a/meta/lib/oeqa/utils/httpserver.py
-+++ b/meta/lib/oeqa/utils/httpserver.py
-@@ -5,9 +5,9 @@
- #
-=20
- import http.server
-+import logging
- import multiprocessing
- import os
--import traceback
- import signal
- from socketserver import ThreadingMixIn
-=20
-@@ -15,20 +15,24 @@ class HTTPServer(ThreadingMixIn, http.server.HTTPServ=
-er):
-=20
-     def server_start(self, root_dir, logger):
-         os.chdir(root_dir)
-+        self.logger =3D logger
-         self.serve_forever()
-=20
- class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
-=20
-     def log_message(self, format_str, *args):
--        pass
-+        self.server.logger.info(format_str, *args)
-=20
--class HTTPService(object):
-+class HTTPService:
-=20
-     def __init__(self, root_dir, host=3D'', port=3D0, logger=3DNone):
-         self.root_dir =3D root_dir
-         self.host =3D host
-         self.port =3D port
--        self.logger =3D logger
-+        if logger:
-+            self.logger =3D logger.getChild("HTTPService")
-+        else:
-+            self.logger =3D logging.getLogger("HTTPService")
-=20
-     def start(self):
-         if not os.path.exists(self.root_dir):
-@@ -49,7 +53,7 @@ class HTTPService(object):
-         signal.signal(signal.SIGTERM, orig)
-=20
-         if self.logger:
--            self.logger.info("Started HTTPService on %s:%s" % (self.host=
-, self.port))
-+            self.logger.info("Started HTTPService for %s on %s:%s" % (se=
-lf.root_dir, self.host, self.port))
-=20
-=20
-     def stop(self):
-@@ -61,3 +65,10 @@ class HTTPService(object):
-         if self.logger:
-             self.logger.info("Stopped HTTPService on %s:%s" % (self.host=
-, self.port))
-=20
-+if __name__ =3D=3D "__main__":
-+    import sys, logging
-+
-+    logger =3D logging.getLogger(__name__)
-+    logging.basicConfig(level=3Dlogging.DEBUG)
-+    httpd =3D HTTPService(sys.argv[1], port=3D8888, logger=3Dlogger)
-+    httpd.start()
---=20
-2.34.1
+diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
+index 4b00913a70..e04d49abe6 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-efi.py
++++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+@@ -363,9 +363,13 @@ class BootimgEFIPlugin(SourcePlugin):
+                 objcopy_cmd += " %s %s/EFI/Linux/linux.efi" % (efi_stub, hdddir)
+                 exec_native_cmd(objcopy_cmd, native_sysroot)
+         else:
+-            install_cmd = "install -m 0644 %s/%s %s/%s" % \
+-                (staging_kernel_dir, kernel, hdddir, kernel)
+-            exec_cmd(install_cmd)
++            # skip_kernal_install was added to source_params to conifgure installing the kernel-image.
++            # set skip_kernal_install in the kickstart file to skip installing it into hdddir.
++            # if not set then the kernel-image will be installed.
++            if not  source_params.get('skip_kernal_install'):
++                install_cmd = "install -m 0644 %s/%s %s/%s" % \
++                    (staging_kernel_dir, kernel, hdddir, kernel)
++                exec_cmd(install_cmd)
+ 
+         if get_bitbake_var("IMAGE_EFI_BOOT_FILES"):
+             for src_path, dst_path in cls.install_task:
+-- 
+2.25.1
 
 
