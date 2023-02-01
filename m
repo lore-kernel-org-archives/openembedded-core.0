@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F87FC636D7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C8F0C63797
 	for <webhook@archiver.kernel.org>; Wed,  1 Feb 2023 14:14:32 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web10.24066.1675260864587352416
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+ by mx.groups.io with SMTP id smtpd.web10.24073.1675260870353519887
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Feb 2023 06:14:24 -0800
+ Wed, 01 Feb 2023 06:14:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=LjFl4lmU;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f177.google.com with SMTP id jh15so9523842plb.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Feb 2023 06:14:24 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=b9aX5YJe;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.171, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f171.google.com with SMTP id 7so12593725pga.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Feb 2023 06:14:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=K4R8kFauA4KrhqfbJ0XtGawJl6ZDxZC8cMd6zYpFYys=;
-        b=LjFl4lmU2R62gtK7Fz2pHX7uN/lx26CEtgIeh+j2H4dkT+DXtaKCV5IfzBAXsdJoOp
-         pBLDImMcA81UH/GWJUg0sc1PPt6Lwf1j+N3DoEDOeE6Pq4cil0ChagkVf5y/gPcyoZNc
-         AzC+uVSIebKe3ibp/g3GbZHvCo6f2/YHxFlRAY1PgtBKQqvDoFjDrSN5WVIYPeqc9sqO
-         vTS4hHSRs1eHHdnqQlEjE9NKlq0Mh16j1oFbBw7ZbzvNjGZoZ2yqeFMCzpvp0Tq6B723
-         wfsOpiTMVU7SBXB1Pvu7vjvRNZyAdBWlkoBl0p0jUVMDK7H+tmRaT64a+nNKV3Xujzu3
-         enKQ==
+        bh=D3RSP7IhndWp6uDr/Vqzn70fIX3qxBrAhYxG+6hhm3k=;
+        b=b9aX5YJeFhT/AWf4Exp7Ga0XrK00uge1ottCn/Woe1Z6Q+GFAOC7m94AVfXfLaw2UO
+         7y3hHw0YZYQNnrtc95V3r+4JrX4imTkdHw0CHZ5pun3hbkmV9Ey4+ZLOJPCS8qhaLp+i
+         PaDx4Crgt0oCsxnSk6mx/PYvSxnoSF1fnqB0Ni9viXKJHm1TZqJVOq2YKr4QwE+NgMxX
+         jRSxX4v7X6bRcbEJE0NF7nrkL3QvziiacjPwrV161m/HqG8DJBLZzG2WrdpYyPzTPnWK
+         0vlOxoUwdDmolDkbKoc1KxlJbvxHL4kttCD07Iwvm0/oIPZrvrH+CuNaRaIWqjAEx2aF
+         VtwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=K4R8kFauA4KrhqfbJ0XtGawJl6ZDxZC8cMd6zYpFYys=;
-        b=hJC9IrjHI5AFMMa7p6DrZF6fQdAXjmDLXesusRvT3+vmQni4QS2uJlUCnW5xOWF0vm
-         fHwZKCcTRdqVZkcY7E4l+oeN3oPFjaWKsFP+kuXarVaH4l4uItVZoeJpIU01x1H9pA/D
-         +CwVdjRqrWGdUb8aaJoc6Xj7V+B0XBi+1F3XUzwy7fDWa70q5oQMCvovNNp8xccrUWA+
-         iQM7vESLSbz+I/hQzQSyvnYtfuZJVrZoJZdAxcdD6p8EGqLhDV2Zj795Lq9hx+7s+t1d
-         3m47tFQSsDcBtEOqViExw4Ao1dYbz72T/srYcZzkIFUsYYGrBCsdvrz5nqemOVxP6TaG
-         fw/w==
-X-Gm-Message-State: AO0yUKU+8qBceVW01ko7mmNTO8DOp8q9ZrSUuibFa8AJC2xpQKxlIVue
-	9LhWVcrYqPZSiTY1Tdqg3uabLUwSQbBOFc9Ri5o=
-X-Google-Smtp-Source: AK7set9zxnQmnmKiaCfHnFQWArk5IllT4dcKS35/1/kSRz7eA2iaJyr01QP63JAh1PjrLFZeunfX1w==
-X-Received: by 2002:a05:6a20:8f06:b0:bc:ee95:dd3 with SMTP id b6-20020a056a208f0600b000bcee950dd3mr3566772pzk.54.1675260863705;
-        Wed, 01 Feb 2023 06:14:23 -0800 (PST)
+        bh=D3RSP7IhndWp6uDr/Vqzn70fIX3qxBrAhYxG+6hhm3k=;
+        b=C61S4h92NDckDkyQuNhx0AGO6qOq36KwQ1yBU3DB9WQqsa8iFn1dUv5GyF4bBW9ou2
+         6qLAHkkfjBXkGuxUp1smu+7KNYTXEbRt6R3AtBqWP58vDQiPUxqDlh3e/lmSw4zUtniW
+         L9YqrZDjHUc6hRB3oHjwOhFeYNM7sYJyC680k++GuvEeeaeZiteBUDJnTT3y8hBJOWoL
+         bKO/oaHzBt712VigUVpMvkB9QryOBv1jTnwL+76CVflU6B+d7HkqpG/cwjxH3Fsd4kL8
+         QpY5hA3Rt32EBEciMCPy9cepQxDV3wcc3h4eJu0Z/teBOmo7IXTWwxzvJokmRe+IADih
+         Tspw==
+X-Gm-Message-State: AO0yUKXdjworHKrtnBhDCrGrST2HsecE5kQvS+UT4APFFNC3Wx8A6nd7
+	LXoiRd2w7wh3+3wwdBt4cTY5Tuy8KJwMJwCoMIY=
+X-Google-Smtp-Source: AK7set/xfCnFHI96Qo+rJUrFe4vQ7t9Q/3RET6NrGRviT6sTbDoguL5hKh8KRrNX5At4Sk3E3fBEXQ==
+X-Received: by 2002:a05:6a00:26f2:b0:593:c7d4:22b0 with SMTP id p50-20020a056a0026f200b00593c7d422b0mr2108727pfw.2.1675260869255;
+        Wed, 01 Feb 2023 06:14:29 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id n20-20020a62e514000000b00589c467ed88sm11456612pff.69.2023.02.01.06.14.22
+        by smtp.gmail.com with ESMTPSA id n20-20020a62e514000000b00589c467ed88sm11456612pff.69.2023.02.01.06.14.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Feb 2023 06:14:23 -0800 (PST)
+        Wed, 01 Feb 2023 06:14:28 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 11/17] libtirpc: Check if file exists before operating on it
-Date: Wed,  1 Feb 2023 04:13:49 -1000
-Message-Id: <f7c2e4c768bb6870992a86bc500d960d4c88f929.1675260556.git.steve@sakoman.com>
+Subject: [OE-core][langdale 14/17] librsvg: Only enable the Vala bindings if GObject Introspection is enabled
+Date: Wed,  1 Feb 2023 04:13:52 -1000
+Message-Id: <3bf9e22c0ca34595106f5421654cccbce7920cf7.1675260556.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1675260556.git.steve@sakoman.com>
 References: <cover.1675260556.git.steve@sakoman.com>
@@ -61,34 +61,47 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Feb 2023 14:14:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176546
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176549
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-In some cases (e.g. mingw) this file may not be installed
+This avoids the following error:
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  configure: error: Vala bindings require GObject Introspection
+
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 547f3a13ee9268bbdd439c96108ba1fe9ab78873)
+(cherry picked from commit 31daea70b18b2b2266bf94063b655aaf142a6166)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-gnome/librsvg/librsvg_2.54.5.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb b/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb
-index 8c6c20733c..f55e0b0ed1 100644
---- a/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb
-+++ b/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb
-@@ -22,7 +22,7 @@ inherit autotools pkgconfig
- EXTRA_OECONF = "--disable-gssapi"
+diff --git a/meta/recipes-gnome/librsvg/librsvg_2.54.5.bb b/meta/recipes-gnome/librsvg/librsvg_2.54.5.bb
+index b2e93a2684..59278d1b16 100644
+--- a/meta/recipes-gnome/librsvg/librsvg_2.54.5.bb
++++ b/meta/recipes-gnome/librsvg/librsvg_2.54.5.bb
+@@ -42,8 +42,6 @@ do_configure[postfuncs] += "cargo_common_do_configure"
+ 
+ inherit rust-target-config
+ 
+-EXTRA_OECONF:class-target = "--enable-vala"
+-
+ # rust-cross writes the target linker binary into target json definition without any flags.
+ # This breaks here because the linker isn't going to work without at least knowing where
+ # the sysroot is. So copy the json to workdir, and patch in the path to wrapper from rust class
+@@ -58,8 +56,10 @@ CVE_CHECK_IGNORE += "CVE-2018-1000041"
+ CACHED_CONFIGUREVARS = "ac_cv_path_GDK_PIXBUF_QUERYLOADERS=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders"
+ 
+ PACKAGECONFIG ??= "gdkpixbuf"
++PACKAGECONFIG:append:class-target = " ${@bb.utils.contains('GI_DATA_ENABLED', 'True', 'vala', '', d)}"
+ # The gdk-pixbuf loader
+ PACKAGECONFIG[gdkpixbuf] = "--enable-pixbuf-loader,--disable-pixbuf-loader,gdk-pixbuf-native"
++PACKAGECONFIG[vala] = "--enable-vala,--disable-vala"
  
  do_install:append() {
--	chown root:root ${D}${sysconfdir}/netconfig
-+	test -e ${D}${sysconfdir}/netconfig && chown root:root ${D}${sysconfdir}/netconfig
- }
- 
- BBCLASSEXTEND = "native nativesdk"
+ 	# Loadable modules don't need .a or .la on Linux
 -- 
 2.25.1
 
