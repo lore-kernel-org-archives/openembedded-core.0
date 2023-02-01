@@ -1,377 +1,292 @@
-Return-Path: <ravineet.a.singh@est.tech>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF7E2C636CD
-	for <webhook@archiver.kernel.org>; Wed,  1 Feb 2023 15:21:12 +0000 (UTC)
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.132])
- by mx.groups.io with SMTP id smtpd.web11.26257.1675264867735562487
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA108C05027
+	for <webhook@archiver.kernel.org>; Wed,  1 Feb 2023 15:50:52 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web10.26864.1675266643250257567
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Feb 2023 07:21:08 -0800
+ Wed, 01 Feb 2023 07:50:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@estab.onmicrosoft.com header.s=selector2-estab-onmicrosoft-com header.b=lsLL+sej;
- spf=pass (domain: est.tech, ip: 40.107.104.132, mailfrom: ravineet.a.singh@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OqFnPnJHgLuPJV2vkh6nlyF2Vl90exr7Feulks8xS8NabrQFCm/FA71FfcJeWBo2jVKQwkRyVrOvFiR9u4P0G64tCNX9mwn88kS/dvkmQ3G8uIQOFf8/qWsiZeZuxeldZgvt1/NxsnhSnbFi2oyArqMK43+Kh9chL3g4+mjSml7u+c77inLxHIfRs9lU88SdmbQSMGZl4fAmeTG+v87bUQEWnEWEJBQ7UFHM/6nmiS4bMn54UQMi305pK/1e4KocwyiUDG9FSp4lu515G6qBBuPHnbpQw4t4ZyuDxdVYHMO8dI05biAJss1oWMlw+nnOoh/CZKtjeKxNTKcjolbgiQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DdluS+2CL3iKgZCXt9CpLR1a7PKknMaiXhE11k6oDCs=;
- b=JXpPU6+cpj+VcAOGVPBiNJJyu1coFsSNkvSIPzTmKybiem0nFOg+4+P3K/+H22663EFvsuLaLVZxfmk3zIR84cto4ImaJZjixhdpjxlZ17emiBx33k3sBF/tK3wy3n1CWEIyffTHYyUHQL9U25E8FFsqtkWfFYE0sOzRNFIVm9fsm2k+vXhpfAx3vn0ZM8j/uOefWFQJOeHMBYzVjolb4sD/+t7rxdppH7axN0tdQl/MLpeE2OgP2y+eHc0tzWrA8oZo7vEhT4+jbpvTf39UYdykP01HDMbZBZtSGiczOvnLG6gPrlwUKyopZbSXH1rfEwyEH3UlZpX2P/fN/KZD6w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=estab.onmicrosoft.com;
- s=selector2-estab-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DdluS+2CL3iKgZCXt9CpLR1a7PKknMaiXhE11k6oDCs=;
- b=lsLL+sejzcIivD/z1gZ0wk4r2ED7BAWU7uhSwA6Yl54RlTvTacgZ2SrXqhNk5OpcSCnWDwd51N5+O5J/YzIDe5LnaTIWIwpTkYp3ex73EdbJ7Xxv7KwhmLpWa2PbtWJIO1K60mDje8EbtWHVtUNOldbdMlIMGLY6QWjAMWEhQz4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from GVXP189MB2053.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:6c::22)
- by VI1P18901MB0639.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:126::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.23; Wed, 1 Feb
- 2023 15:21:04 +0000
-Received: from GVXP189MB2053.EURP189.PROD.OUTLOOK.COM
- ([fe80::2ba0:9122:ee6:9e38]) by GVXP189MB2053.EURP189.PROD.OUTLOOK.COM
- ([fe80::2ba0:9122:ee6:9e38%4]) with mapi id 15.20.6043.038; Wed, 1 Feb 2023
- 15:21:04 +0000
-From: Ravineet Singh <ravineet.a.singh@est.tech>
-To: alex.kanavin@gmail.com
-CC: openembedded-core@lists.openembedded.org,
-	Ravineet Singh <ravineet.a.singh@est.tech>
-Subject: [PATCH v2] gnutls: add ptest support
-Date: Wed,  1 Feb 2023 16:20:49 +0100
-Message-ID: <20230201152049.124426-1-ravineet.a.singh@est.tech>
-X-Mailer: git-send-email 2.39.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: GV3P280CA0026.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:150:b::14) To GVXP189MB2053.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:150:6c::22)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=CAleysBx;
+ spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f52.google.com with SMTP id y1so17759360wru.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Feb 2023 07:50:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nU6YEkRn0hZ93ysqPfdvfvc5JOhyV3ZBxnkLcE5qEos=;
+        b=CAleysBxOBiObFIPM+W7hRAF0XLA8NT0pNaXOhVGa9k9H7nbrcO4pcbJMaqF9WedJH
+         CVL4DSrilvCxAANQjGo4dlKbSzMcyYuPt5thJet14CFr/2JgFhakB/UwJZyQ01mCtLhD
+         OT1Wa3/+vC/RWrWzGT8kOGnzbJOkcgwwJobMt3GmJAYhVI+DBh8ftNIx5LVDlUm+A4vu
+         vOhd2jLUaQ6yuJhn/+2T0NWoaQNCLhC5wUJcNXTI57QdtJrdE16rHnEuAu0fElgMlY9a
+         5rwd2osru9CTWk8K6jQrqJYtj/YaE2jLuWcxYY12oHghpC4eCLKi8ULgmvq0YIeI/Ogj
+         G83Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nU6YEkRn0hZ93ysqPfdvfvc5JOhyV3ZBxnkLcE5qEos=;
+        b=NKEtDSjboogSdv/LGHB64cl5hDzWlQECRu992nNsGcyoxZplHkBGL4v7A8h70o+nX8
+         F+W1a90ZtV9jILwyETgyCMVSRwdlQVqB59sMGMtid2lRZkwiIyrE8tAGmtijykNtRmfy
+         VUGRN4dKR5EAdJtuZOipul4PuThzZkiRNUHtWUEZtgsgM1dTTJa8V0PVTNUxjibcrAWJ
+         ZtL1OubsyXfODIJhO79/8WwzlF1+hC5p6zKQuS1tTz1Tj+3d+tvr7xZ8daQEIdyRcyCS
+         Zecvrn319h6vgK39q0nE0ug/AxKWQrAsWtbYigQdJv42Zjmd1jSwxLkRh6bX6KkMpS4T
+         ZKkw==
+X-Gm-Message-State: AO0yUKUSFeTL6boQOXx/82g0aABzDPcipORhi2t6pxxchSiKCtBtnl/c
+	Tw9mkRryOCIwMYL8gbdfiaQHsPzNEt4=
+X-Google-Smtp-Source: AK7set/Qx1W3Oy34HBKnEiQHAIOYgVbXHCyLg4qxEFKqjlBUpwOQLN00y8mYsfHsv1d/0vahJ2cEXg==
+X-Received: by 2002:adf:a28d:0:b0:2bf:c0d3:430c with SMTP id s13-20020adfa28d000000b002bfc0d3430cmr2633560wra.11.1675266641499;
+        Wed, 01 Feb 2023 07:50:41 -0800 (PST)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id f7-20020a5d64c7000000b002bdfe3aca17sm19193111wri.51.2023.02.01.07.50.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Feb 2023 07:50:41 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [PATCH] meta: remove True option to getVar and getVarFlag calls (again)
+Date: Wed,  1 Feb 2023 16:50:38 +0100
+Message-Id: <20230201155038.539949-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GVXP189MB2053:EE_|VI1P18901MB0639:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7a2fab4b-476b-4769-6bb0-08db0467ef18
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	kuXHBQ4vXrMaV+dE2zifBzJD9bizuJIwf/0IdoUCQly9wmzB6Z9xL8/8FKfr/Ubgjj7KPQi5JQ7BdYLId4vYHfnlT/ZYDuoF0T6yShE0CDNDbOjj9vFnAHnTY5eV4GprjTK8BJAbV6DLqIaw/igm2Xum21LeeVYcbEhsbHSeHUMQAvmRp9pRfBOgf/sOJEVbGlkbsira7qznp1JmphxLyBZ7KPXijNtQX69oBGAwqa+oyUNXXrWGJfFWhBgtyq7e2SOjMh+1dVbzpwL4PRHHZYY6jnmpqyWfKRrp4TldOOZ+QhDq4sWcxUnNgtd/C4ZhJwJrUI9Sor4Gn4deYumeswAXfkcALZXSg1AxSlzRik3PRGbJraExIuPFs4oNs02hdq+y+X0DcbM/m0XtuN7MLX3xbenj1l/VeDyglif293AP9SYTEX83sJW+oHR7H7GXvJUyqz85FpVa7HL3pjEXufA17mYtDGMDaCdY4MwAGVQP4uDFi6TyBCyU6bQJLpTQbK/eM6Lff6MSqJh8KFfNNes2vJ7XBqP1ugEpfyCxxjKIEl6yKdVMaBHeK6AVupmA1T4x1WVTgq7EaSuHZDMEtnMDNDPd6qBkyle8QPgM4wXIaYWWCghXzKnBDQGwEf3r9Madk5jn0wwwQCI+kRg4SQh/dV/elrvW6y8wLBti3V+q0dl6k+I9GACNePV4iZo8
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXP189MB2053.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230025)(376002)(136003)(346002)(39830400003)(366004)(396003)(451199018)(4326008)(66946007)(6916009)(66476007)(66556008)(8676002)(83380400001)(8936002)(41300700001)(26005)(186003)(5660300002)(6512007)(6506007)(2906002)(316002)(38100700002)(1076003)(86362001)(2616005)(6666004)(103116003)(478600001)(36756003)(6486002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?1bdJV9oGItCW9nBDVF0xCNTCBRbuS54WC6/91m21FVZwpkOde2JGUCEIsUBf?=
- =?us-ascii?Q?DvTqP4ns0+Ih4oTRQVQH3En/mbb0J4iJkhCjOLp/E8f4eMSDcfEMRayzCBHM?=
- =?us-ascii?Q?HSm8sop8aO5FoUouWVyTmCA0/Vqylbv8lqvfq+mIcS1Raqhp0F2zMZOawC0E?=
- =?us-ascii?Q?62RzEdiMVqjef+Bf/3J88AlrKvdLSfqMxN9Ej7xOkzMZTaoVZg11b9//yQyU?=
- =?us-ascii?Q?hDXzfAkY4vBhp1p8YKmiEuiUSzcJWb/8Q7A6Qv2mnqc/W4mziEsMzhhuMQVV?=
- =?us-ascii?Q?VAinby+x9qaEJZ/40xoYuSyWZALE7QqAMVe1z+FnFAU/1ZYB1rBtHDWaS70l?=
- =?us-ascii?Q?klpEsJYiiTgB23zx0YVf+Gfo1XFlIZNhpNyWkyurKBkHbU+wIzja4kya0SZD?=
- =?us-ascii?Q?luBHuQ4WTJZOExfk2OSobIkmeJrJiPqTuHbeNCaE7O20T0d/3AdLbJi7PBjc?=
- =?us-ascii?Q?GtkWi79MGufhC71Kwgdh4TeOCasTOudqzHo+82HJQk3tZyONvvty/Mak48tu?=
- =?us-ascii?Q?2Yvm4fH9LJEe/U3BtRA5M0tagM4ejRn+muqOrua+wqnaA1pH8zNW5djJKD9g?=
- =?us-ascii?Q?MJWyEzflQ4UBK2TINAYVYpsedh53VVxOP6yq7PajNf6yDZTt8YesqF8YZPaa?=
- =?us-ascii?Q?gAxkBYmCVqRQyrfErD07q9Ddt7cLyIi/IjM92jY3x5OSSa3gsX+TFACVJhab?=
- =?us-ascii?Q?YlSVzexf0qJ4o7YOnE/+Ql6MpBYfKdGX1Swg5auDR+ZDPFE+54L4DV0O7uEo?=
- =?us-ascii?Q?jsKVoZmje7cu5Ogb1Bqvq0wZVFpwFDFfIEPETXmz9WSYGl5/0a10GXwnTXFZ?=
- =?us-ascii?Q?deRLKfd/OIXovmvaF7KKqzlD+53YX8o/+W8qR5qF/3tUwQJxOy+MzHRYzgUn?=
- =?us-ascii?Q?vLvrbyAqkIsPEjSQtim7FQwopMoRsgyTBbAN+e0Jan47Nc4hBomC6ueSZBZ0?=
- =?us-ascii?Q?/QBX7DSzhpy2SyoVNjeEr/zSEewzRIvQ3f4B7HzxeAWVEgq7Z9TktvuoEbUN?=
- =?us-ascii?Q?HSqkC6+mULSi7PhDQACnrs1Ki6jILo7YvJg4/pag46olkN9ryRsbEY8eGisx?=
- =?us-ascii?Q?I5Y7bP7dk+fLRFJehIeSuR9qo/krUCyTgMv7gHtXaARlEcPSMgxsHJk06Ruf?=
- =?us-ascii?Q?7FNqHNn1RJuMte9AgB9lPqM5ZCw4PhPLPSQzMdA89fBNwQLdbUYrTifkQDwH?=
- =?us-ascii?Q?BcstvcK4nQ5HMi6G1gogJKy2PSiAqEbBOUmSchv552kotExbXbZQeszUZsp1?=
- =?us-ascii?Q?SFln8qYX4b5nMMv2LOYJIUYDTAnxKY4NnhA2711tjvzteyoKehI/hvbppWrB?=
- =?us-ascii?Q?FmT0umcZMi72UuQiW4pqZPEEGpaBQu52HTNPuPvBA+0aMJ5K9/rkePtwPe3b?=
- =?us-ascii?Q?dUFkMSDsPTdNW2CJe0d5hQeuXBA8e74jzgvkl20gghagI9l9nFrSfX+BpeJv?=
- =?us-ascii?Q?abDxjI3iuF4i8zRq+KlMPuh/hzxSiX6OgYMZnE1lDfU6A9rboKeuNd5fWPrz?=
- =?us-ascii?Q?JayOKl5NhuNGw+fJQzgyS947BU1vY3n5xKtEJ/BQLMXdtkOMreLeOUzFHxyL?=
- =?us-ascii?Q?dr13qbwHVn2Sc6CAR7h/gJUpl7v/RiGbCrtV7We7UC0jtD7IyI/SGPgcJvXr?=
- =?us-ascii?Q?iQ=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7a2fab4b-476b-4769-6bb0-08db0467ef18
-X-MS-Exchange-CrossTenant-AuthSource: GVXP189MB2053.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Feb 2023 15:21:04.3335
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MgV07Kd3TBPxX9jV8dIfNJU+QgFcnOSruCghpWUHT/3RGfc8UPPaBAeY49IRVERyr+hFpd+SxbKg3x1l+G0j5eRCmwfVVxGdJTtzsmAWYP0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1P18901MB0639
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Feb 2023 15:21:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176556
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Feb 2023 15:50:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176557
 
-Add gnutls unit-tests into ptest. Only self-contained
-tests (no external file system dependencies) are included.
+* True is default since 2016 and most layers were already updated
+  not to pass this parameter where not necessary, e.g. oe-core was
+  updated couple times, first in:
+  https://git.openembedded.org/openembedded-core/commit/?id=7c552996597faaee2fbee185b250c0ee30ea3b5f
 
-Some tests have been put in a disallow list in the run-ptest;
-these tests either require additional files (certificates) or
-environment setup prior to being run, via wrapper shell script.
-As autotools packages are built out-of-tree, it is cumbersome
-to add additional files. With regards to tests requiring wrapper
-scripts, it is possible to add logic to run these tests under
-run-ptests but that will require more effort to maintain, hence
-skipped.
+  Updated with the same regexp as later oe-core update:
+  https://git.openembedded.org/openembedded-core/commit/?id=9f551d588693328e4d99d33be94f26684eafcaba
 
-Verified via:
-$ runqemu qemux86-64 kvm nographic serial qemuparams=3D'-m 4096 -smp 32'
-root@qemux86-64:~# ptest-runner gnutls
-START: ptest-runner
-BEGIN: /usr/lib64/gnutls/ptest
-PASS: aead-cipher-vec
-PASS: alerts
-PASS: anti_replay
-...
-gnutls test summary:
---------------------
-total: 375
-pass : 364
-fail : 0
-skip : 11
+  with small modification to replace not only d.getVar, but also data.getVar as in e.g.:
+  e.data.getVar('ERR_REPORT_USERNAME', True)
 
-DURATION: 184
-END: /usr/lib64/gnutls/ptest
-2023-02-01T13:55
-STOP: ptest-runner
-TOTAL: 1 FAIL: 0
+  and for getVarFlag:
+  sed -e 's|\(d\.getVarFlag \?\)( \?\([^,()]*, \?[^,()]*\), \?True)|\1(\2)|g' \
+      -i $(git grep -E 'getVarFlag ?\( ?([^,()]*), ?([^,()]*), ?True\)' \
+          | cut -d':' -f1 \
+          | sort -u)
 
-Signed-off-by: Ravineet Singh <ravineet.a.singh@est.tech>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../distro/include/ptest-packagelists.inc     |  1 +
- .../gnutls/gnutls/Add-ptest-support.patch     | 60 +++++++++++++
- meta/recipes-support/gnutls/gnutls/run-ptest  | 90 +++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_3.7.8.bb   |  8 +-
- 4 files changed, 158 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/gnutls/gnutls/Add-ptest-support.pa=
-tch
- create mode 100644 meta/recipes-support/gnutls/gnutls/run-ptest
+ meta/classes-recipe/image.bbclass             |  2 +-
+ meta/classes-recipe/license_image.bbclass     |  2 +-
+ .../classes-recipe/rust-target-config.bbclass |  2 +-
+ meta/classes/report-error.bbclass             |  8 +++----
+ meta/lib/oe/package_manager/deb/__init__.py   |  8 +++----
+ meta/recipes-devtools/go/go_1.19.4.bb         |  4 ++--
+ meta/recipes-devtools/rust/rust_1.67.0.bb     | 22 +++++++++----------
+ scripts/contrib/image-manifest                |  2 +-
+ scripts/lib/devtool/menuconfig.py             |  2 +-
+ 9 files changed, 26 insertions(+), 26 deletions(-)
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
-stro/include/ptest-packagelists.inc
-index 72162f10ee..5422ecd378 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -88,6 +88,7 @@ PTESTS_SLOW =3D "\
-     elfutils-ptest \
-     gettext-ptest \
-     glib-2.0-ptest \
-+    gnutls-ptest \
-     gstreamer1.0-ptest \
-     libevent-ptest \
-     libgcrypt-ptest \
-diff --git a/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch b/m=
-eta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
-new file mode 100644
-index 0000000000..8ad6ba5ad5
---- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
-@@ -0,0 +1,60 @@
-+From 74080376904713a8e6cceefbc25c81512796bf0c Mon Sep 17 00:00:00 2001
-+From: Ravineet Singh <ravineet.a.singh@est.tech>
-+Date: Tue, 10 Jan 2023 16:11:10 +0100
-+Subject: [PATCH] gnutls: add ptest support
-+
-+Upstream-Status: Inappropriate [embedded specific]
-+Signed-off-by: Ravineet Singh <ravineet.a.singh@est.tech>
-+---
-+ Makefile.am       | 3 +++
-+ configure.ac      | 2 ++
-+ tests/Makefile.am | 6 ++++++
-+ 3 files changed, 11 insertions(+)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index 843193f9f..816b09fec 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -191,6 +191,9 @@ dist-hook:
-+ 	mv ChangeLog $(distdir)
-+ 	touch -c $(distdir)/doc/*.html $(distdir)/doc/*.pdf $(distdir)/doc/*.inf=
-o
-+=20
-++install-ptest:
-++	 $(MAKE) -C tests DESTDIR=3D$(DESTDIR)/tests $@
-++
-+ .PHONY: abi-check abi-dump-versioned abi-dump-latest pic-check symbol-che=
-ck local-code-coverage-output files-update AUTHORS
-+=20
-+ include $(top_srcdir)/cligen/cligen.mk
-+diff --git a/configure.ac b/configure.ac
-+index baff1c007..f9f596abf 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -1150,6 +1150,8 @@ AC_SUBST(LIBGNUTLS_CFLAGS)
-+=20
-+ AM_CONDITIONAL(NEEDS_LIBRT, test "$gnutls_needs_librt" =3D "yes")
-+=20
-++AM_EXTRA_RECURSIVE_TARGETS([buildtest-TESTS])
-++
-+ AC_DEFINE([GNUTLS_INTERNAL_BUILD], 1, [We allow temporarily usage of depr=
-ecated functions - until they are removed.])
-+=20
-+ hw_features=3D
-+diff --git a/tests/Makefile.am b/tests/Makefile.am
-+index 573e911a0..e8a26f8b9 100644
-+--- a/tests/Makefile.am
-++++ b/tests/Makefile.am
-+@@ -644,6 +644,12 @@ SH_LOG_COMPILER =3D $(SHELL)
-+ AM_VALGRINDFLAGS =3D --suppressions=3D$(srcdir)/suppressions.valgrind
-+ LOG_COMPILER =3D $(LOG_VALGRIND)
-+=20
-++install-ptest: $(check_PROGRAMS)
-++	@$(INSTALL) -d $(DESTDIR)
-++	@for file in $^; do \
-++		$(INSTALL_PROGRAM) $$file $(DESTDIR) ; \
-++	done
-++
-+ distclean-local:
-+ 	rm -rf softhsm-*.db softhsm-*.config *.tmp tmp-* x509-crt-list-import-ur=
-l.config.db port.lock.d
-+=20
-+--=20
-+2.31.1
-+
-diff --git a/meta/recipes-support/gnutls/gnutls/run-ptest b/meta/recipes-su=
-pport/gnutls/gnutls/run-ptest
-new file mode 100644
-index 0000000000..84948f487d
---- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/run-ptest
-@@ -0,0 +1,90 @@
-+#!/bin/sh
-+
-+rjob() {
-+    local job=3D$1
-+    local log=3D$2
-+
-+    # TODO: Output will be garbled
-+    ./${job} >> ${log} 2>&1
-+
-+    ret=3D$?
-+    case $ret in
-+    0)
-+        echo "PASS: $t" >> ${log}
-+        echo "PASS: $t"
-+        ;;
-+    77)
-+        echo "SKIP: $t" >> ${log}
-+        echo "SKIP: $t"
-+        ;;
-+    *)
-+        echo "FAIL: $t" >> ${log}
-+        echo "FAIL: $t"
-+        ;;
-+    esac
-+}
-+
-+is_disallowed() {
-+    local key=3D$1
-+    $(echo ${test_disallowlist} | grep -w -q ${key})
-+    return $?
-+}
-+
-+# TODO
-+# This list should probably be in a external file
-+# Testcases defined here either take very long time (dtls-stress)
-+# or are dependent on local files (certs, etc) in local file system
-+# currently not exported to target.
-+
-+test_disallowlist=3D""
-+test_disallowlist=3D"${test_disallowlist} dtls-stress"
-+test_disallowlist=3D"${test_disallowlist} handshake-large-cert"
-+test_disallowlist=3D"${test_disallowlist} id-on-xmppAddr"
-+test_disallowlist=3D"${test_disallowlist} mini-x509-cas"
-+test_disallowlist=3D"${test_disallowlist} pkcs12_simple"
-+test_disallowlist=3D"${test_disallowlist} protocol-set-allowlist"
-+test_disallowlist=3D"${test_disallowlist} psk-file"
-+test_disallowlist=3D"${test_disallowlist} rawpk-api"
-+test_disallowlist=3D"${test_disallowlist} set_pkcs12_cred"
-+test_disallowlist=3D"${test_disallowlist} system-override-curves-allowlist=
-"
-+test_disallowlist=3D"${test_disallowlist} system-override-hash"
-+test_disallowlist=3D"${test_disallowlist} system-override-sig"
-+test_disallowlist=3D"${test_disallowlist} system-override-sig-tls"
-+test_disallowlist=3D"${test_disallowlist} system-prio-file"
-+test_disallowlist=3D"${test_disallowlist} x509cert-tl"
-+
-+LOG=3D${PWD}/tests.log
-+cd tests
-+max_njobs=3D$(grep -c ^processor /proc/cpuinfo)
-+njobs=3D0
-+
-+for t in *; do
-+    [ -x $t ] || continue
-+    [ -f $t ] || continue
-+
-+    is_disallowed ${t}
-+    [ $? -eq 0 ] && continue
-+
-+    rjob ${t} ${LOG} &
-+    one=3D1
-+    njobs=3D$(expr ${njobs} + ${one})
-+    if [ ${njobs} -eq ${max_njobs} ]; then
-+        wait
-+        njobs=3D0
-+    fi
-+done
-+wait
-+
-+skipped=3D$(grep -c SKIP ${LOG})
-+passed=3D$(grep -c PASS ${LOG})
-+failed=3D$(grep -c FAIL ${LOG})
-+total=3D$(expr ${passed} + ${failed} + ${skipped})
-+
-+echo
-+echo "gnutls test summary:"
-+echo "--------------------"
-+echo "total: ${total}"
-+echo "pass : ${passed}"
-+echo "fail : ${failed}"
-+echo "skip : ${skipped}"
-+echo
-diff --git a/meta/recipes-support/gnutls/gnutls_3.7.8.bb b/meta/recipes-sup=
-port/gnutls/gnutls_3.7.8.bb
-index 8f979a5b99..fee06393bd 100644
---- a/meta/recipes-support/gnutls/gnutls_3.7.8.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.7.8.bb
-@@ -22,11 +22,13 @@ SHRT_VER =3D "${@d.getVar('PV').split('.')[0]}.${@d.get=
-Var('PV').split('.')[1]}"
- SRC_URI =3D "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-$=
-{PV}.tar.xz \
-            file://arm_eabi.patch \
-            file://0001-Creating-.hmac-file-should-be-excuted-in-target-env=
-i.patch \
-+           file://run-ptest \
-+           file://Add-ptest-support.patch \
-            "
-=20
- SRC_URI[sha256sum] =3D "c58ad39af0670efe6a8aee5e3a8b2331a1200418b64b7c5197=
-7fb396d4617114"
-=20
--inherit autotools texinfo pkgconfig gettext lib_package gtk-doc
-+inherit autotools texinfo pkgconfig gettext lib_package gtk-doc ptest
-=20
- PACKAGECONFIG ??=3D "libidn  ${@bb.utils.filter('DISTRO_FEATURES', 'seccom=
-p', d)}"
-=20
-@@ -68,6 +70,10 @@ do_install:append:class-target() {
-         fi
+diff --git a/meta/classes-recipe/image.bbclass b/meta/classes-recipe/image.bbclass
+index e6d31c399f..0e252283dd 100644
+--- a/meta/classes-recipe/image.bbclass
++++ b/meta/classes-recipe/image.bbclass
+@@ -446,7 +446,7 @@ python () {
+         localdata.delVar('DATE')
+         localdata.delVar('TMPDIR')
+         localdata.delVar('IMAGE_VERSION_SUFFIX')
+-        vardepsexclude = (d.getVarFlag('IMAGE_CMD:' + realt, 'vardepsexclude', True) or '').split()
++        vardepsexclude = (d.getVarFlag('IMAGE_CMD:' + realt, 'vardepsexclude') or '').split()
+         for dep in vardepsexclude:
+             localdata.delVar(dep)
+ 
+diff --git a/meta/classes-recipe/license_image.bbclass b/meta/classes-recipe/license_image.bbclass
+index b60d6e44f4..8560c27e93 100644
+--- a/meta/classes-recipe/license_image.bbclass
++++ b/meta/classes-recipe/license_image.bbclass
+@@ -235,7 +235,7 @@ def get_deployed_dependencies(d):
+     deploy = {}
+     # Get all the dependencies for the current task (rootfs).
+     taskdata = d.getVar("BB_TASKDEPDATA", False)
+-    pn = d.getVar("PN", True)
++    pn = d.getVar("PN")
+     depends = list(set([dep[0] for dep
+                     in list(taskdata.values())
+                     if not dep[0].endswith("-native") and not dep[0] == pn]))
+diff --git a/meta/classes-recipe/rust-target-config.bbclass b/meta/classes-recipe/rust-target-config.bbclass
+index 939dd13d2f..5e71546fee 100644
+--- a/meta/classes-recipe/rust-target-config.bbclass
++++ b/meta/classes-recipe/rust-target-config.bbclass
+@@ -114,7 +114,7 @@ def llvm_features_from_target_fpu(d):
+     # TARGET_FPU can be hard or soft. +soft-float tell llvm to use soft float
+     # ABI. There is no option for hard.
+ 
+-    fpu = d.getVar('TARGET_FPU', True)
++    fpu = d.getVar('TARGET_FPU')
+     return ["+soft-float"] if fpu == "soft" else []
+ 
+ def llvm_features(d):
+diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
+index 7f2e994d35..1836af7ec6 100644
+--- a/meta/classes/report-error.bbclass
++++ b/meta/classes/report-error.bbclass
+@@ -51,8 +51,8 @@ def errorreport_get_user_info(e):
+     Read user info from variables or from git config
+     """
+     import subprocess
+-    username = e.data.getVar('ERR_REPORT_USERNAME', True)
+-    email = e.data.getVar('ERR_REPORT_EMAIL', True)
++    username = e.data.getVar('ERR_REPORT_USERNAME')
++    email = e.data.getVar('ERR_REPORT_EMAIL')
+     if not username or not email:
+         # try to read them from git config
+         username = str(subprocess.check_output(['git', 'config', '--get', 'user.name']).decode("utf-8")).strip()
+@@ -94,8 +94,8 @@ def errorreport_senddata(e, json_file):
+     import os, json
+ 
+     if os.path.isfile(json_file):
+-        server = e.data.getVar('ERR_REPORT_SERVER', True)
+-        port = e.data.getVar('ERR_REPORT_PORT', True)
++        server = e.data.getVar('ERR_REPORT_SERVER')
++        port = e.data.getVar('ERR_REPORT_PORT')
+         bb.note("Uploading the report %s to %s:%s" % (json_file, server, port))
+ 
+         with open(json_file) as f:
+diff --git a/meta/lib/oe/package_manager/deb/__init__.py b/meta/lib/oe/package_manager/deb/__init__.py
+index c672454072..0c23c884c1 100644
+--- a/meta/lib/oe/package_manager/deb/__init__.py
++++ b/meta/lib/oe/package_manager/deb/__init__.py
+@@ -82,15 +82,15 @@ class DpkgIndexer(Indexer):
+             return
+ 
+         oe.utils.multiprocess_launch(create_index, index_cmds, self.d)
+-        if self.d.getVar('PACKAGE_FEED_SIGN', True) == '1':
+-            signer = get_signer(self.d, self.d.getVar('PACKAGE_FEED_GPG_BACKEND', True))
++        if self.d.getVar('PACKAGE_FEED_SIGN') == '1':
++            signer = get_signer(self.d, self.d.getVar('PACKAGE_FEED_GPG_BACKEND'))
+         else:
+             signer = None
+         if signer:
+             for f in index_sign_files:
+                 signer.detach_sign(f,
+-                                   self.d.getVar('PACKAGE_FEED_GPG_NAME', True),
+-                                   self.d.getVar('PACKAGE_FEED_GPG_PASSPHRASE_FILE', True),
++                                   self.d.getVar('PACKAGE_FEED_GPG_NAME'),
++                                   self.d.getVar('PACKAGE_FEED_GPG_PASSPHRASE_FILE'),
+                                    output_suffix="gpg",
+                                    use_sha256=True)
+ 
+diff --git a/meta/recipes-devtools/go/go_1.19.4.bb b/meta/recipes-devtools/go/go_1.19.4.bb
+index 98977673ee..587ee55944 100644
+--- a/meta/recipes-devtools/go/go_1.19.4.bb
++++ b/meta/recipes-devtools/go/go_1.19.4.bb
+@@ -12,7 +12,7 @@ export CXX_FOR_TARGET = "g++"
+ # mips/rv64 doesn't support -buildmode=pie, so skip the QA checking for mips/riscv32 and its
+ # variants.
+ python() {
+-    if 'mips' in d.getVar('TARGET_ARCH',True) or 'riscv32' in d.getVar('TARGET_ARCH',True):
+-        d.appendVar('INSANE_SKIP:%s' % d.getVar('PN',True), " textrel")
++    if 'mips' in d.getVar('TARGET_ARCH') or 'riscv32' in d.getVar('TARGET_ARCH'):
++        d.appendVar('INSANE_SKIP:%s' % d.getVar('PN'), " textrel")
  }
-=20
-+do_compile:append() {
-+        oe_runmake ${PARALLEL_MAKE} -C tests buildtest-TESTS
-+}
-+
- PACKAGES =3D+ "${PN}-openssl ${PN}-xx ${PN}-fips"
-=20
- FILES:${PN}-dev +=3D "${bindir}/gnutls-cli-debug"
---=20
-2.39.0
+ 
+diff --git a/meta/recipes-devtools/rust/rust_1.67.0.bb b/meta/recipes-devtools/rust/rust_1.67.0.bb
+index f4ac8bc635..60f3daf464 100644
+--- a/meta/recipes-devtools/rust/rust_1.67.0.bb
++++ b/meta/recipes-devtools/rust/rust_1.67.0.bb
+@@ -83,7 +83,7 @@ python do_configure() {
+     config = configparser.RawConfigParser()
+ 
+     # [target.ARCH-poky-linux]
+-    host_section = "target.{}".format(d.getVar('RUST_HOST_SYS', True))
++    host_section = "target.{}".format(d.getVar('RUST_HOST_SYS'))
+     config.add_section(host_section)
+ 
+     llvm_config_target = d.expand("${RUST_ALTERNATE_EXE_PATH}")
+@@ -98,7 +98,7 @@ python do_configure() {
+ 
+     # If we don't do this rust-native will compile it's own llvm for BUILD.
+     # [target.${BUILD_ARCH}-unknown-linux-gnu]
+-    build_section = "target.{}".format(d.getVar('RUST_BUILD_SYS', True))
++    build_section = "target.{}".format(d.getVar('RUST_BUILD_SYS'))
+     if build_section != host_section:
+         config.add_section(build_section)
+ 
+@@ -108,7 +108,7 @@ python do_configure() {
+         config.set(build_section, "cc", e(d.expand("${RUST_BUILD_CC}")))
+         config.set(build_section, "linker", e(d.expand("${RUST_BUILD_CCLD}")))
+ 
+-    target_section = "target.{}".format(d.getVar('RUST_TARGET_SYS', True))
++    target_section = "target.{}".format(d.getVar('RUST_TARGET_SYS'))
+     if target_section != host_section and target_section != build_section:
+         config.add_section(target_section)
+ 
+@@ -154,26 +154,26 @@ python do_configure() {
+     config.set("build", "vendor", e(True))
+ 
+     if not "targets" in locals():
+-        targets = [d.getVar("RUST_TARGET_SYS", True)]
++        targets = [d.getVar("RUST_TARGET_SYS")]
+     config.set("build", "target", e(targets))
+ 
+     if not "hosts" in locals():
+-        hosts = [d.getVar("RUST_HOST_SYS", True)]
++        hosts = [d.getVar("RUST_HOST_SYS")]
+     config.set("build", "host", e(hosts))
+ 
+     # We can't use BUILD_SYS since that is something the rust snapshot knows
+     # nothing about when trying to build some stage0 tools (like fabricate)
+-    config.set("build", "build", e(d.getVar("RUST_BUILD_SYS", True)))
++    config.set("build", "build", e(d.getVar("RUST_BUILD_SYS")))
+ 
+     # [install]
+     config.add_section("install")
+     # ./x.py install doesn't have any notion of "destdir"
+     # but we can prepend ${D} to all the directories instead
+-    config.set("install", "prefix",  e(d.getVar("D", True) + d.getVar("prefix", True)))
+-    config.set("install", "bindir",  e(d.getVar("D", True) + d.getVar("bindir", True)))
+-    config.set("install", "libdir",  e(d.getVar("D", True) + d.getVar("libdir", True)))
+-    config.set("install", "datadir", e(d.getVar("D", True) + d.getVar("datadir", True)))
+-    config.set("install", "mandir",  e(d.getVar("D", True) + d.getVar("mandir", True)))
++    config.set("install", "prefix",  e(d.getVar("D") + d.getVar("prefix")))
++    config.set("install", "bindir",  e(d.getVar("D") + d.getVar("bindir")))
++    config.set("install", "libdir",  e(d.getVar("D") + d.getVar("libdir")))
++    config.set("install", "datadir", e(d.getVar("D") + d.getVar("datadir")))
++    config.set("install", "mandir",  e(d.getVar("D") + d.getVar("mandir")))
+ 
+     with open("config.toml", "w") as f:
+         f.write('changelog-seen = 2\n\n')
+diff --git a/scripts/contrib/image-manifest b/scripts/contrib/image-manifest
+index 3c07a73a4e..4d65a99258 100755
+--- a/scripts/contrib/image-manifest
++++ b/scripts/contrib/image-manifest
+@@ -392,7 +392,7 @@ def export_manifest_info(args):
+                     for key in rd.getVarFlags('PACKAGECONFIG').keys():
+                         if key == 'doc':
+                             continue
+-                        rvalues[pn]['packageconfig_opts'][key] = rd.getVarFlag('PACKAGECONFIG', key, True)
++                        rvalues[pn]['packageconfig_opts'][key] = rd.getVarFlag('PACKAGECONFIG', key)
+ 
+                 if config['patches'] == 'yes':
+                     patches = oe.recipeutils.get_recipe_patches(rd)
+diff --git a/scripts/lib/devtool/menuconfig.py b/scripts/lib/devtool/menuconfig.py
+index d87a01e7a9..18daef30c3 100644
+--- a/scripts/lib/devtool/menuconfig.py
++++ b/scripts/lib/devtool/menuconfig.py
+@@ -45,7 +45,7 @@ def menuconfig(args, config, basepath, workspace):
+             return 1
+ 
+         check_workspace_recipe(workspace, args.component)
+-        pn = rd.getVar('PN', True)
++        pn = rd.getVar('PN')
+ 
+         if not rd.getVarFlag('do_menuconfig','task'):
+             raise DevtoolError("This recipe does not support menuconfig option")
+-- 
+2.39.1
 
 
