@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C7B5C77B7A
-	for <webhook@archiver.kernel.org>; Wed,  1 Feb 2023 17:34:25 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.30012.1675272856299364873
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7A8EC77B6C
+	for <webhook@archiver.kernel.org>; Wed,  1 Feb 2023 17:34:24 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.30354.1675272854482428714
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Feb 2023 09:34:18 -0800
+ Wed, 01 Feb 2023 09:34:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=SmAVmE1m;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101860e0b2a22-b1838b07-76b3-485e-b162-26d3d8afa9fc-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=MC7KCLbj;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101860e0b214c-eec11a7f-0a64-4dd2-b115-dd16b0e16346-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1675272858;
+	t=1675272856;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=mda4Ghr4JZGo33XZIAVlpp01dTixKIAvEHy3fTsR7U8=;
-	b=SmAVmE1mdMHyI+98jfOSOsW4Am5Llhpyxt+KR5XGj2AKzvhhnG2O1zBZK7r/zPdH
-	Zr/mQygyHkNCdOQCKKJkaDNqfmKaN/mBD7VG4cYlxjt+VDW94MhjeLwCxgnlitezo4u
-	p/WqMa6I8bi7LR972NC9VIrOyu6JIbSi+d0N+4JE=
+	bh=1BrDQsd/zSjhrDyy9UFCCwLMdep3Yp1kh9EumoIUCFw=;
+	b=MC7KCLbjyzD0BJWrpcBi+kcDljU6+ycSKZgq4wsB53jUYvi8PUHMkNkAWaYr3xlT
+	JSyfS21rqof5D9lWbAcCMEj0yhVpkvSdn8XcK60/cf8Y4W8lFODPpQ/sf7FubcGpmaE
+	yDjF/yEY9uQoZrvhFY8+Bs3Jsj3BuztJrTsdF/so=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1675272858;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1675272856;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=mda4Ghr4JZGo33XZIAVlpp01dTixKIAvEHy3fTsR7U8=;
-	b=jsRbs+AiZB1/vfHszoahuTCqkhmLkUtMDXNV+jtlE5eL1N0ysF6WvYuF66/CpE7v
-	y6a6H3gzdHTD56Nb386ba6fInkiiMTP/1DlTaJPh7xu+YAbL5P+RXhhnTau5IxZKsVj
-	zhfHhAaRlt5CP6jYsn2g4Vhcb9XxhlsvdtIanI1o=
-Content-Type: multipart/mixed; boundary="===============0433777249172547024=="
+	bh=1BrDQsd/zSjhrDyy9UFCCwLMdep3Yp1kh9EumoIUCFw=;
+	b=JXOhI6rnXj2EJcbsF2G+Vq7ATvWrpqYMDE37AZyJYKNMVqSg095aBekyNzeN5/JA
+	v7P4bhpUtrtnewG6VYQz50XDhBW4sftKtNcIA5o+bCy0CpbmVMqJci5GpP9sGhn6WZd
+	8yxuKRIREEDyL10yCiPTi4c94TxbkMv7Ekj3d99M=
+Content-Type: multipart/mixed; boundary="===============4780684368011257835=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gstreamer1.0-omx: upgrading to 1.22.0 FAILED
-Message-ID: <010101860e0b2a22-b1838b07-76b3-485e-b162-26d3d8afa9fc-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Feb 2023 17:34:18 +0000
+Subject: [AUH] lsof: upgrading to 4.98.0 FAILED
+Message-ID: <010101860e0b214c-eec11a7f-0a64-4dd2-b115-dd16b0e16346-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Feb 2023 17:34:15 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.02.01-54.240.27.29
+X-SES-Outgoing: 2023.02.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Feb 2023 17:34:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176632
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Feb 2023 17:34:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176611
 
---===============0433777249172547024==
+--===============4780684368011257835==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,7 +50,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gstreamer1.0-omx* to *1.22.0* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe *lsof* to *4.98.0* has Failed(do_compile).
 
 Detailed error information:
 
@@ -59,7 +59,7 @@ do_compile failed
 
 
 Next steps:
-    - apply the patch: git am 0001-gstreamer1.0-omx-upgrade-1.20.5-1.22.0.patch
+    - apply the patch: git am 0001-lsof-upgrade-4.96.5-4.98.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,7 +75,7 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============0433777249172547024==
+--===============4780684368011257835==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -102,127 +102,293 @@ TUNE_FEATURES        = "m32 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:07a361dd328124c639258aeba044ba9f3aab5bf8"
+meta-yocto-bsp       = "tmp-auh-upgrades:1d392272177be9e72292855280b2fabb65c2cdaf"
 workspace            = "master:da95831d91b1265ecaee5bbfaeb1caaa2c290838"
 
 Initialising tasks...done.
-Sstate summary: Wanted 180 Local 173 Mirrors 0 Missed 7 Current 517 (96% match, 98% complete)
+Sstate summary: Wanted 25 Local 18 Mirrors 0 Missed 7 Current 135 (72% match, 95% complete)
 NOTE: Executing Tasks
 NOTE: Setscene tasks completed
-NOTE: Running task 2331 of 2457 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.0.bb:do_fetch)
-NOTE: Running task 2433 of 2457 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.0.bb:do_write_config)
-NOTE: recipe gstreamer1.0-omx-1.22.0-r0: task do_fetch: Started
-NOTE: recipe gstreamer1.0-omx-1.22.0-r0: task do_fetch: Succeeded
-NOTE: recipe gstreamer1.0-omx-1.22.0-r0: task do_write_config: Started
-NOTE: Running task 2444 of 2457 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.0.bb:do_unpack)
-NOTE: Running task 2445 of 2457 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-omx-1.22.0-r0: task do_write_config: Succeeded
-NOTE: recipe gstreamer1.0-omx-1.22.0-r0: task do_unpack: Started
-NOTE: recipe gstreamer1.0-omx-1.22.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-omx-1.22.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2446 of 2457 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.0.bb:do_patch)
-NOTE: recipe gstreamer1.0-omx-1.22.0-r0: task do_patch: Started
-NOTE: recipe gstreamer1.0-omx-1.22.0-r0: task do_patch: Succeeded
-NOTE: Running task 2447 of 2457 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2448 of 2457 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.0.bb:do_populate_lic)
-NOTE: recipe gstreamer1.0-omx-1.22.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-omx-1.22.0-r0: task do_populate_lic: Started
-NOTE: recipe gstreamer1.0-omx-1.22.0-r0: task do_populate_lic: Succeeded
-NOTE: recipe gstreamer1.0-omx-1.22.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gstreamer1.0-omx-1.22.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2449 of 2457 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.0.bb:do_configure)
-NOTE: recipe gstreamer1.0-omx-1.22.0-r0: task do_configure: Started
+NOTE: Running task 622 of 658 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/lsof/lsof_4.98.0.bb:do_fetch)
+NOTE: recipe lsof-4.98.0-r0: task do_fetch: Started
+NOTE: recipe lsof-4.98.0-r0: task do_fetch: Succeeded
+NOTE: Running task 645 of 658 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/lsof/lsof_4.98.0.bb:do_unpack)
+NOTE: Running task 646 of 658 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/lsof/lsof_4.98.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe lsof-4.98.0-r0: task do_unpack: Started
+NOTE: recipe lsof-4.98.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe lsof-4.98.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe lsof-4.98.0-r0: task do_unpack: Succeeded
+NOTE: Running task 647 of 658 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/lsof/lsof_4.98.0.bb:do_patch)
+NOTE: recipe lsof-4.98.0-r0: task do_patch: Started
+NOTE: recipe lsof-4.98.0-r0: task do_patch: Succeeded
+NOTE: Running task 648 of 658 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/lsof/lsof_4.98.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 649 of 658 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/lsof/lsof_4.98.0.bb:do_populate_lic)
+NOTE: recipe lsof-4.98.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe lsof-4.98.0-r0: task do_populate_lic: Started
+NOTE: recipe lsof-4.98.0-r0: task do_populate_lic: Succeeded
+NOTE: recipe lsof-4.98.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 650 of 658 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/lsof/lsof_4.98.0.bb:do_configure)
+NOTE: recipe lsof-4.98.0-r0: task do_configure: Started
+NOTE: recipe lsof-4.98.0-r0: task do_configure: Succeeded
+NOTE: Running task 651 of 658 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/lsof/lsof_4.98.0.bb:do_compile)
+NOTE: recipe lsof-4.98.0-r0: task do_compile: Started
 Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.36.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/qemu/qemu-native_7.2.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.5.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.5.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstre
- amer1.0_1.20.5.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/meson/meson_1.0.0.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/ninja/ninja_1.11.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yoct
- o-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.1.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['glibc', 'gcc-cross-i686', 'gcc-runtime', 'qemu-native', 'quilt-native', 'gstreamer1.0-plugins-bad', 'gstreamer1.0-plugins-base', 'gstreamer1.0', 'libomxil', 'meson-native', 'ninja-native', 'patch-native', 'pkgconfig-native', 'pseudo-native', 'python3-native', 'xz-native', 'libtool-native', 'attr-native', 'gettext-minimal-native', 'wayland', 'libsm', 'wayland-protocols', 'libpng', 'libvorbis', 'libjpeg-turbo', 'gobject-introspection', 'zlib', 'libdrm', 'mesa', 'pango', 'libtheora', 'libogg', 'libx11', 'libxrender', 'libxv', 'iso-codes', 'util-linux', 'alsa-lib', 'orc', 'glib-2.0', 'libxml2', 'libwebp', 'librsvg', 'vulkan-loader', 'libusb1', 'sbc', 'curl', 'openssl', 'libgudev', 'bluez5', 'bzip2', 'libxcb', 'libsndfile1', 'libxkbcommon', 'cairo', 'glib-2.0-native', 'zlib-native', 're2c-native', 'linux-libc-headers', 'flex-native', 'mpfr-native', 'texinfo-dummy-native', 'libmpc-native', 'zstd-native', 'gmp-native', 'gnu-config-native', 'b
- inutils-cross-i686', 'libgcc', 'python3-setuptools-native', 'python3-installer-native', 'python3-build-native', 'python3-wheel-native', 'sqlite3-native', 'libffi-native', 'util-linux-libuuid-native', 'libtirpc-native', 'bzip2-native', 'gdbm-native', 'openssl-native', 'readline-native', 'ncurses-native', 'libnsl2-native', 'libffi', 'expat', 'xtrans', 'libice', 'xorgproto', 'util-macros', 'opkg-utils', 'autoconf-archive', 'python3', 'libpciaccess', 'libpthread-stubs', 'libxfixes', 'libxdamage', 'libxext', 'vulkan-headers', 'xrandr', 'libxxf86vm', 'libxshmfence', 'fontconfig', 'freetype', 'fribidi', 'libxft', 'harfbuzz', 'ncurses', 'bash-completion', 'libxcrypt', 'libcap-ng', 'util-linux-libuuid', 'libpam', 'libpcre2', 'gdk-pixbuf', 'vala', 'libstd-rs', 'libxrandr', 'systemd', 'libidn2', 'readline', 'initscripts', 'dbus', 'update-rc.d', 'libical', 'xcb-proto', 'libxdmcp', 'libxau', 'flac', 'xkeyboard-config', 'pixman', 'util-linux-native', 'libpcre2-native', 'gettext-native', 'm4-nativ
- e', 'python3-flit-core-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'perl-native', 'libtirpc', 'gdbm', 'xz', 'sqlite3', 'libnsl2', 'icu', 'cracklib', 'flex', 'shared-mime-info', 'shadow-sysroot', 'shadow-native', 'shadow', 'zstd', 'acl', 'libcap', 'kmod', 'base-passwd', 'base-files', 'libseccomp', 'libunistring', 'libcap-ng-native', 'unzip-native', 'make-native', 'attr']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_configure
-| NOTE: Executing meson -Dtarget=bellagio ...
-| The Meson build system
-| Version: 1.0.0
-| Source dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/gstreamer1.0-omx/1.22.0-r0/gst-omx-1.22.0
-| Build dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/gstreamer1.0-omx/1.22.0-r0/build
-| Build type: cross build
-| Project name: gst-omx
-| Project version: 1.22.0
-| C compiler for the host machine: i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/gstreamer1.0-omx/1.22.0-r0/recipe-sysroot (gcc 12.2.0 "i686-poky-linux-gcc (GCC) 12.2.0")
-| C linker for the host machine: i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/gstreamer1.0-omx/1.22.0-r0/recipe-sysroot ld.bfd 2.40.20230119
-| C compiler for the build machine: gcc (gcc 12.2.0 "gcc (GCC) 12.2.0")
-| C linker for the build machine: gcc ld.bfd 2.39.0.20220819
-| Build machine cpu family: x86_64
-| Build machine cpu: x86_64
-| Host machine cpu family: x86
-| Host machine cpu: i686
-| Target machine cpu family: x86
-| Target machine cpu: i686
-| Compiler for C supports link arguments -Wl,-z,nodelete: YES
-| Found pkg-config: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/gstreamer1.0-omx/1.22.0-r0/recipe-sysroot-native/usr/bin/pkg-config (0.29.2)
-| Dependency gstreamer-1.0 found: NO found 1.20.5 but need: '>= 1.22.0'
-| Found CMake: NO
-| Run-time dependency gstreamer-1.0 found: NO (tried pkgconfig and cmake)
-| Looking for a fallback subproject for the dependency gstreamer-1.0
-| 
-| ../gst-omx-1.22.0/meson.build:142:0: ERROR: Neither a subproject directory nor a gstreamer.wrap file was found.
-| 
-| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/gstreamer1.0-omx/1.22.0-r0/build/meson-logs/meson-log.txt
-| ERROR: meson failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/gstreamer1.0-omx/1.22.0-r0/temp/run.do_configure.1441477:173 exit 1 from 'exit 1'
+| DEBUG: Executing shell function do_compile
+| NOTE: make -j 56 CC=i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot CFGL=-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yo
+ cto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -L./lib -llsof DEBUG= INCL= -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-li
+ nux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=
+| (cd lib; make DEBUG="" CFGF="-DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR=\"4.18.0\"")
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot -Wall  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR=\"4.18.0\" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefi
+ x-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=       -c -o dfile.o dfile.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot -Wall  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR=\"4.18.0\" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefi
+ x-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=       -c -o dmnt.o dmnt.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot -Wall  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR=\"4.18.0\" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefi
+ x-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=       -c -o dnode.o dnode.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot -Wall  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR=\"4.18.0\" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefi
+ x-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=       -c -o dproc.o dproc.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot -Wall  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR=\"4.18.0\" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefi
+ x-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=       -c -o dsock.o dsock.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot -Wall  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR=\"4.18.0\" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefi
+ x-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=       -c -o dstore.o dstore.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot -Wall  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR=\"4.18.0\" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefi
+ x-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=       -c -o arg.o arg.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot -Wall  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR=\"4.18.0\" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefi
+ x-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=       -c -o main.o main.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot -Wall  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR=\"4.18.0\" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefi
+ x-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=       -c -o misc.o misc.c
+| make[1]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git/lib'
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR="4.18.0" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/h
+ ome/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=     -c -o ckkv.o ckkv.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot -Wall  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR=\"4.18.0\" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefi
+ x-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=       -c -o node.o node.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR="4.18.0" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/h
+ ome/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=     -c -o cvfs.o cvfs.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot -Wall  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR=\"4.18.0\" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefi
+ x-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=       -c -o print.o print.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR="4.18.0" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/h
+ ome/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=     -c -o dvch.o dvch.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot -Wall  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR=\"4.18.0\" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefi
+ x-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=       -c -o proc.o proc.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR="4.18.0" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/h
+ ome/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=     -c -o fino.o fino.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot -Wall  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR=\"4.18.0\" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefi
+ x-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=       -c -o store.o store.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR="4.18.0" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/h
+ ome/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=     -c -o isfn.o isfn.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR="4.18.0" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/h
+ ome/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=     -c -o lkud.o lkud.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot -Wall  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR=\"4.18.0\" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefi
+ x-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=       -c -o util.o util.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR="4.18.0" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/h
+ ome/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=     -c -o pdvn.o pdvn.c
+| Constructing version.h
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR="4.18.0" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/h
+ ome/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=     -c -o prfp.o prfp.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR="4.18.0" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/h
+ ome/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=     -c -o ptti.o ptti.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR="4.18.0" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/h
+ ome/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=     -c -o rdev.o rdev.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR="4.18.0" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/h
+ ome/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=     -c -o regex.o regex.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR="4.18.0" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/h
+ ome/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=     -c -o rmnt.o rmnt.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR="4.18.0" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/h
+ ome/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=     -c -o rnam.o rnam.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR="4.18.0" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/h
+ ome/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=     -c -o rnch.o rnch.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR="4.18.0" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/h
+ ome/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=     -c -o rnmh.o rnmh.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR="4.18.0" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/h
+ ome/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=     -c -o rnmt.o rnmt.c
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR="4.18.0" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/h
+ ome/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=     -c -o snpf.o snpf.c
+| fino.c:42:10: fatal error: machine.h: No such file or directory
+|    42 | #include "machine.h"
+|       |          ^~~~~~~~~~~
+| compilation terminated.
+| isfn.c:57:10: fatal error: machine.h: No such file or directory
+|    57 | #include "machine.h"
+|       |          ^~~~~~~~~~~
+| compilation terminated.
+| dvch.c:33:10: fatal error: machine.h: No such file or directory
+|    33 | #include "machine.h"
+|       |          ^~~~~~~~~~~
+| compilation terminated.
+| ckkv.c:33:10: fatal error: machine.h: No such file or directory
+|    33 | #include "machine.h"
+|       |          ^~~~~~~~~~~
+| compilation terminated.
+| make[1]: *** [<builtin>: fino.o] Error 1
+| make[1]: *** Waiting for unfinished jobs....
+| prfp.c:33:10: fatal error: machine.h: No such file or directory
+|    33 | #include "machine.h"
+|       |          ^~~~~~~~~~~
+| compilation terminated.
+| make[1]: *** [<builtin>: dvch.o] Error 1
+| ptti.c:33:10: fatal error: machine.h: No such file or directory
+|    33 | #include "machine.h"
+|       |          ^~~~~~~~~~~
+| compilation terminated.
+| make[1]: *** [<builtin>: isfn.o] Error 1
+| rmnt.c:33:10: fatal error: machine.h: No such file or directory
+|    33 | #include "machine.h"
+|       |          ^~~~~~~~~~~
+| compilation terminated.
+| rnam.c:33:10: fatal error: machine.h: No such file or directory
+|    33 | #include "machine.h"
+|       |          ^~~~~~~~~~~
+| compilation terminated.
+| make[1]: *** [<builtin>: ckkv.o] Error 1
+| lkud.c:42:10: fatal error: machine.h: No such file or directory
+|    42 | #include "machine.h"
+|       |          ^~~~~~~~~~~
+| compilation terminated.
+| make[1]: *** [<builtin>: prfp.o] Error 1
+| make[1]: *** [<builtin>: ptti.o] Error 1
+| rdev.c:33:10: fatal error: machine.h: No such file or directory
+|    33 | #include "machine.h"
+|       |          ^~~~~~~~~~~
+| compilation terminated.
+| rnmt.c:16:10: fatal error: machine.h: No such file or directory
+|    16 | #include "machine.h"
+|       |          ^~~~~~~~~~~
+| compilation terminated.
+| make[1]: *** [<builtin>: rmnt.o] Error 1
+| rnch.c:33:10: fatal error: machine.h: No such file or directory
+|    33 | #include "machine.h"
+|       |          ^~~~~~~~~~~
+| compilation terminated.
+| make[1]: *** [<builtin>: rnam.o] Error 1
+| pdvn.c:33:10: fatal error: machine.h: No such file or directory
+|    33 | #include "machine.h"
+|       |          ^~~~~~~~~~~
+| compilation terminated.
+| make[1]: *** [<builtin>: rdev.o] Error 1
+| make[1]: *** [<builtin>: rnmt.o] Error 1
+| make[1]: *** [<builtin>: lkud.o] Error 1
+| make[1]: *** [<builtin>: rnch.o] Error 1
+| make[1]: *** [<builtin>: pdvn.o] Error 1
+| rnmh.c:34:10: fatal error: machine.h: No such file or directory
+|    34 | #include "machine.h"
+|       |          ^~~~~~~~~~~
+| compilation terminated.
+| make[1]: *** [<builtin>: rnmh.o] Error 1
+| i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot -Wall  -DLINUXV=418000 -DGLIBCV=236 -DHASIPv6 -DHASNORPC_H -DNEEDS_NETINET_TCPH -DHASUXSOCKEPT -DHASPTYEPT -DHASSOSTATE -DHASSOOPT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -DLSOF_VSTR=\"4.18.0\" -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefi
+ x-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git=/usr/src/debug/lsof/4.98.0-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot-native=       -c -o usage.o usage.c
+| make[1]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/git/lib'
+| make: *** [Makefile:94: lib/liblsof.a] Error 2
+| make: *** Waiting for unfinished jobs....
+| main.c: In function 'main':
+| main.c:68:15: warning: unused variable 'fmtr' [-Wunused-variable]
+|    68 |         char *fmtr = (char *)NULL;
+|       |               ^~~~
+| print.c: In function 'human_readable_size':
+| print.c:2872:13: warning: unused variable 'len' [-Wunused-variable]
+|  2872 |         int len;
+|       |             ^~~
+| print.c: In function 'printiproto':
+| print.c:2019:63: warning: '%d' directive output may be truncated writing between 1 and 9 bytes into a region of size 7 [-Wformat-truncation=]
+|  2019 |                 (void) snpf(Lf->iproto, sizeof(Lf->iproto), "*%d?", p % (m/10));
+|       |                                                               ^~
+| print.c:2019:61: note: directive argument in the range [0, 214748363]
+|  2019 |                 (void) snpf(Lf->iproto, sizeof(Lf->iproto), "*%d?", p % (m/10));
+|       |                                                             ^~~~~~
+| In file included from /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot/usr/include/stdio.h:906,
+|                  from lsof.h:61,
+|                  from print.c:32:
+| In function 'snprintf',
+|     inlined from 'printiproto' at print.c:2019:10:
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/recipe-sysroot/usr/include/bits/stdio2.h:54:10: note: '__builtin___snprintf_chk' output between 4 and 12 bytes into a destination of size 8
+|    54 |   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
+|       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|    55 |                                    __glibc_objsize (__s), __fmt,
+|       |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|    56 |                                    __va_arg_pack ());
+|       |                                    ~~~~~~~~~~~~~~~~~
+| ERROR: oe_runmake failed
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/temp/run.do_compile.161504:170 exit 1 from 'exit 1'
 | WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/gstreamer1.0-omx/1.22.0-r0/temp/run.do_configure.1441477, line 173
-| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/gstreamer1.0-omx/1.22.0-r0/temp/run.do_configure.1441477, line 162
-| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/gstreamer1.0-omx/1.22.0-r0/temp/run.do_configure.1441477, line 148
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/gstreamer1.0-omx/1.22.0-r0/temp/run.do_configure.1441477, line 186
-NOTE: recipe gstreamer1.0-omx-1.22.0-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 2449 tasks of which 2441 didn't need to be rerun and 1 failed.
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/temp/run.do_compile.161504, line 170
+| 	#2: die, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/temp/run.do_compile.161504, line 154
+| 	#3: oe_runmake, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/temp/run.do_compile.161504, line 149
+| 	#4: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/temp/run.do_compile.161504, line 144
+| 	#5: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/temp/run.do_compile.161504, line 183
+NOTE: recipe lsof-4.98.0-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 651 tasks of which 643 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
+NOTE: Writing buildhistory took: 1 seconds
 
 Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.0.bb:do_configure
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/lsof/lsof_4.98.0.bb:do_compile
 Summary: There was 1 WARNING message.
 Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: gstreamer1.0-omx-1.22.0-r0 do_configure: meson failed
-ERROR: gstreamer1.0-omx-1.22.0-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/gstreamer1.0-omx/1.22.0-r0/temp/run.do_configure.1441477', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/gstreamer1.0-omx/1.22.0-r0/temp/log.do_configure.1441477
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.0.bb:do_configure) failed with exit code '1'
+ERROR: lsof-4.98.0-r0 do_compile: oe_runmake failed
+ERROR: lsof-4.98.0-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/temp/run.do_compile.161504', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/lsof/4.98.0-r0/temp/log.do_compile.161504
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/lsof/lsof_4.98.0.bb:do_compile) failed with exit code '1'
 
---===============0433777249172547024==
+--===============4780684368011257835==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gstreamer1.0-omx-upgrade-1.20.5-1.22.0.patch"
+ filename="0001-lsof-upgrade-4.96.5-4.98.0.patch"
 
-RnJvbSBjZTI2NjJhMTg1MDNhYzRjYjg3YzcyNWEwM2VjNTA2NDZiOGJmNmFmIE1vbiBTZXAgMTcg
+RnJvbSA4NjVkOTJlMmE5YjRhMjY1NzE2N2ZiY2UwYjFkMjkyOGUwMzBkM2FhIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBGZWIgMjAyMyAxNjoyMzoxNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdz
-dHJlYW1lcjEuMC1vbXg6IHVwZ3JhZGUgMS4yMC41IC0+IDEuMjIuMAoKLS0tCiAuLi4ve2dzdHJl
-YW1lcjEuMC1vbXhfMS4yMC41LmJiID0+IGdzdHJlYW1lcjEuMC1vbXhfMS4yMi4wLmJifSAgfCAy
-ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFt
-ZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEuMC1vbXhfMS4y
-MC41LmJiID0+IGdzdHJlYW1lcjEuMC1vbXhfMS4yMi4wLmJifSAoOTUlKQoKZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtb214XzEuMjAu
-NS5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtb214
-XzEuMjIuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMt
-bXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLW9teF8xLjIwLjUuYmIKcmVuYW1lIHRv
-IG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtb214XzEuMjIu
-MC5iYgppbmRleCBlYzVlZmNkNDA4Li5lZDRjNDQ1ODNlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
-ZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLW9teF8xLjIwLjUuYmIKKysrIGIv
-bWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1vbXhfMS4yMi4w
-LmJiCkBAIC0xMCw3ICsxMCw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7
-bWQ1PTRmYmQ2NTM4MGNkZDI1NTk1MTA3OTAwOGIzNjQ1MTZjIFwKIAogU1JDX1VSSSA9ICJodHRw
-czovL2dzdHJlYW1lci5mcmVlZGVza3RvcC5vcmcvc3JjL2dzdC1vbXgvZ3N0LW9teC0ke1BWfS50
-YXIueHoiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJiY2NjYmMwMjU0OGNkYzEyM2ZkNDk5NDRk
-ZDQ0YTRmMWFkYzVkMTA3ZTM2ZjAxMGQzMjBlYjUyNmUyMTA3ODA2IgorU1JDX1VSSVtzaGEyNTZz
-dW1dID0gImRiYzk1MWE5OWFmNTMyMzgwZTU5OWFhOGFjZDllMTM4NWZkYjI5OWI0NmI1ODY4Y2Qy
-YmU0MjMwYWQ4ODgzNDEiCiAKIFMgPSAiJHtXT1JLRElSfS9nc3Qtb214LSR7UFZ9IgogCi0tIAoy
-LjM3LjMKCg==
+CkRhdGU6IFdlZCwgMSBGZWIgMjAyMyAxMzoxNzoxNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxz
+b2Y6IHVwZ3JhZGUgNC45Ni41IC0+IDQuOTguMAoKLS0tCiAuLi4vbHNvZi97bHNvZl80Ljk2LjUu
+YmIgPT4gbHNvZl80Ljk4LjAuYmJ9ICAgfCA0OSArKysrKysrKysrKysrKysrKystCiAxIGZpbGUg
+Y2hhbmdlZCwgNDcgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtZXh0ZW5kZWQvbHNvZi97bHNvZl80Ljk2LjUuYmIgPT4gbHNvZl80Ljk4LjAuYmJ9ICg0
+MiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xzb2YvbHNvZl80Ljk2LjUu
+YmIgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbHNvZi9sc29mXzQuOTguMC5iYgpzaW1pbGFyaXR5
+IGluZGV4IDQyJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbHNvZi9sc29mXzQu
+OTYuNS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xzb2YvbHNvZl80Ljk4LjAu
+YmIKaW5kZXggOWY4MDE3NmVlMS4uODdlYjY3NDExZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LWV4dGVuZGVkL2xzb2YvbHNvZl80Ljk2LjUuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVk
+L2xzb2YvbHNvZl80Ljk4LjAuYmIKQEAgLTEsMTQgKzEsNTkgQEAKKyMgRklYTUU6IHRoZSBMSUNf
+RklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4gdXBkYXRlZCBieSAnZGV2dG9vbCB1cGdyYWRl
+Jy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIHRoZSBvbGQgYW5k
+IHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVhc2UgdXBkYXRlIHRoZSBMSUNFTlNFIHZhbHVl
+IGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUgY2hhbmdlcyBpbgorIyB0aGUgY29tbWl0IG1l
+c3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTonIHRhZy4KKyMgKGV4YW1wbGU6ICdMaWNlbnNlLVVw
+ZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0ZWQuJykKKyMKKyMgVGhlIGNoYW5nZXM6CisjCisj
+IC0tLSAwMFJFQURNRQorIyArKysgMDBSRUFETUUKKyMgQEAgLTEsMTUgKzEsMyBAQAorIyAtTHNv
+ZiBoYXMgbm8gbGljZW5zZS4gIEl0cyB1c2UgYW5kIGRpc3RyaWJ1dGlvbiBhcmUgc3ViamVjdCB0
+byB0aGVzZQorIyAtdGVybXMgYW5kIGNvbmRpdGlvbnMsIGZvdW5kIGluIGVhY2ggbHNvZiBzb3Vy
+Y2UgZmlsZS4gIChUaGUgY29weXJpZ2h0CisjIC15ZWFyIGluIG9yIGZvcm1hdCBvZiB0aGUgbm90
+aWNlIG1heSB2YXJ5IHNsaWdodGx5LikKKyMgLQorIyAtICAgIC8qCisjIC0gICAgICogQ29weXJp
+Z2h0IDIwMDIgUHVyZHVlIFJlc2VhcmNoIEZvdW5kYXRpb24sIFdlc3QgTGFmYXlldHRlLAorIyAt
+ICAgICAqIEluZGlhbmEgNDc5MDcuICBBbGwgcmlnaHRzIHJlc2VydmVkLgorIyAtICAgICAqCisj
+IC0gICAgICogV3JpdHRlbiBieSBWaWN0b3IgQS4gQWJlbGwKKyMgLSAgICAgKgorIyAtICAgICAq
+IFRoaXMgc29mdHdhcmUgaXMgbm90IHN1YmplY3QgdG8gYW55IGxpY2Vuc2Ugb2YgdGhlIEFtZXJp
+Y2FuCisjIC0gICAgICogVGVsZXBob25lIGFuZCBUZWxlZ3JhcGggQ29tcGFueSBvciB0aGUgUmVn
+ZW50cyBvZiB0aGUKKyMgICAgICAgKiBVbml2ZXJzaXR5IG9mIENhbGlmb3JuaWEuCisjICAgICAg
+ICoKKyMgICAgICAgKiBQZXJtaXNzaW9uIGlzIGdyYW50ZWQgdG8gYW55b25lIHRvIHVzZSB0aGlz
+IHNvZnR3YXJlIGZvcgorIyBAQCAtMzMsMyArMjEsMTUgQEAKKyMgIAorIyAgCisjICBCdWcgUmVw
+b3J0cworIyArPT09PT09PT09PT0KKyMgKworIyArTm93IHRoYXQgdGhlIG9ibGlnYXRvcnkgZGlz
+Y2xhaW1lciBpcyBvdXQgb2YgdGhlIHdheSwgbGV0IG1lIGhhc3RlbiB0bworIyArYWRkIHRoYXQg
+SSBhY2NlcHQgbHNvZiBidWcgcmVwb3J0cyBhbmQgdHJ5IGhhcmQgdG8gcmVzcG9uZCB0byB0aGVt
+LiAgSQorIyArd2lsbCBhbHNvIGNvbnNpZGVyIGFuZCBkaXNjdXNzIHJlcXVlc3RzIGZvciBuZXcg
+ZmVhdHVyZXMsIHBvcnRzIHRvIG5ldworIyArZGlhbGVjdHMsIG9yIHBvcnRzIHRvIG5ldyBPUyB2
+ZXJzaW9ucy4KKyMgKworIyArUExFQVNFIERPTidUIFNFTkQgQlVHIFJFUE9SVFMgQUJPVVQgTFNP
+RiBUTyBUSEUgVU5JWCBESUFMRUNUIE9SIERJQUxFQ1QKKyMgK09QVElPTiBWRU5ET1IuCisjICsK
+KyMgK0F0IHdvcnN0IHN1Y2ggYnVnIHJlcG9ydHMgd2lsbCBjb25mdXNlIHRoZSB2ZW5kb3I7IGF0
+IGJlc3QsIHRoZSB2ZW5kb3IKKyMgK3dpbGwgZm9yd2FyZCB0aGUgYnVnIHJlcG9ydCB0byBtZS4K
+KyMgCisjCisKIFNVTU1BUlkgPSAiTGlTdCBPcGVuIEZpbGVzIHRvb2wiCiBERVNDUklQVElPTiA9
+ICJMc29mIGlzIGEgVW5peC1zcGVjaWZpYyBkaWFnbm9zdGljIHRvb2wuIFwKIEl0cyBuYW1lIHN0
+YW5kcyBmb3IgTGlTdCBPcGVuIEZpbGVzLCBhbmQgaXQgZG9lcyBqdXN0IHRoYXQuIgogSE9NRVBB
+R0UgPSAiaHR0cDovL3Blb3BsZS5mcmVlYnNkLm9yZy9+YWJlLyIKIFNFQ1RJT04gPSAiZGV2ZWwi
+CiBMSUNFTlNFID0gIlNwZW5jZXItOTQiCi1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly8wMFJF
+QURNRTtiZWdpbmxpbmU9NjQ1O2VuZGxpbmU9Njc5O21kNT05NjRkZjI3NWQyNjQyOWJhM2IzOWRi
+YjlmMjA1MTcyYSIKK0xJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovLzAwUkVBRE1FO2JlZ2lubGlu
+ZT02NDU7ZW5kbGluZT02Nzk7bWQ1PWM5ZjQ0OGE5MDU2NjVhNjMwZGUzMmQ2ODU0NzExZjhkIgog
+CiBTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vbHNvZi1vcmcvbHNvZjticmFuY2g9bWFzdGVy
+O3Byb3RvY29sPWh0dHBzIFwKICAgICAgICAgICAgZmlsZTovL3JlbW92ZS1ob3N0LWluZm9ybWF0
+aW9uLnBhdGNoIgotU1JDUkVWID0gIjg5ODkxNmQ0YzdjMzkwZWE0NjEwYWViYWYxZDMyYjhhM2M0
+OWYyNmIiCitTUkNSRVYgPSAiNTQ2ZWIxYzk5MTBlN2MxMzdmZGZmNTUxNjgzYzM1YTczNjAyMWUw
+NSIKIAogUyA9ICIke1dPUktESVJ9L2dpdCIKIAotLSAKMi4zNy4zCgo=
 
---===============0433777249172547024==--
+--===============4780684368011257835==--
 
