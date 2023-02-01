@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5A5DC636D7
-	for <webhook@archiver.kernel.org>; Wed,  1 Feb 2023 22:16:51 +0000 (UTC)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web10.103.1675289802614480658
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6CE0C05027
+	for <webhook@archiver.kernel.org>; Wed,  1 Feb 2023 22:17:01 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web11.126.1675289812281421267
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Feb 2023 14:16:42 -0800
+ Wed, 01 Feb 2023 14:16:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=RMvSm+f1;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.46, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f46.google.com with SMTP id o13so146224pjg.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Feb 2023 14:16:42 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=QimJkeRQ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f169.google.com with SMTP id v23so19947809plo.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Feb 2023 14:16:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=szH7wZq9ztvfbjwo9oqEexUTsBMxjI9+AMdFSduCbtk=;
-        b=RMvSm+f1m28PyHxUpk8OGy5Rc7WrNrvP52IYtM8tEKFR64RJVgtorCYPKp8yieo2aU
-         qXaa9+AfuKI5TdccYthasu2qpo21ZpACVIJGo3FZ6BOy46Rr4ddFHOXwwHmF2SHb91/W
-         630ZU7LJTw9uzjTa2qWP4fZgrQqGNUKVJgLWvp0Djb8i1noW/IrPoZM9YbnA5jSm9vTa
-         nEyuT1Fst97DO0KjC46sd8hyMEDWNu+Wa/G8pSj2amz2YaJgWBvmKwI2qAhUycr8NRq/
-         a8e5rNJ4Zr4iVjtKzgDrxGe4sFwQRLEWnaA5FAFxJZEhxuNGA++d6Htc/h6b9/iKWdb2
-         MCOQ==
+        bh=5zMJTWPrcMBSYPKp1aKm4+SMFImrC6no6oA1Ohxu59k=;
+        b=QimJkeRQfPWse/vsaGdop3R9ha7D4wOUsxeIqITrumHEgPbFIT0xYrH0FzaNzQRkIZ
+         ckcE3gzKqUkeQ6MOw4xHUpHZLsgvCtbxTC5LBC1PK78qBU7OIjndIz9pUanaTjDD4JWr
+         7V25PMXlpmQ3gUFIdzQgIQm6pFzT40tfxpGMkwBsAKJczjz8iaQejpdU4aGtEYslvwIo
+         RQMeZrpIfkd5CHYBUo+TzE4E8nvgzWBccDtnowYJ8DNpsZ7gqNMTGcOpo6vS1VuqKBJA
+         EITeXZsFTPjokbcxTMu6pnpUGsETRjXf+oDqgH/MrNLo8z7PKhlHK0yHdSxYnprppHLe
+         z+0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=szH7wZq9ztvfbjwo9oqEexUTsBMxjI9+AMdFSduCbtk=;
-        b=qDvHd+GWsCzq440MEbugVTunXKEVGuNS6CQV5+21aIY+3wM/kyQPFMslG/XsgaGhe1
-         zqVT6xhCVIiJ1ThNewYTfeBtiMbbOJ2qxqK0Wgx888E3qZgM5pnsWWNoOOKOLGDRdhs4
-         ehK++7KdtdptKtNZb4AgQXIAav4QwAjBHqocvWQeqDk0PR2E1q280ZSAQoWoCcKBEBkS
-         eFDNj5BiCEy1Wn0t0VtSBD6kjwHO6a3mj0lrnUtBdabdNDYJMZexCzozZx3LEQmbJBEe
-         L9fl/7A7Lv6rrLZdok/xN6jsLNGJJV/eyesagp8/C6t5BSRx0DqbLBkxF/MP2YtHfOBa
-         RZRA==
-X-Gm-Message-State: AO0yUKVlQp7vGtQrqMCF0ywXVRiA45jN8QeOmfLCV8O3Eh5NIWTLDlYm
-	E3up4QdtbzbjvRx193qGAZx2nT1JkPKSCxSRbeU=
-X-Google-Smtp-Source: AK7set8+mq7O5OzfsTKok6rdUcQScU3z77m0LDwmDy6Vx6K5Wq5pkUs6jNftfNiS6U81kUzovox0Vw==
-X-Received: by 2002:a05:6a20:3c8b:b0:bc:866e:7986 with SMTP id b11-20020a056a203c8b00b000bc866e7986mr5549248pzj.15.1675289801568;
-        Wed, 01 Feb 2023 14:16:41 -0800 (PST)
+        bh=5zMJTWPrcMBSYPKp1aKm4+SMFImrC6no6oA1Ohxu59k=;
+        b=0gkF/WazMlhDr9mTX+D2s8cl7pxv3lhWhtUtDCQeiHY7HbZNAHflsFsM8NpD076nfm
+         j61KrwjS/Y1UiOzO78u6nRi+v3u7uvmmHOqdroZd8d8gmtUK6e3iY6IZOwHSZ1Jz/Ohm
+         tKkBhTbq43B+YaVb6JplzBMwqrTqomqz92T7j4rMMGxhZjG+0WkTlNmy8PHT7nDmXIle
+         NhYtMA3rHPl8T6cc6mlPRRgZW0sROI1aZ0D59xLIEp746o5fex7J+XzZHVbtlP+8Ehau
+         4BA7FZZ/AVmlWrNDkymb4aL1M6XFh4+XYy3wJ5g7ZXiESZZ1Mw5QkwZox4tGfMOaXp77
+         JVAQ==
+X-Gm-Message-State: AO0yUKXwNLy2kfag/HUY2ZTfpaVGPS6eXk0UWYQfeFUjkga0aSyiPNud
+	7xDEYmD8ne50OVga5QJyE4xHJ4J8xAzHbA2EpkI=
+X-Google-Smtp-Source: AK7set8eCDmGXOM57BhyoxiwUqWEypQMMFsLlH/KsUMmi3HQ9IEZGYlTDr6mllmBmhZ0l6XVuk2tig==
+X-Received: by 2002:a05:6a20:6994:b0:bf:2a24:b9fd with SMTP id t20-20020a056a20699400b000bf2a24b9fdmr4888327pzk.38.1675289811345;
+        Wed, 01 Feb 2023 14:16:51 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id h10-20020a056a001a4a00b0058df440d51esm11904810pfv.193.2023.02.01.14.16.40
+        by smtp.gmail.com with ESMTPSA id h10-20020a056a001a4a00b0058df440d51esm11904810pfv.193.2023.02.01.14.16.50
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Feb 2023 14:16:41 -0800 (PST)
+        Wed, 01 Feb 2023 14:16:50 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 10/13] native: Drop special variable handling
-Date: Wed,  1 Feb 2023 12:16:06 -1000
-Message-Id: <47a2634831f907d83ec40ad010351c923ef67f0d.1675289652.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 13/13] Fix missing leading whitespace with ':append'
+Date: Wed,  1 Feb 2023 12:16:09 -1000
+Message-Id: <cb64ace13db85e143d99627c8803fbb13ba18617.1675289652.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1675289652.git.steve@sakoman.com>
 References: <cover.1675289652.git.steve@sakoman.com>
@@ -60,52 +60,66 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Feb 2023 22:16:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176672
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Feb 2023 22:17:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176675
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Niko Mauno <niko.mauno@vaisala.com>
 
-Back when it was merged in https://git.yoctoproject.org/poky/commit/?id=c4257ed8b1040a5a0e9a95846d81961741239116
-it appeared special handling in setVar was necessary. Likely due to
-other fixes and improvements it no longer appears to be. The results of
-"bitbake world -g" before and after this change are identical for oe-core
-and meta-openembedded. Therefore drop the "parsing=True" special parameter to
-setVar() meaning overrides can now be cleared.
+Mitigate occurences where ':append' operator is used and leading
+whitespace character is obviously missing, risking inadvertent
+string concatenation.
 
-This means that something like:
+(From OE-Core rev: fcd340ec53ff8352b8cae0eb351810072b025a08)
 
-DEPENDS:append = " bash"
-
-now functions as expected, adding bash to the target recipe and bash-native to
-the native BBCLASSEXTENDED version.
-
-Without this change, it would add bash to the native version as well as
-bash-native which is clearly incorrect.
-
-[YOCTO #15010]
-
+Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 99a5105f7b5303cd36077b5910c662a865c1782c)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/native.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/core-image.bbclass                 | 2 +-
+ meta/classes/populate_sdk_ext.bbclass           | 2 +-
+ meta/conf/distro/include/ptest-packagelists.inc | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
-index fc7422c5d7..4de96cd59b 100644
---- a/meta/classes/native.bbclass
-+++ b/meta/classes/native.bbclass
-@@ -153,7 +153,7 @@ python native_virtclass_handler () {
-                 newdeps.append(dep.replace(pn, bpn) + "-native")
-             else:
-                 newdeps.append(dep)
--        d.setVar(varname, " ".join(newdeps), parsing=True)
-+        d.setVar(varname, " ".join(newdeps))
+diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
+index 740a6c1d3d..803727da0e 100644
+--- a/meta/classes/core-image.bbclass
++++ b/meta/classes/core-image.bbclass
+@@ -62,7 +62,7 @@ IMAGE_FEATURES_REPLACES_ssh-server-openssh = "ssh-server-dropbear"
+ # Do not install openssh complementary packages if either packagegroup-core-ssh-dropbear or dropbear
+ # is installed # to avoid openssh-dropbear conflict
+ # see [Yocto #14858] for more information
+-PACKAGE_EXCLUDE_COMPLEMENTARY:append = "${@bb.utils.contains_any('PACKAGE_INSTALL', 'packagegroup-core-ssh-dropbear dropbear', 'openssh', '' , d)}"
++PACKAGE_EXCLUDE_COMPLEMENTARY:append = "${@bb.utils.contains_any('PACKAGE_INSTALL', 'packagegroup-core-ssh-dropbear dropbear', ' openssh', '' , d)}"
  
-     map_dependencies("DEPENDS", e.data, selfref=False)
-     for pkg in e.data.getVar("PACKAGES", False).split():
+ # IMAGE_FEATURES_CONFLICTS_foo = 'bar1 bar2'
+ # An error exception would be raised if both image features foo and bar1(or bar2) are included
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index e2019f9bbf..0fd30478dc 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -114,7 +114,7 @@ python write_host_sdk_ext_manifest () {
+                 f.write("%s %s %s\n" % (info[1], info[2], info[3]))
+ }
+ 
+-SDK_POSTPROCESS_COMMAND:append:task-populate-sdk-ext = "write_target_sdk_ext_manifest; write_host_sdk_ext_manifest; "    
++SDK_POSTPROCESS_COMMAND:append:task-populate-sdk-ext = " write_target_sdk_ext_manifest; write_host_sdk_ext_manifest; "    
+ 
+ SDK_TITLE:task-populate-sdk-ext = "${@d.getVar('DISTRO_NAME') or d.getVar('DISTRO')} Extensible SDK"
+ 
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index b51cce4d9e..a65c048984 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -99,7 +99,7 @@ PTESTS_SLOW = "\
+ "
+ 
+ PTESTS_SLOW:remove:riscv64 = "valgrind-ptest"
+-PTESTS_PROBLEMS:append:riscv64 = "valgrind-ptest"
++PTESTS_PROBLEMS:append:riscv64 = " valgrind-ptest"
+ 
+ #    ruby-ptest \ # Timeout
+ #    lz4-ptest \ # Needs a rewrite
 -- 
 2.25.1
 
