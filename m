@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6615C77B6E
-	for <webhook@archiver.kernel.org>; Wed,  1 Feb 2023 17:34:24 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.30005.1675272855187785531
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 002B2C77B71
+	for <webhook@archiver.kernel.org>; Wed,  1 Feb 2023 17:34:25 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.30012.1675272856299364873
  for <openembedded-core@lists.openembedded.org>;
  Wed, 01 Feb 2023 09:34:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=G1Gl7I88;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101860e0b21c0-a86dfe43-599c-48d4-883e-23a22394c585-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=GxwpGpvK;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101860e0b201e-2d5da237-4e9f-4d3b-ad8f-24babc90ea32-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1675272856;
+	t=1675272855;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=+LQSK3MddEbw/LNq3+Fxx0AzevAhpg+5tVZzI7BGgPk=;
-	b=G1Gl7I88n4RN0/nVh54HH1p12SrEoRsbKMvnSulw+Lq9/01mQdtoWd3ZDOAPJxpI
-	SvAVw9qPTAslO54wDRQzqeuvVYEx24AUA5iAI/ciwSeHDChnr+wYpz4+jiYimxNhVLG
-	ZbTnQbn7KOEDE3R8UHbZCZ/g9UikEgEIUfX3rwX4=
+	bh=LLomCZqmAr49500UssAxsW6XpX8z0jzNl42BAr5HV5s=;
+	b=GxwpGpvKKsl6WitkgJ5Nw2BA02XtOPKJfyoYTg5+cjQkRe9ZEPya9moY5q546Tmg
+	1q07SaWu2zlU60Im7vL0Uxbq350GqKldI7LOEwCyGg8N1WuewhzmLMnQsyCmFSr1dWu
+	jVN8eQEniWqW8U2OfCSpBg9gE5OScOcAGYq3kXDc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1675272856;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1675272855;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=+LQSK3MddEbw/LNq3+Fxx0AzevAhpg+5tVZzI7BGgPk=;
-	b=TeL1ovK3vQx++YyelyCyLdEwZG8ZvCbLgm3kVhzqkZwTgsYmECQWjPlNZOMGr4wV
-	JXjvV0TFPaoh58b3qmnLPS/JTf5XHkrZrTAYT4vseYMAuGAjK26g+Ozx7bRSaCgKuoE
-	DeEO5Q1GEOQ3I53wCn8tUqSDXp07Qp5avfDRktgg=
-Content-Type: multipart/mixed; boundary="===============8085845088583540217=="
+	bh=LLomCZqmAr49500UssAxsW6XpX8z0jzNl42BAr5HV5s=;
+	b=NENnNTnjSXfVLk34p4MH/ITcmUE+tCY+/8Bg03HnKwy61c9+y7Oz4F91iqyRKW5a
+	eBQh9alY7uaWGMSmTtHnnT/sYQx8dUM+ap/fqg1l3Njajy3ChbNuUIXyw7ZscK2P8Wn
+	vwa+6I7mpVQ6Txz0j7fzSzrpcgrTce2TWNcZv4Mo=
+Content-Type: multipart/mixed; boundary="===============1087784498542759575=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] mc: upgrading to 4.8.29 FAILED
-Message-ID: <010101860e0b21c0-a86dfe43-599c-48d4-883e-23a22394c585-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Feb 2023 17:34:16 +0000
+Subject: [AUH] python3-zipp: upgrading to 3.12.0 SUCCEEDED
+Message-ID: <010101860e0b201e-2d5da237-4e9f-4d3b-ad8f-24babc90ea32-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Feb 2023 17:34:15 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.02.01-54.240.27.30
+X-SES-Outgoing: 2023.02.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Feb 2023 17:34:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176606
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176603
 
---===============8085845088583540217==
+--===============1087784498542759575==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,100 +50,90 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *mc* to *4.8.29* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *python3-zipp* to *3.12.0* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-zipp-upgrade-3.11.0-3.12.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe mc failed.
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)... (14:10:07.538980)
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1697 entries from dependency cache.
-
-Summary: There was 1 WARNING message.
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:901bcaccf599f47b0c95dc4f6a6ca107fc157fda"
-workspace            = "master:da95831d91b1265ecaee5bbfaeb1caaa2c290838"
-
-Initialising tasks...done.
-Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 19 (100% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1697 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 899 .bb files complete (897 cached, 2 parsed). 1698 targets, 40 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 WARNING message.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:901bcaccf599f47b0c95dc4f6a6ca107fc157fda"
-workspace            = "master:da95831d91b1265ecaee5bbfaeb1caaa2c290838"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  24% |########                            | ETA:  0:00:00
-Adding changed files:  49% |#################                   | ETA:  0:00:00
-Adding changed files:  73% |##########################          | ETA:  0:00:00
-Adding changed files:  98% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching http://www.midnight-commander.org/downloads/mc-4.8.29.tar.bz2...
-INFO: Rebasing devtool onto 50c9b2ede64853e385c52823fd51070ff6188a1d
-WARNING: Command 'git rebase 50c9b2ede64853e385c52823fd51070ff6188a1d' failed:
-Auto-merging src/man2hlp/man2hlp.in
-CONFLICT (content): Merge conflict in src/man2hlp/man2hlp.in
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/mc
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/mc/mc_4.8.29.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============8085845088583540217==--
+--===============1087784498542759575==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-zipp-upgrade-3.11.0-3.12.0.patch"
+
+RnJvbSAwZGYyNDQ1NzU3YjAzMjkyMDI0ZjQzNTY1NGJiODI3ZWJlMWI0NTRjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMSBGZWIgMjAyMyAxMzoxMjo1NSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtemlwcDogdXBncmFkZSAzLjExLjAgLT4gMy4xMi4wCgotLS0KIC4uLi9weXRob24ve3B5
+dGhvbjMtemlwcF8zLjExLjAuYmIgPT4gcHl0aG9uMy16aXBwXzMuMTIuMC5iYn0gICB8IDIgKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtemlwcF8zLjExLjAuYmIgPT4gcHl0
+aG9uMy16aXBwXzMuMTIuMC5iYn0gKDg1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvcHl0aG9uL3B5dGhvbjMtemlwcF8zLjExLjAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMtemlwcF8zLjEyLjAuYmIKc2ltaWxhcml0eSBpbmRleCA4NSUKcmVu
+YW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXppcHBfMy4xMS4w
+LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtemlwcF8z
+LjEyLjAuYmIKaW5kZXggNzBlYmFmYzE2OC4uMWIzNmU0MjU0MyAxMDA2NDQKLS0tIGEvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXppcHBfMy4xMS4wLmJiCisrKyBiL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy16aXBwXzMuMTIuMC5iYgpAQCAtMyw3ICsz
+LDcgQEAgSE9NRVBBR0UgPSAiaHR0cHM6Ly9naXRodWIuY29tL2phcmFjby96aXBwIgogTElDRU5T
+RSA9ICJNSVQiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT03YTcxMjZl
+MDY4MjA2MjkwZjNmZTlmOGQ2YzcxM2VhNiIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImE3YTIy
+ZTA1OTI5MjkwYTY3NDAxNDQwYjM5NjkwYWU2NTYzMjc5YmNlZDVmMzE0NjA5ZDlkMDM3OThmNTY3
+NjYiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNzNlZmQ2MzkzNjM5OGFhYzc4ZmQ5MmI2ZjQ4NjUx
+OTAxMTlkNmM5MWI1MzE1MzJlNzk4OTc3ZWE4ZGQ0MDJlYiIKIAogREVQRU5EUyArPSAiJHtQWVRI
+T05fUE59LXNldHVwdG9vbHMtc2NtLW5hdGl2ZSIKIAotLSAKMi4zNy4zCgo=
+
+--===============1087784498542759575==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/python3-zipp: PKGV changed from 3.11.0 [default] to 3.12.0 [default]
+packages/core2-32-poky-linux/python3-zipp: PV changed from "3.11.0" to "3.12.0"
+packages/core2-32-poky-linux/python3-zipp: SRC_URI changed from "https://files.pythonhosted.org/packages/source/z/zipp/zipp-3.11.0.tar.gz" to "https://files.pythonhosted.org/packages/source/z/zipp/zipp-3.12.0.tar.gz"
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-dbg: PV changed from "3.11.0" to "3.12.0"
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-dbg: PKGV changed from 3.11.0 [default] to 3.12.0 [default]
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-dev: PV changed from "3.11.0" to "3.12.0"
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-dev: PKGV changed from 3.11.0 [default] to 3.12.0 [default]
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-doc: PV changed from "3.11.0" to "3.12.0"
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-doc: PKGV changed from 3.11.0 [default] to 3.12.0 [default]
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-locale: PV changed from "3.11.0" to "3.12.0"
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-locale: PKGV changed from 3.11.0 [default] to 3.12.0 [default]
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-src: PV changed from "3.11.0" to "3.12.0"
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-src: PKGV changed from 3.11.0 [default] to 3.12.0 [default]
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-staticdev: PV changed from "3.11.0" to "3.12.0"
+packages/core2-32-poky-linux/python3-zipp/python3-zipp-staticdev: PKGV changed from 3.11.0 [default] to 3.12.0 [default]
+packages/core2-32-poky-linux/python3-zipp/python3-zipp: PKGSIZE changed from 35974 to 36365 (+1%)
+packages/core2-32-poky-linux/python3-zipp/python3-zipp: PV changed from "3.11.0" to "3.12.0"
+packages/core2-32-poky-linux/python3-zipp/python3-zipp: PKGV changed from 3.11.0 [default] to 3.12.0 [default]
+Changes to packages/core2-32-poky-linux/python3-zipp (sysroot):
+  /usr/lib/python3.11/site-packages/zipp-3.11.0.dist-info moved to /usr/lib/python3.11/site-packages/zipp-3.12.0.dist-info
+
+--===============1087784498542759575==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-32-poky-linux/python3-zipp (sysroot):
+  /usr/lib/python3.11/site-packages/zipp-3.11.0.dist-info moved to /usr/lib/python3.11/site-packages/zipp-3.12.0.dist-info
+
+--===============1087784498542759575==--
 
