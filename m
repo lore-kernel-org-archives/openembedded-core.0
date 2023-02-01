@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5AB3C63797
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5A5DC636D7
 	for <webhook@archiver.kernel.org>; Wed,  1 Feb 2023 22:16:51 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web10.105.1675289804679891149
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web10.103.1675289802614480658
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Feb 2023 14:16:44 -0800
+ Wed, 01 Feb 2023 14:16:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=wLfneUlT;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f173.google.com with SMTP id n2so13632470pfo.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Feb 2023 14:16:44 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=RMvSm+f1;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.46, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f46.google.com with SMTP id o13so146224pjg.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Feb 2023 14:16:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=autNiWTotri+RjMuqcxvSF/CMC/9d70WwTRZz8ApPNk=;
-        b=wLfneUlTU1a486zGNTFK5IVxtdxs9QQAblV9cFqhwkvbc8FpdojECqAQubk2jFdsp3
-         OQnUwBuzhtimv2YSouiYPxY+Eb7tOmVV1P9nlW1kwuOtFsntnobL6lXmLHuxoqLLShge
-         xYlNto+qAGcSqGJu3IWxRLalEsQLV7wBiqOCxXVyz/JoA0M+LocHXL0KnFKni0iD+vsR
-         ilgaHAGh9RahKC8bu9ShRmjt35bJFjtMcgZHtHuke1GL2Ot8Cc4hkiLSuW+afVX8lqZG
-         4EJMXgMjTmjFmoK07VHCexFXr9hCPdRoqkCnLx2OORL2HGH3Vka1oWNHvtGa+DRHQa3l
-         wdIw==
+        bh=szH7wZq9ztvfbjwo9oqEexUTsBMxjI9+AMdFSduCbtk=;
+        b=RMvSm+f1m28PyHxUpk8OGy5Rc7WrNrvP52IYtM8tEKFR64RJVgtorCYPKp8yieo2aU
+         qXaa9+AfuKI5TdccYthasu2qpo21ZpACVIJGo3FZ6BOy46Rr4ddFHOXwwHmF2SHb91/W
+         630ZU7LJTw9uzjTa2qWP4fZgrQqGNUKVJgLWvp0Djb8i1noW/IrPoZM9YbnA5jSm9vTa
+         nEyuT1Fst97DO0KjC46sd8hyMEDWNu+Wa/G8pSj2amz2YaJgWBvmKwI2qAhUycr8NRq/
+         a8e5rNJ4Zr4iVjtKzgDrxGe4sFwQRLEWnaA5FAFxJZEhxuNGA++d6Htc/h6b9/iKWdb2
+         MCOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=autNiWTotri+RjMuqcxvSF/CMC/9d70WwTRZz8ApPNk=;
-        b=d8/Ni4zQn0au31JphxhsqzfBnYMMMfagGExLH7qMAH0YlNLthNvDJUEas/DvltBWUn
-         LUFnjGhp7VzCyelK/ScVG/AH6w1pUgmZUtg3NT7RyP5o8IbtNye2ukr0DAj0H3CKnici
-         yOEd3WWXGFiA9fC+tkPvYH2t9nWjD97ZWfWcapQ+fl2HRgzX51fN8LxOdnOo03an4bst
-         RRDHEAg3mHAVjW8SSOznbLjf/8MBnluI71KFYBu7AyIAwLq5/FHk+MiAbS6CYuLIYciC
-         A+yWMXVSqIhoxBV3nCF+YGynFpfe6sudXhFScopfu+kL2hrlx3p7Mi6BFX3oT7tZ+aZH
-         XkTw==
-X-Gm-Message-State: AO0yUKW7MbUauT0oihiyV9gweYnUQX7L4OPQhR9+b8EGAUQ3W9MddIZV
-	2mS4ZRKIkc5d2f5it69D7rpWOGKxGoMBGyazC70=
-X-Google-Smtp-Source: AK7set9cbBmDmJwEDT8kz5Yf+ffqkajOz5291QZgY2lWSJk+u/g04YuoyaUA0+RW2+rwdloxSr5dKQ==
-X-Received: by 2002:aa7:9409:0:b0:594:251f:ffe1 with SMTP id x9-20020aa79409000000b00594251fffe1mr2122980pfo.19.1675289803625;
-        Wed, 01 Feb 2023 14:16:43 -0800 (PST)
+        bh=szH7wZq9ztvfbjwo9oqEexUTsBMxjI9+AMdFSduCbtk=;
+        b=qDvHd+GWsCzq440MEbugVTunXKEVGuNS6CQV5+21aIY+3wM/kyQPFMslG/XsgaGhe1
+         zqVT6xhCVIiJ1ThNewYTfeBtiMbbOJ2qxqK0Wgx888E3qZgM5pnsWWNoOOKOLGDRdhs4
+         ehK++7KdtdptKtNZb4AgQXIAav4QwAjBHqocvWQeqDk0PR2E1q280ZSAQoWoCcKBEBkS
+         eFDNj5BiCEy1Wn0t0VtSBD6kjwHO6a3mj0lrnUtBdabdNDYJMZexCzozZx3LEQmbJBEe
+         L9fl/7A7Lv6rrLZdok/xN6jsLNGJJV/eyesagp8/C6t5BSRx0DqbLBkxF/MP2YtHfOBa
+         RZRA==
+X-Gm-Message-State: AO0yUKVlQp7vGtQrqMCF0ywXVRiA45jN8QeOmfLCV8O3Eh5NIWTLDlYm
+	E3up4QdtbzbjvRx193qGAZx2nT1JkPKSCxSRbeU=
+X-Google-Smtp-Source: AK7set8+mq7O5OzfsTKok6rdUcQScU3z77m0LDwmDy6Vx6K5Wq5pkUs6jNftfNiS6U81kUzovox0Vw==
+X-Received: by 2002:a05:6a20:3c8b:b0:bc:866e:7986 with SMTP id b11-20020a056a203c8b00b000bc866e7986mr5549248pzj.15.1675289801568;
+        Wed, 01 Feb 2023 14:16:41 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id h10-20020a056a001a4a00b0058df440d51esm11904810pfv.193.2023.02.01.14.16.42
+        by smtp.gmail.com with ESMTPSA id h10-20020a056a001a4a00b0058df440d51esm11904810pfv.193.2023.02.01.14.16.40
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Feb 2023 14:16:43 -0800 (PST)
+        Wed, 01 Feb 2023 14:16:41 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 11/13] libusb1: Link with latomic only if compiler has no atomic builtins
-Date: Wed,  1 Feb 2023 12:16:07 -1000
-Message-Id: <c660d75211352a47797c3d400dd504759675a0f6.1675289652.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 10/13] native: Drop special variable handling
+Date: Wed,  1 Feb 2023 12:16:06 -1000
+Message-Id: <47a2634831f907d83ec40ad010351c923ef67f0d.1675289652.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1675289652.git.steve@sakoman.com>
 References: <cover.1675289652.git.steve@sakoman.com>
@@ -61,90 +61,51 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Feb 2023 22:16:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176673
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176672
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-This makes build use compiler to decide from where to get atomics
-instead of assuming that it should always come from libatomic, helps
-sharing build artifacts with OSes which may not have libatomic installed
-because it is not required on those hosts.
+Back when it was merged in https://git.yoctoproject.org/poky/commit/?id=c4257ed8b1040a5a0e9a95846d81961741239116
+it appeared special handling in setVar was necessary. Likely due to
+other fixes and improvements it no longer appears to be. The results of
+"bitbake world -g" before and after this change are identical for oe-core
+and meta-openembedded. Therefore drop the "parsing=True" special parameter to
+setVar() meaning overrides can now be cleared.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+This means that something like:
+
+DEPENDS:append = " bash"
+
+now functions as expected, adding bash to the target recipe and bash-native to
+the native BBCLASSEXTENDED version.
+
+Without this change, it would add bash to the native version as well as
+bash-native which is clearly incorrect.
+
+[YOCTO #15010]
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a026d9afcbe07a8324ca951ba3439373dcb3771c)
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 99a5105f7b5303cd36077b5910c662a865c1782c)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...k-with-latomic-only-if-no-atomic-bui.patch | 46 +++++++++++++++++++
- meta/recipes-support/libusb/libusb1_1.0.26.bb |  1 +
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-support/libusb/libusb1/0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch
+ meta/classes/native.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libusb/libusb1/0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch b/meta/recipes-support/libusb/libusb1/0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch
-new file mode 100644
-index 0000000000..3c223e0822
---- /dev/null
-+++ b/meta/recipes-support/libusb/libusb1/0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch
-@@ -0,0 +1,46 @@
-+From 95e601ce116dd46ea7915c171976b85ea0905d58 Mon Sep 17 00:00:00 2001
-+From: Lonnie Abelbeck <lonnie@abelbeck.com>
-+Date: Sun, 8 May 2022 14:05:56 -0500
-+Subject: [PATCH] configure.ac: Link with -latomic only if no atomic builtins
-+
-+Follow-up to 561dbda, a check of GCC atomic builtins needs to be done
-+first.
-+
-+I'm no autoconf guru, but using this:
-+https://github.com/mesa3d/mesa/blob/0df485c285b73c34ba9062f0c27e55c3c702930d/configure.ac#L469
-+as inspiration, I created a pre-check before calling AC_SEARCH_LIBS(...)
-+
-+Fixes #1135
-+Closes #1139
-+Upstream-Status: Backport [https://github.com/kraj/libusb/commit/95e601ce116dd46ea7915c171976b85ea0905d58]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ configure.ac          | 16 +++++++++++++++-
-+ libusb/version_nano.h |  2 +-
-+ 2 files changed, 16 insertions(+), 2 deletions(-)
-+
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -153,7 +153,21 @@ if test "x$platform" = xposix; then
-+ 	AC_SEARCH_LIBS([pthread_create], [pthread],
-+ 		[test "x$ac_cv_search_pthread_create" != "xnone required" && AC_SUBST(THREAD_LIBS, [-lpthread])],
-+ 		[], [])
-+-	AC_SEARCH_LIBS([__atomic_fetch_add_4], [atomic])
-++	dnl Check for new-style atomic builtins. We first check without linking to -latomic.
-++	AC_MSG_CHECKING(whether __atomic_load_n is supported)
-++	AC_LINK_IFELSE([AC_LANG_SOURCE([[
-++	#include <stdint.h>
-++	int main() {
-++		struct {
-++			uint64_t *v;
-++		} x;
-++		return (int)__atomic_load_n(x.v, __ATOMIC_ACQUIRE) &
-++		       (int)__atomic_add_fetch(x.v, (uint64_t)1, __ATOMIC_ACQ_REL);
-++	}]])], GCC_ATOMIC_BUILTINS_SUPPORTED=yes, GCC_ATOMIC_BUILTINS_SUPPORTED=no)
-++	AC_MSG_RESULT($GCC_ATOMIC_BUILTINS_SUPPORTED)
-++	if test "x$GCC_ATOMIC_BUILTINS_SUPPORTED" != xyes; then
-++		AC_SEARCH_LIBS([__atomic_fetch_add_4], [atomic])
-++	fi
-+ elif test "x$platform" = xwindows; then
-+ 	AC_DEFINE([PLATFORM_WINDOWS], [1], [Define to 1 if compiling for a Windows platform.])
-+ else
-diff --git a/meta/recipes-support/libusb/libusb1_1.0.26.bb b/meta/recipes-support/libusb/libusb1_1.0.26.bb
-index fd63e7adc2..ff3f0be7a5 100644
---- a/meta/recipes-support/libusb/libusb1_1.0.26.bb
-+++ b/meta/recipes-support/libusb/libusb1_1.0.26.bb
-@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
- BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
+index fc7422c5d7..4de96cd59b 100644
+--- a/meta/classes/native.bbclass
++++ b/meta/classes/native.bbclass
+@@ -153,7 +153,7 @@ python native_virtclass_handler () {
+                 newdeps.append(dep.replace(pn, bpn) + "-native")
+             else:
+                 newdeps.append(dep)
+-        d.setVar(varname, " ".join(newdeps), parsing=True)
++        d.setVar(varname, " ".join(newdeps))
  
- SRC_URI = "https://github.com/libusb/libusb/releases/download/v${PV}/libusb-${PV}.tar.bz2 \
-+           file://0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch \
-            file://run-ptest \
-           "
- 
+     map_dependencies("DEPENDS", e.data, selfref=False)
+     for pkg in e.data.getVar("PACKAGES", False).split():
 -- 
 2.25.1
 
