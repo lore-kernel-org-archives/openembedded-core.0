@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80410C6379F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72D6FC636CD
 	for <webhook@archiver.kernel.org>; Wed,  1 Feb 2023 14:14:22 +0000 (UTC)
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.web10.24064.1675260858889270324
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web10.24062.1675260855272100648
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Feb 2023 06:14:18 -0800
+ Wed, 01 Feb 2023 06:14:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=JJsubRmo;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.175, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f175.google.com with SMTP id s67so12595066pgs.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Feb 2023 06:14:18 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=NUN39OIY;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f171.google.com with SMTP id bd15so1083293pfb.8
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Feb 2023 06:14:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hCUuMo67BC8YWSEMxwjTRli1h319GAR/gu4ROmhREy4=;
-        b=JJsubRmovBtcVsIMc5aVCZSKHKTy3W4tJd1pJeX/S9GywrB8M9tDbxTUbukxHTDixs
-         aWvIRoj9sWDuCNbqifgq51gDLRqrkY7uLTCPNx/mAgMyrFgnVdDqyQRxyshUSyO1EZjN
-         ZayjFSNVYx69UR480jmN2M4KGcJhq6SBNVtvtBuCTeJ/Tb9vlpwii8qjfF6eZQmaULgh
-         qWgky1TbxpuLcjKkcLHiWxr6topyTsc5aVrAiAUJSNFnuC7SwbCCSGdkRAJylo0edn3Z
-         lWoA/+HVxKrOr+fNbeON7PUT48s+e8aDNE30BxZRhCIKXJqa6nXbOf2bIEb/jeLGYG92
-         nkIw==
+        bh=hnZY6KZVheVZrvGxrwHQ8jsgZUC2m+rPdd3L7LYmwVo=;
+        b=NUN39OIYENuIhIxzCM1ho/lZX6QzEmgmU1JIOUKBdeZLwDqY2tCeJal3ggrQR8Jx+i
+         7y+bKqgJFLmo7ZKi0jL/xeykI/UNqPmipM6qvcI/ljGpLFmxW/5h3M1aQ2SpzU73u/og
+         KIQpMpSEZBQXU4HuJXhqXkVnN46LoZLyPHqRUQVNq+F2ACFmT6tNefJvW8fmXS9XZJ+z
+         b1mMaovb1m+QD97/kNBJB1/zwmjYiO77t8hAIv523v5wNzQAoPfF9s4oq1NlhI3teAi1
+         +d76jw78P71GASGFrQpWnwWddD1DWGB2MwjtkmQv6WcFVIh8Tf0f0yGnlqKWVUXAw0Db
+         rW4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hCUuMo67BC8YWSEMxwjTRli1h319GAR/gu4ROmhREy4=;
-        b=K87VDlyNomAl7nVP59xCcSfCmQd07vix4rq5I5832CbDtKZ6UjyGbWbpblqkzU+l0E
-         Xel+BVhGbx6cESBq4QdrO3KFcA3Y+RhnP2IXJ4njRZ5amUFvuAd7nPA2B+DUaVocy5RS
-         hULjnTBdDMeNDrNDQh3LWsxj7sQt3LRQttpRFUp4VoGkWJod5spXBDmYTpy+15yfiMxk
-         1gNBHfqxPlH1LZ9+8TQkEG/IqYuuBYIJdpecqsyuLHzese3ROTSfeLZNeZoHbJMJuNNr
-         VJ2d8TEn1L0m+9JiETe0FJlBa25SGvjxnEKVEXT6DqKvV28HDtG5lIHYqDSNe0PfLjer
-         PUZQ==
-X-Gm-Message-State: AO0yUKXX/iNvGyvngkQ3QbhDH2tx5F8d2nQWVWWLWY5/95xOf5oJ+it7
-	QXB9AlImQPt3R93+YQmFZ8V7Z59T3EbSyAcjQM0=
-X-Google-Smtp-Source: AK7set9IRjwRKxgHk2PY7BLa3h6UzaWoZPvhTr/avA8gXmdlrk3J2mJ81jIEMncKJOIWAnl3YwXOkg==
-X-Received: by 2002:aa7:80c6:0:b0:58d:a7f4:9630 with SMTP id a6-20020aa780c6000000b0058da7f49630mr2173182pfn.16.1675260857849;
-        Wed, 01 Feb 2023 06:14:17 -0800 (PST)
+        bh=hnZY6KZVheVZrvGxrwHQ8jsgZUC2m+rPdd3L7LYmwVo=;
+        b=Qzob4+9oWsUXHaMKQUgI1MSjI5xNKWV7SEn3RjVofri/5W/omq8uRzAlhEUGz1H4Qs
+         adQr3nFa7CbBaTcyUbLDuUYZZ5T7hdcEs3wdy+6RP1sAvsUyqJK2DD++dWS+7HUg7ow+
+         QD8vIhRgF3XlytOgIIZl3bVQ+j3+kB/f5HHjRDHa2AwVeTV9aIxU4fXI8+KWmOQWL0Zw
+         AyEg80qqRnYrPiTu8qjmBieXh5H+sDDkwzNB48cd7/arq2DzW1dSdvxGFoP1EQbe9ekS
+         jWxDV2rxX5aNzqSFXJvxliHcYFI/OjIy0x4eYULhLVonlCy4MJmQsRNHHqX+0JDioOT5
+         dfxA==
+X-Gm-Message-State: AO0yUKXA7V34oPr2mPiA/jS352Hn9nkYFplKGADYKQs14AbC+xWpimBE
+	VteDU/XdQpRkSA1RQzYw9oe+tdP5esr95pMZvmE=
+X-Google-Smtp-Source: AK7set/wpgQe85wONU8ibSafYouKDjRaLdCBzeyaKzYAOnlWuVdYWa++eksJ18is2J5BXrsLr7uziQ==
+X-Received: by 2002:a05:6a00:1581:b0:590:22b:c29d with SMTP id u1-20020a056a00158100b00590022bc29dmr2984092pfk.10.1675260854263;
+        Wed, 01 Feb 2023 06:14:14 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id n20-20020a62e514000000b00589c467ed88sm11456612pff.69.2023.02.01.06.14.16
+        by smtp.gmail.com with ESMTPSA id n20-20020a62e514000000b00589c467ed88sm11456612pff.69.2023.02.01.06.14.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Feb 2023 06:14:17 -0800 (PST)
+        Wed, 01 Feb 2023 06:14:13 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 08/17] spirv-headers/spirv-tools: set correct branch name
-Date: Wed,  1 Feb 2023 04:13:46 -1000
-Message-Id: <f9167e9c31d55c60d6713aa4f601b012663926e3.1675260556.git.steve@sakoman.com>
+Subject: [OE-core][langdale 06/17] quilt: fix intermittent failure in faildiff.test
+Date: Wed,  1 Feb 2023 04:13:44 -1000
+Message-Id: <199df863c16044875709b9bc0221941cd24edc70.1675260556.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1675260556.git.steve@sakoman.com>
 References: <cover.1675260556.git.steve@sakoman.com>
@@ -61,51 +61,75 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Feb 2023 14:14:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176543
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176541
 
 From: Ross Burton <ross.burton@arm.com>
 
-As of last week, the SPIRV repositories have renamed their master
-branches to main:
+This test assumes that if a child process writes one line to stderr and
+then another line to stdout, and stderr is redirected to stdout, that
+the order the lines will be read is stable.
 
-https://github.com/KhronosGroup/SPIRV-Headers/issues/313
+This isn't the case and occasionally the lines will be read in a
+different order.  Change the test to ignore line ordering.
+
+[ YOCTO #14469 ]
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2957da09f13607ac00ddd4a87ec9ad0014326507)
+(cherry picked from commit 1ddbe4d2bd8d8da10dac8a054f130fcd1d242219)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-graphics/spir/spirv-headers_1.3.216.0.bb | 2 +-
- meta/recipes-graphics/spir/spirv-tools_1.3.216.0.bb   | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/quilt/quilt.inc         |  1 +
+ .../quilt/quilt/faildiff-order.patch          | 28 +++++++++++++++++++
+ 2 files changed, 29 insertions(+)
+ create mode 100644 meta/recipes-devtools/quilt/quilt/faildiff-order.patch
 
-diff --git a/meta/recipes-graphics/spir/spirv-headers_1.3.216.0.bb b/meta/recipes-graphics/spir/spirv-headers_1.3.216.0.bb
-index 94500a96ba..ce47206ac2 100644
---- a/meta/recipes-graphics/spir/spirv-headers_1.3.216.0.bb
-+++ b/meta/recipes-graphics/spir/spirv-headers_1.3.216.0.bb
-@@ -8,7 +8,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=c938b85bceb8fb26c1a807f28a52ae2d"
+diff --git a/meta/recipes-devtools/quilt/quilt.inc b/meta/recipes-devtools/quilt/quilt.inc
+index ec69705093..fce81016d8 100644
+--- a/meta/recipes-devtools/quilt/quilt.inc
++++ b/meta/recipes-devtools/quilt/quilt.inc
+@@ -13,6 +13,7 @@ SRC_URI = "${SAVANNAH_GNU_MIRROR}/quilt/quilt-${PV}.tar.gz \
+         file://test.sh \
+         file://0001-tests-Allow-different-output-from-mv.patch \
+         file://fix-grep-3.8.patch \
++        file://faildiff-order.patch \
+ "
  
- SRCREV = "b2a156e1c0434bc8c99aaebba1c7be98be7ac580"
--SRC_URI = "git://github.com/KhronosGroup/SPIRV-Headers;protocol=https;branch=master"
-+SRC_URI = "git://github.com/KhronosGroup/SPIRV-Headers;protocol=https;branch=main"
- PE = "1"
- UPSTREAM_CHECK_GITTAGREGEX = "sdk-(?P<pver>\d+(\.\d+)+)"
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-graphics/spir/spirv-tools_1.3.216.0.bb b/meta/recipes-graphics/spir/spirv-tools_1.3.216.0.bb
-index fc1074d8b8..c6fba3821b 100644
---- a/meta/recipes-graphics/spir/spirv-tools_1.3.216.0.bb
-+++ b/meta/recipes-graphics/spir/spirv-tools_1.3.216.0.bb
-@@ -8,7 +8,7 @@ LICENSE  = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
- 
- SRCREV = "c94501352d545e84c821ce031399e76d1af32d18"
--SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git;branch=master;protocol=https \
-+SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git;branch=main;protocol=https \
-            file://0001-Remove-default-copy-constructor-in-header.-4879.patch \
-           "
- PE = "1"
+ SRC_URI:append:class-target = " file://gnu_patch_test_fix_target.patch"
+diff --git a/meta/recipes-devtools/quilt/quilt/faildiff-order.patch b/meta/recipes-devtools/quilt/quilt/faildiff-order.patch
+new file mode 100644
+index 0000000000..40f3c2636a
+--- /dev/null
++++ b/meta/recipes-devtools/quilt/quilt/faildiff-order.patch
+@@ -0,0 +1,28 @@
++This test assumes that two lines that are output on different streams (stdout
++and stderr) will be read in the same order, but thanks to buffering that may not
++be the case.
++
++Change the expected lines to be regexs that each match both expected lines, so
++the test always works no matter the actual order the lines are read in.
++
++Bug filed at https://savannah.nongnu.org/bugs/index.php?63651 to discuss a
++proper solution.
++
++Upstream-Status: Inappropriate
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++
++diff --git a/test/faildiff.test b/test/faildiff.test
++index 5afb8e3..5f32f71 100644
++--- a/test/faildiff.test
+++++ b/test/faildiff.test
++@@ -28,8 +28,8 @@ What happens on binary files?
++ 
++ 	$ printf "\\003\\000\\001" > test.bin
++ 	$ quilt diff -pab --no-index
++-	>~ (Files|Binary files) a/test\.bin and b/test\.bin differ
++-	> Diff failed on file 'test.bin', aborting
+++	>~ (.*[Ff]iles a/test\.bin and b/test\.bin differ|Diff failed on file 'test.bin', aborting)
+++	>~ (.*[Ff]iles a/test\.bin and b/test\.bin differ|Diff failed on file 'test.bin', aborting)
++ 	$ echo %{?}
++ 	> 1
++ 
 -- 
 2.25.1
 
