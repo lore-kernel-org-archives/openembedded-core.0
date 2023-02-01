@@ -1,109 +1,271 @@
-Return-Path: <auh@yoctoproject.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBCA8C05027
-	for <webhook@archiver.kernel.org>; Wed,  1 Feb 2023 17:46:15 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.30783.1675273574720816865
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB9E9C38142
+	for <webhook@archiver.kernel.org>; Wed,  1 Feb 2023 17:57:15 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web10.30798.1675274234914157034
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Feb 2023 09:46:14 -0800
+ Wed, 01 Feb 2023 09:57:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=CUaIyPam;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101860e0b1963-f66e452a-b664-4c6f-bd4f-50da59779f40-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1675273573;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=h/P6wwXNBFFuwZ4E+HJnCK//OhuwPoaVO50oZPb2RpQ=;
-	b=CUaIyPamUOu8sX6PInMhobluX3zSx3gHh4Oe4USiAzB+Rs1CxZJLuR4GegcgNUjZ
-	Jn/NR5nlnLskp8dkf850vCsBakCjmRRYhPGQuZAgKUHvyh5E/OiNeudOa4l85XIt6uQ
-	OLdX1BNubgOzY6xrA1+BhUiCZDRghw3zGQXJpxzY=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1675273573;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=h/P6wwXNBFFuwZ4E+HJnCK//OhuwPoaVO50oZPb2RpQ=;
-	b=fBPUjNYcqU4UFMNODzZMd02baWxD9V6NQUkvNXMGBJdZC3OYE/wLjAnNIsCpYJgS
-	EdwKCTsXfaU9MioAKO1twH5tb7KKJcX9tDdjRValBu/zlteahkY7+Q/8FupicuYuJKr
-	0vdSTQ6g2AqcP4dI1ntcfKoL5FCTPPmBdokh3yP0=
-Content-Type: multipart/mixed; boundary="===============5124878305613403497=="
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QYnuK4Qw;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f48.google.com with SMTP id m14so17627073wrg.13
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Feb 2023 09:57:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=KRQOSpLXFGuv1t8H4DNlKtzoCf+aSZrBaOsRzTJfrG0=;
+        b=QYnuK4QwNOzw9yatJNiD63ZZNgRIbGwH77gJM4i1lkaRluXaf68NP2MA4Sa/LdHvil
+         FWC9GVw7IASMmUPGDlu9IBnoRSQXj3GB0vzpvxp8H23m7R2gOB6OM2kOvBDMfdwBPnlb
+         emaXz9pP9ySbyBqXGqjrWbyx8HjlekBbKIG9w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KRQOSpLXFGuv1t8H4DNlKtzoCf+aSZrBaOsRzTJfrG0=;
+        b=JhFlVoKNMBLS97a3rBMdeJ+XDOhuYpSumhll0cMatj1yIHPFHNJGonVyzCRJdWsQ+c
+         AVjz85i+940Mdc2wLLEQfCZZzrPejXYEufyaRUVZ+XPi4IAtpuCaHhpkqDBCr6Pc+l3c
+         dO/ORIpDr29w4SVQRVM6n7XHfdI0kVeItkURxUq52vmFpwWV+0lLEOiOeJaSj6BMfB4K
+         yPUcRzF/yEedZxH/81DSjnjdqubZnKJZGuKKwR/mzykxSdexQfqoc2i3aKdjjHsXlbIR
+         AN+ofLQZQzxBdO/O+sKlipTiMlnAhjGpJ7bC4FLNM9KJDmx8SfiE1aeHJf1rBaf/5Bzw
+         SJ3Q==
+X-Gm-Message-State: AO0yUKXFC8joG4q7VnK1MyHNZz6MTVyW7YyMpPl1+fimqgMJNByLoqC1
+	WIH11kj8sb/AS91Ua/IGuSCNKA==
+X-Google-Smtp-Source: AK7set8TZAv2zk3rudwIMFjMU+CrlNae1ly+unJwY1wxbcJOSlYH7yeQHRj8cS3HmwZA67Kv4uxKlQ==
+X-Received: by 2002:a5d:4d84:0:b0:2bf:f5c0:8b65 with SMTP id b4-20020a5d4d84000000b002bff5c08b65mr3112720wru.70.1675274233159;
+        Wed, 01 Feb 2023 09:57:13 -0800 (PST)
+Received: from [172.27.244.82] ([212.187.182.164])
+        by smtp.gmail.com with ESMTPSA id j5-20020adff005000000b002bddd75a83fsm17602036wro.8.2023.02.01.09.57.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Feb 2023 09:57:12 -0800 (PST)
+Message-ID: <913abc23f1ba2691f7c676b182b1ec0303e5d30d.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] oeqa/selftest/locales: Create selftest for
+ locales generation
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Louis Rannou <lrannou@baylibre.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: "khilman@baylibre.com" <khilman@baylibre.com>
+Date: Wed, 01 Feb 2023 17:57:12 +0000
+In-Reply-To: <92bff1e0-aa88-c713-049f-51f074569a55@baylibre.com>
+References: <20230127153344.2868589-1-lrannou@baylibre.com>
+	 <b3320afb6afb6508d5f4d0f3ceb75e87e97ed450.camel@linuxfoundation.org>
+	 <92bff1e0-aa88-c713-049f-51f074569a55@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.1-0ubuntu1 
 MIME-Version: 1.0
-From: auh@yoctoproject.org
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gnu-config: upgrading to
- 63acb96f92473ceb5e21d873d7c0aee266b3d6d3 FAILED
-Message-ID: <010101860e0b1963-f66e452a-b664-4c6f-bd4f-50da59779f40-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Feb 2023 17:34:13 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.02.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Feb 2023 17:46:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176659
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Feb 2023 17:57:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176660
 
---===============5124878305613403497==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+On Wed, 2023-02-01 at 16:02 +0100, Louis Rannou wrote:
+>=20
+> On 01/02/2023 14:49, Richard Purdie wrote:
+> > On Fri, 2023-01-27 at 16:33 +0100, Louis Rannou wrote:
+> > > From: Louis Rannou <lrannou@baylibre.com>
+> > >=20
+> > > [YOCTO #9070]
+> > >=20
+> > > Add a new selftest to validate the locales generation. This selftest =
+builds a
+> > > complete target with GLIBC_GENERATE_LOCALES, IMAGE_LINGUAS,
+> > > ENABLE_BINARY_LOCALE_GENERATION set.
+> > >=20
+> > > The tests has two cases: GLIBC_GENERATE_LOCALES=3D1 and
+> > > GLIBC_GENERATE_LOCALES=3D0. When set to 1, we check that the locales =
+exist in the
+> > > local-archive and if it does exist for the glibc. When set to 0, we c=
+heck it
+> > > does not.
+> > >=20
+> > > Signed-off-by: Louis Rannou <lrannou@baylibre.com>
+> > > ---
+> > >   meta/lib/oeqa/selftest/cases/locales.py | 81 ++++++++++++++++++++++=
++++
+> > >   1 file changed, 81 insertions(+)
+> > >   create mode 100644 meta/lib/oeqa/selftest/cases/locales.py
+> > >=20
+> > > diff --git a/meta/lib/oeqa/selftest/cases/locales.py b/meta/lib/oeqa/=
+selftest/cases/locales.py
+> > > new file mode 100644
+> > > index 0000000000..f053cc8e31
+> > > --- /dev/null
+> > > +++ b/meta/lib/oeqa/selftest/cases/locales.py
+> > > @@ -0,0 +1,81 @@
+> > > +#
+> > > +# SPDX-License-Identifier: MIT
+> > > +#
+> > > +
+> > > +from oeqa.selftest.case import OESelftestTestCase
+> > > +from oeqa.core.decorator import OETestTag
+> > > +from oeqa.utils.commands import bitbake, runqemu
+> > > +
+> > > +class LocalesTest(OESelftestTestCase):
+> > > +
+> > > +    @OETestTag("runqemu")
+> > > +    def test_locales_on(self):
+> > > +        """
+> > > +        Summary: Test the locales are generated
+> > > +        Expected: 1. Check the locale exist in the locale-archive
+> > > +                  2. Check the locale exist for the glibc
+> > > +                  3. Check the locale can be generated
+> > > +        Product: oe-core
+> > > +        Author: Louis Rannou <lrannou@baylibre.com>
+> > > +        AutomatedBy: Louis Rannou <lrannou@baylibre.com>
+> > > +        """
+> > > +
+> > > +        features =3D []
+> > > +        features.append('EXTRA_IMAGE_FEATURES =3D "empty-root-passwo=
+rd allow-empty-password allow-root-login"')
+> > > +        features.append('IMAGE_INSTALL:append =3D " glibc-utils loca=
+ledef"')
+> > > +        features.append('GLIBC_GENERATE_LOCALES =3D "en_US.UTF-8 fr_=
+FR.UTF-8"')
+> > > +        features.append('IMAGE_LINGUAS:append =3D " en-us fr-fr"')
+> > > +        features.append('ENABLE_BINARY_LOCALE_GENERATION =3D "1"')
+> > > +        self.write_config("\n".join(features))
+> > > +
+> > > +        # Build a core-image-minimal
+> > > +        bitbake('core-image-minimal')
+> > > +
+> > > +        with runqemu("core-image-minimal", ssh=3DFalse, runqemuparam=
+s=3D'nographic') as qemu:
+> > > +            cmd =3D "locale -a"
+> > > +            status, output =3D qemu.run_serial(cmd)
+> > > +            # output must includes fr_FR or fr_FR.UTF-8
+> > > +            self.assertEqual(status, 1, msg=3D'localedef test failed=
+: output: %s' % output)
+> > > +            self.assertIn("fr_FR", output, msg=3D'locale -a test fai=
+led: output: %s' % output)
+> > > +
+> > > +            cmd =3D "localedef --list-archive -v"
+> > > +            status, output =3D qemu.run_serial(cmd)
+> > > +            # output must includes fr_FR.utf8
+> > > +            self.assertEqual(status, 1, msg=3D'localedef test failed=
+: output: %s' % output)
+> > > +            self.assertIn("fr_FR.utf8", output, msg=3D'locale -a tes=
+t failed: output: %s' % output)
+> > > +
+> > > +    @OETestTag("runqemu")
+> > > +    def test_locales_off(self):
+> > > +        """
+> > > +        Summary: Test the locales are not generated
+> > > +        Expected: 1. Check the locale does not exist in the locale-a=
+rchive
+> > > +                  2. Check the locale does not exist for the glibc
+> > > +                  3. Check the locale cannot be generated
+> > > +        Product: oe-core
+> > > +        Author: Louis Rannou <lrannou@baylibre.com>
+> > > +        AutomatedBy: Louis Rannou <lrannou@baylibre.com>
+> > > +        """
+> > > +
+> > > +        features =3D []
+> > > +        features.append('EXTRA_IMAGE_FEATURES =3D "empty-root-passwo=
+rd allow-empty-password allow-root-login"')
+> > > +        features.append('IMAGE_INSTALL:append =3D " glibc-utils loca=
+ledef"')
+> > > +        features.append('GLIBC_GENERATE_LOCALES =3D "en_US.UTF-8 fr_=
+FR.UTF-8"')
+> > > +        features.append('IMAGE_LINGUAS:append =3D " en-us fr-fr"')
+> > > +        features.append('ENABLE_BINARY_LOCALE_GENERATION =3D "0"')
+> > > +        self.write_config("\n".join(features))
+> > > +
+> > > +        # Build a core-image-minimal
+> > > +        bitbake('core-image-minimal')
+> > > +
+> > > +        with runqemu("core-image-minimal", ssh=3DFalse, runqemuparam=
+s=3D'nographic') as qemu:
+> > > +            cmd =3D "locale -a"
+> > > +            status, output =3D qemu.run_serial(cmd)
+> > > +            # output must not includes fr_FR or fr_FR.UTF-8
+> > > +            self.assertEqual(status, 1, msg=3D'localedef test failed=
+: output: %s' % output)
+> >=20
+> > This should really say locale instead of localedef here to be clear
+> > which command the error is coming from.
+> >=20
+> > > +            self.assertNotIn("fr_FR", output, msg=3D'locale -a test =
+failed: output: %s' % output)
+> > > +
+> > > +            cmd =3D "localedef --list-archive -v"
+> > > +            status, output =3D qemu.run_serial(cmd)
+> > > +            # output must not includes fr_FR.utf8
+> > > +            self.assertEqual(status, 1, msg=3D'localedef test failed=
+: output: %s' % output)
+> > > +            self.assertNotIn("fr_FR.utf8", output, msg=3D'locale -a =
+test failed: output: %s' % output)
+> >=20
+> > We did run this through tests on the autobuilder and the tests did
+> > pass. I did wonder rather than duplicate the whole test with a line
+> > change, could we share the code between the two?
+> I think the things we can share are only about the features=20
+> configuration and the bitbake command. Going further would require to=20
+> create an if/else statement for the assert. I think this will not=20
+> simplify the code.
+>=20
+> >=20
+> > I then start looking at the code and I'm a bit worried the locales are
+> > not present when binary locale generation is turned off as I think they
+> > should be. Going from memory, I thought that they should be generated
+> > on target at first boot in that case so they should be present in both
+> > cases.
+>=20
+> I am not sure to understand. But if you suppose there should be=20
+> something in /usr/share/i18n/locales, there is nothing there.
+>=20
+> >=20
+> > To keep things simple, lets merge the first case in and file a bug for
+> > the other case? I think we'll need to investigate that and check
+> > whether we're broken something somewhere.
+>=20
+> Ok, I'll send a v3 with the first part only. Let's forget about the code=
+=20
+> sharing before we get clear about what the opposite test will be.
 
-Hello,
+I was able to take a quick look at this. The locale generation on
+target is broken, it throws errors upon boot. I was able to make it
+work with this patch:
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gnu-config* to *63acb96f92473ceb5e21d873d7c0aee266b3d6d3* has Failed (devtool error).
+diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-core/g=
+libc/glibc-locale.inc
+index 7f70b3ca4f..c39007b573 100644
+--- a/meta/recipes-core/glibc/glibc-locale.inc
++++ b/meta/recipes-core/glibc/glibc-locale.inc
+@@ -60,7 +60,7 @@ DESCRIPTION:localedef =3D "glibc: compile locale definiti=
+on files"
+ # FILES:glibc-gconv will not be automatically extended in multilib.
+ # Explicitly add ${MLPREFIX} for FILES:glibc-gconv.
+ FILES:${MLPREFIX}glibc-gconv =3D "${libdir}/gconv/*"
+-FILES:localedef =3D "${bindir}/localedef"
++FILES:localedef =3D "${bindir}/localedef ${libdir}/locale"
+=20
+ LOCALETREESRC =3D "${COMPONENTS_DIR}/${PACKAGE_ARCH}/glibc-stash-locale"
+=20
+@@ -87,6 +87,7 @@ do_install() {
+        find ${D}${libdir} -type d -empty -delete
+        copy_locale_files ${datadir}/locale 0644
+        install -m 0644 ${LOCALETREESRC}/SUPPORTED ${WORKDIR}/SUPPORTED
++       install -d ${D}${libdir}/locale
+ }
+=20
+ inherit libc-package
 
-Detailed error information:
+could you see if the same test will now work with that patch applied?
+I'm happy to have the basic test but if we can fix this and stop it
+regressing that would be even better.
 
-The following devtool command failed:  upgrade gnu-config -S 63acb96f92473ceb5e21d873d7c0aee266b3d6d3
-NOTE: Starting bitbake server...
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1697 entries from dependency cache.
+This issue is exactly why we need automated tests!
 
-Summary: There was 1 WARNING message.
-WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+Cheers,
 
-Build Configuration:
-BB_VERSION           = "2.2.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:c974cdf5c143bc1f58405b717105b9a9b33d229d"
-workspace            = "master:da95831d91b1265ecaee5bbfaeb1caaa2c290838"
-
-Initialising tasks...done.
-Sstate summary: Wanted 8 Local 0 Mirrors 0 Missed 8 Current 12 (0% match, 60% complete)
-Removing 6 stale sstate objects for arch x86_64...done.
-NOTE: Executing Tasks
-WARNING: Failed to find a git repository in WORKDIR: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20221007+gitAUTOINC+f992bcc082-r0/devtooltmp-t5sbqpc5/workdir
-WARNING: gnu-config: the directory ${WORKDIR}/git (/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20221007+gitAUTOINC+f992bcc082-r0/devtooltmp-t5sbqpc5/workdir/git) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-WARNING: No source unpacked to S - either the gnu-config recipe doesn't use any source or the correct source directory could not be determined
-NOTE: Tasks Summary: Attempted 56 tasks of which 51 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-INFO: Extracting current version source...
-ERROR: Bitbake Fetcher Error: FetchError('Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/native-intercept:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20221007+gitAUTOINC+f992bcc082-r0/devtooltmp-t5sbqpc5/workdir/recipe-sysroot-native/usr/bin/x86_64-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20221007+gitAUTOINC+f992bcc082-r0/devtooltmp-t5sbqpc5/workdir/recipe-sysroot-native/usr/bin:/home/pokybuild/yoc
- to-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20221007+gitAUTOINC+f992bcc082-r0/devtooltmp-t5sbqpc5/workdir/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20221007+gitAUTOINC+f992bcc082-r0/devtooltmp-t5sbqpc5/workdir/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20221007+gitAUTOINC+f992bcc082-r0/devtooltmp-t5sbqpc5/workdir/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20221007+gitAUTOINC+f992bcc082-r0/devtooltmp-t5sbqpc5/workdir/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; git -c gc.autoDetach=false -c core.pager=cat clone -n -s /home/pokybuild/yocto-worker/auh/build/build/build/downloads/git2/git.sav
- annah.gnu.org.git.config.git/ /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20221007+gitAUTOINC+f992bcc082-r0/devtooltmp-t5sbqpc5/workdir/git/ failed with exit code 128, output:\nfatal: destination path \'/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20221007+gitAUTOINC+f992bcc082-r0/devtooltmp-t5sbqpc5/workdir/git\' already exists and is not an empty directory.\n', None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20221007+gitAUTOINC+f992bcc082-r0/devtooltmp-t5sbqpc5/temp/log.do_unpack.2394777
-ERROR: Extracting source for gnu-config failed
+Richard
 
 
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
---===============5124878305613403497==--
 
