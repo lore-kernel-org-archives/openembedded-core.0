@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57099C7EE23
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57064C7EE21
 	for <webhook@archiver.kernel.org>; Wed,  1 Feb 2023 17:34:25 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.30010.1675272855416563684
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.30357.1675272855166222111
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Feb 2023 09:34:17 -0800
+ Wed, 01 Feb 2023 09:34:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=juP9/ga8;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101860e0b23c9-9115f49d-7c71-4fc2-b2f6-cfd46d82ba32-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=gyWIAySL;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101860e0b18e7-4cf9e2c4-f64c-44e2-9b12-fde46a582d0c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1675272856;
+	t=1675272854;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=vxsw9FcCKNEuBBANX/EuF0/aISt6gdCEKY5kvMVCtlY=;
-	b=juP9/ga8TELaJmpI/8qD3Vi5uzJn4eW9JpYDyu6WtieFJKYEBLiEtkcfMYD/l44B
-	+mwGrKNmQWXmdHxEXkuV+Ur5Ek8AYehwQ7YP7CdlLu46AX8/JwQazM+T9JbB3Zo9ZkV
-	sexvuVzzVPhzh4J2BG97T8VbQGCoGoJnyPFrJZTM=
+	bh=E3N2HNxx2g0gfRO+1WR7H0SLnu4zcLdKNqsbWVyWmNg=;
+	b=gyWIAySL4af1LeXIMN7sgiDdj2Oz2MEL0Rjrnu+/ueJulhqfZOlhv9HQlquHInpq
+	J88MSSUOEl9YUoiPDeDn1IOxLt7YGllC3QKOEY+es4eCHc3kVCyvZqArdOl7nJSPStQ
+	cFEn1BJRAtI8WyCTXeq89C/2yBNDIoEr4W6JJMiQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1675272856;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1675272854;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=vxsw9FcCKNEuBBANX/EuF0/aISt6gdCEKY5kvMVCtlY=;
-	b=EfaJHGJB2ZlUevzjkeSfD440dlyOu/E+ACgXu1/icEU1DP87Wo2gMRjYkruJGvFt
-	jKYgZvHrCpHMsXOmaG4WKwdAOzuQjxvv/lonmqXrijGXImVGc1Ae/2DQKx6MpqxSeUG
-	euMCJNwnoVqqgoYXZjdEVc2wRoRsfH1ndANqmTMI=
-Content-Type: multipart/mixed; boundary="===============8200200185425393130=="
+	bh=E3N2HNxx2g0gfRO+1WR7H0SLnu4zcLdKNqsbWVyWmNg=;
+	b=DDuodMG7Tab5VtPJJ2hcVTh9sZpRn9hHcUnz3jY+kiL+fbOK5Sywkqz2qmLBcQly
+	azJkiDj3ZmqCn1psGjf+Ez3MwV8pz7hDOnnGjdWk5zUG8GSem9Xiw96T5bKVpzWjF5g
+	ElrbUzI9dcWGp4/MIzEf4tW8z7icEqAzQQK3TeWY=
+Content-Type: multipart/mixed; boundary="===============6851211992370549617=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Pascal Bach <pascal.bach@siemens.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] igt-gpu-tools: upgrading to 1.27.1 FAILED
-Message-ID: <010101860e0b23c9-9115f49d-7c71-4fc2-b2f6-cfd46d82ba32-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Feb 2023 17:34:16 +0000
+Subject: [AUH] cmake: upgrading to 3.25.2 FAILED
+Message-ID: <010101860e0b18e7-4cf9e2c4-f64c-44e2-9b12-fde46a582d0c-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Feb 2023 17:34:13 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.02.01-54.240.27.31
+X-SES-Outgoing: 2023.02.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Feb 2023 17:34:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176616
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176587
 
---===============8200200185425393130==
+--===============6851211992370549617==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,7 +50,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *igt-gpu-tools* to *1.27.1* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe *cmake* to *3.25.2* has Failed(do_compile).
 
 Detailed error information:
 
@@ -59,7 +59,7 @@ do_compile failed
 
 
 Next steps:
-    - apply the patch: git am 0001-igt-gpu-tools-upgrade-1.26-1.27.1.patch
+    - apply the patch: git am 0001-cmake-upgrade-3.25.1-3.25.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,62 +75,7 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============8200200185425393130==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-igt-gpu-tools-upgrade-1.26-1.27.1.patch"
-
-RnJvbSBlYWVmY2NlMTRiZWFkYzhiOTYwMzVhNmY2ZGQ1NjQxNDliZTJjZmRhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBGZWIgMjAyMyAxNTowNjoyMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGln
-dC1ncHUtdG9vbHM6IHVwZ3JhZGUgMS4yNiAtPiAxLjI3LjEKCi0tLQogLi4ubi5idWlsZC1maXgt
-bWVzb24tMC42MC1jb21wYXRpYmlsaXR5LnBhdGNoIHwgMjQgLS0tLS0tLS0tLS0tLS0tLS0tLQog
-Li4uL2lndC1ncHUtdG9vbHMvaWd0LWdwdS10b29sc19naXQuYmIgICAgICAgIHwgIDggKysrLS0t
-LQogMiBmaWxlcyBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDI5IGRlbGV0aW9ucygtKQogZGVs
-ZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1ncmFwaGljcy9pZ3QtZ3B1LXRvb2xzL2lndC1n
-cHUtdG9vbHMvMDAwMS1saWItbWVzb24uYnVpbGQtZml4LW1lc29uLTAuNjAtY29tcGF0aWJpbGl0
-eS5wYXRjaAoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9pZ3QtZ3B1LXRvb2xz
-L2lndC1ncHUtdG9vbHMvMDAwMS1saWItbWVzb24uYnVpbGQtZml4LW1lc29uLTAuNjAtY29tcGF0
-aWJpbGl0eS5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9pZ3QtZ3B1LXRvb2xzL2lndC1n
-cHUtdG9vbHMvMDAwMS1saWItbWVzb24uYnVpbGQtZml4LW1lc29uLTAuNjAtY29tcGF0aWJpbGl0
-eS5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggZTdjNzgyMDU1Yi4uMDAwMDAw
-MDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaWd0LWdwdS10b29scy9pZ3QtZ3B1LXRv
-b2xzLzAwMDEtbGliLW1lc29uLmJ1aWxkLWZpeC1tZXNvbi0wLjYwLWNvbXBhdGliaWxpdHkucGF0
-Y2gKKysrIC9kZXYvbnVsbApAQCAtMSwyNCArMCwwIEBACi1Gcm9tIGI5YTE5YWE0YmRiMjE3NTFj
-MDRjMGUzYmE4YTllMmUzNWExMGM5NTMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCi1Gcm9tOiBB
-bGV4YW5kZXIgS2FuYXZpbiA8YWxleEBsaW51dHJvbml4LmRlPgotRGF0ZTogTW9uLCAyNSBPY3Qg
-MjAyMSAxODoxODoxNSArMDIwMAotU3ViamVjdDogW1BBVENIXSBsaWIvbWVzb24uYnVpbGQ6IGZp
-eCBtZXNvbiAwLjYwIGNvbXBhdGliaWxpdHkKLQotVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydCBb
-aHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL2RybS9pZ3QtZ3B1LXRvb2xzLy0vY29tbWl0
-Lzk2MzkxN2EzNTY1NDY2ODMyYTNiMmZjMjJlOTI4NWQzNGEwYmY5NDRdCi1TaWduZWQtb2ZmLWJ5
-OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleEBsaW51dHJvbml4LmRlPgotLS0tCi0gbGliL21lc29u
-LmJ1aWxkIHwgMiArLQotIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlv
-bigtKQotCi1kaWZmIC0tZ2l0IGEvbGliL21lc29uLmJ1aWxkIGIvbGliL21lc29uLmJ1aWxkCi1p
-bmRleCA5OTI5NTIwZS4uMWE1MjU1ODcgMTAwNjQ0Ci0tLS0gYS9saWIvbWVzb24uYnVpbGQKLSsr
-KyBiL2xpYi9tZXNvbi5idWlsZAotQEAgLTE1Miw3ICsxNTIsNyBAQCBsaWJfdmVyc2lvbiA9IHZj
-c190YWcoaW5wdXQgOiAndmVyc2lvbi5oLmluJywgb3V0cHV0IDogJ3ZlcnNpb24uaCcsCi0gCi0g
-bGliX2ludGVybWVkaWF0ZXMgPSBbXQotIGZvcmVhY2ggZjogbGliX3NvdXJjZXMKLS0gICAgbmFt
-ZSA9IGYudW5kZXJzY29yaWZ5KGYpCi0rICAgIG5hbWUgPSBmLnVuZGVyc2NvcmlmeSgpCi0gICAg
-IGxpYiA9IHN0YXRpY19saWJyYXJ5KCdpZ3QtJyArIG5hbWUsCi0gCVsgZiwgbGliX3ZlcnNpb24g
-XSwKLSAJaW5jbHVkZV9kaXJlY3RvcmllczogaW5jLApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
-LWdyYXBoaWNzL2lndC1ncHUtdG9vbHMvaWd0LWdwdS10b29sc19naXQuYmIgYi9tZXRhL3JlY2lw
-ZXMtZ3JhcGhpY3MvaWd0LWdwdS10b29scy9pZ3QtZ3B1LXRvb2xzX2dpdC5iYgppbmRleCBiYjJm
-OTU2NGQyLi5hYjAxZmVmMzljIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaWd0
-LWdwdS10b29scy9pZ3QtZ3B1LXRvb2xzX2dpdC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhp
-Y3MvaWd0LWdwdS10b29scy9pZ3QtZ3B1LXRvb2xzX2dpdC5iYgpAQCAtOSwxMiArOSwxMCBAQCBM
-SUNFTlNFID0gIk1JVCIKIAogaW5oZXJpdCBtZXNvbiBwa2djb25maWcKIAotU1JDUkVWID0gIjIw
-M2RlZjA0NmI0NjZmYjJkYTY3ZjlmMTU1NTJkODRlMWMwYjQxZjIiCi1QViA9ICIxLjI2IgorU1JD
-UkVWID0gIjJiMjllOGFjMDdmYmNmYWRjNDhiOWQ2MGU0ZDczNmE2ZTNiMjg5YWIiCitQViA9ICIx
-LjI3LjEiCiAKLVNSQ19VUkkgPSAiZ2l0Oi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9kcm0vaWd0
-LWdwdS10b29scy5naXQ7cHJvdG9jb2w9aHR0cHM7YnJhbmNoPW1hc3RlciBcCi0gICAgICAgICAg
-IGZpbGU6Ly8wMDAxLWxpYi1tZXNvbi5idWlsZC1maXgtbWVzb24tMC42MC1jb21wYXRpYmlsaXR5
-LnBhdGNoIFwKLSAgICAgICAgICAgIgorU1JDX1VSSSA9ICJnaXQ6Ly9naXRsYWIuZnJlZWRlc2t0
-b3Aub3JnL2RybS9pZ3QtZ3B1LXRvb2xzLmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9bWFzdGVy
-IgogCiBTID0gIiR7V09SS0RJUn0vZ2l0IgogCi0tIAoyLjM3LjMKCg==
-
---===============8200200185425393130==
+--===============6851211992370549617==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -140,7 +85,7 @@ WARNING: Host distribution "almalinux-8.7" has not been validated with this vers
 Loading cache...done.
 Loaded 1697 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 898 .bb files complete (897 cached, 1 parsed). 1697 targets, 41 skipped, 0 masked, 0 errors.
+Parsing of 898 .bb files complete (896 cached, 2 parsed). 1697 targets, 41 skipped, 0 masked, 0 errors.
 Removing 1 recipes from the core2-32 sysroot...done.
 Removing 1 recipes from the qemux86 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
@@ -157,70 +102,118 @@ TUNE_FEATURES        = "m32 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:1122b9da4944ed6f65be61574e38d3f07322cdfc"
+meta-yocto-bsp       = "tmp-auh-upgrades:6959cc1741b1b5dcb74ea6f5bf270b0a5057036d"
 workspace            = "master:da95831d91b1265ecaee5bbfaeb1caaa2c290838"
 
 Initialising tasks...done.
-Sstate summary: Wanted 174 Local 167 Mirrors 0 Missed 7 Current 428 (95% match, 98% complete)
+Sstate summary: Wanted 60 Local 48 Mirrors 0 Missed 12 Current 168 (80% match, 94% complete)
+Removing 1 stale sstate objects for arch qemux86...done.
+Removing 2 stale sstate objects for arch x86_64...done.
+Removing 1 stale sstate objects for arch core2-32...done.
 NOTE: Executing Tasks
+NOTE: Running setscene task 188 of 228 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running task 681 of 885 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake-native_3.25.1.bb:do_fetch)
+NOTE: Running task 774 of 885 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake_3.25.2.bb:do_fetch)
+NOTE: recipe cmake-native-3.25.1-r0: task do_fetch: Started
+WARNING: cmake-native-3.25.1-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-worker/auh/build/build/build/downloads/cmake-3.25.1.tar.gz
+Cleaning and trying again.
+WARNING: cmake-native-3.25.1-r0 do_fetch: Renaming /home/pokybuild/yocto-worker/auh/build/build/build/downloads/cmake-3.25.1.tar.gz to /home/pokybuild/yocto-worker/auh/build/build/build/downloads/cmake-3.25.1.tar.gz_bad-checksum_1c511d09516af493694ed9baf13c55947a36389674d657a2d5e0ccedc6b291d8
+NOTE: recipe expat-2.5.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe cmake-3.25.2-r0: task do_fetch: Started
+NOTE: recipe cmake-3.25.2-r0: task do_fetch: Succeeded
+NOTE: Running task 848 of 885 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake_3.25.2.bb:do_unpack)
+NOTE: recipe expat-2.5.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 1805 of 2103 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb:do_fetch)
-NOTE: Running task 2000 of 2103 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb:do_write_config)
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_fetch: Started
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_write_config: Started
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_fetch: Succeeded
-NOTE: Running task 2090 of 2103 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb:do_unpack)
-NOTE: Running task 2091 of 2103 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb:do_prepare_recipe_sysroot)
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_write_config: Succeeded
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_unpack: Started
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_unpack: Succeeded
-NOTE: Running task 2092 of 2103 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb:do_patch)
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_patch: Started
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_patch: Succeeded
-NOTE: Running task 2093 of 2103 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2094 of 2103 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb:do_populate_lic)
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_populate_lic: Started
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_populate_lic: Succeeded
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2095 of 2103 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb:do_configure)
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_configure: Started
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_configure: Succeeded
-NOTE: Running task 2096 of 2103 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb:do_compile)
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_compile: Started
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_compile: Succeeded
-NOTE: Running task 2097 of 2103 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb:do_install)
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_install: Started
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_install: Succeeded
-NOTE: Running task 2098 of 2103 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb:do_package)
-NOTE: Running task 2099 of 2103 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb:do_populate_sysroot)
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_package: Started
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_populate_sysroot: Started
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_package: Succeeded
-NOTE: Running task 2100 of 2103 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb:do_packagedata)
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_packagedata: Started
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 2101 of 2103 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb:do_package_write_rpm)
-NOTE: Running task 2102 of 2103 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb:do_package_qa)
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_package_write_rpm: Started
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_package_qa: Started
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_package_qa: Failed
-NOTE: recipe igt-gpu-tools-1.27.1-r0: task do_package_write_rpm: Succeeded
-NOTE: Tasks Summary: Attempted 2102 tasks of which 2087 didn't need to be rerun and 1 failed.
+NOTE: Running task 849 of 885 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_fetch)
+NOTE: recipe cmake-3.25.2-r0: task do_unpack: Started
+NOTE: recipe expat-2.5.0-r0: task do_fetch: Started
+NOTE: recipe expat-2.5.0-r0: task do_fetch: Succeeded
+NOTE: Running task 850 of 885 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_unpack)
+NOTE: recipe expat-2.5.0-r0: task do_unpack: Started
+NOTE: recipe expat-2.5.0-r0: task do_unpack: Succeeded
+NOTE: Running task 851 of 885 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_patch)
+NOTE: recipe expat-2.5.0-r0: task do_patch: Started
+NOTE: recipe expat-2.5.0-r0: task do_patch: Succeeded
+NOTE: Running task 852 of 885 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_generate_toolchain_file)
+NOTE: recipe expat-2.5.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe expat-2.5.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe cmake-3.25.2-r0: task do_unpack: Succeeded
+NOTE: Running task 854 of 885 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake_3.25.2.bb:do_patch)
+NOTE: recipe cmake-3.25.2-r0: task do_patch: Started
+NOTE: recipe cmake-3.25.2-r0: task do_patch: Succeeded
+NOTE: Running task 855 of 885 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake_3.25.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 856 of 885 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake_3.25.2.bb:do_generate_toolchain_file)
+NOTE: Running task 857 of 885 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake_3.25.2.bb:do_populate_lic)
+WARNING: cmake-native-3.25.1-r0 do_fetch: Checksum failure encountered with download of https://cmake.org/files/v3.25/cmake-3.25.1.tar.gz - will attempt other sources if available
+NOTE: recipe cmake-3.25.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe cmake-3.25.2-r0: task do_populate_lic: Started
+NOTE: recipe cmake-3.25.2-r0: task do_generate_toolchain_file: Started
+NOTE: recipe cmake-3.25.2-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe cmake-3.25.2-r0: task do_populate_lic: Succeeded
+NOTE: recipe cmake-3.25.2-r0: task do_deploy_source_date_epoch: Succeeded
+WARNING: cmake-native-3.25.1-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-worker/auh/build/build/build/downloads/cmake-3.25.1.tar.gz
+Cleaning and trying again.
+WARNING: cmake-native-3.25.1-r0 do_fetch: Renaming /home/pokybuild/yocto-worker/auh/build/build/build/downloads/cmake-3.25.1.tar.gz to /home/pokybuild/yocto-worker/auh/build/build/build/downloads/cmake-3.25.1.tar.gz_bad-checksum_1c511d09516af493694ed9baf13c55947a36389674d657a2d5e0ccedc6b291d8
+NOTE: recipe cmake-native-3.25.1-r0: task do_fetch: Failed
+NOTE: Tasks Summary: Attempted 857 tasks of which 846 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
+NOTE: Writing buildhistory took: 1 seconds
 
 Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb:do_package_qa
-Summary: There was 1 WARNING message.
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake-native_3.25.1.bb:do_fetch
+Summary: There were 6 WARNING messages.
 Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: igt-gpu-tools-1.27.1-r0 do_package_qa: QA Issue: /usr/bin/code_cov_parse_info contained in package igt-gpu-tools requires /usr/bin/perl, but no providers found in RDEPENDS:igt-gpu-tools? [file-rdeps]
-ERROR: igt-gpu-tools-1.27.1-r0 do_package_qa: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/igt-gpu-tools/1.27.1-r0/temp/log.do_package_qa.3932940
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb:do_package_qa) failed with exit code '1'
+ERROR: cmake-native-3.25.1-r0 do_fetch: Checksum failure fetching https://cmake.org/files/v3.25/cmake-3.25.1.tar.gz
+ERROR: cmake-native-3.25.1-r0 do_fetch: Bitbake Fetcher Error: ChecksumError('Checksum mismatch!\nFile: \'/home/pokybuild/yocto-worker/auh/build/build/build/downloads/cmake-3.25.1.tar.gz\' has sha256 checksum \'1c511d09516af493694ed9baf13c55947a36389674d657a2d5e0ccedc6b291d8\' when \'c026f22cb931dd532f648f087d587f07a1843c6e66a3dfca4fb0ea21944ed33c\' was expected\nIf this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:\nSRC_URI[sha256sum] = "1c511d09516af493694ed9baf13c55947a36389674d657a2d5e0ccedc6b291d8"\nOtherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.', 'https://cmake.org/files/v3.25/cmake-3.25.1.tar.gz')
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/cmake-native/3.25.1-r0/temp/log.do_fetch.1397760
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cmake/cmake-native_3.25.1.bb:do_fetch) failed with exit code '1'
 
---===============8200200185425393130==--
+--===============6851211992370549617==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-cmake-upgrade-3.25.1-3.25.2.patch"
+
+RnJvbSA4M2ZjZGU3OGJlNWQyMDZhNzQxYjI2MDdmZDlkNTUzN2VkYjE3Y2FmIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMSBGZWIgMjAyMyAwODoyMTo1MyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGNt
+YWtlOiB1cGdyYWRlIDMuMjUuMSAtPiAzLjI1LjIKCi0tLQogbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L2NtYWtlL2NtYWtlLmluYyAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgMiArLQogLi4uMS1D
+TWFrZURldGVybWluZVN5c3RlbS11c2Utb2UtZW52aXJvbm1lbnQtdmFycy10by1sb2FkLnBhdGNo
+IHwgMiArLQogLi4uL3JlY2lwZXMtZGV2dG9vbHMvY21ha2Uve2NtYWtlXzMuMjUuMS5iYiA9PiBj
+bWFrZV8zLjI1LjIuYmJ9IHwgMAogMyBmaWxlcyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIg
+ZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL3tjbWFrZV8z
+LjI1LjEuYmIgPT4gY21ha2VfMy4yNS4yLmJifSAoMTAwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2UuaW5jIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Nt
+YWtlL2NtYWtlLmluYwppbmRleCA3ZGE5YTJmYjU1Li5iN2U2NzRjNGM0IDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2UuaW5jCisrKyBiL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9jbWFrZS9jbWFrZS5pbmMKQEAgLTE5LDcgKzE5LDcgQEAgQ01BS0VfTUFKT1JfVkVS
+U0lPTiA9ICIke0AnLicuam9pbihkLmdldFZhcignUFYnKS5zcGxpdCgnLicpWzA6Ml0pfSIKIFNS
+Q19VUkkgPSAiaHR0cHM6Ly9jbWFrZS5vcmcvZmlsZXMvdiR7Q01BS0VfTUFKT1JfVkVSU0lPTn0v
+Y21ha2UtJHtQVn0udGFyLmd6IFwKICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjFjNTExZDA5
+NTE2YWY0OTM2OTRlZDliYWYxM2M1NTk0N2EzNjM4OTY3NGQ2NTdhMmQ1ZTBjY2VkYzZiMjkxZDgi
+CitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYzAyNmYyMmNiOTMxZGQ1MzJmNjQ4ZjA4N2Q1ODdmMDdh
+MTg0M2M2ZTY2YTNkZmNhNGZiMGVhMjE5NDRlZDMzYyIKIAogVVBTVFJFQU1fQ0hFQ0tfUkVHRVgg
+PSAiY21ha2UtKD9QPHB2ZXI+XGQrKFwuXGQrKSspXC50YXIiCiAKZGlmZiAtLWdpdCBhL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS8wMDAxLUNNYWtlRGV0ZXJtaW5lU3lzdGVtLXVz
+ZS1vZS1lbnZpcm9ubWVudC12YXJzLXRvLWxvYWQucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvY21ha2UvY21ha2UvMDAwMS1DTWFrZURldGVybWluZVN5c3RlbS11c2Utb2UtZW52aXJvbm1l
+bnQtdmFycy10by1sb2FkLnBhdGNoCmluZGV4IDQ1MWI2ZWJmYWQuLmQxM2MzNjdlNzggMTAwNjQ0
+Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS8wMDAxLUNNYWtlRGV0ZXJt
+aW5lU3lzdGVtLXVzZS1vZS1lbnZpcm9ubWVudC12YXJzLXRvLWxvYWQucGF0Y2gKKysrIGIvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLzAwMDEtQ01ha2VEZXRlcm1pbmVTeXN0ZW0t
+dXNlLW9lLWVudmlyb25tZW50LXZhcnMtdG8tbG9hZC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZy
+b20gOGU1M2RkN2Y2ZjUzNGFkOTMzZTdlOWM3ZmMyMGNjMWE2Y2RlZDNmNCBNb24gU2VwIDE3IDAw
+OjAwOjAwIDIwMDEKK0Zyb20gNWFjZmNiMmFiYTFhNTY0MWQzOTA1NThmZGYyODgzNzNmNWUzOWNi
+NSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IENvZHkgUCBTY2hhZmVyIDxkZXZAY29k
+eXBzLmNvbT4KIERhdGU6IFRodSwgMjcgQXByIDIwMTcgMTE6MzU6MDUgLTA0MDAKIFN1YmplY3Q6
+IFtQQVRDSF0gQ01ha2VEZXRlcm1pbmVTeXN0ZW06IHVzZSBvZSBlbnZpcm9ubWVudCB2YXJzIHRv
+IGxvYWQgZGVmYXVsdApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2Nt
+YWtlXzMuMjUuMS5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZV8zLjI1LjIu
+YmIKc2ltaWxhcml0eSBpbmRleCAxMDAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9jbWFrZS9jbWFrZV8zLjI1LjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9j
+bWFrZS9jbWFrZV8zLjI1LjIuYmIKLS0gCjIuMzcuMwoK
+
+--===============6851211992370549617==--
 
