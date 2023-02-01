@@ -1,212 +1,216 @@
-Return-Path: <jing.hui.tham@intel.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0947EC636CD
-	for <webhook@archiver.kernel.org>; Wed,  1 Feb 2023 12:16:12 +0000 (UTC)
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by mx.groups.io with SMTP id smtpd.web10.21472.1675253762655810599
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 966F2C636D7
+	for <webhook@archiver.kernel.org>; Wed,  1 Feb 2023 13:49:12 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web10.23400.1675259347551018953
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Feb 2023 04:16:02 -0800
+ Wed, 01 Feb 2023 05:49:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=Lx+uz4Nq;
- spf=pass (domain: intel.com, ip: 192.55.52.93, mailfrom: jing.hui.tham@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1675253762; x=1706789762;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=mo1jE44NeedZneobtnc/2k1MiByAlKcnNvnChXWaIeY=;
-  b=Lx+uz4NqaX9dpTH0RmucDsRCXvY78yv87sispUfPE5i301sFCXhev9QA
-   y95KQL4GmxADH/LkPMVFoSMI+Vg0UMXv8lPTYzEiftgfZQrTcr1LqHJD8
-   hhY2KWZ+tgF3cGv7uikObvJP4qtV9kCw0++TuBJlRac1piHZITtCz0K09
-   TJzn57K/LbZH2N2GxvmOCDtYPR8DjNkCb90xdq360dIhsGgBoCGiFUPkN
-   nE7d5WsFFrZYMFsca0h26hN3RAFNShPYDoE6trx2ldVMtN6w4bzAmWeXg
-   V1hv7q6nbKQscI9wBbS4CLrinCAzUGIjLAaCYA+2oh7i89kXd1K3ivq4f
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="325826710"
-X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
-   d="scan'208";a="325826710"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2023 04:16:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="993670883"
-X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; 
-   d="scan'208";a="993670883"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by fmsmga005.fm.intel.com with ESMTP; 01 Feb 2023 04:16:02 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Wed, 1 Feb 2023 04:16:01 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Wed, 1 Feb 2023 04:16:01 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.100)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Wed, 1 Feb 2023 04:16:01 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oD4Sgz/1UvwPgDFIrO8xpF0Qk8v2QXNyC27IuzzE8g3pDkusumWx9m7OqsT9wHMwBmgm2sQjKUAxrdS00bBjhMIdXUmO1KjcGNaev312GE2hXqPbOwIGj02lTCwdssMGow6/awRSlM8QLvoe0g+dM6jASj85H3dsoApgGM4UEkGQGHg5LeKdjxSJUtUAuCzrJLsR1GqslKXSdfM/uL8kT4pLFBpVqUWB3DHu3j5ideEVcs934flUVVLRHhyE86Byc+i5VjRJyIWWDzGtmvrGdgOHASZ+gaNoPww//9p5fIC9Vn9KkpT8+0b8OoaHTreJ64SVotvbcG1pD8ZBfhCrhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=R6M8MUP+mJsrQe7ICVsH7p6tjM7GEAD35zapaUNBFSU=;
- b=dkTSMNtBnVUSMy9Eqaa6SQP3w8u8r6Mvoqa7b0KIHwFWPMHOI3KT0jGVTu2h4+GfrBszvMe/xatxYao6e4lE496qmVubGw+HsFLgAaEpXHsLaEpRckDcEDPt6aPP7zT6LpWbmcIGweqktu52JEbsQvHwcCq1roRzJhQC94YutEH2jpyoM8q3uKmzYoWNVjxwQh5n7XZhbbHb1lp2ojEq3zlzTyqFxTy3/UZUZokAyiSrj2aV0B2olySeqNfF1pHhntQ8pmoJgRMTgs4yFdaR4DoYTa+kRJUhSMu0NGopXp4/wKecRLkem3FV79ZuBumRZXFbAluqoKxmxyc0sqCoig==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BY5PR11MB4152.namprd11.prod.outlook.com (2603:10b6:a03:191::11)
- by DS0PR11MB7458.namprd11.prod.outlook.com (2603:10b6:8:145::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.28; Wed, 1 Feb
- 2023 12:15:54 +0000
-Received: from BY5PR11MB4152.namprd11.prod.outlook.com
- ([fe80::9e48:366c:b777:950f]) by BY5PR11MB4152.namprd11.prod.outlook.com
- ([fe80::9e48:366c:b777:950f%5]) with mapi id 15.20.6043.038; Wed, 1 Feb 2023
- 12:15:54 +0000
-From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
-To: Pokybuild User <pokybuild@yoctoproject.org>,
-	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
-	"qa-build-notification@lists.yoctoproject.org"
-	<qa-build-notification@lists.yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [yocto] QA notification for completed autobuilder build
- (yocto-4.0.7.rc1)
-Thread-Topic: [yocto] QA notification for completed autobuilder build
- (yocto-4.0.7.rc1)
-Thread-Index: AQHZMqRhkr5w/Y9sC0yvL6TSIsPCWq66Bqtw
-Date: Wed, 1 Feb 2023 12:15:54 +0000
-Message-ID: <BY5PR11MB4152AD9DE6CB79438374A894A1D19@BY5PR11MB4152.namprd11.prod.outlook.com>
-References: <01010185f57dccf8-29734aad-b7ca-410f-9a47-21affbf045d6-000000@us-west-2.amazonses.com>
-In-Reply-To: <01010185f57dccf8-29734aad-b7ca-410f-9a47-21affbf045d6-000000@us-west-2.amazonses.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BY5PR11MB4152:EE_|DS0PR11MB7458:EE_
-x-ms-office365-filtering-correlation-id: 8fc8fbc1-a008-4efc-3218-08db044e10ff
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: vTmzC9MYeI4z5PLqQNvY9XxaDgtltquC76TMPH6KB3ZqKv26I9+crfcmol9XBmy1r+ZLZGTl6OT71lIXo9vb/HIgAT1COJQ4ckQbFa0gIqG7uo2ftxiEZFvdYPgLyzgeu8Ew/57fe9FI18Va3gGXcBjgFx9gw6ral+YAWXispggZaRiJa8L1cwtLM5wZ/kGDHIhBONYwkiWLceo9hAzKxXdxmsVBYJJsDvO47oiyJOVbCkDcxbj2GGg7YLQ11w5/4CvMJG/7//0yqga4jIhvAPt2D2KLKz1Qm3ElCJPSSc0DZflV+pijuMga6s0F0Y1fXtDDHkGM6LCB6eAwLn70DjEYsdVP87UPPcjLyVwf9R1e5lTVBSpi+iiDKhz61sFxCsgWqITjHh/LX0gihXuCwS9Xcnyucz4cSZYrQiGnbI1Gd1A5SNUg4+H1+lLilPMBlDtdNCwrgwnvWISASYm1I5Jxr04re+Y/UNzDwHooOibf+u7gdjAUxBjTUOo5Lt/dBho6SOkiSToeD5SnY3wiHNN2lHYnlTQ0U2Hc0kgeJ6F7wP5y7Y+AJMQ8UEHJMTePss5IA3cWsXZdKH8s8d/ya+0LKJBtV/c7Zqmcnf8PL0dllw91bPwXYAAHDrkLIzes7yLW0wxS30iP2ays63r8ptTwtrk4GFEANMlSkdVdH46O0zNU1KMd4Jog6lt+EafOyMvXCltAKb4zhJWKcGcbI/jId0Hy8p760ShBEMgfmYU=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4152.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(376002)(396003)(39860400002)(346002)(136003)(366004)(451199018)(76116006)(66946007)(966005)(55016003)(15650500001)(8676002)(66556008)(64756008)(8936002)(33656002)(5660300002)(66446008)(66476007)(7696005)(41300700001)(82960400001)(122000001)(53546011)(38070700005)(110136005)(6506007)(83380400001)(26005)(2906002)(52536014)(478600001)(9686003)(316002)(38100700002)(186003)(86362001)(71200400001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?QwyYyad0rbf+3lfFUaBULRw/CCur8PO75ZPFvEGvCzjPrybiRsHEiCki+3az?=
- =?us-ascii?Q?ZN6H48DJw2iGvf7Kiop2NGrIeIZkXDYWtaJ/vO0dF6KeVDwMbyUSULCAZ5Yr?=
- =?us-ascii?Q?xTwRbenMi7PpMKsGL8LT1qSFoDKUQnXWHs60kdV5GPuBX2gb7ovvTrRGREw5?=
- =?us-ascii?Q?X2+QzqUdQOHbsYjV8HqNc4W3rzuW/BRO77/koaTEYStT7PVVy9fCP8+O8Qxw?=
- =?us-ascii?Q?1tBqn10q9/oXJ9yE+I4eOTYflDFVqOX4tbGzgYGwNgYuJvEst/0hvjM21iXG?=
- =?us-ascii?Q?2gRD4aCvvp+J6EmXxQ0y3iGleEgfGJtkqReFBpsB0AQSftGoNQ3U/+TCUuQO?=
- =?us-ascii?Q?2bauJxfuCL5gtPskx6dHG8N2EB2IgQMakgFOUfFefPYwBaK+tvQYENHVWkaA?=
- =?us-ascii?Q?hF4djlsW2ycWkNLojZMVHzEwB3SiDCVfySTyv3Y4v7unuua8T+VckUhU4QqA?=
- =?us-ascii?Q?aupZVYKMfM2olpbFL58or+EoIi5203BPbJeza3pTVVTJYDikYojJG7JJxd1l?=
- =?us-ascii?Q?B3qUU0ADGVkxckLsAbLfAX0PER8O06fONLJf2wpggvpF7S+/IWfiUTnR0yeg?=
- =?us-ascii?Q?7etAfEPEoDCRLy8Dw2V1H1hO0aDH7dJwJg5T9HOj4GItAqrI6FZ/s0YtvzU6?=
- =?us-ascii?Q?kwa9O8XCCe3JBjDy5rKFQSUzLUUw97o8K7uPG41PgR2PXJ+YRF/VsCZ2AtNy?=
- =?us-ascii?Q?wY40ZxRVbxSyZosCp+c+H9hKdMpZa/Za/n0dxASsml0337Jt1Xjd2CBV1MUf?=
- =?us-ascii?Q?ifeba6GvfhI209mCAqinIMInRWknYjh0Km90fSIAyKiNquUwui97CwS2k4CR?=
- =?us-ascii?Q?MtqHNa37EFdFSi61X0Kfg4xozcPR14mNtdcZf4TMqFYS7TuS7h0RPzs2pkzi?=
- =?us-ascii?Q?SXrGdA52lojmEkO47edwSGjt+ebBfwXwh7fxjKoSDicY5TjPbrcp+uBirYyf?=
- =?us-ascii?Q?684xHqIsqWru4AKlj5jUbmb2j9V4TA0KNR/wnpaEkBvUjDZQng3pmzD1MiRO?=
- =?us-ascii?Q?qbehiXqZHaWV1D4Sr/3VclxHWibp+vxYzyOTFumyRmKiiq+lHDh6Ljq0Q/lp?=
- =?us-ascii?Q?Uw9FiTslYxHQnCJ6E8WtlRseSM8osOmVVEgzYfIvVdOInOz2pR1fFJV7JXCs?=
- =?us-ascii?Q?qJvShPiPv7ZMaAQdvRGaYUQ6GT2V8nTIiQ3947nldf7H7jzxn9A65JXF9KXC?=
- =?us-ascii?Q?c3Ibcih3qdnH3D4oYVHJ6Nzu8qcUP0OgG7IXsPV0AlsFe331Z1UXZ8of5kPH?=
- =?us-ascii?Q?zMaQS80CxJixJP4QG/GwQStocPwiXsOH3mda/ZczrSAfVpBe9up+EAg9XON4?=
- =?us-ascii?Q?y3kUXVkBQpb1ASsiWmBhvddP0WfjsDj2mHfZyLuUtBJgZdV0rEiiQGo5z3bT?=
- =?us-ascii?Q?xNrMNQexyVoYSCE8xQN1ozsMBLtFesHpmDWEMJxHDBZVQxuzovKgnNzL9MLn?=
- =?us-ascii?Q?R9byOYAITI1W/UR8uqtfuU3QRCibWExXo4XR1NskTdiQbwgdkPerKZUf0SA9?=
- =?us-ascii?Q?6ZVsGOJ6HpEWrROUCPe0TVNLeGkcrqR3W83nqKteZbdKz5+QzrFsIaSnllkg?=
- =?us-ascii?Q?Vwt+a1SlKcE4J00/WuhqKAzrhAz2OShQS/t2xG/4?=
-Content-Type: text/plain; charset="us-ascii"
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cIcaL+W7;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id j32-20020a05600c1c2000b003dc4fd6e61dso1411841wms.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Feb 2023 05:49:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0rXraQWQ23e0qVreqv2lM/X94bSA1PFnFNMHDfptEVw=;
+        b=cIcaL+W7i9+We/WRlvESbNeEL7t+Ic8KPOJpcTlEu5G3m+SEoRxePlcgVbPvDUJhMM
+         rXkFtpcGwVVdxEjdCAc6aFUaNJCe+qKTYaZKHLFZaEV8i/5518O5L5ST/lWqOf/hyfjR
+         cL4EmEJLGE6vI1Ts+xCJRWXC0klS2Uw0pz9I4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=0rXraQWQ23e0qVreqv2lM/X94bSA1PFnFNMHDfptEVw=;
+        b=VqRyV8afDvOBPVmAEmaDFxOisPE6oPIOYCuE5jA6K4AfgPt/vKlqyy2nRgkxPL7uk2
+         9MRH2NAmYCmNHheWFjBXuSsarSwsGoTFwYMhWW5Bj/N+KoT/P/7TywvTEpGcYZqkPWOP
+         tz8bkNT+bwzJ56gboQS+OemVJzksm+TQevXrRQBS2WoGVJGdgWKUwhO7KuMHVZ8VCr/8
+         9iYeD8gdqrHDfJtkR2O0QPv9U2tAvWbdlvD0vrmIpl1ACh8IRb00gpvIt4SbF7IV/vTL
+         qDeyg6SeeM0ZO9R4+YOFAex5cB6kyQuGFCg2LPKilgnGc1/5zsR1LrBsZ2CCmoItrdJo
+         TcHg==
+X-Gm-Message-State: AO0yUKXVZBo8d1P+icKGCC07cqUGXbGQBDO0X9DiCXG2g/D3aMThZSQ3
+	UQMZNAR38uA4SZIBN5+ymc31Gg==
+X-Google-Smtp-Source: AK7set/rK9qqpBHkWqMIoaHfHKiCkw9LFqYrjmoyWxI1DE8+7hes057NGs15IAN3rG9EQ7q1etm4Sg==
+X-Received: by 2002:a05:600c:4f42:b0:3dc:5984:a16c with SMTP id m2-20020a05600c4f4200b003dc5984a16cmr2156044wmq.31.1675259345750;
+        Wed, 01 Feb 2023 05:49:05 -0800 (PST)
+Received: from [172.27.244.82] ([212.187.182.164])
+        by smtp.gmail.com with ESMTPSA id z12-20020a5d4d0c000000b002bbb2d43f65sm17430449wrt.14.2023.02.01.05.49.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Feb 2023 05:49:05 -0800 (PST)
+Message-ID: <b3320afb6afb6508d5f4d0f3ceb75e87e97ed450.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] oeqa/selftest/locales: Create selftest for
+ locales generation
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Louis Rannou <lrannou@baylibre.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 01 Feb 2023 13:49:04 +0000
+In-Reply-To: <20230127153344.2868589-1-lrannou@baylibre.com>
+References: <20230127153344.2868589-1-lrannou@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.1-0ubuntu1 
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4152.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8fc8fbc1-a008-4efc-3218-08db044e10ff
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Feb 2023 12:15:54.1864
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: zovO3kX1URBFlPL0DbIj8DtleIhwx9I4gPUXFDdwAb59/SNst9teZJlRg1LL2dzQQnip4c0OstEGc9gvh5Kkbw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7458
-X-OriginatorOrg: intel.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Feb 2023 12:16:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176529
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Feb 2023 13:49:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176530
 
-Hi all,
-=20
-Intel and WR YP QA is planning for QA execution for YP build yocto-4.0.7.rc=
-1. We are planning to execute following tests for this cycle:
-=20
-OEQA-manual tests for following module:
-1. OE-Core
-2. BSP-hw
-=20
-Runtime auto test for following platforms:
-1. MinnowTurbot 32-bit
-2. NUC 7
-3. ADL
-4. TGL NUC 11
-5. Edgerouter
-6. Beaglebone
-=20
-ETA for completion next Monday, Feb 3.
-=20
-Best regards,
-Jing Hui
+On Fri, 2023-01-27 at 16:33 +0100, Louis Rannou wrote:
+> From: Louis Rannou <lrannou@baylibre.com>
+>=20
+> [YOCTO #9070]
+>=20
+> Add a new selftest to validate the locales generation. This selftest buil=
+ds a
+> complete target with GLIBC_GENERATE_LOCALES, IMAGE_LINGUAS,
+> ENABLE_BINARY_LOCALE_GENERATION set.
+>=20
+> The tests has two cases: GLIBC_GENERATE_LOCALES=3D1 and
+> GLIBC_GENERATE_LOCALES=3D0. When set to 1, we check that the locales exis=
+t in the
+> local-archive and if it does exist for the glibc. When set to 0, we check=
+ it
+> does not.
+>=20
+> Signed-off-by: Louis Rannou <lrannou@baylibre.com>
+> ---
+>  meta/lib/oeqa/selftest/cases/locales.py | 81 +++++++++++++++++++++++++
+>  1 file changed, 81 insertions(+)
+>  create mode 100644 meta/lib/oeqa/selftest/cases/locales.py
+>=20
+> diff --git a/meta/lib/oeqa/selftest/cases/locales.py b/meta/lib/oeqa/self=
+test/cases/locales.py
+> new file mode 100644
+> index 0000000000..f053cc8e31
+> --- /dev/null
+> +++ b/meta/lib/oeqa/selftest/cases/locales.py
+> @@ -0,0 +1,81 @@
+> +#
+> +# SPDX-License-Identifier: MIT
+> +#
+> +
+> +from oeqa.selftest.case import OESelftestTestCase
+> +from oeqa.core.decorator import OETestTag
+> +from oeqa.utils.commands import bitbake, runqemu
+> +
+> +class LocalesTest(OESelftestTestCase):
+> +
+> +    @OETestTag("runqemu")
+> +    def test_locales_on(self):
+> +        """
+> +        Summary: Test the locales are generated
+> +        Expected: 1. Check the locale exist in the locale-archive
+> +                  2. Check the locale exist for the glibc
+> +                  3. Check the locale can be generated
+> +        Product: oe-core
+> +        Author: Louis Rannou <lrannou@baylibre.com>
+> +        AutomatedBy: Louis Rannou <lrannou@baylibre.com>
+> +        """
+> +
+> +        features =3D []
+> +        features.append('EXTRA_IMAGE_FEATURES =3D "empty-root-password a=
+llow-empty-password allow-root-login"')
+> +        features.append('IMAGE_INSTALL:append =3D " glibc-utils localede=
+f"')
+> +        features.append('GLIBC_GENERATE_LOCALES =3D "en_US.UTF-8 fr_FR.U=
+TF-8"')
+> +        features.append('IMAGE_LINGUAS:append =3D " en-us fr-fr"')
+> +        features.append('ENABLE_BINARY_LOCALE_GENERATION =3D "1"')
+> +        self.write_config("\n".join(features))
+> +
+> +        # Build a core-image-minimal
+> +        bitbake('core-image-minimal')
+> +
+> +        with runqemu("core-image-minimal", ssh=3DFalse, runqemuparams=3D=
+'nographic') as qemu:
+> +            cmd =3D "locale -a"
+> +            status, output =3D qemu.run_serial(cmd)
+> +            # output must includes fr_FR or fr_FR.UTF-8
+> +            self.assertEqual(status, 1, msg=3D'localedef test failed: ou=
+tput: %s' % output)
+> +            self.assertIn("fr_FR", output, msg=3D'locale -a test failed:=
+ output: %s' % output)
+> +
+> +            cmd =3D "localedef --list-archive -v"
+> +            status, output =3D qemu.run_serial(cmd)
+> +            # output must includes fr_FR.utf8
+> +            self.assertEqual(status, 1, msg=3D'localedef test failed: ou=
+tput: %s' % output)
+> +            self.assertIn("fr_FR.utf8", output, msg=3D'locale -a test fa=
+iled: output: %s' % output)
+> +
+> +    @OETestTag("runqemu")
+> +    def test_locales_off(self):
+> +        """
+> +        Summary: Test the locales are not generated
+> +        Expected: 1. Check the locale does not exist in the locale-archi=
+ve
+> +                  2. Check the locale does not exist for the glibc
+> +                  3. Check the locale cannot be generated
+> +        Product: oe-core
+> +        Author: Louis Rannou <lrannou@baylibre.com>
+> +        AutomatedBy: Louis Rannou <lrannou@baylibre.com>
+> +        """
+> +
+> +        features =3D []
+> +        features.append('EXTRA_IMAGE_FEATURES =3D "empty-root-password a=
+llow-empty-password allow-root-login"')
+> +        features.append('IMAGE_INSTALL:append =3D " glibc-utils localede=
+f"')
+> +        features.append('GLIBC_GENERATE_LOCALES =3D "en_US.UTF-8 fr_FR.U=
+TF-8"')
+> +        features.append('IMAGE_LINGUAS:append =3D " en-us fr-fr"')
+> +        features.append('ENABLE_BINARY_LOCALE_GENERATION =3D "0"')
+> +        self.write_config("\n".join(features))
+> +
+> +        # Build a core-image-minimal
+> +        bitbake('core-image-minimal')
+> +
+> +        with runqemu("core-image-minimal", ssh=3DFalse, runqemuparams=3D=
+'nographic') as qemu:
+> +            cmd =3D "locale -a"
+> +            status, output =3D qemu.run_serial(cmd)
+> +            # output must not includes fr_FR or fr_FR.UTF-8
+> +            self.assertEqual(status, 1, msg=3D'localedef test failed: ou=
+tput: %s' % output)
 
+This should really say locale instead of localedef here to be clear
+which command the error is coming from.
 
+> +            self.assertNotIn("fr_FR", output, msg=3D'locale -a test fail=
+ed: output: %s' % output)
+> +
+> +            cmd =3D "localedef --list-archive -v"
+> +            status, output =3D qemu.run_serial(cmd)
+> +            # output must not includes fr_FR.utf8
+> +            self.assertEqual(status, 1, msg=3D'localedef test failed: ou=
+tput: %s' % output)
+> +            self.assertNotIn("fr_FR.utf8", output, msg=3D'locale -a test=
+ failed: output: %s' % output)
 
-> -----Original Message-----
-> From: yocto@lists.yoctoproject.org <yocto@lists.yoctoproject.org> On Beha=
-lf
-> Of Pokybuild User
-> Sent: Saturday, 28 January, 2023 7:09 AM
-> To: yocto@lists.yoctoproject.org
-> Cc: qa-build-notification@lists.yoctoproject.org
-> Subject: [yocto] QA notification for completed autobuilder build (yocto-4=
-.0.7.rc1)
->=20
->=20
-> A build flagged for QA (yocto-4.0.7.rc1) was completed on the autobuilder=
- and is
-> available at:
->=20
->=20
->     https://autobuilder.yocto.io/pub/releases/yocto-4.0.7.rc1
->=20
->=20
-> Build hash information:
->=20
-> bitbake: 7e268c107bb0240d583d2c34e24a71e373382509
-> meta-agl: b9d4796f44a56c6a9c8233d82e46c251a82f6020
-> meta-arm: ce41be0a7fe7c6f5fd2155866980388d3c83389f
-> meta-aws: 9d9400b03c22839398756f505491718392907266
-> meta-gplv2: d2f8b5cdb285b72a4ed93450f6703ca27aa42e8a
-> meta-intel: f529e0594a784546926e89ce8e78385e00d0b0a9
-> meta-mingw: a90614a6498c3345704e9611f2842eb933dc51c1
-> meta-openembedded: 1f31570d0795da90083d1dbf28127c90908e30ee
-> meta-virtualization: 9a94fa2ad76990b0eca40837a98aaf4cd83a7248
-> oecore: a8c82902384f7430519a31732a4bb631f21693ac
-> poky: 65dafea22018052fe7b2e17e6e4d7eb754224d38
->=20
->=20
->=20
-> This is an automated message from the Yocto Project Autobuilder
-> Git: git://git.yoctoproject.org/yocto-autobuilder2
-> Email: richard.purdie@linuxfoundation.org
->=20
->=20
->=20
+We did run this through tests on the autobuilder and the tests did
+pass. I did wonder rather than duplicate the whole test with a line
+change, could we share the code between the two?
+
+I then start looking at the code and I'm a bit worried the locales are
+not present when binary locale generation is turned off as I think they
+should be. Going from memory, I thought that they should be generated
+on target at first boot in that case so they should be present in both
+cases.
+
+To keep things simple, lets merge the first case in and file a bug for
+the other case? I think we'll need to investigate that and check
+whether we're broken something somewhere.
+
+Cheers,
+
+Richard
+
 
