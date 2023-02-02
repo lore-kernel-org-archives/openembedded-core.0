@@ -1,121 +1,100 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <tomasz.dziendzielski@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A52E7C61DA4
-	for <webhook@archiver.kernel.org>; Thu,  2 Feb 2023 11:43:05 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web11.12593.1675338177223568334
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBAE7C05027
+	for <webhook@archiver.kernel.org>; Thu,  2 Feb 2023 11:54:15 +0000 (UTC)
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+ by mx.groups.io with SMTP id smtpd.web10.12733.1675338853324437230
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Feb 2023 03:42:57 -0800
+ Thu, 02 Feb 2023 03:54:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MTcc9feC;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id n13so1158270wmr.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Feb 2023 03:42:56 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=n2WSRQ8k;
+ spf=pass (domain: gmail.com, ip: 209.85.221.178, mailfrom: tomasz.dziendzielski@gmail.com)
+Received: by mail-vk1-f178.google.com with SMTP id 6so740677vko.7
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Feb 2023 03:54:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DA5i/YOv56HVYRUFErv6hIjFxoJU5lw5V0Jkx1O9YwM=;
-        b=MTcc9feCzuhH+oEI9BvCixmTuwa78IojxHNdQzWAWD/PX32zHN0PspenWX4GW8jVUs
-         AhP67Y73udnZzI1RcWwAOhrTK67ytfiwXDQOJWwiGv3wMFwdu8qAvIHBSusPLyuwjUyK
-         gS5/QK8HwsAwxbUWuFWPyY8r4EC3XVIk4vk10=
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=fFF53os3ZWf7+mmrKAo+ZzA8aWqX3RLp5jJ/q0KL77o=;
+        b=n2WSRQ8kbMrndWWElT7Jqo5R8fEd+jHJukvGuR3VVy0AEvCRlWr+e0bqeMWTX5jrwO
+         gr14Puv+zMyopRfUxoXT0mWekAKllF6CkVkSu+B41bUsCj67VHFIDu0HB4KXC+sVU7Ac
+         AszJm8Z7p8f9mRXQfRuKCT1LrJaCLSJp0ht99VkRUbRrKYt1cink9012S+ND1smJkhUv
+         TDKNXuexJCA3YF2wU09+h8Zrp75bMll2Zccstth+tXdOEX55l3EBqrVuwshoBcpZa0/m
+         pQBiChWx5hZfjKfTCQ1QNWlB9XYQlzWkSsE6Xl9et9ZlirVSzmkFZvWqKwFCFqmeKQJ3
+         G+xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=DA5i/YOv56HVYRUFErv6hIjFxoJU5lw5V0Jkx1O9YwM=;
-        b=7nfSyPmum8wwg1uNyZOKk53BIyJDZo5yV4WWJ8hpKfR8a3XKmxfRisu5P+3F+SFshv
-         JZfDx/y1BYZYIlRvZdtleYLoDBfMggzVWogJXupDKDJZ6h3Z5ZaFXzKBGysTVMhID7kD
-         lsX+UQi9N8bbWHPL6WMEFfP68hc7jxJUT0YfoykBiLXy/6TByvZAiANf1Li8acfjg/aQ
-         BqA/A3R2K8+ah6aTWXCm0JkWKnQR5ncjQjIfOyD5xbNu6ne4NRzQUx/TnoEA1STIG/b2
-         lT76RBeoFTCBIZwsFjzVhOAEtWM0friUZgPEKLOJiUdSz51NniLv88au/bs88WQiA4ZG
-         OxXw==
-X-Gm-Message-State: AO0yUKWfecyuQAlHd7WTb+Tc8RexLtKOyXpfLJQQTZO3Xrx/tZoT1iFt
-	i56TO4P6pQkiJemebVbzFUZ7og==
-X-Google-Smtp-Source: AK7set8uQHcZJ5Qzq0V+TmzVo1gp8xsj3Z0gK27geGvwUah5/n7ivSuVDYnzs52k2SgomaXSDh8vjw==
-X-Received: by 2002:a05:600c:1d04:b0:3cf:85f7:bbc4 with SMTP id l4-20020a05600c1d0400b003cf85f7bbc4mr5426415wms.2.1675338175484;
-        Thu, 02 Feb 2023 03:42:55 -0800 (PST)
-Received: from [172.27.250.62] ([212.187.182.166])
-        by smtp.gmail.com with ESMTPSA id z18-20020a1c4c12000000b003dc48a2f997sm4079623wmf.17.2023.02.02.03.42.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Feb 2023 03:42:55 -0800 (PST)
-Message-ID: <78aa81ec86a05f1b6da3afd1c7af73e97de3aa58.camel@linuxfoundation.org>
-Subject: Re: [OE-core][kirkstone 10/13] native: Drop special variable
- handling
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Steve Sakoman <steve@sakoman.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 02 Feb 2023 11:42:54 +0000
-In-Reply-To: <47a2634831f907d83ec40ad010351c923ef67f0d.1675289652.git.steve@sakoman.com>
-References: <cover.1675289652.git.steve@sakoman.com>
-	 <47a2634831f907d83ec40ad010351c923ef67f0d.1675289652.git.steve@sakoman.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.1-0ubuntu1 
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fFF53os3ZWf7+mmrKAo+ZzA8aWqX3RLp5jJ/q0KL77o=;
+        b=ofwWZfPELKwi3tch972DrfqNgeNQUXCnZO5lDBqBHh6v5r3L3BHIHN2z4BDMMBclXa
+         6lX3Dtod9nzKtvK0OfVwYoL/igGnki+W7a4rpcybGMhgVj6tLcwo1FGjdNqqJz13BVlP
+         2WvpPa7WOFtTJFFPk7qR64L+qvpf7h50XHrXeguiqJIgtfks+FeX0thkUE5t9Z+/3nu4
+         vFxolfpYujGqnWSUkKGYpXYXzH/yNvbCRjbUkA4BuaPIpnyHgvmX6QD9LZUlgAs2zCQ3
+         pII9sTzR72Ns/3DITxTibMy6lO2//Fr/BgkwbyOUl+hHC6bRPfpRxfJ9YH63jJufBaIX
+         DxlQ==
+X-Gm-Message-State: AO0yUKUHoiIjXtjFVZ6fEVLO9gAHVeMaoek9rVOcgPkaAmfcbLiia3dZ
+	RogEQwexygt0AcgSWE07qH1IHiCB8W081ICQdPg=
+X-Google-Smtp-Source: AK7set/dd6tnLKmeFIew0JI5M1dZQAr+r/gy30gAZeaFdGJqnxIzWjZmo9o4MG4o0nggWTeKiM91i94zkUqoxGYy4NA=
+X-Received: by 2002:ac5:c929:0:b0:3ea:4b4a:160d with SMTP id
+ u9-20020ac5c929000000b003ea4b4a160dmr836542vkl.21.1675338852294; Thu, 02 Feb
+ 2023 03:54:12 -0800 (PST)
 MIME-Version: 1.0
+References: <20221121111102.5556-1-tomasz.dziendzielski@gmail.com>
+ <102181aa-b1c0-85d1-5cc7-cfa5f8f17e7a@windriver.com> <c184c05861049967f118dff802adcc5c26b8cfeb.camel@linuxfoundation.org>
+ <xu-5aoliMVVE30en9sdGy2S__-CE6gz-dlYVAISAT22PJegAOBsK66GNviIa2ljiRw-Ct68k1HFU0m84QtQRoR_j0_9sZf5Khdu7jOlIaSY=@protonmail.com>
+In-Reply-To: <xu-5aoliMVVE30en9sdGy2S__-CE6gz-dlYVAISAT22PJegAOBsK66GNviIa2ljiRw-Ct68k1HFU0m84QtQRoR_j0_9sZf5Khdu7jOlIaSY=@protonmail.com>
+From: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+Date: Thu, 2 Feb 2023 12:56:32 +0100
+Message-ID: <CAJkqNs0GtH4+AR1GUzQu0Hh1E3fpWsgVTPrck5+_MetwF3xhDQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] sstate-cache-cleaner.py: Add a script for
+ sstate cache cleaning
+To: =?UTF-8?Q?Miko=C5=82aj_Lasota?= <mikolaj.lasota@protonmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Randy MacLeod <randy.macleod@windriver.com>, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000002b642d05f3b639f4"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Feb 2023 11:43:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176689
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Feb 2023 11:54:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176690
 
-On Wed, 2023-02-01 at 12:16 -1000, Steve Sakoman wrote:
-> From: Richard Purdie <richard.purdie@linuxfoundation.org>
->=20
-> Back when it was merged in https://git.yoctoproject.org/poky/commit/?id=
-=3Dc4257ed8b1040a5a0e9a95846d81961741239116
-> it appeared special handling in setVar was necessary. Likely due to
-> other fixes and improvements it no longer appears to be. The results of
-> "bitbake world -g" before and after this change are identical for oe-core
-> and meta-openembedded. Therefore drop the "parsing=3DTrue" special parame=
-ter to
-> setVar() meaning overrides can now be cleared.
->=20
-> This means that something like:
->=20
-> DEPENDS:append =3D " bash"
->=20
-> now functions as expected, adding bash to the target recipe and bash-nati=
-ve to
-> the native BBCLASSEXTENDED version.
->=20
-> Without this change, it would add bash to the native version as well as
-> bash-native which is clearly incorrect.
->=20
-> [YOCTO #15010]
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit 99a5105f7b5303cd36077b5910c662a865c1782c)
-> Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> ---
->  meta/classes/native.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
-> index fc7422c5d7..4de96cd59b 100644
-> --- a/meta/classes/native.bbclass
-> +++ b/meta/classes/native.bbclass
-> @@ -153,7 +153,7 @@ python native_virtclass_handler () {
->                  newdeps.append(dep.replace(pn, bpn) + "-native")
->              else:
->                  newdeps.append(dep)
-> -        d.setVar(varname, " ".join(newdeps), parsing=3DTrue)
-> +        d.setVar(varname, " ".join(newdeps))
-> =20
->      map_dependencies("DEPENDS", e.data, selfref=3DFalse)
->      for pkg in e.data.getVar("PACKAGES", False).split():
+--0000000000002b642d05f3b639f4
+Content-Type: text/plain; charset="UTF-8"
 
-Steve: Did you check "bitbake world -g" is the same before and after
-this change for kirkstone?
+Hi,
 
-Cheers,
+>As for the achieved performance improvement, I don't have access to exact
+data (time, sstate cache size) anymore - maybe Tomasz will be able to find
+original findings.
+>However, from the top of my head I can say that in our case the original
+version of the script was not able to finish the cleanup in couple of days
+(and got finally killed), while proposed version took just couple of hours
+(~4h).
 
-Richard
+The internal ticket only has a comment "CI execution time reduced from ~16
+days to 5 minutes". This looks like a big improvement.
 
+Best regards,
+Tomasz Dziendzielski
+
+--0000000000002b642d05f3b639f4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi,</div><div><br></div>&gt;As for the achieved perfo=
+rmance improvement, I don&#39;t have access to exact data (time, sstate cac=
+he size) anymore - maybe Tomasz will be able to find original findings.<br>=
+&gt;However, from the top of my head I can say that in our case the origina=
+l version of the script was not able to finish the cleanup in couple of day=
+s (and got finally killed), while proposed version took just couple of hour=
+s (~4h).<div><br><div>The=C2=A0internal ticket only has a comment &quot;CI =
+execution time reduced from ~16 days to 5 minutes&quot;. This looks like a =
+big improvement.</div><div><br></div><div>Best regards,</div><div>Tomasz Dz=
+iendzielski</div></div></div>
+
+--0000000000002b642d05f3b639f4--
 
