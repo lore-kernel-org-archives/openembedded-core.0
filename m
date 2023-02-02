@@ -1,262 +1,146 @@
-Return-Path: <lrannou@baylibre.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A7C6C61DA4
-	for <webhook@archiver.kernel.org>; Thu,  2 Feb 2023 10:42:05 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web10.11741.1675334519638791474
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 623A6C636D3
+	for <webhook@archiver.kernel.org>; Thu,  2 Feb 2023 10:53:25 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web10.11881.1675335194538324036
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Feb 2023 02:42:00 -0800
+ Thu, 02 Feb 2023 02:53:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20210112.gappssmtp.com header.s=20210112 header.b=XlKNtshU;
- spf=pass (domain: baylibre.com, ip: 209.85.128.41, mailfrom: lrannou@baylibre.com)
-Received: by mail-wm1-f41.google.com with SMTP id hn2-20020a05600ca38200b003dc5cb96d46so3370081wmb.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Feb 2023 02:41:59 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=h2WqR1qR;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f51.google.com with SMTP id y1so1319817wru.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Feb 2023 02:53:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3d5sK7xHIk8BkiL/XeV7AhRCGUCnh8EWXvSKRuQ9BOg=;
-        b=XlKNtshUWZPtuMpHBuFUVGj+e9cf//V5xghSvu7ZELsA4yTIAjdmBCQB0SuSu71ZQf
-         jv/mdqcOGhZa+Ca/egw+lJnLD6MtfmtBh3ZDRVfySUr40zug9b9oDKgnfRyE1p9s8fKX
-         mEE2oRzxHflYEi/6fzoPnXQtB/lrxRsTrzJrlikvV+XxI0Pu3ZzFyQDROfLdUYkUI8b7
-         i346fbDR56JddCwlGcRaUVIdltlui7OpHE3nbS5zxsC2x6zGL+5nVt5JprxR0wnV89PD
-         iRvoN30GZXrVg2IKDPXry0Hklw0MOFnOIk5/xyiTGD85cvgmOp+6yFpUUDMsSu4h6V2O
-         j3Vw==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ZUJJKAVjOnqBl6LRyxkIxZXMr3nP2N/wrvkzGRaA7hE=;
+        b=h2WqR1qRHQjo459YkY7yTxM+tHHyg6MsmjvhCZSFWu2jtkehTQ0ofyzDzA0WEc3pVi
+         en8jAGC1tf5JyaQ4dbj2EKAwfHVMZsZ7nsGL00hiwzVmk8zJMsWdHzIe789ANBWjsw5N
+         IjhTu8bzqO+hEHy3ZDTe3daZQVPMxOZRRpHWM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3d5sK7xHIk8BkiL/XeV7AhRCGUCnh8EWXvSKRuQ9BOg=;
-        b=eZCaZC5N7OAgwm+kYpUC/a3YUxKJm8JzgTKqxp2eUbMBkzTd1pXh4DIu2XSPVCYXGw
-         p6/SwimyPZytcBF0pvj75Kcbb92zl9t7tpB5czXgWFXr0yyBVHzcW6ODi7WpV75gMErS
-         9kgAUsR+cjXtarHPzYTirj4j4i2OXXERDwECrG85HZP3fCCOoahtvWnkU3IOCyP/+b6e
-         JO29n4cry8gm6haZPNW+7H/UpGHQwsaimAeKs5L2QnQ/8Uy81VkWiKrO0KUrsykllDDO
-         Mla9t/w2jT2PKWcrTYgDKdZX4+dXxz8DLxQKdva9FR0flPdyv19sY9HI51aidBjCX3sL
-         vEYg==
-X-Gm-Message-State: AO0yUKXlJyR2zOLl3YXwWHJzPGusG2cfM20w12i2SwjxQ+nL41LTi8Wd
-	oj0ZRMSft3E2vcp8mkUyaj4kbg==
-X-Google-Smtp-Source: AK7set9GXUz8bGnI5EKg1kJi1vp49q/Vf485hKlgRQk4G+Vrx61DxJHKTOCNZ0cTZHOLxx3nL6GoTw==
-X-Received: by 2002:a05:600c:3513:b0:3df:b5ae:5289 with SMTP id h19-20020a05600c351300b003dfb5ae5289mr2323380wmq.8.1675334517646;
-        Thu, 02 Feb 2023 02:41:57 -0800 (PST)
-Received: from [172.30.105.10] (lmontsouris-658-1-109-35.w92-154.abo.wanadoo.fr. [92.154.6.35])
-        by smtp.gmail.com with ESMTPSA id h18-20020a05600c2cb200b003dd1bd66e0dsm4811617wmc.3.2023.02.02.02.41.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Feb 2023 02:41:57 -0800 (PST)
-Message-ID: <1749af1e-dce3-ec14-32a1-fe5a50848f25@baylibre.com>
-Date: Thu, 2 Feb 2023 11:41:56 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZUJJKAVjOnqBl6LRyxkIxZXMr3nP2N/wrvkzGRaA7hE=;
+        b=NQ6itkLmgE5kfgBEVCa0f3/gpahF1C5KLPsL8soNZkVX6I69pCKbBIzOa58knMV5ML
+         fcnCtpuivdj3YYIJFwDZ9SmL1WDCq8o5aBop6YwaUhPaD+A701kUglXHtV99SW+xpUzq
+         u1oB+5gZUM179ynKR7Mgc+YXb9Rx7XN9s1g8eHQ+/uC5CeSnMObrPXoFlNfcxNcb3FK0
+         86MDYHT6eFFxXJBCeqCwucz30uIkhLC4JsGqaaIuVbVuzbRdT6spRfXjqw9VicdSXYsy
+         jah5O4MxYNoR+r3FR3vCuDtdxEvTJ20fqXIgFLsmFkcrAkM0Dm2ubDs7hU9YORNh81c3
+         8a4Q==
+X-Gm-Message-State: AO0yUKU9QakGqDfHLtyH3cUzG8qcYzk5BUF645JSneZJ3xGvjWa4VgST
+	E6v672990tp0KhNHSveybauzMw==
+X-Google-Smtp-Source: AK7set88sD6RatJPsMbRW9OHA0KPnqmsWOXEWGaxNteBDCu6DrzHpwVPLp/uy3koEv3S7lL3+vSVEw==
+X-Received: by 2002:a05:6000:252:b0:2bf:ec95:2b19 with SMTP id m18-20020a056000025200b002bfec952b19mr4273406wrz.23.1675335192636;
+        Thu, 02 Feb 2023 02:53:12 -0800 (PST)
+Received: from [172.27.250.62] ([212.187.182.166])
+        by smtp.gmail.com with ESMTPSA id n9-20020a5d4c49000000b002bfb7c2430bsm19476682wrt.19.2023.02.02.02.53.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Feb 2023 02:53:12 -0800 (PST)
+Message-ID: <845d6037af51cb2ba78a6d139f5a27301a0a77a0.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH v2] oeqa/selftest/locales: Create selftest for
  locales generation
-Content-Language: en-US
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Louis Rannou <lrannou@baylibre.com>, 
+	openembedded-core@lists.openembedded.org
 Cc: "khilman@baylibre.com" <khilman@baylibre.com>
+Date: Thu, 02 Feb 2023 10:53:11 +0000
+In-Reply-To: <1749af1e-dce3-ec14-32a1-fe5a50848f25@baylibre.com>
 References: <20230127153344.2868589-1-lrannou@baylibre.com>
- <b3320afb6afb6508d5f4d0f3ceb75e87e97ed450.camel@linuxfoundation.org>
- <92bff1e0-aa88-c713-049f-51f074569a55@baylibre.com>
- <913abc23f1ba2691f7c676b182b1ec0303e5d30d.camel@linuxfoundation.org>
-From: Louis Rannou <lrannou@baylibre.com>
-In-Reply-To: <913abc23f1ba2691f7c676b182b1ec0303e5d30d.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+	 <b3320afb6afb6508d5f4d0f3ceb75e87e97ed450.camel@linuxfoundation.org>
+	 <92bff1e0-aa88-c713-049f-51f074569a55@baylibre.com>
+	 <913abc23f1ba2691f7c676b182b1ec0303e5d30d.camel@linuxfoundation.org>
+	 <1749af1e-dce3-ec14-32a1-fe5a50848f25@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Feb 2023 10:42:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176687
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Feb 2023 10:53:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176688
 
-On 01/02/2023 18:57, Richard Purdie wrote:
-> On Wed, 2023-02-01 at 16:02 +0100, Louis Rannou wrote:
->>
->> On 01/02/2023 14:49, Richard Purdie wrote:
->>> On Fri, 2023-01-27 at 16:33 +0100, Louis Rannou wrote:
->>>> From: Louis Rannou <lrannou@baylibre.com>
->>>>
->>>> [YOCTO #9070]
->>>>
->>>> Add a new selftest to validate the locales generation. This selftest builds a
->>>> complete target with GLIBC_GENERATE_LOCALES, IMAGE_LINGUAS,
->>>> ENABLE_BINARY_LOCALE_GENERATION set.
->>>>
->>>> The tests has two cases: GLIBC_GENERATE_LOCALES=1 and
->>>> GLIBC_GENERATE_LOCALES=0. When set to 1, we check that the locales exist in the
->>>> local-archive and if it does exist for the glibc. When set to 0, we check it
->>>> does not.
->>>>
->>>> Signed-off-by: Louis Rannou <lrannou@baylibre.com>
->>>> ---
->>>>    meta/lib/oeqa/selftest/cases/locales.py | 81 +++++++++++++++++++++++++
->>>>    1 file changed, 81 insertions(+)
->>>>    create mode 100644 meta/lib/oeqa/selftest/cases/locales.py
->>>>
->>>> diff --git a/meta/lib/oeqa/selftest/cases/locales.py b/meta/lib/oeqa/selftest/cases/locales.py
->>>> new file mode 100644
->>>> index 0000000000..f053cc8e31
->>>> --- /dev/null
->>>> +++ b/meta/lib/oeqa/selftest/cases/locales.py
->>>> @@ -0,0 +1,81 @@
->>>> +#
->>>> +# SPDX-License-Identifier: MIT
->>>> +#
->>>> +
->>>> +from oeqa.selftest.case import OESelftestTestCase
->>>> +from oeqa.core.decorator import OETestTag
->>>> +from oeqa.utils.commands import bitbake, runqemu
->>>> +
->>>> +class LocalesTest(OESelftestTestCase):
->>>> +
->>>> +    @OETestTag("runqemu")
->>>> +    def test_locales_on(self):
->>>> +        """
->>>> +        Summary: Test the locales are generated
->>>> +        Expected: 1. Check the locale exist in the locale-archive
->>>> +                  2. Check the locale exist for the glibc
->>>> +                  3. Check the locale can be generated
->>>> +        Product: oe-core
->>>> +        Author: Louis Rannou <lrannou@baylibre.com>
->>>> +        AutomatedBy: Louis Rannou <lrannou@baylibre.com>
->>>> +        """
->>>> +
->>>> +        features = []
->>>> +        features.append('EXTRA_IMAGE_FEATURES = "empty-root-password allow-empty-password allow-root-login"')
->>>> +        features.append('IMAGE_INSTALL:append = " glibc-utils localedef"')
->>>> +        features.append('GLIBC_GENERATE_LOCALES = "en_US.UTF-8 fr_FR.UTF-8"')
->>>> +        features.append('IMAGE_LINGUAS:append = " en-us fr-fr"')
->>>> +        features.append('ENABLE_BINARY_LOCALE_GENERATION = "1"')
->>>> +        self.write_config("\n".join(features))
->>>> +
->>>> +        # Build a core-image-minimal
->>>> +        bitbake('core-image-minimal')
->>>> +
->>>> +        with runqemu("core-image-minimal", ssh=False, runqemuparams='nographic') as qemu:
->>>> +            cmd = "locale -a"
->>>> +            status, output = qemu.run_serial(cmd)
->>>> +            # output must includes fr_FR or fr_FR.UTF-8
->>>> +            self.assertEqual(status, 1, msg='localedef test failed: output: %s' % output)
->>>> +            self.assertIn("fr_FR", output, msg='locale -a test failed: output: %s' % output)
->>>> +
->>>> +            cmd = "localedef --list-archive -v"
->>>> +            status, output = qemu.run_serial(cmd)
->>>> +            # output must includes fr_FR.utf8
->>>> +            self.assertEqual(status, 1, msg='localedef test failed: output: %s' % output)
->>>> +            self.assertIn("fr_FR.utf8", output, msg='locale -a test failed: output: %s' % output)
->>>> +
->>>> +    @OETestTag("runqemu")
->>>> +    def test_locales_off(self):
->>>> +        """
->>>> +        Summary: Test the locales are not generated
->>>> +        Expected: 1. Check the locale does not exist in the locale-archive
->>>> +                  2. Check the locale does not exist for the glibc
->>>> +                  3. Check the locale cannot be generated
->>>> +        Product: oe-core
->>>> +        Author: Louis Rannou <lrannou@baylibre.com>
->>>> +        AutomatedBy: Louis Rannou <lrannou@baylibre.com>
->>>> +        """
->>>> +
->>>> +        features = []
->>>> +        features.append('EXTRA_IMAGE_FEATURES = "empty-root-password allow-empty-password allow-root-login"')
->>>> +        features.append('IMAGE_INSTALL:append = " glibc-utils localedef"')
->>>> +        features.append('GLIBC_GENERATE_LOCALES = "en_US.UTF-8 fr_FR.UTF-8"')
->>>> +        features.append('IMAGE_LINGUAS:append = " en-us fr-fr"')
->>>> +        features.append('ENABLE_BINARY_LOCALE_GENERATION = "0"')
->>>> +        self.write_config("\n".join(features))
->>>> +
->>>> +        # Build a core-image-minimal
->>>> +        bitbake('core-image-minimal')
->>>> +
->>>> +        with runqemu("core-image-minimal", ssh=False, runqemuparams='nographic') as qemu:
->>>> +            cmd = "locale -a"
->>>> +            status, output = qemu.run_serial(cmd)
->>>> +            # output must not includes fr_FR or fr_FR.UTF-8
->>>> +            self.assertEqual(status, 1, msg='localedef test failed: output: %s' % output)
->>>
->>> This should really say locale instead of localedef here to be clear
->>> which command the error is coming from.
->>>
->>>> +            self.assertNotIn("fr_FR", output, msg='locale -a test failed: output: %s' % output)
->>>> +
->>>> +            cmd = "localedef --list-archive -v"
->>>> +            status, output = qemu.run_serial(cmd)
->>>> +            # output must not includes fr_FR.utf8
->>>> +            self.assertEqual(status, 1, msg='localedef test failed: output: %s' % output)
->>>> +            self.assertNotIn("fr_FR.utf8", output, msg='locale -a test failed: output: %s' % output)
->>>
->>> We did run this through tests on the autobuilder and the tests did
->>> pass. I did wonder rather than duplicate the whole test with a line
->>> change, could we share the code between the two?
->> I think the things we can share are only about the features
->> configuration and the bitbake command. Going further would require to
->> create an if/else statement for the assert. I think this will not
->> simplify the code.
->>
->>>
->>> I then start looking at the code and I'm a bit worried the locales are
->>> not present when binary locale generation is turned off as I think they
->>> should be. Going from memory, I thought that they should be generated
->>> on target at first boot in that case so they should be present in both
->>> cases.
->>
->> I am not sure to understand. But if you suppose there should be
->> something in /usr/share/i18n/locales, there is nothing there.
->>
->>>
->>> To keep things simple, lets merge the first case in and file a bug for
->>> the other case? I think we'll need to investigate that and check
->>> whether we're broken something somewhere.
->>
->> Ok, I'll send a v3 with the first part only. Let's forget about the code
->> sharing before we get clear about what the opposite test will be.
-> 
-> I was able to take a quick look at this. The locale generation on
-> target is broken, it throws errors upon boot. I was able to make it
-> work with this patch:
-> 
-> diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-core/glibc/glibc-locale.inc
-> index 7f70b3ca4f..c39007b573 100644
-> --- a/meta/recipes-core/glibc/glibc-locale.inc
-> +++ b/meta/recipes-core/glibc/glibc-locale.inc
-> @@ -60,7 +60,7 @@ DESCRIPTION:localedef = "glibc: compile locale definition files"
->   # FILES:glibc-gconv will not be automatically extended in multilib.
->   # Explicitly add ${MLPREFIX} for FILES:glibc-gconv.
->   FILES:${MLPREFIX}glibc-gconv = "${libdir}/gconv/*"
-> -FILES:localedef = "${bindir}/localedef"
-> +FILES:localedef = "${bindir}/localedef ${libdir}/locale"
->   
->   LOCALETREESRC = "${COMPONENTS_DIR}/${PACKAGE_ARCH}/glibc-stash-locale"
->   
-> @@ -87,6 +87,7 @@ do_install() {
->          find ${D}${libdir} -type d -empty -delete
->          copy_locale_files ${datadir}/locale 0644
->          install -m 0644 ${LOCALETREESRC}/SUPPORTED ${WORKDIR}/SUPPORTED
-> +       install -d ${D}${libdir}/locale
->   }
->   
->   inherit libc-package
-> 
-> could you see if the same test will now work with that patch applied?
-> I'm happy to have the basic test but if we can fix this and stop it
-> regressing that would be even better.
+On Thu, 2023-02-02 at 11:41 +0100, Louis Rannou wrote:
+> On 01/02/2023 18:57, Richard Purdie wrote:
+> > On Wed, 2023-02-01 at 16:02 +0100, Louis Rannou wrote:
+> >=20
+> >=20
+> > I was able to take a quick look at this. The locale generation on
+> > target is broken, it throws errors upon boot. I was able to make it
+> > work with this patch:
+> >=20
+> > diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-co=
+re/glibc/glibc-locale.inc
+> > index 7f70b3ca4f..c39007b573 100644
+> > --- a/meta/recipes-core/glibc/glibc-locale.inc
+> > +++ b/meta/recipes-core/glibc/glibc-locale.inc
+> > @@ -60,7 +60,7 @@ DESCRIPTION:localedef =3D "glibc: compile locale defi=
+nition files"
+> >   # FILES:glibc-gconv will not be automatically extended in multilib.
+> >   # Explicitly add ${MLPREFIX} for FILES:glibc-gconv.
+> >   FILES:${MLPREFIX}glibc-gconv =3D "${libdir}/gconv/*"
+> > -FILES:localedef =3D "${bindir}/localedef"
+> > +FILES:localedef =3D "${bindir}/localedef ${libdir}/locale"
+> >  =20
+> >   LOCALETREESRC =3D "${COMPONENTS_DIR}/${PACKAGE_ARCH}/glibc-stash-loca=
+le"
+> >  =20
+> > @@ -87,6 +87,7 @@ do_install() {
+> >          find ${D}${libdir} -type d -empty -delete
+> >          copy_locale_files ${datadir}/locale 0644
+> >          install -m 0644 ${LOCALETREESRC}/SUPPORTED ${WORKDIR}/SUPPORTE=
+D
+> > +       install -d ${D}${libdir}/locale
+> >   }
+> >  =20
+> >   inherit libc-package
+> >=20
+> > could you see if the same test will now work with that patch applied?
+> > I'm happy to have the basic test but if we can fix this and stop it
+> > regressing that would be even better.
+>=20
+> The patch does not change the result. I have actually nothing in the=20
+> image/usr/lib/locale directory.
 
-The patch does not change the result. I have actually nothing in the 
-image/usr/lib/locale directory.
+Testing locally, if I don't have the patch and "runqemu core-image-
+minimal snapshot kvm", I see errors about locale generation failing
+during first boot as the directory isn't present.
 
-I am not sure to understand... If I add to my image the packages 
-glibc-localedata-fr-fr and glibc-charmap-utf-8, then I have something in 
-/usr/share/i18n/locales and /usr/share/i18n/charmaps, and then I can 
-generate the locales with `localedef -c -i fr_FR -f UTF-8 fr_FR`
+If I add the patch and then boot the image, I see the locale generation
+happening at first boot. If I then run the locale commands, I can see
+the locales present.
 
-In the end, I believe this is correct that I have nothing in 
-{libdir}/locale, but perhaps the settings IMAGE_LINGUAS (or 
-GLIBC_GENERATE_LOCALES ?) should specify a rdepend to the locale/charmap 
-packages, so the locales would exist in the image, but would not be 
-generated at build.
+> I am not sure to understand... If I add to my image the packages=20
+> glibc-localedata-fr-fr and glibc-charmap-utf-8, then I have something in=
+=20
+> /usr/share/i18n/locales and /usr/share/i18n/charmaps, and then I can=20
+> generate the locales with `localedef -c -i fr_FR -f UTF-8 fr_FR`
+>=20
+> In the end, I believe this is correct that I have nothing in=20
+> {libdir}/locale, but perhaps the settings IMAGE_LINGUAS (or=20
+> GLIBC_GENERATE_LOCALES ?) should specify a rdepend to the locale/charmap=
+=20
+> packages, so the locales would exist in the image, but would not be=20
+> generated at build.
 
-Regards,
-Louis
+The locale generation can happen at build time or it can happen at
+first boot on the final target. For the second test case, the locales
+will only appear during the boot process.
+
+I've merged your patch with the first test case, thanks! I did tweak
+the comment message to match that it is just one test so far. Thanks
+for getting us that far, it is great to be adding tests around this.
+
+Cheers,
+
+Richard
+
+
 
