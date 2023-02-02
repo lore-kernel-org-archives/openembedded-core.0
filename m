@@ -1,126 +1,77 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <wuxiaotian@loongson.cn>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6CE0C05027
-	for <webhook@archiver.kernel.org>; Wed,  1 Feb 2023 22:17:01 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web11.126.1675289812281421267
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E690C64EC3
+	for <webhook@archiver.kernel.org>; Thu,  2 Feb 2023 08:02:34 +0000 (UTC)
+Received: from loongson.cn (loongson.cn [114.242.206.163])
+ by mx.groups.io with SMTP id smtpd.web11.9825.1675324952814896184
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Feb 2023 14:16:52 -0800
+ Thu, 02 Feb 2023 00:02:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=QimJkeRQ;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f169.google.com with SMTP id v23so19947809plo.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Feb 2023 14:16:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5zMJTWPrcMBSYPKp1aKm4+SMFImrC6no6oA1Ohxu59k=;
-        b=QimJkeRQfPWse/vsaGdop3R9ha7D4wOUsxeIqITrumHEgPbFIT0xYrH0FzaNzQRkIZ
-         ckcE3gzKqUkeQ6MOw4xHUpHZLsgvCtbxTC5LBC1PK78qBU7OIjndIz9pUanaTjDD4JWr
-         7V25PMXlpmQ3gUFIdzQgIQm6pFzT40tfxpGMkwBsAKJczjz8iaQejpdU4aGtEYslvwIo
-         RQMeZrpIfkd5CHYBUo+TzE4E8nvgzWBccDtnowYJ8DNpsZ7gqNMTGcOpo6vS1VuqKBJA
-         EITeXZsFTPjokbcxTMu6pnpUGsETRjXf+oDqgH/MrNLo8z7PKhlHK0yHdSxYnprppHLe
-         z+0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5zMJTWPrcMBSYPKp1aKm4+SMFImrC6no6oA1Ohxu59k=;
-        b=0gkF/WazMlhDr9mTX+D2s8cl7pxv3lhWhtUtDCQeiHY7HbZNAHflsFsM8NpD076nfm
-         j61KrwjS/Y1UiOzO78u6nRi+v3u7uvmmHOqdroZd8d8gmtUK6e3iY6IZOwHSZ1Jz/Ohm
-         tKkBhTbq43B+YaVb6JplzBMwqrTqomqz92T7j4rMMGxhZjG+0WkTlNmy8PHT7nDmXIle
-         NhYtMA3rHPl8T6cc6mlPRRgZW0sROI1aZ0D59xLIEp746o5fex7J+XzZHVbtlP+8Ehau
-         4BA7FZZ/AVmlWrNDkymb4aL1M6XFh4+XYy3wJ5g7ZXiESZZ1Mw5QkwZox4tGfMOaXp77
-         JVAQ==
-X-Gm-Message-State: AO0yUKXwNLy2kfag/HUY2ZTfpaVGPS6eXk0UWYQfeFUjkga0aSyiPNud
-	7xDEYmD8ne50OVga5QJyE4xHJ4J8xAzHbA2EpkI=
-X-Google-Smtp-Source: AK7set8eCDmGXOM57BhyoxiwUqWEypQMMFsLlH/KsUMmi3HQ9IEZGYlTDr6mllmBmhZ0l6XVuk2tig==
-X-Received: by 2002:a05:6a20:6994:b0:bf:2a24:b9fd with SMTP id t20-20020a056a20699400b000bf2a24b9fdmr4888327pzk.38.1675289811345;
-        Wed, 01 Feb 2023 14:16:51 -0800 (PST)
-Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id h10-20020a056a001a4a00b0058df440d51esm11904810pfv.193.2023.02.01.14.16.50
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Feb 2023 14:16:50 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
+ dkim=missing; spf=pass (domain: loongson.cn, ip: 114.242.206.163, mailfrom: wuxiaotian@loongson.cn)
+Received: from loongson.cn (unknown [10.2.9.245])
+	by gateway (Coremail) with SMTP id _____8DxRukXbttjKzcMAA--.17205S3;
+	Thu, 02 Feb 2023 16:02:31 +0800 (CST)
+Received: from code-server.gen (unknown [10.2.9.245])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8Cxmb0NbttjxTknAA--.11392S6;
+	Thu, 02 Feb 2023 16:02:31 +0800 (CST)
+From: Xiaotian Wu <wuxiaotian@loongson.cn>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 13/13] Fix missing leading whitespace with ':append'
-Date: Wed,  1 Feb 2023 12:16:09 -1000
-Message-Id: <cb64ace13db85e143d99627c8803fbb13ba18617.1675289652.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1675289652.git.steve@sakoman.com>
-References: <cover.1675289652.git.steve@sakoman.com>
+Cc: chenjiping@loongson.cn,
+	zhuqizheng@loongson.cn,
+	Xiaotian Wu <wuxiaotian@loongson.cn>
+Subject: [PATCH v1 4/5] loongarch: disable seccomp from default feature
+Date: Thu,  2 Feb 2023 08:02:18 +0000
+Message-Id: <20230202080219.3465767-5-wuxiaotian@loongson.cn>
+X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230202080219.3465767-1-wuxiaotian@loongson.cn>
+References: <20230202080219.3465767-1-wuxiaotian@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Cxmb0NbttjxTknAA--.11392S6
+X-CM-SenderInfo: 5zx0xtprwlt0o6or00hjvr0hdfq/1tbiAQAKCGPaVm8S7QAAs8
+X-Coremail-Antispam: 1Uk129KBjvdXoW7JFW5Gr18Kr4kJr48Ww4fGrg_yoWDJFX_Kw
+	1Dtr40yF1rJ3Z2kFySvF1fGw1xtFZ5XF1kGFy5JF1UC3WxKw4qqa1kCa1q9ry3K3W5urnx
+	XrWfAas5Cr4FqjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
+	xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUU5
+	V7CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I
+	0E14v26F4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCF
+	FI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_WwAm72CE4IkC6x0Yz7
+	v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv
+	8VWrMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
+	xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xII
+	jxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw2
+	0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x02
+	67AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7xRE6wZ7UUUUU==
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Feb 2023 22:17:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176675
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Feb 2023 08:02:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176679
 
-From: Niko Mauno <niko.mauno@vaisala.com>
-
-Mitigate occurences where ':append' operator is used and leading
-whitespace character is obviously missing, risking inadvertent
-string concatenation.
-
-(From OE-Core rev: fcd340ec53ff8352b8cae0eb351810072b025a08)
-
-Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Xiaotian Wu <wuxiaotian@loongson.cn>
 ---
- meta/classes/core-image.bbclass                 | 2 +-
- meta/classes/populate_sdk_ext.bbclass           | 2 +-
- meta/conf/distro/include/ptest-packagelists.inc | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ meta/conf/distro/include/default-distrovars.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
-index 740a6c1d3d..803727da0e 100644
---- a/meta/classes/core-image.bbclass
-+++ b/meta/classes/core-image.bbclass
-@@ -62,7 +62,7 @@ IMAGE_FEATURES_REPLACES_ssh-server-openssh = "ssh-server-dropbear"
- # Do not install openssh complementary packages if either packagegroup-core-ssh-dropbear or dropbear
- # is installed # to avoid openssh-dropbear conflict
- # see [Yocto #14858] for more information
--PACKAGE_EXCLUDE_COMPLEMENTARY:append = "${@bb.utils.contains_any('PACKAGE_INSTALL', 'packagegroup-core-ssh-dropbear dropbear', 'openssh', '' , d)}"
-+PACKAGE_EXCLUDE_COMPLEMENTARY:append = "${@bb.utils.contains_any('PACKAGE_INSTALL', 'packagegroup-core-ssh-dropbear dropbear', ' openssh', '' , d)}"
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index d05390d3cc..7554081e8b 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -22,6 +22,9 @@ DISTRO_FEATURES_DEFAULT:remove:arc = "seccomp"
+ # seccomp is not yet ported to microblaze
+ DISTRO_FEATURES_DEFAULT:remove:microblaze = "seccomp"
  
- # IMAGE_FEATURES_CONFLICTS_foo = 'bar1 bar2'
- # An error exception would be raised if both image features foo and bar1(or bar2) are included
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index e2019f9bbf..0fd30478dc 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -114,7 +114,7 @@ python write_host_sdk_ext_manifest () {
-                 f.write("%s %s %s\n" % (info[1], info[2], info[3]))
- }
- 
--SDK_POSTPROCESS_COMMAND:append:task-populate-sdk-ext = "write_target_sdk_ext_manifest; write_host_sdk_ext_manifest; "    
-+SDK_POSTPROCESS_COMMAND:append:task-populate-sdk-ext = " write_target_sdk_ext_manifest; write_host_sdk_ext_manifest; "    
- 
- SDK_TITLE:task-populate-sdk-ext = "${@d.getVar('DISTRO_NAME') or d.getVar('DISTRO')} Extensible SDK"
- 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index b51cce4d9e..a65c048984 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -99,7 +99,7 @@ PTESTS_SLOW = "\
- "
- 
- PTESTS_SLOW:remove:riscv64 = "valgrind-ptest"
--PTESTS_PROBLEMS:append:riscv64 = "valgrind-ptest"
-+PTESTS_PROBLEMS:append:riscv64 = " valgrind-ptest"
- 
- #    ruby-ptest \ # Timeout
- #    lz4-ptest \ # Needs a rewrite
++# seccomp is not yet ported to loongarch64
++DISTRO_FEATURES_DEFAULT:remove:loongarch64 = "seccomp"
++
+ DISTRO_FEATURES_DEFAULT ?= "acl alsa bluetooth debuginfod ext2 ipv4 ipv6 pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 vfat seccomp"
+ DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT}"
+ IMAGE_FEATURES ?= ""
 -- 
-2.25.1
+2.39.1
 
 
