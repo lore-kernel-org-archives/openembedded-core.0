@@ -2,75 +2,96 @@ Return-Path: <wuxiaotian@loongson.cn>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E690C64EC3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E8AAC63797
 	for <webhook@archiver.kernel.org>; Thu,  2 Feb 2023 08:02:34 +0000 (UTC)
 Received: from loongson.cn (loongson.cn [114.242.206.163])
- by mx.groups.io with SMTP id smtpd.web11.9825.1675324952814896184
+ by mx.groups.io with SMTP id smtpd.web11.9824.1675324947437457333
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Feb 2023 00:02:33 -0800
+ Thu, 02 Feb 2023 00:02:28 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: loongson.cn, ip: 114.242.206.163, mailfrom: wuxiaotian@loongson.cn)
 Received: from loongson.cn (unknown [10.2.9.245])
-	by gateway (Coremail) with SMTP id _____8DxRukXbttjKzcMAA--.17205S3;
-	Thu, 02 Feb 2023 16:02:31 +0800 (CST)
+	by gateway (Coremail) with SMTP id _____8AxnOoQbttjHzcMAA--.24684S3;
+	Thu, 02 Feb 2023 16:02:24 +0800 (CST)
 Received: from code-server.gen (unknown [10.2.9.245])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8Cxmb0NbttjxTknAA--.11392S6;
-	Thu, 02 Feb 2023 16:02:31 +0800 (CST)
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8Cxmb0NbttjxTknAA--.11392S2;
+	Thu, 02 Feb 2023 16:02:22 +0800 (CST)
 From: Xiaotian Wu <wuxiaotian@loongson.cn>
 To: openembedded-core@lists.openembedded.org
 Cc: chenjiping@loongson.cn,
 	zhuqizheng@loongson.cn,
 	Xiaotian Wu <wuxiaotian@loongson.cn>
-Subject: [PATCH v1 4/5] loongarch: disable seccomp from default feature
-Date: Thu,  2 Feb 2023 08:02:18 +0000
-Message-Id: <20230202080219.3465767-5-wuxiaotian@loongson.cn>
+Subject: [PATCH v1 0/5] Add support for LoongArch
+Date: Thu,  2 Feb 2023 08:02:14 +0000
+Message-Id: <20230202080219.3465767-1-wuxiaotian@loongson.cn>
 X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230202080219.3465767-1-wuxiaotian@loongson.cn>
-References: <20230202080219.3465767-1-wuxiaotian@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Cxmb0NbttjxTknAA--.11392S6
-X-CM-SenderInfo: 5zx0xtprwlt0o6or00hjvr0hdfq/1tbiAQAKCGPaVm8S7QAAs8
-X-Coremail-Antispam: 1Uk129KBjvdXoW7JFW5Gr18Kr4kJr48Ww4fGrg_yoWDJFX_Kw
-	1Dtr40yF1rJ3Z2kFySvF1fGw1xtFZ5XF1kGFy5JF1UC3WxKw4qqa1kCa1q9ry3K3W5urnx
-	XrWfAas5Cr4FqjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
-	xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUU5
-	V7CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I
-	0E14v26F4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCF
-	FI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_WwAm72CE4IkC6x0Yz7
-	v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv
-	8VWrMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
-	xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xII
-	jxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw2
-	0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x02
-	67AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7xRE6wZ7UUUUU==
+X-CM-TRANSID: AQAAf8Cxmb0NbttjxTknAA--.11392S2
+X-CM-SenderInfo: 5zx0xtprwlt0o6or00hjvr0hdfq/1tbiAQAKCGPaVm8S1QAMsI
+X-Coremail-Antispam: 1Uk129KBjvJXoW7WFy5XrWxXFy3Xw4fCFW7Arb_yoW8uryUpa
+	97Zr1rJF1xWr93Aa97A345WrW5W3Z2g342gF1fWw40krWqkr1UXr1Ikryqga45X34DtFy0
+	qr95Gw13Wa18ZFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+	qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+	b0kFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
+	AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF
+	7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x
+	0267AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE
+	44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26rWlOx8S6xCaFVCjc4
+	AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIE
+	Y20_WwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E74
+	80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0
+	I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04
+	k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7Cj
+	xVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7xRE6wZ7UUUUU==
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 02 Feb 2023 08:02:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176679
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176676
 
-Signed-off-by: Xiaotian Wu <wuxiaotian@loongson.cn>
----
- meta/conf/distro/include/default-distrovars.inc | 3 +++
- 1 file changed, 3 insertions(+)
+LoongArch is a new architecture, already supported by linux-6.1, gcc-12, I want to add support to openembedded.
 
-diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-index d05390d3cc..7554081e8b 100644
---- a/meta/conf/distro/include/default-distrovars.inc
-+++ b/meta/conf/distro/include/default-distrovars.inc
-@@ -22,6 +22,9 @@ DISTRO_FEATURES_DEFAULT:remove:arc = "seccomp"
- # seccomp is not yet ported to microblaze
- DISTRO_FEATURES_DEFAULT:remove:microblaze = "seccomp"
- 
-+# seccomp is not yet ported to loongarch64
-+DISTRO_FEATURES_DEFAULT:remove:loongarch64 = "seccomp"
-+
- DISTRO_FEATURES_DEFAULT ?= "acl alsa bluetooth debuginfod ext2 ipv4 ipv6 pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 vfat seccomp"
- DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT}"
- IMAGE_FEATURES ?= ""
+These patch sets add basic support, and it can run cross-compile on on x86_64.
+The next step is to add support for yocto repositories, such as yocto-kernel-cache.
+
+Please review these patches, thanks.
+
+Xiaotian Wu (5):
+  base: add support for loongarch64
+  linux: add loongarch64 support
+  binutils: disable gold on loongarch64
+  loongarch: disable seccomp from default feature
+  uboot: loongarch64
+
+ meta/classes-recipe/kernel-arch.bbclass       |  2 ++
+ meta/classes-recipe/siteinfo.bbclass          |  4 +++
+ .../distro/include/default-distrovars.inc     |  3 ++
+ meta/conf/machine-sdk/loongarch64.conf        |  2 ++
+ .../include/loongarch/arch-loongarch.inc      |  7 ++++
+ .../include/loongarch/qemuloongarch.inc       | 35 +++++++++++++++++++
+ .../include/loongarch/tune-loongarch.inc      | 13 +++++++
+ meta/conf/machine/qemuloongarch64.conf        | 11 ++++++
+ meta/conf/templates/default/local.conf.sample |  1 +
+ meta/lib/oe/elf.py                            |  2 ++
+ meta/recipes-bsp/u-boot/u-boot-tools.inc      |  1 +
+ meta/recipes-devtools/binutils/binutils.inc   |  5 +--
+ meta/recipes-devtools/meson/meson_1.0.0.bb    |  2 ++
+ meta/recipes-devtools/qemu/qemu.inc           |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-dev.bb  |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_6.1.bb  |  4 ++-
+ meta/site/loongarch64-linux                   | 11 ++++++
+ scripts/lib/wic/canned-wks/qemuloongarch.wks  |  3 ++
+ scripts/runqemu                               |  4 ++-
+ 19 files changed, 108 insertions(+), 6 deletions(-)
+ create mode 100644 meta/conf/machine-sdk/loongarch64.conf
+ create mode 100644 meta/conf/machine/include/loongarch/arch-loongarch.inc
+ create mode 100644 meta/conf/machine/include/loongarch/qemuloongarch.inc
+ create mode 100644 meta/conf/machine/include/loongarch/tune-loongarch.inc
+ create mode 100644 meta/conf/machine/qemuloongarch64.conf
+ create mode 100644 meta/site/loongarch64-linux
+ create mode 100644 scripts/lib/wic/canned-wks/qemuloongarch.wks
+
 -- 
 2.39.1
 
