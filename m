@@ -2,61 +2,57 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 623A6C636D3
-	for <webhook@archiver.kernel.org>; Thu,  2 Feb 2023 10:53:25 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web10.11881.1675335194538324036
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A52E7C61DA4
+	for <webhook@archiver.kernel.org>; Thu,  2 Feb 2023 11:43:05 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web11.12593.1675338177223568334
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Feb 2023 02:53:15 -0800
+ Thu, 02 Feb 2023 03:42:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=h2WqR1qR;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id y1so1319817wru.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Feb 2023 02:53:14 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MTcc9feC;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id n13so1158270wmr.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Feb 2023 03:42:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ZUJJKAVjOnqBl6LRyxkIxZXMr3nP2N/wrvkzGRaA7hE=;
-        b=h2WqR1qRHQjo459YkY7yTxM+tHHyg6MsmjvhCZSFWu2jtkehTQ0ofyzDzA0WEc3pVi
-         en8jAGC1tf5JyaQ4dbj2EKAwfHVMZsZ7nsGL00hiwzVmk8zJMsWdHzIe789ANBWjsw5N
-         IjhTu8bzqO+hEHy3ZDTe3daZQVPMxOZRRpHWM=
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DA5i/YOv56HVYRUFErv6hIjFxoJU5lw5V0Jkx1O9YwM=;
+        b=MTcc9feCzuhH+oEI9BvCixmTuwa78IojxHNdQzWAWD/PX32zHN0PspenWX4GW8jVUs
+         AhP67Y73udnZzI1RcWwAOhrTK67ytfiwXDQOJWwiGv3wMFwdu8qAvIHBSusPLyuwjUyK
+         gS5/QK8HwsAwxbUWuFWPyY8r4EC3XVIk4vk10=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZUJJKAVjOnqBl6LRyxkIxZXMr3nP2N/wrvkzGRaA7hE=;
-        b=NQ6itkLmgE5kfgBEVCa0f3/gpahF1C5KLPsL8soNZkVX6I69pCKbBIzOa58knMV5ML
-         fcnCtpuivdj3YYIJFwDZ9SmL1WDCq8o5aBop6YwaUhPaD+A701kUglXHtV99SW+xpUzq
-         u1oB+5gZUM179ynKR7Mgc+YXb9Rx7XN9s1g8eHQ+/uC5CeSnMObrPXoFlNfcxNcb3FK0
-         86MDYHT6eFFxXJBCeqCwucz30uIkhLC4JsGqaaIuVbVuzbRdT6spRfXjqw9VicdSXYsy
-         jah5O4MxYNoR+r3FR3vCuDtdxEvTJ20fqXIgFLsmFkcrAkM0Dm2ubDs7hU9YORNh81c3
-         8a4Q==
-X-Gm-Message-State: AO0yUKU9QakGqDfHLtyH3cUzG8qcYzk5BUF645JSneZJ3xGvjWa4VgST
-	E6v672990tp0KhNHSveybauzMw==
-X-Google-Smtp-Source: AK7set88sD6RatJPsMbRW9OHA0KPnqmsWOXEWGaxNteBDCu6DrzHpwVPLp/uy3koEv3S7lL3+vSVEw==
-X-Received: by 2002:a05:6000:252:b0:2bf:ec95:2b19 with SMTP id m18-20020a056000025200b002bfec952b19mr4273406wrz.23.1675335192636;
-        Thu, 02 Feb 2023 02:53:12 -0800 (PST)
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=DA5i/YOv56HVYRUFErv6hIjFxoJU5lw5V0Jkx1O9YwM=;
+        b=7nfSyPmum8wwg1uNyZOKk53BIyJDZo5yV4WWJ8hpKfR8a3XKmxfRisu5P+3F+SFshv
+         JZfDx/y1BYZYIlRvZdtleYLoDBfMggzVWogJXupDKDJZ6h3Z5ZaFXzKBGysTVMhID7kD
+         lsX+UQi9N8bbWHPL6WMEFfP68hc7jxJUT0YfoykBiLXy/6TByvZAiANf1Li8acfjg/aQ
+         BqA/A3R2K8+ah6aTWXCm0JkWKnQR5ncjQjIfOyD5xbNu6ne4NRzQUx/TnoEA1STIG/b2
+         lT76RBeoFTCBIZwsFjzVhOAEtWM0friUZgPEKLOJiUdSz51NniLv88au/bs88WQiA4ZG
+         OxXw==
+X-Gm-Message-State: AO0yUKWfecyuQAlHd7WTb+Tc8RexLtKOyXpfLJQQTZO3Xrx/tZoT1iFt
+	i56TO4P6pQkiJemebVbzFUZ7og==
+X-Google-Smtp-Source: AK7set8uQHcZJ5Qzq0V+TmzVo1gp8xsj3Z0gK27geGvwUah5/n7ivSuVDYnzs52k2SgomaXSDh8vjw==
+X-Received: by 2002:a05:600c:1d04:b0:3cf:85f7:bbc4 with SMTP id l4-20020a05600c1d0400b003cf85f7bbc4mr5426415wms.2.1675338175484;
+        Thu, 02 Feb 2023 03:42:55 -0800 (PST)
 Received: from [172.27.250.62] ([212.187.182.166])
-        by smtp.gmail.com with ESMTPSA id n9-20020a5d4c49000000b002bfb7c2430bsm19476682wrt.19.2023.02.02.02.53.11
+        by smtp.gmail.com with ESMTPSA id z18-20020a1c4c12000000b003dc48a2f997sm4079623wmf.17.2023.02.02.03.42.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Feb 2023 02:53:12 -0800 (PST)
-Message-ID: <845d6037af51cb2ba78a6d139f5a27301a0a77a0.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2] oeqa/selftest/locales: Create selftest for
- locales generation
+        Thu, 02 Feb 2023 03:42:55 -0800 (PST)
+Message-ID: <78aa81ec86a05f1b6da3afd1c7af73e97de3aa58.camel@linuxfoundation.org>
+Subject: Re: [OE-core][kirkstone 10/13] native: Drop special variable
+ handling
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Louis Rannou <lrannou@baylibre.com>, 
+To: Steve Sakoman <steve@sakoman.com>, 
 	openembedded-core@lists.openembedded.org
-Cc: "khilman@baylibre.com" <khilman@baylibre.com>
-Date: Thu, 02 Feb 2023 10:53:11 +0000
-In-Reply-To: <1749af1e-dce3-ec14-32a1-fe5a50848f25@baylibre.com>
-References: <20230127153344.2868589-1-lrannou@baylibre.com>
-	 <b3320afb6afb6508d5f4d0f3ceb75e87e97ed450.camel@linuxfoundation.org>
-	 <92bff1e0-aa88-c713-049f-51f074569a55@baylibre.com>
-	 <913abc23f1ba2691f7c676b182b1ec0303e5d30d.camel@linuxfoundation.org>
-	 <1749af1e-dce3-ec14-32a1-fe5a50848f25@baylibre.com>
+Date: Thu, 02 Feb 2023 11:42:54 +0000
+In-Reply-To: <47a2634831f907d83ec40ad010351c923ef67f0d.1675289652.git.steve@sakoman.com>
+References: <cover.1675289652.git.steve@sakoman.com>
+	 <47a2634831f907d83ec40ad010351c923ef67f0d.1675289652.git.steve@sakoman.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.1-0ubuntu1 
@@ -64,83 +60,62 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Feb 2023 10:53:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176688
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Feb 2023 11:43:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176689
 
-On Thu, 2023-02-02 at 11:41 +0100, Louis Rannou wrote:
-> On 01/02/2023 18:57, Richard Purdie wrote:
-> > On Wed, 2023-02-01 at 16:02 +0100, Louis Rannou wrote:
-> >=20
-> >=20
-> > I was able to take a quick look at this. The locale generation on
-> > target is broken, it throws errors upon boot. I was able to make it
-> > work with this patch:
-> >=20
-> > diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-co=
-re/glibc/glibc-locale.inc
-> > index 7f70b3ca4f..c39007b573 100644
-> > --- a/meta/recipes-core/glibc/glibc-locale.inc
-> > +++ b/meta/recipes-core/glibc/glibc-locale.inc
-> > @@ -60,7 +60,7 @@ DESCRIPTION:localedef =3D "glibc: compile locale defi=
-nition files"
-> >   # FILES:glibc-gconv will not be automatically extended in multilib.
-> >   # Explicitly add ${MLPREFIX} for FILES:glibc-gconv.
-> >   FILES:${MLPREFIX}glibc-gconv =3D "${libdir}/gconv/*"
-> > -FILES:localedef =3D "${bindir}/localedef"
-> > +FILES:localedef =3D "${bindir}/localedef ${libdir}/locale"
-> >  =20
-> >   LOCALETREESRC =3D "${COMPONENTS_DIR}/${PACKAGE_ARCH}/glibc-stash-loca=
-le"
-> >  =20
-> > @@ -87,6 +87,7 @@ do_install() {
-> >          find ${D}${libdir} -type d -empty -delete
-> >          copy_locale_files ${datadir}/locale 0644
-> >          install -m 0644 ${LOCALETREESRC}/SUPPORTED ${WORKDIR}/SUPPORTE=
-D
-> > +       install -d ${D}${libdir}/locale
-> >   }
-> >  =20
-> >   inherit libc-package
-> >=20
-> > could you see if the same test will now work with that patch applied?
-> > I'm happy to have the basic test but if we can fix this and stop it
-> > regressing that would be even better.
+On Wed, 2023-02-01 at 12:16 -1000, Steve Sakoman wrote:
+> From: Richard Purdie <richard.purdie@linuxfoundation.org>
 >=20
-> The patch does not change the result. I have actually nothing in the=20
-> image/usr/lib/locale directory.
-
-Testing locally, if I don't have the patch and "runqemu core-image-
-minimal snapshot kvm", I see errors about locale generation failing
-during first boot as the directory isn't present.
-
-If I add the patch and then boot the image, I see the locale generation
-happening at first boot. If I then run the locale commands, I can see
-the locales present.
-
-> I am not sure to understand... If I add to my image the packages=20
-> glibc-localedata-fr-fr and glibc-charmap-utf-8, then I have something in=
-=20
-> /usr/share/i18n/locales and /usr/share/i18n/charmaps, and then I can=20
-> generate the locales with `localedef -c -i fr_FR -f UTF-8 fr_FR`
+> Back when it was merged in https://git.yoctoproject.org/poky/commit/?id=
+=3Dc4257ed8b1040a5a0e9a95846d81961741239116
+> it appeared special handling in setVar was necessary. Likely due to
+> other fixes and improvements it no longer appears to be. The results of
+> "bitbake world -g" before and after this change are identical for oe-core
+> and meta-openembedded. Therefore drop the "parsing=3DTrue" special parame=
+ter to
+> setVar() meaning overrides can now be cleared.
 >=20
-> In the end, I believe this is correct that I have nothing in=20
-> {libdir}/locale, but perhaps the settings IMAGE_LINGUAS (or=20
-> GLIBC_GENERATE_LOCALES ?) should specify a rdepend to the locale/charmap=
-=20
-> packages, so the locales would exist in the image, but would not be=20
-> generated at build.
+> This means that something like:
+>=20
+> DEPENDS:append =3D " bash"
+>=20
+> now functions as expected, adding bash to the target recipe and bash-nati=
+ve to
+> the native BBCLASSEXTENDED version.
+>=20
+> Without this change, it would add bash to the native version as well as
+> bash-native which is clearly incorrect.
+>=20
+> [YOCTO #15010]
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit 99a5105f7b5303cd36077b5910c662a865c1782c)
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> ---
+>  meta/classes/native.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
+> index fc7422c5d7..4de96cd59b 100644
+> --- a/meta/classes/native.bbclass
+> +++ b/meta/classes/native.bbclass
+> @@ -153,7 +153,7 @@ python native_virtclass_handler () {
+>                  newdeps.append(dep.replace(pn, bpn) + "-native")
+>              else:
+>                  newdeps.append(dep)
+> -        d.setVar(varname, " ".join(newdeps), parsing=3DTrue)
+> +        d.setVar(varname, " ".join(newdeps))
+> =20
+>      map_dependencies("DEPENDS", e.data, selfref=3DFalse)
+>      for pkg in e.data.getVar("PACKAGES", False).split():
 
-The locale generation can happen at build time or it can happen at
-first boot on the final target. For the second test case, the locales
-will only appear during the boot process.
-
-I've merged your patch with the first test case, thanks! I did tweak
-the comment message to match that it is just one test so far. Thanks
-for getting us that far, it is great to be adding tests around this.
+Steve: Did you check "bitbake world -g" is the same before and after
+this change for kirkstone?
 
 Cheers,
 
 Richard
-
 
 
