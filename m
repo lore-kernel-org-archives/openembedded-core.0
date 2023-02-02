@@ -1,254 +1,335 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <narpat.mali@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DCF7C61DA4
-	for <webhook@archiver.kernel.org>; Thu,  2 Feb 2023 18:06:50 +0000 (UTC)
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
- by mx.groups.io with SMTP id smtpd.web10.72.1675361200731994096
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6779AC05027
+	for <webhook@archiver.kernel.org>; Thu,  2 Feb 2023 18:10:50 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.199.1675361442437568135
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Feb 2023 10:06:40 -0800
+ Thu, 02 Feb 2023 10:10:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Wjq2ZoOU;
- spf=pass (domain: gmail.com, ip: 209.85.219.176, mailfrom: ticotimo@gmail.com)
-Received: by mail-yb1-f176.google.com with SMTP id g2so3260020ybk.8
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Feb 2023 10:06:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2yb147UejIndtfIPUas9c23lV8pqXjvHon1VP0M8Lj0=;
-        b=Wjq2ZoOU/ZezNKn16aezOh+kBtr1ELo6hfL3BSu55txGtrQPZF9RPx/mDlSjjiSl5a
-         kiy0D2mV9g4Q4SMgvX3znLkYbPvMIdxzK4XE2jiQWO13yauOtX9cYXBPB8jQEy4HEMVc
-         RDhO1Cum9LCm6i0O8f2N/EwcoV/guVpPPWePk4vSeSP7UjjZ4uLKGglpOsOwgjGycuYx
-         qt1dVlMi9JmgkR3YjZPYO98fT69UXTqNJy9fMIaDBqysGJq8jtpcTZ8MHw8xb97Zya6I
-         1i8FOG3WKXCLC5m2QwCp99C9r+v7xhDLnqVWx3hrf9+4rpaQyDuQm+bC7E/eTTa6fvGA
-         hHQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2yb147UejIndtfIPUas9c23lV8pqXjvHon1VP0M8Lj0=;
-        b=rqBeSRroI1+zmJoKZt4Chz1VGSfbWBIr7+kTAPTlEC9o9w8NKRsTi4fQw4Yofy3oRC
-         B0Zy8R+rN2ihRdbH+k4Y3fv0smBO9Ut9eV1hOoBWUF5QdR2s1PgHXiOhbkYqi9CBjE6M
-         2si//EPewdFI9k+RioUucou5JioQaPQGLsuOff804OGUyBz2Ao1oq6r1xY7vlCggCxCg
-         JYhTVS1pdUBZCKBrQsBjpdU9I2G3I28ieAuBgfe5MSUiv4w1If5eGx+R7UjM+i2G7Pi9
-         B3VVq6gDLyIvAV6EtMrGmUSudwDHz3K2uF1UmYQ/A2tZbQ+wzk0NlQrD2wlb5bw4jn4E
-         VHNg==
-X-Gm-Message-State: AO0yUKUZP6qzfbMtZkqX7ySLmcu16bHKQkFIKe94yA6shluXH7cN9j4O
-	AmqdOKVyVKCy2peXe0vTBcYBOVkyEdoKRD403rk=
-X-Google-Smtp-Source: AK7set9q+khkdZZHjNTuZ47+7CevDps3fq4qETOUgrdqLMduKg/aG0vvFpV4Y9thu+4Na9NGTHyXdpA76dzPUU9HBoo=
-X-Received: by 2002:a25:af4f:0:b0:7c8:3a6f:9b7b with SMTP id
- c15-20020a25af4f000000b007c83a6f9b7bmr833335ybj.88.1675361199698; Thu, 02 Feb
- 2023 10:06:39 -0800 (PST)
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=lT6v0i9b;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=1397899bf4=narpat.mali@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 312DvrmY029067
+	for <openembedded-core@lists.openembedded.org>; Thu, 2 Feb 2023 10:10:42 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=PPS06212021;
+ bh=vfszkqiB0uU2BgUVdkvG2EDNzoNvbFalh3lr/ziqpiA=;
+ b=lT6v0i9ba2SH0lXKGksSo/ZdkhJG+S0ADxYA77hCl6+6XCQnZ8tNDAL/dfwqyyRulpuC
+ aV8zIdRruhTW2ydXXJPYMrkWsr/logocUNciUkARRVgmu16mW6ZV7hz8y5STPlRgTiMh
+ +SyhlWZwLX/6fLyES+Q2Dh/O/6urmyGpYbzPsmLk8UniRJbh07/g6SVjX9eMABpONuCF
+ RAhfUad+PUq6tWJnfCf1V2y7OGN0uJ1w8arT/SKYFnBOppsCI8otsG97M7FmHVI/AXm+
+ fp3G4gf2MaaIyOzgS/TXh/vnU9Sd8vjVTebHj1qgJ0yvpRrOgR6fgmo/cz6Mol0Xk7qb eQ== 
+Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3nfqn41ceb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 02 Feb 2023 10:10:41 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.17; Thu, 2 Feb 2023 10:10:41 -0800
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.17 via Frontend Transport; Thu, 2 Feb 2023 10:10:39 -0800
+From: Narpat Mali <narpat.mali@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <archana.polampalli@windriver.com>, <hari.gpillai@windriver.com>,
+        "Narpat
+ Mali" <narpat.mali@windriver.com>
+Subject: [OE-core][kirkstone][PATCH 1/1] python3-certifi: fix for CVE-2022-23491
+Date: Thu, 2 Feb 2023 18:05:19 +0000
+Message-ID: <20230202180519.3302226-1-narpat.mali@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <17490.1673869297796319682@lists.openembedded.org>
- <17490.1673882452401971192@lists.openembedded.org> <d74652b6-1342-491f-b949-320cf9f63012@windriver.com>
- <41add1d8b8a0f94c13e6599bd4c400dee7c611d1.camel@linuxfoundation.org>
- <49909f0e-9fc9-cb74-66f4-e6feec95f8d0@windriver.com> <CANNYZj_UxfHNdOyT0t1S=gov7DXDVnNdCOQ4i8-cXfK9VGw0GQ@mail.gmail.com>
- <CAOSpxda3VsmobDFyVCmNH6cqGd+MZahO=g=yf_6XNY0sJAwcLg@mail.gmail.com> <765d5133-42eb-2ef6-7ba0-b5556a7a1d1b@windriver.com>
-In-Reply-To: <765d5133-42eb-2ef6-7ba0-b5556a7a1d1b@windriver.com>
-From: Tim Orling <ticotimo@gmail.com>
-Date: Thu, 2 Feb 2023 10:06:28 -0800
-Message-ID: <CANx9H-D3eWosG+Jafc8StygdBy01O953vAFg+R32zPvdUjuidQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] rust: Upgrade 1.66.0 -> 1.66.1
-To: Randy MacLeod <randy.macleod@windriver.com>
-Cc: Steve Sakoman <steve@sakoman.com>, Alexander Kanavin <alex.kanavin@gmail.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, sundeep.kokkonda@windriver.com, 
-	openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000002dbb5905f3bb6d81"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: 1DLBMDfAOG5CCRHajDuP_RBzDowRzn3U
+X-Proofpoint-GUID: 1DLBMDfAOG5CCRHajDuP_RBzDowRzn3U
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-02_12,2023-02-02_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=760
+ malwarescore=0 adultscore=0 impostorscore=0 suspectscore=0 bulkscore=0
+ phishscore=0 mlxscore=0 clxscore=1015 spamscore=0 priorityscore=1501
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302020161
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Feb 2023 18:06:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176702
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Feb 2023 18:10:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176703
 
---0000000000002dbb5905f3bb6d81
-Content-Type: text/plain; charset="UTF-8"
+Certifi is a curated collection of Root Certificates for validating the
+trustworthiness of SSL certificates while verifying the identity of TLS
+hosts. Certifi 2022.12.07 removes root certificates from "TrustCor" from
+the root store. These are in the process of being removed from Mozilla's
+trust store. TrustCor's root certificates are being removed pursuant to
+an investigation prompted by media reporting that TrustCor's ownership
+also operated a business that produced spyware. Conclusions of Mozilla's
+investigation can be found in the linked google group discussion.
 
-On Tue, Jan 17, 2023 at 6:08 PM Randy MacLeod <randy.macleod@windriver.com>
-wrote:
+Reference: https://nvd.nist.gov/vuln/detail/CVE-2022-23491
 
-> <snip>
->
-> The Rust developers / community seems to want their software to work in a
-> similar way.
-> They have a quite exhaustive test suite (Crater) to check for regressions.
-> I'll look for some actual test results from Crater and reply here when I
-> find them.
->
-There is a Crater <https://github.com/rust-lang/crater> chapter in the Rust
-docs <https://rustc-dev-guide.rust-lang.org/tests/crater.html>
-I haven't found any test runs/results in their GitHub actions yet...
-There is rust-toolstate
-<https://github.com/rust-lang-nursery/rust-toolstate>, but it only shows
-the status per commit, not the test case results.
+Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
+---
+ .../python3-certifi/CVE-2022-23491.patch      | 230 ++++++++++++++++++
+ .../python/python3-certifi_2021.10.8.bb       |   2 +
+ 2 files changed, 232 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-certifi/CVE-2022-23491.patch
 
-Ah, perhaps these are the Crater tests?
- https://github.com/rust-lang-ci/rust/actions
-<https://github.com/rust-lang-ci/rust/actions>
+diff --git a/meta/recipes-devtools/python/python3-certifi/CVE-2022-23491.patch b/meta/recipes-devtools/python/python3-certifi/CVE-2022-23491.patch
+new file mode 100644
+index 0000000000..94ca254549
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-certifi/CVE-2022-23491.patch
+@@ -0,0 +1,230 @@
++From 167413eefa9482a7777b3ccdcc70e511ef5fcc2b Mon Sep 17 00:00:00 2001
++From: Narpat Mali <narpat.mali@windriver.com>
++Date: Thu, 2 Feb 2023 12:57:06 +0000
++Subject: [PATCH] Certifi is a curated collection of Root Certificates for
++ validating the trustworthiness of SSL certificates while verifying the
++ identity of TLS hosts. Certifi 2022.12.07 removes root certificates from
++ "TrustCor" from the root store. These are in the process of being removed
++ from Mozilla's trust store. TrustCor's root certificates are being removed
++ pursuant to an investigation prompted by media reporting that TrustCor's
++ ownership also operated a business that produced spyware. Conclusions of
++ Mozilla's investigation can be found in the linked google group discussion.
++
++CVE: CVE-2022-23491
++
++Upstream-Status: Backport [https://github.com/certifi/python-certifi/commit/9e9e840925d7b8e76c76fdac1fab7e6e88c1c3b8]
++
++Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
++---
++ certifi/cacert.pem | 181 ---------------------------------------------
++ 1 file changed, 181 deletions(-)
++
++diff --git a/certifi/cacert.pem b/certifi/cacert.pem
++index 6d0ccc0..6bae3e4 100644
++--- a/certifi/cacert.pem
+++++ b/certifi/cacert.pem
++@@ -694,37 +694,6 @@ BA6+C4OmF4O5MBKgxTMVBbkN+8cFduPYSo38NBejxiEovjBFMR7HeL5YYTisO+IB
++ ZQ==
++ -----END CERTIFICATE-----
++ 
++-# Issuer: CN=Network Solutions Certificate Authority O=Network Solutions L.L.C.
++-# Subject: CN=Network Solutions Certificate Authority O=Network Solutions L.L.C.
++-# Label: "Network Solutions Certificate Authority"
++-# Serial: 116697915152937497490437556386812487904
++-# MD5 Fingerprint: d3:f3:a6:16:c0:fa:6b:1d:59:b1:2d:96:4d:0e:11:2e
++-# SHA1 Fingerprint: 74:f8:a3:c3:ef:e7:b3:90:06:4b:83:90:3c:21:64:60:20:e5:df:ce
++-# SHA256 Fingerprint: 15:f0:ba:00:a3:ac:7a:f3:ac:88:4c:07:2b:10:11:a0:77:bd:77:c0:97:f4:01:64:b2:f8:59:8a:bd:83:86:0c
++------BEGIN CERTIFICATE-----
++-MIID5jCCAs6gAwIBAgIQV8szb8JcFuZHFhfjkDFo4DANBgkqhkiG9w0BAQUFADBi
++-MQswCQYDVQQGEwJVUzEhMB8GA1UEChMYTmV0d29yayBTb2x1dGlvbnMgTC5MLkMu
++-MTAwLgYDVQQDEydOZXR3b3JrIFNvbHV0aW9ucyBDZXJ0aWZpY2F0ZSBBdXRob3Jp
++-dHkwHhcNMDYxMjAxMDAwMDAwWhcNMjkxMjMxMjM1OTU5WjBiMQswCQYDVQQGEwJV
++-UzEhMB8GA1UEChMYTmV0d29yayBTb2x1dGlvbnMgTC5MLkMuMTAwLgYDVQQDEydO
++-ZXR3b3JrIFNvbHV0aW9ucyBDZXJ0aWZpY2F0ZSBBdXRob3JpdHkwggEiMA0GCSqG
++-SIb3DQEBAQUAA4IBDwAwggEKAoIBAQDkvH6SMG3G2I4rC7xGzuAnlt7e+foS0zwz
++-c7MEL7xxjOWftiJgPl9dzgn/ggwbmlFQGiaJ3dVhXRncEg8tCqJDXRfQNJIg6nPP
++-OCwGJgl6cvf6UDL4wpPTaaIjzkGxzOTVHzbRijr4jGPiFFlp7Q3Tf2vouAPlT2rl
++-mGNpSAW+Lv8ztumXWWn4Zxmuk2GWRBXTcrA/vGp97Eh/jcOrqnErU2lBUzS1sLnF
++-BgrEsEX1QV1uiUV7PTsmjHTC5dLRfbIR1PtYMiKagMnc/Qzpf14Dl847ABSHJ3A4
++-qY5usyd2mFHgBeMhqxrVhSI8KbWaFsWAqPS7azCPL0YCorEMIuDTAgMBAAGjgZcw
++-gZQwHQYDVR0OBBYEFCEwyfsA106Y2oeqKtCnLrFAMadMMA4GA1UdDwEB/wQEAwIB
++-BjAPBgNVHRMBAf8EBTADAQH/MFIGA1UdHwRLMEkwR6BFoEOGQWh0dHA6Ly9jcmwu
++-bmV0c29sc3NsLmNvbS9OZXR3b3JrU29sdXRpb25zQ2VydGlmaWNhdGVBdXRob3Jp
++-dHkuY3JsMA0GCSqGSIb3DQEBBQUAA4IBAQC7rkvnt1frf6ott3NHhWrB5KUd5Oc8
++-6fRZZXe1eltajSU24HqXLjjAV2CDmAaDn7l2em5Q4LqILPxFzBiwmZVRDuwduIj/
++-h1AcgsLj4DKAv6ALR8jDMe+ZZzKATxcheQxpXN5eNK4CtSbqUN9/GGUsyfJj4akH
++-/nxxH2szJGoeBfcFaMBqEssuXmHLrijTfsK0ZpEmXzwuJF/LWA/rKOyvEZbz3Htv
++-wKeI8lN3s2Berq4o2jUsbzRF0ybh3uxbTydrFny9RAQYgrOJeRcQcT16ohZO9QHN
++-pGxlaKFJdlxDydi8NmdspZS11My5vWo1ViHe2MPr+8ukYEywVaCge1ey
++------END CERTIFICATE-----
++-
++ # Issuer: CN=COMODO ECC Certification Authority O=COMODO CA Limited
++ # Subject: CN=COMODO ECC Certification Authority O=COMODO CA Limited
++ # Label: "COMODO ECC Certification Authority"
++@@ -2385,46 +2354,6 @@ KoZIzj0EAwMDaAAwZQIxAOVpEslu28YxuglB4Zf4+/2a4n0Sye18ZNPLBSWLVtmg
++ xwy8p2Fp8fc74SrL+SvzZpA3
++ -----END CERTIFICATE-----
++ 
++-# Issuer: CN=Staat der Nederlanden EV Root CA O=Staat der Nederlanden
++-# Subject: CN=Staat der Nederlanden EV Root CA O=Staat der Nederlanden
++-# Label: "Staat der Nederlanden EV Root CA"
++-# Serial: 10000013
++-# MD5 Fingerprint: fc:06:af:7b:e8:1a:f1:9a:b4:e8:d2:70:1f:c0:f5:ba
++-# SHA1 Fingerprint: 76:e2:7e:c1:4f:db:82:c1:c0:a6:75:b5:05:be:3d:29:b4:ed:db:bb
++-# SHA256 Fingerprint: 4d:24:91:41:4c:fe:95:67:46:ec:4c:ef:a6:cf:6f:72:e2:8a:13:29:43:2f:9d:8a:90:7a:c4:cb:5d:ad:c1:5a
++------BEGIN CERTIFICATE-----
++-MIIFcDCCA1igAwIBAgIEAJiWjTANBgkqhkiG9w0BAQsFADBYMQswCQYDVQQGEwJO
++-TDEeMBwGA1UECgwVU3RhYXQgZGVyIE5lZGVybGFuZGVuMSkwJwYDVQQDDCBTdGFh
++-dCBkZXIgTmVkZXJsYW5kZW4gRVYgUm9vdCBDQTAeFw0xMDEyMDgxMTE5MjlaFw0y
++-MjEyMDgxMTEwMjhaMFgxCzAJBgNVBAYTAk5MMR4wHAYDVQQKDBVTdGFhdCBkZXIg
++-TmVkZXJsYW5kZW4xKTAnBgNVBAMMIFN0YWF0IGRlciBOZWRlcmxhbmRlbiBFViBS
++-b290IENBMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA48d+ifkkSzrS
++-M4M1LGns3Amk41GoJSt5uAg94JG6hIXGhaTK5skuU6TJJB79VWZxXSzFYGgEt9nC
++-UiY4iKTWO0Cmws0/zZiTs1QUWJZV1VD+hq2kY39ch/aO5ieSZxeSAgMs3NZmdO3d
++-Z//BYY1jTw+bbRcwJu+r0h8QoPnFfxZpgQNH7R5ojXKhTbImxrpsX23Wr9GxE46p
++-rfNeaXUmGD5BKyF/7otdBwadQ8QpCiv8Kj6GyzyDOvnJDdrFmeK8eEEzduG/L13l
++-pJhQDBXd4Pqcfzho0LKmeqfRMb1+ilgnQ7O6M5HTp5gVXJrm0w912fxBmJc+qiXb
++-j5IusHsMX/FjqTf5m3VpTCgmJdrV8hJwRVXj33NeN/UhbJCONVrJ0yPr08C+eKxC
++-KFhmpUZtcALXEPlLVPxdhkqHz3/KRawRWrUgUY0viEeXOcDPusBCAUCZSCELa6fS
++-/ZbV0b5GnUngC6agIk440ME8MLxwjyx1zNDFjFE7PZQIZCZhfbnDZY8UnCHQqv0X
++-cgOPvZuM5l5Tnrmd74K74bzickFbIZTTRTeU0d8JOV3nI6qaHcptqAqGhYqCvkIH
++-1vI4gnPah1vlPNOePqc7nvQDs/nxfRN0Av+7oeX6AHkcpmZBiFxgV6YuCcS6/ZrP
++-px9Aw7vMWgpVSzs4dlG4Y4uElBbmVvMCAwEAAaNCMEAwDwYDVR0TAQH/BAUwAwEB
++-/zAOBgNVHQ8BAf8EBAMCAQYwHQYDVR0OBBYEFP6rAJCYniT8qcwaivsnuL8wbqg7
++-MA0GCSqGSIb3DQEBCwUAA4ICAQDPdyxuVr5Os7aEAJSrR8kN0nbHhp8dB9O2tLsI
++-eK9p0gtJ3jPFrK3CiAJ9Brc1AsFgyb/E6JTe1NOpEyVa/m6irn0F3H3zbPB+po3u
++-2dfOWBfoqSmuc0iH55vKbimhZF8ZE/euBhD/UcabTVUlT5OZEAFTdfETzsemQUHS
++-v4ilf0X8rLiltTMMgsT7B/Zq5SWEXwbKwYY5EdtYzXc7LMJMD16a4/CrPmEbUCTC
++-wPTxGfARKbalGAKb12NMcIxHowNDXLldRqANb/9Zjr7dn3LDWyvfjFvO5QxGbJKy
++-CqNMVEIYFRIYvdr8unRu/8G2oGTYqV9Vrp9canaW2HNnh/tNf1zuacpzEPuKqf2e
++-vTY4SUmH9A4U8OmHuD+nT3pajnnUk+S7aFKErGzp85hwVXIy+TSrK0m1zSBi5Dp6
++-Z2Orltxtrpfs/J92VoguZs9btsmksNcFuuEnL5O7Jiqik7Ab846+HUCjuTaPPoIa
++-Gl6I6lD4WeKDRikL40Rc4ZW2aZCaFG+XroHPaO+Zmr615+F/+PoTRxZMzG0IQOeL
++-eG9QgkRQP2YGiqtDhFZKDyAthg710tvSeopLzaXoTvFeJiUBWSOgftL2fiFX1ye8
++-FVdMpEbB4IMeDExNH08GGeL5qPQ6gqGyeUN51q1veieQA6TqJIc/2b3Z6fJfUEkc
++-7uzXLg==
++------END CERTIFICATE-----
++-
++ # Issuer: CN=IdenTrust Commercial Root CA 1 O=IdenTrust
++ # Subject: CN=IdenTrust Commercial Root CA 1 O=IdenTrust
++ # Label: "IdenTrust Commercial Root CA 1"
++@@ -3032,116 +2961,6 @@ T8p+ck0LcIymSLumoRT2+1hEmRSuqguTaaApJUqlyyvdimYHFngVV3Eb7PVHhPOe
++ MTd61X8kreS8/f3MboPoDKi3QWwH3b08hpcv0g==
++ -----END CERTIFICATE-----
++ 
++-# Issuer: CN=TrustCor RootCert CA-1 O=TrustCor Systems S. de R.L. OU=TrustCor Certificate Authority
++-# Subject: CN=TrustCor RootCert CA-1 O=TrustCor Systems S. de R.L. OU=TrustCor Certificate Authority
++-# Label: "TrustCor RootCert CA-1"
++-# Serial: 15752444095811006489
++-# MD5 Fingerprint: 6e:85:f1:dc:1a:00:d3:22:d5:b2:b2:ac:6b:37:05:45
++-# SHA1 Fingerprint: ff:bd:cd:e7:82:c8:43:5e:3c:6f:26:86:5c:ca:a8:3a:45:5b:c3:0a
++-# SHA256 Fingerprint: d4:0e:9c:86:cd:8f:e4:68:c1:77:69:59:f4:9e:a7:74:fa:54:86:84:b6:c4:06:f3:90:92:61:f4:dc:e2:57:5c
++------BEGIN CERTIFICATE-----
++-MIIEMDCCAxigAwIBAgIJANqb7HHzA7AZMA0GCSqGSIb3DQEBCwUAMIGkMQswCQYD
++-VQQGEwJQQTEPMA0GA1UECAwGUGFuYW1hMRQwEgYDVQQHDAtQYW5hbWEgQ2l0eTEk
++-MCIGA1UECgwbVHJ1c3RDb3IgU3lzdGVtcyBTLiBkZSBSLkwuMScwJQYDVQQLDB5U
++-cnVzdENvciBDZXJ0aWZpY2F0ZSBBdXRob3JpdHkxHzAdBgNVBAMMFlRydXN0Q29y
++-IFJvb3RDZXJ0IENBLTEwHhcNMTYwMjA0MTIzMjE2WhcNMjkxMjMxMTcyMzE2WjCB
++-pDELMAkGA1UEBhMCUEExDzANBgNVBAgMBlBhbmFtYTEUMBIGA1UEBwwLUGFuYW1h
++-IENpdHkxJDAiBgNVBAoMG1RydXN0Q29yIFN5c3RlbXMgUy4gZGUgUi5MLjEnMCUG
++-A1UECwweVHJ1c3RDb3IgQ2VydGlmaWNhdGUgQXV0aG9yaXR5MR8wHQYDVQQDDBZU
++-cnVzdENvciBSb290Q2VydCBDQS0xMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB
++-CgKCAQEAv463leLCJhJrMxnHQFgKq1mqjQCj/IDHUHuO1CAmujIS2CNUSSUQIpid
++-RtLByZ5OGy4sDjjzGiVoHKZaBeYei0i/mJZ0PmnK6bV4pQa81QBeCQryJ3pS/C3V
++-seq0iWEk8xoT26nPUu0MJLq5nux+AHT6k61sKZKuUbS701e/s/OojZz0JEsq1pme
++-9J7+wH5COucLlVPat2gOkEz7cD+PSiyU8ybdY2mplNgQTsVHCJCZGxdNuWxu72CV
++-EY4hgLW9oHPY0LJ3xEXqWib7ZnZ2+AYfYW0PVcWDtxBWcgYHpfOxGgMFZA6dWorW
++-hnAbJN7+KIor0Gqw/Hqi3LJ5DotlDwIDAQABo2MwYTAdBgNVHQ4EFgQU7mtJPHo/
++-DeOxCbeKyKsZn3MzUOcwHwYDVR0jBBgwFoAU7mtJPHo/DeOxCbeKyKsZn3MzUOcw
++-DwYDVR0TAQH/BAUwAwEB/zAOBgNVHQ8BAf8EBAMCAYYwDQYJKoZIhvcNAQELBQAD
++-ggEBACUY1JGPE+6PHh0RU9otRCkZoB5rMZ5NDp6tPVxBb5UrJKF5mDo4Nvu7Zp5I
++-/5CQ7z3UuJu0h3U/IJvOcs+hVcFNZKIZBqEHMwwLKeXx6quj7LUKdJDHfXLy11yf
++-ke+Ri7fc7Waiz45mO7yfOgLgJ90WmMCV1Aqk5IGadZQ1nJBfiDcGrVmVCrDRZ9MZ
++-yonnMlo2HD6CqFqTvsbQZJG2z9m2GM/bftJlo6bEjhcxwft+dtvTheNYsnd6djts
++-L1Ac59v2Z3kf9YKVmgenFK+P3CghZwnS1k1aHBkcjndcw5QkPTJrS37UeJSDvjdN
++-zl/HHk484IkzlQsPpTLWPFp5LBk=
++------END CERTIFICATE-----
++-
++-# Issuer: CN=TrustCor RootCert CA-2 O=TrustCor Systems S. de R.L. OU=TrustCor Certificate Authority
++-# Subject: CN=TrustCor RootCert CA-2 O=TrustCor Systems S. de R.L. OU=TrustCor Certificate Authority
++-# Label: "TrustCor RootCert CA-2"
++-# Serial: 2711694510199101698
++-# MD5 Fingerprint: a2:e1:f8:18:0b:ba:45:d5:c7:41:2a:bb:37:52:45:64
++-# SHA1 Fingerprint: b8:be:6d:cb:56:f1:55:b9:63:d4:12:ca:4e:06:34:c7:94:b2:1c:c0
++-# SHA256 Fingerprint: 07:53:e9:40:37:8c:1b:d5:e3:83:6e:39:5d:ae:a5:cb:83:9e:50:46:f1:bd:0e:ae:19:51:cf:10:fe:c7:c9:65
++------BEGIN CERTIFICATE-----
++-MIIGLzCCBBegAwIBAgIIJaHfyjPLWQIwDQYJKoZIhvcNAQELBQAwgaQxCzAJBgNV
++-BAYTAlBBMQ8wDQYDVQQIDAZQYW5hbWExFDASBgNVBAcMC1BhbmFtYSBDaXR5MSQw
++-IgYDVQQKDBtUcnVzdENvciBTeXN0ZW1zIFMuIGRlIFIuTC4xJzAlBgNVBAsMHlRy
++-dXN0Q29yIENlcnRpZmljYXRlIEF1dGhvcml0eTEfMB0GA1UEAwwWVHJ1c3RDb3Ig
++-Um9vdENlcnQgQ0EtMjAeFw0xNjAyMDQxMjMyMjNaFw0zNDEyMzExNzI2MzlaMIGk
++-MQswCQYDVQQGEwJQQTEPMA0GA1UECAwGUGFuYW1hMRQwEgYDVQQHDAtQYW5hbWEg
++-Q2l0eTEkMCIGA1UECgwbVHJ1c3RDb3IgU3lzdGVtcyBTLiBkZSBSLkwuMScwJQYD
++-VQQLDB5UcnVzdENvciBDZXJ0aWZpY2F0ZSBBdXRob3JpdHkxHzAdBgNVBAMMFlRy
++-dXN0Q29yIFJvb3RDZXJ0IENBLTIwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIK
++-AoICAQCnIG7CKqJiJJWQdsg4foDSq8GbZQWU9MEKENUCrO2fk8eHyLAnK0IMPQo+
++-QVqedd2NyuCb7GgypGmSaIwLgQ5WoD4a3SwlFIIvl9NkRvRUqdw6VC0xK5mC8tkq
++-1+9xALgxpL56JAfDQiDyitSSBBtlVkxs1Pu2YVpHI7TYabS3OtB0PAx1oYxOdqHp
++-2yqlO/rOsP9+aij9JxzIsekp8VduZLTQwRVtDr4uDkbIXvRR/u8OYzo7cbrPb1nK
++-DOObXUm4TOJXsZiKQlecdu/vvdFoqNL0Cbt3Nb4lggjEFixEIFapRBF37120Hape
++-az6LMvYHL1cEksr1/p3C6eizjkxLAjHZ5DxIgif3GIJ2SDpxsROhOdUuxTTCHWKF
++-3wP+TfSvPd9cW436cOGlfifHhi5qjxLGhF5DUVCcGZt45vz27Ud+ez1m7xMTiF88
++-oWP7+ayHNZ/zgp6kPwqcMWmLmaSISo5uZk3vFsQPeSghYA2FFn3XVDjxklb9tTNM
++-g9zXEJ9L/cb4Qr26fHMC4P99zVvh1Kxhe1fVSntb1IVYJ12/+CtgrKAmrhQhJ8Z3
++-mjOAPF5GP/fDsaOGM8boXg25NSyqRsGFAnWAoOsk+xWq5Gd/bnc/9ASKL3x74xdh
++-8N0JqSDIvgmk0H5Ew7IwSjiqqewYmgeCK9u4nBit2uBGF6zPXQIDAQABo2MwYTAd
++-BgNVHQ4EFgQU2f4hQG6UnrybPZx9mCAZ5YwwYrIwHwYDVR0jBBgwFoAU2f4hQG6U
++-nrybPZx9mCAZ5YwwYrIwDwYDVR0TAQH/BAUwAwEB/zAOBgNVHQ8BAf8EBAMCAYYw
++-DQYJKoZIhvcNAQELBQADggIBAJ5Fngw7tu/hOsh80QA9z+LqBrWyOrsGS2h60COX
++-dKcs8AjYeVrXWoSK2BKaG9l9XE1wxaX5q+WjiYndAfrs3fnpkpfbsEZC89NiqpX+
++-MWcUaViQCqoL7jcjx1BRtPV+nuN79+TMQjItSQzL/0kMmx40/W5ulop5A7Zv2wnL
++-/V9lFDfhOPXzYRZY5LVtDQsEGz9QLX+zx3oaFoBg+Iof6Rsqxvm6ARppv9JYx1RX
++-CI/hOWB3S6xZhBqI8d3LT3jX5+EzLfzuQfogsL7L9ziUwOHQhQ+77Sxzq+3+knYa
++-ZH9bDTMJBzN7Bj8RpFxwPIXAz+OQqIN3+tvmxYxoZxBnpVIt8MSZj3+/0WvitUfW
++-2dCFmU2Umw9Lje4AWkcdEQOsQRivh7dvDDqPys/cA8GiCcjl/YBeyGBCARsaU1q7
++-N6a3vLqE6R5sGtRk2tRD/pOLS/IseRYQ1JMLiI+h2IYURpFHmygk71dSTlxCnKr3
++-Sewn6EAes6aJInKc9Q0ztFijMDvd1GpUk74aTfOTlPf8hAs/hCBcNANExdqtvArB
++-As8e5ZTZ845b2EzwnexhF7sUMlQMAimTHpKG9n/v55IFDlndmQguLvqcAFLTxWYp
++-5KeXRKQOKIETNcX2b2TmQcTVL8w0RSXPQQCWPUouwpaYT05KnJe32x+SMsj/D1Fu
++-1uwJ
++------END CERTIFICATE-----
++-
++-# Issuer: CN=TrustCor ECA-1 O=TrustCor Systems S. de R.L. OU=TrustCor Certificate Authority
++-# Subject: CN=TrustCor ECA-1 O=TrustCor Systems S. de R.L. OU=TrustCor Certificate Authority
++-# Label: "TrustCor ECA-1"
++-# Serial: 9548242946988625984
++-# MD5 Fingerprint: 27:92:23:1d:0a:f5:40:7c:e9:e6:6b:9d:d8:f5:e7:6c
++-# SHA1 Fingerprint: 58:d1:df:95:95:67:6b:63:c0:f0:5b:1c:17:4d:8b:84:0b:c8:78:bd
++-# SHA256 Fingerprint: 5a:88:5d:b1:9c:01:d9:12:c5:75:93:88:93:8c:af:bb:df:03:1a:b2:d4:8e:91:ee:15:58:9b:42:97:1d:03:9c
++------BEGIN CERTIFICATE-----
++-MIIEIDCCAwigAwIBAgIJAISCLF8cYtBAMA0GCSqGSIb3DQEBCwUAMIGcMQswCQYD
++-VQQGEwJQQTEPMA0GA1UECAwGUGFuYW1hMRQwEgYDVQQHDAtQYW5hbWEgQ2l0eTEk
++-MCIGA1UECgwbVHJ1c3RDb3IgU3lzdGVtcyBTLiBkZSBSLkwuMScwJQYDVQQLDB5U
++-cnVzdENvciBDZXJ0aWZpY2F0ZSBBdXRob3JpdHkxFzAVBgNVBAMMDlRydXN0Q29y
++-IEVDQS0xMB4XDTE2MDIwNDEyMzIzM1oXDTI5MTIzMTE3MjgwN1owgZwxCzAJBgNV
++-BAYTAlBBMQ8wDQYDVQQIDAZQYW5hbWExFDASBgNVBAcMC1BhbmFtYSBDaXR5MSQw
++-IgYDVQQKDBtUcnVzdENvciBTeXN0ZW1zIFMuIGRlIFIuTC4xJzAlBgNVBAsMHlRy
++-dXN0Q29yIENlcnRpZmljYXRlIEF1dGhvcml0eTEXMBUGA1UEAwwOVHJ1c3RDb3Ig
++-RUNBLTEwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDPj+ARtZ+odnbb
++-3w9U73NjKYKtR8aja+3+XzP4Q1HpGjORMRegdMTUpwHmspI+ap3tDvl0mEDTPwOA
++-BoJA6LHip1GnHYMma6ve+heRK9jGrB6xnhkB1Zem6g23xFUfJ3zSCNV2HykVh0A5
++-3ThFEXXQmqc04L/NyFIduUd+Dbi7xgz2c1cWWn5DkR9VOsZtRASqnKmcp0yJF4Ou
++-owReUoCLHhIlERnXDH19MURB6tuvsBzvgdAsxZohmz3tQjtQJvLsznFhBmIhVE5/
++-wZ0+fyCMgMsq2JdiyIMzkX2woloPV+g7zPIlstR8L+xNxqE6FXrntl019fZISjZF
++-ZtS6mFjBAgMBAAGjYzBhMB0GA1UdDgQWBBREnkj1zG1I1KBLf/5ZJC+Dl5mahjAf
++-BgNVHSMEGDAWgBREnkj1zG1I1KBLf/5ZJC+Dl5mahjAPBgNVHRMBAf8EBTADAQH/
++-MA4GA1UdDwEB/wQEAwIBhjANBgkqhkiG9w0BAQsFAAOCAQEABT41XBVwm8nHc2Fv
++-civUwo/yQ10CzsSUuZQRg2dd4mdsdXa/uwyqNsatR5Nj3B5+1t4u/ukZMjgDfxT2
++-AHMsWbEhBuH7rBiVDKP/mZb3Kyeb1STMHd3BOuCYRLDE5D53sXOpZCz2HAF8P11F
++-hcCF5yWPldwX8zyfGm6wyuMdKulMY/okYWLW2n62HGz1Ah3UKt1VkOsqEUc8Ll50
++-soIipX1TH0XsJ5F95yIW6MBoNtjG8U+ARDL54dHRHareqKucBK+tIA5kmE2la8BI
++-WJZpTdwHjFGTot+fDz2LYLSCjaoITmJF4PkL0uDgPFveXHEnJcLmA4GLEFPjx1Wi
++-tJ/X5g==
++------END CERTIFICATE-----
++-
++ # Issuer: CN=SSL.com Root Certification Authority RSA O=SSL Corporation
++ # Subject: CN=SSL.com Root Certification Authority RSA O=SSL Corporation
++ # Label: "SSL.com Root Certification Authority RSA"
++-- 
++2.34.1
++
+diff --git a/meta/recipes-devtools/python/python3-certifi_2021.10.8.bb b/meta/recipes-devtools/python/python3-certifi_2021.10.8.bb
+index 4c376da897..57bd59ba44 100644
+--- a/meta/recipes-devtools/python/python3-certifi_2021.10.8.bb
++++ b/meta/recipes-devtools/python/python3-certifi_2021.10.8.bb
+@@ -7,6 +7,8 @@ HOMEPAGE = " http://certifi.io/"
+ LICENSE = "ISC"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=67da0714c3f9471067b729eca6c9fbe8"
+ 
++SRC_URI += "file://CVE-2022-23491.patch"
++
+ SRC_URI[sha256sum] = "78884e7c1d4b00ce3cea67b44566851c4343c120abd683433ce934a68ea58872"
+ 
+ inherit pypi setuptools3
+-- 
+2.34.1
 
-> I not sure what to make of the "Rust Editions" and how they'd fit into our
-> distro support
-> but the clear mandate from upstream is that only the 'stable' release is
-> supported.
->
->    https://doc.rust-lang.org/edition-guide/editions/index.html
->
-> I think there's an argument to be made that until Rust releases 2.x, we
-> just update
-> to the latest version. If you haven't please read:
->
->
-> https://internals.rust-lang.org/t/cargo-cve-2022-46176-fix-for-older-releases/18152/3?u=sundeep-kokkonda
->
-Fedora's Josh Stone mentioned that they keep the latest rust
-<https://src.fedoraproject.org/rpms/rust> packaged for all supported Fedora
-releases:
-https://packages.fedoraproject.org/pkgs/rust/rust/
-
-Debian is on 1.64 even for experimental
-<https://salsa.debian.org/rust-team/rust>. Stable releases are on _much_
-older versions <https://tracker.debian.org/pkg/rustc>.
-
-Ubuntu <https://launchpad.net/ubuntu/+source/rustc> is on 1.65.
-
-It will be interesting to see what the distros do to handle this situation.
-
-<snip>
->
-> Sundeep,
->
-> Please also try to backporting the fixes to say Cargo/Rust for kirkstone.
-> This CVE resulted in ~10 patches so it's hopefully one
-> of the more complicated back ports and will prove to be a good test case.
->
-> The patch series for CVE-2022-46176
-<https://github.com/rust-lang/wg-security-response/tree/main/patches/CVE-2022-46176>
-
-
-> ../Randy
->
-> <snip>
->
-> --
-> # Randy MacLeod
-> # Wind River Linux
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#176070):
-> https://lists.openembedded.org/g/openembedded-core/message/176070
-> Mute This Topic: https://lists.openembedded.org/mt/96218038/924729
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> ticotimo@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
-
---0000000000002dbb5905f3bb6d81
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div><br></div><div class=3D"gmail_quote"><div dir=3D"ltr"=
- class=3D"gmail_attr">On Tue, Jan 17, 2023 at 6:08 PM Randy MacLeod &lt;<a =
-href=3D"mailto:randy.macleod@windriver.com">randy.macleod@windriver.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-
- =20
-  <div>
-    <div>&lt;snip&gt;</div>
-    <p>The Rust developers / community seems to want their software to
-      work in a similar way.<br>
-      They have a quite exhaustive test suite (Crater) to check for
-      regressions.<br>
-      I&#39;ll look for some actual test results from Crater and reply here
-      when I find them.</p></div></blockquote><div>There is a=C2=A0<a href=
-=3D"https://github.com/rust-lang/crater">Crater</a>=C2=A0chapter in the=C2=
-=A0<a href=3D"https://rustc-dev-guide.rust-lang.org/tests/crater.html">Rust=
- docs</a>=C2=A0</div><div>I haven&#39;t found any test runs/results in thei=
-r GitHub actions yet...</div><div>There is <a href=3D"https://github.com/ru=
-st-lang-nursery/rust-toolstate">rust-toolstate</a>, but it only shows the s=
-tatus per commit, not the test case results.</div><div><br></div><div>Ah, p=
-erhaps these are the Crater tests?<a href=3D"https://github.com/rust-lang-c=
-i/rust/actions">=C2=A0https://github.com/rust-lang-ci/rust/actions</a></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left:1px solid rgb(204,204,204);padding-left:1ex"><div><p>
-      I not sure what to make of the &quot;Rust Editions&quot; and how they=
-&#39;d fit
-      into our distro support<br>
-      but the clear mandate from upstream is that only the &#39;stable&#39;
-      release is supported.<br>
-    </p>
-    <p>=C2=A0=C2=A0 <a href=3D"https://doc.rust-lang.org/edition-guide/edit=
-ions/index.html" target=3D"_blank">https://doc.rust-lang.org/edition-guide/=
-editions/index.html</a>=C2=A0=C2=A0
-      <br>
-    </p>
-    <p>I think there&#39;s an argument to be made that until Rust releases
-      2.x, we just update<br>
-      to the latest version. If you haven&#39;t please read:</p>
-    <p>=C2=A0
-<a href=3D"https://internals.rust-lang.org/t/cargo-cve-2022-46176-fix-for-o=
-lder-releases/18152/3?u=3Dsundeep-kokkonda" target=3D"_blank">https://inter=
-nals.rust-lang.org/t/cargo-cve-2022-46176-fix-for-older-releases/18152/3?u=
-=3Dsundeep-kokkonda</a></p></div></blockquote><div>Fedora&#39;s Josh Stone =
-mentioned that they keep the latest <a href=3D"https://src.fedoraproject.or=
-g/rpms/rust">rust</a>=C2=A0packaged for all supported Fedora releases:</div=
-><div><a href=3D"https://packages.fedoraproject.org/pkgs/rust/rust/">https:=
-//packages.fedoraproject.org/pkgs/rust/rust/</a></div><div><br></div><div>D=
-ebian is on 1.64 even for <a href=3D"https://salsa.debian.org/rust-team/rus=
-t">experimental</a>. Stable releases are on _much_ older <a href=3D"https:/=
-/tracker.debian.org/pkg/rustc">versions</a>.</div><div><br></div><div><a hr=
-ef=3D"https://launchpad.net/ubuntu/+source/rustc">Ubuntu</a> is on 1.65.</d=
-iv><div><br></div><div>It will be interesting to see what the distros do to=
- handle this situation.</div><div><br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex"><div>
-    <p>&lt;snip&gt;</p>
-    <p>Sundeep, <br>
-      <br>
-      Please also try to backporting the fixes to say Cargo/Rust for
-      kirkstone. <br>
-      This CVE resulted in ~10 patches so it&#39;s hopefully one<br>
-      of the more complicated back ports and will prove to be a good
-      test case.<br>
-      <br></p></div></blockquote><div>The patch series for=C2=A0<a href=3D"=
-https://github.com/rust-lang/wg-security-response/tree/main/patches/CVE-202=
-2-46176">CVE-2022-46176</a>=C2=A0</div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex"><div><p>
-    </p>
-    <p>../Randy</p>
-    <p>&lt;snip&gt;</p>
-    <pre cols=3D"72">--=20
-# Randy MacLeod
-# Wind River Linux</pre>
-  </div>
-
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#176070): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/176070" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/176070</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/96218038/9247=
-29" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt/=
-96218038/924729</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
-=3D"_blank">ticotimo@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---0000000000002dbb5905f3bb6d81--
 
