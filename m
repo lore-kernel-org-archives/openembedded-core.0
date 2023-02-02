@@ -2,62 +2,59 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F410CC05027
-	for <webhook@archiver.kernel.org>; Thu,  2 Feb 2023 09:44:34 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web11.11095.1675331071592533354
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2DCBC61DA4
+	for <webhook@archiver.kernel.org>; Thu,  2 Feb 2023 09:45:24 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web10.11082.1675331120837417442
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Feb 2023 01:44:31 -0800
+ Thu, 02 Feb 2023 01:45:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SjIti26H;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id q10so1130436wrm.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Feb 2023 01:44:31 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FQRMKV8K;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id f47-20020a05600c492f00b003dc584a7b7eso3261612wmp.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Feb 2023 01:45:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3ZyaOdmAT4cbfmtZltrE/lEkksBidrd/GqY3DhvhRFA=;
-        b=SjIti26HSeGhruYZ80M/hNMCYvvHSfTaZZBpMuq7I8HoWgETL1PldLfNTjQCAFfOeT
-         TMFprY/cEypzu6ASNcTsfG1GParwyqpxIZEp+8JdnKCHr8068t1KceM6X4gRZmAHcFNG
-         9Cua3W0mFtLQus/LvkZfNUwftkXyH1PRhflwI=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UXrcSxL3aL4OuCszIlKzqSiT1R/gjAKMoc9zrjq3YxE=;
+        b=FQRMKV8KiGqqraxfU+URasfamKMbo0yhk5gI2jR0zyyWQpKjay2EEu3/YnR6DPoxOZ
+         iIhh+ifw+HBfEMrLKoPiGh3f7/EasLU3Cz9WwlgOOxE7Vj2MczSWc1ZZI1wOjt0F0qCJ
+         If3cD9e2O8iRhFU2ELPcBxOI/T10oHSaOAqgk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3ZyaOdmAT4cbfmtZltrE/lEkksBidrd/GqY3DhvhRFA=;
-        b=nociM0TDtojbrE6kPZWQLLa8NCf9s00v3gxbhjrrENnhMIALo2nq7wV/ZYljwozuIG
-         VqLYQ+966M6r+8Tx7ZwxJQ7phZgImT122DIocwSKVcehsZl1KWxwEi11Qs/k5yA8pqdT
-         7+FnUxON3+X5Dw9kg9+YaGyyEGkBCBWJ9FqoV2cR+I2nn2uKutKnq0l1K8vZFcQgDvTh
-         Jy6xBz4prdCvSAJa1QnytsVZX3ya1/azO+oo5m+8fA5ncP7pAc84sQcQk/K6zGCIauSc
-         VXZxXJZC76U/vvgK0CGUCZBOns1US2ppd3AqSSU8ljNXiAX0JivIqUOSKV8y2Hr8TPrw
-         DI/A==
-X-Gm-Message-State: AO0yUKXXZs0ofdaMs6qx6CFazg9lSbdlwjjIjFLwFnwKLtfUYmRdGe/i
-	7yDtLE8EK0CbKo30Kvq6g/cUhr9ritRCn1p7
-X-Google-Smtp-Source: AK7set+34F07Bnvw1j4kdw87mct2dxtV6wdmnDno8S9Kj54ovjV7zRJ1ZJlDsWAwa+YgtK3oGxOXSg==
-X-Received: by 2002:adf:ee87:0:b0:2bf:e288:6289 with SMTP id b7-20020adfee87000000b002bfe2886289mr5044512wro.15.1675331069761;
-        Thu, 02 Feb 2023 01:44:29 -0800 (PST)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UXrcSxL3aL4OuCszIlKzqSiT1R/gjAKMoc9zrjq3YxE=;
+        b=yGz3hPYSkQr1CPzFtmtQO9EEH3nIwUaB7/71/9HnrmwFEPWBwttH1mZGXGsa3hZOWY
+         xmgZNZrCLNjrnlFVxBdVNxOb+xtnn4qfSzScV77QnVIa58az3liVMas2aDThHLw15YfM
+         BVBOaocrDq2+vUR+fXdo7vWc7RhWSHZzHTw9r/ZDetdWltKdhnLyL1Q36BcabOrHd1jw
+         IdZJS2NVyXux9BHSij/QzLQTYLnP+eUuPpGltD5LboAxg/U+yzO313le7nF1Bzdbows0
+         fchFM0W7RwYTGuf2fciKgEkpA9syrlV+rCbhBLHSPld9K37knDzNOSjJyCzyu+lj8PX5
+         XkpQ==
+X-Gm-Message-State: AO0yUKXUm5ohwC1lGcVuPn6wFQrCoj58vW+tnNdEaZOIA8ygH24Db5y8
+	x3WZav79uovpDOxevEh4kLYZmHEYdl0gb/vd
+X-Google-Smtp-Source: AK7set8lH+f5/6pQuG/FmtFqkFu60iCCZVeYnBBfX+dKb6KH4r/Y3IfRSUuhNnVmPY2J6C6Kwu8CHw==
+X-Received: by 2002:a05:600c:1c16:b0:3de:c612:df56 with SMTP id j22-20020a05600c1c1600b003dec612df56mr4981777wms.15.1675331118899;
+        Thu, 02 Feb 2023 01:45:18 -0800 (PST)
 Received: from max.guestnet.cambridge.arm.com ([212.187.182.166])
-        by smtp.gmail.com with ESMTPSA id v14-20020adfe4ce000000b002bfafadb22asm20077076wrm.87.2023.02.02.01.44.29
+        by smtp.gmail.com with ESMTPSA id y21-20020a05600c341500b003dc522dd25esm4054548wmp.30.2023.02.02.01.45.18
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Feb 2023 01:44:29 -0800 (PST)
+        Thu, 02 Feb 2023 01:45:18 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Upgrade Helper <auh@yoctoproject.org>
 Subject: [PATCH] python3-markupsafe: upgrade 2.1.1 -> 2.1.2
-Date: Thu,  2 Feb 2023 09:44:27 +0000
-Message-Id: <20230202094427.1092128-1-richard.purdie@linuxfoundation.org>
+Date: Thu,  2 Feb 2023 09:45:16 +0000
+Message-Id: <20230202094516.1092250-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Feb 2023 09:44:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176685
-
-From: Upgrade Helper <auh@yoctoproject.org>
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Feb 2023 09:45:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176686
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
