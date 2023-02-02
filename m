@@ -1,117 +1,94 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <arnout@mind.be>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14077C05027
-	for <webhook@archiver.kernel.org>; Thu,  2 Feb 2023 12:49:16 +0000 (UTC)
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web10.13575.1675342149490593993
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0EFEC05027
+	for <webhook@archiver.kernel.org>; Thu,  2 Feb 2023 12:49:45 +0000 (UTC)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web11.13526.1675342178407294629
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Feb 2023 04:49:10 -0800
+ Thu, 02 Feb 2023 04:49:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=V4kyb5nA;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@mind.be header.s=google header.b=C1OoXuUK;
+ spf=pass (domain: essensium.com, ip: 209.85.218.50, mailfrom: arnout.vandecappelle@essensium.com)
+Received: by mail-ej1-f50.google.com with SMTP id me3so5612236ejb.7
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Feb 2023 04:49:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1675342149;
-  x=1706878149;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=80vnerSL9zv/n0c1ivuKv6X99nXul4KaMFCuJepC36A=;
-  b=V4kyb5nAMvEAGHLXPyi6f6pgUVKvjoy6IaDIVFUOUQPwB3rrUsHS0wB6
-   0/KAPXjX+Kh06NB3K1F8pejiyjZGE3k1d4xtLP10a37h2uiwNp1koZo2e
-   xuhR3EAmQrPMK8ROj4hPHQVuXET13S9XOImWKf/1wg02mGSUasqEjOfec
-   +VoA9AjGESfBK/QQtQnj1Hi05BeaCNgmFChiDXxDCLxHas5Ymidl4XZK0
-   crhABXT4QZVP3hXY58VFEGpew+hu9Y+xUDFyVNTG3lqVKjiuu/oBkxZcH
-   OJUbCNTTkDjE2DS0YVA2GW7oVAz6QLqmlg/xhi70lXc2cNvrS1Lu3lp3k
-   Q==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Steve Sakoman <steve@sakoman.com>
-CC: Tobias Hagelborn <Tobias.Hagelborn@axis.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCHv3] sstate.bbclass: Fetch non-existing local .sig
- files if needed
-Thread-Topic: [OE-core] [PATCHv3] sstate.bbclass: Fetch non-existing local
- .sig files if needed
-Thread-Index: AQHZNLYQd1OLX9ospkOWb6QvaepvVq67n7hw
-Date: Thu, 2 Feb 2023 12:49:06 +0000
-Message-ID: <6ebc02b87f424808b171e7506b2dee33@axis.com>
-References: <20230130142025.3899801-1-tobiasha@axis.com>
-In-Reply-To: <20230130142025.3899801-1-tobiasha@axis.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        d=mind.be; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OZ4LOTBsF1twoLt4njkQdvpxK8ppZC7Zkwhr74CUi/s=;
+        b=C1OoXuUKcoeb0fwfH9JCBUoVYbBWX+z/WdAXD7Gpia5DmOS7/I3dPUWzfmHUXZegV1
+         HRisxbNVjqofc3pF6JVZefCR9uJVAxM9JoubqaTMJ1ifbzm6Rg+4WbTb4bC3SMRsU0j3
+         wjBinysJSCDxNoyxAOoDNjDgjayOc+TptZySMQO75n9E7hQAjp6raUc5dgch6nzDXBG4
+         0O6cJSZv1TjNbgIGm/osdEE7oysveaPaAuiCryqtyMEHNRe9zYo5bF2dcODG1qCW4GoX
+         yp7BOehAisaF1aacyiriTK3Dwb7ZYICqHJfiU53t3yGRkQgscLfEGtxwkRlQBMP5K8Xi
+         6WbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OZ4LOTBsF1twoLt4njkQdvpxK8ppZC7Zkwhr74CUi/s=;
+        b=C6PQQDVEzaW52GFttMMWu+29uPxLZXNNEMKSyPt+fNNFW4rAoOKbaF0Xndg9RchnmX
+         6Xg7L/JHA6F4YesQlagcUvVH/Dvf/GleWsvbCea4a7GP72oAs7Met7TE3tNP2Xb1/HcE
+         mcntpSZ2Za2wdJ71ndj1ncYmkVUFLt9zjwlB1PFPROP4hT+du4HpWhkAZcCdhyZ2PhMO
+         DQT4yRHKSlymqyhAd1VTBaXiHIj+nIyYw743NWNUNy8peItP0Zt9p78sqLTtCDYGBfoM
+         wKHqqqM93iFDqqW8iaaplyntQhwuO1E2DulQm/Id4kMFT8Oz7OF4HbDVDVPGJ4NIr6uI
+         PgTg==
+X-Gm-Message-State: AO0yUKVbB/bcZSzD+TD6Cv3y3lWEMC+UzLdsyXh1i9O0dQtsC1Wrx2Mi
+	uYaEO4D26QLb5q5epLyQZTGCIl1XIhJe7qK7
+X-Google-Smtp-Source: AK7set8hA31G4GyhV28Xs49/l0c+Myng+jCguYQCZIcX0YJW8CDGQvbb2pV89oNA4eVOH+86tQGlLA==
+X-Received: by 2002:a17:906:4b57:b0:878:54e3:e3e1 with SMTP id j23-20020a1709064b5700b0087854e3e3e1mr5380110ejv.73.1675342176336;
+        Thu, 02 Feb 2023 04:49:36 -0800 (PST)
+Received: from localhost.localdomain (ptr-9fplejqcmbwz6qb22hk.18120a2.ip6.access.telenet.be. [2a02:1811:3a7e:7b00:e7c3:8953:3ab9:2c18])
+        by smtp.gmail.com with ESMTPSA id sd14-20020a170906ce2e00b0088ed7de4821sm1259209ejb.158.2023.02.02.04.49.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Feb 2023 04:49:35 -0800 (PST)
+From: Arnout Vandecappelle <arnout@mind.be>
+To: openembedded-core@lists.openembedded.org
+Cc: Arnout Vandecappelle <arnout@mind.be>
+Subject: [PATCH] python3-pytest: Remove dependency on python3-toml
+Date: Thu,  2 Feb 2023 13:49:11 +0100
+Message-Id: <20230202124911.3401913-1-arnout@mind.be>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Feb 2023 12:49:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176694
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Feb 2023 12:49:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176695
 
-Please backport this to Kirkstone and Langdale.
+Since version 7.2.0 [1], pytest uses the "batteries included" tomllib
+module for parsing pyproject.toml configuration files [2]. It is
+therefore no longer necessary to have python3-toml in RDEPENDS.
 
-//Peter
+[1] https://docs.pytest.org/en/latest/changelog.html#pytest-7-2-0-2022-10-23
+[2] https://github.com/pytest-dev/pytest/pull/9741
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org> On Behalf Of Tobias Hagelborn
-> Sent: den 30 januari 2023 15:20
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCHv3] sstate.bbclass: Fetch non-existing local .si=
-g files if needed
->=20
-> For the case of a global shared state cache and a local sstate cache
-> with a mix of signed and un-signed entries, there is a case where
-> a .sig is missing locally, but may exist in the global sstate cache.
->=20
-> For this case, do not just fail sstate fetch, but rather backfill
-> the .sig file from the global sstate cache.
->=20
-> If this case is detected, re-run the fetch operation to get the
-> global .sig file (if it exists).
->=20
-> Signed-off-by: Tobias Hagelborn <tobias.hagelborn@axis.com>
-> ---
-> New in v3:
-> * Use exists
-> * Consolidate into previously existing fetch block (with new condition)
->=20
->  meta/classes-global/sstate.bbclass | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sst=
-ate.bbclass
-> index 77e3ea34e1..567de4aba4 100644
-> --- a/meta/classes-global/sstate.bbclass
-> +++ b/meta/classes-global/sstate.bbclass
-> @@ -365,8 +365,9 @@ def sstate_installpkg(ss, d):
->      d.setVar("SSTATE_CURRTASK", ss['task'])
->      sstatefetch =3D d.getVar('SSTATE_PKGNAME')
->      sstatepkg =3D d.getVar('SSTATE_PKG')
-> +    verify_sig =3D bb.utils.to_boolean(d.getVar("SSTATE_VERIFY_SIG"), Fa=
-lse)
->=20
-> -    if not os.path.exists(sstatepkg):
-> +    if not os.path.exists(sstatepkg) or (verify_sig and not os.path.exis=
-ts(sstatepkg + '.sig')):
->          pstaging_fetch(sstatefetch, d)
->=20
->      if not os.path.isfile(sstatepkg):
-> @@ -377,7 +378,7 @@ def sstate_installpkg(ss, d):
->=20
->      d.setVar('SSTATE_INSTDIR', sstateinst)
->=20
-> -    if bb.utils.to_boolean(d.getVar("SSTATE_VERIFY_SIG"), False):
-> +    if verify_sig:
->          if not os.path.isfile(sstatepkg + '.sig'):
->              bb.warn("No signature file for sstate package %s, skipping a=
-cceleration..." % sstatepkg)
->              return False
-> --
-> 2.30.2
+Signed-off-by: Arnout Vandecappelle <arnout@mind.be>
+---
+This patch only applies to kirkstone and langdale branches. On master,
+Python 3.11 is used which no longer needs tomli at all. On dunfell,
+pytest is still on 5.3.5.
+---
+ meta/recipes-devtools/python/python3-pytest_7.2.0.bb | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/python/python3-pytest_7.2.0.bb b/meta/recipes-devtools/python/python3-pytest_7.2.0.bb
+index 02fc55fdb0..c4d1c184cf 100644
+--- a/meta/recipes-devtools/python/python3-pytest_7.2.0.bb
++++ b/meta/recipes-devtools/python/python3-pytest_7.2.0.bb
+@@ -26,7 +26,6 @@ RDEPENDS:${PN}:class-target += " \
+     ${PYTHON_PN}-py \
+     ${PYTHON_PN}-setuptools \
+     ${PYTHON_PN}-six \
+-    ${PYTHON_PN}-toml \
+     ${PYTHON_PN}-wcwidth \
+ "
+ 
+-- 
+2.39.1
 
 
