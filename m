@@ -1,170 +1,203 @@
-Return-Path: <yanxk.fnst@fujitsu.com>
+Return-Path: <jing.hui.tham@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48349C636CC
-	for <webhook@archiver.kernel.org>; Fri,  3 Feb 2023 03:08:47 +0000 (UTC)
-Received: from mail3.bemta32.messagelabs.com (mail3.bemta32.messagelabs.com [195.245.230.18])
- by mx.groups.io with SMTP id smtpd.web10.2575.1675393719754489917
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A281C636D7
+	for <webhook@archiver.kernel.org>; Fri,  3 Feb 2023 06:17:08 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by mx.groups.io with SMTP id smtpd.web10.5028.1675405019326032062
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Feb 2023 19:08:40 -0800
+ Thu, 02 Feb 2023 22:16:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=WBVUrXuY;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.18, mailfrom: yanxk.fnst@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1675393718; i=@fujitsu.com;
-	bh=A0nUngdvS64wxgwWJFoWBkwlP1Jcj3WyCpIvnYjYGxk=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=WBVUrXuYE5BAKUEQCeflnrUi3e/RHZdW+g5qBd50p2CZIFK80Q6f/ONCTRU3H8pBC
-	 CMLpouIUPlKESKpUvSFRYJzviwIlb6Omxh8UpnWT6/jBQGPM7f6jrSeL+G0mm+KGUD
-	 ZhteFjBqCNnHrpokEwfMFhU0OssIjdMJ3ToIDaUHClGm0swHa5VErBSBW3VOJOlpve
-	 QmrXs/8K9t2CsBnXYw8SNJMUbW91gjYGG/0a7mwr7iL997rmRl4mb4oyOS82+eK50L
-	 NWSOhi774jd/mEgyXeQXc6vylLic23YP0n9FaPRr/jn4Xp/eRJxrbimSOEeXYccYPb
-	 FVPuP2xfpwNVw==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrLIsWRWlGSWpSXmKPExsViZ8ORqLu16k6
-  ywex6izs/37E7MHqc27iCMYAxijUzLym/IoE14/ji9ewFryQr/kx/xtjAuFOsi5GLQ0jgMaPE
-  mnnz2SCc60wSG/b9YYVw9jJKLPl+Gcjh5GATkJNY/HgqkM3BISKgJ3H1nyiIySzgKHFhrzpIh
-  bCAtkRP834WEJtFQEVi0oouRhCbV8BV4sCZ90wgtgTQlB2rnzBBxAUlTs58AlbPLCAhcfDFC2
-  aIGiWJO78uM0LYlRKtH36xQNhqElfPbWKewMg/C0n7LCTtCxiZVjGaFqcWlaUW6ZrpJRVlpme
-  U5CZm5uglVukm6qWW6panFpfoGuollhfrpRYX6xVX5ibnpOjlpZZsYgSGYUoxw40djHP6/uod
-  YpTkYFIS5T2bdydZiC8pP6UyI7E4I76oNCe1+BCjDAeHkgRvRDFQTrAoNT21Ii0zBxgTMGkJD
-  h4lEd71pUBp3uKCxNzizHSI1ClGY467C/fuZeb4+OfiXmYhlrz8vFQpcd7FlUClAiClGaV5cI
-  NgsXqJUVZKmJeRgYFBiKcgtSg3swRV/hWjOAejkjDvtXKgKTyZeSVw+14BncIEdMpd65sgp5Q
-  kIqSkGpg0yuV11TkC+y7szXvR+vTcr7n1F0LVV1907EhZvvlr+tMFsxIi087tStpf8tvy2kTT
-  xTs+7WZlcpPbf8U5bWPvigS7LUx/D+szfBYRun3qC3PVo4Wrk0/5z2FU3L9R5s2M8NdPstpMX
-  l1lZla1XjO3Ldc8ku9l++9HvyZJdx+7Pcfth7r7U7/C5bqitxsiTiwvj32+8fCDB5aqyyuOTR
-  b9NPVI7/4C/YCCD09NthU/VPu8ytSpIcb3gvZjC0/x/TPvavzbK/X84K2ve2PCd5meaFmz+ma
-  OdPvt9Q99TZ3mN2i8TGT8cWb7/sUdqVops2X2bXHi3rO1bE5TK+O2Pvbs3gfOwXN1XP1CDIqU
-  Dh0PU2Ipzkg01GIuKk4EAPy5w3dQAwAA
-X-Env-Sender: yanxk.fnst@fujitsu.com
-X-Msg-Ref: server-16.tower-585.messagelabs.com!1675393716!113489!1
-X-Originating-IP: [62.60.8.97]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.102.2; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 24185 invoked from network); 3 Feb 2023 03:08:36 -0000
-Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
-  by server-16.tower-585.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 3 Feb 2023 03:08:36 -0000
-Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id 9BB89100197
-	for <openembedded-core@lists.openembedded.org>; Fri,  3 Feb 2023 03:08:36 +0000 (GMT)
-Received: from R01UKEXCASM223.r01.fujitsu.local (R01UKEXCASM223 [10.182.185.121])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id 8E56B100194
-	for <openembedded-core@lists.openembedded.org>; Fri,  3 Feb 2023 03:08:36 +0000 (GMT)
-Received: from localhost.localdomain (10.167.218.229) by
- R01UKEXCASM223.r01.fujitsu.local (10.182.185.121) with Microsoft SMTP Server
- (TLS) id 15.0.1497.42; Fri, 3 Feb 2023 03:08:34 +0000
-From: <yanxk.fnst@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <fnstml-fujitsuten@fujitsu.com>, Yan <yanxk.fnst@fujitsu.com>
-Subject: [meta-oe][PATCH V1] tar: add ptest
-Date: Wed, 2 Nov 2022 09:18:31 +0800
-Message-ID: <1667351911-9129-1-git-send-email-yanxk.fnst@fujitsu.com>
-X-Mailer: git-send-email 1.7.1
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel header.b=e0GUWLcJ;
+ spf=pass (domain: intel.com, ip: 192.55.52.93, mailfrom: jing.hui.tham@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1675405019; x=1706941019;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=hootVrRVNO8Ynz1fW5/6W9W8W3Cup0omNW9v5wktayA=;
+  b=e0GUWLcJqm73S+KWTSazBFEoUxUB4tdfRT2+6Tn7YVxVyVBf4u8F3Y6j
+   e+2Wx5gY8Y+vSUFWQ2ZQgtKTdIvFEe/I0DQ9wAlXdnteR0qJYMkDXUtUy
+   YmaKbOIlSEbz0rhIoR4pIwQ0FAMOR+LwNMmpugw3+HXTXqJE9Bp0TYrf4
+   UoXVpbLaegqr5azPUQwWrBtAxkQQjxlANTdGFb8TTTCidEG2F2X5HBFo3
+   rU1AVZt9plT4ODuX7QLSArjTJC+lEp2pBfo0M1neBSUxKWiU4UmIJasAu
+   KpCOGCUuZh/yrrE8S/55LYhazFDWaiMpFf1kSHm62+nt1/63zIEK+jxco
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="326364306"
+X-IronPort-AV: E=Sophos;i="5.97,269,1669104000"; 
+   d="scan'208";a="326364306"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2023 22:16:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="615594679"
+X-IronPort-AV: E=Sophos;i="5.97,269,1669104000"; 
+   d="scan'208";a="615594679"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orsmga003.jf.intel.com with ESMTP; 02 Feb 2023 22:16:58 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Thu, 2 Feb 2023 22:16:57 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Thu, 2 Feb 2023 22:16:57 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.47) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Thu, 2 Feb 2023 22:16:56 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=B6e/hTPdokSt4PRmNSuJ+cz4/u572qn1xXZlhO7hzCU+5EuhkbF0Hg5gfED5m7NLu/LULDLGcRMvUbhn+lkPLixRkYntPTLQbROdjl6aVRS+xqO20G2b9avxXmKU8J9K1UdHQL+wMKVLZDwwdQy0VkdQav7VO7xu9hfvWmbKe5TvqPcA8kiR003RF1nGHXwUAysJvhATzrSFtUpVUuIu/E5TPgR1toQIuvmoRrr8nMsFdzCHLmD0wAl7UCW2llTRIwoVQ3o7rmw+RxKZbDuu194m8QqzZYZzBLrCCKQQtKhr0gu6aUOmRH/1lmauLigkKAw7Q9CrINKCvVbdI6Sm4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DY2Lx8Jo0knyfV8TPHcFHL7jJ8lzmQ/QffZym4qn0g0=;
+ b=C+6ihWltJ6Up3S8OzR8ZESs2yBfUfs5PVpYUS5g23VKjjZdSWCLceKEKqUuApqs7NyuD9ocnO3zaMhz8y6LhIe2a0ktVfquzOcacYjfLg4fTjlKsh+o6D2mHB+N/terjwGG4MxI/ZwjN5teYhtlJsAqCHRDRlJtkzY5E9codKISnDfW5445BxGm+tSH7tufw0lYsq1J19ehEV26cZChDzYOB24oSyPLTYHtRgXfwp5gCv75HTGv/Lr1anwKvVas3UqJrxIr6V8oqb2UMk5FwoaF72k3WPr8gpMtIVhZcIqpHc1dqQzhnsHFb+OKtxL6HnBmscLEgCZ0CrRv1WQ0KNg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BY5PR11MB4152.namprd11.prod.outlook.com (2603:10b6:a03:191::11)
+ by CO1PR11MB4930.namprd11.prod.outlook.com (2603:10b6:303:9b::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.25; Fri, 3 Feb
+ 2023 06:16:50 +0000
+Received: from BY5PR11MB4152.namprd11.prod.outlook.com
+ ([fe80::9e48:366c:b777:950f]) by BY5PR11MB4152.namprd11.prod.outlook.com
+ ([fe80::9e48:366c:b777:950f%5]) with mapi id 15.20.6064.027; Fri, 3 Feb 2023
+ 06:16:49 +0000
+From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
+To: Pokybuild User <pokybuild@yoctoproject.org>,
+	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
+	"qa-build-notification@lists.yoctoproject.org"
+	<qa-build-notification@lists.yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [yocto] QA notification for completed autobuilder build
+ (yocto-4.0.7.rc1)
+Thread-Topic: [yocto] QA notification for completed autobuilder build
+ (yocto-4.0.7.rc1)
+Thread-Index: AQHZMqRhkr5w/Y9sC0yvL6TSIsPCWq68yHHA
+Date: Fri, 3 Feb 2023 06:16:49 +0000
+Message-ID: <BY5PR11MB4152D448571F77611FEE9845A1D79@BY5PR11MB4152.namprd11.prod.outlook.com>
+References: <01010185f57dccf8-29734aad-b7ca-410f-9a47-21affbf045d6-000000@us-west-2.amazonses.com>
+In-Reply-To: <01010185f57dccf8-29734aad-b7ca-410f-9a47-21affbf045d6-000000@us-west-2.amazonses.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BY5PR11MB4152:EE_|CO1PR11MB4930:EE_
+x-ms-office365-filtering-correlation-id: 40586729-872e-4926-55ab-08db05ae3c4d
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: L4urbkqVZTfau5VUvLk6KxjkJmr0VClaxw+ZHAVKh2Sv3LRZ7SDLFvF89uBBBKqjFQLehsoIsKVV+UliGnD7vjv2zRitD1xycvkq4XB6mR8RpXGpqLxGegqkK9D2rpaCbJYAmxDwMWGgFQzbyCC0yomSY1+ZxSH3+VtfkpqhUYGaRnZT5dhYuwe6ZZAvmHJfDztBjxnEVgKG/1smudFbQ6NDxpjgzOGp7blxlP5WL1uLHyOgY6wb/aUzrUEdtgXYKSGtDIPIot7QShcYHZ23Mh+S3Qg0ML/XFMp0WFNIRaiHOetNlJiREdIPsoF0TXgZ8QDcFReWMxmRTwx3CXvrPqCM7tFUii5GuJnJygIOJhmgcR0YSJPhju7bl4tJK9t137Bx+gCFWdqdbrQ9K3Q1ec18NDTEAKiCG+IiSdkb+ZLM400kSGnkSDMuEP0+vrPQK7wispCh7WZ+o02r/J+3puu26nQHb42gzdS/jTAOQjr5ZOlca21+AHqdQ3PNWpiij0zmmnnJCToIFIrQS6Sg8MmE864dHM1lRK2wi95hZ9fXfLljThY9Ift8/+i92EB464lR196U73MO5WEpKOpxY2l1wMC596QuofCYzcGpbWgPJjZyt62LQbhokYs/Y/uiSfgMub8H5Vt2cExpfrv18BnBeUVvh+NaLGW6nD9+Vwl5RsrkfzlzfRpNeC0FCagvoBFia/tIctIhfVNTtrV5mtxdKYGc0WLWEwh+L8Cf8oMJ5s6UtkCx3T+FxFXaNvzFeX31SJF3189JbfqLA33QDw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4152.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(39860400002)(346002)(396003)(376002)(136003)(366004)(451199018)(55016003)(38070700005)(122000001)(38100700002)(66946007)(82960400001)(7696005)(2906002)(8676002)(41300700001)(15650500001)(76116006)(110136005)(316002)(8936002)(5660300002)(52536014)(71200400001)(86362001)(26005)(53546011)(64756008)(478600001)(186003)(66476007)(66556008)(6506007)(9686003)(33656002)(66446008)(83380400001)(966005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?X7fhwM2Ft3GRV7LpuAer7yBpZjGxZB3MVAXsbQUruzXloQvgcqHLGwX3QGme?=
+ =?us-ascii?Q?TG5850QcNe4zIv+C5nq+L5a8WTAeAmnWMyPUipkDtBHj670z5Kt1CUqjev+P?=
+ =?us-ascii?Q?b0p29aJZ/9PGv8U6QeK+8xfgsNVQ7ErAVtrSB2ji0KYh2tttnkrMn0Z+vYMg?=
+ =?us-ascii?Q?FhtzKmj2en+5VO4exus7EoFgayXoagZ66nB3E1iFr/VUBo4QYMcNCswRPqJE?=
+ =?us-ascii?Q?+DesrY0kC5GhX7NK/rwR0uuciO3KTSJzqMGYas7bbVbc1AfiXuEWldRwROsg?=
+ =?us-ascii?Q?j2GKw4/qAXLDtwYmTbXkvIajLngSxvmVXgHO7GsSRDqXWEclwLjLChv/zxpb?=
+ =?us-ascii?Q?sV96YZ5lmT0WwSjF5YGE3tHD9bIdsw2+IyYuKFALoEy6HvmLdCqbZf/Cf40v?=
+ =?us-ascii?Q?icjqGOF7E098wi9R24DGJXy3zZXtS7cXH2ZVtoQ+u4GDeY53raMY5CVXtUHv?=
+ =?us-ascii?Q?PcqK2vnXaH8Sra7an6wKFTgN++cGzUZff+sJ5t3DFGhPiBmh4UBL1Hrw5Az4?=
+ =?us-ascii?Q?uGOKEKLQgpqxfZP9B/8CwSJEywTRrnR6Cfp03AtPwqgCyAl2/4w/d1lEspFg?=
+ =?us-ascii?Q?ng/jVLp/gCxYeA/G2t6OuvxLN9W2erPQto3BB9amYi3PW1vM16K3MLi/lWpO?=
+ =?us-ascii?Q?j6+pCVo3KuVRqi4cxmR+UWpOtUtu07WNaCKcJVu6dGLgyD2jH6uw5YgXdJ5B?=
+ =?us-ascii?Q?dU5Kel2MuyQRSTzueg+ebMDVSXmA+EvZIgkoOwfDGmRXQVRok4S+4yyC/TnB?=
+ =?us-ascii?Q?Tl+YkjPiWQqDStdBo8m/FEWGwbOkJqXCL7gVUz1xhbolabn9G/m/ekLa/6PR?=
+ =?us-ascii?Q?JDeM4s641uZiyGLKmBLl4jn1A0K5LK8N6V7PcrSU+KCy1GHi4C8MCUBDFhDz?=
+ =?us-ascii?Q?rsZTTNiMvpZrRmmB4JU6SnJPArqflNQVGQhN+bKBBgCF0uq+C2yXcZpvQkWC?=
+ =?us-ascii?Q?E1hzoVk7x4O8PFAxPaVbv75Hm2+sLdyVuk4MLwAuzdUyAQYl+dbCTDPsESYW?=
+ =?us-ascii?Q?QUXVTPWp2zbjcSVRoO/eWJsgceD2py2NMCQ0W5qVla9OwTZ4kLkCIXtZbTux?=
+ =?us-ascii?Q?Dtt16B9ozwTPl43DC6bNOgEtAEzI2YR4V4UaTG7bbWXWXR2BrBncdtwSqXJD?=
+ =?us-ascii?Q?9qceSTV8P6OXJlKlAv3IpHEd3hj9uw1mGM2CLXYn+1PBD6XgH+1+xQkZrSLA?=
+ =?us-ascii?Q?kj+o1M04RinJ0Tx3/JWWHZhW8zlhJUYFF0bUBEzOu24ZufFnG5jv2HUBBQIt?=
+ =?us-ascii?Q?Pz8PyE3W+S6OfEEgvEXIaEoMQKVXEPoDVrOIVUMzsR6v5iboRxhNMYO4Kk5K?=
+ =?us-ascii?Q?+Q2pbrI9heahr4TeZpoiEHIQPwOTtCQ4QFdy5bqG+cnEgZn2UIa9MLP5xZHx?=
+ =?us-ascii?Q?DRKZFSpAAEvNeiFkb1ZT1/UhSMqOkrvffjM+NWWYQzgySlskT2Xm4K9V+IsT?=
+ =?us-ascii?Q?fcA/yeJj8uQBLXFz37DgRmevS2IBX9dRGLPrqa+9JxMgqC33ECEucIWNqPua?=
+ =?us-ascii?Q?TSsAL0xY3HRniawA+ljFOceErge5yQfhfl3AMCv5Uc7YtTjWmpRr6TWcB3qy?=
+ =?us-ascii?Q?NL7unwaIrZLlZG2RnjZUhm0K1MJcscAv5q1jn8q3?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.218.229]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
- R01UKEXCASM223.r01.fujitsu.local (10.182.185.121)
-X-Virus-Scanned: ClamAV using ClamSMTP
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4152.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 40586729-872e-4926-55ab-08db05ae3c4d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Feb 2023 06:16:49.6737
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /ABVDXmiEuGe+KF9R3Q/kVjpmfJLesusaO5HH2XZ3WifNIb0aumCyONd8X+OLF5BngxnvektE2wl4jEA/qQHHA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4930
+X-OriginatorOrg: intel.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Feb 2023 03:08:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176705
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Feb 2023 06:17:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176706
 
-From: Yan <yanxk.fnst@fujitsu.com>
+Hi All,
+=20
+QA for yocto-4.0.7.rc1 is completed. This is the full report for this relea=
+se: =20
+https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?=
+h=3Dintel-yocto-testresults
+=20
+=3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D
+No high milestone defects.
+=20
+No new issue found.=20
+=20
+Thanks,
+Jing Hui
 
-enable ptest for oss "tar".
 
-Signed-off-by: Yanxinkuan <yanxk.fnst@fujitsu.com>
----
- .../distro/include/ptest-packagelists.inc     |  1 +
- meta/recipes-extended/tar/files/run-ptest     | 10 +++++++
- meta/recipes-extended/tar/tar_1.34.bb         | 27 +++++++++++++++++--
- 3 files changed, 36 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/tar/files/run-ptest
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 72162f10ee..d3e18ea4a4 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -100,6 +100,7 @@ PTESTS_SLOW = "\
-     python3-cryptography-ptest \
-     python3-ptest \
-     strace-ptest \
-+    tar-ptest \
-     tcl-ptest \
-     util-linux-ptest \
-     valgrind-ptest \
-diff --git a/meta/recipes-extended/tar/files/run-ptest b/meta/recipes-extended/tar/files/run-ptest
-new file mode 100644
-index 0000000000..9ca27153d9
---- /dev/null
-+++ b/meta/recipes-extended/tar/files/run-ptest
-@@ -0,0 +1,10 @@
-+#!/bin/sh
-+
-+# Define tar test work dir
-+WORKDIR=/usr/lib/tar/ptest/tests/
-+
-+# Run test
-+cd ${WORKDIR}
-+./atconfig ./atlocal ./testsuite
-+
-+./testsuite 2>&1 | grep -E '[0-9]{1,3}: ' | sed -e 's/^.....//' -e '/[ok]$/s/^/PASS: /;/FAILED (.*)/s/^/FAIL: /;/skipped (.*)/s/^/SKIP: /;/expected failure/ s/^/PASS: /;/UNEXPECTED PASS/s/^/FAIL: /' -e 's/ok$//g' -e 's/FAILED.*//g' -e 's/skipped.*//g' -e 's/expected failure.*//g' -e 's/UNEXPECTED PASS.*//g'
-diff --git a/meta/recipes-extended/tar/tar_1.34.bb b/meta/recipes-extended/tar/tar_1.34.bb
-index 7307cd57a2..7a178c345f 100644
---- a/meta/recipes-extended/tar/tar_1.34.bb
-+++ b/meta/recipes-extended/tar/tar_1.34.bb
-@@ -6,11 +6,12 @@ SECTION = "base"
- LICENSE = "GPL-3.0-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
--SRC_URI = "${GNU_MIRROR}/tar/tar-${PV}.tar.bz2"
-+SRC_URI = "${GNU_MIRROR}/tar/tar-${PV}.tar.bz2 \
-+           file://run-ptest"
- 
- SRC_URI[sha256sum] = "b44cc67f8a1f6b0250b7c860e952b37e8ed932a90bd9b1862a511079255646ff"
- 
--inherit autotools gettext texinfo
-+inherit autotools gettext texinfo ptest
- 
- PACKAGECONFIG ??= ""
- PACKAGECONFIG:append:class-target = " ${@bb.utils.filter('DISTRO_FEATURES', 'acl', d)}"
-@@ -42,6 +43,28 @@ do_install:append:class-target() {
-     fi
- }
- 
-+# Tar testsuite would generate some small tests that are
-+# bash scripts, so set ptest dependency to bash
-+RDEPENDS:${PN}-ptest += "bash"
-+
-+do_compile_ptest() {
-+    oe_runmake -C ${B}/gnu/ check
-+    oe_runmake -C ${B}/lib/ check
-+    oe_runmake -C ${B}/rmt/ check
-+    oe_runmake -C ${B}/src/ check
-+    oe_runmake -C ${B}/tests/ genfile checkseekhole ckmtime
-+}
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/tests/
-+    install --mode=755 ${B}/tests/atconfig ${D}${PTEST_PATH}/tests/
-+    install --mode=755 ${B}/tests/atlocal ${D}${PTEST_PATH}/tests/
-+    install --mode=755 ${B}/tests/genfile ${D}${PTEST_PATH}/tests/
-+    install --mode=755 ${B}/tests/checkseekhole ${D}${PTEST_PATH}/tests/
-+    install --mode=755 ${B}/tests/ckmtime ${D}${PTEST_PATH}/tests/
-+    install --mode=755 ${S}/tests/testsuite ${D}${PTEST_PATH}/tests/
-+}
-+
- PACKAGES =+ "${PN}-rmt"
- 
- FILES:${PN}-rmt = "${sbindir}/rmt*"
--- 
-2.25.1
-
+> -----Original Message-----
+> From: yocto@lists.yoctoproject.org <yocto@lists.yoctoproject.org> On
+> Behalf Of Pokybuild User
+> Sent: Saturday, 28 January, 2023 7:09 AM
+> To: yocto@lists.yoctoproject.org
+> Cc: qa-build-notification@lists.yoctoproject.org
+> Subject: [yocto] QA notification for completed autobuilder build (yocto-
+> 4.0.7.rc1)
+>=20
+>=20
+> A build flagged for QA (yocto-4.0.7.rc1) was completed on the autobuilder
+> and is available at:
+>=20
+>=20
+>     https://autobuilder.yocto.io/pub/releases/yocto-4.0.7.rc1
+>=20
+>=20
+> Build hash information:
+>=20
+> bitbake: 7e268c107bb0240d583d2c34e24a71e373382509
+> meta-agl: b9d4796f44a56c6a9c8233d82e46c251a82f6020
+> meta-arm: ce41be0a7fe7c6f5fd2155866980388d3c83389f
+> meta-aws: 9d9400b03c22839398756f505491718392907266
+> meta-gplv2: d2f8b5cdb285b72a4ed93450f6703ca27aa42e8a
+> meta-intel: f529e0594a784546926e89ce8e78385e00d0b0a9
+> meta-mingw: a90614a6498c3345704e9611f2842eb933dc51c1
+> meta-openembedded: 1f31570d0795da90083d1dbf28127c90908e30ee
+> meta-virtualization: 9a94fa2ad76990b0eca40837a98aaf4cd83a7248
+> oecore: a8c82902384f7430519a31732a4bb631f21693ac
+> poky: 65dafea22018052fe7b2e17e6e4d7eb754224d38
+>=20
+>=20
+>=20
+> This is an automated message from the Yocto Project Autobuilder
+> Git: git://git.yoctoproject.org/yocto-autobuilder2
+> Email: richard.purdie@linuxfoundation.org
+>=20
+>=20
+>=20
 
