@@ -1,127 +1,69 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B59DC61DA4
-	for <webhook@archiver.kernel.org>; Fri,  3 Feb 2023 16:39:31 +0000 (UTC)
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
- by mx.groups.io with SMTP id smtpd.web10.15792.1675442370604636394
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0682BC05027
+	for <webhook@archiver.kernel.org>; Fri,  3 Feb 2023 16:41:21 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web10.15842.1675442474786350390
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Feb 2023 08:39:30 -0800
+ Fri, 03 Feb 2023 08:41:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=IauExq/2;
- spf=pass (domain: gmail.com, ip: 209.85.166.177, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-il1-f177.google.com with SMTP id h18so2283207ilj.6
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Feb 2023 08:39:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=uJYM5RfSY1LFeBu2ANbnnB25Gn2Zesk3+pXHhz7EBBY=;
-        b=IauExq/2+NkeVG3ld8pNjZcL2B17MGMPJaF8/b38ydhso2gWq+PGpCY1LUkJRbpSLQ
-         Dg9zEchzi5A5uTD12gC1QjvbA3m4JCLxFxXSSAH2eq8Two/FX96RDcOcKPkzNcuU+rLg
-         /dgEM4BAd/oqWUJzAwuw0FALpBxa40AcNxDaLkYSVuwLQWwY5Vm8mFKqHaZCzWzvoTvm
-         xe/5+C2r4aj8/9Hfo5aht/39OxcwmXTOPHlY8gdwuJLE+pkCEydbP6NzvzRJ/iYZWHPy
-         lIIXBpCEjfilhgfz1qqvvtqMnuVZemy0rtkfN01RqKNhQPlUilhpJJd79BdF2fwd+CzN
-         if4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uJYM5RfSY1LFeBu2ANbnnB25Gn2Zesk3+pXHhz7EBBY=;
-        b=lXq5zu814LqdG2XydNV8XbkBFMSPuH3cEVukQpPVWXVdpEWpV29FR1DNR7gPJU+XF9
-         ViJJWwTEfg26G0F5r98D0UYxrvRlXVStXFNU/52GTOeyYgGM1UNgfpEPLXjp+KrIW0U3
-         vYT/s7xhIH0b7r7ClVlOQVLRBTTg3Bc4TKih2wCgOwe5OvWTliEVIwEpoH/jcKwNvUkC
-         fThtDCxRmKpCnkmP6sFgvSpFv5xE6zqCTFCPycX+F4ZluIXkSuh271+VUj5rgMAIMSSI
-         qyuJ0KmmnzkS1PtZz8RIeQWsGsemi3P5A726IF2VoxG+COkmBpvkVe2OYBNZEVBkpGMu
-         HH/A==
-X-Gm-Message-State: AO0yUKU7GwetFinOFyC03vZfJS1a5rWMNnaZeRP/ROyphCj8VPh5J5vs
-	4bCl2WWkF6RUWa7kNNg9bdUz/bwQGsrQQH2XPZ8=
-X-Google-Smtp-Source: AK7set9vET2h7HSascdde4j4C65TKmW1Qx3TXsFZWi3vTnUzHtxtwh8vZoBepyG5PtUJDXhvUFVpTIMMrRnBeXliLnM=
-X-Received: by 2002:a05:6e02:19c7:b0:310:e81a:f55e with SMTP id
- r7-20020a056e0219c700b00310e81af55emr2459779ill.96.1675442369885; Fri, 03 Feb
- 2023 08:39:29 -0800 (PST)
-MIME-Version: 1.0
-References: <20230203154727.1142151-1-richard.purdie@linuxfoundation.org>
- <CADkTA4NNDyCKZht2ivr1hj4Gv2YAL1WQhZd-tqJb2Q6jsNPOuQ@mail.gmail.com> <886299170355111396da4f7cfeeb9ba8dee3f523.camel@linuxfoundation.org>
-In-Reply-To: <886299170355111396da4f7cfeeb9ba8dee3f523.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 3 Feb 2023 11:39:18 -0500
-Message-ID: <CADkTA4Mnbmm_Yrv3sRmSyLd9KjgcQF1VZCq-FuXeYD_aa1yu-w@mail.gmail.com>
-Subject: Re: [PATCH] perf: Fix 6.1 kernel reproducibility issue
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=NanvRyI1;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 78A441C0005;
+	Fri,  3 Feb 2023 16:41:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1675442472;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7nn9LxBhQ0HWpaFCptjHRd/x5+8Cmh14MoxWQ3K944s=;
+	b=NanvRyI1qMQCrGx+MhRpaNvDAVKAlKlbTEfobT6JoCIlOScCMhIghAMcTlQvJ4Ftc/Hcm+
+	ZmYZ66HjBOzsEmf8NYk0xr24Tk5WBxZ2hwN/J2egj3Xs0ShpZibMfgJWEd7kc+taKn6/Qa
+	8Pj+MQPea0SbGix7xOVAl8fpnj04wp6gFtQV7EyH7mr1fw+wfsQX4u1kR0MajersAfK3aM
+	MdwCVbkQrvPnnTYj+gpX9QxUV0ZOKqkTgMpoW5Am2wbmNTSfUrU7RTgMGHqOC2xvpucN1y
+	qF86pV5fRZTlXIY0fInT6Ui0VvrYqiJ4+bp9wqeI/m24NBFrh+/o+a/t80hq0g==
+Date: Fri, 3 Feb 2023 17:41:12 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Cc: Martin Jansa <Martin.Jansa@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] meta: remove True option to getVar and
+ getVarFlag calls (again)
+Message-ID: <Y905KBFZRnbl9J3y@mail.local>
+References: <20230201155038.539949-1-Martin.Jansa@gmail.com>
+ <Y9002wNuWoRMTyCs@mail.local>
+ <ea794fe14ee22b5c7163bd14b63b9b6f2942c5bb.camel@linuxfoundation.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ea794fe14ee22b5c7163bd14b63b9b6f2942c5bb.camel@linuxfoundation.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Feb 2023 16:39:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176730
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Feb 2023 16:41:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176731
 
-On Fri, Feb 3, 2023 at 11:34 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Fri, 2023-02-03 at 11:02 -0500, Bruce Ashfield wrote:
-> > On Fri, Feb 3, 2023 at 10:47 AM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > >
-> > > The pmu-events.c file is generated by a python script making os.scandir()
-> > > calls. The return value is "order on disk" which can cary between machines.
-> > >
-> > > Add in a sed to fix the perf source to sort this data which makes
-> > > the pmu-events.c file deterministic.
-> >
-> > Looks good to me. The perf recipe is the great collector of sed manipulations :)
-> >
-> > >
-> > > We should try and upstream this change but we'll need to sed for varying
-> > > kernel versions. We should also try and get the perf source being added
-> > > to the perf-devsrc package so when failures like this occur, diffoscope
-> > > is much more helpful!
-> >
-> > I can do this, if you haven't started on it. I can't say that i know
-> > exactly why it
-> > isn't already there, but it can't be that hard to figure out :)
->
-> I haven't looked at submission upstream. I did have a quick look at the
-> sources issue and realised:
->
-> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-> index 1dff39a17e4..0a3179f18be 100644
-> --- a/meta/recipes-kernel/perf/perf.bb
-> +++ b/meta/recipes-kernel/perf/perf.bb
-> @@ -361,5 +361,5 @@ FILES:${PN}-python = " \
->  FILES:${PN}-perl = "${libexecdir}/perf-core/scripts/perl"
->
->
-> -INHIBIT_PACKAGE_DEBUG_SPLIT="1"
-> +#INHIBIT_PACKAGE_DEBUG_SPLIT="1"
->  DEBUG_OPTIMIZATION:append = " -Wno-error=maybe-uninitialized"
->
->
-> which makes them appear. Does anyone remember why we have that and if
-> we can remove it? :)
+On 03/02/2023 16:32:08+0000, Richard Purdie wrote:
+> On Fri, 2023-02-03 at 17:22 +0100, Alexandre Belloni via
+> lists.openembedded.org wrote:
+> > I'm not sure what you based the patch on, it didn't apply for me.
+> 
+> I did already take most of this one except the bits to report-
+> error.bbclass which Martin said were a process error on irc and can be
+> ignored.
+> 
 
-I can't recall why we had that in place.
+Ok, thanks, I didn't check!
 
-It would predate us taking a copy of the sources for the build, so it
-may have been related to that.
-
-Assuming nothing pops up as a new breakage ... I have no technical
-recollection of why it can't be changed.
-
-Bruce
-
->
 > Cheers,
->
+> 
 > Richard
 
-
-
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
