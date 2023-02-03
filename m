@@ -2,143 +2,86 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A99EC05027
-	for <webhook@archiver.kernel.org>; Fri,  3 Feb 2023 16:44:41 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web10.15943.1675442676525177120
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04D1EC05027
+	for <webhook@archiver.kernel.org>; Fri,  3 Feb 2023 16:52:11 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web11.16140.1675443126700830611
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Feb 2023 08:44:37 -0800
+ Fri, 03 Feb 2023 08:52:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WEPGWLrR;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id k8-20020a05600c1c8800b003dc57ea0dfeso6439670wms.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Feb 2023 08:44:36 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DS77rKyg;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id m5-20020a05600c4f4500b003db03b2559eso4319810wmq.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Feb 2023 08:52:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ySddc4dY+d6DhwdtH1V56Ke4slcxl5Yg0WcF6pMGqnc=;
-        b=WEPGWLrRLDPGOteJHDcla6v5yHaggvXG61EK3U7zVY4LLx5dSlwuV1cNc2HAEpfQqJ
-         Q9YZEUxAzbIHjlRWBERwZqUIp7+DL05s5lALFgVOiv8qRyxWC4y2yiu0hQam11pNaJc9
-         I4w0wxa2sswwwsBZNda5vDQxGQmOydrdKSfus=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZaZC1z5i2hVrnLl33ilnwc5rjJ308OKM6ZcDQaMEuC8=;
+        b=DS77rKygv3whz+hb7KwWHvhFJxvZahuwDXFkEPbXv21aQqBUdmYvGHQXJY/DuwMmPO
+         AqKzzP1d1oewQwNDyzuWIJAlZmWc63CuMazLEq1Ep8SVbmiYClAn1DBrRTwvRiXUt/mP
+         DsPDCk0Wb5uUscRsWYw1OwkP63D615kelZVT0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ySddc4dY+d6DhwdtH1V56Ke4slcxl5Yg0WcF6pMGqnc=;
-        b=PJhMMKhMUFrSqWtEZlutlbhM5OSlkhxjTNX4Bcz9sFHFVK3w+gbkiPlLSPuhXta8zG
-         W2aEcXw+kZEjrrUaf/zoqHji8TsXOCWLkKneahxQA5oatz8miwg5NmDh18yh6GhQpaJ1
-         kfTlPvai9nFPtbjUNP0qthW8yfndeTUpPj55FvtpzJzq3WKfVDkuHxcDPVmJnoKRxRIa
-         ow7Ldc3kRkLH/t/AziMs6BNtb82NSO3PUiOL6wgPlCH5J+T7BB1LUiFEDuSoo7D3IMue
-         zerTS3yfcvaadO7u6NnXEsi0Yp3KcTrnRbZ70m9Y3OXp8tY+pFNOgSsFoZZ1Ta3n4x8+
-         AltA==
-X-Gm-Message-State: AO0yUKVN8iSqg1GbgTRHWYdGpUhrstxBwkvp4T5mdBwY+b1sNSBBjUqd
-	HAgdmADMFc1mtjBMLXuwOQ36/A==
-X-Google-Smtp-Source: AK7set9m9jtXc211wQtJfnfoH3SvIuCyzPVuZvsXsRGT+87wZDCCtYFmiHMvQGiQGQbSzgwHpm2MjA==
-X-Received: by 2002:a05:600c:3d88:b0:3d2:3f55:f757 with SMTP id bi8-20020a05600c3d8800b003d23f55f757mr10397339wmb.20.1675442674707;
-        Fri, 03 Feb 2023 08:44:34 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a52f:3f73:91fb:2c5a? ([2001:8b0:aba:5f3c:a52f:3f73:91fb:2c5a])
-        by smtp.gmail.com with ESMTPSA id i10-20020a05600c354a00b003dd1c15e7fcsm9500947wmq.15.2023.02.03.08.44.34
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZaZC1z5i2hVrnLl33ilnwc5rjJ308OKM6ZcDQaMEuC8=;
+        b=dBrdfGRqB6WSbFfhxQur7mTpYZvKyclvgZt2VsJsKw63KBAQvn1yLAk3VRBw8BgnUa
+         fc6Jn65Cqe7nsp1EUa9dLv03LeYQqNEEqmraS0qV0XhDadJi3+mhNc1bSvF+iji0kzsi
+         3UdLKQTyghdD3+KYcRrYmVu1rnP7uWscpTTe5TahSUJ9YaYmX6byXQXLh923twRCfksP
+         Ywz8OPhuaaJIYWmOFB3srJ1ATbvWSblyJ7BtJT3Xaen9sqvZUa3w3Sk8AYSsZokZa+Ex
+         hzWXv/1JyG3bYwl/c/OKARAl+05k0QppfLn2LPHYYfJ3+9y4C85Oze6nbwvwhv1U7ofV
+         38lg==
+X-Gm-Message-State: AO0yUKWTdOi3k/y8flm8mO6BSx0q2FJ6Hk2bzavBFgkQ9GsVesPOpsw0
+	g3dUQWYmPp3xPEGZclBKlKkgOW9kzy/Rg6c8
+X-Google-Smtp-Source: AK7set8cTS+3HRCa8q1xFEm/lXkVbL/k4oyOeUiOiJybuX71p65uLchG73iR9rvePsxgNqnPIo1hhw==
+X-Received: by 2002:a05:600c:3545:b0:3df:ea9a:21c7 with SMTP id i5-20020a05600c354500b003dfea9a21c7mr2266532wmq.33.1675443124790;
+        Fri, 03 Feb 2023 08:52:04 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:a52f:3f73:91fb:2c5a])
+        by smtp.gmail.com with ESMTPSA id j10-20020a05600c1c0a00b003dd1c45a7b0sm3587139wms.23.2023.02.03.08.52.04
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Feb 2023 08:44:34 -0800 (PST)
-Message-ID: <e53ed4ba53deac48006474790bf4128c1890dc61.camel@linuxfoundation.org>
-Subject: Re: [PATCH] perf: Fix 6.1 kernel reproducibility issue
+        Fri, 03 Feb 2023 08:52:04 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Fri, 03 Feb 2023 16:44:33 +0000
-In-Reply-To: <CADkTA4Mnbmm_Yrv3sRmSyLd9KjgcQF1VZCq-FuXeYD_aa1yu-w@mail.gmail.com>
-References: <20230203154727.1142151-1-richard.purdie@linuxfoundation.org>
-	 <CADkTA4NNDyCKZht2ivr1hj4Gv2YAL1WQhZd-tqJb2Q6jsNPOuQ@mail.gmail.com>
-	 <886299170355111396da4f7cfeeb9ba8dee3f523.camel@linuxfoundation.org>
-	 <CADkTA4Mnbmm_Yrv3sRmSyLd9KjgcQF1VZCq-FuXeYD_aa1yu-w@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.1-0ubuntu1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] perf: Enable debug/source packaging
+Date: Fri,  3 Feb 2023 16:52:03 +0000
+Message-Id: <20230203165203.1145313-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Feb 2023 16:44:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176732
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Feb 2023 16:52:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176733
 
-On Fri, 2023-02-03 at 11:39 -0500, Bruce Ashfield wrote:
-> On Fri, Feb 3, 2023 at 11:34 AM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >=20
-> > On Fri, 2023-02-03 at 11:02 -0500, Bruce Ashfield wrote:
-> > > On Fri, Feb 3, 2023 at 10:47 AM Richard Purdie
-> > > <richard.purdie@linuxfoundation.org> wrote:
-> > > >=20
-> > > > The pmu-events.c file is generated by a python script making os.sca=
-ndir()
-> > > > calls. The return value is "order on disk" which can cary between m=
-achines.
-> > > >=20
-> > > > Add in a sed to fix the perf source to sort this data which makes
-> > > > the pmu-events.c file deterministic.
-> > >=20
-> > > Looks good to me. The perf recipe is the great collector of sed manip=
-ulations :)
-> > >=20
-> > > >=20
-> > > > We should try and upstream this change but we'll need to sed for va=
-rying
-> > > > kernel versions. We should also try and get the perf source being a=
-dded
-> > > > to the perf-devsrc package so when failures like this occur, diffos=
-cope
-> > > > is much more helpful!
-> > >=20
-> > > I can do this, if you haven't started on it. I can't say that i know
-> > > exactly why it
-> > > isn't already there, but it can't be that hard to figure out :)
-> >=20
-> > I haven't looked at submission upstream. I did have a quick look at the
-> > sources issue and realised:
-> >=20
-> > diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/per=
-f/perf.bb
-> > index 1dff39a17e4..0a3179f18be 100644
-> > --- a/meta/recipes-kernel/perf/perf.bb
-> > +++ b/meta/recipes-kernel/perf/perf.bb
-> > @@ -361,5 +361,5 @@ FILES:${PN}-python =3D " \
-> >  FILES:${PN}-perl =3D "${libexecdir}/perf-core/scripts/perl"
-> >=20
-> >=20
-> > -INHIBIT_PACKAGE_DEBUG_SPLIT=3D"1"
-> > +#INHIBIT_PACKAGE_DEBUG_SPLIT=3D"1"
-> >  DEBUG_OPTIMIZATION:append =3D " -Wno-error=3Dmaybe-uninitialized"
-> >=20
-> >=20
-> > which makes them appear. Does anyone remember why we have that and if
-> > we can remove it? :)
->=20
-> I can't recall why we had that in place.
->=20
-> It would predate us taking a copy of the sources for the build, so it
-> may have been related to that.
->=20
-> Assuming nothing pops up as a new breakage ... I have no technical
-> recollection of why it can't be changed.
+This was disabled in 2014[1] due to an error message which as far
+as I can tell, no longer occurs.
 
-It was added by you in 2014! :)
+Having debug information and source files present will make debugging
+reproducibility issues much easier so remove this line as it appears
+no longer needed.
 
-https://git.yoctoproject.org/poky/commit/meta/recipes-kernel/perf?id=3D0880=
-8c9f404d01c497b92e7d34a3bb0c0159a258
+[1] OE-Core revision c1b5a262c0201faf2c6bf545d6acb32dfe383ba3
 
-I think the world has changed and at least my local build didn't fail
-with that when removing it.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-kernel/perf/perf.bb | 2 --
+ 1 file changed, 2 deletions(-)
 
-I'll try testing a wider patch on the autobuilder and see if we get any
-errors. If we do, we should probably resolve them some other way.
-Getting more usable diffoscope output would be a huge win given how
-often perf breaks.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 1dff39a17e4..e8a9c57a0aa 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -360,6 +360,4 @@ FILES:${PN}-python = " \
+                        "
+ FILES:${PN}-perl = "${libexecdir}/perf-core/scripts/perl"
+ 
+-
+-INHIBIT_PACKAGE_DEBUG_SPLIT="1"
+ DEBUG_OPTIMIZATION:append = " -Wno-error=maybe-uninitialized"
+-- 
+2.37.2
 
 
