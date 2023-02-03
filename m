@@ -2,57 +2,57 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40809C05027
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 378C4C61DA4
 	for <webhook@archiver.kernel.org>; Fri,  3 Feb 2023 17:51:21 +0000 (UTC)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web11.17959.1675446673047560596
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web11.17960.1675446675717252407
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Feb 2023 09:51:13 -0800
+ Fri, 03 Feb 2023 09:51:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=b40FOryQ;
- spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: ticotimo@gmail.com)
-Received: by mail-pj1-f51.google.com with SMTP id mi9so5738337pjb.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Feb 2023 09:51:13 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=C6SKXK1K;
+ spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: ticotimo@gmail.com)
+Received: by mail-pj1-f46.google.com with SMTP id f16-20020a17090a9b1000b0023058bbd7b2so5025735pjp.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Feb 2023 09:51:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=t/ifrFbly4K7dD/XnNzfsYnKURL8g/KynApkvFhrI1Q=;
-        b=b40FOryQ6djpDwCSKZrT6+YoNxkIBJe0JzDr4Y3r0hbqf38BCMyIVBgQhnD11/cQr0
-         X64YI8KuHEvRNI/EMTVtb8BJOW2jx1KnpmM8eGFw0Bn53bIIpP5FKBO8GD4kPOs/950Y
-         k1ZSNziOKzfChi4t60Jg8ITdhc8ZjnYRUeRztvkjgFHlnidQiiun94L9QH/4ufH6aFHF
-         rMwaiKSdzO42KYpX4xRInYV4gWvEcJ4yy4mF+byKGza0Z4XG+fkr9IO+nFErfZFvt/Lo
-         Yeee6qsRWwAwmcMOP4906ZMBRrTgBfwkwHjdafwKF3THW8w+uEFleQNpZkYPAZKWFrcW
-         JLrw==
+        bh=hF/E6DJLd5yja2emlKYpJFFaTgp8owqVN3G+xBkW8sE=;
+        b=C6SKXK1KxVB/N63MAw9Je4e9UgE8itF4czB81IfToibFzWC1WbU9U0ZPK7MFdFROlY
+         zxHlqRDLW4xOfVQ7qojt7RmA7wuPgzdfovbmsuZf/S0YgMPJMiZaLQHcF9WoqH4I+uGb
+         +puKmjdGmvox4rgXiX/+uK9LzbG58FsnixrO/JxTRfv6Ys2YAgSamwMVCqwZlewDoWGn
+         cIUspCfYKFOMWJNzifSVUvdtPguSLoBPfAgd/+DYMBj8L4sA94xqEzzpEslIfNmvjw15
+         NgPVcnFg4RPgM+4lNoBHfk6/4OvmyRtIm5h9910VrqB9KZzgjxs1IDRSxHYn7mTvux3y
+         WauQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=t/ifrFbly4K7dD/XnNzfsYnKURL8g/KynApkvFhrI1Q=;
-        b=0c3T78Prrabd1eQpEm2MD4mDLjG626lGCYcypRWRXoJIdGugIoBVjVoJIL61GF0K6k
-         rq/aXNoLP/LFqlL7nGRo7tCC0DqsVLQXuHK/n8RT2wCwq71cgwpDmZWk2ZJ8Ms3/xksZ
-         VGAI5kgq4p6bPd+Hu1gjozEqYu6PrAQH9hR7Qgyvckrz6pL/3ljsEN6V9TfjPZFnGbah
-         hyO8LT9MS0zQV4tUz2ui/+4WKSv2dwfR/3nlr2/koLt/LJW7futp17hrSQqZvt4etlkI
-         MQcDrDsUTcoai2QCR3+gPLRL2oqyT5hkkrMCwMCEulfkcvrP5gUbw3QfiER3hrmStipr
-         /OLw==
-X-Gm-Message-State: AO0yUKWmUV5/Qc2B41oInBnnp0mgZQDRF8WcSYJpAZ56ZWOwdbhmLqEf
-	qOdc7JFeR8Hj+hnJLonvFrlOpXs2xBo=
-X-Google-Smtp-Source: AK7set8/zaSHcnZTtVjXRTLUFFpLKl/WhWClOg30EnWv6HHX7xFqhKGM2eqVfBY6kUWw+PImZggUsg==
-X-Received: by 2002:a17:90b:3b8b:b0:226:3f8:5b78 with SMTP id pc11-20020a17090b3b8b00b0022603f85b78mr11288414pjb.13.1675446672122;
-        Fri, 03 Feb 2023 09:51:12 -0800 (PST)
+        bh=hF/E6DJLd5yja2emlKYpJFFaTgp8owqVN3G+xBkW8sE=;
+        b=glj6epwiegO66TwPYTvJ+JRNymIoCi/mA5RkDga9MxQsq5mSYR4Q19cpsvVMIhMXyk
+         j5ystPSr3/rpzkQo6d888P+Q33EgEmUOS023ElZ+/pqXiDcsJ81pMrBoJX3OWunAlSpG
+         Cd5iBkYZWa4G+opaOYCQsbLQ27ACa7J91H3sVMMQH7ALrBORQEKyRld3MGYOplCTDVSr
+         1/VUIHjEji9vFz+ZKkgTkZZn+L3/75elVo22Ug6ssVMq6Wk+954LeuIOld4InYIM6QvB
+         FW1rA/X7JI3PH2O9lat1aKMQ7UgzVm6QEAqXeXpV87wIbQ0GBOF9GQi/TSMwrHCSG/pa
+         9rUw==
+X-Gm-Message-State: AO0yUKUOd1FncI7vg2a54YXI9rvTv5aOkLovYay2GjyiwZfVB2bzJ3Wr
+	ikNK4Lh0zc9AMoQ7SI62dPJW2pZBsOw=
+X-Google-Smtp-Source: AK7set/i5erWqUL6+w4hmfWMpwhw/l33gDXeBUXVaOK0eR/IDlBTppPtSndtOEWg6aedr1nTnEnhzg==
+X-Received: by 2002:a17:90b:218c:b0:228:de0e:c8af with SMTP id ku12-20020a17090b218c00b00228de0ec8afmr11755285pjb.16.1675446674771;
+        Fri, 03 Feb 2023 09:51:14 -0800 (PST)
 Received: from nereus.hsd1.or.comcast.net ([2601:1c0:ca00:cea0:46a4:f9f7:31dc:7e2c])
-        by smtp.gmail.com with ESMTPSA id o11-20020a637e4b000000b0046ff3634a78sm1712880pgn.71.2023.02.03.09.51.11
+        by smtp.gmail.com with ESMTPSA id o11-20020a637e4b000000b0046ff3634a78sm1712880pgn.71.2023.02.03.09.51.14
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Feb 2023 09:51:11 -0800 (PST)
+        Fri, 03 Feb 2023 09:51:14 -0800 (PST)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 11/14] python3-pyopenssl: upgrade 22.1.0 -> 23.0.0
-Date: Fri,  3 Feb 2023 09:50:32 -0800
-Message-Id: <8a9a2f993d27542667f94078f8d4b75326ea9ff3.1675446372.git.tim.orling@konsulko.com>
+Subject: [PATCH 12/14] python3-wcwidth: upgrade 0.2.5 -> 0.2.6
+Date: Fri,  3 Feb 2023 09:50:33 -0800
+Message-Id: <1aa4f47d794d6fca936e5f505bfcc621f086533e.1675446372.git.tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1675446372.git.tim.orling@konsulko.com>
 References: <cover.1675446372.git.tim.orling@konsulko.com>
@@ -62,40 +62,39 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 03 Feb 2023 17:51:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176745
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176746
 
-https://www.pyopenssl.org/en/23.0.0/changelog.html
+https://github.com/jquast/wcwidth#history
 
-23.0.0 (2023-01-01)
-
-Changes:
-    Add OpenSSL.SSL.X509StoreFlags.PARTIAL_CHAIN constant to allow for users
-    to perform certificate verification on partial certificate chains. #1166
-
-    cryptography maximum version has been increased to 39.0.x.
+0.2.6 2023-01-14
+  * Updated tables to include Unicode Specification 14.0.0 and 15.0.0.
+  * Changed developer tools to use pip-compile, and to use jinja2
+    templates for code generation in bin/update-tables.py to prepare
+    for possible compiler optimization release.
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- ...{python3-pyopenssl_22.1.0.bb => python3-pyopenssl_23.0.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pyopenssl_22.1.0.bb => python3-pyopenssl_23.0.0.bb} (86%)
+ .../{python3-wcwidth_0.2.5.bb => python3-wcwidth_0.2.6.bb}     | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-wcwidth_0.2.5.bb => python3-wcwidth_0.2.6.bb} (80%)
 
-diff --git a/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb b/meta/recipes-devtools/python/python3-pyopenssl_23.0.0.bb
-similarity index 86%
-rename from meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb
-rename to meta/recipes-devtools/python/python3-pyopenssl_23.0.0.bb
-index 4d83b8c7d74..822d21a58a7 100644
---- a/meta/recipes-devtools/python/python3-pyopenssl_22.1.0.bb
-+++ b/meta/recipes-devtools/python/python3-pyopenssl_23.0.0.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+diff --git a/meta/recipes-devtools/python/python3-wcwidth_0.2.5.bb b/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb
+similarity index 80%
+rename from meta/recipes-devtools/python/python3-wcwidth_0.2.5.bb
+rename to meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb
+index a532d3c5cb9..368146dba48 100644
+--- a/meta/recipes-devtools/python/python3-wcwidth_0.2.5.bb
++++ b/meta/recipes-devtools/python/python3-wcwidth_0.2.6.bb
+@@ -4,8 +4,7 @@ HOMEPAGE = "https://github.com/jquast/wcwidth"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=b15979c39a2543892fca8cd86b4b52cb"
  
- DEPENDS += "openssl ${PYTHON_PN}-cryptography"
+-SRC_URI[md5sum] = "a07a75f99d316e14838ac760c831ea37"
+-SRC_URI[sha256sum] = "c4d647b99872929fdb7bdcaa4fbe7f01413ed3d98077df798530e5b04f116c83"
++SRC_URI[sha256sum] = "a5220780a404dbe3353789870978e472cfe477761f06ee55077256e509b156d0"
  
--SRC_URI[sha256sum] = "7a83b7b272dd595222d672f5ce29aa030f1fb837630ef229f62e72e395ce8968"
-+SRC_URI[sha256sum] = "c1cc5f86bcacefc84dada7d31175cae1b1518d5f60d3d0bb595a67822a868a6f"
+ inherit pypi setuptools3 ptest
  
- PYPI_PACKAGE = "pyOpenSSL"
- inherit pypi setuptools3
 -- 
 2.30.2
 
