@@ -2,125 +2,100 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2E0AC636CC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0F92C61DA4
 	for <webhook@archiver.kernel.org>; Sat,  4 Feb 2023 11:41:40 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web11.4089.1675510897248177918
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web10.4018.1675510896501888335
  for <openembedded-core@lists.openembedded.org>;
  Sat, 04 Feb 2023 03:41:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hhGoPsMc;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f41.google.com with SMTP id r2so6673539wrv.7
-        for <openembedded-core@lists.openembedded.org>; Sat, 04 Feb 2023 03:41:37 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=P4f2/Ea+;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id j25so3146992wrc.4
+        for <openembedded-core@lists.openembedded.org>; Sat, 04 Feb 2023 03:41:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fTs76lwUzrdrIuDp6iqcSafpKuZlEEjzCVQxZ25FfsQ=;
-        b=hhGoPsMc+h7BJR83od5UnPJUMGxoLcsOqC/JJWe1qceDzuvn0zhyundd8UL+puuV6E
-         a/X0mcLT4ycQBcDMcJVxh2xBFCWQrOJdd/LlRkpuJbqzouh471mdwWTDv8x0EcGNo0jv
-         UzZk+RZU3v8i4mbscem4dAGqSc2vuAqDOu9To=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PzcLJcFLhXsDOHBJK0ZutqRf56FVjkQ2KFx5Qqzge4Y=;
+        b=P4f2/Ea+Uy2bHCgnwHT7ja+Cp+bdPNEvP8abY1sAhddrqBqhli32IkpqWU0Hu4jK00
+         vxfN8YwhTDksuDkePrmxLPhiL4y0Qh/9+qBTL/Nw2vdd6iQCQkEn3qn3ZjRUGbQ6iBOv
+         2FJwosoMFDD6MZCpbnYyeb0TmhG9E0Pib9PJA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fTs76lwUzrdrIuDp6iqcSafpKuZlEEjzCVQxZ25FfsQ=;
-        b=2HxGOydw7gKQeJpbD9btMhHJUVd2rDhGYzpOrS8bl8M0NaSQJM30j+nrWwWQ7GXVos
-         DcjHJlyrxYTmZKd9XARSdagNmdmlkt+uv12fTstfYLwlZVPfheP2qLUKn3GmIQz4yGYm
-         fxasFWV7VmRyOsa7mZVo7TVlFZx8gAX+So4TlTdauS8fNwOjqh+KnmayATse+9nHCEdN
-         0HGkHoZeIXvDUU68O+KvRZrcBN21KYyc5VSmFVf8FI0LhAAekqzBxOkXkYq4WQMn5u6s
-         DNaMWErVAtAl8SJum8POk5U86pWzRJgZwyuau+0ILlj7JBoTWT8rTn8o+JR64H9g48H+
-         pgDA==
-X-Gm-Message-State: AO0yUKWj1535ioWPU64gW5TTHjAfr8G1qOomafVf7Uly5zk+Ofm0QyFd
-	g6s6foAXt/bXGrCOkKSwqCfra2LO42psjwfS
-X-Google-Smtp-Source: AK7set+8mNm7Dw7O48J4cyJHc0Sl8K73DjzZgHKaBZ+cgmLjqG+nQrUIwGR2uBY3nnI3ggBAzZEJsw==
-X-Received: by 2002:a5d:63c2:0:b0:2c3:d809:e3aa with SMTP id c2-20020a5d63c2000000b002c3d809e3aamr2413715wrw.65.1675510895417;
-        Sat, 04 Feb 2023 03:41:35 -0800 (PST)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PzcLJcFLhXsDOHBJK0ZutqRf56FVjkQ2KFx5Qqzge4Y=;
+        b=Sd4/gjxFhWEGdOvuMpz5cKyjTQIXCBlQBjQTAffNhPqMxPKrNIBJvHe5tYyIeKLmw0
+         NZAD+aGE3pcHn3DGKjlQ00XfuMom8cGih92yhpwYk4lD79dq/BQKMpVPdSAjAwtJ1uX7
+         Ydf8MJXHoyK1UwUDGaQwwpoMRY0JXz9Q9xs0NJgjH0z2cUrmf77mSPA6QgMpxol7NRSj
+         Jn7ZHRvX18XdTB5Mp64KcK9AA61KR8K8gU8b3F57i2gapX1borbZ/OFHcQ06fz7laWa+
+         A6W0L/WhxAD0nnC8Gf4X2POet52VcYuj+FsQDGTkQerrj3vy3a/YAxNA++v14KQBXFU/
+         i3bA==
+X-Gm-Message-State: AO0yUKVjaaQIXzkggob2LPAcsz1zh1CY6Th8k5c+ydOvI5W/FYFhsYwg
+	TZZXqk96btLUIMadStu2d9oEyHuOfu8spv5P
+X-Google-Smtp-Source: AK7set9wrs/rYJYjvcW2W8dcjDiCoshiXJqEryJUu31Y7nAd3jbqHBoeW5LNZ3b4wHdg+Cfv20hqdQ==
+X-Received: by 2002:a05:6000:2ce:b0:2bf:f805:5220 with SMTP id o14-20020a05600002ce00b002bff8055220mr15378099wry.43.1675510894259;
+        Sat, 04 Feb 2023 03:41:34 -0800 (PST)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:b45c:7b35:1c6a:a06d])
-        by smtp.gmail.com with ESMTPSA id y6-20020a5d4ac6000000b002c3e18119f2sm721970wrs.29.2023.02.04.03.41.34
+        by smtp.gmail.com with ESMTPSA id y6-20020a5d4ac6000000b002c3e18119f2sm721970wrs.29.2023.02.04.03.41.33
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Feb 2023 03:41:35 -0800 (PST)
+        Sat, 04 Feb 2023 03:41:33 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] oeqa/selftest/locales: Add test for disabled binary locale generation
-Date: Sat,  4 Feb 2023 11:41:33 +0000
-Message-Id: <20230204114133.1178502-3-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 1/3 v2] perf: Enable debug/source packaging
+Date: Sat,  4 Feb 2023 11:41:31 +0000
+Message-Id: <20230204114133.1178502-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230204114133.1178502-1-richard.purdie@linuxfoundation.org>
-References: <20230204114133.1178502-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 04 Feb 2023 11:41:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176761
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176759
 
-Similarly to the recently added test for binary generated locales, add
-a version to test on target locale generation. This was broken but should
-be fixed now so we can add the test sharing code from the previous test.
+This was disabled in 2014[1] due to an error message which as far
+as I can tell, no longer occurs.
+
+Having debug information and source files present will make debugging
+reproducibility issues much easier so remove this line as it appears
+no longer needed.
+
+Fix up a few files which have buildpaths in them to avoid QA warnings
+and reproducubility issues.
+
+[1] OE-Core revision c1b5a262c0201faf2c6bf545d6acb32dfe383ba3
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/selftest/cases/locales.py | 31 ++++++++++++++++---------
- 1 file changed, 20 insertions(+), 11 deletions(-)
+ meta/recipes-kernel/perf/perf.bb | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/locales.py b/meta/lib/oeqa/selftest/cases/locales.py
-index 433991abf9d..4ca8ffb7aac 100644
---- a/meta/lib/oeqa/selftest/cases/locales.py
-+++ b/meta/lib/oeqa/selftest/cases/locales.py
-@@ -9,23 +9,17 @@ from oeqa.utils.commands import bitbake, runqemu
- class LocalesTest(OESelftestTestCase):
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 1dff39a17e4..2f28d16fba1 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -360,6 +360,16 @@ FILES:${PN}-python = " \
+                        "
+ FILES:${PN}-perl = "${libexecdir}/perf-core/scripts/perl"
  
-     @OETestTag("runqemu")
--    def test_locales_on(self):
--        """
--        Summary: Test the locales are generated
--        Expected: 1. Check the locale exist in the locale-archive
--                  2. Check the locale exist for the glibc
--                  3. Check the locale can be generated
--        Product: oe-core
--        Author: Louis Rannou <lrannou@baylibre.com>
--        AutomatedBy: Louis Rannou <lrannou@baylibre.com>
--        """
- 
-+    def run_locales_test(self, binary_enabled):
-         features = []
-         features.append('EXTRA_IMAGE_FEATURES = "empty-root-password allow-empty-password allow-root-login"')
-         features.append('IMAGE_INSTALL:append = " glibc-utils localedef"')
-         features.append('GLIBC_GENERATE_LOCALES = "en_US.UTF-8 fr_FR.UTF-8"')
-         features.append('IMAGE_LINGUAS:append = " en-us fr-fr"')
--        features.append('ENABLE_BINARY_LOCALE_GENERATION = "1"')
-+        if binary_enabled:
-+            features.append('ENABLE_BINARY_LOCALE_GENERATION = "1"')
-+        else:
-+            features.append('ENABLE_BINARY_LOCALE_GENERATION = "0"')
-         self.write_config("\n".join(features))
- 
-         # Build a core-image-minimal
-@@ -43,3 +37,18 @@ class LocalesTest(OESelftestTestCase):
-             # output must includes fr_FR.utf8
-             self.assertEqual(status, 1, msg='localedef test command failed: output: %s' % output)
-             self.assertIn("fr_FR.utf8", output, msg='localedef test failed: output: %s' % output)
+-
+-INHIBIT_PACKAGE_DEBUG_SPLIT="1"
+ DEBUG_OPTIMIZATION:append = " -Wno-error=maybe-uninitialized"
 +
-+    def test_locales_on(self):
-+        """
-+        Summary: Test the locales are generated
-+        Expected: 1. Check the locale exist in the locale-archive
-+                  2. Check the locale exist for the glibc
-+                  3. Check the locale can be generated
-+        Product: oe-core
-+        Author: Louis Rannou <lrannou@baylibre.com>
-+        AutomatedBy: Louis Rannou <lrannou@baylibre.com>
-+        """
-+        self.run_locales_test(True)
++PACKAGESPLITFUNCS =+ "perf_fix_sources"
 +
-+    def test_locales_off(self):
-+        self.run_locales_test(False)
++perf_fix_sources () {
++	for f in util/parse-events-flex.h util/parse-events-flex.c util/pmu-flex.c \
++			util/expr-flex.h util/expr-flex.c; do
++		f=${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/$f
++		if [ -e $f ]; then
++			sed -i -e 's#${S}/##g' $f
++		fi
++	done
++}
 -- 
 2.37.2
 
