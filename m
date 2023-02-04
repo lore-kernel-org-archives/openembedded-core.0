@@ -2,136 +2,126 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ABF3C61DA4
-	for <webhook@archiver.kernel.org>; Sat,  4 Feb 2023 10:29:20 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web10.3374.1675506553508812929
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2E0AC636CC
+	for <webhook@archiver.kernel.org>; Sat,  4 Feb 2023 11:41:40 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.4089.1675510897248177918
  for <openembedded-core@lists.openembedded.org>;
- Sat, 04 Feb 2023 02:29:13 -0800
+ Sat, 04 Feb 2023 03:41:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VpnbR4XI;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id q5so6638526wrv.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 04 Feb 2023 02:29:13 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hhGoPsMc;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id r2so6673539wrv.7
+        for <openembedded-core@lists.openembedded.org>; Sat, 04 Feb 2023 03:41:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7aalJ3Yng7Z3lKs9CKYWhLE59xTy8hNmW21vSW4FbaI=;
-        b=VpnbR4XIFf9HJ5qsAnGM/48mG31xib4YIK2XO4HhK9WofIsmgQEY4r2QWdkgQQWK5d
-         EBaI3IeOhtZ6yM33c4QzxTyleMz7vsGg9/NWXfcbQz4AFkAVQeuxy155wL61QOA+BxgN
-         wkR7lV7vHuav5LTe91BjZ8foSLNEnYpMKD5GE=
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fTs76lwUzrdrIuDp6iqcSafpKuZlEEjzCVQxZ25FfsQ=;
+        b=hhGoPsMc+h7BJR83od5UnPJUMGxoLcsOqC/JJWe1qceDzuvn0zhyundd8UL+puuV6E
+         a/X0mcLT4ycQBcDMcJVxh2xBFCWQrOJdd/LlRkpuJbqzouh471mdwWTDv8x0EcGNo0jv
+         UzZk+RZU3v8i4mbscem4dAGqSc2vuAqDOu9To=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=7aalJ3Yng7Z3lKs9CKYWhLE59xTy8hNmW21vSW4FbaI=;
-        b=za/S4C7yhIBK1+dkNIjbKNVc1i7LTzISvmZP/Cy78mon0WOxZ5xumsZnaAXRNyq2SS
-         YHHSxCKGPcdBRbmStS8dzp5TQt83KzVF+1cFOJUc76v4nuGqy79BkPuvuaESjDmm/EeH
-         wstTaBBnIrp0BsMaMkOq1/nP80iUjM7GwbTPr6GuPPyiYgum96A+M3HirSZ9AAH2uNUz
-         g8FsJUozQgckhwDb8oUhhiHOwyqauSIaYFsS0CpYXzmmPqk/D07uYHhhdmBL3DelRLEO
-         07P3a/BlEXKu05VY5ntjsQ2Lkdq8WD1KkFzabKhS9waXMXwbcdHTuDuoHyNyZ3f3Yr2h
-         xnFQ==
-X-Gm-Message-State: AO0yUKWWJGzfLqDXPGmE89qp7aq8h26m+FFYhdMRBe/6nlOhGTrtHUv6
-	cFBl/7ecqhVhVhjLshQKn18EAQ==
-X-Google-Smtp-Source: AK7set//XvXr4W2yHyU9w/d0l7ZZgZpqE5VdPT/M1CwZ52A3/H7g5PUsqSHs+qDFKIzLwcHqlinOKg==
-X-Received: by 2002:a5d:660f:0:b0:2bf:ad43:8f08 with SMTP id n15-20020a5d660f000000b002bfad438f08mr10642482wru.14.1675506551684;
-        Sat, 04 Feb 2023 02:29:11 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:b45c:7b35:1c6a:a06d? ([2001:8b0:aba:5f3c:b45c:7b35:1c6a:a06d])
-        by smtp.gmail.com with ESMTPSA id e7-20020adfdbc7000000b002425be3c9e2sm3395099wrj.60.2023.02.04.02.29.10
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fTs76lwUzrdrIuDp6iqcSafpKuZlEEjzCVQxZ25FfsQ=;
+        b=2HxGOydw7gKQeJpbD9btMhHJUVd2rDhGYzpOrS8bl8M0NaSQJM30j+nrWwWQ7GXVos
+         DcjHJlyrxYTmZKd9XARSdagNmdmlkt+uv12fTstfYLwlZVPfheP2qLUKn3GmIQz4yGYm
+         fxasFWV7VmRyOsa7mZVo7TVlFZx8gAX+So4TlTdauS8fNwOjqh+KnmayATse+9nHCEdN
+         0HGkHoZeIXvDUU68O+KvRZrcBN21KYyc5VSmFVf8FI0LhAAekqzBxOkXkYq4WQMn5u6s
+         DNaMWErVAtAl8SJum8POk5U86pWzRJgZwyuau+0ILlj7JBoTWT8rTn8o+JR64H9g48H+
+         pgDA==
+X-Gm-Message-State: AO0yUKWj1535ioWPU64gW5TTHjAfr8G1qOomafVf7Uly5zk+Ofm0QyFd
+	g6s6foAXt/bXGrCOkKSwqCfra2LO42psjwfS
+X-Google-Smtp-Source: AK7set+8mNm7Dw7O48J4cyJHc0Sl8K73DjzZgHKaBZ+cgmLjqG+nQrUIwGR2uBY3nnI3ggBAzZEJsw==
+X-Received: by 2002:a5d:63c2:0:b0:2c3:d809:e3aa with SMTP id c2-20020a5d63c2000000b002c3d809e3aamr2413715wrw.65.1675510895417;
+        Sat, 04 Feb 2023 03:41:35 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:b45c:7b35:1c6a:a06d])
+        by smtp.gmail.com with ESMTPSA id y6-20020a5d4ac6000000b002c3e18119f2sm721970wrs.29.2023.02.04.03.41.34
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Feb 2023 02:29:11 -0800 (PST)
-Message-ID: <be77ae4531f1816f1690caeacd5fdb82c8f78501.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 14/14] python3-sphinx: upgrade 6.0.0 -> 6.1.3
+        Sat, 04 Feb 2023 03:41:35 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Tim Orling <ticotimo@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Sat, 04 Feb 2023 10:29:10 +0000
-In-Reply-To: <8a230841f0fb99c8a40943862b49dd899bc52b99.1675446372.git.tim.orling@konsulko.com>
-References: <cover.1675446372.git.tim.orling@konsulko.com>
-	 <8a230841f0fb99c8a40943862b49dd899bc52b99.1675446372.git.tim.orling@konsulko.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.1-0ubuntu1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 3/3] oeqa/selftest/locales: Add test for disabled binary locale generation
+Date: Sat,  4 Feb 2023 11:41:33 +0000
+Message-Id: <20230204114133.1178502-3-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20230204114133.1178502-1-richard.purdie@linuxfoundation.org>
+References: <20230204114133.1178502-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 04 Feb 2023 10:29:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176758
+ <openembedded-core@lists.openembedded.org>; Sat, 04 Feb 2023 11:41:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176761
 
-On Fri, 2023-02-03 at 09:50 -0800, Tim Orling wrote:
-> https://www.sphinx-doc.org/en/master/changes.html#release-6-1-3-released-=
-jan-10-2023
-> https://www.sphinx-doc.org/en/master/changes.html#release-6-1-2-released-=
-jan-07-2023
-> https://www.sphinx-doc.org/en/master/changes.html#release-6-1-1-released-=
-jan-05-2023
-> https://www.sphinx-doc.org/en/master/changes.html#release-6-1-0-released-=
-jan-05-2023
-> https://www.sphinx-doc.org/en/master/changes.html#release-6-0-1-released-=
-jan-05-2023
->=20
-> Signed-off-by: Tim Orling <tim.orling@konsulko.com>
-> ---
->  ...phinx_6.0.0.bb =3D> python3-sphinx_6.1.3.bb} | 26 +++++++++++++++++--
->  1 file changed, 24 insertions(+), 2 deletions(-)
->  rename meta/recipes-devtools/python/{python3-sphinx_6.0.0.bb =3D> python=
-3-sphinx_6.1.3.bb} (49%)
->=20
-> diff --git a/meta/recipes-devtools/python/python3-sphinx_6.0.0.bb b/meta/=
-recipes-devtools/python/python3-sphinx_6.1.3.bb
-> similarity index 49%
-> rename from meta/recipes-devtools/python/python3-sphinx_6.0.0.bb
-> rename to meta/recipes-devtools/python/python3-sphinx_6.1.3.bb
-> index 5e565e745d6..d77ad0a6fe1 100644
-> --- a/meta/recipes-devtools/python/python3-sphinx_6.0.0.bb
-> +++ b/meta/recipes-devtools/python/python3-sphinx_6.1.3.bb
-> @@ -1,12 +1,34 @@
-> +# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgra=
-de'.
-> +# The following is the difference between the old and the new license te=
-xt.
-> +# Please update the LICENSE value if needed, and summarize the changes i=
-n
-> +# the commit message via 'License-Update:' tag.
-> +# (example: 'License-Update: copyright years updated.')
-> +#
-> +# The changes:
-> +#
-> +# --- LICENSE
-> +# +++ LICENSE
-> +# @@ -4,7 +4,7 @@
-> +#  Unless otherwise indicated, all code in the Sphinx project is licence=
-d under the
-> +#  two clause BSD licence below.
-> +# =20
-> +# -Copyright (c) 2007-2022 by the Sphinx team (see AUTHORS file).
-> +# +Copyright (c) 2007-2023 by the Sphinx team (see AUTHORS file).
-> +#  All rights reserved.
-> +# =20
-> +#  Redistribution and use in source and binary forms, with or without
-> +#=20
-> +#
-> +
->  DESCRIPTION =3D "Python documentation generator"
->  HOMEPAGE =3D "http://sphinx-doc.org/"
->  SECTION =3D "devel/python"
->  LICENSE =3D "BSD-2-Clause & MIT & BSD-3-Clause"
-> -LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D2214a89317448c7f792f5b75dd672=
-6e4"
-> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D066da51ab732319a06beae4f10788=
-577"
-> =20
-> =20
+Similarly to the recently added test for binary generated locales, add
+a version to test on target locale generation. This was broken but should
+be fixed now so we can add the test sharing code from the previous test.
 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/selftest/cases/locales.py | 31 ++++++++++++++++---------
+ 1 file changed, 20 insertions(+), 11 deletions(-)
 
-The license copyright years changed so we need to mention that in the
-commit message instead of the FIXME :)
-
-Cheers,
-
-Richard
+diff --git a/meta/lib/oeqa/selftest/cases/locales.py b/meta/lib/oeqa/selftest/cases/locales.py
+index 433991abf9d..4ca8ffb7aac 100644
+--- a/meta/lib/oeqa/selftest/cases/locales.py
++++ b/meta/lib/oeqa/selftest/cases/locales.py
+@@ -9,23 +9,17 @@ from oeqa.utils.commands import bitbake, runqemu
+ class LocalesTest(OESelftestTestCase):
+ 
+     @OETestTag("runqemu")
+-    def test_locales_on(self):
+-        """
+-        Summary: Test the locales are generated
+-        Expected: 1. Check the locale exist in the locale-archive
+-                  2. Check the locale exist for the glibc
+-                  3. Check the locale can be generated
+-        Product: oe-core
+-        Author: Louis Rannou <lrannou@baylibre.com>
+-        AutomatedBy: Louis Rannou <lrannou@baylibre.com>
+-        """
+ 
++    def run_locales_test(self, binary_enabled):
+         features = []
+         features.append('EXTRA_IMAGE_FEATURES = "empty-root-password allow-empty-password allow-root-login"')
+         features.append('IMAGE_INSTALL:append = " glibc-utils localedef"')
+         features.append('GLIBC_GENERATE_LOCALES = "en_US.UTF-8 fr_FR.UTF-8"')
+         features.append('IMAGE_LINGUAS:append = " en-us fr-fr"')
+-        features.append('ENABLE_BINARY_LOCALE_GENERATION = "1"')
++        if binary_enabled:
++            features.append('ENABLE_BINARY_LOCALE_GENERATION = "1"')
++        else:
++            features.append('ENABLE_BINARY_LOCALE_GENERATION = "0"')
+         self.write_config("\n".join(features))
+ 
+         # Build a core-image-minimal
+@@ -43,3 +37,18 @@ class LocalesTest(OESelftestTestCase):
+             # output must includes fr_FR.utf8
+             self.assertEqual(status, 1, msg='localedef test command failed: output: %s' % output)
+             self.assertIn("fr_FR.utf8", output, msg='localedef test failed: output: %s' % output)
++
++    def test_locales_on(self):
++        """
++        Summary: Test the locales are generated
++        Expected: 1. Check the locale exist in the locale-archive
++                  2. Check the locale exist for the glibc
++                  3. Check the locale can be generated
++        Product: oe-core
++        Author: Louis Rannou <lrannou@baylibre.com>
++        AutomatedBy: Louis Rannou <lrannou@baylibre.com>
++        """
++        self.run_locales_test(True)
++
++    def test_locales_off(self):
++        self.run_locales_test(False)
+-- 
+2.37.2
 
 
