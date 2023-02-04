@@ -2,100 +2,84 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0F92C61DA4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3BACC63797
 	for <webhook@archiver.kernel.org>; Sat,  4 Feb 2023 11:41:40 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web10.4018.1675510896501888335
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web11.4088.1675510896784800251
  for <openembedded-core@lists.openembedded.org>;
  Sat, 04 Feb 2023 03:41:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=P4f2/Ea+;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id j25so3146992wrc.4
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gl5103jZ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id k8-20020a05600c1c8800b003dc57ea0dfeso7722769wms.0
         for <openembedded-core@lists.openembedded.org>; Sat, 04 Feb 2023 03:41:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PzcLJcFLhXsDOHBJK0ZutqRf56FVjkQ2KFx5Qqzge4Y=;
-        b=P4f2/Ea+Uy2bHCgnwHT7ja+Cp+bdPNEvP8abY1sAhddrqBqhli32IkpqWU0Hu4jK00
-         vxfN8YwhTDksuDkePrmxLPhiL4y0Qh/9+qBTL/Nw2vdd6iQCQkEn3qn3ZjRUGbQ6iBOv
-         2FJwosoMFDD6MZCpbnYyeb0TmhG9E0Pib9PJA=
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=inI1yoXCEN82IIopRlXqJevCM7eTDrwX1BMCkm5mMQc=;
+        b=gl5103jZAZUwuCeI/AxQbOgXazRYaafZZhK0QLrcvMSyZQPzA54KPVM5kPoQvultxG
+         EpqjsXJVsBVJ8QHf5hmS01mS+RRZll4uiztgxHdkEtlfzOzgP4lDUQNbswcDV0wA1C+n
+         slhmhdCduYDaJxxh6zMxYMGNNeWNVi5km6Iec=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PzcLJcFLhXsDOHBJK0ZutqRf56FVjkQ2KFx5Qqzge4Y=;
-        b=Sd4/gjxFhWEGdOvuMpz5cKyjTQIXCBlQBjQTAffNhPqMxPKrNIBJvHe5tYyIeKLmw0
-         NZAD+aGE3pcHn3DGKjlQ00XfuMom8cGih92yhpwYk4lD79dq/BQKMpVPdSAjAwtJ1uX7
-         Ydf8MJXHoyK1UwUDGaQwwpoMRY0JXz9Q9xs0NJgjH0z2cUrmf77mSPA6QgMpxol7NRSj
-         Jn7ZHRvX18XdTB5Mp64KcK9AA61KR8K8gU8b3F57i2gapX1borbZ/OFHcQ06fz7laWa+
-         A6W0L/WhxAD0nnC8Gf4X2POet52VcYuj+FsQDGTkQerrj3vy3a/YAxNA++v14KQBXFU/
-         i3bA==
-X-Gm-Message-State: AO0yUKVjaaQIXzkggob2LPAcsz1zh1CY6Th8k5c+ydOvI5W/FYFhsYwg
-	TZZXqk96btLUIMadStu2d9oEyHuOfu8spv5P
-X-Google-Smtp-Source: AK7set9wrs/rYJYjvcW2W8dcjDiCoshiXJqEryJUu31Y7nAd3jbqHBoeW5LNZ3b4wHdg+Cfv20hqdQ==
-X-Received: by 2002:a05:6000:2ce:b0:2bf:f805:5220 with SMTP id o14-20020a05600002ce00b002bff8055220mr15378099wry.43.1675510894259;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=inI1yoXCEN82IIopRlXqJevCM7eTDrwX1BMCkm5mMQc=;
+        b=EI6P3LCtRX3rWEkIBSTAjwR94RWAy0rStIMWxjH0N+Qyw5+GarwJDeK2rQVWpkfpm9
+         2fF1IM6xvBzEvo2v8XWm5TvNhu0H4Zm4LlSHQ0P1O+POF5zimZ76oqv+0vHEKhmCvUB0
+         2i92+1AfgN/NaJpzWZLpsPw+t6s1qVDsTyjQ2IeYqESwGNQgAdgD0jzDMnKXvmK/9WUd
+         o7bRz7zPqXCyFMvDPTGlHy11YuuxGcpuAMIFzLSmhME0I3BEpkDouov1jIhC0HBNIbFa
+         YYYs0dIA5O1qxOqf1oo3fqoN6xyDbQxa3vHsX0lQCs8wHnszEF1sd2ikECQ29c6kVAj4
+         RMCQ==
+X-Gm-Message-State: AO0yUKWGrZJHgCxsTSciGCg+1EKwbdyaAAFy19f6pNQPI4UgcL+934ZZ
+	b2B9TdOIIZQygRGiXprkrN8nBhO2QYxUTnJj
+X-Google-Smtp-Source: AK7set8F5jodd6QcWSERWs/cKIJ5bYsPwvchGdQoFduGY/RjL++08esGXuKOGIGfUkqYuyfMF5ghEw==
+X-Received: by 2002:a05:600c:511c:b0:3db:12a:5e65 with SMTP id o28-20020a05600c511c00b003db012a5e65mr12387024wms.4.1675510894846;
         Sat, 04 Feb 2023 03:41:34 -0800 (PST)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:b45c:7b35:1c6a:a06d])
-        by smtp.gmail.com with ESMTPSA id y6-20020a5d4ac6000000b002c3e18119f2sm721970wrs.29.2023.02.04.03.41.33
+        by smtp.gmail.com with ESMTPSA id y6-20020a5d4ac6000000b002c3e18119f2sm721970wrs.29.2023.02.04.03.41.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Feb 2023 03:41:33 -0800 (PST)
+        Sat, 04 Feb 2023 03:41:34 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/3 v2] perf: Enable debug/source packaging
-Date: Sat,  4 Feb 2023 11:41:31 +0000
-Message-Id: <20230204114133.1178502-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/3] libc-locale: Fix on target locale generation
+Date: Sat,  4 Feb 2023 11:41:32 +0000
+Message-Id: <20230204114133.1178502-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20230204114133.1178502-1-richard.purdie@linuxfoundation.org>
+References: <20230204114133.1178502-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 04 Feb 2023 11:41:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176759
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176760
 
-This was disabled in 2014[1] due to an error message which as far
-as I can tell, no longer occurs.
-
-Having debug information and source files present will make debugging
-reproducibility issues much easier so remove this line as it appears
-no longer needed.
-
-Fix up a few files which have buildpaths in them to avoid QA warnings
-and reproducubility issues.
-
-[1] OE-Core revision c1b5a262c0201faf2c6bf545d6acb32dfe383ba3
+If on target locale generation is used, it fails at first boot showing
+errors about a missing directory. Ensure the directory exists.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-kernel/perf/perf.bb | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ meta/classes-recipe/libc-package.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 1dff39a17e4..2f28d16fba1 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -360,6 +360,16 @@ FILES:${PN}-python = " \
-                        "
- FILES:${PN}-perl = "${libexecdir}/perf-core/scripts/perl"
+diff --git a/meta/classes-recipe/libc-package.bbclass b/meta/classes-recipe/libc-package.bbclass
+index de3d4223a8c..8a99f73ae72 100644
+--- a/meta/classes-recipe/libc-package.bbclass
++++ b/meta/classes-recipe/libc-package.bbclass
+@@ -51,6 +51,7 @@ PACKAGE_NO_GCONV ?= "0"
+ OVERRIDES:append = ":${TARGET_ARCH}-${TARGET_OS}"
  
--
--INHIBIT_PACKAGE_DEBUG_SPLIT="1"
- DEBUG_OPTIMIZATION:append = " -Wno-error=maybe-uninitialized"
-+
-+PACKAGESPLITFUNCS =+ "perf_fix_sources"
-+
-+perf_fix_sources () {
-+	for f in util/parse-events-flex.h util/parse-events-flex.c util/pmu-flex.c \
-+			util/expr-flex.h util/expr-flex.c; do
-+		f=${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/$f
-+		if [ -e $f ]; then
-+			sed -i -e 's#${S}/##g' $f
-+		fi
-+	done
-+}
+ locale_base_postinst_ontarget() {
++mkdir ${libdir}/locale
+ localedef --inputfile=${datadir}/i18n/locales/%s --charmap=%s %s
+ }
+ 
 -- 
 2.37.2
 
