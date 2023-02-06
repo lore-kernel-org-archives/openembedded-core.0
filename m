@@ -1,286 +1,269 @@
-Return-Path: <Haitao.Liu@windriver.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A425C61DA4
-	for <webhook@archiver.kernel.org>; Mon,  6 Feb 2023 09:43:33 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.49837.1675676610117283354
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77AB1C61DA4
+	for <webhook@archiver.kernel.org>; Mon,  6 Feb 2023 09:55:33 +0000 (UTC)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+ by mx.groups.io with SMTP id smtpd.web10.49702.1675677326902704404
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Feb 2023 01:43:30 -0800
+ Mon, 06 Feb 2023 01:55:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=C8iaNe/l;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=140178efc2=haitao.liu@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3169c1Fg019889
-	for <openembedded-core@lists.openembedded.org>; Mon, 6 Feb 2023 09:43:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=PPS06212021;
- bh=YXKnUvdtNgQ9uwL9cvjuxHab9G0meu6j+qx5c8BWP4U=;
- b=C8iaNe/lY+tnWBT9NOd4cRzYk7vUddjdyoGLlJcGB+20h6XA0w/0oAAuN9xjhsAVNus5
- pwZfo4KRu5HziO/sCQVMya0gH4GD7jCwq8IVLlaQO5TnLyChUoNXPR5dcRE9UomDxaTe
- FgEJ3tWRrEEESG0xHK7E2OYsHCuM4CFjbhp/5ea/65O3O8E5WtkNeZ9te4gu55iEy0M4
- LqjcKBGe+NmLNpM1MWY5Ua5PWXz91fK05AQiHVqUULUvPM7Ulv3ye+wGYXgv3rsso6d4
- ukeuSHJnqa1DihozQazTMKmhJLwFeTUfuEjzsTGJtfI3ojpIxZDjH3qI+8JXpfMhpQJa pA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3nheba9ksf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 06 Feb 2023 09:43:29 +0000
-Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3169hSBu030229
-	for <openembedded-core@lists.openembedded.org>; Mon, 6 Feb 2023 09:43:28 GMT
-Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam02lp2047.outbound.protection.outlook.com [104.47.56.47])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3nheba9kse-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 06 Feb 2023 09:43:28 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WBSmJAQYcLOSnI0tFedZo15hV9sgMWScrC4lZUDeTzuEpGrQQ2uF190EOgFpghm0pV8lWLKYh8Zhm6xYg3dLHZf5EA8AGxg1DOc24Q+6K4A1bt/rne1zhxWLLgsLVUcShi56bcVp9QuMbZinUGScEP1kGbixNoe2sQaLhVssVodwlEhOsjA+fh/TPX06vsYqa9271UY5bEbhJ6egzDlThSz9J3qrhJZxu8krNZG7qYN/1X4ZPi+KeJL/NXSOGxFwH88Fu5X50/T2zlXuCY/AysiVEUkfRR9okMbd8Z0H/258KTodNOtOBYBDeEMC0xHN0hfx3dA+tMVjvQbzsmwJtw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YXKnUvdtNgQ9uwL9cvjuxHab9G0meu6j+qx5c8BWP4U=;
- b=lrqVIdI0t5varjC/QvXf6/oWMfsUXJi1CfhTVyU1jE9Y58WttVXLMmgg45yqSvGEVFTXXdROfFmclBF87AKjV8pVpJAI1YFvGP8PvWLUnPrq4bbl37pK3OxK2oeNV5MiJxxJIdAVfdgqHNmGQAHOPB4ooyInViWv4A664ZDyb4ypAMMm85XCdW9DPbkSgQC2+CL9ljlOu2WFBMDbKzXYDHOxm/RxpU5bFybavsbNLIT8U5+7sXMzrpevmfnB9Dqq95FBaAAy8HOdkMXmYWugg1j1M5ItZdXyOYKyC/AAWUyinYK+NxaidVR32BVKs1Gnapm1cZI1CxuRPqZjM5JS9g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DM6PR11MB3945.namprd11.prod.outlook.com (2603:10b6:5:192::19)
- by DS0PR11MB7928.namprd11.prod.outlook.com (2603:10b6:8:fe::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6064.34; Mon, 6 Feb 2023 09:43:25 +0000
-Received: from DM6PR11MB3945.namprd11.prod.outlook.com
- ([fe80::a57c:335f:528f:eaa0]) by DM6PR11MB3945.namprd11.prod.outlook.com
- ([fe80::a57c:335f:528f:eaa0%7]) with mapi id 15.20.6064.034; Mon, 6 Feb 2023
- 09:43:25 +0000
-From: "Liu, Haitao" <Haitao.Liu@windriver.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core][PATCH] libgit: add ptest for libgit2
-Thread-Topic: [OE-core][PATCH] libgit: add ptest for libgit2
-Thread-Index: AQHZOgfxJuDLpzjYVUOGTas78Onb+a7BnX1Q
-Date: Mon, 6 Feb 2023 09:43:25 +0000
-Message-ID: 
- <DM6PR11MB39451BB9C5075D4CB533D7BD9FDA9@DM6PR11MB3945.namprd11.prod.outlook.com>
-References: <20230206084401.2055798-1-haitao.liu@windriver.com>
- <CANNYZj_ohNDo5o7D2geVqjOiAe3trFUvP=park9YUUZu5MBLNw@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj_ohNDo5o7D2geVqjOiAe3trFUvP=park9YUUZu5MBLNw@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM6PR11MB3945:EE_|DS0PR11MB7928:EE_
-x-ms-office365-filtering-correlation-id: 2eaae52c-1beb-47c7-eef3-08db082697f7
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- /2VSWrDfW7rme4ecdnzJYUY73H5gY9aDGDLGW91KwfRNeDRkH9ij4HGZumrctZQrflQLvDD474bGff+9De+53ldDoCs119MQuUlXoPzG43FDpggotF3ejPYKgxadkzQZjDNgOG+eEPSfWdm694C4ZofuG8NxY0E8/6oI9ly1dxDp6uRE/2NVFmuiyQnc+2GTKFqXB5bM8srbEtTh8Hf7J7//3TQNeJTuqHdmEjir6qtkwVdu+r82VcSznUhPOxtCal8yBcGIlGXnsE8drddqiPL4UrVIyVCQpaJOsy4iWWnWilCIzudim8jAfUZD3wXoOmiqkATbUXZHtRF6fkaCUyxJ2IE9zN73HrCHKbeT0LixUtMcoPuYF1v8hopteY5XaIUC+l985aKhgZkHEYJBdjvBRzithGLCokdoqn50GPe2WY4KYfjXYbG4TLsrCSm7lbtThpHUKWgg4zr9miy7TYxSsVDE82B5pq2uNDi4hudtdepW5lunZ/4oqRhfPkgbhsYqcQHZH4Gpapodoq8280Ky0mU9tc7RNm2Ram16t1RlQTI8RKAkfByk73u5jrW01PlrhYnRQas2qH8vtDQE8a4ibSyQ9IPsQWgMvMGHXS5leBDMSJwmt+zTJoEXx1+QsjwqsiTQa+7mY7uNySp2Ts/0WY8wybZY1RWxI3CJGIUtgkoBLi20daShwt8riRnKrAxt8ht4gGmoMsRX2eXL8+XVcVKkPDhSObawVS+B8UeGnG1dQ/zzN/P8ogkpqIHerQGDjh2lIweaQmkI3+3UlA==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3945.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(366004)(136003)(39850400004)(396003)(376002)(346002)(451199018)(33656002)(7696005)(71200400001)(19627235002)(316002)(6506007)(478600001)(53546011)(8676002)(966005)(64756008)(52536014)(5660300002)(2906002)(66556008)(66476007)(66446008)(76116006)(66946007)(6916009)(41300700001)(8936002)(4326008)(38070700005)(86362001)(55016003)(38100700002)(122000001)(26005)(83380400001)(186003)(9686003)(66899018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?VjEvS25NeU5zY2J4ZzJGZU44bWRWWVc4S3pKSy9NcGxPamd5aS9STXE1b3Mx?=
- =?utf-8?B?Y29DMTJsNyt4b2g2V2c5alhVVlZLa2pDbEx3SmZ4a3BTWmVKSy9mTXF6YU9W?=
- =?utf-8?B?cXZZa2xxQ3lzUERadGxSTmVnSER5c2toNERFcGhtalRlUzM1dk83ektlanhE?=
- =?utf-8?B?M2RqbGJOMUcxVGhoVE5JNkIveUpUeEZWbk9ZRVhxdDFQNlpUYW9PdmNIUzZl?=
- =?utf-8?B?cTZPalVERFQ5OGt5SzBodWt1Mm50ZStoZ0l1N0p1Z2g1ZXJucjhhRXdhNVNt?=
- =?utf-8?B?SnpQUW1XQUpTYzh1c3N4OVhnRmsvRUJXVHNaQnYrcFdSbTVMY1prdDBZRkl4?=
- =?utf-8?B?SmROdWlNZ1RYdDJndjdxMnpEeXQ3WU1tVWF5blB6cFJHcWsraXZ4N0VvQVJX?=
- =?utf-8?B?T0dDOFRrdUd1TGVZNUhOTjIvdGVFZ0VuMnJvcStJMCt6bUxSNXE1eDR1T1pP?=
- =?utf-8?B?U3M1SXlpQnlhSlJod0Z2b3RDV0pkVXUyZUZRZ2NaVGROcjlpbTBTcWVvM0lR?=
- =?utf-8?B?N09FcU8wZG5EYmVacTdaWDB3Tm16UHhDTnZVVm5nTlp6UmxLbnRDdlZINjl5?=
- =?utf-8?B?ZmN1UnFobmNBcFUraVUwcVFMcHhLWnFkNWxwN01HSjhreEVsdHdqcXhFSWRS?=
- =?utf-8?B?ZksvTCtYYmRMM0U3SC9HVlVQQ2V5MUdRU2xXNnl5QVYxaGg2VWlyamQ4ZlBP?=
- =?utf-8?B?RWdIUTEyYVZGQlFmSnRtVUdyeVRvTkxNcExBV1lqU1Z1WENaMThobDlVL2h1?=
- =?utf-8?B?YlJ2ekJwYXJPeXJsZXI3ZWU4TmI1YnI3aFBpRkdqTFNIeGx6SjdqYXhYUnhl?=
- =?utf-8?B?OVdyR2VKd1FMWDRQeXNQaEcweGlNNXNGNWd1ZUZ3UFNFUko0UzVoTDhPU3RL?=
- =?utf-8?B?VDc2dWlrVStBSjV0QjRSN0tBMC9xN3JLRWV5RHJPR3pBNVd0WENUTmwvUURn?=
- =?utf-8?B?UHhRWWJOUEp5TVZEc0pzTzlIWURrMHZaVnFuU0lVMXNGTW1ZRHUveXVyb09N?=
- =?utf-8?B?bGE4N3hJWmExK0NqamRleXUvei8rbGFyN28rdS9oRTNhWVpnNlVmV21SdGpR?=
- =?utf-8?B?QTQraWIzS2lCNjFEUlhTWnlsS01UbmdOZWUzKy85NHNYeWVTZmZRWHAyOHdR?=
- =?utf-8?B?M045UTlleVZvMCtZV3BrcGlLNkRBZ2o5aDhEMmJhSmhUb2hNemZYbkgvdngy?=
- =?utf-8?B?dU5UekxyVTN6d3dORTNBZEJtTEhLTVJKaTY5bWJwQ2Q2bFVkMFVaUGNsWWxl?=
- =?utf-8?B?OVU4MytvNVlIeTdwcCtqeHNSWUp0a3hHT1FXWldWRVYzRlNJZ0R5d3NLeDZL?=
- =?utf-8?B?dzdqSkk5WUNRc3RhNkJBSFBsZWQ0ZDZEaVc1VzZrSUVab2FQOXg0WkhZa2E3?=
- =?utf-8?B?akV3V09oOHR2TlJXREhsRWk0RSs0bXVQWUdsUVlmSTZmczhKVjg2eUlWS1Zn?=
- =?utf-8?B?MW0zZXkzclZ1Y0xNdXNQbktnOVl4YUt4cUdqZUhxRkxlSGxSNTN2czFmNUh4?=
- =?utf-8?B?SXg2dlp5WWkxVkg3MEVJYzJTNlVKdi9jNVE5MWZWYitiQm03R0FFdytaYmxs?=
- =?utf-8?B?bGN1TkxrZFVBcEUrc0FjZFdaTTlzc2pXcWRGY2RHRDVJaHZHODVqTVhiaVJF?=
- =?utf-8?B?QkVkOEprWjhUYjhtUjNaSEVON1hxdmt4U0dwdGVISmtMMExua3JwaWdpaUIz?=
- =?utf-8?B?SDRjdGlRRDBsZWd0aWNZMVBUbWkxbXc3SUxrNjhtTjlweTBrc2o0UHJpQ2FV?=
- =?utf-8?B?emhLT0tVSlJiZzlRVytkLzBZRkJrMnZJVW5sUHNpSDF4RkpjeGlnM3dnaWcr?=
- =?utf-8?B?UklaMS83M3phcFpmZzlpL0tYRUlKVUtOcXJwMmh2SnRHdEpjajl4SzNvdXBS?=
- =?utf-8?B?U29tR0Mwcm1pSXdVTFg2MEF4Z0VyaFY5UWswemQzMUdtRUFteUkzVzgvOGMz?=
- =?utf-8?B?elpOeEFSa1RMSUdDWjFhZ256ekVMQ092ekdzTWhJcm5NbnNscHBjK3FLMXdj?=
- =?utf-8?B?c0l4VTRwQ2RIL3RaNDVEeExCWWpEZmlKSUFKblQybzdhRGhMMlNKMkxsVXIz?=
- =?utf-8?B?U1ZnK3B6RnZVUWxFV1JLWXZFSUNseTBiamwwMHhla1lScW8yTUdrckgxd05o?=
- =?utf-8?Q?F8D1zIed42Bc/KQZZr8iq/hwD?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=VqEfp7nS;
+ spf=pass (domain: gmail.com, ip: 209.85.208.181, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f181.google.com with SMTP id x18so4388931ljj.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Feb 2023 01:55:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ss7low5NEXGCiJsEU3Xu2qccEiYlnFzwwOJA/i0tRCc=;
+        b=VqEfp7nSDSIqxYgsMun3LXdSOJMM8GwUBr7qJZnG9qzOXnm7LRVZYV3nhR6e7dz6cC
+         GiOXeA0kF1G5z7ZMaPpClkzBQWpFxwCSQPx0yyZ8jJr464aAl8J7n49ZYR82W4o799pc
+         1DokFHSKqkaRSg7JG8Fdi/2pAqXKejqN+UIOx/EkjpjlIU8P940GmOSEbwN4HHpBPbnk
+         Fk7lsz2r05TDlZnQ9KULkWBjkbU5lwT5JNLHWGUz1ZQ08oy+7HecS0BhkNNNkfMzVRej
+         Ygn8HCzdv+5/MgCVYA4oJS3hEFh9jFG10cumvaxEsQnjw/AjhTzJ7GcpU8nTkD5gxSx4
+         Y1Dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ss7low5NEXGCiJsEU3Xu2qccEiYlnFzwwOJA/i0tRCc=;
+        b=wnnRsRkgdZ1Uxn+98uvfoeqXWwjgqWYYBRGNvYqanSuojNc8+a1PqrOfFc7QZNjUHQ
+         0totedZbSRIpydTgGqsuJChnLhtYydgn6HRA7xbOY71XVaDzEtHScBOZGHaLcE4M9hyB
+         ppsrx/WhUF8qEbP1CMsX+72mKcTsrfzcrbJjjOASbz+WguCShihVOUSbDD24E3xajikw
+         RaygFBieQsvFE1Z6gSJs6kzWXP2h+yaaEJ7aONLddd94VTi1RDsQW6OQwCOkFFSNPQhM
+         dKkrgcPRlqI6TMMdCTb2Zi/eWfWTt5+ejLvXH0bv9tev+tJ/oHNgVj7MVXOYDEzwZ214
+         tgxA==
+X-Gm-Message-State: AO0yUKUSj0V5g9BCNm/rY6jA5WU41DG9KmdTJDTFz96RE2H6P0k5PxHG
+	LSq9g66lgV2L9xKLr+Jm6kptSBKKqdkelmuyRJA=
+X-Google-Smtp-Source: AK7set8o3O/NvyYlOCWgAopsNH3FaSOp0KrsGvmJC7vAZyNITK1S62Sqy1Fx8rcQZJTTCJNr/AIXFtlhJ+HB2Qu2t2k=
+X-Received: by 2002:a05:651c:33c:b0:290:637f:c6d6 with SMTP id
+ b28-20020a05651c033c00b00290637fc6d6mr2841143ljp.132.1675677324707; Mon, 06
+ Feb 2023 01:55:24 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3945.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2eaae52c-1beb-47c7-eef3-08db082697f7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Feb 2023 09:43:25.3819
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: akjJ4Yawc4xHFTugE6fhA79tJnfROnCioKykn0X6PX21kzgLY607Bm5tYTuzSMQ5rlJJ2nS8Q8SjWLDw2RAfF6wxK/J9HTeH0IxL0K3wEE8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7928
-X-Proofpoint-ORIG-GUID: hg0FY4cGIyh9ePPmj-Hlh5OaP5ZcqUjE
-X-Proofpoint-GUID: prk0WSpPU59Z6RbbGM7lpHeyGPmsuLdz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-06_05,2023-02-03_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
- priorityscore=1501 phishscore=0 mlxlogscore=999 adultscore=0
- impostorscore=0 suspectscore=0 mlxscore=0 bulkscore=0 lowpriorityscore=0
- malwarescore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2212070000 definitions=main-2302060084
+References: <20230206084401.2055798-1-haitao.liu@windriver.com>
+ <CANNYZj_ohNDo5o7D2geVqjOiAe3trFUvP=park9YUUZu5MBLNw@mail.gmail.com> <DM6PR11MB39451BB9C5075D4CB533D7BD9FDA9@DM6PR11MB3945.namprd11.prod.outlook.com>
+In-Reply-To: <DM6PR11MB39451BB9C5075D4CB533D7BD9FDA9@DM6PR11MB3945.namprd11.prod.outlook.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 6 Feb 2023 10:55:13 +0100
+Message-ID: <CANNYZj9WvgUSye5R8CNQjr1x0qYZ4UkKVRj+Ow852m_0Eww1HA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] libgit: add ptest for libgit2
+To: "Liu, Haitao" <Haitao.Liu@windriver.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Feb 2023 09:43:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176790
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Feb 2023 09:55:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176791
 
-SEkgQWxleA0KDQo+Ly8gRGlkIHlvdSB1c2Uga3ZtPyAyMSBtaW51dGVzIGxvb2tzIGV4Y2Vzc2l2
-ZSwgYW5kIEknbSBub3Qgc3VyZSB3ZSB3YW50IHRvIGxlbmd0aGVuIHRoZSBwdGVzdCBieSB0aGlz
-IG11Y2guIGxpYmdpdDIgaXMgbm90IGF0IHRoZSBjb3JlIG9mIHRoZSB0eXBpY2FsIGxpbnV4IHN0
-YWNrLg0KDQpJIGhhdmUgdGVzdGVkIGxpYmdpdDIgb24gYSBpbnRlbCBib2FyZCB3aXRoICJJbnRl
-bChSKSBHZW51aW5lIEludGVsKFIpIENQVSIsIG5vdCBLVk0uIEl0IHRvb2sgc28gbXVjaCB0aW1l
-IGJlY2F1c2UgdGhhdCBpdCBoYXMgMjg4NSB0ZXN0Y2FzZXMuIA0KDQo+Ly8gVGhlIGFkZGVkIHBh
-dGNoIG5lZWRzIGEgYmV0dGVyIGNvbW1pdCBtZXNzYWdlLiBXaGF0IGRvZXMgaXQgYWRkIG9yIGNo
-YW5nZSBhbmQgd2h5PyBXaHkgaXMgaXQgaW5hcHByb3ByaWF0ZSBmb3IgdXBzdHJlYW0gc3VibWlz
-c2lvbj8NCg0KQW4gYWJzb2x1dGUgcGF0aCAoQ0xBUl9GSVhUVVJFUylpcyBkZWZpbmVkIGFzIHNw
-ZWNpZnlpbmcgdGhlIGxvY2F0aW9uIG9mIHRoZSByZXNvdXJjZSBmaWxlcy4gVGhlIENMQVJfRklY
-VFVSRVMgaXMgc2V0IGF0IGNvbXBpbGUgdGltZS4gIA0KVGhlIHRlc3QgYmluYXJ5IHdpbGwgdHJ5
-IHRvIGxvYWQgdGhlIGZpbGVzIGZyb20gdGhlIGFic29sdXRlIHBhdGNoIHdoaWNoIGRvZXMgbm90
-IGV4aXN0IG9uIHRhcmdldCBib2FyZCBhbmQgIGl0ICB5aWVsZHMgYSBsb3Qgb2YgZXJyb3JzIGFi
-b3V0ICJObyBzdWNoIGZpbGUgb3IgZGlyZWN0b3J5LiAiIA0KU28gSSAgaGF2ZSB0byBjaGFuZ2Ug
-Q0xBUl9GSVhUVVJFUyB0byBQVEVTVCBwYXRoICgvdXNyL2xpYi9saWJnaXQyL3B0ZXN0LykuIA0K
-DQoNClRoYW5rcywNCmhhaXRhbw0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTog
-QWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+IA0KU2VudDogTW9uZGF5
-LCBGZWJydWFyeSA2LCAyMDIzIDQ6NDkgUE0NClRvOiBMaXUsIEhhaXRhbyA8SGFpdGFvLkxpdUB3
-aW5kcml2ZXIuY29tPg0KQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
-cmcNClN1YmplY3Q6IFJlOiBbT0UtY29yZV1bUEFUQ0hdIGxpYmdpdDogYWRkIHB0ZXN0IGZvciBs
-aWJnaXQyDQoNCkNBVVRJT046IFRoaXMgZW1haWwgY29tZXMgZnJvbSBhIG5vbiBXaW5kIFJpdmVy
-IGVtYWlsIGFjY291bnQhDQpEbyBub3QgY2xpY2sgbGlua3Mgb3Igb3BlbiBhdHRhY2htZW50cyB1
-bmxlc3MgeW91IHJlY29nbml6ZSB0aGUgc2VuZGVyIGFuZCBrbm93IHRoZSBjb250ZW50IGlzIHNh
-ZmUuDQoNCkRpZCB5b3UgdXNlIGt2bT8gMjEgbWludXRlcyBsb29rcyBleGNlc3NpdmUsIGFuZCBJ
-J20gbm90IHN1cmUgd2Ugd2FudCB0byBsZW5ndGhlbiB0aGUgcHRlc3QgYnkgdGhpcyBtdWNoLiBs
-aWJnaXQyIGlzIG5vdCBhdCB0aGUgY29yZSBvZiB0aGUgdHlwaWNhbCBsaW51eCBzdGFjay4NCg0K
-VGhlIGFkZGVkIHBhdGNoIG5lZWRzIGEgYmV0dGVyIGNvbW1pdCBtZXNzYWdlLiBXaGF0IGRvZXMg
-aXQgYWRkIG9yIGNoYW5nZSBhbmQgd2h5PyBXaHkgaXMgaXQgaW5hcHByb3ByaWF0ZSBmb3IgdXBz
-dHJlYW0gc3VibWlzc2lvbj8NCg0KQWxleA0KDQpPbiBNb24sIDYgRmViIDIwMjMgYXQgMDk6NDQs
-IGphc29uLmxhdSA8SGFpdGFvLkxpdUB3aW5kcml2ZXIuY29tPiB3cm90ZToNCj4NCj4gQWRkIHB0
-ZXN0IGZvciBsaWJnaXQyLg0KPiBBTGwgdGVzdCBwYXNzZWQgb24gYSB0cmlhbCBydW4gYW5kIGl0
-IHRvb2sgYXJvdW5kIDIxbTU2cyB0byBleGVjdXRlIHNvIA0KPiBhZGRlZCBjdXJsLXB0ZXN0IHRv
-IFBURVNUU19TTE9XLg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBMaXUgSGFpdGFvIDxoYWl0YW8ubGl1
-QHdpbmRyaXZlci5jb20+DQo+IC0tLQ0KPiAgLi4uL2Rpc3Ryby9pbmNsdWRlL3B0ZXN0LXBhY2th
-Z2VsaXN0cy5pbmMgICAgIHwgIDEgKw0KPiAgLi4uZXN0cy1hZGQtQ0xBUl9GSVhUVVJFU19ESVIt
-Zm9yLXB0ZXN0LnBhdGNoIHwgNTQgDQo+ICsrKysrKysrKysrKysrKysrKysgIC4uLi9yZWNpcGVz
-LXN1cHBvcnQvbGliZ2l0Mi9saWJnaXQyL3J1bi1wdGVzdCB8ICANCj4gNyArKysgIG1ldGEvcmVj
-aXBlcy1zdXBwb3J0L2xpYmdpdDIvbGliZ2l0Ml8xLjUuMC5iYiB8IDE4ICsrKysrKy0NCj4gIDQg
-ZmlsZXMgY2hhbmdlZCwgNzggaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkgIGNyZWF0ZSBt
-b2RlIDEwMDY0NCANCj4gbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZ2l0Mi9saWJnaXQyLzAwMDEt
-dGVzdHMtYWRkLUNMQVJfRklYVFVSRVNfRElSLQ0KPiBmb3ItcHRlc3QucGF0Y2ggIGNyZWF0ZSBt
-b2RlIDEwMDY0NCANCj4gbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZ2l0Mi9saWJnaXQyL3J1bi1w
-dGVzdA0KPg0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9jb25mL2Rpc3Ryby9pbmNsdWRlL3B0ZXN0LXBh
-Y2thZ2VsaXN0cy5pbmMgDQo+IGIvbWV0YS9jb25mL2Rpc3Ryby9pbmNsdWRlL3B0ZXN0LXBhY2th
-Z2VsaXN0cy5pbmMNCj4gaW5kZXggNTQyMmVjZDM3OC4uOWI4OGI1ODA3MCAxMDA2NDQNCj4gLS0t
-IGEvbWV0YS9jb25mL2Rpc3Ryby9pbmNsdWRlL3B0ZXN0LXBhY2thZ2VsaXN0cy5pbmMNCj4gKysr
-IGIvbWV0YS9jb25mL2Rpc3Ryby9pbmNsdWRlL3B0ZXN0LXBhY2thZ2VsaXN0cy5pbmMNCj4gQEAg
-LTEwNCw2ICsxMDQsNyBAQCBQVEVTVFNfU0xPVyA9ICJcDQo+ICAgICAgdGNsLXB0ZXN0IFwNCj4g
-ICAgICB1dGlsLWxpbnV4LXB0ZXN0IFwNCj4gICAgICB2YWxncmluZC1wdGVzdCBcDQo+ICsgICAg
-bGliZ2l0Mi1wdGVzdCBcDQo+ICAiDQo+DQo+ICBQVEVTVFNfU0xPVzpyZW1vdmU6cmlzY3Y2NCA9
-ICJ2YWxncmluZC1wdGVzdCINCj4gZGlmZiAtLWdpdCANCj4gYS9tZXRhL3JlY2lwZXMtc3VwcG9y
-dC9saWJnaXQyL2xpYmdpdDIvMDAwMS10ZXN0cy1hZGQtQ0xBUl9GSVhUVVJFU19ESQ0KPiBSLWZv
-ci1wdGVzdC5wYXRjaCANCj4gYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJnaXQyL2xpYmdpdDIv
-MDAwMS10ZXN0cy1hZGQtQ0xBUl9GSVhUVVJFU19ESQ0KPiBSLWZvci1wdGVzdC5wYXRjaA0KPiBu
-ZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAwMDAwMDAwMDAwLi5mNTQ3ZDI5ZThhDQo+IC0t
-LSAvZGV2L251bGwNCj4gKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZ2l0Mi9saWJnaXQy
-LzAwMDEtdGVzdHMtYWRkLUNMQVJfRklYVFVSRQ0KPiArKysgU19ESVItZm9yLXB0ZXN0LnBhdGNo
-DQo+IEBAIC0wLDAgKzEsNTQgQEANCj4gK0Zyb20gN2FlNTllNzg1MjYwYmI4MjBjZjE0NDlkYTg0
-MTQwZjhhZTYxM2U5ZiBNb24gU2VwIDE3IDAwOjAwOjAwIA0KPiArMjAwMQ0KPiArRnJvbTogTGl1
-IEhhaXRhbyA8aGFpdGFvLmxpdUB3aW5kcml2ZXIuY29tPg0KPiArRGF0ZTogTW9uLCA2IEZlYiAy
-MDIzIDA2OjQwOjIwICswMjAwDQo+ICtTdWJqZWN0OiBbUEFUQ0hdIHRlc3RzOiBhZGQgQ0xBUl9G
-SVhUVVJFU19ESVIgZm9yIHB0ZXN0DQo+ICsNCj4gK1Vwc3RyZWFtLVN0YXR1czogSW5hcHByb3By
-aWF0ZSBbeW9jdG8gc3BlY2lmaWNdDQo+ICsNCj4gK1NpZ25lZC1vZmYtYnk6IExpdSBIYWl0YW8g
-PGhhaXRhby5saXVAd2luZHJpdmVyLmNvbT4NCj4gKy0tLQ0KPiArIHRlc3RzL2xpYmdpdDIvQ01h
-a2VMaXN0cy50eHQgfCA4ICsrKysrKystDQo+ICsgdGVzdHMvdXRpbC9DTWFrZUxpc3RzLnR4dCAg
-ICB8IDggKysrKysrKy0NCj4gKyAyIGZpbGVzIGNoYW5nZWQsIDE0IGluc2VydGlvbnMoKyksIDIg
-ZGVsZXRpb25zKC0pDQo+ICsNCj4gK2RpZmYgLS1naXQgYS90ZXN0cy9saWJnaXQyL0NNYWtlTGlz
-dHMudHh0IA0KPiArYi90ZXN0cy9saWJnaXQyL0NNYWtlTGlzdHMudHh0IGluZGV4IDI3ZjQyMWFk
-Ni4uZTFhOTVhNjEwIDEwMDY0NA0KPiArLS0tIGEvdGVzdHMvbGliZ2l0Mi9DTWFrZUxpc3RzLnR4
-dA0KPiArKysrIGIvdGVzdHMvbGliZ2l0Mi9DTWFrZUxpc3RzLnR4dA0KPiArQEAgLTksNyArOSwx
-MyBAQCBpZihOT1QgUFlUSE9OSU5URVJQX0ZPVU5EKQ0KPiArIEVORElGKCkNCj4gKw0KPiArIHNl
-dChDTEFSX1BBVEggIiR7UFJPSkVDVF9TT1VSQ0VfRElSfS90ZXN0cy9jbGFyIikNCj4gKy1zZXQo
-Q0xBUl9GSVhUVVJFUyAiJHtQUk9KRUNUX1NPVVJDRV9ESVJ9L3Rlc3RzL3Jlc291cmNlcy8iKQ0K
-PiArKw0KPiArK0lGIChDTEFSX0ZJWFRVUkVTX0RJUikNCj4gKysgICAgICBTRVQoQ0xBUl9GSVhU
-VVJFUyAiJHtDTEFSX0ZJWFRVUkVTX0RJUn0vcmVzb3VyY2VzLyIpDQo+ICsrRUxTRSgpDQo+ICsr
-ICAgICAgc2V0KENMQVJfRklYVFVSRVMgIiR7UFJPSkVDVF9TT1VSQ0VfRElSfS90ZXN0cy9yZXNv
-dXJjZXMvIikNCj4gKytFTkRJRigpDQo+ICsrDQo+ICsgc2V0KFRFU1RfUEFUSCAiJHtDTUFLRV9D
-VVJSRU5UX1NPVVJDRV9ESVJ9IikNCj4gKyBhZGRfZGVmaW5pdGlvbnMoLURDTEFSX0ZJWFRVUkVf
-UEFUSD1cIiR7Q0xBUl9GSVhUVVJFU31cIikNCj4gKyBhZGRfZGVmaW5pdGlvbnMoLURDTEFSX1RN
-UERJUj1cImxpYmdpdDJfdGVzdHNcIikNCj4gK2RpZmYgLS1naXQgYS90ZXN0cy91dGlsL0NNYWtl
-TGlzdHMudHh0IGIvdGVzdHMvdXRpbC9DTWFrZUxpc3RzLnR4dCANCj4gK2luZGV4IDIzMjU5MGZm
-ZC4uYzczNmJiM2JiIDEwMDY0NA0KPiArLS0tIGEvdGVzdHMvdXRpbC9DTWFrZUxpc3RzLnR4dA0K
-PiArKysrIGIvdGVzdHMvdXRpbC9DTWFrZUxpc3RzLnR4dA0KPiArQEAgLTksNyArOSwxMyBAQCBp
-ZihOT1QgUFlUSE9OSU5URVJQX0ZPVU5EKQ0KPiArIEVORElGKCkNCj4gKw0KPiArIHNldChDTEFS
-X1BBVEggIiR7bGliZ2l0Ml9TT1VSQ0VfRElSfS90ZXN0cy9jbGFyIikNCj4gKy1zZXQoQ0xBUl9G
-SVhUVVJFUyAiJHtsaWJnaXQyX1NPVVJDRV9ESVJ9L3Rlc3RzL3Jlc291cmNlcy8iKQ0KPiArKw0K
-PiArK0lGIChDTEFSX0ZJWFRVUkVTX0RJUikNCj4gKysgICAgICBTRVQoQ0xBUl9GSVhUVVJFUyAi
-JHtDTEFSX0ZJWFRVUkVTX0RJUn0vcmVzb3VyY2VzLyIpDQo+ICsrRUxTRSgpDQo+ICsrICAgICAg
-c2V0KENMQVJfRklYVFVSRVMgIiR7bGliZ2l0Ml9TT1VSQ0VfRElSfS90ZXN0cy9yZXNvdXJjZXMv
-IikNCj4gKytFTkRJRigpDQo+ICsrDQo+ICsgc2V0KFRFU1RfUEFUSCAiJHtDTUFLRV9DVVJSRU5U
-X1NPVVJDRV9ESVJ9IikNCj4gKyBhZGRfZGVmaW5pdGlvbnMoLURDTEFSX0ZJWFRVUkVfUEFUSD1c
-IiR7Q0xBUl9GSVhUVVJFU31cIikNCj4gKyBhZGRfZGVmaW5pdGlvbnMoLURDTEFSX1RNUERJUj1c
-ImxpYmdpdDJfdGVzdHNcIikNCj4gKy0tDQo+ICsyLjM5LjENCj4gKw0KPiBkaWZmIC0tZ2l0IGEv
-bWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZ2l0Mi9saWJnaXQyL3J1bi1wdGVzdCANCj4gYi9tZXRh
-L3JlY2lwZXMtc3VwcG9ydC9saWJnaXQyL2xpYmdpdDIvcnVuLXB0ZXN0DQo+IG5ldyBmaWxlIG1v
-ZGUgMTAwNjQ0DQo+IGluZGV4IDAwMDAwMDAwMDAuLjY2ZTAzOTJhZjYNCj4gLS0tIC9kZXYvbnVs
-bA0KPiArKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJnaXQyL2xpYmdpdDIvcnVuLXB0ZXN0
-DQo+IEBAIC0wLDAgKzEsNyBAQA0KPiArIyEvYmluL3NoDQo+ICsNCj4gK2NkIHRlc3RzDQo+ICsN
-Cj4gK2V4cG9ydCBDTEFSX1NVTU1BUlk9IiR7UFdEfS9yZXN1bHRzLnhtbCINCj4gKw0KPiArLi9s
-aWJnaXQyX3Rlc3RzIC10IHwgc2VkIC1lICdzfG9rIC4qIC0gIyBTS0lQfFNLSVA6fCcgLWUgJ3N8
-bm90IG9rIC4qIC18RkFJTDp8JyAgLWUgJ3N8b2sgLiogLXxQQVNTOnwnDQo+IGRpZmYgLS1naXQg
-YS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJnaXQyL2xpYmdpdDJfMS41LjAuYmIgDQo+IGIvbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvbGliZ2l0Mi9saWJnaXQyXzEuNS4wLmJiDQo+IGluZGV4IGVlNGQ3
-OWIxMWEuLmFjYThiOTQ1NTEgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xp
-YmdpdDIvbGliZ2l0Ml8xLjUuMC5iYg0KPiArKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJn
-aXQyL2xpYmdpdDJfMS41LjAuYmINCj4gQEAgLTUsMTIgKzUsMTUgQEAgTElDX0ZJTEVTX0NIS1NV
-TSA9ICJmaWxlOi8vQ09QWUlORzttZDU9MTEyZTZiYjQyMWRlYTczY2Q0MWRlMDllNzc3ZjJkMmMi
-DQo+DQo+ICBERVBFTkRTID0gImN1cmwgb3BlbnNzbCB6bGliIGxpYnNzaDIgbGliZ2NyeXB0IGxp
-YnBjcmUyIg0KPg0KPiAtU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL2xpYmdpdDIvbGliZ2l0
-Mi5naXQ7YnJhbmNoPW1haW47cHJvdG9jb2w9aHR0cHMiDQo+ICtTUkNfVVJJID0gImdpdDovL2dp
-dGh1Yi5jb20vbGliZ2l0Mi9saWJnaXQyLmdpdDticmFuY2g9bWFpbjtwcm90b2NvbD1odHRwcyBc
-DQo+ICsgICAgICAgICAgIGZpbGU6Ly8wMDAxLXRlc3RzLWFkZC1DTEFSX0ZJWFRVUkVTX0RJUi1m
-b3ItcHRlc3QucGF0Y2ggXA0KPiArICAgICAgICAgICBmaWxlOi8vcnVuLXB0ZXN0IFwNCj4gKyAg
-ICAgICAgICAiDQo+ICBTUkNSRVYgPSAiZmJlYTQzOWQ0YjZmYzkxYzZiNjE5ZDAxYjg1YWIzYjc3
-NDZlNGMxOSINCj4NCj4gIFMgPSAiJHtXT1JLRElSfS9naXQiDQo+DQo+IC1pbmhlcml0IGNtYWtl
-DQo+ICtpbmhlcml0IGNtYWtlIHB0ZXN0DQo+DQo+ICBFWFRSQV9PRUNNQUtFID0gIlwNCj4gICAg
-ICAtREJVSUxEX0NMQVI9T0ZGIFwNCj4gQEAgLTE5LDQgKzIyLDE1IEBAIEVYVFJBX09FQ01BS0Ug
-PSAiXA0KPiAgICAgIC1EUkVHRVhfQkFDS0VORD0ncGNyZTInIFwNCj4gICINCj4NCj4gK0VYVFJB
-X09FQ01BS0VfUFRFU1QgPSAiIC1EQlVJTERfQ0xBUj1PTiAtRFZBTEdSSU5EPU9OIC1EQ0xBUl9G
-SVhUVVJFU19ESVI9JHtQVEVTVF9QQVRIfS90ZXN0cyAiDQo+ICsNCj4gK0VYVFJBX09FQ01BS0Ug
-Kz0gIiR7QGJiLnV0aWxzLmNvbnRhaW5zKCdESVNUUk9fRkVBVFVSRVMnLCAncHRlc3QnLCAnJHtF
-WFRSQV9PRUNNQUtFX1BURVNUfScsICcnLCBkKX0gIg0KPiArDQo+ICtkb19pbnN0YWxsX3B0ZXN0
-KCl7DQo+ICsgICAgICAgIGluc3RhbGwgLWQgJHtEfSR7UFRFU1RfUEFUSH0vdGVzdHMvDQo+ICsg
-ICAgICAgIGluc3RhbGwgJHtCfS9saWJnaXQyX3Rlc3RzICR7RH0ke1BURVNUX1BBVEh9L3Rlc3Rz
-Lw0KPiArICAgICAgICBjcCAke1N9L3Rlc3RzL3Jlc291cmNlcy8gJHtEfSR7UFRFU1RfUEFUSH0v
-dGVzdHMvIC1yZiB9DQo+ICsNCj4gKw0KPiAgQkJDTEFTU0VYVEVORCA9ICJuYXRpdmUiDQo+IC0t
-DQo+IDIuMzkuMA0KPg0KPg0KPiAtPS09LT0tPS09LT0tPS09LT0tPS09LQ0KPiBMaW5rczogWW91
-IHJlY2VpdmUgYWxsIG1lc3NhZ2VzIHNlbnQgdG8gdGhpcyBncm91cC4NCj4gVmlldy9SZXBseSBP
-bmxpbmUgKCMxNzY3ODgpOiANCj4gaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3Bl
-bmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8xNzY3ODgNCj4gTXV0ZSBUaGlzIFRvcGljOiBodHRwczov
-L2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbXQvOTY3NzkyNjYvMTY4NjQ4OQ0KPiBHcm91cCBPd25l
-cjogb3BlbmVtYmVkZGVkLWNvcmUrb3duZXJAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBVbnN1
-YnNjcmliZTogaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNv
-cmUvdW5zdWIgDQo+IFthbGV4LmthbmF2aW5AZ21haWwuY29tXQ0KPiAtPS09LT0tPS09LT0tPS09
-LT0tPS09LQ0KPg0K
+Thanks, can you add this to the the patch description? Is it possible
+to add the installation rules into it as well, and then offer the
+patch upstream?
+
+It's probably time we split slow ptests into subsets and test them in
+parallel with two different image recipes. Can you look into that
+please?
+
+Alex
+
+
+On Mon, 6 Feb 2023 at 10:43, Liu, Haitao <Haitao.Liu@windriver.com> wrote:
+>
+> HI Alex
+>
+> >// Did you use kvm? 21 minutes looks excessive, and I'm not sure we want to lengthen the ptest by this much. libgit2 is not at the core of the typical linux stack.
+>
+> I have tested libgit2 on a intel board with "Intel(R) Genuine Intel(R) CPU", not KVM. It took so much time because that it has 2885 testcases.
+>
+> >// The added patch needs a better commit message. What does it add or change and why? Why is it inappropriate for upstream submission?
+>
+> An absolute path (CLAR_FIXTURES)is defined as specifying the location of the resource files. The CLAR_FIXTURES is set at compile time.
+> The test binary will try to load the files from the absolute patch which does not exist on target board and  it  yields a lot of errors about "No such file or directory. "
+> So I  have to change CLAR_FIXTURES to PTEST path (/usr/lib/libgit2/ptest/).
+>
+>
+> Thanks,
+> haitao
+>
+> -----Original Message-----
+> From: Alexander Kanavin <alex.kanavin@gmail.com>
+> Sent: Monday, February 6, 2023 4:49 PM
+> To: Liu, Haitao <Haitao.Liu@windriver.com>
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core][PATCH] libgit: add ptest for libgit2
+>
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender and know the content is safe.
+>
+> Did you use kvm? 21 minutes looks excessive, and I'm not sure we want to lengthen the ptest by this much. libgit2 is not at the core of the typical linux stack.
+>
+> The added patch needs a better commit message. What does it add or change and why? Why is it inappropriate for upstream submission?
+>
+> Alex
+>
+> On Mon, 6 Feb 2023 at 09:44, jason.lau <Haitao.Liu@windriver.com> wrote:
+> >
+> > Add ptest for libgit2.
+> > ALl test passed on a trial run and it took around 21m56s to execute so
+> > added curl-ptest to PTESTS_SLOW.
+> >
+> > Signed-off-by: Liu Haitao <haitao.liu@windriver.com>
+> > ---
+> >  .../distro/include/ptest-packagelists.inc     |  1 +
+> >  ...ests-add-CLAR_FIXTURES_DIR-for-ptest.patch | 54
+> > +++++++++++++++++++  .../recipes-support/libgit2/libgit2/run-ptest |
+> > 7 +++  meta/recipes-support/libgit2/libgit2_1.5.0.bb | 18 ++++++-
+> >  4 files changed, 78 insertions(+), 2 deletions(-)  create mode 100644
+> > meta/recipes-support/libgit2/libgit2/0001-tests-add-CLAR_FIXTURES_DIR-
+> > for-ptest.patch  create mode 100644
+> > meta/recipes-support/libgit2/libgit2/run-ptest
+> >
+> > diff --git a/meta/conf/distro/include/ptest-packagelists.inc
+> > b/meta/conf/distro/include/ptest-packagelists.inc
+> > index 5422ecd378..9b88b58070 100644
+> > --- a/meta/conf/distro/include/ptest-packagelists.inc
+> > +++ b/meta/conf/distro/include/ptest-packagelists.inc
+> > @@ -104,6 +104,7 @@ PTESTS_SLOW = "\
+> >      tcl-ptest \
+> >      util-linux-ptest \
+> >      valgrind-ptest \
+> > +    libgit2-ptest \
+> >  "
+> >
+> >  PTESTS_SLOW:remove:riscv64 = "valgrind-ptest"
+> > diff --git
+> > a/meta/recipes-support/libgit2/libgit2/0001-tests-add-CLAR_FIXTURES_DI
+> > R-for-ptest.patch
+> > b/meta/recipes-support/libgit2/libgit2/0001-tests-add-CLAR_FIXTURES_DI
+> > R-for-ptest.patch
+> > new file mode 100644
+> > index 0000000000..f547d29e8a
+> > --- /dev/null
+> > +++ b/meta/recipes-support/libgit2/libgit2/0001-tests-add-CLAR_FIXTURE
+> > +++ S_DIR-for-ptest.patch
+> > @@ -0,0 +1,54 @@
+> > +From 7ae59e785260bb820cf1449da84140f8ae613e9f Mon Sep 17 00:00:00
+> > +2001
+> > +From: Liu Haitao <haitao.liu@windriver.com>
+> > +Date: Mon, 6 Feb 2023 06:40:20 +0200
+> > +Subject: [PATCH] tests: add CLAR_FIXTURES_DIR for ptest
+> > +
+> > +Upstream-Status: Inappropriate [yocto specific]
+> > +
+> > +Signed-off-by: Liu Haitao <haitao.liu@windriver.com>
+> > +---
+> > + tests/libgit2/CMakeLists.txt | 8 +++++++-
+> > + tests/util/CMakeLists.txt    | 8 +++++++-
+> > + 2 files changed, 14 insertions(+), 2 deletions(-)
+> > +
+> > +diff --git a/tests/libgit2/CMakeLists.txt
+> > +b/tests/libgit2/CMakeLists.txt index 27f421ad6..e1a95a610 100644
+> > +--- a/tests/libgit2/CMakeLists.txt
+> > ++++ b/tests/libgit2/CMakeLists.txt
+> > +@@ -9,7 +9,13 @@ if(NOT PYTHONINTERP_FOUND)
+> > + ENDIF()
+> > +
+> > + set(CLAR_PATH "${PROJECT_SOURCE_DIR}/tests/clar")
+> > +-set(CLAR_FIXTURES "${PROJECT_SOURCE_DIR}/tests/resources/")
+> > ++
+> > ++IF (CLAR_FIXTURES_DIR)
+> > ++      SET(CLAR_FIXTURES "${CLAR_FIXTURES_DIR}/resources/")
+> > ++ELSE()
+> > ++      set(CLAR_FIXTURES "${PROJECT_SOURCE_DIR}/tests/resources/")
+> > ++ENDIF()
+> > ++
+> > + set(TEST_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
+> > + add_definitions(-DCLAR_FIXTURE_PATH=\"${CLAR_FIXTURES}\")
+> > + add_definitions(-DCLAR_TMPDIR=\"libgit2_tests\")
+> > +diff --git a/tests/util/CMakeLists.txt b/tests/util/CMakeLists.txt
+> > +index 232590ffd..c736bb3bb 100644
+> > +--- a/tests/util/CMakeLists.txt
+> > ++++ b/tests/util/CMakeLists.txt
+> > +@@ -9,7 +9,13 @@ if(NOT PYTHONINTERP_FOUND)
+> > + ENDIF()
+> > +
+> > + set(CLAR_PATH "${libgit2_SOURCE_DIR}/tests/clar")
+> > +-set(CLAR_FIXTURES "${libgit2_SOURCE_DIR}/tests/resources/")
+> > ++
+> > ++IF (CLAR_FIXTURES_DIR)
+> > ++      SET(CLAR_FIXTURES "${CLAR_FIXTURES_DIR}/resources/")
+> > ++ELSE()
+> > ++      set(CLAR_FIXTURES "${libgit2_SOURCE_DIR}/tests/resources/")
+> > ++ENDIF()
+> > ++
+> > + set(TEST_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
+> > + add_definitions(-DCLAR_FIXTURE_PATH=\"${CLAR_FIXTURES}\")
+> > + add_definitions(-DCLAR_TMPDIR=\"libgit2_tests\")
+> > +--
+> > +2.39.1
+> > +
+> > diff --git a/meta/recipes-support/libgit2/libgit2/run-ptest
+> > b/meta/recipes-support/libgit2/libgit2/run-ptest
+> > new file mode 100644
+> > index 0000000000..66e0392af6
+> > --- /dev/null
+> > +++ b/meta/recipes-support/libgit2/libgit2/run-ptest
+> > @@ -0,0 +1,7 @@
+> > +#!/bin/sh
+> > +
+> > +cd tests
+> > +
+> > +export CLAR_SUMMARY="${PWD}/results.xml"
+> > +
+> > +./libgit2_tests -t | sed -e 's|ok .* - # SKIP|SKIP:|' -e 's|not ok .* -|FAIL:|'  -e 's|ok .* -|PASS:|'
+> > diff --git a/meta/recipes-support/libgit2/libgit2_1.5.0.bb
+> > b/meta/recipes-support/libgit2/libgit2_1.5.0.bb
+> > index ee4d79b11a..aca8b94551 100644
+> > --- a/meta/recipes-support/libgit2/libgit2_1.5.0.bb
+> > +++ b/meta/recipes-support/libgit2/libgit2_1.5.0.bb
+> > @@ -5,12 +5,15 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=112e6bb421dea73cd41de09e777f2d2c"
+> >
+> >  DEPENDS = "curl openssl zlib libssh2 libgcrypt libpcre2"
+> >
+> > -SRC_URI = "git://github.com/libgit2/libgit2.git;branch=main;protocol=https"
+> > +SRC_URI = "git://github.com/libgit2/libgit2.git;branch=main;protocol=https \
+> > +           file://0001-tests-add-CLAR_FIXTURES_DIR-for-ptest.patch \
+> > +           file://run-ptest \
+> > +          "
+> >  SRCREV = "fbea439d4b6fc91c6b619d01b85ab3b7746e4c19"
+> >
+> >  S = "${WORKDIR}/git"
+> >
+> > -inherit cmake
+> > +inherit cmake ptest
+> >
+> >  EXTRA_OECMAKE = "\
+> >      -DBUILD_CLAR=OFF \
+> > @@ -19,4 +22,15 @@ EXTRA_OECMAKE = "\
+> >      -DREGEX_BACKEND='pcre2' \
+> >  "
+> >
+> > +EXTRA_OECMAKE_PTEST = " -DBUILD_CLAR=ON -DVALGRIND=ON -DCLAR_FIXTURES_DIR=${PTEST_PATH}/tests "
+> > +
+> > +EXTRA_OECMAKE += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '${EXTRA_OECMAKE_PTEST}', '', d)} "
+> > +
+> > +do_install_ptest(){
+> > +        install -d ${D}${PTEST_PATH}/tests/
+> > +        install ${B}/libgit2_tests ${D}${PTEST_PATH}/tests/
+> > +        cp ${S}/tests/resources/ ${D}${PTEST_PATH}/tests/ -rf }
+> > +
+> > +
+> >  BBCLASSEXTEND = "native"
+> > --
+> > 2.39.0
+> >
+> >
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#176788):
+> > https://lists.openembedded.org/g/openembedded-core/message/176788
+> > Mute This Topic: https://lists.openembedded.org/mt/96779266/1686489
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
+> > [alex.kanavin@gmail.com]
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> >
 
