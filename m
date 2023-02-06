@@ -2,113 +2,170 @@ Return-Path: <zarkakareem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36BC8C05027
-	for <webhook@archiver.kernel.org>; Mon,  6 Feb 2023 19:16:56 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web11.63258.1675711012045691397
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FB00C636D3
+	for <webhook@archiver.kernel.org>; Mon,  6 Feb 2023 19:17:06 +0000 (UTC)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web10.63165.1675711015929216792
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Feb 2023 11:16:52 -0800
+ Mon, 06 Feb 2023 11:16:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=e8OPtDMT;
- spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: zarkakareem@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id m2so37159913ejb.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Feb 2023 11:16:51 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=j+gJ/EPH;
+ spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: zarkakareem@gmail.com)
+Received: by mail-ej1-f41.google.com with SMTP id ml19so37340117ejb.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Feb 2023 11:16:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XLUMFPd+aHSQ76JS1VX4WwaQs83hrHOwgzWY6oAGCeI=;
-        b=e8OPtDMTEbJzdA/+ozxEPRRhIQcpyCQKgSnE5pPWYAdYsUI6LHueoPKWBNWNMvD/cZ
-         zNBfpXkYMWFeuC3i10gA+aG4tk4fNxRRAOI+L0Hipmp57/k1noMX51QiosF1FrJfZqz9
-         IlN566b5sfV0ks8MVeKRkgTMMnDqwL754qdXPZE1j8dSgcG6lIp/PkyRHVvmHaSj1slw
-         H0VpIljx4UfKDJphsbaPeGoUXmurqEreD3mlw1VvzmW/9CTGvS7TVaujhLOkCnUMN9Ul
-         HQdYQEZKV520Eq+qBVVM50nR0os7M3cm3eUabKDCvSPOthqzJCU9iJD99VHH1D6loKrM
-         b9EA==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZjM9T6P1UEKmwjktMB+V9ZIEji+pYtXD5j1m40UgU60=;
+        b=j+gJ/EPHt755weJqhkVof93Jv2GTmCz+MMr07S3ktwn51TYPcnvbjXNSbkA/x38HJF
+         HnzvJDn864ZLJB36h5wtchlFXKEFVW8K1DsTf8ZykKpMTLzJgNEhc7kn7H+MLhMFSDPR
+         sSSiL+m0EQplaMn3baTb8gGJ/gkGelXaudDZDFZZg9mc5TgEJ3vbSPLvi6unKkoZJKa/
+         sxYyspToQEihcHMFqiig/AS7EcRWCKvvBekEyH5DiFhbXrCvDnAQExAV8x+Utd4ncbsk
+         QYI0bhnsj4TmClgWD3hz0H35vCVH3JBwADQgNKhBWk/1sNXFDSZ8hif5Ujs7iqVzVDYP
+         T8JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XLUMFPd+aHSQ76JS1VX4WwaQs83hrHOwgzWY6oAGCeI=;
-        b=vzfTW9tbRpHXm9lf5TjymIPs36aEPJAFWhFCO7S2C397FBlMMiINWgdjJpL4X9aUWo
-         3qpaKIPTv/eG+DX0VLf6YRJRzT3QdWb5kQ/U5PuZJlmARhjzxrQyIm9tdFk2evHlHPbP
-         Wkn3pgxzJACEP9txlN+BzIeDQtseIim8ScLr3Php7gpnx8ZwNb1DrMqnX0y3XB0sXl+X
-         Q+M1SPXlhQoC/0mHdQ0Pt98e7LLGlrxiDyz5zFRN/YCrlhMqHLKkL7DVve9dPeb+knlO
-         96STMHoa5iM4IoBIEl0NfC4TcI1oUks43HsG65cJctLfWDR7foifBulAn7GwBeEqGuCq
-         bCDA==
-X-Gm-Message-State: AO0yUKXxCA/Xf6EaFEYHQ/R4mtmmUdOMdhEPjEUswW3ACZULMwSRcugD
-	FTHIqBKme+yUNSMvA7BoWyzDFoioBBvnzxv+
-X-Google-Smtp-Source: AK7set/N+IyVsbp8Ei8++tMeXJ/JuXJfUDib3J+flwrhE57ucNvn5Cs6TIRhPdE/vCeiEZ7ZwxiT6w==
-X-Received: by 2002:a17:906:2297:b0:887:74b2:811 with SMTP id p23-20020a170906229700b0088774b20811mr374439eja.74.1675711010306;
-        Mon, 06 Feb 2023 11:16:50 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZjM9T6P1UEKmwjktMB+V9ZIEji+pYtXD5j1m40UgU60=;
+        b=OIxI7G3EHXkWiH+2do+R8B/7s18/anBPFSZz3e72/3ye3F5uRHcfbj1NuVs8UP18TM
+         HX8HiAu16d6otveUG/SO/XS4I+CY7AQYz6dkE7FhS/KjB/GGONwfElKngPqML34LE5Ez
+         TVvdPaO1RoS09my96TonMl7GiSY2nw0zIlD4jTiQL0JKQtgnKqngOzWJqU+4YQHYOwf/
+         HXB6W3e6ymy1Xq34fPma0zCmknWENfQMw137En3GseDIUdo3u51mff/1sRAuKqTNzfxW
+         VyGQsw4AHqB1ogbETjofDa+yv7LQnX85gyVYt46zSVNmmYQi+Ti7hG1/B0b9GCn/axMw
+         Kavw==
+X-Gm-Message-State: AO0yUKVLyJWNnGDS3LVntsktL77VSzkAPiMvUxmPLqA3qPUZf4ELUEZR
+	Pi4GNMPI2l0Cvbh3hnU+y0pZZTFjqDprkGkN
+X-Google-Smtp-Source: AK7set/bhza9+vXDEYlk/eL86KhVSPlF92pzTE8qLE+Pqy9zGtg5cgKyCdtoOD8r1216AOACRviofA==
+X-Received: by 2002:a17:906:a106:b0:878:7650:469c with SMTP id t6-20020a170906a10600b008787650469cmr458740ejy.52.1675711014165;
+        Mon, 06 Feb 2023 11:16:54 -0800 (PST)
 Received: from kareem-XPS-13-9370.wind3.hub ([151.60.13.132])
-        by smtp.gmail.com with ESMTPSA id o15-20020a170906600f00b00857c2c29553sm5816200ejj.197.2023.02.06.11.16.49
+        by smtp.gmail.com with ESMTPSA id o15-20020a170906600f00b00857c2c29553sm5816200ejj.197.2023.02.06.11.16.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Feb 2023 11:16:49 -0800 (PST)
+        Mon, 06 Feb 2023 11:16:53 -0800 (PST)
 From: Kareem Zarka <zarkakareem@gmail.com>
 X-Google-Original-From: Kareem Zarka <kareem.zarka@huawei.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Kareem Zarka <zarkakareem@gmail.com>,
 	Stefan Schmidt <stefan.schmidt@huawei.com>,
 	Kareem Zarka <kareem.zarka@huawei.com>
-Subject: [PATCH] wic/plugins/source/bootimg-efi: Skip installing kernel-image into boot.
-Date: Mon,  6 Feb 2023 20:16:14 +0100
-Message-Id: <20230206191615.2675373-1-kareem.zarka@huawei.com>
+Subject: [PATCH] meta/lib/oeqa/selftest/cases/wic: Add tests for kernel installation and skip-kernel-install in wic plugin.
+Date: Mon,  6 Feb 2023 20:16:15 +0100
+Message-Id: <20230206191615.2675373-2-kareem.zarka@huawei.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230206191615.2675373-1-kareem.zarka@huawei.com>
+References: <20230206191615.2675373-1-kareem.zarka@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Feb 2023 19:16:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176794
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Feb 2023 19:17:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176795
 
-The issue with installing the kernel-image to both rootfs
-and boot partition is that some systems rely on the kernel-image in
-rootfs and not in the boot partition.
-This leads to duplication of the kernel-image, which can cause
-unnecessary storage usage and potential compatibility issues.
-
-This patch provides a solution to this problem by adding a new
-parameter "skip-kernel-install" to the wic kickstart file, which can
-be passed to the plugin.
-If the parameter is provided, the plugin will skip installing the
-kernel-image to the boot partition, avoiding duplication and potential
-issues.
-
-By adding this new parameter, we give the users the option to install
-the kernel-image only in rootfs, or to install it in both rootfs and
-boot partition, depending on their needs and preferences.
-This will help to improve the system's storage usage and compatibility.
-
-Tests for this functionality will be added in the next patch.
+This commit adds two tests to the wic plugin to verify that the kernel
+is installed correctly when `skip-kernel-install` is not provided
+and not installed when `skip-kernel-install=true`.
+These tests ensure that the wic plugin is working correctly and will
+help catch any future issues with kernel installation.
 
 Signed-off-by: Kareem Zarka <kareem.zarka@huawei.com>
 ---
- scripts/lib/wic/plugins/source/bootimg-efi.py | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ meta/lib/oeqa/selftest/cases/wic.py | 71 +++++++++++++++++++++++++++++
+ 1 file changed, 71 insertions(+)
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index 4b00913a70..363b9f5242 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -363,9 +363,13 @@ class BootimgEFIPlugin(SourcePlugin):
-                 objcopy_cmd += " %s %s/EFI/Linux/linux.efi" % (efi_stub, hdddir)
-                 exec_native_cmd(objcopy_cmd, native_sysroot)
-         else:
--            install_cmd = "install -m 0644 %s/%s %s/%s" % \
--                (staging_kernel_dir, kernel, hdddir, kernel)
--            exec_cmd(install_cmd)
-+            # skip-kernal-install was added to source_params to conifgure installing the kernel-image.
-+            # set skip_kernal_install in the kickstart file to skip installing it into hdddir.
-+            # if not set then the kernel-image will be installed.
-+            if not  source_params.get('skip-kernal-install'):
-+                install_cmd = "install -m 0644 %s/%s %s/%s" % \
-+                    (staging_kernel_dir, kernel, hdddir, kernel)
-+                exec_cmd(install_cmd)
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index ca1abb970a..40188a866a 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -16,6 +16,7 @@ import hashlib
+ from glob import glob
+ from shutil import rmtree, copy
+ from tempfile import NamedTemporaryFile
++from tempfile import TemporaryDirectory
  
-         if get_bitbake_var("IMAGE_EFI_BOOT_FILES"):
-             for src_path, dst_path in cls.install_task:
+ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.core.decorator import OETestTag
+@@ -220,6 +221,76 @@ class Wic(WicTestCase):
+         result = runCmd("wic ls %s:1/ -n %s" % (images[0], sysroot))       
+         self.assertIn("kernel",result.output)
+ 
++    def test_skip_kernel_install(self):
++        """Test skip_kernel_install in wic plugin"""
++        # create a temporary file for the WKS content
++        with NamedTemporaryFile("w", suffix=".wks") as wks:
++            # write the WKS content to the temporary file
++            wks.writelines([
++                'part --source bootimg-efi \
++                --sourceparams="loader=grub-efi,skip-kernal-install=true"\
++                --label boot --active'
++                ])
++            wks.flush()
++            # create a temporary directory to extract the disk image to
++            with TemporaryDirectory() as tmpdir:
++                img = 'core-image-minimal'
++                # build the image using the WKS file
++                cmd = "wic create %s -e %s -o %s" % (wks.name, img, self.resultdir)
++                runCmd(cmd)
++                wksname = os.path.splitext(os.path.basename(wks.name))[0]
++                out = glob(os.path.join(self.resultdir, "%s-*.direct" % wksname))
++                self.assertEqual(1, len(out))
++
++                # extract the content of the disk image to the temporary directory                
++                cmd = "wic cp %s:1 %s" % (out[0], tmpdir)
++                runCmd(cmd)
++                
++                # check if the kernel is installed or not
++                kimgtype = get_bb_var('KERNEL_IMAGETYPE', 'core-image-minimal')
++                for file in os.listdir(tmpdir):
++                        if file == kimgtype :
++                            raise AssertionError(
++                                "The kernel image '{}' was found in\
++                                the partition".format(kimgtype)
++                                )
++
++    def test_kernel_installation(self):
++        """Test kernel installation in wic plugin"""
++        # create a temporary file for the WKS content
++        with NamedTemporaryFile("w", suffix=".wks") as wks:
++            # write the WKS content to the temporary file
++            wks.writelines([
++                'part --source bootimg-efi \
++                --sourceparams="loader=grub-efi"\
++                --label boot --active\n'
++                ])
++            wks.flush()
++            # create a temporary directory to extract the disk image to
++            with TemporaryDirectory() as tmpdir:
++                img = 'core-image-minimal'
++                # build the image using the WKS file
++                cmd = "wic create %s -e %s -o %s" % (wks.name, img, self.resultdir)
++                runCmd(cmd)
++                wksname = os.path.splitext(os.path.basename(wks.name))[0]
++                out = glob(os.path.join(self.resultdir, "%s-*.direct" % wksname))
++                self.assertEqual(1, len(out))
++
++                # extract the content of the disk image to the temporary directory                
++                cmd = "wic cp %s:1 %s" % (out[0], tmpdir)
++                runCmd(cmd)
++                
++                # check if the kernel is installed or not
++                kimgtype = get_bb_var('KERNEL_IMAGETYPE', 'core-image-minimal')
++                for file in os.listdir(tmpdir):
++                    if file == kimgtype :
++                        found = True
++                        break
++                self.assertTrue(
++                    found,"The kernel image was not found\
++                    in the boot prtition".format(kimgtype)
++                    )
++
+     def test_sdimage_bootpart(self):
+         """Test creation of sdimage-bootpart image"""
+         cmd = "wic create sdimage-bootpart -e core-image-minimal -o %s" % self.resultdir
 -- 
 2.25.1
 
