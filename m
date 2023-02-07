@@ -1,68 +1,89 @@
-Return-Path: <u.oelmann@pengutronix.de>
+Return-Path: <zarkakareem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE334C64EC7
-	for <webhook@archiver.kernel.org>; Tue,  7 Feb 2023 14:31:31 +0000 (UTC)
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
- by mx.groups.io with SMTP id smtpd.web11.84864.1675780288327745608
- for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Feb 2023 06:31:29 -0800
-Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: uol@pengutronix.de)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <uol@pengutronix.de>)
-	id 1pPP0I-0004ww-4G; Tue, 07 Feb 2023 15:31:26 +0100
-Received: from [2a0a:edc0:0:1101:1d::39] (helo=dude03.red.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <uol@pengutronix.de>)
-	id 1pPP0G-003J4L-3s; Tue, 07 Feb 2023 15:31:25 +0100
-Received: from uol by dude03.red.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <uol@pengutronix.de>)
-	id 1pPP0G-004lTL-Ev; Tue, 07 Feb 2023 15:31:24 +0100
-From: =?UTF-8?q?Ulrich=20=C3=96lmann?= <u.oelmann@pengutronix.de>
-To: OpenEmbedded Core Developers <openembedded-core@lists.openembedded.org>
-Cc: =?UTF-8?q?Ulrich=20=C3=96lmann?= <u.oelmann@pengutronix.de>
-Subject: [PATCH 2/2] lsof: fix old override syntax
-Date: Tue,  7 Feb 2023 15:31:15 +0100
-Message-Id: <20230207143115.1135748-2-u.oelmann@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230207143115.1135748-1-u.oelmann@pengutronix.de>
-References: <20230207143115.1135748-1-u.oelmann@pengutronix.de>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1C76C6379F
+	for <webhook@archiver.kernel.org>; Tue,  7 Feb 2023 14:53:11 +0000 (UTC)
+Subject: Re: [PATCH] wic/plugins/source/bootimg-efi: Skip installing kernel-image into boot.
+To: openembedded-core@lists.openembedded.org
+From: "Kareem Zarka" <zarkakareem@gmail.com>
+X-Originating-Location: Turin, Piedmont, IT (151.60.13.132)
+X-Originating-Platform: Linux Chrome 108
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: uol@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Date: Tue, 07 Feb 2023 06:53:01 -0800
+References: <9910648fe8bc6cf03ce56385c038edee6502ea57.camel@linuxfoundation.org>
+In-Reply-To: <9910648fe8bc6cf03ce56385c038edee6502ea57.camel@linuxfoundation.org>
+Message-ID: <1854.1675781581951378473@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="GAKtXA03j0KklSQBa5P2"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Feb 2023 14:31:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176817
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Feb 2023 14:53:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176818
 
-Signed-off-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
----
- meta/recipes-extended/lsof/lsof_4.96.5.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--GAKtXA03j0KklSQBa5P2
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-extended/lsof/lsof_4.96.5.bb b/meta/recipes-extended/lsof/lsof_4.96.5.bb
-index 9f80176ee13b..a1f2c45c69bb 100644
---- a/meta/recipes-extended/lsof/lsof_4.96.5.bb
-+++ b/meta/recipes-extended/lsof/lsof_4.96.5.bb
-@@ -15,7 +15,7 @@ S = "${WORKDIR}/git"
- 
- inherit update-alternatives
- 
--ALTERNATIVE_${PN} = "lsof"
-+ALTERNATIVE:${PN} = "lsof"
- ALTERNATIVE_LINK_NAME[lsof] = "${sbindir}/lsof"
- # Make our priority higher than busybox
- ALTERNATIVE_PRIORITY = "100"
--- 
-2.30.2
+Dear Richard and Luca,
 
+Thank you for your feedback. I will take it into consideration.
+
+I understand that "XXX !=3D False" and "not XXX" have different interpretat=
+ions in Python.
+
+The expression "XXX !=3D False" only evaluates to True if XXX is not equal =
+to False.
+
+This means that if skip-kernel-install is None, the condition will be False=
+.
+
+On the other hand, "not XXX" evaluates to True if XXX is falsy, which inclu=
+des None, False, 0, empty string, etc.
+
+This is why I used it in my code, as I wanted to consider the case where sk=
+ip-kernel-install is None.
+
+Therefore, if skip-kernel-install is not provided, its value will be None, =
+and the condition will be True, which means the kernel image will be instal=
+led.
+
+However, if we want to enforce the requirement for the user to always provi=
+de the parameter skip-kernel-install with either the value true or false, w=
+e can make use (!=3D false , =3D=3D true).
+
+Let me know what suits us best in this case .
+
+Kindest regards .
+
+Kareem Zarka.
+
+--GAKtXA03j0KklSQBa5P2
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<p>Dear Richard and Luca,</p>
+<p>Thank you for your feedback. I will take it into consideration.</p>
+<p>I understand that "XXX !=3D False" and "not XXX" have different interpre=
+tations in Python.</p>
+<p>The expression "XXX !=3D False" only evaluates to True if XXX is not equ=
+al to False.</p>
+<p>This means that if skip-kernel-install is None, the condition will be Fa=
+lse.</p>
+<p>On the other hand, "not XXX" evaluates to True if XXX is falsy, which in=
+cludes None, False, 0, empty string, etc.</p>
+<p>This is why I used it in my code, as I wanted to consider the case where=
+ skip-kernel-install is None.</p>
+<p>Therefore, if skip-kernel-install is not provided, its value will be Non=
+e, and the condition will be True, which means the kernel image will be ins=
+talled.</p>
+<p>However, if we want to enforce the requirement for the user to always pr=
+ovide the parameter skip-kernel-install with either the value true or false=
+, we can make use (!=3D false , =3D=3D true).</p>
+<p>Let me know what suits us best in this case .</p>
+<p>Kindest regards .</p>
+<p>Kareem Zarka.</p>
+
+--GAKtXA03j0KklSQBa5P2--
 
