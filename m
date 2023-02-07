@@ -1,123 +1,106 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <zarkakareem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01701C636CC
-	for <webhook@archiver.kernel.org>; Tue,  7 Feb 2023 18:05:03 +0000 (UTC)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web10.90581.1675793101528703253
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33AF1C636CC
+	for <webhook@archiver.kernel.org>; Tue,  7 Feb 2023 19:03:56 +0000 (UTC)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web10.831.1675796634089634536
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Feb 2023 10:05:01 -0800
+ Tue, 07 Feb 2023 11:03:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Kcb7rjDG;
- spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f49.google.com with SMTP id br9so23449942lfb.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Feb 2023 10:05:01 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=OoywIhvb;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: zarkakareem@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id hx15so45069296ejc.11
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Feb 2023 11:03:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=f65+9drfwIabkapGk6jbmOMCRZdIzv6SG1FXNe4eLV0=;
-        b=Kcb7rjDGPBVurMGNOJTy39LF+lwYUfhWA4IcuHP4dcSI3I+anHTjQi6CNDOv2MZ1nJ
-         izlyXFrwn6Q88eKgWI+QA8YrC0XSPAw1+BZVODDud3ZHj2NNnFeEGx32g6M4dcLGVrNC
-         Z5XJ8piywOA0S6BWIiHxLKeikqYQ/e40Pn0gqwIVy25kTjp5/Gi0p5Yabju63NIhcKQO
-         2ndKWGjmdcWtLoOxIOZKmONPoAHHd9SQUScqzwPwojtxWaRxByhGcqyDmsczQzk+OKNv
-         K+SqrkY+qkjO+SAExEt1V8gO+cnRdfSBi09Wmse5QHWBMwstnNFjBI5cDZR3ToBeqggH
-         aS9Q==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ztu0yyU7eCRB1z+prHuok/xsNnT0S+t4qI2TRzCoGIE=;
+        b=OoywIhvbF/ir4hEGuLIJd1be4mevyOTJoss71MZx7ce283RoNEv1MN0KLnE36dvRF1
+         wVz02uwThVpBPr7nMkR6NqQfoEwdxwGUH6qj3W5LWDTvX38ooUEr6hLyHaDdr9AZF0SU
+         Lh9NlUBqh6lM61isJWLngSmWreO0TXEPt90OPniG6jJS8ntUdyT6pDrQTU0jE41E+bIg
+         K4XrGmztec9z62CgV12NW7UoKewgqPDxp6d10HUivDSFvkIiK5f3g4EyhS1A2aXnc6Wx
+         GSWnu+eOak0Nys3zLf1JWPIRiK+EyulPYCItMugSAWM1dNYsFGhQ78msozZnbRooctOD
+         egJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=f65+9drfwIabkapGk6jbmOMCRZdIzv6SG1FXNe4eLV0=;
-        b=ds/FKBO2kEPvPxjCZc1nPEDEoj0SM7nmpNlipCYhiluIPEdpt+aKuN9m0oUQ84cs9W
-         e0OKmoqtcsgHkKx0hwGq/mxH9TOKRo9MoRUhkUzNjCYl/dGzo4zgKlk/Gq+VG9j0SvxC
-         sWGZ6q0kP2cwVWijsWTxv6BTFzGvUvvLUgJIyQC7wwpFXbboY5v9U1vV3b7Ed235RHxL
-         wSydwggRokaKoobTBFAqHf22LStW0QnxQOwV5A+4Z/ZfUraazSfcTF7XlV2YfRAIGnBY
-         mhoHPi5ExnRhRtthQMjVE4R+KgrXOFXmYHc1ze7hZpi+6B7Rgn/czc1rH1ddU0PzttDC
-         nY/Q==
-X-Gm-Message-State: AO0yUKXbN8boaCiemlM0okPO4wmNeQMkG0BEcs3nupgyJSO4fYX0eT8h
-	mWBX8ebV9n5zsJu+lzmYssPzGhP8X3YSPxwxXvU=
-X-Google-Smtp-Source: AK7set9hh45RbX7mDfQrfSXiLb66kgCAx4T1BEyDPw5AYkFRywnrYFlHxVAFXxYfRoGb9rsxnpeCgKklso57iwkKlAM=
-X-Received: by 2002:a05:6512:21cb:b0:4d8:76f9:7387 with SMTP id
- d11-20020a05651221cb00b004d876f97387mr522699lft.266.1675793099469; Tue, 07
- Feb 2023 10:04:59 -0800 (PST)
+        bh=ztu0yyU7eCRB1z+prHuok/xsNnT0S+t4qI2TRzCoGIE=;
+        b=cMQiLJMlwJweCqdFBpRUhmIqdmn6Tv23uUGYjKlUmOC00BXFegMpv3BNWcOw/h4K0R
+         vguHEblZzgZgs5b+Omn6kiqPoBPw2JtgTR9YrQ4qvgQ97RL0bKDFYYYFWIXpELkJg6Dw
+         oX70CcyAnSb5R7DMODSm54TR7qfmu9OwVD6rEcUpufxm1LQWLIvuQLM7boLj+SjuHxoN
+         hsRDHP6H93KnsH34MYiE//Ec5Ugotx0dl7y3IEERHnMF88ND65Cc2Vg/v6clYwWnFwbn
+         7G5locuIIEFV5HOAy4+RQIl2Dcaio+nd2vvgxnQu1uIgy90igkWh2rHMv1XpNQ63nUss
+         rhfw==
+X-Gm-Message-State: AO0yUKUSMwsa2mK9vB7fAw7iepyTXURO1wMLP1DzKINgxuIhbU8zgOMf
+	NnU1Ds+0pshMTaClF9r71lfetrBt5HZl8Tf8
+X-Google-Smtp-Source: AK7set+nw1cs4/NEYhgGwGBK/EjmnN7WP2uNkRjrqNQWwf+Py5me2IUyV+NBTa++gkibAbu7/z0jvA==
+X-Received: by 2002:a17:906:3590:b0:8aa:bf7f:3105 with SMTP id o16-20020a170906359000b008aabf7f3105mr70197ejb.30.1675796631930;
+        Tue, 07 Feb 2023 11:03:51 -0800 (PST)
+Received: from kareem-XPS-13-9370.wind3.hub ([151.60.13.132])
+        by smtp.gmail.com with ESMTPSA id gu19-20020a170906f29300b008a9e585786dsm1107751ejb.64.2023.02.07.11.03.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Feb 2023 11:03:51 -0800 (PST)
+From: Kareem Zarka <zarkakareem@gmail.com>
+X-Google-Original-From: Kareem Zarka <kareem.zarka@huawei.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Kareem Zarka <zarkakareem@gmail.com>,
+	Stefan Schmidt <stefan.schmidt@huawei.com>,
+	Kareem Zarka <kareem.zarka@huawei.com>
+Subject: [PATCH] wic/plugins/source/bootimg-efi: Configure installation of
+Date: Tue,  7 Feb 2023 20:03:04 +0100
+Message-Id: <20230207190305.3071923-1-kareem.zarka@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230207163451.3886205-1-dragos.panait@windriver.com>
-In-Reply-To: <20230207163451.3886205-1-dragos.panait@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 7 Feb 2023 19:04:48 +0100
-Message-ID: <CANNYZj_BM4bM1QMW7cba=wR-vmjObkdBYzOdffce7yvQc8M8-w@mail.gmail.com>
-Subject: Re: [OE-core] [meta-oe][PATCH] plocate: add recipe
-To: Dragos-Marian Panait <dragos.panait@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Feb 2023 18:05:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176828
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Feb 2023 19:03:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176829
 
-This should go to openembedded-devel mailing list.
+The issue with installing the kernel image to both rootfs
+and boot partition is that some systems rely on the kernel image in
+rootfs and not in the boot partition.
+This leads to duplication of the kernel image, which can cause
+unnecessary storage usage.
 
-Alex
+This patch provides a solution to the problem by adding a new parameter
+"install-kernel-into-boot-dir" to the wic kickstart file.
+If this parameter is set to 'true', the plugin will install the
+kernel image to the boot partition. If the parameter is set to 'false',
+the plugin will skip installing the kernel image, avoiding duplication.
 
-On Tue, 7 Feb 2023 at 17:35, Dragos-Marian Panait
-<dragos.panait@windriver.com> wrote:
->
-> From: Catalin Enache <catalin.enache@windriver.com>
->
-> plocate, a much faster locate
->
-> Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-> Signed-off-by: Dragos-Marian Panait <dragos.panait@windriver.com>
-> ---
->  meta-oe/recipes-extended/plocate/plocate.inc       | 9 +++++++++
->  meta-oe/recipes-extended/plocate/plocate_1.1.17.bb | 9 +++++++++
->  2 files changed, 18 insertions(+)
->  create mode 100644 meta-oe/recipes-extended/plocate/plocate.inc
->  create mode 100644 meta-oe/recipes-extended/plocate/plocate_1.1.17.bb
->
-> diff --git a/meta-oe/recipes-extended/plocate/plocate.inc b/meta-oe/recipes-extended/plocate/plocate.inc
-> new file mode 100644
-> index 0000000000..166fc2d561
-> --- /dev/null
-> +++ b/meta-oe/recipes-extended/plocate/plocate.inc
-> @@ -0,0 +1,9 @@
-> +SUMMARY = "plocate, a much faster locate"
-> +HOMEPAGE = "https://plocate.sesse.net/"
-> +DESCRIPTION = "plocate is a locate(1) based on posting lists, completely replacing mlocate with a much faster (and smaller) index. It is suitable as a default locate on your system."
-> +SECTION = "base"
-> +LICENSE = "GPL-2.0-only"
-> +
-> +inherit meson pkgconfig
-> +
-> +DEPENDS = "zstd liburing"
-> diff --git a/meta-oe/recipes-extended/plocate/plocate_1.1.17.bb b/meta-oe/recipes-extended/plocate/plocate_1.1.17.bb
-> new file mode 100644
-> index 0000000000..ef36754bac
-> --- /dev/null
-> +++ b/meta-oe/recipes-extended/plocate/plocate_1.1.17.bb
-> @@ -0,0 +1,9 @@
-> +require plocate.inc
-> +# GPL-2.0-only
-> +LICENSE = "GPL-2.0-only"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-> +
-> +SRC_URI = "git://git.sesse.net/plocate;protocol=https;branch=master"
-> +
-> +SRCREV = "7e5defd4e7e075cb9226e7d2d9a80f943c482d11"
-> +S = "${WORKDIR}/git"
-> --
-> 2.34.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#176820): https://lists.openembedded.org/g/openembedded-core/message/176820
-> Mute This Topic: https://lists.openembedded.org/mt/96810815/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Tests for this functionality will be added in the next patch.
+
+Signed-off-by: Kareem Zarka <kareem.zarka@huawei.com>
+---
+ scripts/lib/wic/plugins/source/bootimg-efi.py | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
+index 4b00913a70..4e99d37f26 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-efi.py
++++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+@@ -363,9 +363,10 @@ class BootimgEFIPlugin(SourcePlugin):
+                 objcopy_cmd += " %s %s/EFI/Linux/linux.efi" % (efi_stub, hdddir)
+                 exec_native_cmd(objcopy_cmd, native_sysroot)
+         else:
+-            install_cmd = "install -m 0644 %s/%s %s/%s" % \
+-                (staging_kernel_dir, kernel, hdddir, kernel)
+-            exec_cmd(install_cmd)
++            if source_params.get('install-kernel-into-boot-dir') != 'false':
++                install_cmd = "install -m 0644 %s/%s %s/%s" % \
++                    (staging_kernel_dir, kernel, hdddir, kernel)
++                exec_cmd(install_cmd)
+ 
+         if get_bitbake_var("IMAGE_EFI_BOOT_FILES"):
+             for src_path, dst_path in cls.install_task:
+-- 
+2.25.1
+
 
