@@ -1,168 +1,373 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <sundeep.kokkonda@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A348BC636D4
-	for <webhook@archiver.kernel.org>; Tue,  7 Feb 2023 16:54:32 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web10.88545.1675788862603772258
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1634C636D4
+	for <webhook@archiver.kernel.org>; Tue,  7 Feb 2023 16:58:22 +0000 (UTC)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web11.88863.1675789093891853020
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Feb 2023 08:54:22 -0800
+ Tue, 07 Feb 2023 08:58:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=2pOBTH/W;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f52.google.com with SMTP id f16-20020a17090a9b1000b0023058bbd7b2so14987410pjp.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Feb 2023 08:54:22 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=D3e7s8Ew;
+ spf=pass (domain: gmail.com, ip: 209.85.216.48, mailfrom: sundeep.kokkonda@gmail.com)
+Received: by mail-pj1-f48.google.com with SMTP id bx22so12728356pjb.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Feb 2023 08:58:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=date:message-id:to:from:subject:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FlAXdzx9Z0DYLAk3TB/OblkpkuxovECE36UXV69dqoE=;
-        b=2pOBTH/WynuXQm7QSTgxBh2btDNl8lZMrbboLPeNou/vldgO4D7gg/yN+Zn3L6WXvH
-         rNB2R63/2Ow5jr4elBJcjLIoFIExn9d3OV0Z6VRb9pKhx3xeSZNyI9VUlu8MDzXxrj0m
-         CiptCxVwk8VWhiUPEBH9RbjX/UUUCn0y6bXrCuIM3kBdF2Gn9AE0Upkb2l4xq1lZCnBv
-         1JFuzvj73TFOB2kIP1aNHWa9x7chwgFP64oV/nXt+pxz8c6TG7wnmFwHQFee6VSqdNGP
-         0F9vu715e1I6FMYUCAuIAnuDmXQuzWFxcpXEBQ3MKhZrPXeHsFDttw4MedxDuTG1cda0
-         yp3g==
+        d=gmail.com; s=20210112;
+        h=content-language:thread-index:mime-version:message-id:date:subject
+         :cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4XbkiiXf6/UKcQlbxFG5aKQHQENQWRBPYTGGeQG6S5Q=;
+        b=D3e7s8EwxlLq3yCUNpSqEYTBn/PX3Gn6CgHvUm9nNdQ8f//ppEuw0o74Ovg8HtyaKA
+         f8LslJxrYxo1/bAxG9er1QTwE6J/RrDO5HR5dN0DwzgXtuFDsv8IrVYBJg5HAOOjO4mI
+         uTuRkprtnqky53WgStOTPk9nrTlZ08eWPD3A4DLcMUWk9vwNPFSjYLb36qvusNWmlr1R
+         CAABeoICvNlVr2CJ8CE1myVnR+I2GkJm2LDp7/elaSSDlTM5+cHpBdBO7AAjVA+6Qz+O
+         CcA5yTOqZ6BuavUcA0ucJuiD3D49y8zTpY6KWWMQpO4uaVs3VPQo8he+ShzQsxT1qGMm
+         6p/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=date:message-id:to:from:subject:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FlAXdzx9Z0DYLAk3TB/OblkpkuxovECE36UXV69dqoE=;
-        b=7BFNeVmVbou2e/OnPsloheeDIUIbc/mhcE9iUbliwyOVK+gVc2DZFnBJggL9Iv2KH5
-         NGfz8abjlvDphy+McZzbb7G94J8QiAHOz44yf8I2Uqr2CknchtecJ6KrRT0dTLBuOpU5
-         v6uwcJdH0VHHT9bY7n4drMVuQmI7D6CvInx9qURzWwegzVGXzbAhfoxWy8AFpGv5X8vx
-         w5D6w86Ec+5VGaZEQSxO0jiKELMiVU/4hIbWPswe+fyyyJd1/pYQZ5LZOgjtIygT0L/t
-         uSierwu9bpykZBXwu4jwwBJ0s9l3ZwAyj9qy5K/TXcfKMkdj5CGTBjI/iP4hv/pEfEPi
-         pzYA==
-X-Gm-Message-State: AO0yUKXgBLFqh65vKyaKMdkbUNwl+hQOWGjwGlanUvs+QmSUmIc9JnFh
-	odoeMwx9ICUOHuTFLnRu74Vj3DG10GoY9eLlfuY=
-X-Google-Smtp-Source: AK7set+1VVD0YQtsi0BUoPgnAgJAP7waczhOVFysf3EztFJ3jVHdBgysPc5y5oxedVBotUjTVsH5lA==
-X-Received: by 2002:a05:6a21:3283:b0:c2:adbc:3782 with SMTP id yt3-20020a056a21328300b000c2adbc3782mr3928215pzb.14.1675788861468;
-        Tue, 07 Feb 2023 08:54:21 -0800 (PST)
-Received: from nuc.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id c124-20020a633582000000b004e63aa44474sm8374379pga.33.2023.02.07.08.54.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Feb 2023 08:54:20 -0800 (PST)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id 4DF3A9602F6; Tue,  7 Feb 2023 06:54:19 -1000 (HST)
-Subject: OE-core CVE metrics for dunfell on Tue 07 Feb 2023 06:49:41 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20230207165419.4DF3A9602F6@nuc.router0800d9.com>
-Date: Tue,  7 Feb 2023 06:54:19 -1000 (HST)
+        h=content-language:thread-index:mime-version:message-id:date:subject
+         :cc:to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4XbkiiXf6/UKcQlbxFG5aKQHQENQWRBPYTGGeQG6S5Q=;
+        b=hw00ZxMEUVXubknaCFl3NRUPr6EQHwIuWvCGR+MG37mMnIvbkxn1vSfXPKFD8aJYPR
+         Tjy0jfbLFChDzI0G79iaZFSITo48n0MI5AXV3jdIn6tvFlde7ZayTyfBl5iyk66JS/52
+         un7/06MOkc4PRxkFzGoune+tPLQNt6xVdla8B+Qh2oMiQdEYFXyeIr6l7Zkc5vWmpQ7/
+         Huyarj5NdmhrYl/OwqQXJ/sSERWUHzoFrT9YSfD+aoWj2ttVWHXFmIcTrrCTCrRJOB67
+         bh5fpTT3RJQzUuDK5ZIRKaJ6Xb0wBa3AIzpR2TW3OyqnLo+1pyXUxcDvn6Vhlg3byzCF
+         tYrw==
+X-Gm-Message-State: AO0yUKVx7f1Jx2NSBwZJ9VszBTI4O0c7OOSCGpWv6RDUtPV6OVOymIP1
+	PZXBDKr7sPtATzM+NJAlwj2d9Kmt5ss/9w==
+X-Google-Smtp-Source: AK7set8rIA7uv/luqQpJV6PlqKGK+BeJlwOllOgBA/PxfCNvkJYW2zBoOkdvR8g6VbfpABy+Hxsn1A==
+X-Received: by 2002:a05:6a20:8401:b0:c0:afba:8b78 with SMTP id c1-20020a056a20840100b000c0afba8b78mr5071192pzd.45.1675789093009;
+        Tue, 07 Feb 2023 08:58:13 -0800 (PST)
+Received: from BFTLPTI009 ([183.83.146.245])
+        by smtp.gmail.com with ESMTPSA id jj4-20020a170903048400b001990028c0c9sm1560336plb.68.2023.02.07.08.58.10
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 07 Feb 2023 08:58:12 -0800 (PST)
+From: <sundeep.kokkonda@gmail.com>
+To: "'\"Alex Kiernan\"'" <alex.kiernan@gmail.com>,
+	"'Richard Purdie'" <richard.purdie@linuxfoundation.org>
+Cc: <openembedded-core@lists.openembedded.org>,
+	"'Randy MacLeod'" <Randy.MacLeod@windriver.com>
+Subject: Yocto Bug 14965 - Need info on rmeta hash
+Date: Tue, 7 Feb 2023 22:28:08 +0530
+Message-ID: <003001d93b15$5c8396e0$158ac4a0$@gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0031_01D93B43.763CE450"
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: Adk7FLu8Trw3aqMsT5OBSa3qgvxE5A==
+Content-Language: en-in
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Feb 2023 16:54:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176822
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Feb 2023 16:58:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176823
 
-Branch: dunfell
+This is a multipart message in MIME format.
 
-New this week: 4 CVEs
-CVE-2022-42919 (CVSS3: 7.8 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-42919 *
-CVE-2022-48281 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-48281 *
-CVE-2023-0433 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0433 *
-CVE-2023-0512 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0512 *
+------=_NextPart_000_0031_01D93B43.763CE450
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-Removed this week: 0 CVEs
+Hello Alex,
 
-Full list:  Found 94 unpatched CVEs
-CVE-2020-15469 (CVSS3: 2.3 LOW): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15469 *
-CVE-2020-15705 (CVSS3: 6.4 MEDIUM): grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
-CVE-2020-15859 (CVSS3: 3.3 LOW): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15859 *
-CVE-2020-17380 (CVSS3: 6.3 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-17380 *
-CVE-2020-25742 (CVSS3: 3.2 LOW): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25742 *
-CVE-2020-25743 (CVSS3: 3.2 LOW): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25743 *
-CVE-2020-27749 (CVSS3: 6.7 MEDIUM): grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27749 *
-CVE-2020-27918 (CVSS3: 7.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27918 *
-CVE-2020-29510 (CVSS3: 5.6 MEDIUM): go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29510 *
-CVE-2020-29623 (CVSS3: 3.3 LOW): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29623 *
-CVE-2020-35503 (CVSS3: 6.0 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35503 *
-CVE-2020-35504 (CVSS3: 6.0 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35504 *
-CVE-2020-35505 (CVSS3: 4.4 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35505 *
-CVE-2020-35506 (CVSS3: 6.7 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35506 *
-CVE-2020-9948 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-9948 *
-CVE-2020-9951 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-9951 *
-CVE-2020-9952 (CVSS3: 7.1 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-9952 *
-CVE-2021-1765 (CVSS3: 6.5 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1765 *
-CVE-2021-1789 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1789 *
-CVE-2021-1799 (CVSS3: 6.5 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1799 *
-CVE-2021-1801 (CVSS3: 6.5 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1801 *
-CVE-2021-1870 (CVSS3: 9.8 CRITICAL): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1870 *
-CVE-2021-20225 (CVSS3: 6.7 MEDIUM): grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20225 *
-CVE-2021-20233 (CVSS3: 8.2 HIGH): grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20233 *
-CVE-2021-20269 (CVSS3: 5.5 MEDIUM): kexec-tools https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20269 *
-CVE-2021-20295 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20295 *
-CVE-2021-27097 (CVSS3: 7.8 HIGH): u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27097 *
-CVE-2021-27138 (CVSS3: 7.8 HIGH): u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27138 *
-CVE-2021-31879 (CVSS3: 6.1 MEDIUM): wget https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31879 *
-CVE-2021-3409 (CVSS3: 5.7 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3409 *
-CVE-2021-3418 (CVSS3: 6.4 MEDIUM): grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3418 *
-CVE-2021-3445 (CVSS3: 7.5 HIGH): libdnf https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3445 *
-CVE-2021-35937 (CVSS3: 6.4 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35937 *
-CVE-2021-35938 (CVSS3: 6.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35938 *
-CVE-2021-35939 (CVSS3: 6.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35939 *
-CVE-2021-3611 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3611 *
-CVE-2021-3782 (CVSS3: 9.8 CRITICAL): wayland:wayland-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3782 *
-CVE-2021-3800 (CVSS3: 7.5 HIGH): glib-2.0:glib-2.0-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3800 *
-CVE-2021-3929 (CVSS3: 8.2 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3929 *
-CVE-2021-3947 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3947 *
-CVE-2021-42762 (CVSS3: 5.3 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-42762 *
-CVE-2021-45085 (CVSS3: 6.1 MEDIUM): epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45085 *
-CVE-2021-45086 (CVSS3: 6.1 MEDIUM): epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45086 *
-CVE-2021-45087 (CVSS3: 6.1 MEDIUM): epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45087 *
-CVE-2021-45088 (CVSS3: 6.1 MEDIUM): epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45088 *
-CVE-2021-45481 (CVSS3: 6.5 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45481 *
-CVE-2021-45482 (CVSS3: 6.5 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45482 *
-CVE-2021-45483 (CVSS3: 6.5 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45483 *
-CVE-2021-45944 (CVSS3: 5.5 MEDIUM): ghostscript:ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45944 *
-CVE-2022-0358 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0358 *
-CVE-2022-1705 (CVSS3: 6.5 MEDIUM): go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1705 *
-CVE-2022-1962 (CVSS3: 5.5 MEDIUM): go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1962 *
-CVE-2022-2294 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2294 *
-CVE-2022-2347 (CVSS3: 7.1 HIGH): u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2347 *
-CVE-2022-23521 (CVSS3: 9.8 CRITICAL): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23521 *
-CVE-2022-23773 (CVSS3: 7.5 HIGH): go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23773 *
-CVE-2022-24765 (CVSS3: 7.8 HIGH): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-24765 *
-CVE-2022-26354 (CVSS3: 3.2 LOW): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-26354 *
-CVE-2022-2953 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2953 *
-CVE-2022-29536 (CVSS3: 7.5 HIGH): epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-29536 *
-CVE-2022-2962 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2962 *
-CVE-2022-30293 (CVSS3: 7.5 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-30293 *
-CVE-2022-30767 (CVSS3: 9.8 CRITICAL): u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-30767 *
-CVE-2022-32893 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-32893 *
-CVE-2022-34835 (CVSS3: 9.8 CRITICAL): u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-34835 *
-CVE-2022-3515 (CVSS3: 9.8 CRITICAL): gnupg:gnupg-native:libksba:libksba-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3515 *
-CVE-2022-3570 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3570 *
-CVE-2022-3597 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3597 *
-CVE-2022-3598 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3598 *
-CVE-2022-3599 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3599 *
-CVE-2022-3626 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3626 *
-CVE-2022-3627 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3627 *
-CVE-2022-3715 (CVSS3: 7.8 HIGH): bash https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3715 *
-CVE-2022-3872 (CVSS3: 8.6 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3872 *
-CVE-2022-39177 (CVSS3: 8.8 HIGH): bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-39177 *
-CVE-2022-39253 (CVSS3: 5.5 MEDIUM): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-39253 *
-CVE-2022-39260 (CVSS3: 8.8 HIGH): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-39260 *
-CVE-2022-3970 (CVSS3: 8.8 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3970 *
-CVE-2022-4055 (CVSS3: 7.4 HIGH): xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4055 *
-CVE-2022-4144 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4144 *
-CVE-2022-41716 (CVSS3: 7.5 HIGH): go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41716 *
-CVE-2022-41720 (CVSS3: 7.5 HIGH): go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41720 *
-CVE-2022-41903 (CVSS3: 9.8 CRITICAL): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41903 *
-CVE-2022-41953 (CVSS3: 7.8 HIGH): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41953 *
-CVE-2022-42919 (CVSS3: 7.8 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-42919 *
-CVE-2022-4743 (CVSS3: 7.5 HIGH): libsdl2:libsdl2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4743 *
-CVE-2022-48281 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-48281 *
-CVE-2023-0049 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0049 *
-CVE-2023-0051 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0051 *
-CVE-2023-0054 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0054 *
-CVE-2023-0288 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0288 *
-CVE-2023-0433 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0433 *
-CVE-2023-0512 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0512 *
-CVE-2023-22809 (CVSS3: 7.8 HIGH): sudo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-22809 *
+ 
 
-For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
+I am working on Yocto bug 14965. There is a build failure happening during
+rust build because of 2 rmeta files with different hashes are generated.
+
+ 
+
+I found that the changes with below commit id causing the 2nd rmeta file
+(libcore-c5fc82c620226960.rmeta) generation.
+
+e33afcd0dc rust-common.bbclass: use built-in rust targets for -native builds
+
+ 
+
+I am trying to find the changes in build which causing the generation of 2nd
+rmeta with different hash. I gave 2 builds by with & without e33afcd0dc
+commit changes.
+
+*	I checked the sigdata of librsvg & libstd-rs in both builds and
+those are identical.
+*	The dependency files
+(../build/tmp/work/core2-64-poky-linux/librsvg/2.54.5-r0/build/target/releas
+e/deps/*.d) also analysed and the shown differences are only the changed
+hash value (did not get any info on what is causing this change).
+*	But, some interesting changes I observed in '.rustc_info.json' which
+are related to e33afcd0dc commit. In this json file,
+
+*	'host' tag changed from 'x86_64-linux-gnu' ->
+'x86_64-unknown-linux-gnu',
+*	an extra 'target_feature=\"fxsr\' is added, and
+*	'rustc_fingerprint' has different values between 2 builds.
+
+
+
+Since you know much about rust, can you let me know is there any way I can
+check which exact changes are causing the hash to be changed? also, are the
+above changes in json file will cause hash to be changed?
+
+ 
+
+ 
+
+Thanks,
+
+Sundeep K.
+
+ 
+
+
+------=_NextPart_000_0031_01D93B43.763CE450
+Content-Type: text/html;
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:Gautami;
+	panose-1:2 11 5 2 4 2 4 2 2 3;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-language:EN-US;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-language:EN-US;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+/* List Definitions */
+@list l0
+	{mso-list-id:1234463531;
+	mso-list-template-ids:1294254332;}
+@list l0:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l0:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l0:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-IN =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal =
+style=3D'background:white;vertical-align:baseline'><span =
+style=3D'font-size:12.0pt;color:black;mso-fareast-language:EN-IN'>Hello =
+Alex,<o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'background:white;vertical-align:baseline'><span =
+style=3D'font-size:12.0pt;color:black;mso-fareast-language:EN-IN'><o:p>&n=
+bsp;</o:p></span></p><p class=3DMsoNormal =
+style=3D'background:white;vertical-align:baseline'><span =
+style=3D'font-size:12.0pt;color:black;mso-fareast-language:EN-IN'>I am =
+working on Yocto bug&nbsp;14965. There is a build failure happening =
+during&nbsp;<i>rust&nbsp;</i>build because of 2 rmeta files with =
+different hashes are generated.<o:p></o:p></span></p><p =
+class=3DMsoNormal =
+style=3D'background:white;vertical-align:baseline'><span =
+style=3D'font-size:12.0pt;color:black;mso-fareast-language:EN-IN'><o:p>&n=
+bsp;</o:p></span></p><p class=3DMsoNormal =
+style=3D'background:white;vertical-align:baseline'><span =
+style=3D'font-size:12.0pt;color:black;mso-fareast-language:EN-IN'>I =
+found that the changes with below commit id causing the 2<sup><span =
+style=3D'border:none windowtext 1.0pt;padding:0cm'>nd</span></sup><span =
+style=3D'border:none windowtext 1.0pt;padding:0cm'>&nbsp;rmeta file =
+(libcore-c5fc82c620226960.rmeta) =
+generation.</span><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'background:white;vertical-align:baseline'><i><span =
+style=3D'font-size:12.0pt;color:black;mso-fareast-language:EN-IN'>e33afcd=
+0dc rust-common.bbclass: use built-in rust targets for -native =
+builds</span></i><span =
+style=3D'font-size:12.0pt;color:black;mso-fareast-language:EN-IN'><o:p></=
+o:p></span></p><p class=3DMsoNormal =
+style=3D'background:white;vertical-align:baseline'><span =
+style=3D'font-size:12.0pt;color:black;mso-fareast-language:EN-IN'><o:p>&n=
+bsp;</o:p></span></p><p class=3DMsoNormal =
+style=3D'background:white;vertical-align:baseline'><span =
+style=3D'font-size:12.0pt;color:black;mso-fareast-language:EN-IN'>I am =
+trying to find the changes in build which causing the generation of =
+2<sup><span style=3D'border:none windowtext =
+1.0pt;padding:0cm'>nd</span></sup><span style=3D'border:none windowtext =
+1.0pt;padding:0cm'>&nbsp;rmeta with different&nbsp;</span>hash. I gave 2 =
+builds by with &amp; without&nbsp;<i>e33afcd0dc&nbsp;</i><span =
+style=3D'border:none windowtext 1.0pt;padding:0cm'>commit =
+changes</span><i>.</i><o:p></o:p></span></p><ul type=3Ddisc><li =
+class=3DMsoNormal =
+style=3D'color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;m=
+so-list:l0 level1 lfo1;background:white;vertical-align:baseline'><span =
+style=3D'font-size:12.0pt;border:none windowtext =
+1.0pt;padding:0cm;mso-fareast-language:EN-IN'>I checked the sigdata =
+of&nbsp;<i>librsvg&nbsp;</i>&amp;&nbsp;<i>libstd-rs</i>&nbsp;in both =
+builds and those are identical.</span><span =
+style=3D'font-size:12.0pt;mso-fareast-language:EN-IN'><o:p></o:p></span><=
+/li><li class=3DMsoNormal =
+style=3D'color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;m=
+so-list:l0 level1 lfo1;background:white;vertical-align:baseline'><span =
+style=3D'font-size:12.0pt;border:none windowtext =
+1.0pt;padding:0cm;mso-fareast-language:EN-IN'>The dependency files =
+(../build/tmp/work/core2-64-poky-linux/librsvg/2.54.5-r0/build/target/rel=
+ease/deps/*.d) also analysed and the shown differences are only the =
+changed hash value (did not get any info on what is causing this =
+change).</span><span =
+style=3D'font-size:12.0pt;mso-fareast-language:EN-IN'><o:p></o:p></span><=
+/li><li class=3DMsoNormal =
+style=3D'color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;m=
+so-list:l0 level1 lfo1;background:white;vertical-align:baseline'><span =
+style=3D'font-size:12.0pt;border:none windowtext =
+1.0pt;padding:0cm;mso-fareast-language:EN-IN'>But, some interesting =
+changes I observed in '<i>.rustc_info.json</i>' which are related =
+to&nbsp;<i>e33afcd0dc&nbsp;</i>commit. In this json file,</span><span =
+style=3D'font-size:12.0pt;mso-fareast-language:EN-IN'><o:p></o:p></span><=
+/li><ul type=3Dcircle><li class=3DMsoNormal =
+style=3D'color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;m=
+so-list:l0 level2 =
+lfo1;background:white;vertical-align:baseline'><i><span =
+style=3D'font-size:12.0pt;border:none windowtext =
+1.0pt;padding:0cm;mso-fareast-language:EN-IN'>'host'&nbsp;</span></i><spa=
+n style=3D'font-size:12.0pt;border:none windowtext =
+1.0pt;padding:0cm;mso-fareast-language:EN-IN'>tag changed from =
+'x86_64-linux-gnu' -&gt; 'x86_64-unknown-linux-gnu',</span><span =
+style=3D'font-size:12.0pt;mso-fareast-language:EN-IN'><o:p></o:p></span><=
+/li><li class=3DMsoNormal =
+style=3D'color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;m=
+so-list:l0 level2 lfo1;background:white;vertical-align:baseline'><span =
+style=3D'font-size:12.0pt;border:none windowtext =
+1.0pt;padding:0cm;mso-fareast-language:EN-IN'>an extra =
+'<i>target_feature=3D\&quot;fxsr\</i>' is added, and</span><span =
+style=3D'font-size:12.0pt;mso-fareast-language:EN-IN'><o:p></o:p></span><=
+/li><li class=3DMsoNormal =
+style=3D'color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;m=
+so-list:l0 level2 lfo1;background:white;vertical-align:baseline'><span =
+style=3D'font-size:12.0pt;border:none windowtext =
+1.0pt;padding:0cm;mso-fareast-language:EN-IN'>&#8216;<i>rustc_fingerprint=
+</i>&#8217; has different values between 2 builds.<br><br></span><span =
+style=3D'font-size:12.0pt;mso-fareast-language:EN-IN'><o:p></o:p></span><=
+/li></ul></ul><p class=3DMsoNormal =
+style=3D'mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;background:wh=
+ite;vertical-align:baseline'><span =
+style=3D'font-size:12.0pt;color:black;mso-fareast-language:EN-IN'>Since =
+you know much about&nbsp;<i>rust</i>, can you let me know is there any =
+way I can check which exact changes are causing the hash to be changed? =
+also, are the above changes in json file will cause hash to be =
+changed?<o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'background:white;vertical-align:baseline'><span =
+style=3D'font-size:12.0pt;color:black;mso-fareast-language:EN-IN'><o:p>&n=
+bsp;</o:p></span></p><p class=3DMsoNormal =
+style=3D'background:white;vertical-align:baseline'><span =
+style=3D'font-size:12.0pt;color:black;mso-fareast-language:EN-IN'><o:p>&n=
+bsp;</o:p></span></p><p class=3DMsoNormal =
+style=3D'background:white;vertical-align:baseline'><span =
+style=3D'font-size:12.0pt;color:black;mso-fareast-language:EN-IN'>Thanks,=
+<o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'background:white;vertical-align:baseline'><span =
+style=3D'font-size:12.0pt;color:black;mso-fareast-language:EN-IN'>Sundeep=
+ K.<o:p></o:p></span></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+------=_NextPart_000_0031_01D93B43.763CE450--
+
 
