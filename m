@@ -1,93 +1,104 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <maurofrqueiros@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA768C636CC
-	for <webhook@archiver.kernel.org>; Tue,  7 Feb 2023 21:54:44 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.3692.1675806882912667640
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 128FEC636CC
+	for <webhook@archiver.kernel.org>; Tue,  7 Feb 2023 22:36:05 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web11.4704.1675809359905519169
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Feb 2023 13:54:43 -0800
+ Tue, 07 Feb 2023 14:36:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=I0GVeC7H;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id j25so11431093wrc.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Feb 2023 13:54:42 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=AG41UEig;
+ spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: maurofrqueiros@gmail.com)
+Received: by mail-wr1-f50.google.com with SMTP id r2so15038670wrv.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Feb 2023 14:35:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
+        d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yDMt56XEqggz2P6BsN828/kDBbyNKa2tGOESqUymp8w=;
-        b=I0GVeC7HoVoRrprj6dgf1v8eNppW3pEmjdC1nsOSR7FqfMZZ5+G2VmUS31LLY+hLRV
-         qXJfLQEh7flA2K7qsbskV9A0CoFCVtGdi/vucWiYzJoFwoWtJ0H85NEVYTULPY4Viyyf
-         SAIqh9njpt6OIJBO9NBJ44aE83cCCVu6qboWc=
+        bh=R4yaxuG0FLXjMGZn3CBDxYzifYYURcwlMnNEuh0aiBU=;
+        b=AG41UEigNirLKB8fHVmrfPsHQESAHYDDOkN4DCk/VDWv7eXQfmvGM3ZlSj2jbRsEo3
+         eZWTNHpUo052i6JNJFysc5J5lwD28mJXgm1RdoNm215yGblZ9tUNER/zsAHjGdgL9i92
+         +16PcfhKsTgNSWZ5IfbNsyWC4EDvECxmKadhoXh5TOOgUpxzUYRM2VbqFHYCfSrDEBZC
+         R4vit++/PPqV4eHVoJutXJvCWO9Ftwg9AGCqeKfdmvSvXOXKJeFgHcAt563UGsMxhb3R
+         bwhaS4wLkg5Uxn7zAkGzZ/k3w5VRvkEuUoatgQjlo9E5uXEddgPIWgrO4W2fz+iT+Gzg
+         AUPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=yDMt56XEqggz2P6BsN828/kDBbyNKa2tGOESqUymp8w=;
-        b=nfAAcEkSiaui561qZp8uIW4HE5yKBsERQWV4YBbxIaCM47vJHIjBwdzr5NcwX4QDVw
-         0/2+clfa+j/xh8nSpWByabtwMEWQUf4a922K6/F//TlxuO9DSD9uMAaUSGSG3A1FukNE
-         TRa9jkbvBM4Ow/Vj+1bzU8LPi96MOwAuI2BvjZhfGeyqW1C0xu/NmiMrEyS3RbzLBI+x
-         eCN1FnaOceVp3ClESxuREmGtHaPTshjAZECBXHbukTGA28QGsl0U88EBjz0m4h1UHWBk
-         n2C0NrEASD09H9/Yd2+qhs3MsxD6L03sUMEuCN8vcNvyfcP8oGh9ZleaIffwOt+UcA+B
-         5svg==
-X-Gm-Message-State: AO0yUKV+b8b7KlJHiB58WJwPOFrAtErC/PeL50xx4V0duybYeDlkK3/o
-	lefkOcEPbDOmOJNRYHf3jqRDE5zCdrh5tcNr
-X-Google-Smtp-Source: AK7set9A8+Td3BOTHzeJ79A7rLnelyZUn7mi+D7HDtccrOZelOanbSWQtoC28Csu7SnScsqeyCqg1g==
-X-Received: by 2002:adf:fd0f:0:b0:2c3:d808:e82f with SMTP id e15-20020adffd0f000000b002c3d808e82fmr5546680wrr.17.1675806880849;
-        Tue, 07 Feb 2023 13:54:40 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:feff:276a:2891:6b6b])
-        by smtp.gmail.com with ESMTPSA id b2-20020a5d4d82000000b002c3ef7e74bdsm4315681wru.73.2023.02.07.13.54.40
+        bh=R4yaxuG0FLXjMGZn3CBDxYzifYYURcwlMnNEuh0aiBU=;
+        b=YzSR1TRvbvlHdcw3mf4mcH6GeO9E/BohAA94lcmDPsWtAiaHtkSl2KAAMkwLtD77Bo
+         uVkota0LzAza1XqVRVJ6ReWek7u+cUoYj43w/Yp5VUT57b5YBW9zXY6CDo9q+GVTJLD7
+         jcIllUFS0Hs66yg1rU8+9vjcJfRLyD9NvVUfQohVONN1Pq+erpP6TSDmsaF1N1nxV7WW
+         YMqjCmSf6cBhEJUDgW9w/ZwhCggJpYiy03XuNMogccu4U8tVl/SjlUiaa27DbGBHrhLZ
+         xXEo3V54zb90IiWmRa/xFXeQEAINI2vpRf4P710YiR0nJ7u5EKu+GgRbK+nSOk0aGTE9
+         qTag==
+X-Gm-Message-State: AO0yUKU9M2JjT+xkdS/hFNBKi24baEvOwebQEho3vlElP1MnzBGKFKBa
+	rgKLaVL6GehjzMOTUD51Oxo4YYZ/geE=
+X-Google-Smtp-Source: AK7set+/gh7V7iW+bGAVx68NsKBLH2rkerWCAtwro5cFIYZkIDCEfEDteF2J01XVtH/x6dfarax5qw==
+X-Received: by 2002:a05:6000:1803:b0:2bf:afaf:9d71 with SMTP id m3-20020a056000180300b002bfafaf9d71mr3983726wrh.48.1675809357948;
+        Tue, 07 Feb 2023 14:35:57 -0800 (PST)
+Received: from ctw-bre-002.bmw.criticaltechworks.com ([213.205.68.220])
+        by smtp.gmail.com with ESMTPSA id o13-20020a5d408d000000b002c3f42f3687sm2607755wrp.72.2023.02.07.14.35.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Feb 2023 13:54:40 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Tue, 07 Feb 2023 14:35:57 -0800 (PST)
+From: maurofrqueiros@gmail.com
 To: openembedded-core@lists.openembedded.org
-Cc: Michael Halstead <mhalstead@linuxfoundation.org>
-Subject: [PATCH] uninative: Upgrade to 3.9 to include glibc 2.37
-Date: Tue,  7 Feb 2023 21:54:39 +0000
-Message-Id: <20230207215439.1391583-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.37.2
+Cc: Mauro Queiros <maurofrqueiros@gmail.com>
+Subject: [PATCH] image.bbclass: print all QA functions exceptions
+Date: Tue,  7 Feb 2023 22:37:04 +0000
+Message-Id: <20230207223704.1043249-1-maurofrqueiros@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Feb 2023 21:54:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176832
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Feb 2023 22:36:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176833
 
-From: Michael Halstead <mhalstead@linuxfoundation.org>
+From: Mauro Queiros <maurofrqueiros@gmail.com>
 
-Update uninative to work with the new glibc 2.37.
+For the QA checks in `image.bbclass`, all exceptions
+other than `oe.utils.ImageQAFailed` always print the
+following generic message:
+"Image QA function func_name failed"
 
-Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+This can be very misleading, as it may hide
+python syntax errors and other kind of issues that are
+hard to detect without more explicit error messages.
+
+This change makes sure that the error message of all
+exceptions are displayed.
+
+Before this change:
+ "Image QA function func_name failed"
+
+After this change:
+ "Image QA function func_name failed: f-string: empty expression not allowed (<string>, line 13)"
+
+Signed-off-by: Mauro Queiros <maurofrqueiros@gmail.com>
 ---
- meta/conf/distro/include/yocto-uninative.inc | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ meta/classes/image.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index 51c0cdee438..8a5cab5360d 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -6,10 +6,10 @@
- # to the distro running on the build machine.
- #
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index c424c4c41d..a58d900ed0 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -313,7 +313,7 @@ fakeroot python do_image_qa () {
+         except oe.utils.ImageQAFailed as e:
+             qamsg = qamsg + '\tImage QA function %s failed: %s\n' % (e.name, e.description)
+         except Exception as e:
+-            qamsg = qamsg + '\tImage QA function %s failed\n' % cmd
++            qamsg = qamsg + '\tImage QA function %s failed: %s\n' % (cmd, e)
  
--UNINATIVE_MAXGLIBCVERSION = "2.36"
--UNINATIVE_VERSION = "3.8.1"
-+UNINATIVE_MAXGLIBCVERSION = "2.37"
-+UNINATIVE_VERSION = "3.9"
- 
- UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}/"
--UNINATIVE_CHECKSUM[aarch64] ?= "3f15d420049b21854bd7a8843da0f42f17064559492c8b752d7a6f998ff5ea65"
--UNINATIVE_CHECKSUM[i686] ?= "a6dcf316d738ade2e5e463bd3b33a270b4bfc25bba41770ad5cbdc3b0e24044c"
--UNINATIVE_CHECKSUM[x86_64] ?= "5fab9a5c97fc73a21134e5a81f74498cbaecda75d56aab971c934e0b803bcc00"
-+UNINATIVE_CHECKSUM[aarch64] ?= "de35708c95c34573af140da910132c3291ba4fd26ebf7b74b755ada432cdf07b"
-+UNINATIVE_CHECKSUM[i686] ?= "adac07b08adb88eb26fc7fd87fee0cec9d5be167bf7c5ffd3a549a2a6699c29c"
-+UNINATIVE_CHECKSUM[x86_64] ?= "3dd82c3fbdb59e87bf091c3eef555a05fae528eeda3083828f76cd4deaceca8b"
+     if qamsg:
+         imgname = d.getVar('IMAGE_NAME')
 -- 
-2.37.2
+2.25.1
 
 
