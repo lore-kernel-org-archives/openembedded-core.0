@@ -1,96 +1,110 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F2BBC636CC
-	for <webhook@archiver.kernel.org>; Tue,  7 Feb 2023 09:50:50 +0000 (UTC)
-Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
- by mx.groups.io with SMTP id smtpd.web10.79830.1675763450029032998
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4378C636D3
+	for <webhook@archiver.kernel.org>; Tue,  7 Feb 2023 10:20:40 +0000 (UTC)
+Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com [195.245.230.65])
+ by mx.groups.io with SMTP id smtpd.web10.80210.1675765232890366729
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Feb 2023 01:50:50 -0800
+ Tue, 07 Feb 2023 02:20:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
-Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
-	by mail.kapsi.fi with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1pPKcc-001rTG-Ag; Tue, 07 Feb 2023 11:50:42 +0200
-Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.94.2)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1pPKcc-004ge9-1H; Tue, 07 Feb 2023 11:50:42 +0200
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: "Schmidt, Adriaan" <adriaan.schmidt@siemens.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [kirkstone][PATCH 2/2] bitbake: bitbake-diffsigs: break on first dependent task difference
-Date: Tue,  7 Feb 2023 11:50:23 +0200
-Message-Id: <20230207095023.1115763-2-mikko.rapeli@linaro.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230207095023.1115763-1-mikko.rapeli@linaro.org>
-References: <20230207095023.1115763-1-mikko.rapeli@linaro.org>
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=U9a7iG+c;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.65, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1675765231; i=@fujitsu.com;
+	bh=q1KGlSkxUh2CHAntKVO3aA7TUWBfj69gQcO8zx7VIZM=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=U9a7iG+c7ZjsHooncVtCISCbP2J0Wk7eR3ohwj1poyfWxKO7DpYyuf9xY/08moZMs
+	 Suc9Cf05Q/iwclQoWYbmkGE1MCXNvu9fdGyj+6HlUzIQDzUhoxbxYSUpaOQtMnclpF
+	 8PaRSx07rF0uQLG48hGNUrx5I2t5RmvYXyyxhA4lVHtMVwJIlr9hpIcT+Q46yJGfk9
+	 n5JnYTflswLWT8dqlLYl9NOE5Gz8oy0KKTngtzsSxzNXJoiOJfNfgSq6qt4Lar4NV7
+	 8WCbOpkjz5xbN9lR6TksOY1y8YpPyeZM6px2Y5jrl1EUuBnlahBVA2U9Hb+oF71KRb
+	 ELGjSro08ruWg==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrGIsWRWlGSWpSXmKPExsViZ8OxWfed6qN
+  kg/dPzSzu/HzH7sDocW7jCsYAxijWzLyk/IoE1owDv76zFjRzVrRcbWJsYFzC0cXIxSEk8IBR
+  YlvHKhYI5wqTxPk/F5ggnD2MEkc+vWDuYuTkYBOQkrhx/z9bFyMHh4iAnsTVf6IgYWYBFYkXv
+  3vYQWxhASuJW/s62EBsFqD48v57jCA2r4CjxPf5L1lAbAkBBYkpD9+DjeQUcJJ4+XkjWL0QUM
+  2x0zdYIOoFJU7OfMICMV9C4uALiBMkBBQlZl9uhppTKdH64ReUrSZx9dwm5gmMgrOQtM9C0r6
+  AkWkVo1lxalFZapGuoZFeUlFmekZJbmJmjl5ilW6iXmqpbnlqcYmuoV5iebFeanGxXnFlbnJO
+  il5easkmRmDwphQzv9jB+KPvr94hRkkOJiVR3vXSj5KF+JLyUyozEosz4otKc1KLDzHKcHAoS
+  fCyqADlBItS01Mr0jJzgJEEk5bg4FES4U0DSfMWFyTmFmemQ6ROMSpKifOKSwAlBEASGaV5cG
+  2w6L3EKCslzMvIwMAgxFOQWpSbWYIq/4pRnINRSZjXQwFoCk9mXgnc9FdAi5mAFoeoPgRZXJK
+  IkJJqYOqa1qiWP/viPFZbfpepGXrvhQxEJx824jzlItQ7zfB+pd9DcVOpr0srV7Pb/LUJzD1a
+  s0Xk5fuoleuuZhyZFrV8irKwpVzI3aUletliTx5sUVujtuB0mQhjuFQus8YTtWLh+qnJdu7Vk
+  z8YfPFY0FVruKw2uyD14+2zXL5NG14Gt79k5PBzcUv++f3LhP7jAa5b50jcVr/xQLpB7kmgye
+  yKlsc6z1buc2MIMWPQell9hWXu93ecv9c6v4+bHL0qK8VTLUGXIX9FhdA5JZYT98z6q3+ca+D
+  01d2e3/rga2bzSeOA0LXNomfObonYVfs1ctOlqOf6B6q4XkSku/wQfFSiX9a5/uDhLga+X80h
+  SizFGYmGWsxFxYkA1tUmuFkDAAA=
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-4.tower-587.messagelabs.com!1675765230!95045!1
+X-Originating-IP: [62.60.8.179]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.102.2; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 10438 invoked from network); 7 Feb 2023 10:20:30 -0000
+Received: from unknown (HELO n03ukasimr04.n03.fujitsu.local) (62.60.8.179)
+  by server-4.tower-587.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 7 Feb 2023 10:20:30 -0000
+Received: from n03ukasimr04.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTP id 80F0F156
+	for <openembedded-core@lists.openembedded.org>; Tue,  7 Feb 2023 10:20:30 +0000 (GMT)
+Received: from R01UKEXCASM223.r01.fujitsu.local (R01UKEXCASM223 [10.182.185.121])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTPS id 7553E155
+	for <openembedded-core@lists.openembedded.org>; Tue,  7 Feb 2023 10:20:30 +0000 (GMT)
+Received: from localhost.localdomain (10.167.225.33) by
+ R01UKEXCASM223.r01.fujitsu.local (10.182.185.121) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.42; Tue, 7 Feb 2023 10:20:29 +0000
+From: <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] msmtp: upgrade 1.8.22 -> 1.8.23
+Date: Tue, 7 Feb 2023 18:20:17 +0800
+Message-ID: <1675765217-3462-2-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1675765217-3462-1-git-send-email-wangmy@fujitsu.com>
+References: <1675765217-3462-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspam-Score: -1.2 (-)
-X-Rspam-Report: Action: no action
- Symbol: RCVD_TLS_LAST(0.00)
- Symbol: ARC_NA(0.00)
- Symbol: DMARC_POLICY_SOFTFAIL(0.10)
- Symbol: FROM_HAS_DN(0.00)
- Symbol: RCPT_COUNT_THREE(0.00)
- Symbol: R_MISSING_CHARSET(0.50)
- Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
- Symbol: MIME_GOOD(-0.10)
- Symbol: TO_DN_SOME(0.00)
- Symbol: MID_CONTAINS_FROM(1.00)
- Symbol: R_SPF_NA(0.00)
- Symbol: FORGED_SENDER(0.30)
- Symbol: R_DKIM_NA(0.00)
- Symbol: MIME_TRACE(0.00)
- Symbol: ASN(0.00)
- Symbol: FROM_NEQ_ENVFROM(0.00)
- Symbol: BAYES_HAM(-3.00)
- Symbol: RCVD_COUNT_TWO(0.00)
- Message-ID: 20230207095023.1115763-2-mikko.rapeli@linaro.org
-X-SA-Exim-Connect-IP: 2001:67c:1be8::11
-X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM223.r01.fujitsu.local (10.182.185.121)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Feb 2023 09:50:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176808
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Feb 2023 10:20:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176810
 
-From: "Schmidt, Adriaan" <adriaan.schmidt@siemens.com>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-compare_sigfiles() recursively calculates differences on all dependent
-tasks with changed hashes. This is done in arbitrary/alphabetical order, and
-only the last of those results is returned, while everything else is discarded.
+The msmtpq script was updated.
 
-This changes the behavior to instead return the first difference and not calculate
-any more, which significantly speeds up diffs of tasks with many dependencies.
-
-(Bitbake rev: ea6a676c9aa2864c2eff40eea41ba09ce903a651)
-
-Signed-off-by: Adriaan Schmidt <adriaan.schmidt@siemens.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- bitbake/lib/bb/siggen.py | 1 +
- 1 file changed, 1 insertion(+)
+ .../recipes-extended/msmtp/{msmtp_1.8.22.bb => msmtp_1.8.23.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/msmtp/{msmtp_1.8.22.bb => msmtp_1.8.23.bb} (91%)
 
-diff --git a/bitbake/lib/bb/siggen.py b/bitbake/lib/bb/siggen.py
-index 9a20fc8e5f..fa2915d164 100644
---- a/bitbake/lib/bb/siggen.py
-+++ b/bitbake/lib/bb/siggen.py
-@@ -1028,6 +1028,7 @@ def compare_sigfiles(a, b, recursecb=None, color=False, collapsed=False):
-                             # If a dependent hash changed, might as well print the line above and then defer to the changes in
-                             # that hash since in all likelyhood, they're the same changes this task also saw.
-                             output = [output[-1]] + recout
-+                            break
+diff --git a/meta/recipes-extended/msmtp/msmtp_1.8.22.bb b/meta/recipes-extended/msmtp/msmtp_1.8.23.bb
+similarity index 91%
+rename from meta/recipes-extended/msmtp/msmtp_1.8.22.bb
+rename to meta/recipes-extended/msmtp/msmtp_1.8.23.bb
+index d56af7346b..5e68a7ea92 100644
+--- a/meta/recipes-extended/msmtp/msmtp_1.8.22.bb
++++ b/meta/recipes-extended/msmtp/msmtp_1.8.23.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ UPSTREAM_CHECK_URI = "https://marlam.de/msmtp/download/"
  
-     a_taint = a_data.get('taint', None)
-     b_taint = b_data.get('taint', None)
+ SRC_URI = "https://marlam.de/${BPN}/releases/${BP}.tar.xz"
+-SRC_URI[sha256sum] = "1b04206286a5b82622335e4eb09e17074368b7288e53d134543cbbc6b79ea3e7"
++SRC_URI[sha256sum] = "cf04c16b099b3d414db4b5b93fc5ed9d46aad564c81a352aa107a33964c356b8"
+ 
+ inherit gettext autotools update-alternatives pkgconfig
+ 
 -- 
 2.34.1
 
