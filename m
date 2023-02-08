@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE222C678D5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB738C6FA99
 	for <webhook@archiver.kernel.org>; Wed,  8 Feb 2023 07:22:04 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web11.3146.1675840918269060947
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web11.3143.1675840916113229552
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Feb 2023 23:21:58 -0800
+ Tue, 07 Feb 2023 23:21:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=SVb9TMck;
- spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f52.google.com with SMTP id l37-20020a05600c1d2500b003dfe46a9801so761669wms.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Feb 2023 23:21:58 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Ou9F7OpS;
+ spf=pass (domain: gmail.com, ip: 209.85.221.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f53.google.com with SMTP id j25so12240262wrc.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Feb 2023 23:21:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ixmlpad5fN8kTBRohrYEszB74Skbr80pk53IYaukIYM=;
-        b=SVb9TMck69IOYMM+Qfr/lwNBTN1xH6kHSQLnC3DArGWy2cqOD7KLTJgaTeF6N7EiTZ
-         o7mjgE+omplj9/k+MvPVPPi3I7dkH3ogCybudHQx7SmoLhUF8YyqxE17aY2Aw86RPR/K
-         5Ow3qj+JjtusC+SsnZT9g/VI/t5Lpwk+I39bMayOi0DRglwVHAdzPhKGNCzfwQijV2Uj
-         Lzdz5g8hay8eIjFR8JOfg9d7TRgrILb0BCIa3nGDEYLwKhDMpFX85TZvWnADQfMa4UY0
-         P6mf5eVPpKKPvn4pz1PF3+PeEzv1ZCyCyoopuJhz9sm0Hv7eR888ajJx+Z30kvZk1mfK
-         xZxw==
+        bh=vK60FKvlPrM3CbmYYQ52pkVlXTuHuTHmvAOqQRMevUY=;
+        b=Ou9F7OpSRHCtzg+e3dbsRGWvJ1F/uFCRBeOW21ZoiMfSvDGPd7AGiaoVghbbLFNlGU
+         nbiiW/vjdbNbEmFh81dv7h4f+nbwLPmLoutdNoLQGsO+hQuaSA9z2QGr1p0TVCkdsjOa
+         NNoGxtden8WTq4x2tSxklFYwdzKk5DphLoMzqaHzIJCpu0alMtV88CQt75Yq7dwM4nHc
+         9nmbM/0QZF5cpeIc/T8P+qu0qa9DfCsws4fLmngWmC4eHJ4eipcdjbj6qGwSrtqoUfiQ
+         iznLrmCdR5UjTrF/dsI8cApvPEj0tPIoauuh2XYPhldG2iTPH+UOlhIXAllGLiySFkSL
+         M/fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ixmlpad5fN8kTBRohrYEszB74Skbr80pk53IYaukIYM=;
-        b=SSnpZ/Lj14iBGKW8vBGfSZLne9sRtJpIiC0LrUYILgsZ2pq6eM2sBi+uRxJwi/U+6j
-         Nsw/g59lPPGSZrnD9sWVMgEox3ciioU+qmzKuS7YA0YDMk0vCup+LlAeIAeiBRzbdUui
-         2FB8D5HZARs5qwUnAHwYP/9AdXjRP9MOBUKY4cCGJKcuZZxnw20vQtD3XVoSYr+PBvcq
-         jWblINxiITkGBDIV2K/dikd2mZo5nosJQDW4fPVLNDtTPwVnsvpGKp+psInQn6JIt/kQ
-         vlykMlVmSldksEX/ypkoLbLrNRkB0QD5Yrt4DRux79L3wcTCKQlouNND1+drVZKy4/Vc
-         dNpw==
-X-Gm-Message-State: AO0yUKVTW/+iJLzzQnRSm2t8Uedn3FS6pT2yu7Vfs6xACVfrfj90s893
-	+QANzyzon5O0gvsfi/NeB+0+OvBv1KE=
-X-Google-Smtp-Source: AK7set9WF7BXOBv3X1LMJIQNxJHhUWQR2zL5iGtGbBXG0t0AFygwca8K38pNpOVbvvD7UICzAJHikQ==
-X-Received: by 2002:a05:600c:44d3:b0:3e0:481:c896 with SMTP id f19-20020a05600c44d300b003e00481c896mr5472508wmo.35.1675840916807;
-        Tue, 07 Feb 2023 23:21:56 -0800 (PST)
+        bh=vK60FKvlPrM3CbmYYQ52pkVlXTuHuTHmvAOqQRMevUY=;
+        b=FpiirPt9+fRnH+4swgWsKUtsgE6+acHcAGW2q3d6UrZ5vCM0Ot3ZZKyYz68DdeXF+l
+         Ytct0fzwVyt+9otbsAzM2Pj+ur+TN/VJBuXyhIjaX9BsaBs6YAShcZuA2zzGksLifcJq
+         O6rW/YhEm5ukWr2QC+TCnaz9S+vS5pCUeHpZkIseAzhGkZqEhdDT9iug+4NxmE1oTkiR
+         FvbZvH3l+3ymVYHkIew1lr61FmGnRVIcJAdgWyjvNeM802tXY0UjIGKp5u8+jAlOF3px
+         gyiGu0a08B+Xw2dDpCc97VTiQDM1ngqq6pUeChlPr0NLX09BVfCsLPswKwmQJ6SgNhvD
+         aUBw==
+X-Gm-Message-State: AO0yUKXrRbJ449wFHXihVx/BuW47Wyavk3DqVR2yRUd3RdgE2M/6LDBJ
+	KQpCzjZtHBOXFmd6ya/+LvL12w8/x+o=
+X-Google-Smtp-Source: AK7set9OgRCvouG90pa1lxxKRI5t/tLKdMnaVUyurJFCuAwELsntR6u9sz/NCnVTROOklKNZZpQrpw==
+X-Received: by 2002:adf:fcc1:0:b0:2c3:f78f:518f with SMTP id f1-20020adffcc1000000b002c3f78f518fmr4630267wrs.39.1675840914466;
+        Tue, 07 Feb 2023 23:21:54 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id l16-20020a05600c2cd000b003daffc2ecdesm1087926wmc.13.2023.02.07.23.21.56
+        by smtp.gmail.com with ESMTPSA id l16-20020a05600c2cd000b003daffc2ecdesm1087926wmc.13.2023.02.07.23.21.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Feb 2023 23:21:56 -0800 (PST)
+        Tue, 07 Feb 2023 23:21:54 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 16/52] igt-gpu-tools: upgrade 1.26 -> 1.27.1
-Date: Wed,  8 Feb 2023 08:21:07 +0100
-Message-Id: <20230208072143.2930292-16-alex@linutronix.de>
+Subject: [PATCH 12/52] cmake: upgrade 3.25.1 -> 3.25.2
+Date: Wed,  8 Feb 2023 08:21:03 +0100
+Message-Id: <20230208072143.2930292-12-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230208072143.2930292-1-alex@linutronix.de>
 References: <20230208072143.2930292-1-alex@linutronix.de>
@@ -62,73 +62,49 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 08 Feb 2023 07:22:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176856
-
-/usr/bin/code_cov_parse_info is written in perl, so that's a new RDEPENDS.
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176852
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...n.build-fix-meson-0.60-compatibility.patch | 24 -------------------
- .../igt-gpu-tools/igt-gpu-tools_git.bb        | 10 ++++----
- 2 files changed, 4 insertions(+), 30 deletions(-)
- delete mode 100644 meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-meson.build-fix-meson-0.60-compatibility.patch
+ .../cmake/{cmake-native_3.25.1.bb => cmake-native_3.25.2.bb}    | 0
+ meta/recipes-devtools/cmake/cmake.inc                           | 2 +-
+ ...1-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch | 2 +-
+ .../recipes-devtools/cmake/{cmake_3.25.1.bb => cmake_3.25.2.bb} | 0
+ 4 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/cmake/{cmake-native_3.25.1.bb => cmake-native_3.25.2.bb} (100%)
+ rename meta/recipes-devtools/cmake/{cmake_3.25.1.bb => cmake_3.25.2.bb} (100%)
 
-diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-meson.build-fix-meson-0.60-compatibility.patch b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-meson.build-fix-meson-0.60-compatibility.patch
-deleted file mode 100644
-index e7c782055b..0000000000
---- a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-meson.build-fix-meson-0.60-compatibility.patch
-+++ /dev/null
-@@ -1,24 +0,0 @@
--From b9a19aa4bdb21751c04c0e3ba8a9e2e35a10c953 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex@linutronix.de>
--Date: Mon, 25 Oct 2021 18:18:15 +0200
--Subject: [PATCH] lib/meson.build: fix meson 0.60 compatibility
--
--Upstream-Status: Backport [https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/commit/963917a3565466832a3b2fc22e9285d34a0bf944]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- lib/meson.build | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/lib/meson.build b/lib/meson.build
--index 9929520e..1a525587 100644
----- a/lib/meson.build
--+++ b/lib/meson.build
--@@ -152,7 +152,7 @@ lib_version = vcs_tag(input : 'version.h.in', output : 'version.h',
-- 
-- lib_intermediates = []
-- foreach f: lib_sources
---    name = f.underscorify(f)
--+    name = f.underscorify()
--     lib = static_library('igt-' + name,
-- 	[ f, lib_version ],
-- 	include_directories: inc,
-diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
-index bb2f9564d2..fbe5e1a4e7 100644
---- a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
-+++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
-@@ -9,17 +9,15 @@ LICENSE = "MIT"
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.25.1.bb b/meta/recipes-devtools/cmake/cmake-native_3.25.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake-native_3.25.1.bb
+rename to meta/recipes-devtools/cmake/cmake-native_3.25.2.bb
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index 7da9a2fb55..b7e674c4c4 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -19,7 +19,7 @@ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+ "
  
- inherit meson pkgconfig
+-SRC_URI[sha256sum] = "1c511d09516af493694ed9baf13c55947a36389674d657a2d5e0ccedc6b291d8"
++SRC_URI[sha256sum] = "c026f22cb931dd532f648f087d587f07a1843c6e66a3dfca4fb0ea21944ed33c"
  
--SRCREV = "203def046b466fb2da67f9f15552d84e1c0b41f2"
--PV = "1.26"
-+SRCREV = "2b29e8ac07fbcfadc48b9d60e4d736a6e3b289ab"
-+PV = "1.27.1"
+ UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
  
--SRC_URI = "git://gitlab.freedesktop.org/drm/igt-gpu-tools.git;protocol=https;branch=master \
--           file://0001-lib-meson.build-fix-meson-0.60-compatibility.patch \
--           "
-+SRC_URI = "git://gitlab.freedesktop.org/drm/igt-gpu-tools.git;protocol=https;branch=master"
- 
- S = "${WORKDIR}/git"
- 
- DEPENDS += "libdrm libpciaccess cairo udev glib-2.0 procps libunwind kmod openssl elfutils alsa-lib json-c bison-native"
--RDEPENDS:${PN} += "bash"
-+RDEPENDS:${PN} += "bash perl"
- RDEPENDS:${PN}-tests += "bash"
- 
- PACKAGE_BEFORE_PN = "${PN}-benchmarks ${PN}-tests"
+diff --git a/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch b/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch
+index 451b6ebfad..d13c367e78 100644
+--- a/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch
++++ b/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch
+@@ -1,4 +1,4 @@
+-From 8e53dd7f6f534ad933e7e9c7fc20cc1a6cded3f4 Mon Sep 17 00:00:00 2001
++From 5acfcb2aba1a5641d390558fdf288373f5e39cb5 Mon Sep 17 00:00:00 2001
+ From: Cody P Schafer <dev@codyps.com>
+ Date: Thu, 27 Apr 2017 11:35:05 -0400
+ Subject: [PATCH] CMakeDetermineSystem: use oe environment vars to load default
+diff --git a/meta/recipes-devtools/cmake/cmake_3.25.1.bb b/meta/recipes-devtools/cmake/cmake_3.25.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake_3.25.1.bb
+rename to meta/recipes-devtools/cmake/cmake_3.25.2.bb
 -- 
 2.30.2
 
