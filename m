@@ -2,46 +2,46 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D3A7C64EC6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E9BDC64ED8
 	for <webhook@archiver.kernel.org>; Wed,  8 Feb 2023 07:21:54 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web11.3137.1675840910086201632
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web10.3126.1675840910613950144
  for <openembedded-core@lists.openembedded.org>;
  Tue, 07 Feb 2023 23:21:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pK1kEwr3;
- spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f44.google.com with SMTP id n28-20020a05600c3b9c00b003ddca7a2bcbso741361wms.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Feb 2023 23:21:49 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=l4hr5jVJ;
+ spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f53.google.com with SMTP id j29-20020a05600c1c1d00b003dc52fed235so743814wms.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Feb 2023 23:21:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EqRIgaUUksQUbq8QU5rr+giC30E5CjucfP5c8j1QcGI=;
-        b=pK1kEwr3vi5f3/AahUDWWkRsjhl8llj/33ytKkIMBmJ/QNGz3G4bSIod1myLF1XA+m
-         6fvqqKvgPnSmKvvjzH7uEdL9pfR6tFhGo9lC1hlPpPGnRbHQSqsG5QBCTcVXJXbuHN3k
-         JqnJB4OykdMaO7eJnGLno3R3rwLRxJFr04ndC+dgcp7tnkT9/Icztc4TI+1zNbvZiDZO
-         LR3iA3gBblHxfpbMYgcJ9OYJrXMoltEovNMc7Vi3OavPDAyrggmX2AS/SzP11eYDLKEM
-         rfnrCwPD6zOS6ZhpFPBaUSNKzGLSRuj993DBcQ7bl661kkIp/Y6dcv9Ne7K1/0EOaiHr
-         lvEw==
+        bh=1ETVemfKbmlNWnd3nzEzlgyTvWOoIdbhzTrIYQRDFDs=;
+        b=l4hr5jVJs0d4k/ImCmWAk93bjJYau3nXpWzpN482XpZ978JyvGiLRzg58acZjvrRGV
+         5gKxBh0bVYBbtAbPhFcMVVGmNz6eCjQ5f/aDPHuhVsVb3HVQ1JjrXhX2Ul4aBkoTpm8L
+         7e3k0og+dktVv4LLAR/uf4RO+s0YAfLomB/HrNHzl0qNTlho5P7E7TBnBZXPWxr/qL/K
+         67v7H73RzZAlp6w8dEWuYPXrPgBnd2fSZMy65TXNHC9KLdWte8ANcL6VLizs4a841q2O
+         elQAce7Hr2X8VP2XpPjvugKKuAjaBCv/tyI0+q15O9OtEZRUq4GRI95DhQkRdU7havOu
+         hWOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EqRIgaUUksQUbq8QU5rr+giC30E5CjucfP5c8j1QcGI=;
-        b=pkABvl5lGKNyVLa/HtfoSOXjS2+AsavjYmEQjABWWrWmEFeZNhDdfnVaXgUoq9pYpv
-         6KTS6cYASnHwWKUcpWZC9nn9c00lPGEMVgkmyMKcHdh4oTTCbWt1WQoIx4g1MdR9fFiH
-         e6u4SvmDOAamEevWdLnzoQfHcFBgAnKdq2v3E1hiRIbvvrOLzDiHM+b3TkhpWo2+cgMi
-         hkqTcHSsNZX3C10zh9NBpsWvRt5kP/gS1N2T2eG3vs5BNb5U7NzqpOKCBxczCJnuqztU
-         LlPmZG0RwlUZlYXzZeLvwjznaVKm6bEbSSl3uAEUAqCWozaz+x1Aqmp/fRK0EQO5BBgL
-         2wNQ==
-X-Gm-Message-State: AO0yUKWnU0DYieKpJFBZpYO8WhN+BlLckXfZrY7uPQxHrnUl4JvJsSdF
-	k/FK6UF7F8RIiqtbbFh5bYPAEegDYJ4=
-X-Google-Smtp-Source: AK7set/8Yhsfb4cR8fjjl+Sne7w+IL2/lX6z+9Gx3/1V8oMhJdKdW03JaIT+7pccWGn67VHHghS+dw==
-X-Received: by 2002:a05:600c:3416:b0:3df:85d2:c768 with SMTP id y22-20020a05600c341600b003df85d2c768mr5476344wmp.26.1675840908573;
-        Tue, 07 Feb 2023 23:21:48 -0800 (PST)
+        bh=1ETVemfKbmlNWnd3nzEzlgyTvWOoIdbhzTrIYQRDFDs=;
+        b=TieoXp8a0B9ZtEId4MK4SnRdeevbcPk9zvxQ5haVzrg/LA5pbbIqadzNHNz0/th9X3
+         ntoS0U1T62CWbq0mZW4VRIV7gF0wbnu1xcunxfuzo2jC2ZONQCRvf6WFvjlmp2CjQGp3
+         Ye0xgrbSL6+oRG7UpxlYs+1CWJPxa3/OKNUt2sA8cS1C0PG2Dt88HWgAzEeNo7Dv2Km1
+         gN6xYk0ex0Vz/T7JvX4AEBFkyZk+I+y3ueFmoRkAAEIbSupPJ4N+3WJXzMwWxd4v8Nh2
+         ToHlpB4pVfGqqT/PS8pt2s7QhcNGeuhcHc70jqfydQjGHIeCgVVazewqqRnog5AFb6NQ
+         iR7g==
+X-Gm-Message-State: AO0yUKWnS51V2K2HNb632PD+kBVA7zjZnqOaoz3HcvloYFf0kgJimD3G
+	r6nZV33nfEWIKATNtv1yQT5ucJ0e24k=
+X-Google-Smtp-Source: AK7set8AkuTn2xYdBjjAj+VWiSfGEA1MwBSR8foHMA5ct0e+hhkgMJFXoPVnNlMfdGb7UUj1IGN3JA==
+X-Received: by 2002:a05:600c:3197:b0:3df:f7f3:d007 with SMTP id s23-20020a05600c319700b003dff7f3d007mr5664696wmp.17.1675840909130;
+        Tue, 07 Feb 2023 23:21:49 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id l16-20020a05600c2cd000b003daffc2ecdesm1087926wmc.13.2023.02.07.23.21.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
@@ -50,9 +50,9 @@ From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 02/52] python3-pip: update 22.3.1 -> 23.0
-Date: Wed,  8 Feb 2023 08:20:53 +0100
-Message-Id: <20230208072143.2930292-2-alex@linutronix.de>
+Subject: [PATCH 03/52] diffutils: update 3.8 -> 3.9
+Date: Wed,  8 Feb 2023 08:20:54 +0100
+Message-Id: <20230208072143.2930292-3-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230208072143.2930292-1-alex@linutronix.de>
 References: <20230208072143.2930292-1-alex@linutronix.de>
@@ -62,46 +62,118 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 08 Feb 2023 07:21:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176842
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176843
 
-License-Update: formatting, pep517 replaced by pyproject_hooks with same license.
+Drop patch as issue fixed upstream.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../python/{python3-pip_22.3.1.bb => python3-pip_23.0.bb}   | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python3-pip_22.3.1.bb => python3-pip_23.0.bb} (91%)
+ ...001-Skip-strip-trailing-cr-test-case.patch | 11 +++----
+ ...a-standard-layout-so-glibc-and-musl-.patch | 33 -------------------
+ .../{diffutils_3.8.bb => diffutils_3.9.bb}    |  3 +-
+ 3 files changed, 6 insertions(+), 41 deletions(-)
+ delete mode 100644 meta/recipes-extended/diffutils/diffutils/0001-mcontext-is-not-a-standard-layout-so-glibc-and-musl-.patch
+ rename meta/recipes-extended/diffutils/{diffutils_3.8.bb => diffutils_3.9.bb} (88%)
 
-diff --git a/meta/recipes-devtools/python/python3-pip_22.3.1.bb b/meta/recipes-devtools/python/python3-pip_23.0.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-pip_22.3.1.bb
-rename to meta/recipes-devtools/python/python3-pip_23.0.bb
-index cb9f68679f..8b956932c3 100644
---- a/meta/recipes-devtools/python/python3-pip_22.3.1.bb
-+++ b/meta/recipes-devtools/python/python3-pip_23.0.bb
-@@ -13,11 +13,11 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=63ec52baf95163b597008bb46db68030 \
-                     file://src/pip/_vendor/msgpack/COPYING;md5=cd9523181d9d4fbf7ffca52eaa2a5751 \
-                     file://src/pip/_vendor/packaging/LICENSE;md5=faadaedca9251a90b205c9167578ce91 \
-                     file://src/pip/_vendor/packaging/LICENSE.APACHE;md5=2ee41112a44fe7014dce33e26468ba93 \
--                    file://src/pip/_vendor/pep517/LICENSE;md5=aad69c93f605003e3342b174d9b0708c \
-                     file://src/pip/_vendor/pkg_resources/LICENSE;md5=9a33897f1bca1160d7aad3835152e158 \
--                    file://src/pip/_vendor/platformdirs/LICENSE.txt;md5=282c970bb844954c8535dd6e9733db7f \
-+                    file://src/pip/_vendor/platformdirs/LICENSE;md5=ea4f5a41454746a9ed111e3d8723d17a \
-                     file://src/pip/_vendor/pygments/LICENSE;md5=36a13c90514e2899f1eba7f41c3ee592 \
-                     file://src/pip/_vendor/pyparsing/LICENSE;md5=657a566233888513e1f07ba13e2f47f1 \
-+                    file://src/pip/_vendor/pyproject_hooks/LICENSE;md5=aad69c93f605003e3342b174d9b0708c \
-                     file://src/pip/_vendor/requests/LICENSE;md5=34400b68072d710fecd0a2940a0d1658 \
-                     file://src/pip/_vendor/resolvelib/LICENSE;md5=78e1c0248051c32a38a7f820c30bd7a5 \
-                     file://src/pip/_vendor/rich/LICENSE;md5=b5f0b94fbc94f5ad9ae4efcf8a778303 \
-@@ -33,7 +33,7 @@ inherit pypi python_setuptools_build_meta
+diff --git a/meta/recipes-extended/diffutils/diffutils/0001-Skip-strip-trailing-cr-test-case.patch b/meta/recipes-extended/diffutils/diffutils/0001-Skip-strip-trailing-cr-test-case.patch
+index aac1c43465..8b88c308f2 100644
+--- a/meta/recipes-extended/diffutils/diffutils/0001-Skip-strip-trailing-cr-test-case.patch
++++ b/meta/recipes-extended/diffutils/diffutils/0001-Skip-strip-trailing-cr-test-case.patch
+@@ -1,4 +1,4 @@
+-From bd7fb8be2ae2d75347cf7733302d5093046ffa85 Mon Sep 17 00:00:00 2001
++From 027229d25392b22d7280c0abbc3efde4f467d167 Mon Sep 17 00:00:00 2001
+ From: Peiran Hong <peiran.hong@windriver.com>
+ Date: Thu, 5 Sep 2019 15:42:22 -0400
+ Subject: [PATCH] Skip strip-trailing-cr test case
+@@ -10,19 +10,21 @@ package.
+ Upstream-Status: Inappropriate [embedded specific]
  
- SRC_URI += "file://no_shebang_mangling.patch"
+ Signed-off-by: Peiran Hong <peiran.hong@windriver.com>
++
+ ---
+  tests/Makefile.am | 4 +++-
+  1 file changed, 3 insertions(+), 1 deletion(-)
  
--SRC_URI[sha256sum] = "65fd48317359f3af8e593943e6ae1506b66325085ea64b706a998c6e83eeaf38"
-+SRC_URI[sha256sum] = "aee438284e82c8def684b0bcc50b1f6ed5e941af97fa940e83e2e8ef1a59da9b"
+ diff --git a/tests/Makefile.am b/tests/Makefile.am
+-index 83a7c9d..04d51b5 100644
++index d98df82..757ea52 100644
+ --- a/tests/Makefile.am
+ +++ b/tests/Makefile.am
+-@@ -21,8 +21,10 @@ TESTS = \
++@@ -21,9 +21,11 @@ TESTS = \
+    stdin \
+    strcoll-0-names \
+    filename-quoting \
+ -  strip-trailing-cr \
++   timezone \
+    colors
+ +# Skipping this test since it requires valgrind
+ +# and thus is too heavy for diffutils package
+@@ -30,6 +32,3 @@ index 83a7c9d..04d51b5 100644
+  
+  XFAIL_TESTS = large-subopt
+  
+--- 
+-2.21.0
+-
+diff --git a/meta/recipes-extended/diffutils/diffutils/0001-mcontext-is-not-a-standard-layout-so-glibc-and-musl-.patch b/meta/recipes-extended/diffutils/diffutils/0001-mcontext-is-not-a-standard-layout-so-glibc-and-musl-.patch
+deleted file mode 100644
+index 4928e1eaff..0000000000
+--- a/meta/recipes-extended/diffutils/diffutils/0001-mcontext-is-not-a-standard-layout-so-glibc-and-musl-.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From f385ad6639380eb6dfa8b8eb4a5ba65dd12db744 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Fri, 25 Mar 2022 13:43:19 -0700
+-Subject: [PATCH] mcontext is not a standard layout so glibc and musl differ
+-
+-This is already applied to libsigsegv upstream, hopefully next version
+-of grep will update its internal copy and we can drop this patch
+-
+-Upstream-Status: Backport [https://git.savannah.gnu.org/gitweb/?p=libsigsegv.git;a=commitdiff;h=a6ff69873110c0a8ba6f7fd90532dbc11224828c]
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- lib/sigsegv.c | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/lib/sigsegv.c b/lib/sigsegv.c
+-index 998c827..b6f4841 100644
+---- a/lib/sigsegv.c
+-+++ b/lib/sigsegv.c
+-@@ -219,8 +219,8 @@ int libsigsegv_version = LIBSIGSEGV_VERSION;
+- #   define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_mcontext.gp_regs[1]
+- #  else /* 32-bit */
+- /* both should be equivalent */
+--#   if 0
+--#    define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_mcontext.regs->gpr[1]
+-+#   if ! defined __GLIBC__
+-+#    define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_regs->gregs[1]
+- #   else
+- #    define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_mcontext.uc_regs->gregs[1]
+- #   endif
+--- 
+-2.35.1
+-
+diff --git a/meta/recipes-extended/diffutils/diffutils_3.8.bb b/meta/recipes-extended/diffutils/diffutils_3.9.bb
+similarity index 88%
+rename from meta/recipes-extended/diffutils/diffutils_3.8.bb
+rename to meta/recipes-extended/diffutils/diffutils_3.9.bb
+index 8889c83ee2..2bb9e6f32d 100644
+--- a/meta/recipes-extended/diffutils/diffutils_3.8.bb
++++ b/meta/recipes-extended/diffutils/diffutils_3.9.bb
+@@ -6,10 +6,9 @@ require diffutils.inc
+ SRC_URI = "${GNU_MIRROR}/diffutils/diffutils-${PV}.tar.xz \
+            file://run-ptest \
+            file://0001-Skip-strip-trailing-cr-test-case.patch \
+-           file://0001-mcontext-is-not-a-standard-layout-so-glibc-and-musl-.patch \
+            "
  
- do_install:append() {
-     rm -f ${D}/${bindir}/pip
+-SRC_URI[sha256sum] = "a6bdd7d1b31266d11c4f4de6c1b748d4607ab0231af5188fc2533d0ae2438fec"
++SRC_URI[sha256sum] = "d80d3be90a201868de83d78dad3413ad88160cc53bcc36eb9eaf7c20dbf023f1"
+ 
+ EXTRA_OECONF += "ac_cv_path_PR_PROGRAM=${bindir}/pr --without-libsigsegv-prefix"
+ 
 -- 
 2.30.2
 
