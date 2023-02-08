@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E2CEC636CC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 663C0C64EC5
 	for <webhook@archiver.kernel.org>; Wed,  8 Feb 2023 07:22:04 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web11.3141.1675840914807526308
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web11.3151.1675840922932410177
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Feb 2023 23:21:55 -0800
+ Tue, 07 Feb 2023 23:22:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Rk8SJ0RC;
- spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f43.google.com with SMTP id az4-20020a05600c600400b003dff767a1f1so741344wmb.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Feb 2023 23:21:54 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=VnWSRZNM;
+ spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f54.google.com with SMTP id q8so12648980wmo.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Feb 2023 23:22:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CekaX5y3MHJFPsi8m9gQWlesnThNqRsmnWDUKXwhGFM=;
-        b=Rk8SJ0RCePUpKILVEEaui9EJiXCXcB0J/Om7V2mwIbK205KK1Bqih1UA/45Hefk6AK
-         u+KVQXYjnsGbjShexBqKXOwhiaTvyPIOuyOccAxUke6RiK2cxmwH/mV/Pnhh+ffP7YuZ
-         8RUxz/MKbGI8iVBuq9LQ+L/zUUjz//QLnTl4lckZn2sOGXOrFm+T4ggUsQh94y+cHmh+
-         gETOznHU1KEGm0mSahugzLH20JJ5LqHVWCCNNH/GR1nzSTQkh9/1CO/oKrLDPDcvcJSA
-         wJIxkPksgKL0MvKycKXTYRuoBNvFwU8U5XCxi36sfYc0syxG4WmVfePwUkoMPnEeZeTY
-         q3xQ==
+        bh=uYxyM6d/l4hfli8ZnYozxMCL9zsJYLDtRH1zyKmveiA=;
+        b=VnWSRZNMMe5Zh1oP0vXlwKX5YVNYz+HgWH/mclVb0ymChQN9TKazNLRQjdgJs7twUd
+         WyN21alVU/NcPrRXXbj4OGoFS7p7BCGelKE5emAk0z8O5CYoDeT9/ph1ySsWSPcYFVl8
+         p6j8MB4NH/EfFlHosBpG4iya+g2sdz54ZAAXvFw6uRz7WoBg/Vsz2225OFcdrZwTLC+Z
+         7sB3z3icNdUtvZC6DBI0qEQdQarGs6RvI4NW/RYSzK4HOE3CBjExrVumVIosXnI4XtQO
+         3ct2/WeSoYqZj+EZM27v7cJVfwIfioY1tZp7M56Nhft1WKoT9re0Tk2IBWrC6AZzX4TP
+         Mtng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CekaX5y3MHJFPsi8m9gQWlesnThNqRsmnWDUKXwhGFM=;
-        b=4os8L30KjtecMjuxhSb5dPH583X7CWM1xBQz5KvNhjaSRQqWcXg4WccvMutjpJmfNX
-         i4y0MVJm4J72clXoZ/HsVfWTNcUYdPCtT+eFXpuXKxLb0hjw4wt2jGjd6fpOP8WNl1Fj
-         9gchmP3LutbioCripGU12mnM7BfwG1UYBHEw4WC59MpiX/eKNMJRnrJM8aC7Knpt8LIG
-         /jTgqSNpODlbyj6SwDKsJX5Z+c52mehuM63HtRBRpYG1iJ2s/8CJc7r1h2ViH+PVlzjz
-         32aWQZhMvxIraiJADoNY1Pymu1E6E9SW6ub+cs9nUaVvJCMfab499rvAeXAsiHPwbIIr
-         VLIA==
-X-Gm-Message-State: AO0yUKWw7/rs+/N/cUUZ2M0vKrzGCxZW1v2VTDiFVohWwT1UiZ8Uiskd
-	cetAI0zGVZQcglGGoFWLFgTs3/xQvs0=
-X-Google-Smtp-Source: AK7set/Ah9mcFSH/Z4rtWqrdkbGyqAsgwr6oQ3PZWBAbDxBFJfNKlAj13qQIllsBcKlwllAQIEt1Xw==
-X-Received: by 2002:a05:600c:1684:b0:3dc:52fc:7f06 with SMTP id k4-20020a05600c168400b003dc52fc7f06mr5445401wmn.41.1675840913268;
-        Tue, 07 Feb 2023 23:21:53 -0800 (PST)
+        bh=uYxyM6d/l4hfli8ZnYozxMCL9zsJYLDtRH1zyKmveiA=;
+        b=31M1GrAl8SMfF0mnQ1wh3ysKNlazddWFInuuNLR872BXe8pYYXA4VCu95wB+YOlOl3
+         4Ce2Oh419Klkd5KjEowUKAqHb+G72Z9wMJMiooC+Wb5rykCG0MeGOzvNOTKvJYOE00Mb
+         zvdx8hDt6T+UeCt00sA4S7Ka5EyeMYSS6tohzRFxmZMhOSzRKVQvstvqEvCTpDHiKOnb
+         K7NLZy2Ldp7nLZXveqvm5uQKON0m0HMuWdku9cOX58eiqpmmwV/YbsxbGqkxrsw+MrdG
+         LNj+Bq9n5vn+xiv4ZYfVYC8UtL0NKCwjfK6z4Y8uJqXXbWAA0diED+4SG7G8hyPoyjUL
+         9KWg==
+X-Gm-Message-State: AO0yUKULby517jYKNIpv/XNYyGQW9vmaaPa3uPrMue8fyeze78zxrLEi
+	1ssWLXMMRMSKNsLeTG4lpjCGC6CUJ/M=
+X-Google-Smtp-Source: AK7set+a30tkqE2MkkQIn1f/LnnU36N7av5ZxZtMG1C5Kt1bv9Ig5qYlgJRoCqW3ODEbSdvzrr8Jag==
+X-Received: by 2002:a05:600c:2e89:b0:3e1:bfc:d16e with SMTP id p9-20020a05600c2e8900b003e10bfcd16emr1259076wmn.39.1675840921457;
+        Tue, 07 Feb 2023 23:22:01 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id l16-20020a05600c2cd000b003daffc2ecdesm1087926wmc.13.2023.02.07.23.21.52
+        by smtp.gmail.com with ESMTPSA id l16-20020a05600c2cd000b003daffc2ecdesm1087926wmc.13.2023.02.07.23.22.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Feb 2023 23:21:52 -0800 (PST)
+        Tue, 07 Feb 2023 23:22:01 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 10/52] glib-2.0: upgrade 2.74.4 -> 2.74.5
-Date: Wed,  8 Feb 2023 08:21:01 +0100
-Message-Id: <20230208072143.2930292-10-alex@linutronix.de>
+Subject: [PATCH 24/52] rng-tools: upgrade 6.15 -> 6.16
+Date: Wed,  8 Feb 2023 08:21:15 +0100
+Message-Id: <20230208072143.2930292-24-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230208072143.2930292-1-alex@linutronix.de>
 References: <20230208072143.2930292-1-alex@linutronix.de>
@@ -62,84 +62,50 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 08 Feb 2023 07:22:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176850
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176864
+
+Adjust dependencies to match what is optional and what is not.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../glib-2.0/glib-2.0/fix-errno.patch         | 31 -------------------
- .../glib-2.0/glib-2.0/relocate-modules.patch  |  2 +-
- ...{glib-2.0_2.74.4.bb => glib-2.0_2.74.5.bb} |  3 +-
- 3 files changed, 2 insertions(+), 34 deletions(-)
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/fix-errno.patch
- rename meta/recipes-core/glib-2.0/{glib-2.0_2.74.4.bb => glib-2.0_2.74.5.bb} (95%)
+ .../rng-tools/{rng-tools_6.15.bb => rng-tools_6.16.bb}     | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/rng-tools/{rng-tools_6.15.bb => rng-tools_6.16.bb} (92%)
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/fix-errno.patch b/meta/recipes-core/glib-2.0/glib-2.0/fix-errno.patch
-deleted file mode 100644
-index 144fe8bbd8..0000000000
---- a/meta/recipes-core/glib-2.0/glib-2.0/fix-errno.patch
-+++ /dev/null
-@@ -1,31 +0,0 @@
--From 6626765a79f125cf0ec9cdaefa51ceef718d41e7 Mon Sep 17 00:00:00 2001
--From: Michael Catanzaro <mcatanzaro@redhat.com>
--Date: Tue, 20 Dec 2022 17:10:41 -0600
--Subject: [PATCH] gthread-posix: need to #include <errno.h>
--
--a79c6af23eff5ee978db62e048828c9a992a1261 uses errno without the required
--header.
--
--
--(cherry picked from commit 03cb4261e00cf505790f4fd4e69f97b2ef4fcccd)
--
--Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/6626765a79f125cf0ec9cdaefa51ceef718d41e7]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- glib/gthreadprivate.h | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/glib/gthreadprivate.h b/glib/gthreadprivate.h
--index 6eaf422753..f34368a7c2 100644
----- a/glib/gthreadprivate.h
--+++ b/glib/gthreadprivate.h
--@@ -41,6 +41,7 @@ struct  _GRealThread
-- /* system thread implementation (gthread-posix.c, gthread-win32.c) */
-- 
-- #if defined(HAVE_FUTEX) || defined(HAVE_FUTEX_TIME64)
--+#include <errno.h>
-- #include <linux/futex.h>
-- #include <sys/syscall.h>
-- #include <unistd.h>
---- 
--GitLab
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-index 168dc73290..ae6881b61e 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-@@ -1,4 +1,4 @@
--From 2adfd458507c8c832955d6ffb9408d6c574b94f6 Mon Sep 17 00:00:00 2001
-+From a3cdf17643bf33d532ec269913974195e136b7fc Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Fri, 11 Mar 2016 15:35:55 +0000
- Subject: [PATCH] glib-2.0: relocate the GIO module directory for native builds
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.74.5.bb
-similarity index 95%
-rename from meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb
-rename to meta/recipes-core/glib-2.0/glib-2.0_2.74.5.bb
-index e5279e946c..d54f077cb0 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.74.4.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.74.5.bb
-@@ -18,11 +18,10 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://0001-gio-tests-meson.build-do-not-use-can_run_host_binari.patch \
-            file://cpp-null.patch \
-            file://cpp-null2.patch \
--           file://fix-errno.patch \
+diff --git a/meta/recipes-support/rng-tools/rng-tools_6.15.bb b/meta/recipes-support/rng-tools/rng-tools_6.16.bb
+similarity index 92%
+rename from meta/recipes-support/rng-tools/rng-tools_6.15.bb
+rename to meta/recipes-support/rng-tools/rng-tools_6.16.bb
+index efc08b5e0a..02abe486bb 100644
+--- a/meta/recipes-support/rng-tools/rng-tools_6.15.bb
++++ b/meta/recipes-support/rng-tools/rng-tools_6.16.bb
+@@ -6,14 +6,14 @@ HOMEPAGE = "https://github.com/nhorman/rng-tools"
+ BUGTRACKER = "https://github.com/nhorman/rng-tools/issues"
+ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+-DEPENDS = "sysfsutils openssl"
++DEPENDS = "sysfsutils openssl libcap"
+ 
+ SRC_URI = "git://github.com/nhorman/rng-tools.git;branch=master;protocol=https \
+            file://init \
+            file://default \
+            file://rng-tools.service \
             "
- SRC_URI:append:class-native = " file://relocate-modules.patch"
+-SRCREV = "381f69828b782afda574f259c1b7549f48f9bb77"
++SRCREV = "e061c313b95890eb5fa0ada0cd6eec619dafdfe2"
  
--SRC_URI[sha256sum] = "0e82da5ea129b4444227c7e4a9e598f7288d1994bf63f129c44b90cfd2432172"
-+SRC_URI[sha256sum] = "ceba83a5999ceb31a4c4fc9921207cb9ffffd2ab1d6ec03c162d3f608a5c14c8"
+ S = "${WORKDIR}/git"
  
- # Find any meson cross files in FILESPATH that are relevant for the current
- # build (using siteinfo) and add them to EXTRA_OEMESON.
+@@ -27,7 +27,8 @@ PACKAGECONFIG:libc-musl = "libargp libjitterentropy"
+ PACKAGECONFIG[libargp] = "--with-libargp,--without-libargp,argp-standalone,"
+ PACKAGECONFIG[libjitterentropy] = "--enable-jitterentropy,--disable-jitterentropy,libjitterentropy"
+ PACKAGECONFIG[libp11] = "--with-pkcs11,--without-pkcs11,libp11 openssl"
+-PACKAGECONFIG[nistbeacon] = "--with-nistbeacon,--without-nistbeacon,curl libxml2 openssl"
++PACKAGECONFIG[nistbeacon] = "--with-nistbeacon,--without-nistbeacon,curl libxml2"
++PACKAGECONFIG[qrypt] = "--with-qrypt,--without-qrypt,curl"
+ 
+ INITSCRIPT_NAME = "rng-tools"
+ INITSCRIPT_PARAMS = "start 03 2 3 4 5 . stop 30 0 6 1 ."
 -- 
 2.30.2
 
