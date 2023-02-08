@@ -2,91 +2,73 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4535FC64EC6
-	for <webhook@archiver.kernel.org>; Wed,  8 Feb 2023 07:22:25 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web10.3125.1675840909917555521
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F827C636CC
+	for <webhook@archiver.kernel.org>; Wed,  8 Feb 2023 07:38:45 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web11.3371.1675841917261358870
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Feb 2023 23:22:16 -0800
+ Tue, 07 Feb 2023 23:38:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Lq0Ah8Lm;
- spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f52.google.com with SMTP id j32-20020a05600c1c2000b003dc4fd6e61dso717636wms.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Feb 2023 23:22:15 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=QTotT4Mi;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f45.google.com with SMTP id w11so25839773lfu.11
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Feb 2023 23:38:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lbjZ86GzyOw0pWEnYO0D9KGEmLkfZZVbqOgFRaW3SMM=;
-        b=Lq0Ah8Lmv6G2yx7oZ3nb5IRWEJMe4/hiMRmmPPNctj+2XYc66TdmmZ3gxo9eJBAvEF
-         4NOkiyuTonJpr4Aa6UNvXNiVDmbRY9Jp6qfU6dz/s6YZgHKBq5D1Y/dl0FLyAzPdpMl2
-         n/6LP4ZuRrm6mcWUguAaJhRuTi0lc3oP8ksQj+dXav2WYE/37eaz1nOd+LtM+gk0/PcD
-         bhgEqrUzax2xHajicWKGN8xbX1RJXx2S55IfCvaNn9hEZt4jV5Kt0Ell5lCl78Y848Id
-         88n4nRT5JA8TC0LBplt/PiuE7waox1j3TpmtBkuLj4wG8lWquJrxNxIbz4uwZYZxQp7C
-         b+Vg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=jNJRZZtbJvvSiIFhvrveSIYIeOn0Ff12qFtoPZP/S/c=;
+        b=QTotT4MiyiWmGn26Dn5sCzon5Tr6zOvRx+DQB921AzrFR8wqRbv9NqZAY6OmFMtGIC
+         FJA7S98Dy6I3hB0Tshc17AGbkJ0b8vwA1dHA+kBBCSgD6jqCaQoMhIwRNvSoLm86nnyd
+         X4ABP7tTfd8m/oJpFFZG/D+olu4ouzF02nAtEdcaZyzpmVpsPet1u3X6HPNslhB4irCg
+         UCCloO6ABq6VquLl0lgJnZUL0HDBGAdvifzGFqXvtgGbaRTnaWW6qf5fRwH7P0YpV3HI
+         Y6x29SgXFZJ46EPEoTTRdkmd75DwqiC1EUnaJUpFoEh1dGEhvGLh733G4ljxVlhIxE8k
+         mnZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lbjZ86GzyOw0pWEnYO0D9KGEmLkfZZVbqOgFRaW3SMM=;
-        b=KhJojqE5fer+Xc7RFGyTmXMtDgSqNefg9yFQtPMSVlhZFdP7TGb1TQ1aDKow+gOCSY
-         OgPJuPXTBSav9FBzuHKTJROUNLZw8Ei4jxyJJL4pR5DWCVMP0P1UUwM/CwqsDbKL2PUD
-         I3vn2kVmVsFR4rkHAVqMLi1F9QvNvgh40aKzah+a0HdGOVhIgoEhX0fc/sQdPBtkMwTc
-         HgE7FMkmiiyEJ+KTmHSFxNLkYHinBXLmm+CAPwjYSjxy79mC/DcFgphWxnYzVy/4CqIm
-         g0FiVFFsn1funN6s3rorZdKfHPgMrZzupNyeqAYp7ZuReNpnHWCScKHQ+NFwUQ2oZpU+
-         ryBA==
-X-Gm-Message-State: AO0yUKW2lApr6HQPs4mk2Tsdwwo3camDLIm5nIzonZG/m9AO/q+4Z2J3
-	EbprmlLmwU4WJ45oYtv2j+J2jDeyouo=
-X-Google-Smtp-Source: AK7set/c+nUmBqp+MF8k0abWI+ZP2Xl5Ocs6nq6Varh8mEalO8Ky6pFAlncwj7to/3G+84NXIczI9g==
-X-Received: by 2002:a05:600c:708:b0:3df:ad32:e5d7 with SMTP id i8-20020a05600c070800b003dfad32e5d7mr5683480wmn.20.1675840935434;
-        Tue, 07 Feb 2023 23:22:15 -0800 (PST)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id l16-20020a05600c2cd000b003daffc2ecdesm1087926wmc.13.2023.02.07.23.22.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Feb 2023 23:22:15 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 48/52] diffoscope: upgrade 230 -> 234
-Date: Wed,  8 Feb 2023 08:21:39 +0100
-Message-Id: <20230208072143.2930292-48-alex@linutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230208072143.2930292-1-alex@linutronix.de>
-References: <20230208072143.2930292-1-alex@linutronix.de>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jNJRZZtbJvvSiIFhvrveSIYIeOn0Ff12qFtoPZP/S/c=;
+        b=TPyIRhsZUZDQ7c0vBuHWzuZgeAqg6u6/AJkFDqNNHiCECvKhJN8yo59dvypUu5y2td
+         jRLyKqte6fhS/QFURKIM0cVVfHsxag3vZRVa40rdoZr5KCgiguydWqzml+iHDoZJ7+DA
+         ZJ2gQP4P4bR/krdXkdS767/QZQB+MXD6eNu+Ia48bswzsUlZyppOXHIvU9xCeXqyeeha
+         ZJLiEMPQICKLdNriid2r/P5PojFOiSTOvFOEEHk6ZwarmRviEuJ/+Qb551EZX1e8yE/V
+         3Wjh0Xv4ZUB3GtNjNqaiGihMcqWwvfCrzEgqz2rdleH5D9tOq5zSynEAP8OhXLuHqeuS
+         S3EQ==
+X-Gm-Message-State: AO0yUKWxoG2H7Y9sBoX0G3v7dH4EcmEb3ihFNbOfkUQBqhFwc5ebdsp6
+	oCeU6cK3lMGYgj2Ww6hDy9eh1Fls4p+3azVAyyg=
+X-Google-Smtp-Source: AK7set8yPSLk6yLKGaBmXO/1p/QL7ubsXoDMCQvdKcnIFeCAHbun9xQ6AfzFS9j08WOx0YZwEklAl/Pzhy1cWKCDW1o=
+X-Received: by 2002:a19:760a:0:b0:4d5:a652:e2b2 with SMTP id
+ c10-20020a19760a000000b004d5a652e2b2mr843812lff.154.1675841915353; Tue, 07
+ Feb 2023 23:38:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230208071251.5412-1-peter.marko@siemens.com>
+In-Reply-To: <20230208071251.5412-1-peter.marko@siemens.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 8 Feb 2023 08:38:23 +0100
+Message-ID: <CANNYZj-rtpJ51hLGKrFWGkjcGWnn7644eCyHkH+L=hjKRGKrXw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 0/3] systemd: split timesync and networkd to packages
+To: Peter Marko <peter.marko@siemens.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Feb 2023 07:22:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176888
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Feb 2023 07:38:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176893
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- .../diffoscope/{diffoscope_230.bb => diffoscope_234.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/diffoscope/{diffoscope_230.bb => diffoscope_234.bb} (92%)
+On Wed, 8 Feb 2023 at 08:13, Peter Marko <peter.marko@siemens.com> wrote:
+> One alternative we considered was via systemd-conf, but binaries still
+> occupy space in rootfs which is not desirable for some devices:
+>   ln -sf /dev/null ${D}${sysconfdir}/systemd/system/systemd-timesyncd.service
 
-diff --git a/meta/recipes-support/diffoscope/diffoscope_230.bb b/meta/recipes-support/diffoscope/diffoscope_234.bb
-similarity index 92%
-rename from meta/recipes-support/diffoscope/diffoscope_230.bb
-rename to meta/recipes-support/diffoscope/diffoscope_234.bb
-index 496ed9e602..994d3e9422 100644
---- a/meta/recipes-support/diffoscope/diffoscope_230.bb
-+++ b/meta/recipes-support/diffoscope/diffoscope_234.bb
-@@ -12,7 +12,7 @@ PYPI_PACKAGE = "diffoscope"
- 
- inherit pypi setuptools3
- 
--SRC_URI[sha256sum] = "a35908c15bb006058f74c2d4f2be3b1ac7cf62c872cfbd2950114a8a705d8108"
-+SRC_URI[sha256sum] = "6091d555bc88ceca285dc40e63df56b57385aa0dc552daa70bde81e8a69f8c7a"
- 
- RDEPENDS:${PN} += "binutils vim squashfs-tools python3-libarchive-c python3-magic python3-rpm"
- 
--- 
-2.30.2
+On the other hand it's only a single line of code, instead of doubling
+the ways systemd services can be packaged, chosen via a global,
+publicly documented variable. When you are writing new code paths,
+consider the ever-growing maintenance burden, always, please.
 
+I'm leaning towards installing the services, but not starting them approach.
+
+Alex
 
