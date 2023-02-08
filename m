@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E9BDC64ED8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41786C636D3
 	for <webhook@archiver.kernel.org>; Wed,  8 Feb 2023 07:21:54 +0000 (UTC)
 Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web10.3126.1675840910613950144
+ by mx.groups.io with SMTP id smtpd.web11.3138.1675840912340393705
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Feb 2023 23:21:50 -0800
+ Tue, 07 Feb 2023 23:21:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=l4hr5jVJ;
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=n+6xXXXF;
  spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id j29-20020a05600c1c1d00b003dc52fed235so743814wms.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Feb 2023 23:21:50 -0800 (PST)
+Received: by mail-wm1-f53.google.com with SMTP id l21-20020a05600c1d1500b003dfe462b7e4so2134331wms.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Feb 2023 23:21:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1ETVemfKbmlNWnd3nzEzlgyTvWOoIdbhzTrIYQRDFDs=;
-        b=l4hr5jVJs0d4k/ImCmWAk93bjJYau3nXpWzpN482XpZ978JyvGiLRzg58acZjvrRGV
-         5gKxBh0bVYBbtAbPhFcMVVGmNz6eCjQ5f/aDPHuhVsVb3HVQ1JjrXhX2Ul4aBkoTpm8L
-         7e3k0og+dktVv4LLAR/uf4RO+s0YAfLomB/HrNHzl0qNTlho5P7E7TBnBZXPWxr/qL/K
-         67v7H73RzZAlp6w8dEWuYPXrPgBnd2fSZMy65TXNHC9KLdWte8ANcL6VLizs4a841q2O
-         elQAce7Hr2X8VP2XpPjvugKKuAjaBCv/tyI0+q15O9OtEZRUq4GRI95DhQkRdU7havOu
-         hWOg==
+        bh=sV8Zt9dqGXi1AkQMINbjijBkFPqqPkR0wlAEZU+RZGs=;
+        b=n+6xXXXFAYqbNqEmblMujj2LrAi0t2lqHo67Tt+6DQ+TNqt6cLTRk28DId0p4nAEsV
+         lY9708U7weKt0iY0IOWml2G7AXgqfZVbwJlgn61uNOqnUI0w2aM5lLK2jXwjYf6FSNzk
+         mq4ThP9poFoi0xi63LCk9np7E/KdMBPZ+uiWraMpdgrsrnry7Soga/4C6lL1b3SHNjHS
+         Ja7J/S14qyxtC8I2cjOfcMEfcYrGvrU8GJOgKHR3N2zOhnZKm6hTHbpsWJY8G5z81LfR
+         Obp+a9eYHRwGqol1VLs4iWY5eeT2FepHGXtURFO177cZau/f6Us5YWByzRZFWWDy1chL
+         yffA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1ETVemfKbmlNWnd3nzEzlgyTvWOoIdbhzTrIYQRDFDs=;
-        b=TieoXp8a0B9ZtEId4MK4SnRdeevbcPk9zvxQ5haVzrg/LA5pbbIqadzNHNz0/th9X3
-         ntoS0U1T62CWbq0mZW4VRIV7gF0wbnu1xcunxfuzo2jC2ZONQCRvf6WFvjlmp2CjQGp3
-         Ye0xgrbSL6+oRG7UpxlYs+1CWJPxa3/OKNUt2sA8cS1C0PG2Dt88HWgAzEeNo7Dv2Km1
-         gN6xYk0ex0Vz/T7JvX4AEBFkyZk+I+y3ueFmoRkAAEIbSupPJ4N+3WJXzMwWxd4v8Nh2
-         ToHlpB4pVfGqqT/PS8pt2s7QhcNGeuhcHc70jqfydQjGHIeCgVVazewqqRnog5AFb6NQ
-         iR7g==
-X-Gm-Message-State: AO0yUKWnS51V2K2HNb632PD+kBVA7zjZnqOaoz3HcvloYFf0kgJimD3G
-	r6nZV33nfEWIKATNtv1yQT5ucJ0e24k=
-X-Google-Smtp-Source: AK7set8AkuTn2xYdBjjAj+VWiSfGEA1MwBSR8foHMA5ct0e+hhkgMJFXoPVnNlMfdGb7UUj1IGN3JA==
-X-Received: by 2002:a05:600c:3197:b0:3df:f7f3:d007 with SMTP id s23-20020a05600c319700b003dff7f3d007mr5664696wmp.17.1675840909130;
-        Tue, 07 Feb 2023 23:21:49 -0800 (PST)
+        bh=sV8Zt9dqGXi1AkQMINbjijBkFPqqPkR0wlAEZU+RZGs=;
+        b=XcFI0WOrDaREBnda5Ew9maxB47D2PiWRc54a694i+kOd3h0AhriCgQODQssYf2xHgi
+         9+2kBPnxhMRLq9VcFL6uFsIg1Z12YaQ6I3aaiAYrlev53RUekUepCsVfsxkjpdZW97Ax
+         tNUWK5ZcID4T0TRQqVUPOf+aSIpHERKFQzRlJSIYqBF+3oQqS1cy57NKnZsYZMa4NaTd
+         DyyUI0NthPl0jxkIwR0Nctvr7bhWYXys4mmFY8WXwJZk+YOpUxojEuL/vIpt7Z8ULoCE
+         BDfyQZ/bD8R1HWdCMHWMclREcbfeoXFuk+BhELITFOg2wOC6GGI4K+AZAGcznXqy3WG5
+         B0Rw==
+X-Gm-Message-State: AO0yUKWWcZoPSQPeDnaXdhAgZGogVeWBEvbyxkHGQmho+mNo6n8nzHmF
+	PDTk3U3G6fuCitf+xmbHRhg1ec1FEvc=
+X-Google-Smtp-Source: AK7set+/L4QBZxRDiBvrcbwy5QITECs9gD2I6jc/QBPYQcEWMHoKGmQT1zVPolJYusIh7j8o3yzHAA==
+X-Received: by 2002:a05:600c:44c4:b0:3de:1d31:1044 with SMTP id f4-20020a05600c44c400b003de1d311044mr6140790wmo.22.1675840910865;
+        Tue, 07 Feb 2023 23:21:50 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id l16-20020a05600c2cd000b003daffc2ecdesm1087926wmc.13.2023.02.07.23.21.48
+        by smtp.gmail.com with ESMTPSA id l16-20020a05600c2cd000b003daffc2ecdesm1087926wmc.13.2023.02.07.23.21.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Feb 2023 23:21:48 -0800 (PST)
+        Tue, 07 Feb 2023 23:21:50 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 03/52] diffutils: update 3.8 -> 3.9
-Date: Wed,  8 Feb 2023 08:20:54 +0100
-Message-Id: <20230208072143.2930292-3-alex@linutronix.de>
+Subject: [PATCH 06/52] lttng-tools: update 2.13.8 -> 2.13.9
+Date: Wed,  8 Feb 2023 08:20:57 +0100
+Message-Id: <20230208072143.2930292-6-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230208072143.2930292-1-alex@linutronix.de>
 References: <20230208072143.2930292-1-alex@linutronix.de>
@@ -62,117 +62,108 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 08 Feb 2023 07:21:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176843
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176847
 
-Drop patch as issue fixed upstream.
+Drop determinism.patch as issue resolved upstream via linked ticket.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...001-Skip-strip-trailing-cr-test-case.patch | 11 +++----
- ...a-standard-layout-so-glibc-and-musl-.patch | 33 -------------------
- .../{diffutils_3.8.bb => diffutils_3.9.bb}    |  3 +-
- 3 files changed, 6 insertions(+), 41 deletions(-)
- delete mode 100644 meta/recipes-extended/diffutils/diffutils/0001-mcontext-is-not-a-standard-layout-so-glibc-and-musl-.patch
- rename meta/recipes-extended/diffutils/{diffutils_3.8.bb => diffutils_3.9.bb} (88%)
+ .../lttng/lttng-tools/determinism.patch       | 64 -------------------
+ ...-tools_2.13.8.bb => lttng-tools_2.13.9.bb} |  3 +-
+ 2 files changed, 1 insertion(+), 66 deletions(-)
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-tools/determinism.patch
+ rename meta/recipes-kernel/lttng/{lttng-tools_2.13.8.bb => lttng-tools_2.13.9.bb} (98%)
 
-diff --git a/meta/recipes-extended/diffutils/diffutils/0001-Skip-strip-trailing-cr-test-case.patch b/meta/recipes-extended/diffutils/diffutils/0001-Skip-strip-trailing-cr-test-case.patch
-index aac1c43465..8b88c308f2 100644
---- a/meta/recipes-extended/diffutils/diffutils/0001-Skip-strip-trailing-cr-test-case.patch
-+++ b/meta/recipes-extended/diffutils/diffutils/0001-Skip-strip-trailing-cr-test-case.patch
-@@ -1,4 +1,4 @@
--From bd7fb8be2ae2d75347cf7733302d5093046ffa85 Mon Sep 17 00:00:00 2001
-+From 027229d25392b22d7280c0abbc3efde4f467d167 Mon Sep 17 00:00:00 2001
- From: Peiran Hong <peiran.hong@windriver.com>
- Date: Thu, 5 Sep 2019 15:42:22 -0400
- Subject: [PATCH] Skip strip-trailing-cr test case
-@@ -10,19 +10,21 @@ package.
- Upstream-Status: Inappropriate [embedded specific]
- 
- Signed-off-by: Peiran Hong <peiran.hong@windriver.com>
-+
- ---
-  tests/Makefile.am | 4 +++-
-  1 file changed, 3 insertions(+), 1 deletion(-)
- 
- diff --git a/tests/Makefile.am b/tests/Makefile.am
--index 83a7c9d..04d51b5 100644
-+index d98df82..757ea52 100644
- --- a/tests/Makefile.am
- +++ b/tests/Makefile.am
--@@ -21,8 +21,10 @@ TESTS = \
-+@@ -21,9 +21,11 @@ TESTS = \
-    stdin \
-    strcoll-0-names \
-    filename-quoting \
- -  strip-trailing-cr \
-+   timezone \
-    colors
- +# Skipping this test since it requires valgrind
- +# and thus is too heavy for diffutils package
-@@ -30,6 +32,3 @@ index 83a7c9d..04d51b5 100644
-  
-  XFAIL_TESTS = large-subopt
-  
---- 
--2.21.0
--
-diff --git a/meta/recipes-extended/diffutils/diffutils/0001-mcontext-is-not-a-standard-layout-so-glibc-and-musl-.patch b/meta/recipes-extended/diffutils/diffutils/0001-mcontext-is-not-a-standard-layout-so-glibc-and-musl-.patch
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/determinism.patch b/meta/recipes-kernel/lttng/lttng-tools/determinism.patch
 deleted file mode 100644
-index 4928e1eaff..0000000000
---- a/meta/recipes-extended/diffutils/diffutils/0001-mcontext-is-not-a-standard-layout-so-glibc-and-musl-.patch
+index 0a897a8e13..0000000000
+--- a/meta/recipes-kernel/lttng/lttng-tools/determinism.patch
 +++ /dev/null
-@@ -1,33 +0,0 @@
--From f385ad6639380eb6dfa8b8eb4a5ba65dd12db744 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Fri, 25 Mar 2022 13:43:19 -0700
--Subject: [PATCH] mcontext is not a standard layout so glibc and musl differ
+@@ -1,64 +0,0 @@
+-This is a bit ugly. Specifing abs_builddir as an RPATH is plain wrong when
+-cross compiling. Sadly, removing the rpath makes libtool/automake do
+-weird things and breaks the build as shared libs are no longer generated.
 -
--This is already applied to libsigsegv upstream, hopefully next version
--of grep will update its internal copy and we can drop this patch
+-We already try and delete the RPATH at do_install with chrpath however
+-that does leave the path in the string table so it doesn't help us
+-with reproducibility.
 -
--Upstream-Status: Backport [https://git.savannah.gnu.org/gitweb/?p=libsigsegv.git;a=commitdiff;h=a6ff69873110c0a8ba6f7fd90532dbc11224828c]
+-Instead, hack in a bogus but harmless path, then delete it later in
+-our do_install. Ultimately we may want to pass a specific path to use
+-to configure if we really do need to set an RPATH at all. It is unclear
+-to me whether the tests need that or not.
 -
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- lib/sigsegv.c | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
+-Fixes reproducibility issues for lttng-tools.
 -
--diff --git a/lib/sigsegv.c b/lib/sigsegv.c
--index 998c827..b6f4841 100644
----- a/lib/sigsegv.c
--+++ b/lib/sigsegv.c
--@@ -219,8 +219,8 @@ int libsigsegv_version = LIBSIGSEGV_VERSION;
-- #   define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_mcontext.gp_regs[1]
-- #  else /* 32-bit */
-- /* both should be equivalent */
---#   if 0
---#    define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_mcontext.regs->gpr[1]
--+#   if ! defined __GLIBC__
--+#    define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_regs->gregs[1]
-- #   else
-- #    define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_mcontext.uc_regs->gregs[1]
-- #   endif
---- 
--2.35.1
+-Upstream-Status: Submitted [https://bugs.lttng.org/issues/1361 - needs discussion with upstream about the correct solution]
+-RP 2021/3/1
 -
-diff --git a/meta/recipes-extended/diffutils/diffutils_3.8.bb b/meta/recipes-extended/diffutils/diffutils_3.9.bb
-similarity index 88%
-rename from meta/recipes-extended/diffutils/diffutils_3.8.bb
-rename to meta/recipes-extended/diffutils/diffutils_3.9.bb
-index 8889c83ee2..2bb9e6f32d 100644
---- a/meta/recipes-extended/diffutils/diffutils_3.8.bb
-+++ b/meta/recipes-extended/diffutils/diffutils_3.9.bb
-@@ -6,10 +6,9 @@ require diffutils.inc
- SRC_URI = "${GNU_MIRROR}/diffutils/diffutils-${PV}.tar.xz \
+-Index: lttng-tools-2.12.2/tests/regression/ust/ust-dl/Makefile.am
+-===================================================================
+---- lttng-tools-2.12.2.orig/tests/regression/ust/ust-dl/Makefile.am
+-+++ lttng-tools-2.12.2/tests/regression/ust/ust-dl/Makefile.am
+-@@ -27,16 +27,16 @@ noinst_LTLIBRARIES = libzzz.la libbar.la
+- 
+- libzzz_la_SOURCES = libzzz.c libzzz.h
+- libzzz_la_LDFLAGS = -module -shared -avoid-version \
+--		-rpath $(abs_builddir)
+-+		-rpath /usr/lib
+- 
+- libbar_la_SOURCES = libbar.c libbar.h
+- libbar_la_LDFLAGS = -module -shared -avoid-version \
+--		-rpath $(abs_builddir)
+-+		-rpath /usr/lib
+- libbar_la_LIBADD = libzzz.la
+- 
+- libfoo_la_SOURCES = libfoo.c libfoo.h
+- libfoo_la_LDFLAGS = -module -shared -avoid-version \
+--		-rpath $(abs_builddir)
+-+		-rpath /usr/lib
+- libfoo_la_LIBADD = libbar.la
+- 
+- CLEANFILES = libfoo.so libfoo.so.debug libbar.so libbar.so.debug \
+-@@ -44,7 +44,7 @@ CLEANFILES = libfoo.so libfoo.so.debug l
+- 
+- libtp_la_SOURCES = libbar-tp.h libbar-tp.c libfoo-tp.h libfoo-tp.c \
+- 	libzzz-tp.h libzzz-tp.c
+--libtp_la_LDFLAGS = -module -shared -rpath $(abs_builddir)
+-+libtp_la_LDFLAGS = -module -shared -rpath /usr/lib
+- 
+- # Extract debug symbols
+- libfoo.so.debug: libfoo.la
+-Index: lttng-tools-2.12.2/tests/utils/testapp/userspace-probe-elf-binary/Makefile.am
+-===================================================================
+---- lttng-tools-2.12.2.orig/tests/utils/testapp/userspace-probe-elf-binary/Makefile.am
+-+++ lttng-tools-2.12.2/tests/utils/testapp/userspace-probe-elf-binary/Makefile.am
+-@@ -5,7 +5,7 @@ AM_CFLAGS += -O0
+- noinst_LTLIBRARIES = libfoo.la
+- 
+- libfoo_la_SOURCES = foo.c foo.h
+--libfoo_la_LDFLAGS = -shared -module -avoid-version -rpath $(abs_builddir)/.libs/
+-+libfoo_la_LDFLAGS = -shared -module -avoid-version -rpath /usr/lib
+- 
+- noinst_PROGRAMS = userspace-probe-elf-binary
+- userspace_probe_elf_binary_SOURCES = userspace-probe-elf-binary.c
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.13.8.bb b/meta/recipes-kernel/lttng/lttng-tools_2.13.9.bb
+similarity index 98%
+rename from meta/recipes-kernel/lttng/lttng-tools_2.13.8.bb
+rename to meta/recipes-kernel/lttng/lttng-tools_2.13.9.bb
+index e64eeba635..340b254b46 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.13.8.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.13.9.bb
+@@ -35,12 +35,11 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
+            file://0001-tests-do-not-strip-a-helper-library.patch \
             file://run-ptest \
-            file://0001-Skip-strip-trailing-cr-test-case.patch \
--           file://0001-mcontext-is-not-a-standard-layout-so-glibc-and-musl-.patch \
+            file://lttng-sessiond.service \
+-           file://determinism.patch \
+            file://disable-tests.patch \
+            file://0001-compat-Define-off64_t-as-off_t-on-linux.patch \
             "
  
--SRC_URI[sha256sum] = "a6bdd7d1b31266d11c4f4de6c1b748d4607ab0231af5188fc2533d0ae2438fec"
-+SRC_URI[sha256sum] = "d80d3be90a201868de83d78dad3413ad88160cc53bcc36eb9eaf7c20dbf023f1"
+-SRC_URI[sha256sum] = "b1e959579b260790930b20f3c7aa7cefb8a40e0de80d4a777c2bf78c6b353dc1"
++SRC_URI[sha256sum] = "8d94dc95b608cf70216b01203a3f8242b97a232db2e23421a2f43708da08f337"
  
- EXTRA_OECONF += "ac_cv_path_PR_PROGRAM=${bindir}/pr --without-libsigsegv-prefix"
+ inherit autotools ptest pkgconfig useradd python3-dir manpages systemd
  
 -- 
 2.30.2
