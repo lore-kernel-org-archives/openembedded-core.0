@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 395FEC6FA9D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46FC6C6FA9E
 	for <webhook@archiver.kernel.org>; Wed,  8 Feb 2023 07:22:15 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web10.3135.1675840925760944754
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.3145.1675840917714604858
  for <openembedded-core@lists.openembedded.org>;
  Tue, 07 Feb 2023 23:22:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ENPkrjME;
- spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id bg26so12675632wmb.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=FRWK1MTC;
+ spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f53.google.com with SMTP id u10so9596767wmj.3
         for <openembedded-core@lists.openembedded.org>; Tue, 07 Feb 2023 23:22:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tGIBvF+h68tg0iPNoZfiU6y3Se7ll0F1dVkaaYjRihA=;
-        b=ENPkrjME0n8O6awxvmnyY3ATpv8uhdCt/s3G/CVuQAgBkvYdmtgI/xBowt3zxS15MX
-         hCYSqdF5DWnDlNC6z5uJxefLbYPQLPx0i22iUNLXxhdQsAOGYBl8fxJ05kky1U+DBIbr
-         8ARVAdKUFrAk5RQOhITP+c369mGjCOyETT3FSoxYaMat9OdzGsNWSloz/2qcqH+zj/2M
-         P5q7xgvx0WGg7QC84IgcAKlAimKuvlGIJM6NzhQcnMUM/MH/PBQzKUx5gOnLWSwbCfCF
-         NVDRIXcO0t6RSZFIGyAaQbKulBQb+hTyqeCl/CFXf8fg00Nk55n9yi1/K+0tHFAHET17
-         09/g==
+        bh=vdPL2DW102sn47lDQb1gl65YtQObZ0jltI/N7Rapv/c=;
+        b=FRWK1MTCkfQY/kehyFobSugVsns+bqPqXCTN8bC5FI0U34U87cKgh3gnS7TT+074Rr
+         r0DMW7sWb/Yi4zJJQZcKZsF+wOqzG5oPxSklEODsDBeTtPNeQHpl46AOabkCKcT18pYo
+         JWgzKvQgoXYaDSNW96FX8JKra0HTI/iSQPxfIMehTtlxsaXGE66P11QxUPInlVBY7qZg
+         +1VgNZ/e77SOJIVJXSqJU8SOPxCQozPutFeg8obM8xrYJk44YbJ9FG4rgSe4XXd5rjCj
+         wSGl2pkfpqYPUAz3B2lwEXZRcw/9+v7s6UY6kIx7HosYmBXmzWvPufUceV85/EmS9ETV
+         nI+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tGIBvF+h68tg0iPNoZfiU6y3Se7ll0F1dVkaaYjRihA=;
-        b=CrGyEqJ4A8yOJtW4VJLmmHs5ZYYZgSsM3Rtylo8pHgKEnCImJhb0Eh3fau5DiuVy3Y
-         ZKu/Dm+SYBDZGO1prswZRrdI45m5Nc5/eUdf9nvQ7l6az/moMxEJu4W1WmVDkA5vgEy8
-         jUHe9ksSC+4rk3A4Yb+xLMhEBB1oMvJF1wqrE0DyOl+t3GCo0+g2H9gGavZ/CXlT3SsJ
-         RU33D/YDT8NKe4rdN8msj6ECyY0vwWVAf+QbmFzl0juFPy9/+wJQ8UCNGTQkSH5WWZNi
-         5DBJr4tzUo5osvmmX3hrmMs3KNBUYCHh0NixHbeiBTiQcF7mRZu7bUnaeaDUQ+PqVrhV
-         rxkg==
-X-Gm-Message-State: AO0yUKW8PKpLV1KT+F1shJXvkz/5SmDad+rGXtVl/IglMB1ak8vgMnsQ
-	rd+7flmxlYH2bVHr1bB2gP7ffdjdWw4=
-X-Google-Smtp-Source: AK7set8QIjoeQrpKVIY7/KFFj6jv7Rq+rUSo0kqXwcG4jwS6WS/trLrCznUSD0BXJr5cCDziCghv0A==
-X-Received: by 2002:a05:600c:3083:b0:3e0:481:c897 with SMTP id g3-20020a05600c308300b003e00481c897mr5529695wmn.37.1675840924366;
-        Tue, 07 Feb 2023 23:22:04 -0800 (PST)
+        bh=vdPL2DW102sn47lDQb1gl65YtQObZ0jltI/N7Rapv/c=;
+        b=M4sLQI3CdGdb0xOyu+1b76ggg5OsSxmMBj6brFDaSH3LublCApUwEcgUqn6q8XWF+f
+         sKyExGgCrRSa01DqwJoTYgd5I84Sciqnpe008NYIHbeL9/nVcR2lqQh0GVAdJ0JyFg2N
+         ItNd6YAMF9ZUcO/NoXbBozvd84e4F8mMA10m9CLo1G6XZJq9EO77hOlBZVWhGAO7e3yb
+         /7I14gAa4465vcTubJlDeSw+o5culm8vim6q6Gs5OhMG4qs4iiG36I5K/iaXgx223scS
+         ulWgm3maq+hJZMqjUgJLbyukVaFFPTD1YB+3brHERZYDqTTgkwfHoI7w3i/cFGEUIpkC
+         FA1A==
+X-Gm-Message-State: AO0yUKWW0CF6KSa6OnvY7uQ5+Ki6nCUyX1870h9eYg9++qPwT5P5LJ/1
+	90BTioulAc64Y/cytpcwmlAs2fsKCic=
+X-Google-Smtp-Source: AK7set+5tcNnVET5JihHZJGTFh2d6wSIqaSUaOQVqk0QtpoLa73QjvDFtEqjdOtlzBzf7Oq9rJjjWA==
+X-Received: by 2002:a05:600c:4f85:b0:3df:f127:efa7 with SMTP id n5-20020a05600c4f8500b003dff127efa7mr1025450wmq.22.1675840925588;
+        Tue, 07 Feb 2023 23:22:05 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id l16-20020a05600c2cd000b003daffc2ecdesm1087926wmc.13.2023.02.07.23.22.03
+        by smtp.gmail.com with ESMTPSA id l16-20020a05600c2cd000b003daffc2ecdesm1087926wmc.13.2023.02.07.23.22.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Feb 2023 23:22:04 -0800 (PST)
+        Tue, 07 Feb 2023 23:22:05 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 29/52] python3-pycryptodomex: upgrade 3.16.0 -> 3.17
-Date: Wed,  8 Feb 2023 08:21:20 +0100
-Message-Id: <20230208072143.2930292-29-alex@linutronix.de>
+Subject: [PATCH 31/52] libjpeg-turbo: upgrade 2.1.4 -> 2.1.5
+Date: Wed,  8 Feb 2023 08:21:22 +0100
+Message-Id: <20230208072143.2930292-31-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230208072143.2930292-1-alex@linutronix.de>
 References: <20230208072143.2930292-1-alex@linutronix.de>
@@ -62,30 +62,30 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 08 Feb 2023 07:22:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176870
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176871
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...n3-pycryptodomex_3.16.0.bb => python3-pycryptodomex_3.17.bb} | 2 +-
+ .../jpeg/{libjpeg-turbo_2.1.4.bb => libjpeg-turbo_2.1.5.bb}     | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pycryptodomex_3.16.0.bb => python3-pycryptodomex_3.17.bb} (69%)
+ rename meta/recipes-graphics/jpeg/{libjpeg-turbo_2.1.4.bb => libjpeg-turbo_2.1.5.bb} (97%)
 
-diff --git a/meta/recipes-devtools/python/python3-pycryptodomex_3.16.0.bb b/meta/recipes-devtools/python/python3-pycryptodomex_3.17.bb
-similarity index 69%
-rename from meta/recipes-devtools/python/python3-pycryptodomex_3.16.0.bb
-rename to meta/recipes-devtools/python/python3-pycryptodomex_3.17.bb
-index 36ef772863..720aec2d36 100644
---- a/meta/recipes-devtools/python/python3-pycryptodomex_3.16.0.bb
-+++ b/meta/recipes-devtools/python/python3-pycryptodomex_3.17.bb
-@@ -1,7 +1,7 @@
- require python-pycryptodome.inc
- inherit setuptools3
+diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.4.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.bb
+similarity index 97%
+rename from meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.4.bb
+rename to meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.bb
+index 1708fa97f0..4d21ca1e1d 100644
+--- a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.4.bb
++++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.bb
+@@ -14,7 +14,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
+            file://0001-libjpeg-turbo-fix-package_qa-error.patch \
+            "
  
--SRC_URI[sha256sum] = "e9ba9d8ed638733c9e95664470b71d624a6def149e2db6cc52c1aca5a6a2df1d"
-+SRC_URI[sha256sum] = "0af93aad8d62e810247beedef0261c148790c52f3cd33643791cc6396dd217c1"
+-SRC_URI[sha256sum] = "d3ed26a1131a13686dfca4935e520eb7c90ae76fbc45d98bb50a8dc86230342b"
++SRC_URI[sha256sum] = "bc12bc9dce55300c6bf4342bc233bcc26bd38bf289eedf147360d731c668ddaf"
+ UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/libjpeg-turbo/files/"
+ UPSTREAM_CHECK_REGEX = "/libjpeg-turbo/files/(?P<pver>(\d+[\.\-_]*)+)/"
  
- FILES:${PN}-tests = " \
-     ${PYTHON_SITEPACKAGES_DIR}/Cryptodome/SelfTest/ \
 -- 
 2.30.2
 
