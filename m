@@ -1,106 +1,144 @@
-Return-Path: <mateuszmar2@gmail.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1F84C636D4
-	for <webhook@archiver.kernel.org>; Wed,  8 Feb 2023 23:51:27 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web11.1442.1675900281342782456
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2854C61DA4
+	for <webhook@archiver.kernel.org>; Thu,  9 Feb 2023 06:19:19 +0000 (UTC)
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
+ by mx.groups.io with SMTP id smtpd.web11.8091.1675923554991412355
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Feb 2023 15:51:21 -0800
+ Wed, 08 Feb 2023 22:19:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=HnnaUM6Q;
- spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: mateuszmar2@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id u22so1604154ejj.10
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Feb 2023 15:51:21 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ABgkYKnF;
+ spf=pass (domain: gmail.com, ip: 209.85.166.45, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-io1-f45.google.com with SMTP id bl9so315295iob.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Feb 2023 22:19:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=eje98vDQxESf9dH6wBHu/SPqb5eA8q2Z9A8NBH6YvZE=;
-        b=HnnaUM6Qf185cjamUfiANardDtLKFqvtMSCdwnRq1nmF/cVFtPfLIJzDEmwVctd2Wl
-         Vl9h6PbQzUvFcXZOlYfalZk/bfMC0Ry4h/uvZicncBoUuB4fExLsy10kXMrCoHXTq3g+
-         ecU/wnS0AcI6+ZxpsmTur7yJ55PpZQXSOZ8HkNW0VZIb9FhtU9i6hIfC/WST4j+Eb+5D
-         NSwcPg/jOfS6VQBJZiRH4+GpkxOlru9wEWWxI/cRybR1CTorU1KyLq0wpYjFjugyGbUI
-         ExNcOG6u+6OLS2VarJVlwi9Uz5rQfHsROByyef1aF0chAcTd1iNooBjTq6tEMJEY/gTH
-         xLXw==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1y7Bbb19VL4hzx94PhkdUa1XsW5IpoShq7O2EXqxKg4=;
+        b=ABgkYKnF5Uf1Vn12OLt4sYM3i+iys3hDFIjdVzQ0wToSLCanP3P1+LpBn+17cyaaG/
+         9Kr/Mk5xTx1LJaVV/Pe9Mji85KrmUzopkhpt49l69cjkeNXZXO2YP+wQwGgYmaJhckU1
+         XUN/Hk/POojWVcx6G0oS4mkGLlWdcLgPEdjbFXnY6+1jrPvIaqKar/MLYBMK5wqyCU+I
+         uF37tujIUQlqhL0/1Z2XCB0AGShtGeC4cwnqDo3O6jfjPFdwn0oBlo2PY0H8dsBQJKl5
+         vKzV7RgLsRQB5BdB3GAJ1hqmVDqpfgoqz/2C4RTcoa54U5/2ybyGBx7ATvpY8IbDyJl7
+         EcEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eje98vDQxESf9dH6wBHu/SPqb5eA8q2Z9A8NBH6YvZE=;
-        b=8CPEMHI937Uhubabqsm8mgZEUz/XsNhO21/wKI3lCPE8KV71bHvN3vBddGgdx+tQuv
-         MjeDWRUA1/UAnfVJiMaLf4x9TrNItR8jnXMjQHf3zNgQ2n1hyeICP16jbhXX/nM/y+Am
-         pFUlM9qdXHmDXmvdAKijO9dJ/l/9oGyOIPLdbu6VEtABse3eh1xnwTbySffswwrfXEoF
-         XigWTzy4oaeYTIJgdqdzNdCdNN2SlSPKiQrqHtmBwy5kqnti2H1j3K30h7assZwfK5r2
-         CtFJyiGxmWsDyzIOqnTPnN8qETQ/0iz4X1pyK0wh6r+Ym+La8uNqcDadeiYxYZIogSAp
-         JT8A==
-X-Gm-Message-State: AO0yUKWCLL8QpJvr8lJDbDRDec2b3cC4p/YQ15zdFsPtNin5o3HnABlp
-	gw3jYFCYDCiLxI8FQX7FfcfZhc8z+Zg=
-X-Google-Smtp-Source: AK7set+aVn4K0IYUb9KpcAkKc7tI3KF7cjq2WJrAfyvhh0kbu6nDNL45gHhhqVhXbDtOilbR3d0kfg==
-X-Received: by 2002:a17:907:9709:b0:888:1613:49d4 with SMTP id jg9-20020a170907970900b00888161349d4mr12861254ejc.0.1675900279411;
-        Wed, 08 Feb 2023 15:51:19 -0800 (PST)
-Received: from mateusz-gf75thin8rd.NAT.wroclaw_krzyki.vectranet.pl (178235146058.dynamic-3-poz-k-0-0-0.vectranet.pl. [178.235.146.58])
-        by smtp.gmail.com with ESMTPSA id ci4-20020a170906c34400b0087873afb1b4sm113772ejb.41.2023.02.08.15.51.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Feb 2023 15:51:18 -0800 (PST)
-From: mateuszmar2@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: Mateusz Marciniec <mateuszmar2@gmail.com>,
-	Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
-Subject: [OE-core][PATCH] sstatesig: Improve output hash calculation
-Date: Thu,  9 Feb 2023 00:50:11 +0100
-Message-Id: <20230208235011.40486-1-mateuszmar2@gmail.com>
-X-Mailer: git-send-email 2.39.1
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1y7Bbb19VL4hzx94PhkdUa1XsW5IpoShq7O2EXqxKg4=;
+        b=7at2FxxzHl9qDCXesqSyZSRIEaUaODR3Ep+0xcxPtrPWq4xfO6Upl8/eV7IXdgfWy6
+         j7FfW2TOjieJ5Djxi1c8Zgi/Yc03B/Q06ViDcIC/Kb+JSSnuxxzNf25rR67HyHp3rOJL
+         OM7iC8FbtsKehQYB58CFvBdoQDEyhScvU7wRBw5MAMu6pmEToab9/nLOiDPMtVuM0RDc
+         f3dBjnOWdEhrCLxRtJ2+eL0zLBOPJFQNUhu/5rm+wf0dCvRLtDJYeKHvoZCgSO0bthXw
+         nLc45uRV7Ut9+bh74xOu79AOzP/b+rDmUVOr4XyaJybbhhuf3PTJpLw5lecHQHg+Q9LX
+         qKGA==
+X-Gm-Message-State: AO0yUKUHO5SvtbckKlDuITRh8W7d+tJpuurFu70oebVpWK99Q9i0jQhQ
+	SWkp8BZyTyh0G44TrcMJ366oeGkYPrysVhgWqvE=
+X-Google-Smtp-Source: AK7set8z4P8X3yV/8/lWeB+KflStW18WVxjWKL0eP5loNm2LfpLr0RvmRQJOvoIhXW9/AFrost97JUEaSKi6V5iPn1k=
+X-Received: by 2002:a02:b785:0:b0:3c2:a284:287f with SMTP id
+ f5-20020a02b785000000b003c2a284287fmr6194283jam.18.1675923554140; Wed, 08 Feb
+ 2023 22:19:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <003001d93b15$5c8396e0$158ac4a0$@gmail.com>
+In-Reply-To: <003001d93b15$5c8396e0$158ac4a0$@gmail.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Thu, 9 Feb 2023 06:19:02 +0000
+Message-ID: <CAO5Uq5T4NQ=BrHBWCBC+7sSPKnfdUoUC+qLpnFtVRPdnmhtxhQ@mail.gmail.com>
+Subject: Re: Yocto Bug 14965 - Need info on rmeta hash
+To: sundeep.kokkonda@gmail.com
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org, 
+	Randy MacLeod <Randy.MacLeod@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Feb 2023 23:51:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176914
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Feb 2023 06:19:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176915
 
-From: Mateusz Marciniec <mateuszmar2@gmail.com>
+Hi Sundeep
 
-Symbolic links to the files are included during the output hash
-calculation but symlinks to the directories are missed.
-So if the new symlink to a directory was the only change made,
-then the output hash won't change,
-and the Hash Equivalence server may change unihash.
-In the next run bitbake may use an older package from sstate-cache.
+Not sure I can really help - at best I'm a novice rust user (albeit
+with a team who are writing rust).
 
-To fix this followlinks=True flag could be set for os.walk
-but it can lead to infinite recursion if link points
-to a parent directory of itself.
-Also, all files from a directory to which symlink points
-would be included in depsig file.
-Therefore another solution was applied, I added code that will loop
-through directories and process those that are symlinks.
+Looking at the source for rmeta generation
+(https://github.com/rust-lang/rust/tree/master/compiler/rustc_metadata/src/=
+rmeta)
+it looks like it's really just a dump of internal state. So I'd expect
+pretty much anything can cause it to change - running strings over a
+couple of files I have here I see things like the compiler triple in
+there and the paths to source files.
 
-Signed-off-by: Mateusz Marciniec <mateuszmar2@gmail.com>
-Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
----
- meta/lib/oe/sstatesig.py | 5 +++++
- 1 file changed, 5 insertions(+)
+Given we're seeing this in libstd-rs, I wonder if this is really an
+issue with how we're building libstd-rs - as far as I can tell the
+(current) supported way to build it is as part of the whole compiler
+build. Looking at the arch build by comparison its all in one pass,
+albeit with no need for separate native/target complications:
 
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index f0224454c9..a5bc030f58 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -652,6 +652,11 @@ def OEOuthashBasic(path, sigfile, task, d):
-                 if f == 'fixmepath':
-                     continue
-                 process(os.path.join(root, f))
-+
-+            for d in dirs:
-+                if not os.path.islink(os.path.join(root, d)):
-+                    continue
-+                process(os.path.join(root, d))
-     finally:
-         os.chdir(prev_dir)
- 
--- 
-2.39.1
+https://github.com/archlinux/svntogit-packages/blob/packages/rust/trunk/PKG=
+BUILD
 
+Though I don't know how you'd fit that into our world.
+
+On Tue, Feb 7, 2023 at 4:58 PM <sundeep.kokkonda@gmail.com> wrote:
+>
+> Hello Alex,
+>
+>
+>
+> I am working on Yocto bug 14965. There is a build failure happening durin=
+g rust build because of 2 rmeta files with different hashes are generated.
+>
+>
+>
+> I found that the changes with below commit id causing the 2nd rmeta file =
+(libcore-c5fc82c620226960.rmeta) generation.
+>
+> e33afcd0dc rust-common.bbclass: use built-in rust targets for -native bui=
+lds
+>
+>
+>
+> I am trying to find the changes in build which causing the generation of =
+2nd rmeta with different hash. I gave 2 builds by with & without e33afcd0dc=
+ commit changes.
+>
+> I checked the sigdata of librsvg & libstd-rs in both builds and those are=
+ identical.
+> The dependency files (../build/tmp/work/core2-64-poky-linux/librsvg/2.54.=
+5-r0/build/target/release/deps/*.d) also analysed and the shown differences=
+ are only the changed hash value (did not get any info on what is causing t=
+his change).
+> But, some interesting changes I observed in '.rustc_info.json' which are =
+related to e33afcd0dc commit. In this json file,
+>
+> 'host' tag changed from 'x86_64-linux-gnu' -> 'x86_64-unknown-linux-gnu',
+> an extra 'target_feature=3D\"fxsr\' is added, and
+> =E2=80=98rustc_fingerprint=E2=80=99 has different values between 2 builds=
+.
+>
+> Since you know much about rust, can you let me know is there any way I ca=
+n check which exact changes are causing the hash to be changed? also, are t=
+he above changes in json file will cause hash to be changed?
+>
+>
+>
+>
+>
+> Thanks,
+>
+> Sundeep K.
+>
+>
+
+
+
+--=20
+Alex Kiernan
 
