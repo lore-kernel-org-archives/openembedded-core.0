@@ -1,172 +1,149 @@
-Return-Path: <yanxk.fnst@fujitsu.com>
+Return-Path: <sdoshi@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F5BFC05027
-	for <webhook@archiver.kernel.org>; Thu,  9 Feb 2023 07:16:10 +0000 (UTC)
-Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com [85.158.142.1])
- by mx.groups.io with SMTP id smtpd.web11.8655.1675926967978946357
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A991C61DA4
+	for <webhook@archiver.kernel.org>; Thu,  9 Feb 2023 08:00:40 +0000 (UTC)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web11.9146.1675929633925588486
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Feb 2023 23:16:08 -0800
+ Thu, 09 Feb 2023 00:00:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=QjT5qgug;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.1, mailfrom: yanxk.fnst@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1675926966; i=@fujitsu.com;
-	bh=nBJ6igL35uVX0wQ5Rw2c6AvK/R3YgmD38RioIXvkPbI=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=QjT5qgug14EnJfFKGXqbPPjB598l1VSTIjDPT5LL1qOUINQXpaoWTh3vYuvQifB0T
-	 joiNzL55pi8bL+8yoyJ4a49UxKMjw10ODq7FXeid03djJ85TjPZeZ8p8uh7A9yPZX1
-	 pcTdaHZucEWon9C2PWLljQeWh2Hhw2kijKTvwpW9Xf3pd06286yyDu9fGrUAZyAFPv
-	 VDleP/F4fd/6Q0NDjPra8bhWoEfAS7HPeyW2/2HF2ozGPwjPiVWMl3jkuo2ZXn94FM
-	 T946+Jgggv6o8iVXuWYdoa6xqjWAW7K6jrTZdxIhFzjn62GCHs2BQmoEyHp/+DMb7o
-	 1vklAlvFHnXkA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrFIsWRWlGSWpSXmKPExsViZ8ORpLt17pN
-  kg3/NohZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8au/siCR1IVV8+2sDQwfhTrYuTiEBJ4wCjx
-  d9ITZgjnCpPEoi0bWSGcvYwSXa/nMHYxcnKwCchJLH48FSjBwSEioCdx9Z8oSJhZwFli3rN3z
-  CC2sICuxLdnK1lAbBYBFYkXjf1sIDavgJvEpZm7weISQGN2rH7CBBEXlDg58wkLxBwJiYMvXj
-  BD1ChJ3Pl1mRHCrpRo/fALqldN4uq5TcwTGPlnIWmfhaR9ASPTKkbz4tSistQiXUMzvaSizPS
-  MktzEzBy9xCrdRL3UUt28/KKSDF1DvcTyYr3U4mK94src5JwUvbzUkk2MwGBMKU4z38F4rO+v
-  3iFGSQ4mJVHeyzceJwvxJeWnVGYkFmfEF5XmpBYfYpTh4FCS4DWc/CRZSLAoNT21Ii0zBxgZM
-  GkJDh4lEd7pU4HSvMUFibnFmekQqVOMuhwf/1zcyyzEkpeflyolzms0B6hIAKQoozQPbgQsSi
-  8xykoJ8zIyMDAI8RSkFuVmlqDKv2IU52BUEuZtmQ00hSczrwRu0yugI5iAjghRfQhyREkiQkq
-  qgalvRctGQ8UrWboXFk9zLFRu3VtqUlsUFCutfa63onXW2wB+O5H5z4uiJwbIZb1ebapyrmr2
-  Pt2JQSlHtjy21FJ8LiHQ/FHkVdqDfCnNL+snT2rRPnw2urx/v2SSjKrio3nB2oKxb3nbOR5Nt
-  jkltmvGxWs6e7S0mJdOPhfFeTZMcYXlvGxV13OrjJQ5jvS07HrVu+iCddjhuE+h6pdPzJyolK
-  S1eIKa2yF33y9GxQ+OXjl8IfFOxbHlfTu+HFecs/qTQuoJe84rdqLC7A9XWy8Xff583/ufPnM
-  8t9l8P7vUrfLQ+4ldM8Ps7mnxFH24FPFTNT3hn+jrJSt1pD6385YsaKt8FxrvMTNYOnpx10Yl
-  luKMREMt5qLiRABcrNGfTQMAAA==
-X-Env-Sender: yanxk.fnst@fujitsu.com
-X-Msg-Ref: server-16.tower-728.messagelabs.com!1675926964!458862!1
-X-Originating-IP: [62.60.8.98]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.102.2; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 32033 invoked from network); 9 Feb 2023 07:16:05 -0000
-Received: from unknown (HELO n03ukasimr03.n03.fujitsu.local) (62.60.8.98)
-  by server-16.tower-728.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 9 Feb 2023 07:16:05 -0000
-Received: from n03ukasimr03.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTP id B9AA21B1
-	for <openembedded-core@lists.openembedded.org>; Thu,  9 Feb 2023 07:16:04 +0000 (GMT)
-Received: from R01UKEXCASM223.r01.fujitsu.local (R01UKEXCASM223 [10.182.185.121])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTPS id AE3411AF
-	for <openembedded-core@lists.openembedded.org>; Thu,  9 Feb 2023 07:16:04 +0000 (GMT)
-Received: from localhost.localdomain (10.167.218.229) by
- R01UKEXCASM223.r01.fujitsu.local (10.182.185.121) with Microsoft SMTP Server
- (TLS) id 15.0.1497.42; Thu, 9 Feb 2023 07:16:02 +0000
-From: <yanxk.fnst@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <fnstml-fujitsuten@fujitsu.com>, yanxk <yanxk.fnst@fujitsu.com>
-Subject: [meta-oe][PATCH V2] cpio: add ptest.
-Date: Thu, 9 Feb 2023 08:54:56 +0800
-Message-ID: <1675904096-10255-1-git-send-email-yanxk.fnst@fujitsu.com>
-X-Mailer: git-send-email 1.7.1
+ dkim=pass header.i=@mvista.com header.s=google header.b=K8qt0kI0;
+ spf=pass (domain: mvista.com, ip: 209.85.216.46, mailfrom: sdoshi@mvista.com)
+Received: by mail-pj1-f46.google.com with SMTP id f16-20020a17090a9b1000b0023058bbd7b2so1583001pjp.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Feb 2023 00:00:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=j4mLpj/GmLOEAL9vX/pM84YEbZ3bjrv73sjecuF4ufk=;
+        b=K8qt0kI0+xzXQbYkDJKsa86tSrPVxAmnZpYVZj1LJaGBmb4Bb+msbDdApTlMhBK9OO
+         hV8B+rvRUWv39SQ6MHhhlVmpiI4GRNcTuAzLvM6NoB2CTS3YDkL9jtO5soRLzlr9jfLJ
+         qGce0SHk9+8oOwOEPPlXQhens951WGXMvH3o4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=j4mLpj/GmLOEAL9vX/pM84YEbZ3bjrv73sjecuF4ufk=;
+        b=QVZlsakX1anTlfhTksGJjBAvwjt8z9OWBozuKW3HjCgiKgj8lgyy5SuGUcKke9qYYq
+         zQT59KkLhJ6aPxfCUfojNlfxQnhVbCCJd+2bZx22S/5PEt1yPqFGUTaY+HV01fzYHXSz
+         6PdhW58aE9rluQCM56RshA6CGSMG2lthuDm9rrAD77ECfYw7wBA4bJ1ba+P2YUdsDuHm
+         m+/RfrALh3W5bqiUW8WEd9MRcAKqNHCU1Fwh4MIxi9XiBwUSkqkbsSVYMYQ0lU0V1GvQ
+         3nNZzRIBS/woAkWYLoUhtNwSIO6VweRziSDWDfQLO567t0z3YGDcXwE+S3PCp2zMLGYK
+         0c5g==
+X-Gm-Message-State: AO0yUKXkTpnG2HRxWmbwqgAMl7baOuIilvmfLMOQRM4zG5VW+rqERc2L
+	KodoPH3pnODI/6jl1zE7dBgi7ZmQHFwCkMmn
+X-Google-Smtp-Source: AK7set/SJa4wT2bUfQFN+JarQkA6cv28wrDihvZghIZYg6vW/Tjux9WvPBJF5GzTkf3ZnlZSFVaVPg==
+X-Received: by 2002:a05:6a20:3d96:b0:bd:13ff:7b46 with SMTP id s22-20020a056a203d9600b000bd13ff7b46mr12518638pzi.33.1675929632797;
+        Thu, 09 Feb 2023 00:00:32 -0800 (PST)
+Received: from localhost.localdomain ([157.32.237.118])
+        by smtp.gmail.com with ESMTPSA id n17-20020a62e511000000b005a54a978c1bsm761534pff.7.2023.02.09.00.00.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Feb 2023 00:00:32 -0800 (PST)
+From: Siddharth <sdoshi@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Siddharth Doshi <sdoshi@mvista.com>
+Subject: [[kirkstone][PATCH] openssl : Upgrade OpenSSL 3.0.7 -> 3.0.8]  openssl: Upgrade 3.0.7 -> 3.0.8
+Date: Thu,  9 Feb 2023 13:30:22 +0530
+Message-Id: <20230209080022.147333-1-sdoshi@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.218.229]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
- R01UKEXCASM223.r01.fujitsu.local (10.182.185.121)
-X-Virus-Scanned: ClamAV using ClamSMTP
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Feb 2023 07:16:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176917
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Feb 2023 08:00:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176918
 
-From: yanxk <yanxk.fnst@fujitsu.com>
+From: Siddharth Doshi <sdoshi@mvista.com>
 
-add ptest function for oss 'cpio'.
+OpenSSL 3.0.8 fixes 1 HIGH level security vulnerability and 7 MODERATE level security vulnerability [1].
 
-this test takes less than 1 second with
-kvm enabled, so it is a fast test.
+Upgrade the recipe to point to 3.0.8.
 
-autotest files would contain TMPDIR, they are
-removed from script files atconfig and atlocal.
+CVE-2022-3996 is reported fixed in 3.0.8, so drop the patch for that as
+well.
 
-Signed-off-by: yanxk <yanxk.fnst@fujitsu.com>
+[1] https://www.openssl.org/news/vulnerabilities.html
+
+CVEs Fixed:
+https://www.openssl.org/news/secadv/20230207.txt
+
+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 ---
- .../distro/include/ptest-packagelists.inc     |  1 +
- .../recipes-extended/cpio/cpio-2.13/run-ptest | 10 +++++++++
- meta/recipes-extended/cpio/cpio_2.13.bb       | 22 ++++++++++++++++++-
- 3 files changed, 32 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/cpio/cpio-2.13/run-ptest
+ .../openssl/openssl/CVE-2022-3996.patch       | 43 -------------------
+ .../{openssl_3.0.7.bb => openssl_3.0.8.bb}    |  2 +-
+ 2 files changed, 1 insertion(+), 44 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2022-3996.patch
+ rename meta/recipes-connectivity/openssl/{openssl_3.0.7.bb => openssl_3.0.8.bb} (99%)
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 5422ecd378..0681b4b7a2 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -12,6 +12,7 @@ PTESTS_FAST = "\
-     bc-ptest \
-     bluez5-ptest \
-     busybox-ptest \
-+    cpio-ptest \
-     diffstat-ptest \
-     diffutils-ptest \
-     ethtool-ptest \
-diff --git a/meta/recipes-extended/cpio/cpio-2.13/run-ptest b/meta/recipes-extended/cpio/cpio-2.13/run-ptest
-new file mode 100644
-index 0000000000..bdac7259c1
---- /dev/null
-+++ b/meta/recipes-extended/cpio/cpio-2.13/run-ptest
-@@ -0,0 +1,10 @@
-+#!/bin/sh
-+
-+# Define cpio test work dir
-+WORKDIR=/usr/lib/cpio/ptest/tests/
-+
-+# Run test
-+cd ${WORKDIR}
-+./atconfig ./atlocal ./testsuite
-+
-+./testsuite 2>&1 | grep -E '[0-9]{1,3}: ' | sed -e 's/^.....//' -e '/[ok]$/s/^/PASS: /;/FAILED (.*)/s/^/FAIL: /;/skipped (.*)/s/^/SKIP: /;/expected failure/ s/^/PASS: /;/UNEXPECTED PASS/s/^/FAIL: /' -e 's/ok$//g' -e 's/FAILED.*//g' -e 's/skipped.*//g' -e 's/expected failure.*//g' -e 's/UNEXPECTED PASS.*//g'
-diff --git a/meta/recipes-extended/cpio/cpio_2.13.bb b/meta/recipes-extended/cpio/cpio_2.13.bb
-index eb3dc138a9..7a3c8b308b 100644
---- a/meta/recipes-extended/cpio/cpio_2.13.bb
-+++ b/meta/recipes-extended/cpio/cpio_2.13.bb
-@@ -12,12 +12,13 @@ SRC_URI = "${GNU_MIRROR}/cpio/cpio-${PV}.tar.gz \
-            file://0001-obstack-Fix-a-clang-warning.patch \
-            file://CVE-2021-38185.patch \
-            file://0001-Use-__alignof__-with-clang.patch \
-+           file://run-ptest \
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2022-3996.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2022-3996.patch
+deleted file mode 100644
+index 6d70b323d1..0000000000
+--- a/meta/recipes-connectivity/openssl/openssl/CVE-2022-3996.patch
++++ /dev/null
+@@ -1,43 +0,0 @@
+-From 7725e7bfe6f2ce8146b6552b44e0d226be7638e7 Mon Sep 17 00:00:00 2001
+-From: Pauli <pauli@openssl.org>
+-Date: Fri, 11 Nov 2022 09:40:19 +1100
+-Subject: [PATCH] x509: fix double locking problem
+-
+-This reverts commit 9aa4be691f5c73eb3c68606d824c104550c053f7 and removed the
+-redundant flag setting.
+-
+-Fixes #19643
+-
+-Fixes LOW CVE-2022-3996
+-
+-Reviewed-by: Dmitry Belyavskiy <beldmit@gmail.com>
+-Reviewed-by: Tomas Mraz <tomas@openssl.org>
+-(Merged from https://github.com/openssl/openssl/pull/19652)
+-
+-(cherry picked from commit 4d0340a6d2f327700a059f0b8f954d6160f8eef5)
+-
+-Upstream-Status: Backport [https://github.com/openssl/openssl/commit/7725e7bfe6f2ce8146b6552b44e0d226be7638e7]
+-CVE: CVE-2022-3996
+-Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
+----
+- crypto/x509/pcy_map.c | 4 ----
+- 1 file changed, 4 deletions(-)
+-
+-diff --git a/crypto/x509/pcy_map.c b/crypto/x509/pcy_map.c
+-index 05406c6493..60dfd1e320 100644
+---- a/crypto/x509/pcy_map.c
+-+++ b/crypto/x509/pcy_map.c
+-@@ -73,10 +73,6 @@ int ossl_policy_cache_set_mapping(X509 *x, POLICY_MAPPINGS *maps)
+- 
+-     ret = 1;
+-  bad_mapping:
+--    if (ret == -1 && CRYPTO_THREAD_write_lock(x->lock)) {
+--        x->ex_flags |= EXFLAG_INVALID_POLICY;
+--        CRYPTO_THREAD_unlock(x->lock);
+--    }
+-     sk_POLICY_MAPPING_pop_free(maps, POLICY_MAPPING_free);
+-     return ret;
+- 
+--- 
+-2.30.2
+-
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.7.bb b/meta/recipes-connectivity/openssl/openssl_3.0.8.bb
+similarity index 99%
+rename from meta/recipes-connectivity/openssl/openssl_3.0.7.bb
+rename to meta/recipes-connectivity/openssl/openssl_3.0.8.bb
+index 1842148592..c80df7b2ae 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.0.7.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.0.8.bb
+@@ -19,7 +19,7 @@ SRC_URI:append:class-nativesdk = " \
+            file://environment.d-openssl.sh \
             "
  
- SRC_URI[md5sum] = "389c5452d667c23b5eceb206f5000810"
- SRC_URI[sha256sum] = "e87470d9c984317f658567c03bfefb6b0c829ff17dbf6b0de48d71a4c8f3db88"
+-SRC_URI[sha256sum] = "83049d042a260e696f62406ac5c08bf706fd84383f945cf21bd61e9ed95c396e"
++SRC_URI[sha256sum] = "6c13d2bf38fdf31eac3ce2a347073673f5d63263398f1f69d0df4a41253e4b3e"
  
--inherit autotools gettext texinfo
-+inherit autotools gettext texinfo ptest
- 
- # Issue applies to use of cpio in SUSE/OBS, doesn't apply to us
- CVE_CHECK_IGNORE += "CVE-2010-4226"
-@@ -38,6 +39,25 @@ do_install () {
-     mv "${D}${mandir}/man8/rmt.8" "${D}${mandir}/man8/rmt-cpio.8"
- }
- 
-+do_compile_ptest() {
-+    oe_runmake -C ${B}/gnu/ check
-+    oe_runmake -C ${B}/lib/ check
-+    oe_runmake -C ${B}/rmt/ check
-+    oe_runmake -C ${B}/src/ check
-+    oe_runmake -C ${B}/tests/ genfile
-+}
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/tests/
-+    sed -i "/abs_/d" ${B}/tests/atconfig
-+    install --mode=755 ${B}/tests/atconfig ${D}${PTEST_PATH}/tests/
-+    sed -i "s%${B}/tests:%%g" ${B}/tests/atlocal
-+    sed -i "s%${B}/src:%%g" ${B}/tests/atlocal
-+    install --mode=755 ${B}/tests/atlocal ${D}${PTEST_PATH}/tests/
-+    install --mode=755 ${B}/tests/genfile ${D}${PTEST_PATH}/tests/
-+    install --mode=755 ${S}/tests/testsuite ${D}${PTEST_PATH}/tests/
-+}
-+
- PACKAGES =+ "${PN}-rmt"
- 
- FILES:${PN}-rmt = "${sbindir}/rmt*"
+ inherit lib_package multilib_header multilib_script ptest perlnative
+ MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
 -- 
 2.25.1
 
