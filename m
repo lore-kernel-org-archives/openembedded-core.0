@@ -2,60 +2,60 @@ Return-Path: <sdoshi@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53474C61DA4
-	for <webhook@archiver.kernel.org>; Thu,  9 Feb 2023 14:37:18 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web11.16700.1675953436277998218
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A83DC6379F
+	for <webhook@archiver.kernel.org>; Thu,  9 Feb 2023 14:38:18 +0000 (UTC)
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web11.16730.1675953488786387690
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Feb 2023 06:37:16 -0800
+ Thu, 09 Feb 2023 06:38:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=NVDe+AKO;
- spf=pass (domain: mvista.com, ip: 209.85.214.179, mailfrom: sdoshi@mvista.com)
-Received: by mail-pl1-f179.google.com with SMTP id u9so3015960plf.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Feb 2023 06:37:16 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=M9FRGsB9;
+ spf=pass (domain: mvista.com, ip: 209.85.215.172, mailfrom: sdoshi@mvista.com)
+Received: by mail-pg1-f172.google.com with SMTP id x31so1689674pgl.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Feb 2023 06:38:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=mvista.com; s=google;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OwtGYb9YHCx4h4jXgYjhXbO6fFxaqPkkeiruetWCfJc=;
-        b=NVDe+AKOjdGfbD5KYlnBpXqRcLK7d2w9yYlbafFh0Qfd/ETLclwWgr22N1eP6PhkYR
-         SSxh8o1AY6tJvHsrSQWMpwTzf4AS4Jog9LblVD5mR1l+G1S+z+tpV1qiH7KSLzYJ2U8l
-         AzvuYL1Q7vC5aUnZbQGEJxZrBn+iwUA6eLrO0=
+        bh=6/DbOzTye7YGuQNDgCVVhT85JnR0ovROmP26RV9GHjc=;
+        b=M9FRGsB9wldP1utMURHIKsgHMKvh1CyXrOUx8cqkzBPxR5NF04yfmROGIKpXqT16HA
+         gFV7SavhfB+dSoC7o98u4ad/Xbe6IZ+oYvV3QcgE6PV2+ps6qz3fYtz5HNF0npUBaE21
+         GjIbfVHnUgxOUOLonfhCiChY0mF1oGlZoi/u4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=OwtGYb9YHCx4h4jXgYjhXbO6fFxaqPkkeiruetWCfJc=;
-        b=2g5N9PBX5nDeWyxxK/fvEnWn/orxYyEjc42A1S9u0dDUu541iE7uCUmzLKynxuh6XL
-         fqRwgYHG7mvFar8A41e4DYQ1kVg0UuDlEHrzpVkPcuHQyLWgo/ObAsxLbskRm7BEdiVN
-         fHx/Su8AxbofvmxJSm8GUcuDsrncCRKTumqZl8tBkGYf7FgoK+XGI7za+wgZvrypTlcC
-         6gZF1e7DvtbnC9sJ6QPNpHsSq79CsgReULZ9I8n2o+60l7/+ulN7RCwiX+OVKbYGCNs+
-         HnYlTRxiWonUKu1QhM8GsLcE4GgIgwjJjLzZWWveAoE/y3cY0lRSNCaGPynhr56yuZX+
-         detg==
-X-Gm-Message-State: AO0yUKVXvi2NheqmchBr8xGcGxXErlRM/XhQ2FTJkmaFIrKsZIP4vJkj
-	2vzuBx1jqciGWrO4vLvLG/a9W1koEfl967bg
-X-Google-Smtp-Source: AK7set8FSF4Nm2/nfShzDE6iI+0Gio6uLRcGjrR4WDQEbmTpAdnJCHgUAw0Tn700nolKhtUuTJqGMA==
-X-Received: by 2002:a17:902:e807:b0:199:642:1c27 with SMTP id u7-20020a170902e80700b0019906421c27mr12950837plg.12.1675953435188;
-        Thu, 09 Feb 2023 06:37:15 -0800 (PST)
+        bh=6/DbOzTye7YGuQNDgCVVhT85JnR0ovROmP26RV9GHjc=;
+        b=lJFQcLrzEAnahm7nME3XuvHsTGMSfPJ1IREkLyaz3V7akZThb9dc21PqjE2XzbBwhs
+         8hVDWsyQeNw/yooY0PfzjFxcuHBBaDFHShkGkFUJqL/7NJq2zlm6S7dFZbXH2KUMSjhx
+         3JY+xnj5w+ykoIEF631AgV+enSZ2f42tPhO9DMrgvJhpQ754xWfdrXpwMtKL+sr8DUw1
+         aP/Tb3ZHFJ8CEj13uKbHJFI5OI6jnviPqiORZbqqJ5tq8rHHCqnJzSqWZ+H/OafTIOzQ
+         ivQi6o24dMuMRhMmQpcaugfqWEajVNArc3rtpKv/DsAmhEyqmXp6bR/A4GO1rMZQG3sY
+         nELA==
+X-Gm-Message-State: AO0yUKVoAOAbIuW0wMgDm1JpgiKTU5Pp21txgJQQf61AZS9mPgn9hxzT
+	MyaCqycADB40rQvhrAaY8eIRXDrJNxHxt2k/
+X-Google-Smtp-Source: AK7set+pxepMA1/lnHP7Y6LTlwN8XCZwmS3kVW2LqT+zmxARRo9+BVi16eyYYBWaXUGaT9ne6Xa0ew==
+X-Received: by 2002:a62:502:0:b0:5a8:499f:8689 with SMTP id 2-20020a620502000000b005a8499f8689mr4184935pff.23.1675953487781;
+        Thu, 09 Feb 2023 06:38:07 -0800 (PST)
 Received: from localhost.localdomain ([157.32.2.75])
-        by smtp.gmail.com with ESMTPSA id p3-20020a170902780300b001888cadf8f6sm1555698pll.49.2023.02.09.06.37.12
+        by smtp.gmail.com with ESMTPSA id j10-20020aa7800a000000b005893f281d43sm1512769pfi.27.2023.02.09.06.38.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Feb 2023 06:37:14 -0800 (PST)
+        Thu, 09 Feb 2023 06:38:07 -0800 (PST)
 From: Siddharth <sdoshi@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Siddharth Doshi <sdoshi@mvista.com>
-Subject: [langdale][PATCH-v2] Upgrade OpenSSL 3.0.7 -> 3.0.8
-Date: Thu,  9 Feb 2023 20:07:08 +0530
-Message-Id: <20230209143708.20705-1-sdoshi@mvista.com>
+Subject: [kirkstone][PATCH-v2] Upgrade OpenSSL 3.0.7 -> 3.0.8
+Date: Thu,  9 Feb 2023 20:08:00 +0530
+Message-Id: <20230209143800.21458-1-sdoshi@mvista.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Feb 2023 14:37:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176955
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Feb 2023 14:38:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176956
 
 From: Siddharth Doshi <sdoshi@mvista.com>
 
@@ -132,7 +132,7 @@ diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.7.bb b/meta/recipes-c
 similarity index 98%
 rename from meta/recipes-connectivity/openssl/openssl_3.0.7.bb
 rename to meta/recipes-connectivity/openssl/openssl_3.0.8.bb
-index 1842148592..8771884dda 100644
+index 5156586661..75f9e44748 100644
 --- a/meta/recipes-connectivity/openssl/openssl_3.0.7.bb
 +++ b/meta/recipes-connectivity/openssl/openssl_3.0.8.bb
 @@ -12,14 +12,13 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
