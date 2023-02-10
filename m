@@ -2,35 +2,35 @@ Return-Path: <yanxk.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10BA3C77B75
-	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 03:54:40 +0000 (UTC)
-Received: from esa9.hc1455-7.c3s2.iphmx.com (esa9.hc1455-7.c3s2.iphmx.com [139.138.36.223])
- by mx.groups.io with SMTP id smtpd.web11.80654.1684122875050673611
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED357C77B75
+	for <webhook@archiver.kernel.org>; Mon, 15 May 2023 03:56:29 +0000 (UTC)
+Received: from esa12.hc1455-7.c3s2.iphmx.com (esa12.hc1455-7.c3s2.iphmx.com [139.138.37.100])
+ by mx.groups.io with SMTP id smtpd.web10.81016.1684122984926542018
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 May 2023 20:54:35 -0700
+ Sun, 14 May 2023 20:56:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: fujitsu.com, ip: 139.138.36.223, mailfrom: yanxk.fnst@fujitsu.com)
-X-IronPort-AV: E=McAfee;i="6600,9927,10710"; a="104873374"
+ dkim=missing; spf=pass (domain: fujitsu.com, ip: 139.138.37.100, mailfrom: yanxk.fnst@fujitsu.com)
+X-IronPort-AV: E=McAfee;i="6600,9927,10710"; a="96138070"
 X-IronPort-AV: E=Sophos;i="5.99,275,1677510000"; 
-   d="scan'208";a="104873374"
-Received: from unknown (HELO oym-r4.gw.nic.fujitsu.com) ([210.162.30.92])
-  by esa9.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2023 12:54:32 +0900
-Received: from oym-m2.gw.nic.fujitsu.com (oym-nat-oym-m2.gw.nic.fujitsu.com [192.168.87.59])
-	by oym-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 14804DD996
-	for <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 12:54:30 +0900 (JST)
+   d="scan'208";a="96138070"
+Received: from unknown (HELO yto-r1.gw.nic.fujitsu.com) ([218.44.52.217])
+  by esa12.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2023 12:56:21 +0900
+Received: from yto-m2.gw.nic.fujitsu.com (yto-nat-yto-m2.gw.nic.fujitsu.com [192.168.83.65])
+	by yto-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id 55DD2D66A0
+	for <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 12:56:19 +0900 (JST)
 Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by oym-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 5202BBF49F
-	for <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 12:54:29 +0900 (JST)
+	by yto-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 9DB75D5E86
+	for <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 12:56:18 +0900 (JST)
 Received: from centos.g08.fujitsu.local (unknown [10.167.218.229])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id C74A83181D3;
-	Mon, 15 May 2023 12:54:28 +0900 (JST)
+	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 1670730C410;
+	Mon, 15 May 2023 12:56:18 +0900 (JST)
 From: yanxk.fnst@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: fnstml-fujitsuten@fujitsu.com,
 	yanxk <yanxk.fnst@fujitsu.com>
 Subject: [meta-oe][PATCH V2] tar: add ptest support
-Date: Fri, 10 Feb 2023 17:06:05 +0800
-Message-Id: <1676019965-17399-1-git-send-email-yanxk.fnst@fujitsu.com>
+Date: Fri, 10 Feb 2023 17:07:54 +0800
+Message-Id: <1676020074-17432-1-git-send-email-yanxk.fnst@fujitsu.com>
 X-Mailer: git-send-email 1.7.1
 X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-27626.004
@@ -48,8 +48,8 @@ X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 03:54:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181224
+ <openembedded-core@lists.openembedded.org>; Mon, 15 May 2023 03:56:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/181225
 
 From: yanxk <yanxk.fnst@fujitsu.com>
 
