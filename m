@@ -1,156 +1,191 @@
-Return-Path: <Saul.Wold@windriver.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95CF1C636CD
-	for <webhook@archiver.kernel.org>; Fri, 10 Feb 2023 15:33:26 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.18349.1676043201493333489
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24573C636CD
+	for <webhook@archiver.kernel.org>; Fri, 10 Feb 2023 17:20:17 +0000 (UTC)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web10.22469.1676049615634012242
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Feb 2023 07:33:21 -0800
+ Fri, 10 Feb 2023 09:20:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=m4vTOb6a;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=1405ec2897=saul.wold@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31ADI9fE013741
-	for <openembedded-core@lists.openembedded.org>; Fri, 10 Feb 2023 07:33:21 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to : cc :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=4wuucl/vDegUJQGmzNuLyRyA5EBSjhN0mL37kzSU0Rc=;
- b=m4vTOb6aQvt20ovbhTmJCoOuY7QhIj/+aRutf+jVsLfTmEaOtqkmY52A+5oxzE+cvmtR
- c4SGdFNTjjq399kyr5R5ERiBXVGZA+CmK0EbxyqAqfqVvOyUyGkjjQl95QAyTnpdChR1
- Xk393gon9kzaS/pWWWeEoKDS+g4V5hbPpHe4FrxExeF/eyDiOg169fleqiedtaT3qfE/
- 9S/KSDEAMxS4vMixkNI3TS0I1JYVEJUY7XsSA07aTCDG8wtv7fyBh3GxJ+F9R0o2SgAv
- HZxCteJ1Ph2hdVwAXsQRY9ezRDFzN27wB7Z8Wb1pjhQxGimuEzgkQ76IXEKIVJBLVZIa wQ== 
-Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2168.outbound.protection.outlook.com [104.47.73.168])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3nhqrrp4kt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 10 Feb 2023 07:33:20 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hhgavTTnZbBdZV+JwUPs7JHSpHxY3KdZzamZxjGhT5s9w2uvnYIWPpppSUviYcvVAtHEznI4gNH40GqkXGVMtKW97YERjFryfpap1r9bj32j+KCkec50Sx6VJ8PDJfPMA9p+V4nu3MLsmtNurRzhJynEHKII28oO0JBut48boDh99TJ90Lp+KFX9uA6+xRn2JD3NEW+4wxI+cU6vGcRV6yoaaI/5GMXo0TNgfEFsj3ZnEMnzQuZI1mA90xJk6V5gGKC8D9ouwqPLFaiplmINVtPLYDrAX54NWsYJKIVY7MtNIXuL0c+qA+C/sYUb/yyATX4/C452JXBuxnQl+8gRxg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4wuucl/vDegUJQGmzNuLyRyA5EBSjhN0mL37kzSU0Rc=;
- b=TCTHdLa+H8PcVHCY5KpOsQo99AFuqJWlf3UO+xdEHhzYDq7Dc3aB+zVplLfEK65Tay8+wyy0k3pTeawJzLLGhzr2MdhYLo829Nv2NeAvW9MTcOp5KTN+CTIAiPQTrJUSxJhMcp3jtT3r/XXEnfjWZNsMSMnE3NBh30Zs5hFaUSUt1cr1/Oo23ra7djb2VT0m/Z3/C1RppDGQKp3++RomtfsRxNhdHpofsTP+SWOIZzshUvwMXgHG1G5X/cYjboSeC0vWvZk0/cBt/aIIaM3svGxiEY0buhxjZTT438App+cWWU9gFSIWJBDO4eAuOTmqAxeY9AajRixPAIyn4yCEcQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from MN0PR11MB6035.namprd11.prod.outlook.com (2603:10b6:208:376::13)
- by MN0PR11MB6278.namprd11.prod.outlook.com (2603:10b6:208:3c2::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.19; Fri, 10 Feb
- 2023 15:33:17 +0000
-Received: from MN0PR11MB6035.namprd11.prod.outlook.com
- ([fe80::f606:748d:1395:815f]) by MN0PR11MB6035.namprd11.prod.outlook.com
- ([fe80::f606:748d:1395:815f%3]) with mapi id 15.20.6086.017; Fri, 10 Feb 2023
- 15:33:16 +0000
-From: Saul Wold <saul.wold@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Saul Wold <saul.wold@windriver.com>
-Subject: [PATCH] busybox: Fix depmod patch
-Date: Fri, 10 Feb 2023 07:32:55 -0800
-Message-Id: <20230210153255.2716448-1-saul.wold@windriver.com>
-X-Mailer: git-send-email 2.39.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BYAPR08CA0070.namprd08.prod.outlook.com
- (2603:10b6:a03:117::47) To MN0PR11MB6035.namprd11.prod.outlook.com
- (2603:10b6:208:376::13)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=aykqvQik;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.41, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f41.google.com with SMTP id qw12so17756726ejc.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Feb 2023 09:20:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=54aouW14H0ehow4dn2PZLikHdGqT6ZcsgDf9ddljpy8=;
+        b=aykqvQikhnSx0AQ58v4t/vKIthHPP57QnR0wA6DrxqmtTMz0/j/ia7kIrx84e55S09
+         8pLs2/GdnJ/IBdwDOiuwZz4I7Hsom27xgRCMVBB4H/uwoXsnNRhG7WOUZeCf7DH3wDc4
+         GM+8Y8e02s37PWBE/wAPmc3y2u/KDHOdBpsivOt2pBxodEzBoqDob47YFePtGvGk0iEl
+         EasdMEJO8EffKH79Wd7ZlL+UBPD0NQO0h5KbBqedE+LwgUszesJB/lBwWA69WExKdWO8
+         JF4pnA5B28EglEKyG42FpXMHTVttRP0Muxl79ffA18lusOHXlt1BPotYGRQFUNr4ZOkS
+         wkPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=54aouW14H0ehow4dn2PZLikHdGqT6ZcsgDf9ddljpy8=;
+        b=jtURnOoGGD2UVMbMdVpVU0Ooi6eb2yOYixmSbwU5WO0y/FrYMDTeyudDdfIQtDwjIY
+         ie9pQJlla3jlMTBxZL5NFmfpxWue74cfnTQZE+l+lTxrvB7jxplz6JFr0ttjmzNKZzSR
+         jBFqHAexGy7+MmJjhG667GLqHo1cA+ik+K0Yf1P78yDzTjx3DDxPI5fLYj2BRLlDeXlx
+         CyeQKfkP85MohAEgiijSPmVDIBZrK/LLnOqgK1BAvptQpFwp/Aje9Awufn3qfeFYSH+p
+         ehzb5LPBG4uGWbj69mW2KNiDdp+3erravJTsyTp+lJh4NEBCop0oQQN4x6UxVc8rUNQ2
+         NQew==
+X-Gm-Message-State: AO0yUKXr34vZXq7qEGD3bNvW92qBKTDINvj7QhW747YmpGMHcDRIMOhB
+	uwOU2U3XmeCvfeDF87lVye3sKAlXcWU+D7uPNYKpmw==
+X-Google-Smtp-Source: AK7set8OCY9NvXW/RwRyVeEJ6fiBmxfsBxWjsmZ3lSTv7PQEq/g2yTVmj/iyie1/PfNU9UxHByS9Ohp8EUNnm8PwOd0=
+X-Received: by 2002:a17:906:fc01:b0:850:2768:735e with SMTP id
+ ov1-20020a170906fc0100b008502768735emr3603987ejb.64.1676049613978; Fri, 10
+ Feb 2023 09:20:13 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6035:EE_|MN0PR11MB6278:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7406d9ad-9b19-4c46-a28f-08db0b7c212f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	HHKylOkLXrgDbkZcIkWoXhAYz19dQFe8Qxc2mAOPWC3qrwlslB/fqH8pgZkMaeTu4RkK2E6ZlOTe217hM+xWcx7R/KXjrgJJTxOqiMsg4OX1JN91d7iGZVL+Ts0NG0R9tURGOMHoD51VSzevXjzePo/mfburGy0jzqMWGKsq5jXsxMoNTRsCwAd7ToQMUNzmWaOPzt84L7E3Ql82rd9ruj39OEat5POLv37ctf7WNy2Hoh0XrQPRIxIVplisr27c8wgYxD+krcruZtrvhAQXQiIr8gbpuqsLgiZIgpMDVy2vrk22af0Cr4v4GUCWX5MEDn6Bytf7ARCgIP+7/4ogWFQZfYZzp/PuWL0X3X/qyhsGgkoVBRvExlchxb1rTPmM5RYFZTCKJLSV2uyuNx1uggvmsjumxd7rdnNcXoXTOMu3jle8kJUkwuzJ1yvuXQ027Yu7MOj/1/AZYNt6FgNpQMPIj9Z4FpvYxLrfn2JEx0eFhd/yQafyU9/l/NjvWXg0ZKsuROkVNuIrngw30HMyVBNQZ/3hEtGwAbY7E+1Cx/if76sECVHNMHW9+YXtiyny2bsepRx4hxDtYLXfsNwjdk4baeYw0oR00QsO15iZqRu6W60LBXxaWmiT3/oxkczVJhH4y3B95kvM0UvCdOMTMYTJh4J6DE5VnrLoH2oqyu81cArjZfClhGqU9oBaYSvXcnl1eqzkTm0KPjzjBp7Jkg==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6035.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(136003)(346002)(396003)(39850400004)(366004)(376002)(451199018)(38350700002)(107886003)(36756003)(38100700002)(86362001)(6512007)(186003)(26005)(83380400001)(2616005)(6666004)(6506007)(1076003)(2906002)(8676002)(66946007)(4326008)(6916009)(66556008)(66476007)(6486002)(52116002)(478600001)(44832011)(5660300002)(8936002)(41300700001)(316002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?OnTVXHNWc7+kawICEwM5GoIlLH6nAmdVrheX9PYz8/8xJUq9JyrDKB25C3Ed?=
- =?us-ascii?Q?iqNU67YrQ+rP7B9Xby+laWM9UZSd960eBuXQ/mI/WXmCx7YDXyBpXoympJLw?=
- =?us-ascii?Q?KsT5u1PLmyFwwR53VG9KmajvPkg+jYw9dKdtWTVnjvf2RL7hNBe2tngZpK2Z?=
- =?us-ascii?Q?LzEPUzDJ5NsogB0UEb2OqLZm0qLhUL5SrvZlIT6tu7pGAKf/DvHvUY+wALFh?=
- =?us-ascii?Q?oIoTSWihNTPG8KcWBLJo36kLo2NJkfoxqCy1fFNOU5hIlxrcorMNQKm8/wRY?=
- =?us-ascii?Q?2T4dRFVGJRFBQClS0657TrRYJ1WpFTLcqrUbNjGu9Lj73TA/Dhw/C/Lbkj6N?=
- =?us-ascii?Q?XPsf1+9qoOgk0nnpP+1rCkBiUaeYpca73u2wc7zguKev/Cq2WqYClgiV9vwU?=
- =?us-ascii?Q?bDcZtG8vdlI7r9UjDkAR9mw7OXNESSEfPbxYMdgTHVrqv7n1HdDPgNGOGFnQ?=
- =?us-ascii?Q?opD+IzKdn8jVF552WIUIZgu1q2kNaW09Zg5jpzCYeBFHLtTggub2GVGq5Daa?=
- =?us-ascii?Q?Rr/NEusWjtX3JMlNA8W+DfaQz7oEQN+MpBz7YKdtYLMKZsyZ1gvqX1Y21zpn?=
- =?us-ascii?Q?1SaGsr5nisaokzM4tCBn4w9cnmfNpKcs5S92V9i3HstE3TG8nsqcBtMI42bH?=
- =?us-ascii?Q?V1+J3H3CGjE2ytXgFrbArZv+dBH1/xd3nc2om/F9PTk8GZ8Rd7Dkuldruq4s?=
- =?us-ascii?Q?nvXaLoRP4tpIXprv9V2eiTgZ8TYpVs/lPruIXzubVIQlMIKEF8iXgoa2ex5G?=
- =?us-ascii?Q?MYrC8i4MAT8hZs3hBFuKA5+DFLnq5XGui0THD5wtJ1MiOE+WSzatDM4RtX5g?=
- =?us-ascii?Q?hBEcJ+CTQpYMsFe8QP2RbqRbsOTvN2ievfXJBZz+J/5BZt3qfe5sTzWxCPp6?=
- =?us-ascii?Q?nljpIgQeMwKOIlAJ2Iy+AKna7wUqVvJlenaqkgAQYrZhIG0OahK/fQMhlMUo?=
- =?us-ascii?Q?e9rO6ECyDTwllM0W++LET0T5bh3pzK/ISNjUA7+j3YFR6t4KmrZyqA7ah7SC?=
- =?us-ascii?Q?VTRvwgrnY1aPAELKljNEZSB224HQLOgx4i+ojqkTvuv8j9WA2+rI9+cnVyBh?=
- =?us-ascii?Q?+vEP3iJv8DBppniQDQU8l0KpWZfRenZqE7sl98q6ZPY9EcZue+gsBvt/epYA?=
- =?us-ascii?Q?RtmskVX58ScunOB/zm6LWQEcAEe00jtKca6KO1y9YUjTHqd522a+JsSeHJ0R?=
- =?us-ascii?Q?TEQKWCVKjvo5c3zxQxJq9lJnAymIJ9rp7euM2z6e5H1yK8VdkKh82CCY11za?=
- =?us-ascii?Q?+PJ4oR8jPv3jwc0FDWGPq22bTncpS9+xXfYXf26PorG/rgV4twO+9c/uVAXE?=
- =?us-ascii?Q?NVi21OrMSlAJfbezrM6V99PleK0Ogv68SNnx+YkrdIiSLiw9AeiedP1bd8df?=
- =?us-ascii?Q?pX6qeD5bV3AK38CflgEWP2uo+ZPd1GeJ4Q0+rVomsERqaDrgkXrKEMuS1pEy?=
- =?us-ascii?Q?qxsod3AwFATa+SC6xt9KeHtoANpuiJPOYhZBxoufm8enRM2JtxCZHaEEcwE2?=
- =?us-ascii?Q?pogA+8V/hEKPzdHfqRSVxobOeN4Zcjk0xGCkZXJVBOPr74Zwz3w7ppRK4U+I?=
- =?us-ascii?Q?7OS5gEidxlb+jQwMCXiCCO8i0mNiTvW+saZdG1TuHhe4lcFuY8uAbMVb6JCC?=
- =?us-ascii?Q?3Q=3D=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7406d9ad-9b19-4c46-a28f-08db0b7c212f
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6035.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2023 15:33:16.6502
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ijLfyaHTeh6yvZaLce0APeY9QtDWEYNr1cy3z3KhQG4fELSAEo7E8xxQ3cvNkzDSGlxgmHUY6BkB7RThhf3btw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6278
-X-Proofpoint-GUID: saUUxeeLB2O0N-peeQbgYWwjkiuP1Fnb
-X-Proofpoint-ORIG-GUID: saUUxeeLB2O0N-peeQbgYWwjkiuP1Fnb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-10_10,2023-02-09_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 phishscore=0
- lowpriorityscore=0 malwarescore=0 bulkscore=0 suspectscore=0 mlxscore=0
- adultscore=0 priorityscore=1501 impostorscore=0 clxscore=1015
- mlxlogscore=710 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302100129
+References: <20230210122058.8715-1-bindudaniel1996@gmail.com>
+In-Reply-To: <20230210122058.8715-1-bindudaniel1996@gmail.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Fri, 10 Feb 2023 07:20:03 -1000
+Message-ID: <CAOSpxdbO31d4_AQbPNCUbk6y88n200rCzvbqZnzqXkxvyEW7bA@mail.gmail.com>
+Subject: Re: [OE-core][dunfell][PATCH] ffmpeg: fix for CVE-2022-3341
+To: Bhabu Bindu <bindudaniel1996@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, bhabu.bindu@kpit.com, 
+	akash.hadke@kpit.com, Narpat Mali <narpat.mali@windriver.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Feb 2023 15:33:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176995
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Feb 2023 17:20:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176996
 
-The original patch was actually allowing .debug modules
-though which was in-correct. This change blocks the
-parsing of .debug modules (which is correct). As noted in
-[YOCTO #15022] this should address the empty modules.dep
-when using the BusyBox depmod.
+On Fri, Feb 10, 2023 at 2:21 AM Bhabu Bindu <bindudaniel1996@gmail.com> wrote:
+>
+> From: Bhabu Bindu <bhabu.bindu@kpit.com>
+>
+> avformat/nutdec: Add check for avformat_new_stream
+> Check for failure of avformat_new_stream() and propagate
+> the error code.
+>
+> Upstream-Status: Backport [https://git.yoctoproject.org/poky/commit/?h=kirkstone&id=bba70ce34115151362bfdc49a545ee708eb297ca]
+>
+> (From OE-Core rev: e17ddd0fafb562ed7ebe7708dac9bcef2d6cecc1)
+>
+> Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit bba70ce34115151362bfdc49a545ee708eb297ca)
+> Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
+> ---
+>  ...ec-Add-check-for-avformat_new_stream.patch | 66 +++++++++++++++++++
+>  .../recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb |  3 +-
+>  2 files changed, 68 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avformat-nutdec-Add-check-for-avformat_new_stream.patch
+>
+> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avformat-nutdec-Add-check-for-avformat_new_stream.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avformat-nutdec-Add-check-for-avformat_new_stream.patch
+> new file mode 100644
+> index 0000000000..706db9669a
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avformat-nutdec-Add-check-for-avformat_new_stream.patch
 
-Signed-off-by: Saul Wold <saul.wold@windriver.com>
----
- .../busybox/busybox/0001-depmod-Ignore-.debug-directories.patch | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This patch should be named CVE-2022-3341.patch.
 
-diff --git a/meta/recipes-core/busybox/busybox/0001-depmod-Ignore-.debug-directories.patch b/meta/recipes-core/busybox/busybox/0001-depmod-Ignore-.debug-directories.patch
-index 354f83a4a5f..d76118f85b2 100644
---- a/meta/recipes-core/busybox/busybox/0001-depmod-Ignore-.debug-directories.patch
-+++ b/meta/recipes-core/busybox/busybox/0001-depmod-Ignore-.debug-directories.patch
-@@ -21,7 +21,7 @@ index bb42bbe..aa5a2de 100644
-  	/* Arbitrary. Was sb->st_size, but that breaks .gz etc */
-  	size_t len = (64*1024*1024 - 4096);
-  
--+	if (strstr(fname, ".debug") == NULL)
-++	if (strstr(fname, ".debug") != NULL)
- +		return TRUE;
- +
-  	if (strrstr(fname, ".ko") == NULL)
--- 
-2.39.0
+Please submit a V2!
 
+> @@ -0,0 +1,66 @@
+> +From 9cf652cef49d74afe3d454f27d49eb1a1394951e Mon Sep 17 00:00:00 2001
+> +From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+> +Date: Wed, 23 Feb 2022 10:31:59 +0800
+> +Subject: [PATCH] avformat/nutdec: Add check for avformat_new_stream
+> +
+> +Check for failure of avformat_new_stream() and propagate
+> +the error code.
+> +
+> +Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
+> +
+> +CVE: CVE-2022-3341
+> +
+> +Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/9cf652cef49d74afe3d454f27d49eb1a1394951e]
+> +
+> +Comments: Refreshed Hunk
+> +Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
+> +Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
+> +---
+> + libavformat/nutdec.c | 16 ++++++++++++----
+> + 1 file changed, 12 insertions(+), 4 deletions(-)
+> +
+> +diff --git a/libavformat/nutdec.c b/libavformat/nutdec.c
+> +index 0a8a700acf..f9ad2c0af1 100644
+> +--- a/libavformat/nutdec.c
+> ++++ b/libavformat/nutdec.c
+> +@@ -351,8 +351,12 @@ static int decode_main_header(NUTContext *nut)
+> +         ret = AVERROR(ENOMEM);
+> +         goto fail;
+> +     }
+> +-    for (i = 0; i < stream_count; i++)
+> +-        avformat_new_stream(s, NULL);
+> ++    for (i = 0; i < stream_count; i++) {
+> ++        if (!avformat_new_stream(s, NULL)) {
+> ++            ret = AVERROR(ENOMEM);
+> ++            goto fail;
+> ++        }
+> ++    }
+> +
+> +     return 0;
+> + fail:
+> +@@ -793,19 +793,23 @@
+> +     NUTContext *nut = s->priv_data;
+> +     AVIOContext *bc = s->pb;
+> +     int64_t pos;
+> +-    int initialized_stream_count;
+> ++    int initialized_stream_count, ret;
+> +
+> +     nut->avf = s;
+> +
+> +     /* main header */
+> +     pos = 0;
+> ++    ret = 0;
+> +     do {
+> ++        if (ret == AVERROR(ENOMEM))
+> ++            return ret;
+> ++
+> +         pos = find_startcode(bc, MAIN_STARTCODE, pos) + 1;
+> +         if (pos < 0 + 1) {
+> +             av_log(s, AV_LOG_ERROR, "No main startcode found.\n");
+> +             goto fail;
+> +         }
+> +-    } while (decode_main_header(nut) < 0);
+> ++    } while ((ret = decode_main_header(nut)) < 0);
+> +
+> +     /* stream headers */
+> +     pos = 0;
+> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
+> index cbfdbf0563..737fd33fa5 100644
+> --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
+> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
+> @@ -30,7 +30,8 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+>             file://CVE-2021-3566.patch \
+>             file://CVE-2021-38291.patch \
+>             file://CVE-2022-1475.patch \
+> -          "
+> +           file://0001-avformat-nutdec-Add-check-for-avformat_new_stream.patch \
+> +           "
+
+Also, this won't apply because we have your other ffmpeg CVE fix in
+the current pull request:
+
+https://git.openembedded.org/openembedded-core-contrib/commit/?id=a626228a4be4c52c9d3f43eb1756c1defc22a5e4&h=stable%2Fdunfell-next
+
+So please take this into account with your V2.
+
+Thanks!
+
+Steve
+>  SRC_URI[md5sum] = "348956fc2faa57a2f79bbb84ded9fbc3"
+>  SRC_URI[sha256sum] = "cb754255ab0ee2ea5f66f8850e1bd6ad5cac1cd855d0a2f4990fb8c668b0d29c"
+>
+> --
+> 2.17.1
+>
 
