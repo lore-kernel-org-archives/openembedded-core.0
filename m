@@ -1,108 +1,149 @@
-Return-Path: <dzagorui@cisco.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 166B1C05027
-	for <webhook@archiver.kernel.org>; Fri, 10 Feb 2023 17:30:27 +0000 (UTC)
-Received: from alln-iport-8.cisco.com (alln-iport-8.cisco.com [173.37.142.95])
- by mx.groups.io with SMTP id smtpd.web10.22806.1676050222408502148
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61EF1C05027
+	for <webhook@archiver.kernel.org>; Fri, 10 Feb 2023 17:44:34 +0000 (UTC)
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
+ by mx.groups.io with SMTP id smtpd.web11.312.1676051064462486682
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Feb 2023 09:30:22 -0800
+ Fri, 10 Feb 2023 09:44:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cisco.com header.s=iport header.b=hYKBGPCb;
- spf=pass (domain: cisco.com, ip: 173.37.142.95, mailfrom: dzagorui@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=cisco.com; i=@cisco.com; l=1192; q=dns/txt; s=iport;
-  t=1676050222; x=1677259822;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=gzC62INdnn1L7ZW0C4Yl/zo3nbG3CNpLgq+z3ruh9gc=;
-  b=hYKBGPCboHeYomWMr6KRR/SotzAWr1r073t1g6MzXfm2AEQyASrJrBSl
-   lm9Z2mnwXSeeC8QpRFVayg3nhmHlRwt7CtH7ZAzretVRV9YDwS3knDql2
-   7edUru2i5pjZ5mTp3CckzZNLmY6cFyAeORYkq/CzalimA9dQdccj+Hr8K
-   4=;
-X-IPAS-Result: =?us-ascii?q?A0DXAQADf+ZjmI9dJa1agliDNlU+RpNNn2mBJQNWDwEBA?=
- =?us-ascii?q?Q0BATUPBAEBijYCJTYHDgECBAEBAQEDAgMBAQEBAQEDAQEFAQEBAgEHBBQBA?=
- =?us-ascii?q?QEBAQEBAR4ZBQ4QJ4VoDYcOAYFTRIJ+AYMiA64ggiyBAYRymmeBZ4FAi2eFR?=
- =?us-ascii?q?SccgUlEgRWBGIJQhRGFcgSCKJM/gTZ3gSQOTHiBCQIJAhFzgRkIaIIBAwkDB?=
- =?us-ascii?q?wVJQAMLGA1QEyw1FiQGPwYCDx82BgMJAwIhS20vEhIFAwsVKkcECDYFBk8RA?=
- =?us-ascii?q?ggPEg8sQw5CNzQTBoEGCw4RA1BDGW0EggoKVpdNghZ7E0xTKMRdhACLYJR4G?=
- =?us-ascii?q?jKpLgEtlyWjBD+EKwIEBgUCFoFpDSaBWzMaCBsVgyIJSRkPjjmCNJEGRDE7A?=
- =?us-ascii?q?gcLAQEDCYwpAQE?=
-IronPort-Data: A9a23:TNkVr6NL7fulrnnvrR3Wl8FynXyQoLVcMsEvi/4bfWQNrUok0WFVz
- TMcWjjUb/eJYWDze94lao7gpxgP75CGndI2SHM5pCpnJ55oRWUpJjg4wmPYZX76whjrFRo/h
- ykmQoCcaphyFBcwnz/1WlTbhSEUOZqgG/ytV4YoBggrHVU/EH140Uo58wIEqtcAbeaRUlvlV
- eza+6UzCHf9s9KjGjtJg04rgEoHUMXa4Fv0jHRnDRx4lAO2e00uMX4qDfrZw00U7WVjNrXSq
- +7rlNlV945ClvsnIovNfr3TKiXmTlNOVOSDoiI+ZkSsvvRNjn0J9LkHL6ZAU0t4sgiqrcEsw
- 9J2tYPlHG/FPoWU8AgcewNTHyc7Nqpc9fqYZ3O+qseUiUbBdhMAwd03UxpwZtJeq70xWD0Vn
- RAbAGhlghSri/C/z7WhV+hEjcU4J86tN4Qa0p1l5WyGUKd5HcibK0nMzYYF9zkzopFjJqbbW
- tgoYyNfaSSHWgIabz/7D7pnzLv32RETaQZwr0qYo6cy6WXfwAF9lbPqKtf9ft2RWd4TmV6Vo
- G/D9Wn1DhwWctuFxlK4HmmEnOTDm2bwX5gfUeL+/f9xi1rVzWsWYPELabeliaiCrFGCQI4DE
- UA7wxcNn7lv/0uQTsaoCnVUv0W4lhIbXtNRFcgz5weM1rfY7m6l6o4sE2IphDsO6ZNeeNA66
- rOat4i2WmE34dV5XVrYp+jE92rjUcQABTZaPXdscOcT3zX0TGgOYv/nVN1vFuu+icf4XG62y
- DGRpy94jLIW5SLq60lZ1Q6f695PjsGZJuLQ2ukxdjj0hu+eTNX8D7FEEXCBsZ59wH+xFzFtR
- kQslcmE9/wpBpqQjiGLS+hlNOj3uKvUbmKA2gY3Q8lJG9GRF5iLIN44DNZWeRkBDyr4UWSBj
- LL74FkIv8YDYBNGk4cmOtnZ5zsWIVjITIS5Ca+8gitmaZlqfwjP5zB1eUOVxAjQfLsEz8kC1
- WOgWZ/0Vx4yUP0/pBLvHrt1+eFwnEgWmziMLa0XOjz6i9JyklbPF+dcWLZPB8hkhJ65TPL9q
- IgGbpLSmk0BD4UToED/qOYuELzDFlBjbbieliCdXrPrztZOcI35N8Ls/A==
-IronPort-HdrOrdr: A9a23:PdQ1jK+wobWzrIlNaqpuk+DNI+orL9Y04lQ7vn2ZLiYlEPBw+P
- rBoB1273LJYVUqKRIdcK67WZVoKEm0nfUe3WB7B9iftWfd1FdAVLsD0WMnqAeQfxEXMYVmpM
- JdT5Q=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="5.97,287,1669075200"; 
-   d="scan'208";a="57597400"
-Received: from rcdn-core-7.cisco.com ([173.37.93.143])
-  by alln-iport-8.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 10 Feb 2023 17:30:00 +0000
-Received: from sjc-ads-9103.cisco.com (sjc-ads-9103.cisco.com [10.30.208.113])
-	by rcdn-core-7.cisco.com (8.15.2/8.15.2) with ESMTPS id 31AHU00u027937
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>; Fri, 10 Feb 2023 17:30:00 GMT
-Received: by sjc-ads-9103.cisco.com (Postfix, from userid 487941)
-	id C2BBECC1293; Fri, 10 Feb 2023 09:29:59 -0800 (PST)
-From: Denys Zagorui <dzagorui@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] kernel-devsrc: powerpc: add missed dependency for modules_prepare
-Date: Fri, 10 Feb 2023 17:29:58 +0000
-Message-Id: <20230210172958.3201956-1-dzagorui@cisco.com>
-X-Mailer: git-send-email 2.28.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ZtMVqY4r;
+ spf=pass (domain: gmail.com, ip: 209.85.166.173, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-il1-f173.google.com with SMTP id v13so917870iln.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Feb 2023 09:44:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=BigFvfX6HaLJy2raRZp/n1PTTcpikpD59IEoZss+6BI=;
+        b=ZtMVqY4rz2nY6oSs3EOke3sFJswNBGlYPPWTfLaKBEsnyzFiBbgY2BftSHO6fz37ir
+         iB7n3k39zUYD6CNfCVpneg2IepGtOjfbUDS8i1p53fJFZPJb1gRRFtBsmrA/+w/SRQjE
+         h1UMk3YvaEk4w+C+herZLpPL41hWRXFa92qbGeQlH1RD3PBbhftQWFqG9soyAnF/DB+j
+         YA7Z/gR5Nl561hziIBuIUfDeyqIZzu+V1MoFklEOCqHnBBASoga0lg3skXybANF0Wf5L
+         SQj6dz4q9A22Tmfu2ss4C8oAiyPODrrD/26T3YCBfu/yRw+J2rJqXEMaQ9iIEYyA2aQ1
+         0Y9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BigFvfX6HaLJy2raRZp/n1PTTcpikpD59IEoZss+6BI=;
+        b=4VNHuzkJ+LOug0MnMg//pszuLvei8ySs58cuCurj6lF/r/Yxg4FC/BhyYBMg3ZQzsI
+         /uVwT+apzuoDKcVMIms0E5EztnXWzZ7zvDL7q7QFHKKDs7n0sq75EyzgyS3LicIwDeq/
+         nY0q99MPbFrdenTWLXQuAI8DIwDd7o4YUVNOLp1M25msNKjriD+pVlmAK4as2Z+Qjqpx
+         jDSMftRGhj/8Zkiwl2rnf3qLpi4najUxkiYmK8Rd64XmHwc0rZIp8p2HGZVe0JKjVtLn
+         PF+a2GRz64OviNfQzjRFOfSFP4ZTcG2uCSK/8ooR+8VParNhF5gJsFc7RLAblUS/H5MR
+         HbFw==
+X-Gm-Message-State: AO0yUKV+VwxrOlW6AM2z8q1ox0Tjs+Dr7VQtNYdSaKGM+Aq3sT/8Seo6
+	/CfXYxSHxZdcwjzxGUsbHeDmfLAxYZ5ApAVYYuw=
+X-Google-Smtp-Source: AK7set8nnA/0UF5IApHoN8F8Gz6FsNitt0kG3Jjz6IQB5HOPNyaD/YQfE1zjKg3xl2L9Dh/VBRQ+ueW5LJ7k4L26CEU=
+X-Received: by 2002:a92:c5c8:0:b0:314:1098:ebaa with SMTP id
+ s8-20020a92c5c8000000b003141098ebaamr2391591ilt.117.1676051063663; Fri, 10
+ Feb 2023 09:44:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-SMTP-Client: 10.30.208.113, sjc-ads-9103.cisco.com
-X-Outbound-Node: rcdn-core-7.cisco.com
+References: <20230210142539.28035-1-twoerner@gmail.com>
+In-Reply-To: <20230210142539.28035-1-twoerner@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 10 Feb 2023 12:44:12 -0500
+Message-ID: <CADkTA4NwY6tb6HhA6LGk5dGxarbQzyrRS=H=i8u9TY8gBbAMZg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 1/2] python3-dtschema: add dependency on pylibfdt
+To: Trevor Woerner <twoerner@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Feb 2023 17:30:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176997
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Feb 2023 17:44:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176998
 
-There is an issue during 'make modules_prepare' execution for PPC_85xx:
+On Fri, Feb 10, 2023 at 9:25 AM Trevor Woerner <twoerner@gmail.com> wrote:
+>
+> dt-schema has a dependency on pylibfdt.
+>
 
-arch/powerpc/kernel/asm-offsets.c:58:10: fatal error: head_booke.h: No such file or directory
-   58 | #include "head_booke.h"
-      |          ^~~~~~~~~~~~~~
-compilation terminated.
-make[1]: *** [scripts/Makefile.build:118: arch/powerpc/kernel/asm-offsets.s] Error 1
+FWIW. I find that the pypi libfdt lags quite a bit, and isn't updated
+often (that being said, there aren't really updates in dtc either, so
+it probably isn't an issue).
 
-asm-offests.c has dependency on head_booke.h so add it to kernel-devsrc package
+When I've been building it for supporting my other projects, I've
+ended up using the main dtc git, and meson to do the build and
+install.
 
-Signed-off-by: Denys Zagorui <dzagorui@cisco.com>
----
- meta/recipes-kernel/linux/kernel-devsrc.bb | 1 +
- 1 file changed, 1 insertion(+)
+Bruce
 
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index 253b8d307d..683f182c43 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -215,6 +215,7 @@ do_install() {
- 
- 	    # v6,1+
- 	    cp -a --parents arch/powerpc/kernel/asm-offsets.c $kerneldir/build/ 2>/dev/null || :
-+	    cp -a --parents arch/powerpc/kernel/head_booke.h $kerneldir/build/ 2>/dev/null || :
- 	fi
- 	if [ "${ARCH}" = "riscv" ]; then
-             cp -a --parents arch/riscv/kernel/vdso/*gettimeofday.* $kerneldir/build/
+> Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+> ---
+> changes since v1:
+> - add a maintainer entry
+> ---
+>  meta/conf/distro/include/maintainers.inc           |  1 +
+>  .../python/python3-dtschema_2023.1.bb              |  2 +-
+>  .../python/python3-pylibfdt_1.6.1.bb               | 14 ++++++++++++++
+>  3 files changed, 16 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-devtools/python/python3-pylibfdt_1.6.1.bb
+>
+> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+> index ec7ea90d16a6..575ceac8f23c 100644
+> --- a/meta/conf/distro/include/maintainers.inc
+> +++ b/meta/conf/distro/include/maintainers.inc
+> @@ -661,6 +661,7 @@ RECIPE_MAINTAINER:pn-python3-pycparser = "Tim Orling <tim.orling@konsulko.com>"
+>  RECIPE_MAINTAINER:pn-python3-pyelftools = "Joshua Watt <JPEWhacker@gmail.com>"
+>  RECIPE_MAINTAINER:pn-python3-pygments = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+>  RECIPE_MAINTAINER:pn-python3-pygobject = "Zang Ruochen <zangrc.fnst@fujitsu.com>"
+> +RECIPE_MAINTAINER:pn-python3-pylibfdt = "Trevor Woerner <twoerner@gmail.com>"
+>  RECIPE_MAINTAINER:pn-python3-pyopenssl = "Tim Orling <tim.orling@konsulko.com>"
+>  RECIPE_MAINTAINER:pn-python3-pyparsing = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+>  RECIPE_MAINTAINER:pn-python3-pyproject-hooks = "Ross Burton <ross.burton@arm.com>"
+> diff --git a/meta/recipes-devtools/python/python3-dtschema_2023.1.bb b/meta/recipes-devtools/python/python3-dtschema_2023.1.bb
+> index 9767c95d3043..24bded9710a9 100644
+> --- a/meta/recipes-devtools/python/python3-dtschema_2023.1.bb
+> +++ b/meta/recipes-devtools/python/python3-dtschema_2023.1.bb
+> @@ -10,6 +10,6 @@ PYPI_PACKAGE = "dtschema"
+>  SRC_URI[sha256sum] = "8fc8c269e4c57e9d008af7b32cd33b77afd4ea1ac9552bcfa96b41b9e0c52586"
+>
+>  DEPENDS += "python3-setuptools-scm-native"
+> -RDEPENDS:${PN} += "python3-ruamel-yaml python3-jsonschema python3-rfc3987"
+> +RDEPENDS:${PN} += "python3-ruamel-yaml python3-jsonschema python3-rfc3987 python3-pylibfdt"
+>
+>  BBCLASSEXTEND = "native nativesdk"
+> diff --git a/meta/recipes-devtools/python/python3-pylibfdt_1.6.1.bb b/meta/recipes-devtools/python/python3-pylibfdt_1.6.1.bb
+> new file mode 100644
+> index 000000000000..966f8f1413fb
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python3-pylibfdt_1.6.1.bb
+> @@ -0,0 +1,14 @@
+> +DESCRIPTION = "libfdt from the dtc project"
+> +HOMEPAGE = "git://git.kernel.org/pub/scm/utils/dtc/dtc.git"
+> +LICENSE = "BSD-2-Clause"
+> +LIC_FILES_CHKSUM = "file://BSD-2-Clause;md5=5d6306d1b08f8df623178dfd81880927"
+> +
+> +inherit pypi setuptools3
+> +
+> +PYPI_PACKAGE = "pylibfdt"
+> +
+> +SRC_URI[sha256sum] = "90c667c5adf44c6ab2f13bdc566598897784c7b781bed91064e7373bd270b778"
+> +
+> +DEPENDS += "python3-setuptools-scm-native swig-native"
+> +
+> +BBCLASSEXTEND = "native nativesdk"
+> --
+> 2.36.0.rc2.17.g4027e30c53
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#176993): https://lists.openembedded.org/g/openembedded-core/message/176993
+> Mute This Topic: https://lists.openembedded.org/mt/96876890/1050810
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+
+
 -- 
-2.28.0
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
