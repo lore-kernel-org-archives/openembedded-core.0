@@ -1,173 +1,174 @@
-Return-Path: <zarkakareem@gmail.com>
+Return-Path: <bindudaniel1996@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02819C636D3
-	for <webhook@archiver.kernel.org>; Fri, 10 Feb 2023 10:24:04 +0000 (UTC)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web10.11295.1676024643375097950
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99A9DC636CD
+	for <webhook@archiver.kernel.org>; Fri, 10 Feb 2023 12:21:45 +0000 (UTC)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web10.13242.1676031704441317146
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Feb 2023 02:24:03 -0800
+ Fri, 10 Feb 2023 04:21:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=A+fH4gBq;
- spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: zarkakareem@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id ud5so14582413ejc.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 10 Feb 2023 02:24:03 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=CQNkNm4M;
+ spf=pass (domain: gmail.com, ip: 209.85.216.49, mailfrom: bindudaniel1996@gmail.com)
+Received: by mail-pj1-f49.google.com with SMTP id n20-20020a17090aab9400b00229ca6a4636so9646248pjq.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 10 Feb 2023 04:21:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3Ou5HeekhF6p2Xe1l4Bd/awDMzWIWrZZawzFpB5+zY8=;
-        b=A+fH4gBqIJjopSsUdlfa8YGzuBOYJfOCBbxQqegQEqSjDQ86ooad0LsL6KtvAtrizH
-         hGUIotawlnAjvd6hkuWAT1zhhZWbX1z2CbPoLSgNio2iVQrWLwi6oqougyDE7ZurHk0z
-         0YKMV73PguQ/24kOnDhwXjs8st59/a7GkM0cJlqqVlAZ9Gzywwi/Y+5BThecfCcHQ7AZ
-         8RD6o+/yCGEIEvpfXFyUkRtpYd1hxsyd+Uvp5qf+Zd6R87jJKurBzQ9PdQGP9NYmx0E2
-         ev4U/+zs4cfFD41WTr15EFVI+yqZAXLZ2MO50Hjez2M0O6fCfYVpxT72DgCStRIgoGPR
-         jLyA==
+        bh=9cyD1AexZ2b20mw795DJdbd4/CRrfPDoj+/qEbyOeD4=;
+        b=CQNkNm4MR1gYiWQGPbOSp+9Pbdm3zTQLJnfRLzjEy6xaZsUvI3ACFGTra3aMVThnUI
+         WleYgTrcZ4w3tSlDE0KAcrRJ5MmW0Z3Q66PudLj+enYe2/7a45zRegLXd7I1JhabK7sw
+         D0hHLHsllbkSk8/i0bjE9JIROLFzelCH6aYgr7r1kTTgANzIiuvPRJp9U81dfJbykIRj
+         rSZ63w+CD657BGdHxc0OFzY2BmONf+QlcwIMC1w1eobWK4SKsrJAk6ELgO7BNmjDCt2o
+         4sedLWDnUQZkLRHwhM9y4pe+3QnyRrZuXUz38Qr+f1kxoosXsS9PVT7GAX7GEJk3OcPH
+         Weyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3Ou5HeekhF6p2Xe1l4Bd/awDMzWIWrZZawzFpB5+zY8=;
-        b=T3JclSWBrABuQeXi1vUr+A8kzRFeDUqgMaXUmrAaBvA9HBvYoeG2j/gv57JvgrJS6B
-         RhxBdYHWtJx3vI00wcssbqb8uT50ZBC8ffINZM30Vq3XcMb4sIB1uAorUTyeHYqlQJTH
-         iZ89o3vq2bf+SNkdjPj0tw5SOHCn0BeZsicxR1K0QlAAKQSt+BgEhD0oMk2ZDNjDKEpC
-         0USfDMmYFFFWyt3lYV244JQeQyM+AlAtnynOx8nNrhZ7P0t699oit1vjGiS6fyHTX+oM
-         aLbyY97mzcUVE2SrgzrwZr1UCK/3NpjzmUWU+12c8msspSOGRTqMpA/ahK/yDpyx8OfS
-         D3yQ==
-X-Gm-Message-State: AO0yUKUiUBu3UcU8T0TF5KOtB0gyBnuOct6J2fpDs/YnyjfB3dzdWkxW
-	C/vADxuTeCozgd8tfYgNAIuKJErsuOU/iZsT
-X-Google-Smtp-Source: AK7set+RUhz8Vpesxcsy278yGYiJcSQQk75Wf87MSwTd3jCnu28ci1jX+7eFWis2Pay/vhezNhO7YQ==
-X-Received: by 2002:a17:906:914:b0:877:a2d1:7560 with SMTP id i20-20020a170906091400b00877a2d17560mr15913818ejd.27.1676024641547;
-        Fri, 10 Feb 2023 02:24:01 -0800 (PST)
-Received: from kareem-XPS-13-9370.wind3.hub ([151.60.13.132])
-        by smtp.gmail.com with ESMTPSA id p9-20020a1709060dc900b0088c804c4ae2sm2138710eji.201.2023.02.10.02.24.00
+        bh=9cyD1AexZ2b20mw795DJdbd4/CRrfPDoj+/qEbyOeD4=;
+        b=FfXYmEa1B/huaCKAyr5NwIfdQzVvdIyn6YR8td03lJI27xKff/AhDuhiyRIcz0Ypaz
+         X1Pitj7B/PIKdaEe4kze6oWLYl5LwjvVwli+jov6a0+bLI7IxeJAlLvoxVgLJ+s/Zm9M
+         xXYmRzwiguG2gkWeWm3lgideDo4mYN4AH38g7KndmQ+Pg3SRAhtxLCEVwLYFOS6SEbmD
+         hz/nab/j0DnT9+HCEpA4tZnqgVTMLtKVYr0ZJGZIMrlgXxBRqW+CI+GX63EzqBGr8Wnf
+         cOlGajESdI17ohrPuSzq3oX8j7SuCJtTBc7nSH7QFgSTy7fhdRBG99wyw8b8Bb7pCBDI
+         9Hbw==
+X-Gm-Message-State: AO0yUKXh9epP8ErbBiH1t3xqDP3BEOfxU3j0F5XDZFb3vtW660xJAqIc
+	MT54TZbJCMmv20XFtSomikmXR1w3vmw=
+X-Google-Smtp-Source: AK7set9NH3PM50usgxjAxgFLDgUzEdq/fWzG5KALiAvcenfvBoP+QFls2QhnXHyqcF1LQN3BMiOQtw==
+X-Received: by 2002:a17:90b:164e:b0:22c:4e1:93e with SMTP id il14-20020a17090b164e00b0022c04e1093emr16549548pjb.15.1676031703469;
+        Fri, 10 Feb 2023 04:21:43 -0800 (PST)
+Received: from localhost.localdomain ([2401:4900:1f26:135a:cc5f:d2c8:7d23:7883])
+        by smtp.gmail.com with ESMTPSA id f5-20020a637545000000b0047917991e83sm2890367pgn.48.2023.02.10.04.21.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Feb 2023 02:24:00 -0800 (PST)
-From: Kareem Zarka <zarkakareem@gmail.com>
-X-Google-Original-From: Kareem Zarka <kareem.zarka@huawei.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Kareem Zarka <zarkakareem@gmail.com>,
-	Stefan Schmidt <stefan.schmidt@huawei.com>,
-	Kareem Zarka <kareem.zarka@huawei.com>
-Subject: [PATCH] meta/lib/oeqa/selftest/cases/wic: Add tests for configuring kernel image install into boot partition.
-Date: Fri, 10 Feb 2023 11:23:37 +0100
-Message-Id: <20230210102337.1527237-2-kareem.zarka@huawei.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230210102337.1527237-1-kareem.zarka@huawei.com>
-References: <20230210102337.1527237-1-kareem.zarka@huawei.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Fri, 10 Feb 2023 04:21:43 -0800 (PST)
+From: Bhabu Bindu <bindudaniel1996@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	bhabu.bindu@kpit.com
+Cc: akash.hadke@kpit.com,
+	Narpat Mali <narpat.mali@windriver.com>,
+	Steve Sakoman <steve@sakoman.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [OE-core][dunfell][PATCH] ffmpeg: fix for CVE-2022-3341
+Date: Fri, 10 Feb 2023 17:50:58 +0530
+Message-Id: <20230210122058.8715-1-bindudaniel1996@gmail.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Feb 2023 10:24:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176990
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Feb 2023 12:21:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176991
 
-- test_skip_kernel_install: This test verifies that the kernel is not
-installed in the boot partition when the 'install-kernel-into-boot-dir'
-parameter is set to false.
+From: Bhabu Bindu <bhabu.bindu@kpit.com>
 
-- test_kernel_install: This test verifies that the kernel is installed
-in the boot partition when the 'install-kernel-into-boot-dir' parameter
-is set to true .
+avformat/nutdec: Add check for avformat_new_stream
+Check for failure of avformat_new_stream() and propagate
+the error code.
 
-Both tests use a WKS (Kickstart) file to specify the desired
-configuration, build a disk image using WIC, and extract the disk image
-to a temporary directory to verify the results.
+Upstream-Status: Backport [https://git.yoctoproject.org/poky/commit/?h=kirkstone&id=bba70ce34115151362bfdc49a545ee708eb297ca]
 
-Signed-off-by: Kareem Zarka <kareem.zarka@huawei.com>
+(From OE-Core rev: e17ddd0fafb562ed7ebe7708dac9bcef2d6cecc1)
+
+Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit bba70ce34115151362bfdc49a545ee708eb297ca)
+Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
 ---
- meta/lib/oeqa/selftest/cases/wic.py | 66 +++++++++++++++++++++++++++++
- 1 file changed, 66 insertions(+)
+ ...ec-Add-check-for-avformat_new_stream.patch | 66 +++++++++++++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb |  3 +-
+ 2 files changed, 68 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avformat-nutdec-Add-check-for-avformat_new_stream.patch
 
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index ca1abb970a..b46dccc144 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -16,6 +16,7 @@ import hashlib
- from glob import glob
- from shutil import rmtree, copy
- from tempfile import NamedTemporaryFile
-+from tempfile import TemporaryDirectory
- 
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.core.decorator import OETestTag
-@@ -146,6 +147,71 @@ class CLITests(OESelftestTestCase):
-         self.assertEqual(1, runCmd('wic', ignore_status=True).status)
- 
- class Wic(WicTestCase):
-+    def test_skip_kernel_install(self):
-+        """Test the functionality of not installing the kernel in the boot directory using the wic plugin"""
-+        # create a temporary file for the WKS content
-+        with NamedTemporaryFile("w", suffix=".wks") as wks:
-+            wks.write(
-+                'part --source bootimg-efi '
-+                '--sourceparams="loader=grub-efi,install-kernel-into-boot-dir=false" '
-+                '--label boot --active\n'
-+            )
-+            wks.flush()
-+            # create a temporary directory to extract the disk image to
-+            with TemporaryDirectory() as tmpdir:
-+                img = 'core-image-minimal'
-+                # build the image using the WKS file
-+                cmd = "wic create %s -e %s -o %s" % (
-+                    wks.name, img, self.resultdir)
-+                runCmd(cmd)
-+                wksname = os.path.splitext(os.path.basename(wks.name))[0]
-+                out = glob(os.path.join(
-+                    self.resultdir, "%s-*.direct" % wksname))
-+                self.assertEqual(1, len(out))
-+                # extract the content of the disk image to the temporary directory
-+                cmd = "wic cp %s:1 %s" % (out[0], tmpdir)
-+                runCmd(cmd)
-+                # check if the kernel is installed or not
-+                kimgtype = get_bb_var('KERNEL_IMAGETYPE', img)
-+                for file in os.listdir(tmpdir):
-+                    if file == kimgtype:
-+                        raise AssertionError(
-+                            "The kernel image '{}' was found in the partition".format(kimgtype)
-+                        )
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avformat-nutdec-Add-check-for-avformat_new_stream.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avformat-nutdec-Add-check-for-avformat_new_stream.patch
+new file mode 100644
+index 0000000000..706db9669a
+--- /dev/null
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avformat-nutdec-Add-check-for-avformat_new_stream.patch
+@@ -0,0 +1,66 @@
++From 9cf652cef49d74afe3d454f27d49eb1a1394951e Mon Sep 17 00:00:00 2001
++From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
++Date: Wed, 23 Feb 2022 10:31:59 +0800
++Subject: [PATCH] avformat/nutdec: Add check for avformat_new_stream
 +
-+    def test_kernel_install(self):
-+        """Test the installation of the kernel to the boot directory in the wic plugin"""
-+        # create a temporary file for the WKS content
-+        with NamedTemporaryFile("w", suffix=".wks") as wks:
-+            wks.write(
-+                'part --source bootimg-efi '
-+                '--sourceparams="loader=grub-efi,install-kernel-into-boot-dir=true" '
-+                '--label boot --active\n'
-+            )
-+            wks.flush()
-+            # create a temporary directory to extract the disk image to
-+            with TemporaryDirectory() as tmpdir:
-+                img = 'core-image-minimal'
-+                # build the image using the WKS file
-+                cmd = "wic create %s -e %s -o %s" % (wks.name, img, self.resultdir)
-+                runCmd(cmd)
-+                wksname = os.path.splitext(os.path.basename(wks.name))[0]
-+                out = glob(os.path.join(self.resultdir, "%s-*.direct" % wksname))
-+                self.assertEqual(1, len(out))
-+                # extract the content of the disk image to the temporary directory
-+                cmd = "wic cp %s:1 %s" % (out[0], tmpdir)
-+                runCmd(cmd)
-+                # check if the kernel is installed or not
-+                kimgtype = get_bb_var('KERNEL_IMAGETYPE', img)
-+                found = False
-+                for file in os.listdir(tmpdir):
-+                    if file == kimgtype:
-+                        found = True
-+                        break
-+                self.assertTrue(
-+                    found, "The kernel image '{}' was not found in the boot partition".format(kimgtype)
-+                )
++Check for failure of avformat_new_stream() and propagate
++the error code.
 +
-     def test_build_image_name(self):
-         """Test wic create wictestdisk --image-name=core-image-minimal"""
-         cmd = "wic create wictestdisk --image-name=core-image-minimal -o %s" % self.resultdir
++Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
++
++CVE: CVE-2022-3341
++
++Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/9cf652cef49d74afe3d454f27d49eb1a1394951e]
++
++Comments: Refreshed Hunk
++Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
++Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
++---
++ libavformat/nutdec.c | 16 ++++++++++++----
++ 1 file changed, 12 insertions(+), 4 deletions(-)
++
++diff --git a/libavformat/nutdec.c b/libavformat/nutdec.c
++index 0a8a700acf..f9ad2c0af1 100644
++--- a/libavformat/nutdec.c
+++++ b/libavformat/nutdec.c
++@@ -351,8 +351,12 @@ static int decode_main_header(NUTContext *nut)
++         ret = AVERROR(ENOMEM);
++         goto fail;
++     }
++-    for (i = 0; i < stream_count; i++)
++-        avformat_new_stream(s, NULL);
+++    for (i = 0; i < stream_count; i++) {
+++        if (!avformat_new_stream(s, NULL)) {
+++            ret = AVERROR(ENOMEM);
+++            goto fail;
+++        }
+++    }
++ 
++     return 0;
++ fail:
++@@ -793,19 +793,23 @@
++     NUTContext *nut = s->priv_data;
++     AVIOContext *bc = s->pb;
++     int64_t pos;
++-    int initialized_stream_count;
+++    int initialized_stream_count, ret;
++ 
++     nut->avf = s;
++ 
++     /* main header */
++     pos = 0;
+++    ret = 0;
++     do {
+++        if (ret == AVERROR(ENOMEM))
+++            return ret;
+++
++         pos = find_startcode(bc, MAIN_STARTCODE, pos) + 1;
++         if (pos < 0 + 1) {
++             av_log(s, AV_LOG_ERROR, "No main startcode found.\n");
++             goto fail;
++         }
++-    } while (decode_main_header(nut) < 0);
+++    } while ((ret = decode_main_header(nut)) < 0);
++ 
++     /* stream headers */
++     pos = 0;
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
+index cbfdbf0563..737fd33fa5 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
+@@ -30,7 +30,8 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://CVE-2021-3566.patch \
+            file://CVE-2021-38291.patch \
+            file://CVE-2022-1475.patch \
+-          "
++           file://0001-avformat-nutdec-Add-check-for-avformat_new_stream.patch \
++           "
+ SRC_URI[md5sum] = "348956fc2faa57a2f79bbb84ded9fbc3"
+ SRC_URI[sha256sum] = "cb754255ab0ee2ea5f66f8850e1bd6ad5cac1cd855d0a2f4990fb8c668b0d29c"
+ 
 -- 
-2.25.1
+2.17.1
 
 
