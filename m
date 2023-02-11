@@ -1,150 +1,166 @@
-Return-Path: <dbaryshkov@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9110C61DA4
-	for <webhook@archiver.kernel.org>; Sat, 11 Feb 2023 15:38:45 +0000 (UTC)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web11.11370.1676129916852167758
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E360C61DA4
+	for <webhook@archiver.kernel.org>; Sat, 11 Feb 2023 17:10:06 +0000 (UTC)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+ by mx.groups.io with SMTP id smtpd.web10.13508.1676135403175441082
  for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Feb 2023 07:38:37 -0800
+ Sat, 11 Feb 2023 09:10:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=OCDaMgE4;
- spf=pass (domain: linaro.org, ip: 209.85.218.49, mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-ej1-f49.google.com with SMTP id sa10so22449895ejc.9
-        for <openembedded-core@lists.openembedded.org>; Sat, 11 Feb 2023 07:38:36 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=k+XBaRnd;
+ spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f43.google.com with SMTP id h24so13075983lfv.6
+        for <openembedded-core@lists.openembedded.org>; Sat, 11 Feb 2023 09:10:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=p4TOYZHAEAw5RICc364zbehkvZXtGUt5wepPxt6fJzY=;
-        b=OCDaMgE4iUnRPbc+ywp3kfAjjqCnpnW7h0I1pKZgU2/wYI6pMB/HcBwgXIDmUsGv8w
-         Q0lgy6Tf0mClDDnL55aOZza9UZg3eaq/CWIX6WitEThzrAtiPc+0+ZAfleGFKuQny09t
-         InA/jidrko2TcFpDbL5/3tSI7MY2x7Z5SZG8e8s4ggDUx1OE//3WYpdvGMzMk8m6yAI2
-         t+dr8AKnaEDE66VHvnTusvaGGLfwVeO9q5DTgQCdx2ZSsOOK66j3nqGXl/6uzVvMhE4M
-         vZjPWSzdZbX4vPuNZgvyHckkjUJYYAWmfvcEW9D04ktYaiPTpz0eG7SZ6bv7AoIYbFcS
-         7cSQ==
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=T3RFGpuIaI7CgPxjhmDYhAMn6N9dKTVTLdbIKuOgRS4=;
+        b=k+XBaRndHsdiH9dSdNW41jdwvhbdhl33IW3qugqx71AGB4mEmwQysUjM/sRatLeguS
+         YmKoYqhAKxCi9mRXoT+GPc8d0aY8yHE4hxxGGcHm869ZXC+d7VvqJ+rRlEMLhvI+WS7V
+         MDWG44wSxjkeBY1V6l4tRg/ALsQ5iwvY9mht3CD0et32YLAu897rObXHlvGyoCBaDsNh
+         jqgA7j4xxDffHPEJyxgnBghCG6nPhStt1baFPUJtadWK1M5Z+xA45yy4KvmcgaegQBZE
+         p+qFXtOSDRqs/rFzzOgeAW4PFxjCm2+FksbZ9CvoLYQeCGyB6rXwOBohrdFzAUslzkV/
+         IYaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=p4TOYZHAEAw5RICc364zbehkvZXtGUt5wepPxt6fJzY=;
-        b=LDNkgQDwGWkdoKkTe4svMzv+Z1VZ3sVo1eUIrFFYpo6uFyN+ewW55bnEyxqTTN0O6T
-         2VTCuvEiu62asr+D0wuSgtS7P5WhLQTUWFmIb5/X7UjcsbkgFT3lFIzTW1NL/B4H0IjG
-         A7gmGj0g8yUGsoDRsN5KzqrGq7Pbz+jixZd+/tXG053yIFsVXW5aORPaXz/NxdpxmaeU
-         T8ZFG5ReRMtqfUUMa0ktq08yMVqOBGnyJ8BCQv4l7Cvdw4G6xrYILCA9SMYQ1VjvKtOc
-         PCshtjtgtf77iS7Tx0HRAzB+ooIuBVAr0PD9jSoDHyH9l9Z38ryyqMn0psEKf0VYjWT1
-         +qSw==
-X-Gm-Message-State: AO0yUKWwgVn9BlLJd8j1PXEnbFWqVd1J1R3JQHVoXZUWXM7rwV+Tou29
-	tYMnDMXXHpMQlXdSoCpBA2d7GOJS+Qt+3dpP
-X-Google-Smtp-Source: AK7set+xliFFk5BYSQuDJAH00d0scuvJ2jzsamToxiQ/U6dHUQ6WO3YNwdz9Je23GNR6qS/WMCDD+g==
-X-Received: by 2002:a17:906:942:b0:888:7ac8:c0f4 with SMTP id j2-20020a170906094200b008887ac8c0f4mr19647814ejd.25.1676129915098;
-        Sat, 11 Feb 2023 07:38:35 -0800 (PST)
-Received: from umbar.unikie.fi ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id og15-20020a1709071dcf00b007aea1dc1840sm3985303ejc.111.2023.02.11.07.38.34
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Feb 2023 07:38:34 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] rust-android-sparse: add lightweight simg2img/img2simg implementation
-Date: Sat, 11 Feb 2023 18:38:27 +0300
-Message-Id: <20230211153828.2113018-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.30.2
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=T3RFGpuIaI7CgPxjhmDYhAMn6N9dKTVTLdbIKuOgRS4=;
+        b=tQTqd5P1fVUc/m7p57J9MpNQw3vLoXkjn/EgfA0sFV9XpoxQcdU54Z3AlrtvPKhwBN
+         16oRe6FaJY6uCIiYZKnN4mrIH9+6FmdQAHD6Vb0od/j8vy5d4o5cSwwJyqVfKWUkdNxX
+         1XiCQ1/Sq72zLMgLYApYMujReVGApIRZtZiv22r5GIb4yrwHP809safojbY3Xq/MrF2g
+         c8S22nHiIT+3y7EJk5PH4t2w1c7XEQXUCEtoM30QD/olPRFebI6FFYWgO1Bx5sTe0A/3
+         2Va+GbaNLZBnKR95YeyskrQkVF87QYvcmebz0F9JOvepAiog4+4Yigfhqc7KM3R1pWuN
+         ihXg==
+X-Gm-Message-State: AO0yUKX3WPdGUfQm1PFjkb3/nGZhHCR8GodSEbmerEeXekr5bayf4ftb
+	1rBJzjwBMlp7ES1SeMRvVByB9UEC/0urUoF9Gzo=
+X-Google-Smtp-Source: AK7set//trWr2ly8z9dbHG1KlsQgGHjQhLbeXIZ8tZTwDwA8ZSSW5wnNqU1Z6ywqPU1P3T8DQj6jzYudYSaDk8LSowI=
+X-Received: by 2002:ac2:52b8:0:b0:4db:20bc:e92f with SMTP id
+ r24-20020ac252b8000000b004db20bce92fmr1516933lfm.131.1676135401197; Sat, 11
+ Feb 2023 09:10:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230211153828.2113018-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230211153828.2113018-1-dmitry.baryshkov@linaro.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sat, 11 Feb 2023 18:09:49 +0100
+Message-ID: <CANNYZj-O2ozNM6NUJuKEzKHiOPf7y1kcE=b2eDwwkAY4RBCKkA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] rust-android-sparse: add lightweight
+ simg2img/img2simg implementation
+To: Dmitry Baryshkov <dbaryshkov@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 11 Feb 2023 15:38:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177007
+ <openembedded-core@lists.openembedded.org>; Sat, 11 Feb 2023 17:10:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177009
 
-The Android's simg2img/img2simg comes from android-tools, which is a
-huge package with lots of dependencies on its own. It resides inside
-meta-oe rather than OE-Core. Add lightweight tool to handle sparse
-images, which is small enough to be pushed into OE-Core.
+But is it necessary or desirable to have it in core? This does seem
+like something that belongs in meta-oe rather.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- .../rust-android-sparse_0.6.0.bb              | 68 +++++++++++++++++++
- 1 file changed, 68 insertions(+)
- create mode 100644 meta/recipes-extended/rust-android-sparse/rust-android-sparse_0.6.0.bb
+Alex
 
-diff --git a/meta/recipes-extended/rust-android-sparse/rust-android-sparse_0.6.0.bb b/meta/recipes-extended/rust-android-sparse/rust-android-sparse_0.6.0.bb
-new file mode 100644
-index 000000000000..83652b9d452f
---- /dev/null
-+++ b/meta/recipes-extended/rust-android-sparse/rust-android-sparse_0.6.0.bb
-@@ -0,0 +1,68 @@
-+# Auto-Generated by cargo-bitbake 0.3.16
-+#
-+inherit cargo
-+
-+# how to get android-sparse could be as easy as but default to a git checkout:
-+SRC_URI += "crate://crates.io/android-sparse/0.6.0"
-+S= "${CARGO_VENDORING_DIRECTORY}/android-sparse-${PV}"
-+
-+# please note if you have entries that do not begin with crate://
-+# you must change them to how that package can be fetched
-+SRC_URI += " \
-+    crate://crates.io/aho-corasick/0.7.18 \
-+    crate://crates.io/assert_cmd/0.9.1 \
-+    crate://crates.io/autocfg/1.0.1 \
-+    crate://crates.io/bitflags/1.3.2 \
-+    crate://crates.io/build_const/0.2.2 \
-+    crate://crates.io/byteorder/1.4.3 \
-+    crate://crates.io/cfg-if/1.0.0 \
-+    crate://crates.io/clap/2.34.0 \
-+    crate://crates.io/crc/1.8.1 \
-+    crate://crates.io/difference/2.0.0 \
-+    crate://crates.io/escargot/0.3.1 \
-+    crate://crates.io/float-cmp/0.4.0 \
-+    crate://crates.io/getrandom/0.2.3 \
-+    crate://crates.io/itoa/0.4.8 \
-+    crate://crates.io/libc/0.2.109 \
-+    crate://crates.io/memchr/2.4.1 \
-+    crate://crates.io/normalize-line-endings/0.2.2 \
-+    crate://crates.io/num-traits/0.2.14 \
-+    crate://crates.io/ppv-lite86/0.2.15 \
-+    crate://crates.io/predicates-core/0.9.0 \
-+    crate://crates.io/predicates-tree/0.9.0 \
-+    crate://crates.io/predicates/0.9.1 \
-+    crate://crates.io/proc-macro2/1.0.33 \
-+    crate://crates.io/quote/1.0.10 \
-+    crate://crates.io/rand/0.8.4 \
-+    crate://crates.io/rand_core/0.6.3 \
-+    crate://crates.io/rand_chacha/0.3.1 \
-+    crate://crates.io/rand_hc/0.3.1 \
-+    crate://crates.io/redox_syscall/0.2.10 \
-+    crate://crates.io/regex-syntax/0.6.25 \
-+    crate://crates.io/regex/1.5.4 \
-+    crate://crates.io/remove_dir_all/0.5.3 \
-+    crate://crates.io/ryu/1.0.6 \
-+    crate://crates.io/serde/1.0.130 \
-+    crate://crates.io/serde_derive/1.0.130 \
-+    crate://crates.io/serde_json/1.0.72 \
-+    crate://crates.io/syn/1.0.82 \
-+    crate://crates.io/tempfile/3.2.0 \
-+    crate://crates.io/textwrap/0.11.0 \
-+    crate://crates.io/treeline/0.1.0 \
-+    crate://crates.io/unicode-width/0.1.9 \
-+    crate://crates.io/unicode-xid/0.2.2 \
-+    crate://crates.io/wasi/0.10.2+wasi-snapshot-preview1 \
-+    crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 \
-+    crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 \
-+    crate://crates.io/winapi/0.3.9 \
-+"
-+
-+LIC_FILES_CHKSUM = " \
-+    file://LICENSE;md5=0ffe68749328daf57dd85d5ca6ee981f \
-+"
-+
-+SUMMARY = "An implementation of Android's sparse file format."
-+HOMEPAGE = "https://gitlab.com/ra_kete/android-sparse-rs"
-+LICENSE = "MIT"
-+
-+BBCLASSEXTEND += "native"
--- 
-2.30.2
-
+On Sat, 11 Feb 2023 at 16:38, Dmitry Baryshkov <dbaryshkov@gmail.com> wrote:
+>
+> The Android's simg2img/img2simg comes from android-tools, which is a
+> huge package with lots of dependencies on its own. It resides inside
+> meta-oe rather than OE-Core. Add lightweight tool to handle sparse
+> images, which is small enough to be pushed into OE-Core.
+>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  .../rust-android-sparse_0.6.0.bb              | 68 +++++++++++++++++++
+>  1 file changed, 68 insertions(+)
+>  create mode 100644 meta/recipes-extended/rust-android-sparse/rust-android-sparse_0.6.0.bb
+>
+> diff --git a/meta/recipes-extended/rust-android-sparse/rust-android-sparse_0.6.0.bb b/meta/recipes-extended/rust-android-sparse/rust-android-sparse_0.6.0.bb
+> new file mode 100644
+> index 000000000000..83652b9d452f
+> --- /dev/null
+> +++ b/meta/recipes-extended/rust-android-sparse/rust-android-sparse_0.6.0.bb
+> @@ -0,0 +1,68 @@
+> +# Auto-Generated by cargo-bitbake 0.3.16
+> +#
+> +inherit cargo
+> +
+> +# how to get android-sparse could be as easy as but default to a git checkout:
+> +SRC_URI += "crate://crates.io/android-sparse/0.6.0"
+> +S= "${CARGO_VENDORING_DIRECTORY}/android-sparse-${PV}"
+> +
+> +# please note if you have entries that do not begin with crate://
+> +# you must change them to how that package can be fetched
+> +SRC_URI += " \
+> +    crate://crates.io/aho-corasick/0.7.18 \
+> +    crate://crates.io/assert_cmd/0.9.1 \
+> +    crate://crates.io/autocfg/1.0.1 \
+> +    crate://crates.io/bitflags/1.3.2 \
+> +    crate://crates.io/build_const/0.2.2 \
+> +    crate://crates.io/byteorder/1.4.3 \
+> +    crate://crates.io/cfg-if/1.0.0 \
+> +    crate://crates.io/clap/2.34.0 \
+> +    crate://crates.io/crc/1.8.1 \
+> +    crate://crates.io/difference/2.0.0 \
+> +    crate://crates.io/escargot/0.3.1 \
+> +    crate://crates.io/float-cmp/0.4.0 \
+> +    crate://crates.io/getrandom/0.2.3 \
+> +    crate://crates.io/itoa/0.4.8 \
+> +    crate://crates.io/libc/0.2.109 \
+> +    crate://crates.io/memchr/2.4.1 \
+> +    crate://crates.io/normalize-line-endings/0.2.2 \
+> +    crate://crates.io/num-traits/0.2.14 \
+> +    crate://crates.io/ppv-lite86/0.2.15 \
+> +    crate://crates.io/predicates-core/0.9.0 \
+> +    crate://crates.io/predicates-tree/0.9.0 \
+> +    crate://crates.io/predicates/0.9.1 \
+> +    crate://crates.io/proc-macro2/1.0.33 \
+> +    crate://crates.io/quote/1.0.10 \
+> +    crate://crates.io/rand/0.8.4 \
+> +    crate://crates.io/rand_core/0.6.3 \
+> +    crate://crates.io/rand_chacha/0.3.1 \
+> +    crate://crates.io/rand_hc/0.3.1 \
+> +    crate://crates.io/redox_syscall/0.2.10 \
+> +    crate://crates.io/regex-syntax/0.6.25 \
+> +    crate://crates.io/regex/1.5.4 \
+> +    crate://crates.io/remove_dir_all/0.5.3 \
+> +    crate://crates.io/ryu/1.0.6 \
+> +    crate://crates.io/serde/1.0.130 \
+> +    crate://crates.io/serde_derive/1.0.130 \
+> +    crate://crates.io/serde_json/1.0.72 \
+> +    crate://crates.io/syn/1.0.82 \
+> +    crate://crates.io/tempfile/3.2.0 \
+> +    crate://crates.io/textwrap/0.11.0 \
+> +    crate://crates.io/treeline/0.1.0 \
+> +    crate://crates.io/unicode-width/0.1.9 \
+> +    crate://crates.io/unicode-xid/0.2.2 \
+> +    crate://crates.io/wasi/0.10.2+wasi-snapshot-preview1 \
+> +    crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 \
+> +    crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 \
+> +    crate://crates.io/winapi/0.3.9 \
+> +"
+> +
+> +LIC_FILES_CHKSUM = " \
+> +    file://LICENSE;md5=0ffe68749328daf57dd85d5ca6ee981f \
+> +"
+> +
+> +SUMMARY = "An implementation of Android's sparse file format."
+> +HOMEPAGE = "https://gitlab.com/ra_kete/android-sparse-rs"
+> +LICENSE = "MIT"
+> +
+> +BBCLASSEXTEND += "native"
+> --
+> 2.30.2
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#177007): https://lists.openembedded.org/g/openembedded-core/message/177007
+> Mute This Topic: https://lists.openembedded.org/mt/96898285/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
