@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 682C5C64ED6
-	for <webhook@archiver.kernel.org>; Sat, 11 Feb 2023 21:24:37 +0000 (UTC)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web11.19495.1676150659841718988
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DC27C61DA4
+	for <webhook@archiver.kernel.org>; Sat, 11 Feb 2023 21:24:47 +0000 (UTC)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web11.19514.1676150687007490492
  for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Feb 2023 13:24:35 -0800
+ Sat, 11 Feb 2023 13:24:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=RJp01Pcu;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f172.google.com with SMTP id x31so5924780pgl.6
-        for <openembedded-core@lists.openembedded.org>; Sat, 11 Feb 2023 13:24:35 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=7zf5cAoQ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f48.google.com with SMTP id r9-20020a17090a2e8900b00233ba727724so2861547pjd.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 11 Feb 2023 13:24:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=A+KwquLrLYw+qWBpYpeMvSymNEq2vlNL4g7oWddzl4E=;
-        b=RJp01Pcubd99yizS/IoqkIdJsay29iIlPaqms8C1Lzb70hi17lWGs1woOOW94I/gOJ
-         SZja5bcnswgpOFPOvRSw9oB9U5vmXvQ4EfylxumUL2dhn7fULd7DxQ2AgzHGEb7HfNsg
-         JdgvUTtosRdRIgJiZmBfLK6otxACH13ngW8ZIG8prRXewLMJeiDWXk49dg8HSsqhwam/
-         IRKp53FDblD6F1x8QS1RbIUcHGgjzQciWnf/czsqPuDmyfreq/i6jxbuIPpF6B/wPx22
-         OT6fhsm/yCMZLMS0g5D2sSc8U2F8QeIKpfB0aijhDXg4WlcfvDd93HVOhJeL4AI9JEvu
-         sfeA==
+        bh=epAO2EG8Q+yCBh9i+dO5JtNWsxsXr+yoTlOwZxxSwdY=;
+        b=7zf5cAoQPbITt8tJJgJ5FnePr9odPaw8K3oiC0+yiE9lA9jKvntkVFhiv5XQJ25DKF
+         ZN5P1+RIhJx0u5IvhE9guYOCOe2eWazvCNTUBF3U6zFAO/+GXXK74C5if1v0oYshrdlO
+         2zu7mAjY9IV4uY3hN3rnHp3P9dHineILoHbc5b8TbSbJgxVz7egV6BUF1s3AUSVaCDEj
+         eHH4VhFx8EdSsbLVOWP6IXS3ciLyhqjj1Nt0/0pw7gpGo57cMCxs+KkMem2HaD9AL6Bt
+         hwJSnWHYKTknX8Z+mRayviuKFnJjxH6hsO8s0t6xaHVtZBL+INBEoHNu1FsB8v1MjOc3
+         tIVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=A+KwquLrLYw+qWBpYpeMvSymNEq2vlNL4g7oWddzl4E=;
-        b=rIUJo2Gp86Qv4KogT4DeELzzbqqb5PTtePvLsozrmTjxF8X0ZDrTdCaGDV0YzfezK8
-         qiVEH6/Ti6h9n2+cVHTOKvnhXjSeEoT/pWiMF4aJ+qaaGvxTfyE3w5yAkbr5sNWhBDl8
-         Ud5toaPkHgab6oFMcqNsdctkQyjjL/zZS4qU55tXdWHwX5G0g1MEXstvPtiFt2R47jZp
-         eyvSyP/2tJZRZjvOmM+ZHgSWBBd2c/UlSWW9ms8w0zShMkkPeHO2jyMs4i6hiUFXmTzi
-         oYCZJlWiQY3SAUe1wlUHMYFn0Z6EKNmRyysFMunwFXIToddGpM5ywUcvHrUUHL18xxkl
-         75FA==
-X-Gm-Message-State: AO0yUKXu/1kGYxe4eavQ5xeMNnPAR7LahMHgWCNCqmHRNlLkI/svCoi5
-	PAroshta/qPgbxfM9Tj2dd1aGRCaU991IQLT3vE=
-X-Google-Smtp-Source: AK7set/Vgja0MZ6gznpaZkNpiYJserFeaR1xr7upIn17lZlTpSPaDbGtALJveviwNS5xvpmyCMlMnQ==
-X-Received: by 2002:a62:5881:0:b0:5a8:abd7:a9e8 with SMTP id m123-20020a625881000000b005a8abd7a9e8mr159560pfb.27.1676150674266;
-        Sat, 11 Feb 2023 13:24:34 -0800 (PST)
+        bh=epAO2EG8Q+yCBh9i+dO5JtNWsxsXr+yoTlOwZxxSwdY=;
+        b=CIAbH8kSKd+CFBXoh2hV52FmwH5qysZKE/+MBFZLAbI33Rolle/ULOqlXUWcc5djB8
+         RqkP2PBi925g03795QoWOhMfswq4rYLJ4yMPRzZelx1uVHjpDEPMsfq74ZVUTCc7cl3i
+         2RbjlfXWNjS0vBNwNJAk/aLNfWJ2ffSAsw7KP5vpfpBGw/5vw33Gh7XTeoLr1X+z65Iz
+         asAuf6D6J+Ze+GlxI8l7RpStPtj+p3FCuV4BZNKn/SYmrMmxA50GqnzoY9tMkvhwCgsl
+         xy3UK/3lK1zb0/xKb5z9OR9LornO9uPjVBQitUjSpftZgOSdIabUw759YR3APziF0PTe
+         vJGw==
+X-Gm-Message-State: AO0yUKWobc64AviXze6yEvGd49mrdC3qHqqIFEIrWmVjLX+Y27n+fLVB
+	y489n9VTqPwTSmjkBsPpRw7+V9RZEOf6/pOhaMY=
+X-Google-Smtp-Source: AK7set9/bOaFfwRrF9a1QgnC8Yq3LaIAshySEA3tnkHP45pqyvhq89PL5Xul/ZlaE4tE0jJCObkg+w==
+X-Received: by 2002:a05:6a21:3392:b0:bf:5d4e:1328 with SMTP id yy18-20020a056a21339200b000bf5d4e1328mr12768965pzb.25.1676150685933;
+        Sat, 11 Feb 2023 13:24:45 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id v23-20020aa78097000000b0059393d46228sm5398595pff.144.2023.02.11.13.24.33
+        by smtp.gmail.com with ESMTPSA id v23-20020aa78097000000b0059393d46228sm5398595pff.144.2023.02.11.13.24.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Feb 2023 13:24:33 -0800 (PST)
+        Sat, 11 Feb 2023 13:24:45 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 21/28] sstate.bbclass: Fetch non-existing local .sig files if needed
-Date: Sat, 11 Feb 2023 11:23:44 -1000
-Message-Id: <51c7e5c9f292278f5bdf35bdbd251c50482d55dc.1676150527.git.steve@sakoman.com>
+Subject: [OE-core][langdale 28/28] oeqa context.py: fix --target-ip comment to include ssh port number
+Date: Sat, 11 Feb 2023 11:23:51 -1000
+Message-Id: <62b894d75fb3361ed4d5473ae69188bce390980a.1676150527.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1676150527.git.steve@sakoman.com>
 References: <cover.1676150527.git.steve@sakoman.com>
@@ -60,54 +60,40 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 11 Feb 2023 21:24:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177031
+ <openembedded-core@lists.openembedded.org>; Sat, 11 Feb 2023 21:24:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177038
 
-From: Tobias Hagelborn <tobias.hagelborn@axis.com>
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
 
-For the case of a global shared state cache and a local sstate cache
-with a mix of signed and un-signed entries, there is a case where
-a .sig is missing locally, but may exist in the global sstate cache.
+Providing ssh port number is supported too with
+"--target-ip 192.168.0.10:22".
 
-For this case, do not just fail sstate fetch, but rather backfill
-the .sig file from the global sstate cache.
-
-If this case is detected, re-run the fetch operation to get the
-global .sig file (if it exists).
-
-Signed-off-by: Tobias Hagelborn <tobias.hagelborn@axis.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d5ea1a5396bf9fd4303cae46bc0e042be8de8d67)
+(cherry picked from commit 637919b9df0abc06da5b2f9b389cf25376bd6b7c)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-global/sstate.bbclass | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/runtime/context.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
-index 21959ff13b..2dd880bbab 100644
---- a/meta/classes-global/sstate.bbclass
-+++ b/meta/classes-global/sstate.bbclass
-@@ -365,8 +365,9 @@ def sstate_installpkg(ss, d):
-     d.setVar("SSTATE_CURRTASK", ss['task'])
-     sstatefetch = d.getVar('SSTATE_PKGNAME')
-     sstatepkg = d.getVar('SSTATE_PKG')
-+    verify_sig = bb.utils.to_boolean(d.getVar("SSTATE_VERIFY_SIG"), False)
+diff --git a/meta/lib/oeqa/runtime/context.py b/meta/lib/oeqa/runtime/context.py
+index 8092dd0bae..0c5d1869ab 100644
+--- a/meta/lib/oeqa/runtime/context.py
++++ b/meta/lib/oeqa/runtime/context.py
+@@ -67,11 +67,11 @@ class OERuntimeTestContextExecutor(OETestContextExecutor):
+                 % self.default_target_type)
+         runtime_group.add_argument('--target-ip', action='store',
+                 default=self.default_target_ip,
+-                help="IP address of device under test, default: %s" \
++                help="IP address and optionally ssh port (default 22) of device under test, for example '192.168.0.7:22'. Default: %s" \
+                 % self.default_target_ip)
+         runtime_group.add_argument('--server-ip', action='store',
+                 default=self.default_target_ip,
+-                help="IP address of device under test, default: %s" \
++                help="IP address of the test host from test target machine, default: %s" \
+                 % self.default_server_ip)
  
--    if not os.path.exists(sstatepkg):
-+    if not os.path.exists(sstatepkg) or (verify_sig and not os.path.exists(sstatepkg + '.sig')):
-         pstaging_fetch(sstatefetch, d)
- 
-     if not os.path.isfile(sstatepkg):
-@@ -377,7 +378,7 @@ def sstate_installpkg(ss, d):
- 
-     d.setVar('SSTATE_INSTDIR', sstateinst)
- 
--    if bb.utils.to_boolean(d.getVar("SSTATE_VERIFY_SIG"), False):
-+    if verify_sig:
-         if not os.path.isfile(sstatepkg + '.sig'):
-             bb.warn("No signature file for sstate package %s, skipping acceleration..." % sstatepkg)
-             return False
+         runtime_group.add_argument('--host-dumper-dir', action='store',
 -- 
 2.34.1
 
