@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A7EEC64ED8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B41DC64EC7
 	for <webhook@archiver.kernel.org>; Sat, 11 Feb 2023 21:24:17 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web10.19556.1676150638762634710
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web11.19492.1676150656465304453
  for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Feb 2023 13:24:14 -0800
+ Sat, 11 Feb 2023 13:24:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=UnS9KrDK;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id m2so10040097plg.4
-        for <openembedded-core@lists.openembedded.org>; Sat, 11 Feb 2023 13:24:14 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=SGxZ4DgN;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.170, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f170.google.com with SMTP id b1so5707659pft.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 11 Feb 2023 13:24:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+kuWBVb8mGIYQFD4E1yZ0Gj93iNSavK8dCn0p5d1ut4=;
-        b=UnS9KrDKU3jJM15UG9wJM5QBocBKw8Ervu7Yo9k0rynw+E3llSK5AtWlCsTc6v10yy
-         jLxjJzV2TSi27BLefch6SrvixR/87BFwODKLzUoq7d/M2wrbrghxyJRWz8hObkPraQwu
-         mnKZvRYXQY1DKd0gkKX89I5DzCNcXkhu3HfEEDm5Z+ChmdVgtSxFG8eZBVGvPVRrhje9
-         TDWVo5t7MaUmqwAucW9lafW8fc6ds2HxRJXZthx4fMP28v4mgPi/xQWFtdQwUZgfEVln
-         Fu/7Yk+FygodhZVo2lai1S/SUJiKxll9FHk9jufkwNSWeOdBcsx5+4fTzSRhr6vcCXmC
-         uKNA==
+        bh=TEsQcvNnC/ykBn4ljbVbM9oPMmAx6aeIIsKpLC9dxrE=;
+        b=SGxZ4DgNkw3h+K8+QMQZWVCj5OQXvhaHO9jR1kYwxXdG3lGubW+AjaFlSXOiooTwXQ
+         5QHf88xBnqoVL4TizDofeI33u4vxBdU37qERYhtzQTxFxDiwg5h86uRIWyVtGlNGjR4t
+         7cbVgrsWp3WqBszLZGEk5qCd3WysDKpK0FuT5NCgBTkkoYXz4hoM5LArJLZ2EExpQH4L
+         SrAUJmIynJYIPJVFzp63uqoea6UWEro48CWt2JcHzQ93ghXYtWFm3yX2MOmpypFjdoA8
+         MxL0v2LMo7SiU/DGvcK8AzX5wLocQshcGb8vVc5QEoK2vS9OFpDSRv4cvwlmCR4wiVAq
+         xIDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+kuWBVb8mGIYQFD4E1yZ0Gj93iNSavK8dCn0p5d1ut4=;
-        b=wA0Goavr60W39QnonKcJgOoKg+7xybD3cDJRCtxwPxuZPxfbb9PjBxc40QmKRKODte
-         gdICh7hfp1nqB6UsgyUCtlDfsRk/D4ezJjVlPVk/lUK+rMmrYVDlrelSfg/iz+tqSu4X
-         djYtnHzlEvZjvAa/vA+fPCRqUSXXeg0zqFhfIlIJ+s5weMuW6WoWMrU0JtPe3XFXyE5P
-         j/nmTZesgioH0l0v4C57DybjtwfbufkoFjWDcTLxOiPBQqk4GTOnnwDmlonIbSYKteiA
-         xUfKB6EHv0c6cwmZPWyMm87HSyWz/kcpTfUaGiTqMe+lRgwfzk06RdfGp6wjKqDbuiWn
-         l1aQ==
-X-Gm-Message-State: AO0yUKVgjElvbCztuk4GIN60/M7giSMydbECYqMx8tzyOu6WO1TfVlPU
-	e8c8C9UEt80eqeeOVR9rsysiloCAMkrhUUYCRl4=
-X-Google-Smtp-Source: AK7set/IiBxaelBAGtdTwx3SCwvV79I9xbHVZUXQhrLkYd7ACsikVtX2fyoU956/TmLSp4FrGJm+DQ==
-X-Received: by 2002:a05:6a20:8416:b0:bc:93c7:969f with SMTP id c22-20020a056a20841600b000bc93c7969fmr27020795pzd.10.1676150653718;
-        Sat, 11 Feb 2023 13:24:13 -0800 (PST)
+        bh=TEsQcvNnC/ykBn4ljbVbM9oPMmAx6aeIIsKpLC9dxrE=;
+        b=G/Td2L19iaRRcIEJ2P4cpkG2efeWe3/FM1AdkU6t3rW+bjGDwXMmPnG+8IyHSOjaH1
+         csGW1bX4blUzRbT5/7RlyXSfzGVAv4fXGU4scREzJZlgJUwQ/Ghc+orMNBg7SyPOzWV0
+         VpfAhGpbrFX4EvttwmzHH1or4bep6ljJDKS6X6PNcpc4tTjj/ivCg51VecLHAjMPXkS7
+         rbl6hR4c+77RZvn36c5xurjhOPF7KEQSjq2O0JAPqv1w2tIMxHZuV6Up2qdHvSqaF/4O
+         RIu/gemKSxl9VDgdvnwVJ0D2MVKFDigaAMm69PiPO5eYQUN0gRjI3r4Kn49co1rZE3hT
+         PEzg==
+X-Gm-Message-State: AO0yUKXIoX8LTwcIO6LvdPBmGAfCDPTqEUIeQx+Rmcw04F06odact+Ww
+	C3AeIs5KV8+uG7+bBFw7DHcGu31qbmWS2mSk/VY=
+X-Google-Smtp-Source: AK7set8ZdTkUz5T55rzbMqpixK5jPrlMuJUgYSav1+DRL9Zhzr8du9zjF0PafjCgndell3G9x2iwMw==
+X-Received: by 2002:a62:3082:0:b0:5a8:65e4:aba9 with SMTP id w124-20020a623082000000b005a865e4aba9mr6499752pfw.18.1676150655309;
+        Sat, 11 Feb 2023 13:24:15 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id v23-20020aa78097000000b0059393d46228sm5398595pff.144.2023.02.11.13.24.12
+        by smtp.gmail.com with ESMTPSA id v23-20020aa78097000000b0059393d46228sm5398595pff.144.2023.02.11.13.24.14
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Feb 2023 13:24:13 -0800 (PST)
+        Sat, 11 Feb 2023 13:24:14 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 09/28] classes/fs-uuid: Fix command output decoding issue
-Date: Sat, 11 Feb 2023 11:23:32 -1000
-Message-Id: <2bde03a1a58be6636d36229a75450e08492e7a89.1676150527.git.steve@sakoman.com>
+Subject: [OE-core][langdale 10/28] gdk-pixbuf: do not use tools from gdk-pixbuf-native when building tests
+Date: Sat, 11 Feb 2023 11:23:33 -1000
+Message-Id: <467a826b9b55f81c74476f57fa0d423701510af5.1676150527.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1676150527.git.steve@sakoman.com>
 References: <cover.1676150527.git.steve@sakoman.com>
@@ -61,34 +61,337 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 11 Feb 2023 21:24:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177019
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177020
 
-From: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-The default return value from subprocess.check_output is an encoded byte.
-The applied fix will decode the value to a string.
+The patch that allows to do so has not been accepted upstream, and wasn't correctly
+working as it was running a native executable (gdk-pixbuf-query-loaders) with target .so plugins.
 
-Signed-off-by: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
+On the other hand, out of 20+ (currently 23) tests only three require
+running binaries at build time to produce special test-specific input data:
+
+cve-2015-4491
+pixbuf-pixdata
+pixbuf-resource
+
+So let's simply omit these from the build: this can be done with a far
+less invasive patch which has a chance of being accepted upstream.
+
+gdk-pixbuf-print-mime-types is no longer installed
+(the replaced patch was doing that).
+
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 046769fa952a511865c416b80d10af6287147fb7)
+(cherry picked from commit 0d926508e75095eb446699b612729d0243eacc91)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-recipe/fs-uuid.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../0001-Add-use_prebuilt_tools-option.patch  | 173 ------------------
+ ...w-a-subset-of-tests-in-cross-compile.patch |  66 +++++++
+ .../gdk-pixbuf/gdk-pixbuf_2.42.10.bb          |  17 +-
+ 3 files changed, 68 insertions(+), 188 deletions(-)
+ delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Add-use_prebuilt_tools-option.patch
+ create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-meson.build-allow-a-subset-of-tests-in-cross-compile.patch
 
-diff --git a/meta/classes-recipe/fs-uuid.bbclass b/meta/classes-recipe/fs-uuid.bbclass
-index a9e7eb8c67..e215f06c80 100644
---- a/meta/classes-recipe/fs-uuid.bbclass
-+++ b/meta/classes-recipe/fs-uuid.bbclass
-@@ -10,7 +10,7 @@
- def get_rootfs_uuid(d):
-     import subprocess
-     rootfs = d.getVar('ROOTFS')
--    output = subprocess.check_output(['tune2fs', '-l', rootfs])
-+    output = subprocess.check_output(['tune2fs', '-l', rootfs], text=True)
-     for line in output.split('\n'):
-         if line.startswith('Filesystem UUID:'):
-             uuid = line.split()[-1]
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Add-use_prebuilt_tools-option.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Add-use_prebuilt_tools-option.patch
+deleted file mode 100644
+index 02cc9a2a70..0000000000
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Add-use_prebuilt_tools-option.patch
++++ /dev/null
+@@ -1,173 +0,0 @@
+-From f81b60ebcbbfd9548c8aa1e388662c429068d1e3 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Sat, 8 May 2021 21:58:54 +0200
+-Subject: [PATCH] Add use_prebuilt_tools option
+-
+-This allows using the gdk-pixbuf tools from the host to
+-build and install tests in a cross-compile scenarion.
+-
+-Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/merge_requests/119]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
+----
+- gdk-pixbuf/meson.build  | 11 +++++++++--
+- meson.build             |  6 +++---
+- meson_options.txt       |  4 ++++
+- tests/meson.build       | 16 ++++++++--------
+- thumbnailer/meson.build | 24 ++++++++++++++++++------
+- 5 files changed, 42 insertions(+), 19 deletions(-)
+-
+-diff --git a/gdk-pixbuf/meson.build b/gdk-pixbuf/meson.build
+-index 54ff9dd..2e321cf 100644
+---- a/gdk-pixbuf/meson.build
+-+++ b/gdk-pixbuf/meson.build
+-@@ -342,13 +342,20 @@ foreach bin: gdkpixbuf_bin
+-                    include_directories: [ root_inc, gdk_pixbuf_inc ],
+-                    c_args: common_cflags + gdk_pixbuf_cflags,
+-                    install: true)
+--  meson.override_find_program(bin_name, bin)
+-+  if not get_option('use_prebuilt_tools')
+-+      meson.override_find_program(bin_name, bin)
+-+  endif
+- 
+-   # Used in tests
+-   set_variable(bin_name.underscorify(), bin)
+- endforeach
+- 
+--if not meson.is_cross_build()
+-+if get_option('use_prebuilt_tools')
+-+    gdk_pixbuf_query_loaders = find_program('gdk-pixbuf-query-loaders', required: true)
+-+    gdk_pixbuf_pixdata = find_program('gdk-pixbuf-pixdata', required: true)
+-+endif
+-+
+-+if not meson.is_cross_build() or get_option('use_prebuilt_tools')
+-   # The 'loaders.cache' used for testing, so we don't accidentally
+-   # load the installed cache; we always build it by default
+-   loaders_cache = custom_target('loaders.cache',
+-diff --git a/meson.build b/meson.build
+-index 813bd43..a93e6f7 100644
+---- a/meson.build
+-+++ b/meson.build
+-@@ -369,18 +369,18 @@ subdir('gdk-pixbuf')
+- # i18n
+- subdir('po')
+- 
+--if not meson.is_cross_build()
+-+if not meson.is_cross_build() or get_option('use_prebuilt_tools')
+-   if get_option('tests')
+-     subdir('tests')
+-   endif
+--  subdir('thumbnailer')
+- endif
+-+subdir('thumbnailer')
+- 
+- # Documentation
+- build_docs = get_option('gtk_doc') or get_option('docs')
+- subdir('docs')
+- 
+--if not meson.is_cross_build()
+-+if not meson.is_cross_build() or get_option('use_prebuilt_tools')
+-   meson.add_install_script('build-aux/post-install.py',
+-     gdk_pixbuf_bindir,
+-     gdk_pixbuf_libdir,
+-diff --git a/meson_options.txt b/meson_options.txt
+-index d198d99..1c899e9 100644
+---- a/meson_options.txt
+-+++ b/meson_options.txt
+-@@ -53,4 +53,8 @@ option('gio_sniffing',
+-        description: 'Perform file type detection using GIO (Unused on MacOS and Windows)',
+-        type: 'boolean',
+-        value: true)
+-+option('use_prebuilt_tools',
+-+       description: 'Use prebuilt gdk-pixbuf tools from the host for cross-compilation',
+-+       type: 'boolean',
+-+       value: false)
+- 
+-diff --git a/tests/meson.build b/tests/meson.build
+-index 28c2525..d97c02d 100644
+---- a/tests/meson.build
+-+++ b/tests/meson.build
+-@@ -5,6 +5,12 @@
+- # $PATH. Ideally we should use gnome.compile_resources() and let Meson deal with
+- # this problem: See https://github.com/mesonbuild/meson/issues/8266.
+- if enabled_loaders.contains('png') and host_system != 'windows'
+-+
+-+  resources_deps = [loaders_cache,]
+-+  if not get_option('use_prebuilt_tools')
+-+    resources_deps += [gdk_pixbuf_pixdata,]
+-+  endif
+-+
+-   # Resources; we cannot use gnome.compile_resources() here, because we need to
+-   # override the environment in order to use the utilities we just built instead
+-   # of the system ones
+-@@ -21,10 +27,7 @@ if enabled_loaders.contains('png') and host_system != 'windows'
+-       '@INPUT@',
+-       '@OUTPUT@',
+-     ],
+--    depends: [
+--      gdk_pixbuf_pixdata,
+--      loaders_cache,
+--    ],
+-+    depends: resources_deps,
+-   )
+- 
+-   resources_h = custom_target('resources.h',
+-@@ -40,10 +43,7 @@ if enabled_loaders.contains('png') and host_system != 'windows'
+-       '@INPUT@',
+-       '@OUTPUT@',
+-     ],
+--    depends: [
+--      gdk_pixbuf_pixdata,
+--      loaders_cache,
+--    ],
+-+    depends: resources_deps,
+-   )
+-   no_resources = false
+- else
+-diff --git a/thumbnailer/meson.build b/thumbnailer/meson.build
+-index b6a206d..9336c21 100644
+---- a/thumbnailer/meson.build
+-+++ b/thumbnailer/meson.build
+-@@ -6,13 +6,29 @@ bin = executable('gdk-pixbuf-thumbnailer',
+-            ],
+-            dependencies: gdk_pixbuf_deps + [ gdkpixbuf_dep ],
+-            install: true)
+--meson.override_find_program('gdk-pixbuf-thumbnailer', bin)
+-+if not get_option('use_prebuilt_tools')
+-+    meson.override_find_program('gdk-pixbuf-thumbnailer', bin)
+-+endif
+- 
+- gdk_pixbuf_print_mime_types = executable('gdk-pixbuf-print-mime-types',
+-                                          'gdk-pixbuf-print-mime-types.c',
+-+                                         install: true,
+-                                          c_args: common_cflags,
+-                                          dependencies: gdk_pixbuf_deps + [ gdkpixbuf_dep ])
+- 
+-+if get_option('use_prebuilt_tools')
+-+    gdk_pixbuf_print_mime_types = find_program('gdk-pixbuf-print-mime-types', required: true)
+-+endif
+-+
+-+thumbnailer_deps = [loaders_cache,]
+-+
+-+if not get_option('use_prebuilt_tools')
+-+    thumbnailer_deps += [
+-+        gdk_pixbuf_print_mime_types,
+-+        gdk_pixbuf_pixdata,
+-+    ]
+-+endif
+-+
+- custom_target('thumbnailer',
+-               input: 'gdk-pixbuf-thumbnailer.thumbnailer.in',
+-               output: 'gdk-pixbuf-thumbnailer.thumbnailer',
+-@@ -25,10 +41,6 @@ custom_target('thumbnailer',
+-                 '@INPUT@',
+-                 '@OUTPUT@',
+-               ],
+--              depends: [
+--                gdk_pixbuf_print_mime_types,
+--                gdk_pixbuf_pixdata,
+--                loaders_cache,
+--              ],
+-+              depends: thumbnailer_deps,
+-               install: true,
+-               install_dir: join_paths(gdk_pixbuf_datadir, 'thumbnailers'))
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-meson.build-allow-a-subset-of-tests-in-cross-compile.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-meson.build-allow-a-subset-of-tests-in-cross-compile.patch
+new file mode 100644
+index 0000000000..7250fa3f62
+--- /dev/null
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-meson.build-allow-a-subset-of-tests-in-cross-compile.patch
+@@ -0,0 +1,66 @@
++From 9d3b374e75692da3d1d05344a1693c85a3098f47 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex@linutronix.de>
++Date: Thu, 26 Jan 2023 20:29:46 +0100
++Subject: [PATCH] meson.build: allow (a subset of) tests in cross compile
++ settings
++
++There is no need to completely disable tests: most of them
++do not require running target executables at build time,
++and so can be built and installed.
++
++This requires inserting a couple of specific guards around
++items that do require running target executables.
++
++Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/merge_requests/150]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ meson.build       |  6 +++---
++ tests/meson.build | 10 ++++++----
++ 2 files changed, 9 insertions(+), 7 deletions(-)
++
++diff --git a/meson.build b/meson.build
++index 8a16c8f..7c8b20f 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -369,10 +369,10 @@ subdir('gdk-pixbuf')
++ # i18n
++ subdir('po')
++ 
+++if get_option('tests')
+++  subdir('tests')
+++endif
++ if not meson.is_cross_build()
++-  if get_option('tests')
++-    subdir('tests')
++-  endif
++   subdir('thumbnailer')
++ endif
++ 
++diff --git a/tests/meson.build b/tests/meson.build
++index 28c2525..c45e765 100644
++--- a/tests/meson.build
+++++ b/tests/meson.build
++@@ -4,7 +4,7 @@
++ # gdk-pixbuf-pixdata from build directory because it needs all DLL locations in
++ # $PATH. Ideally we should use gnome.compile_resources() and let Meson deal with
++ # this problem: See https://github.com/mesonbuild/meson/issues/8266.
++-if enabled_loaders.contains('png') and host_system != 'windows'
+++if enabled_loaders.contains('png') and host_system != 'windows' and not meson.is_cross_build()
++   # Resources; we cannot use gnome.compile_resources() here, because we need to
++   # override the environment in order to use the utilities we just built instead
++   # of the system ones
++@@ -166,9 +166,11 @@ endif
++ test_deps = gdk_pixbuf_deps + [ gdkpixbuf_dep, ]
++ test_args = [ '-k' ]
++ test_env = environment()
++-test_env.set('G_TEST_SRCDIR', meson.current_source_dir())
++-test_env.set('G_TEST_BUILDDIR', meson.current_build_dir())
++-test_env.set('GDK_PIXBUF_MODULE_FILE', loaders_cache.full_path())
+++if not meson.is_cross_build()
+++  test_env.set('G_TEST_SRCDIR', meson.current_source_dir())
+++  test_env.set('G_TEST_BUILDDIR', meson.current_build_dir())
+++  test_env.set('GDK_PIXBUF_MODULE_FILE', loaders_cache.full_path())
+++endif
++ 
++ foreach test_name, test_data: installed_tests
++   test_sources = [ test_name + '.c', 'test-common.c' ]
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb
+index aa44515fbb..cca89a9059 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.10.bb
+@@ -12,15 +12,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
+ 
+ SECTION = "libs"
+ 
+-DEPENDS = "glib-2.0 gdk-pixbuf-native shared-mime-info"
+-DEPENDS:remove:class-native = "gdk-pixbuf-native"
++DEPENDS = "glib-2.0 shared-mime-info"
+ 
+ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+ 
+ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+            file://run-ptest \
+            file://fatal-loader.patch \
+-           file://0001-Add-use_prebuilt_tools-option.patch \
++           file://0001-meson.build-allow-a-subset-of-tests-in-cross-compile.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "ee9b6c75d13ba096907a2e3c6b27b61bcd17f5c7ebeab5a5b439d2f2e39fe44b"
+@@ -46,14 +45,6 @@ PACKAGECONFIG[tests] = "-Dinstalled_tests=true,-Dinstalled_tests=false"
+ 
+ EXTRA_OEMESON = "-Dman=false"
+ 
+-EXTRA_OEMESON:append:class-target = " \
+-    -Duse_prebuilt_tools=true \
+-"
+-
+-EXTRA_OEMESON:append:class-nativesdk = " \
+-    -Duse_prebuilt_tools=true \
+-"
+-
+ PACKAGES =+ "${PN}-xlib"
+ 
+ # For GIO image type sniffing
+@@ -115,10 +106,6 @@ do_install:append:class-native() {
+ 		XDG_DATA_DIRS=${STAGING_DATADIR} \
+ 		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache
+ 
+-	create_wrapper ${D}/${bindir}/gdk-pixbuf-print-mime-types \
+-		XDG_DATA_DIRS=${STAGING_DATADIR} \
+-		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache
+-
+ 	create_wrapper ${D}/${libdir}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders \
+ 		XDG_DATA_DIRS=${STAGING_DATADIR} \
+ 		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/${LIBV}/loaders.cache \
 -- 
 2.34.1
 
