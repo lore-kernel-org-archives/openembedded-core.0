@@ -1,105 +1,66 @@
-Return-Path: <mateuszmar2@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 211B4C05027
-	for <webhook@archiver.kernel.org>; Fri, 10 Feb 2023 23:19:56 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web10.9501.1676071185730174428
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A395DC61DA4
+	for <webhook@archiver.kernel.org>; Sat, 11 Feb 2023 08:26:33 +0000 (UTC)
+Received: from mailout06.t-online.de (mailout06.t-online.de [194.25.134.19])
+ by mx.groups.io with SMTP id smtpd.web10.5843.1676103987744991272
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Feb 2023 15:19:46 -0800
+ Sat, 11 Feb 2023 00:26:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=f5gDDh0t;
- spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: mateuszmar2@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id c26so14846103ejz.10
-        for <openembedded-core@lists.openembedded.org>; Fri, 10 Feb 2023 15:19:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=14aplbWQeiPxqakperjbJDRwWyh2XB17ISktDt+dpsg=;
-        b=f5gDDh0teLCwmB+LrOZvNW2h4VTWtp47D7t0Z5NQDbdbkOhjq4ozTKyQeBzl2l82ML
-         GglrchHR/PRJLqZi4Naf4k9CJjfDhHUYYJ9W5zn+RN4BD/DjrvPS6EHVfxoeu/1Jz09R
-         iLEFLj2LaYp2Lc8K8GsHjp7Tn2Y/4MV7S6nrLFO2WbFU9JFFwGhJKV/jVpcekn7Hljw9
-         KGW1k0BZaB5jRaJyAxbwZ5iES/DriQvbl3WuzqXshJm9OnyMmLvTnqKFitxMKIBrY1DF
-         l1B61xFLNOpGyHwHJ2tcZQ+c4he2wDRfo/iGhXa95fesT4hglKCFZ1MrB2BIxYIBVJ8p
-         3L0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=14aplbWQeiPxqakperjbJDRwWyh2XB17ISktDt+dpsg=;
-        b=kMmvk4nFGeGsGwLivxAqO7/6FsDtkLwyJUr1JC42EW8Rfa2QqwjzwZ1N0mVFnbKps1
-         Yo+4Z+HqZnpPOGCBoYFb+3aJQf7agu5uy7QD4k8nGfrVNwd96E93Yz3BoxhI4skBZY/8
-         FEBefKaTg/gm6dTukuumKof4n5zmm+HBVzPpX3KcKiSbOFqU/UPKtgresYjYmFDHS3Em
-         KCkccZMemclIGjgKAjVWsLsSK9EXKpQzpUG7iqfnVqyelts/XfH0CRdi/WXUijHx+p4z
-         8UPYt6iJpXaPD+QQ9hWcUBIdfZ6Pvn5B+fVwLm6qOPC+aBgKlNKbHQGTu7ag1wQTz/WD
-         XVng==
-X-Gm-Message-State: AO0yUKVIdTzAE0eIe/W8sj74AXcPlYJx5f3YExmhZVAHu4mRSb2utkTx
-	wTL2Q0SmQJTHYJRMH/eJPI9CYsbPedlDUQ==
-X-Google-Smtp-Source: AK7set/f2bIYMXEv/Kl9zqZOn+At40cc7ilzYiVS/dx1DMKmvE4OjOBCtEHL3wktzfgcrsGVysktlA==
-X-Received: by 2002:a17:906:fa02:b0:88d:d304:3433 with SMTP id lo2-20020a170906fa0200b0088dd3043433mr15122618ejb.67.1676071183775;
-        Fri, 10 Feb 2023 15:19:43 -0800 (PST)
-Received: from mateusz-gf75thin8rd.NAT.wroclaw_krzyki.vectranet.pl (178235146058.dynamic-3-poz-k-0-0-0.vectranet.pl. [178.235.146.58])
-        by smtp.gmail.com with ESMTPSA id y25-20020a1709064b1900b008b05b21e8aesm16223eju.172.2023.02.10.15.19.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Feb 2023 15:19:43 -0800 (PST)
-From: mateuszmar2@gmail.com
+ dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.19, mailfrom: f_l_k@t-online.de)
+Received: from fwd89.dcpf.telekom.de (fwd89.aul.t-online.de [10.223.144.115])
+	by mailout06.t-online.de (Postfix) with SMTP id B39D19939;
+	Sat, 11 Feb 2023 09:26:25 +0100 (CET)
+Received: from flk-MS-7C91.fritz.box ([84.163.42.158]) by fwd89.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1pQlD8-3BYXTt0; Sat, 11 Feb 2023 09:26:18 +0100
+From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Mateusz Marciniec <mateuszmar2@gmail.com>,
-	Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
-Subject: [OE-core][PATCH v3] sstatesig: Improve output hash calculation
-Date: Sat, 11 Feb 2023 00:18:34 +0100
-Message-Id: <20230210231834.161101-1-mateuszmar2@gmail.com>
-X-Mailer: git-send-email 2.39.1
+Cc: Pablo Saavedra <psaavedra@igalia.com>,
+	Khem Raj <raj.khem@gmail.com>
+Subject: [oe-core][PATCH] graphene: disable neon support on arm 32bits
+Date: Sat, 11 Feb 2023 09:26:09 +0100
+Message-Id: <20230211082609.6471-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1676103978-D5F1C046-8CBCFB66/0/0 CLEAN NORMAL
+X-TOI-MSGID: 6dd0fa38-05b2-4d61-9835-9ce9f7029609
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Feb 2023 23:19:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/176999
+ <openembedded-core@lists.openembedded.org>; Sat, 11 Feb 2023 08:26:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177000
 
-From: Mateusz Marciniec <mateuszmar2@gmail.com>
+From: Pablo Saavedra <psaavedra@igalia.com>
 
-Symbolic links to the files are included during the output hash
-calculation but symlinks to the directories are missed.
-So if the new symlink to a directory was the only change made,
-then the output hash won't change,
-and the Hash Equivalence server may change unihash.
-In the next run bitbake may use an older package from sstate-cache.
+This disables neon support on arm devices only because it crashes otherwi=
+se.
 
-To fix this followlinks=True flag could be set for os.walk
-but it can lead to infinite recursion if link points
-to a parent directory of itself.
-Also, all files from a directory to which symlink points
-would be included in depsig file.
-Therefore another solution was applied, I added code that will loop
-through directories and process those that are symlinks.
-
-Signed-off-by: Mateusz Marciniec <mateuszmar2@gmail.com>
-Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+Upstream-status: Reported [https://github.com/ebassi/graphene/issues/215]
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/lib/oe/sstatesig.py | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-graphics/graphene/graphene_1.10.8.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index f0224454c9..ae7ef14453 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -652,6 +652,10 @@ def OEOuthashBasic(path, sigfile, task, d):
-                 if f == 'fixmepath':
-                     continue
-                 process(os.path.join(root, f))
+diff --git a/meta/recipes-graphics/graphene/graphene_1.10.8.bb b/meta/rec=
+ipes-graphics/graphene/graphene_1.10.8.bb
+index 813ff74adf..1bbe7ecca1 100644
+--- a/meta/recipes-graphics/graphene/graphene_1.10.8.bb
++++ b/meta/recipes-graphics/graphene/graphene_1.10.8.bb
+@@ -17,6 +17,9 @@ GTKDOC_MESON_OPTION =3D "gtk_doc"
+=20
+ EXTRA_OEMESON =3D "-Dinstalled_tests=3Dfalse"
+=20
++# Disable ARM NEON support
++EXTRA_OEMESON:append:arm =3D " -Darm_neon=3Dfalse"
 +
-+            for dir in dirs:
-+                if os.path.islink(os.path.join(root, dir)):
-+                    process(os.path.join(root, dir))
-     finally:
-         os.chdir(prev_dir)
- 
--- 
-2.39.1
+ FILES:${PN} +=3D "${libdir}/graphene-1.0"
+=20
+ BBCLASSEXTEND =3D "native nativesdk"
+--=20
+2.34.1
 
 
