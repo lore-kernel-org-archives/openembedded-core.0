@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56D0AC05027
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6368CC64EC7
 	for <webhook@archiver.kernel.org>; Sun, 12 Feb 2023 21:11:43 +0000 (UTC)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web10.17.1676236302499036227
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web10.5.1676236284015063975
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Feb 2023 13:11:42 -0800
+ Sun, 12 Feb 2023 13:11:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=jgaO7S6Q;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f48.google.com with SMTP id pj3so10163418pjb.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 12 Feb 2023 13:11:42 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=vlKKk/iq;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f170.google.com with SMTP id be8so11624891plb.7
+        for <openembedded-core@lists.openembedded.org>; Sun, 12 Feb 2023 13:11:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=epAO2EG8Q+yCBh9i+dO5JtNWsxsXr+yoTlOwZxxSwdY=;
-        b=jgaO7S6Qmsd5NVAIoA5pT7UG2y/LAP6WjCHazrnjZr636Hq7y/BDU0r2YKrnGaXPkM
-         wDoETwZ5so2KBtg/d9Eec1rfWPGSaWYiY886YfnTB25X/c6GCtlEV+Xpu4M649DKBO/j
-         EEiezgP5A18j+AoaEtIF8bPufaU8fKfmHC1Nq75WVdDf5yCq/CWo+Q7OgrgcClfL805V
-         wuGKma/jBiFCljhFb67lmYtot1JK56So5ekR0mw7WAlqQIUS0fxwOWpbqAJe1sB6tkM+
-         WsmC6mNu+yg4Jft9pkDkwvlwp75aQrE86e5DxYm5WotHIrRDd4hLMIk8PtetKnGE9uiW
-         YY5A==
+        bh=Z4fG1zDasFq9AIW8B/FmwXNhucxZABRm+xKCKb6qm/E=;
+        b=vlKKk/iqaeX3O2lPxOQyAYdUQiqWpLZRQEFv80/3hOxF/aBxpgWI0mhbMQ3a8sShFK
+         cR8md8F304vGhWdi32wy6CL3FbrFFW4jixeFvN0fIRPR1JOsJrsPxdaXQ2i4bhHoHmrN
+         FN3F852rGSjEa41fkXyeVeTi9NCXqYVWG4QQ3LouN0cEjcK58eZFZ0tCrncprhgO1Yd4
+         xuPIbnUoTRHWiN7E2twuvfNiZv4aX/7R6ZXrauTXTOQCx3bMuUVui7wf1pEg6LymkEm+
+         w0oH40oAx+wu3cna/Vcps0OMWP7FCxOxqjoPM5MBDnqCvVSSmAZKZ/Pl4QXIUUSPyL8s
+         6F8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=epAO2EG8Q+yCBh9i+dO5JtNWsxsXr+yoTlOwZxxSwdY=;
-        b=2XRO0TjSWCuMvclpTIndJM9CbE0N3iyLmUUGNgN/BK7FNhVVMo5R7kVWgFE5dn9JzC
-         x31NfyoWHW5Gfuu3iwSLYjJ0vuLzMsoJc/DT2eET1RucP4Yx0W4XKdx0pJKU8Q5nyZw1
-         lX1qNQ2vzJk5Oe8WmYkudu/tuOIaNU+nemYTQMm1syKqEyVF2KqWxnsrQkIaFMLpR6mY
-         tTpJDCfmSRSY6+9Z+E0sgSSXM3ucQ1+J8U0PlyFFZ9gGh4qH/mGxNVvTvq9IKdqsOB2O
-         8sxu3jWyJipm0uOusKgxfGu5N8GGzr8PqdtAsCQUqLkxDLnIsdQ4AsdHlpd+D/b4AEMe
-         hBnQ==
-X-Gm-Message-State: AO0yUKXZuSkoNRpk1/s6lUPAToKseyKtx8P0jSozBz4L5NdPn+63QtDl
-	ZiCxXRFSBeWT/Wu3C6R5RowlcC7CeEZGWnmsczQ=
-X-Google-Smtp-Source: AK7set8Kdu697MgTiK0ljUQGXF6sRpy4i9Stasls90llOClAv/elybyL6aQrBupOrwN3jAzA+MJk8g==
-X-Received: by 2002:a17:902:cad4:b0:19a:8378:bde2 with SMTP id y20-20020a170902cad400b0019a8378bde2mr4220525pld.39.1676236301465;
-        Sun, 12 Feb 2023 13:11:41 -0800 (PST)
+        bh=Z4fG1zDasFq9AIW8B/FmwXNhucxZABRm+xKCKb6qm/E=;
+        b=VzhdZr90EwyNyjr9XhddVj0aRrY+n/mM7PxLI678MkI4B5IljqtLxXGwVyGNuhYJ4P
+         wqSgWeqetyZix4MXWTqB1bZWWp18AkcpJRrC8wtY8eXmqdm91GloPTxra29LkhaxKEcu
+         r/+O9newjy/q+BbI3GscovHWqwKTjNX6XH02O+UYu6H1mQ706sYtLLscFHwh+dqQQmxR
+         W67uEw9atIZSyJV2zmE+G7qtQl/vU6cUIeGPmeFgRp6BX37qR7tBup4SUQQ36zdw/SJO
+         MC0l3XiDFM9U0yCrWTaWcmbkF+N4cvX2xVd0ik3i76C5AIRhUFjN3ui5IuPr8k1sGjh3
+         Bytg==
+X-Gm-Message-State: AO0yUKWo6kmW1dnwZZ+kpgzAATyCyu6LU2DufXwu/3LrPnbra30rpMje
+	9smzc/yRmUHb2jn3giTl1rJUYnnkYnUm4in7kqg=
+X-Google-Smtp-Source: AK7set9VJDYEO4cuITMqdP2zU9w60Xfe2N0uP95jAKSyd2wMOkYrGBqPpabh1FGJvdiuhuZFb7a0rA==
+X-Received: by 2002:a17:903:32d1:b0:19a:9686:ea85 with SMTP id i17-20020a17090332d100b0019a9686ea85mr4582654plr.17.1676236293991;
+        Sun, 12 Feb 2023 13:11:33 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id d23-20020a170902b71700b001933b4b1a49sm5675482pls.183.2023.02.12.13.11.40
+        by smtp.gmail.com with ESMTPSA id d23-20020a170902b71700b001933b4b1a49sm5675482pls.183.2023.02.12.13.11.33
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Feb 2023 13:11:41 -0800 (PST)
+        Sun, 12 Feb 2023 13:11:33 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 27/27] oeqa context.py: fix --target-ip comment to include ssh port number
-Date: Sun, 12 Feb 2023 11:10:43 -1000
-Message-Id: <54c30e509074073b99a7a8890482ba1af2abbab9.1676236110.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 23/27] libc-locale: Fix on target locale generation
+Date: Sun, 12 Feb 2023 11:10:39 -1000
+Message-Id: <258115c2a7d78f0416f952122c9448a805dab08f.1676236110.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1676236110.git.steve@sakoman.com>
 References: <cover.1676236110.git.steve@sakoman.com>
@@ -61,39 +61,32 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 12 Feb 2023 21:11:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177070
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177066
 
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Providing ssh port number is supported too with
-"--target-ip 192.168.0.10:22".
+If on target locale generation is used, it fails at first boot showing
+errors about a missing directory. Ensure the directory exists.
 
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 637919b9df0abc06da5b2f9b389cf25376bd6b7c)
+(cherry picked from commit f2844c9f1bbb729562063d96a3d1cc9d44dafa0a)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/runtime/context.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/libc-package.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/lib/oeqa/runtime/context.py b/meta/lib/oeqa/runtime/context.py
-index 8092dd0bae..0c5d1869ab 100644
---- a/meta/lib/oeqa/runtime/context.py
-+++ b/meta/lib/oeqa/runtime/context.py
-@@ -67,11 +67,11 @@ class OERuntimeTestContextExecutor(OETestContextExecutor):
-                 % self.default_target_type)
-         runtime_group.add_argument('--target-ip', action='store',
-                 default=self.default_target_ip,
--                help="IP address of device under test, default: %s" \
-+                help="IP address and optionally ssh port (default 22) of device under test, for example '192.168.0.7:22'. Default: %s" \
-                 % self.default_target_ip)
-         runtime_group.add_argument('--server-ip', action='store',
-                 default=self.default_target_ip,
--                help="IP address of device under test, default: %s" \
-+                help="IP address of the test host from test target machine, default: %s" \
-                 % self.default_server_ip)
+diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
+index 13ef8cdc0d..baab8fc9a9 100644
+--- a/meta/classes/libc-package.bbclass
++++ b/meta/classes/libc-package.bbclass
+@@ -45,6 +45,7 @@ PACKAGE_NO_GCONV ?= "0"
+ OVERRIDES:append = ":${TARGET_ARCH}-${TARGET_OS}"
  
-         runtime_group.add_argument('--host-dumper-dir', action='store',
+ locale_base_postinst_ontarget() {
++mkdir ${libdir}/locale
+ localedef --inputfile=${datadir}/i18n/locales/%s --charmap=%s %s
+ }
+ 
 -- 
 2.34.1
 
