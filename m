@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D02CC05027
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DE5BC636D4
 	for <webhook@archiver.kernel.org>; Sun, 12 Feb 2023 21:11:07 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web11.20819.1676236259860303775
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web10.21039.1676236267366923079
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Feb 2023 13:11:05 -0800
+ Sun, 12 Feb 2023 13:11:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=tuEiVK3a;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f49.google.com with SMTP id mg23so3587873pjb.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 12 Feb 2023 13:11:05 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=Tl/PF/nI;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f177.google.com with SMTP id b5so11631235plz.5
+        for <openembedded-core@lists.openembedded.org>; Sun, 12 Feb 2023 13:11:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=uhKzQrFS5rBfhZl9uoOgWnO++9JD66YqLBWDH5xhS7g=;
-        b=tuEiVK3auyOOqMmiei+Y8mkirJtOF3H334RSkStQ6mK2YCoq347lPmbOyn9vebV72O
-         zbPK2mFHwV/MxVUH+sgqU2KfAyqZz4PLVVC9xiyDby69CZ3S3v1mKGpc6fPDZ1Pie43j
-         NPj62kHH5qx1JiSkY3MCCOkRePFOJyCL0+1O64JT8D0FR+J07gwgQrG6TkwziT23U1/g
-         Ezl+DyBDgB3Q8ySwKGCSk3iZPCtdS0o8dh/e+0egCHUa0eNqoktgJyscHIa4kKXLblUW
-         kILLvELFi8EY7tUtIJ6SWqz+Vep510zyWllbpfDbq2wRUCbyAgxZ8ocmQpKBXwQpQHAV
-         xFGg==
+        bh=9HhoXqTm7NGsxvfx09idKWjJvv/BZS5wYSkFr02DAQA=;
+        b=Tl/PF/nI6oSnkwfaQ5UMc38O6/cjddfOt3oeWwg5n3WTcp4NuGljqaO5wU6IHXXH9l
+         QKR3VbY+4wjv61kBY4SEO6g9m+MBtGzz5lQmXS9gCjO61xtpVNjoqh5xqjnsNfgrLOyt
+         2av/rbGfoJtUTKeiCl4+VLUyC8R6Zbioap+g0BcEJypsMgsD8TosRE8iG4Conhiey1BT
+         JTWaTsrLx4Zmhb4o+uQ0fWlwm8UFUtBO1PyYQMY6QiU32kU6DXTztErmxdZ1hcuXHsCH
+         ohNjqmScqM5Eyk2M7fn0t1KTiYaBtSDdycMZYZYdSFWWZX4uyDe5duV0Fa0+E6fm1ZDy
+         2c9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uhKzQrFS5rBfhZl9uoOgWnO++9JD66YqLBWDH5xhS7g=;
-        b=sMUx8XmcFo0nLXv0GJq80YdXW43AJMfIYj7OLS9sANb733Tf3fMOpVGm323I2kLSo3
-         SH8jEIqI30JXsI8+F5eoyf7NSk1eLKuzVjZHY+4Hy0WdyPrrpndD9CFIGiYZjDswYTqt
-         s5UXkw6MGI2ru/Iu40XMzHru5zmb6lo9OtksEHz3MDHipDXqzNDR6GNYzt5j2Cx4Gmdj
-         u++C6Vw5HTDAwrPABKX1KpcGA3jipJncKTJG1CvAggUctlF7v5E55LDW8Mys5x3BSUDm
-         dab4HT3f0jboJXZx0At1+Wohk3JKiLt2zyayyoTQd/xYT/1qm4vInTNd8RC5Xd4VS6NA
-         Azqw==
-X-Gm-Message-State: AO0yUKXAyVysTYhTnD+lZkppNKTd/XqwWwnWaJkUOc1pAyq26S5wzsFD
-	IioXMUIi0gOgcvazOCXREb9c9sjKuHI2iPwiH8Y=
-X-Google-Smtp-Source: AK7set9r/RiqYlgqvXZqCJEBJhv2OwzqeTU5g7N8O7yfFxY7syrfDSn0wEIM0R/Qtqw01LfTC8Y9jg==
-X-Received: by 2002:a17:902:da84:b0:196:8c85:8aaa with SMTP id j4-20020a170902da8400b001968c858aaamr25378403plx.6.1676236264627;
-        Sun, 12 Feb 2023 13:11:04 -0800 (PST)
+        bh=9HhoXqTm7NGsxvfx09idKWjJvv/BZS5wYSkFr02DAQA=;
+        b=4GLnR5xPmoO+Ktc1ebNZurSYGCr3OVgBw8AE0fURpR2/PEWZ8yU+jxCEcT97Y9TiHu
+         GXN0xaoc+rYo7vHK5IaorE0hpFCz4MWCgaybSR84ULTFwbNiwI6F6VAWN1h4aZr2cSbT
+         fgx3GLk5MNX2s+pbqYNUj/iDN4s1z13lfLD24uwo7g1Td1nSIjGj2/VAlyIBnhAzUTkL
+         Xj49uK6ntDNJboRNmCnb5XnaB8DbIsBmmMPvJsyKHOZsIEX8ddIIySaA5SYNVRMAImwu
+         2eukjyWOXhIq5gMt4PpEzMds1IB1CodJSLpWvY58E3QRf4F+bfFMIybI1oZGOgaV6oyI
+         WknQ==
+X-Gm-Message-State: AO0yUKW7G6ma8HvGC5qsMi34+s/8wMSPE2m89pTbE2kNQs6sdeP0rwt+
+	1AV9BcHzJ6zyswbWVUqpV3kUmjOEh2Jc24jErQI=
+X-Google-Smtp-Source: AK7set+mIcJZKFC1t9PPdNI6w2Wya0V/NN0XrCICyKHbqdDNy0XYFTIkP7gcv66M7peIu1eLuzuVKQ==
+X-Received: by 2002:a17:902:da8b:b0:199:38a:afd8 with SMTP id j11-20020a170902da8b00b00199038aafd8mr27013040plx.19.1676236266466;
+        Sun, 12 Feb 2023 13:11:06 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id d23-20020a170902b71700b001933b4b1a49sm5675482pls.183.2023.02.12.13.11.03
+        by smtp.gmail.com with ESMTPSA id d23-20020a170902b71700b001933b4b1a49sm5675482pls.183.2023.02.12.13.11.05
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Feb 2023 13:11:04 -0800 (PST)
+        Sun, 12 Feb 2023 13:11:06 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 07/27] vulkan-samples: branch rename master -> main
-Date: Sun, 12 Feb 2023 11:10:23 -1000
-Message-Id: <986af8c9ae9d2cab0bc0376757f40b096448ae2a.1676236110.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 08/27] buildtools-tarball: set pkg-config search path
+Date: Sun, 12 Feb 2023 11:10:24 -1000
+Message-Id: <9a110453f6b4b2c2d86af4ae20860037796a284d.1676236110.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1676236110.git.steve@sakoman.com>
 References: <cover.1676236110.git.steve@sakoman.com>
@@ -61,31 +61,49 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 12 Feb 2023 21:11:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177051
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177052
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Ross Burton <ross.burton@arm.com>
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+The buildtools-tarball includes a native sysroot with .pc files, and
+in the case of buildtools-extended-tarball a pkg-config binary too.
+
+If we're using the host pkg-config then it doesn't know to search in the
+native sysroot.  If we're using our pkg-config then it searches in the
+build-time prefix and not the actual SDK installation location.
+
+Neither of these are correct, so set PKG_CONFIG_LIBDIR to search:
+- The native sysroot
+- The host pkg-config's default search path, if present
+- Falling back to /usr/lib/pkgconfig, if not
+
+In an ideal world this would be handled by the generic toolchain script,
+but that is slightly more involved.
+
+[ YOCTO #15007 ]
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 74bf535ca5cbcfb38c18775ece863d53dd216008)
+(cherry picked from commit 8f768a3f4c7ff477e994d60800e5a1b83891615a)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-graphics/vulkan/vulkan-samples_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/meta/buildtools-tarball.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-index 3ad16490ce..ffb8d88ee6 100644
---- a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-@@ -5,7 +5,7 @@ LICENSE = "Apache-2.0"
+diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
+index de399173ba..34f7773398 100644
+--- a/meta/recipes-core/meta/buildtools-tarball.bb
++++ b/meta/recipes-core/meta/buildtools-tarball.bb
+@@ -75,6 +75,9 @@ create_sdk_files:append () {
+ 		echo 'export REQUESTS_CA_BUNDLE="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
+ 		echo 'export CURL_CA_BUNDLE="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
+ 	fi
++	echo 'HOST_PKG_PATH=$(command -p pkg-config --variable=pc_path pkg-config 2>/dev/null)' >>$script
++	echo 'export PKG_CONFIG_LIBDIR=${SDKPATHNATIVE}/${libdir}/pkgconfig:${SDKPATHNATIVE}/${datadir}/pkgconfig:${HOST_PKG_PATH:-/usr/lib/pkgconfig:/usr/share/pkgconfig}' >>$script
++	echo 'unset HOST_PKG_PATH'
  
- LIC_FILES_CHKSUM = "file://LICENSE;md5=48aa35cefb768436223a6e7f18dc2a2a"
+ 	toolchain_create_sdk_version ${SDK_OUTPUT}/${SDKPATH}/version-${SDK_SYS}
  
--SRC_URI = "gitsm://github.com/KhronosGroup/Vulkan-Samples.git;branch=master;protocol=https;lfs=0 \
-+SRC_URI = "gitsm://github.com/KhronosGroup/Vulkan-Samples.git;branch=main;protocol=https;lfs=0 \
-            file://0001-CMakeLists.txt-do-not-hardcode-lib-as-installation-t.patch \
-            file://debugfix.patch \
-            "
 -- 
 2.34.1
 
