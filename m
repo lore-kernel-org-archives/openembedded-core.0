@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D53F0C636D4
-	for <webhook@archiver.kernel.org>; Sun, 12 Feb 2023 21:10:57 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web11.20814.1676236251420016690
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D02CC05027
+	for <webhook@archiver.kernel.org>; Sun, 12 Feb 2023 21:11:07 +0000 (UTC)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web11.20819.1676236259860303775
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Feb 2023 13:10:51 -0800
+ Sun, 12 Feb 2023 13:11:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=qaBfl3vK;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.50, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f50.google.com with SMTP id w14-20020a17090a5e0e00b00233d3b9650eso2599983pjf.4
-        for <openembedded-core@lists.openembedded.org>; Sun, 12 Feb 2023 13:10:51 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=tuEiVK3a;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f49.google.com with SMTP id mg23so3587873pjb.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 12 Feb 2023 13:11:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=QCNdshzFivQ9qSjBg5DLDipYnp4m/fFAcC4jt5tJmUU=;
-        b=qaBfl3vKxkbo/eMNyw6pmboc7MAXDWpz1Od15cuaxKYpbs354B8XWb2qof/5yuTxG4
-         l+LRf/v8zEw3U4soVFYFcFa8jSqRuCcEkiXb4ZYZDqLYsQ6jkqmvuljf9LqF1KQG7elV
-         yGk8iPhHAdVDVMxg2U4b3e1mwmsHq6cWP6+URMCLDOTi5oHjWl9sY3Z6CmZ/p+iPFFpg
-         1jrRCEwL7ilHObCZ2F7S4bgZYOvVNtrvx4YSiTE/Lr5uS/G0QATKVM/CEcgXpdbLC+i4
-         Wiy7FFFVdefxf5EY5LTFHmJ5rV2uXwt1tMGc0THl4KRR0wRsDXbJyiUQyQf3bHwDRvc+
-         +NZg==
+        bh=uhKzQrFS5rBfhZl9uoOgWnO++9JD66YqLBWDH5xhS7g=;
+        b=tuEiVK3auyOOqMmiei+Y8mkirJtOF3H334RSkStQ6mK2YCoq347lPmbOyn9vebV72O
+         zbPK2mFHwV/MxVUH+sgqU2KfAyqZz4PLVVC9xiyDby69CZ3S3v1mKGpc6fPDZ1Pie43j
+         NPj62kHH5qx1JiSkY3MCCOkRePFOJyCL0+1O64JT8D0FR+J07gwgQrG6TkwziT23U1/g
+         Ezl+DyBDgB3Q8ySwKGCSk3iZPCtdS0o8dh/e+0egCHUa0eNqoktgJyscHIa4kKXLblUW
+         kILLvELFi8EY7tUtIJ6SWqz+Vep510zyWllbpfDbq2wRUCbyAgxZ8ocmQpKBXwQpQHAV
+         xFGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QCNdshzFivQ9qSjBg5DLDipYnp4m/fFAcC4jt5tJmUU=;
-        b=kUWcT4foS6MNLr51//n6swoYN8SdbBr2l8UG8zx3lwOg9tGIceO/Mm/fFezJOE2v4M
-         049Vtt83Lw8t6ISjuACC6OL8sOzZZmzoZUKhmZs9SF3xmBxEX6cys66gle0FglQIEdx4
-         amfY6w0hGRv6UC7hgX7R+gfAngzv3N3FexOkGGzo9MdLbnpyIfxLMZeIdf72bgu9EM/F
-         wNyhEp9KbklvdGan7IFMJvU66j9X+RY6pVAgVI+JMFxIGy21QbQ6ldlgV3WVXT+lmfTT
-         P/pEVEtF7fm4a04w7xN4XtTRRYi+J9FOsItV1rtj2jvjfgwJWnu5LV7B+7NNtE4s6Td3
-         6HKQ==
-X-Gm-Message-State: AO0yUKWDfSqr/K7vPll9Fbxfsiez/E/m3qPk0IPMuz4HmtOxEA8BUd+Z
-	cHUroIhLSwNU1xSEVqtsiu7+KuAGIlcvnK6/3YI=
-X-Google-Smtp-Source: AK7set9xV130V20SuphgcEX+MUCZamusn6bZgOrUs01jNF0VcGUBk4hI+GUyUBbHwe3jfXcrz4WJOg==
-X-Received: by 2002:a17:903:26cd:b0:19a:9055:6658 with SMTP id jg13-20020a17090326cd00b0019a90556658mr3807839plb.18.1676236250210;
-        Sun, 12 Feb 2023 13:10:50 -0800 (PST)
+        bh=uhKzQrFS5rBfhZl9uoOgWnO++9JD66YqLBWDH5xhS7g=;
+        b=sMUx8XmcFo0nLXv0GJq80YdXW43AJMfIYj7OLS9sANb733Tf3fMOpVGm323I2kLSo3
+         SH8jEIqI30JXsI8+F5eoyf7NSk1eLKuzVjZHY+4Hy0WdyPrrpndD9CFIGiYZjDswYTqt
+         s5UXkw6MGI2ru/Iu40XMzHru5zmb6lo9OtksEHz3MDHipDXqzNDR6GNYzt5j2Cx4Gmdj
+         u++C6Vw5HTDAwrPABKX1KpcGA3jipJncKTJG1CvAggUctlF7v5E55LDW8Mys5x3BSUDm
+         dab4HT3f0jboJXZx0At1+Wohk3JKiLt2zyayyoTQd/xYT/1qm4vInTNd8RC5Xd4VS6NA
+         Azqw==
+X-Gm-Message-State: AO0yUKXAyVysTYhTnD+lZkppNKTd/XqwWwnWaJkUOc1pAyq26S5wzsFD
+	IioXMUIi0gOgcvazOCXREb9c9sjKuHI2iPwiH8Y=
+X-Google-Smtp-Source: AK7set9r/RiqYlgqvXZqCJEBJhv2OwzqeTU5g7N8O7yfFxY7syrfDSn0wEIM0R/Qtqw01LfTC8Y9jg==
+X-Received: by 2002:a17:902:da84:b0:196:8c85:8aaa with SMTP id j4-20020a170902da8400b001968c858aaamr25378403plx.6.1676236264627;
+        Sun, 12 Feb 2023 13:11:04 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id d23-20020a170902b71700b001933b4b1a49sm5675482pls.183.2023.02.12.13.10.49
+        by smtp.gmail.com with ESMTPSA id d23-20020a170902b71700b001933b4b1a49sm5675482pls.183.2023.02.12.13.11.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Feb 2023 13:10:49 -0800 (PST)
+        Sun, 12 Feb 2023 13:11:04 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 01/27] python3-certifi: fix for CVE-2022-23491
-Date: Sun, 12 Feb 2023 11:10:17 -1000
-Message-Id: <8ee4adb8675c690962e5820669098a95f74c07c7.1676236110.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 07/27] vulkan-samples: branch rename master -> main
+Date: Sun, 12 Feb 2023 11:10:23 -1000
+Message-Id: <986af8c9ae9d2cab0bc0376757f40b096448ae2a.1676236110.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1676236110.git.steve@sakoman.com>
 References: <cover.1676236110.git.steve@sakoman.com>
@@ -60,279 +60,32 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 12 Feb 2023 21:10:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177045
+ <openembedded-core@lists.openembedded.org>; Sun, 12 Feb 2023 21:11:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177051
 
-From: Narpat Mali <narpat.mali@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Certifi is a curated collection of Root Certificates for validating the
-trustworthiness of SSL certificates while verifying the identity of TLS
-hosts. Certifi 2022.12.07 removes root certificates from "TrustCor" from
-the root store. These are in the process of being removed from Mozilla's
-trust store. TrustCor's root certificates are being removed pursuant to
-an investigation prompted by media reporting that TrustCor's ownership
-also operated a business that produced spyware. Conclusions of Mozilla's
-investigation can be found in the linked google group discussion.
-
-Reference: https://nvd.nist.gov/vuln/detail/CVE-2022-23491
-
-Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 74bf535ca5cbcfb38c18775ece863d53dd216008)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../python3-certifi/CVE-2022-23491.patch      | 230 ++++++++++++++++++
- .../python/python3-certifi_2021.10.8.bb       |   2 +
- 2 files changed, 232 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-certifi/CVE-2022-23491.patch
+ meta/recipes-graphics/vulkan/vulkan-samples_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3-certifi/CVE-2022-23491.patch b/meta/recipes-devtools/python/python3-certifi/CVE-2022-23491.patch
-new file mode 100644
-index 0000000000..94ca254549
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-certifi/CVE-2022-23491.patch
-@@ -0,0 +1,230 @@
-+From 167413eefa9482a7777b3ccdcc70e511ef5fcc2b Mon Sep 17 00:00:00 2001
-+From: Narpat Mali <narpat.mali@windriver.com>
-+Date: Thu, 2 Feb 2023 12:57:06 +0000
-+Subject: [PATCH] Certifi is a curated collection of Root Certificates for
-+ validating the trustworthiness of SSL certificates while verifying the
-+ identity of TLS hosts. Certifi 2022.12.07 removes root certificates from
-+ "TrustCor" from the root store. These are in the process of being removed
-+ from Mozilla's trust store. TrustCor's root certificates are being removed
-+ pursuant to an investigation prompted by media reporting that TrustCor's
-+ ownership also operated a business that produced spyware. Conclusions of
-+ Mozilla's investigation can be found in the linked google group discussion.
-+
-+CVE: CVE-2022-23491
-+
-+Upstream-Status: Backport [https://github.com/certifi/python-certifi/commit/9e9e840925d7b8e76c76fdac1fab7e6e88c1c3b8]
-+
-+Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
-+---
-+ certifi/cacert.pem | 181 ---------------------------------------------
-+ 1 file changed, 181 deletions(-)
-+
-+diff --git a/certifi/cacert.pem b/certifi/cacert.pem
-+index 6d0ccc0..6bae3e4 100644
-+--- a/certifi/cacert.pem
-++++ b/certifi/cacert.pem
-+@@ -694,37 +694,6 @@ BA6+C4OmF4O5MBKgxTMVBbkN+8cFduPYSo38NBejxiEovjBFMR7HeL5YYTisO+IB
-+ ZQ==
-+ -----END CERTIFICATE-----
-+ 
-+-# Issuer: CN=Network Solutions Certificate Authority O=Network Solutions L.L.C.
-+-# Subject: CN=Network Solutions Certificate Authority O=Network Solutions L.L.C.
-+-# Label: "Network Solutions Certificate Authority"
-+-# Serial: 116697915152937497490437556386812487904
-+-# MD5 Fingerprint: d3:f3:a6:16:c0:fa:6b:1d:59:b1:2d:96:4d:0e:11:2e
-+-# SHA1 Fingerprint: 74:f8:a3:c3:ef:e7:b3:90:06:4b:83:90:3c:21:64:60:20:e5:df:ce
-+-# SHA256 Fingerprint: 15:f0:ba:00:a3:ac:7a:f3:ac:88:4c:07:2b:10:11:a0:77:bd:77:c0:97:f4:01:64:b2:f8:59:8a:bd:83:86:0c
-+------BEGIN CERTIFICATE-----
-+-MIID5jCCAs6gAwIBAgIQV8szb8JcFuZHFhfjkDFo4DANBgkqhkiG9w0BAQUFADBi
-+-MQswCQYDVQQGEwJVUzEhMB8GA1UEChMYTmV0d29yayBTb2x1dGlvbnMgTC5MLkMu
-+-MTAwLgYDVQQDEydOZXR3b3JrIFNvbHV0aW9ucyBDZXJ0aWZpY2F0ZSBBdXRob3Jp
-+-dHkwHhcNMDYxMjAxMDAwMDAwWhcNMjkxMjMxMjM1OTU5WjBiMQswCQYDVQQGEwJV
-+-UzEhMB8GA1UEChMYTmV0d29yayBTb2x1dGlvbnMgTC5MLkMuMTAwLgYDVQQDEydO
-+-ZXR3b3JrIFNvbHV0aW9ucyBDZXJ0aWZpY2F0ZSBBdXRob3JpdHkwggEiMA0GCSqG
-+-SIb3DQEBAQUAA4IBDwAwggEKAoIBAQDkvH6SMG3G2I4rC7xGzuAnlt7e+foS0zwz
-+-c7MEL7xxjOWftiJgPl9dzgn/ggwbmlFQGiaJ3dVhXRncEg8tCqJDXRfQNJIg6nPP
-+-OCwGJgl6cvf6UDL4wpPTaaIjzkGxzOTVHzbRijr4jGPiFFlp7Q3Tf2vouAPlT2rl
-+-mGNpSAW+Lv8ztumXWWn4Zxmuk2GWRBXTcrA/vGp97Eh/jcOrqnErU2lBUzS1sLnF
-+-BgrEsEX1QV1uiUV7PTsmjHTC5dLRfbIR1PtYMiKagMnc/Qzpf14Dl847ABSHJ3A4
-+-qY5usyd2mFHgBeMhqxrVhSI8KbWaFsWAqPS7azCPL0YCorEMIuDTAgMBAAGjgZcw
-+-gZQwHQYDVR0OBBYEFCEwyfsA106Y2oeqKtCnLrFAMadMMA4GA1UdDwEB/wQEAwIB
-+-BjAPBgNVHRMBAf8EBTADAQH/MFIGA1UdHwRLMEkwR6BFoEOGQWh0dHA6Ly9jcmwu
-+-bmV0c29sc3NsLmNvbS9OZXR3b3JrU29sdXRpb25zQ2VydGlmaWNhdGVBdXRob3Jp
-+-dHkuY3JsMA0GCSqGSIb3DQEBBQUAA4IBAQC7rkvnt1frf6ott3NHhWrB5KUd5Oc8
-+-6fRZZXe1eltajSU24HqXLjjAV2CDmAaDn7l2em5Q4LqILPxFzBiwmZVRDuwduIj/
-+-h1AcgsLj4DKAv6ALR8jDMe+ZZzKATxcheQxpXN5eNK4CtSbqUN9/GGUsyfJj4akH
-+-/nxxH2szJGoeBfcFaMBqEssuXmHLrijTfsK0ZpEmXzwuJF/LWA/rKOyvEZbz3Htv
-+-wKeI8lN3s2Berq4o2jUsbzRF0ybh3uxbTydrFny9RAQYgrOJeRcQcT16ohZO9QHN
-+-pGxlaKFJdlxDydi8NmdspZS11My5vWo1ViHe2MPr+8ukYEywVaCge1ey
-+------END CERTIFICATE-----
-+-
-+ # Issuer: CN=COMODO ECC Certification Authority O=COMODO CA Limited
-+ # Subject: CN=COMODO ECC Certification Authority O=COMODO CA Limited
-+ # Label: "COMODO ECC Certification Authority"
-+@@ -2385,46 +2354,6 @@ KoZIzj0EAwMDaAAwZQIxAOVpEslu28YxuglB4Zf4+/2a4n0Sye18ZNPLBSWLVtmg
-+ xwy8p2Fp8fc74SrL+SvzZpA3
-+ -----END CERTIFICATE-----
-+ 
-+-# Issuer: CN=Staat der Nederlanden EV Root CA O=Staat der Nederlanden
-+-# Subject: CN=Staat der Nederlanden EV Root CA O=Staat der Nederlanden
-+-# Label: "Staat der Nederlanden EV Root CA"
-+-# Serial: 10000013
-+-# MD5 Fingerprint: fc:06:af:7b:e8:1a:f1:9a:b4:e8:d2:70:1f:c0:f5:ba
-+-# SHA1 Fingerprint: 76:e2:7e:c1:4f:db:82:c1:c0:a6:75:b5:05:be:3d:29:b4:ed:db:bb
-+-# SHA256 Fingerprint: 4d:24:91:41:4c:fe:95:67:46:ec:4c:ef:a6:cf:6f:72:e2:8a:13:29:43:2f:9d:8a:90:7a:c4:cb:5d:ad:c1:5a
-+------BEGIN CERTIFICATE-----
-+-MIIFcDCCA1igAwIBAgIEAJiWjTANBgkqhkiG9w0BAQsFADBYMQswCQYDVQQGEwJO
-+-TDEeMBwGA1UECgwVU3RhYXQgZGVyIE5lZGVybGFuZGVuMSkwJwYDVQQDDCBTdGFh
-+-dCBkZXIgTmVkZXJsYW5kZW4gRVYgUm9vdCBDQTAeFw0xMDEyMDgxMTE5MjlaFw0y
-+-MjEyMDgxMTEwMjhaMFgxCzAJBgNVBAYTAk5MMR4wHAYDVQQKDBVTdGFhdCBkZXIg
-+-TmVkZXJsYW5kZW4xKTAnBgNVBAMMIFN0YWF0IGRlciBOZWRlcmxhbmRlbiBFViBS
-+-b290IENBMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA48d+ifkkSzrS
-+-M4M1LGns3Amk41GoJSt5uAg94JG6hIXGhaTK5skuU6TJJB79VWZxXSzFYGgEt9nC
-+-UiY4iKTWO0Cmws0/zZiTs1QUWJZV1VD+hq2kY39ch/aO5ieSZxeSAgMs3NZmdO3d
-+-Z//BYY1jTw+bbRcwJu+r0h8QoPnFfxZpgQNH7R5ojXKhTbImxrpsX23Wr9GxE46p
-+-rfNeaXUmGD5BKyF/7otdBwadQ8QpCiv8Kj6GyzyDOvnJDdrFmeK8eEEzduG/L13l
-+-pJhQDBXd4Pqcfzho0LKmeqfRMb1+ilgnQ7O6M5HTp5gVXJrm0w912fxBmJc+qiXb
-+-j5IusHsMX/FjqTf5m3VpTCgmJdrV8hJwRVXj33NeN/UhbJCONVrJ0yPr08C+eKxC
-+-KFhmpUZtcALXEPlLVPxdhkqHz3/KRawRWrUgUY0viEeXOcDPusBCAUCZSCELa6fS
-+-/ZbV0b5GnUngC6agIk440ME8MLxwjyx1zNDFjFE7PZQIZCZhfbnDZY8UnCHQqv0X
-+-cgOPvZuM5l5Tnrmd74K74bzickFbIZTTRTeU0d8JOV3nI6qaHcptqAqGhYqCvkIH
-+-1vI4gnPah1vlPNOePqc7nvQDs/nxfRN0Av+7oeX6AHkcpmZBiFxgV6YuCcS6/ZrP
-+-px9Aw7vMWgpVSzs4dlG4Y4uElBbmVvMCAwEAAaNCMEAwDwYDVR0TAQH/BAUwAwEB
-+-/zAOBgNVHQ8BAf8EBAMCAQYwHQYDVR0OBBYEFP6rAJCYniT8qcwaivsnuL8wbqg7
-+-MA0GCSqGSIb3DQEBCwUAA4ICAQDPdyxuVr5Os7aEAJSrR8kN0nbHhp8dB9O2tLsI
-+-eK9p0gtJ3jPFrK3CiAJ9Brc1AsFgyb/E6JTe1NOpEyVa/m6irn0F3H3zbPB+po3u
-+-2dfOWBfoqSmuc0iH55vKbimhZF8ZE/euBhD/UcabTVUlT5OZEAFTdfETzsemQUHS
-+-v4ilf0X8rLiltTMMgsT7B/Zq5SWEXwbKwYY5EdtYzXc7LMJMD16a4/CrPmEbUCTC
-+-wPTxGfARKbalGAKb12NMcIxHowNDXLldRqANb/9Zjr7dn3LDWyvfjFvO5QxGbJKy
-+-CqNMVEIYFRIYvdr8unRu/8G2oGTYqV9Vrp9canaW2HNnh/tNf1zuacpzEPuKqf2e
-+-vTY4SUmH9A4U8OmHuD+nT3pajnnUk+S7aFKErGzp85hwVXIy+TSrK0m1zSBi5Dp6
-+-Z2Orltxtrpfs/J92VoguZs9btsmksNcFuuEnL5O7Jiqik7Ab846+HUCjuTaPPoIa
-+-Gl6I6lD4WeKDRikL40Rc4ZW2aZCaFG+XroHPaO+Zmr615+F/+PoTRxZMzG0IQOeL
-+-eG9QgkRQP2YGiqtDhFZKDyAthg710tvSeopLzaXoTvFeJiUBWSOgftL2fiFX1ye8
-+-FVdMpEbB4IMeDExNH08GGeL5qPQ6gqGyeUN51q1veieQA6TqJIc/2b3Z6fJfUEkc
-+-7uzXLg==
-+------END CERTIFICATE-----
-+-
-+ # Issuer: CN=IdenTrust Commercial Root CA 1 O=IdenTrust
-+ # Subject: CN=IdenTrust Commercial Root CA 1 O=IdenTrust
-+ # Label: "IdenTrust Commercial Root CA 1"
-+@@ -3032,116 +2961,6 @@ T8p+ck0LcIymSLumoRT2+1hEmRSuqguTaaApJUqlyyvdimYHFngVV3Eb7PVHhPOe
-+ MTd61X8kreS8/f3MboPoDKi3QWwH3b08hpcv0g==
-+ -----END CERTIFICATE-----
-+ 
-+-# Issuer: CN=TrustCor RootCert CA-1 O=TrustCor Systems S. de R.L. OU=TrustCor Certificate Authority
-+-# Subject: CN=TrustCor RootCert CA-1 O=TrustCor Systems S. de R.L. OU=TrustCor Certificate Authority
-+-# Label: "TrustCor RootCert CA-1"
-+-# Serial: 15752444095811006489
-+-# MD5 Fingerprint: 6e:85:f1:dc:1a:00:d3:22:d5:b2:b2:ac:6b:37:05:45
-+-# SHA1 Fingerprint: ff:bd:cd:e7:82:c8:43:5e:3c:6f:26:86:5c:ca:a8:3a:45:5b:c3:0a
-+-# SHA256 Fingerprint: d4:0e:9c:86:cd:8f:e4:68:c1:77:69:59:f4:9e:a7:74:fa:54:86:84:b6:c4:06:f3:90:92:61:f4:dc:e2:57:5c
-+------BEGIN CERTIFICATE-----
-+-MIIEMDCCAxigAwIBAgIJANqb7HHzA7AZMA0GCSqGSIb3DQEBCwUAMIGkMQswCQYD
-+-VQQGEwJQQTEPMA0GA1UECAwGUGFuYW1hMRQwEgYDVQQHDAtQYW5hbWEgQ2l0eTEk
-+-MCIGA1UECgwbVHJ1c3RDb3IgU3lzdGVtcyBTLiBkZSBSLkwuMScwJQYDVQQLDB5U
-+-cnVzdENvciBDZXJ0aWZpY2F0ZSBBdXRob3JpdHkxHzAdBgNVBAMMFlRydXN0Q29y
-+-IFJvb3RDZXJ0IENBLTEwHhcNMTYwMjA0MTIzMjE2WhcNMjkxMjMxMTcyMzE2WjCB
-+-pDELMAkGA1UEBhMCUEExDzANBgNVBAgMBlBhbmFtYTEUMBIGA1UEBwwLUGFuYW1h
-+-IENpdHkxJDAiBgNVBAoMG1RydXN0Q29yIFN5c3RlbXMgUy4gZGUgUi5MLjEnMCUG
-+-A1UECwweVHJ1c3RDb3IgQ2VydGlmaWNhdGUgQXV0aG9yaXR5MR8wHQYDVQQDDBZU
-+-cnVzdENvciBSb290Q2VydCBDQS0xMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB
-+-CgKCAQEAv463leLCJhJrMxnHQFgKq1mqjQCj/IDHUHuO1CAmujIS2CNUSSUQIpid
-+-RtLByZ5OGy4sDjjzGiVoHKZaBeYei0i/mJZ0PmnK6bV4pQa81QBeCQryJ3pS/C3V
-+-seq0iWEk8xoT26nPUu0MJLq5nux+AHT6k61sKZKuUbS701e/s/OojZz0JEsq1pme
-+-9J7+wH5COucLlVPat2gOkEz7cD+PSiyU8ybdY2mplNgQTsVHCJCZGxdNuWxu72CV
-+-EY4hgLW9oHPY0LJ3xEXqWib7ZnZ2+AYfYW0PVcWDtxBWcgYHpfOxGgMFZA6dWorW
-+-hnAbJN7+KIor0Gqw/Hqi3LJ5DotlDwIDAQABo2MwYTAdBgNVHQ4EFgQU7mtJPHo/
-+-DeOxCbeKyKsZn3MzUOcwHwYDVR0jBBgwFoAU7mtJPHo/DeOxCbeKyKsZn3MzUOcw
-+-DwYDVR0TAQH/BAUwAwEB/zAOBgNVHQ8BAf8EBAMCAYYwDQYJKoZIhvcNAQELBQAD
-+-ggEBACUY1JGPE+6PHh0RU9otRCkZoB5rMZ5NDp6tPVxBb5UrJKF5mDo4Nvu7Zp5I
-+-/5CQ7z3UuJu0h3U/IJvOcs+hVcFNZKIZBqEHMwwLKeXx6quj7LUKdJDHfXLy11yf
-+-ke+Ri7fc7Waiz45mO7yfOgLgJ90WmMCV1Aqk5IGadZQ1nJBfiDcGrVmVCrDRZ9MZ
-+-yonnMlo2HD6CqFqTvsbQZJG2z9m2GM/bftJlo6bEjhcxwft+dtvTheNYsnd6djts
-+-L1Ac59v2Z3kf9YKVmgenFK+P3CghZwnS1k1aHBkcjndcw5QkPTJrS37UeJSDvjdN
-+-zl/HHk484IkzlQsPpTLWPFp5LBk=
-+------END CERTIFICATE-----
-+-
-+-# Issuer: CN=TrustCor RootCert CA-2 O=TrustCor Systems S. de R.L. OU=TrustCor Certificate Authority
-+-# Subject: CN=TrustCor RootCert CA-2 O=TrustCor Systems S. de R.L. OU=TrustCor Certificate Authority
-+-# Label: "TrustCor RootCert CA-2"
-+-# Serial: 2711694510199101698
-+-# MD5 Fingerprint: a2:e1:f8:18:0b:ba:45:d5:c7:41:2a:bb:37:52:45:64
-+-# SHA1 Fingerprint: b8:be:6d:cb:56:f1:55:b9:63:d4:12:ca:4e:06:34:c7:94:b2:1c:c0
-+-# SHA256 Fingerprint: 07:53:e9:40:37:8c:1b:d5:e3:83:6e:39:5d:ae:a5:cb:83:9e:50:46:f1:bd:0e:ae:19:51:cf:10:fe:c7:c9:65
-+------BEGIN CERTIFICATE-----
-+-MIIGLzCCBBegAwIBAgIIJaHfyjPLWQIwDQYJKoZIhvcNAQELBQAwgaQxCzAJBgNV
-+-BAYTAlBBMQ8wDQYDVQQIDAZQYW5hbWExFDASBgNVBAcMC1BhbmFtYSBDaXR5MSQw
-+-IgYDVQQKDBtUcnVzdENvciBTeXN0ZW1zIFMuIGRlIFIuTC4xJzAlBgNVBAsMHlRy
-+-dXN0Q29yIENlcnRpZmljYXRlIEF1dGhvcml0eTEfMB0GA1UEAwwWVHJ1c3RDb3Ig
-+-Um9vdENlcnQgQ0EtMjAeFw0xNjAyMDQxMjMyMjNaFw0zNDEyMzExNzI2MzlaMIGk
-+-MQswCQYDVQQGEwJQQTEPMA0GA1UECAwGUGFuYW1hMRQwEgYDVQQHDAtQYW5hbWEg
-+-Q2l0eTEkMCIGA1UECgwbVHJ1c3RDb3IgU3lzdGVtcyBTLiBkZSBSLkwuMScwJQYD
-+-VQQLDB5UcnVzdENvciBDZXJ0aWZpY2F0ZSBBdXRob3JpdHkxHzAdBgNVBAMMFlRy
-+-dXN0Q29yIFJvb3RDZXJ0IENBLTIwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIK
-+-AoICAQCnIG7CKqJiJJWQdsg4foDSq8GbZQWU9MEKENUCrO2fk8eHyLAnK0IMPQo+
-+-QVqedd2NyuCb7GgypGmSaIwLgQ5WoD4a3SwlFIIvl9NkRvRUqdw6VC0xK5mC8tkq
-+-1+9xALgxpL56JAfDQiDyitSSBBtlVkxs1Pu2YVpHI7TYabS3OtB0PAx1oYxOdqHp
-+-2yqlO/rOsP9+aij9JxzIsekp8VduZLTQwRVtDr4uDkbIXvRR/u8OYzo7cbrPb1nK
-+-DOObXUm4TOJXsZiKQlecdu/vvdFoqNL0Cbt3Nb4lggjEFixEIFapRBF37120Hape
-+-az6LMvYHL1cEksr1/p3C6eizjkxLAjHZ5DxIgif3GIJ2SDpxsROhOdUuxTTCHWKF
-+-3wP+TfSvPd9cW436cOGlfifHhi5qjxLGhF5DUVCcGZt45vz27Ud+ez1m7xMTiF88
-+-oWP7+ayHNZ/zgp6kPwqcMWmLmaSISo5uZk3vFsQPeSghYA2FFn3XVDjxklb9tTNM
-+-g9zXEJ9L/cb4Qr26fHMC4P99zVvh1Kxhe1fVSntb1IVYJ12/+CtgrKAmrhQhJ8Z3
-+-mjOAPF5GP/fDsaOGM8boXg25NSyqRsGFAnWAoOsk+xWq5Gd/bnc/9ASKL3x74xdh
-+-8N0JqSDIvgmk0H5Ew7IwSjiqqewYmgeCK9u4nBit2uBGF6zPXQIDAQABo2MwYTAd
-+-BgNVHQ4EFgQU2f4hQG6UnrybPZx9mCAZ5YwwYrIwHwYDVR0jBBgwFoAU2f4hQG6U
-+-nrybPZx9mCAZ5YwwYrIwDwYDVR0TAQH/BAUwAwEB/zAOBgNVHQ8BAf8EBAMCAYYw
-+-DQYJKoZIhvcNAQELBQADggIBAJ5Fngw7tu/hOsh80QA9z+LqBrWyOrsGS2h60COX
-+-dKcs8AjYeVrXWoSK2BKaG9l9XE1wxaX5q+WjiYndAfrs3fnpkpfbsEZC89NiqpX+
-+-MWcUaViQCqoL7jcjx1BRtPV+nuN79+TMQjItSQzL/0kMmx40/W5ulop5A7Zv2wnL
-+-/V9lFDfhOPXzYRZY5LVtDQsEGz9QLX+zx3oaFoBg+Iof6Rsqxvm6ARppv9JYx1RX
-+-CI/hOWB3S6xZhBqI8d3LT3jX5+EzLfzuQfogsL7L9ziUwOHQhQ+77Sxzq+3+knYa
-+-ZH9bDTMJBzN7Bj8RpFxwPIXAz+OQqIN3+tvmxYxoZxBnpVIt8MSZj3+/0WvitUfW
-+-2dCFmU2Umw9Lje4AWkcdEQOsQRivh7dvDDqPys/cA8GiCcjl/YBeyGBCARsaU1q7
-+-N6a3vLqE6R5sGtRk2tRD/pOLS/IseRYQ1JMLiI+h2IYURpFHmygk71dSTlxCnKr3
-+-Sewn6EAes6aJInKc9Q0ztFijMDvd1GpUk74aTfOTlPf8hAs/hCBcNANExdqtvArB
-+-As8e5ZTZ845b2EzwnexhF7sUMlQMAimTHpKG9n/v55IFDlndmQguLvqcAFLTxWYp
-+-5KeXRKQOKIETNcX2b2TmQcTVL8w0RSXPQQCWPUouwpaYT05KnJe32x+SMsj/D1Fu
-+-1uwJ
-+------END CERTIFICATE-----
-+-
-+-# Issuer: CN=TrustCor ECA-1 O=TrustCor Systems S. de R.L. OU=TrustCor Certificate Authority
-+-# Subject: CN=TrustCor ECA-1 O=TrustCor Systems S. de R.L. OU=TrustCor Certificate Authority
-+-# Label: "TrustCor ECA-1"
-+-# Serial: 9548242946988625984
-+-# MD5 Fingerprint: 27:92:23:1d:0a:f5:40:7c:e9:e6:6b:9d:d8:f5:e7:6c
-+-# SHA1 Fingerprint: 58:d1:df:95:95:67:6b:63:c0:f0:5b:1c:17:4d:8b:84:0b:c8:78:bd
-+-# SHA256 Fingerprint: 5a:88:5d:b1:9c:01:d9:12:c5:75:93:88:93:8c:af:bb:df:03:1a:b2:d4:8e:91:ee:15:58:9b:42:97:1d:03:9c
-+------BEGIN CERTIFICATE-----
-+-MIIEIDCCAwigAwIBAgIJAISCLF8cYtBAMA0GCSqGSIb3DQEBCwUAMIGcMQswCQYD
-+-VQQGEwJQQTEPMA0GA1UECAwGUGFuYW1hMRQwEgYDVQQHDAtQYW5hbWEgQ2l0eTEk
-+-MCIGA1UECgwbVHJ1c3RDb3IgU3lzdGVtcyBTLiBkZSBSLkwuMScwJQYDVQQLDB5U
-+-cnVzdENvciBDZXJ0aWZpY2F0ZSBBdXRob3JpdHkxFzAVBgNVBAMMDlRydXN0Q29y
-+-IEVDQS0xMB4XDTE2MDIwNDEyMzIzM1oXDTI5MTIzMTE3MjgwN1owgZwxCzAJBgNV
-+-BAYTAlBBMQ8wDQYDVQQIDAZQYW5hbWExFDASBgNVBAcMC1BhbmFtYSBDaXR5MSQw
-+-IgYDVQQKDBtUcnVzdENvciBTeXN0ZW1zIFMuIGRlIFIuTC4xJzAlBgNVBAsMHlRy
-+-dXN0Q29yIENlcnRpZmljYXRlIEF1dGhvcml0eTEXMBUGA1UEAwwOVHJ1c3RDb3Ig
-+-RUNBLTEwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDPj+ARtZ+odnbb
-+-3w9U73NjKYKtR8aja+3+XzP4Q1HpGjORMRegdMTUpwHmspI+ap3tDvl0mEDTPwOA
-+-BoJA6LHip1GnHYMma6ve+heRK9jGrB6xnhkB1Zem6g23xFUfJ3zSCNV2HykVh0A5
-+-3ThFEXXQmqc04L/NyFIduUd+Dbi7xgz2c1cWWn5DkR9VOsZtRASqnKmcp0yJF4Ou
-+-owReUoCLHhIlERnXDH19MURB6tuvsBzvgdAsxZohmz3tQjtQJvLsznFhBmIhVE5/
-+-wZ0+fyCMgMsq2JdiyIMzkX2woloPV+g7zPIlstR8L+xNxqE6FXrntl019fZISjZF
-+-ZtS6mFjBAgMBAAGjYzBhMB0GA1UdDgQWBBREnkj1zG1I1KBLf/5ZJC+Dl5mahjAf
-+-BgNVHSMEGDAWgBREnkj1zG1I1KBLf/5ZJC+Dl5mahjAPBgNVHRMBAf8EBTADAQH/
-+-MA4GA1UdDwEB/wQEAwIBhjANBgkqhkiG9w0BAQsFAAOCAQEABT41XBVwm8nHc2Fv
-+-civUwo/yQ10CzsSUuZQRg2dd4mdsdXa/uwyqNsatR5Nj3B5+1t4u/ukZMjgDfxT2
-+-AHMsWbEhBuH7rBiVDKP/mZb3Kyeb1STMHd3BOuCYRLDE5D53sXOpZCz2HAF8P11F
-+-hcCF5yWPldwX8zyfGm6wyuMdKulMY/okYWLW2n62HGz1Ah3UKt1VkOsqEUc8Ll50
-+-soIipX1TH0XsJ5F95yIW6MBoNtjG8U+ARDL54dHRHareqKucBK+tIA5kmE2la8BI
-+-WJZpTdwHjFGTot+fDz2LYLSCjaoITmJF4PkL0uDgPFveXHEnJcLmA4GLEFPjx1Wi
-+-tJ/X5g==
-+------END CERTIFICATE-----
-+-
-+ # Issuer: CN=SSL.com Root Certification Authority RSA O=SSL Corporation
-+ # Subject: CN=SSL.com Root Certification Authority RSA O=SSL Corporation
-+ # Label: "SSL.com Root Certification Authority RSA"
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-devtools/python/python3-certifi_2021.10.8.bb b/meta/recipes-devtools/python/python3-certifi_2021.10.8.bb
-index 4c376da897..57bd59ba44 100644
---- a/meta/recipes-devtools/python/python3-certifi_2021.10.8.bb
-+++ b/meta/recipes-devtools/python/python3-certifi_2021.10.8.bb
-@@ -7,6 +7,8 @@ HOMEPAGE = " http://certifi.io/"
- LICENSE = "ISC"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=67da0714c3f9471067b729eca6c9fbe8"
+diff --git a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
+index 3ad16490ce..ffb8d88ee6 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
+@@ -5,7 +5,7 @@ LICENSE = "Apache-2.0"
  
-+SRC_URI += "file://CVE-2022-23491.patch"
-+
- SRC_URI[sha256sum] = "78884e7c1d4b00ce3cea67b44566851c4343c120abd683433ce934a68ea58872"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=48aa35cefb768436223a6e7f18dc2a2a"
  
- inherit pypi setuptools3
+-SRC_URI = "gitsm://github.com/KhronosGroup/Vulkan-Samples.git;branch=master;protocol=https;lfs=0 \
++SRC_URI = "gitsm://github.com/KhronosGroup/Vulkan-Samples.git;branch=main;protocol=https;lfs=0 \
+            file://0001-CMakeLists.txt-do-not-hardcode-lib-as-installation-t.patch \
+            file://debugfix.patch \
+            "
 -- 
 2.34.1
 
