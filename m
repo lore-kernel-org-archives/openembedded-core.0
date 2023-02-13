@@ -1,83 +1,66 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2146C64EC4
-	for <webhook@archiver.kernel.org>; Mon, 13 Feb 2023 11:30:57 +0000 (UTC)
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
- by mx.groups.io with SMTP id smtpd.web11.12347.1676287856022828756
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2160C636D4
+	for <webhook@archiver.kernel.org>; Mon, 13 Feb 2023 11:37:17 +0000 (UTC)
+Received: from mailout04.t-online.de (mailout04.t-online.de [194.25.134.18])
+ by mx.groups.io with SMTP id smtpd.web11.12442.1676288227030324534
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Feb 2023 03:30:56 -0800
+ Mon, 13 Feb 2023 03:37:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=kYvSs/AN;
- spf=pass (domain: gmail.com, ip: 209.85.208.173, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f173.google.com with SMTP id b30so2726015ljf.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Feb 2023 03:30:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=HHtVH/8mwdHMexwRibFxDr/wXKL35J+jtFbK1Cs4LE4=;
-        b=kYvSs/ANn7ZOOJCo2+2iaBRcCXzrjSkD/sAeP8KIn+iOdg0YYaS/b6Bby7yZRD7kPn
-         U1vY4qENLh6QwkgD0HcCJNK7Zz7FvPNIQpKLoTtEnL3CQ8ausO1FUoE3vUjnfH/Nb0E4
-         5YGbQNmV0zqjH0R3oNgLEvZuYoBRsXujllbFFrsbM3OdGkVGNxEl0p1hhEYEzrWpre2t
-         PsqI688CzLYm8KuiRaUwpuFKwNs1CXX5aNWHEXqJshaYjhVXFoqLBkZD/ppnTbGGg5uZ
-         IrFVZKiE5+qstpxnQ15YVHbCNygDTTZJw+mWHyPFMcFVJ0wmAF1co720ckIzAVPlUiNj
-         aKpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HHtVH/8mwdHMexwRibFxDr/wXKL35J+jtFbK1Cs4LE4=;
-        b=bu96vlcKXuH4vGvt9G/RlCgteX2BNT3xxnWB2TJhyU17sbu+KGezY7ld+dDpLgcXVv
-         jCFWwBn5Yn19LApJ5WYaIdsHL7lH0gEgX2xo+U1b2v64tHIJQaY8IPr3tqwblR0xmTXm
-         C+Sm4smfI2z6qD3Z8a9wKtC5k1XWI7a9KqUZbrlcFR6ToKTx4imyOCh33j+Im4/Wf/9w
-         rnnBM7kU+O1Hs3UmoyHAkPGcTaJ4ao6jYNdy+KuUpib3Mc/MY748R7uTY9jQoQ6h3p2v
-         Og7PylieWZJ04vwsPlC6a4JuG9797vNmskn1EPRLmVoCfl45rKCZ8Pg8AdKnXtJ7YRcv
-         KTTA==
-X-Gm-Message-State: AO0yUKU6tvWLdqpBAaxqayLHxJs7VRgzLFv6tjInPc+Q4tXnsA/r/b+U
-	cINiDTmfFjTjF4r3TqJjMfZw4no+TSSY3BvTCig=
-X-Google-Smtp-Source: AK7set8rYfPL9wFhKOiIycEKgYRhojITxw/bJoolmFZyVNdayE+NkHMeW44CVaz+5hGf9DPM4AdExo3sGr/VLLCdvjI=
-X-Received: by 2002:a2e:7c0e:0:b0:293:2b48:d2a9 with SMTP id
- x14-20020a2e7c0e000000b002932b48d2a9mr3211847ljc.74.1676287854252; Mon, 13
- Feb 2023 03:30:54 -0800 (PST)
-MIME-Version: 1.0
-References: <20230213104228.1067057-1-f_l_k@t-online.de> <CANNYZj8KiZfFD6-BvTNv5oSQ5pNg_KX7_qF1hfNpip8WLM=G-g@mail.gmail.com>
- <17435D409BDFDC2E.12482@lists.openembedded.org> <RPN0QR.78GW1EDG5GW2@t-online.de>
-In-Reply-To: <RPN0QR.78GW1EDG5GW2@t-online.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 13 Feb 2023 12:30:42 +0100
-Message-ID: <CANNYZj-r5n+s6P8TyOuSdniATzPZnvGsxLSMb33rQF+FfBTUWQ@mail.gmail.com>
+ dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.18, mailfrom: f_l_k@t-online.de)
+Received: from fwd89.dcpf.telekom.de (fwd89.aul.t-online.de [10.223.144.115])
+	by mailout04.t-online.de (Postfix) with SMTP id 7F6D7D968;
+	Mon, 13 Feb 2023 12:37:02 +0100 (CET)
+Received: from [192.168.178.83] ([84.163.47.111]) by fwd89.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1pRX8o-0zuThI0; Mon, 13 Feb 2023 12:37:02 +0100
+Date: Mon, 13 Feb 2023 12:36:56 +0100
+From: Markus Volk <f_l_k@t-online.de>
 Subject: Re: [oe-core][PATCHv3] graphene: add a PACKAGECONFIG for arm_neon
-To: Markus Volk <f_l_k@t-online.de>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Message-Id: <K9O0QR.HDTIOZR7P56X@t-online.de>
+In-Reply-To: 
+	<CANNYZj-r5n+s6P8TyOuSdniATzPZnvGsxLSMb33rQF+FfBTUWQ@mail.gmail.com>
+References: <20230213104228.1067057-1-f_l_k@t-online.de>
+	<CANNYZj8KiZfFD6-BvTNv5oSQ5pNg_KX7_qF1hfNpip8WLM=G-g@mail.gmail.com>
+	<17435D409BDFDC2E.12482@lists.openembedded.org>
+	<RPN0QR.78GW1EDG5GW2@t-online.de>
+	<CANNYZj-r5n+s6P8TyOuSdniATzPZnvGsxLSMb33rQF+FfBTUWQ@mail.gmail.com>
+X-Mailer: geary/40.0
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="=-IBGCmUPe77TWBaZFfgMG"
+X-TOI-EXPURGATEID: 150726::1676288222-D671D046-446BC84E/0/0 CLEAN NORMAL
+X-TOI-MSGID: e1fce8aa-ebb4-49b2-82bc-cc330a58f292
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Feb 2023 11:30:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177099
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Feb 2023 11:37:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177100
 
-Does enabling neon break the build on non-aarch64?
+--=-IBGCmUPe77TWBaZFfgMG
+Content-Type: text/plain; charset=us-ascii; format=flowed
 
-If not, then it could just be added to the default weak set.
+Am Mo, 13. Feb 2023 um 12:30:42 +0100 schrieb Alexander Kanavin 
+<alex.kanavin@gmail.com>:
+> Does enabling neon break the build on non-aarch64?
 
-Otherwise,
-PACKAGECONFIG:append:aarch64 = " neon" seems most sensible. It can
-still be undone with :remove (which is ugly but possible).
+As far as I know it breaks runtime for some armv7 tunes and will 
+probably also break build for older arm platforms that do not support 
+neon at all.
 
-Alex
+That would also work:
+PACKAGECONFIG ?= "introspection ${@bb.utils.contains('TUNE_FEATURES', 
+'aarch64', 'neon', '', d)}"
 
-On Mon, 13 Feb 2023 at 12:25, Markus Volk <f_l_k@t-online.de> wrote:
->
-> Am Mo, 13. Feb 2023 um 12:00:08 +0100 schrieb Markus Volk <f_l_k@t-online.de>:
->
-> just remove the '?'
->
->
-> No. That didn't help either.
->
-> The only way that seems to work for me is:
-> PACKAGECONFIG:append:aarch64 = " neon"
+
+--=-IBGCmUPe77TWBaZFfgMG
+Content-Type: text/html; charset=us-ascii
+
+<div id="geary-body" dir="auto">Am Mo, 13. Feb 2023 um 12:30:42 +0100 schrieb Alexander Kanavin &lt;alex.kanavin@gmail.com&gt;:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">Does enabling neon break the build on non-aarch64?
+</div></blockquote><div><br></div><div>As far as I know it breaks runtime for some armv7 tunes and will probably also break build for older arm platforms that do not support neon at all.</div><div><br></div><div>That would also work:</div><div><span style="white-space: break-spaces;">PACKAGECONFIG ?= "introspection ${@bb.utils.contains('TUNE_FEATURES', 'aarch64', 'neon', '', d)}"</span></div></div>
+--=-IBGCmUPe77TWBaZFfgMG--
+
 
