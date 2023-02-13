@@ -1,135 +1,120 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C1F2C636CC
-	for <webhook@archiver.kernel.org>; Mon, 13 Feb 2023 20:04:10 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web11.25890.1676318644347537971
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F535C64EC7
+	for <webhook@archiver.kernel.org>; Mon, 13 Feb 2023 21:04:30 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web10.27349.1676322263122108375
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Feb 2023 12:04:04 -0800
+ Mon, 13 Feb 2023 13:04:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=gKq9EUBQ;
- spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: jpewhacker@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id a3so674768ejb.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Feb 2023 12:04:04 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=B8fqBNRG;
+ spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f175.google.com with SMTP id h4so7051881pll.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 Feb 2023 13:04:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=fU1vZyn28pPMHOLTP3vN08KxzW7ayc1iEX7463miUrs=;
-        b=gKq9EUBQC5j9B8vOcohW4DVGbDiwBwafZbSv/l9bX/R+qNwmQWclGS5lhPwu98wI4z
-         7HA47ELUazlurkUipYCoQBMFrt5pX+PivqfYiawj+PrSj8blisRwLpHr/FnA7K+bos2h
-         wZWjdAOldfjCmPTQR33OF4xZfQ51QLtDgoZkmJAtxs4bgCYO0XeCRWpheyy0Db71y7l/
-         W5/Eb385u7la7sGj9Mw5BWT0whQ0ZXTlo0W2Y52Y92Bxkh4x3RnK24tNX6ZzlTTwmM+x
-         GNNJ1siZnx0MUdanjn8X7WglUNdka9TocB3KKmqN0WAthOHf7j+J4Wfm9TRMEeQNqUOi
-         vjJA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4BKhEFHBkKeeeFc6UEJmztmEcKAnL7PxUMHTRlQAEzU=;
+        b=B8fqBNRGpyPLA3NGSiMT4zobs69bErpKsJz3PT3qmct59zPsfkqmpPAs7rDTBvsoiO
+         bajCYu9h86lc9v12pvT14tvqUdYeflOIE/3ALYiz/u16/Q9NGP6EQpsJtynPuS/BVmhz
+         Td2N6hxkBMMI4thn64tZkQCIE6ZDKZmH/J9/lTTsUBemswXpm0hppjxnesZvyw5Wk3Ly
+         BVrGHk4dZrkkaxFHeBhbSqeh/fQzaeqO14wfdGsqjbCTQKvIYG84A6CAgJXVoT+5iO3i
+         6hTLCEzIF2l/sBFQpsZ8kvUP4PTBvQOQqvmefl/9DpcVVXzqBcE1bZXVm1Kr+XCnkNXm
+         mxoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fU1vZyn28pPMHOLTP3vN08KxzW7ayc1iEX7463miUrs=;
-        b=Fv67FUzY3Qh0X1SfFJ3WWRZR2p+9GKi8SAtGCBgavqUzX3azl0dlMfeqMZaZFQL7oG
-         QL4EANy7KyVlFeL5wkSSro45PtSgaVAPrm8lek3tCe9lZqhV/86tf0gajqoZU+X/qhBe
-         TktdocnHNcYHYj1Rjrh7X6vCT+uQ8K9pAFVN0b/QOXx4hDOq3o/mFAeUqeyCgwf6HiJN
-         +WbTMNvDZQTr0UtbUWSYwEOasOEX8gWm75FG1loR4lyZLXvJFSSK9lA4K2a7bpVlFV/y
-         HU/F2wq45v6JOuqlbsq1en6ytv8/UrhAoLJPeWa1ROgE0Ks/MzrqKxb7hZSeWJAMs3w2
-         bF/A==
-X-Gm-Message-State: AO0yUKX8oUXN/arVQIFBpcJUp180RLcfKJlw/BOGT8tAE2L7SrYtdx4X
-	1RDHC0iToVoprWkBbLAcJmH1KMoAR6F6QwVzIq4=
-X-Google-Smtp-Source: AK7set/2u/baxBGNJY7med3ROWsXcOYh/xxPw5fWLJuGvokAelSXVlbmWHX4kUd3uM52pUsNRQOm8HUbKSopyw2+/Vw=
-X-Received: by 2002:a17:906:8510:b0:888:6294:a1fc with SMTP id
- i16-20020a170906851000b008886294a1fcmr78075ejx.7.1676318642612; Mon, 13 Feb
- 2023 12:04:02 -0800 (PST)
+        bh=4BKhEFHBkKeeeFc6UEJmztmEcKAnL7PxUMHTRlQAEzU=;
+        b=RYAktBDFV5Zs8IuZATklDKn314pZjAiA/ZCuZ7YMqQ59H0vZC5lEZ9xydygn0vQluD
+         GhqqBdHK4eCZBDqTnxsF3dM1aSpf8UgeF+Igj+ZaaMoxPR3cxvbej3F7G7QfRTToLFJA
+         sRAg8nm88l+5NgNs2DNhcb7FBncmmCTeBsumP8qX6QQgUFpR1r1/o4mqFRNGTDd1RQVB
+         dQLdfGSa06I7h0B39mDITnv8bewqlaSE/ESoFHI7Qz6bUYAOlYwJ7LwK23sMy3vkjcqa
+         7/kaH6LsDdnZ8Sk+/xoWB7BYX1wTwlDRoSKUz2j+haiftRZy/n1BN6SXuKkDcBhjsCgW
+         f/pg==
+X-Gm-Message-State: AO0yUKUYn/lT/U89mz1/B2cPH2GiwIG5m/9g11qYcezhdmPDnKBl8Vy0
+	TFigA+HC//MbsxOmlmNlcuFYVgroKFk=
+X-Google-Smtp-Source: AK7set+3yiHGKisp0E/uSZUAStWQtYDHY9onhTGOp156cwMQY+TEug2/xeS3ftHgjwrWETUmwqRVxw==
+X-Received: by 2002:a17:90b:194b:b0:234:152:a659 with SMTP id nk11-20020a17090b194b00b002340152a659mr3477948pjb.11.1676322261856;
+        Mon, 13 Feb 2023 13:04:21 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::789d])
+        by smtp.gmail.com with ESMTPSA id u1-20020a17090a4bc100b002311dbb2bc5sm6896493pjl.45.2023.02.13.13.04.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Feb 2023 13:04:21 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 1/3] unfs3: Add missing header files
+Date: Mon, 13 Feb 2023 13:04:17 -0800
+Message-Id: <20230213210419.1152513-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-References: <20230213195413.3535358-1-saul.wold@windriver.com>
-In-Reply-To: <20230213195413.3535358-1-saul.wold@windriver.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Mon, 13 Feb 2023 14:03:50 -0600
-Message-ID: <CAJdd5GZjcOTBy-8LKmqdqzupiCz2mg5_PMtJUtj0juGdbkV1Eg@mail.gmail.com>
-Subject: Re: [PATCH] create-spdx-2.2: Add support for custom Annotations
-To: Saul Wold <saul.wold@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Feb 2023 20:04:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177110
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Feb 2023 21:04:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177111
 
-On Mon, Feb 13, 2023 at 1:54 PM Saul Wold <saul.wold@windriver.com> wrote:
->
-> This change adds a new variable to track which recipe variables
-> are added as SPDX Annotations.
->
-> Usage: add SPDX_CUSTOME_ANNOTATION_VARS = <some recipe variable>
+These enable builds with additional warnings as errors
 
-nit: CUSTOM
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../unfs3/0001-fix-building-on-macOS.patch    | 27 +++++++++++++++++++
+ meta/recipes-devtools/unfs3/unfs3_git.bb      |  1 +
+ 2 files changed, 28 insertions(+)
+ create mode 100644 meta/recipes-devtools/unfs3/unfs3/0001-fix-building-on-macOS.patch
 
->
-> The recipe spdx json will contain an annotation stanza that looks
-> something like this:
->
->      "annotations": [
->         {
->           "annotationDate": "2023-02-13T19:44:20Z",
->           "annotationType": "OTHER",
->           "annotator": "Tool: oe-spdx-creator - 1.0",
->           "comment": "CUSTOM_VARIABLE=some value or string"
->         },
->
-> Signed-off-by: Saul Wold <saul.wold@windriver.com>
-> ---
->  meta/classes/create-spdx-2.2.bbclass | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
-> index f0513af083b..e1bbf646ff9 100644
-> --- a/meta/classes/create-spdx-2.2.bbclass
-> +++ b/meta/classes/create-spdx-2.2.bbclass
-> @@ -30,6 +30,8 @@ SPDX_PRETTY ??= "0"
->
->  SPDX_LICENSES ??= "${COREBASE}/meta/files/spdx-licenses.json"
->
-> +SPDX_CUSTOM_ANNOTATION_VARS ??= ""
-> +
->  SPDX_ORG ??= "OpenEmbedded ()"
->  SPDX_SUPPLIER ??= "Organization: ${SPDX_ORG}"
->  SPDX_SUPPLIER[doc] = "The SPDX PackageSupplier field for SPDX packages created from \
-> @@ -402,7 +404,6 @@ def collect_dep_sources(d, dep_recipes):
->
->      return sources
->
-> -
->  python do_create_spdx() {
->      from datetime import datetime, timezone
->      import oe.sbom
-> @@ -479,6 +480,10 @@ python do_create_spdx() {
->      if description:
->          recipe.description = description
->
-> +    if d.getVar("SPDX_CUSTOM_ANNOTATION_VARS"):
-> +        for var in d.getVar('SPDX_CUSTOM_ANNOTATION_VARS').split():
-> +            recipe.annotations.append(create_annotation(d, var + "=" + d.getVar(var)))
-> +
+diff --git a/meta/recipes-devtools/unfs3/unfs3/0001-fix-building-on-macOS.patch b/meta/recipes-devtools/unfs3/unfs3/0001-fix-building-on-macOS.patch
+new file mode 100644
+index 0000000000..f18ffd3711
+--- /dev/null
++++ b/meta/recipes-devtools/unfs3/unfs3/0001-fix-building-on-macOS.patch
+@@ -0,0 +1,27 @@
++From 989b87ae46b3183a742031373fbb3e912ab9b666 Mon Sep 17 00:00:00 2001
++From: Andrey Filipenkov <decapitator@ukr.net>
++Date: Wed, 2 Nov 2022 13:38:40 +0300
++Subject: [PATCH] fix building on macOS
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Backport [https://github.com/unfs3/unfs3/commit/989b87ae46b3183a742031373fbb3e912ab9b666]
++---
++ attr.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/attr.c b/attr.c
++index 6253e84..0ce9375 100644
++--- a/attr.c
+++++ b/attr.c
++@@ -18,6 +18,8 @@
++ #include <utime.h>
++ #include <errno.h>
++ #include <dirent.h>
+++#include <stdlib.h>
+++#include <string.h>
++ 
++ #include "backend.h"
++ #include "nfs.h"
++-- 
++2.39.1
++
+diff --git a/meta/recipes-devtools/unfs3/unfs3_git.bb b/meta/recipes-devtools/unfs3/unfs3_git.bb
+index be3870b8a4..9913a503e8 100644
+--- a/meta/recipes-devtools/unfs3/unfs3_git.bb
++++ b/meta/recipes-devtools/unfs3/unfs3_git.bb
+@@ -16,6 +16,7 @@ SRC_URI = "git://github.com/unfs3/unfs3.git;protocol=https;branch=master \
+            file://0001-daemon.c-Fix-race-window-for-writing-of-the-pid-file.patch \
+            file://0001-Alias-off64_t-to-off_t-on-linux-if-not-defined.patch \
+            file://0001-locate.c-Include-attr.h.patch \
++           file://0001-fix-building-on-macOS.patch \
+            "
+ SRCREV = "c8f2d2cd4529955419bad0e163f88d47ff176b8d"
+ UPSTREAM_CHECK_GITTAGREGEX = "unfs3\-(?P<pver>\d+(\.\d+)+)"
+-- 
+2.39.1
 
-Seems reasonable. If we need more configuration options, I think we
-can add it later with flags, e.g.
-
- MY_VAR = "foo"
- MY_VAR[spdx-annotator] = "Me!"
- SPDX_CUSTOM_ANNOTATION_VARS = "MY_VAR"
-
-Aslo, in the future if users want package annotations, we can probably do:
-
- SPDX_CUSTOM_ANNOTATION_VARS:${PN}
-
-
->      # Some CVEs may be patched during the build process without incrementing the version number,
->      # so querying for CVEs based on the CPE id can lead to false positives. To account for this,
->      # save the CVEs fixed by patches to source information field in the SPDX.
-> --
-> 2.25.1
->
 
