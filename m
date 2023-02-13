@@ -2,68 +2,71 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3C7FC05027
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3CC4C6379F
 	for <webhook@archiver.kernel.org>; Mon, 13 Feb 2023 02:42:24 +0000 (UTC)
-Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com [85.158.142.2])
- by mx.groups.io with SMTP id smtpd.web10.5737.1676256137978680704
+Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com [195.245.231.4])
+ by mx.groups.io with SMTP id smtpd.web11.5831.1676256138249971225
  for <openembedded-core@lists.openembedded.org>;
  Sun, 12 Feb 2023 18:42:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=TUonYl7d;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.2, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=bkxDvaie;
+ spf=pass (domain: fujitsu.com, ip: 195.245.231.4, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
 	s=170520fj; t=1676256136; i=@fujitsu.com;
-	bh=Vafs4svzcx7+Kk196UIa9Jv/5MGFG32mnUhHicbgr8I=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=TUonYl7dG9UoclReG5paAD1TedBq0zZTSINaJtTQ8q7xnZ2Z5Ly9DXLLTmgGqzcGk
-	 S1L+kdAn1tw6uporGuHKBZ9AUQo9OqMUXAEsqF592XdBSso0MdvLCy4cuU83kyAyco
-	 PEzRnNLIw9bt6fPc1FT1ZPvIyva4nZ1FqBd88Jw+Pg6A4wGq8Befny+NNyB8ZaqPIM
-	 gUj2CsfXq7ul7+EF1irm3I+59/DpO36KnurlM+mNGjiFl0KK1Wcc8SCyXczyc5vJiM
-	 NCzmIG+xRn8a3cnAs1EuYgyv0/vDOVFlZFNJtgU54xUocrQv/nspduusN/mYawlFd6
-	 31ZRcmvxoru6A==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrJIsWRWlGSWpSXmKPExsViZ8OxWbdt8ct
-  kgznzlSzu/HzH7sDocW7jCsYAxijWzLyk/IoE1ozFH+axF3RwVszuusrYwLiSo4uRi0NI4D6j
-  xIbfi1ghnMtMEh3fn7FAOHsZJS6sus3UxcjJwSYgJXHj/n+2LkYODhEBPYmr/0RBwswCKhIvf
-  vewg4SFBWwlni4Eq2YRUJU49vciI4jNK+Ak0fd2EjuILSGgIDHl4XtmiLigxMmZT1ggxkhIHH
-  zxghmiRlFi9uVmFgi7UqL1wy8oW03i6rlNzBMY+WchaZ+FpH0BI9MqRrPi1KKy1CJdc72kosz
-  0jJLcxMwcvcQq3US91FLdvPyikgxdQ73E8mK91OJiveLK3OScFL281JJNjMBQTClO5dzBuLLv
-  r94hRkkOJiVR3j6Ol8lCfEn5KZUZicUZ8UWlOanFhxhlODiUJHilFgDlBItS01Mr0jJzgHEBk
-  5bg4FES4bWYAJTmLS5IzC3OTIdInWLU5VjbcGAvsxBLXn5eqpQ4L/9CoCIBkKKM0jy4EbAYvc
-  QoKyXMy8jAwCDEU5BalJtZgir/ilGcg1FJmHf3LKApPJl5JXCbXgEdwQR0xGM+sCNKEhFSUg1
-  Mksb6pbavFycGTV15KML9PPPaSaeYistZz39dWtJ0cf7Up58D3Hm3M683Ldf3keVyteI7qKS9
-  9UTc5c/9Pm/Ufq/0FHzgtNjkYcHe3+IcLy9vCuy7s6FNavu0N3/ZD2Y/6fNf0/HYU+vSpphJn
-  z2USy7si7mb3HLgqjvj8rLc+DLdCNc/y2IUY314TV9tsG110ZRerK5Z1ci+OqPPoWZ/8SPP/M
-  VW1pv6Qn+otGwTY5goIrzN6HR+eafuBk3nW0o/3ts/cZq/v/RK6pfIlQ9Zo2IeNjAFrbdbq3k
-  hrN+Ra3tVzp1dvzscgxNe7WHZFqtxq1Pi9/1D/sUu99YH1pje5Vh+6wvHXdaXee5PPjIqsRRn
-  JBpqMRcVJwIA9Cnff0wDAAA=
+	bh=U7kH2jS+GlkUZeGCHHs6STzwjUhcj1UCbCzhMuG/0HM=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=bkxDvaieLovUvcW6WUWtu3XLtvBw7CUypRHmMNtuUJE/x57klA7Qaai8yVDTi3j8/
+	 DdeMeyKhWfddZdaBYikOuqBDCEynhHsGNyPQxr7nMIGrEfVUp/XdJ8njNMG27UiT62
+	 dSFf+G6dXb8x0wegPS+EJUn4vt5NeRmvLvou3/Wg7Ex9xkWJL5mr+9pxq3mpHiBott
+	 SDWY5vXK9oOrW8sN7HPgLXBmUCxhu6tXKPCqUn2qZ+EKjZ9p9qvGcTljl6ZV78oUWW
+	 lqdDj8117fs8Qr6++ete8ov39vCqDRtmcy4mY7AtmfLwRdGwLn5jUfnSVzsqfu/0Ci
+	 oayl2w9D0XbDg==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrGIsWRWlGSWpSXmKPExsViZ8ORpNu++GW
+  ywfJuA4s7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePN5h/sBat5K5q2r2FpYGzi6WLk4hASeMAo
+  0X50FxOEc4VJovNdA0sXIyeQs5dRomtTFYjNJiAlceP+f7YuRg4OEQE9iav/REHCzAIqEi9+9
+  7CD2MIC5hJf3q1jA7FZBFQlHr6cCWbzCjhJXF5/HqxGQkBBYsrD98wgNqeAs8T32T9ZIVY5SZ
+  yYuIQJol5Q4uTMJywQ8yUkDr54wQzRqygx+3IzC4RdKdH64ReUrSZx9dwm5gmMgrOQtM9C0r6
+  AkWkVo2lxalFZapGusV5SUWZ6RkluYmaOXmKVbqJeaqlueWpxia6RXmJ5sV5qcbFecWVuck6K
+  Xl5qySZGYOCmFKsJ72D80vtX7xCjJAeTkihvH8fLZCG+pPyUyozE4oz4otKc1OJDjDIcHEoSv
+  FILgHKCRanpqRVpmTnAKIJJS3DwKInwWkwASvMWFyTmFmemQ6ROMRpztG/vOsDM0bkfSAqx5O
+  XnpUqJ8/IvBCoVACnNKM2DGwSL7kuMslLCvIwMDAxCPAWpRbmZJajyrxjFORiVhHl3zwKawpO
+  ZVwK37xXQKUxApzzmAzulJBEhJdXAxLCjb17j36kaTL/knHPcQiNZ5C/IRklVPKm14DsuvELC
+  MZfv/exY99ro2X6e/kwZv669Mds6wWKWnf/cXkmG7KlPGz7uyHBjiNmRG1mvVbxr3j6JltTQ3
+  t/aFt7qF2Xr8hN8svcpzb6WWzWrds41JrV7V1a8Mfu9/fuJVtMTsf1PIr809/E0codv+/LlmN
+  OWJTnpXMlRLI1JTbe5ZiwuuX39ykGhubJpa5h+CzJq15uYf5WZXNG8cnfm9+R3tU2L5xcfmP/
+  tOEe54hufzHWLD8dosd60i6i1m65z/NvNfWe4rm5Ic7qSK2b5Wbjk/6NJM7nlG7LmO8QLnFzw
+  4IIGe65g2WRNhuCFu24sZgxTYinOSDTUYi4qTgQAiCF96WkDAAA=
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-15.tower-732.messagelabs.com!1676256134!738234!1
-X-Originating-IP: [62.60.8.179]
+X-Msg-Ref: server-6.tower-565.messagelabs.com!1676256135!149165!1
+X-Originating-IP: [62.60.8.98]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.102.2; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 26719 invoked from network); 13 Feb 2023 02:42:14 -0000
-Received: from unknown (HELO n03ukasimr04.n03.fujitsu.local) (62.60.8.179)
-  by server-15.tower-732.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 13 Feb 2023 02:42:14 -0000
-Received: from n03ukasimr04.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTP id 0776B7B
-	for <openembedded-core@lists.openembedded.org>; Mon, 13 Feb 2023 02:42:14 +0000 (GMT)
+Received: (qmail 17391 invoked from network); 13 Feb 2023 02:42:15 -0000
+Received: from unknown (HELO n03ukasimr03.n03.fujitsu.local) (62.60.8.98)
+  by server-6.tower-565.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 13 Feb 2023 02:42:15 -0000
+Received: from n03ukasimr03.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTP id 7CC4A1AE
+	for <openembedded-core@lists.openembedded.org>; Mon, 13 Feb 2023 02:42:15 +0000 (GMT)
 Received: from R01UKEXCASM223.r01.fujitsu.local (R01UKEXCASM223 [10.182.185.121])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTPS id EFC6B73
-	for <openembedded-core@lists.openembedded.org>; Mon, 13 Feb 2023 02:42:13 +0000 (GMT)
+	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTPS id 711EA1AD
+	for <openembedded-core@lists.openembedded.org>; Mon, 13 Feb 2023 02:42:15 +0000 (GMT)
 Received: from localhost.localdomain (10.167.225.33) by
  R01UKEXCASM223.r01.fujitsu.local (10.182.185.121) with Microsoft SMTP Server
- (TLS) id 15.0.1497.42; Mon, 13 Feb 2023 02:42:12 +0000
+ (TLS) id 15.0.1497.42; Mon, 13 Feb 2023 02:42:14 +0000
 From: <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] xwayland: upgrade 22.1.7 -> 22.1.8
-Date: Mon, 13 Feb 2023 10:42:01 +0800
-Message-ID: <1676256123-19590-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] libcap: upgrade 2.66 -> 2.67
+Date: Mon, 13 Feb 2023 10:42:02 +0800
+Message-ID: <1676256123-19590-2-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1676256123-19590-1-git-send-email-wangmy@fujitsu.com>
+References: <1676256123-19590-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.167.225.33]
@@ -74,31 +77,43 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 13 Feb 2023 02:42:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177081
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177082
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
+License-Update:
+ Add description: # +/* SPDX-License-Identifier: BSD-3-Clause OR GPL-2.0-only */
+
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../xwayland/{xwayland_22.1.7.bb => xwayland_22.1.8.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xwayland/{xwayland_22.1.7.bb => xwayland_22.1.8.bb} (95%)
+ .../recipes-support/libcap/{libcap_2.66.bb => libcap_2.67.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libcap/{libcap_2.66.bb => libcap_2.67.bb} (94%)
 
-diff --git a/meta/recipes-graphics/xwayland/xwayland_22.1.7.bb b/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
-similarity index 95%
-rename from meta/recipes-graphics/xwayland/xwayland_22.1.7.bb
-rename to meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
-index dd32bd0111..6919ba421b 100644
---- a/meta/recipes-graphics/xwayland/xwayland_22.1.7.bb
-+++ b/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
-@@ -10,7 +10,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=5df87950af51ac2c5822094553ea1880"
+diff --git a/meta/recipes-support/libcap/libcap_2.66.bb b/meta/recipes-support/libcap/libcap_2.67.bb
+similarity index 94%
+rename from meta/recipes-support/libcap/libcap_2.66.bb
+rename to meta/recipes-support/libcap/libcap_2.67.bb
+index c50e9d8cc7..4d4d6d9df1 100644
+--- a/meta/recipes-support/libcap/libcap_2.66.bb
++++ b/meta/recipes-support/libcap/libcap_2.67.bb
+@@ -7,7 +7,7 @@ HOMEPAGE = "http://sites.google.com/site/fullycapable/"
+ LICENSE = "BSD-3-Clause | GPL-2.0-only"
+ LIC_FILES_CHKSUM_PAM = "file://pam_cap/License;md5=0ad4c9c052b9719ee4fce1bfc7c7dee4"
+ LIC_FILES_CHKSUM = "\
+-    file://License;md5=e2370ba375efe9e1a095c26d37e483b8 \
++    file://License;md5=2965a646645b72ecee859b43c592dcaa \
+     ${@bb.utils.contains('PACKAGECONFIG', 'pam', '${LIC_FILES_CHKSUM_PAM}', '', d)} \
+ "
  
- SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz"
--SRC_URI[sha256sum] = "d53afac6c71953f5cf66d03d289dacd8961da5bd309c1dff125d5955d9db5f76"
-+SRC_URI[sha256sum] = "d11eeee73290b88ea8da42a7d9350dedfaba856ce4ae44e58c045ad9ecaa2f73"
+@@ -20,7 +20,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${
+ SRC_URI:append:class-nativesdk = " \
+            file://0001-nativesdk-libcap-Raise-the-size-of-arrays-containing.patch \
+            "
+-SRC_URI[sha256sum] = "15c40ededb3003d70a283fe587a36b7d19c8b3b554e33f86129c059a4bb466b2"
++SRC_URI[sha256sum] = "ce9b22fdc271beb6dae7543da5f74cf24cb82e6848cfd088a5a069dec5ea5198"
  
- UPSTREAM_CHECK_REGEX = "xwayland-(?P<pver>\d+(\.(?!90\d)\d+)+)\.tar"
+ UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/linux/libs/security/linux-privs/${BPN}2/"
  
 -- 
 2.34.1
