@@ -1,79 +1,72 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABE61C636CC
-	for <webhook@archiver.kernel.org>; Mon, 13 Feb 2023 11:39:37 +0000 (UTC)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
- by mx.groups.io with SMTP id smtpd.web11.12469.1676288368348947474
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8718C636CC
+	for <webhook@archiver.kernel.org>; Mon, 13 Feb 2023 12:04:37 +0000 (UTC)
+Received: from mailout04.t-online.de (mailout04.t-online.de [194.25.134.18])
+ by mx.groups.io with SMTP id smtpd.web10.12589.1676289876829926092
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Feb 2023 03:39:28 -0800
+ Mon, 13 Feb 2023 04:04:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=gzSMWIbK;
- spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f50.google.com with SMTP id g28so5867115lfv.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Feb 2023 03:39:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=OqnPMm7x7pWbEkPi7wSJsjY+myHRF4XTMVvX9IivbS0=;
-        b=gzSMWIbK/zbzudgJHO52gHmjedgWvUgdpfD1/a9Hg7WOoAXQEBTwx5syn//8lwuYO9
-         GlYjDVD/4mUB2ZnQQOXDnpWRVWZgynVMJX1dodmSZsAxoW4WBcjI0B50ras/b/vEVgla
-         2hH6uKI2JIZWUOyOFdLJTDlINZdXbHXDMVF1sI3ZnjOvjpuJ4r+ignCB66u+tYi9r3hp
-         gO/kk/MsbHY66o5QblAeExXfpXRxXf7FeeOccrtDudgnUzmpouueGbYD6C+OuTSxhqcF
-         QfhoNFL2f4sPQRR7KKBgyOuSKJcpMKUQk9RNnwcM9VKbsgykI3PJ09ezhpXBIcIOcEFO
-         pV6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OqnPMm7x7pWbEkPi7wSJsjY+myHRF4XTMVvX9IivbS0=;
-        b=srMsZAZvBlzrYPkbOK3xGYrB82Mt58JgkvmLo72fX6/bn9gF6UoXykSvOXNmfaU46l
-         o5n5yccvs3vWj58HRX2t7Kp01z+HBKRQFPy5NHKzg2JpeI1A2ixp28swW1OTt4LI+1qZ
-         cHvrVvUbeV7qyUsWzipwMrlgqX6koBRgk5khUbzLPTREuSgDYBcp2WbYmCXNYzcaWDrd
-         bgE/a3d+kJOJmLWhyqFuuvQKvEAHkjfd6/q5RZWy8iVptwEXWNulF0BF7EaAbGubwqXF
-         kFbA6UurIWhr3N2hNsHUJttmWli1krhejHr9Tchu8sWtBQ1HNKhpdqxlDFoYXmEbwrFG
-         azqw==
-X-Gm-Message-State: AO0yUKXdJI3aLvMSCx4+j3YXmaJnG5J0wVVAtZehkWpNFQ+g8vZsLvp2
-	oKJaWnNP8MJqswnVmbU9P1PiihyKNDpHXvXaLc8=
-X-Google-Smtp-Source: AK7set+W1Oz2yKz6+MnI2ZEbwf97n7D5AGVX3g4N4sw1/RwOvYrfufVbYw06GAcazOSROvy4M/rFm4olXcMC8ofLngo=
-X-Received: by 2002:ac2:43af:0:b0:4da:f3a6:63b5 with SMTP id
- t15-20020ac243af000000b004daf3a663b5mr3674846lfl.243.1676288366466; Mon, 13
- Feb 2023 03:39:26 -0800 (PST)
+ dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.18, mailfrom: f_l_k@t-online.de)
+Received: from fwd89.dcpf.telekom.de (fwd89.aul.t-online.de [10.223.144.115])
+	by mailout04.t-online.de (Postfix) with SMTP id 8D1423D9E
+	for <openembedded-core@lists.openembedded.org>; Mon, 13 Feb 2023 13:04:16 +0100 (CET)
+Received: from flk-MS-7C91.fritz.box ([84.163.47.111]) by fwd89.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1pRXZA-1GB75d0; Mon, 13 Feb 2023 13:04:16 +0100
+From: Markus Volk <f_l_k@t-online.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Markus Volk <f_l_k@t-online.de>
+Subject: [oe-core][PATCHv4] graphene: add a PACKAGECONFIG for arm_neon
+Date: Mon, 13 Feb 2023 13:04:07 +0100
+Message-Id: <20230213120407.1092455-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230213104228.1067057-1-f_l_k@t-online.de> <CANNYZj8KiZfFD6-BvTNv5oSQ5pNg_KX7_qF1hfNpip8WLM=G-g@mail.gmail.com>
- <17435D409BDFDC2E.12482@lists.openembedded.org> <RPN0QR.78GW1EDG5GW2@t-online.de>
- <CANNYZj-r5n+s6P8TyOuSdniATzPZnvGsxLSMb33rQF+FfBTUWQ@mail.gmail.com> <K9O0QR.HDTIOZR7P56X@t-online.de>
-In-Reply-To: <K9O0QR.HDTIOZR7P56X@t-online.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 13 Feb 2023 12:39:15 +0100
-Message-ID: <CANNYZj-zx6p+6aGzxx1hSqyCH=6X2L37dGGCyGba6fb5-F6+hQ@mail.gmail.com>
-Subject: Re: [oe-core][PATCHv3] graphene: add a PACKAGECONFIG for arm_neon
-To: Markus Volk <f_l_k@t-online.de>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+X-TOI-EXPURGATEID: 150726::1676289856-D5F1C046-8A988382/0/0 CLEAN NORMAL
+X-TOI-MSGID: dd13a722-d059-4987-9f5b-5be18e337713
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Feb 2023 11:39:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177101
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Feb 2023 12:04:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177102
 
-This seems best. There are numerous places in core where something
-similar is used.
+Not all arm platforms support neon and runtime detection for this feature=
+ is
+currently not reliable. Add a PACKAGECONFIG that disables neon support fo=
+r arm
+but can be manually enabled.
 
-Alex
+Enable neon for aarch64 by default
 
-On Mon, 13 Feb 2023 at 12:37, Markus Volk <f_l_k@t-online.de> wrote:
->
-> Am Mo, 13. Feb 2023 um 12:30:42 +0100 schrieb Alexander Kanavin <alex.kanavin@gmail.com>:
->
-> Does enabling neon break the build on non-aarch64?
->
->
-> As far as I know it breaks runtime for some armv7 tunes and will probably also break build for older arm platforms that do not support neon at all.
->
-> That would also work:
-> PACKAGECONFIG ?= "introspection ${@bb.utils.contains('TUNE_FEATURES', 'aarch64', 'neon', '', d)}"
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
+---
+ meta/recipes-graphics/graphene/graphene_1.10.8.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-graphics/graphene/graphene_1.10.8.bb b/meta/rec=
+ipes-graphics/graphene/graphene_1.10.8.bb
+index 813ff74adf..199c460feb 100644
+--- a/meta/recipes-graphics/graphene/graphene_1.10.8.bb
++++ b/meta/recipes-graphics/graphene/graphene_1.10.8.bb
+@@ -10,8 +10,10 @@ inherit gnomebase gobject-introspection gtk-doc
+ SRC_URI[archive.sha256sum] =3D "a37bb0e78a419dcbeaa9c7027bcff52f5ec2367c=
+25ec859da31dfde2928f279a"
+=20
+ # gtk4 & mutter 41.0 requires graphene build with introspection
+-PACKAGECONFIG ?=3D "introspection"
++PACKAGECONFIG ?=3D "introspection ${@bb.utils.contains('TUNE_FEATURES', =
+'aarch64', 'neon', '', d)}"
++
+ PACKAGECONFIG[introspection] =3D "-Dintrospection=3Denabled,-Dintrospect=
+ion=3Ddisabled,"
++PACKAGECONFIG[neon] =3D "-Darm_neon=3Dtrue,-Darm_neon=3Dfalse,"
+=20
+ GTKDOC_MESON_OPTION =3D "gtk_doc"
+=20
+--=20
+2.34.1
+
 
