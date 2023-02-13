@@ -2,118 +2,124 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F535C64EC7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62D83C64ED6
 	for <webhook@archiver.kernel.org>; Mon, 13 Feb 2023 21:04:30 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.27349.1676322263122108375
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web10.27351.1676322263424142322
  for <openembedded-core@lists.openembedded.org>;
  Mon, 13 Feb 2023 13:04:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=B8fqBNRG;
- spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f175.google.com with SMTP id h4so7051881pll.9
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Fq4gWwMF;
+ spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f171.google.com with SMTP id be8so14885848plb.7
         for <openembedded-core@lists.openembedded.org>; Mon, 13 Feb 2023 13:04:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4BKhEFHBkKeeeFc6UEJmztmEcKAnL7PxUMHTRlQAEzU=;
-        b=B8fqBNRGpyPLA3NGSiMT4zobs69bErpKsJz3PT3qmct59zPsfkqmpPAs7rDTBvsoiO
-         bajCYu9h86lc9v12pvT14tvqUdYeflOIE/3ALYiz/u16/Q9NGP6EQpsJtynPuS/BVmhz
-         Td2N6hxkBMMI4thn64tZkQCIE6ZDKZmH/J9/lTTsUBemswXpm0hppjxnesZvyw5Wk3Ly
-         BVrGHk4dZrkkaxFHeBhbSqeh/fQzaeqO14wfdGsqjbCTQKvIYG84A6CAgJXVoT+5iO3i
-         6hTLCEzIF2l/sBFQpsZ8kvUP4PTBvQOQqvmefl/9DpcVVXzqBcE1bZXVm1Kr+XCnkNXm
-         mxoA==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ba3rF2LLa7jkn4jEwxPXMNZvX1jRr+vwrzp2HxkN9gA=;
+        b=Fq4gWwMFby8xJWEofTh0wEx2VIkCX026ZUJHMw0L4H9BnyzBXG2CHsF88Fv2VTlu87
+         yYGGqegQ7eKMU2/eTUmjcoLVk3sbi7taQEQ6MfnUFbKFhxLQfCxy68+MrsNb6prB56eq
+         AsFIWZQC8GtrZF2eLH0mKZzxAsp8rstZmv+nf6Q7JonguxvDsOJzZrFe7tLwr2tiEJSW
+         MY4BdOXmkmOKJZy1/jydInfzaealSGRv0lJohSDxUYxOumu1XDsh6PgtB1eccQvVpHuX
+         pgD6Azo9aMN0pRymI8lsaiYCIboBBHIUJuHS5oUgmPujQLgX8p3mfuHNz601aRVkqco+
+         PIFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4BKhEFHBkKeeeFc6UEJmztmEcKAnL7PxUMHTRlQAEzU=;
-        b=RYAktBDFV5Zs8IuZATklDKn314pZjAiA/ZCuZ7YMqQ59H0vZC5lEZ9xydygn0vQluD
-         GhqqBdHK4eCZBDqTnxsF3dM1aSpf8UgeF+Igj+ZaaMoxPR3cxvbej3F7G7QfRTToLFJA
-         sRAg8nm88l+5NgNs2DNhcb7FBncmmCTeBsumP8qX6QQgUFpR1r1/o4mqFRNGTDd1RQVB
-         dQLdfGSa06I7h0B39mDITnv8bewqlaSE/ESoFHI7Qz6bUYAOlYwJ7LwK23sMy3vkjcqa
-         7/kaH6LsDdnZ8Sk+/xoWB7BYX1wTwlDRoSKUz2j+haiftRZy/n1BN6SXuKkDcBhjsCgW
-         f/pg==
-X-Gm-Message-State: AO0yUKUYn/lT/U89mz1/B2cPH2GiwIG5m/9g11qYcezhdmPDnKBl8Vy0
-	TFigA+HC//MbsxOmlmNlcuFYVgroKFk=
-X-Google-Smtp-Source: AK7set+3yiHGKisp0E/uSZUAStWQtYDHY9onhTGOp156cwMQY+TEug2/xeS3ftHgjwrWETUmwqRVxw==
-X-Received: by 2002:a17:90b:194b:b0:234:152:a659 with SMTP id nk11-20020a17090b194b00b002340152a659mr3477948pjb.11.1676322261856;
-        Mon, 13 Feb 2023 13:04:21 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ba3rF2LLa7jkn4jEwxPXMNZvX1jRr+vwrzp2HxkN9gA=;
+        b=p4GtOOUsN3hD+xXQKPCrKAQLxzcO0gkdmqJJbZj6IU0cFrn37PLb619sJa8qmFnM/R
+         LwyDDoGYaP8EHHO1J0H4Y7IIOWZYIQTo/w800QnPxVhHGYD2qXs4/SD8dJod5C+V+L1Q
+         4JPGlmVayy3FgdlLyOMQg7xUHt5mC+Qh+GUzDGJlkH6M5kmrGsApAi/fzJx/kuoeF3cB
+         r0eeDM6qz4PpM4PQbVgbijaM4LrhAUT/9sk+eBAXsAjXjPT32iHq/g9e/uOie8v4dlvw
+         zh+xV2A9q2Co6BTuev5tcv2XhJnMB3OpIbuIgPwfhdRWYiYUOAZCX9Gcxbr4SlAqnWnm
+         KaBA==
+X-Gm-Message-State: AO0yUKUP60DTiE93eEW7mPlwxp+E3GDM/scsahJpvUMNhA4ui1+5ZqbC
+	FD2hQup29sdom+hIw9LEVBMfGJVrPr4=
+X-Google-Smtp-Source: AK7set/8eEvtJ3SeSDP4Qmqxazpecdpk5EOBGD5OYHNJ5BnohZQDpbVcFcUAQgqCMYTOZtfO1a2gww==
+X-Received: by 2002:a17:90a:15:b0:233:ca14:6afb with SMTP id 21-20020a17090a001500b00233ca146afbmr9201353pja.37.1676322262596;
+        Mon, 13 Feb 2023 13:04:22 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::789d])
-        by smtp.gmail.com with ESMTPSA id u1-20020a17090a4bc100b002311dbb2bc5sm6896493pjl.45.2023.02.13.13.04.21
+        by smtp.gmail.com with ESMTPSA id u1-20020a17090a4bc100b002311dbb2bc5sm6896493pjl.45.2023.02.13.13.04.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Feb 2023 13:04:21 -0800 (PST)
+        Mon, 13 Feb 2023 13:04:22 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/3] unfs3: Add missing header files
-Date: Mon, 13 Feb 2023 13:04:17 -0800
-Message-Id: <20230213210419.1152513-1-raj.khem@gmail.com>
+Subject: [PATCH 2/3] stress-ng: Add missing header files for clock_adjtime
+Date: Mon, 13 Feb 2023 13:04:18 -0800
+Message-Id: <20230213210419.1152513-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230213210419.1152513-1-raj.khem@gmail.com>
+References: <20230213210419.1152513-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 13 Feb 2023 21:04:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177111
-
-These enable builds with additional warnings as errors
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177112
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../unfs3/0001-fix-building-on-macOS.patch    | 27 +++++++++++++++++++
- meta/recipes-devtools/unfs3/unfs3_git.bb      |  1 +
- 2 files changed, 28 insertions(+)
- create mode 100644 meta/recipes-devtools/unfs3/unfs3/0001-fix-building-on-macOS.patch
+ ...nclude-sys-futex.h-for-clock_adjtime.patch | 32 +++++++++++++++++++
+ .../stress-ng/stress-ng_0.15.03.bb            |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-extended/stress-ng/stress-ng/0001-Include-sys-futex.h-for-clock_adjtime.patch
 
-diff --git a/meta/recipes-devtools/unfs3/unfs3/0001-fix-building-on-macOS.patch b/meta/recipes-devtools/unfs3/unfs3/0001-fix-building-on-macOS.patch
+diff --git a/meta/recipes-extended/stress-ng/stress-ng/0001-Include-sys-futex.h-for-clock_adjtime.patch b/meta/recipes-extended/stress-ng/stress-ng/0001-Include-sys-futex.h-for-clock_adjtime.patch
 new file mode 100644
-index 0000000000..f18ffd3711
+index 0000000000..87d2ead46a
 --- /dev/null
-+++ b/meta/recipes-devtools/unfs3/unfs3/0001-fix-building-on-macOS.patch
-@@ -0,0 +1,27 @@
-+From 989b87ae46b3183a742031373fbb3e912ab9b666 Mon Sep 17 00:00:00 2001
-+From: Andrey Filipenkov <decapitator@ukr.net>
-+Date: Wed, 2 Nov 2022 13:38:40 +0300
-+Subject: [PATCH] fix building on macOS
++++ b/meta/recipes-extended/stress-ng/stress-ng/0001-Include-sys-futex.h-for-clock_adjtime.patch
+@@ -0,0 +1,32 @@
++From 57f207ec7fb39c8b502f40dbdabd568f6b866a82 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Mon, 13 Feb 2023 12:18:08 -0800
++Subject: [PATCH] Include sys/futex.h for clock_adjtime
 +
++Fixes
++core-shim.c:1942:9: error: call to undeclared function 'clock_adjtime'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
++
++Upstream-Status: Submitted [https://github.com/ColinIanKing/stress-ng/pull/261]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Upstream-Status: Backport [https://github.com/unfs3/unfs3/commit/989b87ae46b3183a742031373fbb3e912ab9b666]
 +---
-+ attr.c | 2 ++
-+ 1 file changed, 2 insertions(+)
++ core-shim.c | 4 ++++
++ 1 file changed, 4 insertions(+)
 +
-+diff --git a/attr.c b/attr.c
-+index 6253e84..0ce9375 100644
-+--- a/attr.c
-++++ b/attr.c
-+@@ -18,6 +18,8 @@
-+ #include <utime.h>
-+ #include <errno.h>
-+ #include <dirent.h>
-++#include <stdlib.h>
-++#include <string.h>
++diff --git a/core-shim.c b/core-shim.c
++index dc539c64..de38e908 100644
++--- a/core-shim.c
+++++ b/core-shim.c
++@@ -66,6 +66,10 @@ UNEXPECTED
++ #include <sys/prctl.h>
++ #endif
 + 
-+ #include "backend.h"
-+ #include "nfs.h"
+++#if defined(HAVE_SYS_TIMEX_H)
+++#include <sys/timex.h>
+++#endif
+++
++ #if defined(HAVE_SYS_RANDOM_H)
++ #include <sys/random.h>
++ #endif
 +-- 
 +2.39.1
 +
-diff --git a/meta/recipes-devtools/unfs3/unfs3_git.bb b/meta/recipes-devtools/unfs3/unfs3_git.bb
-index be3870b8a4..9913a503e8 100644
---- a/meta/recipes-devtools/unfs3/unfs3_git.bb
-+++ b/meta/recipes-devtools/unfs3/unfs3_git.bb
-@@ -16,6 +16,7 @@ SRC_URI = "git://github.com/unfs3/unfs3.git;protocol=https;branch=master \
-            file://0001-daemon.c-Fix-race-window-for-writing-of-the-pid-file.patch \
-            file://0001-Alias-off64_t-to-off_t-on-linux-if-not-defined.patch \
-            file://0001-locate.c-Include-attr.h.patch \
-+           file://0001-fix-building-on-macOS.patch \
-            "
- SRCREV = "c8f2d2cd4529955419bad0e163f88d47ff176b8d"
- UPSTREAM_CHECK_GITTAGREGEX = "unfs3\-(?P<pver>\d+(\.\d+)+)"
+diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.15.03.bb b/meta/recipes-extended/stress-ng/stress-ng_0.15.03.bb
+index 13a8b49f70..cd7f41a016 100644
+--- a/meta/recipes-extended/stress-ng/stress-ng_0.15.03.bb
++++ b/meta/recipes-extended/stress-ng/stress-ng_0.15.03.bb
+@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ 
+ SRC_URI = "git://github.com/ColinIanKing/stress-ng.git;protocol=https;branch=master \
+            file://0001-test-float-Make-variables-global.patch \
++           file://0001-Include-sys-futex.h-for-clock_adjtime.patch \
+            file://0001-Pass-LD_GOLD-1-via-makefile-to-enable-gold-linker.patch"
+ SRCREV = "f3be0447c10fd5652b4c3753d56bcaac13fd8917"
+ S = "${WORKDIR}/git"
 -- 
 2.39.1
 
