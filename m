@@ -2,68 +2,71 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B97BC05027
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CF33C636D7
 	for <webhook@archiver.kernel.org>; Mon, 13 Feb 2023 02:38:15 +0000 (UTC)
-Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com [195.245.230.2])
- by mx.groups.io with SMTP id smtpd.web11.5746.1676255889887982491
+Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com [195.245.230.65])
+ by mx.groups.io with SMTP id smtpd.web10.5651.1676255893429876327
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Feb 2023 18:38:10 -0800
+ Sun, 12 Feb 2023 18:38:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=rceL0KiI;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.2, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=I14POaPa;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.65, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1676255887; i=@fujitsu.com;
-	bh=g0PDdFCKOQuHSZNt/cWzKW1cJpmagMw1gsNGMOMGZqU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=rceL0KiIIObbJmnv43TQLEjEUMzN5wi2o1TxOac655QmUYmwL/188A39p2nYEWQUD
-	 ra0im2oUrFe3J/Aoj9MgnhK52Hb0X1aMC58PGqVxM30Sv6qYmZriDVQUogjuKwI5Hx
-	 ec6n8HyJOXs51tWN5AbOtz3qbpynxXRyYcSzPkC+YC6fc4xxYGWmM5YOQZhknNkh8+
-	 ARPdFuUxEIvOPi6BJ5nHw7uXweBz3QCjK2/fDohtj1nEKzDuhlWOvHmDFoJPxbLdRo
-	 VCCBJ0jBRsUIQuDuTSWhDrziaYh9WMy2v2mw7Ln8gLSHqsj4/AJHSuR1RdKBkK9IC3
-	 T4mC/zLPBozdA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrNIsWRWlGSWpSXmKPExsViZ8MxSbd/0ct
-  kg/cdXBZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aLr58YC76xVyz5+oCpgbGNvYuRk0NI4DGj
-  xNqugC5GLiD7OpNE76NWJojEXkaJq+drQWw2ASmJG/f/s3UxcnCICOhJXP0nChJmFlCRePG7B
-  2yOsICtxIxTMxhBbBYBVYmts7aCxXkFnCT+PXvBAmJLCChITHn4nhkiLihxcuYTFog5EhIHX7
-  xghqhRlJh9uRmqvlKi9cMvKFtN4uq5TcwTGPlnIWmfhaR9ASPTKkbT4tSistQiXVO9pKLM9Iy
-  S3MTMHL3EKt1EvdRS3fLU4hJdQ73E8mK91OJiveLK3OScFL281JJNjMAwTClmMdvB2N73V+8Q
-  oyQHk5Iobx/Hy2QhvqT8lMqMxOKM+KLSnNTiQ4wyHBxKErxSC4BygkWp6akVaZk5wJiASUtw8
-  CiJ8FpMAErzFhck5hZnpkOkTjEqSonz8i8ESgiAJDJK8+DaYHF4iVFWSpiXkYGBQYinILUoN7
-  MEVf4VozgHo5Iw7+5ZQFN4MvNK4Ka/AlrMBLT4MR/Y4pJEhJRUA9NSxynlFzI3TW5zvJrypvn
-  69Ot5fBUR+s+Y/q9Ylt5lu/jY9jUiOS/0hR5yrIvRFQsoXr99Qdb/SWknAqeUaztLu7WrJfUw
-  f1Z51RjeGGN/VOyNpK5TjlaQauaSuE8p1vvklyffqTNiWLjZjlF/2nrBdtubE+5oHZG7yvt33
-  ZOiq7t/vS1O7VY03DftdoXcCqnpB1+y8Tg92n3ebqXLMx1DaccrUfrNIfb6uVqRem/+G1+5vy
-  gxirlFPTBK//D0cC+Jh7Y1d+9Nem6zpTSY611KiZ+XuImZRcvRQhnLymX7uNs9jkzYe8B3ymR
-  Z6TXxJ/zjolUeLT37/9jait1ZEyN6tixN4l4QuOb4h0lXXyuxFGckGmoxFxUnAgB+SOIaPgMA
-  AA==
+	s=170520fj; t=1676255891; i=@fujitsu.com;
+	bh=F2zrrEnFR0/46rMn0c1jcxFpKUpDx5Gfg7WHP614dPg=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=I14POaPatScO7yuYj1oSh5LDFT3CjyMRd4ceZrmFip3n5rTnja91NRsMYeOsDWYVm
+	 4e9c21o9/jWCFMU++KSBJIzq8jT0Rqf60X5XwkUVyuPHTbltLWOlrkBy9f0OOLYTEn
+	 2tcA03Mgui9NRPrsmz6Fhq/pPy2gmc0KlFvA0pfRf8i3cAf5OCjyCB2BuhT+cP/ZaA
+	 SQ3g+yHa7MvcYxcF/C/vaR5IvhTr3IzNuzCpAJs48iu2GiHLeGztltHHpFnUy6wF0T
+	 kWLmm5qgMJk/ggL7EDMPJBM42UycB0aNm75Rh8kJa5B3rHF9EDiMeF9a/uEtfbGnc2
+	 wjIudvrEBalwQ==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrKIsWRWlGSWpSXmKPExsViZ8ORqDtp0ct
+  kg6VrVS3u/HzH7sDocW7jCsYAxijWzLyk/IoE1oy/R1pZC94JVpz70cTewPiAv4uRi0NI4DGj
+  RMeq1ewQznUmiSXv7rNAOHsZJSa0r2fsYuTkYBOQkrhx/z9bFyMHh4iAnsTVf6IgYWYBFYkXv
+  3vYQWxhASeJuX1PWUBsFgFViecTIeK8QPFjx/+C2RICChJTHr5nBrE5BZwlPm/5yApiCwHVvJ
+  80hwmiXlDi5MwnLBDzJSQOvnjBDNGrKDH7cjMLhF0p0frhF5StJnH13CbmCYyCs5C0z0LSvoC
+  RaRWjaXFqUVlqka6xXlJRZnpGSW5iZo5eYpVuol5qqW55anGJrqFeYnmxXmpxsV5xZW5yTope
+  XmrJJkZg6KYUM/ftYPza+1fvEKMkB5OSKG8fx8tkIb6k/JTKjMTijPii0pzU4kOMMhwcShK8U
+  guAcoJFqempFWmZOcA4gklLcPAoifBaTABK8xYXJOYWZ6ZDpE4xKkqJ8/IvBEoIgCQySvPg2m
+  Cxe4lRVkqYl5GBgUGIpyC1KDezBFX+FaM4B6OSMO/uWUBTeDLzSuCmvwJazAS0+DEf2OKSRIS
+  UVANT+lKvPwmJCVOD2Dc45D3Irb/RGeZgcMv9wcN1J6YLmD42n7+EWSfw674qW+6zoVePG954
+  sEDkR+SGmhW3bsmcEzZhdDV+rDSpftHs5wEaD95G86grf3GxKnh0I8JVzV/JIeKnmXN65LUU7
+  Rd5h19Wy3yUPmB2f3PCLzvWn6dT7+mJJ7yf9OY0hz3fCTenG+5cbxs3NIT8/aXOJmqytiRLae
+  6fZzcqv/2ayF/++JpjaYNATMJxsRexnjWrzvMJhEbqXZB6Z9b1OaopfYeT71XO3A9qNzxCrP7
+  o5fjn2QRKTam8suHKoTPBbs+CRPiUr986qGhqGLVJSvmcdL7A8817lp7dF/9Tz83MXdvygqsS
+  S3FGoqEWc1FxIgC4HxkuWAMAAA==
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-9.tower-587.messagelabs.com!1676255886!516780!1
-X-Originating-IP: [62.60.8.146]
+X-Msg-Ref: server-13.tower-591.messagelabs.com!1676255890!519076!1
+X-Originating-IP: [62.60.8.97]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.102.2; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 4251 invoked from network); 13 Feb 2023 02:38:07 -0000
-Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
-  by server-9.tower-587.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 13 Feb 2023 02:38:07 -0000
-Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id C3D791000DC
-	for <openembedded-core@lists.openembedded.org>; Mon, 13 Feb 2023 02:38:06 +0000 (GMT)
+Received: (qmail 21317 invoked from network); 13 Feb 2023 02:38:10 -0000
+Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
+  by server-13.tower-591.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 13 Feb 2023 02:38:10 -0000
+Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id 36AAF100194
+	for <openembedded-core@lists.openembedded.org>; Mon, 13 Feb 2023 02:38:10 +0000 (GMT)
 Received: from R01UKEXCASM223.r01.fujitsu.local (R01UKEXCASM223 [10.182.185.121])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id B83A21000D7
-	for <openembedded-core@lists.openembedded.org>; Mon, 13 Feb 2023 02:38:06 +0000 (GMT)
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id 29E60100182
+	for <openembedded-core@lists.openembedded.org>; Mon, 13 Feb 2023 02:38:10 +0000 (GMT)
 Received: from localhost.localdomain (10.167.225.33) by
  R01UKEXCASM223.r01.fujitsu.local (10.182.185.121) with Microsoft SMTP Server
- (TLS) id 15.0.1497.42; Mon, 13 Feb 2023 02:38:05 +0000
+ (TLS) id 15.0.1497.42; Mon, 13 Feb 2023 02:38:08 +0000
 From: <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] libdrm: upgrade 2.4.114 -> 2.4.115
-Date: Mon, 13 Feb 2023 10:37:51 +0800
-Message-ID: <1676255874-19490-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] libjpeg-turbo: upgrade 2.1.5 -> 2.1.5.1
+Date: Mon, 13 Feb 2023 10:37:52 +0800
+Message-ID: <1676255874-19490-2-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1676255874-19490-1-git-send-email-wangmy@fujitsu.com>
+References: <1676255874-19490-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.167.225.33]
@@ -74,31 +77,48 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 13 Feb 2023 02:38:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177073
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177074
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
+Changelog:
+==========
+1. The SIMD dispatchers in libjpeg-turbo 2.1.4 and prior stored the list of
+supported SIMD instruction sets in a global variable, which caused an innocuous
+race condition whereby the variable could have been initialized multiple times
+if 'jpeg_start_*compress()' was called simultaneously in multiple threads.
+libjpeg-turbo 2.1.5 included an undocumented attempt to fix this race condition
+by making the SIMD support variable thread-local.  However, that caused another
+issue whereby, if 'jpeg_start_*compress()' was called in one thread and
+'jpeg_read_*()' or 'jpeg_write_*()' was called in a second thread, the SIMD
+support variable was never initialized in the second thread.  On x86 systems,
+this led the second thread to incorrectly assume that AVX2 instructions were
+always available, and when it attempted to use those instructions on older x86
+CPUs that do not support them, an illegal instruction error occurred.  The SIMD
+dispatchers now ensure that the SIMD support variable is initialized before
+dispatching based on its value.
+
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../drm/{libdrm_2.4.114.bb => libdrm_2.4.115.bb}                | 2 +-
+ .../jpeg/{libjpeg-turbo_2.1.5.bb => libjpeg-turbo_2.1.5.1.bb}   | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/drm/{libdrm_2.4.114.bb => libdrm_2.4.115.bb} (97%)
+ rename meta/recipes-graphics/jpeg/{libjpeg-turbo_2.1.5.bb => libjpeg-turbo_2.1.5.1.bb} (97%)
 
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.114.bb b/meta/recipes-graphics/drm/libdrm_2.4.115.bb
+diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb
 similarity index 97%
-rename from meta/recipes-graphics/drm/libdrm_2.4.114.bb
-rename to meta/recipes-graphics/drm/libdrm_2.4.115.bb
-index e01b7934b3..50206f2ba8 100644
---- a/meta/recipes-graphics/drm/libdrm_2.4.114.bb
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.115.bb
-@@ -13,7 +13,7 @@ DEPENDS = "libpthread-stubs"
- SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.xz \
-           "
+rename from meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.bb
+rename to meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb
+index 4d21ca1e1d..e086830c02 100644
+--- a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.bb
++++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.1.bb
+@@ -14,7 +14,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
+            file://0001-libjpeg-turbo-fix-package_qa-error.patch \
+            "
  
--SRC_URI[sha256sum] = "3049cf843a47d12e5eeefbc3be3496d782fa09f42346bf0b7defe3d1e598d026"
-+SRC_URI[sha256sum] = "554cfbfe0542bddb391b4e3e05bfbbfc3e282b955bd56218d21c0616481f65eb"
- 
- inherit meson pkgconfig manpages
+-SRC_URI[sha256sum] = "bc12bc9dce55300c6bf4342bc233bcc26bd38bf289eedf147360d731c668ddaf"
++SRC_URI[sha256sum] = "2fdc3feb6e9deb17adec9bafa3321419aa19f8f4e5dea7bf8486844ca22207bf"
+ UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/libjpeg-turbo/files/"
+ UPSTREAM_CHECK_REGEX = "/libjpeg-turbo/files/(?P<pver>(\d+[\.\-_]*)+)/"
  
 -- 
 2.34.1
