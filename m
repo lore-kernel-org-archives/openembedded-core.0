@@ -1,1143 +1,317 @@
-Return-Path: <kai.kang@eng.windriver.com>
+Return-Path: <sundeep.kokkonda@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA5D5C636CC
-	for <webhook@archiver.kernel.org>; Mon, 13 Feb 2023 05:50:55 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.8251.1676267450695069981
- for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Feb 2023 21:50:50 -0800
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=N/l8OmxE;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=14080584dc=kai.kang@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31D5mUUl021753
-	for <openembedded-core@lists.openembedded.org>; Sun, 12 Feb 2023 21:50:49 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : mime-version : content-type; s=PPS06212021;
- bh=zcnJ9y80cxqc5XuGrW/yWVso9Zl7LqXe9r2I90tcRp4=;
- b=N/l8OmxEhydWuNUn8iompJAeboQPjyeb3b/DDD/iXxj1X15Ywh1QH5zAjQwVU/ezP5jC
- 5Ao03PPBBafPQgM80sjPkBeTmtoXbyTXZJbQczHExtkqCBTVk+mooZi0oRFZ8YMvrpRQ
- E3od8RvpR4Joyok2y6TTaRhPavWExM+8RaMZPK5iOAyePNR78kkncvKP0d2Jvmx3TbKp
- 9/nOgS4RBsc6/gkGLNFvw+NMStvfksppjjLwko5zdarmL1ICEM3sL7xbGHeu2BXC6bOB
- C1DIU8MoBpB6iEiPHUnEAiBV8pUJo+QTvH7c0uz3QdPEc3PZVqEkzxx0Q0vAWFwc7eG/ yw== 
-Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3npbdrs3dr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Sun, 12 Feb 2023 21:50:49 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.17; Sun, 12 Feb 2023 21:50:48 -0800
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.17 via Frontend Transport; Sun, 12 Feb 2023 21:50:47 -0800
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [kirkstone][PATCH 0/1] Update webkitgtk to 2.38.4 for CVEs
-Date: Mon, 13 Feb 2023 13:50:42 +0800
-Message-ID: <20230213055043.15294-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ED23C636D4
+	for <webhook@archiver.kernel.org>; Mon, 13 Feb 2023 07:01:36 +0000 (UTC)
+Subject: Re: Yocto Bug 14965 - Need info on rmeta hash
+To: openembedded-core@lists.openembedded.org
+From: "Sundeep KOKKONDA" <sundeep.kokkonda@windriver.com>
+X-Originating-Location: Hyderabad, Telangana, IN (183.83.146.233)
+X-Originating-Platform: Windows Chrome 110
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: bKiAvCTtJp1BZLcJQyRjIXC6hNgIq18I
-X-Proofpoint-GUID: bKiAvCTtJp1BZLcJQyRjIXC6hNgIq18I
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-13_02,2023-02-09_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- lowpriorityscore=0 phishscore=0 spamscore=0 bulkscore=0 mlxlogscore=999
- priorityscore=1501 clxscore=1015 mlxscore=0 suspectscore=0 impostorscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302130052
+Date: Sun, 12 Feb 2023 23:01:32 -0800
+References: <CAO5Uq5T4NQ=BrHBWCBC+7sSPKnfdUoUC+qLpnFtVRPdnmhtxhQ@mail.gmail.com>
+In-Reply-To: <CAO5Uq5T4NQ=BrHBWCBC+7sSPKnfdUoUC+qLpnFtVRPdnmhtxhQ@mail.gmail.com>
+Message-ID: <21754.1676271692934287086@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="e1Z0pZqNcY4S7vZ5WQa3"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Feb 2023 05:50:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177085
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Feb 2023 07:01:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177086
 
-From: Kai Kang <kai.kang@windriver.com>
+--e1Z0pZqNcY4S7vZ5WQa3
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Update webkitgtk 2.36.8 to latest version 2.38.4 which solves a lot of CVEs.
+Hello Richard,
 
-The diff output of header files is attached at the end of this file.
+As we discussed, I checked the build by removing the variables (RUST_BUILD_=
+SYS, RUST_HOST_SYS & RUST_TARGET_SYS) from BB_BASEHASH_IGNORE_VARS in meta/=
+conf/bitbake.conf file but this doesn't solve the issue, still 2 rmeta file=
+s generated.
 
-Kai Kang (1):
-  webkitgtk: 2.36.8 -> 2.38.4
+So, I did a re-check of my analysis w.r.t to commit id - ' e33afcd0dc=C2=A0=
+rust-common.bbclass: use built-in rust targets for -native builds '. The 2 =
+nd rmeta file is generating by this commit id only and as mentioned earlier=
+ there is no diff in the generated sigdata files of libstd-rs & librsvg wit=
+h this change.
 
- ...spection.cmake-prefix-variables-obta.patch |  39 +--
- .../0001-Fix-build-without-opengl-or-es.patch | 133 --------
- ...tings-so-that-gtkdoc-generation-work.patch |  47 ---
- ...trospection-files-do-not-quote-CFLAG.patch |  78 -----
- ...44e17d258106617b0e6d783d073b188a2548.patch | 296 ++++++++++++++++++
- ...bb461f040b90453bc4e100dcf967243ecd98.patch |  30 ++
- ...ebkitgtk_2.36.8.bb => webkitgtk_2.38.4.bb} |  15 +-
- 7 files changed, 348 insertions(+), 290 deletions(-)
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Fix-build-without-opengl-or-es.patch
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Tweak-gtkdoc-settings-so-that-gtkdoc-generation-work.patch
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-When-building-introspection-files-do-not-quote-CFLAG.patch
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/d318bb461f040b90453bc4e100dcf967243ecd98.patch
- rename meta/recipes-sato/webkit/{webkitgtk_2.36.8.bb => webkitgtk_2.38.4.bb} (92%)
+May be removing vars form BB_BASEHASH_IGNORE_VARS is not a right fix?
 
---
-2.17.1
+FYI... See below generated rmeta files with and without e33afcd0dc.
 
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/jsc/JSCDefines.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/jsc/JSCDefines.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/jsc/JSCDefines.h	2022-06-30 17:49:25.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/jsc/JSCDefines.h	2022-09-20 16:13:44.000000000 +0800
-@@ -23,7 +23,7 @@
-  * THE POSSIBILITY OF SUCH DAMAGE.
-  */
- 
--#if !defined(__JSC_H_INSIDE__) && !defined(JSC_COMPILATION)
-+#if !defined(__JSC_H_INSIDE__) && !defined(JSC_COMPILATION) && !defined(WEBKIT2_COMPILATION)
- #error "Only <jsc/jsc.h> can be included directly."
- #endif
- 
-@@ -42,7 +42,9 @@
- #    define JSC_API __attribute__((visibility("default")))
- #endif
- 
-+#ifndef __GI_SCANNER__
- #define JSC_DEPRECATED JSC_API G_DEPRECATED
- #define JSC_DEPRECATED_FOR(f) JSC_API G_DEPRECATED_FOR(f)
-+#endif /* !__GI_SCANNER__ */
- 
- #endif /* JSCDefines_h */
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/jsc/JSCValue.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/jsc/JSCValue.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/jsc/JSCValue.h	2022-06-30 17:49:25.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/jsc/JSCValue.h	2022-09-20 16:13:44.000000000 +0800
-@@ -49,6 +49,21 @@
-     JSC_VALUE_PROPERTY_WRITABLE     = 1 << 2
- } JSCValuePropertyFlags;
- 
-+typedef enum {
-+    JSC_TYPED_ARRAY_NONE = 0,
-+    JSC_TYPED_ARRAY_INT8,
-+    JSC_TYPED_ARRAY_INT16,
-+    JSC_TYPED_ARRAY_INT32,
-+    JSC_TYPED_ARRAY_INT64,
-+    JSC_TYPED_ARRAY_UINT8,
-+    JSC_TYPED_ARRAY_UINT8_CLAMPED,
-+    JSC_TYPED_ARRAY_UINT16,
-+    JSC_TYPED_ARRAY_UINT32,
-+    JSC_TYPED_ARRAY_UINT64,
-+    JSC_TYPED_ARRAY_FLOAT32,
-+    JSC_TYPED_ARRAY_FLOAT64,
-+} JSCTypedArrayType;
-+
- struct _JSCValue {
-     GObject parent;
- 
-@@ -246,6 +261,55 @@
- jsc_value_function_callv                  (JSCValue             *value,
-                                            guint                 n_parameters,
-                                            JSCValue            **parameters) G_GNUC_WARN_UNUSED_RESULT;
-+JSC_API JSCValue *
-+jsc_value_new_array_buffer                (JSCContext           *context,
-+                                           gpointer              data,
-+                                           gsize                 size,
-+                                           GDestroyNotify        destroy_notify,
-+                                           gpointer              user_data);
-+
-+JSC_API gboolean
-+jsc_value_is_array_buffer                 (JSCValue             *value);
-+
-+JSC_API gpointer
-+jsc_value_array_buffer_get_data           (JSCValue             *value,
-+                                           gsize                *size);
-+
-+JSC_API gsize
-+jsc_value_array_buffer_get_size           (JSCValue             *value);
-+
-+JSC_API JSCValue *
-+jsc_value_new_typed_array                 (JSCContext           *context,
-+                                           JSCTypedArrayType     type,
-+                                           gsize                 length);
-+
-+JSC_API JSCValue *
-+jsc_value_new_typed_array_with_buffer     (JSCValue             *array_buffer,
-+                                           JSCTypedArrayType     type,
-+                                           gsize                 offset,
-+                                           gssize                length);
-+
-+JSC_API gboolean
-+jsc_value_is_typed_array                  (JSCValue             *value);
-+
-+JSC_API JSCTypedArrayType
-+jsc_value_typed_array_get_type            (JSCValue             *value);
-+
-+JSC_API gpointer
-+jsc_value_typed_array_get_data            (JSCValue             *value,
-+                                           gsize                *length);
-+
-+JSC_API gsize
-+jsc_value_typed_array_get_length          (JSCValue             *value);
-+
-+JSC_API gsize
-+jsc_value_typed_array_get_size            (JSCValue             *value);
-+
-+JSC_API gsize
-+jsc_value_typed_array_get_offset          (JSCValue             *value);
-+
-+JSC_API JSCValue *
-+jsc_value_typed_array_get_buffer          (JSCValue             *value);
- 
- JSC_API gboolean
- jsc_value_is_constructor                  (JSCValue             *value);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/jsc/JSCVersion.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/jsc/JSCVersion.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/jsc/JSCVersion.h	2023-02-12 23:02:14.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/jsc/JSCVersion.h	2023-02-13 11:34:32.000000000 +0800
-@@ -44,7 +44,7 @@
-  * application compile time, rather than from the library linked
-  * against at application run time.
-  */
--#define JSC_MINOR_VERSION (36)
-+#define JSC_MINOR_VERSION (38)
- 
- /**
-  * JSC_MICRO_VERSION:
-@@ -53,7 +53,7 @@
-  * application compile time, rather than from the library linked
-  * against at application run time.
-  */
--#define JSC_MICRO_VERSION (8)
-+#define JSC_MICRO_VERSION (4)
- 
- /**
-  * JSC_CHECK_VERSION:
-@@ -61,6 +61,8 @@
-  * @minor: minor version (e.g. 2 for version 1.2.5)
-  * @micro: micro version (e.g. 5 for version 1.2.5)
-  *
-+ * Check the version of JSC header files at compile time.
-+ *
-  * Returns: %TRUE if the version of the JavaScriptCore header files
-  * is the same as or newer than the passed-in version.
-  */
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitAuthenticationRequest.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitAuthenticationRequest.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitAuthenticationRequest.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitAuthenticationRequest.h	2022-09-20 16:13:49.000000000 +0800
-@@ -52,6 +52,7 @@
- struct _WebKitAuthenticationRequestClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitAutomationSession.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitAutomationSession.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitAutomationSession.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitAutomationSession.h	2022-09-20 16:13:49.000000000 +0800
-@@ -58,12 +58,14 @@
- struct _WebKitAutomationSession {
-     GObject parent;
- 
-+    /*< private >*/
-     WebKitAutomationSessionPrivate *priv;
- };
- 
- struct _WebKitAutomationSessionClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitBackForwardList.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitBackForwardList.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitBackForwardList.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitBackForwardList.h	2022-09-20 16:13:49.000000000 +0800
-@@ -44,12 +44,14 @@
- struct _WebKitBackForwardList {
-     GObject parent;
- 
-+    /*< private >*/
-     WebKitBackForwardListPrivate *priv;
- };
- 
- struct _WebKitBackForwardListClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitBackForwardListItem.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitBackForwardListItem.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitBackForwardListItem.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitBackForwardListItem.h	2022-09-20 16:13:49.000000000 +0800
-@@ -43,12 +43,14 @@
- struct _WebKitBackForwardListItem {
-     GInitiallyUnowned parent;
- 
-+    /*< private >*/
-     WebKitBackForwardListItemPrivate *priv;
- };
- 
- struct _WebKitBackForwardListItemClass {
-     GInitiallyUnownedClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitContextMenu.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitContextMenu.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitContextMenu.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitContextMenu.h	2022-09-20 16:13:49.000000000 +0800
-@@ -44,12 +44,14 @@
- struct _WebKitContextMenu {
-     GObject parent;
- 
-+    /*< private >*/
-     WebKitContextMenuPrivate *priv;
- };
- 
- struct _WebKitContextMenuClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitCookieManager.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitCookieManager.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitCookieManager.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitCookieManager.h	2022-09-20 16:13:49.000000000 +0800
-@@ -74,12 +74,14 @@
- struct _WebKitCookieManager {
-     GObject parent;
- 
-+    /*< private >*/
-     WebKitCookieManagerPrivate *priv;
- };
- 
- struct _WebKitCookieManagerClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitDefines.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitDefines.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitDefines.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitDefines.h	2022-09-20 16:13:49.000000000 +0800
-@@ -45,4 +45,11 @@
- #define WEBKIT_DEPRECATED WEBKIT_API G_DEPRECATED
- #define WEBKIT_DEPRECATED_FOR(f) WEBKIT_API G_DEPRECATED_FOR(f)
- 
-+/**
-+ * WEBKIT_DEPRECATED_FOR: (skip)
-+ * @f: replacement symbol name
-+ *
-+ * Marks a symbol as deprecated, indicating a replacement.
-+ */
-+
- #endif /* WebKitDefines_h */
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitDeviceInfoPermissionRequest.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitDeviceInfoPermissionRequest.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitDeviceInfoPermissionRequest.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitDeviceInfoPermissionRequest.h	2022-09-20 16:13:49.000000000 +0800
-@@ -49,6 +49,7 @@
- struct _WebKitDeviceInfoPermissionRequestClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitDownload.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitDownload.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitDownload.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitDownload.h	2022-09-20 16:13:49.000000000 +0800
-@@ -46,15 +46,18 @@
- struct _WebKitDownload {
-     GObject parent;
- 
-+    /*< private >*/
-     WebKitDownloadPrivate *priv;
- };
- 
- struct _WebKitDownloadClass {
-     GObjectClass parent_class;
- 
-+    /*< public >*/
-     gboolean (* decide_destination)  (WebKitDownload *download,
-                                       const gchar    *suggested_filename);
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitEditorState.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitEditorState.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitEditorState.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitEditorState.h	2022-09-20 16:13:49.000000000 +0800
-@@ -64,12 +64,14 @@
- struct _WebKitEditorState {
-     GObject parent;
- 
-+    /*< private >*/
-     WebKitEditorStatePrivate *priv;
- };
- 
- struct _WebKitEditorStateClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitEnumTypes.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitEnumTypes.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitEnumTypes.h	2023-02-12 23:58:45.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitEnumTypes.h	2023-02-13 12:30:22.000000000 +0800
-@@ -198,6 +198,10 @@
- 
- WEBKIT_API GType
- webkit_media_capture_state_get_type (void);
-+#define WEBKIT_TYPE_WEB_EXTENSION_MODE webkit_web_extension_mode_get_type ()
-+
-+WEBKIT_API GType
-+webkit_web_extension_mode_get_type (void);
- /* Enumerations from WebKitWebsiteData.h. */
- #define WEBKIT_TYPE_WEBSITE_DATA_TYPES webkit_website_data_types_get_type ()
- 
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitError.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitError.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitError.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitError.h	2023-01-27 21:16:47.000000000 +0800
-@@ -147,6 +147,8 @@
-  * @WEBKIT_USER_CONTENT_FILTER_ERROR_INVALID_SOURCE: The JSON source for a content filter is invalid.
-  * @WEBKIT_USER_CONTENT_FILTER_ERROR_NOT_FOUND: The requested content filter could not be found.
-  *
-+ * Errors that can occur while compiling content filters.
-+ *
-  * Since: 2.24
-  */
- typedef enum {
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitFaviconDatabase.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitFaviconDatabase.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitFaviconDatabase.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitFaviconDatabase.h	2022-09-20 16:13:49.000000000 +0800
-@@ -46,12 +46,14 @@
- struct _WebKitFaviconDatabase {
-     GObject parent;
- 
-+    /*< private >*/
-     WebKitFaviconDatabasePrivate *priv;
- };
- 
- struct _WebKitFaviconDatabaseClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitFileChooserRequest.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitFileChooserRequest.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitFileChooserRequest.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitFileChooserRequest.h	2022-09-20 16:13:49.000000000 +0800
-@@ -50,6 +50,7 @@
- struct _WebKitFileChooserRequestClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitFindController.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitFindController.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitFindController.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitFindController.h	2022-09-20 16:13:49.000000000 +0800
-@@ -75,6 +75,7 @@
- struct _WebKitFindControllerClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitFormSubmissionRequest.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitFormSubmissionRequest.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitFormSubmissionRequest.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitFormSubmissionRequest.h	2022-09-20 16:13:49.000000000 +0800
-@@ -50,6 +50,7 @@
- struct _WebKitFormSubmissionRequestClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitFrame.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitFrame.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitFrame.h	2022-06-30 17:49:38.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitFrame.h	2022-09-20 16:13:49.000000000 +0800
-@@ -47,6 +47,7 @@
- struct _WebKitFrame {
-     GObject parent;
- 
-+    /*< private >*/
-     WebKitFramePrivate *priv;
- };
- 
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitGeolocationManager.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitGeolocationManager.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitGeolocationManager.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitGeolocationManager.h	2022-09-20 16:13:49.000000000 +0800
-@@ -53,6 +53,7 @@
- struct _WebKitGeolocationManagerClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitGeolocationPermissionRequest.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitGeolocationPermissionRequest.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitGeolocationPermissionRequest.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitGeolocationPermissionRequest.h	2022-09-20 16:13:49.000000000 +0800
-@@ -50,6 +50,7 @@
- struct _WebKitGeolocationPermissionRequestClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitHitTestResult.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitHitTestResult.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitHitTestResult.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitHitTestResult.h	2022-09-20 16:13:49.000000000 +0800
-@@ -66,12 +66,14 @@
- struct _WebKitHitTestResult {
-     GObject parent;
- 
-+    /*< private >*/
-     WebKitHitTestResultPrivate *priv;
- };
- 
- struct _WebKitHitTestResultClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitInstallMissingMediaPluginsPermissionRequest.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitInstallMissingMediaPluginsPermissionRequest.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitInstallMissingMediaPluginsPermissionRequest.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitInstallMissingMediaPluginsPermissionRequest.h	2022-09-20 16:13:49.000000000 +0800
-@@ -43,12 +43,14 @@
- struct _WebKitInstallMissingMediaPluginsPermissionRequest {
-     GObject parent;
- 
-+    /*< private >*/
-     WebKitInstallMissingMediaPluginsPermissionRequestPrivate *priv;
- };
- 
- struct _WebKitInstallMissingMediaPluginsPermissionRequestClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitMediaKeySystemPermissionRequest.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitMediaKeySystemPermissionRequest.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitMediaKeySystemPermissionRequest.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitMediaKeySystemPermissionRequest.h	2022-09-20 16:13:49.000000000 +0800
-@@ -50,6 +50,7 @@
- struct _WebKitMediaKeySystemPermissionRequestClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitNavigationPolicyDecision.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitNavigationPolicyDecision.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitNavigationPolicyDecision.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitNavigationPolicyDecision.h	2022-09-20 16:13:49.000000000 +0800
-@@ -53,6 +53,7 @@
- struct _WebKitNavigationPolicyDecisionClass {
-     WebKitPolicyDecisionClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitNotification.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitNotification.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitNotification.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitNotification.h	2022-09-20 16:13:49.000000000 +0800
-@@ -44,12 +44,14 @@
- struct _WebKitNotification {
-     GObject parent;
- 
-+    /*< private >*/
-     WebKitNotificationPrivate *priv;
- };
- 
- struct _WebKitNotificationClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitOptionMenu.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitOptionMenu.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitOptionMenu.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitOptionMenu.h	2022-09-20 16:13:49.000000000 +0800
-@@ -44,12 +44,14 @@
- struct _WebKitOptionMenu {
-     GObject parent;
- 
-+    /*< private >*/
-     WebKitOptionMenuPrivate *priv;
- };
- 
- struct _WebKitOptionMenuClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitPlugin.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitPlugin.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitPlugin.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitPlugin.h	2022-09-20 16:13:49.000000000 +0800
-@@ -43,12 +43,14 @@
- struct _WebKitPlugin {
-     GObject parent;
- 
-+    /*< private >*/
-     WebKitPluginPrivate *priv;
- };
- 
- struct _WebKitPluginClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitPointerLockPermissionRequest.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitPointerLockPermissionRequest.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitPointerLockPermissionRequest.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitPointerLockPermissionRequest.h	2022-09-20 16:13:49.000000000 +0800
-@@ -50,6 +50,7 @@
- struct _WebKitPointerLockPermissionRequestClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitPolicyDecision.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitPolicyDecision.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitPolicyDecision.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitPolicyDecision.h	2022-09-20 16:13:49.000000000 +0800
-@@ -51,6 +51,7 @@
- struct _WebKitPolicyDecisionClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitPrintCustomWidget.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitPrintCustomWidget.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitPrintCustomWidget.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitPrintCustomWidget.h	2022-09-20 16:13:49.000000000 +0800
-@@ -44,12 +44,14 @@
- struct _WebKitPrintCustomWidget {
-     GObject parent;
- 
-+    /*< private >*/
-     WebKitPrintCustomWidgetPrivate *priv;
- };
- 
- struct _WebKitPrintCustomWidgetClass {
-     GObjectClass parent_class;
- 
-+    /*< public >*/
-     void    (* apply)               (WebKitPrintCustomWidget *print_custom_widget,
-                                      GtkWidget               *widget);
-     void    (* update)              (WebKitPrintCustomWidget *print_custom_widget,
-@@ -57,6 +59,7 @@
-                                      GtkPageSetup            *page_setup,
-                                      GtkPrintSettings        *print_settings);
- 
-+    /*< private >*/
-     void    (*_webkit_reserved0) (void);
-     void    (*_webkit_reserved1) (void);
-     void    (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitPrintOperation.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitPrintOperation.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitPrintOperation.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitPrintOperation.h	2022-09-20 16:13:49.000000000 +0800
-@@ -57,12 +57,14 @@
- struct _WebKitPrintOperation {
-     GObject parent;
- 
-+    /*< private >*/
-     WebKitPrintOperationPrivate *priv;
- };
- 
- struct _WebKitPrintOperationClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitResponsePolicyDecision.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitResponsePolicyDecision.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitResponsePolicyDecision.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitResponsePolicyDecision.h	2022-09-20 16:13:49.000000000 +0800
-@@ -53,6 +53,7 @@
- struct _WebKitResponsePolicyDecisionClass {
-     WebKitPolicyDecisionClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitSecurityManager.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitSecurityManager.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitSecurityManager.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitSecurityManager.h	2022-09-20 16:13:49.000000000 +0800
-@@ -43,12 +43,14 @@
- struct _WebKitSecurityManager {
-     GObject parent;
- 
-+    /*< private >*/
-     WebKitSecurityManagerPrivate *priv;
- };
- 
- struct _WebKitSecurityManagerClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitSettings.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitSettings.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitSettings.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitSettings.h	2023-01-26 20:05:13.000000000 +0800
-@@ -70,12 +70,14 @@
- struct _WebKitSettings {
-     GObject parent_instance;
- 
-+    /*< private >*/
-     WebKitSettingsPrivate *priv;
- };
- 
- struct _WebKitSettingsClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-@@ -133,17 +135,17 @@
- WEBKIT_API void
- webkit_settings_set_enable_html5_database                      (WebKitSettings *settings,
-                                                                 gboolean        enabled);
--WEBKIT_API gboolean
-+WEBKIT_DEPRECATED gboolean
- webkit_settings_get_enable_xss_auditor                         (WebKitSettings *settings);
- 
--WEBKIT_API void
-+WEBKIT_DEPRECATED void
- webkit_settings_set_enable_xss_auditor                         (WebKitSettings *settings,
-                                                                 gboolean        enabled);
- 
--WEBKIT_API gboolean
-+WEBKIT_DEPRECATED gboolean
- webkit_settings_get_enable_frame_flattening                    (WebKitSettings *settings);
- 
--WEBKIT_API void
-+WEBKIT_DEPRECATED void
- webkit_settings_set_enable_frame_flattening                    (WebKitSettings *settings,
-                                                                 gboolean        enabled);
- 
-@@ -154,10 +156,10 @@
- webkit_settings_set_enable_plugins                             (WebKitSettings *settings,
-                                                                 gboolean        enabled);
- 
--WEBKIT_API gboolean
-+WEBKIT_DEPRECATED gboolean
- webkit_settings_get_enable_java                                (WebKitSettings *settings);
- 
--WEBKIT_API void
-+WEBKIT_DEPRECATED void
- webkit_settings_set_enable_java                                (WebKitSettings *settings,
-                                                                 gboolean        enabled);
- 
-@@ -513,6 +515,13 @@
- webkit_settings_set_media_content_types_requiring_hardware_support (WebKitSettings *settings,
-                                                                     const gchar *content_types);
- 
-+WEBKIT_API gboolean
-+webkit_settings_get_enable_webrtc                              (WebKitSettings *settings);
-+
-+WEBKIT_API void
-+webkit_settings_set_enable_webrtc                              (WebKitSettings *settings,
-+                                                                gboolean enabled);
-+
- G_END_DECLS
- 
- #endif /* WebKitSettings_h */
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitURIRequest.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitURIRequest.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitURIRequest.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitURIRequest.h	2022-09-20 16:13:49.000000000 +0800
-@@ -51,6 +51,7 @@
- struct _WebKitURIRequestClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitURIResponse.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitURIResponse.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitURIResponse.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitURIResponse.h	2022-09-20 16:13:49.000000000 +0800
-@@ -51,6 +51,7 @@
- struct _WebKitURIResponseClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitURISchemeRequest.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitURISchemeRequest.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitURISchemeRequest.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitURISchemeRequest.h	2022-09-20 16:13:49.000000000 +0800
-@@ -46,12 +46,14 @@
- struct _WebKitURISchemeRequest {
-     GObject parent;
- 
-+    /*< private >*/
-     WebKitURISchemeRequestPrivate *priv;
- };
- 
- struct _WebKitURISchemeRequestClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitURISchemeResponse.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitURISchemeResponse.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitURISchemeResponse.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitURISchemeResponse.h	2022-09-20 16:13:49.000000000 +0800
-@@ -45,12 +45,14 @@
- struct _WebKitURISchemeResponse {
-     GObject parent;
- 
-+    /*< private >*/
-     WebKitURISchemeResponsePrivate *priv;
- };
- 
- struct _WebKitURISchemeResponseClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitUserContentFilterStore.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitUserContentFilterStore.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitUserContentFilterStore.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitUserContentFilterStore.h	2022-09-20 16:13:49.000000000 +0800
-@@ -58,6 +58,7 @@
- struct _WebKitUserContentFilterStoreClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitUserContentManager.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitUserContentManager.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitUserContentManager.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitUserContentManager.h	2022-09-20 16:13:49.000000000 +0800
-@@ -52,6 +52,7 @@
- struct _WebKitUserContentManagerClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitUserMediaPermissionRequest.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitUserMediaPermissionRequest.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitUserMediaPermissionRequest.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitUserMediaPermissionRequest.h	2022-09-20 16:13:49.000000000 +0800
-@@ -49,6 +49,7 @@
- struct _WebKitUserMediaPermissionRequestClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitUserMessage.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitUserMessage.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitUserMessage.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitUserMessage.h	2022-09-20 16:13:49.000000000 +0800
-@@ -57,12 +57,14 @@
- struct _WebKitUserMessage {
-     GInitiallyUnowned parent;
- 
-+    /*< private >*/
-     WebKitUserMessagePrivate *priv;
- };
- 
- struct _WebKitUserMessageClass {
-     GInitiallyUnownedClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitVersion.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitVersion.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitVersion.h	2023-02-12 23:02:17.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitVersion.h	2023-02-13 11:34:35.000000000 +0800
-@@ -28,42 +28,10 @@
- 
- G_BEGIN_DECLS
- 
--/**
-- * WEBKIT_MAJOR_VERSION:
-- *
-- * Like webkit_get_major_version(), but from the headers used at
-- * application compile time, rather than from the library linked
-- * against at application run time.
-- */
- #define WEBKIT_MAJOR_VERSION (2)
-+#define WEBKIT_MINOR_VERSION (38)
-+#define WEBKIT_MICRO_VERSION (4)
- 
--/**
-- * WEBKIT_MINOR_VERSION:
-- *
-- * Like webkit_get_minor_version(), but from the headers used at
-- * application compile time, rather than from the library linked
-- * against at application run time.
-- */
--#define WEBKIT_MINOR_VERSION (36)
--
--/**
-- * WEBKIT_MICRO_VERSION:
-- *
-- * Like webkit_get_micro_version(), but from the headers used at
-- * application compile time, rather than from the library linked
-- * against at application run time.
-- */
--#define WEBKIT_MICRO_VERSION (8)
--
--/**
-- * WEBKIT_CHECK_VERSION:
-- * @major: major version (e.g. 1 for version 1.2.5)
-- * @minor: minor version (e.g. 2 for version 1.2.5)
-- * @micro: micro version (e.g. 5 for version 1.2.5)
-- *
-- * Returns: %TRUE if the version of the WebKit header files
-- * is the same as or newer than the passed-in version.
-- */
- #define WEBKIT_CHECK_VERSION(major, minor, micro) \
-     (WEBKIT_MAJOR_VERSION > (major) || \
-     (WEBKIT_MAJOR_VERSION == (major) && WEBKIT_MINOR_VERSION > (minor)) || \
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebContext.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebContext.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebContext.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebContext.h	2022-09-20 16:13:49.000000000 +0800
-@@ -113,6 +113,7 @@
- struct _WebKitWebContextClass {
-     GObjectClass parent;
- 
-+    /*< public >*/
-     void     (* download_started)                    (WebKitWebContext        *context,
-                                                       WebKitDownload          *download);
-     void     (* initialize_web_extensions)           (WebKitWebContext        *context);
-@@ -122,6 +123,7 @@
-     gboolean (* user_message_received)               (WebKitWebContext        *context,
-                                                       WebKitUserMessage       *message);
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-@@ -300,6 +302,9 @@
- WEBKIT_API gboolean
- webkit_web_context_get_use_system_appearance_for_scrollbars (WebKitWebContext      *context);
- 
-+WEBKIT_API const gchar*
-+webkit_web_context_get_time_zone_override           (WebKitWebContext              *context);
-+
- G_END_DECLS
- 
- #endif
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebInspector.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebInspector.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebInspector.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebInspector.h	2022-09-20 16:13:49.000000000 +0800
-@@ -44,12 +44,14 @@
- struct _WebKitWebInspector {
-     GObject parent;
- 
-+    /*< private >*/
-     WebKitWebInspectorPrivate *priv;
- };
- 
- struct _WebKitWebInspectorClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebPage.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebPage.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebPage.h	2022-06-30 17:49:38.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebPage.h	2022-09-20 16:13:49.000000000 +0800
-@@ -67,6 +67,7 @@
- struct _WebKitWebPage {
-     GObject parent;
- 
-+    /*< private >*/
-     WebKitWebPagePrivate *priv;
- };
- 
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebResource.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebResource.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebResource.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebResource.h	2022-09-20 16:13:49.000000000 +0800
-@@ -45,12 +45,14 @@
- struct _WebKitWebResource {
-     GObject parent;
- 
-+    /*< private >*/
-     WebKitWebResourcePrivate *priv;
- };
- 
- struct _WebKitWebResourceClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebView.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebView.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebView.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebView.h	2022-09-20 16:13:49.000000000 +0800
-@@ -85,7 +85,7 @@
-  *   a #WebKitNavigationPolicyDecision. These decisions are useful for implementing
-  *   special actions for new windows, such as forcing the new window to open
-  *   in a tab when a keyboard modifier is active or handling a special
-- *   target attribute on &lt;a&gt; elements.
-+ *   target attribute on <a> elements.
-  * @WEBKIT_POLICY_DECISION_TYPE_RESPONSE: This type of decision is used when WebKit has
-  *   received a response for a network resource and is about to start the load.
-  *   Note that these resources include all subresources of a page such as images
-@@ -221,6 +221,23 @@
-     WEBKIT_MEDIA_CAPTURE_STATE_MUTED,
- } WebKitMediaCaptureState;
- 
-+/**
-+ * WebKitWebExtensionMode:
-+ * @WEBKIT_WEB_EXTENSION_MODE_NONE: Not for an extension.
-+ * @WEBKIT_WEB_EXTENSION_MODE_MANIFESTV2: For a ManifestV2 extension.
-+ * @WEBKIT_WEB_EXTENSION_MODE_MANIFESTV3: For a ManifestV3 extension.
-+ *
-+ * Enum values used for setting if a #WebKitWebView is intended for
-+ * WebExtensions.
-+ *
-+ * Since: 2.38
-+ */
-+typedef enum {
-+    WEBKIT_WEB_EXTENSION_MODE_NONE,
-+    WEBKIT_WEB_EXTENSION_MODE_MANIFESTV2,
-+    WEBKIT_WEB_EXTENSION_MODE_MANIFESTV3,
-+} WebKitWebExtensionMode;
-+
- struct _WebKitWebView {
-     WebKitWebViewBase parent;
- 
-@@ -231,6 +248,7 @@
- struct _WebKitWebViewClass {
-     WebKitWebViewBaseClass parent;
- 
-+    /*< public >*/
-     void       (* load_changed)                (WebKitWebView               *web_view,
-                                                 WebKitLoadEvent              load_event);
-     gboolean   (* load_failed)                 (WebKitWebView               *web_view,
-@@ -293,6 +311,7 @@
-     gboolean   (* user_message_received)       (WebKitWebView               *web_view,
-                                                 WebKitUserMessage           *message);
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
- };
- 
-@@ -489,6 +508,15 @@
-                                                       GError                   **error);
- 
- WEBKIT_API void
-+webkit_web_view_run_async_javascript_function_in_world (WebKitWebView           *web_view,
-+                                                        const gchar             *body,
-+                                                        GVariant                *arguments,
-+                                                        const char              *world_name,
-+                                                        GCancellable            *cancellable,
-+                                                        GAsyncReadyCallback      callback,
-+                                                        gpointer                 user_data);
-+
-+WEBKIT_API void
- webkit_web_view_run_javascript_from_gresource        (WebKitWebView             *web_view,
-                                                       const gchar               *resource,
-                                                       GCancellable              *cancellable,
-@@ -637,6 +665,12 @@
- webkit_web_view_set_display_capture_state            (WebKitWebView             *web_view,
-                                                       WebKitMediaCaptureState    state);
- 
-+WEBKIT_API WebKitWebExtensionMode
-+webkit_web_view_get_web_extension_mode               (WebKitWebView             *web_view);
-+
-+WEBKIT_API const gchar*
-+webkit_web_view_get_default_content_security_policy  (WebKitWebView             *web_view);
-+
- G_END_DECLS
- 
- #endif
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebsiteDataAccessPermissionRequest.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebsiteDataAccessPermissionRequest.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebsiteDataAccessPermissionRequest.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebsiteDataAccessPermissionRequest.h	2022-09-20 16:13:49.000000000 +0800
-@@ -49,6 +49,7 @@
- struct _WebKitWebsiteDataAccessPermissionRequestClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebsiteDataManager.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebsiteDataManager.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebsiteDataManager.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebsiteDataManager.h	2022-09-20 16:13:49.000000000 +0800
-@@ -62,12 +62,14 @@
- struct _WebKitWebsiteDataManager {
-     GObject parent;
- 
-+    /*< private >*/
-     WebKitWebsiteDataManagerPrivate *priv;
- };
- 
- struct _WebKitWebsiteDataManagerClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebsitePolicies.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebsitePolicies.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebsitePolicies.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWebsitePolicies.h	2022-09-20 16:13:49.000000000 +0800
-@@ -42,12 +42,14 @@
- struct _WebKitWebsitePolicies {
-     GObject parent;
- 
-+    /*< private >*/
-     WebKitWebsitePoliciesPrivate *priv;
- };
- 
- struct _WebKitWebsitePoliciesClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
-diff -Nur 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWindowProperties.h 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWindowProperties.h
---- 2.36.8-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWindowProperties.h	2022-06-30 17:49:37.000000000 +0800
-+++ 2.38.4-r0/image/usr/include/webkitgtk-4.0/webkit2/WebKitWindowProperties.h	2022-09-20 16:13:49.000000000 +0800
-@@ -51,6 +51,7 @@
- struct _WebKitWindowPropertiesClass {
-     GObjectClass parent_class;
- 
-+    /*< private >*/
-     void (*_webkit_reserved0) (void);
-     void (*_webkit_reserved1) (void);
-     void (*_webkit_reserved2) (void);
+>=20
+> :/3565ea860a-> git reflog
+> 3565ea860a (HEAD) HEAD@{0}: checkout: moving from master to 3565ea860a
+> aa6cd06a9f (origin/master, origin/HEAD, master) HEAD@{1}: clone: from
+> git://git.yoctoproject.org/poky
+> :/3565ea860a-> ls
+> build/tmp/work/core2-64-poky-linux/librsvg/2.54.5-r0/recipe-sysroot/usr/l=
+ib/rustlib/x86_64-poky-linux-gnu/lib/
+> | grep libcore
+> libcore- 5c7322bf8f654199.rlib
+> libcore- 5c7322bf8f654199.rmeta
+>=20
+
+>=20
+> :/e33afcd0dc-> git reflog
+> e33afcd0dc (HEAD) HEAD@{0}: checkout: moving from master to e33afcd0dc
+> aa6cd06a9f (origin/master, origin/HEAD, master) HEAD@{1}: clone: from
+> git://git.yoctoproject.org/poky
+> :/e33afcd0dc-> ls
+> build/tmp/work/core2-64-poky-linux/librsvg/2.54.5-r0/recipe-sysroot/usr/l=
+ib/rustlib/x86_64-poky-linux-gnu/lib/
+> | grep libcore
+> libcore- c5fc82c620226960.rlib
+> libcore- c5fc82c620226960.rmeta
+>=20
+
+Sigdata diff:
+
+>=20
+> :/e33afcd0dc-> diff -ur build/tmp/stamps/core2-64-poky-linux/libstd-rs/
+> ../3565ea860a/build/tmp/stamps/core2-64-poky-linux/libstd-rs/
+> Binary files
+> build/tmp/stamps/core2-64-poky-linux/libstd-rs/1.64.0-r0.do_compile.sigda=
+ta.58c969bdc47351ac51bd19dd76f57855e14940a04ff9bdfbfc5cb92a27172da8
+> and
+> ../3565ea860a/build/tmp/stamps/core2-64-poky-linux/libstd-rs/1.64.0-r0.do=
+_compile.sigdata.58c969bdc47351ac51bd19dd76f57855e14940a04ff9bdfbfc5cb92a27=
+172da8
+> differ
+> ....
+> ....
+> Binary files
+> build/tmp/stamps/core2-64-poky-linux/libstd-rs/1.64.0-r0.do_unpack.sigdat=
+a.1203b8d6806ffeb75970f492ece3eaa91c51a79eb411eb075946c482239a69d5
+> and
+> ../3565ea860a/build/tmp/stamps/core2-64-poky-linux/libstd-rs/1.64.0-r0.do=
+_unpack.sigdata.1203b8d6806ffeb75970f492ece3eaa91c51a79eb411eb075946c482239=
+a69d5
+> differ
+>=20
+
+I checked the dumpsig of the above shown differences and the changes are on=
+ly in the name of build directory.
+
+Thanks,
+Sundeep K.
+
+--e1Z0pZqNcY4S7vZ5WQa3
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div class=3D"elementToProof" style=3D"border: 0px; font-variant-numeric: i=
+nherit; font-variant-east-asian: inherit; font-stretch: inherit; line-heigh=
+t: inherit; margin: 0px; padding: 0px; vertical-align: baseline;">
+<div class=3D"elementToProof" style=3D"color: #000000; font-family: Calibri=
+, Arial, Helvetica, sans-serif; font-size: 12pt; line-height: inherit; bord=
+er: 0px; font-variant-numeric: inherit; font-variant-east-asian: inherit; f=
+ont-stretch: inherit; margin: 0px; padding: 0px; vertical-align: baseline;"=
+>Hello Richard,</div>
+<div class=3D"elementToProof" style=3D"color: #000000; font-family: Calibri=
+, Arial, Helvetica, sans-serif; font-size: 12pt; line-height: inherit; bord=
+er: 0px; font-variant-numeric: inherit; font-variant-east-asian: inherit; f=
+ont-stretch: inherit; margin: 0px; padding: 0px; vertical-align: baseline;"=
+>&nbsp;</div>
+<div class=3D"elementToProof ContentPasted0 ContentPasted1 ContentPasted2" =
+style=3D"color: #000000; font-family: Calibri, Arial, Helvetica, sans-serif=
+; font-size: 12pt; line-height: inherit; border: 0px; font-variant-numeric:=
+ inherit; font-variant-east-asian: inherit; font-stretch: inherit; margin: =
+0px; padding: 0px; vertical-align: baseline;">As we discussed, I checked th=
+e build by removing the variables (RUST_BUILD_SYS, RUST_HOST_SYS &amp; RUST=
+_TARGET_SYS) from <em>BB_BASEHASH_IGNORE_VARS</em> in&nbsp;<em>meta/conf/bi=
+tbake.conf</em>&nbsp;file but this doesn't solve the issue, still 2 rmeta f=
+iles generated.</div>
+<div class=3D"elementToProof ContentPasted0 ContentPasted1 ContentPasted2" =
+style=3D"color: #000000; font-family: Calibri, Arial, Helvetica, sans-serif=
+; font-size: 12pt; line-height: inherit; border: 0px; font-variant-numeric:=
+ inherit; font-variant-east-asian: inherit; font-stretch: inherit; margin: =
+0px; padding: 0px; vertical-align: baseline;">&nbsp;</div>
+<div class=3D"elementToProof ContentPasted0 ContentPasted1 ContentPasted2 C=
+ontentPasted3 ContentPasted4" style=3D"color: #000000; font-family: Calibri=
+, Arial, Helvetica, sans-serif; font-size: 12pt; line-height: inherit; bord=
+er: 0px; font-variant-numeric: inherit; font-variant-east-asian: inherit; f=
+ont-stretch: inherit; margin: 0px; padding: 0px; vertical-align: baseline;"=
+>So, I did a re-check of my analysis w.r.t to commit id - '<em>e33afcd0dc&n=
+bsp;rust-common.bbclass: use built-in rust targets for -native builds</em>'=
+. The 2<span style=3D"border: 0px; font: inherit; margin: 0px; padding: 0px=
+; vertical-align: baseline; color: inherit;"><span style=3D"position: relat=
+ive; font-size: 12px; line-height: 0; vertical-align: baseline; top: -0.5em=
+;">nd</span>&nbsp;rmeta file is generating by this commit id only and as me=
+ntioned earlier there is no diff in the generated sigdata files of <em>libs=
+td-rs</em> &amp; <em>librsvg</em> with this change.</span></div>
+<div class=3D"elementToProof ContentPasted0 ContentPasted1 ContentPasted2 C=
+ontentPasted3 ContentPasted4" style=3D"line-height: inherit; border: 0px; f=
+ont-variant-numeric: inherit; font-variant-east-asian: inherit; font-stretc=
+h: inherit; margin: 0px; padding: 0px; vertical-align: baseline;">
+<div class=3D"elementToProof ContentPasted0 ContentPasted1 ContentPasted2 C=
+ontentPasted3 ContentPasted4" style=3D"line-height: inherit; border: 0px; f=
+ont-variant-numeric: inherit; font-variant-east-asian: inherit; font-stretc=
+h: inherit; margin: 0px; padding: 0px; vertical-align: baseline;"><span sty=
+le=3D"color: #000000; font-family: Calibri, Arial, Helvetica, sans-serif;">=
+<span style=3D"font-size: 16px;">&nbsp;</span></span></div>
+<div class=3D"elementToProof ContentPasted0 ContentPasted1 ContentPasted2 C=
+ontentPasted3 ContentPasted4" style=3D"line-height: inherit; border: 0px; f=
+ont-variant-numeric: inherit; font-variant-east-asian: inherit; font-stretc=
+h: inherit; margin: 0px; padding: 0px; vertical-align: baseline;"><em><span=
+ style=3D"color: #000000; font-family: Calibri, Arial, Helvetica, sans-seri=
+f;"><span style=3D"font-size: 16px;">May be removing vars form BB_BASEHASH_=
+IGNORE_VARS is not a right fix?</span></span></em></div>
+<div class=3D"elementToProof ContentPasted0 ContentPasted1 ContentPasted2 C=
+ontentPasted3 ContentPasted4" style=3D"line-height: inherit; border: 0px; f=
+ont-variant-numeric: inherit; font-variant-east-asian: inherit; font-stretc=
+h: inherit; margin: 0px; padding: 0px; vertical-align: baseline;"><span sty=
+le=3D"color: #000000; font-family: Calibri, Arial, Helvetica, sans-serif;">=
+<span style=3D"font-size: 16px;">&nbsp;</span></span></div>
+<div class=3D"elementToProof ContentPasted0 ContentPasted1 ContentPasted2 C=
+ontentPasted3 ContentPasted4" style=3D"line-height: inherit; border: 0px; f=
+ont-variant-numeric: inherit; font-variant-east-asian: inherit; font-stretc=
+h: inherit; margin: 0px; padding: 0px; vertical-align: baseline;"><span sty=
+le=3D"text-decoration: underline;"><span style=3D"color: #000000; font-fami=
+ly: Calibri, Arial, Helvetica, sans-serif;"><span style=3D"font-size: 16px;=
+">FYI... See below generated rmeta files with and without e33afcd0dc.</span=
+></span></span></div>
+</div>
+<div class=3D"elementToProof ContentPasted0 ContentPasted1 ContentPasted2 C=
+ontentPasted3 ContentPasted4" style=3D"color: #333333; font-family: 'Helvet=
+ica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: inhe=
+rit; border: 0px; font-variant-numeric: inherit; font-variant-east-asian: i=
+nherit; font-stretch: inherit; margin: 0px; padding: 0px; vertical-align: b=
+aseline;">
+<div class=3D"elementToProof ContentPasted0 ContentPasted1 ContentPasted2 C=
+ontentPasted3 ContentPasted4" style=3D"color: inherit; font-family: inherit=
+; font-size: 12pt; font-style: inherit; font-variant: inherit; font-weight:=
+ inherit; border: 0px; font-stretch: inherit; line-height: inherit; margin:=
+ 0px; padding: 0px; vertical-align: baseline;">
+<blockquote>
+<div class=3D"elementToProof ContentPasted0 ContentPasted1 ContentPasted2 C=
+ontentPasted3 ContentPasted4" style=3D"border: 0px; font-variant-numeric: i=
+nherit; font-variant-east-asian: inherit; font-stretch: inherit; font-size:=
+ 12pt; line-height: inherit; margin: 0px; padding: 0px; vertical-align: bas=
+eline;"><span style=3D"font-family: 'helvetica neue';">:/3565ea860a-&gt; gi=
+t reflog</span></div>
+<div class=3D"elementToProof ContentPasted0 ContentPasted1 ContentPasted2 C=
+ontentPasted3 ContentPasted4" style=3D"border: 0px; font-variant-numeric: i=
+nherit; font-variant-east-asian: inherit; font-stretch: inherit; font-size:=
+ 12pt; line-height: inherit; margin: 0px; padding: 0px; vertical-align: bas=
+eline;"><span style=3D"font-family: 'helvetica neue';"><em><span style=3D"f=
+ont-weight: bold;">3565ea860a</span>&nbsp;(HEAD) HEAD@{0}: checkout: moving=
+ from master to 3565ea860a</em></span></div>
+<div class=3D"elementToProof ContentPasted0 ContentPasted1 ContentPasted2 C=
+ontentPasted3 ContentPasted4" style=3D"border: 0px; font-variant-numeric: i=
+nherit; font-variant-east-asian: inherit; font-stretch: inherit; font-size:=
+ 12pt; line-height: inherit; margin: 0px; padding: 0px; vertical-align: bas=
+eline;"><span style=3D"font-family: 'helvetica neue';">aa6cd06a9f (origin/m=
+aster, origin/HEAD, master) HEAD@{1}: clone: from git://git.yoctoproject.or=
+g/poky</span></div>
+<div class=3D"elementToProof ContentPasted0 ContentPasted1 ContentPasted2 C=
+ontentPasted3 ContentPasted4" style=3D"border: 0px; font-variant-numeric: i=
+nherit; font-variant-east-asian: inherit; font-stretch: inherit; font-size:=
+ 12pt; line-height: inherit; margin: 0px; padding: 0px; vertical-align: bas=
+eline;"><span style=3D"font-family: 'helvetica neue';">:/3565ea860a-&gt; ls=
+ build/tmp/work/core2-64-poky-linux/librsvg/2.54.5-r0/recipe-sysroot/usr/li=
+b/rustlib/x86_64-poky-linux-gnu/lib/ | grep libcore</span></div>
+<div class=3D"elementToProof ContentPasted0 ContentPasted1 ContentPasted2 C=
+ontentPasted3 ContentPasted4" style=3D"border: 0px; font-variant-numeric: i=
+nherit; font-variant-east-asian: inherit; font-stretch: inherit; font-size:=
+ 12pt; line-height: inherit; margin: 0px; padding: 0px; vertical-align: bas=
+eline;"><span style=3D"font-family: 'helvetica neue';">libcore-<span style=
+=3D"font-weight: bold;">5c7322bf8f654199</span>.rlib</span></div>
+<div class=3D"elementToProof ContentPasted0 ContentPasted1 ContentPasted2 C=
+ontentPasted3 ContentPasted4" style=3D"border: 0px; font-variant-numeric: i=
+nherit; font-variant-east-asian: inherit; font-stretch: inherit; font-size:=
+ 12pt; line-height: inherit; margin: 0px; padding: 0px; vertical-align: bas=
+eline;"><span style=3D"font-family: 'helvetica neue';">libcore-<span style=
+=3D"font-weight: bold;">5c7322bf8f654199</span>.rmeta</span></div>
+</blockquote>
+</div>
+<div style=3D"line-height: 1.42857;">
+<blockquote>
+<div style=3D"line-height: 1.42857;"><span style=3D"font-family: 'helvetica=
+ neue';"><span style=3D"color: #000000; font-family: Calibri, Arial, Helvet=
+ica, sans-serif;"><span style=3D"font-size: 16px;">:/e33afcd0dc-&gt; git re=
+flog</span></span></span></div>
+<div style=3D"line-height: 1.42857;"><span style=3D"font-family: 'helvetica=
+ neue';"><em><span style=3D"color: #000000; font-family: Calibri, Arial, He=
+lvetica, sans-serif;"><span style=3D"font-size: 16px;"><span style=3D"font-=
+weight: bold;">e33afcd0dc</span>&nbsp;(HEAD) HEAD@{0}: checkout: moving fro=
+m master to e33afcd0dc</span></span></em></span></div>
+<div style=3D"line-height: 1.42857;"><span style=3D"font-family: 'helvetica=
+ neue';"><span style=3D"color: #000000; font-family: Calibri, Arial, Helvet=
+ica, sans-serif;"><span style=3D"font-size: 16px;">aa6cd06a9f (origin/maste=
+r, origin/HEAD, master) HEAD@{1}: clone: from git://git.yoctoproject.org/po=
+ky</span></span></span></div>
+<div style=3D"line-height: 1.42857;"><span style=3D"font-family: 'helvetica=
+ neue';"><span style=3D"color: #000000; font-family: Calibri, Arial, Helvet=
+ica, sans-serif;"><span style=3D"font-size: 16px;">:/e33afcd0dc-&gt; ls bui=
+ld/tmp/work/core2-64-poky-linux/librsvg/2.54.5-r0/recipe-sysroot/usr/lib/ru=
+stlib/x86_64-poky-linux-gnu/lib/ | grep libcore</span></span></span></div>
+<div style=3D"line-height: 1.42857;"><span style=3D"font-family: 'helvetica=
+ neue';"><span style=3D"color: #000000; font-family: Calibri, Arial, Helvet=
+ica, sans-serif;"><span style=3D"font-size: 16px;">libcore-<span style=3D"f=
+ont-weight: bold;">c5fc82c620226960</span>.rlib</span></span></span></div>
+<div style=3D"line-height: 1.42857;"><span style=3D"font-family: 'helvetica=
+ neue';"><span style=3D"color: #000000; font-family: Calibri, Arial, Helvet=
+ica, sans-serif;"><span style=3D"font-size: 16px;">libcore-<span style=3D"f=
+ont-weight: bold;">c5fc82c620226960</span>.rmeta</span></span></span></div>
+</blockquote>
+</div>
+<div style=3D"color: inherit; font-family: inherit; font-size: inherit; fon=
+t-style: inherit; font-variant-ligatures: inherit; font-variant-caps: inher=
+it; font-weight: inherit;"><span style=3D"text-decoration: underline;">Sigd=
+ata diff:</span><br />
+<div style=3D"color: inherit; font-family: inherit; font-size: inherit; fon=
+t-style: inherit; font-variant-ligatures: inherit; font-variant-caps: inher=
+it; font-weight: inherit;">
+<blockquote>
+<div style=3D"color: inherit; font-family: inherit; font-size: inherit; fon=
+t-style: inherit; font-variant-ligatures: inherit; font-variant-caps: inher=
+it; font-weight: inherit;">:/e33afcd0dc-&gt; diff -ur build/tmp/stamps/core=
+2-64-poky-linux/libstd-rs/ ../3565ea860a/build/tmp/stamps/core2-64-poky-lin=
+ux/libstd-rs/</div>
+<div style=3D"color: inherit; font-family: inherit; font-size: inherit; fon=
+t-style: inherit; font-variant-ligatures: inherit; font-variant-caps: inher=
+it; font-weight: inherit;">Binary files build/tmp/stamps/core2-64-poky-linu=
+x/libstd-rs/1.64.0-r0.do_compile.sigdata.58c969bdc47351ac51bd19dd76f57855e1=
+4940a04ff9bdfbfc5cb92a27172da8 and ../3565ea860a/build/tmp/stamps/core2-64-=
+poky-linux/libstd-rs/1.64.0-r0.do_compile.sigdata.58c969bdc47351ac51bd19dd7=
+6f57855e14940a04ff9bdfbfc5cb92a27172da8 differ</div>
+<div style=3D"color: inherit; font-family: inherit; font-size: inherit; fon=
+t-style: inherit; font-variant-ligatures: inherit; font-variant-caps: inher=
+it; font-weight: inherit;">....</div>
+<div style=3D"color: inherit; font-family: inherit; font-size: inherit; fon=
+t-style: inherit; font-variant-ligatures: inherit; font-variant-caps: inher=
+it; font-weight: inherit;">....</div>
+<div style=3D"color: inherit; font-family: inherit; font-size: inherit; fon=
+t-style: inherit; font-variant-ligatures: inherit; font-variant-caps: inher=
+it; font-weight: inherit;">Binary files build/tmp/stamps/core2-64-poky-linu=
+x/libstd-rs/1.64.0-r0.do_unpack.sigdata.1203b8d6806ffeb75970f492ece3eaa91c5=
+1a79eb411eb075946c482239a69d5 and ../3565ea860a/build/tmp/stamps/core2-64-p=
+oky-linux/libstd-rs/1.64.0-r0.do_unpack.sigdata.1203b8d6806ffeb75970f492ece=
+3eaa91c51a79eb411eb075946c482239a69d5 differ</div>
+</blockquote>
+</div>
+<div style=3D"color: inherit; font-family: inherit; font-size: inherit; fon=
+t-style: inherit; font-variant-ligatures: inherit; font-variant-caps: inher=
+it; font-weight: inherit;">
+<div style=3D"line-height: 1.42857;">I checked the dumpsig of the above sho=
+wn differences and the changes are only in the name of build directory.<br =
+/><br /><br />Thanks,<br />Sundeep K.</div>
+</div>
+<div style=3D"line-height: 1.42857;">&nbsp;</div>
+</div>
+<span style=3D"font-variant-numeric: inherit; font-variant-east-asian: inhe=
+rit; font-stretch: inherit; line-height: inherit; border: 0px; margin: 0px;=
+ padding: 0px; vertical-align: baseline;"><span class=3D"ContentPasted5" st=
+yle=3D"font-variant-numeric: inherit; font-variant-east-asian: inherit; fon=
+t-stretch: inherit; line-height: inherit; border: 0px; margin: 0px; padding=
+: 0px; vertical-align: baseline; display: inline !important;"><br /></span>=
+</span></div>
+</div>
+
+--e1Z0pZqNcY4S7vZ5WQa3--
 
