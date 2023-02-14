@@ -1,94 +1,112 @@
-Return-Path: <twoerner@gmail.com>
+Return-Path: <jrey@linux.ibm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4E6DC6379F
-	for <webhook@archiver.kernel.org>; Tue, 14 Feb 2023 18:31:17 +0000 (UTC)
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
- by mx.groups.io with SMTP id smtpd.web11.2100.1676399475920778477
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8147EC61DA4
+	for <webhook@archiver.kernel.org>; Tue, 14 Feb 2023 20:27:38 +0000 (UTC)
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+ by mx.groups.io with SMTP id smtpd.web10.5239.1676406453906386725
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Feb 2023 10:31:16 -0800
+ Tue, 14 Feb 2023 12:27:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=LXy9mI4b;
- spf=pass (domain: gmail.com, ip: 209.85.160.175, mailfrom: twoerner@gmail.com)
-Received: by mail-qt1-f175.google.com with SMTP id cr22so18564929qtb.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Feb 2023 10:31:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CmZfJxV41cFT2eDUoQbE6t1VJZa6RwXH/AWx2UrLVdM=;
-        b=LXy9mI4bn36bZ5T3tt2+VIPu6z4QZOJITo4u8PofyiLsYwUSnlYcReKTPClxGMTVqJ
-         ZtlOGKu3zpa4JfeaFA2W755RfTLt+UkDAi0xtbiowwEmMBtgMZZMT6fsgx4XYj34Od2V
-         +Jb7psWHQni9/zirrs2nj3/BFOyp/6FQ6JgCEtw0OnOs3p+5WUqMSq4zrF7VvGR4cujH
-         C/F/swz/h/LlLrLXkazbRfIyk0uGbkoUtEQ31aEwBA1wc9MQp7Fh0+JsXta+k1wVKxKA
-         xZMn5xq4hSLuT6EAlPByDCnPP5uP2Hy2nNvRsgZgsMZCmQEKsclidXyk9m42H7gA5eTP
-         j2ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CmZfJxV41cFT2eDUoQbE6t1VJZa6RwXH/AWx2UrLVdM=;
-        b=8Hl1VWycnmXv9HLdPpxLPq3gTKDSNpLSetC3t6iOH8U4z1nhyZPfX3RgC05DrXj53m
-         5e158v1sAKhSV3pAgsbIF8xYsAmxNdaBfkU2VcZEa9hOgGod4OKBSNCjSr0+o6sWBd6w
-         rrERh0D9rRmxyoqGZamEJS0XSZk9kuhmmbMEABxJgvOmysTPoP9Wv/lghiVM5brzyWUT
-         7YVUiiumGvEIcj+d2+B3V0LNbiOBISAHzf5WEniYTF00uW0skhBIaHRBXnIqs44nuKYY
-         vjbUl3sg2ho+C2rbwspIwxiX2se8/QerJ1WhiTAtIWgjM94wqSgimTFLQIUtLdr8zGxY
-         E4gA==
-X-Gm-Message-State: AO0yUKWmUt1de2me1vZneMAbdWE9uFfbYiP0C8I+j/GE6o2lfCPKNoBW
-	Px69s3jf9Xl/PgJTMvMoyzv6ufDYE+w=
-X-Google-Smtp-Source: AK7set83IzRtSCtc/SB3Xf8Y6oLAYsByiylQHXWDJsNJoZGvfJrjxJtEJSAdbriBNfhlh/d/oExM2Q==
-X-Received: by 2002:a05:622a:170a:b0:3ba:247a:3fb7 with SMTP id h10-20020a05622a170a00b003ba247a3fb7mr4925406qtk.53.1676399474635;
-        Tue, 14 Feb 2023 10:31:14 -0800 (PST)
-Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id e7-20020a378207000000b0071a49ac0e05sm12184387qkd.111.2023.02.14.10.31.13
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Feb 2023 10:31:13 -0800 (PST)
-From: Trevor Woerner <twoerner@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v3 4/4] linux-yocto: include tools for dtb in devshell
-Date: Tue, 14 Feb 2023 13:31:01 -0500
-Message-Id: <20230214183101.33761-4-twoerner@gmail.com>
-X-Mailer: git-send-email 2.36.0.rc2.17.g4027e30c53
-In-Reply-To: <20230214183101.33761-1-twoerner@gmail.com>
-References: <20230214183101.33761-1-twoerner@gmail.com>
+ dkim=fail reason="body hash did not verify" header.i=@ibm.com header.s=pp1 header.b=AJwtWE9+;
+ spf=pass (domain: linux.ibm.com, ip: 148.163.156.1, mailfrom: jrey@linux.ibm.com)
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31EJq2VT019098
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Feb 2023 20:27:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date : to :
+ from : subject : content-type : content-transfer-encoding : mime-version;
+ s=pp1; bh=LOrxzDQfcbn8BMO331oqMMwJPk5hD+mEV1qyRwL1zFE=;
+ b=AJwtWE9+e7EbmrEnuLVk5zQuNDIGIS76Wavy8a5nBv+7kwieFEK1Ea/cUhXgIMjFgseo
+ jd0N70+Mcr4YWzP7NOHEfkzlKAu47qjaR39hk4Y1J+1IfXkCOmxlZ+Ff2XXJYTSrIdRF
+ s36Tdjr8AQgYYgkc8NmdqFOMVeH85t3C2Smxi9dV/Tp/Wb+POXzOwJCFd9ke1d7U945d
+ klEZWWuJkoXYN5xKDy6A+W1sAqLcXhpmOuFkuQCEo5D/vWOAFibdTC2Os7Yn1Ob8FCTQ
+ mDCkbQgyPUmnAWeUOFwZRDqIHNPx6o49eelDf0ecUKFHlnmI6qiguQziCZLVCaWLQzI0 PQ== 
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.10])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nrgu78q4g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Feb 2023 20:27:33 +0000
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+	by ppma02dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31EIArlN024137
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Feb 2023 20:27:32 GMT
+Received: from smtprelay07.dal12v.mail.ibm.com ([9.208.130.99])
+	by ppma02dal.us.ibm.com (PPS) with ESMTPS id 3np2n7drr0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Feb 2023 20:27:32 +0000
+Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
+	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 31EKRVfJ35324170
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Feb 2023 20:27:31 GMT
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 330C658067
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Feb 2023 20:27:31 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id EC5A858068
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Feb 2023 20:27:30 +0000 (GMT)
+Received: from [9.160.26.167] (unknown [9.160.26.167])
+	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTPS
+	for <openembedded-core@lists.openembedded.org>; Tue, 14 Feb 2023 20:27:30 +0000 (GMT)
+Message-ID: <20466372-402f-4659-fa23-e72461b6199d@linux.ibm.com>
+Date: Tue, 14 Feb 2023 14:27:29 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.2
+Content-Language: en-US
+To: OE-core <openembedded-core@lists.openembedded.org>
+From: Joseph Reynolds <jrey@linux.ibm.com>
+Subject: Can create-spdx handle multiple components per recipe
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: tawTa9CwZV2aCLSO9a47uFPKfTm7jms7
+X-Proofpoint-ORIG-GUID: tawTa9CwZV2aCLSO9a47uFPKfTm7jms7
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-14_15,2023-02-14_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
+ bulkscore=0 spamscore=0 clxscore=1011 priorityscore=1501 impostorscore=0
+ adultscore=0 mlxscore=0 mlxlogscore=540 phishscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2302140174
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-001b2d01.pphosted.com id 31EJq2VT019098
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Feb 2023 18:31:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177173
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Feb 2023 20:27:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177174
 
-Make more tools available to the user in a kernel devshell so they can test
-and validate their device trees.
+Team,
 
-	devshell> make dtbs_check
+Thanks again for continuing to improve Yocto/OE.
 
-Signed-off-by: Trevor Woerner <twoerner@gmail.com>
----
- meta/recipes-kernel/linux/linux-yocto.inc | 4 ++++
- 1 file changed, 4 insertions(+)
+I have a question about the capabilities of the create-spdx.bbclass.=C2=A0=
+ I=20
+understand it will can an sBOM entry for each recipe.
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-index 091003ed8299..86046150d5c7 100644
---- a/meta/recipes-kernel/linux/linux-yocto.inc
-+++ b/meta/recipes-kernel/linux/linux-yocto.inc
-@@ -63,6 +63,10 @@ KERNEL_FEATURES:append:qemuall=" features/kernel-sample/kernel-sample.scc"
- KERNEL_DEBUG_OPTIONS ?= "stack"
- KERNEL_EXTRA_ARGS:append:x86-64 = " ${@bb.utils.contains('KERNEL_DEBUG_OPTIONS', 'stack', 'HOST_LIBELF_LIBS="-L${RECIPE_SYSROOT_NATIVE}/usr/lib/pkgconfig/../../../usr/lib/ -lelf"', '', d)}"
- 
-+do_devshell[depends] = " \
-+	python3-dtschema-native:do_populate_sysroot \
-+	python3-yamllint-native:do_populate_sysroot \
-+	"
- do_devshell:prepend() {
-     # setup native pkg-config variables (kconfig scripts call pkg-config directly, cannot generically be overriden to pkg-config-native)
-     d.setVar("PKG_CONFIG_DIR", "${STAGING_DIR_NATIVE}${libdir_native}/pkgconfig")
--- 
-2.36.0.rc2.17.g4027e30c53
+Can create-spdx.bbclass handle multiple components per recipe?=C2=A0 For=20
+example, my bitbake recipe produces a web application which packages=20
+many HTML components.=C2=A0 I would like to have the recipe included in t=
+he=20
+SBOM together with the components which are packaged into the web=20
+application files.=C2=A0 Is there a way to do that?
+
+Specifically, the OpenBMC web application uses various NPM compoents to=20
+provide it functionality in the end-user's browser.
+Recipe:=20
+https://github.com/openbmc/openbmc/blob/master/meta-phosphor/recipes-phos=
+phor/webui/webui-vue_git.bb=20
+
+Project source: https://github.com/openbmc/webui-vue/
+NPM packages are specified here:=20
+https://github.com/openbmc/webui-vue/blob/master/package-lock.json
+Package-lock docs:=20
+https://docs.npmjs.com/cli/v9/configuring-npm/package-lock-json
+
+I want my SBOM to include the webui-vue application together with each=20
+of the NPM packages it uses.=E2=80=A8=C2=A0 How can I do that?
+
+Sincerely,
+Joseph Reynolds
 
 
