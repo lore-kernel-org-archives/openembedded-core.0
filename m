@@ -1,114 +1,79 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67C6FC05027
-	for <webhook@archiver.kernel.org>; Tue, 14 Feb 2023 16:34:25 +0000 (UTC)
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
- by mx.groups.io with SMTP id smtpd.web10.12016.1676392460300676853
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8285C05027
+	for <webhook@archiver.kernel.org>; Tue, 14 Feb 2023 16:42:15 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.12165.1676392926862501181
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Feb 2023 08:34:21 -0800
+ Tue, 14 Feb 2023 08:42:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=lPfUVclq;
- spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 122C64000D;
-	Tue, 14 Feb 2023 16:34:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1676392458;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hhah2hSYYEfI5WX+24WGrAlsp/fuzyr/ir9LwcgLSpg=;
-	b=lPfUVclqBTvOR1xKz5NEzeiS3Wka/XegUIq9xrIcI0LBvS5SeFub0IkcFiQAtyvJdVWSnn
-	m+U07ZNLhqYigipWq9+AHzHnw5zjmBXszEfdFYcPcgf54VQgwm1NzfHmKMU7h4WLBCt0wf
-	DcJ6IMUXLnMeh8IPXq46MPP6V0My0Aq4UkhiGpJy4hyvV9ebvZ46Z/Ige3/YRLW5YuJED/
-	1nH33wtJXFHH+D7BkMyxAdycXv7D3PBXsIK8x35XzyIrHmNzJBHwsiAjv+Cy2ALR6fuc7V
-	2BQq2mrVenDfHJPAWFXvyWSEe3sd56xZ/OcTBDQ8S8k5QxbJqmi65oB8IXIccw==
-Date: Tue, 14 Feb 2023 17:34:17 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Anton Kikin <a.kikin@tano-systems.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] busybox: Fix excluding .debug from depmod
-Message-ID: <Y+u4CaQgFyDr8rqS@mail.local>
-References: <20230214131734.2002-1-a.kikin@tano-systems.com>
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0329A1042;
+	Tue, 14 Feb 2023 08:42:49 -0800 (PST)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DF03F3F663;
+	Tue, 14 Feb 2023 08:42:05 -0800 (PST)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: nd@arm.com
+Subject: [PATCH] libcgroup: clean up musl DEPENDS
+Date: Tue, 14 Feb 2023 16:42:04 +0000
+Message-Id: <20230214164204.2792379-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230214131734.2002-1-a.kikin@tano-systems.com>
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Feb 2023 16:34:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177156
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Feb 2023 16:42:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177157
 
-Hello,
+libcgroup uses fts_* functions, but these are not implemented in musl so
+we depend on the fts recipe and force a link to libfts.
 
-Saul sent this on Friday:
-https://lore.kernel.org/openembedded-core/20230210153255.2716448-1-saul.wold@windriver.com/
+However since 3.0.0 libcgroup will automatically look for fts_open in
+both libc and libfts[1], so this can be simplified to just a conditional
+DEPENDS.
 
-On 14/02/2023 16:17:34+0300, Anton Kikin wrote:
-> The previously added patch for excluding .debug from depmod has an
-> invalid expression in the condition. The strstr function returns
-> NULL if substring is NOT found [1]. Therefore, the existing patch,
-> on the opposite, handles only modules that have a .debug substring
-> in the path. This commit fixes the condition in the patch to the
-> correct one.
-> 
-> [1]: https://man7.org/linux/man-pages/man3/strstr.3.html
-> 
-> Signed-off-by: Anton Kikin <a.kikin@tano-systems.com>
-> ---
->  .../busybox/0001-depmod-Ignore-.debug-directories.patch    | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/recipes-core/busybox/busybox/0001-depmod-Ignore-.debug-directories.patch b/meta/recipes-core/busybox/busybox/0001-depmod-Ignore-.debug-directories.patch
-> index 354f83a4a5..3398a354c5 100644
-> --- a/meta/recipes-core/busybox/busybox/0001-depmod-Ignore-.debug-directories.patch
-> +++ b/meta/recipes-core/busybox/busybox/0001-depmod-Ignore-.debug-directories.patch
-> @@ -1,6 +1,6 @@
->  From 5f6ed003f10ee0bd4a508d5f59129a29f0920dfc Mon Sep 17 00:00:00 2001
-> -From: Saul Wold <saul.wold@windriver.com>
-> -Date: Thu, 31 Mar 2022 11:21:45 -0700
-> +From: Anton Kikin <a.kikin@tano-systems.com>
-> +Date: Tue, 14 Feb 2023 15:46:42 +0300
->  Subject: [PATCH] depmod: Ignore .debug directories
->  
->  The .debug/<module>.ko files do not have the correct symbol information
-> @@ -9,6 +9,7 @@ since it's split away from the actual <module>.ko file. Just ignore it.
->  Upstream-Status: Pending
->  
->  Signed-off-by: Saul Wold <saul.wold@windriver.com>
-> +Signed-off-by: Anton Kikin <a.kikin@tano-systems.com>
->  ---
->   modutils/depmod.c | 3 +++
->   1 file changed, 3 insertions(+)
-> @@ -21,7 +22,7 @@ index bb42bbe..aa5a2de 100644
->   	/* Arbitrary. Was sb->st_size, but that breaks .gz etc */
->   	size_t len = (64*1024*1024 - 4096);
->   
-> -+	if (strstr(fname, ".debug") == NULL)
-> ++	if (strstr(fname, ".debug"))
->  +		return TRUE;
->  +
->   	if (strrstr(fname, ".ko") == NULL)
-> -- 
-> 2.34.1.windows.1
-> 
+[1] https://github.com/libcgroup/libcgroup/commit/27ba904355575153308bdc0=
+fa48344ef1be55ca1
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#177141): https://lists.openembedded.org/g/openembedded-core/message/177141
-> Mute This Topic: https://lists.openembedded.org/mt/96959409/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/recipes-core/libcgroup/libcgroup_3.0.0.bb | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
+diff --git a/meta/recipes-core/libcgroup/libcgroup_3.0.0.bb b/meta/recipe=
+s-core/libcgroup/libcgroup_3.0.0.bb
+index 9937a17fb51..457b965481d 100644
+--- a/meta/recipes-core/libcgroup/libcgroup_3.0.0.bb
++++ b/meta/recipes-core/libcgroup/libcgroup_3.0.0.bb
+@@ -10,6 +10,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4d794c5d710e=
+5b3547a6cc6a6609a641"
+ inherit autotools pkgconfig github-releases
+=20
+ DEPENDS =3D "bison-native flex-native"
++DEPENDS:append:libc-musl =3D " fts"
+=20
+ SRC_URI =3D "${GITHUB_BASE_URI}/download/v3.0/${BP}.tar.gz \
+            file://0001-api-Use-GNU-strerror_r-when-available.patch \
+@@ -18,9 +19,6 @@ UPSTREAM_CHECK_URI =3D "https://github.com/libcgroup/li=
+bcgroup/tags"
+=20
+ SRC_URI[sha256sum] =3D "8d284d896fca1c981b55850e92acd3ad9648a69227c028dd=
+a7ae3402af878edd"
+=20
+-DEPENDS:append:libc-musl =3D " fts "
+-EXTRA_OEMAKE:append:libc-musl =3D " LIBS=3D-lfts"
+-
+ PACKAGECONFIG =3D "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}"
+ PACKAGECONFIG[pam] =3D "--enable-pam-module-dir=3D${base_libdir}/securit=
+y --enable-pam=3Dyes,--enable-pam=3Dno,libpam"
+=20
+--=20
+2.34.1
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
