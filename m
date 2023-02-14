@@ -1,981 +1,1592 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <sjolley.yp.pm@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E70D8C05027
-	for <webhook@archiver.kernel.org>; Tue, 14 Feb 2023 14:31:04 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.8221.1676385063663792368
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EEA4C05027
+	for <webhook@archiver.kernel.org>; Tue, 14 Feb 2023 15:48:45 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.10497.1676389717532361221
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Feb 2023 06:31:04 -0800
+ Tue, 14 Feb 2023 07:48:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=HwBm3HjZ;
- spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f45.google.com with SMTP id g6-20020a05600c310600b003e1f6dff952so1168116wmo.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Feb 2023 06:31:03 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ah83/SFt;
+ spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pl1-f180.google.com with SMTP id o8so15091456pls.11
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Feb 2023 07:48:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=n/UloWBThneucvfcHr+4eFT70/XeTpDy7uv79DhTNkM=;
-        b=HwBm3HjZFWA1dEpUrkuff+jvNqVHE6fsNC5Fta3lLdEC3veuPdtHef1ES8rYVVNPQ5
-         /Tpm24Fxym1urX46gc3zBOu8yQsIi1u9cvc42I6cDluJtkY3kiwrspd5wVqeMtgeoi4c
-         ruoRS8R2XNOtl1+qpq8EDPJN8TsV/e5cFeP9Ri0o+2/iMDxp8Wdz5wQqqPDUkAYzcUU3
-         vM1W2mb0chHWxCiqsRMyg+gOhHLYQ9Hzgk0jym9n8VqjT/Ds4/10L6AYQGgixqmjA63B
-         Pe29D3FL/0THG8oYJ5K6rXU+SCYy70VfgFQeLqppvQAaJhGqv9/0hqp5wW7bJeqpJY1p
-         vi3A==
+        h=thread-index:content-language:mime-version:message-id:date:subject
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=j+5cire4mfFxL5Atsb+i05V4GNSlfLts8KA3KXFcvAM=;
+        b=ah83/SFtOkZMNtzT8AzIPnI4z5PkKxbI1LkjKQ0NWJtHZH7b+YIqXqhFh7FoG5txr8
+         RLUpSSpafP4IecoSPRHB5jDHYNNNhs5hScjIGVPIYAQZbL+iwQdhW+xhB6G+EG9/e9sW
+         L0EfPw145S96aFVGtVlYDedP4fuzyQgWldnPZdOsDcW2qYB9gEzc+fpNS6vsf3QMh7wf
+         MTeMOdbdTZCkAXm+maHxQfSGx+qyI5g+SEG1EoNQOMUHBgV0B9eVZ8cMy0wsjKfciK+7
+         Q8DDSGVj4eSbz/rwo3gfGVUMcN7ZhQpz2LjmIgvte1J/RXBD6Y9rW5mFGSh1LMCm3S34
+         1FTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=thread-index:content-language:mime-version:message-id:date:subject
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=n/UloWBThneucvfcHr+4eFT70/XeTpDy7uv79DhTNkM=;
-        b=FHAMLGevBHxiJJAxqSbBarAUzwDWziLfrTthjwcQCTorVsRbzeFEJ/q6qdn+w2/aEr
-         M5jtCs16LMRgf5ttfrr+cR1/XOHID8buRpeSmnBQvjvcdRFXa8qXw/pwsWqmuaxZ4enH
-         v+7EXSm/pbXWR1tbBLkMzScZ/C2uR2TkD/LeLxIOiwGRCV2Xtj56t02Y3D/TNLCRWSPu
-         zjJ5Xt2YnZi/ldOBo00v7hiwH7sWSmEJmAod6B1LFSDXjCtcn/eHnazoPIb3r5JIX6T2
-         1+zLQix/Py5BIzzUQfxnpQmFTT3MFBtDhuRCNgU2QqcrrZHiMo7qJ7mXgPcb/gHTRVVl
-         G3OQ==
-X-Gm-Message-State: AO0yUKU3TIZRsPNigiqQyqEoMPDx+zXnNwqv+uWBjaL5DRXwgs4a2zZS
-	DvcpuCDZkoj2tAUmfPyWxzeo8T995cd42fyIFuwECS1cgtA=
-X-Google-Smtp-Source: AK7set+yDfGC4PXf/GKBinsDOem3XCTMYuyltclCr2Iv0SdArq1v9X3IPQfuwv8tC8SEJNOjz4q8I0CLC9px0e4eE7o=
-X-Received: by 2002:a05:600c:3c8e:b0:3df:fc66:254 with SMTP id
- bg14-20020a05600c3c8e00b003dffc660254mr1689220wmb.2.1676385061128; Tue, 14
- Feb 2023 06:31:01 -0800 (PST)
+        bh=j+5cire4mfFxL5Atsb+i05V4GNSlfLts8KA3KXFcvAM=;
+        b=dRVH30qbyLHmwN4dyEc3wbsr2SgAem01L2FbF8+K415WDNeiOC7JjsYDJA9ShaynN2
+         qRMNzHGzo55ihj1+Z1+gUxLCSkfSvOfFS9OUDPhZHZ8a++NnD0DKkhziMMLkTvLXTv9V
+         +taOFLVCOoxydoLEAEEXZb2isR6ozIYtMHQVSGddiAf5+G2kT8wAOkenWWKLz6nMl/KX
+         MLVRFbJLUjKPRwgzaIufU+aR6MX1mSufKtyxymNZYGNNFDk8GSfeNlSJJfb2ZUJDqfKT
+         Iwbb7Z+Th72lFhBqNrgwpai8hEWVh9xZSfvnDrxkNrmuk2Kzv41+TSVL0ydXauTTPu05
+         Zdzw==
+X-Gm-Message-State: AO0yUKW8GEpPo3peYqTsMU1OMA8YWuRfMK7JHChX0yDHyf77GvhpsvbJ
+	SeJUF1pes1youZUTY+rgI+LDh+cx5Wg=
+X-Google-Smtp-Source: AK7set+FRYrnzJ251E7/JxX2JRzP97TjXNaGejNoKjp/oKZlqqHk0L59dl3XQr58p3g1bs6aqej3Cg==
+X-Received: by 2002:a17:90b:4a88:b0:234:1d4c:6ef4 with SMTP id lp8-20020a17090b4a8800b002341d4c6ef4mr3108390pjb.8.1676389716254;
+        Tue, 14 Feb 2023 07:48:36 -0800 (PST)
+Received: from skjolley ([2600:1011:a124:5236:fab7:c3f3:b8a7:82b5])
+        by smtp.gmail.com with ESMTPSA id w63-20020a17090a6bc500b00230e41e98desm5546799pjj.32.2023.02.14.07.48.35
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 14 Feb 2023 07:48:35 -0800 (PST)
+From: <sjolley.yp.pm@gmail.com>
+To: <yocto@lists.yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Yocto Project Status 14 February 2023 (WW07)
+Date: Tue, 14 Feb 2023 08:48:35 -0700
+Message-ID: <11fd01d9408b$cca90100$65fb0300$@gmail.com>
 MIME-Version: 1.0
-References: <20230214142235.38975-1-kai.kang@windriver.com>
-In-Reply-To: <20230214142235.38975-1-kai.kang@windriver.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 14 Feb 2023 15:30:49 +0100
-Message-ID: <CA+chaQe7v3SCti7VASE80CcsPaObRk+FXckC5NcVYsrSh5cfCQ@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone][PATCH] qemu: fix compile error
-To: Kai Kang <kai.kang@eng.windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000134e7705f4a9d0aa"
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_11FE_01D94051.204D5D50"
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-us
+Thread-Index: AdlAi75HIAzAnxBeRH+LWbLUL7dMPQ==
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Feb 2023 14:31:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177150
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Feb 2023 15:48:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177151
 
---000000000000134e7705f4a9d0aa
-Content-Type: text/plain; charset="UTF-8"
+This is a multipart message in MIME format.
+
+------=_NextPart_000_11FE_01D94051.204D5D50
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+
+Current Dev Position: YP 4.2 M3
+
+Next Deadline: 20th February 2023 YP 4.2 M3 Build
+
+ 
+
+Next Team Meetings:
+
+*	Bug Triage meeting Thursday February 16th 7:30 am PDT (
+<https://zoom.us/j/454367603?pwd=ZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09>
+https://zoom.us/j/454367603?pwd=ZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09)
+*	Weekly Project Engineering Sync Tuesday February 14th at 8 am PDT (
+<https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09>
+https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09
+<https://zoom.us/j/990892712> )
+*	Twitch -  See  <https://www.twitch.tv/theyoctojester>
+https://www.twitch.tv/theyoctojester
+
+ 
+
+Key Status/Updates:
+
+*	YP 3.1.23 was built and is in QA. There was an intermittent failure
+during the release build but this was a known issue recurring.
+*	Next week is when M3 is due to build and this marks feature freeze
+for YP 4.2.
+*	We saw a number of version upgrades this week (thanks Alex Kanavin).
+*	There were also improvements to our runtime testing reliability
+(thanks Mikko Rapeli).
+*	Of the issues discussed in
+<https://lists.openembedded.org/g/openembedded-core/message/176476>
+https://lists.openembedded.org/g/openembedded-core/message/176476, the
+bitbake command timeout and PR serv async io issues still need to be
+addressed.
+*	CVE levels in master are reducing but help in resolving the
+remaining issues would be appreciated.
+*	We have a growing number of bugs in bugzilla, any help with them is
+appreciated.
+
+ 
+
+Ways to contribute:
+
+*	As people are likely aware, the project has a number of components
+which are either unmaintained, or have people with little to no time trying
+to keep them alive. These components include: patchtest, layerindex,
+devtool, toaster, wic, oeqa, autobuilder, CROPs containers, pseudo and more.
+Many have open bugs. Help is welcome in trying to better look after these
+components!
+*	There are bugs identified as possible for newcomers to the project:
+<https://wiki.yoctoproject.org/wiki/Newcomers>
+https://wiki.yoctoproject.org/wiki/Newcomers
+*	There are bugs that are currently unassigned for YP 4.2. See:
+<https://wiki.yoctoproject.org/wiki/Bug_Triage#Medium.2B_4.1_Unassigned_Enha
+ncements.2FBugs>
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Medium.2B_4.2_Unassigned_Enhan
+cements.2FBugs
+*	We'd welcome new maintainers for recipes in OE-Core. Please see the
+list at:
+<http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/distro/include/mai
+ntainers.inc>
+http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/distro/include/main
+tainers.inc and discuss with the existing maintainer, or ask on the OE-Core
+mailing list. We will likely move a chunk of these to "Unassigned" soon to
+help facilitate this.
+*	Help is very much welcome in trying to resolve our autobuilder
+intermittent issues. You can see the list of failures we're continuing to
+see by searching for the "AB-INT" tag in bugzilla:
+<https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=AB-INT>
+https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=AB-INT.
+*	Help us resolve CVE issues:
+<https://autobuilder.yocto.io/pub/non-release/patchmetrics/> CVE metrics 
+
+ 
+
+YP 4.2 Milestone Dates:
+
+*	YP 4.2 M3 build date 2023/02/20
+*	YP 4.2 M3 Release date 2023/03/03
+*	YP 4.2 M4 build date 2023/04/03
+*	YP 4.2 M4 Release date 2023/04/28
+
+ 
+
+Upcoming dot releases:
+
+*	YP 3.1.23 is built and in QA
+*	YP 3.1.23 Release date 2023/02/24
+*	YP 4.0.8 build date 2023/02/27
+*	YP 4.0.8 Release date 2023/03/10
+*	YP 4.1.3 build date 2023/03/06
+*	YP 4.1.3 Release date 2023/03/17
+*	YP 3.1.24 build date 2023/03/20
+*	YP 3.1.24 Release date 2023/03/31
+*	YP 4.0.9 build date 2023/04/10
+*	YP 4.0.9 Release date 2023/04/21
+*	YP 4.1.4 build date 2023/05/01
+*	YP 4.1.4 Release date 2023/05/13
+*	YP 3.1.25 build date 2023/05/08
+*	YP 3.1.25 Release date 2023/05/19
+*	YP 4.0.10 build date 2023/05/15
+*	YP 4.0.10 Release date 2023/05/26
+
+ 
+
+Tracking Metrics:
+
+*	WDD 2407 (last week 2437) (
+<https://wiki.yoctoproject.org/charts/combo.html>
+https://wiki.yoctoproject.org/charts/combo.html)
+*	OE-Core/Poky Patch Metrics
+
+*	Total patches found: 1187 (last week 1200)
+*	Patches in the Pending State: 277 (23%) [last week 280 (23%)]
+
+*	 <https://autobuilder.yocto.io/pub/non-release/patchmetrics/>
+https://autobuilder.yocto.io/pub/non-release/patchmetrics/
+
+ 
+
+The Yocto Project's technical governance is through its Technical Steering
+Committee, more information is available at:
+
+ <https://wiki.yoctoproject.org/wiki/TSC>
+https://wiki.yoctoproject.org/wiki/TSC
+
+ 
+
+The Status reports are now stored on the wiki at:
+<https://wiki.yoctoproject.org/wiki/Weekly_Status>
+https://wiki.yoctoproject.org/wiki/Weekly_Status
+
+ 
+
+[If anyone has suggestions for other information you'd like to see on this
+weekly status update, let us know!]
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+
+------=_NextPart_000_11FE_01D94051.204D5D50
+Content-Type: text/html;
+	boundary="----=_NextPart_000_0E6E_01D93ACF.DB857C60";
+	charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-Thanks Kai,
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Consolas;
+	panose-1:2 11 6 9 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";
+	panose-1:0 0 0 0 0 0 0 0 0 0;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+/* List Definitions */
+@list l0
+	{mso-list-id:276374779;
+	mso-list-template-ids:-213723884;}
+@list l0:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l0:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l0:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1
+	{mso-list-id:488012038;
+	mso-list-template-ids:1066697884;}
+@list l1:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l1:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l1:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2
+	{mso-list-id:661473664;
+	mso-list-template-ids:-274854244;}
+@list l2:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l2:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l2:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3
+	{mso-list-id:1071004625;
+	mso-list-template-ids:-2963796;}
+@list l3:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l3:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l3:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4
+	{mso-list-id:1249849478;
+	mso-list-template-ids:1736203794;}
+@list l4:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l4:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l4:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5
+	{mso-list-id:1298221565;
+	mso-list-template-ids:1860332100;}
+@list l5:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l5:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l5:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6
+	{mso-list-id:1301226518;
+	mso-list-template-ids:272536300;}
+@list l6:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l6:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l6:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7
+	{mso-list-id:1718551819;
+	mso-list-template-ids:887231566;}
+@list l7:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l7:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l7:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8
+	{mso-list-id:1815364599;
+	mso-list-template-ids:1360701434;}
+@list l8:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l8:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l8:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9
+	{mso-list-id:1815757599;
+	mso-list-template-ids:-1959078132;}
+@list l9:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l9:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l9:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l10
+	{mso-list-id:1828784944;
+	mso-list-template-ids:-574720954;}
+@list l10:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l10:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l10:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l10:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l10:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l10:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l10:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l10:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l10:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l11
+	{mso-list-id:1879122127;
+	mso-list-template-ids:-1480048232;}
+@list l11:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l11:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l11:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l11:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l11:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l11:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l11:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l11:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l11:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l12
+	{mso-list-id:2004433789;
+	mso-list-template-ids:-958484152;}
+@list l12:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l12:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l12:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l12:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l12:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l12:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l12:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l12:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l12:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Current Dev =
+Position: YP 4.2 M3</span><o:p></o:p></p><p style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Next Deadline: 20th =
+February 2023 YP 4.2 M3 Build</span><o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Next Team =
+Meetings:</span><o:p></o:p></p><ul =
+style=3D'margin-top:0in;padding-inline-start:48px' type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l3 level1 =
+lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Bug Triage meeting Thursday =
+February 16th 7:30 am PDT (<a =
+href=3D"https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz0=
+9"><span =
+style=3D'color:#1155CC'>https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y=
+0bFd5aVpHVVZ6dz09</span></a>)<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l3 level1 =
+lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Weekly Project Engineering Sync =
+Tuesday February 14th at 8 am PDT (<a =
+href=3D"https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT0=
+9"><span =
+style=3D'color:#1155CC'>https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck8=
+1bkcrYjRrcmJsUT09</span></a><a =
+href=3D"https://zoom.us/j/990892712"><span =
+style=3D'color:#1155CC'>)</span></a><o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l3 level1 =
+lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Twitch -&nbsp; See <a =
+href=3D"https://www.twitch.tv/theyoctojester"><span =
+style=3D'color:#1155CC'>https://www.twitch.tv/theyoctojester</span></a><o=
+:p></o:p></span></li></ul><p class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Key =
+Status/Updates:</span><o:p></o:p></p><ul =
+style=3D'margin-top:0in;padding-inline-start:48px' type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l11 =
+level1 lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.1.23 was built and is in =
+QA. There was an intermittent failure during the release build but this =
+was a known issue recurring.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l11 =
+level1 lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Next week is when M3 is due to =
+build and this marks <b>feature freeze for YP =
+4.2.</b><o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l11 =
+level1 lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>We saw a number of version =
+upgrades this week (thanks Alex Kanavin).<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l11 =
+level1 lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>There were also improvements to =
+our runtime testing reliability (thanks Mikko =
+Rapeli).<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l11 =
+level1 lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Of the issues discussed in <a =
+href=3D"https://lists.openembedded.org/g/openembedded-core/message/176476=
+"><span =
+style=3D'color:#1155CC'>https://lists.openembedded.org/g/openembedded-cor=
+e/message/176476</span></a>, the bitbake command timeout and PR serv =
+async io issues still need to be addressed.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l11 =
+level1 lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>CVE levels in master are =
+reducing but help in resolving the remaining issues would be =
+appreciated.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l11 =
+level1 lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>We have a growing number of =
+bugs in bugzilla, any help with them is =
+appreciated.<o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Ways to =
+contribute:</span><o:p></o:p></p><ul =
+style=3D'margin-top:0in;padding-inline-start:48px' type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l1 level1 =
+lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>As people are likely aware, the =
+project has a number of components which are either unmaintained, or =
+have people with little to no time trying to keep them alive. These =
+components include: patchtest, layerindex, devtool, toaster, wic, oeqa, =
+autobuilder, CROPs containers, pseudo and more. Many have open bugs. =
+Help is welcome in trying to better look after these =
+components!<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l1 level1 =
+lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>There are bugs identified as =
+possible for newcomers to the project: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Newcomers"><span =
+style=3D'color:#1155CC'>https://wiki.yoctoproject.org/wiki/Newcomers</spa=
+n></a><o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l1 level1 =
+lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>There are bugs that are =
+currently unassigned for YP 4.2. See: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Medium.2B_4.1_Unass=
+igned_Enhancements.2FBugs"><span =
+style=3D'color:#1155CC'>https://wiki.yoctoproject.org/wiki/Bug_Triage#Med=
+ium.2B_4.2_Unassigned_Enhancements.2FBugs</span></a><o:p></o:p></span></l=
+i><li style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l1 =
+level1 lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>We&#8217;d welcome new =
+maintainers for recipes in OE-Core. Please see the list at: <a =
+href=3D"http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/distro/i=
+nclude/maintainers.inc"><span =
+style=3D'color:#1155CC'>http://git.yoctoproject.org/cgit.cgi/poky/tree/me=
+ta/conf/distro/include/maintainers.inc</span></a> and discuss with the =
+existing maintainer, or ask on the OE-Core mailing list. We will likely =
+move a chunk of these to &#8220;Unassigned&#8221; soon to help =
+facilitate this.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l1 level1 =
+lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Help is very much welcome in =
+trying to resolve our autobuilder intermittent issues. You can see the =
+list of failures we&#8217;re continuing to see by searching for the =
+&#8220;AB-INT&#8221; tag in bugzilla: <a =
+href=3D"https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=3DAB-IN=
+T"><span =
+style=3D'color:#1155CC'>https://bugzilla.yoctoproject.org/buglist.cgi?qui=
+cksearch=3DAB-INT</span></a>.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l1 level1 =
+lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Help us resolve CVE issues: <a =
+href=3D"https://autobuilder.yocto.io/pub/non-release/patchmetrics/"><span=
+ style=3D'color:#1155CC'>CVE =
+metrics</span></a>&nbsp;<o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>YP 4.2 Milestone =
+Dates:</span><o:p></o:p></p><ul =
+style=3D'margin-top:0in;padding-inline-start:48px' type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l12 =
+level1 lfo11;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 4.2 M3 build date =
+2023/02/20<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l12 =
+level1 lfo11;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 4.2 M3 Release date =
+2023/03/03<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l12 =
+level1 lfo11;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 4.2 M4 build date =
+2023/04/03<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l12 =
+level1 lfo11;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 4.2 M4 Release date =
+2023/04/28<o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Upcoming dot =
+releases:</span><o:p></o:p></p><ul =
+style=3D'margin-top:0in;padding-inline-start:48px' type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
+lfo12;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.1.23 is built and in =
+QA<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
+lfo12;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.1.23 Release date =
+2023/02/24<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
+lfo12;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 4.0.8 build date =
+2023/02/27<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
+lfo12;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 4.0.8 Release date =
+2023/03/10<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
+lfo12;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 4.1.3 build date =
+2023/03/06<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
+lfo12;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 4.1.3 Release date =
+2023/03/17<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
+lfo12;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.1.24 build date =
+2023/03/20<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
+lfo12;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.1.24 Release date =
+2023/03/31<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
+lfo12;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 4.0.9 build date =
+2023/04/10<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
+lfo12;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 4.0.9 Release date =
+2023/04/21<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
+lfo12;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 4.1.4 build date =
+2023/05/01<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
+lfo12;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 4.1.4 Release date =
+2023/05/13<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
+lfo12;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.1.25 build date =
+2023/05/08<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
+lfo12;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.1.25 Release date =
+2023/05/19<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
+lfo12;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 4.0.10 build date =
+2023/05/15<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l6 level1 =
+lfo12;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 4.0.10 Release date =
+2023/05/26<o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Tracking =
+Metrics:</span><o:p></o:p></p><ul =
+style=3D'margin-top:0in;padding-inline-start:48px' type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
+lfo13;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>WDD 2407 (last week =
+2437)</span><span style=3D'font-family:Consolas'> (</span><span =
+style=3D'font-family:"Arial",sans-serif'><a =
+href=3D"https://wiki.yoctoproject.org/charts/combo.html"><span =
+style=3D'color:#1155CC'>https://wiki.yoctoproject.org/charts/combo.html</=
+span></a></span><span style=3D'font-family:Consolas'>)</span><span =
+style=3D'font-family:"Arial",sans-serif'><o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
+lfo13;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>OE-Core/Poky Patch =
+Metrics</span><span =
+style=3D'font-family:Consolas'><o:p></o:p></span></li><ul =
+style=3D'margin-top:0in;padding-inline-start:48px' type=3Dcircle><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level2 =
+lfo13;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Total patches found: 1187 (last =
+week 1200)<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level2 =
+lfo13;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Patches in the Pending State: =
+277 (23%) [last week 280 (23%)]</span><span =
+style=3D'font-family:Consolas'><o:p></o:p></span></li></ul><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
+lfo13;vertical-align:baseline'><span style=3D'font-family:Consolas'><a =
+href=3D"https://autobuilder.yocto.io/pub/non-release/patchmetrics/"><span=
+ =
+style=3D'font-family:"Arial",sans-serif;color:#1155CC'>https://autobuilde=
+r.yocto.io/pub/non-release/patchmetrics/</span></a><o:p></o:p></span></li=
+></ul><p class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>The Yocto =
+Project&#8217;s technical governance is through its Technical Steering =
+Committee, more information is available at:</span><o:p></o:p></p><p =
+style=3D'margin:0in'><a =
+href=3D"https://wiki.yoctoproject.org/wiki/TSC"><span =
+style=3D'font-family:"Arial",sans-serif;color:#1155CC'>https://wiki.yocto=
+project.org/wiki/TSC</span></a><o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>The Status reports =
+are now stored on the wiki at: </span><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Weekly_Status"><span =
+style=3D'font-family:"Arial",sans-serif;color:#1155CC'>https://wiki.yocto=
+project.org/wiki/Weekly_Status</span></a><o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>[If anyone has =
+suggestions for other information you&#8217;d like to see on this weekly =
+status update, let us know!]</span><o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+------=_NextPart_000_11FE_01D94051.204D5D50--
 
-this should fix what I've reported in:
-https://lists.openembedded.org/g/openembedded-core/message/176508
-
-once this is merged, can you please add both oe-core changes (3 qemu
-patches) to dunfell as well, so that similar patch is included in both
-branches? The broken version wasn't merged to dunfell after my report.
-
-Regards,
-
-On Tue, Feb 14, 2023 at 3:22 PM Kai Kang <kai.kang@eng.windriver.com> wrote=
-:
-
-> From: Kai Kang <kai.kang@windriver.com>
->
-> Backport 2 patches and rebase
-> 0001-hw-display-qxl-Pass-requested-buffer-size-to-qxl_phy.patch to fix
-> compile error:
->
-> ../qemu-6.2.0/hw/display/qxl.c: In function 'qxl_phys2virt':
-> ../qemu-6.2.0/hw/display/qxl.c:1477:67: error: 'size' undeclared (first
-> use in this function); did you mean 'gsize'?
->  1477 |         if (!qxl_get_check_slot_offset(qxl, pqxl, &slot, &offset,
-> size)) {
->       |
->  ^~~~
->       |
->  gsize
-> ../qemu-6.2.0/hw/display/qxl.c:1477:67: note: each undeclared identifier
-> is reported only once for each function it appears in
->
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ---
->  meta/recipes-devtools/qemu/qemu.inc           |   2 +
->  ...ave-qxl_log_command-Return-early-if-.patch |  57 +++++
->  ...ass-requested-buffer-size-to-qxl_phy.patch | 217 ++++++++++++++++++
->  3 files changed, 276 insertions(+)
->  create mode 100644
-> meta/recipes-devtools/qemu/qemu/0001-hw-display-qxl-Have-qxl_log_command-=
-Return-early-if-.patch
->  create mode 100644
-> meta/recipes-devtools/qemu/qemu/0001-hw-display-qxl-Pass-requested-buffer=
--size-to-qxl_phy.patch
->
-> diff --git a/meta/recipes-devtools/qemu/qemu.inc
-> b/meta/recipes-devtools/qemu/qemu.inc
-> index b68be447f1..5430718f75 100644
-> --- a/meta/recipes-devtools/qemu/qemu.inc
-> +++ b/meta/recipes-devtools/qemu/qemu.inc
-> @@ -93,6 +93,8 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.tar=
-.xz
-> \
->
-> file://0021-target-ppc-implement-xs-n-maddqp-o-xs-n-msubqp-o.patch \
->             file://CVE-2022-3165.patch \
->             file://CVE-2022-4144.patch \
-> +
->  file://0001-hw-display-qxl-Have-qxl_log_command-Return-early-if-.patch \
-> +
->  file://0001-hw-display-qxl-Pass-requested-buffer-size-to-qxl_phy.patch \
->             "
->  UPSTREAM_CHECK_REGEX =3D "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
->
-> diff --git
-> a/meta/recipes-devtools/qemu/qemu/0001-hw-display-qxl-Have-qxl_log_comman=
-d-Return-early-if-.patch
-> b/meta/recipes-devtools/qemu/qemu/0001-hw-display-qxl-Have-qxl_log_comman=
-d-Return-early-if-.patch
-> new file mode 100644
-> index 0000000000..cd846222c9
-> --- /dev/null
-> +++
-> b/meta/recipes-devtools/qemu/qemu/0001-hw-display-qxl-Have-qxl_log_comman=
-d-Return-early-if-.patch
-> @@ -0,0 +1,57 @@
-> +Upstream-Status: Backport [https://github.com/qemu/qemu/commit/61c34fc]
-> +
-> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> +
-> +From 61c34fc194b776ecadc39fb26b061331107e5599 Mon Sep 17 00:00:00 2001
-> +From: =3D?UTF-8?q?Philippe=3D20Mathieu-Daud=3DC3=3DA9?=3D <philmd@linaro=
-.org>
-> +Date: Mon, 28 Nov 2022 21:27:37 +0100
-> +Subject: [PATCH] hw/display/qxl: Have qxl_log_command Return early if no
-> + log_cmd handler
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=3DUTF-8
-> +Content-Transfer-Encoding: 8bit
-> +
-> +Only 3 command types are logged: no need to call qxl_phys2virt()
-> +for the other types. Using different cases will help to pass
-> +different structure sizes to qxl_phys2virt() in a pair of commits.
-> +
-> +Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> +Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> +Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> +Message-Id: <20221128202741.4945-2-philmd@linaro.org>
-> +---
-> + hw/display/qxl-logger.c | 11 +++++++++++
-> + 1 file changed, 11 insertions(+)
-> +
-> +diff --git a/hw/display/qxl-logger.c b/hw/display/qxl-logger.c
-> +index 68bfa47568..1bcf803db6 100644
-> +--- a/hw/display/qxl-logger.c
-> ++++ b/hw/display/qxl-logger.c
-> +@@ -247,6 +247,16 @@ int qxl_log_command(PCIQXLDevice *qxl, const char
-> *ring, QXLCommandExt *ext)
-> +             qxl_name(qxl_type, ext->cmd.type),
-> +             compat ? "(compat)" : "");
-> +
-> ++    switch (ext->cmd.type) {
-> ++    case QXL_CMD_DRAW:
-> ++        break;
-> ++    case QXL_CMD_SURFACE:
-> ++        break;
-> ++    case QXL_CMD_CURSOR:
-> ++        break;
-> ++    default:
-> ++        goto out;
-> ++    }
-> +     data =3D qxl_phys2virt(qxl, ext->cmd.data, ext->group_id);
-> +     if (!data) {
-> +         return 1;
-> +@@ -269,6 +279,7 @@ int qxl_log_command(PCIQXLDevice *qxl, const char
-> *ring, QXLCommandExt *ext)
-> +         qxl_log_cmd_cursor(qxl, data, ext->group_id);
-> +         break;
-> +     }
-> ++out:
-> +     fprintf(stderr, "\n");
-> +     return 0;
-> + }
-> +--
-> +2.34.1
-> +
-> diff --git
-> a/meta/recipes-devtools/qemu/qemu/0001-hw-display-qxl-Pass-requested-buff=
-er-size-to-qxl_phy.patch
-> b/meta/recipes-devtools/qemu/qemu/0001-hw-display-qxl-Pass-requested-buff=
-er-size-to-qxl_phy.patch
-> new file mode 100644
-> index 0000000000..ac51cf567a
-> --- /dev/null
-> +++
-> b/meta/recipes-devtools/qemu/qemu/0001-hw-display-qxl-Pass-requested-buff=
-er-size-to-qxl_phy.patch
-> @@ -0,0 +1,217 @@
-> +Upstream-Status: Backport [https://github.com/qemu/qemu/commit/8efec0e]
-> +
-> +Backport and rebase patch to fix compile error which imported by
-> CVE-2022-4144.patch:
-> +
-> +../qemu-6.2.0/hw/display/qxl.c: In function 'qxl_phys2virt':
-> +../qemu-6.2.0/hw/display/qxl.c:1477:67: error: 'size' undeclared (first
-> use in this function); did you mean 'gsize'?
-> +       1477 |         if (!qxl_get_check_slot_offset(qxl, pqxl, &slot,
-> &offset, size)) {
-> +               |
->          ^~~~
-> +               |
->          gsize
-> +../qemu-6.2.0/hw/display/qxl.c:1477:67: note: each undeclared identifier
-> is reported only once for each function it appears in
-> +
-> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> +
-> +From 8efec0ef8bbc1e75a7ebf6e325a35806ece9b39f Mon Sep 17 00:00:00 2001
-> +From: =3D?UTF-8?q?Philippe=3D20Mathieu-Daud=3DC3=3DA9?=3D <philmd@linaro=
-.org>
-> +Date: Mon, 28 Nov 2022 21:27:39 +0100
-> +Subject: [PATCH] hw/display/qxl: Pass requested buffer size to
-> qxl_phys2virt()
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=3DUTF-8
-> +Content-Transfer-Encoding: 8bit
-> +
-> +Currently qxl_phys2virt() doesn't check for buffer overrun.
-> +In order to do so in the next commit, pass the buffer size
-> +as argument.
-> +
-> +For QXLCursor in qxl_render_cursor() -> qxl_cursor() we
-> +verify the size of the chunked data ahead, checking we can
-> +access 'sizeof(QXLCursor) + chunk->data_size' bytes.
-> +Since in the SPICE_CURSOR_TYPE_MONO case the cursor is
-> +assumed to fit in one chunk, no change are required.
-> +In SPICE_CURSOR_TYPE_ALPHA the ahead read is handled in
-> +qxl_unpack_chunks().
-> +
-> +Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> +Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-> +Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> +Message-Id: <20221128202741.4945-4-philmd@linaro.org>
-> +---
-> + hw/display/qxl-logger.c | 11 ++++++++---
-> + hw/display/qxl-render.c | 20 ++++++++++++++++----
-> + hw/display/qxl.c        | 14 +++++++++-----
-> + hw/display/qxl.h        |  3 ++-
-> + 4 files changed, 35 insertions(+), 13 deletions(-)
-> +
-> +diff --git a/hw/display/qxl-logger.c b/hw/display/qxl-logger.c
-> +index 1bcf803..35c38f6 100644
-> +--- a/hw/display/qxl-logger.c
-> ++++ b/hw/display/qxl-logger.c
-> +@@ -106,7 +106,7 @@ static int qxl_log_image(PCIQXLDevice *qxl,
-> QXLPHYSICAL addr, int group_id)
-> +     QXLImage *image;
-> +     QXLImageDescriptor *desc;
-> +
-> +-    image =3D qxl_phys2virt(qxl, addr, group_id);
-> ++    image =3D qxl_phys2virt(qxl, addr, group_id, sizeof(QXLImage));
-> +     if (!image) {
-> +         return 1;
-> +     }
-> +@@ -214,7 +214,8 @@ int qxl_log_cmd_cursor(PCIQXLDevice *qxl,
-> QXLCursorCmd *cmd, int group_id)
-> +                 cmd->u.set.position.y,
-> +                 cmd->u.set.visible ? "yes" : "no",
-> +                 cmd->u.set.shape);
-> +-        cursor =3D qxl_phys2virt(qxl, cmd->u.set.shape, group_id);
-> ++        cursor =3D qxl_phys2virt(qxl, cmd->u.set.shape, group_id,
-> ++                               sizeof(QXLCursor));
-> +         if (!cursor) {
-> +             return 1;
-> +         }
-> +@@ -236,6 +237,7 @@ int qxl_log_command(PCIQXLDevice *qxl, const char
-> *ring, QXLCommandExt *ext)
-> + {
-> +     bool compat =3D ext->flags & QXL_COMMAND_FLAG_COMPAT;
-> +     void *data;
-> ++    size_t datasz;
-> +     int ret;
-> +
-> +     if (!qxl->cmdlog) {
-> +@@ -249,15 +251,18 @@ int qxl_log_command(PCIQXLDevice *qxl, const char
-> *ring, QXLCommandExt *ext)
-> +
-> +     switch (ext->cmd.type) {
-> +     case QXL_CMD_DRAW:
-> ++        datasz =3D compat ? sizeof(QXLCompatDrawable) :
-> sizeof(QXLDrawable);
-> +         break;
-> +     case QXL_CMD_SURFACE:
-> ++        datasz =3D sizeof(QXLSurfaceCmd);
-> +         break;
-> +     case QXL_CMD_CURSOR:
-> ++        datasz =3D sizeof(QXLCursorCmd);
-> +         break;
-> +     default:
-> +         goto out;
-> +     }
-> +-    data =3D qxl_phys2virt(qxl, ext->cmd.data, ext->group_id);
-> ++    data =3D qxl_phys2virt(qxl, ext->cmd.data, ext->group_id, datasz);
-> +     if (!data) {
-> +         return 1;
-> +     }
-> +diff --git a/hw/display/qxl-render.c b/hw/display/qxl-render.c
-> +index ca21700..fcfd40c 100644
-> +--- a/hw/display/qxl-render.c
-> ++++ b/hw/display/qxl-render.c
-> +@@ -107,7 +107,9 @@ static void
-> qxl_render_update_area_unlocked(PCIQXLDevice *qxl)
-> +         qxl->guest_primary.resized =3D 0;
-> +         qxl->guest_primary.data =3D qxl_phys2virt(qxl,
-> +
->  qxl->guest_primary.surface.mem,
-> +-                                                MEMSLOT_GROUP_GUEST);
-> ++                                                MEMSLOT_GROUP_GUEST,
-> ++
-> qxl->guest_primary.abs_stride
-> ++                                                * height);
-> +         if (!qxl->guest_primary.data) {
-> +             goto end;
-> +         }
-> +@@ -228,7 +230,8 @@ static void qxl_unpack_chunks(void *dest, size_t
-> size, PCIQXLDevice *qxl,
-> +         if (offset =3D=3D size) {
-> +             return;
-> +         }
-> +-        chunk =3D qxl_phys2virt(qxl, chunk->next_chunk, group_id);
-> ++        chunk =3D qxl_phys2virt(qxl, chunk->next_chunk, group_id,
-> ++                              sizeof(QXLDataChunk) + chunk->data_size);
-> +         if (!chunk) {
-> +             return;
-> +         }
-> +@@ -295,7 +298,8 @@ fail:
-> + /* called from spice server thread context only */
-> + int qxl_render_cursor(PCIQXLDevice *qxl, QXLCommandExt *ext)
-> + {
-> +-    QXLCursorCmd *cmd =3D qxl_phys2virt(qxl, ext->cmd.data, ext->group_=
-id);
-> ++    QXLCursorCmd *cmd =3D qxl_phys2virt(qxl, ext->cmd.data, ext->group_=
-id,
-> ++                                      sizeof(QXLCursorCmd));
-> +     QXLCursor *cursor;
-> +     QEMUCursor *c;
-> +
-> +@@ -314,7 +318,15 @@ int qxl_render_cursor(PCIQXLDevice *qxl,
-> QXLCommandExt *ext)
-> +     }
-> +     switch (cmd->type) {
-> +     case QXL_CURSOR_SET:
-> +-        cursor =3D qxl_phys2virt(qxl, cmd->u.set.shape, ext->group_id);
-> ++        /* First read the QXLCursor to get QXLDataChunk::data_size ... =
-*/
-> ++        cursor =3D qxl_phys2virt(qxl, cmd->u.set.shape, ext->group_id,
-> ++                               sizeof(QXLCursor));
-> ++        if (!cursor) {
-> ++            return 1;
-> ++        }
-> ++        /* Then read including the chunked data following QXLCursor. */
-> ++        cursor =3D qxl_phys2virt(qxl, cmd->u.set.shape, ext->group_id,
-> ++                               sizeof(QXLCursor) +
-> cursor->chunk.data_size);
-> +         if (!cursor) {
-> +             return 1;
-> +         }
-> +diff --git a/hw/display/qxl.c b/hw/display/qxl.c
-> +index ae8aa07..2a4b2d4 100644
-> +--- a/hw/display/qxl.c
-> ++++ b/hw/display/qxl.c
-> +@@ -274,7 +274,8 @@ static void
-> qxl_spice_monitors_config_async(PCIQXLDevice *qxl, int replay)
-> +                                           QXL_IO_MONITORS_CONFIG_ASYNC)=
-);
-> +     }
-> +
-> +-    cfg =3D qxl_phys2virt(qxl, qxl->guest_monitors_config,
-> MEMSLOT_GROUP_GUEST);
-> ++    cfg =3D qxl_phys2virt(qxl, qxl->guest_monitors_config,
-> MEMSLOT_GROUP_GUEST,
-> ++                        sizeof(QXLMonitorsConfig));
-> +     if (cfg !=3D NULL && cfg->count =3D=3D 1) {
-> +         qxl->guest_primary.resized =3D 1;
-> +         qxl->guest_head0_width  =3D cfg->heads[0].width;
-> +@@ -459,7 +460,8 @@ static int qxl_track_command(PCIQXLDevice *qxl,
-> struct QXLCommandExt *ext)
-> +     switch (le32_to_cpu(ext->cmd.type)) {
-> +     case QXL_CMD_SURFACE:
-> +     {
-> +-        QXLSurfaceCmd *cmd =3D qxl_phys2virt(qxl, ext->cmd.data,
-> ext->group_id);
-> ++        QXLSurfaceCmd *cmd =3D qxl_phys2virt(qxl, ext->cmd.data,
-> ext->group_id,
-> ++                                           sizeof(QXLSurfaceCmd));
-> +
-> +         if (!cmd) {
-> +             return 1;
-> +@@ -494,7 +496,8 @@ static int qxl_track_command(PCIQXLDevice *qxl,
-> struct QXLCommandExt *ext)
-> +     }
-> +     case QXL_CMD_CURSOR:
-> +     {
-> +-        QXLCursorCmd *cmd =3D qxl_phys2virt(qxl, ext->cmd.data,
-> ext->group_id);
-> ++        QXLCursorCmd *cmd =3D qxl_phys2virt(qxl, ext->cmd.data,
-> ext->group_id,
-> ++                                          sizeof(QXLCursorCmd));
-> +
-> +         if (!cmd) {
-> +             return 1;
-> +@@ -1463,7 +1466,8 @@ static bool qxl_get_check_slot_offset(PCIQXLDevice
-> *qxl, QXLPHYSICAL pqxl,
-> + }
-> +
-> + /* can be also called from spice server thread context */
-> +-void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL pqxl, int group_id)
-> ++void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL pqxl, int group_id,
-> ++                    size_t size)
-> + {
-> +     uint64_t offset;
-> +     uint32_t slot;
-> +@@ -1971,7 +1975,7 @@ static void qxl_dirty_surfaces(PCIQXLDevice *qxl)
-> +         }
-> +
-> +         cmd =3D qxl_phys2virt(qxl, qxl->guest_surfaces.cmds[i],
-> +-                            MEMSLOT_GROUP_GUEST);
-> ++                            MEMSLOT_GROUP_GUEST, sizeof(QXLSurfaceCmd))=
-;
-> +         assert(cmd);
-> +         assert(cmd->type =3D=3D QXL_SURFACE_CMD_CREATE);
-> +         qxl_dirty_one_surface(qxl, cmd->u.surface_create.data,
-> +diff --git a/hw/display/qxl.h b/hw/display/qxl.h
-> +index 30d21f4..4551c23 100644
-> +--- a/hw/display/qxl.h
-> ++++ b/hw/display/qxl.h
-> +@@ -147,7 +147,8 @@ OBJECT_DECLARE_SIMPLE_TYPE(PCIQXLDevice, PCI_QXL)
-> + #define QXL_DEFAULT_REVISION (QXL_REVISION_STABLE_V12 + 1)
-> +
-> + /* qxl.c */
-> +-void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL phys, int group_id);
-> ++void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL phys, int group_id,
-> ++                    size_t size);
-> + void qxl_set_guest_bug(PCIQXLDevice *qxl, const char *msg, ...)
-> +     GCC_FMT_ATTR(2, 3);
-> +
-> +--
-> +2.34.1
-> +
-> --
-> 2.17.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#177149):
-> https://lists.openembedded.org/g/openembedded-core/message/177149
-> Mute This Topic: https://lists.openembedded.org/mt/96960641/3617156
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> Martin.Jansa@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---000000000000134e7705f4a9d0aa
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Thanks Kai,<div><br></div><div>this should fix what I&#39;=
-ve reported in:</div><div><a href=3D"https://lists.openembedded.org/g/opene=
-mbedded-core/message/176508">https://lists.openembedded.org/g/openembedded-=
-core/message/176508</a><br></div><div><br></div><div>once this is merged, c=
-an you please add both oe-core changes (3 qemu patches) to dunfell as well,=
- so that similar patch is included in both branches? The broken version was=
-n&#39;t merged to dunfell after my report.</div><div><br></div><div>Regards=
-,</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Tue, Feb 14, 2023 at 3:22 PM Kai Kang &lt;<a href=3D"mailto:kai.k=
-ang@eng.windriver.com">kai.kang@eng.windriver.com</a>&gt; wrote:<br></div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft:1px solid rgb(204,204,204);padding-left:1ex">From: Kai Kang &lt;<a href=
-=3D"mailto:kai.kang@windriver.com" target=3D"_blank">kai.kang@windriver.com=
-</a>&gt;<br>
-<br>
-Backport 2 patches and rebase<br>
-0001-hw-display-qxl-Pass-requested-buffer-size-to-qxl_phy.patch to fix<br>
-compile error:<br>
-<br>
-../qemu-6.2.0/hw/display/qxl.c: In function &#39;qxl_phys2virt&#39;:<br>
-../qemu-6.2.0/hw/display/qxl.c:1477:67: error: &#39;size&#39; undeclared (f=
-irst use in this function); did you mean &#39;gsize&#39;?<br>
-=C2=A01477 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!qxl_get_check_slot_offse=
-t(qxl, pqxl, &amp;slot, &amp;offset, size)) {<br>
-=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^~~~<br>
-=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gsize<br>
-../qemu-6.2.0/hw/display/qxl.c:1477:67: note: each undeclared identifier is=
- reported only once for each function it appears in<br>
-<br>
-Signed-off-by: Kai Kang &lt;<a href=3D"mailto:kai.kang@windriver.com" targe=
-t=3D"_blank">kai.kang@windriver.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/qemu/qemu.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0|=C2=A0 =C2=A02 +<br>
-=C2=A0...ave-qxl_log_command-Return-early-if-.patch |=C2=A0 57 +++++<br>
-=C2=A0...ass-requested-buffer-size-to-qxl_phy.patch | 217 +++++++++++++++++=
-+<br>
-=C2=A03 files changed, 276 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-devtools/qemu/qemu/0001-hw-display-qx=
-l-Have-qxl_log_command-Return-early-if-.patch<br>
-=C2=A0create mode 100644 meta/recipes-devtools/qemu/qemu/0001-hw-display-qx=
-l-Pass-requested-buffer-size-to-qxl_phy.patch<br>
-<br>
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qe=
-mu/qemu.inc<br>
-index b68be447f1..5430718f75 100644<br>
---- a/meta/recipes-devtools/qemu/qemu.inc<br>
-+++ b/meta/recipes-devtools/qemu/qemu.inc<br>
-@@ -93,6 +93,8 @@ SRC_URI =3D &quot;<a href=3D"https://download.qemu.org/$%=
-7BBPN%7D-$%7BPV%7D.tar.xz" rel=3D"noreferrer" target=3D"_blank">https://dow=
-nload.qemu.org/${BPN}-${PV}.tar.xz</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0021-target-ppc-implement-=
-xs-n-maddqp-o-xs-n-msubqp-o.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2022-3165.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2022-4144.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-hw-display-qxl-Have-q=
-xl_log_command-Return-early-if-.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-hw-display-qxl-Pass-r=
-equested-buffer-size-to-qxl_phy.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-=C2=A0UPSTREAM_CHECK_REGEX =3D &quot;qemu-(?P&lt;pver&gt;\d+(\.\d+)+)\.tar&=
-quot;<br>
-<br>
-diff --git a/meta/recipes-devtools/qemu/qemu/0001-hw-display-qxl-Have-qxl_l=
-og_command-Return-early-if-.patch b/meta/recipes-devtools/qemu/qemu/0001-hw=
--display-qxl-Have-qxl_log_command-Return-early-if-.patch<br>
-new file mode 100644<br>
-index 0000000000..cd846222c9<br>
---- /dev/null<br>
-+++ b/meta/recipes-devtools/qemu/qemu/0001-hw-display-qxl-Have-qxl_log_comm=
-and-Return-early-if-.patch<br>
-@@ -0,0 +1,57 @@<br>
-+Upstream-Status: Backport [<a href=3D"https://github.com/qemu/qemu/commit/=
-61c34fc" rel=3D"noreferrer" target=3D"_blank">https://github.com/qemu/qemu/=
-commit/61c34fc</a>]<br>
-+<br>
-+Signed-off-by: Kai Kang &lt;<a href=3D"mailto:kai.kang@windriver.com" targ=
-et=3D"_blank">kai.kang@windriver.com</a>&gt;<br>
-+<br>
-+From 61c34fc194b776ecadc39fb26b061331107e5599 Mon Sep 17 00:00:00 2001<br>
-+From: =3D?UTF-8?q?Philippe=3D20Mathieu-Daud=3DC3=3DA9?=3D &lt;<a href=3D"m=
-ailto:philmd@linaro.org" target=3D"_blank">philmd@linaro.org</a>&gt;<br>
-+Date: Mon, 28 Nov 2022 21:27:37 +0100<br>
-+Subject: [PATCH] hw/display/qxl: Have qxl_log_command Return early if no<b=
-r>
-+ log_cmd handler<br>
-+MIME-Version: 1.0<br>
-+Content-Type: text/plain; charset=3DUTF-8<br>
-+Content-Transfer-Encoding: 8bit<br>
-+<br>
-+Only 3 command types are logged: no need to call qxl_phys2virt()<br>
-+for the other types. Using different cases will help to pass<br>
-+different structure sizes to qxl_phys2virt() in a pair of commits.<br>
-+<br>
-+Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau=
-@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-+Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@li=
-naro.org" target=3D"_blank">philmd@linaro.org</a>&gt;<br>
-+Signed-off-by: Stefan Hajnoczi &lt;<a href=3D"mailto:stefanha@redhat.com" =
-target=3D"_blank">stefanha@redhat.com</a>&gt;<br>
-+Message-Id: &lt;<a href=3D"mailto:20221128202741.4945-2-philmd@linaro.org"=
- target=3D"_blank">20221128202741.4945-2-philmd@linaro.org</a>&gt;<br>
-+---<br>
-+ hw/display/qxl-logger.c | 11 +++++++++++<br>
-+ 1 file changed, 11 insertions(+)<br>
-+<br>
-+diff --git a/hw/display/qxl-logger.c b/hw/display/qxl-logger.c<br>
-+index 68bfa47568..1bcf803db6 100644<br>
-+--- a/hw/display/qxl-logger.c<br>
-++++ b/hw/display/qxl-logger.c<br>
-+@@ -247,6 +247,16 @@ int qxl_log_command(PCIQXLDevice *qxl, const char *ri=
-ng, QXLCommandExt *ext)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qxl_name(qxl_type, ext-&gt=
-;cmd.type),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0compat ? &quot;(compat)&qu=
-ot; : &quot;&quot;);<br>
-+ <br>
-++=C2=A0 =C2=A0 switch (ext-&gt;cmd.type) {<br>
-++=C2=A0 =C2=A0 case QXL_CMD_DRAW:<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-++=C2=A0 =C2=A0 case QXL_CMD_SURFACE:<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-++=C2=A0 =C2=A0 case QXL_CMD_CURSOR:<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-++=C2=A0 =C2=A0 default:<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
-++=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0data =3D qxl_phys2virt(qxl, ext-&gt;cmd.data, ext-&gt;=
-group_id);<br>
-+=C2=A0 =C2=A0 =C2=A0if (!data) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 1;<br>
-+@@ -269,6 +279,7 @@ int qxl_log_command(PCIQXLDevice *qxl, const char *rin=
-g, QXLCommandExt *ext)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qxl_log_cmd_cursor(qxl, data, ext-&gt;gr=
-oup_id);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-+=C2=A0 =C2=A0 =C2=A0}<br>
-++out:<br>
-+=C2=A0 =C2=A0 =C2=A0fprintf(stderr, &quot;\n&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0return 0;<br>
-+ }<br>
-+-- <br>
-+2.34.1<br>
-+<br>
-diff --git a/meta/recipes-devtools/qemu/qemu/0001-hw-display-qxl-Pass-reque=
-sted-buffer-size-to-qxl_phy.patch b/meta/recipes-devtools/qemu/qemu/0001-hw=
--display-qxl-Pass-requested-buffer-size-to-qxl_phy.patch<br>
-new file mode 100644<br>
-index 0000000000..ac51cf567a<br>
---- /dev/null<br>
-+++ b/meta/recipes-devtools/qemu/qemu/0001-hw-display-qxl-Pass-requested-bu=
-ffer-size-to-qxl_phy.patch<br>
-@@ -0,0 +1,217 @@<br>
-+Upstream-Status: Backport [<a href=3D"https://github.com/qemu/qemu/commit/=
-8efec0e" rel=3D"noreferrer" target=3D"_blank">https://github.com/qemu/qemu/=
-commit/8efec0e</a>]<br>
-+<br>
-+Backport and rebase patch to fix compile error which imported by CVE-2022-=
-4144.patch:<br>
-+<br>
-+../qemu-6.2.0/hw/display/qxl.c: In function &#39;qxl_phys2virt&#39;:<br>
-+../qemu-6.2.0/hw/display/qxl.c:1477:67: error: &#39;size&#39; undeclared (=
-first use in this function); did you mean &#39;gsize&#39;?<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A01477 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!qx=
-l_get_check_slot_offset(qxl, pqxl, &amp;slot, &amp;offset, size)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^~=
-~~<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gs=
-ize<br>
-+../qemu-6.2.0/hw/display/qxl.c:1477:67: note: each undeclared identifier i=
-s reported only once for each function it appears in<br>
-+<br>
-+Signed-off-by: Kai Kang &lt;<a href=3D"mailto:kai.kang@windriver.com" targ=
-et=3D"_blank">kai.kang@windriver.com</a>&gt;<br>
-+<br>
-+From 8efec0ef8bbc1e75a7ebf6e325a35806ece9b39f Mon Sep 17 00:00:00 2001<br>
-+From: =3D?UTF-8?q?Philippe=3D20Mathieu-Daud=3DC3=3DA9?=3D &lt;<a href=3D"m=
-ailto:philmd@linaro.org" target=3D"_blank">philmd@linaro.org</a>&gt;<br>
-+Date: Mon, 28 Nov 2022 21:27:39 +0100<br>
-+Subject: [PATCH] hw/display/qxl: Pass requested buffer size to qxl_phys2vi=
-rt()<br>
-+MIME-Version: 1.0<br>
-+Content-Type: text/plain; charset=3DUTF-8<br>
-+Content-Transfer-Encoding: 8bit<br>
-+<br>
-+Currently qxl_phys2virt() doesn&#39;t check for buffer overrun.<br>
-+In order to do so in the next commit, pass the buffer size<br>
-+as argument.<br>
-+<br>
-+For QXLCursor in qxl_render_cursor() -&gt; qxl_cursor() we<br>
-+verify the size of the chunked data ahead, checking we can<br>
-+access &#39;sizeof(QXLCursor) + chunk-&gt;data_size&#39; bytes.<br>
-+Since in the SPICE_CURSOR_TYPE_MONO case the cursor is<br>
-+assumed to fit in one chunk, no change are required.<br>
-+In SPICE_CURSOR_TYPE_ALPHA the ahead read is handled in<br>
-+qxl_unpack_chunks().<br>
-+<br>
-+Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@li=
-naro.org" target=3D"_blank">philmd@linaro.org</a>&gt;<br>
-+Acked-by: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" target=3D=
-"_blank">kraxel@redhat.com</a>&gt;<br>
-+Signed-off-by: Stefan Hajnoczi &lt;<a href=3D"mailto:stefanha@redhat.com" =
-target=3D"_blank">stefanha@redhat.com</a>&gt;<br>
-+Message-Id: &lt;<a href=3D"mailto:20221128202741.4945-4-philmd@linaro.org"=
- target=3D"_blank">20221128202741.4945-4-philmd@linaro.org</a>&gt;<br>
-+---<br>
-+ hw/display/qxl-logger.c | 11 ++++++++---<br>
-+ hw/display/qxl-render.c | 20 ++++++++++++++++----<br>
-+ hw/display/qxl.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 14 +++++++++-----<br>
-+ hw/display/qxl.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 3 ++-<br>
-+ 4 files changed, 35 insertions(+), 13 deletions(-)<br>
-+<br>
-+diff --git a/hw/display/qxl-logger.c b/hw/display/qxl-logger.c<br>
-+index 1bcf803..35c38f6 100644<br>
-+--- a/hw/display/qxl-logger.c<br>
-++++ b/hw/display/qxl-logger.c<br>
-+@@ -106,7 +106,7 @@ static int qxl_log_image(PCIQXLDevice *qxl, QXLPHYSICA=
-L addr, int group_id)<br>
-+=C2=A0 =C2=A0 =C2=A0QXLImage *image;<br>
-+=C2=A0 =C2=A0 =C2=A0QXLImageDescriptor *desc;<br>
-+ <br>
-+-=C2=A0 =C2=A0 image =3D qxl_phys2virt(qxl, addr, group_id);<br>
-++=C2=A0 =C2=A0 image =3D qxl_phys2virt(qxl, addr, group_id, sizeof(QXLImag=
-e));<br>
-+=C2=A0 =C2=A0 =C2=A0if (!image) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 1;<br>
-+=C2=A0 =C2=A0 =C2=A0}<br>
-+@@ -214,7 +214,8 @@ int qxl_log_cmd_cursor(PCIQXLDevice *qxl, QXLCursorCmd=
- *cmd, int group_id)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cmd-&gt;u.se=
-t.position.y,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cmd-&gt;u.se=
-t.visible ? &quot;yes&quot; : &quot;no&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cmd-&gt;u.se=
-t.shape);<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cursor =3D qxl_phys2virt(qxl, cmd-&gt;u.set.s=
-hape, group_id);<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 cursor =3D qxl_phys2virt(qxl, cmd-&gt;u.set.s=
-hape, group_id,<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sizeof(QXLCursor));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!cursor) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 1;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+@@ -236,6 +237,7 @@ int qxl_log_command(PCIQXLDevice *qxl, const char *rin=
-g, QXLCommandExt *ext)<br>
-+ {<br>
-+=C2=A0 =C2=A0 =C2=A0bool compat =3D ext-&gt;flags &amp; QXL_COMMAND_FLAG_C=
-OMPAT;<br>
-+=C2=A0 =C2=A0 =C2=A0void *data;<br>
-++=C2=A0 =C2=A0 size_t datasz;<br>
-+=C2=A0 =C2=A0 =C2=A0int ret;<br>
-+ <br>
-+=C2=A0 =C2=A0 =C2=A0if (!qxl-&gt;cmdlog) {<br>
-+@@ -249,15 +251,18 @@ int qxl_log_command(PCIQXLDevice *qxl, const char *r=
-ing, QXLCommandExt *ext)<br>
-+ <br>
-+=C2=A0 =C2=A0 =C2=A0switch (ext-&gt;cmd.type) {<br>
-+=C2=A0 =C2=A0 =C2=A0case QXL_CMD_DRAW:<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 datasz =3D compat ? sizeof(QXLCompatDrawable)=
- : sizeof(QXLDrawable);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-+=C2=A0 =C2=A0 =C2=A0case QXL_CMD_SURFACE:<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 datasz =3D sizeof(QXLSurfaceCmd);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-+=C2=A0 =C2=A0 =C2=A0case QXL_CMD_CURSOR:<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 datasz =3D sizeof(QXLCursorCmd);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-+=C2=A0 =C2=A0 =C2=A0default:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto out;<br>
-+=C2=A0 =C2=A0 =C2=A0}<br>
-+-=C2=A0 =C2=A0 data =3D qxl_phys2virt(qxl, ext-&gt;cmd.data, ext-&gt;group=
-_id);<br>
-++=C2=A0 =C2=A0 data =3D qxl_phys2virt(qxl, ext-&gt;cmd.data, ext-&gt;group=
-_id, datasz);<br>
-+=C2=A0 =C2=A0 =C2=A0if (!data) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 1;<br>
-+=C2=A0 =C2=A0 =C2=A0}<br>
-+diff --git a/hw/display/qxl-render.c b/hw/display/qxl-render.c<br>
-+index ca21700..fcfd40c 100644<br>
-+--- a/hw/display/qxl-render.c<br>
-++++ b/hw/display/qxl-render.c<br>
-+@@ -107,7 +107,9 @@ static void qxl_render_update_area_unlocked(PCIQXLDevi=
-ce *qxl)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qxl-&gt;guest_primary.resized =3D 0;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qxl-&gt;guest_primary.data =3D qxl_phys2=
-virt(qxl,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0qxl-&gt;guest_primary.surface.mem,<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 MEMSLOT_GROUP_GUEST);<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 MEMSLOT_GROUP_GUEST,<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 qxl-&gt;guest_primary.abs_stride<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 * height);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!qxl-&gt;guest_primary.data) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto end;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+@@ -228,7 +230,8 @@ static void qxl_unpack_chunks(void *dest, size_t size,=
- PCIQXLDevice *qxl,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (offset =3D=3D size) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 chunk =3D qxl_phys2virt(qxl, chunk-&gt;next_c=
-hunk, group_id);<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 chunk =3D qxl_phys2virt(qxl, chunk-&gt;next_c=
-hunk, group_id,<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sizeof(QXLDataChunk) + chunk-&gt;data_size)=
-;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!chunk) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+@@ -295,7 +298,8 @@ fail:<br>
-+ /* called from spice server thread context only */<br>
-+ int qxl_render_cursor(PCIQXLDevice *qxl, QXLCommandExt *ext)<br>
-+ {<br>
-+-=C2=A0 =C2=A0 QXLCursorCmd *cmd =3D qxl_phys2virt(qxl, ext-&gt;cmd.data, =
-ext-&gt;group_id);<br>
-++=C2=A0 =C2=A0 QXLCursorCmd *cmd =3D qxl_phys2virt(qxl, ext-&gt;cmd.data, =
-ext-&gt;group_id,<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sizeof(QXLCurso=
-rCmd));<br>
-+=C2=A0 =C2=A0 =C2=A0QXLCursor *cursor;<br>
-+=C2=A0 =C2=A0 =C2=A0QEMUCursor *c;<br>
-+ <br>
-+@@ -314,7 +318,15 @@ int qxl_render_cursor(PCIQXLDevice *qxl, QXLCommandEx=
-t *ext)<br>
-+=C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 =C2=A0switch (cmd-&gt;type) {<br>
-+=C2=A0 =C2=A0 =C2=A0case QXL_CURSOR_SET:<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cursor =3D qxl_phys2virt(qxl, cmd-&gt;u.set.s=
-hape, ext-&gt;group_id);<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* First read the QXLCursor to get QXLDataChu=
-nk::data_size ... */<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 cursor =3D qxl_phys2virt(qxl, cmd-&gt;u.set.s=
-hape, ext-&gt;group_id,<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sizeof(QXLCursor));<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!cursor) {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return 1;<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Then read including the chunked data follo=
-wing QXLCursor. */<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 cursor =3D qxl_phys2virt(qxl, cmd-&gt;u.set.s=
-hape, ext-&gt;group_id,<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sizeof(QXLCursor) + cursor-&gt;chunk.=
-data_size);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!cursor) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 1;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+diff --git a/hw/display/qxl.c b/hw/display/qxl.c<br>
-+index ae8aa07..2a4b2d4 100644<br>
-+--- a/hw/display/qxl.c<br>
-++++ b/hw/display/qxl.c<br>
-+@@ -274,7 +274,8 @@ static void qxl_spice_monitors_config_async(PCIQXLDevi=
-ce *qxl, int replay)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0QXL_IO_MONITORS_CONFIG_ASYNC));<br>
-+=C2=A0 =C2=A0 =C2=A0}<br>
-+ <br>
-+-=C2=A0 =C2=A0 cfg =3D qxl_phys2virt(qxl, qxl-&gt;guest_monitors_config, M=
-EMSLOT_GROUP_GUEST);<br>
-++=C2=A0 =C2=A0 cfg =3D qxl_phys2virt(qxl, qxl-&gt;guest_monitors_config, M=
-EMSLOT_GROUP_GUEST,<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 sizeof(QXLMonitorsConfig));<br>
-+=C2=A0 =C2=A0 =C2=A0if (cfg !=3D NULL &amp;&amp; cfg-&gt;count =3D=3D 1) {=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qxl-&gt;guest_primary.resized =3D 1;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qxl-&gt;guest_head0_width=C2=A0 =3D cfg-=
-&gt;heads[0].width;<br>
-+@@ -459,7 +460,8 @@ static int qxl_track_command(PCIQXLDevice *qxl, struct=
- QXLCommandExt *ext)<br>
-+=C2=A0 =C2=A0 =C2=A0switch (le32_to_cpu(ext-&gt;cmd.type)) {<br>
-+=C2=A0 =C2=A0 =C2=A0case QXL_CMD_SURFACE:<br>
-+=C2=A0 =C2=A0 =C2=A0{<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 QXLSurfaceCmd *cmd =3D qxl_phys2virt(qxl, ext=
--&gt;cmd.data, ext-&gt;group_id);<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 QXLSurfaceCmd *cmd =3D qxl_phys2virt(qxl, ext=
--&gt;cmd.data, ext-&gt;group_id,<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0sizeof(QXLSurfaceCmd));<br>
-+ <br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!cmd) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 1;<br>
-+@@ -494,7 +496,8 @@ static int qxl_track_command(PCIQXLDevice *qxl, struct=
- QXLCommandExt *ext)<br>
-+=C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 =C2=A0case QXL_CMD_CURSOR:<br>
-+=C2=A0 =C2=A0 =C2=A0{<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 QXLCursorCmd *cmd =3D qxl_phys2virt(qxl, ext-=
-&gt;cmd.data, ext-&gt;group_id);<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 QXLCursorCmd *cmd =3D qxl_phys2virt(qxl, ext-=
-&gt;cmd.data, ext-&gt;group_id,<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s=
-izeof(QXLCursorCmd));<br>
-+ <br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!cmd) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 1;<br>
-+@@ -1463,7 +1466,8 @@ static bool qxl_get_check_slot_offset(PCIQXLDevice *=
-qxl, QXLPHYSICAL pqxl,<br>
-+ }<br>
-+ <br>
-+ /* can be also called from spice server thread context */<br>
-+-void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL pqxl, int group_id)<br=
->
-++void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL pqxl, int group_id,<br=
->
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 siz=
-e_t size)<br>
-+ {<br>
-+=C2=A0 =C2=A0 =C2=A0uint64_t offset;<br>
-+=C2=A0 =C2=A0 =C2=A0uint32_t slot;<br>
-+@@ -1971,7 +1975,7 @@ static void qxl_dirty_surfaces(PCIQXLDevice *qxl)<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+ <br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cmd =3D qxl_phys2virt(qxl, qxl-&gt;guest=
-_surfaces.cmds[i],<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 MEMSLOT_GROUP_GUEST);<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 MEMSLOT_GROUP_GUEST, sizeof(QXLSurfaceCmd));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0assert(cmd);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0assert(cmd-&gt;type =3D=3D QXL_SURFACE_C=
-MD_CREATE);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qxl_dirty_one_surface(qxl, cmd-&gt;u.sur=
-face_create.data,<br>
-+diff --git a/hw/display/qxl.h b/hw/display/qxl.h<br>
-+index 30d21f4..4551c23 100644<br>
-+--- a/hw/display/qxl.h<br>
-++++ b/hw/display/qxl.h<br>
-+@@ -147,7 +147,8 @@ OBJECT_DECLARE_SIMPLE_TYPE(PCIQXLDevice, PCI_QXL)<br>
-+ #define QXL_DEFAULT_REVISION (QXL_REVISION_STABLE_V12 + 1)<br>
-+ <br>
-+ /* qxl.c */<br>
-+-void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL phys, int group_id);<b=
-r>
-++void *qxl_phys2virt(PCIQXLDevice *qxl, QXLPHYSICAL phys, int group_id,<br=
->
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 siz=
-e_t size);<br>
-+ void qxl_set_guest_bug(PCIQXLDevice *qxl, const char *msg, ...)<br>
-+=C2=A0 =C2=A0 =C2=A0GCC_FMT_ATTR(2, 3);<br>
-+ <br>
-+-- <br>
-+2.34.1<br>
-+<br>
--- <br>
-2.17.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#177149): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/177149" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/177149</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/96960641/3617=
-156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/96960641/3617156</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:Martin.Jansa@gmail.com" ta=
-rget=3D"_blank">Martin.Jansa@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---000000000000134e7705f4a9d0aa--
 
