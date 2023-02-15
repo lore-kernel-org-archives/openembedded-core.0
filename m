@@ -1,153 +1,397 @@
-Return-Path: <sakib.sajal@windriver.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D342C636D4
-	for <webhook@archiver.kernel.org>; Wed, 15 Feb 2023 20:44:13 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.4501.1676493850272025304
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24284C636CC
+	for <webhook@archiver.kernel.org>; Wed, 15 Feb 2023 20:47:03 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web11.4576.1676494016795232514
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Feb 2023 12:44:10 -0800
+ Wed, 15 Feb 2023 12:46:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=VewexI/W;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=141000e515=sakib.sajal@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31FCvwf8002239
-	for <openembedded-core@lists.openembedded.org>; Wed, 15 Feb 2023 20:44:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=kF90Ff/u/AqtdMGCZ6c8XMevI6PC2osEJcGRM+bo1rg=;
- b=VewexI/WwouwkeyrPnlj/JEjIeOOV8WQafBkvsUcorNycT/jqqZhPTTkWGYZw4rgxe95
- 4SO+9tXr+dcFZ3I5IhQ2r6d2m5gW160myArhEqrF50e0AMxdF0I83fVJjB9LWiU/DceD
- bNeeX0+cJwLE0Wq+Cz6cj2bHJcT4qSYNBo4aGcptKrD0Uz9eKxNwTHqZdavNdZ+WrhPK
- YCJubehEIlBpy0/9YfVt0Sig4XES5efsRsGynnDfpyKQZ6TI4/QZZ2S9FNp8sUV3tHNS
- /3qeUfEgVk/DqtVcr40Pnjze65ZM0wms1RMQ7n3nUfVWYyMdSDrPt6cQXsb2N7YBLXj+ eQ== 
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2175.outbound.protection.outlook.com [104.47.59.175])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3np083c60c-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 15 Feb 2023 20:44:09 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ebzv042VOYlAKLPczLsnJD2uX0ks19xYW+9t/4+oCF5G8/MyX7rYDcG9pUInwANs+mM8vFzPnEgZr3aCc4lUijmZxurK/WP14ajGCTGjHj7A6GjFuGDeWH1NK8Qc6FO+xe/H+HtXQNxrfv4D8aUSKanbTUEx3W5Rj38qfB68VGG7ufeK95eYukZXtvb5bzUqqTv1xTj/b00fHkSsvbzWNUiPSXSws6F/HPGIpTGrrA+cAVOxOlXrw0/wS2OJeXDhgqe4khcW8xelYBf7MwYkhe1RbSVHOpyRW7rDVNzndALGoz9j+rw1iLfhBd/hoVhhjX5XG0PHEjfhsRWNuNV6qA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kF90Ff/u/AqtdMGCZ6c8XMevI6PC2osEJcGRM+bo1rg=;
- b=W7OpiRlOMU0pjlhihcH858wECPijSHv+M5MDw4LKjnElVCwH3CBTOHyUPQO/d6+Oa1sF4xNmusgrHKMvMtA1zNhLjv0eFtSVLgVhrVPGd9DBF9Jnn0ZmOsfqFTtWvph8KVN8Idl52vusPH81tVMRVP9LKAJL0yo1RMWmEWP/vdNYf0RXeWGNfV3L4rHjqrqY6mYzvbwdMcedSa0G2Cau1QT/iwhGX0EOitYsZxxqxqDgiiYBEE8PdaET4123M7w45dyt/GgyPn1yZMsIw3U9iMhAINk7hBXuTTkk23RNePcPIKvbAg+j1Tbfg92GEsNlPUFJ3RXV3e637Ym4OsrGiQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DM6PR11MB2538.namprd11.prod.outlook.com (2603:10b6:5:be::20) by
- SJ1PR11MB6108.namprd11.prod.outlook.com (2603:10b6:a03:489::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.23; Wed, 15 Feb
- 2023 20:44:06 +0000
-Received: from DM6PR11MB2538.namprd11.prod.outlook.com
- ([fe80::a16e:168b:5b9f:3548]) by DM6PR11MB2538.namprd11.prod.outlook.com
- ([fe80::a16e:168b:5b9f:3548%6]) with mapi id 15.20.6086.026; Wed, 15 Feb 2023
- 20:44:06 +0000
-From: Sakib Sajal <sakib.sajal@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [langdale][PATCH] git: upgrade 2.37.4 -> 2.37.6
-Date: Wed, 15 Feb 2023 15:43:22 -0500
-Message-Id: <20230215204322.3540551-1-sakib.sajal@windriver.com>
-X-Mailer: git-send-email 2.33.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: YQBPR0101CA0093.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:4::26) To DM6PR11MB2538.namprd11.prod.outlook.com
- (2603:10b6:5:be::20)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Ck86YWg7;
+ spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f49.google.com with SMTP id n33so66852wms.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Feb 2023 12:46:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Omgwohg4RYnOOxMBGHvt48DUMGd6roOH2g713scxBNE=;
+        b=Ck86YWg7jk17wyTVjKtYy8cSSg/A2Ns5H+GLmbRjh5bHOGbY/wame+HYweb4FHIrqH
+         J712XHy7umBXyRM9vEd03HuOwr5doqbu+dJws+3qCku1e4U7C+4zWdMO0q0jPlfL7u/B
+         NReWOs6GGJUmw963MIZ79JnuW1/a3v28hh1fP4PnFVOacu2oh9xjGXDXyxwL3baZstPw
+         l0x+K1yAwRdwdJK4JYRKvrxTtn8ogJtTI5E1EwaNrxaIlmPXMJxJSx2ueDdTDZ2GXk29
+         hjRLeBF1+yDKiGapnIwr1VwUsYxvgQa9GzVR6CEENPsrLn7cpD5axKhmIeCuWeaGGJs1
+         ilBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Omgwohg4RYnOOxMBGHvt48DUMGd6roOH2g713scxBNE=;
+        b=yIcbQmfxk/ip2h+hgLKxhicBRSGeqQfhHF4AmLt2o81mdiIZTx1vVoM1OsSBNH41eY
+         WzksVcd51BBXHutCfgj3dQrqnXLwZUBm1K7RpM9/EtgKUHD5LmI4zo4uEdBgmRPi0Ipx
+         OlarqWeQMYgeyJQs2xTs5eNyHafWYJEpXliLJ5ieIi4QXez1tBU3K0FTylHc0cwIGblN
+         t46YWyGL32xONb02IJ/LLx3gClFyRxQKC8cc2Dx3Tdz2GTz8l1eIOTr0es9Qi1vAu7bh
+         wz/GWaZvEFu8+JB/wR/qqGq6aX5fkXyxNpNXhCDnE+4u6ycOdgrOu/ddiGh9Cl5bWlvJ
+         73Vg==
+X-Gm-Message-State: AO0yUKV60+54TJG5NSDsOC7AVHBKhDkVLn+Bs8M6Ycr0R0hzLzzU08K9
+	S/CZ0annQL3BcTkjlPjGCMzM0FhjedG0KZ138sM=
+X-Google-Smtp-Source: AK7set83vWH1df8VxMoQca653orQI0olU06Y4Y3uSeGnflwPNbv3iwoUPKzsfh396MZeT0GnOU69NNz1W2GBMQvaF9Y=
+X-Received: by 2002:a05:600c:cc5:b0:3dc:546c:b2ec with SMTP id
+ fk5-20020a05600c0cc500b003dc546cb2ecmr371024wmb.32.1676494015100; Wed, 15 Feb
+ 2023 12:46:55 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR11MB2538:EE_|SJ1PR11MB6108:EE_
-X-MS-Office365-Filtering-Correlation-Id: 17d1e749-cde5-43eb-d3b2-08db0f95617f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	QioFtsllqenL4d+iDlVYuewjrTrJWRAnn2KTCOh8Y86+PJ6qOIhmAX0BFGLO+AG5/GMvPVXfpn4kbu+pwqjlE/zrzJkZB4WbMUsB0BsgL3LahnYkNbnOPNi8+hsGhx+5mfPXqZnbDxTdnaC5lSALS4w8MPg6SDv1mW/7F7+iE6/BEln3I3UeNkBrYp3AJ5Y7wTyJivoSLPjl84wNG8jMYEZN5ca31xkYVyKQ9DPPslglOsJlt1TVQzhbH39+OQi6yHgvmW+Gx8Q550ee3gJQK5pREYAzMIf19CALX3V4fFJmgf6cIaniT4DhQgP6iG4aa/Uy0s7fWW6F2DXr7pEg72bwE9kWXiXpaSlnFY3ARCl6Mcwnr2N0eJ9vGdD6EU1xwcm+QJwNFiNkaZxYTN5m77B7WcyG+Qc6lSnFXEcRkOeAMtKlYhXsLE6QVyYkc04cDgNlxqql8cZSQd0NFEMtMxzSwd8ZPCCVeEkAXj2LqoeqeN20f1Qx8MHZy7hQ239NDI5Q3M1QjAaW+QIu6pCTErLI2bT8gl4hrVxQB3K3+EZ39/Qz2yB7Tt/ftegrD7j6PWNfZRtuzxYIE06Veghl2gScnThrnMrz7tx1FCWnDKYYZKx34SPaaIdgqpw2rnAsb3fJu4wlbm9GYU//4oFr3D2Mb7O3WG0i8sxxFkt4Q+wLNXH6dtge/hBSQJuv5Psx9hAOl2o9ssKek/qGEqX0MQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB2538.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(136003)(366004)(396003)(39850400004)(376002)(346002)(451199018)(36756003)(6512007)(6506007)(1076003)(186003)(26005)(6666004)(86362001)(66946007)(66556008)(66476007)(6916009)(8676002)(316002)(83380400001)(5660300002)(8936002)(41300700001)(6486002)(52116002)(478600001)(2906002)(38100700002)(38350700002)(2616005)(4744005)(44832011);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?QcRJH/JCOCzkegWoIt7fjf5kZqyeaFi9QKNf9PdneGec3n0vJY+U9DfWPfIh?=
- =?us-ascii?Q?TgaRZ/HKowVC+71V4ZRZS5NLykAFJoxiQhwUZ4WNxNqaQSjinAlqLfvYTNhx?=
- =?us-ascii?Q?L3m3f+mbYj2LY36+/oVN0BJCIE2s7l4mNrSckt75rO0S1QoD4XUQg5fo33pf?=
- =?us-ascii?Q?nDYszbfHgGF5SOt3NpAFADAjHxHCTpvs/N4XPh9JPsw8lQ6sLsNagM9l9wAN?=
- =?us-ascii?Q?2i8C0Zq6+Ee4yxRK0EIJy96QSmyLGfw7QiZGzSi2t2q3PecmMMr2/oTMW+FN?=
- =?us-ascii?Q?yB7ELqkKknGpEc7T/vD5a9j5HroCGxtxatQaHQKpPJXpRFI5MP27uhmaznJI?=
- =?us-ascii?Q?e9Q9LHDgLJbXN8ypkkiDaJGwxHguOSZOLgTv/SD0jPDV6xLo/ydwLXKACp1L?=
- =?us-ascii?Q?ium+6Axut4Qa6GbdSzs2gWuc8buEyB205GCTTiUUaXfWE3g4jrmGOBA49+Ty?=
- =?us-ascii?Q?BCfbqAmYfngbodW4CwyQLi84kkCctvE8ycbPjXgJJrAyFI2o+5e/QUP/EJf+?=
- =?us-ascii?Q?yvYOZm4VfPmBskpOX9LjZ+MEz5EiN2Te/6pp9RQnSTtx52a/n8R4WFY71EZD?=
- =?us-ascii?Q?0tEPD824YiEGJrxTVL20El1c47spr6CbOuBG26szL96L5hvO8LRyQUahFf7L?=
- =?us-ascii?Q?bodmvCqlv7oCUDWXCi/7rMTg7zl00yv0sK0KQWtDi8VqrKyksOIx5rpdEtNV?=
- =?us-ascii?Q?eIMP9RHY0uiyCA/EHc4ySQxgeyuQVilr9DePoSpvLId8sxsc9AV7L8YCYwQa?=
- =?us-ascii?Q?JivwYRR0lC71STrs25p3auvCOzUJLsAK5SuY0dw2HEUqqIbCh2fTnSJR1Z4H?=
- =?us-ascii?Q?YkvyQenVXpCCYnvIy47IMktf2qX6KjcfAzTt5s1jQj7jsZ4GzpAsVXDkS6ww?=
- =?us-ascii?Q?qXDNfkSmOQXgx/qzxemCkFjhZD+ljEpFo0XVV8570djFgFyagzNvGVUUDuek?=
- =?us-ascii?Q?C2Y79T5DFyZpMYslPLMvi3UIduY8b7uhIy97VMWxHh6ew4AAU18bZj0rvbGx?=
- =?us-ascii?Q?SNlyTckuqVRPCqGaJ5k/DMrzOP1fqBDb7hWxbn1JlZPWSiNSvQAicO3UtZAL?=
- =?us-ascii?Q?Fxqg9ZXyyv2T/OyfGh4PymiO2IjSLr1hRQa7x3Cfq3W5moR73Fo7lL9xvLEv?=
- =?us-ascii?Q?Qg5tMOO2j6j+jpHj+5FkyOwmByU7TfwVs3ndq5XTL8YCoKofA1PFbsBhObfz?=
- =?us-ascii?Q?HtBSNQpA3VtwAwpan4RcqiPb4sV4UdDqP5qyaTZCRBFUH8NYqpOpoHwedO1R?=
- =?us-ascii?Q?F2qUjbANkyKPjghDuOuYVLE21laZLjMjvZois3++e76R26XjUThFT3p472BX?=
- =?us-ascii?Q?AB6Dc5CC/jEILoF1q6tE1+L8oFANrymA4Dqw1lv7Pmmvdmp0aOedE0HR/6Vf?=
- =?us-ascii?Q?Uq7pNmoYNtMd4jMXg0W3UAz2GLgaeEIfkXgEMxP7Tf6WNWxF2m9sYhYWzZhW?=
- =?us-ascii?Q?3WqV3MxLFNepB5/3zqma8pAdwRqUULFB3C4Pi1/LNFmRT9hosXRXhjNXs23Z?=
- =?us-ascii?Q?Iel9ChirDYIxgRdJRe5pT2A1V6kAP67LWYUYSzz6mH/mgyBXL0HYKjyTnqcz?=
- =?us-ascii?Q?cN96KquGFvIw6iFYh6r2M3zA7i0vcBHHOiixovHJaiIIC9KuqkEumbIuLs9R?=
- =?us-ascii?Q?Hw=3D=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 17d1e749-cde5-43eb-d3b2-08db0f95617f
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB2538.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2023 20:44:06.5711
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4dfuGpSLIbJMbPt9sOBcLqC6tg5mquAFr5F1Xt3svKIoW3FQLLNVdo2Ap8xT/6xtg9KFYNea7qpyzqId3qgemSTXQaPMJa1lg2TQ/BoZggQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR11MB6108
-X-Proofpoint-GUID: g2-Lm2otD6MnUj5PG6IXRHcuscKidA9j
-X-Proofpoint-ORIG-GUID: g2-Lm2otD6MnUj5PG6IXRHcuscKidA9j
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-15_11,2023-02-15_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
- bulkscore=0 clxscore=1011 suspectscore=0 priorityscore=1501 phishscore=0
- adultscore=0 malwarescore=0 impostorscore=0 spamscore=0 mlxlogscore=535
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2302150178
+References: <20230215171832.635085-1-Martin.Jansa@gmail.com>
+ <CAMKF1spS64yaiNdALD5hGKWqH=aOLPrfa1JzCYPoDOpRHpecdQ@mail.gmail.com> <CAMKF1sp6qoGq3tqgs7V8qthxv7cW2iVav8w21za3OrKTxjvEjA@mail.gmail.com>
+In-Reply-To: <CAMKF1sp6qoGq3tqgs7V8qthxv7cW2iVav8w21za3OrKTxjvEjA@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Wed, 15 Feb 2023 21:46:40 +0100
+Message-ID: <CA+chaQdfJsKcc5aXp44QF1Uu+6YDRBnuTVfUQ0Tm2v7=WxFhJg@mail.gmail.com>
+Subject: Re: [OE-core] [RFC][PATCH] libssh2: Update patch to apply and fix
+ malformed Upstream-Status
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, randy.macleod@windriver.com, 
+	changqing.li@windriver.com
+Content-Type: multipart/alternative; boundary="0000000000003cfb6505f4c32e5e"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Feb 2023 20:44:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177213
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Feb 2023 20:47:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177214
 
-Upgrade git to latest 2.37.x release to address
-security issues CVE-2022-23521 and CVE-2022-41903.
+--0000000000003cfb6505f4c32e5e
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
----
- meta/recipes-devtools/git/{git_2.37.4.bb => git_2.37.6.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/git/{git_2.37.4.bb => git_2.37.6.bb} (98%)
+patchreview.py will care about the space (like insane.bbclass does) if
+https://lists.openembedded.org/g/openembedded-core/message/177207 is merged
 
-diff --git a/meta/recipes-devtools/git/git_2.37.4.bb b/meta/recipes-devtools/git/git_2.37.6.bb
-similarity index 98%
-rename from meta/recipes-devtools/git/git_2.37.4.bb
-rename to meta/recipes-devtools/git/git_2.37.6.bb
-index 2205a50d16..638b08a0cf 100644
---- a/meta/recipes-devtools/git/git_2.37.4.bb
-+++ b/meta/recipes-devtools/git/git_2.37.6.bb
-@@ -165,4 +165,4 @@ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
-                  "
- EXTRA_OEMAKE += "NO_GETTEXT=1"
- 
--SRC_URI[tarball.sha256sum] = "a638c9bf9e45e8d48592076266adaa9b7aa272a99ee2aee2e166a649a9ba8a03"
-+SRC_URI[tarball.sha256sum] = "626e4c338f72b170e2b3afb1cb2161f6fbe4fb1d0749154f1ebfb5f0a57ec25f"
--- 
-2.33.0
+On Wed, Feb 15, 2023 at 9:35 PM Khem Raj <raj.khem@gmail.com> wrote:
 
+> On Wed, Feb 15, 2023 at 11:26 AM Khem Raj <raj.khem@gmail.com> wrote:
+> >
+> > On Wed, Feb 15, 2023 at 9:18 AM Martin Jansa <Martin.Jansa@gmail.com>
+> wrote:
+> > >
+> > > * I've noticed this, because patchreview.py reports Malformed
+> > >   Upstream-Status in this one now, but the QA check in insane.bbclass
+> > >   wasn't reporting it before
+> > >
+> > > * the reason why insane.bbclass doesn't report it is because:
+> > >   SRC_URI:append:ptest = "
+> file://0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch"
+> > >   doesn't work and probably never did as "ptest" is not an override
+> > >   and patch-status-core checks only the .patch files which are really
+> > >   in SRC_URI.
+> > >
+> > > * I've added it directly to SRC_URI and it also didn't apply:
+> > >   http://errors.yoctoproject.org/Errors/Details/689955/
+> > >   as the "endif" at the end was removed in 1.10.0 version:
+> > >
+> https://github.com/libssh2/libssh2/commit/ecd6a74e44562797a1e92186ad4a402c5641720e#diff-32103f666ff2fb42b025a47ccf1b959bbcc6db89f217e5943b1de73c81a4f9db
+> > >
+> > >   after updating the patch to apply I got expected patch-status-core
+> failure:
+> > >   http://errors.yoctoproject.org/Errors/Details/689956/
+> > >   ERROR: QA Issue: Malformed Upstream-Status in patch
+> > >
+>  TOPDIR/openembedded-core/meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch
+> > >   Please correct according to
+> https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Header_Recommendations:_Upstream-Status
+> :
+> > >   Upstream-Status: Inappropriate[oe specific] [patch-status-core]
+> > >
+> > > * so the mystery is solved, but what should be do with this never-used
+> > >   patch, I think we should just delete it together with
+> > >   SRC_URI:append:ptest, but please Changqing Li confirm it's not needed
+> > >
+> > > * it was originally added by Changqing Li in meta-oe with:
+> > >
+> https://git.openembedded.org/meta-openembedded/commit/?id=d7aa7173405c3b36235af736cd31dbe110708787
+> > >   then imported to oe-core by Randy MacLeod with:
+> > >
+> https://git.openembedded.org/openembedded-core/commit/?id=57df134b1be56a688f41851e5ff014dd859c0bc3
+> > >
+> > > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > > ---
+> > >  ...nviroment-to-decide-if-a-test-is-bui.patch | 22 ++++++-------------
+> > >  1 file changed, 7 insertions(+), 15 deletions(-)
+> > >
+> > > diff --git
+> a/meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch
+> b/meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch
+> > > index b1204e49eb..e0000b2658 100644
+> > > ---
+> a/meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch
+> > > +++
+> b/meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch
+> > > @@ -1,24 +1,23 @@
+> > > -From f6abce5ba41a412a247250dcd80e387e53474466 Mon Sep 17 00:00:00 2001
+> > > -From: Your Name <you@example.com>
+> > > +From 7ffa1773be8d262bed0f5c8bdcb4dd8f906de095 Mon Sep 17 00:00:00 2001
+> > > +From: Changqing Li <changqing.li@windriver.com>
+> > >  Date: Mon, 28 Dec 2020 02:08:03 +0000
+> > >  Subject: [PATCH] Don't let host enviroment to decide if a test is
+> build
+> > >
+> > >  test ssh2.sh need sshd, for cross compile, we need it on target, so
+> > >  don't use SSHD on host to decide weither to build a test
+> > >
+> > > -Upstream-Status: Inappropriate[oe specific]
+> > > +Upstream-Status: Inappropriate [oe specific]
+> >
+> > Since we are already using a special token '[' to separate reason from
+> > status, I always wondered if having this space before '[' is something
+> > that could be ignored.
+> >
+>
+> I see that scripts/contrib/patchreview.py does not care for space,
+> that answers my question. Maybe it would be
+> good to tabulate reason as well perhaps.
+>
+> > >
+> > >  Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> > > -
+> > >  ---
+> > > - tests/Makefile.am | 6 +-----
+> > > - 1 file changed, 1 insertion(+), 5 deletions(-)
+> > > + tests/Makefile.am | 4 ----
+> > > + 1 file changed, 4 deletions(-)
+> > >
+> > >  diff --git a/tests/Makefile.am b/tests/Makefile.am
+> > > -index dc0922f..6cbc35d 100644
+> > > +index 27ddc2d..13de8ab 100644
+> > >  --- a/tests/Makefile.am
+> > >  +++ b/tests/Makefile.am
+> > > -@@ -1,16 +1,12 @@
+> > > +@@ -3,16 +3,12 @@ SUBDIRS = ossfuzz
+> > >   AM_CPPFLAGS = -I$(top_srcdir)/src -I$(top_srcdir)/include
+> -I$(top_builddir)/src
+> > >   LDADD = ../src/libssh2.la
+> > >
+> > > @@ -35,10 +34,3 @@ index dc0922f..6cbc35d 100644
+> > >   check_PROGRAMS = $(ctests)
+> > >
+> > >   TESTS_ENVIRONMENT = SSHD=$(SSHD) EXEEXT=$(EXEEXT)
+> > > -@@ -38,4 +34,4 @@ if OPENSSL
+> > > - # EXTRA_DIST +=
+> test_public_key_auth_succeeds_with_correct_encrypted_ed25519_key.c
+> > > - # EXTRA_DIST +=
+> test_public_key_auth_succeeds_with_correct_ed25519_key_from_mem.c
+> > > - EXTRA_DIST +=
+> test_public_key_auth_succeeds_with_correct_rsa_openssh_key.c
+> > > --endif
+> > > -\ No newline at end of file
+> > > -+endif
+> > > --
+> > > 2.39.2
+> > >
+> > >
+> > > -=-=-=-=-=-=-=-=-=-=-=-
+> > > Links: You receive all messages sent to this group.
+> > > View/Reply Online (#177204):
+> https://lists.openembedded.org/g/openembedded-core/message/177204
+> > > Mute This Topic: https://lists.openembedded.org/mt/96987532/1997914
+> > > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
+> [raj.khem@gmail.com]
+> > > -=-=-=-=-=-=-=-=-=-=-=-
+> > >
+>
+
+--0000000000003cfb6505f4c32e5e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">patchreview.py will care about the space (like insane.bbcl=
+ass does) if=C2=A0<a href=3D"https://lists.openembedded.org/g/openembedded-=
+core/message/177207">https://lists.openembedded.org/g/openembedded-core/mes=
+sage/177207</a> is merged</div><br><div class=3D"gmail_quote"><div dir=3D"l=
+tr" class=3D"gmail_attr">On Wed, Feb 15, 2023 at 9:35 PM Khem Raj &lt;<a hr=
+ef=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed, Feb 15, 2023 at =
+11:26 AM Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blan=
+k">raj.khem@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; On Wed, Feb 15, 2023 at 9:18 AM Martin Jansa &lt;<a href=3D"mailto:Mar=
+tin.Jansa@gmail.com" target=3D"_blank">Martin.Jansa@gmail.com</a>&gt; wrote=
+:<br>
+&gt; &gt;<br>
+&gt; &gt; * I&#39;ve noticed this, because patchreview.py reports Malformed=
+<br>
+&gt; &gt;=C2=A0 =C2=A0Upstream-Status in this one now, but the QA check in =
+insane.bbclass<br>
+&gt; &gt;=C2=A0 =C2=A0wasn&#39;t reporting it before<br>
+&gt; &gt;<br>
+&gt; &gt; * the reason why insane.bbclass doesn&#39;t report it is because:=
+<br>
+&gt; &gt;=C2=A0 =C2=A0SRC_URI:append:ptest =3D &quot; file://0001-Don-t-let=
+-host-enviroment-to-decide-if-a-test-is-bui.patch&quot;<br>
+&gt; &gt;=C2=A0 =C2=A0doesn&#39;t work and probably never did as &quot;ptes=
+t&quot; is not an override<br>
+&gt; &gt;=C2=A0 =C2=A0and patch-status-core checks only the .patch files wh=
+ich are really<br>
+&gt; &gt;=C2=A0 =C2=A0in SRC_URI.<br>
+&gt; &gt;<br>
+&gt; &gt; * I&#39;ve added it directly to SRC_URI and it also didn&#39;t ap=
+ply:<br>
+&gt; &gt;=C2=A0 =C2=A0<a href=3D"http://errors.yoctoproject.org/Errors/Deta=
+ils/689955/" rel=3D"noreferrer" target=3D"_blank">http://errors.yoctoprojec=
+t.org/Errors/Details/689955/</a><br>
+&gt; &gt;=C2=A0 =C2=A0as the &quot;endif&quot; at the end was removed in 1.=
+10.0 version:<br>
+&gt; &gt;=C2=A0 =C2=A0<a href=3D"https://github.com/libssh2/libssh2/commit/=
+ecd6a74e44562797a1e92186ad4a402c5641720e#diff-32103f666ff2fb42b025a47ccf1b9=
+59bbcc6db89f217e5943b1de73c81a4f9db" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://github.com/libssh2/libssh2/commit/ecd6a74e44562797a1e92186ad4a402c56=
+41720e#diff-32103f666ff2fb42b025a47ccf1b959bbcc6db89f217e5943b1de73c81a4f9d=
+b</a><br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 =C2=A0after updating the patch to apply I got expected patc=
+h-status-core failure:<br>
+&gt; &gt;=C2=A0 =C2=A0<a href=3D"http://errors.yoctoproject.org/Errors/Deta=
+ils/689956/" rel=3D"noreferrer" target=3D"_blank">http://errors.yoctoprojec=
+t.org/Errors/Details/689956/</a><br>
+&gt; &gt;=C2=A0 =C2=A0ERROR: QA Issue: Malformed Upstream-Status in patch<b=
+r>
+&gt; &gt;=C2=A0 =C2=A0TOPDIR/openembedded-core/meta/recipes-support/libssh2=
+/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch<br>
+&gt; &gt;=C2=A0 =C2=A0Please correct according to <a href=3D"https://www.op=
+enembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Header_Recommenda=
+tions:_Upstream-Status" rel=3D"noreferrer" target=3D"_blank">https://www.op=
+enembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Header_Recommenda=
+tions:_Upstream-Status</a> :<br>
+&gt; &gt;=C2=A0 =C2=A0Upstream-Status: Inappropriate[oe specific] [patch-st=
+atus-core]<br>
+&gt; &gt;<br>
+&gt; &gt; * so the mystery is solved, but what should be do with this never=
+-used<br>
+&gt; &gt;=C2=A0 =C2=A0patch, I think we should just delete it together with=
+<br>
+&gt; &gt;=C2=A0 =C2=A0SRC_URI:append:ptest, but please Changqing Li confirm=
+ it&#39;s not needed<br>
+&gt; &gt;<br>
+&gt; &gt; * it was originally added by Changqing Li in meta-oe with:<br>
+&gt; &gt;=C2=A0 =C2=A0<a href=3D"https://git.openembedded.org/meta-openembe=
+dded/commit/?id=3Dd7aa7173405c3b36235af736cd31dbe110708787" rel=3D"noreferr=
+er" target=3D"_blank">https://git.openembedded.org/meta-openembedded/commit=
+/?id=3Dd7aa7173405c3b36235af736cd31dbe110708787</a><br>
+&gt; &gt;=C2=A0 =C2=A0then imported to oe-core by Randy MacLeod with:<br>
+&gt; &gt;=C2=A0 =C2=A0<a href=3D"https://git.openembedded.org/openembedded-=
+core/commit/?id=3D57df134b1be56a688f41851e5ff014dd859c0bc3" rel=3D"noreferr=
+er" target=3D"_blank">https://git.openembedded.org/openembedded-core/commit=
+/?id=3D57df134b1be56a688f41851e5ff014dd859c0bc3</a><br>
+&gt; &gt;<br>
+&gt; &gt; Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gm=
+ail.com" target=3D"_blank">Martin.Jansa@gmail.com</a>&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt;=C2=A0 ...nviroment-to-decide-if-a-test-is-bui.patch | 22 ++++++--=
+-----------<br>
+&gt; &gt;=C2=A0 1 file changed, 7 insertions(+), 15 deletions(-)<br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/meta/recipes-support/libssh2/files/0001-Don-t-let-ho=
+st-enviroment-to-decide-if-a-test-is-bui.patch b/meta/recipes-support/libss=
+h2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch<br=
+>
+&gt; &gt; index b1204e49eb..e0000b2658 100644<br>
+&gt; &gt; --- a/meta/recipes-support/libssh2/files/0001-Don-t-let-host-envi=
+roment-to-decide-if-a-test-is-bui.patch<br>
+&gt; &gt; +++ b/meta/recipes-support/libssh2/files/0001-Don-t-let-host-envi=
+roment-to-decide-if-a-test-is-bui.patch<br>
+&gt; &gt; @@ -1,24 +1,23 @@<br>
+&gt; &gt; -From f6abce5ba41a412a247250dcd80e387e53474466 Mon Sep 17 00:00:0=
+0 2001<br>
+&gt; &gt; -From: Your Name &lt;<a href=3D"mailto:you@example.com" target=3D=
+"_blank">you@example.com</a>&gt;<br>
+&gt; &gt; +From 7ffa1773be8d262bed0f5c8bdcb4dd8f906de095 Mon Sep 17 00:00:0=
+0 2001<br>
+&gt; &gt; +From: Changqing Li &lt;<a href=3D"mailto:changqing.li@windriver.=
+com" target=3D"_blank">changqing.li@windriver.com</a>&gt;<br>
+&gt; &gt;=C2=A0 Date: Mon, 28 Dec 2020 02:08:03 +0000<br>
+&gt; &gt;=C2=A0 Subject: [PATCH] Don&#39;t let host enviroment to decide if=
+ a test is build<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 test ssh2.sh need sshd, for cross compile, we need it on ta=
+rget, so<br>
+&gt; &gt;=C2=A0 don&#39;t use SSHD on host to decide weither to build a tes=
+t<br>
+&gt; &gt;<br>
+&gt; &gt; -Upstream-Status: Inappropriate[oe specific]<br>
+&gt; &gt; +Upstream-Status: Inappropriate [oe specific]<br>
+&gt;<br>
+&gt; Since we are already using a special token &#39;[&#39; to separate rea=
+son from<br>
+&gt; status, I always wondered if having this space before &#39;[&#39; is s=
+omething<br>
+&gt; that could be ignored.<br>
+&gt;<br>
+<br>
+I see that scripts/contrib/patchreview.py does not care for space,<br>
+that answers my question. Maybe it would be<br>
+good to tabulate reason as well perhaps.<br>
+<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 Signed-off-by: Changqing Li &lt;<a href=3D"mailto:changqing=
+.li@windriver.com" target=3D"_blank">changqing.li@windriver.com</a>&gt;<br>
+&gt; &gt; -<br>
+&gt; &gt;=C2=A0 ---<br>
+&gt; &gt; - tests/Makefile.am | 6 +-----<br>
+&gt; &gt; - 1 file changed, 1 insertion(+), 5 deletions(-)<br>
+&gt; &gt; + tests/Makefile.am | 4 ----<br>
+&gt; &gt; + 1 file changed, 4 deletions(-)<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 diff --git a/tests/Makefile.am b/tests/Makefile.am<br>
+&gt; &gt; -index dc0922f..6cbc35d 100644<br>
+&gt; &gt; +index 27ddc2d..13de8ab 100644<br>
+&gt; &gt;=C2=A0 --- a/tests/Makefile.am<br>
+&gt; &gt;=C2=A0 +++ b/tests/Makefile.am<br>
+&gt; &gt; -@@ -1,16 +1,12 @@<br>
+&gt; &gt; +@@ -3,16 +3,12 @@ SUBDIRS =3D ossfuzz<br>
+&gt; &gt;=C2=A0 =C2=A0AM_CPPFLAGS =3D -I$(top_srcdir)/src -I$(top_srcdir)/i=
+nclude -I$(top_builddir)/src<br>
+&gt; &gt;=C2=A0 =C2=A0LDADD =3D ../src/<a href=3D"http://libssh2.la" rel=3D=
+"noreferrer" target=3D"_blank">libssh2.la</a><br>
+&gt; &gt;<br>
+&gt; &gt; @@ -35,10 +34,3 @@ index dc0922f..6cbc35d 100644<br>
+&gt; &gt;=C2=A0 =C2=A0check_PROGRAMS =3D $(ctests)<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 =C2=A0TESTS_ENVIRONMENT =3D SSHD=3D$(SSHD) EXEEXT=3D$(EXEEX=
+T)<br>
+&gt; &gt; -@@ -38,4 +34,4 @@ if OPENSSL<br>
+&gt; &gt; - # EXTRA_DIST +=3D test_public_key_auth_succeeds_with_correct_en=
+crypted_ed25519_key.c<br>
+&gt; &gt; - # EXTRA_DIST +=3D test_public_key_auth_succeeds_with_correct_ed=
+25519_key_from_mem.c<br>
+&gt; &gt; - EXTRA_DIST +=3D test_public_key_auth_succeeds_with_correct_rsa_=
+openssh_key.c<br>
+&gt; &gt; --endif<br>
+&gt; &gt; -\ No newline at end of file<br>
+&gt; &gt; -+endif<br>
+&gt; &gt; --<br>
+&gt; &gt; 2.39.2<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; &gt; Links: You receive all messages sent to this group.<br>
+&gt; &gt; View/Reply Online (#177204): <a href=3D"https://lists.openembedde=
+d.org/g/openembedded-core/message/177204" rel=3D"noreferrer" target=3D"_bla=
+nk">https://lists.openembedded.org/g/openembedded-core/message/177204</a><b=
+r>
+&gt; &gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/969=
+87532/1997914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembed=
+ded.org/mt/96987532/1997914</a><br>
+&gt; &gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.op=
+enembedded.org" target=3D"_blank">openembedded-core+owner@lists.openembedde=
+d.org</a><br>
+&gt; &gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembe=
+dded-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openemb=
+edded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.c=
+om" target=3D"_blank">raj.khem@gmail.com</a>]<br>
+&gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; &gt;<br>
+</blockquote></div>
+
+--0000000000003cfb6505f4c32e5e--
 
