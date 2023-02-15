@@ -1,139 +1,156 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AA5FC64EC4
-	for <webhook@archiver.kernel.org>; Wed, 15 Feb 2023 17:20:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94E40C636CC
+	for <webhook@archiver.kernel.org>; Wed, 15 Feb 2023 17:29:19 +0000 (UTC)
 Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web11.21418.1676481657991055149
+ by mx.groups.io with SMTP id smtpd.web10.21593.1676482156819508947
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Feb 2023 09:20:58 -0800
+ Wed, 15 Feb 2023 09:29:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=aPNEk06P;
- spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f44.google.com with SMTP id l21-20020a05600c1d1500b003dfe462b7e4so2922843wms.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Feb 2023 09:20:57 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=A9WtwqdQ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id bg5-20020a05600c3c8500b003e00c739ce4so2095814wmb.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Feb 2023 09:29:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8nl2B8Bhoc8UI1Vi6VdGrVJJOJuAkopIaOw/POBXscc=;
-        b=aPNEk06PpqSUVkaCHugkroGIOk/OyXAySkuIyg992TisWNTs5DUcTfn9WoGhqfFbey
-         WzG0/VMIxSWK0gBntUm/SBPSQjiN/ExkUXv0eEDiMB+BBDtGodYuxTJjVXMlLbdPoaw+
-         gi9rinIz39TzdVOdRoJzgohdoa/WMHTeWf/eYyU8nmbRyKWwfao0NT9fL6WWxSTUbYS7
-         Wsad4Ko3D/uNgKAjWKhwMnlD3x8/iMdRU3bq0z6BNCWVVmWsCg+gm+xVKKa9dwpyuZwX
-         byFql0PRvphhtLsMPQp8szD3KTtY9izOKHOUUwceMCaWbz+gTwyziKyrHW/Q0ugxaaHE
-         wx1Q==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=uMsKSPbObYlF0hKCC99GA5Vx7dqlsWnbm3W/GDEc0jI=;
+        b=A9WtwqdQztRYicGVTJ++b9zHRA2slUX0egzZvOREqndYyRDO3ixjlsqQNX64oeJPSB
+         t+9MyZIAgHzCWMLPRNKHmWNIIGEDFdfo/ZXbnb0MxfAjGfL9nP8RwodT/Yt0hR06x5XZ
+         tRp3Z7ZnK+6XsUk+6nFq13tOM65pKhGD+Tgwk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8nl2B8Bhoc8UI1Vi6VdGrVJJOJuAkopIaOw/POBXscc=;
-        b=G+KJaG+eL7b09Yhggs39kfGHo4wGxY9E5RYFd8eYmUV1pJNws5yAyZDIZteAPRrsJJ
-         ohtS7t9nHNt9kuC6er0Ml4+NOmKmznZnhuzR7CS3XFMKroikjKVXa2VquPNxpUG1M0uF
-         UPyVQQMYB0yWa8RVOog5+fnpLMJ5mQwkCLbKuTkIn0gCXBkTAbfNtOR68V33NavP209y
-         oElxFSWZaOkG3YqvAEb+j+G2/O+/gaefpzo/O938tZcMxXbil+68rRxbLkUA/IDeryag
-         0+E0hzYPJRmI0fwQNSlkxKeJALTLTA69kaL9zpvTNajJHKq9AMBu1GLKNDJxXTo/No+7
-         Hjpg==
-X-Gm-Message-State: AO0yUKVrxtvOZBwPKj/5D3zhM0h4epIeA+tmu6Nu+GWZsoJNy3kurD+t
-	PFfmkmQ2hd2kR+T28LiyIEd+IcFUxN8=
-X-Google-Smtp-Source: AK7set958jA56v3JZbViZJPCP/K10XqvrP56l/dJtqbv8/yDxXPM5V6h5VrHGVbxGqSWnVBsRxvRWA==
-X-Received: by 2002:a05:600c:474b:b0:3d2:2d2a:d581 with SMTP id w11-20020a05600c474b00b003d22d2ad581mr2590823wmo.30.1676481656476;
-        Wed, 15 Feb 2023 09:20:56 -0800 (PST)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id l16-20020a05600c1d1000b003dc3f07c876sm3198857wms.46.2023.02.15.09.20.55
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uMsKSPbObYlF0hKCC99GA5Vx7dqlsWnbm3W/GDEc0jI=;
+        b=i8BCfpDBrXDy7c7Xu4Lei7AICgqwQTlZ1kM8xrf2CW2chFyEw2V4O44WYK+Jr8MjD4
+         WiCdCJQqVk2OexOHT1zOYpJSe8kD2CRgudi45HVJZDN3zxsJ2HVx6lMKrXoSA4dUxUjN
+         qYyOuRQr8frTbqzQ6yAum5jFzjFM8K7B8xYtawVaDQ42IA29IZJVDkAANhp2j9QOV+5/
+         39KlRFe8unRktH2+VKVqtQG8BUShf8yEArpYduR//UGq0YrhzNgWJsfnVqC++5dTRtfZ
+         hasYuZw57JaSmreTMWlUZN8lLyiUQ4CGG+XkbYWeVDFn4MmxVuqpVjYU/ZGBU8uW6l6n
+         r6Mg==
+X-Gm-Message-State: AO0yUKX/RdFJZ1EeqojP80dnR+AMMFhae1KeYNS6/HLr4jhiMTep94Uc
+	q8UKs7OZjf5HMKLp1giN0A4Brg==
+X-Google-Smtp-Source: AK7set+tJcfrnZ/NfpR09UJtoGf+maReo3r5lKvoJQ0BkoMfmDe8/sLWh9W3HXJgfYS8V2W18v49tw==
+X-Received: by 2002:a05:600c:2b46:b0:3df:f85a:472f with SMTP id e6-20020a05600c2b4600b003dff85a472fmr2759055wmf.13.1676482155222;
+        Wed, 15 Feb 2023 09:29:15 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:fcb8:24dc:acf7:61c1? ([2001:8b0:aba:5f3c:fcb8:24dc:acf7:61c1])
+        by smtp.gmail.com with ESMTPSA id p8-20020a05600c2e8800b003dc3f195abesm2586984wmn.39.2023.02.15.09.29.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Feb 2023 09:20:56 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: ross.burton@arm.com,
-	Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [RFC][PATCH 3/3] patchreview: use check_upstream_status() from oe.qa
-Date: Wed, 15 Feb 2023 18:20:41 +0100
-Message-Id: <20230215172041.636292-3-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230215172041.636292-1-Martin.Jansa@gmail.com>
-References: <20230215172041.636292-1-Martin.Jansa@gmail.com>
+        Wed, 15 Feb 2023 09:29:14 -0800 (PST)
+Message-ID: <a9578e7702bd71a6ec9f771a353ae9f13b39d04e.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [RFC][PATCH] libssh2: Update patch to apply and fix
+ malformed Upstream-Status
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <Martin.Jansa@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: randy.macleod@windriver.com, changqing.li@windriver.com
+Date: Wed, 15 Feb 2023 17:29:14 +0000
+In-Reply-To: <20230215171832.635085-1-Martin.Jansa@gmail.com>
+References: <20230215171832.635085-1-Martin.Jansa@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Feb 2023 17:20:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177207
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Feb 2023 17:29:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177208
 
-* the idea was to reuse the same function as I've noticed that the
-  QA check which was added to insane.bbclass in:
-  https://git.openembedded.org/openembedded-core/commit/?id=76a685bfcf927593eac67157762a53259089ea8a
-  is in some cases more strcit than scripts/contrib/patchreview.py
+On Wed, 2023-02-15 at 18:18 +0100, Martin Jansa wrote:
+> * I've noticed this, because patchreview.py reports Malformed
+>   Upstream-Status in this one now, but the QA check in insane.bbclass
+>   wasn't reporting it before
+>=20
+> * the reason why insane.bbclass doesn't report it is because:
+>   SRC_URI:append:ptest =3D " file://0001-Don-t-let-host-enviroment-to-dec=
+ide-if-a-test-is-bui.patch"
+>   doesn't work and probably never did as "ptest" is not an override
+>   and patch-status-core checks only the .patch files which are really
+>   in SRC_URI.
+>=20
+> * I've added it directly to SRC_URI and it also didn't apply:
+>   http://errors.yoctoproject.org/Errors/Details/689955/
+>   as the "endif" at the end was removed in 1.10.0 version:
+>   https://github.com/libssh2/libssh2/commit/ecd6a74e44562797a1e92186ad4a4=
+02c5641720e#diff-32103f666ff2fb42b025a47ccf1b959bbcc6db89f217e5943b1de73c81=
+a4f9db
+>=20
+>   after updating the patch to apply I got expected patch-status-core fail=
+ure:
+>   http://errors.yoctoproject.org/Errors/Details/689956/
+>   ERROR: QA Issue: Malformed Upstream-Status in patch
+>   TOPDIR/openembedded-core/meta/recipes-support/libssh2/files/0001-Don-t-=
+let-host-enviroment-to-decide-if-a-test-is-bui.patch
+>   Please correct according to https://www.openembedded.org/wiki/Commit_Pa=
+tch_Message_Guidelines#Patch_Header_Recommendations:_Upstream-Status :
+>   Upstream-Status: Inappropriate[oe specific] [patch-status-core]
+>=20
+> * so the mystery is solved, but what should be do with this never-used
+>   patch, I think we should just delete it together with
+>   SRC_URI:append:ptest, but please Changqing Li confirm it's not needed
+>=20
+> * it was originally added by Changqing Li in meta-oe with:
+>   https://git.openembedded.org/meta-openembedded/commit/?id=3Dd7aa7173405=
+c3b36235af736cd31dbe110708787
+>   then imported to oe-core by Randy MacLeod with:
+>   https://git.openembedded.org/openembedded-core/commit/?id=3D57df134b1be=
+56a688f41851e5ff014dd859c0bc3
+>=20
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  ...nviroment-to-decide-if-a-test-is-bui.patch | 22 ++++++-------------
+>  1 file changed, 7 insertions(+), 15 deletions(-)
+>=20
+> diff --git a/meta/recipes-support/libssh2/files/0001-Don-t-let-host-envir=
+oment-to-decide-if-a-test-is-bui.patch b/meta/recipes-support/libssh2/files=
+/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch
+> index b1204e49eb..e0000b2658 100644
+> --- a/meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-t=
+o-decide-if-a-test-is-bui.patch
+> +++ b/meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-t=
+o-decide-if-a-test-is-bui.patch
+> @@ -1,24 +1,23 @@
+> -From f6abce5ba41a412a247250dcd80e387e53474466 Mon Sep 17 00:00:00 2001
+> -From: Your Name <you@example.com>
+> +From 7ffa1773be8d262bed0f5c8bdcb4dd8f906de095 Mon Sep 17 00:00:00 2001
+> +From: Changqing Li <changqing.li@windriver.com>
+>  Date: Mon, 28 Dec 2020 02:08:03 +0000
+>  Subject: [PATCH] Don't let host enviroment to decide if a test is build
+> =20
+>  test ssh2.sh need sshd, for cross compile, we need it on target, so
+>  don't use SSHD on host to decide weither to build a test
+> =20
+> -Upstream-Status: Inappropriate[oe specific]
+> +Upstream-Status: Inappropriate [oe specific]
+> =20
+>  Signed-off-by: Changqing Li <changqing.li@windriver.com>
 
-  To be honest I wasn't aware of scripts/contrib/patchreview.py
-  existence when I've asked about moving check_upstream_status()
-  to oe.qa in order to write standalone script just like
-  patchreview.py, now I don't feel strongly about sharing this
-  functionality (other than adjusting regexes in patchreview.py)
+The patch is to fix ssh2.sh as a test. The test was disabled here:
 
-* it finds one "new" issue in oe-core:
-  Malformed Upstream-Status 'Malformed Upstream-Status in patch
-  meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch
-  Please correct according to https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Header_Recommendations:_Upstream-Status :
-  Upstream-Status: Inappropriate[oe specific]' (meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch)
+https://git.yoctoproject.org/poky/commit/meta/recipes-support/libssh2?id=3D=
+af067d427fc1000c2dcce84c5578ea26f9048208
 
-* but unlike the QA check patchreview.py will report this:
-  -Upstream-Status: Submitted [https://github.com/madler/zlib/pull/599]
-  +Upstream-Broken-Status: Submitted [https://github.com/madler/zlib/pull/599]
+referencing:
 
-  as a missing Upstream-Status instead of malformed as reported by QA check:
+https://github.com/libssh2/libssh2/issues/630
 
-  ERROR: zlib-native-1.2.13-r0 do_patch: QA Issue: Malformed Upstream-Status in patch
-  /OE/build/oe-core/openembedded-core/meta/recipes-core/zlib/zlib/0001-configure-Pass-LDFLAGS-to-link-tests.patch
-  Please correct according to https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Header_Recommendations:_Upstream-Status :
-  Upstream-Broken-Status: Submitted [https://github.com/madler/zlib/pull/599] [patch-status-core]
+which is now fixed.
 
-* RFC: let me know if you think it's worth re-working this to better
-  integrate (e.g. detecting Upstream-Broken-Status and not repeating
-  .patch path in patchreview.py output) or if I should just adjust
-  regexes in patchreview.py.
+The autobuilder doesn't currently run the test:
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- scripts/contrib/patchreview.py | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+https://autobuilder.yocto.io/pub/non-release/20230215-12/testresults/qemux8=
+6-64-ptest/libssh2.log
 
-diff --git a/scripts/contrib/patchreview.py b/scripts/contrib/patchreview.py
-index b22cc07f0a..ce6b0f05c4 100755
---- a/scripts/contrib/patchreview.py
-+++ b/scripts/contrib/patchreview.py
-@@ -42,7 +42,9 @@ def blame_patch(patch):
-                                     "--", patch)).decode("utf-8").splitlines()
- 
- def patchreview(path, patches):
--    import re, os.path
-+    import re, os.path, sys
-+    sys.path.append(os.path.join(sys.path[0], '../../meta/lib'))
-+    import oe.qa
- 
-     # General pattern: start of line, optional whitespace, tag with optional
-     # hyphen or spaces, maybe a colon, some whitespace, then the value, all case
-@@ -72,12 +74,11 @@ def patchreview(path, patches):
-         else:
-             result.missing_sob = True
- 
--
-         # Find the Upstream-Status tag
-         match = status_re.search(content)
-         if match:
--            value = match.group(1)
--            if value != "Upstream-Status:":
-+            value = oe.qa.check_upstream_status(fullpath)
-+            if value:
-                 result.malformed_upstream_status = value
- 
-             value = match.group(2).lower()
--- 
-2.39.2
+I don't know if the test still needs the patch to fix it.
 
+Cheers,
+
+Richard
 
