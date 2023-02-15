@@ -1,183 +1,129 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC64FC636D4
-	for <webhook@archiver.kernel.org>; Wed, 15 Feb 2023 15:10:38 +0000 (UTC)
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
- by mx.groups.io with SMTP id smtpd.web10.17391.1676473836604831841
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFCB3C636D4
+	for <webhook@archiver.kernel.org>; Wed, 15 Feb 2023 15:12:58 +0000 (UTC)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+ by mx.groups.io with SMTP id smtpd.web10.17466.1676473970273593650
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Feb 2023 07:10:36 -0800
+ Wed, 15 Feb 2023 07:12:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=klWYENCp;
- spf=pass (domain: gmail.com, ip: 209.85.217.42, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-vs1-f42.google.com with SMTP id m1so20147320vst.7
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Feb 2023 07:10:36 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=C2yjtV+6;
+ spf=pass (domain: gmail.com, ip: 209.85.208.178, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f178.google.com with SMTP id y19so22530410ljq.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Feb 2023 07:12:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=glC2rn2xqtlvzVuSerFBfbAs4W2mfckOn4jgWiKnZNM=;
-        b=klWYENCpHH0RKqG70vP/pLjxVHjzHzC3Z33M3Qy67d0Aa+WLpgst1hGmOHFt9azSvC
-         /MN5W5ONpvDEplNtGWMxCupVDyZtPSTz7gLaZqrPGQabitR1GAGAvmiOnh5SQ0mMR2ib
-         YstD/yoMJxadA/ZLI3MFkwrMv1JRqHhjrqw2ZqpdSLgkDcYeFUh0Xx6IWoScs+ZGZRLg
-         iOZWC0Q4l1v7v73eh3bhjFgEE1Uek2sldyqqHARTslA0xyIK3zU7AuGbkD0LA1qvDyte
-         H1OSzO8sbixP4CC51dl/dXifeHEkLTOAG8wx90Vb3PqhXKkVK+15mQI+/0nrt5JWPyVi
-         OiLQ==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JISBD6RkhL0xcAfEjAgkvqomZWHn6X3JcZBZmBoMXp0=;
+        b=C2yjtV+64r9yTnGpP+aB+kvrhML68GDGQxfS1WVa226R4qeC867eEzvlxu/qMn2pL8
+         g7ygN5RfFKARSkAnBnUzFveoAUnGVmUn61DZ+vIH81Zfp3adzzyC50C67Per1WagvJH8
+         sA92DDe1t7vBfgbKeYdxL7SONRWeggvqoSi1z09VFfc+cxZsh6x8P7lqjG84IQvh43wT
+         H0Rg66IeSvuP3fkNaLkywE7f3wGE1bboHij+iHNbOHnFlZ3xjpSxk22Bb3lodBU3APxn
+         Q3fkkkj5BzaAevoNm6en9HyK75NN6BSkXGmRpDWDrFUoGCVGSXBoEQlqVPhmPUtvpZZj
+         f6jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=glC2rn2xqtlvzVuSerFBfbAs4W2mfckOn4jgWiKnZNM=;
-        b=mZj4C/3eKg93MZHH+dvbAAqIM00/zFP6gdXNTG/98yr+vbfenq45oqM3CURY8Pi74O
-         y8913N17yVL2wzSNJdt1cFdSknshAG7BnwYqhGbz75r+EyUfir/kDXw/0rBvPTXyzZm3
-         NfQWVy1y0Lk9Qx0gecJX7yRPpBOuXgRicLKDvyH5M3shwz6KbgZajxFdsiEHCO/SXNMs
-         qOo+HI3w9TUI2lRYj3fTU+cgaQV+jCcTjANRITII9E00cii0Emqmui0sXVPeFI/jFzKe
-         4hybCj4XIkbd1/j6fww5atEyR82Dl28xMerDELyMnYORv9JvZTHc8g2nT0QDAF/X4Vqw
-         iy9g==
-X-Gm-Message-State: AO0yUKXKYkZDxTH8e2MZFIeHRns8WDiCi3I2Nsv/zGV3bYs5uDEFHAQg
-	uTGzI6hPdCmqsLoBh28mCcl4wxSGy8uVbRjf/Ts=
-X-Google-Smtp-Source: AK7set9DwFyViHt60AHqTeyrmcbSkXeH9mb5ZjVl7tKuMl/PpvO8KwESeqXXzW+Dg8H4CSxXAKIzYGW9KSHDXlWbphM=
-X-Received: by 2002:a05:6102:11f7:b0:3f0:be66:8037 with SMTP id
- e23-20020a05610211f700b003f0be668037mr464660vsg.80.1676473835565; Wed, 15 Feb
- 2023 07:10:35 -0800 (PST)
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JISBD6RkhL0xcAfEjAgkvqomZWHn6X3JcZBZmBoMXp0=;
+        b=OWPcUjoMo0vqKUs8BgAAJEVQvavnJUAOmh19yDTkItncVLThtKmYlbBMWrZ17DLZxw
+         JWXFCUWViBhxmBezbYDyHIG5nMfw06yFCwO6QWxxtHNK0Lsy0auI5XrMLKNgq2pM/iNc
+         dDZmhmOMXaPTF2C8PIOjnNdOszAwIeJ2+4/s4ekway9zslPNLq62b2uYSRTnawM49649
+         D16LH8gE51mgL+Wnh1rFbBKqHWHOdrGoHyalgO6jwO2rXaaZKIykLOgooMcmdMJMaIJ8
+         npEdY3LCKgysyEhz4IQAu6cXPgiPIhAAR15qq7vOmaU45qHoPMU/mLd1mi6tXSpBs1ID
+         OHIQ==
+X-Gm-Message-State: AO0yUKXkS5Ku09bDtq7v8iJBzIPPIof/D2yhqd+j8PAyTysXcn9Kk0Vi
+	zpTmKVx1MLR6HofFfzdVNgt6HGT3NJbkf07rluM=
+X-Google-Smtp-Source: AK7set8xzVC4FbEh11lM6FpHzDTbW8XWrcINFVGn7aC2OAx7s+ynGha4iJYsBH5qfVXCwkQ6Xk41FtnhIhGTZVGw7SE=
+X-Received: by 2002:a2e:b539:0:b0:28e:54f:b187 with SMTP id
+ z25-20020a2eb539000000b0028e054fb187mr677002ljm.5.1676473968057; Wed, 15 Feb
+ 2023 07:12:48 -0800 (PST)
 MIME-Version: 1.0
-References: <20230215130057.1923450-1-jose.quaresma@foundries.io> <CAP9ODKrs24T2V1Ks8yeWbT+_6FLWdc4wy8iybKQpjxPhOhctAw@mail.gmail.com>
-In-Reply-To: <CAP9ODKrs24T2V1Ks8yeWbT+_6FLWdc4wy8iybKQpjxPhOhctAw@mail.gmail.com>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Wed, 15 Feb 2023 15:10:24 +0000
-Message-ID: <CANPvuRm+Df-HVCi-KDOUPzKeUJz9VvznSKLVu1vWCK9Fx+YOoA@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 1/2] kernel-module-split: make autoload and
- probeconf distribution specific
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: openembedded-core@lists.openembedded.org, 
-	Jose Quaresma <jose.quaresma@foundries.io>
-Content-Type: multipart/alternative; boundary="00000000000071bb1805f4be7bae"
+References: <20230203135011.2061939-1-m.felsch@pengutronix.de>
+ <12e370a3183d04572da1c5749d8e64dcf5091a0c.camel@linuxfoundation.org>
+ <acf8b79c23675a2b4c7225e55e4ab369fbcf7f54.camel@pengutronix.de>
+ <7f5ebf2315c969ce7c76d024ec373f45cc8eff3f.camel@linuxfoundation.org>
+ <CAP9ODKokQpGL3ttukqRaq3-8m0ci7qp8mckbgudGJx1HOu-fPw@mail.gmail.com>
+ <CANNYZj8_RkjMASpozi+oSu3XOHCW04n9YUC5UgHKy+2vm=cDrQ@mail.gmail.com>
+ <CAP9ODKqjkCuhyVkfhskOSdF3g57=R9MO6Bcy2R5zBV9fVd6wZQ@mail.gmail.com>
+ <CANNYZj_jLK-FXrGx+bF6fXrSsc-so6G_kpyZKNTpatqJKxQeRg@mail.gmail.com> <721e4d45d0d67a03be6ea4953351f5cb0c4ac36d.camel@pengutronix.de>
+In-Reply-To: <721e4d45d0d67a03be6ea4953351f5cb0c4ac36d.camel@pengutronix.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 15 Feb 2023 16:12:36 +0100
+Message-ID: <CANNYZj8UMuzxfXjXx4-pn+a1RXxmccqsq2uiXceqE8VM2NdTBg@mail.gmail.com>
+Subject: Re: [yocto] [OE-core] [PATCH 1/2] barebox: add initial support
+To: =?UTF-8?Q?Enrico_J=C3=B6rns?= <ejo@pengutronix.de>
+Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, Marco Felsch <m.felsch@pengutronix.de>, 
+	openembedded-core@lists.openembedded.org, yocto@pengutronix.de, 
+	barebox@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Feb 2023 15:10:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177202
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Feb 2023 15:12:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177203
 
---00000000000071bb1805f4be7bae
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+There was a parallel conversation on the irc meanwhile; we've
+concluded that Enrico will look into adding qemu based tests for
+barebox into oe-selftest like we already have for EFI bootloaders, and
+there will be a new patchset then.
 
-Hi Octavio,
+Alex
 
-Otavio Salvador <otavio.salvador@ossystems.com.br> escreveu no dia quarta,
-15/02/2023 =C3=A0(s) 13:25:
-
-> Em qua., 15 de fev. de 2023 =C3=A0s 10:01, Jose Quaresma
-> <quaresma.jose@gmail.com> escreveu:
-> >
-> > The modules-load.d [1] - Configure kernel modules to load at boot
-> > should install their configuration files in /usr/lib/modules-load.d.
-> >
-> > The modprobe.d [2] - Configuration directory for modprobe
-> > should install their configuration files in /lib/modprobe.d
-> >
-> > [1] https://www.freedesktop.org/software/systemd/man/modules-load.d.htm=
+On Wed, 15 Feb 2023 at 16:01, Enrico J=C3=B6rns <ejo@pengutronix.de> wrote:
+>
+> Am Mittwoch, dem 15.02.2023 um 15:11 +0100 schrieb Alexander Kanavin:
+> > On Wed, 15 Feb 2023 at 14:53, Otavio Salvador
+> > <otavio.salvador@ossystems.com.br> wrote:
+> > > I think the Barebox inside OE-Core allows a bigger integration and
+> > > reuse of existing tooling for signing and other classes currently wel=
 l
-> > [2] https://www.man7.org/linux/man-pages//man5/modprobe.d.5.html
+> > > integrated with U-Boot. For me, a critical point for decision is if
+> > > Pengutronix will commit to support it.
 > >
-> > Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+> > You should be well aware there's a history of people contributing
+> > stuff to core and even assigning themselves as maintainers, then
+> > disappearing.
+>
+> If possible I would add my name with the above-mentioned Mailing list to =
+the maintainers file.
+> This ensures I am responsible but not the only one reading the mails.
+>
+> > And then it falls (largely) on me to keep things
+> > (barely) going. What happens if ptx withdraws its commitment? Can I
+> > then send a commit that removes barebox from core? Imagine the angry
+> > lynch mob that will show up after my head.
+>
+> I am fully ok with removing barebox again if we fail maintaining it prope=
+rly.
+>
+> Should I sign this somewhere? ;)
+>
+> > Adding things to core is a decision that cannot be easily reversed, so
+> > I'd rather have barebox in meta-barebox for a while, with any needed
+> > fixing to classes and infra in core.
+>
+> It has been in meta-ptx since 2015 and in meta-barebox since 2016. I woul=
+d call that 'a while' :)
 >
 >
-> Did you validate this using busybox only? Using sysv and busybox need
-> to be validated as well.
+> Best regards, Enrico
 >
-
-Please drop this patch series because it doesn work with busybox.
-
-Looks like busybox don't support other path than /etc:
-https://git.busybox.net/busybox/tree/modutils/modprobe.c?id=3D669c40ed8ebf4=
-80c95ce36135104e474e361a7e6#n658
-
-So I need to implement this in another way, maybe relocating the files from
-/etc only when systemd is enabled.
-
-Thanks for raising the issue.
-
-Jose
-
-
 > --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+> Pengutronix e.K.                           | Enrico J=C3=B6rns           =
+     |
+> Embedded Linux Consulting & Support        | https://www.pengutronix.de/ =
+|
+> Steuerwalder Str. 21                       | Phone: +49-5121-206917-180  =
+|
+> 31137 Hildesheim, Germany                  | Fax:   +49-5121-206917-9    =
+|
 >
-
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---00000000000071bb1805f4be7bae
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi Octavio,</div><div><br></div><div><div class=3D"gm=
-ail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Otavio Salvador &lt;<a hre=
-f=3D"mailto:otavio.salvador@ossystems.com.br">otavio.salvador@ossystems.com=
-.br</a>&gt; escreveu no dia quarta, 15/02/2023 =C3=A0(s) 13:25:<br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">Em qua., 15 de fev. de 2023=
- =C3=A0s 10:01, Jose Quaresma<br>
-&lt;<a href=3D"mailto:quaresma.jose@gmail.com" target=3D"_blank">quaresma.j=
-ose@gmail.com</a>&gt; escreveu:<br>
-&gt;<br>
-&gt; The modules-load.d [1] - Configure kernel modules to load at boot<br>
-&gt; should install their configuration files in /usr/lib/modules-load.d.<b=
-r>
-&gt;<br>
-&gt; The modprobe.d [2] - Configuration directory for modprobe<br>
-&gt; should install their configuration files in /lib/modprobe.d<br>
-&gt;<br>
-&gt; [1] <a href=3D"https://www.freedesktop.org/software/systemd/man/module=
-s-load.d.html" rel=3D"noreferrer" target=3D"_blank">https://www.freedesktop=
-.org/software/systemd/man/modules-load.d.html</a><br>
-&gt; [2] <a href=3D"https://www.man7.org/linux/man-pages//man5/modprobe.d.5=
-.html" rel=3D"noreferrer" target=3D"_blank">https://www.man7.org/linux/man-=
-pages//man5/modprobe.d.5.html</a><br>
-&gt;<br>
-&gt; Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:jose.quaresma@found=
-ries.io" target=3D"_blank">jose.quaresma@foundries.io</a>&gt;<br>
-<br>
-<br>
-Did you validate this using busybox only? Using sysv and busybox need<br>
-to be validated as well.<br></blockquote><div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr"><div>Please drop this patch series =
-because it doesn work with=C2=A0busybox.<br><div class=3D"gmail_quote"><div=
- dir=3D"ltr" class=3D"gmail_attr"><div><br></div></div></div></div><div>Loo=
-ks like busybox don&#39;t=C2=A0support other path than /etc:<br></div><div>=
-<a href=3D"https://git.busybox.net/busybox/tree/modutils/modprobe.c?id=3D66=
-9c40ed8ebf480c95ce36135104e474e361a7e6#n658">https://git.busybox.net/busybo=
-x/tree/modutils/modprobe.c?id=3D669c40ed8ebf480c95ce36135104e474e361a7e6#n6=
-58</a><br></div><div><br></div></div><div dir=3D"ltr" class=3D"gmail_attr">=
-So I need to implement this in another way, maybe relocating the files from=
- /etc only when systemd is enabled.<br></div><div dir=3D"ltr" class=3D"gmai=
-l_attr"><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
-"><div>Thanks for raising the issue.<br></div></div></div></div></div><div>=
-<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr"><br></div>=
-</div></div></div><div>Jose<br><br></div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">
-<br>
--- <br>
-Otavio Salvador=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0O.S. Systems<br>
-<a href=3D"http://www.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank=
-">http://www.ossystems.com.br</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"htt=
-p://code.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank">http://code=
-.ossystems.com.br</a><br>
-Mobile: +55 (53) 9 9981-7854=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Mobile: +1 (=
-347) 903-9750<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
- Quaresma</div></div></div></div></div>
-
---00000000000071bb1805f4be7bae--
 
