@@ -1,128 +1,186 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B3C7C636CC
-	for <webhook@archiver.kernel.org>; Wed, 15 Feb 2023 20:53:43 +0000 (UTC)
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
- by mx.groups.io with SMTP id smtpd.web10.4765.1676494415480790816
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D6E8C636CC
+	for <webhook@archiver.kernel.org>; Wed, 15 Feb 2023 21:06:43 +0000 (UTC)
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+ by mx.groups.io with SMTP id smtpd.web10.5101.1676495202176387492
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Feb 2023 12:53:35 -0800
+ Wed, 15 Feb 2023 13:06:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=fr1ES9vr;
- spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: jpewhacker@gmail.com)
-Received: by mail-ed1-f48.google.com with SMTP id fj20so84607edb.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Feb 2023 12:53:35 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=T0YQviWV;
+ spf=pass (domain: gmail.com, ip: 209.85.167.177, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f177.google.com with SMTP id r28so17029892oiw.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Feb 2023 13:06:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lt9C0MZhjY3vYrDvy7uuyS3S4xxGjyaugzKmOoqob3o=;
-        b=fr1ES9vrYyj/JZ2QxY5ZUG+xQPwHz3OZcgOcyX0gFXxZMNy/wLF+0BF/x6mgZFy1s0
-         eTOUXC/TzoNorJUMcJdKxlLwDp0ixDKpjWuv509vEdba2Xg5JiIWIa/dtA+MC+0pZtne
-         gnyV/oXc2qTvngXp41sxT02L+MHfIaZeP7Hbkp/r+fXJ2c9Raa7Fyd8q+D5H95NvV38w
-         DGi7QWG6guoJNgCyIKMYA4QdLNZnxFCui8f0S/RJY8a1H9PAXZLa/p7nEPwQgYt4ABAL
-         TXT+y53yfD+EFyD0Paon7guY5dxbkCYtOhhqtkOMNpE2T/zjU83bsjt6aN9d0XYU6WLy
-         FDUw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=IY6jAEOZaWVkj/20UD6nRMIuSniOXjuFgELkMQcmwSM=;
+        b=T0YQviWVPimw8rJQmkv8FLv9uACSRhtfs7B1fZUQaahAj83s6dfo42tMTIz58gKOJ1
+         NIfwGM+juLSd25WEBJiQALIFkHHjzXYXC+8l5BNq4Bur1QHllXF+PYZmWzUCrIXBBh2b
+         84qSpXem3tL2i18fqKsGrY2eMsuNsS63LhBwT4VIwer4k4GVqHa4tlbZs4m/A3KeMM7X
+         w7K6w9gTkUz2T48Dmz6u4eo2l/Q0w0QQfvbPmwPLsBS/Y5HEq0GzY+oGfhnddciXuIZB
+         UQ7pT6lU/VT5R9v/pt73OtsGP3rfRW9LRHffwzVoPo7yP747E7FT9gerP/pdjIAKZkyZ
+         0D9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lt9C0MZhjY3vYrDvy7uuyS3S4xxGjyaugzKmOoqob3o=;
-        b=A2bjFVbrKBcfR6C1oSq++0oD96PBK5nWPMhaRFRvNoIOOpZl9gSjZi8xmaPeN6tAwA
-         iRkPhfxuCC/3bh9TEAWMd2SxktB8xjl+YzcfGEuXjDtycoYVBPa0Dq2//qjtwkrEZao+
-         E4rgTRSGsRRjDLfj7KnmeU6YlFDicsgB2wSt+AkckgBhoy0wqG0uYFJB/8+u2dzrbIZN
-         hDb4egL0t06fKIjBNg22uBCk4LkGwKaY9RQU7M0EnpaYfiDOe0r1HIoBR+Ok1rqLW2yi
-         uyUoYJtej8XH7VAXTMkbDOgQTPL48a69ku8o6bt5xDeRIcLTq9VYD0XWUP1LqTspRW9z
-         iMVA==
-X-Gm-Message-State: AO0yUKXQMqilyOdvDNca1dubJ/j7MmB67Mh+DErJZEtgYm/lJQaNRKyt
-	FAd/QWKjJ22Ys4+90o8F3JPyjM2lSwMj6wg6Z5w=
-X-Google-Smtp-Source: AK7set/WaH99RAde6/T0HaIBM0uf2lWWeCG9WNyULkWng0FxOFFnI+pePIgpRcGTcCcP2KHWqny7zZsbW6CDl4IG1yI=
-X-Received: by 2002:a50:c050:0:b0:4ac:b481:2b7c with SMTP id
- u16-20020a50c050000000b004acb4812b7cmr1887071edd.2.1676494413901; Wed, 15 Feb
- 2023 12:53:33 -0800 (PST)
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IY6jAEOZaWVkj/20UD6nRMIuSniOXjuFgELkMQcmwSM=;
+        b=jLYIRugM+4KdQmpW3WW7v3aJlMx0Jty9AkwlAi2nQA/5SdNHyjbH+7vWmJ4O1jJyP8
+         dVKXWE1ZX8ltYHAfBjMPCLYY0g7OiP4cKsqADNX02Eff5aQKRvIXks+isV59uHWTodze
+         ynaJN8ZU4x2DcWLh3LSbuAZUNUXgYNdr+aEuEUxQly8cRweXZWZNE8lUVzfZZWUdyyKo
+         UOO+2FjgLtjIMVVQNuziXJzg4JA/09xrMp4c7WjE3hMDZUSggZ1zoK7FVEN6q7ePJbL4
+         6SVs9n5KlfYwz4UOqP36V2Kjrr5YcG2qa2ZPLbdxBXMUfCtMG4KkHEO0QmnTZlR8e3TL
+         fqaQ==
+X-Gm-Message-State: AO0yUKUQ2OK8U6nq3FdyZTtqNnEck9R1eZVk7FXGB7odVIj7+d2cWLf/
+	F0Oj5/vqvddauObvgr+OGu6l+09dA/DSgp2iNgYWxAit
+X-Google-Smtp-Source: AK7set+FLUJG7bsydRGRfVnDEIpj+92XiNNMTx5jfkzehOLEjk7/YLJ75QyxeljemeSlNsN2vD6ScMgc5ow8tGiBcmY=
+X-Received: by 2002:a05:6808:19a8:b0:37b:592b:ec39 with SMTP id
+ bj40-20020a05680819a800b0037b592bec39mr345533oib.262.1676495201265; Wed, 15
+ Feb 2023 13:06:41 -0800 (PST)
 MIME-Version: 1.0
-References: <20466372-402f-4659-fa23-e72461b6199d@linux.ibm.com>
-In-Reply-To: <20466372-402f-4659-fa23-e72461b6199d@linux.ibm.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Wed, 15 Feb 2023 14:53:22 -0600
-Message-ID: <CAJdd5GbfXCF=sEx8Y8g3DF0=TurNipemT9b2A1iXdOOg2xsA4g@mail.gmail.com>
-Subject: Re: [OE-core] Can create-spdx handle multiple components per recipe
-To: Joseph Reynolds <jrey@linux.ibm.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+References: <20230215171832.635085-1-Martin.Jansa@gmail.com>
+ <CAMKF1spS64yaiNdALD5hGKWqH=aOLPrfa1JzCYPoDOpRHpecdQ@mail.gmail.com>
+ <CAMKF1sp6qoGq3tqgs7V8qthxv7cW2iVav8w21za3OrKTxjvEjA@mail.gmail.com> <CA+chaQdfJsKcc5aXp44QF1Uu+6YDRBnuTVfUQ0Tm2v7=WxFhJg@mail.gmail.com>
+In-Reply-To: <CA+chaQdfJsKcc5aXp44QF1Uu+6YDRBnuTVfUQ0Tm2v7=WxFhJg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 15 Feb 2023 13:06:15 -0800
+Message-ID: <CAMKF1sroOJ3F1_Ye1EiMwTJr38hjV4HYF61yVk_t1k+vQBFyzg@mail.gmail.com>
+Subject: Re: [OE-core] [RFC][PATCH] libssh2: Update patch to apply and fix
+ malformed Upstream-Status
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, randy.macleod@windriver.com, 
+	changqing.li@windriver.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Feb 2023 20:53:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177215
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Feb 2023 21:06:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177216
 
-Joseph,
+On Wed, Feb 15, 2023 at 12:46 PM Martin Jansa <martin.jansa@gmail.com> wrote:
+>
+> patchreview.py will care about the space (like insane.bbclass does) if https://lists.openembedded.org/g/openembedded-core/message/177207 is merged
+>
 
-Currently create-spdx will only report on the recipe itself and the
-packages it produces. It's been a long standing TODO to make reporting
-of sub-components like NPM packages and rust crates better, but we
-haven't gotten there yet, partially because I'm not very familiar with
-these technologies. If you have some experience, it would be great to
-get some input on how to best handle these things.
+I see. thanks. I think this should be something every developer should
+then be able to run on the patchset they are about to post for review.
+Otherwise, it just
+add on to upstreaming friction that developer experiences and it won't scale.
 
-One of the biggest problems is that often these technologies do
-"sneaky" downloads of packages that we don't know about in the recipe,
-and thus can't really report on. We largely fixed this in rust by
-making user enumerate the crates they use in SRC_URI (with some
-tooling to help automatically generate the list), but it looks from
-the recipe you've linked to, this is what is happening in webui-vue.
-Because of this its going to be extra hard to report on any
-components, since we simply aren't aware they exist (at the recipe
-level).
-
-
-
-On Tue, Feb 14, 2023 at 2:27 PM Joseph Reynolds <jrey@linux.ibm.com> wrote:
->
-> Team,
->
-> Thanks again for continuing to improve Yocto/OE.
->
-> I have a question about the capabilities of the create-spdx.bbclass.  I
-> understand it will can an sBOM entry for each recipe.
->
-> Can create-spdx.bbclass handle multiple components per recipe?  For
-> example, my bitbake recipe produces a web application which packages
-> many HTML components.  I would like to have the recipe included in the
-> SBOM together with the components which are packaged into the web
-> application files.  Is there a way to do that?
->
-> Specifically, the OpenBMC web application uses various NPM compoents to
-> provide it functionality in the end-user's browser.
-> Recipe:
-> https://github.com/openbmc/openbmc/blob/master/meta-phosphor/recipes-phos=
-phor/webui/webui-vue_git.bb
->
-> Project source: https://github.com/openbmc/webui-vue/
-> NPM packages are specified here:
-> https://github.com/openbmc/webui-vue/blob/master/package-lock.json
-> Package-lock docs:
-> https://docs.npmjs.com/cli/v9/configuring-npm/package-lock-json
->
-> I want my SBOM to include the webui-vue application together with each
-> of the NPM packages it uses.=E2=80=A8  How can I do that?
->
-> Sincerely,
-> Joseph Reynolds
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#177174): https://lists.openembedded.org/g/openembedde=
-d-core/message/177174
-> Mute This Topic: https://lists.openembedded.org/mt/96969479/3616693
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JP=
-EWhacker@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+> On Wed, Feb 15, 2023 at 9:35 PM Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> On Wed, Feb 15, 2023 at 11:26 AM Khem Raj <raj.khem@gmail.com> wrote:
+>> >
+>> > On Wed, Feb 15, 2023 at 9:18 AM Martin Jansa <Martin.Jansa@gmail.com> wrote:
+>> > >
+>> > > * I've noticed this, because patchreview.py reports Malformed
+>> > >   Upstream-Status in this one now, but the QA check in insane.bbclass
+>> > >   wasn't reporting it before
+>> > >
+>> > > * the reason why insane.bbclass doesn't report it is because:
+>> > >   SRC_URI:append:ptest = " file://0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch"
+>> > >   doesn't work and probably never did as "ptest" is not an override
+>> > >   and patch-status-core checks only the .patch files which are really
+>> > >   in SRC_URI.
+>> > >
+>> > > * I've added it directly to SRC_URI and it also didn't apply:
+>> > >   http://errors.yoctoproject.org/Errors/Details/689955/
+>> > >   as the "endif" at the end was removed in 1.10.0 version:
+>> > >   https://github.com/libssh2/libssh2/commit/ecd6a74e44562797a1e92186ad4a402c5641720e#diff-32103f666ff2fb42b025a47ccf1b959bbcc6db89f217e5943b1de73c81a4f9db
+>> > >
+>> > >   after updating the patch to apply I got expected patch-status-core failure:
+>> > >   http://errors.yoctoproject.org/Errors/Details/689956/
+>> > >   ERROR: QA Issue: Malformed Upstream-Status in patch
+>> > >   TOPDIR/openembedded-core/meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch
+>> > >   Please correct according to https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Header_Recommendations:_Upstream-Status :
+>> > >   Upstream-Status: Inappropriate[oe specific] [patch-status-core]
+>> > >
+>> > > * so the mystery is solved, but what should be do with this never-used
+>> > >   patch, I think we should just delete it together with
+>> > >   SRC_URI:append:ptest, but please Changqing Li confirm it's not needed
+>> > >
+>> > > * it was originally added by Changqing Li in meta-oe with:
+>> > >   https://git.openembedded.org/meta-openembedded/commit/?id=d7aa7173405c3b36235af736cd31dbe110708787
+>> > >   then imported to oe-core by Randy MacLeod with:
+>> > >   https://git.openembedded.org/openembedded-core/commit/?id=57df134b1be56a688f41851e5ff014dd859c0bc3
+>> > >
+>> > > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+>> > > ---
+>> > >  ...nviroment-to-decide-if-a-test-is-bui.patch | 22 ++++++-------------
+>> > >  1 file changed, 7 insertions(+), 15 deletions(-)
+>> > >
+>> > > diff --git a/meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch b/meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch
+>> > > index b1204e49eb..e0000b2658 100644
+>> > > --- a/meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch
+>> > > +++ b/meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch
+>> > > @@ -1,24 +1,23 @@
+>> > > -From f6abce5ba41a412a247250dcd80e387e53474466 Mon Sep 17 00:00:00 2001
+>> > > -From: Your Name <you@example.com>
+>> > > +From 7ffa1773be8d262bed0f5c8bdcb4dd8f906de095 Mon Sep 17 00:00:00 2001
+>> > > +From: Changqing Li <changqing.li@windriver.com>
+>> > >  Date: Mon, 28 Dec 2020 02:08:03 +0000
+>> > >  Subject: [PATCH] Don't let host enviroment to decide if a test is build
+>> > >
+>> > >  test ssh2.sh need sshd, for cross compile, we need it on target, so
+>> > >  don't use SSHD on host to decide weither to build a test
+>> > >
+>> > > -Upstream-Status: Inappropriate[oe specific]
+>> > > +Upstream-Status: Inappropriate [oe specific]
+>> >
+>> > Since we are already using a special token '[' to separate reason from
+>> > status, I always wondered if having this space before '[' is something
+>> > that could be ignored.
+>> >
+>>
+>> I see that scripts/contrib/patchreview.py does not care for space,
+>> that answers my question. Maybe it would be
+>> good to tabulate reason as well perhaps.
+>>
+>> > >
+>> > >  Signed-off-by: Changqing Li <changqing.li@windriver.com>
+>> > > -
+>> > >  ---
+>> > > - tests/Makefile.am | 6 +-----
+>> > > - 1 file changed, 1 insertion(+), 5 deletions(-)
+>> > > + tests/Makefile.am | 4 ----
+>> > > + 1 file changed, 4 deletions(-)
+>> > >
+>> > >  diff --git a/tests/Makefile.am b/tests/Makefile.am
+>> > > -index dc0922f..6cbc35d 100644
+>> > > +index 27ddc2d..13de8ab 100644
+>> > >  --- a/tests/Makefile.am
+>> > >  +++ b/tests/Makefile.am
+>> > > -@@ -1,16 +1,12 @@
+>> > > +@@ -3,16 +3,12 @@ SUBDIRS = ossfuzz
+>> > >   AM_CPPFLAGS = -I$(top_srcdir)/src -I$(top_srcdir)/include -I$(top_builddir)/src
+>> > >   LDADD = ../src/libssh2.la
+>> > >
+>> > > @@ -35,10 +34,3 @@ index dc0922f..6cbc35d 100644
+>> > >   check_PROGRAMS = $(ctests)
+>> > >
+>> > >   TESTS_ENVIRONMENT = SSHD=$(SSHD) EXEEXT=$(EXEEXT)
+>> > > -@@ -38,4 +34,4 @@ if OPENSSL
+>> > > - # EXTRA_DIST += test_public_key_auth_succeeds_with_correct_encrypted_ed25519_key.c
+>> > > - # EXTRA_DIST += test_public_key_auth_succeeds_with_correct_ed25519_key_from_mem.c
+>> > > - EXTRA_DIST += test_public_key_auth_succeeds_with_correct_rsa_openssh_key.c
+>> > > --endif
+>> > > -\ No newline at end of file
+>> > > -+endif
+>> > > --
+>> > > 2.39.2
+>> > >
+>> > >
+>> > > -=-=-=-=-=-=-=-=-=-=-=-
+>> > > Links: You receive all messages sent to this group.
+>> > > View/Reply Online (#177204): https://lists.openembedded.org/g/openembedded-core/message/177204
+>> > > Mute This Topic: https://lists.openembedded.org/mt/96987532/1997914
+>> > > Group Owner: openembedded-core+owner@lists.openembedded.org
+>> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+>> > > -=-=-=-=-=-=-=-=-=-=-=-
+>> > >
 
