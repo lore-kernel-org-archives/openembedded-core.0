@@ -1,134 +1,103 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF954C636D4
-	for <webhook@archiver.kernel.org>; Wed, 15 Feb 2023 11:22:56 +0000 (UTC)
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
- by mx.groups.io with SMTP id smtpd.web10.12754.1676460175034380606
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 183F2C636CC
+	for <webhook@archiver.kernel.org>; Wed, 15 Feb 2023 11:27:07 +0000 (UTC)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+ by mx.groups.io with SMTP id smtpd.web10.12796.1676460423145444448
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Feb 2023 03:22:55 -0800
+ Wed, 15 Feb 2023 03:27:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20210112.gappssmtp.com header.s=20210112 header.b=gUrww7Vx;
- spf=pass (domain: ossystems.com.br, ip: 209.85.160.44, mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-16df32f2ffdso11834919fac.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Feb 2023 03:22:54 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=n4lyQUSv;
+ spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f171.google.com with SMTP id d8so21766105ljq.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Feb 2023 03:27:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:in-reply-to:references:mime-version
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XhMVYLhyev0HYRji7+nD6hArSlvPk6uafrY0cZEKUp4=;
-        b=gUrww7VxmTD+lmDTJVeX5dTKvkG60Qc5okOACowKvPyRAjRVzgSYzowQNYxyO9Wl/P
-         aQ5Ux4/4cYAH0lF6RuF4PW+/aOlg5dlNbo12Mcl3pd2N7XA0ThE9dllXPbczmH9ILvZ+
-         EvaHLlQ1AKeJklh/UBt+uGqnj6H8hz/zp8804ea9v4rpkgLUIaylzwt2GBUqjHA+psNq
-         rrSsqTnOeeV39fFNaI83tctPAmxQhLrklo+uPnVVRl3wTtjXBTBNEDRHJR/Z3pVfA+T4
-         Rhqn0VrlmeBcFbAyyQ/Ux9u0+qxh4wa4KWfvwvwUZOXFqoAwCprav0JOPqZebuOeDb1M
-         5t1Q==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iQkJnf6rK21rmoi12e1JHse1XIhrkBeFUBnSVWDma9o=;
+        b=n4lyQUSvk1rpKqQXjvGssYdwSuW9JuGCtFeI3GeerJRsWHBSF7Ox2NeG0/bpGecgI+
+         P1Sprwo/C9Tj+MDVUx64CyzKDoL7a1m/WZtRar/NlpJ0G/lI7g1RI4j7TRxUyV8igL80
+         uFFKEC5zaIpsatQ1bf4fhhNzyRxYbMpcDbIKjXJubdwF9Wbu7vcTMcbtXiM0pnE62W4b
+         8IMua7/k4A152MgEvNF1Vco55UMDCbAjSj7ZesDgQebUX6eT3Bffj3Mvz0WwqWq44LIo
+         vqpKDeQDyl9e8Dj7W2apcHJjgxNFiIV5qp1bZGmL2JgI28jaCWY9YVMjkJOkkZE8owcy
+         kktw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:in-reply-to:references:mime-version
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XhMVYLhyev0HYRji7+nD6hArSlvPk6uafrY0cZEKUp4=;
-        b=NZLJ50MXyUidLdPnaC/GmjC/rhRXPl1XfGvoDWU775DteZqEC5MDy/lB9WuLZQPkza
-         zPTXnE+NU0UHNbtRW/W1AklutI4bduonFQZsOhtUzKayD52GNrf1WA12N3x7JJlUzxMc
-         HZdBTx5cx5X21IZxlobf6c5SHBngZEqdPWHZH2gqVJOjEdlHXn7N/rf0N3BK8S+8QJMC
-         M1p/B5M6VYCxW4TNBIgoUW7ih2s+zpjK7uZ3XqwpzyklloH3waQ5W4GRNVOjldXd9+SM
-         5IQ16pYfG7VBrRi16by/OlUEM3pQBxPNEi2Eqrs7QEvrvkEWJ3Pr6VuPnKhuphOG5gP4
-         HYdg==
-X-Gm-Message-State: AO0yUKWk/0gxByQ17Pin17m44DsYTcfgs2iZvC1VFMV1XLDKBSosFfbt
-	CC4D1CN173iYaLUF0IzQ94RA9+Qw6JOA7Zcmm2g=
-X-Google-Smtp-Source: AK7set+MlNbkKvQ1V7Ry6cisL63RyHUnhlANY2ePmub0g6YsW+m6MthlAl0vofRqcG51W78PR7Gp2A==
-X-Received: by 2002:a05:6870:4394:b0:16d:e1a2:259 with SMTP id r20-20020a056870439400b0016de1a20259mr777204oah.34.1676460173866;
-        Wed, 15 Feb 2023 03:22:53 -0800 (PST)
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com. [209.85.167.181])
-        by smtp.gmail.com with ESMTPSA id dx52-20020a05687076b400b0016aaed9794bsm508061oab.3.2023.02.15.03.22.53
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Feb 2023 03:22:53 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi1-f181.google.com with SMTP id cz14so15467740oib.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Feb 2023 03:22:53 -0800 (PST)
-X-Received: by 2002:aca:bb82:0:b0:378:2bf7:39b4 with SMTP id
- l124-20020acabb82000000b003782bf739b4mr152990oif.288.1676460172655; Wed, 15
- Feb 2023 03:22:52 -0800 (PST)
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iQkJnf6rK21rmoi12e1JHse1XIhrkBeFUBnSVWDma9o=;
+        b=eYEcK3QyqlEAEtq9oPJsbMcsTv4HoovCrlLv3I2VcFpLURN7PiZMl/DzgtiZplIiK/
+         CglUJbKQzb2nej5qi9ZNNJq2vIuy40eFfilKzsgvntatoQtJnNuIQOOIESoaYz3bj7+L
+         SmgheETpnWwhpHjTSgawxPlTjtM8IHqy1mn/z/wycZqYHURSGfoBbO0dse0Dlkr2GwSp
+         mSuCt7ZrX2xcCtDWCPeptIpRuumzETpOsOHLknqlKSPwR3MnC5bZG9iFLxRB1qxjekxD
+         dkrJBg57ecM+KslN6f2WvlgzIKxDnkwF+kXoJDN4ITM/3waD1w0mvOCDY8do4xz7D2CV
+         pCsw==
+X-Gm-Message-State: AO0yUKXsflEcudXRcT1HZMrUYbJMQG/+8QmcwocaEOLI/SqR2U6xkxVX
+	GH5sSko0JLANo20d9k51d+gIow2i0PlTACuWiJw=
+X-Google-Smtp-Source: AK7set/rxNxcRvNP9Lc2tP6wLZeAbzc1azPY/xVMGKqljP7aDZzfznhlRjBiCTiVe38tNU5u8XBf1g+Fnq2qgr6IFUg=
+X-Received: by 2002:a05:651c:1688:b0:290:5bc0:65a with SMTP id
+ bd8-20020a05651c168800b002905bc0065amr448460ljb.5.1676460421168; Wed, 15 Feb
+ 2023 03:27:01 -0800 (PST)
 MIME-Version: 1.0
-References: <20230203135011.2061939-1-m.felsch@pengutronix.de>
- <12e370a3183d04572da1c5749d8e64dcf5091a0c.camel@linuxfoundation.org>
- <acf8b79c23675a2b4c7225e55e4ab369fbcf7f54.camel@pengutronix.de> <7f5ebf2315c969ce7c76d024ec373f45cc8eff3f.camel@linuxfoundation.org>
-In-Reply-To: <7f5ebf2315c969ce7c76d024ec373f45cc8eff3f.camel@linuxfoundation.org>
-Date: Wed, 15 Feb 2023 08:22:41 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKokQpGL3ttukqRaq3-8m0ci7qp8mckbgudGJx1HOu-fPw@mail.gmail.com>
-Message-ID: <CAP9ODKokQpGL3ttukqRaq3-8m0ci7qp8mckbgudGJx1HOu-fPw@mail.gmail.com>
-Subject: Re: [yocto] [OE-core] [PATCH 1/2] barebox: add initial support
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: =?UTF-8?Q?Enrico_J=C3=B6rns?= <ejo@pengutronix.de>, 
-	Marco Felsch <m.felsch@pengutronix.de>, openembedded-core@lists.openembedded.org, 
-	yocto@pengutronix.de, barebox@lists.infradead.org
-Content-Type: multipart/alternative; boundary="00000000000012476905f4bb4d2a"
+References: <20230104114555.575278-1-kubiznak@2n.com> <17371904FDF90491.29426@lists.openembedded.org>
+ <CANNYZj8Qfcs+X8yGRiHZJygZ0RH4n=KDsKXkXO-+duY=ycRS5A@mail.gmail.com>
+ <35848697143b4b3a8612c027d8852575@2n.com> <CANNYZj9eVWdxkuSVgur0WvTd3xNLECWS5mZ1nZg+q=WPO8PBGQ@mail.gmail.com>
+ <6351b082f6b748b7bf01d4313c648861@2n.com> <CANNYZj9sEYON_ymHC8-8hyu8kq4jspCHDEF2TyxU1qCcOu3+kQ@mail.gmail.com>
+ <e46977d84bbc4fd6ba7966b02937e8e9@2n.com> <CANNYZj8LTq_oXKzZUGYjjU0AU=Q8rXvaM0ne0xvz_CaNAV0NjQ@mail.gmail.com>
+ <DB4PR02MB10030E1A4CEFF3F064DF2F2EBE2FD9@DB4PR02MB10030.eurprd02.prod.outlook.com>
+ <CANNYZj-24WyZK=1vG7rbuoi9mquxkB3uGTkyTTA2R0F=R=x=5A@mail.gmail.com>
+ <173FBEEB24ED84F2.30239@lists.openembedded.org> <DB4PR02MB100306D119372AABB30DD918BE2A39@DB4PR02MB10030.eurprd02.prod.outlook.com>
+In-Reply-To: <DB4PR02MB100306D119372AABB30DD918BE2A39@DB4PR02MB10030.eurprd02.prod.outlook.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 15 Feb 2023 12:26:49 +0100
+Message-ID: <CANNYZj-c37gfPD7y84qr88YtniAbLQ2Q6d_LxOt+WdnKbVmgfQ@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 1/2] gobject-introspection: check for GI_DATA_ENABLED
+To: =?UTF-8?B?UGV0ciBLdWJpesWIw6FrIC0gMk4=?= <Kubiznak@2n.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Feb 2023 11:22:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177184
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Feb 2023 11:27:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177185
 
---00000000000012476905f4bb4d2a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hello Richard,
-
-Em ter., 14 de fev. de 2023 =C3=A0s 10:56, Richard Purdie <
-richard.purdie@linuxfoundation.org> escreveu:
-
-> Fair enough, I'm open to the idea. It would be interesting/useful to
-> see if anyone else in the community is in favour of this or not. I'm
-> sure you appreciate why we need to ask the question and why we can't
-> just add everything! :)
+On Wed, 15 Feb 2023 at 10:39, Petr Kubiz=C5=88=C3=A1k - 2N <Kubiznak@2n.com=
+> wrote:
+> > The way I read gtk4 and graphene source code, what the recipe claims
+> > is not true: you can disable introspection in graphene, and it would
+> > still build and install graphene-gobject.pc which is what gtk4 is
+> > looking for. If the needed piece is not installed, then you need to
+> > get to the bottom of why, e.g. specific source code lines where that
+> > decision is made.
 >
-> The community usage does appear to be primarily phytec/ptx.
+> That's not really true. If no patches are applied and g-i is disabled, gr=
+aphene fails in do_compile:
 >
+> [75/75] /home/kubiznak/projects/poky2/build/tmp/work/core2-64-poky-linux/=
+graphene/1.10.8-r0/recipe-sysroot/usr/bin/g-ir-compiler-wrapper src/Graphen=
+e-1.0.gir --output src/Graphene-1.0.typelib --includedir=3D/usr/share/gir-1=
+.0
+> FAILED: src/Graphene-1.0.typelib
+> /home/kubiznak/projects/poky2/build/tmp/work/core2-64-poky-linux/graphene=
+/1.10.8-r0/recipe-sysroot/usr/bin/g-ir-compiler-wrapper src/Graphene-1.0.gi=
+r --output src/Graphene-1.0.typelib --includedir=3D/usr/share/gir-1.0
+> Could not find GIR file 'GObject-2.0.gir'; check XDG_DATA_DIRS or use --i=
+ncludedir
+> error parsing file src/Graphene-1.0.gir: Failed to parse included gir GOb=
+ject-2.0
 
-I have used barebox in some projects in the past for multiple customers. It
-is a solid and commonly used bootloader. I consider U-Boot the industry
-standard, but Barebox is also widely used, and it makes sense to be part of
-OE-Core.
+I replicated this locally. graphene isn't being correctly configured
+when introspection is disabled globally, and the attached patch is
+correct. Can you resend it as a proper oe-core submission?
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+I haven't seen webkit fail like that before, and it does not fail for
+me locally this way.
 
---00000000000012476905f4bb4d2a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hello Richard,</div><br><div class=3D"gmail_quote"><d=
-iv dir=3D"ltr" class=3D"gmail_attr">Em ter., 14 de fev. de 2023 =C3=A0s 10:=
-56, Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org=
-">richard.purdie@linuxfoundation.org</a>&gt; escreveu:</div><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
-rgb(204,204,204);padding-left:1ex">
-Fair enough, I&#39;m open to the idea. It would be interesting/useful to<br=
->
-see if anyone else in the community is in favour of this or not. I&#39;m<br=
->
-sure you appreciate why we need to ask the question and why we can&#39;t<br=
->
-just add everything! :)<br>
-<br>
-The community usage does appear to be primarily phytec/ptx.<br></blockquote=
-><div><br></div><div>I have used barebox in some projects in the past=C2=A0=
-for multiple customers. It is a solid and commonly used bootloader. I consi=
-der U-Boot the industry standard, but Barebox is also widely used, and it m=
-akes sense to be part of OE-Core.=C2=A0 =C2=A0 =C2=A0</div></div><div><br><=
-/div>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Otavio Salvador =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 O.S. Systems<br><a href=3D"http://www.ossystems.com.br=
-" target=3D"_blank">http://www.ossystems.com.br</a> =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0<a href=3D"http://code.ossystems.com.br" target=3D"_blank">http://cod=
-e.ossystems.com.br</a><br>Mobile: +55 (53) 9 9981-7854 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0Mobile: +1 (347) 903-9750</div></div>
-
---00000000000012476905f4bb4d2a--
+Alex
 
