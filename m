@@ -1,88 +1,192 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4602BC6379F
-	for <webhook@archiver.kernel.org>; Wed, 15 Feb 2023 14:11:38 +0000 (UTC)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web10.15749.1676470289290306935
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C068FC636CC
+	for <webhook@archiver.kernel.org>; Wed, 15 Feb 2023 14:50:58 +0000 (UTC)
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+ by mx.groups.io with SMTP id smtpd.web11.16831.1676472650387287273
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Feb 2023 06:11:29 -0800
+ Wed, 15 Feb 2023 06:50:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=i9mZowSK;
- spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f53.google.com with SMTP id bp15so27697711lfb.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Feb 2023 06:11:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BqkI2gnnsZhRCMBRuAY5Ug62O8mAkxEf7PhTLUkCorU=;
-        b=i9mZowSKgak+9zBJSVRtqSqN71zaDpb10njuYogsCmdUbkcKvijMracldkAt1O0GTY
-         GXvWAbhQFv7TlgGIZd0m89aT0N1Cs/j47Xbkdr7l0HmE2sN1FWNFU+Qubap92dG8mh4r
-         r+C1pXw2CCVKeqXZHtZBuCCO6qvg5C+iAGG/1KcjG5pPoPj2tP45NDL8r2tZ2XZCfe4d
-         m0JBEwlwevmoH/jHwyTlcliC7Y6z/gQpW8lFehNIbiu3sWtHmy3OikvwTaR1HSCqlRaZ
-         WiLb8bSRHR8HO9Dw4o7jZz1dp2hegl8eK/ARHkGwayLRvseG6TFmV7GdbsZXQAH9YYph
-         68NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BqkI2gnnsZhRCMBRuAY5Ug62O8mAkxEf7PhTLUkCorU=;
-        b=cBFUXKrnSUHG4yow+ElenUOh/N8HBIR/pian22lE3aezCsOdQ1LUEBIJoYX/EWkTYm
-         /C4rKWOA6BPeoRHngN+yr2caEs6CDXfNKQSU55AaDSSAF8aDdhVpTxvC8gKfWng4yvSU
-         DBXkwZd8FcQ7IKefJ9mXy1jzk9nI1t2k2keNvK3C2kpvFbNbVU40BOVbF/7HmhVZeMXw
-         uQdoEAXIcxTnmtTuCv0tJhcLFd/m22wQNkkEzU7KDF5+FHczh4+lwDTG7GqdtK0rt2m7
-         2bL1lQf97dOGe46eH/MCUlQIykKDMdvlq3hlWe72NIMCJ1u8csCThXUZKBix6zQ/RkMi
-         wXuA==
-X-Gm-Message-State: AO0yUKW5eBRTmnYvptZRyOD+XCLu/crzprAH+78/B9H90fXmTzuQVh7D
-	WUeVdt4m3nBU6b9Feq/ZoquE5jDM8HRN6ypsvSk=
-X-Google-Smtp-Source: AK7set+WhAHUEIkS/FG7I6wQPivOwnaFZY/LO6MOPuvDjLvEhjgCbs1MYhLsPmp4mEmjCY/V+bKO8v89azhvthtkEgA=
-X-Received: by 2002:ac2:4439:0:b0:4d5:ca42:aeed with SMTP id
- w25-20020ac24439000000b004d5ca42aeedmr515146lfl.13.1676470287521; Wed, 15 Feb
- 2023 06:11:27 -0800 (PST)
+ dkim=missing; spf=pass (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
+Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
+	by mail.kapsi.fi with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1pSJ7O-005TAz-EU; Wed, 15 Feb 2023 16:50:46 +0200
+Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.94.2)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1pSJ7O-003jZZ-4q; Wed, 15 Feb 2023 16:50:46 +0200
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [PATCH v3 1/2] oeqa ssh.py: fix hangs in run()
+Date: Wed, 15 Feb 2023 16:50:40 +0200
+Message-Id: <20230215145041.889942-1-mikko.rapeli@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20230203135011.2061939-1-m.felsch@pengutronix.de>
- <12e370a3183d04572da1c5749d8e64dcf5091a0c.camel@linuxfoundation.org>
- <acf8b79c23675a2b4c7225e55e4ab369fbcf7f54.camel@pengutronix.de>
- <7f5ebf2315c969ce7c76d024ec373f45cc8eff3f.camel@linuxfoundation.org>
- <CAP9ODKokQpGL3ttukqRaq3-8m0ci7qp8mckbgudGJx1HOu-fPw@mail.gmail.com>
- <CANNYZj8_RkjMASpozi+oSu3XOHCW04n9YUC5UgHKy+2vm=cDrQ@mail.gmail.com> <CAP9ODKqjkCuhyVkfhskOSdF3g57=R9MO6Bcy2R5zBV9fVd6wZQ@mail.gmail.com>
-In-Reply-To: <CAP9ODKqjkCuhyVkfhskOSdF3g57=R9MO6Bcy2R5zBV9fVd6wZQ@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 15 Feb 2023 15:11:16 +0100
-Message-ID: <CANNYZj_jLK-FXrGx+bF6fXrSsc-so6G_kpyZKNTpatqJKxQeRg@mail.gmail.com>
-Subject: Re: [yocto] [OE-core] [PATCH 1/2] barebox: add initial support
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	=?UTF-8?Q?Enrico_J=C3=B6rns?= <ejo@pengutronix.de>, 
-	Marco Felsch <m.felsch@pengutronix.de>, openembedded-core@lists.openembedded.org, 
-	yocto@pengutronix.de, barebox@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Rspam-Score: -1.4 (-)
+X-Rspam-Report: Action: no action
+ Symbol: ARC_NA(0.00)
+ Symbol: DMARC_POLICY_SOFTFAIL(0.10)
+ Symbol: FROM_HAS_DN(0.00)
+ Symbol: TO_DN_SOME(0.00)
+ Symbol: R_MISSING_CHARSET(0.50)
+ Symbol: R_SPF_ALLOW(-0.20)
+ Symbol: MIME_GOOD(-0.10)
+ Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
+ Symbol: RCVD_TLS_LAST(0.00)
+ Symbol: RCPT_COUNT_TWO(0.00)
+ Symbol: MID_CONTAINS_FROM(1.00)
+ Symbol: FORGED_SENDER(0.30)
+ Symbol: R_DKIM_NA(0.00)
+ Symbol: MIME_TRACE(0.00)
+ Symbol: ASN(0.00)
+ Symbol: FROM_NEQ_ENVFROM(0.00)
+ Symbol: BAYES_HAM(-3.00)
+ Symbol: RCVD_COUNT_TWO(0.00)
+ Message-ID: 20230215145041.889942-1-mikko.rapeli@linaro.org
+X-SA-Exim-Connect-IP: 2001:67c:1be8::11
+X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Feb 2023 14:11:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177197
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Feb 2023 14:50:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177198
 
-On Wed, 15 Feb 2023 at 14:53, Otavio Salvador
-<otavio.salvador@ossystems.com.br> wrote:
-> I think the Barebox inside OE-Core allows a bigger integration and
-> reuse of existing tooling for signing and other classes currently well
-> integrated with U-Boot. For me, a critical point for decision is if
-> Pengutronix will commit to support it.
+When qemu machine hangs, the ssh commands done by tests
+are not timing out. do_testimage() task has last logs like this:
 
-You should be well aware there's a history of people contributing
-stuff to core and even assigning themselves as maintainers, then
-disappearing. And then it falls (largely) on me to keep things
-(barely) going. What happens if ptx withdraws its commitment? Can I
-then send a commit that removes barebox from core? Imagine the angry
-lynch mob that will show up after my head.
+DEBUG: time: 1673531086.3155053, endtime: 1673531686.315502
 
-Adding things to core is a decision that cannot be easily reversed, so
-I'd rather have barebox in meta-barebox for a while, with any needed
-fixing to classes and infra in core.
+The test process is stuck for hours, or for ever if the
+executing command or test case did not set a timeout correctly.
+The default 300 second timeout is not working when target hangs.
+Note that timeout is really a "inactive timeout" since data returned
+by the process will reset the timeout.
 
-Alex
+Make the process stdout non-blocking so read() will always return
+right away using os.set_blocking() available in python 3.5 and later.
+
+Then change from python codec reader to plain read() and make
+the ssh subprocess stdout non-blocking. Even with select()
+making sure the file had input to be read, the codec reader was
+trying to find more stuff and blocking for ever when process hangs.
+
+While at it, add a small timeout to read data in larger chunks if
+possible. This avoids reading data one or few characters at a time
+and makes the debug logs more readable.
+
+close() the stdout file in all cases after read loop is complete.
+
+Then make sure to wait or kill the ssh subprocess in all cases.
+Just reading the output stream and receiving EOF there does not mean
+that the process exited, and wait() needs a timeout if the process
+is hanging. In the end kill the process and return the return value
+and captured output utf-8 encoded, just like before these changes.
+
+This fixes ssh run() related deadlocks when a qemu target hangs
+completely.
+
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+---
+ meta/lib/oeqa/core/target/ssh.py | 39 ++++++++++++++++++++++++--------
+ 1 file changed, 30 insertions(+), 9 deletions(-)
+
+v3: reading raw data in chunks and converting to utf-8 in the end
+
+v2: removed all debug prints,
+https://lists.openembedded.org/g/openembedded-core/message/176921
+
+v1: https://lists.openembedded.org/g/openembedded-core/message/176192
+
+diff --git a/meta/lib/oeqa/core/target/ssh.py b/meta/lib/oeqa/core/target/ssh.py
+index 2597256c91..51079075b5 100644
+--- a/meta/lib/oeqa/core/target/ssh.py
++++ b/meta/lib/oeqa/core/target/ssh.py
+@@ -226,27 +226,33 @@ def SSHCall(command, logger, timeout=None, **opts):
+     def run():
+         nonlocal output
+         nonlocal process
++        output_raw = b''
+         starttime = time.time()
+         process = subprocess.Popen(command, **options)
+         if timeout:
+             endtime = starttime + timeout
+             eof = False
++            os.set_blocking(process.stdout.fileno(), False)
+             while time.time() < endtime and not eof:
+-                logger.debug('time: %s, endtime: %s' % (time.time(), endtime))
+                 try:
++                    logger.debug('Waiting for process output: time: %s, endtime: %s' % (time.time(), endtime))
+                     if select.select([process.stdout], [], [], 5)[0] != []:
+-                        reader = codecs.getreader('utf-8')(process.stdout, 'ignore')
+-                        data = reader.read(1024, 4096)
++                        # wait a bit for more data, tries to avoid reading single characters
++                        time.sleep(0.2)
++                        data = process.stdout.read()
+                         if not data:
+-                            process.stdout.close()
+                             eof = True
+                         else:
+-                            output += data
+-                            logger.debug('Partial data from SSH call:\n%s' % data)
++                            output_raw += data
++                            # ignore errors to capture as much as possible
++                            logger.debug('Partial data from SSH call:\n%s' % data.decode('utf-8', errors='ignore'))
+                             endtime = time.time() + timeout
+                 except InterruptedError:
++                    logger.debug('InterruptedError')
+                     continue
+ 
++            process.stdout.close()
++
+             # process hasn't returned yet
+             if not eof:
+                 process.terminate()
+@@ -254,6 +260,7 @@ def SSHCall(command, logger, timeout=None, **opts):
+                 try:
+                     process.kill()
+                 except OSError:
++                    logger.debug('OSError when killing process')
+                     pass
+                 endtime = time.time() - starttime
+                 lastline = ("\nProcess killed - no output for %d seconds. Total"
+@@ -262,8 +269,21 @@ def SSHCall(command, logger, timeout=None, **opts):
+                 output += lastline
+ 
+         else:
+-            output = process.communicate()[0].decode('utf-8', errors='ignore')
+-            logger.debug('Data from SSH call:\n%s' % output.rstrip())
++            output_raw = process.communicate()[0]
++
++        output = output_raw.decode('utf-8', errors='ignore')
++        logger.debug('Data from SSH call:\n%s' % output.rstrip())
++
++        # timout or not, make sure process exits and is not hanging
++        if process.returncode == None:
++            try:
++                process.wait(timeout=5)
++            except TimeoutExpired:
++                try:
++                    process.kill()
++                except OSError:
++                    logger.debug('OSError')
++                    pass
+ 
+     options = {
+         "stdout": subprocess.PIPE,
+@@ -292,4 +312,5 @@ def SSHCall(command, logger, timeout=None, **opts):
+             process.kill()
+         logger.debug('Something went wrong, killing SSH process')
+         raise
+-    return (process.wait(), output.rstrip())
++
++    return (process.returncode, output.rstrip())
+-- 
+2.34.1
+
 
