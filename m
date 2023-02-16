@@ -2,325 +2,150 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBFFDC636CC
-	for <webhook@archiver.kernel.org>; Thu, 16 Feb 2023 15:04:10 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.12142.1676559842394355630
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C29E6C636CC
+	for <webhook@archiver.kernel.org>; Thu, 16 Feb 2023 15:05:10 +0000 (UTC)
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.70])
+ by mx.groups.io with SMTP id smtpd.web11.12168.1676559908992412639
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Feb 2023 07:04:02 -0800
+ Thu, 16 Feb 2023 07:05:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A41B01042;
-	Thu, 16 Feb 2023 07:04:44 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 597683F703;
-	Thu, 16 Feb 2023 07:04:01 -0800 (PST)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: nd@arm.com
-Subject: [PATCH] pkgconfig: use system glib for nativesdk builds
-Date: Thu, 16 Feb 2023 15:03:59 +0000
-Message-Id: <20230216150359.3468054-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=2kGwc4z5;
+ spf=pass (domain: arm.com, ip: 40.107.7.70, mailfrom: ross.burton@arm.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2y0Bi6gIBXv0rv3vySf7LuX5O1CbW/QxcOnOndn3CgA=;
+ b=2kGwc4z5WYP+LzIi98KlbwBG6w9GTCM/xJbLtXa6ueDrlY7pApn4UxrLLB9LhJEzmX59JxruH5ZuqiRn5KnTzC7J/qi5Ke6nfxNf5p9Ym1kaCVM7iy5r4HAEhZtskdzgXHAXbPFFIt288pjDXChAlhkEd7/Fz2TKBN6c0pEzuME=
+Received: from DU2P251CA0016.EURP251.PROD.OUTLOOK.COM (2603:10a6:10:230::18)
+ by AS8PR08MB7767.eurprd08.prod.outlook.com (2603:10a6:20b:527::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.24; Thu, 16 Feb
+ 2023 15:05:05 +0000
+Received: from DBAEUR03FT054.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:10:230:cafe::77) by DU2P251CA0016.outlook.office365.com
+ (2603:10a6:10:230::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.13 via Frontend
+ Transport; Thu, 16 Feb 2023 15:05:04 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DBAEUR03FT054.mail.protection.outlook.com (100.127.142.218) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6111.13 via Frontend Transport; Thu, 16 Feb 2023 15:05:04 +0000
+Received: ("Tessian outbound 0d7b2ab0f13d:v132"); Thu, 16 Feb 2023 15:05:04 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: d08cde617f6238ad
+X-CR-MTA-TID: 64aa7808
+Received: from 2047980bf309.2
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 3C2CBD93-9909-43FF-A0E5-E87E8EA0716E.1;
+	Thu, 16 Feb 2023 15:04:57 +0000
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 2047980bf309.2
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Thu, 16 Feb 2023 15:04:57 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AmTbhQztoeleHjkRwwMkoHi3ac8ybWmRGR0vr+x5q+Era3ijeVTjCh9JDqrhVyuuDaxu8O25NhgbZD1OOjP9fnXscoTrJQ3zI164RkPcqH3rtFwRdgh1iqW7/7vbLztLTpISv98lPCBZXbQuH23aH4p6Dq9OOqs4ZI6wR9zUnt+lJaVmJ+BWDIqnO0a8+OrcwacR4kLMx+0FTc36j6r37ExlRJWe7vxO4GCn/lviJJtR9WGHHMziTJbdoZ+/8ohI4stRyJy0QuB0eDDcZWhloD6Kh4Xotm9nNWv5YHgP5+BJMm/9Hv+s3bJZVPh/5AWU0McIz2A3TuzQ1IwA8C/jsA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2y0Bi6gIBXv0rv3vySf7LuX5O1CbW/QxcOnOndn3CgA=;
+ b=H9j+UDZw6eQ/CKZwzSoXcdOK//zvzeTF7Drl7Ffs2Kkw90IuFLRqoyyioOVYPma2O6uu6+IETyjW5j90f5izyIo4iBhC7+msbyBhWCiVZZt4/YLKaVJJvpMxeR2nQUnTWv/Qj4yiPV3ELV/1tddfcF8eNnyoI+GuWLyxUQRQCwcdetAHl+dSKJl7UC9a4cruc2O5jQw2yXjIZmyzweMPcJ7Qd08WeZ6PR67yb2UShu87uNQb5Wb64pLcEN66Jfmer4cXgGEB3n528+1LPKgzSsII+ix1RJmpbbMG++FHkZBq5vB+wylj1wmjdDJzKmtq8KdjKic1kC83zgCimVLr8w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2y0Bi6gIBXv0rv3vySf7LuX5O1CbW/QxcOnOndn3CgA=;
+ b=2kGwc4z5WYP+LzIi98KlbwBG6w9GTCM/xJbLtXa6ueDrlY7pApn4UxrLLB9LhJEzmX59JxruH5ZuqiRn5KnTzC7J/qi5Ke6nfxNf5p9Ym1kaCVM7iy5r4HAEhZtskdzgXHAXbPFFIt288pjDXChAlhkEd7/Fz2TKBN6c0pEzuME=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by AS8PR08MB7307.eurprd08.prod.outlook.com (2603:10a6:20b:442::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.24; Thu, 16 Feb
+ 2023 15:04:55 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::2d3c:c53c:86ba:a3b0]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::2d3c:c53c:86ba:a3b0%6]) with mapi id 15.20.6086.026; Thu, 16 Feb 2023
+ 15:04:55 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: Ross Burton <Ross.Burton@arm.com>
+CC: Alexandre Belloni <alexandre.belloni@bootlin.com>, openembedded-core
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 1/2] site: remove glib site values
+Thread-Topic: [OE-core] [PATCH 1/2] site: remove glib site values
+Thread-Index: AQHZQIzk2QutFnBQ90GNjOXSg+sK067PF72AgAJWoYCAAECKgA==
+Date: Thu, 16 Feb 2023 15:04:55 +0000
+Message-ID: <95B2CB4A-E287-4962-8BD6-F215A7C62F0D@arm.com>
+References: <20230214155603.2390194-1-ross.burton@arm.com>
+ <Y+wZv+VfY7CatrUu@mail.local> <80BB828E-03F0-4A32-B424-D453749A4A45@arm.com>
+In-Reply-To: <80BB828E-03F0-4A32-B424-D453749A4A45@arm.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3731.400.51.1.1)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|AS8PR08MB7307:EE_|DBAEUR03FT054:EE_|AS8PR08MB7767:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2e2aef53-e40b-4d29-8e89-08db102f2f6b
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ q0OV8XEhV/4gqJLyRI3SW6IpuGjHc1TjvIzzEv3OJR009Hg9dNZNyXmXJbcUo0M/GXEPJDdYg+5FDHKjay5PpQ46jTO5eIKK6opVqmVrqNNjc3ZfUHB3btvsnHzZ6pqiLkzPvJJ7GgNUiS4UYTERMxSTFV4eWznCNP7S1ozvlswC1gQLhykNqjiGEp+HamO83XtFe3AJ1mEwycxVdRRu7Kzl7SyYY6OgNt78P7e+vnFoFYt61iSIw8FoQK3v9gO0EIMgNfS8c7WlrH27s53GcfC2jKsEgxI5ZvhDCyWnT1nD6wtNwBzx84zjGMpj3Em8V7QfDu7mQJiHseHbVPfMoTcHpd79E+7F4IeR2seTcViwetr7+VgIPn0JGOQ6wguy72kQsOLA7yj1A5Nz6YeKnpBM66cgQURTNUUqTS4PQur3eEVTkweo8Gbjw6eGltRBexMQRie/g8NyvVYRyi31wwNaFZi2oLA8237N9Q81ip9ef0tKGAbQvsiANHqLSM8Lk+76cfykw/hpMsIyCCerWNbapIPVAg9sWDkHtf8jugjZKEHK8MPzO8mZiQA4zWXx6n9S/aPzrWNCkw3RDCL8ploNDZsqW1bSjtkQD2SyayvyiJ6OJNEBMO5Gwpau+uC6dWBonRO+Kwa37rPN15cWd6vpxyFthLCHeH8k1+bBmMWCESSUGNXL10ZNRhicSoFf4naqdPFI8xwGkRdkQ22KKthm8EHKNYnbovuUqNM15SQ=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(346002)(376002)(366004)(136003)(396003)(39860400002)(451199018)(6200100001)(36756003)(2906002)(83380400001)(86362001)(2616005)(122000001)(38100700002)(38070700005)(66476007)(91956017)(8676002)(64756008)(76116006)(66446008)(66556008)(66946007)(54906003)(316002)(6862004)(5660300002)(8936002)(37006003)(4326008)(4744005)(41300700001)(6506007)(6512007)(186003)(53546011)(26005)(71200400001)(478600001)(33656002)(6486002)(45980500001);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <3F3696D37647B34E89256DF31C776984@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB7307
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DBAEUR03FT054.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	bc5e4912-1dfe-4351-7165-08db102f29e9
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	FIQqaHJZb0fvSnB0Tc1iO+T2r+KSwLjypXu9HTqTPZWkX8ij714FP5QA8EjEnWkB81p9kUn2xwgR7qy9ZAUUKa3d/4m4QY09pbthGU10vG5zRVkZcuOutSFqgybATWh9ks11T/gZdVMCGJIUHJRullU5tJJjlz077xkQDaLlrIqGglSe9WrW7dc2bfmg/vDWorbBaaagCVzwiS6smeRVu4IMugFRYjO7d5pF7bFzFy0qQDLv5HlCs3IZQEL2Zym3T7X7optmhTT34rRLFvHjmwD6qa1fvNt0o8Rdc9BHxGlgxOnSH4hfvfjIlgzbMnrNQWT+bi5+cfPnDKJhyOftuN5xbtr58SElJHjNXwAcKATunvgW2idEFF7gdhwwh5IQ/vORv30VkomypYUTjlsW8Mwk2H6EQUJSMxbjQ+wQFJoO3MhwGYwWRdgYFhByf5Cklx8GVwVT5YhEeGeBxqFhG9qWeHb0W2bfKSu9GNw0HRzE/neCE6sDyz/5ucDBJbYZD2A2ABUWpqwYmB+36JKiTovACPWwEsbKagKJS66KvpdgJPRkUw8qdPm0/MdqvOwZoyiMzUxxSAADHwhz5WYpH0xbZ9vTHqUYjQKfILg1C2Zv+3FDTyEUevGz6MJW+Jt7yLKkA3jKYLUj5ssOHIHlK7g259plWA5f+FxPSZKwyl7PwNkj5RVxF3bwaRXyYkurp5qfU2PawC2y0a0e3GsN6g==
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230025)(4636009)(376002)(396003)(346002)(136003)(39860400002)(451199018)(36840700001)(46966006)(40470700004)(6862004)(54906003)(6200100001)(316002)(8936002)(82310400005)(8676002)(356005)(37006003)(70206006)(70586007)(4326008)(47076005)(40480700001)(6486002)(2616005)(478600001)(36756003)(336012)(40460700003)(86362001)(33656002)(83380400001)(41300700001)(6512007)(26005)(186003)(2906002)(4744005)(82740400003)(36860700001)(5660300002)(53546011)(6506007)(81166007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2023 15:05:04.8142
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e2aef53-e40b-4d29-8e89-08db102f2f6b
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DBAEUR03FT054.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB7767
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Feb 2023 15:04:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177289
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Feb 2023 15:05:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177290
 
-There's no need to use the internal glib fork for nativesdk builds, as
-we can use the proper nativsdk-glib-2.0 recipe.
-
-This means we're shipping less statically linked and obsolete code, and
-can also drop two patches to that code which were only needed in
-nativesdk builds on Windows.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- ...-support-for-the-__int64-type.-See-1.patch | 144 ------------------
- ...9-printf-format-specifiers-on-Window.patch |  68 ---------
- .../pkgconfig/pkgconfig_git.bb                |   3 -
- 3 files changed, 215 deletions(-)
- delete mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig/0001-autoto=
-ols-remove-support-for-the-__int64-type.-See-1.patch
- delete mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig/0001-autoto=
-ols-use-C99-printf-format-specifiers-on-Window.patch
-
-diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig/0001-autotools-rem=
-ove-support-for-the-__int64-type.-See-1.patch b/meta/recipes-devtools/pkg=
-config/pkgconfig/0001-autotools-remove-support-for-the-__int64-type.-See-=
-1.patch
-deleted file mode 100644
-index bee4585724e..00000000000
---- a/meta/recipes-devtools/pkgconfig/pkgconfig/0001-autotools-remove-sup=
-port-for-the-__int64-type.-See-1.patch
-+++ /dev/null
-@@ -1,144 +0,0 @@
--From 7e821441c482917e54435a07893272d87d3ad9e5 Mon Sep 17 00:00:00 2001
--From: Christoph Reiter <reiter.christoph@gmail.com>
--Date: Fri, 24 Aug 2018 19:43:04 +0200
--Subject: [PATCH] autotools: remove support for the __int64 type. See #13=
-13
--
--__int64 was the 64bit type for Visual Studio before it added support for
--"long long" with VS2013. I think this was used to build glib with mingw =
-and
--make the result usable for VS 6.0 which didn't support "long long" (??)
--
--Given that newer MSVC links against a different crt and mixing is not su=
-pported
--and everything supports "long long" nowadays just remove it.
--
--This is also a cleanup for printf format changes needed for #1497
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-Status: Backport [https://github.com/GNOME/glib/commit/7e821441=
-c4]
-----
-- configure.ac | 43 ++++---------------------------------------
-- 1 file changed, 4 insertions(+), 39 deletions(-)
--
----- a/glib/configure.ac
--+++ b/glib/configure.ac
--@@ -550,7 +550,6 @@ AC_CHECK_SIZEOF(long)
-- AC_CHECK_SIZEOF(int)
-- AC_CHECK_SIZEOF(void *)
-- AC_CHECK_SIZEOF(long long)
---AC_CHECK_SIZEOF(__int64)
--=20
-- AC_CACHE_CHECK([for sig_atomic_t], ac_cv_type_sig_atomic_t,
--   [AC_TRY_LINK([#include <signal.h>
--@@ -564,7 +563,7 @@ if test x$ac_cv_type_sig_atomic_t =3D xyes
--      [Define if you have the 'sig_atomic_t' type.])
-- fi
--=20
---if test x$ac_cv_sizeof_long =3D x8 || test x$ac_cv_sizeof_long_long =3D=
- x8 || test x$ac_cv_sizeof___int64 =3D x8 ; then
--+if test x$ac_cv_sizeof_long =3D x8 || test x$ac_cv_sizeof_long_long =3D=
- x8 ; then
--   :
-- else
--   AC_MSG_ERROR([
--@@ -573,7 +572,7 @@ else
-- ])
-- fi
--=20
---AS_IF([test x$glib_native_win32 !=3D xyes && test x$ac_cv_sizeof_long_l=
-ong =3D x8], [
--+AS_IF([test x$ac_cv_sizeof_long_long =3D x8], [
-- 	# long long is a 64 bit integer.
-- 	AC_MSG_CHECKING(for format to printf and scanf a guint64)
-- 	AC_CACHE_VAL(glib_cv_long_long_format,[
--@@ -599,14 +598,6 @@ AS_IF([test x$glib_native_win32 !=3D xyes
-- 	    AC_DEFINE(HAVE_INT64_AND_I64,1,[define to support printing 64-bit =
-integers with format I64])
--           fi
-- 	], [AC_MSG_RESULT(none)])
---],[ test x$ac_cv_sizeof___int64 =3D x8], [
---	# __int64 is a 64 bit integer.
---	AC_MSG_CHECKING(for format to printf and scanf a guint64)
---	# We know this is MSVCRT.DLL, and what the formats are
---	glib_cv_long_long_format=3DI64
---	AC_MSG_RESULT(%${glib_cv_long_long_format}u)
---        AC_DEFINE(HAVE_LONG_LONG_FORMAT,1,[define if system printf can =
-print long long])
---	AC_DEFINE(HAVE_INT64_AND_I64,1,[define to support printing 64-bit inte=
-gers with format I64])
-- ])
--=20
-- AC_C_CONST
--@@ -872,9 +863,6 @@ case $ac_cv_sizeof_size_t in
--   $ac_cv_sizeof_long_long)
--       glib_size_type=3D'long long'
--       ;;
---  $ac_cv_sizeof__int64)
---      glib_size_type=3D'__int64'
---      ;;
--   *)  AC_MSG_ERROR([No type matching size_t in size])
--       ;;
-- esac
--@@ -931,9 +919,6 @@ case $ac_cv_sizeof_ssize_t in
--   $ac_cv_sizeof_long_long)
--       glib_ssize_type=3D'long long'
--       ;;
---  $ac_cv_sizeof__int64)
---      glib_ssize_type=3D'__int64'
---      ;;
--   *)  AC_MSG_ERROR([No type matching ssize_t in size])
--       ;;
-- esac
--@@ -2985,17 +2970,6 @@ $ac_cv_sizeof_long_long)
--   gint64_constant=3D'(G_GNUC_EXTENSION (val##LL))'
--   guint64_constant=3D'(G_GNUC_EXTENSION (val##ULL))'
--   ;;
---$ac_cv_sizeof___int64)
---  gint64=3D'__int64'
---  if test -n "$glib_cv_long_long_format"; then
---    gint64_modifier=3D'"'$glib_cv_long_long_format'"'
---    gint64_format=3D'"'$glib_cv_long_long_format'i"'
---    guint64_format=3D'"'$glib_cv_long_long_format'u"'
---  fi
---  glib_extension=3D
---  gint64_constant=3D'(val##i64)'
---  guint64_constant=3D'(val##ui64)'
---  ;;
-- esac
-- glib_size_t=3D$ac_cv_sizeof_size_t
-- glib_ssize_t=3D$ac_cv_sizeof_ssize_t
--@@ -3020,7 +2994,7 @@ long)
--   gsize_format=3D'"lu"'
--   glib_msize_type=3D'LONG'
--   ;;
---"long long"|__int64)
--+"long long")
--   gsize_modifier=3D'"I64"'
--   gsize_format=3D'"I64u"'
--   glib_msize_type=3D'INT64'
--@@ -3043,7 +3017,7 @@ long)
--   gssize_format=3D'"li"'
--   glib_mssize_type=3D'LONG'
--   ;;
---"long long"|__int64)
--+"long long")
--   gssize_modifier=3D'"I64"'
--   gssize_format=3D'"I64i"'
--   glib_mssize_type=3D'INT64'
--@@ -3080,14 +3054,6 @@ $ac_cv_sizeof_long_long)
--   glib_gpi_cast=3D'(gint64)'
--   glib_gpui_cast=3D'(guint64)'
--   ;;
---$ac_cv_sizeof___int64)
---  glib_intptr_type_define=3D__int64
---  gintptr_modifier=3D'"I64"'
---  gintptr_format=3D'"I64i"'
---  guintptr_format=3D'"I64u"'
---  glib_gpi_cast=3D'(gint64)'
---  glib_gpui_cast=3D'(guint64)'
---  ;;
-- *)
--   glib_unknown_void_p=3Dyes
--   ;;
--@@ -3258,9 +3224,6 @@ $ac_cv_sizeof_long)
-- $ac_cv_sizeof_long_long)
--   gint64=3D'long long'
--   ;;
---$ac_cv_sizeof___int64)
---  gint64=3D'__int64'
---  ;;
-- esac
--=20
-- AC_CHECK_TYPE([guint32],,,[typedef unsigned $gint32 guint32;])
-diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig/0001-autotools-use=
--C99-printf-format-specifiers-on-Window.patch b/meta/recipes-devtools/pkg=
-config/pkgconfig/0001-autotools-use-C99-printf-format-specifiers-on-Windo=
-w.patch
-deleted file mode 100644
-index a4e92da34b2..00000000000
---- a/meta/recipes-devtools/pkgconfig/pkgconfig/0001-autotools-use-C99-pr=
-intf-format-specifiers-on-Window.patch
-+++ /dev/null
-@@ -1,68 +0,0 @@
--From 3d7cde654c4c6f3bdad32f5521f28f5802a7c377 Mon Sep 17 00:00:00 2001
--From: Christoph Reiter <reiter.christoph@gmail.com>
--Date: Fri, 24 Aug 2018 21:46:47 +0200
--Subject: [PATCH] autotools: use C99 printf format specifiers on Windows.=
- Fixes
-- #1497
--
--Since we now require a C99 compatible printf and use gnulib on Windows,
--we also mark our printf functions as gnu_printf. GCC complains about the
--Windows specific I64 specifiers we still write to glibconfig.h with the
--autotools build.
--
--To fix this switch all I64(x) to ll(x).
--
--This also makes the glibconfig.h output for those macros match the ones
--we get when using meson.
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-Status: Backport [https://github.com/GNOME/glib/commit/3d7cde65=
-4c]
-----
-- configure.ac | 18 +++++++++---------
-- 1 file changed, 9 insertions(+), 9 deletions(-)
--
----- a/glib/configure.ac
--+++ b/glib/configure.ac
--@@ -576,7 +576,7 @@ AS_IF([test x$ac_cv_sizeof_long_long =3D x
-- 	# long long is a 64 bit integer.
-- 	AC_MSG_CHECKING(for format to printf and scanf a guint64)
-- 	AC_CACHE_VAL(glib_cv_long_long_format,[
---		for format in ll q I64; do
--+		for format in ll q; do
-- 		  AC_TRY_RUN([#include <stdio.h> =20
-- 			int main()
-- 			{
--@@ -2995,8 +2995,8 @@ long)
--   glib_msize_type=3D'LONG'
--   ;;
-- "long long")
---  gsize_modifier=3D'"I64"'
---  gsize_format=3D'"I64u"'
--+  gsize_modifier=3D'"ll"'
--+  gsize_format=3D'"llu"'
--   glib_msize_type=3D'INT64'
--   ;;
-- esac
--@@ -3018,8 +3018,8 @@ long)
--   glib_mssize_type=3D'LONG'
--   ;;
-- "long long")
---  gssize_modifier=3D'"I64"'
---  gssize_format=3D'"I64i"'
--+  gssize_modifier=3D'"ll"'
--+  gssize_format=3D'"lli"'
--   glib_mssize_type=3D'INT64'
--   ;;
-- esac
--@@ -3048,9 +3048,9 @@ $ac_cv_sizeof_long)
--   ;;
-- $ac_cv_sizeof_long_long)
--   glib_intptr_type_define=3D'long long'
---  gintptr_modifier=3D'"I64"'
---  gintptr_format=3D'"I64i"'
---  guintptr_format=3D'"I64u"'
--+  gintptr_modifier=3D'"ll"'
--+  gintptr_format=3D'"lli"'
--+  guintptr_format=3D'"llu"'
--   glib_gpi_cast=3D'(gint64)'
--   glib_gpui_cast=3D'(guint64)'
--   ;;
-diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb b/meta/reci=
-pes-devtools/pkgconfig/pkgconfig_git.bb
-index 7e5860c18cd..68f624c80a3 100644
---- a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-+++ b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-@@ -15,8 +15,6 @@ SRC_URI =3D "git://gitlab.freedesktop.org/pkg-config/pk=
-g-config.git;branch=3Dmaster;
-            file://pkg-config-esdk.in \
-            file://pkg-config-native.in \
-            file://0001-glib-gettext.m4-Update-AM_GLIB_GNU_GETTEXT-to-mat=
-ch-.patch \
--           file://0001-autotools-remove-support-for-the-__int64-type.-Se=
-e-1.patch \
--           file://0001-autotools-use-C99-printf-format-specifiers-on-Win=
-dow.patch \
-            "
-=20
- S =3D "${WORKDIR}/git"
-@@ -30,7 +28,6 @@ EXTRA_OECONF +=3D "--disable-indirect-deps"
-=20
- PACKAGECONFIG ??=3D "glib"
- PACKAGECONFIG:class-native =3D ""
--PACKAGECONFIG:class-nativesdk =3D ""
-=20
- PACKAGECONFIG[glib] =3D "--without-internal-glib,--with-internal-glib,gl=
-ib-2.0 pkgconfig-native"
-=20
---=20
-2.34.1
-
+T24gMTYgRmViIDIwMjMsIGF0IDExOjEzLCBSb3NzIEJ1cnRvbiB2aWEgbGlzdHMub3BlbmVtYmVk
+ZGVkLm9yZyA8cm9zcy5idXJ0b249YXJtLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiB3cm90
+ZToNCj4gDQo+IE9uIDE0IEZlYiAyMDIzLCBhdCAyMzozMSwgQWxleGFuZHJlIEJlbGxvbmkgPGFs
+ZXhhbmRyZS5iZWxsb25pQGJvb3RsaW4uY29tPiB3cm90ZToNCj4+IGlJIHRoaW5rIHRoaXMgaXMg
+Y2F1c2VzIGZhaWx1cmVzIG9uIHRoZSBBQiB3aGlsZSBidWlsZGluZyBuYXRpdmVzZGstcGtnY29u
+ZmlnOg0KPiANCj4gSG93IGFubm95aW5nLiAgKGxvb2sgYXQgaGlzIHBrZ2NvbmYgYnJhbmNoIHdo
+aWNoIGRvZXNu4oCZdCBjb250YWluIGEgZm9yayBvZiBnbGliKS4NCg0KVGhlIHBrZ2NvbmZpZyBw
+YXRjaCBJIGp1c3Qgc2VudCBzdG9wcyB1cyB1c2luZyB0aGUgaW50ZXJuYWwgZ2xpYiBmb3JrIGZv
+ciBuYXRpdmVzZGstcGtnY29uZmlnLCBzbyB0aGF0IHdpbGwgc29sdmUgdGhpcyBwcm9ibGVtLg0K
+DQpSb3Nz
 
