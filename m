@@ -1,226 +1,147 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40345C61DA4
-	for <webhook@archiver.kernel.org>; Thu, 16 Feb 2023 11:08:49 +0000 (UTC)
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
- by mx.groups.io with SMTP id smtpd.web10.7440.1676545719991022059
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4824BC61DA4
+	for <webhook@archiver.kernel.org>; Thu, 16 Feb 2023 11:14:19 +0000 (UTC)
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.87])
+ by mx.groups.io with SMTP id smtpd.web11.7686.1676546049779301791
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Feb 2023 03:08:40 -0800
+ Thu, 16 Feb 2023 03:14:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=apWdW+zE;
- spf=pass (domain: gmail.com, ip: 209.85.217.48, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-vs1-f48.google.com with SMTP id p14so1582645vsn.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Feb 2023 03:08:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2XBcW8ODZrjMV9DkL+my5TRkRcqJHCkbgPDVPG39kVg=;
-        b=apWdW+zEC6t/rlSNWb0QjXcghRZukyAMofVfxxXjnp9Qp1ZOwkACge0LWRZNgxKzCP
-         bOJuOc28r9p4MUMNXT0Umjkd4c2jYPQPPDw0zOuLmXQ0Fs5IUTsBCXaO2lfOTrlVfLUD
-         4d7GdDTzzabhjhIYHuZm5Mgps6ztamT3n2FAStfq410gLT1tMRHa+his7iRIdKoTJZyh
-         HkY3I+pI+vL+Y2SE2Jiqc5rzZGjMZdsPHCT9+WIr5AbVmVUqr4j1C2KnuXDQYHKeESeQ
-         75EYjpC/BstQfG8llVbApWsZRI4oQgKc1TBhA0ngo4zx8XJF8MtCY/Zasb8FS2FhNWl8
-         7roQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2XBcW8ODZrjMV9DkL+my5TRkRcqJHCkbgPDVPG39kVg=;
-        b=hCIj4qzWW8gDDcAWqoh66jfb9kxMWnTwH/VCS+ZLU+LQHiqnmFUWPEqlQ2korH8hLO
-         W69EwUatlEUfagKrBtExqUw7tAacfdm3nT36zXHK37HHEqzG2TvxCre4W/nIFTQqE2CX
-         BBsnMErT6alQ5AigwZlnruQKUhfFkn0/PJrNMXP23qjdXgx8NEH4vmH1d55fhq7ZL34m
-         mCU1sSZfl01aNlfsUZNpdpMgfUSZNi6Zzmr3l9XAtF2KIZWoOySr+BP9k9xT1ke4Qzc8
-         /xoEprSVBzQJBS5I/dxCni9nQvAigdPQErYzbV98PQaYS/jg6m02KUY1G1lsSc4FSvm9
-         J1IQ==
-X-Gm-Message-State: AO0yUKVp6qjFKVFZA513VSk+gSahLe43axT6va5pCDEMIPSRWTXgLnnr
-	V8AKa2b42L9D9V7UFOu7JNedql9tj7svXZiVYzk=
-X-Google-Smtp-Source: AK7set/0YWbbUu1J8eayjNt0ipktk80YOJxvAz9wh1UF2a/DvigeQ6cSLYni8V3FOYrkZD2fMtTdsqIT0wsfjcXKiUc=
-X-Received: by 2002:a05:6102:11f7:b0:3f0:be66:8037 with SMTP id
- e23-20020a05610211f700b003f0be668037mr1016698vsg.80.1676545719006; Thu, 16
- Feb 2023 03:08:39 -0800 (PST)
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=LCE/PQxM;
+ spf=pass (domain: arm.com, ip: 40.107.7.87, mailfrom: ross.burton@arm.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lFVW2p3UQIGRuLMTLCXQnMmerBAVPIYUJu3BH8fi0Dk=;
+ b=LCE/PQxMWZKNgsQrGTQCJeBw6C0fWuBeDJv1Q9KGqbgS11312Inb7LzQN26CKUU8PKeIvVVDAlwdovHb1Gz8UGAWQIpYbzlG+vtXF8jz3Y8CHTl2HW0Fqx8xBS98pQqXP7M+8xrCYnEsDmxQ+bgmNqx29lFR7DsCSnYoQu1sVhA=
+Received: from AS8PR04CA0170.eurprd04.prod.outlook.com (2603:10a6:20b:331::25)
+ by AM7PR08MB5318.eurprd08.prod.outlook.com (2603:10a6:20b:104::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.12; Thu, 16 Feb
+ 2023 11:14:06 +0000
+Received: from AM7EUR03FT062.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:20b:331:cafe::e4) by AS8PR04CA0170.outlook.office365.com
+ (2603:10a6:20b:331::25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.12 via Frontend
+ Transport; Thu, 16 Feb 2023 11:14:06 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AM7EUR03FT062.mail.protection.outlook.com (100.127.140.99) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6111.12 via Frontend Transport; Thu, 16 Feb 2023 11:14:05 +0000
+Received: ("Tessian outbound b1d3ffe56e73:v132"); Thu, 16 Feb 2023 11:14:05 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: ae5b4ec3b16c4eb8
+X-CR-MTA-TID: 64aa7808
+Received: from d1310adc919d.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 11224D5E-69FC-4918-B395-6D1ECC0B480B.1;
+	Thu, 16 Feb 2023 11:13:58 +0000
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id d1310adc919d.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Thu, 16 Feb 2023 11:13:58 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bUPrSLzCpSeqOt60EvzCDQY5LbHUeDfCDLxaMutHZbPQTfLM9hvACEsuz1PQaQ14eGCoRZ4ur/aVxnVyJm0147zs/J1QBQORPhGQHSyoN4IejvFjp6OlzWxANUn0qlp01FwLdVbH7u+9BIyPf3FHLC3prmh+Pp9eKKgxidQDc6mcP96Ls0ttttJivLcxM9bPf7TVOBLaiMztc/8WwRUqUoLpUw0P7VvQJ4KT4MmveLJ/6jMhcu+f0TJZbvPRHVQgfeqBm4Dw/IzEsICimYvtabNuU4nUWqADrky03u8lJRrPNFrw1cNWyqtdLJNbeMfIKQUbuFTi9aeOWQqe/MHMdg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lFVW2p3UQIGRuLMTLCXQnMmerBAVPIYUJu3BH8fi0Dk=;
+ b=dWMuEAI3S2my+CE02jpDtl6UbHw4Asww7i0jLSvERSdF9di4fMJwJNTwmIaP2RZDv7gUToTSE1nZcF53dtyaZC3sgBnWwcnk3FD0FAk+d17fKTNEEYzvTYVGG+UbrJyPgcGcpcMYvGHePlXLr6/ah63mByMXw6hEuzGuwkYlmHkb+Ser4pXFXnovL3C2gvrIxwLgk+wG/gTE+9MgVQOMdVUCaPoU6XaxrtEE1PtLWs4pgQj4QKIuN0oDSlZpS+VZNYjICQXb5rN32JCCBIzQANbu5W5p1xEM5nw2w3/SSxyc+feWDGA2aoDNqh0mdWaudv5xAJ55W70NbeJ/pOiTow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lFVW2p3UQIGRuLMTLCXQnMmerBAVPIYUJu3BH8fi0Dk=;
+ b=LCE/PQxMWZKNgsQrGTQCJeBw6C0fWuBeDJv1Q9KGqbgS11312Inb7LzQN26CKUU8PKeIvVVDAlwdovHb1Gz8UGAWQIpYbzlG+vtXF8jz3Y8CHTl2HW0Fqx8xBS98pQqXP7M+8xrCYnEsDmxQ+bgmNqx29lFR7DsCSnYoQu1sVhA=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by DU0PR08MB8301.eurprd08.prod.outlook.com (2603:10a6:10:40f::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.24; Thu, 16 Feb
+ 2023 11:13:56 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::2d3c:c53c:86ba:a3b0]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::2d3c:c53c:86ba:a3b0%6]) with mapi id 15.20.6086.026; Thu, 16 Feb 2023
+ 11:13:56 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+CC: openembedded-core <openembedded-core@lists.openembedded.org>, nd
+	<nd@arm.com>
+Subject: Re: [OE-core] [PATCH 1/2] site: remove glib site values
+Thread-Topic: [OE-core] [PATCH 1/2] site: remove glib site values
+Thread-Index: AQHZQIzk2QutFnBQ90GNjOXSg+sK067PF72AgAJWoYA=
+Date: Thu, 16 Feb 2023 11:13:56 +0000
+Message-ID: <80BB828E-03F0-4A32-B424-D453749A4A45@arm.com>
+References: <20230214155603.2390194-1-ross.burton@arm.com>
+ <Y+wZv+VfY7CatrUu@mail.local>
+In-Reply-To: <Y+wZv+VfY7CatrUu@mail.local>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3731.400.51.1.1)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|DU0PR08MB8301:EE_|AM7EUR03FT062:EE_|AM7PR08MB5318:EE_
+X-MS-Office365-Filtering-Correlation-Id: fcd9b39a-8fde-4eb4-623f-08db100eeaef
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ we94MdXRFM6BCIoCBaVABgo754NrIcTxDerVw4C0dkiIznT/E3i7AVCRnCxwmqWNg60tF3wsVQvw1v8/iSWqbj87MxktZVh13nptGwqTWbCVEwvC2dsef6wgOuRnVLpBAu3hV3JWRMaVI8oerEH3nEF9+M5rkRghQ8KhZLMzYwvUCJWnk35bC/pzUlk4icvmA+byybni7NLNk28d6rS6sfQUxnORhBWK3bAIHVRkWCDVWOWTJ9BNe+eE9uuAmpy6WnPHSoieatxPFM+XPFRz5rD5lZacrglXUfSfP/nxNgw4HXY+GgNqWi5pbGGpPJ7OMwh1NUsrf54ODYoIP32VMefxM/qC64FceHRhqEbnmeLS0k23n3va8iM6NvQzu32MDCg1Dnn/fjRQsv4nqsxC2HqzcJ6BTGm7Swl7je4i/L2cbO0kSoRMepPf2Y2vlXY3xRv9D3IUz1eC1MrQhBy15mNsigufv1boX2q8V98B15h2SO7faKqdi/2fLmBZeW6baptQ6ISH4X057dwp3kfx8iYrVtV6xdSGSjfa+otFl7UybqnH/KQ3cUtSj4DcqBA8EiSUqoFNczqzJmyIVGSzHnyNx72H61GnCjySAxytXmx8ZdN4lxfNAW76nF6HXRytDFl2SZD6HRF1rBuBgOBDfH9cWQb3rm+WKMb3kVPM60OcY9miw/hBfXdofOz+CEzUnDwtDY2aXpET81Whv+YPcAteQTGGZKQ1mHVwpUEjkwY=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(136003)(396003)(346002)(376002)(366004)(39860400002)(451199018)(186003)(66946007)(122000001)(8936002)(38100700002)(6512007)(2906002)(53546011)(91956017)(6506007)(5660300002)(41300700001)(66556008)(38070700005)(4326008)(6916009)(71200400001)(54906003)(66446008)(64756008)(66476007)(76116006)(8676002)(2616005)(316002)(86362001)(83380400001)(6486002)(558084003)(478600001)(33656002)(36756003)(45980500001);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <0B8AA0258040F448AB66CF7FD0C0907E@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20230215130057.1923450-1-jose.quaresma@foundries.io>
- <CAP9ODKrs24T2V1Ks8yeWbT+_6FLWdc4wy8iybKQpjxPhOhctAw@mail.gmail.com>
- <CANPvuRm+Df-HVCi-KDOUPzKeUJz9VvznSKLVu1vWCK9Fx+YOoA@mail.gmail.com> <jwqv8k26mv2.fsf@axis.com>
-In-Reply-To: <jwqv8k26mv2.fsf@axis.com>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Thu, 16 Feb 2023 11:08:28 +0000
-Message-ID: <CANPvuRmKaCc36+7ra0is3RUk_nKJEpwKWD0BzWWxX3e0iGb0-w@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 1/2] kernel-module-split: make autoload and
- probeconf distribution specific
-To: Ola x Nilsson <ola.x.nilsson@axis.com>
-Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>, 
-	Jose Quaresma <jose.quaresma@foundries.io>, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000007fbe705f4cf383e"
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB8301
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ AM7EUR03FT062.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	3db888e8-43f1-474a-a894-08db100ee51c
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	vzwQ2cVZ8ZaK0SgAgH0tmAdLFLd2JGfLMENNog0LSgBoB7RU4ijsDcvAJwIXrhfNjj5QHQOAQNygfrJnJVce3NIWfd31x3BHiVkB8CTPSEprqF2i562JV8tk3fR4ik5HJAN1+zwnRxGdqLeuNCXMOMDyx9bZB4HbR3/CNp3tRypwRcCibbZIU/1jheYDIKQL3esQD2+BPOUTXYVg45O7iRdyBBGHGRsQkAw+XF5zy9ER4DKH163j+LuUfUqVYKYdTX5pkymMkevCvpfmICxh/+fs2gA4ky4obr1h8NleuaySe/SVDUu0zl9HIfvztPm3w52AVA6QUo84hB3b2AMAhDzttsjR9pPFeQK0UygUBieQR9/JTqILfm3SkDlknDNGZ2C2f1OYzIlNN9n2krt8J9EI9HcJ9mcWGIwq08x1qqQfxkUKEzD4x7kL0rMDLSCBbr66AoVRAay3zrEePcLT3SF6LzUNRuytIUaorF/x7mkXPIRHwPorEO8S395bpsjY+7UwnftPl5tE+2fLGez8vVnfmUCEQ0lcmK4D9Kgqv7Sf/6MEZx/c4TAHDp/QRLa/CJGBio8rWE0q9FlGcZzd1LuFfpkUHtfr3NBY1hyeL0VhKf9t007EBR1wbixvdHcEwHx++xb2hR74dP/K0cJyLhM2YfWorkj9chG08bzo6RBgvMAbvwG6lCJjvc/DmWedPgygFHZS/TcwCMVg97RLZg==
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230025)(4636009)(39850400004)(396003)(346002)(136003)(376002)(451199018)(40470700004)(46966006)(36840700001)(36756003)(33656002)(40460700003)(6486002)(558084003)(86362001)(316002)(54906003)(5660300002)(478600001)(8936002)(6862004)(70586007)(70206006)(2906002)(4326008)(8676002)(82740400003)(41300700001)(36860700001)(81166007)(40480700001)(356005)(6512007)(186003)(26005)(53546011)(6506007)(83380400001)(47076005)(336012)(2616005)(82310400005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2023 11:14:05.9575
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fcd9b39a-8fde-4eb4-623f-08db100eeaef
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AM7EUR03FT062.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5318
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Feb 2023 11:08:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177283
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Feb 2023 11:14:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177284
 
---00000000000007fbe705f4cf383e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Ola x Nilsson <ola.x.nilsson@axis.com> escreveu no dia quinta, 16/02/2023
-=C3=A0(s) 08:22:
-
->
-> On Wed, Feb 15 2023, Jose Quaresma wrote:
->
-> > Hi Octavio,
-> >
-> > Otavio Salvador <otavio.salvador@ossystems.com.br<mailto:
-> otavio.salvador@ossystems.com.br>> escreveu no dia quarta, 15/02/2023
-> =C3=A0(s) 13:25:
-> > Em qua., 15 de fev. de 2023 =C3=A0s 10:01, Jose Quaresma
-> > <quaresma.jose@gmail.com<mailto:quaresma.jose@gmail.com>> escreveu:
-> >>
-> >> The modules-load.d [1] - Configure kernel modules to load at boot
-> >> should install their configuration files in /usr/lib/modules-load.d.
-> >>
-> >> The modprobe.d [2] - Configuration directory for modprobe
-> >> should install their configuration files in /lib/modprobe.d
-> >>
-> >> [1]
-> https://www.freedesktop.org/software/systemd/man/modules-load.d.html
-> >> [2] https://www.man7.org/linux/man-pages//man5/modprobe.d.5.html
-> >>
-> >> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io<mailto:
-> jose.quaresma@foundries.io>>
-> >
-> >
-> > Did you validate this using busybox only? Using sysv and busybox need
-> > to be validated as well.
-> >
-> > Please drop this patch series because it doesn work with busybox.
-> >
-> > Looks like busybox don't support other path than /etc:
-> >
-> https://git.busybox.net/busybox/tree/modutils/modprobe.c?id=3D669c40ed8eb=
-f480c95ce36135104e474e361a7e6#n658
-> >
-> > So I need to implement this in another way, maybe relocating the files
-> from /etc only when systemd is enabled.
-> >
-> > Thanks for raising the issue.
-> >
-> > Jose
-> >
->
-> Hi,
->
-> Please consider https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D12212
-> as well.
->
-> --
-> Ola x Nilsson
->
-
-Hi Ola,
-
-We use usermerge too but I think the weird issue here is we need to have
-this distribution specified only for systemd
-excluding busybox and sysint as pointed out by Octavio.
-The other solution is adding support on busybox and sysint if needed.
-
-My idea is add a prefix variable with path "/etc" by default but
-conditioned by systemd DISTRO_FEATURES
-
-Thanks for the bug hint.
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---00000000000007fbe705f4cf383e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div><br></div><div class=3D"gmail_quote"><div dir=3D"ltr"=
- class=3D"gmail_attr">Ola x Nilsson &lt;<a href=3D"mailto:ola.x.nilsson@axi=
-s.com">ola.x.nilsson@axis.com</a>&gt; escreveu no dia quinta, 16/02/2023 =
-=C3=A0(s) 08:22:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
-><br>
-On Wed, Feb 15 2023, Jose Quaresma wrote:<br>
-<br>
-&gt; Hi Octavio,<br>
-&gt;<br>
-&gt; Otavio Salvador &lt;<a href=3D"mailto:otavio.salvador@ossystems.com.br=
-" target=3D"_blank">otavio.salvador@ossystems.com.br</a>&lt;mailto:<a href=
-=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.salva=
-dor@ossystems.com.br</a>&gt;&gt; escreveu no dia quarta, 15/02/2023 =C3=A0(=
-s) 13:25:<br>
-&gt; Em qua., 15 de fev. de 2023 =C3=A0s 10:01, Jose Quaresma<br>
-&gt; &lt;<a href=3D"mailto:quaresma.jose@gmail.com" target=3D"_blank">quare=
-sma.jose@gmail.com</a>&lt;mailto:<a href=3D"mailto:quaresma.jose@gmail.com"=
- target=3D"_blank">quaresma.jose@gmail.com</a>&gt;&gt; escreveu:<br>
-&gt;&gt;<br>
-&gt;&gt; The modules-load.d [1] - Configure kernel modules to load at boot<=
-br>
-&gt;&gt; should install their configuration files in /usr/lib/modules-load.=
-d.<br>
-&gt;&gt;<br>
-&gt;&gt; The modprobe.d [2] - Configuration directory for modprobe<br>
-&gt;&gt; should install their configuration files in /lib/modprobe.d<br>
-&gt;&gt;<br>
-&gt;&gt; [1] <a href=3D"https://www.freedesktop.org/software/systemd/man/mo=
-dules-load.d.html" rel=3D"noreferrer" target=3D"_blank">https://www.freedes=
-ktop.org/software/systemd/man/modules-load.d.html</a><br>
-&gt;&gt; [2] <a href=3D"https://www.man7.org/linux/man-pages//man5/modprobe=
-.d.5.html" rel=3D"noreferrer" target=3D"_blank">https://www.man7.org/linux/=
-man-pages//man5/modprobe.d.5.html</a><br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:jose.quaresma@f=
-oundries.io" target=3D"_blank">jose.quaresma@foundries.io</a>&lt;mailto:<a =
-href=3D"mailto:jose.quaresma@foundries.io" target=3D"_blank">jose.quaresma@=
-foundries.io</a>&gt;&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; Did you validate this using busybox only? Using sysv and busybox need<=
-br>
-&gt; to be validated as well.<br>
-&gt;<br>
-&gt; Please drop this patch series because it doesn work with busybox.<br>
-&gt;<br>
-&gt; Looks like busybox don&#39;t support other path than /etc:<br>
-&gt; <a href=3D"https://git.busybox.net/busybox/tree/modutils/modprobe.c?id=
-=3D669c40ed8ebf480c95ce36135104e474e361a7e6#n658" rel=3D"noreferrer" target=
-=3D"_blank">https://git.busybox.net/busybox/tree/modutils/modprobe.c?id=3D6=
-69c40ed8ebf480c95ce36135104e474e361a7e6#n658</a><br>
-&gt;<br>
-&gt; So I need to implement this in another way, maybe relocating the files=
- from /etc only when systemd is enabled.<br>
-&gt;<br>
-&gt; Thanks for raising the issue.<br>
-&gt;<br>
-&gt; Jose<br>
-&gt;<br>
-<br>
-Hi,<br>
-<br>
-Please consider <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?i=
-d=3D12212" rel=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoproje=
-ct.org/show_bug.cgi?id=3D12212</a><br>
-as well.<br>
-<br>
--- <br>
-Ola x Nilsson<br>
-</blockquote></div><br clear=3D"all"><div>Hi Ola,<br><br>We use usermerge t=
-oo but I think the weird issue here is we need to have this distribution=C2=
-=A0specified only for systemd</div><div>excluding busybox and sysint as poi=
-nted out by Octavio.</div><div>The other solution is adding support on busy=
-box and sysint if needed.<br><br>My idea is add a prefix variable with path=
- &quot;/etc&quot; by default but conditioned=C2=A0by systemd=C2=A0DISTRO_FE=
-ATURES<br><br>Thanks for the bug hint.<br><br class=3D"gmail-Apple-intercha=
-nge-newline"></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature"><div d=
-ir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></div>
-
---00000000000007fbe705f4cf383e--
+T24gMTQgRmViIDIwMjMsIGF0IDIzOjMxLCBBbGV4YW5kcmUgQmVsbG9uaSA8YWxleGFuZHJlLmJl
+bGxvbmlAYm9vdGxpbi5jb20+IHdyb3RlOg0KPiBpSSB0aGluayB0aGlzIGlzIGNhdXNlcyBmYWls
+dXJlcyBvbiB0aGUgQUIgd2hpbGUgYnVpbGRpbmcgbmF0aXZlc2RrLXBrZ2NvbmZpZzoNCg0KSG93
+IGFubm95aW5nLiAgKGxvb2sgYXQgaGlzIHBrZ2NvbmYgYnJhbmNoIHdoaWNoIGRvZXNu4oCZdCBj
+b250YWluIGEgZm9yayBvZiBnbGliKS4NCg0KSeKAmWxsIGNoYXNlIGFuZCBmaXgsIHRoYW5rcy4N
+Cg0KQ2hlZXJzLA0KUm9zcw==
 
