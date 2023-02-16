@@ -1,183 +1,186 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEFEFC636CC
-	for <webhook@archiver.kernel.org>; Thu, 16 Feb 2023 17:10:01 +0000 (UTC)
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
- by mx.groups.io with SMTP id smtpd.web11.15768.1676567393467596866
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75201C61DA4
+	for <webhook@archiver.kernel.org>; Thu, 16 Feb 2023 22:31:23 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web11.24640.1676586678052207574
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Feb 2023 09:09:53 -0800
+ Thu, 16 Feb 2023 14:31:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=K9DV8vq3;
- spf=pass (domain: gmail.com, ip: 209.85.217.49, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-vs1-f49.google.com with SMTP id m1so2594076vst.7
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Feb 2023 09:09:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=WZJUMSQUDCwls5l/4LtRee0kuM82y+a4myB1rNGTuTY=;
-        b=K9DV8vq3DNwLjpt9EcBCeEKLcKvEF6uWOZlQIUuQ7oWiZnlunjpIZbJtDO6yI1NxZ8
-         dUrBze6B17gzeznvBJ8+FZCWTXpj7h2PZlA4lm8D107Iuf9dKjoZWk8VXCpysmtXXk0b
-         m8S2D0Oof/1bKACPDeoVnq4E9q+SyaiUICdgLNGellhOtQ8rGLNkhdr4XFKpwiJdVmZf
-         TcmvuyKwN5ARw5JmPU0So9DYuJeKBFZZnr4Y/ymTe9XI3UB1cV2MUNiHkCe9hKw9stwn
-         tAmLKnQC//sSUIsJkFqLhWEF/Q+o44uuB/7QXXFpcdlciD/G//eJVC7zWHoLmFePbZP3
-         pTpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WZJUMSQUDCwls5l/4LtRee0kuM82y+a4myB1rNGTuTY=;
-        b=HxtxjHNCGmJ9n3h0//93b9idWiOqhsyGGx9mxo9JQ3qdpg9ncpEtfTyGfHgb6gLXgb
-         /DDM775sSUDdje6qvNaNHV8SOojLnKLxLX1Bxn2WU8sOkIYYek1spmHS+wS5FXGExbMp
-         owAOLHWc7YM7SzwuG0NWvn5VP4mGykuu/5ePTr1jxtJYg4Hp4rYCilOfUUjw0rhzwv20
-         Mmp+Po6SilmKE5j3tjbPmtMZH0MwBk+/qQTk9bYy+JwHQ33819VcwTnDhK6b/r6rB5oy
-         6xsqgErz9F6MpLKAcUAVkbXJIxceFBwzNvyqCGCHbKKZSQ2hbnSIbbrq6Kc7hE8wF0q8
-         NqSw==
-X-Gm-Message-State: AO0yUKXxpGdDAD2PbadsJNHlIUu8C7mTITlpNnDDsej5e98JHVLyrPXU
-	Ne6ZNcphzhrYNWSTWQMvlauFOkCVE2LICQKXkpw=
-X-Google-Smtp-Source: AK7set9niiTfCQIhKrDDA/6QfHnXq6RJUcv8E2Ul/4WbvWrz+w5J8ioHnx+dHVIwKzVdG3mTRO6DGePlATz3VsDjkZ0=
-X-Received: by 2002:a05:6102:11f7:b0:3f0:be66:8037 with SMTP id
- e23-20020a05610211f700b003f0be668037mr1219899vsg.80.1676567392506; Thu, 16
- Feb 2023 09:09:52 -0800 (PST)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=dVw0/JCP;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 880B1FF802;
+	Thu, 16 Feb 2023 22:31:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1676586675;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YbRQUgmqlVdZphk2zAL84Cc7zNPwLhXV+e15ARlQ/jY=;
+	b=dVw0/JCPox8SehZV/oHKZdy+LPmwD8wNoWolviv2xXmFGlfukfB9qQP32LyR05/R+OZek2
+	21Sp+yzzB2FUr4V/hkRumxpayul9uECbJkNlR1qcQmk8lajBSPaHBRWlqgiiDvWNd7cUKR
+	t7HMGLZ/S7PQLE1fhNChrnxXd5j0eNgOYwWaO5quEFGw096x6DkbFPlJaungpE49vM0ec7
+	nuXdinB2R4DKZ01GN2+tkLSxqwCDz/ZZuoBbl/vB6O4gqWVSm/5tB8qruJStGvWDB7pGDF
+	evIo3cwZtbuH4bvR2QE243dLn1W23etWP9i4n10RzzWtejtBI8RK9Wl+s/c0hQ==
+Date: Thu, 16 Feb 2023 23:31:15 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Louis Rannou <lrannou@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org, khilman@baylibre.com
+Subject: Re: [OE-core] [PATCH 1/2] oeqa/utils/qemurunner: change the serial
+ runner usage
+Message-ID: <Y+6us8B+8xBZxSBC@mail.local>
+References: <20230216095440.1990542-1-lrannou@baylibre.com>
 MIME-Version: 1.0
-References: <20230216151005.3469200-1-ross.burton@arm.com> <20230216151005.3469200-3-ross.burton@arm.com>
-In-Reply-To: <20230216151005.3469200-3-ross.burton@arm.com>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Thu, 16 Feb 2023 17:09:41 +0000
-Message-ID: <CANPvuRkwMCmFUTCGGbPzmTRa-Q7VYROT9+YL8Y=e-n7y70RBsA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 3/3] python3-pytest: add BBCLASSEXTEND
-To: Ross Burton <ross.burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org, nd@arm.com
-Content-Type: multipart/alternative; boundary="000000000000df590805f4d443de"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230216095440.1990542-1-lrannou@baylibre.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Feb 2023 17:10:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177298
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Feb 2023 22:31:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177299
 
---000000000000df590805f4d443de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I applied just this one, as the other one doesn't apply and most of the
+builds failed with an error similar to this one;
 
-Hi Ross,
+2023-02-16 09:14:29,678 - oe-selftest - INFO - ======================================================================
+2023-02-16 09:14:29,678 - oe-selftest - INFO - ERROR: overlayfs.OverlayFSEtcRunTimeTests.test_sbin_init_original (subunit.RemotedTestCase)
+2023-02-16 09:14:29,679 - oe-selftest - INFO - ----------------------------------------------------------------------
+2023-02-16 09:14:29,679 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
+    return func(*args, **kwargs)
+  File "/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/selftest/cases/overlayfs.py", line 380, in test_sbin_init_original
+    self.run_sbin_init(True)
+  File "/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/selftest/cases/overlayfs.py", line 415, in run_sbin_init
+    status, output = qemu.run_serial("touch " + testFile)
+  File "/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/targetcontrol.py", line 211, in run_serial
+    return self.runner.run_serial(command, timeout=timeout)
+  File "/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/utils/qemurunner.py", line 642, in run_serial
+    (status, output) = self.run_serial_socket(command, raw, timeout)
+  File "/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/utils/qemurunner.py", line 693, in run_serial_socket
+    raise Exception('serial run failed: no result')
+Exception: serial run failed: no result
 
-Ross Burton <ross.burton@arm.com> escreveu no dia quinta, 16/02/2023 =C3=A0=
-(s)
-15:10:
 
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
+
+On 16/02/2023 10:54:39+0100, Louis Rannou wrote:
+> [YOCTO #15021]
+> 
+> Create a new runner run_serial_socket which usage matches the traditional ssh
+> runner. Its return status is 0 when the command succeeded or 0 when it
+> failed. If an error is encountered, it raises an Exception.
+> 
+> The previous serial runner is maintained and marked as deprecated.
+> 
+> Signed-off-by: Louis Rannou <lrannou@baylibre.com>
 > ---
->  meta/recipes-devtools/python/python3-pytest_7.2.1.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/python/python3-pytest_7.2.1.bb
-> b/meta/recipes-devtools/python/python3-pytest_7.2.1.bb
-> index 105b76a4a64..c7610d440c1 100644
-> --- a/meta/recipes-devtools/python/python3-pytest_7.2.1.bb
-> +++ b/meta/recipes-devtools/python/python3-pytest_7.2.1.bb
-> @@ -11,7 +11,7 @@ DEPENDS +=3D "python3-setuptools-scm-native"
->
->  inherit update-alternatives pypi python_setuptools_build_meta
->
-> -RDEPENDS:${PN}:class-target +=3D " \
-> +RDEPENDS:${PN} +=3D " \
->
+>  meta/lib/oeqa/targetcontrol.py    |  3 +++
+>  meta/lib/oeqa/utils/qemurunner.py | 42 ++++++++++++++++++++-----------
+>  2 files changed, 30 insertions(+), 15 deletions(-)
+> 
+> diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
+> index 1fdff82889..99fbcb5879 100644
+> --- a/meta/lib/oeqa/targetcontrol.py
+> +++ b/meta/lib/oeqa/targetcontrol.py
+> @@ -210,6 +210,9 @@ class QemuTarget(BaseTarget):
+>      def run_serial(self, command, timeout=60):
+>          return self.runner.run_serial(command, timeout=timeout)
+>  
+> +    def run_serial_socket(self, command, timeout=60):
+> +        return self.runner.run_serial_socket(command, timeout=timeout)
+> +
+>  
+>  class SimpleRemoteTarget(BaseTarget):
+>  
+> diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+> index c19164e6e7..c8fffd8fd1 100644
+> --- a/meta/lib/oeqa/utils/qemurunner.py
+> +++ b/meta/lib/oeqa/utils/qemurunner.py
+> @@ -618,7 +618,13 @@ class QemuRunner:
+>                  return self.qmp.cmd(command)
+>  
+>      def run_serial(self, command, raw=False, timeout=60):
+> +        # Deprecated
+>          # Returns (status, output) where status is 1 on success and 0 on error
+> +        (status, output) = self.run_serial_socket(command, raw, timeout)
+> +        return (0 if status else 1, output)
+> +
+> +    def run_serial_socket(self, command, raw=False, timeout=60):
+> +        # Returns (status, output) where status is 0 on success and a negative value on error.
+>  
+>          # We assume target system have echo to get command status
+>          if not raw:
+> @@ -632,7 +638,7 @@ class QemuRunner:
+>          while True:
+>              now = time.time()
+>              if now >= end:
+> -                data += "<<< run_serial(): command timed out after %d seconds without output >>>\r\n\r\n" % timeout
+> +                data += "<<< run_serial_socket(): command timed out after %d seconds without output >>>\r\n\r\n" % timeout
+>                  break
+>              try:
+>                  sread, _, _ = select.select([self.server_socket],[],[], end - now)
+> @@ -650,21 +656,27 @@ class QemuRunner:
+>                          return (1, "")
+>                      raise Exception("No data on serial console socket, connection closed?")
+>  
+> -        if data:
+> -            if raw:
+> -                status = 1
+> +        if not data:
+> +            self.logger.error("serial run returned no data")
+> +            raise subprocess.SubprocessError('serial run failed: no data')
+> +
+> +        if raw:
+> +            status = 0
+> +        else:
+> +            # Remove first line (command line) and last line (prompt)
+> +            data = data[data.find('$?\r\n')+4:data.rfind('\r\n')]
+> +            index = data.rfind('\r\n')
+> +            if index == -1:
+> +                data = ""
+> +                self.logger.error("serial run returned no result")
+> +                raise Exception('serial run failed: no result')
+>              else:
+> -                # Remove first line (command line) and last line (prompt)
+> -                data = data[data.find('$?\r\n')+4:data.rfind('\r\n')]
+> -                index = data.rfind('\r\n')
+> -                if index == -1:
+> -                    status_cmd = data
+> -                    data = ""
+> -                else:
+> -                    status_cmd = data[index+2:]
+> -                    data = data[:index]
+> -                if (status_cmd == "0"):
+> -                    status = 1
+> +                status_cmd = data[index+2:]
+> +                data = data[:index]
+> +                try:
+> +                    status = int(status_cmd)
+> +                except ValueError as e:
+> +                    raise Exception('Could not convert to integer: {}'.format(str(e)))
+>          return (status, str(data))
+>  
+>  
+> -- 
+> 2.39.1
+> 
 
-The commit title is not describing what has been done on the patch.
-
-Jose
-
-     ${PYTHON_PN}-atomicwrites \
->      ${PYTHON_PN}-attrs \
->      ${PYTHON_PN}-debugger \
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#177293):
-> https://lists.openembedded.org/g/openembedded-core/message/177293
-> Mute This Topic: https://lists.openembedded.org/mt/97007314/5052612
+> View/Reply Online (#177280): https://lists.openembedded.org/g/openembedded-core/message/177280
+> Mute This Topic: https://lists.openembedded.org/mt/97002779/3617179
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
---=20
-Best regards,
 
-Jos=C3=A9 Quaresma
-
---000000000000df590805f4d443de
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi Ross,</div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">Ross Burton &lt;<a href=3D"mailto:ross.burton=
-@arm.com" target=3D"_blank">ross.burton@arm.com</a>&gt; escreveu no dia qui=
-nta, 16/02/2023 =C3=A0(s) 15:10:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burt=
-on@arm.com" target=3D"_blank">ross.burton@arm.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/python/<a href=3D"http://python3-pytest_7.2.1.b=
-b" rel=3D"noreferrer" target=3D"_blank">python3-pytest_7.2.1.bb</a> | 2 +-<=
-br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3-pytest_=
-7.2.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-pytest_7.2.1.bb</a> =
-b/meta/recipes-devtools/python/<a href=3D"http://python3-pytest_7.2.1.bb" r=
-el=3D"noreferrer" target=3D"_blank">python3-pytest_7.2.1.bb</a><br>
-index 105b76a4a64..c7610d440c1 100644<br>
---- a/meta/recipes-devtools/python/<a href=3D"http://python3-pytest_7.2.1.b=
-b" rel=3D"noreferrer" target=3D"_blank">python3-pytest_7.2.1.bb</a><br>
-+++ b/meta/recipes-devtools/python/<a href=3D"http://python3-pytest_7.2.1.b=
-b" rel=3D"noreferrer" target=3D"_blank">python3-pytest_7.2.1.bb</a><br>
-@@ -11,7 +11,7 @@ DEPENDS +=3D &quot;python3-setuptools-scm-native&quot;<br=
->
-<br>
-=C2=A0inherit update-alternatives pypi python_setuptools_build_meta<br>
-<br>
--RDEPENDS:${PN}:class-target +=3D &quot; \<br>
-+RDEPENDS:${PN} +=3D &quot; \<br></blockquote><div><br></div><div>The commi=
-t title is not describing what has been done on the patch.</div><div><br></=
-div><div>Jose</div><div><br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
-=C2=A0 =C2=A0 =C2=A0${PYTHON_PN}-atomicwrites \<br>
-=C2=A0 =C2=A0 =C2=A0${PYTHON_PN}-attrs \<br>
-=C2=A0 =C2=A0 =C2=A0${PYTHON_PN}-debugger \<br>
--- <br>
-2.34.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#177293): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/177293" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/177293</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/97007314/5052=
-612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/97007314/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
-><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div=
-></div>
-
---000000000000df590805f4d443de--
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
