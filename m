@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E23B9C76186
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7505FC6FA99
 	for <webhook@archiver.kernel.org>; Thu, 16 Feb 2023 00:46:45 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.10285.1676508396073967185
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.10286.1676508396546483010
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Feb 2023 16:46:37 -0800
+ Wed, 15 Feb 2023 16:46:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=YnYCMzHp;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018657affbb3-6ba7e50e-400f-46b8-85a0-8b6bc44173cc-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=VtqrtIQG;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018657b003b5-0ec59a10-2689-4508-adfa-c96f224d9367-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1676508396;
+	t=1676508398;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=0BVeyXucImkwEgpQMo79Sc/ILaT4DN/LDWVycg+NXUY=;
-	b=YnYCMzHpw12auxUVjcZ3Md3gFVUPByY8hwvl38MexG37WnUTKUMcUB1b/0MCNqxm
-	PooN6hCp1Cu7TBEuYOW+whuov4iqMTVVOOwEY816ncOulJV0Ltu4Cps41nR4C6q4FXx
-	rX1kyIaEIEniM6UMNcU8fJNAuGygmMpMQvUNu+KI=
+	bh=CIyUHWjYZj4RV+D38sU0reWt2SgHmA/4UPC5EZo7TOM=;
+	b=VtqrtIQGSru+EfJh9WbEAFEBHVJlZSXz3jfugrlgqnhmFI6NE1OC3qoU2Jqx95le
+	T9ohr+rczsSb3E5ZJ/q2sHQSnX6ieqhbuzDpc/u/fT0TVcpIZtp7hAMkT7DW95uzqkk
+	2H1imvHSvuK+715aR0FGErRxHPIsj0mrXXb9ColA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1676508396;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1676508398;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=0BVeyXucImkwEgpQMo79Sc/ILaT4DN/LDWVycg+NXUY=;
-	b=gkOySJFjKG82vhHzTFSstJukDlLV8cqU5cSscjbM5EK2M9UgbaNZkd3v6aStEwM/
-	1zcJN4sINi0wVEyPIOMqXKF0Lrw3JjqAc2WlWK8Je2pwJU/0vThNB/cA8GzhLk+8z2P
-	x+QUeLZvwUCG+hbBXXsblfHSZrhuHVXVQKs4k0hY=
-Content-Type: multipart/mixed; boundary="===============5424242111650910051=="
+	bh=CIyUHWjYZj4RV+D38sU0reWt2SgHmA/4UPC5EZo7TOM=;
+	b=bhId4N46gj2VFrItEzRRsQoDy7o6SjdQ+mxXiCWiZuWKRSczlW4B/p8dzLsRgcQU
+	ieA0IDtd9LqKqRWHDQ0CSMbPUlFQAfiYoJEAlUmFIt77uqz91uKKHAuA/GLLRRb5B3d
+	89vjK/PFzM46jUskwzB2/gIzcuCKeJta59cxL6BE=
+Content-Type: multipart/mixed; boundary="===============4797248254292609292=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3: upgrading to 3.11.2 SUCCEEDED
-Message-ID: <0101018657affbb3-6ba7e50e-400f-46b8-85a0-8b6bc44173cc-000000@us-west-2.amazonses.com>
-Date: Thu, 16 Feb 2023 00:46:36 +0000
+Subject: [AUH] nghttp2: upgrading to 1.52.0 SUCCEEDED
+Message-ID: <0101018657b003b5-0ec59a10-2689-4508-adfa-c96f224d9367-000000@us-west-2.amazonses.com>
+Date: Thu, 16 Feb 2023 00:46:38 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.02.16-54.240.27.33
+X-SES-Outgoing: 2023.02.16-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 16 Feb 2023 00:46:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177243
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177271
 
---===============5424242111650910051==
+--===============4797248254292609292==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3* to *3.11.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *nghttp2* to *1.52.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-upgrade-3.11.1-3.11.2.patch
+    - apply the patch: git am 0001-nghttp2-upgrade-1.51.0-1.52.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,207 +69,150 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============5424242111650910051==
+--===============4797248254292609292==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
+
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 895 .bb files complete (0 cached, 895 parsed). 1693 targets, 72 skipped, 0 masked, 0 errors.
+Removing 2 recipes from the ppc7400 sysroot...done.
+Removing 1 recipes from the qemuppc sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "powerpc-poky-linux"
+MACHINE              = "qemuppc"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-8f4e567d1cab55d2ce56f9236f30aa0ecce6c964"
+TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:8f4e567d1cab55d2ce56f9236f30aa0ecce6c964"
+workspace            = "master:44311c454d0b0856f58cfa6fa60669903b2ba3af"
+
+Initialising tasks...done.
+Sstate summary: Wanted 22 Local 14 Mirrors 0 Missed 8 Current 268 (63% match, 97% complete)
+Removing 1 stale sstate objects for arch ppc7400...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 272 of 290 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.66.bb:do_packagedata_setscene)
+NOTE: recipe libcap-2.66-r0: task do_packagedata_setscene: Started
+NOTE: Running task 866 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_fetch)
+NOTE: Running task 1062 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.7.bb:do_package_write_rpm)
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/libcap/2.66-r0/temp/log.do_packagedata_setscene.35908
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.66.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: recipe nghttp2-1.52.0-r0: task do_fetch: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 289 of 290 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.66.bb:do_package_setscene)
+NOTE: Running task 1063 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_unpack)
+NOTE: Running task 1064 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libcap-2.66-r0: task do_package_setscene: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_unpack: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe openssl-3.0.7-r0: task do_package_write_rpm: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1065 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_patch)
+NOTE: recipe libcap-2.66-r0: task do_package_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1082 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.66.bb:do_packagedata)
+NOTE: recipe nghttp2-1.52.0-r0: task do_patch: Started
+NOTE: recipe libcap-2.66-r0: task do_packagedata: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe nghttp2-1.52.0-r0: task do_patch: Succeeded
+NOTE: Running task 1084 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1085 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_generate_toolchain_file)
+NOTE: Running task 1086 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_populate_lic)
+NOTE: recipe nghttp2-1.52.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_populate_lic: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe libcap-2.66-r0: task do_packagedata: Succeeded
+NOTE: recipe nghttp2-1.52.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe nghttp2-1.52.0-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_populate_lic unihash changed to 3fd8adf97d96d6a5e2f68ac67848ce96f0dba4ea3a7c5415bf2099d06b289812
+NOTE: recipe nghttp2-1.52.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1090 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_configure)
+NOTE: recipe nghttp2-1.52.0-r0: task do_configure: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_configure: Succeeded
+NOTE: Running task 1091 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_compile)
+NOTE: recipe nghttp2-1.52.0-r0: task do_compile: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_compile: Succeeded
+NOTE: Running task 1092 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_install)
+NOTE: recipe nghttp2-1.52.0-r0: task do_install: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_install: Succeeded
+NOTE: Running task 1093 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_package)
+NOTE: Running task 1094 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_populate_sysroot)
+NOTE: recipe nghttp2-1.52.0-r0: task do_populate_sysroot: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_package: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe nghttp2-1.52.0-r0: task do_package: Succeeded
+NOTE: Running task 1095 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_packagedata)
+NOTE: recipe nghttp2-1.52.0-r0: task do_packagedata: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1096 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_package_write_rpm)
+NOTE: Running task 1097 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_package_qa)
+NOTE: recipe nghttp2-1.52.0-r0: task do_package_write_rpm: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_package_qa: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_package_qa: Succeeded
+NOTE: recipe nghttp2-1.52.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe openssl-3.0.7-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.7.bb:do_package_write_rpm unihash changed to c75d0c01f4cda36220a0191d2e840556c5bec7163a0706e1e5054b38ac97372d
+NOTE: Running noexec task 1098 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_build)
+NOTE: Tasks Summary: Attempted 1098 tasks of which 1080 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: There was 1 WARNING message.
+Summary: There were 9 ERROR messages, returning a non-zero exit code.
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-src went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-dbg went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-staticdev went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-dev went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-doc went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-locale went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-bin went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============4797248254292609292==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3: SRC_URI changed from "http://www.python.org/ftp/python/3.11.1/Python-3.11.1.tar.xz file://run-ptest file://create_manifest3.py file://get_module_deps3.py file://python3-manifest.json file://check_build_completeness.py file://reformat_sysconfig.py file://cgi_py.patch file://0001-Do-not-add-usr-lib-termcap-to-linker-flags-to-avoid-.patch file://avoid_warning_about_tkinter.patch file://0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch file://0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch file://crosspythonpath.patch file://0001-test_locale.py-correct-the-test-output-format.patch file://0017-setup.py-do-not-report-missing-dependencies-for-disa.patch file://0001-Makefile-do-not-compile-.pyc-in-parallel.patch file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch file://0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch file://0001-test_ctypes.test_find-skip-without-tools-sdk.patch file://maker
- ace.patch file://0001-sysconfig.py-use-platlibdir-also-for-purelib.patch file://0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch file://0001-setup.py-Do-not-detect-multiarch-paths-when-cross-co.patch file://deterministic_imports.patch file://0001-Avoid-shebang-overflow-on-python-config.py.patch" to "http://www.python.org/ftp/python/3.11.2/Python-3.11.2.tar.xz file://run-ptest file://create_manifest3.py file://get_module_deps3.py file://python3-manifest.json file://check_build_completeness.py file://reformat_sysconfig.py file://cgi_py.patch file://0001-Do-not-add-usr-lib-termcap-to-linker-flags-to-avoid-.patch file://avoid_warning_about_tkinter.patch file://0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch file://0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch file://crosspythonpath.patch file://0001-test_locale.py-correct-the-test-output-format.patch file://0017-setup.py-do-not-report-missing-dependencies-for-disa.patch file://0001-Makefi
- le-do-not-compile-.pyc-in-parallel.patch file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch file://0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch file://0001-test_ctypes.test_find-skip-without-tools-sdk.patch file://makerace.patch file://0001-sysconfig.py-use-platlibdir-also-for-purelib.patch file://0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch file://0001-setup.py-Do-not-detect-multiarch-paths-when-cross-co.patch file://deterministic_imports.patch file://0001-Avoid-shebang-overflow-on-python-config.py.patch"
-packages/core2-32-poky-linux/python3: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/libpython3-staticdev: PKGSIZE changed from 19327182 to 19331736 (+0%)
-packages/core2-32-poky-linux/python3/libpython3-staticdev: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/libpython3-staticdev: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/libpython3: PKGSIZE changed from 4930652 to 4930300 (-0%)
-packages/core2-32-poky-linux/python3/libpython3: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/libpython3: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-2to3: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-2to3: FILELIST: removed "/usr/lib/python3.11/lib2to3/Grammar3.11.1.final.0.pickle /usr/lib/python3.11/lib2to3/PatternGrammar3.11.1.final.0.pickle", added "/usr/lib/python3.11/lib2to3/Grammar3.11.2.final.0.pickle /usr/lib/python3.11/lib2to3/PatternGrammar3.11.2.final.0.pickle"
-packages/core2-32-poky-linux/python3/python3-2to3: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-asyncio: PKGSIZE changed from 1377503 to 1376419 (-0%)
-packages/core2-32-poky-linux/python3/python3-asyncio: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-asyncio: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-audio: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-audio: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-codecs: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-codecs: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-compile: PKGSIZE changed from 86344 to 86332 (-0%)
-packages/core2-32-poky-linux/python3/python3-compile: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-compile: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-compression: PKGSIZE changed from 480639 to 480965 (+0%)
-packages/core2-32-poky-linux/python3/python3-compression: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-compression: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-core: PKGSIZE changed from 9201627 to 9203121 (+0%)
-packages/core2-32-poky-linux/python3/python3-core: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-core: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-crypt: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-crypt: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-ctypes: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-ctypes: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-curses: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-curses: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-datetime: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-datetime: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-db: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-db: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-dbg: PKGSIZE changed from 21729880 to 21812272 (+0%)
-packages/core2-32-poky-linux/python3/python3-dbg: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-dbg: FILELIST: added "/usr/lib/python3.11/lib-dynload/.debug/_testclinic.cpython-311-i386-linux-gnu.so"
-packages/core2-32-poky-linux/python3/python3-dbg: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-debugger: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-debugger: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-dev: PKGSIZE changed from 853173 to 853467 (+0%)
-packages/core2-32-poky-linux/python3/python3-dev: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-dev: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-difflib: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-difflib: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-distutils-windows: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-distutils-windows: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-distutils: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-distutils: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-doc: PKGSIZE changed from 19814 to 20292 (+2%)
-packages/core2-32-poky-linux/python3/python3-doc: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-doc: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-doctest: PKGSIZE changed from 216883 to 217011 (+0%)
-packages/core2-32-poky-linux/python3/python3-doctest: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-doctest: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-email: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-email: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-fcntl: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-fcntl: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-gdbm: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-gdbm: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-html: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-html: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-idle: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-idle: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-image: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-image: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-io: PKGSIZE changed from 1007684 to 1007707 (+0%)
-packages/core2-32-poky-linux/python3/python3-io: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-io: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-json: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-json: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-locale: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-locale: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-logging: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-logging: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-mailbox: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-mailbox: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-man: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-man: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-math: PKGSIZE changed from 127432 to 127606 (+0%)
-packages/core2-32-poky-linux/python3/python3-math: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-math: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-mime: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-mime: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-misc: PKGSIZE changed from 5889438 to 5942360 (+1%)
-packages/core2-32-poky-linux/python3/python3-misc: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-misc: FILELIST: added "/usr/lib/python3.11/lib-dynload/_testclinic.cpython-311-i386-linux-gnu.so"
-packages/core2-32-poky-linux/python3/python3-misc: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-mmap: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-mmap: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-modules: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-modules: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-multiprocessing: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-multiprocessing: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-netclient: PKGSIZE changed from 1011035 to 1011227 (+0%)
-packages/core2-32-poky-linux/python3/python3-netclient: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-netclient: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-netserver: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-netserver: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-numbers: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-numbers: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-pickle: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-pickle: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-pkgutil: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-pkgutil: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-plistlib: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-plistlib: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-pprint: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-pprint: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-profile: PKGSIZE changed from 260363 to 260416 (+0%)
-packages/core2-32-poky-linux/python3/python3-profile: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-profile: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-ptest: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-ptest: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-pydoc: PKGSIZE changed from 1490307 to 1490905 (+0%)
-packages/core2-32-poky-linux/python3/python3-pydoc: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-pydoc: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-resource: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-resource: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-shell: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-shell: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-smtpd: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-smtpd: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-sqlite3: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-sqlite3: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-src: PKGSIZE changed from 27019304 to 27124312 (+0%)
-packages/core2-32-poky-linux/python3/python3-src: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-src: FILELIST: directory renamed /usr/src/debug/python3/3.11.1-r0/Objects/stringlib -> /usr/src/debug/python3/3.11.2-r0/Objects/stringlib, directory renamed /usr/src/debug/python3/3.11.1-r0/Modules/_multiprocessing -> /usr/src/debug/python3/3.11.2-r0/Modules/_multiprocessing, directory renamed /usr/src/debug/python3/3.11.1-r0/Python/deepfreeze -> /usr/src/debug/python3/3.11.2-r0/Python/deepfreeze, directory renamed /usr/src/debug/python3/3.11.1-r0/Modules/_sqlite -> /usr/src/debug/python3/3.11.2-r0/Modules/_sqlite, directory renamed /usr/src/debug/python3/3.11.1-r0/Objects/stringlib/clinic -> /usr/src/debug/python3/3.11.2-r0/Objects/stringlib/clinic, directory renamed /usr/src/debug/python3/3.11.1-r0/Modules/cjkcodecs -> /usr/src/debug/python3/3.11.2-r0/Modules/cjkcodecs, directory renamed /usr/src/debug/python3/3.11.1-r0/Modules/cjkcodecs/clinic -> /usr/src/debug/python3/3.11.2-r0/Modules/cjkcodecs/clinic, directory renamed /usr/src/debug
- /python3/3.11.1-r0/Modules/expat -> /usr/src/debug/python3/3.11.2-r0/Modules/expat, directory renamed /usr/src/debug/python3/3.11.1-r0/Programs -> /usr/src/debug/python3/3.11.2-r0/Programs, directory renamed /usr/src/debug/python3/3.11.1-r0/Modules/_decimal/libmpdec -> /usr/src/debug/python3/3.11.2-r0/Modules/_decimal/libmpdec, directory renamed /usr/src/debug/python3/3.11.1-r0/Include/internal -> /usr/src/debug/python3/3.11.2-r0/Include/internal, directory renamed /usr/src/debug/python3/3.11.1-r0/Modules/_decimal -> /usr/src/debug/python3/3.11.2-r0/Modules/_decimal, directory renamed /usr/src/debug/python3/3.11.1-r0/Modules/_sre -> /usr/src/debug/python3/3.11.2-r0/Modules/_sre, directory renamed /usr/src/debug/python3/3.11.1-r0/Modules/_io/clinic -> /usr/src/debug/python3/3.11.2-r0/Modules/_io/clinic, directory renamed /usr/src/debug/python3/3.11.1-r0/Modules/_sha3/clinic -> /usr/src/debug/python3/3.11.2-r0/Modules/_sha3/clinic, directory renamed /usr/src/debug/python3/3.11.1-r0/Mo
- dules/_xxtestfuzz -> /usr/src/debug/python3/3.11.2-r0/Modules/_xxtestfuzz, directory renamed /usr/src/debug/python3/3.11.1-r0/Python -> /usr/src/debug/python3/3.11.2-r0/Python, directory renamed /usr/src/debug/python3/3.11.1-r0/Objects -> /usr/src/debug/python3/3.11.2-r0/Objects, directory renamed /usr/src/debug/python3/3.11.1-r0/Modules/_io -> /usr/src/debug/python3/3.11.2-r0/Modules/_io, directory renamed /usr/src/debug/python3/3.11.1-r0/Include/cpython -> /usr/src/debug/python3/3.11.2-r0/Include/cpython, directory renamed /usr/src/debug/python3/3.11.1-r0/Parser -> /usr/src/debug/python3/3.11.2-r0/Parser, directory renamed /usr/src/debug/python3/3.11.1-r0/Modules/_ctypes -> /usr/src/debug/python3/3.11.2-r0/Modules/_ctypes, directory renamed /usr/src/debug/python3/3.11.1-r0/Modules/_sha3 -> /usr/src/debug/python3/3.11.2-r0/Modules/_sha3, directory renamed /usr/src/debug/python3/3.11.1-r0/Python/clinic -> /usr/src/debug/python3/3.11.2-r0/Python/clinic, directory renamed /usr/src/deb
- ug/python3/3.11.1-r0/Python/frozen_modules -> /usr/src/debug/python3/3.11.2-r0/Python/frozen_modules, directory renamed /usr/src/debug/python3/3.11.1-r0/Modules/_blake2/clinic -> /usr/src/debug/python3/3.11.2-r0/Modules/_blake2/clinic, directory renamed /usr/src/debug/python3/3.11.1-r0/Modules/_sqlite/clinic -> /usr/src/debug/python3/3.11.2-r0/Modules/_sqlite/clinic, directory renamed /usr/src/debug/python3/3.11.1-r0/Include -> /usr/src/debug/python3/3.11.2-r0/Include, directory renamed /usr/src/debug/python3/3.11.1-r0/Modules/_blake2/impl -> /usr/src/debug/python3/3.11.2-r0/Modules/_blake2/impl, directory renamed /usr/src/debug/python3/3.11.1-r0/Modules/_multiprocessing/clinic -> /usr/src/debug/python3/3.11.2-r0/Modules/_multiprocessing/clinic, directory renamed /usr/src/debug/python3/3.11.1-r0/Modules/_ssl -> /usr/src/debug/python3/3.11.2-r0/Modules/_ssl, directory renamed /usr/src/debug/python3/3.11.1-r0/Modules/_sre/clinic -> /usr/src/debug/python3/3.11.2-r0/Modules/_sre/clinic,
-  directory renamed /usr/src/debug/python3/3.11.1-r0/Modules/_ssl/clinic -> /usr/src/debug/python3/3.11.2-r0/Modules/_ssl/clinic, directory renamed /usr/src/debug/python3/3.11.1-r0/Objects/clinic -> /usr/src/debug/python3/3.11.2-r0/Objects/clinic, directory renamed /usr/src/debug/python3/3.11.1-r0/Modules/_blake2 -> /usr/src/debug/python3/3.11.2-r0/Modules/_blake2, removed "/usr/src/debug/python3/3.11.1-r0/Modules/clinic/audioop.c.h /usr/src/debug/python3/3.11.1-r0/Modules/_testimportmultiple.c /usr/src/debug/python3/3.11.1-r0/Modules/posixmodule.h /usr/src/debug/python3/3.11.1-r0/Modules/rotatingtree.h /usr/src/debug/python3/3.11.1-r0/Modules/_elementtree.c /usr/src/debug/python3/3.11.1-r0/Modules/rotatingtree.c /usr/src/debug/python3/3.11.1-r0/Modules/posixmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/fcntlmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/_weakref.c /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_gdbmmodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_
- datetimemodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_codecsmodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_cursesmodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/posixmodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/getbuildinfo.c /usr/src/debug/python3/3.11.1-r0/Modules/_statisticsmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/clinic/fcntlmodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/_bz2module.c /usr/src/debug/python3/3.11.1-r0/Modules/_dbmmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/_posixsubprocess.c /usr/src/debug/python3/3.11.1-r0/Modules/_abc.c /usr/src/debug/python3/3.11.1-r0/Modules/mathmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/mmapmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/sha1module.c /usr/src/debug/python3/3.11.1-r0/Modules/spwdmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/clinic/md5module.c.h /usr/src/debug/python3/3.11.1-r0/Modules/_json.c /usr/src/debug/python3/3.11.1-r0/Modules/clinic/grpmodule.
- c.h /usr/src/debug/python3/3.11.1-r0/Modules/unicodename_db.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_cryptmodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_queuemodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/xxlimited.c /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_ssl.c.h /usr/src/debug/python3/3.11.1-r0/Modules/_testinternalcapi.c /usr/src/debug/python3/3.11.1-r0/Modules/_collectionsmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/_tracemalloc.c /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_statisticsmodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/faulthandler.c /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_bz2module.c.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_dbmmodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_lsprof.c.h /usr/src/debug/python3/3.11.1-r0/Modules/_datetimemodule.c /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_pickle.c.h /usr/src/debug/python3/3.11.1-r0/Modules/_codecsmodule.c /usr/src/debug/python3/3.11.
- 1-r0/Modules/_bisectmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/_cursesmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/_localemodule.c /usr/src/debug/python3/3.11.1-r0/Modules/_randommodule.c /usr/src/debug/python3/3.11.1-r0/Modules/_testbuffer.c /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_operator.c.h /usr/src/debug/python3/3.11.1-r0/Modules/_threadmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/_typingmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/clinic/binascii.c.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/sha1module.c.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/spwdmodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/readline.c /usr/src/debug/python3/3.11.1-r0/Modules/resource.c /usr/src/debug/python3/3.11.1-r0/Modules/_ssl.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_abc.c.h /usr/src/debug/python3/3.11.1-r0/Modules/_ssl.c /usr/src/debug/python3/3.11.1-r0/Modules/clinic/sha256module.c.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/sha512mod
- ule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/unicodedata_db.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_contextvarsmodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/config.c /usr/src/debug/python3/3.11.1-r0/Modules/_hashopenssl.c /usr/src/debug/python3/3.11.1-r0/Modules/clinic/symtablemodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_testmultiphase.c.h /usr/src/debug/python3/3.11.1-r0/Modules/_math.h /usr/src/debug/python3/3.11.1-r0/Modules/_curses_panel.c /usr/src/debug/python3/3.11.1-r0/Modules/clinic/readline.c.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/resource.c.h /usr/src/debug/python3/3.11.1-r0/Modules/main.c /usr/src/debug/python3/3.11.1-r0/Modules/symtablemodule.c /usr/src/debug/python3/3.11.1-r0/Modules/clinic/itertoolsmodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/_csv.c /usr/src/debug/python3/3.11.1-r0/Modules/_stat.c /usr/src/debug/python3/3.11.1-r0/Modules/testcapi_long.h /usr/src/debug/python3/3.11.1-r0/Modules/nismodule.c /usr/src/d
- ebug/python3/3.11.1-r0/Modules/pwdmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/_ssl_data_300.h /usr/src/debug/python3/3.11.1-r0/Modules/itertoolsmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_asynciomodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_elementtree.c.h /usr/src/debug/python3/3.11.1-r0/Modules/termios.c /usr/src/debug/python3/3.11.1-r0/Modules/clinic/pwdmodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_weakref.c.h /usr/src/debug/python3/3.11.1-r0/Modules/_gdbmmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/_lzmamodule.c /usr/src/debug/python3/3.11.1-r0/Modules/_uuidmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/arraymodule.c /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_lzmamodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/arraymodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/cmathmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/errnomodule.c /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_bisectmodule.c.h /usr/src
- /debug/python3/3.11.1-r0/Modules/clinic/_localemodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_randommodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_typingmodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/pyexpat.c.h /usr/src/debug/python3/3.11.1-r0/Modules/pyexpat.c /usr/src/debug/python3/3.11.1-r0/Modules/timemodule.c /usr/src/debug/python3/3.11.1-r0/Modules/_testcapimodule.c /usr/src/debug/python3/3.11.1-r0/Modules/zlibmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/clinic/termios.c.h /usr/src/debug/python3/3.11.1-r0/Modules/_operator.c /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_collectionsmodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_heapqmodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/unicodedata.c.h /usr/src/debug/python3/3.11.1-r0/Modules/unicodedata.c /usr/src/debug/python3/3.11.1-r0/Modules/xxsubtype.c /usr/src/debug/python3/3.11.1-r0/Modules/_contextvarsmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/_test
- capi_feature_macros.inc /usr/src/debug/python3/3.11.1-r0/Modules/_functoolsmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/xxlimited_35.c /usr/src/debug/python3/3.11.1-r0/Modules/clinic/zlibmodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_curses_panel.c.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_opcode.c.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_struct.c.h /usr/src/debug/python3/3.11.1-r0/Modules/_asynciomodule.c /usr/src/debug/python3/3.11.1-r0/Modules/clinic/mathmodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/cmathmodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/_lsprof.c /usr/src/debug/python3/3.11.1-r0/Modules/_opcode.c /usr/src/debug/python3/3.11.1-r0/Modules/_pickle.c /usr/src/debug/python3/3.11.1-r0/Modules/_struct.c /usr/src/debug/python3/3.11.1-r0/Modules/audioop.c /usr/src/debug/python3/3.11.1-r0/Modules/clinic/gcmodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/gcmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/getpath.c /usr
- /src/debug/python3/3.11.1-r0/Modules/clinic/_tracemalloc.c.h /usr/src/debug/python3/3.11.1-r0/Modules/ossaudiodev.c /usr/src/debug/python3/3.11.1-r0/Modules/clinic/selectmodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/signalmodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/clinic/socketmodule.c.h /usr/src/debug/python3/3.11.1-r0/Modules/binascii.c /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_hashopenssl.c.h /usr/src/debug/python3/3.11.1-r0/Modules/_xxsubinterpretersmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/clinic/_csv.c.h /usr/src/debug/python3/3.11.1-r0/Modules/_zoneinfo.c /usr/src/debug/python3/3.11.1-r0/Modules/_cryptmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/_heapqmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/_queuemodule.c /usr/src/debug/python3/3.11.1-r0/Modules/atexitmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/selectmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/sha256module.c /usr/src/debug/python3/3.11.1-r0/Modules/sha512module.c
-  /usr/src/debug/python3/3.11.1-r0/Modules/signalmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/socketmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/syslogmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/grpmodule.c /usr/src/debug/python3/3.11.1-r0/Modules/socketmodule.h /usr/src/debug/python3/3.11.1-r0/Modules/md5module.c /usr/src/debug/python3/3.11.1-r0/Modules/_testmultiphase.c", added "/usr/src/debug/python3/3.11.2-r0/Modules/clinic/audioop.c.h /usr/src/debug/python3/3.11.2-r0/Modules/_testimportmultiple.c /usr/src/debug/python3/3.11.2-r0/Modules/posixmodule.h /usr/src/debug/python3/3.11.2-r0/Modules/rotatingtree.h /usr/src/debug/python3/3.11.2-r0/Modules/_elementtree.c /usr/src/debug/python3/3.11.2-r0/Modules/rotatingtree.c /usr/src/debug/python3/3.11.2-r0/Modules/posixmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/fcntlmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/_weakref.c /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_gdbmmodule.c.h /usr/src/debug/python3/3.1
- 1.2-r0/Modules/clinic/_datetimemodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_codecsmodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_cursesmodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/posixmodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/getbuildinfo.c /usr/src/debug/python3/3.11.2-r0/Modules/_statisticsmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/clinic/fcntlmodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/_bz2module.c /usr/src/debug/python3/3.11.2-r0/Modules/_dbmmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/_posixsubprocess.c /usr/src/debug/python3/3.11.2-r0/Modules/_abc.c /usr/src/debug/python3/3.11.2-r0/Modules/mathmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/mmapmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/sha1module.c /usr/src/debug/python3/3.11.2-r0/Modules/spwdmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/clinic/md5module.c.h /usr/src/debug/python3/3.11.2-r0/Modules/_json.c /usr/src/debug/python3/3.11.2-r0/Mo
- dules/clinic/grpmodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/unicodename_db.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_cryptmodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_queuemodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/xxlimited.c /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_ssl.c.h /usr/src/debug/python3/3.11.2-r0/Modules/_testinternalcapi.c /usr/src/debug/python3/3.11.2-r0/Modules/_collectionsmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/_tracemalloc.c /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_statisticsmodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/faulthandler.c /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_bz2module.c.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_dbmmodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_lsprof.c.h /usr/src/debug/python3/3.11.2-r0/Modules/_datetimemodule.c /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_pickle.c.h /usr/src/debug/python3/3.11.2-r0/Modules/_codecsmodule.c /usr/
- src/debug/python3/3.11.2-r0/Modules/_bisectmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/_cursesmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/_localemodule.c /usr/src/debug/python3/3.11.2-r0/Modules/_randommodule.c /usr/src/debug/python3/3.11.2-r0/Modules/_testbuffer.c /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_operator.c.h /usr/src/debug/python3/3.11.2-r0/Modules/_threadmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/_typingmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/clinic/binascii.c.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/sha1module.c.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/spwdmodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/readline.c /usr/src/debug/python3/3.11.2-r0/Modules/resource.c /usr/src/debug/python3/3.11.2-r0/Modules/_ssl.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_abc.c.h /usr/src/debug/python3/3.11.2-r0/Modules/_ssl.c /usr/src/debug/python3/3.11.2-r0/Modules/clinic/sha256module.c.h /usr/src/debug/python3/3.11.2-r0/M
- odules/clinic/sha512module.c.h /usr/src/debug/python3/3.11.2-r0/Modules/unicodedata_db.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_contextvarsmodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/config.c /usr/src/debug/python3/3.11.2-r0/Modules/_hashopenssl.c /usr/src/debug/python3/3.11.2-r0/Modules/clinic/symtablemodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_testmultiphase.c.h /usr/src/debug/python3/3.11.2-r0/Modules/_math.h /usr/src/debug/python3/3.11.2-r0/Modules/_curses_panel.c /usr/src/debug/python3/3.11.2-r0/Modules/clinic/readline.c.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/resource.c.h /usr/src/debug/python3/3.11.2-r0/Modules/main.c /usr/src/debug/python3/3.11.2-r0/Modules/symtablemodule.c /usr/src/debug/python3/3.11.2-r0/Modules/clinic/itertoolsmodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/_csv.c /usr/src/debug/python3/3.11.2-r0/Modules/_stat.c /usr/src/debug/python3/3.11.2-r0/Modules/testcapi_long.h /usr/src/debug/python3/3.11.2-r0/Modules
- /nismodule.c /usr/src/debug/python3/3.11.2-r0/Modules/pwdmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/_ssl_data_300.h /usr/src/debug/python3/3.11.2-r0/Modules/itertoolsmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_asynciomodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_elementtree.c.h /usr/src/debug/python3/3.11.2-r0/Modules/termios.c /usr/src/debug/python3/3.11.2-r0/Modules/clinic/pwdmodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_weakref.c.h /usr/src/debug/python3/3.11.2-r0/Modules/_testclinic.c /usr/src/debug/python3/3.11.2-r0/Modules/_gdbmmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/_lzmamodule.c /usr/src/debug/python3/3.11.2-r0/Modules/_uuidmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/arraymodule.c /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_lzmamodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/arraymodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/cmathmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/errnomodul
- e.c /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_bisectmodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_localemodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_randommodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_typingmodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/pyexpat.c.h /usr/src/debug/python3/3.11.2-r0/Modules/pyexpat.c /usr/src/debug/python3/3.11.2-r0/Modules/timemodule.c /usr/src/debug/python3/3.11.2-r0/Modules/_testcapimodule.c /usr/src/debug/python3/3.11.2-r0/Modules/zlibmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/clinic/termios.c.h /usr/src/debug/python3/3.11.2-r0/Modules/_operator.c /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_collectionsmodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_heapqmodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/unicodedata.c.h /usr/src/debug/python3/3.11.2-r0/Modules/unicodedata.c /usr/src/debug/python3/3.11.2-r0/Modules/xxsubtype.c /usr/src/debug/python3/3.11.2-
- r0/Modules/_contextvarsmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/_testcapi_feature_macros.inc /usr/src/debug/python3/3.11.2-r0/Modules/_functoolsmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/xxlimited_35.c /usr/src/debug/python3/3.11.2-r0/Modules/clinic/zlibmodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_curses_panel.c.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_opcode.c.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_struct.c.h /usr/src/debug/python3/3.11.2-r0/Modules/_asynciomodule.c /usr/src/debug/python3/3.11.2-r0/Modules/clinic/mathmodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/cmathmodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/_lsprof.c /usr/src/debug/python3/3.11.2-r0/Modules/_opcode.c /usr/src/debug/python3/3.11.2-r0/Modules/_pickle.c /usr/src/debug/python3/3.11.2-r0/Modules/_struct.c /usr/src/debug/python3/3.11.2-r0/Modules/audioop.c /usr/src/debug/python3/3.11.2-r0/Modules/clinic/gcmodule.c.h /usr/src/debug/python3/3.11.2
- -r0/Modules/gcmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/getpath.c /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_tracemalloc.c.h /usr/src/debug/python3/3.11.2-r0/Modules/ossaudiodev.c /usr/src/debug/python3/3.11.2-r0/Modules/clinic/selectmodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/signalmodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/socketmodule.c.h /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_testclinic.c.h /usr/src/debug/python3/3.11.2-r0/Modules/binascii.c /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_hashopenssl.c.h /usr/src/debug/python3/3.11.2-r0/Modules/_xxsubinterpretersmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/clinic/_csv.c.h /usr/src/debug/python3/3.11.2-r0/Modules/_zoneinfo.c /usr/src/debug/python3/3.11.2-r0/Modules/_cryptmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/_heapqmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/_queuemodule.c /usr/src/debug/python3/3.11.2-r0/Modules/atexitmodule.c /usr/src/debug/python3/3.
- 11.2-r0/Modules/selectmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/sha256module.c /usr/src/debug/python3/3.11.2-r0/Modules/sha512module.c /usr/src/debug/python3/3.11.2-r0/Modules/signalmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/socketmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/syslogmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/grpmodule.c /usr/src/debug/python3/3.11.2-r0/Modules/socketmodule.h /usr/src/debug/python3/3.11.2-r0/Modules/md5module.c /usr/src/debug/python3/3.11.2-r0/Modules/_testmultiphase.c"
-packages/core2-32-poky-linux/python3/python3-src: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-staticdev: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-staticdev: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-statistics: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-statistics: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-stringold: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-stringold: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-syslog: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-syslog: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-terminal: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-terminal: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-tests: PKGSIZE changed from 58861940 to 59056287 (+0%)
-packages/core2-32-poky-linux/python3/python3-tests: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-tests: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-threading: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-threading: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-tkinter: PKGSIZE changed from 911269 to 911271 (+0%)
-packages/core2-32-poky-linux/python3/python3-tkinter: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-tkinter: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-unittest: PKGSIZE changed from 571951 to 572070 (+0%)
-packages/core2-32-poky-linux/python3/python3-unittest: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-unittest: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-unixadmin: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-unixadmin: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-venv: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-venv: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-xml: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-xml: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-xmlrpc: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-xmlrpc: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3-zoneinfo: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3-zoneinfo: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-packages/core2-32-poky-linux/python3/python3: PV changed from "3.11.1" to "3.11.2"
-packages/core2-32-poky-linux/python3/python3: PKGV changed from 3.11.1 [default] to 3.11.2 [default]
-Changes to packages/core2-32-poky-linux/python3 (sysroot):
-  /usr/lib/python3.11/lib2to3/Grammar3.11.1.final.0.pickle moved to /usr/lib/python3.11/lib2to3/Grammar3.11.2.final.0.pickle
-  /usr/lib/python3.11/lib2to3/PatternGrammar3.11.1.final.0.pickle moved to /usr/lib/python3.11/lib2to3/PatternGrammar3.11.2.final.0.pickle
-  /usr/lib/python3.11/lib-dynload/_testclinic.cpython-311-i386-linux-gnu.so was added
+packages/core2-32-poky-linux/nghttp2: SRC_URI changed from "https://github.com/nghttp2/nghttp2/releases//download/v1.51.0/nghttp2-1.51.0.tar.xz file://0001-fetch-ocsp-response-use-python3.patch" to "https://github.com/nghttp2/nghttp2/releases//download/v1.52.0/nghttp2-1.52.0.tar.xz file://0001-fetch-ocsp-response-use-python3.patch"
+packages/core2-32-poky-linux/nghttp2: PV changed from "1.51.0" to "1.52.0"
+packages/core2-32-poky-linux/nghttp2: PKGV changed from 1.51.0 [default] to 1.52.0 [default]
+packages/core2-32-poky-linux/nghttp2/libnghttp2: PV changed from "1.51.0" to "1.52.0"
+packages/core2-32-poky-linux/nghttp2/libnghttp2: PKGV changed from 1.51.0 [default] to 1.52.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-client: PV changed from "1.51.0" to "1.52.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-client: PKGV changed from 1.51.0 [default] to 1.52.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-dbg: PV changed from "1.51.0" to "1.52.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-dbg: PKGV changed from 1.51.0 [default] to 1.52.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-dev: PV changed from "1.51.0" to "1.52.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-dev: PKGV changed from 1.51.0 [default] to 1.52.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-doc: PV changed from "1.51.0" to "1.52.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-doc: PKGSIZE changed from 179955 to 173052 (-4%)
+packages/core2-32-poky-linux/nghttp2/nghttp2-doc: PKGV changed from 1.51.0 [default] to 1.52.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-locale: PV changed from "1.51.0" to "1.52.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-locale: PKGV changed from 1.51.0 [default] to 1.52.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-proxy: PV changed from "1.51.0" to "1.52.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-proxy: PKGV changed from 1.51.0 [default] to 1.52.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-server: PV changed from "1.51.0" to "1.52.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-server: PKGV changed from 1.51.0 [default] to 1.52.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-src: PV changed from "1.51.0" to "1.52.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-src: PKGV changed from 1.51.0 [default] to 1.52.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-staticdev: PV changed from "1.51.0" to "1.52.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-staticdev: PKGV changed from 1.51.0 [default] to 1.52.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2: PV changed from "1.51.0" to "1.52.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2: PKGV changed from 1.51.0 [default] to 1.52.0 [default]
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1623,128 +1566,395 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
-Changes to packages/x86_64-linux/python3-native (sysroot):
-  /usr/lib/python3.11/lib2to3/Grammar3.11.1.final.0.pickle moved to /usr/lib/python3.11/lib2to3/Grammar3.11.2.final.0.pickle
-  /usr/lib/python3.11/lib2to3/PatternGrammar3.11.1.final.0.pickle moved to /usr/lib/python3.11/lib2to3/PatternGrammar3.11.2.final.0.pickle
-  /usr/lib/python3.11/lib-dynload/_testclinic.cpython-311-x86_64-linux-gnu.so was added
 
---===============5424242111650910051==
+--===============4797248254292609292==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
+
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 895 .bb files complete (0 cached, 895 parsed). 1694 targets, 49 skipped, 0 masked, 0 errors.
+Removing 8 recipes from the core2-32 sysroot...done.
+Removing 34 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux-musl"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-8f4e567d1cab55d2ce56f9236f30aa0ecce6c964"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:8f4e567d1cab55d2ce56f9236f30aa0ecce6c964"
+workspace            = "master:44311c454d0b0856f58cfa6fa60669903b2ba3af"
+
+Initialising tasks...done.
+Sstate summary: Wanted 151 Local 143 Mirrors 0 Missed 8 Current 135 (94% match, 97% complete)
+Removing 2 stale sstate objects for arch x86_64...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 137 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.36.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 138 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.1.bb:do_package_write_rpm_setscene)
+NOTE: Running task 568 of 1083 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_fetch)
+NOTE: recipe nghttp2-1.52.0-r0: task do_fetch: Started
+NOTE: recipe perl-5.36.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_fetch: Succeeded
+NOTE: Running task 634 of 1083 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_unpack)
+NOTE: recipe python3-3.11.1-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_unpack: Started
+NOTE: recipe python3-3.11.1-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 154 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 155 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 156 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.2.15.bb:do_packagedata_setscene)
+NOTE: Running setscene task 157 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata_setscene)
+NOTE: Running setscene task 158 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 159 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_packagedata_setscene)
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_packagedata_setscene: Started
+NOTE: recipe unzip-1_6.0-r5: task do_packagedata_setscene: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_unpack: Succeeded
+NOTE: Running task 635 of 1083 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_patch)
+NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-5.2.15-r0: task do_packagedata_setscene: Started
+NOTE: recipe coreutils-9.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.11.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_patch: Started
+NOTE: recipe unzip-1_6.0-r5: task do_packagedata_setscene: Succeeded
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe nghttp2-1.52.0-r0: task do_patch: Succeeded
+NOTE: Running task 644 of 1083 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 645 of 1083 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_generate_toolchain_file)
+NOTE: Running task 646 of 1083 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_populate_lic)
+NOTE: recipe nghttp2-1.52.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_populate_lic: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe bash-5.2.15-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe coreutils-9.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 170 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 172 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 174 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.66.bb:do_packagedata_setscene)
+NOTE: recipe nghttp2-1.52.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe nghttp2-1.52.0-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_populate_lic unihash changed to 3fd8adf97d96d6a5e2f68ac67848ce96f0dba4ea3a7c5415bf2099d06b289812
+NOTE: recipe libcap-2.66-r0: task do_packagedata_setscene: Started
+NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.11.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 177 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 179 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 181 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 184 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 186 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 188 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 190 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 192 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.40.1.bb:do_packagedata_setscene)
+NOTE: recipe nghttp2-1.52.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe readline-8.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.4.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe sqlite3-3_3.40.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.0.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libcap/2.66-r0/temp/log.do_packagedata_setscene.41404
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.66.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 194 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.66.bb:do_package_setscene)
+NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.38.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe readline-8.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.40.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe openssl-3.0.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xz-5.4.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 197 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.7.bb:do_package_setscene)
+NOTE: Running setscene task 199 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 207 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 212 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_packagedata_setscene)
+NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcap-2.66-r0: task do_package_setscene: Started
+NOTE: recipe openssl-3.0.7-r0: task do_package_setscene: Started
+NOTE: recipe libcap-2.66-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 226 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_packagedata_setscene)
+NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 230 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 232 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.8.bb:do_packagedata_setscene)
+NOTE: recipe cracklib-2.9.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe cracklib-2.9.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe perl-5.36.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 240 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_packagedata_setscene)
+NOTE: Running setscene task 243 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
+NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
+NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe openssl-3.0.7-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 251 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.7.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 252 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
+NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.0.7-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe openssl-3.0.7-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 255 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 256 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-runtime-12.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-12.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-12.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 259 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.2.bb:do_packagedata_setscene)
+NOTE: recipe gcc-runtime-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 261 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libgcc-12.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-12.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-12.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 263 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe musl-1.2.3+gitAUTOINC+f47a8cdd25-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 264 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe musl-1.2.3+gitAUTOINC+f47a8cdd25-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.3+gitAUTOINC+f47a8cdd25-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 267 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 268 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 269 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_packagedata_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-libc-headers-6.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-1.2.3+gitAUTOINC+f47a8cdd25-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 270 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 271 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 280 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-cross-i686-12.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 283 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe linux-libc-headers-6.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 284 of 286 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.40.bb:do_populate_sysroot_setscene)
+NOTE: recipe binutils-cross-i686-2.40-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe binutils-cross-i686-2.40-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1005 of 1083 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1062 of 1083 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.66.bb:do_packagedata)
+NOTE: Running task 1071 of 1083 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.7.bb:do_package_write_rpm)
+NOTE: recipe nghttp2-1.52.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libcap-2.66-r0: task do_packagedata: Started
+NOTE: recipe openssl-3.0.7-r0: task do_package_write_rpm: Started
+NOTE: recipe libcap-2.66-r0: task do_packagedata: Succeeded
+NOTE: recipe nghttp2-1.52.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1075 of 1083 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_configure)
+NOTE: recipe nghttp2-1.52.0-r0: task do_configure: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_configure: Succeeded
+NOTE: Running task 1076 of 1083 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_compile)
+NOTE: recipe nghttp2-1.52.0-r0: task do_compile: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_compile: Succeeded
+NOTE: Running task 1077 of 1083 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_install)
+NOTE: recipe nghttp2-1.52.0-r0: task do_install: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_install: Succeeded
+NOTE: Running task 1078 of 1083 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_package)
+NOTE: Running task 1079 of 1083 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_populate_sysroot)
+NOTE: recipe nghttp2-1.52.0-r0: task do_populate_sysroot: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_package: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe nghttp2-1.52.0-r0: task do_package: Succeeded
+NOTE: Running task 1080 of 1083 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_packagedata)
+NOTE: recipe nghttp2-1.52.0-r0: task do_packagedata: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1081 of 1083 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_package_write_rpm)
+NOTE: Running task 1082 of 1083 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_package_qa)
+NOTE: recipe nghttp2-1.52.0-r0: task do_package_write_rpm: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_package_qa: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_package_qa: Succeeded
+NOTE: recipe nghttp2-1.52.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe openssl-3.0.7-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.7.bb:do_package_write_rpm unihash changed to 329e7fb821d103280bee7b730debebced1cf72048225b6171e624bbc2268812f
+NOTE: Running noexec task 1083 of 1083 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_build)
+NOTE: Tasks Summary: Attempted 1083 tasks of which 1065 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: There was 1 WARNING message.
+Summary: There were 9 ERROR messages, returning a non-zero exit code.
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-src went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-dbg went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-staticdev went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-dev went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-doc went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-locale went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-bin went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============4797248254292609292==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-upgrade-3.11.1-3.11.2.patch"
+ filename="0001-nghttp2-upgrade-1.51.0-1.52.0.patch"
 
-RnJvbSA1NzNhMjM4YmE1NDVjZjNhM2I4ZjZhZGJkOGU3NTg0MTA5Y2UwOGQyIE1vbiBTZXAgMTcg
+RnJvbSBkZjM0ZWMyZDAwNTY1ZjQxYTEwNzc4M2MwMGUwMmQxZjYwNjI1MzQwIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgRmViIDIwMjMgMTY6NTM6NDcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zOiB1cGdyYWRlIDMuMTEuMSAtPiAzLjExLjIKCi0tLQogLi4uLXNlYXJjaC1zeXN0ZW0t
-Zm9yLWhlYWRlcnMtbGlicmFyaWVzLnBhdGNoIHwgIDQgKy0tCiAuLi4tdXNlLXByZWZpeC12YWx1
-ZS1mcm9tLWJ1aWxkLWNvbmZpZ3UucGF0Y2ggfCAgMiArLQogLi4udHV0aWxzLXByZWZpeC1pcy1p
-bnNpZGUtc3RhZ2luZy1hcmVhLnBhdGNoIHwgIDIgKy0KIC4uLi97cHl0aG9uM18zLjExLjEuYmIg
-PT4gcHl0aG9uM18zLjExLjIuYmJ9ICB8IDI2ICsrKysrKysrKysrKysrKysrLS0KIDQgZmlsZXMg
-Y2hhbmdlZCwgMjggaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zXzMuMTEuMS5iYiA9PiBweXRob24zXzMuMTEu
-Mi5iYn0gKDk0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
-dGhvbjMvMDAwMS1Eb24tdC1zZWFyY2gtc3lzdGVtLWZvci1oZWFkZXJzLWxpYnJhcmllcy5wYXRj
-aCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy8wMDAxLURvbi10LXNlYXJj
-aC1zeXN0ZW0tZm9yLWhlYWRlcnMtbGlicmFyaWVzLnBhdGNoCmluZGV4IGJkNjk2YWRlOTIuLjk2
-ZTVlODEzNDIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
-My8wMDAxLURvbi10LXNlYXJjaC1zeXN0ZW0tZm9yLWhlYWRlcnMtbGlicmFyaWVzLnBhdGNoCisr
-KyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy8wMDAxLURvbi10LXNlYXJj
-aC1zeXN0ZW0tZm9yLWhlYWRlcnMtbGlicmFyaWVzLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJv
-bSAzMmFiYTFkZmJhMWUyNzEwM2U3MzY3YmJiOWU0YmVmMGUzMWFlYWM1IE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQorRnJvbSA3ZDI5NmRjNjM1YWQzYWMyNzkyOTU1Y2UzN2UxNDBhNDEwNGIwOThm
-IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogSmVyZW15IFB1aGxtYW4gPGpwdWhsbWFu
-QG12aXN0YS5jb20+CiBEYXRlOiBXZWQsIDQgTWFyIDIwMjAgMDA6MDY6NDIgKzAwMDAKIFN1Ympl
-Y3Q6IFtQQVRDSF0gRG9uJ3Qgc2VhcmNoIHN5c3RlbSBmb3IgaGVhZGVycy9saWJyYXJpZXMKQEAg
-LTExLDcgKzExLDcgQEAgU2lnbmVkLW9mZi1ieTogSmVyZW15IFB1aGxtYW4gPGpwdWhsbWFuQG12
-aXN0YS5jb20+CiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMo
-LSkKIAogZGlmZiAtLWdpdCBhL3NldHVwLnB5IGIvc2V0dXAucHkKLWluZGV4IGYyOWFjODYuLjkz
-MGNiMjAgMTAwNjQ0CitpbmRleCA2ODExOTUxLi42NWFlNDc2IDEwMDY0NAogLS0tIGEvc2V0dXAu
-cHkKICsrKyBiL3NldHVwLnB5CiBAQCAtODc3LDggKzg3Nyw4IEBAIGNsYXNzIFB5QnVpbGRFeHQo
-YnVpbGRfZXh0KToKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
-aG9uMy8wMDAxLUxpYi1zeXNjb25maWcucHktdXNlLXByZWZpeC12YWx1ZS1mcm9tLWJ1aWxkLWNv
-bmZpZ3UucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMvMDAwMS1M
-aWItc3lzY29uZmlnLnB5LXVzZS1wcmVmaXgtdmFsdWUtZnJvbS1idWlsZC1jb25maWd1LnBhdGNo
-CmluZGV4IGRjMDZiYWY1MDQuLjg2OTcxZjQwNDggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uMy8wMDAxLUxpYi1zeXNjb25maWcucHktdXNlLXByZWZpeC12
-YWx1ZS1mcm9tLWJ1aWxkLWNvbmZpZ3UucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3B5dGhvbi9weXRob24zLzAwMDEtTGliLXN5c2NvbmZpZy5weS11c2UtcHJlZml4LXZhbHVlLWZy
-b20tYnVpbGQtY29uZmlndS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gYTczMDIwYTljMzg4
-YjQ4ODJjMzg0MDg3ODgyYTc3YWIyYzdiMzcyOSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zy
-b20gY2FiOGI4YjEzOTAxNjVhOTNkZmIyN2M0OGMxY2M0YzNlNDI4MGRmZCBNb24gU2VwIDE3IDAw
-OjAwOjAwIDIwMDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxpbnV0cm9uaXguZGU+
-CiBEYXRlOiBGcmksIDEwIFNlcCAyMDIxIDEyOjI4OjMxICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hd
-IExpYi9zeXNjb25maWcucHk6IHVzZSBwcmVmaXggdmFsdWUgZnJvbSBidWlsZCBjb25maWd1cmF0
-aW9uCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMvMTIt
-ZGlzdHV0aWxzLXByZWZpeC1pcy1pbnNpZGUtc3RhZ2luZy1hcmVhLnBhdGNoIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLzEyLWRpc3R1dGlscy1wcmVmaXgtaXMtaW5zaWRl
-LXN0YWdpbmctYXJlYS5wYXRjaAppbmRleCAxODc5MDI0ZTE2Li5lMDgwYjVjNTYyIDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMvMTItZGlzdHV0aWxzLXBy
-ZWZpeC1pcy1pbnNpZGUtc3RhZ2luZy1hcmVhLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9weXRob24vcHl0aG9uMy8xMi1kaXN0dXRpbHMtcHJlZml4LWlzLWluc2lkZS1zdGFnaW5n
-LWFyZWEucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDNiZGYyOTJiZTMwM2UyMzllNzhlZDM5
-ZGQ4MTA2ZmJkNWY3ZWU2NDUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDc5ZTdlZDU5
-NzUwNjEyZTU3NjQ3ODQ3OTU3YWI4NTcwOTMwN2VhMzggTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
-CiBGcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogRGF0ZTogVHVlLCAxNCBNYXkg
-MjAxMyAxNTowMDoyNiAtMDcwMAogU3ViamVjdDogW1BBVENIXSBweXRob24zOiBBZGQgdGFyZ2V0
-IGFuZCBuYXRpdmUgcmVjaXBlcwpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zXzMuMTEuMS5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
-aG9uM18zLjExLjIuYmIKc2ltaWxhcml0eSBpbmRleCA5NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zXzMuMTEuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zXzMuMTEuMi5iYgppbmRleCAzNzA5MmQzMGQyLi4w
-ZTU1MmJmNTY3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
-bjNfMy4xMS4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uM18z
-LjExLjIuYmIKQEAgLTEsMTAgKzEsMzIgQEAKKyMgRklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VN
-IHZhbHVlcyBoYXZlIGJlZW4gdXBkYXRlZCBieSAnZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZv
-bGxvd2luZyBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGlj
-ZW5zZSB0ZXh0LgorIyBQbGVhc2UgdXBkYXRlIHRoZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwg
-YW5kIHN1bW1hcml6ZSB0aGUgY2hhbmdlcyBpbgorIyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdM
-aWNlbnNlLVVwZGF0ZTonIHRhZy4KKyMgKGV4YW1wbGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJp
-Z2h0IHllYXJzIHVwZGF0ZWQuJykKKyMKKyMgVGhlIGNoYW5nZXM6CisjCisjIC0tLSBMSUNFTlNF
-CisjICsrKyBMSUNFTlNFCisjIEBAIC04NCw3ICs4NCw3IEBACisjICBkaXN0cmlidXRlLCBhbmQg
-b3RoZXJ3aXNlIHVzZSBQeXRob24gYWxvbmUgb3IgaW4gYW55IGRlcml2YXRpdmUgdmVyc2lvbiwK
-KyMgIHByb3ZpZGVkLCBob3dldmVyLCB0aGF0IFBTRidzIExpY2Vuc2UgQWdyZWVtZW50IGFuZCBQ
-U0YncyBub3RpY2Ugb2YgY29weXJpZ2h0LAorIyAgaS5lLiwgIkNvcHlyaWdodCAoYykgMjAwMSwg
-MjAwMiwgMjAwMywgMjAwNCwgMjAwNSwgMjAwNiwgMjAwNywgMjAwOCwgMjAwOSwgMjAxMCwKKyMg
-LTIwMTEsIDIwMTIsIDIwMTMsIDIwMTQsIDIwMTUsIDIwMTYsIDIwMTcsIDIwMTgsIDIwMTksIDIw
-MjAsIDIwMjEsIDIwMjIgUHl0aG9uIFNvZnR3YXJlIEZvdW5kYXRpb247CisjICsyMDExLCAyMDEy
-LCAyMDEzLCAyMDE0LCAyMDE1LCAyMDE2LCAyMDE3LCAyMDE4LCAyMDE5LCAyMDIwLCAyMDIxLCAy
-MDIyLCAyMDIzIFB5dGhvbiBTb2Z0d2FyZSBGb3VuZGF0aW9uOworIyAgQWxsIFJpZ2h0cyBSZXNl
-cnZlZCIgYXJlIHJldGFpbmVkIGluIFB5dGhvbiBhbG9uZSBvciBpbiBhbnkgZGVyaXZhdGl2ZSB2
-ZXJzaW9uCisjICBwcmVwYXJlZCBieSBMaWNlbnNlZS4KKyMgIAorIyAKKyMKKwogU1VNTUFSWSA9
-ICJUaGUgUHl0aG9uIFByb2dyYW1taW5nIExhbmd1YWdlIgogSE9NRVBBR0UgPSAiaHR0cDovL3d3
-dy5weXRob24ub3JnIgogREVTQ1JJUFRJT04gPSAiUHl0aG9uIGlzIGEgcHJvZ3JhbW1pbmcgbGFu
-Z3VhZ2UgdGhhdCBsZXRzIHlvdSB3b3JrIG1vcmUgcXVpY2tseSBhbmQgaW50ZWdyYXRlIHlvdXIg
-c3lzdGVtcyBtb3JlIGVmZmVjdGl2ZWx5LiIKIExJQ0VOU0UgPSAiUFNGLTIuMCIKIFNFQ1RJT04g
-PSAiZGV2ZWwvcHl0aG9uIgogCi1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21k
-NT1hMTgyMmRmOGQwZjA2ODYyOGNhNjA5MGFlZGM1YmZjOCIKK0xJQ19GSUxFU19DSEtTVU0gPSAi
-ZmlsZTovL0xJQ0VOU0U7bWQ1PWZjZjZiMjQ5YzI2NDE1NDAyMTlhNzI3ZjM1ZDhkMmMyIgogCiBT
-UkNfVVJJID0gImh0dHA6Ly93d3cucHl0aG9uLm9yZy9mdHAvcHl0aG9uLyR7UFZ9L1B5dGhvbi0k
-e1BWfS50YXIueHogXAogICAgICAgICAgICBmaWxlOi8vcnVuLXB0ZXN0IFwKQEAgLTM4LDcgKzYw
-LDcgQEAgU1JDX1VSSTphcHBlbmQ6Y2xhc3MtbmF0aXZlID0gIiBcCiAgICAgICAgICAgIGZpbGU6
-Ly8xMi1kaXN0dXRpbHMtcHJlZml4LWlzLWluc2lkZS1zdGFnaW5nLWFyZWEucGF0Y2ggXAogICAg
-ICAgICAgICBmaWxlOi8vMDAwMS1Eb24tdC1zZWFyY2gtc3lzdGVtLWZvci1oZWFkZXJzLWxpYnJh
-cmllcy5wYXRjaCBcCiAgICAgICAgICAgICIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI4NTg3OTE5
-MmYyY2ZmZDU2Y2IxNmMwOTI5MDU5NDllYmYzZTVlMzk0YjdmNzY0NzIzNTI5NjM3OTAxZGZiNThm
-IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjI5ZTRiOGY1ZjE2NTg1NDJhOGMxM2UyZGQyNzczNThj
-OWM0OGYyYjJmNzMxODY1MmVmMTY3NWU0MDJiOWQyYWYiCiAKICMgZXhjbHVkZSBwcmUtcmVsZWFz
-ZXMgZm9yIGJvdGggcHl0aG9uIDIueCBhbmQgMy54CiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICJb
-UHBdeXRob24tKD9QPHB2ZXI+XGQrKFwuXGQrKSspLnRhciIKLS0gCjIuMzcuMwoK
+CkRhdGU6IFRodSwgMTYgRmViIDIwMjMgMDA6NDY6MzMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBu
+Z2h0dHAyOiB1cGdyYWRlIDEuNTEuMCAtPiAxLjUyLjAKCi0tLQogLi4uL25naHR0cDIve25naHR0
+cDJfMS41MS4wLmJiID0+IG5naHR0cDJfMS41Mi4wLmJifSAgICAgICAgICAgIHwgMiArLQogMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvbmdodHRwMi97bmdodHRwMl8xLjUxLjAuYmIgPT4gbmdodHRwMl8xLjUy
+LjAuYmJ9ICg5MiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdodHRwMi9u
+Z2h0dHAyXzEuNTEuMC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMl8x
+LjUyLjAuYmIKc2ltaWxhcml0eSBpbmRleCA5MiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEuNTEuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEuNTIuMC5iYgppbmRleCA4ZGRiODUxZjcxLi5mODdkZWYx
+NGFkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9uZ2h0dHAyL25naHR0cDJfMS41
+MS4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMl8xLjUyLjAu
+YmIKQEAgLTgsNyArOCw3IEBAIFNSQ19VUkkgPSAiXAogICAgICR7R0lUSFVCX0JBU0VfVVJJfS9k
+b3dubG9hZC92JHtQVn0vbmdodHRwMi0ke1BWfS50YXIueHogXAogICAgIGZpbGU6Ly8wMDAxLWZl
+dGNoLW9jc3AtcmVzcG9uc2UtdXNlLXB5dGhvbjMucGF0Y2ggXAogIgotU1JDX1VSSVtzaGEyNTZz
+dW1dID0gIjY2YWE3NmQ5N2MxNDNmNDIyOTU0MDVhMzE0MTNlNWU3ZDE1Nzk2OGRhZDlmOTU3YmI0
+YjAxNWI1OTg4ODJlNmIiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiM2VhOWYwNDM5ZTYwNDY5YWQ0
+ZDM5Y2IzNDk5Mzg2ODRmZmI5MjlkZDdlOGUwNmE3YmZmZTlmOWQyMWY4YmE3ZCIKIAogaW5oZXJp
+dCBjbWFrZSBtYW5wYWdlcyBweXRob24zbmF0aXZlIGdpdGh1Yi1yZWxlYXNlcwogUEFDS0FHRUNP
+TkZJR1ttYW5wYWdlc10gPSAiIgotLSAKMi4zNy4zCgo=
 
---===============5424242111650910051==
+--===============4797248254292609292==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1695 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 895 .bb files complete (894 cached, 1 parsed). 1693 targets, 37 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-8f4e567d1cab55d2ce56f9236f30aa0ecce6c964"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:8f4e567d1cab55d2ce56f9236f30aa0ecce6c964"
+workspace            = "master:44311c454d0b0856f58cfa6fa60669903b2ba3af"
+
+Initialising tasks...done.
+Sstate summary: Wanted 21 Local 13 Mirrors 0 Missed 8 Current 269 (61% match, 97% complete)
+Removing 1 stale sstate objects for arch core2-64...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 272 of 290 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.66.bb:do_packagedata_setscene)
+NOTE: recipe libcap-2.66-r0: task do_packagedata_setscene: Started
+NOTE: Running task 866 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_fetch)
+NOTE: Running task 1062 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.7.bb:do_package_write_rpm)
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/libcap/2.66-r0/temp/log.do_packagedata_setscene.21474
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.66.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: recipe nghttp2-1.52.0-r0: task do_fetch: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 289 of 290 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.66.bb:do_package_setscene)
+NOTE: Running task 1063 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_unpack)
+NOTE: Running task 1064 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libcap-2.66-r0: task do_package_setscene: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_unpack: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe openssl-3.0.7-r0: task do_package_write_rpm: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1065 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_patch)
+NOTE: recipe libcap-2.66-r0: task do_package_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1082 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.66.bb:do_packagedata)
+NOTE: recipe nghttp2-1.52.0-r0: task do_patch: Started
+NOTE: recipe libcap-2.66-r0: task do_packagedata: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe nghttp2-1.52.0-r0: task do_patch: Succeeded
+NOTE: Running task 1084 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1085 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_generate_toolchain_file)
+NOTE: Running task 1086 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_populate_lic)
+NOTE: recipe nghttp2-1.52.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_populate_lic: Started
+NOTE: recipe libcap-2.66-r0: task do_packagedata: Succeeded
+NOTE: recipe nghttp2-1.52.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe nghttp2-1.52.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe nghttp2-1.52.0-r0: task do_populate_lic: Succeeded
+NOTE: Running task 1090 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_configure)
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_populate_lic unihash changed to 3fd8adf97d96d6a5e2f68ac67848ce96f0dba4ea3a7c5415bf2099d06b289812
+NOTE: recipe nghttp2-1.52.0-r0: task do_configure: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_configure: Succeeded
+NOTE: Running task 1091 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_compile)
+NOTE: recipe nghttp2-1.52.0-r0: task do_compile: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_compile: Succeeded
+NOTE: Running task 1092 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_install)
+NOTE: recipe nghttp2-1.52.0-r0: task do_install: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_install: Succeeded
+NOTE: Running task 1093 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_package)
+NOTE: Running task 1094 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_populate_sysroot)
+NOTE: recipe nghttp2-1.52.0-r0: task do_populate_sysroot: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_package: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe nghttp2-1.52.0-r0: task do_package: Succeeded
+NOTE: Running task 1095 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_packagedata)
+NOTE: recipe nghttp2-1.52.0-r0: task do_packagedata: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1096 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_package_write_rpm)
+NOTE: Running task 1097 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_package_qa)
+NOTE: recipe nghttp2-1.52.0-r0: task do_package_write_rpm: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_package_qa: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_package_qa: Succeeded
+NOTE: recipe nghttp2-1.52.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe openssl-3.0.7-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.7.bb:do_package_write_rpm unihash changed to 777bc75ef793c4ffaba81ba3f1e2b926d233b4a4d045e529864b069e51d255a0
+NOTE: Running noexec task 1098 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_build)
+NOTE: Tasks Summary: Attempted 1098 tasks of which 1080 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: There was 1 WARNING message.
+Summary: There were 9 ERROR messages, returning a non-zero exit code.
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-src went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-dbg went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-staticdev went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-dev went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-doc went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-locale went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-bin went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============4797248254292609292==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/python3/python3-2to3: FILELIST: removed "/usr/lib/python3.11/lib2to3/PatternGrammar3.11.1.final.0.pickle /usr/lib/python3.11/lib2to3/Grammar3.11.1.final.0.pickle", added "/usr/lib/python3.11/lib2to3/Grammar3.11.2.final.0.pickle /usr/lib/python3.11/lib2to3/PatternGrammar3.11.2.final.0.pickle"
-packages/core2-32-poky-linux/python3/python3-misc: FILELIST: added "/usr/lib/python3.11/lib-dynload/_testclinic.cpython-311-i386-linux-gnu.so"
-Changes to packages/core2-32-poky-linux/python3 (sysroot):
-  /usr/lib/python3.11/lib2to3/Grammar3.11.1.final.0.pickle moved to /usr/lib/python3.11/lib2to3/Grammar3.11.2.final.0.pickle
-  /usr/lib/python3.11/lib2to3/PatternGrammar3.11.1.final.0.pickle moved to /usr/lib/python3.11/lib2to3/PatternGrammar3.11.2.final.0.pickle
-  /usr/lib/python3.11/lib-dynload/_testclinic.cpython-311-i386-linux-gnu.so was added
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -3098,10 +3308,230 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.2.0/plugin/include/xcoffout.h was removed
-Changes to packages/x86_64-linux/python3-native (sysroot):
-  /usr/lib/python3.11/lib2to3/Grammar3.11.1.final.0.pickle moved to /usr/lib/python3.11/lib2to3/Grammar3.11.2.final.0.pickle
-  /usr/lib/python3.11/lib2to3/PatternGrammar3.11.1.final.0.pickle moved to /usr/lib/python3.11/lib2to3/PatternGrammar3.11.2.final.0.pickle
-  /usr/lib/python3.11/lib-dynload/_testclinic.cpython-311-x86_64-linux-gnu.so was added
 
---===============5424242111650910051==--
+--===============4797248254292609292==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
+
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 895 .bb files complete (0 cached, 895 parsed). 1693 targets, 55 skipped, 0 masked, 0 errors.
+Removing 2 recipes from the cortexa15t2hf-neon sysroot...done.
+Removing 1 recipes from the qemuarm sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "arm-poky-linux-gnueabi"
+MACHINE              = "qemuarm"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-8f4e567d1cab55d2ce56f9236f30aa0ecce6c964"
+TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
+TARGET_FPU           = "hard"
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:8f4e567d1cab55d2ce56f9236f30aa0ecce6c964"
+workspace            = "master:44311c454d0b0856f58cfa6fa60669903b2ba3af"
+
+Initialising tasks...done.
+Sstate summary: Wanted 22 Local 14 Mirrors 0 Missed 8 Current 268 (63% match, 97% complete)
+Removing 1 stale sstate objects for arch cortexa15t2hf-neon...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 272 of 290 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.66.bb:do_packagedata_setscene)
+NOTE: recipe libcap-2.66-r0: task do_packagedata_setscene: Started
+NOTE: Running task 866 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_fetch)
+NOTE: Running task 1062 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.7.bb:do_package_write_rpm)
+NOTE: recipe nghttp2-1.52.0-r0: task do_fetch: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_fetch: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/libcap/2.66-r0/temp/log.do_packagedata_setscene.26271
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.66.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 289 of 290 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.66.bb:do_package_setscene)
+NOTE: Running task 1063 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_unpack)
+NOTE: Running task 1064 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libcap-2.66-r0: task do_package_setscene: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_unpack: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe openssl-3.0.7-r0: task do_package_write_rpm: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1065 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_patch)
+NOTE: recipe libcap-2.66-r0: task do_package_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1082 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.66.bb:do_packagedata)
+NOTE: recipe nghttp2-1.52.0-r0: task do_patch: Started
+NOTE: recipe libcap-2.66-r0: task do_packagedata: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe nghttp2-1.52.0-r0: task do_patch: Succeeded
+NOTE: Running task 1084 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1085 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_generate_toolchain_file)
+NOTE: Running task 1086 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_populate_lic)
+NOTE: recipe nghttp2-1.52.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_populate_lic: Started
+NOTE: recipe libcap-2.66-r0: task do_packagedata: Succeeded
+NOTE: recipe nghttp2-1.52.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe nghttp2-1.52.0-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_populate_lic unihash changed to 3fd8adf97d96d6a5e2f68ac67848ce96f0dba4ea3a7c5415bf2099d06b289812
+NOTE: recipe nghttp2-1.52.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1090 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_configure)
+NOTE: recipe nghttp2-1.52.0-r0: task do_configure: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_configure: Succeeded
+NOTE: Running task 1091 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_compile)
+NOTE: recipe nghttp2-1.52.0-r0: task do_compile: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_compile: Succeeded
+NOTE: Running task 1092 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_install)
+NOTE: recipe nghttp2-1.52.0-r0: task do_install: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_install: Succeeded
+NOTE: Running task 1093 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_package)
+NOTE: Running task 1094 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_populate_sysroot)
+NOTE: recipe nghttp2-1.52.0-r0: task do_populate_sysroot: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_package: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe nghttp2-1.52.0-r0: task do_package: Succeeded
+NOTE: Running task 1095 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_packagedata)
+NOTE: recipe nghttp2-1.52.0-r0: task do_packagedata: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1096 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_package_write_rpm)
+NOTE: Running task 1097 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_package_qa)
+NOTE: recipe nghttp2-1.52.0-r0: task do_package_write_rpm: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_package_qa: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_package_qa: Succeeded
+NOTE: recipe nghttp2-1.52.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe openssl-3.0.7-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.7.bb:do_package_write_rpm unihash changed to ba9308a25390983f9d744e90de73bc9e4dc8c9a611b9ea0a6f01526a04551569
+NOTE: Running noexec task 1098 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_build)
+NOTE: Tasks Summary: Attempted 1098 tasks of which 1080 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: There was 1 WARNING message.
+Summary: There were 9 ERROR messages, returning a non-zero exit code.
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-src went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-dbg went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-staticdev went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-dev went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-doc went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-locale went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-bin went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============4797248254292609292==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
+
+WARNING: Host distribution "almalinux-8.7" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 895 .bb files complete (0 cached, 895 parsed). 1693 targets, 65 skipped, 0 masked, 0 errors.
+Removing 2 recipes from the mips32r2 sysroot...done.
+Removing 1 recipes from the qemumips sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.2.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "mips-poky-linux"
+MACHINE              = "qemumips"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-8f4e567d1cab55d2ce56f9236f30aa0ecce6c964"
+TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:8f4e567d1cab55d2ce56f9236f30aa0ecce6c964"
+workspace            = "master:44311c454d0b0856f58cfa6fa60669903b2ba3af"
+
+Initialising tasks...done.
+Sstate summary: Wanted 22 Local 14 Mirrors 0 Missed 8 Current 268 (63% match, 97% complete)
+Removing 1 stale sstate objects for arch mips32r2...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 272 of 290 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.66.bb:do_packagedata_setscene)
+NOTE: recipe libcap-2.66-r0: task do_packagedata_setscene: Started
+NOTE: Running task 866 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_fetch)
+NOTE: Running task 1062 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.7.bb:do_package_write_rpm)
+NOTE: recipe nghttp2-1.52.0-r0: task do_fetch: Started
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/libcap/2.66-r0/temp/log.do_packagedata_setscene.31109
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.66.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: recipe nghttp2-1.52.0-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 289 of 290 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.66.bb:do_package_setscene)
+NOTE: Running task 1063 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_unpack)
+NOTE: Running task 1064 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe nghttp2-1.52.0-r0: task do_unpack: Started
+NOTE: recipe libcap-2.66-r0: task do_package_setscene: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe openssl-3.0.7-r0: task do_package_write_rpm: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1065 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_patch)
+NOTE: recipe libcap-2.66-r0: task do_package_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1082 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.66.bb:do_packagedata)
+NOTE: recipe nghttp2-1.52.0-r0: task do_patch: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libcap-2.66-r0: task do_packagedata: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_patch: Succeeded
+NOTE: Running task 1084 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1085 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_generate_toolchain_file)
+NOTE: Running task 1086 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_populate_lic)
+NOTE: recipe nghttp2-1.52.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_populate_lic: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe libcap-2.66-r0: task do_packagedata: Succeeded
+NOTE: recipe nghttp2-1.52.0-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_populate_lic unihash changed to 3fd8adf97d96d6a5e2f68ac67848ce96f0dba4ea3a7c5415bf2099d06b289812
+NOTE: recipe nghttp2-1.52.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1090 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_configure)
+NOTE: recipe nghttp2-1.52.0-r0: task do_configure: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_configure: Succeeded
+NOTE: Running task 1091 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_compile)
+NOTE: recipe nghttp2-1.52.0-r0: task do_compile: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_compile: Succeeded
+NOTE: Running task 1092 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_install)
+NOTE: recipe nghttp2-1.52.0-r0: task do_install: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_install: Succeeded
+NOTE: Running task 1093 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_package)
+NOTE: Running task 1094 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_populate_sysroot)
+NOTE: recipe nghttp2-1.52.0-r0: task do_populate_sysroot: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_package: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe nghttp2-1.52.0-r0: task do_package: Succeeded
+NOTE: Running task 1095 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_packagedata)
+NOTE: recipe nghttp2-1.52.0-r0: task do_packagedata: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1096 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_package_write_rpm)
+NOTE: Running task 1097 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_package_qa)
+NOTE: recipe nghttp2-1.52.0-r0: task do_package_write_rpm: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_package_qa: Started
+NOTE: recipe nghttp2-1.52.0-r0: task do_package_qa: Succeeded
+NOTE: recipe nghttp2-1.52.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe openssl-3.0.7-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.7.bb:do_package_write_rpm unihash changed to e728247150d7acf2394c3eb31aaa82459e5696470e3f67782fde743a236549b4
+NOTE: Running noexec task 1098 of 1098 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb:do_build)
+NOTE: Tasks Summary: Attempted 1098 tasks of which 1080 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: There was 1 WARNING message.
+Summary: There were 9 ERROR messages, returning a non-zero exit code.
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-src went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-dbg went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-staticdev went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-dev went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-doc went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-locale went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap-bin went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: QA Issue: Package version for package libcap went backwards which would break package feeds (from 0:2.67-r0 to 0:2.66-r0) [version-going-backwards]
+ERROR: libcap-2.66-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============4797248254292609292==--
 
