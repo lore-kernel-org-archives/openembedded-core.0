@@ -1,168 +1,239 @@
-Return-Path: <Saul.Wold@windriver.com>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEF20C636D4
-	for <webhook@archiver.kernel.org>; Thu, 16 Feb 2023 00:31:24 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.9823.1676507475898444536
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF494C636D4
+	for <webhook@archiver.kernel.org>; Thu, 16 Feb 2023 00:46:44 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.10283.1676508395199432215
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Feb 2023 16:31:16 -0800
+ Wed, 15 Feb 2023 16:46:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=j6SJ7H7S;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1411f8ddce=saul.wold@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31G0Co8U000302
-	for <openembedded-core@lists.openembedded.org>; Thu, 16 Feb 2023 00:31:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=P4i0ptJQbxO7Kd36HYwVPsMS843SlbkCwonckYy0+uo=;
- b=j6SJ7H7SQnWH1d0Vkfyg3Ku8AZAdLkVo9Lqtv7AVPYCkUsYKFTyaw0KIwTHW9/yU0JGe
- a5ixbQKbjJH0K0OAFy3Yf3GwOdjJMBIWKF3679Txrc59DUDKNNpeL0F3A+z9NQ+UpMOW
- K0G6FQe4NTwuK6qjXExfFcDI+hUe0baEsLlPsTkKyRmJ0N/4Cmwgs6D6ntG4ShwplTCB
- q4fPLSOUF1bPhwF5178xZYkin0B7xfkzYI0nLNICVeMxl0WOhOU4zvR6XlKuVANvmn0H
- y2Dr5cgitjHm9bnOKI3X6Pi0t1DTMxZAB6Pnoq4clbZrRc6nSu9Rw2UsiUuD2SJnCwtt QA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3np083cbxc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 16 Feb 2023 00:31:14 +0000
-Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31G0VEBM002510
-	for <openembedded-core@lists.openembedded.org>; Thu, 16 Feb 2023 00:31:14 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2102.outbound.protection.outlook.com [104.47.58.102])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3np083cbxa-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 16 Feb 2023 00:31:14 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WdsHZPbeV+Z/UyWLwsOHYBFJvQbt4zM8U/qjxd4LRKgyGkUehKOJTHDevGO0wF721gpx8Lac6qzp1dNPRYAj1eaDruccQ1CfXK2jcP399jU+/tr/q14ao6u8btwA/bb2636PKw6oQuTtJsw22qgGGLwS6YtzvSE1A/qT6jR3Lrw2Xx9/zYUwN6yBY9r8sOMTW4hvmkEFukNTfwah+cGEyYlr8Uq61X/DpyDl9Wm7Eq7zqEU+lo1ak4armJrEYTVtfTEthMKYvK9z6n3IMpQiD4Lor/hhb9JSBgY513TTG4a/I14t9gYoRWn+Y62yPyadHklmpN0AhPfruLSl7LxfSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P4i0ptJQbxO7Kd36HYwVPsMS843SlbkCwonckYy0+uo=;
- b=K9XEExETaV2BOGiBMYs5jNd8HtWnhXCzLJa/5QfnZ/VsA8kv62uQagWYBLX+ZQExTCORD3gTKUcjQ4RbgOXh7Y/dV9t66Lh58AwFr0kS8KEf5Sw5maYdh/enC0u71Bk5tMt5z4/w51GsDkQXIEsTH1U77827R/yfRyeujXPvwQ3rCaj6i2HK2FVycDV7ZKy8pZTen3hPJ6T8g3LEaw4S6QU3+868N09Ederl3KcgoDzIWWBdebpzXaqVENbZJsuGc7oCOfmBXpeZlwJyKkhapx66Yb1cNKsJ9dC6cDjWFWAZuekNx6jobyFB08l8L08debN1BMqoyvYjXYqTFJlPVA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from MN0PR11MB6035.namprd11.prod.outlook.com (2603:10b6:208:376::13)
- by CH3PR11MB7820.namprd11.prod.outlook.com (2603:10b6:610:120::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.26; Thu, 16 Feb
- 2023 00:31:10 +0000
-Received: from MN0PR11MB6035.namprd11.prod.outlook.com
- ([fe80::f606:748d:1395:815f]) by MN0PR11MB6035.namprd11.prod.outlook.com
- ([fe80::f606:748d:1395:815f%3]) with mapi id 15.20.6086.026; Thu, 16 Feb 2023
- 00:31:10 +0000
-From: Saul Wold <saul.wold@windriver.com>
-To: openembedded-core@lists.openembedded.org, JPEWhacker@gmail.com
-Subject: [PATCH] create-spdx: Add check for variable contents along with quotes
-Date: Wed, 15 Feb 2023 16:30:23 -0800
-Message-Id: <20230216003023.4153138-1-saul.wold@windriver.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR05CA0119.namprd05.prod.outlook.com
- (2603:10b6:a03:334::34) To MN0PR11MB6035.namprd11.prod.outlook.com
- (2603:10b6:208:376::13)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=C2gbsQz5;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018657aff29e-b927f98a-9104-4009-803a-123b61f29490-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1676508394;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=jEw7F5BXe8ZbZCvNMmo1GV3XnM6AXiY8MGy2e6y8BDE=;
+	b=C2gbsQz5U37NRAxEs2MbOdP+aik0sNqkUYYvqILxQSBhxtYdwhS/M8BjcIz/G72o
+	Bc/fDxbIk/+Som1KGs9zL/Bu78wRisiu8Jbr3ldxaCeF4hhcol2W9g7FueevoiA6n/Q
+	lG11viP4D/jy9ACogb23a/8DmUQmlmTO+jMuRr5w=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1676508394;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=jEw7F5BXe8ZbZCvNMmo1GV3XnM6AXiY8MGy2e6y8BDE=;
+	b=XZYlFeS+AieOyAX6rKp4blCiZTt6xeDzwsD5OIamuV88EZueAO7Jt1LmsJH8z4eQ
+	RWYcv61F569QjQp7iLNLks9LK7PvNXw2igirVxRpSbuB0QQzJ3rvr2yfkCDzc3fhFGI
+	KOURwv2woJTa24F8z3Y932dJp5Eg38702O2sOok8=
+Content-Type: multipart/mixed; boundary="===============9188109277864655668=="
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6035:EE_|CH3PR11MB7820:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6b477b4c-04c7-4b06-d042-08db0fb519bc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	5HTLEcTU3uNAA+IB16xPfIGTFg7iotqn8xnzB+y1KdTK2oh4T9T8Qf56RTwY3vev5US6YA4olbwnnD4qpjuolkT4k+ASCf6kcamh9O1wZUAH80Rn0znwr3klcK9ba9adsuRWWVrSigS9DifQoPhE0ChyTq5VTzId4Os46WbLYyM2tdUwqRc1oscqtdQQri3570tJPV7fc4j194oKcUE0DEJDN9ROaMSNbEzZxCkknBMgPCbvbBEZfEqqruNUlhHCWH26bLGCdKrCpfZHtscG2UcQXFulQ5PIybPqBJmU3WMo2MlBgN+15yiu61Hd5DyQrqOrdpl+2gmmnBQ09Q2NUI5K3/uTCOrQNBL5R7JJC1WfLbmGJAtyxdZbGxk7RWOJHNF+DIEFPNl6ZSgjtMGilobm7FJeIqnWGHESf/0KuxhRaX7TAcKdw1mlw/SJRjosbcYLl3nn8RZ/2GkAFppheTNeMmyq3qMk/av2VEoAEg43THzE9RR6vvAS9mRNyTeXAvY6uc72lIC6J7BRVeizweFEWg5pAEkqCwcI2jRmBoQC2IjzKaiAGJOyZRuVHNX3ai5bL9tAzOPtTr9vkDOaQgFM8ngfQSywiHhy5d9r1Dmeyq/oBLv7iqSuzcaORelkdvcdBPBi4mVPaRmSdPyKSQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6035.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(376002)(39850400004)(136003)(346002)(366004)(396003)(451199018)(38100700002)(2906002)(44832011)(83380400001)(66476007)(2616005)(86362001)(66556008)(478600001)(6666004)(36756003)(5660300002)(41300700001)(6506007)(186003)(66946007)(6486002)(52116002)(1076003)(316002)(6512007)(8936002)(8676002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?GnG58mENkT3UVgRV7IjhUt7TND5zuTuqfFIJy+60zGYh/WOZ+ApzPGOYANDC?=
- =?us-ascii?Q?ARCLZzuuSi9uS1Oh7wtyM44vCJ/b9jpPUtUOeX4ZxGgJesJw7YLy5qlP6UCe?=
- =?us-ascii?Q?NzaL9vozkhEcZo6YCs0h6iV7L1lCRXvoo7wS+uNXLTkmWWkqo823IVwImkRi?=
- =?us-ascii?Q?5FKsjcNlFzs2Pmd95Mk+Zwr0n+nv8wEDDSzbb6EpJzaWI3vGDFrYVtyidDz1?=
- =?us-ascii?Q?mks0/blqNeVFSPrCHrxxXVviV92n57Ar2vtlNUk2r7+EF2VHMneO0ph3506o?=
- =?us-ascii?Q?bUDc2dkukvWqiEeTsUWEwACuVV+10kZ5wQ5fholT506v3o0yt2/G5UpeOU+r?=
- =?us-ascii?Q?F2W0xepgsX8jADhIyQf7z88rn4shSDYLDCJnTRH8Gs9FlDkMzoHvXodeo13K?=
- =?us-ascii?Q?w5wlCVTfjnJZqYGDbzvUeOpQhd79mnJghHDt9fSJoDHg3QD6Ip7enn4ZxDp4?=
- =?us-ascii?Q?tPQ0an3kOcO8fQ22gvn7fAX/z4GvIqzh2Qrq6dGR02Mtnt+Uacx+gAkoss29?=
- =?us-ascii?Q?QJ5DuRF4jgRAFGhqVuD1yjv7dIIq9ysGnlET9j0OKWctm1k3y/ZzVNB7jElQ?=
- =?us-ascii?Q?pOi+VxhhYZphUS5U6SKX92+GmXb8T7EC8xNKnLhyrhfPB7KqhNz838G1ESyl?=
- =?us-ascii?Q?lQOjoYYr+PDkgiwS8d11gE798Oj7QbTAHhqmXdlQOFWqJkf4UekJi0U2m+3c?=
- =?us-ascii?Q?ZPZSPSGEBnk30mvXpIDcBNp5mLqbjBPD9P1Nez7LvEvTUDiERO6/zREAQAR7?=
- =?us-ascii?Q?fkm+O3CS69D4KI2dq/zf7D031MElBT9I0Shd5W/8dVGUPtcap5yuMsmrJnFm?=
- =?us-ascii?Q?jHi6xlItWNWdB8B2YNLrOUOUPx0Vc9bA7x4UXsXEYufQC+FRUNafAEE/KRi2?=
- =?us-ascii?Q?OCvcRFw2ummUc9hO4DYegqWgU3L2yQIL6v9sdplo/T09iljQT12MmIqmWCgP?=
- =?us-ascii?Q?tOTdbJ+qa1JXOc2zCnOmRmyWu1f9ePZIWg5YLK+DFINAT4hefYENpWojABlI?=
- =?us-ascii?Q?iBJ4NK1DSkR2mNBYcY3lF97OLN71H4KlBFc/3BY/WGLijDS4QT79Oe2MlKeu?=
- =?us-ascii?Q?yIaIs0VXUYQ7Zwho+UgsbO6yDH1zUkoelGNSALxNcYKoiPT2sdvgyGExxmm1?=
- =?us-ascii?Q?s03ZEu3FCfKoJpWUWWknibh7UM4F/lg5cpR1RqzmT2m2KVJD+MqTcri7yHLA?=
- =?us-ascii?Q?dXccvoLmwZUWaft6OcVoFlLYT3jB8dgmG0Mw3nEkc1WtXiYE1Svey2rCj66y?=
- =?us-ascii?Q?i9NTfnTicpLvDadM6K+ZAZ0oa+YMqq2dZEncClvl+5APmChjn5dWYkyD15+d?=
- =?us-ascii?Q?GS1c402gAKMMXzGhmUlcC5cnBanWz/YxSBxmpV7fYSdtCm2PRWk0zkjNrfkR?=
- =?us-ascii?Q?L2VXf5ALrwG9opfT1NPlzollDz2rutIhHPDOyr4JL0BuuuHJ73QU8r5Rr1RW?=
- =?us-ascii?Q?b1fl4g2zUCnixl5CVlbEv/6rzn2I5U0eiRZ9aRUSlBzex9qeRnpGbJoWOfn8?=
- =?us-ascii?Q?y7M9XLwgP+rnzEHhyA7yzQOyqYv5wvSLx+se+W2sIvsVxzNNqQ6yrX8z950B?=
- =?us-ascii?Q?V84kakrFrPBJZPi5V+xlKuNooMYyxaEb0z9/xdC+wDVHwze0/gAlyokZaz4L?=
- =?us-ascii?Q?3QHki7hH6aTYMJALrsZMHP0X5V4IWh79jwTEdu9DKzkVJn9vSohev9Y2fOLq?=
- =?us-ascii?Q?3EQn7w=3D=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b477b4c-04c7-4b06-d042-08db0fb519bc
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6035.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2023 00:31:10.1014
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: inJtC/Ulb+X+nUIpKZkd0/zqoDTnCthBJRZJLgDQqPHOBOrhj+dIa6ZPpLkFKVPiritp1TVX7YSSuSK7npgilg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7820
-X-Proofpoint-GUID: 1bnFEzaw3v1GE7cwBg0XG97VXCgni7Hp
-X-Proofpoint-ORIG-GUID: 4YQLjk46QjxshnN1lnGyEpA99lLlXLLm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-15_15,2023-02-15_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
- bulkscore=0 clxscore=1015 suspectscore=0 priorityscore=1501 phishscore=0
- adultscore=0 malwarescore=0 impostorscore=0 spamscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2302160001
+From: auh@yoctoproject.org
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] openssl: upgrading to 3.0.8 SUCCEEDED
+Message-ID: <0101018657aff29e-b927f98a-9104-4009-803a-123b61f29490-000000@us-west-2.amazonses.com>
+Date: Thu, 16 Feb 2023 00:46:34 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2023.02.16-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Feb 2023 00:31:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177224
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Feb 2023 00:46:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177226
 
-This adds a check to ensure we that if a variable is
-empty it gets an empty string, this also adds quotes
-to indicate the variable contents.
+--===============9188109277864655668==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-          "comment": "CUSTOM_SPECIAL=''"
-or
-          "comment": "CUSTOM_SPECIAL= 'variable contents'"
+Hello,
 
-Signed-off-by: Saul Wold <saul.wold@windriver.com>
----
- meta/classes/create-spdx-2.2.bbclass | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *openssl* to *3.0.8* has Succeeded.
 
-diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
-index 28a42e009f6..8b18ada40a4 100644
---- a/meta/classes/create-spdx-2.2.bbclass
-+++ b/meta/classes/create-spdx-2.2.bbclass
-@@ -484,7 +484,10 @@ python do_create_spdx() {
- 
-     if d.getVar("SPDX_CUSTOM_ANNOTATION_VARS"):
-         for var in d.getVar('SPDX_CUSTOM_ANNOTATION_VARS').split():
--            recipe.annotations.append(create_annotation(d, var + "=" + d.getVar(var)))
-+            if d.getVar(var):
-+                recipe.annotations.append(create_annotation(d, var + "= '" + d.getVar(var) + "'"))
-+            else:
-+                recipe.annotations.append(create_annotation(d, var + "=''"))
- 
-     # Some CVEs may be patched during the build process without incrementing the version number,
-     # so querying for CVEs based on the CPE id can lead to false positives. To account for this,
--- 
-2.25.1
+Next steps:
+    - apply the patch: git am 0001-openssl-upgrade-3.0.7-3.0.8.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============9188109277864655668==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/openssl: PV changed from "3.0.7" to "3.0.8"
+packages/core2-32-poky-linux/openssl: SRC_URI changed from "http://www.openssl.org/source/openssl-3.0.7.tar.gz file://run-ptest file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch file://afalg.patch file://0001-Configure-do-not-tweak-mips-cflags.patch file://CVE-2022-3996.patch" to "http://www.openssl.org/source/openssl-3.0.8.tar.gz file://run-ptest file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch file://afalg.patch file://0001-Configure-do-not-tweak-mips-cflags.patch file://environment.d-openssl.sh"
+packages/core2-32-poky-linux/openssl: PKGV changed from 3.0.7 [default] to 3.0.8 [default]
+packages/core2-32-poky-linux/openssl/libcrypto: PKGSIZE changed from 4417432 to 4421528 (+0%)
+packages/core2-32-poky-linux/openssl/libcrypto: PV changed from "3.0.7" to "3.0.8"
+packages/core2-32-poky-linux/openssl/libcrypto: PKGV changed from 3.0.7 [default] to 3.0.8 [default]
+packages/core2-32-poky-linux/openssl/libssl: PKGSIZE changed from 713276 to 717372 (+1%)
+packages/core2-32-poky-linux/openssl/libssl: PV changed from "3.0.7" to "3.0.8"
+packages/core2-32-poky-linux/openssl/libssl: PKGV changed from 3.0.7 [default] to 3.0.8 [default]
+packages/core2-32-poky-linux/openssl/openssl-bin: PV changed from "3.0.7" to "3.0.8"
+packages/core2-32-poky-linux/openssl/openssl-bin: PKGV changed from 3.0.7 [default] to 3.0.8 [default]
+packages/core2-32-poky-linux/openssl/openssl-conf: PV changed from "3.0.7" to "3.0.8"
+packages/core2-32-poky-linux/openssl/openssl-conf: PKGV changed from 3.0.7 [default] to 3.0.8 [default]
+packages/core2-32-poky-linux/openssl/openssl-dbg: PKGSIZE changed from 529344404 to 538069696 (+2%)
+packages/core2-32-poky-linux/openssl/openssl-dbg: PV changed from "3.0.7" to "3.0.8"
+packages/core2-32-poky-linux/openssl/openssl-dbg: FILELIST: added "/usr/lib/openssl/ptest/test/.debug/trace_api_test"
+packages/core2-32-poky-linux/openssl/openssl-dbg: PKGV changed from 3.0.7 [default] to 3.0.8 [default]
+packages/core2-32-poky-linux/openssl/openssl-dev: PKGSIZE changed from 1963279 to 1963779 (+0%)
+packages/core2-32-poky-linux/openssl/openssl-dev: PV changed from "3.0.7" to "3.0.8"
+packages/core2-32-poky-linux/openssl/openssl-dev: PKGV changed from 3.0.7 [default] to 3.0.8 [default]
+packages/core2-32-poky-linux/openssl/openssl-doc: PKGSIZE changed from 13966832 to 14085993 (+1%)
+packages/core2-32-poky-linux/openssl/openssl-doc: PV changed from "3.0.7" to "3.0.8"
+packages/core2-32-poky-linux/openssl/openssl-doc: FILELIST: added "/usr/share/man/man3/OSSL_DISPATCH.3ssl /usr/share/doc/openssl/html/man3/OSSL_DISPATCH.html /usr/share/man/man3/BIO_dgram_get_mtu_overhead.3ssl /usr/share/man/man3/BIO_s_datagram.3ssl /usr/share/doc/openssl/html/man3/ECDSA_sign.html /usr/share/man/man3/OSSL_CALLBACK.3ssl /usr/share/man/man3/BIO_dgram_send_timedout.3ssl /usr/share/man/man3/OSSL_CMP_CTX_reset_geninfo_ITAVs.3ssl /usr/share/doc/openssl/html/man3/OSSL_CALLBACK.html /usr/share/doc/openssl/html/man3/OSSL_ITEM.html /usr/share/man/man3/BIO_dgram_recv_timedout.3ssl /usr/share/man/man3/BIO_ctrl_set_connected.3ssl /usr/share/doc/openssl/html/man3/EVP_PKEY_CTX_get0_pkey.html /usr/share/man/man3/EVP_PKEY_CTX_get0_peerkey.3ssl /usr/share/man/man3/OSSL_PASSPHRASE_CALLBACK.3ssl /usr/share/man/man3/EVP_PKEY_CTX_get0_pkey.3ssl /usr/share/doc/openssl/html/man7/EVP_ASYM_CIPHER-RSA.html /usr/share/doc/openssl/html/man3/OSSL_ALGORITHM.html /usr/share/man/man3/OSSL_ITEM.3ssl 
+ /usr/share/man/man3/BIO_new_dgram.3ssl /usr/share/doc/openssl/html/man3/BIO_s_datagram.html /usr/share/man/man3/OSSL_ALGORITHM.3ssl /usr/share/man/man3/BIO_dgram_get_peer.3ssl /usr/share/man/man7/EVP_ASYM_CIPHER-RSA.7ssl /usr/share/man/man3/BIO_dgram_set_peer.3ssl /usr/share/man/man3/BIO_ctrl_dgram_connect.3ssl"
+packages/core2-32-poky-linux/openssl/openssl-doc: PKGV changed from 3.0.7 [default] to 3.0.8 [default]
+packages/core2-32-poky-linux/openssl/openssl-engines: PV changed from "3.0.7" to "3.0.8"
+packages/core2-32-poky-linux/openssl/openssl-engines: PKGV changed from 3.0.7 [default] to 3.0.8 [default]
+packages/core2-32-poky-linux/openssl/openssl-locale: PV changed from "3.0.7" to "3.0.8"
+packages/core2-32-poky-linux/openssl/openssl-locale: PKGV changed from 3.0.7 [default] to 3.0.8 [default]
+packages/core2-32-poky-linux/openssl/openssl-misc: PV changed from "3.0.7" to "3.0.8"
+packages/core2-32-poky-linux/openssl/openssl-misc: PKGV changed from 3.0.7 [default] to 3.0.8 [default]
+packages/core2-32-poky-linux/openssl/openssl-ossl-module-legacy: PV changed from "3.0.7" to "3.0.8"
+packages/core2-32-poky-linux/openssl/openssl-ossl-module-legacy: PKGV changed from 3.0.7 [default] to 3.0.8 [default]
+packages/core2-32-poky-linux/openssl/openssl-ptest: PKGSIZE changed from 293986108 to 298310652 (+1%)
+packages/core2-32-poky-linux/openssl/openssl-ptest: PV changed from "3.0.7" to "3.0.8"
+packages/core2-32-poky-linux/openssl/openssl-ptest: FILELIST: added "/usr/lib/openssl/ptest/test/recipes/25-test_pkcs7_data/malformed.pkcs7 /usr/lib/openssl/ptest/test/smime-eml/SignedInvalidMappingFromanyPolicyTest7.eml /usr/lib/openssl/ptest/test/recipes/91-test_pkey_check_data/dsapub.pem /usr/lib/openssl/ptest/test/smime-certs/badrsa.pem /usr/lib/openssl/ptest/test/trace_api_test /usr/lib/openssl/ptest/test/certs/nccaothername-key.pem /usr/lib/openssl/ptest/test/certs/bad-othername-cert.pem /usr/lib/openssl/ptest/test/certs/nccaothername-cert.pem /usr/lib/openssl/ptest/test/recipes/91-test_pkey_check_data/dsapub_noparam.der /usr/lib/openssl/ptest/test/certs/pkitsta.pem /usr/lib/openssl/ptest/test/recipes/80-test_cms_data/pkcs7-md4.pem /usr/lib/openssl/ptest/test/recipes/20-test_legacy_okay.t /usr/lib/openssl/ptest/test/trace_api_test.c /usr/lib/openssl/ptest/test/testrsa2048pub.pem /usr/lib/openssl/ptest/test/recipes/90-test_traceapi.t"
+packages/core2-32-poky-linux/openssl/openssl-ptest: PKGV changed from 3.0.7 [default] to 3.0.8 [default]
+packages/core2-32-poky-linux/openssl/openssl-src: PKGSIZE changed from 21411631 to 21482787 (+0%)
+packages/core2-32-poky-linux/openssl/openssl-src: PV changed from "3.0.7" to "3.0.8"
+packages/core2-32-poky-linux/openssl/openssl-src: FILELIST: directory renamed /usr/src/debug/openssl/3.0.7-r0/providers/implementations/kem -> /usr/src/debug/openssl/3.0.8-r0/providers/implementations/kem, directory renamed /usr/src/debug/openssl/3.0.7-r0/engines -> /usr/src/debug/openssl/3.0.8-r0/engines, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/sm3 -> /usr/src/debug/openssl/3.0.8-r0/crypto/sm3, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/sm2 -> /usr/src/debug/openssl/3.0.8-r0/crypto/sm2, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/whrlpool -> /usr/src/debug/openssl/3.0.8-r0/crypto/whrlpool, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/sm4 -> /usr/src/debug/openssl/3.0.8-r0/crypto/sm4, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/rand -> /usr/src/debug/openssl/3.0.8-r0/crypto/rand, directory renamed /usr/src/debug/openssl/3.0.7-r0/providers/implementations/macs -> /usr/src/debug/openssl/3.0.8-r0/providers/implementati
+ ons/macs, directory renamed /usr/src/debug/openssl/3.0.7-r0/test/helpers -> /usr/src/debug/openssl/3.0.8-r0/test/helpers, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/async/arch -> /usr/src/debug/openssl/3.0.8-r0/crypto/async/arch, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/md4 -> /usr/src/debug/openssl/3.0.8-r0/crypto/md4, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/md5 -> /usr/src/debug/openssl/3.0.8-r0/crypto/md5, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/store -> /usr/src/debug/openssl/3.0.8-r0/crypto/store, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/seed -> /usr/src/debug/openssl/3.0.8-r0/crypto/seed, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/modes -> /usr/src/debug/openssl/3.0.8-r0/crypto/modes, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/cmp -> /usr/src/debug/openssl/3.0.8-r0/crypto/cmp, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/cms -> /usr/src/debug/openssl/3.0.8-r0
+ /crypto/cms, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/ec/curve448 -> /usr/src/debug/openssl/3.0.8-r0/crypto/ec/curve448, directory renamed /usr/src/debug/openssl/3.0.7-r0/providers/common/include/prov -> /usr/src/debug/openssl/3.0.8-r0/providers/common/include/prov, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/ec/curve448/arch_64 -> /usr/src/debug/openssl/3.0.8-r0/crypto/ec/curve448/arch_64, directory renamed /usr/src/debug/openssl/3.0.7-r0/fuzz -> /usr/src/debug/openssl/3.0.8-r0/fuzz, directory renamed /usr/src/debug/openssl/3.0.7-r0/apps/lib -> /usr/src/debug/openssl/3.0.8-r0/apps/lib, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/asn1 -> /usr/src/debug/openssl/3.0.8-r0/crypto/asn1, directory renamed /usr/src/debug/openssl/3.0.7-r0/providers -> /usr/src/debug/openssl/3.0.8-r0/providers, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/objects -> /usr/src/debug/openssl/3.0.8-r0/crypto/objects, directory renamed /usr/src/debug/openssl/3
+ .0.7-r0/crypto/kdf -> /usr/src/debug/openssl/3.0.8-r0/crypto/kdf, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/chacha -> /usr/src/debug/openssl/3.0.8-r0/crypto/chacha, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/stack -> /usr/src/debug/openssl/3.0.8-r0/crypto/stack, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/property -> /usr/src/debug/openssl/3.0.8-r0/crypto/property, directory renamed /usr/src/debug/openssl/3.0.7-r0/providers/implementations/encode_decode -> /usr/src/debug/openssl/3.0.8-r0/providers/implementations/encode_decode, directory renamed /usr/src/debug/openssl/3.0.7-r0/apps/include -> /usr/src/debug/openssl/3.0.8-r0/apps/include, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/ec/curve448/arch_32 -> /usr/src/debug/openssl/3.0.8-r0/crypto/ec/curve448/arch_32, directory renamed /usr/src/debug/openssl/3.0.7-r0/providers/implementations/storemgmt -> /usr/src/debug/openssl/3.0.8-r0/providers/implementations/storemgmt, directory r
+ enamed /usr/src/debug/openssl/3.0.7-r0/ssl -> /usr/src/debug/openssl/3.0.8-r0/ssl, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/buffer -> /usr/src/debug/openssl/3.0.8-r0/crypto/buffer, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/x509 -> /usr/src/debug/openssl/3.0.8-r0/crypto/x509, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/aes -> /usr/src/debug/openssl/3.0.8-r0/crypto/aes, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/des -> /usr/src/debug/openssl/3.0.8-r0/crypto/des, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/lhash -> /usr/src/debug/openssl/3.0.8-r0/crypto/lhash, directory renamed /usr/src/debug/openssl/3.0.7-r0/test/testutil -> /usr/src/debug/openssl/3.0.8-r0/test/testutil, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/async -> /usr/src/debug/openssl/3.0.8-r0/crypto/async, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/pem -> /usr/src/debug/openssl/3.0.8-r0/crypto/pem, directory renamed /usr/src/d
+ ebug/openssl/3.0.7-r0 -> /usr/src/debug/openssl/3.0.8-r0, directory renamed /usr/src/debug/openssl/3.0.7-r0/providers/implementations/rands/seeding -> /usr/src/debug/openssl/3.0.8-r0/providers/implementations/rands/seeding, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/cmac -> /usr/src/debug/openssl/3.0.8-r0/crypto/cmac, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/hmac -> /usr/src/debug/openssl/3.0.8-r0/crypto/hmac, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/srp -> /usr/src/debug/openssl/3.0.8-r0/crypto/srp, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/err -> /usr/src/debug/openssl/3.0.8-r0/crypto/err, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/crmf -> /usr/src/debug/openssl/3.0.8-r0/crypto/crmf, directory renamed /usr/src/debug/openssl/3.0.7-r0/include/internal -> /usr/src/debug/openssl/3.0.8-r0/include/internal, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto -> /usr/src/debug/openssl/3.0.8-r0/crypto, directo
+ ry renamed /usr/src/debug/openssl/3.0.7-r0/apps -> /usr/src/debug/openssl/3.0.8-r0/apps, directory renamed /usr/src/debug/openssl/3.0.7-r0/providers/implementations/kdfs -> /usr/src/debug/openssl/3.0.8-r0/providers/implementations/kdfs, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/comp -> /usr/src/debug/openssl/3.0.8-r0/crypto/comp, directory renamed /usr/src/debug/openssl/3.0.7-r0/include/openssl -> /usr/src/debug/openssl/3.0.8-r0/include/openssl, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/dso -> /usr/src/debug/openssl/3.0.8-r0/crypto/dso, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/encode_decode -> /usr/src/debug/openssl/3.0.8-r0/crypto/encode_decode, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/sha -> /usr/src/debug/openssl/3.0.8-r0/crypto/sha, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/dsa -> /usr/src/debug/openssl/3.0.8-r0/crypto/dsa, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/mdc2 -> /usr/src/debug/
+ openssl/3.0.8-r0/crypto/mdc2, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/rsa -> /usr/src/debug/openssl/3.0.8-r0/crypto/rsa, directory renamed /usr/src/debug/openssl/3.0.7-r0/providers/implementations/asymciphers -> /usr/src/debug/openssl/3.0.8-r0/providers/implementations/asymciphers, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/cast -> /usr/src/debug/openssl/3.0.8-r0/crypto/cast, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/ocsp -> /usr/src/debug/openssl/3.0.8-r0/crypto/ocsp, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/ess -> /usr/src/debug/openssl/3.0.8-r0/crypto/ess, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/pkcs7 -> /usr/src/debug/openssl/3.0.8-r0/crypto/pkcs7, directory renamed /usr/src/debug/openssl/3.0.7-r0/providers/implementations/ciphers -> /usr/src/debug/openssl/3.0.8-r0/providers/implementations/ciphers, directory renamed /usr/src/debug/openssl/3.0.7-r0/providers/implementations/digests -> /usr/src/debug/o
+ penssl/3.0.8-r0/providers/implementations/digests, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/bio -> /usr/src/debug/openssl/3.0.8-r0/crypto/bio, directory renamed /usr/src/debug/openssl/3.0.7-r0/providers/implementations/keymgmt -> /usr/src/debug/openssl/3.0.8-r0/providers/implementations/keymgmt, directory renamed /usr/src/debug/openssl/3.0.7-r0/ssl/record -> /usr/src/debug/openssl/3.0.8-r0/ssl/record, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/rc2 -> /usr/src/debug/openssl/3.0.8-r0/crypto/rc2, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/ct -> /usr/src/debug/openssl/3.0.8-r0/crypto/ct, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/ts -> /usr/src/debug/openssl/3.0.8-r0/crypto/ts, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/http -> /usr/src/debug/openssl/3.0.8-r0/crypto/http, directory renamed /usr/src/debug/openssl/3.0.7-r0/ssl/statem -> /usr/src/debug/openssl/3.0.8-r0/ssl/statem, directory renamed /usr/src/debug/opens
+ sl/3.0.7-r0/crypto/rc4 -> /usr/src/debug/openssl/3.0.8-r0/crypto/rc4, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/siphash -> /usr/src/debug/openssl/3.0.8-r0/crypto/siphash, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/ui -> /usr/src/debug/openssl/3.0.8-r0/crypto/ui, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/dh -> /usr/src/debug/openssl/3.0.8-r0/crypto/dh, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/bf -> /usr/src/debug/openssl/3.0.8-r0/crypto/bf, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/ec -> /usr/src/debug/openssl/3.0.8-r0/crypto/ec, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/engine -> /usr/src/debug/openssl/3.0.8-r0/crypto/engine, directory renamed /usr/src/debug/openssl/3.0.7-r0/providers/implementations/include/prov -> /usr/src/debug/openssl/3.0.8-r0/providers/implementations/include/prov, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/camellia -> /usr/src/debug/openssl/3.0.8-r0/crypto/c
+ amellia, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/ffc -> /usr/src/debug/openssl/3.0.8-r0/crypto/ffc, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/conf -> /usr/src/debug/openssl/3.0.8-r0/crypto/conf, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/pkcs12 -> /usr/src/debug/openssl/3.0.8-r0/crypto/pkcs12, directory renamed /usr/src/debug/openssl/3.0.7-r0/providers/implementations/signature -> /usr/src/debug/openssl/3.0.8-r0/providers/implementations/signature, directory renamed /usr/src/debug/openssl/3.0.7-r0/providers/common/der -> /usr/src/debug/openssl/3.0.8-r0/providers/common/der, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/idea -> /usr/src/debug/openssl/3.0.8-r0/crypto/idea, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/poly1305 -> /usr/src/debug/openssl/3.0.8-r0/crypto/poly1305, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/evp -> /usr/src/debug/openssl/3.0.8-r0/crypto/evp, directory renamed /usr/src/debug/o
+ penssl/3.0.7-r0/crypto/ripemd -> /usr/src/debug/openssl/3.0.8-r0/crypto/ripemd, directory renamed /usr/src/debug/openssl/3.0.7-r0/providers/implementations/rands -> /usr/src/debug/openssl/3.0.8-r0/providers/implementations/rands, directory renamed /usr/src/debug/openssl/3.0.7-r0/include/crypto -> /usr/src/debug/openssl/3.0.8-r0/include/crypto, directory renamed /usr/src/debug/openssl/3.0.7-r0/providers/common -> /usr/src/debug/openssl/3.0.8-r0/providers/common, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/aria -> /usr/src/debug/openssl/3.0.8-r0/crypto/aria, directory renamed /usr/src/debug/openssl/3.0.7-r0/providers/implementations/exchange -> /usr/src/debug/openssl/3.0.8-r0/providers/implementations/exchange, directory renamed /usr/src/debug/openssl/3.0.7-r0/crypto/txt_db -> /usr/src/debug/openssl/3.0.8-r0/crypto/txt_db, removed "/usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_prime.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_prime.h /usr/src/debug/openssl/3.0.7-r0/test
+ /x509_time_test.c /usr/src/debug/openssl/3.0.7-r0/test/pbelutest.c /usr/src/debug/openssl/3.0.7-r0/test/ossl_store_test.c /usr/src/debug/openssl/3.0.7-r0/test/packettest.c /usr/src/debug/openssl/3.0.7-r0/test/evp_pkey_ctx_new_from_name.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_blind.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/x86-mont.S /usr/src/debug/openssl/3.0.7-r0/test/params_api_test.c /usr/src/debug/openssl/3.0.7-r0/test/property_test.c /usr/src/debug/openssl/3.0.7-r0/test/defltfips_test.c /usr/src/debug/openssl/3.0.7-r0/test/pkey_meth_kdf_test.c /usr/src/debug/openssl/3.0.7-r0/test/cipherlist_test.c /usr/src/debug/openssl/3.0.7-r0/test/ciphername_test.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_mont.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_nist.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_print.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_sqrt.c /usr/src/debug/openssl/3.0.7-r0/test/provfetchtest.c /usr/src/debug/openssl/3.0.7-r0/test/rsa_complex.c /usr/src/d
+ ebug/openssl/3.0.7-r0/test/pkcs7_test.c /usr/src/debug/openssl/3.0.7-r0/test/rsa_mp_test.c /usr/src/debug/openssl/3.0.7-r0/test/ctype_internal_test.c /usr/src/debug/openssl/3.0.7-r0/test/cmp_client_test.c /usr/src/debug/openssl/3.0.7-r0/test/cmp_server_test.c /usr/src/debug/openssl/3.0.7-r0/test/cmp_status_test.c /usr/src/debug/openssl/3.0.7-r0/test/pem_read_depr_test.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_gcd.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_lib.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_mod.c /usr/src/debug/openssl/3.0.7-r0/test/wpackettest.c /usr/src/debug/openssl/3.0.7-r0/test/evp_fetch_prov_test.c /usr/src/debug/openssl/3.0.7-r0/test/cmp_protect_test.c /usr/src/debug/openssl/3.0.7-r0/test/ecstresstest.c /usr/src/debug/openssl/3.0.7-r0/test/pkcs12_format_test.c /usr/src/debug/openssl/3.0.7-r0/test/cmp_ctx_test.c /usr/src/debug/openssl/3.0.7-r0/test/cmp_asn_test.c /usr/src/debug/openssl/3.0.7-r0/test/cmp_msg_test.c /usr/src/debug/openssl/3.0.7-r0/test/bi
+ o_enc_test.c /usr/src/debug/openssl/3.0.7-r0/test/evp_kdf_test.c /usr/src/debug/openssl/3.0.7-r0/test/ssl_ctx_test.c /usr/src/debug/openssl/3.0.7-r0/test/dtlstest.c /usr/src/debug/openssl/3.0.7-r0/test/ext_internal_test.c /usr/src/debug/openssl/3.0.7-r0/test/ffc_internal_test.c /usr/src/debug/openssl/3.0.7-r0/test/sm2_internal_test.c /usr/src/debug/openssl/3.0.7-r0/test/sm3_internal_test.c /usr/src/debug/openssl/3.0.7-r0/test/sm4_internal_test.c /usr/src/debug/openssl/3.0.7-r0/test/stack_test.c /usr/src/debug/openssl/3.0.7-r0/test/cipher_overhead_test.c /usr/src/debug/openssl/3.0.7-r0/test/rsa_sp800_56b_test.c /usr/src/debug/openssl/3.0.7-r0/test/tls13secretstest.c /usr/src/debug/openssl/3.0.7-r0/test/dsa_no_digest_size_test.c /usr/src/debug/openssl/3.0.7-r0/test/fatalerrtest.c /usr/src/debug/openssl/3.0.7-r0/test/servername_test.c /usr/src/debug/openssl/3.0.7-r0/test/asn1_string_table_test.c /usr/src/debug/openssl/3.0.7-r0/test/exdatatest.c /usr/src/debug/openssl/3.0.7-r0/test/ciph
+ erbytes_test.c /usr/src/debug/openssl/3.0.7-r0/test/rand_test.c /usr/src/debug/openssl/3.0.7-r0/test/punycode_test.c /usr/src/debug/openssl/3.0.7-r0/test/modes_internal_test.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_dh.c /usr/src/debug/openssl/3.0.7-r0/test/tls13encryptiontest.c /usr/src/debug/openssl/3.0.7-r0/test/params_test.c /usr/src/debug/openssl/3.0.7-r0/test/sslcorrupttest.c /usr/src/debug/openssl/3.0.7-r0/test/ssl_test_ctx_test.c /usr/src/debug/openssl/3.0.7-r0/test/prov_config_test.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_rsa_fips186_4.c /usr/src/debug/openssl/3.0.7-r0/test/conf_include_test.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_local.h /usr/src/debug/openssl/3.0.7-r0/test/bftest.c /usr/src/debug/openssl/3.0.7-r0/test/bntest.c /usr/src/debug/openssl/3.0.7-r0/test/dhtest.c /usr/src/debug/openssl/3.0.7-r0/test/params_conversion_test.c /usr/src/debug/openssl/3.0.7-r0/test/ectest.c /usr/src/debug/openssl/3.0.7-r0/test/p_test.c /usr/src/debug/openssl/3.0.7-r0
+ /test/threadstest.c /usr/src/debug/openssl/3.0.7-r0/test/uitest.c /usr/src/debug/openssl/3.0.7-r0/test/cmsapitest.c /usr/src/debug/openssl/3.0.7-r0/test/time_offset_test.c /usr/src/debug/openssl/3.0.7-r0/test/threadstest.h /usr/src/debug/openssl/3.0.7-r0/test/evp_extra_test2.c /usr/src/debug/openssl/3.0.7-r0/test/asn1_time_test.c /usr/src/debug/openssl/3.0.7-r0/test/threadstest_fips.c /usr/src/debug/openssl/3.0.7-r0/test/provider_status_test.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_mpi.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_mul.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_sqr.c /usr/src/debug/openssl/3.0.7-r0/test/sslapitest.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_srp.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_add.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_ctx.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_div.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_err.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_exp.c /usr/src/debug/openssl/3.0.7-r0/test/bio
+ _core_test.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_conv.c /usr/src/debug/openssl/3.0.7-r0/test/endecoder_legacy_test.c /usr/src/debug/openssl/3.0.7-r0/test/memleaktest.c /usr/src/debug/openssl/3.0.7-r0/test/x509_check_cert_pkey_test.c /usr/src/debug/openssl/3.0.7-r0/test/algorithmid_test.c /usr/src/debug/openssl/3.0.7-r0/test/mdc2test.c /usr/src/debug/openssl/3.0.7-r0/test/provider_fallback_test.c /usr/src/debug/openssl/3.0.7-r0/test/context_internal_test.c /usr/src/debug/openssl/3.0.7-r0/test/x509aux.c /usr/src/debug/openssl/3.0.7-r0/test/bn_rand_range.h /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_kron.c /usr/src/debug/openssl/3.0.7-r0/test/evp_pkey_dparams_test.c /usr/src/debug/openssl/3.0.7-r0/test/dtls_mtu_test.c /usr/src/debug/openssl/3.0.7-r0/test/hexstr_test.c /usr/src/debug/openssl/3.0.7-r0/test/chacha_internal_test.c /usr/src/debug/openssl/3.0.7-r0/test/v3nametest.c /usr/src/debug/openssl/3.0.7-r0/test/verify_extra_test.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn
+ _exp2.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/co-586.S /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn-586.S /usr/src/debug/openssl/3.0.7-r0/test/sparse_array_test.c /usr/src/debug/openssl/3.0.7-r0/test/ideatest.c /usr/src/debug/openssl/3.0.7-r0/test/http_test.c /usr/src/debug/openssl/3.0.7-r0/test/mdc2_internal_test.c /usr/src/debug/openssl/3.0.7-r0/test/bioprinttest.c /usr/src/debug/openssl/3.0.7-r0/test/casttest.c /usr/src/debug/openssl/3.0.7-r0/test/ssl_old_test.c /usr/src/debug/openssl/3.0.7-r0/test/rdrand_sanitytest.c /usr/src/debug/openssl/3.0.7-r0/test/afalgtest.c /usr/src/debug/openssl/3.0.7-r0/test/moduleloadtest.c /usr/src/debug/openssl/3.0.7-r0/test/bio_prefix_text.c /usr/src/debug/openssl/3.0.7-r0/test/asn1_internal_test.c /usr/src/debug/openssl/3.0.7-r0/test/asynciotest.c /usr/src/debug/openssl/3.0.7-r0/test/testutil.h /usr/src/debug/openssl/3.0.7-r0/test/cmactest.c /usr/src/debug/openssl/3.0.7-r0/test/hmactest.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_recp.c /us
+ r/src/debug/openssl/3.0.7-r0/test/provider_test.c /usr/src/debug/openssl/3.0.7-r0/test/d2i_test.c /usr/src/debug/openssl/3.0.7-r0/test/evp_test.c /usr/src/debug/openssl/3.0.7-r0/test/lhash_test.c /usr/src/debug/openssl/3.0.7-r0/test/rsa_test.c /usr/src/debug/openssl/3.0.7-r0/test/sha_test.c /usr/src/debug/openssl/3.0.7-r0/test/ssl_test.c /usr/src/debug/openssl/3.0.7-r0/test/confdump.c /usr/src/debug/openssl/3.0.7-r0/test/drbgtest.c /usr/src/debug/openssl/3.0.7-r0/test/ecdsatest.c /usr/src/debug/openssl/3.0.7-r0/test/evp_libctx_test.c /usr/src/debug/openssl/3.0.7-r0/test/ecdsatest.h /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_depr.c /usr/src/debug/openssl/3.0.7-r0/test/provider_pkey_test.c /usr/src/debug/openssl/3.0.7-r0/test/bn_internal_test.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_x931p.c /usr/src/debug/openssl/3.0.7-r0/test/constant_time_test.c /usr/src/debug/openssl/3.0.7-r0/test/ec_internal_test.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/x86-gf2m.S /usr/src/debug/openssl
+ /3.0.7-r0/test/pkey_meth_test.c /usr/src/debug/openssl/3.0.7-r0/test/param_build_test.c /usr/src/debug/openssl/3.0.7-r0/test/poly1305_internal_test.c /usr/src/debug/openssl/3.0.7-r0/test/bio_memleak_test.c /usr/src/debug/openssl/3.0.7-r0/test/test_test.c /usr/src/debug/openssl/3.0.7-r0/test/keymgmt_internal_test.c /usr/src/debug/openssl/3.0.7-r0/test/cmp_hdr_test.c /usr/src/debug/openssl/3.0.7-r0/test/cmp_vfy_test.c /usr/src/debug/openssl/3.0.7-r0/test/versions.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_rand.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_word.c /usr/src/debug/openssl/3.0.7-r0/test/x509_internal_test.c /usr/src/debug/openssl/3.0.7-r0/test/aborttest.c /usr/src/debug/openssl/3.0.7-r0/test/asynctest.c /usr/src/debug/openssl/3.0.7-r0/test/evp_pkey_provided_test.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_gf2m.c /usr/src/debug/openssl/3.0.7-r0/test/sslbuffertest.c /usr/src/debug/openssl/3.0.7-r0/test/ssl_cert_table_internal_test.c /usr/src/debug/openssl/3.0.7-r0/te
+ st/curve448_internal_test.c /usr/src/debug/openssl/3.0.7-r0/test/provider_internal_test.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_intern.c /usr/src/debug/openssl/3.0.7-r0/test/aesgcmtest.c /usr/src/debug/openssl/3.0.7-r0/test/rand_status_test.c /usr/src/debug/openssl/3.0.7-r0/test/pbetest.c /usr/src/debug/openssl/3.0.7-r0/test/pemtest.c /usr/src/debug/openssl/3.0.7-r0/test/v3ext.c /usr/src/debug/openssl/3.0.7-r0/test/rc2test.c /usr/src/debug/openssl/3.0.7-r0/test/enginetest.c /usr/src/debug/openssl/3.0.7-r0/test/gmdifftest.c /usr/src/debug/openssl/3.0.7-r0/test/sanitytest.c /usr/src/debug/openssl/3.0.7-r0/test/shlibloadtest.c /usr/src/debug/openssl/3.0.7-r0/test/upcallstest.c /usr/src/debug/openssl/3.0.7-r0/test/bio_callback_test.c /usr/src/debug/openssl/3.0.7-r0/test/tls13ccstest.c /usr/src/debug/openssl/3.0.7-r0/test/sysdefaulttest.c /usr/src/debug/openssl/3.0.7-r0/test/fake_rsaprov.c /usr/src/debug/openssl/3.0.7-r0/test/asn1_dsa_internal_test.c /usr/src/debug/openssl/3.0.7-r
+ 0/test/dtlsv1listentest.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_const.c /usr/src/debug/openssl/3.0.7-r0/test/fake_rsaprov.h /usr/src/debug/openssl/3.0.7-r0/test/fips_version_test.c /usr/src/debug/openssl/3.0.7-r0/crypto/bn/bn_shift.c /usr/src/debug/openssl/3.0.7-r0/test/endecode_test.c /usr/src/debug/openssl/3.0.7-r0/test/bio_readbuffer_test.c /usr/src/debug/openssl/3.0.7-r0/test/ocspapitest.c /usr/src/debug/openssl/3.0.7-r0/test/filterprov.c /usr/src/debug/openssl/3.0.7-r0/test/recordlentest.c /usr/src/debug/openssl/3.0.7-r0/test/clienthellotest.c /usr/src/debug/openssl/3.0.7-r0/test/tls-provider.c /usr/src/debug/openssl/3.0.7-r0/test/filterprov.h /usr/src/debug/openssl/3.0.7-r0/test/danetest.c /usr/src/debug/openssl/3.0.7-r0/test/x509_dup_cert_test.c /usr/src/debug/openssl/3.0.7-r0/test/simpledynamic.h /usr/src/debug/openssl/3.0.7-r0/test/bad_dtls_test.c /usr/src/debug/openssl/3.0.7-r0/test/namemap_internal_test.c /usr/src/debug/openssl/3.0.7-r0/test/asn1_decode_test.c /usr
+ /src/debug/openssl/3.0.7-r0/test/asn1_encode_test.c /usr/src/debug/openssl/3.0.7-r0/test/evp_extra_test.c /usr/src/debug/openssl/3.0.7-r0/test/simpledynamic.c /usr/src/debug/openssl/3.0.7-r0/test/user_property_test.c /usr/src/debug/openssl/3.0.7-r0/test/secmemtest.c /usr/src/debug/openssl/3.0.7-r0/test/rc4test.c /usr/src/debug/openssl/3.0.7-r0/test/rc5test.c /usr/src/debug/openssl/3.0.7-r0/test/srptest.c /usr/src/debug/openssl/3.0.7-r0/test/crltest.c /usr/src/debug/openssl/3.0.7-r0/test/ct_test.c /usr/src/debug/openssl/3.0.7-r0/test/destest.c /usr/src/debug/openssl/3.0.7-r0/test/dsatest.c /usr/src/debug/openssl/3.0.7-r0/test/errtest.c /usr/src/debug/openssl/3.0.7-r0/test/exptest.c /usr/src/debug/openssl/3.0.7-r0/test/igetest.c /usr/src/debug/openssl/3.0.7-r0/test/localetest.c /usr/src/debug/openssl/3.0.7-r0/test/siphash_internal_test.c", added "/usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_prime.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_prime.h /usr/src/debug/openssl/3.0.8-r0/te
+ st/x509_time_test.c /usr/src/debug/openssl/3.0.8-r0/test/pbelutest.c /usr/src/debug/openssl/3.0.8-r0/test/ossl_store_test.c /usr/src/debug/openssl/3.0.8-r0/test/packettest.c /usr/src/debug/openssl/3.0.8-r0/test/evp_pkey_ctx_new_from_name.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_blind.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/x86-mont.S /usr/src/debug/openssl/3.0.8-r0/test/params_api_test.c /usr/src/debug/openssl/3.0.8-r0/test/property_test.c /usr/src/debug/openssl/3.0.8-r0/test/defltfips_test.c /usr/src/debug/openssl/3.0.8-r0/test/pkey_meth_kdf_test.c /usr/src/debug/openssl/3.0.8-r0/test/cipherlist_test.c /usr/src/debug/openssl/3.0.8-r0/test/ciphername_test.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_mont.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_nist.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_print.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_sqrt.c /usr/src/debug/openssl/3.0.8-r0/test/provfetchtest.c /usr/src/debug/openssl/3.0.8-r0/test/rsa_complex.c /usr/src
+ /debug/openssl/3.0.8-r0/test/pkcs7_test.c /usr/src/debug/openssl/3.0.8-r0/test/rsa_mp_test.c /usr/src/debug/openssl/3.0.8-r0/test/ctype_internal_test.c /usr/src/debug/openssl/3.0.8-r0/test/cmp_client_test.c /usr/src/debug/openssl/3.0.8-r0/test/cmp_server_test.c /usr/src/debug/openssl/3.0.8-r0/test/cmp_status_test.c /usr/src/debug/openssl/3.0.8-r0/test/pem_read_depr_test.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_gcd.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_lib.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_mod.c /usr/src/debug/openssl/3.0.8-r0/test/wpackettest.c /usr/src/debug/openssl/3.0.8-r0/test/evp_fetch_prov_test.c /usr/src/debug/openssl/3.0.8-r0/test/cmp_protect_test.c /usr/src/debug/openssl/3.0.8-r0/test/ecstresstest.c /usr/src/debug/openssl/3.0.8-r0/test/pkcs12_format_test.c /usr/src/debug/openssl/3.0.8-r0/test/cmp_ctx_test.c /usr/src/debug/openssl/3.0.8-r0/test/cmp_asn_test.c /usr/src/debug/openssl/3.0.8-r0/test/cmp_msg_test.c /usr/src/debug/openssl/3.0.8-r0/test/
+ bio_enc_test.c /usr/src/debug/openssl/3.0.8-r0/test/evp_kdf_test.c /usr/src/debug/openssl/3.0.8-r0/test/ssl_ctx_test.c /usr/src/debug/openssl/3.0.8-r0/test/dtlstest.c /usr/src/debug/openssl/3.0.8-r0/test/ext_internal_test.c /usr/src/debug/openssl/3.0.8-r0/test/ffc_internal_test.c /usr/src/debug/openssl/3.0.8-r0/test/sm2_internal_test.c /usr/src/debug/openssl/3.0.8-r0/test/sm3_internal_test.c /usr/src/debug/openssl/3.0.8-r0/test/sm4_internal_test.c /usr/src/debug/openssl/3.0.8-r0/test/stack_test.c /usr/src/debug/openssl/3.0.8-r0/test/cipher_overhead_test.c /usr/src/debug/openssl/3.0.8-r0/test/rsa_sp800_56b_test.c /usr/src/debug/openssl/3.0.8-r0/test/tls13secretstest.c /usr/src/debug/openssl/3.0.8-r0/test/dsa_no_digest_size_test.c /usr/src/debug/openssl/3.0.8-r0/test/fatalerrtest.c /usr/src/debug/openssl/3.0.8-r0/test/servername_test.c /usr/src/debug/openssl/3.0.8-r0/test/asn1_string_table_test.c /usr/src/debug/openssl/3.0.8-r0/test/exdatatest.c /usr/src/debug/openssl/3.0.8-r0/test/ci
+ pherbytes_test.c /usr/src/debug/openssl/3.0.8-r0/test/rand_test.c /usr/src/debug/openssl/3.0.8-r0/test/punycode_test.c /usr/src/debug/openssl/3.0.8-r0/test/modes_internal_test.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_dh.c /usr/src/debug/openssl/3.0.8-r0/test/tls13encryptiontest.c /usr/src/debug/openssl/3.0.8-r0/test/params_test.c /usr/src/debug/openssl/3.0.8-r0/test/sslcorrupttest.c /usr/src/debug/openssl/3.0.8-r0/test/trace_api_test.c /usr/src/debug/openssl/3.0.8-r0/test/ssl_test_ctx_test.c /usr/src/debug/openssl/3.0.8-r0/test/prov_config_test.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_rsa_fips186_4.c /usr/src/debug/openssl/3.0.8-r0/test/conf_include_test.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_local.h /usr/src/debug/openssl/3.0.8-r0/test/bftest.c /usr/src/debug/openssl/3.0.8-r0/test/bntest.c /usr/src/debug/openssl/3.0.8-r0/test/dhtest.c /usr/src/debug/openssl/3.0.8-r0/test/params_conversion_test.c /usr/src/debug/openssl/3.0.8-r0/test/ectest.c /usr/src/debug/openss
+ l/3.0.8-r0/test/p_test.c /usr/src/debug/openssl/3.0.8-r0/test/threadstest.c /usr/src/debug/openssl/3.0.8-r0/test/uitest.c /usr/src/debug/openssl/3.0.8-r0/test/cmsapitest.c /usr/src/debug/openssl/3.0.8-r0/test/time_offset_test.c /usr/src/debug/openssl/3.0.8-r0/test/threadstest.h /usr/src/debug/openssl/3.0.8-r0/test/evp_extra_test2.c /usr/src/debug/openssl/3.0.8-r0/test/asn1_time_test.c /usr/src/debug/openssl/3.0.8-r0/test/threadstest_fips.c /usr/src/debug/openssl/3.0.8-r0/test/provider_status_test.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_mpi.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_mul.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_sqr.c /usr/src/debug/openssl/3.0.8-r0/test/sslapitest.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_srp.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_add.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_ctx.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_div.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_err.c /usr/src/debug/openssl/3.0.8-r0/cry
+ pto/bn/bn_exp.c /usr/src/debug/openssl/3.0.8-r0/test/bio_core_test.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_conv.c /usr/src/debug/openssl/3.0.8-r0/test/endecoder_legacy_test.c /usr/src/debug/openssl/3.0.8-r0/test/memleaktest.c /usr/src/debug/openssl/3.0.8-r0/test/x509_check_cert_pkey_test.c /usr/src/debug/openssl/3.0.8-r0/test/algorithmid_test.c /usr/src/debug/openssl/3.0.8-r0/test/mdc2test.c /usr/src/debug/openssl/3.0.8-r0/test/provider_fallback_test.c /usr/src/debug/openssl/3.0.8-r0/test/context_internal_test.c /usr/src/debug/openssl/3.0.8-r0/test/x509aux.c /usr/src/debug/openssl/3.0.8-r0/test/bn_rand_range.h /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_kron.c /usr/src/debug/openssl/3.0.8-r0/test/evp_pkey_dparams_test.c /usr/src/debug/openssl/3.0.8-r0/test/dtls_mtu_test.c /usr/src/debug/openssl/3.0.8-r0/test/hexstr_test.c /usr/src/debug/openssl/3.0.8-r0/test/chacha_internal_test.c /usr/src/debug/openssl/3.0.8-r0/test/v3nametest.c /usr/src/debug/openssl/3.0.8-r0/test/verify_e
+ xtra_test.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_exp2.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/co-586.S /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn-586.S /usr/src/debug/openssl/3.0.8-r0/test/sparse_array_test.c /usr/src/debug/openssl/3.0.8-r0/test/ideatest.c /usr/src/debug/openssl/3.0.8-r0/test/http_test.c /usr/src/debug/openssl/3.0.8-r0/test/mdc2_internal_test.c /usr/src/debug/openssl/3.0.8-r0/test/bioprinttest.c /usr/src/debug/openssl/3.0.8-r0/test/casttest.c /usr/src/debug/openssl/3.0.8-r0/test/ssl_old_test.c /usr/src/debug/openssl/3.0.8-r0/test/rdrand_sanitytest.c /usr/src/debug/openssl/3.0.8-r0/test/afalgtest.c /usr/src/debug/openssl/3.0.8-r0/test/moduleloadtest.c /usr/src/debug/openssl/3.0.8-r0/test/bio_prefix_text.c /usr/src/debug/openssl/3.0.8-r0/test/asn1_internal_test.c /usr/src/debug/openssl/3.0.8-r0/test/asynciotest.c /usr/src/debug/openssl/3.0.8-r0/test/testutil.h /usr/src/debug/openssl/3.0.8-r0/test/cmactest.c /usr/src/debug/openssl/3.0.8-r0/test/hmactest.c
+  /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_recp.c /usr/src/debug/openssl/3.0.8-r0/test/provider_test.c /usr/src/debug/openssl/3.0.8-r0/test/d2i_test.c /usr/src/debug/openssl/3.0.8-r0/test/evp_test.c /usr/src/debug/openssl/3.0.8-r0/test/lhash_test.c /usr/src/debug/openssl/3.0.8-r0/test/rsa_test.c /usr/src/debug/openssl/3.0.8-r0/test/sha_test.c /usr/src/debug/openssl/3.0.8-r0/test/ssl_test.c /usr/src/debug/openssl/3.0.8-r0/test/confdump.c /usr/src/debug/openssl/3.0.8-r0/test/drbgtest.c /usr/src/debug/openssl/3.0.8-r0/test/ecdsatest.c /usr/src/debug/openssl/3.0.8-r0/test/evp_libctx_test.c /usr/src/debug/openssl/3.0.8-r0/test/ecdsatest.h /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_depr.c /usr/src/debug/openssl/3.0.8-r0/test/provider_pkey_test.c /usr/src/debug/openssl/3.0.8-r0/test/bn_internal_test.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_x931p.c /usr/src/debug/openssl/3.0.8-r0/test/constant_time_test.c /usr/src/debug/openssl/3.0.8-r0/test/ec_internal_test.c /usr/src/debug/open
+ ssl/3.0.8-r0/crypto/bn/x86-gf2m.S /usr/src/debug/openssl/3.0.8-r0/test/pkey_meth_test.c /usr/src/debug/openssl/3.0.8-r0/test/param_build_test.c /usr/src/debug/openssl/3.0.8-r0/test/poly1305_internal_test.c /usr/src/debug/openssl/3.0.8-r0/test/bio_memleak_test.c /usr/src/debug/openssl/3.0.8-r0/test/test_test.c /usr/src/debug/openssl/3.0.8-r0/test/keymgmt_internal_test.c /usr/src/debug/openssl/3.0.8-r0/test/cmp_hdr_test.c /usr/src/debug/openssl/3.0.8-r0/test/cmp_vfy_test.c /usr/src/debug/openssl/3.0.8-r0/test/versions.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_rand.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_word.c /usr/src/debug/openssl/3.0.8-r0/test/x509_internal_test.c /usr/src/debug/openssl/3.0.8-r0/test/aborttest.c /usr/src/debug/openssl/3.0.8-r0/test/asynctest.c /usr/src/debug/openssl/3.0.8-r0/test/evp_pkey_provided_test.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_gf2m.c /usr/src/debug/openssl/3.0.8-r0/test/sslbuffertest.c /usr/src/debug/openssl/3.0.8-r0/test/ssl_cert_
+ table_internal_test.c /usr/src/debug/openssl/3.0.8-r0/test/curve448_internal_test.c /usr/src/debug/openssl/3.0.8-r0/test/provider_internal_test.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_intern.c /usr/src/debug/openssl/3.0.8-r0/test/aesgcmtest.c /usr/src/debug/openssl/3.0.8-r0/test/rand_status_test.c /usr/src/debug/openssl/3.0.8-r0/test/pbetest.c /usr/src/debug/openssl/3.0.8-r0/test/pemtest.c /usr/src/debug/openssl/3.0.8-r0/test/v3ext.c /usr/src/debug/openssl/3.0.8-r0/test/rc2test.c /usr/src/debug/openssl/3.0.8-r0/test/enginetest.c /usr/src/debug/openssl/3.0.8-r0/test/gmdifftest.c /usr/src/debug/openssl/3.0.8-r0/test/sanitytest.c /usr/src/debug/openssl/3.0.8-r0/test/shlibloadtest.c /usr/src/debug/openssl/3.0.8-r0/test/upcallstest.c /usr/src/debug/openssl/3.0.8-r0/test/bio_callback_test.c /usr/src/debug/openssl/3.0.8-r0/test/tls13ccstest.c /usr/src/debug/openssl/3.0.8-r0/test/sysdefaulttest.c /usr/src/debug/openssl/3.0.8-r0/test/fake_rsaprov.c /usr/src/debug/openssl/3.0.8-r0/test
+ /asn1_dsa_internal_test.c /usr/src/debug/openssl/3.0.8-r0/test/dtlsv1listentest.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_const.c /usr/src/debug/openssl/3.0.8-r0/test/fake_rsaprov.h /usr/src/debug/openssl/3.0.8-r0/test/fips_version_test.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/bn_shift.c /usr/src/debug/openssl/3.0.8-r0/test/endecode_test.c /usr/src/debug/openssl/3.0.8-r0/test/bio_readbuffer_test.c /usr/src/debug/openssl/3.0.8-r0/test/ocspapitest.c /usr/src/debug/openssl/3.0.8-r0/test/filterprov.c /usr/src/debug/openssl/3.0.8-r0/test/recordlentest.c /usr/src/debug/openssl/3.0.8-r0/test/clienthellotest.c /usr/src/debug/openssl/3.0.8-r0/test/tls-provider.c /usr/src/debug/openssl/3.0.8-r0/crypto/bn/rsa_sup_mul.c /usr/src/debug/openssl/3.0.8-r0/test/filterprov.h /usr/src/debug/openssl/3.0.8-r0/test/danetest.c /usr/src/debug/openssl/3.0.8-r0/test/x509_dup_cert_test.c /usr/src/debug/openssl/3.0.8-r0/test/simpledynamic.h /usr/src/debug/openssl/3.0.8-r0/test/bad_dtls_test.c /usr/src/
+ debug/openssl/3.0.8-r0/test/namemap_internal_test.c /usr/src/debug/openssl/3.0.8-r0/test/asn1_decode_test.c /usr/src/debug/openssl/3.0.8-r0/test/asn1_encode_test.c /usr/src/debug/openssl/3.0.8-r0/test/evp_extra_test.c /usr/src/debug/openssl/3.0.8-r0/test/simpledynamic.c /usr/src/debug/openssl/3.0.8-r0/test/user_property_test.c /usr/src/debug/openssl/3.0.8-r0/test/secmemtest.c /usr/src/debug/openssl/3.0.8-r0/test/rc4test.c /usr/src/debug/openssl/3.0.8-r0/test/rc5test.c /usr/src/debug/openssl/3.0.8-r0/test/srptest.c /usr/src/debug/openssl/3.0.8-r0/test/crltest.c /usr/src/debug/openssl/3.0.8-r0/test/ct_test.c /usr/src/debug/openssl/3.0.8-r0/test/destest.c /usr/src/debug/openssl/3.0.8-r0/test/dsatest.c /usr/src/debug/openssl/3.0.8-r0/test/errtest.c /usr/src/debug/openssl/3.0.8-r0/test/exptest.c /usr/src/debug/openssl/3.0.8-r0/test/igetest.c /usr/src/debug/openssl/3.0.8-r0/test/localetest.c /usr/src/debug/openssl/3.0.8-r0/test/siphash_internal_test.c"
+packages/core2-32-poky-linux/openssl/openssl-src: PKGV changed from 3.0.7 [default] to 3.0.8 [default]
+packages/core2-32-poky-linux/openssl/openssl-staticdev: PKGSIZE changed from 18575534 to 18616860 (+0%)
+packages/core2-32-poky-linux/openssl/openssl-staticdev: PV changed from "3.0.7" to "3.0.8"
+packages/core2-32-poky-linux/openssl/openssl-staticdev: PKGV changed from 3.0.7 [default] to 3.0.8 [default]
+packages/core2-32-poky-linux/openssl/openssl: PV changed from "3.0.7" to "3.0.8"
+packages/core2-32-poky-linux/openssl/openssl: PKGV changed from 3.0.7 [default] to 3.0.8 [default]
+
+--===============9188109277864655668==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/openssl/openssl-doc: FILELIST: added "/usr/share/man/man3/OSSL_CMP_CTX_reset_geninfo_ITAVs.3ssl /usr/share/man/man3/EVP_PKEY_CTX_get0_peerkey.3ssl /usr/share/doc/openssl/html/man3/OSSL_DISPATCH.html /usr/share/man/man3/BIO_s_datagram.3ssl /usr/share/man/man7/EVP_ASYM_CIPHER-RSA.7ssl /usr/share/man/man3/BIO_new_dgram.3ssl /usr/share/man/man3/OSSL_DISPATCH.3ssl /usr/share/man/man3/OSSL_CALLBACK.3ssl /usr/share/doc/openssl/html/man3/EVP_PKEY_CTX_get0_pkey.html /usr/share/doc/openssl/html/man3/ECDSA_sign.html /usr/share/man/man3/BIO_dgram_get_mtu_overhead.3ssl /usr/share/man/man3/BIO_dgram_recv_timedout.3ssl /usr/share/man/man3/OSSL_PASSPHRASE_CALLBACK.3ssl /usr/share/doc/openssl/html/man3/OSSL_ITEM.html /usr/share/doc/openssl/html/man3/OSSL_CALLBACK.html /usr/share/man/man3/BIO_ctrl_dgram_connect.3ssl /usr/share/man/man3/EVP_PKEY_CTX_get0_pkey.3ssl /usr/share/man/man3/OSSL_ALGORITHM.3ssl /usr/share/man/man3/OSSL_ITEM.3ssl /usr/share/man/man3/BIO_ctrl_set_con
+ nected.3ssl /usr/share/doc/openssl/html/man7/EVP_ASYM_CIPHER-RSA.html /usr/share/doc/openssl/html/man3/BIO_s_datagram.html /usr/share/doc/openssl/html/man3/OSSL_ALGORITHM.html /usr/share/man/man3/BIO_dgram_get_peer.3ssl /usr/share/man/man3/BIO_dgram_set_peer.3ssl /usr/share/man/man3/BIO_dgram_send_timedout.3ssl"
+packages/core2-32-poky-linux/openssl/openssl-ptest: FILELIST: added "/usr/lib/openssl/ptest/test/smime-certs/badrsa.pem /usr/lib/openssl/ptest/test/smime-eml/SignedInvalidMappingFromanyPolicyTest7.eml /usr/lib/openssl/ptest/test/recipes/91-test_pkey_check_data/dsapub_noparam.der /usr/lib/openssl/ptest/test/certs/nccaothername-key.pem /usr/lib/openssl/ptest/test/certs/bad-othername-cert.pem /usr/lib/openssl/ptest/test/recipes/20-test_legacy_okay.t /usr/lib/openssl/ptest/test/recipes/80-test_cms_data/pkcs7-md4.pem /usr/lib/openssl/ptest/test/certs/nccaothername-cert.pem /usr/lib/openssl/ptest/test/trace_api_test.c /usr/lib/openssl/ptest/test/certs/pkitsta.pem /usr/lib/openssl/ptest/test/testrsa2048pub.pem /usr/lib/openssl/ptest/test/recipes/91-test_pkey_check_data/dsapub.pem /usr/lib/openssl/ptest/test/trace_api_test /usr/lib/openssl/ptest/test/recipes/25-test_pkcs7_data/malformed.pkcs7 /usr/lib/openssl/ptest/test/recipes/90-test_traceapi.t"
+
+--===============9188109277864655668==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-openssl-upgrade-3.0.7-3.0.8.patch"
+
+RnJvbSA4MmQ4NmFhYWU0OTVkOGM3YTVlOGFiZGM0Yjk4Y2M1M2QwMDBmMzM4IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMTUgRmViIDIwMjMgMTM6Mjc6NTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBv
+cGVuc3NsOiB1cGdyYWRlIDMuMC43IC0+IDMuMC44CgotLS0KIC4uLi9vcGVuc3NsL29wZW5zc2wv
+Q1ZFLTIwMjItMzk5Ni5wYXRjaCAgICAgICB8IDQzIC0tLS0tLS0tLS0tLS0tLS0tLS0KIC4uLi97
+b3BlbnNzbF8zLjAuNy5iYiA9PiBvcGVuc3NsXzMuMC44LmJifSAgICB8ICA0ICstCiAyIGZpbGVz
+IGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgNDUgZGVsZXRpb25zKC0pCiBkZWxldGUgbW9kZSAx
+MDA2NDQgbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NsL29wZW5zc2wvQ1ZFLTIwMjIt
+Mzk5Ni5wYXRjaAogcmVuYW1lIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC97b3Bl
+bnNzbF8zLjAuNy5iYiA9PiBvcGVuc3NsXzMuMC44LmJifSAoOTglKQoKZGlmZiAtLWdpdCBhL21l
+dGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsL0NWRS0yMDIyLTM5OTYucGF0
+Y2ggYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2wvb3BlbnNzbC9DVkUtMjAyMi0z
+OTk2LnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCA2ZDcwYjMyM2QxLi4wMDAw
+MDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsL0NW
+RS0yMDIyLTM5OTYucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSw0MyArMCwwIEBACi1Gcm9tIDc3
+MjVlN2JmZTZmMmNlODE0NmI2NTUyYjQ0ZTBkMjI2YmU3NjM4ZTcgTW9uIFNlcCAxNyAwMDowMDow
+MCAyMDAxCi1Gcm9tOiBQYXVsaSA8cGF1bGlAb3BlbnNzbC5vcmc+Ci1EYXRlOiBGcmksIDExIE5v
+diAyMDIyIDA5OjQwOjE5ICsxMTAwCi1TdWJqZWN0OiBbUEFUQ0hdIHg1MDk6IGZpeCBkb3VibGUg
+bG9ja2luZyBwcm9ibGVtCi0KLVRoaXMgcmV2ZXJ0cyBjb21taXQgOWFhNGJlNjkxZjVjNzNlYjNj
+Njg2MDZkODI0YzEwNDU1MGMwNTNmNyBhbmQgcmVtb3ZlZCB0aGUKLXJlZHVuZGFudCBmbGFnIHNl
+dHRpbmcuCi0KLUZpeGVzICMxOTY0MwotCi1GaXhlcyBMT1cgQ1ZFLTIwMjItMzk5NgotCi1SZXZp
+ZXdlZC1ieTogRG1pdHJ5IEJlbHlhdnNraXkgPGJlbGRtaXRAZ21haWwuY29tPgotUmV2aWV3ZWQt
+Ynk6IFRvbWFzIE1yYXogPHRvbWFzQG9wZW5zc2wub3JnPgotKE1lcmdlZCBmcm9tIGh0dHBzOi8v
+Z2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8xOTY1MikKLQotKGNoZXJyeSBwaWNrZWQg
+ZnJvbSBjb21taXQgNGQwMzQwYTZkMmYzMjc3MDBhMDU5ZjBiOGY5NTRkNjE2MGY4ZWVmNSkKLQot
+VXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydCBbaHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3Bl
+bnNzbC9jb21taXQvNzcyNWU3YmZlNmYyY2U4MTQ2YjY1NTJiNDRlMGQyMjZiZTc2MzhlN10KLUNW
+RTogQ1ZFLTIwMjItMzk5NgotU2lnbmVkLW9mZi1ieTogVml2ZWsgS3VtYmhhciA8dmt1bWJoYXJA
+bXZpc3RhLmNvbT4KLS0tLQotIGNyeXB0by94NTA5L3BjeV9tYXAuYyB8IDQgLS0tLQotIDEgZmls
+ZSBjaGFuZ2VkLCA0IGRlbGV0aW9ucygtKQotCi1kaWZmIC0tZ2l0IGEvY3J5cHRvL3g1MDkvcGN5
+X21hcC5jIGIvY3J5cHRvL3g1MDkvcGN5X21hcC5jCi1pbmRleCAwNTQwNmM2NDkzLi42MGRmZDFl
+MzIwIDEwMDY0NAotLS0tIGEvY3J5cHRvL3g1MDkvcGN5X21hcC5jCi0rKysgYi9jcnlwdG8veDUw
+OS9wY3lfbWFwLmMKLUBAIC03MywxMCArNzMsNiBAQCBpbnQgb3NzbF9wb2xpY3lfY2FjaGVfc2V0
+X21hcHBpbmcoWDUwOSAqeCwgUE9MSUNZX01BUFBJTkdTICptYXBzKQotIAotICAgICByZXQgPSAx
+OwotICBiYWRfbWFwcGluZzoKLS0gICAgaWYgKHJldCA9PSAtMSAmJiBDUllQVE9fVEhSRUFEX3dy
+aXRlX2xvY2soeC0+bG9jaykpIHsKLS0gICAgICAgIHgtPmV4X2ZsYWdzIHw9IEVYRkxBR19JTlZB
+TElEX1BPTElDWTsKLS0gICAgICAgIENSWVBUT19USFJFQURfdW5sb2NrKHgtPmxvY2spOwotLSAg
+ICB9Ci0gICAgIHNrX1BPTElDWV9NQVBQSU5HX3BvcF9mcmVlKG1hcHMsIFBPTElDWV9NQVBQSU5H
+X2ZyZWUpOwotICAgICByZXR1cm4gcmV0OwotIAotLS0gCi0yLjMwLjIKLQpkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NsL29wZW5zc2xfMy4wLjcuYmIgYi9tZXRh
+L3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2wvb3BlbnNzbF8zLjAuOC5iYgpzaW1pbGFyaXR5
+IGluZGV4IDk4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2wv
+b3BlbnNzbF8zLjAuNy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVu
+c3NsL29wZW5zc2xfMy4wLjguYmIKaW5kZXggMTg0MjE0ODU5Mi4uOWU5NGQ0MWRlMiAxMDA2NDQK
+LS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NsL29wZW5zc2xfMy4wLjcuYmIK
+KysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NsL29wZW5zc2xfMy4wLjguYmIK
+QEAgLTEyLDE0ICsxMiwxNCBAQCBTUkNfVVJJID0gImh0dHA6Ly93d3cub3BlbnNzbC5vcmcvc291
+cmNlL29wZW5zc2wtJHtQVn0udGFyLmd6IFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtYnVpbGRp
+bmZvLXN0cmlwLXN5c3Jvb3QtYW5kLWRlYnVnLXByZWZpeC1tYXAtZnJvbS1jby5wYXRjaCBcCiAg
+ICAgICAgICAgIGZpbGU6Ly9hZmFsZy5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLUNv
+bmZpZ3VyZS1kby1ub3QtdHdlYWstbWlwcy1jZmxhZ3MucGF0Y2ggXAotICAgICAgICAgICBmaWxl
+Oi8vQ1ZFLTIwMjItMzk5Ni5wYXRjaCBcCisgICAgICAgICAgIGZpbGU6Ly9lbnZpcm9ubWVudC5k
+LW9wZW5zc2wuc2ggXAogICAgICAgICAgICAiCiAKIFNSQ19VUkk6YXBwZW5kOmNsYXNzLW5hdGl2
+ZXNkayA9ICIgXAogICAgICAgICAgICBmaWxlOi8vZW52aXJvbm1lbnQuZC1vcGVuc3NsLnNoIFwK
+ICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiODMwNDlkMDQyYTI2MGU2OTZm
+NjI0MDZhYzVjMDhiZjcwNmZkODQzODNmOTQ1Y2YyMWJkNjFlOWVkOTVjMzk2ZSIKK1NSQ19VUklb
+c2hhMjU2c3VtXSA9ICI2YzEzZDJiZjM4ZmRmMzFlYWMzY2UyYTM0NzA3MzY3M2Y1ZDYzMjYzMzk4
+ZjFmNjlkMGRmNGE0MTI1M2U0YjNlIgogCiBpbmhlcml0IGxpYl9wYWNrYWdlIG11bHRpbGliX2hl
+YWRlciBtdWx0aWxpYl9zY3JpcHQgcHRlc3QgcGVybG5hdGl2ZQogTVVMVElMSUJfU0NSSVBUUyA9
+ICIke1BOfS1iaW46JHtiaW5kaXJ9L2NfcmVoYXNoIgotLSAKMi4zNy4zCgo=
+
+--===============9188109277864655668==--
 
