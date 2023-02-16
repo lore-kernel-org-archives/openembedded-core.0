@@ -1,192 +1,226 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1311CC636D6
-	for <webhook@archiver.kernel.org>; Thu, 16 Feb 2023 10:34:09 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.7157.1676543638856676330
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40345C61DA4
+	for <webhook@archiver.kernel.org>; Thu, 16 Feb 2023 11:08:49 +0000 (UTC)
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+ by mx.groups.io with SMTP id smtpd.web10.7440.1676545719991022059
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Feb 2023 02:33:59 -0800
+ Thu, 16 Feb 2023 03:08:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aq+k6M3Q;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id s13-20020a05600c45cd00b003ddca7a2bcbso1242550wmo.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Feb 2023 02:33:58 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=apWdW+zE;
+ spf=pass (domain: gmail.com, ip: 209.85.217.48, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-vs1-f48.google.com with SMTP id p14so1582645vsn.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Feb 2023 03:08:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Y1xzCA1bqwdo9pTxp8pd/LpAFFSBiUQC6xHwceAbEvE=;
-        b=aq+k6M3QuLlo7UfKMq+tN1vzR1iDtmPec/g5Pu988juve8yGffNl2b1jOqi3Lhv3F+
-         hgQyCGFGpMuOvqwivVNRO6yuWgnzyHNnizqcxYbxDELl6UGDNp9FgU7MrlV1w1Xn5ixJ
-         Ghy6DggK3QWgcZOIOjtCq1RFS1StZyD7eGe+0=
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=2XBcW8ODZrjMV9DkL+my5TRkRcqJHCkbgPDVPG39kVg=;
+        b=apWdW+zEC6t/rlSNWb0QjXcghRZukyAMofVfxxXjnp9Qp1ZOwkACge0LWRZNgxKzCP
+         bOJuOc28r9p4MUMNXT0Umjkd4c2jYPQPPDw0zOuLmXQ0Fs5IUTsBCXaO2lfOTrlVfLUD
+         4d7GdDTzzabhjhIYHuZm5Mgps6ztamT3n2FAStfq410gLT1tMRHa+his7iRIdKoTJZyh
+         HkY3I+pI+vL+Y2SE2Jiqc5rzZGjMZdsPHCT9+WIr5AbVmVUqr4j1C2KnuXDQYHKeESeQ
+         75EYjpC/BstQfG8llVbApWsZRI4oQgKc1TBhA0ngo4zx8XJF8MtCY/Zasb8FS2FhNWl8
+         7roQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Y1xzCA1bqwdo9pTxp8pd/LpAFFSBiUQC6xHwceAbEvE=;
-        b=O1h02+BM2yU3SIsHk8MJX6mAUvyOjWiV8nNSsoelBA/9JGFQvsSnZLJbCpOMvsmZnP
-         dq3UANXHu2xuexQ6VpajRhf4enS4Ejy0suqWxBjuJzDMR1xCoD5O/ZFaMhMpGwzpsPhJ
-         eeNSYWpNTsb2nQvvu+748YFF0KPu7PlGZ2yWw+1x5H1JsfarlLhWouur0ZwGnlMen7RW
-         QI2FBXd5Zdg6D3NAWFJOZFLsdB4UBvc+qq8c+yp1Md74PYifYFeTUGOG2Ykp3PrHT6Sk
-         2LHfKxkj05t3jMDky+aqIBgW3M1xnTT5VIH0DyyZox9j2lan2zvjAI5RHNh9cQ7sLkW0
-         n71w==
-X-Gm-Message-State: AO0yUKVODcRpypI3PFHpf6yJdXdB6JMuU5Y5ct3q8K/i+9AScWygNp4r
-	YqE8BMLG32v+5fM6BorhJ0moUg==
-X-Google-Smtp-Source: AK7set9rPGFAdZPfLp/LmiZADwYi5U1+JnWxnZsNrSEpA5J5RQw+Dwshkxopgdu5KhD7/TaZlL0guw==
-X-Received: by 2002:a05:600c:318f:b0:3df:e468:17dc with SMTP id s15-20020a05600c318f00b003dfe46817dcmr4385609wmp.40.1676543636975;
-        Thu, 16 Feb 2023 02:33:56 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:d39a:5560:699e:2da6? ([2001:8b0:aba:5f3c:d39a:5560:699e:2da6])
-        by smtp.gmail.com with ESMTPSA id c63-20020a1c3542000000b003df7b40f99fsm4990609wma.11.2023.02.16.02.33.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Feb 2023 02:33:56 -0800 (PST)
-Message-ID: <4e8fa5b3cc2de0a3c740827b405129425d9a62db.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2 0/4] scripts/resulttool/regression: add
- metadata filtering
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexis =?ISO-8859-1?Q?Lothor=E9?= <alexis.lothore@bootlin.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: alexandre.belloni@bootlin.com, thomas.petazzoni@bootlin.com
-Date: Thu, 16 Feb 2023 10:33:55 +0000
-In-Reply-To: <407f3fd1-199b-9d65-cbf3-66bee54d4cf2@bootlin.com>
-References: <20230214165309.63527-1-alexis.lothore@bootlin.com>
-	 <124b9c9667b038b8502f6457ba7d894fc4ef3c58.camel@linuxfoundation.org>
-	 <407f3fd1-199b-9d65-cbf3-66bee54d4cf2@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.1-0ubuntu1 
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2XBcW8ODZrjMV9DkL+my5TRkRcqJHCkbgPDVPG39kVg=;
+        b=hCIj4qzWW8gDDcAWqoh66jfb9kxMWnTwH/VCS+ZLU+LQHiqnmFUWPEqlQ2korH8hLO
+         W69EwUatlEUfagKrBtExqUw7tAacfdm3nT36zXHK37HHEqzG2TvxCre4W/nIFTQqE2CX
+         BBsnMErT6alQ5AigwZlnruQKUhfFkn0/PJrNMXP23qjdXgx8NEH4vmH1d55fhq7ZL34m
+         mCU1sSZfl01aNlfsUZNpdpMgfUSZNi6Zzmr3l9XAtF2KIZWoOySr+BP9k9xT1ke4Qzc8
+         /xoEprSVBzQJBS5I/dxCni9nQvAigdPQErYzbV98PQaYS/jg6m02KUY1G1lsSc4FSvm9
+         J1IQ==
+X-Gm-Message-State: AO0yUKVp6qjFKVFZA513VSk+gSahLe43axT6va5pCDEMIPSRWTXgLnnr
+	V8AKa2b42L9D9V7UFOu7JNedql9tj7svXZiVYzk=
+X-Google-Smtp-Source: AK7set/0YWbbUu1J8eayjNt0ipktk80YOJxvAz9wh1UF2a/DvigeQ6cSLYni8V3FOYrkZD2fMtTdsqIT0wsfjcXKiUc=
+X-Received: by 2002:a05:6102:11f7:b0:3f0:be66:8037 with SMTP id
+ e23-20020a05610211f700b003f0be668037mr1016698vsg.80.1676545719006; Thu, 16
+ Feb 2023 03:08:39 -0800 (PST)
 MIME-Version: 1.0
+References: <20230215130057.1923450-1-jose.quaresma@foundries.io>
+ <CAP9ODKrs24T2V1Ks8yeWbT+_6FLWdc4wy8iybKQpjxPhOhctAw@mail.gmail.com>
+ <CANPvuRm+Df-HVCi-KDOUPzKeUJz9VvznSKLVu1vWCK9Fx+YOoA@mail.gmail.com> <jwqv8k26mv2.fsf@axis.com>
+In-Reply-To: <jwqv8k26mv2.fsf@axis.com>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Thu, 16 Feb 2023 11:08:28 +0000
+Message-ID: <CANPvuRmKaCc36+7ra0is3RUk_nKJEpwKWD0BzWWxX3e0iGb0-w@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 1/2] kernel-module-split: make autoload and
+ probeconf distribution specific
+To: Ola x Nilsson <ola.x.nilsson@axis.com>
+Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>, 
+	Jose Quaresma <jose.quaresma@foundries.io>, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000007fbe705f4cf383e"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Feb 2023 10:34:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177282
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Feb 2023 11:08:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177283
 
-On Thu, 2023-02-16 at 09:56 +0100, Alexis Lothor=C3=A9 wrote:
-> On 2/16/23 01:02, Richard Purdie wrote:
-> > On Tue, 2023-02-14 at 17:53 +0100, Alexis Lothor=C3=A9 via
-> > lists.openembedded.org wrote:
-> > > From: Alexis Lothor=C3=A9 <alexis.lothore@bootlin.com>
-> > > * this serie prioritize retro-compatibility: if the base test is olde=
-r (ie: it
-> > > does not have the needed metadata), it will consider tests as "compar=
-able"
-> > > * additionally to tests added in oeqa test cases, some "best effort" =
-manual
-> > > testing has been done, with the following cases:
-> > >   - run a basic test (e.g: `oeselftest -r tinfoils`), collect test re=
-sult, break
-> > >     test, collect result, ensure tests are compared. Change oeselftes=
-t
-> > >     parameters, ensure tests are not compared
-> > >   - collect base and target tests results from 4.2_M2 regression repo=
-rt,
-> > >     manually add new metadata to some tests, replay regression report=
-, ensure
-> > >     that regressions are kept or discarded depending on the metadata
-> >=20
-> > I think this is heading in the right direction. Firstly, can we put
-> > some kind of test script into OE-Core for making debugging/testing this
-> > easier?
-> >=20
-> > I'm wondering if we can take some of the code from qa_send_email and
-> > move it into OE-Core such that I could do something like:
-> >=20
-> > show-regression-report 4.2_M1 4.2_M2
+--00000000000007fbe705f4cf383e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I was thinking "yocto-testresult-query regression-report" might be a
-better name/command, then it can default to using the yocto-testresults
-repo and resolving yocto tags. You'll also likely want to specify a
-workdir for the operation but those are implementation details :)
+Ola x Nilsson <ola.x.nilsson@axis.com> escreveu no dia quinta, 16/02/2023
+=C3=A0(s) 08:22:
 
-> >=20
-> > which would then resolve those two tags to commits, find the
-> > testresults repo, fetch the data depth1 then call resulttool regression
-> > on them.
->=20
-> That totally makes sense, it will make future change easier to test, than=
-ks for
-> the suggestion. I will think about how I can rework/transfer some code to=
- do
-> that. I feel that one thing could still be troublesome to do so: since th=
-ere
-> will be linked modification in yocto-autobuilder-helper and openembedded,=
- do you
-> know if yocto-autobuilder-helper is fetched on same branch family as all
-> repositories needed for build ? From a quick reading, I see that it is by
-> default on "master" in config.py in yocto-autobuilder2 repository, so I t=
-hink it
-> is always on master, which will be an issue to solve ?
+>
+> On Wed, Feb 15 2023, Jose Quaresma wrote:
+>
+> > Hi Octavio,
+> >
+> > Otavio Salvador <otavio.salvador@ossystems.com.br<mailto:
+> otavio.salvador@ossystems.com.br>> escreveu no dia quarta, 15/02/2023
+> =C3=A0(s) 13:25:
+> > Em qua., 15 de fev. de 2023 =C3=A0s 10:01, Jose Quaresma
+> > <quaresma.jose@gmail.com<mailto:quaresma.jose@gmail.com>> escreveu:
+> >>
+> >> The modules-load.d [1] - Configure kernel modules to load at boot
+> >> should install their configuration files in /usr/lib/modules-load.d.
+> >>
+> >> The modprobe.d [2] - Configuration directory for modprobe
+> >> should install their configuration files in /lib/modprobe.d
+> >>
+> >> [1]
+> https://www.freedesktop.org/software/systemd/man/modules-load.d.html
+> >> [2] https://www.man7.org/linux/man-pages//man5/modprobe.d.5.html
+> >>
+> >> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io<mailto:
+> jose.quaresma@foundries.io>>
+> >
+> >
+> > Did you validate this using busybox only? Using sysv and busybox need
+> > to be validated as well.
+> >
+> > Please drop this patch series because it doesn work with busybox.
+> >
+> > Looks like busybox don't support other path than /etc:
+> >
+> https://git.busybox.net/busybox/tree/modutils/modprobe.c?id=3D669c40ed8eb=
+f480c95ce36135104e474e361a7e6#n658
+> >
+> > So I need to implement this in another way, maybe relocating the files
+> from /etc only when systemd is enabled.
+> >
+> > Thanks for raising the issue.
+> >
+> > Jose
+> >
+>
+> Hi,
+>
+> Please consider https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D12212
+> as well.
+>
+> --
+> Ola x Nilsson
+>
 
-Unlike yocto-autobuilder2, there is a branch of yocto-autobuilder-
-helper per release. We can therefore move code from there to OE-Core on
-the master branch and we'll be ok. It will be a small headache for SWAT
-whilst we test it but Alexandre is on cc and will cope :).
+Hi Ola,
 
-> >=20
-> > I did that manually to experiment. I realised that if we do something
-> > like:
-> >=20
-> >     if "MACHINE" in base_configuration and "MACHINE" in target_configur=
-ation:
-> >         if base_configuration["MACHINE"] !=3D target_configuration["MAC=
-HINE"]:
-> >             print("Skipping")
-> >             return False
-> >=20
-> > in metadata_matches() we can skip a lot of mismatched combinations even
-> > with the older test results.
->=20
-> Indeed, comparing MACHINE when present on both results can help too. I ma=
-y have
-> skipped this because of confusion about our previous discussion on some t=
-ests
-> being "cross-compared" while other are "strictly" compared ! I will ensur=
-e that
-> most of scenarios allow comparing MACHINE, and if so, I will add it in
-> metadata_matches to be checked first (because cheap to test), and if it m=
-atches,
-> check OESELFTEST_METADATA too (more expensive)
+We use usermerge too but I think the weird issue here is we need to have
+this distribution specified only for systemd
+excluding busybox and sysint as pointed out by Octavio.
+The other solution is adding support on busybox and sysint if needed.
 
-MACHINE should always match, that is fine. What doesn't need to match
-are the distros and so on.
+My idea is add a prefix variable with path "/etc" by default but
+conditioned by systemd DISTRO_FEATURES
 
-> > I think we also should be able to use some
-> > pattern matching to generate a dummy OESELFTEST_METADATA section for
-> > older data which doesn't have it. For example, the presence of meta_ide
-> > tests indicates one particular type of test. Combined with the MACHINE
-> > match, this should let us compare old and new data? That would mean
-> > metadata_matches() would need to see into the actual results too.
->=20
-> I thought about this possibility while starting to work on this (checking=
- for
-> existing metadata to kind of generate/guess test configuration), but I ha=
-ve felt
-> that it would need too much "business logic" encoding in resulttool scrip=
-ts,
-> which could easily break if we want to change some tests configuration. I=
- mean,
-> if someone changes some parameters passed to oe-selftest in builders
-> configuration, he will very probably not remember to update some "guess" =
-filters
-> in resulttool.
+Thanks for the bug hint.
 
-I think it will be important/useful to have good regression reports
-against existing test results (e.g. ultimately on our LTS release
-branches too). Whilst I don't normally like hardcoding things like
-this, I think in this case the benefit outweighs the ugliness as long
-as it "fades" over time which it will if we add proper metadata going
-forward.
+--=20
+Best regards,
 
-> I will start working on new revision of this series based on your comment=
-s
+Jos=C3=A9 Quaresma
 
-Sounds good, thanks!
+--00000000000007fbe705f4cf383e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
+<div dir=3D"ltr"><div><br></div><div class=3D"gmail_quote"><div dir=3D"ltr"=
+ class=3D"gmail_attr">Ola x Nilsson &lt;<a href=3D"mailto:ola.x.nilsson@axi=
+s.com">ola.x.nilsson@axis.com</a>&gt; escreveu no dia quinta, 16/02/2023 =
+=C3=A0(s) 08:22:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+><br>
+On Wed, Feb 15 2023, Jose Quaresma wrote:<br>
+<br>
+&gt; Hi Octavio,<br>
+&gt;<br>
+&gt; Otavio Salvador &lt;<a href=3D"mailto:otavio.salvador@ossystems.com.br=
+" target=3D"_blank">otavio.salvador@ossystems.com.br</a>&lt;mailto:<a href=
+=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.salva=
+dor@ossystems.com.br</a>&gt;&gt; escreveu no dia quarta, 15/02/2023 =C3=A0(=
+s) 13:25:<br>
+&gt; Em qua., 15 de fev. de 2023 =C3=A0s 10:01, Jose Quaresma<br>
+&gt; &lt;<a href=3D"mailto:quaresma.jose@gmail.com" target=3D"_blank">quare=
+sma.jose@gmail.com</a>&lt;mailto:<a href=3D"mailto:quaresma.jose@gmail.com"=
+ target=3D"_blank">quaresma.jose@gmail.com</a>&gt;&gt; escreveu:<br>
+&gt;&gt;<br>
+&gt;&gt; The modules-load.d [1] - Configure kernel modules to load at boot<=
+br>
+&gt;&gt; should install their configuration files in /usr/lib/modules-load.=
+d.<br>
+&gt;&gt;<br>
+&gt;&gt; The modprobe.d [2] - Configuration directory for modprobe<br>
+&gt;&gt; should install their configuration files in /lib/modprobe.d<br>
+&gt;&gt;<br>
+&gt;&gt; [1] <a href=3D"https://www.freedesktop.org/software/systemd/man/mo=
+dules-load.d.html" rel=3D"noreferrer" target=3D"_blank">https://www.freedes=
+ktop.org/software/systemd/man/modules-load.d.html</a><br>
+&gt;&gt; [2] <a href=3D"https://www.man7.org/linux/man-pages//man5/modprobe=
+.d.5.html" rel=3D"noreferrer" target=3D"_blank">https://www.man7.org/linux/=
+man-pages//man5/modprobe.d.5.html</a><br>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:jose.quaresma@f=
+oundries.io" target=3D"_blank">jose.quaresma@foundries.io</a>&lt;mailto:<a =
+href=3D"mailto:jose.quaresma@foundries.io" target=3D"_blank">jose.quaresma@=
+foundries.io</a>&gt;&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; Did you validate this using busybox only? Using sysv and busybox need<=
+br>
+&gt; to be validated as well.<br>
+&gt;<br>
+&gt; Please drop this patch series because it doesn work with busybox.<br>
+&gt;<br>
+&gt; Looks like busybox don&#39;t support other path than /etc:<br>
+&gt; <a href=3D"https://git.busybox.net/busybox/tree/modutils/modprobe.c?id=
+=3D669c40ed8ebf480c95ce36135104e474e361a7e6#n658" rel=3D"noreferrer" target=
+=3D"_blank">https://git.busybox.net/busybox/tree/modutils/modprobe.c?id=3D6=
+69c40ed8ebf480c95ce36135104e474e361a7e6#n658</a><br>
+&gt;<br>
+&gt; So I need to implement this in another way, maybe relocating the files=
+ from /etc only when systemd is enabled.<br>
+&gt;<br>
+&gt; Thanks for raising the issue.<br>
+&gt;<br>
+&gt; Jose<br>
+&gt;<br>
+<br>
+Hi,<br>
+<br>
+Please consider <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?i=
+d=3D12212" rel=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoproje=
+ct.org/show_bug.cgi?id=3D12212</a><br>
+as well.<br>
+<br>
+-- <br>
+Ola x Nilsson<br>
+</blockquote></div><br clear=3D"all"><div>Hi Ola,<br><br>We use usermerge t=
+oo but I think the weird issue here is we need to have this distribution=C2=
+=A0specified only for systemd</div><div>excluding busybox and sysint as poi=
+nted out by Octavio.</div><div>The other solution is adding support on busy=
+box and sysint if needed.<br><br>My idea is add a prefix variable with path=
+ &quot;/etc&quot; by default but conditioned=C2=A0by systemd=C2=A0DISTRO_FE=
+ATURES<br><br>Thanks for the bug hint.<br><br class=3D"gmail-Apple-intercha=
+nge-newline"></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature"><div d=
+ir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></div>
 
-Richard
+--00000000000007fbe705f4cf383e--
 
