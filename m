@@ -2,8 +2,8 @@ Return-Path: <Yash.Shinde@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 426B7C05027
-	for <webhook@archiver.kernel.org>; Fri, 17 Feb 2023 13:40:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DCE4C6379F
+	for <webhook@archiver.kernel.org>; Fri, 17 Feb 2023 13:46:34 +0000 (UTC)
 Subject: Re: glibc: stable 2.37 branch updates.
 To: openembedded-core@lists.openembedded.org
 From: "Shinde, Yash" <Yash.Shinde@windriver.com>
@@ -11,21 +11,21 @@ X-Originating-Location: IN (49.37.241.147)
 X-Originating-Platform: Windows Chrome 110
 User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Date: Fri, 17 Feb 2023 05:39:56 -0800
+Date: Fri, 17 Feb 2023 05:46:30 -0800
 References: <20230217133416.2352274-1-yashinde145@gmail.com>
 In-Reply-To: <20230217133416.2352274-1-yashinde145@gmail.com>
-Message-ID: <10000.1676641196049955646@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="DwMkHIalE1bBtbAVj4fM"
+Message-ID: <15862.1676641590703174711@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="WiMVgs80o2vnIrOOS3Em"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Feb 2023 13:40:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177310
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Feb 2023 13:46:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177311
 
---DwMkHIalE1bBtbAVj4fM
-Content-Type: multipart/alternative; boundary="1tYTL4iJ75os6D48opjo"
+--WiMVgs80o2vnIrOOS3Em
+Content-Type: multipart/alternative; boundary="oN3a3Z7OBJuuXPUzteQD"
 
---1tYTL4iJ75os6D48opjo
+--oN3a3Z7OBJuuXPUzteQD
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -55,7 +55,7 @@ Diff:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A01=C2=A0 =C2=A0 =C2=A0 =
 
 The test summary file tests.sum (after glibc update) is attached.
 
---1tYTL4iJ75os6D48opjo
+--oN3a3Z7OBJuuXPUzteQD
 Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -86,12 +86,12 @@ nbsp; &nbsp; &nbsp;0</p>
 <p>The test summary file<em>&nbsp;tests.sum</em>&nbsp;(after glibc update) =
 is attached.</p>
 
---1tYTL4iJ75os6D48opjo--
+--oN3a3Z7OBJuuXPUzteQD--
 
---DwMkHIalE1bBtbAVj4fM
-Content-Type: application/octet-stream; name="tests"
+--WiMVgs80o2vnIrOOS3Em
+Content-Type: application/octet-stream; name="tests.sum"
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="tests"
+Content-Disposition: attachment; filename="tests.sum"
 
 UEFTUzogY2hlY2staW5zdGFsbGVkLWhlYWRlcnMtYwpQQVNTOiBjaGVjay1sb2NhbC1oZWFkZXJz
 ClBBU1M6IGNoZWNrLXdyYXBwZXItaGVhZGVycwpQQVNTOiBhcmdwL2FyZ3AtdGVzdApQQVNTOiBh
@@ -2713,5 +2713,5 @@ OiB3Y3R5cGUvY2hlY2staW5zdGFsbGVkLWhlYWRlcnMtYwpQQVNTOiB3Y3R5cGUvY2hlY2stb2Jz
 b2xldGUtY29uc3RydWN0cwpQQVNTOiB3Y3R5cGUvY2hlY2std3JhcHBlci1oZWFkZXJzClBBU1M6
 IHdjdHlwZS90ZXN0X3djZnVuY3MKUEFTUzogd2N0eXBlL3Rlc3Rfd2N0eXBlCg==
 
---DwMkHIalE1bBtbAVj4fM--
+--WiMVgs80o2vnIrOOS3Em--
 
