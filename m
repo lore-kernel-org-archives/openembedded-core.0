@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F296C64ED6
-	for <webhook@archiver.kernel.org>; Sun, 19 Feb 2023 19:31:10 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web11.3920.1676835066981424027
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BE83C05027
+	for <webhook@archiver.kernel.org>; Sun, 19 Feb 2023 19:31:20 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web10.3852.1676835079540292228
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Feb 2023 11:31:07 -0800
+ Sun, 19 Feb 2023 11:31:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=UiN10vDJ;
- spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id bp28so927901wrb.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 19 Feb 2023 11:31:06 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=hyR0KSrl;
+ spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f44.google.com with SMTP id bk4so884318wrb.9
+        for <openembedded-core@lists.openembedded.org>; Sun, 19 Feb 2023 11:31:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bDbMdnvuwBtrk848WVCB2hK3ubrSFKK8fluyE85oQ2g=;
-        b=UiN10vDJDJtgc/pIEoN4Gf8ekFDzJajAB213l8+8+KI92pzE4qQx9CPPLzLuGc3DPv
-         R2dmIR2YHdSwIcyTHHRJjTVf9rqvs95bfxF9nYcqpldvMO9DfZqQRutW1rBcu0mJWpd1
-         E5ACIHkSCBFM8LVYAfikdjPa1kwH3iwbBt/u+EdCQiTKMoU4xbyNX0FVDWctDFKCOoCV
-         YkWWoLnguiu5BYQRThNKfCCKykIb9R/+XVAy+2Qhx/EVc6xPUhgGK8giHwJezvFCu5K3
-         z8bwY2UkhZGi5VfWb/igtLWn5qRcP6g5SQG98szsalsoFL6WagCt4/lUARVkVFl90n34
-         xAgg==
+        bh=4+22HdVvwc3AHYAjkI0UAQAjMtJpHequdDIoT2OrVnc=;
+        b=hyR0KSrl4FdECs4+hUPQ8M24JoUAeAH4nq8aAjyrhwmdapEKXmf/xI3QZaOaFqEKu8
+         vXwY91Y7g5xZIL5cgg6PRGn5L3VPvv/cmjmuBeupOruIli+rmjXKeXAuhcOSr5DfQLV4
+         OBKrqY5vWk1wMaGwIj+kEzE/8NzBM8chTzsTFo04q65crBJ/jnSj+YnK+fSf5PkwobCQ
+         KaXlfsP8ATf+4PBTPi3HiGOVgrmwjl8tWvY6IrPKAV3bC2T8dcC9kq/ZwnBhbnZnSk7Y
+         k0qSC7EQ4AIHMjBJSxwzgqLM2jXwWnYpAUcAmb8ebIzPLV+jv4m2BQWW/huhRqlFlLb2
+         d88A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bDbMdnvuwBtrk848WVCB2hK3ubrSFKK8fluyE85oQ2g=;
-        b=a46ZyPVRKbKBW4bDXSIY3CPIlAwXEePuGZMY5+yrYnh4ZYx4IfVbfcYhwRva+FjUHl
-         vsbWhFW2TpbtguWklr2dAEI//o4QZO7IH5bdiJHs/ipUORUTiac/xVZS5w0JG+MOEqZG
-         H8SM3w7ARRBNHf4qYECxkN4RLrvEei3oTm/0MLfa2kWFw3/DDmTcPYkmrdYNsfM02dk1
-         D8XIAu86TZQKse+CPecSBKsRkacmJ0qCVFJyB/Yq/tf7Ol2IsE4fBU96lXn5CT8pFaCE
-         ykq/CQ1cvauLYNsB4OO3DxZXLBtJdIjjWx6gOjTxrIl1UMKmmUZyOxrmjTwxQFtTFfBY
-         4OpA==
-X-Gm-Message-State: AO0yUKVeQIzXtD8hI/MBC0B1Qp9VVUejgWTpT5cdaRmk7iTSmj5nn38A
-	ctaE4p7DQCJFlf3AewxY+aqfgVNUrHo=
-X-Google-Smtp-Source: AK7set+CnNrwk8LPx9dbGVZxq7VsBc3oO6+NqpFd762GyjWSVQqp48PGSRdHziCWnsv0DZNlriaJDA==
-X-Received: by 2002:a5d:4088:0:b0:2c5:5870:b589 with SMTP id o8-20020a5d4088000000b002c55870b589mr1566373wrp.14.1676835065308;
-        Sun, 19 Feb 2023 11:31:05 -0800 (PST)
+        bh=4+22HdVvwc3AHYAjkI0UAQAjMtJpHequdDIoT2OrVnc=;
+        b=VU4Y2cDGpnCbf4d2w56ns3iccpDfBTDag7jGfRx/OVxd3lGqr9csSbhXuu+oI2tNVl
+         BZ1gZntrto/A+YAT4gFNP7/DYpAxi8AI7ICsd+yMhRxkvaJJ5aOtUAzGXFnZ/67qbKmY
+         lgvKOuzjz3MV5DGiGB23987nilQ/f4n2/o/qiJHW44y1Ali8AiC4liX20y58kgu7ydhY
+         W8/epFAdiXWfNMl78QmjmIrzrS4qViA2BmDBeVr1dNDH6jy/J5v5k9DhzALBO2OTej2V
+         /bS88xvOZ2Eoeb4ROlE38RlWpROS85IBA5JSyNLkW8XEC2Q4lChBKA7lXIuvn5VhhXiP
+         d1qw==
+X-Gm-Message-State: AO0yUKVj+fDftup+19ulgfCcbp2qGO79JhAnTFqbhpm1YzoL9lSZ5IdA
+	uDS0qO+WBousq1PdO+ogO/gMQcPdfKE=
+X-Google-Smtp-Source: AK7set+i0Nq4XUDgVrDQe9De3lDUsxemDeQXzWlkVX1TeF1YRTWTv3uub9cqfxb/9Nrxo2kEUCCFKw==
+X-Received: by 2002:adf:f30c:0:b0:2c5:9c7a:866 with SMTP id i12-20020adff30c000000b002c59c7a0866mr411323wro.51.1676835078088;
+        Sun, 19 Feb 2023 11:31:18 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id d10-20020adffbca000000b002c54c8e70b1sm3347478wrs.9.2023.02.19.11.31.04
+        by smtp.gmail.com with ESMTPSA id d10-20020adffbca000000b002c54c8e70b1sm3347478wrs.9.2023.02.19.11.31.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Feb 2023 11:31:04 -0800 (PST)
+        Sun, 19 Feb 2023 11:31:17 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 02/39] scripts/oe-setup-layers: do not clobber json module with a variable named 'json'
-Date: Sun, 19 Feb 2023 20:30:24 +0100
-Message-Id: <20230219193101.338397-2-alex@linutronix.de>
+Subject: [PATCH 20/39] util-macros: upgrade 1.19.3 -> 1.20.0
+Date: Sun, 19 Feb 2023 20:30:42 +0100
+Message-Id: <20230219193101.338397-20-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230219193101.338397-1-alex@linutronix.de>
 References: <20230219193101.338397-1-alex@linutronix.de>
@@ -61,33 +61,39 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 19 Feb 2023 19:31:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177345
+ <openembedded-core@lists.openembedded.org>; Sun, 19 Feb 2023 19:31:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177363
+
+License-Update: copyright years
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- scripts/oe-setup-layers | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ .../{util-macros_1.19.3.bb => util-macros_1.20.0.bb}         | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+ rename meta/recipes-graphics/xorg-util/{util-macros_1.19.3.bb => util-macros_1.20.0.bb} (62%)
 
-diff --git a/scripts/oe-setup-layers b/scripts/oe-setup-layers
-index 6c02262663..c8012fa670 100755
---- a/scripts/oe-setup-layers
-+++ b/scripts/oe-setup-layers
-@@ -112,10 +112,10 @@ parser.add_argument('--jsondata', default=__file__+".json", help='File containin
- args = parser.parse_args()
+diff --git a/meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb b/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb
+similarity index 62%
+rename from meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb
+rename to meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb
+index 13d8ce22df..60495ad0c8 100644
+--- a/meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb
++++ b/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb
+@@ -5,12 +5,11 @@ DESCRIPTION = "M4 autotools macros used by various X.org programs."
+ require xorg-util-common.inc
  
- with open(args.jsondata) as f:
--    json = json.load(f)
-+    json_f = json.load(f)
+ LICENSE = "MIT & MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=1970511fddd439b07a6ba789d28ff662"
++LIC_FILES_CHKSUM = "file://COPYING;md5=42ba50748cb7ccf8739424e5e2072b02"
  
- supported_versions = ["1.0"]
--if json["version"] not in supported_versions:
--    raise Exception("File {} has version {}, which is not in supported versions: {}".format(args.jsondata, json["version"], supported_versions))
-+if json_f["version"] not in supported_versions:
-+    raise Exception("File {} has version {}, which is not in supported versions: {}".format(args.jsondata, json_f["version"], supported_versions))
+ PE = "1"
  
--_do_checkout(vars(args), json)
-+_do_checkout(vars(args), json_f)
+-SRC_URI[md5sum] = "66cb74d4a0120a06e32c3b01c29417d8"
+-SRC_URI[sha256sum] = "624bb6c3a4613d18114a7e3849a3d70f2d7af9dc6eabeaba98060d87e3aef35b"
++SRC_URI[sha256sum] = "8daf36913d551a90fd1013cb078401375dabae021cb4713b9b256a70f00eeb74"
+ 
+ # ${PN} is empty so we need to tweak -dev and -dbg package dependencies
+ DEV_PKG_DEPENDENCY = ""
 -- 
 2.30.2
 
