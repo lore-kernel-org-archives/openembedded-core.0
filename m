@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F499C6FA99
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FAC3C6FA9E
 	for <webhook@archiver.kernel.org>; Sun, 19 Feb 2023 19:31:30 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web10.3852.1676835079540292228
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web11.3926.1676835071799349989
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Feb 2023 11:31:23 -0800
+ Sun, 19 Feb 2023 11:31:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=eToTkwvi;
- spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f44.google.com with SMTP id bk4so884421wrb.9
-        for <openembedded-core@lists.openembedded.org>; Sun, 19 Feb 2023 11:31:23 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=BhsA7bMY;
+ spf=pass (domain: gmail.com, ip: 209.85.221.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f47.google.com with SMTP id bx23so836209wrb.10
+        for <openembedded-core@lists.openembedded.org>; Sun, 19 Feb 2023 11:31:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EkT7gMD/YNMLseoMg8nrF5aNIHrdtSAB4ZJVnwDxvrs=;
-        b=eToTkwviROsqFRw/uNMvJ8dYJJTzvi4ZrOZ8SH03A1z7Fl6xyfymgUgvKUM0H/msKr
-         AtfyHiKYgXeyDBvrskg5yCXgGZaoplJkIp5DTn/twSJRUI30fPNn4HUonjNuIha+JrhA
-         fQNJMPmGINGhwP7hlC6yl5uxPsaxi4LG1kgIH5nRLgF2la2gv60my62zxG5n6eTohdT1
-         c3VIBIdRJMxVQqRTf9hIMTSkx9tu0vUlw5r4pXcfre9S0Q13tA/MhP/fLjG+ubegSRuV
-         B3/JGCWM0OBK7Fd2l383b/VQ6ObjMYyIgpFSypgD2Lo4GXW+rT+mJHQ/rGuai7ylZHX5
-         tjCQ==
+        bh=ZHFtDdAt7ABWPyOWjyhwFsLrYMdXSf2OWjrF5fMUvUg=;
+        b=BhsA7bMY/uSYoPvBKMdyopqvEpmq7p8xzdjUv/rdzScuOIxJyMXtwfCT0KIGmSqlSQ
+         a8lv93YJbuGHnvCPO9MheJJ9ukRNAfgS75duQ3XwEQ5zlQuhFLj5knphFpU+rEPfvHYX
+         D0cCVe21ZEFT97m4WIN69msHHUlmLI3Xg5pn6L6XQC4BRgfK8Xu5PwW/kjfQtD6LBLHJ
+         2PJgoLO+LIN03Th5ooXnBmyshYLQQnbFtBma542ce7VxkzkiB1o1fxUCdnvtEqyIS/LY
+         5xNAtoaNODC+8sydFWFHOvVEMFjpT9/Q28QkM9b8SX4/Tp4bQAfImSE85oD9PO3ZQqdp
+         wLcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EkT7gMD/YNMLseoMg8nrF5aNIHrdtSAB4ZJVnwDxvrs=;
-        b=1ADztpbkZ5L4+Vkew2wCiVv1irkaM9uxLnpDqIW5ubacrFF1n8mMPmYpWV7ZsmVoZ3
-         BRmn7C5ziFXeF8E8lc16giDKCfvs6lpHwehMw4LI/frxautugEdNjhdl+RpZ0G4lUOjZ
-         5xkvKrXbwK6+WI26+pSxhb1VR6exUEihPvDHL8JD8j273qEcFiOO8jkLfxcMNrS5ReAL
-         iLLqU7+CBCo01SFLFq0eeTJxKIg1VJKSrxBYB74ijXtmHEeHqFlUR8uNRzMco87IJUUn
-         LNrER5odYF2GTXKtkgXdpXjXfJbDcu1UDB58lfedNXpOXwd1TCijE9JSANHGvHgM3zOo
-         0Kwg==
-X-Gm-Message-State: AO0yUKX/0Oj67ETohL7Jy7oEnvumejscgSOOR1oVOKjIsWHaV78GeT/F
-	libMNj/tm7X/0HlD82Sr8VfqhNe7xoQ=
-X-Google-Smtp-Source: AK7set/40trTWBoARpmr1l4EKvRYYiCFDYlu3XIJJ47c1OVX/s5dZWY/5X/ZSzqhczdyFzirRhoYdA==
-X-Received: by 2002:adf:e98c:0:b0:2c5:9733:1b3d with SMTP id h12-20020adfe98c000000b002c597331b3dmr925466wrm.29.1676835082804;
-        Sun, 19 Feb 2023 11:31:22 -0800 (PST)
+        bh=ZHFtDdAt7ABWPyOWjyhwFsLrYMdXSf2OWjrF5fMUvUg=;
+        b=yuZEUT+XX2w8lB+J4LG3ejFN26EgodbgIuEy+mN4MSJZL5kfLzWNppvzOzEgxZFdoc
+         BTjsKZ9225pHyxEYcSMWwwoCUEE4oObZO/asq++wtpJWxm4XDUNzjcxtbsZs0SA0lL3a
+         6R3cBmtgQrGk+zducnz1oMTSwa12nyOwawkC0LZlIrW2P5R/VOdQq0jt8Nr9LSCcgIPt
+         hdNJXNdCMHat34la0rBKv6XccKuNrGeljv1d8YJp3Xj5APsVTTeFvXmhBAJdxsMDiyEz
+         jFUl50NNn8PWkiGCENuDKYAA0UECPxxI2La02c0TYARRm/LWeSeU17mtuAxhMYKMn9RB
+         CnTg==
+X-Gm-Message-State: AO0yUKXkJ1d5LA2Tb43TJ/T22UllFTAN1HkULQEwbI6pNzHnGYAzlcM/
+	epqJZ4zL5Ngs1BKYLMY22U6Rd/kfGjM=
+X-Google-Smtp-Source: AK7set/cNS4vfG6B3bJTuQCstHAIdBNTaZZZePjGFYC+FOreUzuxixraO5tAkdNEhT2pkb3g+yRLxQ==
+X-Received: by 2002:a5d:6687:0:b0:2c5:5bc0:e7af with SMTP id l7-20020a5d6687000000b002c55bc0e7afmr1471845wru.3.1676835080775;
+        Sun, 19 Feb 2023 11:31:20 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id d10-20020adffbca000000b002c54c8e70b1sm3347478wrs.9.2023.02.19.11.31.22
+        by smtp.gmail.com with ESMTPSA id d10-20020adffbca000000b002c54c8e70b1sm3347478wrs.9.2023.02.19.11.31.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Feb 2023 11:31:22 -0800 (PST)
+        Sun, 19 Feb 2023 11:31:20 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 27/39] linux-firmware: upgrade 20230117 -> 20230210
-Date: Sun, 19 Feb 2023 20:30:49 +0100
-Message-Id: <20230219193101.338397-27-alex@linutronix.de>
+Subject: [PATCH 24/39] vala: upgrade 0.56.3 -> 0.56.4
+Date: Sun, 19 Feb 2023 20:30:46 +0100
+Message-Id: <20230219193101.338397-24-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230219193101.338397-1-alex@linutronix.de>
 References: <20230219193101.338397-1-alex@linutronix.de>
@@ -62,41 +62,34 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 19 Feb 2023 19:31:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177370
-
-License-Update: additional firmwares
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177367
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...{linux-firmware_20230117.bb => linux-firmware_20230210.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20230117.bb => linux-firmware_20230210.bb} (99%)
+ meta/recipes-devtools/vala/vala_0.56.3.bb | 3 ---
+ meta/recipes-devtools/vala/vala_0.56.4.bb | 3 +++
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ delete mode 100644 meta/recipes-devtools/vala/vala_0.56.3.bb
+ create mode 100644 meta/recipes-devtools/vala/vala_0.56.4.bb
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20230117.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20230210.bb
-similarity index 99%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20230117.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20230210.bb
-index fa9e6f604b..bf5d4f54e6 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20230117.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20230210.bb
-@@ -134,7 +134,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     "
- # WHENCE checksum is defined separately to ease overriding it if
- # class-devupstream is selected.
--WHENCE_CHKSUM  = "05f1d941972cedadbf667c05f6010378"
-+WHENCE_CHKSUM  = "aadb3cccbde1e53fc244a409e9bd5a22"
- 
- # These are not common licenses, set NO_GENERIC_LICENSE for them
- # so that the license files will be copied from fetched source
-@@ -212,7 +212,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
- # Pin this to the 20220509 release, override this in local.conf
- SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
- 
--SRC_URI[sha256sum] = "df11e25ba2fb4d5343473757e17a3b4cef599250a26b1f7e0f038850f0cb3d64"
-+SRC_URI[sha256sum] = "6e3d9e8d52cffc4ec0dbe8533a8445328e0524a20f159a5b61c2706f983ce38a"
- 
- inherit allarch
- 
+diff --git a/meta/recipes-devtools/vala/vala_0.56.3.bb b/meta/recipes-devtools/vala/vala_0.56.3.bb
+deleted file mode 100644
+index 83f61e5b2f..0000000000
+--- a/meta/recipes-devtools/vala/vala_0.56.3.bb
++++ /dev/null
+@@ -1,3 +0,0 @@
+-require ${BPN}.inc
+-
+-SRC_URI[sha256sum] = "e1066221bf7b89cb1fa7327a3888645cb33b604de3bf45aa81132fd040b699bf"
+diff --git a/meta/recipes-devtools/vala/vala_0.56.4.bb b/meta/recipes-devtools/vala/vala_0.56.4.bb
+new file mode 100644
+index 0000000000..32fa81a08b
+--- /dev/null
++++ b/meta/recipes-devtools/vala/vala_0.56.4.bb
+@@ -0,0 +1,3 @@
++require ${BPN}.inc
++
++SRC_URI[sha256sum] = "862c41d938543ed3d8d86c8219a61087797193defee8da0c50caf49993c66b6a"
 -- 
 2.30.2
 
