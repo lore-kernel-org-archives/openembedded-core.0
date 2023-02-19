@@ -1,91 +1,193 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 831F7C61DA4
-	for <webhook@archiver.kernel.org>; Sun, 19 Feb 2023 15:15:19 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
- by mx.groups.io with SMTP id smtpd.web10.34206.1676819711526353825
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2E80C05027
+	for <webhook@archiver.kernel.org>; Sun, 19 Feb 2023 15:53:19 +0000 (UTC)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+ by mx.groups.io with SMTP id smtpd.web11.34818.1676821991464684000
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Feb 2023 07:15:12 -0800
+ Sun, 19 Feb 2023 07:53:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=UTfnP15d;
- spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 057EB20009;
-	Sun, 19 Feb 2023 15:15:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1676819709;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=92m6nmn6EwnkPXgGJVxdAtwSuJhuxObP8aGywrINbS8=;
-	b=UTfnP15d+hqqcBcjLQeF0mLRjcX/KcEiVuW9t7B1O1Zbo+2iueSIJLu9VVkJODd7AYYrtc
-	KhQ3YNTpNGLi5pp4Nw61M0g1fPtS4FBCk/rH8VZK2ClJORm5KX9eSyFbOvQRCQ1M7YTAPx
-	IbztkIh7VJqUsFMbXAzdh3/KmmsLQ0mGb8EU74dtcVoTLhmqzXTlwTn2D45pQ2XTpj2e7Q
-	VqgHrN8rdhbAPmxLVSt0yBdSeE24n3nn/59qbrf3mPOKn0ONH8wNrO0TCZnU5CZ5JmLlRJ
-	uA4e21oHdaT14ULK2Bguhih29pXyZGAC2yioo0tfpn8YpkPWZ4ycvrVmuNRM+A==
-Date: Sun, 19 Feb 2023 16:15:07 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Steve Sakoman <steve@sakoman.com>, mv <sdoshi@mvista.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [[kirkstone][PATCH] openssl : Upgrade OpenSSL 3.0.7 ->
- 3.0.8] openssl: Upgrade 3.0.7 -> 3.0.8
-Message-ID: <Y/I8+y9BjKCcRl3x@mail.local>
-References: <20230209080022.147333-1-sdoshi@mvista.com>
- <CA+chaQfPjoRQfsYrnqDwMq6OiE5JtR0mFMXQsrHOOuA-0CSgyA@mail.gmail.com>
- <CAOSpxdbUkXEn0uEfzN21jncJ_n8Ur66uskWZ4b7KGKN+1w3_MQ@mail.gmail.com>
- <CA+chaQeL3aRd4tB7t5Eh4rQ-Nxe8QwO+OM8kO1h4t-XYVweP2w@mail.gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=FUV9mioo;
+ spf=pass (domain: gmail.com, ip: 209.85.208.182, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f182.google.com with SMTP id bx44so672610ljb.12
+        for <openembedded-core@lists.openembedded.org>; Sun, 19 Feb 2023 07:53:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y/n4I2J/Bm91IQ9Roq1HBsMaqutJGgH8u9sQH9Xfg1w=;
+        b=FUV9miooUzk7cbOcsFRLuKZMM5KfXCZjw3TMaJBzFruG/UxeLmDEkPugmtZ9rJIhhu
+         Y4aMlFcyLcThDRaEkTeCryTQ+E5MdTMZFWZB1O/qWNPdZGGUNMYg15t1sZ1rXRraZ/zS
+         /+ki1+UHt7SAdDmOdJvWRFMEtukPZlq8XVNqLPCQuwh/ZBpTAc1OncUkziDB3pT2ddrs
+         EEgurygdiXv2SGEjicpVZBS7RSDHmG2crf6E+kwKVPUFyfJ40XF5+6b713jxvYruyiZi
+         nfodXklyohtANsG2BxkxTTXBvrSljuGQzL48ir5sCGCdJrr3sszBYI7D5PB2lHSRNmwg
+         VLNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Y/n4I2J/Bm91IQ9Roq1HBsMaqutJGgH8u9sQH9Xfg1w=;
+        b=AYWF+oEpns8wICVbqhfhveZFo9Px0nLjBa2P/tOsb4FsHxuj1T1bUSWm/EWPvAbnk5
+         AFeFxVQaDHg6VIgx2Aygqjz5mCZkgBJ9VcBgLHXUKG50YO6gegOvALJz9mYUSil6KNXS
+         KkFQLMNdhvc3kciHJ22nuBW5rFcSsk7P1BSll4uh81jzDNKj1v2rzvGWGM/iua5BrHUw
+         37vDXg7GrYpu0lrmp/zAT0cUWF0CjZTa8kkJu//ZqDhV8EK7hG302kltPqABX7cPvWvK
+         u+6srVK+1P2qiUENtRaOceV3mq1GOylA+KzauufaTMDypMWXjRIH+Qs0WmZTm8zBusQo
+         /vMg==
+X-Gm-Message-State: AO0yUKUh/gClWBFuwcnvOEWZMe/er3AaYoQwYw/0difG2p9onvOiOLe/
+	qqJXrNhwv2JKn1VGDR1OlCMz1IGVTJvkIehTZaA=
+X-Google-Smtp-Source: AK7set9cpBp+lI2qb0r3d5Yq5Uqv+vaGcjUjJG2OXNFvoG42gL3biVSUhfuQpkVD6PRumRPo0RKdZuw56xTsO8g4nGk=
+X-Received: by 2002:a2e:a492:0:b0:294:6de5:e644 with SMTP id
+ h18-20020a2ea492000000b002946de5e644mr528753lji.5.1676821989370; Sun, 19 Feb
+ 2023 07:53:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+chaQeL3aRd4tB7t5Eh4rQ-Nxe8QwO+OM8kO1h4t-XYVweP2w@mail.gmail.com>
+References: <20230219112522.3391653-2-rich@richelberger.com>
+ <20230219112522.3391653-1-rich@richelberger.com> <01000186696bfbd6-6ba3a526-b53d-4775-94cf-0b29b19f44dc-000000@email.amazonses.com>
+In-Reply-To: <01000186696bfbd6-6ba3a526-b53d-4775-94cf-0b29b19f44dc-000000@email.amazonses.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sun, 19 Feb 2023 16:52:57 +0100
+Message-ID: <CANNYZj_PtQ4yVdy1XspGKKAmZE4Mgfmm8D+5gf6D8mGMrc36ng@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] [YOCTO #13270] Refactor the docbook-xml recipe
+ to use docbook.org packages rather than hacked up debian package
+To: Richard Elberger <rich@richelberger.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 19 Feb 2023 15:15:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177334
+ <openembedded-core@lists.openembedded.org>; Sun, 19 Feb 2023 15:53:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177335
 
-On 19/02/2023 16:05:11+0100, Martin Jansa wrote:
-> On Sun, Feb 19, 2023 at 3:13 PM Steve Sakoman <steve@sakoman.com> wrote:
-> 
-> > On Sun, Feb 19, 2023 at 2:36 AM Martin Jansa <martin.jansa@gmail.com>
-> > wrote:
-> > >
-> > > Hello Steve, Siddharth,
-> > >
-> > > are you waiting for PATCHv3 with commit summary update requested in
-> > corresponding langdale review:
-> > >
-> > https://patchwork.yoctoproject.org/project/oe-core/patch/20230209143708.20705-1-sdoshi@mvista.com/
-> > ?
-> > >
-> > > or is something else blocking this upgrade?
-> > >
-> > > I'm a bit surprised that this high security issue wasn't yet merged even
-> > in oe-core/master-next and I don't see it in
-> > oe-core-contrib/stable/kirkstone-nut nor
-> > oe-core-contrib/stable/langdale-nut.
-> >
-> > If a patch is intended for multiple branches I typically wait until
-> > master has merged the patch before taking it into the other branches.
-> >
-> > So that is why it isn't yet in langdale/kirkstone.
-> >
-> 
-> Thanks Steve!
-> 
-> So I guess it's now question for Alexandre or RP as it isn't in:
-> https://git.openembedded.org/openembedded-core-contrib/log/?h=abelloni/master-next
-> https://git.openembedded.org/openembedded-core/log/?h=master-next
+Can you please set SRC_URI with a single assignment; there is no
+reason to += it multiple times.
 
-Changes were requested on all the versions of the patches that were sent
-so I guess we are waiting for v3
+Verifying that 'devtool latest-version works' would be also appreciated.
 
+Alex
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+On Sun, 19 Feb 2023 at 12:25, Richard Elberger <rich@richelberger.com> wrote:
+>
+> ---
+>  .../docbook-xml/docbook-xml-dtd4_4.5.bb       | 74 ++++++++++++-------
+>  1 file changed, 49 insertions(+), 25 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
+> index 2bec1442af..71aa8c14ec 100644
+> --- a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
+> +++ b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
+> @@ -1,30 +1,54 @@
+>  SUMMARY = "Document type definitions for verification of XML data files"
+>  DESCRIPTION = "Document type definitions for verification of XML data \
+> -files against the DocBook rule set, it ships with the latest DocBook 4.5 \
+> -XML DTD, as well as a selected set of legacy DTDs for use with older \
+> -documents, including 4.0, 4.1.2, 4.2, 4.3 and 4.4"
+> -HOMEPAGE = "http://www.docbook.org/xml/"
+> +files against the DocBook rule set."
+> +HOMEPAGE = "https://docbook.org"
+>
+> -LICENSE = "OASIS"
+> -LIC_FILES_CHKSUM = "file://${WORKDIR}/LICENSE-OASIS;md5=c608985dd5f7f215e669e7639a0b1d2e"
+> +inherit allarch
+> +BBCLASSEXTEND = "native"
+>
+> -# Note: the upstream sources are not distributed with a license file.
+> -# LICENSE-OASIS is included as a "patch" to workaround this. When
+> -# upgrading this recipe, please verify whether this is still needed.
+> -SRC_URI = "http://snapshot.debian.org/archive/debian/20160728T043443Z/pool/main/d/docbook-xml/docbook-xml_${PV}.orig.tar.gz \
+> -           file://LICENSE-OASIS \
+> -           file://docbook-xml-update-catalog.xml.patch \
+> -"
+> +# To support apps with xml schema backward compatibility, we must
+> +# install a set of schemas. Install the latest based on PV and then
+> +# name any specific versions as required. TODO: Figure out a mechanism
+> +# to filter exactly which versions are necessary, if that's even
+> +# possible.
+> +#
+> +# DocBook.org lists available packages at https://docbook.org/xml/
+> +#
+> +# These packages are available as source but it requires the ability
+> +# to use the Gradle build system to do so. It might be safer to use
+> +# the source tree which would also enable proper SBOM generation
+> +# through the bitbake build system. https://github.com/docbook/docbook
+> +#
+>
+> -SRC_URI[md5sum] = "487b4d44e15cffb1f4048af23f98208e"
+> -SRC_URI[sha256sum] = "b0f8edcf697f5318e63dd98c9a931f3fee167af0805ba441db372e0f17b2a44f"
+> +S = "${WORKDIR}"
+>
+> -UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/docbook-xml/"
+> +SRC_URI += "https://docbook.org/xml/4.1.2/docbkx412.zip;name=payload412;subdir=docbook-xml-4.1.2"
+> +SRC_URI[payload412.md5sum] = "900d7609fb7e6d78901b357e4acfbc17"
+> +SRC_URI[payload412.sha256sum] = "30f0644064e0ea71751438251940b1431f46acada814a062870f486c772e7772"
+>
+> -S = "${WORKDIR}/docbook-xml-4.5.c31424"
+> +SRC_URI += "https://docbook.org/xml/4.2/docbook-xml-4.2.zip;name=payload42;subdir=docbook-xml-4.2"
+> +SRC_URI[payload42.md5sum] = "73fe50dfe74ca631c1602f558ed8961f"
+> +SRC_URI[payload42.sha256sum] = "acc4601e4f97a196076b7e64b368d9248b07c7abf26b34a02cca40eeebe60fa2"
+>
+> -inherit allarch
+> -BBCLASSEXTEND = "native"
+> +SRC_URI += "https://docbook.org/xml/4.3/docbook-xml-4.3.zip;name=payload43;subdir=docbook-xml-4.3"
+> +SRC_URI[payload43.md5sum] = "ab200202b9e136a144db1e0864c45074"
+> +SRC_URI[payload43.sha256sum] = "23068a94ea6fd484b004c5a73ec36a66aa47ea8f0d6b62cc1695931f5c143464"
+> +
+> +SRC_URI += "https://docbook.org/xml/4.4/docbook-xml-4.4.zip;name=payload44;subdir=docbook-xml-4.4"
+> +SRC_URI[payload44.md5sum] = "cbb04e9a700955d88c50962ef22c1634"
+> +SRC_URI[payload44.sha256sum] = "02f159eb88c4254d95e831c51c144b1863b216d909b5ff45743a1ce6f5273090"
+> +
+> +SRC_URI += "https://docbook.org/xml/${PV}/docbook-xml-${PV}.zip;name=payloadPV;subdir=docbook-xml-${PV}"
+> +SRC_URI[payloadPV.md5sum] = "03083e288e87a7e829e437358da7ef9e"
+> +SRC_URI[payloadPV.sha256sum] = "4e4e037a2b83c98c6c94818390d4bdd3f6e10f6ec62dd79188594e26190dc7b4"
+> +
+> +# The upstream sources are not distributed with a license file.
+> +# LICENSE-OASIS is included as a "patch" to workaround this. When
+> +# upgrading this recipe, please verify whether this is still needed.
+> +
+> +LICENSE = "OASIS"
+> +LIC_FILES_CHKSUM = "file://${WORKDIR}/LICENSE-OASIS;md5=c608985dd5f7f215e669e7639a0b1d2e"
+> +SRC_URI += "file://LICENSE-OASIS"
+>
+>  do_configure (){
+>      :
+> @@ -34,19 +58,19 @@ do_compile (){
+>      :
+>  }
+>
+> +inherit xmlcatalog
+> +
+>  do_install () {
+>      install -d ${D}${sysconfdir}/xml/
+>      xmlcatalog --create --noout ${D}${sysconfdir}/xml/docbook-xml.xml
+>
+> -    for DTDVERSION in 4.0 4.1.2 4.2 4.3 4.4 4.5; do
+> +    for DTDVERSION in 4.1.2 4.2 4.3 4.4 4.5; do
+>          DEST=${datadir}/xml/docbook/schema/dtd/$DTDVERSION
+>          install -d -m 755 ${D}$DEST
+> -        cp -v -R docbook-$DTDVERSION/* ${D}$DEST
+> -        xmlcatalog --verbose --noout --add nextCatalog unused file://$DEST/catalog.xml ${D}${sysconfdir}/xml/docbook-xml.xml
+> +        cp -v -R docbook-xml-$DTDVERSION/* ${D}$DEST
+> +        xmlcatalog --verbose --noout --add nextCatalog unused \
+> +          file://$DEST/catalog.xml ${D}${sysconfdir}/xml/docbook-xml.xml
+>      done
+>  }
+>
+> -XMLCATALOGS = "${sysconfdir}/xml/docbook-xml.xml"
+> -inherit xmlcatalog
+> -
+>  FILES:${PN} = "${datadir}/* ${sysconfdir}/xml/docbook-xml.xml"
+> --
+> 2.34.1
+>
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#177325): https://lists.openembedded.org/g/openembedded-core/message/177325
+> Mute This Topic: https://lists.openembedded.org/mt/97064586/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
