@@ -2,65 +2,66 @@ Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7041C61DA4
-	for <webhook@archiver.kernel.org>; Sun, 19 Feb 2023 18:36:39 +0000 (UTC)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web11.2779.1676831799269931588
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E496EC61DA4
+	for <webhook@archiver.kernel.org>; Sun, 19 Feb 2023 18:37:29 +0000 (UTC)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+ by mx.groups.io with SMTP id smtpd.web11.2795.1676831840419557371
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Feb 2023 10:36:39 -0800
+ Sun, 19 Feb 2023 10:37:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=fMq+UAoc;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id c65so3856138edf.11
-        for <openembedded-core@lists.openembedded.org>; Sun, 19 Feb 2023 10:36:39 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=SoqSYBU4;
+ spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f42.google.com with SMTP id et7so4199382edb.9
+        for <openembedded-core@lists.openembedded.org>; Sun, 19 Feb 2023 10:37:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=f3uPHtMpkSA4Hto1ChnM35Bp6d9XXfQMvd8bd9eE2ho=;
-        b=fMq+UAociXQplDoSDstobQi3WNzVv04F1RmS/miq00c1mZjlqTWjdUfHWQzbIlmLvf
-         SuA0NoTsgxktpCAPJJOavlxvzCHN9alXbO83buw0toDB2z7Y8Ss8jCvKpushUC1eSCAV
-         iIFp8aqCzfrLQkKWvfqUEeKHq9WN0c5ULTRetdYDKPAnyEQdujhDLQTCriPDvFnQruC/
-         hO42/j3UsxJaA6GdDIxBkL7mYVxO/lGXicd4Mp5I8kJvztFSuXRirXbCRoNkMMS92+1u
-         G7mocGfWV8ADQ+pkkS+xV5uDBqNpnSgM6LKYb0WHA8n3MATAlOSlH5i9lL0S5KpVs04o
-         arRg==
+        b=SoqSYBU4Raq7FbZ+BoN4AdphX9B9OEmFUIMYIAUOzDJC8yaXYFQnq+LJtCHRjTc56o
+         D/X88nUGoq6AOhjTJAQJWWHpTpvUNN49Ra2FYwTHRpzxdBsxeWhYX6JQOjoTgEd10c+X
+         rvEKGWmH2glRK8E/JHqCTyz43mdtC1ZDToETDcUsvhfhPjFdh8smfdy48e32EWnHqeLw
+         ZWBrgJLiapzTU7T9mMc0id5zN0WiLqUVNEjLGPvsVTgfulh28Zhe9fbmWI3MO9NlyCZ0
+         4eRfEiRMRgdzAl/kMhgYXoQqrXHnOaYQt3Ssrvbc5dELaA4ltub1V4q6aMKGUguIJDj5
+         oWJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
         bh=f3uPHtMpkSA4Hto1ChnM35Bp6d9XXfQMvd8bd9eE2ho=;
-        b=VjPz8OOB/4PHDfd4vktEoB+Hqp1AkAQHhZTEW8uM8cxE6VWEjsLZcfgM9DN2utPe7O
-         j2gZtRGL4TiRzB4qHoHECt422M4z3xFxJogecWia++ch4g/XkwUIcqLqJRwP57LtVsWa
-         QWBjVytkNlKSUycARSPeYmi5YR/VMExfO3ycKjHVp5AXKru/weU5cLLKGvDK4P08uJXo
-         +FeNZdq/5HUths3vUbAVQBm2+Csjz84W+2Tn2O/v8a+xkB0QF9vuui0h54LCX7i4wLFn
-         897vbXrVwUCzZdCmRI+/gpS0Hzzx0T1KemVIcv2bNetwO296FLc9mg1u0ReU4iOsuQ45
-         NkCw==
-X-Gm-Message-State: AO0yUKVMo06Qpf9L09jabDnZRmV+nCwVJt4juWrxAA5SfRgvJmfAVzZD
-	5mboXnvL7JrJTG3RTRjPG/ei3uqwcgQ=
-X-Google-Smtp-Source: AK7set8/sxGxZ8yj6U0tln5xakc3a0OfJKEnV2U9N1mOtDVPKBuiO4SulTsmDsUoTLMb/lOa0S5TNg==
-X-Received: by 2002:a17:907:98bc:b0:8b1:7b10:61d5 with SMTP id ju28-20020a17090798bc00b008b17b1061d5mr9863686ejc.33.1676831797488;
-        Sun, 19 Feb 2023 10:36:37 -0800 (PST)
+        b=CBRWUDZNSWNU1BTIslv0a84dzZx3Txt9Bi/2j9sFzZJ+M1+fDqGtISHCw8Xmr8KyCk
+         P90rTFEYvLaWQ/pCVqg6v2f4fZyG09jzlLfb88Rky6qOgNBecRDVYMhlrSE+Ys3EdlBT
+         7mKqeG8jurvyuVvtrtNNHKOTquWvxkL8QVPPQirQMAK7NxX0qp5dGaxpNtrlTWwieXqa
+         VthwK4d/FyBOSlMyW0ozHF1jKRj8ZhlKOIYQhxz3uQuYF4gEEz5NlRxhb2xsg3D65opG
+         +Mhn37v8ucjkHjT7oyBXgS7K5TdbrJIIzkdoyq3mKcJ1dayNxCNrpSbzuLIRWfqOW8TW
+         OagA==
+X-Gm-Message-State: AO0yUKXathsMHT+5Fg15X7cAdmxwlkm8o5EDwud5PkuDwPhKfvBiVZ71
+	Fy7F0ISJrmAVCmOzvs98Fm447+rqSMA=
+X-Google-Smtp-Source: AK7set9TEZKzrgPdAxVG0akjxa0ktkVcEIFMJUU/MDn1yQKieQOLYr/cqUkve35KxnSXwxS54qbyPg==
+X-Received: by 2002:aa7:c498:0:b0:4ac:c12b:8ef1 with SMTP id m24-20020aa7c498000000b004acc12b8ef1mr2549773edq.17.1676831838631;
+        Sun, 19 Feb 2023 10:37:18 -0800 (PST)
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id y23-20020a17090614d700b008b155de0984sm4757631ejc.170.2023.02.19.10.36.37
+        by smtp.gmail.com with ESMTPSA id t14-20020a50d70e000000b004acb890553fsm5013660edi.26.2023.02.19.10.37.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Feb 2023 10:36:37 -0800 (PST)
+        Sun, 19 Feb 2023 10:37:18 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Siddharth Doshi <sdoshi@mvista.com>,
+Cc: steve@sakoman.com,
+	Siddharth Doshi <sdoshi@mvista.com>,
 	Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCHv3] openssl: Upgrade 3.0.7 -> 3.0.8
-Date: Sun, 19 Feb 2023 19:36:30 +0100
-Message-Id: <20230219183630.2394-1-Martin.Jansa@gmail.com>
+Subject: [PATCHv3][langdale] openssl: Upgrade 3.0.7 -> 3.0.8
+Date: Sun, 19 Feb 2023 19:37:12 +0100
+Message-Id: <20230219183712.2452-1-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 19 Feb 2023 18:36:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177339
+ <openembedded-core@lists.openembedded.org>; Sun, 19 Feb 2023 18:37:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177340
 
 From: Siddharth Doshi <sdoshi@mvista.com>
 
