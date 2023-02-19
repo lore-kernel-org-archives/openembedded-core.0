@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FA59C678DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F499C6FA99
 	for <webhook@archiver.kernel.org>; Sun, 19 Feb 2023 19:31:30 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web10.3837.1676835066214117063
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web10.3852.1676835079540292228
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Feb 2023 11:31:25 -0800
+ Sun, 19 Feb 2023 11:31:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=p0JnKKBg;
- spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f42.google.com with SMTP id t6so1030881wrz.7
-        for <openembedded-core@lists.openembedded.org>; Sun, 19 Feb 2023 11:31:25 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=eToTkwvi;
+ spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f44.google.com with SMTP id bk4so884421wrb.9
+        for <openembedded-core@lists.openembedded.org>; Sun, 19 Feb 2023 11:31:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NW1UNLWkdYKs24Dff0nhA0vLnzpRvUICmVGvtpEX9lA=;
-        b=p0JnKKBg6+sYuPmEyLG8XiurLNomXVgzIKPqa4AM3F1DJF/gVVLvEPo+wyoyc68f29
-         9Wwv3vNIytBU6UKRJPPWjoGZRSYFWbbnzyMUbRToWgwYpv62FvKT/4tO6eyTVOBSwivJ
-         4cusFRr3vwTFLthNQG55sZciWNP+Eawaq9zlbnq6hEq05aXERKvfgK+fXR5GH4UsNOwr
-         z71j74Gx+m5LWE9FddWdil90jSKzWDpm39pdV85MOU6IEt/n0hb8YK+Y7a0UEy03/buu
-         vHlEp8oHXgUgi8tgx8RbDTnaoh0c91dM15+IpPJth24LdRR3iNpvrKDthdwa2i/GwULo
-         YfJw==
+        bh=EkT7gMD/YNMLseoMg8nrF5aNIHrdtSAB4ZJVnwDxvrs=;
+        b=eToTkwviROsqFRw/uNMvJ8dYJJTzvi4ZrOZ8SH03A1z7Fl6xyfymgUgvKUM0H/msKr
+         AtfyHiKYgXeyDBvrskg5yCXgGZaoplJkIp5DTn/twSJRUI30fPNn4HUonjNuIha+JrhA
+         fQNJMPmGINGhwP7hlC6yl5uxPsaxi4LG1kgIH5nRLgF2la2gv60my62zxG5n6eTohdT1
+         c3VIBIdRJMxVQqRTf9hIMTSkx9tu0vUlw5r4pXcfre9S0Q13tA/MhP/fLjG+ubegSRuV
+         B3/JGCWM0OBK7Fd2l383b/VQ6ObjMYyIgpFSypgD2Lo4GXW+rT+mJHQ/rGuai7ylZHX5
+         tjCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NW1UNLWkdYKs24Dff0nhA0vLnzpRvUICmVGvtpEX9lA=;
-        b=Sa0JXO3NLja5WQuL+TPVuKwwd0Sq3Lp6mailnRFZoBrYqrlUeYzXNOJ4veNHB3uPgS
-         eFStWikrk14camMJBwJlAXd1nS1aHW4yWmjS77e6ir85caOFWLv2j5xgIWvo0jfBzlCo
-         noSs28uFgqxxTtc/ENf8c+Z2whczeec7wkRN7e+Zv/RtjaYHtbDHfXa7IVCWCDiXyVXX
-         I/XmYwUMVz7T8rXsu8no5PNgMhMU12cMSawWKCWdefLDD8vulyrme5yrOUH0a0/iIr+e
-         P6m/5Cl/S+i2siVu6/bJqLFV5PbaeBurhuypt9zP0btWbjugFOKiQ9Xoy940CankrvsW
-         6iQA==
-X-Gm-Message-State: AO0yUKVf2sK5pNbk/ixGECiH7rOxIQaHH7ihEM0Dv3pdpkIt0Da1KW7a
-	4KV/kUKznhQhZ/6ZBlHqqPEpv8k2GIM=
-X-Google-Smtp-Source: AK7set+x9mvX1sUi7WM1xedGhE2dy0zT/hh9lYEtiEtOnKhNoprCzGBT8Fo45IPL7RlmEl1KXCTA3g==
-X-Received: by 2002:a5d:4f11:0:b0:2c5:817f:848c with SMTP id c17-20020a5d4f11000000b002c5817f848cmr1511490wru.67.1676835084766;
-        Sun, 19 Feb 2023 11:31:24 -0800 (PST)
+        bh=EkT7gMD/YNMLseoMg8nrF5aNIHrdtSAB4ZJVnwDxvrs=;
+        b=1ADztpbkZ5L4+Vkew2wCiVv1irkaM9uxLnpDqIW5ubacrFF1n8mMPmYpWV7ZsmVoZ3
+         BRmn7C5ziFXeF8E8lc16giDKCfvs6lpHwehMw4LI/frxautugEdNjhdl+RpZ0G4lUOjZ
+         5xkvKrXbwK6+WI26+pSxhb1VR6exUEihPvDHL8JD8j273qEcFiOO8jkLfxcMNrS5ReAL
+         iLLqU7+CBCo01SFLFq0eeTJxKIg1VJKSrxBYB74ijXtmHEeHqFlUR8uNRzMco87IJUUn
+         LNrER5odYF2GTXKtkgXdpXjXfJbDcu1UDB58lfedNXpOXwd1TCijE9JSANHGvHgM3zOo
+         0Kwg==
+X-Gm-Message-State: AO0yUKX/0Oj67ETohL7Jy7oEnvumejscgSOOR1oVOKjIsWHaV78GeT/F
+	libMNj/tm7X/0HlD82Sr8VfqhNe7xoQ=
+X-Google-Smtp-Source: AK7set/40trTWBoARpmr1l4EKvRYYiCFDYlu3XIJJ47c1OVX/s5dZWY/5X/ZSzqhczdyFzirRhoYdA==
+X-Received: by 2002:adf:e98c:0:b0:2c5:9733:1b3d with SMTP id h12-20020adfe98c000000b002c597331b3dmr925466wrm.29.1676835082804;
+        Sun, 19 Feb 2023 11:31:22 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id d10-20020adffbca000000b002c54c8e70b1sm3347478wrs.9.2023.02.19.11.31.24
+        by smtp.gmail.com with ESMTPSA id d10-20020adffbca000000b002c54c8e70b1sm3347478wrs.9.2023.02.19.11.31.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Feb 2023 11:31:24 -0800 (PST)
+        Sun, 19 Feb 2023 11:31:22 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 30/39] mmc-utils: upgrade to latest revision
-Date: Sun, 19 Feb 2023 20:30:52 +0100
-Message-Id: <20230219193101.338397-30-alex@linutronix.de>
+Subject: [PATCH 27/39] linux-firmware: upgrade 20230117 -> 20230210
+Date: Sun, 19 Feb 2023 20:30:49 +0100
+Message-Id: <20230219193101.338397-27-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230219193101.338397-1-alex@linutronix.de>
 References: <20230219193101.338397-1-alex@linutronix.de>
@@ -62,25 +62,40 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 19 Feb 2023 19:31:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177373
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177370
+
+License-Update: additional firmwares
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-devtools/mmc/mmc-utils_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...{linux-firmware_20230117.bb => linux-firmware_20230210.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20230117.bb => linux-firmware_20230210.bb} (99%)
 
-diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-index d9625473f5..8c41b77fe1 100644
---- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
-+++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-@@ -5,7 +5,7 @@ LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://mmc.c;beginline=1;endline=20;md5=fae32792e20f4d27ade1c5a762d16b7d"
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20230117.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20230210.bb
+similarity index 99%
+rename from meta/recipes-kernel/linux-firmware/linux-firmware_20230117.bb
+rename to meta/recipes-kernel/linux-firmware/linux-firmware_20230210.bb
+index fa9e6f604b..bf5d4f54e6 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20230117.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20230210.bb
+@@ -134,7 +134,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     "
+ # WHENCE checksum is defined separately to ease overriding it if
+ # class-devupstream is selected.
+-WHENCE_CHKSUM  = "05f1d941972cedadbf667c05f6010378"
++WHENCE_CHKSUM  = "aadb3cccbde1e53fc244a409e9bd5a22"
  
- SRCBRANCH ?= "master"
--SRCREV = "c62dd8e415b12cc7f9a362db23cd384caf77ff03"
-+SRCREV = "d4c2910981ff99b983734426dfa99632fb81ac6b"
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+ # so that the license files will be copied from fetched source
+@@ -212,7 +212,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
+ # Pin this to the 20220509 release, override this in local.conf
+ SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
  
- PV = "0.1+git${SRCPV}"
+-SRC_URI[sha256sum] = "df11e25ba2fb4d5343473757e17a3b4cef599250a26b1f7e0f038850f0cb3d64"
++SRC_URI[sha256sum] = "6e3d9e8d52cffc4ec0dbe8533a8445328e0524a20f159a5b61c2706f983ce38a"
+ 
+ inherit allarch
  
 -- 
 2.30.2
