@@ -1,319 +1,220 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <rich@richelberger.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1C25C64ED8
-	for <webhook@archiver.kernel.org>; Sun, 19 Feb 2023 19:31:40 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web11.3938.1676835090265726467
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04977C05027
+	for <webhook@archiver.kernel.org>; Sun, 19 Feb 2023 20:27:51 +0000 (UTC)
+Received: from a48-183.smtp-out.amazonses.com (a48-183.smtp-out.amazonses.com [54.240.48.183])
+ by mx.groups.io with SMTP id smtpd.web11.5155.1676838467601009990
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Feb 2023 11:31:30 -0800
+ Sun, 19 Feb 2023 12:27:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=c4Ctr4de;
- spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f49.google.com with SMTP id s17so834040wrt.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 19 Feb 2023 11:31:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RZI13n1SqFw0gLoXk8HX4jXb7MqmD9PKqmbb206sgWQ=;
-        b=c4Ctr4deYwKGwLmS0ikNZWiIVLND19XZn6sAVAwGi9tyz8Qq5wyH2KFZuCXK4Kva6z
-         l724xdKtxxJ14JV2/4LvdyoBAEB3/K2WRccKXj/wqEa+35McgH4C0F1FA07GZjaMg8Di
-         CpMwOijUCMixC11adJlWV7fMu3JyojexK09hlEkGx6HK7WSQCaAfhA/N3NEEX/JusISp
-         PnDLtargGLJjrdz3QBXEb4dVB/dXWCJ+/RWeVlRmtxKe2utADqFnK/5qGzGULxJUisUy
-         cFvpDsB7WFGL6gIdVWfOqP6WV3Xa3DEf3pT6AZKdL+ehT4z8NgUZ9VGLUT699z6f30Nw
-         S7RQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RZI13n1SqFw0gLoXk8HX4jXb7MqmD9PKqmbb206sgWQ=;
-        b=mqO6msiiuAaEHZRoklMI3IUCE48t/Q/kukR6nSHoYyL/kWBfJcIo8rmXMIKpjGOlkA
-         aNDhKRJiSWX2U2QsTD13aAcdESjEZquu5XeXp8TOm6xjMdkml84UtmdiB+/bW7oy87Dy
-         dzx8EPnd+r22Z4uL6qdd7A5z6U2i+hooQG5CA1mVazVysp00u6D/CBkn2OTjbpzPBK6t
-         mUx4U36kScS2FPwwMXMDD3s1/+aGX/Qs4sMpRu4JPYaZdawN7uaip0zKaVvyaGUAmOR2
-         b1UomLI8ExhhJxF9Uqt67ZfIxEyp7QoyfF9IFhUhaJxIevvafBjvxNi28eWmmfKtQyol
-         lNNQ==
-X-Gm-Message-State: AO0yUKWbDJnSZ/CRx1WpGA0IVA66luEnsFbfGh9XUQkMb4XP2rqeZeN0
-	ZGRhivZKNaLdPQXOfOKeQGwE2JRBP6c=
-X-Google-Smtp-Source: AK7set8PRNmDL35L22h1J8Fjcpp2t1V1gVl/brLscialEZ02gkrZhIb1RjeUgNfJ7UIrUgjYpP1XYA==
-X-Received: by 2002:a05:6000:10c9:b0:2c5:581d:5a1d with SMTP id b9-20020a05600010c900b002c5581d5a1dmr1260416wrx.43.1676835088762;
-        Sun, 19 Feb 2023 11:31:28 -0800 (PST)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id d10-20020adffbca000000b002c54c8e70b1sm3347478wrs.9.2023.02.19.11.31.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Feb 2023 11:31:28 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 36/39] e2fsprogs: upgrade 1.46.5 -> 1.47.0
-Date: Sun, 19 Feb 2023 20:30:58 +0100
-Message-Id: <20230219193101.338397-36-alex@linutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230219193101.338397-1-alex@linutronix.de>
-References: <20230219193101.338397-1-alex@linutronix.de>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@richelberger.com header.s=5u2mht5g5nbgnd5xxu4iibla5zobc5bd header.b=T5M3WYCa;
+ spf=pass (domain: amazonses.com, ip: 54.240.48.183, mailfrom: 010001866b5c73fa-530eb0cc-1137-4ccf-8ee7-aff4434b46ea-000000@amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=5u2mht5g5nbgnd5xxu4iibla5zobc5bd; d=richelberger.com;
+	t=1676838466;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id;
+	bh=pr9N2vZA/DCSnhjB1Q/j+uIFtYShiKIXskXZFUvmu94=;
+	b=T5M3WYCaF0AGmwVSR1X46Vrmxh8ivhCdPo3DR52x+gf4zLFX2LqE4NqBaj2INgHp
+	DHxuIoQdaxjgMLs5DyDg/1ipHv3COCnvQnC2fwJToL8xmbwGOpwdrMtq+4wc0i3euJ2
+	G4mJg5lznqSQKQ35tsNhPiKEQzfOrA0Htvl4mkzQ=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=6gbrjpgwjskckoa6a5zn6fwqkn67xbtw; d=amazonses.com; t=1676838466;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id:Feedback-ID;
+	bh=pr9N2vZA/DCSnhjB1Q/j+uIFtYShiKIXskXZFUvmu94=;
+	b=J6+xixF1Ehk2cOMNcmkz+Zbey0YMEVAbwi5CUmGHzLeavfuCtwfbn8i1svvHbi8A
+	pxEp4+CNgArUuaZ8a0oQxdAAuH/XYCxSVO3JeKLtJ69X/vUivVVpgKvC5M3isN7ITjK
+	cXmcksKTOsBEWCEqva3T+Nj54qe92ftnONqJeAhQ=
+Subject: Re: [OE-core] [PATCH] [YOCTO #13270] Refactor the docbook-xml recipe
+ to use docbook.org packages rather than hacked up debian package
+From: =?UTF-8?Q?Richard_Elberger?= <rich@richelberger.com>
+To: =?UTF-8?Q?Alexander_Kanavin?= <alex.kanavin@gmail.com>
+Cc: =?UTF-8?Q?openembedded-core=40lists=2Eopenembedded=2Eorg?=
+  <openembedded-core@lists.openembedded.org>
+Date: Sun, 19 Feb 2023 20:27:46 +0000
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: 
+ <CANNYZj9+6uQjy=5+rWfYBBmzfwJQHB4YNWH3-DAEunB+mdrinw@mail.gmail.com>
+References: <20230219112522.3391653-2-rich@richelberger.com> 
+ <20230219112522.3391653-1-rich@richelberger.com> 
+ <01000186696bfbd6-6ba3a526-b53d-4775-94cf-0b29b19f44dc-000000@email.amazonses.com> 
+ <747cdeab-f37e-6bd2-ea9d-3038d94372a1@richelberger.com> 
+ <CANNYZj_PtQ4yVdy1XspGKKAmZE4Mgfmm8D+5gf6D8mGMrc36ng@mail.gmail.com> 
+ <010001866a8456a4-0d51027d-5588-4b3e-af46-9e09b84cfe2f-000000@email.amazonses.com> 
+ <1e455822-8e68-5e30-72b8-c4c1d18acb48@richelberger.com> 
+ <CANNYZj8ejnyhpF9UBaHr6=CVZNxVNxjjQmpdxkut9oH0i33AjQ@mail.gmail.com> 
+ <010001866ae9a28c-9050cb24-ba3f-4a9b-b8c5-a00bc936efbf-000000@email.amazonses.com> 
+ <17454DD71A4E7B0B.32742@lists.openembedded.org> 
+ <CANNYZj9+6uQjy=5+rWfYBBmzfwJQHB4YNWH3-DAEunB+mdrinw@mail.gmail.com> 
+ <2b4a87bc-d5ca-800f-852f-414070ed31ff@richelberger.com>
+X-Mailer: Amazon WorkMail
+Thread-Index: AQHZRFTceYTVX42QQdWyqJeuPsKmTgAAAJI5AAlad9wADM79pwAPsApoABLw5uQ=
+Thread-Topic: [OE-core] [PATCH] [YOCTO #13270] Refactor the docbook-xml
+ recipe to use docbook.org packages rather than hacked up debian package
+X-Wm-Sent-Timestamp: 1676838465
+Message-ID: <010001866b5c73fa-530eb0cc-1137-4ccf-8ee7-aff4434b46ea-000000@email.amazonses.com>
+Feedback-ID: 1.us-east-1.LF00NED762KFuBsfzrtoqw+Brn/qlF9OYdxWukAhsl8=:AmazonSES
+X-SES-Outgoing: 2023.02.19-54.240.48.183
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 19 Feb 2023 19:31:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177379
+ <openembedded-core@lists.openembedded.org>; Sun, 19 Feb 2023 20:27:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177383
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- ...-to-enable-disable-largefile-support.patch | 57 -------------------
- ...t-lseek-when-_FILE_OFFSET_BITS-is-64.patch | 37 ------------
- ...-missing-check-for-permission-denied.patch |  4 +-
- .../e2fsprogs/e2fsprogs/extents.patch         | 56 ------------------
- .../e2fsprogs/e2fsprogs/quiet-debugfs.patch   |  6 +-
- ...2fsprogs_1.46.5.bb => e2fsprogs_1.47.0.bb} |  5 +-
- 6 files changed, 6 insertions(+), 159 deletions(-)
- delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-Add-option-to-enable-disable-largefile-support.patch
- delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-ext2fs-Use-64bit-lseek-when-_FILE_OFFSET_BITS-is-64.patch
- delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/extents.patch
- rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.46.5.bb => e2fsprogs_1.47.0.bb} (95%)
-
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-Add-option-to-enable-disable-largefile-support.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-Add-option-to-enable-disable-largefile-support.patch
-deleted file mode 100644
-index a770d0cf89..0000000000
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-Add-option-to-enable-disable-largefile-support.patch
-+++ /dev/null
-@@ -1,57 +0,0 @@
--From 6fab3346d448298a24cee1faeb5fc8507a3b9712 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Thu, 10 Nov 2022 20:34:54 -0800
--Subject: [PATCH] Add option to enable/disable largefile support
--
--fallocate can be used to have 64bit off_t provided its compiled with
--_FILE_OFFSET_BITS=64 which will be added automatically when
----enable-largefile is used.
--
--Upstream-Status: Submitted [https://github.com/tytso/e2fsprogs/pull/129]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- configure.ac    | 3 +++
-- misc/e4defrag.c | 6 +-----
-- 2 files changed, 4 insertions(+), 5 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index dff3d1ca..ec1c5b64 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -1800,6 +1800,9 @@ OS_IO_FILE=""
--   ;;
-- esac]
-- AC_SUBST(OS_IO_FILE)
--+
--+AC_SYS_LARGEFILE
--+
-- dnl
-- dnl Make our output files, being sure that we create the some miscellaneous 
-- dnl directories
--diff --git a/misc/e4defrag.c b/misc/e4defrag.c
--index 86e97ee3..e7175c37 100644
----- a/misc/e4defrag.c
--+++ b/misc/e4defrag.c
--@@ -195,10 +195,6 @@ static struct frag_statistic_ino	frag_rank[SHOW_FRAG_FILES];
-- #error posix_fadvise not available!
-- #endif
-- 
---#ifndef HAVE_FALLOCATE64
---#error fallocate64 not available!
---#endif /* ! HAVE_FALLOCATE64 */
---
-- /*
--  * get_mount_point() -	Get device's mount point.
--  *
--@@ -1568,7 +1564,7 @@ static int file_defrag(const char *file, const struct stat64 *buf,
-- 	/* Allocate space for donor inode */
-- 	orig_group_tmp = orig_group_head;
-- 	do {
---		ret = fallocate64(donor_fd, 0,
--+		ret = fallocate(donor_fd, 0,
-- 		  (ext2_loff_t)orig_group_tmp->start->data.logical * block_size,
-- 		  (ext2_loff_t)orig_group_tmp->len * block_size);
-- 		if (ret < 0) {
---- 
--2.38.1
--
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-ext2fs-Use-64bit-lseek-when-_FILE_OFFSET_BITS-is-64.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-ext2fs-Use-64bit-lseek-when-_FILE_OFFSET_BITS-is-64.patch
-deleted file mode 100644
-index 20ed6ecb3b..0000000000
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-ext2fs-Use-64bit-lseek-when-_FILE_OFFSET_BITS-is-64.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--From 1a8aaa8ff7f4aca68b5ae964458e49ab16b4315f Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 14 Dec 2022 20:56:44 -0800
--Subject: [PATCH] ext2fs: Use 64bit lseek when _FILE_OFFSET_BITS is 64
--
--Use lseek() with 64bit off_t when _FILE_OFFSET_BITS is 64
--this fixes build with musl where there is no _llseek but lseek
--is using off_t which is 64bit on musl
--
--Upstream-Status: Submitted [https://github.com/tytso/e2fsprogs/pull/129]
--Signe-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- lib/ext2fs/llseek.c | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/lib/ext2fs/llseek.c b/lib/ext2fs/llseek.c
--index 922a0d56..45f21d09 100644
----- a/lib/ext2fs/llseek.c
--+++ b/lib/ext2fs/llseek.c
--@@ -51,7 +51,7 @@ extern long long llseek (int fd, long long offset, int origin);
-- 
-- #else	/* ! HAVE_LLSEEK */
-- 
---#if SIZEOF_LONG == SIZEOF_LONG_LONG
--+#if SIZEOF_LONG == SIZEOF_LONG_LONG || _FILE_OFFSET_BITS+0 == 64
-- 
-- #define my_llseek lseek
-- 
--@@ -69,7 +69,7 @@ static int _llseek (unsigned int, unsigned long,
-- 
-- static _syscall5(int,_llseek,unsigned int,fd,unsigned long,offset_high,
-- 		 unsigned long, offset_low,ext2_loff_t *,result,
---		 unsigned int, origin)
--+		 unsigned int, origin);
-- #endif
-- 
-- static ext2_loff_t my_llseek (int fd, ext2_loff_t offset, int origin)
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-missing-check-for-permission-denied.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-missing-check-for-permission-denied.patch
-index 92bd0d0c1f..b038e61eb7 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-missing-check-for-permission-denied.patch
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsprogs-fix-missing-check-for-permission-denied.patch
-@@ -1,4 +1,4 @@
--From cce489c96aa3f4272a19d2137c2a46b439636712 Mon Sep 17 00:00:00 2001
-+From 5bc75654690a2d916190168b865770a7c93e65dd Mon Sep 17 00:00:00 2001
- From: Jackie Huang <jackie.huang@windriver.com>
- Date: Wed, 10 Aug 2016 11:19:44 +0800
- Subject: [PATCH] Fix missing check for permission denied.
-@@ -19,7 +19,7 @@ Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/lib/support/profile.c b/lib/support/profile.c
--index f54739e7..53ea68f1 100644
-+index bdb14b17..1bd62406 100644
- --- a/lib/support/profile.c
- +++ b/lib/support/profile.c
- @@ -335,7 +335,7 @@ profile_init(const char * const *files, profile_t *ret_profile)
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/extents.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/extents.patch
-deleted file mode 100644
-index 2c09bb276d..0000000000
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/extents.patch
-+++ /dev/null
-@@ -1,56 +0,0 @@
--CVE: CVE-2022-1304
--Upstream-Status: Backport [ ab51d587bb9b229b1fade1afd02e1574c1ba5c76 ]
--Signed-off-by: Ross Burton <ross.burton@arm.com>
--
--From 347084c9c1ad20f47dae16f5a3dcd8628d5fc7b0 Mon Sep 17 00:00:00 2001
--From: Lukas Czerner <lczerner@redhat.com>
--Date: Thu, 21 Apr 2022 19:31:48 +0200
--Subject: [PATCH] e2fsprogs: add sanity check to extent manipulation
--
--It is possible to have a corrupted extent tree in such a way that a leaf
--node contains zero extents in it. Currently if that happens and we try
--to traverse the tree we can end up accessing wrong data, or possibly
--even uninitialized memory. Make sure we don't do that.
--
--Additionally make sure that we have a sane number of bytes passed to
--memmove() in ext2fs_extent_delete().
--
--Note that e2fsck is currently unable to spot and fix such corruption in
--pass1.
--
--Signed-off-by: Lukas Czerner <lczerner@redhat.com>
--Reported-by: Nils Bars <nils_bars@t-online.de>
--Addressess: https://bugzilla.redhat.com/show_bug.cgi?id=2068113
-----
-- lib/ext2fs/extent.c | 8 ++++++++
-- 1 file changed, 8 insertions(+)
--
--diff --git a/lib/ext2fs/extent.c b/lib/ext2fs/extent.c
--index b324c7b0..1a206a16 100644
----- a/lib/ext2fs/extent.c
--+++ b/lib/ext2fs/extent.c
--@@ -495,6 +495,10 @@ retry:
-- 			ext2fs_le16_to_cpu(eh->eh_entries);
-- 		newpath->max_entries = ext2fs_le16_to_cpu(eh->eh_max);
-- 
--+		/* Make sure there is at least one extent present */
--+		if (newpath->left <= 0)
--+			return EXT2_ET_EXTENT_NO_DOWN;
--+
-- 		if (path->left > 0) {
-- 			ix++;
-- 			newpath->end_blk = ext2fs_le32_to_cpu(ix->ei_block);
--@@ -1630,6 +1634,10 @@ errcode_t ext2fs_extent_delete(ext2_extent_handle_t handle, int flags)
-- 
-- 	cp = path->curr;
-- 
--+	/* Sanity check before memmove() */
--+	if (path->left < 0)
--+		return EXT2_ET_EXTENT_LEAF_BAD;
--+
-- 	if (path->left) {
-- 		memmove(cp, cp + sizeof(struct ext3_extent_idx),
-- 			path->left * sizeof(struct ext3_extent_idx));
---- 
--2.25.1
--
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/quiet-debugfs.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/quiet-debugfs.patch
-index d695580c92..0a6904208d 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/quiet-debugfs.patch
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/quiet-debugfs.patch
-@@ -1,4 +1,4 @@
--From 20bf59365646af0466c1910e8763b352380b26d6 Mon Sep 17 00:00:00 2001
-+From 580ef6cae2d353f3aa5d5c52d6614bdc1df50f08 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Mon, 23 Dec 2013 13:38:34 +0000
- Subject: [PATCH] e2fsprogs: silence debugfs
-@@ -14,10 +14,10 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/debugfs/debugfs.c b/debugfs/debugfs.c
--index b67a88bc..76dd5556 100644
-+index 9b6321dc..8ebf3ddb 100644
- --- a/debugfs/debugfs.c
- +++ b/debugfs/debugfs.c
--@@ -2518,7 +2518,7 @@ static int source_file(const char *cmd_file, int ss_idx)
-+@@ -2516,7 +2516,7 @@ static int source_file(const char *cmd_file, int ss_idx)
-  		cp = strchr(buf, '\r');
-  		if (cp)
-  			*cp = 0;
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
-similarity index 95%
-rename from meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb
-rename to meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
-index ceceb7edcc..2620610903 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb
-@@ -4,16 +4,13 @@ SRC_URI += "file://remove.ldconfig.call.patch \
-            file://run-ptest \
-            file://ptest.patch \
-            file://mkdir_p.patch \
--           file://extents.patch \
--           file://0001-Add-option-to-enable-disable-largefile-support.patch \
--           file://0001-ext2fs-Use-64bit-lseek-when-_FILE_OFFSET_BITS-is-64.patch \
-            "
- SRC_URI:append:class-native = " \
-            file://e2fsprogs-fix-missing-check-for-permission-denied.patch \
-            file://quiet-debugfs.patch \
-            "
- 
--SRCREV = "02540dedd3ddc52c6ae8aaa8a95ce75c3f8be1c0"
-+SRCREV = "f4c9cc4bedacde8408edda3520a32d3842290112"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+\.\d+(\.\d+)*)$"
- 
- EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} \
--- 
-2.30.2
-
+I have been working on it, but after a while I realized that this=20=0D=0A=
+version upgrade will not work anyway - even for 4.x=0D=0A=0D=0AThe reason=
+ is they have a folder named "412" which is actually 4.1.2=20=0D=0Awhich =
+I we probably still need to have in.=0D=0A=0D=0AEven though the tool cann=
+ot find 5.2 it still exits zero ... but still,=20=0D=0Ait thinks that 412=
+ > 5.2=0D=0A=0D=0AI see one of two things a/ do not autoupgrade and someh=
+ow mark for=20=0D=0Amanual cyclical update b/ somehow apply a map capabil=
+ity=0D=0A=0D=0AAlso given that multiple versions must be delivered in the=
+ same version=20=0D=0AI don't think that this falls under typical autoupg=
+rade scenario.=0D=0A=0D=0AWhat are your thoughts=3F=0D=0A=0D=0AOn 2/19/23=
+ 13:54, Alexander Kanavin wrote:=0D=0A> If the check goes over https://do=
+cbook.org/xml/ I guess you can set=0D=0A> the regex to 4.x versions only,=
+ as the recipe name itself pins it to=0D=0A> 4.x. I'm not sure we're even=
+ going to need 5.x, ever.=0D=0A> You can grep for UPSTREAM_CHECK_REGEX in=
+ core for examples.=0D=0A>=0D=0A> Alex=0D=0A>=0D=0A> On Sun, 19 Feb 2023 =
+at 19:40, Alexander Kanavin via=0D=0A> lists.openembedded.org <alex.kanav=
+in=3Dgmail.com@lists.openembedded.org>=0D=0A> wrote:=0D=0A>> It helps if =
+you provide devtool's output. I think it's possible to=0D=0A>> exclude rc=
+ versions from the check with UPSTREAM_CHECK_REGEX.=0D=0A>>=0D=0A>> Alex=0D=
+=0A>>=0D=0A>> On Sun, 19 Feb 2023 at 19:22, Richard Elberger <rich@richel=
+berger.com> wrote:=0D=0A>>> I tried `devtool latest-version` and it faile=
+d on one version - 5.2 -=0D=0A>>> because it's still in RC.=0D=0A>>>=0D=0A=
+>>> Note that there are massive breaking changes between Docbook 4x and 5=
+x.=0D=0A>>> Given the defect I'm fixing is to change the upstream source =
+- and not=0D=0A>>> refactor the entire recipe - I believe the scope shoul=
+d keep to that and=0D=0A>>> another defect filed for future versions. Ple=
+ase confirm this is=0D=0A>>> reasonable.=0D=0A>>>=0D=0A>>> I did the othe=
+r beatification changes per style guide and will resubmit=0D=0A>>> once I=
+ get confirmation.=0D=0A>>>=0D=0A>>> On 2/19/23 12:31, Alexander Kanavin =
+wrote:=0D=0A>>>> On Sun, 19 Feb 2023 at 17:31, Richard Elberger <rich@ric=
+helberger.com> wrote:=0D=0A>>>>=0D=0A>>>>> For multiple assignment: the r=
+eason is maintainability. The supported=0D=0A>>>>> versions will change o=
+ver time.=0D=0A>>>> You can still place them in a newline-separated singl=
+e assignment,=0D=0A>>>> which is a lot more readable as the list of fetch=
+ed items is then in a=0D=0A>>>> single location in the recipe.=0D=0A>>>> =
+This is how all recipes in oe-core are structured.=0D=0A>>>>=0D=0A>>>>> P=
+lease confirm if there are any other appreciations I must cover - I was=0D=
+=0A>>>>> unaware of this one and would like to batch them. If the appreci=
+ations=0D=0A>>>>> are listed on a wiki please school me about that.=0D=0A=
+>>>> For now I do not have any others. I'd like to see a v2 first, as v1=0D=
+=0A>>>> makes it hard to understand how the final recipe looks like with =
+the=0D=0A>>>> multiple SRC_URI approach. We used to have a bot that point=
+s out=0D=0A>>>> common issues but it's unmaintained and falled into disre=
+pair.=0D=0A>>>>=0D=0A>>>> There are numerous pages on the wiki collecting=
+ style and message tips:=0D=0A>>>> https://www.openembedded.org/wiki/Styl=
+eguide=0D=0A>>>> https://www.openembedded.org/wiki/Commit_Patch_Message_G=
+uidelines=0D=0A>>>> https://www.openembedded.org/wiki/How_to_submit_a_pat=
+ch_to_OpenEmbedded=0D=0A>>>>=0D=0A>>>> Alex=0D=0A>>>>=0D=0A>>>>> On 2/19/=
+23 10:52, Alexander Kanavin wrote:=0D=0A>>>>>> Can you please set SRC_URI=
+ with a single assignment; there is no=0D=0A>>>>>> reason to +=3D it mult=
+iple times.=0D=0A>>>>>>=0D=0A>>>>>> Verifying that 'devtool latest-versio=
+n works' would be also appreciated.=0D=0A>>>>>>=0D=0A>>>>>> Alex=0D=0A>>>=
+>>>=0D=0A>>>>>> On Sun, 19 Feb 2023 at 12:25, Richard Elberger <rich@rich=
+elberger.com> wrote:=0D=0A>>>>>>> ---=0D=0A>>>>>>>     .../docbook-xml/do=
+cbook-xml-dtd4_4.5.bb       | 74 ++++++++++++-------=0D=0A>>>>>>>     1 f=
+ile changed, 49 insertions(+), 25 deletions(-)=0D=0A>>>>>>>=0D=0A>>>>>>> =
+diff --git a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb b/=
+meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb=0D=0A>>>>>>> in=
+dex 2bec1442af..71aa8c14ec 100644=0D=0A>>>>>>> --- a/meta/recipes-devtool=
+s/docbook-xml/docbook-xml-dtd4_4.5.bb=0D=0A>>>>>>> +++ b/meta/recipes-dev=
+tools/docbook-xml/docbook-xml-dtd4_4.5.bb=0D=0A>>>>>>> @@ -1,30 +1,54 @@=0D=
+=0A>>>>>>>     SUMMARY =3D "Document type definitions for verification of=
+ XML data files"=0D=0A>>>>>>>     DESCRIPTION =3D "Document type definiti=
+ons for verification of XML data \=0D=0A>>>>>>> -files against the DocBoo=
+k rule set, it ships with the latest DocBook 4.5 \=0D=0A>>>>>>> -XML DTD,=
+ as well as a selected set of legacy DTDs for use with older \=0D=0A>>>>>=
+>> -documents, including 4.0, 4.1.2, 4.2, 4.3 and 4.4"=0D=0A>>>>>>> -HOME=
+PAGE =3D "http://www.docbook.org/xml/"=0D=0A>>>>>>> +files against the Do=
+cBook rule set."=0D=0A>>>>>>> +HOMEPAGE =3D "https://docbook.org"=0D=0A>>=
+>>>>>=0D=0A>>>>>>> -LICENSE =3D "OASIS"=0D=0A>>>>>>> -LIC_FILES_CHKSUM =3D=
+ "file://${WORKDIR}/LICENSE-OASIS;md5=3Dc608985dd5f7f215e669e7639a0b1d2e"=
+=0D=0A>>>>>>> +inherit allarch=0D=0A>>>>>>> +BBCLASSEXTEND =3D "native"=0D=
+=0A>>>>>>>=0D=0A>>>>>>> -# Note: the upstream sources are not distributed=
+ with a license file.=0D=0A>>>>>>> -# LICENSE-OASIS is included as a "pat=
+ch" to workaround this. When=0D=0A>>>>>>> -# upgrading this recipe, pleas=
+e verify whether this is still needed.=0D=0A>>>>>>> -SRC_URI =3D "http://=
+snapshot.debian.org/archive/debian/20160728T043443Z/pool/main/d/docbook-x=
+ml/docbook-xml_${PV}.orig.tar.gz \=0D=0A>>>>>>> -           file://LICENS=
+E-OASIS \=0D=0A>>>>>>> -           file://docbook-xml-update-catalog.xml.=
+patch \=0D=0A>>>>>>> -"=0D=0A>>>>>>> +# To support apps with xml schema b=
+ackward compatibility, we must=0D=0A>>>>>>> +# install a set of schemas. =
+Install the latest based on PV and then=0D=0A>>>>>>> +# name any specific=
+ versions as required. TODO: Figure out a mechanism=0D=0A>>>>>>> +# to fi=
+lter exactly which versions are necessary, if that's even=0D=0A>>>>>>> +#=
+ possible.=0D=0A>>>>>>> +#=0D=0A>>>>>>> +# DocBook.org lists available pa=
+ckages at https://docbook.org/xml/=0D=0A>>>>>>> +#=0D=0A>>>>>>> +# These =
+packages are available as source but it requires the ability=0D=0A>>>>>>>=
+ +# to use the Gradle build system to do so. It might be safer to use=0D=0A=
+>>>>>>> +# the source tree which would also enable proper SBOM generation=
+=0D=0A>>>>>>> +# through the bitbake build system. https://github.com/doc=
+book/docbook=0D=0A>>>>>>> +#=0D=0A>>>>>>>=0D=0A>>>>>>> -SRC_URI[md5sum] =3D=
+ "487b4d44e15cffb1f4048af23f98208e"=0D=0A>>>>>>> -SRC_URI[sha256sum] =3D =
+"b0f8edcf697f5318e63dd98c9a931f3fee167af0805ba441db372e0f17b2a44f"=0D=0A>=
+>>>>>> +S =3D "${WORKDIR}"=0D=0A>>>>>>>=0D=0A>>>>>>> -UPSTREAM_CHECK_URI =
+=3D "${DEBIAN_MIRROR}/main/d/docbook-xml/"=0D=0A>>>>>>> +SRC_URI +=3D "ht=
+tps://docbook.org/xml/4.1.2/docbkx412.zip;name=3Dpayload412;subdir=3Ddocb=
+ook-xml-4.1.2"=0D=0A>>>>>>> +SRC_URI[payload412.md5sum] =3D "900d7609fb7e=
+6d78901b357e4acfbc17"=0D=0A>>>>>>> +SRC_URI[payload412.sha256sum] =3D "30=
+f0644064e0ea71751438251940b1431f46acada814a062870f486c772e7772"=0D=0A>>>>=
+>>>=0D=0A>>>>>>> -S =3D "${WORKDIR}/docbook-xml-4.5.c31424"=0D=0A>>>>>>> =
++SRC_URI +=3D "https://docbook.org/xml/4.2/docbook-xml-4.2.zip;name=3Dpay=
+load42;subdir=3Ddocbook-xml-4.2"=0D=0A>>>>>>> +SRC_URI[payload42.md5sum] =
+=3D "73fe50dfe74ca631c1602f558ed8961f"=0D=0A>>>>>>> +SRC_URI[payload42.sh=
+a256sum] =3D "acc4601e4f97a196076b7e64b368d9248b07c7abf26b34a02cca40eeebe=
+60fa2"=0D=0A>>>>>>>=0D=0A>>>>>>> -inherit allarch=0D=0A>>>>>>> -BBCLASSEX=
+TEND =3D "native"=0D=0A>>>>>>> +SRC_URI +=3D "https://docbook.org/xml/4.3=
+/docbook-xml-4.3.zip;name=3Dpayload43;subdir=3Ddocbook-xml-4.3"=0D=0A>>>>=
+>>> +SRC_URI[payload43.md5sum] =3D "ab200202b9e136a144db1e0864c45074"=0D=0A=
+>>>>>>> +SRC_URI[payload43.sha256sum] =3D "23068a94ea6fd484b004c5a73ec36a=
+66aa47ea8f0d6b62cc1695931f5c143464"=0D=0A>>>>>>> +=0D=0A>>>>>>> +SRC_URI =
++=3D "https://docbook.org/xml/4.4/docbook-xml-4.4.zip;name=3Dpayload44;su=
+bdir=3Ddocbook-xml-4.4"=0D=0A>>>>>>> +SRC_URI[payload44.md5sum] =3D "cbb0=
+4e9a700955d88c50962ef22c1634"=0D=0A>>>>>>> +SRC_URI[payload44.sha256sum] =
+=3D "02f159eb88c4254d95e831c51c144b1863b216d909b5ff45743a1ce6f5273090"=0D=
+=0A>>>>>>> +=0D=0A>>>>>>> +SRC_URI +=3D "https://docbook.org/xml/${PV}/do=
+cbook-xml-${PV}.zip;name=3DpayloadPV;subdir=3Ddocbook-xml-${PV}"=0D=0A>>>=
+>>>> +SRC_URI[payloadPV.md5sum] =3D "03083e288e87a7e829e437358da7ef9e"=0D=
+=0A>>>>>>> +SRC_URI[payloadPV.sha256sum] =3D "4e4e037a2b83c98c6c94818390d=
+4bdd3f6e10f6ec62dd79188594e26190dc7b4"=0D=0A>>>>>>> +=0D=0A>>>>>>> +# The=
+ upstream sources are not distributed with a license file.=0D=0A>>>>>>> +=
+# LICENSE-OASIS is included as a "patch" to workaround this. When=0D=0A>>=
+>>>>> +# upgrading this recipe, please verify whether this is still neede=
+d.=0D=0A>>>>>>> +=0D=0A>>>>>>> +LICENSE =3D "OASIS"=0D=0A>>>>>>> +LIC_FIL=
+ES_CHKSUM =3D "file://${WORKDIR}/LICENSE-OASIS;md5=3Dc608985dd5f7f215e669=
+e7639a0b1d2e"=0D=0A>>>>>>> +SRC_URI +=3D "file://LICENSE-OASIS"=0D=0A>>>>=
+>>>=0D=0A>>>>>>>     do_configure (){=0D=0A>>>>>>>         :=0D=0A>>>>>>>=
+ @@ -34,19 +58,19 @@ do_compile (){=0D=0A>>>>>>>         :=0D=0A>>>>>>>  =
+   }=0D=0A>>>>>>>=0D=0A>>>>>>> +inherit xmlcatalog=0D=0A>>>>>>> +=0D=0A>>=
+>>>>>     do_install () {=0D=0A>>>>>>>         install -d ${D}${sysconfdi=
+r}/xml/=0D=0A>>>>>>>         xmlcatalog --create --noout ${D}${sysconfdir=
+}/xml/docbook-xml.xml=0D=0A>>>>>>>=0D=0A>>>>>>> -    for DTDVERSION in 4.=
+0 4.1.2 4.2 4.3 4.4 4.5; do=0D=0A>>>>>>> +    for DTDVERSION in 4.1.2 4.2=
+ 4.3 4.4 4.5; do=0D=0A>>>>>>>             DEST=3D${datadir}/xml/docbook/s=
+chema/dtd/$DTDVERSION=0D=0A>>>>>>>             install -d -m 755 ${D}$DES=
+T=0D=0A>>>>>>> -        cp -v -R docbook-$DTDVERSION/* ${D}$DEST=0D=0A>>>=
+>>>> -        xmlcatalog --verbose --noout --add nextCatalog unused file:=
+//$DEST/catalog.xml ${D}${sysconfdir}/xml/docbook-xml.xml=0D=0A>>>>>>> + =
+       cp -v -R docbook-xml-$DTDVERSION/* ${D}$DEST=0D=0A>>>>>>> +       =
+ xmlcatalog --verbose --noout --add nextCatalog unused \=0D=0A>>>>>>> +  =
+        file://$DEST/catalog.xml ${D}${sysconfdir}/xml/docbook-xml.xml=0D=
+=0A>>>>>>>         done=0D=0A>>>>>>>     }=0D=0A>>>>>>>=0D=0A>>>>>>> -XML=
+CATALOGS =3D "${sysconfdir}/xml/docbook-xml.xml"=0D=0A>>>>>>> -inherit xm=
+lcatalog=0D=0A>>>>>>> -=0D=0A>>>>>>>     FILES:${PN} =3D "${datadir}/* ${=
+sysconfdir}/xml/docbook-xml.xml"=0D=0A>>>>>>> --=0D=0A>>>>>>> 2.34.1=0D=0A=
+>>>>>>>=0D=0A>>>>>>>=0D=0A>>>>>>>=0D=0A>>>>>>>=0D=0A>>>>>>>=0D=0A>> -=3D-=
+=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=0D=0A>> Links: You receive all m=
+essages sent to this group.=0D=0A>> View/Reply Online (#177342): https://=
+lists.openembedded.org/g/openembedded-core/message/177342=0D=0A>> Mute Th=
+is Topic: https://lists.openembedded.org/mt/97064586/1686489=0D=0A>> Grou=
+p Owner: openembedded-core+owner@lists.openembedded.org=0D=0A>> Unsubscri=
+be: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavi=
+n@gmail.com]=0D=0A>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=0D=0A>=
+>=0D=0A
 
