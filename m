@@ -1,309 +1,289 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <sjolley.yp.pm@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F02D9C64EC7
-	for <webhook@archiver.kernel.org>; Mon, 20 Feb 2023 19:08:31 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web10.22336.1676920105117953665
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2A41C6379F
+	for <webhook@archiver.kernel.org>; Mon, 20 Feb 2023 19:12:51 +0000 (UTC)
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web10.22526.1676920371045030450
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Feb 2023 11:08:25 -0800
+ Mon, 20 Feb 2023 11:12:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ESaT32NX;
- spf=pass (domain: gmail.com, ip: 209.85.221.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f53.google.com with SMTP id 6so1827587wrb.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 11:08:24 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=AX/+TzMY;
+ spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pj1-f43.google.com with SMTP id ei9-20020a17090ae54900b002349a303ca5so2361727pjb.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 11:12:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6X7aOK22xOLoBgwCn3RAVHauO3NPr8wzC9DV+D+g0io=;
-        b=ESaT32NXV+fdyxwJULMaizSzf51+TXeRpEvbAoBvDMbi9pOUde9e40w5HbWZp1u+9s
-         TZWHiXB5YZBOBZb7SoGnkZJEE8KLlDSIdHcBWY6y3ERrYiA6/G+cFwEeB4i4NX8xMq24
-         50ZNpMP+MoBAYoISeR+BSDGRzH0ViohcEqUniVM+3hyQlWP3Ms5xOkOQDkiufPJp0b8j
-         S7X0utRgBFLJrhYKcUze4CxxgyXkaKdmvHQTQ52r4xgN1OA62un0Y66f66z1uzxle69w
-         HRtCOx1nTfhFYsrWMIE3kJ9ZT8t/DiT4dK9WwupwVosD1sNMUTRTf96cCCy1XqAQ/xex
-         c/zQ==
+        h=content-language:thread-index:mime-version:message-id:date:subject
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KldwIA3g4knZfcb3a14NjwjcQ2xPEyMYQViTp7u8EXk=;
+        b=AX/+TzMYE+o7awo15zizxr5YuBEeO+bYgbGKLm9FZOH2QcsOyEYWS6ivWQ43b1gYy6
+         J8Oxo3vv1fJb3aiM9hfU2XAdPf/HEaZc2gY+yJ5Ipz9CeGbXkrTsIBsbSZghwQeFw5DB
+         Q3niy4ibb9T9HxowMxpJAKylXSRrPnsm6iK/Ugx5Qpp/AoGoCOx53y6DQzIFkqIojJzI
+         05T+bUcEVoRA9Uen6uf3V3eKwsMakZEuGK4mSKMB+6mRsJCOUGDElGdCUGFClqCpZfQK
+         xmmr5iEbKVkWDbNDykm4Tv3qlyhX7O0JvbObcVg7rFOv3e7wzbrTGoyPHv5+9DGbj7Im
+         90aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6X7aOK22xOLoBgwCn3RAVHauO3NPr8wzC9DV+D+g0io=;
-        b=m9zzxEqCDd67WgTwObBD3q5gtdufPKTyRDiuEqp7uznwYVbokPhAmGGFErgYxi3ILh
-         rPgVWXEn3fhTwyF8wu+3SqIEpb+OiEJIVXP/XcW+QQAfkUqMUMs7gk6dRHo8XwmGScVA
-         71waQOD9FEE6QizC/kgHLUbYcRwV/9vfW4kl1MiR5OMSqOgzyjeX7GSGMOjeHzWjSaQf
-         fw+/cjfdT2dOpM9W0PqNnhxlPJbVkFXXdx4pbr7SEIBHsZEfKBIADFFeJshKm/AwznKZ
-         crUlxYXgjKpLx7b6QCrci8Dh7XHd2UiAZRoWrUgM4giGKBu5+TjL2TAOQVwr9emMyCXK
-         iEpg==
-X-Gm-Message-State: AO0yUKVRp2Xg4ec6PcQBO1fv6yUvLIrzrhbvpQ4gd/Jss0E9MSV0l23A
-	i0/LYOYnz9dhCPqYfxjPMHZZHE7P4C4=
-X-Google-Smtp-Source: AK7set8eovPaHIfIY5spPzYZ0DqrfzTxePxCtuk3TtgwbOFUHw3nzEW7OzLhf2DLkxlKFTjxI439bQ==
-X-Received: by 2002:a05:6000:1045:b0:2c5:56ff:4321 with SMTP id c5-20020a056000104500b002c556ff4321mr2763854wrx.4.1676920103299;
-        Mon, 20 Feb 2023 11:08:23 -0800 (PST)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id h18-20020a5d4312000000b002be0b1e556esm3189256wrq.59.2023.02.20.11.08.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Feb 2023 11:08:22 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [RFC PATCH 2/2] oe-setup-build: add a tool for discovering config templates and setting up builds
-Date: Mon, 20 Feb 2023 20:08:12 +0100
-Message-Id: <20230220190812.2785729-2-alex@linutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230220190812.2785729-1-alex@linutronix.de>
-References: <20230220190812.2785729-1-alex@linutronix.de>
+        h=content-language:thread-index:mime-version:message-id:date:subject
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KldwIA3g4knZfcb3a14NjwjcQ2xPEyMYQViTp7u8EXk=;
+        b=lXtBrdAuzZ9EMLSWK7xHRiX5qO5xi8XhMB06aIW64bgF424JwHwK+QLuPXRv2ssdfe
+         5BJlchVWgt7y12qXi/sy5dQ9HUQmoW45wMgavuBo78xcZCBkw4dhqFqXe9gmaOLixHfd
+         B3arpOOYyRiUFheH+g6PhHGiLYnt0bLAyXHxZdlWzGuBQ+rMgs6n2UKP//ejxIU1pbJr
+         9JM5QnRzqIh5LcoBLpZ6ytQX0dHLgm5RTpZXSTFO60mBIJtoMp+TOvSeJrdkaJvJbyHu
+         9jfRcHvO2vkBPkXCy0K5TnlyjYBDBObHYaIIDOs0RWHvp7/WCBt4NoaRqSfxibn//aGW
+         c0FQ==
+X-Gm-Message-State: AO0yUKU8kcHx1CcQN/zpCBFTlkcZZkOUxuItr96a6Xt6BqfXO40rZVEH
+	AYn4vqr5EnAl/iCuv6Lg3AGIqcfP60U=
+X-Google-Smtp-Source: AK7set/2PkkCEUbyZEs7fLiKH1D6/WM30FVRrPOEB9I9H6ShXdspDlpZork0NrHqtB/pG0yXMVQLOw==
+X-Received: by 2002:a17:903:803:b0:19a:e462:3e70 with SMTP id kr3-20020a170903080300b0019ae4623e70mr2129574plb.10.1676920369992;
+        Mon, 20 Feb 2023 11:12:49 -0800 (PST)
+Received: from skjolley ([2600:1011:a124:5236:fab7:c3f3:b8a7:82b5])
+        by smtp.gmail.com with ESMTPSA id p2-20020a1709026b8200b0019c61616f82sm2843532plk.230.2023.02.20.11.12.48
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 20 Feb 2023 11:12:49 -0800 (PST)
+From: <sjolley.yp.pm@gmail.com>
+To: <yocto@lists.yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
+Date: Mon, 20 Feb 2023 12:12:48 -0700
+Message-ID: <099e01d9455f$52f68e80$f8e3ab80$@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_099F_01D94524.A699D960"
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQDVHlVTNbVmLuqBLRdmNOU0PtBrPQ==
+Content-Language: en-us
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 19:08:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177454
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 19:12:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177455
 
-This is the last (I believe) piece of the puzzle in setting up builds from nothing
-without having to write custom scripts or use external tools.
+This is a multipart message in MIME format.
 
-After layers have been fetched and placed into their respective locations by
-oe-setup-layers, one would surely want to proceed to the actual build, and here's how:
+------=_NextPart_000_099F_01D94524.A699D960
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-1. Without arguments or with 'list-config-templates', the tool reads available layers
-from .oe-layers.json file (written out by oe-setup-layers) and prints what
-templates it has found, as seen below. If the following is not enough information,
-adding '-v' will also print conf-notes.txt for each of the templates:
+All,
 
-$ oe-setup-build
-Available build configuration templates (re-run with -v to see their descriptions):
-
-/srv/work/alex/poky/scripts/oe-setup-build setup-build-env -c /srv/work/alex/poky/meta-poky/conf/templates/default
-will create a build configuration in /srv/work/alex/build-meta-poky-default
-
-/srv/work/alex/poky/scripts/oe-setup-build setup-build-env -c /srv/work/alex/meta-alex/conf/templates/configuration-gizmo
-will create a build configuration in /srv/work/alex/build-meta-alex-configuration-gizmo
-
-/srv/work/alex/poky/scripts/oe-setup-build setup-build-env -c /srv/work/alex/meta-alex/conf/templates/configuration-gadget
-will create a build configuration in /srv/work/alex/build-meta-alex-configuration-gadget
-
-2. Then the user picks one command of the above and runs it. This will land them in a shell ready to run bitbake:
-
-$ oe-setup-build setup-build-env -c /srv/work/alex/meta-alex/conf/templates/configuration-gizmo
-Running: TEMPLATECONF=/srv/work/alex/meta-alex/conf/templates/configuration-gizmo . /srv/work/alex/poky/oe-init-build-env /srv/work/alex/build-meta-alex-configuration-gizmo && /bin/bash
-
-(...standard Yocto banner omitted...)
-
-This configuration template will set up a build for the purposes of supporting gizmo.
-Please refer to meta-alex/README for additional details and available bitbake targets.
-
-3. The full set of command line options is:
-
-$ oe-setup-build -h
-usage: oe-setup-build [-h] {list-config-templates,setup-build-env} ...
-
-A script that discovers available build configuration templates and sets up a build environment based on one of them
-
-positional arguments:
-  {list-config-templates,setup-build-env}
-    list-config-templates
-                        List available configuration templates
-    setup-build-env     Set up a build environment and open a shell session with it, ready to run builds.
-
-optional arguments:
-  -h, --help            show this help message and exit
-
-$ oe-setup-build list-config-templates -h
-usage: oe-setup-build list-config-templates [-h] [--layerlist LAYERLIST] [-v]
-
-optional arguments:
-  -h, --help       show this help message and exit
-  --layerlist LAYERLIST
-                        Where to look for available layers (as written out by setup-layers script) (default is /srv/storage/alex/yocto/build-64-alt/.oe-layers.json).
-  -v               Print a description for each available build configuration template.
-
-$ oe-setup-build setup-build-env -h
-usage: oe-setup-build setup-build-env [-h] -c template_path [-b build_path] [--no-shell]
-
-optional arguments:
-  -h, --help        show this help message and exit
-  -c template_path  Use a build configuration template in template_path to set up a build environment (run this script with 'list-config-templates' to see what is available)
-  -b build_path     Set up a build directory in build_path (run this script with 'list-config-templates' to see where it would be by default)
-  --no-shell        Create a build directory but do not start a shell session with the build environment from it.
-
-4. There's an an added hint in oe-setup-layers about how to proceed (as it is really not user-friendly
-to fetch the layer repos successfully and then exit without a word), and a symlink to the script
-from the top level layer checkout directory.
-
-5. The selftest to check layer setup has been adjusted to run a basic check for template
-discovery and build setup. The revision of poky to be cloned has been bumped to 4.1,
-as that's the first version with a default template in a standard location.
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- meta/lib/oeqa/selftest/cases/bblayers.py | 23 ++++++-
- scripts/oe-setup-build                   | 77 ++++++++++++++++++++++++
- scripts/oe-setup-layers                  | 10 +++
- 3 files changed, 108 insertions(+), 2 deletions(-)
- create mode 100755 scripts/oe-setup-build
-
-diff --git a/meta/lib/oeqa/selftest/cases/bblayers.py b/meta/lib/oeqa/selftest/cases/bblayers.py
-index 65426a6782..73fefb5d19 100644
---- a/meta/lib/oeqa/selftest/cases/bblayers.py
-+++ b/meta/lib/oeqa/selftest/cases/bblayers.py
-@@ -151,12 +151,12 @@ class BitbakeLayers(OESelftestTestCase):
-         self.validate_layersjson(jsonfile)
  
-         # The revision-under-test may not necessarily be available on the remote server,
--        # so replace it with a revision that has a yocto-4.0 tag.
-+        # so replace it with a revision that has a yocto-4.1 tag.
-         import json
-         with open(jsonfile) as f:
-             data = json.load(f)
-         for s in data['sources']:
--            data['sources'][s]['git-remote']['rev'] = '00cfdde791a0176c134f31e5a09eff725e75b905'
-+            data['sources'][s]['git-remote']['rev'] = '5200799866b92259e855051112520006e1aaaac0'
-         with open(jsonfile, 'w') as f:
-             json.dump(data, f)
+
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
+
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
+review:
+https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
+how to create a bugzilla account at:
+<https://bugzilla.yoctoproject.org/createaccount.cgi>
+https://bugzilla.yoctoproject.org/createaccount.cgi
+
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
+
  
-@@ -164,3 +164,22 @@ class BitbakeLayers(OESelftestTestCase):
-         result = runCmd('{}/setup-layers --destdir {}'.format(self.testlayer_path, testcheckoutdir))
-         layers_json = os.path.join(testcheckoutdir, ".oe-layers.json")
-         self.assertTrue(os.path.exists(layers_json), "File {} not found in test layer checkout".format(layers_json))
-+
-+        # As setup-layers checkout out an old revision of poky, there is no setup-build symlink,
-+        # and we need to run oe-setup-build directly from the current poky tree under test
-+        oe_setup_build = os.path.join(get_bb_var('COREBASE'), 'scripts/oe-setup-build')
-+        oe_setup_build_l = os.path.join(testcheckoutdir, 'setup-build')
-+        os.symlink(oe_setup_build,oe_setup_build_l)
-+
-+        cmd = '{} list-config-templates --layerlist {}'.format(oe_setup_build_l, layers_json)
-+        result = runCmd(cmd)
-+        cond = "setup-build setup-build-env -c " in result.output and "conf/templates/default" in result.output
-+        self.assertTrue(cond, "Incorrect output from {}: {}".format(cmd, result.output))
-+
-+        # rather than hardcode the build setup cmdline here, let's actually run what the tool suggests to the user
-+        cmd = None
-+        for l in result.output.splitlines():
-+            if "setup-build setup-build-env -c " in l:
-+                cmd = l + " --no-shell"
-+        self.assertIsNotNone(cmd, "Could not find the command to set up a build in the output: {}".format(result.output))
-+        result = runCmd(cmd)
-diff --git a/scripts/oe-setup-build b/scripts/oe-setup-build
-new file mode 100755
-index 0000000000..4cfc002de3
---- /dev/null
-+++ b/scripts/oe-setup-build
-@@ -0,0 +1,77 @@
-+#!/usr/bin/env python3
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+import argparse
-+import json
-+import os
-+import subprocess
-+
-+def defaultlayers():
-+    return os.path.abspath(os.path.join(os.path.dirname(__file__), '.oe-layers.json'))
-+
-+def makebuildpath(topdir, templatelocation, template):
-+    return os.path.join(topdir, "build-{}-{}".format(os.path.basename(os.path.abspath(os.path.join(templatelocation,'..','..'))), template))
-+
-+def print_templates(args):
-+    layers_file = args.layerlist
-+    verbose = args.v
-+    if not os.path.exists(layers_file):
-+        print("List of layers {} does not exist; were they set up using the setup-layers script?".format(layers_file))
-+        return
-+    layers_list = json.load(open(layers_file))["layers"]
-+    print("Available build configuration templates (re-run with 'list-config-templates -v' to see their descriptions):\n")
-+    for layer in layers_list:
-+        template_dir = os.path.join(os.path.dirname(layers_file), layer, 'conf','templates')
-+        if os.path.exists(template_dir):
-+            for d in os.listdir(template_dir):
-+                if not os.path.isdir(os.path.join(template_dir,d)):
-+                    continue
-+                print("{} setup-build-env -c {}\nwill create a build configuration in {}\n".format(__file__, os.path.join(template_dir, d), makebuildpath(os.path.dirname(defaultlayers()), template_dir, d)))
-+                if verbose:
-+                    if os.path.join(template_dir, d).endswith('meta-poky/conf/templates/default'):
-+                        print("Description: this is the reference configuration of the poky reference distribution (choose this if you are uncertain).")
-+                    elif os.path.join(template_dir, d).endswith('meta/conf/templates/default'):
-+                        print("Description: this is the reference configuration of the openembedded-core layer (choose this if you are uncertain).")
-+                    else:
-+                        print("Description:", open(os.path.join(template_dir, d, 'conf-notes.txt')).read())
-+                    print("---")
-+
-+def setup_build_env(args):
-+    template = args.c
-+    builddir = args.b
-+    no_shell = args.no_shell
-+    if not builddir:
-+        builddir = makebuildpath(os.path.dirname(defaultlayers()), os.path.dirname(template), os.path.basename(template))
-+    coredir = os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
-+    cmd = "TEMPLATECONF={} . {} {}".format(template, os.path.join(coredir, 'oe-init-build-env'), builddir)
-+    if not no_shell:
-+        cmd = cmd + " && {}".format(os.environ['SHELL'])
-+    print("Running:", cmd)
-+    subprocess.run(cmd, shell=True, executable=os.environ['SHELL'])
-+
-+parser = argparse.ArgumentParser(description="A script that discovers available build configuration templates and sets up a build environment based on one of them")
-+subparsers = parser.add_subparsers()
-+parser_list_templates = subparsers.add_parser('list-config-templates', help='List available configuration templates')
-+
-+parser_list_templates.add_argument("--layerlist", default=defaultlayers(), help='Where to look for available layers (as written out by setup-layers script) (default is {}).'.format(defaultlayers()))
-+parser_list_templates.add_argument('-v', action='store_true',
-+        help='Print a description for each available build configuration template.')
-+parser_list_templates.set_defaults(func=print_templates)
-+
-+parser_setup_env = subparsers.add_parser('setup-build-env', help='Set up a build environment and open a shell session with it, ready to run builds.')
-+parser_setup_env.add_argument('-c', metavar='template_path', required=True, help="Use a build configuration template in template_path to set up a build environment (run this script with 'list-config-templates' to see what is available)")
-+parser_setup_env.add_argument('-b', metavar='build_path', help="Set up a build directory in build_path (run this script with 'list-config-templates' to see where it would be by default)")
-+parser_setup_env.add_argument('--no-shell', action='store_true',
-+        help='Create a build directory but do not start a shell session with the build environment from it.')
-+parser_setup_env.set_defaults(func=setup_build_env)
-+
-+args = parser.parse_args()
-+if 'func' in args:
-+    args.func(args)
-+else:
-+    from argparse import Namespace
-+    print_templates(Namespace(layerlist=defaultlayers(), v=False))
-diff --git a/scripts/oe-setup-layers b/scripts/oe-setup-layers
-index cbf94ddb08..97e13fc03b 100755
---- a/scripts/oe-setup-layers
-+++ b/scripts/oe-setup-layers
-@@ -63,6 +63,7 @@ def _write_layer_list(dest, repodirs):
- def _do_checkout(args, json):
-     repos = json['sources']
-     repodirs = []
-+    oesetupbuild = None
-     for r_name in repos:
-         r_data = repos[r_name]
-         repodir = os.path.abspath(os.path.join(args['destdir'], r_data['path']))
-@@ -108,9 +109,18 @@ def _do_checkout(args, json):
+
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 408
+unassigned or newcomer bugs.
+
  
-             if _contains_submodules(repodir):
-                 print("Repo {} contains submodules, use 'git submodule update' to ensure they are up to date".format(repodir))
-+        if os.path.exists(os.path.join(repodir, 'scripts/oe-setup-build')):
-+            oesetupbuild = os.path.join(repodir, 'scripts/oe-setup-build')
+
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now,  "4.2", "4.3", "4.99" and "Future", the more pressing/urgent
+issues being in "4.2" and then "4.3".
+
  
-     _write_layer_list(args['destdir'], repodirs)
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
+_Bugs
+
  
-+    if oesetupbuild:
-+        oesetupbuild_symlink = os.path.join(args['destdir'], 'setup-build')
-+        if os.path.exists(oesetupbuild_symlink):
-+            os.remove(oesetupbuild_symlink)
-+        os.symlink(os.path.relpath(oesetupbuild,args['destdir']),oesetupbuild_symlink)
-+        print("\nRun '{}' to list available build configuration templates and set up a build from one of them.".format(oesetupbuild_symlink))
-+
- parser = argparse.ArgumentParser(description="A self contained python script that fetches all the needed layers and sets them to correct revisions using data in a json format from a separate file. The json data can be created from an active build directory with 'bitbake-layers create-layers-setup destdir' and there's a sample file and a schema in meta/files/")
+
+Thanks,
+
  
- parser.add_argument('--force-bootstraplayer-checkout', action='store_true',
--- 
-2.30.2
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+
+------=_NextPart_000_099F_01D94524.A699D960
+Content-Type: text/html;
+	boundary="----=_NextPart_000_0E4A_01D93FC2.A05C9E50";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal =
+style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The triage team is starting to try and =
+collect up and classify bugs which a newcomer to the project would be =
+able to work on in a way which means people can find them. They're being =
+listed on the triage page under the appropriate =
+heading:<o:p></o:p></p><p><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
+please review: <a =
+href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded</a> and how to create a bugzilla account at: <a =
+href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
+style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
+/span></a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The idea is these bugs should be straight =
+forward for a person to help work on who doesn't have deep experience =
+with the project.&nbsp; If anyone can help, please take ownership of the =
+bug and send patches!&nbsp; If anyone needs help/advice there are people =
+on irc who can likely do so, or some of the more experienced =
+contributors will likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
+meets weekly and does its best to handle the bugs reported into the =
+Bugzilla. The number of people attending that meeting has fallen, as =
+have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage =
+team) are therefore going to start reporting out the currently 408 =
+unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>We're hoping people may be able to spare =
+some time now and again to help out with these.&nbsp; Bugs are split =
+into two types, &quot;true bugs&quot; where things don't work as they =
+should and &quot;enhancements&quot; which are features we'd want to add =
+to the system.&nbsp; There are also roughly four different =
+&quot;priority&quot; classes right now, &nbsp;&#8220;4.2&#8221;, =
+&#8220;4.3&#8221;, &quot;4.99&quot; and &quot;Future&quot;, the more =
+pressing/urgent issues being in &quot;4.2&quot; and then =
+&#8220;4.3&#8221;.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Please review this link and if a bug is =
+something you would be able to help with either take ownership of the =
+bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
+or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
+nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+------=_NextPart_000_099F_01D94524.A699D960--
 
 
