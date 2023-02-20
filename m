@@ -1,220 +1,374 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 256B6C636CC
-	for <webhook@archiver.kernel.org>; Mon, 20 Feb 2023 16:02:51 +0000 (UTC)
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com (EUR01-DB5-obe.outbound.protection.outlook.com [40.107.15.70])
- by mx.groups.io with SMTP id smtpd.web11.16983.1676908967613481033
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 173EBC636CC
+	for <webhook@archiver.kernel.org>; Mon, 20 Feb 2023 16:11:01 +0000 (UTC)
+Received: from mailout11.t-online.de (mailout11.t-online.de [194.25.134.85])
+ by mx.groups.io with SMTP id smtpd.web10.17007.1676909459588158892
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Feb 2023 08:02:48 -0800
+ Mon, 20 Feb 2023 08:11:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=MYEFM4gB;
- spf=pass (domain: arm.com, ip: 40.107.15.70, mailfrom: ross.burton@arm.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2P5s1laU1JJ+mmSrfmhilAFl/AGC3qS0Fb5HNgKzGrk=;
- b=MYEFM4gBfQCS8Vc84C3mQ2QBKWG+ODtnTcwLggJyClzQaoxlg/PiMCSgAI5kxAJVZkuNwsC8XZDGcTSNfEKw+D6HMPtahM9YlU6eh+FgUPLgKPqtJNEXks6rZydrhP4M+JiUksyS8GIusuxPYhkOQ08YdmVsvgoTMd73jcZXOK4=
-Received: from AM5PR0601CA0064.eurprd06.prod.outlook.com (2603:10a6:206::29)
- by VE1PR08MB5824.eurprd08.prod.outlook.com (2603:10a6:800:1a8::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.19; Mon, 20 Feb
- 2023 16:02:32 +0000
-Received: from AM7EUR03FT034.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:206:0:cafe::6b) by AM5PR0601CA0064.outlook.office365.com
- (2603:10a6:206::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.20 via Frontend
- Transport; Mon, 20 Feb 2023 16:02:32 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AM7EUR03FT034.mail.protection.outlook.com (100.127.140.87) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6111.20 via Frontend Transport; Mon, 20 Feb 2023 16:02:32 +0000
-Received: ("Tessian outbound 43b0faad5a68:v132"); Mon, 20 Feb 2023 16:02:32 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 5956a3d70e9aa545
-X-CR-MTA-TID: 64aa7808
-Received: from 9a041553c260.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 81908836-8D6E-48DA-8A7D-F692401FB47E.1;
-	Mon, 20 Feb 2023 16:02:24 +0000
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 9a041553c260.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Mon, 20 Feb 2023 16:02:24 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=h0NqNlztJXlO9rio3WFDkOldyHNIHBYRlPU5Rb4z00E8mxqKbNMjT6bW7yA9SeKyis8qoYSvj96pEFbAJYMPPzmWdiPdI46weSWr41pqetfLYr5Kl2ij4eeOqelWuN95/9gwmcSAov66wNoAGvHNk5VE546L43kyfWZqdpbj3Q9eu0yDpoZgm8/XJ606/IFNPnIeHkLpJOlL+K4CVXYUB9w0Se5S0eSiRX4xS/El/fKVQ2nM8DPCV7BUqjJZ8kT0XugrBhVQuBiAADbVP+28fKlHj8c53rQIxx7IjZdJxzgep6/8zwR91ipxq/1+KcbuXkAEKJS8WzsZdr0XbNi9BQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2P5s1laU1JJ+mmSrfmhilAFl/AGC3qS0Fb5HNgKzGrk=;
- b=NCuy3jFsj3OlCok8/6hGNOkR/j+VE3Un5txL/EdoCKKw/O6Xc2DMM0cUS4RIXN8oDck5lwFhRqq5Nf6cc51JbPSdUI1DGBcRAfM/yz40Mxg3Y1Y1iE2MSPTaUlTWVvpA7GPpS5X3vp733tJaAclFJaZ3rezoqUSmYz/x7Gw7UK4LB6Kd2UAcySa93eGGZIhg2OYCS6DT4NKhQrXIR/qzODGzoo9Xmy4tzRD/imD5nBrIARijBf3iuztWK1yYODIa97JoCbHlqt4Tjle+ezWLjnkswA7UeSM86SHI/vQejK8yOaJZ9kG24AMnO11eFACTnJCsUZM5fmr2jM29XY0a/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2P5s1laU1JJ+mmSrfmhilAFl/AGC3qS0Fb5HNgKzGrk=;
- b=MYEFM4gBfQCS8Vc84C3mQ2QBKWG+ODtnTcwLggJyClzQaoxlg/PiMCSgAI5kxAJVZkuNwsC8XZDGcTSNfEKw+D6HMPtahM9YlU6eh+FgUPLgKPqtJNEXks6rZydrhP4M+JiUksyS8GIusuxPYhkOQ08YdmVsvgoTMd73jcZXOK4=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by DB5PR08MB10137.eurprd08.prod.outlook.com (2603:10a6:10:4a8::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.18; Mon, 20 Feb
- 2023 16:02:21 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::e305:742e:e10b:1093]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::e305:742e:e10b:1093%2]) with mapi id 15.20.6111.019; Mon, 20 Feb 2023
- 16:02:21 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>
-CC: openembedded-core <openembedded-core@lists.openembedded.org>, Alexander
- Kanavin <alex@linutronix.de>
-Subject: Re: [OE-core] [PATCH 31/39] harfbuzz: upgrade 6.0.0 -> 7.0.0
-Thread-Topic: [OE-core] [PATCH 31/39] harfbuzz: upgrade 6.0.0 -> 7.0.0
-Thread-Index: AQHZRJlBVNpRQi/EMUKYVKBxhUu+va7YAC0A
-Date: Mon, 20 Feb 2023 16:02:20 +0000
-Message-ID: <0A05E655-C979-4820-B2D4-011C03A3CD5B@arm.com>
-References: <20230219193101.338397-1-alex@linutronix.de>
- <20230219193101.338397-31-alex@linutronix.de>
-In-Reply-To: <20230219193101.338397-31-alex@linutronix.de>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3731.400.51.1.1)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|DB5PR08MB10137:EE_|AM7EUR03FT034:EE_|VE1PR08MB5824:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1a9b5c0c-f399-49e1-8956-08db135bdfec
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- gIhNwx4rAuBQXuqLH84LzbZMe8YLV3YBnqW+A2ISTlRXtHhEPHOeQEqTzC1AMsmrt7lyrnIUkkeSmAkyQ8/TMKM59JiazTCZNjFUBxqkNZx4cKiuld7mbYKySw8Gqmm+eojxxMuhz1EjtP9ri5Bb0wWx9wvZZKmfsEkVvXcsfd9iEPG8qWxVnMZJlsE8I9/8IGa3iFckjCVWfGJnQmJ3vRUa9A/5NphDIDpmmHBsTLEhSBTgYityioiiqn+fo5JmLhqYcoOfVBq3PiJ1g4l6qV/eBNOCPpXGs5u9iXqztdx5Mpq5/PrNWzbBwqjxY8aNCXqEIrOx/BOwDSOskVXNMD0smWLbEKcCmlRmBPOx0YPwtqTBwiEadGf2Vk4uleglFJ12w14xkpM4G2UciX8rm80RSElttG90zRYGI9KenKQRPZ8SuYsPjlVNUF5ANPAuP604BOJ7DBckWfnyLiiXh/U4ZAZjtcs7pSXXm/qhdYh5KghbDujAmJ3VMMWmHotDmr7VDKBpzb60s6j78khEwLrQaoYn3Z0RZrAaiDvTbqFX/O9E1SPX/aogQ+avOgK9zfXKbW74IrinBVoeA6zNG/heGjqEvXG+qOVjDWPLC8ZKIzQwnpWvRHh6wCMIQLRn1STEfzjd+iBp+zm/zDr3oJKgTZqTK2+NCbe1r1gei5meeOnDAoP3roTpYgHojZO3cUwMsGJe8eFeP4ZS8bBjXb5QqLJ3Srz34TQzCaCqIz4=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(396003)(366004)(39860400002)(346002)(136003)(376002)(451199018)(36756003)(66899018)(6506007)(6512007)(478600001)(6916009)(2616005)(66476007)(53546011)(6486002)(186003)(26005)(8676002)(41300700001)(54906003)(316002)(66446008)(66946007)(64756008)(66556008)(91956017)(966005)(71200400001)(76116006)(122000001)(2906002)(38100700002)(5660300002)(38070700005)(33656002)(86362001)(8936002)(4326008)(83380400001)(45980500001);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <BB8BBE1074A5AE44949D0D0E51081CDD@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.85, mailfrom: f_l_k@t-online.de)
+Received: from fwd71.dcpf.telekom.de (fwd71.aul.t-online.de [10.223.144.97])
+	by mailout11.t-online.de (Postfix) with SMTP id 7B95F4526
+	for <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 17:10:56 +0100 (CET)
+Received: from flk-MS-7C91.fritz.box ([79.219.230.185]) by fwd71.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1pU8ki-19MSv30; Mon, 20 Feb 2023 17:10:56 +0100
+From: Markus Volk <f_l_k@t-online.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Markus Volk <f_l_k@t-online.de>
+Subject: [oe-core][RFC][PATCH] glib-2.0: update 2.74.5 -> 2.75.3
+Date: Mon, 20 Feb 2023 17:10:45 +0100
+Message-Id: <20230220161045.97515-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB5PR08MB10137
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AM7EUR03FT034.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	bbad4888-6b8f-415c-aed0-08db135bd91e
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	BpviRfqzGD4ULlsLeTDGrhEsALVTikt5DXYisKJg5cbMef1casdlvB77+oRgSiN9t/k7Uq10qhIKCZVlfwiB0F9TqKXuiwkyelkFIQ9fF1f5X1Csp+J244Agk35JPebfuoA7FV0nbhZsA1FK06aClffh9w+4lCQrKLxMMpFYJp6tUtl2Z0xWVhwyw0SMgd01bid9xqyksaYreAneGi93hTlyBFJFCYo5pHyObGH5d0AJzoj9uthfWgUVFzM6pbndEuXfcXuCK8xi0oU0aqLdvzsq5+zygBSIKAQMSjRmuGNiON0Rmh9saTGUKej78ui8x7G7DY9ruDSpoubGllHpFrf2OpQxkGLrSoCJxDX5OZwExrH//ES7DjbLVZwfw2I/y55n5YcSb93htboKx07rZjp8v1Il9ZCOSet4ChbCcs6k8aFJzGPy6ZyjAxCV0/BquD8UE+n6rOD22oxZ7FxHFW3HoJoWSYueOcF13DWJUa+cw/iiPvJ/+kM2oI/Pj2NZPWGWTLZ5ab0leWqkl5uNWumm1YAp17ymwCjHaMtbPwC1iX0CFDcXhxiUnI11gkq++ECoXe6oyYXvxVMY+YqhGPDVUZVbT/MohR/EXL8lQ6xAAl2PP5P8thpaUlKY2PZ/GStobJUYybBSV38HdQFZQhtagAHquQOcjNdcgTS7ZoUGPR0tzc4w+A+aMC6Pt+SC
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230025)(4636009)(136003)(346002)(396003)(39860400002)(376002)(451199018)(40470700004)(36840700001)(46966006)(186003)(26005)(53546011)(966005)(4326008)(40480700001)(8676002)(6862004)(70586007)(83380400001)(66899018)(2616005)(6486002)(8936002)(70206006)(107886003)(6512007)(6506007)(5660300002)(36756003)(336012)(54906003)(47076005)(40460700003)(478600001)(356005)(41300700001)(316002)(82740400003)(86362001)(81166007)(82310400005)(36860700001)(2906002)(33656002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2023 16:02:32.2048
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1a9b5c0c-f399-49e1-8956-08db135bdfec
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM7EUR03FT034.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB5824
+X-TOI-EXPURGATEID: 150726::1676909456-41FE9C4D-5E98BAA2/0/0 CLEAN NORMAL
+X-TOI-MSGID: 8d89676f-0143-426d-80fc-a038228d5c3f
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 16:02:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177430
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 16:11:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177431
 
-RllJIHRoZXJl4oCZcyBhIDcuMC4xIG5vdyB0b28uDQoNClJvc3MNCg0KPiBPbiAxOSBGZWIgMjAy
-MywgYXQgMTk6MzAsIEFsZXhhbmRlciBLYW5hdmluIHZpYSBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
-IDxhbGV4LmthbmF2aW49Z21haWwuY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IHdyb3RlOg0K
-PiANCj4gTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFycw0KPiANCj4gU2lnbmVkLW9mZi1i
-eTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4NCj4gLS0tDQo+IC4uLnN1
-YnNldC10aHJlYWRzLmNjLWFkZC1taXNzaW5nLWNzdGRpby5wYXRjaCB8IDM0IC0tLS0tLS0tLS0t
-LS0tLS0tLS0NCj4gLi4uL3toYXJmYnV6el82LjAuMC5iYiA9PiBoYXJmYnV6el83LjAuMC5iYn0g
-IHwgIDcgKystLQ0KPiAyIGZpbGVzIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMzggZGVsZXRp
-b25zKC0pDQo+IGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaGFyZmJ1
-enovaGFyZmJ1enovMDAwMS10ZXN0LXRocmVhZHMtaGItc3Vic2V0LXRocmVhZHMuY2MtYWRkLW1p
-c3NpbmctY3N0ZGlvLnBhdGNoDQo+IHJlbmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaGFyZmJ1
-enove2hhcmZidXp6XzYuMC4wLmJiID0+IGhhcmZidXp6XzcuMC4wLmJifSAoODclKQ0KPiANCj4g
-ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9oYXJmYnV6ei9oYXJmYnV6ei8wMDAx
-LXRlc3QtdGhyZWFkcy1oYi1zdWJzZXQtdGhyZWFkcy5jYy1hZGQtbWlzc2luZy1jc3RkaW8ucGF0
-Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaGFyZmJ1enovaGFyZmJ1enovMDAwMS10ZXN0LXRo
-cmVhZHMtaGItc3Vic2V0LXRocmVhZHMuY2MtYWRkLW1pc3NpbmctY3N0ZGlvLnBhdGNoDQo+IGRl
-bGV0ZWQgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAxMzgxOWY1Y2Y4Li4wMDAwMDAwMDAwDQo+
-IC0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9oYXJmYnV6ei9oYXJmYnV6ei8wMDAxLXRlc3Qt
-dGhyZWFkcy1oYi1zdWJzZXQtdGhyZWFkcy5jYy1hZGQtbWlzc2luZy1jc3RkaW8ucGF0Y2gNCj4g
-KysrIC9kZXYvbnVsbA0KPiBAQCAtMSwzNCArMCwwIEBADQo+IC1Gcm9tIDdkZmE2NzJkYWM5NThi
-ZGJjNzcwM2FiMDkyMGUxNjdlYWExMjY3NTQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxDQo+IC1G
-cm9tOiBTZXJnZWkgVHJvZmltb3ZpY2ggPHNseWljaEBnbWFpbC5jb20+DQo+IC1EYXRlOiBNb24s
-IDE2IEphbiAyMDIzIDE5OjQ5OjUzICswMDAwDQo+IC1TdWJqZWN0OiBbUEFUQ0hdIHRlc3QvdGhy
-ZWFkcy9oYi1zdWJzZXQtdGhyZWFkcy5jYzogYWRkIG1pc3NpbmcgPGNzdGRpbz4gaW5jbHVkZQ0K
-PiAtDQo+IC1UaGlzIHdlZWsncyBgZ2NjLTEzYCBzbmFwc2hvdCBjbGVhbmVkIGZ1cnRoZXIgdXAg
-aXQncyBzdGFuZGFyZCBoZWFkZXJzDQo+IC1hbmQgZXhwb3NlZCBtaXNzaW5nIGRlY2xhcmF0aW9u
-IGFzIGEgYnVpbGQgZmFpbHVyZToNCj4gLQ0KPiAtICAgIC4uL3Rlc3QvdGhyZWFkcy9oYi1zdWJz
-ZXQtdGhyZWFkcy5jYzogSW4gZnVuY3Rpb24gJ3ZvaWQgdGVzdF9vcGVyYXRpb24ob3BlcmF0aW9u
-X3QsIGNvbnN0IGNoYXIqLCBjb25zdCB0ZXN0X2lucHV0X3QmKSc6DQo+IC0gICAgLi4vdGVzdC90
-aHJlYWRzL2hiLXN1YnNldC10aHJlYWRzLmNjOjEyNzozOiBlcnJvcjogJ3ByaW50Zicgd2FzIG5v
-dCBkZWNsYXJlZCBpbiB0aGlzIHNjb3BlDQo+IC0NCj4gLSAgICAuLi90ZXN0L3RocmVhZHMvaGIt
-c3Vic2V0LXRocmVhZHMuY2M6IEluIGZ1bmN0aW9uICdpbnQgbWFpbihpbnQsIGNoYXIqKiknOg0K
-PiAtICAgIC4uL3Rlc3QvdGhyZWFkcy9oYi1zdWJzZXQtdGhyZWFkcy5jYzoxNTc6MTk6IGVycm9y
-OiAnYXRvaScgd2FzIG5vdCBkZWNsYXJlZCBpbiB0aGlzIHNjb3BlDQo+IC0NCj4gLVVwc3RyZWFt
-LVN0YXR1czogQmFja3BvcnQgW2h0dHBzOi8vZ2l0aHViLmNvbS9oYXJmYnV6ei9oYXJmYnV6ei9j
-b21taXQvN2RmYTY3MmRhYzk1OGJkYmM3NzAzYWIwOTIwZTE2N2VhYTEyNjc1NF0NCj4gLVNpZ25l
-ZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+DQo+IC0tLS0NCj4gLSB0ZXN0
-L3RocmVhZHMvaGItc3Vic2V0LXRocmVhZHMuY2MgfCAyICsrDQo+IC0gMSBmaWxlIGNoYW5nZWQs
-IDIgaW5zZXJ0aW9ucygrKQ0KPiAtDQo+IC1kaWZmIC0tZ2l0IGEvdGVzdC90aHJlYWRzL2hiLXN1
-YnNldC10aHJlYWRzLmNjIGIvdGVzdC90aHJlYWRzL2hiLXN1YnNldC10aHJlYWRzLmNjDQo+IC1p
-bmRleCA5ZDg2ZDhkNTEuLmYwZTRiN2UyYSAxMDA2NDQNCj4gLS0tLSBhL3Rlc3QvdGhyZWFkcy9o
-Yi1zdWJzZXQtdGhyZWFkcy5jYw0KPiAtKysrIGIvdGVzdC90aHJlYWRzL2hiLXN1YnNldC10aHJl
-YWRzLmNjDQo+IC1AQCAtMSw0ICsxLDYgQEANCj4gLSAjaW5jbHVkZSA8Y2Fzc2VydD4NCj4gLSsj
-aW5jbHVkZSA8Y3N0ZGlvPg0KPiAtKyNpbmNsdWRlIDxjc3RkbGliPg0KPiAtICNpbmNsdWRlIDxj
-c3RyaW5nPg0KPiAtICNpbmNsdWRlIDx0aHJlYWQ+DQo+IC0gI2luY2x1ZGUgPGNvbmRpdGlvbl92
-YXJpYWJsZT4NCj4gLS0tIA0KPiAtMi4zOS4xDQo+IC0NCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVj
-aXBlcy1ncmFwaGljcy9oYXJmYnV6ei9oYXJmYnV6el82LjAuMC5iYiBiL21ldGEvcmVjaXBlcy1n
-cmFwaGljcy9oYXJmYnV6ei9oYXJmYnV6el83LjAuMC5iYg0KPiBzaW1pbGFyaXR5IGluZGV4IDg3
-JQ0KPiByZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaGFyZmJ1enovaGFyZmJ1enpf
-Ni4wLjAuYmINCj4gcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9oYXJmYnV6ei9oYXJm
-YnV6el83LjAuMC5iYg0KPiBpbmRleCAxZmNlMTI3ZDA3Li5hODVjNGNhMWNlIDEwMDY0NA0KPiAt
-LS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaGFyZmJ1enovaGFyZmJ1enpfNi4wLjAuYmINCj4g
-KysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2hhcmZidXp6L2hhcmZidXp6XzcuMC4wLmJiDQo+
-IEBAIC00LDEzICs0LDEyIEBAIEhPTUVQQUdFID0gImh0dHA6Ly93d3cuZnJlZWRlc2t0b3Aub3Jn
-L3dpa2kvU29mdHdhcmUvSGFyZkJ1enoiDQo+IEJVR1RSQUNLRVIgPSAiaHR0cHM6Ly9idWdzLmZy
-ZWVkZXNrdG9wLm9yZy9lbnRlcl9idWcuY2dpP3Byb2R1Y3Q9SGFyZkJ1enoiDQo+IFNFQ1RJT04g
-PSAibGlicyINCj4gTElDRU5TRSA9ICJNSVQiDQo+IC1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6
-Ly9DT1BZSU5HO21kNT02ZWUwZjE2MjgxNjk0ZmI2YWE2ODljY2ExZTBmYjNkYSBcDQo+ICtMSUNf
-RklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT1iOTg0MjliOGU4ZTNjMmE2N2NmZWYw
-MWU5OWU0ODkzZCBcDQo+ICAgICAgICAgICAgICAgICAgICAgZmlsZTovL3NyYy9oYi11Y2QuY2M7
-YmVnaW5saW5lPTE7ZW5kbGluZT0xNTttZDU9MjlkNGRjYjY0MTA0MjkxOTVkZjY3ZWZlMzM4MmQ4
-YmMgXA0KPiAgICAgICAgICAgICAgICAgICAgICINCj4gDQo+IC1TUkNfVVJJID0gIiR7R0lUSFVC
-X0JBU0VfVVJJfS9kb3dubG9hZC8ke1BWfS8ke0JQTn0tJHtQVn0udGFyLnh6IFwNCj4gLSAgICAg
-ICAgICAgZmlsZTovLzAwMDEtdGVzdC10aHJlYWRzLWhiLXN1YnNldC10aHJlYWRzLmNjLWFkZC1t
-aXNzaW5nLWNzdGRpby5wYXRjaCINCj4gLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIxZDEwMTBhMTc1
-MWQwNzZkNTI5MWU0MzNjMTM4NTAyYTc5NGQ2NzlhNzQ5OGQxMjY4ZWUyMWUyZDRhMTQwZWI0Ig0K
-PiArU1JDX1VSSSA9ICIke0dJVEhVQl9CQVNFX1VSSX0vZG93bmxvYWQvJHtQVn0vJHtCUE59LSR7
-UFZ9LnRhci54eiINCj4gK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI3YjQ2ODViNzA2NmM1YzZiOGRj
-NmNkN2IwMmY2M2M1NTRmYjhjYzFjNGRkY2ZjNDRiYzI4NGVmYTNjMjBjZjI4Ig0KPiANCj4gaW5o
-ZXJpdCBtZXNvbiBwa2djb25maWcgbGliX3BhY2thZ2UgZ3RrLWRvYyBnb2JqZWN0LWludHJvc3Bl
-Y3Rpb24gZ2l0aHViLXJlbGVhc2VzDQo+IA0KPiAtLSANCj4gMi4zMC4yDQo+IA0KPiANCj4gLT0t
-PS09LT0tPS09LT0tPS09LT0tPS0NCj4gTGlua3M6IFlvdSByZWNlaXZlIGFsbCBtZXNzYWdlcyBz
-ZW50IHRvIHRoaXMgZ3JvdXAuDQo+IFZpZXcvUmVwbHkgT25saW5lICgjMTc3Mzc0KTogaHR0cHM6
-Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8xNzcz
-NzQNCj4gTXV0ZSBUaGlzIFRvcGljOiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbXQv
-OTcwNzIxNjgvNjg3NTg4OA0KPiBHcm91cCBPd25lcjogb3BlbmVtYmVkZGVkLWNvcmUrb3duZXJA
-bGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBVbnN1YnNjcmliZTogaHR0cHM6Ly9saXN0cy5vcGVu
-ZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvdW5zdWIgW3Jvc3MuYnVydG9uQGFybS5j
-b21dDQo+IC09LT0tPS09LT0tPS09LT0tPS09LT0tDQo+IA0KDQo=
+- Remove backported patches
+- Port relocate-modules.patch
+
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
+---
+ ...-info-don-t-assume-million-in-one-ev.patch | 50 ------------
+ ...build-do-not-use-can_run_host_binari.patch | 48 ------------
+ .../glib-2.0/glib-2.0/cpp-null.patch          | 77 -------------------
+ .../glib-2.0/glib-2.0/cpp-null2.patch         | 31 --------
+ .../glib-2.0/glib-2.0/relocate-modules.patch  | 11 ++-
+ ...{glib-2.0_2.74.5.bb =3D> glib-2.0_2.75.3.bb} |  6 +-
+ 6 files changed, 8 insertions(+), 215 deletions(-)
+ delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-g-=
+file-info-don-t-assume-million-in-one-ev.patch
+ delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-me=
+son.build-do-not-use-can_run_host_binari.patch
+ delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/cpp-null.patch
+ delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/cpp-null2.patch
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.74.5.bb =3D> glib-2.0_2.75=
+.3.bb} (87%)
+
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-g-file-in=
+fo-don-t-assume-million-in-one-ev.patch b/meta/recipes-core/glib-2.0/glib=
+-2.0/0001-gio-tests-g-file-info-don-t-assume-million-in-one-ev.patch
+deleted file mode 100644
+index 57ada66907..0000000000
+--- a/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-g-file-info-don-=
+t-assume-million-in-one-ev.patch
++++ /dev/null
+@@ -1,50 +0,0 @@
+-From 3c56ff21b9a5fe18f9cec9b97ae1788fdf5d563e Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@arm.com>
+-Date: Tue, 6 Jul 2021 19:26:03 +0100
+-Subject: [PATCH] gio/tests/g-file-info: don't assume million-in-one even=
+ts
+-
+-Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/merge_r=
+equests/2990]
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+-
+- don't happen
+-
+-The access and creation time tests create a file, gets the time in
+-seconds, then gets the time in microseconds and assumes that the
+-difference between the two has to be above 0.
+-
+-As rare as this may be, it can happen:
+-
+-$ stat g-file-info-test-50A450 -c %y
+-2021-07-06 18:24:56.000000767 +0100
+-
+-Change the test to simply assert that the difference not negative to
+-handle this case.
+-
+-This is the same fix as 289f8b, but that was just modification time.
+-
+----
+- gio/tests/g-file-info.c | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/gio/tests/g-file-info.c b/gio/tests/g-file-info.c
+-index d9ad045..c9b12b0 100644
+---- a/gio/tests/g-file-info.c
+-+++ b/gio/tests/g-file-info.c
+-@@ -307,7 +307,7 @@ test_g_file_info_access_time (void)
+-   g_assert_nonnull (dt_usecs);
+-=20
+-   ts =3D g_date_time_difference (dt_usecs, dt);
+--  g_assert_cmpint (ts, >, 0);
+-+  g_assert_cmpint (ts, >=3D, 0);
+-   g_assert_cmpint (ts, <, G_USEC_PER_SEC);
+-=20
+-   /* Try again with nanosecond precision. */
+-@@ -442,7 +442,7 @@ test_g_file_info_creation_time (void)
+-   g_assert_nonnull (dt_usecs);
+-=20
+-   ts =3D g_date_time_difference (dt_usecs, dt);
+--  g_assert_cmpint (ts, >, 0);
+-+  g_assert_cmpint (ts, >=3D, 0);
+-   g_assert_cmpint (ts, <, G_USEC_PER_SEC);
+-=20
+-   /* Try again with nanosecond precision. */
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-meson.bui=
+ld-do-not-use-can_run_host_binari.patch b/meta/recipes-core/glib-2.0/glib=
+-2.0/0001-gio-tests-meson.build-do-not-use-can_run_host_binari.patch
+deleted file mode 100644
+index db08b5af55..0000000000
+--- a/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-meson.build-do-n=
+ot-use-can_run_host_binari.patch
++++ /dev/null
+@@ -1,48 +0,0 @@
+-From fdbffaea2fa85c203cc6aacb5734acac65aeaa19 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex@linutronix.de>
+-Date: Fri, 11 Nov 2022 13:12:42 +0100
+-Subject: [PATCH] tests/meson.build: do not use can_run_host_binaries()
+-
+-can_run_host_binaries() returns true even when cross compiling,
+-if there is an executable wrapper defined that can run
+-cross-binaries under some kind of emulation.
+-
+-Unfortunately, custom_target() will not use the wrapper
+-and will attempt to execute the command directly. Until
+-this is addressed in meson upstream, we have to disable
+-these targets in cross scenarios.
+-
+-Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/glib/-/merge_=
+requests/3067]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+-
+----
+- gio/tests/meson.build  | 2 +-
+- glib/tests/meson.build | 2 +-
+- 2 files changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/gio/tests/meson.build b/gio/tests/meson.build
+-index 49cfa25ce..ea59656f9 100644
+---- a/gio/tests/meson.build
+-+++ b/gio/tests/meson.build
+-@@ -652,7 +652,7 @@ if installed_tests_enabled
+-   endforeach
+- endif
+-=20
+--if meson.can_run_host_binaries()
+-+if not meson.is_cross_build()
+-=20
+-   compiler_type =3D '--compiler=3D@0@'.format(cc.get_id())
+-=20
+-diff --git a/glib/tests/meson.build b/glib/tests/meson.build
+-index 69508178e..e4f75f302 100644
+---- a/glib/tests/meson.build
+-+++ b/glib/tests/meson.build
+-@@ -411,7 +411,7 @@ executable('testing-helper', 'testing-helper.c',
+- )
+-=20
+- # some testing of gtester functionality
+--if meson.can_run_host_binaries() and host_system !=3D 'windows'
+-+if not meson.is_cross_build() and host_system !=3D 'windows'
+-   xmllint =3D find_program('xmllint', required: false)
+-   if xmllint.found()
+-     tmpsample_xml =3D custom_target('tmpsample.xml',
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/cpp-null.patch b/meta/re=
+cipes-core/glib-2.0/glib-2.0/cpp-null.patch
+deleted file mode 100644
+index 63cbf90ab2..0000000000
+--- a/meta/recipes-core/glib-2.0/glib-2.0/cpp-null.patch
++++ /dev/null
+@@ -1,77 +0,0 @@
+-From 0ca5254c5d92aec675b76b4bfa72a6885cde6066 Mon Sep 17 00:00:00 2001
+-From: =3D?UTF-8?q?Marco=3D20Trevisan=3D20=3D28Trevi=3DC3=3DB1o=3D29?=3D =
+<mail@3v1n0.net>
+-Date: Sat, 29 Oct 2022 04:30:52 +0200
+-Subject: [PATCH] glib/gmacros: Always define NULL as nullptr in C++11 an=
+d
+- newer
+-
+-Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/=
+0ca5254c5d92aec675b76b4bfa72a6885cde6066]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- glib/gmacros.h     |  9 ++++++++-
+- glib/tests/cxx.cpp | 13 -------------
+- 2 files changed, 8 insertions(+), 14 deletions(-)
+-
+-diff --git a/glib/gmacros.h b/glib/gmacros.h
+-index 5302841105..9fe8270822 100644
+---- a/glib/gmacros.h
+-+++ b/glib/gmacros.h
+-@@ -870,10 +870,17 @@
+-  */
+- #ifndef NULL
+- #  ifdef __cplusplus
+--#  define NULL        (0L)
+-+#    if __cplusplus >=3D 201103L
+-+#      define NULL (nullptr)
+-+#    else
+-+#      define NULL (0L)
+-+#    endif /* __cplusplus >=3D 201103L */
+- #  else /* !__cplusplus */
+- #  define NULL        ((void*) 0)
+- #  endif /* !__cplusplus */
+-+#elif defined (__cplusplus) && __cplusplus >=3D 201103L
+-+#  undef NULL
+-+#  define NULL (nullptr)
+- #endif
+-=20
+- #ifndef	FALSE
+-diff --git a/glib/tests/cxx.cpp b/glib/tests/cxx.cpp
+-index 6ac60791c8..045457c6e2 100644
+---- a/glib/tests/cxx.cpp
+-+++ b/glib/tests/cxx.cpp
+-@@ -34,21 +34,12 @@ test_typeof (void)
+-   MyObject *obj3 =3D g_atomic_pointer_get (&obj2);
+-   g_assert_true (obj3 =3D=3D obj);
+-=20
+--#if __cplusplus >=3D 201103L
+--  MyObject *obj4 =3D nullptr;
+--#else
+-   MyObject *obj4 =3D NULL;
+--#endif
+-   g_atomic_pointer_set (&obj4, obj3);
+-   g_assert_true (obj4 =3D=3D obj);
+-=20
+--#if __cplusplus >=3D 201103L
+--  MyObject *obj5 =3D nullptr;
+--  g_atomic_pointer_compare_and_exchange (&obj5, nullptr, obj4);
+--#else
+-   MyObject *obj5 =3D NULL;
+-   g_atomic_pointer_compare_and_exchange (&obj5, NULL, obj4);
+--#endif
+-   g_assert_true (obj5 =3D=3D obj);
+-=20
+-   MyObject *obj6 =3D g_steal_pointer (&obj5);
+-@@ -195,11 +186,7 @@ test_steal_pointer (void)
+- int
+- main (int argc, char *argv[])
+- {
+--#if __cplusplus >=3D 201103L
+--  g_test_init (&argc, &argv, nullptr);
+--#else
+-   g_test_init (&argc, &argv, NULL);
+--#endif
+-=20
+-   g_test_add_func ("/C++/typeof", test_typeof);
+-   g_test_add_func ("/C++/atomic-pointer-compare-and-exchange", test_ato=
+mic_pointer_compare_and_exchange);
+---=20
+-GitLab
+-
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/cpp-null2.patch b/meta/r=
+ecipes-core/glib-2.0/glib-2.0/cpp-null2.patch
+deleted file mode 100644
+index 763d5ce539..0000000000
+--- a/meta/recipes-core/glib-2.0/glib-2.0/cpp-null2.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-From 7dc19632f3115e3f517c6bc80436fe72c1dcdeb4 Mon Sep 17 00:00:00 2001
+-From: =3D?UTF-8?q?Marco=3D20Trevisan=3D20=3D28Trevi=3DC3=3DB1o=3D29?=3D =
+<mail@3v1n0.net>
+-Date: Sat, 29 Oct 2022 04:16:00 +0200
+-Subject: [PATCH] glib/tests/cxx: Ensure NULL is always casted to a point=
+er
+- type
+-
+-Otherwise it may not be recognized as valid sentinel
+-Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/=
+7dc19632f3115e3f517c6bc80436fe72c1dcdeb4]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- glib/tests/cxx.cpp | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/glib/tests/cxx.cpp b/glib/tests/cxx.cpp
+-index 045457c6e2..aa5e0cb576 100644
+---- a/glib/tests/cxx.cpp
+-+++ b/glib/tests/cxx.cpp
+-@@ -186,7 +186,11 @@ test_steal_pointer (void)
+- int
+- main (int argc, char *argv[])
+- {
+-+#if __cplusplus >=3D 201103L
+-   g_test_init (&argc, &argv, NULL);
+-+#else
+-+  g_test_init (&argc, &argv, static_cast<void *>(NULL));
+-+#endif
+-=20
+-   g_test_add_func ("/C++/typeof", test_typeof);
+-   g_test_add_func ("/C++/atomic-pointer-compare-and-exchange", test_ato=
+mic_pointer_compare_and_exchange);
+---=20
+-GitLab
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch b=
+/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
+index ae6881b61e..4a2eb3b1a7 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
+@@ -14,6 +14,9 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
+ Port patch to 2.48
+ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+=20
++Port patch to 2.75
++Signed-off-by: Markus Volk <f_l_k@t-online.de>
++
+ ---
+  gio/giomodule.c | 12 +++++++++++-
+  1 file changed, 11 insertions(+), 1 deletion(-)
+@@ -31,7 +34,7 @@ index f5dbb45..c926e77 100644
+  #endif
+  #include <glib/gstdio.h>
+ =20
+-@@ -1261,7 +1263,15 @@ get_gio_module_dir (void)
++@@ -1270,7 +1272,15 @@
+                                       NULL);
+        g_free (install_dir);
+  #else
+@@ -45,6 +48,6 @@ index f5dbb45..c926e77 100644
+ +      } else {
+ +        module_dir =3D g_strdup (GIO_MODULE_DIR);
+ +      }
+- #endif
+-     }
+-=20
++ #ifdef __APPLE__
++ #include "TargetConditionals.h"
++ #if TARGET_OS_OSX
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.74.5.bb b/meta/recipes=
+-core/glib-2.0/glib-2.0_2.75.3.bb
+similarity index 87%
+rename from meta/recipes-core/glib-2.0/glib-2.0_2.74.5.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0_2.75.3.bb
+index d54f077cb0..40c7126120 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.74.5.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.75.3.bb
+@@ -14,14 +14,10 @@ SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${=
+PV}.tar.xz \
+            file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
+            file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
+            file://0001-gio-tests-resources.c-comment-out-a-build-host-on=
+ly-.patch \
+-           file://0001-gio-tests-g-file-info-don-t-assume-million-in-one=
+-ev.patch \
+-           file://0001-gio-tests-meson.build-do-not-use-can_run_host_bin=
+ari.patch \
+-           file://cpp-null.patch \
+-           file://cpp-null2.patch \
+            "
+ SRC_URI:append:class-native =3D " file://relocate-modules.patch"
+=20
+-SRC_URI[sha256sum] =3D "ceba83a5999ceb31a4c4fc9921207cb9ffffd2ab1d6ec03c=
+162d3f608a5c14c8"
++SRC_URI[sha256sum] =3D "7c517d0aff456c35a039bce8a8df7a08ce95a8285b09d184=
+9f8865f633f7f871"
+=20
+ # Find any meson cross files in FILESPATH that are relevant for the curr=
+ent
+ # build (using siteinfo) and add them to EXTRA_OEMESON.
+--=20
+2.34.1
+
 
