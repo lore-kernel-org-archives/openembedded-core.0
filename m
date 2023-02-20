@@ -2,191 +2,269 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89761C636CC
-	for <webhook@archiver.kernel.org>; Mon, 20 Feb 2023 14:18:40 +0000 (UTC)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web10.13835.1676902717955663234
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66C65C636CC
+	for <webhook@archiver.kernel.org>; Mon, 20 Feb 2023 14:18:50 +0000 (UTC)
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.web11.14053.1676902727494271717
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Feb 2023 06:18:38 -0800
+ Mon, 20 Feb 2023 06:18:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=o66T6Mjx;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.180, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f180.google.com with SMTP id s17so750836pgv.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 06:18:37 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=Ce/YbAuc;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.175, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f175.google.com with SMTP id y19so791779pgk.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 06:18:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5dt3nDi4Rmc5uFru1Z1WhCoxeQA5XoXuQQ3DXzFTO4I=;
-        b=o66T6Mjxbb0ouQLJFydWp3EKSlyfkw0c+GK9s9iu2kfXB6PYDYgeeJzALbgqUyiq6R
-         uH7EiDh20O2Sw7rjSNRPg0xUyKXxUbaRO3/ZIJTbKfx3rwVPTN3ZZQQrJvnYugjkh3oD
-         K9S8tgCbc5B7S9Zr0jQxUSLay+/yEGAJBMG4wPeoTk18fAor0X6CEomUbYhUSzc8NO76
-         I/7SKUhSI2EErnBjptBb/PKPazOui386mTY1oyQ9/0Un4RC4nZxNCxStPpbFssUBxTH9
-         l9oDuPeYKDaGxyR8W/xKUquaqWkp2iiij3fwFJ5LJmFp/cWj06o7Ab+2GyBa+mDvRpyH
-         WhVQ==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VXJQyzp2MJXLWlDGBfQ02CD4O58CAWJPyHaLVH5o8ns=;
+        b=Ce/YbAucaDxMPgDgg2bSErDtHL4L7BQj4ChNxv44+Qz0kJWlGcYuD31kG06XZmdzBU
+         INp1M0IliKnJkQWyvktvkTj0m6HV6R73rmp0PaIJD4iGZ1qcaRkalCrrWMEit/YTs862
+         njh38eRqbY9+49jw+OJDZS6HmLY24aWpa+GjCC5bB9JX0yZc95hKQiIOJEDY46ui3GAb
+         nhWycQMox2gwQrsAIzAcckN0WqWC+V0iRPyJpwhbf0266F9cyKergmoEF+NRcM+oVcTm
+         58s4LB/JDHOkN6nLlCOPcPIYvBHrRGCyPevEByPrzInJf7da31tdT5vlAZ7wWeoFsQHy
+         zTHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5dt3nDi4Rmc5uFru1Z1WhCoxeQA5XoXuQQ3DXzFTO4I=;
-        b=zd95xM5Q6HZLhK7Pqvjvj0N806xRWdeWHjrWkeuJAFk/r9qn04KJBAnB4WvnYoWnz/
-         hoDCgCetJOQSz+IwMl4psj17zVSi5sZJWzotBpkjtkqq21ej5ixRwi+vCR60kngxcgWE
-         RGqE4oPKk/gDmk78tGw0rXFWJPxXGQvJu0U7HFlfPw/rWx20/90Y0KdgPJb7/fUKZvaD
-         KigbJ1duUTTUWyLUk/4Up3vW/ICS3mSeWHh+shQQrJn6uAgjd4tVHBYqXA2GGE1EAyqS
-         aeFGJKJIA+UmvmYE5ikpjEGBQtr/p6gIkEH7BM3irX12O76LQx66FWzqrMkgOqLhL8Fp
-         1t5A==
-X-Gm-Message-State: AO0yUKWffUcoTPMxB6OrCeQFam8XEEnZmnmdfvi+bzjSfDUro2ycAu9Y
-	LHhi2fKHs+V646z5OGfSeJM0lWrHiEi6BjAmFpU=
-X-Google-Smtp-Source: AK7set9dsk5OEEmpszhDQLf49Ls1AuLD7dLqLYsZqkDdMEEHSq1TD43dKZNjYNiVpB1SEOhXDz/zFg==
-X-Received: by 2002:a05:6a00:368d:b0:5a8:1866:7cfe with SMTP id dw13-20020a056a00368d00b005a818667cfemr269605pfb.17.1676902716535;
-        Mon, 20 Feb 2023 06:18:36 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VXJQyzp2MJXLWlDGBfQ02CD4O58CAWJPyHaLVH5o8ns=;
+        b=Q3pwZe9IotLV3KKR6iRy6l9Akc2KKL4qzCfGUuEsiCX7a6gUT8z215SLF+8hcdmOVq
+         Rpqswozi0XCSpPeEpIK9EqWmYOvUSCmONXx6fAwoz5WzIdw1iLR11QZHm0q79osqJ8K7
+         NU97/OeN4Pe0X9owmFcdw/zpQWKKEeu8oMGsx+nAAjnHzxUFNz7FYfJvnNRp4OVnSRP/
+         c+Toe2ocY0nQcc1Gwgk+kag0/GkPrvdZ3M5dSbSpRFzkuB5KUQLDYSVfxhrfFPHJ5Axd
+         fPZiNBMDYrUvhAR096UlQ5LQWY7UeKQs0t4QqpDj9Ww4EcuPZyhoYQy6YL7/derodX5L
+         dgwQ==
+X-Gm-Message-State: AO0yUKW/bLc+u7QvQA3WfjlQpdIytWYJkvwzUWHmBpE/EZd+J9zAtYHF
+	wstQ2hzJEhomhwbz1FhtyoDJ8ZdwkdAx/XSOefI=
+X-Google-Smtp-Source: AK7set8FocjjzR9ew/RK2hKRxWz9mlD42N3B8Nt/rTNx5lIboFWm4WN/RlZb2+Cj89dzjJSjbwY4bA==
+X-Received: by 2002:aa7:9eda:0:b0:5a8:5e6d:28d7 with SMTP id r26-20020aa79eda000000b005a85e6d28d7mr893821pfq.0.1676902726482;
+        Mon, 20 Feb 2023 06:18:46 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id q19-20020a62e113000000b0058baf8694e1sm7789297pfh.71.2023.02.20.06.18.35
+        by smtp.gmail.com with ESMTPSA id q19-20020a62e113000000b0058baf8694e1sm7789297pfh.71.2023.02.20.06.18.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Feb 2023 06:18:36 -0800 (PST)
+        Mon, 20 Feb 2023 06:18:46 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 00/22] Patch review
-Date: Mon, 20 Feb 2023 04:18:07 -1000
-Message-Id: <cover.1676902605.git.steve@sakoman.com>
+Subject: [OE-core][langdale 05/22] apr-util: update 1.6.1 -> 1.6.3
+Date: Mon, 20 Feb 2023 04:18:12 -1000
+Message-Id: <da972ff634132943de71241e130bdccd3e4cfa47.1676902605.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1676902605.git.steve@sakoman.com>
+References: <cover.1676902605.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 14:18:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177406
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 14:18:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177411
 
-Please review this set of patches for langdale and have comments bcak by
-end of day Wednesday.
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Passed a-full on autobuilder:
+Changes with APR-util 1.6.3
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/4944
+  *) Correct a packaging issue in 1.6.2. The contents of the release were
+     correct, but the top level directory was misnamed.
 
-The following changes since commit 62b894d75fb3361ed4d5473ae69188bce390980a:
+Changes with APR-util 1.6.2
 
-  oeqa context.py: fix --target-ip comment to include ssh port number (2023-02-11 04:03:34 -1000)
+  *) SECURITY: CVE-2022-25147 (cve.mitre.org)
+     Integer Overflow or Wraparound vulnerability in apr_base64 functions
+     of Apache Portable Runtime Utility (APR-util) allows an attacker to
+     write beyond bounds of a buffer.
 
-are available in the Git repository at:
+  *) Teach configure how to find and build against MariaDB 10.2. PR 61517
+     [Kris Karas <bugs-a17 moonlit-rail.com>]
 
-  https://git.openembedded.org/openembedded-core-contrib stable/langdale-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/langdale-nut
+  *) apr_crypto_commoncrypto: Remove stray reference to -lcrypto that
+     prevented commoncrypto being enabled. [Graham Leggett]
 
-Alexander Kanavin (10):
-  diffutils: update 3.8 -> 3.9
-  lttng-tools: update 2.13.8 -> 2.13.9
-  apr: update 1.7.0 -> 1.7.2
-  apr-util: update 1.6.1 -> 1.6.3
-  bind: upgrade 9.18.10 -> 9.18.11
-  libjpeg-turbo: upgrade 2.1.4 -> 2.1.5
-  pkgconf: upgrade 1.9.3 -> 1.9.4
-  linux-firmware: upgrade 20221214 -> 20230117
-  sudo: upgrade 1.9.12p1 -> 1.9.12p2
-  libgit2: upgrade 1.5.0 -> 1.5.1
+  *) Add --tag=CC to libtool invocations. PR 62640. [Michael Osipov]
 
-Chen Qi (1):
-  ffmpeg: fix configure failure on noexec /tmp host
+  *) apr_dbm_gdbm: Fix handling of error codes. This makes gdbm 1.14 work.
+     apr_dbm_gdbm will now also return error codes starting with
+     APR_OS_START_USEERR, as apr_dbm_berkleydb does, instead of always
+     returning APR_EGENERAL. [Stefan Fritsch]
 
-Mauro Queiros (1):
-  image.bbclass: print all QA functions exceptions
+Drop backport.
 
-Mikko Rapeli (6):
-  oeqa ssh.py: move output prints to new line
-  oeqa ssh.py: add connection keep alive options to ssh client
-  oeqa dump.py: add error counter and stop after 5 failures
-  oeqa qemurunner: read more data at a time from serial
-  oeqa qemurunner.py: add timeout to QMP calls
-  oeqa qemurunner.py: try to avoid reading one character at a time
-
-Peter Kjellerstedt (1):
-  devshell: Do not add scripts/git-intercept to PATH
-
-Rodolfo Quesada Zumbado (1):
-  tar: CVE-2022-48303
-
-Sakib Sajal (1):
-  git: upgrade 2.37.5 -> 2.37.6
-
-Ulrich Ölmann (1):
-  update-alternatives: fix typos
-
- meta/classes-global/devshell.bbclass          |   2 -
- meta/classes-recipe/image.bbclass             |   2 +-
- .../update-alternatives.bbclass               |   6 +-
- meta/lib/oeqa/core/target/ssh.py              |   8 +-
- meta/lib/oeqa/utils/dump.py                   |  23 ++-
- meta/lib/oeqa/utils/qemurunner.py             |   9 +-
- ...1-avoid-start-failure-with-bind-user.patch |   0
- ...d-V-and-start-log-hide-build-options.patch |   0
- ...ching-for-json-headers-searches-sysr.patch |   0
- .../bind/{bind-9.18.10 => bind-9.18.11}/bind9 |   0
- .../{bind-9.18.10 => bind-9.18.11}/conf.patch |   0
- .../generate-rndc-key.sh                      |   0
- ...t.d-add-support-for-read-only-rootfs.patch |   0
- .../make-etc-initd-bind-stop-work.patch       |   0
- .../named.service                             |   0
- .../bind/{bind_9.18.10.bb => bind_9.18.11.bb} |   4 +-
- .../git/{git_2.37.5.bb => git_2.37.6.bb}      |   2 +-
- .../{pkgconf_1.9.3.bb => pkgconf_1.9.4.bb}    |   2 +-
- ...001-Skip-strip-trailing-cr-test-case.patch |  11 +-
- ...a-standard-layout-so-glibc-and-musl-.patch |  33 -----
- .../{diffutils_3.8.bb => diffutils_3.9.bb}    |   3 +-
- .../{sudo_1.9.12p1.bb => sudo_1.9.12p2.bb}    |   2 +-
- .../tar/tar/CVE-2022-48303.patch              |  43 ++++++
- meta/recipes-extended/tar/tar_1.34.bb         |   4 +-
- ...-turbo_2.1.4.bb => libjpeg-turbo_2.1.5.bb} |   2 +-
- ...20221214.bb => linux-firmware_20230117.bb} |   6 +-
- .../lttng/lttng-tools/determinism.patch       |  64 ---------
- ...-tools_2.13.8.bb => lttng-tools_2.13.9.bb} |   3 +-
- .../recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb |   2 +
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit dca707f9fecc805503e17f6db3e4c88069ac0125)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
  .../0001-Fix-error-handling-in-gdbm.patch     | 134 ------------------
  .../{apr-util_1.6.1.bb => apr-util_1.6.3.bb}  |   6 +-
- ...ion-to-disable-timed-dependant-tests.patch |  20 +--
- ...CHE_CHECK-for-strerror_r-return-type.patch |  52 -------
- ...-runtime-test-for-mmap-that-can-map-.patch |  26 ++--
- ...ir-path-references-from-installed-ap.patch |  25 ++--
- ...configure.in-support-cross-compiling.patch |  63 --------
- ...ze-doesn-t-match-in-glibc-when-cross.patch |  76 ----------
- .../apr/apr/CVE-2021-35940.patch              |  58 --------
- .../recipes-support/apr/apr/autoconf270.patch |  22 ---
- .../apr/apr/libtoolize_check.patch            |  21 ++-
- .../apr/{apr_1.7.0.bb => apr_1.7.2.bb}        |   8 +-
- .../{libgit2_1.5.0.bb => libgit2_1.5.1.bb}    |   4 +-
- 42 files changed, 157 insertions(+), 589 deletions(-)
- rename meta/recipes-connectivity/bind/{bind-9.18.10 => bind-9.18.11}/0001-avoid-start-failure-with-bind-user.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.10 => bind-9.18.11}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.10 => bind-9.18.11}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.10 => bind-9.18.11}/bind9 (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.10 => bind-9.18.11}/conf.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.10 => bind-9.18.11}/generate-rndc-key.sh (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.10 => bind-9.18.11}/init.d-add-support-for-read-only-rootfs.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.10 => bind-9.18.11}/make-etc-initd-bind-stop-work.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.10 => bind-9.18.11}/named.service (100%)
- rename meta/recipes-connectivity/bind/{bind_9.18.10.bb => bind_9.18.11.bb} (96%)
- rename meta/recipes-devtools/git/{git_2.37.5.bb => git_2.37.6.bb} (98%)
- rename meta/recipes-devtools/pkgconf/{pkgconf_1.9.3.bb => pkgconf_1.9.4.bb} (96%)
- delete mode 100644 meta/recipes-extended/diffutils/diffutils/0001-mcontext-is-not-a-standard-layout-so-glibc-and-musl-.patch
- rename meta/recipes-extended/diffutils/{diffutils_3.8.bb => diffutils_3.9.bb} (88%)
- rename meta/recipes-extended/sudo/{sudo_1.9.12p1.bb => sudo_1.9.12p2.bb} (96%)
- create mode 100644 meta/recipes-extended/tar/tar/CVE-2022-48303.patch
- rename meta/recipes-graphics/jpeg/{libjpeg-turbo_2.1.4.bb => libjpeg-turbo_2.1.5.bb} (97%)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20221214.bb => linux-firmware_20230117.bb} (99%)
- delete mode 100644 meta/recipes-kernel/lttng/lttng-tools/determinism.patch
- rename meta/recipes-kernel/lttng/{lttng-tools_2.13.8.bb => lttng-tools_2.13.9.bb} (98%)
+ 2 files changed, 2 insertions(+), 138 deletions(-)
  delete mode 100644 meta/recipes-support/apr/apr-util/0001-Fix-error-handling-in-gdbm.patch
  rename meta/recipes-support/apr/{apr-util_1.6.1.bb => apr-util_1.6.3.bb} (94%)
- delete mode 100644 meta/recipes-support/apr/apr/0001-add-AC_CACHE_CHECK-for-strerror_r-return-type.patch
- delete mode 100644 meta/recipes-support/apr/apr/0003-Makefile.in-configure.in-support-cross-compiling.patch
- delete mode 100644 meta/recipes-support/apr/apr/0006-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch
- delete mode 100644 meta/recipes-support/apr/apr/CVE-2021-35940.patch
- delete mode 100644 meta/recipes-support/apr/apr/autoconf270.patch
- rename meta/recipes-support/apr/{apr_1.7.0.bb => apr_1.7.2.bb} (91%)
- rename meta/recipes-support/libgit2/{libgit2_1.5.0.bb => libgit2_1.5.1.bb} (78%)
 
+diff --git a/meta/recipes-support/apr/apr-util/0001-Fix-error-handling-in-gdbm.patch b/meta/recipes-support/apr/apr-util/0001-Fix-error-handling-in-gdbm.patch
+deleted file mode 100644
+index 6f27876a7f..0000000000
+--- a/meta/recipes-support/apr/apr-util/0001-Fix-error-handling-in-gdbm.patch
++++ /dev/null
+@@ -1,134 +0,0 @@
+-From 6b638fa9afbeb54dfa19378e391465a5284ce1ad Mon Sep 17 00:00:00 2001
+-From: Changqing Li <changqing.li@windriver.com>
+-Date: Wed, 12 Sep 2018 17:16:36 +0800
+-Subject: [PATCH] Fix error handling in gdbm
+-
+-Only check for gdbm_errno if the return value of the called gdbm_*
+-function says so. This fixes apr-util with gdbm 1.14, which does not
+-seem to always reset gdbm_errno.
+-
+-Also make the gdbm driver return error codes starting with
+-APR_OS_START_USEERR instead of always returning APR_EGENERAL. This is
+-what the berkleydb driver already does.
+-
+-Also ensure that dsize is 0 if dptr == NULL.
+-
+-Upstream-Status: Backport [https://svn.apache.org/viewvc?view=revision&amp;revision=1825311]
+-
+-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+----
+- dbm/apr_dbm_gdbm.c | 47 +++++++++++++++++++++++++++++------------------
+- 1 file changed, 29 insertions(+), 18 deletions(-)
+-
+-diff --git a/dbm/apr_dbm_gdbm.c b/dbm/apr_dbm_gdbm.c
+-index 749447a..1c86327 100644
+---- a/dbm/apr_dbm_gdbm.c
+-+++ b/dbm/apr_dbm_gdbm.c
+-@@ -36,13 +36,25 @@
+- static apr_status_t g2s(int gerr)
+- {
+-     if (gerr == -1) {
+--        /* ### need to fix this */
+--        return APR_EGENERAL;
+-+        if (gdbm_errno == GDBM_NO_ERROR)
+-+           return APR_SUCCESS;
+-+        return APR_OS_START_USEERR + gdbm_errno;
+-     }
+- 
+-     return APR_SUCCESS;
+- }
+- 
+-+static apr_status_t gdat2s(datum d)
+-+{
+-+    if (d.dptr == NULL) {
+-+        if (gdbm_errno == GDBM_NO_ERROR || gdbm_errno == GDBM_ITEM_NOT_FOUND)
+-+           return APR_SUCCESS;
+-+        return APR_OS_START_USEERR + gdbm_errno;
+-+   }
+-+
+-+    return APR_SUCCESS;
+-+}
+-+
+- static apr_status_t datum_cleanup(void *dptr)
+- {
+-     if (dptr)
+-@@ -53,22 +65,15 @@ static apr_status_t datum_cleanup(void *dptr)
+- 
+- static apr_status_t set_error(apr_dbm_t *dbm, apr_status_t dbm_said)
+- {
+--    apr_status_t rv = APR_SUCCESS;
+- 
+--    /* ### ignore whatever the DBM said (dbm_said); ask it explicitly */
+-+    dbm->errcode = dbm_said;  
+- 
+--    if ((dbm->errcode = gdbm_errno) == GDBM_NO_ERROR) {
+-+    if (dbm_said == APR_SUCCESS)
+-         dbm->errmsg = NULL;
+--    }
+--    else {
+--        dbm->errmsg = gdbm_strerror(gdbm_errno);
+--        rv = APR_EGENERAL;        /* ### need something better */
+--    }
+--
+--    /* captured it. clear it now. */
+--    gdbm_errno = GDBM_NO_ERROR;
+-+    else
+-+        dbm->errmsg = gdbm_strerror(dbm_said - APR_OS_START_USEERR);
+- 
+--    return rv;
+-+    return dbm_said;
+- }
+- 
+- /* --------------------------------------------------------------------------
+-@@ -107,7 +112,7 @@ static apr_status_t vt_gdbm_open(apr_dbm_t **pdb, const char *pathname,
+-                      NULL);
+- 
+-     if (file == NULL)
+--        return APR_EGENERAL;      /* ### need a better error */
+-+        return APR_OS_START_USEERR + gdbm_errno;   /* ### need a better error */
+- 
+-     /* we have an open database... return it */
+-     *pdb = apr_pcalloc(pool, sizeof(**pdb));
+-@@ -141,10 +146,12 @@ static apr_status_t vt_gdbm_fetch(apr_dbm_t *dbm, apr_datum_t key,
+-     if (pvalue->dptr)
+-         apr_pool_cleanup_register(dbm->pool, pvalue->dptr, datum_cleanup,
+-                                   apr_pool_cleanup_null);
+-+    else
+-+       pvalue->dsize = 0;
+- 
+-     /* store the error info into DBM, and return a status code. Also, note
+-        that *pvalue should have been cleared on error. */
+--    return set_error(dbm, APR_SUCCESS);
+-+    return set_error(dbm, gdat2s(rd));
+- }
+- 
+- static apr_status_t vt_gdbm_store(apr_dbm_t *dbm, apr_datum_t key,
+-@@ -201,9 +208,11 @@ static apr_status_t vt_gdbm_firstkey(apr_dbm_t *dbm, apr_datum_t *pkey)
+-     if (pkey->dptr)
+-         apr_pool_cleanup_register(dbm->pool, pkey->dptr, datum_cleanup,
+-                                   apr_pool_cleanup_null);
+-+    else
+-+        pkey->dsize = 0;
+- 
+-     /* store any error info into DBM, and return a status code. */
+--    return set_error(dbm, APR_SUCCESS);
+-+    return set_error(dbm, gdat2s(rd));
+- }
+- 
+- static apr_status_t vt_gdbm_nextkey(apr_dbm_t *dbm, apr_datum_t *pkey)
+-@@ -221,9 +230,11 @@ static apr_status_t vt_gdbm_nextkey(apr_dbm_t *dbm, apr_datum_t *pkey)
+-     if (pkey->dptr)
+-         apr_pool_cleanup_register(dbm->pool, pkey->dptr, datum_cleanup,
+-                                   apr_pool_cleanup_null);
+-+    else
+-+       pkey->dsize = 0;
+- 
+-     /* store any error info into DBM, and return a status code. */
+--    return set_error(dbm, APR_SUCCESS);
+-+    return set_error(dbm, gdat2s(rd));
+- }
+- 
+- static void vt_gdbm_freedatum(apr_dbm_t *dbm, apr_datum_t data)
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-support/apr/apr-util_1.6.1.bb b/meta/recipes-support/apr/apr-util_1.6.3.bb
+similarity index 94%
+rename from meta/recipes-support/apr/apr-util_1.6.1.bb
+rename to meta/recipes-support/apr/apr-util_1.6.3.bb
+index b851d46351..7c6fcc699b 100644
+--- a/meta/recipes-support/apr/apr-util_1.6.1.bb
++++ b/meta/recipes-support/apr/apr-util_1.6.3.bb
+@@ -13,11 +13,9 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.gz \
+            file://configfix.patch \
+            file://configure_fixes.patch \
+            file://run-ptest \
+-           file://0001-Fix-error-handling-in-gdbm.patch \
+-"
++           "
+ 
+-SRC_URI[md5sum] = "bd502b9a8670a8012c4d90c31a84955f"
+-SRC_URI[sha256sum] = "b65e40713da57d004123b6319828be7f1273fbc6490e145874ee1177e112c459"
++SRC_URI[sha256sum] = "2b74d8932703826862ca305b094eef2983c27b39d5c9414442e9976a9acf1983"
+ 
+ EXTRA_OECONF = "--with-apr=${STAGING_BINDIR_CROSS}/apr-1-config \
+ 		--without-odbc \
 -- 
 2.34.1
 
