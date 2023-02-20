@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C881CC61DA3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D69D7C677F1
 	for <webhook@archiver.kernel.org>; Mon, 20 Feb 2023 22:20:42 +0000 (UTC)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web10.27666.1676931632661902981
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web11.28058.1676931634468030927
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Feb 2023 14:20:32 -0800
+ Mon, 20 Feb 2023 14:20:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=S9QBuTxw;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f172.google.com with SMTP id z2so3139286plf.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 14:20:32 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=J4S/Sbuw;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.50, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f50.google.com with SMTP id b14-20020a17090a8c8e00b002349579949aso2732670pjo.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 14:20:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Zp1vk4kUOmVAEqybZ4ZHyfCcGLaruBZ/AuKsSvRPlQ4=;
-        b=S9QBuTxwHoopQ3V2ZPh0nnHUEwwRiGvKn2uJkGDnb4Ts9nII34ZdOuay6vHuKTswNv
-         5yjGvED2EfmMfbL5ojg4Eyl2yq/rx6SOiAylBYCEXFAsBAjBEUp478hga/6MdTx09/AA
-         1ocaSx48fQjyqt1qgG5ekVOoC+7/SisbphgYyxqN5zbt9ePDHbXUkLOilAyAPJttmU8z
-         M5Y4sbBkIwnSCJOJnnpuHd8WUN6/Sz9dposlHj0xRvHe98ldX80tBPxiFEN9BK1VQKBr
-         oRw8ejM8AiTFseq/dN3c4PzkATb42LOWUZAy/+Xi6d/gBr3Oqz1qAxjPQMA+6c6+r0V4
-         4VTQ==
+        bh=95Ik5+cDxOifQ/8Owt9McQ0F/wzmUTihLozPtc7nhKQ=;
+        b=J4S/SbuwqhLNUzRqzunLHhWMbKu1Xmsie6h+ESAfgk4bBIUSLp00Tw38MPCq8esJUB
+         7mC8uSeiJ7OqtG+HP84LITIVmcNu0DS5N3Hwsb9pDLGX0Gt89WTelUhyv9iDW5iIx8FR
+         EOqXe1Ql/gHFgcfCYkTPZykY3RCnYqoiMZxUN/HAR5hdQy1INgkrbaxLHWIw1m/E/jIp
+         E3ZJih6c+18t3ryO8rcJE+cWUOgTbUDx+uiTJEmZLejnbtzyaIUUYlPlH6T18GK0KEOh
+         mM1p9V2lQ/HsjcVaPS/tTZiP0oymo+hu6wt0Io1qZBgis4vzY+kzbMEG+tLKevmL1eDt
+         uDNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Zp1vk4kUOmVAEqybZ4ZHyfCcGLaruBZ/AuKsSvRPlQ4=;
-        b=fYlW6g0rjZ0FIEw4vLXyH3njZ2ppx7tSVggcfgf1NxgHpXvInvAx9KK0m+o7aFZ1qI
-         g9tJzaPKpw0ZXB4tRHl/tscVYpNIeFL2IxFoNc3WjTQ6sRQbTTXRkulwh5DBVrR1u29w
-         Pq7mkS/sLiE0ci5yzerZq/JFAyfONyrwcUX3OVXSQn/U7cxdwf44R/n/Jpg4sgP/jBVf
-         hDm22LuNofg7HkIJV0UT7M3mrn9h0qOYY5J6tp1O4xl2bViYxQtrUizRhFk4txXUnRce
-         QC6Kf12VrNMqe+5AGnNBq6ShvprX57JEeajFjARR9lkwoanmNuRqFdw0VXAB9eSIOBn/
-         G33A==
-X-Gm-Message-State: AO0yUKXYMSGpXBaw4SaZumbBWnNL1uG5lavafhWd4pI1Yl1c0ecsdoHy
-	M0xlKtaqvNqZPi/01hWWUJjwHFfSVU3kOpsWizU=
-X-Google-Smtp-Source: AK7set/ZTgnkh6hVb13FD5oLt5rkIFD7tuHT8438yjpHsDmbjxp4nmiGLUKYgoOz65xYzMryxY02Uw==
-X-Received: by 2002:a17:903:18d:b0:19a:723a:832f with SMTP id z13-20020a170903018d00b0019a723a832fmr4694454plg.7.1676931631334;
-        Mon, 20 Feb 2023 14:20:31 -0800 (PST)
+        bh=95Ik5+cDxOifQ/8Owt9McQ0F/wzmUTihLozPtc7nhKQ=;
+        b=5wZuyILCLD+S3Mqsklywt8Mjbj8SdFUHG4vO/XYqSFOFl2iUUimvdsDefN5PCNxvEv
+         4+8r9+6Ec9OT8z42hvSlflKLPK8fEwpTEocmmP2/+hPwOHb/OmQXqlrCrrabpu1nTbhT
+         qLGBQqvkktEYxSuBSUxmrXk+MScCcg05md9kx/eTazidpK0JoSq+pOFoB18k+BtMRINX
+         sSQTZK0C0wnZK1xwOjzbXj050oQe7qAdX1zTkpFnmUQ3rLcFpz4bCx9XFqC3II3iRi9W
+         pjAgWh1IsbXDzoW/c4qSmbuN4ain2otpWUBN0RJSz4jNx1FoyUYZ4fQ4q0va2JnAmPvn
+         cnZA==
+X-Gm-Message-State: AO0yUKWcDWi+/ckgnlBDCMIurcibNyZGWrYEg/lu07V5S0/b/c/0PKpi
+	p+NV81bflYPbWJXHvWp01ign5YsKn2bpRlHDTEo=
+X-Google-Smtp-Source: AK7set/OWLjw3zc0Y76N8L8bt5xnrxBXo/J8a39mTyj6rFzqtHiZvqX6etZTPCD2PQxceQXckfHDiQ==
+X-Received: by 2002:a17:903:244c:b0:19a:95ab:6b63 with SMTP id l12-20020a170903244c00b0019a95ab6b63mr2787573pls.66.1676931640934;
+        Mon, 20 Feb 2023 14:20:40 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id t6-20020a1709027fc600b0019719f752c5sm8401200plb.59.2023.02.20.14.20.30
+        by smtp.gmail.com with ESMTPSA id t6-20020a1709027fc600b0019719f752c5sm8401200plb.59.2023.02.20.14.20.40
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Feb 2023 14:20:30 -0800 (PST)
+        Mon, 20 Feb 2023 14:20:40 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 01/16] qemu: Fix slirp determinism issue
-Date: Mon, 20 Feb 2023 12:20:08 -1000
-Message-Id: <e5dc03e4a3b71ff144896a8ce56a34b8677e8e27.1676931497.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 06/16] quilt: fix intermittent failure in faildiff.test
+Date: Mon, 20 Feb 2023 12:20:13 -1000
+Message-Id: <2c9fe8c3bb1cc1883c7bd445d019b2107e85ab2b.1676931497.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1676931497.git.steve@sakoman.com>
 References: <cover.1676931497.git.steve@sakoman.com>
@@ -61,71 +61,75 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 22:20:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177461
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177466
 
-Add a PACKAGECONFIG option for slirp, defaulting to internal. This avoids
-the presence of libslirp on the host causing qemu to link against that
-instead breaking reproducibility and usability of the binary on hosts
-where the library isn't present.
+From: Ross Burton <ross.burton@arm.com>
 
-We need to add it to PACKAGECONFIG by default since users do expect slirp
-to be enabled in the wider community.
+This test assumes that if a child process writes one line to stderr and
+then another line to stdout, and stderr is redirected to stdout, that
+the order the lines will be read is stable.
 
-Note: qemu version 4.2.0 doesn't support an "internal" option for
-enable-slirp, so use "git" instead which uses the same configure
-code path, avoids host libslirp contamination and forces use of the
-qemu internal slirp implementation.
+This isn't the case and occasionally the lines will be read in a
+different order.  Change the test to ignore line ordering.
 
+[ YOCTO #14469 ]
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 5a9a64132bf5ecac9d611d29751226a466c4a2c1)
+(cherry picked from commit 1ddbe4d2bd8d8da10dac8a054f130fcd1d242219)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/qemu/qemu-system-native_4.2.0.bb | 2 +-
- meta/recipes-devtools/qemu/qemu.inc                    | 2 ++
- meta/recipes-devtools/qemu/qemu_4.2.0.bb               | 4 ++--
- 3 files changed, 5 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/quilt/quilt.inc         |  1 +
+ .../quilt/quilt/faildiff-order.patch          | 28 +++++++++++++++++++
+ 2 files changed, 29 insertions(+)
+ create mode 100644 meta/recipes-devtools/quilt/quilt/faildiff-order.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu-system-native_4.2.0.bb b/meta/recipes-devtools/qemu/qemu-system-native_4.2.0.bb
-index d83ee59375..5ae6a37f26 100644
---- a/meta/recipes-devtools/qemu/qemu-system-native_4.2.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu-system-native_4.2.0.bb
-@@ -9,7 +9,7 @@ DEPENDS = "glib-2.0-native zlib-native pixman-native qemu-native bison-native"
- 
- EXTRA_OECONF_append = " --target-list=${@get_qemu_system_target_list(d)}"
- 
--PACKAGECONFIG ??= "fdt alsa kvm"
-+PACKAGECONFIG ??= "fdt alsa kvm slirp"
- 
- # Handle distros such as CentOS 5 32-bit that do not have kvm support
- PACKAGECONFIG_remove = "${@'kvm' if not os.path.exists('/usr/include/linux/kvm.h') else ''}"
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index fff2c87780..e9fcb239b4 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -279,6 +279,8 @@ PACKAGECONFIG[capstone] = "--enable-capstone,--disable-capstone"
- PACKAGECONFIG[libnfs] = "--enable-libnfs,--disable-libnfs,libnfs"
- PACKAGECONFIG[brlapi] = "--enable-brlapi,--disable-brlapi"
- PACKAGECONFIG[vde] = "--enable-vde,--disable-vde"
-+# version 4.2.0 doesn't have an "internal" option for enable-slirp, so use "git" which uses the same configure code path
-+PACKAGECONFIG[slirp] = "--enable-slirp=git,--disable-slirp"
- PACKAGECONFIG[rbd] = "--enable-rbd,--disable-rbd"
- PACKAGECONFIG[rdma] = "--enable-rdma,--disable-rdma"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu_4.2.0.bb b/meta/recipes-devtools/qemu/qemu_4.2.0.bb
-index f9905e2812..05449afe4e 100644
---- a/meta/recipes-devtools/qemu/qemu_4.2.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_4.2.0.bb
-@@ -24,8 +24,8 @@ do_install_append_class-nativesdk() {
- }
- 
- PACKAGECONFIG ??= " \
--    fdt sdl kvm \
-+    fdt sdl kvm slirp \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'alsa xen', d)} \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'seccomp', d)} \
+diff --git a/meta/recipes-devtools/quilt/quilt.inc b/meta/recipes-devtools/quilt/quilt.inc
+index d7ecda7aaa..ad23b8d922 100644
+--- a/meta/recipes-devtools/quilt/quilt.inc
++++ b/meta/recipes-devtools/quilt/quilt.inc
+@@ -12,6 +12,7 @@ SRC_URI = "${SAVANNAH_GNU_MIRROR}/quilt/quilt-${PV}.tar.gz \
+         file://Makefile \
+         file://test.sh \
+         file://0001-tests-Allow-different-output-from-mv.patch \
++        file://faildiff-order.patch \
  "
--PACKAGECONFIG_class-nativesdk ??= "fdt sdl kvm"
-+PACKAGECONFIG:class-nativesdk ??= "fdt sdl kvm slirp"
+ 
+ SRC_URI_append_class-target = " file://gnu_patch_test_fix_target.patch"
+diff --git a/meta/recipes-devtools/quilt/quilt/faildiff-order.patch b/meta/recipes-devtools/quilt/quilt/faildiff-order.patch
+new file mode 100644
+index 0000000000..40f3c2636a
+--- /dev/null
++++ b/meta/recipes-devtools/quilt/quilt/faildiff-order.patch
+@@ -0,0 +1,28 @@
++This test assumes that two lines that are output on different streams (stdout
++and stderr) will be read in the same order, but thanks to buffering that may not
++be the case.
++
++Change the expected lines to be regexs that each match both expected lines, so
++the test always works no matter the actual order the lines are read in.
++
++Bug filed at https://savannah.nongnu.org/bugs/index.php?63651 to discuss a
++proper solution.
++
++Upstream-Status: Inappropriate
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++
++diff --git a/test/faildiff.test b/test/faildiff.test
++index 5afb8e3..5f32f71 100644
++--- a/test/faildiff.test
+++++ b/test/faildiff.test
++@@ -28,8 +28,8 @@ What happens on binary files?
++ 
++ 	$ printf "\\003\\000\\001" > test.bin
++ 	$ quilt diff -pab --no-index
++-	>~ (Files|Binary files) a/test\.bin and b/test\.bin differ
++-	> Diff failed on file 'test.bin', aborting
+++	>~ (.*[Ff]iles a/test\.bin and b/test\.bin differ|Diff failed on file 'test.bin', aborting)
+++	>~ (.*[Ff]iles a/test\.bin and b/test\.bin differ|Diff failed on file 'test.bin', aborting)
++ 	$ echo %{?}
++ 	> 1
++ 
 -- 
 2.34.1
 
