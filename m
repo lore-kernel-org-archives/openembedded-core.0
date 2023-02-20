@@ -1,144 +1,168 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C367C05027
-	for <webhook@archiver.kernel.org>; Mon, 20 Feb 2023 12:45:30 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web10.11753.1676897123252437192
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3571BC636CC
+	for <webhook@archiver.kernel.org>; Mon, 20 Feb 2023 13:09:20 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web10.12291.1676898551639862564
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Feb 2023 04:45:23 -0800
+ Mon, 20 Feb 2023 05:09:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=WSGQQ6Ha;
- spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wm1-f46.google.com with SMTP id p26so833836wmc.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 04:45:23 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=iELQETzj;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f42.google.com with SMTP id l25so746464wrb.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 05:09:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zjqffOGh5aedcldOlDjDKxF+Uh0MGK+sgGewC+6LFbA=;
-        b=WSGQQ6Ham5PFBZY5PaSzSf11iHT6SpXOFq+BcKJodfJvt4qrg/NoiyF5g9yGyqyKaE
-         EuuFZsSRpPcNeU/khS3WkV2grJBJqrF9wxPMf1W5eRbve7U6ABEu7HniuA87VoJbde66
-         O7LsLXRSofT5Zai9dF++Rj+xdi9YXr1GTwtz8QdbrdKyOWFtx9igbeIn6+V5WqK6NFmx
-         gstufgxT+Lpk+NFxzydsTECgdGn1/Ir4DCrHXHvTOq8yVnJukAy1HnBOOphWyZ+Y+8b+
-         t1172b6AhuPRxjFErAonILz5CmtE475trx+zcQkfaWTv4RA9pyn070WM1zTWbWfkLIsy
-         qxTg==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TOd+oUgAGNkDmgDn5sDZB1Y79H+fydCn5Z1pO/PWd3I=;
+        b=iELQETzjKAWaemJAoGBQTcdBaNMjZxu5TLogURPkfhazvkSOyccmLVKXSd2PdYP4YC
+         5mWxQeUn/uEwi6HezSy2v7AsQII5XBxOiF45/cfX3JWYn3SHd0NAUrq+qxudpc5g6ly7
+         +gf04dBQosPzwRwDs7kx0XpwdF/+0JK2qyHJA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zjqffOGh5aedcldOlDjDKxF+Uh0MGK+sgGewC+6LFbA=;
-        b=3zgoJGMTQetKEyrLXSyh4rbz/r5I3YFDCsZ4Hu9YsZVduqopXQf3oREWxieBDe+xwK
-         Fe0wEfHJg74RNAABd3fVGEP+Lwyb8E+8+q8UqkcKs8naZl1t/Pm1QRgsVyVtNQpU05vc
-         6wd6geuovOlYzgJQHJx50xuq9r7dzKoMzcNxZK5z8QjlGadLoK9QyWI0RMHoSuFStmEw
-         urlGa+EFMxHNd1widtDBeJ/15tJr06W8mUIs6kkPKnVA/xvjXk7R7ZgUzAD5+6dU1bxA
-         tHJK+oIZHoMeMaJkD/xQAK+8aAE3BxMg7w6OJuNL6Zzp7MXADAntlrlXnIkiKcO1jiOc
-         wvvA==
-X-Gm-Message-State: AO0yUKUQego4aAmL1ywUf9eqzM40/ZvlrpdzDSTf0kuv9YU6NIsm3Wvm
-	BELnJS/K8TqcyIJ5vguZSIpZrXMLXiBO7A==
-X-Google-Smtp-Source: AK7set9/mGtkariPi1C/BTcvwNDRAVjKnyCG/IFO4gqhRUIFlwgnsyRPY32jpqqr3pD3x7TVceu+6Q==
-X-Received: by 2002:a05:600c:1714:b0:3dc:2b62:ee9f with SMTP id c20-20020a05600c171400b003dc2b62ee9fmr6251086wmn.3.1676897121379;
-        Mon, 20 Feb 2023 04:45:21 -0800 (PST)
-Received: from og-worker-dev-01.infra.foundries.io.net (51-159-19-113.rev.poneytelecom.eu. [51.159.19.113])
-        by smtp.gmail.com with ESMTPSA id o10-20020a1c750a000000b003dfe8c4c497sm9447316wmc.39.2023.02.20.04.45.20
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=TOd+oUgAGNkDmgDn5sDZB1Y79H+fydCn5Z1pO/PWd3I=;
+        b=yPLhRHgR2FyxW4RyWAS4pWUJsaP6TC9A0w3o7MldQcqUNHdNxjskdEdo9E00Fk8is3
+         mKIcOXrfw+m96+Eli2Dzb8kQezPZPk4aBwP8CBiyjGfx1UFwzWESOyfOkXQYhOtuzr3o
+         MLxlhWyd04AR8KXCtuvJ0YP1wedsCKFaX90vHvC5VAQehYzGIdcOg7c0aeGGQuQbcLW1
+         +LknC4d1F6VZG+Sy7qevRLZVmDsgKyKbj0ZyVs4vASRUIP+vF3jd+k5VxIGvJa/nBGj8
+         oRQAPpDxCHi0yN94XZPoVItyKdseWk92MEWKtaqvLNQ0GIK+JWLKVkvu59F2lKBCsGEh
+         n3dA==
+X-Gm-Message-State: AO0yUKU140D/wYus5sZMlFrAHBBbl13yeCigILVf7/pNbKf0zEjqNrz3
+	2NNQ42W4c/xrzSOo/q8r7CgIqw==
+X-Google-Smtp-Source: AK7set8eQsJoxEfR5RmceKsTtoZl42bMNBnY3pFWKzzgPhiBxuytfxstHzVTkMIP9tfjF+kmOc82yA==
+X-Received: by 2002:adf:fe87:0:b0:2c5:54a7:363e with SMTP id l7-20020adffe87000000b002c554a7363emr1749649wrr.3.1676898550022;
+        Mon, 20 Feb 2023 05:09:10 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:6c6b:45a8:4f0f:7fab? ([2001:8b0:aba:5f3c:6c6b:45a8:4f0f:7fab])
+        by smtp.gmail.com with ESMTPSA id f4-20020a7bcd04000000b003e00c9888besm9289228wmj.30.2023.02.20.05.09.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Feb 2023 04:45:21 -0800 (PST)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [OE-core][PATCH] bluez5: refresh patches with devtool
-Date: Mon, 20 Feb 2023 12:45:01 +0000
-Message-Id: <20230220124501.2357600-1-jose.quaresma@foundries.io>
-X-Mailer: git-send-email 2.34.1
+        Mon, 20 Feb 2023 05:09:09 -0800 (PST)
+Message-ID: <fc03a41ca8542e5f7f83e828f310f57ea8ff1209.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/2] [YOCTO #13270] Refactor the docbook-xml
+ recipe to use docbook.org packages rather than hacked up debian package
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Richard Elberger <rich@richelberger.com>, 
+	"openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Mon, 20 Feb 2023 13:09:08 +0000
+In-Reply-To: <010001866b9cf531-82d2c73e-d459-4055-93f9-a7c83fcce6f9-000000@email.amazonses.com>
+References: <20230219213807.3415938-1-rich@richelberger.com>
+	 <010001866b9cf531-82d2c73e-d459-4055-93f9-a7c83fcce6f9-000000@email.amazonses.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 12:45:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177400
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 13:09:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177401
 
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
----
- .../bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch  | 10 ++++------
- ...dd-a-target-for-building-tests-without-runnin.patch | 10 ++++------
- 2 files changed, 8 insertions(+), 12 deletions(-)
+Hi Richard,
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch
-index e90b6a546f..06ebf1cde6 100644
---- a/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch
-@@ -1,4 +1,4 @@
--From 61e741654cc2eb167bca212a3bb2ba8f3ba280c1 Mon Sep 17 00:00:00 2001
-+From 7dcc5f46a31ac4eaa67c0ab3aaae38005db7458f Mon Sep 17 00:00:00 2001
- From: Mingli Yu <Mingli.Yu@windriver.com>
- Date: Fri, 24 Aug 2018 12:04:03 +0800
- Subject: [PATCH] test-gatt: Fix hung issue
-@@ -21,15 +21,16 @@ no action.
- Upstream-Status: Submitted [https://marc.info/?l=linux-bluetooth&m=153508881804635&w=2]
- 
- Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-+
- ---
-  unit/test-gatt.c | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/unit/test-gatt.c b/unit/test-gatt.c
--index c7e28f8..b57373b 100644
-+index f92d860..a5f7117 100644
- --- a/unit/test-gatt.c
- +++ b/unit/test-gatt.c
--@@ -4463,7 +4463,7 @@ int main(int argc, char *argv[])
-+@@ -4479,7 +4479,7 @@ int main(int argc, char *argv[])
-  			test_server, service_db_1, NULL,
-  			raw_pdu(0x03, 0x00, 0x02),
-  			raw_pdu(0xbf, 0x00),
-@@ -38,6 +39,3 @@ index c7e28f8..b57373b 100644
-  
-  	define_test_server("/robustness/unkown-command",
-  			test_server, service_db_1, NULL,
---- 
--2.7.4
--
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
-index 24ddae6b63..7c47cc1a1e 100644
---- a/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
-@@ -1,19 +1,20 @@
--From 4bdf0f96dcaa945fd29f26d56e5b36d8c23e4c8b Mon Sep 17 00:00:00 2001
-+From a657fddd13a2e756b0af315301f1c44081e2f668 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 1 Apr 2016 17:07:34 +0300
- Subject: [PATCH] tests: add a target for building tests without running them
- 
- Upstream-Status: Inappropriate [oe specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
- ---
-  Makefile.am | 3 +++
-  1 file changed, 3 insertions(+)
- 
- diff --git a/Makefile.am b/Makefile.am
--index 1a48a71..ba3b92f 100644
-+index 7041f8e..25966cd 100644
- --- a/Makefile.am
- +++ b/Makefile.am
--@@ -425,6 +425,9 @@ endif
-+@@ -594,6 +594,9 @@ endif
-  TESTS = $(unit_tests)
-  AM_TESTS_ENVIRONMENT = MALLOC_CHECK_=3 MALLOC_PERTURB_=69
-  
-@@ -23,6 +24,3 @@ index 1a48a71..ba3b92f 100644
-  if DBUS_RUN_SESSION
-  AM_TESTS_ENVIRONMENT += dbus-run-session --
-  endif
---- 
--2.8.0.rc3
--
--- 
-2.34.1
+Thanks for the patch!
 
+There are a few things that need tweaking. Firstly, the shortlog and
+commit log aren't quite right. The shortlog needs to be along the lines
+of:
+
+<area/recipename>: <short summary of the change>
+
+so something like:
+
+docbook-xml: Switch from debian packages to upstream docbook sources
+
+This means someone glancing at the shortlogs can know which area it
+applies to and what it was about (in summary).
+
+After this you'd have a more verbose log message and I usually put the
+[YOCTO #13270] at the end on a line of it's own.
+
+I've commented a little more below inline.=C2=A0
+
+I think 4.0 support was removed, if so, that should be mentioned in the
+commit message log. I then noticed the note about that is in the other
+commit, it should be in this one!
+
+On Sun, 2023-02-19 at 21:38 +0000, Richard Elberger wrote:
+> ---
+>  .../docbook-xml/docbook-xml-dtd4_4.5.bb       | 74 ++++++++++++-------
+>  1 file changed, 49 insertions(+), 25 deletions(-)
+>=20
+> diff --git a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb b/=
+meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
+> index 2bec1442af..71aa8c14ec 100644
+> --- a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
+> +++ b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
+> @@ -1,30 +1,54 @@
+>  SUMMARY =3D "Document type definitions for verification of XML data file=
+s"
+>  DESCRIPTION =3D "Document type definitions for verification of XML data =
+\
+> -files against the DocBook rule set, it ships with the latest DocBook 4.5=
+ \
+> -XML DTD, as well as a selected set of legacy DTDs for use with older \
+> -documents, including 4.0, 4.1.2, 4.2, 4.3 and 4.4"
+> -HOMEPAGE =3D "http://www.docbook.org/xml/"
+> +files against the DocBook rule set."
+> +HOMEPAGE =3D "https://docbook.org"
+> =20
+> -LICENSE =3D "OASIS"
+> -LIC_FILES_CHKSUM =3D "file://${WORKDIR}/LICENSE-OASIS;md5=3Dc608985dd5f7=
+f215e669e7639a0b1d2e"
+> +inherit allarch
+> +BBCLASSEXTEND =3D "native"
+
+BBCLASSEXTEND by concention is at the end of the recipe. I see it moves
+in the second patch and it wasn't clear what the two different purposes
+of the patch were. Style fixes are ok as patch but if the first patch
+is introducing them, we may as well squash things?
+>=20
+> -# Note: the upstream sources are not distributed with a license file.
+> -# LICENSE-OASIS is included as a "patch" to workaround this. When
+> -# upgrading this recipe, please verify whether this is still needed.
+> -SRC_URI =3D "http://snapshot.debian.org/archive/debian/20160728T043443Z/=
+pool/main/d/docbook-xml/docbook-xml_${PV}.orig.tar.gz \
+> -           file://LICENSE-OASIS \
+> -           file://docbook-xml-update-catalog.xml.patch \
+> -"
+> +# To support apps with xml schema backward compatibility, we must
+> +# install a set of schemas. Install the latest based on PV and then
+> +# name any specific versions as required. TODO: Figure out a mechanism
+> +# to filter exactly which versions are necessary, if that's even
+> +# possible.
+> +#
+> +# DocBook.org lists available packages at https://docbook.org/xml/
+> +#
+> +# These packages are available as source but it requires the ability
+> +# to use the Gradle build system to do so. It might be safer to use
+> +# the source tree which would also enable proper SBOM generation
+> +# through the bitbake build system. https://github.com/docbook/docbook
+
+"packages" is an overloaded term. Do you mean packages here? Components
+maybe?
+
+> +#=20
+> =20
+> -SRC_URI[md5sum] =3D "487b4d44e15cffb1f4048af23f98208e"
+> -SRC_URI[sha256sum] =3D "b0f8edcf697f5318e63dd98c9a931f3fee167af0805ba441=
+db372e0f17b2a44f"
+> +S =3D "${WORKDIR}"
+> =20
+> -UPSTREAM_CHECK_URI =3D "${DEBIAN_MIRROR}/main/d/docbook-xml/"
+> +SRC_URI +=3D "https://docbook.org/xml/4.1.2/docbkx412.zip;name=3Dpayload=
+412;subdir=3Ddocbook-xml-4.1.2"
+> +SRC_URI[payload412.md5sum] =3D "900d7609fb7e6d78901b357e4acfbc17"
+
+We've effectively dropped md5sums so there is no need to add new ones.
+
+Cheers,
+
+Richard
 
