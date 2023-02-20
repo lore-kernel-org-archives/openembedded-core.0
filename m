@@ -2,87 +2,109 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B22DC636D6
-	for <webhook@archiver.kernel.org>; Mon, 20 Feb 2023 17:41:11 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web10.19710.1676914866798966218
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7633BC636D6
+	for <webhook@archiver.kernel.org>; Mon, 20 Feb 2023 17:41:41 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web11.20013.1676914891684650009
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Feb 2023 09:41:07 -0800
+ Mon, 20 Feb 2023 09:41:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=GAF4mXCW;
- spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id t15so2137304wrz.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 09:41:06 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=N58zx4OO;
+ spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wm1-f45.google.com with SMTP id iv11-20020a05600c548b00b003dc52fed235so1397907wmb.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 09:41:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SjV/hS2Ak0VQ2oQmGYFC3HhQburkW/zVO8t0bdSBVTA=;
-        b=GAF4mXCWeLnm9Z0o2EkM5BkCsuKOGo9T5oBwYEM4XkmCftN2hRpoJPhV42HmGtUbNE
-         dSGGv6sO8okKi0j+QwwBrYWcutixoj9OSrG1cJrR+zLC49GMHSAKyxf7rdpGzzFEyFOr
-         z83CV3ks+ktLqMJafgBaj/+Jrz7qpTfBUem62JNSaAZho7TfJVo0rT+SsHFQ5w3hSXel
-         AIJnIU4dN2d/irKDxUMQPeK9SqK0SsaLF5NcvcC1u3av8nLhb8Sx9t6GDhFLlFJ30OKC
-         hgD4hKnLh5tTik95Y4cJuObT1oOWD3VzvQuLIG9gZ2NoyxQ4hRXeB7c+jsjkhZQ7QWzO
-         NEUg==
+        bh=bk2P20WzdXURuNzguqD/3kew2+UV1NDsYWsr4kcS0Rc=;
+        b=N58zx4OOJc0ZSN+5vmBz/s0C14wCaD8p93gl+dUdx/oNSWm/dBP4HxJGR91ELdrklo
+         cP8Q9EW5DiugEnc7rzQ20ZkrCTr47uY4SDkzPJW0OamHvg1YuhUTdTnqO+4hV/Hntcp0
+         xZ0Htdgki/IRNaN1AdX8afA5846es01CKgG2mINZg22KCYtMe3uT1dHPKUPxhzSPtAvH
+         xhEzY1TQW+VoEEsBtSjP/9Ji9t1q7Zz8ESZTiBIYCYJoZwC4NAhdwdFxwmsNewMVjUrS
+         bL8YeSn+Sh6FxJ94N0b3nSfHPDgJezssC7/W96xKyt8VA1gGpMIYy+F1Xi8/5sDrNa21
+         LFjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SjV/hS2Ak0VQ2oQmGYFC3HhQburkW/zVO8t0bdSBVTA=;
-        b=AfpmMtL1TFUCwNUDmFG3e4HzHbIW1XMSoy96oiZ97T0U3b7Sg7R9w6NOwpswycr6mS
-         lxMKRi5SnxzDXrbay2nntIjAh7DoAMEUmfC/Pn1MO1j9kYsbz4gWGtzHqa39ggphCGn2
-         ipimkSWkDacF13FIqkZl1Abp4rocmk4JzxDWhRbHtUUqvsbkk6s8bOKY7W+GdcAMLcg8
-         i294n3qGQ7OTyAKaBLNJseon7ICuO5jv0N/O70YBD5VSWtMup0Lvcsw4eHDG19OI3xfO
-         MuDTyLThDam0mwso+RPvjIzYPhrUIFaPCrMDWEN/PqoXhO4+5qBiD1j8sqXi/1RGzr0M
-         Vw9Q==
-X-Gm-Message-State: AO0yUKWANz4y2hvnnN2Pk7mQsdSjwwH4MfAreOSBXDxy6yqPrS3g3jOv
-	Iw0MbtMoRNUaOYvXlIh//OqvBThbs8zcR8Fw
-X-Google-Smtp-Source: AK7set+SghS1Ds3aag5UeNax3U03p3SA8IJkRWYpRaNwys0zGnifa3DVWA9hnG/SH5MIvUv8IBSvRw==
-X-Received: by 2002:a05:6000:1289:b0:2c5:5451:9d7a with SMTP id f9-20020a056000128900b002c554519d7amr441443wrx.46.1676914864950;
-        Mon, 20 Feb 2023 09:41:04 -0800 (PST)
+        bh=bk2P20WzdXURuNzguqD/3kew2+UV1NDsYWsr4kcS0Rc=;
+        b=TQcw+PoD5dP23dA6dLel6QhUj9M49N9DvDti5HlfUPab8pakjBXIiO/XpHJ0uTaLvg
+         prrn7/Qoeqw+xiJbujHWOxzJzD9jCawKz7BBa3OQBwmu6+S8eTyRKC16XzY+/Xghu9yw
+         alcjZYAQL5IQa7mbuJO2ncU1qPwjIg5KRB/9cNZITpmFC5rFvoXhcO7PkqCOVFAMipIq
+         L58centgQhDS09Yud39GyNzy3+9VeDy2CKLQckTAOq6WZ2L3b5TxOxXAzd4zQ5sL48oS
+         RA7bLQKl8CxUUVFBy7QFOYKlpUTLuxVpqjaiRBLD4vNv8tDj5kXvCGYZ2hdy6aX7P88j
+         4Q2g==
+X-Gm-Message-State: AO0yUKUBwFMkCaR6ng36b8HYCAnYHfSV+zcu/gCYbNXcPKmCsCN9zyKQ
+	SMnJcyLgpVotk/wbQyDWZHwyLjZ2KHcYwWs/
+X-Google-Smtp-Source: AK7set/g862kFrsi43+FlYsnM7wUeo1JpKZWpxSAEcqhc8KSalz8WPsxyM9DqpEBlfYDE84faJMxOA==
+X-Received: by 2002:a05:600c:3b8d:b0:3df:9858:c039 with SMTP id n13-20020a05600c3b8d00b003df9858c039mr1167747wms.14.1676914890009;
+        Mon, 20 Feb 2023 09:41:30 -0800 (PST)
 Received: from og-worker-dev-01.infra.foundries.io.net (51-159-19-113.rev.poneytelecom.eu. [51.159.19.113])
-        by smtp.gmail.com with ESMTPSA id j9-20020adff009000000b002c3ea5ebc73sm2820168wro.101.2023.02.20.09.41.04
+        by smtp.gmail.com with ESMTPSA id u16-20020a05600c441000b003e21638c0edsm1490125wmn.45.2023.02.20.09.41.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Feb 2023 09:41:04 -0800 (PST)
+        Mon, 20 Feb 2023 09:41:29 -0800 (PST)
 From: Jose Quaresma <quaresma.jose@gmail.com>
 X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [meta-ti][master/kirkstone][PATCH] ti-img-rogue-umlibs: handling the firmware installation with usrmerge
-Date: Mon, 20 Feb 2023 17:40:35 +0000
-Message-Id: <20230220174035.2731323-1-jose.quaresma@foundries.io>
+Subject: [meta-ti][kirkstone][PATCH] ti-img-rogue-umlibs: drop unused patch
+Date: Mon, 20 Feb 2023 17:41:21 +0000
+Message-Id: <20230220174121.2731340-1-jose.quaresma@foundries.io>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 17:41:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177447
-
-The ti-img-rogue-umlibs package is not obeying usrmerge distro feature. /lib should be relocated to /usr. [usrmerge]
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 17:41:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177448
 
 Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 ---
- .../libgles/ti-img-rogue-umlibs_1.18.6276027.bb               | 4 ++++
- 1 file changed, 4 insertions(+)
+ ...kefile-handle-firmware-with-usrmerge.patch | 32 -------------------
+ 1 file changed, 32 deletions(-)
+ delete mode 100644 meta-ti-bsp/recipes-graphics/libgles/ti-img-rogue-umlibs/0001-Makefile-handle-firmware-with-usrmerge.patch
 
-diff --git a/meta-ti-bsp/recipes-graphics/libgles/ti-img-rogue-umlibs_1.18.6276027.bb b/meta-ti-bsp/recipes-graphics/libgles/ti-img-rogue-umlibs_1.18.6276027.bb
-index 924e46ba..94d14ded 100644
---- a/meta-ti-bsp/recipes-graphics/libgles/ti-img-rogue-umlibs_1.18.6276027.bb
-+++ b/meta-ti-bsp/recipes-graphics/libgles/ti-img-rogue-umlibs_1.18.6276027.bb
-@@ -25,6 +25,10 @@ PVR_WS = "lws-generic"
- RDEPENDS:${PN} += "mesa-megadriver libdrm ti-img-rogue-driver"
- 
- do_install:append() {
-+    if ${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', 'true', 'false', d)}; then
-+        mv ${D}/lib/firmware ${D}${nonarch_base_libdir}
-+        rmdir ${D}/lib
-+    fi
-     rm -rf "${D}/etc/init.d"
-     rm -rf "${D}/usr/lib/libvulkan.so"
-     rm -rf "${D}/usr/lib/libvulkan.so.0"
+diff --git a/meta-ti-bsp/recipes-graphics/libgles/ti-img-rogue-umlibs/0001-Makefile-handle-firmware-with-usrmerge.patch b/meta-ti-bsp/recipes-graphics/libgles/ti-img-rogue-umlibs/0001-Makefile-handle-firmware-with-usrmerge.patch
+deleted file mode 100644
+index 92c1b362..00000000
+--- a/meta-ti-bsp/recipes-graphics/libgles/ti-img-rogue-umlibs/0001-Makefile-handle-firmware-with-usrmerge.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-From 3a696a3eb2c23da1d4abcda3d3e3b6aca65a9f9b Mon Sep 17 00:00:00 2001
+-From: Jose Quaresma <jose.quaresma@foundries.io>
+-Date: Tue, 24 Jan 2023 12:39:30 +0000
+-Subject: [PATCH] Makefile: handle firmware with usrmerge
+-
+-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+----
+- Makefile | 5 +++--
+- 1 file changed, 3 insertions(+), 2 deletions(-)
+-
+-diff --git a/Makefile b/Makefile
+-index 48f9b9c..04b4154 100755
+---- a/Makefile
+-+++ b/Makefile
+-@@ -1,4 +1,5 @@
+- DESTDIR ?= ${DISCIMAGE}
+-+FWDIR ?= lib
+- TARGET_PRODUCT ?= j721e_linux
+- BUILD ?= release
+- WINDOW_SYSTEM ?= nulldrmws
+-@@ -13,7 +14,7 @@ all:
+- install:
+-	mkdir -p ${DESTDIR}/${etcdir}
+-	mkdir -p ${DESTDIR}/${usrdir}
+--	mkdir -p ${DESTDIR}/${fwdir}
+-+	mkdir -p ${DESTDIR}/${FWDIR}
+-	cp -ar ${SRCDIR}/${etcdir}/* ${DESTDIR}/${etcdir}
+-	cp -ar ${SRCDIR}/${usrdir}/* ${DESTDIR}/${usrdir}
+--	cp -ar ${SRCDIR}/${fwdir}/* ${DESTDIR}/${fwdir}
+-+	cp -ar ${SRCDIR}/${fwdir}/* ${DESTDIR}/${FWDIR}
+---
+-2.34.1
 -- 
 2.34.1
 
