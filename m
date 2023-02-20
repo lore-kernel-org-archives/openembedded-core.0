@@ -2,108 +2,115 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6490DC64EC4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 648D9C636CC
 	for <webhook@archiver.kernel.org>; Mon, 20 Feb 2023 14:19:00 +0000 (UTC)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web11.14068.1676902738729478045
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web11.14061.1676902731098171116
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Feb 2023 06:18:58 -0800
+ Mon, 20 Feb 2023 06:18:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=MyW/soBC;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.180, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f180.google.com with SMTP id bm5so719142pgb.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 06:18:58 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=KdSdg8e4;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f179.google.com with SMTP id q5so1525957plh.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 06:18:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=mWd54Io8a4Hh3wXNPZR/OK7TBdW1lV7YzckWJv9rlOc=;
-        b=MyW/soBC75UTV6P0+z/q92oJxGFL0h2d2iWcVpS5ffLiys7nRfywk4RBuEi7wsOa1j
-         Cc/YZ8w9ABu6LB8i5/HmudsL12x/CULdOMsz0EIW500A0QJ8qVj41yOgzR4kTKvzIJlG
-         GqA3xZOy+eWjNPZY6mPKp3WLfN2i2OtxEB6yWksHlYqAwPXuTwFeabz2TqpB3w0ONBvo
-         XTJ5huHI0pf2Jc9YMCzum1qFhy/9NgWKutSR2xO7vcoAAWW6pnANIqX9Mwhi1lkG2uC6
-         k0VJLGTWwHKfoRwxFwQCek1yxEV+1c9ZfNcViZO+7gU4hc63oFmxfAucl+WlH6OVz7/a
-         vTTg==
+        bh=QIwnW9JaPCVAyPqAal3aEQDJH90RnAWtvYlrl4HwRmM=;
+        b=KdSdg8e4fzEKxxhLZZI5gUqD7KP5gecVcO58wxDptn3Q7235AmmzYUOdOua2cgLDtn
+         GRy7D24Igf5RHoF4fRavAAS4yQlPZWNVyOce7VL02hkJJgliYCUJsSqrn52NqdwrRslP
+         cnPfTLGXX15Mx/BbnAjASqgT0951/jQN8pgz0ypQUfuIXsS0CJhqa/0mI8BawxT9uipi
+         P+ZOX6HIKZWMgglz8b8D/i2xnNd9BC1n3zLQBO0kpIsgAofDregtAIBFwYtvV5bx+xG1
+         9gqJPkSBJ1Ya+tiJhTrHf0SIg2i3o+Nic1AjGjQpofcDdn2C+oYdZvFF792pXuA8y9Uz
+         WV4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mWd54Io8a4Hh3wXNPZR/OK7TBdW1lV7YzckWJv9rlOc=;
-        b=6YI4crSzdTYPtgi8oPrEc0OhzoJl0yWsr0iAZ5QtrFEmY3llE2tgAPqf3fGWgLV4x9
-         l+ghPicbgZhXOw7bblk8ms00dJfs/z9bzKEd4CwryFpfRTc4GPbzOjirVz9HAQ3lWp6c
-         Ga0mRRhvNXKwSyN72tNgsilnnwMr9DvQxlnSuIiFtRfgjKj7WILVDU7nKCXanPs4e9tU
-         Vnnw5t7b787M5iGx78xohrDMgkdJvNtGWTFsUxkoesObThBPbqJm34uCbjoq7ByjFxyx
-         JN4LHCKncK8/UEesrsx+E3AcNjl7earYbrCRDMno6xecbolcKmFn3o/7n04W/GG/oh5H
-         B+EA==
-X-Gm-Message-State: AO0yUKXj/gTD2p0xiW+lf1ozVEaEbl3M++MvFnaxcuBUrS/8MIFOJ4ko
-	1GE7O529S8tCVfHqGxrB1y90hXezV/Ccb/uZAdA=
-X-Google-Smtp-Source: AK7set/2PeKvcj9UHFIKVFlvB+fkozQkWgRCbUQb36pe6mKxtyaYuStlmICNcS14zmFPC2F/H4N5fg==
-X-Received: by 2002:a62:2f41:0:b0:5a8:808a:d3ce with SMTP id v62-20020a622f41000000b005a8808ad3cemr1702476pfv.8.1676902737780;
-        Mon, 20 Feb 2023 06:18:57 -0800 (PST)
+        bh=QIwnW9JaPCVAyPqAal3aEQDJH90RnAWtvYlrl4HwRmM=;
+        b=HVAkYIutZPzj+ydCxej7z1PaMT4q9QxR3+6yf2KZ1/ozQ+0Vb4pLa6FrmXypM8d3bS
+         ORi9fsZWBI3p03oTqx+CVj10F/g4+SK7uq6ZD1dP7WuiP65kbcpL7fy2QYj3+HeP+PnC
+         sFxfbPBPfw7xG6vbnBXKdoIEjeREP+yEKMEoo94ZTxraf/p2dd8o8Kr+Ld0vfNbqlbEH
+         MsVuXEOPuOStNBMrlXbRm9DaRyEl78Ry00vmDI2D4h1Vr6G3RZCEeopkl1MESx/+Eli2
+         l4HIxjEHrktDcvQfrMTAYW3TSftKsxV5+OyRd/L/T3Dokiu4iIBH4tUzgjddFNN4AvTN
+         8pJQ==
+X-Gm-Message-State: AO0yUKVgOciSzXkLgFtWXOVAGWqnUP2ZD6Kelsc2aAiHjOV1lTc826LI
+	DdDKaFOWVbaqUcCZ7xPAq2ZYN2gdvJ+mq40vLpk=
+X-Google-Smtp-Source: AK7set8eTl4iVU1sERoFMzbg7Rlz4A/vmQbxyGzm11cJ0viged2Bh1LSmqeZukdndqLI8CIcZ4RnTA==
+X-Received: by 2002:a05:6a20:a692:b0:bf:8ee2:2009 with SMTP id ba18-20020a056a20a69200b000bf8ee22009mr867499pzb.26.1676902730057;
+        Mon, 20 Feb 2023 06:18:50 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id q19-20020a62e113000000b0058baf8694e1sm7789297pfh.71.2023.02.20.06.18.56
+        by smtp.gmail.com with ESMTPSA id q19-20020a62e113000000b0058baf8694e1sm7789297pfh.71.2023.02.20.06.18.49
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Feb 2023 06:18:57 -0800 (PST)
+        Mon, 20 Feb 2023 06:18:49 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 11/22] sudo: upgrade 1.9.12p1 -> 1.9.12p2
-Date: Mon, 20 Feb 2023 04:18:18 -1000
-Message-Id: <9f01e75b2d249a5885b313bcb4ba76df750b0d56.1676902605.git.steve@sakoman.com>
+Subject: [OE-core][langdale 07/22] libjpeg-turbo: upgrade 2.1.4 -> 2.1.5
+Date: Mon, 20 Feb 2023 04:18:14 -1000
+Message-Id: <ce9a7ce6edc0477aab7716df183232d8057758fa.1676902605.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1676902605.git.steve@sakoman.com>
 References: <cover.1676902605.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 14:19:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177417
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177413
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Changes:
+Significant changes relative to 2.1.4
 
-Fixed a compilation error on Linux/aarch64. GitHub issue #197.
+Fixed issues in the build system whereby, when using the Ninja Multi-Config CMake generator, a static build of libjpeg-turbo (a build in which ENABLE_SHARED is 0) could not be installed, a Windows installer could not be built, and the Java regression tests failed.
 
-Fixed a potential crash introduced in the fix GitHub issue #134. If a user’s sudoers entry did not have any RunAs user’s set, running sudo -U otheruser -l would dereference a NULL pointer.
+Fixed a regression introduced by 2.0 beta1[15] that caused a buffer overrun in the progressive Huffman encoder when attempting to transform a specially-crafted malformed 12-bit-per-component JPEG image into a progressive 12-bit-per-component JPEG image using a 12-bit-per-component build of libjpeg-turbo (-DWITH_12BIT=1.) Given that the buffer overrun was fully contained within the progressive Huffman encoder structure and did not cause a segfault or other user-visible errant behavior, given that the lossless transformer (unlike the decompressor) is not generally exposed to arbitrary data exploits, and given that 12-bit-per-component builds of libjpeg-turbo are uncommon, this issue did not likely pose a security risk.
 
-Fixed a bug introduced in sudo 1.9.12 that could prevent sudo from creating a I/O files when the iolog_file sudoers setting contains six or more Xs.
+Fixed an issue whereby, when using a 12-bit-per-component build of libjpeg-turbo (-DWITH_12BIT=1), passing samples with values greater than 4095 or less than 0 to jpeg_write_scanlines() caused a buffer overrun or underrun in the RGB-to-YCbCr color converter.
 
-Fixed a compilation issue on AIX with the native compiler. GitHub issue #231.
+Fixed a floating point exception that occurred when attempting to use the jpegtran -drop and -trim options to losslessly transform a specially-crafted malformed JPEG image.
 
-Fixed CVE-2023-22809, a flaw in sudo’s -e option (aka sudoedit) that could allow a malicious user with sudoedit privileges to edit arbitrary files
+Fixed an issue in tjBufSizeYUV2() whereby it returned a bogus result, rather than throwing an error, if the align parameter was not a power of 2. Fixed a similar issue in tjCompressFromYUV() whereby it generated a corrupt JPEG image in certain cases, rather than throwing an error, if the align parameter was not a power of 2.
+
+Fixed an issue whereby tjDecompressToYUV2(), which is a wrapper for tjDecompressToYUVPlanes(), used the desired YUV image dimensions rather than the actual scaled image dimensions when computing the plane pointers and strides to pass to tjDecompressToYUVPlanes(). This caused a buffer overrun and subsequent segfault if the desired image dimensions exceeded the scaled image dimensions.
+
+Fixed an issue whereby, when decompressing a 12-bit-per-component JPEG image (-DWITH_12BIT=1) using an alpha-enabled output color space such as JCS_EXT_RGBA, the alpha channel was set to 255 rather than 4095.
+
+Fixed an issue whereby the Java version of TJBench did not accept a range of quality values.
+
+Fixed an issue whereby, when -progressive was passed to TJBench, the JPEG input image was not transformed into a progressive JPEG image prior to decompression.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 5a3f5f4f607f5e06af772287109b68579154fb2f)
+(cherry picked from commit f779689c2c766b609be31222d71110c1a15145a8)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../sudo/{sudo_1.9.12p1.bb => sudo_1.9.12p2.bb}                 | 2 +-
+ .../jpeg/{libjpeg-turbo_2.1.4.bb => libjpeg-turbo_2.1.5.bb}     | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/sudo/{sudo_1.9.12p1.bb => sudo_1.9.12p2.bb} (96%)
+ rename meta/recipes-graphics/jpeg/{libjpeg-turbo_2.1.4.bb => libjpeg-turbo_2.1.5.bb} (97%)
 
-diff --git a/meta/recipes-extended/sudo/sudo_1.9.12p1.bb b/meta/recipes-extended/sudo/sudo_1.9.12p2.bb
-similarity index 96%
-rename from meta/recipes-extended/sudo/sudo_1.9.12p1.bb
-rename to meta/recipes-extended/sudo/sudo_1.9.12p2.bb
-index 1495b67b8b..ae7207c081 100644
---- a/meta/recipes-extended/sudo/sudo_1.9.12p1.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.9.12p2.bb
-@@ -8,7 +8,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
+diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.4.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.bb
+similarity index 97%
+rename from meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.4.bb
+rename to meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.bb
+index 1708fa97f0..4d21ca1e1d 100644
+--- a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.4.bb
++++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.5.bb
+@@ -14,7 +14,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
+            file://0001-libjpeg-turbo-fix-package_qa-error.patch \
+            "
  
- PAM_SRC_URI = "file://sudo.pam"
+-SRC_URI[sha256sum] = "d3ed26a1131a13686dfca4935e520eb7c90ae76fbc45d98bb50a8dc86230342b"
++SRC_URI[sha256sum] = "bc12bc9dce55300c6bf4342bc233bcc26bd38bf289eedf147360d731c668ddaf"
+ UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/libjpeg-turbo/files/"
+ UPSTREAM_CHECK_REGEX = "/libjpeg-turbo/files/(?P<pver>(\d+[\.\-_]*)+)/"
  
--SRC_URI[sha256sum] = "475a18a8eb3da8b2917ceab063a6baf51ea09128c3c47e3e0e33ab7497bab7d8"
-+SRC_URI[sha256sum] = "b9a0b1ae0f1ddd9be7f3eafe70be05ee81f572f6f536632c44cd4101bb2a8539"
- 
- DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS:${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
 -- 
 2.34.1
 
