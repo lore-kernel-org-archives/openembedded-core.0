@@ -1,101 +1,88 @@
-Return-Path: <michael.opdenacker@bootlin.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AF02C636D6
-	for <webhook@archiver.kernel.org>; Mon, 20 Feb 2023 17:45:51 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
- by mx.groups.io with SMTP id smtpd.web11.20141.1676915150498517085
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD81FC636D6
+	for <webhook@archiver.kernel.org>; Mon, 20 Feb 2023 18:28:21 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web10.21094.1676917697010189442
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Feb 2023 09:45:50 -0800
+ Mon, 20 Feb 2023 10:28:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=fiQtdaLg;
- spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: michael.opdenacker@bootlin.com)
-Received: (Authenticated sender: michael.opdenacker@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 33E2EFF808;
-	Mon, 20 Feb 2023 17:45:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1676915148;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iGntf/L0nhckkEOPFjQpH3eY51qrQaW2RiPVJtr/QRw=;
-	b=fiQtdaLgYs98Ha03vGDeqJugjL65XA4qKEcvJFwynZHPB3rxvQB1F/ZxOPk4GbvD/rJgUQ
-	YBzRMk82HVt4k8C8f4xDmOW5TEiCvDUsY5+FFO5jVEwjAZ1p/IO2hVO59Vw2t80B/H9NLe
-	xcc35auwrTTWtAm4fFMxKxR+zPMj3SZ3GUQg+toGfddRgxGn+CQGHY+JED6WuvRWdyXpLs
-	I0DbGCDmlDN9Gpk6iScow8Z7CDxuPg8MUNvVeJbzWHM6SuYs6vdyfjB+IpTIgnDHNmhfir
-	FsgH5LsTSkVoDxwB3bqjl8BlC8rjo5GOkdJMLHwkc0yp3SjCthvV+MqRisYPtw==
-Message-ID: <14a72505-0e05-6b81-ce33-580cf986c898@bootlin.com>
-Date: Mon, 20 Feb 2023 18:45:46 +0100
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Ar5bEOOP;
+ spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f41.google.com with SMTP id bg28so1577689wmb.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 10:28:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ljuW+L8UPZmHwUteYPhaC6W4jaT6OEPQ/XIQd1WYjuk=;
+        b=Ar5bEOOPUwelxfI+1sV+8dcqa9ZUifF1bPDZmggel1lutIBsa3+kYMGh3x1Ce7sUyn
+         JWf9JWkHcInip1VwUuKkNaln/nKawDbz3Ky562v/Dixks0UgZImgKheRx5gZlLiOJkyM
+         HwBeB2WVL179NjV30r1uYX7HSgguxxT6xhyzBH78BUOQmBcuK1RgKKzTA4BA5VdWHb6F
+         cherzQLDq+NJuxUiNiNE6M859d2DpcDccfFf8dZSzSFNt8P8gFXEPWPK+JSfiDp3S/0R
+         5/SNHszMMQnRKiXia5rgj80dfrc9djkke/tkaW2byg213r5mmiZCitQVZGpQniG2wRPF
+         x6jQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ljuW+L8UPZmHwUteYPhaC6W4jaT6OEPQ/XIQd1WYjuk=;
+        b=8ItHcT4hoqVRAyQTM1K98zMjJxi2wzjL8hZowUUfvuHz5BCaLVf1J+YHXJoB75sZjI
+         ZooiemWq16C6qGbKefdr6y4pS44w6ZJol8W2B6iYG0uMqjG8fE/l5JH+qsLrwmyzqej5
+         P4xXZHOYZtnXSmPP/bDTHFY5OuKOseYzNL/4q2jjIIOkUp2Ym2zBWZw80ayit7Uaw1Md
+         306vp/x8f4U3uvWi4BF4GL9ujQqoEOySACUioaxj3YwQ2s+oOlt+SRRYkZCN2k7GzfLV
+         07JQ8r9IhNTB30enTzVMLzCvo4uqL5dvf0BE6tXdBCh8EuvfaPgG06wlWuTy5ric+y+n
+         DA1g==
+X-Gm-Message-State: AO0yUKWTKefktDfQokVc2AHY2TA6picSW9m1gwndDj3+aZUbLAMZhP56
+	4Modtoy/3kzz0pw9iyJbqriirYao6iM=
+X-Google-Smtp-Source: AK7set9QpY2q6st5FVHnnuuRLi9yfiEBmheptGhMcl3cnVbVWyzEuEIxLiOttmXDga0xklp0/+PAZQ==
+X-Received: by 2002:a05:600c:44c5:b0:3e2:1f63:4a8c with SMTP id f5-20020a05600c44c500b003e21f634a8cmr1265666wmo.23.1676917695309;
+        Mon, 20 Feb 2023 10:28:15 -0800 (PST)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id y11-20020a05600c364b00b003dc0cb5e3f1sm14227275wmq.46.2023.02.20.10.28.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Feb 2023 10:28:14 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH] devtool: ignore patch-fuzz errors when extracting source
+Date: Mon, 20 Feb 2023 19:28:13 +0100
+Message-Id: <20230220182813.2785151-1-alex@linutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Cc: YP docs mailing list <docs@lists.yoctoproject.org>
-Subject: Re: [OE-core] [PATCH] ref-manual: Fix invalid feature name
-To: quentin.schulz@theobroma-systems.com, niko.mauno@vaisala.com,
- openembedded-core@lists.openembedded.org
-References: <20230219143133.66511-1-niko.mauno@vaisala.com>
- <8b58d703-93d4-11f8-4d0e-d6b922e995d4@theobroma-systems.com>
-Content-Language: en-US
-From: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Organization: Bootlin
-In-Reply-To: <8b58d703-93d4-11f8-4d0e-d6b922e995d4@theobroma-systems.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 17:45:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177449
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 18:28:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177450
 
-Hi Nico,
+So that patch fuzz issues can actually be fixed,
+as extracting source with 'devtool modify' is the first step
+for that.
 
-On 20.02.23 at 10:20, Quentin Schulz via lists.openembedded.org wrote:
-> Hi Niko,
->
-> This should be sent to the docs mailing list instead 
-> (docs@lists.yoctoproject.org). Cc'ing now.
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ scripts/lib/devtool/standard.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-
-Thanks for the patch!
-You also have an issue with the way your e-mails are received here. Here 
-is a workaround:
-https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded#Fixing_your_From_identity
-
-I fixed the commit manually, but doing this will help for next time.
-
->
-> On 2/19/23 15:31, Niko Mauno via lists.openembedded.org wrote:
->> Replace the invalid feature name with correct one which helps to avoid
->> following bitbake error
->>
->>    ERROR: Nothing PROVIDES 'core-image-minimal'
->>    core-image-minimal was skipped: 'empty-root-passwd' in 
->> IMAGE_FEATURES (added via EXTRA_IMAGE_FEATURES) is not a valid image 
->> feature.
->>
->> Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
->
-> Reviewed-by: Quentin Schulz <foss+yocto@0leil.net>
-
-
-Reviewed-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
-... and merged into "master-next".
-
->
-> @Michael, this typo seems to have landed in langdale too so probably a 
-> candidate for backport.
-
-
-Correct. I submitted a backport patch. Thanks!
-
-Cheers
-Michael.
-
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index d64e18e179..0339d12763 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -567,6 +567,7 @@ def _extract_source(srctree, keep_temp, devbranch, sync, config, basepath, works
+         logger.debug('writing append file %s' % appendfile)
+         with open(appendfile, 'a') as f:
+             f.write('###--- _extract_source\n')
++            f.write('ERROR_QA:remove = "patch-fuzz"\n')
+             f.write('DEVTOOL_TEMPDIR = "%s"\n' % tempdir)
+             f.write('DEVTOOL_DEVBRANCH = "%s"\n' % devbranch)
+             if not is_kernel_yocto:
 -- 
-Michael Opdenacker, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.30.2
 
 
