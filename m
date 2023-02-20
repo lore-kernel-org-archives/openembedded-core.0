@@ -1,460 +1,104 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <kai.kang@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94131C05027
-	for <webhook@archiver.kernel.org>; Mon, 20 Feb 2023 05:03:27 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web11.6608.1676869400156023408
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0AD6C636D6
+	for <webhook@archiver.kernel.org>; Mon, 20 Feb 2023 05:57:17 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.6941.1676872630141200090
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Feb 2023 21:03:20 -0800
+ Sun, 19 Feb 2023 21:57:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=Sc1m+e8W;
- spf=pass (domain: mvista.com, ip: 209.85.214.178, mailfrom: hprajapati@mvista.com)
-Received: by mail-pl1-f178.google.com with SMTP id e5so1114170plg.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 19 Feb 2023 21:03:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5P0wNOC5FeNB8au3oLpQ+X2JdXEDyMx1vu7FPuQLPcU=;
-        b=Sc1m+e8WaiufRIrVB9MmHRGk1USlPokLUQGRaelwXX7UPkGD76rOQqgmPSNhFr0XND
-         yXwS0oli86lQQJ42JOz+1WYqsC0Il8wsu2NPayvE0LoTfOXHH1949o1ai6rTsmroh0Lk
-         edKooJdPSrxHqy23m9+Yw2NuMa8K2apB+IgS0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5P0wNOC5FeNB8au3oLpQ+X2JdXEDyMx1vu7FPuQLPcU=;
-        b=uUP/FB58FF1GFFJqAdPjuwCxugwvhWQgX7P+fQ3t2ViyQXNC/PD0ZAzmGBqdt20MJ3
-         rRZWDpLFfa72PDSCakp9LBmR6NLF9L4/wAuQglAc0ykZDpAftFtTHlJQ1FMAKsi5+81d
-         vbirtDBZMQXJeiH9euoP1ML1QlpxkCBj2JGATQq5UICe+RNVPXcZm5VWQDdQf0ZtQ5YI
-         RV6NPu2IeEzbCa5BMrJAOZdtEkD5Xhdr50NoUCdDEb5qr8znB5fLyJ1A/FEv5oKzcTw6
-         nhRvGLv6u0BrmQyv6tC8JOPo9kP0NVrt806zy+CpcWCHvxUMIUGwxfbUYY2Fe4rezEWC
-         BmXA==
-X-Gm-Message-State: AO0yUKUBsZjeWd4XF3eStQik2fivxPxMNuT8JReV+MOkkzFPAtAfuvEf
-	/0vTmDGL+LYEgVL/MlE8/6RZXKFFnDoi8AMj
-X-Google-Smtp-Source: AK7set8nh6WGrxjpT6egsDT8miwj11yP2UjkFr3lhM6Q43K30GXUndh65KpXqEk42ftQ2nbsVWu46A==
-X-Received: by 2002:a17:902:ce87:b0:19b:e31:b329 with SMTP id f7-20020a170902ce8700b0019b0e31b329mr546400plg.33.1676869399304;
-        Sun, 19 Feb 2023 21:03:19 -0800 (PST)
-Received: from MVIN00024 ([49.34.246.94])
-        by smtp.gmail.com with ESMTPSA id b16-20020a170902b61000b0019a70a85ea0sm2947068pls.229.2023.02.19.21.03.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Feb 2023 21:03:18 -0800 (PST)
-Received: by MVIN00024 (sSMTP sendmail emulation); Mon, 20 Feb 2023 10:31:04 +0530
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [dunfell][PATCH] git: CVE-2022-23521 gitattributes parsing integer overflow
-Date: Mon, 20 Feb 2023 10:31:03 +0530
-Message-Id: <20230220050103.25527-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=e7KRT8fK;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=14151d2590=kai.kang@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31K5ua7g003626
+	for <openembedded-core@lists.openembedded.org>; Sun, 19 Feb 2023 21:57:09 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
+ subject : date : message-id : mime-version : content-type; s=PPS06212021;
+ bh=uc8JKNBKrrkeGR3fZcdPumnjavAnuRisWDykMdmEtBg=;
+ b=e7KRT8fKIwZW5q5rVHYa7AhyBydu4rVpdPEOkeXPqU5arDAroEJdHbGKPtvhNpsNeVA5
+ 2gMsWCY+31GsWp2bg4aJFGMqx+dvs2gcSQ6okDgXtrXfNlLZSV/n+oOCankNuJnWeRlM
+ wcCY30GnFISnAXCdX47n5I91+jivWoo93JvIP7QxcdaFCGYJomzIeznKXKterAXcUvcO
+ xNMp4zl1Y0Hi/pT/x8NGGVw6oVeicVK+Mjx76Og0I1ZZ357lSPDBulE8Xi6Is4TtUWRS
+ KFESXFpD/QxMmg5XoKPXekPgQx+IqzjV/0HoLqYk2yMLFsuYu+Yek7yPxVYIun6aOdU+ lg== 
+Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3nty2ps548-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sun, 19 Feb 2023 21:57:09 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.18; Sun, 19 Feb 2023 21:57:08 -0800
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.17 via Frontend Transport; Sun, 19 Feb 2023 21:57:08 -0800
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [kirkstone][PATCH] xserver-xorg: 21.1.6 -> 21.1.7
+Date: Mon, 20 Feb 2023 13:57:05 +0800
+Message-ID: <20230220055705.22319-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: jL2Xjbj6SqvTLQcihTE-33DALkV6xtzX
+X-Proofpoint-GUID: jL2Xjbj6SqvTLQcihTE-33DALkV6xtzX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-20_03,2023-02-17_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ lowpriorityscore=0 phishscore=0 adultscore=0 suspectscore=0 bulkscore=0
+ mlxlogscore=859 spamscore=0 priorityscore=1501 malwarescore=0 mlxscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302200053
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 05:03:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177393
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 05:57:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177394
 
-Upstream-Status: Backport from https://github.com/git/git/commit/eb22e7dfa23da6bd9aed9bd1dad69e1e8e167d24 & https://github.com/git/git/commit/8d0d48cf2157cfb914db1f53b3fe40785b86f3aa & https://github.com/git/git/commit/24557209500e6ed618f04a8795a111a0c491a29c & https://github.com/git/git/commit/34ace8bad02bb14ecc5b631f7e3daaa7a9bba7d9 & https://github.com/git/git/commit/447ac906e189535e77dcb1f4bbe3f1bc917d4c12 & https://github.com/git/git/commit/e1e12e97ac73ded85f7d000da1063a774b3cc14f & https://github.com/git/git/commit/a60a66e409c265b2944f18bf43581c146812586d & https://github.com/git/git/commit/d74b1fd54fdbc45966d12ea907dece11e072fb2b & https://github.com/git/git/commit/dfa6b32b5e599d97448337ed4fc18dd50c90758f & https://github.com/git/git/commit/3c50032ff5289cc45659f21949c8d09e52164579
+From: Kai Kang <kai.kang@windriver.com>
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+According to the ANNOUNCE of xorg-server 21.1.7[1]:
+
+This release contains the fix for CVE-2023-0494 in today's security
+advisory: https://lists.x.org/archives/xorg-announce/2023-February/003320.html
+It also fixes a second possible OOB access during EnqueueEvent and a
+crasher caused by ResourceClientBits not correctly honouring the
+MaxClients value in the configuration file.
+
+Finally, a bunch of Xquartz updates including the ability to correctly detect
+ssh-tunneled clients as remote.
+
+[1]: https://lists.x.org/archives/xorg-announce/2023-February/003321.html
+
+(From OE-Core rev: 60737bee6466e206d8f3c751910dfce00b60d703)
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../git/files/CVE-2022-23521.patch            | 367 ++++++++++++++++++
- meta/recipes-devtools/git/git.inc             |   2 +-
- 2 files changed, 368 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/git/files/CVE-2022-23521.patch
+ .../{xserver-xorg_21.1.6.bb => xserver-xorg_21.1.7.bb}          | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.6.bb => xserver-xorg_21.1.7.bb} (92%)
 
-diff --git a/meta/recipes-devtools/git/files/CVE-2022-23521.patch b/meta/recipes-devtools/git/files/CVE-2022-23521.patch
-new file mode 100644
-index 0000000000..974546013d
---- /dev/null
-+++ b/meta/recipes-devtools/git/files/CVE-2022-23521.patch
-@@ -0,0 +1,367 @@
-+From eb22e7dfa23da6bd9aed9bd1dad69e1e8e167d24 Mon Sep 17 00:00:00 2001
-+From: Patrick Steinhardt <ps@pks.im>
-+Date: Thu, 1 Dec 2022 15:45:15 +0100
-+Subject: [PATCH] CVE-2022-23521
-+
-+attr: fix overflow when upserting attribute with overly long name
-+
-+The function `git_attr_internal()` is called to upsert attributes into
-+the global map. And while all callers pass a `size_t`, the function
-+itself accepts an `int` as the attribute name's length. This can lead to
-+an integer overflow in case the attribute name is longer than `INT_MAX`.
-+
-+Now this overflow seems harmless as the first thing we do is to call
-+`attr_name_valid()`, and that function only succeeds in case all chars
-+in the range of `namelen` match a certain small set of chars. We thus
-+can't do an out-of-bounds read as NUL is not part of that set and all
-+strings passed to this function are NUL-terminated. And furthermore, we
-+wouldn't ever read past the current attribute name anyway due to the
-+same reason. And if validation fails we will return early.
-+
-+On the other hand it feels fragile to rely on this behaviour, even more
-+so given that we pass `namelen` to `FLEX_ALLOC_MEM()`. So let's instead
-+just do the correct thing here and accept a `size_t` as line length.
-+
-+Upstream-Status: Backport [https://github.com/git/git/commit/eb22e7dfa23da6bd9aed9bd1dad69e1e8e167d24 &https://github.com/git/git/commit/8d0d48cf2157cfb914db1f53b3fe40785b86f3aa & https://github.com/git/git/commit/24557209500e6ed618f04a8795a111a0c491a29c & https://github.com/git/git/commit/34ace8bad02bb14ecc5b631f7e3daaa7a9bba7d9 & https://github.com/git/git/commit/447ac906e189535e77dcb1f4bbe3f1bc917d4c12 & https://github.com/git/git/commit/e1e12e97ac73ded85f7d000da1063a774b3cc14f & https://github.com/git/git/commit/a60a66e409c265b2944f18bf43581c146812586d & https://github.com/git/git/commit/d74b1fd54fdbc45966d12ea907dece11e072fb2b & https://github.com/git/git/commit/dfa6b32b5e599d97448337ed4fc18dd50c90758f & https://github.com/git/git/commit/3c50032ff5289cc45659f21949c8d09e52164579
-+
-+CVE: CVE-2022-23521
-+
-+Reviewed-by: Sylvain Beucler <beuc@debian.org>
-+Signed-off-by: Patrick Steinhardt <ps@pks.im>
-+Signed-off-by: Junio C Hamano <gitster@pobox.com>
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ attr.c                | 97 +++++++++++++++++++++++++++----------------
-+ attr.h                | 12 ++++++
-+ t/t0003-attributes.sh | 59 ++++++++++++++++++++++++++
-+ 3 files changed, 132 insertions(+), 36 deletions(-)
-+
-+diff --git a/attr.c b/attr.c
-+index 11f19b5..63484ab 100644
-+--- a/attr.c
-++++ b/attr.c
-+@@ -29,7 +29,7 @@ static const char git_attr__unknown[] = "(builtin)unknown";
-+ #endif
-+ 
-+ struct git_attr {
-+-	int attr_nr; /* unique attribute number */
-++	unsigned int attr_nr; /* unique attribute number */
-+ 	char name[FLEX_ARRAY]; /* attribute name */
-+ };
-+ 
-+@@ -221,7 +221,7 @@ static void report_invalid_attr(const char *name, size_t len,
-+  * dictionary.  If no entry is found, create a new attribute and store it in
-+  * the dictionary.
-+  */
-+-static const struct git_attr *git_attr_internal(const char *name, int namelen)
-++static const struct git_attr *git_attr_internal(const char *name, size_t namelen)
-+ {
-+ 	struct git_attr *a;
-+ 
-+@@ -237,8 +237,8 @@ static const struct git_attr *git_attr_internal(const char *name, int namelen)
-+ 		a->attr_nr = hashmap_get_size(&g_attr_hashmap.map);
-+ 
-+ 		attr_hashmap_add(&g_attr_hashmap, a->name, namelen, a);
-+-		assert(a->attr_nr ==
-+-		       (hashmap_get_size(&g_attr_hashmap.map) - 1));
-++		if (a->attr_nr != hashmap_get_size(&g_attr_hashmap.map) - 1)
-++			die(_("unable to add additional attribute"));
-+ 	}
-+ 
-+ 	hashmap_unlock(&g_attr_hashmap);
-+@@ -283,7 +283,7 @@ struct match_attr {
-+ 		const struct git_attr *attr;
-+ 	} u;
-+ 	char is_macro;
-+-	unsigned num_attr;
-++	size_t num_attr;
-+ 	struct attr_state state[FLEX_ARRAY];
-+ };
-+ 
-+@@ -300,7 +300,7 @@ static const char *parse_attr(const char *src, int lineno, const char *cp,
-+ 			      struct attr_state *e)
-+ {
-+ 	const char *ep, *equals;
-+-	int len;
-++	size_t len;
-+ 
-+ 	ep = cp + strcspn(cp, blank);
-+ 	equals = strchr(cp, '=');
-+@@ -344,8 +344,7 @@ static const char *parse_attr(const char *src, int lineno, const char *cp,
-+ static struct match_attr *parse_attr_line(const char *line, const char *src,
-+ 					  int lineno, int macro_ok)
-+ {
-+-	int namelen;
-+-	int num_attr, i;
-++	size_t namelen, num_attr, i;
-+ 	const char *cp, *name, *states;
-+ 	struct match_attr *res = NULL;
-+ 	int is_macro;
-+@@ -356,6 +355,11 @@ static struct match_attr *parse_attr_line(const char *line, const char *src,
-+ 		return NULL;
-+ 	name = cp;
-+ 
-++	if (strlen(line) >= ATTR_MAX_LINE_LENGTH) {
-++		warning(_("ignoring overly long attributes line %d"), lineno);
-++		return NULL;
-++	}
-++
-+ 	if (*cp == '"' && !unquote_c_style(&pattern, name, &states)) {
-+ 		name = pattern.buf;
-+ 		namelen = pattern.len;
-+@@ -392,10 +396,9 @@ static struct match_attr *parse_attr_line(const char *line, const char *src,
-+ 			goto fail_return;
-+ 	}
-+ 
-+-	res = xcalloc(1,
-+-		      sizeof(*res) +
-+-		      sizeof(struct attr_state) * num_attr +
-+-		      (is_macro ? 0 : namelen + 1));
-++	res = xcalloc(1, st_add3(sizeof(*res),
-++				 st_mult(sizeof(struct attr_state), num_attr),
-++				 is_macro ? 0 : namelen + 1));
-+ 	if (is_macro) {
-+ 		res->u.attr = git_attr_internal(name, namelen);
-+ 	} else {
-+@@ -458,11 +461,12 @@ struct attr_stack {
-+ 
-+ static void attr_stack_free(struct attr_stack *e)
-+ {
-+-	int i;
-++	unsigned i;
-+ 	free(e->origin);
-+ 	for (i = 0; i < e->num_matches; i++) {
-+ 		struct match_attr *a = e->attrs[i];
-+-		int j;
-++		size_t j;
-++
-+ 		for (j = 0; j < a->num_attr; j++) {
-+ 			const char *setto = a->state[j].setto;
-+ 			if (setto == ATTR__TRUE ||
-+@@ -671,8 +675,8 @@ static void handle_attr_line(struct attr_stack *res,
-+ 	a = parse_attr_line(line, src, lineno, macro_ok);
-+ 	if (!a)
-+ 		return;
-+-	ALLOC_GROW(res->attrs, res->num_matches + 1, res->alloc);
-+-	res->attrs[res->num_matches++] = a;
-++	ALLOC_GROW_BY(res->attrs, res->num_matches, 1, res->alloc);
-++	res->attrs[res->num_matches - 1] = a;
-+ }
-+ 
-+ static struct attr_stack *read_attr_from_array(const char **list)
-+@@ -711,21 +715,37 @@ void git_attr_set_direction(enum git_attr_direction new_direction)
-+ 
-+ static struct attr_stack *read_attr_from_file(const char *path, int macro_ok)
-+ {
-++	struct strbuf buf = STRBUF_INIT;
-+ 	FILE *fp = fopen_or_warn(path, "r");
-+ 	struct attr_stack *res;
-+-	char buf[2048];
-+ 	int lineno = 0;
-++	int fd;
-++	struct stat st;
-+ 
-+ 	if (!fp)
-+ 		return NULL;
-+-	res = xcalloc(1, sizeof(*res));
-+-	while (fgets(buf, sizeof(buf), fp)) {
-+-		char *bufp = buf;
-+-		if (!lineno)
-+-			skip_utf8_bom(&bufp, strlen(bufp));
-+-		handle_attr_line(res, bufp, path, ++lineno, macro_ok);
-++
-++	fd = fileno(fp);
-++	if (fstat(fd, &st)) {
-++		warning_errno(_("cannot fstat gitattributes file '%s'"), path);
-++		fclose(fp);
-++		return NULL;
-+ 	}
-++	if (st.st_size >= ATTR_MAX_FILE_SIZE) {
-++		warning(_("ignoring overly large gitattributes file '%s'"), path);
-++		fclose(fp);
-++		return NULL;
-++	}
-++
-++	CALLOC_ARRAY(res, 1);
-++	while (strbuf_getline(&buf, fp) != EOF) {
-++		if (!lineno && starts_with(buf.buf, utf8_bom))
-++			strbuf_remove(&buf, 0, strlen(utf8_bom));
-++		handle_attr_line(res, buf.buf, path, ++lineno, macro_ok);
-++	}
-++
-+ 	fclose(fp);
-++	strbuf_release(&buf);
-+ 	return res;
-+ }
-+ 
-+@@ -736,13 +756,18 @@ static struct attr_stack *read_attr_from_index(const struct index_state *istate,
-+ 	struct attr_stack *res;
-+ 	char *buf, *sp;
-+ 	int lineno = 0;
-++	size_t size;
-+ 
-+ 	if (!istate)
-+ 		return NULL;
-+ 
-+-	buf = read_blob_data_from_index(istate, path, NULL);
-++	buf = read_blob_data_from_index(istate, path, &size);
-+ 	if (!buf)
-+ 		return NULL;
-++	if (size >= ATTR_MAX_FILE_SIZE) {
-++		warning(_("ignoring overly large gitattributes blob '%s'"), path);
-++		return NULL;
-++	}
-+ 
-+ 	res = xcalloc(1, sizeof(*res));
-+ 	for (sp = buf; *sp; ) {
-+@@ -1012,12 +1037,12 @@ static int macroexpand_one(struct all_attrs_item *all_attrs, int nr, int rem);
-+ static int fill_one(const char *what, struct all_attrs_item *all_attrs,
-+ 		    const struct match_attr *a, int rem)
-+ {
-+-	int i;
-++	size_t i;
-+ 
-+-	for (i = a->num_attr - 1; rem > 0 && i >= 0; i--) {
-+-		const struct git_attr *attr = a->state[i].attr;
-++	for (i = a->num_attr; rem > 0 && i > 0; i--) {
-++		const struct git_attr *attr = a->state[i - 1].attr;
-+ 		const char **n = &(all_attrs[attr->attr_nr].value);
-+-		const char *v = a->state[i].setto;
-++		const char *v = a->state[i - 1].setto;
-+ 
-+ 		if (*n == ATTR__UNKNOWN) {
-+ 			debug_set(what,
-+@@ -1036,11 +1061,11 @@ static int fill(const char *path, int pathlen, int basename_offset,
-+ 		struct all_attrs_item *all_attrs, int rem)
-+ {
-+ 	for (; rem > 0 && stack; stack = stack->prev) {
-+-		int i;
-++		unsigned i;
-+ 		const char *base = stack->origin ? stack->origin : "";
-+ 
-+-		for (i = stack->num_matches - 1; 0 < rem && 0 <= i; i--) {
-+-			const struct match_attr *a = stack->attrs[i];
-++		for (i = stack->num_matches; 0 < rem && 0 < i; i--) {
-++			const struct match_attr *a = stack->attrs[i - 1];
-+ 			if (a->is_macro)
-+ 				continue;
-+ 			if (path_matches(path, pathlen, basename_offset,
-+@@ -1071,11 +1096,11 @@ static void determine_macros(struct all_attrs_item *all_attrs,
-+ 			     const struct attr_stack *stack)
-+ {
-+ 	for (; stack; stack = stack->prev) {
-+-		int i;
-+-		for (i = stack->num_matches - 1; i >= 0; i--) {
-+-			const struct match_attr *ma = stack->attrs[i];
-++		unsigned i;
-++		for (i = stack->num_matches; i > 0; i--) {
-++			const struct match_attr *ma = stack->attrs[i - 1];
-+ 			if (ma->is_macro) {
-+-				int n = ma->u.attr->attr_nr;
-++				unsigned int n = ma->u.attr->attr_nr;
-+ 				if (!all_attrs[n].macro) {
-+ 					all_attrs[n].macro = ma;
-+ 				}
-+@@ -1127,7 +1152,7 @@ void git_check_attr(const struct index_state *istate,
-+ 	collect_some_attrs(istate, path, check);
-+ 
-+ 	for (i = 0; i < check->nr; i++) {
-+-		size_t n = check->items[i].attr->attr_nr;
-++		unsigned int n = check->items[i].attr->attr_nr;
-+ 		const char *value = check->all_attrs[n].value;
-+ 		if (value == ATTR__UNKNOWN)
-+ 			value = ATTR__UNSET;
-+diff --git a/attr.h b/attr.h
-+index b0378bf..f424285 100644
-+--- a/attr.h
-++++ b/attr.h
-+@@ -1,6 +1,18 @@
-+ #ifndef ATTR_H
-+ #define ATTR_H
-+ 
-++/**
-++ * The maximum line length for a gitattributes file. If the line exceeds this
-++ * length we will ignore it.
-++ */
-++#define ATTR_MAX_LINE_LENGTH 2048
-++
-++ /**
-++  * The maximum size of the giattributes file. If the file exceeds this size we
-++  * will ignore it.
-++  */
-++#define ATTR_MAX_FILE_SIZE (100 * 1024 * 1024)
-++
-+ struct index_state;
-+ 
-+ /* An attribute is a pointer to this opaque structure */
-+diff --git a/t/t0003-attributes.sh b/t/t0003-attributes.sh
-+index 71e63d8..556245b 100755
-+--- a/t/t0003-attributes.sh
-++++ b/t/t0003-attributes.sh
-+@@ -342,4 +342,63 @@ test_expect_success 'query binary macro directly' '
-+ 	test_cmp expect actual
-+ '
-+ 
-++test_expect_success 'large attributes line ignored in tree' '
-++	test_when_finished "rm .gitattributes" &&
-++	printf "path %02043d" 1 >.gitattributes &&
-++	git check-attr --all path >actual 2>err &&
-++	echo "warning: ignoring overly long attributes line 1" >expect &&
-++	test_cmp expect err &&
-++	test_must_be_empty actual
-++'
-++
-++test_expect_success 'large attributes line ignores trailing content in tree' '
-++	test_when_finished "rm .gitattributes" &&
-++	# older versions of Git broke lines at 2048 bytes; the 2045 bytes
-++	# of 0-padding here is accounting for the three bytes of "a 1", which
-++	# would knock "trailing" to the "next" line, where it would be
-++	# erroneously parsed.
-++	printf "a %02045dtrailing attribute\n" 1 >.gitattributes &&
-++	git check-attr --all trailing >actual 2>err &&
-++	echo "warning: ignoring overly long attributes line 1" >expect &&
-++	test_cmp expect err &&
-++	test_must_be_empty actual
-++'
-++
-++test_expect_success EXPENSIVE 'large attributes file ignored in tree' '
-++	test_when_finished "rm .gitattributes" &&
-++	dd if=/dev/zero of=.gitattributes bs=101M count=1 2>/dev/null &&
-++	git check-attr --all path >/dev/null 2>err &&
-++	echo "warning: ignoring overly large gitattributes file ${SQ}.gitattributes${SQ}" >expect &&
-++	test_cmp expect err
-++'
-++
-++test_expect_success 'large attributes line ignored in index' '
-++	test_when_finished "git update-index --remove .gitattributes" &&
-++	blob=$(printf "path %02043d" 1 | git hash-object -w --stdin) &&
-++	git update-index --add --cacheinfo 100644,$blob,.gitattributes &&
-++	git check-attr --cached --all path >actual 2>err &&
-++	echo "warning: ignoring overly long attributes line 1" >expect &&
-++	test_cmp expect err &&
-++	test_must_be_empty actual
-++'
-++
-++test_expect_success 'large attributes line ignores trailing content in index' '
-++	test_when_finished "git update-index --remove .gitattributes" &&
-++	blob=$(printf "a %02045dtrailing attribute\n" 1 | git hash-object -w --stdin) &&
-++	git update-index --add --cacheinfo 100644,$blob,.gitattributes &&
-++	git check-attr --cached --all trailing >actual 2>err &&
-++	echo "warning: ignoring overly long attributes line 1" >expect &&
-++	test_cmp expect err &&
-++	test_must_be_empty actual
-++'
-++
-++test_expect_success EXPENSIVE 'large attributes file ignored in index' '
-++	test_when_finished "git update-index --remove .gitattributes" &&
-++	blob=$(dd if=/dev/zero bs=101M count=1 2>/dev/null | git hash-object -w --stdin) &&
-++	git update-index --add --cacheinfo 100644,$blob,.gitattributes &&
-++	git check-attr --cached --all path >/dev/null 2>err &&
-++	echo "warning: ignoring overly large gitattributes blob ${SQ}.gitattributes${SQ}" >expect &&
-++	test_cmp expect err
-++'
-++
-+ test_done
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index b5d0004712..d707f25456 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -11,8 +11,8 @@ SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
-            ${KERNELORG_MIRROR}/software/scm/git/git-manpages-${PV}.tar.gz;name=manpages \
-            file://fixsort.patch \
-            file://CVE-2021-40330.patch \
-+           file://CVE-2022-23521.patch \
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.6.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.7.bb
+similarity index 92%
+rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.6.bb
+rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.7.bb
+index 256903ce5f..212c7d39c2 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.6.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.7.bb
+@@ -3,7 +3,7 @@ require xserver-xorg.inc
+ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
+            file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
             "
--
- S = "${WORKDIR}/git-${PV}"
+-SRC_URI[sha256sum] = "1eb86ed674d042b6c8b1f9135e59395cbbca35ed551b122f73a7d8bb3bb22484"
++SRC_URI[sha256sum] = "d9c60b2dd0ec52326ca6ab20db0e490b1ff4f566f59ca742d6532e92795877bb"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=7c0d7ef03a7eb04ce795b0f60e68e7e1"
+ # These extensions are now integrated into the server, so declare the migration
+ # path for in-place upgrades.
 -- 
-2.25.1
+2.17.1
 
 
