@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D69D7C677F1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAD56C6379F
 	for <webhook@archiver.kernel.org>; Mon, 20 Feb 2023 22:20:42 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web11.28058.1676931634468030927
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web11.28059.1676931640156998778
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Feb 2023 14:20:42 -0800
+ Mon, 20 Feb 2023 14:20:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=J4S/Sbuw;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.50, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f50.google.com with SMTP id b14-20020a17090a8c8e00b002349579949aso2732670pjo.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 14:20:41 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=3J6utc1N;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f172.google.com with SMTP id l15so4141971pls.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 14:20:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=95Ik5+cDxOifQ/8Owt9McQ0F/wzmUTihLozPtc7nhKQ=;
-        b=J4S/SbuwqhLNUzRqzunLHhWMbKu1Xmsie6h+ESAfgk4bBIUSLp00Tw38MPCq8esJUB
-         7mC8uSeiJ7OqtG+HP84LITIVmcNu0DS5N3Hwsb9pDLGX0Gt89WTelUhyv9iDW5iIx8FR
-         EOqXe1Ql/gHFgcfCYkTPZykY3RCnYqoiMZxUN/HAR5hdQy1INgkrbaxLHWIw1m/E/jIp
-         E3ZJih6c+18t3ryO8rcJE+cWUOgTbUDx+uiTJEmZLejnbtzyaIUUYlPlH6T18GK0KEOh
-         mM1p9V2lQ/HsjcVaPS/tTZiP0oymo+hu6wt0Io1qZBgis4vzY+kzbMEG+tLKevmL1eDt
-         uDNQ==
+        bh=eRSNfneR24nLphxumZzBxF5ZZ7l46UXilX0lHToNyIQ=;
+        b=3J6utc1N0xLYrUnPex8TQsGHe+Ku5qH0XS4k2moZXhg2PFtokfFLaPLzM/hc0Iyzv8
+         PflPo/ffoj0mvDz5p5OJs9qQY9voW0xK/FB0kM5tsnUS1mmGcoZLon++hD3RlJFjScT1
+         fYHKBvnqZRuJnAA6+9TtsADTmdmA+O1b/G3j2VJgDOwZWVUYXefX4ohIpN/89Za9gk7k
+         alYIfxZiwrC/ZGmyHLkrIcMA53iK2NtOIt+X7iS+mK4XCCAvHZ4zQKvYo0hZyeyxDDON
+         mqORjgfNwMslqMSjEZ55NQ8wLsJCv2tWDE1JjE8i2fZcoRKhmEUKuTOp5HAZ52VOriTe
+         TqKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=95Ik5+cDxOifQ/8Owt9McQ0F/wzmUTihLozPtc7nhKQ=;
-        b=5wZuyILCLD+S3Mqsklywt8Mjbj8SdFUHG4vO/XYqSFOFl2iUUimvdsDefN5PCNxvEv
-         4+8r9+6Ec9OT8z42hvSlflKLPK8fEwpTEocmmP2/+hPwOHb/OmQXqlrCrrabpu1nTbhT
-         qLGBQqvkktEYxSuBSUxmrXk+MScCcg05md9kx/eTazidpK0JoSq+pOFoB18k+BtMRINX
-         sSQTZK0C0wnZK1xwOjzbXj050oQe7qAdX1zTkpFnmUQ3rLcFpz4bCx9XFqC3II3iRi9W
-         pjAgWh1IsbXDzoW/c4qSmbuN4ain2otpWUBN0RJSz4jNx1FoyUYZ4fQ4q0va2JnAmPvn
-         cnZA==
-X-Gm-Message-State: AO0yUKWcDWi+/ckgnlBDCMIurcibNyZGWrYEg/lu07V5S0/b/c/0PKpi
-	p+NV81bflYPbWJXHvWp01ign5YsKn2bpRlHDTEo=
-X-Google-Smtp-Source: AK7set/OWLjw3zc0Y76N8L8bt5xnrxBXo/J8a39mTyj6rFzqtHiZvqX6etZTPCD2PQxceQXckfHDiQ==
-X-Received: by 2002:a17:903:244c:b0:19a:95ab:6b63 with SMTP id l12-20020a170903244c00b0019a95ab6b63mr2787573pls.66.1676931640934;
-        Mon, 20 Feb 2023 14:20:40 -0800 (PST)
+        bh=eRSNfneR24nLphxumZzBxF5ZZ7l46UXilX0lHToNyIQ=;
+        b=l5ZRn17GA1DJb/zlnYgUIiEKt2TpSHNrtzJ6FfbenSCZ3HS0qgEt4K0ssegFrfYcNp
+         FSo7E4pBJesr3DGd8fN3uzWbig9DfvZkP9OlFWEWtQA7Rk5fOydojY+hFC37KLXQHc18
+         knpmGt44RQiOTwg+jlcEsHdaovSfSHqNqY2Kj++qX9PBrTkWXI6zDLHC2RX2WXByC2xU
+         pbyKHhuyQS/B3RjUzd7SVwDabjXCMBSS8/FvTD4/WGkUxA+I6f7QeA2M96MVAPT84Fju
+         eDNmAHsBV95S4JpEacDYSLwf0KgNqZWEY9VMNru1yYHZINVoIf099k9NTW0j7lo9LxtM
+         jB7w==
+X-Gm-Message-State: AO0yUKXoY0cjh+Z0f3gRjxCsvVE8n/C5MPsHHrbg4FU6nbc/Hnu1ls94
+	99QP4rNMHCTloANy7ceu94e+UcryGMgK5jQIJw4=
+X-Google-Smtp-Source: AK7set8OVXB/G71sQdmDd4l41nEtpS3c9p6qaCD9NvcP7Haxp35CQaVYbWX9kbp+1Xnk5t9OV6AmHA==
+X-Received: by 2002:a17:902:f54a:b0:19a:a647:1891 with SMTP id h10-20020a170902f54a00b0019aa6471891mr5885285plf.67.1676931639112;
+        Mon, 20 Feb 2023 14:20:39 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id t6-20020a1709027fc600b0019719f752c5sm8401200plb.59.2023.02.20.14.20.40
+        by smtp.gmail.com with ESMTPSA id t6-20020a1709027fc600b0019719f752c5sm8401200plb.59.2023.02.20.14.20.38
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Feb 2023 14:20:40 -0800 (PST)
+        Mon, 20 Feb 2023 14:20:38 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 06/16] quilt: fix intermittent failure in faildiff.test
-Date: Mon, 20 Feb 2023 12:20:13 -1000
-Message-Id: <2c9fe8c3bb1cc1883c7bd445d019b2107e85ab2b.1676931497.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 05/16] nativesdk: Handle chown/chgrp calls in nativesdk do_install tasks
+Date: Mon, 20 Feb 2023 12:20:12 -1000
+Message-Id: <a05c116c517e0700837c335d0691c3fcc4462dda.1676931497.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1676931497.git.steve@sakoman.com>
 References: <cover.1676931497.git.steve@sakoman.com>
@@ -61,75 +61,105 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 22:20:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177466
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177465
 
-From: Ross Burton <ross.burton@arm.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-This test assumes that if a child process writes one line to stderr and
-then another line to stdout, and stderr is redirected to stdout, that
-the order the lines will be read is stable.
+We disable the useradd code for nativesdk targets since we don't support
+postinstalls or multiple users in those cases. This means any usage
+of chown/chgrp inside do_install tasks won't work and would have to be
+conditional. Rather than require all recipes to do that, add intercepts
+of the calls and map those to root/root user/groups. We can't just ignore
+them as some calls are used to remove host contamination from the host
+user ID so they need to be made, just as root.
 
-This isn't the case and occasionally the lines will be read in a
-different order.  Change the test to ignore line ordering.
-
-[ YOCTO #14469 ]
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1ddbe4d2bd8d8da10dac8a054f130fcd1d242219)
+(cherry picked from commit e1f40670c438e33cae87678425de72ca03566888)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/quilt/quilt.inc         |  1 +
- .../quilt/quilt/faildiff-order.patch          | 28 +++++++++++++++++++
- 2 files changed, 29 insertions(+)
- create mode 100644 meta/recipes-devtools/quilt/quilt/faildiff-order.patch
+ meta/classes/nativesdk.bbclass    |  2 ++
+ scripts/nativesdk-intercept/chgrp | 27 +++++++++++++++++++++++++++
+ scripts/nativesdk-intercept/chown | 27 +++++++++++++++++++++++++++
+ 3 files changed, 56 insertions(+)
+ create mode 100755 scripts/nativesdk-intercept/chgrp
+ create mode 100755 scripts/nativesdk-intercept/chown
 
-diff --git a/meta/recipes-devtools/quilt/quilt.inc b/meta/recipes-devtools/quilt/quilt.inc
-index d7ecda7aaa..ad23b8d922 100644
---- a/meta/recipes-devtools/quilt/quilt.inc
-+++ b/meta/recipes-devtools/quilt/quilt.inc
-@@ -12,6 +12,7 @@ SRC_URI = "${SAVANNAH_GNU_MIRROR}/quilt/quilt-${PV}.tar.gz \
-         file://Makefile \
-         file://test.sh \
-         file://0001-tests-Allow-different-output-from-mv.patch \
-+        file://faildiff-order.patch \
- "
+diff --git a/meta/classes/nativesdk.bbclass b/meta/classes/nativesdk.bbclass
+index 7f2692c51a..dc5a9756b6 100644
+--- a/meta/classes/nativesdk.bbclass
++++ b/meta/classes/nativesdk.bbclass
+@@ -113,3 +113,5 @@ do_packagedata[stamp-extra-info] = ""
+ USE_NLS = "${SDKUSE_NLS}"
  
- SRC_URI_append_class-target = " file://gnu_patch_test_fix_target.patch"
-diff --git a/meta/recipes-devtools/quilt/quilt/faildiff-order.patch b/meta/recipes-devtools/quilt/quilt/faildiff-order.patch
-new file mode 100644
-index 0000000000..40f3c2636a
+ OLDEST_KERNEL = "${SDK_OLDEST_KERNEL}"
++
++PATH_prepend = "${COREBASE}/scripts/nativesdk-intercept:"
+diff --git a/scripts/nativesdk-intercept/chgrp b/scripts/nativesdk-intercept/chgrp
+new file mode 100755
+index 0000000000..30cc417d3a
 --- /dev/null
-+++ b/meta/recipes-devtools/quilt/quilt/faildiff-order.patch
-@@ -0,0 +1,28 @@
-+This test assumes that two lines that are output on different streams (stdout
-+and stderr) will be read in the same order, but thanks to buffering that may not
-+be the case.
++++ b/scripts/nativesdk-intercept/chgrp
+@@ -0,0 +1,27 @@
++#!/usr/bin/env python3
++#
++# Wrapper around 'chgrp' that redirects to root in all cases
 +
-+Change the expected lines to be regexs that each match both expected lines, so
-+the test always works no matter the actual order the lines are read in.
++import os
++import shutil
++import sys
 +
-+Bug filed at https://savannah.nongnu.org/bugs/index.php?63651 to discuss a
-+proper solution.
++# calculate path to the real 'chgrp'
++path = os.environ['PATH']
++path = path.replace(os.path.dirname(sys.argv[0]), '')
++real_chgrp = shutil.which('chgrp', path=path)
 +
-+Upstream-Status: Inappropriate
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
++args = list()
 +
-+diff --git a/test/faildiff.test b/test/faildiff.test
-+index 5afb8e3..5f32f71 100644
-+--- a/test/faildiff.test
-++++ b/test/faildiff.test
-+@@ -28,8 +28,8 @@ What happens on binary files?
-+ 
-+ 	$ printf "\\003\\000\\001" > test.bin
-+ 	$ quilt diff -pab --no-index
-+-	>~ (Files|Binary files) a/test\.bin and b/test\.bin differ
-+-	> Diff failed on file 'test.bin', aborting
-++	>~ (.*[Ff]iles a/test\.bin and b/test\.bin differ|Diff failed on file 'test.bin', aborting)
-++	>~ (.*[Ff]iles a/test\.bin and b/test\.bin differ|Diff failed on file 'test.bin', aborting)
-+ 	$ echo %{?}
-+ 	> 1
-+ 
++found = False
++for i in sys.argv:
++    if i.startswith("-"):
++        args.append(i)
++        continue
++    if not found:
++        args.append("root")
++        found = True
++    else:
++        args.append(i)
++
++os.execv(real_chgrp, args)
+diff --git a/scripts/nativesdk-intercept/chown b/scripts/nativesdk-intercept/chown
+new file mode 100755
+index 0000000000..3914b3e384
+--- /dev/null
++++ b/scripts/nativesdk-intercept/chown
+@@ -0,0 +1,27 @@
++#!/usr/bin/env python3
++#
++# Wrapper around 'chown' that redirects to root in all cases
++
++import os
++import shutil
++import sys
++
++# calculate path to the real 'chown'
++path = os.environ['PATH']
++path = path.replace(os.path.dirname(sys.argv[0]), '')
++real_chown = shutil.which('chown', path=path)
++
++args = list()
++
++found = False
++for i in sys.argv:
++    if i.startswith("-"):
++        args.append(i)
++        continue
++    if not found:
++        args.append("root:root")
++        found = True
++    else:
++        args.append(i)
++
++os.execv(real_chown, args)
 -- 
 2.34.1
 
