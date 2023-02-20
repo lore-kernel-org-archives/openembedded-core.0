@@ -2,107 +2,109 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68F02C64EC7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79B0CC677F1
 	for <webhook@archiver.kernel.org>; Mon, 20 Feb 2023 14:19:10 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web11.14070.1676902740565416587
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web11.14063.1676902732898912906
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Feb 2023 06:19:00 -0800
+ Mon, 20 Feb 2023 06:19:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=c4PAcmjo;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f182.google.com with SMTP id 16so601748pfl.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 06:19:00 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=M01vBdEV;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f182.google.com with SMTP id p6so751561pga.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 06:19:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/GbpV/WkgmscLg5aTSZqmWmY58gYR6HVorkrMMpgIMQ=;
-        b=c4PAcmjotnCT9AzGZ3sNnv5dPfEYq6DvcGBs9M/QdYb/dwglu8f6c4xVYHRml8lp6l
-         l+MYm2j/Tykysyswp6Pfmlzh0iwnnr7fPkID4BHRN0BcU/aSB/6LyrHag00I0otti6fg
-         pOWKLom2QkKRmjmuKNwnj6CHfVRhZoxewq+iH/VFfopoJRnsM2iUtvfsxBv7GhRme02G
-         ZNcTmWvqIXyMrNiBtX703N73SyzQBE/zHMBEakVMaH3de99lzto8T7gejL/wx4na1N6P
-         DLFejnHwSlh9+BNGTcMvnnxDUIDaSSOnHt1u+sLwpu4W8pRxrbpPcL4TOHd1DEpT2aWo
-         gHnw==
+        bh=Km/73tJXPA8epIq594QhkLBC3np/vTjulAZyu3LDhe8=;
+        b=M01vBdEVONMxmVNoZ6BL5j7/WiBIo/VzaC0Tk2LYKncYbpr1J/EG97NOwE7+cXQwP6
+         kgaWaMVwsNaFI81R3ic2DCh9G9G8p1lW/MQfNTgaJKh4Y0qtmv7zKStwVdd17eUm43Jg
+         qCc552yl2hnklfLEE2ZXRd0AFqnurhc83w+w39iV5oIX982LdCVnOYdV3k5uIAnBtLDw
+         z+reaBJBOb3W7y53pHKzxZf3LefjPu28E+/SSWeT8Wey5WxRRq+ebKBU2bWNlK8RreHE
+         BruTkXMPE8AuskthmKZsT/CuSSQWGh+Pa+Egtgt61ltuq6Vf8A2znOJlqdKmoevb99sK
+         BZAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/GbpV/WkgmscLg5aTSZqmWmY58gYR6HVorkrMMpgIMQ=;
-        b=NW3ZPWSG3DRxU8fHsOQ5IyvTlwEuDUKmcjDwbP2mkgQfVZZixMu5rrZdA/d77J2hz6
-         4OLDJK3CZ40l/XLRbCE5JODvgiahZoyUr5FPqA1Cz31C8549BWsd4EBx7ZU/RerZEwvp
-         oCeT7sPCMaA+LrL9EeJaWFLduD24eVYPF5AcfMD8nYzXlin3LikjO5c7B3de5VDmiqVs
-         AnfmmM8GGK08xaBx1lOa5UhM64gTNCCtK/6R0CEJ9cU7u7JRGqb4MfbYit2qFw2msZck
-         sFtv4FhCGO+Nuf37IN/c2+Ij5iPwzDf5Qaza4D0QSH7nz/MFbtoHV6bSmI83ZjGM1igG
-         4WIQ==
-X-Gm-Message-State: AO0yUKV32AaQFEeWuHBD1Q6RSizIBr9VLqoKo/I6EQvwPDc1wwrYMc3O
-	ehLQdoKkdtL2h372jvYrFI6faWoopepZ7NRWuLM=
-X-Google-Smtp-Source: AK7set9N3H45kTTVzo/vnPDmwqKb5mC8BTu0STMtIqjitohYAAA+ANw5kfjhdZki1OG3FehpjKJYFQ==
-X-Received: by 2002:aa7:95a4:0:b0:5a8:c6c1:c9ae with SMTP id a4-20020aa795a4000000b005a8c6c1c9aemr1283125pfk.30.1676902739592;
-        Mon, 20 Feb 2023 06:18:59 -0800 (PST)
+        bh=Km/73tJXPA8epIq594QhkLBC3np/vTjulAZyu3LDhe8=;
+        b=Q7H1zQ/pXpCguOyt+B4RN3cLxD+go4+E0HELEUFEEInd3LgwIxD1CbaUYsZ4U2Q6sE
+         wyrFRMYeGXf0Yo359/fWkuN89TudvTmZA79DeaNp5pcpoqXfjH6itMrkSkaXjPHXGreF
+         FpBkaT0Bh3T+VFffC+/CGIaF5PUFzfMroogNLpj1FcKcC1WiLwqRabUXhoi8BN/YYWS/
+         gw5z8IZw6wjPOqZGycjBHSANZ1LBHXkJwpByib0YVdfFVO9JDwFuC0jNpS7Ir8q353vJ
+         MO5GVhYQ2nmGikTsw4mmdpexyNLCLb2PQusgmNqjl0mvV3OPdWqrLCLNnaFUe/Er3kww
+         38/w==
+X-Gm-Message-State: AO0yUKXhJp+ZSA7/A9bTGmMAo9Uci2uU3wUdXjT9b7Etj9ueSPrKuWhJ
+	7bih9qX1DMhDHjEB1RQu7PPjKQWoiWBNKQZ6pCk=
+X-Google-Smtp-Source: AK7set/YVN6sc++RjTHjCyROAvvnIPIZDsQ4dG5YrSvkqtkuYF9UVSBIyAOc4HlvvsBdVNppRcY24Q==
+X-Received: by 2002:aa7:989c:0:b0:5a8:d360:de72 with SMTP id r28-20020aa7989c000000b005a8d360de72mr84893pfl.29.1676902743236;
+        Mon, 20 Feb 2023 06:19:03 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id q19-20020a62e113000000b0058baf8694e1sm7789297pfh.71.2023.02.20.06.18.58
+        by smtp.gmail.com with ESMTPSA id q19-20020a62e113000000b0058baf8694e1sm7789297pfh.71.2023.02.20.06.19.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Feb 2023 06:18:59 -0800 (PST)
+        Mon, 20 Feb 2023 06:19:02 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 12/22] libgit2: upgrade 1.5.0 -> 1.5.1
-Date: Mon, 20 Feb 2023 04:18:19 -1000
-Message-Id: <63cb8eb147088ae171ffa2b6005410742e50e4e6.1676902605.git.steve@sakoman.com>
+Subject: [OE-core][langdale 14/22] update-alternatives: fix typos
+Date: Mon, 20 Feb 2023 04:18:21 -1000
+Message-Id: <5dab1edf6df6eaba59c3c6a996ca19213e0a4743.1676902605.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1676902605.git.steve@sakoman.com>
 References: <cover.1676902605.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 14:19:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177418
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177420
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Ulrich Ölmann <u.oelmann@pengutronix.de>
 
-Fixes:
-
-libgit2, when compiled using the optional, included libssh2 backend, fails to verify SSH keys by default.
-
-Description:
-
-When using an SSH remote with the optional, included libssh2 backend, libgit2 does not perform certificate checking by default. Prior versions of libgit2 require the caller to set the certificate_check field of libgit2's git_remote_callbacks structure - if a certificate check callback is not set, libgit2 does not perform any certificate checking. This means that by default - without configuring a certificate check callback, clients will not perform validation on the server SSH keys and may be subject to a man-in-the-middle attack.
-Beginning in libgit2 v1.4.5 and v1.5.1, libgit2 will now perform host key checking by default. Users can still override the default behavior using the certificate_check function.
-The libgit2 security team would like to thank the Julia and Rust security teams for responsibly disclosing this vulnerability and assisting with fixing the vulnerability.
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f59486310cf33c586671a16cf52862c19c3c4c31)
+(cherry picked from commit d3ca05b072c152b76a86edaaddebabdef312ea95)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libgit2/{libgit2_1.5.0.bb => libgit2_1.5.1.bb}            | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libgit2/{libgit2_1.5.0.bb => libgit2_1.5.1.bb} (78%)
+ meta/classes-recipe/update-alternatives.bbclass | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-support/libgit2/libgit2_1.5.0.bb b/meta/recipes-support/libgit2/libgit2_1.5.1.bb
-similarity index 78%
-rename from meta/recipes-support/libgit2/libgit2_1.5.0.bb
-rename to meta/recipes-support/libgit2/libgit2_1.5.1.bb
-index ee4d79b11a..59866ce385 100644
---- a/meta/recipes-support/libgit2/libgit2_1.5.0.bb
-+++ b/meta/recipes-support/libgit2/libgit2_1.5.1.bb
-@@ -5,8 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=112e6bb421dea73cd41de09e777f2d2c"
+diff --git a/meta/classes-recipe/update-alternatives.bbclass b/meta/classes-recipe/update-alternatives.bbclass
+index 970d9bcd45..f34cc6bc19 100644
+--- a/meta/classes-recipe/update-alternatives.bbclass
++++ b/meta/classes-recipe/update-alternatives.bbclass
+@@ -5,7 +5,7 @@
+ #
  
- DEPENDS = "curl openssl zlib libssh2 libgcrypt libpcre2"
+ # This class is used to help the alternatives system which is useful when
+-# multiple sources provide same command. You can use update-alternatives
++# multiple sources provide the same command. You can use update-alternatives
+ # command directly in your recipe, but in most cases this class simplifies
+ # that job.
+ #
+@@ -35,7 +35,7 @@
+ # A non-default link to create for a target
+ # ALTERNATIVE_TARGET[name] = "target"
+ #
+-#   This is the name of the binary as it's been install by do_install
++#   This is the name of the binary as it's been installed by do_install
+ #   i.e. ALTERNATIVE_TARGET[sh] = "/bin/bash"
+ #
+ # A package specific link for a target
+@@ -68,7 +68,7 @@ ALTERNATIVE_PRIORITY = "10"
  
--SRC_URI = "git://github.com/libgit2/libgit2.git;branch=main;protocol=https"
--SRCREV = "fbea439d4b6fc91c6b619d01b85ab3b7746e4c19"
-+SRC_URI = "git://github.com/libgit2/libgit2.git;branch=maint/v1.5;protocol=https"
-+SRCREV = "42e5db98b963ae503229c63e44e06e439df50e56"
+ # We need special processing for vardeps because it can not work on
+ # modified flag values.  So we aggregate the flags into a new variable
+-# and include that vairable in the set.
++# and include that variable in the set.
+ UPDALTVARS  = "ALTERNATIVE ALTERNATIVE_LINK_NAME ALTERNATIVE_TARGET ALTERNATIVE_PRIORITY"
  
- S = "${WORKDIR}/git"
- 
+ PACKAGE_WRITE_DEPS += "virtual/update-alternatives-native"
 -- 
 2.34.1
 
