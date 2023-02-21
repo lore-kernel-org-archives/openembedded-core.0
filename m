@@ -2,71 +2,68 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43B0AC64EC4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46DB9C64ED9
 	for <webhook@archiver.kernel.org>; Tue, 21 Feb 2023 10:19:26 +0000 (UTC)
-Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com [195.245.231.4])
- by mx.groups.io with SMTP id smtpd.web10.38671.1676974759774555695
+Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com [195.245.230.1])
+ by mx.groups.io with SMTP id smtpd.web10.38670.1676974755476153092
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Feb 2023 02:19:20 -0800
+ Tue, 21 Feb 2023 02:19:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=ngf2fY+i;
- spf=pass (domain: fujitsu.com, ip: 195.245.231.4, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=SJS5na4H;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.1, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1676974757; i=@fujitsu.com;
-	bh=2m8bV9WB9GBe+XWXgbZXVX6gWP0uH0cK5sb1PtWv5bc=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=ngf2fY+ii6OoWR2kIYgQBOFbD2/ftWAiF0naK17MZ082M7M3CMc34Qm3NpNbGk0CA
-	 hPBmmlF9VB0ZfEhUARwctvncuCGvd6uCyxM+zHUQmJTVrDu04ORDQSdfPpZjUMo/KM
-	 TvO/A0PDoLOFXNJSCbwXqd//t9+B+8MmrD+RM6/vqBXhSmPa7M453sB3RkacktAkqj
-	 rNVytkJ8XmcIhCj/gDRRn3Xb3DZKqwFc8X7Y4dW5DKyc0F384uigbseEQ+6S5FZ7Xj
-	 fvL64nUc3UONsddTDuwbDtbD/y8hucDdGitmxTGlIZoT/e36HpbpXTvRiYwSKJR1lJ
-	 MW1/2XqW2814Q==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrCIsWRWlGSWpSXmKPExsViZ8MxSXfprC/
-  JBrOu81nc+fmO3YHR49zGFYwBjFGsmXlJ+RUJrBnL/xxiL2jlrFjdvpixgbGXo4uRi0NI4DGj
-  xNfmn4wQznUmia3PD7BAOHsZJRr+fmbvYuTkYBOQkrhx/z9bFyMHh4iAnsTVf6IgYWYBFYkXv
-  3vASoQFrCV+tu5lBLFZBFQlfj37wQRi8wo4Sczb2QIWlxBQkJjy8D0zyBhOAWeJuU2xIGEhoJ
-  JXl5ayQZQLSpyc+YQFYryExMEXL5ghWhUlZl9uZoGwKyVaP/yCstUkrp7bxDyBUXAWkvZZSNo
-  XMDKtYjQtTi0qSy3SNdJLKspMzyjJTczM0Uus0k3USy3VLU8tLgHKJJYX66UWF+sVV+Ym56To
-  5aWWbGIEBm5KsWr/Dsa1vX/1DjFKcjApifJ+O/U5WYgvKT+lMiOxOCO+qDQntfgQowwHh5IEr
-  9/0L8lCgkWp6akVaZk5wCiCSUtw8CiJ8NZ1AaV5iwsSc4sz0yFSpxgVpcR5J80ASgiAJDJK8+
-  DaYJF7iVFWSpiXkYGBQYinILUoN7MEVf4VozgHo5IwbwXIFJ7MvBK46a+AFjMBLXb/8QFkcUk
-  iQkqqgSmXh3P3zPyN4Rx/l82QiRc5+2Xalx+6c7wVqsSlFdpe7c9V35Vy99iq1T8jQ3i+c4ks
-  PRH52MxSw4vV8/udKRpvb5UWBh/61W/R3XXbVsr1tcD1PZ3ptXG7XFe88pHZ1CCfMbEjItQ80
-  Y3JY193/Yvbky6fnnDv7QHjDxvdo6NvlP7NOfjMdd7s65EthlFGlq7Mlutf3TmqduHuUpukhu
-  kRh2Ue/t40SeHt5y//OngYnKb/lo6/dFKhRvCptdkJiaSNq0qyg/zjp5wzn9muUlBltPDYXwW
-  VdY/OaGfsjW8SVwvt+3XLu4D3krO+pOeRNY433ulnL3+X+K/b+OjF3VK695ffnSooo2rb02e5
-  VlGJpTgj0VCLuag4EQCgemmOVwMAAA==
+	s=170520fj; t=1676974753; i=@fujitsu.com;
+	bh=ff/ICYEKUE1tMdJPtnv+4L1jEyazqG/1a4YjDhrbqj0=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=SJS5na4H/xmptrMQj7zaiGPfaEfgTFBPlL6PJc5XOsiDL1Pgl8BjF67nxg7xJy6jT
+	 GQE7VMIOHBoSNdHDMDty/XkuWmUIxSBo8od6wVrSEw2r+ZEsn6lo/0xHBKhFJfAFDU
+	 6R4lEmQY7HOSLtwdzzjJLtkWDaYYntoy4/ATOIT/TtV8AhN5nuPQEsuM1tx7b77gzs
+	 yxMd7MQa/gTB6rX0Zla7et/D8FgLKLjkvMha0wPbrcPNKwozihUEv5L1n7ljVelLe2
+	 AVEk+tDJ9aoEDkr+65rzF/SJCoeXiYwi/ggTZ5G53r9L0bA1+IHtx2CYLRe05GoXLy
+	 incv27cyqLxSA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrHIsWRWlGSWpSXmKPExsViZ8OxWXfhrC/
+  JBpeP81rc+fmO3YHR49zGFYwBjFGsmXlJ+RUJrBk7rr1nKljKUfFh5WL2BsZd7F2MXBxCAg8Y
+  Jf58/sgC4VxhkmhoOs8M4exllFh5ciZbFyMnB5uAlMSN+/+BbA4OEQE9iav/REHCzAIqEi9+9
+  7CD2MIClhLXrk1lArFZBFQlDnc/ZQWxeQWcJL5f2A1WIyGgIDHl4XtmiLigxMmZT1gg5khIHH
+  zxghmiRlFi9uVmFgi7UqL1wy8oW03i6rlNzBMY+WchaZ+FpH0BI9MqRrPi1KKy1CJdQ0u9pKL
+  M9IyS3MTMHL3EKt1EvdRS3fLU4hJdQ73E8mK91OJiveLK3OScFL281JJNjMBgTClmPb6DcVbf
+  X71DjJIcTEqivN9OfU4W4kvKT6nMSCzOiC8qzUktPsQow8GhJMHrN/1LspBgUWp6akVaZg4wM
+  mDSEhw8SiK8dV1Aad7igsTc4sx0iNQpRkUpcd5JM4ASAiCJjNI8uDZYNF5ilJUS5mVkYGAQ4i
+  lILcrNLEGVf8UozsGoJMxbATKFJzOvBG76K6DFTECL3X98AFlckoiQkmpgOtuj8NzcL6dx6w3
+  +q7m6q9+tsZ8aklsWIyVok5CoM3Opt9TUYsvEvwaqDE8fnCyZf/20tOa53Vsu/F/8iF/r1qGz
+  S895T0p6xZD5wM7/+YHci+viA9dau5rfEFKqySz/r3vQrvqlZ8tP/0VlNhM2VLOc/1685/zGs
+  7u311rxSi85nbVF/0x63HHt08fjlP9obp8wy01q6m05FhM330oNq/elMxISqt9HufcsfbLYYC
+  HL3YteiorquTbOizaYh6pxTy6J8ak4Y9DoE645b47hiZLgnOfHLoqaxy6JvsSvtr2/7JlOBJ8
+  Nf8rUc4WJZs9/6eXPvf6S/0apmP7zRKmoiZ1VsnteOfyombWAX+CsEktxRqKhFnNRcSIA7M9n
+  PEEDAAA=
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-12.tower-548.messagelabs.com!1676974757!85538!1
-X-Originating-IP: [62.60.8.146]
+X-Msg-Ref: server-3.tower-591.messagelabs.com!1676974752!526608!1
+X-Originating-IP: [62.60.8.179]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.102.2; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 27800 invoked from network); 21 Feb 2023 10:19:17 -0000
-Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
-  by server-12.tower-548.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 21 Feb 2023 10:19:17 -0000
-Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id EA2821000E9
-	for <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 10:19:16 +0000 (GMT)
+Received: (qmail 29267 invoked from network); 21 Feb 2023 10:19:13 -0000
+Received: from unknown (HELO n03ukasimr04.n03.fujitsu.local) (62.60.8.179)
+  by server-3.tower-591.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 21 Feb 2023 10:19:13 -0000
+Received: from n03ukasimr04.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTP id CE89E153
+	for <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 10:19:12 +0000 (GMT)
 Received: from R01UKEXCASM223.r01.fujitsu.local (R01UKEXCASM223 [10.182.185.121])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id DE13B1000E7
-	for <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 10:19:16 +0000 (GMT)
+	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTPS id B9FEC151
+	for <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 10:19:12 +0000 (GMT)
 Received: from localhost.localdomain (10.167.225.33) by
  R01UKEXCASM223.r01.fujitsu.local (10.182.185.121) with Microsoft SMTP Server
- (TLS) id 15.0.1497.42; Tue, 21 Feb 2023 10:19:15 +0000
+ (TLS) id 15.0.1497.42; Tue, 21 Feb 2023 10:19:11 +0000
 From: <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] harfbuzz: upgrade 7.0.0 -> 7.0.1
-Date: Tue, 21 Feb 2023 18:18:54 +0800
-Message-ID: <1676974737-24910-2-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] curl: upgrade 7.88.0 -> 7.88.1
+Date: Tue, 21 Feb 2023 18:18:53 +0800
+Message-ID: <1676974737-24910-1-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1676974737-24910-1-git-send-email-wangmy@fujitsu.com>
-References: <1676974737-24910-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.167.225.33]
@@ -77,32 +74,32 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 10:19:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177483
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177482
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../harfbuzz/{harfbuzz_7.0.0.bb => harfbuzz_7.0.1.bb}           | 2 +-
+ meta/recipes-support/curl/{curl_7.88.0.bb => curl_7.88.1.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_7.0.0.bb => harfbuzz_7.0.1.bb} (95%)
+ rename meta/recipes-support/curl/{curl_7.88.0.bb => curl_7.88.1.bb} (98%)
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_7.0.0.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_7.0.1.bb
-similarity index 95%
-rename from meta/recipes-graphics/harfbuzz/harfbuzz_7.0.0.bb
-rename to meta/recipes-graphics/harfbuzz/harfbuzz_7.0.1.bb
-index a85c4ca1ce..55421ebcbe 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_7.0.0.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_7.0.1.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b98429b8e8e3c2a67cfef01e99e4893d \
-                     "
+diff --git a/meta/recipes-support/curl/curl_7.88.0.bb b/meta/recipes-support/curl/curl_7.88.1.bb
+similarity index 98%
+rename from meta/recipes-support/curl/curl_7.88.0.bb
+rename to meta/recipes-support/curl/curl_7.88.1.bb
+index 749bda815c..0930d229d2 100644
+--- a/meta/recipes-support/curl/curl_7.88.0.bb
++++ b/meta/recipes-support/curl/curl_7.88.1.bb
+@@ -14,7 +14,7 @@ SRC_URI = " \
+     file://run-ptest \
+     file://disable-tests \
+ "
+-SRC_URI[sha256sum] = "fd17432cf28714a4cf39d89e26b8ace0d8901199fe5d01d75eb0ae3bbfcc731f"
++SRC_URI[sha256sum] = "1dae31b2a7c1fe269de99c0c31bb488346aab3459b5ffca909d6938249ae415f"
  
- SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "7b4685b7066c5c6b8dc6cd7b02f63c554fb8cc1c4ddcfc44bc284efa3c20cf28"
-+SRC_URI[sha256sum] = "2cf4d3d8f225007511990a36a34195f0d6562ca56df0a8b0885b382837948199"
- 
- inherit meson pkgconfig lib_package gtk-doc gobject-introspection github-releases
- 
+ # Curl has used many names over the years...
+ CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
 -- 
 2.34.1
 
