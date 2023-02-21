@@ -1,101 +1,159 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C28A3C636D7
-	for <webhook@archiver.kernel.org>; Tue, 21 Feb 2023 18:15:38 +0000 (UTC)
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
- by mx.groups.io with SMTP id smtpd.web11.50312.1677003330380097203
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5272C636D7
+	for <webhook@archiver.kernel.org>; Tue, 21 Feb 2023 18:45:58 +0000 (UTC)
+Received: from mailout01.t-online.de (mailout01.t-online.de [194.25.134.80])
+ by mx.groups.io with SMTP id smtpd.web10.50421.1677005155368627321
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Feb 2023 10:15:30 -0800
+ Tue, 21 Feb 2023 10:45:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=lowDSRGa;
- spf=pass (domain: gmail.com, ip: 209.85.210.53, mailfrom: jpewhacker@gmail.com)
-Received: by mail-ot1-f53.google.com with SMTP id v17-20020a0568301bd100b0068dc615ee44so965007ota.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 10:15:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IXMbMVXsdIl5T6mS4Bt2JUuiKXa/QSUENCfQ9hccdaU=;
-        b=lowDSRGaKKpKvlBeeMscQNDzyYJrDelBQS7Yw81tW8TY7JwOs8w1wggEaUwzK1o28e
-         ziw0l30nXVWe0qS69T7MIAneiWNBFfj8SiUqwfIrsudkieHpLWPreaIcNJTt+Rlo9P4N
-         +5vRFbjhKu3EK05mhWoMt+vM/GRxqdrXLQ4XNcBEOpOt39oRHtSjBlGSrSeAQ24Fa5MO
-         gA1GDg5EDSfhvuflKcHUVwv/21b0QrA/oVPg4SBh1C6f7/etN56Bv7AaD5A2FNB6Z1yU
-         f/ZKFALzAemvOqIWVGTvXPg4WYWHAUHv8WRAyeFcgOTUJM7VwPZvCrYxvydyXDhsM2C3
-         JlAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IXMbMVXsdIl5T6mS4Bt2JUuiKXa/QSUENCfQ9hccdaU=;
-        b=GXqv+DRIVe8P4ggu4DirbQeZ+0f4kTkI0HphnTm8yMXPh9pCpRUnQTq9QU1lE9Df9G
-         ixsDO7tmFq1zWSiEmjkcr7tu0o35mfFtorDihf/Ks/5WZdpPof765VzVO4hm498kvseB
-         dfInLTMIOYIj8b9gdehMdwbMIc8t9m+Yj2zeuVZSTkOPttitk4kFqZnOex/ta6B0dRiF
-         j/6dU8KqPYPC83136RgB6iow7LnoOUWp4PPYXi0BYen9l3WVAqNHaMye90+W1F4yFygA
-         sSm63w/YrZwTMsEclGj46Ada9ZmVucMCikgsTgkxugshoYZviI0rm00G7UefqNac9DoE
-         XINw==
-X-Gm-Message-State: AO0yUKWQIVfNCuLsT+i9w0C4/iejJ2IavVIZhy0z/VYXjMLMVG9lQJjQ
-	oTr1HGe6CL7Xzl0sHtJjN9Mz1NSU4Yw=
-X-Google-Smtp-Source: AK7set83/beTccgR0Ih1g3ujGcux8la9tgTvDyxcNXwKvoyTGICpjQC/HGRfiNgTWvttkxqxGfZrbQ==
-X-Received: by 2002:a05:6830:638c:b0:68d:3fc8:7c0f with SMTP id ch12-20020a056830638c00b0068d3fc87c0fmr2195485otb.10.1677003328836;
-        Tue, 21 Feb 2023 10:15:28 -0800 (PST)
-Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
-        by smtp.gmail.com with ESMTPSA id e64-20020a4a5543000000b0051d198cf30asm1296529oob.48.2023.02.21.10.15.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Feb 2023 10:15:28 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+ dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.80, mailfrom: f_l_k@t-online.de)
+Received: from fwd82.dcpf.telekom.de (fwd82.aul.t-online.de [10.223.144.108])
+	by mailout01.t-online.de (Postfix) with SMTP id 1F4B0B701
+	for <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 19:45:53 +0100 (CET)
+Received: from flk-MS-7C91.fritz.box ([84.154.165.85]) by fwd82.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1pUXeC-4fTH2P0; Tue, 21 Feb 2023 19:45:52 +0100
+From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] weston: Add kiosk shell
-Date: Tue, 21 Feb 2023 12:15:22 -0600
-Message-Id: <20230221181522.1002234-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.33.0
+Cc: Markus Volk <f_l_k@t-online.de>
+Subject: [oe-core][PATCH] vte: update 0.70.2 -> 0.70.3
+Date: Tue, 21 Feb 2023 19:45:38 +0100
+Message-Id: <20230221184538.449049-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+X-TOI-EXPURGATEID: 150726::1677005152-11794992-3082CB2D/0/0 CLEAN NORMAL
+X-TOI-MSGID: 4863842b-34ce-49a3-9537-f479cf4f6a82
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 18:15:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177533
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 18:45:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177534
 
-Adds support for the kiosk shell to weston. The Kiosk shell is designed
-to run a fullscreen application in a "kiosk" mode, but unlike the
-fullscreen shell the kiosk mode still provides traditional desktop
-protocols.
+- Allow to build the gtk4 widget and vapi
+  This is needed to build gtk4 based terminals like blackbox
+- Update dependencies
+- Cleanup recipe and remove unneeded patch
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- meta/recipes-graphics/wayland/weston_11.0.1.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ ...EXITCODE-macro-for-non-glibc-systems.patch | 42 -------------------
+ .../vte/{vte_0.70.2.bb =3D> vte_0.70.3.bb}      | 18 +++-----
+ 2 files changed, 6 insertions(+), 54 deletions(-)
+ delete mode 100644 meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macr=
+o-for-non-glibc-systems.patch
+ rename meta/recipes-support/vte/{vte_0.70.2.bb =3D> vte_0.70.3.bb} (69%)
 
-diff --git a/meta/recipes-graphics/wayland/weston_11.0.1.bb b/meta/recipes-graphics/wayland/weston_11.0.1.bb
-index b943842bc4..2daecc9856 100644
---- a/meta/recipes-graphics/wayland/weston_11.0.1.bb
-+++ b/meta/recipes-graphics/wayland/weston_11.0.1.bb
-@@ -42,7 +42,9 @@ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'kms wayla
-                    screenshare \
-                    shell-desktop \
-                    shell-fullscreen \
--                   shell-ivi"
-+                   shell-ivi \
-+                   shell-kiosk \
-+                   "
- 
- # Can be 'damage', 'im', 'egl', 'shm', 'touch', 'dmabuf-feedback', 'dmabuf-v4l', 'dmabuf-egl' or 'all'
- SIMPLECLIENTS ?= "all"
-@@ -86,6 +88,8 @@ PACKAGECONFIG[shell-desktop] = "-Dshell-desktop=true,-Dshell-desktop=false"
- PACKAGECONFIG[shell-fullscreen] = "-Dshell-fullscreen=true,-Dshell-fullscreen=false"
- # In-Vehicle Infotainment (IVI) shell
- PACKAGECONFIG[shell-ivi] = "-Dshell-ivi=true,-Dshell-ivi=false"
-+# Kiosk shell
-+PACKAGECONFIG[shell-kiosk] = "-Dshell-kiosk=true,-Dshell-kiosk=false"
- # JPEG image loading support
- PACKAGECONFIG[image-jpeg] = "-Dimage-jpeg=true,-Dimage-jpeg=false, jpeg"
- # support libseat based launch
--- 
-2.33.0
+diff --git a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-n=
+on-glibc-systems.patch b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE=
+-macro-for-non-glibc-systems.patch
+deleted file mode 100644
+index b4100fc381..0000000000
+--- a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glib=
+c-systems.patch
++++ /dev/null
+@@ -1,42 +0,0 @@
+-From de9639baac792327c701e509258b8a13f6959e82 Mon Sep 17 00:00:00 2001
+-From: Danilo Spinella <danyspin97@protonmail.com>
+-Date: Thu, 21 Mar 2019 14:19:26 +0100
+-Subject: [PATCH] Add W_EXITCODE macro for non-glibc systems
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=3DUTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-Upstream-Status: Submitted [1]
+-
+-Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
+-
+-[1] https://gitlab.gnome.org/GNOME/vte/issues/72
+-
+----
+- src/missing.hh | 4 ++++
+- src/widget.cc  | 1 +
+- 2 files changed, 5 insertions(+)
+-
+---- a/src/missing.hh
+-+++ b/src/missing.hh
+-@@ -24,6 +24,10 @@
+- #define NSIG (8 * sizeof(sigset_t))
+- #endif
+-=20
+-+#ifndef W_EXITCODE
+-+#define W_EXITCODE(ret, sig) ((ret) << 8 | (sig))
+-+#endif
+-+
+- #ifndef HAVE_FDWALK
+- int fdwalk(int (*cb)(void* data, int fd),
+-            void* data);
+---- a/src/widget.cc
+-+++ b/src/widget.cc
+-@@ -21,6 +21,7 @@
+- #include "widget.hh"
+-=20
+- #include <sys/wait.h> // for W_EXITCODE
+-+#include "missing.hh" // for W_EXITCODE on non-glibc systems
+-=20
+- #include <exception>
+- #include <new>
+diff --git a/meta/recipes-support/vte/vte_0.70.2.bb b/meta/recipes-suppor=
+t/vte/vte_0.70.3.bb
+similarity index 69%
+rename from meta/recipes-support/vte/vte_0.70.2.bb
+rename to meta/recipes-support/vte/vte_0.70.3.bb
+index ec2fb1f522..970d7ea64a 100644
+--- a/meta/recipes-support/vte/vte_0.70.2.bb
++++ b/meta/recipes-support/vte/vte_0.70.3.bb
+@@ -11,30 +11,24 @@ LIC_FILES_CHKSUM =3D " \
+     file://COPYING.XTERM;md5=3Dd7fc3a23c16c039afafe2e042030f057 \
+ "
+=20
+-DEPENDS =3D "glib-2.0 gtk+3 libpcre2 libxml2-native gperf-native icu"
++DEPENDS =3D "fribidi glib-2.0 gtk+3 libpcre2 libxml2-native gperf-native=
+ icu pango zlib"
+=20
+ GNOMEBASEBUILDCLASS =3D "meson"
+ GIR_MESON_OPTION =3D 'gir'
+ GIDOCGEN_MESON_OPTION =3D "docs"
+=20
+-inherit gnomebase gi-docgen features_check upstream-version-is-even gobj=
+ect-introspection
++inherit gnomebase gi-docgen features_check upstream-version-is-even gobj=
+ect-introspection vala
+=20
+-# vapigen.m4 is required when vala is not present (but the one from vala=
+ should be used normally)
+-SRC_URI +=3D "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.pat=
+ch"
+-SRC_URI[archive.sha256sum] =3D "4d15b4380de3f564d57eabd006389c407c705df5=
+b0c70030fdcc24971a334d80"
++SRC_URI[archive.sha256sum] =3D "9457134a02f3157fca04f7e0d39bdb0f3099be0a=
+3ce82b7139d0c98a80748f23"
+=20
+ ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
+=20
+-# Help g-ir-scanner find the .so for linking
+-do_compile:prepend() {
+-    export GIR_EXTRA_LIBS_PATH=3D"${B}/src/.libs"
+-}
+-
+ # Package additional files
+ FILES:${PN}-dev +=3D "${datadir}/vala/vapi/*"
+=20
+-PACKAGECONFIG ??=3D "gnutls"
+-PACKAGECONFIG[vala] =3D "-Dvapi=3Dtrue,-Dvapi=3Dfalse,vala-native vala"
++PACKAGECONFIG ??=3D "gnutls vala ${@bb.utils.contains('DISTRO_FEATURES',=
+ 'opengl', 'gtk4', '', d)}"
++PACKAGECONFIG[gtk4] =3D "-Dgtk4=3Dtrue,-Dgtk4=3Dfalse,gtk4"
++PACKAGECONFIG[vala] =3D "-Dvapi=3Dtrue,-Dvapi=3Dfalse"
+ PACKAGECONFIG[gnutls] =3D "-Dgnutls=3Dtrue,-Dgnutls=3Dfalse,gnutls"
+ PACKAGECONFIG[systemd] =3D "-D_systemd=3Dtrue,-D_systemd=3Dfalse,systemd=
+"
+ # vala requires gir
+--=20
+2.34.1
 
 
