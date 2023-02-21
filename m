@@ -2,37 +2,37 @@ Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5272C636D7
-	for <webhook@archiver.kernel.org>; Tue, 21 Feb 2023 18:45:58 +0000 (UTC)
-Received: from mailout01.t-online.de (mailout01.t-online.de [194.25.134.80])
- by mx.groups.io with SMTP id smtpd.web10.50421.1677005155368627321
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCB61C61DA3
+	for <webhook@archiver.kernel.org>; Tue, 21 Feb 2023 18:52:48 +0000 (UTC)
+Received: from mailout04.t-online.de (mailout04.t-online.de [194.25.134.18])
+ by mx.groups.io with SMTP id smtpd.web10.50611.1677005567230810725
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Feb 2023 10:45:55 -0800
+ Tue, 21 Feb 2023 10:52:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.80, mailfrom: f_l_k@t-online.de)
-Received: from fwd82.dcpf.telekom.de (fwd82.aul.t-online.de [10.223.144.108])
-	by mailout01.t-online.de (Postfix) with SMTP id 1F4B0B701
-	for <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 19:45:53 +0100 (CET)
-Received: from flk-MS-7C91.fritz.box ([84.154.165.85]) by fwd82.t-online.de
+ dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.18, mailfrom: f_l_k@t-online.de)
+Received: from fwd72.dcpf.telekom.de (fwd72.aul.t-online.de [10.223.144.98])
+	by mailout04.t-online.de (Postfix) with SMTP id 8EB371DC38
+	for <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 19:52:45 +0100 (CET)
+Received: from flk-MS-7C91.fritz.box ([84.154.165.85]) by fwd72.t-online.de
 	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1pUXeC-4fTH2P0; Tue, 21 Feb 2023 19:45:52 +0100
+	esmtp id 1pUXkr-11q5yL0; Tue, 21 Feb 2023 19:52:45 +0100
 From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Markus Volk <f_l_k@t-online.de>
-Subject: [oe-core][PATCH] vte: update 0.70.2 -> 0.70.3
-Date: Tue, 21 Feb 2023 19:45:38 +0100
-Message-Id: <20230221184538.449049-1-f_l_k@t-online.de>
+Subject: [oe-core][PATCHv2] vte: update 0.70.2 -> 0.70.3
+Date: Tue, 21 Feb 2023 19:52:31 +0100
+Message-Id: <20230221185231.454421-1-f_l_k@t-online.de>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-TOI-EXPURGATEID: 150726::1677005152-11794992-3082CB2D/0/0 CLEAN NORMAL
-X-TOI-MSGID: 4863842b-34ce-49a3-9537-f479cf4f6a82
+X-TOI-EXPURGATEID: 150726::1677005565-822EAD99-41E0B421/0/0 CLEAN NORMAL
+X-TOI-MSGID: b8bb6aca-02f5-4eff-a3fe-48b615c67726
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 18:45:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177534
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 18:52:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177535
 
 - Allow to build the gtk4 widget and vapi
   This is needed to build gtk4 based terminals like blackbox
@@ -42,8 +42,8 @@ X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/17753
 Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
  ...EXITCODE-macro-for-non-glibc-systems.patch | 42 -------------------
- .../vte/{vte_0.70.2.bb =3D> vte_0.70.3.bb}      | 18 +++-----
- 2 files changed, 6 insertions(+), 54 deletions(-)
+ .../vte/{vte_0.70.2.bb =3D> vte_0.70.3.bb}      | 22 +++++-----
+ 2 files changed, 10 insertions(+), 54 deletions(-)
  delete mode 100644 meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macr=
 o-for-non-glibc-systems.patch
  rename meta/recipes-support/vte/{vte_0.70.2.bb =3D> vte_0.70.3.bb} (69%)
@@ -104,10 +104,10 @@ t/vte/vte_0.70.3.bb
 similarity index 69%
 rename from meta/recipes-support/vte/vte_0.70.2.bb
 rename to meta/recipes-support/vte/vte_0.70.3.bb
-index ec2fb1f522..970d7ea64a 100644
+index ec2fb1f522..a39598216b 100644
 --- a/meta/recipes-support/vte/vte_0.70.2.bb
 +++ b/meta/recipes-support/vte/vte_0.70.3.bb
-@@ -11,30 +11,24 @@ LIC_FILES_CHKSUM =3D " \
+@@ -11,30 +11,28 @@ LIC_FILES_CHKSUM =3D " \
      file://COPYING.XTERM;md5=3Dd7fc3a23c16c039afafe2e042030f057 \
  "
 =20
@@ -145,8 +145,12 @@ b0c70030fdcc24971a334d80"
 =20
 -PACKAGECONFIG ??=3D "gnutls"
 -PACKAGECONFIG[vala] =3D "-Dvapi=3Dtrue,-Dvapi=3Dfalse,vala-native vala"
-+PACKAGECONFIG ??=3D "gnutls vala ${@bb.utils.contains('DISTRO_FEATURES',=
- 'opengl', 'gtk4', '', d)}"
++PACKAGECONFIG ??=3D " \
++    gnutls \
++    ${@bb.utils.contains('DISTRO_FEATURES', 'gobject-introspection-data'=
+, 'vala', '', d)} \
++    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gtk4', '', d)} \
++"
 +PACKAGECONFIG[gtk4] =3D "-Dgtk4=3Dtrue,-Dgtk4=3Dfalse,gtk4"
 +PACKAGECONFIG[vala] =3D "-Dvapi=3Dtrue,-Dvapi=3Dfalse"
  PACKAGECONFIG[gnutls] =3D "-Dgnutls=3Dtrue,-Dgnutls=3Dfalse,gnutls"
