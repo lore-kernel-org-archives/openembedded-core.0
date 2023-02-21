@@ -1,138 +1,194 @@
-Return-Path: <niko.mauno@vaisala.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CEBCC6379F
-	for <webhook@archiver.kernel.org>; Tue, 21 Feb 2023 10:32:56 +0000 (UTC)
-Received: from EUR01-VE1-obe.outbound.protection.outlook.com (EUR01-VE1-obe.outbound.protection.outlook.com [40.107.14.75])
- by mx.groups.io with SMTP id smtpd.web11.39459.1676975574398146581
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68C79C61DA3
+	for <webhook@archiver.kernel.org>; Tue, 21 Feb 2023 10:34:16 +0000 (UTC)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+ by mx.groups.io with SMTP id smtpd.web11.39475.1676975649046638572
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Feb 2023 02:32:55 -0800
+ Tue, 21 Feb 2023 02:34:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@vaisala.com header.s=selector1 header.b=BKJs60ua;
- spf=pass (domain: vaisala.com, ip: 40.107.14.75, mailfrom: niko.mauno@vaisala.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AKHytMc9ucVee+cQ3oVGfLYBtPIEHa4/d8XmvDXyGVrOytrpyWP7wrVFRL9OJ2mGkRTTCs/3puD9KxsR3YvSpBtSkq71KdxLyj1C/irzN1vgNyRsadw0G6vDpMnnJ1FHg8JYY4x6mnT1xmYiXrnBJB9nkAXniyVYYSrgqWQpGFsRirQ3RZf1hP0sQ/qQAQbnPis998MToWhCqa0qTNApSyGYIABP0v4gOCpvKaMcrJp3OsUGJEB8AJurewhuFXXO4EltkOxYm8ilwx6MtL9VqNJGrGl5Ub8jJwaXNbKJ5+o5EBKnWLV8PY5IIA0qvXP4I5K+YXvXzjRdGcCqVoQAcA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SRZNxqWfeaLObKFi1Q7tl6U1bUKmkXpGKs4fS8duM30=;
- b=ogdGB0XsucyRk7smifjrGKg2NA8aSy0uncQh8o6YonM5Wf+b3JLoQQZhOV2ss2frd9jGSYLGTOLBVxgyDeu1uWnsGkREinhY/8uXfz1UFUrZZ4Vo83iUh0xy6MXK+WEwQhAJ7W7nqvzDK6mos6AbvHqer2tirodk8BLlDkTQTWejJtwSMZP8e1d6Xd77bULvqdl1PLD+Ncq3Xe2coUunuB4cLIm4tP7o1MzoQGnfkB+1m10jLt/5B8zcG57YYADJ7v9KAt3cHtqrhuYQqd2EUWEB6+dS4q8wkZ0lxJYWry32iwGG1uyzvrr6d8QrAWTt55eMkVm2cNEEr3u840bhlw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
- dkim=pass header.d=vaisala.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SRZNxqWfeaLObKFi1Q7tl6U1bUKmkXpGKs4fS8duM30=;
- b=BKJs60ua1e9WannBC1DzPukXSvqCPbFP1Sc0LBizkC/zSN5y8cfR+qdPNJzh+C18G2+KDu0+i/u0banqE0E3IU60h0MlpDDi2f0E4vPotipjqB8vC+frPCtfYvPW8SVYUgLFeCZ0zfpC76Gt4ZY7HGEgAY+GMmjz9WtsLKyYshCHwxjRELZ7MG1hV/o9tZ/bwiYnvzXsrCODqynrTK/cxP3Qx7aWC5fPxxCe3OiCXx3Pc+tT2ItBdSZCWFweLnmIo2F/zWZ3miOep7S5M3ZjVxn7pLbR7ZbAaUAdVJx8/GYLK/regQj277YagmbmUcx7GQHqDda4zFLn9D6oHiIO2A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vaisala.com;
-Received: from PAXPR06MB8579.eurprd06.prod.outlook.com (2603:10a6:102:2b3::22)
- by DB9PR06MB7196.eurprd06.prod.outlook.com (2603:10a6:10:217::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.21; Tue, 21 Feb
- 2023 10:32:51 +0000
-Received: from PAXPR06MB8579.eurprd06.prod.outlook.com
- ([fe80::ce6:3fa7:e565:c049]) by PAXPR06MB8579.eurprd06.prod.outlook.com
- ([fe80::ce6:3fa7:e565:c049%6]) with mapi id 15.20.6111.021; Tue, 21 Feb 2023
- 10:32:51 +0000
-Message-ID: <c79a36ea-aada-ddef-be2c-e981782901a3@vaisala.com>
-Date: Tue, 21 Feb 2023 12:32:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [OE-core] [PATCH] ref-manual: Fix invalid feature name
-Content-Language: en-US
-To: Michael Opdenacker <michael.opdenacker@bootlin.com>,
- quentin.schulz@theobroma-systems.com,
- openembedded-core@lists.openembedded.org
-Cc: YP docs mailing list <docs@lists.yoctoproject.org>
-References: <20230219143133.66511-1-niko.mauno@vaisala.com>
- <8b58d703-93d4-11f8-4d0e-d6b922e995d4@theobroma-systems.com>
- <14a72505-0e05-6b81-ce33-580cf986c898@bootlin.com>
-From: Niko Mauno <niko.mauno@vaisala.com>
-In-Reply-To: <14a72505-0e05-6b81-ce33-580cf986c898@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: GV3P280CA0060.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:150:9::30) To PAXPR06MB8579.eurprd06.prod.outlook.com
- (2603:10a6:102:2b3::22)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=qDPBXUE2;
+ spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f42.google.com with SMTP id x24so5197485lfr.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 02:34:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=b1sLZKV0TD4FGebi4w11qahin2ZAGRqoqrE0oLmG2iE=;
+        b=qDPBXUE28hyJYaJ0BVFUnsci+Nw4fYvJQ8LqkNbj5+1OD/4G13z16e3iUYwTHqmXJ1
+         JmaFSrkg2stPlIqoqiBdAl1bWaNIjHIWdIGxWoRzvt2Do6nxCWoaBXcNc7wkN9d7bwzN
+         wWHd8+wgodHRAGuXzZ8b4JU4zlGZjV7HwkVjwmZP2Iv2dGmOXPloKVluZSE7bnoo6ei9
+         eoDh0RC9FtmjbIpN8DYZl72NsiERfhIHOFCNKngOWMmpI6sPjWTYw/qeQEnF2dPM2Xb2
+         5Oon0F2zoJ1ByVbp8SkjU/b3U6b6bgkO0S8e+tiLrfZidjVQbnF/i9ksz6F8cviEkcux
+         YIaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=b1sLZKV0TD4FGebi4w11qahin2ZAGRqoqrE0oLmG2iE=;
+        b=d1/l3qgePfHvrZSAHxwc9LTgdWAZzGCdJgyW5GTBn/IPhGghZ8M+wyy3Hy4xUzt9g7
+         c71gKFMJJaBu/2WKZfISkuyEpU1cR09NdjXrpVzKJpJAQ/+YNKJRlJKzIqFGc5stSKcY
+         i1m1bMACf4f1Ea7fxYpFaxrfpcvHPlfp7bA5Vl6gNIXOx4S1n/Dnt2Wnw0Xi33gCYlh/
+         b3rcECjIJGamabFK48UkKkXl64ZlJ/5rzUU6cT/nqgzCLlS9YyblN+6uV0nGhYnU0LpM
+         shAdujqY9zL26Nyyc12dvRXZOWwkjZomnNc4HwSWP9sGUoryDv3f5brQlzP9Q3gRSUcc
+         j2VA==
+X-Gm-Message-State: AO0yUKVI+LGmEyQex/QdFObLanCYi6mA2g7o/7cJZAajShUVHEitw0iG
+	XXTybRJSupht678cTQZBm0ooQRJjcC1bQo5PKV4=
+X-Google-Smtp-Source: AK7set+ZgKknGzyxJYtm83lizPKF2ef2+6hOaBl+2kH00EE/0uMjhIWEq53zwq0AinchFLKSX6emmvpmVZlRtWuBHV4=
+X-Received: by 2002:ac2:548c:0:b0:4db:345d:4f8a with SMTP id
+ t12-20020ac2548c000000b004db345d4f8amr1513095lfk.11.1676975646855; Tue, 21
+ Feb 2023 02:34:06 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR06MB8579:EE_|DB9PR06MB7196:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4d393742-a825-43e9-621a-08db13f6fbce
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	fHXtsuEMW4uE0qYvYMk5RG6uGnFt5mhr7njJSGYasf/TEgdcv/boFBUEDn6Ke5w875zVDAMichw0j2UgPLjHf0PbMIbHZ9k1h81VjeSLCgxSlsjUk1e5HT1/1YlbyoAKWCdmBeFumzD/wjwJ1BT6LeD2AoqAFyhqd99jtevLOxj4P6u+pgkVzvHd48fnPPq6EuhBQCVdv43VNQmBfsjYNGoV04KlMH8Q8RDGsh6DMpAnTbMfiwOdu2dUqzX6X9UTOGF1hd3Sh1OkzRsdeabMcVZDghCr/ioNXHRq2QmDdJnsa9x+FQvuaEb8LorRGgEkmDzIaIss7h0F0KdR6jlAiJnfvjvg+zqj8jXihiFwgwwYRuQ2tPH1jVc77rngP4X4aQNMqH/I5ZXns3r+AyRiDcYf4VIrNUBPCCTzPOvp2zHWJVhZT+DaYEBCT5zDGnk/AyEfFwpH08u9bYAvkJW2jE8AbR8E8ZdWGf+hxdcf5FACB+/lNpOXvQGuWnNmuqq+B1YPrpVTyV3jyedEV1XEdDbJp+ZKw0GlAAiSUihsEiihKJ9UX/xqpAFfE1bV8DzZFf8J0rhD18ypvGvKoy0yxIZS4PTfwa/hGcFJYoax/31U0I+26TrJuckBDAHFx6KGPZbWXb6KqJU04VT2YyoY24shxMH3XPT/LRVkEY+wpy8i6eGxZExteJtfvKehi2P0EkNFDzSyVbD8NXbzqvHMBaQGEDCa90TWkvzQ24etrHI=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR06MB8579.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(366004)(396003)(39860400002)(346002)(376002)(136003)(451199018)(38100700002)(41300700001)(6666004)(4326008)(66946007)(66556008)(8936002)(6506007)(8676002)(66476007)(6486002)(478600001)(966005)(86362001)(31696002)(36756003)(2906002)(316002)(4744005)(6512007)(26005)(5660300002)(186003)(44832011)(2616005)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?cGpxTldzTEdCR1dWR0dHSytaRllsc0xJUnNlUDRLNmV5aGVibUt2aHVJeUlm?=
- =?utf-8?B?elVWN1JkdmJYR28rNVZydG9JbVIyQzM0eitzS2gyMGZXaDc4SkR2c0hTTE52?=
- =?utf-8?B?UVlvc3kzbysrVlJvWkh4cHNDOVpIdENrVGhYc0pFdjhIQ1pKL3d1alZjREV1?=
- =?utf-8?B?eDdyVUxJcUNKMGd2NzU2YlN3cmtUWkNFQmsyRllKOGk5ZE8weWRsd2ZaSlgx?=
- =?utf-8?B?R291WldjcURpelNCSUZHSHhzekExVTJMZ2psa1E2WC96Mlo1OHZHU0pBU21T?=
- =?utf-8?B?Qk96UXVlYlU5NDZNVGR6RWg0NlNkWWh1QzVmTjJFUE91NS9zVU94d0hXa0NK?=
- =?utf-8?B?UXMzZmorN1IvRUFWNEdBakJLUjM4dkFiZHVYd0UvMDRRWDJ1N0x6NjVNWWxm?=
- =?utf-8?B?U1dsQnEvVk1DZ3piMjVUMDN1cWFFVUU5VEZGeW9SdUZiNzBENzRCS3BGTjZo?=
- =?utf-8?B?TERMMVZKWjdvVHROMEQ5L0NpQUgyMmZnczFIZHBYWDR3b1h5czNqOXlLRjVV?=
- =?utf-8?B?TEMyVUFYbkxYa29rNGVGalUrcWNpQ1V2ZnhjRGY1RjVpUjZ2c3hOenlnSUxZ?=
- =?utf-8?B?QUVVUmVabXhneE84WjVMN25hZEUzL1Rrd2JKOEdQbXZaWFBsQjBLcTd4R010?=
- =?utf-8?B?V2JYRmZyZ0sxOWZCamE0WWJpZTNvTmYyR2Q3ZG9ZMnBKbFgrOWs0a1Z2NDMr?=
- =?utf-8?B?djRzb2pSc3VyUnhlWHVYbk9Uc3hnQ2V5MWd4WkowT2FRTWNTOE5yclVjSktx?=
- =?utf-8?B?cTA0VkM4eEJnVGJYbytmV2FUbmlvdXc3bTlDWU5qWjZLMTRKUDlFSFNSak9G?=
- =?utf-8?B?ODM2WVJrMnJ5Q1lyb1g1dkFVdDVmRk1OLzB2aUpYS3YzbE9YeVFuT2g0NzQ2?=
- =?utf-8?B?eHpubnJvOVFyNEhSRVBkdXE3WktwZWJJa09OeHpZTzBMMXhqYzhyak52OTY3?=
- =?utf-8?B?UE9oVkU5Q0F0VXhqbXpMaFA2Q0NPbXBvZUs2b3YzbG1NQ0RJb0tkQ1RJallG?=
- =?utf-8?B?bTE1SE9lZUVrNURpYzlVYVVXVWFxSGpVZDBIdjNtREREOUZiSFd6QkJEdnRO?=
- =?utf-8?B?ekw3Vm1iYkMyT0NOczBVaHRWVmpPak1pb1JMMFVnKzF1Ym1acVN4K0ppNzlD?=
- =?utf-8?B?M2RPM3RoMkZGZ1BXSE9rcjVUTVpjM1F5R0RFbU1sQWVrRGRxWjVCUm5Pa1dF?=
- =?utf-8?B?emVjV2J5NFFOQXJkc0NVT0V2UUErcHp4d1F1ZTVJaTJFM2FQTllDUzBmbTNu?=
- =?utf-8?B?NjNHRUdYRGRHeTFQYlo4NlNzSDlLS045dWZHYzFwTVlSczRQQkYvOVBxQzVx?=
- =?utf-8?B?SDRPdk0rbE9sQ2hCalR2c2IySDh2Uk1zd20zbG1HTnUrUmFjcXFCUlViSGxQ?=
- =?utf-8?B?MkJwNzVOMW4xNjhjN3ZFYndJMm1ZbG5KOEVYRm5uY2dvNFN2M1RXbkFjOVJ2?=
- =?utf-8?B?Ly9idVFycHUwMTdxSXFPTlVOM1gwMWRDNjdSYkN1RW9UQkxKb1VQZmNFTmo5?=
- =?utf-8?B?bWNMUDhLdVE5VFhNenhSWVFxcmNZOE15NzA2T3F2RzlMd0xaUzQyMmJuTE5Q?=
- =?utf-8?B?cHhEOXhGRlJkMUgyV29zdnJTRG02aTZyT0JvYzlXQkFRN2ZBaHgrckdIZ0RP?=
- =?utf-8?B?MW50SDBod3JpSkZOQjY5cEZDU0s2MzNQS2Z6MysvcU5zeVhKOVk4bkxxNEZa?=
- =?utf-8?B?M3BrSVVmRXlvdE9UNWpkUnZjdEFXUzJPNUxmL2Y2eTNpWmZsaFQvaXpFZFBo?=
- =?utf-8?B?RGY2NkdjRHVyVWYrelY5VENUMTlkMDUwaFZXZEgzZms4bmhnNWhReENobHpa?=
- =?utf-8?B?QTNWVUNoS0xGNFo5a2gwcTBVQmovZW90Y2ZLVUdCeE80N09OQlBJQkN1enJM?=
- =?utf-8?B?TG9SdzJjNC9EWWs3TjBlb2ZjWWdiamd2cUc2RFBRRklaaWszTDEvclRRVkVR?=
- =?utf-8?B?NjRqaVUrSzB5eWc5RWd5dWE0ZTNkQ1RpVFp1QnlTTTczOUtnRExzVThXcVJo?=
- =?utf-8?B?alkxZkVPeGV3cUE1UmR2bUlRZU55Y0NKRitXQWVXc2RKeHhueXBaK2sxS0dx?=
- =?utf-8?B?Rk10eCs0d2ZXV21DY2ZmbXVVMkFhN3hITlpNaFk1Z0JXYXh1WEhhaUtHTjFN?=
- =?utf-8?B?eTQ4U0NqTjJPNEE4VGRYdEZ0WW9NUWNBaUgzVGRNcFFhMUxOSzFaZEVKRHNl?=
- =?utf-8?B?RlE9PQ==?=
-X-OriginatorOrg: vaisala.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4d393742-a825-43e9-621a-08db13f6fbce
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR06MB8579.eurprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2023 10:32:51.3202
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZHhF/pJSNjksobwwREfUO8B30hm/TP365GrxhmrOGcven597YuRhsnjDgZ7U9DwSi68FplT3AriwR/8GF6d8Dw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR06MB7196
+References: <20230221102927.3454570-1-rich@richelberger.com> <0100018673857e8b-00b0aec2-b383-481a-bf90-e830b0590bc8-000000@email.amazonses.com>
+In-Reply-To: <0100018673857e8b-00b0aec2-b383-481a-bf90-e830b0590bc8-000000@email.amazonses.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 21 Feb 2023 11:33:55 +0100
+Message-ID: <CANNYZj9RvpmMR=GK-H806n7RK2KPRK0Accwc-b7LNBGxfJ_UZg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] docbook-xml: Switch from debian packages to
+ upstream docbook sources
+To: Richard Elberger <rich@richelberger.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 10:32:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177491
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 10:34:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177492
 
-On 20.2.2023 19.45, Michael Opdenacker wrote:
-> 
-> Thanks for the patch!
-> You also have an issue with the way your e-mails are received here. Here 
-> is a workaround:
-> https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded#Fixing_your_From_identity
-> 
-> I fixed the commit manually, but doing this will help for next time.
+Thanks, I do not have any further comments. The next step is taking
+this through the automated test matrix.
 
-Thanks for pointing the issue Michael, I've now applied the mitigation.
-BR, Niko
+Alex
+
+On Tue, 21 Feb 2023 at 11:29, Richard Elberger <rich@richelberger.com> wrote:
+>
+> This patch changes the docbook-xml distribution package source from
+> debian to docbook which aligns the recipe with the source
+> originator. Other changes made to the recipe include:
+>
+> This patch resolves [YOCTO #13270].
+>
+> - removal of version 4.0 given docbook no longer distributes version
+>   4.0
+> - simplification of the header description.
+> - inline comments to communicate the rationale behind gathering
+>   multiple versions and LICENSE file handling.
+> - minor ordering changes to align with styling conventions and better
+>   context to better communicate use - i.e. the inherit statements and
+>   related operations.
+>
+> Signed-off-by: Richard Elberger <rich@richelberger.com>
+> ---
+>  .../docbook-xml/docbook-xml-dtd4_4.5.bb       | 60 ++++++++++++-------
+>  1 file changed, 39 insertions(+), 21 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
+> index 2bec1442af..dd6159b2f3 100644
+> --- a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
+> +++ b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
+> @@ -1,28 +1,46 @@
+>  SUMMARY = "Document type definitions for verification of XML data files"
+>  DESCRIPTION = "Document type definitions for verification of XML data \
+> -files against the DocBook rule set, it ships with the latest DocBook 4.5 \
+> -XML DTD, as well as a selected set of legacy DTDs for use with older \
+> -documents, including 4.0, 4.1.2, 4.2, 4.3 and 4.4"
+> -HOMEPAGE = "http://www.docbook.org/xml/"
+> +files against the DocBook rule set."
+> +HOMEPAGE = "https://docbook.org"
+> +
+> +# The upstream sources are not distributed with a license file.
+> +# LICENSE-OASIS is included as a "patch" to workaround this. When
+> +# upgrading this recipe, please verify whether this is still needed.
+>
+>  LICENSE = "OASIS"
+>  LIC_FILES_CHKSUM = "file://${WORKDIR}/LICENSE-OASIS;md5=c608985dd5f7f215e669e7639a0b1d2e"
+>
+> -# Note: the upstream sources are not distributed with a license file.
+> -# LICENSE-OASIS is included as a "patch" to workaround this. When
+> -# upgrading this recipe, please verify whether this is still needed.
+> -SRC_URI = "http://snapshot.debian.org/archive/debian/20160728T043443Z/pool/main/d/docbook-xml/docbook-xml_${PV}.orig.tar.gz \
+> -           file://LICENSE-OASIS \
+> -           file://docbook-xml-update-catalog.xml.patch \
+> -"
+> +# To support apps with xml schema backward compatibility, we must
+> +# install a set of schemas. Install the latest based on PV and then
+> +# name any specific versions as required. TODO: Figure out a mechanism
+> +# to filter exactly which versions are necessary, if that's even
+> +# possible.
+> +#
+> +# DocBook.org lists available release packages at https://docbook.org/xml/.
+> +#
+> +# The release packages relate docbook source at
+> +# https://github.com/docbook/docbook but building them requires the
+> +# Gradle build system. In future, it might be safer to use the source
+> +# tree which would also enable proper SBOM generation through the
+> +# bitbake build system.
+> +#
+>
+> -SRC_URI[md5sum] = "487b4d44e15cffb1f4048af23f98208e"
+> -SRC_URI[sha256sum] = "b0f8edcf697f5318e63dd98c9a931f3fee167af0805ba441db372e0f17b2a44f"
+> +SRC_URI = "https://docbook.org/xml/4.1.2/docbkx412.zip;name=payload412;subdir=docbook-xml-4.1.2 \
+> +           https://docbook.org/xml/4.2/docbook-xml-4.2.zip;name=payload42;subdir=docbook-xml-4.2 \
+> +           https://docbook.org/xml/4.3/docbook-xml-4.3.zip;name=payload43;subdir=docbook-xml-4.3 \
+> +           https://docbook.org/xml/4.4/docbook-xml-4.4.zip;name=payload44;subdir=docbook-xml-4.4 \
+> +           https://docbook.org/xml/${PV}/docbook-xml-${PV}.zip;name=payloadPV;subdir=docbook-xml-${PV} \
+> +           file://LICENSE-OASIS"
+>
+> -UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/docbook-xml/"
+> +SRC_URI[payload412.sha256sum] = "30f0644064e0ea71751438251940b1431f46acada814a062870f486c772e7772"
+> +SRC_URI[payload42.sha256sum] = "acc4601e4f97a196076b7e64b368d9248b07c7abf26b34a02cca40eeebe60fa2"
+> +SRC_URI[payload43.sha256sum] = "23068a94ea6fd484b004c5a73ec36a66aa47ea8f0d6b62cc1695931f5c143464"
+> +SRC_URI[payload44.sha256sum] = "02f159eb88c4254d95e831c51c144b1863b216d909b5ff45743a1ce6f5273090"
+> +SRC_URI[payloadPV.sha256sum] = "4e4e037a2b83c98c6c94818390d4bdd3f6e10f6ec62dd79188594e26190dc7b4"
+>
+> -S = "${WORKDIR}/docbook-xml-4.5.c31424"
+> +UPSTREAM_CHECK_REGEX = "docbook-xml-(?P<pver>4(\.\d+)).zip"
+>
+> +S = "${WORKDIR}"
+>  inherit allarch
+>  BBCLASSEXTEND = "native"
+>
+> @@ -34,19 +52,19 @@ do_compile (){
+>      :
+>  }
+>
+> +inherit xmlcatalog
+> +
+>  do_install () {
+>      install -d ${D}${sysconfdir}/xml/
+>      xmlcatalog --create --noout ${D}${sysconfdir}/xml/docbook-xml.xml
+>
+> -    for DTDVERSION in 4.0 4.1.2 4.2 4.3 4.4 4.5; do
+> +    for DTDVERSION in 4.1.2 4.2 4.3 4.4 4.5; do
+>          DEST=${datadir}/xml/docbook/schema/dtd/$DTDVERSION
+>          install -d -m 755 ${D}$DEST
+> -        cp -v -R docbook-$DTDVERSION/* ${D}$DEST
+> -        xmlcatalog --verbose --noout --add nextCatalog unused file://$DEST/catalog.xml ${D}${sysconfdir}/xml/docbook-xml.xml
+> +        cp -v -R docbook-xml-$DTDVERSION/* ${D}$DEST
+> +        xmlcatalog --verbose --noout --add nextCatalog unused \
+> +          file://$DEST/catalog.xml ${D}${sysconfdir}/xml/docbook-xml.xml
+>      done
+>  }
+>
+> -XMLCATALOGS = "${sysconfdir}/xml/docbook-xml.xml"
+> -inherit xmlcatalog
+> -
+>  FILES:${PN} = "${datadir}/* ${sysconfdir}/xml/docbook-xml.xml"
+> --
+> 2.34.1
+>
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#177490): https://lists.openembedded.org/g/openembedded-core/message/177490
+> Mute This Topic: https://lists.openembedded.org/mt/97106035/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
