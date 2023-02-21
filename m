@@ -1,173 +1,109 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14D18C636D7
-	for <webhook@archiver.kernel.org>; Tue, 21 Feb 2023 05:25:35 +0000 (UTC)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web10.35708.1676957129072123710
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43B0AC64EC4
+	for <webhook@archiver.kernel.org>; Tue, 21 Feb 2023 10:19:26 +0000 (UTC)
+Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com [195.245.231.4])
+ by mx.groups.io with SMTP id smtpd.web10.38671.1676974759774555695
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Feb 2023 21:25:29 -0800
+ Tue, 21 Feb 2023 02:19:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=MnDtveAY;
- spf=pass (domain: mvista.com, ip: 209.85.215.172, mailfrom: hprajapati@mvista.com)
-Received: by mail-pg1-f172.google.com with SMTP id p6so1792599pga.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Feb 2023 21:25:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=t1M2Njfk+f4HO+G6CZd5xM8kpECdx+mMIYX2/PT2L4Y=;
-        b=MnDtveAYXOgsa2UMDBOkK4/sl7v2ZqCrIUMpaScWJHohQE4v6FvZ0VIxbVWpv1ECj5
-         FBg6tvEgqQr9KjPIdrjmLXGJs88QZNDC2hG84TbtYs6g/YrKaPVmfLN/VrThJLg0CJYD
-         rqVC5N9z3dHgjyxCHXRC2uMlM8/ULyctWeHaQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=t1M2Njfk+f4HO+G6CZd5xM8kpECdx+mMIYX2/PT2L4Y=;
-        b=N6+GBM7EnEl2ano2nQpxMzunR/DJvtdIVDYxKwGJ/qmyEju4u/LJNKy3wSx0EVbKWz
-         9WIugC0rwwuaAOW5aZV59vj/G0Ame8zrppAs9hmffzSjC6kmiG/j5b1H/91l80GIqs00
-         otLBkwz990o0RcFDbfT598M+WeGzuIA0UaT62oKh9veQAMBi6blSRK2++06dt4sRw2aL
-         kBoheOP7gU+vZOuSo62BQVX30QFKxl2dccNBhTH8XHNEqxRTklI1XN6YXj1Xh3T5Ya+q
-         SuGvRRw2TE3H5RJdo7oQQUr2cBoNI/d6sB4jk+wQ3Y0xVW3away3++1hujfsJAX5LWZP
-         2pMg==
-X-Gm-Message-State: AO0yUKU/pEdCwwQnMXTMQbtPClidEivbN8yAFpnajBu0GPEp5anSaQmp
-	cmkmjIG5U76wdlDCVc+tE6J791Px2oTNpxhR
-X-Google-Smtp-Source: AK7set8CH5CwUob8W/qCrqMzFIuh5W8OrD6BKcikSFMG+89/C3JuAWs9zgDdGZtu8NcwWlYb3cXLLg==
-X-Received: by 2002:a62:601:0:b0:5a8:c2bb:f0c4 with SMTP id 1-20020a620601000000b005a8c2bbf0c4mr2127923pfg.13.1676957128302;
-        Mon, 20 Feb 2023 21:25:28 -0800 (PST)
-Received: from MVIN00024 ([150.129.170.206])
-        by smtp.gmail.com with ESMTPSA id u25-20020aa78399000000b005897f5436c0sm8473050pfm.118.2023.02.20.21.25.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Feb 2023 21:25:27 -0800 (PST)
-Received: by MVIN00024 (sSMTP sendmail emulation); Tue, 21 Feb 2023 10:55:22 +0530
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [dunfell][PATCH] curl: fix CVE-2022-43552 Use-after-free triggered by an HTTP proxy deny response
-Date: Tue, 21 Feb 2023 10:55:21 +0530
-Message-Id: <20230221052521.76541-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=ngf2fY+i;
+ spf=pass (domain: fujitsu.com, ip: 195.245.231.4, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1676974757; i=@fujitsu.com;
+	bh=2m8bV9WB9GBe+XWXgbZXVX6gWP0uH0cK5sb1PtWv5bc=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=ngf2fY+ii6OoWR2kIYgQBOFbD2/ftWAiF0naK17MZ082M7M3CMc34Qm3NpNbGk0CA
+	 hPBmmlF9VB0ZfEhUARwctvncuCGvd6uCyxM+zHUQmJTVrDu04ORDQSdfPpZjUMo/KM
+	 TvO/A0PDoLOFXNJSCbwXqd//t9+B+8MmrD+RM6/vqBXhSmPa7M453sB3RkacktAkqj
+	 rNVytkJ8XmcIhCj/gDRRn3Xb3DZKqwFc8X7Y4dW5DKyc0F384uigbseEQ+6S5FZ7Xj
+	 fvL64nUc3UONsddTDuwbDtbD/y8hucDdGitmxTGlIZoT/e36HpbpXTvRiYwSKJR1lJ
+	 MW1/2XqW2814Q==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrCIsWRWlGSWpSXmKPExsViZ8MxSXfprC/
+  JBrOu81nc+fmO3YHR49zGFYwBjFGsmXlJ+RUJrBnL/xxiL2jlrFjdvpixgbGXo4uRi0NI4DGj
+  xNfmn4wQznUmia3PD7BAOHsZJRr+fmbvYuTkYBOQkrhx/z9bFyMHh4iAnsTVf6IgYWYBFYkXv
+  3vASoQFrCV+tu5lBLFZBFQlfj37wQRi8wo4Sczb2QIWlxBQkJjy8D0zyBhOAWeJuU2xIGEhoJ
+  JXl5ayQZQLSpyc+YQFYryExMEXL5ghWhUlZl9uZoGwKyVaP/yCstUkrp7bxDyBUXAWkvZZSNo
+  XMDKtYjQtTi0qSy3SNdJLKspMzyjJTczM0Uus0k3USy3VLU8tLgHKJJYX66UWF+sVV+Ym56To
+  5aWWbGIEBm5KsWr/Dsa1vX/1DjFKcjApifJ+O/U5WYgvKT+lMiOxOCO+qDQntfgQowwHh5IEr
+  9/0L8lCgkWp6akVaZk5wCiCSUtw8CiJ8NZ1AaV5iwsSc4sz0yFSpxgVpcR5J80ASgiAJDJK8+
+  DaYJF7iVFWSpiXkYGBQYinILUoN7MEVf4VozgHo5IwbwXIFJ7MvBK46a+AFjMBLXb/8QFkcUk
+  iQkqqgSmXh3P3zPyN4Rx/l82QiRc5+2Xalx+6c7wVqsSlFdpe7c9V35Vy99iq1T8jQ3i+c4ks
+  PRH52MxSw4vV8/udKRpvb5UWBh/61W/R3XXbVsr1tcD1PZ3ptXG7XFe88pHZ1CCfMbEjItQ80
+  Y3JY193/Yvbky6fnnDv7QHjDxvdo6NvlP7NOfjMdd7s65EthlFGlq7Mlutf3TmqduHuUpukhu
+  kRh2Ue/t40SeHt5y//OngYnKb/lo6/dFKhRvCptdkJiaSNq0qyg/zjp5wzn9muUlBltPDYXwW
+  VdY/OaGfsjW8SVwvt+3XLu4D3krO+pOeRNY433ulnL3+X+K/b+OjF3VK695ffnSooo2rb02e5
+  VlGJpTgj0VCLuag4EQCgemmOVwMAAA==
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-12.tower-548.messagelabs.com!1676974757!85538!1
+X-Originating-IP: [62.60.8.146]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.102.2; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 27800 invoked from network); 21 Feb 2023 10:19:17 -0000
+Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
+  by server-12.tower-548.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 21 Feb 2023 10:19:17 -0000
+Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id EA2821000E9
+	for <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 10:19:16 +0000 (GMT)
+Received: from R01UKEXCASM223.r01.fujitsu.local (R01UKEXCASM223 [10.182.185.121])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id DE13B1000E7
+	for <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 10:19:16 +0000 (GMT)
+Received: from localhost.localdomain (10.167.225.33) by
+ R01UKEXCASM223.r01.fujitsu.local (10.182.185.121) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.42; Tue, 21 Feb 2023 10:19:15 +0000
+From: <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] harfbuzz: upgrade 7.0.0 -> 7.0.1
+Date: Tue, 21 Feb 2023 18:18:54 +0800
+Message-ID: <1676974737-24910-2-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1676974737-24910-1-git-send-email-wangmy@fujitsu.com>
+References: <1676974737-24910-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM223.r01.fujitsu.local (10.182.185.121)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 05:25:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177481
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 10:19:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177483
 
-Upstream-Status: Backport from https://github.com/curl/curl/commit/4f20188ac644afe174be6005ef4f6ffba232b8b2
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../curl/curl/CVE-2022-43552.patch            | 82 +++++++++++++++++++
- meta/recipes-support/curl/curl_7.69.1.bb      |  1 +
- 2 files changed, 83 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-43552.patch
+ .../harfbuzz/{harfbuzz_7.0.0.bb => harfbuzz_7.0.1.bb}           | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_7.0.0.bb => harfbuzz_7.0.1.bb} (95%)
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2022-43552.patch b/meta/recipes-support/curl/curl/CVE-2022-43552.patch
-new file mode 100644
-index 0000000000..d729441454
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2022-43552.patch
-@@ -0,0 +1,82 @@
-+rom 4f20188ac644afe174be6005ef4f6ffba232b8b2 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Mon, 19 Dec 2022 08:38:37 +0100
-+Subject: [PATCH] smb/telnet: do not free the protocol struct in *_done()
-+
-+It is managed by the generic layer.
-+
-+Reported-by: Trail of Bits
-+
-+Closes #10112
-+
-+CVE: CVE-2022-43552
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/4f20188ac644afe174be6005ef4f6ffba232b8b2]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ lib/smb.c    | 14 ++------------
-+ lib/telnet.c |  3 ---
-+ 2 files changed, 2 insertions(+), 15 deletions(-)
-+
-+diff --git a/lib/smb.c b/lib/smb.c
-+index 12f9925..8db3b27 100644
-+--- a/lib/smb.c
-++++ b/lib/smb.c
-+@@ -61,8 +61,6 @@ static CURLcode smb_connect(struct connectdata *conn, bool *done);
-+ static CURLcode smb_connection_state(struct connectdata *conn, bool *done);
-+ static CURLcode smb_do(struct connectdata *conn, bool *done);
-+ static CURLcode smb_request_state(struct connectdata *conn, bool *done);
-+-static CURLcode smb_done(struct connectdata *conn, CURLcode status,
-+-                         bool premature);
-+ static CURLcode smb_disconnect(struct connectdata *conn, bool dead);
-+ static int smb_getsock(struct connectdata *conn, curl_socket_t *socks);
-+ static CURLcode smb_parse_url_path(struct connectdata *conn);
-+@@ -74,7 +72,7 @@ const struct Curl_handler Curl_handler_smb = {
-+   "SMB",                                /* scheme */
-+   smb_setup_connection,                 /* setup_connection */
-+   smb_do,                               /* do_it */
-+-  smb_done,                             /* done */
-++  ZERO_NULL,                            /* done */
-+   ZERO_NULL,                            /* do_more */
-+   smb_connect,                          /* connect_it */
-+   smb_connection_state,                 /* connecting */
-+@@ -99,7 +97,7 @@ const struct Curl_handler Curl_handler_smbs = {
-+   "SMBS",                               /* scheme */
-+   smb_setup_connection,                 /* setup_connection */
-+   smb_do,                               /* do_it */
-+-  smb_done,                             /* done */
-++  ZERO_NULL,                            /* done */
-+   ZERO_NULL,                            /* do_more */
-+   smb_connect,                          /* connect_it */
-+   smb_connection_state,                 /* connecting */
-+@@ -919,14 +917,6 @@ static CURLcode smb_request_state(struct connectdata *conn, bool *done)
-+   return CURLE_OK;
-+ }
-+ 
-+-static CURLcode smb_done(struct connectdata *conn, CURLcode status,
-+-                         bool premature)
-+-{
-+-  (void) premature;
-+-  Curl_safefree(conn->data->req.protop);
-+-  return status;
-+-}
-+-
-+ static CURLcode smb_disconnect(struct connectdata *conn, bool dead)
-+ {
-+   struct smb_conn *smbc = &conn->proto.smbc;
-+diff --git a/lib/telnet.c b/lib/telnet.c
-+index 3347ad6..e3b9208 100644
-+--- a/lib/telnet.c
-++++ b/lib/telnet.c
-+@@ -1294,9 +1294,6 @@ static CURLcode telnet_done(struct connectdata *conn,
-+ 
-+   curl_slist_free_all(tn->telnet_vars);
-+   tn->telnet_vars = NULL;
-+-
-+-  Curl_safefree(conn->data->req.protop);
-+-
-+   return CURLE_OK;
-+ }
-+ 
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-support/curl/curl_7.69.1.bb
-index 63faae6296..899daf8eac 100644
---- a/meta/recipes-support/curl/curl_7.69.1.bb
-+++ b/meta/recipes-support/curl/curl_7.69.1.bb
-@@ -41,6 +41,7 @@ SRC_URI = "https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://CVE-2022-35252.patch \
-            file://CVE-2022-32221.patch \
-            file://CVE-2022-35260.patch \
-+           file://CVE-2022-43552.patch \
- "
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_7.0.0.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_7.0.1.bb
+similarity index 95%
+rename from meta/recipes-graphics/harfbuzz/harfbuzz_7.0.0.bb
+rename to meta/recipes-graphics/harfbuzz/harfbuzz_7.0.1.bb
+index a85c4ca1ce..55421ebcbe 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_7.0.0.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_7.0.1.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b98429b8e8e3c2a67cfef01e99e4893d \
+                     "
  
- SRC_URI[md5sum] = "ec5fc263f898a3dfef08e805f1ecca42"
+ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "7b4685b7066c5c6b8dc6cd7b02f63c554fb8cc1c4ddcfc44bc284efa3c20cf28"
++SRC_URI[sha256sum] = "2cf4d3d8f225007511990a36a34195f0d6562ca56df0a8b0885b382837948199"
+ 
+ inherit meson pkgconfig lib_package gtk-doc gobject-introspection github-releases
+ 
 -- 
-2.25.1
+2.34.1
 
 
