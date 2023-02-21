@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8618FC6379F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93291C64ED6
 	for <webhook@archiver.kernel.org>; Tue, 21 Feb 2023 14:41:27 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web10.43528.1676990478424193122
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+ by mx.groups.io with SMTP id smtpd.web10.43531.1676990480737757678
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Feb 2023 06:41:18 -0800
+ Tue, 21 Feb 2023 06:41:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=oIGAmF6N;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f182.google.com with SMTP id n20so2627165pfu.12
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 06:41:18 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=JChylybf;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.171, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f171.google.com with SMTP id y19so2498132pgk.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 06:41:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3jkrrzOkMgERGFGGVPGs53jHkNboN4WtDk9CTx2lWmo=;
-        b=oIGAmF6NTa6xNnWoi+phlag2lvwLmxFb+kmbvjYwX2JH8LTv/XiJCsbpUB9tPxoxQa
-         1dUUMRSMHghIcBnlPDD4hxQM2Ey2ZvtRKdOmgIbnMrMl68uyavjzQtZeKHhuIHVOFp9x
-         FHtAYEgBzGvXBMoeuqgsskyXjpzW7PPOn/bS140A1ZKKGL+b2AiE3W648H+PNoq3uD+Q
-         PaU//hNPSNxc+GUY4l5Q0Do4uZFEJirAakVQFngvmJ8Jynts5YknARfnk+4XGaskYP/o
-         KXDCQBT3wGrgTjpF1xmJ8SjIlSKSa6urVRaPmBIBr3dqwNk+Ky0vS/zrA9rxwnYb/38R
-         Gt2g==
+        bh=PqQlpP3mmspwqbKh5AbERGwm8jGIaC4lcte5La2rNBU=;
+        b=JChylybfql0TsoxivQV1zZ03yJE/5Q97iG4Qr+7ozfRDTLATUfMq25jWlq2mx4WUFI
+         wtJejSMQbWPx3LPk1Ng5QqNK4O4fQcDO/AgSc67bLFG6mhuuelnSD+dxl0BBiEWz6Gv6
+         XI12HLjoTjdP7uq/eoK1M3VbhwwEcdXBcqTgaXee7zxWUOVdJQBOxxC4wxVnywd4uttv
+         ZfpVyRmMSLQ9Rqp/A313OCWtbgbU/d8tq4gTgb8VGaQZIIcerjY2lTPk1pSJReu1C/o2
+         f2RW09MpoHxvLrnuNQIyzKlRo9PYIhsRA0oWX37zbWc3oOGJOGb/marRRxh3uqAKF/yB
+         jDeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3jkrrzOkMgERGFGGVPGs53jHkNboN4WtDk9CTx2lWmo=;
-        b=BQAQ5KyYXtGJs+WMTFXdb2pfNKJNQbsuuoEULjhXFgvv4e3jpKCOYnrlcvCgOGrsc/
-         4BbwiHYR/aWTpohXvm/YswNRiJukDDB5oO+zdfQ5f2J65rrV1Bexi6VyvcXRXgXLBODJ
-         9Doai6VMk8Fd7aJANKwQoJmhi1urdtQAlG+XsdzosnvOMIJo/4ofvrXC4PztNAZ7Fcci
-         YFFWnPJsSatzceYf63YCU2jUNI6sKKiWBRc9UR3CJ1hcXO8T06iOpJufOM3rDIf1/xU4
-         J5Rr4fR8LGtYYH9bD+LVR97kSwbhzWcPHsxgAfN8RwsmxsfnJ7eOER/79xPNDoqYceUe
-         Gz8w==
-X-Gm-Message-State: AO0yUKUSyQsn00PYIyQacF7AzjvqFC/WjFZwxeWyoiVjq3J1vQjyd/b7
-	m3kjZff9gDeFwy6ytKmYmRTSXWwdwaJ7bLa1FGg=
-X-Google-Smtp-Source: AK7set8rr1+jI4rQsLvOMtmUKCGu3VW8sgHqeWQqqAYc5KIde2Nb9bkyMIg8gr6Q/3B3a7CmAHFq6g==
-X-Received: by 2002:aa7:96b4:0:b0:5d2:248d:7ec3 with SMTP id g20-20020aa796b4000000b005d2248d7ec3mr575087pfk.8.1676990477358;
-        Tue, 21 Feb 2023 06:41:17 -0800 (PST)
+        bh=PqQlpP3mmspwqbKh5AbERGwm8jGIaC4lcte5La2rNBU=;
+        b=29xqVZz3MBxKIpeQNmsNdH3ePUhtL5uz1arcdsIVgBe7XzWGELBgJPfXAqtL7WVVX7
+         p4TsTOx0YVEjkgEHCvAj8i0GcvYzJtNdWPkhxd7QWyWzgigPSBdexdQYNGvReI297y/b
+         uPkNEOd2OVBDj/+tIrVPDi6WwvcvVbgY4INWF55oXvPWklnuiob2EZ6Nc13Tr8zrJWqi
+         hvhCuqWOoDhG+iVE2NdvwtMtbznM+0XiQqJ8JVAOzweNwrfbypvD5793lvFRxnNP1fu0
+         2ZdegV7CvPCSBRcG83BblNCe1FRmMiNiVKoyiNVkcozACoaVRKvl0qNR2oMknAWq3P8W
+         lyDA==
+X-Gm-Message-State: AO0yUKUPiAsg8qcO+1ebgNrFmhkZ34OAuaA0x6pxzbzqdG7RgkYk9j2k
+	oM7j7flmR/0TC4yL+7738ZUpfeF3bZzqnYPyD6o=
+X-Google-Smtp-Source: AK7set8u7td8JG5/wu2/Ftibi6yIgmWGODsW8NUlyD53BZMC+X/ZlihExB4AVZMx0cdfxyVqxXe62A==
+X-Received: by 2002:a62:52d0:0:b0:5a8:68c0:5607 with SMTP id g199-20020a6252d0000000b005a868c05607mr2870378pfb.21.1676990482259;
+        Tue, 21 Feb 2023 06:41:22 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id h5-20020a62b405000000b005ae8e94b0d5sm6151140pfn.107.2023.02.21.06.41.16
+        by smtp.gmail.com with ESMTPSA id h5-20020a62b405000000b005ae8e94b0d5sm6151140pfn.107.2023.02.21.06.41.20
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Feb 2023 06:41:16 -0800 (PST)
+        Tue, 21 Feb 2023 06:41:21 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 03/23] lttng-tools: update 2.13.8 -> 2.13.9
-Date: Tue, 21 Feb 2023 04:40:46 -1000
-Message-Id: <b2fecaaa59b29bae9c610195d1aa5be6c1878435.1676990336.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 05/23] apr-util: update 1.6.1 -> 1.6.3
+Date: Tue, 21 Feb 2023 04:40:48 -1000
+Message-Id: <e24b38a14b3520648ec418783fb74fcf61df7ff2.1676990336.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1676990336.git.steve@sakoman.com>
 References: <cover.1676990336.git.steve@sakoman.com>
@@ -61,125 +61,212 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 14:41:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177503
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177505
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-2023-01-13 (National Sticker Day) LTTng modules 2.13.8
-	* fix: jbd2: use the correct print format
-	* Fix: in_x32_syscall was introduced in v4.7.0
-	* Explicitly skip tracing x32 system calls
-	* fix: kallsyms wrapper on ppc64el
-	* fix: Adjust ranges for RHEL 8.6 kernels
-	* fix: kvm-x86 requires CONFIG_KALLSYMS_ALL
-	* fix: mm/slab_common: drop kmem_alloc & avoid dereferencing fields when not using (v6.1)
+Changes with APR-util 1.6.3
 
-Drop determinism.patch as issue resolved upstream via linked ticket.
+  *) Correct a packaging issue in 1.6.2. The contents of the release were
+     correct, but the top level directory was misnamed.
+
+Changes with APR-util 1.6.2
+
+  *) SECURITY: CVE-2022-25147 (cve.mitre.org)
+     Integer Overflow or Wraparound vulnerability in apr_base64 functions
+     of Apache Portable Runtime Utility (APR-util) allows an attacker to
+     write beyond bounds of a buffer.
+
+  *) Teach configure how to find and build against MariaDB 10.2. PR 61517
+     [Kris Karas <bugs-a17 moonlit-rail.com>]
+
+  *) apr_crypto_commoncrypto: Remove stray reference to -lcrypto that
+     prevented commoncrypto being enabled. [Graham Leggett]
+
+  *) Add --tag=CC to libtool invocations. PR 62640. [Michael Osipov]
+
+  *) apr_dbm_gdbm: Fix handling of error codes. This makes gdbm 1.14 work.
+     apr_dbm_gdbm will now also return error codes starting with
+     APR_OS_START_USEERR, as apr_dbm_berkleydb does, instead of always
+     returning APR_EGENERAL. [Stefan Fritsch]
+
+Drop backport.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit cd9e72a390efb778a6278e2e6c9604ab29d6feb9)
+(cherry picked from commit dca707f9fecc805503e17f6db3e4c88069ac0125)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
-(cherry picked from commit 812fb8f02b25bfd30f6d9640cf3b50131d68e0b1)
+(cherry picked from commit 43cd36b178ebb602edd5919c26f8b8642736a3a8)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../lttng/lttng-tools/determinism.patch       | 64 -------------------
- ...-tools_2.13.8.bb => lttng-tools_2.13.9.bb} |  3 +-
- 2 files changed, 1 insertion(+), 66 deletions(-)
- delete mode 100644 meta/recipes-kernel/lttng/lttng-tools/determinism.patch
- rename meta/recipes-kernel/lttng/{lttng-tools_2.13.8.bb => lttng-tools_2.13.9.bb} (98%)
+ .../0001-Fix-error-handling-in-gdbm.patch     | 134 ------------------
+ .../{apr-util_1.6.1.bb => apr-util_1.6.3.bb}  |   6 +-
+ 2 files changed, 2 insertions(+), 138 deletions(-)
+ delete mode 100644 meta/recipes-support/apr/apr-util/0001-Fix-error-handling-in-gdbm.patch
+ rename meta/recipes-support/apr/{apr-util_1.6.1.bb => apr-util_1.6.3.bb} (94%)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/determinism.patch b/meta/recipes-kernel/lttng/lttng-tools/determinism.patch
+diff --git a/meta/recipes-support/apr/apr-util/0001-Fix-error-handling-in-gdbm.patch b/meta/recipes-support/apr/apr-util/0001-Fix-error-handling-in-gdbm.patch
 deleted file mode 100644
-index 0a897a8e13..0000000000
---- a/meta/recipes-kernel/lttng/lttng-tools/determinism.patch
+index 6f27876a7f..0000000000
+--- a/meta/recipes-support/apr/apr-util/0001-Fix-error-handling-in-gdbm.patch
 +++ /dev/null
-@@ -1,64 +0,0 @@
--This is a bit ugly. Specifing abs_builddir as an RPATH is plain wrong when
--cross compiling. Sadly, removing the rpath makes libtool/automake do
--weird things and breaks the build as shared libs are no longer generated.
+@@ -1,134 +0,0 @@
+-From 6b638fa9afbeb54dfa19378e391465a5284ce1ad Mon Sep 17 00:00:00 2001
+-From: Changqing Li <changqing.li@windriver.com>
+-Date: Wed, 12 Sep 2018 17:16:36 +0800
+-Subject: [PATCH] Fix error handling in gdbm
 -
--We already try and delete the RPATH at do_install with chrpath however
--that does leave the path in the string table so it doesn't help us
--with reproducibility.
+-Only check for gdbm_errno if the return value of the called gdbm_*
+-function says so. This fixes apr-util with gdbm 1.14, which does not
+-seem to always reset gdbm_errno.
 -
--Instead, hack in a bogus but harmless path, then delete it later in
--our do_install. Ultimately we may want to pass a specific path to use
--to configure if we really do need to set an RPATH at all. It is unclear
--to me whether the tests need that or not.
+-Also make the gdbm driver return error codes starting with
+-APR_OS_START_USEERR instead of always returning APR_EGENERAL. This is
+-what the berkleydb driver already does.
 -
--Fixes reproducibility issues for lttng-tools.
+-Also ensure that dsize is 0 if dptr == NULL.
 -
--Upstream-Status: Submitted [https://bugs.lttng.org/issues/1361 - needs discussion with upstream about the correct solution]
--RP 2021/3/1
+-Upstream-Status: Backport [https://svn.apache.org/viewvc?view=revision&amp;revision=1825311]
 -
--Index: lttng-tools-2.12.2/tests/regression/ust/ust-dl/Makefile.am
--===================================================================
----- lttng-tools-2.12.2.orig/tests/regression/ust/ust-dl/Makefile.am
--+++ lttng-tools-2.12.2/tests/regression/ust/ust-dl/Makefile.am
--@@ -27,16 +27,16 @@ noinst_LTLIBRARIES = libzzz.la libbar.la
+-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+----
+- dbm/apr_dbm_gdbm.c | 47 +++++++++++++++++++++++++++++------------------
+- 1 file changed, 29 insertions(+), 18 deletions(-)
+-
+-diff --git a/dbm/apr_dbm_gdbm.c b/dbm/apr_dbm_gdbm.c
+-index 749447a..1c86327 100644
+---- a/dbm/apr_dbm_gdbm.c
+-+++ b/dbm/apr_dbm_gdbm.c
+-@@ -36,13 +36,25 @@
+- static apr_status_t g2s(int gerr)
+- {
+-     if (gerr == -1) {
+--        /* ### need to fix this */
+--        return APR_EGENERAL;
+-+        if (gdbm_errno == GDBM_NO_ERROR)
+-+           return APR_SUCCESS;
+-+        return APR_OS_START_USEERR + gdbm_errno;
+-     }
 - 
-- libzzz_la_SOURCES = libzzz.c libzzz.h
-- libzzz_la_LDFLAGS = -module -shared -avoid-version \
---		-rpath $(abs_builddir)
--+		-rpath /usr/lib
+-     return APR_SUCCESS;
+- }
 - 
-- libbar_la_SOURCES = libbar.c libbar.h
-- libbar_la_LDFLAGS = -module -shared -avoid-version \
---		-rpath $(abs_builddir)
--+		-rpath /usr/lib
-- libbar_la_LIBADD = libzzz.la
+-+static apr_status_t gdat2s(datum d)
+-+{
+-+    if (d.dptr == NULL) {
+-+        if (gdbm_errno == GDBM_NO_ERROR || gdbm_errno == GDBM_ITEM_NOT_FOUND)
+-+           return APR_SUCCESS;
+-+        return APR_OS_START_USEERR + gdbm_errno;
+-+   }
+-+
+-+    return APR_SUCCESS;
+-+}
+-+
+- static apr_status_t datum_cleanup(void *dptr)
+- {
+-     if (dptr)
+-@@ -53,22 +65,15 @@ static apr_status_t datum_cleanup(void *dptr)
 - 
-- libfoo_la_SOURCES = libfoo.c libfoo.h
-- libfoo_la_LDFLAGS = -module -shared -avoid-version \
---		-rpath $(abs_builddir)
--+		-rpath /usr/lib
-- libfoo_la_LIBADD = libbar.la
+- static apr_status_t set_error(apr_dbm_t *dbm, apr_status_t dbm_said)
+- {
+--    apr_status_t rv = APR_SUCCESS;
 - 
-- CLEANFILES = libfoo.so libfoo.so.debug libbar.so libbar.so.debug \
--@@ -44,7 +44,7 @@ CLEANFILES = libfoo.so libfoo.so.debug l
+--    /* ### ignore whatever the DBM said (dbm_said); ask it explicitly */
+-+    dbm->errcode = dbm_said;  
 - 
-- libtp_la_SOURCES = libbar-tp.h libbar-tp.c libfoo-tp.h libfoo-tp.c \
-- 	libzzz-tp.h libzzz-tp.c
---libtp_la_LDFLAGS = -module -shared -rpath $(abs_builddir)
--+libtp_la_LDFLAGS = -module -shared -rpath /usr/lib
+--    if ((dbm->errcode = gdbm_errno) == GDBM_NO_ERROR) {
+-+    if (dbm_said == APR_SUCCESS)
+-         dbm->errmsg = NULL;
+--    }
+--    else {
+--        dbm->errmsg = gdbm_strerror(gdbm_errno);
+--        rv = APR_EGENERAL;        /* ### need something better */
+--    }
+--
+--    /* captured it. clear it now. */
+--    gdbm_errno = GDBM_NO_ERROR;
+-+    else
+-+        dbm->errmsg = gdbm_strerror(dbm_said - APR_OS_START_USEERR);
 - 
-- # Extract debug symbols
-- libfoo.so.debug: libfoo.la
--Index: lttng-tools-2.12.2/tests/utils/testapp/userspace-probe-elf-binary/Makefile.am
--===================================================================
----- lttng-tools-2.12.2.orig/tests/utils/testapp/userspace-probe-elf-binary/Makefile.am
--+++ lttng-tools-2.12.2/tests/utils/testapp/userspace-probe-elf-binary/Makefile.am
--@@ -5,7 +5,7 @@ AM_CFLAGS += -O0
-- noinst_LTLIBRARIES = libfoo.la
+--    return rv;
+-+    return dbm_said;
+- }
 - 
-- libfoo_la_SOURCES = foo.c foo.h
---libfoo_la_LDFLAGS = -shared -module -avoid-version -rpath $(abs_builddir)/.libs/
--+libfoo_la_LDFLAGS = -shared -module -avoid-version -rpath /usr/lib
+- /* --------------------------------------------------------------------------
+-@@ -107,7 +112,7 @@ static apr_status_t vt_gdbm_open(apr_dbm_t **pdb, const char *pathname,
+-                      NULL);
 - 
-- noinst_PROGRAMS = userspace-probe-elf-binary
-- userspace_probe_elf_binary_SOURCES = userspace-probe-elf-binary.c
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.13.8.bb b/meta/recipes-kernel/lttng/lttng-tools_2.13.9.bb
-similarity index 98%
-rename from meta/recipes-kernel/lttng/lttng-tools_2.13.8.bb
-rename to meta/recipes-kernel/lttng/lttng-tools_2.13.9.bb
-index a814eb79f9..1f6929e307 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.13.8.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.13.9.bb
-@@ -35,11 +35,10 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
-            file://0001-tests-do-not-strip-a-helper-library.patch \
+-     if (file == NULL)
+--        return APR_EGENERAL;      /* ### need a better error */
+-+        return APR_OS_START_USEERR + gdbm_errno;   /* ### need a better error */
+- 
+-     /* we have an open database... return it */
+-     *pdb = apr_pcalloc(pool, sizeof(**pdb));
+-@@ -141,10 +146,12 @@ static apr_status_t vt_gdbm_fetch(apr_dbm_t *dbm, apr_datum_t key,
+-     if (pvalue->dptr)
+-         apr_pool_cleanup_register(dbm->pool, pvalue->dptr, datum_cleanup,
+-                                   apr_pool_cleanup_null);
+-+    else
+-+       pvalue->dsize = 0;
+- 
+-     /* store the error info into DBM, and return a status code. Also, note
+-        that *pvalue should have been cleared on error. */
+--    return set_error(dbm, APR_SUCCESS);
+-+    return set_error(dbm, gdat2s(rd));
+- }
+- 
+- static apr_status_t vt_gdbm_store(apr_dbm_t *dbm, apr_datum_t key,
+-@@ -201,9 +208,11 @@ static apr_status_t vt_gdbm_firstkey(apr_dbm_t *dbm, apr_datum_t *pkey)
+-     if (pkey->dptr)
+-         apr_pool_cleanup_register(dbm->pool, pkey->dptr, datum_cleanup,
+-                                   apr_pool_cleanup_null);
+-+    else
+-+        pkey->dsize = 0;
+- 
+-     /* store any error info into DBM, and return a status code. */
+--    return set_error(dbm, APR_SUCCESS);
+-+    return set_error(dbm, gdat2s(rd));
+- }
+- 
+- static apr_status_t vt_gdbm_nextkey(apr_dbm_t *dbm, apr_datum_t *pkey)
+-@@ -221,9 +230,11 @@ static apr_status_t vt_gdbm_nextkey(apr_dbm_t *dbm, apr_datum_t *pkey)
+-     if (pkey->dptr)
+-         apr_pool_cleanup_register(dbm->pool, pkey->dptr, datum_cleanup,
+-                                   apr_pool_cleanup_null);
+-+    else
+-+       pkey->dsize = 0;
+- 
+-     /* store any error info into DBM, and return a status code. */
+--    return set_error(dbm, APR_SUCCESS);
+-+    return set_error(dbm, gdat2s(rd));
+- }
+- 
+- static void vt_gdbm_freedatum(apr_dbm_t *dbm, apr_datum_t data)
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-support/apr/apr-util_1.6.1.bb b/meta/recipes-support/apr/apr-util_1.6.3.bb
+similarity index 94%
+rename from meta/recipes-support/apr/apr-util_1.6.1.bb
+rename to meta/recipes-support/apr/apr-util_1.6.3.bb
+index b851d46351..7c6fcc699b 100644
+--- a/meta/recipes-support/apr/apr-util_1.6.1.bb
++++ b/meta/recipes-support/apr/apr-util_1.6.3.bb
+@@ -13,11 +13,9 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.gz \
+            file://configfix.patch \
+            file://configure_fixes.patch \
             file://run-ptest \
-            file://lttng-sessiond.service \
--           file://determinism.patch \
-            file://disable-tests.patch \
-            "
+-           file://0001-Fix-error-handling-in-gdbm.patch \
+-"
++           "
  
--SRC_URI[sha256sum] = "b1e959579b260790930b20f3c7aa7cefb8a40e0de80d4a777c2bf78c6b353dc1"
-+SRC_URI[sha256sum] = "8d94dc95b608cf70216b01203a3f8242b97a232db2e23421a2f43708da08f337"
+-SRC_URI[md5sum] = "bd502b9a8670a8012c4d90c31a84955f"
+-SRC_URI[sha256sum] = "b65e40713da57d004123b6319828be7f1273fbc6490e145874ee1177e112c459"
++SRC_URI[sha256sum] = "2b74d8932703826862ca305b094eef2983c27b39d5c9414442e9976a9acf1983"
  
- inherit autotools ptest pkgconfig useradd python3-dir manpages systemd
- 
+ EXTRA_OECONF = "--with-apr=${STAGING_BINDIR_CROSS}/apr-1-config \
+ 		--without-odbc \
 -- 
 2.34.1
 
