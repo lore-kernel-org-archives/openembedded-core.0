@@ -2,91 +2,94 @@ Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E846C61DA3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E318C64EC4
 	for <webhook@archiver.kernel.org>; Tue, 21 Feb 2023 20:45:09 +0000 (UTC)
-Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
- by mx.groups.io with SMTP id smtpd.web10.53786.1677012308880608840
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
+ by mx.groups.io with SMTP id smtpd.web10.53782.1677012305021455032
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Feb 2023 12:45:09 -0800
+ Tue, 21 Feb 2023 12:45:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=SKjsxqQy;
- spf=pass (domain: gmail.com, ip: 209.85.166.180, mailfrom: twoerner@gmail.com)
-Received: by mail-il1-f180.google.com with SMTP id s8so2212960ilv.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 12:45:08 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Dasc9jSD;
+ spf=pass (domain: gmail.com, ip: 209.85.166.45, mailfrom: twoerner@gmail.com)
+Received: by mail-io1-f45.google.com with SMTP id m11so989280iov.8
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 12:45:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=N7MED7gFtmaGESHhUta/LQbigMrXWF2eKmyeZ/NrGSA=;
-        b=SKjsxqQyHdnxAWBRiiUgZl5+jz7kM7Lv1mGiWajgV3teAYyufF9z6TWaTqoM8vlEHJ
-         RzIeONoBkWVJq0vVF22lcfUmYENPEEpHdO4LfGgrXdixRWJgabmiCaLR498hZJ0fJ6ey
-         ZbeoLkU+CmwWNJVqDUnEzv5Er2VNnD2fN3Ok/Pfu8GC5u7v/lQHqjn+78h/9scllhfGT
-         8nKmI3y5AxlAgTTjd8TBYHkW4Vu5DAYe+FI3BhN9Av/sozUU1x6tDbjKbH3adsfJ16rx
-         /aYVxtkd8tFw6whhfqcvPLVLG/kTn0rZpKqqFUidUaat4SuTz8flDYwTndp/H0T5C91U
-         4O0w==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=i1Xz9AsDeK9dWV1GMeCiI7MEuqw4oDsJQ+UwJiOFiIU=;
+        b=Dasc9jSDIQ7mqCwEn0Bu4CvgQUF2uN3D08mmiK5eNuTnCUmoc2QM/aFYG3OVFePsmz
+         hhT1VWfTEd/NjU0ahYqVY7mKqxOy20sgQDteeSeJ0ajfQLqhoBfogb9KGRL/bTDOLwq4
+         ZVNKkDZz6v4AydxeHl7IKqBQtvElpNEnZucD88n+nQMwsjuhGND59Y++I0dUvOmeBRJg
+         YgKJNOcJM7npFUB51x0QhxQylUsCsHQH+Ta5RvNq5Cln4DSz68O38HC0jHmh5tbJEXeN
+         OyDapOy1gyHCFS1T+/EnU2MTdzIJMnIdkFiy9/RhPNkBnY6SNE/3S3ktonyDnaXk1LrR
+         10zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=N7MED7gFtmaGESHhUta/LQbigMrXWF2eKmyeZ/NrGSA=;
-        b=8LFliYGWbnPXqqCj33n0WkMoKgm1Xap2aWUSWKYMfHpGlmX5A20b0ZuLPCKwOJf7sv
-         SA9lyWLIW9ey5FgSVhbP01HoOgIL1TGNmthLXg2VoB9SNrz5qu/QyOP6drMhqGsf0Bz6
-         xDdFoDOm7qosGQlsNoqOXzDNZ+kRTBLGwwGeXQkZ/dw5fwsoHblIyIcST+wZhAol6Gk/
-         wZG0g4YFL1z2y5ZTTvGbZ1l6OO65uEY3qmGn4zQze0vrPqcD9j6jepFLwfGU73mFCKYf
-         Ieejblm8+Bzmy+1L8sl84WDlu6nQTIjaFsE9Q9yr02u++h+CS3HxSiGO4X2PTdK3APTp
-         YTAA==
-X-Gm-Message-State: AO0yUKV4i8bprGJ8TG/8yvaPrtGElo20aLZGCgCrmGqvMxzcDSWtIU+W
-	RMGRZrTIDPY0K3cUUnFu5NhcyEoVI50=
-X-Google-Smtp-Source: AK7set9lOAiDnF6HEGHuuwy4Ocw2/1BppZYAU+Yy2sD/1vcY/dHBw+fQfPxiLmzieBn5zrO64Dhu1g==
-X-Received: by 2002:a92:a04f:0:b0:314:5aa:94c6 with SMTP id b15-20020a92a04f000000b0031405aa94c6mr5028748ilm.17.1677012307859;
-        Tue, 21 Feb 2023 12:45:07 -0800 (PST)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=i1Xz9AsDeK9dWV1GMeCiI7MEuqw4oDsJQ+UwJiOFiIU=;
+        b=fYHYAS6AySep/I0hT3d0UBHKZBDzZZes0tFj1WVjhdXAXyAAksXaHwDwB3CKh1+TU+
+         eE/5hjCDX4qCPdOWL0Akn70EheeM9wiSR7JfNIKkke7iX16X5WgpGP6oKrMvcwPB6vAv
+         ExijUmIJIDWzOtJqP5+6iAzT0e9JpCQwbsh4czKLVG9ARCuZuSJPz0BWO2t6v14T/MN7
+         89Inq62REituqQ4tctoACKBPQ8t/EbA/f1P3pVwUqiDG1sKSWdJtehyvWjCnhg9zDIsi
+         yA9vplDi7ukSHVEjvMNGjgezIIzSQkoT1c4pdU1awy31BTbswMTNu9wyhm6MYykY/Iec
+         gFKA==
+X-Gm-Message-State: AO0yUKWL6R1QnEedxl6twpZPAbffd+pQ64hwo2UZnquUXZwDQkFUdrd2
+	U68tis9fxE5CW+luNHhj003Y6RdMTTg=
+X-Google-Smtp-Source: AK7set/70JCdUGFk58vGm39yua2G6aiaCt3QF4wFP6rPGeIixCFYyV4LrigVshzOFWlPN/Kp99GRRA==
+X-Received: by 2002:a5d:9389:0:b0:73d:eb4b:345e with SMTP id c9-20020a5d9389000000b0073deb4b345emr11052584iol.6.1677012304018;
+        Tue, 21 Feb 2023 12:45:04 -0800 (PST)
 Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id e11-20020a02a50b000000b003a58ae912aasm414347jam.28.2023.02.21.12.45.07
+        by smtp.gmail.com with ESMTPSA id e11-20020a02a50b000000b003a58ae912aasm414347jam.28.2023.02.21.12.45.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Feb 2023 12:45:07 -0800 (PST)
+        Tue, 21 Feb 2023 12:45:03 -0800 (PST)
 From: Trevor Woerner <twoerner@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 04/11] build-appliance-image: set TERM
-Date: Tue, 21 Feb 2023 15:44:38 -0500
-Message-Id: <20230221204445.23931-5-twoerner@gmail.com>
+Subject: [PATCH 00/11] build-appliance-image revival
+Date: Tue, 21 Feb 2023 15:44:34 -0500
+Message-Id: <20230221204445.23931-1-twoerner@gmail.com>
 X-Mailer: git-send-email 2.36.0.rc2.17.g4027e30c53
-In-Reply-To: <20230221204445.23931-1-twoerner@gmail.com>
-References: <20230221204445.23931-1-twoerner@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 20:45:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177542
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177538
 
-Choose a nicer terminal for the build appliance so that build warnings and
-errors show up in colour instead of:
+Revive the build-appliance.
 
-	$<50>Setscene tasks: 2844 of 2844
-	$<50>WARNING: mesa-2_22.3.3-r0 do_fetch: Failed to fetch URL https://mesa.freedesktop.org/archive/mesa-22.3.3.tar.xz, attempting MIRRORS if available
-	$<50>WARNING: glslang-native-1_1.3.236.0-r0 do_fetch: Failed to fetch URL git://github.com/KhronosGroup/glslang.git;protocol=https;branch=master, attempting MIRRORS if available
+The build-appliance-image produces an image that contains all the necessary
+pieces in order to perform a bitbake build. This patch series contains a
+number of small tweaks that were needed in order for the build of the
+appliance to succeed, and then for a build within the appliance to succeed as
+well.
 
-Signed-off-by: Trevor Woerner <twoerner@gmail.com>
----
- meta/recipes-core/images/build-appliance-image_15.0.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+Trevor Woerner (11):
+  packagegroup-self-hosted: alphabetize
+  packagegroup-self-hosted: add zstd
+  build-appliance-image: add support for qemu
+  build-appliance-image: set TERM
+  build-appliance-image kernel: linux-yocto: qemuall: add taskstats
+  build-appliance-image: fix HOMEPAGE
+  build-appliance-image: add /lib64 symlink
+  build-appliance-image: use a real /tmp
+  build-appliance-image: QB_MEM: allow user config
+  QB_SMP: allow user modification
+  build-appliance-image: check for xattr feature
 
-diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.bb b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-index e28096758b9b..b000ea0c4d70 100644
---- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-+++ b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-@@ -63,6 +63,7 @@ fakeroot do_populate_poky_src () {
- 
- 	echo "INHERIT += \"rm_work\"" >> ${IMAGE_ROOTFS}/home/builder/poky/build/conf/auto.conf
- 	echo "export LC_ALL=en_US.utf8" >> ${IMAGE_ROOTFS}/home/builder/.bashrc
-+	echo "export TERM=xterm-color" >> ${IMAGE_ROOTFS}/home/builder/.bashrc
- 
- 	# Also save (for reference only) the actual SRCREV used to create this image
- 	echo "export BA_SRCREV=${SRCREV}" >> ${IMAGE_ROOTFS}/home/builder/.bashrc
+ meta/conf/machine/include/riscv/qemuriscv.inc |  2 +-
+ .../conf/machine/include/x86/qemuboot-x86.inc |  2 +-
+ meta/conf/machine/qemuarm.conf                |  2 +-
+ meta/conf/machine/qemuarm64.conf              |  2 +-
+ meta/conf/machine/qemuppc64.conf              |  2 +-
+ .../images/build-appliance-image_15.0.0.bb    | 27 ++++++++++++++-----
+ .../packagegroups/packagegroup-self-hosted.bb | 11 ++++----
+ meta/recipes-kernel/linux/linux-yocto.inc     |  2 +-
+ 8 files changed, 33 insertions(+), 17 deletions(-)
+
 -- 
 2.36.0.rc2.17.g4027e30c53
 
