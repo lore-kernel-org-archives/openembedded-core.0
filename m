@@ -1,100 +1,699 @@
-Return-Path: <twoerner@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E76DC61DA3
-	for <webhook@archiver.kernel.org>; Wed, 22 Feb 2023 02:25:26 +0000 (UTC)
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
- by mx.groups.io with SMTP id smtpd.web10.3050.1677032725893064582
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D0F6C636D7
+	for <webhook@archiver.kernel.org>; Wed, 22 Feb 2023 02:33:56 +0000 (UTC)
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.web10.3224.1677033227391095841
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Feb 2023 18:25:26 -0800
+ Tue, 21 Feb 2023 18:33:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=BPH6yVHq;
- spf=pass (domain: gmail.com, ip: 209.85.166.178, mailfrom: twoerner@gmail.com)
-Received: by mail-il1-f178.google.com with SMTP id u6so2716802ilk.12
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 18:25:25 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=S5h1axw1;
+ spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f44.google.com with SMTP id d1-20020a17090a3b0100b00229ca6a4636so7323900pjc.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 18:33:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:to:from:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=u8mWPDfQS+mR2BlPUOmhfk37vOQIwdz9SIpfgjo11SE=;
-        b=BPH6yVHqjRYnPTdkMU2P71mFuS8/7nFzLpw0aEXpuN9JABi3HyZ3lcMthHdUG8FFgW
-         wLas/pJDc/sWIff9pqifQ2eSTWpBnqTEcy4kKTmg1IMb29ilEc+0H5AruFC5c102n0OA
-         Pf7x7TeRIThb7bz5PCuq9CnLRoLm7Dd4fO6gAKSEh7Cynma8YsSrUZ4jtJVrXUG0vz/D
-         Ww30BYCErrSSFD97SBpNcBbls7Fi/Ydp2i3FbdaUKviEj8biJTt7Wr3NaOGQ5/UdHqaY
-         oVjfyt7q+9mNVLo4HIzaxhSsdLbYbfF1S/Czg7BGtd34EfezZnCRLxmhfGtvYMeRAdc2
-         tbIA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ywu3/m5ie2N2hkfeQvQcnxex5sfoXTopgXyE2i2gu78=;
+        b=S5h1axw1JbynwesG7mmPPbKbxBPjV8YiX02ouQ+IYtG2kG/M9B6U8pFo3IlfY/RFh8
+         /kovdgJrpbVoOCA1lA+sRcFY1CWee9kGY+Kgvlm1L2ivweimsPL9uO35n+l7jAbO4k52
+         Y8GGv+YYLyTCLiKRkt8aiDrOFGPFL6grt66+4s5EBBXvSQITi54CqS3HjFD1Q1lSpAUg
+         uldETTcGxfRbQ/57VywN7hoFFfQi51N3GxyP7dPRyjWChP3MdpvZAOnYQNR1A15zEQ91
+         gUet8E/QLbMZCh3otLYfAch10sHpXNbRly6uMI/qYEwezcvcJAf0476KLJjBu7qDuB3e
+         +7BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=u8mWPDfQS+mR2BlPUOmhfk37vOQIwdz9SIpfgjo11SE=;
-        b=QDcA689UcDlNXLPBmP4hJKm1oy3e+MqPA0RecUvO6O5WkqLRt+/16YA9zgSSG2/Pj9
-         tyGVXfg6AAB6HiXRaevQLlyDTx/fkLEnNdzKmmIx92X+5SXWOO0aICW1giJXAbNrlGgc
-         g4qd8UoaMWIlxtZFDvPDrPJcXP37BXTJ2Np7edKfYJwuMsdrNIlI5f8/Up3mX46YWnKj
-         CNaSbTUJVDn4/uc6LJYQszuRBLlqisqP0wf1+V8kUYCQQdvu2cgzx/uVnTna7GPEngku
-         9v3Ta0mwnDbpKCEqqOiE0NruythMa9KWBGo7ZSsS77P75QDUWHpo8MClg2VSBWcMEfBI
-         PSog==
-X-Gm-Message-State: AO0yUKWfiFHl/f8fmMrtvnwj7L+9pf0/BXXg6EH5+ZTfeA2vcc9fS/5y
-	8MoKEkOQX/vbT6bn5rJAcTjb3mgkQyk=
-X-Google-Smtp-Source: AK7set/fH9Gk8w2DNsHODHG36CBBtHes8ZHG2MIVvssUpCNXcerjq1jwVog/3TdObjSNXfByGpowFA==
-X-Received: by 2002:a05:6e02:20c8:b0:313:f9df:2f4d with SMTP id 8-20020a056e0220c800b00313f9df2f4dmr8000095ilq.29.1677032724737;
-        Tue, 21 Feb 2023 18:25:24 -0800 (PST)
-Received: from localhost (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id b15-20020a92db0f000000b00316ecbf5c30sm71241iln.45.2023.02.21.18.25.23
-        for <openembedded-core@lists.openembedded.org>
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ywu3/m5ie2N2hkfeQvQcnxex5sfoXTopgXyE2i2gu78=;
+        b=y4cPdfKPXYV/6dRrvo+/tfvGd7uY1NSG/gZyluxoraUHpIfdVR+23sXMcGNlHVA+RO
+         b3SnvVQna233jPEfhFVIG/Zn+a721oV/1irbyRY6NdUIe7h4yDpGgvplKRX0yClymeXp
+         Z7/vCqDIC1I10tu4iFupnAHwxUJ+j6U5MX3bAjeNM3zLIVbadA/kBOF4zCTuUDlgeK+M
+         B7hhp22ceTQjHQDkutN6K06ZVeA0dEpsYM2FV4vHAW58AHWglA/2DKMjgeT2Hsuc4JT+
+         jHYv+k5OZjhY8zkeYvzmi5YyzbhWmNXaBcNHNxh3aZhCSRVU0VnRl+Jf+TnXV4lGrE9Y
+         K3uA==
+X-Gm-Message-State: AO0yUKWGFYnrqq0Xixfg718mb67x7N/VmNQCdj/ctMRj0bPFqYt9PnB4
+	kIlF55Z6GgfsIjXl1tvA4jtLoPg5SDE=
+X-Google-Smtp-Source: AK7set/s1vWtNC2fNVPrmb4FPDxCSXQG0ZqkjY7hJDtwqOYrghRi9Id4QQP96T3l3EDU+nSlJG9Q3A==
+X-Received: by 2002:a05:6a20:8e02:b0:cb:c49d:f30 with SMTP id y2-20020a056a208e0200b000cbc49d0f30mr1026897pzj.48.1677033226059;
+        Tue, 21 Feb 2023 18:33:46 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::1ac4])
+        by smtp.gmail.com with ESMTPSA id 4-20020aa79244000000b005a8851e0cddsm3782060pfp.188.2023.02.21.18.33.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Feb 2023 18:25:24 -0800 (PST)
-Date: Tue, 21 Feb 2023 21:25:22 -0500
-From: Trevor Woerner <twoerner@gmail.com>
+        Tue, 21 Feb 2023 18:33:45 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 08/11] build-appliance-image: use a real /tmp
-Message-ID: <20230222022522.GA26598@localhost>
-References: <20230221204445.23931-1-twoerner@gmail.com>
- <1745F1D06F6A6D6B.17041@lists.openembedded.org>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] gdb: Upgrade to 13.1
+Date: Tue, 21 Feb 2023 18:33:42 -0800
+Message-Id: <20230222023342.1720629-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1745F1D06F6A6D6B.17041@lists.openembedded.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Feb 2023 02:25:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177556
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Feb 2023 02:33:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177557
 
-On Tue 2023-02-21 @ 03:44:42 PM, Trevor Woerner via lists.openembedded.org wrote:
-> Make /tmp a real directory in the root filesystem and not a link to an
-> in-memory tmpfs. Otherwise bitbake will run out of inodes on /tmp very quickly
-> and stop any build.
-> 
-> Signed-off-by: Trevor Woerner <twoerner@gmail.com>
-> ---
->  meta/recipes-core/images/build-appliance-image_15.0.0.bb | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.bb b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-> index 3a84de0a2b43..1f7b96a9fcf4 100644
-> --- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-> +++ b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-> @@ -113,6 +113,12 @@ fakeroot do_tweak_image () {
->  	# add a /lib64 symlink
->  	# this is needed for building rust-native on a 64-bit build appliance
->  	ln -rs ${IMAGE_ROOTFS}/lib ${IMAGE_ROOTFS}/lib64
-> +
-> +	# make /tmp a real directory and not a link to an in-memory tmpfs
-> +	# otherwise /tmp will run out of inodes very quickly when bitbaking
-> +	sed -i -e 's#l root root 1777 /tmp /var/tmp#d root root 1777 /tmp none#' ${IMAGE_ROOTFS}/etc/default/volatiles/00_core
-> +	mkdir -p ${IMAGE_ROOTFS}/tmp
-> +	chmod 1777 ${IMAGE_ROOTFS}/tmp
->  }
+GDB 13.1 includes the following changes and enhancements:
 
-Richard, this feels rather "hacky" to me. I can't help wonder if it would be
-better to implement a VOLATILE_TMP_DIR mechanism (along the same lines as
-VOLATILE_LOG_DIR)?
+* Support for the following new targets has been added in both
+  GDB and GDBserver:
 
-https://docs.yoctoproject.org/dev/ref-manual/variables.html?highlight=volatile_log_dir#term-VOLATILE_LOG_DIR
-https://git.openembedded.org/openembedded-core/tree/meta/recipes-core/initscripts/initscripts_1.0.bb#n107
+  ** GNU/Linux/LoongArch (gdbserver) loongarch*-*-linux*
+
+  ** GNU/Linux/CSKY (gdbserver) csky*-*linux*
+
+* The Windows native target now supports target async.
+
+* FreeBSD:
+
+  ** Arm and AArch64: Support for Thread Local Storage (TLS) variables
+
+  ** Hardware watchpoint support on AArch64 FreeBSD
+
+* Floating-point support has now been added on LoongArch GNU/Linux.
+
+* New commands:
+
+ ** set print nibbles [on|off]
+    show print nibbles
+
+    This controls whether the 'print/t' command will display binary values
+    in groups of four bits, known as "nibbles".  The default is 'off'.
+
+ ** Various styling-related commands. See the gdb/NEWS file for more
+    details (see link at the bottom).
+
+ ** Various maintenance commands.  These are normally aimed at GDB
+    experts or developers. See the gdb/NEWS file for more details
+    (see link at the bottom).
+
+* Python API improvements:
+
+ ** New Python API for instruction disassembly.
+    The new attribute 'locations' of gdb.Breakpoint returns a list of
+    gdb.BreakpointLocation objects specifying the locations where the
+    breakpoint is inserted into the debuggee.
+
+ ** New Python type gdb.BreakpointLocation.
+
+ ** New function gdb.format_address(ADDRESS, PROGSPACE, ARCHITECTURE)
+    that formats ADDRESS as 'address <symbol+offset>'
+
+ ** New function gdb.current_language that returns the name of the
+    current language.  Unlike gdb.parameter('language'), this will
+    never return 'auto'.
+
+ ** New function gdb.print_options that returns a dictionary of the
+    prevailing print options, in the form accepted by gdb.Value.format_string.
+
+ ** New method gdb.Frame.language that returns the name of the
+    frame's language.
+
+ ** gdb.Value.format_string now uses the format provided by 'print',
+    if it is called during a 'print' or other similar operation.
+
+ ** gdb.Value.format_string now accepts the 'summary' keyword.  This
+    can be used to request a shorter representation of a value, the
+    way that 'set print frame-arguments scalars' does.
+
+ ** The gdb.register_window_type method now restricts the set of
+    acceptable window names.  The first character of a window's name
+    must start with a character in the set [a-zA-Z], every subsequent
+    character of a window's name must be in the set [-_.a-zA-Z0-9].
+
+* GDB/MI changes:
+
+  ** MI version 1 is deprecated, and will be removed in GDB 14.
+
+  ** The async record stating the stopped reason 'breakpoint-hit' now
+     contains an optional field locno.
+
+* Miscellaneous improvements:
+
+  ** gdb now supports zstd compressed debug sections (ELFCOMPRESS_ZSTD) for ELF.
+
+  ** New convenience variable $_inferior_thread_count contains the number
+     of live threads in the current inferior.
+
+  ** New convenience variables $_hit_bpnum and $_hit_locno, set to
+     the breakpoint number and the breakpoint location number of
+     the breakpoint last hit.
+
+  ** The "info breakpoints" now displays enabled breakpoint locations
+     of disabled breakpoints as in the "y-" state.
+
+  ** The format of 'disassemble /r' and 'record instruction-history /r'
+     has changed to match the layout of GNU objdump when disassembling.
+
+     A new format "/b" has been introduce to provide the old behavior
+     of "/r".
+
+  ** The TUI no longer styles the source and assembly code highlighted
+     by the current position indicator by default. You can however
+     re-enable styling using the new "set style tui-current-position"
+     command.
+
+  ** It is now possible to use the "document" command to document
+     user-defined commands.
+
+  ** Support for memory tag data for AArch64 MTE.
+
+* Support Removal notices:
+
+  ** DBX mode has been removed.
+
+  ** Support for building against Python version 2 has been removed.
+     It is now only possible to build GDB against Python 3.
+
+  ** Support for the following commands has been removed:
+
+     set debug aix-solib on|off
+     show debug aix-solib
+     set debug solib-frv on|off
+     show debug solib-frv
+
+     Use the "set/show debug solib" commands instead.
+
+For a complete list and more details on each item, please see the gdb/NEWS
+file, available at [1]:
+
+[1] https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=blob_plain;f=gdb/NEWS;hb=gdb-13.1-release
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/conf/distro/include/tcmode-default.inc   |  2 +-
+ ...ian_12.1.bb => gdb-cross-canadian_13.1.bb} |  0
+ .../{gdb-cross_12.1.bb => gdb-cross_13.1.bb}  |  0
+ meta/recipes-devtools/gdb/gdb.inc             | 19 ++++-----
+ ...make-man-install-relative-to-DESTDIR.patch | 28 -------------
+ ...x-nat-Define-_ABIO32-if-not-defined.patch} |  9 ++---
+ ...-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch} | 11 ++---
+ ...eadline.a-when-using-disable-static.patch} | 13 +++---
+ ...s.h.patch => 0004-use-asm-sgidefs.h.patch} |  9 ++---
+ ...atch => 0005-Change-order-of-CFLAGS.patch} |  9 ++---
+ ...6-resolve-restrict-keyword-conflict.patch} |  9 ++---
+ ...> 0007-Fix-invalid-sigprocmask-call.patch} |  9 ++---
+ ...sing-_Alignof-when-using-C11-or-newe.patch | 15 ++-----
+ .../gdb/0009-gdbserver-ctrl-c-handling.patch  | 40 -------------------
+ .../gdb/gdb/readline-8.2.patch                | 39 ------------------
+ .../gdb/{gdb_12.1.bb => gdb_13.1.bb}          |  0
+ 16 files changed, 37 insertions(+), 175 deletions(-)
+ rename meta/recipes-devtools/gdb/{gdb-cross-canadian_12.1.bb => gdb-cross-canadian_13.1.bb} (100%)
+ rename meta/recipes-devtools/gdb/{gdb-cross_12.1.bb => gdb-cross_13.1.bb} (100%)
+ delete mode 100644 meta/recipes-devtools/gdb/gdb/0001-make-man-install-relative-to-DESTDIR.patch
+ rename meta/recipes-devtools/gdb/gdb/{0002-mips-linux-nat-Define-_ABIO32-if-not-defined.patch => 0001-mips-linux-nat-Define-_ABIO32-if-not-defined.patch} (82%)
+ rename meta/recipes-devtools/gdb/gdb/{0003-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch => 0002-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch} (82%)
+ rename meta/recipes-devtools/gdb/gdb/{0004-Dont-disable-libreadline.a-when-using-disable-static.patch => 0003-Dont-disable-libreadline.a-when-using-disable-static.patch} (83%)
+ rename meta/recipes-devtools/gdb/gdb/{0005-use-asm-sgidefs.h.patch => 0004-use-asm-sgidefs.h.patch} (84%)
+ rename meta/recipes-devtools/gdb/gdb/{0006-Change-order-of-CFLAGS.patch => 0005-Change-order-of-CFLAGS.patch} (84%)
+ rename meta/recipes-devtools/gdb/gdb/{0007-resolve-restrict-keyword-conflict.patch => 0006-resolve-restrict-keyword-conflict.patch} (91%)
+ rename meta/recipes-devtools/gdb/gdb/{0008-Fix-invalid-sigprocmask-call.patch => 0007-Fix-invalid-sigprocmask-call.patch} (90%)
+ delete mode 100644 meta/recipes-devtools/gdb/gdb/0009-gdbserver-ctrl-c-handling.patch
+ delete mode 100644 meta/recipes-devtools/gdb/gdb/readline-8.2.patch
+ rename meta/recipes-devtools/gdb/{gdb_12.1.bb => gdb_13.1.bb} (100%)
+
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 7db2d769f5..30408e0729 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -19,7 +19,7 @@ PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
+ GCCVERSION ?= "13.%"
+ SDKGCCVERSION ?= "${GCCVERSION}"
+ BINUVERSION ?= "2.40%"
+-GDBVERSION ?= "12.%"
++GDBVERSION ?= "13.%"
+ GLIBCVERSION ?= "2.37"
+ LINUXLIBCVERSION ?= "6.1%"
+ QEMUVERSION ?= "7.2%"
+diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_12.1.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_13.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/gdb/gdb-cross-canadian_12.1.bb
+rename to meta/recipes-devtools/gdb/gdb-cross-canadian_13.1.bb
+diff --git a/meta/recipes-devtools/gdb/gdb-cross_12.1.bb b/meta/recipes-devtools/gdb/gdb-cross_13.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/gdb/gdb-cross_12.1.bb
+rename to meta/recipes-devtools/gdb/gdb-cross_13.1.bb
+diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/gdb.inc
+index a5dc554581..6f006db546 100644
+--- a/meta/recipes-devtools/gdb/gdb.inc
++++ b/meta/recipes-devtools/gdb/gdb.inc
+@@ -5,16 +5,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+ 		    file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674"
+ 
+ SRC_URI = "${GNU_MIRROR}/gdb/gdb-${PV}.tar.xz \
+-           file://0001-make-man-install-relative-to-DESTDIR.patch \
+-           file://0002-mips-linux-nat-Define-_ABIO32-if-not-defined.patch \
+-           file://0003-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch \
+-           file://0004-Dont-disable-libreadline.a-when-using-disable-static.patch \
+-           file://0005-use-asm-sgidefs.h.patch \
+-           file://0006-Change-order-of-CFLAGS.patch \
+-           file://0007-resolve-restrict-keyword-conflict.patch \
+-           file://0008-Fix-invalid-sigprocmask-call.patch \
+-           file://0009-gdbserver-ctrl-c-handling.patch \
+-           file://readline-8.2.patch \
++           file://0001-mips-linux-nat-Define-_ABIO32-if-not-defined.patch \
++           file://0002-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch \
++           file://0003-Dont-disable-libreadline.a-when-using-disable-static.patch \
++           file://0004-use-asm-sgidefs.h.patch \
++           file://0005-Change-order-of-CFLAGS.patch \
++           file://0006-resolve-restrict-keyword-conflict.patch \
++           file://0007-Fix-invalid-sigprocmask-call.patch \
+            file://0008-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch \
+            "
+-SRC_URI[sha256sum] = "0e1793bf8f2b54d53f46dea84ccfd446f48f81b297b28c4f7fc017b818d69fed"
++SRC_URI[sha256sum] = "115ad5c18d69a6be2ab15882d365dda2a2211c14f480b3502c6eba576e2e95a0"
+diff --git a/meta/recipes-devtools/gdb/gdb/0001-make-man-install-relative-to-DESTDIR.patch b/meta/recipes-devtools/gdb/gdb/0001-make-man-install-relative-to-DESTDIR.patch
+deleted file mode 100644
+index 16d6cf196f..0000000000
+--- a/meta/recipes-devtools/gdb/gdb/0001-make-man-install-relative-to-DESTDIR.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-From 8eca28eddcda4ce8a345ca031f43ff1ed6f37089 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Mon, 2 Mar 2015 02:27:55 +0000
+-Subject: [PATCH 1/9] make man install relative to DESTDIR
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- sim/common/Make-common.in | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/sim/common/Make-common.in b/sim/common/Make-common.in
+-index 74e5dad3049..9e95c224ba4 100644
+---- a/sim/common/Make-common.in
+-+++ b/sim/common/Make-common.in
+-@@ -70,7 +70,7 @@ tooldir = $(libdir)/$(target_alias)
+- datadir = @datadir@
+- datarootdir = @datarootdir@
+- mandir = @mandir@
+--man1dir = $(mandir)/man1
+-+man1dir = $(DESTDIR)$(mandir)/man1
+- infodir = @infodir@
+- includedir = @includedir@
+- 
+--- 
+-2.36.1
+-
+diff --git a/meta/recipes-devtools/gdb/gdb/0002-mips-linux-nat-Define-_ABIO32-if-not-defined.patch b/meta/recipes-devtools/gdb/gdb/0001-mips-linux-nat-Define-_ABIO32-if-not-defined.patch
+similarity index 82%
+rename from meta/recipes-devtools/gdb/gdb/0002-mips-linux-nat-Define-_ABIO32-if-not-defined.patch
+rename to meta/recipes-devtools/gdb/gdb/0001-mips-linux-nat-Define-_ABIO32-if-not-defined.patch
+index 8d263de896..0794dc64f7 100644
+--- a/meta/recipes-devtools/gdb/gdb/0002-mips-linux-nat-Define-_ABIO32-if-not-defined.patch
++++ b/meta/recipes-devtools/gdb/gdb/0001-mips-linux-nat-Define-_ABIO32-if-not-defined.patch
+@@ -1,7 +1,7 @@
+-From 37d3afd2eaa95c89ad7cb5d0079b017752e4d0ea Mon Sep 17 00:00:00 2001
++From 5cc95003bafd66576684b85ad57e74b6fc54754c Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 23 Mar 2016 06:30:09 +0000
+-Subject: [PATCH 2/9] mips-linux-nat: Define _ABIO32 if not defined
++Subject: [PATCH] mips-linux-nat: Define _ABIO32 if not defined
+ 
+ This helps building gdb on mips64 on musl, since
+ musl does not provide sgidefs.h this define is
+@@ -16,7 +16,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 4 insertions(+)
+ 
+ diff --git a/gdb/mips-linux-nat.c b/gdb/mips-linux-nat.c
+-index 20e12b6889e..6adc61235aa 100644
++index 972b5db8e76..5e68538a3ba 100644
+ --- a/gdb/mips-linux-nat.c
+ +++ b/gdb/mips-linux-nat.c
+ @@ -41,6 +41,10 @@
+@@ -30,6 +30,3 @@ index 20e12b6889e..6adc61235aa 100644
+  
+  class mips_linux_nat_target final : public linux_nat_trad_target
+  {
+--- 
+-2.36.1
+-
+diff --git a/meta/recipes-devtools/gdb/gdb/0003-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch b/meta/recipes-devtools/gdb/gdb/0002-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch
+similarity index 82%
+rename from meta/recipes-devtools/gdb/gdb/0003-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch
+rename to meta/recipes-devtools/gdb/gdb/0002-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch
+index 7e09404bb0..2c7029ca7a 100644
+--- a/meta/recipes-devtools/gdb/gdb/0003-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch
++++ b/meta/recipes-devtools/gdb/gdb/0002-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch
+@@ -1,7 +1,7 @@
+-From e689eec672ee8c53b3adb2ade2b5deb9b7cd99d4 Mon Sep 17 00:00:00 2001
++From 33779a5967f977c7ae27e88255a0695fd5ddadf7 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Sat, 30 Apr 2016 18:32:14 -0700
+-Subject: [PATCH 3/9] ppc/ptrace: Define pt_regs uapi_pt_regs on !GLIBC systems
++Subject: [PATCH] ppc/ptrace: Define pt_regs uapi_pt_regs on !GLIBC systems
+ 
+ Upstream-Status: Pending
+ 
+@@ -12,7 +12,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  2 files changed, 12 insertions(+)
+ 
+ diff --git a/gdb/nat/ppc-linux.h b/gdb/nat/ppc-linux.h
+-index 1094f6b0be3..d8588a646c2 100644
++index c84f9146bbd..8c8580c95e1 100644
+ --- a/gdb/nat/ppc-linux.h
+ +++ b/gdb/nat/ppc-linux.h
+ @@ -18,7 +18,13 @@
+@@ -30,7 +30,7 @@ index 1094f6b0be3..d8588a646c2 100644
+  
+  /* This sometimes isn't defined.  */
+ diff --git a/gdbserver/linux-ppc-low.cc b/gdbserver/linux-ppc-low.cc
+-index 08824887003..69afbae5359 100644
++index fdf74727e39..f64afd09b7a 100644
+ --- a/gdbserver/linux-ppc-low.cc
+ +++ b/gdbserver/linux-ppc-low.cc
+ @@ -23,7 +23,13 @@
+@@ -47,6 +47,3 @@ index 08824887003..69afbae5359 100644
+  
+  #include "arch/ppc-linux-common.h"
+  #include "arch/ppc-linux-tdesc.h"
+--- 
+-2.36.1
+-
+diff --git a/meta/recipes-devtools/gdb/gdb/0004-Dont-disable-libreadline.a-when-using-disable-static.patch b/meta/recipes-devtools/gdb/gdb/0003-Dont-disable-libreadline.a-when-using-disable-static.patch
+similarity index 83%
+rename from meta/recipes-devtools/gdb/gdb/0004-Dont-disable-libreadline.a-when-using-disable-static.patch
+rename to meta/recipes-devtools/gdb/gdb/0003-Dont-disable-libreadline.a-when-using-disable-static.patch
+index a1e85e91b3..051a933ff4 100644
+--- a/meta/recipes-devtools/gdb/gdb/0004-Dont-disable-libreadline.a-when-using-disable-static.patch
++++ b/meta/recipes-devtools/gdb/gdb/0003-Dont-disable-libreadline.a-when-using-disable-static.patch
+@@ -1,7 +1,7 @@
+-From 15ee6a626242efb8f367be49c13e00d0b72317f0 Mon Sep 17 00:00:00 2001
++From db8169b46d64b6ee786fe2c60fa3d2cf16eb9568 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Sat, 30 Apr 2016 15:25:03 -0700
+-Subject: [PATCH 4/9] Dont disable libreadline.a when using --disable-static
++Subject: [PATCH] Dont disable libreadline.a when using --disable-static
+ 
+ If gdb is configured with --disable-static then this is dutifully passed to
+ readline which then disables libreadline.a, which causes a problem when gdb
+@@ -19,7 +19,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  2 files changed, 3 insertions(+), 2 deletions(-)
+ 
+ diff --git a/Makefile.def b/Makefile.def
+-index acdcd625ed6..78fc31e1199 100644
++index f974565d8ca..039b5a3c209 100644
+ --- a/Makefile.def
+ +++ b/Makefile.def
+ @@ -120,7 +120,8 @@ host_modules= { module= libiconv;
+@@ -33,10 +33,10 @@ index acdcd625ed6..78fc31e1199 100644
+  host_modules= { module= sim; };
+  host_modules= { module= texinfo; no_install= true; };
+ diff --git a/Makefile.in b/Makefile.in
+-index 3aacd2daac9..aa58adada4a 100644
++index a425b54e094..dfaf585a7c1 100644
+ --- a/Makefile.in
+ +++ b/Makefile.in
+-@@ -32791,7 +32791,7 @@ configure-readline:
++@@ -32816,7 +32816,7 @@ configure-readline:
+  	  $$s/$$module_srcdir/configure \
+  	  --srcdir=$${topdir}/$$module_srcdir \
+  	  $(HOST_CONFIGARGS) --build=${build_alias} --host=${host_alias} \
+@@ -45,6 +45,3 @@ index 3aacd2daac9..aa58adada4a 100644
+  	  || exit 1
+  @endif readline
+  
+--- 
+-2.36.1
+-
+diff --git a/meta/recipes-devtools/gdb/gdb/0005-use-asm-sgidefs.h.patch b/meta/recipes-devtools/gdb/gdb/0004-use-asm-sgidefs.h.patch
+similarity index 84%
+rename from meta/recipes-devtools/gdb/gdb/0005-use-asm-sgidefs.h.patch
+rename to meta/recipes-devtools/gdb/gdb/0004-use-asm-sgidefs.h.patch
+index 242099b9b1..a0f16a40b5 100644
+--- a/meta/recipes-devtools/gdb/gdb/0005-use-asm-sgidefs.h.patch
++++ b/meta/recipes-devtools/gdb/gdb/0004-use-asm-sgidefs.h.patch
+@@ -1,7 +1,7 @@
+-From 25a75aaf29791f4302f0e4452f7ebaf735d4f083 Mon Sep 17 00:00:00 2001
++From 11f8574b00df6415b3c5842aef3b4dddae1c89e3 Mon Sep 17 00:00:00 2001
+ From: Andre McCurdy <amccurdy@gmail.com>
+ Date: Sat, 30 Apr 2016 15:29:06 -0700
+-Subject: [PATCH 5/9] use <asm/sgidefs.h>
++Subject: [PATCH] use <asm/sgidefs.h>
+ 
+ Build fix for MIPS with musl libc
+ 
+@@ -19,7 +19,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/gdb/mips-linux-nat.c b/gdb/mips-linux-nat.c
+-index 6adc61235aa..afb40066744 100644
++index 5e68538a3ba..5b1c209abd8 100644
+ --- a/gdb/mips-linux-nat.c
+ +++ b/gdb/mips-linux-nat.c
+ @@ -31,7 +31,7 @@
+@@ -31,6 +31,3 @@ index 6adc61235aa..afb40066744 100644
+  #include "nat/gdb_ptrace.h"
+  #include <asm/ptrace.h>
+  #include "inf-ptrace.h"
+--- 
+-2.36.1
+-
+diff --git a/meta/recipes-devtools/gdb/gdb/0006-Change-order-of-CFLAGS.patch b/meta/recipes-devtools/gdb/gdb/0005-Change-order-of-CFLAGS.patch
+similarity index 84%
+rename from meta/recipes-devtools/gdb/gdb/0006-Change-order-of-CFLAGS.patch
+rename to meta/recipes-devtools/gdb/gdb/0005-Change-order-of-CFLAGS.patch
+index 58c9b1d0a7..0e3d405068 100644
+--- a/meta/recipes-devtools/gdb/gdb/0006-Change-order-of-CFLAGS.patch
++++ b/meta/recipes-devtools/gdb/gdb/0005-Change-order-of-CFLAGS.patch
+@@ -1,7 +1,7 @@
+-From c0e7c34134aa1f9644075c596a2338a50d3d923e Mon Sep 17 00:00:00 2001
++From 7e74eacbbf616c27cbb43eb85b881d79900626c7 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Sat, 30 Apr 2016 15:35:39 -0700
+-Subject: [PATCH 6/9] Change order of CFLAGS
++Subject: [PATCH] Change order of CFLAGS
+ 
+ Lets us override Werror if need be
+ 
+@@ -13,7 +13,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/gdbserver/Makefile.in b/gdbserver/Makefile.in
+-index 47648b8d962..5599779de57 100644
++index 040f0b6faa0..256ce6a3f6a 100644
+ --- a/gdbserver/Makefile.in
+ +++ b/gdbserver/Makefile.in
+ @@ -156,7 +156,7 @@ WIN32APILIBS = @WIN32APILIBS@
+@@ -25,6 +25,3 @@ index 47648b8d962..5599779de57 100644
+  
+  # LDFLAGS is specifically reserved for setting from the command line
+  # when running make.
+--- 
+-2.36.1
+-
+diff --git a/meta/recipes-devtools/gdb/gdb/0007-resolve-restrict-keyword-conflict.patch b/meta/recipes-devtools/gdb/gdb/0006-resolve-restrict-keyword-conflict.patch
+similarity index 91%
+rename from meta/recipes-devtools/gdb/gdb/0007-resolve-restrict-keyword-conflict.patch
+rename to meta/recipes-devtools/gdb/gdb/0006-resolve-restrict-keyword-conflict.patch
+index bbd1f0b27f..fd9bfc6835 100644
+--- a/meta/recipes-devtools/gdb/gdb/0007-resolve-restrict-keyword-conflict.patch
++++ b/meta/recipes-devtools/gdb/gdb/0006-resolve-restrict-keyword-conflict.patch
+@@ -1,7 +1,7 @@
+-From 44fa1ecfbd8a5fe0cfea12a175fa041686842a0c Mon Sep 17 00:00:00 2001
++From 67f0b4bc9ad5111be38abf34c579fc4427b08b1f Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Tue, 10 May 2016 08:47:05 -0700
+-Subject: [PATCH 7/9] resolve restrict keyword conflict
++Subject: [PATCH] resolve restrict keyword conflict
+ 
+ GCC detects that we call 'restrict' as param name in function
+ signatures and complains since both params are called 'restrict'
+@@ -15,7 +15,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 4 insertions(+), 4 deletions(-)
+ 
+ diff --git a/gnulib/import/sys_time.in.h b/gnulib/import/sys_time.in.h
+-index 90a67d18426..664641a1fe8 100644
++index 87db1a88745..e6b98c7e467 100644
+ --- a/gnulib/import/sys_time.in.h
+ +++ b/gnulib/import/sys_time.in.h
+ @@ -93,20 +93,20 @@ struct timeval
+@@ -43,6 +43,3 @@ index 90a67d18426..664641a1fe8 100644
+  # endif
+  _GL_CXXALIASWARN (gettimeofday);
+  # if defined __cplusplus && defined GNULIB_NAMESPACE
+--- 
+-2.36.1
+-
+diff --git a/meta/recipes-devtools/gdb/gdb/0008-Fix-invalid-sigprocmask-call.patch b/meta/recipes-devtools/gdb/gdb/0007-Fix-invalid-sigprocmask-call.patch
+similarity index 90%
+rename from meta/recipes-devtools/gdb/gdb/0008-Fix-invalid-sigprocmask-call.patch
+rename to meta/recipes-devtools/gdb/gdb/0007-Fix-invalid-sigprocmask-call.patch
+index ed1310ced2..2ac6b390bf 100644
+--- a/meta/recipes-devtools/gdb/gdb/0008-Fix-invalid-sigprocmask-call.patch
++++ b/meta/recipes-devtools/gdb/gdb/0007-Fix-invalid-sigprocmask-call.patch
+@@ -1,7 +1,7 @@
+-From 5bdd15553daef7370ca3c1f12d8f14247fdd4907 Mon Sep 17 00:00:00 2001
++From d54e25d5919b98323415fffeccc4b8b2e297219a Mon Sep 17 00:00:00 2001
+ From: Yousong Zhou <yszhou4tech@gmail.com>
+ Date: Fri, 24 Mar 2017 10:36:03 +0800
+-Subject: [PATCH 8/9] Fix invalid sigprocmask call
++Subject: [PATCH] Fix invalid sigprocmask call
+ MIME-Version: 1.0
+ Content-Type: text/plain; charset=UTF-8
+ Content-Transfer-Encoding: 8bit
+@@ -32,7 +32,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/gdbsupport/signals-state-save-restore.cc b/gdbsupport/signals-state-save-restore.cc
+-index 92e799d3551..a4a0234272a 100644
++index 3ec7a259c9c..0702eca7725 100644
+ --- a/gdbsupport/signals-state-save-restore.cc
+ +++ b/gdbsupport/signals-state-save-restore.cc
+ @@ -38,7 +38,7 @@ save_original_signals_state (bool quiet)
+@@ -44,6 +44,3 @@ index 92e799d3551..a4a0234272a 100644
+    if (res == -1)
+      perror_with_name (("sigprocmask"));
+  
+--- 
+-2.36.1
+-
+diff --git a/meta/recipes-devtools/gdb/gdb/0008-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch b/meta/recipes-devtools/gdb/gdb/0008-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch
+index 3e29327613..59649c489c 100644
+--- a/meta/recipes-devtools/gdb/gdb/0008-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch
++++ b/meta/recipes-devtools/gdb/gdb/0008-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch
+@@ -1,11 +1,11 @@
+-From 48906e1038e469b429aa35d0f967730a929c3880 Mon Sep 17 00:00:00 2001
++From 48e5e823291a80b42a62181addc98ef8aa7b9354 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Sun, 15 Jan 2023 00:16:25 -0800
+-Subject: [PATCH 8/8] Define alignof using _Alignof when using C11 or newer
++Subject: [PATCH] Define alignof using _Alignof when using C11 or newer
+ 
+ WG14 N2350 made very clear that it is an UB having type definitions
+ within "offsetof" [1]. This patch enhances the implementation of macro
+-alignof_slot to use builtin "_Alignof" to avoid undefined behavior on
++alignof to use builtin "_Alignof" to avoid undefined behavior on
+ when using std=c11 or newer
+ 
+ clang 16+ has started to flag this [2]
+@@ -15,14 +15,10 @@ Fixes build when using -std >= gnu11 and using clang16+
+ Older compilers gcc < 4.9 or clang < 8 has buggy _Alignof even though it
+ may support C11, exclude those compilers too
+ 
+-gnulib needs this fix and then it will be applied to downstream packages
+-like gdb [3]
+-
+ [1] https://www.open-std.org/jtc1/sc22/wg14/www/docs/n2350.htm
+ [2] https://reviews.llvm.org/D133574
+-[3] https://public-inbox.org/bug-gnulib/20230114232744.215167-1-raj.khem@gmail.com/T/#u
+ 
+-Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/gnulib.git/commit/?id=2d404c7dd974cc65f894526f4a1b76bc1dcd8d82]
++Upstream-Status: Pending
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ ---
+  libiberty/sha1.c | 10 ++++++++++
+@@ -50,6 +46,3 @@ index 504f06d3b9b..790ada82443 100644
+  # define UNALIGNED_P(p) (((size_t) p) % alignof (sha1_uint32) != 0)
+        if (UNALIGNED_P (buffer))
+  	while (len > 64)
+--- 
+-2.39.0
+-
+diff --git a/meta/recipes-devtools/gdb/gdb/0009-gdbserver-ctrl-c-handling.patch b/meta/recipes-devtools/gdb/gdb/0009-gdbserver-ctrl-c-handling.patch
+deleted file mode 100644
+index f53d3bd1e5..0000000000
+--- a/meta/recipes-devtools/gdb/gdb/0009-gdbserver-ctrl-c-handling.patch
++++ /dev/null
+@@ -1,40 +0,0 @@
+-From bc3b1f6aacf2d8fe66b022fbfcf28cd82c76e52f Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Thu, 29 Nov 2018 18:00:23 -0800
+-Subject: [PATCH 9/9] gdbserver ctrl-c handling
+-
+-This problem was created by the upstream commit 78708b7c8c
+-After applying the commit, it will send SIGINT to the process
+-group(-signal_pid).
+-But if we use gdbserver send SIGINT, and the attached process is not a
+-process
+-group leader, then the "kill (-signal_pid, SIGINT)" returns error and
+-fails  to
+-interrupt the attached process.
+-
+-Upstream-Status: Submitted
+-[https://sourceware.org/bugzilla/show_bug.cgi?id=18945]
+-
+-Author: Josh Gao
+-Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- gdbserver/linux-low.cc | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/gdbserver/linux-low.cc b/gdbserver/linux-low.cc
+-index 7726a4a0c36..f750e074a03 100644
+---- a/gdbserver/linux-low.cc
+-+++ b/gdbserver/linux-low.cc
+-@@ -5496,7 +5496,7 @@ linux_process_target::request_interrupt ()
+- {
+-   /* Send a SIGINT to the process group.  This acts just like the user
+-      typed a ^C on the controlling terminal.  */
+--  ::kill (-signal_pid, SIGINT);
+-+  ::kill (signal_pid, SIGINT);
+- }
+- 
+- bool
+--- 
+-2.36.1
+-
+diff --git a/meta/recipes-devtools/gdb/gdb/readline-8.2.patch b/meta/recipes-devtools/gdb/gdb/readline-8.2.patch
+deleted file mode 100644
+index c2db4c0d79..0000000000
+--- a/meta/recipes-devtools/gdb/gdb/readline-8.2.patch
++++ /dev/null
+@@ -1,39 +0,0 @@
+-From 1add37b567a7dee39d99f37b37802034c3fce9c4 Mon Sep 17 00:00:00 2001
+-From: Andreas Schwab <schwab@linux-m68k.org>
+-Date: Sun, 20 Mar 2022 14:01:54 +0100
+-Subject: [PATCH] Add support for readline 8.2
+-
+-In readline 8.2 the type of rl_completer_word_break_characters changed to
+-include const.
+-
+-Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=1add37b567a7dee39d99f37b37802034c3fce9c4]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- gdb/completer.c | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/gdb/completer.c b/gdb/completer.c
+-index d3900ae2014..a51c16ac7f8 100644
+---- a/gdb/completer.c
+-+++ b/gdb/completer.c
+-@@ -36,7 +36,7 @@
+-    calling a hook instead so we eliminate the CLI dependency.  */
+- #include "gdbcmd.h"
+- 
+--/* Needed for rl_completer_word_break_characters() and for
+-+/* Needed for rl_completer_word_break_characters and for
+-    rl_filename_completion_function.  */
+- #include "readline/readline.h"
+- 
+-@@ -2011,7 +2011,7 @@ gdb_completion_word_break_characters_throw ()
+-       rl_basic_quote_characters = NULL;
+-     }
+- 
+--  return rl_completer_word_break_characters;
+-+  return (char *) rl_completer_word_break_characters;
+- }
+- 
+- char *
+--- 
+-2.31.1
+-
+diff --git a/meta/recipes-devtools/gdb/gdb_12.1.bb b/meta/recipes-devtools/gdb/gdb_13.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/gdb/gdb_12.1.bb
+rename to meta/recipes-devtools/gdb/gdb_13.1.bb
+-- 
+2.39.2
+
 
