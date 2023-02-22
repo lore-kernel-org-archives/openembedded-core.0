@@ -1,116 +1,270 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD4AEC61DA4
-	for <webhook@archiver.kernel.org>; Wed, 22 Feb 2023 14:51:47 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web10.10810.1677077504088685142
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2148C636D6
+	for <webhook@archiver.kernel.org>; Wed, 22 Feb 2023 15:00:57 +0000 (UTC)
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.web10.11062.1677078049501584800
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Feb 2023 06:51:44 -0800
+ Wed, 22 Feb 2023 07:00:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Dlp9N5re;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id az11-20020a05600c600b00b003dc4fd6e61dso6562049wmb.5
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Feb 2023 06:51:43 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=mnCvY6QR;
+ spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f54.google.com with SMTP id b12so31506782edd.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Feb 2023 07:00:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=L5shgSSwC+KREsc8BXW30aAMp3Hye+7pc3V6ivulcdU=;
-        b=Dlp9N5redvJblNyIJkdlL4EOHPpKIXIF3LRLepyNaXtCR3OniU+JtlVbj4Y1QNMzLF
-         qaTIZq5Xc3js3zWTZdDH0RzQ+VHcQ/gkGLuvUFNXXDPxL+8Rpw8VAFk/czyLfY+YGeml
-         DBXvou+YLukd2yegeyj8Ohcx/WDDPvSzw411I=
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EzIWVwtSwHw40KPwFB2zufkGl50DLHLOkjTCtzeb1OQ=;
+        b=mnCvY6QR/lkNc5tejMKqOk/t7ocUmm3GvQI7cM5z0o1Mynszu/GiUG05TA0LkVcCky
+         nuKVBCYuCXzc+1tx0X9nn9zGuhgz69OClrqmFg2hFj5s9p7KUPClAb+IoEYnLdNqyS+a
+         wL/vSJtuxb4Iipw/HW5DWVUmVRj4B0I5qnGrzW83H+s3XD/yPh+JuCo+m45R334f67zf
+         LWy4S490yIORWvU2lazbHA7Y87SrDF2yN09RoteV/x9Y27TsgBP1nwXp7k+6sbMNmZMh
+         Dw4UeyxALD8zCAzTQLBBpjIn6ZURt/4b+8OH2yGK4KD3Yl5gJ5NFoj1DfIBsG0Trzzal
+         tdzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=L5shgSSwC+KREsc8BXW30aAMp3Hye+7pc3V6ivulcdU=;
-        b=JmdUpBNi1Y0k3q4yYGn4QB1y/oon+ulk/NMzZLx3MP1jn4sTBCpS5hPQv8/V2RB1Gt
-         P3K71oLWgkPP2ANpQkmjL25riraiVNhiZdozu/5frZb5FWbfgbwhouQt/L2QQHGpDqmF
-         /gShV2sDP12FDN0GKmtXT0YUJygAvSTUTl0Hs8XZlNrnMKTEozLeSdgbtYjP3i+G4T3T
-         Ewjcr0InFw/j9+DMvk8WTrpxDrKEpv0655yBjDVfsjBknCc1QHF4n3X/VOLqdyXAZHoc
-         gLoX/TKXw2yHGGtfWXBFAAD7VIKzo6VCkQ7/+zuxsXzPKd2MNlt/0Y94/mnvVGf1Wjer
-         v8zg==
-X-Gm-Message-State: AO0yUKWPkVWtSQQH6Sa6wYG04aoJxRdZNaGnKFArB7e8MJRV8oVom1TO
-	4bLyruyOSzYkhxgQln7Zoxpz5qsfHaOk+5c1
-X-Google-Smtp-Source: AK7set9NGpnFJPMYtYa48I94+ppzSQTlRsN6qgHBiMxkOeg84CGdkgZWolCWBSQ+8EyDuE4ygIxsBQ==
-X-Received: by 2002:a05:600c:32a7:b0:3e2:1368:e395 with SMTP id t39-20020a05600c32a700b003e21368e395mr6347316wmp.33.1677077502238;
-        Wed, 22 Feb 2023 06:51:42 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:d5d1:6a95:9b62:17ab])
-        by smtp.gmail.com with ESMTPSA id l8-20020a05600c1d0800b003e6dcd562a6sm7973500wms.28.2023.02.22.06.51.41
-        for <openembedded-core@lists.openembedded.org>
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EzIWVwtSwHw40KPwFB2zufkGl50DLHLOkjTCtzeb1OQ=;
+        b=vXhyRT6sdrPq4DkR6/giR2Qa3zJPuTH5ot8ZIXM0Gzvk2cZKEAtTY2qVamX24Edmu5
+         Pxcf1fXRn3yZOiMb6a/V95Lb8F9aOmgbp6DjKEZIe9Al5YjXJhjRWLYcz+6ClhhL5AOi
+         DFslSWMROLKW+rwsIgFGYAWjsfHQOruOMOZhI8aF176kbpXAHxxOpzSSM+LYyrFK3xmY
+         cQRC7i2dIcZ4xoeODNukZ7oOQTduBtyN2mdEomajlrTwdg0T7plZCG7PzrO4hnZjjnxo
+         0EPqIOotMUW0OEtngfM6zwvqzWIEBTszqUlALkWRdLfTT2y1UDLXIXUZ+Pf2P2Thxn6i
+         eutA==
+X-Gm-Message-State: AO0yUKWz5YKKvySe676UCqyWwO2WdoabyDlAt5FtPzNbedyvM6ELQbig
+	E2CrG+EToZ75rumUYpuu0kabaVqX/w0=
+X-Google-Smtp-Source: AK7set9LlmB3rVQmYUNIX1xNb9xMP4BBRZbFuDnAIWIyafkqmSmDy/9hZFUf0i5oWQKgvLGmGW7bOw==
+X-Received: by 2002:a17:906:3d7:b0:8b1:7e21:f0e9 with SMTP id c23-20020a17090603d700b008b17e21f0e9mr18820115eja.18.1677078046764;
+        Wed, 22 Feb 2023 07:00:46 -0800 (PST)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id b15-20020a1709062b4f00b008db605598b9sm2930102ejg.67.2023.02.22.07.00.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Feb 2023 06:51:41 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Wed, 22 Feb 2023 07:00:46 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] sstate: Add check_for_interrupts() call functionality added in bitbake
-Date: Wed, 22 Feb 2023 14:51:41 +0000
-Message-Id: <20230222145141.581289-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.37.2
+Cc: Joel Stanley <joel@jms.id.au>,
+	Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [PATCHv2] qemu: Fix building with latest glibc 2.36
+Date: Wed, 22 Feb 2023 16:00:40 +0100
+Message-Id: <20230222150040.1123061-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Feb 2023 14:51:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177572
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Feb 2023 15:00:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177573
 
-Add in the new 'check' calls which mean that the code can exit from longer
-running code loops if requested by the user. This covers sstate checks and
-sstate manifest cleanup code which currently couldn't be interrupted by the
-user from the UI.
+From: Joel Stanley <joel@jms.id.au>
 
-Increase the minimum bitbake version which brings in this API.
+When building native qemu with glibc 2.36 (including latest changes from
+the glibc stable branch), qemu fails to build:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+ In file included from /usr/include/linux/btrfs.h:29,
+                  from ../qemu-7.2.0/linux-user/syscall.c:165:
+ /usr/include/linux/fs.h:50:8: error: redefinition of ‘struct file_clone_range’
+    50 | struct file_clone_range {
+       |        ^~~~~~~~~~~~~~~~
+ ../qemu-7.2.0/linux-user/syscall.c:129:8: note: originally defined here
+   129 | struct file_clone_range {
+       |        ^~~~~~~~~~~~~~~~
+
+Backport changes to linux-user that remove the local copy of struct
+file_clone_range.
+
+Patches from https://lore.kernel.org/qemu-devel/20230110174901.2580297-1-berrange@redhat.com/
+
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+Tested-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/classes-global/sstate.bbclass | 3 +++
- meta/conf/sanity.conf              | 2 +-
- 2 files changed, 4 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/qemu/qemu.inc           |  2 +
+ ...er-add-more-compat-ioctl-definitions.patch | 69 ++++++++++++++++
+ ...r-fix-compat-with-glibc-2.36-sys-mou.patch | 78 +++++++++++++++++++
+ 3 files changed, 149 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0001-Revert-linux-user-add-more-compat-ioctl-definitions.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0002-Revert-linux-user-fix-compat-with-glibc-2.36-sys-mou.patch
 
-diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
-index 567de4aba4d..5b63582b5ae 100644
---- a/meta/classes-global/sstate.bbclass
-+++ b/meta/classes-global/sstate.bbclass
-@@ -1023,6 +1023,7 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 92828e8f2d..1e768b560d 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -30,6 +30,8 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://0001-contrib-vhost-user-blk-Replace-lseek64-with-lseek.patch \
+            file://0002-linux-user-Replace-use-of-lfs64-related-functions-an.patch \
+            file://0001-configure-Fix-check-tcg-not-executing-any-tests.patch \
++           file://0001-Revert-linux-user-add-more-compat-ioctl-definitions.patch \
++           file://0002-Revert-linux-user-fix-compat-with-glibc-2.36-sys-mou.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
-             if progress:
-                 bb.event.fire(bb.event.ProcessProgress(msg, next(cnt_tasks_done)), d)
-+            bb.event.check_for_interrupts(d)
- 
-         tasklist = []
-         for tid in missed:
-@@ -1296,6 +1297,7 @@ python sstate_eventhandler_reachablestamps() {
-                 lines.remove(r)
-                 removed = removed + 1
-                 bb.event.fire(bb.event.ProcessProgress(msg, removed), d)
-+                bb.event.check_for_interrupts(d)
- 
-             bb.event.fire(bb.event.ProcessFinished(msg), d)
- 
-@@ -1365,6 +1367,7 @@ python sstate_eventhandler_stalesstate() {
-                     bb.utils.remove(stamp)
-                 removed = removed + 1
-                 bb.event.fire(bb.event.ProcessProgress(msg, removed), d)
-+                bb.event.check_for_interrupts(d)
- 
-             bb.event.fire(bb.event.ProcessFinished(msg), d)
- }
-diff --git a/meta/conf/sanity.conf b/meta/conf/sanity.conf
-index fff1ad8246b..593419921f5 100644
---- a/meta/conf/sanity.conf
-+++ b/meta/conf/sanity.conf
-@@ -3,7 +3,7 @@
- # See sanity.bbclass
- #
- # Expert users can confirm their sanity with "touch conf/sanity.conf"
--BB_MIN_VERSION = "2.0.1"
-+BB_MIN_VERSION = "2.3.1"
- 
- SANITY_ABIFILE = "${TMPDIR}/abi_version"
- 
+diff --git a/meta/recipes-devtools/qemu/qemu/0001-Revert-linux-user-add-more-compat-ioctl-definitions.patch b/meta/recipes-devtools/qemu/qemu/0001-Revert-linux-user-add-more-compat-ioctl-definitions.patch
+new file mode 100644
+index 0000000000..cd8121fed1
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/0001-Revert-linux-user-add-more-compat-ioctl-definitions.patch
+@@ -0,0 +1,69 @@
++From afa96c55f2c270405de8984e2466067bbb44c0e4 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
++Date: Tue, 10 Jan 2023 12:49:00 -0500
++Subject: [PATCH] Revert "linux-user: add more compat ioctl definitions"
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++This reverts commit c5495f4ecb0cdaaf2e9dddeb48f1689cdb520ca0.
++
++glibc has fixed (in 2.36.9000-40-g774058d729) the problem
++that caused a clash when both sys/mount.h annd linux/mount.h
++are included, and backported this to the 2.36 stable release
++too:
++
++  https://sourceware.org/glibc/wiki/Release/2.36#Usage_of_.3Clinux.2Fmount.h.3E_and_.3Csys.2Fmount.h.3E
++
++It is saner for QEMU to remove the workaround it applied for
++glibc 2.36 and expect distros to ship the 2.36 maint release
++with the fix. This avoids needing to add a further workaround
++to QEMU to deal with the fact that linux/brtfs.h now also pulls
++in linux/mount.h via linux/fs.h since Linux 6.1
++
++Upstream-Status: Backport from v8.0 (master)
++
++Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
++Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
++Link: https://lore.kernel.org/r/20230110174901.2580297-2-berrange@redhat.com
++Signed-off-by: Joel Stanley <joel@jms.id.au>
++---
++ linux-user/syscall.c | 25 -------------------------
++ 1 file changed, 25 deletions(-)
++
++diff --git a/linux-user/syscall.c b/linux-user/syscall.c
++index f95a6161e..510de8edc 100644
++--- a/linux-user/syscall.c
+++++ b/linux-user/syscall.c
++@@ -111,31 +111,6 @@
++ #define FS_IOC32_SETFLAGS              _IOW('f', 2, int)
++ #define FS_IOC32_GETVERSION            _IOR('v', 1, int)
++ #define FS_IOC32_SETVERSION            _IOW('v', 2, int)
++-
++-#define BLKGETSIZE64 _IOR(0x12,114,size_t)
++-#define BLKDISCARD _IO(0x12,119)
++-#define BLKIOMIN _IO(0x12,120)
++-#define BLKIOOPT _IO(0x12,121)
++-#define BLKALIGNOFF _IO(0x12,122)
++-#define BLKPBSZGET _IO(0x12,123)
++-#define BLKDISCARDZEROES _IO(0x12,124)
++-#define BLKSECDISCARD _IO(0x12,125)
++-#define BLKROTATIONAL _IO(0x12,126)
++-#define BLKZEROOUT _IO(0x12,127)
++-
++-#define FIBMAP     _IO(0x00,1)
++-#define FIGETBSZ   _IO(0x00,2)
++-
++-struct file_clone_range {
++-        __s64 src_fd;
++-        __u64 src_offset;
++-        __u64 src_length;
++-        __u64 dest_offset;
++-};
++-
++-#define FICLONE         _IOW(0x94, 9, int)
++-#define FICLONERANGE    _IOW(0x94, 13, struct file_clone_range)
++-
++ #else
++ #include <linux/fs.h>
++ #endif
+diff --git a/meta/recipes-devtools/qemu/qemu/0002-Revert-linux-user-fix-compat-with-glibc-2.36-sys-mou.patch b/meta/recipes-devtools/qemu/qemu/0002-Revert-linux-user-fix-compat-with-glibc-2.36-sys-mou.patch
+new file mode 100644
+index 0000000000..d754f21ad4
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/0002-Revert-linux-user-fix-compat-with-glibc-2.36-sys-mou.patch
+@@ -0,0 +1,78 @@
++From e95c0a42940ca1cf763ca3374b36a9be030039d7 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
++Date: Tue, 10 Jan 2023 12:49:01 -0500
++Subject: [PATCH] Revert "linux-user: fix compat with glibc >= 2.36
++ sys/mount.h"
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++This reverts commit 3cd3df2a9584e6f753bb62a0028bd67124ab5532.
++
++glibc has fixed (in 2.36.9000-40-g774058d729) the problem
++that caused a clash when both sys/mount.h annd linux/mount.h
++are included, and backported this to the 2.36 stable release
++too:
++
++  https://sourceware.org/glibc/wiki/Release/2.36#Usage_of_.3Clinux.2Fmount.h.3E_and_.3Csys.2Fmount.h.3E
++
++It is saner for QEMU to remove the workaround it applied for
++glibc 2.36 and expect distros to ship the 2.36 maint release
++with the fix. This avoids needing to add a further workaround
++to QEMU to deal with the fact that linux/brtfs.h now also pulls
++in linux/mount.h via linux/fs.h since Linux 6.1
++
++Upstream-Status: Backport from v8.0 (master)
++
++Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
++Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
++Link: https://lore.kernel.org/r/20230110174901.2580297-3-berrange@redhat.com
++Signed-off-by: Joel Stanley <joel@jms.id.au>
++---
++ linux-user/syscall.c | 18 ------------------
++ meson.build          |  2 --
++ 2 files changed, 20 deletions(-)
++
++diff --git a/linux-user/syscall.c b/linux-user/syscall.c
++index 510de8edc..13a67b84b 100644
++--- a/linux-user/syscall.c
+++++ b/linux-user/syscall.c
++@@ -95,25 +95,7 @@
++ #include <linux/soundcard.h>
++ #include <linux/kd.h>
++ #include <linux/mtio.h>
++-
++-#ifdef HAVE_SYS_MOUNT_FSCONFIG
++-/*
++- * glibc >= 2.36 linux/mount.h conflicts with sys/mount.h,
++- * which in turn prevents use of linux/fs.h. So we have to
++- * define the constants ourselves for now.
++- */
++-#define FS_IOC_GETFLAGS                _IOR('f', 1, long)
++-#define FS_IOC_SETFLAGS                _IOW('f', 2, long)
++-#define FS_IOC_GETVERSION              _IOR('v', 1, long)
++-#define FS_IOC_SETVERSION              _IOW('v', 2, long)
++-#define FS_IOC_FIEMAP                  _IOWR('f', 11, struct fiemap)
++-#define FS_IOC32_GETFLAGS              _IOR('f', 1, int)
++-#define FS_IOC32_SETFLAGS              _IOW('f', 2, int)
++-#define FS_IOC32_GETVERSION            _IOR('v', 1, int)
++-#define FS_IOC32_SETVERSION            _IOW('v', 2, int)
++-#else
++ #include <linux/fs.h>
++-#endif
++ #include <linux/fd.h>
++ #if defined(CONFIG_FIEMAP)
++ #include <linux/fiemap.h>
++diff --git a/meson.build b/meson.build
++index e44432370..f37ba4114 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -2032,8 +2032,6 @@ config_host_data.set('HAVE_OPTRESET',
++                      cc.has_header_symbol('getopt.h', 'optreset'))
++ config_host_data.set('HAVE_IPPROTO_MPTCP',
++                      cc.has_header_symbol('netinet/in.h', 'IPPROTO_MPTCP'))
++-config_host_data.set('HAVE_SYS_MOUNT_FSCONFIG',
++-                     cc.has_header_symbol('sys/mount.h', 'FSCONFIG_SET_FLAG'))
++ 
++ # has_member
++ config_host_data.set('HAVE_SIGEV_NOTIFY_THREAD_ID',
 -- 
-2.37.2
+2.39.2
 
 
