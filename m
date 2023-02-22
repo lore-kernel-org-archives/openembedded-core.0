@@ -1,1086 +1,644 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D73FC61DA3
-	for <webhook@archiver.kernel.org>; Wed, 22 Feb 2023 01:58:36 +0000 (UTC)
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
- by mx.groups.io with SMTP id smtpd.web11.2448.1677031113988682227
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D10DC61DA3
+	for <webhook@archiver.kernel.org>; Wed, 22 Feb 2023 02:07:46 +0000 (UTC)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+ by mx.groups.io with SMTP id smtpd.web11.2602.1677031656932775340
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Feb 2023 17:58:34 -0800
+ Tue, 21 Feb 2023 18:07:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=qW9OXLYD;
- spf=pass (domain: gmail.com, ip: 209.85.167.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f182.google.com with SMTP id bk2so5446951oib.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 17:58:33 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=K8j/qcRu;
+ spf=pass (domain: gmail.com, ip: 209.85.128.172, mailfrom: ticotimo@gmail.com)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-536c2a1cc07so78550887b3.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 18:07:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=21EQF9lhmZ/ERN4ZqB5cUO1gD5YzEK4hnqaSzj4yBqk=;
-        b=qW9OXLYDF/2G0CBRdtKunSQzFQSH15+bqQOxTCtQhSiYmCdp3icwkP6ICm4uTvb2+o
-         WqW6aETADpRuhTP6XJzfWtqxIKpCxYPxOV3SWqn7fSUnNx5SlvyvvCNZYcqxcNIvA4ht
-         /zLZ16hBCAN4UGFaLMkIws4Kiq0Bg+Yua1+tHkdidp4AfFW/dOErAGaZqHpi4FWURNxq
-         RsPi5sa+2rQOKSgRrF/XfCsXKuTd2jSK2ijmIoxa26JhkOfojehiIttmAZ1bziDusvIW
-         3IWAiWKk92X47MjqOg75el5rHnNwRvnoJcZq6yb1GdxSw8uuyiCfiygxaPnR4LjrbeMI
-         agjA==
+        bh=27V7S/ykmHc6RAJuc57f/VlObobAsMNwnaEDL2EkFyw=;
+        b=K8j/qcRufku/7IAnANWDhrTCCNkEUdamnDOXTe7Zm3HMP89WOzbbXF6Wmq9xQa8oaQ
+         XlMMR+VorQmQ1p5i5kQGSIlzLP25gFykef6folXsQr8XsIiRjhciuiqK6zFeSCl4Eir4
+         vyomC+JhpJXEI4lKo0u1/+oXhHeCpePnNUaIMfFFUEYSta+qTNRIyUUOyt4PgVeUKg88
+         3IwE1x50tgBGXOq6qY1gJScJnyJd6vWt5whuKDe5PJ59CMBnYoz7H7Y1zrqMAfmJA4rI
+         ljus0GPaOPQxgOklCB+zm+MbmKqHVKbbvcIjO6WWwOJbudKyChzuYAjtSxIdQEV+s6uy
+         8pag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=21EQF9lhmZ/ERN4ZqB5cUO1gD5YzEK4hnqaSzj4yBqk=;
-        b=RceHp2oiXqoe+bzAc+ZoAGl9Mo6OXj3nopB/ht50HMKd3kll/BZFxUCbPoJ17UVYde
-         jGyMJeZIzkUKuayLwwVuQQZvCsi0Lcg2SWo+vlzWU6DfpYJ1NagG1csMp9EpnZRmvaUG
-         2YPZn+kvx84dduiasIdblF8PnWKNyC8r5dqfx9GFOEVQByRrOcDuHnzB+FTcS1kvdbGz
-         Phl743kmBuMXQ4UirKp9BySIGesEZ8Faxfa8HbMhDY0PsH/+NkdXighcFLLrjQT12wnl
-         3b0IqCee/6+bgJRYFzN7+lKf5fyaxmRkMtef6qGgEAtt1mJ2ZwS6wTKt55tgSLiT9npZ
-         d0AA==
-X-Gm-Message-State: AO0yUKWlVY8hGB7m6v2jyil/MpavNM77WGk81g5BGJEvR3i7T8doPftE
-	/kdgEQmUONx4qUGR7W2IeqJXjyczzOlPdWB4e1Y=
-X-Google-Smtp-Source: AK7set/d5pSDpfEs2Uw5Q1FFsIBXo+EAFZ9GohYRE1jvoJSmC/kt+mmXfJw9it5o/46D+iyYCKlFzkyPnnc1g2tVY3U=
-X-Received: by 2002:a05:6808:331a:b0:37b:592b:ec39 with SMTP id
- ca26-20020a056808331a00b0037b592bec39mr925672oib.262.1677031112761; Tue, 21
- Feb 2023 17:58:32 -0800 (PST)
+        bh=27V7S/ykmHc6RAJuc57f/VlObobAsMNwnaEDL2EkFyw=;
+        b=T5oAKfKnmLrY9FHI5sBprMGNhp3YZUS0lv9e/+yWPWY9/FxfTelbQ72o2iCSqpjPGX
+         eLj543hNCXqsAFqdS2yY6m6bFVkPEc3CBNPEBj5l3fl94FFpY0EqsQbEBNIUMT5uEIRs
+         3PBaGLJrmLb55A7T/g8NZiIyRTXNogjjVZFFk+ZK8igYQMmLltUP1BUdKNYpsLx1+bFq
+         AxoArSwAFJVng4JJeY63Cq6/Jw5yZTNBykpOnS5TH5L93NE7833rwBkTH7uPw+Jm2GzT
+         C8+N3UHEHvKUubU1Sz1PQ0rc6F+he024VJ1LtTV8IbfqdoEoeeKhmxmcLLsmt29xsSuq
+         O1Aw==
+X-Gm-Message-State: AO0yUKWxeLZceLZxh9xnYLwQYHBQEtEGI2jLVhKzOpnYqWhYKEuKyELl
+	ScUqxeB73K0CAxj7uSEs6/ui+LO6kyCFD58vifEmTugyhao=
+X-Google-Smtp-Source: AK7set+4g0a/DwAc9dr0GmtQdF5mR7Vd5lXHE3g6f1AFSjk/ABa+P2EhvI5Hjb4KTOR97b4Z7ng9N6PZr7NW3yLU0OY=
+X-Received: by 2002:a81:7b02:0:b0:52e:d589:c893 with SMTP id
+ w2-20020a817b02000000b0052ed589c893mr2691559ywc.457.1677031655448; Tue, 21
+ Feb 2023 18:07:35 -0800 (PST)
 MIME-Version: 1.0
-References: <20220512192854.1538701-1-raj.khem@gmail.com> <28cffc0d-da67-e259-a55e-b6165a5498e0@windriver.com>
-In-Reply-To: <28cffc0d-da67-e259-a55e-b6165a5498e0@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 21 Feb 2023 17:58:21 -0800
-Message-ID: <CAMKF1sp5ZeO+QCTAfvhgmFYfuwDw0cByuppzNUR2xqw7oyPTCw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] gdb: Upgrade to 12.1
-To: Randy MacLeod <randy.macleod@windriver.com>
-Cc: "Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	"Shinde, Yash" <yash.shinde@windriver.com>, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000c0e99d05f5403b54"
+References: <20230221132021.2838669-1-narpat.mali@windriver.com>
+In-Reply-To: <20230221132021.2838669-1-narpat.mali@windriver.com>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Tue, 21 Feb 2023 18:07:24 -0800
+Message-ID: <CANx9H-DmrK58Ws+2sBmcr5u4oKPxhpZr7knGcZMm=0kDL=XfSg@mail.gmail.com>
+Subject: Re: [OE-core][kirkstone][PATCH 1/1] apr-util: fix for CVE-2022-25147
+To: Narpat Mali <narpat.mali@windriver.com>
+Cc: archana.polampalli@windriver.com, hari.gpillai@windriver.com, 
+	openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000019a61f05f5405c75"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Feb 2023 01:58:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177553
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Feb 2023 02:07:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177554
 
---000000000000c0e99d05f5403b54
+--00000000000019a61f05f5405c75
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Feb 21, 2023 at 5:27 PM Randy MacLeod <randy.macleod@windriver.com>
+On Tue, Feb 21, 2023 at 5:20 AM Narpat Mali <narpat.mali@windriver.com>
 wrote:
 
-> On 2022-05-12 15:28, Khem Raj wrote:
+> Integer Overflow or Wraparound vulnerability in apr_base64 functions
+> of Apache Portable Runtime Utility (APR-util) allows an attacker to
+> write beyond bounds of a buffer. This issue affects Apache Portable
+> Runtime Utility (APR-util) 1.6.1 and prior versions.
 >
-> Release Announcement [1] and Notes [2]
->
-> [1] https://lists.gnu.org/archive/html/info-gnu/2022-05/msg00000.html
-> [2] https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=blob_plain;f=gdb/NEWS;hb=gdb-12.1-release
->
-> I just noticed that gdb-13.1 was released 2 days ago (Feb 19, 2023) .
->
-> It seems like a good candidate to be included in the 4.2 release.
->
-> $ git diff gdb-12-branch  gdb-13-branch gdb | diffstat | tail -1
->  6222 files changed, 142614 insertions(+), 63875 deletions(-)
->
-> and  notes linked below.
->
-> Khem,
->
-> Are you working on that or should someone else start on it?
+> Reference:
+> https://nvd.nist.gov/vuln/detail/CVE-2022-25147
 >
 
-I have branch for 13.x already so will send patches tonight
+It might make more sense to upgrade to 1.6.3, as it appears to include some
+additional fixes and no new features.
 
-../Randy
->
->
-> https://www.sourceware.org/gdb/download/ANNOUNCEMENT
->
-> https://www.sourceware.org/gdb/
->
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com> <raj.khem@gmail.com>
+https://downloads.apache.org/apr/CHANGES-APR-UTIL-1.6
+
+
+> Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
 > ---
->  meta/conf/distro/include/tcmode-default.inc        |  2 +-
->  ...canadian_11.2.bb => gdb-cross-canadian_12.1.bb} |  0
->  .../gdb/{gdb-cross_11.2.bb => gdb-cross_12.1.bb}   |  0
->  meta/recipes-devtools/gdb/gdb.inc                  | 14 +++++++-------
->  ...0001-make-man-install-relative-to-DESTDIR.patch | 10 +++++-----
->  ...s-linux-nat-Define-_ABIO32-if-not-defined.patch |  8 ++++----
->  ...Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch | 11 +++++------
->  ...-libreadline.a-when-using-disable-static.patch} | 14 +++++++-------
->  ...gidefs.h.patch => 0005-use-asm-sgidefs.h.patch} |  8 ++++----
->  ...AGS.patch => 0006-Change-order-of-CFLAGS.patch} | 10 +++++-----
->  ...> 0007-resolve-restrict-keyword-conflict.patch} |  6 +++---
->  ...tch => 0008-Fix-invalid-sigprocmask-call.patch} |  8 ++++----
->  ....patch => 0009-gdbserver-ctrl-c-handling.patch} | 10 +++++-----
->  .../gdb/{gdb_11.2.bb => gdb_12.1.bb}               |  0
->  14 files changed, 50 insertions(+), 51 deletions(-)
->  rename meta/recipes-devtools/gdb/{gdb-cross-canadian_11.2.bb => gdb-cross-canadian_12.1.bb} (100%)
->  rename meta/recipes-devtools/gdb/{gdb-cross_11.2.bb => gdb-cross_12.1.bb} (100%)
->  rename meta/recipes-devtools/gdb/gdb/{0005-Dont-disable-libreadline.a-when-using-disable-static.patch => 0004-Dont-disable-libreadline.a-when-using-disable-static.patch} (80%)
->  rename meta/recipes-devtools/gdb/gdb/{0006-use-asm-sgidefs.h.patch => 0005-use-asm-sgidefs.h.patch} (84%)
->  rename meta/recipes-devtools/gdb/gdb/{0007-Change-order-of-CFLAGS.patch => 0006-Change-order-of-CFLAGS.patch} (80%)
->  rename meta/recipes-devtools/gdb/gdb/{0008-resolve-restrict-keyword-conflict.patch => 0007-resolve-restrict-keyword-conflict.patch} (93%)
->  rename meta/recipes-devtools/gdb/gdb/{0009-Fix-invalid-sigprocmask-call.patch => 0008-Fix-invalid-sigprocmask-call.patch} (90%)
->  rename meta/recipes-devtools/gdb/gdb/{0010-gdbserver-ctrl-c-handling.patch => 0009-gdbserver-ctrl-c-handling.patch} (82%)
->  rename meta/recipes-devtools/gdb/{gdb_11.2.bb => gdb_12.1.bb} (100%)
+>  .../apr/apr-util/CVE-2022-25147.patch         | 180 ++++++++++++++++++
+>  meta/recipes-support/apr/apr-util_1.6.1.bb    |   3 +-
+>  2 files changed, 182 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-support/apr/apr-util/CVE-2022-25147.patch
 >
-> diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-> index 9660f2804a7..1179ba172ff 100644
-> --- a/meta/conf/distro/include/tcmode-default.inc
-> +++ b/meta/conf/distro/include/tcmode-default.inc
-> @@ -19,7 +19,7 @@ PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
->  GCCVERSION ?= "12.%"
->  SDKGCCVERSION ?= "${GCCVERSION}"
->  BINUVERSION ?= "2.38%"
-> -GDBVERSION ?= "11.%"
-> +GDBVERSION ?= "12.%"
->  GLIBCVERSION ?= "2.35"
->  LINUXLIBCVERSION ?= "5.16%"
->  QEMUVERSION ?= "7.0%"
-> diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_11.2.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_12.1.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/gdb/gdb-cross-canadian_11.2.bb
-> rename to meta/recipes-devtools/gdb/gdb-cross-canadian_12.1.bb
-> diff --git a/meta/recipes-devtools/gdb/gdb-cross_11.2.bb b/meta/recipes-devtools/gdb/gdb-cross_12.1.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/gdb/gdb-cross_11.2.bb
-> rename to meta/recipes-devtools/gdb/gdb-cross_12.1.bb
-> diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/gdb.inc
-> index 649ee287276..3b569fd40e7 100644
-> --- a/meta/recipes-devtools/gdb/gdb.inc
-> +++ b/meta/recipes-devtools/gdb/gdb.inc
-> @@ -8,11 +8,11 @@ SRC_URI = "${GNU_MIRROR}/gdb/gdb-${PV}.tar.xz \
->             file://0001-make-man-install-relative-to-DESTDIR.patch \
->             file://0002-mips-linux-nat-Define-_ABIO32-if-not-defined.patch \
->             file://0003-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch \
-> -           file://0005-Dont-disable-libreadline.a-when-using-disable-static.patch \
-> -           file://0006-use-asm-sgidefs.h.patch \
-> -           file://0007-Change-order-of-CFLAGS.patch \
-> -           file://0008-resolve-restrict-keyword-conflict.patch \
-> -           file://0009-Fix-invalid-sigprocmask-call.patch \
-> -           file://0010-gdbserver-ctrl-c-handling.patch \
-> +           file://0004-Dont-disable-libreadline.a-when-using-disable-static.patch \
-> +           file://0005-use-asm-sgidefs.h.patch \
-> +           file://0006-Change-order-of-CFLAGS.patch \
-> +           file://0007-resolve-restrict-keyword-conflict.patch \
-> +           file://0008-Fix-invalid-sigprocmask-call.patch \
-> +           file://0009-gdbserver-ctrl-c-handling.patch \
->             "
-> -SRC_URI[sha256sum] = "1497c36a71881b8671a9a84a0ee40faab788ca30d7ba19d8463c3cc787152e32"
-> +SRC_URI[sha256sum] = "0e1793bf8f2b54d53f46dea84ccfd446f48f81b297b28c4f7fc017b818d69fed"
-> diff --git a/meta/recipes-devtools/gdb/gdb/0001-make-man-install-relative-to-DESTDIR.patch b/meta/recipes-devtools/gdb/gdb/0001-make-man-install-relative-to-DESTDIR.patch
-> index 824b96f6afe..16d6cf196fd 100644
-> --- a/meta/recipes-devtools/gdb/gdb/0001-make-man-install-relative-to-DESTDIR.patch
-> +++ b/meta/recipes-devtools/gdb/gdb/0001-make-man-install-relative-to-DESTDIR.patch
-> @@ -1,7 +1,7 @@
-> -From a6d3df9d84463ec500d9d01558ab8a17e824e9e5 Mon Sep 17 00:00:00 2001
-> +From 8eca28eddcda4ce8a345ca031f43ff1ed6f37089 Mon Sep 17 00:00:00 2001
->  From: Khem Raj <raj.khem@gmail.com> <raj.khem@gmail.com>
->  Date: Mon, 2 Mar 2015 02:27:55 +0000
-> -Subject: [PATCH 01/10] make man install relative to DESTDIR
-> +Subject: [PATCH 1/9] make man install relative to DESTDIR
+> diff --git a/meta/recipes-support/apr/apr-util/CVE-2022-25147.patch
+> b/meta/recipes-support/apr/apr-util/CVE-2022-25147.patch
+> new file mode 100644
+> index 0000000000..e85785aca0
+> --- /dev/null
+> +++ b/meta/recipes-support/apr/apr-util/CVE-2022-25147.patch
+> @@ -0,0 +1,180 @@
+> +From 3f5257075c7eb601aed6333e9bb5d9eb0e11254b Mon Sep 17 00:00:00 2001
+> +From: Yann Ylavic <ylavic@apache.org>
+> +Date: Thu, 20 Oct 2022 09:38:34 +0000
+> +Subject: [PATCH] apr_base64: Make sure encoding/decoding lengths fit in
+> an int
+> + >= 0.
+> +
+> +The (old) API of apr_base64 functions has always used int for representing
+> +lengths and it does not return errors. Make sure to abort() if the
+> provided
+> +data don't fit.
+> +
+> +* encoding/apr_base64.c():
+> +  #define APR_BASE64_ENCODE_MAX and APR_BASE64_DECODE_MAX as the hard
+> length
+> +  limits for encoding and decoding respectively.
+> +
+> +* encoding/apr_base64.c(apr_base64_encode_len, apr_base64_encode,
+> +                        apr_base64_encode_binary, apr_pbase64_encode):
+> +  abort() if the given length is above APR_BASE64_ENCODE_MAX.
+> +
+> +* encoding/apr_base64.c(apr_base64_decode_len, apr_base64_decode,
+> +                        apr_base64_decode_binary, apr_pbase64_decode):
+> +  abort() if the given plain buffer length is above APR_BASE64_DECODE_MAX.
+> +
+> +
+> +apr_base64: Follow up to r1902206: Cap to APR_BASE64_ENCODE_MAX in
+> apr_pbase64_encode().
+> +
+> +
+> +Merges r1902206[, r1904666] from trunk.
+> +Merges r1904727 from 1.7.x.
+> +
+> +
+> +git-svn-id:
+> https://svn.apache.org/repos/asf/apr/apr-util/branches/1.6.x@1904728
+> 13f79535-47bb-0310-9956-ffa450edef68
+> +
+> +CVE: CVE-2022-25147
+> +
+> +Upstream-Status: Backport [
+> https://github.com/apache/apr-util/commit/3f5257075c7eb601aed6333e9bb5d9eb0e11254b
+> ]
+> +
+> +Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
+> +---
+> + encoding/apr_base64.c | 41 +++++++++++++++++++++++++----------------
+> + 1 file changed, 25 insertions(+), 16 deletions(-)
+> +
+> +diff --git a/encoding/apr_base64.c b/encoding/apr_base64.c
+> +index e9b75e3d..ac9f2816 100644
+> +--- a/encoding/apr_base64.c
+> ++++ b/encoding/apr_base64.c
+> +@@ -20,11 +20,20 @@
+> +  * ugly 'len' functions, which is quite a nasty cost.
+> +  */
+> +
+> ++#undef NDEBUG /* always abort() on assert()ion failure */
+> ++#include <assert.h>
+> ++
+> + #include "apr_base64.h"
+> + #if APR_CHARSET_EBCDIC
+> + #include "apr_xlate.h"
+> + #endif                                /* APR_CHARSET_EBCDIC */
+> +
+> ++/* Above APR_BASE64_ENCODE_MAX length the encoding can't fit in an int
+> >= 0 */
+> ++#define APR_BASE64_ENCODE_MAX 1610612733
+> ++
+> ++/* Above APR_BASE64_DECODE_MAX length the decoding can't fit in an int
+> >= 0 */
+> ++#define APR_BASE64_DECODE_MAX 2863311524u
+> ++
+> + /* aaaack but it's fast and const should make it shared text page. */
+> + static const unsigned char pr2six[256] =
+> + {
+> +@@ -109,24 +118,22 @@ APU_DECLARE(apr_status_t)
+> apr_base64init_ebcdic(apr_xlate_t *to_ascii,
+> +
+> + APU_DECLARE(int) apr_base64_decode_len(const char *bufcoded)
+> + {
+> +-    int nbytesdecoded;
+> +     register const unsigned char *bufin;
+> +     register apr_size_t nprbytes;
+> +
+> +     bufin = (const unsigned char *) bufcoded;
+> +     while (pr2six[*(bufin++)] <= 63);
+> +-
+> +     nprbytes = (bufin - (const unsigned char *) bufcoded) - 1;
+> +-    nbytesdecoded = (((int)nprbytes + 3) / 4) * 3;
+> ++    assert(nprbytes <= APR_BASE64_DECODE_MAX);
+> +
+> +-    return nbytesdecoded + 1;
+> ++    return (int)(((nprbytes + 3u) / 4u) * 3u + 1u);
+> + }
+> +
+> + APU_DECLARE(int) apr_base64_decode(char *bufplain, const char *bufcoded)
+> + {
+> + #if APR_CHARSET_EBCDIC
+> +     apr_size_t inbytes_left, outbytes_left;
+> +-#endif                                /* APR_CHARSET_EBCDIC */
+> ++#endif /* APR_CHARSET_EBCDIC */
+> +     int len;
+> +
+> +     len = apr_base64_decode_binary((unsigned char *) bufplain, bufcoded);
+> +@@ -143,7 +150,7 @@ APU_DECLARE(int) apr_base64_decode(char *bufplain,
+> const char *bufcoded)
+> +  * the conversion of the output to ebcdic is left out.
+> +  */
+> + APU_DECLARE(int) apr_base64_decode_binary(unsigned char *bufplain,
+> +-                                 const char *bufcoded)
+> ++                                          const char *bufcoded)
+> + {
+> +     int nbytesdecoded;
+> +     register const unsigned char *bufin;
+> +@@ -153,12 +160,13 @@ APU_DECLARE(int) apr_base64_decode_binary(unsigned
+> char *bufplain,
+> +     bufin = (const unsigned char *) bufcoded;
+> +     while (pr2six[*(bufin++)] <= 63);
+> +     nprbytes = (bufin - (const unsigned char *) bufcoded) - 1;
+> +-    nbytesdecoded = (((int)nprbytes + 3) / 4) * 3;
+> ++    assert(nprbytes <= APR_BASE64_DECODE_MAX);
+> ++    nbytesdecoded = (int)(((nprbytes + 3u) / 4u) * 3u);
+> +
+> +     bufout = (unsigned char *) bufplain;
+> +     bufin = (const unsigned char *) bufcoded;
+> +
+> +-    while (nprbytes > 4) {
+> ++    while (nprbytes >= 4) {
+> +       *(bufout++) =
+> +           (unsigned char) (pr2six[*bufin] << 2 | pr2six[bufin[1]] >> 4);
+> +       *(bufout++) =
+> +@@ -178,13 +186,8 @@ APU_DECLARE(int) apr_base64_decode_binary(unsigned
+> char *bufplain,
+> +       *(bufout++) =
+> +           (unsigned char) (pr2six[bufin[1]] << 4 | pr2six[bufin[2]] >>
+> 2);
+> +     }
+> +-    if (nprbytes > 3) {
+> +-      *(bufout++) =
+> +-          (unsigned char) (pr2six[bufin[2]] << 6 | pr2six[bufin[3]]);
+> +-    }
+> +
+> +-    nbytesdecoded -= (4 - (int)nprbytes) & 3;
+> +-    return nbytesdecoded;
+> ++    return nbytesdecoded - (int)((4u - nprbytes) & 3u);
+> + }
+> +
+> + static const char basis_64[] =
+> +@@ -192,6 +195,8 @@ static const char basis_64[] =
+> +
+> + APU_DECLARE(int) apr_base64_encode_len(int len)
+> + {
+> ++    assert(len >= 0 && len <= APR_BASE64_ENCODE_MAX);
+> ++
+> +     return ((len + 2) / 3 * 4) + 1;
+> + }
+> +
+> +@@ -203,6 +208,8 @@ APU_DECLARE(int) apr_base64_encode(char *encoded,
+> const char *string, int len)
+> +     int i;
+> +     char *p;
+> +
+> ++    assert(len >= 0 && len <= APR_BASE64_ENCODE_MAX);
+> ++
+> +     p = encoded;
+> +     for (i = 0; i < len - 2; i += 3) {
+> +       *p++ = basis_64[(os_toascii[string[i]] >> 2) & 0x3F];
+> +@@ -227,7 +234,7 @@ APU_DECLARE(int) apr_base64_encode(char *encoded,
+> const char *string, int len)
+> +     }
+> +
+> +     *p++ = '\0';
+> +-    return p - encoded;
+> ++    return (unsigned int)(p - encoded);
+> + #endif                                /* APR_CHARSET_EBCDIC */
+> + }
+> +
+> +@@ -240,6 +247,8 @@ APU_DECLARE(int) apr_base64_encode_binary(char
+> *encoded,
+> +     int i;
+> +     char *p;
+> +
+> ++    assert(len >= 0 && len <= APR_BASE64_ENCODE_MAX);
+> ++
+> +     p = encoded;
+> +     for (i = 0; i < len - 2; i += 3) {
+> +       *p++ = basis_64[(string[i] >> 2) & 0x3F];
+> +@@ -264,5 +273,5 @@ APU_DECLARE(int) apr_base64_encode_binary(char
+> *encoded,
+> +     }
+> +
+> +     *p++ = '\0';
+> +-    return (int)(p - encoded);
+> ++    return (unsigned int)(p - encoded);
+> + }
+> +--
+> +2.32.0
+> +
+> diff --git a/meta/recipes-support/apr/apr-util_1.6.1.bb
+> b/meta/recipes-support/apr/apr-util_1.6.1.bb
+> index b851d46351..f5a2888016 100644
+> --- a/meta/recipes-support/apr/apr-util_1.6.1.bb
+> +++ b/meta/recipes-support/apr/apr-util_1.6.1.bb
+> @@ -14,7 +14,8 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.gz \
+>             file://configure_fixes.patch \
+>             file://run-ptest \
+>             file://0001-Fix-error-handling-in-gdbm.patch \
+> -"
+> +           file://CVE-2022-25147.patch \
+> +          "
 >
->  Upstream-Status: Pending
->
-> @@ -11,10 +11,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com> <raj.khem@gmail.com>
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
->  diff --git a/sim/common/Make-common.in b/sim/common/Make-common.in
-> -index 8c2cacea1e5..4a52eef2203 100644
-> +index 74e5dad3049..9e95c224ba4 100644
->  --- a/sim/common/Make-common.in
->  +++ b/sim/common/Make-common.in
-> -@@ -63,7 +63,7 @@ tooldir = $(libdir)/$(target_alias)
-> +@@ -70,7 +70,7 @@ tooldir = $(libdir)/$(target_alias)
->   datadir = @datadir@
->   datarootdir = @datarootdir@
->   mandir = @mandir@
-> @@ -24,5 +24,5 @@ index 8c2cacea1e5..4a52eef2203 100644
->   includedir = @includedir@
->
->  --
-> -2.33.1
-> +2.36.1
->
-> diff --git a/meta/recipes-devtools/gdb/gdb/0002-mips-linux-nat-Define-_ABIO32-if-not-defined.patch b/meta/recipes-devtools/gdb/gdb/0002-mips-linux-nat-Define-_ABIO32-if-not-defined.patch
-> index 591c9bfa3f9..8d263de8963 100644
-> --- a/meta/recipes-devtools/gdb/gdb/0002-mips-linux-nat-Define-_ABIO32-if-not-defined.patch
-> +++ b/meta/recipes-devtools/gdb/gdb/0002-mips-linux-nat-Define-_ABIO32-if-not-defined.patch
-> @@ -1,7 +1,7 @@
-> -From 7f1f25eaaace289bc33c5aaa1c5fe9e04e719651 Mon Sep 17 00:00:00 2001
-> +From 37d3afd2eaa95c89ad7cb5d0079b017752e4d0ea Mon Sep 17 00:00:00 2001
->  From: Khem Raj <raj.khem@gmail.com> <raj.khem@gmail.com>
->  Date: Wed, 23 Mar 2016 06:30:09 +0000
-> -Subject: [PATCH 02/10] mips-linux-nat: Define _ABIO32 if not defined
-> +Subject: [PATCH 2/9] mips-linux-nat: Define _ABIO32 if not defined
->
->  This helps building gdb on mips64 on musl, since
->  musl does not provide sgidefs.h this define is
-> @@ -16,7 +16,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com> <raj.khem@gmail.com>
->   1 file changed, 4 insertions(+)
->
->  diff --git a/gdb/mips-linux-nat.c b/gdb/mips-linux-nat.c
-> -index b21c7cb2ea6..6614b4de31e 100644
-> +index 20e12b6889e..6adc61235aa 100644
->  --- a/gdb/mips-linux-nat.c
->  +++ b/gdb/mips-linux-nat.c
->  @@ -41,6 +41,10 @@
-> @@ -31,5 +31,5 @@ index b21c7cb2ea6..6614b4de31e 100644
->   class mips_linux_nat_target final : public linux_nat_trad_target
->   {
->  --
-> -2.33.1
-> +2.36.1
->
-> diff --git a/meta/recipes-devtools/gdb/gdb/0003-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch b/meta/recipes-devtools/gdb/gdb/0003-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch
-> index 09ea533b00d..7e09404bb05 100644
-> --- a/meta/recipes-devtools/gdb/gdb/0003-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch
-> +++ b/meta/recipes-devtools/gdb/gdb/0003-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch
-> @@ -1,8 +1,7 @@
-> -From 0cb233ec3951582fa1a051a16bfd644ef4969df5 Mon Sep 17 00:00:00 2001
-> +From e689eec672ee8c53b3adb2ade2b5deb9b7cd99d4 Mon Sep 17 00:00:00 2001
->  From: Khem Raj <raj.khem@gmail.com> <raj.khem@gmail.com>
->  Date: Sat, 30 Apr 2016 18:32:14 -0700
-> -Subject: [PATCH 03/10] ppc/ptrace: Define pt_regs uapi_pt_regs on !GLIBC
-> - systems
-> +Subject: [PATCH 3/9] ppc/ptrace: Define pt_regs uapi_pt_regs on !GLIBC systems
->
->  Upstream-Status: Pending
->
-> @@ -13,7 +12,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com> <raj.khem@gmail.com>
->   2 files changed, 12 insertions(+)
->
->  diff --git a/gdb/nat/ppc-linux.h b/gdb/nat/ppc-linux.h
-> -index e712a9a5713..76bbcca0928 100644
-> +index 1094f6b0be3..d8588a646c2 100644
->  --- a/gdb/nat/ppc-linux.h
->  +++ b/gdb/nat/ppc-linux.h
->  @@ -18,7 +18,13 @@
-> @@ -31,7 +30,7 @@ index e712a9a5713..76bbcca0928 100644
->
->   /* This sometimes isn't defined.  */
->  diff --git a/gdbserver/linux-ppc-low.cc b/gdbserver/linux-ppc-low.cc
-> -index db9a88219ea..151e4183bb1 100644
-> +index 08824887003..69afbae5359 100644
->  --- a/gdbserver/linux-ppc-low.cc
->  +++ b/gdbserver/linux-ppc-low.cc
->  @@ -23,7 +23,13 @@
-> @@ -49,5 +48,5 @@ index db9a88219ea..151e4183bb1 100644
->   #include "arch/ppc-linux-common.h"
->   #include "arch/ppc-linux-tdesc.h"
->  --
-> -2.33.1
-> +2.36.1
->
-> diff --git a/meta/recipes-devtools/gdb/gdb/0005-Dont-disable-libreadline.a-when-using-disable-static.patch b/meta/recipes-devtools/gdb/gdb/0004-Dont-disable-libreadline.a-when-using-disable-static.patch
-> similarity index 80%
-> rename from meta/recipes-devtools/gdb/gdb/0005-Dont-disable-libreadline.a-when-using-disable-static.patch
-> rename to meta/recipes-devtools/gdb/gdb/0004-Dont-disable-libreadline.a-when-using-disable-static.patch
-> index 02ea30f9bf8..a1e85e91b33 100644
-> --- a/meta/recipes-devtools/gdb/gdb/0005-Dont-disable-libreadline.a-when-using-disable-static.patch
-> +++ b/meta/recipes-devtools/gdb/gdb/0004-Dont-disable-libreadline.a-when-using-disable-static.patch
-> @@ -1,7 +1,7 @@
-> -From e2efd044c479895767f1b929f5a54fa0c689f318 Mon Sep 17 00:00:00 2001
-> +From 15ee6a626242efb8f367be49c13e00d0b72317f0 Mon Sep 17 00:00:00 2001
->  From: Khem Raj <raj.khem@gmail.com> <raj.khem@gmail.com>
->  Date: Sat, 30 Apr 2016 15:25:03 -0700
-> -Subject: [PATCH 05/10] Dont disable libreadline.a when using --disable-static
-> +Subject: [PATCH 4/9] Dont disable libreadline.a when using --disable-static
->
->  If gdb is configured with --disable-static then this is dutifully passed to
->  readline which then disables libreadline.a, which causes a problem when gdb
-> @@ -19,10 +19,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com> <raj.khem@gmail.com>
->   2 files changed, 3 insertions(+), 2 deletions(-)
->
->  diff --git a/Makefile.def b/Makefile.def
-> -index 5a460f1dbbc..77a702ac6d6 100644
-> +index acdcd625ed6..78fc31e1199 100644
->  --- a/Makefile.def
->  +++ b/Makefile.def
-> -@@ -105,7 +105,8 @@ host_modules= { module= libiconv;
-> +@@ -120,7 +120,8 @@ host_modules= { module= libiconv;
->   		missing= install-html;
->   		missing= install-info; };
->   host_modules= { module= m4; };
-> @@ -33,10 +33,10 @@ index 5a460f1dbbc..77a702ac6d6 100644
->   host_modules= { module= sim; };
->   host_modules= { module= texinfo; no_install= true; };
->  diff --git a/Makefile.in b/Makefile.in
-> -index 9b3a5d75735..98cbe844fca 100644
-> +index 3aacd2daac9..aa58adada4a 100644
->  --- a/Makefile.in
->  +++ b/Makefile.in
-> -@@ -25607,7 +25607,7 @@ configure-readline:
-> +@@ -32791,7 +32791,7 @@ configure-readline:
->   	  $$s/$$module_srcdir/configure \
->   	  --srcdir=$${topdir}/$$module_srcdir \
->   	  $(HOST_CONFIGARGS) --build=${build_alias} --host=${host_alias} \
-> @@ -46,5 +46,5 @@ index 9b3a5d75735..98cbe844fca 100644
->   @endif readline
->
->  --
-> -2.33.1
-> +2.36.1
->
-> diff --git a/meta/recipes-devtools/gdb/gdb/0006-use-asm-sgidefs.h.patch b/meta/recipes-devtools/gdb/gdb/0005-use-asm-sgidefs.h.patch
-> similarity index 84%
-> rename from meta/recipes-devtools/gdb/gdb/0006-use-asm-sgidefs.h.patch
-> rename to meta/recipes-devtools/gdb/gdb/0005-use-asm-sgidefs.h.patch
-> index ef271c45e29..242099b9b1e 100644
-> --- a/meta/recipes-devtools/gdb/gdb/0006-use-asm-sgidefs.h.patch
-> +++ b/meta/recipes-devtools/gdb/gdb/0005-use-asm-sgidefs.h.patch
-> @@ -1,7 +1,7 @@
-> -From 5077518c11e8d75e9bf65cdf9ca21c59564e1037 Mon Sep 17 00:00:00 2001
-> +From 25a75aaf29791f4302f0e4452f7ebaf735d4f083 Mon Sep 17 00:00:00 2001
->  From: Andre McCurdy <amccurdy@gmail.com> <amccurdy@gmail.com>
->  Date: Sat, 30 Apr 2016 15:29:06 -0700
-> -Subject: [PATCH 06/10] use <asm/sgidefs.h>
-> +Subject: [PATCH 5/9] use <asm/sgidefs.h>
->
->  Build fix for MIPS with musl libc
->
-> @@ -19,7 +19,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com> <raj.khem@gmail.com>
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
->  diff --git a/gdb/mips-linux-nat.c b/gdb/mips-linux-nat.c
-> -index 6614b4de31e..237eb6eb975 100644
-> +index 6adc61235aa..afb40066744 100644
->  --- a/gdb/mips-linux-nat.c
->  +++ b/gdb/mips-linux-nat.c
->  @@ -31,7 +31,7 @@
-> @@ -32,5 +32,5 @@ index 6614b4de31e..237eb6eb975 100644
->   #include <asm/ptrace.h>
->   #include "inf-ptrace.h"
->  --
-> -2.33.1
-> +2.36.1
->
-> diff --git a/meta/recipes-devtools/gdb/gdb/0007-Change-order-of-CFLAGS.patch b/meta/recipes-devtools/gdb/gdb/0006-Change-order-of-CFLAGS.patch
-> similarity index 80%
-> rename from meta/recipes-devtools/gdb/gdb/0007-Change-order-of-CFLAGS.patch
-> rename to meta/recipes-devtools/gdb/gdb/0006-Change-order-of-CFLAGS.patch
-> index 40d12579c0e..58c9b1d0a78 100644
-> --- a/meta/recipes-devtools/gdb/gdb/0007-Change-order-of-CFLAGS.patch
-> +++ b/meta/recipes-devtools/gdb/gdb/0006-Change-order-of-CFLAGS.patch
-> @@ -1,7 +1,7 @@
-> -From 80080e6c8425ac51498f49c2063b960a08f9a27d Mon Sep 17 00:00:00 2001
-> +From c0e7c34134aa1f9644075c596a2338a50d3d923e Mon Sep 17 00:00:00 2001
->  From: Khem Raj <raj.khem@gmail.com> <raj.khem@gmail.com>
->  Date: Sat, 30 Apr 2016 15:35:39 -0700
-> -Subject: [PATCH 07/10] Change order of CFLAGS
-> +Subject: [PATCH 6/9] Change order of CFLAGS
->
->  Lets us override Werror if need be
->
-> @@ -13,10 +13,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com> <raj.khem@gmail.com>
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
->  diff --git a/gdbserver/Makefile.in b/gdbserver/Makefile.in
-> -index 12e9b2777ae..ad44fbc3309 100644
-> +index 47648b8d962..5599779de57 100644
->  --- a/gdbserver/Makefile.in
->  +++ b/gdbserver/Makefile.in
-> -@@ -172,7 +172,7 @@ WIN32APILIBS = @WIN32APILIBS@
-> +@@ -156,7 +156,7 @@ WIN32APILIBS = @WIN32APILIBS@
->   INTERNAL_CFLAGS_BASE = ${GLOBAL_CFLAGS} \
->   	${PROFILE_CFLAGS} ${INCLUDE_CFLAGS} ${CPPFLAGS} $(PTHREAD_CFLAGS)
->   INTERNAL_WARN_CFLAGS = ${INTERNAL_CFLAGS_BASE} $(WARN_CFLAGS)
-> @@ -26,5 +26,5 @@ index 12e9b2777ae..ad44fbc3309 100644
->   # LDFLAGS is specifically reserved for setting from the command line
->   # when running make.
->  --
-> -2.33.1
-> +2.36.1
->
-> diff --git a/meta/recipes-devtools/gdb/gdb/0008-resolve-restrict-keyword-conflict.patch b/meta/recipes-devtools/gdb/gdb/0007-resolve-restrict-keyword-conflict.patch
-> similarity index 93%
-> rename from meta/recipes-devtools/gdb/gdb/0008-resolve-restrict-keyword-conflict.patch
-> rename to meta/recipes-devtools/gdb/gdb/0007-resolve-restrict-keyword-conflict.patch
-> index 9095f905828..bbd1f0b27f1 100644
-> --- a/meta/recipes-devtools/gdb/gdb/0008-resolve-restrict-keyword-conflict.patch
-> +++ b/meta/recipes-devtools/gdb/gdb/0007-resolve-restrict-keyword-conflict.patch
-> @@ -1,7 +1,7 @@
-> -From 4ee7e8afb9ff259e889ac938c673fda9ddc5e15a Mon Sep 17 00:00:00 2001
-> +From 44fa1ecfbd8a5fe0cfea12a175fa041686842a0c Mon Sep 17 00:00:00 2001
->  From: Khem Raj <raj.khem@gmail.com> <raj.khem@gmail.com>
->  Date: Tue, 10 May 2016 08:47:05 -0700
-> -Subject: [PATCH 08/10] resolve restrict keyword conflict
-> +Subject: [PATCH 7/9] resolve restrict keyword conflict
->
->  GCC detects that we call 'restrict' as param name in function
->  signatures and complains since both params are called 'restrict'
-> @@ -44,5 +44,5 @@ index 90a67d18426..664641a1fe8 100644
->   _GL_CXXALIASWARN (gettimeofday);
->   # if defined __cplusplus && defined GNULIB_NAMESPACE
->  --
-> -2.33.1
-> +2.36.1
->
-> diff --git a/meta/recipes-devtools/gdb/gdb/0009-Fix-invalid-sigprocmask-call.patch b/meta/recipes-devtools/gdb/gdb/0008-Fix-invalid-sigprocmask-call.patch
-> similarity index 90%
-> rename from meta/recipes-devtools/gdb/gdb/0009-Fix-invalid-sigprocmask-call.patch
-> rename to meta/recipes-devtools/gdb/gdb/0008-Fix-invalid-sigprocmask-call.patch
-> index 5b9d1cfaf93..ed1310ced28 100644
-> --- a/meta/recipes-devtools/gdb/gdb/0009-Fix-invalid-sigprocmask-call.patch
-> +++ b/meta/recipes-devtools/gdb/gdb/0008-Fix-invalid-sigprocmask-call.patch
-> @@ -1,7 +1,7 @@
-> -From 5740876d92ddb67b039d5fbcd1b71e6c58823c08 Mon Sep 17 00:00:00 2001
-> +From 5bdd15553daef7370ca3c1f12d8f14247fdd4907 Mon Sep 17 00:00:00 2001
->  From: Yousong Zhou <yszhou4tech@gmail.com> <yszhou4tech@gmail.com>
->  Date: Fri, 24 Mar 2017 10:36:03 +0800
-> -Subject: [PATCH 09/10] Fix invalid sigprocmask call
-> +Subject: [PATCH 8/9] Fix invalid sigprocmask call
->  MIME-Version: 1.0
->  Content-Type: text/plain; charset=UTF-8
->  Content-Transfer-Encoding: 8bit
-> @@ -32,7 +32,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com> <raj.khem@gmail.com>
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
->  diff --git a/gdbsupport/signals-state-save-restore.cc b/gdbsupport/signals-state-save-restore.cc
-> -index 95c156e5036..f4aa512d105 100644
-> +index 92e799d3551..a4a0234272a 100644
->  --- a/gdbsupport/signals-state-save-restore.cc
->  +++ b/gdbsupport/signals-state-save-restore.cc
->  @@ -38,7 +38,7 @@ save_original_signals_state (bool quiet)
-> @@ -45,5 +45,5 @@ index 95c156e5036..f4aa512d105 100644
->       perror_with_name (("sigprocmask"));
->
->  --
-> -2.33.1
-> +2.36.1
->
-> diff --git a/meta/recipes-devtools/gdb/gdb/0010-gdbserver-ctrl-c-handling.patch b/meta/recipes-devtools/gdb/gdb/0009-gdbserver-ctrl-c-handling.patch
-> similarity index 82%
-> rename from meta/recipes-devtools/gdb/gdb/0010-gdbserver-ctrl-c-handling.patch
-> rename to meta/recipes-devtools/gdb/gdb/0009-gdbserver-ctrl-c-handling.patch
-> index cb4744e5dda..f53d3bd1e54 100644
-> --- a/meta/recipes-devtools/gdb/gdb/0010-gdbserver-ctrl-c-handling.patch
-> +++ b/meta/recipes-devtools/gdb/gdb/0009-gdbserver-ctrl-c-handling.patch
-> @@ -1,7 +1,7 @@
-> -From d611a68f05c0c86af27bf6beae189a90a946e2e3 Mon Sep 17 00:00:00 2001
-> +From bc3b1f6aacf2d8fe66b022fbfcf28cd82c76e52f Mon Sep 17 00:00:00 2001
->  From: Khem Raj <raj.khem@gmail.com> <raj.khem@gmail.com>
->  Date: Thu, 29 Nov 2018 18:00:23 -0800
-> -Subject: [PATCH 10/10] gdbserver ctrl-c handling
-> +Subject: [PATCH 9/9] gdbserver ctrl-c handling
->
->  This problem was created by the upstream commit 78708b7c8c
->  After applying the commit, it will send SIGINT to the process
-> @@ -23,10 +23,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com> <raj.khem@gmail.com>
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
->  diff --git a/gdbserver/linux-low.cc b/gdbserver/linux-low.cc
-> -index 5c6191d941c..7f7acf6700d 100644
-> +index 7726a4a0c36..f750e074a03 100644
->  --- a/gdbserver/linux-low.cc
->  +++ b/gdbserver/linux-low.cc
-> -@@ -5733,7 +5733,7 @@ linux_process_target::request_interrupt ()
-> +@@ -5496,7 +5496,7 @@ linux_process_target::request_interrupt ()
->   {
->     /* Send a SIGINT to the process group.  This acts just like the user
->        typed a ^C on the controlling terminal.  */
-> @@ -36,5 +36,5 @@ index 5c6191d941c..7f7acf6700d 100644
->
->   bool
->  --
-> -2.33.1
-> +2.36.1
->
-> diff --git a/meta/recipes-devtools/gdb/gdb_11.2.bb b/meta/recipes-devtools/gdb/gdb_12.1.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/gdb/gdb_11.2.bb
-> rename to meta/recipes-devtools/gdb/gdb_12.1.bb
+>  SRC_URI[md5sum] = "bd502b9a8670a8012c4d90c31a84955f"
+>  SRC_URI[sha256sum] =
+> "b65e40713da57d004123b6319828be7f1273fbc6490e145874ee1177e112c459"
+> --
+> 2.34.1
 >
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#165541): https://lists.openembedded.org/g/openembedded-core/message/165541
-> Mute This Topic: https://lists.openembedded.org/mt/91065965/3616765
+> View/Reply Online (#177496):
+> https://lists.openembedded.org/g/openembedded-core/message/177496
+> Mute This Topic: https://lists.openembedded.org/mt/97108181/924729
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [randy.macleod@windriver.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> ticotimo@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
 >
 >
->
-> --
-> # Randy MacLeod
-> # Wind River Linux
->
->
 
---000000000000c0e99d05f5403b54
+--00000000000019a61f05f5405c75
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Tue, Feb 21, 2023 at 5:27 PM Randy MacLeod &lt;<a href=
-=3D"mailto:randy.macleod@windriver.com">randy.macleod@windriver.com</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex">
-
- =20
-  <div>
-    <div>On 2022-05-12 15:28, Khem Raj wrote:<br>
-    </div>
-    <blockquote type=3D"cite">
-      <pre>Release Announcement [1] and Notes [2]
-
-[1] <a href=3D"https://lists.gnu.org/archive/html/info-gnu/2022-05/msg00000=
-.html" target=3D"_blank">https://lists.gnu.org/archive/html/info-gnu/2022-0=
-5/msg00000.html</a>
-[2] <a href=3D"https://sourceware.org/git/gitweb.cgi?p=3Dbinutils-gdb.git;a=
-=3Dblob_plain;f=3Dgdb/NEWS;hb=3Dgdb-12.1-release" target=3D"_blank">https:/=
-/sourceware.org/git/gitweb.cgi?p=3Dbinutils-gdb.git;a=3Dblob_plain;f=3Dgdb/=
-NEWS;hb=3Dgdb-12.1-release</a></pre>
-    </blockquote>
-    <p>I just noticed that gdb-13.1 was released 2 days ago (Feb 19,
-      2023) .</p>
-    <p>It seems like a good candidate to be included in the 4.2 release.</p=
->
-    <p>$ git diff gdb-12-branch=C2=A0 gdb-13-branch gdb | diffstat | tail -=
-1<br>
-      =C2=A06222 files changed, 142614 insertions(+), 63875 deletions(-)<br=
->
-    </p>
-    <p>and=C2=A0 notes linked below.<br>
-    </p>
-    <p>Khem, <br>
-    </p>
-    <p>Are you working on that or should someone else start on it?</p></div=
-></blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">I have branch f=
-or 13.x already so will send patches tonight=C2=A0</div><div dir=3D"auto"><=
+=3D"gmail_attr">On Tue, Feb 21, 2023 at 5:20 AM Narpat Mali &lt;<a href=3D"=
+mailto:narpat.mali@windriver.com">narpat.mali@windriver.com</a>&gt; wrote:<=
 br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex"><div><p dir=3D"auto"></p>
-    <p>../Randy</p>
-    <p><br>
-    </p>
-    <p><a href=3D"https://www.sourceware.org/gdb/download/ANNOUNCEMENT" tar=
-get=3D"_blank">https://www.sourceware.org/gdb/download/ANNOUNCEMENT</a></p>
-    <p><a href=3D"https://www.sourceware.org/gdb/" target=3D"_blank">https:=
-//www.sourceware.org/gdb/</a></p>
-    <blockquote type=3D"cite">
-      <pre>
-Signed-off-by: Khem Raj <a href=3D"mailto:raj.khem@gmail.com" target=3D"_bl=
-ank">&lt;raj.khem@gmail.com&gt;</a>
----
- meta/conf/distro/include/tcmode-default.inc        |  2 +-
- ...<a href=3D"http://canadian_11.2.bb" target=3D"_blank">canadian_11.2.bb<=
-/a> =3D&gt; <a href=3D"http://gdb-cross-canadian_12.1.bb" target=3D"_blank"=
->gdb-cross-canadian_12.1.bb</a>} |  0
- .../gdb/{<a href=3D"http://gdb-cross_11.2.bb" target=3D"_blank">gdb-cross_=
-11.2.bb</a> =3D&gt; <a href=3D"http://gdb-cross_12.1.bb" target=3D"_blank">=
-gdb-cross_12.1.bb</a>}   |  0
- meta/recipes-devtools/gdb/gdb.inc                  | 14 +++++++-------
- ...0001-make-man-install-relative-to-DESTDIR.patch | 10 +++++-----
- ...s-linux-nat-Define-_ABIO32-if-not-defined.patch |  8 ++++----
- ...Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch | 11 +++++------
- ...-libreadline.a-when-using-disable-static.patch} | 14 +++++++-------
- ...gidefs.h.patch =3D&gt; 0005-use-asm-sgidefs.h.patch} |  8 ++++----
- ...AGS.patch =3D&gt; 0006-Change-order-of-CFLAGS.patch} | 10 +++++-----
- ...&gt; 0007-resolve-restrict-keyword-conflict.patch} |  6 +++---
- ...tch =3D&gt; 0008-Fix-invalid-sigprocmask-call.patch} |  8 ++++----
- ....patch =3D&gt; 0009-gdbserver-ctrl-c-handling.patch} | 10 +++++-----
- .../gdb/{<a href=3D"http://gdb_11.2.bb" target=3D"_blank">gdb_11.2.bb</a> =
-=3D&gt; <a href=3D"http://gdb_12.1.bb" target=3D"_blank">gdb_12.1.bb</a>}  =
-             |  0
- 14 files changed, 50 insertions(+), 51 deletions(-)
- rename meta/recipes-devtools/gdb/{<a href=3D"http://gdb-cross-canadian_11.=
-2.bb" target=3D"_blank">gdb-cross-canadian_11.2.bb</a> =3D&gt; <a href=3D"h=
-ttp://gdb-cross-canadian_12.1.bb" target=3D"_blank">gdb-cross-canadian_12.1=
-.bb</a>} (100%)
- rename meta/recipes-devtools/gdb/{<a href=3D"http://gdb-cross_11.2.bb" tar=
-get=3D"_blank">gdb-cross_11.2.bb</a> =3D&gt; <a href=3D"http://gdb-cross_12=
-.1.bb" target=3D"_blank">gdb-cross_12.1.bb</a>} (100%)
- rename meta/recipes-devtools/gdb/gdb/{0005-Dont-disable-libreadline.a-when=
--using-disable-static.patch =3D&gt; 0004-Dont-disable-libreadline.a-when-us=
-ing-disable-static.patch} (80%)
- rename meta/recipes-devtools/gdb/gdb/{0006-use-asm-sgidefs.h.patch =3D&gt;=
- 0005-use-asm-sgidefs.h.patch} (84%)
- rename meta/recipes-devtools/gdb/gdb/{0007-Change-order-of-CFLAGS.patch =
-=3D&gt; 0006-Change-order-of-CFLAGS.patch} (80%)
- rename meta/recipes-devtools/gdb/gdb/{0008-resolve-restrict-keyword-confli=
-ct.patch =3D&gt; 0007-resolve-restrict-keyword-conflict.patch} (93%)
- rename meta/recipes-devtools/gdb/gdb/{0009-Fix-invalid-sigprocmask-call.pa=
-tch =3D&gt; 0008-Fix-invalid-sigprocmask-call.patch} (90%)
- rename meta/recipes-devtools/gdb/gdb/{0010-gdbserver-ctrl-c-handling.patch=
- =3D&gt; 0009-gdbserver-ctrl-c-handling.patch} (82%)
- rename meta/recipes-devtools/gdb/{<a href=3D"http://gdb_11.2.bb" target=3D=
-"_blank">gdb_11.2.bb</a> =3D&gt; <a href=3D"http://gdb_12.1.bb" target=3D"_=
-blank">gdb_12.1.bb</a>} (100%)
-
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro=
-/include/tcmode-default.inc
-index 9660f2804a7..1179ba172ff 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -19,7 +19,7 @@ PREFERRED_PROVIDER_virtual/gettext ??=3D &quot;gettext&qu=
-ot;
- GCCVERSION ?=3D &quot;12.%&quot;
- SDKGCCVERSION ?=3D &quot;${GCCVERSION}&quot;
- BINUVERSION ?=3D &quot;2.38%&quot;
--GDBVERSION ?=3D &quot;11.%&quot;
-+GDBVERSION ?=3D &quot;12.%&quot;
- GLIBCVERSION ?=3D &quot;2.35&quot;
- LINUXLIBCVERSION ?=3D &quot;5.16%&quot;
- QEMUVERSION ?=3D &quot;7.0%&quot;
-diff --git a/meta/recipes-devtools/gdb/<a href=3D"http://gdb-cross-canadian=
-_11.2.bb" target=3D"_blank">gdb-cross-canadian_11.2.bb</a> b/meta/recipes-d=
-evtools/gdb/<a href=3D"http://gdb-cross-canadian_12.1.bb" target=3D"_blank"=
->gdb-cross-canadian_12.1.bb</a>
-similarity index 100%
-rename from meta/recipes-devtools/gdb/<a href=3D"http://gdb-cross-canadian_=
-11.2.bb" target=3D"_blank">gdb-cross-canadian_11.2.bb</a>
-rename to meta/recipes-devtools/gdb/<a href=3D"http://gdb-cross-canadian_12=
-.1.bb" target=3D"_blank">gdb-cross-canadian_12.1.bb</a>
-diff --git a/meta/recipes-devtools/gdb/<a href=3D"http://gdb-cross_11.2.bb"=
- target=3D"_blank">gdb-cross_11.2.bb</a> b/meta/recipes-devtools/gdb/<a hre=
-f=3D"http://gdb-cross_12.1.bb" target=3D"_blank">gdb-cross_12.1.bb</a>
-similarity index 100%
-rename from meta/recipes-devtools/gdb/<a href=3D"http://gdb-cross_11.2.bb" =
-target=3D"_blank">gdb-cross_11.2.bb</a>
-rename to meta/recipes-devtools/gdb/<a href=3D"http://gdb-cross_12.1.bb" ta=
-rget=3D"_blank">gdb-cross_12.1.bb</a>
-diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/=
-gdb.inc
-index 649ee287276..3b569fd40e7 100644
---- a/meta/recipes-devtools/gdb/gdb.inc
-+++ b/meta/recipes-devtools/gdb/gdb.inc
-@@ -8,11 +8,11 @@ SRC_URI =3D &quot;${GNU_MIRROR}/gdb/gdb-${PV}.tar.xz \
-            <a>file://0001-make-man-install-relative-to-DESTDIR.patch</a> \
-            <a>file://0002-mips-linux-nat-Define-_ABIO32-if-not-defined.pat=
-ch</a> \
-            <a>file://0003-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-=
-syst.patch</a> \
--           <a>file://0005-Dont-disable-libreadline.a-when-using-disable-st=
-atic.patch</a> \
--           <a>file://0006-use-asm-sgidefs.h.patch</a> \
--           <a>file://0007-Change-order-of-CFLAGS.patch</a> \
--           <a>file://0008-resolve-restrict-keyword-conflict.patch</a> \
--           <a>file://0009-Fix-invalid-sigprocmask-call.patch</a> \
--           <a>file://0010-gdbserver-ctrl-c-handling.patch</a> \
-+           <a>file://0004-Dont-disable-libreadline.a-when-using-disable-st=
-atic.patch</a> \
-+           <a>file://0005-use-asm-sgidefs.h.patch</a> \
-+           <a>file://0006-Change-order-of-CFLAGS.patch</a> \
-+           <a>file://0007-resolve-restrict-keyword-conflict.patch</a> \
-+           <a>file://0008-Fix-invalid-sigprocmask-call.patch</a> \
-+           <a>file://0009-gdbserver-ctrl-c-handling.patch</a> \
-            &quot;
--SRC_URI[sha256sum] =3D &quot;1497c36a71881b8671a9a84a0ee40faab788ca30d7ba1=
-9d8463c3cc787152e32&quot;
-+SRC_URI[sha256sum] =3D &quot;0e1793bf8f2b54d53f46dea84ccfd446f48f81b297b28=
-c4f7fc017b818d69fed&quot;
-diff --git a/meta/recipes-devtools/gdb/gdb/0001-make-man-install-relative-t=
-o-DESTDIR.patch b/meta/recipes-devtools/gdb/gdb/0001-make-man-install-relat=
-ive-to-DESTDIR.patch
-index 824b96f6afe..16d6cf196fd 100644
---- a/meta/recipes-devtools/gdb/gdb/0001-make-man-install-relative-to-DESTD=
-IR.patch
-+++ b/meta/recipes-devtools/gdb/gdb/0001-make-man-install-relative-to-DESTD=
-IR.patch
-@@ -1,7 +1,7 @@
--From a6d3df9d84463ec500d9d01558ab8a17e824e9e5 Mon Sep 17 00:00:00 2001
-+From 8eca28eddcda4ce8a345ca031f43ff1ed6f37089 Mon Sep 17 00:00:00 2001
- From: Khem Raj <a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">&lt=
-;raj.khem@gmail.com&gt;</a>
- Date: Mon, 2 Mar 2015 02:27:55 +0000
--Subject: [PATCH 01/10] make man install relative to DESTDIR
-+Subject: [PATCH 1/9] make man install relative to DESTDIR
-=20
- Upstream-Status: Pending
-=20
-@@ -11,10 +11,10 @@ Signed-off-by: Khem Raj <a href=3D"mailto:raj.khem@gmai=
-l.com" target=3D"_blank">&lt;raj.khem@gmail.com&gt;</a>
-  1 file changed, 1 insertion(+), 1 deletion(-)
-=20
- diff --git a/sim/common/Make-common.in b/sim/common/Make-common.in
--index 8c2cacea1e5..4a52eef2203 100644
-+index 74e5dad3049..9e95c224ba4 100644
- --- a/sim/common/Make-common.in
- +++ b/sim/common/Make-common.in
--@@ -63,7 +63,7 @@ tooldir =3D $(libdir)/$(target_alias)
-+@@ -70,7 +70,7 @@ tooldir =3D $(libdir)/$(target_alias)
-  datadir =3D @datadir@
-  datarootdir =3D @datarootdir@
-  mandir =3D @mandir@
-@@ -24,5 +24,5 @@ index 8c2cacea1e5..4a52eef2203 100644
-  includedir =3D @includedir@
- =20
- --=20
--2.33.1
-+2.36.1
-=20
-diff --git a/meta/recipes-devtools/gdb/gdb/0002-mips-linux-nat-Define-_ABIO=
-32-if-not-defined.patch b/meta/recipes-devtools/gdb/gdb/0002-mips-linux-nat=
--Define-_ABIO32-if-not-defined.patch
-index 591c9bfa3f9..8d263de8963 100644
---- a/meta/recipes-devtools/gdb/gdb/0002-mips-linux-nat-Define-_ABIO32-if-n=
-ot-defined.patch
-+++ b/meta/recipes-devtools/gdb/gdb/0002-mips-linux-nat-Define-_ABIO32-if-n=
-ot-defined.patch
-@@ -1,7 +1,7 @@
--From 7f1f25eaaace289bc33c5aaa1c5fe9e04e719651 Mon Sep 17 00:00:00 2001
-+From 37d3afd2eaa95c89ad7cb5d0079b017752e4d0ea Mon Sep 17 00:00:00 2001
- From: Khem Raj <a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">&lt=
-;raj.khem@gmail.com&gt;</a>
- Date: Wed, 23 Mar 2016 06:30:09 +0000
--Subject: [PATCH 02/10] mips-linux-nat: Define _ABIO32 if not defined
-+Subject: [PATCH 2/9] mips-linux-nat: Define _ABIO32 if not defined
-=20
- This helps building gdb on mips64 on musl, since
- musl does not provide sgidefs.h this define is
-@@ -16,7 +16,7 @@ Signed-off-by: Khem Raj <a href=3D"mailto:raj.khem@gmail.=
-com" target=3D"_blank">&lt;raj.khem@gmail.com&gt;</a>
-  1 file changed, 4 insertions(+)
-=20
- diff --git a/gdb/mips-linux-nat.c b/gdb/mips-linux-nat.c
--index b21c7cb2ea6..6614b4de31e 100644
-+index 20e12b6889e..6adc61235aa 100644
- --- a/gdb/mips-linux-nat.c
- +++ b/gdb/mips-linux-nat.c
- @@ -41,6 +41,10 @@
-@@ -31,5 +31,5 @@ index b21c7cb2ea6..6614b4de31e 100644
-  class mips_linux_nat_target final : public linux_nat_trad_target
-  {
- --=20
--2.33.1
-+2.36.1
-=20
-diff --git a/meta/recipes-devtools/gdb/gdb/0003-ppc-ptrace-Define-pt_regs-u=
-api_pt_regs-on-GLIBC-syst.patch b/meta/recipes-devtools/gdb/gdb/0003-ppc-pt=
-race-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch
-index 09ea533b00d..7e09404bb05 100644
---- a/meta/recipes-devtools/gdb/gdb/0003-ppc-ptrace-Define-pt_regs-uapi_pt_=
-regs-on-GLIBC-syst.patch
-+++ b/meta/recipes-devtools/gdb/gdb/0003-ppc-ptrace-Define-pt_regs-uapi_pt_=
-regs-on-GLIBC-syst.patch
-@@ -1,8 +1,7 @@
--From 0cb233ec3951582fa1a051a16bfd644ef4969df5 Mon Sep 17 00:00:00 2001
-+From e689eec672ee8c53b3adb2ade2b5deb9b7cd99d4 Mon Sep 17 00:00:00 2001
- From: Khem Raj <a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">&lt=
-;raj.khem@gmail.com&gt;</a>
- Date: Sat, 30 Apr 2016 18:32:14 -0700
--Subject: [PATCH 03/10] ppc/ptrace: Define pt_regs uapi_pt_regs on !GLIBC
-- systems
-+Subject: [PATCH 3/9] ppc/ptrace: Define pt_regs uapi_pt_regs on !GLIBC sys=
-tems
-=20
- Upstream-Status: Pending
-=20
-@@ -13,7 +12,7 @@ Signed-off-by: Khem Raj <a href=3D"mailto:raj.khem@gmail.=
-com" target=3D"_blank">&lt;raj.khem@gmail.com&gt;</a>
-  2 files changed, 12 insertions(+)
-=20
- diff --git a/gdb/nat/ppc-linux.h b/gdb/nat/ppc-linux.h
--index e712a9a5713..76bbcca0928 100644
-+index 1094f6b0be3..d8588a646c2 100644
- --- a/gdb/nat/ppc-linux.h
- +++ b/gdb/nat/ppc-linux.h
- @@ -18,7 +18,13 @@
-@@ -31,7 +30,7 @@ index e712a9a5713..76bbcca0928 100644
- =20
-  /* This sometimes isn&#39;t defined.  */
- diff --git a/gdbserver/linux-ppc-low.cc b/gdbserver/linux-ppc-low.cc
--index db9a88219ea..151e4183bb1 100644
-+index 08824887003..69afbae5359 100644
- --- a/gdbserver/linux-ppc-low.cc
- +++ b/gdbserver/linux-ppc-low.cc
- @@ -23,7 +23,13 @@
-@@ -49,5 +48,5 @@ index db9a88219ea..151e4183bb1 100644
-  #include &quot;arch/ppc-linux-common.h&quot;
-  #include &quot;arch/ppc-linux-tdesc.h&quot;
- --=20
--2.33.1
-+2.36.1
-=20
-diff --git a/meta/recipes-devtools/gdb/gdb/0005-Dont-disable-libreadline.a-=
-when-using-disable-static.patch b/meta/recipes-devtools/gdb/gdb/0004-Dont-d=
-isable-libreadline.a-when-using-disable-static.patch
-similarity index 80%
-rename from meta/recipes-devtools/gdb/gdb/0005-Dont-disable-libreadline.a-w=
-hen-using-disable-static.patch
-rename to meta/recipes-devtools/gdb/gdb/0004-Dont-disable-libreadline.a-whe=
-n-using-disable-static.patch
-index 02ea30f9bf8..a1e85e91b33 100644
---- a/meta/recipes-devtools/gdb/gdb/0005-Dont-disable-libreadline.a-when-us=
-ing-disable-static.patch
-+++ b/meta/recipes-devtools/gdb/gdb/0004-Dont-disable-libreadline.a-when-us=
-ing-disable-static.patch
-@@ -1,7 +1,7 @@
--From e2efd044c479895767f1b929f5a54fa0c689f318 Mon Sep 17 00:00:00 2001
-+From 15ee6a626242efb8f367be49c13e00d0b72317f0 Mon Sep 17 00:00:00 2001
- From: Khem Raj <a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">&lt=
-;raj.khem@gmail.com&gt;</a>
- Date: Sat, 30 Apr 2016 15:25:03 -0700
--Subject: [PATCH 05/10] Dont disable libreadline.a when using --disable-sta=
-tic
-+Subject: [PATCH 4/9] Dont disable libreadline.a when using --disable-stati=
-c
-=20
- If gdb is configured with --disable-static then this is dutifully passed t=
-o
- readline which then disables libreadline.a, which causes a problem when gd=
-b
-@@ -19,10 +19,10 @@ Signed-off-by: Khem Raj <a href=3D"mailto:raj.khem@gmai=
-l.com" target=3D"_blank">&lt;raj.khem@gmail.com&gt;</a>
-  2 files changed, 3 insertions(+), 2 deletions(-)
-=20
- diff --git a/Makefile.def b/Makefile.def
--index 5a460f1dbbc..77a702ac6d6 100644
-+index acdcd625ed6..78fc31e1199 100644
- --- a/Makefile.def
- +++ b/Makefile.def
--@@ -105,7 +105,8 @@ host_modules=3D { module=3D libiconv;
-+@@ -120,7 +120,8 @@ host_modules=3D { module=3D libiconv;
-  		missing=3D install-html;
-  		missing=3D install-info; };
-  host_modules=3D { module=3D m4; };
-@@ -33,10 +33,10 @@ index 5a460f1dbbc..77a702ac6d6 100644
-  host_modules=3D { module=3D sim; };
-  host_modules=3D { module=3D texinfo; no_install=3D true; };
- diff --git a/Makefile.in b/Makefile.in
--index 9b3a5d75735..98cbe844fca 100644
-+index 3aacd2daac9..aa58adada4a 100644
- --- a/Makefile.in
- +++ b/Makefile.in
--@@ -25607,7 +25607,7 @@ configure-readline:
-+@@ -32791,7 +32791,7 @@ configure-readline:
-  	  $$s/$$module_srcdir/configure \
-  	  --srcdir=3D$${topdir}/$$module_srcdir \
-  	  $(HOST_CONFIGARGS) --build=3D${build_alias} --host=3D${host_alias} \
-@@ -46,5 +46,5 @@ index 9b3a5d75735..98cbe844fca 100644
-  @endif readline
- =20
- --=20
--2.33.1
-+2.36.1
-=20
-diff --git a/meta/recipes-devtools/gdb/gdb/0006-use-asm-sgidefs.h.patch b/m=
-eta/recipes-devtools/gdb/gdb/0005-use-asm-sgidefs.h.patch
-similarity index 84%
-rename from meta/recipes-devtools/gdb/gdb/0006-use-asm-sgidefs.h.patch
-rename to meta/recipes-devtools/gdb/gdb/0005-use-asm-sgidefs.h.patch
-index ef271c45e29..242099b9b1e 100644
---- a/meta/recipes-devtools/gdb/gdb/0006-use-asm-sgidefs.h.patch
-+++ b/meta/recipes-devtools/gdb/gdb/0005-use-asm-sgidefs.h.patch
-@@ -1,7 +1,7 @@
--From 5077518c11e8d75e9bf65cdf9ca21c59564e1037 Mon Sep 17 00:00:00 2001
-+From 25a75aaf29791f4302f0e4452f7ebaf735d4f083 Mon Sep 17 00:00:00 2001
- From: Andre McCurdy <a href=3D"mailto:amccurdy@gmail.com" target=3D"_blank=
-">&lt;amccurdy@gmail.com&gt;</a>
- Date: Sat, 30 Apr 2016 15:29:06 -0700
--Subject: [PATCH 06/10] use &lt;asm/sgidefs.h&gt;
-+Subject: [PATCH 5/9] use &lt;asm/sgidefs.h&gt;
-=20
- Build fix for MIPS with musl libc
-=20
-@@ -19,7 +19,7 @@ Signed-off-by: Khem Raj <a href=3D"mailto:raj.khem@gmail.=
-com" target=3D"_blank">&lt;raj.khem@gmail.com&gt;</a>
-  1 file changed, 1 insertion(+), 1 deletion(-)
-=20
- diff --git a/gdb/mips-linux-nat.c b/gdb/mips-linux-nat.c
--index 6614b4de31e..237eb6eb975 100644
-+index 6adc61235aa..afb40066744 100644
- --- a/gdb/mips-linux-nat.c
- +++ b/gdb/mips-linux-nat.c
- @@ -31,7 +31,7 @@
-@@ -32,5 +32,5 @@ index 6614b4de31e..237eb6eb975 100644
-  #include &lt;asm/ptrace.h&gt;
-  #include &quot;inf-ptrace.h&quot;
- --=20
--2.33.1
-+2.36.1
-=20
-diff --git a/meta/recipes-devtools/gdb/gdb/0007-Change-order-of-CFLAGS.patc=
-h b/meta/recipes-devtools/gdb/gdb/0006-Change-order-of-CFLAGS.patch
-similarity index 80%
-rename from meta/recipes-devtools/gdb/gdb/0007-Change-order-of-CFLAGS.patch
-rename to meta/recipes-devtools/gdb/gdb/0006-Change-order-of-CFLAGS.patch
-index 40d12579c0e..58c9b1d0a78 100644
---- a/meta/recipes-devtools/gdb/gdb/0007-Change-order-of-CFLAGS.patch
-+++ b/meta/recipes-devtools/gdb/gdb/0006-Change-order-of-CFLAGS.patch
-@@ -1,7 +1,7 @@
--From 80080e6c8425ac51498f49c2063b960a08f9a27d Mon Sep 17 00:00:00 2001
-+From c0e7c34134aa1f9644075c596a2338a50d3d923e Mon Sep 17 00:00:00 2001
- From: Khem Raj <a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">&lt=
-;raj.khem@gmail.com&gt;</a>
- Date: Sat, 30 Apr 2016 15:35:39 -0700
--Subject: [PATCH 07/10] Change order of CFLAGS
-+Subject: [PATCH 6/9] Change order of CFLAGS
-=20
- Lets us override Werror if need be
-=20
-@@ -13,10 +13,10 @@ Signed-off-by: Khem Raj <a href=3D"mailto:raj.khem@gmai=
-l.com" target=3D"_blank">&lt;raj.khem@gmail.com&gt;</a>
-  1 file changed, 1 insertion(+), 1 deletion(-)
-=20
- diff --git a/gdbserver/Makefile.in b/gdbserver/Makefile.in
--index 12e9b2777ae..ad44fbc3309 100644
-+index 47648b8d962..5599779de57 100644
- --- a/gdbserver/Makefile.in
- +++ b/gdbserver/Makefile.in
--@@ -172,7 +172,7 @@ WIN32APILIBS =3D @WIN32APILIBS@
-+@@ -156,7 +156,7 @@ WIN32APILIBS =3D @WIN32APILIBS@
-  INTERNAL_CFLAGS_BASE =3D ${GLOBAL_CFLAGS} \
-  	${PROFILE_CFLAGS} ${INCLUDE_CFLAGS} ${CPPFLAGS} $(PTHREAD_CFLAGS)
-  INTERNAL_WARN_CFLAGS =3D ${INTERNAL_CFLAGS_BASE} $(WARN_CFLAGS)
-@@ -26,5 +26,5 @@ index 12e9b2777ae..ad44fbc3309 100644
-  # LDFLAGS is specifically reserved for setting from the command line
-  # when running make.
- --=20
--2.33.1
-+2.36.1
-=20
-diff --git a/meta/recipes-devtools/gdb/gdb/0008-resolve-restrict-keyword-co=
-nflict.patch b/meta/recipes-devtools/gdb/gdb/0007-resolve-restrict-keyword-=
-conflict.patch
-similarity index 93%
-rename from meta/recipes-devtools/gdb/gdb/0008-resolve-restrict-keyword-con=
-flict.patch
-rename to meta/recipes-devtools/gdb/gdb/0007-resolve-restrict-keyword-confl=
-ict.patch
-index 9095f905828..bbd1f0b27f1 100644
---- a/meta/recipes-devtools/gdb/gdb/0008-resolve-restrict-keyword-conflict.=
-patch
-+++ b/meta/recipes-devtools/gdb/gdb/0007-resolve-restrict-keyword-conflict.=
-patch
-@@ -1,7 +1,7 @@
--From 4ee7e8afb9ff259e889ac938c673fda9ddc5e15a Mon Sep 17 00:00:00 2001
-+From 44fa1ecfbd8a5fe0cfea12a175fa041686842a0c Mon Sep 17 00:00:00 2001
- From: Khem Raj <a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">&lt=
-;raj.khem@gmail.com&gt;</a>
- Date: Tue, 10 May 2016 08:47:05 -0700
--Subject: [PATCH 08/10] resolve restrict keyword conflict
-+Subject: [PATCH 7/9] resolve restrict keyword conflict
-=20
- GCC detects that we call &#39;restrict&#39; as param name in function
- signatures and complains since both params are called &#39;restrict&#39;
-@@ -44,5 +44,5 @@ index 90a67d18426..664641a1fe8 100644
-  _GL_CXXALIASWARN (gettimeofday);
-  # if defined __cplusplus &amp;&amp; defined GNULIB_NAMESPACE
- --=20
--2.33.1
-+2.36.1
-=20
-diff --git a/meta/recipes-devtools/gdb/gdb/0009-Fix-invalid-sigprocmask-cal=
-l.patch b/meta/recipes-devtools/gdb/gdb/0008-Fix-invalid-sigprocmask-call.p=
-atch
-similarity index 90%
-rename from meta/recipes-devtools/gdb/gdb/0009-Fix-invalid-sigprocmask-call=
-.patch
-rename to meta/recipes-devtools/gdb/gdb/0008-Fix-invalid-sigprocmask-call.p=
-atch
-index 5b9d1cfaf93..ed1310ced28 100644
---- a/meta/recipes-devtools/gdb/gdb/0009-Fix-invalid-sigprocmask-call.patch
-+++ b/meta/recipes-devtools/gdb/gdb/0008-Fix-invalid-sigprocmask-call.patch
-@@ -1,7 +1,7 @@
--From 5740876d92ddb67b039d5fbcd1b71e6c58823c08 Mon Sep 17 00:00:00 2001
-+From 5bdd15553daef7370ca3c1f12d8f14247fdd4907 Mon Sep 17 00:00:00 2001
- From: Yousong Zhou <a href=3D"mailto:yszhou4tech@gmail.com" target=3D"_bla=
-nk">&lt;yszhou4tech@gmail.com&gt;</a>
- Date: Fri, 24 Mar 2017 10:36:03 +0800
--Subject: [PATCH 09/10] Fix invalid sigprocmask call
-+Subject: [PATCH 8/9] Fix invalid sigprocmask call
- MIME-Version: 1.0
- Content-Type: text/plain; charset=3DUTF-8
- Content-Transfer-Encoding: 8bit
-@@ -32,7 +32,7 @@ Signed-off-by: Khem Raj <a href=3D"mailto:raj.khem@gmail.=
-com" target=3D"_blank">&lt;raj.khem@gmail.com&gt;</a>
-  1 file changed, 1 insertion(+), 1 deletion(-)
-=20
- diff --git a/gdbsupport/signals-state-save-restore.cc b/gdbsupport/signals=
--state-save-restore.cc
--index 95c156e5036..f4aa512d105 100644
-+index 92e799d3551..a4a0234272a 100644
- --- a/gdbsupport/signals-state-save-restore.cc
- +++ b/gdbsupport/signals-state-save-restore.cc
- @@ -38,7 +38,7 @@ save_original_signals_state (bool quiet)
-@@ -45,5 +45,5 @@ index 95c156e5036..f4aa512d105 100644
-      perror_with_name ((&quot;sigprocmask&quot;));
- =20
- --=20
--2.33.1
-+2.36.1
-=20
-diff --git a/meta/recipes-devtools/gdb/gdb/0010-gdbserver-ctrl-c-handling.p=
-atch b/meta/recipes-devtools/gdb/gdb/0009-gdbserver-ctrl-c-handling.patch
-similarity index 82%
-rename from meta/recipes-devtools/gdb/gdb/0010-gdbserver-ctrl-c-handling.pa=
-tch
-rename to meta/recipes-devtools/gdb/gdb/0009-gdbserver-ctrl-c-handling.patc=
-h
-index cb4744e5dda..f53d3bd1e54 100644
---- a/meta/recipes-devtools/gdb/gdb/0010-gdbserver-ctrl-c-handling.patch
-+++ b/meta/recipes-devtools/gdb/gdb/0009-gdbserver-ctrl-c-handling.patch
-@@ -1,7 +1,7 @@
--From d611a68f05c0c86af27bf6beae189a90a946e2e3 Mon Sep 17 00:00:00 2001
-+From bc3b1f6aacf2d8fe66b022fbfcf28cd82c76e52f Mon Sep 17 00:00:00 2001
- From: Khem Raj <a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">&lt=
-;raj.khem@gmail.com&gt;</a>
- Date: Thu, 29 Nov 2018 18:00:23 -0800
--Subject: [PATCH 10/10] gdbserver ctrl-c handling
-+Subject: [PATCH 9/9] gdbserver ctrl-c handling
-=20
- This problem was created by the upstream commit 78708b7c8c
- After applying the commit, it will send SIGINT to the process
-@@ -23,10 +23,10 @@ Signed-off-by: Khem Raj <a href=3D"mailto:raj.khem@gmai=
-l.com" target=3D"_blank">&lt;raj.khem@gmail.com&gt;</a>
-  1 file changed, 1 insertion(+), 1 deletion(-)
-=20
- diff --git a/gdbserver/linux-low.cc b/gdbserver/linux-low.cc
--index 5c6191d941c..7f7acf6700d 100644
-+index 7726a4a0c36..f750e074a03 100644
- --- a/gdbserver/linux-low.cc
- +++ b/gdbserver/linux-low.cc
--@@ -5733,7 +5733,7 @@ linux_process_target::request_interrupt ()
-+@@ -5496,7 +5496,7 @@ linux_process_target::request_interrupt ()
-  {
-    /* Send a SIGINT to the process group.  This acts just like the user
-       typed a ^C on the controlling terminal.  */
-@@ -36,5 +36,5 @@ index 5c6191d941c..7f7acf6700d 100644
- =20
-  bool
- --=20
--2.33.1
-+2.36.1
-=20
-diff --git a/meta/recipes-devtools/gdb/<a href=3D"http://gdb_11.2.bb" targe=
-t=3D"_blank">gdb_11.2.bb</a> b/meta/recipes-devtools/gdb/<a href=3D"http://=
-gdb_12.1.bb" target=3D"_blank">gdb_12.1.bb</a>
-similarity index 100%
-rename from meta/recipes-devtools/gdb/<a href=3D"http://gdb_11.2.bb" target=
-=3D"_blank">gdb_11.2.bb</a>
-rename to meta/recipes-devtools/gdb/<a href=3D"http://gdb_12.1.bb" target=
-=3D"_blank">gdb_12.1.bb</a>
-</pre>
-      <br>
-      <fieldset></fieldset>
-      <pre>-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-Links: You receive all messages sent to this group.
-View/Reply Online (#165541): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/165541" target=3D"_blank">https://lists.openembedde=
-d.org/g/openembedded-core/message/165541</a>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/91065965/3616=
-765" target=3D"_blank">https://lists.openembedded.org/mt/91065965/3616765</=
-a>
-Group Owner: <a href=3D"mailto:openembedded-core+owner@lists.openembedded.o=
-rg" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a>
+r-left:1px #ccc solid;padding-left:1ex">Integer Overflow or Wraparound vuln=
+erability in apr_base64 functions<br>
+of Apache Portable Runtime Utility (APR-util) allows an attacker to<br>
+write beyond bounds of a buffer. This issue affects Apache Portable<br>
+Runtime Utility (APR-util) 1.6.1 and prior versions.<br>
+<br>
+Reference:<br>
+<a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-25147" rel=3D"noreferr=
+er" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-2022-25147</a><b=
+r>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">It might make mo=
+re sense to upgrade to 1.6.3, as it appears to include some additional fixe=
+s and no new features.</div><div dir=3D"auto"><br></div><div dir=3D"auto"><=
+div><a href=3D"https://downloads.apache.org/apr/CHANGES-APR-UTIL-1.6">https=
+://downloads.apache.org/apr/CHANGES-APR-UTIL-1.6</a></div><br></div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex"><br>
+Signed-off-by: Narpat Mali &lt;<a href=3D"mailto:narpat.mali@windriver.com"=
+ target=3D"_blank">narpat.mali@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0.../apr/apr-util/CVE-2022-25147.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0| 180 ++++++++++++++++++<br>
+=C2=A0meta/recipes-support/apr/<a href=3D"http://apr-util_1.6.1.bb" rel=3D"=
+noreferrer" target=3D"_blank">apr-util_1.6.1.bb</a>=C2=A0 =C2=A0 |=C2=A0 =
+=C2=A03 +-<br>
+=C2=A02 files changed, 182 insertions(+), 1 deletion(-)<br>
+=C2=A0create mode 100644 meta/recipes-support/apr/apr-util/CVE-2022-25147.p=
+atch<br>
+<br>
+diff --git a/meta/recipes-support/apr/apr-util/CVE-2022-25147.patch b/meta/=
+recipes-support/apr/apr-util/CVE-2022-25147.patch<br>
+new file mode 100644<br>
+index 0000000000..e85785aca0<br>
+--- /dev/null<br>
++++ b/meta/recipes-support/apr/apr-util/CVE-2022-25147.patch<br>
+@@ -0,0 +1,180 @@<br>
++From 3f5257075c7eb601aed6333e9bb5d9eb0e11254b Mon Sep 17 00:00:00 2001<br>
++From: Yann Ylavic &lt;<a href=3D"mailto:ylavic@apache.org" target=3D"_blan=
+k">ylavic@apache.org</a>&gt;<br>
++Date: Thu, 20 Oct 2022 09:38:34 +0000<br>
++Subject: [PATCH] apr_base64: Make sure encoding/decoding lengths fit in an=
+ int<br>
++ &gt;=3D 0.<br>
++<br>
++The (old) API of apr_base64 functions has always used int for representing=
+<br>
++lengths and it does not return errors. Make sure to abort() if the provide=
+d<br>
++data don&#39;t fit.<br>
++<br>
++* encoding/apr_base64.c():<br>
++=C2=A0 #define APR_BASE64_ENCODE_MAX and APR_BASE64_DECODE_MAX as the hard=
+ length<br>
++=C2=A0 limits for encoding and decoding respectively.<br>
++<br>
++* encoding/apr_base64.c(apr_base64_encode_len, apr_base64_encode,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 apr_base64_encode_binary, apr_pbase64_encode):<br>
++=C2=A0 abort() if the given length is above APR_BASE64_ENCODE_MAX.<br>
++<br>
++* encoding/apr_base64.c(apr_base64_decode_len, apr_base64_decode,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 apr_base64_decode_binary, apr_pbase64_decode):<br>
++=C2=A0 abort() if the given plain buffer length is above APR_BASE64_DECODE=
+_MAX.<br>
++<br>
++<br>
++apr_base64: Follow up to r1902206: Cap to APR_BASE64_ENCODE_MAX in apr_pba=
+se64_encode().<br>
++<br>
++<br>
++Merges r1902206[, r1904666] from trunk.<br>
++Merges r1904727 from 1.7.x.<br>
++<br>
++<br>
++git-svn-id: <a href=3D"https://svn.apache.org/repos/asf/apr/apr-util/branc=
+hes/1.6.x@1904728" rel=3D"noreferrer" target=3D"_blank">https://svn.apache.=
+org/repos/asf/apr/apr-util/branches/1.6.x@1904728</a> 13f79535-47bb-0310-99=
+56-ffa450edef68<br>
++<br>
++CVE: CVE-2022-25147<br>
++<br>
++Upstream-Status: Backport [<a href=3D"https://github.com/apache/apr-util/c=
+ommit/3f5257075c7eb601aed6333e9bb5d9eb0e11254b" rel=3D"noreferrer" target=
+=3D"_blank">https://github.com/apache/apr-util/commit/3f5257075c7eb601aed63=
+33e9bb5d9eb0e11254b</a>]<br>
++<br>
++Signed-off-by: Narpat Mali &lt;<a href=3D"mailto:narpat.mali@windriver.com=
+" target=3D"_blank">narpat.mali@windriver.com</a>&gt;<br>
++---<br>
++ encoding/apr_base64.c | 41 +++++++++++++++++++++++++----------------<br>
++ 1 file changed, 25 insertions(+), 16 deletions(-)<br>
++<br>
++diff --git a/encoding/apr_base64.c b/encoding/apr_base64.c<br>
++index e9b75e3d..ac9f2816 100644<br>
++--- a/encoding/apr_base64.c<br>
+++++ b/encoding/apr_base64.c<br>
++@@ -20,11 +20,20 @@<br>
++=C2=A0 * ugly &#39;len&#39; functions, which is quite a nasty cost.<br>
++=C2=A0 */<br>
++ <br>
+++#undef NDEBUG /* always abort() on assert()ion failure */<br>
+++#include &lt;assert.h&gt;<br>
+++<br>
++ #include &quot;apr_base64.h&quot;<br>
++ #if APR_CHARSET_EBCDIC<br>
++ #include &quot;apr_xlate.h&quot;<br>
++ #endif=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* APR_CHARSET_EBCDIC */<br>
++ <br>
+++/* Above APR_BASE64_ENCODE_MAX length the encoding can&#39;t fit in an in=
+t &gt;=3D 0 */<br>
+++#define APR_BASE64_ENCODE_MAX 1610612733<br>
+++<br>
+++/* Above APR_BASE64_DECODE_MAX length the decoding can&#39;t fit in an in=
+t &gt;=3D 0 */<br>
+++#define APR_BASE64_DECODE_MAX 2863311524u<br>
+++<br>
++ /* aaaack but it&#39;s fast and const should make it shared text page. */=
+<br>
++ static const unsigned char pr2six[256] =3D<br>
++ {<br>
++@@ -109,24 +118,22 @@ APU_DECLARE(apr_status_t) apr_base64init_ebcdic(apr_=
+xlate_t *to_ascii,<br>
++ <br>
++ APU_DECLARE(int) apr_base64_decode_len(const char *bufcoded)<br>
++ {<br>
++-=C2=A0 =C2=A0 int nbytesdecoded;<br>
++=C2=A0 =C2=A0 =C2=A0register const unsigned char *bufin;<br>
++=C2=A0 =C2=A0 =C2=A0register apr_size_t nprbytes;<br>
++ <br>
++=C2=A0 =C2=A0 =C2=A0bufin =3D (const unsigned char *) bufcoded;<br>
++=C2=A0 =C2=A0 =C2=A0while (pr2six[*(bufin++)] &lt;=3D 63);<br>
++-<br>
++=C2=A0 =C2=A0 =C2=A0nprbytes =3D (bufin - (const unsigned char *) bufcoded=
+) - 1;<br>
++-=C2=A0 =C2=A0 nbytesdecoded =3D (((int)nprbytes + 3) / 4) * 3;<br>
+++=C2=A0 =C2=A0 assert(nprbytes &lt;=3D APR_BASE64_DECODE_MAX);<br>
++ <br>
++-=C2=A0 =C2=A0 return nbytesdecoded + 1;<br>
+++=C2=A0 =C2=A0 return (int)(((nprbytes + 3u) / 4u) * 3u + 1u);<br>
++ }<br>
++ <br>
++ APU_DECLARE(int) apr_base64_decode(char *bufplain, const char *bufcoded)<=
+br>
++ {<br>
++ #if APR_CHARSET_EBCDIC<br>
++=C2=A0 =C2=A0 =C2=A0apr_size_t inbytes_left, outbytes_left;<br>
++-#endif=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* APR_CHARSET_EBCDIC */<br>
+++#endif /* APR_CHARSET_EBCDIC */<br>
++=C2=A0 =C2=A0 =C2=A0int len;<br>
++=C2=A0 =C2=A0 =C2=A0<br>
++=C2=A0 =C2=A0 =C2=A0len =3D apr_base64_decode_binary((unsigned char *) buf=
+plain, bufcoded);<br>
++@@ -143,7 +150,7 @@ APU_DECLARE(int) apr_base64_decode(char *bufplain, con=
+st char *bufcoded)<br>
++=C2=A0 * the conversion of the output to ebcdic is left out.<br>
++=C2=A0 */<br>
++ APU_DECLARE(int) apr_base64_decode_binary(unsigned char *bufplain,<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const char *bufcoded)<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 c=
+onst char *bufcoded)<br>
++ {<br>
++=C2=A0 =C2=A0 =C2=A0int nbytesdecoded;<br>
++=C2=A0 =C2=A0 =C2=A0register const unsigned char *bufin;<br>
++@@ -153,12 +160,13 @@ APU_DECLARE(int) apr_base64_decode_binary(unsigned c=
+har *bufplain,<br>
++=C2=A0 =C2=A0 =C2=A0bufin =3D (const unsigned char *) bufcoded;<br>
++=C2=A0 =C2=A0 =C2=A0while (pr2six[*(bufin++)] &lt;=3D 63);<br>
++=C2=A0 =C2=A0 =C2=A0nprbytes =3D (bufin - (const unsigned char *) bufcoded=
+) - 1;<br>
++-=C2=A0 =C2=A0 nbytesdecoded =3D (((int)nprbytes + 3) / 4) * 3;<br>
+++=C2=A0 =C2=A0 assert(nprbytes &lt;=3D APR_BASE64_DECODE_MAX);<br>
+++=C2=A0 =C2=A0 nbytesdecoded =3D (int)(((nprbytes + 3u) / 4u) * 3u);<br>
++ <br>
++=C2=A0 =C2=A0 =C2=A0bufout =3D (unsigned char *) bufplain;<br>
++=C2=A0 =C2=A0 =C2=A0bufin =3D (const unsigned char *) bufcoded;<br>
++ <br>
++-=C2=A0 =C2=A0 while (nprbytes &gt; 4) {<br>
+++=C2=A0 =C2=A0 while (nprbytes &gt;=3D 4) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0*(bufout++) =3D<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(unsigned char) (pr2six[*bufin] &=
+lt;&lt; 2 | pr2six[bufin[1]] &gt;&gt; 4);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0*(bufout++) =3D<br>
++@@ -178,13 +186,8 @@ APU_DECLARE(int) apr_base64_decode_binary(unsigned ch=
+ar *bufplain,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0*(bufout++) =3D<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(unsigned char) (pr2six[bufin[1]]=
+ &lt;&lt; 4 | pr2six[bufin[2]] &gt;&gt; 2);<br>
++=C2=A0 =C2=A0 =C2=A0}<br>
++-=C2=A0 =C2=A0 if (nprbytes &gt; 3) {<br>
++-=C2=A0 =C2=A0 =C2=A0 *(bufout++) =3D<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (unsigned char) (pr2six[bufin[2]] &lt;=
+&lt; 6 | pr2six[bufin[3]]);<br>
++-=C2=A0 =C2=A0 }<br>
++ <br>
++-=C2=A0 =C2=A0 nbytesdecoded -=3D (4 - (int)nprbytes) &amp; 3;<br>
++-=C2=A0 =C2=A0 return nbytesdecoded;<br>
+++=C2=A0 =C2=A0 return nbytesdecoded - (int)((4u - nprbytes) &amp; 3u);<br>
++ }<br>
++ <br>
++ static const char basis_64[] =3D<br>
++@@ -192,6 +195,8 @@ static const char basis_64[] =3D<br>
++ <br>
++ APU_DECLARE(int) apr_base64_encode_len(int len)<br>
++ {<br>
+++=C2=A0 =C2=A0 assert(len &gt;=3D 0 &amp;&amp; len &lt;=3D APR_BASE64_ENCO=
+DE_MAX);<br>
+++<br>
++=C2=A0 =C2=A0 =C2=A0return ((len + 2) / 3 * 4) + 1;<br>
++ }<br>
++ <br>
++@@ -203,6 +208,8 @@ APU_DECLARE(int) apr_base64_encode(char *encoded, cons=
+t char *string, int len)<br>
++=C2=A0 =C2=A0 =C2=A0int i;<br>
++=C2=A0 =C2=A0 =C2=A0char *p;<br>
++ <br>
+++=C2=A0 =C2=A0 assert(len &gt;=3D 0 &amp;&amp; len &lt;=3D APR_BASE64_ENCO=
+DE_MAX);<br>
+++<br>
++=C2=A0 =C2=A0 =C2=A0p =3D encoded;<br>
++=C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; len - 2; i +=3D 3) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0*p++ =3D basis_64[(os_toascii[string[i]] &gt;&g=
+t; 2) &amp; 0x3F];<br>
++@@ -227,7 +234,7 @@ APU_DECLARE(int) apr_base64_encode(char *encoded, cons=
+t char *string, int len)<br>
++=C2=A0 =C2=A0 =C2=A0}<br>
++ <br>
++=C2=A0 =C2=A0 =C2=A0*p++ =3D &#39;\0&#39;;<br>
++-=C2=A0 =C2=A0 return p - encoded;<br>
+++=C2=A0 =C2=A0 return (unsigned int)(p - encoded);<br>
++ #endif=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* APR_CHARSET_EBCDIC */<br>
++ }<br>
++ <br>
++@@ -240,6 +247,8 @@ APU_DECLARE(int) apr_base64_encode_binary(char *encode=
+d,<br>
++=C2=A0 =C2=A0 =C2=A0int i;<br>
++=C2=A0 =C2=A0 =C2=A0char *p;<br>
++ <br>
+++=C2=A0 =C2=A0 assert(len &gt;=3D 0 &amp;&amp; len &lt;=3D APR_BASE64_ENCO=
+DE_MAX);<br>
+++<br>
++=C2=A0 =C2=A0 =C2=A0p =3D encoded;<br>
++=C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; len - 2; i +=3D 3) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0*p++ =3D basis_64[(string[i] &gt;&gt; 2) &amp; =
+0x3F];<br>
++@@ -264,5 +273,5 @@ APU_DECLARE(int) apr_base64_encode_binary(char *encode=
+d,<br>
++=C2=A0 =C2=A0 =C2=A0}<br>
++ <br>
++=C2=A0 =C2=A0 =C2=A0*p++ =3D &#39;\0&#39;;<br>
++-=C2=A0 =C2=A0 return (int)(p - encoded);<br>
+++=C2=A0 =C2=A0 return (unsigned int)(p - encoded);<br>
++ }<br>
++-- <br>
++2.32.0<br>
++<br>
+diff --git a/meta/recipes-support/apr/<a href=3D"http://apr-util_1.6.1.bb" =
+rel=3D"noreferrer" target=3D"_blank">apr-util_1.6.1.bb</a> b/meta/recipes-s=
+upport/apr/<a href=3D"http://apr-util_1.6.1.bb" rel=3D"noreferrer" target=
+=3D"_blank">apr-util_1.6.1.bb</a><br>
+index b851d46351..f5a2888016 100644<br>
+--- a/meta/recipes-support/apr/<a href=3D"http://apr-util_1.6.1.bb" rel=3D"=
+noreferrer" target=3D"_blank">apr-util_1.6.1.bb</a><br>
++++ b/meta/recipes-support/apr/<a href=3D"http://apr-util_1.6.1.bb" rel=3D"=
+noreferrer" target=3D"_blank">apr-util_1.6.1.bb</a><br>
+@@ -14,7 +14,8 @@ SRC_URI =3D &quot;${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.g=
+z \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://configure_fixes.patch \<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://run-ptest \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Fix-error-handling-in=
+-gdbm.patch \<br>
+-&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2022-25147.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+<br>
+=C2=A0SRC_URI[md5sum] =3D &quot;bd502b9a8670a8012c4d90c31a84955f&quot;<br>
+=C2=A0SRC_URI[sha256sum] =3D &quot;b65e40713da57d004123b6319828be7f1273fbc6=
+490e145874ee1177e112c459&quot;<br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#177496): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/177496" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/177496</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/97108181/9247=
+29" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt/=
+97108181/924729</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
 Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" target=3D"_blank">https://lists.openembedded.org/g/openembedded-core=
-/unsub</a> [<a href=3D"mailto:randy.macleod@windriver.com" target=3D"_blank=
-">randy.macleod@windriver.com</a>]
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-
-</pre></blockquote></div><div><blockquote type=3D"cite">
-    </blockquote>
-    <p><br>
-    </p>
-    <pre cols=3D"72">--=20
-# Randy MacLeod
-# Wind River Linux</pre>
-  </div>
-
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
+=3D"_blank">ticotimo@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
 </blockquote></div></div>
 
---000000000000c0e99d05f5403b54--
+--00000000000019a61f05f5405c75--
 
