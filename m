@@ -2,63 +2,65 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D0F6C636D7
-	for <webhook@archiver.kernel.org>; Wed, 22 Feb 2023 02:33:56 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web10.3224.1677033227391095841
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACD1AC636D7
+	for <webhook@archiver.kernel.org>; Wed, 22 Feb 2023 02:35:26 +0000 (UTC)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web10.3264.1677033316932770629
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Feb 2023 18:33:47 -0800
+ Tue, 21 Feb 2023 18:35:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=S5h1axw1;
- spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f44.google.com with SMTP id d1-20020a17090a3b0100b00229ca6a4636so7323900pjc.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 18:33:47 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=pkGx5Vvc;
+ spf=pass (domain: gmail.com, ip: 209.85.210.171, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f171.google.com with SMTP id n5so3849683pfv.11
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Feb 2023 18:35:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ywu3/m5ie2N2hkfeQvQcnxex5sfoXTopgXyE2i2gu78=;
-        b=S5h1axw1JbynwesG7mmPPbKbxBPjV8YiX02ouQ+IYtG2kG/M9B6U8pFo3IlfY/RFh8
-         /kovdgJrpbVoOCA1lA+sRcFY1CWee9kGY+Kgvlm1L2ivweimsPL9uO35n+l7jAbO4k52
-         Y8GGv+YYLyTCLiKRkt8aiDrOFGPFL6grt66+4s5EBBXvSQITi54CqS3HjFD1Q1lSpAUg
-         uldETTcGxfRbQ/57VywN7hoFFfQi51N3GxyP7dPRyjWChP3MdpvZAOnYQNR1A15zEQ91
-         gUet8E/QLbMZCh3otLYfAch10sHpXNbRly6uMI/qYEwezcvcJAf0476KLJjBu7qDuB3e
-         +7BA==
+        bh=FI5X5TceRLQUZhg/7Q10O6LVky3wgHBqzCinEiLMzek=;
+        b=pkGx5VvcRZRQyJlcvN3UhmCgQK73u5r65RxXDXktnyAcwOqfrrAGX3OxHN3yi4yZRv
+         B2k3mp5H0/6FnVHwSwowrt+D7Ozw21gEJaGnpC8Vv7ebLCX9J4/FUrjoPOgQu3/AExO/
+         R8HbktFusJ1NiYh0jJIJBoskAzT3su2AJ696YhJbDDvFjVu2izEocX8CXa4bjkknyC3R
+         Jrhs08n/znmAZlAS2EystGjbNSSnwePJpN5VpLaiHXotibNKIWH+wVmq8HPcFsfcKIJc
+         oSNppEST5fej84mCOcLXHZU7FZSVVo4tAQPFLroKJgBFXS6UW9d3rZKqxA5Dq7ETcLcd
+         SLKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ywu3/m5ie2N2hkfeQvQcnxex5sfoXTopgXyE2i2gu78=;
-        b=y4cPdfKPXYV/6dRrvo+/tfvGd7uY1NSG/gZyluxoraUHpIfdVR+23sXMcGNlHVA+RO
-         b3SnvVQna233jPEfhFVIG/Zn+a721oV/1irbyRY6NdUIe7h4yDpGgvplKRX0yClymeXp
-         Z7/vCqDIC1I10tu4iFupnAHwxUJ+j6U5MX3bAjeNM3zLIVbadA/kBOF4zCTuUDlgeK+M
-         B7hhp22ceTQjHQDkutN6K06ZVeA0dEpsYM2FV4vHAW58AHWglA/2DKMjgeT2Hsuc4JT+
-         jHYv+k5OZjhY8zkeYvzmi5YyzbhWmNXaBcNHNxh3aZhCSRVU0VnRl+Jf+TnXV4lGrE9Y
-         K3uA==
-X-Gm-Message-State: AO0yUKWGFYnrqq0Xixfg718mb67x7N/VmNQCdj/ctMRj0bPFqYt9PnB4
-	kIlF55Z6GgfsIjXl1tvA4jtLoPg5SDE=
-X-Google-Smtp-Source: AK7set/s1vWtNC2fNVPrmb4FPDxCSXQG0ZqkjY7hJDtwqOYrghRi9Id4QQP96T3l3EDU+nSlJG9Q3A==
-X-Received: by 2002:a05:6a20:8e02:b0:cb:c49d:f30 with SMTP id y2-20020a056a208e0200b000cbc49d0f30mr1026897pzj.48.1677033226059;
-        Tue, 21 Feb 2023 18:33:46 -0800 (PST)
+        bh=FI5X5TceRLQUZhg/7Q10O6LVky3wgHBqzCinEiLMzek=;
+        b=VmFqP+CG0xpIqt6qJ1UGhEb0668S7tuHRDL0wcUH369Q8KyJ1PRvMqaGIw7NlB1HS6
+         Xc3Xaox2uTUkRgn3CeVYrmRzSr7TNamoCerO/SZ20B0HP/8lmOKXlM+uciQLLtvZEWZ6
+         GaWV5DH3z85Dgm1qeqrtyf1DSds9jCdT3almgjXUSCzQ5dl1WHWWzASuzQqrGN8GWkhJ
+         5nIh74TMamX6lcl7c2ScMzHDPcClu9Xx1g42g1/LxsEvNVf2g8+XmT+tqdvE2WZyC4D8
+         kKMndIcr/uVduB7ACi0rORKaiEJQ6lLUm30XBPx6FrpD8MVxI0AQCUhV59Go/RT4bzTF
+         5V9w==
+X-Gm-Message-State: AO0yUKUuGLV0OQ9yvkXbI4w37n8VrrJxs0PX5ob/1n7zk3cmO/cqBqGk
+	Jf2yvFBXzc9OcUWdfDv92Sgrm2Lg5Nw=
+X-Google-Smtp-Source: AK7set+3WlQmCtpiAyYOe/6b2S/Kya9KsOs3pN/2yDwEMJRU5NybrXiHWI/vm2VVEl4Zkuzgo5lgkw==
+X-Received: by 2002:aa7:9e47:0:b0:5b9:49a5:5de7 with SMTP id z7-20020aa79e47000000b005b949a55de7mr6504750pfq.31.1677033315657;
+        Tue, 21 Feb 2023 18:35:15 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::1ac4])
-        by smtp.gmail.com with ESMTPSA id 4-20020aa79244000000b005a8851e0cddsm3782060pfp.188.2023.02.21.18.33.45
+        by smtp.gmail.com with ESMTPSA id l11-20020a62be0b000000b00589a7824703sm10105429pff.194.2023.02.21.18.35.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Feb 2023 18:33:45 -0800 (PST)
+        Tue, 21 Feb 2023 18:35:15 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] gdb: Upgrade to 13.1
-Date: Tue, 21 Feb 2023 18:33:42 -0800
-Message-Id: <20230222023342.1720629-1-raj.khem@gmail.com>
+Subject: [PATCH v2] gdb: Upgrade to 13.1
+Date: Tue, 21 Feb 2023 18:35:13 -0800
+Message-Id: <20230222023513.1869403-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Feb 2023 02:33:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177557
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Feb 2023 02:35:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177558
+
+Pass -Wno-enum-constexpr-conversion with clang
 
 GDB 13.1 includes the following changes and enhancements:
 
@@ -188,6 +190,8 @@ file, available at [1]:
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
+v2: Rebase on master
+
  meta/conf/distro/include/tcmode-default.inc   |  2 +-
  ...ian_12.1.bb => gdb-cross-canadian_13.1.bb} |  0
  .../{gdb-cross_12.1.bb => gdb-cross_13.1.bb}  |  0
@@ -203,8 +207,8 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
  ...sing-_Alignof-when-using-C11-or-newe.patch | 15 ++-----
  .../gdb/0009-gdbserver-ctrl-c-handling.patch  | 40 -------------------
  .../gdb/gdb/readline-8.2.patch                | 39 ------------------
- .../gdb/{gdb_12.1.bb => gdb_13.1.bb}          |  0
- 16 files changed, 37 insertions(+), 175 deletions(-)
+ .../gdb/{gdb_12.1.bb => gdb_13.1.bb}          |  3 ++
+ 16 files changed, 40 insertions(+), 175 deletions(-)
  rename meta/recipes-devtools/gdb/{gdb-cross-canadian_12.1.bb => gdb-cross-canadian_13.1.bb} (100%)
  rename meta/recipes-devtools/gdb/{gdb-cross_12.1.bb => gdb-cross_13.1.bb} (100%)
  delete mode 100644 meta/recipes-devtools/gdb/gdb/0001-make-man-install-relative-to-DESTDIR.patch
@@ -217,7 +221,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
  rename meta/recipes-devtools/gdb/gdb/{0008-Fix-invalid-sigprocmask-call.patch => 0007-Fix-invalid-sigprocmask-call.patch} (90%)
  delete mode 100644 meta/recipes-devtools/gdb/gdb/0009-gdbserver-ctrl-c-handling.patch
  delete mode 100644 meta/recipes-devtools/gdb/gdb/readline-8.2.patch
- rename meta/recipes-devtools/gdb/{gdb_12.1.bb => gdb_13.1.bb} (100%)
+ rename meta/recipes-devtools/gdb/{gdb_12.1.bb => gdb_13.1.bb} (83%)
 
 diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
 index 7db2d769f5..30408e0729 100644
@@ -690,9 +694,22 @@ index c2db4c0d79..0000000000
 -2.31.1
 -
 diff --git a/meta/recipes-devtools/gdb/gdb_12.1.bb b/meta/recipes-devtools/gdb/gdb_13.1.bb
-similarity index 100%
+similarity index 83%
 rename from meta/recipes-devtools/gdb/gdb_12.1.bb
 rename to meta/recipes-devtools/gdb/gdb_13.1.bb
+index 9c6db4ca2c..b6d21aa170 100644
+--- a/meta/recipes-devtools/gdb/gdb_12.1.bb
++++ b/meta/recipes-devtools/gdb/gdb_13.1.bb
+@@ -12,6 +12,9 @@ FILES:gdbserver = "${bindir}/gdbserver"
+ require gdb.inc
+ 
+ inherit python3-dir
++# Fixes error: integer value -1 is outside the valid range of values [0, 7] for this enumeration type [-Wenum-constexpr-conversion]
++# with clang 16+
++CPPFLAGS:append:class-target:toolchain-clang = " -Wno-enum-constexpr-conversion"
+ 
+ EXTRA_OEMAKE:append:libc-musl = "\
+                                  gt_cv_func_gnugettext1_libc=yes \
 -- 
 2.39.2
 
