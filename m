@@ -1,136 +1,184 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23BE0C6379F
-	for <webhook@archiver.kernel.org>; Wed, 22 Feb 2023 10:08:16 +0000 (UTC)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
- by mx.groups.io with SMTP id smtpd.web10.5398.1677060493564421450
- for <Openembedded-core@lists.openembedded.org>;
- Wed, 22 Feb 2023 02:08:13 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F904C61DA4
+	for <webhook@archiver.kernel.org>; Wed, 22 Feb 2023 11:08:56 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web11.6171.1677064130156997670
+ for <openembedded-core@lists.openembedded.org>;
+ Wed, 22 Feb 2023 03:08:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Ig1d14GD;
- spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: rybczynska@gmail.com)
-Received: by mail-lj1-f170.google.com with SMTP id x41so7367676ljq.13
-        for <Openembedded-core@lists.openembedded.org>; Wed, 22 Feb 2023 02:08:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5F8vrdcmdSZMGNhKpo/MPsRW9xyVmV6g4Rw8AeMmN4Y=;
-        b=Ig1d14GDIFKHUM3zRJd62eTLGyZY9nZjJ1+bF56pm5u5xny+AL5InCH3yVLSABsg1Y
-         CHnSkJsJlPqiKFMuiSA8p1XWh/0Od2jiAyzjEILjtPf28nnaVFjLb7RQrGXLuo+G8hhq
-         viRF9De6RyRK6KWo2g6FHfSG9HeW/PkaP4gT2WtbiDPpBaTZZwgcHKSJkBIND9Qq/WLu
-         FYopWrYUN2nUDE+nfsPYkWpz0l4pNcBHbIZs2IeNHM8jTAhan9MAD/6XyxECzeEb2iV9
-         gvoHBTgFMdSuD/c8l0bhPJXoYcIDhgNDuDm+FNWgsj3QzMQoLRzYdCaZW3d9gjB8zHRa
-         RJfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5F8vrdcmdSZMGNhKpo/MPsRW9xyVmV6g4Rw8AeMmN4Y=;
-        b=NhxCQpWnhC2jG4RgPfJDupw+Cy0u7OYfu6jju5DLP8iiZ0oG6ed9TY0SR1S66U3vD/
-         TwlaYgjKbVrKLIokBQmT/iekViX0ZaETkYKV2a5L7KEfvzhOr21hHp6mz4o1mHxjgAdZ
-         Ye2QOcCyIFFiYstF5yJqNEcavz9gp9plRJ+4tdl/XBQOV6s9knEyUQNl3qeNwgSVLmzL
-         oXHCxIZ3J6AREtsT0ib5p2QeGOIwYJtD4JI/jWkHVLsLsT7NUa7WjubFDxSSumHx5uX6
-         xtbxZCG8ZQ9poCtl0YHDfGd074QKQO2CRcCSdgwSVMsIUJwm00T9MUMqehnluW2MaNJQ
-         RXtA==
-X-Gm-Message-State: AO0yUKU6KFs2noFxOGG+TiR2G53cA4qeJKy+okvbaRk5ZvXxd7q/GLpU
-	UjBuRAtF9ACE0HqPmT3gcEt3Uk9Mr/qMnIpo/64=
-X-Google-Smtp-Source: AK7set/FCqzUBVYuKMUzFbwUbj7vNYm7gECnhOY84Z/v1ctEg7pvewk5lRJJQKjkAX3YfE8cWTuXL16JmF6o1JC9E/M=
-X-Received: by 2002:a05:651c:201a:b0:293:5f96:ac3f with SMTP id
- s26-20020a05651c201a00b002935f96ac3fmr2510820ljo.10.1677060491049; Wed, 22
- Feb 2023 02:08:11 -0800 (PST)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=jcZzjGKm;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id E36AA1C0006;
+	Wed, 22 Feb 2023 11:08:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1677064128;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BtAuxirrHKAEUfedFESpmFoBNQsaswyXdV6ZIha55is=;
+	b=jcZzjGKmwffC/QC3KGu0GnRwmium7ML6sMaHqAZvuu+85TUf7NSxHzy+EhScwToFM3EF7p
+	OkNwRfkZfOPNQ1j4KHUydPq8pl7rt1fhAHzQSGjMUMQi5xLnsaOr3hjbjzgfk6E4vrAw93
+	bFZFajAXA2zpOSUeVtkS9+d8oBExb/3QBxTl2PoS4QAQNy75i45ggfHHpoY5YWKWakiwvt
+	mP3IZ4u+tgEIABKFxIm610/YoxAYdhK0KPGrcqpqWUgCiWvF485PmkxUQTUe6XNM388Rl3
+	18/OCAwVmlgS464nCc7RIW+1zHAbYHFa1kMNwB7krzj/aYk7Lu53/XW/bLomLw==
+Date: Wed, 22 Feb 2023 12:08:45 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Markus Volk <f_l_k@t-online.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [oe-core][PATCHv2] vte: update 0.70.2 -> 0.70.3
+Message-ID: <Y/X3vQAjD2tR/HVs@mail.local>
+References: <20230221185231.454421-1-f_l_k@t-online.de>
 MIME-Version: 1.0
-References: <CAApg2=SJRjhc5SGEoBYfKb6PkMqRW21ED8Bv1v-+QTSASCsQ4g@mail.gmail.com>
- <9A00276D-E0D8-47DA-AC38-96418BF47388@arm.com>
-In-Reply-To: <9A00276D-E0D8-47DA-AC38-96418BF47388@arm.com>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Wed, 22 Feb 2023 11:07:59 +0100
-Message-ID: <CAApg2=R=FpcgX1TAfGNCT0uNcNy76FXkMN1cgyUGPwQMHyEsmw@mail.gmail.com>
-Subject: Re: Cve fetcher update
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: OE-core <Openembedded-core@lists.openembedded.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: multipart/alternative; boundary="000000000000d5fe2305f5471242"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230221185231.454421-1-f_l_k@t-online.de>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Feb 2023 10:08:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177563
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Feb 2023 11:08:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177564
 
---000000000000d5fe2305f5471242
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hello,
 
-On Tue, Feb 21, 2023 at 2:47 PM Ross Burton <Ross.Burton@arm.com> wrote:
+This causes:
 
-> Hi Marta,
->
-> > On 21 Feb 2023, at 13:20, Marta Rybczynska <rybczynska@gmail.com> wrote=
-:
-> > I'm finishing the new fetcher for cve check using the 2.0 NVD API. Will
-> need testers to check as many configurations as possible before we switch
-> the format.
-> >
-> > The current estimate is this week, hoping that the real life doesn't
-> interfere.
-> >
-> > Good news for all users is that nothing changes for you. Results should
-> be compatible. The one noticeable thing is that the complete fetch is
-> longer than before.
->
-> Awesome, thanks Marta.  I=E2=80=99ll happily review and test the code.
->
-> How long is a complete fetch now?  My very rough testing when I first
-> looked at the new API suggested 30 minutes for a full sync.
->
->
-Thanks Ross. The fetcher now has the recommended 6 seconds wait so it is
-long - but a similar time you had (around 30 min). It seems that in
-practice it does not change much - the rate limiting is on the server side.
-This being said, there is only my instance now, when there will be many
-more, it could change.
+stdio: WARNING: Nothing PROVIDES 'nativesdk-gtk4' (but virtual:nativesdk:/home/pokybuild/yocto-worker/a-full/build/meta/recipes-support/vte/vte_0.70.3.bb DEPENDS on or otherwise requires it). Close matches:
+stdio: WARNING: Nothing RPROVIDES 'nativesdk-vte' (but virtual:nativesdk:/home/pokybuild/yocto-worker/a-full/build/meta/recipes-support/vte/vte_0.70.3.bb RDEPENDS on or otherwise requires it)
+stdio: WARNING: Nothing RPROVIDES 'nativesdk-vte-dev' (but virtual:nativesdk:/home/pokybuild/yocto-worker/a-full/build/meta/recipes-support/vte/vte_0.70.3.bb RDEPENDS on or otherwise requires it)
 
-Kind regards,
-Marta
+On 21/02/2023 19:52:31+0100, Markus Volk wrote:
+> - Allow to build the gtk4 widget and vapi
+>   This is needed to build gtk4 based terminals like blackbox
+> - Update dependencies
+> - Cleanup recipe and remove unneeded patch
+> 
+> Signed-off-by: Markus Volk <f_l_k@t-online.de>
+> ---
+>  ...EXITCODE-macro-for-non-glibc-systems.patch | 42 -------------------
+>  .../vte/{vte_0.70.2.bb => vte_0.70.3.bb}      | 22 +++++-----
+>  2 files changed, 10 insertions(+), 54 deletions(-)
+>  delete mode 100644 meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
+>  rename meta/recipes-support/vte/{vte_0.70.2.bb => vte_0.70.3.bb} (69%)
+> 
+> diff --git a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
+> deleted file mode 100644
+> index b4100fc381..0000000000
+> --- a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
+> +++ /dev/null
+> @@ -1,42 +0,0 @@
+> -From de9639baac792327c701e509258b8a13f6959e82 Mon Sep 17 00:00:00 2001
+> -From: Danilo Spinella <danyspin97@protonmail.com>
+> -Date: Thu, 21 Mar 2019 14:19:26 +0100
+> -Subject: [PATCH] Add W_EXITCODE macro for non-glibc systems
+> -MIME-Version: 1.0
+> -Content-Type: text/plain; charset=UTF-8
+> -Content-Transfer-Encoding: 8bit
+> -
+> -Upstream-Status: Submitted [1]
+> -
+> -Signed-off-by: Andreas M�ller <schnitzeltony@gmail.com>
+> -
+> -[1] https://gitlab.gnome.org/GNOME/vte/issues/72
+> -
+> ----
+> - src/missing.hh | 4 ++++
+> - src/widget.cc  | 1 +
+> - 2 files changed, 5 insertions(+)
+> -
+> ---- a/src/missing.hh
+> -+++ b/src/missing.hh
+> -@@ -24,6 +24,10 @@
+> - #define NSIG (8 * sizeof(sigset_t))
+> - #endif
+> - 
+> -+#ifndef W_EXITCODE
+> -+#define W_EXITCODE(ret, sig) ((ret) << 8 | (sig))
+> -+#endif
+> -+
+> - #ifndef HAVE_FDWALK
+> - int fdwalk(int (*cb)(void* data, int fd),
+> -            void* data);
+> ---- a/src/widget.cc
+> -+++ b/src/widget.cc
+> -@@ -21,6 +21,7 @@
+> - #include "widget.hh"
+> - 
+> - #include <sys/wait.h> // for W_EXITCODE
+> -+#include "missing.hh" // for W_EXITCODE on non-glibc systems
+> - 
+> - #include <exception>
+> - #include <new>
+> diff --git a/meta/recipes-support/vte/vte_0.70.2.bb b/meta/recipes-support/vte/vte_0.70.3.bb
+> similarity index 69%
+> rename from meta/recipes-support/vte/vte_0.70.2.bb
+> rename to meta/recipes-support/vte/vte_0.70.3.bb
+> index ec2fb1f522..a39598216b 100644
+> --- a/meta/recipes-support/vte/vte_0.70.2.bb
+> +++ b/meta/recipes-support/vte/vte_0.70.3.bb
+> @@ -11,30 +11,28 @@ LIC_FILES_CHKSUM = " \
+>      file://COPYING.XTERM;md5=d7fc3a23c16c039afafe2e042030f057 \
+>  "
+>  
+> -DEPENDS = "glib-2.0 gtk+3 libpcre2 libxml2-native gperf-native icu"
+> +DEPENDS = "fribidi glib-2.0 gtk+3 libpcre2 libxml2-native gperf-native icu pango zlib"
+>  
+>  GNOMEBASEBUILDCLASS = "meson"
+>  GIR_MESON_OPTION = 'gir'
+>  GIDOCGEN_MESON_OPTION = "docs"
+>  
+> -inherit gnomebase gi-docgen features_check upstream-version-is-even gobject-introspection
+> +inherit gnomebase gi-docgen features_check upstream-version-is-even gobject-introspection vala
+>  
+> -# vapigen.m4 is required when vala is not present (but the one from vala should be used normally)
+> -SRC_URI += "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch"
+> -SRC_URI[archive.sha256sum] = "4d15b4380de3f564d57eabd006389c407c705df5b0c70030fdcc24971a334d80"
+> +SRC_URI[archive.sha256sum] = "9457134a02f3157fca04f7e0d39bdb0f3099be0a3ce82b7139d0c98a80748f23"
+>  
+>  ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+>  
+> -# Help g-ir-scanner find the .so for linking
+> -do_compile:prepend() {
+> -    export GIR_EXTRA_LIBS_PATH="${B}/src/.libs"
+> -}
+> -
+>  # Package additional files
+>  FILES:${PN}-dev += "${datadir}/vala/vapi/*"
+>  
+> -PACKAGECONFIG ??= "gnutls"
+> -PACKAGECONFIG[vala] = "-Dvapi=true,-Dvapi=false,vala-native vala"
+> +PACKAGECONFIG ??= " \
+> +    gnutls \
+> +    ${@bb.utils.contains('DISTRO_FEATURES', 'gobject-introspection-data', 'vala', '', d)} \
+> +    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gtk4', '', d)} \
+> +"
+> +PACKAGECONFIG[gtk4] = "-Dgtk4=true,-Dgtk4=false,gtk4"
+> +PACKAGECONFIG[vala] = "-Dvapi=true,-Dvapi=false"
+>  PACKAGECONFIG[gnutls] = "-Dgnutls=true,-Dgnutls=false,gnutls"
+>  PACKAGECONFIG[systemd] = "-D_systemd=true,-D_systemd=false,systemd"
+>  # vala requires gir
+> -- 
+> 2.34.1
+> 
 
---000000000000d5fe2305f5471242
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#177535): https://lists.openembedded.org/g/openembedded-core/message/177535
+> Mute This Topic: https://lists.openembedded.org/mt/97115916/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 21, 2023 at 2:47 PM Ross =
-Burton &lt;<a href=3D"mailto:Ross.Burton@arm.com">Ross.Burton@arm.com</a>&g=
-t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi Mar=
-ta,<br>
-<br>
-&gt; On 21 Feb 2023, at 13:20, Marta Rybczynska &lt;<a href=3D"mailto:rybcz=
-ynska@gmail.com" target=3D"_blank">rybczynska@gmail.com</a>&gt; wrote:<br>
-&gt; I&#39;m finishing the new fetcher for cve check using the 2.0 NVD API.=
- Will need testers to check as many configurations as possible before we sw=
-itch the format.<br>
-&gt; <br>
-&gt; The current estimate is this week, hoping that the real life doesn&#39=
-;t interfere.<br>
-&gt; <br>
-&gt; Good news for all users is that nothing changes for you. Results shoul=
-d be compatible. The one noticeable thing is that the complete fetch is lon=
-ger than before.<br>
-<br>
-Awesome, thanks Marta.=C2=A0 I=E2=80=99ll happily review and test the code.=
-<br>
-<br>
-How long is a complete fetch now?=C2=A0 My very rough testing when I first =
-looked at the new API suggested 30 minutes for a full sync.<br>
-<br></blockquote><div><br></div><div>Thanks Ross. The fetcher now has the r=
-ecommended 6 seconds wait so it is long - but a similar time you had (aroun=
-d 30 min). It seems that in practice it does not change much - the rate lim=
-iting is on the server side. This being said, there is only my instance now=
-, when there will be many more, it could change.<br></div><div><br></div><d=
-iv>Kind regards,</div><div>Marta <br></div></div></div>
 
---000000000000d5fe2305f5471242--
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
