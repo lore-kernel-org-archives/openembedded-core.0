@@ -2,62 +2,115 @@ Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDB4DC636D6
-	for <webhook@archiver.kernel.org>; Thu, 23 Feb 2023 19:11:01 +0000 (UTC)
-Received: from mailout09.t-online.de (mailout09.t-online.de [194.25.134.84])
- by mx.groups.io with SMTP id smtpd.web11.20416.1677179451703720332
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D00EC61DA4
+	for <webhook@archiver.kernel.org>; Thu, 23 Feb 2023 19:19:58 +0000 (UTC)
+Received: from mailout02.t-online.de (mailout02.t-online.de [194.25.134.17])
+ by mx.groups.io with SMTP id smtpd.web11.67.1677179994576751159
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Feb 2023 11:10:52 -0800
+ Thu, 23 Feb 2023 11:19:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.84, mailfrom: f_l_k@t-online.de)
-Received: from fwd70.dcpf.telekom.de (fwd70.aul.t-online.de [10.223.144.96])
-	by mailout09.t-online.de (Postfix) with SMTP id BD65513F9;
-	Thu, 23 Feb 2023 20:10:48 +0100 (CET)
-Received: from [192.168.178.83] ([79.219.239.43]) by fwd70.t-online.de
+ dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.17, mailfrom: f_l_k@t-online.de)
+Received: from fwd77.dcpf.telekom.de (fwd77.aul.t-online.de [10.223.144.103])
+	by mailout02.t-online.de (Postfix) with SMTP id 6B228B658
+	for <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 20:19:52 +0100 (CET)
+Received: from flk-MS-7C91.fritz.box ([79.219.239.43]) by fwd77.t-online.de
 	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1pVGzQ-4R79iy0; Thu, 23 Feb 2023 20:10:48 +0100
-Date: Thu, 23 Feb 2023 20:10:43 +0100
+	esmtp id 1pVH8B-0zdylN0; Thu, 23 Feb 2023 20:19:51 +0100
 From: Markus Volk <f_l_k@t-online.de>
-Subject: Re: [oe-core][PATCHv3] vte: update 0.70.2 -> 0.70.3
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-Message-Id: <VXRJQR.8JKKCDQP0R612@t-online.de>
-In-Reply-To: <Y/eYmAMJJRMeE+6Z@mail.local>
-References: <20230223075256.1755504-1-f_l_k@t-online.de>
-	<Y/eYmAMJJRMeE+6Z@mail.local>
-X-Mailer: geary/40.0
+To: openembedded-core@lists.openembedded.org
+Cc: Markus Volk <f_l_k@t-online.de>
+Subject: [oe-core][PATCHv4] vte: update 0.70.2 -> 0.70.3
+Date: Thu, 23 Feb 2023 20:19:37 +0100
+Message-Id: <20230223191937.1215699-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-F2/sRLo9fvFMnky+aLp0"
-X-TOI-EXPURGATEID: 150726::1677179448-167FD778-76340F72/0/0 CLEAN NORMAL
-X-TOI-MSGID: 0dd212d8-9064-4f6f-935b-539767a35c6c
+X-TOI-EXPURGATEID: 150726::1677179991-E955437F-02D1F90A/0/0 CLEAN NORMAL
+X-TOI-MSGID: 412ccf87-6e98-4241-9e0d-94dfeebc93ba
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 19:11:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177622
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 19:19:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177623
 
---=-F2/sRLo9fvFMnky+aLp0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+- Allow to build the gtk4 widget and vapi
+  This is needed to build gtk4 based terminals like blackbox
+- Update dependencies
+- Cleanup recipe
 
-Am Do, 23. Feb 2023 um 17:47:20 +0100 schrieb Alexandre Belloni 
-<alexandre.belloni@bootlin.com>:
-> It failed on qemux86-64-x32:
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
+---
+ .../vte/{vte_0.70.2.bb =3D> vte_0.70.3.bb}      | 25 +++++++++++--------
+ 1 file changed, 14 insertions(+), 11 deletions(-)
+ rename meta/recipes-support/vte/{vte_0.70.2.bb =3D> vte_0.70.3.bb} (69%)
 
-Now that's unruly
-
-I did a test build for qemux86-64-x32. For some reason gir gets 
-disabled while vala still is requested to be built and thus configure 
-fails. Not sure, why gir gets disabled here without disable vala as 
-well. Maybe there is a global setting for this somewhere?
-
-However, adding another PACKAGECONFIG:remove line for x86-x32 did solve 
-the issue
-
-
---=-F2/sRLo9fvFMnky+aLp0
-Content-Type: text/html; charset=us-ascii
-
-<div id="geary-body" dir="auto">Am Do, 23. Feb 2023 um 17:47:20 +0100 schrieb Alexandre Belloni &lt;alexandre.belloni@bootlin.com&gt;:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">It failed on qemux86-64-x32:</div></blockquote><div><br></div><div><div>Now that's unruly</div><div><br></div><div>I did a test build for qemux86-64-x32. For some reason gir gets disabled while vala still is requested to be built and thus configure fails. Not sure, why gir gets disabled here without disable vala as well. Maybe there is a global setting for this somewhere?</div><div><br></div><div>However, adding another PACKAGECONFIG:remove line for x86-x32 did solve the issue</div></div></div>
---=-F2/sRLo9fvFMnky+aLp0--
+diff --git a/meta/recipes-support/vte/vte_0.70.2.bb b/meta/recipes-suppor=
+t/vte/vte_0.70.3.bb
+similarity index 69%
+rename from meta/recipes-support/vte/vte_0.70.2.bb
+rename to meta/recipes-support/vte/vte_0.70.3.bb
+index ec2fb1f522..0c782b8c2f 100644
+--- a/meta/recipes-support/vte/vte_0.70.2.bb
++++ b/meta/recipes-support/vte/vte_0.70.3.bb
+@@ -11,34 +11,37 @@ LIC_FILES_CHKSUM =3D " \
+     file://COPYING.XTERM;md5=3Dd7fc3a23c16c039afafe2e042030f057 \
+ "
+=20
+-DEPENDS =3D "glib-2.0 gtk+3 libpcre2 libxml2-native gperf-native icu"
++DEPENDS =3D "fribidi glib-2.0 gtk+3 libpcre2 libxml2-native gperf-native=
+ icu pango zlib"
+=20
+ GNOMEBASEBUILDCLASS =3D "meson"
+ GIR_MESON_OPTION =3D 'gir'
+ GIDOCGEN_MESON_OPTION =3D "docs"
+=20
+-inherit gnomebase gi-docgen features_check upstream-version-is-even gobj=
+ect-introspection
++inherit gnomebase gi-docgen features_check upstream-version-is-even gobj=
+ect-introspection vala
+=20
+-# vapigen.m4 is required when vala is not present (but the one from vala=
+ should be used normally)
+ SRC_URI +=3D "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.pat=
+ch"
+-SRC_URI[archive.sha256sum] =3D "4d15b4380de3f564d57eabd006389c407c705df5=
+b0c70030fdcc24971a334d80"
++SRC_URI[archive.sha256sum] =3D "9457134a02f3157fca04f7e0d39bdb0f3099be0a=
+3ce82b7139d0c98a80748f23"
+=20
+ ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
+=20
+-# Help g-ir-scanner find the .so for linking
+-do_compile:prepend() {
+-    export GIR_EXTRA_LIBS_PATH=3D"${B}/src/.libs"
+-}
+-
+ # Package additional files
+ FILES:${PN}-dev +=3D "${datadir}/vala/vapi/*"
+=20
+-PACKAGECONFIG ??=3D "gnutls"
+-PACKAGECONFIG[vala] =3D "-Dvapi=3Dtrue,-Dvapi=3Dfalse,vala-native vala"
++
++
++PACKAGECONFIG ??=3D " \
++    gnutls \
++    ${@bb.utils.contains('DISTRO_FEATURES', 'gobject-introspection-data'=
+, 'vala', '', d)} \
++    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gtk4', '', d)} \
++"
++PACKAGECONFIG[gtk4] =3D "-Dgtk4=3Dtrue,-Dgtk4=3Dfalse,gtk4"
++PACKAGECONFIG[vala] =3D "-Dvapi=3Dtrue,-Dvapi=3Dfalse"
+ PACKAGECONFIG[gnutls] =3D "-Dgnutls=3Dtrue,-Dgnutls=3Dfalse,gnutls"
+ PACKAGECONFIG[systemd] =3D "-D_systemd=3Dtrue,-D_systemd=3Dfalse,systemd=
+"
+ # vala requires gir
++PACKAGECONFIG:remove:x86-x32 =3D "vala"
+ PACKAGECONFIG:remove:class-native =3D "vala"
++PACKAGECONFIG:remove:class-nativesdk =3D "vala gtk4"
+=20
+ CFLAGS +=3D "-D_GNU_SOURCE"
+=20
+--=20
+2.34.1
 
 
