@@ -1,86 +1,75 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C232C61DA4
-	for <webhook@archiver.kernel.org>; Thu, 23 Feb 2023 19:26:58 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web10.282.1677180410878749391
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4D86C64ED8
+	for <webhook@archiver.kernel.org>; Thu, 23 Feb 2023 19:46:20 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web10.241.1677181576696212443
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Feb 2023 11:26:50 -0800
+ Thu, 23 Feb 2023 11:46:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=HSZhnElG;
- spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f170.google.com with SMTP id q11so14593817plx.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 11:26:50 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=CseYl1Ra;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f45.google.com with SMTP id s22so15044309lfi.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 11:46:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2DW3k3MtgAd4PVa301d+OujWvhTKBj4Mo/BHWjIQhrg=;
-        b=HSZhnElGXXkwuISST3JgQHOZf9/x7EoRJ6JuGAaXo8g8FuOZj1t/Y0ozyKCIbIc1TJ
-         u/QxoWRp3+G9jaMqru7mJbg/uAImnsZJsUJ+eSd6p14TK87Ouagmk/yvW2no/o9nSTWV
-         1u7zVVzRdn52p/6GzXP+SbHos7wAcxT0ywlE9ybagbOnWm6ZYOBnitIGH/KgaBRgPNFX
-         k2DHR1jDmymrrM1OFFk+RjBf1NjeAuZ2kNZtV+oWhAn2QQHABtQguQnDpRPfLFNRRMIg
-         yBGziDdDAWPxwCWubBpA9bj3gLbPSTaQLBJC/sifvyv4BXp/kgIsWf0HqQgckG0DSEd8
-         Fjhg==
+        d=gmail.com; s=20210112; t=1677181575;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=gDEt5CZ9b31eqShMJFRB+HblTRtEOrGeB29qoa6KLhA=;
+        b=CseYl1Ra9uo0+MmYlcjGTr0msSnbHU8PE1VUcCD/AZw/AB5JXDGzzCRI0uTSG+mOC5
+         vTQLzqyQh7u4PVQAa+h0Y1dR1hn+eEO74CNn1njLPj2yCNILuWkgDzd1GTFKHCVD1CdH
+         WB297A4ILDeIsXmyaeq18zfj8hAuq+0WURhJqIPcc5Jnva81Q07gp1EVLkcAfWHcW7Je
+         NWJH5QJFeyqxR7NCv+vZHaKURQDEPmywONUDGIFNnrhHn63gkIJp8qkmkHtAE8G7gEyF
+         khvs4dJeSimagiIph/gw5e4BhrvlLfcf+FnbhJhXWRrqtynby2oMUKj13C9TiEdpUfiN
+         URtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20210112; t=1677181575;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2DW3k3MtgAd4PVa301d+OujWvhTKBj4Mo/BHWjIQhrg=;
-        b=BdTftJ4WRqqMfCj0RuEXxOxPReiR07IYD9VBKlg/3RSMYA8lK+J2daXjk3e+ptCQU+
-         VcQ05UY5Euz7Fhp4LTqKrF0Vlw3qz4QLv00KIgRgWItZ/9ix3b23vNztiCd3NlC9RIys
-         x2JsVXYqCrxJvGITERrchRXRUwM2Jw0DqOX0ei6Tx0SS1Y8JgVmtKngiK9Q5M3xb+A7o
-         11SBrrggDx62ao7Nc/+MndsdjmZFzXXZ1xowa73Ewwfy/P6MXssrs1BVEEpK76T56M0u
-         E73J53cK2KubXVu0oIVKtc6BueBUz3KDTwxQWyge6lVN8HiuvAceWTrMAePIdJ1Uwu/o
-         sWlg==
-X-Gm-Message-State: AO0yUKWsViBNUqbhDJ+ylt9SLEWx31YuxYm8V51/UNLdL9t1XXt1G/Kj
-	TGhlgazIDGpQAFoRfMBTVzZFoPtscZE=
-X-Google-Smtp-Source: AK7set8rQpEiWaPKB5cR80PiVR9pMUiEssd/Xx/w64RB2AtTVgYOzo6l13wi0MWZ+yAhID8BCh7lgA==
-X-Received: by 2002:a17:90b:3a8d:b0:234:6c1a:8dbe with SMTP id om13-20020a17090b3a8d00b002346c1a8dbemr12020330pjb.3.1677180409785;
-        Thu, 23 Feb 2023 11:26:49 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::1ac4])
-        by smtp.gmail.com with ESMTPSA id v3-20020a170902e8c300b0019a96d3b456sm7962947plg.44.2023.02.23.11.26.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Feb 2023 11:26:49 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] tune-riscv.inc: Add riscv64nc to available tunes list
-Date: Thu, 23 Feb 2023 11:26:47 -0800
-Message-Id: <20230223192647.3304041-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.39.2
+        bh=gDEt5CZ9b31eqShMJFRB+HblTRtEOrGeB29qoa6KLhA=;
+        b=uXI/DFuXq2kDO9uxF+0uRsvV0l2kTeuZr7YE053bK8iwYrSZtzYj251nRIQcY6/DMd
+         gwlqsUGoVNw55FktMQOGzJ5LYY90+YrrpPzbh1zfcxw6PXAZBd1zWpWjFzFQwsBc0MxU
+         9t8LykFToU2kIdkWm1IHUEtMFKXTlcbA+h9Ptbb8mELqw0drFGCfrGo04y79rIRHo/lM
+         86IFqVSb5k/QifgpsVSpewD9mLrXTsK5pBK5vLsMIqEM45TnZAp+nCufMvSOH0tvR+Gl
+         Hco33bZdy+v3up8AzQxJ/AZQXY91ZtckF5Iu0kgdeZRdE5VRbjS+2qa3/TL+q2bNrLbL
+         WgZg==
+X-Gm-Message-State: AO0yUKWCoJPGnkNOH1Vvvrcr6JRWcPQaNeuu9xNk/NTK3XVtNnZWsQIT
+	SXStxZxR2lYEQhlu7EJQXr44tiOYsrwag/qtxvs=
+X-Google-Smtp-Source: AK7set9yCQed2JNdasnPy4Yp61/jNyogcmYm/+SwhZshu6l7WrTJnP8Gkzpo3mpWi/K5OoruLE+lxVRiQlrYUOnuzvw=
+X-Received: by 2002:a05:6512:15c:b0:4d5:ca43:704a with SMTP id
+ m28-20020a056512015c00b004d5ca43704amr4171782lfo.13.1677181574568; Thu, 23
+ Feb 2023 11:46:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230223191937.1215699-1-f_l_k@t-online.de>
+In-Reply-To: <20230223191937.1215699-1-f_l_k@t-online.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 23 Feb 2023 20:46:03 +0100
+Message-ID: <CANNYZj96mFc9LN_R-Mn+6tzrNwW1TKr14bf6+1PaModzF+8gWA@mail.gmail.com>
+Subject: Re: [oe-core][PATCHv4] vte: update 0.70.2 -> 0.70.3
+To: Markus Volk <f_l_k@t-online.de>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 19:26:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177624
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 19:46:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177625
 
-This was missed when riscv64nc was added
+On Thu, 23 Feb 2023 at 20:19, Markus Volk <f_l_k@t-online.de> wrote:
+> +    ${@bb.utils.contains('DISTRO_FEATURES', 'gobject-introspection-data', 'vala', '', d)} \
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/conf/machine/include/riscv/tune-riscv.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+You need to use GI_DATA_ENABLED variable instead here. Then the
+:remove statements with vala in them below will not be needed.
 
-diff --git a/meta/conf/machine/include/riscv/tune-riscv.inc b/meta/conf/machine/include/riscv/tune-riscv.inc
-index 659801496c..804712077e 100644
---- a/meta/conf/machine/include/riscv/tune-riscv.inc
-+++ b/meta/conf/machine/include/riscv/tune-riscv.inc
-@@ -10,7 +10,7 @@ TUNEVALID[riscv64nc] = "Enable 64-bit RISC-V optimizations without compressed in
- 
- TUNEVALID[bigendian] = "Big endian mode"
- 
--AVAILTUNES += "riscv64 riscv32 riscv64nf riscv32nf"
-+AVAILTUNES += "riscv64 riscv32 riscv64nc riscv64nf riscv32nf"
- 
- # Default
- TUNE_FEATURES:tune-riscv64 = "riscv64"
--- 
-2.39.2
+Yes, I messed this up myself in the gcr recipe a few days ago, that
+needs to be fixed too.
 
+> +PACKAGECONFIG:remove:class-nativesdk = "vala gtk4"
+
+Why does gtk4 need to be removed as well in this case?
+
+Alex
 
