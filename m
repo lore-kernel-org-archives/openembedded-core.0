@@ -1,198 +1,329 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <joel@jms.id.au>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DE72C61DA4
-	for <webhook@archiver.kernel.org>; Wed, 22 Feb 2023 23:45:53 +0000 (UTC)
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
- by mx.groups.io with SMTP id smtpd.web10.3162.1677109544270001577
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A60CC636D6
+	for <webhook@archiver.kernel.org>; Thu, 23 Feb 2023 00:09:03 +0000 (UTC)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+ by mx.groups.io with SMTP id smtpd.web10.3710.1677110932866762970
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Feb 2023 15:45:44 -0800
+ Wed, 22 Feb 2023 16:08:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=PmgRodl3;
- spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 75AF960007;
-	Wed, 22 Feb 2023 23:45:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1677109541;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ginPCtDEyoAdA/oYE6IxDCCUFPccI8g2nRMAneJoFUI=;
-	b=PmgRodl3B+NSjkVmmWo9CKIK0GKpqg+8KN8W0LNrXuqUZIxfRZJl7m/B9hckwLcXAnrwwE
-	9q5JMF2TlZwXctYxj3qRzkoDKhG1P7ZCSP5D1jH5ialsCKi53qNhfMX7F5FSNG06pN8NIz
-	hEOl8JmIAMA8bOb7CnqwkDh1Lut52Qxc07Yaz5Zv8KaK9P2QoWX1hiFqjEnbz+eMU+4v3z
-	dwUQCYzhurXIXh0+GR5csUzYI7fRlUsHqUQCYkCIQqKk9OBdpcpR52pQWrLRhVXXUq21ns
-	X0pDMi4xlZXfKKo1xmC+sLhZlOxhH6zX0rChYfbjFsdgr7wcfgyjuCAwM7H5WQ==
-Date: Thu, 23 Feb 2023 00:45:40 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Markus Volk <f_l_k@t-online.de>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe-core][PATCHv2] vte: update 0.70.2 -> 0.70.3
-Message-ID: <Y/apJCM5SteADLX7@mail.local>
-References: <20230222114847.3421468-1-f_l_k@t-online.de>
- <Y/aoV7gBf9t0z53M@mail.local>
+ dkim=pass header.i=@jms.id.au header.s=google header.b=dH0Nv6fK;
+ spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: joel.stan@gmail.com)
+Received: by mail-ed1-f46.google.com with SMTP id i34so11937086eda.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Feb 2023 16:08:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=jms.id.au; s=google;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=T0bt4rWKna3f+PjIIjzeDjdnaJvTB/oPW36CQXGnXuE=;
+        b=dH0Nv6fKTGH14HK1LZx6rpEdQErMOY/PDVsO+urz/LWE+0kunlx795COl8Ebmfa0uM
+         Z2QPfiE9GHp1mYuSuLCg4awjGW3yXsTlWnAfjpL5Tl/AXUNeCRUFXd9iGE0h18pyuUwn
+         kUhFY88CuuLm0KMiGJ/o2JLoXrRtp6xvhmcus=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=T0bt4rWKna3f+PjIIjzeDjdnaJvTB/oPW36CQXGnXuE=;
+        b=M9JijfE3c0Kq1NZimAVdbJZIdM7vizJNBdv1ab+CtOaM975FtYhdoJWvTCOoxRtGjV
+         uqSA1XHBkjssZeNNla5gsRZE6nLN8t+r8hhPlrj6ElFAdmQ1N/dRhZ+8qpc/AGlv/wbn
+         hjs+2vq6RBRO9+REYdUfMxvLQMW5we5AVd55oAZPwXSgxwMTuDiyNFrZPw6mXgUjT+K8
+         bCOrbnqMPCpOD/1if3njyaAF+WGoglZY6WhO1AgtUIUXhhij4dj19pRkuhCX5wbX972Y
+         tGzyA639MbqM35vhRi/gfd69ifUe3IsedaMs5n8ml+PBYxW2mOJtvsoxw6u+vgRak749
+         02+Q==
+X-Gm-Message-State: AO0yUKV8sWgRKyXbp45w1fXg0OegmkR468XixtoEqiWDySSSljIFlSl8
+	VKpUNr8hygL95slPVIIjEugRoOaRm5kg8MPDdZ0=
+X-Google-Smtp-Source: AK7set+j9HB6mGRB5p7oVkSqNvHcEttJ1HsXw1zeJthZFMtJYcx0bY5O0lnJ2e5I1irZtPQ++Huhe1XURD4GRo6pZZM=
+X-Received: by 2002:a17:906:8144:b0:8e3:da0f:f9b7 with SMTP id
+ z4-20020a170906814400b008e3da0ff9b7mr2818223ejw.4.1677110930907; Wed, 22 Feb
+ 2023 16:08:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y/aoV7gBf9t0z53M@mail.local>
+References: <17462D99D28A7B3C.10470@lists.openembedded.org> <CA+chaQfpOv5J3OFjq2+OEdfth6Nmk34FEq+aPVAj+9wsaYc58g@mail.gmail.com>
+In-Reply-To: <CA+chaQfpOv5J3OFjq2+OEdfth6Nmk34FEq+aPVAj+9wsaYc58g@mail.gmail.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 23 Feb 2023 00:08:38 +0000
+Message-ID: <CACPK8XeVKuBLLt=_T8akncOMH3UO+HFwmRMxiawuOuhj94w7BQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCHv2] qemu: Fix building with latest glibc 2.36
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Feb 2023 23:45:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177591
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 00:09:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177592
 
+On Wed, 22 Feb 2023 at 15:28, Martin Jansa <martin.jansa@gmail.com> wrote:
+>
+> Hi,
+>
+> I've seen this build issue on my gentoo builder today with qemu-native, s=
+o I've removed the stray cross.patch and sent v2.
+>
+> Then RP had good question how to reproduce this failure and I've checked =
+when I've updated glibc in gentoo for last time and it was a month ago (and=
+ I've rebuilt qemu-native few time since then).
+>
+> So in the end it was linux-libc-headers upgrade to 6.2 from yesterday (sy=
+s-kernel/linux-headers-6.2 in gentoo) which caused this for me (if I downgr=
+ade to 6.1 I can build qemu-native again even without this patch).
+>
+> Joel: Should I send v3 with updated commit message or will you do it?
 
-x32 also failed:
+Thanks for picking this one up. Please continue the good work.
 
-https://autobuilder.yoctoproject.org/typhoon/#builders/57/builds/6593/steps/11/logs/stdio
+Cheers,
 
-On 23/02/2023 00:42:17+0100, Alexandre Belloni wrote:
-> This fails on musl:
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/6703/steps/11/logs/stdio
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/6722/steps/12/logs/stdio
-> 
-> On 22/02/2023 12:48:47+0100, Markus Volk wrote:
-> > - Allow to build the gtk4 widget and vapi
-> >   This is needed to build gtk4 based terminals like blackbox
-> > - Update dependencies
-> > - Cleanup recipe and remove unneeded patch
-> > 
-> > Signed-off-by: Markus Volk <f_l_k@t-online.de>
-> > ---
-> >  ...EXITCODE-macro-for-non-glibc-systems.patch | 42 -------------------
-> >  .../vte/{vte_0.70.2.bb => vte_0.70.3.bb}      | 23 +++++-----
-> >  2 files changed, 11 insertions(+), 54 deletions(-)
-> >  delete mode 100644 meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
-> >  rename meta/recipes-support/vte/{vte_0.70.2.bb => vte_0.70.3.bb} (69%)
-> > 
-> > diff --git a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
-> > deleted file mode 100644
-> > index b4100fc381..0000000000
-> > --- a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
-> > +++ /dev/null
-> > @@ -1,42 +0,0 @@
-> > -From de9639baac792327c701e509258b8a13f6959e82 Mon Sep 17 00:00:00 2001
-> > -From: Danilo Spinella <danyspin97@protonmail.com>
-> > -Date: Thu, 21 Mar 2019 14:19:26 +0100
-> > -Subject: [PATCH] Add W_EXITCODE macro for non-glibc systems
-> > -MIME-Version: 1.0
-> > -Content-Type: text/plain; charset=UTF-8
-> > -Content-Transfer-Encoding: 8bit
-> > -
-> > -Upstream-Status: Submitted [1]
-> > -
-> > -Signed-off-by: Andreas M�ller <schnitzeltony@gmail.com>
-> > -
-> > -[1] https://gitlab.gnome.org/GNOME/vte/issues/72
-> > -
-> > ----
-> > - src/missing.hh | 4 ++++
-> > - src/widget.cc  | 1 +
-> > - 2 files changed, 5 insertions(+)
-> > -
-> > ---- a/src/missing.hh
-> > -+++ b/src/missing.hh
-> > -@@ -24,6 +24,10 @@
-> > - #define NSIG (8 * sizeof(sigset_t))
-> > - #endif
-> > - 
-> > -+#ifndef W_EXITCODE
-> > -+#define W_EXITCODE(ret, sig) ((ret) << 8 | (sig))
-> > -+#endif
-> > -+
-> > - #ifndef HAVE_FDWALK
-> > - int fdwalk(int (*cb)(void* data, int fd),
-> > -            void* data);
-> > ---- a/src/widget.cc
-> > -+++ b/src/widget.cc
-> > -@@ -21,6 +21,7 @@
-> > - #include "widget.hh"
-> > - 
-> > - #include <sys/wait.h> // for W_EXITCODE
-> > -+#include "missing.hh" // for W_EXITCODE on non-glibc systems
-> > - 
-> > - #include <exception>
-> > - #include <new>
-> > diff --git a/meta/recipes-support/vte/vte_0.70.2.bb b/meta/recipes-support/vte/vte_0.70.3.bb
-> > similarity index 69%
-> > rename from meta/recipes-support/vte/vte_0.70.2.bb
-> > rename to meta/recipes-support/vte/vte_0.70.3.bb
-> > index ec2fb1f522..73b4666efc 100644
-> > --- a/meta/recipes-support/vte/vte_0.70.2.bb
-> > +++ b/meta/recipes-support/vte/vte_0.70.3.bb
-> > @@ -11,34 +11,33 @@ LIC_FILES_CHKSUM = " \
-> >      file://COPYING.XTERM;md5=d7fc3a23c16c039afafe2e042030f057 \
-> >  "
-> >  
-> > -DEPENDS = "glib-2.0 gtk+3 libpcre2 libxml2-native gperf-native icu"
-> > +DEPENDS = "fribidi glib-2.0 gtk+3 libpcre2 libxml2-native gperf-native icu pango zlib"
-> >  
-> >  GNOMEBASEBUILDCLASS = "meson"
-> >  GIR_MESON_OPTION = 'gir'
-> >  GIDOCGEN_MESON_OPTION = "docs"
-> >  
-> > -inherit gnomebase gi-docgen features_check upstream-version-is-even gobject-introspection
-> > +inherit gnomebase gi-docgen features_check upstream-version-is-even gobject-introspection vala
-> >  
-> > -# vapigen.m4 is required when vala is not present (but the one from vala should be used normally)
-> > -SRC_URI += "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch"
-> > -SRC_URI[archive.sha256sum] = "4d15b4380de3f564d57eabd006389c407c705df5b0c70030fdcc24971a334d80"
-> > +SRC_URI[archive.sha256sum] = "9457134a02f3157fca04f7e0d39bdb0f3099be0a3ce82b7139d0c98a80748f23"
-> >  
-> >  ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
-> >  
-> > -# Help g-ir-scanner find the .so for linking
-> > -do_compile:prepend() {
-> > -    export GIR_EXTRA_LIBS_PATH="${B}/src/.libs"
-> > -}
-> > -
-> >  # Package additional files
-> >  FILES:${PN}-dev += "${datadir}/vala/vapi/*"
-> >  
-> > -PACKAGECONFIG ??= "gnutls"
-> > -PACKAGECONFIG[vala] = "-Dvapi=true,-Dvapi=false,vala-native vala"
-> > +PACKAGECONFIG ??= " \
-> > +    gnutls \
-> > +    ${@bb.utils.contains('DISTRO_FEATURES', 'gobject-introspection-data', 'vala', '', d)} \
-> > +    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gtk4', '', d)} \
-> > +"
-> > +PACKAGECONFIG[gtk4] = "-Dgtk4=true,-Dgtk4=false,gtk4"
-> > +PACKAGECONFIG[vala] = "-Dvapi=true,-Dvapi=false"
-> >  PACKAGECONFIG[gnutls] = "-Dgnutls=true,-Dgnutls=false,gnutls"
-> >  PACKAGECONFIG[systemd] = "-D_systemd=true,-D_systemd=false,systemd"
-> >  # vala requires gir
-> >  PACKAGECONFIG:remove:class-native = "vala"
-> > +PACKAGECONFIG:remove:class-nativesdk = "vala gtk4"
-> >  
-> >  CFLAGS += "-D_GNU_SOURCE"
-> >  
-> > -- 
-> > 2.34.1
-> > 
-> 
-> > 
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#177567): https://lists.openembedded.org/g/openembedded-core/message/177567
-> > Mute This Topic: https://lists.openembedded.org/mt/97115916/3617179
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > 
-> 
-> 
-> -- 
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+Joel
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+>
+> Regards,
+>
+> On Wed, Feb 22, 2023 at 4:00 PM Martin Jansa via lists.openembedded.org <=
+Martin.Jansa=3Dgmail.com@lists.openembedded.org> wrote:
+>>
+>> From: Joel Stanley <joel@jms.id.au>
+>>
+>> When building native qemu with glibc 2.36 (including latest changes from
+>> the glibc stable branch), qemu fails to build:
+>>
+>>  In file included from /usr/include/linux/btrfs.h:29,
+>>                   from ../qemu-7.2.0/linux-user/syscall.c:165:
+>>  /usr/include/linux/fs.h:50:8: error: redefinition of =E2=80=98struct fi=
+le_clone_range=E2=80=99
+>>     50 | struct file_clone_range {
+>>        |        ^~~~~~~~~~~~~~~~
+>>  ../qemu-7.2.0/linux-user/syscall.c:129:8: note: originally defined here
+>>    129 | struct file_clone_range {
+>>        |        ^~~~~~~~~~~~~~~~
+>>
+>> Backport changes to linux-user that remove the local copy of struct
+>> file_clone_range.
+>>
+>> Patches from https://lore.kernel.org/qemu-devel/20230110174901.2580297-1=
+-berrange@redhat.com/
+>>
+>> Signed-off-by: Joel Stanley <joel@jms.id.au>
+>> Tested-by: Martin Jansa <Martin.Jansa@gmail.com>
+>> ---
+>>  meta/recipes-devtools/qemu/qemu.inc           |  2 +
+>>  ...er-add-more-compat-ioctl-definitions.patch | 69 ++++++++++++++++
+>>  ...r-fix-compat-with-glibc-2.36-sys-mou.patch | 78 +++++++++++++++++++
+>>  3 files changed, 149 insertions(+)
+>>  create mode 100644 meta/recipes-devtools/qemu/qemu/0001-Revert-linux-us=
+er-add-more-compat-ioctl-definitions.patch
+>>  create mode 100644 meta/recipes-devtools/qemu/qemu/0002-Revert-linux-us=
+er-fix-compat-with-glibc-2.36-sys-mou.patch
+>>
+>> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools=
+/qemu/qemu.inc
+>> index 92828e8f2d..1e768b560d 100644
+>> --- a/meta/recipes-devtools/qemu/qemu.inc
+>> +++ b/meta/recipes-devtools/qemu/qemu.inc
+>> @@ -30,6 +30,8 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.ta=
+r.xz \
+>>             file://0001-contrib-vhost-user-blk-Replace-lseek64-with-lsee=
+k.patch \
+>>             file://0002-linux-user-Replace-use-of-lfs64-related-function=
+s-an.patch \
+>>             file://0001-configure-Fix-check-tcg-not-executing-any-tests.=
+patch \
+>> +           file://0001-Revert-linux-user-add-more-compat-ioctl-definiti=
+ons.patch \
+>> +           file://0002-Revert-linux-user-fix-compat-with-glibc-2.36-sys=
+-mou.patch \
+>>             "
+>>  UPSTREAM_CHECK_REGEX =3D "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+>>
+>> diff --git a/meta/recipes-devtools/qemu/qemu/0001-Revert-linux-user-add-=
+more-compat-ioctl-definitions.patch b/meta/recipes-devtools/qemu/qemu/0001-=
+Revert-linux-user-add-more-compat-ioctl-definitions.patch
+>> new file mode 100644
+>> index 0000000000..cd8121fed1
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/qemu/qemu/0001-Revert-linux-user-add-more-co=
+mpat-ioctl-definitions.patch
+>> @@ -0,0 +1,69 @@
+>> +From afa96c55f2c270405de8984e2466067bbb44c0e4 Mon Sep 17 00:00:00 2001
+>> +From: =3D?UTF-8?q?Daniel=3D20P=3D2E=3D20Berrang=3DC3=3DA9?=3D <berrange=
+@redhat.com>
+>> +Date: Tue, 10 Jan 2023 12:49:00 -0500
+>> +Subject: [PATCH] Revert "linux-user: add more compat ioctl definitions"
+>> +MIME-Version: 1.0
+>> +Content-Type: text/plain; charset=3DUTF-8
+>> +Content-Transfer-Encoding: 8bit
+>> +
+>> +This reverts commit c5495f4ecb0cdaaf2e9dddeb48f1689cdb520ca0.
+>> +
+>> +glibc has fixed (in 2.36.9000-40-g774058d729) the problem
+>> +that caused a clash when both sys/mount.h annd linux/mount.h
+>> +are included, and backported this to the 2.36 stable release
+>> +too:
+>> +
+>> +  https://sourceware.org/glibc/wiki/Release/2.36#Usage_of_.3Clinux.2Fmo=
+unt.h.3E_and_.3Csys.2Fmount.h.3E
+>> +
+>> +It is saner for QEMU to remove the workaround it applied for
+>> +glibc 2.36 and expect distros to ship the 2.36 maint release
+>> +with the fix. This avoids needing to add a further workaround
+>> +to QEMU to deal with the fact that linux/brtfs.h now also pulls
+>> +in linux/mount.h via linux/fs.h since Linux 6.1
+>> +
+>> +Upstream-Status: Backport from v8.0 (master)
+>> +
+>> +Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>> +Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>> +Link: https://lore.kernel.org/r/20230110174901.2580297-2-berrange@redha=
+t.com
+>> +Signed-off-by: Joel Stanley <joel@jms.id.au>
+>> +---
+>> + linux-user/syscall.c | 25 -------------------------
+>> + 1 file changed, 25 deletions(-)
+>> +
+>> +diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+>> +index f95a6161e..510de8edc 100644
+>> +--- a/linux-user/syscall.c
+>> ++++ b/linux-user/syscall.c
+>> +@@ -111,31 +111,6 @@
+>> + #define FS_IOC32_SETFLAGS              _IOW('f', 2, int)
+>> + #define FS_IOC32_GETVERSION            _IOR('v', 1, int)
+>> + #define FS_IOC32_SETVERSION            _IOW('v', 2, int)
+>> +-
+>> +-#define BLKGETSIZE64 _IOR(0x12,114,size_t)
+>> +-#define BLKDISCARD _IO(0x12,119)
+>> +-#define BLKIOMIN _IO(0x12,120)
+>> +-#define BLKIOOPT _IO(0x12,121)
+>> +-#define BLKALIGNOFF _IO(0x12,122)
+>> +-#define BLKPBSZGET _IO(0x12,123)
+>> +-#define BLKDISCARDZEROES _IO(0x12,124)
+>> +-#define BLKSECDISCARD _IO(0x12,125)
+>> +-#define BLKROTATIONAL _IO(0x12,126)
+>> +-#define BLKZEROOUT _IO(0x12,127)
+>> +-
+>> +-#define FIBMAP     _IO(0x00,1)
+>> +-#define FIGETBSZ   _IO(0x00,2)
+>> +-
+>> +-struct file_clone_range {
+>> +-        __s64 src_fd;
+>> +-        __u64 src_offset;
+>> +-        __u64 src_length;
+>> +-        __u64 dest_offset;
+>> +-};
+>> +-
+>> +-#define FICLONE         _IOW(0x94, 9, int)
+>> +-#define FICLONERANGE    _IOW(0x94, 13, struct file_clone_range)
+>> +-
+>> + #else
+>> + #include <linux/fs.h>
+>> + #endif
+>> diff --git a/meta/recipes-devtools/qemu/qemu/0002-Revert-linux-user-fix-=
+compat-with-glibc-2.36-sys-mou.patch b/meta/recipes-devtools/qemu/qemu/0002=
+-Revert-linux-user-fix-compat-with-glibc-2.36-sys-mou.patch
+>> new file mode 100644
+>> index 0000000000..d754f21ad4
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/qemu/qemu/0002-Revert-linux-user-fix-compat-=
+with-glibc-2.36-sys-mou.patch
+>> @@ -0,0 +1,78 @@
+>> +From e95c0a42940ca1cf763ca3374b36a9be030039d7 Mon Sep 17 00:00:00 2001
+>> +From: =3D?UTF-8?q?Daniel=3D20P=3D2E=3D20Berrang=3DC3=3DA9?=3D <berrange=
+@redhat.com>
+>> +Date: Tue, 10 Jan 2023 12:49:01 -0500
+>> +Subject: [PATCH] Revert "linux-user: fix compat with glibc >=3D 2.36
+>> + sys/mount.h"
+>> +MIME-Version: 1.0
+>> +Content-Type: text/plain; charset=3DUTF-8
+>> +Content-Transfer-Encoding: 8bit
+>> +
+>> +This reverts commit 3cd3df2a9584e6f753bb62a0028bd67124ab5532.
+>> +
+>> +glibc has fixed (in 2.36.9000-40-g774058d729) the problem
+>> +that caused a clash when both sys/mount.h annd linux/mount.h
+>> +are included, and backported this to the 2.36 stable release
+>> +too:
+>> +
+>> +  https://sourceware.org/glibc/wiki/Release/2.36#Usage_of_.3Clinux.2Fmo=
+unt.h.3E_and_.3Csys.2Fmount.h.3E
+>> +
+>> +It is saner for QEMU to remove the workaround it applied for
+>> +glibc 2.36 and expect distros to ship the 2.36 maint release
+>> +with the fix. This avoids needing to add a further workaround
+>> +to QEMU to deal with the fact that linux/brtfs.h now also pulls
+>> +in linux/mount.h via linux/fs.h since Linux 6.1
+>> +
+>> +Upstream-Status: Backport from v8.0 (master)
+>> +
+>> +Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>> +Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>> +Link: https://lore.kernel.org/r/20230110174901.2580297-3-berrange@redha=
+t.com
+>> +Signed-off-by: Joel Stanley <joel@jms.id.au>
+>> +---
+>> + linux-user/syscall.c | 18 ------------------
+>> + meson.build          |  2 --
+>> + 2 files changed, 20 deletions(-)
+>> +
+>> +diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+>> +index 510de8edc..13a67b84b 100644
+>> +--- a/linux-user/syscall.c
+>> ++++ b/linux-user/syscall.c
+>> +@@ -95,25 +95,7 @@
+>> + #include <linux/soundcard.h>
+>> + #include <linux/kd.h>
+>> + #include <linux/mtio.h>
+>> +-
+>> +-#ifdef HAVE_SYS_MOUNT_FSCONFIG
+>> +-/*
+>> +- * glibc >=3D 2.36 linux/mount.h conflicts with sys/mount.h,
+>> +- * which in turn prevents use of linux/fs.h. So we have to
+>> +- * define the constants ourselves for now.
+>> +- */
+>> +-#define FS_IOC_GETFLAGS                _IOR('f', 1, long)
+>> +-#define FS_IOC_SETFLAGS                _IOW('f', 2, long)
+>> +-#define FS_IOC_GETVERSION              _IOR('v', 1, long)
+>> +-#define FS_IOC_SETVERSION              _IOW('v', 2, long)
+>> +-#define FS_IOC_FIEMAP                  _IOWR('f', 11, struct fiemap)
+>> +-#define FS_IOC32_GETFLAGS              _IOR('f', 1, int)
+>> +-#define FS_IOC32_SETFLAGS              _IOW('f', 2, int)
+>> +-#define FS_IOC32_GETVERSION            _IOR('v', 1, int)
+>> +-#define FS_IOC32_SETVERSION            _IOW('v', 2, int)
+>> +-#else
+>> + #include <linux/fs.h>
+>> +-#endif
+>> + #include <linux/fd.h>
+>> + #if defined(CONFIG_FIEMAP)
+>> + #include <linux/fiemap.h>
+>> +diff --git a/meson.build b/meson.build
+>> +index e44432370..f37ba4114 100644
+>> +--- a/meson.build
+>> ++++ b/meson.build
+>> +@@ -2032,8 +2032,6 @@ config_host_data.set('HAVE_OPTRESET',
+>> +                      cc.has_header_symbol('getopt.h', 'optreset'))
+>> + config_host_data.set('HAVE_IPPROTO_MPTCP',
+>> +                      cc.has_header_symbol('netinet/in.h', 'IPPROTO_MPT=
+CP'))
+>> +-config_host_data.set('HAVE_SYS_MOUNT_FSCONFIG',
+>> +-                     cc.has_header_symbol('sys/mount.h', 'FSCONFIG_SET=
+_FLAG'))
+>> +
+>> + # has_member
+>> + config_host_data.set('HAVE_SIGEV_NOTIFY_THREAD_ID',
+>> --
+>> 2.39.2
+>>
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#177573): https://lists.openembedded.org/g/openembedd=
+ed-core/message/177573
+>> Mute This Topic: https://lists.openembedded.org/mt/97161162/3617156
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [M=
+artin.Jansa@gmail.com]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
 
