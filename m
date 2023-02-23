@@ -1,104 +1,146 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37976C636D6
-	for <webhook@archiver.kernel.org>; Thu, 23 Feb 2023 13:59:40 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web11.11004.1677160770928722161
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 466D6C636D6
+	for <webhook@archiver.kernel.org>; Thu, 23 Feb 2023 14:13:40 +0000 (UTC)
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+ by mx.groups.io with SMTP id smtpd.web11.11375.1677161614355400172
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Feb 2023 05:59:31 -0800
+ Thu, 23 Feb 2023 06:13:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=j1K6ZzKd;
- spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id g8so10135744lfj.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 05:59:30 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=GgXR+rof;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.178, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f178.google.com with SMTP id 132so5672109pgh.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 06:13:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2lLm7d3REuhXZIUgB2s4+d9yTMfdSuBaoIAH+r9SWWM=;
-        b=j1K6ZzKdgq5ctMDp/7UDO5K1kq3uan3SM6K2W1UJBq1uaGTle8YZyyO3e6JbVblv/O
-         S9GrHEpwMK17zM8weL06uxetuX77E1FbpmhytImc8EAvOOYEIYu53EtpRzH03bDyP1eQ
-         igYkbzGh0VESTzpAtsjH77KuLZl23RyRjjq2xrcemn8fGw1tDrWYfRQHiCpjRatWNU/L
-         lRJ7q9Pq0F6ueuQq95sCpMVKtOyG8u0iHXcBVb3lhUF9use6OJPy3Soyi8HD5lZwWxHJ
-         eY5nHOY5AOqMz+jtJklwirU5YGIzMIkFyyLnGqsSEbMPSev67wI2Hz+/ogdAjB/L1xi0
-         iJQA==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JZoYTd8gumK6M2aKulYw8I64Mfv0mBjsTuu9bvNx8y4=;
+        b=GgXR+rof2fvf0duov8we8LDsJu7OEtPTo27qXaxAyrA/Gbt/dudkQYSKyfZnbJ6QFF
+         aM4kRO7ptHghTDDvgJ76rsNuItDyoHmhMqOk8uyvJmnvNJ4IYwj0AyfzOfp6ogWEapHi
+         MmJ0W4l3/Ednje56U+hwu49YCUU2v48UwXDFh/8KK/nwfGa641VQdH76kV36TtB4Ik9K
+         KzSrz3l77hdndc3//e8WI3RD9JtqEchsjdHJQ1CYNbp4gu996SXwNeNkecSyc5BC7rZ2
+         ir5KhgrTMRYsP7xtfRN+ZhEhHlL1ahlAORyWePFgWn+WJNAou+5UOfsC/sp/HxOrfRev
+         kZfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2lLm7d3REuhXZIUgB2s4+d9yTMfdSuBaoIAH+r9SWWM=;
-        b=xE5z3PvfNnGE9D7gQWUhKY9PRBP4VhB0PgQ8wAZfY7C1g05VL3oAGkojA05hlCZePm
-         SKiQ6oxUasDMB7biOi3rQXUpbDn60XlxDeGJIZzqdgu6EEhZrQh7XVWOaHwJGBVBPmFM
-         awLXuPxFZQbJplYQEjro97CyrGiv14vn7IJw4TTR0ln90ki06vQM//ybfqgnLuC/XSAj
-         XciSJjbo5Bgud71b+1RKKoMocY9VM3DWt0rzmtOejTGxH7/gG5Owquh44fE+HeaAoxUY
-         dwIJyi0DQ1c3vBYHPXUUnc35UrBg9IZ6bcKvH912uAykv9C9ze3uPPbsityku9TGzfOf
-         izow==
-X-Gm-Message-State: AO0yUKUFQbdLFAXqBqCaNlJfHv9eee7OtbSNN/0elEBbc4h5/DRkfqbv
-	vGjnyg/LV/2VdJNRt3LvVNIXNmDvMbIu4i+FdRY=
-X-Google-Smtp-Source: AK7set+VXLAItPRDn95bZKYhq68Qd0sn7S/U2kGP2AblWbE2acXXDmDZqT3OB0Ya/M6z5rQHIsL7tmcOTrvphHPUsI8=
-X-Received: by 2002:ac2:5095:0:b0:4d5:ca32:6aed with SMTP id
- f21-20020ac25095000000b004d5ca326aedmr3756077lfm.13.1677160768998; Thu, 23
- Feb 2023 05:59:28 -0800 (PST)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JZoYTd8gumK6M2aKulYw8I64Mfv0mBjsTuu9bvNx8y4=;
+        b=7b+6OdMzHR1pefaW73RfNgRuV7k8O33X/8MTz2ZsKFug1Bg0dGcJ4ejSCY+ar7hhj2
+         7WPSUADRteLPgGHKb6jc6uRYE3PWYj/t/EnjWSka/iupXpx0Rh7ZM5ZoOlnpPBxLSG2z
+         nVkQgS2EIq5FL1tRV5yHtNh0q5uDWlBTwdJBoZls6/ExmK/MMFIhJjQXR2ZaFvUuSB/u
+         GJ+yhJd6l9jlRp3/5rbl0DMTsUqwgATKm45JbkJR9WfCsxP2vYnB9oEQsBhqE8eW5Acl
+         qmUGb20dFAaDm49xAl8T0n5pCFJFGhcCpWZxsZjUV5axdkXf/k/gTvj9ba9pZ+OZZ7xI
+         6Csw==
+X-Gm-Message-State: AO0yUKUUUOaQ053uJW+F1UxQqAalX6i8tBs9xAPDsYZrD/X63klIrjzi
+	+BYmsAANAzu5uBRuILZl4EOLGk4FBmiBqvpBAw8=
+X-Google-Smtp-Source: AK7set84OLK58Hn0cbq5flsvEx4b5cBj2OjpZFtqnuNLEsGOWmuNT8XmdIv+iA9jzaR4rC9UM4tVzQ==
+X-Received: by 2002:aa7:9537:0:b0:590:7616:41eb with SMTP id c23-20020aa79537000000b00590761641ebmr11376121pfp.30.1677161612948;
+        Thu, 23 Feb 2023 06:13:32 -0800 (PST)
+Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
+        by smtp.gmail.com with ESMTPSA id bm2-20020a056a00320200b005ac419804d5sm1645944pfb.98.2023.02.23.06.13.31
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Feb 2023 06:13:32 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/16] Pull request (cover letter only)
+Date: Thu, 23 Feb 2023 04:13:26 -1000
+Message-Id: <cover.1677161523.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <28c8d9aa-27f3-4427-93aa-670bfa05e564@gmail.com>
-In-Reply-To: <28c8d9aa-27f3-4427-93aa-670bfa05e564@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 23 Feb 2023 14:59:17 +0100
-Message-ID: <CANNYZj8NrGFYxsoG1PhX=iTUANJJQ7q2jZR=Y5zOWCXaXTBrLQ@mail.gmail.com>
-Subject: Re: [OE-core] bindgen missing?
-To: Zoltan Boszormenyi <zboszor@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 13:59:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177610
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 14:13:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177611
 
-I suspect there isn't. You need to write a recipe.
+The following changes since commit daaee6fcb0d201f041678af433d8e1cd6f924d09:
 
-Alex
+  build-appliance-image: Update to dunfell head revision (2023-02-13 07:48:21 +0000)
 
-On Thu, 23 Feb 2023 at 14:56, Zoltan Boszormenyi <zboszor@gmail.com> wrote:
->
-> Hi,
->
-> I have tried to upgrade the Mesa recipe to use 23.0.0
-> and tried to enable Rusticl by adding these:
->
-> inherit rust
-> PACKAGECONFIG[rusticl] =3D "-Dgallium-rusticl=3Dtrue
-> -Drust_std=3D2021,-Dgallium-rusticl=3Dfalse,libclc spirv-tools spirv-llvm=
--translator,libclc
-> spirv-tools spirv-llvm-translator"
-> PACKAGECONFIG:append:x86-64:class-target =3D " rusticl"
->
-> To do that on Kirkstone, meson 1.0.0 needs to be backported, which is not=
- an issue.
->
-> Configure stage fails with:
->
-> Program bindgen found: NO
->
-> Where is bindgen in Yocto?
->
-> Thanks in advance,
-> Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#177609): https://lists.openembedded.org/g/openembedde=
-d-core/message/177609
-> Mute This Topic: https://lists.openembedded.org/mt/97182761/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+
+Alexander Kanavin (1):
+  oeqa/qemurunner: do not use Popen.poll() when terminating runqemu with
+    a signal
+
+Antonin Godard (2):
+  busybox: always start do_compile with orig config files
+  busybox: rm temporary files if do_compile was interrupted
+
+Hitendra Prajapati (1):
+  git: CVE-2022-23521 gitattributes parsing integer overflow
+
+Martin Jansa (1):
+  meta: remove True option to getVar and getVarFlag calls (again)
+
+Mikko Rapeli (1):
+  oeqa context.py: fix --target-ip comment to include ssh port number
+
+Omkar Patil (1):
+  sudo: Fix CVE-2023-22809
+
+Pawel Zalewski (1):
+  classes/fs-uuid: Fix command output decoding issue
+
+Richard Purdie (3):
+  nativesdk: Handle chown/chgrp calls in nativesdk do_install tasks
+  make-mod-scripts: Ensure kernel build output is deterministic
+  libc-locale: Fix on target locale generation
+
+Ross Burton (3):
+  quilt: fix intermittent failure in faildiff.test
+  quilt: use upstreamed faildiff.test fix
+  git: ignore CVE-2022-41953
+
+Steve Sakoman (1):
+  qemu: Fix slirp determinism issue
+
+Vivek Kumbhar (1):
+  qemu: fix CVE-2021-3929 nvme DMA reentrancy issue leads to
+    use-after-free
+
+ meta/classes/fs-uuid.bbclass                  |   2 +-
+ meta/classes/image.bbclass                    |   2 +-
+ meta/classes/libc-package.bbclass             |   1 +
+ meta/classes/license_image.bbclass            |   2 +-
+ meta/classes/nativesdk.bbclass                |   2 +
+ meta/lib/oeqa/runtime/context.py              |   4 +-
+ meta/lib/oeqa/utils/qemurunner.py             |  11 +-
+ meta/recipes-core/busybox/busybox.inc         |  27 +-
+ .../git/files/CVE-2022-23521.patch            | 367 ++++++++++++++++++
+ meta/recipes-devtools/git/git.inc             |   4 +-
+ meta/recipes-devtools/go/go_1.14.bb           |   4 +-
+ .../qemu/qemu-system-native_4.2.0.bb          |   2 +-
+ meta/recipes-devtools/qemu/qemu.inc           |   3 +
+ .../qemu/qemu/CVE-2021-3929.patch             |  78 ++++
+ meta/recipes-devtools/qemu/qemu_4.2.0.bb      |   4 +-
+ meta/recipes-devtools/quilt/quilt.inc         |   1 +
+ .../quilt/quilt/faildiff-order.patch          |  41 ++
+ .../sudo/files/CVE-2023-22809.patch           | 113 ++++++
+ meta/recipes-extended/sudo/sudo_1.8.32.bb     |   1 +
+ .../make-mod-scripts/make-mod-scripts_1.0.bb  |   2 +-
+ scripts/lib/devtool/menuconfig.py             |   2 +-
+ scripts/nativesdk-intercept/chgrp             |  27 ++
+ scripts/nativesdk-intercept/chown             |  27 ++
+ 23 files changed, 702 insertions(+), 25 deletions(-)
+ create mode 100644 meta/recipes-devtools/git/files/CVE-2022-23521.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3929.patch
+ create mode 100644 meta/recipes-devtools/quilt/quilt/faildiff-order.patch
+ create mode 100644 meta/recipes-extended/sudo/files/CVE-2023-22809.patch
+ create mode 100755 scripts/nativesdk-intercept/chgrp
+ create mode 100755 scripts/nativesdk-intercept/chown
+
+-- 
+2.34.1
+
 
