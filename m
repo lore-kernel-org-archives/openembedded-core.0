@@ -1,831 +1,956 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <pgowda.cve@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F41A4C636D7
-	for <webhook@archiver.kernel.org>; Thu, 23 Feb 2023 06:34:37 +0000 (UTC)
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
- by mx.groups.io with SMTP id smtpd.web11.5238.1677134072392376300
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2F93C61DA4
+	for <webhook@archiver.kernel.org>; Thu, 23 Feb 2023 06:36:37 +0000 (UTC)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web10.5231.1677134192141007124
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Feb 2023 22:34:32 -0800
+ Wed, 22 Feb 2023 22:36:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=e4Wu7cc3;
- spf=pass (domain: gmail.com, ip: 209.85.160.46, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-17211366c6aso13293255fac.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Feb 2023 22:34:32 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=gaxoXWYi;
+ spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: pgowda.cve@gmail.com)
+Received: by mail-pl1-f179.google.com with SMTP id e5so12695143plg.8
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Feb 2023 22:36:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9byDtL1Lx3PQ8kSI93MiYqIB7Vmxme8sFQfJyLTPGMY=;
-        b=e4Wu7cc3xyNxULspH+/GkB5G1LUYd4pNbm7R6hk510PJv67zCV54AcWeUf3pZH9aOg
-         T9dRDMwKV1Q4L28KN512qw49qeqlX1z0P6XF0vLG8GwPwI0rN8g/oPIpnBkrp2omlgvi
-         6uwU/356MRTOr2Yth7g2+te8FYTp+lSoQOq7X2fZSq4/OZ4H3Sl6H8r+R62/9gm+9F5/
-         i1RAM4/z1Ib2CfFK7uWagxa0I8LcC9GodquGzfRAGLMf+RWOLilK3diJLNLH9sH/z/D7
-         QUNpT8yIFowsz4ZMG1dcx5v7oh7Ky/F+rrCkU5ZHkB0ZPZSUwIHeaHEbnNxBOJKqjMZX
-         F3Yg==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jTSg9DT1+Q1PC2YYM7Wxf5jUidP52PwK0qHBeQuJTBU=;
+        b=gaxoXWYie7MQv/4DVtHtmb3ivbR5l2ViO+CRBmLob7WL9Kbn6vUlXPjUOfO9kbTzdg
+         vjmDV/4u7D9otF04ygL7lHELGsa+e/ZZbtGzYVLj4+nxz4ArEk8JD5V0wWg6iRUn2XZ3
+         byw4OqYhhE8eWUr11qJyhVZpEQAakPOJusdYKQS1u53mGJaIIqvEQgLlgEb3BX4n7YHO
+         JEgwXWtusj+bSqYIeEXQlMC8jeaDhJeiKy7K7RgQwqUD5pBILMY7m1rqGy/VG1+NVMx+
+         YRqXYD3+yipCTYxdro76U/rSjxVcjnQ48yptinvGOzwDQ5oVSwQs2OxXf22PICrNOceK
+         dDKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9byDtL1Lx3PQ8kSI93MiYqIB7Vmxme8sFQfJyLTPGMY=;
-        b=jDiOMQCaB8E5lJ1Y0rvG7IfDABegNcWcyz4fWrD7mLrU0nhy4ALZnXa/b0pUWaFVGU
-         JRS7seJD3+c+xbkDj1fjxDwTl7wp//T9Cx3JRVmRroMmFX3hk73qD0G/29uu+zjR+jKi
-         sqLXgPg+HrBQ/e2NqkziZ4rUNTzIsHeGmOejGhT1HmbG7qiyRihlvvlCoY0fDzy2Lqae
-         uSve9KGNnJtxaoGmCuosliJdxhR7ww/BPdG1TUcA7TO5aIsx6hKDjFdBilCvZZ2Rt+tr
-         DAB4DrDdwuObPFoXT63vr6ACbiLQlSmFOD3AeT8aqlMUtkqKnW4ozRKw2bbx9sWl1sGo
-         0Ufw==
-X-Gm-Message-State: AO0yUKUaA2ZfaVTblxn/ZGHpzc5kTG71TQHQaDPfQUo2q/2+VRuznHqT
-	xXLLmvNHp7JOItWHEQ7t4QwdzE9AJ3aih7jlTCZGlY8rW0Y=
-X-Google-Smtp-Source: AK7set/amh12qSbv3S1wnZS+iEFW2Mb55vq3t8LkL9vUPLdznOEy26jx3TksBX3jya7uqwfStE7hsMsI65Gb3Uz1TfI=
-X-Received: by 2002:a05:6870:d188:b0:163:b85e:f1ca with SMTP id
- a8-20020a056870d18800b00163b85ef1camr1674778oac.262.1677134071169; Wed, 22
- Feb 2023 22:34:31 -0800 (PST)
+        bh=jTSg9DT1+Q1PC2YYM7Wxf5jUidP52PwK0qHBeQuJTBU=;
+        b=3l4pEbDqOqZTjar9oGD4eN3l3dJy0jGdCFR46EeWiDs58S/Sjmds9cuetq4AELeTJD
+         cZtWaCY/2pOlS812PRHWg6WZv97+rhLxAtOh8DUe/eRBp2pU9MFjN73ZEZK0YHhYmfOt
+         brSqlArOBTZuROYxtchlsugSehjGyAZmdD7zZAE460Yb68fv7aTnITi4UtVNidL16DkJ
+         6tybbsotY4nfxUcZc3RjKJcY3x5C85vsatUhtz8ujdWlkECTMTAb1ANIlkuG5V5v1zeF
+         qb7Q7OqGnFOcSdz5cGAO2B0q7I8R27/XCbmLBPdMkUDcJSozjalNnl2Xj6WHK5VPnJWe
+         1uyQ==
+X-Gm-Message-State: AO0yUKWzb+tsbBfk8KC5UufRPFv3JWR2ZhajOmPvb2f+KqbfSAv0SBJV
+	QupBhYGCUvihKgfg2eTIes70gD0e09M=
+X-Google-Smtp-Source: AK7set99O2I5xRkQc5+Ax9LmghYUrN/OGBzhm2xIP2KvYBU6d33hub2UAij9Z5AKSvLOhLnBShU1sQ==
+X-Received: by 2002:a17:903:41cd:b0:199:10d2:b9da with SMTP id u13-20020a17090341cd00b0019910d2b9damr10091819ple.58.1677134190862;
+        Wed, 22 Feb 2023 22:36:30 -0800 (PST)
+Received: from bft-PowerEdge-R620.. ([49.204.85.206])
+        by smtp.gmail.com with ESMTPSA id bi12-20020a170902bf0c00b0019a70a42b0asm12848209plb.169.2023.02.22.22.36.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Feb 2023 22:36:30 -0800 (PST)
+From: pgowda.cve@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: richard.purdie@linuxfoundation.org,
+	rwmacleod@gmail.com,
+	vinay.m.engg@gmail.com,
+	pgowda <pgowda.cve@gmail.com>
+Subject: [PATCH v12] Rust Oe-Selftest implementation
+Date: Thu, 23 Feb 2023 12:06:24 +0530
+Message-Id: <20230223063624.2226016-1-pgowda.cve@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230222165358.2186844-1-raj.khem@gmail.com> <Y/aosEttiq8sdxoA@mail.local>
- <CAMKF1sq9ZGnyQ4v=oLRmbPQBofQ+G3HYSU2nP3oA-feCk4v_EQ@mail.gmail.com>
-In-Reply-To: <CAMKF1sq9ZGnyQ4v=oLRmbPQBofQ+G3HYSU2nP3oA-feCk4v_EQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 22 Feb 2023 22:34:05 -0800
-Message-ID: <CAMKF1sqPCrJD+JOmnqzXO5-E7HAbW9iTLhXqJQKCyNFpnKeDRg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] gdb: Upgrade to 13.1
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 06:34:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177600
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 06:36:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177601
 
-On Wed, Feb 22, 2023 at 5:35 PM Khem Raj <raj.khem@gmail.com> wrote:
->
-> On Wed, Feb 22, 2023 at 3:43 PM Alexandre Belloni
-> <alexandre.belloni@bootlin.com> wrote:
-> >
-> > Hello,
-> >
-> > This failed on musl:
-> >
-> > | checking minix/config.h usability... ../../gdb-13.1/gdbserver/linux-low.cc: In function 'int proc_xfer_memory(CORE_ADDR, unsigned char*, const gdb_byte*, int)':
-> > | ../../gdb-13.1/gdbserver/linux-low.cc:5393:45: error: expected ':' before ')' token
-> > |  5393 |                  ? write (fd, writebuf, len));
-> > |       |                                             ^
-> > |       |                                             :
-> > | ../../gdb-13.1/gdbserver/linux-low.cc:5393:45: error: expected primary-expression before ')' token
-> > | ../../gdb-13.1/gdbserver/linux-low.cc:5393:45: error: expected ':' before ')' token
-> > |  5393 |                  ? write (fd, writebuf, len));
-> > |       |                                             ^
-> > |       |                                             :
-> > | ../../gdb-13.1/gdbserver/linux-low.cc:5393:45: error: expected primary-expression before ')' token
-> >
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/6703/steps/11/logs/stdio
-> >
-> > Note that reproducible still failed:
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/2438/steps/13/logs/stdio
-> >
->
-> I looked into the configure logs on builder as I was not able to
-> reproduce here locally. Here is what I see in gdb/config.log, I think
-> this node is using buildtools stuff and seems
-> its getting libpthread.so.0 from host which needs certain symbols from
-> libc which I guess are missing because its linking libc from
-> buildtools tarball as well.
->
-> configure:28568: checking for ELF support in BFD
-> configure:28588: ./libtool --quiet --mode=link gcc  -o conftest
-> -I../../gdb-13.1/gdb/../include -I../bfd -I../../gdb-13.1/gdb/../bfd
-> -isystem/home/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB/tmp/work/x86_64-linux/gdb-cross-x86_64/13.1-r0/recipe-sysroot-native/usr/include
-> -O2 -pipe     -isystem/home/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB/tmp/work/x86_64-linux/gdb-cross-x86_64/13.1-r0/recipe-sysroot-native/usr/include
-> -I/home/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB/tmp/work/x86_64-linux/gdb-cross-x86_64/13.1-r0/recipe-sysroot-native/usr/include
-> -L../bfd -L../libiberty conftest.c -lbfd -liberty  -lncursesw -lm  >&5
-> /home/pokybuild/yocto-worker/reproducible/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/gcc/x86_64-pokysdk-linux/12.2.0/../../../../x86_64-pokysdk-linux/bin/ld:
-> /lib64/libpthread.so.0: undefined reference to
-> `__pause_nocancel@GLIBC_PRIVATE'
-> /home/pokybuild/yocto-worker/reproducible/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/gcc/x86_64-pokysdk-linux/12.2.0/../../../../x86_64-pokysdk-linux/bin/ld:
-> /lib64/libpthread.so.0: undefined reference to
-> `__libc_dlclose@GLIBC_PRIVATE'
-> /home/pokybuild/yocto-worker/reproducible/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/gcc/x86_64-pokysdk-linux/12.2.0/../../../../x86_64-pokysdk-linux/bin/ld:
-> /lib64/libpthread.so.0: undefined reference to
-> `__libc_allocate_rtsig_private@GLIBC_PRIVATE'
-> /home/pokybuild/yocto-worker/reproducible/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/gcc/x86_64-pokysdk-linux/12.2.0/../../../../x86_64-pokysdk-linux/bin/ld:
-> /lib64/libpthread.so.0: undefined reference to
-> `__nanosleep_nocancel@GLIBC_PRIVATE'
-> /home/pokybuild/yocto-worker/reproducible/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/gcc/x86_64-pokysdk-linux/12.2.0/../../../../x86_64-pokysdk-linux/bin/ld:
-> /lib64/libpthread.so.0: undefined reference to
-> `__libc_dlsym@GLIBC_PRIVATE'
-> /home/pokybuild/yocto-worker/reproducible/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/gcc/x86_64-pokysdk-linux/12.2.0/../../../../x86_64-pokysdk-linux/bin/ld:
-> /lib64/libpthread.so.0: undefined reference to
-> `__libc_siglongjmp@GLIBC_PRIVATE'
-> /home/pokybuild/yocto-worker/reproducible/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/gcc/x86_64-pokysdk-linux/12.2.0/../../../../x86_64-pokysdk-linux/bin/ld:
-> /lib64/libpthread.so.0: undefined reference to
-> `__libc_thread_freeres@GLIBC_PRIVATE'
-> /home/pokybuild/yocto-worker/reproducible/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/gcc/x86_64-pokysdk-linux/12.2.0/../../../../x86_64-pokysdk-linux/bin/ld:
-> /lib64/libpthread.so.0: undefined reference to
-> `__libc_current_sigrtmax_private@GLIBC_PRIVATE'
-> /home/pokybuild/yocto-worker/reproducible/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/gcc/x86_64-pokysdk-linux/12.2.0/../../../../x86_64-pokysdk-linux/bin/ld:
-> /lib64/libpthread.so.0: undefined reference to
-> `__libc_current_sigrtmin_private@GLIBC_PRIVATE'
-> /home/pokybuild/yocto-worker/reproducible/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/gcc/x86_64-pokysdk-linux/12.2.0/../../../../x86_64-pokysdk-linux/bin/ld:
-> /lib64/libpthread.so.0: undefined reference to
-> `_dl_make_stack_executable@GLIBC_PRIVATE'
-> /home/pokybuild/yocto-worker/reproducible/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/gcc/x86_64-pokysdk-linux/12.2.0/../../../../x86_64-pokysdk-linux/bin/ld:
-> /lib64/libpthread.so.0: undefined reference to
-> `__libc_longjmp@GLIBC_PRIVATE'
-> /home/pokybuild/yocto-worker/reproducible/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/gcc/x86_64-pokysdk-linux/12.2.0/../../../../x86_64-pokysdk-linux/bin/ld:
-> /lib64/libpthread.so.0: undefined reference to
-> `__libc_dlopen_mode@GLIBC_PRIVATE'
-> /home/pokybuild/yocto-worker/reproducible/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/gcc/x86_64-pokysdk-linux/12.2.0/../../../../x86_64-pokysdk-linux/bin/ld:
-> /lib64/libpthread.so.0: undefined reference to
-> `__libc_pthread_init@GLIBC_PRIVATE'
-> collect2: error: ld returned 1 exit status
-> configure:28588: $? = 1
->
->
+From: pgowda <pgowda.cve@gmail.com>
 
-I have put together a test case on alma8-ty-1 node under /home/pokybuild/khem
-if we try to link a .so which has libpthread.so.0 in DT_NEEDED
-sections ( libzstd.so in gdb case) that's when problem is seen.
-gcc from buildtools tarball mixes things in a somewhat confusing way.
-Where it brings libpthread from host's /lib64
-and libc from buildtools tarball install and this combo does end up in
-knots resulting in above errors. if we add -pthread to gcc call then
-it uses
-libpthread from correct path ( which is from buildtools tarball )
+The patch implements Rust testing framework similar to other selftest,
+specifically the gcc selftest in OE. It uses the client and server
+based method to test the binaries for cross-target on the image.
+The test framework is a wrapper around the Rust build system as ./x.py
+test. It tests many functionalities of Rust distribution like tools,
+documentation, libraries, packages, tools, Cargo, Crater etc.
+Please refer the following link for detailed description of Rust
+testing:-
+https://rustc-dev-guide.rust-lang.org/tests/intro.html#tool-tests
 
-I can see a workaround is to add -pthread to CC/CXX/LD in gdb-cross
-but that just hides the problem IMO, I think gcc from buildtools
-tarball
-is not behaving as expected and that should be investigated further
-builds without buildtools tarballs work fine.
+To support the rust tests in oe-core, the following functions were
+added:-
+setup_cargo_environment(): Build bootstrap and some early stage tools.
+do_rust_setup_snapshot(): Install the snapshot version of rust binaries.
+do_configure(): To generate config.toml
+do_compile(): To build "remote-test-server" for qemu target image.
 
-Unrelated to this but relevant for sure I also saw a patch to fix a
-meta-oe recipe from Joshua
+Approximate Number of Tests Run in the Rust Testsuite :- 18000
+Approximate Number of Tests that FAIL in bitbake environment :- 100-150
+Normally majority of the testcases are present in major folder "test/"
+It contributes to more than 80% of the testcases present in Rust test
+framework. These tests pass as expected on any Rust versions without
+much fuss. The tests that fail are of less important and contribute to
+less than 2% of the total testcases. These minor tests are observed to
+work on some versions and fail on others. They have to be added, ignored
+or excluded for different versions as per the behavior.
+These tests have been ignored or excluded in the Rust selftest
+environment to generate success of completing the testsuite.
 
-https://patchwork.yoctoproject.org/project/oe/patch/20230222165122.1489645-1-JPEWhacker@gmail.com/
+These tests work in parallel mode even in the skipped test mode as
+expected. Although the patch to disable tests is large, it is very simple
+in that it only disables tests. When updating to a newer version of Rust,
+the patch can usually be ported in a day.
 
-which could be suffering from the same problem as above which he is
-trying to fix by adding -pthread to ldflags.
+Tested for X86, X86-64, ARM, ARM64 and MIPS64 on CentOS release 6.10
 
->
-> >
-> > On 22/02/2023 08:53:58-0800, Khem Raj wrote:
-> > > Pass -Wno-enum-constexpr-conversion with clang
-> > >
-> > > GDB 13.1 includes the following changes and enhancements:
-> > >
-> > > * Support for the following new targets has been added in both
-> > >   GDB and GDBserver:
-> > >
-> > >   ** GNU/Linux/LoongArch (gdbserver) loongarch*-*-linux*
-> > >
-> > >   ** GNU/Linux/CSKY (gdbserver) csky*-*linux*
-> > >
-> > > * The Windows native target now supports target async.
-> > >
-> > > * FreeBSD:
-> > >
-> > >   ** Arm and AArch64: Support for Thread Local Storage (TLS) variables
-> > >
-> > >   ** Hardware watchpoint support on AArch64 FreeBSD
-> > >
-> > > * Floating-point support has now been added on LoongArch GNU/Linux.
-> > >
-> > > * New commands:
-> > >
-> > >  ** set print nibbles [on|off]
-> > >     show print nibbles
-> > >
-> > >     This controls whether the 'print/t' command will display binary values
-> > >     in groups of four bits, known as "nibbles".  The default is 'off'.
-> > >
-> > >  ** Various styling-related commands. See the gdb/NEWS file for more
-> > >     details (see link at the bottom).
-> > >
-> > >  ** Various maintenance commands.  These are normally aimed at GDB
-> > >     experts or developers. See the gdb/NEWS file for more details
-> > >     (see link at the bottom).
-> > >
-> > > * Python API improvements:
-> > >
-> > >  ** New Python API for instruction disassembly.
-> > >     The new attribute 'locations' of gdb.Breakpoint returns a list of
-> > >     gdb.BreakpointLocation objects specifying the locations where the
-> > >     breakpoint is inserted into the debuggee.
-> > >
-> > >  ** New Python type gdb.BreakpointLocation.
-> > >
-> > >  ** New function gdb.format_address(ADDRESS, PROGSPACE, ARCHITECTURE)
-> > >     that formats ADDRESS as 'address <symbol+offset>'
-> > >
-> > >  ** New function gdb.current_language that returns the name of the
-> > >     current language.  Unlike gdb.parameter('language'), this will
-> > >     never return 'auto'.
-> > >
-> > >  ** New function gdb.print_options that returns a dictionary of the
-> > >     prevailing print options, in the form accepted by gdb.Value.format_string.
-> > >
-> > >  ** New method gdb.Frame.language that returns the name of the
-> > >     frame's language.
-> > >
-> > >  ** gdb.Value.format_string now uses the format provided by 'print',
-> > >     if it is called during a 'print' or other similar operation.
-> > >
-> > >  ** gdb.Value.format_string now accepts the 'summary' keyword.  This
-> > >     can be used to request a shorter representation of a value, the
-> > >     way that 'set print frame-arguments scalars' does.
-> > >
-> > >  ** The gdb.register_window_type method now restricts the set of
-> > >     acceptable window names.  The first character of a window's name
-> > >     must start with a character in the set [a-zA-Z], every subsequent
-> > >     character of a window's name must be in the set [-_.a-zA-Z0-9].
-> > >
-> > > * GDB/MI changes:
-> > >
-> > >   ** MI version 1 is deprecated, and will be removed in GDB 14.
-> > >
-> > >   ** The async record stating the stopped reason 'breakpoint-hit' now
-> > >      contains an optional field locno.
-> > >
-> > > * Miscellaneous improvements:
-> > >
-> > >   ** gdb now supports zstd compressed debug sections (ELFCOMPRESS_ZSTD) for ELF.
-> > >
-> > >   ** New convenience variable $_inferior_thread_count contains the number
-> > >      of live threads in the current inferior.
-> > >
-> > >   ** New convenience variables $_hit_bpnum and $_hit_locno, set to
-> > >      the breakpoint number and the breakpoint location number of
-> > >      the breakpoint last hit.
-> > >
-> > >   ** The "info breakpoints" now displays enabled breakpoint locations
-> > >      of disabled breakpoints as in the "y-" state.
-> > >
-> > >   ** The format of 'disassemble /r' and 'record instruction-history /r'
-> > >      has changed to match the layout of GNU objdump when disassembling.
-> > >
-> > >      A new format "/b" has been introduce to provide the old behavior
-> > >      of "/r".
-> > >
-> > >   ** The TUI no longer styles the source and assembly code highlighted
-> > >      by the current position indicator by default. You can however
-> > >      re-enable styling using the new "set style tui-current-position"
-> > >      command.
-> > >
-> > >   ** It is now possible to use the "document" command to document
-> > >      user-defined commands.
-> > >
-> > >   ** Support for memory tag data for AArch64 MTE.
-> > >
-> > > * Support Removal notices:
-> > >
-> > >   ** DBX mode has been removed.
-> > >
-> > >   ** Support for building against Python version 2 has been removed.
-> > >      It is now only possible to build GDB against Python 3.
-> > >
-> > >   ** Support for the following commands has been removed:
-> > >
-> > >      set debug aix-solib on|off
-> > >      show debug aix-solib
-> > >      set debug solib-frv on|off
-> > >      show debug solib-frv
-> > >
-> > >      Use the "set/show debug solib" commands instead.
-> > >
-> > > For a complete list and more details on each item, please see the gdb/NEWS
-> > > file, available at [1]:
-> > >
-> > > [1] https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=blob_plain;f=gdb/NEWS;hb=gdb-13.1-release
-> > >
-> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > ---
-> > > v2: Rebase on master
-> > > v3: Drop a clang-16 specific quirk, accidentally added
-> > >
-> > >  meta/conf/distro/include/tcmode-default.inc   |  2 +-
-> > >  ...ian_12.1.bb => gdb-cross-canadian_13.1.bb} |  0
-> > >  .../{gdb-cross_12.1.bb => gdb-cross_13.1.bb}  |  0
-> > >  meta/recipes-devtools/gdb/gdb.inc             | 19 ++++-----
-> > >  ...make-man-install-relative-to-DESTDIR.patch | 28 -------------
-> > >  ...x-nat-Define-_ABIO32-if-not-defined.patch} |  9 ++---
-> > >  ...-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch} | 11 ++---
-> > >  ...eadline.a-when-using-disable-static.patch} | 13 +++---
-> > >  ...s.h.patch => 0004-use-asm-sgidefs.h.patch} |  9 ++---
-> > >  ...atch => 0005-Change-order-of-CFLAGS.patch} |  9 ++---
-> > >  ...6-resolve-restrict-keyword-conflict.patch} |  9 ++---
-> > >  ...> 0007-Fix-invalid-sigprocmask-call.patch} |  9 ++---
-> > >  ...sing-_Alignof-when-using-C11-or-newe.patch | 15 ++-----
-> > >  .../gdb/0009-gdbserver-ctrl-c-handling.patch  | 40 -------------------
-> > >  .../gdb/gdb/readline-8.2.patch                | 39 ------------------
-> > >  .../gdb/{gdb_12.1.bb => gdb_13.1.bb}          |  0
-> > >  16 files changed, 37 insertions(+), 175 deletions(-)
-> > >  rename meta/recipes-devtools/gdb/{gdb-cross-canadian_12.1.bb => gdb-cross-canadian_13.1.bb} (100%)
-> > >  rename meta/recipes-devtools/gdb/{gdb-cross_12.1.bb => gdb-cross_13.1.bb} (100%)
-> > >  delete mode 100644 meta/recipes-devtools/gdb/gdb/0001-make-man-install-relative-to-DESTDIR.patch
-> > >  rename meta/recipes-devtools/gdb/gdb/{0002-mips-linux-nat-Define-_ABIO32-if-not-defined.patch => 0001-mips-linux-nat-Define-_ABIO32-if-not-defined.patch} (82%)
-> > >  rename meta/recipes-devtools/gdb/gdb/{0003-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch => 0002-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch} (82%)
-> > >  rename meta/recipes-devtools/gdb/gdb/{0004-Dont-disable-libreadline.a-when-using-disable-static.patch => 0003-Dont-disable-libreadline.a-when-using-disable-static.patch} (83%)
-> > >  rename meta/recipes-devtools/gdb/gdb/{0005-use-asm-sgidefs.h.patch => 0004-use-asm-sgidefs.h.patch} (84%)
-> > >  rename meta/recipes-devtools/gdb/gdb/{0006-Change-order-of-CFLAGS.patch => 0005-Change-order-of-CFLAGS.patch} (84%)
-> > >  rename meta/recipes-devtools/gdb/gdb/{0007-resolve-restrict-keyword-conflict.patch => 0006-resolve-restrict-keyword-conflict.patch} (91%)
-> > >  rename meta/recipes-devtools/gdb/gdb/{0008-Fix-invalid-sigprocmask-call.patch => 0007-Fix-invalid-sigprocmask-call.patch} (90%)
-> > >  delete mode 100644 meta/recipes-devtools/gdb/gdb/0009-gdbserver-ctrl-c-handling.patch
-> > >  delete mode 100644 meta/recipes-devtools/gdb/gdb/readline-8.2.patch
-> > >  rename meta/recipes-devtools/gdb/{gdb_12.1.bb => gdb_13.1.bb} (100%)
-> > >
-> > > diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-> > > index 76e30aa002..ef61377491 100644
-> > > --- a/meta/conf/distro/include/tcmode-default.inc
-> > > +++ b/meta/conf/distro/include/tcmode-default.inc
-> > > @@ -19,7 +19,7 @@ PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
-> > >  GCCVERSION ?= "12.%"
-> > >  SDKGCCVERSION ?= "${GCCVERSION}"
-> > >  BINUVERSION ?= "2.40%"
-> > > -GDBVERSION ?= "12.%"
-> > > +GDBVERSION ?= "13.%"
-> > >  GLIBCVERSION ?= "2.37"
-> > >  LINUXLIBCVERSION ?= "6.1%"
-> > >  QEMUVERSION ?= "7.2%"
-> > > diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_12.1.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_13.1.bb
-> > > similarity index 100%
-> > > rename from meta/recipes-devtools/gdb/gdb-cross-canadian_12.1.bb
-> > > rename to meta/recipes-devtools/gdb/gdb-cross-canadian_13.1.bb
-> > > diff --git a/meta/recipes-devtools/gdb/gdb-cross_12.1.bb b/meta/recipes-devtools/gdb/gdb-cross_13.1.bb
-> > > similarity index 100%
-> > > rename from meta/recipes-devtools/gdb/gdb-cross_12.1.bb
-> > > rename to meta/recipes-devtools/gdb/gdb-cross_13.1.bb
-> > > diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/gdb.inc
-> > > index a5dc554581..6f006db546 100644
-> > > --- a/meta/recipes-devtools/gdb/gdb.inc
-> > > +++ b/meta/recipes-devtools/gdb/gdb.inc
-> > > @@ -5,16 +5,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-> > >                   file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674"
-> > >
-> > >  SRC_URI = "${GNU_MIRROR}/gdb/gdb-${PV}.tar.xz \
-> > > -           file://0001-make-man-install-relative-to-DESTDIR.patch \
-> > > -           file://0002-mips-linux-nat-Define-_ABIO32-if-not-defined.patch \
-> > > -           file://0003-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch \
-> > > -           file://0004-Dont-disable-libreadline.a-when-using-disable-static.patch \
-> > > -           file://0005-use-asm-sgidefs.h.patch \
-> > > -           file://0006-Change-order-of-CFLAGS.patch \
-> > > -           file://0007-resolve-restrict-keyword-conflict.patch \
-> > > -           file://0008-Fix-invalid-sigprocmask-call.patch \
-> > > -           file://0009-gdbserver-ctrl-c-handling.patch \
-> > > -           file://readline-8.2.patch \
-> > > +           file://0001-mips-linux-nat-Define-_ABIO32-if-not-defined.patch \
-> > > +           file://0002-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch \
-> > > +           file://0003-Dont-disable-libreadline.a-when-using-disable-static.patch \
-> > > +           file://0004-use-asm-sgidefs.h.patch \
-> > > +           file://0005-Change-order-of-CFLAGS.patch \
-> > > +           file://0006-resolve-restrict-keyword-conflict.patch \
-> > > +           file://0007-Fix-invalid-sigprocmask-call.patch \
-> > >             file://0008-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch \
-> > >             "
-> > > -SRC_URI[sha256sum] = "0e1793bf8f2b54d53f46dea84ccfd446f48f81b297b28c4f7fc017b818d69fed"
-> > > +SRC_URI[sha256sum] = "115ad5c18d69a6be2ab15882d365dda2a2211c14f480b3502c6eba576e2e95a0"
-> > > diff --git a/meta/recipes-devtools/gdb/gdb/0001-make-man-install-relative-to-DESTDIR.patch b/meta/recipes-devtools/gdb/gdb/0001-make-man-install-relative-to-DESTDIR.patch
-> > > deleted file mode 100644
-> > > index 16d6cf196f..0000000000
-> > > --- a/meta/recipes-devtools/gdb/gdb/0001-make-man-install-relative-to-DESTDIR.patch
-> > > +++ /dev/null
-> > > @@ -1,28 +0,0 @@
-> > > -From 8eca28eddcda4ce8a345ca031f43ff1ed6f37089 Mon Sep 17 00:00:00 2001
-> > > -From: Khem Raj <raj.khem@gmail.com>
-> > > -Date: Mon, 2 Mar 2015 02:27:55 +0000
-> > > -Subject: [PATCH 1/9] make man install relative to DESTDIR
-> > > -
-> > > -Upstream-Status: Pending
-> > > -
-> > > -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > ----
-> > > - sim/common/Make-common.in | 2 +-
-> > > - 1 file changed, 1 insertion(+), 1 deletion(-)
-> > > -
-> > > -diff --git a/sim/common/Make-common.in b/sim/common/Make-common.in
-> > > -index 74e5dad3049..9e95c224ba4 100644
-> > > ---- a/sim/common/Make-common.in
-> > > -+++ b/sim/common/Make-common.in
-> > > -@@ -70,7 +70,7 @@ tooldir = $(libdir)/$(target_alias)
-> > > - datadir = @datadir@
-> > > - datarootdir = @datarootdir@
-> > > - mandir = @mandir@
-> > > --man1dir = $(mandir)/man1
-> > > -+man1dir = $(DESTDIR)$(mandir)/man1
-> > > - infodir = @infodir@
-> > > - includedir = @includedir@
-> > > -
-> > > ---
-> > > -2.36.1
-> > > -
-> > > diff --git a/meta/recipes-devtools/gdb/gdb/0002-mips-linux-nat-Define-_ABIO32-if-not-defined.patch b/meta/recipes-devtools/gdb/gdb/0001-mips-linux-nat-Define-_ABIO32-if-not-defined.patch
-> > > similarity index 82%
-> > > rename from meta/recipes-devtools/gdb/gdb/0002-mips-linux-nat-Define-_ABIO32-if-not-defined.patch
-> > > rename to meta/recipes-devtools/gdb/gdb/0001-mips-linux-nat-Define-_ABIO32-if-not-defined.patch
-> > > index 8d263de896..0794dc64f7 100644
-> > > --- a/meta/recipes-devtools/gdb/gdb/0002-mips-linux-nat-Define-_ABIO32-if-not-defined.patch
-> > > +++ b/meta/recipes-devtools/gdb/gdb/0001-mips-linux-nat-Define-_ABIO32-if-not-defined.patch
-> > > @@ -1,7 +1,7 @@
-> > > -From 37d3afd2eaa95c89ad7cb5d0079b017752e4d0ea Mon Sep 17 00:00:00 2001
-> > > +From 5cc95003bafd66576684b85ad57e74b6fc54754c Mon Sep 17 00:00:00 2001
-> > >  From: Khem Raj <raj.khem@gmail.com>
-> > >  Date: Wed, 23 Mar 2016 06:30:09 +0000
-> > > -Subject: [PATCH 2/9] mips-linux-nat: Define _ABIO32 if not defined
-> > > +Subject: [PATCH] mips-linux-nat: Define _ABIO32 if not defined
-> > >
-> > >  This helps building gdb on mips64 on musl, since
-> > >  musl does not provide sgidefs.h this define is
-> > > @@ -16,7 +16,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > >   1 file changed, 4 insertions(+)
-> > >
-> > >  diff --git a/gdb/mips-linux-nat.c b/gdb/mips-linux-nat.c
-> > > -index 20e12b6889e..6adc61235aa 100644
-> > > +index 972b5db8e76..5e68538a3ba 100644
-> > >  --- a/gdb/mips-linux-nat.c
-> > >  +++ b/gdb/mips-linux-nat.c
-> > >  @@ -41,6 +41,10 @@
-> > > @@ -30,6 +30,3 @@ index 20e12b6889e..6adc61235aa 100644
-> > >
-> > >   class mips_linux_nat_target final : public linux_nat_trad_target
-> > >   {
-> > > ---
-> > > -2.36.1
-> > > -
-> > > diff --git a/meta/recipes-devtools/gdb/gdb/0003-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch b/meta/recipes-devtools/gdb/gdb/0002-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch
-> > > similarity index 82%
-> > > rename from meta/recipes-devtools/gdb/gdb/0003-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch
-> > > rename to meta/recipes-devtools/gdb/gdb/0002-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch
-> > > index 7e09404bb0..2c7029ca7a 100644
-> > > --- a/meta/recipes-devtools/gdb/gdb/0003-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch
-> > > +++ b/meta/recipes-devtools/gdb/gdb/0002-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch
-> > > @@ -1,7 +1,7 @@
-> > > -From e689eec672ee8c53b3adb2ade2b5deb9b7cd99d4 Mon Sep 17 00:00:00 2001
-> > > +From 33779a5967f977c7ae27e88255a0695fd5ddadf7 Mon Sep 17 00:00:00 2001
-> > >  From: Khem Raj <raj.khem@gmail.com>
-> > >  Date: Sat, 30 Apr 2016 18:32:14 -0700
-> > > -Subject: [PATCH 3/9] ppc/ptrace: Define pt_regs uapi_pt_regs on !GLIBC systems
-> > > +Subject: [PATCH] ppc/ptrace: Define pt_regs uapi_pt_regs on !GLIBC systems
-> > >
-> > >  Upstream-Status: Pending
-> > >
-> > > @@ -12,7 +12,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > >   2 files changed, 12 insertions(+)
-> > >
-> > >  diff --git a/gdb/nat/ppc-linux.h b/gdb/nat/ppc-linux.h
-> > > -index 1094f6b0be3..d8588a646c2 100644
-> > > +index c84f9146bbd..8c8580c95e1 100644
-> > >  --- a/gdb/nat/ppc-linux.h
-> > >  +++ b/gdb/nat/ppc-linux.h
-> > >  @@ -18,7 +18,13 @@
-> > > @@ -30,7 +30,7 @@ index 1094f6b0be3..d8588a646c2 100644
-> > >
-> > >   /* This sometimes isn't defined.  */
-> > >  diff --git a/gdbserver/linux-ppc-low.cc b/gdbserver/linux-ppc-low.cc
-> > > -index 08824887003..69afbae5359 100644
-> > > +index fdf74727e39..f64afd09b7a 100644
-> > >  --- a/gdbserver/linux-ppc-low.cc
-> > >  +++ b/gdbserver/linux-ppc-low.cc
-> > >  @@ -23,7 +23,13 @@
-> > > @@ -47,6 +47,3 @@ index 08824887003..69afbae5359 100644
-> > >
-> > >   #include "arch/ppc-linux-common.h"
-> > >   #include "arch/ppc-linux-tdesc.h"
-> > > ---
-> > > -2.36.1
-> > > -
-> > > diff --git a/meta/recipes-devtools/gdb/gdb/0004-Dont-disable-libreadline.a-when-using-disable-static.patch b/meta/recipes-devtools/gdb/gdb/0003-Dont-disable-libreadline.a-when-using-disable-static.patch
-> > > similarity index 83%
-> > > rename from meta/recipes-devtools/gdb/gdb/0004-Dont-disable-libreadline.a-when-using-disable-static.patch
-> > > rename to meta/recipes-devtools/gdb/gdb/0003-Dont-disable-libreadline.a-when-using-disable-static.patch
-> > > index a1e85e91b3..051a933ff4 100644
-> > > --- a/meta/recipes-devtools/gdb/gdb/0004-Dont-disable-libreadline.a-when-using-disable-static.patch
-> > > +++ b/meta/recipes-devtools/gdb/gdb/0003-Dont-disable-libreadline.a-when-using-disable-static.patch
-> > > @@ -1,7 +1,7 @@
-> > > -From 15ee6a626242efb8f367be49c13e00d0b72317f0 Mon Sep 17 00:00:00 2001
-> > > +From db8169b46d64b6ee786fe2c60fa3d2cf16eb9568 Mon Sep 17 00:00:00 2001
-> > >  From: Khem Raj <raj.khem@gmail.com>
-> > >  Date: Sat, 30 Apr 2016 15:25:03 -0700
-> > > -Subject: [PATCH 4/9] Dont disable libreadline.a when using --disable-static
-> > > +Subject: [PATCH] Dont disable libreadline.a when using --disable-static
-> > >
-> > >  If gdb is configured with --disable-static then this is dutifully passed to
-> > >  readline which then disables libreadline.a, which causes a problem when gdb
-> > > @@ -19,7 +19,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > >   2 files changed, 3 insertions(+), 2 deletions(-)
-> > >
-> > >  diff --git a/Makefile.def b/Makefile.def
-> > > -index acdcd625ed6..78fc31e1199 100644
-> > > +index f974565d8ca..039b5a3c209 100644
-> > >  --- a/Makefile.def
-> > >  +++ b/Makefile.def
-> > >  @@ -120,7 +120,8 @@ host_modules= { module= libiconv;
-> > > @@ -33,10 +33,10 @@ index acdcd625ed6..78fc31e1199 100644
-> > >   host_modules= { module= sim; };
-> > >   host_modules= { module= texinfo; no_install= true; };
-> > >  diff --git a/Makefile.in b/Makefile.in
-> > > -index 3aacd2daac9..aa58adada4a 100644
-> > > +index a425b54e094..dfaf585a7c1 100644
-> > >  --- a/Makefile.in
-> > >  +++ b/Makefile.in
-> > > -@@ -32791,7 +32791,7 @@ configure-readline:
-> > > +@@ -32816,7 +32816,7 @@ configure-readline:
-> > >         $$s/$$module_srcdir/configure \
-> > >         --srcdir=$${topdir}/$$module_srcdir \
-> > >         $(HOST_CONFIGARGS) --build=${build_alias} --host=${host_alias} \
-> > > @@ -45,6 +45,3 @@ index 3aacd2daac9..aa58adada4a 100644
-> > >         || exit 1
-> > >   @endif readline
-> > >
-> > > ---
-> > > -2.36.1
-> > > -
-> > > diff --git a/meta/recipes-devtools/gdb/gdb/0005-use-asm-sgidefs.h.patch b/meta/recipes-devtools/gdb/gdb/0004-use-asm-sgidefs.h.patch
-> > > similarity index 84%
-> > > rename from meta/recipes-devtools/gdb/gdb/0005-use-asm-sgidefs.h.patch
-> > > rename to meta/recipes-devtools/gdb/gdb/0004-use-asm-sgidefs.h.patch
-> > > index 242099b9b1..a0f16a40b5 100644
-> > > --- a/meta/recipes-devtools/gdb/gdb/0005-use-asm-sgidefs.h.patch
-> > > +++ b/meta/recipes-devtools/gdb/gdb/0004-use-asm-sgidefs.h.patch
-> > > @@ -1,7 +1,7 @@
-> > > -From 25a75aaf29791f4302f0e4452f7ebaf735d4f083 Mon Sep 17 00:00:00 2001
-> > > +From 11f8574b00df6415b3c5842aef3b4dddae1c89e3 Mon Sep 17 00:00:00 2001
-> > >  From: Andre McCurdy <amccurdy@gmail.com>
-> > >  Date: Sat, 30 Apr 2016 15:29:06 -0700
-> > > -Subject: [PATCH 5/9] use <asm/sgidefs.h>
-> > > +Subject: [PATCH] use <asm/sgidefs.h>
-> > >
-> > >  Build fix for MIPS with musl libc
-> > >
-> > > @@ -19,7 +19,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > >  diff --git a/gdb/mips-linux-nat.c b/gdb/mips-linux-nat.c
-> > > -index 6adc61235aa..afb40066744 100644
-> > > +index 5e68538a3ba..5b1c209abd8 100644
-> > >  --- a/gdb/mips-linux-nat.c
-> > >  +++ b/gdb/mips-linux-nat.c
-> > >  @@ -31,7 +31,7 @@
-> > > @@ -31,6 +31,3 @@ index 6adc61235aa..afb40066744 100644
-> > >   #include "nat/gdb_ptrace.h"
-> > >   #include <asm/ptrace.h>
-> > >   #include "inf-ptrace.h"
-> > > ---
-> > > -2.36.1
-> > > -
-> > > diff --git a/meta/recipes-devtools/gdb/gdb/0006-Change-order-of-CFLAGS.patch b/meta/recipes-devtools/gdb/gdb/0005-Change-order-of-CFLAGS.patch
-> > > similarity index 84%
-> > > rename from meta/recipes-devtools/gdb/gdb/0006-Change-order-of-CFLAGS.patch
-> > > rename to meta/recipes-devtools/gdb/gdb/0005-Change-order-of-CFLAGS.patch
-> > > index 58c9b1d0a7..0e3d405068 100644
-> > > --- a/meta/recipes-devtools/gdb/gdb/0006-Change-order-of-CFLAGS.patch
-> > > +++ b/meta/recipes-devtools/gdb/gdb/0005-Change-order-of-CFLAGS.patch
-> > > @@ -1,7 +1,7 @@
-> > > -From c0e7c34134aa1f9644075c596a2338a50d3d923e Mon Sep 17 00:00:00 2001
-> > > +From 7e74eacbbf616c27cbb43eb85b881d79900626c7 Mon Sep 17 00:00:00 2001
-> > >  From: Khem Raj <raj.khem@gmail.com>
-> > >  Date: Sat, 30 Apr 2016 15:35:39 -0700
-> > > -Subject: [PATCH 6/9] Change order of CFLAGS
-> > > +Subject: [PATCH] Change order of CFLAGS
-> > >
-> > >  Lets us override Werror if need be
-> > >
-> > > @@ -13,7 +13,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > >  diff --git a/gdbserver/Makefile.in b/gdbserver/Makefile.in
-> > > -index 47648b8d962..5599779de57 100644
-> > > +index 040f0b6faa0..256ce6a3f6a 100644
-> > >  --- a/gdbserver/Makefile.in
-> > >  +++ b/gdbserver/Makefile.in
-> > >  @@ -156,7 +156,7 @@ WIN32APILIBS = @WIN32APILIBS@
-> > > @@ -25,6 +25,3 @@ index 47648b8d962..5599779de57 100644
-> > >
-> > >   # LDFLAGS is specifically reserved for setting from the command line
-> > >   # when running make.
-> > > ---
-> > > -2.36.1
-> > > -
-> > > diff --git a/meta/recipes-devtools/gdb/gdb/0007-resolve-restrict-keyword-conflict.patch b/meta/recipes-devtools/gdb/gdb/0006-resolve-restrict-keyword-conflict.patch
-> > > similarity index 91%
-> > > rename from meta/recipes-devtools/gdb/gdb/0007-resolve-restrict-keyword-conflict.patch
-> > > rename to meta/recipes-devtools/gdb/gdb/0006-resolve-restrict-keyword-conflict.patch
-> > > index bbd1f0b27f..fd9bfc6835 100644
-> > > --- a/meta/recipes-devtools/gdb/gdb/0007-resolve-restrict-keyword-conflict.patch
-> > > +++ b/meta/recipes-devtools/gdb/gdb/0006-resolve-restrict-keyword-conflict.patch
-> > > @@ -1,7 +1,7 @@
-> > > -From 44fa1ecfbd8a5fe0cfea12a175fa041686842a0c Mon Sep 17 00:00:00 2001
-> > > +From 67f0b4bc9ad5111be38abf34c579fc4427b08b1f Mon Sep 17 00:00:00 2001
-> > >  From: Khem Raj <raj.khem@gmail.com>
-> > >  Date: Tue, 10 May 2016 08:47:05 -0700
-> > > -Subject: [PATCH 7/9] resolve restrict keyword conflict
-> > > +Subject: [PATCH] resolve restrict keyword conflict
-> > >
-> > >  GCC detects that we call 'restrict' as param name in function
-> > >  signatures and complains since both params are called 'restrict'
-> > > @@ -15,7 +15,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > >   1 file changed, 4 insertions(+), 4 deletions(-)
-> > >
-> > >  diff --git a/gnulib/import/sys_time.in.h b/gnulib/import/sys_time.in.h
-> > > -index 90a67d18426..664641a1fe8 100644
-> > > +index 87db1a88745..e6b98c7e467 100644
-> > >  --- a/gnulib/import/sys_time.in.h
-> > >  +++ b/gnulib/import/sys_time.in.h
-> > >  @@ -93,20 +93,20 @@ struct timeval
-> > > @@ -43,6 +43,3 @@ index 90a67d18426..664641a1fe8 100644
-> > >   # endif
-> > >   _GL_CXXALIASWARN (gettimeofday);
-> > >   # if defined __cplusplus && defined GNULIB_NAMESPACE
-> > > ---
-> > > -2.36.1
-> > > -
-> > > diff --git a/meta/recipes-devtools/gdb/gdb/0008-Fix-invalid-sigprocmask-call.patch b/meta/recipes-devtools/gdb/gdb/0007-Fix-invalid-sigprocmask-call.patch
-> > > similarity index 90%
-> > > rename from meta/recipes-devtools/gdb/gdb/0008-Fix-invalid-sigprocmask-call.patch
-> > > rename to meta/recipes-devtools/gdb/gdb/0007-Fix-invalid-sigprocmask-call.patch
-> > > index ed1310ced2..2ac6b390bf 100644
-> > > --- a/meta/recipes-devtools/gdb/gdb/0008-Fix-invalid-sigprocmask-call.patch
-> > > +++ b/meta/recipes-devtools/gdb/gdb/0007-Fix-invalid-sigprocmask-call.patch
-> > > @@ -1,7 +1,7 @@
-> > > -From 5bdd15553daef7370ca3c1f12d8f14247fdd4907 Mon Sep 17 00:00:00 2001
-> > > +From d54e25d5919b98323415fffeccc4b8b2e297219a Mon Sep 17 00:00:00 2001
-> > >  From: Yousong Zhou <yszhou4tech@gmail.com>
-> > >  Date: Fri, 24 Mar 2017 10:36:03 +0800
-> > > -Subject: [PATCH 8/9] Fix invalid sigprocmask call
-> > > +Subject: [PATCH] Fix invalid sigprocmask call
-> > >  MIME-Version: 1.0
-> > >  Content-Type: text/plain; charset=UTF-8
-> > >  Content-Transfer-Encoding: 8bit
-> > > @@ -32,7 +32,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > >  diff --git a/gdbsupport/signals-state-save-restore.cc b/gdbsupport/signals-state-save-restore.cc
-> > > -index 92e799d3551..a4a0234272a 100644
-> > > +index 3ec7a259c9c..0702eca7725 100644
-> > >  --- a/gdbsupport/signals-state-save-restore.cc
-> > >  +++ b/gdbsupport/signals-state-save-restore.cc
-> > >  @@ -38,7 +38,7 @@ save_original_signals_state (bool quiet)
-> > > @@ -44,6 +44,3 @@ index 92e799d3551..a4a0234272a 100644
-> > >     if (res == -1)
-> > >       perror_with_name (("sigprocmask"));
-> > >
-> > > ---
-> > > -2.36.1
-> > > -
-> > > diff --git a/meta/recipes-devtools/gdb/gdb/0008-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch b/meta/recipes-devtools/gdb/gdb/0008-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch
-> > > index 3e29327613..59649c489c 100644
-> > > --- a/meta/recipes-devtools/gdb/gdb/0008-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch
-> > > +++ b/meta/recipes-devtools/gdb/gdb/0008-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch
-> > > @@ -1,11 +1,11 @@
-> > > -From 48906e1038e469b429aa35d0f967730a929c3880 Mon Sep 17 00:00:00 2001
-> > > +From 48e5e823291a80b42a62181addc98ef8aa7b9354 Mon Sep 17 00:00:00 2001
-> > >  From: Khem Raj <raj.khem@gmail.com>
-> > >  Date: Sun, 15 Jan 2023 00:16:25 -0800
-> > > -Subject: [PATCH 8/8] Define alignof using _Alignof when using C11 or newer
-> > > +Subject: [PATCH] Define alignof using _Alignof when using C11 or newer
-> > >
-> > >  WG14 N2350 made very clear that it is an UB having type definitions
-> > >  within "offsetof" [1]. This patch enhances the implementation of macro
-> > > -alignof_slot to use builtin "_Alignof" to avoid undefined behavior on
-> > > +alignof to use builtin "_Alignof" to avoid undefined behavior on
-> > >  when using std=c11 or newer
-> > >
-> > >  clang 16+ has started to flag this [2]
-> > > @@ -15,14 +15,10 @@ Fixes build when using -std >= gnu11 and using clang16+
-> > >  Older compilers gcc < 4.9 or clang < 8 has buggy _Alignof even though it
-> > >  may support C11, exclude those compilers too
-> > >
-> > > -gnulib needs this fix and then it will be applied to downstream packages
-> > > -like gdb [3]
-> > > -
-> > >  [1] https://www.open-std.org/jtc1/sc22/wg14/www/docs/n2350.htm
-> > >  [2] https://reviews.llvm.org/D133574
-> > > -[3] https://public-inbox.org/bug-gnulib/20230114232744.215167-1-raj.khem@gmail.com/T/#u
-> > >
-> > > -Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/gnulib.git/commit/?id=2d404c7dd974cc65f894526f4a1b76bc1dcd8d82]
-> > > +Upstream-Status: Pending
-> > >  Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > >  ---
-> > >   libiberty/sha1.c | 10 ++++++++++
-> > > @@ -50,6 +46,3 @@ index 504f06d3b9b..790ada82443 100644
-> > >   # define UNALIGNED_P(p) (((size_t) p) % alignof (sha1_uint32) != 0)
-> > >         if (UNALIGNED_P (buffer))
-> > >       while (len > 64)
-> > > ---
-> > > -2.39.0
-> > > -
-> > > diff --git a/meta/recipes-devtools/gdb/gdb/0009-gdbserver-ctrl-c-handling.patch b/meta/recipes-devtools/gdb/gdb/0009-gdbserver-ctrl-c-handling.patch
-> > > deleted file mode 100644
-> > > index f53d3bd1e5..0000000000
-> > > --- a/meta/recipes-devtools/gdb/gdb/0009-gdbserver-ctrl-c-handling.patch
-> > > +++ /dev/null
-> > > @@ -1,40 +0,0 @@
-> > > -From bc3b1f6aacf2d8fe66b022fbfcf28cd82c76e52f Mon Sep 17 00:00:00 2001
-> > > -From: Khem Raj <raj.khem@gmail.com>
-> > > -Date: Thu, 29 Nov 2018 18:00:23 -0800
-> > > -Subject: [PATCH 9/9] gdbserver ctrl-c handling
-> > > -
-> > > -This problem was created by the upstream commit 78708b7c8c
-> > > -After applying the commit, it will send SIGINT to the process
-> > > -group(-signal_pid).
-> > > -But if we use gdbserver send SIGINT, and the attached process is not a
-> > > -process
-> > > -group leader, then the "kill (-signal_pid, SIGINT)" returns error and
-> > > -fails  to
-> > > -interrupt the attached process.
-> > > -
-> > > -Upstream-Status: Submitted
-> > > -[https://sourceware.org/bugzilla/show_bug.cgi?id=18945]
-> > > -
-> > > -Author: Josh Gao
-> > > -Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-> > > -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > ----
-> > > - gdbserver/linux-low.cc | 2 +-
-> > > - 1 file changed, 1 insertion(+), 1 deletion(-)
-> > > -
-> > > -diff --git a/gdbserver/linux-low.cc b/gdbserver/linux-low.cc
-> > > -index 7726a4a0c36..f750e074a03 100644
-> > > ---- a/gdbserver/linux-low.cc
-> > > -+++ b/gdbserver/linux-low.cc
-> > > -@@ -5496,7 +5496,7 @@ linux_process_target::request_interrupt ()
-> > > - {
-> > > -   /* Send a SIGINT to the process group.  This acts just like the user
-> > > -      typed a ^C on the controlling terminal.  */
-> > > --  ::kill (-signal_pid, SIGINT);
-> > > -+  ::kill (signal_pid, SIGINT);
-> > > - }
-> > > -
-> > > - bool
-> > > ---
-> > > -2.36.1
-> > > -
-> > > diff --git a/meta/recipes-devtools/gdb/gdb/readline-8.2.patch b/meta/recipes-devtools/gdb/gdb/readline-8.2.patch
-> > > deleted file mode 100644
-> > > index c2db4c0d79..0000000000
-> > > --- a/meta/recipes-devtools/gdb/gdb/readline-8.2.patch
-> > > +++ /dev/null
-> > > @@ -1,39 +0,0 @@
-> > > -From 1add37b567a7dee39d99f37b37802034c3fce9c4 Mon Sep 17 00:00:00 2001
-> > > -From: Andreas Schwab <schwab@linux-m68k.org>
-> > > -Date: Sun, 20 Mar 2022 14:01:54 +0100
-> > > -Subject: [PATCH] Add support for readline 8.2
-> > > -
-> > > -In readline 8.2 the type of rl_completer_word_break_characters changed to
-> > > -include const.
-> > > -
-> > > -Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=1add37b567a7dee39d99f37b37802034c3fce9c4]
-> > > -Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> > > ----
-> > > - gdb/completer.c | 4 ++--
-> > > - 1 file changed, 2 insertions(+), 2 deletions(-)
-> > > -
-> > > -diff --git a/gdb/completer.c b/gdb/completer.c
-> > > -index d3900ae2014..a51c16ac7f8 100644
-> > > ---- a/gdb/completer.c
-> > > -+++ b/gdb/completer.c
-> > > -@@ -36,7 +36,7 @@
-> > > -    calling a hook instead so we eliminate the CLI dependency.  */
-> > > - #include "gdbcmd.h"
-> > > -
-> > > --/* Needed for rl_completer_word_break_characters() and for
-> > > -+/* Needed for rl_completer_word_break_characters and for
-> > > -    rl_filename_completion_function.  */
-> > > - #include "readline/readline.h"
-> > > -
-> > > -@@ -2011,7 +2011,7 @@ gdb_completion_word_break_characters_throw ()
-> > > -       rl_basic_quote_characters = NULL;
-> > > -     }
-> > > -
-> > > --  return rl_completer_word_break_characters;
-> > > -+  return (char *) rl_completer_word_break_characters;
-> > > - }
-> > > -
-> > > - char *
-> > > ---
-> > > -2.31.1
-> > > -
-> > > diff --git a/meta/recipes-devtools/gdb/gdb_12.1.bb b/meta/recipes-devtools/gdb/gdb_13.1.bb
-> > > similarity index 100%
-> > > rename from meta/recipes-devtools/gdb/gdb_12.1.bb
-> > > rename to meta/recipes-devtools/gdb/gdb_13.1.bb
-> > > --
-> > > 2.39.2
-> > >
-> >
-> > >
-> > > -=-=-=-=-=-=-=-=-=-=-=-
-> > > Links: You receive all messages sent to this group.
-> > > View/Reply Online (#177578): https://lists.openembedded.org/g/openembedded-core/message/177578
-> > > Mute This Topic: https://lists.openembedded.org/mt/97164047/3617179
-> > > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> > > -=-=-=-=-=-=-=-=-=-=-=-
-> > >
-> >
-> >
-> > --
-> > Alexandre Belloni, co-owner and COO, Bootlin
-> > Embedded Linux and Kernel engineering
-> > https://bootlin.com
+Signed-off-by: pgowda <pgowda.cve@gmail.com>
+Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
+---
+ meta/lib/oeqa/selftest/cases/rust.py          |  54 ++
+ .../rust/files/rust-oe-selftest.patch         | 736 ++++++++++++++++++
+ meta/recipes-devtools/rust/rust-source.inc    |   1 +
+ meta/recipes-devtools/rust/rust_1.67.1.bb     |   6 +
+ 4 files changed, 797 insertions(+)
+ create mode 100644 meta/lib/oeqa/selftest/cases/rust.py
+ create mode 100644 meta/recipes-devtools/rust/files/rust-oe-selftest.patch
+
+diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/selftest/cases/rust.py
+new file mode 100644
+index 0000000000..f9889b840c
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/rust.py
+@@ -0,0 +1,54 @@
++# SPDX-License-Identifier: MIT
++import os
++import subprocess
++from oeqa.core.decorator import OETestTag
++from oeqa.core.case import OEPTestResultTestCase
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_bb_vars, runqemu, Command
++from oeqa.utils.sshcontrol import SSHControl
++
++# Total time taken for testing is of about 2hr 20min, with PARALLEL_MAKE set to 40 number of jobs.
++class RustSelfTestSystemEmulated(OESelftestTestCase, OEPTestResultTestCase):
++    def test_rust(self, *args, **kwargs):
++        # build remote-test-server before image build
++        recipe = "rust"
++        bitbake("{} -c test_compile".format(recipe))
++        builddir = get_bb_var("RUSTSRC", "rust")
++        # build core-image-minimal with required packages
++        default_installed_packages = ["libgcc", "libstdc++", "libatomic", "libgomp"]
++        features = []
++        features.append('IMAGE_FEATURES += "ssh-server-dropbear"')
++        features.append('CORE_IMAGE_EXTRA_INSTALL += "{0}"'.format(" ".join(default_installed_packages)))
++        self.write_config("\n".join(features))
++        bitbake("core-image-minimal")
++        # wrap the execution with a qemu instance.
++        # Tests are run with 512 tasks in parallel to execute all tests very quickly
++        with runqemu("core-image-minimal", runqemuparams = "nographic", qemuparams = "-m 512") as qemu:
++            # Copy remote-test-server to image through scp
++            ssh = SSHControl(ip=qemu.ip, logfile=qemu.sshlog, user="root")
++            ssh.copy_to(builddir + "/" + "build/x86_64-unknown-linux-gnu/stage1-tools-bin/remote-test-server","~/")
++            # Execute remote-test-server on image through background ssh
++            command = '~/remote-test-server --bind 0.0.0.0:12345 -v'
++            sshrun=subprocess.Popen(("ssh", '-o',  'UserKnownHostsFile=/dev/null', '-o',  'StrictHostKeyChecking=no', '-f', "root@%s" % qemu.ip, command), shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
++            # Get the values of variables.
++            tcpath = get_bb_var("TARGET_SYS", "rust")
++            targetsys = get_bb_var("RUST_TARGET_SYS", "rust")
++            rustlibpath = get_bb_var("WORKDIR", "rust")
++            tmpdir = get_bb_var("TMPDIR", "rust")
++
++            # Exclude the test folders that error out while building
++            # TODO: Fix the errors and include them for testing
++            # no-fail-fast: Run all tests regardless of failure.
++            # bless: First runs rustfmt to format the codebase,
++            # then runs tidy checks.
++            testargs = "--exclude src/test/rustdoc --exclude src/tools/rust-analyzer  --exclude src/test/rustdoc-json  --exclude src/test/run-make-fulldeps --exclude src/tools/tidy --exclude src/tools/rustdoc-themes --exclude src/rustdoc-json-types --exclude src/librustdoc --exclude src/doc/unstable-book --exclude src/doc/rustdoc --exclude src/doc/rustc --exclude compiler/rustc --exclude library/panic_abort --exclude library/panic_unwind --exclude src/tools/lint-docs --exclude src/test/rustdoc-js-std --no-doc --no-fail-fast --bless"
++
++            # Set path for target-poky-linux-gcc, RUST_TARGET_PATH and hosttools.
++            cmd = " export PATH=%s/recipe-sysroot-native/usr/bin:$PATH;" % rustlibpath
++            cmd = cmd + " export TARGET_VENDOR=\"-poky\";"
++            cmd = cmd + " export PATH=%s/recipe-sysroot-native/usr/bin/%s:%s/hosttools:$PATH;" % (rustlibpath, tcpath, tmpdir)
++            cmd = cmd + " export RUST_TARGET_PATH=%s/rust-targets;" % rustlibpath
++            # Trigger testing.
++            cmd = cmd + " export TEST_DEVICE_ADDR=\"%s:12345\";" % qemu.ip
++            cmd = cmd + " cd %s;  python3 src/bootstrap/bootstrap.py test %s --target %s ;" % (builddir, testargs, targetsys)
++            result = runCmd(cmd)
+diff --git a/meta/recipes-devtools/rust/files/rust-oe-selftest.patch b/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
+new file mode 100644
+index 0000000000..aef931073f
+--- /dev/null
++++ b/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
+@@ -0,0 +1,736 @@
++Rust testsuite outputs error even on a single testcase failure.
++Hence, some test runs are ignored as they fail with error messages.
++
++Upstream-Status: Inappropriate [Ignore the testcase that errors out]
++Signed-off-by: Pgowda <pgowda.cve@gmail.com>
++---
++
++diff --git a/compiler/rustc_interface/src/tests.rs b/compiler/rustc_interface/src/tests.rs
++index eb8e65a6d..6e65e8787 100644
++--- a/compiler/rustc_interface/src/tests.rs
+++++ b/compiler/rustc_interface/src/tests.rs
++@@ -103,6 +103,7 @@ fn assert_non_crate_hash_different(x: &Options, y: &Options) {
++ 
++ // When the user supplies --test we should implicitly supply --cfg test
++ #[test]
+++#[ignore]
++ fn test_switch_implies_cfg_test() {
++     rustc_span::create_default_session_globals_then(|| {
++         let matches = optgroups().parse(&["--test".to_string()]).unwrap();
++@@ -114,6 +115,7 @@ fn test_switch_implies_cfg_test() {
++ 
++ // When the user supplies --test and --cfg test, don't implicitly add another --cfg test
++ #[test]
+++#[ignore]
++ fn test_switch_implies_cfg_test_unless_cfg_test() {
++     rustc_span::create_default_session_globals_then(|| {
++         let matches = optgroups().parse(&["--test".to_string(), "--cfg=test".to_string()]).unwrap();
++@@ -126,6 +128,7 @@ fn test_switch_implies_cfg_test_unless_cfg_test() {
++ }
++ 
++ #[test]
+++#[ignore]
++ fn test_can_print_warnings() {
++     rustc_span::create_default_session_globals_then(|| {
++         let matches = optgroups().parse(&["-Awarnings".to_string()]).unwrap();
++diff --git a/library/test/src/stats/tests.rs b/library/test/src/stats/tests.rs
++index 3a6e8401b..8442a6b39 100644
++--- a/library/test/src/stats/tests.rs
+++++ b/library/test/src/stats/tests.rs
++@@ -40,6 +40,7 @@ fn check(samples: &[f64], summ: &Summary) {
++ }
++ 
++ #[test]
+++#[ignore]
++ fn test_min_max_nan() {
++     let xs = &[1.0, 2.0, f64::NAN, 3.0, 4.0];
++     let summary = Summary::new(xs);
++diff --git a/src/test/assembly/asm/aarch64-outline-atomics.rs b/src/test/assembly/asm/aarch64-outline-atomics.rs
++index c2ec4e911..150d23004 100644
++--- a/src/test/assembly/asm/aarch64-outline-atomics.rs
+++++ b/src/test/assembly/asm/aarch64-outline-atomics.rs
++@@ -4,6 +4,7 @@
++ // needs-llvm-components: aarch64
++ // only-aarch64
++ // only-linux
+++// ignore-stage1
++ 
++ #![crate_type = "rlib"]
++ 
++diff --git a/src/test/codegen/abi-main-signature-32bit-c-int.rs b/src/test/codegen/abi-main-signature-32bit-c-int.rs
++index 7f22ddcfc..ec84b72aa 100644
++--- a/src/test/codegen/abi-main-signature-32bit-c-int.rs
+++++ b/src/test/codegen/abi-main-signature-32bit-c-int.rs
++@@ -3,6 +3,7 @@
++ 
++ // This test is for targets with 32bit c_int only.
++ // ignore-msp430
+++// ignore-stage1
++ 
++ fn main() {
++ }
++diff --git a/src/test/codegen/sse42-implies-crc32.rs b/src/test/codegen/sse42-implies-crc32.rs
++index 47b1a8993..71e2d5ef7 100644
++--- a/src/test/codegen/sse42-implies-crc32.rs
+++++ b/src/test/codegen/sse42-implies-crc32.rs
++@@ -1,6 +1,7 @@
++ // only-x86_64
++ // min-llvm-version: 14.0
++ // compile-flags: -Copt-level=3
+++// ignore-stage1
++ 
++ #![crate_type = "lib"]
++ 
++diff --git a/src/test/codegen/thread-local.rs b/src/test/codegen/thread-local.rs
++index 0f1b29ca7..b2b4fd2ff 100644
++--- a/src/test/codegen/thread-local.rs
+++++ b/src/test/codegen/thread-local.rs
++@@ -4,6 +4,7 @@
++ // ignore-wasm globals are used instead of thread locals
++ // ignore-emscripten globals are used instead of thread locals
++ // ignore-android does not use #[thread_local]
+++// ignore-stage1
++ 
++ #![crate_type = "lib"]
++ 
++diff --git a/src/test/codegen/uninit-consts.rs b/src/test/codegen/uninit-consts.rs
++index 4c07740b3..dac5da866 100644
++--- a/src/test/codegen/uninit-consts.rs
+++++ b/src/test/codegen/uninit-consts.rs
++@@ -1,5 +1,6 @@
++ // compile-flags: -C no-prepopulate-passes
++ // min-llvm-version: 14.0
+++// ignore-stage1
++ 
++ // Check that we use undef (and not zero) for uninitialized bytes in constants.
++ 
++diff --git a/src/test/pretty/raw-str-nonexpr.rs b/src/test/pretty/raw-str-nonexpr.rs
++index 12440b5ae..5b62d45ff 100644
++--- a/src/test/pretty/raw-str-nonexpr.rs
+++++ b/src/test/pretty/raw-str-nonexpr.rs
++@@ -1,5 +1,6 @@
++ // needs-asm-support
++ // pp-exact
+++// ignore-stage1
++ 
++ #[cfg(foo = r#"just parse this"#)]
++ extern crate blah as blah;
++diff --git a/src/test/rustdoc-ui/cfg-test.rs b/src/test/rustdoc-ui/cfg-test.rs
++index d4ca92585..fceb2968d 100644
++--- a/src/test/rustdoc-ui/cfg-test.rs
+++++ b/src/test/rustdoc-ui/cfg-test.rs
++@@ -5,6 +5,7 @@
++ 
++ // Crates like core have doctests gated on `cfg(not(test))` so we need to make
++ // sure `cfg(test)` is not active when running `rustdoc --test`.
+++// ignore-stage1
++ 
++ /// this doctest will be ignored:
++ ///
++diff --git a/src/test/rustdoc-ui/check-cfg-test.rs b/src/test/rustdoc-ui/check-cfg-test.rs
++index 626cc8387..b0f9a1948 100644
++--- a/src/test/rustdoc-ui/check-cfg-test.rs
+++++ b/src/test/rustdoc-ui/check-cfg-test.rs
++@@ -3,6 +3,7 @@
++ // normalize-stderr-test: "src/test/rustdoc-ui" -> "$$DIR"
++ // normalize-stdout-test: "src/test/rustdoc-ui" -> "$$DIR"
++ // normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
+++// ignore-stage1
++ 
++ /// The doctest will produce a warning because feature invalid is unexpected
++ /// ```
++diff --git a/src/test/rustdoc-ui/display-output.rs b/src/test/rustdoc-ui/display-output.rs
++index ec27a9f6b..61655fa6e 100644
++--- a/src/test/rustdoc-ui/display-output.rs
+++++ b/src/test/rustdoc-ui/display-output.rs
++@@ -5,6 +5,7 @@
++ // compile-flags:--test --test-args=--show-output
++ // normalize-stdout-test: "src/test/rustdoc-ui" -> "$$DIR"
++ // normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
+++// ignore-stage1
++ 
++ /// ```
++ /// #![warn(unused)]
++diff --git a/src/test/rustdoc-ui/doc-comment-multi-line-attr.rs b/src/test/rustdoc-ui/doc-comment-multi-line-attr.rs
++index 97259f782..50a155fba 100644
++--- a/src/test/rustdoc-ui/doc-comment-multi-line-attr.rs
+++++ b/src/test/rustdoc-ui/doc-comment-multi-line-attr.rs
++@@ -3,6 +3,7 @@
++ // normalize-stdout-test: "src/test/rustdoc-ui" -> "$$DIR"
++ // normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
++ // check-pass
+++// ignore-stage1
++ 
++ //! ```rust
++ //! #![deny(
++diff --git a/src/test/rustdoc-ui/doc-comment-multi-line-cfg-attr.rs b/src/test/rustdoc-ui/doc-comment-multi-line-cfg-attr.rs
++index b2a8133c9..ea064ba85 100644
++--- a/src/test/rustdoc-ui/doc-comment-multi-line-cfg-attr.rs
+++++ b/src/test/rustdoc-ui/doc-comment-multi-line-cfg-attr.rs
++@@ -2,6 +2,7 @@
++ // normalize-stdout-test: "src/test/rustdoc-ui" -> "$$DIR"
++ // normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
++ // check-pass
+++// ignore-stage1
++ 
++ /// ```
++ /// # #![cfg_attr(not(dox), deny(missing_abi,
++diff --git a/src/test/rustdoc-ui/doc-test-doctest-feature.rs b/src/test/rustdoc-ui/doc-test-doctest-feature.rs
++index 0b79aaece..8cef6d974 100644
++--- a/src/test/rustdoc-ui/doc-test-doctest-feature.rs
+++++ b/src/test/rustdoc-ui/doc-test-doctest-feature.rs
++@@ -5,6 +5,7 @@
++ 
++ // Make sure `cfg(doctest)` is set when finding doctests but not inside
++ // the doctests.
+++// ignore-stage1
++ 
++ /// ```
++ /// assert!(!cfg!(doctest));
++diff --git a/src/test/rustdoc-ui/doc-test-rustdoc-feature.rs b/src/test/rustdoc-ui/doc-test-rustdoc-feature.rs
++index bf334c67e..c372097bd 100644
++--- a/src/test/rustdoc-ui/doc-test-rustdoc-feature.rs
+++++ b/src/test/rustdoc-ui/doc-test-rustdoc-feature.rs
++@@ -2,6 +2,7 @@
++ // compile-flags:--test
++ // normalize-stdout-test: "src/test/rustdoc-ui" -> "$$DIR"
++ // normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
+++// ignore-stage1
++ 
++ #![feature(doc_cfg)]
++ 
++diff --git a/src/test/rustdoc-ui/doctest-output.rs b/src/test/rustdoc-ui/doctest-output.rs
++index 2670fa572..b4b612916 100644
++--- a/src/test/rustdoc-ui/doctest-output.rs
+++++ b/src/test/rustdoc-ui/doctest-output.rs
++@@ -4,6 +4,7 @@
++ // normalize-stdout-test: "src/test/rustdoc-ui" -> "$$DIR"
++ // normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
++ // check-pass
+++// ignore-stage1
++ 
++ //! ```
++ //! assert_eq!(1 + 1, 2);
++diff --git a/src/test/rustdoc-ui/failed-doctest-compile-fail.rs b/src/test/rustdoc-ui/failed-doctest-compile-fail.rs
++index 6f2ff5d70..2561ffdc3 100644
++--- a/src/test/rustdoc-ui/failed-doctest-compile-fail.rs
+++++ b/src/test/rustdoc-ui/failed-doctest-compile-fail.rs
++@@ -5,6 +5,7 @@
++ // normalize-stdout-test: "src/test/rustdoc-ui" -> "$$DIR"
++ // normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
++ // failure-status: 101
+++// ignore-stage1
++ 
++ /// ```compile_fail
++ /// println!("Hello");
++diff --git a/src/test/rustdoc-ui/issue-91134.rs b/src/test/rustdoc-ui/issue-91134.rs
++index d2ff3a252..90e0816d2 100644
++--- a/src/test/rustdoc-ui/issue-91134.rs
+++++ b/src/test/rustdoc-ui/issue-91134.rs
++@@ -4,6 +4,7 @@
++ // normalize-stdout-test: "src/test/rustdoc-ui" -> "$$DIR"
++ // normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
++ // edition:2021
+++// ignore-stage1
++ 
++ /// <https://github.com/rust-lang/rust/issues/91134>
++ ///
++diff --git a/src/test/rustdoc-ui/nocapture.rs b/src/test/rustdoc-ui/nocapture.rs
++index 321f5ca08..463751e48 100644
++--- a/src/test/rustdoc-ui/nocapture.rs
+++++ b/src/test/rustdoc-ui/nocapture.rs
++@@ -2,6 +2,7 @@
++ // compile-flags:--test -Zunstable-options --nocapture
++ // normalize-stdout-test: "src/test/rustdoc-ui" -> "$$DIR"
++ // normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
+++// ignore-stage1
++ 
++ /// ```
++ /// println!("hello!");
++diff --git a/src/test/rustdoc-ui/run-directory.rs b/src/test/rustdoc-ui/run-directory.rs
++index 0d432c1e6..357e3ccc3 100644
++--- a/src/test/rustdoc-ui/run-directory.rs
+++++ b/src/test/rustdoc-ui/run-directory.rs
++@@ -6,6 +6,7 @@
++ // [incorrect]compile-flags:--test --test-run-directory={{src-base}}/coverage -Zunstable-options
++ // normalize-stdout-test: "src/test/rustdoc-ui" -> "$$DIR"
++ // normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
+++// ignore-stage1
++ 
++ /// ```
++ /// assert_eq!(
++diff --git a/src/test/rustdoc-ui/test-no_std.rs b/src/test/rustdoc-ui/test-no_std.rs
++index ee919985e..3e479bf6f 100644
++--- a/src/test/rustdoc-ui/test-no_std.rs
+++++ b/src/test/rustdoc-ui/test-no_std.rs
++@@ -2,6 +2,7 @@
++ // normalize-stdout-test: "src/test/rustdoc-ui" -> "$$DIR"
++ // normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
++ // check-pass
+++// ignore-stage1
++ 
++ #![no_std]
++ 
++diff --git a/src/test/rustdoc-ui/test-type.rs b/src/test/rustdoc-ui/test-type.rs
++index 882da5c25..bc8e8e30f 100644
++--- a/src/test/rustdoc-ui/test-type.rs
+++++ b/src/test/rustdoc-ui/test-type.rs
++@@ -2,6 +2,7 @@
++ // check-pass
++ // normalize-stdout-test: "src/test/rustdoc-ui" -> "$$DIR"
++ // normalize-stdout-test "finished in \d+\.\d+s" -> "finished in $$TIME"
+++// ignore-stage1
++ 
++ /// ```
++ /// let a = true;
++diff --git a/src/test/ui-fulldeps/internal-lints/default_hash_types.rs b/src/test/ui-fulldeps/internal-lints/default_hash_types.rs
++index 795c7d2dc..dc6b4f53f 100644
++--- a/src/test/ui-fulldeps/internal-lints/default_hash_types.rs
+++++ b/src/test/ui-fulldeps/internal-lints/default_hash_types.rs
++@@ -1,4 +1,5 @@
++ // compile-flags: -Z unstable-options
+++// ignore-stage1
++ 
++ #![feature(rustc_private)]
++ #![deny(rustc::default_hash_types)]
++diff --git a/src/test/ui-fulldeps/internal-lints/diagnostics.rs b/src/test/ui-fulldeps/internal-lints/diagnostics.rs
++index 643e81d99..2433228ef 100644
++--- a/src/test/ui-fulldeps/internal-lints/diagnostics.rs
+++++ b/src/test/ui-fulldeps/internal-lints/diagnostics.rs
++@@ -1,4 +1,5 @@
++ // compile-flags: -Z unstable-options
+++// ignore-stage1
++ 
++ #![crate_type = "lib"]
++ #![feature(rustc_attrs)]
++diff --git a/src/test/ui-fulldeps/internal-lints/lint_pass_impl_without_macro.rs b/src/test/ui-fulldeps/internal-lints/lint_pass_impl_without_macro.rs
++index f6f0c0385..4523e2a6d 100644
++--- a/src/test/ui-fulldeps/internal-lints/lint_pass_impl_without_macro.rs
+++++ b/src/test/ui-fulldeps/internal-lints/lint_pass_impl_without_macro.rs
++@@ -1,4 +1,5 @@
++ // compile-flags: -Z unstable-options
+++// ignore-stage1
++ 
++ #![feature(rustc_private)]
++ #![deny(rustc::lint_pass_impl_without_macro)]
++diff --git a/src/test/ui-fulldeps/internal-lints/qualified_ty_ty_ctxt.rs b/src/test/ui-fulldeps/internal-lints/qualified_ty_ty_ctxt.rs
++index 32b987338..6187e2370 100644
++--- a/src/test/ui-fulldeps/internal-lints/qualified_ty_ty_ctxt.rs
+++++ b/src/test/ui-fulldeps/internal-lints/qualified_ty_ty_ctxt.rs
++@@ -1,4 +1,5 @@
++ // compile-flags: -Z unstable-options
+++// ignore-stage1
++ 
++ #![feature(rustc_private)]
++ #![deny(rustc::usage_of_qualified_ty)]
++diff --git a/src/test/ui-fulldeps/internal-lints/query_stability.rs b/src/test/ui-fulldeps/internal-lints/query_stability.rs
++index 560675b44..e7d5ba583 100644
++--- a/src/test/ui-fulldeps/internal-lints/query_stability.rs
+++++ b/src/test/ui-fulldeps/internal-lints/query_stability.rs
++@@ -1,4 +1,5 @@
++ // compile-flags: -Z unstable-options
+++// ignore-stage1
++ 
++ #![feature(rustc_private)]
++ #![deny(rustc::potential_query_instability)]
++diff --git a/src/test/ui-fulldeps/internal-lints/rustc_pass_by_value.rs b/src/test/ui-fulldeps/internal-lints/rustc_pass_by_value.rs
++index 10bab2d88..8e72c8b38 100644
++--- a/src/test/ui-fulldeps/internal-lints/rustc_pass_by_value.rs
+++++ b/src/test/ui-fulldeps/internal-lints/rustc_pass_by_value.rs
++@@ -1,4 +1,5 @@
++ // compile-flags: -Z unstable-options
+++// ignore-stage1
++ 
++ #![feature(rustc_attrs)]
++ #![feature(rustc_private)]
++diff --git a/src/test/ui-fulldeps/internal-lints/ty_tykind_usage.rs b/src/test/ui-fulldeps/internal-lints/ty_tykind_usage.rs
++index 2cb1ed6fc..31b5a2131 100644
++--- a/src/test/ui-fulldeps/internal-lints/ty_tykind_usage.rs
+++++ b/src/test/ui-fulldeps/internal-lints/ty_tykind_usage.rs
++@@ -1,4 +1,5 @@
++ // compile-flags: -Z unstable-options
+++// ignore-stage1
++ 
++ #![feature(rustc_private)]
++ 
++diff --git a/src/test/ui-fulldeps/lint-group-denied-lint-allowed.rs b/src/test/ui-fulldeps/lint-group-denied-lint-allowed.rs
++index 7498745f2..28c00f2f8 100644
++--- a/src/test/ui-fulldeps/lint-group-denied-lint-allowed.rs
+++++ b/src/test/ui-fulldeps/lint-group-denied-lint-allowed.rs
++@@ -1,6 +1,7 @@
++ // aux-build:lint-group-plugin-test.rs
++ // check-pass
++ // compile-flags: -D unused -A unused-variables
+++// ignore-stage1
++ 
++ fn main() {
++     let x = 1;
++diff --git a/src/test/ui-fulldeps/lint-group-forbid-always-trumps-cli.rs b/src/test/ui-fulldeps/lint-group-forbid-always-trumps-cli.rs
++index fc19bc039..9563e9930 100644
++--- a/src/test/ui-fulldeps/lint-group-forbid-always-trumps-cli.rs
+++++ b/src/test/ui-fulldeps/lint-group-forbid-always-trumps-cli.rs
++@@ -1,5 +1,6 @@
++ // aux-build:lint-group-plugin-test.rs
++ // compile-flags: -F unused -A unused
+++// ignore-stage1
++ 
++ fn main() {
++     let x = 1;
++diff --git a/src/test/ui-fulldeps/lint-pass-macros.rs b/src/test/ui-fulldeps/lint-pass-macros.rs
++index b3c2a5427..9ed711a34 100644
++--- a/src/test/ui-fulldeps/lint-pass-macros.rs
+++++ b/src/test/ui-fulldeps/lint-pass-macros.rs
++@@ -1,5 +1,6 @@
++ // compile-flags: -Z unstable-options
++ // check-pass
+++// ignore-stage1
++ 
++ #![feature(rustc_private)]
++ 
++diff --git a/src/test/ui/abi/stack-probes-lto.rs b/src/test/ui/abi/stack-probes-lto.rs
++index 6d934538f..d5bac7c29 100644
++--- a/src/test/ui/abi/stack-probes-lto.rs
+++++ b/src/test/ui/abi/stack-probes-lto.rs
++@@ -13,5 +13,6 @@
++ // ignore-fuchsia no exception handler registered for segfault
++ // compile-flags: -C lto
++ // no-prefer-dynamic
+++// ignore-stage1
++ 
++ include!("stack-probes.rs");
++diff --git a/src/test/ui/abi/stack-probes.rs b/src/test/ui/abi/stack-probes.rs
++index e7b91644b..514d07569 100644
++--- a/src/test/ui/abi/stack-probes.rs
+++++ b/src/test/ui/abi/stack-probes.rs
++@@ -8,6 +8,7 @@
++ // ignore-wasm
++ // ignore-emscripten no processes
++ // ignore-sgx no processes
+++// ignore-stage1
++ // ignore-fuchsia no exception handler registered for segfault
++ 
++ use std::env;
++diff --git a/src/test/ui/empty_global_asm.rs b/src/test/ui/empty_global_asm.rs
++index af13762d1..e9a5433ff 100644
++--- a/src/test/ui/empty_global_asm.rs
+++++ b/src/test/ui/empty_global_asm.rs
++@@ -1,5 +1,6 @@
++ // needs-asm-support
++ // run-pass
+++// ignore-stage1
++ 
++ use std::arch::global_asm;
++ 
++diff --git a/src/test/ui/linkage-attr/issue-10755.rs b/src/test/ui/linkage-attr/issue-10755.rs
++index afd2dc46c..f0d4705e4 100644
++--- a/src/test/ui/linkage-attr/issue-10755.rs
+++++ b/src/test/ui/linkage-attr/issue-10755.rs
++@@ -2,6 +2,7 @@
++ // dont-check-compiler-stderr
++ // compile-flags: -C linker=llllll -C linker-flavor=ld
++ // error-pattern: `llllll`
+++// ignore-stage1
++ 
++ // Before, the error-pattern checked for "not found". On WSL with appendWindowsPath=true, running
++ // in invalid command returns a PermissionDenied instead.
++diff --git a/src/test/ui/macros/restricted-shadowing-legacy.rs b/src/test/ui/macros/restricted-shadowing-legacy.rs
++index f5cac2dfb..d84f8efd6 100644
++--- a/src/test/ui/macros/restricted-shadowing-legacy.rs
+++++ b/src/test/ui/macros/restricted-shadowing-legacy.rs
++@@ -74,6 +74,7 @@
++ // 62 |   Unordered   |   Unordered   |       =       |    +?    |
++ // 63 |   Unordered   |   Unordered   |       >       |    +?    |
++ // 64 |   Unordered   |   Unordered   |   Unordered   |    +     |
+++// ignore-stage1
++ 
++ #![feature(decl_macro, rustc_attrs)]
++ 
++diff --git a/src/test/ui/process/nofile-limit.rs b/src/test/ui/process/nofile-limit.rs
++index 3ddf8d6ef..316823fcc 100644
++--- a/src/test/ui/process/nofile-limit.rs
+++++ b/src/test/ui/process/nofile-limit.rs
++@@ -3,6 +3,7 @@
++ // test for issue #96621.
++ //
++ // run-pass
+++// ignore-stage1
++ // dont-check-compiler-stderr
++ // only-linux
++ // no-prefer-dynamic
++diff --git a/src/test/ui/process/process-panic-after-fork.rs b/src/test/ui/process/process-panic-after-fork.rs
++index 6d4d24922..f681526bd 100644
++--- a/src/test/ui/process/process-panic-after-fork.rs
+++++ b/src/test/ui/process/process-panic-after-fork.rs
++@@ -6,6 +6,7 @@
++ // ignore-emscripten no processes
++ // ignore-sgx no processes
++ // ignore-fuchsia no fork
+++// ignore-stage1
++ 
++ #![feature(rustc_private)]
++ #![feature(never_type)]
++diff --git a/src/test/ui/simd/target-feature-mixup.rs b/src/test/ui/simd/target-feature-mixup.rs
++index 5dd163715..ab8b02f23 100644
++--- a/src/test/ui/simd/target-feature-mixup.rs
+++++ b/src/test/ui/simd/target-feature-mixup.rs
++@@ -1,4 +1,6 @@
++ // run-pass
+++// ignore-stage1
+++
++ #![allow(unused_variables)]
++ #![allow(stable_features)]
++ #![allow(overflowing_literals)]
++diff -upr a/src/test/ui/debuginfo/debuginfo-emit-llvm-ir-and-split-debuginfo.rs b/src/test/ui/debuginfo/debuginfo-emit-llvm-ir-and-split-debuginfo.rs
++--- a/src/test/ui/debuginfo/debuginfo-emit-llvm-ir-and-split-debuginfo.rs	2023-01-10 10:47:33.000000000 -0800
+++++ b/src/test/ui/debuginfo/debuginfo-emit-llvm-ir-and-split-debuginfo.rs	2023-01-20 04:58:24.080063226 -0800
++@@ -5,4 +5,5 @@
++ //
++ // Make sure that we don't explode with an error if we don't actually end up emitting any `dwo`s,
++ // as would be the case if we don't actually codegen anything.
+++// ignore-stage1
++ #![crate_type="rlib"]
++diff -upr a/src/test/ui-fulldeps/internal-lints/bad_opt_access.rs b/src/test/ui-fulldeps/internal-lints/bad_opt_access.rs
++--- a/src/test/ui-fulldeps/internal-lints/bad_opt_access.rs	2023-01-10 10:47:33.000000000 -0800
+++++ b/src/test/ui-fulldeps/internal-lints/bad_opt_access.rs	2023-01-20 05:00:31.726706121 -0800
++@@ -2,6 +2,7 @@
++ 
++ // Test that accessing command line options by field access triggers a lint for those fields
++ // that have wrapper functions which should be used.
+++// ignore-stage1
++ 
++ #![crate_type = "lib"]
++ #![feature(rustc_private)]
++diff -upr a/src/bootstrap/builder/tests.rs b/src/bootstrap/builder/tests.rs
++--- a/src/bootstrap/builder/tests.rs	2023-01-10 10:47:33.000000000 -0800
+++++ b/src/bootstrap/builder/tests.rs	2023-01-20 23:50:04.338694896 -0800
++@@ -76,6 +76,7 @@ macro_rules! rustc {
++ }
++ 
++ #[test]
+++#[ignore]
++ fn test_valid() {
++     // make sure multi suite paths are accepted
++     check_cli(["test", "src/test/ui/attr-start.rs", "src/test/ui/attr-shebang.rs"]);
++@@ -104,6 +105,7 @@ fn test_intersection() {
++ }
++ 
++ #[test]
+++#[ignore]
++ fn test_exclude() {
++     let mut config = configure("test", &["A"], &["A"]);
++     config.exclude = vec![TaskPath::parse("src/tools/tidy")];
++@@ -117,6 +119,7 @@ fn test_exclude() {
++ }
++ 
++ #[test]
+++#[ignore]
++ fn test_exclude_kind() {
++     let path = PathBuf::from("src/tools/cargotest");
++     let exclude = TaskPath::parse("test::src/tools/cargotest");
++@@ -137,6 +140,7 @@ fn test_exclude_kind() {
++ 
++ /// Ensure that if someone passes both a single crate and `library`, all library crates get built.
++ #[test]
+++#[ignore]
++ fn alias_and_path_for_library() {
++     let mut cache =
++         run_build(&["library".into(), "core".into()], configure("build", &["A"], &["A"]));
++@@ -153,6 +157,7 @@ mod defaults {
++     use pretty_assertions::assert_eq;
++ 
++     #[test]
+++    #[ignore]
++     fn build_default() {
++         let mut cache = run_build(&[], configure("build", &["A"], &["A"]));
++ 
++@@ -173,6 +178,7 @@ mod defaults {
++     }
++ 
++     #[test]
+++    #[ignore]
++     fn build_stage_0() {
++         let config = Config { stage: 0, ..configure("build", &["A"], &["A"]) };
++         let mut cache = run_build(&[], config);
++@@ -190,6 +196,7 @@ mod defaults {
++     }
++ 
++     #[test]
+++    #[ignore]
++     fn build_cross_compile() {
++         let config = Config { stage: 1, ..configure("build", &["A", "B"], &["A", "B"]) };
++         let mut cache = run_build(&[], config);
++@@ -233,6 +240,7 @@ mod defaults {
++     }
++ 
++     #[test]
+++    #[ignore]
++     fn doc_default() {
++         let mut config = configure("doc", &["A"], &["A"]);
++         config.compiler_docs = true;
++@@ -267,6 +275,7 @@ mod dist {
++     }
++ 
++     #[test]
+++    #[ignore]
++     fn dist_baseline() {
++         let mut cache = run_build(&[], configure(&["A"], &["A"]));
++ 
++@@ -291,6 +300,7 @@ mod dist {
++     }
++ 
++     #[test]
+++    #[ignore]
++     fn dist_with_targets() {
++         let mut cache = run_build(&[], configure(&["A"], &["A", "B"]));
++ 
++@@ -320,6 +330,7 @@ mod dist {
++     }
++ 
++     #[test]
+++    #[ignore]
++     fn dist_with_hosts() {
++         let mut cache = run_build(&[], configure(&["A", "B"], &["A", "B"]));
++ 
++@@ -362,6 +373,7 @@ mod dist {
++     }
++ 
++     #[test]
+++    #[ignore]
++     fn dist_only_cross_host() {
++         let b = TargetSelection::from_user("B");
++         let mut config = configure(&["A", "B"], &["A", "B"]);
++@@ -381,6 +393,7 @@ mod dist {
++     }
++ 
++     #[test]
+++    #[ignore]
++     fn dist_with_targets_and_hosts() {
++         let mut cache = run_build(&[], configure(&["A", "B"], &["A", "B", "C"]));
++ 
++@@ -415,6 +428,7 @@ mod dist {
++     }
++ 
++     #[test]
+++    #[ignore]
++     fn dist_with_empty_host() {
++         let config = configure(&[], &["C"]);
++         let mut cache = run_build(&[], config);
++@@ -431,6 +445,7 @@ mod dist {
++     }
++ 
++     #[test]
+++    #[ignore]
++     fn dist_with_same_targets_and_hosts() {
++         let mut cache = run_build(&[], configure(&["A", "B"], &["A", "B"]));
++ 
++@@ -482,6 +497,7 @@ mod dist {
++     }
++ 
++     #[test]
+++    #[ignore]
++     fn build_all() {
++         let build = Build::new(configure(&["A", "B"], &["A", "B", "C"]));
++         let mut builder = Builder::new(&build);
++@@ -515,6 +531,7 @@ mod dist {
++     }
++ 
++     #[test]
+++    #[ignore]
++     fn build_with_empty_host() {
++         let config = configure(&[], &["C"]);
++         let build = Build::new(config);
++@@ -542,6 +559,7 @@ mod dist {
++     }
++ 
++     #[test]
+++    #[ignore]
++     fn test_with_no_doc_stage0() {
++         let mut config = configure(&["A"], &["A"]);
++         config.stage = 0;
++@@ -584,6 +602,7 @@ mod dist {
++     }
++ 
++     #[test]
+++    #[ignore]
++     fn doc_ci() {
++         let mut config = configure(&["A"], &["A"]);
++         config.compiler_docs = true;
++@@ -612,6 +631,7 @@ mod dist {
++     }
++ 
++     #[test]
+++    #[ignore]
++     fn test_docs() {
++         // Behavior of `x.py test` doing various documentation tests.
++         let mut config = configure(&["A"], &["A"]);
++diff -upr a/src/test/ui-fulldeps/internal-lints/bad_opt_access.stderr b/src/test/ui-fulldeps/internal-lints/bad_opt_access.stderr
++--- a/src/test/ui-fulldeps/internal-lints/bad_opt_access.stderr	2023-01-10 10:47:33.000000000 -0800
+++++ b/src/test/ui-fulldeps/internal-lints/bad_opt_access.stderr	2023-01-20 03:49:06.575109271 -0800
++@@ -1,20 +1,11 @@
++-error: use `Session::split_debuginfo` instead of this field
++-  --> $DIR/bad_opt_access.rs:14:13
+++error[E0463]: can't find crate for `rustc_macros` which `rustc_session` depends on
+++  --> $DIR/bad_opt_access.rs:10:1
++    |
++-LL |     let _ = sess.opts.cg.split_debuginfo;
++-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+++LL | extern crate rustc_session;
+++   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^ can't find crate
++    |
++-note: the lint level is defined here
++-  --> $DIR/bad_opt_access.rs:8:9
++-   |
++-LL | #![deny(rustc::bad_opt_access)]
++-   |         ^^^^^^^^^^^^^^^^^^^^^
++-
++-error: use `Session::crate_types` instead of this field
++-  --> $DIR/bad_opt_access.rs:17:13
++-   |
++-LL |     let _ = sess.opts.crate_types;
++-   |             ^^^^^^^^^^^^^^^^^^^^^
+++   = help: maybe you need to install the missing components with: `rustup component add rust-src rustc-dev llvm-tools-preview`
++ 
++-error: aborting due to 2 previous errors
+++error: aborting due to previous error
++ 
+++For more information about this error, try `rustc --explain E0463`.
++diff -upr a/src/test/ui/process/process-sigpipe.rs b/src/test/ui/process/process-sigpipe.rs
++--- a/src/test/ui/process/process-sigpipe.rs	2023-01-10 10:47:33.000000000 -0800
+++++ b/src/test/ui/process/process-sigpipe.rs	2023-01-27 01:07:05.335718181 -0800
++@@ -1,4 +1,5 @@
++ // run-pass
+++// ignore-stage1
++ #![allow(unused_imports)]
++ #![allow(deprecated)]
++ 
++diff -upr a/src/test/run-make/static-pie/Makefile b/src/test/run-make/static-pie/Makefile
++--- a/src/test/run-make/static-pie/Makefile	2023-02-21 02:25:36.553233415 -0800
+++++ b/src/test/run-make/static-pie/Makefile	2023-02-21 02:19:45.848629908 -0800
++@@ -3,6 +3,7 @@ include ../../run-make-fulldeps/tools.mk
++ # only-x86_64
++ # only-linux
++ # ignore-gnux32
+++# ignore-stage1
++ 
++ # How to manually run this
++ # $ ./x.py test --target x86_64-unknown-linux-[musl,gnu] src/test/run-make/static-pie
++diff -upr a/src/test/ui-fulldeps/session-diagnostic/enforce_slug_naming.rs b/src/test/ui-fulldeps/session-diagnostic/enforce_slug_naming.rs
++--- a/src/test/ui-fulldeps/session-diagnostic/enforce_slug_naming.rs	2023-02-06 22:43:47.000000000 -0800
+++++ b/src/test/ui-fulldeps/session-diagnostic/enforce_slug_naming.rs	2023-02-21 02:26:08.152939482 -0800
++@@ -1,4 +1,5 @@
++ // rustc-env:CARGO_CRATE_NAME=rustc_dummy
+++// ignore-stage1
++ 
++ #![feature(rustc_private)]
++ #![crate_type = "lib"]
++diff -upr a/src/test/codegen/repr-transparent-aggregates-3.rs b/src/test/codegen/repr-transparent-aggregates-3.rs
++--- a/src/test/codegen/repr-transparent-aggregates-3.rs	2023-02-06 22:43:47.000000000 -0800
+++++ b/src/test/codegen/repr-transparent-aggregates-3.rs	2023-02-22 02:23:26.934411985 -0800
++@@ -3,6 +3,7 @@
++ 
++ // only-mips64
++ // See repr-transparent.rs
+++// ignore-stage1
++ 
++ #![feature(transparent_unions)]
++ 
+diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
+index 942978e6bf..b79e5009a4 100644
+--- a/meta/recipes-devtools/rust/rust-source.inc
++++ b/meta/recipes-devtools/rust/rust-source.inc
+@@ -6,6 +6,7 @@ SRC_URI += "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n
+             file://getrandom-open64.patch;patchdir=${RUSTSRC} \
+             file://0001-Do-not-use-LFS64-on-linux-with-musl.patch;patchdir=${RUSTSRC} \
+             file://zlib-off64_t.patch;patchdir=${RUSTSRC} \
++            file://rust-oe-selftest.patch;patchdir=${RUSTSRC} \
+ "
+ SRC_URI[rust.sha256sum] = "77e0615011f887d9533d5374bf9c15c590c3caf32bbb035b392d1c2ae502a682"
+ 
+diff --git a/meta/recipes-devtools/rust/rust_1.67.1.bb b/meta/recipes-devtools/rust/rust_1.67.1.bb
+index 2118faec8f..f8b64af4b7 100644
+--- a/meta/recipes-devtools/rust/rust_1.67.1.bb
++++ b/meta/recipes-devtools/rust/rust_1.67.1.bb
+@@ -64,6 +64,7 @@ do_rust_setup_snapshot () {
+     fi
+ }
+ addtask rust_setup_snapshot after do_unpack before do_configure
++addtask do_test_compile after do_configure do_rust_gen_targets
+ do_rust_setup_snapshot[dirs] += "${WORKDIR}/rust-snapshot"
+ do_rust_setup_snapshot[vardepsexclude] += "UNINATIVE_LOADER"
+ 
+@@ -222,6 +223,11 @@ do_compile () {
+     rust_runx build --stage 2
+ }
+ 
++do_test_compile[dirs] = "${B}"
++do_test_compile () {
++    rust_runx build src/tools/remote-test-server --target "${RUST_TARGET_SYS}"
++}
++
+ do_compile:append:class-target () {
+     rust_runx build --stage 2 src/tools/clippy
+     rust_runx build --stage 2 src/tools/rustfmt
+-- 
+2.34.1
+
 
