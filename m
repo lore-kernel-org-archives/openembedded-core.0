@@ -1,89 +1,104 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BC88C61DA4
-	for <webhook@archiver.kernel.org>; Thu, 23 Feb 2023 13:56:00 +0000 (UTC)
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
- by mx.groups.io with SMTP id smtpd.web11.10900.1677160556504763342
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37976C636D6
+	for <webhook@archiver.kernel.org>; Thu, 23 Feb 2023 13:59:40 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web11.11004.1677160770928722161
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Feb 2023 05:55:56 -0800
+ Thu, 23 Feb 2023 05:59:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=S5D1A+a6;
- spf=pass (domain: gmail.com, ip: 209.85.208.43, mailfrom: zboszor@gmail.com)
-Received: by mail-ed1-f43.google.com with SMTP id da10so43608829edb.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 05:55:56 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=j1K6ZzKd;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id g8so10135744lfj.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 05:59:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:subject:from:content-language:to
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6q77vehPlSXkg802yKxWP4OluAmuzx7seeleHEZUBVQ=;
-        b=S5D1A+a6ly021lGNJvPupT/SUIFWptXPkw1rpiMsTeHgyAZ+uWpIR7LM8sl/POpCDr
-         NvFQzoITiicZt7t9tc4xPPREpBkYV8gBbjU5xCYwPy4Z3GM5d6XPFRvEv5V5QoaGxttM
-         5xp83a/eMqbT2AjVBntBuYpdIirBgLWbAKDqVVpUTBPzYrXyUOtBwLnG2AnwLutxNpnE
-         HL/vcdjr7bwuFvkDmU9J6phfus+uD3XFnkSMA6+26Qya2RUOGcnxfRNdlQw3sv1QJJ0/
-         PeyLJm+ltTFJ08n5IC/TXPy43P8uwGrIXROva2s1t6zr19esJd1BF20ZF2QW9fKJ9bl3
-         F9vg==
+        bh=2lLm7d3REuhXZIUgB2s4+d9yTMfdSuBaoIAH+r9SWWM=;
+        b=j1K6ZzKdgq5ctMDp/7UDO5K1kq3uan3SM6K2W1UJBq1uaGTle8YZyyO3e6JbVblv/O
+         S9GrHEpwMK17zM8weL06uxetuX77E1FbpmhytImc8EAvOOYEIYu53EtpRzH03bDyP1eQ
+         igYkbzGh0VESTzpAtsjH77KuLZl23RyRjjq2xrcemn8fGw1tDrWYfRQHiCpjRatWNU/L
+         lRJ7q9Pq0F6ueuQq95sCpMVKtOyG8u0iHXcBVb3lhUF9use6OJPy3Soyi8HD5lZwWxHJ
+         eY5nHOY5AOqMz+jtJklwirU5YGIzMIkFyyLnGqsSEbMPSev67wI2Hz+/ogdAjB/L1xi0
+         iJQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:subject:from:content-language:to
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=6q77vehPlSXkg802yKxWP4OluAmuzx7seeleHEZUBVQ=;
-        b=2x7yC+BE0L8BOZIQbVtzA1MivERjowqXZgbVqscXLQq8RfGrFvl0HsKyGiwFmshNCu
-         4IuFum5SIySSJOetTVmcK6vIcXrpj2YIzSRLjPmYYWCf6KQCa1fyGc1THuTresFVMiWJ
-         aJTBt+2lfBCflcpf4JIe+EWFeAkfZ00ZmAvkh7GIK5OIS0cWSaubSyimeJYwwzNOhryH
-         ZR1i5db1+PUuN7A9TtRsEyilV8S6jNTa/WZvOe+xNG+dwd0AwN2zW43MLIgijQK5qYXR
-         c9pP3ERXfFSyPRMWGMMemabHRsUAe7yCAy5K9KJ71kUkLk3xd9ihb434OOuP+0QJYENW
-         HVCA==
-X-Gm-Message-State: AO0yUKViYXaCZ+srvCkceCsmkmcHnM4z+YKIyU8tAXIayCnKx2HE9Tyk
-	Z+3+Zqt5vVG7TE1IlbG7cOnQGciP6Ug=
-X-Google-Smtp-Source: AK7set/yrtuAzUrtiZvvADYg4uMLkoFIvesd9KJqUDMKDT77CW5oO0MZDt7ZNrkapqrItfXnVci8iA==
-X-Received: by 2002:a17:907:2ce6:b0:8e9:afb1:65c6 with SMTP id hz6-20020a1709072ce600b008e9afb165c6mr4675706ejc.13.1677160553944;
-        Thu, 23 Feb 2023 05:55:53 -0800 (PST)
-Received: from [192.168.1.143] ([188.36.69.43])
-        by smtp.gmail.com with ESMTPSA id q21-20020a50aa95000000b004ab4db9be14sm4475686edc.81.2023.02.23.05.55.53
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Feb 2023 05:55:53 -0800 (PST)
-Message-ID: <28c8d9aa-27f3-4427-93aa-670bfa05e564@gmail.com>
-Date: Thu, 23 Feb 2023 14:55:50 +0100
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2lLm7d3REuhXZIUgB2s4+d9yTMfdSuBaoIAH+r9SWWM=;
+        b=xE5z3PvfNnGE9D7gQWUhKY9PRBP4VhB0PgQ8wAZfY7C1g05VL3oAGkojA05hlCZePm
+         SKiQ6oxUasDMB7biOi3rQXUpbDn60XlxDeGJIZzqdgu6EEhZrQh7XVWOaHwJGBVBPmFM
+         awLXuPxFZQbJplYQEjro97CyrGiv14vn7IJw4TTR0ln90ki06vQM//ybfqgnLuC/XSAj
+         XciSJjbo5Bgud71b+1RKKoMocY9VM3DWt0rzmtOejTGxH7/gG5Owquh44fE+HeaAoxUY
+         dwIJyi0DQ1c3vBYHPXUUnc35UrBg9IZ6bcKvH912uAykv9C9ze3uPPbsityku9TGzfOf
+         izow==
+X-Gm-Message-State: AO0yUKUFQbdLFAXqBqCaNlJfHv9eee7OtbSNN/0elEBbc4h5/DRkfqbv
+	vGjnyg/LV/2VdJNRt3LvVNIXNmDvMbIu4i+FdRY=
+X-Google-Smtp-Source: AK7set+VXLAItPRDn95bZKYhq68Qd0sn7S/U2kGP2AblWbE2acXXDmDZqT3OB0Ya/M6z5rQHIsL7tmcOTrvphHPUsI8=
+X-Received: by 2002:ac2:5095:0:b0:4d5:ca32:6aed with SMTP id
+ f21-20020ac25095000000b004d5ca326aedmr3756077lfm.13.1677160768998; Thu, 23
+ Feb 2023 05:59:28 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-To: openembedded-core@lists.openembedded.org
-Content-Language: en-US
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-Subject: bindgen missing?
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <28c8d9aa-27f3-4427-93aa-670bfa05e564@gmail.com>
+In-Reply-To: <28c8d9aa-27f3-4427-93aa-670bfa05e564@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 23 Feb 2023 14:59:17 +0100
+Message-ID: <CANNYZj8NrGFYxsoG1PhX=iTUANJJQ7q2jZR=Y5zOWCXaXTBrLQ@mail.gmail.com>
+Subject: Re: [OE-core] bindgen missing?
+To: Zoltan Boszormenyi <zboszor@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 13:56:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177609
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 13:59:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177610
 
-Hi,
+I suspect there isn't. You need to write a recipe.
 
-I have tried to upgrade the Mesa recipe to use 23.0.0
-and tried to enable Rusticl by adding these:
+Alex
 
-inherit rust
-PACKAGECONFIG[rusticl] = "-Dgallium-rusticl=true 
--Drust_std=2021,-Dgallium-rusticl=false,libclc spirv-tools spirv-llvm-translator,libclc 
-spirv-tools spirv-llvm-translator"
-PACKAGECONFIG:append:x86-64:class-target = " rusticl"
-
-To do that on Kirkstone, meson 1.0.0 needs to be backported, which is not an issue.
-
-Configure stage fails with:
-
-Program bindgen found: NO
-
-Where is bindgen in Yocto?
-
-Thanks in advance,
-Zoltán Böszörményi
-
+On Thu, 23 Feb 2023 at 14:56, Zoltan Boszormenyi <zboszor@gmail.com> wrote:
+>
+> Hi,
+>
+> I have tried to upgrade the Mesa recipe to use 23.0.0
+> and tried to enable Rusticl by adding these:
+>
+> inherit rust
+> PACKAGECONFIG[rusticl] =3D "-Dgallium-rusticl=3Dtrue
+> -Drust_std=3D2021,-Dgallium-rusticl=3Dfalse,libclc spirv-tools spirv-llvm=
+-translator,libclc
+> spirv-tools spirv-llvm-translator"
+> PACKAGECONFIG:append:x86-64:class-target =3D " rusticl"
+>
+> To do that on Kirkstone, meson 1.0.0 needs to be backported, which is not=
+ an issue.
+>
+> Configure stage fails with:
+>
+> Program bindgen found: NO
+>
+> Where is bindgen in Yocto?
+>
+> Thanks in advance,
+> Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#177609): https://lists.openembedded.org/g/openembedde=
+d-core/message/177609
+> Mute This Topic: https://lists.openembedded.org/mt/97182761/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
