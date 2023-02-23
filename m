@@ -2,52 +2,52 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87D35C61DA4
-	for <webhook@archiver.kernel.org>; Thu, 23 Feb 2023 00:40:23 +0000 (UTC)
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
- by mx.groups.io with SMTP id smtpd.web11.4297.1677112816063163572
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FCB3C636D6
+	for <webhook@archiver.kernel.org>; Thu, 23 Feb 2023 01:36:16 +0000 (UTC)
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+ by mx.groups.io with SMTP id smtpd.web11.1073.1677116173455294161
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Feb 2023 16:40:16 -0800
+ Wed, 22 Feb 2023 17:36:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=GkDlR3Zn;
- spf=pass (domain: gmail.com, ip: 209.85.167.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f181.google.com with SMTP id bh20so9424507oib.9
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Feb 2023 16:40:15 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Z/wOjrEA;
+ spf=pass (domain: gmail.com, ip: 209.85.167.176, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f176.google.com with SMTP id bg11so9874577oib.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Feb 2023 17:36:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=fU/yt8T0dQ0ws667uqZURFaw10Eyh+n2dVe1KzO8vUw=;
-        b=GkDlR3ZnWCudngeBgkztU5WpcdxEY9IVIClLQgpt7D8Ewcb7JHcWyGe86p8rnNS4Ul
-         gfaAeNPSjbO6jBvNmzBkVOlEfQRZKo2DGXviNMSjZr0nkKaFPX8AgjRGN6cVUX/c67rX
-         A9+eLbbllEBcM0y+lZ+OcTJuOA/F8neak88aLLRsX6jYdXeRgJjpvdZ+haLOZK4i7YtW
-         /MrOUbnJkSrhleWM7cy2Wp+/JvTmmXYsZ3MDOeJTnlTnGA4EdnX09FZX24CZmDmevRkT
-         VrH7OOFYvfOjg6Bn4wt4+SCDHTbQH/AWxmGYV1N3BijFEtqdgYN4gN3uIT6TgGkgP2ys
-         l9dw==
+        bh=swrcPZw3x5BX2GSBUEGUZq3WJ57bgtEOeFqzTXzW/dg=;
+        b=Z/wOjrEA9XdAr99zyxoVzcdnMiVb8PlaFCFO8wQjgG97vMccqSyAvUS8b1rnk7f5Qy
+         DygIrMJyc0gRphQQ6xnJSDkUnm1CkUKz91YZUVl5eKhtNgbYpZ/39tVvBIIIkETMy7/H
+         lN9E6FuaV5enK6D39M7Ken+Ads3kNky01e4QXuxzCX/cg0JUL1GFZAk+UdTZlMONYO08
+         Mx90x45ClRWP8TQHFrnHSRT0IOJMgIMnSPCAzve5CoFhQobwczMregCF8eOOaP+qHYSe
+         1+J4RgcGL+2wyiZ9dEMNP3yRUg2YD2wHjAz2KG0m4YqIROi+TJr90L+IMPF9vdtJP2SO
+         w4Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fU/yt8T0dQ0ws667uqZURFaw10Eyh+n2dVe1KzO8vUw=;
-        b=AgZyJ8kZNazJ8CJqHgzStMhUUI77Dxz2azgAwMr+1u7/RI00H1EWQn/5KXg2FCFRi8
-         vSd0Azsa9P6d30lYRk/rPAFIfiX8iecjDdPw/CRIdEccevEbPJSWZJ3NVRyuxqTLQFHg
-         jppJ9qxh+Pp5BOZVy6qXzex0KDTDBAhKL3zK2NMMNydwUt2DPNa0MCJ2UR6YNcbhiApO
-         v6AJa1w/GoW42XItSzGSWwbwfz3e4USPR3H77JKiauOA0XR8fsaRSRccN4WPuZ5rZSDk
-         UDfOH/B+wuWfzKFDwKB9YSu7PIgIgMNEREwq6+UZL7M3L8ZuFvWR6aNGxpJO5N3QLldL
-         GZIA==
-X-Gm-Message-State: AO0yUKXoMooL+yFol8UvRZYDg0A9kWII8KCHvcLge/SkOaTVrUXgvK/4
-	vbxQAko3WVZLF/FvnscqnnhtkutAVeJwWiRT1sg=
-X-Google-Smtp-Source: AK7set/PQcHHtJi+ev+HDwY047NHhl5bW0z/dZjcKe3y+N0gqWVZp3k1V7f0CD7VJTM7MWCRFc5omV5fzZmVHGeVX+c=
+        bh=swrcPZw3x5BX2GSBUEGUZq3WJ57bgtEOeFqzTXzW/dg=;
+        b=ASoSyRNI8n0H+r/g0s1eJ1aBT2r1vrxnM1xBEZ0S5jm9iczArNptLbvVn0iG6Jknf5
+         D6+JZQ61ISgGyGmC04ovGUfWtprUSuCAt9CCWIBlzjC0lsZkQXNM5lV26taHcDXwm/zQ
+         2eKdBF3KutWNrTHLbfPugdS8S+a30yjqIBXq0KOWhj22UznZBSoPDhJpbahXfSlRMMXy
+         CfZ5hfcX+UoYdkyd2IVeQOvXu2t7KSgrmrHUe0rsLNszS6M0/UGIqXMiIJGaaXI1rPDN
+         kAW6iXQ9Q4obGSvi97tbG5vSR6ZNGkXoXseNUOvbfwNSGqi0G7otz4eJAgGS4fmN89Sz
+         0+6w==
+X-Gm-Message-State: AO0yUKW1k1nFcyxeBqlKIJdk/kakjHKbuuhOOx3y8ddKME9fldZeXJh5
+	kpSGQ1mg8P44+wM0iGJyqr98YbFqGQaVZ//CA8edO/nauwU=
+X-Google-Smtp-Source: AK7set+5uMiMqTKse6QLU2nBetANVL3lLyCkWEdnJQDR50jKpbDLDn9YhIyfXYXfZWkkXikKe2YHt5ARhiDl7e2zbrw=
 X-Received: by 2002:a05:6808:331a:b0:37b:592b:ec39 with SMTP id
- ca26-20020a056808331a00b0037b592bec39mr1266596oib.262.1677112814863; Wed, 22
- Feb 2023 16:40:14 -0800 (PST)
+ ca26-20020a056808331a00b0037b592bec39mr1277894oib.262.1677116172080; Wed, 22
+ Feb 2023 17:36:12 -0800 (PST)
 MIME-Version: 1.0
 References: <20230222165358.2186844-1-raj.khem@gmail.com> <Y/aosEttiq8sdxoA@mail.local>
 In-Reply-To: <Y/aosEttiq8sdxoA@mail.local>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 22 Feb 2023 16:39:48 -0800
-Message-ID: <CAMKF1srB8D7Mx4TnaDx6SYZhB2-SFbnB2nB4=HSx6LfRq0am+Q@mail.gmail.com>
+Date: Wed, 22 Feb 2023 17:35:45 -0800
+Message-ID: <CAMKF1sq9ZGnyQ4v=oLRmbPQBofQ+G3HYSU2nP3oA-feCk4v_EQ@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH v3] gdb: Upgrade to 13.1
 To: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Cc: openembedded-core@lists.openembedded.org
@@ -55,8 +55,8 @@ Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 00:40:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177597
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 01:36:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177598
 
 On Wed, Feb 22, 2023 at 3:43 PM Alexandre Belloni
 <alexandre.belloni@bootlin.com> wrote:
@@ -79,14 +79,67 @@ On Wed, Feb 22, 2023 at 3:43 PM Alexandre Belloni
 >
 > https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/6703/steps/11/logs/stdio
 >
-
-send a v4 which should fix musl issue, I was able to reproduce it.
-
 > Note that reproducible still failed:
 > https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/2438/steps/13/logs/stdio
 >
 
-This I need to reproduce first.
+I looked into the configure logs on builder as I was not able to
+reproduce here locally. Here is what I see in gdb/config.log, I think
+this node is using buildtools stuff and seems
+its getting libpthread.so.0 from host which needs certain symbols from
+libc which I guess are missing because its linking libc from
+buildtools tarball as well.
+
+configure:28568: checking for ELF support in BFD
+configure:28588: ./libtool --quiet --mode=link gcc  -o conftest
+-I../../gdb-13.1/gdb/../include -I../bfd -I../../gdb-13.1/gdb/../bfd
+-isystem/home/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB/tmp/work/x86_64-linux/gdb-cross-x86_64/13.1-r0/recipe-sysroot-native/usr/include
+-O2 -pipe     -isystem/home/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB/tmp/work/x86_64-linux/gdb-cross-x86_64/13.1-r0/recipe-sysroot-native/usr/include
+-I/home/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB/tmp/work/x86_64-linux/gdb-cross-x86_64/13.1-r0/recipe-sysroot-native/usr/include
+-L../bfd -L../libiberty conftest.c -lbfd -liberty  -lncursesw -lm  >&5
+/home/pokybuild/yocto-worker/reproducible/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/gcc/x86_64-pokysdk-linux/12.2.0/../../../../x86_64-pokysdk-linux/bin/ld:
+/lib64/libpthread.so.0: undefined reference to
+`__pause_nocancel@GLIBC_PRIVATE'
+/home/pokybuild/yocto-worker/reproducible/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/gcc/x86_64-pokysdk-linux/12.2.0/../../../../x86_64-pokysdk-linux/bin/ld:
+/lib64/libpthread.so.0: undefined reference to
+`__libc_dlclose@GLIBC_PRIVATE'
+/home/pokybuild/yocto-worker/reproducible/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/gcc/x86_64-pokysdk-linux/12.2.0/../../../../x86_64-pokysdk-linux/bin/ld:
+/lib64/libpthread.so.0: undefined reference to
+`__libc_allocate_rtsig_private@GLIBC_PRIVATE'
+/home/pokybuild/yocto-worker/reproducible/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/gcc/x86_64-pokysdk-linux/12.2.0/../../../../x86_64-pokysdk-linux/bin/ld:
+/lib64/libpthread.so.0: undefined reference to
+`__nanosleep_nocancel@GLIBC_PRIVATE'
+/home/pokybuild/yocto-worker/reproducible/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/gcc/x86_64-pokysdk-linux/12.2.0/../../../../x86_64-pokysdk-linux/bin/ld:
+/lib64/libpthread.so.0: undefined reference to
+`__libc_dlsym@GLIBC_PRIVATE'
+/home/pokybuild/yocto-worker/reproducible/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/gcc/x86_64-pokysdk-linux/12.2.0/../../../../x86_64-pokysdk-linux/bin/ld:
+/lib64/libpthread.so.0: undefined reference to
+`__libc_siglongjmp@GLIBC_PRIVATE'
+/home/pokybuild/yocto-worker/reproducible/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/gcc/x86_64-pokysdk-linux/12.2.0/../../../../x86_64-pokysdk-linux/bin/ld:
+/lib64/libpthread.so.0: undefined reference to
+`__libc_thread_freeres@GLIBC_PRIVATE'
+/home/pokybuild/yocto-worker/reproducible/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/gcc/x86_64-pokysdk-linux/12.2.0/../../../../x86_64-pokysdk-linux/bin/ld:
+/lib64/libpthread.so.0: undefined reference to
+`__libc_current_sigrtmax_private@GLIBC_PRIVATE'
+/home/pokybuild/yocto-worker/reproducible/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/gcc/x86_64-pokysdk-linux/12.2.0/../../../../x86_64-pokysdk-linux/bin/ld:
+/lib64/libpthread.so.0: undefined reference to
+`__libc_current_sigrtmin_private@GLIBC_PRIVATE'
+/home/pokybuild/yocto-worker/reproducible/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/gcc/x86_64-pokysdk-linux/12.2.0/../../../../x86_64-pokysdk-linux/bin/ld:
+/lib64/libpthread.so.0: undefined reference to
+`_dl_make_stack_executable@GLIBC_PRIVATE'
+/home/pokybuild/yocto-worker/reproducible/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/gcc/x86_64-pokysdk-linux/12.2.0/../../../../x86_64-pokysdk-linux/bin/ld:
+/lib64/libpthread.so.0: undefined reference to
+`__libc_longjmp@GLIBC_PRIVATE'
+/home/pokybuild/yocto-worker/reproducible/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/gcc/x86_64-pokysdk-linux/12.2.0/../../../../x86_64-pokysdk-linux/bin/ld:
+/lib64/libpthread.so.0: undefined reference to
+`__libc_dlopen_mode@GLIBC_PRIVATE'
+/home/pokybuild/yocto-worker/reproducible/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/gcc/x86_64-pokysdk-linux/12.2.0/../../../../x86_64-pokysdk-linux/bin/ld:
+/lib64/libpthread.so.0: undefined reference to
+`__libc_pthread_init@GLIBC_PRIVATE'
+collect2: error: ld returned 1 exit status
+configure:28588: $? = 1
+
+
 
 >
 > On 22/02/2023 08:53:58-0800, Khem Raj wrote:
