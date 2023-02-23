@@ -2,113 +2,117 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FBFEC64ED6
-	for <webhook@archiver.kernel.org>; Thu, 23 Feb 2023 23:31:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A2CAC64ED6
+	for <webhook@archiver.kernel.org>; Thu, 23 Feb 2023 23:31:35 +0000 (UTC)
 Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
  by mx.groups.io with SMTP id smtpd.web10.5119.1677195083288952247
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Feb 2023 15:31:24 -0800
+ Thu, 23 Feb 2023 15:31:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile-fr.20210112.gappssmtp.com header.s=20210112 header.b=HkfCoTuf;
+ dkim=pass header.i=@smile-fr.20210112.gappssmtp.com header.s=20210112 header.b=U1OfdYze;
  spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f54.google.com with SMTP id bo30so11702428wrb.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 15:31:23 -0800 (PST)
+Received: by mail-wr1-f54.google.com with SMTP id bo30so11702678wrb.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 15:31:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile-fr.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PWayus1P+vcfQf7SJRad7GoSbuNtTAppNdEcARoTdYM=;
-        b=HkfCoTufZ8DnQKPx88gIANn9Y0q2wBMzQdJ9HFIAbvnpOYmNl8srP+DAIVA7PXd6QD
-         IGpaL/P49URGxv76WkMPs7ZWg2OMfbSHYWvNdrOTUR0ESwa7fkbGTPglIAAgCF709hGG
-         GznChYki8wli3S95MZrvaQow3w4X/5iL0O4F6REJMR6M0aiOhLOkPVBhJ8T70Kq/TRe1
-         cwkdRdgpGzbiQoY6iGl1NZf5LyYtwuJTEpSn5jwvAbwU34+dvXJ2qAJfJ0Msww9MBg84
-         rKtesLks6h8iV/aTXn7wt/i6rdfpnVLtMDgvv5Ypk4A/K3K7IkED4UWxEXhYQ/SZn+7N
-         cgGw==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=C/1Jv31KbQpxOMi3mTePBHC9S8ZvmVwZasvbGfXSt2Q=;
+        b=U1OfdYzegV9O+AaXpnH3bnpB0oZRqWrOsjaVgcDDGWs0GoFqzP2XxRypkVMap8DaDv
+         u1izhvN3CIiFB5K12ZmnJHiB5mMMicY06HODum0sU0jVlVAaeLl+z+RVh8uHSu1BaxpZ
+         nd2S6bOb3ZXQcMQWeLEWxd/J5eYdI5N+mH21EdGwxY//klkl330ANI09nWYXmQxx79hS
+         I28L/6O2fF+/tTy6WqtswPSvfeA2g5yIdOohUsXsrh1aXRAeTntLev3Uk6tMvhsXcgBt
+         6ix/dbcDx7Jec1yWiu20fVj6v6XpeyyitOMZBVlzM/ogK8CeH+gHq+fVltS22hTyqylr
+         kV3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PWayus1P+vcfQf7SJRad7GoSbuNtTAppNdEcARoTdYM=;
-        b=fOew5jgU3TipqnbfYjCZECPYIsTgsc+eKKLQKQEu4qdw3wnzOMNwHyQfyppxvQV/WJ
-         X9K0bMEefuJyCmCOzvg012l6r4bxuHwEj8wnpGSjhGiSBYTZX011cWZyHFfTLkfpo3S2
-         OJah0wZxiEjztA+CAxgt4Tb9nlFzM+wPVdvYekLhMbPPWnBj6NztxBZGmp2CLLhqPGiv
-         +hRfKs+tVNugsLG0lUY48bEPWdphuaEbi+HyAOOIdvnB7r9YIUwxdwO5ZTRBS2JzGpT1
-         vpBvdHa8hYPFIT0g6pvdVhmohhefi1oXBvhOiK1epDjvgeOkj6OEqyy2xuowFl/xe6Z6
-         Av1w==
-X-Gm-Message-State: AO0yUKWQjxb4oSOjGZDEecX9SrxOdzMtK+lQfFKIiaoXfvzuzlRB9uqJ
-	s2s2OkNNjct23GwTPMv73UJaM6d6driZbOhf
-X-Google-Smtp-Source: AK7set9puE6+75T5jWNa7QTTkARAnhQVxCTxJrcMHDNTLrEtIJgi/NmUDEaK4oCiLiCC2tOT6J6Inw==
-X-Received: by 2002:adf:ff8b:0:b0:2c7:a93:f892 with SMTP id j11-20020adfff8b000000b002c70a93f892mr6613779wrr.55.1677195081484;
-        Thu, 23 Feb 2023 15:31:21 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=C/1Jv31KbQpxOMi3mTePBHC9S8ZvmVwZasvbGfXSt2Q=;
+        b=OXOBCCRSWuxHvV9FYH7C7g8a0c/mFrXReLXqAYHVvigll+tKyJxRB0Sk2QYMhtW2Jg
+         isMtzVZETYapq84TIAG4tJUAagv+CcbOor83LZeh1OUvcThbWAiRSxXYhVHqw4Uffd9e
+         XUIlC9nb1cFmwghjga7ulsOtItbR4U0ILciln/pBNusuY1LpwA7Za35rLMurpVIzcAPc
+         8gt94FCzjvsqOAuavUDPGsCPQ5jJymfVNNEBuz/C2OjgQQl83Hum3k4fVEfn09wjlpqP
+         yjNphZiMHQbmCo9/vFib02tt+xcF98D9USObUWFKpzJ6cUCZnOcUXohVKtaA4jmHiT6Z
+         A3AA==
+X-Gm-Message-State: AO0yUKWZCMVTWFDNv7njrFQ7+7757+sdD99LN/qAYBjwSAvmvIF0NzHZ
+	fMUprVLqrX2izXAQn4EOZqn8EGXkoFCg8LnV
+X-Google-Smtp-Source: AK7set9Fcq3ITZLAieC5485CKBsM529lcxRZpk+N9OQoqGcHC1dR8Kf0Pw6cN+82NQeXBAy8CfomPQ==
+X-Received: by 2002:adf:dfd0:0:b0:2c5:54a7:3646 with SMTP id q16-20020adfdfd0000000b002c554a73646mr10969939wrn.5.1677195091523;
+        Thu, 23 Feb 2023 15:31:31 -0800 (PST)
 Received: from P-ASN-ECS-830T8C3.mpl.intranet (89-159-1-53.rev.numericable.fr. [89.159.1.53])
-        by smtp.gmail.com with ESMTPSA id i18-20020adfe492000000b002c56287bd2csm11899277wrm.114.2023.02.23.15.31.21
+        by smtp.gmail.com with ESMTPSA id i18-20020adfe492000000b002c56287bd2csm11899277wrm.114.2023.02.23.15.31.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Feb 2023 15:31:21 -0800 (PST)
+        Thu, 23 Feb 2023 15:31:31 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
 Cc: richard.purdie@linuxfoundation.org,
-	Yoann Congal <yoann.congal@smile.fr>,
-	Fawzi KHABER <fawzi.khaber@smile.fr>
-Subject: [RFC PATCH 0/2] Handling of ${PN}-dev RRECOMMENDS non-existent ${PN}
-Date: Fri, 24 Feb 2023 00:29:39 +0100
-Message-Id: <20230223232939.3932270-1-yoann.congal@smile.fr>
+	Fawzi KHABER <fawzi.khaber@smile.fr>,
+	Yoann Congal <yoann.congal@smile.fr>
+Subject: [PATCH 1/2] insane: Add QA check for RRECOMMENDS on non-existent packages
+Date: Fri, 24 Feb 2023 00:29:40 +0100
+Message-Id: <20230223232939.3932270-2-yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230223232939.3932270-1-yoann.congal@smile.fr>
+References: <20230223232939.3932270-1-yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 23:31:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177640
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 23:31:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177641
 
-This series is a work in progress on 2 related bugs :
-* [YOCTO #6839] Handle dev package with no main package more gracefully
-* [YOCTO #8222] Elide dependency from -dev package on main package if
-  there are no shared libraries in it
+From: Fawzi KHABER <fawzi.khaber@smile.fr>
 
-An empty package ${PN} is not generated by default. This has been a
-problem most frequently seen because ${PN}-dev depends on it. This case
-has been handled by :
-* Using ALLOW_EMPTY:${PN} = "1" : forcing ${PN} to be created even
-  empty.
-* DEV_PKG_DEPENDENCY = "" : Implicitly removing the dependency on ${PN}
-* And finally and globally making the ${PN}-dev -> ${PN} relation a
-  RRECOMMENDS.
+Add a package QA check for when a package RRECOMMENDS another that won't
+be built because it is empty and ALLOW_EMPTY is not set. This happens
+usually when ${PN}-dev RRECOMMENDS ${PN} but ${PN} is empty. This is not
+an error but might be something to look into.
 
-2 patches :
-* insane: Add QA check for RRECOMMENDS on non-existent packages
-* meta/recipes: Remove empty ${PN}/DEV_PKG_DEPENDENCY workaround
+Example of a generated warning:
+WARNING: python3-3.11.2-r0 do_package_qa:
+QA Issue: python3-dev -> python3 but won't be build [rrecommends-non-existant]
 
-First one create a QA check to try to detect the problematic situation.
-The second removes workarounds setup to hide to problematic case.
+This will make [YOCTO #8222] appears in the QA logs.
 
-Together they will prominently show where the problematic cases are.
-Next step will be to find a generic way to fix the case.
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+Signed-off-by: Fawzi KHABER <fawzi.khaber@smile.fr>
+---
+ meta/classes-global/insane.bbclass | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-Fawzi KHABER (2):
-  insane: Add QA check for RRECOMMENDS on non-existent packages
-  meta/recipes: Remove empty ${PN}/DEV_PKG_DEPENDENCY workarounds
-
- meta/classes-global/insane.bbclass                    | 11 +++++++++++
- meta/recipes-connectivity/bind/bind_9.18.11.bb        |  1 -
- meta/recipes-core/musl/bsd-headers.bb                 |  1 -
- meta/recipes-core/musl/libssp-nonshared.bb            |  1 -
- meta/recipes-core/newlib/newlib_git.bb                |  3 ---
- meta/recipes-devtools/gcc/libgcc-common.inc           |  4 ----
- meta/recipes-devtools/python/python3_3.11.2.bb        |  1 -
- meta/recipes-graphics/mesa/libglu_9.0.2.bb            |  3 ---
- meta/recipes-graphics/mesa/mesa.inc                   |  3 ---
- .../recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb |  1 -
- meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb        |  1 -
- meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb  |  1 -
- meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb  |  3 +--
- meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb |  3 +--
- .../linux-libc-headers/linux-libc-headers.inc         |  1 -
- .../make-mod-scripts/make-mod-scripts_1.0.bb          |  1 -
- .../argp-standalone/argp-standalone_1.4.1.bb          |  1 -
- 17 files changed, 13 insertions(+), 27 deletions(-)
-
+diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insane.bbclass
+index ee34d5208d..a3e8c57955 100644
+--- a/meta/classes-global/insane.bbclass
++++ b/meta/classes-global/insane.bbclass
+@@ -34,6 +34,7 @@ WARN_QA ?= " libdir xorg-driver-abi buildpaths \
+             missing-update-alternatives native-last missing-ptest \
+             license-exists license-no-generic license-syntax license-format \
+             license-incompatible license-file-missing obsolete-license \
++            rrecommends-non-existant \
+             "
+ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
+@@ -1089,6 +1090,16 @@ def package_qa_check_empty_dirs(pkg, d, messages):
+             msg = "%s installs files in %s, %s" % (pkg, dir, recommendation)
+             oe.qa.add_message(messages, "empty-dirs", msg)
+ 
++QAPKGTEST[rrecommends-non-existant] = "package_qa_check_rrecommends_non_existant"
++def package_qa_check_rrecommends_non_existant(pkg, d, messages):
++    localdata = bb.data.createCopy(d)
++    localdata.setVar('OVERRIDES', pkg)
++    for rec in bb.utils.explode_dep_versions2(localdata.getVar("RRECOMMENDS") or ""):
++        if rec in (d.getVar("PACKAGES") or "").split() and not os.listdir(os.path.join(d.getVar("PKGDEST"), rec)):
++            localdata.setVar("OVERRIDES", rec)
++            if not bb.utils.to_boolean(localdata.getVar("ALLOW_EMPTY"), False):
++                oe.qa.add_message(messages, "rrecommends-non-existant", "{0} -> {1} but won't be build".format(pkg, rec))
++
+ def package_qa_check_encoding(keys, encode, d):
+     def check_encoding(key, enc):
+         sane = True
 -- 
 2.30.2
 
