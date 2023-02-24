@@ -2,88 +2,250 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E18A5C61DA3
-	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 09:40:38 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web10.14126.1677231628898285254
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6B2EC64ED8
+	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 09:44:58 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web10.14184.1677231896146075542
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Feb 2023 01:40:29 -0800
+ Fri, 24 Feb 2023 01:44:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=i9GFVCrO;
- spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f45.google.com with SMTP id k37so8000745wms.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 01:40:28 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=noWYdItL;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id f18so17184226lfa.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 01:44:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677231627;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ndECZgoibbY0wgoZlNdpv/2POT5UXyfNS9h/JP+DstM=;
-        b=i9GFVCrO++w2HyrtdgYI/ZPQZML251aoMULMIGgTVzvgBWCXX0VHrI/FaHMgYriUaz
-         6LJj3WicwS6npSDxTUvABlfAyXA1exMLiZQNzJXoSwynCA0oNAVU0y/1x28S02AcIff/
-         pfUGHyD3ip94G05LMdDIhedFGC8bTpGr8/FY6syxxtxXZT1P3vWybUOccrxqSFzj9Qvn
-         e+k0vPAcatFB89ujTcS5JfXc0CieG5AfbWIQnlZIcfUTFHsjA6SBa1sWKgFdy+iAD2yW
-         uDxSeGWvGOzddixY5u93wlT2/EcELgGE6LzaSUXbmHI/RF9dFpGGRmVrRmrMlqwkFUfr
-         d18g==
+        d=gmail.com; s=20210112; t=1677231894;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lRPFzUgwDkNdhoHVG8yqf8py6LSJTjxfUbK7+kFw0vY=;
+        b=noWYdItLF/xmZu7W5ZQQ261OLJAsg7BzZAZy2iVfrpmrsfsDAkqvCLPkBh64vARfQC
+         XCxinKN+Js4oeVU0+T6bw6V9AK0vdBQKjBaudlRj2YaXKZobCgvqJHVAFdapDDyC5rmC
+         Tht/YfvYmV6tWqiEcKv2hbygKdOksfWODQwFWxUK4udUGQIiJ9CbByKloQ6qhhjGJg3t
+         Kj2gbIOZIdcHEK9wlZb9Na62czmNVnYThrX/AkwUMFIlNN3+G7sE/aGReoikABlbhEoK
+         q2kdpxzqZaCTiCM7RGCcksUCEA8NiACo+0s/ShtbX/naJh2muGoQXxycfvKxz3qynSIV
+         5VQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677231627;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ndECZgoibbY0wgoZlNdpv/2POT5UXyfNS9h/JP+DstM=;
-        b=0PXB7EqaqQwSDjEu0Sh8sZ4Y30Wt3T35bCSg1Q3hGdYnE5wi2mLvBpFrJBcuVQ00S1
-         DAMPSoFQJJ+HOLdwyt7Ai30Wggz94c1m0CwvmoLx0f3RjZWSP9Ya+wM4xm2Pch3iV5o1
-         bS4UOZ2DnSk8IQ+N/BqnPIX9wlVez5xn83RGsRYE21QNRTRbKTVdOoh2mpe1+3toBCh1
-         pTBquTmNyDQX1LouK6iBFZOEYknoK+vyHw9CY7vnCKmvzvw0YdO1ZrXxwvt8e/19h4p8
-         9eUsAmrUar0CbM3V2lkxn3eENfL1W/EI2CqDZ3RkHHzMQli00NG6olOzrlfIg594sSFv
-         MxZA==
-X-Gm-Message-State: AO0yUKWDzLYgSHQV9QyznVYnZlOJanQEK5HPqi2yVR6b+GlBqpOremuY
-	Iqx7ScRgLGFqkDe4ew9LmTKV4Enq6Pk=
-X-Google-Smtp-Source: AK7set/WIJyt8BAviM1XWRDMsRw7+YYATbj8gVWQhEILqqICEhezyjBmw0di0HLfKDwlRGu9Tq8sMw==
-X-Received: by 2002:a05:600c:1546:b0:3eb:246d:7efd with SMTP id f6-20020a05600c154600b003eb246d7efdmr580380wmg.2.1677231627092;
-        Fri, 24 Feb 2023 01:40:27 -0800 (PST)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id m26-20020a05600c3b1a00b003e21ba8684dsm2395737wms.26.2023.02.24.01.40.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Feb 2023 01:40:26 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH] gcr: correctly configure vala against introspection data
-Date: Fri, 24 Feb 2023 10:40:18 +0100
-Message-Id: <20230224094018.1227425-1-alex@linutronix.de>
-X-Mailer: git-send-email 2.30.2
+        d=1e100.net; s=20210112; t=1677231894;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lRPFzUgwDkNdhoHVG8yqf8py6LSJTjxfUbK7+kFw0vY=;
+        b=E8DmnUU+Qa8t1jF45edzENUFTpmKdzP1OFigm7KGMHq0CcjSnoRRuuDRn+84uPGGRj
+         m3ab/UZgnINTmJSAcMV7S4arQgnROu25ppjP8iFGuX7KXdgyp5E6fQZ2K8+UQsgg8tGn
+         0IimaRohDpqeRmFon9MveaMqiTsgoSXOYIqZRF9P4XVhRFS0FRkRPKf/BCEgGrHVGRsg
+         nxfWBd4Lt0DoWyEMnvZE2zAIXVW2RQKsO7g/zUhagoVHhRzDhadbjJYtTfKF6ObUWgQL
+         5ul0qsYe1XsdigKBHr6DwLMqVl3RZYubYionOE3MpU3Zro+4T9epAnqUoShyNobT5h0F
+         RCow==
+X-Gm-Message-State: AO0yUKVHHOjjub1fjhDutGZGubrVj50i4EHBP6qZnJqwo2/824uNFgmk
+	b4+lZKEipJLkHxJwvINOlTwQWv7KbCzrGvY7zKU=
+X-Google-Smtp-Source: AK7set9UrQiqNE5HeP45RquYj1rhcT7GfSEJd+eypP6/MqiDyFJ7bQRPbbz3EDH8QmUNO7zCu38GDG4csnXDiRfDngU=
+X-Received: by 2002:ac2:44b2:0:b0:4db:17cb:e26f with SMTP id
+ c18-20020ac244b2000000b004db17cbe26fmr4788037lfm.13.1677231894231; Fri, 24
+ Feb 2023 01:44:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230224093850.3393567-1-zboszor@gmail.com>
+In-Reply-To: <20230224093850.3393567-1-zboszor@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 24 Feb 2023 10:44:42 +0100
+Message-ID: <CANNYZj-Cuande0w6CpviwoKWO4wT2pu6JOjzKPaCGAxLkFNatg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/4] bindgen-cli: Add new recipe
+To: Zoltan Boszormenyi <zboszor@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 09:40:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177668
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 09:44:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177669
 
-GI_DATA_ENABLED is the right source for making that decision
-as it additionally factors in presence of qemu-usermode in
-MACHINE_FEATURES.
+As this is needed only for rusticl, and that is switched off by
+default, there is no need for the recipe to be in core. I'd say
+meta-oe is a better location.
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- meta/recipes-gnome/gcr/gcr_4.0.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Also, the list of crates should be generated by
+cargo-update-recipe-crates class, not by cargo bitbake.
 
-diff --git a/meta/recipes-gnome/gcr/gcr_4.0.0.bb b/meta/recipes-gnome/gcr/gcr_4.0.0.bb
-index b137968943..7821e31b52 100644
---- a/meta/recipes-gnome/gcr/gcr_4.0.0.bb
-+++ b/meta/recipes-gnome/gcr/gcr_4.0.0.bb
-@@ -29,7 +29,7 @@ PACKAGECONFIG ??= " \
- 	${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
- 	${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'gtk', '', d)} \
- 	${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'gtk', '', d)} \
--	${@bb.utils.contains('DISTRO_FEATURES', 'gobject-introspection-data', 'vapi', '', d)} \
-+	${@bb.utils.contains('GI_DATA_ENABLED', 'True', 'vapi', '', d)} \
- "
- PACKAGECONFIG[gtk] = "-Dgtk4=true,-Dgtk4=false,gtk4"
- PACKAGECONFIG[ssh_agent] = "-Dssh_agent=true,-Dssh_agent=false,libsecret,openssh"
--- 
-2.30.2
+Alex
 
+On Fri, 24 Feb 2023 at 10:39, Zoltan Boszormenyi <zboszor@gmail.com> wrote:
+>
+> The recipe is automatically generated by cargo-bitbake, with the
+> manual change to add BBCLASSEXTEND =3D "native" in the include file.
+>
+> It is used by Mesa 23.0.0 to build Rusticl.
+>
+> Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
+> ---
+>  meta/recipes-devtools/bindgen/bindgen-cli.inc |   1 +
+>  .../bindgen/bindgen-cli_0.64.0.bb             | 132 ++++++++++++++++++
+>  2 files changed, 133 insertions(+)
+>  create mode 100644 meta/recipes-devtools/bindgen/bindgen-cli.inc
+>  create mode 100644 meta/recipes-devtools/bindgen/bindgen-cli_0.64.0.bb
+>
+> diff --git a/meta/recipes-devtools/bindgen/bindgen-cli.inc b/meta/recipes=
+-devtools/bindgen/bindgen-cli.inc
+> new file mode 100644
+> index 0000000000..d3267ac413
+> --- /dev/null
+> +++ b/meta/recipes-devtools/bindgen/bindgen-cli.inc
+> @@ -0,0 +1 @@
+> +BBCLASSEXTEND =3D "native"
+> diff --git a/meta/recipes-devtools/bindgen/bindgen-cli_0.64.0.bb b/meta/r=
+ecipes-devtools/bindgen/bindgen-cli_0.64.0.bb
+> new file mode 100644
+> index 0000000000..da3d692717
+> --- /dev/null
+> +++ b/meta/recipes-devtools/bindgen/bindgen-cli_0.64.0.bb
+> @@ -0,0 +1,132 @@
+> +# Auto-Generated by cargo-bitbake 0.3.16-alpha.0
+> +#
+> +inherit cargo
+> +
+> +# If this is git based prefer versioned ones if they exist
+> +# DEFAULT_PREFERENCE =3D "-1"
+> +
+> +# how to get bindgen-cli could be as easy as but default to a git checko=
+ut:
+> +# SRC_URI +=3D "crate://crates.io/bindgen-cli/0.64.0"
+> +SRC_URI +=3D "git://github.com/rust-lang/rust-bindgen.git;protocol=3Dhtt=
+ps;nobranch=3D1;branch=3Dv0.64.0"
+> +SRCREV =3D "ae6817256ac557981906e93a1f866349db85053e"
+> +S =3D "${WORKDIR}/git"
+> +CARGO_SRC_DIR =3D "bindgen-cli"
+> +
+> +
+> +# please note if you have entries that do not begin with crate://
+> +# you must change them to how that package can be fetched
+> +SRC_URI +=3D " \
+> +    crate://crates.io/aho-corasick/0.5.3 \
+> +    crate://crates.io/aho-corasick/0.7.20 \
+> +    crate://crates.io/ansi_term/0.12.1 \
+> +    crate://crates.io/atty/0.2.14 \
+> +    crate://crates.io/bitflags/1.3.2 \
+> +    crate://crates.io/block/0.1.6 \
+> +    crate://crates.io/cc/1.0.78 \
+> +    crate://crates.io/cexpr/0.6.0 \
+> +    crate://crates.io/cfg-if/1.0.0 \
+> +    crate://crates.io/clang-sys/1.4.0 \
+> +    crate://crates.io/clap/2.34.0 \
+> +    crate://crates.io/clap/4.1.4 \
+> +    crate://crates.io/clap_derive/4.1.0 \
+> +    crate://crates.io/clap_lex/0.3.1 \
+> +    crate://crates.io/diff/0.1.13 \
+> +    crate://crates.io/either/1.8.1 \
+> +    crate://crates.io/env_logger/0.3.5 \
+> +    crate://crates.io/env_logger/0.9.3 \
+> +    crate://crates.io/errno-dragonfly/0.1.2 \
+> +    crate://crates.io/errno/0.2.8 \
+> +    crate://crates.io/fastrand/1.8.0 \
+> +    crate://crates.io/fuchsia-cprng/0.1.1 \
+> +    crate://crates.io/glob/0.3.1 \
+> +    crate://crates.io/heck/0.4.0 \
+> +    crate://crates.io/hermit-abi/0.1.19 \
+> +    crate://crates.io/hermit-abi/0.2.6 \
+> +    crate://crates.io/humantime/2.1.0 \
+> +    crate://crates.io/instant/0.1.12 \
+> +    crate://crates.io/io-lifetimes/1.0.4 \
+> +    crate://crates.io/is-terminal/0.4.2 \
+> +    crate://crates.io/kernel32-sys/0.2.2 \
+> +    crate://crates.io/lazy_static/1.4.0 \
+> +    crate://crates.io/lazycell/1.3.0 \
+> +    crate://crates.io/libc/0.2.139 \
+> +    crate://crates.io/libloading/0.6.7 \
+> +    crate://crates.io/libloading/0.7.4 \
+> +    crate://crates.io/linux-raw-sys/0.1.4 \
+> +    crate://crates.io/log/0.3.9 \
+> +    crate://crates.io/log/0.4.17 \
+> +    crate://crates.io/malloc_buf/0.0.6 \
+> +    crate://crates.io/memchr/0.1.11 \
+> +    crate://crates.io/memchr/2.5.0 \
+> +    crate://crates.io/minimal-lexical/0.2.1 \
+> +    crate://crates.io/nom/7.1.3 \
+> +    crate://crates.io/objc/0.2.7 \
+> +    crate://crates.io/once_cell/1.17.0 \
+> +    crate://crates.io/os_str_bytes/6.4.1 \
+> +    crate://crates.io/peeking_take_while/0.1.2 \
+> +    crate://crates.io/proc-macro-error-attr/1.0.4 \
+> +    crate://crates.io/proc-macro-error/1.0.4 \
+> +    crate://crates.io/proc-macro2/1.0.50 \
+> +    crate://crates.io/quickcheck/0.4.1 \
+> +    crate://crates.io/quote/1.0.23 \
+> +    crate://crates.io/rand/0.3.23 \
+> +    crate://crates.io/rand/0.4.6 \
+> +    crate://crates.io/rand_core/0.3.1 \
+> +    crate://crates.io/rand_core/0.4.2 \
+> +    crate://crates.io/rdrand/0.4.0 \
+> +    crate://crates.io/redox_syscall/0.2.16 \
+> +    crate://crates.io/regex-syntax/0.3.9 \
+> +    crate://crates.io/regex-syntax/0.6.28 \
+> +    crate://crates.io/regex/0.1.80 \
+> +    crate://crates.io/regex/1.7.1 \
+> +    crate://crates.io/remove_dir_all/0.5.3 \
+> +    crate://crates.io/rustc-hash/1.1.0 \
+> +    crate://crates.io/rustix/0.36.7 \
+> +    crate://crates.io/shlex/1.1.0 \
+> +    crate://crates.io/strsim/0.10.0 \
+> +    crate://crates.io/strsim/0.8.0 \
+> +    crate://crates.io/syn/1.0.107 \
+> +    crate://crates.io/tempdir/0.3.7 \
+> +    crate://crates.io/tempfile/3.3.0 \
+> +    crate://crates.io/termcolor/1.2.0 \
+> +    crate://crates.io/textwrap/0.11.0 \
+> +    crate://crates.io/thread-id/2.0.0 \
+> +    crate://crates.io/thread_local/0.2.7 \
+> +    crate://crates.io/unicode-ident/1.0.6 \
+> +    crate://crates.io/unicode-width/0.1.10 \
+> +    crate://crates.io/utf8-ranges/0.1.3 \
+> +    crate://crates.io/vec_map/0.8.2 \
+> +    crate://crates.io/version_check/0.9.4 \
+> +    crate://crates.io/which/4.4.0 \
+> +    crate://crates.io/winapi-build/0.1.1 \
+> +    crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 \
+> +    crate://crates.io/winapi-util/0.1.5 \
+> +    crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 \
+> +    crate://crates.io/winapi/0.2.8 \
+> +    crate://crates.io/winapi/0.3.9 \
+> +    crate://crates.io/windows-sys/0.42.0 \
+> +    crate://crates.io/windows_aarch64_gnullvm/0.42.1 \
+> +    crate://crates.io/windows_aarch64_msvc/0.42.1 \
+> +    crate://crates.io/windows_i686_gnu/0.42.1 \
+> +    crate://crates.io/windows_i686_msvc/0.42.1 \
+> +    crate://crates.io/windows_x86_64_gnu/0.42.1 \
+> +    crate://crates.io/windows_x86_64_gnullvm/0.42.1 \
+> +    crate://crates.io/windows_x86_64_msvc/0.42.1 \
+> +"
+> +
+> +
+> +
+> +# FIXME: update generateme with the real MD5 of the license file
+> +LIC_FILES_CHKSUM =3D " \
+> +    file://bindgen-cli/LICENSE;md5=3D0b9a98cb3dcdefcceb145324693fda9b \
+> +"
+> +
+> +SUMMARY =3D "Automatically generates Rust FFI bindings to C and C++ libr=
+aries."
+> +HOMEPAGE =3D "https://rust-lang.github.io/rust-bindgen/"
+> +LICENSE =3D "BSD-3-Clause"
+> +
+> +# includes this file if it exists but does not fail
+> +# this is useful for anything you may want to override from
+> +# what cargo-bitbake generates.
+> +include bindgen-cli-${PV}.inc
+> +include bindgen-cli.inc
+> --
+> 2.39.2
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#177664): https://lists.openembedded.org/g/openembedde=
+d-core/message/177664
+> Mute This Topic: https://lists.openembedded.org/mt/97202942/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
