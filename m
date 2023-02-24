@@ -1,113 +1,116 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <pavel@zhukoff.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2075FC77B71
-	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 16:05:31 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web11.21491.1677254724970886718
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F322C7EE2D
+	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 16:09:51 +0000 (UTC)
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+ by mx.groups.io with SMTP id smtpd.web10.21690.1677254987369699647
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Feb 2023 08:05:25 -0800
+ Fri, 24 Feb 2023 08:09:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aq8K4vr0;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id l1so14142183wry.10
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 08:05:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bfxTjF9P7ecGUXJTpEtYXVj02PSq/nk7CjjR1a0uHnw=;
-        b=aq8K4vr0ViLjudjGJIWZLd4wpIqaIsecWKJjrF1ydSnVQ+VDu9uoVMTbKdhMaW+Ttq
-         vsh8kWOGCa3G5vYzSXzfKPboniXfmjkeBOBNIS7DNBPMpixjdLk6pbpRvtEDQOqmVG6p
-         4+hIl9q0z/eccMRe2jx5XbCC7HHNc3LRhLmtU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=bfxTjF9P7ecGUXJTpEtYXVj02PSq/nk7CjjR1a0uHnw=;
-        b=wUsqp+cFcNQMvf2a+nSbqOH+9EAE4HyU5tJfaZ4geJTonhlMf8d025914N+fgiDfzM
-         XqfIZr2wYJ34VoaTKhmD1rT0+y+2emrDIzkSj7UEvJtonBe3aA674/iKNwfCuqTsZ1wq
-         VKl8EiyO+YNZKBnnD5E031Kxm5wpiVUak/DNc7xuFueWBMAwiVgPcO1ErEQQ2RyzFaNU
-         pUYGh455XYuTwTVrPs5WdicMDaUQZ1keWbuSr6mIc/u5RzAkeIZW97UBvZ5FaQTTBw6k
-         MbyXjEqFNJyaUARuXw3AqvaxvhsdLW24F7t20bAJMyj8JV3jUS9yJOjdG1hws0J8jPxY
-         OBhw==
-X-Gm-Message-State: AO0yUKUJRIuejVg0HNJx0X6Zvp0zCr4LsHDjPSloR1gP9eHKKTvj64Qi
-	qbIZrYLNZhmxHsuGyL3nb/+1+qvIPNvEnXH0
-X-Google-Smtp-Source: AK7set914Yqk7LZhK7ZiesiPcGyrlFOXIhwBxk0/tm50g8ly37mcVzfV/dbSfnCDJZx7i/K+di1+Pw==
-X-Received: by 2002:a5d:64aa:0:b0:2c3:f0a6:43ee with SMTP id m10-20020a5d64aa000000b002c3f0a643eemr188320wrp.20.1677254723289;
-        Fri, 24 Feb 2023 08:05:23 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:639b:9979:fd5f:bbb7? ([2001:8b0:aba:5f3c:639b:9979:fd5f:bbb7])
-        by smtp.gmail.com with ESMTPSA id u16-20020a05600c441000b003eafc47eb09sm3217813wmn.43.2023.02.24.08.05.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Feb 2023 08:05:22 -0800 (PST)
-Message-ID: <eb51a596433feb6d1e7c80584adce82f4503339b.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 03/11] build-appliance-image: add support for
- qemu
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Trevor Woerner <twoerner@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 24 Feb 2023 16:05:22 +0000
-In-Reply-To: <20230221204445.23931-4-twoerner@gmail.com>
-References: <20230221204445.23931-1-twoerner@gmail.com>
-	 <20230221204445.23931-4-twoerner@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.1-0ubuntu1 
+ dkim=fail reason="signature has expired" header.i=@zhukoff.net header.s=fm1 header.b=tsb3wIUs;
+ spf=pass (domain: zhukoff.net, ip: 66.111.4.29, mailfrom: pavel@zhukoff.net)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id AFEB75C01F2;
+	Fri, 24 Feb 2023 11:09:46 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Fri, 24 Feb 2023 11:09:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; h=
+	cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:reply-to:sender
+	:subject:subject:to:to; s=fm1; t=1677254986; x=1677341386; bh=+2
+	HYhZzD/h1tpgcMCOPpdlbYjIzJHEcXBG2ISPavKDk=; b=tsb3wIUsVkZHtevLZC
+	TgceKzmA5/z0tVKWVQqb5n6q+p8nJS86aFDvWT/Qvkwb9gdw+lQFbn7XnxmAiz6X
+	0usNv3vfZYK3/ZY9v5k5ye8hqlfIMtriqm2I6IV1nbXtWcvc8IsxL6WoB46agCsF
+	pCkxy3azc+rDGtnw4kuUKVvtpiaTwKbHHRF4jj/oBfSjrFoVS1CaGF8tHF6HsTMp
+	RMMV60WH7VRaXj/Y8wAlxsbcfB3h0YFkfMwcKH+UNLz2VGlNiyQPk8yQvTJ1w94Z
+	g/aJv8ishJm4arRDihvMK7FxLGjWtykCbkpMQBSKC7cY6aGCozJQJyN5inzYTU9j
+	r83A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1677254986; x=1677341386; bh=+2HYhZzD/h1tp
+	gcMCOPpdlbYjIzJHEcXBG2ISPavKDk=; b=PSrfFckrfTjbHK41BIRAFtMH3eeDK
+	QtPWtoR9VLe2ROhtQEdf5Nnkx1e/7fh2X5spAAreginy6eI7dh80rs+NfZTSTMzP
+	xLLJ9EDxp+o0w7hK7b2ln45YM148WsjAuLJlFu2KpCsa0oqkEhZ1b5LWerO+lUNf
+	hHEFCEfKN2D9cbOLHPwhuNEufLGQB9BKameYZ2LKRBqCmDQAzMu60chS4UpvnYIB
+	fg6XhzbzkUSgiqFwFQlob0/L3lcjFGkcvWOBuF4WNAHoCTOvlJrWJ/YMpxP/wrA7
+	IGi13m1TLh8cv7cXNU7RbtJFOsLmmfNc++4MSPHKBayVoj2W47ABsdmqQ==
+X-ME-Sender: <xms:SuH4Y1PC2G9o-54reOMiqeLYOhYQzl9poQXrw-ZTGi3M-c3Y0DEVOA>
+    <xme:SuH4Y39rW8TONZGS92U203ADmZUH_EhNkqQOKXbsjZYc2rJoJm8r-3m-cYuF7uU4Z
+    VGOLjuQnAxer0QZjCY>
+X-ME-Received: <xmr:SuH4Y0Q39e-VdrKSs_k8yyM9lCobii86y3UQIqy34SDBrOONujIbnKznAi-hRQ4cf5nuefHM3jVfwOQsVK8i7edU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekfedgkedtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfhgfhffvvefuffhorhgjkfggtgesthdtredttdertdenucfhrhhomheprfgr
+    vhgvlhcukghhuhhkohhvuceophgrvhgvlhesiihhuhhkohhffhdrnhgvtheqnecuggftrf
+    grthhtvghrnhepveethfffleduueehtdfgveeufeefkeduveeiteffjefhkeehveffuefg
+    tddvtedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epphgrvhgvlhesiihhuhhkohhffhdrnhgvth
+X-ME-Proxy: <xmx:SuH4YxsMo6rbEMyVPHoV4Plfqx1CS97EtTkl4q5OU7QfWJdwD4V2BA>
+    <xmx:SuH4Y9ctdPOAb1uWVBTtGQYfCvGLBeOJKsSeuf9l8qc8fKS57iVTUw>
+    <xmx:SuH4Y91KwT40jLKEWlkoMhqM3XiT6j9PXKq6IPH10aZ26MsYFEc0eQ>
+    <xmx:SuH4Y-p-UHCG9d3Mr4aBJ_vS-ds6ykZZIszR0y1ruXqa3S6fZXYb4g>
+Feedback-ID: ib94946c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 24 Feb 2023 11:09:45 -0500 (EST)
+References: <20230224143717.2669400-1-kareem.zarka@huawei.com>
+ <20230224143717.2669400-3-kareem.zarka@huawei.com>
+User-agent: mu4e 1.8.13; emacs 28.2
+From: Pavel Zhukov <pavel@zhukoff.net>
+To: Kareem Zarka <zarkakareem@gmail.com>
+Cc: Stefan Schmidt <stefan.schmidt@huawei.com>, Kareem Zarka
+ <kareem.zarka@huawei.com>, openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] meta/recipes-core/images/core-image-minimal:
+ add mtools to IMAGE_INSTALL
+Date: Fri, 24 Feb 2023 17:07:01 +0100
+Organization: Linux Private Site
+Reply-To: pavel@zhukoff.net
+In-reply-to: <20230224143717.2669400-3-kareem.zarka@huawei.com>
+Message-ID: <875ybrxcxj.fsf@desktop.zhukoff.net>
 MIME-Version: 1.0
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 16:05:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177690
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 16:09:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177691
 
-On Tue, 2023-02-21 at 15:44 -0500, Trevor Woerner wrote:
-> Add ext4 explicitly to the list of IMAGE_FSTYPES so the build appliance c=
-an be
-> run with runqemu.
->=20
-> Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+"Kareem Zarka" <zarkakareem@gmail.com> writes:
+
+> The wic.py selftest cases test_skip_kernel_install and
+> test_kernel_install for OpenEmbedded were failing on autobuilders due
+> to a missing dependency on the mtools package, which provides a set of
+> tools for working with MS-DOS file systems, including mcopy.
+probably you want to add mtools-native dependency to the test itself
+instead of installing into the image.
+maybe even simple bitbake("mtools-native") will help?
+
+> To address this issue, we added mtools to the IMAGE_INSTALL variable in
+> the core-image-minimal.bb recipe. This ensures that the package is
+> included in the core-image-minimal image, which enables the
+> test_skip_kernel_install and test_kernel_install selftest cases
+> to run correctly on autobuilders.
+>
+> Signed-off-by: Kareem Zarka <kareem.zarka@huawei.com>
 > ---
->  meta/recipes-core/images/build-appliance-image_15.0.0.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.bb b/m=
-eta/recipes-core/images/build-appliance-image_15.0.0.bb
-> index 064e7a1ed82f..e28096758b9b 100644
-> --- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-> +++ b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-> @@ -1,5 +1,5 @@
->  SUMMARY =3D "An image containing the build system itself"
-> -DESCRIPTION =3D "An image containing the build system that you can boot =
-and run using either VirtualBox, VMware Player or VMware Workstation."
-> +DESCRIPTION =3D "An image containing the build system that you can boot =
-and run using any of qemu, VirtualBox, VMware Player or VMware Workstation.=
-"
->  HOMEPAGE =3D "http://www.yoctoproject.org/documentation/build-appliance"
-> =20
->  LICENSE =3D "MIT"
-> @@ -20,7 +20,7 @@ IMAGE_ROOTFS_EXTRA_SPACE =3D "41943040"
->  APPEND +=3D "rootfstype=3Dext4 quiet"
-> =20
->  DEPENDS =3D "zip-native python3-pip-native"
-> -IMAGE_FSTYPES =3D "wic.vmdk wic.vhd wic.vhdx"
-> +IMAGE_FSTYPES =3D "ext4 wic.vmdk wic.vhd wic.vhdx"
-> =20
->  inherit core-image setuptools3
-> =20
-
-I've held off this one since whilst it isn't wrong as such, the ext
-images aren't exactly optimal. I think our hope was that we could use
-the vmdk or vhdx images with qemu instead and then directly test the
-ones we publicly share. Do you know if that could work? It may then
-mean people don't need to handle multiple files too?
-
-Cheers,
-
-Richard
-
-
+>  meta/recipes-core/images/core-image-minimal.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/images/core-image-minimal.bb b/meta/recipes-core/images/core-image-minimal.bb
+> index 84343adcd8..5d626898f0 100644
+> --- a/meta/recipes-core/images/core-image-minimal.bb
+> +++ b/meta/recipes-core/images/core-image-minimal.bb
+> @@ -1,6 +1,6 @@
+>  SUMMARY = "A small image just capable of allowing a device to boot."
+>  
+> -IMAGE_INSTALL = "packagegroup-core-boot ${CORE_IMAGE_EXTRA_INSTALL}"
+> +IMAGE_INSTALL = "mtools packagegroup-core-boot ${CORE_IMAGE_EXTRA_INSTALL}"
+>  
+>  IMAGE_LINGUAS = " "
 
 
