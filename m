@@ -1,197 +1,231 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CDF4C64ED6
-	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 02:59:06 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web10.9194.1677207541126312061
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76E9CC61DA4
+	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 03:05:26 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.9314.1677207916142492757
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Feb 2023 18:59:01 -0800
+ Thu, 23 Feb 2023 19:05:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=aE0e2wG8;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f181.google.com with SMTP id e9so10298316plh.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 18:59:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yl2Fi/P4ZPcjz/SMDi8hcNxPQKkPlA08znzg1KpZnRU=;
-        b=aE0e2wG8Maw8Qoxij0mSYzLi+CRVMXVveGB7RLlrXcgVqLqTEgJHev4FBFVbWAUEbZ
-         u56TlDf6bofKw50TqwS7/gzU9X6UyGwe2blJeyMqV0hiNZiJwwglFvBjRdkISDX9Lcix
-         GwWLEIcUoMUVOB0TCxlppywlxpPJI7/W/Mzj8rcrSW1a+ALAnKbwdyTCvTYhfceuPVM2
-         p5Ofg4AqPdF+38YcihMbDo2wWzSbUwF6+DDcnTGwylhF2FSQ45B0hDyW1gAtzSjvY1nG
-         ga+OEnBBYSx+GTHxYpLT5qrGc90wR0O+OQv/VcIlOIDoDorf/Gsm6rDI+YzX52rKsHki
-         I0Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yl2Fi/P4ZPcjz/SMDi8hcNxPQKkPlA08znzg1KpZnRU=;
-        b=0YU65YknPaA75EiMEB2pTqH4dtT7nvRMtOjGOyhgo1yDKLUhP7gA8s01lNNxTSVvG6
-         YjZYORWy1zKGXUZ8bCQsOT2RIjoxvBnztnQU4sUm29E9nIchOnJTDnMucHAy2y1/ohUJ
-         wBoBfpv+XMOJUCfYPyWLtIIQktuKOytbMdIqG0B5gh0wE7K+Mq4VqvPm/x5eCg11ZLpD
-         dzAVaQ8WPNwfUNQyFBt9KzCxbJhjB8r6zLH1o9ZbpT9TPBBg///2dYWrfFzuDnaSiC15
-         RVtGS9NzemwYBLxg1riV2SrRFJ5hOpi4WmFGc1tx2l7IYCuN+wtPTQDry5yn1lcsTfPo
-         dv/Q==
-X-Gm-Message-State: AO0yUKV5YiL0mP4jiQ2xNBx+p0L3Us/liZshZ7tXXmmxIeCfglBKpB1q
-	TVUatPDBcQGwaOdyVKrekIubV/ZKld+fEMOXDpU=
-X-Google-Smtp-Source: AK7set9JblfZvmZ3/WZn+tDUZOg7fssBESf66tMhgtGv89Udj8WhyR03uS8KagtxAWjdFSRiiW9lRA==
-X-Received: by 2002:a17:90b:384d:b0:234:31f3:e00f with SMTP id nl13-20020a17090b384d00b0023431f3e00fmr15837188pjb.43.1677207539775;
-        Thu, 23 Feb 2023 18:58:59 -0800 (PST)
-Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id k8-20020a637b48000000b004ecd14297f2sm6530633pgn.10.2023.02.23.18.58.58
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Feb 2023 18:58:59 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 00/23] Pull request (cover letter only)
-Date: Thu, 23 Feb 2023 16:58:52 -1000
-Message-Id: <cover.1677207345.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=F3Ut/Ol2;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=1419ccb9dd=qi.chen@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31O2d2la012811
+	for <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 19:05:15 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=message-id : date
+ : subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=PPS06212021;
+ bh=PsP/OF2oG7AAU+rDqxBdbSrFK0pKNbLknrUWq3uSLCk=;
+ b=F3Ut/Ol2+FzcR3bNEp1v7BejHYvRX1rmTF4l44P54FKaeAw3yEfmjqjAIkJwvL6YvN2E
+ Bfv5u0byo+cWWaIawL5XHesqVy2z0HcHJMjM7y/mHusCGnyx0uFSvWXasaRbuhiLbQhL
+ 8n8vEk83qkTs3Jiqr8ICHaTZKR3RBVjkSmnA+97yW7GYCx5nzSPLLGz1jAr13d37mAsM
+ 3V6F4ZLQ2Ang5zuoyWDQU+lyPXG53pZZ5G3jEnSZAz+nxqxDE6ALgItFWWeF+dPajhL1
+ PoB4HfFbqxgsTAVueGF9KyItmBzM6RzAs/muac2/SSawrsfoODoOvTQ9Yzoz26OcAP7U +A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3nty2pw5vh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 19:05:15 -0800
+Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31O35FZH001872
+	for <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 19:05:15 -0800
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2177.outbound.protection.outlook.com [104.47.57.177])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3nty2pw5vg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 23 Feb 2023 19:05:15 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IJeamKb/jMbgpq+fxOP+E4oaRR2rCt+ZhqgjcF94sm8ckdLLI07paV19XhbGOBMWJ3l/gsw+Aii2FmlCoZQVvpudLbvCPejW2kCbkCLKVsxok4KXWQwNxZkPZZW2jslu51DIHhfl4Ve8KG8sa5QIFfTC32Sfs1+hQpeY8gE+I42xLStW0t83yWeBixrSlOOzuuIwxmMUY0rRZ4iiKWE7GinZPasqC0KUO5AqoY4EKPCLFM279qpAiyMP7cI4FWo+8NWs8PbeSIQbLHzSFC2CtI6J0yRvAu8g8fmmu09WoysE47rC7NebS9LR/Jm0ulHLJ7DX8iScNs6LVlzSOL6KxQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PsP/OF2oG7AAU+rDqxBdbSrFK0pKNbLknrUWq3uSLCk=;
+ b=HPKwku6/8ZTCvdEo9OPpdsnC8SyavoNkBlxFTtZyfDnFYdyjxLBdGGA7XGvQUVdlkZhQFOhkFey76x04PvL7guQwBcsgOTpCdNRXtcxiK6KGQ9aDEdn+YNvmV6iT0XJXSUk9g+rfnJ5Szh76kEOJgjq2q/ccOJVIBrtlP1rmYeBTFdHVTiP3EwPXTpO2Jv40mSU84zOJxyZ77jr0u+wNgV9TfnZxHU71Qua5W3jY4DkVMxmYm53StWvkd2wFfboMZFx0LcVgiCPG8zq+cndClXWX0Apxx6N7JgCTVEhtH8BY6zSGw3NglAiDMQGiM6bpC660UXPlGML/Ij0qoXq/+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by SA1PR11MB7062.namprd11.prod.outlook.com (2603:10b6:806:2b3::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.21; Fri, 24 Feb
+ 2023 03:05:11 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::7785:8a09:29b7:44a3]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::7785:8a09:29b7:44a3%5]) with mapi id 15.20.6134.021; Fri, 24 Feb 2023
+ 03:05:10 +0000
+Message-ID: <b0d183bd-d99c-8815-f6e2-e26ac0c292d5@windriver.com>
+Date: Fri, 24 Feb 2023 11:05:05 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [OE-core] [RFC PATCH 0/2] Handling of ${PN}-dev RRECOMMENDS
+ non-existent ${PN}
+To: yoann.congal@smile.fr, openembedded-core@lists.openembedded.org
+Cc: richard.purdie@linuxfoundation.org, Fawzi KHABER <fawzi.khaber@smile.fr>
+References: <20230223232939.3932270-1-yoann.congal@smile.fr>
+Content-Language: en-US
+From: ChenQi <Qi.Chen@windriver.com>
+In-Reply-To: <20230223232939.3932270-1-yoann.congal@smile.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR13CA0182.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c3::7) To CO6PR11MB5602.namprd11.prod.outlook.com
+ (2603:10b6:303:13a::5)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|SA1PR11MB7062:EE_
+X-MS-Office365-Filtering-Correlation-Id: b672ce1b-93fb-4845-1fb9-08db1613f0cd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	Vn/Dq4HyjHCcsDEGrGfF4pRBrWxw/JoROCIewCXawXwfVKFFbD4RZ7OrfHV0utuKqRfM32wi5qyrqrBqWsnTr00G6JWsFS9vH25Nqil+SlkM1Qfh7gfKmqMUDkDQNxf25Uu9Qq3DhY+i5MJOB/QodF3hmAmo6SmB2sLIxOPM1Glu+wHwUk/durnTHUXUi8/yMW0dTd0SGybuuvb0FFdo1Z4Tz9kE9pB8I/SrUoEnBsfzcOVJ5iqj29bvokV5vWxx/IeQdSU9aWWrMTUqL1ARdv1ntXTtJtsBECFnWzvXG/AW21TBo52CzfotM2zqGGd7WD0FPqIivTRGneprkdBVJaLAVsjoPgnQgmSiZgSEUkCy6CT8N41DqXqaKmxrqgmwTfXMcFO5awBf1QP2qTCtuomfgRBa1+gVkIDuC2rxwqgbX8Z8rIjWSNqW9AiXGVByfxfpz1P3QBBN87wDHozfpAzr4suAbXLu36GGzCV6Web1IY2MAwYgPKw4eD5QGt5e9mYxkZHGI8I9ynDysuyBpxZS5ke4Y/UH7UargpaFsP2yGTUCb8EBxLL1FP45qbBQbYgU9w5eLD5sLqMkCkutjQ/NLP6k93gxxv+708rdx1QtSZWLc7OrpgnQAIJNbcl1TQR7ykxZjLzU7gPy4Wg3id9IrfACzxqE2iYv7ywiXSaIKThhDn7UzHN9yP2aDkIU18K/cwBAT0RUfHB679qtt/BbgCw3LkhTvc26KRcbCn4+Mto8PIk6eS78kG+JwZ2X6KtknAMMrpBi6dKjXsd0LnBKdfNmXfHd933U+10BAqs=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(39850400004)(346002)(136003)(376002)(366004)(396003)(451199018)(31696002)(86362001)(4326008)(316002)(36756003)(186003)(66476007)(8676002)(66556008)(26005)(8936002)(53546011)(2616005)(41300700001)(6512007)(5660300002)(66946007)(6506007)(478600001)(6666004)(38100700002)(2906002)(83380400001)(966005)(6486002)(66899018)(31686004)(228453006)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?QVhNSFQraGNwVDB5YTdZSUFoQ20vQmFrRVlRbVNOT016cFFCc2NzblEvaUFF?=
+ =?utf-8?B?bEM3UG4yS3F1SnpHekxZcjhKMlRlekcwaDhucnJLaFRhNUZBaEtFaFl1bGxz?=
+ =?utf-8?B?dHNKT0l5MEJVS2IycSt0L05CNCtVU1RpV0orbjhJWFNXZE9PTHg1MVVzclJD?=
+ =?utf-8?B?cWNZbURJalNVa1RVRG1Idk13ZUh4eG50QXMyaFhEWEY5TmxHSC9NdDl5allC?=
+ =?utf-8?B?b1JrL0NmUzJ0MmxDbkFsVGg5TmxSVlRNMFpqakRuT3BvNFJ1Tk9rdXlDZndY?=
+ =?utf-8?B?MkhKd3dRYkpab0p3QXQ0b3FEQ2NQVnRqQ1RyenAzd0kwaXluZFUrR3BhQlRy?=
+ =?utf-8?B?bkhRNllDWTh3dWR5elJxODFaYm5EZTNjbHlWNGtZK2NqTVRjdHE3WEdTV0l4?=
+ =?utf-8?B?bW5OVU04L2Y0YWVlQlJNZWJKcnZUMWJaLzBQNVZjOTRFeVE1aU8wRVdvTFRo?=
+ =?utf-8?B?TXhzMmRwcmlUbXd0Tkh6dFdnNFlXR3IwNTJMSW5tdDhjLy94SGRsMm1vTlVT?=
+ =?utf-8?B?OVRrN3o4T0JzbVlIQUNDKzNaYjVzUWk0anBHTHVNNWlIamZuclUyZndRbVBa?=
+ =?utf-8?B?OHlxR1NVWUxGWmh5bFFSeHN4UGFUajg4dzlGR1IvMXVneWRjcnlUQ0JCN0ps?=
+ =?utf-8?B?SVE1bUFlUk9idVM5cEhnNUI1QTE4RnN2RW1CZnQ4RVlOZEVhSWZ2eTY5WlB1?=
+ =?utf-8?B?cWl0cDlzQWlFSHpkcm8wZ2cxMzRudE9QaXJtd2NYQnNDRGhsVmNNb2JZOE9Y?=
+ =?utf-8?B?S3lGRi8wZFFtY3ljZnBkNEVnMWNkRzVUNCsyNnF1YmJZb1dsbGFiMExzbGEw?=
+ =?utf-8?B?UkpXN2g1dTMzN1h2UXIyYkJGdTc1VVVUemVNRUwvdk54UDU1QXQrbUtGcU94?=
+ =?utf-8?B?UXA4Q1BhOEs1RTZRZW0wRURKcTVNSUFuNUJyRnh2QVNlRERTMklSZU5Nb3lx?=
+ =?utf-8?B?dlgrZE1OTURNM29sMG02b0ZGcEdqTVNvZk4zUWZ0bUJWeXJZUUlmYXBnQzJr?=
+ =?utf-8?B?a3VpWENtZHFTSVlIQ3FGNnp2KytjeWdhRE91YlJKMVMwbUsyVW4yOUx3b1Jy?=
+ =?utf-8?B?UTkyYUV0dTltNzFKZFI4N0EwdUg2a3hoUW5lSHBEYjBXS0JzaUlLeXlUNi9y?=
+ =?utf-8?B?aGRkUlRXWStRTFpnNjgyR0RIOS9GaGlmZUxvQVU3S0czK0cwRGp2b2gxekdP?=
+ =?utf-8?B?enZndWxmNklyY2pwdE90SzZlOFN0TCticzQ0ZWFIYkFtV255eDNVTFFpam56?=
+ =?utf-8?B?ajZGaEpoVTRWV0NaSnRtTTZTUEVlNThMVWw0N2ZiNnhNLzNxK3lEajRxRkJO?=
+ =?utf-8?B?Rk5PMFhBM050b0hJd0xqbVRWZjI0S2VueFY2T2dBc2R2TUhXcjBSbDZqV1VZ?=
+ =?utf-8?B?eHMyc25PR29IWUtzQmlDeWxnYTl3UWk0Zzc1UmJCcHdxM3hId3VwYktFYlFT?=
+ =?utf-8?B?Mk5TWkRjS0JFZm5DVUt1VkpGcCt4clNybG01bHhJdkVXa2ovODh5Z3dDbFRr?=
+ =?utf-8?B?Tzh6MXVIUDI4NHdXWjF0c3J3cVEyZVRQQzNySDZmVk5TVXNLQ1JkK0pZWlVO?=
+ =?utf-8?B?U2UyRDdXK2wySjF6NitZek1TbStBQVdOSXRKS25NTUNSMTA0Wmp5bVZqNmZL?=
+ =?utf-8?B?SGZxcG9ibzlkalc5RVZlVWNlQ0FjL3Ztam5ZQ3BOQnZ6SDZFSkwwSEtMR0t5?=
+ =?utf-8?B?eTgyU0VNRTlEcEF3WVFMNU44TysvMUpibkZSQ2dRWmszbDQ2VTlXTWhyc09r?=
+ =?utf-8?B?MDZmcFZzanp0bFB4aEFQQzc4V2YxSkhpV1B0cTB5emJySi9DbnEwU3Z4dXFW?=
+ =?utf-8?B?K1pKTE1WdkRCUG9mYkRVSERySmRONE56ZHRsbXo0cHF3YnV6WkhYdUZKSWRI?=
+ =?utf-8?B?bnVuUTdkNVB2USs5amNucVI2eCt2bmtkYzFJSzlNczlORG4vT2syeVNvSkQ3?=
+ =?utf-8?B?OXdzQXlMQUdoT3o2Q2orWXBpUDd5MFkyWm9FdnBnUXBlc2dDRTVVYUk2Nlpv?=
+ =?utf-8?B?andNZUZ1RmxsSEpGTGxERHlvOUIwenVuSlF3MnRod0N6WE5tbWZvb243TENi?=
+ =?utf-8?B?OFlYZlgrdVJ4dXBpV1l4ZEtnVU5YQnd4dUNmWXBmRnNGWU45NXBrNDBwY3Jt?=
+ =?utf-8?Q?/qilPwCn6t7auADQTux9/CCeP?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b672ce1b-93fb-4845-1fb9-08db1613f0cd
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2023 03:05:10.7283
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mjkhF1KLTsNYjc1ozjTVTElfjBrxArn/8pG9cgEAdCHt22fYRRVPfq7wBKhbI90tuh7Z93L/3WeNqk3ESD33ow==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB7062
+X-Proofpoint-ORIG-GUID: 60Q9LK6p3WRhSg0E7rPQnP1WTKla47dj
+X-Proofpoint-GUID: XhGyIRRG6caS0c5iG_NqmC51C7FunCww
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-23_15,2023-02-23_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011
+ lowpriorityscore=0 phishscore=0 adultscore=0 suspectscore=0 bulkscore=0
+ mlxlogscore=702 spamscore=0 priorityscore=1501 malwarescore=0 mlxscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302240021
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 02:59:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177653
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 03:05:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177654
 
-This is the final pull request for the upcoming 4.0.8 release.
+I have some concerns about this series of patches.
+1. The QA check is not checking for RRECOMMENDS on non-existentent 
+packages, it's only checking for non-existent in-recipe packages. That 
+is, it's not checking packages from other recipes.
+2. If patch 2 is sent, then the patch for 'a general way to fix the 
+case' should also be sent, otherwise, we'll be in a situation that a 
+bunch of warnings are there but there's no suggested fix and current 
+workarounds have been explicitly removed.
+3. There are some typos. s/existant/existent.
 
-The following changes since commit 54c30e509074073b99a7a8890482ba1af2abbab9:
+Looking at the original two issues, Yocto#6839 & Yocto#8222, I agree 
+that the appropriate approach is to first create a QA check. However, I 
+think this QA check should either:
+1. only check for non-existent main package for the dev package (as the 
+default value of -dev package is the main package)
+or
+2. thoroughly check for non-existent packages across recipes (maybe by 
+using pkgdata)
 
-  oeqa context.py: fix --target-ip comment to include ssh port number (2023-02-11 04:06:51 -1000)
+Regards,
+Qi
 
-are available in the Git repository at:
 
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-next
 
-Alexander Kanavin (8):
-  diffutils: update 3.8 -> 3.9
-  lttng-tools: update 2.13.8 -> 2.13.9
-  apr: update 1.7.0 -> 1.7.2
-  apr-util: update 1.6.1 -> 1.6.3
-  bind: upgrade 9.18.10 -> 9.18.11
-  libjpeg-turbo: upgrade 2.1.4 -> 2.1.5
-  linux-firmware: upgrade 20221214 -> 20230117
-  sudo: upgrade 1.9.12p1 -> 1.9.12p2
-
-Alexandre Belloni (1):
-  oeqa/selftest/bbtests: Update message lookup for
-    test_git_unpack_nonetwork_fail
-
-Kai Kang (1):
-  qemu: fix compile error
-
-Mauro Queiros (1):
-  image.bbclass: print all QA functions exceptions
-
-Mikko Rapeli (6):
-  oeqa ssh.py: move output prints to new line
-  oeqa ssh.py: add connection keep alive options to ssh client
-  oeqa dump.py: add error counter and stop after 5 failures
-  oeqa qemurunner: read more data at a time from serial
-  oeqa qemurunner.py: add timeout to QMP calls
-  oeqa qemurunner.py: try to avoid reading one character at a time
-
-Peter Kjellerstedt (1):
-  devshell: Do not add scripts/git-intercept to PATH
-
-Rodolfo Quesada Zumbado (1):
-  tar: CVE-2022-48303
-
-Sakib Sajal (1):
-  git: upgrade 2.35.6 -> 2.35.7
-
-Steve Sakoman (2):
-  libgit2: uprade 1.4.3 -> 1.4.4
-  libgit2: upgrade 1.4.4 -> 1.4.5
-
-Ulrich Ölmann (1):
-  update-alternatives: fix typos
-
- meta/classes/devshell.bbclass                 |   2 -
- meta/classes/image.bbclass                    |   2 +-
- meta/classes/update-alternatives.bbclass      |   6 +-
- meta/lib/oeqa/core/target/ssh.py              |   8 +-
- meta/lib/oeqa/selftest/cases/bbtests.py       |   2 +-
- meta/lib/oeqa/utils/dump.py                   |  23 +-
- meta/lib/oeqa/utils/qemurunner.py             |   9 +-
- ...1-avoid-start-failure-with-bind-user.patch |   0
- ...d-V-and-start-log-hide-build-options.patch |   0
- ...ching-for-json-headers-searches-sysr.patch |   0
- .../bind/{bind-9.18.10 => bind-9.18.11}/bind9 |   0
- .../{bind-9.18.10 => bind-9.18.11}/conf.patch |   0
- .../generate-rndc-key.sh                      |   0
- ...t.d-add-support-for-read-only-rootfs.patch |   0
- .../make-etc-initd-bind-stop-work.patch       |   0
- .../named.service                             |   0
- .../bind/{bind_9.18.10.bb => bind_9.18.11.bb} |   4 +-
- .../git/{git_2.35.6.bb => git_2.35.7.bb}      |   2 +-
- meta/recipes-devtools/qemu/qemu.inc           |   2 +
- ...ave-qxl_log_command-Return-early-if-.patch |  57 +++++
- ...ass-requested-buffer-size-to-qxl_phy.patch | 217 ++++++++++++++++++
- ...001-Skip-strip-trailing-cr-test-case.patch |  11 +-
- ...a-standard-layout-so-glibc-and-musl-.patch |  33 ---
- .../{diffutils_3.8.bb => diffutils_3.9.bb}    |   3 +-
- .../{sudo_1.9.12p1.bb => sudo_1.9.12p2.bb}    |   2 +-
- .../tar/tar/CVE-2022-48303.patch              |  43 ++++
- meta/recipes-extended/tar/tar_1.34.bb         |   4 +-
- ...-turbo_2.1.4.bb => libjpeg-turbo_2.1.5.bb} |   2 +-
- ...20221214.bb => linux-firmware_20230117.bb} |   6 +-
- .../lttng/lttng-tools/determinism.patch       |  64 ------
- ...-tools_2.13.8.bb => lttng-tools_2.13.9.bb} |   3 +-
- .../0001-Fix-error-handling-in-gdbm.patch     | 134 -----------
- .../{apr-util_1.6.1.bb => apr-util_1.6.3.bb}  |   6 +-
- ...ion-to-disable-timed-dependant-tests.patch |  20 +-
- ...CHE_CHECK-for-strerror_r-return-type.patch |  52 -----
- ...-runtime-test-for-mmap-that-can-map-.patch |  26 +--
- ...ir-path-references-from-installed-ap.patch |  25 +-
- ...configure.in-support-cross-compiling.patch |  63 -----
- ...ze-doesn-t-match-in-glibc-when-cross.patch |  76 ------
- .../apr/apr/CVE-2021-35940.patch              |  58 -----
- .../recipes-support/apr/apr/autoconf270.patch |  22 --
- .../apr/apr/libtoolize_check.patch            |  21 +-
- .../apr/{apr_1.7.0.bb => apr_1.7.2.bb}        |   8 +-
- .../{libgit2_1.4.3.bb => libgit2_1.4.5.bb}    |   2 +-
- 44 files changed, 430 insertions(+), 588 deletions(-)
- rename meta/recipes-connectivity/bind/{bind-9.18.10 => bind-9.18.11}/0001-avoid-start-failure-with-bind-user.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.10 => bind-9.18.11}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.10 => bind-9.18.11}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.10 => bind-9.18.11}/bind9 (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.10 => bind-9.18.11}/conf.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.10 => bind-9.18.11}/generate-rndc-key.sh (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.10 => bind-9.18.11}/init.d-add-support-for-read-only-rootfs.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.10 => bind-9.18.11}/make-etc-initd-bind-stop-work.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.10 => bind-9.18.11}/named.service (100%)
- rename meta/recipes-connectivity/bind/{bind_9.18.10.bb => bind_9.18.11.bb} (96%)
- rename meta/recipes-devtools/git/{git_2.35.6.bb => git_2.35.7.bb} (98%)
- create mode 100644 meta/recipes-devtools/qemu/qemu/0001-hw-display-qxl-Have-qxl_log_command-Return-early-if-.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0001-hw-display-qxl-Pass-requested-buffer-size-to-qxl_phy.patch
- delete mode 100644 meta/recipes-extended/diffutils/diffutils/0001-mcontext-is-not-a-standard-layout-so-glibc-and-musl-.patch
- rename meta/recipes-extended/diffutils/{diffutils_3.8.bb => diffutils_3.9.bb} (88%)
- rename meta/recipes-extended/sudo/{sudo_1.9.12p1.bb => sudo_1.9.12p2.bb} (96%)
- create mode 100644 meta/recipes-extended/tar/tar/CVE-2022-48303.patch
- rename meta/recipes-graphics/jpeg/{libjpeg-turbo_2.1.4.bb => libjpeg-turbo_2.1.5.bb} (97%)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20221214.bb => linux-firmware_20230117.bb} (99%)
- delete mode 100644 meta/recipes-kernel/lttng/lttng-tools/determinism.patch
- rename meta/recipes-kernel/lttng/{lttng-tools_2.13.8.bb => lttng-tools_2.13.9.bb} (98%)
- delete mode 100644 meta/recipes-support/apr/apr-util/0001-Fix-error-handling-in-gdbm.patch
- rename meta/recipes-support/apr/{apr-util_1.6.1.bb => apr-util_1.6.3.bb} (94%)
- delete mode 100644 meta/recipes-support/apr/apr/0001-add-AC_CACHE_CHECK-for-strerror_r-return-type.patch
- delete mode 100644 meta/recipes-support/apr/apr/0003-Makefile.in-configure.in-support-cross-compiling.patch
- delete mode 100644 meta/recipes-support/apr/apr/0006-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch
- delete mode 100644 meta/recipes-support/apr/apr/CVE-2021-35940.patch
- delete mode 100644 meta/recipes-support/apr/apr/autoconf270.patch
- rename meta/recipes-support/apr/{apr_1.7.0.bb => apr_1.7.2.bb} (91%)
- rename meta/recipes-support/libgit2/{libgit2_1.4.3.bb => libgit2_1.4.5.bb} (91%)
-
--- 
-2.34.1
+On 2/24/23 07:29, Yoann Congal via lists.openembedded.org wrote:
+> This series is a work in progress on 2 related bugs :
+> * [YOCTO #6839] Handle dev package with no main package more gracefully
+> * [YOCTO #8222] Elide dependency from -dev package on main package if
+>    there are no shared libraries in it
+>
+> An empty package ${PN} is not generated by default. This has been a
+> problem most frequently seen because ${PN}-dev depends on it. This case
+> has been handled by :
+> * Using ALLOW_EMPTY:${PN} = "1" : forcing ${PN} to be created even
+>    empty.
+> * DEV_PKG_DEPENDENCY = "" : Implicitly removing the dependency on ${PN}
+> * And finally and globally making the ${PN}-dev -> ${PN} relation a
+>    RRECOMMENDS.
+>
+> 2 patches :
+> * insane: Add QA check for RRECOMMENDS on non-existent packages
+> * meta/recipes: Remove empty ${PN}/DEV_PKG_DEPENDENCY workaround
+>
+> First one create a QA check to try to detect the problematic situation.
+> The second removes workarounds setup to hide to problematic case.
+>
+> Together they will prominently show where the problematic cases are.
+> Next step will be to find a generic way to fix the case.
+>
+> Fawzi KHABER (2):
+>    insane: Add QA check for RRECOMMENDS on non-existent packages
+>    meta/recipes: Remove empty ${PN}/DEV_PKG_DEPENDENCY workarounds
+>
+>   meta/classes-global/insane.bbclass                    | 11 +++++++++++
+>   meta/recipes-connectivity/bind/bind_9.18.11.bb        |  1 -
+>   meta/recipes-core/musl/bsd-headers.bb                 |  1 -
+>   meta/recipes-core/musl/libssp-nonshared.bb            |  1 -
+>   meta/recipes-core/newlib/newlib_git.bb                |  3 ---
+>   meta/recipes-devtools/gcc/libgcc-common.inc           |  4 ----
+>   meta/recipes-devtools/python/python3_3.11.2.bb        |  1 -
+>   meta/recipes-graphics/mesa/libglu_9.0.2.bb            |  3 ---
+>   meta/recipes-graphics/mesa/mesa.inc                   |  3 ---
+>   .../recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb |  1 -
+>   meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb        |  1 -
+>   meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb  |  1 -
+>   meta/recipes-graphics/xorg-proto/xorgproto_2022.2.bb  |  3 +--
+>   meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb |  3 +--
+>   .../linux-libc-headers/linux-libc-headers.inc         |  1 -
+>   .../make-mod-scripts/make-mod-scripts_1.0.bb          |  1 -
+>   .../argp-standalone/argp-standalone_1.4.1.bb          |  1 -
+>   17 files changed, 13 insertions(+), 27 deletions(-)
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#177640): https://lists.openembedded.org/g/openembedded-core/message/177640
+> Mute This Topic: https://lists.openembedded.org/mt/97195657/3618072
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [Qi.Chen@windriver.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
 
