@@ -1,141 +1,155 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF6E5C64ED8
-	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 19:45:12 +0000 (UTC)
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
- by mx.groups.io with SMTP id smtpd.web11.28273.1677267902335649501
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BB76C7EE23
+	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 21:09:13 +0000 (UTC)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.web11.30396.1677272943469987578
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Feb 2023 11:45:02 -0800
+ Fri, 24 Feb 2023 13:09:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=w2rt1xnN;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.41, mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f41.google.com with SMTP id f13so1587197edz.6
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 11:45:02 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=jeFXJ+UP;
+ spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: jpewhacker@gmail.com)
+Received: by mail-ed1-f50.google.com with SMTP id h16so2315029edz.10
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 13:09:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yxHUjT+awWpEH+w5dlILnI9qhYVMT88oeiUjvITbXjY=;
-        b=w2rt1xnNH5dozJSAD2P0njJr6vAO1X8p/draHe0eDpek2FHYheuAn0CzDds/hMMU+6
-         FRIfd9RfosjVpTNxU3y8h+y1iUm5FT8CSIFYR1olpsx6C9WDCWQN/JIrbXvtP+ubmrWl
-         y5mj1TRcgJ8fJLiNO7NL2/M3Snhyn3t+Cm2gsUoMomQCzDIyx9hIhiIaiHgA+x+8mirT
-         iS6xoFGU35hx1O4RqSODRbk0cxnsD43u75BfKRVKAZV/EaXnW8M8qY2VPkI8mcDYzyZz
-         24ZlQpT3JX0onZq+Kxo9H012xC8cRN8AzMWDZGcFe9A5F+yi5fgj3SuGC/mevAsea+dv
-         Jglg==
+        bh=8HIwVVoZmh2cOrRpEfvIycnbG+70g6rV/Vp7xlKGjfg=;
+        b=jeFXJ+UPJqbQS0IHLM/dLjSLefacq+KNXi2wM4Mf24fbxkVWc7lu/sFDfyukd35LaD
+         ky/mxVWVmwv43IiOCKN2f6VbsmuBBgLlWEwic9g513cf1NgOmx3kAkneXvvW9kZtSsqv
+         j0WagohYbmx7kigUBBcBERXaayFiGp2G+PtMXbYQmc7XwyGWOYwND52JR73ZKjuYMWs/
+         D/lzDgrI0NoafE+2XHk5MGq/I4mgu++PAq6whqpPcNq8sHWyLCzj3LM045m30H1VdygY
+         5UHfvKQHoyMkAvhO1Ucej3v5B677wdu6I1GPt5kls2AIB64ZqQYqIdRn0FGz2Qvsa7ND
+         5tvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=yxHUjT+awWpEH+w5dlILnI9qhYVMT88oeiUjvITbXjY=;
-        b=N5KcGEmjeYclVy8zpXjmDVPQ3uP708WNyqelT+nTh5EeTy+LMC6J04CwYnMCi8NnjN
-         /meMGVTk5lfFja1QgtDz2tioFE2BRsYw/P98u187AzXGDOXO5Amat8rp+2I9dCNchBsJ
-         rmSMoTBbdotz3hEXMPLQkYxHLB/0lanc3wL40TvfcvUBPxIXVxOlRZsEjZ8sM3+/gr+v
-         ieVsNGzXK1GUPJ4WGyfZybqcauBhXdMQRpszkOTHsZ2M1QlL9QfafXd37yxbg3Iv0+rw
-         DBBAF3QbTnUAxcZxW2oJkwTpLNItzTIHWyTVE5gnkj/zWleTTcKrbREbqktzzpzKFoyK
-         orRw==
-X-Gm-Message-State: AO0yUKUTGPeBAqoqqtUG9oh7Z53/n/zg8WSfj4PYfGNp0hMCCCkQ0/Cb
-	BMgWOuULWTG/vHq0TfWr9To1AlkaP0FtGD693n271w==
-X-Google-Smtp-Source: AK7set+Q6qlvVfjFHqIX8d4+y4FRICHimUfOcZ79k9mhNwCMMmjekV3Fl1GA08YID2Ih/k631tJ/rRsRX+6cmAz+g18=
-X-Received: by 2002:a17:907:60cd:b0:8b1:3540:7632 with SMTP id
- hv13-20020a17090760cd00b008b135407632mr595541ejc.2.1677267900710; Fri, 24 Feb
- 2023 11:45:00 -0800 (PST)
+        bh=8HIwVVoZmh2cOrRpEfvIycnbG+70g6rV/Vp7xlKGjfg=;
+        b=GI3wI6Juot/hPH15hfng3rTq9F+OODNFIMq8Xq2oZXDlT89+/Ylo7TKADoLse7so09
+         Tc6KU2UMa7Y4zbBcsP95+Jk4lCFtAp2+ZOFtXmbDc01pktTVkK2CxGDcGOVlFLopcjhS
+         wvWRR69cr0Gfj6MkGmvjtxgO3KIqM0NV41bk7AdZpd3i8kEzjU3VjuPFWtnkg5VvNMiu
+         NZsRkEt6TH8aDlyo1Wiiy+Y9MXjY31YZZtVe6kYAYjzeK2oIndnEBdV7vbLaUdUYKvHM
+         EtRx4iTnoPAq4z+4k/sys+7IKR3iTYPV9X02zRqkerkmDbUI6PWU7AjehIqJExoFj1h4
+         yhGQ==
+X-Gm-Message-State: AO0yUKViZ8dcQCw1oFfc1Vl5uFHZKpccfoZpnzwotNlEiRIB+mOfn6Ju
+	kOdfWYGBeaYgiFeK/OG/Nun52qCIvmMoh+xcs8s=
+X-Google-Smtp-Source: AK7set9NrvQ9PRKElT5Dm04YxJiRKWNMJYs6ib+3OyKXPLJHVv3caw2YfJb2VO9HiuGKl0ge0VBXLe3R7ND7Fq8Qzf4=
+X-Received: by 2002:a17:906:76d0:b0:8de:e66a:d788 with SMTP id
+ q16-20020a17090676d000b008dee66ad788mr7009974ejn.7.1677272941456; Fri, 24 Feb
+ 2023 13:09:01 -0800 (PST)
 MIME-Version: 1.0
-References: <PR3P192MB07142C2980B0341534DEAE4BDAA59@PR3P192MB0714.EURP192.PROD.OUTLOOK.COM>
-In-Reply-To: <PR3P192MB07142C2980B0341534DEAE4BDAA59@PR3P192MB0714.EURP192.PROD.OUTLOOK.COM>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Fri, 24 Feb 2023 09:44:49 -1000
-Message-ID: <CAOSpxdazLrhvB0dbrmbXUgrZoajFMoMUuo-ZuBF3VN5hSAKzQw@mail.gmail.com>
-Subject: Re: [OE-core][dunfell][PATCH] openssl: upgrade 1.1.1s to 1.1.1t
-To: hsimeliere.opensource@witekio.com
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+References: <20230224192449.1649437-1-saul.wold@windriver.com>
+In-Reply-To: <20230224192449.1649437-1-saul.wold@windriver.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Fri, 24 Feb 2023 15:08:49 -0600
+Message-ID: <CAJdd5Ga16mf6Htc8YFfJyvZ3beyfGCOm8yr_UScHZ=sFr5VeGg@mail.gmail.com>
+Subject: Re: [PATCH v2] create-spdx: Add check for variable contents along
+ with quotes
+To: Saul Wold <saul.wold@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 19:45:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177712
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 21:09:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177713
 
-Also a corruption issue with this patch:
-
-Applying: openssl: upgrade 1.1.1s to 1.1.1t
-error: corrupt patch at line 19
-error: could not build fake ancestor
-Patch failed at 0001 openssl: upgrade 1.1.1s to 1.1.1t
-
-Steve
-
-On Tue, Feb 21, 2023 at 6:24 AM Hugo Simeliere via
-lists.openembedded.org
-<hsimeliere.opensource=witekio.com@lists.openembedded.org> wrote:
+On Fri, Feb 24, 2023 at 1:25 PM Saul Wold <saul.wold@windriver.com> wrote:
 >
-> Major changes between OpenSSL 1.1.1s and OpenSSL 1.1.1t [7 Feb 2023]
+> This adds a check to ensure we that if a variable is
+> empty it gets an empty string, this also adds quotes
+> to indicate the variable contents.
 >
-> * Fixed X.400 address type confusion in X.509 GeneralName (CVE-2023-0286)
+>           "comment": "CUSTOM_SPECIAL="
+> or
+>           "comment": "CUSTOM_SPECIAL=variable contents"
 >
-> * Fixed Use-after-free following BIO_new_NDEF (CVE-2023-0215)
->
-> * Fixed Double free after calling PEM_read_bio_ex (CVE-2022-4450)
->
-> * Fixed Timing Oracle in RSA Decryption (CVE-2022-4304)
->
->
->
-> Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
->
+> Signed-off-by: Saul Wold <saul.wold@windriver.com>
 > ---
+>  meta/classes/create-spdx-2.2.bbclass          |  5 ++-
+>  .../selftest/cases/spdx_custom_annotations.py | 42 +++++++++++++++++++
+>  2 files changed, 46 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/lib/oeqa/selftest/cases/spdx_custom_annotations.py
 >
-> .../openssl/{openssl_1.1.1s.bb => openssl_1.1.1t.bb}            | 2 +-
+> diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
+> index 454dd7a7a07..da90bf8033a 100644
+> --- a/meta/classes/create-spdx-2.2.bbclass
+> +++ b/meta/classes/create-spdx-2.2.bbclass
+> @@ -524,7 +524,10 @@ python do_create_spdx() {
 >
-> 1 file changed, 1 insertion(+), 1 deletion(-)
+>      if d.getVar("SPDX_CUSTOM_ANNOTATION_VARS"):
+>          for var in d.getVar('SPDX_CUSTOM_ANNOTATION_VARS').split():
+> -            recipe.annotations.append(create_annotation(d, var + "=" + d.getVar(var)))
+> +            if d.getVar(var):
+> +                recipe.annotations.append(create_annotation(d, var + "=" + d.getVar(var).replace('"', '\\"')))
+
+Manually trying to escape quotes can be really hard; Is there a
+particular reason it's necessary? If you're trying to read this back
+programmatically, I'd expect:
+
+ name, value = annotation.split(=, 1)
+
+to work
+
+> +            else:
+> +                recipe.annotations.append(create_annotation(d, var + "="))
 >
-> rename meta/recipes-connectivity/openssl/{openssl_1.1.1s.bb => openssl_1.1.1t.bb} (98%)
->
->
->
-> diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1s.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1t.bb
->
-> similarity index 98%
->
-> rename from meta/recipes-connectivity/openssl/openssl_1.1.1s.bb
->
-> rename to meta/recipes-connectivity/openssl/openssl_1.1.1t.bb
->
-> index 6c8f285996..a1956ad8c2 100644
->
-> --- a/meta/recipes-connectivity/openssl/openssl_1.1.1s.bb
->
-> +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1t.bb
->
-> @@ -24,7 +24,7 @@ SRC_URI_append_class-nativesdk = " \
->
->             file://environment.d-openssl.sh \
->
->             "
->
-> -SRC_URI[sha256sum] = "c5ac01e760ee6ff0dab61d6b2bbd30146724d063eb322180c6f18a6f74e4b6aa"
->
-> +SRC_URI[sha256sum] = "8dee9b24bdb1dcbf0c3d1e9b02fb8f6bf22165e807f45adeb7c9677536859d3b"
->
->  inherit lib_package multilib_header multilib_script ptest
->
-> MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
->
+>      # Some CVEs may be patched during the build process without incrementing the version number,
+>      # so querying for CVEs based on the CPE id can lead to false positives. To account for this,
+> diff --git a/meta/lib/oeqa/selftest/cases/spdx_custom_annotations.py b/meta/lib/oeqa/selftest/cases/spdx_custom_annotations.py
+> new file mode 100644
+> index 00000000000..a2bef998988
+> --- /dev/null
+> +++ b/meta/lib/oeqa/selftest/cases/spdx_custom_annotations.py
+> @@ -0,0 +1,42 @@
+> +#
+> +# Copyright OpenEmbedded Contributors
+> +#
+> +# SPDX-License-Identifier: MIT
+> +#
+> +from oeqa.selftest.case import OESelftestTestCase
+> +from oeqa.utils.commands import bitbake
+> +import json
+> +
+> +class SPDXCustomAnnotations(OESelftestTestCase):
+> +
+> +    # Build test recipes with custom-annotation
+> +    def test_spdx_custom_annotations(self):
+> +        self.write_config("INHERIT:append = ' create_spdx'")
+> +
+> +        result = bitbake('%s custom-annotation')
+> +        print(f"Bitbake Result: {result}")
+> +        try:
+> +            mdir = self.get_dir_from_bb_var('DEPLOY_DIR_SPDX', self.buildtarget)
+> +            with open(f"{mdir}/recpes/recipe-{pn}.spdx.json") as json_file:
+> +                spdx_json = json.load(json_file)
+> +                print(f'{spdx_json["packages"]["annotations"][0]["comment"]}')
+> +                self.assertEqual(spdx_json["packages"]["annotations"][0]["comment"], "ANNOTE1=This is the first custom annotation")
+> +                self.assertEqual(spdx_json["packages"]["annotations"][1]["comment"], "ANNOTE2=This is another custom annotation")
+> +        except:
+> +            print("json load failed")
+> +
+> +#class SPDXCustomeAnnotationTests(OESelftestTestCase):
+> +#    def default_config(self):
+> +#        return """
+> +#INHERIT:append = " create-spdx"
+> +#SPDX_CUSTOM_ANNOTATION_VARS:pn-core-image-minimal = "TEST_VAR"
+> +#TEST_VAR:pn-core-image-minimal = "This is a test annotation"
+> +#"""
+> +#
+> +#    def test_image_annotation(self):
+> +#        self.write_config(self.default_config())
+> +#
+> +#        result = bitbake('core-image-minimal', ignore_status=True)
+> +
+> +
+> +
 > --
->
 > 2.25.1
->
->
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#177525): https://lists.openembedded.org/g/openembedded-core/message/177525
-> Mute This Topic: https://lists.openembedded.org/mt/97112482/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
 >
 
