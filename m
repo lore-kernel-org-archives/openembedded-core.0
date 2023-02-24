@@ -1,152 +1,261 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA714C61DA3
-	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 09:45:38 +0000 (UTC)
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.72])
- by mx.groups.io with SMTP id smtpd.web10.14192.1677231937055380004
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7FB2C64ED8
+	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 09:59:38 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web11.14268.1677232775331357669
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Feb 2023 01:45:37 -0800
+ Fri, 24 Feb 2023 01:59:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=iDkdfdgq;
- spf=pass (domain: arm.com, ip: 40.107.21.72, mailfrom: ross.burton@arm.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pRpdPPxXDcMilTkQi7zAvW81yGH2i5Sf61eoo4XPnAc=;
- b=iDkdfdgqZOJi4JBSHFOIU+NoVC3BGjkk5cZ/oDnUfKEAI9K0PpjR3fkZ3s5XRWlDaHK6rzQQtERJPKHKT66T59fAGgDMYlnqVMK4BKmrrLa4XsuJA3RdedBvt04guVHgvib5+w/SVA7gkLP/iCNAMbszQREZNGoE4/Ki537LhKI=
-Received: from AM5PR0701CA0059.eurprd07.prod.outlook.com (2603:10a6:203:2::21)
- by GV2PR08MB8366.eurprd08.prod.outlook.com (2603:10a6:150:b2::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.19; Fri, 24 Feb
- 2023 09:45:33 +0000
-Received: from AM7EUR03FT016.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:203:2:cafe::35) by AM5PR0701CA0059.outlook.office365.com
- (2603:10a6:203:2::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.11 via Frontend
- Transport; Fri, 24 Feb 2023 09:45:33 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AM7EUR03FT016.mail.protection.outlook.com (100.127.140.106) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6134.24 via Frontend Transport; Fri, 24 Feb 2023 09:45:32 +0000
-Received: ("Tessian outbound 6e565e48ed4a:v132"); Fri, 24 Feb 2023 09:45:32 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: aab9098af248dab1
-X-CR-MTA-TID: 64aa7808
-Received: from 2f6cc78ee995.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 5482A184-55CE-4583-AA4C-2C4E9159782A.1;
-	Fri, 24 Feb 2023 09:45:26 +0000
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 2f6cc78ee995.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Fri, 24 Feb 2023 09:45:26 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZKpxuZsVdUvxOeuJ+1ToZ1raT7w2LPEmqt3goz7eJu7fjad31VyMJzKToV0aGhqcnO794F+7kBV59tiHuhDl2JXDI91pnC/S7f/xSzUhfoGwVhjA3DtNKlkBCNjVpALphFczYWok6bveW/vY42UmITrvugTQMg/KqPQ9dRNzEKSaxjqOi6n+Hvxl/G7Uwx+UPlci3RHCHc/5oolu5pt775EKJ8bqtF3fzdZUSKoEAjecbVKAeeNcPIWAcY9RN7ixTjk7rAllusAzF+73AOtR2QnSK2vvoUDkNLIHEvRrPjWBAIdppu5rE60YI9w5RHSEP1hhtVM93eqEKiyk3A3CEw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pRpdPPxXDcMilTkQi7zAvW81yGH2i5Sf61eoo4XPnAc=;
- b=Kh+ERnHXobB4ftI/MNFFEukDJjhd80+GtNm4qdPHzw4l7rjTIUE8tQhYj8N5BBhTRoqtOqro/qJ4voL06Q1W0slwiKKQ5+bNmc0RX9dW18RHVArzvtUCj74jUip1rwtQ+oKzIVtyZGVeIoxbjO4YodbwvTf7lfX5JO5JyytD3X/1x43Kfp6ipftRIAAWm7bkLyk74Nl3B3o8eJoUXBL5674xF8I0su8EYc8uUtBmzXB137KsKl0iytHlKIFoE5CNVfnURXk8bJt4+hYgLvwjSVyVxwnEXdQZx4h3Jdt4deVJ2Uiy/ebLZdEU5Eb0ulw6Nn4jFQp+mL/U+Jaxm2DYoQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pRpdPPxXDcMilTkQi7zAvW81yGH2i5Sf61eoo4XPnAc=;
- b=iDkdfdgqZOJi4JBSHFOIU+NoVC3BGjkk5cZ/oDnUfKEAI9K0PpjR3fkZ3s5XRWlDaHK6rzQQtERJPKHKT66T59fAGgDMYlnqVMK4BKmrrLa4XsuJA3RdedBvt04guVHgvib5+w/SVA7gkLP/iCNAMbszQREZNGoE4/Ki537LhKI=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by DBAPR08MB5590.eurprd08.prod.outlook.com (2603:10a6:10:1aa::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.21; Fri, 24 Feb
- 2023 09:45:23 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::e305:742e:e10b:1093]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::e305:742e:e10b:1093%2]) with mapi id 15.20.6134.019; Fri, 24 Feb 2023
- 09:45:23 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "zboszor@gmail.com" <zboszor@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 4/4] mesa: Add PACKAGECONFIG "rusticl"
-Thread-Topic: [OE-core] [PATCH 4/4] mesa: Add PACKAGECONFIG "rusticl"
-Thread-Index: AQHZSDPqGO2VhV0niUu6yCTY9df5ka7d2PkA
-Date: Fri, 24 Feb 2023 09:45:23 +0000
-Message-ID: <3EE6D20C-8A7C-4772-BF56-E1CD25B12B6B@arm.com>
-References: <20230224093850.3393567-1-zboszor@gmail.com>
- <20230224093850.3393567-4-zboszor@gmail.com>
-In-Reply-To: <20230224093850.3393567-4-zboszor@gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3731.400.51.1.1)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|DBAPR08MB5590:EE_|AM7EUR03FT016:EE_|GV2PR08MB8366:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6231a7c5-c9b1-40bc-a590-08db164bdf6c
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- fn84qlF5wAwTT+e02vzrAPSajwVfE5QImyWysNLQtaqHyB8Za2UHahwu06LKWD+kVDJA2wfd6dmx4LGJcD6AXnCDwhoO0si5p/ToHKy5gGCiNt9mt7d50m2mDg2WLd1iw69A2zeOwdAlxoALPl3KWuIHuB2fjsEA38ZTlVqikdx/IbPHFw1HoZGj4STEzzG7dU+E/PMKHhRpR76i2b6G04soC/bRMfbFFRK9T8e182UMWckVoE4b7E92wNpCe1QHuiEH2OGXInyYb3rTMHNwGbPP2FLrNi9anWkQU43O/wJBNRZYIc1QyDqn4UHqhQ4UIajOUsObOOtrxdX7WQ4KwYjjttejtbFh5UvzbtY5cw/Hh2zMlu+TlGKoXshqIEdohitgeHeV0C4f0LKF+ToQ+EbMRKh1QmSj2LuVeiWQJgU5wR0u/n6O2MIena4EUuqkUa+WvPArNbo6qX/1MGSqnSj4k+1YMWHwSufroOEcZOx1gsBVg4bavrwNmWLio+RZ2n6GWfVjVfNPSYgYQH7P3G6ze7621A6lDYsqeaQGvMqjRAEy8F/aCKvHrtEhEywMDeSESFqJdLtokHiEOI1IuMVBO2JEbs+JB2Wcf3SNRRkznUCr1bYtR9Z3Vwdbl4KJnujiyKU3Yn6zyTWQLn6D2MBOc2y4dPzDKmUE7WekPCLoaYvIhc/rIVI0f3OGbQe1ggqYrufzF+ZDNXiisKAU7jJdoFwkhtmAWdOquN56rvQ=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(376002)(396003)(346002)(366004)(136003)(39860400002)(451199018)(4744005)(5660300002)(8936002)(2906002)(41300700001)(91956017)(64756008)(186003)(6916009)(4326008)(83380400001)(66556008)(66446008)(66946007)(66476007)(8676002)(36756003)(316002)(71200400001)(478600001)(6486002)(6506007)(76116006)(33656002)(6512007)(53546011)(26005)(38100700002)(2616005)(38070700005)(86362001)(122000001)(45980500001);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <79361C1E12AFD440A7F0C765153BEDAD@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=p0ErpAU1;
+ spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: zboszor@gmail.com)
+Received: by mail-wr1-f48.google.com with SMTP id h14so4651375wru.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 01:59:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Cw/BuwpewyBOzs6Avb+tJN45ohGbBIUuf2wCoFwuhwc=;
+        b=p0ErpAU1pa4cVsjiJFMF3JFcM0gaQg6rUsZv0HL1MN/Z+ZgCTx3tqCa7D5TmZpP0ws
+         hFHQ/TKvil/C48NJFOAfNIFamXLwJsPg/zQGLglhEOVVe7xbIQttc6YrH7+eSIFN/Obr
+         dM6gedkUUEjeIWxg4utKmkCB39UNRF1whHYBSvVzmsrV2TmeWqk2IGywSkaAvSodOvou
+         ia6YwffSj+MyxJm/Vjc80NDypR94OhdmtwPHjnDnOmo1Gq2ZD4iToEiA8GRlQSJXhuBd
+         SueRr+3nD97f1oXjmcdd0cXUuvosRl/GdkcJRWebI9FHvtjkwGPd8QGjqegGq//gVKvc
+         NV9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Cw/BuwpewyBOzs6Avb+tJN45ohGbBIUuf2wCoFwuhwc=;
+        b=QoZlJ92peWH290zXFxVfWlcCZmqKyQUR5sNWT9ulGzGmh4IWVUwA4Pg+hO97NGSfG/
+         OebGkEb0y0w1nmlecn9a/en+awga1CT22VAi8W3vsUqaO8pN0kixvRAem30VI4aloNxY
+         EApWugg6doxroLIotWmvBpmENkuh+sNRWtbhUmGRPh4QSXsKq2DO2YtNtFz1FWwfdO51
+         4WMYqG2vn/DxTbhz2fTvNUihaoNvOQz+Z1HuBlSwwTyqYcy24UlU1O3WjLfz5yriM91i
+         NQ5ddMlZVspgK5bXUcBpf+CNgEMrlg/pdMGRv3Dh/SQnI/bd19KNjqcVjrJGehxVkB7U
+         pVOw==
+X-Gm-Message-State: AO0yUKWq89bFlikoncSckVsGN+UirogjRKZOTq/nysLYaD37H97O8yAn
+	J6niABu5oTslEDLwrOthB7c=
+X-Google-Smtp-Source: AK7set84Nw3TggUqUF9WiE1YGcyDfkI1zQF9fYa2Ea3MiHBrjGgowzw9kWl/OhhkSIiXMjUDJKN4iw==
+X-Received: by 2002:a5d:690e:0:b0:2c7:1e52:c5a8 with SMTP id t14-20020a5d690e000000b002c71e52c5a8mr1130606wru.21.1677232773615;
+        Fri, 24 Feb 2023 01:59:33 -0800 (PST)
+Received: from [192.168.1.143] (BC24452B.dsl.pool.telekom.hu. [188.36.69.43])
+        by smtp.gmail.com with ESMTPSA id i8-20020a5d5228000000b002c70851bfcasm7973350wra.28.2023.02.24.01.59.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Feb 2023 01:59:33 -0800 (PST)
+Message-ID: <af312db7-d1cb-499f-4574-1a13da64d01c@gmail.com>
+Date: Fri, 24 Feb 2023 10:59:31 +0100
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR08MB5590
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AM7EUR03FT016.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	5fefaa0e-c656-44f8-bba1-08db164bd9a6
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	48FU2Y7iX/ZqPZ9tmXuxdUIPQ/pmWv5kZ1L7/Bg2y5oEX7lEyjQJX8BVRuM/3Y+QobkTuxzJk3Qtl24QD3or569GIHBn9uL+mMCB/3UFbezrq4bWTCTz5CLHm4VvLNA7MsTbzXnKGfDp+de+KF6XCbqgSSmKHszSB9yx5UH+/G+4zRCWqyyso8VcL9CBjK6kdaNW1FoGDeeam83uxnhLKPQRKB1pKQ/fjUu7V+SItz1c+aIax+w2xev/+Bt8Z/6hV/IABmiKM5A1znCIVHfklQ8XF6uqFdtBtV+85BwtOT+MP7/P0ItIYR31+HJanX9wVeFtksBJGuemcSmf2e/lYYzdbvEyZUMjM1clhAxTc1y96FbjOas4UGqJ93evtGQx1lfQTarsuGrXGNf3xBJsyZu29WqskSdcO2OdHjXXkKC+Fmb2cbvgd7rAYpWzBnwfX96aL3LjJ14w5pYb+jE8Ea5Ifr6U9U1AxwTi+eJaZO6vYzf3Lv75+UUM3DGjLETrAbmtzPtAoViNFRj/2KqJoJNoCNzjozoPQ3QDwAJ768hpcwMge//+oEZB47fEK17epFya9B2Y+BGTVObTvQlHLnlvj5gbjpzhyK9GJ+r7fl/G1VuHkW4Br9vwUbbnWdYT4M2dmWCZjYwxDDJXIxo5No1pnob/mfe6M1BxThlqYNI4Ogrg6Qrp8HM9HflmVCMNfYmtmb1fNlKEaO2AmOknfg==
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230025)(4636009)(396003)(376002)(346002)(39860400002)(136003)(451199018)(36840700001)(40470700004)(46966006)(83380400001)(316002)(41300700001)(478600001)(81166007)(2906002)(82740400003)(82310400005)(4744005)(86362001)(356005)(33656002)(70586007)(70206006)(36756003)(6862004)(8676002)(4326008)(40460700003)(47076005)(40480700001)(8936002)(5660300002)(2616005)(6486002)(26005)(186003)(36860700001)(6512007)(53546011)(6506007)(336012);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2023 09:45:32.9229
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6231a7c5-c9b1-40bc-a590-08db164bdf6c
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM7EUR03FT016.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR08MB8366
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [OE-core] [PATCH 1/4] bindgen-cli: Add new recipe
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <20230224093850.3393567-1-zboszor@gmail.com>
+ <CANNYZj-Cuande0w6CpviwoKWO4wT2pu6JOjzKPaCGAxLkFNatg@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+In-Reply-To: <CANNYZj-Cuande0w6CpviwoKWO4wT2pu6JOjzKPaCGAxLkFNatg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 09:45:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177670
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 09:59:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177671
 
+2023. 02. 24. 10:44 keltezéssel, Alexander Kanavin írta:
+> As this is needed only for rusticl, and that is switched off by
+> default, there is no need for the recipe to be in core. I'd say
+> meta-oe is a better location.
 
-> On 24 Feb 2023, at 09:38, Zoltan Boszormenyi via lists.openembedded.org <=
-zboszor=3Dgmail.com@lists.openembedded.org> wrote:
-> -inherit meson pkgconfig python3native gettext features_check
-> +inherit meson pkgconfig python3native gettext features_check rust
+Why?
 
-This forces a dependency on rust-native, even if rusticl is disabled.
+Rust itself is in OE-core for a while now and
+bindgen is practically an integral part of Rust
+if it's to be interfaced with C/C++.
 
-Is it actually needed? If so, make the inherit conditional.
+> Also, the list of crates should be generated by
+> cargo-update-recipe-crates class, not by cargo bitbake.
 
-Ross=
+I will look into it, thanks.
+
+>
+> Alex
+>
+> On Fri, 24 Feb 2023 at 10:39, Zoltan Boszormenyi <zboszor@gmail.com> wrote:
+>> The recipe is automatically generated by cargo-bitbake, with the
+>> manual change to add BBCLASSEXTEND = "native" in the include file.
+>>
+>> It is used by Mesa 23.0.0 to build Rusticl.
+>>
+>> Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+>> ---
+>>   meta/recipes-devtools/bindgen/bindgen-cli.inc |   1 +
+>>   .../bindgen/bindgen-cli_0.64.0.bb             | 132 ++++++++++++++++++
+>>   2 files changed, 133 insertions(+)
+>>   create mode 100644 meta/recipes-devtools/bindgen/bindgen-cli.inc
+>>   create mode 100644 meta/recipes-devtools/bindgen/bindgen-cli_0.64.0.bb
+>>
+>> diff --git a/meta/recipes-devtools/bindgen/bindgen-cli.inc b/meta/recipes-devtools/bindgen/bindgen-cli.inc
+>> new file mode 100644
+>> index 0000000000..d3267ac413
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/bindgen/bindgen-cli.inc
+>> @@ -0,0 +1 @@
+>> +BBCLASSEXTEND = "native"
+>> diff --git a/meta/recipes-devtools/bindgen/bindgen-cli_0.64.0.bb b/meta/recipes-devtools/bindgen/bindgen-cli_0.64.0.bb
+>> new file mode 100644
+>> index 0000000000..da3d692717
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/bindgen/bindgen-cli_0.64.0.bb
+>> @@ -0,0 +1,132 @@
+>> +# Auto-Generated by cargo-bitbake 0.3.16-alpha.0
+>> +#
+>> +inherit cargo
+>> +
+>> +# If this is git based prefer versioned ones if they exist
+>> +# DEFAULT_PREFERENCE = "-1"
+>> +
+>> +# how to get bindgen-cli could be as easy as but default to a git checkout:
+>> +# SRC_URI += "crate://crates.io/bindgen-cli/0.64.0"
+>> +SRC_URI += "git://github.com/rust-lang/rust-bindgen.git;protocol=https;nobranch=1;branch=v0.64.0"
+>> +SRCREV = "ae6817256ac557981906e93a1f866349db85053e"
+>> +S = "${WORKDIR}/git"
+>> +CARGO_SRC_DIR = "bindgen-cli"
+>> +
+>> +
+>> +# please note if you have entries that do not begin with crate://
+>> +# you must change them to how that package can be fetched
+>> +SRC_URI += " \
+>> +    crate://crates.io/aho-corasick/0.5.3 \
+>> +    crate://crates.io/aho-corasick/0.7.20 \
+>> +    crate://crates.io/ansi_term/0.12.1 \
+>> +    crate://crates.io/atty/0.2.14 \
+>> +    crate://crates.io/bitflags/1.3.2 \
+>> +    crate://crates.io/block/0.1.6 \
+>> +    crate://crates.io/cc/1.0.78 \
+>> +    crate://crates.io/cexpr/0.6.0 \
+>> +    crate://crates.io/cfg-if/1.0.0 \
+>> +    crate://crates.io/clang-sys/1.4.0 \
+>> +    crate://crates.io/clap/2.34.0 \
+>> +    crate://crates.io/clap/4.1.4 \
+>> +    crate://crates.io/clap_derive/4.1.0 \
+>> +    crate://crates.io/clap_lex/0.3.1 \
+>> +    crate://crates.io/diff/0.1.13 \
+>> +    crate://crates.io/either/1.8.1 \
+>> +    crate://crates.io/env_logger/0.3.5 \
+>> +    crate://crates.io/env_logger/0.9.3 \
+>> +    crate://crates.io/errno-dragonfly/0.1.2 \
+>> +    crate://crates.io/errno/0.2.8 \
+>> +    crate://crates.io/fastrand/1.8.0 \
+>> +    crate://crates.io/fuchsia-cprng/0.1.1 \
+>> +    crate://crates.io/glob/0.3.1 \
+>> +    crate://crates.io/heck/0.4.0 \
+>> +    crate://crates.io/hermit-abi/0.1.19 \
+>> +    crate://crates.io/hermit-abi/0.2.6 \
+>> +    crate://crates.io/humantime/2.1.0 \
+>> +    crate://crates.io/instant/0.1.12 \
+>> +    crate://crates.io/io-lifetimes/1.0.4 \
+>> +    crate://crates.io/is-terminal/0.4.2 \
+>> +    crate://crates.io/kernel32-sys/0.2.2 \
+>> +    crate://crates.io/lazy_static/1.4.0 \
+>> +    crate://crates.io/lazycell/1.3.0 \
+>> +    crate://crates.io/libc/0.2.139 \
+>> +    crate://crates.io/libloading/0.6.7 \
+>> +    crate://crates.io/libloading/0.7.4 \
+>> +    crate://crates.io/linux-raw-sys/0.1.4 \
+>> +    crate://crates.io/log/0.3.9 \
+>> +    crate://crates.io/log/0.4.17 \
+>> +    crate://crates.io/malloc_buf/0.0.6 \
+>> +    crate://crates.io/memchr/0.1.11 \
+>> +    crate://crates.io/memchr/2.5.0 \
+>> +    crate://crates.io/minimal-lexical/0.2.1 \
+>> +    crate://crates.io/nom/7.1.3 \
+>> +    crate://crates.io/objc/0.2.7 \
+>> +    crate://crates.io/once_cell/1.17.0 \
+>> +    crate://crates.io/os_str_bytes/6.4.1 \
+>> +    crate://crates.io/peeking_take_while/0.1.2 \
+>> +    crate://crates.io/proc-macro-error-attr/1.0.4 \
+>> +    crate://crates.io/proc-macro-error/1.0.4 \
+>> +    crate://crates.io/proc-macro2/1.0.50 \
+>> +    crate://crates.io/quickcheck/0.4.1 \
+>> +    crate://crates.io/quote/1.0.23 \
+>> +    crate://crates.io/rand/0.3.23 \
+>> +    crate://crates.io/rand/0.4.6 \
+>> +    crate://crates.io/rand_core/0.3.1 \
+>> +    crate://crates.io/rand_core/0.4.2 \
+>> +    crate://crates.io/rdrand/0.4.0 \
+>> +    crate://crates.io/redox_syscall/0.2.16 \
+>> +    crate://crates.io/regex-syntax/0.3.9 \
+>> +    crate://crates.io/regex-syntax/0.6.28 \
+>> +    crate://crates.io/regex/0.1.80 \
+>> +    crate://crates.io/regex/1.7.1 \
+>> +    crate://crates.io/remove_dir_all/0.5.3 \
+>> +    crate://crates.io/rustc-hash/1.1.0 \
+>> +    crate://crates.io/rustix/0.36.7 \
+>> +    crate://crates.io/shlex/1.1.0 \
+>> +    crate://crates.io/strsim/0.10.0 \
+>> +    crate://crates.io/strsim/0.8.0 \
+>> +    crate://crates.io/syn/1.0.107 \
+>> +    crate://crates.io/tempdir/0.3.7 \
+>> +    crate://crates.io/tempfile/3.3.0 \
+>> +    crate://crates.io/termcolor/1.2.0 \
+>> +    crate://crates.io/textwrap/0.11.0 \
+>> +    crate://crates.io/thread-id/2.0.0 \
+>> +    crate://crates.io/thread_local/0.2.7 \
+>> +    crate://crates.io/unicode-ident/1.0.6 \
+>> +    crate://crates.io/unicode-width/0.1.10 \
+>> +    crate://crates.io/utf8-ranges/0.1.3 \
+>> +    crate://crates.io/vec_map/0.8.2 \
+>> +    crate://crates.io/version_check/0.9.4 \
+>> +    crate://crates.io/which/4.4.0 \
+>> +    crate://crates.io/winapi-build/0.1.1 \
+>> +    crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 \
+>> +    crate://crates.io/winapi-util/0.1.5 \
+>> +    crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 \
+>> +    crate://crates.io/winapi/0.2.8 \
+>> +    crate://crates.io/winapi/0.3.9 \
+>> +    crate://crates.io/windows-sys/0.42.0 \
+>> +    crate://crates.io/windows_aarch64_gnullvm/0.42.1 \
+>> +    crate://crates.io/windows_aarch64_msvc/0.42.1 \
+>> +    crate://crates.io/windows_i686_gnu/0.42.1 \
+>> +    crate://crates.io/windows_i686_msvc/0.42.1 \
+>> +    crate://crates.io/windows_x86_64_gnu/0.42.1 \
+>> +    crate://crates.io/windows_x86_64_gnullvm/0.42.1 \
+>> +    crate://crates.io/windows_x86_64_msvc/0.42.1 \
+>> +"
+>> +
+>> +
+>> +
+>> +# FIXME: update generateme with the real MD5 of the license file
+>> +LIC_FILES_CHKSUM = " \
+>> +    file://bindgen-cli/LICENSE;md5=0b9a98cb3dcdefcceb145324693fda9b \
+>> +"
+>> +
+>> +SUMMARY = "Automatically generates Rust FFI bindings to C and C++ libraries."
+>> +HOMEPAGE = "https://rust-lang.github.io/rust-bindgen/"
+>> +LICENSE = "BSD-3-Clause"
+>> +
+>> +# includes this file if it exists but does not fail
+>> +# this is useful for anything you may want to override from
+>> +# what cargo-bitbake generates.
+>> +include bindgen-cli-${PV}.inc
+>> +include bindgen-cli.inc
+>> --
+>> 2.39.2
+>>
+>>
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#177664): https://lists.openembedded.org/g/openembedded-core/message/177664
+>> Mute This Topic: https://lists.openembedded.org/mt/97202942/1686489
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>>
+
 
