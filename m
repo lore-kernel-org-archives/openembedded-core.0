@@ -1,111 +1,89 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE7ACC677F1
-	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 09:39:08 +0000 (UTC)
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
- by mx.groups.io with SMTP id smtpd.web10.14102.1677231545537961426
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E18A5C61DA3
+	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 09:40:38 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web10.14126.1677231628898285254
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Feb 2023 01:39:05 -0800
+ Fri, 24 Feb 2023 01:40:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=aTmUY9ga;
- spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: zboszor@gmail.com)
-Received: by mail-ed1-f51.google.com with SMTP id cy6so46982369edb.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 01:39:05 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=i9GFVCrO;
+ spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f45.google.com with SMTP id k37so8000745wms.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 01:40:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HU26cImovhyzYtIYrecYzLdF/pXsXa43YRw3wziuP/4=;
-        b=aTmUY9gaR534r5ChuC9cGNDRpsxOVB84v/BcsBxWROhm7W5XM8mv0fyrSUBUf8Enld
-         4VfMAG/iGTo3w2yn9ZC9M30tO5LhbeDNsDpQho/Gxzz+UKvvcEu/Bfo/DK4kCAWCJD3T
-         OrMaLgB4BEHAmyB0T7QogDNUzmAvE5teMFhVStTBVN2yn3J7pVUcK9UvDYP2SH4X9HrK
-         80WO/vv2WsCzxuU6lDGAQ6fd8MrHXWMvC8C1LqObk9TIXbeoHheMqHhanBo0rOVerKZ+
-         MNt9IOFDzVDTrAJgPEtAF44P/pzsOIwV6bUIrbA1WmLm9pMsTnOsdOW/vWzGoynZqPFg
-         r4bA==
+        d=gmail.com; s=20210112; t=1677231627;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ndECZgoibbY0wgoZlNdpv/2POT5UXyfNS9h/JP+DstM=;
+        b=i9GFVCrO++w2HyrtdgYI/ZPQZML251aoMULMIGgTVzvgBWCXX0VHrI/FaHMgYriUaz
+         6LJj3WicwS6npSDxTUvABlfAyXA1exMLiZQNzJXoSwynCA0oNAVU0y/1x28S02AcIff/
+         pfUGHyD3ip94G05LMdDIhedFGC8bTpGr8/FY6syxxtxXZT1P3vWybUOccrxqSFzj9Qvn
+         e+k0vPAcatFB89ujTcS5JfXc0CieG5AfbWIQnlZIcfUTFHsjA6SBa1sWKgFdy+iAD2yW
+         uDxSeGWvGOzddixY5u93wlT2/EcELgGE6LzaSUXbmHI/RF9dFpGGRmVrRmrMlqwkFUfr
+         d18g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HU26cImovhyzYtIYrecYzLdF/pXsXa43YRw3wziuP/4=;
-        b=vZoTBIYI7ExpkeRIjc2A/wfZ29nHeWjX2p4Mn6Q9iBqTJFDwdHHB4PQdLvx2nBPlbo
-         BUzujH7UnRKIZp5OzSczm3q5384OSU+H2dPN6HaLU6AQnQBbIN5nmF0Z28P6S1iXzz8b
-         vBDoHSP5gnCRm2G5Rmnn9hidR6UVld2Gekd2/i4wkmKOG7NssgxnoiSa6x1fCxCTR7k8
-         ZD3HBBZgBTOaM830ThmJNtJkZoFjAu/HfQ9W8cSsMJQrjOip4H2JhLQ6B07glWWqApjE
-         3zVTksk1LGmIXcPtBVk6l2bzS55hQje6S//Y48DP86/xvmAzKkQDscPdTCwmdKujJX3Y
-         4SaQ==
-X-Gm-Message-State: AO0yUKUJcPNC4130M0F35rc3fYAmYjtlesejjQejSuzM23RULCeCGz5S
-	cTXpjJOwd7kvCF3bdxzpBeDiEtPyI3A=
-X-Google-Smtp-Source: AK7set+3Wh6ANBSUESm+UfTrh3LrGGc1rZN8QnFSTSpWYl1RaDBxczoxATkH5tOzCnF1WSbYOWhCAg==
-X-Received: by 2002:a17:906:95ce:b0:87b:3d29:2990 with SMTP id n14-20020a17090695ce00b0087b3d292990mr22794711ejy.9.1677231543705;
-        Fri, 24 Feb 2023 01:39:03 -0800 (PST)
-Received: from localhost.lan (BC24452B.dsl.pool.telekom.hu. [188.36.69.43])
-        by smtp.gmail.com with ESMTPSA id n27-20020a17090673db00b008d173604d72sm6478498ejl.174.2023.02.24.01.39.02
+        d=1e100.net; s=20210112; t=1677231627;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ndECZgoibbY0wgoZlNdpv/2POT5UXyfNS9h/JP+DstM=;
+        b=0PXB7EqaqQwSDjEu0Sh8sZ4Y30Wt3T35bCSg1Q3hGdYnE5wi2mLvBpFrJBcuVQ00S1
+         DAMPSoFQJJ+HOLdwyt7Ai30Wggz94c1m0CwvmoLx0f3RjZWSP9Ya+wM4xm2Pch3iV5o1
+         bS4UOZ2DnSk8IQ+N/BqnPIX9wlVez5xn83RGsRYE21QNRTRbKTVdOoh2mpe1+3toBCh1
+         pTBquTmNyDQX1LouK6iBFZOEYknoK+vyHw9CY7vnCKmvzvw0YdO1ZrXxwvt8e/19h4p8
+         9eUsAmrUar0CbM3V2lkxn3eENfL1W/EI2CqDZ3RkHHzMQli00NG6olOzrlfIg594sSFv
+         MxZA==
+X-Gm-Message-State: AO0yUKWDzLYgSHQV9QyznVYnZlOJanQEK5HPqi2yVR6b+GlBqpOremuY
+	Iqx7ScRgLGFqkDe4ew9LmTKV4Enq6Pk=
+X-Google-Smtp-Source: AK7set/WIJyt8BAviM1XWRDMsRw7+YYATbj8gVWQhEILqqICEhezyjBmw0di0HLfKDwlRGu9Tq8sMw==
+X-Received: by 2002:a05:600c:1546:b0:3eb:246d:7efd with SMTP id f6-20020a05600c154600b003eb246d7efdmr580380wmg.2.1677231627092;
+        Fri, 24 Feb 2023 01:40:27 -0800 (PST)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id m26-20020a05600c3b1a00b003e21ba8684dsm2395737wms.26.2023.02.24.01.40.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Feb 2023 01:39:03 -0800 (PST)
-From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+        Fri, 24 Feb 2023 01:40:26 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-Subject: [PATCH 3/4] mesa: Rename PACKAGECONFIG "opencl" to "clover"
-Date: Fri, 24 Feb 2023 10:38:49 +0100
-Message-Id: <20230224093850.3393567-3-zboszor@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230224093850.3393567-1-zboszor@gmail.com>
-References: <20230224093850.3393567-1-zboszor@gmail.com>
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH] gcr: correctly configure vala against introspection data
+Date: Fri, 24 Feb 2023 10:40:18 +0100
+Message-Id: <20230224094018.1227425-1-alex@linutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 09:39:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177666
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 09:40:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177668
 
-There is another OpenCL frontend called "rusticl" now.
+GI_DATA_ENABLED is the right source for making that decision
+as it additionally factors in presence of qemu-usermode in
+MACHINE_FEATURES.
 
-Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-graphics/mesa/mesa.inc | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-gnome/gcr/gcr_4.0.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 70f9b6fc17..9ec10c49ca 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -115,9 +115,9 @@ PACKAGECONFIG[gles] = "-Dgles1=enabled -Dgles2=enabled, -Dgles1=disabled -Dgles2
- # "egl" requires "opengl"
- PACKAGECONFIG[egl] = "-Degl=enabled, -Degl=disabled"
- 
--# "opencl" requires libclc from meta-clang and spirv-tools from OE-Core
-+# "clover" requires libclc from meta-clang and spirv-tools from OE-Core
- OPENCL_NATIVE = "${@bb.utils.contains('PACKAGECONFIG', 'freedreno', '-Dopencl-native=true', '', d)}"
--PACKAGECONFIG[opencl] = "-Dgallium-opencl=icd -Dopencl-spirv=true ${OPENCL_NATIVE},-Dgallium-opencl=disabled -Dopencl-spirv=false,libclc spirv-tools"
-+PACKAGECONFIG[clover] = "-Dgallium-opencl=icd -Dopencl-spirv=true ${OPENCL_NATIVE},-Dgallium-opencl=disabled -Dopencl-spirv=false,libclc spirv-tools"
- 
- PACKAGECONFIG[broadcom] = ""
- PACKAGECONFIG[etnaviv] = ""
-@@ -196,7 +196,7 @@ DEV_PKG_DEPENDENCY = ""
- # development package of libgles3.
- RDEPENDS:libgles3-mesa-dev += "libgles2-mesa-dev"
- 
--RDEPENDS:libopencl-mesa += "${@bb.utils.contains('PACKAGECONFIG', 'opencl', 'libclc spirv-tools', '', d)}"
-+RDEPENDS:libopencl-mesa += "${@bb.utils.contains('PACKAGECONFIG', 'clover', 'libclc spirv-tools', '', d)}"
- 
- PACKAGES =+ "libegl-mesa libegl-mesa-dev \
-              libosmesa libosmesa-dev \
-@@ -242,7 +242,7 @@ python __anonymous() {
-               ("gles", "libgles1", "libglesv1-cm1"),
-               ("gles", "libgles2", "libglesv2-2"),
-               ("gles", "libgles3",),
--              ("opencl", "libopencl",)):
-+              ("clover", "libopencl",)):
-         if not p[0] in pkgconfig:
-             continue
-         mlprefix = d.getVar("MLPREFIX")
+diff --git a/meta/recipes-gnome/gcr/gcr_4.0.0.bb b/meta/recipes-gnome/gcr/gcr_4.0.0.bb
+index b137968943..7821e31b52 100644
+--- a/meta/recipes-gnome/gcr/gcr_4.0.0.bb
++++ b/meta/recipes-gnome/gcr/gcr_4.0.0.bb
+@@ -29,7 +29,7 @@ PACKAGECONFIG ??= " \
+ 	${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
+ 	${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'gtk', '', d)} \
+ 	${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'gtk', '', d)} \
+-	${@bb.utils.contains('DISTRO_FEATURES', 'gobject-introspection-data', 'vapi', '', d)} \
++	${@bb.utils.contains('GI_DATA_ENABLED', 'True', 'vapi', '', d)} \
+ "
+ PACKAGECONFIG[gtk] = "-Dgtk4=true,-Dgtk4=false,gtk4"
+ PACKAGECONFIG[ssh_agent] = "-Dssh_agent=true,-Dssh_agent=false,libsecret,openssh"
 -- 
-2.39.2
+2.30.2
 
 
