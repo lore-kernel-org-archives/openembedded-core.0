@@ -1,252 +1,83 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35FDAC61DA3
-	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 13:33:10 +0000 (UTC)
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
- by mx.groups.io with SMTP id smtpd.web11.17378.1677245582848379766
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E3C2C61DA3
+	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 13:54:20 +0000 (UTC)
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.web10.17981.1677246851066960041
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Feb 2023 05:33:02 -0800
+ Fri, 24 Feb 2023 05:54:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=iF0c2iVw;
- spf=pass (domain: gmail.com, ip: 209.85.166.43, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-io1-f43.google.com with SMTP id v10so3648784iox.8
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 05:33:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5BouAJMzn5WUKAK5QW5GKtDaVvJS19FNxr58Dxdll4E=;
-        b=iF0c2iVwSEfsoIDDwr/AHpAbInc1E1YRN+YPIH/lTwTVZkt6BVmJVnhUNAyAymeEwY
-         alI1Y2VtVH5ZLeU9b2WRWXToLbulzffovgzafPAga9MHBfFAIOKV18HafjTm6Zf8EUi3
-         8ubiDJpCQo6frTLnnl/d12UkOB7+YU/gLqoA18hCStBavDDBPpRRv93bzjkiV0GSodSN
-         ZuObihueowDUKWIXDtY5Us0yYJ7w9C/vvy3AQW2TQiJ/qetBJeP4NOi/OUkD59JO6VHg
-         5R3CYUW83hClZdzrCYPWvwMwOhze70++UeYoJlyIHURjbjOXj2rs81yj9/KhHF++/PGi
-         C+Gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5BouAJMzn5WUKAK5QW5GKtDaVvJS19FNxr58Dxdll4E=;
-        b=Zh5xPzg/4SFvA9h3LYdz73/2xcujaDgqtQAufPvsQqceLdx23zY+N5Tqblo5DJVImG
-         pygT/v2DEwznlEyoFRFRm9QhzWPCXzUglgY6Xwxj+hSIO+qx9b2Pz0gl9y8ieHW40K4O
-         qlk8oFic/wcCOu1HyHywPiUtq9TzuZ3/JiqLgyW5K4lIDwvVF2BZ2MVTBqbaQQKk6KZ0
-         TkCFqOAAvNiN7ldbyGYZJAINpbNL9bqRo2qkfMuEC3em3GyY9VGYdASpqKFXAPJaKw4B
-         sU15IR0LAhhViQAALmRcgIFzGkkTvSOWv5l5QcvBFy87Pb1xod6GJPORBmYQGSHK7E0b
-         QVkw==
-X-Gm-Message-State: AO0yUKWxB0/A0liWIoE4VIgfkOAdppI+CvRit3+80L7SAgR7Rr5e3GUZ
-	d+/iwmc5dQkwfNXzMJzLGF1pymJ3AXyV1MkXzmA=
-X-Google-Smtp-Source: AK7set8e9Kj0q9JumgrvifN+979rq/qxO+KV44yrG+BVXJmCGZ0jHhb7dTVbO6vza/UIxiC9nWKy2s2WzqPZqrJTNcE=
-X-Received: by 2002:a6b:b211:0:b0:745:b287:c281 with SMTP id
- b17-20020a6bb211000000b00745b287c281mr2106324iof.2.1677245581853; Fri, 24 Feb
- 2023 05:33:01 -0800 (PST)
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=TVu5sY9X;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-2023022413540792fc1c3125bfa2508d-74j5z3@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 2023022413540792fc1c3125bfa2508d
+        for <openembedded-core@lists.openembedded.org>;
+        Fri, 24 Feb 2023 14:54:07 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=fKuJpFH98ASpGlZRFUpy47oUK0yi7eJC2mZqmr83XMI=;
+ b=TVu5sY9XqYeGL2fmTKJ6MyR/LICXnlRvU1uJKgct+ausS77fNAOaQrhXLXRbZCU2JddcFO
+ M2iT7mpw66ny0VYEs9TsKQrriJoP8lz6A6hK+YSpFgryNo0s0LLRnHjmdaZk7/DxzIMHY1bS
+ iioRBHGkN8p2HCYrO8Ul772gTMu8I=;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][PATCH] systemd: add group sgx to udev package
+Date: Fri, 24 Feb 2023 14:53:09 +0100
+Message-Id: <20230224135309.367686-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-References: <20230224093850.3393567-1-zboszor@gmail.com>
-In-Reply-To: <20230224093850.3393567-1-zboszor@gmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Fri, 24 Feb 2023 13:32:50 +0000
-Message-ID: <CAO5Uq5SxRwhJMXa4qzpJhWx8xVFOKHEa4Rx4-emN9bgJYTnUcw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/4] bindgen-cli: Add new recipe
-To: Zoltan Boszormenyi <zboszor@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 13:33:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177683
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 13:54:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177684
 
-I need to go and ask our resident rustacean, but when we pulled this
-crate into a build here, I had to bring in meta-clang in order to
-satisfy the runtime deps. May well be that I got something wrong at
-the time, or something's changed, but we definitely needed that.
+From NEWS for v250:
+* Device nodes for the Software Guard eXtension enclaves (sgx_vepc) are
+  now also owned by the system group "sgx".
 
-On Fri, Feb 24, 2023 at 9:39 AM Zoltan Boszormenyi <zboszor@gmail.com> wrot=
-e:
->
-> The recipe is automatically generated by cargo-bitbake, with the
-> manual change to add BBCLASSEXTEND =3D "native" in the include file.
->
-> It is used by Mesa 23.0.0 to build Rusticl.
->
-> Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
-> ---
->  meta/recipes-devtools/bindgen/bindgen-cli.inc |   1 +
->  .../bindgen/bindgen-cli_0.64.0.bb             | 132 ++++++++++++++++++
->  2 files changed, 133 insertions(+)
->  create mode 100644 meta/recipes-devtools/bindgen/bindgen-cli.inc
->  create mode 100644 meta/recipes-devtools/bindgen/bindgen-cli_0.64.0.bb
->
-> diff --git a/meta/recipes-devtools/bindgen/bindgen-cli.inc b/meta/recipes=
--devtools/bindgen/bindgen-cli.inc
-> new file mode 100644
-> index 0000000000..d3267ac413
-> --- /dev/null
-> +++ b/meta/recipes-devtools/bindgen/bindgen-cli.inc
-> @@ -0,0 +1 @@
-> +BBCLASSEXTEND =3D "native"
-> diff --git a/meta/recipes-devtools/bindgen/bindgen-cli_0.64.0.bb b/meta/r=
-ecipes-devtools/bindgen/bindgen-cli_0.64.0.bb
-> new file mode 100644
-> index 0000000000..da3d692717
-> --- /dev/null
-> +++ b/meta/recipes-devtools/bindgen/bindgen-cli_0.64.0.bb
-> @@ -0,0 +1,132 @@
-> +# Auto-Generated by cargo-bitbake 0.3.16-alpha.0
-> +#
-> +inherit cargo
-> +
-> +# If this is git based prefer versioned ones if they exist
-> +# DEFAULT_PREFERENCE =3D "-1"
-> +
-> +# how to get bindgen-cli could be as easy as but default to a git checko=
-ut:
-> +# SRC_URI +=3D "crate://crates.io/bindgen-cli/0.64.0"
-> +SRC_URI +=3D "git://github.com/rust-lang/rust-bindgen.git;protocol=3Dhtt=
-ps;nobranch=3D1;branch=3Dv0.64.0"
-> +SRCREV =3D "ae6817256ac557981906e93a1f866349db85053e"
-> +S =3D "${WORKDIR}/git"
-> +CARGO_SRC_DIR =3D "bindgen-cli"
-> +
-> +
-> +# please note if you have entries that do not begin with crate://
-> +# you must change them to how that package can be fetched
-> +SRC_URI +=3D " \
-> +    crate://crates.io/aho-corasick/0.5.3 \
-> +    crate://crates.io/aho-corasick/0.7.20 \
-> +    crate://crates.io/ansi_term/0.12.1 \
-> +    crate://crates.io/atty/0.2.14 \
-> +    crate://crates.io/bitflags/1.3.2 \
-> +    crate://crates.io/block/0.1.6 \
-> +    crate://crates.io/cc/1.0.78 \
-> +    crate://crates.io/cexpr/0.6.0 \
-> +    crate://crates.io/cfg-if/1.0.0 \
-> +    crate://crates.io/clang-sys/1.4.0 \
-> +    crate://crates.io/clap/2.34.0 \
-> +    crate://crates.io/clap/4.1.4 \
-> +    crate://crates.io/clap_derive/4.1.0 \
-> +    crate://crates.io/clap_lex/0.3.1 \
-> +    crate://crates.io/diff/0.1.13 \
-> +    crate://crates.io/either/1.8.1 \
-> +    crate://crates.io/env_logger/0.3.5 \
-> +    crate://crates.io/env_logger/0.9.3 \
-> +    crate://crates.io/errno-dragonfly/0.1.2 \
-> +    crate://crates.io/errno/0.2.8 \
-> +    crate://crates.io/fastrand/1.8.0 \
-> +    crate://crates.io/fuchsia-cprng/0.1.1 \
-> +    crate://crates.io/glob/0.3.1 \
-> +    crate://crates.io/heck/0.4.0 \
-> +    crate://crates.io/hermit-abi/0.1.19 \
-> +    crate://crates.io/hermit-abi/0.2.6 \
-> +    crate://crates.io/humantime/2.1.0 \
-> +    crate://crates.io/instant/0.1.12 \
-> +    crate://crates.io/io-lifetimes/1.0.4 \
-> +    crate://crates.io/is-terminal/0.4.2 \
-> +    crate://crates.io/kernel32-sys/0.2.2 \
-> +    crate://crates.io/lazy_static/1.4.0 \
-> +    crate://crates.io/lazycell/1.3.0 \
-> +    crate://crates.io/libc/0.2.139 \
-> +    crate://crates.io/libloading/0.6.7 \
-> +    crate://crates.io/libloading/0.7.4 \
-> +    crate://crates.io/linux-raw-sys/0.1.4 \
-> +    crate://crates.io/log/0.3.9 \
-> +    crate://crates.io/log/0.4.17 \
-> +    crate://crates.io/malloc_buf/0.0.6 \
-> +    crate://crates.io/memchr/0.1.11 \
-> +    crate://crates.io/memchr/2.5.0 \
-> +    crate://crates.io/minimal-lexical/0.2.1 \
-> +    crate://crates.io/nom/7.1.3 \
-> +    crate://crates.io/objc/0.2.7 \
-> +    crate://crates.io/once_cell/1.17.0 \
-> +    crate://crates.io/os_str_bytes/6.4.1 \
-> +    crate://crates.io/peeking_take_while/0.1.2 \
-> +    crate://crates.io/proc-macro-error-attr/1.0.4 \
-> +    crate://crates.io/proc-macro-error/1.0.4 \
-> +    crate://crates.io/proc-macro2/1.0.50 \
-> +    crate://crates.io/quickcheck/0.4.1 \
-> +    crate://crates.io/quote/1.0.23 \
-> +    crate://crates.io/rand/0.3.23 \
-> +    crate://crates.io/rand/0.4.6 \
-> +    crate://crates.io/rand_core/0.3.1 \
-> +    crate://crates.io/rand_core/0.4.2 \
-> +    crate://crates.io/rdrand/0.4.0 \
-> +    crate://crates.io/redox_syscall/0.2.16 \
-> +    crate://crates.io/regex-syntax/0.3.9 \
-> +    crate://crates.io/regex-syntax/0.6.28 \
-> +    crate://crates.io/regex/0.1.80 \
-> +    crate://crates.io/regex/1.7.1 \
-> +    crate://crates.io/remove_dir_all/0.5.3 \
-> +    crate://crates.io/rustc-hash/1.1.0 \
-> +    crate://crates.io/rustix/0.36.7 \
-> +    crate://crates.io/shlex/1.1.0 \
-> +    crate://crates.io/strsim/0.10.0 \
-> +    crate://crates.io/strsim/0.8.0 \
-> +    crate://crates.io/syn/1.0.107 \
-> +    crate://crates.io/tempdir/0.3.7 \
-> +    crate://crates.io/tempfile/3.3.0 \
-> +    crate://crates.io/termcolor/1.2.0 \
-> +    crate://crates.io/textwrap/0.11.0 \
-> +    crate://crates.io/thread-id/2.0.0 \
-> +    crate://crates.io/thread_local/0.2.7 \
-> +    crate://crates.io/unicode-ident/1.0.6 \
-> +    crate://crates.io/unicode-width/0.1.10 \
-> +    crate://crates.io/utf8-ranges/0.1.3 \
-> +    crate://crates.io/vec_map/0.8.2 \
-> +    crate://crates.io/version_check/0.9.4 \
-> +    crate://crates.io/which/4.4.0 \
-> +    crate://crates.io/winapi-build/0.1.1 \
-> +    crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 \
-> +    crate://crates.io/winapi-util/0.1.5 \
-> +    crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 \
-> +    crate://crates.io/winapi/0.2.8 \
-> +    crate://crates.io/winapi/0.3.9 \
-> +    crate://crates.io/windows-sys/0.42.0 \
-> +    crate://crates.io/windows_aarch64_gnullvm/0.42.1 \
-> +    crate://crates.io/windows_aarch64_msvc/0.42.1 \
-> +    crate://crates.io/windows_i686_gnu/0.42.1 \
-> +    crate://crates.io/windows_i686_msvc/0.42.1 \
-> +    crate://crates.io/windows_x86_64_gnu/0.42.1 \
-> +    crate://crates.io/windows_x86_64_gnullvm/0.42.1 \
-> +    crate://crates.io/windows_x86_64_msvc/0.42.1 \
-> +"
-> +
-> +
-> +
-> +# FIXME: update generateme with the real MD5 of the license file
-> +LIC_FILES_CHKSUM =3D " \
-> +    file://bindgen-cli/LICENSE;md5=3D0b9a98cb3dcdefcceb145324693fda9b \
-> +"
-> +
-> +SUMMARY =3D "Automatically generates Rust FFI bindings to C and C++ libr=
-aries."
-> +HOMEPAGE =3D "https://rust-lang.github.io/rust-bindgen/"
-> +LICENSE =3D "BSD-3-Clause"
-> +
-> +# includes this file if it exists but does not fail
-> +# this is useful for anything you may want to override from
-> +# what cargo-bitbake generates.
-> +include bindgen-cli-${PV}.inc
-> +include bindgen-cli.inc
-> --
-> 2.39.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#177664): https://lists.openembedded.org/g/openembedde=
-d-core/message/177664
-> Mute This Topic: https://lists.openembedded.org/mt/97202942/3618097
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kiernan@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+From NEWS for v248:
+* Intel SGX enclave device nodes (which expose a security feature of
+  newer Intel CPUs) will now be owned by a new system group "sgx".
 
+Fixes following journal error entry during startup:
+  /lib/udev/rules.d/50-udev-default.rules:43 Unknown group 'sgx', ignoring
+This is seen already on kirkstone.
 
---=20
-Alex Kiernan
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ meta-selftest/files/static-group           | 1 +
+ meta/recipes-core/systemd/systemd_252.5.bb | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/meta-selftest/files/static-group b/meta-selftest/files/static-group
+index b13dde3218..cbec6f1377 100644
+--- a/meta-selftest/files/static-group
++++ b/meta-selftest/files/static-group
+@@ -24,3 +24,4 @@ weston-launch:x:524:
+ weston:x:525:
+ wayland:x:526:
+ render:x:527:
++sgx:x:528:
+diff --git a/meta/recipes-core/systemd/systemd_252.5.bb b/meta/recipes-core/systemd/systemd_252.5.bb
+index 64a3efa1d4..f67351d207 100644
+--- a/meta/recipes-core/systemd/systemd_252.5.bb
++++ b/meta/recipes-core/systemd/systemd_252.5.bb
+@@ -410,7 +410,7 @@ USERADD_PACKAGES = "${PN} ${PN}-extra-utils \
+                     ${@bb.utils.contains('PACKAGECONFIG', 'journal-upload', '${PN}-journal-upload', '', d)} \
+ "
+ GROUPADD_PARAM:${PN} = "-r systemd-journal;"
+-GROUPADD_PARAM:udev = "-r render"
++GROUPADD_PARAM:udev = "-r render;-r sgx;"
+ GROUPADD_PARAM:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallback', '-r systemd-hostname;', '', d)}"
+ USERADD_PARAM:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'coredump', '--system -d / -M --shell /sbin/nologin systemd-coredump;', '', d)}"
+ USERADD_PARAM:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'networkd', '--system -d / -M --shell /sbin/nologin systemd-network;', '', d)}"
+-- 
+2.30.2
+
 
