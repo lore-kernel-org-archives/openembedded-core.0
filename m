@@ -1,103 +1,86 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A582CC61DA3
-	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 06:24:27 +0000 (UTC)
-Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com [195.245.231.4])
- by mx.groups.io with SMTP id smtpd.web10.12177.1677219863861968250
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C59BFC61DA3
+	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 06:33:37 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web10.12293.1677220416609682301
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Feb 2023 22:24:24 -0800
+ Thu, 23 Feb 2023 22:33:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=s1GGWJQ5;
- spf=pass (domain: fujitsu.com, ip: 195.245.231.4, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1677219862; i=@fujitsu.com;
-	bh=Y1YFBCLQeF+wOLoFePwhlEA2te9hl6xUPmIhBKewasc=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=s1GGWJQ5Foz8i8gSdOL7B5Y0XP6uoD2ErnICEBmWLxXGMp+T43QM6ADj5b1tHVDTy
-	 QYwajkB2l+LMHG4GwQJj3ogVGRVEBV+Fz2gXW57+xTXV/b8ahugYGzPJ+akItRAIr8
-	 W0iBnUSO5xscPGcFrUkXYNtsHo3t+E9AQ0NpzhM5TvH0QFT6NwM8WyhUzEUzhTS0+Z
-	 kq5WJ8uznk364i9NFEs79HwiftS4uou8r+2ibPxKVYNpmjcBvna/GxhK93DjSLUI50
-	 uz2Kx0o3B5gkazybXNdOYDsjBOJaNr2VWbyqkP1fTuja8c81ACA+G/LB/Pp1Sv4pqq
-	 hpZOblm8vV77Q==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrDIsWRWlGSWpSXmKPExsViZ8OxWVc04ke
-  ywf/nshZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aJG0/YC7axVcz4fomxgfEVaxcjF4eQwANG
-  iaOdM9kgnMtMEmc+XWGBcPYySty6PhOojJODTUBK4sb9/0BVHBwiAnoSV/+JgoSZBVQkXvzuY
-  QcJCwsESixfrAkSZhFQlTh2eiojiM0r4CRx9E0bM4gtIaAgMeXhe2aIuKDEyZlPWCDGSEgcfP
-  ECqkZRYvblZhYIu1Ki9cMvKFtN4uq5TcwTGPlnIWmfhaR9ASPTKkbT4tSistQiXUO9pKLM9Iy
-  S3MTMHL3EKt1EvdRS3fLU4hJdI73E8mK91OJiveLK3OScFL281JJNjMBATClWnriDcUXvX71D
-  jJIcTEqivLoyP5KF+JLyUyozEosz4otKc1KLDzHKcHAoSfDKhQLlBItS01Mr0jJzgFEBk5bg4
-  FES4XXzA0rzFhck5hZnpkOkTjEqSonzNoUBJQRAEhmleXBtsEi8xCgrJczLyMDAIMRTkFqUm1
-  mCKv+KUZyDUUmY90sI0BSezLwSuOmvgBYzAS3+/uYLyOKSRISUVAOTW8C589UCIV82sr55e8o
-  r5ar21Fb9lIDsuzse2pvuPPt027IVhXFKC5/e2ncgrNKo5z/XQvXfDd8LnnbP2LwsXN73lbZp
-  aqXpIbdtO1ief9+QfyBFNMTp0C/uH4rPfqVxT95z7cjqyC+Wti8y1h032rvT/dfhb5PDX5Red
-  bpQndl/4+Q08Uu5m9aFvZzFbvF9kfK8xQKSMmnnzpWbsPatu7ZH9ueZ1nzLxGepS6c8vX7mXo
-  G5iazXrb3b1V4bf1Rw8F/B/7fB1HLrNaWf/x+EXyvsmd11L2XKN5v97Azvvv3J6pfIK2ZIDPy
-  1bn1s94ysz1F+p8RP9RVM95+1zStSsbDvscHe4Pfsr4RzDNUdzimxFGckGmoxFxUnAgD3DrPE
-  PwMAAA==
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-23.tower-571.messagelabs.com!1677219861!119563!1
-X-Originating-IP: [62.60.8.179]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.103.1; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 1761 invoked from network); 24 Feb 2023 06:24:21 -0000
-Received: from unknown (HELO n03ukasimr04.n03.fujitsu.local) (62.60.8.179)
-  by server-23.tower-571.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 24 Feb 2023 06:24:21 -0000
-Received: from n03ukasimr04.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTP id 387CC151
-	for <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 06:24:21 +0000 (GMT)
-Received: from R01UKEXCASM223.r01.fujitsu.local (R01UKEXCASM223 [10.182.185.121])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTPS id 2C65C73
-	for <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 06:24:21 +0000 (GMT)
-Received: from localhost.localdomain (10.167.225.33) by
- R01UKEXCASM223.r01.fujitsu.local (10.182.185.121) with Microsoft SMTP Server
- (TLS) id 15.0.1497.42; Fri, 24 Feb 2023 06:24:19 +0000
-From: <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 1/2] dhcpcd: Fix install conflict when enable multilib.
-Date: Fri, 24 Feb 2023 14:24:09 +0800
-Message-ID: <1677219850-18169-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=P2OP/bEp;
+ spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f50.google.com with SMTP id f18so16691914lfa.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Feb 2023 22:33:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1677220414;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=5xNwt0XkFLuWuFxC7x/87QFOiNgcdKw1J7w4NETrDU8=;
+        b=P2OP/bEpr/kIYrrOB8tenbV55W6XFdCdOpWhgu37Z1FBAUlhA+xRz2b6sYm+olZCpY
+         Iua5CsKDiuqOwp80pmecP0UC82COoRMbgbAiJ2EOS85v06awQzz3jW3GKYsPR7Nju578
+         vJr+aa+ZYDDeZkwJ2uvzTxAMhoyIeAFFUqx+FFL8B2AmK0eDCFIoVvm0c/Km6obb+Go7
+         /EW8GrvrTZ1IQUWfox6CgFph8TJ1X8pvvQqYPgntgBKH3Slzt9ao6I4gt8X8CHFPN22n
+         wdUHIZjmxtqqydHNDy3EgH5xusao2ncqEipAnkGQqB1N9al73dm+HPxebgq1EMBvqMiA
+         DRFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677220414;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5xNwt0XkFLuWuFxC7x/87QFOiNgcdKw1J7w4NETrDU8=;
+        b=pSUWfpMLd1JtLk29oVKVgpM+ZJ56h9pIJxksa9kQSI54JlHghDmkps10479jV/T5i0
+         2rHzhKAItnJDprUNgbPlvxTzUnOlBAQYgbgUhKDkBgvDbo6/pW1+wDe4ocklcy5dYKcL
+         Y+ryTFD4RuOuPNDap0Dv8M8dJRG0bA8DI8qJ3nxafb18xgwF0ZV/JxppzeKdVpi1tl/n
+         qtbpB4ls03/0CjixpKgSF1paRE8wRzUWRuUQaM8ZQa5W8UBu0cYRgRKXyLCDIPM9c7oU
+         SiHIAUCvgcNQLdSDmf9CcygU0KKdBApmEZYN5G0oJ5ifrFV7Woj4e4e1viMkeDkiacmO
+         Ur7w==
+X-Gm-Message-State: AO0yUKU3v8PPwbUcKdPJXSb9pw3rVA4W3rYtSbUbGLxMfvGSr03PEBWP
+	mmp9zSy9vnc4j2HvUPGBEUxT/r8nGt0VTdaUiFk=
+X-Google-Smtp-Source: AK7set/1QC5Tg6RLnpI/YBBNiLKOmrN9fc1dIs64kwO0qHKPXX/YUNdJFVnUelxHKIN+6CK4JM1hDfEdOSKcOTK2D/o=
+X-Received: by 2002:a05:6512:239b:b0:4dd:9eb6:444d with SMTP id
+ c27-20020a056512239b00b004dd9eb6444dmr3348316lfv.4.1677220414349; Thu, 23 Feb
+ 2023 22:33:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
- R01UKEXCASM223.r01.fujitsu.local (10.182.185.121)
-X-Virus-Scanned: ClamAV using ClamSMTP
+References: <1676014485-3128-1-git-send-email-leimaohui@fujitsu.com>
+ <b9adc480-1eab-3c45-151f-a60387882ca2@windriver.com> <OS0PR01MB6178114270DF9619E2FF60B1A0A89@OS0PR01MB6178.jpnprd01.prod.outlook.com>
+ <efda9be1-9e59-d4ca-cff1-4d05c179d0a0@windriver.com>
+In-Reply-To: <efda9be1-9e59-d4ca-cff1-4d05c179d0a0@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 24 Feb 2023 07:33:22 +0100
+Message-ID: <CANNYZj-NbfG3YdKy=nZrzVZ4=Fgns_1oVKzjBjsAn1_Oq5TymA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] nghttp2: Fix do_rootfs error as following:
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: "leimaohui@fujitsu.com" <leimaohui@fujitsu.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 06:24:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177657
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 06:33:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177659
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+On Fri, 24 Feb 2023 at 04:27, Chen Qi <Qi.Chen@windriver.com> wrote:
+> > This recipe is special. Libsoup has a hard dependency on nghttp2, so it can't be moved to meta-oe. But nghttp2-client and nghttp2-server depend on recipes of meta-oe.
+>
+> Hi Lei,
+>
+> Which ones? Do you have some local patch or some bbappend files? Also,
+> if this is the case, I think Yocto's autobuilder will detect such issue
+> by doing pure poky world build. I also just ran `bitbake -n nghttp2' and
+> there's no error.
 
-Error: Transaction test error:
-   file /usr/share/man/man8/dhcpcd.8 conflicts between attempted installs of dhcpcd-doc-9.4.1-r0.cortexa57 and lib32-dhcpcd-doc-9.4.1-r0.armv7ahf_neon
+I have built this locally. The recipe unconditionally disables client
+and server with -DENABLE_APP=OFF (no packageconfig entries to change
+that), and at the same time defines packaging for items that would
+otherwise be built. But there is nothing to put into those packages.
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.bb | 3 +++
- 1 file changed, 3 insertions(+)
+Lei, I'd suggest that you make a patch that simply deletes the entries
+for -client and -server, and removes a dependency on them from the
+main package. If someone later needs to enable them, it should be done
+by creating a correct, working build configuration, and then re-adding
+packaging rules is comparatively trivial.
 
-diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.bb
-index 39e689d2f6..03dbf31b35 100644
---- a/meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.bb
-+++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_9.4.1.bb
-@@ -62,3 +62,6 @@ do_install:append () {
- }
- 
- FILES:${PN}-dbg += "${libdir}/dhcpcd/dev/.debug"
-+
-+inherit multilib_script
-+MULTILIB_SCRIPTS = "${PN}-doc:${datadir}/man/man8/dhcpcd.8"
--- 
-2.34.1
-
+Alex
 
