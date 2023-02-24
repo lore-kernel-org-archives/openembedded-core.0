@@ -1,108 +1,168 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27560C6FA8E
-	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 17:55:42 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web11.25099.1677261332636305373
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28D3DC7EE23
+	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 18:06:52 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web11.25479.1677262004608644358
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Feb 2023 09:55:32 -0800
+ Fri, 24 Feb 2023 10:06:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=AJA5sCAf;
- spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f53.google.com with SMTP id cp7-20020a17090afb8700b0023756229427so3667972pjb.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 09:55:32 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UyV1P9ur;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id 6so14386257wrb.11
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 10:06:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pkFxve/388u84pRIsPjimZ+TTBJR12c/f2bA0ykTAeE=;
-        b=AJA5sCAfl2VsMA1aZG35opYEzAZf+pnRlXE1eF36sf30StXSYLTCjAY+vGC+G2U39K
-         ddLrflRh8dE+x3TQQktoMMDSVJpech8RgF49GcksVEo0WJyKdtQ5JQkg7MCNRAqv95or
-         dQ5GHpgx8hiSlc+smr6qOJ8Csip7OFj7vB2qvbBVTjSwfFHsZIzJpghkA58uIo5k+5UT
-         ydXOBAVXdSylckar8RdbK5xUWBdyWOlB/k4x4d4GyjWvcrIKl07mjkSlxEAfAPuQHTJX
-         KSxhKIK6emGgmp6izAq9OL40mPGtEEya5Z3FaR1JYdDJLdxr25LM99h2hjb1cRC/ELtD
-         +VBw==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=iYHpiIeDz4JXvc+qZotOw+vjtGH8TlWyodsDSnLmuSM=;
+        b=UyV1P9urXdCDaTa2ah/8k5Cu3ebaHCFsgWFlZ6Gpij/gU5MkeneyPQizfi8lPxjy3e
+         5wh1/ZuJ+Batuein8PtRnfrOpz11CThSYiK+XXKuVDhGh390nUCE1N41X76DqkeX1r94
+         0JkD6WnLIXUqqK9DTGdS8w7GoY8+T8vEBFJKQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pkFxve/388u84pRIsPjimZ+TTBJR12c/f2bA0ykTAeE=;
-        b=0y1DRPJrJ1wsniGPOpT32WsEbP8nilzXoqsRUSo12Bgbuvb+l0tG3IbfQCJSUvxtFF
-         /j+jzxH2tEIsFAaR6LUUXrVx0Fy+J8OcjnwrrkRtZwdC5SbFD7vZdixPIUsjgoj3k9PI
-         0MVW/FB7ko9++bQaIb2WKMQ5Sf8ErikzXdJxORXaXBEKFc43qJfTLaxYVNlGdzEGbCVc
-         MA7yj8FlmoFap1nmE191zBxVdEWd70Xm2ih/hpUcwqWSNLh1sML9nwRn8ydoctj+PORn
-         pXJOgIWZ7RirOkNxK1O+cKKvm+Y0rCA7fuw4zJtg5fsXqFMkl8vti8JePEvylStJuDHv
-         XCHg==
-X-Gm-Message-State: AO0yUKW3AOGQOL1p8yb4FPdx4+ADChcMxpkoEVSQBhmmF9KTxqFVg0WT
-	YtjsmmQtNS+lNjhxWqEOk7wk1qmkf5M=
-X-Google-Smtp-Source: AK7set8IzZ7EQduOG45o9JPX2s/dz11z5Zx85TSiF/r6mFlYfStfrHdGDTTCgE91oH3rlNZHkiAf2g==
-X-Received: by 2002:a17:90b:3714:b0:237:72e5:61bd with SMTP id mg20-20020a17090b371400b0023772e561bdmr5040221pjb.49.1677261331508;
-        Fri, 24 Feb 2023 09:55:31 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::1ac4])
-        by smtp.gmail.com with ESMTPSA id mm13-20020a17090b358d00b0023417fec520sm1835321pjb.44.2023.02.24.09.55.30
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=iYHpiIeDz4JXvc+qZotOw+vjtGH8TlWyodsDSnLmuSM=;
+        b=kbw5aEbvH93h/EpTJ884B19qNBvr9MQTPV6txlSxTfh2l3VcWmo25w/3/KqGhFUO7A
+         P+0pXuVAZlqlR1AjLafoVEzXwC0QGwLv5ZBc4n5IzkE26K2JW1iiuhgOxbyQ3lNQK0sq
+         5qhTDqO1lyYULJIlXBF9XSR3Sko2bwfBQF0qn2o0ASBMAgF0PRAU6Mjcbg7Srsoc3TuN
+         sH6yebHCkr8mabrIJIaby2NxHPw/r/Du+zTkbDDU1z6Qe4tzKUceatpO9V2xJFZ54JGK
+         7KHsvnl2wbUD+8VlNYB3KVe7c5HKfys9xsWwWxpBY8QO2OQ+j9K4Tuo93eRD0GdeJNnC
+         wdPA==
+X-Gm-Message-State: AO0yUKWuwNWyRxe6UbK34mxX0eFMdcI/Yn8SytwoNogrdkXkFeSWAO+q
+	/5rx5ShHcHX/Tt9aPvL3n6wN8A==
+X-Google-Smtp-Source: AK7set9/XIBq8aW3DeuFl4LZeFwAixznbEzWVwlQIEv+U8/Nrj8GQqJolrYfIx0l3GBygvisTJwjMg==
+X-Received: by 2002:a5d:4d06:0:b0:2c6:e85b:a5a4 with SMTP id z6-20020a5d4d06000000b002c6e85ba5a4mr16231472wrt.14.1677262002809;
+        Fri, 24 Feb 2023 10:06:42 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:639b:9979:fd5f:bbb7? ([2001:8b0:aba:5f3c:639b:9979:fd5f:bbb7])
+        by smtp.gmail.com with ESMTPSA id d18-20020a5d6452000000b002c54f4d0f71sm15092094wrw.38.2023.02.24.10.06.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Feb 2023 09:55:30 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] musl: Update to tip of trunk
-Date: Fri, 24 Feb 2023 09:55:28 -0800
-Message-Id: <20230224175528.3418258-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.39.2
+        Fri, 24 Feb 2023 10:06:42 -0800 (PST)
+Message-ID: <05acd5da34f737af11848e110d6f87b44deea3bb.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v3 0/6] scripts/resulttool/regression: add
+ metadata filtering
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: alexis.lothore@bootlin.com, openembedded-core@lists.openembedded.org
+Cc: alexandre.belloni@bootlin.com, thomas.petazzoni@bootlin.com
+Date: Fri, 24 Feb 2023 18:06:41 +0000
+In-Reply-To: <20230224164555.67634-1-alexis.lothore@bootlin.com>
+References: <20230224164555.67634-1-alexis.lothore@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 17:55:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177707
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 18:06:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177708
 
-This brings in following changes
+Hi Alexis,
 
-* 7d756e1c (upstream/master, origin/master) dns: prefer monotonic clock for timeouts
-* 07616721 fix return value of wcs{,n}cmp for extreme wchar_t values
-* 35fdfe62 math: fix undefined shift in logf
-* 7e13e5ae inet_pton: fix uninitialized memory use for IPv4-mapped IPv6 addresses
-* 7e6da7ac hsearch: fix null pointer arithmetic UB
-* f79b973d increase sendmsg internal buffer to support SCM_MAX_FD
-* 0ab97350 mq_notify: block all (application) signals in the worker thread
-* 711673ee mq_notify: join worker thread before returning in error path
-* 8c0c9c69 mq_notify: rework to fix use-after-close/double-close bugs
-* fde6891e mq_notify: use semaphore instead of barrier to sync args consumption
-* c3cd04fa fix pthread_detach inadvertently acting as cancellation point in race case
-* 115149c0 powerpc-sf longjmp clobbering of val argument
-* 5763f003 riscv64: add vfork
-* 269d1938 fix wrong sigaction syscall ABI on mips*, or1k, microblaze, riscv64
-* ea3b40a3 fix integer overflow in WIFSTOPPED macro
-* f897461d fix debugger tracking of shared libraries on mips with PIE main program
-* a4b0a665 expose memmem under baseline POSIX feature profile
-* 9532ae13 use libc-internal malloc for pthread_atfork
-* 7d358599 prevent invalid reads of nl_arg in printf_core
-* c5f4b2df elf.h: add ELFCOMPRESS_ZSTD
-* 159d1f6c semaphores: fix missed wakes from ABA bug in waiter count logic
+Firstly, this looks very much improved, thanks. It is great to start to
+see some meaningful data from this.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/musl/musl_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, 2023-02-24 at 17:45 +0100, Alexis Lothor=C3=A9 via
+lists.openembedded.org wrote:
+> From: Alexis Lothor=C3=A9 <alexis.lothore@bootlin.com>
+>=20
+> Hello,
+> this new series is the follow-up of [1] to make regression reports more
+> meaningful, by reducing noise and false positives.
+>=20
+> Change since v2:
+> - add filtering on MACHINE field from test results configuration: the MAC=
+HINE
+>   should always match
+> - add "metadata guessing" mechanism based on Richard proposal ([2]). Up t=
+o the
+>   point where this series will be merged, tests results stored in git are=
+ not
+>   enriched with OESELFTEST_METADATA. To allow proper test comparison even=
+ with
+>   those tests, try to guess what oeselftest command line has been used to=
+ run
+>   the corresponding tests, and generate OESELFTEST_METADATA accordingly
+> - add new tool to ease test results usage: yocto_testresults_query. For n=
+ow the
+>   tool only manages regression report and is a thin layer between send-qa=
+-email
+>   (in yocto-autobuilder-helper) and resulttool. Its main role is to trans=
+late
+>   regression reports arguments (which are tags or branches) to fixed revi=
+sions
+>   and to call resulttool accordingly. Most of its code is a transfer from
+>   send-qa-email (another series for the autobuilder will follow this one =
+to make
+>   send-qa-email use this new helper, but this current series works
+>   independently)
+>   Example: "yocto_testresults_query.py regression-report 4.2_M1 4.2_M2" w=
+ill
+>   replay the regression report generated when the 4.2_M2 has been generat=
+ed.
+>=20
+> Change since v1:
+> - properly configure "From" field in series
+>=20
+> With those improvements, the regression report is significantly reduced a=
+nd some
+> useful data start to emerge from the removed noise:
+> - with the MACHINE filtering, the 4.2_M2 report goes from 5.5GB to 627MB
+> - with the OESELFTEST_METADATA enrichment + metadata guessing for older t=
+ests,
+>   the report goes from 627MB to 1.5MB
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 7749495ec6..39f6dd8219 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -4,7 +4,7 @@
- require musl.inc
- inherit linuxloader
- 
--SRCREV = "f47a8cdd250d9163fcfb39bf4e9d813957c0b187"
-+SRCREV = "7d756e1c04de6eb3f2b3d3e1141a218bb329fcfb"
- 
- BASEVER = "1.2.3"
- 
--- 
-2.39.2
+That is just a bit more readable!
 
+>=20
+> After manual inspection on some entries, the remaining oeselftest regress=
+ion
+> raised in the report seems valid. There are still some issues to tackle:
+> - it seems that now one major remaining source of noise is on the "runtim=
+e"
+>   tests (comparison to tests not run on "target" results)
+> - when a ptest managed by oe-selftest fails, I guess the remaining tests =
+are not
+>   run, so when 1 failure is logged, we have many "PASSED->None" transitio=
+ns in
+>   regression report, we should probably silence it.
+> - some transitions appear as regression while those are in fact improveme=
+nts
+>   (e.g: "UNRESOLVED->PASSED")
+
+I had quick play. Firstly, if I try "yocto_testresults_query.py
+regression-report 4.2_M1 4.2_M2" in an openembedded-core repository
+instead of poky, it breaks. That isn't surprising but we should either
+make it work or show a sensible error.
+
+I also took a look the report and wondered why the matching isn't quite
+right and why we have these "regressions". If we could remove that
+noise, I think we'd get down to the real issues. I ended up doing:
+
+resulttool report --commit 4d19594b8bdacde6d809d3f2a25cff7c5a42295e  . > /t=
+mp/repa
+resulttool report --commit 5e249ec855517765f4b99e8039cb888ffa09c211  . > /t=
+mp/repb
+meld /tmp/rep*
+
+which was interesting as gave lots of warnings like:
+
+"Warning duplicate ptest result 'acl.test/cp.test' for qemuarm64"
+
+so it looks like we had a couple of different test runs for qemuarm64
+ptests which is confusing your new code. I suspect this happened due to
+some autobuilder glitch during the release build which restarted some
+of the build pieces. Not sure how to handle that yet, I'll give it some
+further thought but I wanted to share what I think is the source of
+some of the issues. Basically we need to get the regression report
+looking more like that meld output!
+
+Cheers,
+
+Richard
 
