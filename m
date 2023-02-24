@@ -1,114 +1,378 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <ejo@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1C4CC61DA4
-	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 12:29:09 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
- by mx.groups.io with SMTP id smtpd.web10.16379.1677241741424541240
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7358BC61DA3
+	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 13:32:40 +0000 (UTC)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+ by mx.groups.io with SMTP id smtpd.web11.17369.1677245558668673227
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Feb 2023 04:29:02 -0800
+ Fri, 24 Feb 2023 05:32:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=EjoKBCqV;
- spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 887BEFF808;
-	Fri, 24 Feb 2023 12:28:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1677241739;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OfcQJXjDCmScvDMfr8c7F1LdgaJKAwUyCfTGaHuf+Lk=;
-	b=EjoKBCqV8QTREakc0L+4C1yA9nDSA64LWM7kGXX4/PdUJqtxxm3VggVIqM13wPYMzmukY+
-	qfx687Tnz4ACdQYGrqjDIaWrD0+ZwuR6nrk1xOTjWD4RdglPfiBpAC+Z8WMHYIvrp8ic7p
-	H8aNtbm4jE1SLK1mJBnNsQ9i0bWt3HiP+hXSa/RMIj6Obvvy6iKnb0J5CZCNUzjhWYYid1
-	/BnzohXbj7z7E8b0wyyoj8nLn9lBDYAHS7GlpKmxXcGOAKO1SO7iR6G5zOEYnUW2hMc2iM
-	Sz9JkneUXpsQSlmcFxEpyG0/tac4gZhIId6TII0cRep8CnTio5SSclxo8e73WA==
-Date: Fri, 24 Feb 2023 13:28:57 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Zoltan Boszormenyi <zboszor@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 3/4] mesa: Rename PACKAGECONFIG "opencl" to
- "clover"
-Message-ID: <Y/itiY4MKeIn1JNd@mail.local>
-References: <20230224093850.3393567-1-zboszor@gmail.com>
- <20230224093850.3393567-3-zboszor@gmail.com>
+ dkim=missing; spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: ejo@pengutronix.de)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
+	by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1pVYBg-0004Db-0W; Fri, 24 Feb 2023 14:32:36 +0100
+Message-ID: <d917d9818ef74f21e9ff7846329ab442a56d2b88.camel@pengutronix.de>
+Subject: Re: [yocto] [OE-core] [PATCH 1/2] barebox: add initial support
+From: Enrico =?ISO-8859-1?Q?J=F6rns?= <ejo@pengutronix.de>
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>, Marco Felsch
+	 <m.felsch@pengutronix.de>
+Cc: yocto@pengutronix.de, openembedded-core@lists.openembedded.org
+Date: Fri, 24 Feb 2023 14:32:34 +0100
+In-Reply-To: <Y913nVzEY1/hEsLP@mail.local>
+References: <20230203135011.2061939-1-m.felsch@pengutronix.de>
+	 <Y913nVzEY1/hEsLP@mail.local>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1+deb11u1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230224093850.3393567-3-zboszor@gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: ejo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 12:29:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177681
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 13:32:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177682
 
-On 24/02/2023 10:38:49+0100, Zoltan Boszormenyi wrote:
-> There is another OpenCL frontend called "rusticl" now.
-> 
-> Signed-off-by: Zolt�n B�sz�rm�nyi <zboszor@gmail.com>
-> ---
->  meta/recipes-graphics/mesa/mesa.inc | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-> index 70f9b6fc17..9ec10c49ca 100644
-> --- a/meta/recipes-graphics/mesa/mesa.inc
-> +++ b/meta/recipes-graphics/mesa/mesa.inc
-> @@ -115,9 +115,9 @@ PACKAGECONFIG[gles] = "-Dgles1=enabled -Dgles2=enabled, -Dgles1=disabled -Dgles2
->  # "egl" requires "opengl"
->  PACKAGECONFIG[egl] = "-Degl=enabled, -Degl=disabled"
->  
-> -# "opencl" requires libclc from meta-clang and spirv-tools from OE-Core
-> +# "clover" requires libclc from meta-clang and spirv-tools from OE-Core
->  OPENCL_NATIVE = "${@bb.utils.contains('PACKAGECONFIG', 'freedreno', '-Dopencl-native=true', '', d)}"
-> -PACKAGECONFIG[opencl] = "-Dgallium-opencl=icd -Dopencl-spirv=true ${OPENCL_NATIVE},-Dgallium-opencl=disabled -Dopencl-spirv=false,libclc spirv-tools"
-> +PACKAGECONFIG[clover] = "-Dgallium-opencl=icd -Dopencl-spirv=true ${OPENCL_NATIVE},-Dgallium-opencl=disabled -Dopencl-spirv=false,libclc spirv-tools"
+Hi,
 
-Are we allowed to do that? It will break anyone using "opencl" in there
-PACKAGECONFIG
-
->  
->  PACKAGECONFIG[broadcom] = ""
->  PACKAGECONFIG[etnaviv] = ""
-> @@ -196,7 +196,7 @@ DEV_PKG_DEPENDENCY = ""
->  # development package of libgles3.
->  RDEPENDS:libgles3-mesa-dev += "libgles2-mesa-dev"
->  
-> -RDEPENDS:libopencl-mesa += "${@bb.utils.contains('PACKAGECONFIG', 'opencl', 'libclc spirv-tools', '', d)}"
-> +RDEPENDS:libopencl-mesa += "${@bb.utils.contains('PACKAGECONFIG', 'clover', 'libclc spirv-tools', '', d)}"
->  
->  PACKAGES =+ "libegl-mesa libegl-mesa-dev \
->               libosmesa libosmesa-dev \
-> @@ -242,7 +242,7 @@ python __anonymous() {
->                ("gles", "libgles1", "libglesv1-cm1"),
->                ("gles", "libgles2", "libglesv2-2"),
->                ("gles", "libgles3",),
-> -              ("opencl", "libopencl",)):
-> +              ("clover", "libopencl",)):
->          if not p[0] in pkgconfig:
->              continue
->          mlprefix = d.getVar("MLPREFIX")
-> -- 
-> 2.39.2
+Am Freitag, dem 03.02.2023 um 22:07 +0100 schrieb Alexandre Belloni:
+> This breaks oe-selftest:
 > 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/4760/steps/15/logs/stdio
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#177666): https://lists.openembedded.org/g/openembedded-core/message/177666
-> Mute This Topic: https://lists.openembedded.org/mt/97202945/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+thanks for having this thrown on the autobuilder!
 
+> 2023-02-03 17:55:08,025 - oe-selftest - INFO -
+> fitimage.FitImageTests.test_sign_cascaded_uboot_fit_image (subunit.RemotedTestCase)
+> 2023-02-03 17:55:08,026 - oe-selftest - INFO -  ... FAIL
+> Stderr:
+> 2023-02-03 14:32:52,619 - oe-selftest - INFO - Adding: "include selftest.inc" in
+> /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-35279/conf/local.conf
+> 2023-02-03 14:32:52,620 - oe-selftest - INFO - Adding: "include bblayers.inc" in bblayers.conf
+> 2023-02-03 17:55:08,026 - oe-selftest - INFO - 13: 4/22 399/509 (54.05s) (0 failed)
+> (fitimage.FitImageTests.test_sign_cascaded_uboot_fit_image)
+> 2023-02-03 17:55:08,026 - oe-selftest - INFO - testtools.testresult.real._StringException:
+> Traceback (most recent call last):
+>   File "/home/pokybuild/yocto-worker/oe-selftest-
+> centos/build/meta/lib/oeqa/selftest/cases/fitimage.py", line 612, in
+> test_sign_cascaded_uboot_fit_image
+>     bitbake("virtual/bootloader")
+>   File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa/utils/commands.py",
+> line 236, in bitbake
+>     return runCmd(cmd, ignore_status, timeout, output_log=output_log, **options)
+>   File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa/utils/commands.py",
+> line 214, in runCmd
+>     raise AssertionError("Command '%s' returned non-zero exit status %d:\n%s" % (command,
+> result.status, exc_output))
+> AssertionError: Command 'bitbake  virtual/bootloader' returned non-zero exit status 1:
+> 
+> ERROR: barebox-2023.01.0-r0 do_configure: No defconfig given. Either add file
+> 'file://defconfig' to SRC_URI or set BAREBOX_CONFIG
+
+This fails since BAREBOX_CONFIG is not set to any default, yet.
+This is similar to what the uboot recipes expect to be set from the MACHINE as UBOOT_MACHINE.
+
+To limit the impact of barebox to oe-core, I would set BAREBOX_CONFIG overrides for the default
+machines contained in oe-core in the barebox recipe. Then they don't have to be set in the
+machine.conf files.
+
+> ERROR: barebox-2023.01.0-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/oe-
+> selftest-centos/build/build-st-35279/tmp/work/qemuarm-poky-linux-gnueabi/barebox/2023.01.0-
+> r0/temp/run.do_configure.3098535', 1, None, None)
+> ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-
+> st-35279/tmp/work/qemuarm-poky-linux-gnueabi/barebox/2023.01.0-r0/temp/log.do_configure.3098535
+> NOTE: recipe barebox-2023.01.0-r0: task do_configure: Failed
+> ERROR: Task (/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/recipes-
+> bsp/barebox/barebox_2023.01.0.bb:do_configure) failed with exit code '1'
+> 
+> And as already reported by Richard:
+> 
+> AssertionError: 
+> The following recipes do not have a maintainer assigned to them. Please add an entry to
+> meta/conf/distro/include/maintainers.inc file.
+> barebox-tools (/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/recipes-
+> bsp/barebox/barebox-tools_2023.01.0.bb)
+> barebox (/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/recipes-
+> bsp/barebox/barebox_2023.01.0.bb)
+
+Yes. At least for now, that's the easier part and was already fixed in my local patch set by
+assigning me. ;)
+
+
+Regards, Enrico
+
+> On 03/02/2023 14:50:10+0100, Marco Felsch wrote:
+> > This adds the support for the barebox bootloader to oe-core. The recipe
+> > is based on the recipe found in meta-ptx [1] with a few minor adaptions.
+> > 
+> > This basic support includes the bootloader and the target tools to
+> > interact with the bootloader. The host tools support is not part of
+> > this commit. This will be added later on as separate recipe.
+> > 
+> > [1] https://github.com/pengutronix/meta-ptx/tree/master/recipes-bsp/barebox
+> > 
+> > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> > ---
+> >  meta/conf/documentation.conf                  |   7 +
+> >  meta/recipes-bsp/barebox/barebox.inc          | 123 ++++++++++++++++++
+> >  meta/recipes-bsp/barebox/barebox_2023.01.0.bb |   5 +
+> >  ...IMAGE_COMPRESSION-per-default-to-lz4.patch |  40 ++++++
+> >  4 files changed, 175 insertions(+)
+> >  create mode 100644 meta/recipes-bsp/barebox/barebox.inc
+> >  create mode 100644 meta/recipes-bsp/barebox/barebox_2023.01.0.bb
+> >  create mode 100644 meta/recipes-bsp/barebox/files/0001-pbl-set-IMAGE_COMPRESSION-per-default-
+> > to-lz4.patch
+> > 
+> > diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+> > index a27d7a53c3..99e8f8e730 100644
+> > --- a/meta/conf/documentation.conf
+> > +++ b/meta/conf/documentation.conf
+> > @@ -77,6 +77,13 @@ AUTOREV[doc] = "When SRCREV is set to the value of this variable, it
+> > specifies t
+> >  
+> >  B[doc] = "The Build Directory. The OpenEmbedded build system places generated objects into the
+> > Build Directory during a recipe's build process."
+> >  BAD_RECOMMENDATIONS[doc] = "A list of packages not to install despite being recommended by a
+> > recipe. Support for this variable exists only when using the IPK or RPM packaging backends."
+> > +BAREBOX_BUILDSYSTEM_VERSION[doc] = "Build system version to add to the barebox image. By
+> > default this is the git description of the containing layer."
+> > +BAREBOX_CONFIG[doc] = "The barebox kconfig defconfig file. Not used if a file called defconfig
+> > is added to the SRC_URI."
+> > +BAREBOX_ENV_DIR[doc] = "Overlay the barebox built-in environment with the environment provided
+> > by the BSP if specified."
+> > +BAREBOX_BINARY[doc] = "Specify the barebox binary to install. If not specified all barebox
+> > artifacts are installed."
+> > +BAREBOX_IMAGE[doc] = "A unique barebox image name. Unused if ${BAREBOX_BINARY} is not set."
+> > +BAREBOX_SUFFIX[doc] = "Specify the suffix for ${BAREBOX_IMAGE}."
+> > +BAREBOX_FIRMWARE_DIR[doc] = "Overwrite barebox' firmware blobs search directory
+> > (CONFIG_EXTRA_FIRMWARE_DIR) with this path, default ${B}/firmware"
+> >  BB_DANGLINGAPPENDS_WARNONLY[doc] = "Defines how BitBake handles situations where an append file
+> > (.bbappend) has no corresponding recipe file (.bb)."
+> >  BB_DISKMON_DIRS[doc] = "Monitors disk space and available inodes during the build and allows
+> > you to control the build based on these parameters."
+> >  BB_DISKMON_WARNINTERVAL[doc] = "Defines the disk space and free inode warning intervals. To set
+> > these intervals, define the variable in the conf/local.conf file in the Build Directory."
+> > diff --git a/meta/recipes-bsp/barebox/barebox.inc b/meta/recipes-bsp/barebox/barebox.inc
+> > new file mode 100644
+> > index 0000000000..896db9739f
+> > --- /dev/null
+> > +++ b/meta/recipes-bsp/barebox/barebox.inc
+> > @@ -0,0 +1,123 @@
+> > +SUMMARY = "barebox is a bootloader designed for embedded systems. It runs on a variety of
+> > architectures including x86, ARM, MIPS, PowerPC and others."
+> > +HOMEPAGE = "https://barebox.org/"
+> > +SECTION = "bootloaders"
+> > +PROVIDES = "virtual/bootloader"
+> > +
+> > +LICENSE = "GPL-2.0-only"
+> > +LIC_FILES_CHKSUM = "file://COPYING;md5=f5125d13e000b9ca1f0d3364286c4192"
+> > +
+> > +PACKAGE_ARCH = "${MACHINE_ARCH}"
+> > +
+> > +inherit kernel-arch deploy cml1 pkgconfig
+> > +
+> > +# libusb1 is only required for usb tools like imx-usb-loader. These tools may
+> > +# be enabled within the defconfig file so depend on it here to be more user
+> > +# friendly (do not abort the build). The actual tools are provided by the
+> > +# barebox-tools package.
+> > +DEPENDS = "libusb1 bison-native flex-native"
+> > +
+> > +export KBUILD_BUILD_USER ?= "oe-user"
+> > +export KBUILD_BUILD_HOST ?= "oe-host"
+> > +
+> > +SRC_URI = "https://barebox.org/download/barebox-${PV}.tar.bz2"
+> > +
+> > +S = "${WORKDIR}/barebox-${PV}"
+> > +B = "${WORKDIR}/build"
+> > +
+> > +def get_layer_rev(path):
+> > +    try:
+> > +        rev, _ = bb.process.run("git describe --match='' --always --dirty --broken", cwd=path)
+> > +    except bb.process.ExecutionError:
+> > +        rev = ""
+> > +    return rev.strip()
+> > +
+> > +BAREBOX_BUILDSYSTEM_VERSION ??= "${@get_layer_rev(os.path.dirname(d.getVar('FILE')))}"
+> > +
+> > +BAREBOX_FIRMWARE_DIR ??= "${B}/firmware"
+> > +
+> > +EXTRA_OEMAKE = " \
+> > +    CROSS_COMPILE=${TARGET_PREFIX} -C ${S} O=${B} \
+> > +    BUILDSYSTEM_VERSION=${BAREBOX_BUILDSYSTEM_VERSION} \
+> > +    CONFIG_EXTRA_FIRMWARE_DIR=${BAREBOX_FIRMWARE_DIR} \
+> > +"
+> > +
+> > +BAREBOX_CONFIG ?= ""
+> > +
+> > +do_configure() {
+> > +        if [ -e ${WORKDIR}/defconfig ]; then
+> > +                cp ${WORKDIR}/defconfig ${B}/.config
+> > +        else
+> > +                if [ -n "${BAREBOX_CONFIG}" ]; then
+> > +                        oe_runmake ${BAREBOX_CONFIG}
+> > +                else
+> > +                        bbfatal "No defconfig given. Either add file 'file://defconfig' to
+> > SRC_URI or set BAREBOX_CONFIG"
+> > +                fi
+> > +        fi
+> > +
+> > +        ${S}/scripts/kconfig/merge_config.sh -m .config ${@" ".join(find_cfgs(d))}
+> > +        cml1_do_configure
+> > +}
+> > +
+> > +BAREBOX_ENV_DIR ??= "${WORKDIR}/env/"
+> > +
+> > +do_compile () {
+> > +        export userccflags="${TARGET_LDFLAGS}${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
+> > +        unset LDFLAGS
+> > +        unset CFLAGS
+> > +        unset CPPFLAGS
+> > +        unset CXXFLAGS
+> > +        unset MACHINE
+> > +
+> > +        if [ -d ${BAREBOX_ENV_DIR} ]; then
+> > +                BAREBOX_DEFAULT_ENV="$(grep ^CONFIG_DEFAULT_ENVIRONMENT_PATH .config | cut -d
+> > '=' -f 2 | tr -d '"')"
+> > +                oe_runmake CONFIG_DEFAULT_ENVIRONMENT_PATH="\"${BAREBOX_DEFAULT_ENV}
+> > ${BAREBOX_ENV_DIR}\""
+> > +        else
+> > +                oe_runmake
+> > +        fi
+> > +}
+> > +
+> > +BAREBOX_BINARY ??= ""
+> > +BAREBOX_SUFFIX ??= "img"
+> > +BAREBOX_SUFFIX:x86 ??= "efi"
+> > +BAREBOX_SUFFIX:x86-64 ??= "efi"
+> > +BAREBOX_IMAGE ?= "${PN}-${MACHINE}-${PV}-${PR}.${BAREBOX_SUFFIX}"
+> > +
+> > +do_install () {
+> > +        if [ -n "${BAREBOX_BINARY}" ]; then
+> > +
+> > +                BAREBOX_BIN=${B}/${BAREBOX_BINARY}
+> > +                if [ ! -f "${BAREBOX_BIN}" ]; then
+> > +                        BAREBOX_BIN=${B}/images/${BAREBOX_BINARY}
+> > +                fi
+> > +                if [ ! -f "${BAREBOX_BIN}" ]; then
+> > +                        bbfatal "Failed to locate ${BAREBOX_BINARY}"
+> > +                fi
+> > +
+> > +                install -D -m 644 ${BAREBOX_BIN} ${D}/boot/${BAREBOX_IMAGE}
+> > +                ln -sf ${BAREBOX_IMAGE} ${D}/boot/${BAREBOX_BINARY}
+> > +        else
+> > +                install -d ${D}/boot/
+> > +                for image in $(cat ${B}/barebox-flash-images); do
+> > +                        install -m 644 ${B}/${image} ${D}/boot/
+> > +                done
+> > +        fi
+> > +}
+> > +FILES:${PN} = "/boot"
+> > +
+> > +do_deploy () {
+> > +        if [ -n "${BAREBOX_BINARY}" ]; then
+> > +
+> > +                BAREBOX_BIN=${B}/${BAREBOX_BINARY}
+> > +                if [ ! -f "${BAREBOX_BIN}" ]; then
+> > +                        BAREBOX_BIN=${B}/images/${BAREBOX_BINARY}
+> > +                fi
+> > +
+> > +                install -D -m 644 ${BAREBOX_BIN} ${DEPLOYDIR}/${BAREBOX_IMAGE}
+> > +                ln -sf ${BAREBOX_IMAGE} ${DEPLOYDIR}/${BAREBOX_BINARY}
+> > +        else
+> > +                for image in $(cat ${B}/barebox-flash-images); do
+> > +                        cp ${B}/${image} ${DEPLOYDIR}
+> > +                done
+> > +        fi
+> > +}
+> > +addtask deploy after do_compile
+> > diff --git a/meta/recipes-bsp/barebox/barebox_2023.01.0.bb b/meta/recipes-
+> > bsp/barebox/barebox_2023.01.0.bb
+> > new file mode 100644
+> > index 0000000000..ca0c1566cf
+> > --- /dev/null
+> > +++ b/meta/recipes-bsp/barebox/barebox_2023.01.0.bb
+> > @@ -0,0 +1,5 @@
+> > +require barebox.inc
+> > +
+> > +SRC_URI[sha256sum] = "20532daff1720fbefa0e02dba0294e6817d29c155f49b9b549db9577435fc7b6"
+> > +
+> > +SRC_URI += "file://0001-pbl-set-IMAGE_COMPRESSION-per-default-to-lz4.patch"
+> > diff --git a/meta/recipes-bsp/barebox/files/0001-pbl-set-IMAGE_COMPRESSION-per-default-to-
+> > lz4.patch b/meta/recipes-bsp/barebox/files/0001-pbl-set-IMAGE_COMPRESSION-per-default-to-
+> > lz4.patch
+> > new file mode 100644
+> > index 0000000000..f37d608cf6
+> > --- /dev/null
+> > +++ b/meta/recipes-bsp/barebox/files/0001-pbl-set-IMAGE_COMPRESSION-per-default-to-lz4.patch
+> > @@ -0,0 +1,40 @@
+> > +From d8ea183cc1894b04b12f466a8779e61f0c1ac681 Mon Sep 17 00:00:00 2001
+> > +From: Marco Felsch <m.felsch@pengutronix.de>
+> > +Date: Tue, 6 Dec 2022 12:26:14 +0100
+> > +Subject: [PATCH] pbl: set IMAGE_COMPRESSION per default to lz4
+> > +
+> > +The LZO compression hasn't been updated since 2017 and embedded build
+> > +tools like Yocto dropping the support for it [1]. So switch to LZ4 as
+> > +default since this seems to be the most comparable compression standard
+> > +according Ahmads measurements [2] and the kernel suggestion [3].
+> > +
+> > +[1] https://lore.kernel.org/all/20220524152401.1663317-9-ross.burton@arm.com/
+> > +[2] https://lore.barebox.org/barebox/20220713100922.1880282-1-a.fatoum@pengutronix.de/
+> > +[3] https://lkml.org/lkml/2020/7/1/848
+> > +
+> > +Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> > +Link: https://lore.barebox.org/20221206112614.2612071-1-m.felsch@pengutronix.de
+> > +Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> > +
+> > +Upstream-Status: Backport
+> > +[ 
+> > https://git.pengutronix.de/cgit/barebox/commit/?h=next&id=d8ea183cc1894b04b12f466a8779e61f0c1ac681
+> > ]
+> > +---
+> > + pbl/Kconfig | 2 +-
+> > + 1 file changed, 1 insertion(+), 1 deletion(-)
+> > +
+> > +diff --git a/pbl/Kconfig b/pbl/Kconfig
+> > +index ba809af2d5..91970c19bc 100644
+> > +--- a/pbl/Kconfig
+> > ++++ b/pbl/Kconfig
+> > +@@ -63,7 +63,7 @@ if IMAGE_COMPRESSION
+> > + 
+> > + choice
+> > +       prompt "Compression"
+> > +-      default IMAGE_COMPRESSION_LZO
+> > ++      default IMAGE_COMPRESSION_LZ4
+> > + 
+> > + config IMAGE_COMPRESSION_LZ4
+> > +       bool "lz4"
+> > +-- 
+> > +2.30.2
+> > +
+> > -- 
+> > 2.30.2
+> > 
+> 
+> > 
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#176716): https://lists.openembedded.org/g/openembedded-core/message/176716
+> > Mute This Topic: https://lists.openembedded.org/mt/96722579/3617179
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ 
+> > alexandre.belloni@bootlin.com]
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > 
+> 
+> 
 
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Pengutronix e.K.                           | Enrico Jörns                |
+Embedded Linux Consulting & Support        | https://www.pengutronix.de/ |
+Steuerwalder Str. 21                       | Phone: +49-5121-206917-180  |
+31137 Hildesheim, Germany                  | Fax:   +49-5121-206917-9    |
+
 
