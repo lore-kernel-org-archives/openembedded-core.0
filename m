@@ -2,59 +2,56 @@ Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1ED6C64ED8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC8E6C61DA3
 	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 09:39:08 +0000 (UTC)
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
- by mx.groups.io with SMTP id smtpd.web11.14056.1677231545037864975
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.web10.14101.1677231544432777660
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Feb 2023 01:39:05 -0800
+ Fri, 24 Feb 2023 01:39:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=B1gXiz2f;
- spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: zboszor@gmail.com)
-Received: by mail-ed1-f50.google.com with SMTP id x10so51659191edd.13
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=OBVxvbIV;
+ spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: zboszor@gmail.com)
+Received: by mail-ed1-f48.google.com with SMTP id cy6so46982171edb.5
         for <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 01:39:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Wt1Uq12uWsI/XOUCC+NvuTVeUo/37gK04N93zMSBAfM=;
-        b=B1gXiz2fy8Z4b2fCIDeBztk3moEH/+T8d9SaAquWN/cx708r6q21UOlUl0rXKz7yyk
-         N/M0npk+pGOW8vkdunMIkz2AvrpZQhTOyv1/YXitbldsdbJCDVyWLDxWT9gykfWGcSqa
-         OPym75w0zceYzRGVLDW3LspVOOAYNyLn5zSPEqHz8kGe9cBtc2i22elctw5Nf6xP/bw5
-         kg+H05PO8mKUeHuC4Y1OHeZ3LacJqs9uo8JNfKimpucE/eADZ0CUXfeuWMUBqkxbDuwZ
-         BjRiyrLQLMToFqct+Nx/OwEUEAiYTetYzhtA76bQkf1YQS+PSGNghu0HleqSoKhdPz/u
-         odIg==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8E9cz2jZeHwrGunrTfn0KrnZXBoXhDh8wYxotXYcYjA=;
+        b=OBVxvbIVSF+H82gNvcvJDM1K0vw7ccHZw/1i9JqYfpkJPVJFmBd5XIyu4AiIxpVxa+
+         2nMmJOgI3BfWC0EEJzkmmZLGkLeVpAizBBjBAfYX118p4FzuK4m3dWc5878Q7glWP9Ti
+         YI98kO05fSga0qvSn6FKDBtXEW2P7eEz4kp2LMDKb5bgJq5wdwuHlTYmlL1NUQoX5mjQ
+         /ggGeovkLpJjcVK//DYsOBLl7o6LHEHx/fT3OpclGk9yrvmVc+DSIrRzq2u+tjxgOavX
+         agFGnofe6xgVJ1qsy4GrRthvVXVpbP9Y8mFtRf0vmNutrmRT36DiI/TMQlnM08lcM73D
+         lPEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Wt1Uq12uWsI/XOUCC+NvuTVeUo/37gK04N93zMSBAfM=;
-        b=b5jJwrVBlJZ4ciYgcVFUKqr0TTktSENpyTNm9vXz4hbcfxeDpOTJVgtZNQzmAwOaTF
-         tXm5ftUJ1htsEqu3aJM7O3IWy839rl0NZmlEIvG+ntqsKLoKcLNerxkmRtRkNQFGNgky
-         XS3SdnkzLpTo3dPfjcw84hS6dBZj6zcHxjFNlbescwQzwjKZhS1FBHwGoOvUXR+jQYHN
-         cGglCLPFvBVFLWMYUUSaTf8l/K+MQmMFa//Sf8aRdUDIWrBIHCA9y4ExTSBeiZlGO4GM
-         l7w2hLmhgkSTbuO/x60IAE92D1WGK8/xug/RYpXFs9NK+5LhotQckkiRlzXIayPf0PPa
-         N54A==
-X-Gm-Message-State: AO0yUKVmv3YLifAa2fQRbkLO9sdiXj3ZUYLRWdIKBL2n46K0cGJQrbja
-	v+26Jqvf/greMw5DOTwPhG3bujir8Ag=
-X-Google-Smtp-Source: AK7set+d5RXrIpOS+0r/MHfKSoAF8PQQHDHvT5YXDVUpDzX3EoX/xLe7rDNzLGxyr9EPEqmh8IDBVg==
-X-Received: by 2002:a17:906:2d42:b0:88d:d304:3433 with SMTP id e2-20020a1709062d4200b0088dd3043433mr19587065eji.67.1677231542889;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8E9cz2jZeHwrGunrTfn0KrnZXBoXhDh8wYxotXYcYjA=;
+        b=g9ZY9R3ePWc7iBzN1+N4YvSmnZpjmUeHzVNHBpFhNu3wqabyG27of/M7/pNY1c/n0q
+         O/JePUoQfScNSOFrRLuWtf2/1f8/4NMHal8DG8HN4TrC4qN/fYoUeXao3X3pBmksKaAS
+         p8Pbe7chjRbfRHl6LneYDjPyGURyg75VzMburDFiAYS6CHefYn0MOweefjnO7szk0mzU
+         /nWs4oaGJXuEw1dH8fgARvZlznH+l7EQgRm8f+Rskbf0cou59gnYf8vXWfZgJ0eSxDhM
+         slxS8CdPYldo65Ni6S2fLBS/W0HgP/yVIyiSa2vDTzuskGeCy+Cfq3r6zGhP4lLEiXO0
+         A96g==
+X-Gm-Message-State: AO0yUKV/+GPZQjErcG43nrWmLR5QA3fIbVtsRhuyHZQfVvvGK/wEAWQP
+	+KayiMgDEx4fkBbslM/YLe72V/iY0tE=
+X-Google-Smtp-Source: AK7set9N6GlPEn75gln6Id1KMhO+6b4NnUSj3hXZJjpuB06ZCOJ7omKRRYCzu3GoF8f+s6maYkS/kw==
+X-Received: by 2002:a17:906:489:b0:879:ab3:93d1 with SMTP id f9-20020a170906048900b008790ab393d1mr23193995eja.4.1677231542334;
         Fri, 24 Feb 2023 01:39:02 -0800 (PST)
 Received: from localhost.lan (BC24452B.dsl.pool.telekom.hu. [188.36.69.43])
-        by smtp.gmail.com with ESMTPSA id n27-20020a17090673db00b008d173604d72sm6478498ejl.174.2023.02.24.01.39.02
+        by smtp.gmail.com with ESMTPSA id n27-20020a17090673db00b008d173604d72sm6478498ejl.174.2023.02.24.01.39.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 24 Feb 2023 01:39:02 -0800 (PST)
 From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-Subject: [PATCH 2/4] mesa, mesa-gl: 23.0.0
-Date: Fri, 24 Feb 2023 10:38:48 +0100
-Message-Id: <20230224093850.3393567-2-zboszor@gmail.com>
+Subject: [PATCH 1/4] bindgen-cli: Add new recipe
+Date: Fri, 24 Feb 2023 10:38:47 +0100
+Message-Id: <20230224093850.3393567-1-zboszor@gmail.com>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230224093850.3393567-1-zboszor@gmail.com>
-References: <20230224093850.3393567-1-zboszor@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -62,153 +59,166 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 09:39:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177665
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177664
+
+The recipe is automatically generated by cargo-bitbake, with the
+manual change to add BBCLASSEXTEND = "native" in the include file.
+
+It is used by Mesa 23.0.0 to build Rusticl.
 
 Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
 ---
- ...-backend-fix-gbm-compile-without-dri.patch | 65 -------------------
- ...ormat-Check-for-NEON-before-using-it.patch | 16 ++---
- .../{mesa-gl_22.3.5.bb => mesa-gl_23.0.0.bb}  |  0
- meta/recipes-graphics/mesa/mesa.inc           |  3 +-
- .../mesa/{mesa_22.3.5.bb => mesa_23.0.0.bb}   |  0
- 5 files changed, 9 insertions(+), 75 deletions(-)
- delete mode 100644 meta/recipes-graphics/mesa/files/0001-gbm-backend-fix-gbm-compile-without-dri.patch
- rename meta/recipes-graphics/mesa/{mesa-gl_22.3.5.bb => mesa-gl_23.0.0.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_22.3.5.bb => mesa_23.0.0.bb} (100%)
+ meta/recipes-devtools/bindgen/bindgen-cli.inc |   1 +
+ .../bindgen/bindgen-cli_0.64.0.bb             | 132 ++++++++++++++++++
+ 2 files changed, 133 insertions(+)
+ create mode 100644 meta/recipes-devtools/bindgen/bindgen-cli.inc
+ create mode 100644 meta/recipes-devtools/bindgen/bindgen-cli_0.64.0.bb
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-gbm-backend-fix-gbm-compile-without-dri.patch b/meta/recipes-graphics/mesa/files/0001-gbm-backend-fix-gbm-compile-without-dri.patch
-deleted file mode 100644
-index 6541671b7a..0000000000
---- a/meta/recipes-graphics/mesa/files/0001-gbm-backend-fix-gbm-compile-without-dri.patch
-+++ /dev/null
-@@ -1,65 +0,0 @@
--From 25946100e21cf2095bea334e8d7096798561d0b7 Mon Sep 17 00:00:00 2001
--From: Vincent Davis Jr <vince@underview.tech>
--Date: Wed, 28 Dec 2022 16:28:01 -0600
--Subject: [PATCH] gbm/backend: fix gbm compile without dri
--
--Upstream-Status: Backport
--
--https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/20447
--https://gitlab.freedesktop.org/mesa/mesa/-/commit/842ca284650f066e58706741a7d22d67b5088e60
--
--At mesa version 22.2.3 patch wasn't introduced until after.
--
--Commit introduces a fix that allows for gbm to be built with an empty
--backend. There are situation especially in a Yocto/OE cross compilation
--environment where you want to build with an empty backend. The particular
--situation is as such:
--
--The mesa-gl recipe is the preferred provider for virtual/libgbm, virtual/libgl,
--virtual/mesa, etc... But the x11 DISTRO_FEATURE in't included this leads to build
--errors such as:
--
--| /../../../ld: src/gbm/libgbm.so.1.0.0.p/main_backend.c.o: in function `find_backend':
--| backend.c:(.text.find_backend+0xa4): undefined reference to `gbm_dri_backend'
--| /../../../ld: src/gbm/libgbm.so.1.0.0.p/main_backend.c.o:(.data.rel.ro.builtin_backends+0x4):
--                undefined reference to `gbm_dri_backend'
--| collect2: error: ld returned 1 exit status
--
--Issue should be replicable by setting -Ddri3=disabled and -Dgbm=enabled
--
--Add fix to bypasses compilation issue by excluding gbm dri backend. If
--HAVE_DRI || HAVE_DRIX not specified.
--
--Acked-by: David Heidelberg <david.heidelberg@collabora.com>
--Signed-off-by: Vincent Davis Jr <vince@underview.tech>
-----
-- src/gbm/main/backend.c | 4 ++++
-- 1 file changed, 4 insertions(+)
--
--diff --git a/src/gbm/main/backend.c b/src/gbm/main/backend.c
--index 974d0a76a4e..feee0703495 100644
----- a/src/gbm/main/backend.c
--+++ b/src/gbm/main/backend.c
--@@ -42,7 +42,9 @@
-- #define ARRAY_SIZE(a) (sizeof(a)/sizeof((a)[0]))
-- #define VER_MIN(a, b) ((a) < (b) ? (a) : (b))
-- 
--+#if defined(HAVE_DRI) || defined(HAVE_DRI2) || defined(HAVE_DRI3)
-- extern const struct gbm_backend gbm_dri_backend;
--+#endif
-- 
-- struct gbm_backend_desc {
--    const char *name;
--@@ -51,7 +53,9 @@ struct gbm_backend_desc {
-- };
-- 
-- static const struct gbm_backend_desc builtin_backends[] = {
--+#if defined(HAVE_DRI) || defined(HAVE_DRI2) || defined(HAVE_DRI3)
--    { "dri", &gbm_dri_backend },
--+#endif
-- };
-- 
-- #define BACKEND_LIB_SUFFIX "_gbm"
---- 
--2.34.1
--
-diff --git a/meta/recipes-graphics/mesa/files/0001-util-format-Check-for-NEON-before-using-it.patch b/meta/recipes-graphics/mesa/files/0001-util-format-Check-for-NEON-before-using-it.patch
-index d22ff3c8a8..0bbd518047 100644
---- a/meta/recipes-graphics/mesa/files/0001-util-format-Check-for-NEON-before-using-it.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-util-format-Check-for-NEON-before-using-it.patch
-@@ -23,12 +23,12 @@ diff --git a/src/util/format/u_format.c b/src/util/format/u_format.c
- index c071250..0880984 100644
- --- a/src/util/format/u_format.c
- +++ b/src/util/format/u_format.c
--@@ -1184,7 +1184,7 @@ static void
-+@@ -1187,7 +1187,7 @@
-  util_format_unpack_table_init(void)
-  {
-     for (enum pipe_format format = PIPE_FORMAT_NONE; format < PIPE_FORMAT_COUNT; format++) {
---#if (defined(PIPE_ARCH_AARCH64) || defined(PIPE_ARCH_ARM)) && !defined(NO_FORMAT_ASM) && !defined(__SOFTFP__)
--+#if (defined(PIPE_ARCH_AARCH64) || (defined(__ARM_NEON) && defined(PIPE_ARCH_ARM))) && !defined(NO_FORMAT_ASM)
-+-#if (DETECT_ARCH_AARCH64 || DETECT_ARCH_ARM) && !defined(NO_FORMAT_ASM) && !defined(__SOFTFP__)
-++#if (DETECT_ARCH_AARCH64 || (DETECT_ARCH_ARM && defined(__ARM_NEON))) && !defined(NO_FORMAT_ASM) && !defined(__SOFTFP__)
-        const struct util_format_unpack_description *unpack = util_format_unpack_description_neon(format);
-        if (unpack) {
-           util_format_unpack_table[format] = unpack;
-@@ -36,12 +36,12 @@ diff --git a/src/util/format/u_format_unpack_neon.c b/src/util/format/u_format_u
- index a4a5cb1..1e4f794 100644
- --- a/src/util/format/u_format_unpack_neon.c
- +++ b/src/util/format/u_format_unpack_neon.c
--@@ -23,7 +23,7 @@
-+@@ -24,7 +24,7 @@
-+ #include "util/detect_arch.h"
-+ #include "util/format/u_format.h"
-  
-- #include <u_format.h>
-- 
---#if (defined(PIPE_ARCH_AARCH64) || defined(PIPE_ARCH_ARM)) && !defined(NO_FORMAT_ASM) && !defined(__SOFTFP__)
--+#if (defined(PIPE_ARCH_AARCH64) || (defined(__ARM_NEON) && defined(PIPE_ARCH_ARM))) && !defined(NO_FORMAT_ASM)
-+-#if (DETECT_ARCH_AARCH64 || DETECT_ARCH_ARM) && !defined(NO_FORMAT_ASM) && !defined(__SOFTFP__)
-++#if (DETECT_ARCH_AARCH64 || (DETECT_ARCH_ARM && defined(__ARM_NEON))) && !defined(NO_FORMAT_ASM) && !defined(__SOFTFP__)
-  
-  /* armhf builds default to vfp, not neon, and refuses to compile neon intrinsics
-   * unless you tell it "no really".
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_22.3.5.bb b/meta/recipes-graphics/mesa/mesa-gl_23.0.0.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_22.3.5.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_23.0.0.bb
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 0a3dc1dd62..70f9b6fc17 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -18,10 +18,9 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-meson.build-check-for-all-linux-host_os-combinations.patch \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
-            file://0001-util-format-Check-for-NEON-before-using-it.patch \
--           file://0001-gbm-backend-fix-gbm-compile-without-dri.patch \
-            "
- 
--SRC_URI[sha256sum] = "3eed2ecae2bc674494566faab9fcc9beb21cd804c7ba2b59a1694f3d7236e6a9"
-+SRC_URI[sha256sum] = "01f3cff3763f09e0adabcb8011e4aebc6ad48f6a4dd4bae904fe918707d253e4"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
- 
-diff --git a/meta/recipes-graphics/mesa/mesa_22.3.5.bb b/meta/recipes-graphics/mesa/mesa_23.0.0.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa_22.3.5.bb
-rename to meta/recipes-graphics/mesa/mesa_23.0.0.bb
+diff --git a/meta/recipes-devtools/bindgen/bindgen-cli.inc b/meta/recipes-devtools/bindgen/bindgen-cli.inc
+new file mode 100644
+index 0000000000..d3267ac413
+--- /dev/null
++++ b/meta/recipes-devtools/bindgen/bindgen-cli.inc
+@@ -0,0 +1 @@
++BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-devtools/bindgen/bindgen-cli_0.64.0.bb b/meta/recipes-devtools/bindgen/bindgen-cli_0.64.0.bb
+new file mode 100644
+index 0000000000..da3d692717
+--- /dev/null
++++ b/meta/recipes-devtools/bindgen/bindgen-cli_0.64.0.bb
+@@ -0,0 +1,132 @@
++# Auto-Generated by cargo-bitbake 0.3.16-alpha.0
++#
++inherit cargo
++
++# If this is git based prefer versioned ones if they exist
++# DEFAULT_PREFERENCE = "-1"
++
++# how to get bindgen-cli could be as easy as but default to a git checkout:
++# SRC_URI += "crate://crates.io/bindgen-cli/0.64.0"
++SRC_URI += "git://github.com/rust-lang/rust-bindgen.git;protocol=https;nobranch=1;branch=v0.64.0"
++SRCREV = "ae6817256ac557981906e93a1f866349db85053e"
++S = "${WORKDIR}/git"
++CARGO_SRC_DIR = "bindgen-cli"
++
++
++# please note if you have entries that do not begin with crate://
++# you must change them to how that package can be fetched
++SRC_URI += " \
++    crate://crates.io/aho-corasick/0.5.3 \
++    crate://crates.io/aho-corasick/0.7.20 \
++    crate://crates.io/ansi_term/0.12.1 \
++    crate://crates.io/atty/0.2.14 \
++    crate://crates.io/bitflags/1.3.2 \
++    crate://crates.io/block/0.1.6 \
++    crate://crates.io/cc/1.0.78 \
++    crate://crates.io/cexpr/0.6.0 \
++    crate://crates.io/cfg-if/1.0.0 \
++    crate://crates.io/clang-sys/1.4.0 \
++    crate://crates.io/clap/2.34.0 \
++    crate://crates.io/clap/4.1.4 \
++    crate://crates.io/clap_derive/4.1.0 \
++    crate://crates.io/clap_lex/0.3.1 \
++    crate://crates.io/diff/0.1.13 \
++    crate://crates.io/either/1.8.1 \
++    crate://crates.io/env_logger/0.3.5 \
++    crate://crates.io/env_logger/0.9.3 \
++    crate://crates.io/errno-dragonfly/0.1.2 \
++    crate://crates.io/errno/0.2.8 \
++    crate://crates.io/fastrand/1.8.0 \
++    crate://crates.io/fuchsia-cprng/0.1.1 \
++    crate://crates.io/glob/0.3.1 \
++    crate://crates.io/heck/0.4.0 \
++    crate://crates.io/hermit-abi/0.1.19 \
++    crate://crates.io/hermit-abi/0.2.6 \
++    crate://crates.io/humantime/2.1.0 \
++    crate://crates.io/instant/0.1.12 \
++    crate://crates.io/io-lifetimes/1.0.4 \
++    crate://crates.io/is-terminal/0.4.2 \
++    crate://crates.io/kernel32-sys/0.2.2 \
++    crate://crates.io/lazy_static/1.4.0 \
++    crate://crates.io/lazycell/1.3.0 \
++    crate://crates.io/libc/0.2.139 \
++    crate://crates.io/libloading/0.6.7 \
++    crate://crates.io/libloading/0.7.4 \
++    crate://crates.io/linux-raw-sys/0.1.4 \
++    crate://crates.io/log/0.3.9 \
++    crate://crates.io/log/0.4.17 \
++    crate://crates.io/malloc_buf/0.0.6 \
++    crate://crates.io/memchr/0.1.11 \
++    crate://crates.io/memchr/2.5.0 \
++    crate://crates.io/minimal-lexical/0.2.1 \
++    crate://crates.io/nom/7.1.3 \
++    crate://crates.io/objc/0.2.7 \
++    crate://crates.io/once_cell/1.17.0 \
++    crate://crates.io/os_str_bytes/6.4.1 \
++    crate://crates.io/peeking_take_while/0.1.2 \
++    crate://crates.io/proc-macro-error-attr/1.0.4 \
++    crate://crates.io/proc-macro-error/1.0.4 \
++    crate://crates.io/proc-macro2/1.0.50 \
++    crate://crates.io/quickcheck/0.4.1 \
++    crate://crates.io/quote/1.0.23 \
++    crate://crates.io/rand/0.3.23 \
++    crate://crates.io/rand/0.4.6 \
++    crate://crates.io/rand_core/0.3.1 \
++    crate://crates.io/rand_core/0.4.2 \
++    crate://crates.io/rdrand/0.4.0 \
++    crate://crates.io/redox_syscall/0.2.16 \
++    crate://crates.io/regex-syntax/0.3.9 \
++    crate://crates.io/regex-syntax/0.6.28 \
++    crate://crates.io/regex/0.1.80 \
++    crate://crates.io/regex/1.7.1 \
++    crate://crates.io/remove_dir_all/0.5.3 \
++    crate://crates.io/rustc-hash/1.1.0 \
++    crate://crates.io/rustix/0.36.7 \
++    crate://crates.io/shlex/1.1.0 \
++    crate://crates.io/strsim/0.10.0 \
++    crate://crates.io/strsim/0.8.0 \
++    crate://crates.io/syn/1.0.107 \
++    crate://crates.io/tempdir/0.3.7 \
++    crate://crates.io/tempfile/3.3.0 \
++    crate://crates.io/termcolor/1.2.0 \
++    crate://crates.io/textwrap/0.11.0 \
++    crate://crates.io/thread-id/2.0.0 \
++    crate://crates.io/thread_local/0.2.7 \
++    crate://crates.io/unicode-ident/1.0.6 \
++    crate://crates.io/unicode-width/0.1.10 \
++    crate://crates.io/utf8-ranges/0.1.3 \
++    crate://crates.io/vec_map/0.8.2 \
++    crate://crates.io/version_check/0.9.4 \
++    crate://crates.io/which/4.4.0 \
++    crate://crates.io/winapi-build/0.1.1 \
++    crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 \
++    crate://crates.io/winapi-util/0.1.5 \
++    crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 \
++    crate://crates.io/winapi/0.2.8 \
++    crate://crates.io/winapi/0.3.9 \
++    crate://crates.io/windows-sys/0.42.0 \
++    crate://crates.io/windows_aarch64_gnullvm/0.42.1 \
++    crate://crates.io/windows_aarch64_msvc/0.42.1 \
++    crate://crates.io/windows_i686_gnu/0.42.1 \
++    crate://crates.io/windows_i686_msvc/0.42.1 \
++    crate://crates.io/windows_x86_64_gnu/0.42.1 \
++    crate://crates.io/windows_x86_64_gnullvm/0.42.1 \
++    crate://crates.io/windows_x86_64_msvc/0.42.1 \
++"
++
++
++
++# FIXME: update generateme with the real MD5 of the license file
++LIC_FILES_CHKSUM = " \
++    file://bindgen-cli/LICENSE;md5=0b9a98cb3dcdefcceb145324693fda9b \
++"
++
++SUMMARY = "Automatically generates Rust FFI bindings to C and C++ libraries."
++HOMEPAGE = "https://rust-lang.github.io/rust-bindgen/"
++LICENSE = "BSD-3-Clause"
++
++# includes this file if it exists but does not fail
++# this is useful for anything you may want to override from
++# what cargo-bitbake generates.
++include bindgen-cli-${PV}.inc
++include bindgen-cli.inc
 -- 
 2.39.2
 
