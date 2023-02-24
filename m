@@ -1,259 +1,190 @@
-Return-Path: <alexis.lothore@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C805C7EE32
-	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 16:46:01 +0000 (UTC)
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
- by mx.groups.io with SMTP id smtpd.web10.22895.1677257156185575893
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC143C7EE2D
+	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 16:56:51 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web10.23280.1677257804170971696
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Feb 2023 08:45:56 -0800
+ Fri, 24 Feb 2023 08:56:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=MRRA48d5;
- spf=pass (domain: bootlin.com, ip: 217.70.178.231, mailfrom: alexis.lothore@bootlin.com)
-Received: (Authenticated sender: alexis.lothore@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 8209010000A;
-	Fri, 24 Feb 2023 16:45:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1677257154;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gyYFjNF2fWM7E86SJekuEZr9LW9SvHkTJ7vErRQ4YeE=;
-	b=MRRA48d57WsO+iJvkqCzFSsZrtPN5gXga7j4IZeHnQYZftzvjR6DN8mgvgRNEpHwGWvttH
-	MABbPvwn10K++4Hn7GQM3yDBOEAahLwWhzSdXExcmFOs19rSVLcCqEQ3HfIakwwToyTHNu
-	qf+m6lzA4uglAMC+kPbno2Nlwq5mlNjXuciPLAY7GsC9Por4CSAjT2S6w3YjpnKAtP1TnL
-	kFFQrLJeLpEQc/IN1KMkHXl8M54PBYMeH4CcTunw3Q4o/FfCZxOu14wyMhMW1eEZlN29Dw
-	23sOZy0P/VzNesuh1ydiucvW+gyaWAlUOBbH4Bg16SwbwhrY3RNwjBOnflrxSw==
-From: alexis.lothore@bootlin.com
-To: openembedded-core@lists.openembedded.org
-Cc: alexandre.belloni@bootlin.com,
-	thomas.petazzoni@bootlin.com
-Subject: [PATCH v3 3/6] scripts/resulttool/regression: add metadata filtering for oeselftest
-Date: Fri, 24 Feb 2023 17:45:52 +0100
-Message-Id: <20230224164555.67634-4-alexis.lothore@bootlin.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230224164555.67634-1-alexis.lothore@bootlin.com>
-References: <20230224164555.67634-1-alexis.lothore@bootlin.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=W9h93oee;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id j19-20020a05600c1c1300b003e9b564fae9so2645096wms.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 08:56:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=uKxBtu7gSnvlxnb7acvLCTxgu2tU1jxLLOxmyJf98fA=;
+        b=W9h93oeecsavQTjspcgrz8EVzVDVABu14dxFeBNiidHcedZWQIS+QAF4O92y63prfk
+         hH2wB/8gExq7BDbSUwVbO2io7u6PiMJ/13Uh7DFLgfvV2fHzFwIkAe5cRJF4+WxTLXRr
+         7pdcYn24QHn6f3ifWuR/9ENjqErZr7AFfNLCg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uKxBtu7gSnvlxnb7acvLCTxgu2tU1jxLLOxmyJf98fA=;
+        b=4KwXSThxM8higQONXkzU8+IgaE9BKgxZKz9wLCbZO7PVZkEOvKA5ng/p3n0v/VQO8D
+         fJYk7+JPDp0GVDYWvOObp7elQTwm2QXQIbVtAkVXeg29HLRASi1hh/O5Fk6AXa+HWcLB
+         g9nDGpMWvoP7wG3NdFp1o06mibbBP2eZY2aBP/UHHZkP1P4YQ5iCfFzxMkm9Aj9pGzrv
+         BU7FYBMyIujKS1WxJN5I4XRj442fmWBYEhSuP8YeHB6mRZHBZCRXkrSX+ur8ZQJVDZa5
+         SdViRtOFWZEcEZ86ErXd0PCzQIQwxLnnHgOWSzzH5Ep8LaS7DKTaZ3H4ISeERcvP79nK
+         iuSg==
+X-Gm-Message-State: AO0yUKVzBBbVrDrahrggI25NRCeDBHLbWVSW9TPodjzMcoBEdtTPYN3b
+	WnVod4eSU91XzoD/ivs3JGv9WA==
+X-Google-Smtp-Source: AK7set+pyyUneoMl2yNejhcbrjtlcOhigq2hXtR7JIPISuwhBG08YlEwFrTcmVUBO1AvZ8mVV+peZA==
+X-Received: by 2002:a05:600c:1652:b0:3e0:ffd4:bfb2 with SMTP id o18-20020a05600c165200b003e0ffd4bfb2mr13097587wmn.4.1677257802453;
+        Fri, 24 Feb 2023 08:56:42 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:639b:9979:fd5f:bbb7? ([2001:8b0:aba:5f3c:639b:9979:fd5f:bbb7])
+        by smtp.gmail.com with ESMTPSA id y4-20020a05600c364400b003e2066a6339sm3431220wmq.5.2023.02.24.08.56.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Feb 2023 08:56:42 -0800 (PST)
+Message-ID: <0374a6afb3641957a6e51ee69c8c29a50d54c310.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] icecc.bbclass: enable the network only when
+ ICECC_DISABLED is not set
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Jose Quaresma <quaresma.jose@gmail.com>, 
+	openembedded-core@lists.openembedded.org, Jose Quaresma
+	 <jose.quaresma@foundries.io>
+Date: Fri, 24 Feb 2023 16:56:41 +0000
+In-Reply-To: <CA+chaQchee2Yw5TooHEu6vBJXpDSNaMhrno1LN=aNY3f7cLpMQ@mail.gmail.com>
+References: <20230217095855.1932015-1-jose.quaresma@foundries.io>
+	 <bdc9e1da6cce62c017e767addc91633a724bf27d.camel@linuxfoundation.org>
+	 <CA+chaQchee2Yw5TooHEu6vBJXpDSNaMhrno1LN=aNY3f7cLpMQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 16:46:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177700
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 16:56:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177705
 
-From: Alexis Lothoré <alexis.lothore@bootlin.com>
+On Fri, 2023-02-24 at 17:38 +0100, Martin Jansa wrote:
+> On Fri, Feb 24, 2023 at 5:27 PM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Fri, 2023-02-17 at 09:58 +0000, Jose Quaresma wrote:
+> > > Enabling the network uncondictional is not need for some use
+> > > cases.
+> > >=20
+> > > Such use case is usefull to reuse the sstate-cache of the build
+> > > and it requires the icecc inherit in all of the builds.
+> > > The real control control of the icecc is in the variable
+> > > ICECC_DISABLED
+> > > so this patch change the logic to enable the network when the
+> > > icecc is in use.
+> > >=20
+> > > Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+> > > ---
+> > > =C2=A0 meta/classes/icecc.bbclass | 10 ++++++----
+> > > =C2=A0 1 file changed, 6 insertions(+), 4 deletions(-)
+> > >=20
+> > > diff --git a/meta/classes/icecc.bbclass
+> > > b/meta/classes/icecc.bbclass
+> > > index 312e0f17b5..159cae20f8 100644
+> > > --- a/meta/classes/icecc.bbclass
+> > > +++ b/meta/classes/icecc.bbclass
+> > > @@ -428,22 +428,18 @@ set_icecc_env() {
+> > > =C2=A0 =C2=A0 =C2=A0 bbnote "Using icecc tarball: $ICECC_VERSION"
+> > > =C2=A0 }
+> > > =C2=A0=20
+> > > -do_configure[network] =3D "1"
+> > > =C2=A0 do_configure:prepend() {
+> > > =C2=A0 =C2=A0 =C2=A0 set_icecc_env
+> > > =C2=A0 }
+> > > =C2=A0=20
+> > > -do_compile[network] =3D "1"
+> > > =C2=A0 do_compile:prepend() {
+> > > =C2=A0 =C2=A0 =C2=A0 set_icecc_env
+> > > =C2=A0 }
+> > > =C2=A0=20
+> > > -do_compile_kernelmodules[network] =3D "1"
+> > > =C2=A0 do_compile_kernelmodules:prepend() {
+> > > =C2=A0 =C2=A0 =C2=A0 set_icecc_env
+> > > =C2=A0 }
+> > > =C2=A0=20
+> > > -do_install[network] =3D "1"
+> > > =C2=A0 do_install:prepend() {
+> > > =C2=A0 =C2=A0 =C2=A0 set_icecc_env
+> > > =C2=A0 }
+> > > @@ -457,3 +453,9 @@ ICECC_SDK_HOST_TASK:pn-uninative-tarball =3D ""
+> > > =C2=A0=20
+> > > =C2=A0 # Add the toolchain scripts to the SDK
+> > > =C2=A0 TOOLCHAIN_HOST_TASK:append =3D " ${ICECC_SDK_HOST_TASK}"
+> > > +
+> > > +python () {
+> > > +=C2=A0 =C2=A0 if d.getVar('ICECC_DISABLED') !=3D "1":
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 for task in ['do_configure', 'do_compile=
+',
+> > > 'do_compile_kernelmodules', 'do_install']:
+> > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVarFlag=
+(task, 'network', '1')
+> > > +}
+> >=20
+> > I did want to talk a little about the overhead this has. Basically
+> > you've turned a simple flag setting into some anonymous python so
+> > the
+> > parsing overhead increases with it since there is now code parsing
+> > and
+> > execution to add in.
+> >=20
+> > For a single recipe this isn't so bad but when it is being added to
+> > every recipe it adds up.
+> >=20
+> > I'm not against the change as such, I just see a continual flood of
+> > patches adding conditions everywhere for various reasons and each
+> > one
+> > degrades parsing speed a little bit more (as well as complicates
+> > the
+> > test matrix).
+> >=20
+> > I personally don't use this class so I don't have a stake in this
+> > one
+> > but I thought it worth highlighting since I think the overhead of
+> > this
+> > was mentioned elsewhere and I think the overhead isn't widely
+> > understood.
+> >=20
+>=20
+>=20
+> As the network evaluation patch was merged in bitbake:
+> https://git.openembedded.org/bitbake/commit/?id=3D3d96c07f9fd4ba1a8482681=
+1d14bb4e98ad58846
+>=20
+> I can send my inline version:
+> https://git.openembedded.org/openembedded-core-contrib/commit/?h=3Djansa/=
+master&id=3D1b143f065ab5408f5543951a8c73fa01ce3ee0c1
+>=20
+> This works for master, for langdale and kirkstone we would need to
+> backport this bitbake commit as well as "utils: Allow to_boolean to
+> support int values", I have all 3 in my branches for kirkstone and
+> langdale and can send them as soon as there is agreement to do that
+> (e.g. top 5 changes from
+> https://git.openembedded.org/bitbake-contrib/log/?h=3Djansa/2.0)
 
-When generating regression reports, many false positive can be observed since
-some tests results are compared while the corresponding tests sets are not the
-same, as it can be seen for example for oeselftest tests (oeselftest is run
-multiple time but with different parameters, resulting in different tests sets)
+Just to explain things for the purposes of the archives, that inline
+patch, whilst quite neat looking, will perform worse than the anonymous
+python.
 
-Add a filtering mechanism in resulttool regression module to enable a better
-matching between tests. The METADATA_MATCH_TABLE defines that when the TEST_TYPE
-is "oeselftest", then resulttool should filter pairs based on
-OESELFTEST_METADATA appended to test configuration. If metadata is absent from
-test results, in order to keep compatibility with older results, add a
-"guessing" mechanism to generate the missing OESELFTEST_METADATA. The guessed
-data is tightly coupled to the autobuilder configuration, where all oe-selftest
-executions are described
+The reason is relatively simple. The anonymous python will run once,
+the inline will cause 4 different python fragments to run at best when
+the variable is expanded. Bitbake will have to expand it to compute the
+recipes basehashes. In reality, the expansion cache is often
+invalidated by datastore write operations so it can be expanded
+multiple times.
 
-Signed-off-by: Alexis Lothoré <alexis.lothore@bootlin.com>
----
- scripts/lib/resulttool/regression.py | 162 +++++++++++++++++++++++++++
- 1 file changed, 162 insertions(+)
+I'm also reluctant to backport a performance regression and change in
+behaviour back to stable branches so Jose's patch may be the better
+option.
 
-diff --git a/scripts/lib/resulttool/regression.py b/scripts/lib/resulttool/regression.py
-index d0b0c318051..1b0c8335a39 100644
---- a/scripts/lib/resulttool/regression.py
-+++ b/scripts/lib/resulttool/regression.py
-@@ -11,6 +11,164 @@ import resulttool.resultutils as resultutils
- from oeqa.utils.git import GitRepo
- import oeqa.utils.gitarchive as gitarchive
- 
-+METADATA_MATCH_TABLE = {
-+    "oeselftest": "OESELFTEST_METADATA"
-+}
-+
-+OESELFTEST_METADATA_GUESS_TABLE={
-+    "trigger-build-posttrigger": {
-+        "run_all_tests": False,
-+        "run_tests":["buildoptions.SourceMirroring.test_yocto_source_mirror"],
-+        "skips": None,
-+        "machine": None,
-+        "select_tags":None,
-+        "exclude_tags": None
-+    },
-+    "reproducible": {
-+        "run_all_tests": False,
-+        "run_tests":["reproducible"],
-+        "skips": None,
-+        "machine": None,
-+        "select_tags":None,
-+        "exclude_tags": None
-+    },
-+    "arch-qemu-quick": {
-+        "run_all_tests": True,
-+        "run_tests":None,
-+        "skips": None,
-+        "machine": None,
-+        "select_tags":["machine"],
-+        "exclude_tags": None
-+    },
-+    "arch-qemu-full-x86-or-x86_64": {
-+        "run_all_tests": True,
-+        "run_tests":None,
-+        "skips": None,
-+        "machine": None,
-+        "select_tags":["machine", "toolchain-system"],
-+        "exclude_tags": None
-+    },
-+    "arch-qemu-full-others": {
-+        "run_all_tests": True,
-+        "run_tests":None,
-+        "skips": None,
-+        "machine": None,
-+        "select_tags":["machine", "toolchain-user"],
-+        "exclude_tags": None
-+    },
-+    "selftest": {
-+        "run_all_tests": True,
-+        "run_tests":None,
-+        "skips": ["distrodata.Distrodata.test_checkpkg", "buildoptions.SourceMirroring.test_yocto_source_mirror", "reproducible"],
-+        "machine": None,
-+        "select_tags":None,
-+        "exclude_tags": ["machine", "toolchain-system", "toolchain-user"]
-+    },
-+    "bringup": {
-+        "run_all_tests": True,
-+        "run_tests":None,
-+        "skips": ["distrodata.Distrodata.test_checkpkg", "buildoptions.SourceMirroring.test_yocto_source_mirror"],
-+        "machine": None,
-+        "select_tags":None,
-+        "exclude_tags": ["machine", "toolchain-system", "toolchain-user"]
-+    }
-+}
-+
-+def test_has_at_least_one_matching_tag(test, tag_list):
-+    return "oetags" in test and any(oetag in tag_list for oetag in test["oetags"])
-+
-+def all_tests_have_at_least_one_matching_tag(results, tag_list):
-+    return all(test_has_at_least_one_matching_tag(test_result, tag_list) or test_name.startswith("ptestresult") for (test_name, test_result) in results.items())
-+
-+def any_test_have_any_matching_tag(results, tag_list):
-+    return any(test_has_at_least_one_matching_tag(test, tag_list) for test in results.values())
-+
-+def have_skipped_test(result, test_prefix):
-+    return all( result[test]['status'] == "SKIPPED" for test in result if test.startswith(test_prefix))
-+
-+def have_all_tests_skipped(result, test_prefixes_list):
-+    return all(have_skipped_test(result, test_prefix) for test_prefix in test_prefixes_list)
-+
-+def guess_oeselftest_metadata(results):
-+    """
-+    When an oeselftest test result is lacking OESELFTEST_METADATA, we can try to guess it based on results content.
-+    Check results for specific values (absence/presence of oetags, number and name of executed tests...),
-+    and if it matches one of known configuration from autobuilder configuration, apply guessed OSELFTEST_METADATA
-+    to it to allow proper test filtering.
-+    This guessing process is tightly coupled to config.json in autobuilder. It should trigger less and less,
-+    as new tests will have OESELFTEST_METADATA properly appended at test reporting time
-+    """
-+
-+    if len(results) == 1 and "buildoptions.SourceMirroring.test_yocto_source_mirror" in results:
-+        return OESELFTEST_METADATA_GUESS_TABLE['trigger-build-posttrigger']
-+    elif all(result.startswith("reproducible") for result in results):
-+        return OESELFTEST_METADATA_GUESS_TABLE['reproducible']
-+    elif all_tests_have_at_least_one_matching_tag(results, ["machine"]):
-+        return OESELFTEST_METADATA_GUESS_TABLE['arch-qemu-quick']
-+    elif all_tests_have_at_least_one_matching_tag(results, ["machine", "toolchain-system"]):
-+        return OESELFTEST_METADATA_GUESS_TABLE['arch-qemu-full-x86-or-x86_64']
-+    elif all_tests_have_at_least_one_matching_tag(results, ["machine", "toolchain-user"]):
-+        return OESELFTEST_METADATA_GUESS_TABLE['arch-qemu-full-others']
-+    elif not any_test_have_any_matching_tag(results, ["machine", "toolchain-user", "toolchain-system"]):
-+        if have_all_tests_skipped(results, ["distrodata.Distrodata.test_checkpkg", "buildoptions.SourceMirroring.test_yocto_source_mirror", "reproducible"]):
-+            return OESELFTEST_METADATA_GUESS_TABLE['selftest']
-+        elif have_all_tests_skipped(results, ["distrodata.Distrodata.test_checkpkg", "buildoptions.SourceMirroring.test_yocto_source_mirror"]):
-+            return OESELFTEST_METADATA_GUESS_TABLE['bringup']
-+
-+    return None
-+
-+
-+def metadata_matches(base_configuration, target_configuration):
-+    """
-+    For passed base and target, check test type. If test type matches one of
-+    properties described in METADATA_MATCH_TABLE, compare metadata if it is
-+    present in base. Return true if metadata matches, or if base lacks some
-+    data (either TEST_TYPE or the corresponding metadata)
-+    """
-+    test_type = base_configuration.get('TEST_TYPE')
-+    if test_type not in METADATA_MATCH_TABLE:
-+        return True
-+
-+    metadata_key = METADATA_MATCH_TABLE.get(test_type)
-+    if target_configuration.get(metadata_key) != base_configuration.get(metadata_key):
-+        return False
-+
-+    return True
-+
-+
-+def machine_matches(base_configuration, target_configuration):
-+    return base_configuration.get('MACHINE') == target_configuration.get('MACHINE')
-+
-+
-+def can_be_compared(logger, base, target):
-+    """
-+    Some tests are not relevant to be compared, for example some oeselftest
-+    run with different tests sets or parameters. Return true if tests can be
-+    compared
-+    """
-+    base_configuration = base['configuration']
-+    target_configuration = target['configuration']
-+
-+    # Older test results lack proper OESELFTEST_METADATA: if not present, try to guess it based on tests results.
-+    if base_configuration.get('TEST_TYPE') == 'oeselftest' and 'OESELFTEST_METADATA' not in base_configuration:
-+        guess = guess_oeselftest_metadata(base['result'])
-+        if guess is None:
-+            logger.error(f"ERROR: did not manage to guess oeselftest metadata for {base_configuration['STARTTIME']}")
-+        else:
-+            logger.debug(f"Enriching {base_configuration['STARTTIME']} with {guess}")
-+            base_configuration['OESELFTEST_METADATA'] = guess
-+    if target_configuration.get('TEST_TYPE') == 'oeselftest' and 'OESELFTEST_METADATA' not in target_configuration:
-+        guess = guess_oeselftest_metadata(target['result'])
-+        if guess is None:
-+            logger.error(f"ERROR: did not manage to guess oeselftest metadata for {target_configuration['STARTTIME']}")
-+        else:
-+            logger.debug(f"Enriching {target_configuration['STARTTIME']} with {guess}")
-+            target_configuration['OESELFTEST_METADATA'] = guess
-+
-+    return metadata_matches(base_configuration, target_configuration) \
-+        and machine_matches(base_configuration, target_configuration)
-+
-+
- def compare_result(logger, base_name, target_name, base_result, target_result):
-     base_result = base_result.get('result')
-     target_result = target_result.get('result')
-@@ -61,6 +219,8 @@ def regression_common(args, logger, base_results, target_results):
-             # removing any pairs which match
-             for c in base.copy():
-                 for b in target.copy():
-+                    if not can_be_compared(logger, base_results[a][c], target_results[a][b]):
-+                        continue
-                     res, resstr = compare_result(logger, c, b, base_results[a][c], target_results[a][b])
-                     if not res:
-                         matches.append(resstr)
-@@ -70,6 +230,8 @@ def regression_common(args, logger, base_results, target_results):
-             # Should only now see regressions, we may not be able to match multiple pairs directly
-             for c in base:
-                 for b in target:
-+                    if not can_be_compared(logger, base_results[a][c], target_results[a][b]):
-+                        continue
-                     res, resstr = compare_result(logger, c, b, base_results[a][c], target_results[a][b])
-                     if res:
-                         regressions.append(resstr)
--- 
-2.39.1
+Cheers,
+
+Richard
 
 
