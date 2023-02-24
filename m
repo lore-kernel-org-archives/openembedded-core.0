@@ -2,37 +2,37 @@ Return-Path: <alexis.lothore@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89031C7EE30
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9578AC7EE31
 	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 16:46:01 +0000 (UTC)
 Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
- by mx.groups.io with SMTP id smtpd.web10.22898.1677257157158790165
+ by mx.groups.io with SMTP id smtpd.web11.22869.1677257155218692058
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Feb 2023 08:45:57 -0800
+ Fri, 24 Feb 2023 08:45:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=k7GDG95+;
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Cb1iBAyB;
  spf=pass (domain: bootlin.com, ip: 217.70.178.231, mailfrom: alexis.lothore@bootlin.com)
 Received: (Authenticated sender: alexis.lothore@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 7223410000E;
-	Fri, 24 Feb 2023 16:45:55 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 99832100003;
+	Fri, 24 Feb 2023 16:45:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1677257155;
+	t=1677257153;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TezxmH1GgEU1xPlN5nCiDf3Flcs8r8bBSfLbH/KfJsg=;
-	b=k7GDG95+9cuSJDlTS+QyuReM3YYMvSgfVaewBojoBRnWOHQ9muzIdHxUbDuAns4RhPK4IW
-	evaggdtbMVRA3/d/SBzHovOZ7q9eBTHHWZoLTU3qzIJEDfFVgGsnxca6gKFBuynr7u81EJ
-	sogTy7zb2Ta/1iTCf8VBNBczbAj3cVEWYF5kHP2LJ6hNAz5E0C9BoJQnA4ZXHOA166wGpH
-	xaXckB00bHG31ZYlIesAA1XQV4szfWRKPwdFKvhnWzWZ8T42umxXSrn0AfoCB2XWATLgnd
-	IGqZdzf0WMXVjV4dAqhtzw4TQAAh1+/Ul9BAjSAoJoOfsne2h9aEyNfHer6fSw==
+	bh=Wny86nfBwibXwGz6ynB3IsyCgb9YKCAKsUpGs7je1uM=;
+	b=Cb1iBAyBWPMC1Skz+jhHUnFyNmZftFG8g9ZNKnvlVZjv/d+ceQBJ7AJXXLlLgHxqMfmg/T
+	TMqaArvOJ4OzljOSwRxiO9pdK6sNkTset2Gy25GthyuOoyerGOB5haQDBzvfaTktcF/t6T
+	y05/chKGe7hDTyUAfVwcUuiFOGYshjzNEfboAWCe+F1KRWrsoy6M5jGz03AdVw38Hddl0a
+	nqFGb3Z2Z2vzDyE0DQkz6N6MQCDYx7qUS95OByymLeNf4e6JMCA7QRd65OXtlLWWirmLcC
+	VgY593npvonaxdhrg5uYLR1P+K7QzMqL0Zb90w0/I7BH7U+8ZB2b7HF/gviG3w==
 From: alexis.lothore@bootlin.com
 To: openembedded-core@lists.openembedded.org
 Cc: alexandre.belloni@bootlin.com,
 	thomas.petazzoni@bootlin.com
-Subject: [PATCH v3 5/6] scripts: add new helper for regression report generation
-Date: Fri, 24 Feb 2023 17:45:54 +0100
-Message-Id: <20230224164555.67634-6-alexis.lothore@bootlin.com>
+Subject: [PATCH v3 1/6] scripts/oe-selftest: append metadata to tests results
+Date: Fri, 24 Feb 2023 17:45:50 +0100
+Message-Id: <20230224164555.67634-2-alexis.lothore@bootlin.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230224164555.67634-1-alexis.lothore@bootlin.com>
 References: <20230224164555.67634-1-alexis.lothore@bootlin.com>
@@ -43,133 +43,61 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 16:46:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177703
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177699
 
 From: Alexis Lothoré <alexis.lothore@bootlin.com>
 
-Add yocto-testresults-query script. This is a thin wrapper over resulttool which
-is able to translate tags or branch name to specific revisions, and then to work
-with those "guessed" revisions with resulttool
+Many stored results TEST_TYPE are set to "oeselftest", however all those
+tests are not run with the same sets of parameters, so those tests results may
+not be comparable.
+
+Attach relevant parameters as tests metadata to allow identifying tests
+configuration so we can compare tests only when they are run with the same
+parameters.
 
 Signed-off-by: Alexis Lothoré <alexis.lothore@bootlin.com>
 ---
- scripts/yocto_testresults_query.py | 106 +++++++++++++++++++++++++++++
- 1 file changed, 106 insertions(+)
- create mode 100755 scripts/yocto_testresults_query.py
+ meta/lib/oeqa/selftest/context.py | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/yocto_testresults_query.py b/scripts/yocto_testresults_query.py
-new file mode 100755
-index 00000000000..fee3855c6d8
---- /dev/null
-+++ b/scripts/yocto_testresults_query.py
-@@ -0,0 +1,106 @@
-+#!/usr/bin/env python3
+diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
+index c7dd03ce378..8cc46283ed0 100644
+--- a/meta/lib/oeqa/selftest/context.py
++++ b/meta/lib/oeqa/selftest/context.py
+@@ -22,6 +22,17 @@ from oeqa.core.exception import OEQAPreRun, OEQATestNotFound
+ 
+ from oeqa.utils.commands import runCmd, get_bb_vars, get_test_layer
+ 
++OESELFTEST_METADATA=["run_all_tests", "run_tests", "skips", "machine", "select_tags", "exclude_tags"]
 +
-+# Yocto Project test results management tool
-+# This script is an thin layer over resulttool to manage tes results and regression reports.
-+# Its main feature is to translate tags or branch names to revisions SHA1, and then to run resulttool
-+# with those computed revisions
-+#
-+# Copyright (C) 2023 OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
++def get_oeselftest_metadata(args):
++    result = {}
++    raw_args = vars(args)
++    for metadata in OESELFTEST_METADATA:
++        if metadata in raw_args:
++            result[metadata] = raw_args[metadata]
 +
-+import sys
-+import os
-+import argparse
-+import subprocess
-+import tempfile
-+import lib.scriptutils as scriptutils
++    return result
 +
-+script_path = os.path.dirname(os.path.realpath(__file__))
-+poky_path = os.path.abspath(os.path.join(script_path, ".."))
-+resulttool = os.path.abspath(os.path.join(script_path, "resulttool"))
-+logger = scriptutils.logger_create(sys.argv[0])
-+testresults_default_url="git://git.yoctoproject.org/yocto-testresults"
-+
-+def create_workdir():
-+    workdir = tempfile.mkdtemp(prefix='yocto-testresults-query.')
-+    logger.info(f"Shallow-cloning testresults in {workdir}")
-+    subprocess.check_call(["git", "clone", testresults_default_url, workdir, "--depth", "1"])
-+    return workdir
-+
-+def get_sha1(pokydir, revision):
-+    rev = subprocess.check_output(["git", "rev-list", "-n", "1", revision], cwd=pokydir).decode('utf-8').strip()
-+    logger.info(f"SHA-1 revision for {revision} in {pokydir} is {rev}")
-+    return rev
-+
-+def fetch_testresults(workdir, sha1):
-+    logger.info(f"Fetching test results for {sha1} in {workdir}")
-+    rawtags = subprocess.check_output(["git", "ls-remote", "--refs", "--tags", "origin", f"*{sha1}*"], cwd=workdir).decode('utf-8').strip()
-+    if not rawtags:
-+        raise Exception(f"No reference found for commit {sha1} in {workdir}")
-+    for rev in [rawtag.split()[1] for rawtag in rawtags.splitlines()]:
-+        logger.info(f"Fetching matching revisions: {rev}")
-+        subprocess.check_call(["git", "fetch", "--depth", "1", "origin", f"{rev}:{rev}"], cwd=workdir)
-+
-+def compute_regression_report(workdir, baserevision, targetrevision):
-+    logger.info(f"Running resulttool regression between SHA1 {baserevision} and {targetrevision}")
-+    report = subprocess.check_output([resulttool, "regression-git", "--commit", baserevision, "--commit2", targetrevision, workdir]).decode("utf-8")
-+    return report
-+
-+def print_report_with_header(report, baseversion, baserevision, targetversion, targetrevision):
-+    print("========================== Regression report ==============================")
-+    print(f'{"=> Target:": <16}{targetversion: <16}({targetrevision})')
-+    print(f'{"=> Base:": <16}{baseversion: <16}({baserevision})')
-+    print("===========================================================================\n")
-+    print(report, end='')
-+
-+def regression(args):
-+    logger.info(f"Compute regression report between {args.base} and {args.target}")
-+    if args.testresultsdir:
-+        workdir = args.testresultsdir
-+    else:
-+        workdir = create_workdir()
-+
-+    try:
-+        baserevision = get_sha1(poky_path, args.base)
-+        targetrevision = get_sha1(poky_path, args.target)
-+        fetch_testresults(workdir, baserevision)
-+        fetch_testresults(workdir, targetrevision)
-+        report = compute_regression_report(workdir, baserevision, targetrevision)
-+        print_report_with_header(report, args.base, baserevision, args.target, targetrevision)
-+    finally:
-+        if not args.testresultsdir:
-+            subprocess.check_call(["rm", "-rf",  workdir])
-+
-+def main():
-+    parser = argparse.ArgumentParser(description="Yocto Project test results helper")
-+    subparsers = parser.add_subparsers(
-+        help="Supported commands for test results helper",
-+        required=True)
-+    parser_regression_report = subparsers.add_parser(
-+        "regression-report",
-+        help="Generate regression report between two fixed revisions. Revisions can be branch name or tag")
-+    parser_regression_report.add_argument(
-+        'base',
-+        help="Revision or tag against which to compare results (i.e: the older)")
-+    parser_regression_report.add_argument(
-+        'target',
-+        help="Revision or tag to compare against the base (i.e: the newer)")
-+    parser_regression_report.add_argument(
-+        '-t',
-+        '--testresultsdir',
-+        help=f"An existing test results directory. {sys.argv[0]} will automatically clone it and use default branch if not provided")
-+    parser_regression_report.set_defaults(func=regression)
-+
-+    args = parser.parse_args()
-+    args.func(args)
-+
-+if __name__ == '__main__':
-+    try:
-+        ret =  main()
-+    except Exception:
-+        ret = 1
-+        import traceback
-+        traceback.print_exc()
-+    sys.exit(ret)
-\ No newline at end of file
+ class NonConcurrentTestSuite(unittest.TestSuite):
+     def __init__(self, suite, processes, setupfunc, removefunc):
+         super().__init__([suite])
+@@ -334,12 +345,14 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
+         import platform
+         from oeqa.utils.metadata import metadata_from_bb
+         metadata = metadata_from_bb()
++        oeselftest_metadata = get_oeselftest_metadata(args)
+         configuration = {'TEST_TYPE': 'oeselftest',
+                         'STARTTIME': args.test_start_time,
+                         'MACHINE': self.tc.td["MACHINE"],
+                         'HOST_DISTRO': oe.lsb.distro_identifier().replace(' ', '-'),
+                         'HOST_NAME': metadata['hostname'],
+-                        'LAYERS': metadata['layers']}
++                        'LAYERS': metadata['layers'],
++                        'OESELFTEST_METADATA':oeselftest_metadata}
+         return configuration
+ 
+     def get_result_id(self, configuration):
 -- 
 2.39.1
 
