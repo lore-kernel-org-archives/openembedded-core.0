@@ -1,125 +1,108 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEAC8C7EE23
-	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 17:26:51 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web11.24242.1677259603665818115
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27560C6FA8E
+	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 17:55:42 +0000 (UTC)
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.web11.25099.1677261332636305373
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Feb 2023 09:26:44 -0800
+ Fri, 24 Feb 2023 09:55:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ko/xadzp;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id l7-20020a05600c4f0700b003e79fa98ce1so2185684wmq.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 09:26:43 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=AJA5sCAf;
+ spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f53.google.com with SMTP id cp7-20020a17090afb8700b0023756229427so3667972pjb.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 09:55:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TugR9fZTjA5q0qra/gSUTeNQSoK9Nef07ayuSiwqj4o=;
-        b=Ko/xadzp7BKHpfPdk6iUQQFmZ6oTWAa19rN3C3CPNtADpH3/jbJa77U9PP67LwoCvV
-         KaJw9QCnjgLs+9PLfpAZcTR1Xa9KMIxBlRG2/DSnGmt57vaJqyjD0zLe/RpRT0O/CUyA
-         Lbfqj80JXgkQsi1/U2QuZ/IuuQD6fU4djoYuU=
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pkFxve/388u84pRIsPjimZ+TTBJR12c/f2bA0ykTAeE=;
+        b=AJA5sCAfl2VsMA1aZG35opYEzAZf+pnRlXE1eF36sf30StXSYLTCjAY+vGC+G2U39K
+         ddLrflRh8dE+x3TQQktoMMDSVJpech8RgF49GcksVEo0WJyKdtQ5JQkg7MCNRAqv95or
+         dQ5GHpgx8hiSlc+smr6qOJ8Csip7OFj7vB2qvbBVTjSwfFHsZIzJpghkA58uIo5k+5UT
+         ydXOBAVXdSylckar8RdbK5xUWBdyWOlB/k4x4d4GyjWvcrIKl07mjkSlxEAfAPuQHTJX
+         KSxhKIK6emGgmp6izAq9OL40mPGtEEya5Z3FaR1JYdDJLdxr25LM99h2hjb1cRC/ELtD
+         +VBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=TugR9fZTjA5q0qra/gSUTeNQSoK9Nef07ayuSiwqj4o=;
-        b=UcOIHvCi7xYQFqdM4brvcvMuu/Nw34HVKbvs5qJAK/IgyFqK3i3ORaojtxKQ+Be0oF
-         6Rcmwb8W+8c0IO1kxJ4QBY04URTS3YlJ8TIj3P92yeJHpgLaTFR6je/ZJcjIggl0w4Cc
-         SkY2Mya405nZY/IRnnG+csVRDR2Kad2Z//cMwjUtjVvTwCQvW9pJp0thOXo95I/YvHij
-         z0jf0dzeI1IiGhgDnkm2F+gClpr2aEBCS/TsPSQfpR/wnNjm1vPX5TffikWj4fmKEwE1
-         4pLc9RcOr53m/eCiFBTG8W971jEcWtdCk6TuBjbuKYRMapk36zKmuHHhQNGuBifRARSU
-         In9g==
-X-Gm-Message-State: AO0yUKXIUQSFyUcQDissIgWtldvnKpdle5CznGUrJSm7N3JMv8CrP6hs
-	TKryTHpSrtnD1oomuJGiFUMOGQ==
-X-Google-Smtp-Source: AK7set9ISvTsI/PPiB7TUn/+hVSOeS+wOgDDGEsOiHEsIMzb8Zq0i46teWafozFkmfTeiir9j43RBQ==
-X-Received: by 2002:a05:600c:492f:b0:3e2:6ec:7fbe with SMTP id f47-20020a05600c492f00b003e206ec7fbemr12129399wmp.40.1677259601844;
-        Fri, 24 Feb 2023 09:26:41 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:639b:9979:fd5f:bbb7? ([2001:8b0:aba:5f3c:639b:9979:fd5f:bbb7])
-        by smtp.gmail.com with ESMTPSA id m4-20020a05600c4f4400b003e209b45f6bsm3852249wmq.29.2023.02.24.09.26.41
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pkFxve/388u84pRIsPjimZ+TTBJR12c/f2bA0ykTAeE=;
+        b=0y1DRPJrJ1wsniGPOpT32WsEbP8nilzXoqsRUSo12Bgbuvb+l0tG3IbfQCJSUvxtFF
+         /j+jzxH2tEIsFAaR6LUUXrVx0Fy+J8OcjnwrrkRtZwdC5SbFD7vZdixPIUsjgoj3k9PI
+         0MVW/FB7ko9++bQaIb2WKMQ5Sf8ErikzXdJxORXaXBEKFc43qJfTLaxYVNlGdzEGbCVc
+         MA7yj8FlmoFap1nmE191zBxVdEWd70Xm2ih/hpUcwqWSNLh1sML9nwRn8ydoctj+PORn
+         pXJOgIWZ7RirOkNxK1O+cKKvm+Y0rCA7fuw4zJtg5fsXqFMkl8vti8JePEvylStJuDHv
+         XCHg==
+X-Gm-Message-State: AO0yUKW3AOGQOL1p8yb4FPdx4+ADChcMxpkoEVSQBhmmF9KTxqFVg0WT
+	YtjsmmQtNS+lNjhxWqEOk7wk1qmkf5M=
+X-Google-Smtp-Source: AK7set8IzZ7EQduOG45o9JPX2s/dz11z5Zx85TSiF/r6mFlYfStfrHdGDTTCgE91oH3rlNZHkiAf2g==
+X-Received: by 2002:a17:90b:3714:b0:237:72e5:61bd with SMTP id mg20-20020a17090b371400b0023772e561bdmr5040221pjb.49.1677261331508;
+        Fri, 24 Feb 2023 09:55:31 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9181:1cf0::1ac4])
+        by smtp.gmail.com with ESMTPSA id mm13-20020a17090b358d00b0023417fec520sm1835321pjb.44.2023.02.24.09.55.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Feb 2023 09:26:41 -0800 (PST)
-Message-ID: <7223e8f9003baf91223e5ed7555d491066f0ba3a.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 03/11] build-appliance-image: add support for
- qemu
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Trevor Woerner <twoerner@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 24 Feb 2023 17:26:40 +0000
-In-Reply-To: <1746CE49489610B4.29542@lists.openembedded.org>
-References: <20230221204445.23931-1-twoerner@gmail.com>
-	 <20230221204445.23931-4-twoerner@gmail.com>
-	 <1746CE49489610B4.29542@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.1-0ubuntu1 
+        Fri, 24 Feb 2023 09:55:30 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] musl: Update to tip of trunk
+Date: Fri, 24 Feb 2023 09:55:28 -0800
+Message-Id: <20230224175528.3418258-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 17:26:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177706
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 17:55:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177707
 
-On Fri, 2023-02-24 at 16:05 +0000, Richard Purdie via
-lists.openembedded.org wrote:
-> On Tue, 2023-02-21 at 15:44 -0500, Trevor Woerner wrote:
-> > Add ext4 explicitly to the list of IMAGE_FSTYPES so the build appliance=
- can be
-> > run with runqemu.
-> >=20
-> > Signed-off-by: Trevor Woerner <twoerner@gmail.com>
-> > ---
-> >  meta/recipes-core/images/build-appliance-image_15.0.0.bb | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.bb b=
-/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-> > index 064e7a1ed82f..e28096758b9b 100644
-> > --- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-> > +++ b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-> > @@ -1,5 +1,5 @@
-> >  SUMMARY =3D "An image containing the build system itself"
-> > -DESCRIPTION =3D "An image containing the build system that you can boo=
-t and run using either VirtualBox, VMware Player or VMware Workstation."
-> > +DESCRIPTION =3D "An image containing the build system that you can boo=
-t and run using any of qemu, VirtualBox, VMware Player or VMware Workstatio=
-n."
-> >  HOMEPAGE =3D "http://www.yoctoproject.org/documentation/build-applianc=
-e"
-> > =20
-> >  LICENSE =3D "MIT"
-> > @@ -20,7 +20,7 @@ IMAGE_ROOTFS_EXTRA_SPACE =3D "41943040"
-> >  APPEND +=3D "rootfstype=3Dext4 quiet"
-> > =20
-> >  DEPENDS =3D "zip-native python3-pip-native"
-> > -IMAGE_FSTYPES =3D "wic.vmdk wic.vhd wic.vhdx"
-> > +IMAGE_FSTYPES =3D "ext4 wic.vmdk wic.vhd wic.vhdx"
-> > =20
-> >  inherit core-image setuptools3
-> > =20
->=20
-> I've held off this one since whilst it isn't wrong as such, the ext
-> images aren't exactly optimal. I think our hope was that we could use
-> the vmdk or vhdx images with qemu instead and then directly test the
-> ones we publicly share. Do you know if that could work? It may then
-> mean people don't need to handle multiple files too?
+This brings in following changes
 
-I quickly tried:
+* 7d756e1c (upstream/master, origin/master) dns: prefer monotonic clock for timeouts
+* 07616721 fix return value of wcs{,n}cmp for extreme wchar_t values
+* 35fdfe62 math: fix undefined shift in logf
+* 7e13e5ae inet_pton: fix uninitialized memory use for IPv4-mapped IPv6 addresses
+* 7e6da7ac hsearch: fix null pointer arithmetic UB
+* f79b973d increase sendmsg internal buffer to support SCM_MAX_FD
+* 0ab97350 mq_notify: block all (application) signals in the worker thread
+* 711673ee mq_notify: join worker thread before returning in error path
+* 8c0c9c69 mq_notify: rework to fix use-after-close/double-close bugs
+* fde6891e mq_notify: use semaphore instead of barrier to sync args consumption
+* c3cd04fa fix pthread_detach inadvertently acting as cancellation point in race case
+* 115149c0 powerpc-sf longjmp clobbering of val argument
+* 5763f003 riscv64: add vfork
+* 269d1938 fix wrong sigaction syscall ABI on mips*, or1k, microblaze, riscv64
+* ea3b40a3 fix integer overflow in WIFSTOPPED macro
+* f897461d fix debugger tracking of shared libraries on mips with PIE main program
+* a4b0a665 expose memmem under baseline POSIX feature profile
+* 9532ae13 use libc-internal malloc for pthread_atfork
+* 7d358599 prevent invalid reads of nl_arg in printf_core
+* c5f4b2df elf.h: add ELFCOMPRESS_ZSTD
+* 159d1f6c semaphores: fix missed wakes from ABA bug in waiter count logic
 
-qemu-system-x86_64 tmp/deploy/images/qemux86-64/build-appliance-image-qemux=
-86-64.wic.vmdk -enable-kvm
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/musl/musl_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-and it nearly works (splash screen displayed but then went blank) so I
-suspect runqemu could likely learn to run these relatively easily.
-
-Cheers,
-
-Richard
-
-
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 7749495ec6..39f6dd8219 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -4,7 +4,7 @@
+ require musl.inc
+ inherit linuxloader
+ 
+-SRCREV = "f47a8cdd250d9163fcfb39bf4e9d813957c0b187"
++SRCREV = "7d756e1c04de6eb3f2b3d3e1141a218bb329fcfb"
+ 
+ BASEVER = "1.2.3"
+ 
+-- 
+2.39.2
 
 
