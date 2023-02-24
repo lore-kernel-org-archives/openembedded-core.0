@@ -1,78 +1,114 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E127C61DA3
-	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 11:12:59 +0000 (UTC)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
- by mx.groups.io with SMTP id smtpd.web10.15231.1677237170540078305
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1C4CC61DA4
+	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 12:29:09 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web10.16379.1677241741424541240
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Feb 2023 03:12:50 -0800
+ Fri, 24 Feb 2023 04:29:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Xpmex71D;
- spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f171.google.com with SMTP id y14so6675860ljq.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 03:12:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677237168;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=WLsmmmuff0rHX8/q1fDrK7/iCQa3rGWihDvPP6WLX9g=;
-        b=Xpmex71DYL0WxHjXJdnidCYSe/xRPYBxFMWjp9G4C1Yexlw2QIighq5HblyT8AC/Tl
-         NTGfP2EO/QB7rkRBZbwd6cXlBdoizopO5s4/GRvKO2WFLzz3275iEdBaR0Gm+jdt38yF
-         UCPEQDFMwH4H0P0emTc/OFzPTeJpsXhvPcEtpg7Xzde3mtHLQxHAYRi+GHP/zdrxJk0i
-         KE6EL3DHTeHQCdA0vuIT5e35loEAr45DTaFAd2ZcDiGAh+Xe9iNkIlpraGW04dHuC2jp
-         X4V+tno7v0gOYWIh0wXGQbBS1k/DjlEZstCGn4UBH4kv/tYlq0fDxgHZDzgaRpFmfuns
-         WX0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677237168;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WLsmmmuff0rHX8/q1fDrK7/iCQa3rGWihDvPP6WLX9g=;
-        b=PJEbL1qxsV/3+1ehKkiSmkQGL8bSgPSYPPY6sLaHHMopfxQ5WjbPYu0EnHI7pJa6gL
-         4XviaMdgYN0UbGgsVCVMe+c4eDj2ubv1ZV9c3eLJVhREEaPIExBUI4+28IuZn/K8eWif
-         J6xuTrlJ/Fg/U0frGH+eWq+DTbBLun3Smk3me/x34C+w0wp0tlvle1mXtVcI1wpeRwNC
-         VO5E1zZajBt19xG8WjnHHLYWX9q5p7GQYPY5YQpBltiUrn/B6IQCh60rWewzXstXIHqN
-         /5PwjmI5Hc+kuNZopXvi3WZj3KIWgxPzQIqqBXoP7ZsY8ReLl3HulzfMRUs8KfFNWFRL
-         3dXg==
-X-Gm-Message-State: AO0yUKVMq95asrZRtQSTiUmCGcG1e0haCPUO4RdW3zTzFZdXUTBnEZyS
-	eMGDypswswfcHwFRC4oa9WBLRhK+N8SdJO1Jrow=
-X-Google-Smtp-Source: AK7set8nze37cy+Y0JE1mIg5aBGSI64oQ2OJpJJM+8ihxG+fxAAVtWCxVZ5+wAw9jOrTM0OwWmR5H/8tg135KWx1CW8=
-X-Received: by 2002:a2e:8e32:0:b0:293:5f43:c7b0 with SMTP id
- r18-20020a2e8e32000000b002935f43c7b0mr4772592ljk.5.1677237168192; Fri, 24 Feb
- 2023 03:12:48 -0800 (PST)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=EjoKBCqV;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 887BEFF808;
+	Fri, 24 Feb 2023 12:28:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1677241739;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OfcQJXjDCmScvDMfr8c7F1LdgaJKAwUyCfTGaHuf+Lk=;
+	b=EjoKBCqV8QTREakc0L+4C1yA9nDSA64LWM7kGXX4/PdUJqtxxm3VggVIqM13wPYMzmukY+
+	qfx687Tnz4ACdQYGrqjDIaWrD0+ZwuR6nrk1xOTjWD4RdglPfiBpAC+Z8WMHYIvrp8ic7p
+	H8aNtbm4jE1SLK1mJBnNsQ9i0bWt3HiP+hXSa/RMIj6Obvvy6iKnb0J5CZCNUzjhWYYid1
+	/BnzohXbj7z7E8b0wyyoj8nLn9lBDYAHS7GlpKmxXcGOAKO1SO7iR6G5zOEYnUW2hMc2iM
+	Sz9JkneUXpsQSlmcFxEpyG0/tac4gZhIId6TII0cRep8CnTio5SSclxo8e73WA==
+Date: Fri, 24 Feb 2023 13:28:57 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Zoltan Boszormenyi <zboszor@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 3/4] mesa: Rename PACKAGECONFIG "opencl" to
+ "clover"
+Message-ID: <Y/itiY4MKeIn1JNd@mail.local>
+References: <20230224093850.3393567-1-zboszor@gmail.com>
+ <20230224093850.3393567-3-zboszor@gmail.com>
 MIME-Version: 1.0
-References: <20230224093850.3393567-1-zboszor@gmail.com> <20230224093850.3393567-4-zboszor@gmail.com>
- <3EE6D20C-8A7C-4772-BF56-E1CD25B12B6B@arm.com> <1746BAA6D62E4C0A.18951@lists.openembedded.org>
- <0dd9eb47-521e-7840-9196-f485f080b44c@gmail.com> <1746BD3631A1C7C1.29542@lists.openembedded.org>
-In-Reply-To: <1746BD3631A1C7C1.29542@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 24 Feb 2023 12:12:36 +0100
-Message-ID: <CANNYZj-TwJHY4b6Ap8jaX3vw51VzQ06Dc5WGd7pAzFZ+k0vbOw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 4/4] mesa: Add PACKAGECONFIG "rusticl"
-To: alex.kanavin@gmail.com
-Cc: Zoltan Boszormenyi <zboszor@gmail.com>, Ross Burton <Ross.Burton@arm.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230224093850.3393567-3-zboszor@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 11:12:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177680
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 12:29:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177681
 
-On Fri, 24 Feb 2023 at 11:52, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
-wrote:
-> It also succeeds when there is no inherit rust at all, in the current
-> master branch recipe.
->
-> If inherit rust is conditional, and condition is false, then there is
-> some other change that triggers the failure, and that change should be
-> conditional as well.
+On 24/02/2023 10:38:49+0100, Zoltan Boszormenyi wrote:
+> There is another OpenCL frontend called "rusticl" now.
+> 
+> Signed-off-by: Zolt�n B�sz�rm�nyi <zboszor@gmail.com>
+> ---
+>  meta/recipes-graphics/mesa/mesa.inc | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+> index 70f9b6fc17..9ec10c49ca 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -115,9 +115,9 @@ PACKAGECONFIG[gles] = "-Dgles1=enabled -Dgles2=enabled, -Dgles1=disabled -Dgles2
+>  # "egl" requires "opengl"
+>  PACKAGECONFIG[egl] = "-Degl=enabled, -Degl=disabled"
+>  
+> -# "opencl" requires libclc from meta-clang and spirv-tools from OE-Core
+> +# "clover" requires libclc from meta-clang and spirv-tools from OE-Core
+>  OPENCL_NATIVE = "${@bb.utils.contains('PACKAGECONFIG', 'freedreno', '-Dopencl-native=true', '', d)}"
+> -PACKAGECONFIG[opencl] = "-Dgallium-opencl=icd -Dopencl-spirv=true ${OPENCL_NATIVE},-Dgallium-opencl=disabled -Dopencl-spirv=false,libclc spirv-tools"
+> +PACKAGECONFIG[clover] = "-Dgallium-opencl=icd -Dopencl-spirv=true ${OPENCL_NATIVE},-Dgallium-opencl=disabled -Dopencl-spirv=false,libclc spirv-tools"
 
-Or is it the other way around - fails when condition should be true?
-How did you write it?
+Are we allowed to do that? It will break anyone using "opencl" in there
+PACKAGECONFIG
 
-Alex
+>  
+>  PACKAGECONFIG[broadcom] = ""
+>  PACKAGECONFIG[etnaviv] = ""
+> @@ -196,7 +196,7 @@ DEV_PKG_DEPENDENCY = ""
+>  # development package of libgles3.
+>  RDEPENDS:libgles3-mesa-dev += "libgles2-mesa-dev"
+>  
+> -RDEPENDS:libopencl-mesa += "${@bb.utils.contains('PACKAGECONFIG', 'opencl', 'libclc spirv-tools', '', d)}"
+> +RDEPENDS:libopencl-mesa += "${@bb.utils.contains('PACKAGECONFIG', 'clover', 'libclc spirv-tools', '', d)}"
+>  
+>  PACKAGES =+ "libegl-mesa libegl-mesa-dev \
+>               libosmesa libosmesa-dev \
+> @@ -242,7 +242,7 @@ python __anonymous() {
+>                ("gles", "libgles1", "libglesv1-cm1"),
+>                ("gles", "libgles2", "libglesv2-2"),
+>                ("gles", "libgles3",),
+> -              ("opencl", "libopencl",)):
+> +              ("clover", "libopencl",)):
+>          if not p[0] in pkgconfig:
+>              continue
+>          mlprefix = d.getVar("MLPREFIX")
+> -- 
+> 2.39.2
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#177666): https://lists.openembedded.org/g/openembedded-core/message/177666
+> Mute This Topic: https://lists.openembedded.org/mt/97202945/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
