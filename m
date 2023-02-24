@@ -1,249 +1,133 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E100C6FA8E
-	for <webhook@archiver.kernel.org>; Sun,  5 Mar 2023 17:31:08 +0000 (UTC)
-Received: from mailout09.t-online.de (mailout09.t-online.de [194.25.134.84])
- by mx.groups.io with SMTP id smtpd.web10.13534.1678037467018801509
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A21FC6FA8E
+	for <webhook@archiver.kernel.org>; Sun,  5 Mar 2023 20:10:09 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web11.20449.1677252722685975135
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Mar 2023 09:31:07 -0800
+ Fri, 24 Feb 2023 07:32:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.84, mailfrom: f_l_k@t-online.de)
-Received: from fwd89.dcpf.telekom.de (fwd89.aul.t-online.de [10.223.144.115])
-	by mailout09.t-online.de (Postfix) with SMTP id ED8ACCA81
-	for <openembedded-core@lists.openembedded.org>; Sun,  5 Mar 2023 18:31:04 +0100 (CET)
-Received: from [192.168.178.83] ([84.163.43.219]) by fwd89.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1pYsCO-1IqeX20; Sun, 5 Mar 2023 18:31:04 +0100
-Date: Sun, 05 Mar 2023 18:30:59 +0100
-From: Markus Volk <f_l_k@t-online.de>
-Subject: Re: [oe-core][PATCHv2] gtk4: update 4.8.3 -> 4.10.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Ky+Tegrz;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: peron.clem@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id p16so9444263wmq.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 07:32:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bpRG3L/9eQJeUijSe7Xmg2yFu/YDYFP3XwnGTZa0InE=;
+        b=Ky+Tegrz3KvaLqfZpLSHdKX4jP7BZmqvc+OBT4c/FEpVTPy3n3AKauZ+L9orPDNFdz
+         XKwkQfEyKk/gl07J3nfO13VP7MPcJ7ZIO4cFtdWiETorD8R2AMCB4RZfDFBy97UcT6N4
+         e65fwHnNWYrb2O1Am3+ooBa3wH8cRj1Q6l1q85IA589xCGUiwaMWrOQfpPWb5odlIwTd
+         9JuNW5KqrOSKR+qj0idTCiiw78naOc0f++mJnbXJWPqibnVd+HJxsraP8A2ZLW9qurQa
+         p0v38PmhKy+ys1vX13jfSdg3QticK6RXRzdOXqDKBmwpd8YH/qS7NkiCUfbGUaf+rBm9
+         sEAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bpRG3L/9eQJeUijSe7Xmg2yFu/YDYFP3XwnGTZa0InE=;
+        b=BKcvDyhWKxa7gHjT08SLvGvkFdLhfugTfnZGOR46+CRAz46di2fXzGMSzo60pAJ12v
+         eX6izyxauiUrKog5WogHXRFpss+aPuHj18JCSeHBvcdfDcsgT2CsOqObCqth3phwuPiU
+         7e87QK9PbiJZ+qwX1QP9KQZCVF/sKNbyNX1HG9Ndg26FADknu8WojoPnmYenVf3xQclY
+         XCghJ2CYy/oLhaY3ii7yOCsK49mvdWQoeevQeh9zBVbJJyC/3emmCdTvTl0xjir7+3PK
+         I+r7xUxjDP6ivW8Db0N4fhe4NF/IEe2OUi1/lls85Q3D9b+XFhhg0w9oZ4DffFhAXjbz
+         +fXA==
+X-Gm-Message-State: AO0yUKVt346z1sUD8YXUS0/O+f1Lu6vdq/j9Bt9Ue2PYuyhXg44OpRxl
+	OvpD/DgEpUXgaqmBAR8lxiB3WufPwgk=
+X-Google-Smtp-Source: AK7set/g4u06TefdhObgVK/Fx9XNkgf7M6TCLV9QM/dRf/sHFrrxHZ9eONUHspFCru0qHnjRNHUPTg==
+X-Received: by 2002:a05:600c:a293:b0:3eb:29fe:7baa with SMTP id hu19-20020a05600ca29300b003eb29fe7baamr1255091wmb.34.1677252720858;
+        Fri, 24 Feb 2023 07:32:00 -0800 (PST)
+Received: from Clement-Blade14.outsight.local (lputeaux-656-1-11-33.w82-127.abo.wanadoo.fr. [82.127.142.33])
+        by smtp.gmail.com with ESMTPSA id z14-20020a05600c220e00b003e11f280b8bsm3114284wml.44.2023.02.24.07.32.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Feb 2023 07:32:00 -0800 (PST)
+From: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Message-Id: <NZ52RR.5YUVX38ACG9C@t-online.de>
-In-Reply-To: <20230305172853.222906-1-f_l_k@t-online.de>
-References: <20230305172853.222906-1-f_l_k@t-online.de>
-X-Mailer: geary/40.0
+Cc: =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>,
+	Brenda Streiff <brenda.streiff@ni.com>
+Subject: [PATCH v2 2/2] runqemu: add an option to enable guest-agent virtio device
+Date: Fri, 24 Feb 2023 16:31:57 +0100
+Message-Id: <20230224153157.20305-2-peron.clem@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230224153157.20305-1-peron.clem@gmail.com>
+References: <20230224153157.20305-1-peron.clem@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-ftIjJIZ+fq3EqvCSuKht"
-X-TOI-EXPURGATEID: 150726::1678037464-D571F046-C6E5F7CE/0/0 CLEAN NORMAL
-X-TOI-MSGID: 7f5ec3b4-7c83-4a86-b8ff-b29dee211f0e
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 05 Mar 2023 17:31:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178047
+ <openembedded-core@lists.openembedded.org>; Sun, 05 Mar 2023 20:10:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178051
 
---=-ftIjJIZ+fq3EqvCSuKht
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Add support to the runqemu script for a new option, 'guestagent', that
+enables the virtio serial port for host-to-guest communication.
 
-v2 I had sent the wrong patch by mistake
-
-Am So, 5. M=E4r 2023 um 18:28:53 +0100 schrieb Markus Volk=20
-<f_l_k@t-online.de>:
-> A testsuite was added that breaks musl build -> disable by default
->=20
-> Overview of Changes in 4.10.0, 04-03-2023
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> * GtkTextView
->  - Document hanging indentation
-> * GtkListView
->  - Fix a size allocation problem
-> * GtkFileChooser
->  - Fix paned behavior
->  - Fix a crash
-> * GtkText
->  - Fix various problems with undo
-> * Accessibility
->  - Make some getters transfer-full
->  - Allow setting accessible parents and siblings
->  - Add a role for toggle buttons
->  - Miscellaneous property fixes and improvements
-> * gtk
->  - Improve the handling resize-during-size-allocate
-> * gdk
->  - Introduce GdkTextureDownloader and use it
->  - Make gdk_texture_get_format public
-> * gsk
->  - Make mask nodes more versatile
->  - Improve the GL implementation for texture scale nodes
-> * X11
->  - Fix key handling during DND
-> * Tools
->  - gtk-builder-tool: Try harder to handle templates
->  - gtk-builder-tool: Prefer properties over <child>
->=20
-> * Translation updates
->  Basque
->  Belarusian
->  Bulgarian
->  Indonesian
->  Galician
->  Georgian
->  German
->  Hebrew
->  Lithuanian
->  Portuguese
->  Spanish
->  Swedish
->  Turkish
->  Ukrainian
->=20
-> Signed-off-by: Markus Volk <f_l_k@t-online.de=20
-> <mailto:f_l_k@t-online.de>>
-> ---
->  meta/recipes-gnome/gtk+/{gtk4_4.8.3.bb =3D> gtk4_4.10.0.bb} | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-gnome/gtk+/{gtk4_4.8.3.bb =3D> gtk4_4.10.0.bb}=20
-> (96%)
->=20
-> diff --git a/meta/recipes-gnome/gtk+/gtk4_4.8.3.bb=20
-> b/meta/recipes-gnome/gtk+/gtk4_4.10.0.bb
-> similarity index 96%
-> rename from meta/recipes-gnome/gtk+/gtk4_4.8.3.bb
-> rename to meta/recipes-gnome/gtk+/gtk4_4.10.0.bb
-> index b367cb066b..d58fe149ec 100644
-> --- a/meta/recipes-gnome/gtk+/gtk4_4.8.3.bb
-> +++ b/meta/recipes-gnome/gtk+/gtk4_4.10.0.bb
-> @@ -37,7 +37,7 @@ MAJ_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
->  UPSTREAM_CHECK_REGEX =3D=20
-> "gtk-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)\.tar.xz"
->=20
->  SRC_URI =3D=20
-> "http://ftp.gnome.org/pub/gnome/sources/gtk/${MAJ_VER}/gtk-${PV}.tar.xz=20
-> <http://ftp.gnome.org/pub/gnome/sources/gtk/$%7BMAJ_VER%7D/gtk-$%7BPV%7D.=
-tar.xz>"
-> -SRC_URI[sha256sum] =3D=20
-> "b362f968d085b4d3d9340d4d38c706377ded9d5374e694a2b6b7e6292e3cba74"
-> +SRC_URI[sha256sum] =3D=20
-> "8dc1e7c3b3a46772f0fa416a8ca3fd21d0d0b3b03fb307d2e7327ebee69626e4"
->=20
->  S =3D "${WORKDIR}/gtk-${PV}"
->=20
-> @@ -57,7 +57,7 @@ GTKDOC_MESON_OPTION =3D "gtk_doc"
->  GIR_MESON_ENABLE_FLAG =3D 'enabled'
->  GIR_MESON_DISABLE_FLAG =3D 'disabled'
->=20
-> -EXTRA_OEMESON =3D " -Dbuild-tests=3Dfalse -Ddemos=3Dfalse"
-> +EXTRA_OEMESON =3D " -Dbuild-tests=3Dfalse -Dbuild-testsuite=3Dfalse=20
-> -Ddemos=3Dfalse"
->=20
->  PACKAGECONFIG ??=3D "gstreamer ${@bb.utils.filter=20
-> <mailto:${@bb.utils.filter>('DISTRO_FEATURES', 'wayland x11 vulkan',=20
-> d)}"
->  PACKAGECONFIG:class-native =3D "${@bb.utils.filter=20
-> <mailto:${@bb.utils.filter>('DISTRO_FEATURES', 'x11', d)}"
-> --
-> 2.34.1
->=20
-
-
---=-ftIjJIZ+fq3EqvCSuKht
-Content-Type: text/html; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div id=3D"geary-body" dir=3D"auto"><div>v2 I had sent the wrong patch by m=
-istake</div></div><div id=3D"geary-quote" dir=3D"auto"><br>Am So, 5. M=E4r =
-2023 um 18:28:53 +0100 schrieb Markus Volk &lt;f_l_k@t-online.de&gt;:<br><b=
-lockquote type=3D"cite"><div class=3D"plaintext" style=3D"white-space: brea=
-k-spaces;">A testsuite was added that breaks musl build -&gt; disable by de=
-fault
-
-Overview of Changes in 4.10.0, 04-03-2023
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-* GtkTextView
- - Document hanging indentation
-* GtkListView
- - Fix a size allocation problem
-* GtkFileChooser
- - Fix paned behavior
- - Fix a crash
-* GtkText
- - Fix various problems with undo
-* Accessibility
- - Make some getters transfer-full
- - Allow setting accessible parents and siblings
- - Add a role for toggle buttons
- - Miscellaneous property fixes and improvements
-* gtk
- - Improve the handling resize-during-size-allocate
-* gdk
- - Introduce GdkTextureDownloader and use it
- - Make gdk_texture_get_format public
-* gsk
- - Make mask nodes more versatile
- - Improve the GL implementation for texture scale nodes
-* X11
- - Fix key handling during DND
-* Tools
- - gtk-builder-tool: Try harder to handle templates
- - gtk-builder-tool: Prefer properties over &lt;child&gt;
-
-* Translation updates
- Basque
- Belarusian
- Bulgarian
- Indonesian
- Galician
- Georgian
- German
- Hebrew
- Lithuanian
- Portuguese
- Spanish
- Swedish
- Turkish
- Ukrainian
-
-Signed-off-by: Markus Volk &lt;<a href=3D"mailto:f_l_k@t-online.de">f_l_k@t=
--online.de</a>&gt;
+Signed-off-by: Brenda Streiff <brenda.streiff@ni.com>
+Signed-off-by: Clément Péron <peron.clem@gmail.com>
 ---
- meta/recipes-gnome/gtk+/{gtk4_4.8.3.bb =3D&gt; gtk4_4.10.0.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-gnome/gtk+/{gtk4_4.8.3.bb =3D&gt; gtk4_4.10.0.bb} (96%=
-)
+ scripts/runqemu | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/meta/recipes-gnome/gtk+/gtk4_4.8.3.bb b/meta/recipes-gnome/gtk=
-+/gtk4_4.10.0.bb
-similarity index 96%
-rename from meta/recipes-gnome/gtk+/gtk4_4.8.3.bb
-rename to meta/recipes-gnome/gtk+/gtk4_4.10.0.bb
-index b367cb066b..d58fe149ec 100644
---- a/meta/recipes-gnome/gtk+/gtk4_4.8.3.bb
-+++ b/meta/recipes-gnome/gtk+/gtk4_4.10.0.bb
-@@ -37,7 +37,7 @@ MAJ_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
- UPSTREAM_CHECK_REGEX =3D "gtk-(?P&lt;pver&gt;\d+\.(\d*[02468])+(\.\d+)+)\.=
-tar.xz"
-=20
- SRC_URI =3D "<a href=3D"http://ftp.gnome.org/pub/gnome/sources/gtk/${MAJ_V=
-ER}/gtk-${PV}.tar.xz">http://ftp.gnome.org/pub/gnome/sources/gtk/${MAJ_VER}=
-/gtk-${PV}.tar.xz</a>"
--SRC_URI[sha256sum] =3D "b362f968d085b4d3d9340d4d38c706377ded9d5374e694a2b6=
-b7e6292e3cba74"
-+SRC_URI[sha256sum] =3D "8dc1e7c3b3a46772f0fa416a8ca3fd21d0d0b3b03fb307d2e7=
-327ebee69626e4"
-=20
- S =3D "${WORKDIR}/gtk-${PV}"
-=20
-@@ -57,7 +57,7 @@ GTKDOC_MESON_OPTION =3D "gtk_doc"
- GIR_MESON_ENABLE_FLAG =3D 'enabled'
- GIR_MESON_DISABLE_FLAG =3D 'disabled'
-=20
--EXTRA_OEMESON =3D " -Dbuild-tests=3Dfalse -Ddemos=3Dfalse"
-+EXTRA_OEMESON =3D " -Dbuild-tests=3Dfalse -Dbuild-testsuite=3Dfalse -Ddemo=
-s=3Dfalse"
-=20
- PACKAGECONFIG ??=3D "gstreamer <a href=3D"mailto:${@bb.utils.filter">${@bb=
-.utils.filter</a>('DISTRO_FEATURES', 'wayland x11 vulkan', d)}"
- PACKAGECONFIG:class-native =3D "<a href=3D"mailto:${@bb.utils.filter">${@b=
-b.utils.filter</a>('DISTRO_FEATURES', 'x11', d)}"
-<div>--=20
-</div>2.34.1
-
-</div></blockquote></div>
---=-ftIjJIZ+fq3EqvCSuKht--
+diff --git a/scripts/runqemu b/scripts/runqemu
+index def11ea911..e71a1e8828 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -82,6 +82,7 @@ of the following environment variables (in any order):
+     kvm-vhost - enable KVM with vhost when running x86/x86_64 (VT-capable CPU required)
+     publicvnc - enable a VNC server open to all hosts
+     audio - enable audio
++    guestagent - enable guest agent communication
+     [*/]ovmf* - OVMF firmware file or base name for booting with UEFI
+   tcpserial=<port> - specify tcp serial port number
+   qemuparams=<xyz> - specify custom parameters to QEMU
+@@ -216,6 +217,8 @@ class BaseConfig(object):
+         self.cleaned = False
+         # Files to cleanup after run
+         self.cleanup_files = []
++        self.guest_agent = False
++        self.guest_agent_sockpath = '/tmp/qga.sock'
+ 
+     def acquire_taplock(self, error=True):
+         logger.debug("Acquiring lockfile %s..." % self.taplock)
+@@ -526,6 +529,10 @@ class BaseConfig(object):
+             elif arg == 'publicvnc':
+                 self.publicvnc = True
+                 self.qemu_opt_script += ' -vnc :0'
++            elif arg == 'guestagent':
++                self.guest_agent = True
++            elif arg.startswith('guestagent-sockpath='):
++                self.guest_agent_sockpath = '%s' % arg[len('guestagent-sockpath='):]
+             elif arg.startswith('tcpserial='):
+                 self.tcpserial_portnum = '%s' % arg[len('tcpserial='):]
+             elif arg.startswith('qemuparams='):
+@@ -1366,6 +1373,12 @@ class BaseConfig(object):
+             raise RunQemuError("Failed to boot, QB_SYSTEM_NAME is NULL!")
+         self.qemu_system = qemu_system
+ 
++    def setup_guest_agent(self):
++        if self.guest_agent == True:
++            self.qemu_opt += ' -chardev socket,path=' + self.guest_agent_sockpath + ',server,nowait,id=qga0 '
++            self.qemu_opt += ' -device virtio-serial '
++            self.qemu_opt += ' -device virtserialport,chardev=qga0,name=org.qemu.guest_agent.0 '
++
+     def setup_vga(self):
+         if self.nographic == True:
+             if self.sdl == True:
+@@ -1496,6 +1509,7 @@ class BaseConfig(object):
+         if self.snapshot:
+             self.qemu_opt += " -snapshot"
+ 
++        self.setup_guest_agent()
+         self.setup_serial()
+         self.setup_vga()
+ 
+-- 
+2.34.1
 
 
