@@ -1,84 +1,95 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FE5DC64ED8
-	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 10:48:49 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web11.14868.1677235720465544848
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B14FC64ED8
+	for <webhook@archiver.kernel.org>; Fri, 24 Feb 2023 10:52:39 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web10.14929.1677235951288460266
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Feb 2023 02:48:41 -0800
+ Fri, 24 Feb 2023 02:52:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RB6ON1w3;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id fm20-20020a05600c0c1400b003ead37e6588so1810132wmb.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 02:48:40 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=W4IsIvqL;
+ spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f49.google.com with SMTP id s22so17289863lfi.9
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 02:52:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=uQWFSZV5Y1NphexdzQOaxo6mph1phws9zPxVO5pZ6H0=;
-        b=RB6ON1w3SwyARxv0kqtHHZ/ft6iuUHGy35f8yRg6zR8MA6W9AvksVj0UHt3FwXboPl
-         or+XRT3EeU8uDGnSWt9YKmWX5pY89CfiKbT7V0y5vbzu7svFHLI6e/+En/c++4iTkPt/
-         7xDlex91+RdXPReK/PNBKa1ECjqA5HDuaPyOs=
+        d=gmail.com; s=20210112; t=1677235949;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=sA1R5DRcde7IEqtmdWWAdsn4AREFrb8kTZIR1POs6Ho=;
+        b=W4IsIvqLFSDy7LaojCcVCvkKBJoq2CTKk8q3BsVvmBD8C/U//v1o+XhA4kk5ytfgGt
+         /e8tQhM4ii+46VFpqaiCozlKCCGjxDzje1PYgwQ4gYcj0IITYxhwqSrHogbNCMci2BdY
+         YRy2QZKop/k5bQlTh4qiA6Za0/MyJluQjsk3O7EbLrrFxP/1MNy43a8uhFuMjrJmWznC
+         vUTwrAmDb4x+MP9j5YiHV14HyY8rWxtaUMYRge3/v6yVjytnJckIAyIoUkGDW3101bG8
+         XQ/P+uJH5DnOXwuWWLXYBt+P3ric72G3YhUMHH2jHP+ViCpiJ20p9ZVSuStL6/VFVnFE
+         U/7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uQWFSZV5Y1NphexdzQOaxo6mph1phws9zPxVO5pZ6H0=;
-        b=HIi9g1wBl+CWqIEw19Pb0RwkPzF5rHU8NfljgsDxfnVaNIXeSQ23FVV/lxkNkDzDZC
-         1CfkhVQMRCYnIV4Iu20KJp9iACY4y5GSdP1X4+6th9qC7r77TOdpxKQZ2EvG7VXKw3KI
-         zAr0vh+z96xvUHhhARyLVeff2ohORN/rfN6PdFJmOz5MquLA8XN/htBsvQN59M+NbaUH
-         tqY3QX3EevuzXMouDPy+RqFXZKzhcEPUI7DgfrytzrP7pHtT5t5jDUsZXbPi3djB+oD0
-         i6/Q/E8IuO9BZEPlrPH3/V01yzg/2vY0ojK4pS00HxcbUCEVcUmrEMIK/6OQt2+h5Ur4
-         yn5g==
-X-Gm-Message-State: AO0yUKUiYoROZE3154ZQI7HFHWSDdkWjPk3UMDZXShWm+3U3imcdXcNO
-	rfhBFCXV+8WTnBgnHgB+cWP5pqeHDPcqjF6d
-X-Google-Smtp-Source: AK7set/lOKHt6+gawSRM/s5cqbBVksby6fxIsI7KOTUxjApBgIhhn4KbTndQYx9C5ePcQ3C8RubfQg==
-X-Received: by 2002:a05:600c:a293:b0:3eb:2b88:5af2 with SMTP id hu19-20020a05600ca29300b003eb2b885af2mr309220wmb.20.1677235718435;
-        Fri, 24 Feb 2023 02:48:38 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:639b:9979:fd5f:bbb7])
-        by smtp.gmail.com with ESMTPSA id l4-20020a05600c4f0400b003df7b40f99fsm2619699wmq.11.2023.02.24.02.48.37
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Feb 2023 02:48:38 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] oeqa/selftest/prservice: Improve debug output for failure
-Date: Fri, 24 Feb 2023 10:48:37 +0000
-Message-Id: <20230224104837.2435594-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.37.2
+        d=1e100.net; s=20210112; t=1677235949;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sA1R5DRcde7IEqtmdWWAdsn4AREFrb8kTZIR1POs6Ho=;
+        b=iP0teKQ4XgEeOmdcz47mpxTIqZ/kATXJtAl4zzMYXnFlFz8m/NduBNgccIxRNq5GOf
+         JfdO86KeVer0SWKIitAvW83sS7p3FxrLs3noP6vsTOJ4K2jJYXHpo74fZ4gdgwuWjzio
+         8BchrITQzZ+aGHQf/ejFn4ki6IRXH9jAOUzxPwQa/l7ohrKAKqn9RspDiF8Qk/jXMBHa
+         cN3dA9H6cNoUZhV3qGrKkvSpMiT5XJ4Yxqvndf6fFRbfqXU2pf4fX/J1938okb74W/bU
+         6Jh403vkfemXy17XGaYSGtxs4XGwyG7R8OoCwBQf5wYTE46MWqaRW67oJ8dFobp1UMm+
+         ToWg==
+X-Gm-Message-State: AO0yUKWGn/Jv4jXq3Rm/pFkYn7MsEKsWobu/EJcgQz5k7QThc6+elPhM
+	kAPKrxqeB8id7J1j93af9IAEazf9rT/fLmptcDc=
+X-Google-Smtp-Source: AK7set+APEydCa6/3FDamYC9ddhoGGcUTi0cFA9unspzAnExGJ6QO0WqmE3MI7OTTm5iSI5FiKfhvBJIoDdcc3r4te4=
+X-Received: by 2002:ac2:5689:0:b0:4d5:ca42:aeed with SMTP id
+ 9-20020ac25689000000b004d5ca42aeedmr4768371lfr.13.1677235949048; Fri, 24 Feb
+ 2023 02:52:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230224093850.3393567-1-zboszor@gmail.com> <20230224093850.3393567-4-zboszor@gmail.com>
+ <3EE6D20C-8A7C-4772-BF56-E1CD25B12B6B@arm.com> <1746BAA6D62E4C0A.18951@lists.openembedded.org>
+ <0dd9eb47-521e-7840-9196-f485f080b44c@gmail.com>
+In-Reply-To: <0dd9eb47-521e-7840-9196-f485f080b44c@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 24 Feb 2023 11:52:17 +0100
+Message-ID: <CANNYZj8uDd_O2dOhs-+zRkwDjSOD_8Ezcdtd1WjV4dxk9wRa-Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 4/4] mesa: Add PACKAGECONFIG "rusticl"
+To: Zoltan Boszormenyi <zboszor@gmail.com>
+Cc: Ross Burton <Ross.Burton@arm.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 10:48:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177677
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Feb 2023 10:52:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177678
 
-We keep seeing this failure on the autobuilder but the output amounts
-to "False is not True". Improve the debug message on the chance it may
-make the issue clearer.
+On Fri, 24 Feb 2023 at 11:34, Zoltan Boszormenyi <zboszor@gmail.com> wrote:
+> Problem is, now the configure stage fails with:
+>
+> | ../mesa-23.0.0/meson.build:964: WARNING: add_languages is missing native:, assuming
+> languages are wanted for both host and build.
+> | Compiler for language rust for the build machine not found.
+> |
+> | ../mesa-23.0.0/meson.build:964:2: ERROR: Rust compiler rustc -C
+> linker=x86_64-oe-linux-gcc -C link-arg=-m64 -C link-arg=-march=nehalem -C
+> link-arg=-mtune=generic -C link-arg=-mfpmath=sse -C link-arg=-msse4.2 -C
+> link-arg=-fstack-protector-strong -C link-arg=-O2 -C link-arg=-D_FORTIFY_SOURCE=2 -C
+> link-arg=-Wformat -C link-arg=-Wformat-security -C link-arg=-Werror=format-security -C
+> link-arg=--sysroot=/data2/dtd-yocto-4.0/tmp-sicom-glibc/work/corei7-64-oe-linux/mesa/2_23.0.0-r0/recipe-sysroot
+> can not compile programs.
+> |
+> | error: Error loading target specification: Could not find specification for target
+> "x86_64-linux". Run `rustc --print target-list` for a list of built-in targets
+>
+> I also tried it with moving the conditionally set rust
+> between or before the already inherited classes.
+>
+> It succeeds when inherit rust is not conditional.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oeqa/selftest/cases/prservice.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+It also succeeds when there is no inherit rust at all, in the current
+master branch recipe.
 
-diff --git a/meta/lib/oeqa/selftest/cases/prservice.py b/meta/lib/oeqa/selftest/cases/prservice.py
-index cb95503c2cb..6e3d23b7b3c 100644
---- a/meta/lib/oeqa/selftest/cases/prservice.py
-+++ b/meta/lib/oeqa/selftest/cases/prservice.py
-@@ -77,7 +77,7 @@ class BitbakePrTests(OESelftestTestCase):
-         exported_db_path = os.path.join(self.builddir, 'export.inc')
-         export_result = runCmd("bitbake-prserv-tool export %s" % exported_db_path, ignore_status=True)
-         self.assertEqual(export_result.status, 0, msg="PR Service database export failed: %s" % export_result.output)
--        self.assertTrue(os.path.exists(exported_db_path))
-+        self.assertTrue(os.path.exists(exported_db_path), msg="%s didn't exist, tool output %s" % (exported_db_path, export_result.output)))
- 
-         if replace_current_db:
-             current_db_path = os.path.join(get_bb_var('PERSISTENT_DIR'), 'prserv.sqlite3')
--- 
-2.37.2
+If inherit rust is conditional, and condition is false, then there is
+some other change that triggers the failure, and that change should be
+conditional as well.
 
+Alex
 
