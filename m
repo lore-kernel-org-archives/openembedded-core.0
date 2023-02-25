@@ -1,130 +1,80 @@
-Return-Path: <pavel@zhukoff.net>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F4EEC64EC7
-	for <webhook@archiver.kernel.org>; Sat, 25 Feb 2023 21:20:30 +0000 (UTC)
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
- by mx.groups.io with SMTP id smtpd.web11.53762.1677360020363962733
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45966C7EE2D
+	for <webhook@archiver.kernel.org>; Sat, 25 Feb 2023 23:24:51 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web11.56105.1677367482336159537
  for <openembedded-core@lists.openembedded.org>;
- Sat, 25 Feb 2023 13:20:20 -0800
+ Sat, 25 Feb 2023 15:24:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@zhukoff.net header.s=fm1 header.b=UtWcEvot;
- spf=pass (domain: zhukoff.net, ip: 66.111.4.26, mailfrom: pavel@zhukoff.net)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 8DE475C004E;
-	Sat, 25 Feb 2023 16:20:19 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Sat, 25 Feb 2023 16:20:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm1; t=1677360019; x=1677446419; bh=lPpu6YdMxMYU3C8GBcaVSFsKt
-	/ajh1hvlAjhgGbPeTU=; b=UtWcEvot9jzIm5tWdWyifE/wx3ItgTgRExeD1bHGu
-	WSRGN63cCcHnWHLpsMUKyTt5PSOwG+gMFIEhnHYGSA+Z1JVmuswGJAHH+G9juMqd
-	gvqWTgPwGS8/anH089mGatLqxusBN39N2tpFrUhu3NjtsBHGJebkPmRqQ+wMLpIf
-	jk603REUX0BUU4D6ZvwOB3ykFzmbHwpBWdxrreA62fYTfGz6joF2zUUS8Oi7Jz5F
-	PQHc1fHT2MHgNXwV51CASi2xQz5EsyZ5EulXQgRCTntYoxIUOGVT9+0QM9HG0f84
-	4g6+WnGl4U1EL7hOuuNMfyyN2Rx/LS3Q0lRwZT1s+QbsQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1677360019; x=1677446419; bh=lPpu6YdMxMYU3C8GBcaVSFsKt/ajh1hvlAj
-	hgGbPeTU=; b=PWnsk/mMgd2/tMjIUse7RnbcAUJpn9AnZG8sRLc8EjEAc4fjKc+
-	EAl65FSovuRV4RSxsQDLR8lOxrKJFZklmmsE9EMazaeWClI+LQXFDOY11T7nOIW1
-	zI+/Mmp+tnbwMaEeQMfKoEl51wJrbtc+l4r+erHbUP1JXFR7bVe5BsiW3Mc1IDfM
-	a07Vj+rxaJx45spEe4k0/Fj5AD14nvyF+3vtCMNkG/8soEHzVkbCIX6MT8zoU0JF
-	vHhrJRITnjp/Z8k0VEi0WYWg0SAaEnhclOtVhDc2fTU3WDm3BaALGbw/UCQrNtpK
-	NltYZ4/JuBd/bU7w+iakrfhJgZFxe0JE/1A==
-X-ME-Sender: <xms:k3v6Y2f5ZhO4kGq2wBNW7NBX6WlDXQHhIW04YqERu2iOBuBQjohTbg>
-    <xme:k3v6YwPX1Et4l7h1Pr7LLKnlgl4uXcwugZ5DI2CMXxST1cpDu-Rg6Aqj_HEYovYFi
-    SCEd9MIfX2DPsVyxe0>
-X-ME-Received: <xmr:k3v6Y3iW8Eo1y9Zd5pD6_2GKno_axV5PzANQHQr8I8bsechpNV0D53tnawVi9f64AWcIzU2uBsUECaRLVUK_VbUs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekiedgkeegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
-    ertddtnecuhfhrohhmpefrrghvvghlucgkhhhukhhovhcuoehprghvvghlseiihhhukhho
-    fhhfrdhnvghtqeenucggtffrrghtthgvrhhnpeegkedttdfhlefghfduvdehtdehffetfe
-    ffkeekteevfeevueffvedvgfejheejtdenucffohhmrghinhephihotghtohhprhhojhgv
-    tghtrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepphgrvhgvlhesiihhuhhkohhffhdrnhgvth
-X-ME-Proxy: <xmx:k3v6Yz9NIxshR8fsMpTBUczMhyiHqt_XmyMnEhWUEjteofWeSkMvnw>
-    <xmx:k3v6YytCxlkf0KPb9Q-E-s0H9zrDOYpcnwJTarU49xswiWaTilHBVg>
-    <xmx:k3v6Y6FqZyMzv8GPjmQR39GMk9UCl8CQho4q3xclYAdWZd5DUwGuJQ>
-    <xmx:k3v6Y40KHYYlka9J22hHO9GiYsjN5Ib9M_aSxCCKuNcwv7_4uBKM9w>
-Feedback-ID: ib94946c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 25 Feb 2023 16:20:18 -0500 (EST)
-From: Pavel Zhukov <pavel@zhukoff.net>
-To: openembedded-core@lists.openembedded.org
-Cc: Pavel Zhukov <pavel@zhukoff.net>
-Subject: [PATCH] oeqa/selftest/wic: Add test for uefi-kernel loader
-Date: Sat, 25 Feb 2023 22:20:04 +0100
-Message-Id: <20230225212003.30932-1-pavel@zhukoff.net>
-X-Mailer: git-send-email 2.39.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cZYYuR88;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id az36so2068225wmb.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 25 Feb 2023 15:24:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=P/h1rrmj69k+atCz+qpJBu1VfwPptEUZGyjVzokrVCQ=;
+        b=cZYYuR88J3Oa8omWn5aKYsU2G83VCELCa9AKqZfkbMYqKhcvWAENMmn9dNrYaZA2SA
+         AACiyUREQo1AzRZYntdJY9oQzLKixnD1ikk/o2UL35r1f6bGxR3SK/aFBJ7FHIpyDu9b
+         upNmD6ZwgchkSQf+lORgaahSIsD/5T91Y1ElU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=P/h1rrmj69k+atCz+qpJBu1VfwPptEUZGyjVzokrVCQ=;
+        b=JX7I9uN3zC1DpOrx+3vebk9X1pcWY6GwVSVfNq2I8D7eHdoXDDk/a5k6mQUoiGh3NR
+         0YYZCfiO5gBx/z5SFpEFId1lYan25fnF+4H0jZko+f/+XiWLv1kekMmHlY1Rg99PwdFK
+         lXH7E9SOqDbC4bUBmqHUWPYV9yLizIrLpjM2q0kOLhaaxvAoK4FAMQledUTmMXPYIeHa
+         2c0BV1iy2G3mxQpTzM4IV8UiHGMKAzRvTnFJgDk/0URNVh5pg73UReR7JjO5mrLWG7KM
+         KEvyU6/DtP4daH+w6Wby0vxiCZgbefr63xLxJMwR1PBwLyLmMTMJpoHBXCMCDKcJ6J/p
+         ip0g==
+X-Gm-Message-State: AO0yUKVqtuWSLC76jdLXodXBVsXhWD9tZHB8yb2d145SH6irfjUOTc8/
+	CiIGXEEcN1tmNs4IGxNwgrrdIg==
+X-Google-Smtp-Source: AK7set+Wlt1873BNTYyA5aGv++2RK6D0CZb+SELHiqTIYJueU1yMI0OsnO39u2ltDI5jiGJF0ODbOQ==
+X-Received: by 2002:a05:600c:3543:b0:3eb:3945:d400 with SMTP id i3-20020a05600c354300b003eb3945d400mr1721688wmq.6.1677367480516;
+        Sat, 25 Feb 2023 15:24:40 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:acca:18ee:3f6:d4ed? ([2001:8b0:aba:5f3c:acca:18ee:3f6:d4ed])
+        by smtp.gmail.com with ESMTPSA id bg14-20020a05600c3c8e00b003eb395a8280sm2208517wmb.37.2023.02.25.15.24.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Feb 2023 15:24:40 -0800 (PST)
+Message-ID: <e297fa76f20375cf686c0e7f06070ce74a37692a.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/1] lib/oe/reproducible: Use git log without
+ gpg signature
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: bmauduit@beneth.fr, openembedded-core@lists.openembedded.org
+Date: Sat, 25 Feb 2023 23:24:39 +0000
+In-Reply-To: <7f21c73e-3e1b-dc78-e030-6ee47360487f@beneth.fr>
+References: <cover.1673521664.git.bmauduit@beneth.fr>
+	 <1739928B5F55BD9D.23170@lists.openembedded.org>
+	 <7f21c73e-3e1b-dc78-e030-6ee47360487f@beneth.fr>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 25 Feb 2023 21:20:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177720
+ <openembedded-core@lists.openembedded.org>; Sat, 25 Feb 2023 23:24:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177721
 
-This is regression test for [1].
-[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=15033
+On Tue, 2023-02-21 at 17:33 +0100, Beno=C3=AEt Mauduit via
+lists.openembedded.org wrote:
+> Hello,
+>=20
+> Any update on my patch ?
 
-Signed-off-by: Pavel Zhukov <pavel@zhukoff.net>
----
- meta-selftest/wic/test_uefikernel.wks |  5 +++++
- meta/lib/oeqa/selftest/cases/wic.py   | 20 ++++++++++++++++++++
- 2 files changed, 25 insertions(+)
- create mode 100644 meta-selftest/wic/test_uefikernel.wks
+It merged a while ago:
 
-diff --git a/meta-selftest/wic/test_uefikernel.wks b/meta-selftest/wic/test_uefikernel.wks
-new file mode 100644
-index 0000000000..bede2288f6
---- /dev/null
-+++ b/meta-selftest/wic/test_uefikernel.wks
-@@ -0,0 +1,5 @@
-+# short-description: This file is used in oe-selftest wic module to test uefi-kernel loader
-+
-+part /boot --source bootimg-efi --sourceparams="loader=uefi-kernel"
-+part / --source rootfs --fstype=ext4 --align 1024 --use-uuid
-+
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index ca1abb970a..b9430cdb3b 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -1151,6 +1151,26 @@ class Wic2(WicTestCase):
-             out = glob(os.path.join(self.resultdir, "%s-*.direct" % wksname))
-             self.assertEqual(1, len(out))
- 
-+    @skipIfNotArch(['i586', 'i686', 'x86_64', 'aarch64'])
-+    def test_uefi_kernel(self):
-+        """ Test uefi-kernel in wic """
-+        config = 'IMAGE_EFI_BOOT_FILES="/etc/fstab;testfile"\nIMAGE_FSTYPES = "wic"\nWKS_FILE = "test_uefikernel.wks"\nMACHINE_FEATURES:append = " efi"\n'
-+        self.append_config(config)
-+        bitbake('core-image-minimal')
-+        self.remove_config(config)
-+
-+        img = 'core-image-minimal'
-+        with NamedTemporaryFile("w", suffix=".wks") as wks:
-+            wks.writelines(['part /boot --source bootimg-efi --sourceparams="loader=uefi-kernel"\n'
-+                            'part / --source rootfs --fstype=ext4 --align 1024 --use-uuid\n'\
-+                            'bootloader --timeout=0 --append="console=ttyS0,115200n8"\n'])
-+            wks.flush()
-+            cmd = "wic create %s -e %s -o %s" % (wks.name, img, self.resultdir)
-+            runCmd(cmd)
-+            wksname = os.path.splitext(os.path.basename(wks.name))[0]
-+            out = glob(os.path.join(self.resultdir, "%s-*.direct" % wksname))
-+            self.assertEqual(1, len(out))
-+
-     # TODO this test could also work on aarch64
-     @skipIfNotArch(['i586', 'i686', 'x86_64'])
-     @OETestTag("runqemu")
--- 
-2.39.1
+https://git.yoctoproject.org/poky/commit/?id=3D4c8d17088f33cd23c631cb9b76c6=
+ca9bfa5b44ea
 
+Cheers,
+
+Richard
 
