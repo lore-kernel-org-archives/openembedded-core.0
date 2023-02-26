@@ -2,43 +2,41 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14286C6FA8E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 152BCC7EE2D
 	for <webhook@archiver.kernel.org>; Sun, 26 Feb 2023 11:59:35 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web10.64037.1677412771470241653
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web10.64034.1677412770911154454
  for <openembedded-core@lists.openembedded.org>;
  Sun, 26 Feb 2023 03:59:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=B1JQMjt3;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id d41-20020a05600c4c2900b003e9e066550fso2218144wmp.4
-        for <openembedded-core@lists.openembedded.org>; Sun, 26 Feb 2023 03:59:31 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eRk8aRXX;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id h14so3501319wru.4
+        for <openembedded-core@lists.openembedded.org>; Sun, 26 Feb 2023 03:59:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=h+L+T2bx+fF5CnhAUBOxaIHiVKGJYpOypox6V2cgS/A=;
-        b=B1JQMjt37cH39BLfOIg9mFAdetGIt5UoV8rwfiXZQAj1k0qceNHLINX5JfKXripdOU
-         ousWkDBYuagwOlHNGIoJX8lMwY1ldounQ7J5LipPEGO+14z48/AcqxYYsd+2W/T1x0Q2
-         UFYnCXtSwc9PoSVsrc5jJNGLJiKBls0vw22tQ=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=12DxhlEA6HOXyVy7HqF4iIgKVwRdaAm1AZ3U6CpMzl4=;
+        b=eRk8aRXXBTVTEd15SJeXvponODe4XMwzJtXkLo0wDvUjQGwALlIibRT746m2XEqeBj
+         EIf+YGjuK2EUPdMpktmFwhdeezdA8wzdX/gEpTe3GPt+UVtzVHaWnISEfx2ugjWlYw78
+         Y5/rxXs3udPK/mUzBA7zpmBH3oDqYT5OPEE4w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=h+L+T2bx+fF5CnhAUBOxaIHiVKGJYpOypox6V2cgS/A=;
-        b=PlSJ0jMtFF0l+GULk0vzLZgv/MWVrBGsWiksZn+dA1CUdYUHR3De7iXrOFWRv0Q0JE
-         +EWUrNudzieNYhtrfiRS7YlexfLaoojiq0iGkmlfaXwngQbfANHpdPQwg+CCIgYFBv7+
-         29H5pU6yRdJ1zIlcrkjTKgygXeL5eXckXDXo6siNI7mN5mzxuDCV52bXafSrKDg51i5b
-         7geVODT45O+HSe4ifzYuNVOsDksfX1f8ue6a0wSvovE7LolaZHI0uzKproTiRoZDBd4e
-         2L/EXxM+wc6Ej5L1F6mt/rWx+3VQa5A1fGx2VOkIFvGoQvzevXq9DE9Ssi4TE8PwK9N1
-         923w==
-X-Gm-Message-State: AO0yUKUp8InwxLzv7SEEwCK3AHoM4CuGXtA0nmstis+2/KUNy/tWKd51
-	7z3k97FTZ9IJB27/muzEywvkAL5AfTWpHtQ3
-X-Google-Smtp-Source: AK7set+J74WwOU3fsNZKPbUS3/gxPMH8fdBS7O/bRn+zqjY2IYMKTvAQoUYZl42qj5fvZs37L/9x4g==
-X-Received: by 2002:a05:600c:3b14:b0:3e8:f27b:a92c with SMTP id m20-20020a05600c3b1400b003e8f27ba92cmr12124729wms.32.1677412769222;
-        Sun, 26 Feb 2023 03:59:29 -0800 (PST)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=12DxhlEA6HOXyVy7HqF4iIgKVwRdaAm1AZ3U6CpMzl4=;
+        b=uOT8yoj4GW/RV8VL4TKDaiUCEFlYvyd4A8mPtVTWcRJezWw/rnissroEhEMQ7/8Ioa
+         XKi9N8HjKL+3cuk3FVie22R8qzJh8gcNcwJn/KXEnMG6UFKXb2AAk8VELVDe/L/paP8t
+         hZYWe7X5J7uc9fX7K+Jwc+K0mXRKOSDuYbtL+zWTUc57K5EfNBw01otfAfMMlYsEfGXE
+         xlK45OECabX6ldT+JvB2N0d0teIJvrfvc6qk8JJi3IaC1uY6ZcxEK5zjsSed209wJFtx
+         lj8HtC7NDe+U/O4biMbPQ4MDtYwPQYQTYU9JWYWlcpcI724eJ4lMdqm0M5SUx3+RLUMm
+         b5Yg==
+X-Gm-Message-State: AO0yUKVpJQ5hkmGfrbtKJhOP0vxqojJZp+fGQ81kbrKJ+H/noXvD7q88
+	jQn/4lFOGJ7hzW4reM9MhehdSy+/H/Hb1H77
+X-Google-Smtp-Source: AK7set+4z4se9QKyc2G/YOEpJ52iTCPlFHyJiA81EQRIScXkaoeLZkNnVLobQOCTGIVSaMg7ncxCQg==
+X-Received: by 2002:adf:ce0b:0:b0:2c6:e827:21c1 with SMTP id p11-20020adfce0b000000b002c6e82721c1mr16322797wrn.50.1677412768695;
+        Sun, 26 Feb 2023 03:59:28 -0800 (PST)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:acca:18ee:3f6:d4ed])
         by smtp.gmail.com with ESMTPSA id d2-20020adfe842000000b002c552c6c8c2sm4247928wrn.87.2023.02.26.03.59.28
         for <openembedded-core@lists.openembedded.org>
@@ -46,72 +44,51 @@ Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:acca:18ee:3f6:d4ed])
         Sun, 26 Feb 2023 03:59:28 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] resulttool/regression: Improve matching of poor ptest test names
-Date: Sun, 26 Feb 2023 11:59:27 +0000
-Message-Id: <20230226115927.628364-2-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 1/2] resulttool/regression: Ensure LTP results are only compared against other LTP runs
+Date: Sun, 26 Feb 2023 11:59:26 +0000
+Message-Id: <20230226115927.628364-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230226115927.628364-1-richard.purdie@linuxfoundation.org>
-References: <20230226115927.628364-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 26 Feb 2023 11:59:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177731
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177730
 
-Some test case naming is poor and contains random strings, particularly
-lttng/babeltrace but also curl. Truncating the test names works since they
-contain file and line number identifiers which allows us to match them
-without the random components, or in the case or curl, test IDs.
-
-Going forward we may be able to improve the test names but this
-tweak allows historical test results to work in reports.
+If a test result contains LTP test results, it should only be compared with
+other runs containing LTP test results.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- scripts/lib/resulttool/regression.py | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ scripts/lib/resulttool/regression.py | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/lib/resulttool/regression.py b/scripts/lib/resulttool/regression.py
-index 04a2f3fbb07..74fd5f38951 100644
+index 1b0c8335a39..04a2f3fbb07 100644
 --- a/scripts/lib/resulttool/regression.py
 +++ b/scripts/lib/resulttool/regression.py
-@@ -248,6 +248,24 @@ def regression_common(args, logger, base_results, target_results):
+@@ -146,6 +146,7 @@ def can_be_compared(logger, base, target):
+     run with different tests sets or parameters. Return true if tests can be
+     compared
+     """
++    ret = True
+     base_configuration = base['configuration']
+     target_configuration = target['configuration']
  
-     return 0
+@@ -165,7 +166,11 @@ def can_be_compared(logger, base, target):
+             logger.debug(f"Enriching {target_configuration['STARTTIME']} with {guess}")
+             target_configuration['OESELFTEST_METADATA'] = guess
  
-+# Some test case naming is poor and contains random strings, particularly lttng/babeltrace.
-+# Truncating the test names works since they contain file and line number identifiers
-+# which allows us to match them without the random components.
-+def fixup_ptest_names(results, logger):
-+    for r in results:
-+        for i in results[r]:
-+            tests = list(results[r][i]['result'].keys())
-+            for test in tests:
-+                new = None
-+                if test.startswith(("ptestresult.lttng-tools.", "ptestresult.babeltrace.", "ptestresult.babeltrace2")) and "_-_" in test:
-+                    new = test.split("_-_")[0]
-+                elif test.startswith(("ptestresult.curl.")) and "__" in test:
-+                    new = test.split("__")[0]
-+                if new:
-+                    results[r][i]['result'][new] = results[r][i]['result'][test]
-+                    del results[r][i]['result'][test]
+-    return metadata_matches(base_configuration, target_configuration) \
++    # Test runs with LTP results in should only be compared with other runs with LTP tests in them
++    if base_configuration.get('TEST_TYPE') == 'runtime' and any(result.startswith("ltpresult") for result in base['result']):
++        ret = target_configuration.get('TEST_TYPE') == 'runtime' and any(result.startswith("ltpresult") for result in target['result'])
 +
-+
- def regression_git(args, logger):
-     base_results = {}
-     target_results = {}
-@@ -309,6 +327,9 @@ def regression_git(args, logger):
-     base_results = resultutils.git_get_result(repo, revs[index1][2])
-     target_results = resultutils.git_get_result(repo, revs[index2][2])
++    return ret and metadata_matches(base_configuration, target_configuration) \
+         and machine_matches(base_configuration, target_configuration)
  
-+    fixup_ptest_names(base_results, logger)
-+    fixup_ptest_names(target_results, logger)
-+
-     regression_common(args, logger, base_results, target_results)
  
-     return 0
 -- 
 2.37.2
 
