@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D35EC7EE2E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95BC2C6FA8E
 	for <webhook@archiver.kernel.org>; Sun, 26 Feb 2023 17:03:16 +0000 (UTC)
 Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
  by mx.groups.io with SMTP id smtpd.web10.69588.1677430972994155422
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Feb 2023 09:03:07 -0800
+ Sun, 26 Feb 2023 09:03:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=tUQsMPag;
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=vjHRl0Z2;
  spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id h8so1108003plf.10
-        for <openembedded-core@lists.openembedded.org>; Sun, 26 Feb 2023 09:03:07 -0800 (PST)
+Received: by mail-pl1-f174.google.com with SMTP id h8so1108059plf.10
+        for <openembedded-core@lists.openembedded.org>; Sun, 26 Feb 2023 09:03:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=EBdb7h866JIkWIWUPARzfGhexWB+VeEHHIyiw3IuXVU=;
-        b=tUQsMPagxyfY3GmPpxWK9hLGQOWfbPqf/drhb23Y93jLLqWK0Ki7x3kDoqH2ZFUhok
-         vvcczqbDC/Gxvcw0Qa7bFUnx6F1wcNomNaqb+PP9SKaX3OdiFZaiDfMImmRasmfZkd6Y
-         jPbIEf2ioLdlkv1Z4lPZQEJHTAl4kYXDGVG3qy4lxNF7Ty4NrTZ2br+wi3mxDOJuwwb/
-         dryKZ4geP8N7pqkzc5Sfgzsi/6rLymQEzt6VweDDxkim5tsp/B3FvQSbd5gyrNJxSHSf
-         Nhkl/aOKqrLnvQhCNlsb829KoZc4KMS8/BlRoPUg3ABl7+BRA/oCxJrnTcpn6lBULjss
-         EWww==
+        bh=BzZDvQhb20sSm0dLc6YC8XOiEpUO2kkao8AplX4LZLo=;
+        b=vjHRl0Z2NmMvKNOQG2fi09c5xRogd4s15VzBUV5h0HfIwfK8DBmSvDOgCPi2Vo6J4Q
+         4nrs86m31x+z9VKPNwzqrmEqZgRXKrD4+rLgOqCqGnB+nUtt1/mBzrWlbb6bcHkZ2cLN
+         +WrZPDH4MNFcx9Lbe+4cqyA4CsdkzrJ9sWoplhCQKKsIlhaxYyjaHpGupalm+rf68/+l
+         e3AEF/Pi/cfI0kyQ26GSk0q/H0wEDoBMFfvyieO8pIi0AaMFxeX+1BSRozrjzG5uQkTR
+         2i4stEWBvWFWbD+KVILYDza6fSDRLyuQHd5ZWWCkVbIEbDmkRhT7vQbV6e9TGpmTvv70
+         Od2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EBdb7h866JIkWIWUPARzfGhexWB+VeEHHIyiw3IuXVU=;
-        b=SX/qCpkhSNivR0B/Fj53rr8Z80vXXybbTf5CaDOq8//7mrYRc14SHBa/mFwchRDdSf
-         YpP4L1wFO0aGEllfVaMEc0TKFo7rghJ5JAl6+FnxCdYLDRwt8hAWzTa8FYpeQiSgNdds
-         JH0V6n4pu0kfEvhAJNB3t6L1smKGbV5Sln30jOsZE2+4EN5XKYMPjQ3l+7/CuPRWvsPF
-         8LNHLvn+owyO6n8adHUb0pWedVU+gaGiFXCkZCWpy6RdJZqfmGC6EGDmeUYuFP+V4Sdn
-         SEzOgTD5852wNsIZVwwxEebPMrQ59CoAMiBw6nsD0h0o5zdBCDyYIreTYVPqCH28v4w6
-         mwjA==
-X-Gm-Message-State: AO0yUKV89/w/R+LYxnLttEGu0Gvigo2T6O0xN/jfQyyY2lCPbuyFVF92
-	11b/CsROSpCelGwwmB9CRhHMfyAusC2maL1p4J8=
-X-Google-Smtp-Source: AK7set/qgGmsEJCOJOuWd7DTjQM0hD7hi/iAUice4HBcsVv3LRbEfE4ns3IkFstFyMWmqTDWiP8OdA==
-X-Received: by 2002:a17:90b:3802:b0:234:6c1a:8d9b with SMTP id mq2-20020a17090b380200b002346c1a8d9bmr22996643pjb.0.1677430986269;
-        Sun, 26 Feb 2023 09:03:06 -0800 (PST)
+        bh=BzZDvQhb20sSm0dLc6YC8XOiEpUO2kkao8AplX4LZLo=;
+        b=md/J4gexaVikZqtsCvuga9WdhCKcZNsocogZUJJqXZvL5FtmakQAmKZUq0qGAhDWA6
+         6/PHrKGUgQCbxZ5j7IkPXh3J9BShkebOvOU/tYZ0jitj25ttMNluNyXG2GoAuvWOEgD+
+         AKpFzjDMbndcCQhovDS5JX48/19IwBdfOgtrntTocwUvJaPuVO6lL5Ha9CesG46mmRRP
+         6Ueayql+EyZLeqZWeeqxuSqeFNB92fKL1w2TLgvnwlqqknfPFQktEfPvLUtQ84DD7pC2
+         3LpDIvC4KlBsOUVUWEeuDBl6FBrX+2AD/N7I1hYCVj1aMQVOPnuI4om4ffMVz/kqQLIP
+         KdNw==
+X-Gm-Message-State: AO0yUKV9aiClPArZMN5+U3qQ3henOiSzJNnp2MMYlntgaM5SRTFSJEmd
+	UtfUjrAttX80SjLsnZ8EC9ursqUuLu+1un02Faw=
+X-Google-Smtp-Source: AK7set8En+AKmvZmlpPISL+maMhpQRFsnQi7/G6sYRIoAvkbiiMkZdwYYDrpz3i88Eh8Y0qBoKYW4w==
+X-Received: by 2002:a05:6a20:549d:b0:cc:34e7:bbad with SMTP id i29-20020a056a20549d00b000cc34e7bbadmr13915048pzk.25.1677430988315;
+        Sun, 26 Feb 2023 09:03:08 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id s25-20020a63af59000000b004f1cb6ffe81sm2500856pgo.64.2023.02.26.09.03.05
+        by smtp.gmail.com with ESMTPSA id s25-20020a63af59000000b004f1cb6ffe81sm2500856pgo.64.2023.02.26.09.03.07
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Feb 2023 09:03:05 -0800 (PST)
+        Sun, 26 Feb 2023 09:03:07 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 20/28] lttng-modules: fix for kernel 6.2+
-Date: Sun, 26 Feb 2023 07:02:16 -1000
-Message-Id: <5d36b42406d7cbc152008c9de364eb4187c64b3b.1677430770.git.steve@sakoman.com>
+Subject: [OE-core][langdale 21/28] libssh2: Clean up ptest patch/coverage
+Date: Sun, 26 Feb 2023 07:02:17 -1000
+Message-Id: <c2d2d973b3465f0c61741861d198065081bb7dd9.1677430770.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1677430770.git.steve@sakoman.com>
 References: <cover.1677430770.git.steve@sakoman.com>
@@ -61,86 +61,145 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 26 Feb 2023 17:03:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177758
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177759
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Backporting a patching from the 2.13.x stable branch of lttng
-to fix the build against kernel 6.2+.
+Martin Jansa spotted patchreview.py reports Malformed Upstream-Status in a
+patch in this recipe. The patch is not being applied since there is no ptest
+override.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+The test in question was also disabled due to an issue with new versions of
+openssh.
+
+Add a workaround for the broken test, enable it, drop the broken patch.
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 3aed7dfe5ff6f52497dcffa58bc2f06cf709ea18)
+(cherry picked from commit e9f2cc084638ce9cb5339df611e473c30f0e40b1)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...ccessor-helpers-into-accessors.h-v6..patch | 45 +++++++++++++++++++
- .../lttng/lttng-modules_2.13.8.bb             |  1 +
- 2 files changed, 46 insertions(+)
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-btrfs-move-accessor-helpers-into-accessors.h-v6..patch
+ ...nviroment-to-decide-if-a-test-is-bui.patch | 44 -------------------
+ .../libssh2/libssh2/fix-ssh2-test.patch       | 23 ++++++++++
+ .../libssh2/{files => libssh2}/run-ptest      |  3 +-
+ .../recipes-support/libssh2/libssh2_1.10.0.bb |  3 +-
+ 4 files changed, 25 insertions(+), 48 deletions(-)
+ delete mode 100644 meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch
+ create mode 100644 meta/recipes-support/libssh2/libssh2/fix-ssh2-test.patch
+ rename meta/recipes-support/libssh2/{files => libssh2}/run-ptest (67%)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-btrfs-move-accessor-helpers-into-accessors.h-v6..patch b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-btrfs-move-accessor-helpers-into-accessors.h-v6..patch
+diff --git a/meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch b/meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch
+deleted file mode 100644
+index b1204e49eb..0000000000
+--- a/meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch
++++ /dev/null
+@@ -1,44 +0,0 @@
+-From f6abce5ba41a412a247250dcd80e387e53474466 Mon Sep 17 00:00:00 2001
+-From: Your Name <you@example.com>
+-Date: Mon, 28 Dec 2020 02:08:03 +0000
+-Subject: [PATCH] Don't let host enviroment to decide if a test is build
+-
+-test ssh2.sh need sshd, for cross compile, we need it on target, so
+-don't use SSHD on host to decide weither to build a test
+-
+-Upstream-Status: Inappropriate[oe specific]
+-
+-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+-
+----
+- tests/Makefile.am | 6 +-----
+- 1 file changed, 1 insertion(+), 5 deletions(-)
+-
+-diff --git a/tests/Makefile.am b/tests/Makefile.am
+-index dc0922f..6cbc35d 100644
+---- a/tests/Makefile.am
+-+++ b/tests/Makefile.am
+-@@ -1,16 +1,12 @@
+- AM_CPPFLAGS = -I$(top_srcdir)/src -I$(top_srcdir)/include -I$(top_builddir)/src
+- LDADD = ../src/libssh2.la
+- 
+--if SSHD
+- noinst_PROGRAMS = ssh2
+- ssh2_SOURCES = ssh2.c
+--endif
+- 
+- ctests = simple$(EXEEXT)
+- TESTS = $(ctests) mansyntax.sh
+--if SSHD
+- TESTS += ssh2.sh
+--endif
+- check_PROGRAMS = $(ctests)
+- 
+- TESTS_ENVIRONMENT = SSHD=$(SSHD) EXEEXT=$(EXEEXT)
+-@@ -38,4 +34,4 @@ if OPENSSL
+- # EXTRA_DIST += test_public_key_auth_succeeds_with_correct_encrypted_ed25519_key.c
+- # EXTRA_DIST += test_public_key_auth_succeeds_with_correct_ed25519_key_from_mem.c
+- EXTRA_DIST += test_public_key_auth_succeeds_with_correct_rsa_openssh_key.c
+--endif
+-\ No newline at end of file
+-+endif
+diff --git a/meta/recipes-support/libssh2/libssh2/fix-ssh2-test.patch b/meta/recipes-support/libssh2/libssh2/fix-ssh2-test.patch
 new file mode 100644
-index 0000000000..26ae605b31
+index 0000000000..ee916c42d4
 --- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-btrfs-move-accessor-helpers-into-accessors.h-v6..patch
-@@ -0,0 +1,45 @@
-+From 69d3aa79a641f539cfd5c11b46b2dd9b4df9b0f0 Mon Sep 17 00:00:00 2001
-+From: Michael Jeanson <mjeanson@efficios.com>
-+Date: Mon, 16 Jan 2023 15:01:51 -0500
-+Subject: [PATCH] fix: btrfs: move accessor helpers into accessors.h (v6.2)
++++ b/meta/recipes-support/libssh2/libssh2/fix-ssh2-test.patch
+@@ -0,0 +1,23 @@
++In 8.8 OpenSSH disabled sha1 rsa-sha keys out of the box,
++so we need to re-enable them as a workaround for the test
++suite until upstream updates the tests.
 +
-+See upstream commit :
++See: https://github.com/libssh2/libssh2/issues/630
 +
-+  commit 07e81dc94474eb62705c6f96d9ab1a5a797b8703
-+  Author: Josef Bacik <josef@toxicpanda.com>
-+  Date:   Wed Oct 19 10:51:00 2022 -0400
++Upstream-Status: Backport [alternative fixes merged upstream]
 +
-+    btrfs: move accessor helpers into accessors.h
++Patch taken from https://github.com/mirror-rpm/libssh2/commit/47f7114f7d0780f3075bad51a71881f45cc933c5
 +
-+    This is a large patch, but because they're all macros it's impossible to
-+    split up.  Simply copy all of the item accessors in ctree.h and paste
-+    them in accessors.h, and then update any files to include the header so
-+    everything compiles.
++--- a/tests/ssh2.sh
+++++ b/tests/ssh2.sh
++@@ -25,7 +25,8 @@ $SSHD -f /dev/null -h "$srcdir"/etc/host
++     -o 'Port 4711' \
++     -o 'Protocol 2' \
++     -o "AuthorizedKeysFile $srcdir/etc/user.pub" \
++-    -o 'UsePrivilegeSeparation no' \
+++    -o 'HostKeyAlgorithms +ssh-rsa' \
+++    -o 'PubkeyAcceptedAlgorithms +ssh-rsa' \
++     -o 'StrictModes no' \
++     -D \
++     $libssh2_sshd_params &
 +
-+Upstream-Status: Backport
-+
-+Change-Id: I1f0876dd8b7a8687f6802b60c3e3baabd017cc52
-+Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
-+Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-+---
-+ include/instrumentation/events/btrfs.h | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/include/instrumentation/events/btrfs.h b/include/instrumentation/events/btrfs.h
-+index 785f16ac..01157107 100644
-+--- a/include/instrumentation/events/btrfs.h
-++++ b/include/instrumentation/events/btrfs.h
-+@@ -9,6 +9,10 @@
-+ #include <linux/writeback.h>
-+ #include <lttng/kernel-version.h>
-+ 
-++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,2,0))
-++#include <../fs/btrfs/accessors.h>
-++#endif
-++
-+ #ifndef _TRACE_BTRFS_DEF_
-+ #define _TRACE_BTRFS_DEF_
-+ struct btrfs_root;
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.13.8.bb b/meta/recipes-kernel/lttng/lttng-modules_2.13.8.bb
-index 3cfc1bc58e..c04796be16 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.13.8.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.13.8.bb
-@@ -13,6 +13,7 @@ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0009-Rename-genhd-wrapper-to-blkdev.patch \
-            file://fix-jbd2-use-the-correct-print-format-v5.10.163.patch \
-            file://fix-jbd2-upper-bound-for-v5.10.163.patch \
-+           file://0001-fix-btrfs-move-accessor-helpers-into-accessors.h-v6..patch \
+diff --git a/meta/recipes-support/libssh2/files/run-ptest b/meta/recipes-support/libssh2/libssh2/run-ptest
+similarity index 67%
+rename from meta/recipes-support/libssh2/files/run-ptest
+rename to meta/recipes-support/libssh2/libssh2/run-ptest
+index 9e2fce2d24..5e7426f79d 100644
+--- a/meta/recipes-support/libssh2/files/run-ptest
++++ b/meta/recipes-support/libssh2/libssh2/run-ptest
+@@ -2,8 +2,7 @@
+ 
+ ptestdir=$(dirname "$(readlink -f "$0")")
+ cd tests
+-# omit ssh2.sh until https://github.com/libssh2/libssh2/issues/630 is fixed
+-for test in simple mansyntax.sh
++for test in simple mansyntax.sh ssh2.sh
+ do
+ 	./../test-driver --test-name $test --log-file ../$test.log --trs-file ../$test.trs --color-tests no --enable-hard-errors yes --expect-failure no -- ./$test
+ done
+diff --git a/meta/recipes-support/libssh2/libssh2_1.10.0.bb b/meta/recipes-support/libssh2/libssh2_1.10.0.bb
+index 072d6819c0..d5513373b0 100644
+--- a/meta/recipes-support/libssh2/libssh2_1.10.0.bb
++++ b/meta/recipes-support/libssh2/libssh2_1.10.0.bb
+@@ -8,11 +8,10 @@ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=3e089ad0cf27edf1e7f261dfcd06acc7"
+ 
+ SRC_URI = "http://www.libssh2.org/download/${BP}.tar.gz \
++           file://fix-ssh2-test.patch \
+            file://run-ptest \
             "
  
- # Use :append here so that the patch is applied also when using devupstream
+-SRC_URI:append:ptest = " file://0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch"
+-
+ SRC_URI[sha256sum] = "2d64e90f3ded394b91d3a2e774ca203a4179f69aebee03003e5a6fa621e41d51"
+ 
+ inherit autotools pkgconfig ptest
 -- 
 2.34.1
 
