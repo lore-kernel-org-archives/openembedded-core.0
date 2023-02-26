@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90C8AC6FA8E
-	for <webhook@archiver.kernel.org>; Sun, 26 Feb 2023 13:03:05 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web11.64843.1677416583118224744
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABC10C64ED6
+	for <webhook@archiver.kernel.org>; Sun, 26 Feb 2023 13:33:05 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web10.65241.1677418384928318773
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Feb 2023 05:03:03 -0800
+ Sun, 26 Feb 2023 05:33:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=pvCJ/bRk;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f52.google.com with SMTP id y2so3452767pjg.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 26 Feb 2023 05:03:03 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=c9KXot/H;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id l15so4136665pls.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 26 Feb 2023 05:33:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WNJUKjV76QACH/dtciYX6eAeCEepc7DcuHnO4oyjj1w=;
-        b=pvCJ/bRkLjcviIwYwUKWb39O8B76SpdpX5u7NkF5GoH5iednb7KyPsX/P3WT3feXfM
-         WbbCWxaZDtqyFDJf+/gCCUn0cY3VQuYOZTIEPdLJJ3ymTCJw2HMzuolO0DmHh4PosWM6
-         EPhQeffYi77iIQ6r+q9eAPBCcXT704/ATK7ZgEowRnNUL2/yFLewrO8MTEu8ykP190fZ
-         QdemP/nj8azwKdOzOfDRfpAXfOE2Om/5uydtEEOwkzDJbm5kx5X2gfNzB6Xl+s/Z4AOB
-         zE1Mu9PkhDdCzrMvMOJg3pS2vDGjBtRBllrIzuMyRv2yB2tyY6L4NSQSae/CQWZ8xK68
-         x0yA==
+        bh=CywqQPPhfZokBTntzf4NDarhU4ExCoi1Ifb+7vE2GgI=;
+        b=c9KXot/HESZGU+Uw390nhOtS7txaX3xx5IlaHk+dIMuUz38YNswXz1eNrgMSRJ6Urd
+         8HkXDdYQ9JBObtCEx9rWZdj0zIEkNGqJfQADqFK61lQlV8zPB5kgDqpu1NJ7QZgOObNw
+         B/o6dNtdl5PfN5ZbC4Jh3erpBnegHwFQCVdtwIRAGIM4yqHKrpYS+NYuZRR94uMfBGee
+         0tFWt9bWKO8Fr/ISll8lnNwtZo6x0eatuycfbMhKMKvK73zqeSBiy1TKJz4CgRTILoM9
+         UOggiI8AdnxZoHoxgn5bHZKSUR4fCTQ+OL3RHqjg9Dw2th+MCNJ/nmdJY78osH9HJ52Z
+         Se5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=WNJUKjV76QACH/dtciYX6eAeCEepc7DcuHnO4oyjj1w=;
-        b=QOe/7y5qLP7iIq+Xp98USqUMnHmqA4dsjuIzPqLRLUKp2sM+3PSs/zAveVDZ7obqzF
-         s3ZdC5qQ63c/UdqZvQh6Hje7aYZqIvsXUECUr5UMk7KpvL50R2cs61O+UJNxNMEtRTXa
-         boggxvDBOjOWPfNoUS0NSFgWH1Vz8hgar4ZHSvQrmElEhR3xKRQ+nbckhc/6pNliTb5w
-         gkY2BsnFpAvP25Zq/X/xo0xrFQGzeBG/xbPHt49c2RHAJyqbuDH0yepmZIjzkOK1Rj+T
-         kpQVzkYwb3QI+41N9Okv8DxySKBrCm1FhS8y37aa7Rg4iZwMpS1yr31ZZTUqu4eXo7fZ
-         SM2Q==
-X-Gm-Message-State: AO0yUKXAfqOL2yGxWx17h6hSNJ7AyaE7HC/YW+UahQWY9spr7c5Htqcs
-	iNe8s+Luztr6HzmdSDg0mvdfkAH02pFtbQq8pkw=
-X-Google-Smtp-Source: AK7set85mP1uu6GfTgiCWUyd+hIU/pZRcZKZY4io7Bt5s7CRQPn62+5J8WbuskjzEtAd6nVw5kCKKw==
-X-Received: by 2002:a17:902:ab0c:b0:19c:d316:309a with SMTP id ik12-20020a170902ab0c00b0019cd316309amr6645712plb.4.1677416582008;
-        Sun, 26 Feb 2023 05:03:02 -0800 (PST)
+        bh=CywqQPPhfZokBTntzf4NDarhU4ExCoi1Ifb+7vE2GgI=;
+        b=XS2seBg4w1eyFwMKezjqb6cilNzyxt4AErA/7IXGvg3kLjGc4uV+EC+/CtZfOY9/Ex
+         GXUAE+OnTd6qsgNnqFqQyror+VJyCj6ZIUNsrj+hHBxLlVnG6ZsW5Bg232/ilKxno88p
+         zsu7XCYyJtrDADi2aj9ACjENnxInseuXJPgUQIWF8RUiKXtqULRgA2UzTtYU16+t/XDp
+         yKUio7Nrs0IzVKf7swbZFdRdghPND1x3/gSUo482tiPbHv7qRNrOmoqlVcMJj6yVsoq5
+         /KWvqhFfdMkEpKM6L+7BSbsdKv5nlcr7NEAhjit1kiA0knDjWRAnlTtW/Rbgj4NeEfha
+         NZUw==
+X-Gm-Message-State: AO0yUKUKmwmJkRVUm8QH+DZZPlAppaVy0pTUu+WpsM7rSV1pk+S4eFFq
+	XjEb34icYKDV8fAA73Lcu4je3Pv1w6xs4pbGPQI=
+X-Google-Smtp-Source: AK7set8ySSj+zpx6Jkt16N1L+jM5M9cSijbEoSVdsT9nqeqC+yuhPKIY/p+jO8AgCXaJ+0c8kQUTdQ==
+X-Received: by 2002:a17:902:d506:b0:199:4d25:6a4d with SMTP id b6-20020a170902d50600b001994d256a4dmr5580481plg.10.1677418383708;
+        Sun, 26 Feb 2023 05:33:03 -0800 (PST)
 Received: from nuc.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id jc5-20020a17090325c500b0019b0b6a1d5bsm2621663plb.273.2023.02.26.05.03.01
+        by smtp.gmail.com with ESMTPSA id jn9-20020a170903050900b0019cc3d0e1basm2691455plb.112.2023.02.26.05.33.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Feb 2023 05:03:01 -0800 (PST)
+        Sun, 26 Feb 2023 05:33:03 -0800 (PST)
 Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id 462CC9632FC; Sun, 26 Feb 2023 03:03:00 -1000 (HST)
-Subject: OE-core CVE metrics for kirkstone on Sun 26 Feb 2023 03:00:01 AM HST
+	id 196BE9632FC; Sun, 26 Feb 2023 03:33:02 -1000 (HST)
+Subject: OE-core CVE metrics for langdale on Sun 26 Feb 2023 03:30:01 AM HST
 FROM: steve@sakoman.com
 To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
 User-Agent: mail (GNU Mailutils 3.14)
-Date: Sun, 26 Feb 2023 03:03:00 -1000
-Message-Id: <20230226130300.462CC9632FC@nuc.router0800d9.com>
+Date: Sun, 26 Feb 2023 03:33:02 -1000
+Message-Id: <20230226133302.196BE9632FC@nuc.router0800d9.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 26 Feb 2023 13:03:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177735
+ <openembedded-core@lists.openembedded.org>; Sun, 26 Feb 2023 13:33:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177736
 
-Branch: kirkstone
+Branch: langdale
 
 New this week: 2 CVEs
 CVE-2022-4304 (CVSS3: 5.9 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4304 *
@@ -71,22 +71,24 @@ CVE-2022-3924 (CVSS3: 7.5 HIGH): bind https://web.nvd.nist.gov/view/vuln/detail?
 CVE-2022-48303 (CVSS3: 7.8 HIGH): tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-48303 *
 CVE-2023-22742 (CVSS3: 5.9 MEDIUM): libgit2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-22742 *
 
-Full list:  Found 38 unpatched CVEs
-CVE-2021-35937 (CVSS3: 6.4 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35937 *
-CVE-2021-35938 (CVSS3: 6.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35938 *
-CVE-2021-35939 (CVSS3: 6.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35939 *
-CVE-2022-2879 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2879 *
+Full list:  Found 40 unpatched CVEs
+CVE-2020-10735 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-10735 *
 CVE-2022-3515 (CVSS3: 9.8 CRITICAL): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3515 *
-CVE-2022-3553 (CVSS3: 6.5 MEDIUM): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3553 *
+CVE-2022-37454 (CVSS3: 9.8 CRITICAL): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-37454 *
 CVE-2022-3872 (CVSS3: 8.6 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3872 *
+CVE-2022-40303 (CVSS3: 7.5 HIGH): libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40303 *
+CVE-2022-40304 (CVSS3: 7.8 HIGH): libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40304 *
 CVE-2022-4055 (CVSS3: 7.4 HIGH): xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4055 *
-CVE-2022-41716 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41716 *
-CVE-2022-41720 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41720 *
+CVE-2022-40897 (CVSS3: 5.9 MEDIUM): python3-setuptools:python3-setuptools-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40897 *
+CVE-2022-4144 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4144 *
+CVE-2022-42919 (CVSS3: 7.8 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-42919 *
 CVE-2022-4304 (CVSS3: 5.9 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4304 *
 CVE-2022-4450 (CVSS3: 7.5 HIGH): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4450 *
 CVE-2022-44617 (CVSS3: 7.5 HIGH): libxpm https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-44617 *
+CVE-2022-45061 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-45061 *
 CVE-2022-46285 (CVSS3: 7.5 HIGH): libxpm https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46285 *
 CVE-2022-46663 (CVSS3: 7.5 HIGH): less https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46663 *
+CVE-2022-46908 (CVSS3: 7.3 HIGH): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46908 *
 CVE-2022-4743 (CVSS3: 7.5 HIGH): libsdl2:libsdl2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4743 *
 CVE-2022-48281 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-48281 *
 CVE-2022-4883 (CVSS3: 8.8 HIGH): libxpm https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4883 *
