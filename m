@@ -1,147 +1,197 @@
-Return-Path: <alexis.lothore@bootlin.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C3DDC6FA8E
-	for <webhook@archiver.kernel.org>; Sun, 26 Feb 2023 15:42:26 +0000 (UTC)
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
- by mx.groups.io with SMTP id smtpd.web11.67792.1677426136555612457
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98775C7EE2E
+	for <webhook@archiver.kernel.org>; Sun, 26 Feb 2023 17:02:36 +0000 (UTC)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web10.69571.1677430950187106395
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Feb 2023 07:42:17 -0800
+ Sun, 26 Feb 2023 09:02:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=XFJvn6OH;
- spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: alexis.lothore@bootlin.com)
-Received: (Authenticated sender: alexis.lothore@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 2CD5640004;
-	Sun, 26 Feb 2023 15:42:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1677426134;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KzV37rxQD3bJApzsvdfToBESoUAuJyFcH+nRxk0Qvac=;
-	b=XFJvn6OHux9ZND2CaTNyEwiQajDIb5MEQ1kVDRZasLH9hoUTiknhiXMS6PjnfOdXjSQPVb
-	0C4jtN4Wd59yJfkFDzJVLpg9N4khUuIgYy6cHNJo6cgyAckk4At0berRHVUnGqYLjLQ5Fz
-	EhfPgHV7NQ3EfGU9wmwIlm40yzJ/2IwwiiwUvQ2C2aa2sqdD3TTy0EyQmC4k9Ah462wLeg
-	WX7Rp7KaWqT7DEmL/GQLZvft0zd+jFJPiGEsEOuiMvxz9aNNKKC/+1vwsrnHtZ+P9an4Qt
-	7Os6Bm0A1rynWSbfthBfCKfosGpSN2nSQFq/BycY3MttHtpO5duVWbChQ2vBHQ==
-Message-ID: <3070708a-ac01-a3a9-31c8-e319027fb44b@bootlin.com>
-Date: Sun, 26 Feb 2023 16:42:13 +0100
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=lC40iVH1;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f47.google.com with SMTP id m8-20020a17090a4d8800b002377bced051so7820509pjh.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 26 Feb 2023 09:02:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=m39irZ5Zq7wldBuvAqGQrO8M6POOJKbpbOUtQXwOiWg=;
+        b=lC40iVH1xtLJqc0Mqtdk5URnK8VW062bTG+Ri2nCJs9TQJeyH1t2seXkraJobV23QZ
+         zwfeUq+BD2GPbePeYRVjHzkXDCTmxpivTMnnPACpsn5n/oV1xaSHM+jh0cFW4CW/TfBr
+         c+rIEqGJg1r793hsT7mUPAw0RqyjyEUhIQFN+qWcWr2gtUW7DEXncocszBrKH1db46WZ
+         hYGabjm/fos3ipfWrXSEYx5T/VZZDhy4JMsxVdqrmb9DD2GPVSo2rcitATyfRqFfFC/y
+         21YTnUdsiKnspbfs8k2Yk/w0tF5PZxq18HmQo2Ss5t9uLcI/cI+cvT7dFTmJF+jl4ZSQ
+         BQlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=m39irZ5Zq7wldBuvAqGQrO8M6POOJKbpbOUtQXwOiWg=;
+        b=DbJus6nG4VuEpgMaSnxy0V/oySGrjf9XXmOaf8jJpMScI6T0D1KFfh9f9dFGEtdL0q
+         OBczM9vsJ6xI7djDinLg3YgTcipO5epbeHQ8Ot+34zckXxfoWvgNnGljnQCiU3QhOBiB
+         y78nqT4GAlnJcc9/qbUJZ4ooVS+W+Rvn24VvbqZB6oZCfopbRwRBDikgPxl+hjiD9wwz
+         2/0gSJPWT3c+SORZBr1c4LtT4zqZ9qduIPXP6GoKvHo679aHY2FUAV2+T2Vw8E/kBruy
+         jIzjMsnjMXNOv1kDBq9h7FAXqWmGiG+zYR9XZxu3lctKmuROnfqS9N4iH19vNRL4wUsn
+         pfZw==
+X-Gm-Message-State: AO0yUKXMYJMd+nN86PQgfOnDSobYXlW3RG6R7wa+14JqPVbUFqtVRwZf
+	rp3MyZnGKUfElp6gxFpZheapgJoEKMlRGRw9TNM=
+X-Google-Smtp-Source: AK7set92DxTpKatwJBhQy8/xo408Lt8l63QR5d+CMNIT7Zi9GeEj3XzuJaDlhh2pImPimq52bOeRkw==
+X-Received: by 2002:a17:902:f64b:b0:19a:b588:6fe2 with SMTP id m11-20020a170902f64b00b0019ab5886fe2mr5246017plg.13.1677430948677;
+        Sun, 26 Feb 2023 09:02:28 -0800 (PST)
+Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
+        by smtp.gmail.com with ESMTPSA id s25-20020a63af59000000b004f1cb6ffe81sm2500856pgo.64.2023.02.26.09.02.27
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Feb 2023 09:02:28 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][langdale 00/28] Patch review
+Date: Sun, 26 Feb 2023 07:01:56 -1000
+Message-Id: <cover.1677430770.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [OE-core] [PATCH v3 0/6] scripts/resulttool/regression: add
- metadata filtering
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-Cc: alexandre.belloni@bootlin.com, thomas.petazzoni@bootlin.com
-References: <20230224164555.67634-1-alexis.lothore@bootlin.com>
- <1746D4E8592324E9.29542@lists.openembedded.org>
- <1747067DAE80068A.29542@lists.openembedded.org>
- <4560f34639cc5c794b0f15edae10aeba0da5e570.camel@linuxfoundation.org>
- <684f07d3-6ae3-9932-26e6-edab46bb0ec7@bootlin.com>
- <e40c7fea9d2d3ec508c5b5a73315a8429422e2cf.camel@linuxfoundation.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Alexis_Lothor=c3=a9?= <alexis.lothore@bootlin.com>
-In-Reply-To: <e40c7fea9d2d3ec508c5b5a73315a8429422e2cf.camel@linuxfoundation.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 26 Feb 2023 15:42:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177737
+ <openembedded-core@lists.openembedded.org>; Sun, 26 Feb 2023 17:02:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177738
 
-Hello Richard,
-On 2/26/23 13:15, Richard Purdie wrote:
-> On Sat, 2023-02-25 at 16:59 +0100, Alexis Lothoré wrote:
->> Hello Richard,
->> as usual, thanks for the prompt feedback !
->>
->> On 2/25/23 13:32, Richard Purdie wrote:
->>> On Sat, 2023-02-25 at 09:15 +0000, Richard Purdie via
->>> lists.openembedded.org wrote:
->>>> On Fri, 2023-02-24 at 18:06 +0000, Richard Purdie via
->>>> lists.openembedded.org wrote:
->>>>> Hi Alexis,
->>>>>
->>>>> Firstly, this looks very much improved, thanks. It is great to start to
->>>>> see some meaningful data from this.
->>>>>
->>>>> On Fri, 2023-02-24 at 17:45 +0100, Alexis Lothoré via
->>>>> lists.openembedded.org wrote:
->>>>>> After manual inspection on some entries, the remaining oeselftest regression
->>>>>> raised in the report seems valid. There are still some issues to tackle:
->>>>>> - it seems that now one major remaining source of noise is on the "runtime"
->>>>>>   tests (comparison to tests not run on "target" results)
->>>>>> - when a ptest managed by oe-selftest fails, I guess the remaining tests are not
->>>>>>   run, so when 1 failure is logged, we have many "PASSED->None" transitions in
->>>>>>   regression report, we should probably silence it.
->>>>>> - some transitions appear as regression while those are in fact improvements
->>>>>>   (e.g: "UNRESOLVED->PASSED")
->>>>>
->>>>> I had quick play. Firstly, if I try "yocto_testresults_query.py
->>>>> regression-report 4.2_M1 4.2_M2" in an openembedded-core repository
->>>>> instead of poky, it breaks. That isn't surprising but we should either
->>>>> make it work or show a sensible error.
->>
->> Oh right, I am working in a Poky build configuration, so I have assumed that this
->> would be the unique use case.
->> Since the test results commits are tightly coupled to revisions in poky (so not
->> oecore), I plan to merely log an error about not found revision (and suggesting
->> the user to check that the repository is poky and not oecore).
->> But please let me know if I miss a major use case here and that a smarter
->> fallback plan (shallow-clone poky if we are running in oecore ?) is needed
-> 
-> I'm happy to for it just to give an human readable error, someone can
-> add this functionality if they need/want it.
+Please review this set of patches for langdale and have comments back by
+end of day Tuesday.
 
-ACK
+Passed a-full on autobuilder:
 
->>>> I think I might be tempted to merge this series and then we can change
->>>> the code to improve from here as this is clearly a vast improvement on
->>>> where we were! Improvements can be incremental on top of these changes.
->>
->> I am in favor of this :) If it is OK for you, I will just re-submit a series with
->> the fix for the proper error logging when running the tool from oecore and not poky.
->>
->> Next we could introduce all the suggestions you have suggested, but I feel that
->> with the quick increase of "hotfixes" count to support issues with older test
->> results, and for the sake of maintainability of resulttool and its submodules,
->> those specific hotfixes need to be properly isolated (and documented), like in a
->> "regression_quirks.py" or something like that. What do you think ?
-> 
-> I'm hoping we don't have many of these quirks. We have a huge history
-> at this point so it would be sad if the tool can't work with it. From
-> what I've seen so far, we can manage with the code in the regression
-> module itself. I've tried to add some comments.
-> 
-> I wondered what to do with this series since I needed to get M3 built.
-> Since this series was available and mostly usable, it would be better
-> to have a nicer report this time, it is a good test of the code.
-> 
-> In the end I've merged most of it, along with my two tweaks to handle
-> LTP and the bigger ptest results issue. I couldn't take one set of the
-> selftests since they simply don't work. This will give us a useful
-> realworld test of the M3 report.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/4975
 
-Ok, great. For the selftest failing, my bad, adding proper logging was one of
-those "one last change before sending", and obviously I did forget to re-run the
-tests before sending.
-> 
-> I'm working on the assumption you'll send a follow up series with the
-> tests, the oe-core check and some of the other issues I've mentioned in
-> other emails?
+The following changes since commit ab1e3000cee9f5f3496a7e67cc59b2e08a681a89:
 
-Absolutely. Besides the tests, oecore check and the improvements mentioned in
-this mail thread, the next thing I was keeping in mind is fixing the report
-generation against "master-next" branches you have mentioned a few weeks ago.
+  oeqa qemurunner.py: try to avoid reading one character at a time (2023-02-18 06:41:49 -1000)
 
-Regards,
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/langdale-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/langdale-nut
+
+Adrian Freihofer (1):
+  bblayers/setupwriters/oe-setup-layers: create dir if not exists
+
+Alexander Kanavin (5):
+  vim: update 9.0.1211 -> 9.0.1293 to resolve open CVEs
+  dbus: upgrade 1.14.4 -> 1.14.6
+  linux-firmware: upgrade 20230117 -> 20230210
+  wireless-regdb: upgrade 2022.08.12 -> 2023.02.13
+  bblayers/makesetup: skip git repos that are submodules
+
+Alexis Lothoré (1):
+  oeqa/selftest/resulttooltests: fix minor typo
+
+Bruce Ashfield (1):
+  lttng-modules: fix for kernel 6.2+
+
+Dmitry Baryshkov (2):
+  linux-firmware: properly set license for all Qualcomm firmware
+  linux-firmware: add yamato fw files to qcom-adreno-a2xx package
+
+Federico Pellegrin (1):
+  curl: fix dependencies when building with ldap/ldaps
+
+Joshua Watt (1):
+  classes/populate_sdk_base: Append cleandirs
+
+Kai Kang (1):
+  xserver-xorg: 21.1.6 -> 21.1.7
+
+Mateusz Marciniec (1):
+  sstatesig: Improve output hash calculation
+
+Mikko Rapeli (2):
+  oeqa ssh.py: fix hangs in run()
+  runqemu: kill qemu if it hangs
+
+Narpat Mali (1):
+  libseccomp: fix for the ptest result format
+
+Pavel Zhukov (1):
+  wic: Fix usage of fstype=none in wic
+
+Richard Purdie (1):
+  libssh2: Clean up ptest patch/coverage
+
+Ross Burton (3):
+  less: backport the fix for CVE-2022-46663
+  lib/buildstats: handle tasks that never finished
+  cml1: remove redundant addtask
+
+Saul Wold (1):
+  busybox: Fix depmod patch
+
+Siddharth Doshi (1):
+  openssl: Upgrade 3.0.7 -> 3.0.8
+
+Ulrich Ölmann (1):
+  kernel-yocto: fix kernel-meta data detection
+
+Wang Mingyu (2):
+  libjpeg-turbo: upgrade 2.1.5 -> 2.1.5.1
+  xwayland: upgrade 22.1.7 -> 22.1.8
+
+Xiangyu Chen (1):
+  dhcpcd: fix dhcpcd start failure on qemuppc64
+
+ meta/classes-recipe/cml1.bbclass              |  1 -
+ meta/classes-recipe/kernel-yocto.bbclass      |  2 +-
+ meta/classes-recipe/populate_sdk_base.bbclass |  2 +-
+ meta/lib/bblayers/makesetup.py                | 10 +++++
+ .../bblayers/setupwriters/oe-setup-layers.py  |  2 +
+ meta/lib/oe/sstatesig.py                      |  4 ++
+ meta/lib/oeqa/core/target/ssh.py              | 39 ++++++++++++----
+ .../oeqa/selftest/cases/resulttooltests.py    |  2 +-
+ .../dhcpcd/dhcpcd_9.4.1.bb                    |  1 +
+ ...x-SECCOMP_AUDIT_ARCH-missing-ppc64le.patch | 34 ++++++++++++++
+ .../openssl/openssl/CVE-2022-3996.patch       | 43 ------------------
+ .../{openssl_3.0.7.bb => openssl_3.0.8.bb}    |  3 +-
+ ...001-depmod-Ignore-.debug-directories.patch |  2 +-
+ .../dbus/{dbus_1.14.4.bb => dbus_1.14.6.bb}   |  4 +-
+ .../less/files/CVE-2022-46663.patch           | 28 ++++++++++++
+ meta/recipes-extended/less/less_608.bb        |  1 +
+ ...urbo_2.1.5.bb => libjpeg-turbo_2.1.5.1.bb} |  2 +-
+ ...-xorg_21.1.6.bb => xserver-xorg_21.1.7.bb} |  2 +-
+ ...{xwayland_22.1.7.bb => xwayland_22.1.8.bb} |  2 +-
+ ...20230117.bb => linux-firmware_20230210.bb} | 41 ++++++++++++++---
+ ...ccessor-helpers-into-accessors.h-v6..patch | 45 +++++++++++++++++++
+ .../lttng/lttng-modules_2.13.8.bb             |  1 +
+ ....08.12.bb => wireless-regdb_2023.02.13.bb} |  2 +-
+ meta/recipes-support/curl/curl_7.85.0.bb      |  4 +-
+ .../libseccomp/files/run-ptest                |  3 ++
+ ...nviroment-to-decide-if-a-test-is-bui.patch | 44 ------------------
+ .../libssh2/libssh2/fix-ssh2-test.patch       | 23 ++++++++++
+ .../libssh2/{files => libssh2}/run-ptest      |  3 +-
+ .../recipes-support/libssh2/libssh2_1.10.0.bb |  3 +-
+ meta/recipes-support/vim/vim.inc              |  4 +-
+ scripts/lib/buildstats.py                     | 33 +++++++++++---
+ scripts/lib/wic/partition.py                  |  5 +++
+ scripts/runqemu                               | 24 ++++++----
+ 33 files changed, 282 insertions(+), 137 deletions(-)
+ create mode 100644 meta/recipes-connectivity/dhcpcd/files/0001-privsep-linux-fix-SECCOMP_AUDIT_ARCH-missing-ppc64le.patch
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2022-3996.patch
+ rename meta/recipes-connectivity/openssl/{openssl_3.0.7.bb => openssl_3.0.8.bb} (98%)
+ rename meta/recipes-core/dbus/{dbus_1.14.4.bb => dbus_1.14.6.bb} (98%)
+ create mode 100644 meta/recipes-extended/less/files/CVE-2022-46663.patch
+ rename meta/recipes-graphics/jpeg/{libjpeg-turbo_2.1.5.bb => libjpeg-turbo_2.1.5.1.bb} (97%)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.6.bb => xserver-xorg_21.1.7.bb} (92%)
+ rename meta/recipes-graphics/xwayland/{xwayland_22.1.7.bb => xwayland_22.1.8.bb} (95%)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20230117.bb => linux-firmware_20230210.bb} (96%)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-btrfs-move-accessor-helpers-into-accessors.h-v6..patch
+ rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2022.08.12.bb => wireless-regdb_2023.02.13.bb} (94%)
+ delete mode 100644 meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch
+ create mode 100644 meta/recipes-support/libssh2/libssh2/fix-ssh2-test.patch
+ rename meta/recipes-support/libssh2/{files => libssh2}/run-ptest (67%)
+
 -- 
-Alexis Lothoré, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.34.1
 
 
