@@ -1,179 +1,62 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF5D1C64ED6
-	for <webhook@archiver.kernel.org>; Mon, 27 Feb 2023 15:56:43 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web11.93814.1677513396838397071
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E09CFC64ED6
+	for <webhook@archiver.kernel.org>; Mon, 27 Feb 2023 16:21:33 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.94596.1677514892989460402
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Feb 2023 07:56:37 -0800
+ Mon, 27 Feb 2023 08:21:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=anjVRntQ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id h14so6751736wru.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 07:56:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ki2C8MRMXaEIP9ICbzudR/Ose7LJm+8q/tpjrBMTMuQ=;
-        b=anjVRntQiV0gSTtyz9rXZynn1M3z/adtWK0iPbxGsjHuqia3yvQrHfS82/IhskgKBG
-         CaT4FktGVV41T9fdB6rZO8lXBDN7qL5fzRiz0QKGEQx3EzKSGEUhIG7pKlucmW09p98+
-         0WiMFzFQWg4seAgVKD0VJw5Xm6nnTwrsJe8QM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Ki2C8MRMXaEIP9ICbzudR/Ose7LJm+8q/tpjrBMTMuQ=;
-        b=P2yK5fnS5uakugRVYCtbJ7c7eTtDHoHpZRgVBaQLdUx0W0Ys8qHeelO4+maWW9GxOn
-         QXMgRCYLGaLuC3sS42xaKTpjjrYyZ7/bIdpXWcTUfazVyzX9wdVMnuH/mCrRR4kGWzaW
-         bkpP0145JffROW0piaF+Eg8ftBel+OPHAfIkYnC6J0CMHAVRNuSaTn1ua/WNp7Gtxbj1
-         aXWXP6nyZ1nWWgbJYT2duHIlMnWFEv2rG7dLMqdFoNOBXHU63ajA65aAiM085Ey5z2Xx
-         VQJ82ycPaGOoLc1azlGDbSav+Lqb4woWfSralIjCXBIPPVARWTMGv4TAF67DagXCpZCR
-         bvvw==
-X-Gm-Message-State: AO0yUKXSNKkzgi8eRyJx535v5i5Oru+6ObL/33d2blj7m+/Tm8elH4d8
-	hvgyiTLaa3vTAYXMsGCpNaEGyvLD6r0d+Jz0
-X-Google-Smtp-Source: AK7set8h2Wmzy8q+oiWHco+NfeXtPbvzxyhHNstCxHcEVdWVnOS8i5orF8yRebIYlvkqO3MR1PwCyA==
-X-Received: by 2002:adf:ec03:0:b0:2c9:850c:6b15 with SMTP id x3-20020adfec03000000b002c9850c6b15mr6340737wrn.41.1677513395231;
-        Mon, 27 Feb 2023 07:56:35 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:b7e8:d302:d51:7008? ([2001:8b0:aba:5f3c:b7e8:d302:d51:7008])
-        by smtp.gmail.com with ESMTPSA id a13-20020a056000100d00b002c6e84cadcbsm7526223wrx.72.2023.02.27.07.56.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Feb 2023 07:56:34 -0800 (PST)
-Message-ID: <fc6726ed127fbd739352dc17cb1f32bb9d6935d0.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/2] sstate.bbclass: fix cleanup when sysroot
- in manifest != RECIPE_SYSROOT
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ovidiu Panait <ovidiu.panait@eng.windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 27 Feb 2023 15:56:34 +0000
-In-Reply-To: <20230227154230.3566400-2-ovidiu.panait@eng.windriver.com>
-References: <20230227154230.3566400-1-ovidiu.panait@eng.windriver.com>
-	 <20230227154230.3566400-2-ovidiu.panait@eng.windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3-1 
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8989EC14;
+	Mon, 27 Feb 2023 08:22:15 -0800 (PST)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EDF743F881;
+	Mon, 27 Feb 2023 08:21:31 -0800 (PST)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: nd@arm.com
+Subject: [PATCH 1/2] glibc: add ignore for CVE-2023-25139
+Date: Mon, 27 Feb 2023 16:21:28 +0000
+Message-Id: <20230227162129.879178-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 15:56:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177799
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 16:21:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177800
 
-On Mon, 2023-02-27 at 17:42 +0200, Ovidiu Panait wrote:
-> The following scenario currently fails:
-> git clone git://git.yoctoproject.org/poky
-> cd poky; . oe-init-build-env
->=20
-> add to local.conf:
-> require conf/multilib.conf
-> MACHINE =3D "qemuarm64"
-> MULTILIBS =3D "multilib:lib32"
-> DEFAULTTUNE:virtclass-multilib-lib32 =3D "armv7athf-neon"
->=20
-> bitbake gcc-cross-canadian-arm
->=20
-> update local.conf to force a rebuild:
-> GCCPIE =3D "--disable-default-pie"
->=20
-> bitbake gcc-cross-canadian-arm
->=20
-> Failure log:
-> The stack trace of python calls that resulted in this exception/failure w=
-as:
-> File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
->      0001:
->  *** 0002:extend_recipe_sysroot(d)
->      0003:
-> File: 'poky/meta/classes-global/staging.bbclass', lineno: 164, function: =
-staging_copyfile
->      0160:        os.symlink(linkto, dest)
->      0161:        #bb.warn(c)
->      0162:    else:
->      0163:        try:
->  *** 0164:            os.link(c, dest)
->      0165:        except OSError as err:
->      0166:            if err.errno =3D=3D errno.EXDEV:
->      0167:                bb.utils.copyfile(c, dest)
->      0168:            else:
-> Exception: FileExistsError: [Errno 17] File exists: 'poky/build/tmp/sysro=
-ots-components/armv7at2hf-neon/lib32-linux-libc-headers/usr/include/asm/byt=
-eorder-32.h' -> 'poky/build/tmp/work/x86_64-nativesdk-pokysdk-linux/gcc-cro=
-ss-canadian-arm/12.2.0-r0/recipe-sysroot/usr/include/asm/byteorder-32.h'
->=20
-> In this particular case, the paths in lib32-linux-libc-headers manifest f=
-ile
-> are prefixed with lib32-recipe-sysroot:
-> $ cat build/tmp/sysroots-components/manifests/lib32-linux-libc-headers.xx=
-x
-> lib32-recipe-sysroot/usr/include/asm/byteorder-32.h
-> lib32-recipe-sysroot/usr/include/asm/sigcontext-32.h
-> ...
->=20
-> When gcc-cross-canadian-arm is built, the actual files get copied to
-> recipe-sysroot directory during do_prepare_recipe_sysroot().
->=20
-> Because of this mismatch, on rebuild, sstate_clean_manifest() will not cl=
-ean
-> the files in recipe-sysroot, but will instead try to delete the non-exist=
-ent
-> files in lib32-recipe-sysroot. This will trigger the FileExists errors la=
-ter.
->=20
-> Add checks in sstate_clean_manifest() for this corner case, so that
-> RECIPE_SYSROOT gets cleaned up properly.
->=20
-> This fixes BZ#15045.
->=20
-> Signed-off-by: Ovidiu Panait <ovidiu.panait@eng.windriver.com>
-> ---
->  meta/classes-global/sstate.bbclass | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->=20
-> diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sst=
-ate.bbclass
-> index af93546b04..edf5c7fb65 100644
-> --- a/meta/classes-global/sstate.bbclass
-> +++ b/meta/classes-global/sstate.bbclass
-> @@ -529,9 +529,20 @@ def sstate_clean_manifest(manifest, d, canrace=3DFal=
-se, prefix=3DNone):
->      entries =3D mfile.readlines()
->      mfile.close()
-> =20
-> +    recipe_sysroot =3D d.getVar("RECIPE_SYSROOT").rstrip("/").rsplit('/'=
-, 1)[-1]
-> +
->      for entry in entries:
->          sstate_clean_entry(entry, canrace, prefix)
-> =20
-> +        # The sysroot directory stored in the manifest file might not be=
- the
-> +        # same as RECIPE_SYSROOT, so the real sysroot will not be proper=
-ly
-> +        # cleaned up on rebuild. Handle the cleanup here in order to avo=
-id
-> +        # "File exists" errors during do_prepare_recipe_sysroot().
-> +        manifest_sysroot =3D entry.split("/", 1)[0] or None
-> +        if manifest_sysroot and manifest_sysroot !=3D recipe_sysroot and=
- not manifest_sysroot.endswith("-native"):
-> +            sysroot_entry =3D recipe_sysroot + "/" + entry.split("/", 1)=
-[1]
-> +            sstate_clean_entry(sysroot_entry, canrace, prefix)
-> +
->      postrm =3D manifest + ".postrm"
->      if os.path.exists(manifest + ".postrm"):
->          import subprocess
+This CVE has been fixed in the 2.37 release branch (07b9521fc6) and
+we're now using a SHA that incorporates that commit, so manually mark it
+as ignored.
 
-How many recipe-sysroots are there for gcc-cross-canadian-arm ? This
-feels like a workaround for some other issue which should probably be
-fixed properly instead?
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/recipes-core/glibc/glibc_2.37.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-core/glibc/glibc_2.37.bb b/meta/recipes-core/gl=
+ibc/glibc_2.37.bb
+index f299a3004a4..31c94929b93 100644
+--- a/meta/recipes-core/glibc/glibc_2.37.bb
++++ b/meta/recipes-core/glibc/glibc_2.37.bb
+@@ -19,6 +19,9 @@ CVE_CHECK_IGNORE +=3D "CVE-2019-1010025"
+ # This has been integrated into the 2.36 branch as of c399271 so is now =
+fixed
+ CVE_CHECK_IGNORE +=3D "CVE-2022-39046"
+=20
++# This is integrated into the 2.37 branch as of 07b9521fc6
++CVE_CHECK_IGNORE +=3D "CVE-2023-25139"
++
+ DEPENDS +=3D "gperf-native bison-native"
+=20
+ NATIVESDKFIXES ?=3D ""
+--=20
+2.34.1
 
 
