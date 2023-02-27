@@ -1,76 +1,191 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8E09C64ED8
-	for <webhook@archiver.kernel.org>; Mon, 27 Feb 2023 09:32:21 +0000 (UTC)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web11.86384.1677490331708167184
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1372C64ED6
+	for <webhook@archiver.kernel.org>; Mon, 27 Feb 2023 09:32:31 +0000 (UTC)
+Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
+ by mx.groups.io with SMTP id smtpd.web10.86442.1677490347210416633
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Feb 2023 01:32:12 -0800
+ Mon, 27 Feb 2023 01:32:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=iUpZozZv;
- spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f44.google.com with SMTP id m7so7643787lfj.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 01:32:11 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=jDhuaBwg;
+ spf=pass (domain: gmail.com, ip: 209.85.166.177, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-il1-f177.google.com with SMTP id s8so3617822ilv.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 01:32:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677490329;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jAYeC7nvIH8O33/YMT2ChPbNE8Ir//xSSMI0FTZ5IoA=;
-        b=iUpZozZvwWvDFC/qkT6qnAdB+aVKvqdE5ASUZp098XTM/wxCcHzw01wgX44PQlmuwZ
-         4YL2/Ut3oary3h+x4EMyeuwcRwHoOAj66fn+2CjXlIxjRM7fGlfS18wBEYpozt7dSqhu
-         nNvwq+EaeFthCiWurmY+QnUgV1vJPdSk3IbZIqKgwNJHn+K236yhNZvrKOEv5n+ro38X
-         HcOW+DC6CTXcgmzlQHwDWXCWhG+eoattLckkXRrFjWH20ggDd/DOiZ7JRz1+7EgDR3YF
-         a7+72Lin3Piha28LEgpQk59aO56WEPcjpu1lIsXa9SdgQSkoV5ZqNeH4tjONn31aNses
-         JXlA==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Qvv5DAbyBgOo5VCDkWW3f6QDZoHSmvPdYAF1LbVCTUI=;
+        b=jDhuaBwgXxRJcLLOZEyAKUxo2ypMfMMX97GsoctVajnI3Wyif+ic+y/QEzcJqjVwOq
+         94SQr3gJhgxuDH9swloSPbJHUqQGkd95KlEHnI8BdZHoeKG1QFWJ9ltDkS2sYZ2VjHpU
+         o6V5n7/uJBPcZ+9cM+94Q11gwS9oOcsHNWhU68GArq+iVCsz29VHmisZdGzujYKzYJUk
+         7gWMPtnqOhuHk68HS6AyxHsipC6ldfrMoCj59m3pX3l9J/fTt5UIP/pwWaqfWu0rGfFh
+         ZM1yZzlAG6VCEe3eVZOJhZmK+AwqYAztYBeASTU6zXTyHMdP1Rd8pizLwjYrxEtf9an9
+         YFaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677490329;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jAYeC7nvIH8O33/YMT2ChPbNE8Ir//xSSMI0FTZ5IoA=;
-        b=VS3KSaGQls5M5zb0AlvF3nDaiF1JaXGxLXEelzc96t6K4ybvJbfPdQ/jVDLL+ODXWA
-         CLlZbbqxl7Tubb7tsQzQcleHnR+xQ+yNLfDkDFjp0N/cSRDNDF3qu2OEDz8PmHoTm72n
-         jRfIxl4PFA60DNF+5CqStPc9/FgzmW+ISAoa12fCngcX2PKq3sSbz1/jx3u1Uk2wdxVF
-         LK7WBjV/7VRpTapbpGsgekerRkIReskVkMGBWw62HMMHzX2/efKTtKmkZFnzwfvN2Thb
-         Iiiwf9rEd8Nqf7CXD61vHTkYjUcr41D1VBrgCBwUVBzwxv1X0fpohok+5TUFe7ybyEx9
-         WU6A==
-X-Gm-Message-State: AO0yUKWTtA5mrPBop3HsNvF9ZjwAUsmvmAQxk3y4E6bnJ9/LMf/LCnFI
-	MoeKBgJnB9VUNG/UeMn9JsgpQvJD1muyRCR33pM=
-X-Google-Smtp-Source: AK7set+xZmBSJTHBEA4R/q1a36+yGT77XEKKzdxBAhYRaZkfw3lzghIY0LcnLEkPwrmIMQplwNz+tYA5w50aKLy9N9k=
-X-Received: by 2002:a05:6512:118d:b0:4dd:9eb6:444d with SMTP id
- g13-20020a056512118d00b004dd9eb6444dmr3568995lfr.4.1677490329620; Mon, 27 Feb
- 2023 01:32:09 -0800 (PST)
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Qvv5DAbyBgOo5VCDkWW3f6QDZoHSmvPdYAF1LbVCTUI=;
+        b=tA0yvNowO26UsNg9ZQn9Ud9YE4nH7Q/yatKiVmcVd9rxWdnLMT1R07nXyG883QrX2M
+         yb6cnpD3cmuH03noYpjbTIcK3kS1cpKYXAY4WYyyCi7NFsXEPSoWMIn/ExzuWW1Blzw7
+         I+oWYLhT8RVLdeedWwWF1/0xmQXdVfc7cQS4TX0bil6MjKcNSwis2gBgk+GcPMeH3fx4
+         lRftxawpQ/y63fJu6HPqOlwczjo4sLbqR3IJ30POFOEj7eqq1t0xvRTXhkzShK0X/G5q
+         sxsx1lISIE5m0uYMzIxc97iH/M/aROz8VW4zxj5i5RT9hx2nu8lcCSfybcDNrE5ytLwf
+         M4TA==
+X-Gm-Message-State: AO0yUKWaeqknfWJBXUR0XOvKrqykyzOE6T1/J16VwUpOVa0B1ZtGGXgn
+	mkdmqR0Kl/71+YfWSxusYgH+/lSi7PY2jf97N7s=
+X-Google-Smtp-Source: AK7set+KcbDXFBnjWkf1PqSXmZKCiXA3N6V7RtHheyUKONSF3r7v4ca05C/I1waUJQUtFg38R6CCDhL/D0fL4yNh6dY=
+X-Received: by 2002:a05:6e02:961:b0:315:9a9a:2cd with SMTP id
+ q1-20020a056e02096100b003159a9a02cdmr7789035ilt.4.1677490346402; Mon, 27 Feb
+ 2023 01:32:26 -0800 (PST)
 MIME-Version: 1.0
 References: <20230224093850.3393567-1-zboszor@gmail.com> <20230226050814.929055-1-zboszor@gmail.com>
- <20230226050814.929055-4-zboszor@gmail.com> <CAO5Uq5Qcyr4tywhEgJbFeONrrQW-W10i5Bp7iGHph0xGBeznUA@mail.gmail.com>
-In-Reply-To: <CAO5Uq5Qcyr4tywhEgJbFeONrrQW-W10i5Bp7iGHph0xGBeznUA@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 27 Feb 2023 10:31:58 +0100
-Message-ID: <CANNYZj_5LJAp9RaVWh__NPG6UcAHf6SwxoKqg1w+c4fwA7ZeCQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] mesa: Add PACKAGECONFIG "rusticl"
-To: Alex Kiernan <alex.kiernan@gmail.com>
+ <20230226050814.929055-4-zboszor@gmail.com> <17479FC3A76A2964.29542@lists.openembedded.org>
+In-Reply-To: <17479FC3A76A2964.29542@lists.openembedded.org>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Mon, 27 Feb 2023 09:32:14 +0000
+Message-ID: <CAO5Uq5R0gJUJuE6kMfsPd4BT5Psy=nVPnLMuYbYVfH3OgC5rpA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 3/3] mesa: Add PACKAGECONFIG "rusticl"
+To: alex.kiernan@gmail.com
 Cc: =?UTF-8?B?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aQ==?= <zboszor@gmail.com>, 
-	openembedded-core@lists.openembedded.org, Ross Burton <Ross.Burton@arm.com>, 
+	openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex.kanavin@gmail.com>, Ross Burton <Ross.Burton@arm.com>, 
 	Alexandre Belloni <alexandre.belloni@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 09:32:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177783
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 09:32:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177784
 
-On Mon, 27 Feb 2023 at 09:04, Alex Kiernan <alex.kiernan@gmail.com> wrote:
+On Mon, Feb 27, 2023 at 8:04 AM Alex Kiernan via
+lists.openembedded.org <alex.kiernan=3Dgmail.com@lists.openembedded.org>
+wrote:
+>
+> On Sun, Feb 26, 2023 at 5:08 AM Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <z=
+boszor@gmail.com> wrote:
+> >
+> > Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.co=
+m>
+> > ---
+> >  meta/recipes-graphics/mesa/mesa.inc | 15 ++++++++++++---
+> >  1 file changed, 12 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphic=
+s/mesa/mesa.inc
+> > index 89e2dc6e90..2fbc1f971e 100644
+> > --- a/meta/recipes-graphics/mesa/mesa.inc
+> > +++ b/meta/recipes-graphics/mesa/mesa.inc
+> > @@ -46,6 +46,7 @@ PROVIDES =3D " \
+> >      "
+> >
+> >  inherit meson pkgconfig python3native gettext features_check
+> > +inherit ${@bb.utils.contains('PACKAGECONFIG', 'rusticl', 'rust', '', d=
+)}
+> >
+> >  BBCLASSEXTEND =3D "native nativesdk"
+> >
+> > @@ -119,6 +120,13 @@ PACKAGECONFIG[egl] =3D "-Degl=3Denabled, -Degl=3Dd=
+isabled"
+> >  OPENCL_NATIVE =3D "${@bb.utils.contains('PACKAGECONFIG', 'freedreno', =
+'-Dopencl-native=3Dtrue', '', d)}"
+> >  PACKAGECONFIG[clover] =3D "-Dgallium-opencl=3Dicd -Dopencl-spirv=3Dtru=
+e ${OPENCL_NATIVE},-Dgallium-opencl=3Ddisabled -Dopencl-spirv=3Dfalse,libcl=
+c spirv-tools"
+> >
+> > +# "rusticl" requires libclc and spirv-llvm-translator from meta-clang =
+and spirv-tools from OE-Core
+> > +PACKAGECONFIG[rusticl] =3D "-Dgallium-rusticl=3Dtrue -Drust_std=3D2021=
+,-Dgallium-rusticl=3Dfalse,bindgen-cli-native libclc spirv-tools spirv-llvm=
+-translator,libclc spirv-tools spirv-llvm-translator"
+> > +
 > > +# Building "rusticl" runs bindgen.
 > > +# This setting is needed by bindgen to dlopen the correct libclang.
-> > +export LIBCLANG_PATH = "${STAGING_LIBDIR_NATIVE}"
+> > +export LIBCLANG_PATH =3D "${STAGING_LIBDIR_NATIVE}"
 > > +
 >
 > Could that be part of a wrapper in the bindgen recipe?
+>
 
-Specifically, take a look at create_wrapper in
-classes-global/utils.bbclass and examples of its use in meta/
+Also, with this export, I don't believe you have a dependency on
+anything from meta-clang (certainly you're not declaring it here
+AFAICS).
 
-Alex
+> >  PACKAGECONFIG[broadcom] =3D ""
+> >  PACKAGECONFIG[etnaviv] =3D ""
+> >  PACKAGECONFIG[freedreno] =3D ""
+> > @@ -197,6 +205,7 @@ DEV_PKG_DEPENDENCY =3D ""
+> >  RDEPENDS:libgles3-mesa-dev +=3D "libgles2-mesa-dev"
+> >
+> >  RDEPENDS:libopencl-mesa +=3D "${@bb.utils.contains('PACKAGECONFIG', 'c=
+lover', 'libclc spirv-tools', '', d)}"
+> > +RDEPENDS:libopencl-mesa +=3D "${@bb.utils.contains('PACKAGECONFIG', 'r=
+usticl', 'libclc spirv-tools spirv-llvm-translator', '', d)}"
+> >
+> >  PACKAGES =3D+ "libegl-mesa libegl-mesa-dev \
+> >               libosmesa libosmesa-dev \
+> > @@ -233,7 +242,7 @@ do_install:append () {
+> >  # RPROVIDEs/RCONFLICTs on the generic libgl name.
+> >  python __anonymous() {
+> >      pkgconfig =3D (d.getVar('PACKAGECONFIG') or "").split()
+> > -    if "clover" in pkgconfig:
+> > +    if "clover" in pkgconfig or "rusticl" in pkgconfig:
+> >          pkgconfig.append("opencl")
+> >      suffix =3D ""
+> >      if "-native" in d.getVar("PN"):
+> > @@ -305,7 +314,7 @@ FILES:libgles1-mesa =3D "${libdir}/libGLESv1*.so.*"
+> >  FILES:libgles2-mesa =3D "${libdir}/libGLESv2.so.*"
+> >  FILES:libgl-mesa =3D "${libdir}/libGL.so.*"
+> >  FILES:libglx-mesa =3D "${libdir}/libGLX*.so.*"
+> > -FILES:libopencl-mesa =3D "${libdir}/libMesaOpenCL.so.* ${libdir}/galli=
+um-pipe/*.so ${sysconfdir}/OpenCL/vendors/mesa.icd"
+> > +FILES:libopencl-mesa =3D "${libdir}/libMesaOpenCL.so.* ${libdir}/libRu=
+sticlOpenCL.so.* ${libdir}/gallium-pipe/*.so ${sysconfdir}/OpenCL/vendors/m=
+esa.icd ${sysconfdir}/OpenCL/vendors/rusticl.icd"
+> >  FILES:libglapi =3D "${libdir}/libglapi.so.*"
+> >  FILES:libosmesa =3D "${libdir}/libOSMesa.so.*"
+> >  FILES:libxatracker =3D "${libdir}/libxatracker.so.*"
+> > @@ -319,7 +328,7 @@ FILES:libglapi-dev =3D "${libdir}/libglapi.*"
+> >  FILES:libgles1-mesa-dev =3D "${libdir}/libGLESv1*.* ${includedir}/GLES=
+ ${libdir}/pkgconfig/glesv1*.pc"
+> >  FILES:libgles2-mesa-dev =3D "${libdir}/libGLESv2.* ${includedir}/GLES2=
+ ${libdir}/pkgconfig/glesv2.pc"
+> >  FILES:libgles3-mesa-dev =3D "${includedir}/GLES3"
+> > -FILES:libopencl-mesa-dev =3D "${libdir}/libMesaOpenCL.so"
+> > +FILES:libopencl-mesa-dev =3D "${libdir}/libMesaOpenCL.so ${libdir}/lib=
+RusticlOpenCL.so"
+> >  FILES:libosmesa-dev =3D "${libdir}/libOSMesa.* ${includedir}/GL/osmesa=
+.h ${libdir}/pkgconfig/osmesa.pc"
+> >  FILES:libxatracker-dev =3D "${libdir}/libxatracker.so ${libdir}/libxat=
+racker.la \
+> >                            ${includedir}/xa_tracker.h ${includedir}/xa_=
+composite.h ${includedir}/xa_context.h \
+> > --
+> > 2.39.2
+> >
+>
+>
+> --
+> Alex Kiernan
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#177775): https://lists.openembedded.org/g/openembedde=
+d-core/message/177775
+> Mute This Topic: https://lists.openembedded.org/mt/97240533/3618097
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kiernan@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+
+
+--=20
+Alex Kiernan
 
