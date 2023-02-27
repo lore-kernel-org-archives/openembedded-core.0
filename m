@@ -1,99 +1,164 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <vkumbhar@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A109C64ED6
-	for <webhook@archiver.kernel.org>; Sun, 26 Feb 2023 17:03:26 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web11.69587.1677430956817460407
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4C11C64ED6
+	for <webhook@archiver.kernel.org>; Mon, 27 Feb 2023 02:39:09 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web11.81731.1677465541427596384
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Feb 2023 09:03:18 -0800
+ Sun, 26 Feb 2023 18:39:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=DspKfX7s;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.41, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f41.google.com with SMTP id nw10-20020a17090b254a00b00233d7314c1cso7733487pjb.5
-        for <openembedded-core@lists.openembedded.org>; Sun, 26 Feb 2023 09:03:18 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=CID6Ujuv;
+ spf=pass (domain: mvista.com, ip: 209.85.214.175, mailfrom: vkumbhar@mvista.com)
+Received: by mail-pl1-f175.google.com with SMTP id bh1so5233506plb.11
+        for <openembedded-core@lists.openembedded.org>; Sun, 26 Feb 2023 18:39:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/OBXEO7V1nmKdV5zTFuJDeUaLqwk57LZzu4mfq8YEqM=;
-        b=DspKfX7so0VC3vNXOjV3tcBmEKQcSNpUPzYLZhpwBTk2xYJ3MusLrIDkrg97KV54J+
-         IQDq10Q85OG9nI58xT2JB0LB9NNPPYrFzevZxDBISdfj43cse5WFt42xIFTR5Li7x3S9
-         +ZrEZ3f3Bi6VL6bYkRU8MzJlmhvHPlKd/6ufpmT7g4Wld/hHef+95q8+qmoJiyJqxS/s
-         idDcxqTKgUJGU2nfPlHKT0nZ6NMPJbfWOHrhImUKFBaC7yzyojmjVX2N3Of4YiKf8UCs
-         V2t8gzgoB7dIg+Wd9hkYE5uorv1FeVwkCWaidfuumYscEL9nKeXH5m058eIwkMyQv7nn
-         unJw==
+        d=mvista.com; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=11/rWRn6lCMacRzSt0v3gh47uxKisiRWkiX4QmCOOf4=;
+        b=CID6UjuvY8Qz8i/rTlK7/CvEaecfAWKNZkUtmDT/anMdGVXsXcfJNoW1Fd5Y/BKz98
+         zgZe0a5k61O738T3EuudRiwZ3O6vbafRBWlWId6gUHbb7tp7FlMfQO9HDjyy3GhXTDmu
+         EyC/XtwvKXzMcfUu5U3oDfHDTnwTEsXfrNYuM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/OBXEO7V1nmKdV5zTFuJDeUaLqwk57LZzu4mfq8YEqM=;
-        b=RbidL3ACyrKsD3PPVSCy5FT33bfJsPAzuDbCJv7tSw+W2wRKx9cNA/sM07cRJiDxyM
-         pRKjSX0qDjUHc50tVzlATfNYFKnGxS9PkGONYnhLn6DPmVMKGEaNTizU+MsuKe7ejnOp
-         zjzqqC2BZIG/t2J/ObhZVejUTcebGyFx6jUX+5Se4dMjLehdrjzV+fBSpNjEBbMhvS+7
-         oAUBocIFwS/2KUYlUbVoq/TgRRRO/0QuwqbBCEbS/QI2CefNcjP3U1kd/kuvcWoKPQOU
-         on9mDc9KS7cMAu59kNd8CvEMKxm7eQCnFXiVZc6xs5tAxKykJlsDWEPVRDOaMQ3c9Kba
-         wuvw==
-X-Gm-Message-State: AO0yUKVRQdVK1L/NtAkA+xo/Qc2tjsgIO+gGP4Ye+n/FNrZUoHLIX9SR
-	ISxlUt9IoP9XJvxuNrEbQqaI96bMT4rQlHyLJok=
-X-Google-Smtp-Source: AK7set8r/I4zuYH58vYEuGsZ7Fjfjx1Nqwf99b1ehsU2COGxB8XIg0bKdJ6Fr/HUM6zRo5cWNepbFw==
-X-Received: by 2002:a17:90b:2243:b0:233:c758:9a1c with SMTP id hk3-20020a17090b224300b00233c7589a1cmr22029911pjb.12.1677430997477;
-        Sun, 26 Feb 2023 09:03:17 -0800 (PST)
-Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id s25-20020a63af59000000b004f1cb6ffe81sm2500856pgo.64.2023.02.26.09.03.16
-        for <openembedded-core@lists.openembedded.org>
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=11/rWRn6lCMacRzSt0v3gh47uxKisiRWkiX4QmCOOf4=;
+        b=EVt1ntZKAcxXIQPgBzYRqQ/IK8Q+p09/DaVopH/R7FZSqj7Cw6nCBiUyi0XXzE3CcS
+         8thnkkMbvgXtOW28ACiHG7AYYZTN2bFB1UCnTjNMP2aMpfT3B73piT9NFT/eOvibKJTb
+         3GbXe/WcTNrBS+7/2PV/NsihmbuaPNqyyP1LMhugwzQGe3863Ui8f7KuP3s/UvM2tz/y
+         0huq2Wemng5ALrJE1SPU6KbvXa5sclPJgl6IgUBaFzgDQvOx4owN0/BL458jYrXx03qD
+         R+tS/GONSchw2skxREU5hpLBRfwhsWVE52vG/AIPAHfbRwZlON4XZZELrjcZZEJ+RHB9
+         bY0w==
+X-Gm-Message-State: AO0yUKVnTipJqZEAV5pjiBcTS+Z852/bEVrX7tKfE4n9veKQBxjm5TEg
+	iWI9zeooeL1y5GNqau067Osbe9NhWVexdr1w
+X-Google-Smtp-Source: AK7set9twOaJ8Hmr47swYXy8KdayEDJ1VmBQ7D2Cif+O7ol+xEYTlGRimvm7cBSI4ANYjJALav5p5Q==
+X-Received: by 2002:a17:90b:3b87:b0:236:6e4f:bc1e with SMTP id pc7-20020a17090b3b8700b002366e4fbc1emr24523827pjb.49.1677465540385;
+        Sun, 26 Feb 2023 18:39:00 -0800 (PST)
+Received: from vkumbhar-Latitude-3400.mvista.com ([116.75.163.148])
+        by smtp.gmail.com with ESMTPSA id c7-20020a17090ab28700b00233acae2ce6sm4955027pjr.23.2023.02.26.18.38.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Feb 2023 09:03:17 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
+        Sun, 26 Feb 2023 18:38:59 -0800 (PST)
+From: Vivek Kumbhar <vkumbhar@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 26/28] libseccomp: fix for the ptest result format
-Date: Sun, 26 Feb 2023 07:02:22 -1000
-Message-Id: <13a567a0bf191e9ad82ed93180d4b21bb2c5875a.1677430770.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1677430770.git.steve@sakoman.com>
-References: <cover.1677430770.git.steve@sakoman.com>
+Cc: Vivek Kumbhar <vkumbhar@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] harfbuzz: fix CVE-2023-25193 allows attackers to trigger O(n^2) growth via consecutive marks
+Date: Mon, 27 Feb 2023 08:08:42 +0530
+Message-Id: <20230227023842.3226-1-vkumbhar@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 26 Feb 2023 17:03:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177764
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 02:39:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177767
 
-From: Narpat Mali <narpat.mali@windriver.com>
+[layout] Limit how far we skip when looking back
 
-The output of libseccomp ptest should follow a unified format as
-per this https://wiki.yoctoproject.org/wiki/Ptest
-
-Replaced the test results SUCCESS, FAILURE & SKIPPPED with PASS,
-FAIL & SKIP and printing the ptest result with the below format
-result: testname
-
-Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 30d025a8641cfcce5412b5f021478777620b55f1)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
 ---
- meta/recipes-support/libseccomp/files/run-ptest | 3 +++
- 1 file changed, 3 insertions(+)
+ .../harfbuzz/harfbuzz/CVE-2023-25193.patch    | 71 +++++++++++++++++++
+ .../harfbuzz/harfbuzz_4.0.1.bb                |  4 +-
+ 2 files changed, 74 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/harfbuzz/harfbuzz/CVE-2023-25193.patch
 
-diff --git a/meta/recipes-support/libseccomp/files/run-ptest b/meta/recipes-support/libseccomp/files/run-ptest
-index 54b4a63cd2..63c79f09c4 100644
---- a/meta/recipes-support/libseccomp/files/run-ptest
-+++ b/meta/recipes-support/libseccomp/files/run-ptest
-@@ -1,4 +1,7 @@
- #!/bin/sh
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz/CVE-2023-25193.patch b/meta/recipes-graphics/harfbuzz/harfbuzz/CVE-2023-25193.patch
+new file mode 100644
+index 0000000000..54ceebcf93
+--- /dev/null
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz/CVE-2023-25193.patch
+@@ -0,0 +1,71 @@
++From 85be877925ddbf34f74a1229f3ca1716bb6170dc Mon Sep 17 00:00:00 2001
++From: Behdad Esfahbod <behdad@behdad.org>
++Date: Wed, 1 Feb 2023 20:00:43 -0700
++Subject: [PATCH] [layout] Limit how far we skip when looking back
++
++Upstream-Status: Backport [https://github.com/harfbuzz/harfbuzz/commit/85be877925ddbf34f74a1229f3ca1716bb6170dc]
++CVE: CVE-2023-25193
++Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
++---
++ src/hb-ot-layout-common.hh   |  7 +++++++
++ src/hb-ot-layout-gsubgpos.hh | 19 ++++++++++++++++---
++ 2 files changed, 23 insertions(+), 3 deletions(-)
++
++diff --git a/src/hb-ot-layout-common.hh b/src/hb-ot-layout-common.hh
++index 60a1906..f7f8d5f 100644
++--- a/src/hb-ot-layout-common.hh
+++++ b/src/hb-ot-layout-common.hh
++@@ -72,6 +72,13 @@
++ #define HB_MAX_LOOKUP_VISIT_COUNT	35000
++ #endif
++ 
+++#ifndef HB_MAX_NESTING_LEVEL
+++#define HB_MAX_NESTING_LEVEL	6
+++#endif
+++#ifndef HB_MAX_CONTEXT_LENGTH
+++#define HB_MAX_CONTEXT_LENGTH	64
+++#endif
+++
++ 
++ namespace OT {
++ 
++diff --git a/src/hb-ot-layout-gsubgpos.hh b/src/hb-ot-layout-gsubgpos.hh
++index 65de131..891d96a 100644
++--- a/src/hb-ot-layout-gsubgpos.hh
+++++ b/src/hb-ot-layout-gsubgpos.hh
++@@ -525,7 +525,10 @@ struct hb_ot_apply_context_t :
++     bool next (unsigned *unsafe_to = nullptr)
++     {
++       assert (num_items > 0);
++-      while (idx + num_items < end)
+++      unsigned stop = end - num_items;
+++      if (c->buffer->flags & HB_BUFFER_FLAG_PRODUCE_UNSAFE_TO_CONCAT)
+++      	stop = end - 1;
+++      while (idx < stop)
++       {
++ 	idx++;
++ 	const hb_glyph_info_t &info = c->buffer->info[idx];
++@@ -557,8 +560,18 @@ struct hb_ot_apply_context_t :
++     }
++     bool prev (unsigned *unsafe_from = nullptr)
++     {
++-      assert (num_items > 0);
++-      while (idx > num_items - 1)
+++      assert (num_items > 0);      
+++      unsigned stop = 1 - num_items;
+++      if (c->buffer->flags & HB_BUFFER_FLAG_PRODUCE_UNSAFE_TO_CONCAT)        
+++      	stop = 1 - 1;
+++      	
+++      /* When looking back, limit how far we search; this function is mostly
+++       * used for looking back for base glyphs when attaching marks. If we
+++       * don't limit, we can get O(n^2) behavior where n is the number of
+++       * consecutive marks. */
+++      stop = (unsigned) hb_max ((int) stop, (int) idx - HB_MAX_CONTEXT_LENGTH);
+++
+++      while (idx > stop)
++       {
++ 	idx--;
++ 	const hb_glyph_info_t &info = c->buffer->out_info[idx];
++-- 
++2.25.1
++
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_4.0.1.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_4.0.1.bb
+index bdbb322e42..2a2ec714d0 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_4.0.1.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_4.0.1.bb
+@@ -13,7 +13,9 @@ UPSTREAM_CHECK_REGEX = "harfbuzz-(?P<pver>\d+(\.\d+)+).tar"
  
- cd tests
-+sed -i 's/SUCCESS/PASS/g; s/FAILURE/FAIL/g; s/SKIPPED/SKIP/g' regression
-+sed -i 's/"Test %s result:   %s\\n" "$1" "$2"/"%s: %s\\n" "$2" "$1"/g' regression
-+sed -i 's/"Test %s result:   %s %s\\n" "$1" "$2" "$3"/"%s: %s %s\\n" "$2" "$1" "$3"/g' regression
- ./regression -a
+ SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/${PV}/${BPN}-${PV}.tar.xz \
+            file://CVE-2022-33068.patch \
+-           file://0001-Fix-conditional.patch"
++           file://0001-Fix-conditional.patch \
++           file://CVE-2023-25193.patch \
++           "
+ SRC_URI[sha256sum] = "98f68777272db6cd7a3d5152bac75083cd52a26176d87bc04c8b3929d33bce49"
+ 
+ inherit meson pkgconfig lib_package gtk-doc gobject-introspection
 -- 
-2.34.1
+2.25.1
 
 
