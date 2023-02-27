@@ -1,125 +1,149 @@
-Return-Path: <twoerner@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7606EC64ED6
-	for <webhook@archiver.kernel.org>; Mon, 27 Feb 2023 05:01:00 +0000 (UTC)
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
- by mx.groups.io with SMTP id smtpd.web10.83527.1677474050943050469
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A683C64ED6
+	for <webhook@archiver.kernel.org>; Mon, 27 Feb 2023 06:43:41 +0000 (UTC)
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+ by mx.groups.io with SMTP id smtpd.web11.84671.1677480214457876781
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Feb 2023 21:00:51 -0800
+ Sun, 26 Feb 2023 22:43:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=LA7SQPpq;
- spf=pass (domain: gmail.com, ip: 209.85.160.178, mailfrom: twoerner@gmail.com)
-Received: by mail-qt1-f178.google.com with SMTP id d7so5400440qtr.12
-        for <openembedded-core@lists.openembedded.org>; Sun, 26 Feb 2023 21:00:50 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=S7i+HZAj;
+ spf=pass (domain: gmail.com, ip: 209.85.167.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f181.google.com with SMTP id e21so4428080oie.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 26 Feb 2023 22:43:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0uIKtP9ivDhZAFarCbpa4u6nQ2wKgdYSujglpl1xa/U=;
-        b=LA7SQPpq4ee8HLKJcsn44dDPWUQbvw141e6/K0i01gZQYMeIdicSNESr9Sw0rJtKcT
-         yUYhdp6oYQoCsKGD1usCEh95SdefStA4Q19XckUXsf1mFVjvDWxJBGDYCf8q7+HTgVg4
-         0BY7pOg1kSIUk8QEhZYyR93LVzXrNnhQxDNr+2Ix8AkQLs9VwJLH2l/9Vr8kWG8DZ0Gx
-         sR/hscv66ksHTw8cuAOYwip+l1iK/SeDuMpWLJAsFBn7EaGE0H3x75bc7WbpuCA6TYNX
-         6TsnecS4PdDO5DxtPNcuOnSwQztFdLBN6fIHFLGV0LZ+tq1MZggOERmDZAoEQcPBmspE
-         2x6g==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=o8EXPA1u9qPxDIQ1gJigY1KOiMwkmMlrvq4/eZfM4eQ=;
+        b=S7i+HZAjcW/J/SZUpNGz6zee+iOAhYCBm3giCUeSeCp+jxHOIzYOaJeydQaryPJp1H
+         MTa/vqYDyiHJEsOI9twIW7pPLll71v2MlIP92oDJ4yeF0iwHGrpdxVSAqQiwcrw3seDw
+         0OPHbUkVFPvExuB0g0c92jamMt6kC7O4J0Qhc6QkxKeQQhPtKOvF69/HZYBYKlhBpnub
+         WjitUInnKIKwLQXO4xjyPvmiIhwHuO0EcEgsn1GC9XL8/wyGhBzHfK6OZ0f4ju75L5KW
+         Io1TugpXatjPZze2tUQ11MZUzG2ZgxlURB7GhxgdYEZIVFbDkbYStK1xFnYIqrOjQzub
+         g45Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0uIKtP9ivDhZAFarCbpa4u6nQ2wKgdYSujglpl1xa/U=;
-        b=FZlJm3Az24JSl+ahL4m+XS1qzXWPSebsuPKlLa6PbpkIJBYNhWSHwkG8iR5jR3L6dP
-         +8Rm3ospwMC1tgvVBaSW540Il8CF+ObGj4ZswNSsut542DqgNlXkwYqIcPbY/aJOPKoq
-         4e4siVT7ncVNajRHAeZzCvbAfI9o9/xaSEQMEezK0om41MvI/6fVdwYQNi8LhtR+rCXJ
-         ZInznLw0q8sh7f3pRlLviwzfxPoF0gNUy/KAtHtiptgdVhZzRWXD/Dmludn/ZkRQ1j2C
-         dKpxgb+2lxQlfly0Em+NfOGKbR6EN+G+1orXr0Jl6Ejw3zzNLjQiFXfpuWvpf6FbNmu+
-         KhXg==
-X-Gm-Message-State: AO0yUKUQMW/jlyyOT8UU1q5nFqSR7X2Ja0RLfAnFM5AoKVZCGU+c1YIs
-	TkEX0omzCbZN+PNfE8vS07bezC4ZclU=
-X-Google-Smtp-Source: AK7set9LgD4MHJPeUhuKd1vh/tx0Opk/gJF3vbvhsZ2quxH+KR9esUjigBubL5+H8JDsKvyhaVKP8w==
-X-Received: by 2002:ac8:58d6:0:b0:3bf:d8b6:4cc7 with SMTP id u22-20020ac858d6000000b003bfd8b64cc7mr3949817qta.58.1677474049673;
-        Sun, 26 Feb 2023 21:00:49 -0800 (PST)
-Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id z29-20020ac8431d000000b003bfc1f49ad1sm3998579qtm.87.2023.02.26.21.00.48
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Feb 2023 21:00:48 -0800 (PST)
-From: Trevor Woerner <twoerner@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] VOLATILE_TMP_DIR: add
-Date: Mon, 27 Feb 2023 00:00:40 -0500
-Message-Id: <20230227050040.12943-1-twoerner@gmail.com>
-X-Mailer: git-send-email 2.36.0.rc2.17.g4027e30c53
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=o8EXPA1u9qPxDIQ1gJigY1KOiMwkmMlrvq4/eZfM4eQ=;
+        b=fnc8S0XZloUzAyEMedvaujj7nW/wP7xz16tpMF1n0xYUjvtTWOmy7liz6AplBQZKMg
+         /xVNW7o0Osfz2QdcaU+54wJuh8uOXkAqIOUkZDUpRIdTAc66TcfOvP9SMnEOHn0yMNie
+         /zd5/Lyv9yRG6wQ20IUzhrlW6aVfPWhmGGYf1at4B7RIHV7avNR5PKHorgFgqGxhTMww
+         1LdlxSVIqwG6p6eEsTY3Q7k2W8MnHh0Cky44TaijtjtMG6NhEBWkB0+zRkK6qgjZZzI3
+         uL0VUTTjd5P9TaIEfJi6LmNopA1RwkgVUWDzcJy68p94qFlq6mpDz6PVEMirMYCIucug
+         eFHw==
+X-Gm-Message-State: AO0yUKXXgiTPCtbqq2m8SDGZQbhbwf/3ko9MOVL5xJvDoyVlSOvdlUA7
+	+P0plBWMQzmOh9W36O9asHa+R0enaLlGANe3o/VbjZKfWx0=
+X-Google-Smtp-Source: AK7set8RvCKGymHjisZjLrp8vrHFzBQi9AZGj6URYK5hxDWkRKoukMhs+VwKkuEGUkWdZ3TQAqPyoQ88tAo1qVE2okM=
+X-Received: by 2002:aca:1e0c:0:b0:383:bae2:3ac9 with SMTP id
+ m12-20020aca1e0c000000b00383bae23ac9mr3014243oic.2.1677480213628; Sun, 26 Feb
+ 2023 22:43:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230223065816.3151823-1-raj.khem@gmail.com> <Y/f3/n9f4AxtHcoo@mail.local>
+ <CAMKF1srZ=NMtKo_Pn=s9ow913j8AmC9heZKGKyHRB6RAStJFdA@mail.gmail.com>
+In-Reply-To: <CAMKF1srZ=NMtKo_Pn=s9ow913j8AmC9heZKGKyHRB6RAStJFdA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 26 Feb 2023 22:43:07 -0800
+Message-ID: <CAMKF1sqeDrCv_+StXhwdWjgrvuq6jANu0Ysydausev0rVsk6xQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] binutils: Enable --enable-new-dtags
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 05:01:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177772
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 06:43:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177773
 
-Provide a mechanism to allow users to choose whether the /tmp directory
-is on persistent storage (non-volatile) or a RAM-based tmpfs (volatile).
-The default is volatile.
+On Thu, Feb 23, 2023 at 5:56=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrote=
+:
+>
+> On Thu, Feb 23, 2023 at 3:34 PM Alexandre Belloni
+> <alexandre.belloni@bootlin.com> wrote:
+> >
+> > Could this be the cause of this?
+> >
+> > https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20230223-79=
+c9rmcw/packages/diff-html/
+>
+> most likely yes. I will take a look. Lets work on merging the other
+> binutils and gdb upgrade patch meanwhile.
 
-Works for both sysvinit-based and systemd-based systems.
+I looked at the diffoscope outputs you posted and it is noting the
+difference in EFL flags
 
-Signed-off-by: Trevor Woerner <twoerner@gmail.com>
----
- meta/conf/bitbake.conf                           | 4 ++++
- meta/recipes-core/initscripts/initscripts_1.0.bb | 3 +++
- meta/recipes-core/systemd/systemd_252.5.bb       | 7 +++++++
- 3 files changed, 14 insertions(+)
+changing from
+ 0x0000000000000018 (BIND_NOW)
+to
+ 0x000000000000001e (FLAGS)              BIND_NOW
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index dcf6ce99d138..afd9e2f5527f 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -90,6 +90,10 @@ ROOT_HOME ??= "/home/root"
- # If set to boolean false ('no', 'n', 'false', 'f', '0'), /var/log is on persistent storage.
- VOLATILE_LOG_DIR ?= "yes"
- 
-+# if set to 'yes': /tmp links to /var/tmp which links to /var/volatile/tmp
-+# otherwise:       /tmp is on persistent storage
-+VOLATILE_TMP_DIR ?= "yes"
-+
- BB_RENAMED_VARIABLES[PNBLACKLIST] = "SKIP_RECIPE"
- BB_RENAMED_VARIABLES[CVE_CHECK_PN_WHITELIST] = "CVE_CHECK_SKIP_RECIPE"
- BB_RENAMED_VARIABLES[CVE_CHECK_WHITELIST] = "CVE_CHECK_IGNORE"
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index 7c9d9ca4f107..4dc477bb8d69 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -108,6 +108,9 @@ do_install () {
- 		sed -i -e '\@^d root root 0755 /var/volatile/log none$@ a\l root root 0755 /var/log /var/volatile/log' \
- 			${D}${sysconfdir}/default/volatiles/00_core
- 	fi
-+	if [ "${VOLATILE_TMP_DIR}" != "yes" ]; then
-+		sed -i -e "/\<tmp\>/d" ${D}${sysconfdir}/default/volatiles/00_core
-+	fi
- 	install -m 0755    ${WORKDIR}/dmesg.sh		${D}${sysconfdir}/init.d
- 	install -m 0644    ${WORKDIR}/logrotate-dmesg.conf ${D}${sysconfdir}/
- 
-diff --git a/meta/recipes-core/systemd/systemd_252.5.bb b/meta/recipes-core/systemd/systemd_252.5.bb
-index ea468da150ce..8b92b2cf425c 100644
---- a/meta/recipes-core/systemd/systemd_252.5.bb
-+++ b/meta/recipes-core/systemd/systemd_252.5.bb
-@@ -288,6 +288,13 @@ do_install() {
- 		rm -rf ${D}${localstatedir}/log/journal/remote
- 	fi
- 
-+	# if the user requests /tmp be on persistent storage (i.e. not volatile)
-+	# then don't use a tmpfs for /tmp
-+	if [ "${VOLATILE_TMP_DIR}" != "yes" ]; then
-+		rm -f ${D}${rootlibdir}/systemd/system/tmp.mount
-+		rm -f ${D}${rootlibdir}/systemd/system/local-fs.target.wants/tmp.mount
-+	fi
-+
- 	install -d ${D}${systemd_system_unitdir}/graphical.target.wants
- 	install -d ${D}${systemd_system_unitdir}/multi-user.target.wants
- 	install -d ${D}${systemd_system_unitdir}/poweroff.target.wants
--- 
-2.36.0.rc2.17.g4027e30c53
+However, in my local build I see that when I enable --enable-new-dtags
+ than I always get
+ 0x000000000000001e (FLAGS)              BIND_NOW
 
+
+but when I check the glibc builds without the patch then I get flags
+to be 0x0000000000000018
+
+So I wonder if we are comparing previously built glibc ( using
+binutils without this patch )
+with glibc compiled with binutils using this patch.
+
+>
+> >
+> > On 22/02/2023 22:58:16-0800, Khem Raj wrote:
+> > > Use DT_RUNPATH over DT_RPATH. If DT_RUNPATH is present, LD_LIBRARY_PA=
+TH is searched before
+> > > DT_RUNPATH, Search order is DT_RPATH then LD_LIBRARY_PATH then
+> > > DT_RUNPATH, this order ensures that injecting
+> > > malicious shared objects is way harder with DT_RUNPATH.
+> > >
+> > > This is now default on major linux distributions already
+> > >
+> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > > ---
+> > >  meta/recipes-devtools/binutils/binutils.inc | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> > > diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recip=
+es-devtools/binutils/binutils.inc
+> > > index b2dbf241df..c69d29448f 100644
+> > > --- a/meta/recipes-devtools/binutils/binutils.inc
+> > > +++ b/meta/recipes-devtools/binutils/binutils.inc
+> > > @@ -96,6 +96,7 @@ EXTRA_OECONF =3D "--program-prefix=3D${TARGET_PREFI=
+X} \
+> > >                  --disable-werror \
+> > >                  --enable-deterministic-archives \
+> > >                  --enable-plugins \
+> > > +                --enable-new-dtags \
+> > >                  --disable-gdb \
+> > >                  --disable-gdbserver \
+> > >                  --disable-libdecnumber \
+> > > --
+> > > 2.39.2
+> > >
+> >
+> > >
+> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > Links: You receive all messages sent to this group.
+> > > View/Reply Online (#177602): https://lists.openembedded.org/g/openemb=
+edded-core/message/177602
+> > > Mute This Topic: https://lists.openembedded.org/mt/97178429/3617179
+> > > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=
+ [alexandre.belloni@bootlin.com]
+> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > >
+> >
+> >
+> > --
+> > Alexandre Belloni, co-owner and COO, Bootlin
+> > Embedded Linux and Kernel engineering
+> > https://bootlin.com
 
