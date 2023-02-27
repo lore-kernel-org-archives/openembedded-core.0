@@ -2,79 +2,132 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69874C64ED8
-	for <webhook@archiver.kernel.org>; Mon, 27 Feb 2023 11:36:22 +0000 (UTC)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
- by mx.groups.io with SMTP id smtpd.web10.87998.1677497773355056235
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EB5BC64ED6
+	for <webhook@archiver.kernel.org>; Mon, 27 Feb 2023 11:40:22 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.87972.1677498015355751796
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Feb 2023 03:36:13 -0800
+ Mon, 27 Feb 2023 03:40:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=M+4/eszR;
- spf=pass (domain: gmail.com, ip: 209.85.208.181, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f181.google.com with SMTP id g18so3958605ljl.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 03:36:13 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=SR6/yEk3;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id r7so5863454wrz.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 03:40:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677497771;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=VDg+43ucKD7DXHhYFlrdL1uLD6opuv+FiLUp0Sk6/og=;
-        b=M+4/eszRHhBN1KGk/EHYZC0ZQGzHLUsvrY43WmHnvQ9JJ7OIxPtfy+2qulKJR8vSw3
-         wnP+Tre1CmHZVOlH04UAcHkJFbz+uGjqAZbjHPm9E6enhuxdLa+7fFv+iOzbIBkNgDYo
-         IV6HwAS8bO7mNm1+3MpD22+I1vi2uNfPEIyuRjT9GGL//79XvMXbRvMNh3eOLbacngeN
-         gbTx3Pw+YqlKVEHw3AS2soRdAVQ3u1rQC2SOZG49/pZiGTamWCBYxQNpLAfzXQov5YdN
-         NcKtMdEJr0om1RS0XK7uYF5Q+Z0tfh2qeUuYuI3Xf+/Yfd7hlIzzJ19WNYeZLDnscZo8
-         X7/w==
+        d=gmail.com; s=20210112; t=1677498014;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EcHIc1+on4mod4CqaoJ3kqEWP0GmAk68fj1PviF/2Ys=;
+        b=SR6/yEk3HApqXLvpebuMuJGUYTGojJvEtkzgqaf35XqlAaSoe8afc2JAS+UY+3UWnW
+         wyd5UpgMdHOm7LBUnW9NOsHOmH04LLPWF2hHtj5wEgbFSeWBITqjtyubjHSX9MeSfltk
+         ODi0K7MD6sHK45xwddPRPSL+AnU5ZGVyBsxrNGTTLwFcUSlBO8W5W4GMu0fP5aOYmbpR
+         danKeMDfmKSf3ofv/rxl19JDH/ylNHutKWR9S1qJ5Z6L09POjjDWxxFomf+LIE7mYz06
+         mnP24gyOVzrNoctbYnzMUeuq48o+PBid6UJ7bLIZdjA4VPPO3LP0OMRv3Orlp4+FHbNf
+         2LMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677497771;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VDg+43ucKD7DXHhYFlrdL1uLD6opuv+FiLUp0Sk6/og=;
-        b=u4wM08oOpn2Po4hKKjRIqJNfpmvUZfDeaD6BKa1H0lXp309jlfKmXdXRm0oyugSVzT
-         m60ccteHpbfGOTBY0dUHSmFbcGhAf6ox/t81M0ao//F+BXq4wq4MUuHe/Mtso3pFcA0a
-         96f9MTLWy0rTzN3SBN8N1t4AT56OsRTDJnxmUd9IjKoyk3PBvvIJLkwP9xL80HNkCieb
-         JKPU+wkbiONL5AYikUoFDKS6TMfFTz0tgrgdncFCa6PIcFcKj5WvOxqGC9kFYRx9vYui
-         +AovRRT7aLzHae/x9NrWvgI2fhgk9v6M8erE65kFiD3MN2gzB33CKGxGN8jqQAWp+xCN
-         TB4A==
-X-Gm-Message-State: AO0yUKWACqsItafesHWWQPcUPLxH5atFScvMpHQ/z6DEQaguoo5MI+o3
-	APsSEgerPamB3cHlnQ0t48wzmULYGIqX1NOd7VA=
-X-Google-Smtp-Source: AK7set+GT+H6k1/M7DYnYT7ZPmoOHs/U2O8dgrQIQJSdM3sJk6oFF8JH6a2sDAHT4KaemFUXLUVO4lybb+udQi+xQ24=
-X-Received: by 2002:a2e:8e32:0:b0:293:5f43:c7b0 with SMTP id
- r18-20020a2e8e32000000b002935f43c7b0mr7257083ljk.5.1677497771449; Mon, 27 Feb
- 2023 03:36:11 -0800 (PST)
-MIME-Version: 1.0
-References: <20230224093850.3393567-1-zboszor@gmail.com> <20230226050814.929055-1-zboszor@gmail.com>
- <20230226050814.929055-4-zboszor@gmail.com> <17479FC3A76A2964.29542@lists.openembedded.org>
- <CAO5Uq5R0gJUJuE6kMfsPd4BT5Psy=nVPnLMuYbYVfH3OgC5rpA@mail.gmail.com>
- <9e42abc2-7920-8a01-cc49-53d2e9f66150@gmail.com> <CAO5Uq5Q+zRcvQ1zCY23p2eRFd9HQbXpoKFifnmPsG82jiDMX-g@mail.gmail.com>
-In-Reply-To: <CAO5Uq5Q+zRcvQ1zCY23p2eRFd9HQbXpoKFifnmPsG82jiDMX-g@mail.gmail.com>
+        d=1e100.net; s=20210112; t=1677498014;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EcHIc1+on4mod4CqaoJ3kqEWP0GmAk68fj1PviF/2Ys=;
+        b=yK0TY17g+je2Cd9sPMDOHxR+j/kr2KPs4cE5biOqGOBPEISH1/vG3Ba+eCXtmADcGk
+         nZ1LFkSM7Sx2lg0HPmX3QG0I8x0o2d/NWX1naLnLnrn9yl7uYaZi1b6cJ0vZWL40F0b8
+         7MD/NIUbQXhdjllg1dNca18y+ffrvF/KqNrwCB5bSc6Y8yg7UcHx151v6FzDVw6yf6M/
+         lWrS4S/QBtZLa9Eqiad2uzXdH97+cGxzeNTPPfdiGI7+GPCAfSZW03lFjtLEyIYicPWt
+         P3NwMTygQbej+cSGudSTbOuMpyu9ZniLi5/6RZ2kOLGwkpQU62xGr851sGnjbIIBCump
+         64tA==
+X-Gm-Message-State: AO0yUKXCv+woYK4skVSo9UB32drcuhSO1VxPBf3HzghIIg+gW65KX1yE
+	NM/nUGY4dtUMNJi/EBSwe+2J81tQDOU=
+X-Google-Smtp-Source: AK7set8rO+mQUaU9SuTwX18tbRmUkkEkbEveW0Nlb6FkUbWaqDF/a0WWtQM52T5JPuhQMAAjvhxL2w==
+X-Received: by 2002:a5d:5945:0:b0:2cb:9d29:7242 with SMTP id e5-20020a5d5945000000b002cb9d297242mr2219463wri.27.1677498013638;
+        Mon, 27 Feb 2023 03:40:13 -0800 (PST)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id v7-20020a05600c470700b003eb3933ef10sm7227851wmo.46.2023.02.27.03.40.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Feb 2023 03:40:13 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 27 Feb 2023 12:36:00 +0100
-Message-ID: <CANNYZj9JpNdu5hP=wyYB-6qmTgmkEeaeXgGuf=wJK-PMXhrH1Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 3/3] mesa: Add PACKAGECONFIG "rusticl"
-To: Alex Kiernan <alex.kiernan@gmail.com>, Khem Raj <raj.khem@gmail.com>
-Cc: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>, 
-	openembedded-core@lists.openembedded.org, Ross Burton <Ross.Burton@arm.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 2/2] scripts/runqemu: move render nodes check to runqemu from selftest
+Date: Mon, 27 Feb 2023 12:40:08 +0100
+Message-Id: <20230227114008.1175030-2-alex@linutronix.de>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230227114008.1175030-1-alex@linutronix.de>
+References: <20230227114008.1175030-1-alex@linutronix.de>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 11:36:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177789
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 11:40:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177791
 
-On Mon, 27 Feb 2023 at 12:28, Alex Kiernan <alex.kiernan@gmail.com> wrote:
-> Reading your recipe, it looks to me like your libclang dependency is
-> resolving from rust-native, as you've no DEPENDS to bring clang-native
-> into your recipe's sysroot-native.
+This will produce a more useful hint for those setting
+up or testing virgl headless:
 
-That cannot be because rust-native doesn't depend on meta-clang
-either. It does build rust-llvm though. So maybe meta-clang is not
-needed after all?
+runqemu - ERROR - No render nodes found in /dev/dri: ['by-path', 'card0']. If /dev/dri/renderD* is absent due to lack of suitable GPU, 'modprobe vgem' will create one suitable for mesa llvmpipe software renderer.
 
-Just to ensure that the recipe ends up in the right place; there's an
-open PR to add it to meta-clang, but I'm not sure that is the correct
-destination.
+as qemu itself isn't helpful:
 
-Alex
+alex@Zen2:/srv/storage/alex/yocto/build-64-alt$ qemu-system-x86_64 -display egl-headless
+qemu-system-x86_64: egl: no drm render node available
+qemu-system-x86_64: egl: render node init failed
+
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/lib/oeqa/selftest/cases/runtime_test.py |  7 -------
+ scripts/runqemu                              | 10 ++++++++++
+ 2 files changed, 10 insertions(+), 7 deletions(-)
+
+diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
+index 13e8760a16..e32c4aff85 100644
+--- a/meta/lib/oeqa/selftest/cases/runtime_test.py
++++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
+@@ -260,13 +260,6 @@ class TestImage(OESelftestTestCase):
+         if distro and (distro in ['debian-9', 'debian-10', 'centos-7', 'centos-8', 'ubuntu-16.04', 'ubuntu-18.04'] or distro.startswith('almalinux')):
+             self.skipTest('virgl headless cannot be tested with %s' %(distro))
+ 
+-        render_hint = """If /dev/dri/renderD* is absent due to lack of suitable GPU, 'modprobe vgem' will create one suitable for mesa llvmpipe software renderer."""
+-        try:
+-            content = os.listdir("/dev/dri")
+-            if len([i for i in content if i.startswith('render')]) == 0:
+-                self.fail("No render nodes found in /dev/dri: %s. %s" %(content, render_hint))
+-        except FileNotFoundError:
+-            self.fail("/dev/dri directory does not exist; no render nodes available on this machine. %s" %(render_hint))
+         qemu_distrofeatures = get_bb_var('DISTRO_FEATURES', 'qemu-system-native')
+         features = 'IMAGE_CLASSES += "testimage"\n'
+         if 'opengl' not in qemu_distrofeatures:
+diff --git a/scripts/runqemu b/scripts/runqemu
+index cedf4f62ad..58b0c191e1 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -1366,6 +1366,15 @@ class BaseConfig(object):
+             raise RunQemuError("Failed to boot, QB_SYSTEM_NAME is NULL!")
+         self.qemu_system = qemu_system
+ 
++    def check_render_nodes(self):
++        render_hint = """If /dev/dri/renderD* is absent due to lack of suitable GPU, 'modprobe vgem' will create one suitable for mesa llvmpipe software renderer."""
++        try:
++            content = os.listdir("/dev/dri")
++            if len([i for i in content if i.startswith('render')]) == 0:
++                raise RunQemuError("No render nodes found in /dev/dri: %s. %s" %(content, render_hint))
++        except FileNotFoundError:
++            raise RunQemuError("/dev/dri directory does not exist; no render nodes available on this machine. %s" %(render_hint))
++
+     def setup_vga(self):
+         if self.nographic == True:
+             if self.sdl == True:
+@@ -1403,6 +1412,7 @@ class BaseConfig(object):
+ 
+             self.qemu_opt += ' -display '
+             if self.egl_headless == True:
++                self.check_render_nodes()
+                 self.set_dri_path()
+                 self.qemu_opt += 'egl-headless,'
+             else:
+-- 
+2.30.2
+
 
