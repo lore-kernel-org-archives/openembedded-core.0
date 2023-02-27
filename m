@@ -1,130 +1,130 @@
-Return-Path: <changqing.li@eng.windriver.com>
+Return-Path: <vkumbhar@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D62F0C6FA8E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D54B2C64ED6
 	for <webhook@archiver.kernel.org>; Mon, 27 Feb 2023 03:20:39 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.82239.1677468033146410261
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.web10.82238.1677468032102232547
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Feb 2023 19:20:33 -0800
+ Sun, 26 Feb 2023 19:20:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=oJ9PFDcS;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=142213231d=changqing.li@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31R34hIA022320
-	for <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 03:20:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=from : to :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=PPS06212021;
- bh=WG1cpQST4o2VgizRfQvSl+MW3YjT3pLPNH5d21FTHZk=;
- b=oJ9PFDcSCHJmPxge/6cyHCd68YJwlD8UMb4Z96za+9x/+llRAGSVHK7EdDLNr/KBTfNS
- ANUsMzzYBa1rV7qH32tZCLvnSUXNF0MYwa5jXgASZxHkpasvl8CuQBK6bjhQORtKh0P+
- cQPfBEWnveCexrKrGrSNo1u7RY1UV6kspFkTr5LsnJwYzxhwf6mERNu6QIXdwl1q0w+T
- SkcgERPC6f+ACI9uEC49eVXiR8ESZSZ8fsJXcXP5t/6vE5h5+4UvXwP4ZGqOF3vW5jhS
- jVfDfdPS9eM4DHmBxHmzeEPW3+zcBpzxcZ4oLJgY+/Be10/8CL8ZcA6L+OhP0Uk7ZTzt CA== 
-Received: from ala-exchng02.corp.ad.wrs.com (unknown-82-254.windriver.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3nybmk9gg6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 03:20:32 +0000
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.18; Sun, 26 Feb 2023 19:20:31 -0800
-Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.17 via Frontend Transport; Sun, 26 Feb 2023 19:20:30 -0800
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [kirkstone][PATCH] libsdl2: fix CVE-2022-4743
-Date: Mon, 27 Feb 2023 11:20:29 +0800
-Message-ID: <20230227032029.2364437-1-changqing.li@windriver.com>
+ dkim=pass header.i=@mvista.com header.s=google header.b=DLUccrHt;
+ spf=pass (domain: mvista.com, ip: 209.85.216.42, mailfrom: vkumbhar@mvista.com)
+Received: by mail-pj1-f42.google.com with SMTP id k21-20020a17090aaa1500b002376652e160so4892809pjq.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 26 Feb 2023 19:20:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gp1Wv3UQxqf2CLUY1yGLo+7NZmesB232ZDV3kTH53nw=;
+        b=DLUccrHtVQbaz/V5e/xVTPlyzlkzC8b9QRjeL/saocNwqfdRUKZwicefkJZW4mmO7j
+         tBln9AYwckUkHDSUWNyyaRWGqdw2WSAPBhr9vHWkPF+CRMyUxWoAzB3IPTB7IEG5MSmg
+         sxqQXEVFgz07cLvCIQgcvxOb55QtXAMZG0PsM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gp1Wv3UQxqf2CLUY1yGLo+7NZmesB232ZDV3kTH53nw=;
+        b=mc8Bdfj3wo6rhTT+YKF0TuHuqM/MC3wIFfxZuiz+V7ypbPuOi1ZlQybYX7DHYBnvM0
+         GjiN8tg14O4VXiulk8Fk+HChnS76uzaUY5eJ6wA08VIUiTjHBVadmYzxZorb128mw1DK
+         cbA1pf6b/HT62Mr/sTaaklA8kGfKErj+/jFqMgkCUM9+S3ttPvYzEx2ULFsMPw9y3GGf
+         HtiSDmiyKGVsAk232f0vgrCr1TFxk3MCsBEFt5mP/Yenv4vqooXmbyvj0D/Tp42aIEN8
+         QlV8rM86AfIN5sPQFodAUaMDTr8zwF9TqAaZWYF9kTIF/bswkbu6AQrjoY5ImHxsyKAg
+         TEvQ==
+X-Gm-Message-State: AO0yUKUJojmDgOBSZKeEQ4fdJwc/BXNuFfXgn25Ah2KSn+kVTup2L3rV
+	fhIMbS+OTew+dmigZg0AkoLriZcvdzyMjT8A
+X-Google-Smtp-Source: AK7set/IISlrxsBKV0tCzlkoePJCxZxvia9Bp0J96GoonLU8R6I48iuq9Z+d8wZB7TxYBd1/eQu0gg==
+X-Received: by 2002:a17:902:e745:b0:19a:acc2:73e4 with SMTP id p5-20020a170902e74500b0019aacc273e4mr26772240plf.22.1677468030934;
+        Sun, 26 Feb 2023 19:20:30 -0800 (PST)
+Received: from vkumbhar-Latitude-3400.mvista.com ([116.75.163.148])
+        by smtp.gmail.com with ESMTPSA id u9-20020a17090282c900b0018b025d9a40sm3310460plz.256.2023.02.26.19.20.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Feb 2023 19:20:30 -0800 (PST)
+From: Vivek Kumbhar <vkumbhar@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Vivek Kumbhar <vkumbhar@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] rpm: update 4.17.1 -> 4.18
+Date: Mon, 27 Feb 2023 08:50:20 +0530
+Message-Id: <20230227032020.6248-1-vkumbhar@mvista.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: fugU7cstvWtPZOwipVrpDvYbKbI18NSo
-X-Proofpoint-ORIG-GUID: fugU7cstvWtPZOwipVrpDvYbKbI18NSo
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-26_22,2023-02-24_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 spamscore=0
- suspectscore=0 phishscore=0 mlxscore=0 malwarescore=0 priorityscore=1501
- lowpriorityscore=5 mlxlogscore=800 clxscore=1011 bulkscore=5
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302270024
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 03:20:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177770
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177769
 
-From: Changqing Li <changqing.li@windriver.com>
+(From OE-Core rev: 5bef402da334595ed9302b8bca1acdf5e88bfe11)
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+This will fix #CVE-2021-35938 rpm: races with chown/chmod/capabilities calls during installation
+
+upstream branch=rpm-4.18: git://github.com/rpm-software-management/rpm
+
+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
 ---
- ...ial-memory-leak-in-GLES_CreateTextur.patch | 40 +++++++++++++++++++
- .../libsdl2/libsdl2_2.0.20.bb                 |  1 +
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-Fix-potential-memory-leak-in-GLES_CreateTextur.patch
+ ...When-cross-installing-execute-package-scriptlets-wit.patch | 2 +-
+ .../rpm/files/0001-tools-Add-error.h-for-non-glibc-case.patch | 3 +--
+ meta/recipes-devtools/rpm/{rpm_4.17.1.bb => rpm_4.18.bb}      | 4 ++--
+ 3 files changed, 4 insertions(+), 5 deletions(-)
+ rename meta/recipes-devtools/rpm/{rpm_4.17.1.bb => rpm_4.18.bb} (99%)
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2/0001-Fix-potential-memory-leak-in-GLES_CreateTextur.patch b/meta/recipes-graphics/libsdl2/libsdl2/0001-Fix-potential-memory-leak-in-GLES_CreateTextur.patch
-new file mode 100644
-index 0000000000..31bda54dd3
---- /dev/null
-+++ b/meta/recipes-graphics/libsdl2/libsdl2/0001-Fix-potential-memory-leak-in-GLES_CreateTextur.patch
-@@ -0,0 +1,40 @@
-+From 3cf2048b647484cc3a6abd0d78be60cead47b42d Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Fri, 24 Feb 2023 16:59:19 +0800
-+Subject: [PATCH] Fix potential memory leak in GLES_CreateTextur
-+
-+CVE: CVE-2022-4743
-+Upstream-Status: Backport [https://github.com/libsdl-org/SDL/commit/00b67f55727bc0944c3266e2b875440da132ce4b]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ src/render/opengles/SDL_render_gles.c | 6 ++++++
-+ 1 file changed, 6 insertions(+)
-+
-+diff --git a/src/render/opengles/SDL_render_gles.c b/src/render/opengles/SDL_render_gles.c
-+index a6b58f2..237b1d6 100644
-+--- a/src/render/opengles/SDL_render_gles.c
-++++ b/src/render/opengles/SDL_render_gles.c
-+@@ -368,6 +368,9 @@ GLES_CreateTexture(SDL_Renderer * renderer, SDL_Texture * texture)
-+     renderdata->glGenTextures(1, &data->texture);
-+     result = renderdata->glGetError();
-+     if (result != GL_NO_ERROR) {
-++        if (texture->access == SDL_TEXTUREACCESS_STREAMING) {
-++           SDL_free(data->pixels);
-++        }
-+         SDL_free(data);
-+         return GLES_SetError("glGenTextures()", result);
-+     }
-+@@ -396,6 +399,9 @@ GLES_CreateTexture(SDL_Renderer * renderer, SDL_Texture * texture)
-+ 
-+     result = renderdata->glGetError();
-+     if (result != GL_NO_ERROR) {
-++        if (texture->access == SDL_TEXTUREACCESS_STREAMING) {
-++            SDL_free(data->pixels);
-++        }
-+         SDL_free(data);
-+         return GLES_SetError("glTexImage2D()", result);
-+     }
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.20.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.20.bb
-index c1c827af79..abcf232e25 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.20.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.20.bb
-@@ -24,6 +24,7 @@ PROVIDES = "virtual/libsdl2"
- SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
-            file://optional-libunwind-generic.patch \
-            file://0001-sdlchecks.cmake-pass-cflags-to-the-appropriate-cmake.patch \
-+           file://0001-Fix-potential-memory-leak-in-GLES_CreateTextur.patch \
+diff --git a/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch b/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch
+index 2a0069cafe..13d01faa0e 100644
+--- a/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch
++++ b/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch
+@@ -53,7 +53,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  
+      if (rc != RPMRC_FAIL) {
+  	if (script_type & RPMSCRIPTLET_EXEC) {
+--	    rc = runExtScript(plugins, prefixes, script->descr, lvl, scriptFd, &args, script->body, arg1, arg2, &script->nextFileFunc);
++-	    rc = runExtScript(plugins, prefixes, script->descr, lvl, scriptFd, &args, script->body, arg1, arg2, script->nextFileFunc);
+ +	    if (getenv("RPM_NO_CHROOT_FOR_SCRIPTS") != NULL) {
+ +		rpmChrootOut();
+ +		rc = runExtScript(plugins, prefixes, script->descr, lvl, scriptFd, &args, script->body, arg1, arg2, &script->nextFileFunc);
+diff --git a/meta/recipes-devtools/rpm/files/0001-tools-Add-error.h-for-non-glibc-case.patch b/meta/recipes-devtools/rpm/files/0001-tools-Add-error.h-for-non-glibc-case.patch
+index 9783396639..cab54c3fb6 100644
+--- a/meta/recipes-devtools/rpm/files/0001-tools-Add-error.h-for-non-glibc-case.patch
++++ b/meta/recipes-devtools/rpm/files/0001-tools-Add-error.h-for-non-glibc-case.patch
+@@ -20,11 +20,10 @@ diff --git a/tools/elfdeps.c b/tools/elfdeps.c
+ index d205935bb..3a8945b33 100644
+ --- a/tools/elfdeps.c
+ +++ b/tools/elfdeps.c
+-@@ -5,10 +5,14 @@
++@@ +5,14 @@
+  #include <unistd.h>
+  #include <stdlib.h>
+  #include <fcntl.h>
+--#include <error.h>
+  #include <errno.h>
+  #include <popt.h>
+  #include <gelf.h>
+diff --git a/meta/recipes-devtools/rpm/rpm_4.17.1.bb b/meta/recipes-devtools/rpm/rpm_4.18.bb
+similarity index 99%
+rename from meta/recipes-devtools/rpm/rpm_4.17.1.bb
+rename to meta/recipes-devtools/rpm/rpm_4.18.bb
+index 9b6446f265..724dbbe70a 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.17.1.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.18.bb
+@@ -24,7 +24,7 @@ HOMEPAGE = "http://www.rpm.org"
+ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c4eec0c20c6034b9407a09945b48a43f"
+ 
+-SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.17.x;protocol=https \
++SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.18.x;protocol=https \
+            file://environment.d-rpm.sh \
+            file://0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch \
+            file://0001-Do-not-read-config-files-from-HOME.patch \
+@@ -43,7 +43,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.17.x;protoc
             "
- SRC_URI:append:class-native = " file://0001-Disable-libunwind-in-native-OE-builds-by-not-looking.patch"
+ 
+ PE = "1"
+-SRCREV = "5bef402da334595ed9302b8bca1acdf5e88bfe11"
++SRCREV = "ea0d77c52e176e2876fdb1d07ad41e9e2635a93e"
+ 
+ S = "${WORKDIR}/git"
  
 -- 
 2.25.1
