@@ -1,164 +1,109 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B90EC64ED6
-	for <webhook@archiver.kernel.org>; Mon, 27 Feb 2023 08:04:11 +0000 (UTC)
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
- by mx.groups.io with SMTP id smtpd.web11.85438.1677485048691702151
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C440C64ED8
+	for <webhook@archiver.kernel.org>; Mon, 27 Feb 2023 08:37:11 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web11.85780.1677487024145811371
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Feb 2023 00:04:08 -0800
+ Mon, 27 Feb 2023 00:37:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=DrErNbUt;
- spf=pass (domain: gmail.com, ip: 209.85.166.46, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-io1-f46.google.com with SMTP id m22so1830523ioy.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 00:04:08 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=N/59IV49;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f54.google.com with SMTP id l25so5291213wrb.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 00:37:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4SMjhVdQJXIBW8yszqi/AyW2ll6SInQ36PklmaVrR6k=;
-        b=DrErNbUtvyb/bxSODPJ7gzajUXEl6M2kuJAZ7R8c1DUCx9s7BQnmP9nt9AlE78iBKF
-         utRSWAka02YqR7GuEoPGKSB5SnYWuHLjteFSJxmMj/zGkklLBfgnRgQD5ihR8ux/c4Yw
-         wOh+M+DYaiabT8t2jXLaG8fbGHWNoWQozUkkH/gLNx+2vp3kco8qgAtdzd05XwW7blQF
-         mwYeBI1x1iSereF3h8gNbrFC7tgEbnEqyyTmDar3WRyfgz6CVNxs7f0c9e0iKp/NWCbv
-         NCevunqobsrYTLkOnpxDVIY3Fkv77HMLeV1ZcdQxCxMbqRVtBNnM5LDEHH/vol8y093L
-         Pn0g==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=xDtCcOd21yNhQEWCmfmOl063a5JtdcHEHjBpPdXgCc8=;
+        b=N/59IV49jI9yGQS2DZwtB/MmqeElxZYVQwtjAptaaUM3SlxSVTMfo9giQhba450t57
+         vh+xntZV3YHNQBVJuhrDEm6VaSNqbYM7heoYYpC1shlJu4bqUdED1PkMu/Gk1UuwwYSt
+         scSObZhXhWiGYtxTCKISYV5B5c0X8favE/Xdk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4SMjhVdQJXIBW8yszqi/AyW2ll6SInQ36PklmaVrR6k=;
-        b=LMYPWlgjNZdpaOWLOGfyPpoT8bnk6yGjMLKtVa7fCtlpA1ECcqQhd8AI7BPsDEmFbg
-         OXROQytMdN7DL2aSHS1T0HS9DYAP+k51zA0deoBvjT2Uu4X9pqsVwe32M32uK1YbCf/b
-         cpORVjCZBLvFClLZah10fvuSnhHdf0GWsxcY5nt6gEixqWPQ1yjV1+KoyvJE3VCG6poI
-         H7TgTx7zZ/lcQSQMNnKGTRAJ/GJyyaVie7EbBuWAZm/Yv+aIb+eXj/uYTOVxpJwgmFbh
-         Xqjb7oMjJ6Yhb89WCoUxASlNkNioBoxSmUMexAYq8m4p3IU58cnBB3XMJ+y9DNet7/cR
-         IhdQ==
-X-Gm-Message-State: AO0yUKXpP+cbH3PuMqqlxD3gg0HK1oErWXR/uQ/f2AGhL0Gn6TdeOCxl
-	MmWp/XCm/WUMzWJ429KCtB1GfS5cHQX70srsyEA5J7s7
-X-Google-Smtp-Source: AK7set8TvZhZ03i8/LbCBwdUclAarr8MSvcGQFr6sG/fKxX2qGjdRj6XQKNwLgoqRLI4dayUO9h2EMaC289/6JXQPK0=
-X-Received: by 2002:a6b:b211:0:b0:745:b287:c281 with SMTP id
- b17-20020a6bb211000000b00745b287c281mr5488885iof.2.1677485047873; Mon, 27 Feb
- 2023 00:04:07 -0800 (PST)
-MIME-Version: 1.0
-References: <20230224093850.3393567-1-zboszor@gmail.com> <20230226050814.929055-1-zboszor@gmail.com>
- <20230226050814.929055-4-zboszor@gmail.com>
-In-Reply-To: <20230226050814.929055-4-zboszor@gmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Mon, 27 Feb 2023 08:03:54 +0000
-Message-ID: <CAO5Uq5Qcyr4tywhEgJbFeONrrQW-W10i5Bp7iGHph0xGBeznUA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] mesa: Add PACKAGECONFIG "rusticl"
-To: =?UTF-8?B?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aQ==?= <zboszor@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex.kanavin@gmail.com>, Ross Burton <Ross.Burton@arm.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xDtCcOd21yNhQEWCmfmOl063a5JtdcHEHjBpPdXgCc8=;
+        b=gC85lsxlGFR+JrLu3MHZelJ3j13uqZWGQSi+MWyt3bD+uGIIoOXoOrP0H4+JRVd88p
+         dTIzf0rt0E7eTq2x1I8br99MGNvTw7G+FrcCUMBDO1dXHaig0m8x3iQ4+T+FAP/qsde5
+         ONMZJPc54TPX+7DRXxTt2CMeVTAZXqy3VXhWYnbGWxFKP2u8ByXIvbWTesReA3pTHKJB
+         6d94jbcCWD3n9zzilH3e/40jbStvZXdSgea6fOULPsXgBFUFjgg+3oED6vMSHYsODq4a
+         N9YsYnQvi4Kqk2mv7wnXbyTSmuGx9S/+ZA6kgG3Ot6C0fGvKiM//AoZtVQ/QM+IiMKsM
+         3jUg==
+X-Gm-Message-State: AO0yUKUvwSaH0cMcJleBx3h6qfrP+Ialh4AVkpFadryOZgknvqfAqG5z
+	CQhpmPc3oV18UQeFlkwLH96TKg==
+X-Google-Smtp-Source: AK7set/0oRsjPigbtPGqzoNDlDb6OrdpRlMhenrbnBMAx6DUwk9EJ5B07J21zch2Q7xyuv5XbNIk0A==
+X-Received: by 2002:a5d:4dd1:0:b0:2c7:a39:6e30 with SMTP id f17-20020a5d4dd1000000b002c70a396e30mr14156969wru.38.1677487022477;
+        Mon, 27 Feb 2023 00:37:02 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:b7e8:d302:d51:7008? ([2001:8b0:aba:5f3c:b7e8:d302:d51:7008])
+        by smtp.gmail.com with ESMTPSA id y14-20020adfee0e000000b002c71b4d476asm6488403wrn.106.2023.02.27.00.37.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Feb 2023 00:37:02 -0800 (PST)
+Message-ID: <18613bd480d5dc517c329b1cb541cbdc05d2a8e6.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] binutils: Enable --enable-new-dtags
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, Alexandre Belloni
+	 <alexandre.belloni@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 27 Feb 2023 08:37:01 +0000
+In-Reply-To: <CAMKF1sqeDrCv_+StXhwdWjgrvuq6jANu0Ysydausev0rVsk6xQ@mail.gmail.com>
+References: <20230223065816.3151823-1-raj.khem@gmail.com>
+	 <Y/f3/n9f4AxtHcoo@mail.local>
+	 <CAMKF1srZ=NMtKo_Pn=s9ow913j8AmC9heZKGKyHRB6RAStJFdA@mail.gmail.com>
+	 <CAMKF1sqeDrCv_+StXhwdWjgrvuq6jANu0Ysydausev0rVsk6xQ@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 08:04:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177775
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 08:37:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177776
 
-On Sun, Feb 26, 2023 at 5:08 AM Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zbo=
-szor@gmail.com> wrote:
->
-> Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
-> ---
->  meta/recipes-graphics/mesa/mesa.inc | 15 ++++++++++++---
->  1 file changed, 12 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
-mesa/mesa.inc
-> index 89e2dc6e90..2fbc1f971e 100644
-> --- a/meta/recipes-graphics/mesa/mesa.inc
-> +++ b/meta/recipes-graphics/mesa/mesa.inc
-> @@ -46,6 +46,7 @@ PROVIDES =3D " \
->      "
->
->  inherit meson pkgconfig python3native gettext features_check
-> +inherit ${@bb.utils.contains('PACKAGECONFIG', 'rusticl', 'rust', '', d)}
->
->  BBCLASSEXTEND =3D "native nativesdk"
->
-> @@ -119,6 +120,13 @@ PACKAGECONFIG[egl] =3D "-Degl=3Denabled, -Degl=3Ddis=
-abled"
->  OPENCL_NATIVE =3D "${@bb.utils.contains('PACKAGECONFIG', 'freedreno', '-=
-Dopencl-native=3Dtrue', '', d)}"
->  PACKAGECONFIG[clover] =3D "-Dgallium-opencl=3Dicd -Dopencl-spirv=3Dtrue =
-${OPENCL_NATIVE},-Dgallium-opencl=3Ddisabled -Dopencl-spirv=3Dfalse,libclc =
-spirv-tools"
->
-> +# "rusticl" requires libclc and spirv-llvm-translator from meta-clang an=
-d spirv-tools from OE-Core
-> +PACKAGECONFIG[rusticl] =3D "-Dgallium-rusticl=3Dtrue -Drust_std=3D2021,-=
-Dgallium-rusticl=3Dfalse,bindgen-cli-native libclc spirv-tools spirv-llvm-t=
-ranslator,libclc spirv-tools spirv-llvm-translator"
-> +
-> +# Building "rusticl" runs bindgen.
-> +# This setting is needed by bindgen to dlopen the correct libclang.
-> +export LIBCLANG_PATH =3D "${STAGING_LIBDIR_NATIVE}"
-> +
+On Sun, 2023-02-26 at 22:43 -0800, Khem Raj wrote:
+> On Thu, Feb 23, 2023 at 5:56=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wro=
+te:
+> >=20
+> > On Thu, Feb 23, 2023 at 3:34 PM Alexandre Belloni
+> > <alexandre.belloni@bootlin.com> wrote:
+> > >=20
+> > > Could this be the cause of this?
+> > >=20
+> > > https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20230223-=
+79c9rmcw/packages/diff-html/
+> >=20
+> > most likely yes. I will take a look. Lets work on merging the other
+> > binutils and gdb upgrade patch meanwhile.
+>=20
+> I looked at the diffoscope outputs you posted and it is noting the
+> difference in EFL flags
+>=20
+> changing from
+>  0x0000000000000018 (BIND_NOW)
+> to
+>  0x000000000000001e (FLAGS)              BIND_NOW
+>=20
+> However, in my local build I see that when I enable --enable-new-dtags
+>  than I always get
+>  0x000000000000001e (FLAGS)              BIND_NOW
+>=20
+>=20
+> but when I check the glibc builds without the patch then I get flags
+> to be 0x0000000000000018
+>=20
+> So I wonder if we are comparing previously built glibc ( using
+> binutils without this patch )
+> with glibc compiled with binutils using this patch.
 
-Could that be part of a wrapper in the bindgen recipe?
+I think that is possible and there is some task hash dependency issue
+in here somewhere :/
 
->  PACKAGECONFIG[broadcom] =3D ""
->  PACKAGECONFIG[etnaviv] =3D ""
->  PACKAGECONFIG[freedreno] =3D ""
-> @@ -197,6 +205,7 @@ DEV_PKG_DEPENDENCY =3D ""
->  RDEPENDS:libgles3-mesa-dev +=3D "libgles2-mesa-dev"
->
->  RDEPENDS:libopencl-mesa +=3D "${@bb.utils.contains('PACKAGECONFIG', 'clo=
-ver', 'libclc spirv-tools', '', d)}"
-> +RDEPENDS:libopencl-mesa +=3D "${@bb.utils.contains('PACKAGECONFIG', 'rus=
-ticl', 'libclc spirv-tools spirv-llvm-translator', '', d)}"
->
->  PACKAGES =3D+ "libegl-mesa libegl-mesa-dev \
->               libosmesa libosmesa-dev \
-> @@ -233,7 +242,7 @@ do_install:append () {
->  # RPROVIDEs/RCONFLICTs on the generic libgl name.
->  python __anonymous() {
->      pkgconfig =3D (d.getVar('PACKAGECONFIG') or "").split()
-> -    if "clover" in pkgconfig:
-> +    if "clover" in pkgconfig or "rusticl" in pkgconfig:
->          pkgconfig.append("opencl")
->      suffix =3D ""
->      if "-native" in d.getVar("PN"):
-> @@ -305,7 +314,7 @@ FILES:libgles1-mesa =3D "${libdir}/libGLESv1*.so.*"
->  FILES:libgles2-mesa =3D "${libdir}/libGLESv2.so.*"
->  FILES:libgl-mesa =3D "${libdir}/libGL.so.*"
->  FILES:libglx-mesa =3D "${libdir}/libGLX*.so.*"
-> -FILES:libopencl-mesa =3D "${libdir}/libMesaOpenCL.so.* ${libdir}/gallium=
--pipe/*.so ${sysconfdir}/OpenCL/vendors/mesa.icd"
-> +FILES:libopencl-mesa =3D "${libdir}/libMesaOpenCL.so.* ${libdir}/libRust=
-iclOpenCL.so.* ${libdir}/gallium-pipe/*.so ${sysconfdir}/OpenCL/vendors/mes=
-a.icd ${sysconfdir}/OpenCL/vendors/rusticl.icd"
->  FILES:libglapi =3D "${libdir}/libglapi.so.*"
->  FILES:libosmesa =3D "${libdir}/libOSMesa.so.*"
->  FILES:libxatracker =3D "${libdir}/libxatracker.so.*"
-> @@ -319,7 +328,7 @@ FILES:libglapi-dev =3D "${libdir}/libglapi.*"
->  FILES:libgles1-mesa-dev =3D "${libdir}/libGLESv1*.* ${includedir}/GLES $=
-{libdir}/pkgconfig/glesv1*.pc"
->  FILES:libgles2-mesa-dev =3D "${libdir}/libGLESv2.* ${includedir}/GLES2 $=
-{libdir}/pkgconfig/glesv2.pc"
->  FILES:libgles3-mesa-dev =3D "${includedir}/GLES3"
-> -FILES:libopencl-mesa-dev =3D "${libdir}/libMesaOpenCL.so"
-> +FILES:libopencl-mesa-dev =3D "${libdir}/libMesaOpenCL.so ${libdir}/libRu=
-sticlOpenCL.so"
->  FILES:libosmesa-dev =3D "${libdir}/libOSMesa.* ${includedir}/GL/osmesa.h=
- ${libdir}/pkgconfig/osmesa.pc"
->  FILES:libxatracker-dev =3D "${libdir}/libxatracker.so ${libdir}/libxatra=
-cker.la \
->                            ${includedir}/xa_tracker.h ${includedir}/xa_co=
-mposite.h ${includedir}/xa_context.h \
-> --
-> 2.39.2
->
+Cheers,
 
-
---=20
-Alex Kiernan
+Richard
 
