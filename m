@@ -1,109 +1,82 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C440C64ED8
-	for <webhook@archiver.kernel.org>; Mon, 27 Feb 2023 08:37:11 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web11.85780.1677487024145811371
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEF46C64ED6
+	for <webhook@archiver.kernel.org>; Mon, 27 Feb 2023 09:18:21 +0000 (UTC)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web10.86270.1677489500436125770
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Feb 2023 00:37:04 -0800
+ Mon, 27 Feb 2023 01:18:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=N/59IV49;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id l25so5291213wrb.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 00:37:03 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=EEDeIrWd;
+ spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f172.google.com with SMTP id x6so68932ljq.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 01:18:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=xDtCcOd21yNhQEWCmfmOl063a5JtdcHEHjBpPdXgCc8=;
-        b=N/59IV49jI9yGQS2DZwtB/MmqeElxZYVQwtjAptaaUM3SlxSVTMfo9giQhba450t57
-         vh+xntZV3YHNQBVJuhrDEm6VaSNqbYM7heoYYpC1shlJu4bqUdED1PkMu/Gk1UuwwYSt
-         scSObZhXhWiGYtxTCKISYV5B5c0X8favE/Xdk=
+        d=gmail.com; s=20210112; t=1677489498;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=V12Yq0I7ChuNi4ETr7Rk5OmoKrW7K76Fy0W+Wb9f0fU=;
+        b=EEDeIrWdPuuUWcLtG51rdrxNoPW3QhWoIHCNda2bf3L/EJV+Q/Fm1nMxBL4o6jqQIW
+         SHcXkke7Xn/EonG+9RtfhtxevzRI4diM7nX7TJX9fm2bm1Qc/eWwRZWIEyID/VvcdgsU
+         /vcN6ujMaYUMQLtzrIkX5jxGVPaCOlH4yPupekH+3XZWSck2ET++l86RTatMDXP6d4MA
+         nCSix32LZ0nV9Xfvbdtj9SlKIxpfRLfRGOzuWSeiKWjJi0RorK72PG2H8FNzz6dCEZeO
+         /yitaXJ40qQgFhy+3xQdqTgx5XYOT/boyc8fgXcKJ7A0kUcGu7CMH19TI+TvCixifNzk
+         +51A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xDtCcOd21yNhQEWCmfmOl063a5JtdcHEHjBpPdXgCc8=;
-        b=gC85lsxlGFR+JrLu3MHZelJ3j13uqZWGQSi+MWyt3bD+uGIIoOXoOrP0H4+JRVd88p
-         dTIzf0rt0E7eTq2x1I8br99MGNvTw7G+FrcCUMBDO1dXHaig0m8x3iQ4+T+FAP/qsde5
-         ONMZJPc54TPX+7DRXxTt2CMeVTAZXqy3VXhWYnbGWxFKP2u8ByXIvbWTesReA3pTHKJB
-         6d94jbcCWD3n9zzilH3e/40jbStvZXdSgea6fOULPsXgBFUFjgg+3oED6vMSHYsODq4a
-         N9YsYnQvi4Kqk2mv7wnXbyTSmuGx9S/+ZA6kgG3Ot6C0fGvKiM//AoZtVQ/QM+IiMKsM
-         3jUg==
-X-Gm-Message-State: AO0yUKUvwSaH0cMcJleBx3h6qfrP+Ialh4AVkpFadryOZgknvqfAqG5z
-	CQhpmPc3oV18UQeFlkwLH96TKg==
-X-Google-Smtp-Source: AK7set/0oRsjPigbtPGqzoNDlDb6OrdpRlMhenrbnBMAx6DUwk9EJ5B07J21zch2Q7xyuv5XbNIk0A==
-X-Received: by 2002:a5d:4dd1:0:b0:2c7:a39:6e30 with SMTP id f17-20020a5d4dd1000000b002c70a396e30mr14156969wru.38.1677487022477;
-        Mon, 27 Feb 2023 00:37:02 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:b7e8:d302:d51:7008? ([2001:8b0:aba:5f3c:b7e8:d302:d51:7008])
-        by smtp.gmail.com with ESMTPSA id y14-20020adfee0e000000b002c71b4d476asm6488403wrn.106.2023.02.27.00.37.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Feb 2023 00:37:02 -0800 (PST)
-Message-ID: <18613bd480d5dc517c329b1cb541cbdc05d2a8e6.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] binutils: Enable --enable-new-dtags
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, Alexandre Belloni
-	 <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Feb 2023 08:37:01 +0000
-In-Reply-To: <CAMKF1sqeDrCv_+StXhwdWjgrvuq6jANu0Ysydausev0rVsk6xQ@mail.gmail.com>
-References: <20230223065816.3151823-1-raj.khem@gmail.com>
-	 <Y/f3/n9f4AxtHcoo@mail.local>
-	 <CAMKF1srZ=NMtKo_Pn=s9ow913j8AmC9heZKGKyHRB6RAStJFdA@mail.gmail.com>
-	 <CAMKF1sqeDrCv_+StXhwdWjgrvuq6jANu0Ysydausev0rVsk6xQ@mail.gmail.com>
+        d=1e100.net; s=20210112; t=1677489498;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=V12Yq0I7ChuNi4ETr7Rk5OmoKrW7K76Fy0W+Wb9f0fU=;
+        b=xVpGhyFGLXofJ6LrUBiBx//6RAeLPZF3Mwe0kKL92+thYuS9BzU9/Txijx5S9GZXL0
+         En/0gf7pH3IGeNAZ8D/BEAImmOp86dxj1dvuN7oicQnsvusvcmqUDP6vE+ONlQ2CmbZD
+         Qy+WQweuQ8620+Fub4VKxiDP+uEGQRNPwfS6KepJy/p9wWuJamL3If0A03Nycg29oq0O
+         kX8swegNNJ22wzrPJSJLjfhkThTZ27mWx+RDY+r742vydCqlLKFVuzClT4piLB6EWm73
+         AfZqi7XBB4EvyQlfTABTikMF/WuXt8HCZP449ghZH6QVSa2sACk5PvV9Ttqr8m0F4PtZ
+         wHqg==
+X-Gm-Message-State: AO0yUKWcHE5b3Jz9+YLHLQ8Yvdk7IZ46PatxRCtX+F3IM/cs5wjHvtNa
+	qNictbUSlcVFnkZKgknndhQofZm8Y/+aa6zrjEY=
+X-Google-Smtp-Source: AK7set+esRAI5D52Ad2tMWiGh4fr3g2eQG31NRmC1fIuLcYweqtGEoEe9juKeicKeCoVQiInODg97Gdh0BbdOyjpf1g=
+X-Received: by 2002:a05:651c:1a06:b0:295:ba28:a43 with SMTP id
+ by6-20020a05651c1a0600b00295ba280a43mr933388ljb.4.1677489498569; Mon, 27 Feb
+ 2023 01:18:18 -0800 (PST)
+MIME-Version: 1.0
+References: <20230224093850.3393567-1-zboszor@gmail.com> <20230226050814.929055-1-zboszor@gmail.com>
+ <20230226050814.929055-3-zboszor@gmail.com>
+In-Reply-To: <20230226050814.929055-3-zboszor@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 27 Feb 2023 10:18:07 +0100
+Message-ID: <CANNYZj_=qf2kVp-k4Uc8RBCc51n+6L0Xx8RurS7ZSMmnnJJPLA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] mesa: Rename PACKAGECONFIG "opencl" to "clover"
+To: =?UTF-8?B?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aQ==?= <zboszor@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Ross Burton <Ross.Burton@arm.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Alex Kiernan <alex.kiernan@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3-1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 08:37:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177776
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 09:18:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177777
 
-On Sun, 2023-02-26 at 22:43 -0800, Khem Raj wrote:
-> On Thu, Feb 23, 2023 at 5:56=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wro=
-te:
-> >=20
-> > On Thu, Feb 23, 2023 at 3:34 PM Alexandre Belloni
-> > <alexandre.belloni@bootlin.com> wrote:
-> > >=20
-> > > Could this be the cause of this?
-> > >=20
-> > > https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20230223-=
-79c9rmcw/packages/diff-html/
-> >=20
-> > most likely yes. I will take a look. Lets work on merging the other
-> > binutils and gdb upgrade patch meanwhile.
->=20
-> I looked at the diffoscope outputs you posted and it is noting the
-> difference in EFL flags
->=20
-> changing from
->  0x0000000000000018 (BIND_NOW)
-> to
->  0x000000000000001e (FLAGS)              BIND_NOW
->=20
-> However, in my local build I see that when I enable --enable-new-dtags
->  than I always get
->  0x000000000000001e (FLAGS)              BIND_NOW
->=20
->=20
-> but when I check the glibc builds without the patch then I get flags
-> to be 0x0000000000000018
->=20
-> So I wonder if we are comparing previously built glibc ( using
-> binutils without this patch )
-> with glibc compiled with binutils using this patch.
+On Sun, 26 Feb 2023 at 06:08, Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zbosz=
+or@gmail.com> wrote:
 
-I think that is possible and there is some task hash dependency issue
-in here somewhere :/
+> @@ -233,6 +233,8 @@ do_install:append () {
+>  # RPROVIDEs/RCONFLICTs on the generic libgl name.
+>  python __anonymous() {
+>      pkgconfig =3D (d.getVar('PACKAGECONFIG') or "").split()
+> +    if "clover" in pkgconfig:
+> +        pkgconfig.append("opencl")
+>      suffix =3D ""
+>      if "-native" in d.getVar("PN"):
+>          suffix =3D "-native"
 
-Cheers,
+Why? This change needs to be explained in the commit message.
 
-Richard
+Alex
 
