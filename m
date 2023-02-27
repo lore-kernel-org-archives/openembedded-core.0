@@ -2,173 +2,136 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC426C64ED6
-	for <webhook@archiver.kernel.org>; Mon, 27 Feb 2023 09:23:01 +0000 (UTC)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
- by mx.groups.io with SMTP id smtpd.web10.86319.1677489778672262613
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B253BC64ED8
+	for <webhook@archiver.kernel.org>; Mon, 27 Feb 2023 09:24:01 +0000 (UTC)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+ by mx.groups.io with SMTP id smtpd.web11.86280.1677489838858530664
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Feb 2023 01:22:59 -0800
+ Mon, 27 Feb 2023 01:23:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Ih1vtaxI;
- spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f174.google.com with SMTP id z42so5660155ljq.13
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 01:22:58 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=noTDRjQR;
+ spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f171.google.com with SMTP id b10so5762159ljr.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 01:23:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677489777;
+        d=gmail.com; s=20210112; t=1677489837;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=VGKG0KLH5iGglDBeA0bnre2R5oSkAsQ2lgSio2RIsMU=;
-        b=Ih1vtaxII42IwMP4UjV2kmZDaAEyUrMdUKsusW3u7rHvgMrBtvwpl1xa7RBBTlHCqW
-         UgqP4RVvgv3xl6giet1JARy2+jdXcVlTMPacfZJrt6pDfXpL/RjNJRst4Wukl5rMFCjs
-         X5a/GaCAF2ISH8BjmYqws2mQCqodKf4i2SuZgRsOYZwJuOEy/irn1BB7gST8YeT/V27k
-         CPSRlu4FZIsX3h7k3uUQlKe/vglmEy/iFtD0qonD7FWWl/+MV8Gjab+LfYMVwsn8ipEZ
-         MHFyKBKBUhgzLmF0XpJy4+7HyImRmiHh7bSumg40zo0MwYmXTLa1+TYe/xbQgst4Frmp
-         w1dQ==
+        bh=DOVMkeVHLSvPVr6Ielur3Xoe4XGXokXGkJLyNK6eTrE=;
+        b=noTDRjQRLWOEwnnP5nMIWTjKD2t7cYZw4NbmosGVP/jfZYOAk0Dgg1G6zpaau6o5OX
+         Nq3icf7FUYntYGKmbWNnBPtLg3fz2INLd1hxvjse1YU4115A7b77ZfO4xBKHqXw8Qjyd
+         tAu91qZaFGSsGQgQJye+ctgSbh6Q8QKa0MR+FGysHG3qBSGtJbZ3S+1k9+WBsT5O8Jqm
+         yIRE69WvKPC+0FhpkBH7Ik38/2I5iwsDsV2EbYCn4vhk9eGNMyZfFi+L9/E+TbWz5R1P
+         jolfc5P1FoC/V6nCeDQNAvH5dXbfkb3+iiDzCI2DT3w9Hv8umOdeg4AKwbIabR7Jtsbw
+         lrvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677489777;
+        d=1e100.net; s=20210112; t=1677489837;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=VGKG0KLH5iGglDBeA0bnre2R5oSkAsQ2lgSio2RIsMU=;
-        b=KCX9f5CWEABiy5UuGw5N5+SdA2TmM+j+euSpWFFGM+amSXdCLfcI089EIqK+qVyqcn
-         QkZ4QZLo+CVj84KupiOkUNCWaZlX9yhhmA9qsEZkwt/pbLbLXwIZjP8F/yyxbWwUQpuv
-         vg94yzqd3lzbWJ9OV9a9ABwR/DPXfgFwG16cd8y5IbkMco3iiL/zDr9Lq6xFXFDfjOCZ
-         QBZFIDAiN4riQmtfs+8Ad6YmlfWYJqsgqtQ8VjjCLE6JlbHU6ynoArMDBadc85YT8ySc
-         BeOyEdB3xssBXkg0vVhMM1lmKMYocasx3iCMm8ABt9c7gjFOqCjZssyMpYbr9TQjSwr+
-         tuEQ==
-X-Gm-Message-State: AO0yUKXNOwjS1x9zg+5lFaVf3A6WnhK8awxCuhGbSzf6r0y6ld8rtx2U
-	nVnYG1X2hInIfrzncf5W6BT2G81+Zz3mlJxRIQHLOUfx
-X-Google-Smtp-Source: AK7set/hWkHq0+EfcJiYgcTO8waX3Y1dm3RN7TegAQsxr8Gdr6EP3u1COrH86QUqFwVYlfK1Ra0etSTuVLX9cxFOTjU=
-X-Received: by 2002:a2e:8e32:0:b0:293:5f43:c7b0 with SMTP id
- r18-20020a2e8e32000000b002935f43c7b0mr7138082ljk.5.1677489776928; Mon, 27 Feb
- 2023 01:22:56 -0800 (PST)
+        bh=DOVMkeVHLSvPVr6Ielur3Xoe4XGXokXGkJLyNK6eTrE=;
+        b=04D3R5XFPCzP2Z6OGhVay4EdBypaq674baNY8yoUG0lKJcAiji88otncyj7JNMbXqw
+         Qrg8wlYwzb5ZbuavqPY9c6JUof0h3OMlsVGku2xQkvtR6ke8heixgSr0YYTRf7jBGBEU
+         Kj008qOJVhIBLfGZ8toKgQpOmQuDDt0QkCigt1EXJKTRKx0OWZwCrnhhzcdFbvPuoXov
+         BOiWRJ2xFrt8Se9gaEj4G3tyQE8JDEY4/tNEWbU/dmA6xw0UggDgN8VFTdBW6lfgPgNS
+         Kae0fnnSkuIiJsV+Mkj7QBbPcJw5kixk1njS4cKOSfVZ5fviSUsylVB6uXyVDi2vyPdM
+         2PZg==
+X-Gm-Message-State: AO0yUKVcmN486eeetvUd3XeKr/a93bZlmQQX96cHraPw8X4P+JUDGpSg
+	zyVdbHonxZuZ3hLtQ6d68dqkOXifuGSNCVJglsbDDWst
+X-Google-Smtp-Source: AK7set+QpposqHg6tXfsSZULfzCaDLEMSb8aS3cJwXq8oj6NvRZ+TcQf+LcCSSBNJ/EXaZ+zG/vreNr/JKq3cTvH/2k=
+X-Received: by 2002:a2e:a4c3:0:b0:295:93eb:e790 with SMTP id
+ p3-20020a2ea4c3000000b0029593ebe790mr5679135ljm.5.1677489837017; Mon, 27 Feb
+ 2023 01:23:57 -0800 (PST)
 MIME-Version: 1.0
-References: <20230227032917.6940-1-vkumbhar@mvista.com>
-In-Reply-To: <20230227032917.6940-1-vkumbhar@mvista.com>
+References: <20230227050040.12943-1-twoerner@gmail.com>
+In-Reply-To: <20230227050040.12943-1-twoerner@gmail.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 27 Feb 2023 10:22:45 +0100
-Message-ID: <CANNYZj9zYWg=4NV4=T8=cnQCQvUttfJyjo2LW45wrOc2j=XygQ@mail.gmail.com>
-Subject: Re: [OE-core][master][PATCH] Upgrade bind-9.18.11 -> bind-9.19.9
-To: vkumbhar <vkumbhar@mvista.com>
+Date: Mon, 27 Feb 2023 10:23:45 +0100
+Message-ID: <CANNYZj_3f23wDNnxqLHDA8aQUS9u3HC00wk8t3O=+Y56iAhQ3A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] VOLATILE_TMP_DIR: add
+To: Trevor Woerner <twoerner@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 09:23:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177779
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 09:24:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177780
 
-Please read my previous feedback; you have simply resent the patch
-without addressing the points.
+Do we need tests for this?
 
 Alex
 
-On Mon, 27 Feb 2023 at 04:29, vkumbhar <vkumbhar@mvista.com> wrote:
+On Mon, 27 Feb 2023 at 06:00, Trevor Woerner <twoerner@gmail.com> wrote:
 >
-> Fix below security CVEs:
-> CVE-2022-3094
-> CVE-2022-3736
-> CVE-2022-3924
+> Provide a mechanism to allow users to choose whether the /tmp directory
+> is on persistent storage (non-volatile) or a RAM-based tmpfs (volatile).
+> The default is volatile.
 >
-> Fix serve-stale crash when recursive clients soft quota
-> is reached. (CVE-2022-3924) [GL #3619]
+> Works for both sysvinit-based and systemd-based systems.
 >
-> Handle RRSIG lookups when serve-stale is active.
-> (CVE-2022-3736) [GL #3622]
->
-> An UPDATE message flood could cause named to exhaust all
-> available memory. This flaw was addressed by adding a
-> new "update-quota" statement that controls the number of
-> simultaneous UPDATE messages that can be processed or
-> forwarded. The default is 100. A stats counter has been
-> added to record events when the update quota is
-> exceeded, and the XML and JSON statistics version
-> numbers have been updated. (CVE-2022-3094) [GL #3523]
->
-> Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
+> Signed-off-by: Trevor Woerner <twoerner@gmail.com>
 > ---
->  .../0001-avoid-start-failure-with-bind-user.patch               | 0
->  .../0001-named-lwresd-V-and-start-log-hide-build-options.patch  | 0
->  .../bind-ensure-searching-for-json-headers-searches-sysr.patch  | 0
->  .../bind/{bind-9.18.11 => bind-9.19.9}/bind9                    | 0
->  .../bind/{bind-9.18.11 => bind-9.19.9}/conf.patch               | 0
->  .../bind/{bind-9.18.11 => bind-9.19.9}/generate-rndc-key.sh     | 0
->  .../init.d-add-support-for-read-only-rootfs.patch               | 0
->  .../make-etc-initd-bind-stop-work.patch                         | 0
->  .../bind/{bind-9.18.11 => bind-9.19.9}/named.service            | 0
->  .../bind/{bind_9.18.11.bb => bind_9.19.9.bb}                    | 2 +-
->  10 files changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-connectivity/bind/{bind-9.18.11 => bind-9.19.9}/0001-avoid-start-failure-with-bind-user.patch (100%)
->  rename meta/recipes-connectivity/bind/{bind-9.18.11 => bind-9.19.9}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
->  rename meta/recipes-connectivity/bind/{bind-9.18.11 => bind-9.19.9}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
->  rename meta/recipes-connectivity/bind/{bind-9.18.11 => bind-9.19.9}/bind9 (100%)
->  rename meta/recipes-connectivity/bind/{bind-9.18.11 => bind-9.19.9}/conf.patch (100%)
->  rename meta/recipes-connectivity/bind/{bind-9.18.11 => bind-9.19.9}/generate-rndc-key.sh (100%)
->  rename meta/recipes-connectivity/bind/{bind-9.18.11 => bind-9.19.9}/init.d-add-support-for-read-only-rootfs.patch (100%)
->  rename meta/recipes-connectivity/bind/{bind-9.18.11 => bind-9.19.9}/make-etc-initd-bind-stop-work.patch (100%)
->  rename meta/recipes-connectivity/bind/{bind-9.18.11 => bind-9.19.9}/named.service (100%)
->  rename meta/recipes-connectivity/bind/{bind_9.18.11.bb => bind_9.19.9.bb} (97%)
+>  meta/conf/bitbake.conf                           | 4 ++++
+>  meta/recipes-core/initscripts/initscripts_1.0.bb | 3 +++
+>  meta/recipes-core/systemd/systemd_252.5.bb       | 7 +++++++
+>  3 files changed, 14 insertions(+)
 >
-> diff --git a/meta/recipes-connectivity/bind/bind-9.18.11/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.19.9/0001-avoid-start-failure-with-bind-user.patch
-> similarity index 100%
-> rename from meta/recipes-connectivity/bind/bind-9.18.11/0001-avoid-start-failure-with-bind-user.patch
-> rename to meta/recipes-connectivity/bind/bind-9.19.9/0001-avoid-start-failure-with-bind-user.patch
-> diff --git a/meta/recipes-connectivity/bind/bind-9.18.11/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.19.9/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-> similarity index 100%
-> rename from meta/recipes-connectivity/bind/bind-9.18.11/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-> rename to meta/recipes-connectivity/bind/bind-9.19.9/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-> diff --git a/meta/recipes-connectivity/bind/bind-9.18.11/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.19.9/bind-ensure-searching-for-json-headers-searches-sysr.patch
-> similarity index 100%
-> rename from meta/recipes-connectivity/bind/bind-9.18.11/bind-ensure-searching-for-json-headers-searches-sysr.patch
-> rename to meta/recipes-connectivity/bind/bind-9.19.9/bind-ensure-searching-for-json-headers-searches-sysr.patch
-> diff --git a/meta/recipes-connectivity/bind/bind-9.18.11/bind9 b/meta/recipes-connectivity/bind/bind-9.19.9/bind9
-> similarity index 100%
-> rename from meta/recipes-connectivity/bind/bind-9.18.11/bind9
-> rename to meta/recipes-connectivity/bind/bind-9.19.9/bind9
-> diff --git a/meta/recipes-connectivity/bind/bind-9.18.11/conf.patch b/meta/recipes-connectivity/bind/bind-9.19.9/conf.patch
-> similarity index 100%
-> rename from meta/recipes-connectivity/bind/bind-9.18.11/conf.patch
-> rename to meta/recipes-connectivity/bind/bind-9.19.9/conf.patch
-> diff --git a/meta/recipes-connectivity/bind/bind-9.18.11/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.19.9/generate-rndc-key.sh
-> similarity index 100%
-> rename from meta/recipes-connectivity/bind/bind-9.18.11/generate-rndc-key.sh
-> rename to meta/recipes-connectivity/bind/bind-9.19.9/generate-rndc-key.sh
-> diff --git a/meta/recipes-connectivity/bind/bind-9.18.11/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.19.9/init.d-add-support-for-read-only-rootfs.patch
-> similarity index 100%
-> rename from meta/recipes-connectivity/bind/bind-9.18.11/init.d-add-support-for-read-only-rootfs.patch
-> rename to meta/recipes-connectivity/bind/bind-9.19.9/init.d-add-support-for-read-only-rootfs.patch
-> diff --git a/meta/recipes-connectivity/bind/bind-9.18.11/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.19.9/make-etc-initd-bind-stop-work.patch
-> similarity index 100%
-> rename from meta/recipes-connectivity/bind/bind-9.18.11/make-etc-initd-bind-stop-work.patch
-> rename to meta/recipes-connectivity/bind/bind-9.19.9/make-etc-initd-bind-stop-work.patch
-> diff --git a/meta/recipes-connectivity/bind/bind-9.18.11/named.service b/meta/recipes-connectivity/bind/bind-9.19.9/named.service
-> similarity index 100%
-> rename from meta/recipes-connectivity/bind/bind-9.18.11/named.service
-> rename to meta/recipes-connectivity/bind/bind-9.19.9/named.service
-> diff --git a/meta/recipes-connectivity/bind/bind_9.18.11.bb b/meta/recipes-connectivity/bind/bind_9.19.9.bb
-> similarity index 97%
-> rename from meta/recipes-connectivity/bind/bind_9.18.11.bb
-> rename to meta/recipes-connectivity/bind/bind_9.19.9.bb
-> index 55a06eae5f..375f24e222 100644
-> --- a/meta/recipes-connectivity/bind/bind_9.18.11.bb
-> +++ b/meta/recipes-connectivity/bind/bind_9.19.9.bb
-> @@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
->             file://0001-avoid-start-failure-with-bind-user.patch \
->             "
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index dcf6ce99d138..afd9e2f5527f 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -90,6 +90,10 @@ ROOT_HOME ??= "/home/root"
+>  # If set to boolean false ('no', 'n', 'false', 'f', '0'), /var/log is on persistent storage.
+>  VOLATILE_LOG_DIR ?= "yes"
 >
-> -SRC_URI[sha256sum] = "8ff3352812230cbcbda42df87cad961f94163d3da457c5e4bef8057fd5df2158"
-> +SRC_URI[sha256sum] = "d8916799832370edeeaa216111b5577675b99d47fc2554e0f93656afa8d5fb71"
+> +# if set to 'yes': /tmp links to /var/tmp which links to /var/volatile/tmp
+> +# otherwise:       /tmp is on persistent storage
+> +VOLATILE_TMP_DIR ?= "yes"
+> +
+>  BB_RENAMED_VARIABLES[PNBLACKLIST] = "SKIP_RECIPE"
+>  BB_RENAMED_VARIABLES[CVE_CHECK_PN_WHITELIST] = "CVE_CHECK_SKIP_RECIPE"
+>  BB_RENAMED_VARIABLES[CVE_CHECK_WHITELIST] = "CVE_CHECK_IGNORE"
+> diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+> index 7c9d9ca4f107..4dc477bb8d69 100644
+> --- a/meta/recipes-core/initscripts/initscripts_1.0.bb
+> +++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+> @@ -108,6 +108,9 @@ do_install () {
+>                 sed -i -e '\@^d root root 0755 /var/volatile/log none$@ a\l root root 0755 /var/log /var/volatile/log' \
+>                         ${D}${sysconfdir}/default/volatiles/00_core
+>         fi
+> +       if [ "${VOLATILE_TMP_DIR}" != "yes" ]; then
+> +               sed -i -e "/\<tmp\>/d" ${D}${sysconfdir}/default/volatiles/00_core
+> +       fi
+>         install -m 0755    ${WORKDIR}/dmesg.sh          ${D}${sysconfdir}/init.d
+>         install -m 0644    ${WORKDIR}/logrotate-dmesg.conf ${D}${sysconfdir}/
 >
->  UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
->  # follow the ESV versions divisible by 2
+> diff --git a/meta/recipes-core/systemd/systemd_252.5.bb b/meta/recipes-core/systemd/systemd_252.5.bb
+> index ea468da150ce..8b92b2cf425c 100644
+> --- a/meta/recipes-core/systemd/systemd_252.5.bb
+> +++ b/meta/recipes-core/systemd/systemd_252.5.bb
+> @@ -288,6 +288,13 @@ do_install() {
+>                 rm -rf ${D}${localstatedir}/log/journal/remote
+>         fi
+>
+> +       # if the user requests /tmp be on persistent storage (i.e. not volatile)
+> +       # then don't use a tmpfs for /tmp
+> +       if [ "${VOLATILE_TMP_DIR}" != "yes" ]; then
+> +               rm -f ${D}${rootlibdir}/systemd/system/tmp.mount
+> +               rm -f ${D}${rootlibdir}/systemd/system/local-fs.target.wants/tmp.mount
+> +       fi
+> +
+>         install -d ${D}${systemd_system_unitdir}/graphical.target.wants
+>         install -d ${D}${systemd_system_unitdir}/multi-user.target.wants
+>         install -d ${D}${systemd_system_unitdir}/poweroff.target.wants
 > --
-> 2.25.1
+> 2.36.0.rc2.17.g4027e30c53
 >
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#177771): https://lists.openembedded.org/g/openembedded-core/message/177771
-> Mute This Topic: https://lists.openembedded.org/mt/97259357/1686489
+> View/Reply Online (#177772): https://lists.openembedded.org/g/openembedded-core/message/177772
+> Mute This Topic: https://lists.openembedded.org/mt/97260351/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
