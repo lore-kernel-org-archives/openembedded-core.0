@@ -1,122 +1,90 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AC5EC64ED8
-	for <webhook@archiver.kernel.org>; Mon, 27 Feb 2023 21:03:54 +0000 (UTC)
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
- by mx.groups.io with SMTP id smtpd.web10.6874.1677531830558080125
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35B44C64ED6
+	for <webhook@archiver.kernel.org>; Mon, 27 Feb 2023 22:02:24 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web11.8461.1677535343034632167
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Feb 2023 13:03:50 -0800
+ Mon, 27 Feb 2023 14:02:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=hKaYfE8f;
- spf=pass (domain: gmail.com, ip: 209.85.167.170, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oi1-f170.google.com with SMTP id bi17so6341724oib.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 13:03:50 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=G5WTw0gU;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id bv17so7768534wrb.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 14:02:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iFVIaJdXGZytIpTcrxM2DLiEqFeBCtkPWU1bkcacDw8=;
-        b=hKaYfE8f/8LlpkwpLsWaNjXqEPbFKtI7FnXrmNua8RSrQqcjxamtWoxAG9pulVxkk4
-         vltk/HfJX9SzZi39z3P03PINXTumgKvJuR3g/gqPfM0s466cIb9o6zc04zE3DbL2ntDE
-         qEF3FXjblwnWhcWflNWJbeQnRLEvA+r6eZ8TkHDh86IV7gBy+lmcjcvWh4MrTIVLu6J3
-         +YnhmukNvb7XGahEQvCrIFMpTlP64KFibS5Ea9+/jWJYoMTpKFe9efjF89DRrvt56O8W
-         vkh3CFttD8IUad4IaVSwOgFq7tbEIvdrPEsl8tikLa73Gf7TJM3kMqoa6flnq36hSr85
-         dgjQ==
+        d=linuxfoundation.org; s=google;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=sPcPltYGpsUZKU1rv9dG5OGf1pvrZ83oRXAwKiAKnSE=;
+        b=G5WTw0gUQbw26zkcYGXM/gt8dCUCmp096uSr1C2QILP7Uupzh/iKiEFItDH210oZ4b
+         AVzcTVkzwflmoy6B9CMC5Z7zTerXvgi2OO9pjNUxPUkBvBoy87gBPp2pLYYiDYL/IZg9
+         K1Kjbaf4FR5G333tENZ4SQGT//wtR+Zzxhzbw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iFVIaJdXGZytIpTcrxM2DLiEqFeBCtkPWU1bkcacDw8=;
-        b=0XJS73IY6Bve0Z4Kr8kvIdUACGyhra08PHhzJ73kb2PzN9Uj09htPdB6BxoJu1UeWG
-         lq7rP++fvTeXzlUfqezn2QWLv1iouH/5Z48+wfdaHPfofrxOnZLrX6lWntEY10c0Acgg
-         w2CWiMZ7VCp6ykS7Ej7DIRD/WAFkb0N4wBSQStplOlZ9Kps5XFlqBQbJOG8iFQmWh3Fg
-         BqVm5o8KK1hwq+eAWeZWFCEeG9wZxqC9p4t+gDImH7GTZTNDU2ApPtYBG1coNaES4tr/
-         7ORVYVjqBqXL2wOlojwPl13shxNqqZs1QyvnkyrhnHA1Hy0PRcpU7jyMgLuIZENQ3fv8
-         P61A==
-X-Gm-Message-State: AO0yUKWzLoMVJVTWofMRA3Crp1LZWL5CPGc60cP2c3gB6fqJN5X0vpJv
-	c3VZzh9E9CMjzBhUZf7ArPM=
-X-Google-Smtp-Source: AK7set/Pce61GMIEfFu53LU6EtNbdgE36VVMxbhex8RNYvPUqz52Fex1TM1rJskQUjBEo8nuOZvlPA==
-X-Received: by 2002:aca:230d:0:b0:37f:a9df:63c2 with SMTP id e13-20020aca230d000000b0037fa9df63c2mr303033oie.26.1677531829811;
-        Mon, 27 Feb 2023 13:03:49 -0800 (PST)
-Received: from ?IPV6:2605:a601:ac3d:c100:e3e8:d9:3a56:e27d? ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
-        by smtp.gmail.com with ESMTPSA id x124-20020acae082000000b0038440f0f63dsm696138oig.37.2023.02.27.13.03.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Feb 2023 13:03:49 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-Message-ID: <fb887f22-01c3-e202-18f4-f0c499c4d3d1@gmail.com>
-Date: Mon, 27 Feb 2023 15:03:48 -0600
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sPcPltYGpsUZKU1rv9dG5OGf1pvrZ83oRXAwKiAKnSE=;
+        b=rAWwwS/j0lFVfils8rEpO6OHJhvdEx8rlWUSLsLmDXWr1/pbj4jB63bePr579ltVnT
+         CTFpdcEuux7bI41WNv2f8agSMa8BhLNVOmjpQb7witVHZpqSGTqSwml810pxrx2AXj94
+         UKYbellUnNNvElsdfHt6QRbbyH4jjUNOhZigmsUEeJp5ikL82cWUqvaBtEYEh0zQG/uz
+         hQFk1DAm4FHFq285b335nllSR5KlldHwAoyF9F4vv2uTgAp3V9gQmrwnEhUzIOXlZjfE
+         RqVm5+HKXmy1ZIVW9GSiRQVUTFqGZO8DshcaMMDVcc4POZS0Z68U8kLa5L4EzsHXehK8
+         zd7Q==
+X-Gm-Message-State: AO0yUKWHK3duea/d++/HRSJdrKjL1OlVV7wKTxEZe46Wh/Kv2xjyYMKq
+	A3z0kd3u1UvVHY2LoZzPfiCRMg==
+X-Google-Smtp-Source: AK7set8iDuFkGSmW6SEq6lFXGX+7G8GrrRFKhQWvuV0whY+bw1xWeiP2AwmHONnP7g/BRd/VBwiEjA==
+X-Received: by 2002:a5d:404b:0:b0:2c7:420:5d52 with SMTP id w11-20020a5d404b000000b002c704205d52mr477928wrp.62.1677535341469;
+        Mon, 27 Feb 2023 14:02:21 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:ba1a:ef91:9631:3e11? ([2001:8b0:aba:5f3c:ba1a:ef91:9631:3e11])
+        by smtp.gmail.com with ESMTPSA id i14-20020a5d55ce000000b002c559405a1csm7972920wrw.20.2023.02.27.14.02.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Feb 2023 14:02:20 -0800 (PST)
+Message-ID: <b746ce640228f72ad3cabcc39ae2992305dd4a0e.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] cve-extra-exclusions: ignore inapplicable
+ linux-yocto CVEs
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Marta Rybczynska <rybczynska@gmail.com>, Geoffrey GIRY
+	 <geoffrey.giry@smile.fr>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, Yoann Congal
+	 <yoann.congal@smile.fr>
+Date: Mon, 27 Feb 2023 22:02:19 +0000
+In-Reply-To: <CAApg2=RSgsbVjjeepNJg_=rMZqf-n-fQwWtYPVufUgG-D74p2Q@mail.gmail.com>
+References: <20230227110027.804671-1-geoffrey.giry@smile.fr>
+	 <CAApg2=RSgsbVjjeepNJg_=rMZqf-n-fQwWtYPVufUgG-D74p2Q@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3-1 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [OE-core] multiconfig: Build breaks parsing recipes for other
- config layer
-Content-Language: en-US
-To: Bryan Evenson <bevenson@melinkcorp.com>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <CH0PR20MB4122DCF26110929D2A178451BBAF9@CH0PR20MB4122.namprd20.prod.outlook.com>
-In-Reply-To: <CH0PR20MB4122DCF26110929D2A178451BBAF9@CH0PR20MB4122.namprd20.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 21:03:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177809
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 22:02:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177810
+
+On Mon, 2023-02-27 at 18:49 +0100, Marta Rybczynska wrote:
+> Thank you for the work. Have you contacted NVD to update the database
+> instead? What did they say?
+
+Ideally a large portion of these should be sent to NVD but we did talk
+a little about the on the call last week. We agreed that it will take
+time and it was better to document this and fix our reporting in the
+meantime as well as share these useful details more widely. I'd suggest
+that as things are submitted we could document that, hopefully we'll
+also be able to remove many of these entries.
+
+I'm sure Geoffrey can provide more status but I wanted to update on why
+this was sent and why I think we should take it.
+
+I will drop the kernel filtering so new kernel CVEs then show up in all
+our metrics going forward.
+
+Cheers,
+
+Richard
 
 
-On 2/27/23 14:35, Bryan Evenson wrote:
-> I'm testing a new board with a BSP that is setup on the gatesgarth branch.  I've been able to build and load the demo images for this board.  I'm now trying to use multiconfig to build images for my old board and my new board.  So far the build hasn't got past parsing recipes and I'm wondering what I'm doing wrong.
->
-> For my setup, I have two separate layers for the two different boards.  Each layer has its own MACHINE and DISTRO definitions.  I setup the multiconfig files as follows:
->
-> conf/local.conf:
-> Added the following line:
-> BBMULTICONFIG = "configA configB"
->
-> conf/multiconfig/configA.conf: (config for old board)
-> MACHINE = "machineA"
-> TMPDIR = "${TOPDIR}/tmpConfigA"
-> DISTRO = "distroA"
->
-> conf/multiconfig/configB.conf: (config for new board)
-> MACHINE = "machineB"
-> TMPDIR = "${TOPDIR}/tmpConfigB"
-> DISTRO = "distroB"
->
-> If I try building the old image by doing:
-> bitbake mc:configA:image-nameA
->
-> I get errors while parsing the files.  It complains about a Network Manager bbappend in layer B that uses variables that depends on MACHINE being set to "machineB".  The image for configA does not use Network Manager.  I also tried removing the MACHINE and DISTRO settings from local.conf to make sure the multiconfig settings are used, but then I get an error that MACHINE has not been set.
->
-> Does layerB need something added to it so parsing ignores recipes in this layer when they aren't needed?  Or do the recipes need to change so they build for other machines?
-
-When you use multiconfig, all of you layers need to parse for all 
-configurations (although this is generally good layer practice in 
-general, not just when using multiconfig). Usually this involves writing 
-the recipes to use overrides where appropriate
-
-
-Although, if you _really_ don't want to do that, the BBMASK variable 
-(https://docs.yoctoproject.org/ref-manual/variables.html#term-BBMASK) 
-can now be set per-multiconfig so you can have layerA mask out layerB 
-recipes and vice-versa.
-
->
-> Thanks,
-> Bryan
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#177808): https://lists.openembedded.org/g/openembedded-core/message/177808
-> Mute This Topic: https://lists.openembedded.org/mt/97276005/3616693
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JPEWhacker@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
 
