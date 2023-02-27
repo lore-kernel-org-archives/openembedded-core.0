@@ -1,251 +1,1078 @@
-Return-Path: <ovidiu.panait@windriver.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1675CC64ED8
-	for <webhook@archiver.kernel.org>; Mon, 27 Feb 2023 17:17:44 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.96605.1677518260694213366
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 227EFC64ED6
+	for <webhook@archiver.kernel.org>; Mon, 27 Feb 2023 17:49:23 +0000 (UTC)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+ by mx.groups.io with SMTP id smtpd.web10.847.1677520153732253584
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Feb 2023 09:17:40 -0800
+ Mon, 27 Feb 2023 09:49:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=MQBSi65k;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1422c8561c=ovidiu.panait@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 31RD06P0007055
-	for <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 17:17:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com; h=message-id : date
- : subject : to : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=PPS06212021;
- bh=5ibX1ptqV0RIaK3RL78Wxjcv3Xj4xR6YS67el9dQhM4=;
- b=MQBSi65kVVeESluOtfpFHmtZnopFzgC69tWF13v+gs4EvIzYTDawOiVoYlD3PapSiXn1
- qlKpvN4y72GVHLvhvEADybP4FGunHJzH8xA7evbpcK2AlCWkYn42Cdis/jwZq2YxchfR
- OD0rp1VUfQeHgCVjAH0diFF3HDYyNn11MbCff1efT96Ax+1A/ymG8jukRSt5lOOYLxYs
- M02o1nSQND2ppmq9DvOm+lFV/SWszH8gYNekHr46yiIVuOkm3PQo7OZzE1QxUC7GVXyO
- zvgRTj7vV4X/m/N3MJdn+JR+ARXySUVtgxl9u7wEDxiRQi/lSFS71jCTy4y8RLsgbGzk DQ== 
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2103.outbound.protection.outlook.com [104.47.58.103])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3nybnwj3ue-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 17:17:39 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V0rlnX3lrWEy+1NGVGrh5s6nd7SdeTm3mSUnhbGi6UYQnfZ9UF8TmlyhtHtMXzVmbK36VwZo7PNV3bQq3DLIs2cjbedtX+VkM5n1Dbk8wWxBtS8bo3sOX+7l0ZPV15XVo6gBLOeuU/zrUTxkNnQcofFTUnCVgwNvcNDRieognC1oKneVcBDD3R4mNDNTRK7k4z0FYfWo9AdqtJckG6rRaQV3sVKplbKsSN2oXE1wBEfYVlDQgMnSY5ugJS9bRClvqZXXbLvmY9l6szakdknwjbvae5ZlPv4Lna39B+ihrxLuhlfssw7NLxB8hjeF5TgAXyNXHV1pmuCHZBy7euxhKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5ibX1ptqV0RIaK3RL78Wxjcv3Xj4xR6YS67el9dQhM4=;
- b=Qbld76JPh2M0wjZ8aYbvP/P0pb8SlWeXIUJlXu2rTicNzui0s+ndtR9k+NLzV04Pttzek4TZvlFrd6eb8GuTVDSd/KAO/1irYCxVPCVZiHe3N2ZLn23aud9a3mM9Y1IBv4pE8R80XzlgOijaXeA3SpcZEWn73M9ePg32kqmWVH9kgNR8Gh7iunXdlLH6IQ5EPFSR+Z5pCCLFhZIfqED68jT6gJwiHCVnsKGpFhBGGYoPmQGv8G7aVMwYm3ED3bOsSf3WeyvnqFsFRJ2Jv21MAdLETowAt5w6QX942dzg2UR3FlGnU7G4oNOS3ecvd1l9sjmE99hqpoEe9JtWmy+snw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DM4PR11MB5327.namprd11.prod.outlook.com (2603:10b6:5:392::22)
- by SJ1PR11MB6298.namprd11.prod.outlook.com (2603:10b6:a03:457::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.29; Mon, 27 Feb
- 2023 17:17:37 +0000
-Received: from DM4PR11MB5327.namprd11.prod.outlook.com
- ([fe80::31f8:d3d4:2c0b:cec4]) by DM4PR11MB5327.namprd11.prod.outlook.com
- ([fe80::31f8:d3d4:2c0b:cec4%8]) with mapi id 15.20.6134.029; Mon, 27 Feb 2023
- 17:17:37 +0000
-Message-ID: <bf4b881f-49cd-2aef-5a8b-8c706fbdac7c@windriver.com>
-Date: Mon, 27 Feb 2023 19:17:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [OE-core] [PATCH 2/2] sstate.bbclass: fix cleanup when sysroot in
- manifest != RECIPE_SYSROOT
-Content-Language: en-US
-To: openembedded-core@lists.openembedded.org
-References: <20230227154230.3566400-1-ovidiu.panait@eng.windriver.com>
- <20230227154230.3566400-2-ovidiu.panait@eng.windriver.com>
- <fc6726ed127fbd739352dc17cb1f32bb9d6935d0.camel@linuxfoundation.org>
-From: Ovidiu Panait <ovidiu.panait@windriver.com>
-In-Reply-To: <fc6726ed127fbd739352dc17cb1f32bb9d6935d0.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR08CA0254.eurprd08.prod.outlook.com
- (2603:10a6:803:dc::27) To DM4PR11MB5327.namprd11.prod.outlook.com
- (2603:10b6:5:392::22)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=jp3/2BdQ;
+ spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: rybczynska@gmail.com)
+Received: by mail-lj1-f171.google.com with SMTP id z5so7337693ljc.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 09:49:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=pghNZHlyCF7YFz6SSxZNjbOIht0tsGiVT3bGdQALu50=;
+        b=jp3/2BdQuwKMKR0yfBdszb1jYDyUMzWC5MZszphuhkqMDujI8vsc1VdZn8UNS2Nf8l
+         xjoK+lTSUqVaNBdRTNjpY5s3Dt5T4cj0EmOqiRCdYXseyvCmHZf23zGRnYGT0EGjmTA1
+         gCk8y7BARyVJSEYMf9P8LBcNfTqY5jrTE1nAviA7YFr53RhUJU1IEzIHeWKJtmfwW5vn
+         yzT4/2Yubr9/kOOFe5fuD1CfwuAtklnZSYzU87071Q20RWTZUBTUW0D649hhjzFJ6Etc
+         wBehTxfhrMuzkD1djNsHS17VZVDAFX12M1qu5xkv7qAsZ6ZzdVDDY7Wsy2p9rgJQctzf
+         rUxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pghNZHlyCF7YFz6SSxZNjbOIht0tsGiVT3bGdQALu50=;
+        b=61j2nfARBQ19kb4CuDLPaKIsD598jMUexaGUtMEnF4LV70ZpB99dEDgx4kXpp56pw1
+         wV67VJr14dGFprS8jbr4RLDRi980BvP0rVEywBJ0fPcwP/IV4hEYf2Xku47AMX/GXvx5
+         8Mkz7tI8aPhiQEie5EStMsV67+MCNGxq/8sB04C3SgfsvTrMGzyli+yw77kU/Cufl6yp
+         KBG40ll4H3lt4lKTVMkh4T7jBonHwTaSw0Ijflu9yqqv/zV4lwbvBAQ129Hv5EDKrN9C
+         FHxRnRGqR+2+to/Jfr8mRnuO0mxwbZvCv0sMHeL4mCgSMikxUQBzxYmzySWk/3+WrINr
+         o3ew==
+X-Gm-Message-State: AO0yUKX2GEOJUBtCq+ZD38AqVmQ0NgqZ8ZBRlMlevDmWDTHIJHfblr9s
+	BVF186BjmAOK7ykT5QSp1D7ywnkOQXharSgK0sw=
+X-Google-Smtp-Source: AK7set/5tLybvetrIid16plAvn5bSUmGOrjwW3heJ4NJnLhia/o6QQAy1ahCTh8HnSCDGUXOGIoxMQmdHlDMRFo5UcU=
+X-Received: by 2002:a05:651c:487:b0:293:5fb9:3c10 with SMTP id
+ s7-20020a05651c048700b002935fb93c10mr7564758ljc.10.1677520151364; Mon, 27 Feb
+ 2023 09:49:11 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5327:EE_|SJ1PR11MB6298:EE_
-X-MS-Office365-Filtering-Correlation-Id: 596f380d-80a2-4efb-ef57-08db18e685a0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	fYJGHq2s8ssicMGMtOJBPsddB6Qfrwny1nKXllK14D9+T3ZXj5qU8vfky3+t8rXEdY/ZycU0Fwqm9sTXmB1NNvEUYJJQOlejx7i4+38lPf+8O5qWE/+e6VwsXHjsqZdFUSpF022qVor/CtvcnwUtNcVIb6Wq559CMD0xLLXWziX6ZcmLtCIPtmaLqbVNBo1UjODARfiOUDjMv1sHVZnL+fx+B8r2/0P9EP0uiPzzNxYmzAOsdQCZ92r9FFLlcGyK+Tqhjme42/Dj5di3a6QOfcabCJA2jo9NmOAS6x6KJqxnodzoF/DgO5BJEHyYejiCxdxnEbXtIKrKIuVX8193ULKz54ZpwQCaCEGoh5Ab83PP7CwNV/Djdf0YNl/WSUiQNEnhBGbRB7omJrH4+8xsM5nP/F8cmxfocuGcD0T9k/8wBE4sBeIhQQXvqW12xFeztkvk5Ra/V6+a+7w5N5/mg6Ua2yXW5lsqZ2uAZytOPCd1G+7JiEZYObSYFdY8Umu6YTy+NqOgl3l7Qn95PGIf+eFEUxx6bKJPsHMnEqF5a0rXZY8Y7zkdXb8jHdrQAghOnjQFCESvCsMjQYhBwGtzHF2WS9i1JisRHqZNmcepFm35pWZlGeqGq6FOzJsj1WcGCyrA/X1hJ9/rKW0TrkNRfbU+8G2UFsK66fNcemf2AnLtOYD5NvR/tau18aNRqhBd7/CzXYm2RfopG/YziHHLWZanClVVq/leBtITpwNiDNZ5U4wZfkDIt/e0/Vemv9AY
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5327.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(366004)(39850400004)(346002)(376002)(396003)(136003)(451199018)(8936002)(44832011)(5660300002)(66556008)(66476007)(66946007)(2906002)(6916009)(8676002)(316002)(478600001)(6486002)(83380400001)(6506007)(53546011)(6512007)(186003)(6666004)(2616005)(31686004)(41300700001)(38100700002)(36756003)(86362001)(31696002)(21314003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?SmhuN2U4Qlk2N25VNnVqeDRzYVpUV284QmgyS3V4aGU1REZjSXk2QXBIZUs4?=
- =?utf-8?B?UFhDa1l3cHlpLzBYNUR6cWlheTN6WWpNTHZCUUp5SW9nRDJVV09BVk9MY05W?=
- =?utf-8?B?VW9EdFZ5YWtYZ2xxb0FrR1NPQW82QkZVdVBBeXlIeGRlRjJFSXhmRkJyZU1M?=
- =?utf-8?B?MWphTWtDVlB0ajdzbkdZL3REaDI4WjFJWVhqcDVGVWZnQ3JNZVVwVkJrcDlm?=
- =?utf-8?B?dFh0VlNsOXBJMG1LSWdMVkxWMmNvVUdWQnNRc211N255clhDM1NDMDR1NW52?=
- =?utf-8?B?QUtXcWxZMHJUem1MS2YrQzRGRXJLaGI4alVHMWFJTHRiVXNMK1RpTWNyNGRC?=
- =?utf-8?B?SFBKekxZRUo0bWJCYjh2TWdaOWhoZElWQjV0UTZrU0tITzhNRjZNYzlUMlQ2?=
- =?utf-8?B?aHMwRU1DaXN3RjdGck1qSk5CSEI3RmR4M1pnUHpiekVUd2VndFV1RXBSZlZH?=
- =?utf-8?B?enFiLzF6SEpNaDltV3plMVVBeDJXblVFSGxjMHBIQ203SmhidDV5eFhMUG9h?=
- =?utf-8?B?R2NrM3lXWjJGcjNQNHBqcStqdThNUE9mcktabURTenFZS1BiT0xWRVhCT2dk?=
- =?utf-8?B?OXd0SCtLYXdIaFVCdHNmQnR0aHBNQ0gvL1N2SG9mM29wN09tWXJTeURiV3NR?=
- =?utf-8?B?S2ltQ1NoNWptSTViVHJJOWdVTGx5U1ZBUkFad1NVSXdBcHRjUXVQdjZTVWZp?=
- =?utf-8?B?SkhiMTRlN3Q2eklhbkJyZGVIdnJtRDk3TGVmREMvYnZtc0RvR1FBMDRUMnZP?=
- =?utf-8?B?N2xreTFlQU1XY1o1OHczVVI4UEc3d0xYdUxEeUw1QUFNTEJTSzloY3NDUjlS?=
- =?utf-8?B?RUlCdEZIdEptUStzcWxGejBDR05acUZWVUZYSVh4OUY3UVBVaXFWV2FvVVky?=
- =?utf-8?B?RFpYNDNOK0JvY0s1UWJPOUNENVRVeU5RNjg0YnRJSVlJdlhsRUp3RW9rb1Uy?=
- =?utf-8?B?UlY4aW91VnVPLzJ2NUhFUnEzcDhWQXBSanc3ZFZ3ZFNWS1M5TVhRcjdteE5W?=
- =?utf-8?B?RnlPVXhTWXhVQXd4eEVyWVh5Q1JraWhQZkdJNTdXZm1tcWtDWE9UbE9wRFR3?=
- =?utf-8?B?VldRbU0wd1hybUh3ZVhkVGxPR3lCVFlPempZNDVFemV2dUFZQWR1TGxEQkhy?=
- =?utf-8?B?N2hxNkZuTEJQUzlUR0ZkYkVWV2ROVjBna1hodVY4QWE1ZjdUOTNRbk9mMHdX?=
- =?utf-8?B?bG5TWXIzOGtWQjBXR0VsTGp2RXg1NzFlYkhpRkM3cU9jaGZhTUFxQWZJeFUv?=
- =?utf-8?B?SFVzNXZnamt6V290V0doTEhkeXY2YTFjTnMyLzRXUHBFa3JFay9JT1IxUG9C?=
- =?utf-8?B?aVluS3lFM2ZWTG1pN1hpWVo2Kzg2SXFsTEhKQ092djRzRVFkY3c5MENVWTRv?=
- =?utf-8?B?UkFXeXZGeDlDcERUYml2UWZCL0dKNTZERXVUK1J5SDZFOFZQR1lOK00rQmlP?=
- =?utf-8?B?aFJwZzFEcGp5ejlweFMrSVJIOFV1UXhpZ2huY3JrRGZnVVprSUNESnZjWS9T?=
- =?utf-8?B?eWJFaW9BQUdHZjF5SElaTHVFaktqWkY3MXBFMHM4ckJVN0lMZHYxMjN0ZW5T?=
- =?utf-8?B?c0tMbEZNdzE3aDlDeG1zOVl0TnFoU1d1bkNDUGRUeHB5OFltamFLQzIvZnFq?=
- =?utf-8?B?bmlYc0lTenV3T2FQallkcmVhM1lNa2VvYVQ3ejNqaGFySUx2b210aGhpZ0ZM?=
- =?utf-8?B?MWx4SUFHbVNBcFpOWmQwWXAwR1VCYmRQbFdnd0RFdlpJbWpHd1JGOENicVB5?=
- =?utf-8?B?bUNZaVZGVDJ5Mit4ZnNvTlVIQ1gvMlRNYWpEUllrUEF0SGZOYVB5YjRsbSs2?=
- =?utf-8?B?bXFMTVZSY1pjQXZpcUlwUkVQeVlhU0QwdWt0NjU2eTdSNEducm1EazRiaW5k?=
- =?utf-8?B?UXhDa3ZQYlh5T3hWK2NsTTc0Q2M1U1VJNnFnVzg5VC9PNGx2RlhrVlhqbm5u?=
- =?utf-8?B?T1ZnVWdIM2xsMmFCdjJ5Q3JJdzJybXV4L2Nkb28yOHk5b29GWmw4N0EzcTRt?=
- =?utf-8?B?dm5HQStrMDgyQ2N4alFQZnh2cFFxV1V5bTExR1hiK2RwU3hQVGV3YkkwSW9V?=
- =?utf-8?B?U3JvR2oxdlBXZXpEUVZJcjR1eEVSTmtFeHdWUVNRa0hnK1luazc5K0tqWjJq?=
- =?utf-8?B?VThnR0tZbWV3bkVLRlpUT0E5OE5ZeEYzWmpiTjBHKzU0WEtpa1UrNDc5a2or?=
- =?utf-8?B?OUFhQnh5ajl4TGpoMEtRaFlnUUhQcWlDaWVXa21XL1k3c0N6S3lZQzAvckR5?=
- =?utf-8?Q?0GBZJ/VC2vapI7Oe3hzmzwThdDIZkeyxBWJVAOaEDE=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 596f380d-80a2-4efb-ef57-08db18e685a0
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5327.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2023 17:17:37.1986
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: s/Z50LIe+YyoLMRFp9xuEnoVzpR/LT28A8PvPciVhh2PQSlmd8bmoTXKXUM/OQM3XpZ+arat6Ha0sKEhfLL6bIsiu2/GoR4jzg/hu/ecoAk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR11MB6298
-X-Proofpoint-ORIG-GUID: 0lDbY3BXNp6C1Lxei3QymgaeElzVYx-a
-X-Proofpoint-GUID: 0lDbY3BXNp6C1Lxei3QymgaeElzVYx-a
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-27_13,2023-02-27_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 clxscore=1015
- bulkscore=0 impostorscore=0 priorityscore=1501 spamscore=0
- lowpriorityscore=0 mlxlogscore=999 mlxscore=0 phishscore=0 adultscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302270134
+References: <20230227110027.804671-1-geoffrey.giry@smile.fr>
+In-Reply-To: <20230227110027.804671-1-geoffrey.giry@smile.fr>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Mon, 27 Feb 2023 18:49:00 +0100
+Message-ID: <CAApg2=RSgsbVjjeepNJg_=rMZqf-n-fQwWtYPVufUgG-D74p2Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] cve-extra-exclusions: ignore inapplicable
+ linux-yocto CVEs
+To: Geoffrey GIRY <geoffrey.giry@smile.fr>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, 
+	Yoann Congal <yoann.congal@smile.fr>
+Content-Type: multipart/alternative; boundary="000000000000b9c60e05f5b218b2"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 17:17:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177802
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Feb 2023 17:49:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177803
 
-Hi Richard,
+--000000000000b9c60e05f5b218b2
+Content-Type: text/plain; charset="UTF-8"
 
-On 2/27/23 17:56, Richard Purdie wrote:
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender and know the content is safe.
+Hello Geoffroy,
+Thank you for the work. Have you contacted NVD to update the database
+instead? What did they say?
+
+Kind regards
+Marta
+
+On Mon, 27 Feb 2023, 12:00 Geoffrey GIRY, <geoffrey.giry@smile.fr> wrote:
+
+> Multiple CVE are patched in kernel but appears as active because the NVD
+> database is not up to date.
 >
-> On Mon, 2023-02-27 at 17:42 +0200, Ovidiu Panait wrote:
->> The following scenario currently fails:
->> git clone git://git.yoctoproject.org/poky
->> cd poky; . oe-init-build-env
->>
->> add to local.conf:
->> require conf/multilib.conf
->> MACHINE = "qemuarm64"
->> MULTILIBS = "multilib:lib32"
->> DEFAULTTUNE:virtclass-multilib-lib32 = "armv7athf-neon"
->>
->> bitbake gcc-cross-canadian-arm
->>
->> update local.conf to force a rebuild:
->> GCCPIE = "--disable-default-pie"
->>
->> bitbake gcc-cross-canadian-arm
->>
->> Failure log:
->> The stack trace of python calls that resulted in this exception/failure was:
->> File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
->>       0001:
->>   *** 0002:extend_recipe_sysroot(d)
->>       0003:
->> File: 'poky/meta/classes-global/staging.bbclass', lineno: 164, function: staging_copyfile
->>       0160:        os.symlink(linkto, dest)
->>       0161:        #bb.warn(c)
->>       0162:    else:
->>       0163:        try:
->>   *** 0164:            os.link(c, dest)
->>       0165:        except OSError as err:
->>       0166:            if err.errno == errno.EXDEV:
->>       0167:                bb.utils.copyfile(c, dest)
->>       0168:            else:
->> Exception: FileExistsError: [Errno 17] File exists: 'poky/build/tmp/sysroots-components/armv7at2hf-neon/lib32-linux-libc-headers/usr/include/asm/byteorder-32.h' -> 'poky/build/tmp/work/x86_64-nativesdk-pokysdk-linux/gcc-cross-canadian-arm/12.2.0-r0/recipe-sysroot/usr/include/asm/byteorder-32.h'
->>
->> In this particular case, the paths in lib32-linux-libc-headers manifest file
->> are prefixed with lib32-recipe-sysroot:
->> $ cat build/tmp/sysroots-components/manifests/lib32-linux-libc-headers.xxx
->> lib32-recipe-sysroot/usr/include/asm/byteorder-32.h
->> lib32-recipe-sysroot/usr/include/asm/sigcontext-32.h
->> ...
->>
->> When gcc-cross-canadian-arm is built, the actual files get copied to
->> recipe-sysroot directory during do_prepare_recipe_sysroot().
->>
->> Because of this mismatch, on rebuild, sstate_clean_manifest() will not clean
->> the files in recipe-sysroot, but will instead try to delete the non-existent
->> files in lib32-recipe-sysroot. This will trigger the FileExists errors later.
->>
->> Add checks in sstate_clean_manifest() for this corner case, so that
->> RECIPE_SYSROOT gets cleaned up properly.
->>
->> This fixes BZ#15045.
->>
->> Signed-off-by: Ovidiu Panait <ovidiu.panait@eng.windriver.com>
->> ---
->>   meta/classes-global/sstate.bbclass | 11 +++++++++++
->>   1 file changed, 11 insertions(+)
->>
->> diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
->> index af93546b04..edf5c7fb65 100644
->> --- a/meta/classes-global/sstate.bbclass
->> +++ b/meta/classes-global/sstate.bbclass
->> @@ -529,9 +529,20 @@ def sstate_clean_manifest(manifest, d, canrace=False, prefix=None):
->>       entries = mfile.readlines()
->>       mfile.close()
->>
->> +    recipe_sysroot = d.getVar("RECIPE_SYSROOT").rstrip("/").rsplit('/', 1)[-1]
->> +
->>       for entry in entries:
->>           sstate_clean_entry(entry, canrace, prefix)
->>
->> +        # The sysroot directory stored in the manifest file might not be the
->> +        # same as RECIPE_SYSROOT, so the real sysroot will not be properly
->> +        # cleaned up on rebuild. Handle the cleanup here in order to avoid
->> +        # "File exists" errors during do_prepare_recipe_sysroot().
->> +        manifest_sysroot = entry.split("/", 1)[0] or None
->> +        if manifest_sysroot and manifest_sysroot != recipe_sysroot and not manifest_sysroot.endswith("-native"):
->> +            sysroot_entry = recipe_sysroot + "/" + entry.split("/", 1)[1]
->> +            sstate_clean_entry(sysroot_entry, canrace, prefix)
->> +
->>       postrm = manifest + ".postrm"
->>       if os.path.exists(manifest + ".postrm"):
->>           import subprocess
-> How many recipe-sysroots are there for gcc-cross-canadian-arm ? This
-> feels like a workaround for some other issue which should probably be
-> fixed properly instead?
-(resending, as the first reply didn't actually made it to the list)
-
-There are "recipe-sysroot" and "recipe-sysroot-native" sysroots in 
-gcc-cross-canadian-arm WORKDIR, but no lib32-recipe-sysroot.
-
-
-Ovidiu
-> Cheers,
+> CVE are ignored if and only if all versions of kernel used by master are
+> patched.
 >
-> Richard
+> Also ignore CVEs with wrong CPE (applied to kernel but actually are for
+>  another package)
+>
+> Signed-off-by: Geoffrey GIRY <geoffrey.giry@smile.fr>
+> Reviewed-by: Yoann Congal <yoann.congal@smile.fr>
+> ---
+>  .../distro/include/cve-extra-exclusions.inc   | 296 ++++++++++++++++++
+>  1 file changed, 296 insertions(+)
+>
+> diff --git a/meta/conf/distro/include/cve-extra-exclusions.inc
+> b/meta/conf/distro/include/cve-extra-exclusions.inc
+> index 8b5f8d49b8..a281a8ac65 100644
+> --- a/meta/conf/distro/include/cve-extra-exclusions.inc
+> +++ b/meta/conf/distro/include/cve-extra-exclusions.inc
+> @@ -78,9 +78,34 @@ CVE_CHECK_IGNORE += "CVE-2018-1000026 CVE-2018-10840
+> CVE-2018-10876 CVE-2018-108
+>  CVE_CHECK_IGNORE += "CVE-2019-10126 CVE-2019-14899 CVE-2019-18910
+> CVE-2019-3016 CVE-2019-3819 CVE-2019-3846 CVE-2019-3887"
+>  # 2020
+>  CVE_CHECK_IGNORE += "CVE-2020-10732 CVE-2020-10742 CVE-2020-16119
+> CVE-2020-1749 CVE-2020-25672 CVE-2020-27820 CVE-2020-35501 CVE-2020-8834"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2020-27784
+> +# Introduced in version v4.1 b26394bd567e5ebe57ec4dee7fe6cd14023c96e9
+> +# Patched in kernel since v5.10
+> e8d5f92b8d30bb4ade76494490c3c065e12411b1
+> +# Backported in version v5.4.73
+> e9e791f5c39ab30e374a3b1a9c25ca7ff24988f3
+> +CVE_CHECK_IGNORE += "CVE-2020-27784"
+> +
+>  # 2021
+>  CVE_CHECK_IGNORE += "CVE-2021-20194 CVE-2021-20226 CVE-2021-20265
+> CVE-2021-3564 CVE-2021-3743 CVE-2021-3847 CVE-2021-4002 \
+>                       CVE-2021-4090 CVE-2021-4095 CVE-2021-4197
+> CVE-2021-4202 CVE-2021-44879 CVE-2021-45402"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2021-3669
+> +# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2
+> +# Patched in kernel since v5.15 20401d1058f3f841f35a594ac2fc1293710e55b9
+> +CVE_CHECK_IGNORE += "CVE-2021-3669"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2021-3759
+> +# Introduced in version v4.5 a9bb7e620efdfd29b6d1c238041173e411670996
+> +# Patched in kernel since v5.15 18319498fdd4cdf8c1c2c48cd432863b1f915d6f
+> +# Backported in version v5.4.224 bad83d55134e647a739ebef2082541963f2cbc92
+> +# Backported in version v5.10.154 836686e1a01d7e2fda6a5a18252243ff30a6e196
+> +CVE_CHECK_IGNORE += "CVE-2021-3759"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2021-4218
+> +# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2
+> +# Patched in kernel since v5.8 32927393dc1ccd60fb2bdc05b9e8e88753761469
+> +CVE_CHECK_IGNORE += "CVE-2021-4218"
+> +
+>  # 2022
+>  CVE_CHECK_IGNORE += "CVE-2022-0185 CVE-2022-0264 CVE-2022-0286
+> CVE-2022-0330 CVE-2022-0382 CVE-2022-0433 CVE-2022-0435 \
+>                       CVE-2022-0492 CVE-2022-0494 CVE-2022-0500
+> CVE-2022-0516 CVE-2022-0617 CVE-2022-0742 CVE-2022-0854 \
+> @@ -90,6 +115,277 @@ CVE_CHECK_IGNORE += "CVE-2022-0185 CVE-2022-0264
+> CVE-2022-0286 CVE-2022-0330 CVE
+>                       CVE-2022-28356 CVE-2022-28388 CVE-2022-28389
+> CVE-2022-28390 CVE-2022-28796 CVE-2022-28893 CVE-2022-29156 \
+>                       CVE-2022-29582 CVE-2022-29968"
+>
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-0480
+> +# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2
+> +# Patched in kernel since v5.15 0f12156dff2862ac54235fc72703f18770769042
+> +CVE_CHECK_IGNORE += "CVE-2022-0480"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-1184
+> +# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2
+> +# Patched in kernel since v5.19 46c116b920ebec58031f0a78c5ea9599b0d2a371
+> +# Backported in version v5.4.198 17034d45ec443fb0e3c0e7297f9cd10f70446064
+> +# Backported in version v5.10.121 da2f05919238c7bdc6e28c79539f55c8355408bb
+> +# Backported in version v5.15.46 ca17db384762be0ec38373a12460081d22a8b42d
+> +CVE_CHECK_IGNORE += "CVE-2022-1184"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-1462
+> +# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2
+> +# Patched in kernel since v5.19 a501ab75e7624d133a5a3c7ec010687c8b961d23
+> +# Backported in version v5.4.208 f7785092cb7f022f59ebdaa181651f7c877df132
+> +# Backported in version v5.10.134 08afa87f58d83dfe040572ed591b47e8cb9e225c
+> +# Backported in version v5.15.58 b2d1e4cd558cffec6bfe318f5d74e6cffc374d29
+> +CVE_CHECK_IGNORE += "CVE-2022-1462"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-2308
+> +# Introduced in version v5.15 c8a6153b6c59d95c0e091f053f6f180952ade91e
+> +# Patched in kernel since v6.0 46f8a29272e51b6df7393d58fc5cb8967397ef2b
+> +# Backported in version v5.15.72 dc248ddf41eab4566e95b1ee2433c8a5134ad94a
+> +# Backported in version v5.19.14 38d854c4a11c3bbf6a96ea46f14b282670c784ac
+> +CVE_CHECK_IGNORE += "CVE-2022-2308"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-2327
+> +# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2
+> +# Patched in kernel since v5.10.125
+> df3f3bb5059d20ef094d6b2f0256c4bf4127a859
+> +CVE_CHECK_IGNORE += "CVE-2022-2327"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-2663
+> +# Introduced in version v2.6.20 869f37d8e48f3911eb70f38a994feaa8f8380008
+> +# Patched in kernel since v6.0 0efe125cfb99e6773a7434f3463f7c2fa28f3a43
+> +# Backported in version v5.4.213 36f7b71f8ad8e4d224b45f7d6ecfeff63b091547
+> +# Backported in version v5.10.143 e12ce30fe593dd438c5b392290ad7316befc11ca
+> +# Backported in version v5.15.68 451c9ce1e2fc9b9e40303bef8e5a0dca1a923cc4
+> +# Backported in version v5.19.9 6cf0609154b2ce8d3ae160e7506ab316400a8d3d
+> +CVE_CHECK_IGNORE += "CVE-2022-2663"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-2785
+> +# Introduced in version v5.18 b1d18a7574d0df5eb4117c14742baf8bc2b9bb74
+> +# Patched in kernel since v6.0 86f44fcec22ce2979507742bc53db8400e454f46
+> +# Backported in version v5.19.4 b429d0b9a7a0f3dddb1f782b72629e6353f292fd
+> +CVE_CHECK_IGNORE += "CVE-2022-2785"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-3176
+> +# Introduced in version v5.1 221c5eb2338232f7340386de1c43decc32682e58
+> +# Patched in kernel since v5.17 791f3465c4afde02d7f16cf7424ca87070b69396
+> +# Backported in version v5.15.65 e9d7ca0c4640cbebe6840ee3bac66a25a9bacaf5
+> +CVE_CHECK_IGNORE += "CVE-2022-3176"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-3435
+> +# Introduced in version v5.18 6bf92d70e690b7ff12b24f4bfff5e5434d019b82
+> +# Breaking commit backported in v5.4.189
+> f5064531c23ad646da7be8b938292b00a7e61438
+> +# Breaking commit backported in v5.10.111
+> 63ea57478aaa3e06a597081a0f537318fc04e49f
+> +# Breaking commit backported in v5.15.34
+> 907c97986d6fa77318d17659dd76c94b65dd27c5
+> +# Patched in kernel since v6.1 61b91eb33a69c3be11b259c5ea484505cd79f883
+> +# Backported in version v5.4.226 cc3cd130ecfb8b0ae52e235e487bae3f16a24a32
+> +# Backported in version v5.10.158 0b5394229ebae09afc07aabccb5ffd705ffd250e
+> +# Backported in version v5.15.82 25174d91e4a32a24204060d283bd5fa6d0ddf133
+> +CVE_CHECK_IGNORE += "CVE-2022-3435"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-3526
+> +# Introduced in version v5.13 427f0c8c194b22edcafef1b0a42995ddc5c2227d
+> +# Patched in kernel since v5.18 e16b859872b87650bb55b12cca5a5fcdc49c1442
+> +# Backported in version v5.15.35 8f79ce226ad2e9b2ec598de2b9560863b7549d1b
+> +CVE_CHECK_IGNORE += "CVE-2022-3526"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-3534
+> +# Introduced in version v5.10 919d2b1dbb074d438027135ba644411931179a59
+> +# Patched in kernel since v6.2 93c660ca40b5d2f7c1b1626e955a8e9fa30e0749
+> +# Backported in version v5.10.163 c61650b869e0b6fb0c0a28ed42d928eea969afc8
+> +# Backported in version v5.15.86 a733bf10198eb5bb927890940de8ab457491ed3b
+> +# Backported in version v6.1.2 fbe08093fb2334549859829ef81d42570812597d
+> +CVE_CHECK_IGNORE += "CVE-2022-3534"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-3564
+> +# Introduced in version v3.6 4b51dae96731c9d82f5634e75ac7ffd3b9c1b060
+> +# Patched in kernel since v6.1 3aff8aaca4e36dc8b17eaa011684881a80238966
+> +# Backported in version v5.10.154 cb1c012099ef5904cd468bdb8d6fcdfdd9bcb569
+> +# Backported in version v5.15.78 8278a87bb1eeea94350d675ef961ee5a03341fde
+> +CVE_CHECK_IGNORE += "CVE-2022-3564"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-3619
+> +# Introduced in version v5.12 4d7ea8ee90e42fc75995f6fb24032d3233314528
+> +# Patched in kernel since v6.1 7c9524d929648935bac2bbb4c20437df8f9c3f42
+> +# Backported in version v5.15.78 aa16cac06b752e5f609c106735bd7838f444784c
+> +CVE_CHECK_IGNORE += "CVE-2022-3619"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-3621
+> +# Introduced in version v2.60.30 05fe58fdc10df9ebea04c0eaed57adc47af5c184
+> +# Patched in kernel since v6.1 21a87d88c2253350e115029f14fe2a10a7e6c856
+> +# Backported in version v5.4.218 792211333ad77fcea50a44bb7f695783159fc63c
+> +# Backported in version v5.10.148 3f840480e31495ce674db4a69912882b5ac083f2
+> +# Backported in version v5.15.74 1e512c65b4adcdbdf7aead052f2162b079cc7f55
+> +# Backported in version v5.19.16 caf2c6b580433b3d3e413a3d54b8414a94725dcd
+> +CVE_CHECK_IGNORE += "CVE-2022-3621"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-3623
+> +# Introduced in version v5.1 5480280d3f2d11d47f9be59d49b20a8d7d1b33e8
+> +# Patched in kernel since v6.1 fac35ba763ed07ba93154c95ffc0c4a55023707f
+> +# Backported in version v5.4.228 176ba4c19d1bb153aa6baaa61d586e785b7d736c
+> +# Backported in version v5.10.159 fccee93eb20d72f5390432ecea7f8c16af88c850
+> +# Backported in version v5.15.78 3a44ae4afaa5318baed3c6e2959f24454e0ae4ff
+> +# Backported in version v5.19.17 86a913d55c89dd13ba070a87f61a493563e94b54
+> +CVE_CHECK_IGNORE += "CVE-2022-3623"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-3624
+> +# Introduced in version v6.0 d5410ac7b0baeca91cf73ff5241d35998ecc8c9e
+> +# Patched in kernel since v6.0 4f5d33f4f798b1c6d92b613f0087f639d9836971
+> +CVE_CHECK_IGNORE += "CVE-2022-3624"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-3625
+> +# Introduced in version v4.19 45f05def5c44c806f094709f1c9b03dcecdd54f0
+> +# Patched in kernel since v6.0 6b4db2e528f650c7fb712961aac36455468d5902
+> +# Backported in version v5.4.211 1ad4ba9341f15412cf86dc6addbb73871a10212f
+> +# Backported in version v5.10.138 0e28678a770df7989108327cfe86f835d8760c33
+> +# Backported in version v5.15.63 c4d09fd1e18bac11c2f7cf736048112568687301
+> +# Backported in version v5.19.4 26bef5616255066268c0e40e1da10cc9b78b82e9
+> +CVE_CHECK_IGNORE += "CVE-2022-3625"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-3629
+> +# Introduced in version v3.9 d021c344051af91f42c5ba9fdedc176740cbd238
+> +# Patched in kernel since v6.0 7e97cfed9929eaabc41829c395eb0d1350fccb9d
+> +# Backported in version v5.4.211 f82f1e2042b397277cd39f16349950f5abade58d
+> +# Backported in version v5.10.138 38ddccbda5e8b762c8ee06670bb1f64f1be5ee50
+> +# Backported in version v5.15.63 e4c0428f8a6fc8c218d7fd72bddd163f05b29795
+> +# Backported in version v5.19.4 8ff5db3c1b3d6797eda5cd326dcd31b9cd1c5f72
+> +CVE_CHECK_IGNORE += "CVE-2022-3629"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-3630
+> +# Introduced in version v5.19 85e4ea1049c70fb99de5c6057e835d151fb647da
+> +# Patched in kernel since v6.0 fb24771faf72a2fd62b3b6287af3c610c3ec9cf1
+> +# Backported in version v5.19.4 7a369dc87b66acc85d0cffcf39984344a203e20b
+> +CVE_CHECK_IGNORE += "CVE-2022-3630"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-3633
+> +# Introduced in version v5.4 9d71dd0c70099914fcd063135da3c580865e924c
+> +# Patched in kernel since v6.0 8c21c54a53ab21842f5050fa090f26b03c0313d6
+> +# Backported in version v5.4.211 04e41b6bacf474f5431491f92e981096e8cc8e93
+> +# Backported in version v5.10.138 a220ff343396bae8d3b6abee72ab51f1f34b3027
+> +# Backported in version v5.15.63 98dc8fb08299ab49e0b9c08daedadd2f4de1a2f2
+> +# Backported in version v5.19.4 a0278dbeaaf7ca60346c62a9add65ae7d62564de
+> +CVE_CHECK_IGNORE += "CVE-2022-3633"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-3635
+> +# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2
+> +# Patched in kernel since v6.0 3f4093e2bf4673f218c0bf17d8362337c400e77b
+> +# Backported in version v5.4.211 9a6cbaa50f263b12df18a051b37f3f42f9fb5253
+> +# Backported in version v5.10.138 a0ae122e9aeccbff75014c4d36d11a9d32e7fb5e
+> +# Backported in version v5.15.63 a5d7ce086fe942c5ab422fd2c034968a152be4c4
+> +# Backported in version v5.19.4 af412b252550f9ac36d9add7b013c2a2c3463835
+> +CVE_CHECK_IGNORE += "CVE-2022-3635"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-3636
+> +# Introduced in version v5.19 33fc42de33278b2b3ec6f3390512987bc29a62b7
+> +# Patched in kernel since v5.19 17a5f6a78dc7b8db385de346092d7d9f9dc24df6
+> +CVE_CHECK_IGNORE += "CVE-2022-3636"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-3640
+> +# Introduced in version v5.19 d0be8347c623e0ac4202a1d4e0373882821f56b0
+> +# Breaking commit backported in v5.4.209
+> 098e07ef0059296e710a801cdbd74b59016e6624
+> +# Breaking commit backported in v5.10.135
+> de5d4654ac6c22b1be756fdf7db18471e7df01ea
+> +# Breaking commit backported in v5.15.59
+> f32d5615a78a1256c4f557ccc6543866e75d03f4
+> +# Patched in kernel since v6.1 0d0e2d032811280b927650ff3c15fe5020e82533
+> +# Backported in version v5.4.224 c1f594dddd9ffd747c39f49cc5b67a9b7677d2ab
+> +# Backported in version v5.10.154 d9ec6e2fbd4a565b2345d4852f586b7ae3ab41fd
+> +# Backported in version v5.15.78 a3a7b2ac64de232edb67279e804932cb42f0b52a
+> +CVE_CHECK_IGNORE += "CVE-2022-3640"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-3646
+> +# Introduced in version v2.6.30 9ff05123e3bfbb1d2b68ba1d9bf1f7d1dffc1453
+> +# Patched in kernel since v6.1 d0d51a97063db4704a5ef6bc978dddab1636a306
+> +# Backported in version v5.4.218 b7e409d11db9ce9f8bc05fcdfa24d143f60cd393
+> +# Backported in version v5.10.148 aad4c997857f1d4b6c1e296c07e4729d3f8058ee
+> +# Backported in version v5.15.74 44b1ee304bac03f1b879be5afe920e3a844e40fc
+> +# Backported in version v5.19.16 4755fcd844240857b525f6e8d8b65ee140fe9570
+> +CVE_CHECK_IGNORE += "CVE-2022-3646"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-3649
+> +# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2
+> +# Patched in kernel since v6.1 d325dc6eb763c10f591c239550b8c7e5466a5d09
+> +# Backported in version v5.4.220 d1c2d820a2cd73867b7d352e89e92fb3ac29e926
+> +# Backported in version v5.10.148 21ee3cffed8fbabb669435facfd576ba18ac8652
+> +# Backported in version v5.15.74 cb602c2b654e26763226d8bd27a702f79cff4006
+> +# Backported in version v5.19.16 394b2571e9a74ddaed55aa9c4d0f5772f81c21e4
+> +CVE_CHECK_IGNORE += "CVE-2022-3649"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-4382
+> +# Introduced in version v5.3 e5d82a7360d124ae1a38c2a5eac92ba49b125191
+> +# Patched in kernel since v6.2-rc5
+> d18dcfe9860e842f394e37ba01ca9440ab2178f4
+> +# Backported in version v5.4.230 9a39f4626b361ee7aa10fd990401c37ec3b466ae
+> +# Backported in version v5.10.165 856e4b5e53f21edbd15d275dde62228dd94fb2b4
+> +# Backported in version v5.15.90 a2e075f40122d8daf587db126c562a67abd69cf9
+> +# Backported in version v6.1.8 616fd34d017000ecf9097368b13d8a266f4920b3
+> +CVE_CHECK_IGNORE += "CVE-2022-4382"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-26365
+> +# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2
+> +# Patched in kernel since v5.19 2f446ffe9d737e9a844b97887919c4fda18246e7
+> +# Backported in version v5.4.204 42112e8f94617d83943f8f3b8de2b66041905506
+> +# Backported in version v5.10.129 cfea428030be836d79a7690968232bb7fa4410f1
+> +# Backported in version v5.15.53 7ed65a4ad8fa9f40bc3979b32c54243d6a684ec9
+> +CVE_CHECK_IGNORE += "CVE-2022-26365"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-33740
+> +# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2
+> +# Patched in kernel since v5.19 307c8de2b02344805ebead3440d8feed28f2f010
+> +# Backported in version v5.4.204 04945b5beb73019145ac17a2565526afa7293c14
+> +# Backported in version v5.10.129 728d68bfe68d92eae1407b8a9edc7817d6227404
+> +# Backported in version v5.15.53 5dd0993c36832d33820238fc8dc741ba801b7961
+> +CVE_CHECK_IGNORE += "CVE-2022-33740"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-33741
+> +# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2
+> +# Patched in kernel since v5.19 4491001c2e0fa69efbb748c96ec96b100a5cdb7e
+> +# Backported in version v5.4.204 ede57be88a5fff42cd00e6bcd071503194d398dd
+> +# Backported in version v5.10.129 4923217af5742a796821272ee03f8d6de15c0cca
+> +# Backported in version v5.15.53 ed3cfc690675d852c3416aedb271e0e7d179bf49
+> +CVE_CHECK_IGNORE += "CVE-2022-33741"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-33742
+> +# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2
+> +# Patched in kernel since v5.19 2400617da7eebf9167d71a46122828bc479d64c9
+> +# Backported in version v5.4.204 60ac50daad36ef3fe9d70d89cfe3b95d381db997
+> +# Backported in version v5.10.129 cbbd2d2531539212ff090aecbea9877c996e6ce6
+> +# Backported in version v5.15.53 6d0a9127279a4533815202e30ad1b3a39f560ba3
+> +CVE_CHECK_IGNORE += "CVE-2022-33742"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-42895
+> +# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2
+> +# Patched in kernel since v6.1 b1a2cd50c0357f243b7435a732b4e62ba3157a2e
+> +# Backported in version v5.15.78 3e4697ffdfbb38a2755012c4e571546c89ab6422
+> +# Backported in version v5.10.154 26ca2ac091b49281d73df86111d16e5a76e43bd7
+> +# Backported in version v5.4.224 6949400ec9feca7f88c0f6ca5cb5fdbcef419c89
+> +CVE_CHECK_IGNORE += "CVE-2022-42895"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-42896
+> +# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2
+> +# Patched in kernel since v6.1 711f8c3fb3db61897080468586b970c87c61d9e4
+> +# Backported in version v5.4.226 0d87bb6070361e5d1d9cb391ba7ee73413bc109b
+> +# Backported in version v5.10.154 6b6f94fb9a74dd2891f11de4e638c6202bc89476
+> +# Backported in version v5.15.78 81035e1201e26d57d9733ac59140a3e29befbc5a
+> +CVE_CHECK_IGNORE += "CVE-2022-42896"
+> +
+> +
+> +# 2023
+> +# https://nvd.nist.gov/vuln/detail/CVE-2023-0266
+> +# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2
+> +# Patched in kernel since v6.2 56b88b50565cd8b946a2d00b0c83927b7ebb055e
+> +# Backported in version v5.15.88 26350c21bc5e97a805af878e092eb8125843fe2c
+> +# Backported in version v6.1.6 d6ad4bd1d896ae1daffd7628cd50f124280fb8b1
+> +CVE_CHECK_IGNORE += "CVE-2023-0266"
+> +
+> +# https://nvd.nist.gov/vuln/detail/CVE-2023-0394
+> +# Introduced in version 2.6.12 357b40a18b04c699da1d45608436e9b76b50e251
+> +# Patched in kernel since v6.2 cb3e9864cdbe35ff6378966660edbcbac955fe17
+> +# Backported in version v5.4.229 3998dba0f78a59922b0ef333ccfeb58d9410cd3d
+> +# Backported in version v5.10.164 6c9e2c11c33c35563d34d12b343d43b5c12200b5
+> +# Backported in version v5.15.89 456e3794e08a0b59b259da666e31d0884b376bcf
+> +# Backported in version v6.1.7 0afa5f0736584411771299074bbeca8c1f9706d4
+> +CVE_CHECK_IGNORE += "CVE-2023-0394"
+> +
+> +# Wrong CPE in NVD database
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-3563
+> +# https://nvd.nist.gov/vuln/detail/CVE-2022-3637
+> +# Those issue do not affect the kernel, patchs listed on CVE pages links
+> to https://git.kernel.org/pub/scm/bluetooth/bluez.git
+> +CVE_CHECK_IGNORE += "CVE-2022-3563 CVE-2022-3637"
+>
+>  # qemu:qemu-native:qemu-system-native
+> https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255
+>  # There was a proposed patch
+> https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg06098.html
+> --
+> 2.30.2
 >
 >
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#177787):
+> https://lists.openembedded.org/g/openembedded-core/message/177787
+> Mute This Topic: https://lists.openembedded.org/mt/97263529/5827677
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> rybczynska@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--000000000000b9c60e05f5b218b2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Hello Geoffroy,<div dir=3D"auto">Thank you for the work. =
+Have you contacted NVD to update the database instead? What did they say?</=
+div><div dir=3D"auto"><br></div><div dir=3D"auto">Kind regards=C2=A0</div><=
+div dir=3D"auto">Marta</div></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Mon, 27 Feb 2023, 12:00 Geoffrey GIRY, &lt=
+;<a href=3D"mailto:geoffrey.giry@smile.fr">geoffrey.giry@smile.fr</a>&gt; w=
+rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex">Multiple CVE are patched in k=
+ernel but appears as active because the NVD<br>
+database is not up to date.<br>
+<br>
+CVE are ignored if and only if all versions of kernel used by master are pa=
+tched.<br>
+<br>
+Also ignore CVEs with wrong CPE (applied to kernel but actually are for<br>
+=C2=A0another package)<br>
+<br>
+Signed-off-by: Geoffrey GIRY &lt;<a href=3D"mailto:geoffrey.giry@smile.fr" =
+target=3D"_blank" rel=3D"noreferrer">geoffrey.giry@smile.fr</a>&gt;<br>
+Reviewed-by: Yoann Congal &lt;<a href=3D"mailto:yoann.congal@smile.fr" targ=
+et=3D"_blank" rel=3D"noreferrer">yoann.congal@smile.fr</a>&gt;<br>
+---<br>
+=C2=A0.../distro/include/cve-extra-exclusions.inc=C2=A0 =C2=A0| 296 +++++++=
++++++++++++<br>
+=C2=A01 file changed, 296 insertions(+)<br>
+<br>
+diff --git a/meta/conf/distro/include/cve-extra-exclusions.inc b/meta/conf/=
+distro/include/cve-extra-exclusions.inc<br>
+index 8b5f8d49b8..a281a8ac65 100644<br>
+--- a/meta/conf/distro/include/cve-extra-exclusions.inc<br>
++++ b/meta/conf/distro/include/cve-extra-exclusions.inc<br>
+@@ -78,9 +78,34 @@ CVE_CHECK_IGNORE +=3D &quot;CVE-2018-1000026 CVE-2018-10=
+840 CVE-2018-10876 CVE-2018-108<br>
+=C2=A0CVE_CHECK_IGNORE +=3D &quot;CVE-2019-10126 CVE-2019-14899 CVE-2019-18=
+910 CVE-2019-3016 CVE-2019-3819 CVE-2019-3846 CVE-2019-3887&quot;<br>
+=C2=A0# 2020<br>
+=C2=A0CVE_CHECK_IGNORE +=3D &quot;CVE-2020-10732 CVE-2020-10742 CVE-2020-16=
+119 CVE-2020-1749 CVE-2020-25672 CVE-2020-27820 CVE-2020-35501 CVE-2020-883=
+4&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2020-27784" rel=3D"noref=
+errer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-20=
+20-27784</a><br>
++# Introduced in version v4.1 b26394bd567e5ebe57ec4dee7fe6cd14023c96e9<br>
++#=C2=A0Patched in kernel since v5.10=C2=A0 =C2=A0 =C2=A0 =C2=A0 e8d5f92b8d=
+30bb4ade76494490c3c065e12411b1<br>
++# Backported in version v5.4.73=C2=A0 =C2=A0 =C2=A0 =C2=A0 e9e791f5c39ab30=
+e374a3b1a9c25ca7ff24988f3<br>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2020-27784&quot;<br>
++<br>
+=C2=A0# 2021<br>
+=C2=A0CVE_CHECK_IGNORE +=3D &quot;CVE-2021-20194 CVE-2021-20226 CVE-2021-20=
+265 CVE-2021-3564 CVE-2021-3743 CVE-2021-3847 CVE-2021-4002 \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 CVE-2021-4090 CVE-2021-4095 CVE-2021-4197 CVE-2021-4202 CVE-2021-44879 =
+CVE-2021-45402&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2021-3669" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+1-3669</a><br>
++# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2<b=
+r>
++# Patched in kernel since v5.15 20401d1058f3f841f35a594ac2fc1293710e55b9<b=
+r>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2021-3669&quot;<br>
++<br>
++#=C2=A0<a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2021-3759" rel=3D"n=
+oreferrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CV=
+E-2021-3759</a><br>
++# Introduced in version v4.5 a9bb7e620efdfd29b6d1c238041173e411670996<br>
++#=C2=A0Patched in kernel since v5.15 18319498fdd4cdf8c1c2c48cd432863b1f915=
+d6f<br>
++# Backported in version v5.4.224 bad83d55134e647a739ebef2082541963f2cbc92<=
+br>
++# Backported in version v5.10.154 836686e1a01d7e2fda6a5a18252243ff30a6e196=
+<br>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2021-3759&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2021-4218" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+1-4218</a><br>
++# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2<b=
+r>
++# Patched in kernel since v5.8 32927393dc1ccd60fb2bdc05b9e8e88753761469<br=
+>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2021-4218&quot;<br>
++<br>
+=C2=A0# 2022<br>
+=C2=A0CVE_CHECK_IGNORE +=3D &quot;CVE-2022-0185 CVE-2022-0264 CVE-2022-0286=
+ CVE-2022-0330 CVE-2022-0382 CVE-2022-0433 CVE-2022-0435 \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 CVE-2022-0492 CVE-2022-0494 CVE-2022-0500 CVE-2022-0516 CVE-2022-0617 C=
+VE-2022-0742 CVE-2022-0854 \<br>
+@@ -90,6 +115,277 @@ CVE_CHECK_IGNORE +=3D &quot;CVE-2022-0185 CVE-2022-026=
+4 CVE-2022-0286 CVE-2022-0330 CVE<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 CVE-2022-28356 CVE-2022-28388 CVE-2022-28389 CVE-2022-28390 CVE-2022-28=
+796 CVE-2022-28893 CVE-2022-29156 \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 CVE-2022-29582 CVE-2022-29968&quot;<br>
+<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-0480" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+2-0480</a><br>
++# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2<b=
+r>
++# Patched in kernel since v5.15 0f12156dff2862ac54235fc72703f18770769042<b=
+r>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-0480&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-1184" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+2-1184</a><br>
++# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2<b=
+r>
++# Patched in kernel since v5.19 46c116b920ebec58031f0a78c5ea9599b0d2a371<b=
+r>
++# Backported in version v5.4.198 17034d45ec443fb0e3c0e7297f9cd10f70446064<=
+br>
++# Backported in version v5.10.121 da2f05919238c7bdc6e28c79539f55c8355408bb=
+<br>
++# Backported in version v5.15.46 ca17db384762be0ec38373a12460081d22a8b42d<=
+br>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-1184&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-1462" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+2-1462</a><br>
++# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2<b=
+r>
++# Patched in kernel since v5.19 a501ab75e7624d133a5a3c7ec010687c8b961d23<b=
+r>
++# Backported in version v5.4.208 f7785092cb7f022f59ebdaa181651f7c877df132<=
+br>
++# Backported in version v5.10.134 08afa87f58d83dfe040572ed591b47e8cb9e225c=
+<br>
++# Backported in version v5.15.58 b2d1e4cd558cffec6bfe318f5d74e6cffc374d29<=
+br>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-1462&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-2308" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+2-2308</a><br>
++# Introduced in version v5.15 c8a6153b6c59d95c0e091f053f6f180952ade91e<br>
++# Patched in kernel since v6.0 46f8a29272e51b6df7393d58fc5cb8967397ef2b<br=
+>
++# Backported in version v5.15.72 dc248ddf41eab4566e95b1ee2433c8a5134ad94a<=
+br>
++# Backported in version v5.19.14 38d854c4a11c3bbf6a96ea46f14b282670c784ac<=
+br>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-2308&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-2327" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+2-2327</a><br>
++# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2<b=
+r>
++# Patched in kernel since v5.10.125 df3f3bb5059d20ef094d6b2f0256c4bf4127a8=
+59<br>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-2327&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-2663" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+2-2663</a><br>
++# Introduced in version v2.6.20 869f37d8e48f3911eb70f38a994feaa8f8380008<b=
+r>
++# Patched in kernel since v6.0 0efe125cfb99e6773a7434f3463f7c2fa28f3a43<br=
+>
++# Backported in version v5.4.213 36f7b71f8ad8e4d224b45f7d6ecfeff63b091547<=
+br>
++# Backported in version v5.10.143 e12ce30fe593dd438c5b392290ad7316befc11ca=
+<br>
++# Backported in version v5.15.68 451c9ce1e2fc9b9e40303bef8e5a0dca1a923cc4<=
+br>
++# Backported in version v5.19.9 6cf0609154b2ce8d3ae160e7506ab316400a8d3d<b=
+r>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-2663&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-2785" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+2-2785</a><br>
++# Introduced in version v5.18 b1d18a7574d0df5eb4117c14742baf8bc2b9bb74<br>
++# Patched in kernel since v6.0 86f44fcec22ce2979507742bc53db8400e454f46<br=
+>
++# Backported in version v5.19.4 b429d0b9a7a0f3dddb1f782b72629e6353f292fd<b=
+r>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-2785&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-3176" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+2-3176</a><br>
++# Introduced in version v5.1 221c5eb2338232f7340386de1c43decc32682e58<br>
++# Patched in kernel since v5.17 791f3465c4afde02d7f16cf7424ca87070b69396<b=
+r>
++# Backported in version v5.15.65 e9d7ca0c4640cbebe6840ee3bac66a25a9bacaf5<=
+br>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-3176&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-3435" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+2-3435</a><br>
++# Introduced in version v5.18 6bf92d70e690b7ff12b24f4bfff5e5434d019b82<br>
++#=C2=A0Breaking commit backported in v5.4.189 f5064531c23ad646da7be8b93829=
+2b00a7e61438<br>
++#=C2=A0Breaking commit backported in v5.10.111 63ea57478aaa3e06a597081a0f5=
+37318fc04e49f<br>
++#=C2=A0Breaking commit backported in v5.15.34 907c97986d6fa77318d17659dd76=
+c94b65dd27c5<br>
++# Patched in kernel since v6.1 61b91eb33a69c3be11b259c5ea484505cd79f883<br=
+>
++# Backported in version v5.4.226 cc3cd130ecfb8b0ae52e235e487bae3f16a24a32<=
+br>
++# Backported in version v5.10.158 0b5394229ebae09afc07aabccb5ffd705ffd250e=
+<br>
++# Backported in version v5.15.82 25174d91e4a32a24204060d283bd5fa6d0ddf133<=
+br>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-3435&quot;<br>
++<br>
++#=C2=A0<a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-3526" rel=3D"n=
+oreferrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CV=
+E-2022-3526</a><br>
++# Introduced in version v5.13 427f0c8c194b22edcafef1b0a42995ddc5c2227d<br>
++# Patched in kernel since v5.18 e16b859872b87650bb55b12cca5a5fcdc49c1442<b=
+r>
++# Backported in version v5.15.35 8f79ce226ad2e9b2ec598de2b9560863b7549d1b<=
+br>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-3526&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-3534" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+2-3534</a><br>
++#=C2=A0Introduced in version v5.10 919d2b1dbb074d438027135ba644411931179a5=
+9<br>
++# Patched in kernel since v6.2 93c660ca40b5d2f7c1b1626e955a8e9fa30e0749<br=
+>
++# Backported in version v5.10.163 c61650b869e0b6fb0c0a28ed42d928eea969afc8=
+<br>
++# Backported in version v5.15.86 a733bf10198eb5bb927890940de8ab457491ed3b<=
+br>
++# Backported in version v6.1.2 fbe08093fb2334549859829ef81d42570812597d<br=
+>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-3534&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-3564" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+2-3564</a><br>
++#=C2=A0Introduced in version v3.6 4b51dae96731c9d82f5634e75ac7ffd3b9c1b060=
+<br>
++# Patched in kernel since v6.1 3aff8aaca4e36dc8b17eaa011684881a80238966<br=
+>
++# Backported in version v5.10.154 cb1c012099ef5904cd468bdb8d6fcdfdd9bcb569=
+<br>
++# Backported in version v5.15.78 8278a87bb1eeea94350d675ef961ee5a03341fde<=
+br>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-3564&quot;<br>
++<br>
++#=C2=A0<a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-3619" rel=3D"n=
+oreferrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CV=
+E-2022-3619</a><br>
++# Introduced in version v5.12 4d7ea8ee90e42fc75995f6fb24032d3233314528<br>
++# Patched in kernel since v6.1 7c9524d929648935bac2bbb4c20437df8f9c3f42<br=
+>
++# Backported in version v5.15.78 aa16cac06b752e5f609c106735bd7838f444784c<=
+br>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-3619&quot;<br>
++<br>
++#=C2=A0<a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-3621" rel=3D"n=
+oreferrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CV=
+E-2022-3621</a><br>
++# Introduced in version v2.60.30 05fe58fdc10df9ebea04c0eaed57adc47af5c184<=
+br>
++# Patched in kernel since v6.1 21a87d88c2253350e115029f14fe2a10a7e6c856<br=
+>
++# Backported in version v5.4.218 792211333ad77fcea50a44bb7f695783159fc63c<=
+br>
++# Backported in version v5.10.148 3f840480e31495ce674db4a69912882b5ac083f2=
+<br>
++# Backported in version v5.15.74 1e512c65b4adcdbdf7aead052f2162b079cc7f55<=
+br>
++# Backported in version v5.19.16 caf2c6b580433b3d3e413a3d54b8414a94725dcd<=
+br>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-3621&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-3623" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+2-3623</a><br>
++# Introduced in version v5.1 5480280d3f2d11d47f9be59d49b20a8d7d1b33e8<br>
++# Patched in kernel since v6.1 fac35ba763ed07ba93154c95ffc0c4a55023707f<br=
+>
++# Backported in version v5.4.228 176ba4c19d1bb153aa6baaa61d586e785b7d736c<=
+br>
++# Backported in version v5.10.159 fccee93eb20d72f5390432ecea7f8c16af88c850=
+<br>
++# Backported in version v5.15.78 3a44ae4afaa5318baed3c6e2959f24454e0ae4ff<=
+br>
++# Backported in version v5.19.17 86a913d55c89dd13ba070a87f61a493563e94b54<=
+br>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-3623&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-3624" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+2-3624</a><br>
++# Introduced in version v6.0 d5410ac7b0baeca91cf73ff5241d35998ecc8c9e<br>
++# Patched in kernel since v6.0 4f5d33f4f798b1c6d92b613f0087f639d9836971<br=
+>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-3624&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-3625" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+2-3625</a><br>
++# Introduced in version v4.19 45f05def5c44c806f094709f1c9b03dcecdd54f0<br>
++# Patched in kernel since v6.0 6b4db2e528f650c7fb712961aac36455468d5902<br=
+>
++# Backported in version v5.4.211 1ad4ba9341f15412cf86dc6addbb73871a10212f<=
+br>
++# Backported in version v5.10.138 0e28678a770df7989108327cfe86f835d8760c33=
+<br>
++# Backported in version v5.15.63 c4d09fd1e18bac11c2f7cf736048112568687301<=
+br>
++# Backported in version v5.19.4 26bef5616255066268c0e40e1da10cc9b78b82e9<b=
+r>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-3625&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-3629" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+2-3629</a><br>
++# Introduced in version v3.9 d021c344051af91f42c5ba9fdedc176740cbd238<br>
++# Patched in kernel since v6.0 7e97cfed9929eaabc41829c395eb0d1350fccb9d<br=
+>
++# Backported in version v5.4.211 f82f1e2042b397277cd39f16349950f5abade58d<=
+br>
++# Backported in version v5.10.138 38ddccbda5e8b762c8ee06670bb1f64f1be5ee50=
+<br>
++# Backported in version v5.15.63 e4c0428f8a6fc8c218d7fd72bddd163f05b29795<=
+br>
++# Backported in version v5.19.4 8ff5db3c1b3d6797eda5cd326dcd31b9cd1c5f72<b=
+r>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-3629&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-3630" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+2-3630</a><br>
++# Introduced in version v5.19 85e4ea1049c70fb99de5c6057e835d151fb647da<br>
++# Patched in kernel since v6.0 fb24771faf72a2fd62b3b6287af3c610c3ec9cf1<br=
+>
++# Backported in version v5.19.4 7a369dc87b66acc85d0cffcf39984344a203e20b<b=
+r>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-3630&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-3633" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+2-3633</a><br>
++# Introduced in version v5.4 9d71dd0c70099914fcd063135da3c580865e924c<br>
++# Patched in kernel since v6.0 8c21c54a53ab21842f5050fa090f26b03c0313d6<br=
+>
++# Backported in version v5.4.211 04e41b6bacf474f5431491f92e981096e8cc8e93<=
+br>
++# Backported in version v5.10.138 a220ff343396bae8d3b6abee72ab51f1f34b3027=
+<br>
++# Backported in version v5.15.63 98dc8fb08299ab49e0b9c08daedadd2f4de1a2f2<=
+br>
++# Backported in version v5.19.4 a0278dbeaaf7ca60346c62a9add65ae7d62564de<b=
+r>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-3633&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-3635" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+2-3635</a><br>
++# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2<b=
+r>
++# Patched in kernel since v6.0 3f4093e2bf4673f218c0bf17d8362337c400e77b<br=
+>
++# Backported in version v5.4.211 9a6cbaa50f263b12df18a051b37f3f42f9fb5253<=
+br>
++# Backported in version v5.10.138 a0ae122e9aeccbff75014c4d36d11a9d32e7fb5e=
+<br>
++# Backported in version v5.15.63 a5d7ce086fe942c5ab422fd2c034968a152be4c4<=
+br>
++# Backported in version v5.19.4 af412b252550f9ac36d9add7b013c2a2c3463835<b=
+r>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-3635&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-3636" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+2-3636</a><br>
++# Introduced in version v5.19 33fc42de33278b2b3ec6f3390512987bc29a62b7<br>
++# Patched in kernel since v5.19 17a5f6a78dc7b8db385de346092d7d9f9dc24df6<b=
+r>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-3636&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-3640" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+2-3640</a><br>
++# Introduced in version v5.19 d0be8347c623e0ac4202a1d4e0373882821f56b0<br>
++# Breaking commit backported in v5.4.209 098e07ef0059296e710a801cdbd74b590=
+16e6624<br>
++# Breaking commit backported in v5.10.135 de5d4654ac6c22b1be756fdf7db18471=
+e7df01ea<br>
++# Breaking commit backported in v5.15.59 f32d5615a78a1256c4f557ccc6543866e=
+75d03f4<br>
++# Patched in kernel since v6.1 0d0e2d032811280b927650ff3c15fe5020e82533<br=
+>
++# Backported in version v5.4.224 c1f594dddd9ffd747c39f49cc5b67a9b7677d2ab<=
+br>
++# Backported in version v5.10.154 d9ec6e2fbd4a565b2345d4852f586b7ae3ab41fd=
+<br>
++# Backported in version v5.15.78 a3a7b2ac64de232edb67279e804932cb42f0b52a<=
+br>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-3640&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-3646" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+2-3646</a><br>
++# Introduced in version v2.6.30 9ff05123e3bfbb1d2b68ba1d9bf1f7d1dffc1453<b=
+r>
++# Patched in kernel since v6.1 d0d51a97063db4704a5ef6bc978dddab1636a306<br=
+>
++# Backported in version v5.4.218 b7e409d11db9ce9f8bc05fcdfa24d143f60cd393<=
+br>
++# Backported in version v5.10.148 aad4c997857f1d4b6c1e296c07e4729d3f8058ee=
+<br>
++# Backported in version v5.15.74 44b1ee304bac03f1b879be5afe920e3a844e40fc<=
+br>
++# Backported in version v5.19.16 4755fcd844240857b525f6e8d8b65ee140fe9570<=
+br>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-3646&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-3649" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+2-3649</a><br>
++# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2<b=
+r>
++# Patched in kernel since v6.1 d325dc6eb763c10f591c239550b8c7e5466a5d09<br=
+>
++# Backported in version v5.4.220 d1c2d820a2cd73867b7d352e89e92fb3ac29e926<=
+br>
++# Backported in version v5.10.148 21ee3cffed8fbabb669435facfd576ba18ac8652=
+<br>
++# Backported in version v5.15.74 cb602c2b654e26763226d8bd27a702f79cff4006<=
+br>
++# Backported in version v5.19.16 394b2571e9a74ddaed55aa9c4d0f5772f81c21e4<=
+br>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-3649&quot;<br>
++<br>
++#=C2=A0<a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-4382" rel=3D"n=
+oreferrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CV=
+E-2022-4382</a><br>
++# Introduced in version v5.3 e5d82a7360d124ae1a38c2a5eac92ba49b125191<br>
++# Patched in kernel since v6.2-rc5 d18dcfe9860e842f394e37ba01ca9440ab2178f=
+4<br>
++# Backported in version v5.4.230 9a39f4626b361ee7aa10fd990401c37ec3b466ae<=
+br>
++# Backported in version v5.10.165 856e4b5e53f21edbd15d275dde62228dd94fb2b4=
+<br>
++# Backported in version v5.15.90 a2e075f40122d8daf587db126c562a67abd69cf9<=
+br>
++# Backported in version v6.1.8 616fd34d017000ecf9097368b13d8a266f4920b3<br=
+>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-4382&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-26365" rel=3D"noref=
+errer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-20=
+22-26365</a><br>
++# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2<b=
+r>
++# Patched in kernel since v5.19 2f446ffe9d737e9a844b97887919c4fda18246e7<b=
+r>
++# Backported in version v5.4.204 42112e8f94617d83943f8f3b8de2b66041905506<=
+br>
++# Backported in version v5.10.129 cfea428030be836d79a7690968232bb7fa4410f1=
+<br>
++# Backported in version v5.15.53 7ed65a4ad8fa9f40bc3979b32c54243d6a684ec9<=
+br>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-26365&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-33740" rel=3D"noref=
+errer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-20=
+22-33740</a><br>
++# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2<b=
+r>
++# Patched in kernel since v5.19 307c8de2b02344805ebead3440d8feed28f2f010<b=
+r>
++# Backported in version v5.4.204 04945b5beb73019145ac17a2565526afa7293c14<=
+br>
++# Backported in version v5.10.129 728d68bfe68d92eae1407b8a9edc7817d6227404=
+<br>
++# Backported in version v5.15.53 5dd0993c36832d33820238fc8dc741ba801b7961<=
+br>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-33740&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-33741" rel=3D"noref=
+errer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-20=
+22-33741</a><br>
++# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2<b=
+r>
++# Patched in kernel since v5.19 4491001c2e0fa69efbb748c96ec96b100a5cdb7e<b=
+r>
++# Backported in version v5.4.204 ede57be88a5fff42cd00e6bcd071503194d398dd<=
+br>
++# Backported in version v5.10.129 4923217af5742a796821272ee03f8d6de15c0cca=
+<br>
++# Backported in version v5.15.53 ed3cfc690675d852c3416aedb271e0e7d179bf49<=
+br>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-33741&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-33742" rel=3D"noref=
+errer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-20=
+22-33742</a><br>
++# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2<b=
+r>
++# Patched in kernel since v5.19 2400617da7eebf9167d71a46122828bc479d64c9<b=
+r>
++# Backported in version v5.4.204 60ac50daad36ef3fe9d70d89cfe3b95d381db997<=
+br>
++# Backported in version v5.10.129 cbbd2d2531539212ff090aecbea9877c996e6ce6=
+<br>
++# Backported in version v5.15.53 6d0a9127279a4533815202e30ad1b3a39f560ba3<=
+br>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-33742&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-42895" rel=3D"noref=
+errer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-20=
+22-42895</a><br>
++# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2<b=
+r>
++# Patched in kernel since v6.1 b1a2cd50c0357f243b7435a732b4e62ba3157a2e<br=
+>
++# Backported in version v5.15.78 3e4697ffdfbb38a2755012c4e571546c89ab6422<=
+br>
++# Backported in version v5.10.154 26ca2ac091b49281d73df86111d16e5a76e43bd7=
+<br>
++# Backported in version v5.4.224 6949400ec9feca7f88c0f6ca5cb5fdbcef419c89<=
+br>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-42895&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-42896" rel=3D"noref=
+errer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-20=
+22-42896</a><br>
++# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2<b=
+r>
++# Patched in kernel since v6.1 711f8c3fb3db61897080468586b970c87c61d9e4<br=
+>
++# Backported in version v5.4.226 0d87bb6070361e5d1d9cb391ba7ee73413bc109b<=
+br>
++# Backported in version v5.10.154 6b6f94fb9a74dd2891f11de4e638c6202bc89476=
+<br>
++# Backported in version v5.15.78 81035e1201e26d57d9733ac59140a3e29befbc5a<=
+br>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-42896&quot;<br>
++<br>
++<br>
++# 2023<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2023-0266" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+3-0266</a><br>
++# Introduced in version v2.6.12 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2<b=
+r>
++# Patched in kernel since v6.2 56b88b50565cd8b946a2d00b0c83927b7ebb055e<br=
+>
++# Backported in version v5.15.88 26350c21bc5e97a805af878e092eb8125843fe2c<=
+br>
++# Backported in version v6.1.6 d6ad4bd1d896ae1daffd7628cd50f124280fb8b1<br=
+>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2023-0266&quot;<br>
++<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2023-0394" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+3-0394</a><br>
++# Introduced in version 2.6.12 357b40a18b04c699da1d45608436e9b76b50e251<br=
+>
++# Patched in kernel since v6.2 cb3e9864cdbe35ff6378966660edbcbac955fe17<br=
+>
++# Backported in version v5.4.229 3998dba0f78a59922b0ef333ccfeb58d9410cd3d<=
+br>
++# Backported in version v5.10.164 6c9e2c11c33c35563d34d12b343d43b5c12200b5=
+<br>
++# Backported in version v5.15.89 456e3794e08a0b59b259da666e31d0884b376bcf<=
+br>
++# Backported in version v6.1.7 0afa5f0736584411771299074bbeca8c1f9706d4<br=
+>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2023-0394&quot;<br>
++<br>
++# Wrong CPE in NVD database<br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-3563" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+2-3563</a><br>
++# <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2022-3637" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+2-3637</a><br>
++#=C2=A0Those issue do not affect the kernel, patchs listed on CVE pages li=
+nks to <a href=3D"https://git.kernel.org/pub/scm/bluetooth/bluez.git" rel=
+=3D"noreferrer noreferrer" target=3D"_blank">https://git.kernel.org/pub/scm=
+/bluetooth/bluez.git</a><br>
++CVE_CHECK_IGNORE +=3D &quot;CVE-2022-3563 CVE-2022-3637&quot;<br>
+<br>
+=C2=A0# qemu:qemu-native:qemu-system-native <a href=3D"https://web.nvd.nist=
+.gov/view/vuln/detail?vulnId=3DCVE-2021-20255" rel=3D"noreferrer noreferrer=
+" target=3D"_blank">https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-=
+2021-20255</a><br>
+=C2=A0# There was a proposed patch <a href=3D"https://lists.gnu.org/archive=
+/html/qemu-devel/2021-02/msg06098.html" rel=3D"noreferrer noreferrer" targe=
+t=3D"_blank">https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg06098=
+.html</a><br>
+-- <br>
+2.30.2<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#177787): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/177787" rel=3D"noreferrer noreferrer" target=3D"_bl=
+ank">https://lists.openembedded.org/g/openembedded-core/message/177787</a><=
+br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/97263529/5827=
+677" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openembe=
+dded.org/mt/97263529/5827677</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core+owner@lists.op=
+enembedded.org</a><br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openem=
+bedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:rybczynska@gmai=
+l.com" target=3D"_blank" rel=3D"noreferrer">rybczynska@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--000000000000b9c60e05f5b218b2--
 
