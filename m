@@ -2,37 +2,37 @@ Return-Path: <alexis.lothore@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85078C7EE32
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71E01C6FA8E
 	for <webhook@archiver.kernel.org>; Tue, 28 Feb 2023 18:10:40 +0000 (UTC)
 Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
- by mx.groups.io with SMTP id smtpd.web10.31358.1677607838541612569
+ by mx.groups.io with SMTP id smtpd.web10.31356.1677607837801557556
  for <openembedded-core@lists.openembedded.org>;
  Tue, 28 Feb 2023 10:10:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Nztw5QnO;
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=N4P9fc7m;
  spf=pass (domain: bootlin.com, ip: 217.70.178.231, mailfrom: alexis.lothore@bootlin.com)
 Received: (Authenticated sender: alexis.lothore@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 9948210000A;
+	by mail.gandi.net (Postfix) with ESMTPSA id 19448100002;
 	Tue, 28 Feb 2023 18:10:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1677607837;
+	t=1677607836;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
 	bh=Unk9yl6gWTtxlaAQ7t1O99MjRSqZ/vYRLkLlE4rgY2Y=;
-	b=Nztw5QnOsqdtmAaHLOVgLxQ9NdV48p+uLvgdOn1MPsM/EtzDICFaumsKm+tWrZk+r19H0b
-	76d0SlVi62Wf7WQiZI6Mb2tOhi0dmlQEkNPKf7CCAtrpeR7t0/88MYH25jQ21On7RtHolt
-	dYmcrx5l+0F6STXj+uTIRgaV4yo/D2DOUm9zz8tLfUml67pkFHEcQTC79F6kij9Nio3YiZ
-	1mSNAKSqemQUWNA+RQ7HnL80cI/58l5p4H3hTZQVuAA4f33OkBtGEIaWhvYws9lGDe2oZl
-	uYnCys2Hjfk6HR7RL8gNsE4txG7XhAm37APWGti9c6olBbbITswRIWp12HT4uA==
+	b=N4P9fc7mYNKBsj2urmPaKWoQI8y/XKNhBET+pEz7gqPJzFd4r4X2uUs+f4YSFmr+YTbvsc
+	KbKQZrzVrJIL2tfocb+k2PiHE16mLQ5+N+SuJfE3fy3Q+kJDKmNB9C/zl/Nn/qd+hEmOwI
+	vOGWL5UbLJqrDqfef5C75pTd0sH0d/rzHCoKGcZSXaKYstAalDPV7bccC1ldsrPRmGZs4u
+	4qzUY+bVaNv9yQjJnSH8svpUUbQZyhveNqhMlBUmwvgxEi2cTC7+hUIUYs9cwr3+dHNf/E
+	0BL9wn/hvJFZaUEPzFuMBuvyFwA8r17Cfu6MzQmQ9lirLY6sIZIMxNhv1lwyRw==
 From: alexis.lothore@bootlin.com
 To: openembedded-core@lists.openembedded.org
 Cc: alexandre.belloni@bootlin.com,
 	thomas.petazzoni@bootlin.com
-Subject: [PATCH 2/6] oeqa/selftest/resulttool: fix ptest tests
-Date: Tue, 28 Feb 2023 19:10:47 +0100
-Message-Id: <20230228181052.4191521-4-alexis.lothore@bootlin.com>
+Subject: [PATCH 2/6] oeqa/selftest/resulttool: fix ptest filtering tests
+Date: Tue, 28 Feb 2023 19:10:46 +0100
+Message-Id: <20230228181052.4191521-3-alexis.lothore@bootlin.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230228181052.4191521-1-alexis.lothore@bootlin.com>
 References: <20230228181052.4191521-1-alexis.lothore@bootlin.com>
@@ -43,7 +43,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 28 Feb 2023 18:10:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177849
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177848
 
 From: Alexis Lothoré <alexis.lothore@bootlin.com>
 
