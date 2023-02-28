@@ -1,105 +1,153 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alexis.lothore@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DA84C64EC7
-	for <webhook@archiver.kernel.org>; Tue, 28 Feb 2023 17:50:10 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web10.30711.1677606608615592629
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85078C7EE32
+	for <webhook@archiver.kernel.org>; Tue, 28 Feb 2023 18:10:40 +0000 (UTC)
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
+ by mx.groups.io with SMTP id smtpd.web10.31358.1677607838541612569
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Feb 2023 09:50:09 -0800
+ Tue, 28 Feb 2023 10:10:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IkCYmCaj;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id q16so10671707wrw.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Feb 2023 09:50:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ydExzQl9m3QIrgGGj6/10uDPfkIY3tehawXw47xLLC0=;
-        b=IkCYmCaj/hIrA/6nFE6jgchK01QF1xdDXPwzZAi/LBmizO4sENmANWTZYqqgG9pQhB
-         ZETiP6OnioBd8GnsWLDSbGBFZW9zb6ZJWAUKQZ53iaL9bRnyLG+3Iw2ncQq64ue5NStv
-         mqMZ+9QpxyA7pILepQqPwbgNdyHq93H76lhco=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ydExzQl9m3QIrgGGj6/10uDPfkIY3tehawXw47xLLC0=;
-        b=gI7VCfgHn+HYv9UoiPi4qY5QxBEmSWzR8VMqJWaI+Nom3XGrwxXtenxn2ASg/ulX2+
-         ENCdt48YsG2hRbfSO1Qv5Fr3+ozbQ+J8estzp3/V677NyAHA5bfe/q0dnoDEIhXnQc1u
-         nDiE8wwAY7KOxaQNUA0ryAI9f3+/GMXB1fiImLlYJL1AgTh126gtGx9LLTYvbiDgbItb
-         bNa2snHoxMzM73nrEX1wumjwx1dg+DveUYTBfe+xYXm7jPkdvRgIsGEiulC7tEKjgpoM
-         oo13EDSS0gXdtudC80XIT2Z7PBtLIYYdL/wfvf9Y7jANUxy9c5rGXdHMLm9MnISj4NtU
-         2qyQ==
-X-Gm-Message-State: AO0yUKUa8O6NHJafBw9zIZ81uGAIC5QyPbYZ9xsgXOcm6cLEHf3BQZ8w
-	f9ZjOnEBmKyuIMK949QPyjBHbQ==
-X-Google-Smtp-Source: AK7set+ZE9LiU+dQzCJ8brUVEJZ/75Mtndqj8u19oozLrffk9uN8YukHzqdN8+afBRFWvn3bUWjH0w==
-X-Received: by 2002:a05:6000:38e:b0:2c5:4c9f:cf3b with SMTP id u14-20020a056000038e00b002c54c9fcf3bmr10582489wrf.7.1677606606902;
-        Tue, 28 Feb 2023 09:50:06 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:ba1a:ef91:9631:3e11? ([2001:8b0:aba:5f3c:ba1a:ef91:9631:3e11])
-        by smtp.gmail.com with ESMTPSA id y14-20020adfee0e000000b002c71b4d476asm10612524wrn.106.2023.02.28.09.50.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Feb 2023 09:50:06 -0800 (PST)
-Message-ID: <e5614f07a3ec48650b1bcea2a3df570e725234d2.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] binutils: Enable --enable-new-dtags
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, Alexandre Belloni
-	 <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Feb 2023 17:50:05 +0000
-In-Reply-To: <CAMKF1sqGofMPYDJXC55N3Cy+H2q7N__KNHw6NWn8YkfD8ePkPA@mail.gmail.com>
-References: <20230223065816.3151823-1-raj.khem@gmail.com>
-	 <Y/4pZDsT0R9iSH+m@mail.local>
-	 <CAMKF1sqGofMPYDJXC55N3Cy+H2q7N__KNHw6NWn8YkfD8ePkPA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3-1 
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Nztw5QnO;
+ spf=pass (domain: bootlin.com, ip: 217.70.178.231, mailfrom: alexis.lothore@bootlin.com)
+Received: (Authenticated sender: alexis.lothore@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 9948210000A;
+	Tue, 28 Feb 2023 18:10:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1677607837;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Unk9yl6gWTtxlaAQ7t1O99MjRSqZ/vYRLkLlE4rgY2Y=;
+	b=Nztw5QnOsqdtmAaHLOVgLxQ9NdV48p+uLvgdOn1MPsM/EtzDICFaumsKm+tWrZk+r19H0b
+	76d0SlVi62Wf7WQiZI6Mb2tOhi0dmlQEkNPKf7CCAtrpeR7t0/88MYH25jQ21On7RtHolt
+	dYmcrx5l+0F6STXj+uTIRgaV4yo/D2DOUm9zz8tLfUml67pkFHEcQTC79F6kij9Nio3YiZ
+	1mSNAKSqemQUWNA+RQ7HnL80cI/58l5p4H3hTZQVuAA4f33OkBtGEIaWhvYws9lGDe2oZl
+	uYnCys2Hjfk6HR7RL8gNsE4txG7XhAm37APWGti9c6olBbbITswRIWp12HT4uA==
+From: alexis.lothore@bootlin.com
+To: openembedded-core@lists.openembedded.org
+Cc: alexandre.belloni@bootlin.com,
+	thomas.petazzoni@bootlin.com
+Subject: [PATCH 2/6] oeqa/selftest/resulttool: fix ptest tests
+Date: Tue, 28 Feb 2023 19:10:47 +0100
+Message-Id: <20230228181052.4191521-4-alexis.lothore@bootlin.com>
+X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230228181052.4191521-1-alexis.lothore@bootlin.com>
+References: <20230228181052.4191521-1-alexis.lothore@bootlin.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Feb 2023 17:50:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177846
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Feb 2023 18:10:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177849
 
-On Tue, 2023-02-28 at 08:43 -0800, Khem Raj wrote:
-> On Tue, Feb 28, 2023 at 8:18 AM Alexandre Belloni
-> <alexandre.belloni@bootlin.com> wrote:
-> >=20
-> > Hello Khem,
-> >=20
-> > As discussed I gave it a go again and got this:
-> >=20
-> > > /home/pokybuild/yocto-worker/qemuarm/build/build/tmp/hosttools/ld: li=
-nux-tdep.o: in function `linux_corefile_thread(thread_info*, linux_corefile=
-_thread_data*)':
-> > > linux-tdep.c:(.text+0x13ac): undefined reference to `gcore_elf_build_=
-thread_register_notes(gdbarch*, thread_info*, gdb_signal, bfd*, std::unique=
-_ptr<char, gdb::xfree_deleter<char> >*, int*)'
-> > > /home/pokybuild/yocto-worker/qemuarm/build/build/tmp/hosttools/ld: li=
-nux-tdep.o: in function `linux_make_corefile_notes(gdbarch*, bfd*, int*)':
-> > > linux-tdep.c:(.text+0x49d7): undefined reference to `gcore_elf_make_t=
-desc_note(bfd*, std::unique_ptr<char, gdb::xfree_deleter<char> >*, int*)'
-> > > collect2: error: ld returned 1 exit status
-> > > make[2]: *** [Makefile:2149: gdb] Error 1
-> > > make[2]: Leaving directory '/home/pokybuild/yocto-worker/qemuarm/buil=
-d/build/tmp/work/x86_64-linux/gdb-cross-arm/13.1-r0/build-arm-poky-linux-gn=
-ueabi/gdb'
-> > > make[1]: *** [Makefile:11122: all-gdb] Error 2
-> > > make[1]: Leaving directory '/home/pokybuild/yocto-worker/qemuarm/buil=
-d/build/tmp/work/x86_64-linux/gdb-cross-arm/13.1-r0/build-arm-poky-linux-gn=
-ueabi'
-> > > make: *** [Makefile:1005: all] Error 2
-> > > ERROR: oe_runmake failed
->=20
-> Is this host running updated buildtools tarball after the binutils ld
-> search path fix ?
+From: Alexis Lothoré <alexis.lothore@bootlin.com>
 
-Yes, it should be.
+There are multiple issues with the tests for the ptest fixup mechanism
+introduced in c45d58f003e8d8b323169ca9d479dc49c43a9974:
+- the feature does not impact regression.can_be_compared but directly the
+  comparison step in regression.regression_common
+- the "status" field was wrong ("STATUS"), which prevents tests comparison
+- there is a typo babeltrace2 ptest result name
 
-Cheers,
+Signed-off-by: Alexis Lothoré <alexis.lothore@bootlin.com>
+---
+ .../oeqa/selftest/cases/resulttooltests.py    | 80 ++++++++++---------
+ 1 file changed, 44 insertions(+), 36 deletions(-)
 
-Richard
+diff --git a/meta/lib/oeqa/selftest/cases/resulttooltests.py b/meta/lib/oeqa/selftest/cases/resulttooltests.py
+index f059991c19c..8489ae8eb52 100644
+--- a/meta/lib/oeqa/selftest/cases/resulttooltests.py
++++ b/meta/lib/oeqa/selftest/cases/resulttooltests.py
+@@ -305,39 +305,47 @@ class ResultToolTests(OESelftestTestCase):
+                         msg="incorrect ltpresult filtering, matching ltpresult content should be compared")
+ 
+     def test_can_match_non_static_ptest_names(self):
+-        base_configuration = {"configuration": {
+-            "TEST_TYPE": "runtime",
+-            "MACHINE": "qemux86"
+-        }, "result": {
+-            "ptestresult.lttng-tools.foo_-_bar_-_moo": {
+-                "STATUS": "PASSED"
+-            },
+-            "ptestresult.babeltrace.bar_-_moo_-_foo": {
+-                "STATUS": "PASSED"
+-            },
+-            "ptestresult.babletrace2.moo_-_foo_-_bar": {
+-                "STATUS": "PASSED"
+-            },
+-            "ptestresult.curl.test_0000__foo_out_of_bar": {
+-                "STATUS": "PASSED"
+-            }
+-        }}
+-        target_configuration = {"configuration": {
+-            "TEST_TYPE": "runtime",
+-            "MACHINE": "qemux86"
+-        }, "result": {
+-            "ptestresult.lttng-tools.xxx_-_yyy_-_zzz": {
+-                "STATUS": "PASSED"
+-            },
+-            "ptestresult.babeltrace.yyy_-_zzz_-_xxx": {
+-                "STATUS": "PASSED"
+-            },
+-            "ptestresult.babletrace2.zzz_-_xxx_-_yyy": {
+-                "STATUS": "PASSED"
+-            },
+-            "ptestresult.curl.test_0000__xxx_out_of_yyy": {
+-                "STATUS": "PASSED"
+-            }
+-            }}
+-        self.assertTrue(regression.can_be_compared(self.logger, base_configuration, target_configuration),
+-                        msg="incorrect ptests filtering, tests shoould be compared if prefixes match")
++        base_configuration = {"a": {
++            "conf_X": {
++                "configuration": {
++                    "TEST_TYPE": "runtime",
++                    "MACHINE": "qemux86"
++                }, "result": {
++                    "ptestresult.lttng-tools.foo_-_bar_-_moo": {
++                        "status": "PASSED"
++                    },
++                    "ptestresult.babeltrace.bar_-_moo_-_foo": {
++                        "status": "PASSED"
++                    },
++                    "ptestresult.babeltrace2.moo_-_foo_-_bar": {
++                        "status": "PASSED"
++                    },
++                    "ptestresult.curl.test_0000__foo_out_of_bar": {
++                        "status": "PASSED"
++                    }
++                }}}}
++        target_configuration = {"a": {
++            "conf_Y": {
++                "configuration": {
++                    "TEST_TYPE": "runtime",
++                    "MACHINE": "qemux86"
++                }, "result": {
++                    "ptestresult.lttng-tools.foo_-_yyy_-_zzz": {
++                        "status": "PASSED"
++                    },
++                    "ptestresult.babeltrace.bar_-_zzz_-_xxx": {
++                        "status": "PASSED"
++                    },
++                    "ptestresult.babeltrace2.moo_-_xxx_-_yyy": {
++                        "status": "PASSED"
++                    },
++                    "ptestresult.curl.test_0000__xxx_out_of_yyy": {
++                        "status": "PASSED"
++                    }
++                }}}}
++        regression.fixup_ptest_names(base_configuration, self.logger)
++        regression.fixup_ptest_names(target_configuration, self.logger)
++        result, resultstring = regression.compare_result(
++            self.logger, "A", "B", base_configuration["a"]["conf_X"], target_configuration["a"]["conf_Y"])
++        self.assertDictEqual(
++            result, {}, msg=f"ptests should be compared: {resultstring}")
+-- 
+2.39.1
+
 
