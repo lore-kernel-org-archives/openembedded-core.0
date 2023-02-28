@@ -2,101 +2,82 @@ Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A2D8C64EC4
-	for <webhook@archiver.kernel.org>; Tue, 28 Feb 2023 22:17:43 +0000 (UTC)
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
- by mx.groups.io with SMTP id smtpd.web11.7102.1677622661740833458
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E19AC7EE30
+	for <webhook@archiver.kernel.org>; Tue, 28 Feb 2023 22:45:13 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web11.7768.1677624308269430976
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Feb 2023 14:17:42 -0800
+ Tue, 28 Feb 2023 14:45:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=B3PXjq87;
- spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: alexandre.belloni@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=VkgBdpP/;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexandre.belloni@bootlin.com)
 Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 2C45760002;
-	Tue, 28 Feb 2023 22:17:39 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 36CB21C0002;
+	Tue, 28 Feb 2023 22:45:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1677622659;
+	t=1677624305;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=sYs+kP7C0kBtHKWCnvaInz31bGb2YBkf2nZpc+hagfQ=;
-	b=B3PXjq87TCxGu93IaJBuGyAHGJt1KZICK+GknfTBrbSo9AUgz2BuacNV5QxVp9ap5RIgqd
-	4aIqwROn+PA+v5qVmFtLfT0jvoF6fzmxUtCZLhQ8dDZZwRtWkGHuX57tf2NSCO1j8+xWB7
-	tx/QQRkOExO7qdTsjEQrP415X5QnMbl/i9AOZGhhYFin6ZImZtjKZOrmren4p78YF7MS7Y
-	xAmxv3mz7mB+RFgNONe0iL3TQfGwTm3S5myaqvIjvwo+FaOwiwUbkdXAYdT9HXjHSImUBO
-	E6t8DkaNuxHqsTSgDyLzVLgQd4GuDiQeG0iicez01srRdEeWdnJX/Y2MESmUMw==
-Date: Tue, 28 Feb 2023 23:17:38 +0100
+	bh=ICjnQaF5eBTYg1pPtK1X8Nz03RpMZd12vd3kCeCfaQQ=;
+	b=VkgBdpP/KcX6+a7j0aphUUAhV96fDIRXTL2shzJrusdiXf1j3w2wC9Yd9Hj8nOMvm6uvbc
+	nlpIVm36ckbiFwOAvVQjDuwbfPWUymknkkJUdXFDVRBXCNMOMr30U7u//DTp6TOZwsrLtX
+	K1UrjO1ip0mHK8gGsGPt8ljxAnRU/SEVqyADl24v0dQ5KWGwkdxzKLZtiTRC9h7yL91EIA
+	pZwha3LSC99WaBKfAvIrl/ZRl2xiovbYxsUacT7QmpDe9fJAiuzWQIizgZbN5njl0dMKEZ
+	oN2QelHMKBk31+sDEHSybFCxgsECMcpNddk4ETEwnmsWU8Alyuaqr4ryTJOV4Q==
+Date: Tue, 28 Feb 2023 23:45:04 +0100
 From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: wangmy <wangmy@fujitsu.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] enchant2: upgrade 2.3.3 -> 2.3.4
-Message-ID: <Y/59glKJ9prAGatj@mail.local>
-References: <1677577759-20868-1-git-send-email-wangmy@fujitsu.com>
- <1677577759-20868-2-git-send-email-wangmy@fujitsu.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] binutils: Enable --enable-new-dtags
+Message-ID: <Y/6D8FQZMWzf4TZq@mail.local>
+References: <20230223065816.3151823-1-raj.khem@gmail.com>
+ <Y/4pZDsT0R9iSH+m@mail.local>
+ <CAMKF1sqGofMPYDJXC55N3Cy+H2q7N__KNHw6NWn8YkfD8ePkPA@mail.gmail.com>
+ <e5614f07a3ec48650b1bcea2a3df570e725234d2.camel@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1677577759-20868-2-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <e5614f07a3ec48650b1bcea2a3df570e725234d2.camel@linuxfoundation.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Feb 2023 22:17:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177858
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Feb 2023 22:45:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177859
 
-Hello,
+On 28/02/2023 17:50:05+0000, Richard Purdie wrote:
+> On Tue, 2023-02-28 at 08:43 -0800, Khem Raj wrote:
+> > On Tue, Feb 28, 2023 at 8:18 AM Alexandre Belloni
+> > <alexandre.belloni@bootlin.com> wrote:
+> > > 
+> > > Hello Khem,
+> > > 
+> > > As discussed I gave it a go again and got this:
+> > > 
+> > > > /home/pokybuild/yocto-worker/qemuarm/build/build/tmp/hosttools/ld: linux-tdep.o: in function `linux_corefile_thread(thread_info*, linux_corefile_thread_data*)':
+> > > > linux-tdep.c:(.text+0x13ac): undefined reference to `gcore_elf_build_thread_register_notes(gdbarch*, thread_info*, gdb_signal, bfd*, std::unique_ptr<char, gdb::xfree_deleter<char> >*, int*)'
+> > > > /home/pokybuild/yocto-worker/qemuarm/build/build/tmp/hosttools/ld: linux-tdep.o: in function `linux_make_corefile_notes(gdbarch*, bfd*, int*)':
+> > > > linux-tdep.c:(.text+0x49d7): undefined reference to `gcore_elf_make_tdesc_note(bfd*, std::unique_ptr<char, gdb::xfree_deleter<char> >*, int*)'
+> > > > collect2: error: ld returned 1 exit status
+> > > > make[2]: *** [Makefile:2149: gdb] Error 1
+> > > > make[2]: Leaving directory '/home/pokybuild/yocto-worker/qemuarm/build/build/tmp/work/x86_64-linux/gdb-cross-arm/13.1-r0/build-arm-poky-linux-gnueabi/gdb'
+> > > > make[1]: *** [Makefile:11122: all-gdb] Error 2
+> > > > make[1]: Leaving directory '/home/pokybuild/yocto-worker/qemuarm/build/build/tmp/work/x86_64-linux/gdb-cross-arm/13.1-r0/build-arm-poky-linux-gnueabi'
+> > > > make: *** [Makefile:1005: all] Error 2
+> > > > ERROR: oe_runmake failed
+> > 
+> > Is this host running updated buildtools tarball after the binutils ld
+> > search path fix ?
+> 
+> Yes, it should be.
 
-This failed on the autobuilders:
+Khem, you are probably right that this is host related, this failed
+again on ubuntu2004:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/2471/steps/12/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/6734/steps/11/logs/errors
+https://autobuilder.yoctoproject.org/typhoon/#/builders/74/builds/6689/steps/14/logs/stdio
 
-On 28/02/2023 17:49:16+0800, wangmy wrote:
-> From: Wang Mingyu <wangmy@fujitsu.com>
-> 
-> Changelog:
-> ===========
-> - Document the personal wordlist format.
-> - Improve the man pages in various ways, and make online versions, now linked
->   from the web site.
-> - Fix some potential crashes (double-free and NULL dereferences).
-> - Update the build system to use autoconf 2.71.
-> 
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> ---
->  .../enchant/{enchant2_2.3.3.bb => enchant2_2.3.4.bb}            | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-support/enchant/{enchant2_2.3.3.bb => enchant2_2.3.4.bb} (92%)
-> 
-> diff --git a/meta/recipes-support/enchant/enchant2_2.3.3.bb b/meta/recipes-support/enchant/enchant2_2.3.4.bb
-> similarity index 92%
-> rename from meta/recipes-support/enchant/enchant2_2.3.3.bb
-> rename to meta/recipes-support/enchant/enchant2_2.3.4.bb
-> index c892f570c4..fe28d323c2 100644
-> --- a/meta/recipes-support/enchant/enchant2_2.3.3.bb
-> +++ b/meta/recipes-support/enchant/enchant2_2.3.4.bb
-> @@ -12,7 +12,7 @@ DEPENDS = "glib-2.0"
->  inherit autotools pkgconfig github-releases
->  
->  SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/enchant-${PV}.tar.gz"
-> -SRC_URI[sha256sum] = "3da12103f11cf49c3cf2fd2ce3017575c5321a489e5b9bfa81dd91ec413f3891"
-> +SRC_URI[sha256sum] = "1f7e26744db1c9a0fea61d2169f4e5c1ce435cf8c2731c37e3e4054119e994a0"
->  
->  GITHUB_BASE_URI = "https://github.com/AbiWord/enchant/releases"
->  
-> -- 
-> 2.34.1
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#177827): https://lists.openembedded.org/g/openembedded-core/message/177827
-> Mute This Topic: https://lists.openembedded.org/mt/97287062/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
+I'm wondering whether this reproduces on master and we have simply been
+lucky.
 
 -- 
 Alexandre Belloni, co-owner and COO, Bootlin
