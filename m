@@ -1,101 +1,93 @@
-Return-Path: <ernstp@gmail.com>
+Return-Path: <anna-lena.marx@inovex.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6592FC64EC7
-	for <webhook@archiver.kernel.org>; Tue, 28 Feb 2023 15:00:59 +0000 (UTC)
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
- by mx.groups.io with SMTP id smtpd.web11.25566.1677596455966016049
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4666EC64ED6
+	for <webhook@archiver.kernel.org>; Tue, 28 Feb 2023 15:01:19 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web11.25578.1677596471811125237
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Feb 2023 07:00:56 -0800
+ Tue, 28 Feb 2023 07:01:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=av/hAd8w;
- spf=pass (domain: gmail.com, ip: 209.85.210.50, mailfrom: ernstp@gmail.com)
-Received: by mail-ot1-f50.google.com with SMTP id f19-20020a9d5f13000000b00693ce5a2f3eso5719531oti.8
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Feb 2023 07:00:55 -0800 (PST)
+ dkim=pass header.i=@inovex.de header.s=google header.b=UWQJ9Mkz;
+ spf=pass (domain: inovex.de, ip: 209.85.128.50, mailfrom: anna-lena.marx@inovex.de)
+Received: by mail-wm1-f50.google.com with SMTP id az36so6645709wmb.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Feb 2023 07:01:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1677596455;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=iFB3WYBaXDTlIzElP1EgWMpoPeQMz267e2En1Z49xJM=;
-        b=av/hAd8wb7g3Ygs0Ne5bu3Oj/bkNQ/L3SIJ41sJP/WOLK++zIULl1IKr4j0fKaMx0P
-         lr3LIXoUwue5LdTFn1ibvFiUeldGa2/OaDUo2iW4KjhI449cE1ngx0eJXaQu+iUj8ppF
-         HMmhjYmnERnp35eQzpZkocp3S92EsmLTPRZkCSvvZDFTuDZTuzQanGOP3QaAk61hAKFn
-         uSMXQdSzWRUFJxqS5KnnIQ9kRlKxTnJzVaQyA6YJ9tsDQBXrNwjvuEHxNEm/937IKySF
-         xg4p6bF6Ohvboar2TZ3jjyF1fVN8+8GEV5jKKe5PetIKvEDSGR8TItNLyLaklDZQPsPz
-         F7SQ==
+        d=inovex.de; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pUY+l1jgL+KSzh9ZPPAmJqoEGlQCy014eCXU7I4OJ9k=;
+        b=UWQJ9MkzM07jaatIEGM3wtLTDdboDp3I7BCFV65o92FxlmsN4wcu2hkquftmfv0GAd
+         dmfzkLKX6guQMKDB1oZ9Gl6jdEn6/t+qWTPqnZ2cOV7+RW0v66CCAGGyZuuD1N/+C/GG
+         PSpV+YijY5HcZoT4u+DRk11GSzmFQtnkz311J9tp9dsXSl4VJ/DKF+J1r7ZMkvc7QeAI
+         sR1UeQrwSxYSTQVQ2INUhklz0bV5yWRViHNssXPdfzVHiSFOh5TjUX+1lwAmFlqDq92j
+         jBm/qm+hjRjo4kWL3tlwufpkZhQFvoU4g39rdTJyH1cNmZqwhroIUIVikuDS1YGA2UZX
+         UFHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677596455;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=iFB3WYBaXDTlIzElP1EgWMpoPeQMz267e2En1Z49xJM=;
-        b=R8Zq7ppGOW0rVWJWat8dSLOxqemvVgKuslmMF8Z1yzFgP1oVtjYIGE44Wrai5+3ZDM
-         aT1DvZaerrY7rRM2QHj+C8ASUGG2TkDHdxglnKD5Pl2DslH4ZUTw3pS0gR2b6Y/50VsV
-         Bz4jgln6ApGoXLLqtD92NGZ335vNtGOZpC3EPF0P44BNqgtk7stw0dDdQxfT/S8H6lMY
-         8h7nfWDbHsFxjuSA76K367HiOt9nYtrsSky7V4tSYzUybwOCfwB/ubLwGOz8hQbWpugU
-         3ChBZF3RnUdW6YyYuDbCC3jjZKe2amWl9pjWMYw3vZnkmIr9UH66+DnOd8ppN1pq8KNc
-         smgw==
-X-Gm-Message-State: AO0yUKWF6euvWA0T4Q0WhcZ0fTKVErfNPIH0nbxzDxhkDM7kubmUzARh
-	wYptIB34LSNLThsE8tBvCKYP3M4grBIofvMbv/OP9RSm
-X-Google-Smtp-Source: AK7set9DPnHG3n6Ig9XvUcAjluCmcXvMOP6sP3hyjMuk469/XJA3uBytVRFhSC+1cMiFWtDM7z0oWodQs5PBHW0OUpA=
-X-Received: by 2002:a05:6830:438e:b0:693:bdd8:7b32 with SMTP id
- s14-20020a056830438e00b00693bdd87b32mr1768289otv.3.1677596455151; Tue, 28 Feb
- 2023 07:00:55 -0800 (PST)
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pUY+l1jgL+KSzh9ZPPAmJqoEGlQCy014eCXU7I4OJ9k=;
+        b=FWnZfdakIgWZn66sDCkDQOsL4yVBJ9A0dP6ogqS4zYW/AL/wx1TPeusuyPyVMYzY0p
+         kYKFeXwco9VIfh4zg8uodk55JHWYMGaZmYc208XeNeb8Rf1crOAUH+cYMQSftc0hbyFZ
+         yEZnZM4XRaOzIlb7Y8JTHm7nuy5PfJORg5xMBqL/WgsCWKiAAV4dPXneNETu8O/c0fZN
+         jp24bwzCbh7EkH2zoB1moWHXVbSAgj7AGCynXF+hnJAYhSQl1Hn6CCBF0/sW077777r+
+         wYHCAwQ6wL21w70WrVumYlbi+orGIIGdBiUpUgdiDXya8H1CoCqLNHo9RhmGbjsDE1Rj
+         3ukg==
+X-Gm-Message-State: AO0yUKWJVsdjpDpA8RUGDCMueTXsHWdZGZZCg7dwUFX5JUhWPr7axruk
+	scSY8tVh7YUOfQzQ8DhYEkFK0VPbkNq4Lv5k+8wFn0xwbnCSKv+EO7OxCJsiEu2nL5kInFXBkx+
+	JNNhen+phIJzkiQkjgPHtvvHpkIFiz70E/I+kEeSPcMQTx3E8VNIVsdY1LxW9qC2cXHJqV/vsWq
+	44kBC5TsYP3Lc7MLRP2A6dD6QB6Jc=
+X-Google-Smtp-Source: AK7set+EhT9MFc7KwRoBEmEHYaob/Kevnh1ycqgFL9rekLLFkn/dXnNccwqBePgjr3rGQnDWy5/vXA==
+X-Received: by 2002:a05:600c:45cb:b0:3e1:374:8b66 with SMTP id s11-20020a05600c45cb00b003e103748b66mr2162069wmo.40.1677596469962;
+        Tue, 28 Feb 2023 07:01:09 -0800 (PST)
+Received: from Dell.fritz.box ([2001:9e8:3860:6700:ca25:e36:4786:4ec8])
+        by smtp.gmail.com with ESMTPSA id l8-20020a05600c1d0800b003de2fc8214esm13846688wms.20.2023.02.28.07.01.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Feb 2023 07:01:09 -0800 (PST)
+From: Anna-Lena Marx <anna-lena.marx@inovex.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Anna-Lena Marx <anna-lena.marx@inovex.de>
+Subject: [oe-core][PATCH 0/1] wic: Add support for F2FS in WIC rootfs plugin
+Date: Tue, 28 Feb 2023 16:00:57 +0100
+Message-Id: <cover.1677593618.git.anna-lena.marx@inovex.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-From: =?UTF-8?Q?Ernst_Sj=C3=B6strand?= <ernstp@gmail.com>
-Date: Tue, 28 Feb 2023 16:00:43 +0100
-Message-ID: <CAD=4a=Xi3cEf9KM-iB3nsLPEEJGupxVJZrMQ7qP9c7aSb3bJQQ@mail.gmail.com>
-Subject: PEP 517 and PEP 621 support on Dunfell?
-To: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000c92bcd05f5c3dcfd"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Feb 2023 15:00:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177837
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Feb 2023 15:01:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177838
 
---000000000000c92bcd05f5c3dcfd
-Content-Type: text/plain; charset="UTF-8"
+Hi there,
 
-Hi,
+Yocto/OpenEmbedded supports generating F2FS rootfs in general 
+for years but WIC does not, yet.
+The patch adds support to do so in the "rootfs" WIC plugin.
 
-more and more Python projects are removing their setup.py and setup.cfg and
-switching to pyproject.toml. That unfortunately means you can't install
-those packages on Yocto Dunfell.
+Generating the F2FS rootfs follows mostly the way it is implemented
+in meta/classes-recipe/image_types.bbclass.
+Thereby, F2FS needs a minimum size in order to work correctly 
+as it uses an overprovision functionality.
 
-Would it be reasonable to backport support for this to Dunfell? I see that
-the changes done for this support was actually kindof big, and as usual
-updating setuptools will probably cause some old package version to fail to
-install instead.
+-- Anna
 
-Just throwing out the question to hear what others think about it!
+Anna-Lena Marx (1):
+  wic: Add support for F2FS in WIC rootfs plugin
 
-Regards
-//Ernst
+ meta/classes-recipe/image_types_wic.bbclass |  2 +-
+ meta/lib/oeqa/selftest/cases/wic.py         |  2 ++
+ meta/recipes-core/meta/wic-tools.bb         |  2 +-
+ scripts/lib/wic/help.py                     |  1 +
+ scripts/lib/wic/ksparser.py                 |  2 +-
+ scripts/lib/wic/misc.py                     |  1 +
+ scripts/lib/wic/partition.py                | 32 ++++++++++++++++++++-
+ 7 files changed, 38 insertions(+), 4 deletions(-)
 
---000000000000c92bcd05f5c3dcfd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+-- 
+2.39.2
 
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:arial,he=
-lvetica,sans-serif">Hi,</div><div class=3D"gmail_default" style=3D"font-fam=
-ily:arial,helvetica,sans-serif"><br></div><div class=3D"gmail_default" styl=
-e=3D"font-family:arial,helvetica,sans-serif">more and more Python projects =
-are removing their setup.py and setup.cfg and switching to pyproject.toml. =
-That unfortunately means you can&#39;t install those packages on Yocto Dunf=
-ell.</div><div class=3D"gmail_default" style=3D"font-family:arial,helvetica=
-,sans-serif"><br></div><div class=3D"gmail_default" style=3D"font-family:ar=
-ial,helvetica,sans-serif">Would it be reasonable to backport support for th=
-is to Dunfell? I see that the changes done for this support was actually ki=
-ndof big, and as usual updating setuptools will probably cause some old pac=
-kage version to fail to install instead.</div><div class=3D"gmail_default" =
-style=3D"font-family:arial,helvetica,sans-serif"><br></div><div class=3D"gm=
-ail_default" style=3D"font-family:arial,helvetica,sans-serif">Just throwing=
- out the question to hear what others think about it!</div><div class=3D"gm=
-ail_default" style=3D"font-family:arial,helvetica,sans-serif"><br></div><di=
-v class=3D"gmail_default" style=3D"font-family:arial,helvetica,sans-serif">=
-Regards</div><div class=3D"gmail_default" style=3D"font-family:arial,helvet=
-ica,sans-serif">//Ernst<br></div></div>
-
---000000000000c92bcd05f5c3dcfd--
 
