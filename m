@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36A1CC88C98
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A963C88CAE
 	for <webhook@archiver.kernel.org>; Wed,  1 Mar 2023 14:45:19 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.24037.1677681914619293332
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.24033.1677681914033756317
  for <openembedded-core@lists.openembedded.org>;
  Wed, 01 Mar 2023 06:45:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=QZoFrdcP;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101869da26f47-3454ca90-c7f2-416a-ae52-ae81cc5952e1-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=XbQYKyzL;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101869da26cf4-d7d0cbb0-7887-4b63-8bd7-29decfb71dac-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1677681913;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=G0mjBGOP8DethYDKecgCFNdR17op9j7xWRONF0rFVWU=;
-	b=QZoFrdcPrnEH5/SFSH+vq2g4VPYzOBa/MGws8AO5BkO5Dm+2B3R88X7rDbI78f3v
-	S2e1woyGwrO9TCrzQeMJ5F4PhXTvnbeRG9/vAB57jIb5Eye9tZP2mMey1wwbl1j9kgL
-	KO1TQkOOBrwyP4RbGxxTkre0IKPujNJ8swsLEskE=
+	bh=7MlTJsZX4NEGaLLnF4VWpYekxm7gU6WvC3BnsDFdOsI=;
+	b=XbQYKyzLClZHJiKROH8sUc3Xs2TBEN6W+5o3Z3RNCu/YG+JlgipfED1NiKffXJTw
+	U/YmDxEZR05s8usys9rXPcfHPHek5ie8EhS6V4FxdpdWvKR22O7wDVeHUAMPIXlquoS
+	a2xwVeql5y01TQc0iFm8ZsmpDJgwdtEWrLv5l0F8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1677681913;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=G0mjBGOP8DethYDKecgCFNdR17op9j7xWRONF0rFVWU=;
-	b=S6f0rJlfCNTfcA0azVCm2NNMU1ZL8AN+/iQWLTQpdEHYFdHLwzJpg47FDmen2hVJ
-	KGcw5t9CVDA5l/q7vdCv7fuqFceC++BfHdeuF80sSN/txRL+TVprFUhmkjWnOs3ejYJ
-	rd1+QU5URysaQ+ZSQVkFe1GZvwRBAxb1+Wq6dRjM=
-Content-Type: multipart/mixed; boundary="===============2516037856574357148=="
+	bh=7MlTJsZX4NEGaLLnF4VWpYekxm7gU6WvC3BnsDFdOsI=;
+	b=egFLkGW+ixgDMyr1S4jEytgAb0iWvjJYMb1WYazbNvXhoHvqqnZBxFL+PJBfSSU8
+	AeL8+/8g4aqp35LMr2d0uIMlfAZ1rFDdzZVQU/XAioPvoh9de2wCTqHOjBM/rg9Vkyn
+	LBeMnJNiuVv54YWoBnXgQ481r0w3GqxP3heOl3ws=
+Content-Type: multipart/mixed; boundary="===============5492816190935392990=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-git: upgrading to 3.1.31 SUCCEEDED
-Message-ID: <010101869da26f47-3454ca90-c7f2-416a-ae52-ae81cc5952e1-000000@us-west-2.amazonses.com>
+Subject: [AUH] autoconf-archive: upgrading to 2023.02.20 SUCCEEDED
+Message-ID: <010101869da26cf4-d7d0cbb0-7887-4b63-8bd7-29decfb71dac-000000@us-west-2.amazonses.com>
 Date: Wed, 1 Mar 2023 14:45:13 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.03.01-54.240.27.191
+X-SES-Outgoing: 2023.03.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Mar 2023 14:45:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177901
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177893
 
---===============2516037856574357148==
+--===============5492816190935392990==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-git* to *3.1.31* has Succeeded.
+that the automatic attempt to upgrade the recipe *autoconf-archive* to *2023.02.20* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-git-upgrade-3.1.30-3.1.31.patch
+    - apply the patch: git am 0001-autoconf-archive-upgrade-2022.09.03-2023.02.20.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,70 +69,74 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============2516037856574357148==
+--===============5492816190935392990==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-git-upgrade-3.1.30-3.1.31.patch"
+ filename="0001-autoconf-archive-upgrade-2022.09.03-2023.02.20.patch"
 
-RnJvbSA3NmU2MzIxZWNhMzFmYzFhOWYxYzhjMzIxOTQ0MWMzZGZhNTA1ZTBjIE1vbiBTZXAgMTcg
+RnJvbSBlNGVkMWE1NzM5Nzg2NDE2NTYwZTRiNWUxZjUxYTVhMDQ4YTg1ODIyIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBNYXIgMjAyMyAwODoyMDoyOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtZ2l0OiB1cGdyYWRlIDMuMS4zMCAtPiAzLjEuMzEKCi0tLQogLi4uL3B5dGhvbi97cHl0
-aG9uMy1naXRfMy4xLjMwLmJiID0+IHB5dGhvbjMtZ2l0XzMuMS4zMS5iYn0gICAgIHwgMiArLQog
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1naXRfMy4xLjMwLmJiID0+IHB5dGhv
-bjMtZ2l0XzMuMS4zMS5iYn0gKDkyJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcHl0aG9uL3B5dGhvbjMtZ2l0XzMuMS4zMC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9w
-eXRob24vcHl0aG9uMy1naXRfMy4xLjMxLmJiCnNpbWlsYXJpdHkgaW5kZXggOTIlCnJlbmFtZSBm
-cm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1naXRfMy4xLjMwLmJiCnJl
-bmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtZ2l0XzMuMS4zMS5i
-YgppbmRleCA4MGY1MDAxOWIxLi4wOGI5ZjY2YmNiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtZ2l0XzMuMS4zMC5iYgorKysgYi9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtZ2l0XzMuMS4zMS5iYgpAQCAtMTIsNyArMTIsNyBAQCBQ
-WVBJX1BBQ0tBR0UgPSAiR2l0UHl0aG9uIgogCiBpbmhlcml0IHB5cGkgcHl0aG9uX3NldHVwdG9v
-bHNfYnVpbGRfbWV0YQogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNzY5YzJkODNlMTNmNWQ5Mzhi
-NzY4ODQ3OWRhMzc0YzRlM2Q0OWY3MTU0OWFhZjQ2MmI2NDZkYjk2MDJlYTZmOCIKK1NSQ19VUklb
-c2hhMjU2c3VtXSA9ICI4Y2UzYmNmNjlhZGZkZjdjN2Q1MDNlNzhmZDNiMWM0OTJhZjc4MmQ1ODg5
-M2I2NTBhZGIyYWM4OTEyZGRkNTczIgogCiBERVBFTkRTICs9ICIgJHtQWVRIT05fUE59LWdpdGRi
-IgogCi0tIAoyLjM5LjIKCg==
+CkRhdGU6IFdlZCwgMSBNYXIgMjAyMyAwNzo0NzoyNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGF1
+dG9jb25mLWFyY2hpdmU6IHVwZ3JhZGUgMjAyMi4wOS4wMyAtPiAyMDIzLjAyLjIwCgotLS0KIC4u
+Lm9uZi1hcmNoaXZlXzIwMjIuMDkuMDMuYmIgPT4gYXV0b2NvbmYtYXJjaGl2ZV8yMDIzLjAyLjIw
+LmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigt
+KQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9hdXRvY29uZi1hcmNoaXZlL3thdXRvY29u
+Zi1hcmNoaXZlXzIwMjIuMDkuMDMuYmIgPT4gYXV0b2NvbmYtYXJjaGl2ZV8yMDIzLjAyLjIwLmJi
+fSAoODUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9hdXRvY29uZi1hcmNo
+aXZlL2F1dG9jb25mLWFyY2hpdmVfMjAyMi4wOS4wMy5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9hdXRvY29uZi1hcmNoaXZlL2F1dG9jb25mLWFyY2hpdmVfMjAyMy4wMi4yMC5iYgpzaW1pbGFy
+aXR5IGluZGV4IDg1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvYXV0b2NvbmYt
+YXJjaGl2ZS9hdXRvY29uZi1hcmNoaXZlXzIwMjIuMDkuMDMuYmIKcmVuYW1lIHRvIG1ldGEvcmVj
+aXBlcy1kZXZ0b29scy9hdXRvY29uZi1hcmNoaXZlL2F1dG9jb25mLWFyY2hpdmVfMjAyMy4wMi4y
+MC5iYgppbmRleCA2NTk1YWM5OGJhLi42YmE3Y2RmM2ZlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvYXV0b2NvbmYtYXJjaGl2ZS9hdXRvY29uZi1hcmNoaXZlXzIwMjIuMDkuMDMu
+YmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2F1dG9jb25mLWFyY2hpdmUvYXV0b2NvbmYt
+YXJjaGl2ZV8yMDIzLjAyLjIwLmJiCkBAIC02LDcgKzYsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0g
+ImZpbGU6Ly9DT1BZSU5HO21kNT0xMWNjMmQzZWU1NzRmOWQ2YjdlZTc5N2JkY2U0ZDQyMyBcCiAg
+ICAgZmlsZTovL0NPUFlJTkcuRVhDRVBUSU9OO21kNT1mZGVmMTY4ZWJmZjNiYzJmMTM2NjRjMzY1
+YTVmYjUxNSIKIAogU1JDX1VSSSA9ICIke0dOVV9NSVJST1J9LyR7QlBOfS8ke0JQTn0tJHtQVn0u
+dGFyLnh6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImUwNzQ1NGYwMGQ4Y2FlNzkwN2JlZDQyZDA3
+NDc3OTg5Mjc4MDk5NDc2ODRkOTRjMzcyMDdhNGQ2M2EzMmY0MjMiCitTUkNfVVJJW3NoYTI1NnN1
+bV0gPSAiNzFkNDA0ODQ3OWFlMjhmMWY1Nzk0NjE5YzNkNzJkZjljMDFkZjQ5YjFjNjI4ZWY4NWZk
+ZTM3NTk2ZGMzMWEzMyIKIAogaW5oZXJpdCBhdXRvdG9vbHMgYWxsYXJjaCB0ZXhpbmZvCiAKLS0g
+CjIuMzkuMgoK
 
---===============2516037856574357148==
+--===============5492816190935392990==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-git: SRC_URI changed from "https://files.pythonhosted.org/packages/source/G/GitPython/GitPython-3.1.30.tar.gz" to "https://files.pythonhosted.org/packages/source/G/GitPython/GitPython-3.1.31.tar.gz"
-packages/core2-32-poky-linux/python3-git: PKGV changed from 3.1.30 [default] to 3.1.31 [default]
-packages/core2-32-poky-linux/python3-git: PV changed from "3.1.30" to "3.1.31"
-packages/core2-32-poky-linux/python3-git/python3-git-dbg: PKGV changed from 3.1.30 [default] to 3.1.31 [default]
-packages/core2-32-poky-linux/python3-git/python3-git-dbg: PV changed from "3.1.30" to "3.1.31"
-packages/core2-32-poky-linux/python3-git/python3-git-dev: PKGV changed from 3.1.30 [default] to 3.1.31 [default]
-packages/core2-32-poky-linux/python3-git/python3-git-dev: PV changed from "3.1.30" to "3.1.31"
-packages/core2-32-poky-linux/python3-git/python3-git-doc: PKGV changed from 3.1.30 [default] to 3.1.31 [default]
-packages/core2-32-poky-linux/python3-git/python3-git-doc: PV changed from "3.1.30" to "3.1.31"
-packages/core2-32-poky-linux/python3-git/python3-git-locale: PKGV changed from 3.1.30 [default] to 3.1.31 [default]
-packages/core2-32-poky-linux/python3-git/python3-git-locale: PV changed from "3.1.30" to "3.1.31"
-packages/core2-32-poky-linux/python3-git/python3-git-src: PKGV changed from 3.1.30 [default] to 3.1.31 [default]
-packages/core2-32-poky-linux/python3-git/python3-git-src: PV changed from "3.1.30" to "3.1.31"
-packages/core2-32-poky-linux/python3-git/python3-git-staticdev: PKGV changed from 3.1.30 [default] to 3.1.31 [default]
-packages/core2-32-poky-linux/python3-git/python3-git-staticdev: PV changed from "3.1.30" to "3.1.31"
-packages/core2-32-poky-linux/python3-git/python3-git: PKGV changed from 3.1.30 [default] to 3.1.31 [default]
-packages/core2-32-poky-linux/python3-git/python3-git: PKGSIZE changed from 1315316 to 1319857 (+0%)
-packages/core2-32-poky-linux/python3-git/python3-git: PV changed from "3.1.30" to "3.1.31"
-Changes to packages/core2-32-poky-linux/python3-git (sysroot):
-  /usr/lib/python3.11/site-packages/GitPython-3.1.30.dist-info moved to /usr/lib/python3.11/site-packages/GitPython-3.1.31.dist-info
+packages/all-poky-linux/autoconf-archive/autoconf-archive-doc: PV changed from "2022.09.03" to "2023.02.20"
+packages/all-poky-linux/autoconf-archive/autoconf-archive-doc: PKGV changed from 2022.09.03 [default] to 2023.02.20 [default]
+packages/all-poky-linux/autoconf-archive/autoconf-archive-doc: PKGSIZE changed from 46804 to 46923 (+0%)
+packages/all-poky-linux/autoconf-archive/autoconf-archive-src: PV changed from "2022.09.03" to "2023.02.20"
+packages/all-poky-linux/autoconf-archive/autoconf-archive-src: PKGV changed from 2022.09.03 [default] to 2023.02.20 [default]
+packages/all-poky-linux/autoconf-archive/autoconf-archive: PV changed from "2022.09.03" to "2023.02.20"
+packages/all-poky-linux/autoconf-archive/autoconf-archive: FILELIST: added "/usr/share/aclocal/ax_c_restrict.m4"
+packages/all-poky-linux/autoconf-archive/autoconf-archive: PKGV changed from 2022.09.03 [default] to 2023.02.20 [default]
+packages/all-poky-linux/autoconf-archive/autoconf-archive: PKGSIZE changed from 2126266 to 2130155 (+0%)
+packages/all-poky-linux/autoconf-archive: SRC_URI changed from "https://ftp.gnu.org/gnu/autoconf-archive/autoconf-archive-2022.09.03.tar.xz" to "https://ftp.gnu.org/gnu/autoconf-archive/autoconf-archive-2023.02.20.tar.xz"
+packages/all-poky-linux/autoconf-archive: PV changed from "2022.09.03" to "2023.02.20"
+packages/all-poky-linux/autoconf-archive: PKGV changed from 2022.09.03 [default] to 2023.02.20 [default]
+Changes to packages/all-poky-linux/autoconf-archive (sysroot):
+  /usr/share/aclocal/ax_c_restrict.m4 was added
+Changes to packages/x86_64-linux/autoconf-archive-native (sysroot):
+  /usr/share/aclocal/ax_c_restrict.m4 was added
 
---===============2516037856574357148==
+--===============5492816190935392990==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-32-poky-linux/python3-git (sysroot):
-  /usr/lib/python3.11/site-packages/GitPython-3.1.30.dist-info moved to /usr/lib/python3.11/site-packages/GitPython-3.1.31.dist-info
+packages/all-poky-linux/autoconf-archive/autoconf-archive: FILELIST: added "/usr/share/aclocal/ax_c_restrict.m4"
+Changes to packages/all-poky-linux/autoconf-archive (sysroot):
+  /usr/share/aclocal/ax_c_restrict.m4 was added
+Changes to packages/x86_64-linux/autoconf-archive-native (sysroot):
+  /usr/share/aclocal/ax_c_restrict.m4 was added
 
---===============2516037856574357148==--
+--===============5492816190935392990==--
 
