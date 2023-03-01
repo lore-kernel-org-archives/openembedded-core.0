@@ -1,190 +1,328 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18350C64ED6
-	for <webhook@archiver.kernel.org>; Wed,  1 Mar 2023 15:57:30 +0000 (UTC)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web11.26302.1677686239504518209
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57FE2C64ED6
+	for <webhook@archiver.kernel.org>; Wed,  1 Mar 2023 16:25:10 +0000 (UTC)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+ by mx.groups.io with SMTP id smtpd.web11.27266.1677687908570603393
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Mar 2023 07:57:19 -0800
+ Wed, 01 Mar 2023 08:25:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=D/mf8MAN;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f48.google.com with SMTP id 6-20020a17090a190600b00237c5b6ecd7so13274786pjg.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Mar 2023 07:57:19 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=N0gwE7Dp;
+ spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f177.google.com with SMTP id by8so14561288ljb.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Mar 2023 08:25:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1677686238;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZK9RoV98SXa76DjdyebrBjW2rvS+4cN3TjhwTWSKNNU=;
-        b=D/mf8MANu2/hN0GbVK5+77MKuAsPQ+pYyz1tzL3eN+PQPqSKKLTKzsPJyqsXZIN24k
-         U5DJS3Cym9wbEeoEyNhuPSEVXOA35hL22pd+zMrHOfRkDuLLaBPNhsUffdJOSI6UFSr8
-         HLN7WP0F/iBba7AbJqH+gJCmhe6MTJYdGyxoKXvnZXPBhsEWvCq65rkmmCUCggm/FGz3
-         PxA9yupXEgInBRRYNrjrLgHk6s8rWive3LOQfhIU8c3CgL0wQ6SWchhKzHGFWhkhVVxw
-         LnbfsEXhESG2ljw7BfMTZS5MJRXL/hUQPw7EPLTBsqsTuA/fbLNVTLeBR4ib2FT4wQ7r
-         hgtw==
+        d=gmail.com; s=20210112; t=1677687907;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LBnYzcWU9DwgNy10dyvufa0CF6fh4vKyrr0HCi8rHsU=;
+        b=N0gwE7DpLbWgHfR1R5Be2YLD39zw4a9T2ctpuKjrGEKzUFalmuHT2En7eUPsbOfrtX
+         hGG6Pjyg8Olkxa86geo7GkWrEyZar6IBDCHwvdgGzhVc+02TqHY46NacfAj3A550HHNk
+         J44Vk9/dB3kSFQw0FnC25IHcr1+uIJepiQQaasyIDuttXuPjjyS4S7BNSVt3t5Hbmone
+         jD7G2hyQZCPKevTZqGHL7P8oRgSGN5lDW05nwnWW3b8/MnGwRfxW57/S1fKzAhxDGrw8
+         uPhR3J42RVuI58kVdWA864m5o19/0K60nDoapu2aVBtbl2MPR/wAIirMaMRuh57j02fE
+         qs8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677686238;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZK9RoV98SXa76DjdyebrBjW2rvS+4cN3TjhwTWSKNNU=;
-        b=r79gS/RveEyixO7QAEh1ZbuuDc+m3pTlIvPJKwoAb0DDXAZnCIgGsh+n9eZ80p2Opl
-         g2HsU9yMzsraQhdYUcKsbLPNhQYetWOjHtKeU4WgjEVTFoC6APZhF39Is9WPW3y8nf7g
-         mNrmWaxTZkPAvpNOyI3q/p/HOvtnjvEo+IVZ9alCTtbicO+ilDckukDrfUqbAPz7njXN
-         WnAfrcZBgCVapqK78ciP9SJg/AdhQ9sVm/M2DElwQfS9QZQAJMtFQ3N475lvmsiK3aRx
-         ErN7lashOraWyUkyJPr5iaHYWQKYTXKP4XLX2vSjbNiS+v+//sPsLNi4NJcFAbSpcYq6
-         6YCg==
-X-Gm-Message-State: AO0yUKXyTjYodOvUEFHEdIyGXz+pXBHVoKgjGYUNgyqryjZz+arwdw+O
-	DE7AT7QaMppAXr3MPweZP2MIeLzWtmKriCE5LXY=
-X-Google-Smtp-Source: AK7set+sgo4s7ezYp9Vw9hVX4r8mTpg64cj+NCvtKa/1UBUdkNf2ogB8/Ju+IwU8hLwN9eB6eSSQ+w==
-X-Received: by 2002:a05:6a20:728b:b0:cc:a5d4:c334 with SMTP id o11-20020a056a20728b00b000cca5d4c334mr8537752pzk.10.1677686238176;
-        Wed, 01 Mar 2023 07:57:18 -0800 (PST)
-Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id k10-20020aa7820a000000b005a9ea5d43ddsm8372551pfi.174.2023.03.01.07.57.17
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Mar 2023 07:57:17 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][langdale 00/28] Pull request (cover letter only)
-Date: Wed,  1 Mar 2023 05:57:12 -1000
-Message-Id: <cover.1677685715.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20210112; t=1677687907;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LBnYzcWU9DwgNy10dyvufa0CF6fh4vKyrr0HCi8rHsU=;
+        b=g/g5s68s1ochGl2jeVJeh4aZzasbCD7Nf2m71/rbOcxXNdS1Eyk/yykMql+eorcutB
+         toEMl8fW1TI/jVwzj5824utiLySIyCHgYWYrfzFkX7nNNr58QrLdjj44BkDY+RB8denI
+         2vo6F0BRXlxyS8PPRgMAzbM8aydcOETu/LcqkVjVC4gt2BG3KPxABkMVKZ3/H5jNYqR/
+         J8uArLalmc+EvYsASSS146JbiHLfki8bvXVaJThYhXTrpqTXz9NWnUcYWgOWD0FL+kjl
+         6wsat213cylyy3d+ASFISSEzmhNV4tCIqVY2uNNChpl0xp7ZbL5tKHsmm3UFVioy37Se
+         aCBw==
+X-Gm-Message-State: AO0yUKX62vU4h0Zill4wT2S5aVVYM0Rr+Nb9b/CXlDdq0GQ8EVZYVOer
+	AWr7D2KlMAgM7+9MzYWpTddKt0ophFnQS3WYCOM=
+X-Google-Smtp-Source: AK7set/+xoVc4RkLR4iPImx54WUmAwfU8+Rp+cCs5XAsgrL6AfuTCP9Ti+Lq8s9S8Kgp57lk+ueLCJd7yJFeqRF/+wg=
+X-Received: by 2002:a05:651c:1307:b0:295:8c06:2501 with SMTP id
+ u7-20020a05651c130700b002958c062501mr2234070lja.5.1677687906639; Wed, 01 Mar
+ 2023 08:25:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <cover.1677593618.git.anna-lena.marx@inovex.de>
+ <d6eaaa6541a496112bfbd82401bf94d031741e59.1677593618.git.anna-lena.marx@inovex.de>
+ <Y/4b0dLAaxLcHKSc@mail.local> <CABFt5okSFyMcjJ506pgdu9jD00AFZco2XhNKQCRXUh8nQ_zPBA@mail.gmail.com>
+In-Reply-To: <CABFt5okSFyMcjJ506pgdu9jD00AFZco2XhNKQCRXUh8nQ_zPBA@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 1 Mar 2023 17:24:55 +0100
+Message-ID: <CANNYZj_a4PrXBZHU_2y8=dXumVsV2Zz2PtNTL9aRG94sRkEeZw@mail.gmail.com>
+Subject: Re: [oe-core][PATCH 1/1] wic: Add support for F2FS in WIC rootfs plugin
+To: anna-lena.marx@inovex.de
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Mar 2023 15:57:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177944
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Mar 2023 16:25:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177945
 
-The following changes since commit ab1e3000cee9f5f3496a7e67cc59b2e08a681a89:
+If f2fs support requires recipes that are not available in oe-core, is
+it possible to add that support (and tests) to the layer that has the
+needed recipes, e.g. meta-filesystems? In general, we try to avoid
+having things in oe-core that cannot be tested without adding other
+layers.
 
-  oeqa qemurunner.py: try to avoid reading one character at a time (2023-02-18 06:41:49 -1000)
+Alex
 
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/langdale-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/langdale-next
-
-Adrian Freihofer (1):
-  bblayers/setupwriters/oe-setup-layers: create dir if not exists
-
-Alexander Kanavin (5):
-  vim: update 9.0.1211 -> 9.0.1293 to resolve open CVEs
-  dbus: upgrade 1.14.4 -> 1.14.6
-  linux-firmware: upgrade 20230117 -> 20230210
-  wireless-regdb: upgrade 2022.08.12 -> 2023.02.13
-  bblayers/makesetup: skip git repos that are submodules
-
-Alexis Lothoré (1):
-  oeqa/selftest/resulttooltests: fix minor typo
-
-Bruce Ashfield (1):
-  lttng-modules: fix for kernel 6.2+
-
-Dmitry Baryshkov (2):
-  linux-firmware: properly set license for all Qualcomm firmware
-  linux-firmware: add yamato fw files to qcom-adreno-a2xx package
-
-Federico Pellegrin (1):
-  curl: fix dependencies when building with ldap/ldaps
-
-Joshua Watt (1):
-  classes/populate_sdk_base: Append cleandirs
-
-Kai Kang (1):
-  xserver-xorg: 21.1.6 -> 21.1.7
-
-Mateusz Marciniec (1):
-  sstatesig: Improve output hash calculation
-
-Mikko Rapeli (2):
-  oeqa ssh.py: fix hangs in run()
-  runqemu: kill qemu if it hangs
-
-Narpat Mali (1):
-  libseccomp: fix for the ptest result format
-
-Pavel Zhukov (1):
-  wic: Fix usage of fstype=none in wic
-
-Richard Purdie (1):
-  libssh2: Clean up ptest patch/coverage
-
-Ross Burton (3):
-  less: backport the fix for CVE-2022-46663
-  lib/buildstats: handle tasks that never finished
-  cml1: remove redundant addtask
-
-Saul Wold (1):
-  busybox: Fix depmod patch
-
-Siddharth Doshi (1):
-  openssl: Upgrade 3.0.7 -> 3.0.8
-
-Ulrich Ölmann (1):
-  kernel-yocto: fix kernel-meta data detection
-
-Wang Mingyu (2):
-  libjpeg-turbo: upgrade 2.1.5 -> 2.1.5.1
-  xwayland: upgrade 22.1.7 -> 22.1.8
-
-Xiangyu Chen (1):
-  dhcpcd: fix dhcpcd start failure on qemuppc64
-
- meta/classes-recipe/cml1.bbclass              |  1 -
- meta/classes-recipe/kernel-yocto.bbclass      |  2 +-
- meta/classes-recipe/populate_sdk_base.bbclass |  2 +-
- meta/lib/bblayers/makesetup.py                | 10 +++++
- .../bblayers/setupwriters/oe-setup-layers.py  |  2 +
- meta/lib/oe/sstatesig.py                      |  4 ++
- meta/lib/oeqa/core/target/ssh.py              | 39 ++++++++++++----
- .../oeqa/selftest/cases/resulttooltests.py    |  2 +-
- .../dhcpcd/dhcpcd_9.4.1.bb                    |  1 +
- ...x-SECCOMP_AUDIT_ARCH-missing-ppc64le.patch | 34 ++++++++++++++
- .../openssl/openssl/CVE-2022-3996.patch       | 43 ------------------
- .../{openssl_3.0.7.bb => openssl_3.0.8.bb}    |  3 +-
- ...001-depmod-Ignore-.debug-directories.patch |  2 +-
- .../dbus/{dbus_1.14.4.bb => dbus_1.14.6.bb}   |  4 +-
- .../less/files/CVE-2022-46663.patch           | 28 ++++++++++++
- meta/recipes-extended/less/less_608.bb        |  1 +
- ...urbo_2.1.5.bb => libjpeg-turbo_2.1.5.1.bb} |  2 +-
- ...-xorg_21.1.6.bb => xserver-xorg_21.1.7.bb} |  2 +-
- ...{xwayland_22.1.7.bb => xwayland_22.1.8.bb} |  2 +-
- ...20230117.bb => linux-firmware_20230210.bb} | 41 ++++++++++++++---
- ...ccessor-helpers-into-accessors.h-v6..patch | 45 +++++++++++++++++++
- .../lttng/lttng-modules_2.13.8.bb             |  1 +
- ....08.12.bb => wireless-regdb_2023.02.13.bb} |  2 +-
- meta/recipes-support/curl/curl_7.85.0.bb      |  4 +-
- .../libseccomp/files/run-ptest                |  3 ++
- ...nviroment-to-decide-if-a-test-is-bui.patch | 44 ------------------
- .../libssh2/libssh2/fix-ssh2-test.patch       | 23 ++++++++++
- .../libssh2/{files => libssh2}/run-ptest      |  3 +-
- .../recipes-support/libssh2/libssh2_1.10.0.bb |  3 +-
- meta/recipes-support/vim/vim.inc              |  4 +-
- scripts/lib/buildstats.py                     | 33 +++++++++++---
- scripts/lib/wic/partition.py                  |  5 +++
- scripts/runqemu                               | 24 ++++++----
- 33 files changed, 282 insertions(+), 137 deletions(-)
- create mode 100644 meta/recipes-connectivity/dhcpcd/files/0001-privsep-linux-fix-SECCOMP_AUDIT_ARCH-missing-ppc64le.patch
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2022-3996.patch
- rename meta/recipes-connectivity/openssl/{openssl_3.0.7.bb => openssl_3.0.8.bb} (98%)
- rename meta/recipes-core/dbus/{dbus_1.14.4.bb => dbus_1.14.6.bb} (98%)
- create mode 100644 meta/recipes-extended/less/files/CVE-2022-46663.patch
- rename meta/recipes-graphics/jpeg/{libjpeg-turbo_2.1.5.bb => libjpeg-turbo_2.1.5.1.bb} (97%)
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.6.bb => xserver-xorg_21.1.7.bb} (92%)
- rename meta/recipes-graphics/xwayland/{xwayland_22.1.7.bb => xwayland_22.1.8.bb} (95%)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20230117.bb => linux-firmware_20230210.bb} (96%)
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-btrfs-move-accessor-helpers-into-accessors.h-v6..patch
- rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2022.08.12.bb => wireless-regdb_2023.02.13.bb} (94%)
- delete mode 100644 meta/recipes-support/libssh2/files/0001-Don-t-let-host-enviroment-to-decide-if-a-test-is-bui.patch
- create mode 100644 meta/recipes-support/libssh2/libssh2/fix-ssh2-test.patch
- rename meta/recipes-support/libssh2/{files => libssh2}/run-ptest (67%)
-
--- 
-2.34.1
-
+On Wed, 1 Mar 2023 at 15:37, Anna-Lena Marx via lists.openembedded.org
+<anna-lena.marx=3Dinovex.de@lists.openembedded.org> wrote:
+>
+> Hi,
+>
+> took me a while to reproduce the failure locally.
+> It's because meta-oe and meta-filesystems are not as default included in =
+the bblayers.conf used for oe-selftest.
+>
+> I don't want to touch bblayers and I think this is not intended as it wou=
+ld be the same for e.g. erofs for which no test case was added.
+> Alexander Kanavin pointed me on the poky mailing list to these tests and =
+in fact, it's good to have them in general.
+> So what's the preferred way for oe-core?
+> Leave the tests and add the dependencies (for the specific tests) or just=
+ remove the test cases?
+>
+> -- Anna
+>
+>
+>
+>
+> Am Di., 28. Feb. 2023 um 16:20 Uhr schrieb Alexandre Belloni <alexandre.b=
+elloni@bootlin.com>:
+>>
+>> Hello,
+>>
+>> this failed on the autobuilders:
+>>
+>> ERROR: Nothing PROVIDES 'f2fs-tools-native' (but /home/pokybuild/yocto-w=
+orker/beaglebone/build/meta/recipes-sato/images/core-image-sato.bb, /home/p=
+okybuild/yocto-worker/beaglebone/build/meta/recipes-sato/images/core-image-=
+sato-sdk.bb, /home/pokybuild/yocto-worker/beaglebone/build/meta/recipes-cor=
+e/images/core-image-minimal.bb, /home/pokybuild/yocto-worker/beaglebone/bui=
+ld/meta/recipes-core/images/core-image-minimal-dev.bb, /home/pokybuild/yoct=
+o-worker/beaglebone/build/meta/recipes-core/images/core-image-ptest-all.bb =
+DEPENDS on or otherwise requires it). Close matches:
+>>   btrfs-tools-native
+>>   dosfstools-native
+>>   spirv-tools-native
+>>
+>> https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/6790/s=
+teps/11/logs/stdio
+>>
+>> On 28/02/2023 16:00:58+0100, Anna-Lena Marx via lists.openembedded.org w=
+rote:
+>> > Building F2FS rootfs is supported in Yocto/OpenEmbedded -
+>> > see image_types.bbclass, but not in WIC.
+>> > This adds it as a nice convenience feature.
+>> >
+>> > F2FS needs a minimum size of ~500M to operate correctly due to
+>> > an overprovision functionality.
+>> >
+>> > Signed-off-by: Anna-Lena Marx <anna-lena.marx@inovex.de>
+>> > ---
+>> >  meta/classes-recipe/image_types_wic.bbclass |  2 +-
+>> >  meta/lib/oeqa/selftest/cases/wic.py         |  2 ++
+>> >  meta/recipes-core/meta/wic-tools.bb         |  2 +-
+>> >  scripts/lib/wic/help.py                     |  1 +
+>> >  scripts/lib/wic/ksparser.py                 |  2 +-
+>> >  scripts/lib/wic/misc.py                     |  1 +
+>> >  scripts/lib/wic/partition.py                | 32 ++++++++++++++++++++=
+-
+>> >  7 files changed, 38 insertions(+), 4 deletions(-)
+>> >
+>> > diff --git a/meta/classes-recipe/image_types_wic.bbclass b/meta/classe=
+s-recipe/image_types_wic.bbclass
+>> > index c339b9bdfb..8ae5ecca4d 100644
+>> > --- a/meta/classes-recipe/image_types_wic.bbclass
+>> > +++ b/meta/classes-recipe/image_types_wic.bbclass
+>> > @@ -89,7 +89,7 @@ do_image_wic[recrdeptask] +=3D "do_deploy"
+>> >  do_image_wic[deptask] +=3D "do_image_complete"
+>> >
+>> >  WKS_FILE_DEPENDS_DEFAULT =3D '${@bb.utils.contains_any("BUILD_ARCH", =
+[ 'x86_64', 'i686' ], "syslinux-native", "",d)}'
+>> > -WKS_FILE_DEPENDS_DEFAULT +=3D "bmap-tools-native cdrtools-native btrf=
+s-tools-native squashfs-tools-native e2fsprogs-native erofs-utils-native"
+>> > +WKS_FILE_DEPENDS_DEFAULT +=3D "bmap-tools-native cdrtools-native btrf=
+s-tools-native squashfs-tools-native e2fsprogs-native erofs-utils-native f2=
+fs-tools-native"
+>> >  # Unified kernel images need objcopy
+>> >  WKS_FILE_DEPENDS_DEFAULT +=3D "virtual/${MLPREFIX}${TARGET_PREFIX}bin=
+utils"
+>> >  WKS_FILE_DEPENDS_BOOTLOADERS =3D ""
+>> > diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selft=
+est/cases/wic.py
+>> > index ca1abb970a..5e255e35c7 100644
+>> > --- a/meta/lib/oeqa/selftest/cases/wic.py
+>> > +++ b/meta/lib/oeqa/selftest/cases/wic.py
+>> > @@ -1188,6 +1188,7 @@ class Wic2(WicTestCase):
+>> >          with NamedTemporaryFile("w", suffix=3D".wks") as wks:
+>> >              wks.writelines(['part ext2   --fstype ext2     --source r=
+ootfs\n',
+>> >                              'part btrfs  --fstype btrfs    --source r=
+ootfs --size 40M\n',
+>> > +                            'part f2fs   --fstype f2fs     --source r=
+ootfs --size 50M\n',
+>> >                              'part squash --fstype squashfs --source r=
+ootfs\n',
+>> >                              'part swap   --fstype swap --size 1M\n',
+>> >                              'part emptyvfat   --fstype vfat   --size =
+1M\n',
+>> > @@ -1258,6 +1259,7 @@ class Wic2(WicTestCase):
+>> >              wks.writelines(
+>> >                  ['part ext2   --fstype ext2     --source rootfs --mkf=
+s-extraopts "-D -F -i 8192"\n',
+>> >                   "part btrfs  --fstype btrfs    --source rootfs --siz=
+e 40M --mkfs-extraopts=3D'--quiet'\n",
+>> > +                 "part f2fs   --fstype f2fs     --source rootfs --siz=
+e 50M --mkfs-extraopts=3D'-O extra_attr -o 20'\n",
+>> >                   'part squash --fstype squashfs --source rootfs --mkf=
+s-extraopts "-no-sparse -b 4096"\n',
+>> >                   'part emptyvfat   --fstype vfat   --size 1M --mkfs-e=
+xtraopts "-S 1024 -s 64"\n',
+>> >                   'part emptymsdos  --fstype msdos  --size 1M --mkfs-e=
+xtraopts "-S 1024 -s 64"\n',
+>> > diff --git a/meta/recipes-core/meta/wic-tools.bb b/meta/recipes-core/m=
+eta/wic-tools.bb
+>> > index 9282d36a4d..d30ce66b56 100644
+>> > --- a/meta/recipes-core/meta/wic-tools.bb
+>> > +++ b/meta/recipes-core/meta/wic-tools.bb
+>> > @@ -7,7 +7,7 @@ DEPENDS =3D "\
+>> >             mtools-native bmap-tools-native grub-native cdrtools-nativ=
+e \
+>> >             btrfs-tools-native squashfs-tools-native pseudo-native \
+>> >             e2fsprogs-native util-linux-native tar-native erofs-utils-=
+native \
+>> > -           virtual/${TARGET_PREFIX}binutils \
+>> > +           f2fs-tools-native virtual/${TARGET_PREFIX}binutils \
+>> >             "
+>> >  DEPENDS:append:x86 =3D " syslinux-native syslinux grub-efi systemd-bo=
+ot"
+>> >  DEPENDS:append:x86-64 =3D " syslinux-native syslinux grub-efi systemd=
+-boot"
+>> > diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
+>> > index 73e3380cde..0094065931 100644
+>> > --- a/scripts/lib/wic/help.py
+>> > +++ b/scripts/lib/wic/help.py
+>> > @@ -931,6 +931,7 @@ DESCRIPTION
+>> >               btrfs
+>> >               squashfs
+>> >               erofs
+>> > +             f2fs
+>> >               swap
+>> >
+>> >           --fsoptions: Specifies a free-form string of options to be
+>> > diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+>> > index d1e546b12d..e10ce6581d 100644
+>> > --- a/scripts/lib/wic/ksparser.py
+>> > +++ b/scripts/lib/wic/ksparser.py
+>> > @@ -159,7 +159,7 @@ class KickStart():
+>> >          part.add_argument('--fstype', default=3D'vfat',
+>> >                            choices=3D('ext2', 'ext3', 'ext4', 'btrfs',
+>> >                                     'squashfs', 'vfat', 'msdos', 'erof=
+s',
+>> > -                                   'swap', 'none'))
+>> > +                                   'f2fs', 'swap', 'none'))
+>> >          part.add_argument('--mkfs-extraopts', default=3D'')
+>> >          part.add_argument('--label')
+>> >          part.add_argument('--use-label', action=3D'store_true')
+>> > diff --git a/scripts/lib/wic/misc.py b/scripts/lib/wic/misc.py
+>> > index 2b90821b30..dc84a37423 100644
+>> > --- a/scripts/lib/wic/misc.py
+>> > +++ b/scripts/lib/wic/misc.py
+>> > @@ -41,6 +41,7 @@ NATIVE_RECIPES =3D {"bmaptool": "bmap-tools",
+>> >                    "mkfs.ext3": "e2fsprogs",
+>> >                    "mkfs.ext4": "e2fsprogs",
+>> >                    "mkfs.vfat": "dosfstools",
+>> > +                  "mkfs.f2fs": "f2fs-tools",
+>> >                    "mksquashfs": "squashfs-tools",
+>> >                    "mkswap": "util-linux",
+>> >                    "mmd": "mtools",
+>> > diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.=
+py
+>> > index 382afa44bc..6adcaa041f 100644
+>> > --- a/scripts/lib/wic/partition.py
+>> > +++ b/scripts/lib/wic/partition.py
+>> > @@ -208,7 +208,7 @@ class Partition():
+>> >          Prepare content for a rootfs partition i.e. create a partitio=
+n
+>> >          and fill it from a /rootfs dir.
+>> >
+>> > -        Currently handles ext2/3/4, btrfs, vfat and squashfs.
+>> > +        Currently handles ext2/3/4, btrfs, vfat, squashfs and f2fs.
+>> >          """
+>> >
+>> >          rootfs =3D "%s/rootfs_%s.%s.%s" % (cr_workdir, self.label,
+>> > @@ -351,6 +351,36 @@ class Partition():
+>> >               self.mkfs_extraopts, self.fsuuid, rootfs)
+>> >          exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=3Dpseudo)
+>> >
+>> > +    def prepare_rootfs_f2fs(self, rootfs, cr_workdir, oe_builddir, ro=
+otfs_dir,
+>> > +                            native_sysroot, pseudo):
+>> > +        """
+>> > +        Prepare content for a f2fs rootfs partition.
+>> > +        """
+>> > +        du_cmd =3D "du -ks %s" % rootfs_dir
+>> > +        out =3D exec_cmd(du_cmd)
+>> > +        actual_rootfs_size =3D int(out.split()[0])
+>> > +
+>> > +        min_f2fs_size =3D 524288
+>> > +        rootfs_size =3D self.get_rootfs_size(actual_rootfs_size)
+>> > +        if rootfs_size < min_f2fs_size:
+>> > +            rootfs_size =3D min_f2fs_size
+>> > +
+>> > +        with open(rootfs, 'w') as sparse:
+>> > +            os.ftruncate(sparse.fileno(), rootfs_size * 1024)
+>> > +
+>> > +        extraopts =3D self.mkfs_extraopts or "-O extra_attr,compressi=
+on"
+>> > +
+>> > +        label_str =3D ""
+>> > +        if self.label:
+>> > +            label_str =3D "-l %s" % self.label
+>> > +
+>> > +        mkfs_f2fs_cmd =3D "mkfs.f2fs %s %s %s" % \
+>> > +                        (label_str, extraopts, rootfs)
+>> > +        exec_native_cmd(mkfs_f2fs_cmd, native_sysroot, pseudo=3Dpseud=
+o)
+>> > +
+>> > +        sload_f2fs_cmd =3D "sload.f2fs -f %s %s" % (rootfs_dir, rootf=
+s)
+>> > +        exec_native_cmd(sload_f2fs_cmd, native_sysroot, pseudo=3Dpseu=
+do)
+>> > +
+>> >      def prepare_rootfs_msdos(self, rootfs, cr_workdir, oe_builddir, r=
+ootfs_dir,
+>> >                               native_sysroot, pseudo):
+>> >          """
+>> > --
+>> > 2.39.2
+>> >
+>>
+>> >
+>> >
+>> >
+>>
+>>
+>> --
+>> Alexandre Belloni, co-owner and COO, Bootlin
+>> Embedded Linux and Kernel engineering
+>> https://bootlin.com
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#177888): https://lists.openembedded.org/g/openembedde=
+d-core/message/177888
+> Mute This Topic: https://lists.openembedded.org/mt/97291696/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
