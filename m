@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87D48C7EE3A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9B57C83005
 	for <webhook@archiver.kernel.org>; Wed,  1 Mar 2023 14:45:18 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.24039.1677681914651374190
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.24019.1677681913957033896
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Mar 2023 06:45:15 -0800
+ Wed, 01 Mar 2023 06:45:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=duwTb1Ro;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101869da27581-f4b7af60-cbf2-4459-8855-0f5c5b09357b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=eo65GSQ6;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101869da26fb3-873af234-1b87-4b91-982d-f59dd6cff353-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1677681915;
+	t=1677681914;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=pQq0vQsED1jZ3bRpHgtp5WWzfZO9OLvAvFL3p/bLzHs=;
-	b=duwTb1RoIY0hOIhskzNEW67mF2VTNgall46TSxXMikQVho6WVXqqYJnu0iR3VEdd
-	0WIYCWZ4oZmlvqza7jLWLkEh764Fsyjy8uDW59Yz69idQm3NBDSIZEViHaZEU9oKHo5
-	ULcaMoqFYHo1NolCtoTXrqY2zHSJg7A9ugOUZLP0=
+	bh=T+/t6S2AB/Y86M7oiKLHlqb6Ugj/P0r8+i5Pt4AqG6w=;
+	b=eo65GSQ6yPwXhhktkGUeqMgp5F4n9uSgED/RfwTNR1XQy1PpabCTHiA7Ut/4w+qo
+	/08jH98GMU6l7y4qd0MjSphsfuHHhcsK4X4bJA0wKthzi8vLuMMQCuU/R3Q45+m4NjW
+	isEDNGhBgWDaiQvzJP44Sfit2AVZDp19YaJc9YO4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1677681915;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1677681914;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=pQq0vQsED1jZ3bRpHgtp5WWzfZO9OLvAvFL3p/bLzHs=;
-	b=ZiMseAD4Qm4Cp3eZl7+Fbn9Kv/YMlINXl7vAx3P/1z3a509NgdoeCaaYJ+umpzfN
-	QindNjgt4r9VHdEpAwcB86VZBCPJxxCKSC/IbTsUMjanqX2Gu9ML+pbC1J0ao6Nsvgh
-	K1+fpxNBou6dNLHsUyIPcyX7/b5MbSj1JNXfigVE=
-Content-Type: multipart/mixed; boundary="===============1271820317458475777=="
+	bh=T+/t6S2AB/Y86M7oiKLHlqb6Ugj/P0r8+i5Pt4AqG6w=;
+	b=VqIaDn61IxDg83Tp3oQ0CQF3T/qr+DupvOA4qF5nH06u/cACe3z8ttNUOlb6zIZo
+	ZRpe4PpXhQHZ0e+dLrff9y2F1nOLz7Ey4/BPWS51sffbZunzdM9DmBsZt5H62zsZSLN
+	tJkp3hLg1JSNeaq/0nFA2lALU+OyCAMf9wXXXLEo=
+Content-Type: multipart/mixed; boundary="===============4500350696430458822=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libmicrohttpd: upgrading to 0.9.76 SUCCEEDED
-Message-ID: <010101869da27581-f4b7af60-cbf2-4459-8855-0f5c5b09357b-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Mar 2023 14:45:15 +0000
+Subject: [AUH] python3-setuptools: upgrading to 67.4.0 SUCCEEDED
+Message-ID: <010101869da26fb3-873af234-1b87-4b91-982d-f59dd6cff353-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Mar 2023 14:45:13 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.03.01-54.240.27.29
+X-SES-Outgoing: 2023.03.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Mar 2023 14:45:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177927
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177899
 
---===============1271820317458475777==
+--===============4500350696430458822==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libmicrohttpd* to *0.9.76* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-setuptools* to *67.4.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libmicrohttpd-upgrade-0.9.75-0.9.76.patch
+    - apply the patch: git am 0001-python3-setuptools-upgrade-67.3.3-67.4.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,71 +69,103 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============1271820317458475777==
+--===============4500350696430458822==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-setuptools-upgrade-67.3.3-67.4.0.patch"
+
+RnJvbSA4ODM3N2FhNjIzNjc5NGE3NmE5MDA4NjJlOGFjNzU0NjliMGE5Yjc5IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMSBNYXIgMjAyMyAwODoyODo0NCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtc2V0dXB0b29sczogdXBncmFkZSA2Ny4zLjMgLT4gNjcuNC4wCgotLS0KIC4uLi8wMDAx
+LWNvbmRpdGlvbmFsbHktZG8tbm90LWZldGNoLWNvZGUtYnktZWFzeV9pbnN0YWxsLnBhdGNoICB8
+IDIgKy0KIC4uLnl0aG9uMy1zZXR1cHRvb2xzXzY3LjMuMy5iYiA9PiBweXRob24zLXNldHVwdG9v
+bHNfNjcuNC4wLmJifSB8IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAy
+IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhv
+bjMtc2V0dXB0b29sc182Ny4zLjMuYmIgPT4gcHl0aG9uMy1zZXR1cHRvb2xzXzY3LjQuMC5iYn0g
+KDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
+c2V0dXB0b29scy8wMDAxLWNvbmRpdGlvbmFsbHktZG8tbm90LWZldGNoLWNvZGUtYnktZWFzeV9p
+bnN0YWxsLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVw
+dG9vbHMvMDAwMS1jb25kaXRpb25hbGx5LWRvLW5vdC1mZXRjaC1jb2RlLWJ5LWVhc3lfaW5zdGFs
+bC5wYXRjaAppbmRleCBiMTJlNGY1ZDA1Li45ODNiYWRkM2NmIDEwMDY0NAotLS0gYS9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29scy8wMDAxLWNvbmRpdGlvbmFs
+bHktZG8tbm90LWZldGNoLWNvZGUtYnktZWFzeV9pbnN0YWxsLnBhdGNoCisrKyBiL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzLzAwMDEtY29uZGl0aW9uYWxs
+eS1kby1ub3QtZmV0Y2gtY29kZS1ieS1lYXN5X2luc3RhbGwucGF0Y2gKQEAgLTEsNCArMSw0IEBA
+Ci1Gcm9tIDhhNjc3MTAxMzFmYzFiODI0NmVkYzRkYmNkODA3N2VlZDk2ZTEzZjcgTW9uIFNlcCAx
+NyAwMDowMDowMCAyMDAxCitGcm9tIGIyNDg5YjQwMTdmMzhkYjdiMDRhNzVlNTNiY2UxNWUwZGQ4
+MGRiN2QgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBIb25neHUgSmlhIDxob25neHUu
+amlhQHdpbmRyaXZlci5jb20+CiBEYXRlOiBUdWUsIDE3IEp1bCAyMDE4IDEwOjEzOjM4ICswODAw
+CiBTdWJqZWN0OiBbUEFUQ0hdIGNvbmRpdGlvbmFsbHkgZG8gbm90IGZldGNoIGNvZGUgYnkgZWFz
+eV9pbnN0YWxsCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
+bjMtc2V0dXB0b29sc182Ny4zLjMuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
+dGhvbjMtc2V0dXB0b29sc182Ny40LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZy
+b20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9vbHNfNjcuMy4z
+LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0
+b29sc182Ny40LjAuYmIKaW5kZXggMDUzYjY3MWUyYS4uMWEyOWQzN2EwMiAxMDA2NDQKLS0tIGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9vbHNfNjcuMy4zLmJi
+CisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzXzY3
+LjQuMC5iYgpAQCAtMTEsNyArMTEsNyBAQCBTUkNfVVJJOmFwcGVuZDpjbGFzcy1uYXRpdmUgPSAi
+IGZpbGU6Ly8wMDAxLWNvbmRpdGlvbmFsbHktZG8tbm90LWZldGNoLWNvZGUtYnktZQogU1JDX1VS
+SSArPSAiIFwKICAgICAgICAgICAgIGZpbGU6Ly8wMDAxLV9kaXN0dXRpbHMtc3lzY29uZmlnLnB5
+LW1ha2UtaXQtcG9zc2libGUtdG8tc3Vic3RpdGUucGF0Y2giCiAKLVNSQ19VUklbc2hhMjU2c3Vt
+XSA9ICJlZDRlNzVmYWZlMTAzYzc5YjY5MmYyMTcxNThiYTg3ZWRmMzhkMzEwMDRiOWRiYzE5MTNk
+ZWJiNDg3OTNjODI4IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImU1ZmQwYTcxMzE0MWE0YTEwNTQx
+MjIzM2M2M2RjNGUxN2JhMDA5MGM4ZTgzMzQ1OTRhYzc5MGVjOTc3OTIzMzAiCiAKIERFUEVORFMg
+Kz0gIiR7UFlUSE9OX1BOfSIKIAotLSAKMi4zOS4yCgo=
+
+--===============4500350696430458822==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libmicrohttpd: SRC_URI changed from "https://ftp.gnu.org/gnu/libmicrohttpd/libmicrohttpd-0.9.75.tar.gz" to "https://ftp.gnu.org/gnu/libmicrohttpd/libmicrohttpd-0.9.76.tar.gz"
-packages/core2-32-poky-linux/libmicrohttpd: PV changed from "0.9.75" to "0.9.76"
-packages/core2-32-poky-linux/libmicrohttpd: PKGV changed from 0.9.75 [default] to 0.9.76 [default]
-packages/core2-32-poky-linux/libmicrohttpd/libmicrohttpd-bin: PV changed from "0.9.75" to "0.9.76"
-packages/core2-32-poky-linux/libmicrohttpd/libmicrohttpd-bin: PKGV changed from 0.9.75 [default] to 0.9.76 [default]
-packages/core2-32-poky-linux/libmicrohttpd/libmicrohttpd-dbg: PV changed from "0.9.75" to "0.9.76"
-packages/core2-32-poky-linux/libmicrohttpd/libmicrohttpd-dbg: PKGV changed from 0.9.75 [default] to 0.9.76 [default]
-packages/core2-32-poky-linux/libmicrohttpd/libmicrohttpd-dev: PV changed from "0.9.75" to "0.9.76"
-packages/core2-32-poky-linux/libmicrohttpd/libmicrohttpd-dev: PKGV changed from 0.9.75 [default] to 0.9.76 [default]
-packages/core2-32-poky-linux/libmicrohttpd/libmicrohttpd-doc: PV changed from "0.9.75" to "0.9.76"
-packages/core2-32-poky-linux/libmicrohttpd/libmicrohttpd-doc: PKGSIZE changed from 218475 to 507918 (+132%)
-packages/core2-32-poky-linux/libmicrohttpd/libmicrohttpd-doc: PKGV changed from 0.9.75 [default] to 0.9.76 [default]
-packages/core2-32-poky-linux/libmicrohttpd/libmicrohttpd-locale: PV changed from "0.9.75" to "0.9.76"
-packages/core2-32-poky-linux/libmicrohttpd/libmicrohttpd-locale: PKGV changed from 0.9.75 [default] to 0.9.76 [default]
-packages/core2-32-poky-linux/libmicrohttpd/libmicrohttpd-src: PV changed from "0.9.75" to "0.9.76"
-packages/core2-32-poky-linux/libmicrohttpd/libmicrohttpd-src: PKGSIZE changed from 1165304 to 1165303 (-0%)
-packages/core2-32-poky-linux/libmicrohttpd/libmicrohttpd-src: PKGV changed from 0.9.75 [default] to 0.9.76 [default]
-packages/core2-32-poky-linux/libmicrohttpd/libmicrohttpd-staticdev: PV changed from "0.9.75" to "0.9.76"
-packages/core2-32-poky-linux/libmicrohttpd/libmicrohttpd-staticdev: PKGV changed from 0.9.75 [default] to 0.9.76 [default]
-packages/core2-32-poky-linux/libmicrohttpd/libmicrohttpd: PV changed from "0.9.75" to "0.9.76"
-packages/core2-32-poky-linux/libmicrohttpd/libmicrohttpd: PKGV changed from 0.9.75 [default] to 0.9.76 [default]
+packages/core2-32-poky-linux/python3-setuptools: PV changed from "67.3.3" to "67.4.0"
+packages/core2-32-poky-linux/python3-setuptools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-67.3.3.tar.gz file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch" to "https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-67.4.0.tar.gz file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
+packages/core2-32-poky-linux/python3-setuptools: PKGV changed from 67.3.3 [default] to 67.4.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-pkg-resources: PKGSIZE changed from 1375782 to 1387533 (+1%)
+packages/core2-32-poky-linux/python3-setuptools/python3-pkg-resources: PV changed from "67.3.3" to "67.4.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-pkg-resources: PKGV changed from 67.3.3 [default] to 67.4.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-dbg: PV changed from "67.3.3" to "67.4.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-dbg: PKGV changed from 67.3.3 [default] to 67.4.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-dev: PV changed from "67.3.3" to "67.4.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-dev: PKGV changed from 67.3.3 [default] to 67.4.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-doc: PV changed from "67.3.3" to "67.4.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-doc: PKGV changed from 67.3.3 [default] to 67.4.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-locale: PV changed from "67.3.3" to "67.4.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-locale: PKGV changed from 67.3.3 [default] to 67.4.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-src: PV changed from "67.3.3" to "67.4.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-src: PKGV changed from 67.3.3 [default] to 67.4.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-staticdev: PV changed from "67.3.3" to "67.4.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-staticdev: PKGV changed from 67.3.3 [default] to 67.4.0 [default]
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools: PKGSIZE changed from 5289287 to 5294020 (+0%)
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools: PV changed from "67.3.3" to "67.4.0"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools: FILELIST: directory renamed /usr/lib/python3.11/site-packages/setuptools-67.3.3.dist-info -> /usr/lib/python3.11/site-packages/setuptools-67.4.0.dist-info, added "/usr/lib/python3.11/site-packages/setuptools/_vendor/importlib_metadata/_py39compat.py /usr/lib/python3.11/site-packages/setuptools/_vendor/importlib_metadata/__pycache__/_py39compat.cpython-311.pyc"
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools: PKGV changed from 67.3.3 [default] to 67.4.0 [default]
+Changes to packages/core2-32-poky-linux/python3-setuptools (sysroot):
+  /usr/lib/python3.11/site-packages/setuptools-67.3.3.dist-info moved to /usr/lib/python3.11/site-packages/setuptools-67.4.0.dist-info
+  /usr/lib/python3.11/site-packages/setuptools/_vendor/importlib_metadata/_py39compat.py was added
+  /usr/lib/python3.11/site-packages/setuptools/_vendor/importlib_metadata/__pycache__/_py39compat.cpython-311.pyc was added
+Changes to packages/x86_64-linux/python3-setuptools-native (sysroot):
+  /usr/lib/python3.11/site-packages/setuptools-67.3.3.dist-info moved to /usr/lib/python3.11/site-packages/setuptools-67.4.0.dist-info
+  /usr/lib/python3.11/site-packages/setuptools/_vendor/importlib_metadata/_py39compat.py was added
 
---===============1271820317458475777==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libmicrohttpd-upgrade-0.9.75-0.9.76.patch"
-
-RnJvbSBhY2M1YTg0MDg5MGVmZmJjZGNjMTNlMzQ5NTQ5YTc4ODhkZDU1OGI4IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBNYXIgMjAyMyAxNDozODoxMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-Ym1pY3JvaHR0cGQ6IHVwZ3JhZGUgMC45Ljc1IC0+IDAuOS43NgoKLS0tCiAuLi4ve2xpYm1pY3Jv
-aHR0cGRfMC45Ljc1LmJiID0+IGxpYm1pY3JvaHR0cGRfMC45Ljc2LmJifSAgICAgICAgfCAyICst
-CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
-ZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJtaWNyb2h0dHBkL3tsaWJtaWNyb2h0dHBkXzAuOS43NS5i
-YiA9PiBsaWJtaWNyb2h0dHBkXzAuOS43Ni5iYn0gKDkwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9saWJtaWNyb2h0dHBkL2xpYm1pY3JvaHR0cGRfMC45Ljc1LmJiIGIvbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvbGlibWljcm9odHRwZC9saWJtaWNyb2h0dHBkXzAuOS43Ni5iYgpz
-aW1pbGFyaXR5IGluZGV4IDkwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJt
-aWNyb2h0dHBkL2xpYm1pY3JvaHR0cGRfMC45Ljc1LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
-c3VwcG9ydC9saWJtaWNyb2h0dHBkL2xpYm1pY3JvaHR0cGRfMC45Ljc2LmJiCmluZGV4IDA0M2Zl
-ZDM2N2MuLjdiZDY2ZjYzY2YgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYm1p
-Y3JvaHR0cGQvbGlibWljcm9odHRwZF8wLjkuNzUuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBv
-cnQvbGlibWljcm9odHRwZC9saWJtaWNyb2h0dHBkXzAuOS43Ni5iYgpAQCAtNyw3ICs3LDcgQEAg
-U0VDVElPTiA9ICJuZXQiCiBERVBFTkRTID0gImZpbGUiCiAKIFNSQ19VUkkgPSAiJHtHTlVfTUlS
-Uk9SfS9saWJtaWNyb2h0dHBkLyR7QlBOfS0ke1BWfS50YXIuZ3oiCi1TUkNfVVJJW3NoYTI1NnN1
-bV0gPSAiOTI3ODkwN2E2ZjU3MWIzOTFhYWI5NjQ0ZmQ2NDZhNTEwOGVkOTczMTFlYzY2ZjYzNTlj
-ZWJiZWRiMGE0ZTNiYiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJmMGIxNTQ3YjVhNDJhNmMwZjcy
-NGU4ZTFjMWNiNWNlOWM0YzM1ZmI0OTVlN2Q3ODBiOTkzMGQzNTAxMWNlYjRjIgogCiBpbmhlcml0
-IGF1dG90b29scyBsaWJfcGFja2FnZSBwa2djb25maWcgZ2V0dGV4dAogCi0tIAoyLjM5LjIKCg==
-
---===============1271820317458475777==
+--===============4500350696430458822==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/libmicrohttpd/libmicrohttpd-doc: PKGSIZE changed from 218475 to 507918 (+132%)
+packages/core2-32-poky-linux/python3-setuptools/python3-setuptools: FILELIST: directory renamed /usr/lib/python3.11/site-packages/setuptools-67.3.3.dist-info -> /usr/lib/python3.11/site-packages/setuptools-67.4.0.dist-info, added "/usr/lib/python3.11/site-packages/setuptools/_vendor/importlib_metadata/_py39compat.py /usr/lib/python3.11/site-packages/setuptools/_vendor/importlib_metadata/__pycache__/_py39compat.cpython-311.pyc"
+Changes to packages/core2-32-poky-linux/python3-setuptools (sysroot):
+  /usr/lib/python3.11/site-packages/setuptools-67.3.3.dist-info moved to /usr/lib/python3.11/site-packages/setuptools-67.4.0.dist-info
+  /usr/lib/python3.11/site-packages/setuptools/_vendor/importlib_metadata/_py39compat.py was added
+  /usr/lib/python3.11/site-packages/setuptools/_vendor/importlib_metadata/__pycache__/_py39compat.cpython-311.pyc was added
+Changes to packages/x86_64-linux/python3-setuptools-native (sysroot):
+  /usr/lib/python3.11/site-packages/setuptools-67.3.3.dist-info moved to /usr/lib/python3.11/site-packages/setuptools-67.4.0.dist-info
+  /usr/lib/python3.11/site-packages/setuptools/_vendor/importlib_metadata/_py39compat.py was added
 
---===============1271820317458475777==--
+--===============4500350696430458822==--
 
