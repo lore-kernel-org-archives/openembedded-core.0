@@ -1,217 +1,292 @@
-Return-Path: <tomasagustin.gonzalezorlando@arm.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9E41C64EC7
-	for <webhook@archiver.kernel.org>; Wed,  1 Mar 2023 12:46:07 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.20814.1677674765137510173
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6E7EC64ED6
+	for <webhook@archiver.kernel.org>; Wed,  1 Mar 2023 13:35:07 +0000 (UTC)
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+ by mx.groups.io with SMTP id smtpd.web11.22032.1677677705791191850
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Mar 2023 04:46:05 -0800
+ Wed, 01 Mar 2023 05:35:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: tomasagustin.gonzalezorlando@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E84742F4;
-	Wed,  1 Mar 2023 04:46:47 -0800 (PST)
-Received: from e126979.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1094E3F587;
-	Wed,  1 Mar 2023 04:46:03 -0800 (PST)
-From: =?UTF-8?q?Tom=C3=A1s=20Gonz=C3=A1lez?= <tomasagustin.gonzalezorlando@arm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: tomasagustin.gonzalezorlando@arm.com
-Subject: [PATCH] bootimg-efi: Use the custom .dtb file's path as its final location
-Date: Wed,  1 Mar 2023 12:45:51 +0000
-Message-Id: <20230301124551.159892-1-tomasagustin.gonzalezorlando@arm.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=QbxfcIGB;
+ spf=pass (domain: gmail.com, ip: 209.85.166.175, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-il1-f175.google.com with SMTP id y14so6233277ilv.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Mar 2023 05:35:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kFocXifNBwdU3/dk3cFbXAg6z63lj+feUS45fZrTc3k=;
+        b=QbxfcIGB/1tyGKiqpRhRNiv2/UFmgBiy7Ai12T8/25acUyZgQ+Yh8UKJ53i94ya2Mo
+         yjLc9GCRCprE9l5XOD46SHWXAchfIzSjvdRxf1+J/O6d4VENJVIWfk41CEK3hEIjiIdE
+         4F5+nW/1g5kLZvkI63vfTNmgK/L40gskUtNjFFor3vZkeQTDtvQODGQ3wU4qM74FGtEi
+         HylbxXMmPzlyQF6nL5KBrXsguvuo9BLAJ/bl3L8ssUSlIvu1nZzxrDSP+p58RTGil/hc
+         FC0unjrDMLcCIgNhVr4oMBIdRZ8SQRX9KqQrGilCIWtXcWfTFjDKOnxvmqA1igtgEO1+
+         UKOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kFocXifNBwdU3/dk3cFbXAg6z63lj+feUS45fZrTc3k=;
+        b=SecYg6OkPTtHrvqVtK+4ubP/DMZBB3BWWqILPW1JWyrAlara3I+tRjEBs+ESA9HJQL
+         0yqrlzUrxzKRAR+wl1jiF7lFBbdkI/DXsNekSqqzRyK2K+b94s77Hcv6wmwMFnDXxqaQ
+         aLq/3rB/T3SpsKKF3EpDqugiCINc5QiqYsTs3KS5zKV0HBtXvySRfhAU+cttW3fd1VQl
+         0nZhUl/gP6BTLmxUYOk0Io76DUVxZyFqh5BCTrmDo1t2lVHX258iaCo9cP2MNURw1Z6u
+         Yxu4oGeqkc4RcSxrZ4RO2sFrVnG9fYhn2n/SX5EMD9BLXy2aUzZ1l8oMOB4uFwUuXRkz
+         fdOA==
+X-Gm-Message-State: AO0yUKW71WizdSkTFcDi/YeWAybxQz5byekJln4cN6Za7I9mXqJB8pqx
+	IGHZlmFA7XqbdaQmN0s15G6tU0LQzQiiwSopikY=
+X-Google-Smtp-Source: AK7set8ng4qaXW/vXxtdRjqt0GCnaIafA5qDoAd1UzJma/UW5U29/JJcfPXT0B0xslNenz44JsnVh3oKoTEg81mUToU=
+X-Received: by 2002:a92:7604:0:b0:317:b01:245 with SMTP id r4-20020a927604000000b003170b010245mr2953778ilc.0.1677677704766;
+ Wed, 01 Mar 2023 05:35:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20230301053005.3594047-1-raj.khem@gmail.com>
+In-Reply-To: <20230301053005.3594047-1-raj.khem@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 1 Mar 2023 08:34:59 -0500
+Message-ID: <CADkTA4PpuP63vZ7kvFBYVoZ0eVEes2D_T=4VYb7m+XtPT3SgZg@mail.gmail.com>
+Subject: Re: [PATCH] kernel: Add kernel specific OBJDUMP
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Mar 2023 12:46:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177885
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Mar 2023 13:35:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177886
 
-From: tomasagustin.gonzalezorlando@arm.com
+On Wed, Mar 1, 2023 at 12:30 AM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> This helps in switching toolchains cleanly for kernel build
+> between gcc and clang
+>
+> Currently, some kernels allow building with clang but not all
+> the distro might use clang as default system compiler but kernel
+> may demand gcc which is provided via KERNEL_* variables, however
+> kernel does use OBJCOPY at places during build and it maybe set
+> to use llvm objcopy when using clang. That should be a deliberate
+> setting when clang is used for kernel as well, otherwise it should
+> use binutils provided objcopy
 
-When specifying a custom .dtb with the --sourceparams=3D"dtb=3D<path>" pa=
-rameter,
-the custom file is looked for in ${DEPLOY_DIR_IMAGE}/<path>, and the resu=
-lting
-grub config file is set to look for the .dtb under /<path> inside the boo=
+Makes sense to me. Not that I use it, but since the kernel already
+provides the flexibility to vary objcopy, no concerns if we use it.
+
+We always tend to find some lurking kernel "build" that we've missed
+(i.e. a menu or mergeconfig), but those a) shouldn't use objcopy and
+b) will be easy enough to fix.
+
+Bruce
+
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
+> ---
+>  meta/classes-recipe/kernel-arch.bbclass                      | 3 +++
+>  meta/classes-recipe/kernel-devicetree.bbclass                | 2 +-
+>  meta/classes-recipe/kernel-uboot.bbclass                     | 2 +-
+>  meta/classes-recipe/kernel-yocto.bbclass                     | 4 +++-
+>  meta/classes-recipe/kernel.bbclass                           | 2 +-
+>  meta/classes-recipe/module.bbclass                           | 5 +++--
+>  meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 3 ++-
+>  meta/recipes-kernel/systemtap/systemtap-uprobes_git.bb       | 4 ++--
+>  8 files changed, 16 insertions(+), 9 deletions(-)
+>
+> diff --git a/meta/classes-recipe/kernel-arch.bbclass b/meta/classes-recip=
+e/kernel-arch.bbclass
+> index 777f900241..5877048916 100644
+> --- a/meta/classes-recipe/kernel-arch.bbclass
+> +++ b/meta/classes-recipe/kernel-arch.bbclass
+> @@ -68,9 +68,12 @@ TARGET_LD_KERNEL_ARCH ?=3D ""
+>  HOST_LD_KERNEL_ARCH ?=3D "${TARGET_LD_KERNEL_ARCH}"
+>  TARGET_AR_KERNEL_ARCH ?=3D ""
+>  HOST_AR_KERNEL_ARCH ?=3D "${TARGET_AR_KERNEL_ARCH}"
+> +TARGET_OBJCOPY_KERNEL_ARCH ?=3D ""
+> +HOST_OBJCOPY_KERNEL_ARCH ?=3D "${TARGET_OBJCOPY_KERNEL_ARCH}"
+>
+>  KERNEL_CC =3D "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_KERNEL_ARCH} -fuse-l=
+d=3Dbfd ${DEBUG_PREFIX_MAP} -fdebug-prefix-map=3D${STAGING_KERNEL_DIR}=3D${=
+KERNEL_SRC_PATH} -fdebug-prefix-map=3D${STAGING_KERNEL_BUILDDIR}=3D${KERNEL=
+_SRC_PATH}"
+>  KERNEL_LD =3D "${CCACHE}${HOST_PREFIX}ld.bfd ${HOST_LD_KERNEL_ARCH}"
+>  KERNEL_AR =3D "${CCACHE}${HOST_PREFIX}ar ${HOST_AR_KERNEL_ARCH}"
+> +KERNEL_OBJCOPY =3D "${CCACHE}${HOST_PREFIX}objcopy ${HOST_OBJCOPY_KERNEL=
+_ARCH}"
+>  TOOLCHAIN ?=3D "gcc"
+>
+> diff --git a/meta/classes-recipe/kernel-devicetree.bbclass b/meta/classes=
+-recipe/kernel-devicetree.bbclass
+> index b2117de805..4d0ecb1032 100644
+> --- a/meta/classes-recipe/kernel-devicetree.bbclass
+> +++ b/meta/classes-recipe/kernel-devicetree.bbclass
+> @@ -68,7 +68,7 @@ do_compile:append() {
+>
+>         for dtbf in ${KERNEL_DEVICETREE}; do
+>                 dtb=3D`normalize_dtb "$dtbf"`
+> -               oe_runmake $dtb CC=3D"${KERNEL_CC} $cc_extra " LD=3D"${KE=
+RNEL_LD}" ${KERNEL_EXTRA_ARGS}
+> +               oe_runmake $dtb CC=3D"${KERNEL_CC} $cc_extra " LD=3D"${KE=
+RNEL_LD}" OBJCOPY=3D"${KERNEL_OBJCOPY}" ${KERNEL_EXTRA_ARGS}
+>         done
+>  }
+>
+> diff --git a/meta/classes-recipe/kernel-uboot.bbclass b/meta/classes-reci=
+pe/kernel-uboot.bbclass
+> index 4aab02671e..30a85ccc28 100644
+> --- a/meta/classes-recipe/kernel-uboot.bbclass
+> +++ b/meta/classes-recipe/kernel-uboot.bbclass
+> @@ -34,7 +34,7 @@ uboot_prep_kimage() {
+>                 linux_comp=3D"${FIT_KERNEL_COMP_ALG}"
+>         fi
+>
+> -       [ -n "${vmlinux_path}" ] && ${OBJCOPY} -O binary -R .note -R .com=
+ment -S "${vmlinux_path}" linux.bin
+> +       [ -n "${vmlinux_path}" ] && ${KERNEL_OBJCOPY} -O binary -R .note =
+-R .comment -S "${vmlinux_path}" linux.bin
+>
+>         if [ "${linux_comp}" !=3D "none" ] ; then
+>                 if [ "${linux_comp}" =3D "gzip" ] ; then
+> diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-reci=
+pe/kernel-yocto.bbclass
+> index 7de99cff56..108b7e6752 100644
+> --- a/meta/classes-recipe/kernel-yocto.bbclass
+> +++ b/meta/classes-recipe/kernel-yocto.bbclass
+> @@ -455,7 +455,7 @@ do_kernel_configme() {
+>                 bbfatal_log "Could not find configuration queue (${meta_d=
+ir}/config.queue)"
+>         fi
+>
+> -       CFLAGS=3D"${CFLAGS} ${TOOLCHAIN_OPTIONS}" HOSTCC=3D"${BUILD_CC} $=
+{BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP=3D"${BUILD_CPP}" CC=3D"${KERNEL_CC=
+}" LD=3D"${KERNEL_LD}" ARCH=3D${ARCH} merge_config.sh -O ${B} ${config_flag=
+s} ${configs} > ${meta_dir}/cfg/merge_config_build.log 2>&1
+> +       CFLAGS=3D"${CFLAGS} ${TOOLCHAIN_OPTIONS}" HOSTCC=3D"${BUILD_CC} $=
+{BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP=3D"${BUILD_CPP}" CC=3D"${KERNEL_CC=
+}" LD=3D"${KERNEL_LD}" OBJCOPY=3D"${KERNEL_OBJCOPY}" ARCH=3D${ARCH} merge_c=
+onfig.sh -O ${B} ${config_flags} ${configs} > ${meta_dir}/cfg/merge_config_=
+build.log 2>&1
+>         if [ $? -ne 0 -o ! -f ${B}/.config ]; then
+>                 bberror "Could not generate a .config for ${KMACHINE}-${L=
+INUX_KERNEL_TYPE}"
+>                 if [ ${KCONF_AUDIT_LEVEL} -gt 1 ]; then
+> @@ -489,6 +489,7 @@ python do_config_analysis() {
+>      env['PATH'] =3D "%s:%s%s" % (d.getVar('PATH'), s, "/scripts/util/")
+>      env['LD'] =3D d.getVar('KERNEL_LD')
+>      env['CC'] =3D d.getVar('KERNEL_CC')
+> +    env['OBJCOPY'] =3D d.getVar('KERNEL_OBJCOPY')
+>      env['ARCH'] =3D d.getVar('ARCH')
+>      env['srctree'] =3D s
+>
+> @@ -550,6 +551,7 @@ python do_kernel_configcheck() {
+>      env['PATH'] =3D "%s:%s%s" % (d.getVar('PATH'), s, "/scripts/util/")
+>      env['LD'] =3D d.getVar('KERNEL_LD')
+>      env['CC'] =3D d.getVar('KERNEL_CC')
+> +    env['OBJCOPY'] =3D d.getVar('KERNEL_OBJCOPY')
+>      env['ARCH'] =3D d.getVar('ARCH')
+>      env['srctree'] =3D s
+>
+> diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/ker=
+nel.bbclass
+> index 4fbe84c4e4..3f9c6c00e6 100644
+> --- a/meta/classes-recipe/kernel.bbclass
+> +++ b/meta/classes-recipe/kernel.bbclass
+> @@ -234,7 +234,7 @@ UBOOT_LOADADDRESS ?=3D "${UBOOT_ENTRYPOINT}"
+>  # Some Linux kernel configurations need additional parameters on the com=
+mand line
+>  KERNEL_EXTRA_ARGS ?=3D ""
+>
+> -EXTRA_OEMAKE +=3D ' CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}"'
+> +EXTRA_OEMAKE +=3D ' CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}" OBJCOPY=3D"$=
+{KERNEL_OBJCOPY}"'
+>  EXTRA_OEMAKE +=3D ' HOSTCC=3D"${BUILD_CC}" HOSTCFLAGS=3D"${BUILD_CFLAGS}=
+" HOSTLDFLAGS=3D"${BUILD_LDFLAGS}" HOSTCPP=3D"${BUILD_CPP}"'
+>  EXTRA_OEMAKE +=3D ' HOSTCXX=3D"${BUILD_CXX}" HOSTCXXFLAGS=3D"${BUILD_CXX=
+FLAGS}" PAHOLE=3Dfalse'
+>
+> diff --git a/meta/classes-recipe/module.bbclass b/meta/classes-recipe/mod=
+ule.bbclass
+> index d52d5e3098..b3b852be5f 100644
+> --- a/meta/classes-recipe/module.bbclass
+> +++ b/meta/classes-recipe/module.bbclass
+> @@ -32,6 +32,7 @@ python do_devshell:prepend () {
+>      os.environ['CC'] =3D d.getVar('KERNEL_CC')
+>      os.environ['LD'] =3D d.getVar('KERNEL_LD')
+>      os.environ['AR'] =3D d.getVar('KERNEL_AR')
+> +    os.environ['OBJCOPY'] =3D d.getVar('KERNEL_OBJCOPY')
+>      os.environ['O'] =3D d.getVar('STAGING_KERNEL_BUILDDIR')
+>      kbuild_extra_symbols =3D d.getVar('KBUILD_EXTRA_SYMBOLS')
+>      if kbuild_extra_symbols:
+> @@ -45,7 +46,7 @@ module_do_compile() {
+>         oe_runmake KERNEL_PATH=3D${STAGING_KERNEL_DIR}   \
+>                    KERNEL_VERSION=3D${KERNEL_VERSION}    \
+>                    CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}" \
+> -                  AR=3D"${KERNEL_AR}" \
+> +                  AR=3D"${KERNEL_AR}" OBJCOPY=3D"${KERNEL_OBJCOPY}" \
+>                    O=3D${STAGING_KERNEL_BUILDDIR} \
+>                    KBUILD_EXTRA_SYMBOLS=3D"${KBUILD_EXTRA_SYMBOLS}" \
+>                    ${MAKE_TARGETS}
+> @@ -55,7 +56,7 @@ module_do_install() {
+>         unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+>         oe_runmake DEPMOD=3Decho MODLIB=3D"${D}${nonarch_base_libdir}/mod=
+ules/${KERNEL_VERSION}" \
+>                    INSTALL_FW_PATH=3D"${D}${nonarch_base_libdir}/firmware=
+" \
+> -                  CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}" \
+> +                  CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}" OBJCOPY=3D"${K=
+ERNEL_OBJCOPY}" \
+>                    O=3D${STAGING_KERNEL_BUILDDIR} \
+>                    ${MODULES_INSTALL_TARGET}
+>
+> diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb=
+ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+> index 38282e58f1..28e0807d1d 100644
+> --- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+> +++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+> @@ -27,7 +27,8 @@ EXTRA_OEMAKE +=3D " HOSTCXX=3D"${BUILD_CXX} ${BUILD_CXX=
+FLAGS} ${BUILD_LDFLAGS}" CROS
+>  do_configure() {
+>         unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+>         for t in prepare scripts_basic scripts; do
+> -               oe_runmake CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}" AR=3D"=
+${KERNEL_AR}" \
+> +               oe_runmake CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}" \
+> +               AR=3D"${KERNEL_AR}" OBJCOPY=3D"${KERNEL_OBJCOPY}" \
+>                 -C ${STAGING_KERNEL_DIR} O=3D${STAGING_KERNEL_BUILDDIR} $=
 t
-partition. However, the file is not currently being copied there.
+>         done
+>  }
+> diff --git a/meta/recipes-kernel/systemtap/systemtap-uprobes_git.bb b/met=
+a/recipes-kernel/systemtap/systemtap-uprobes_git.bb
+> index 2181e45a8d..efe359ec32 100644
+> --- a/meta/recipes-kernel/systemtap/systemtap-uprobes_git.bb
+> +++ b/meta/recipes-kernel/systemtap/systemtap-uprobes_git.bb
+> @@ -21,12 +21,12 @@ do_compile() {
+>         then
+>                 unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS CC LD CPP
+>                 oe_runmake CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}" \
+> -                          AR=3D"${KERNEL_AR}" \
+> +                          AR=3D"${KERNEL_AR}" OBJCOPY=3D"${KERNEL_OBJCOP=
+Y}" \
+>                            -C ${STAGING_KERNEL_DIR} scripts
+>                 oe_runmake KDIR=3D${STAGING_KERNEL_DIR}   \
+>                            M=3D"${S}/runtime/uprobes/" \
+>                            CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}" \
+> -                          AR=3D"${KERNEL_AR}" \
+> +                          AR=3D"${KERNEL_AR}" OBJCOPY=3D"${KERNEL_OBJCOP=
+Y}" \
+>                            -C "${S}/runtime/uprobes/"
+>         fi
+>  }
+> --
+> 2.39.2
+>
 
-Change the behaviour of the --sourceparams=3D"dtb=3D<path>" parameter so =
-that
-the custom .dtb file is copied under /<path> in the boot partition.
 
-Include oe-selftest to validate the functionality.
-
-Signed-off-by: Tom=C3=A1s Gonz=C3=A1lez <tomasagustin.gonzalezorlando@arm=
-.com>
----
- .../recipes-test/dtb/devicetree-sample.bb     |  8 +++
- .../dtb/files/sample-devicetree.dts           | 69 +++++++++++++++++++
- meta-selftest/wic/test_dtb_efi.wks            |  3 +
- meta/lib/oeqa/selftest/cases/wic.py           | 16 +++++
- scripts/lib/wic/plugins/source/bootimg-efi.py |  2 +-
- 5 files changed, 97 insertions(+), 1 deletion(-)
- create mode 100644 meta-selftest/recipes-test/dtb/devicetree-sample.bb
- create mode 100644 meta-selftest/recipes-test/dtb/files/sample-devicetre=
-e.dts
- create mode 100644 meta-selftest/wic/test_dtb_efi.wks
-
-diff --git a/meta-selftest/recipes-test/dtb/devicetree-sample.bb b/meta-s=
-elftest/recipes-test/dtb/devicetree-sample.bb
-new file mode 100644
-index 0000000000..8be977a821
---- /dev/null
-+++ b/meta-selftest/recipes-test/dtb/devicetree-sample.bb
-@@ -0,0 +1,8 @@
-+SUMMARY =3D "Device tree"
-+DESCRIPTION =3D "Contains a Device Tree recipe to be used to for testing=
-."
-+
-+inherit devicetree
-+
-+SRC_URI +=3D "file://sample-devicetree.dts"
-+
-+COMPATIBLE_MACHINE =3D ""
-diff --git a/meta-selftest/recipes-test/dtb/files/sample-devicetree.dts b=
-/meta-selftest/recipes-test/dtb/files/sample-devicetree.dts
-new file mode 100644
-index 0000000000..71af0e117b
---- /dev/null
-+++ b/meta-selftest/recipes-test/dtb/files/sample-devicetree.dts
-@@ -0,0 +1,69 @@
-+/dts-v1/;
-+/ {
-+	compatible =3D "opencores,or1ksim";
-+	#address-cells =3D <1>;
-+	#size-cells =3D <1>;
-+	interrupt-parent =3D <&pic>;
-+
-+	aliases {
-+		uart0 =3D &serial0;
-+	};
-+
-+	chosen {
-+		bootargs =3D "earlycon";
-+		stdout-path =3D "uart0:115200";
-+	};
-+
-+	memory@0 {
-+		device_type =3D "memory";
-+		reg =3D <0x00000000 0x02000000>;
-+	};
-+
-+	cpus {
-+		#address-cells =3D <1>;
-+		#size-cells =3D <0>;
-+		cpu@0 {
-+			compatible =3D "opencores,or1200-rtlsvn481";
-+			reg =3D <0>;
-+			clock-frequency =3D <20000000>;
-+		};
-+		cpu@1 {
-+			compatible =3D "opencores,or1200-rtlsvn481";
-+			reg =3D <1>;
-+			clock-frequency =3D <20000000>;
-+		};
-+	};
-+
-+	ompic: ompic@98000000 {
-+		compatible =3D "openrisc,ompic";
-+		reg =3D <0x98000000 16>;
-+		interrupt-controller;
-+		#interrupt-cells =3D <0>;
-+		interrupts =3D <1>;
-+	};
-+
-+	/*
-+	 * OR1K PIC is built into CPU and accessed via special purpose
-+	 * registers.  It is not addressable and, hence, has no 'reg'
-+	 * property.
-+	 */
-+	pic: pic {
-+		compatible =3D "opencores,or1k-pic-level";
-+		#interrupt-cells =3D <1>;
-+		interrupt-controller;
-+	};
-+
-+	serial0: serial@90000000 {
-+		compatible =3D "opencores,uart16550-rtlsvn105", "ns16550a";
-+		reg =3D <0x90000000 0x100>;
-+		interrupts =3D <2>;
-+		clock-frequency =3D <20000000>;
-+	};
-+
-+	enet0: ethoc@92000000 {
-+		compatible =3D "opencores,ethoc";
-+		reg =3D <0x92000000 0x800>;
-+		interrupts =3D <4>;
-+		big-endian;
-+	};
-+};
-diff --git a/meta-selftest/wic/test_dtb_efi.wks b/meta-selftest/wic/test_=
-dtb_efi.wks
-new file mode 100644
-index 0000000000..61a7b1c9b4
---- /dev/null
-+++ b/meta-selftest/wic/test_dtb_efi.wks
-@@ -0,0 +1,3 @@
-+part /boot --active --source bootimg-efi --sourceparams=3D"loader=3Dgrub=
--efi,dtb=3Ddevicetree/sample-devicetree.dtb" --active --align 1024 --use-=
-uuid --part-type EF00
-+part / --source rootfs --fstype=3Dext4 --align 1024 --use-uuid
-+bootloader --ptable gpt --timeout=3D1 --append=3D"rootwait rootfstype=3D=
-ext4 console=3DttyS0,115200n8"
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest=
-/cases/wic.py
-index 0d664d7c39..d702c57679 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -1512,3 +1512,19 @@ class ModifyTests(WicTestCase):
-         # check if it's removed
-         result =3D runCmd("wic ls %s:2/ -n %s" % (images[0], sysroot))
-         self.assertTrue('etc' not in [line.split()[-1] for line in resul=
-t.output.split('\n') if line])
-+
-+    def test_dtb_efi(self):
-+        """Test custom dtb"""
-+        config =3D 'IMAGE_FSTYPES =3D "wic"\nWKS_FILE =3D "test_dtb_efi.=
-wks"\nMACHINE_FEATURES:append =3D " efi"\n'
-+        config +=3D 'EXTRA_IMAGEDEPENDS =3D "devicetree-sample"\n'
-+        self.append_config(config)
-+        bitbake('core-image-minimal')
-+
-+        deploy_dir =3D get_bb_var('DEPLOY_DIR_IMAGE')
-+        machine =3D self.td['MACHINE']
-+        image_path =3D os.path.join(deploy_dir, 'core-image-minimal-%s.w=
-ic' % machine)
-+
-+        self.assertTrue(os.path.exists(image_path))
-+
-+        result =3D runCmd("wic ls %s:1/devicetree" % (image_path))
-+        self.assertTrue('sample-devicetree.dtb' in [line.split()[-1] for=
- line in result.output.split('\n') if line])
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/=
-wic/plugins/source/bootimg-efi.py
-index 4b00913a70..69c427e01d 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -51,7 +51,7 @@ class BootimgEFIPlugin(SourcePlugin):
-         if dtb:
-             if ';' in dtb:
-                 raise WicError("Only one DTB supported, exiting")
--            cp_cmd =3D "cp %s/%s %s" % (bootimg_dir, dtb, hdddir)
-+            cp_cmd =3D "install -D %s/%s %s/%s" % (bootimg_dir, dtb, hdd=
-dir, dtb)
-             exec_cmd(cp_cmd, True)
-=20
-     @classmethod
 --=20
-2.25.1
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
