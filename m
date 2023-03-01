@@ -1,120 +1,135 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E2EBC64EC7
-	for <webhook@archiver.kernel.org>; Wed,  1 Mar 2023 08:54:06 +0000 (UTC)
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
- by mx.groups.io with SMTP id smtpd.web10.17585.1677660839966361275
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76CC1C7EE30
+	for <webhook@archiver.kernel.org>; Wed,  1 Mar 2023 09:01:06 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web11.17747.1677661257272826994
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Mar 2023 00:54:00 -0800
+ Wed, 01 Mar 2023 01:00:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=XT9MsBSE;
- spf=pass (domain: bootlin.com, ip: 217.70.178.230, mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id A1AB6240003;
-	Wed,  1 Mar 2023 08:53:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1677660838;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=M86FIHH7dLgEWRAaN64H1omnDApHaUJGHXILRB78GzM=;
-	b=XT9MsBSEKsda2eBmihO4YGh+Xo3EBEmllcSk9yOgfpGEGfCjKSDAmy1JZAeEus65lwSE39
-	ppdROv4uiDljOC6Op+IKJvxoi7nD1eGbG/NTqB74Y8tGp+zfN3J/4rPybE/4ZHEJ+DsRaz
-	0O2IEpzwtsm45xT44qehbxnkyCNyBaeaqnLgmM6ALHp8/hZ0HXpCk7xkaY4b9iWmPFyHXd
-	eMrvLWjUqhCRZSlOOkM1dodtHEOVZBjBPWQ9t8/fcxxg7PUW4+pwz+U6+mQBxdPEzeaBnN
-	JFFojm2KRx430zfk+lr6FOUlBMuCNi5iWQyHVfGASaEloILKcAl3cmVZmyTn3Q==
-Date: Wed, 1 Mar 2023 09:53:57 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: wangmy <wangmy@fujitsu.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] libnotify: upgrade 0.8.1 -> 0.8.2
-Message-ID: <Y/8SpU34SCyVrBgE@mail.local>
-References: <1677577759-20868-1-git-send-email-wangmy@fujitsu.com>
- <1677577759-20868-3-git-send-email-wangmy@fujitsu.com>
+ dkim=pass header.i=@smile-fr.20210112.gappssmtp.com header.s=20210112 header.b=wo0C4J2z;
+ spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f54.google.com with SMTP id ay29-20020a05600c1e1d00b003e9f4c2b623so11279033wmb.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Mar 2023 01:00:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile-fr.20210112.gappssmtp.com; s=20210112; t=1677661255;
+        h=content-transfer-encoding:in-reply-to:organization:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=7/Dj618xu6Xjw2E84FRfbPM7G8K4oUig2I3DDTbemfU=;
+        b=wo0C4J2zwCZax/VVjNGVYi3nD/XijFDVJJ3R7YdBhFZfSCghf92+hCLQw39c2UwSgl
+         AfH5a+37jQGD2gvG9wNv56rvzMutZxzHP3bOykl+l1gNu86SMqW1d2x7yZA1FiBzjtw1
+         bX4Tq6I07CGFzi18wVK//F4eOiYt2r3+Rvba9JOds9dpDsakQ6aKQRoBFtK9ZnW5hr02
+         P3s/7ecyZuIcSrmZlTCZZqRRBf4zC9KHa2RuVc2KyN16uXBgiXNPMajZhsZz6GAUcrE+
+         jNvizGQqv0AqKs0EqKjddn+38FMJZyZ6BxMXOXZ7QlJNzJzbCHYiMvdl99DPLm081wAl
+         SddQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1677661255;
+        h=content-transfer-encoding:in-reply-to:organization:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7/Dj618xu6Xjw2E84FRfbPM7G8K4oUig2I3DDTbemfU=;
+        b=5Z+ZCXKNCr2zTjOo5YKxdtdvL3tWq5Wg1Qnc9Xh/EKRAzDiNVZRc7dKgl3t3o2HBuZ
+         tSgZOx+3bClkvXen8SxFCYOC0ap52l65oJPzqDdK1osqgugwMBsbP8FREcOgOfGhydII
+         wg3QNSRHxdBr5I7t9Nrpez9EBmtB9mYVAEHeDRdI7j9PY8nA8UfmHBi3rnbFBz4uFGL3
+         fHh9Ei0ta86NiVTdKnUT76ux4xO1p4J+Q+edmQlcTQx9CxUJSqAfpHFnP9z5CG4li6B1
+         NJiUnd/im6VfC7y/MtD/17hTqW8H+X0bELi4Nv6i45XjMZdRn07NY3OVIqEkCNo+Ttuh
+         ONyA==
+X-Gm-Message-State: AO0yUKUec9d7JUI/x+UDby5Vndd/It3feekCt0Va9iPcMQ9fDOQwYPjv
+	o2nr7mttLHwG8vMUqxn6fMS3mg==
+X-Google-Smtp-Source: AK7set98azcnhT4YV7OvoR6MdTpRN2JJO8Rp7vu6Vz82QgEa9Ei7w3895kIqWca9EL5+pAnqH/b0YA==
+X-Received: by 2002:a05:600c:1c0a:b0:3eb:2e32:72c3 with SMTP id j10-20020a05600c1c0a00b003eb2e3272c3mr4401481wms.22.1677661255327;
+        Wed, 01 Mar 2023 01:00:55 -0800 (PST)
+Received: from ?IPV6:2a04:cec0:1041:e243:5666:4e9c:8394:7d10? ([2a04:cec0:1041:e243:5666:4e9c:8394:7d10])
+        by smtp.gmail.com with ESMTPSA id l1-20020a1c7901000000b003e2058a7109sm18351239wme.14.2023.03.01.01.00.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Mar 2023 01:00:55 -0800 (PST)
+Message-ID: <f6d3523d-bfda-e849-3693-54d4337e71a7@smile.fr>
+Date: Wed, 1 Mar 2023 10:00:53 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1677577759-20868-3-git-send-email-wangmy@fujitsu.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [OE-core] [pseudo][PATCH 1/1] pseudo_util.c: Open file with
+ O_CLOEXEC to avoid fd leak
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org,
+ Mingli Yu <mingli.yu@windriver.com>
+References: <20230301000302.93660-1-yoann.congal@smile.fr>
+ <20230301000302.93660-2-yoann.congal@smile.fr> <Y/8SQZ9wDOAtztSX@mail.local>
+Content-Language: en-US
+From: Yoann Congal <yoann.congal@smile.fr>
+Organization: Smile ECS
+In-Reply-To: <Y/8SQZ9wDOAtztSX@mail.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Mar 2023 08:54:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177876
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Mar 2023 09:01:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177877
 
+Hi,
 
-Hello,
-
-This causes:
-
-| Looking for a fallback subproject for the dependency gi-docgen
-| 
-| ../libnotify-0.8.2/docs/reference/meson.build:13:0: ERROR: Subproject exists but has no meson.build file
-| 
-| A full log can be found at /home/pokybuild/yocto-worker/qemux86-world-alt/build/build/tmp/work/x86-pokymllib32-linux/lib32-libnotify/0.8.2-r0/build/meson-logs/meson-log.txt
-| ERROR: meson failed
-| WARNING: /home/pokybuild/yocto-worker/qemux86-world-alt/build/build/tmp/work/x86-pokymllib32-linux/lib32-libnotify/0.8.2-r0/temp/run.do_configure.2726713:181 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/qemux86-world-alt/build/build/tmp/work/x86-pokymllib32-linux/lib32-libnotify/0.8.2-r0/temp/run.do_configure.2726713, line 181
-| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/qemux86-world-alt/build/build/tmp/work/x86-pokymllib32-linux/lib32-libnotify/0.8.2-r0/temp/run.do_configure.2726713, line 170
-| 	#3: do_configure, /home/pokybuild/yocto-worker/qemux86-world-alt/build/build/tmp/work/x86-pokymllib32-linux/lib32-libnotify/0.8.2-r0/temp/run.do_configure.2726713, line 156
-| 	#4: main, /home/pokybuild/yocto-worker/qemux86-world-alt/build/build/tmp/work/x86-pokymllib32-linux/lib32-libnotify/0.8.2-r0/temp/run.do_configure.2726713, line 194
-NOTE: recipe lib32-libnotify-0.8.2-r0: task do_configure: Failed
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/4211/steps/11/logs/stdio
-
-On 28/02/2023 17:49:17+0800, wangmy wrote:
-> From: Wang Mingyu <wangmy@fujitsu.com>
+On 3/1/23 09:52, Alexandre Belloni wrote:
+> On 01/03/2023 01:03:04+0100, Yoann Congal wrote:
+>> From: Pavel Modilaynen <pavelmn@axis.com>
+>>
+>> Use close-on-exec (O_CLOEXEC) flag when open log file to
+>> make sure its file descriptor is not leaked to parent
+>> process on fork/exec.
+>>
+>> Fixes [YOCTO #13311]
+>>
 > 
-> Changelog:
-> ===========
-> * Set new summary for library
-> * docs: port to gi-docgen
-> * docs: Fix URL to Desktop Notification Spec
-> * meson: replace deprecated meson.source_root() calls
-> * meson: bump minimum meson version to 0.58
-> * Introspection docs fixes
-> 
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> ---
->  .../libnotify/{libnotify_0.8.1.bb => libnotify_0.8.2.bb}        | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-gnome/libnotify/{libnotify_0.8.1.bb => libnotify_0.8.2.bb} (93%)
-> 
-> diff --git a/meta/recipes-gnome/libnotify/libnotify_0.8.1.bb b/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb
-> similarity index 93%
-> rename from meta/recipes-gnome/libnotify/libnotify_0.8.1.bb
-> rename to meta/recipes-gnome/libnotify/libnotify_0.8.2.bb
-> index 3bdc70d224..e86aabce26 100644
-> --- a/meta/recipes-gnome/libnotify/libnotify_0.8.1.bb
-> +++ b/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb
-> @@ -22,7 +22,7 @@ inherit gnomebase gtk-doc features_check gobject-introspection
->  # depends on gtk+3 if tests are enabled
->  ANY_OF_DISTRO_FEATURES = "${@bb.utils.contains('PACKAGECONFIG', 'tests', '${GTK3DISTROFEATURES}', '', d)}"
->  
-> -SRC_URI[archive.sha256sum] = "d033e6d4d6ccbf46a436c31628a4b661b36dca1f5d4174fe0173e274f4e62557"
-> +SRC_URI[archive.sha256sum] = "c5f4ed3d1f86e5b118c76415aacb861873ed3e6f0c6b3181b828cf584fc5c616"
->  
->  EXTRA_OEMESON = "-Dman=false"
->  
-> -- 
-> 2.34.1
-> 
+> This is missing the author's SoB
+
+That is right. But, as you would have noticed by now, his mail address is not valid anymore...
+
+What is the proper way to handle this?
+* Should I track him to ask him a proper "Signed-off" patch ? (He seems to have changed company)
+* Should I change the author of the patch? (I do not like this but on the other hand, the change is quite trivial)
+* Something I have not thought of?
 
 > 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#177828): https://lists.openembedded.org/g/openembedded-core/message/177828
-> Mute This Topic: https://lists.openembedded.org/mt/97287063/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+>> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+>> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+>> ---
+>>  pseudo_util.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/pseudo_util.c b/pseudo_util.c
+>> index 64636b7..b58036f 100644
+>> --- a/pseudo_util.c
+>> +++ b/pseudo_util.c
+>> @@ -1611,7 +1611,7 @@ pseudo_logfile(char *filename, char *defname, int prefer_fd) {
+>>  		}
+>>  		free(filename);
+>>  	}	
+>> -	fd = open(pseudo_path, O_WRONLY | O_APPEND | O_CREAT, 0644);
+>> +	fd = open(pseudo_path, O_WRONLY | O_APPEND | O_CREAT | O_CLOEXEC, 0644);
+>>  	if (fd == -1) {
+>>  		pseudo_diag("help: can't open log file %s: %s\n", pseudo_path, strerror(errno));
+>>  	} else {
+>> -- 
+>> 2.30.2
+>>
 > 
-
+>>
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#177861): https://lists.openembedded.org/g/openembedded-core/message/177861
+>> Mute This Topic: https://lists.openembedded.org/mt/97303652/3617179
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>>
+> 
+> 
 
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Yoann Congal
+Smile ECS - Tech Expert
 
