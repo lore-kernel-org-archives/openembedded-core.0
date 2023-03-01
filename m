@@ -1,133 +1,99 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3936EC64EC7
-	for <webhook@archiver.kernel.org>; Wed,  1 Mar 2023 08:26:16 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web11.17411.1677659171302113437
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C7A4C64ED6
+	for <webhook@archiver.kernel.org>; Wed,  1 Mar 2023 08:52:26 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+ by mx.groups.io with SMTP id smtpd.web11.17650.1677660741035313957
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Mar 2023 00:26:11 -0800
+ Wed, 01 Mar 2023 00:52:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=h1Y4FAYS;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id ay29-20020a05600c1e1d00b003e9f4c2b623so11218934wmb.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Mar 2023 00:26:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hN29P2vXeK4KWXWTY327JTFQPZnOJW655BmzWJrN2tU=;
-        b=h1Y4FAYSUfz8fpcg794EEHRlNnM483k72akhAfaVI4LOPn+VsyRnottwELLx7xbWHw
-         vZTsTPyrDDrrT/feWoo0Ba1JoKKoyNOUaLfzDqlI+c53pcd0s2RQQNt1ghZdZNFcTGmx
-         zMlu6C/lx9AXVK5KCu1NXfrwS5PKREKeQRg7o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=hN29P2vXeK4KWXWTY327JTFQPZnOJW655BmzWJrN2tU=;
-        b=nOO5XNne864azHfYnqg2A+7v7COuEXTzX4mmIBXYuiEdaBQOsXugCBQxqj6ooTVWWb
-         HLthkaqIAQa9smxgRUy2bzt7EXM9JDWPXQIUpJRKvvqMdJ/Ix0uiGa256F1tD/iYvAAI
-         3Wgp7FXP0bReUtiUmDdRu2yTyI1E6mopqaAizkO5r9ytcjE8fAdwZwFpjidHcm+iwU8j
-         hdppEjVH4rSAfijNyN/dB8GYxlhxSbgW1nerEBHliIzvEFwyRPAWCclRBMysmDF8eGTj
-         rcv3Bf2hsldWdB/3sJvdBskSRw9EXz8RmKXgOeqd3CYwef4pSvRDpQrxI4HlachNPfTR
-         G/TA==
-X-Gm-Message-State: AO0yUKV0CY1O7+LZEJ58Zjk3+cRQaqSi79sqtz3qB+uO/Xmnkr8/cStm
-	ZB1zc0wViFh/ZgpeN8FpwT0SkQ==
-X-Google-Smtp-Source: AK7set+ynZ20zBrnY+T9tT7AKYPSQpy+/jWc1XTZXPCyjC0XpKP3xSMe4XZLwsT2KwSQ2RZwfA6g4g==
-X-Received: by 2002:a05:600c:4f42:b0:3eb:38b0:e748 with SMTP id m2-20020a05600c4f4200b003eb38b0e748mr9723127wmq.13.1677659169548;
-        Wed, 01 Mar 2023 00:26:09 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:cc9e:5433:f22d:3a1c? ([2001:8b0:aba:5f3c:cc9e:5433:f22d:3a1c])
-        by smtp.gmail.com with ESMTPSA id fm16-20020a05600c0c1000b003dd1bd0b915sm18675157wmb.22.2023.03.01.00.26.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Mar 2023 00:26:09 -0800 (PST)
-Message-ID: <78da5788b9adfdfa1bdff68b3b38b3de96999a82.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Yocto reproducibilty issue :: rust-llvm binary
- differences
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 01 Mar 2023 08:26:08 +0000
-In-Reply-To: <22315.1677652117161137395@lists.openembedded.org>
-References: 
-	<CAMKF1sp8fQHaZw=eyXD6C4qnQhLjNjZ6_upxfauEZ8jBT9egbw@mail.gmail.com>
-	 <22315.1677652117161137395@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3-1 
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=JNXPnlc8;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 27E4EE0004;
+	Wed,  1 Mar 2023 08:52:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1677660739;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oAtlquXdf68Ier3D9SDrPM0+FqnCV1CW2guMLtf1qaU=;
+	b=JNXPnlc83qaWRg8rEUQqTUtodcEsz7LKW57Wl94NJC80ZqhMVvZl0RZ9E1w9T67qrhMjBp
+	5JMTBaVDID8nguQGpAXO9eEdJk0kH+KrVFlevzkO2GzongFQpBf2jTVQXkFYkEi2HAflAr
+	O7+e6xtS1OgMJmXdq/kX/XS9nnm4YzM2vfazTyOeZU09fy0Y30/QMha2QiWxH1WQNXRDTC
+	29gur1oB7WNeAhXIXvDmQk+whUxhbtDeuMhAMETTn5sORNkhJzQeyri7BMpCZtWGdZ9Bli
+	+QS1HAZrw/7gs12mshNtDOARJQm/4zn3/ZqtwxEMbPo4+NvpDvumMyp1BNBGQg==
+Date: Wed, 1 Mar 2023 09:52:17 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Yoann Congal <yoann.congal@smile.fr>
+Cc: openembedded-core@lists.openembedded.org,
+	Pavel Modilaynen <pavelmn@axis.com>,
+	Mingli Yu <mingli.yu@windriver.com>
+Subject: Re: [OE-core] [pseudo][PATCH 1/1] pseudo_util.c: Open file with
+ O_CLOEXEC to avoid fd leak
+Message-ID: <Y/8SQZ9wDOAtztSX@mail.local>
+References: <20230301000302.93660-1-yoann.congal@smile.fr>
+ <20230301000302.93660-2-yoann.congal@smile.fr>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230301000302.93660-2-yoann.congal@smile.fr>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Mar 2023 08:26:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177874
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Mar 2023 08:52:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177875
 
-On Tue, 2023-02-28 at 22:28 -0800, Sundeep KOKKONDA wrote:
-> Hello,
-> =C2=A0
-> I tried to copy the=C2=A0libLTO.so=C2=A0to ${D}. But this shows=C2=A0ERRO=
-R: rust-
-> llvm-1.67.0-r0 do_package_qa: QA Issue: -dev package rust-llvm-dev
-> contains non-symlink .so '/usr/lib/llvm-rust/lib/libLTO.so' [dev-
-> elf]=C2=A0and I had a look into symlink where it points... The libLTO.so
-> files RPATH in ${D} & sysroot-destdir are different as below,
-> =C2=A0
-> $=C2=A0objdump -x ./image/wdr/poky/buildA/tmp/work/x86_64-linux/rust-llvm=
--native/1.67.0-r0/recipe-sysroot-native/usr/lib/llvm-rust/lib/libLTO.so | g=
-rep 'R.*PATH'=C2=A0
-> =C2=A0=C2=A0RUNPATH=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/wdr/poky/buildA/tmp/work/x86_64-linux/rust-l=
-lvm-native/1.67.0-r0/recipe-sysroot-native/usr/lib:/wdr/poky/buildA/tmp/wor=
-k/x86_64-linux/rust-llvm-native/1.67.0-r0/recipe-sysroot-native/lib::::::::=
-:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::=
-:::::::::::::::::::::::::::::::::::=C2=A0
-> $=C2=A0objdump -x ./sysroot-destdir/wdr/poky/buildA/tmp/work/x86_64-linux=
-/rust-llvm-native/1.67.0-r0/recipe-sysroot-native/usr/lib/llvm-rust/lib/lib=
-LTO.so | grep 'R.*PATH'=C2=A0
-> =C2=A0=C2=A0RUNPATH=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0$ORIGIN/../..:$ORIGIN/../../../../lib:.:.:.:.=
-:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:=
-.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.=
-:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:=
-.:.=C2=A0
+On 01/03/2023 01:03:04+0100, Yoann Congal wrote:
+> From: Pavel Modilaynen <pavelmn@axis.com>
+> 
+> Use close-on-exec (O_CLOEXEC) flag when open log file to
+> make sure its file descriptor is not leaked to parent
+> process on fork/exec.
+> 
+> Fixes [YOCTO #13311]
+> 
 
-It is expected that the system would adjust the RUNPATH in the binary
-to be relocatable so that isn't surprising.
+This is missing the author's SoB
 
-> Also, the libLTO.so is a symlink for libLTO.so.15.
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+> ---
+>  pseudo_util.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/pseudo_util.c b/pseudo_util.c
+> index 64636b7..b58036f 100644
+> --- a/pseudo_util.c
+> +++ b/pseudo_util.c
+> @@ -1611,7 +1611,7 @@ pseudo_logfile(char *filename, char *defname, int prefer_fd) {
+>  		}
+>  		free(filename);
+>  	}	
+> -	fd = open(pseudo_path, O_WRONLY | O_APPEND | O_CREAT, 0644);
+> +	fd = open(pseudo_path, O_WRONLY | O_APPEND | O_CREAT | O_CLOEXEC, 0644);
+>  	if (fd == -1) {
+>  		pseudo_diag("help: can't open log file %s: %s\n", pseudo_path, strerror(errno));
+>  	} else {
+> -- 
+> 2.30.2
+> 
 
-Right, so you only need to replace libTLO.so.15 and not the symlink.
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#177861): https://lists.openembedded.org/g/openembedded-core/message/177861
+> Mute This Topic: https://lists.openembedded.org/mt/97303652/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
->  So,=C2=A0I tried copying both libLTO.so & libLTO.so.15 but again getting=
- below QA error:
-> ERROR:=C2=A0rust-llvm-1.67.0-r0 do_package: QA Issue: File '/usr/lib/llvm=
--rust/lib/libLTO.so' from rust-llvm was already stripped, this will prevent=
- future debugging! [already-stripped]=C2=A0
-> ERROR:=C2=A0rust-llvm-1.67.0-r0 do_package: QA Issue: File '/usr/lib/llvm=
--rust/lib/libLTO.so.15' from rust-llvm was already stripped, this will prev=
-ent future debugging! [already-stripped]=C2=A0
-> WARNING:=C2=A0rust-llvm-1.67.0-r0 do_package: rust-llvm-liblto-1.67.0 was=
- registered as shlib provider for libLTO.so.15, changing it to rust-llvm-de=
-v-1.67.0 because it was built later=C2=A0
-> ERROR:=C2=A0rust-llvm-1.67.0-r0 do_package: Fatal QA errors were found, f=
-ailing task.=C2=A0
 
-You can avoid that with:
-
-ERROR_QA:remove =3D "already-stripped"
-
-> I tried to do the same with by adding my own task with 'addtask
-> patchso after do_install' but that is also having some issues while
-> calling that task and that is not recommended=C2=A0way to do it by
-> Richard.
-
-Adding to do_install will be much easier than trying to get the
-dependencies right for that new task.
-
-Cheers,
-
-Richard
-
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
