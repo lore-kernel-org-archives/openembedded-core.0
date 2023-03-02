@@ -1,135 +1,153 @@
-Return-Path: <vkumbhar@mvista.com>
+Return-Path: <ito@lineo.co.jp>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51C83C678D4
-	for <webhook@archiver.kernel.org>; Thu,  2 Mar 2023 07:48:38 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web10.9749.1677743314304261594
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7EE8C7EE30
+	for <webhook@archiver.kernel.org>; Thu,  2 Mar 2023 08:55:48 +0000 (UTC)
+Received: from mail.lineo.co.jp (mail.lineo.co.jp [203.141.200.203])
+ by mx.groups.io with SMTP id smtpd.web11.10676.1677747345260710680
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Mar 2023 23:48:34 -0800
+ Thu, 02 Mar 2023 00:55:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=gb2Sg1jA;
- spf=pass (domain: mvista.com, ip: 209.85.210.176, mailfrom: vkumbhar@mvista.com)
-Received: by mail-pf1-f176.google.com with SMTP id c4so6648190pfl.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Mar 2023 23:48:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1677743313;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0QDvx/DgjUapOG85+FhL6kKKlfKNoLmJt8dMaX/aozE=;
-        b=gb2Sg1jASkhqUMtjmvwxyzXEXGdbprzZcVE2OmTl21Irz+g6XvThU0qOTfAZw9jutz
-         A/QLNCP+sD2PJYRFuKkS0aiKQ56vTSlPubzB9iQjTYdEHk3bOfr02K2rLx+diHuHeeVm
-         NSBYD3fXPRkE7oWOuv2W1G/lYCVm1Z+mfrfaM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677743313;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0QDvx/DgjUapOG85+FhL6kKKlfKNoLmJt8dMaX/aozE=;
-        b=cMTi1kxKnwi/zfeO5570BD/zBTmI65jjThadbkMs9sE7LO0Pq51CDAet9suFf1ttwG
-         UBzYZb3qpUyTa0kUvIY63f5G/vfytKHlb+mbhE6jfH1KAnuyfQKet6azh9ckC0pI/NBy
-         jb79vcZNyeTGMl1n3djQrZj6dqweI1shg9jNQTWDmSOF5Oe+G8WTJzUih1K1pNT+RWG6
-         GhhBEAedPkmelR+ooFcTaDlutpSjZKXxL1uXe85W86S9pG6Hd25KyRJK7j9X8aOXthc4
-         UWR4Dk0iVe6MUl/Crp3LGZewKMsR1YZ1UrSMXVET1oFrkKuvRxgcJmnRDR3H69+mmKWY
-         X+1A==
-X-Gm-Message-State: AO0yUKUqFQvqM+ODz2k5dlVmo9unun8kaeJllBFlpBA00sJmpJ5DLP6r
-	JO+yuLQ0LOZVJLnPxVSSQN5ToRDwobIN2Ad9
-X-Google-Smtp-Source: AK7set/Ys2SuAfe3LfciTqg8sYnVpErtEGfoz5mhFPjhp+be686UNBWg+H56yl+C1OVmls2KmHVvhQ==
-X-Received: by 2002:a62:30c1:0:b0:5e4:5b2d:5864 with SMTP id w184-20020a6230c1000000b005e45b2d5864mr7365200pfw.5.1677743313250;
-        Wed, 01 Mar 2023 23:48:33 -0800 (PST)
-Received: from localhost.localdomain ([116.74.133.147])
-        by smtp.gmail.com with ESMTPSA id h26-20020aa786da000000b005e4c3e2022fsm9086271pfo.72.2023.03.01.23.48.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Mar 2023 23:48:32 -0800 (PST)
-From: Vivek Kumbhar <vkumbhar@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Vivek Kumbhar <vkumbhar@mvista.com>
-Subject: [OE-core][kirkstone][PATCH v2] rpm: fix CVE-2021-35938 races with chown/chmod/capabilities calls during installation
-Date: Thu,  2 Mar 2023 13:18:16 +0530
-Message-Id: <20230302074816.1017714-1-vkumbhar@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=missing; spf=pass (domain: lineo.co.jp, ip: 203.141.200.203, mailfrom: ito@lineo.co.jp)
+Received: from [172.31.28.27] (vpn1.lineo.co.jp [203.141.200.204])
+	by mail.lineo.co.jp (Postfix) with ESMTPSA id 3AFB880B4D696;
+	Thu,  2 Mar 2023 17:55:43 +0900 (JST)
+Message-ID: <5c4e7c1b-1e77-0f71-b1b3-aabbbcd106e0@lineo.co.jp>
+Date: Thu, 2 Mar 2023 17:55:43 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [OE-core] [PATCH 30/52] bind: upgrade 9.18.10 -> 9.18.11
+Content-Language: en-US
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+ openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+References: <20230208072143.2930292-1-alex@linutronix.de>
+ <20230208072143.2930292-30-alex@linutronix.de>
+From: Takayasu Ito <ito@lineo.co.jp>
+In-Reply-To: <20230208072143.2930292-30-alex@linutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Mar 2023 07:48:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177957
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Mar 2023 08:55:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177958
 
-Set file metadata via fd-based ops for everything but symlinks
+Hi All
 
-Regular file ops are fd-based already, for the rest we need to open them
-manually. Files with temporary suffix must never be followed, for
-directories (and pre-existing FA_TOUCHed files) use the rpm symlink
-"root or target owner allowed" rule wrt following.
+The following CVEs have been FIXed in this upgrade
+CVE-2022-3094 ,CVE-2022-3736 and CVE-2022-3924
 
-This mostly fixes CVE-2021-35938, but as we're not yet using dirfd-based
-operatiosn for everything there are corner cases left undone. And then
-there's the plugin API which needs updating for all this.
+https://bind9.readthedocs.io/en/v9_18_11/notes.html#notes-for-bind-9-18-11
 
-Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
----
- .../rpm/files/CVE-2021-35938.patch            | 36 +++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_4.17.1.bb       |  1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/files/CVE-2021-35938.patch
 
-diff --git a/meta/recipes-devtools/rpm/files/CVE-2021-35938.patch b/meta/recipes-devtools/rpm/files/CVE-2021-35938.patch
-new file mode 100644
-index 0000000000..9b2e7ee91f
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/CVE-2021-35938.patch
-@@ -0,0 +1,36 @@
-+From 25a435e90844ea98fe5eb7bef22c1aecf3a9c033 Mon Sep 17 00:00:00 2001
-+From: Panu Matilainen <pmatilai@redhat.com>
-+Date: Mon, 14 Feb 2022 14:29:33 +0200
-+Subject: [PATCH] Set file metadata via fd-based ops for everything but
-+ symlinks
-+ 
-+Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/commit/25a435e90844ea98fe5eb7bef22c1aecf3a9c033]
-+CVE: CVE-2023-25193
-+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
-+---
-+ lib/fsm.c | 9 +++++++++
-+ 1 file changed, 9 insertions(+)
-+
-+diff --git a/lib/fsm.c b/lib/fsm.c
-+index 935a0a5c6..50c431d2a 100644
-+--- a/lib/fsm.c
-++++ b/lib/fsm.c
-+@@ -1000,6 +1000,15 @@ int rpmPackageFilesInstall(rpmts ts, rpmte te, rpmfiles files,
-+                 if (!IS_DEV_LOG(fp->fpath))
-+                     rc = RPMERR_UNKNOWN_FILETYPE;
-+             }
-++            
-++            if (!rc && fd == -1 && !S_ISLNK(fp->sb.st_mode)) {
-++		/* Only follow safe symlinks, and never on temporary files */
-++		fd = fsmOpenat(di.dirfd, fp->fpath,
-++				fp->suffix ? AT_SYMLINK_NOFOLLOW : 0);
-++		if (fd < 0)
-++		    rc = RPMERR_OPEN_FAILED;
-++	    }
-++
-+ 	} else if (firstlink && rpmfiArchiveHasContent(fi)) {
-+ 	    /*
-+ 	     * Tricksy case: this file is a being skipped, but it's part of
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/rpm/rpm_4.17.1.bb b/meta/recipes-devtools/rpm/rpm_4.17.1.bb
-index 9b6446f265..e12d10c1e9 100644
---- a/meta/recipes-devtools/rpm/rpm_4.17.1.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.17.1.bb
-@@ -40,6 +40,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.17.x;protoc
-            file://0001-docs-do-not-build-manpages-requires-pandoc.patch \
-            file://0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch \
-            file://0001-configure.ac-add-linux-gnux32-variant-to-triplet-han.patch \
-+           file://CVE-2021-35938.patch \
-            "
- 
- PE = "1"
+On 2023/02/08 16:21, Alexander Kanavin wrote:
+> License-update: copyright years
+> 
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>   .../0001-avoid-start-failure-with-bind-user.patch             | 0
+>   ...0001-named-lwresd-V-and-start-log-hide-build-options.patch | 0
+>   ...bind-ensure-searching-for-json-headers-searches-sysr.patch | 0
+>   .../bind/{bind-9.18.10 => bind-9.18.11}/bind9                 | 0
+>   .../bind/{bind-9.18.10 => bind-9.18.11}/conf.patch            | 0
+>   .../bind/{bind-9.18.10 => bind-9.18.11}/generate-rndc-key.sh  | 0
+>   .../init.d-add-support-for-read-only-rootfs.patch             | 0
+>   .../make-etc-initd-bind-stop-work.patch                       | 0
+>   .../bind/{bind-9.18.10 => bind-9.18.11}/named.service         | 0
+>   .../bind/{bind_9.18.10.bb => bind_9.18.11.bb}                 | 4 ++--
+>   10 files changed, 2 insertions(+), 2 deletions(-)
+>   rename meta/recipes-connectivity/bind/{bind-9.18.10 => bind-9.18.11}/0001-avoid-start-failure-with-bind-user.patch (100%)
+>   rename meta/recipes-connectivity/bind/{bind-9.18.10 => bind-9.18.11}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
+>   rename meta/recipes-connectivity/bind/{bind-9.18.10 => bind-9.18.11}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
+>   rename meta/recipes-connectivity/bind/{bind-9.18.10 => bind-9.18.11}/bind9 (100%)
+>   rename meta/recipes-connectivity/bind/{bind-9.18.10 => bind-9.18.11}/conf.patch (100%)
+>   rename meta/recipes-connectivity/bind/{bind-9.18.10 => bind-9.18.11}/generate-rndc-key.sh (100%)
+>   rename meta/recipes-connectivity/bind/{bind-9.18.10 => bind-9.18.11}/init.d-add-support-for-read-only-rootfs.patch (100%)
+>   rename meta/recipes-connectivity/bind/{bind-9.18.10 => bind-9.18.11}/make-etc-initd-bind-stop-work.patch (100%)
+>   rename meta/recipes-connectivity/bind/{bind-9.18.10 => bind-9.18.11}/named.service (100%)
+>   rename meta/recipes-connectivity/bind/{bind_9.18.10.bb => bind_9.18.11.bb} (96%)
+> 
+> diff --git a/meta/recipes-connectivity/bind/bind-9.18.10/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.18.11/0001-avoid-start-failure-with-bind-user.patch
+> similarity index 100%
+> rename from meta/recipes-connectivity/bind/bind-9.18.10/0001-avoid-start-failure-with-bind-user.patch
+> rename to meta/recipes-connectivity/bind/bind-9.18.11/0001-avoid-start-failure-with-bind-user.patch
+> diff --git a/meta/recipes-connectivity/bind/bind-9.18.10/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.18.11/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+> similarity index 100%
+> rename from meta/recipes-connectivity/bind/bind-9.18.10/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+> rename to meta/recipes-connectivity/bind/bind-9.18.11/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+> diff --git a/meta/recipes-connectivity/bind/bind-9.18.10/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.18.11/bind-ensure-searching-for-json-headers-searches-sysr.patch
+> similarity index 100%
+> rename from meta/recipes-connectivity/bind/bind-9.18.10/bind-ensure-searching-for-json-headers-searches-sysr.patch
+> rename to meta/recipes-connectivity/bind/bind-9.18.11/bind-ensure-searching-for-json-headers-searches-sysr.patch
+> diff --git a/meta/recipes-connectivity/bind/bind-9.18.10/bind9 b/meta/recipes-connectivity/bind/bind-9.18.11/bind9
+> similarity index 100%
+> rename from meta/recipes-connectivity/bind/bind-9.18.10/bind9
+> rename to meta/recipes-connectivity/bind/bind-9.18.11/bind9
+> diff --git a/meta/recipes-connectivity/bind/bind-9.18.10/conf.patch b/meta/recipes-connectivity/bind/bind-9.18.11/conf.patch
+> similarity index 100%
+> rename from meta/recipes-connectivity/bind/bind-9.18.10/conf.patch
+> rename to meta/recipes-connectivity/bind/bind-9.18.11/conf.patch
+> diff --git a/meta/recipes-connectivity/bind/bind-9.18.10/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.18.11/generate-rndc-key.sh
+> similarity index 100%
+> rename from meta/recipes-connectivity/bind/bind-9.18.10/generate-rndc-key.sh
+> rename to meta/recipes-connectivity/bind/bind-9.18.11/generate-rndc-key.sh
+> diff --git a/meta/recipes-connectivity/bind/bind-9.18.10/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.18.11/init.d-add-support-for-read-only-rootfs.patch
+> similarity index 100%
+> rename from meta/recipes-connectivity/bind/bind-9.18.10/init.d-add-support-for-read-only-rootfs.patch
+> rename to meta/recipes-connectivity/bind/bind-9.18.11/init.d-add-support-for-read-only-rootfs.patch
+> diff --git a/meta/recipes-connectivity/bind/bind-9.18.10/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.18.11/make-etc-initd-bind-stop-work.patch
+> similarity index 100%
+> rename from meta/recipes-connectivity/bind/bind-9.18.10/make-etc-initd-bind-stop-work.patch
+> rename to meta/recipes-connectivity/bind/bind-9.18.11/make-etc-initd-bind-stop-work.patch
+> diff --git a/meta/recipes-connectivity/bind/bind-9.18.10/named.service b/meta/recipes-connectivity/bind/bind-9.18.11/named.service
+> similarity index 100%
+> rename from meta/recipes-connectivity/bind/bind-9.18.10/named.service
+> rename to meta/recipes-connectivity/bind/bind-9.18.11/named.service
+> diff --git a/meta/recipes-connectivity/bind/bind_9.18.10.bb b/meta/recipes-connectivity/bind/bind_9.18.11.bb
+> similarity index 96%
+> rename from meta/recipes-connectivity/bind/bind_9.18.10.bb
+> rename to meta/recipes-connectivity/bind/bind_9.18.11.bb
+> index cb0e251d51..55a06eae5f 100644
+> --- a/meta/recipes-connectivity/bind/bind_9.18.10.bb
+> +++ b/meta/recipes-connectivity/bind/bind_9.18.11.bb
+> @@ -4,7 +4,7 @@ DESCRIPTION = "BIND 9 provides a full-featured Domain Name Server system"
+>   SECTION = "console/network"
+>   
+>   LICENSE = "MPL-2.0"
+> -LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=9a4a897f202c0710e07f2f2836bc2b62"
+> +LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=d8cf7bd9c4fd5471a588e7e66e672408"
+>   
+>   DEPENDS = "openssl libcap zlib libuv"
+>   
+> @@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+>              file://0001-avoid-start-failure-with-bind-user.patch \
+>              "
+>   
+> -SRC_URI[sha256sum] = "f415a92feb62568b50854a063cb231e257351f8672186d0ab031a49b3de2cac6"
+> +SRC_URI[sha256sum] = "8ff3352812230cbcbda42df87cad961f94163d3da457c5e4bef8057fd5df2158"
+>   
+>   UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+>   # follow the ESV versions divisible by 2
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#176869): https://lists.openembedded.org/g/openembedded-core/message/176869
+> Mute This Topic: https://lists.openembedded.org/mt/96825781/3617373
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ito@lineo.co.jp]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
 -- 
-2.25.1
+Takayasu Ito
+Yocto Project Ambassador
+Solution Department Lineo Solutions, Inc.
+https://www.lineo.co.jp/english/
+Email: ito@lineo.co.jp
 
 
