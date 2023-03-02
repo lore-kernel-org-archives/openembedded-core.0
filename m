@@ -1,243 +1,197 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <sandeep.gundlupet-raju@amd.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59AAEC6FA8E
-	for <webhook@archiver.kernel.org>; Thu,  2 Mar 2023 22:47:22 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web10.8926.1677797233048148145
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 540E5C6FA8E
+	for <webhook@archiver.kernel.org>; Thu,  2 Mar 2023 23:02:42 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.79])
+ by mx.groups.io with SMTP id smtpd.web11.9408.1677798158438077129
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Mar 2023 14:47:13 -0800
+ Thu, 02 Mar 2023 15:02:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=H1FbIFeR;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id j3so586230wms.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Mar 2023 14:47:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WrQMzVkcyHm9JU0WaWI0M7A4BHsdUg+UfsZxmOVn+lY=;
-        b=H1FbIFeRUDZEhBMyEPdL5QifWUuJuirfEz+2xImgh2cNiU2mSBpoO0G3qoLU75zv2q
-         JZd4wa6B52zB6TaLzx/VbngHR8RpMZnmyy8q1LvMBebJ5Yxz56ZqmwjM+WitknfKo5EU
-         w5YZkpM30ET0p10eJ4e/dq7vgZOstg4cI2uMA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=WrQMzVkcyHm9JU0WaWI0M7A4BHsdUg+UfsZxmOVn+lY=;
-        b=vx9k9SqcXALbDlUyMisu1LZT4JvCcdBVQmOrvBy92g2flzyrCahzKT3sIzC5hTVtMs
-         QPP4A14lRLACGBxKDmZxoAyAiv0s+eWWRfDC5MYPYChcgVT1poOLG7EKF1S/fBub07v8
-         yNTyriEBRc3sZ2sH+4g5tMHHBq/i2CiOyzDYnSF9hiIVIhaGMBHwBYOQT4V66k9aG3Di
-         m35zMqU90BIDUII4RDIzksRTRgA4llU3QVG8OYJ/3oXmGlavh//hURjLvLgziG0XwfIJ
-         kuNhwhEEOGnFKW8zbir8SBSSaizn1Y6pzckTGBaaVW0HHCuvnboGKzDevlWdWoNZotL1
-         BHAQ==
-X-Gm-Message-State: AO0yUKWbzfQm1NqWIP7ZZJuKr0g7HNNpxoQZR2fblUt8dgkQENbz9xDb
-	KZpPjfmizgSiROKJU5PpSjkc1g==
-X-Google-Smtp-Source: AK7set8IP1WI2DxBppjYtiF4jNtkJY4qg5AHdWR2lb7VlVEE1szp2K0OelpEG+r2MM3pUuohafF6dw==
-X-Received: by 2002:a05:600c:1d16:b0:3df:9858:c030 with SMTP id l22-20020a05600c1d1600b003df9858c030mr2592405wms.5.1677797231424;
-        Thu, 02 Mar 2023 14:47:11 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:8d94:f1f8:f2d7:19ce? ([2001:8b0:aba:5f3c:8d94:f1f8:f2d7:19ce])
-        by smtp.gmail.com with ESMTPSA id r20-20020a05600c425400b003dc47d458cdsm752378wmm.15.2023.03.02.14.47.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Mar 2023 14:47:11 -0800 (PST)
-Message-ID: <837bd2b15bbc0cdcb5df9bc3a32cabfaac4e2a25.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] binutils: Enable --enable-new-dtags
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>, Khem Raj
-	 <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Thu, 02 Mar 2023 22:47:10 +0000
-In-Reply-To: <1748ABB9EC6D9FC3.21180@lists.openembedded.org>
-References: <20230223065816.3151823-1-raj.khem@gmail.com>
-	 <Y/4pZDsT0R9iSH+m@mail.local>
-	 <CAMKF1sqGofMPYDJXC55N3Cy+H2q7N__KNHw6NWn8YkfD8ePkPA@mail.gmail.com>
-	 <e5614f07a3ec48650b1bcea2a3df570e725234d2.camel@linuxfoundation.org>
-	 <Y/6D8FQZMWzf4TZq@mail.local>
-	 <17484164C4F9625C.21178@lists.openembedded.org>
-	 <ZACLUF3CCWTAerRu@mail.local>
-	 <17489CAAF65A13B6.9697@lists.openembedded.org>
-	 <1748ABB9EC6D9FC3.21180@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3-1 
+ dkim=pass header.i=@amd.com header.s=selector1 header.b=o9qzW31i;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: amd.com, ip: 40.107.237.79, mailfrom: sandeep.gundlupet-raju@amd.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=P7C5QYW8V8+qugTYFWc6wHGKQ47ak2bGS/tb/gucVaS4aNs3Hq4akCYhF705R/vIowp7XVjsa0BGzYCRkLKVVDD1efv+TyeniEnKqMfud+864nKpNEYvyHJXv+MOajsI69uAdCFT3+uFXOzpJ0mmxA+bBMs7tUck9q36oIvZsPH19qmwMcHnhFjA86FRnZiq7qQmawUpy6ofkGVfd85KySGPeKz1NqwY5SXoahSqrMqbMsiJc8D1uNi3bjzigZLnI2XXN+pUAai5xIV113j9iVm4lyfTOTCnS6vWMocIEdeJY0uzODOQUB/yihPp0UsGXjOSoD9m92ySpjiW0SZSAQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DMCoQ4Jbbi/y/I2wFaDQUaLOqudE8UME3V9RQSfQIUs=;
+ b=F48eMzW1fRavmxHjH1scyZ5bviyZnjNsRZ6UPNuL0KHV4MzmHAVFxoYREuPgt+LR9iInCouUBoRSVRip1jVWvOBvrpS6/FC1cPBAziHRgwrxhI5H2sKnUnq5lT6C1u2/XuuAdWq+NLDZrLqPiemKjYUr91ff9OsNpn71Txi+raA3fQA9EHnUgAv2k9pGIA7mNkhJLPEUYaHbmjuESf3TRNUluBj42QOc2sf+GeTVoVMqi01/T1SwV24oa9Hq3sK2uJ4sAP+0lViO644Nwg1yiL7GJVJyvUe7GO5dtxhTTXd6mUaHCzzGkQ1O8NFHGfBeUe+V56i15ztddnxx396l2A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DMCoQ4Jbbi/y/I2wFaDQUaLOqudE8UME3V9RQSfQIUs=;
+ b=o9qzW31i3L2n+cHC+Xvr5ymONrPOSShFZUUkBaJtd/PjnrogNLq/qg/MlmV8x1VOnm55uu5kOQUZ9/0QN7WDy4FtkPikhq8AbBUiow3zyfuP7SKXFLnTufzBcjU9RBaMfpm+i42FZRjKhbQTLeWlDvfWEj6hc7UyzVqM6BxOG/4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SA0PR12MB4367.namprd12.prod.outlook.com (2603:10b6:806:94::13)
+ by DS0PR12MB7535.namprd12.prod.outlook.com (2603:10b6:8:13a::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.19; Thu, 2 Mar
+ 2023 23:02:35 +0000
+Received: from SA0PR12MB4367.namprd12.prod.outlook.com
+ ([fe80::9190:fa00:9701:2f99]) by SA0PR12MB4367.namprd12.prod.outlook.com
+ ([fe80::9190:fa00:9701:2f99%4]) with mapi id 15.20.6156.018; Thu, 2 Mar 2023
+ 23:02:35 +0000
+Content-Type: multipart/alternative;
+ boundary="------------dqnL4Yeaa1j0gYajS6qN0pxW"
+Message-ID: <61a12c5f-a914-ddca-22f2-e29fc4e3694d@amd.com>
+Date: Thu, 2 Mar 2023 16:02:31 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [OE-core] [PATCH] vim: add missing pkgconfig inherit
+Content-Language: en-US
+To: "ross.burton@arm.com" <ross.burton@arm.com>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Cc: "nd@arm.com" <nd@arm.com>
+References: <20230302161055.2322671-1-ross.burton@arm.com>
+From: "Gundlupet Raju, Sandeep" <sandeep.gundlupet-raju@amd.com>
+In-Reply-To: <20230302161055.2322671-1-ross.burton@arm.com>
+X-ClientProxiedBy: SJ0PR13CA0123.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c6::8) To SA0PR12MB4367.namprd12.prod.outlook.com
+ (2603:10b6:806:94::13)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4367:EE_|DS0PR12MB7535:EE_
+X-MS-Office365-Filtering-Correlation-Id: 84cdf3af-12c1-4765-2838-08db1b723639
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	T/4dLadI3qUSXVhBOAGU0f3b9RY/H5apLIiCXHhdR8ireW3jvLytEDriYyZaZQVSC1sU11g7/p0R952rwQDChpm5lR3/k4epN1K2YIsnHMhhJBO+KiTe0SZOn1zjh+UcEt5BhUJQ2XiGTEvgjdVEH+LlXWJtuq5ZXLSeSBD6jaTsR2RZjlxwP/Z/mpBU0lZTNOr47yvBD7gOCMp4ieRk1Rk6HCgqee+bXuZd7RcYAxe2hKWwlPOpfLwMnr5hlTkbCrL/WOqILhNucmOxIMIP5EGa/Wlyb/mJMYjkTQ5xAX/ooFjSfUs1479qI5tDyJI0cVnOBzh5FXaKK9ud/V5H8dxFxpPZ63dz6Ra76oswCpa+2B3QpehRzngf6QIsaSoBd8QfAOGpvQLkEEsswkHX8i0D0Bv3W9AvqQmvTfHkSYaIv7vhO2SLthdaOh4QDmFtnLFM8bEsjH9VcNP5o8bb3A14Kv1JThCa3paT6KCuHMVNffIYIVTpEDTgbSbKv7p0jCtBAMkGjqW7GztPtMMi/VbVES3fcEv14gdVbWC37FBBk0CYK0K4o0ylTQmgzPEKaGXoctYp5clTT0Pu5Iy97jsrMQv4Ms8/c/DEbf4OhOM4H/mGrsIGStGGruuBq/lgjIX+Uzeiq5T2uwnGZp++hnLqKr/A9mfPCaca2doSHu2O1IeJKGOgCxdRj2UafTh3VObLo/tz7upcD7CLXI2yZjM8a+SckM/mdpyctbafhew=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR12MB4367.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(136003)(366004)(346002)(376002)(396003)(39860400002)(451199018)(31686004)(36756003)(41300700001)(2616005)(8936002)(6512007)(66556008)(33964004)(66476007)(66946007)(186003)(4326008)(53546011)(31696002)(86362001)(8676002)(6486002)(2906002)(83380400001)(316002)(6506007)(26005)(6666004)(5660300002)(110136005)(478600001)(38100700002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?WlA0K2pHRnJPSVIrZWNucWFYVVRZWUJNN1RQZFZFSTNQWDdUNC8xNUoyOElZ?=
+ =?utf-8?B?dTdRNjErcFlSaHpDWFVRNVRHNWNyTVp0d0ZRVXRUL2JIQkJvUHdHbnpOa3hD?=
+ =?utf-8?B?Q20rMWFrTVRVQ25tTUZUSUo0SElRdHdCY0luS2JNVThhcWJBSkVBbUJkRFhG?=
+ =?utf-8?B?bDE2SXpnc1BiblRpRFRYVG00MkZqZ1VSYllyd0ZFWjBKRWJrQ3NRUE10OXJm?=
+ =?utf-8?B?UDg0NFFNcWltWlRvV0kvaStGNzJNNkpZM281RXdmZnA0bDdLME9JMGRGQnV4?=
+ =?utf-8?B?YzF6ZVI3YjZuNy9FcmRza1hrcHI5UHZUOEFZMllwYit1MGdETTVWRGtHMHFG?=
+ =?utf-8?B?QWNwMXhCa25RZ2trY2ZFMXRQYmd6S25MUjF6YjhKc3V0akhUcUJXUHJaMWRi?=
+ =?utf-8?B?U3RxYzJDZ28xdGt0ang1VEhvZmdZREZlQVY2MlNPZEtuUm5yNDNCUDdubDJ2?=
+ =?utf-8?B?VlZ0ajMrbjNYVEdmL0dycjhaKzZPcGxBampVUVN1cmF0Y2xzcU1IWnU5RzhI?=
+ =?utf-8?B?TUQvNEc3Yko0RFo4ejhLT1F4dWxpSTdBSjE0RXBrUXRGbDU5TFJybnNERG1z?=
+ =?utf-8?B?WUpvRHNIRExTT0R0V1JjUDV5SFpUbDZHMGliVlo2OGo2bWJHRlU0UW9zVTZl?=
+ =?utf-8?B?S1RyUzl3bndVREhRMXVZY01ZeEdoTzZZdXMzR1UzRXU1d2Q1ZTgwT3kxcVRW?=
+ =?utf-8?B?OVpZN2JVaXQrUDc1eGtLK3BTNFdyMnlUb3NZZnI3akJySFpqTHI2bklnQ28x?=
+ =?utf-8?B?Z1p0QndWWmJNTEJDOUhqNnpuZUpNSmttU3ZZWFpWMXYwR1NQVnBUNVlCSEdM?=
+ =?utf-8?B?MVFqenVJaG1JcXpoMU50amNlMXhURjB2WW9qMUxXL3MwbzRYNGUyUVdYMEFq?=
+ =?utf-8?B?VG8yUTNObmNHb1VLMnFmVldzTGpObkNkQld6a09hbTB0bFA1RGNjeFJXZGt0?=
+ =?utf-8?B?UnVQNzdCUVRBVTRxbFRSN0pMRWd0ek9mdWZ0NkRSNVR3anUraEFTdmEvaXhN?=
+ =?utf-8?B?Z2JGS0tRN0FFc2ZObnpZdC9mMUJ5N2daTlExMkVTbnlSYXFEdUVycDRWMHV1?=
+ =?utf-8?B?Rm1COWorTzdqV1lYL3RwajNDQkMwRE5KTVc2K2Ywc0tuckF3TU8rOFF2b2pP?=
+ =?utf-8?B?OVNFbVIwUEpUc1JadUJGTTdiSElJMk5qT0RMbUFZalgwbFMxYkVPZ2Q5cmcw?=
+ =?utf-8?B?RVNmeGFac3lSR2ZJeUQvVXpaOGxPalIvcTZpOEQvbVFLd2RGS1pvU29IQnM5?=
+ =?utf-8?B?WCt0S3prRzlEZlNGTEZCbU4vdXRlZGwvM1hoZkZpQmNlSmZHbXdMUU1DdStO?=
+ =?utf-8?B?RHJpbGdLdmluWUNGZTY4N21KK2FTTmlTZnozZW9EZ1kvZ2hvM3FhaWhMa0J6?=
+ =?utf-8?B?VWs5SjdDS080TnBuRVZvaGV2cDI0MXc1ck9XdGFiRFkrbUx1RGphODBBMGxE?=
+ =?utf-8?B?Wi9sVEFsaldqYnp2U0VFbXB0RjdLYTNxaEFVYmtSVjVueS9WVUMvc1Zmam90?=
+ =?utf-8?B?eUVtTzZVT3NmTW9WbXl2RkFCR1FKM2lieFJLR3pDb0lyVzhDSCswc01BQnMv?=
+ =?utf-8?B?akRtTWpjWEhWaW00UnVFaDZoVU1VQ01vWWtoRTNlNkxYK0d3Y0JKNWs2R3p3?=
+ =?utf-8?B?Mys2RjdSeGpIV0pSUzZ5VCtwdTRxNEFINUx1UVJiV2NDdXVGa2ZsM1djUHlu?=
+ =?utf-8?B?eE1GdlhNUE9wUE1nY3hTRmFnRCtYQ1drRXpZUU0rZjVKTm9ldzBYSFRjY08y?=
+ =?utf-8?B?dVczR1dRbUxsdVJqL0pyQmNuRTRXdDJpcGYxRWJudWdNTGxTc3VmRFhYTlNq?=
+ =?utf-8?B?MitGZm5nUHdjMTdOY1djWHBEYzQ0UXpreDU5NFZGN0RiczNkZU9rSEhkc0Fh?=
+ =?utf-8?B?ODZiNEphRzFuT0lDdnVwV0t3QzJsZGRPTzZ2Z2JKcERrQXFMazlDYjAwSnI4?=
+ =?utf-8?B?dk1OeXBCbHNwcTAwaGYvVkFhNnVRTFE5VExpc2tnM2ZaNVBma1hqMGdHVFRU?=
+ =?utf-8?B?VWdNNytmWEhudDYyeFJLYzhJeUx4Z0NtOEREeVZUSXFGeml5c2tyMTlTbDRW?=
+ =?utf-8?B?WWEwZlo5V0l2aHRuK2ZIQnc4K0t5RGRocjFYOVVQREw5Ynd6eWVXYnU2MjVM?=
+ =?utf-8?Q?6lJbD2T1bGRs7tfJhPzIszOtM?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 84cdf3af-12c1-4765-2838-08db1b723639
+X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4367.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2023 23:02:35.7850
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: T8lcs0QTwR2Id5RmCQPptvJ1hUxrMR1NgPvgZTHvf0i7gp44ZnQ+Y19B8sgOOMNOaO+C5YOVguN/8I5S7TqnPA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7535
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Mar 2023 22:47:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177970
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Mar 2023 23:02:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177971
 
-On Thu, 2023-03-02 at 17:54 +0000, Richard Purdie via
-lists.openembedded.org wrote:
-> On Thu, 2023-03-02 at 13:18 +0000, Richard Purdie via
-> lists.openembedded.org wrote:
-> > On Thu, 2023-03-02 at 12:41 +0100, Alexandre Belloni wrote:
-> > > On 01/03/2023 10:25:58+0100, Alexandre Belloni via lists.openembedded=
-.org wrote:
-> > > > On 28/02/2023 23:45:05+0100, Alexandre Belloni wrote:
-> > > > > On 28/02/2023 17:50:05+0000, Richard Purdie wrote:
-> > > > > > On Tue, 2023-02-28 at 08:43 -0800, Khem Raj wrote:
-> > > > > > > On Tue, Feb 28, 2023 at 8:18 AM Alexandre Belloni
-> > > > > > > <alexandre.belloni@bootlin.com> wrote:
-> > > > > > > >=20
-> > > > > > > > Hello Khem,
-> > > > > > > >=20
-> > > > > > > > As discussed I gave it a go again and got this:
-> > > > > > > >=20
-> > > > > > > > > /home/pokybuild/yocto-worker/qemuarm/build/build/tmp/host=
-tools/ld: linux-tdep.o: in function `linux_corefile_thread(thread_info*, li=
-nux_corefile_thread_data*)':
-> > > > > > > > > linux-tdep.c:(.text+0x13ac): undefined reference to `gcor=
-e_elf_build_thread_register_notes(gdbarch*, thread_info*, gdb_signal, bfd*,=
- std::unique_ptr<char, gdb::xfree_deleter<char> >*, int*)'
-> > > > > > > > > /home/pokybuild/yocto-worker/qemuarm/build/build/tmp/host=
-tools/ld: linux-tdep.o: in function `linux_make_corefile_notes(gdbarch*, bf=
-d*, int*)':
-> > > > > > > > > linux-tdep.c:(.text+0x49d7): undefined reference to `gcor=
-e_elf_make_tdesc_note(bfd*, std::unique_ptr<char, gdb::xfree_deleter<char> =
->*, int*)'
-> > > > > > > > > collect2: error: ld returned 1 exit status
-> > > > > > > > > make[2]: *** [Makefile:2149: gdb] Error 1
-> > > > > > > > > make[2]: Leaving directory '/home/pokybuild/yocto-worker/=
-qemuarm/build/build/tmp/work/x86_64-linux/gdb-cross-arm/13.1-r0/build-arm-p=
-oky-linux-gnueabi/gdb'
-> > > > > > > > > make[1]: *** [Makefile:11122: all-gdb] Error 2
-> > > > > > > > > make[1]: Leaving directory '/home/pokybuild/yocto-worker/=
-qemuarm/build/build/tmp/work/x86_64-linux/gdb-cross-arm/13.1-r0/build-arm-p=
-oky-linux-gnueabi'
-> > > > > > > > > make: *** [Makefile:1005: all] Error 2
-> > > > > > > > > ERROR: oe_runmake failed
-> > > > > > >=20
-> > > > > > > Is this host running updated buildtools tarball after the bin=
-utils ld
-> > > > > > > search path fix ?
-> > > > > >=20
-> > > > > > Yes, it should be.
-> > > > >=20
-> > > > > Khem, you are probably right that this is host related, this fail=
-ed
-> > > > > again on ubuntu2004:
-> > > > >=20
-> > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/74/builds=
-/6689/steps/14/logs/stdio
-> > > > >=20
-> > > > > I'm wondering whether this reproduces on master and we have simpl=
-y been
-> > > > > lucky.
-> > > >=20
-> > > > This doesn't reproduce on master on ubuntu2004 so I guess it is rea=
-lly
-> > > > cause by the binutils upgrade.
-> > >=20
-> > > I was wrong, it just reproduced on master, debian11-ty-3:
-> > >=20
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/673=
-0/steps/15/logs/stdio
-> > >=20
-> >=20
-> > I went digging and the gdb/config.log file shows:
-> >=20
-> > configure:28568: checking for ELF support in BFD
-> > configure:28588: ./libtool --quiet --mode=3Dlink gcc  -o conftest -I../=
-../gdb-13.1/gdb/../include -I../bfd -I../../gdb-13.1/gdb/../bfd -isystem/ho=
-me/pokybuild/yocto-worker/qemuarm64/build/build/tmp/work/x86_64-linux/gdb-c=
-ross-aarch64/13.1-r0/recipe-sysroot-native/usr/include -O2 -pipe     -isyst=
-em/home/pokybuild/yocto-worker/qemuarm64/build/build/tmp/work/x86_64-linux/=
-gdb-cross-aarch64/13.1-r0/recipe-sysroot-native/usr/include -I/home/pokybui=
-ld/yocto-worker/qemuarm64/build/build/tmp/work/x86_64-linux/gdb-cross-aarch=
-64/13.1-r0/recipe-sysroot-native/usr/include -L../bfd -L../libiberty confte=
-st.c -lbfd -liberty  -lncursesw -lm -ldl  >&5
-> > /home/pokybuild/yocto-worker/qemuarm64/build/build/tmp/hosttools/ld: /h=
-ome/pokybuild/yocto-worker/qemuarm64/build/build/tmp/work/x86_64-linux/gdb-=
-cross-aarch64/13.1-r0/recipe-sysroot-native/usr/lib/libzstd.so: undefined r=
-eference to `pthread_join@GLIBC_2.34'
-> > /home/pokybuild/yocto-worker/qemuarm64/build/build/tmp/hosttools/ld: /h=
-ome/pokybuild/yocto-worker/qemuarm64/build/build/tmp/work/x86_64-linux/gdb-=
-cross-aarch64/13.1-r0/recipe-sysroot-native/usr/lib/libzstd.so: undefined r=
-eference to `pthread_create@GLIBC_2.34'
-> > collect2: error: ld returned 1 exit status
-> >=20
-> > which is the same issue as we saw previously.=C2=A0
-> >=20
-> > The really big difference here is that debian11 doesn't have buildtools
-> > so this is with the host's ld and libpthread.
-> >=20
-> > I'm guessing this is a libzstd linked on a more recent system which
-> > then doesn't work against this older host libc. The one in uninative
-> > could help and would likely resolve things, but isn't involved at this
-> > point in a build. Not sure what the right fix is here.
->=20
-> This bug is horrible.
->=20
-> I reran a forced compile on that build and it all worked. Thankfully I
-> saved off the build directory, before and after and was able to diff
-> them.
->=20
-> The difference is this in python3.pc in the recipe-sysroot-native:
->=20
-> Libs.private: -ldl=20
->=20
-> vs:
->=20
-> Libs.private: -lpthread -ldl  -lutil
->=20
-> which sticks a -lpthread onto the linker command in the configure tests
-> within gdb so that it can link correctly to libbfd, which then
-> convinces its that it has elf symbols.
->=20
-> The underlying issue is that particular gdb test appears to strip our
-> build time LDFLAGS off for the purposes of the test. I'm guessing
-> something like:
->=20
->=20
-> Index: gdb-13.1/gdb/acinclude.m4
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> --- gdb-13.1.orig/gdb/acinclude.m4
-> +++ gdb-13.1/gdb/acinclude.m4
-> @@ -234,7 +234,7 @@ AC_DEFUN([GDB_AC_CHECK_BFD], [
->    # points somewhere with bfd, with -I/foo/lib and -L/foo/lib.  We
->    # always want our bfd.
->    CFLAGS=3D"-I${srcdir}/../include -I../bfd -I${srcdir}/../bfd $CFLAGS"
-> -  LDFLAGS=3D"-L../bfd -L../libiberty"
-> +  LDFLAGS=3D"-L../bfd -L../libiberty $LDFLAGS"
->    intl=3D`echo $LIBINTL | sed 's,${top_builddir}/,,g'`
->    LIBS=3D"-lbfd -liberty $intl $LIBS"
->    CC=3D"./libtool --quiet --mode=3Dlink $CC"
->=20
-> would help. There is some irony when you read the comment there. It
-> looks like it is trying and failing to link to libbfd in the gdb build
-> anyway rather than one from the host.
->=20
-> I'll have to step away for food and so on shortly so I wanted to brain
-> dump on what I found so far.
->=20
-> [python3.pc will vary in the native case depending on the host libc so
-> some libs will be added even if not later needed by uninative]
+--------------dqnL4Yeaa1j0gYajS6qN0pxW
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-I confirmed that:
+Tested-by:|Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>|
 
-a) to reproduce you need a broken libzstd which on the autobuilder, I'd
-replaced the bad one with a good one. The python3 changes aren't the
-issue, they just look suspicious
-b) the patch above doesn't work since we don't autoreconf gdb
-c) if you patch configure to add $LDFLAGS it does make the build work
+On 3/2/2023 9:10 AM, Ross Burton via lists.openembedded.org wrote:
+> Vim uses pkgconfig to find dependencies but it wasn't present, so it
+> silently doesn't enable features like GTK+ UI.
+>
+> [ YOCTO #15044 ]
+>
+> Signed-off-by: Ross Burton<ross.burton@arm.com>
+> ---
+>   meta/recipes-support/vim/vim.inc | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+> index fcb5cf6334c..da586a56991 100644
+> --- a/meta/recipes-support/vim/vim.inc
+> +++ b/meta/recipes-support/vim/vim.inc
+> @@ -33,7 +33,7 @@ S = "${WORKDIR}/git"
+>   
+>   VIMDIR ="vim${@d.getVar('PV').split('.')[0]}${@d.getVar('PV').split('.')[1]}"
+>   
+> -inherit autotools-brokensep update-alternatives mime-xdg
+> +inherit autotools-brokensep update-alternatives mime-xdg pkgconfig
+>   
+>   CLEANBROKEN = "1"
+>   
+--------------dqnL4Yeaa1j0gYajS6qN0pxW
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The patch works since the LDFLAGS from uninative then get used which
-unbreak things.
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <p>Tested-by:<code style="padding: 0px; tab-size: 8;" class="hljs
+        diff language-diff"> Sandeep Gundlupet Raju
+        <a class="moz-txt-link-rfc2396E" href="mailto:sandeep.gundlupet-raju@amd.com">&lt;sandeep.gundlupet-raju@amd.com&gt;</a></code></p>
+    <div class="moz-cite-prefix">On 3/2/2023 9:10 AM, Ross Burton via
+      lists.openembedded.org wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:20230302161055.2322671-1-ross.burton@arm.com">
+      <pre class="moz-quote-pre" wrap="">Vim uses pkgconfig to find dependencies but it wasn't present, so it
+silently doesn't enable features like GTK+ UI.
 
-So we just need to work out the right patch and ideally discuss this
-with upstream binutils.
+[ YOCTO #15044 ]
 
-Cheers,
+Signed-off-by: Ross Burton <a class="moz-txt-link-rfc2396E" href="mailto:ross.burton@arm.com">&lt;ross.burton@arm.com&gt;</a>
+---
+ meta/recipes-support/vim/vim.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Richard
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index fcb5cf6334c..da586a56991 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -33,7 +33,7 @@ S = &quot;${WORKDIR}/git&quot;
+ 
+ VIMDIR = <a class="moz-txt-link-rfc2396E" href="mailto:vim${@d.getVar('PV').split('.')[0]}${@d.getVar('PV').split('.')[1]}">&quot;vim${@d.getVar('PV').split('.')[0]}${@d.getVar('PV').split('.')[1]}&quot;</a>
+ 
+-inherit autotools-brokensep update-alternatives mime-xdg
++inherit autotools-brokensep update-alternatives mime-xdg pkgconfig
+ 
+ CLEANBROKEN = &quot;1&quot;
+ 
+</pre>
+    </blockquote>
+  </body>
+</html>
 
-
-
-
-
+--------------dqnL4Yeaa1j0gYajS6qN0pxW--
 
