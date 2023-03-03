@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2036EC7EE2F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E76BC7EE37
 	for <webhook@archiver.kernel.org>; Fri,  3 Mar 2023 16:18:07 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web10.27556.1677860266661907687
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web11.27600.1677860259281506072
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Mar 2023 08:17:58 -0800
+ Fri, 03 Mar 2023 08:18:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=AfISQn2X;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f52.google.com with SMTP id m20-20020a17090ab79400b00239d8e182efso6618976pjr.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Mar 2023 08:17:58 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=s2YdaG5y;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f45.google.com with SMTP id qa18-20020a17090b4fd200b0023750b675f5so6633297pjb.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Mar 2023 08:18:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1677860277;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1677860283;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TWCIsNeZxac7FpPAaaFhCClSmEHalorBM8SXNfJScM0=;
-        b=AfISQn2XRnG3+C8wpznWZwOSH6X7KZHnCngjnWEDfJlMU4kWPGLDniQ3EL58uAuI68
-         1dse2oKDkpI/SV56rqCNUaFmIScEwyRPCh8mLDvdcV+PZtOVtuD3me/QXH9LjkKmgQZx
-         TLNPMoHRllRXlxRYffe1FfJab0gcbUbVBRmrZQufofzNNaBcfGhFwfP0nzz1a6u2UHiK
-         2B6s5jq6IIZzecDHBXxEdR43021BGR7X0UKQsQ8vvw69I3whue7U6AXO/6JWXX0wNgIg
-         WwGaNMBdZsdvsb0BQeSNHrSWYQxQookBC4X05Ca0FkvJ8nBbVEQMXsrpB6vgHN3kHTTz
-         9Txw==
+        bh=Zr2RDf6eBegaQnve+uHA/0F54eR6z7WAVuSvjIKSA8w=;
+        b=s2YdaG5ybz3we4C0DySNQCWmTYEHrqdlBG8ryPkdG0qSCfEBKbZUbjfJwD9KN5QuiI
+         WoPKfllfta1t+JtIsPsnL8Vs884L0a/9E9aJztimpdWV9cGwM1WxsiUnne3KygatnfnN
+         gQ7+K6Ng7y5/ei0evgBbz+WX24aCfa3NVgUSjHNN8H9gQHE+CV/kNXMXCi27V6x7cRk1
+         T4kwB4I5dwNKfyq7bCKKO7En+S8OH+Pfv6SWkJqmjRdClyUfgtQHa806PRLWQokudVAx
+         giA0yXiRlgtnV8wVGEz0MRzvAG/kgaHqMAKzY2kw+vELyrn0XChNk5Ewl5hWBi/L17ao
+         q6VA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677860277;
+        d=1e100.net; s=20210112; t=1677860283;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TWCIsNeZxac7FpPAaaFhCClSmEHalorBM8SXNfJScM0=;
-        b=FcncqDSxahls4mWQWHDV/PNy/T1fRcuilX3BUCYoVyXOlCDL1Ejz2tJ93nqo7UfoLl
-         p5mBqcTxxl4B2tjXlwntlm5ZwEB/y9R6M06zeHB9zJ8CrHomtycyYDFmXkhnohz03q4H
-         Rh41RPc2QISF9NHwNVaCgkc1kFOwQDzhgt3Fd/wqlOCvSVa12yo1+xNwz6o9TwQ3hXcg
-         QjKNeyy2U8aXewYRH8gsJHCsGZx/uL1t+kvJdBMF/H2TFK6Cc7Yroyje7j2W8bBG8ZH9
-         mWnD64DJoAZ2Vf7wCz+8WJPsc1uPyXfHcdmaE6SZpTEORFuOthrd/ChnuZQ5Um89EN4B
-         u8FQ==
-X-Gm-Message-State: AO0yUKXbnHtiSMBIxwTbIjz4zTAzgB9dySKVFStMkrA0y5rzg38/mM9s
-	2zXLd4ObTRLKESj5ZWQVhKEn3bzc2P1Q8dgDE1A=
-X-Google-Smtp-Source: AK7set/AJswUOKtN0OeYcguiadoNh1Chz9f7Msw+7/NheU5f7bp4hHzENeyA+B5kL3iweIcXguBylA==
-X-Received: by 2002:a17:902:ee82:b0:19a:b7c0:f097 with SMTP id a2-20020a170902ee8200b0019ab7c0f097mr2263460pld.57.1677860277476;
-        Fri, 03 Mar 2023 08:17:57 -0800 (PST)
+        bh=Zr2RDf6eBegaQnve+uHA/0F54eR6z7WAVuSvjIKSA8w=;
+        b=SjrHkZPGQOeUbC5rYKHZI1cow+syA0/rEuxaKvRIL8pF36FO4DVEdJm2T7vl8Eo6az
+         j7mZp4Qtew41eJOgTrlKNKJxquu87vaiJfiry8fb4ysW1R5wOTx4AYzfur0ORhpgg4jT
+         PpTVDr+wQRNDF6S8WSB+OMZtZP1CAraL5flNCDhC5f8h1eTiUkRQoszNqF5Tg6jAT1Df
+         on1sDLU2J/C4EkcYhTIBlEZxj68ZkeD4h5zJLzbYiePitHpZN4Iv7mMgla8ddh1wCGp6
+         ccfwKgWmA60KrUCxFsXZXgjTycFKwUAkCOn0Q37dSG2/LgE8sI7QS9nduCg7wJ3BbJwU
+         Rzaw==
+X-Gm-Message-State: AO0yUKVLD8RPrM8nSwUmCYYnMoEc+XO1AM7B9/gIGYCNIHkohc8awIb/
+	eFJTlclHovN4+SC4ZpnZDDcVzWFvUHhn6a6xefg=
+X-Google-Smtp-Source: AK7set+DSkDsP7wyzWiEpakr2mX+0y9/yn9EnND8QdWYjIau55FsHscw2GtjiWonjBX/sS21GIofzA==
+X-Received: by 2002:a17:902:ea94:b0:19e:7879:f084 with SMTP id x20-20020a170902ea9400b0019e7879f084mr2330682plb.40.1677860283576;
+        Fri, 03 Mar 2023 08:18:03 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id ko4-20020a17090307c400b00186b7443082sm1702474plb.195.2023.03.03.08.17.56
+        by smtp.gmail.com with ESMTPSA id ko4-20020a17090307c400b00186b7443082sm1702474plb.195.2023.03.03.08.18.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Mar 2023 08:17:57 -0800 (PST)
+        Fri, 03 Mar 2023 08:18:03 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 14/29] linux-firmware: upgrade 20230117 -> 20230210
-Date: Fri,  3 Mar 2023 06:17:12 -1000
-Message-Id: <f39ffb5410f2731c510c21500de912bea383e459.1677859897.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 18/29] busybox: Fix depmod patch
+Date: Fri,  3 Mar 2023 06:17:16 -1000
+Message-Id: <03e437782b1b295334a95cea8678fc425cafe9d3.1677859897.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1677859897.git.steve@sakoman.com>
 References: <cover.1677859897.git.steve@sakoman.com>
@@ -61,46 +61,38 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 03 Mar 2023 16:18:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178003
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178007
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Saul Wold <Saul.Wold@windriver.com>
 
-License-Update: additional firmwares
+The original patch was actually allowing .debug modules
+though which was in-correct. This change blocks the
+parsing of .debug modules (which is correct). As noted in
+[YOCTO #15022] this should address the empty modules.dep
+when using the BusyBox depmod.
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Saul Wold <saul.wold@windriver.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 8e6134d39b840d96e1c37d3df21a522afea8bc76)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 339c3c3abe8d405cfe7b3f34db9b3547bcaaf878)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...{linux-firmware_20230117.bb => linux-firmware_20230210.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20230117.bb => linux-firmware_20230210.bb} (99%)
+ .../busybox/busybox/0001-depmod-Ignore-.debug-directories.patch | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20230117.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20230210.bb
-similarity index 99%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20230117.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20230210.bb
-index fa9e6f604b..bf5d4f54e6 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20230117.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20230210.bb
-@@ -134,7 +134,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     "
- # WHENCE checksum is defined separately to ease overriding it if
- # class-devupstream is selected.
--WHENCE_CHKSUM  = "05f1d941972cedadbf667c05f6010378"
-+WHENCE_CHKSUM  = "aadb3cccbde1e53fc244a409e9bd5a22"
- 
- # These are not common licenses, set NO_GENERIC_LICENSE for them
- # so that the license files will be copied from fetched source
-@@ -212,7 +212,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
- # Pin this to the 20220509 release, override this in local.conf
- SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
- 
--SRC_URI[sha256sum] = "df11e25ba2fb4d5343473757e17a3b4cef599250a26b1f7e0f038850f0cb3d64"
-+SRC_URI[sha256sum] = "6e3d9e8d52cffc4ec0dbe8533a8445328e0524a20f159a5b61c2706f983ce38a"
- 
- inherit allarch
- 
+diff --git a/meta/recipes-core/busybox/busybox/0001-depmod-Ignore-.debug-directories.patch b/meta/recipes-core/busybox/busybox/0001-depmod-Ignore-.debug-directories.patch
+index 354f83a4a5..d76118f85b 100644
+--- a/meta/recipes-core/busybox/busybox/0001-depmod-Ignore-.debug-directories.patch
++++ b/meta/recipes-core/busybox/busybox/0001-depmod-Ignore-.debug-directories.patch
+@@ -21,7 +21,7 @@ index bb42bbe..aa5a2de 100644
+  	/* Arbitrary. Was sb->st_size, but that breaks .gz etc */
+  	size_t len = (64*1024*1024 - 4096);
+  
+-+	if (strstr(fname, ".debug") == NULL)
+++	if (strstr(fname, ".debug") != NULL)
+ +		return TRUE;
+ +
+  	if (strrstr(fname, ".ko") == NULL)
 -- 
 2.34.1
 
