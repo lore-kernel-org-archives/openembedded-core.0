@@ -2,167 +2,146 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FC37C7EE2F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2650BC64EC4
 	for <webhook@archiver.kernel.org>; Fri,  3 Mar 2023 16:17:57 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web11.27599.1677860257650685133
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web10.27558.1677860270170731301
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Mar 2023 08:17:51 -0800
+ Fri, 03 Mar 2023 08:17:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=Da39JkV8;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f176.google.com with SMTP id y11so3215747plg.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Mar 2023 08:17:51 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112 header.b=fObyWKu2;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f48.google.com with SMTP id 6-20020a17090a190600b00237c5b6ecd7so6623247pjg.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Mar 2023 08:17:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1677860271;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112; t=1677860269;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4tdPuxLZwPepHbPeprYAtw+LM9IspLqWHc1kQv1HuWA=;
-        b=Da39JkV8UuV1Ihu6QjG0WvGdiyG0pR+gvsLdrm0aDnJeJXQhdoYQCb8pD3WMkGG/cV
-         L+a5Tg1NnbghOo27c6GDm+gA/Dnui6CxgbrCXjL95e7eVK81iKZ0IkC30h4Y4EOJ6yOd
-         AvR7D3zRzMWvyFeQ7oUViDnNvnGesFvCFmM1OCdZiIxO7bFGWMsuuLjRLDppDYbvC4X4
-         swLjLPKY41I4wvxjM9B2q9mae/slkYldbr5pnwLXNFZ/40i532rF2vHeA96YhZODrP59
-         4TARb6LjR6sauSfGthUbb+cc0oVNW8tYxXyIcWR97NY3uDRR697an61o2Dd3eI3wxrvI
-         oWqg==
+        bh=kjWmTW+ZrvJ0bjyT3AY+pGSOO38N3bJuo8/0dXAXyUE=;
+        b=fObyWKu2HDp2XZMFqozPtt3W9OUd/Y1v3r1wPH2EGgZEGSZtweR8ZqcjGIHpH9FFv4
+         dduqXjc3S8/H1Q05Ldr8qYYNqiGUpNZod696Fx/FhPJN9E3Tge9brOVwviMxgog+JRTK
+         eDQXrC3Vu2YLLEzYKpv1xV7MJw5ZLuyr1lReZSjO3qwqwithfRl0dLs/66Mgblehntsk
+         xAhO5S1oHJRaP5mGMu0LoiUA2aBQMpuI/bKHyiNaYCyTEXu42jeZRXxWqwoOWX0HGI6W
+         AAPicyEn7trEDM8pg1T9JpsIPE0A6oBl+trcCbpdbj1ZU5FwY86X1jiS+wIV1m75TZfg
+         cuWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677860271;
+        d=1e100.net; s=20210112; t=1677860269;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4tdPuxLZwPepHbPeprYAtw+LM9IspLqWHc1kQv1HuWA=;
-        b=e2BH7aKDlwXmzy7CRk3si+p7DmtchRx0e3CkjkhhHvoxnNOaVsGoFDlBJ0dOEflg7E
-         /BUSkP1W1udx3t1haqehxD3p9i8gXoko6PE3d5D5G8czLNC0FVyzgETpjpeBzRgXo5Kp
-         0yLdYVQ933/lADcnxmT2QFkVrHgny0n7O4+q2FJx35l1K7JJvmlku7IlF5XfXzjoNcTp
-         aYfEXncMO40R/Yf3BcM0Bl1rH0iJ2jmsT3GbxwxaRIxaBinh0oiabJqOnkEckYivAMQl
-         O4ymwoZlo3wfZpujhhvGLp009ljKbdEpayvhidW4qU0i+C3LZQfun0wkX4WGOIz1rJQ1
-         vN6w==
-X-Gm-Message-State: AO0yUKX5gIA+44hKkuG/qQ3XLYmwM533ljaXGHNaBXKWiuPhlOBCyaO4
-	H2cMJX+FFKuv27vE5zlo48OC4QzG6OoJSU+nuaw=
-X-Google-Smtp-Source: AK7set+e4C0gnlJaSUv9PBhrpupU4mXiZm8HM3ghmi19RU6VpRdGcPb9CdrcI9l6G+qouI14NcYB+A==
-X-Received: by 2002:a17:902:f548:b0:19c:947c:8819 with SMTP id h8-20020a170902f54800b0019c947c8819mr3018556plf.59.1677860270854;
-        Fri, 03 Mar 2023 08:17:50 -0800 (PST)
+        bh=kjWmTW+ZrvJ0bjyT3AY+pGSOO38N3bJuo8/0dXAXyUE=;
+        b=Wu7tJGd8Xz5hK4Xs9dj86J8Ul7360eEfMRe72HqJ2Co1JNoF0nejniAIwhvY7rMIP7
+         nwbaFUTA1kyktzKFjd7xY7q9TmXbjOcWeLbFUVsDxdO0pZSmpRIm/QCnSspZNOltifp3
+         xOiTF5AdzkksjHGOFZ28t+6jLWD6bQxrkyc/PB5U3+dXXHLFKSti2CKy1KKV1y03+BuJ
+         631CY94j+mG9sBpahRD9ycG27IsN1tvzvIaYvRmoWX3YmBmX3cdR5JLATXGiecmt1MKs
+         /O3XBEeC9wx6uqEy9XaEVGxBsA5i+B+qc0Ulcr9ERCwiMV83xm3bosfYMYKyrWgkGoiM
+         D7kw==
+X-Gm-Message-State: AO0yUKVyLPfHBwk4ZuVybAiywwKki1X9YoSAuCNzpQhdzj9tL51nAkeG
+	dlp2hu3DSocQ0aN41FaOB5HJFgicsot+2T9ggVY=
+X-Google-Smtp-Source: AK7set+x0cCqMu8PG0g8dsVjzZ+gQAjLxSpF0FfBmWmHYlAg5cNrqCZl65kcP3cIgqR+Nz/SUbetOw==
+X-Received: by 2002:a17:902:7007:b0:19d:47b:67c8 with SMTP id y7-20020a170902700700b0019d047b67c8mr1969750plk.48.1677860269174;
+        Fri, 03 Mar 2023 08:17:49 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-4-112.hawaiiantel.net. [72.253.4.112])
-        by smtp.gmail.com with ESMTPSA id ko4-20020a17090307c400b00186b7443082sm1702474plb.195.2023.03.03.08.17.50
+        by smtp.gmail.com with ESMTPSA id ko4-20020a17090307c400b00186b7443082sm1702474plb.195.2023.03.03.08.17.48
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Mar 2023 08:17:50 -0800 (PST)
+        Fri, 03 Mar 2023 08:17:48 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 11/29] openssl: Upgrade 3.0.7 -> 3.0.8
-Date: Fri,  3 Mar 2023 06:17:09 -1000
-Message-Id: <006cdd236505803a72719fa2856432c7feb59082.1677859897.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 10/29] dbus: upgrade 1.14.4 -> 1.14.6
+Date: Fri,  3 Mar 2023 06:17:08 -1000
+Message-Id: <0623230fcdc02492c0a67506530b25438cf75c79.1677859897.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1677859897.git.steve@sakoman.com>
 References: <cover.1677859897.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 03 Mar 2023 16:17:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/178000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177999
 
-From: Siddharth Doshi <sdoshi@mvista.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-OpenSSL 3.0.8 fixes 1 HIGH level security vulnerability and 7 MODERATE level security vulnerability [1].
+Denial of service fixes:
 
-Upgrade the recipe to point to 3.0.8.
+• Fix an incorrect assertion that could be used to crash dbus-daemon or
+  other users of DBusServer prior to authentication, if libdbus was compiled
+  with assertions enabled.
+  We recommend that production builds of dbus, for example in OS distributions,
+  should be compiled with checks but without assertions.
+  (dbus#421, Ralf Habacker; thanks to Evgeny Vereshchagin)
 
-CVE-2022-3996 is reported fixed in 3.0.8, so drop the patch for that as
-well.
+Other fixes:
 
-[1] https://www.openssl.org/news/vulnerabilities.html
+• When connected to a dbus-broker, stop dbus-monitor from incorrectly
+  replying to Peer method calls that were sent to the dbus-broker with
+  a NULL destination (dbus#301, Kai A. Hiller)
 
-CVEs Fixed:
-https://www.openssl.org/news/secadv/20230207.txt
+• Fix out-of-bounds varargs read in the dbus-daemon's config-parser.
+  This is not attacker-triggerable and appears to be harmless in practice,
+  but is technically undefined behaviour and is detected as such by
+  AddressSanitizer. (dbus!357, Evgeny Vereshchagin)
 
-Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 8461466f63200a0b1c9c247b70fdf5819651544c)
+• Avoid a data race in multi-threaded use of DBusCounter
+  (dbus#426, Ralf Habacker)
+
+• Fix a crash with some glibc versions when non-auditable SELinux events
+  are logged (dbus!386, Jeremi Piotrowski)
+
+• If dbus_message_demarshal() runs out of memory while validating a message,
+  report it as NoMemory rather than InvalidArgs (dbus#420, Simon McVittie)
+
+• Use C11 _Alignof if available, for better standards-compliance
+  (dbus!389, Khem Raj)
+
+• Stop including an outdated copy of pkg.m4 in the git tree
+  (dbus!365, Simon McVittie)
+
+• Documentation:
+  · Consistently use Gitlab bug reporting URL (dbus!372, Marco Trevisan)
+
+• Tests fixes:
+  · Fix the test-apparmor-activation test after dbus#416
+    (dbus!380, Dave Jones)
+
+Internal changes:
+
+• Fix CI builds with recent git versions (dbus#447, Simon McVittie)
+
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit 31245df3061c1a913bffe5e11ad6ac7fa9c83915)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
-(cherry picked from commit f5dce7274bfd65c05df932f36a5e43cfc884fd41)
+(cherry picked from commit 83e9bd1507fd5f79c680dde30b0f66df84cde6b0)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../openssl/openssl/CVE-2022-3996.patch       | 43 -------------------
- .../{openssl_3.0.7.bb => openssl_3.0.8.bb}    |  3 +-
- 2 files changed, 1 insertion(+), 45 deletions(-)
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2022-3996.patch
- rename meta/recipes-connectivity/openssl/{openssl_3.0.7.bb => openssl_3.0.8.bb} (98%)
+ meta/recipes-core/dbus/{dbus_1.14.4.bb => dbus_1.14.6.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-core/dbus/{dbus_1.14.4.bb => dbus_1.14.6.bb} (98%)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2022-3996.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2022-3996.patch
-deleted file mode 100644
-index 6d70b323d1..0000000000
---- a/meta/recipes-connectivity/openssl/openssl/CVE-2022-3996.patch
-+++ /dev/null
-@@ -1,43 +0,0 @@
--From 7725e7bfe6f2ce8146b6552b44e0d226be7638e7 Mon Sep 17 00:00:00 2001
--From: Pauli <pauli@openssl.org>
--Date: Fri, 11 Nov 2022 09:40:19 +1100
--Subject: [PATCH] x509: fix double locking problem
--
--This reverts commit 9aa4be691f5c73eb3c68606d824c104550c053f7 and removed the
--redundant flag setting.
--
--Fixes #19643
--
--Fixes LOW CVE-2022-3996
--
--Reviewed-by: Dmitry Belyavskiy <beldmit@gmail.com>
--Reviewed-by: Tomas Mraz <tomas@openssl.org>
--(Merged from https://github.com/openssl/openssl/pull/19652)
--
--(cherry picked from commit 4d0340a6d2f327700a059f0b8f954d6160f8eef5)
--
--Upstream-Status: Backport [https://github.com/openssl/openssl/commit/7725e7bfe6f2ce8146b6552b44e0d226be7638e7]
--CVE: CVE-2022-3996
--Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
-----
-- crypto/x509/pcy_map.c | 4 ----
-- 1 file changed, 4 deletions(-)
--
--diff --git a/crypto/x509/pcy_map.c b/crypto/x509/pcy_map.c
--index 05406c6493..60dfd1e320 100644
----- a/crypto/x509/pcy_map.c
--+++ b/crypto/x509/pcy_map.c
--@@ -73,10 +73,6 @@ int ossl_policy_cache_set_mapping(X509 *x, POLICY_MAPPINGS *maps)
-- 
--     ret = 1;
--  bad_mapping:
---    if (ret == -1 && CRYPTO_THREAD_write_lock(x->lock)) {
---        x->ex_flags |= EXFLAG_INVALID_POLICY;
---        CRYPTO_THREAD_unlock(x->lock);
---    }
--     sk_POLICY_MAPPING_pop_free(maps, POLICY_MAPPING_free);
--     return ret;
-- 
---- 
--2.30.2
--
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.7.bb b/meta/recipes-connectivity/openssl/openssl_3.0.8.bb
+diff --git a/meta/recipes-core/dbus/dbus_1.14.4.bb b/meta/recipes-core/dbus/dbus_1.14.6.bb
 similarity index 98%
-rename from meta/recipes-connectivity/openssl/openssl_3.0.7.bb
-rename to meta/recipes-connectivity/openssl/openssl_3.0.8.bb
-index 5156586661..75f9e44748 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.0.7.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.0.8.bb
-@@ -12,14 +12,13 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
-            file://afalg.patch \
-            file://0001-Configure-do-not-tweak-mips-cflags.patch \
--           file://CVE-2022-3996.patch \
-            "
+rename from meta/recipes-core/dbus/dbus_1.14.4.bb
+rename to meta/recipes-core/dbus/dbus_1.14.6.bb
+index 85db58e214..cc81047cef 100644
+--- a/meta/recipes-core/dbus/dbus_1.14.4.bb
++++ b/meta/recipes-core/dbus/dbus_1.14.6.bb
+@@ -14,9 +14,9 @@ SRC_URI = "https://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.xz \
+            file://run-ptest \
+            file://tmpdir.patch \
+            file://dbus-1.init \
+-"
++           "
  
- SRC_URI:append:class-nativesdk = " \
-            file://environment.d-openssl.sh \
-            "
+-SRC_URI[sha256sum] = "7c0f9b8e5ec0ff2479383e62c0084a3a29af99edf1514e9f659b81b30d4e353e"
++SRC_URI[sha256sum] = "fd2bdf1bb89dc365a46531bff631536f22b0d1c6d5ce2c5c5e59b55265b3d66b"
  
--SRC_URI[sha256sum] = "83049d042a260e696f62406ac5c08bf706fd84383f945cf21bd61e9ed95c396e"
-+SRC_URI[sha256sum] = "6c13d2bf38fdf31eac3ce2a347073673f5d63263398f1f69d0df4a41253e4b3e"
- 
- inherit lib_package multilib_header multilib_script ptest perlnative
- MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
+ EXTRA_OECONF = "--disable-xml-docs \
+                 --disable-doxygen-docs \
 -- 
 2.34.1
 
