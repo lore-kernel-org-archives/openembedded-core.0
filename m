@@ -1,173 +1,102 @@
-Return-Path: <lrannou@baylibre.com>
+Return-Path: <throos@amazon.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AFDCC678D4
-	for <webhook@archiver.kernel.org>; Fri,  3 Mar 2023 09:02:05 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.19207.1677834117589840063
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 294D5C64EC4
+	for <webhook@archiver.kernel.org>; Fri,  3 Mar 2023 09:19:15 +0000 (UTC)
+Received: from smtp-fw-9103.amazon.com (smtp-fw-9103.amazon.com [207.171.188.200])
+ by mx.groups.io with SMTP id smtpd.web10.19401.1677835146535132547
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Mar 2023 01:01:57 -0800
+ Fri, 03 Mar 2023 01:19:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20210112.gappssmtp.com header.s=20210112 header.b=jpDo+egc;
- spf=pass (domain: baylibre.com, ip: 209.85.128.47, mailfrom: lrannou@baylibre.com)
-Received: by mail-wm1-f47.google.com with SMTP id t25-20020a1c7719000000b003eb052cc5ccso3402647wmi.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Mar 2023 01:01:57 -0800 (PST)
+ dkim=pass header.i=@amazon.de header.s=amazon201209 header.b=D2lAFkjg;
+ spf=pass (domain: amazon.de, ip: 207.171.188.200, mailfrom: prvs=4195db054=throos@amazon.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1677834116;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mLXMLZe4874kKL1nfHa5saPDpKsLZTp2XoFKT9GldyM=;
-        b=jpDo+egcgbW0pepQIUmKl00Avygw5uGVCqpKMi8lrT0Lb6rKXbxGVeF9rMOLj54mEA
-         FqQ3pj4uIdMTDSKaXcdpEm4KnRr8Dt9iDbqqs/v2VZu15aPwnvFmFzKdlKJjktnAuH+G
-         ExgUsd7ayLYEAQvs0z0cdtW1GNDRa7SAcWGiC6VsRm5wnl/IYfE3FWCqrExxijwr/V+9
-         vYyd3LTF/KYyNIPLKUHwrrM+tmlFf7J7ktuyyDzhZdWYhV9PwZe+6rDPsep05SkKKzgi
-         F+Gz/RN+okJS16LM7Hl5Bkf3xH7zdwETLGw++rBIkZOIIjiDuy+RaY/TvZW+HQI4OjvA
-         JrVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677834116;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mLXMLZe4874kKL1nfHa5saPDpKsLZTp2XoFKT9GldyM=;
-        b=lV5H6TZObhGcmKhXw2cxm8i5JJhy3fdaxb/gwrZlbjq0o2nb7iMyumbEbsl1P65+4q
-         jsM11z41MIB5q2/4+bj4SfV3/ZafMEx/sbyIbKzxlw1TTWCHlqFiZm7patf50mmwlZvH
-         1Kk0uFFucEu2Jn/XvemVTuZIcZ2eUPz4u3n6gTlSgeU3Ar4GBdIinp90KHtXuzNcx+47
-         qWxEsr3oVQt0CrEE7SsXAGOF3exoXCY9ma/aTxLzrfWXL1L/ezZH87Ec8/NAqQw8q2m3
-         o3gS9grdbssjuTuz6s3RCzl8zp9SjzF1NLAW9DO8FBCDT3U6lVX7ZH4JvbS43PNh8q9F
-         ioGw==
-X-Gm-Message-State: AO0yUKUe0lGdyrbqOaHsQXA/Oquivt6KW1BBd7Pc95INeN+yqlo6BOYZ
-	eaDEbGNIYERjlRJ6W84nJe5QXfo7VPAApx+q
-X-Google-Smtp-Source: AK7set86wn+6PwNGQuw1FwHdTELTYHqm17Iuywz6wIhj+SSgykPcqvZw/EV3imjKbfkI01DxW8QWBg==
-X-Received: by 2002:a1c:2b87:0:b0:3ea:d610:f062 with SMTP id r129-20020a1c2b87000000b003ead610f062mr826535wmr.30.1677834116086;
-        Fri, 03 Mar 2023 01:01:56 -0800 (PST)
-Received: from midgar.. ([2001:912:1480:1c0::1])
-        by smtp.gmail.com with ESMTPSA id l21-20020a05600c47d500b003e11ad0750csm1698950wmo.47.2023.03.03.01.01.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Mar 2023 01:01:55 -0800 (PST)
-From: Louis Rannou <lrannou@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Cc: khilman@baylibre.com,
-	Louis Rannou <lrannou@baylibre.com>
-Subject: [PATCH v2 1/1] oeqa/utils/qemurunner: change the serial runner
-Date: Fri,  3 Mar 2023 10:01:37 +0100
-Message-Id: <20230303090139.207454-2-lrannou@baylibre.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230303090139.207454-1-lrannou@baylibre.com>
-References: <20230303090139.207454-1-lrannou@baylibre.com>
+  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
+  t=1677835146; x=1709371146;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=fmsXQ4ZlRZRNgFNKlNWGjbNyboPnHZLpaA0RVK9T7VA=;
+  b=D2lAFkjgiYCpr7I4yvQmVlpW7Y8M1TWpym2Tp8xe3/7PPdrRvNAtuHE3
+   87lme7YZaSFxWQWTqlAtddAqn1lLXGI9dcWtehNHZ/PFrOZGKepydf3Zj
+   q0MVxx0elvT4KuZY+FPUUKXKRnZkd/wuqHu9YzT/Xyusj1X8CLJBl+U/P
+   Q=;
+X-IronPort-AV: E=Sophos;i="5.98,230,1673913600"; 
+   d="scan'208";a="1108994629"
+Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO email-inbound-relay-iad-1e-m6i4x-3e1fab07.us-east-1.amazon.com) ([10.25.36.214])
+  by smtp-border-fw-9103.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2023 09:18:59 +0000
+Received: from EX19D016EUC001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
+	by email-inbound-relay-iad-1e-m6i4x-3e1fab07.us-east-1.amazon.com (Postfix) with ESMTPS id 4871F811B6
+	for <openembedded-core@lists.openembedded.org>; Fri,  3 Mar 2023 09:18:57 +0000 (UTC)
+Received: from u182adcbddbfb55.ant.amazon.com (10.1.213.17) by
+ EX19D016EUC001.ant.amazon.com (10.252.51.169) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.24; Fri, 3 Mar 2023 09:18:55 +0000
+From: <throos@amazon.de>
+To: <openembedded-core@lists.openembedded.org>
+CC: Thomas Roos <throos@amazon.de>
+Subject: [PATCH] qemuboot-x86.inc: allow overwrite of QB_CPU To test nested kvm with qemu QB_CPU* needs to be modified. E.g. set to "-cpu Haswell-noTSX-IBRS,vmx=on"
+Date: Fri, 3 Mar 2023 10:18:44 +0100
+Message-ID: <20230303091844.154993-1-throos@amazon.de>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.1.213.17]
+X-ClientProxiedBy: EX19D041UWA003.ant.amazon.com (10.13.139.105) To
+ EX19D016EUC001.ant.amazon.com (10.252.51.169)
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Mar 2023 09:02:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177981
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Mar 2023 09:19:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/177982
 
-[YOCTO #15021]
+From: Thomas Roos <throos@amazon.de>
 
-Create a new runner run_serial_socket which usage matches the traditional ssh
-runner. Its return status is 0 when the command succeeded or 0 when it
-failed. If an error is encountered, it raises an Exception.
+This allows to overwrite this from local.conf etc.
 
-The previous serial runner is maintained and marked as deprecated.
-
-Signed-off-by: Louis Rannou <lrannou@baylibre.com>
+Signed-off-by: Thomas Roos <throos@amazon.de>
 ---
- meta/lib/oeqa/targetcontrol.py    |  3 ++
- meta/lib/oeqa/utils/qemurunner.py | 57 +++++++++++++++++++++++++++++++
- 2 files changed, 60 insertions(+)
+ meta/conf/machine/include/x86/qemuboot-x86.inc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
-index 1fdff82889..99fbcb5879 100644
---- a/meta/lib/oeqa/targetcontrol.py
-+++ b/meta/lib/oeqa/targetcontrol.py
-@@ -210,6 +210,9 @@ class QemuTarget(BaseTarget):
-     def run_serial(self, command, timeout=60):
-         return self.runner.run_serial(command, timeout=timeout)
+diff --git a/meta/conf/machine/include/x86/qemuboot-x86.inc b/meta/conf/machine/include/x86/qemuboot-x86.inc
+index dd7e7c9384..6ae03633ae 100644
+--- a/meta/conf/machine/include/x86/qemuboot-x86.inc
++++ b/meta/conf/machine/include/x86/qemuboot-x86.inc
+@@ -1,11 +1,11 @@
+ # For runqemu
+ IMAGE_CLASSES += "qemuboot"
+ QB_SMP ?= "-smp 4"
+-QB_CPU:x86 = "-cpu IvyBridge -machine q35,i8042=off"
+-QB_CPU_KVM:x86 = "-cpu IvyBridge -machine q35,i8042=off"
++QB_CPU:x86 ?= "-cpu IvyBridge -machine q35,i8042=off"
++QB_CPU_KVM:x86 ?= "-cpu IvyBridge -machine q35,i8042=off"
  
-+    def run_serial_socket(self, command, timeout=60):
-+        return self.runner.run_serial_socket(command, timeout=timeout)
-+
+-QB_CPU:x86-64 = "-cpu IvyBridge -machine q35,i8042=off"
+-QB_CPU_KVM:x86-64 = "-cpu IvyBridge -machine q35,i8042=off"
++QB_CPU:x86-64 ?= "-cpu IvyBridge -machine q35,i8042=off"
++QB_CPU_KVM:x86-64 ?= "-cpu IvyBridge -machine q35,i8042=off"
  
- class SimpleRemoteTarget(BaseTarget):
- 
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 05385763ac..418e06a98e 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -637,6 +637,7 @@ class QemuRunner:
-                 return self.qmp.cmd(command)
- 
-     def run_serial(self, command, raw=False, timeout=60):
-+        # Deprecated
-         # Returns (status, output) where status is 1 on success and 0 on error
- 
-         # We assume target system have echo to get command status
-@@ -688,6 +689,62 @@ class QemuRunner:
-                     status = 1
-         return (status, str(data))
- 
-+    def run_serial_socket(self, command, raw=False, timeout=60):
-+        # Returns (status, output) where status is 0 on success and a negative value on error.
-+
-+        # We assume target system have echo to get command status
-+        if not raw:
-+            command = "%s; echo $?\n" % command
-+
-+        data = ''
-+        status = 0
-+        self.server_socket.sendall(command.encode('utf-8'))
-+        start = time.time()
-+        end = start + timeout
-+        while True:
-+            now = time.time()
-+            if now >= end:
-+                data += "<<< run_serial_socket(): command timed out after %d seconds without output >>>\r\n\r\n" % timeout
-+                break
-+            try:
-+                sread, _, _ = select.select([self.server_socket],[],[], end - now)
-+            except InterruptedError:
-+                continue
-+            if sread:
-+                # try to avoid reading single character at a time
-+                time.sleep(0.1)
-+                answer = self.server_socket.recv(1024)
-+                if answer:
-+                    data += answer.decode('utf-8')
-+                    # Search the prompt to stop
-+                    if re.search(self.boot_patterns['search_cmd_finished'], data):
-+                        break
-+                else:
-+                    if self.canexit:
-+                        return (1, "")
-+                    raise Exception("No data on serial console socket, connection closed?")
-+
-+        if not data:
-+            raise Exception('serial run failed: no data')
-+
-+        if raw:
-+            status = 0
-+        else:
-+            # Remove first line (command line) and last line (prompt)
-+            data = data[data.find('$?\r\n')+4:data.rfind('\r\n')]
-+            index = data.rfind('\r\n')
-+            if index == -1:
-+                data = ""
-+                raise Exception('serial run failed: no result')
-+            else:
-+                status_cmd = data[index+2:]
-+                data = data[:index]
-+                try:
-+                    status = int(status_cmd)
-+                except ValueError as e:
-+                    raise Exception('Could not convert to integer: {}'.format(str(e)))
-+        return (status, str(data))
-+
- 
-     def _dump_host(self):
-         self.host_dumper.create_dir("qemu")
+ QB_AUDIO_DRV = "alsa"
+ QB_AUDIO_OPT = "-device AC97"
 -- 
-2.39.2
+2.25.1
+
+
+
+
+Amazon Web Services EMEA SARL
+38 avenue John F. Kennedy, L-1855 Luxembourg
+Sitz der Gesellschaft: L-1855 Luxemburg
+eingetragen im Luxemburgischen Handelsregister unter R.C.S. B186284
+
+Amazon Web Services EMEA SARL, Niederlassung Deutschland
+Marcel-Breuer-Str. 12, D-80807 Muenchen
+Sitz der Zweigniederlassung: Muenchen
+eingetragen im Handelsregister des Amtsgerichts Muenchen unter HRB 242240, USt-ID DE317013094
+
+
+
 
 
